@@ -32,6 +32,9 @@ export const cssImageSetRE = /(?<=image-set\()((?:[\w-]{1,256}\([^)]*\)|[^)])*)(
 export const cssNotProcessedRE = /(?:gradient|element|cross-fade|image)\(/
 
 export const cssModuleRE = new RegExp(`\\.module${CSS_LANGS_RE.source}`)
+export const cssGlobalModuleRE = new RegExp(`^(?!.*\\.global\\.).*${CSS_LANGS_RE.source}`)
+
+export const usedSuffix = '?used'
 export const htmlProxyRE = /(?:\?|&)html-proxy\b/
 export const commonjsProxyRE = /\?commonjs-proxy/
 export const inlineRE = /(?:\?|&)inline\b/

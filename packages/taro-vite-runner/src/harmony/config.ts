@@ -97,7 +97,8 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       getComputedStyle: ['@tarojs/runtime', 'getComputedStyle'],
       URL: ['@tarojs/runtime', 'URL'],
       wx: ['@tarojs/taro', 'default'],
-      getCurrentPages: ['@tarojs/taro', 'getCurrentPages']
+      getCurrentPages: ['@tarojs/taro', 'getCurrentPages'],
+      IntersectionObserver: ['@tarojs/taro', 'IntersectionObserver']
     }
 
     const injectOptions = taroConfig.injectOptions

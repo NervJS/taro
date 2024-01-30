@@ -5,7 +5,7 @@ import { normalizePath } from 'vite'
 
 import { checkPublicFile } from '../asset'
 import { CSS_LANGS_RE } from './constants'
-import { type CssLang, cssImageSetRE, cssModuleRE, cssUrlRE, PostCssDialectLang, PreprocessLang } from './constants'
+import { type CssLang, cssGlobalModuleRE, cssImageSetRE, cssModuleRE, cssUrlRE, PostCssDialectLang, PreprocessLang } from './constants'
 import { resolvePostcssConfig } from './resolve'
 import { configToAtImportResolvers, createCSSResolvers, getCssResolversKeys, less, loadPreprocessor, sass, scss, styl } from './resolvers'
 import { UrlRewritePostcssPlugin } from './url'
@@ -30,6 +30,7 @@ export async function compileCSS(
   code: string,
   config: ResolvedConfig,
   urlReplacer?: CssUrlReplacer,
+  isGlobalModule ?: boolean
 ): Promise<{
     code: string
     map?: SourceMapInput
@@ -42,7 +43,8 @@ export async function compileCSS(
     preprocessorOptions,
     devSourcemap,
   } = config.css || {}
-  const isModule = modulesOptions !== false && cssModuleRE.test(id)
+  const cssModuleRegex = isGlobalModule ? cssGlobalModuleRE : cssModuleRE
+  const isModule = modulesOptions !== false && cssModuleRegex.test(id)
   // although at serve time it can work without processing, we do need to
   // crawl them in order to register watch dependencies.
   const needInlineImport = code.includes('@import')

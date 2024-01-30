@@ -19,7 +19,7 @@ import { compileCSS } from './postcss'
 import {
   commonjsProxyRE, CSS_LANGS_RE, cssModuleRE,
   htmlProxyRE, inlineCSSRE, inlineRE, loadParseImportRE,
-  SPECIAL_QUERY_RE, usedRE,
+  SPECIAL_QUERY_RE, usedRE, usedSuffix
 } from './postcss/constants'
 import { finalizeCss, stripBomTag } from './postcss/utils'
 
@@ -194,7 +194,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
 
           if (cssIdSet.size) {
             const cssRawArr = Array.from(cssIdSet).map((cssId) => {
-              const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '')
+              const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '').replace(usedSuffix, '')
               return cssCache.get(rawId) || ''
             })
             const rawCode = parseJSXStyle(raw, cssRawArr)
@@ -225,16 +225,23 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
         return url
       }
 
+      const { taroConfig } = viteCompilerContext
+      const isGlobalModule = taroConfig?.postcss?.cssModules?.config?.namingPattern === 'global'
+
       const {
         code: css,
         modules,
         deps,
         map,
-      } = await compileCSS(id, raw, viteConfig, urlReplacer)
-      cssCache.set(id, css)
+      } = await compileCSS(id, raw, viteConfig, urlReplacer, isGlobalModule)
+
+      if (!cssCache.has(id)) {
+        cssCache.set(id, css)
+      }
       // 校验css
       validateStylelint(id, raw)
-      if (modules) {
+
+      if (modules && !moduleCache.has(id)) {
         moduleCache.set(id, modules)
       }
 
@@ -312,7 +319,8 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
       const css = stripBomTag(raw)
 
       const inlined = inlineRE.test(id)
-      const modules = cssModulesCache.get(viteConfig)!.get(id)
+      const rawId = stripVirtualModulePrefix(id).replace(STYLE_SUFFIX_RE, '').replace(usedSuffix, '')
+      const modules = cssModulesCache.get(viteConfig)!.get(rawId)
 
       // `foo.module.css` => modulesCode
       // `foo.module.css?inline` => cssContent
