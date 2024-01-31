@@ -191,6 +191,6 @@ declare namespace Taro {
   interface TaroStatic {}
 }
 declare global {
-  const defineAppConfig: (config: Taro.Config) => Taro.Config
-  const definePageConfig: (config: Taro.Config) => Taro.Config
+  const defineAppConfig: (config: Taro.AppConfig) => Taro.AppConfig
+  const definePageConfig: (config: Taro.PageConfig) => Taro.Config
 }
