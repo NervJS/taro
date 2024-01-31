@@ -63,7 +63,7 @@ const config = {
         output: {
           libraryTarget: 'umd',
           library: 'NativeComponent',
-          chunkLoadingGlobal: 'NativeComponent',
+          chunkLoadingGlobal: 'NativeComponentJsonp',
         },
       })
     },
