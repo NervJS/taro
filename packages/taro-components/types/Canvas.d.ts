@@ -73,7 +73,7 @@ declare namespace CanvasProps {
  *
  * `<Canvas />` 组件的 RN 版本尚未实现。
  * @classification canvas
- * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony, harmony_hybrid
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
  * @example_react
  * ```tsx
  * class App extends Components {

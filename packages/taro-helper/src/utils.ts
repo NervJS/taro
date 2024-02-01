@@ -157,7 +157,7 @@ export function getUserHomeDir(): string {
     }
 
     if (process.platform === 'linux') {
-      return home || (process.getuid() === 0 ? '/root' : user ? '/home/' + user : '')
+      return home || (process.getuid?.() === 0 ? '/root' : user ? '/home/' + user : '')
     }
 
     return home || ''

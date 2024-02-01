@@ -38,7 +38,7 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "@types/node": "^14.14.31",
+    "@types/node": "^18.19.12",
     "babel-preset-taro": "workspace:*",
     "postcss": "^8.4.18",
     "react": "^18.2.0",

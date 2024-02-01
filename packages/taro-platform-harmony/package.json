@@ -40,8 +40,8 @@
     "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.0",
     "fast-glob": "^3.3.1",
     "rollup": "^3.8.1",

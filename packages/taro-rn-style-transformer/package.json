@@ -20,8 +20,8 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": ">=12.0.0",
-    "npm": ">=6.0.0"
+    "node": ">= 18",
+    "npm": ">= 6"
   },
   "dependencies": {
     "@babel/core": "^7.14.5",
