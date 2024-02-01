@@ -1,0 +1,41 @@
+@import './variable.scss';
+
+.taro-input-core {
+  display: block;
+}
+
+input {
+    display: block;
+    overflow: hidden;
+    height: 1.4rem;
+    text-overflow: clip;
+    text-align: inherit;
+    white-space: nowrap;
+}
+
+.weui-input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    -webkit-appearance: none;
+    background-color: transparent;
+    // font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    height: em($weuiCellLineHeight);
+    line-height: $weuiCellLineHeight;
+  
+    // hides the spin-button
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    // &:focus {
+    //   &:not(:placeholder-shown) {
+    //     & + .weui-btn_input-clear {
+    //       display: inline;
+    //     }
+    //   }
+    // }
+}

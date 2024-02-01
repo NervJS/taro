@@ -11,14 +11,28 @@ export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks
   setPlugin(ctx, framework, chain)
 
   const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
-  const externals: Record<string, string> = {}
+  const externals: Record<string, { [externalType: string]: string } | string> = {}
   if (isBuildNativeComp) {
     // Note: 该模式不支持 prebundle 优化，不必再处理
-    externals.react = 'React'
-    externals['react-dom'] = 'ReactDOM'
+    externals.react = {
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'react',
+      root: 'React'
+    }
+    externals['react-dom'] = {
+      commonjs: 'react-dom',
+      commonjs2: 'react-dom',
+      amd: 'react-dom',
+      root: 'ReactDOM'
+    }
     if (framework === 'preact') {
       externals.preact = 'preact'
     }
+
+    chain.merge({
+      externalsType: 'umd'
+    })
   }
 
   chain.merge({

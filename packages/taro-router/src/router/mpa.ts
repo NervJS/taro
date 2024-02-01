@@ -89,4 +89,12 @@ export async function createMultiRouter (
   handler.load(page, pageConfig)
 
   app.onShow?.(launchParam as Record<string, any>)
+
+  window.addEventListener('visibilitychange', ()=>{
+    if (document.visibilityState === 'visible') {
+      app.onShow?.(launchParam as Record<string, any>)
+    }else{
+      app.onHide?.(launchParam as Record<string, any>)
+    }
+  })
 }
