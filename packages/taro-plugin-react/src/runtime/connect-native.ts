@@ -342,6 +342,19 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
   return pageObj
 }
 
+export function createH5NativeComponentConfig (
+  Component,
+  react: typeof React,
+  reactdom: typeof ReactDOM,
+) {
+  reactMeta.R = react
+  h = react.createElement
+  ReactDOM = reactdom
+  setReconciler(ReactDOM)
+
+  return Component
+}
+
 export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig) {
   reactMeta.R = react
   h = react.createElement

@@ -3,12 +3,18 @@ import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
 
 expect.addSnapshotSerializer(removeBackslashesSerializer)
 
+const logFileMap = new Map()
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数
-  appendFile: jest.fn(),
+  appendFile: jest.fn((path, content):any => {
+    logFileMap.set(path, content)
+  })
 }))
 
 describe('utils.ts', () => {
+  afterEach(() => {
+    logFileMap.clear()
+  })
   describe('@babel/parser', () => {
     let code = ''
     const scriptPath = ''

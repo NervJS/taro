@@ -43,8 +43,10 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
   /** special mode */
   isBuildNativeComp?: boolean
   newBlended?: boolean
+  withoutBuild?: boolean
   /** hooks */
   onParseCreateElement: (nodeName, componentConfig) => Promise<any>
+  modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<CommonBuildConfig>) => Promise<any>
 }
 
 export interface IMiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
@@ -54,14 +56,13 @@ export interface IMiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   nodeModulesPath: string
   fileType: IFileType
   globalObject: string
+  platform: string
   prerender?: PrerenderConfig
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath?: string | string[]
   taroComponentsPath?: string
   blended?: boolean
   hot?: boolean
-  /** hooks */
-  modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<IMiniBuildConfig>) => Promise<any>
 }
 
 export interface IH5BuildConfig extends CommonBuildConfig, IH5Config {

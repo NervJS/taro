@@ -45,6 +45,9 @@
     "coveragePathIgnorePatterns": [
       "/__tests__/utils.ts",
       "/src/(class-method-renamer|create-html-element|eslint|functional|jsx|lifecycle|plugins|render-props|render)\\.ts$"
+    ],
+    "collectCoverageFrom": [
+      "src/wxs.ts"
     ]
   },
   "dependencies": {

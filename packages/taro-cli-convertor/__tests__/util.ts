@@ -15,3 +15,8 @@ export const removeBackslashesSerializer = {
   test: (value) => typeof value === 'string',
   print: (value) => value.replace(/\\/g, '')
 }
+
+export const changeBackslashesSerializer = {
+  test: (value) => typeof value === 'string',
+  print: (value) => value.replace(/\\/g, '/').replace(/\/\//g, '/')
+}

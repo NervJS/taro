@@ -106,8 +106,8 @@ export default class H5 extends TaroPlatformWeb {
         }
 
         if (!this.useHtmlComponents) {
-          args[0].loaderMeta.extraImportForWeb += `import { defineCustomElementTaroPullToRefresh } from '@tarojs/components/dist/components'\n`
-          args[0].loaderMeta.execBeforeCreateWebApp += `defineCustomElementTaroPullToRefresh()\n`
+          args[0].loaderMeta.extraImportForWeb += `import { defineCustomElementTaroPullToRefreshCore } from '@tarojs/components/dist/components'\n`
+          args[0].loaderMeta.execBeforeCreateWebApp += `defineCustomElementTaroPullToRefreshCore()\n`
         }
 
         switch (this.framework) {
@@ -121,7 +121,7 @@ export default class H5 extends TaroPlatformWeb {
             break
           default:
             if (this.useHtmlComponents) {
-              args[0].loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
+              args[0].loaderMeta.extraImportForWeb += `import '@tarojs/components-react/dist/index.css'\nimport { PullDownRefresh } from '@tarojs/components'\n`
               args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
             }
         }

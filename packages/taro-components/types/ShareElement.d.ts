@@ -8,6 +8,7 @@ interface ShareElementProps extends StandardProps {
   key?: string
   /** 映射标记
    * @supported weapp
+   * @unique
    */
   mapkey?: string
   /** 映射标记

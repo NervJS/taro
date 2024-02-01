@@ -13,8 +13,8 @@ declare module '../../index' {
        */
       header?: TaroGeneral.IAnyObject
       /** 超时时间，单位为毫秒
-       * @default 2000
-       * @supported weapp, h5, tt, alipay
+       * @default 60000
+       * @supported weapp, h5, tt, alipay, rn
        */
       timeout?: number
       /** HTTP 请求方法

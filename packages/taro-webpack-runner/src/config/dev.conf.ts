@@ -15,6 +15,7 @@ import {
   parseModule,
   processEnvOption
 } from '../utils/chain'
+import { componentConfig } from '../utils/component'
 import getBaseChain from './base.conf'
 
 import type { BuildConfig } from '../utils/types'
@@ -167,6 +168,9 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
     publicPath: ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath),
     chunkDirectory
   }, output])
+
+  config.modifyComponentConfig?.(componentConfig, config)
+
   if (config.isBuildNativeComp) {
     // Note: 当开发者没有配置时，优先使用 module 导出组件
     webpackOutput.libraryTarget ||= 'commonjs'

@@ -8,7 +8,7 @@ import { relative, resolve } from 'path'
 
 import { replaceIdentifier, replaceMemberExpression } from './script'
 import { buildTemplateName, getWXMLsource } from './template'
-import { buildImportStatement, codeFrameError, getLineBreak, parseCode, printToLogFile, setting } from './utils'
+import { buildImportStatement, codeFrameError, getLineBreak, parseCode, setting, updateLogFileContent } from './utils'
 import {
   AllKindNode,
   Attribute,
@@ -34,7 +34,7 @@ interface Result {
 }
 
 export function parseVue (dirPath: string, wxml: string, jsCode = ''): Result {
-  printToLogFile(`package: taroize, funName: parseVue, dirPath: ${dirPath} ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] parseVue - 入参 ${getLineBreak()}dirPath: ${dirPath} ${getLineBreak()}`)
   let ast = parseCode(jsCode)
   let foundWXInstance = false
   const vistor: Visitor = {

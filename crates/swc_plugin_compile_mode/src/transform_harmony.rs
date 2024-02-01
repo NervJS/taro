@@ -347,7 +347,7 @@ impl TransformVisitor {
                 if let JSXAttrName::Ident(..) = &jsx_attr.name {
                     if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
                         let jsx_attr_name = name.to_string();
-                        let event_name = utils::identify_jsx_event_key(&jsx_attr_name);
+                        let event_name = utils::identify_jsx_event_key(&jsx_attr_name, &self.config.platform);
                         let is_event = event_name.is_some();
                         let is_condition = jsx_attr_name == COMPILE_IF;
 

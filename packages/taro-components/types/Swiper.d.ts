@@ -30,7 +30,7 @@ interface SwiperProps extends StandardProps {
    * @supported tt
    * @weapp deprecated
    * @default ""
-   * @supported tt
+   * @supported swan, tt, qq, jd
    * @weapp deprecated
    */
   currentItemId?: string

@@ -6,9 +6,12 @@ import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
 
 expect.addSnapshotSerializer(removeBackslashesSerializer)
 
+const logFileMap = new Map()
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数
-  appendFile: jest.fn(),
+  appendFile: jest.fn((path, content): any => {
+    logFileMap.set(path, content)
+  }),
 }))
 
 const option: any = {
@@ -125,9 +128,25 @@ describe('wxml语法', () => {
     option.path = 'wxml_if'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toBe(
-      `length > 5 ? <View>1</View> : length > 2 ? <View>2</View> : <View>3</View>`
-    )
+    expect(wxmlCode).toBe(`length > 5 ? <View>1</View> : length > 2 ? <View>2</View> : <View>3</View>`)
+  })
+
+  test('使用wx:if替换wx:show属性', () => {
+    option.wxml = `<view wx:show="{{isShow}}">
+                    测试使用wx:if替换wx:show属性
+                  </view>`
+    option.path = 'wxml_show'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toMatchSnapshot()
+  })
+
+  test('wxml中class不支持数组写法', () => {
+    option.wxml = `<view class="[1,2,3]"></view>`
+    option.path = 'wxml_unsupported_classArray'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toMatchSnapshot()
   })
 })
 
@@ -197,7 +216,9 @@ describe('slot插槽', () => {
     option.path = 'named_wxml_slot'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toBe(`<View><SlotComponent renderBefore={<Block><View>这里是插入到组件slot name="before"中的内容</View></Block>} renderAfter={<Block><View>这里是插入到组件slot name="after"中的内容</View></Block>}></SlotComponent></View>`)
+    expect(wxmlCode).toBe(
+      `<View><SlotComponent renderBefore={<Block><View>这里是插入到组件slot name="before"中的内容</View></Block>} renderAfter={<Block><View>这里是插入到组件slot name="after"中的内容</View></Block>}></SlotComponent></View>`
+    )
   })
 
   test('当元素设置slot属性且值为空串时，移除slot属性', () => {
@@ -332,7 +353,7 @@ describe('wxs', () => {
   test('wxs 标签的属性值为空', () => {
     option.wxml = `<wxs src="" module=""/>`
     option.path = 'wxs_empty'
-    expect(() => parseWXML(option.path, option.wxml)).toThrowError('WXS 标签的属性值不得为空')
+    expect(() => parseWXML(option.path, option.wxml)).toThrowError('wxs 标签的属性值不得为空')
   })
 
   test('wxs 没有src属性且内部无代码', () => {
@@ -431,7 +452,6 @@ describe('wxs', () => {
 })
 
 describe('解析wxs中创建正则表达式方法的转换', () => {
-
   test('定义了正则表达式的修饰符,则使用自定义修饰符', () => {
     option.wxml = `
     <wxs module="xxxfile">
@@ -493,6 +513,21 @@ describe('parseContent', () => {
 })
 
 describe('style属性的解析', () => {
+  // 判断是否为style属性
+  test('判断是否为style属性', () => {
+    option.wxml = '<view style="width:;">123</view>'
+    option.path = 'style_isorno'
+    expect(() => parseWXML(option.path, option.wxml)).toThrow()
+    expect(logFileMap).toMatchSnapshot()
+  })
+  // style属性的解析
+  test('style属性值为变量', () => {
+    option.wxml = '<view style="{{value}}"></view>'
+    option.path = 'style_is_experssion'
+    const { wxml }:any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toMatchSnapshot()
+  })
   // 第一种以style="xxx:xxx"的用法
   test('style = xxx:xxx', () => {
     let contentInput = 'color: red;background-color: aqua;'
@@ -802,10 +837,10 @@ describe('style属性的解析', () => {
     expect(contentInput).toBe(`<swiper-item style="transform: translate(0%, 0rem) translateZ(0rem);"></swiper-item>`)
   })
 
-  test('绝对值小于1的px转换成1rem', () => {
+  test('绝对值小于1的px/rpx转换成rem', () => {
     let contentInput = `<swiper-item style="margin-left: 0.5px;margin-right: -0.5rpx;"></swiper-item>`
     contentInput = convertStyleUnit(contentInput)
-    expect(contentInput).toBe(`<swiper-item style="margin-left: 1rem;margin-right: -1rem;"></swiper-item>`)
+    expect(contentInput).toBe(`<swiper-item style="margin-left: 0.025rem;margin-right: -0.0125rem;"></swiper-item>`)
   })
 
   test('style="height: calc(100vh - {{xxx}}rem)"，内联样式使用calc计算，包含变量，变量前有空格，转换后空格保留', () => {

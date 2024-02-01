@@ -87,6 +87,7 @@ export class BaseTemplate {
   protected modifyTemplateResult?: (res: string, nodeName: string, level: number, children: string) => string
   protected modifyThirdPartyLoopBody?: (child: string, nodeName: string) => string
   public supportXS = false
+  public isXMLSupportRecursiveReference = true
   public Adapter = weixinAdapter
   /** 组件列表 */
   public internalComponents = internalComponents
@@ -490,7 +491,7 @@ export class BaseTemplate {
     return `{${value}}`
   }
 
-  protected buildXsTemplate () {
+  public buildXsTemplate (_filePath?: string) {
     return ''
   }
 

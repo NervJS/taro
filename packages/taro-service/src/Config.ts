@@ -119,7 +119,8 @@ export default class Config {
       cssMinimizer: initialConfig.cssMinimizer,
       terser: initialConfig.terser,
       esbuild: initialConfig.esbuild,
-      ...initialConfig[configName]
+      ...initialConfig[configName],
+      ...initialConfig[platform],
     }
   }
 }

@@ -22,6 +22,7 @@ const option: any = {
   isApp: false,
 }
 
+const logFileMap = new Map()
 jest.mock('@tarojs/helper', () => {
   const helper = jest.requireActual('@tarojs/helper')
   const fs = helper.fs
@@ -30,18 +31,33 @@ jest.mock('@tarojs/helper', () => {
     ...helper,
     fs: {
       ...fs,
-      appendFile: jest.fn(),
+      appendFile: jest.fn((path, content): any => {
+        logFileMap.set(path, content)
+      }),
     },
   }
 })
 
 describe('template.ts', () => {
+  afterEach(() => {
+    logFileMap.clear()
+  })
   describe('模板', () => {
     // 还原模拟函数
     afterEach(() => {
       jest.restoreAllMocks()
     })
 
+    test('template 的 name 属性只能是字符串', () => {
+      const wxmlStr = `
+        <template name="{{msgItem}}">
+          <view>{{data}}</view>
+        </template>
+        <template is="{{msgItem}}" data="{{data:'xixi'}}"/>
+      `
+      const dirPath = 'template_name_no_string'
+      expect(() => parseWXML(dirPath, wxmlStr)).toThrowError('template 的 `name` 属性只能是字符串')
+    })
     test('直接使用页面中的模板，转换后会创建模板文件', () => {
       option.wxml = `
         <template name="msgItem">
@@ -159,17 +175,6 @@ describe('template.ts', () => {
       expect(() => parseWXML(dirPath, wxmlStr)).toThrowError()
     })
 
-    test('template 的 name 属性只能是字符串', () => {
-      const wxmlStr = `
-        <template name="{{msgItem}}">
-          <view>{{data}}</view>
-        </template>
-        <template is="{{msgItem}}" data="{{data:'xixi'}}"/>
-      `
-      const dirPath = 'template_name_no_string'
-      expect(() => parseWXML(dirPath, wxmlStr)).toThrowError('template 的 `name` 属性只能是字符串')
-    })
-
     test('template 标签必须指名 `is` 或 `name` 任意一个标签', () => {
       const wxmlStr = `
         <template name="msgItem">
@@ -247,12 +252,13 @@ describe('template.ts', () => {
       })
 
       test('import src 为绝对路径但导入文件不存在', () => {
-
         jest.spyOn(path, 'join').mockReturnValue('/code/taro_demopages/template/myTmpl')
 
         const dirPath = 'import_absoulte_path'
         const srcValue = '/pages/template/myTmpl'
-        expect(() => getSrcRelPath(dirPath, srcValue)).toThrowError(`import/include 的 src 请填入正确路径再进行转换：src="${srcValue}"`)
+        expect(() => getSrcRelPath(dirPath, srcValue)).toThrowError(
+          `import/include 的 src 请填入正确路径再进行转换：src="${srcValue}"`
+        )
       })
     })
 
@@ -303,6 +309,20 @@ describe('template.ts', () => {
         const wxml = `<include/>`
         const dirPath = 'include_no_src'
         expect(() => parseWXML(dirPath, wxml)).toThrowError('include 标签必须包含 `src` 属性')
+      })
+
+      test('include单标签没有自动关闭', () => {
+        const wxml = `
+          <include src="../../template/template">111<include/>
+          <view>include_no_close</view>
+        `
+        const dirPath = 'include_no_close'
+        const spy = jest.spyOn(console, 'error')
+        parseWXML(dirPath, wxml)
+        expect(spy).toHaveBeenCalledTimes(1)
+        expect(spy.mock.calls[0][0]).toMatchInlineSnapshot(
+          `标签: <include src="../../template/template"> 没有自动关闭。形如：<include src="../../template/template" /> 才是标准的 wxml 格式。`
+        )
       })
     })
   })

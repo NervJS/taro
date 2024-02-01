@@ -34,7 +34,7 @@ declare module './index' {
     backgroundColor?: string
     /** 下拉背景字体、loading 图的样式，仅支持 dark/light
      * 当 app.json 中配置 darkmode 为 true 时可通过变量的形式配置
-     * @see: https://developers.weixin.qq.com/miniprogram/dev/framework/ability/darkmode.html 
+     * @see: https://developers.weixin.qq.com/miniprogram/dev/framework/ability/darkmode.html
      * @default: "dark"
      */
     backgroundTextStyle?: 'dark' | 'light' | string

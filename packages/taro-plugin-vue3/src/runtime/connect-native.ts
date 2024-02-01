@@ -145,6 +145,10 @@ function initNativeComponentEntry (h: typeof createElement) {
   createApp(App).mount('#app')
 }
 
+export function createH5NativeComponentConfig (Component) {
+  return Component
+}
+
 export function createNativeComponentConfig (component, h: typeof createElement, componentConfig) {
   const componentObj: Record<string, any> = {
     options: componentConfig,
