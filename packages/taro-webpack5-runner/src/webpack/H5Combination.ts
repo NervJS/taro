@@ -1,3 +1,5 @@
+import { sync as resolveSync } from 'resolve'
+
 import { parsePublicPath } from '../utils'
 import AppHelper from '../utils/app'
 import { componentConfig } from '../utils/component'
@@ -54,7 +56,15 @@ export class H5Combination extends Combination<H5BuildConfig> {
     if (this.isBuildNativeComp) {
       delete entry[entryFileName]
       this.appHelper.compsConfigList.forEach((comp, index) => {
-        entry[index] = [comp]
+        try {
+          const compPath = resolveSync(comp, { extensions: ['.js', '.ts'] })
+          
+          if (compPath) {
+            entry[index] = [comp]
+          }
+        } catch (e) {
+          // TODO：虚拟模块补全
+        }
       })
       this.webpackPlugin.pages = this.appHelper.appConfig?.components
     } else if (this.isMultiRouterMode) {

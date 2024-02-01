@@ -32,7 +32,6 @@ export {
   chooseInvoice,
   chooseInvoiceTitle,
   chooseLicensePlate,
-  chooseLocation,
   chooseMessageFile,
   choosePoi,
   chooseVideo,
