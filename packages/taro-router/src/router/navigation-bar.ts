@@ -1,4 +1,3 @@
-
 import { eventCenter } from '@tarojs/runtime'
 
 import { navigateBack,reLaunch } from '../api'
@@ -14,7 +13,6 @@ interface NavigationBarCache {
   title?: string
   show?: boolean
 }
-
 
 export default class NavigationBarHandler {
   pageContext: PageHandler

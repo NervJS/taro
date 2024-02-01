@@ -5,7 +5,7 @@ export const isDingTalk = () => !!navigator.userAgent.match(/\bDingTalk\b/ig)
 let preTitle = document.title
 let isLoadDdEntry = false
 
-export async function setMpaTitle (title: string): Promise<void> {
+export function setMpaTitle (title: string): void {
   if (preTitle === title) return
   document.title = title
   preTitle = title
@@ -23,6 +23,6 @@ export function setTitle (title: string): void {
   eventCenter.trigger('__taroH5SetNavigationTitle', title)
 }
 
-export async function setNavigationBarStyle (option: { backgroundColor: string, frontColor: string }){
+export function setNavigationBarStyle (option: { backgroundColor: string, frontColor: string }){
   eventCenter.trigger('__taroH5setNavigationBarColor', option)
 }
