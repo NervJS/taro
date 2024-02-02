@@ -6,7 +6,7 @@ import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
 import ts from 'rollup-plugin-ts'
 
-import type { InputPluginOption,RollupOptions } from 'rollup'
+import type { InputPluginOption, RollupOptions } from 'rollup'
 
 const baseConfig: RollupOptions = {
   output: {
@@ -31,8 +31,10 @@ const baseConfig: RollupOptions = {
     }),
     commonjs() as InputPluginOption,
     postcss({
-      inject: { insertAt: 'top' }
-    }) as InputPluginOption
+      // extract: true, Note: 开启需要在 @tarojs/plugin-platform-h5 中的 API 引入样式
+      inject: { insertAt: 'top' },
+      minimize: true,
+    }) as InputPluginOption,
   ]
 }
 
@@ -53,14 +55,16 @@ if (process.env.NODE_ENV === 'production') {
       file: 'dist/index.cjs.js',
       inlineDynamicImports: true
     }
-  }, {
-    input: 'src/index.ts',
-    output: {
-      file: 'dist/index.esm.js',
-      inlineDynamicImports: true
-    }
   })
 }
+
+variesConfig.push({
+  input: 'src/index.ts',
+  output: {
+    file: 'dist/index.esm.js',
+    inlineDynamicImports: true
+  }
+})
 
 export default defineConfig(variesConfig.map(v => {
   const customizer = function (objValue, srcValue) {

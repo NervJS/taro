@@ -1,0 +1,31 @@
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  line-height: 1.6;
+  font-family: $weuiFontDefault;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  // outline: 0;
+}
+
+a img {
+  border: 0;
+}
+
+a {
+  text-decoration: none;
+  @include setTapColor();
+}
+// input,
+// textarea {
+//   caret-color: $weuiColorPrimary;
+// }
+// ::placeholder {
+//   color: var(--weui-FG-2);
+// }

@@ -5,11 +5,17 @@ import Convertor from '../src/index'
 import { clearMockFiles, getResMapFile, setMockFiles, updateMockFiles } from './__mocks__/fs-extra.js'
 import {
   CONVERT_CONFIG_DATA,
+  DEMO_CUSTOM_TABBER,
   DEMO_JS_FILE_INFO,
   DEMO_JS_FILE_INFO_MINIPROGRANROOT,
   DEMO_JS_FILES,
+  DEMO_PAGE_NO_JS,
+  DEMO_SUBPACKAFES,
+  DEMO_TABBER,
   PLUGIN_FILE_DATA,
   root,
+  SUBPAKCAEGS_AND_PLUGIN_CONFIG,
+  USINGCOMPONENTS_FILE_DATA,
 } from './data/fileData'
 import { removeBackslashesSerializer } from './util'
 
@@ -28,6 +34,10 @@ describe('微信小程序转换', () => {
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
   })
 
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   beforeEach(() => {
     // 清空文件信息
     clearMockFiles()
@@ -40,6 +50,7 @@ describe('微信小程序转换', () => {
     const convertor = new Convertor(root, false)
     convertor.run()
     const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
     expect(resFileMap).toMatchSnapshot()
   })
 
@@ -50,6 +61,7 @@ describe('微信小程序转换', () => {
     const convertor = new Convertor(root, false)
     convertor.run()
     const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
     expect(resFileMap).toMatchSnapshot()
   })
 
@@ -61,6 +73,101 @@ describe('微信小程序转换', () => {
     const convertor = new Convertor(root, false)
     convertor.run()
     const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
+    expect(resFileMap).toMatchSnapshot()
+  })
+
+  test('小程序tabber转换', () => {
+    setMockFiles(root, DEMO_TABBER)
+    const convertor = new Convertor(root, false)
+    convertor.run()
+    const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
+    expect(resFileMap).toMatchSnapshot()
+  })
+
+  test('小程序自定义tabber转换', () => {
+    setMockFiles(root, DEMO_CUSTOM_TABBER)
+    const convertor = new Convertor(root, false)
+    convertor.run()
+    const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
+    expect(resFileMap).toMatchSnapshot()
+  })
+
+  test('小程序分包', () => {
+    setMockFiles(root, DEMO_SUBPACKAFES)
+    const convertor = new Convertor(root, false)
+    convertor.run()
+    const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
+    expect(resFileMap).toMatchSnapshot()
+  })
+
+  test('同时使用插件和分包', () => {
+    setMockFiles(root, DEMO_JS_FILE_INFO_MINIPROGRANROOT)
+    updateMockFiles(root, PLUGIN_FILE_DATA)
+    updateMockFiles(root, SUBPAKCAEGS_AND_PLUGIN_CONFIG)
+    const convertor = new Convertor(root, false)
+    convertor.run()
+    const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
+    expect(resFileMap).toMatchSnapshot()
+  })
+
+  test('三方库转换', () => {
+    const EDMO_ThIREdPARTYLIB = {
+      '/pages/index/index.js': `
+        import moment from 'moment'
+        Page({
+          data:{
+            time:moment(new Date()).format('YYYY-MM-DD')
+          }
+        })
+      `,
+      '/pages/index/index.wxml': `<view>{{time}}</view>`,
+      '/node_modules/moment': {
+        '/dist': {
+          '/locale': {
+            '/af.js': '123',
+          },
+          '/moment.js': 'format(){}',
+        },
+      },
+    }
+    setMockFiles(root, DEMO_JS_FILE_INFO)
+    updateMockFiles(root, EDMO_ThIREdPARTYLIB)
+    const convertor = new Convertor(root, false)
+    convertor.run()
+    const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
+    expect(resFileMap).toMatchSnapshot()
+  })
+
+  test('使用工具函数初始化page页面', () => {
+    const EDMO_CREATEPAGE = {
+      '/app.json': `
+        {
+          "pages":[
+            "pages/index/index"
+          ]
+        }
+      `,
+      '/pages/index/index.js': `
+        const { createPage } = require('../../utils/tools')
+        createPage({})
+      `,
+      '/utils/tools.js': `
+        module.exports.createPage = function(options) {
+          Page(options)
+        }
+      `,
+    }
+    updateMockFiles(root, EDMO_CREATEPAGE)
+    const convertor = new Convertor(root, false)
+    convertor.run()
+    const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
     expect(resFileMap).toMatchSnapshot()
   })
 })
@@ -72,6 +179,10 @@ describe('配置文件解析转换', () => {
 
     // 配置文件生成
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
   })
 
   beforeEach(() => {
@@ -90,6 +201,34 @@ describe('配置文件解析转换', () => {
       CONVERT_CONFIG_DATA['/mps/index/index.js']
     )
   })
+
+  test('小程序sitemap.json文件的转换', () => {
+    setMockFiles(root, DEMO_JS_FILE_INFO)
+    const DEMO_SITEMAP = {
+      '/app.json': `
+        {
+          "pages": [
+            "pages/index/index"
+          ],
+          "sitemapLocation":"./sitemap.json"
+        }
+      `,
+      '/sitemap.json': `
+        {
+          "rules":[{
+            "action": "allow",
+            "page": "*"
+          }]
+        }
+      `,
+    }
+    updateMockFiles(root, DEMO_SITEMAP)
+    const convert = new Convertor(root, false)
+    convert.getSitemapLocation()
+    const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
+    expect(resFileMap).toMatchSnapshot()
+  })
 })
 
 describe('文件转换', () => {
@@ -99,6 +238,10 @@ describe('文件转换', () => {
 
     // 配置文件生成
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
   })
 
   beforeEach(() => {
@@ -125,6 +268,7 @@ describe('文件转换', () => {
     const convert = new Convertor(root, false)
     convert.generateScriptFiles(new Set([normalizePath(path.join(root, '/utils/util.js'))]))
     const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
     expect(resFileMap).toMatchSnapshot()
   })
 
@@ -162,6 +306,7 @@ describe('文件转换', () => {
     convert.framework = FrameworkType.React
     convert.traversePages(root, new Set(['/pages/commentPage/commentPage']))
     const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
     expect(resFileMap).toMatchSnapshot()
   })
 
@@ -172,7 +317,21 @@ describe('文件转换', () => {
     const convertor = new Convertor(root, false)
     convertor.run()
     const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
     expect(resFileMap).toMatchSnapshot()
+  })
+
+  test('转换page时没有对应的js文件', () => {
+    setMockFiles(root, DEMO_PAGE_NO_JS)
+    const convert = new Convertor(root, false)
+    const spy = jest.spyOn(console, 'log')
+    convert.traversePages(root, new Set(['/pages/index/index']))
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(spy.mock.calls[1]).toMatchInlineSnapshot(`
+      [
+        页面: /pages/index/index转换失败 页面 /pages/index/index 没有 JS 文件！,
+      ]
+    `)
   })
 })
 
@@ -183,6 +342,10 @@ describe('模版转换', () => {
 
     // 配置文件生成
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
   })
 
   beforeEach(() => {
@@ -223,6 +386,7 @@ describe('模版转换', () => {
     convert.framework = FrameworkType.React
     convert.traversePages(root, new Set(['/pages/simpleTemplatePage/simpleTemplatePage']))
     const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
     expect(resFileMap).toMatchSnapshot()
   })
 
@@ -260,6 +424,7 @@ describe('模版转换', () => {
     convert.framework = FrameworkType.React
     convert.traversePages(root, new Set(['/pages/mulVarTemplatePage/mulVarTemplatePage']))
     const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
     expect(resFileMap).toMatchSnapshot()
   })
 
@@ -302,6 +467,7 @@ describe('模版转换', () => {
     convert.framework = FrameworkType.React
     convert.traversePages(root, new Set(['/pages/templatePage_tempNameIsVar/templatePage_tempNameIsVar']))
     const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
     expect(resFileMap).toMatchSnapshot()
   })
 
@@ -344,6 +510,37 @@ describe('模版转换', () => {
     convert.framework = FrameworkType.React
     convert.traversePages(root, new Set(['/pages/templatePage_tempNameContainsVar/templatePage_tempNameContainsVar']))
     const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
+    expect(resFileMap).toMatchSnapshot()
+  })
+})
+
+describe('公共组件引用', () => {
+  beforeAll(() => {
+    // mock报告生成
+    jest.spyOn(Convertor.prototype, 'generateReport').mockImplementation(() => {})
+
+    // 配置文件生成
+    jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
+  beforeEach(() => {
+    // 清空文件信息
+    clearMockFiles()
+  })
+
+  test('子组件内部标签引用公共组件时，解析app.json文件里公共组件，使子组件生效', () => {
+    // 设置初始文件信息
+    setMockFiles(root, PLUGIN_FILE_DATA)
+    updateMockFiles(root, USINGCOMPONENTS_FILE_DATA)
+    const convert = new Convertor(root, false)
+    convert.run()
+    const resFileMap = getResMapFile()
+    resFileMap.delete('/wxProject/taroConvert/.convert/convert.log')
     expect(resFileMap).toMatchSnapshot()
   })
 })

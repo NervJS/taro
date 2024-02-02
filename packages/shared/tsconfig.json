@@ -7,5 +7,5 @@
     "declaration": true,
     "sourceMap": true
   },
-  "include": ["src"]
+  "include": ["./src", "rollup.config.ts"]
 }

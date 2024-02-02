@@ -4,6 +4,7 @@ import { noop } from '../../utils'
 import { DateProps, DateState } from './PropsType'
 import { TouchableWithoutFeedback } from 'react-native'
 import View from '../View'
+
 function formatTimeStr(time = ''): Date {
   let [year, month, day]: any = time.split('-')
   year = ~~year || 2000
@@ -12,31 +13,52 @@ function formatTimeStr(time = ''): Date {
   return new Date(year, month - 1, day)
 }
 
+function dateToString (date: Date, fields: 'day' | 'month' | 'year' = 'day'): string {
+  const yyyy: string = date.getFullYear() + ''
+  const MM: string = ('0' + (date.getMonth() + 1)).slice(-2)
+  const dd: string = ('0' + date.getDate()).slice(-2)
+  let ret: string = yyyy
+  if (fields === 'month' || fields === 'day') {
+    ret += `-${MM}`
+    if (fields === 'day') {
+      ret += `-${dd}`
+    }
+  }
+  return ret
+}
+
 export default class DateSelector extends React.Component<DateProps, DateState> {
   static defaultProps = {
-    value: new Date(),
     fields: 'day',
   }
 
-  state: any = {
-    pValue: null,
-    value: new Date(),
+  state: DateState = {
+    pValue: '',
+    value: '',
+    isInOnChangeUpdate: false,
   }
 
   dismissByOk = false
 
-  static getDerivedStateFromProps(nextProps: DateProps, lastState: DateState): DateState | null {
-    if (nextProps.value && nextProps.value !== lastState.pValue) {
-      const now = new Date()
-      if (!nextProps.value || typeof nextProps.value !== 'string') {
+  static getDerivedStateFromProps(nextProps: DateProps, lastState: DateState): Partial<DateState> | null {
+    // eslint-disable-next-line eqeqeq
+    const isControlled = nextProps.value != undefined
+    if (isControlled) {
+      if (nextProps.value !== lastState.pValue) {
         return {
-          value: now,
-          pValue: now
+          value: nextProps.value!,
+          pValue: nextProps.value,
+        }
+      } else if (lastState.isInOnChangeUpdate && nextProps.value !== lastState.value) {
+        return {
+          value: nextProps.value!,
+          isInOnChangeUpdate: false
         }
       }
+    } else if (nextProps.value !== lastState.pValue) {
       return {
-        value: formatTimeStr(nextProps.value),
-        pValue: nextProps.value
+        value: nextProps.defaultValue ?? dateToString(new Date()),
+        pValue: nextProps.value,
       }
     }
     return null
@@ -44,26 +66,15 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
 
   onChange = (date: Date): void => {
     const { fields = 'day', onChange = noop } = this.props
-    const yyyy: string = date.getFullYear() + ''
-    const MM: string = ('0' + (date.getMonth() + 1)).slice(-2)
-    const dd: string = ('0' + date.getDate()).slice(-2)
-    let ret: string = yyyy
-    if (fields === 'month' || fields === 'day') {
-      ret += `-${MM}`
-      if (fields === 'day') {
-        ret += `-${dd}`
-      }
-    }
+    const ret = dateToString(date, fields)
+    this.setState({
+      isInOnChangeUpdate: true,
+      value: ret,
+    })
     onChange({
       detail: {
         value: ret
       }
-    })
-  }
-
-  onValueChange = (vals: any[]): void => {
-    this.setState({
-      value: new Date(vals[0], ~~vals[1], vals[2] || 1)
     })
   }
 
@@ -90,14 +101,14 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
     } else if (fields === 'month') {
       mode = 'month'
     }
+
     return (
       <AntDatePicker
         mode={mode}
-        value={value}
+        value={formatTimeStr(value)}
         minDate={formatTimeStr(start)}
         maxDate={formatTimeStr(end)}
         onChange={this.onChange}
-        onValueChange={this.onValueChange}
         onDismiss={this.onDismiss}
         disabled={disabled}
       >

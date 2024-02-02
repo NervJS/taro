@@ -1,22 +1,22 @@
 /* eslint-disable dot-notation */
 import {
+  addLeadingSlash,
   createPageConfig, Current,
   eventCenter, hooks,
   incrementId,
-  stringify,
+  stringify, stripBasename,
 } from '@tarojs/runtime'
 import { Action as LocationAction } from 'history'
 import UniversalRouter from 'universal-router'
 
-import { history, prependBasename } from '../history'
-import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
-import { setTitle } from '../utils/navigate'
+import { prependBasename } from '../history'
+import { routesAlias } from '../utils'
 import { RouterConfig } from '.'
 import PageHandler from './page'
 import stacks from './stack'
 
 import type { AppInstance } from '@tarojs/runtime'
-import type { Listener as LocationListener } from 'history'
+import type { History, Listener as LocationListener } from 'history'
 import type { Routes } from 'universal-router'
 import type { SpaRouterConfig } from '../../types/router'
 
@@ -24,6 +24,7 @@ const createStampId = incrementId()
 let launchStampId = createStampId()
 
 export function createRouter (
+  history: History,
   app: AppInstance,
   config: SpaRouterConfig,
   framework?: string
@@ -32,7 +33,7 @@ export function createRouter (
     window.addEventListener('unhandledrejection', app.onUnhandledRejection)
   }
   RouterConfig.config = config
-  const handler = new PageHandler(config)
+  const handler = new PageHandler(config, history)
 
   routesAlias.set(handler.router.customRoutes)
   const basename = handler.router.basename
@@ -95,7 +96,6 @@ export function createRouter (
     let navigationBarBackgroundColor = config?.window?.navigationBarBackgroundColor || '#000000'
 
     if (pageConfig) {
-      setTitle(pageConfig.navigationBarTitleText ?? document.title)
       if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
         enablePullDownRefresh = pageConfig.enablePullDownRefresh
       }
@@ -207,6 +207,14 @@ export function createRouter (
   render({ location: history.location, action: LocationAction.Push })
 
   app.onShow?.(launchParam as Record<string, any>)
+
+  window.addEventListener('visibilitychange', ()=>{
+    if (document.visibilityState === 'visible') {
+      app.onShow?.(launchParam as Record<string, any>)
+    }else{
+      app.onHide?.(launchParam as Record<string, any>)
+    }
+  })
 
   return history.listen(render)
 }

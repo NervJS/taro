@@ -1,4 +1,4 @@
-import { defaultEsbuildLoader, esbuild, externalEsbuildModule, fs } from '@tarojs/helper'
+import { defaultEsbuildLoader, defaultMainFields, esbuild, externalEsbuildModule, fs } from '@tarojs/helper'
 import path from 'path'
 
 import {
@@ -31,6 +31,7 @@ interface ScanImportsConfig {
   include: string[]
   exclude: string[]
   customEsbuildConfig?: Record<string, any>
+  mainFields?: string[]
 }
 
 export async function scanImports ({
@@ -39,7 +40,8 @@ export async function scanImports ({
   entries,
   include = [],
   exclude = [],
-  customEsbuildConfig = {}
+  customEsbuildConfig = {},
+  mainFields = [...defaultMainFields]
 }: ScanImportsConfig,
 deps: CollectedDeps = new Map()
 ): Promise<CollectedDeps> {
@@ -53,7 +55,7 @@ deps: CollectedDeps = new Map()
         absWorkingDir: appPath,
         bundle: true,
         entryPoints: [entry],
-        mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
+        mainFields,
         format: 'esm',
         loader: defaultEsbuildLoader,
         write: false,

@@ -2,21 +2,17 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface RadioProps extends StandardProps {
   /** `<Radio/>` 标识。当该`<Radio/>` 选中时，`<RadioGroup/>`的 change 事件会携带`<Radio/>`的 value
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   value?: string
   /** 当前是否选中
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   checked?: boolean
-  /** 设置在 React 非受控状态下，当前是否选中
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
-   */
-  defaultChecked?: boolean
   /** 是否禁用
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   disabled?: boolean
   /** Radio 的颜色，同 css 的 color
@@ -26,11 +22,11 @@ interface RadioProps extends StandardProps {
   color?: string
   /**
    * Radio 的名字
-   * @supported h5, harmony
+   * @supported h5, harmony, harmony_hybrid
    */
   name?: string
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
-   * @supported h5
+   * @supported h5, harmony_hybrid
    */
   nativeProps?: Record<string, unknown>
   /** 无障碍访问，（属性）元素的额外描述
@@ -38,7 +34,7 @@ interface RadioProps extends StandardProps {
    */
   ariaLabel?: string
   /** <radio-group/> 中的选中项发生变化时触发 change 事件
-   * @supported h5, rn
+   * @supported h5, rn, harmony_hybrid
    */
   onChange?: CommonEventFunction<{
     value?: string
@@ -46,7 +42,7 @@ interface RadioProps extends StandardProps {
 }
 /** 单选项目
  * @classification forms
- * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageRadio extends Component {
