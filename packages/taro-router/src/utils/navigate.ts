@@ -1,11 +1,12 @@
-let preTitle = document.title
-let isLoadDdEntry = false
+import { eventCenter } from '@tarojs/runtime'
 
 export const isWeixin = () => !!navigator.userAgent.match(/\bMicroMessenger\b/ig)
 export const isDingTalk = () => !!navigator.userAgent.match(/\bDingTalk\b/ig)
+let preTitle = document.title
+let isLoadDdEntry = false
 
-export async function setTitle (title: string): Promise<string> {
-  if (preTitle === title) return title
+export function setMpaTitle (title: string): void {
+  if (preTitle === title) return
   document.title = title
   preTitle = title
   if (process.env.SUPPORT_DINGTALK_NAVIGATE !== 'disabled' && isDingTalk()) {
@@ -16,5 +17,12 @@ export async function setTitle (title: string): Promise<string> {
     const setDingTitle = require('dingtalk-jsapi/api/biz/navigation/setTitle').default
     setDingTitle({ title })
   }
-  return title
+}
+
+export function setTitle (title: string): void {
+  eventCenter.trigger('__taroH5SetNavigationTitle', title)
+}
+
+export function setNavigationBarStyle (option: { backgroundColor: string, frontColor: string }){
+  eventCenter.trigger('__taroH5setNavigationBarColor', option)
 }
