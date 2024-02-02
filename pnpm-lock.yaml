@@ -3522,6 +3522,9 @@ importers:
       jest-cli:
         specifier: ^29.3.1
         version: registry.npmjs.org/jest-cli@29.5.0(@types/node@9.6.61)(ts-node@10.9.1)
+      jest-taro-helper:
+        specifier: workspace:*
+        version: link:../jest-helper
       mocha:
         specifier: ^10.2.0
         version: registry.npmjs.org/mocha@10.2.0
