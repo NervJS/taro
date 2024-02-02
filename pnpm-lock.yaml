@@ -3821,6 +3821,9 @@ importers:
       webpack-format-messages:
         specifier: ^2.0.6
         version: registry.npmjs.org/webpack-format-messages@2.0.6
+      webpack-virtual-modules:
+        specifier: ^0.5.0
+        version: registry.npmjs.org/webpack-virtual-modules@0.5.0
       webpackbar:
         specifier: ^5.0.2
         version: registry.npmjs.org/webpackbar@5.0.2(webpack@5.78.0)
