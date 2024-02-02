@@ -31,5 +31,8 @@ module.exports = {
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
   coveragePathIgnorePatterns:[
     '/__tests__/*'
-  ]
+  ],
+  moduleNameMapper: {
+    '^@tarojs/api$':'<rootDir>/../taro-api/dist/index.js'
+  }
 }

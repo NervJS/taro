@@ -42,6 +42,7 @@ describe('inspect', () => {
         platform: undefined,
         publicPath: undefined,
         isWatch: false,
+        withoutBuild: false,
         env: undefined,
         blended: false,
         assetsDest: undefined,
@@ -168,7 +169,9 @@ describe('inspect', () => {
         name: 'convert',
         opts: {
           _: ['convert'],
-          options: {},
+          options: {
+            build: true,
+          },
           isHelp: false
         }
       })
@@ -188,6 +191,7 @@ describe('inspect', () => {
         opts: {
           _,
           options: {
+            build: true,
             type
           },
           isHelp: true

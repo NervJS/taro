@@ -64,6 +64,8 @@ interface PageMetaProps extends StandardProps {
 }
 declare namespace PageMetaProps {
   interface onResizeEventDetail {
+    /** 设备方向 */
+    deviceOrientation?: 'portrait' | 'landscape'
     /** 窗口尺寸 */
     size: resizeType
   }
@@ -73,6 +75,10 @@ declare namespace PageMetaProps {
     windowWidth: number
     /** 窗口高度 */
     windowHeight: number
+    /** 屏幕宽度 */
+    screenWidth?: number
+    /** 屏幕高度 */
+    screenHeight?: number
   }
   interface onScrollEventDetail {
     scrollTop: number

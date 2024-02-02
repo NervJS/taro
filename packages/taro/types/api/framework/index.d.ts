@@ -33,7 +33,7 @@ declare module '../../index' {
      * __注意：__
      * - __不要尝试修改页面栈，会导致路由以及页面状态错误。__
      * - 不要在 `App.onLaunch` 的时候调用 `getCurrentPages()`，此时 `page` 还没有生成。
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.getCurrentPages().length
@@ -43,7 +43,7 @@ declare module '../../index' {
     getCurrentPages(): Page[]
 
     /** 获取到小程序全局唯一的 App 实例。
-     * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
+     * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/reference/api/getApp.html
      */
     getApp<T = TaroGeneral.IAnyObject>(opts?: getApp.Option): getApp.Instance<T>

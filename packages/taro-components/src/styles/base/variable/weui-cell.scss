@@ -1,0 +1,25 @@
+@use 'sass:math';
+
+$weuiCellBg:#FFFFFF; // var(--weui-BG-2);
+$weuiCellBorderColor:#e5e5e5; // $weuiLineColorLight;
+$weuiCellGapV:10px; // 16px;
+$weuiCellGapH:15px; // 16px;
+$weuiCellInnerGapH:.35em; // 16px;
+$weuiCellHeight: 45px; // 56px;
+$weuiCellFontSize: 17px;
+$weuiCellTipsFontSize: 14px;
+$weuiCellLabelWidth: 105px;
+// $weuiCellActiveBg: $weuiBgColorActive;
+
+$weuiCellLineHeight: calc(math.div($weuiCellHeight - 2 * $weuiCellGapV, $weuiCellFontSize)); // 高度减去上下padding的行高
+$weuiCellsMarginTop: em(math.div(20, $weuiCellFontSize)); // 8px;
+
+// weui switch
+$weuiSwitchHeight: 32px;
+
+// weui uploader
+$weuiUploaderBorderColor:#D9D9D9;
+$weuiUploaderActiveBorderColor:#999999;
+$weuiUploaderFileSpacing: 9px;
+$weuiUploaderSize: 79px;
+$weuiUploaderBorderWidth: 1px;

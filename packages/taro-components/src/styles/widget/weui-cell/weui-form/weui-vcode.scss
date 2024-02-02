@@ -1,0 +1,37 @@
+.weui-cell_vcode {
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+.weui-vcode-img {
+  margin-left: 5px;
+  height: $weuiCellHeight;
+  vertical-align: middle;
+}
+
+.weui-vcode-btn {
+  display: inline-block;
+  height: $weuiCellHeight;
+  margin-left: 5px;
+  padding: 0 0.6em 0 0.7em;
+  border-left: 1px solid $weuiLineColorLight;
+  line-height: $weuiCellHeight;
+  vertical-align: middle;
+  font-size: $weuiCellFontSize;
+  color: $weuiDialogLinkColor;
+  // position: relative;
+  // &::before {
+  //   @include setLeftLine($weuiLineColorLight);
+  // }
+  &:active {
+    color: desaturate($weuiDialogLinkColor, 30%);
+  }
+}
+button.weui-vcode-btn {
+  background-color: transparent;
+  // border: 0;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  outline: 0;
+}

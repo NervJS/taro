@@ -14,11 +14,11 @@ import {
   UID
 } from '../constants'
 import { NodeType } from '../dom/node_types'
-import { Func } from '../interface'
 
 import type { TaroElement } from '../dom/element'
 import type { TaroNode } from '../dom/node'
 import type { TaroText } from '../dom/text'
+import type { TFunc } from '../interface'
 
 export const incrementId = () => {
   const chatCodes: number[] = []
@@ -109,7 +109,7 @@ interface Ctor {
   new (...args: any[]): any
 }
 
-export function extend (ctor: Ctor, methodName: string, options: Func | Record<string, any>) {
+export function extend (ctor: Ctor, methodName: string, options: TFunc | Record<string, any>) {
   if (isFunction(options)) {
     options = {
       value: options
@@ -129,3 +129,5 @@ export function getComponentsAlias () {
   }
   return componentsAlias
 }
+
+export * from './lodash'
