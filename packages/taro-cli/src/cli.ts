@@ -33,7 +33,10 @@ export default class CLI {
         assetsDest: ['assets-dest'], // specially for rn, Directory name where to store assets referenced in the bundle.
         envPrefix: ['env-prefix'],
       },
-      boolean: ['version', 'help', 'disable-global-config']
+      boolean: ['version', 'help', 'disable-global-config'],
+      default: {
+        build: true,
+      },
     })
     const _ = args._
     const command = _[0]
@@ -117,6 +120,7 @@ export default class CLI {
             case 'qq':
             case 'jd':
             case 'h5':
+            case 'harmony-hybrid':
               kernel.optsPlugins.push(`@tarojs/plugin-platform-${platform}`)
               break
             default: {
@@ -165,10 +169,12 @@ export default class CLI {
             platform,
             plugin,
             isWatch: Boolean(args.watch),
-            // 是否把 Taro 组件编译为原生自定义组件
+            // Note: 是否把 Taro 组件编译为原生自定义组件
             isBuildNativeComp: _[1] === 'native-components',
-            // 新的混合编译模式，支持把组件单独编译为原生组件
+            // Note: 新的混合编译模式，支持把组件单独编译为原生组件
             newBlended: Boolean(args['new-blended']),
+            // Note: 是否禁用编译
+            withoutBuild: !args.build,
             port: args.port,
             env: args.env,
             deviceType: args.platform,

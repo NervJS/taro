@@ -46,7 +46,7 @@ declare module '../index' {
 
     /**
      * 当前是 tab 页时，tab 被点击时的回调。
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      */
     useTabItemTap(callback: (payload: TabItemTapObject) => void): void
 
@@ -73,45 +73,45 @@ declare module '../index' {
 
     /**
      * 小程序初始化完成时的回调。
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      */
     useLaunch(callback: (options: getLaunchOptionsSync.LaunchOptions) => void): void
 
     /**
      * 小程序发生脚本错误或 API 调用报错时触发的回调。
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      */
     useError(callback: (error: string) => void): void
 
     /**
      * 小程序有未处理的 Promise reject 时触发。也可以使用 Taro.onUnhandledRejection 绑定监听。
-     * @supported weapp, alipay, h5
+     * @supported weapp, alipay, h5, harmony_hybrid
      */
     useUnhandledRejection(callback: (error: { reason: Error, promise: Promise<Error> }) => void): void
 
     /**
      * 小程序要打开的页面不存在时触发的回调。
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      * @h5 多页面模式不支持该方法
      */
     usePageNotFound(callback: (res: { path: string, query: Record<any, any>, isEntryPage: boolean, [key: string]: any }) => void): void
 
     /**
      * 页面加载完成时的回调。
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      */
     useLoad<T extends {} = Record<string, any>>(callback: (param: T) => void): void
 
     /**
      * 页面卸载时的回调。
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      */
     useUnload(callback: () => void): void
 
     /**
      * 页面初次渲染完成的回调。
      * 此时页面已经准备妥当，可以和视图层进行交互。
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      */
     useReady(callback: () => void): void
 
@@ -135,7 +135,7 @@ declare module '../index' {
 
     /**
      * 下拉中断时的回调。
-     * @supported alipay, h5
+     * @supported alipay, h5, harmony_hybrid
      */
     usePullIntercept(callback: () => void): void
   }

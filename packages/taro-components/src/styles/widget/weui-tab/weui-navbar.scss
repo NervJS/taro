@@ -1,0 +1,57 @@
+.weui-navbar {
+  display: flex;
+  position: absolute; // relative;
+  z-index: 500;
+  top: 0;
+  width: 100%;
+  background-color: #FAFAFA; // var(--weui-BG-2);
+  // padding-top: constant(safe-area-inset-top);
+  // padding-top: env(safe-area-inset-top);
+
+  &::after {
+    @include setBottomLine(#CCCCCC); // $weuiLineColorLight
+  }
+
+  & + .weui-tab__panel {
+    padding-top: 50px;
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+.weui-navbar__item {
+  position: relative;
+  display: block;
+  flex: 1;
+  padding: 13px 0; // 16px 0;
+  // padding-top: calc(16px + constant(safe-area-inset-top));
+  // padding-top: calc(16px + env(safe-area-inset-top));
+  text-align: center;
+  font-size: 15px; // 17px;
+  // line-height: em(math.div($weuiNavBarHeight - 32, 17));
+  @include setTapColor();
+
+  &:active {
+    background-color: #EDEDED; // $weuiBgColorActive;
+  }
+
+  &.weui-bar__item_on {
+    background-color: #EAEAEA; // $weuiBgColorActive;
+  }
+
+  &::after {
+    @include setRightLine(#CCCCCC); // $weuiLineColorLight
+  }
+
+  // &:first-child {
+  //   padding-left: constant(safe-area-inset-left);
+  //   padding-left: env(safe-area-inset-left);
+  // }
+  &:last-child {
+    // padding-right: constant(safe-area-inset-right);
+    // padding-right: env(safe-area-inset-right);
+    &::after {
+      display: none;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { defaultEsbuildLoader, esbuild, externalEsbuildModule, fs, REG_SCRIPTS, swc } from '@tarojs/helper'
+import { defaultEsbuildLoader, defaultMainFields, esbuild, externalEsbuildModule, fs, REG_SCRIPTS, swc } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
 import { defaults } from 'lodash'
 import path from 'path'
@@ -23,6 +23,7 @@ interface BundleConfig {
   prebundleOutputDir: string
   customEsbuildConfig?: Record<string, any>
   customSwcConfig?: swc.Config
+  mainFields?: string[]
 }
 
 // esbuild generates nested directory output with lowest common ancestor base
@@ -37,7 +38,8 @@ export async function bundle ({
   chain,
   prebundleOutputDir,
   customEsbuildConfig = {},
-  customSwcConfig = {}
+  customSwcConfig = {},
+  mainFields = [...defaultMainFields]
 }: BundleConfig) {
   await init
 
@@ -71,7 +73,7 @@ export async function bundle ({
     bundle: true,
     write: false,
     entryPoints: Array.from(flattenDeps.keys()),
-    mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
+    mainFields,
     format: 'esm',
     loader: defaults(customEsbuildConfig.loader, defaultEsbuildLoader),
     define: {

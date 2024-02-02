@@ -1,0 +1,75 @@
+@keyframes weuiSlideUp {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.weui-animate-slide-up {
+  animation: weuiSlideUp ease 0.3s forwards;
+}
+
+@keyframes weuiSlideDown {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+.weui-animate-slide-down {
+  animation: weuiSlideDown ease 0.3s forwards;
+}
+
+@keyframes weuiFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.weui-animate-fade-in {
+  animation: weuiFadeIn ease 0.3s forwards;
+}
+
+@keyframes weuiFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.weui-animate-fade-out {
+  animation: weuiFadeOut ease 0.3s forwards;
+}
+// transition
+// //模态弹窗/提示组件通用显示
+// .weui-transition {
+//   &.weui-mask {
+//     transition: opacity 0.3s, visibility 0.3s;
+//     opacity: 0;
+//     visibility: hidden;
+//   }
+//   &.weui-half-screen-dialog {
+//     transition: transform 0.3s;
+//     transform: translateY(100%);
+//   }
+// }
+// .weui-transition_show {
+//   &.weui-mask {
+//     opacity: 1;
+//     visibility: visible;
+//   }
+//   &.weui-half-screen-dialog {
+//     transform: translateY(0);
+//   }
+// }
