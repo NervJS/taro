@@ -6,9 +6,10 @@ export const print = (val: string) => {
   return val.replace(/\\*\*\sfilePath:\s(.*)\s\*\*\//g, (replaceValue) => replaceValue.replace(/\\/g, '/'))
 }
 
+const mockFilePath = '/** filePath:mockFilePath **/'
 export const parseSnapshotByFilePath = (val: string) => {
   const arr = val.split(new RegExp(os.EOL + '|\n'))
-  let key = ''
+  let key = mockFilePath
   return arr.reduce((acc, cur) => {
     if (cur.startsWith('/** filePath:')) {
       key = cur.replace(/\\/g, '/')
@@ -25,11 +26,13 @@ export const parseSnapshotByFilePath = (val: string) => {
 }
 
 export const snapshotObject2String = (val: Record<string, string>) => {
-  return `"\n${Object.entries(val)
+  const arr = Object.entries(val)
+  const hasMockFilePath = arr.some(([key]) => key === mockFilePath) && arr.length <= 1
+  return `${hasMockFilePath ? '' : '"\n'}${arr
     .sort(([key1], [key2]) => key1.localeCompare(key2))
-    .filter(([key]) => key !== '')
-    .map(([key, value]) => `${key}\n${value}`)
-    .join('\n')}"`
+    .filter(([key, value]) => (!!key && key !== mockFilePath) || (key === mockFilePath && !!value))
+    .map(([key, value]) => `${key === mockFilePath ? '' : `${key}\n`}${value}`)
+    .join('\n')}${hasMockFilePath ? '' : '"'}`
 }
 
 export const serialize = (
