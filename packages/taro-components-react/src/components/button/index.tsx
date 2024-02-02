@@ -22,7 +22,7 @@ interface IState {
   touch: boolean
 }
 
-class Button extends  React.Component<IProps, IState> {
+class Button extends React.Component<IProps, IState> {
     
   constructor (props) {
     super(props)

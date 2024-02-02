@@ -19,6 +19,9 @@ const config = {
       enable: false
     }
   },
+  terser: {
+    enable: false
+  },
   mini: {
     enableSourceMap: false,
     postcss: {
@@ -46,6 +49,15 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
+    webpackChain(chain) {
+      chain.merge({
+        output: {
+          libraryTarget: 'umd',
+          library: 'NativeComponent',
+          chunkLoadingGlobal: 'NativeComponentJsonp',
+        },
+      })
+    },
     postcss: {
       autoprefixer: {
         enable: true,

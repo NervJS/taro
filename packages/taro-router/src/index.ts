@@ -1,3 +1,4 @@
+import { initNavigationBar } from './navigationBar'
 import { initTabbar } from './tabbar'
 
 import type { History } from 'history'
@@ -21,6 +22,7 @@ export function handleAppMount (config: SpaRouterConfig | MpaRouterConfig, _: Hi
   app.classList.add('taro_router')
 
   if (!isPosition) appWrapper.appendChild(app)
+  initNavigationBar(appWrapper as HTMLElement)
 }
 
 export function handleAppMountWithTabbar (config: SpaRouterConfig | MpaRouterConfig, history: History, appId = config.appId || 'app') {
@@ -51,4 +53,5 @@ export function handleAppMountWithTabbar (config: SpaRouterConfig | MpaRouterCon
   }
 
   initTabbar(config, history)
+  initNavigationBar(container)
 }

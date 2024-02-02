@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import { setTitle } from '@tarojs/router'
+import { setNavigationBarStyle, setTitle } from '@tarojs/router'
 
 import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
@@ -38,12 +38,13 @@ export function setNavigationBarTitle (options?: Taro.setNavigationBarTitle.Opti
  * 设置页面导航条颜色
  */
 export const setNavigationBarColor: typeof Taro.setNavigationBarColor = (options) => {
-  const { backgroundColor, success, fail, complete } = options
+  const { backgroundColor, frontColor, success, fail, complete } = options
   const handle = new MethodHandler({ name: 'setNavigationBarColor', success, fail, complete })
   const meta = document.createElement('meta')
   meta.setAttribute('name', 'theme-color')
   meta.setAttribute('content', backgroundColor)
   document.head.appendChild(meta)
+  setNavigationBarStyle({ frontColor, backgroundColor })
   return handle.success()
 }
 

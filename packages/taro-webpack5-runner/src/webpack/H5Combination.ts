@@ -81,7 +81,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
       if (!webpackOutput.libraryTarget && !(webpackOutput.library as LibraryOptions)?.type) {
         webpackOutput.library = {
           name: webpackOutput.library as (Exclude<typeof webpackOutput.library, LibraryOptions>),
-          type: 'commonjs-module',
+          type: 'umd',
         }
       }
     }
@@ -154,6 +154,10 @@ export class H5Combination extends Combination<H5BuildConfig> {
     if (!isProd) {
       cacheGroups.name = false
       optimization.runtimeChunk = 'single'
+    }
+    // 组件编译模式下不做代码分割
+    if (this.isBuildNativeComp) {
+      optimization.splitChunks = false
     }
     return optimization
   }
