@@ -160,7 +160,7 @@ export function createReactApp (
   config: AppConfig
 ) {
   if (process.env.NODE_ENV !== 'production') {
-    ensure(!!dom, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
+    ensure(!!dom, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'preact\'/\'nerv\' ')
   }
 
   reactMeta.R = react
@@ -193,6 +193,7 @@ export function createReactApp (
       const root = ReactDOM.createRoot(container)
       root.render?.(h(AppWrapper))
     } else {
+      // eslint-disable-next-line react/no-deprecated
       ReactDOM.render?.(h(AppWrapper), container)
     }
   }

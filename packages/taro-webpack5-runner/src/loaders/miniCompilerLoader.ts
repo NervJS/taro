@@ -2,7 +2,7 @@ import { swc } from '@tarojs/helper'
 import { getComponentsAlias } from '@tarojs/shared'
 import { getOptions } from 'loader-utils'
 
-import { XMLDependency } from '../plugins/MiniCompileModePlugin'
+import { templatesCache,XMLDependency } from '../plugins/MiniCompileModePlugin'
 
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { LoaderContext } from 'webpack'
@@ -10,6 +10,7 @@ import type { LoaderContext } from 'webpack'
 const COMPILE_MODE = 'compileMode'
 
 interface IOptions {
+  platform: string
   template: RecursiveTemplate | UnRecursiveTemplate
   FILE_COUNTER_MAP: Map<string, number>
 }
@@ -23,7 +24,7 @@ export default async function (this: LoaderContext<IOptions>, source) {
     return callback(null, source)
   }
 
-  const { template, FILE_COUNTER_MAP } = options
+  const { platform, template, FILE_COUNTER_MAP } = options
 
   template.componentsAlias = getComponentsAlias(template.internalComponents)
   const components = template.createMiniComponents(template.internalComponents)
@@ -52,6 +53,7 @@ export default async function (this: LoaderContext<IOptions>, source) {
               [
                 '@tarojs/helper/swc/swc_plugin_compile_mode.wasm',
                 {
+                  platform,
                   tmpl_prefix: identifier,
                   components,
                   adapter: template.Adapter,
@@ -73,13 +75,17 @@ export default async function (this: LoaderContext<IOptions>, source) {
     }
 
     const templatesString = templatesList.join('\n')
-    this._module?.addDependency(new XMLDependency({
-      identifier,
-      context: this.rootContext,
-      content: templatesString,
-      resourcePath,
-      fileCount,
-    }))
+    if (template.isXMLSupportRecursiveReference) {
+      this._module?.addDependency(new XMLDependency({
+        identifier,
+        context: this.rootContext,
+        content: templatesString,
+        resourcePath,
+        fileCount,
+      }))
+    } else {
+      templatesCache.push(templatesString)
+    }
     callback(null, code.replace(regExp, ''))
   } catch (err) {
     callback(err)
@@ -87,10 +93,12 @@ export default async function (this: LoaderContext<IOptions>, source) {
 }
 
 function unescape (raw: string): string {
-  return raw.replace(/\\([xu])([a-fA-F0-9]{2,4})/g, (_, $1: string, $2: string) => {
+  let temp = raw.replace(/\\([xu])([a-fA-F0-9]{2,4})/g, (_, $1: string, $2: string) => {
     const isUnicode = $1 === 'u'
     const num = isUnicode ? $2 : $2.substring(0,2)
     const charCode = parseInt(num, 16)
     return String.fromCharCode(charCode) + (!isUnicode ? $2.substring(2) : '')
   })
+  temp = temp.replace(/\\'/g, "'")
+  return temp
 }

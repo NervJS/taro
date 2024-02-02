@@ -31,6 +31,7 @@ const baseConfig: RollupOptions = {
     }),
     commonjs() as InputPluginOption,
     postcss({
+      // extract: true, Note: 开启需要在 @tarojs/plugin-platform-h5 中的 API 引入样式
       inject: { insertAt: 'top' },
       minimize: true,
     }) as InputPluginOption,

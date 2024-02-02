@@ -7,9 +7,9 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type          | Default     |
-| -------- | --------- | ----------- | ------------- | ----------- |
-| `conf`   | --        |             | `ITabBarConf` | `undefined` |
+| Property | Attribute | Description | Type   | Default     |
+| -------- | --------- | ----------- | ------ | ----------- |
+| `conf`   | --        |             | `Conf` | `undefined` |
 
 
 ## Events

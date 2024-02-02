@@ -1,0 +1,17 @@
+.weui-badge {
+  display: inline-block;
+  padding: 0.15em 0.4em;
+  min-width: 8px; // em(math.div(8, 12));
+  border-radius: 18px;
+  background-color: #F43530; // $weuiColorWarn;
+  color: #fff; // 固定色值
+  line-height: 1.2;
+  text-align: center;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.weui-badge_dot {
+  padding: 0.4em;
+  min-width: 0;
+}

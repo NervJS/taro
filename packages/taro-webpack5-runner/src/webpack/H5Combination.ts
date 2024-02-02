@@ -1,5 +1,6 @@
 import { parsePublicPath } from '../utils'
 import AppHelper from '../utils/app'
+import { componentConfig } from '../utils/component'
 import { Combination } from './Combination'
 import { H5BaseConfig } from './H5BaseConfig'
 import { H5WebpackModule } from './H5WebpackModule'
@@ -33,7 +34,9 @@ export class H5Combination extends Combination<H5BuildConfig> {
       alias = {},
       defineConstants = {},
       router,
-      frameworkExts
+      frameworkExts,
+      /** hooks */
+      modifyComponentConfig,
     } = config
     const externals: Configuration['externals'] = []
     const routerMode = router?.mode || 'hash'
@@ -45,6 +48,8 @@ export class H5Combination extends Combination<H5BuildConfig> {
       alias,
       defineConstants,
     })
+
+    modifyComponentConfig?.(componentConfig, config)
 
     if (this.isBuildNativeComp) {
       delete entry[entryFileName]
@@ -76,7 +81,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
       if (!webpackOutput.libraryTarget && !(webpackOutput.library as LibraryOptions)?.type) {
         webpackOutput.library = {
           name: webpackOutput.library as (Exclude<typeof webpackOutput.library, LibraryOptions>),
-          type: 'commonjs-module',
+          type: 'umd',
         }
       }
     }
@@ -149,6 +154,10 @@ export class H5Combination extends Combination<H5BuildConfig> {
     if (!isProd) {
       cacheGroups.name = false
       optimization.runtimeChunk = 'single'
+    }
+    // 组件编译模式下不做代码分割
+    if (this.isBuildNativeComp) {
+      optimization.splitChunks = false
     }
     return optimization
   }

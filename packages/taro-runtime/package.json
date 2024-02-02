@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "3.6.22",
+  "version": "3.6.23",
   "description": "taro runtime for mini apps.",
   "browser": "dist/index.js",
   "main:h5": "dist/runtime.esm.js",
@@ -18,7 +18,7 @@
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
     "test": "jest",
-    "test:ci": "jest --ci -i --coverage"
+    "test:ci": "jest --ci -i --coverage --silent"
   },
   "repository": {
     "type": "git",

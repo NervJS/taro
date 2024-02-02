@@ -1,13 +1,13 @@
 {
   "name": "@tarojs/plugin-http",
-  "version": "3.6.22",
+  "version": "3.6.23",
   "description": "Taro 小程序端支持使用 web 请求 的插件",
   "main": "index.js",
   "scripts": {
     "dev": "rollup -c -w --bundleConfigAsCjs",
     "build": "rollup -c --bundleConfigAsCjs",
     "test": "jest",
-    "test:ci": "jest --ci -i --coverage false"
+    "test:ci": "jest --ci -i --coverage --silent"
   },
   "files": [
     "src",

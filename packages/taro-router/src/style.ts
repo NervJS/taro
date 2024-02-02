@@ -3,6 +3,9 @@
  */
 export function loadAnimateStyle (ms = 300) {
   const css = `
+body {
+  overflow: hidden; // 防止 iOS 页面滚动
+}
 .taro_router > .taro_page {
   position: absolute;
   left: 0;
@@ -65,6 +68,62 @@ ${
     display: none;
   }
 `
+  addStyle(css)
+}
+
+/**
+ * 插入导航栏相关的样式
+*/
+export function loadNavigationBarStyle () {
+  const css = `
+  .taro-navigation-bar-show {
+    background: white;
+    position: sticky;
+    z-index: 500;
+    top: 0;
+    padding-bottom: 8px;
+    padding-top: calc(env(safe-area-inset-top) + 8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .taro-navigation-bar-hide {
+    display: none;
+  }
+
+  taro-navigation-bar-title {
+    font-size: 24px;
+    height: 24px;
+    line-height: 24px;
+  }
+
+  .taro-navigation-bar-no-icon > taro-navigation-bar-home {
+    display: none;
+  }
+
+  .taro-navigation-bar-no-icon > taro-navigation-bar-back {
+    display: none;
+  }
+
+  .taro-navigation-bar-home > taro-navigation-bar-home {
+    display: block;
+    left: 8px;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+  }
+
+  .taro-navigation-bar-back > taro-navigation-bar-back {
+    display: block;
+    left: 8px;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+  }
+
+  `
+
   addStyle(css)
 }
 
