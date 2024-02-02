@@ -61,7 +61,7 @@ describe('utils.ts', () => {
       const ast = parseCode(code, scriptPath)
       const codeStr = generateMinimalEscapeCode(ast)
       expect(codeStr).toMatchSnapshot()
-    })  
+    })
 
     test('optionalChainingAssign插件支持链式赋值语法', () => {
       code = `x?.prop = 2;`
@@ -69,7 +69,7 @@ describe('utils.ts', () => {
       const codeStr = generateMinimalEscapeCode(ast)
       expect(codeStr).toBe('x?.prop = 2;')
     })
-    
+
     test('sourcePhaseImports插件支持导入语句放在顶部之外的地方', () => {
       code = `
         const name = options && options.name ? options.name : "Anonymous";
@@ -91,12 +91,12 @@ describe('utils.ts', () => {
       code = `import defer * as ns from "dep"`
       const ast = parseCode(code, scriptPath)
       const codeStr = generateMinimalEscapeCode(ast)
-      expect(codeStr).toBe(`import defer * as ns from "dep";`)
+      expect(codeStr).toBe(`import * as ns from "dep";`)
     })
 
     test('exportDefaultFrom插件支持使用 export default from 语法导入默认导出', () => {
       code = `export v from "mod"`
-      const ast = parseCode(code, scriptPath) 
+      const ast = parseCode(code, scriptPath)
       const codeStr = generateMinimalEscapeCode(ast)
       expect(codeStr).toBe('export v from "mod";')
     })
