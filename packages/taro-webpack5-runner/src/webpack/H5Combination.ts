@@ -68,7 +68,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
           this.isVirtualEntry = true
           // 添加后缀，否则 module.resource 解析出来的 name 是不带后缀的，导致 h5-loader 无法加入编译流程
           comp += '.js'
-          virtualEntryMap[comp] = 'export default definePageConfig({ navigationBarTitleText: "" })'
+          virtualEntryMap[comp] = 'export default {}'
         }
 
         entry[index] = [comp]
