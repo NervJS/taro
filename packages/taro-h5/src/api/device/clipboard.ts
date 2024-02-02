@@ -13,6 +13,7 @@ import { getStorageSync, setStorage, setStorageSync } from '../storage/index'
 import { showToast } from '../ui/interaction'
 
 const CLIPBOARD_STORAGE_NAME = 'taro_clipboard'
+
 document.addEventListener('copy', () => {
   setStorage({
     key: CLIPBOARD_STORAGE_NAME,
@@ -21,6 +22,7 @@ document.addEventListener('copy', () => {
     console.error(e)
   })
 })
+
 /**
  * 设置系统剪贴板的内容
  */

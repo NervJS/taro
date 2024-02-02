@@ -88,12 +88,10 @@ export class CallbackManager<T extends unknown[] = unknown[]> {
       if (pos > -1) {
         this.callbacks.splice(pos, 1)
       }
+    } else {
+      // Note: 参数为空，则取消所有的事件监听
+      this.callbacks = []
     }
-  }
-
-  /** 移除所有回调 */
-  removeAll = () => {
-    this.callbacks = []
   }
 
   /** 获取回调函数数量 */
