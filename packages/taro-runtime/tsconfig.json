@@ -8,6 +8,6 @@
     "declaration": true,
     "declarationDir": "./dist"
   },
-  "include": ["./src"],
+  "include": ["./src", "./rollup.config.ts"],
   "exclude": ["./src/__tests__"]
 }

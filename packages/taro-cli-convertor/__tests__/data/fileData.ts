@@ -50,6 +50,7 @@ export const DEMO_JS_FILE_INFO_MINIPROGRANROOT = {
       ]
     }
   `,
+  '/miniprogram/app.wxss':'',
   '/miniprogram/pages/index/index.js': `
     const app = getApp()
       Page({
@@ -94,6 +95,7 @@ export const PLUGIN_FILE_DATA = {
       "compileType": "plugin"
     }
   `,
+  '/miniprogram/app.js': `App({})`,
   '/miniprogram/app.json': `
     {
       "pages": [
@@ -265,7 +267,42 @@ export const PLUGIN_FILE_DATA = {
   `,
 }
 
+export const SUBPAKCAEGS_AND_PLUGIN_CONFIG = {
+  '/miniprogram/app.json': `
+    {
+      "pages": [
+        "pages/index/index"
+      ],
+      "subPackages": [
+        {
+          "root": "packageA",
+          "pages": [
+            "pages/index"
+          ]
+        }, {
+          "root": "packageB",
+          "name": "pack2",
+          "pages": [
+            "pages/index"
+          ]
+        }
+      ],
+      "plugins": {
+        "hello-plugin": {
+          "version": "dev",
+          "provider": "wx9e5d25b6307be4bc"
+        }
+      }
+    }
+  `,
+  '/miniprogram/packageA/pages/index.wxml':`<text>packageA/index.wxml</text>`,
+  '/miniprogram/packageA/pages/index.js':`Page({})`,
+  '/miniprogram/packageB/pages/index.wxml':`<text>packageB/index.wxml</text>`,
+  '/miniprogram/packageB/pages/index.js':`Page({})`,
+}
+
 export const DEMO_JS_FILES = {
+  '/app.js':'App({})',
   '/app.json': `
     {
       "pages":[
@@ -302,4 +339,327 @@ export const DEMO_JS_FILES = {
       <text>{{message}}</text>
     </view>
   `,
+}
+
+export const USINGCOMPONENTS_FILE_DATA = {
+  '/miniprogram/app.json': `
+    {
+      "pages": [
+        "pages/index/index"
+      ],
+      "plugins": {
+        "hello-plugin": {
+          "version": "dev",
+          "provider": "wx9e5d25b6307be4bc"
+        }
+      },
+      "usingComponents": {
+        "cpt": "/components/cpt/cpt"
+      }
+    }
+  `, 
+  '/miniprogram/app.js':`app({})`,
+  '/miniprogram/pages/index/index.json':`
+    {
+      "usingComponents": {
+        "cpt2": "/components/cpt2/cpt2",
+        "cpt3": "/components/cpt3/cpt3",
+        "hello-component": "plugin://hello-plugin/hello-component"
+      }
+    }
+  `,
+  '/miniprogram/pages/index/index.wxml':`
+    <hello-component items="{{ items }}" />
+    <view>
+      <cpt2></cpt2>
+    </view>
+  `,
+  '/miniprogram/components/cpt/cpt.js':`
+    Component({
+      properties: {
+        text: {
+          type: String,
+          value: 'cpt'
+        },
+        buttonText: {
+          type: String,
+          value: 'Click Me!'
+        }
+      }
+    })
+  `,
+  '/miniprogram/components/cpt/cpt.json':`
+  {
+    "component": true,
+    "usingComponents": {
+      "hello-component": "plugin://hello-plugin/hello-component"
+    }
+  }
+  `,
+  '/miniprogram/components/cpt/cpt.wxml':`
+    <hello-component items="{{ items }}" />
+    <view>cpt</view>
+  `,
+  '/miniprogram/components/cpt2/cpt2.js':`
+    Component({
+      properties: {
+        text: {
+          type: String,
+          value: 'cpt2'
+        },
+        buttonText: {
+          type: String,
+          value: 'Click Me!'
+        }
+      }
+    })
+  `,
+  '/miniprogram/components/cpt2/cpt2.json':`
+  {
+    "component": true,
+    "usingComponents": {
+    }
+  }
+  `,
+  '/miniprogram/components/cpt2/cpt2.wxml':`
+    <view>
+      <cpt></cpt>
+      cpt2
+    </view>
+  `,
+  '/miniprogram/components/cpt3/cpt3.js':`
+    Component({
+      properties: {
+        text: {
+          type: String,
+          value: 'cpt3'
+        },
+        buttonText: {
+          type: String,
+          value: 'Click Me!'
+        }
+      }
+    })
+  `,
+  '/miniprogram/components/cpt3/cpt3.json':`
+  {
+    "component": true,
+    "usingComponents": {
+      "cpt2": "/components/cpt2/cpt2"
+    }
+  }
+  `,
+  '/miniprogram/components/cpt3/cpt3.wxml':`
+    <view>
+      <cpt2></cpt2>
+      cpt3
+    </view>
+  `,
+}
+
+export const DEMO_TABBER = {
+  '/app.json':`
+    {
+      "pages": [
+        "pages/component/index",
+        "pages/api/index"
+      ],
+      "tabBar": {
+        "color": "#7A7E83",
+        "selectedColor": "#3cc51f",
+        "borderStyle": "black",
+        "backgroundColor": "#ffffff",
+        "list": [
+          {
+            "pagePath": "pages/component/index",
+            "iconPath": "image/icon_component.png",
+            "selectedIconPath": "image/icon_component_HL.png",
+            "text": "组件"
+          },
+          {
+            "pagePath": "pages/api/index",
+            "iconPath": "image/icon_API.png",
+            "selectedIconPath": "image/icon_API_HL.png",
+            "text": "接口"
+          }
+        ]
+      }
+    }
+  `,
+  '/app.js':'App({})',
+  '/project.config.json': `{}`,
+  '/pages/component/index.js':'Page({})',
+  '/pages/component/index.wxml':`<view>组件</view>`,
+  '/pages/api/index.js':'Page({})',
+  '/pages/api/index.wxml':'<view>接口</view>',
+  '/image/icon_component.png':'',
+  '/image/icon_component_HL.png':'',
+  '/image/icon_API.png':'',
+  '/image/icon_API_HL.png':''
+}
+
+export const DEMO_CUSTOM_TABBER = {
+  '/app.json':`
+    {
+      "pages": [
+        "pages/component/index",
+        "pages/api/index"
+      ],
+      "tabBar": {
+        "custom": true,
+        "color": "#7A7E83",
+        "selectedColor": "#3cc51f",
+        "borderStyle": "black",
+        "backgroundColor": "#ffffff",
+        "list": [
+          {
+            "pagePath": "pages/component/index",
+            "iconPath": "image/icon_component.png",
+            "selectedIconPath": "image/icon_component_HL.png",
+            "text": "组件"
+          },
+          {
+            "pagePath": "pages/api/index",
+            "iconPath": "image/icon_API.png",
+            "selectedIconPath": "image/icon_API_HL.png",
+            "text": "接口"
+          }
+        ]
+      }
+    }
+  `,
+  '/app.js':'App({})',
+  '/project.config.json': `{}`,
+  '/pages/component/index.js':'Page({})',
+  '/pages/component/index.wxml':`<view>组件</view>`,
+  '/pages/api/index.js':'Page({})',
+  '/pages/api/index.wxml':'<view>接口</view>',
+  '/image/icon_component.png':'',
+  '/image/icon_component_HL.png':'',
+  '/image/icon_API.png':'',
+  '/image/icon_API_HL.png':'',
+  '/custom-tab-bar':{
+    '/index.js':'Component({})',
+    '/index.wxml':'',
+    '/index.json':'{}',
+    '/index.wxss':'',
+  }
+}
+
+export const DEMO_SUBPACKAFES = {
+  '/app.json':`
+    {
+      "pages": [
+        "pages/index/index"
+      ],
+      "subPackages": [
+        {
+          "root": "packageA/pages/",
+          "pages": [
+            "component/index"
+          ]
+        },
+        {
+          "root": "packageB/pages/",
+          "pages": [
+            "api/index"
+          ]
+        }
+      ]
+    }
+  `,
+  '/app.js':'App({})',
+  '/project.config.json': `{}`,
+  '/pages/index/index.wxml':'<text>pages/index/index.wxml</text>',
+  '/pages/index/index.js':'Page({})',
+  '/packageA/pages/component/index.js':'Page({})',
+  '/packageA/pages/component/index.wxml':'<text>packageA/pages/component/index.wxml</text>',
+  '/packageB/pages/api/index.js':'Page({})',
+  '/packageB/pages/api/index.wxml':'<text>packageB/pages/api/index.wxml</text>',
+}
+
+export const DEMO_PAGE_NO_JS = {
+  '/project.config.json': `{}`,
+  '/app.js': `App({})`,
+  '/app.json': `
+    {
+      "pages":[
+        "pages/index/index"
+      ]
+    }
+  `,
+  '/pages/index/index.json': `
+    {
+      "usingComponents": {}
+    }
+  `,
+  '/pages/index/index.wxml': `
+    <view>
+      <text>{{motto}}</text>
+    </view>
+  `,
+  '/pages/index/index.wxss': ``,
+}
+
+
+export const DEMO_PLUGIN_COMPLETE_DIRECTORY = {
+  '/miniprogram': {
+    '/app.json': `{
+      "pages": [
+        "pages/index/index"
+      ],
+      "plugins": {
+        "hello-component": {
+          "version": "dev",
+          "provider": "wx4cdb21d9ed86dd14"
+        }
+      },
+      "usingComponents": {
+        "hello-list": "plugin://hello-plugin/hello-component"
+      }
+    }`,
+    '/pages':{
+      '/index':{
+        '/index.js':`Page({})`,
+        '/index.wxml':``,
+        '/index.json':`{}`,
+        '/index.wxss':``,
+      }
+    }
+  },
+  '/plugin': {
+    '/components':{
+      '/hello-component.js':`Component({})`,
+      '/hello-component.wxml':`<text>plugin/components/hello-component.wxml</text>`,
+      '/hello-component.json':`{
+        "component": true,
+        "usingComponents": {}
+        }`,
+      '/hello-component.wxss':``,
+    },
+    '/pages':{
+      '/hello-page.js':`Page({})`,
+      '/hello-page.wxml':'<text>This is a plugin page!</text>',
+      '/hello-page.json':'{}',
+      '/hello-page.wxss':'',
+    },
+    '/plugin.json':`
+      {
+        "publicComponents": {
+          "hello-component": "components/hello-component"
+        },
+        "pages": {
+          "hello-page": "pages/hello-page"
+        },
+        "main": "index.js"
+      }
+    `,
+  },
+  '/project.config.json': `
+    {
+      "miniprogramRoot": "miniprogram/",
+      "pluginRoot": "/plugin",
+      "compileType": "plugin"
+    }
+  `
 }

@@ -17,7 +17,8 @@ export interface SliderProps extends FormItemProps {
   max: number;
   step: number;
   disabled?: boolean;
-  value: number;
+  value?: number;
+  defaultValue?: number;
   activeColor: string;
   backgroundColor: string;
   blockColor: string;

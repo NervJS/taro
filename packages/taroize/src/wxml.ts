@@ -5,7 +5,7 @@ import * as t from '@babel/types'
 import { printLog, processTypeEnum } from '@tarojs/helper'
 // @ts-ignore
 import { toCamelCase } from '@tarojs/shared'
-import { parse } from 'himalaya-wxml'
+import { parse, parseDefaults } from 'himalaya-wxml'
 import { camelCase, cloneDeep } from 'lodash'
 
 import { getCacheWxml, saveCacheWxml } from './cache'
@@ -14,16 +14,20 @@ import { specialEvents } from './events'
 import { errors, globals, THIRD_PARTY_COMPONENTS, usedComponents } from './global'
 import { parseModule, parseTemplate, preParseTemplate } from './template'
 import {
+  addLocInfo,
+  astToCode,
   buildBlockElement,
   buildImportStatement,
   buildTemplate,
   codeFrameError,
+  createErrorCodeMsg,
   DEFAULT_Component_SET,
   getLineBreak,
+  IReportError,
   isValidVarName,
   normalizePath,
   parseCode,
-  printToLogFile,
+  updateLogFileContent,
 } from './utils'
 
 const { prettyPrint } = require('html')
@@ -74,6 +78,7 @@ interface Condition {
   condition: string
   path: NodePath<t.JSXElement>
   tester: t.JSXExpressionContainer
+  cachePath?: NodePath<t.JSXElement>
 }
 
 export type AttrValue = t.StringLiteral | t.JSXElement | t.JSXExpressionContainer | null
@@ -127,7 +132,7 @@ function buildElement (name: string, children: Node[] = [], attributes: Attribut
 
 // 将 style 属性中属性名转小驼峰格式 并且将 {{}} 转为 ${}格式生成对应ast节点
 function convertStyleAttrs (styleAttrsMap: any[]) {
-  printToLogFile(`package: taroize, funName: convertStyleAttrs ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] convertStyleAttrs - 进入函数 ${getLineBreak()}`)
   styleAttrsMap.forEach((attr) => {
     attr.attrName = toCamelCase(attr.attrName.trim())
     // 匹配 {{}} 内部以及左右两边值
@@ -156,7 +161,7 @@ function convertStyleAttrs (styleAttrsMap: any[]) {
  * @param { any[] } attrKeyValueMap 属性解析为 {attrName: attrValue} 形式的数组
  */
 function parseStyleAttrs (styleAttrsMap: any[], attrKeyValueMap: any[]) {
-  printToLogFile(`package: taroize, funName: parseStyleAttrs ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] parseStyleAttrs - 进入函数 ${getLineBreak()}`)
   styleAttrsMap.forEach((attr) => {
     if (attr) {
       // 对含三元运算符的写法 style="width:{{ xx ? xx : xx }}" 匹配第一个 : 避免匹配三元表达式中的 : 运算符
@@ -182,20 +187,13 @@ export function convertStyleUnit (value: string) {
           if (Number(size) === 0) {
             return match.replace(size, '0').replace(unit, 'rem')
           }
-          // 绝对值<1的非零值转十进制会被转为0, 这种情况直接把值认为是1
-          if (parseInt(size, 10) === 0) {
-            return match.replace(size, '1').replace(unit, 'rem')
-          }
-          return match.replace(size, parseInt(size, 10) / 20 + '').replace(unit, 'rem')
+          return match.replace(size, parseFloat(size) / 20 + '').replace(unit, 'rem')
         })
         .replace(/\s*-?([0-9.]+)(rpx)\b/gi, function (match, size, unit) {
           if (Number(size) === 0) {
             return match.replace(size, '0').replace(unit, 'rem')
           }
-          if (parseInt(size, 10) === 0) {
-            return match.replace(size, '1').replace(unit, 'rem')
-          }
-          return match.replace(size, parseInt(size, 10) / 40 + '').replace(unit, 'rem')
+          return match.replace(size, parseFloat(size) / 40 + '').replace(unit, 'rem')
         })
       // 把 xx="...{{参数}}rpx/px"的尺寸单位都转为rem,比如"{{参数}}rpx" -> "{{参数/40}}rem"
       tempValue = tempValue
@@ -213,8 +211,16 @@ export function convertStyleUnit (value: string) {
           return match.replace(size, size + '/40').replace(unit, 'rem')
         })
     } catch (error) {
+      createErrorCodeMsg(
+        'WxmlUnitConversionError',
+        `wxml内px/rpx单位转换失败: ${error}`,
+        tempValue,
+        globals.currentParseFile
+      )
       printLog(processTypeEnum.ERROR, `wxml内px/rpx单位转换失败: ${error}`)
-      printToLogFile(`package: taroize, wxml内px/rpx单位转换异常 ${getLineBreak()}`)
+      updateLogFileContent(
+        `WARN [taroize] convertStyleUnit - wxml内px/rpx单位转换异常 ${getLineBreak()}${error} ${getLineBreak()}`
+      )
     }
   }
   return tempValue
@@ -227,6 +233,9 @@ export function convertStyleUnit (value: string) {
  * @returns Visitor
  */
 export const createPreWxmlVistor = (templates: Map<string, Templates>) => {
+  updateLogFileContent(
+    `INFO [taroize] createPreWxmlVistor - 入参 ${getLineBreak()}templates: ${templates} ${getLineBreak()}`
+  )
   // const Applys = new Map<string, string[]>()
   return {
     JSXElement: {
@@ -280,8 +289,12 @@ export const createWxmlVistor = (
   imports: Imports[] = [],
   templates?: Map<string, Templates>
 ) => {
-  printToLogFile(`package: taroize, funName: createWxmlVistor, dirPath: ${dirPath} ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] createWxmlVistor - 入参 ${getLineBreak()}dirPath: ${dirPath} ${getLineBreak()}`)
+
   const jsxAttrVisitor = (path: NodePath<t.JSXAttribute>) => {
+    updateLogFileContent(
+      `INFO [taroize] createWxmlVistor - 解析JSXAttribute ${getLineBreak()}${path} ${getLineBreak()}`
+    )
     const name = path.node.name as t.JSXIdentifier
     const jsx = path.findParent((p) => p.isJSXElement()) as NodePath<t.JSXElement>
 
@@ -325,15 +338,47 @@ export const createWxmlVistor = (
   }
 
   const renameJSXKey = (path: NodePath<t.JSXIdentifier>) => {
+    updateLogFileContent(
+      `INFO [taroize] createWxmlVistor - 解析JSXIdentifier ${getLineBreak()}${path} ${getLineBreak()}`
+    )
     const nodeName = path.node.name
     if (path.parentPath.isJSXAttribute()) {
+      const cacheNode = cloneDeep(path.parentPath.parentPath.parent) as any
       if (nodeName === WX_SHOW) {
         path.replaceWith(t.jSXIdentifier(WX_IF)) // wx:show转换后不支持，不频繁切换的话wx:if可替代
+        const position = {
+          col: cacheNode.position?.start.column || 0,
+          row: cacheNode.position?.start.line || 0
+        }
+        createErrorCodeMsg(
+          'uncompilableAttribute',
+          `属性  ${nodeName}不能编译,会被替换为wx:if`,
+          astToCode(cacheNode) || '',
+          globals.currentParseFile,
+          position
+        )
         // eslint-disable-next-line no-console
         console.log(`属性  ${nodeName}不能编译,会被替换为wx:if`)
+        updateLogFileContent(
+          `WARN [taroize] createWxmlVistor - ${nodeName} 属性不能编译，会被替换为 wx:if ${getLineBreak()}`
+        )
       } else if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
+        const position = {
+          col: cacheNode.position?.start.column || 0,
+          row: cacheNode.position?.start.line || 0
+        }
+        createErrorCodeMsg(
+          'unknownScopeAttribute',
+          `未知 wx 作用域属性： ${nodeName}，该属性会被移除掉。`,
+          astToCode(cacheNode) || '',
+          globals.currentParseFile,
+          position
+        )
         // eslint-disable-next-line no-console
         console.log(`未知 wx 作用域属性： ${nodeName}，该属性会被移除掉。`)
+        updateLogFileContent(
+          `WARN [taroize] createWxmlVistor - 未知 wx 作用域属性: ${nodeName}，该属性会被移除掉 ${getLineBreak()}`
+        )
         path.parentPath.remove()
       }
     }
@@ -344,6 +389,9 @@ export const createWxmlVistor = (
     JSXIdentifier: renameJSXKey,
     Identifier: {
       enter (path: NodePath<t.Identifier>) {
+        updateLogFileContent(
+          `INFO [taroize] createWxmlVistor - 解析Identifier ${getLineBreak()}${path} ${getLineBreak()}`
+        )
         if (!path.isReferencedIdentifier()) {
           return
         }
@@ -358,6 +406,9 @@ export const createWxmlVistor = (
     },
     JSXElement: {
       enter (path: NodePath<t.JSXElement>) {
+        updateLogFileContent(
+          `INFO [taroize] createWxmlVistor - 解析JSXElement ${getLineBreak()}${path} ${getLineBreak()}`
+        )
         const openingElement = path.get('openingElement')
         const jsxName = openingElement.get('name')
         const attrs = openingElement.get('attributes')
@@ -399,13 +450,25 @@ export const createWxmlVistor = (
         }
         const tagName = jsxName.node.name
         if (tagName === 'Slot') {
+          updateLogFileContent(`INFO [taroize] createWxmlVistor - tagName: Slot ${getLineBreak()}`)
           const nameAttr = attrs.find((a) => t.isJSXAttribute(a.node) && a.node.name.name === 'name')
           let slotName = ''
           if (nameAttr && t.isJSXAttribute(nameAttr.node)) {
             if (nameAttr.node.value && t.isStringLiteral(nameAttr.node.value)) {
               slotName = nameAttr.node.value.value
             } else {
-              throw codeFrameError(jsxName.node, 'slot 的值必须是一个字符串')
+              updateLogFileContent(`ERROR [taroize] createWxmlVistor - slot 的值不是一个字符串 ${getLineBreak()}`)
+              // const error = codeFrameError(jsxName.node, 'slot 的值必须是一个字符串')
+              // @ts-ignore
+              const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
+              const position = { col: column, row: line }
+              throw new IReportError(
+                'slot 的值必须是一个字符串',
+                'SlotValueTypeError',
+                'WXML_FILE',
+                astToCode(path.node) || '',
+                position
+              )
             }
           }
           const children = t.memberExpression(
@@ -415,10 +478,14 @@ export const createWxmlVistor = (
           try {
             path.replaceWith(path.parentPath.isJSXElement() ? t.jSXExpressionContainer(children) : children)
           } catch (error) {
+            updateLogFileContent(
+              `WARN [taroize] createWxmlVistor - Slot 节点替换异常 ${getLineBreak()}${error} ${getLineBreak()}`
+            )
             //
           }
         }
         if (tagName === 'Wxs') {
+          updateLogFileContent(`INFO [taroize] createWxmlVistor - tagName: Wxs ${getLineBreak()}`)
           wxses.push(
             getWXS(
               attrs.map((a) => a.node as t.JSXAttribute),
@@ -428,6 +495,7 @@ export const createWxmlVistor = (
           )
         }
         if (tagName === 'Template') {
+          updateLogFileContent(`INFO [taroize] createWxmlVistor - tagName: Template ${getLineBreak()}`)
           const template = parseTemplate(path, dirPath, wxses)
           if (template) {
             let funcs = new Set<string>()
@@ -459,6 +527,9 @@ export const createWxmlVistor = (
 
             traverse(ast, {
               JSXIdentifier (path) {
+                updateLogFileContent(
+                  `INFO [taroize] createWxmlVistor - 解析JSXIdentifier ${getLineBreak()}${path} ${getLineBreak()}`
+                )
                 const node = path.node
                 if (node.name.endsWith('Tmpl') && node.name.length > 4 && path.parentPath.isJSXOpeningElement()) {
                   usedTemplate.add(node.name)
@@ -489,6 +560,9 @@ export const createWxmlVistor = (
                 }
               },
               JSXAttribute (path) {
+                updateLogFileContent(
+                  `INFO [taroize] createWxmlVistor - 解析JSXAttribute ${getLineBreak()}${path} ${getLineBreak()}`
+                )
                 // 识别template使用到的处理事件的func
                 const node = path.node
                 if (
@@ -507,6 +581,9 @@ export const createWxmlVistor = (
             traverse(ast, {
               // 将使用到的处理事件的func写入到props
               BlockStatement (path) {
+                updateLogFileContent(
+                  `INFO [taroize] createWxmlVistor - 解析BlockStatement ${getLineBreak()}${path} ${getLineBreak()}`
+                )
                 if (funcs.size > 0) {
                   const body = path.node.body
                   if (t.isVariableDeclaration(body[0])) {
@@ -548,12 +625,14 @@ export const createWxmlVistor = (
           }
         }
         if (tagName === 'Import') {
+          updateLogFileContent(`INFO [taroize] createWxmlVistor - tagName: Import ${getLineBreak()}`)
           const mods = parseModule(path, dirPath, 'import')
           if (mods) {
             imports.push(...mods)
           }
         }
         if (tagName === 'Include') {
+          updateLogFileContent(`INFO [taroize] createWxmlVistor - tagName: Include ${getLineBreak()}`)
           parseModule(path, dirPath, 'include')
         }
       },
@@ -574,6 +653,9 @@ export const createWxmlVistor = (
             try {
               path.replaceWith(caller)
             } catch (error) {
+              updateLogFileContent(
+                `WARN [taroize] createWxmlVistor - block 节点替换异常 ${getLineBreak()}${error} ${getLineBreak()}`
+              )
               //
             }
           }
@@ -588,7 +670,7 @@ export const createWxmlVistor = (
  * @param templates 模板信息
  */
 function templateBfs (templates: Map<string, Templates>) {
-  printToLogFile(`package: taroize, funName: templateBfs ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] templateBfs - 进入函数 ${getLineBreak()}`)
   const names: string[] = []
   const applys = new Map<string, Set<string>>()
   for (const key of templates.keys()) {
@@ -635,8 +717,8 @@ function templateBfs (templates: Map<string, Templates>) {
 }
 
 export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): Wxml {
-  printToLogFile(
-    `package: taroize, funName: parseWXML, dirPath: ${dirPath}, parseImport: ${parseImport} ${getLineBreak()}`
+  updateLogFileContent(
+    `INFO [taroize] parseWXML - 入参 ${getLineBreak()}dirPath: ${dirPath} ${getLineBreak()}parseImport: ${parseImport} ${getLineBreak()}`
   )
 
   try {
@@ -646,6 +728,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       unformatted: ['text', 'wxs'],
     })
   } catch (error) {
+    updateLogFileContent(`WARN [taroize] parseWXML - wxml代码格式化异常 ${getLineBreak()}${error} ${getLineBreak()}`)
     //
   }
 
@@ -668,7 +751,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       wxml: t.nullLiteral(),
     }
   }
-  const nodes = removEmptyTextAndComment(parse(wxml.trim()))
+  const nodes = removEmptyTextAndComment(parse(wxml.trim(), { ...parseDefaults, includePositions: true }))
   const ast = t.file(
     t.program([t.expressionStatement(parseNode(buildElement('block', nodes as Node[])) as t.Expression)], [])
   )
@@ -696,7 +779,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       refIds.delete(id)
     }
   })
-  
+
   parseResult = {
     wxses,
     imports,
@@ -717,7 +800,17 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
       const attrValue = attr.value
       let value: string | null = null
       if (attrValue === null) {
-        throw new Error('WXS 标签的属性值不得为空')
+        // @ts-ignore
+        const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
+        const position = { col: column, row: line }
+        updateLogFileContent(`ERROR [taroize] getWXS - wxs 标签的属性值为空 ${getLineBreak()}`)
+        throw new IReportError(
+          'wxs 标签的属性值不得为空',
+          'WxsTagAttributeEmptyError',
+          'WXML_FILE',
+          astToCode(path.node) || '',
+          position
+        )
       }
       if (t.isStringLiteral(attrValue)) {
         value = attrValue.value
@@ -738,12 +831,23 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
       children: [script],
     } = path.node
     if (!t.isJSXText(script)) {
-      throw new Error('wxs 如果没有 src 属性，标签内部必须有 wxs 代码。')
+      // @ts-ignore
+      const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
+      const position = { col: column, row: line }
+      updateLogFileContent(`ERROR [taroize] getWXS - wxs 没有 src 属性且标签内部没有 wxs 代码 ${getLineBreak()}`)
+      throw new IReportError(
+        'wxs 如果没有 src 属性，标签内部必须有 wxs 代码。',
+        'WxsTagCodeMissingError',
+        'WXML_FILE',
+        astToCode(path.node) || '',
+        position
+      )
     }
     src = './wxs__' + moduleName
     const ast = parseCode(script.value)
     traverse(ast, {
       CallExpression (path) {
+        updateLogFileContent(`INFO [taroize] getWXS - 解析CallExpression ${getLineBreak()}${path} ${getLineBreak()}`)
         // wxs标签中getRegExp转换为new RegExp
         if (t.isIdentifier(path.node.callee, { name: 'getRegExp' })) {
           // 根据正则表达式是否定义了正则匹配修饰符，有则不变，没有就用默认
@@ -760,9 +864,33 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
               ])
               path.replaceWith(newExpr)
             } else if (t.isIdentifier(regex) || t.isIdentifier(modifier)) {
-              throw new Error('getRegExp 函数暂不支持传入变量类型的参数')
+              // @ts-ignore
+              const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
+              const position = { col: column, row: line }
+              updateLogFileContent(
+                `ERROR [taroize] getWXS - getRegExp 函数暂不支持传入变量类型的参数 ${getLineBreak()}`
+              )
+              throw new IReportError(
+                'getRegExp 函数暂不支持传入变量类型的参数',
+                'GetRegExpVariableTypeError',
+                'WXML_FILE',
+                astToCode(path.node) || '',
+                position
+              )
             } else {
-              throw new Error('getRegExp 函数暂不支持传入非字符串类型的参数')
+              // @ts-ignore
+              const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
+              const position = { col: column, row: line }
+              updateLogFileContent(
+                `ERROR [taroize] getWXS - getRegExp 函数暂不支持传入非字符串类型的参数 ${getLineBreak()}`
+              )
+              throw new IReportError(
+                'getRegExp 函数暂不支持传入非字符串类型的参数',
+                'GetRegExpParameterTypeError',
+                'WXML_FILE',
+                astToCode(path.node) || '',
+                position
+              )
             }
           } else if (path.node.arguments.length === 1) {
             const regex = path.node.arguments[0]
@@ -772,9 +900,33 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
               const newExpr = t.newExpression(t.identifier('RegExp'), [t.stringLiteral(regexWithoutQuotes)])
               path.replaceWith(newExpr)
             } else if (t.isIdentifier(regex)) {
-              throw new Error('getRegExp 函数暂不支持传入变量类型的参数')
+              // @ts-ignore
+              const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
+              const position = { col: column, row: line }
+              updateLogFileContent(
+                `ERROR [taroize] getWXS - getRegExp 函数暂不支持传入变量类型的参数 ${getLineBreak()}`
+              )
+              throw new IReportError(
+                'getRegExp 函数暂不支持传入变量类型的参数',
+                'GetRegExpVariableTypeError',
+                'WXML_FILE',
+                astToCode(path.node) || '',
+                position
+              )
             } else {
-              throw new Error('getRegExp 函数暂不支持传入非字符串类型的参数')
+              // @ts-ignore
+              const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
+              const position = { col: column, row: line }
+              updateLogFileContent(
+                `ERROR [taroize] getWXS - getRegExp 函数暂不支持传入非字符串类型的参数 ${getLineBreak()}`
+              )
+              throw new IReportError(
+                'getRegExp 函数暂不支持传入非字符串类型的参数',
+                'GetRegExpParameterTypeError',
+                'WXML_FILE',
+                astToCode(path.node) || '',
+                position
+              )
             }
           } else {
             const newExpr = t.newExpression(t.identifier('RegExp'), [])
@@ -808,7 +960,17 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
   }
 
   if (!moduleName || !src) {
-    throw new Error('一个 WXS 需要同时存在两个属性：`wxs`, `src`')
+    // @ts-ignore
+    const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
+    const position = { col: column, row: line }
+    updateLogFileContent(`ERROR [taroize] getWXS - wxs 未同时存在 wxs、src 两个属性 ${getLineBreak()}`)
+    throw new IReportError(
+      '一个 wxs 需要同时存在两个属性：`module`, `src`',
+      'WxsTagAttributesMissingError',
+      'WXML_FILE',
+      astToCode(path.node) || '',
+      position
+    )
   }
 
   path.remove()
@@ -843,7 +1005,17 @@ function transformLoop (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodeP
     wxForItem && t.isJSXAttribute(wxForItem) && wxForItem.value && t.isJSXExpressionContainer(wxForItem.value)
   if (hasSinglewxForItem || name === WX_FOR || name === 'wx:for-items') {
     if (!value || !t.isJSXExpressionContainer(value)) {
-      throw new Error('wx:for 的值必须使用 "{{}}"  包裹')
+      // @ts-ignore
+      const { line, column } = jsx.node?.position?.start || { line: 0, column: 0 }
+      const position = { col: column, row: line }
+      updateLogFileContent(`ERROR [taroize] transformLoop - wx:for 的值未用 "{{}}" 包裹 ${getLineBreak()}`)
+      throw new IReportError(
+        'wx:for 的值必须使用 "{{}}"  包裹',
+        'WxForValueFormatError',
+        'WXML_FILE',
+        astToCode(jsx.node) || '',
+        position
+      )
     }
     attr.remove()
     let item = t.stringLiteral('item')
@@ -855,14 +1027,34 @@ function transformLoop (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodeP
         const node = p.node as t.JSXAttribute
         if (node.name.name === WX_FOR_ITEM) {
           if (!node.value || !t.isStringLiteral(node.value)) {
-            throw new Error(WX_FOR_ITEM + ' 的值必须是一个字符串')
+            // @ts-ignore
+            const { line, column } = jsx.node?.position?.start || { line: 0, column: 0 }
+            const position = { col: column, row: line }
+            updateLogFileContent(`ERROR [taroize] transformLoop - ${WX_FOR_ITEM} 的值不是一个字符串 ${getLineBreak()}`)
+            throw new IReportError(
+              WX_FOR_ITEM + ' 的值必须是一个字符串',
+              'WxForItemValueError',
+              'WXML_FILE',
+              astToCode(jsx.node) || '',
+              position
+            )
           }
           item = node.value
           p.remove()
         }
         if (node.name.name === WX_FOR_INDEX) {
           if (!node.value || !t.isStringLiteral(node.value)) {
-            throw new Error(WX_FOR_INDEX + ' 的值必须是一个字符串')
+            // @ts-ignore
+            const { line, column } = jsx.node?.position?.start || { line: 0, column: 0 }
+            const position = { col: column, row: line }
+            updateLogFileContent(`ERROR [taroize] transformLoop - ${WX_FOR_INDEX} 的值不是一个字符串 ${getLineBreak()}`)
+            throw new IReportError(
+              WX_FOR_INDEX + ' 的值必须是一个字符串',
+              'WxForIndexValueError',
+              'WXML_FILE',
+              astToCode(jsx.node) || '',
+              position
+            )
           }
           index = node.value
           p.remove()
@@ -903,6 +1095,9 @@ function transformLoop (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodeP
           try {
             jsx.replaceWith(ifBlock)
           } catch (error) {
+            updateLogFileContent(
+              `WARN [taroize] transformLoop - wx:if和wx:for合用时父组件使用wx:if导致使用replaceWith异常 ${getLineBreak()}${error} ${getLineBreak()}`
+            )
             // jsx外层是wx:if的转换，替换（replaceWith）时会抛出异常
             // catch异常后，正常替换
           }
@@ -928,6 +1123,7 @@ function transformLoop (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodeP
     try {
       jsx.replaceWith(block)
     } catch (error) {
+      updateLogFileContent(`WARN [taroize] transformLoop - 节点替换异常 ${getLineBreak()}${error} ${getLineBreak()}`)
       //
     }
 
@@ -960,10 +1156,24 @@ function transformIf (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodePat
       .getAllNextSiblings()
       .filter((s) => !(s.isJSXExpressionContainer() && t.isJSXEmptyExpression(s.get('expression')))) as any
   } catch (error) {
+    updateLogFileContent(`WARN [taroize] transformIf - 节点过滤异常 ${getLineBreak()}${error} ${getLineBreak()}`)
     return
   }
   if (value === null || !t.isJSXExpressionContainer(value)) {
+    const cacheNode = cloneDeep(attr.parentPath.parent) as any
+    const position = {
+      col: cacheNode.position?.start.column || 0,
+      row: cacheNode.position?.start.line || 0,
+    }
+    createErrorCodeMsg(
+      'wxIfValueFormatError',
+      'wx:if 的值需要用双括号 `{{}}` 包裹它的值',
+      astToCode(cacheNode) || '',
+      globals.currentParseFile,
+      position
+    )
     console.error('wx:if 的值需要用双括号 `{{}}` 包裹它的值')
+    updateLogFileContent(`WARN [taroize] transformIf - wx:if 的值需要用双括号 {{}} 包裹它的值 ${getLineBreak()}`)
     if (value && t.isStringLiteral(value)) {
       value = t.jSXExpressionContainer(buildTemplate(value.value))
     }
@@ -972,10 +1182,12 @@ function transformIf (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodePat
     condition: WX_IF,
     path: jsx,
     tester: value as t.JSXExpressionContainer,
+    cachePath: cloneDeep(jsx)
   })
   attr.remove()
   for (let index = 0; index < siblings.length; index++) {
     const sibling = siblings[index] as NodePath<t.JSXElement>
+    const cacheSibling = cloneDeep(sibling)
     const next = cloneDeep(siblings[index + 1]) as NodePath<t.JSXElement>
     const currMatches = findWXIfProps(sibling)
     const nextMatches = findWXIfProps(next)
@@ -986,6 +1198,7 @@ function transformIf (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodePat
       condition: currMatches.reg.input as string,
       path: sibling as any,
       tester: currMatches.tester as t.JSXExpressionContainer,
+      cachePath: cacheSibling
     })
     if (nextMatches === null) {
       break
@@ -1003,6 +1216,9 @@ function handleConditions (conditions: Condition[]) {
           t.jSXExpressionContainer(t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node)))
         )
       } catch (error) {
+        updateLogFileContent(
+          `WARN [taroize] handleConditions - 替换节点异常 ${getLineBreak()}${error} ${getLineBreak()}`
+        )
         //
       }
     }
@@ -1010,17 +1226,23 @@ function handleConditions (conditions: Condition[]) {
   if (conditions.length > 1) {
     const lastLength = conditions.length - 1
     const lastCon = conditions[lastLength]
+    // 记录当前操作的 condition
+    let currentCondition: any = null
     let lastAlternate: t.Expression = cloneDeep(lastCon.path.node)
     try {
       if (lastCon.condition === WX_ELSE_IF && !t.isJSXEmptyExpression(lastCon.tester.expression)) {
         lastAlternate = t.logicalExpression('&&', lastCon.tester.expression, lastAlternate)
       }
       const node = conditions.slice(0, lastLength).reduceRight((acc: t.Expression, condition) => {
+        currentCondition = condition
         if (t.isJSXEmptyExpression(condition.tester.expression)) {
           printLog(
             processTypeEnum.WARNING,
             'condition.tester.expression',
             't.isJSXEmptyExpression(condition.tester.expression)'
+          )
+          updateLogFileContent(
+            `WARN [taroize] handleConditions - t.isJSXEmptyExpression(condition.tester.expression) ${getLineBreak()}`
           )
           return null
         }
@@ -1031,8 +1253,18 @@ function handleConditions (conditions: Condition[]) {
         conditions.slice(1).forEach((c) => c.path.remove())
       }
     } catch (error) {
-      console.error('wx:elif 的值需要用双括号 `{{}}` 包裹它的值')
-      printToLogFile(`package: taro-transformer-wx, wx:elif 转换异常 ${getLineBreak()}`)
+      updateLogFileContent(
+        `WARN [taroize] handleConditions - wx:elif 转换异常 ${getLineBreak()}${error} ${getLineBreak()}`
+      )
+      const { line, column } = currentCondition.cachePath.node?.position?.start || { line: 0, column: 0 }
+      const position = { col: column, row: line }
+      throw new IReportError(
+        '属性转换错误 wx:elif 的值需要用双括号 `{{}}` 包裹它的值',
+        'wxElifValueFormatError',
+        'WXML_FILE',
+        astToCode(currentCondition.cachePath.node) || '',
+        position
+      )
     }
   }
 }
@@ -1068,7 +1300,7 @@ function findWXIfProps (jsx: NodePath<t.JSXElement>): { reg: RegExpMatchArray, t
 }
 
 function parseNode (node: AllKindNode, tagName?: string) {
-  printToLogFile(`package: taroize, funName: parseNode, tagName: ${tagName} ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] parseNode - 入参 ${getLineBreak()}tagName: ${tagName} ${getLineBreak()}`)
   if (node.type === NodeType.Text) {
     return parseText(node, tagName)
   } else if (node.type === NodeType.Comment) {
@@ -1079,13 +1311,14 @@ function parseNode (node: AllKindNode, tagName?: string) {
         value: ' ' + node.content + ' ',
       },
     ] as any[]
-    return t.jSXExpressionContainer(emptyStatement)
+    const jsxExpressionContainer: t.JSXExpressionContainer = t.jSXExpressionContainer(emptyStatement)
+    return addLocInfo(jsxExpressionContainer, node)
   }
   return parseElement(node)
 }
 
 function parseElement (element: Element): t.JSXElement {
-  printToLogFile(`package: taroize, funName: parseElement ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] parseElement - 进入函数 ${getLineBreak()}`)
   const tagName = t.jSXIdentifier(
     THIRD_PARTY_COMPONENTS.has(element.tagName) ? element.tagName : allCamelCase(element.tagName)
   )
@@ -1130,12 +1363,20 @@ function parseElement (element: Element): t.JSXElement {
       })
     }
   }
-  return t.jSXElement(
+  // return t.jSXElement(
+  //   t.jSXOpeningElement(tagName, attributes.map(parseAttribute)),
+  //   t.jSXClosingElement(tagName),
+  //   removEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
+  //   false
+  // )
+
+  const jSXElement = t.jSXElement(
     t.jSXOpeningElement(tagName, attributes.map(parseAttribute)),
     t.jSXClosingElement(tagName),
     removEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
     false
   )
+  return addLocInfo(jSXElement, element)
 }
 
 export function removEmptyTextAndComment (nodes: AllKindNode[]) {
@@ -1151,17 +1392,20 @@ export function removEmptyTextAndComment (nodes: AllKindNode[]) {
 }
 
 function parseText (node: Text, tagName?: string) {
-  printToLogFile(`package: taroize, funName: parseText ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] parseText - 进入函数 ${getLineBreak()}`)
   if (tagName === 'wxs') {
-    return t.jSXText(node.content)
+    // return t.jSXText(node.content)
+    return addLocInfo(t.jSXText(node.content), node)
   }
   const { type, content } = parseContent(node.content)
   if (type === 'raw') {
     const text = content.replace(/([{}]+)/g, "{'$1'}")
-    return t.jSXText(text)
+    // return t.jSXText(text)
+    return addLocInfo(t.jSXText(text), node)
   }
 
-  return t.jSXExpressionContainer(buildTemplate(content))
+  // return t.jSXExpressionContainer(buildTemplate(content))
+  return addLocInfo(t.jSXExpressionContainer(buildTemplate(content)), node)
 }
 
 // 匹配{{content}}
@@ -1172,7 +1416,7 @@ function singleQuote (s: string) {
 }
 
 export function parseContent (content: string, single = false): { type: 'raw' | 'expression', content: string } {
-  printToLogFile(`package: taroize, funName: parseContent ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] parseContent - 进入函数 ${getLineBreak()}`)
   content = content.trim()
   if (!handlebarsRE.test(content)) {
     return {
@@ -1228,7 +1472,9 @@ function isAllKeyValueFormat (styleAttrsMap: any[]): boolean {
  * @returns
  */
 export function parseStyle (key: string, value: string) {
-  printToLogFile(`package: taroize, funName: parseStyle, key: ${key}, value: ${value} ${getLineBreak()}`)
+  updateLogFileContent(
+    `INFO [taroize] parseStyle - 入参 ${getLineBreak()}key: ${key} ${getLineBreak()}value: ${value} ${getLineBreak()}`
+  )
   const styleAttrs = value.trim().split(';')
   // 针对attrName: attrValue 格式做转换处理, 其他类型采用'+'连接符
   if (isAllKeyValueFormat(styleAttrs)) {
@@ -1245,14 +1491,26 @@ export function parseStyle (key: string, value: string) {
 }
 
 function parseAttribute (attr: Attribute) {
-  printToLogFile(`package: taroize, funName: parseAttribute, attr: ${JSON.stringify(attr)} ${getLineBreak()}`)
+  updateLogFileContent(
+    `INFO [taroize] parseAttribute - 入参 ${getLineBreak()}attr: ${JSON.stringify(attr)} ${getLineBreak()}`
+  )
   let { key, value } = attr
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
   let type = ''
   let content = ''
   if (value) {
+    const cacheValue = value
     if (key === 'class' && value.startsWith('[') && value.endsWith(']')) {
       value = value.slice(1, value.length - 1).replace(',', '')
+      createErrorCodeMsg(
+        'unsupportedClassArray',
+        'Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class',
+        `class=${JSON.stringify(cacheValue).replace(/"/g, "'")}`,
+        globals.currentParseFile
+      )
+      updateLogFileContent(
+        `WARN [taroize] parseAttribute - Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class ${getLineBreak()}`
+      )
       // eslint-disable-next-line no-console
       console.log(codeFrameError(attr, 'Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class'))
     }
@@ -1269,10 +1527,15 @@ function parseAttribute (attr: Attribute) {
           type = styleParseReslut.type
         }
       } catch (error) {
-        const errorMsg = `当前属性: style="${value}" 解析失败，失败原因：${error}`
-        printLog(processTypeEnum.ERROR, errorMsg)
-        printToLogFile(`package: taroize, style="${value}" 解析异常 ${getLineBreak()}`)
-        throw new Error(errorMsg)
+        updateLogFileContent(
+          `ERROR [taroize] parseAttribute - 属性 style="${value}" 解析异常 ${getLineBreak()}${error} ${getLineBreak()}`
+        )
+        throw new IReportError(
+          `属性解析失败 style="${value}"解析失败，${error}`,
+          'StyleAttributeParsingError',
+          'WXML_FILE',
+          `style="${value}"`
+        )
       }
     } else {
       const parseContentResult = parseContent(value)
@@ -1293,7 +1556,15 @@ function parseAttribute (attr: Attribute) {
           if (key === WX_KEY) {
             expr = t.stringLiteral('')
           } else {
-            throw new Error(err)
+            updateLogFileContent(
+              `ERROR [taroize] parseAttribute - 模板参数转换异常 ${getLineBreak()}${err} ${getLineBreak()}`
+            )
+            throw new IReportError(
+              err,
+              'TemplateParameterConversionError',
+              'WXML_FILE',
+              `${key}: ${value}`
+            )
           }
         } else if (content.includes(':') || content.includes('...')) {
           const file = parseFile(`var a = ${attr.value!.slice(1, attr.value!.length - 1)}`, {
@@ -1302,10 +1573,27 @@ function parseAttribute (attr: Attribute) {
           expr = (file.program.body[0] as any).declarations[0].init
         } else {
           const err = `转换模板参数： \`${key}: ${value}\` 报错`
-          throw new Error(err)
+          updateLogFileContent(
+            `ERROR [taroize] parseAttribute - 模板参数转换异常 ${getLineBreak()}${err} ${getLineBreak()}`
+          )
+          throw new IReportError(
+            err,
+            'TemplateParameterConversionError',
+            'WXML_FILE',
+            `${key}: ${value}`
+          )
         }
       }
       if (t.isThisExpression(expr)) {
+        createErrorCodeMsg(
+          'ThisKeywordUsageWarning',
+          '在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。',
+          value,
+          globals.currentParseFile
+        )
+        updateLogFileContent(
+          `WARN [taroize] parseAttribute - 在参数中使用 this 可能会造成意想不到的结果 ${getLineBreak()}`
+        )
         console.error(
           '在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。'
         )
@@ -1350,7 +1638,13 @@ function handleAttrKey (key: string) {
       key = key.replace(/^(bind:|catch:|bind|catch)/, 'on')
       key = camelCase(key)
       if (!isValidVarName(key)) {
-        throw new Error(`"${key}" 不是一个有效 JavaScript 变量名`)
+        updateLogFileContent(`ERROR [taroize] handleAttrKey - ${key} 不是一个有效 JavaScript 变量名 ${getLineBreak()}`)
+        throw new IReportError(
+          `属性名"${key}" 不是一个有效 JavaScript 变量名`,
+          'InvalidVariableNameError',
+          'WXML_FILE',
+          `${key}`,
+        )
       }
       return key.substr(0, 2) + key[2].toUpperCase() + key.substr(3)
     }

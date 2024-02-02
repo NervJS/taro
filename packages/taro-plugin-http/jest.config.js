@@ -19,7 +19,9 @@ module.exports = {
   },
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   moduleNameMapper: {
-    '@tarojs/shared': path.resolve(__dirname, '..', '..', 'packages/shared/src/index.ts')
+    '@tarojs/api': path.resolve(__dirname, '..', '..', 'packages/taro-api/src/index.ts'),
+    '@tarojs/shared': path.resolve(__dirname, '..', '..', 'packages/shared/src/index.ts'),
+    '@tarojs/runtime': path.resolve(__dirname, '..', '..', 'packages/taro-runtime/dist/runtime.esm.js')
   },
   preset: 'ts-jest',
   setupFiles: [path.resolve(__dirname, './src/__tests__/setup.js')],

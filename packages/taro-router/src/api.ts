@@ -1,10 +1,11 @@
+import { addLeadingSlash } from '@tarojs/runtime'
 import Taro from '@tarojs/taro'
 import { parsePath } from 'history'
 
 import { history, prependBasename } from './history'
 import { RouterConfig } from './router'
 import stacks from './router/stack'
-import { addLeadingSlash, routesAlias } from './utils'
+import { routesAlias } from './utils'
 
 import type { NavigateBackOption, Option } from '../types/api'
 

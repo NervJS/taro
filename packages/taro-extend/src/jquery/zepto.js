@@ -815,9 +815,13 @@ export const Zepto = (function () {
         if (isBrowser) {
           return Promise.resolve(hasScrollTop ? this[0].scrollTop : this[0].pageYOffset)
         }
-        return hasScrollTop ? Promise.resolve(this[0].scrollTop) : new Promise((resolve) => {
+        return hasScrollTop ? Promise.resolve(this[0].scrollTop) : new Promise((resolve, reject) => {
           Taro.createSelectorQuery().select('#' + this[0].uid).scrollOffset(function (res) {
-            resolve(res.scrollTop)
+            if (res) {
+              resolve(res.scrollTop)
+            } else {
+              reject(new Error(`get scrollTop error: #${this[0].uid} query fail`))
+            }
           }).exec()
         })
       }

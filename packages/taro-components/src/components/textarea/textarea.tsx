@@ -64,6 +64,15 @@ export class Textarea implements ComponentInterface {
     }
   }
 
+  @Watch('value')
+  watchValue (newValue: string) {
+    // hack: 在事件回调中，props.value 变化不知为何不会触发 Stencil 更新，因此这里手动更新一下
+    const value = fixControlledValue(newValue)
+    if (this.textareaRef.value !== value) {
+      this.textareaRef.value = value
+    }
+  }
+
   @Method()
   async focus() {
     this.textareaRef.focus()
@@ -73,6 +82,7 @@ export class Textarea implements ComponentInterface {
     e.stopPropagation()
     this.handleLineChange()
     const value = e.target.value || ''
+    this.value = value
     this.onInput.emit({
       value,
       cursor: value.length

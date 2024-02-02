@@ -89,7 +89,7 @@ declare module '../../index' {
   /** VideoContext 实例，可通过 [Taro.createVideoContext](./createVideoContext) 获取。
    *
    * VideoContext 通过 id 跟一个 video 组件绑定，操作对应的 video 组件。
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, harmony_hybrid
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.html
    */
   interface VideoContext {
@@ -99,7 +99,7 @@ declare module '../../index' {
      */
     exitBackgroundPlayback(): void
     /** 退出全屏
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.exitFullScreen.html
      */
     exitFullScreen(): void
@@ -114,17 +114,17 @@ declare module '../../index' {
      */
     hideStatusBar(): void
     /** 暂停视频
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.pause.html
      */
     pause(): void
     /** 播放视频
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.play.html
      */
     play(): void
     /** 设置倍速播放
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.playbackRate.html
      */
     playbackRate(
@@ -137,12 +137,12 @@ declare module '../../index' {
      */
     requestBackgroundPlayback(): void
     /** 进入全屏
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.requestFullScreen.html
      */
     requestFullScreen(option: VideoContext.RequestFullScreenOption): void
     /** 跳转到指定位置
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.seek.html
      */
     seek(
@@ -163,7 +163,7 @@ declare module '../../index' {
      */
     showStatusBar(): void
     /** 停止视频
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.stop.html
      */
     stop(): void
@@ -414,7 +414,7 @@ declare module '../../index' {
     openVideoEditor(option: openVideoEditor.Option): Promise<openVideoEditor.SuccessCallbackResult>
 
     /** 获取视频详细信息
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @example
      * ```tsx
      * Taro.downloadFile({
@@ -442,7 +442,7 @@ declare module '../../index' {
     getVideoInfo(option: getVideoInfo.Option): Promise<getVideoInfo.SuccessCallbackResult>
 
     /** 创建 video 上下文 VideoContext 对象。
-     * @supported weapp, h5, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * videoContext = Taro.createVideoContext('myVideo')
@@ -505,7 +505,7 @@ declare module '../../index' {
     chooseVideo(option: chooseVideo.Option): Promise<chooseVideo.SuccessCallbackResult>
 
     /** 拍摄或从手机相册中选择图片或视频。
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      * @example
      * ```tsx
      * Taro.chooseMedia({

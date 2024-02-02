@@ -1,12 +1,13 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
+import { addLeadingSlash, getCurrentPage, stripBasename, stripSuffix } from '@tarojs/runtime'
 import Taro from '@tarojs/taro'
-import { addLeadingSlash, getCurrentPage, stripBasename, stripSuffix } from '@tarojs/router/dist/utils'
-import { IH5RouterConfig } from '@tarojs/taro/types/compile'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
 
 import { splitUrl } from '../../utils'
 import { TabbarItem } from './tabbar-item'
+
+import type { IH5RouterConfig } from '@tarojs/taro/types/compile'
 
 const STATUS_SHOW = 0
 const STATUS_HIDE = 1

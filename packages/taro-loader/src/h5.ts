@@ -47,6 +47,8 @@ export default function (this: webpack.LoaderContext<any>) {
   if (isBuildNativeComp) {
     const compPath = join(pathDirname, options.filename)
     return `import component from ${stringify(compPath)}
+${options.loaderMeta.importFrameworkStatement}
+import { createH5NativeComponentConfig } from '${options.loaderMeta.creatorLocation}'
 import { initPxTransform } from '@tarojs/taro'
 ${setReconcilerPost}
 component.config = {}
@@ -59,7 +61,8 @@ initPxTransform.call(component, {
   unitPrecision: ${pxTransformConfig.unitPrecision},
   targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
 })
-export default component`
+const config = component.config
+export default createH5NativeComponentConfig(component, ${options.loaderMeta.frameworkArgs})`
   }
   if (options.bootstrap) return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
 
@@ -87,10 +90,12 @@ config.pageName = "${pageName}"` : `config.routes = [
   ${config.pages?.map(path => genResource(path, pages, this)).join(',')}
 ]`
   const routerCreator = isMultiRouterMode ? 'createMultiRouter' : 'createRouter'
+  const historyCreator = routerMode === 'browser' ? 'createBrowserHistory' : routerMode === 'multi' ? 'createMpaHistory' : 'createHashHistory'
+  const appMountHandler = config.tabBar ? 'handleAppMountWithTabbar' : 'handleAppMount'
 
   const code = `${setReconciler}
 import { initPxTransform } from '@tarojs/taro'
-import { ${routerCreator} } from '@tarojs/router'
+import { ${routerCreator}, ${historyCreator}, ${appMountHandler} } from '@tarojs/router'
 import component from ${stringify(join(options.sourceDir, options.entryFileName))}
 import { window } from '@tarojs/runtime'
 import { ${options.loaderMeta.creator} } from '${options.loaderMeta.creatorLocation}'
@@ -115,7 +120,9 @@ if (config.tabBar) {
 ${routesConfig}
 ${options.loaderMeta.execBeforeCreateWebApp || ''}
 var inst = ${options.loaderMeta.creator}(component, ${options.loaderMeta.frameworkArgs})
-${routerCreator}(inst, config, ${options.loaderMeta.importFrameworkName})
+var history = ${historyCreator}({ window })
+${appMountHandler}(config, history)
+${routerCreator}(history, inst, config, ${options.loaderMeta.importFrameworkName})
 initPxTransform({
   designWidth: ${pxTransformConfig.designWidth},
   deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},

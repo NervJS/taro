@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-h5",
-  "version": "3.6.22-alpha.5",
+  "version": "3.6.23",
   "description": "Web 端平台插件",
   "author": "ZakaryCode",
   "license": "MIT",
@@ -40,6 +40,7 @@
     "@tarojs/service": "workspace:*",
     "@tarojs/components": "workspace:*",
     "@tarojs/components-react": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro-h5": "workspace:*",
@@ -49,9 +50,9 @@
     "resolve": "^1.22.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
     "@rollup/plugin-typescript": "^11.1.0",
     "@tarojs/taro": "workspace:*",
     "@types/node": "^14.14.31",

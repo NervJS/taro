@@ -1,4 +1,4 @@
-import { PageInstance } from '@tarojs/runtime'
+import type { PageInstance } from '@tarojs/runtime'
 
 class Stacks {
   stacks: PageInstance[] = []

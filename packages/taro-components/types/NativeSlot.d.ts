@@ -12,7 +12,7 @@ interface NativeSlotProps extends StandardProps {
 
 /** 编译的原生组件支持使用 slot 插槽
  * @classification viewContainer
- * @supported weapp, swan, alipay, tt, jd, qq, h5
+ * @supported weapp, swan, alipay, tt, jd, qq, h5, harmony_hybrid
  * @version 3.5.7+
  * @example
  * ```tsx

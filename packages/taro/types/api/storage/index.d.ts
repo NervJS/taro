@@ -153,7 +153,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** Taro.setStorage 的同步版本
-     * @supported weapp, alipay, swan, jd, qq, tt, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, harmony_hybrid
      * @example
      * ```tsx
      * Taro.setStorage({
@@ -177,7 +177,7 @@ declare module '../../index' {
     ): void
 
     /** 将数据存储在本地缓存中指定的 key 中。会覆盖掉原来该 key 对应的内容。除非用户主动删除或因存储空间原因被系统清理，否则数据都一直可用。单个 key 允许存储的最大数据长度为 1MB，所有数据存储上限为 10MB。
-     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * Taro.setStorage({
@@ -204,7 +204,7 @@ declare module '../../index' {
     ): void
 
     /** Taro.removeStorage 的同步版本
-     * @supported weapp, alipay, swan, jd, qq, tt, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, harmony_hybrid
      * @example
      * ```tsx
      * try {
@@ -221,7 +221,7 @@ declare module '../../index' {
     ): void
 
     /** 从本地缓存中移除指定 key
-     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * Taro.removeStorage({
@@ -236,7 +236,7 @@ declare module '../../index' {
     removeStorage(option: removeStorage.Option): Promise<TaroGeneral.CallbackResult>
 
     /** Taro.getStorage 的同步版本
-     * @supported weapp, alipay, swan, jd, qq, tt, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, harmony_hybrid
      * @example
      * ```tsx
      * try {
@@ -256,7 +256,7 @@ declare module '../../index' {
     ): T
 
     /** Taro.getStorageInfo 的同步版本
-     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * try {
@@ -273,7 +273,7 @@ declare module '../../index' {
     getStorageInfoSync(): getStorageInfoSync.Option
 
     /** 异步获取当前storage的相关信息
-     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * Taro.getStorageInfo({
@@ -289,7 +289,7 @@ declare module '../../index' {
     getStorageInfo(option?: getStorageInfo.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 从本地缓存中异步获取指定 key 的内容
-     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * Taro.getStorage({
@@ -313,7 +313,7 @@ declare module '../../index' {
     ): void
 
     /** Taro.clearStorage 的同步版本
-     * @supported weapp, alipay, swan, jd, qq, tt, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, harmony_hybrid
      * @example
      * ```tsx
      * try {
@@ -327,7 +327,7 @@ declare module '../../index' {
     clearStorageSync(): void
 
     /** 清理本地数据缓存
-     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * Taro.clearStorage()
