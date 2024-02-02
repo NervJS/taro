@@ -70,6 +70,16 @@ interface IAnimationAttr {
   transformOrigin: string
 }
 
+interface IRule {
+  key: string
+  rule: string
+}
+
+interface ITransform {
+  key: string
+  transform: string
+}
+
 class Animation implements Taro.Animation {
   unit: string
   id: number
@@ -121,7 +131,7 @@ class Animation implements Taro.Animation {
 
   transformUnit (...args) {
     const ret: string[] = []
-    args.forEach((each) => {
+    args.forEach(each => {
       ret.push(isNaN(each) ? each : `${each}${this.unit}`)
     })
     return ret
@@ -133,9 +143,9 @@ class Animation implements Taro.Animation {
   }
 
   // 属性组合
-  rules: { key: string, rule: string }[] = []
+  rules: IRule[] = []
   // transform 对象
-  transform: { key: string, transform: string }[] = []
+  transform: ITransform[] = []
   // 组合动画
   steps: string[] = []
   // 动画 map ----- 永久保留
@@ -143,33 +153,16 @@ class Animation implements Taro.Animation {
   // animationMap 的长度
   animationMapCount = 0
   // 历史动画
-  historyAnimations: { key: string, transform: string }[] = []
+  historyAnimations: ITransform[] = []
   // 历史规则
-  historyRules: { key: string, rule: string }[] = []
+  historyRules: IRule[] = []
 
   matrix (a: number, b: number, c: number, d: number, tx: number, ty: number) {
     this.transform.push({ key: 'matrix', transform: `matrix(${a}, ${b}, ${c}, ${d}, ${tx}, ${ty})` })
     return this
   }
 
-  matrix3d (
-    a1: number,
-    b1: number,
-    c1: number,
-    d1: number,
-    a2: number,
-    b2: number,
-    c2: number,
-    d2: number,
-    a3: number,
-    b3: number,
-    c3: number,
-    d3: number,
-    a4: number,
-    b4: number,
-    c4: number,
-    d4: number
-  ) {
+  matrix3d (a1: number, b1: number, c1: number, d1: number, a2: number, b2: number, c2: number, d2: number, a3: number, b3: number, c3: number, d3: number, a4: number, b4: number, c4: number, d4: number) {
     this.transform.push({
       key: 'matrix3d',
       transform: `matrix3d(${a1}, ${b1}, ${c1}, ${d1}, ${a2}, ${b2}, ${c2}, ${d2}, ${a3}, ${b3}, ${c3}, ${d3}, ${a4}, ${b4}, ${c4}, ${d4})`,
