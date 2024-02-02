@@ -6,11 +6,12 @@ import {
   stringify,
 } from '@tarojs/runtime'
 
-import { setTitle } from '../utils/navigate'
+import { setMpaTitle } from '../utils'
 import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
 
 import type { AppInstance } from '@tarojs/runtime'
+import type { History } from 'history'
 import type { MpaRouterConfig } from '../../types/router'
 
 const createStampId = incrementId()
@@ -25,6 +26,7 @@ const launchStampId = createStampId()
  * - 不支持路由动画
  */
 export async function createMultiRouter (
+  history: History,
   app: AppInstance,
   config: MpaRouterConfig,
   framework?: string
@@ -32,8 +34,9 @@ export async function createMultiRouter (
   if (typeof app.onUnhandledRejection === 'function') {
     window.addEventListener('unhandledrejection', app.onUnhandledRejection)
   }
+  eventCenter.on('__taroH5SetNavigationTitle', setMpaTitle)
   RouterConfig.config = config
-  const handler = new MultiPageHandler(config)
+  const handler = new MultiPageHandler(config, history)
   const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
     path: config.pageName, // 多页面模式没新开一个页面相当于重启，所以直接使用当前页面路径
     query: handler.getQuery(launchStampId),
@@ -67,7 +70,7 @@ export async function createMultiRouter (
   let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
 
   if (pageConfig) {
-    setTitle(pageConfig.navigationBarTitleText ?? document.title)
+    setMpaTitle(pageConfig.navigationBarTitleText ?? document.title)
     if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
       enablePullDownRefresh = pageConfig.enablePullDownRefresh
     }
@@ -86,4 +89,12 @@ export async function createMultiRouter (
   handler.load(page, pageConfig)
 
   app.onShow?.(launchParam as Record<string, any>)
+
+  window.addEventListener('visibilitychange', ()=>{
+    if (document.visibilityState === 'visible') {
+      app.onShow?.(launchParam as Record<string, any>)
+    }else{
+      app.onHide?.(launchParam as Record<string, any>)
+    }
+  })
 }

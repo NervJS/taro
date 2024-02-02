@@ -21,7 +21,6 @@ function hasBrowserslist () {
 }
 
 module.exports = (_, options = {}) => {
-  const isWeb = require('@tarojs/shared').isWebPlatform()
   if (process.env.TARO_ENV === 'rn') {
     const presetForReactNative = require('./rn')
     return presetForReactNative(_, options)
@@ -49,7 +48,7 @@ module.exports = (_, options = {}) => {
       runtime: options.reactJsxRuntime || 'automatic',
       ...presetReactConfig
     }])
-    if (isWeb && process.env.NODE_ENV !== 'production' && options.hot !== false) {
+    if (process.env.TARO_PLATFORM === 'web' && process.env.NODE_ENV !== 'production' && options.hot !== false) {
       if (options.framework === 'react') {
         plugins.push([require('react-refresh/babel'), { skipEnvCheck: true }])
       } else if (options.framework === 'preact') {
@@ -179,7 +178,7 @@ module.exports = (_, options = {}) => {
     version
   }])
 
-  if (typeof options['dynamic-import-node'] === 'boolean' ? options['dynamic-import-node'] : !isWeb) {
+  if (typeof options['dynamic-import-node'] === 'boolean' ? options['dynamic-import-node'] : process.env.TARO_PLATFORM !== 'web') {
     plugins.push([require('babel-plugin-dynamic-import-node')])
   }
 

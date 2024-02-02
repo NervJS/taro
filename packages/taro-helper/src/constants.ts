@@ -223,4 +223,4 @@ export enum FRAMEWORK_MAP {
   NERV = 'nerv'
 }
 
-export const defaultMainFields = ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+export const defaultMainFields = ['browser', 'module', 'jsnext:main', 'main']

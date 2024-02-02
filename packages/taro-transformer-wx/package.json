@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/transformer-wx",
-  "version": "3.6.22-alpha.5",
+  "version": "3.6.23",
   "description": "Transfrom Nerv Component to Wechat mini program.",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
     "dev": "tsc -w --pretty",
     "lint": "tslint",
     "build": "tsc",
-    "test:ci": "cross-env NODE_ENV=test jest --ci -i"
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent"
   },
   "author": "O2Team",
   "license": "MIT",
@@ -44,6 +44,9 @@
     "coveragePathIgnorePatterns": [
       "/__tests__/utils.ts",
       "/src/(class-method-renamer|create-html-element|eslint|functional|jsx|lifecycle|plugins|render-props|render)\\.ts$"
+    ],
+    "collectCoverageFrom": [
+      "src/wxs.ts"
     ]
   },
   "dependencies": {

@@ -59,7 +59,7 @@ declare module '../../index' {
      * 3. 字体链接必须是同源下的，或开启了cors支持，小程序的域名是`servicewechat.com`
      * 4. canvas等原生组件不支持使用接口添加的字体
      * 5. 工具里提示 Failed to load font 可以忽略
-     * @supported weapp, alipay, h5
+     * @supported weapp, alipay, h5, harmony_hybrid
      * @h5 不支持 global (默认全局加载)
      * @alipay source 地址格式为 `url('https://...')`，而不是单纯 URL 地址
      * @example

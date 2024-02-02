@@ -1,0 +1,31 @@
+.weui-btn_loading {
+  .weui-loading {
+    margin: -0.2em 0.34em 0 0; // -0.2em 8px 0 0;
+  }
+  // .weui-mask-loading {
+  //   margin: -0.2em 8px 0 0;
+  //   color: currentColor;
+  // }
+  // .weui-primary-loading {
+  //   margin: -0.2em 8px 0 0;
+  //   vertical-align: middle;
+  //   color: currentColor;
+  //   &::before {
+  //     content: '';
+  //   }
+  // }
+
+  &.weui-btn_primary,
+  &.weui-btn_warn {
+    color: $weuiBtnActiveFontColor;
+  }
+
+  &.weui-btn_primary {
+    // color: var(--weui-WHITE);
+    background-color: $weuiBtnPrimaryActiveBg;
+  }
+
+  &.weui-btn_warn {
+    background-color: $weuiBtnWarnActiveBg;
+  }
+}

@@ -2,7 +2,7 @@ import * as FileSystem from 'expo-file-system'
 import { Platform } from 'react-native'
 import { shouldBeObject, successHandler, errorHandler } from '../utils'
 
-interface Func{
+interface Func {
   (arg: any): void
 }
 

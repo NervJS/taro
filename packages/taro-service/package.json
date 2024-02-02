@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "3.6.22-alpha.5",
+  "version": "3.6.23",
   "description": "Taro Service",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -11,7 +11,7 @@
     "clean": "rimraf dist types",
     "prepack": "pnpm run build",
     "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --passWithNoTests",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent --passWithNoTests",
     "test:dev": "cross-env NODE_ENV=jest jest --watch"
   },
   "repository": {
@@ -34,8 +34,6 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@tarojs/helper": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/taro": "workspace:*",
     "joi": "^17.6.0",
     "lodash": "^4.17.21",
     "resolve": "^1.22.0",
@@ -44,6 +42,12 @@
     "ora": "^5.0.0"
   },
   "devDependencies": {
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "webpack": "5.78.0"
+  },
+  "peerDependencies": {
+    "@tarojs/shared": "workspace:~",
+    "@tarojs/taro": "workspace:~"
   }
 }

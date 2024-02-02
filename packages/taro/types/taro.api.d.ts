@@ -59,26 +59,30 @@
 /// <reference path="api/media/video-decoder.d.ts" />
 /// <reference path="api/location/index.d.ts" />
 /// <reference path="api/files/index.d.ts" />
-/// <reference path="api/open-api/login.d.ts" />
+
 /// <reference path="api/open-api/account.d.ts" />
-/// <reference path="api/open-api/user-info.d.ts" />
-/// <reference path="api/open-api/authorize.d.ts" />
-/// <reference path="api/open-api/settings.d.ts" />
 /// <reference path="api/open-api/address.d.ts" />
+/// <reference path="api/open-api/authorize.d.ts" />
 /// <reference path="api/open-api/card.d.ts" />
-/// <reference path="api/open-api/invoice.d.ts" />
-/// <reference path="api/open-api/soter.d.ts" />
-/// <reference path="api/open-api/werun.d.ts" />
-/// <reference path="api/open-api/subscribe-message.d.ts" />
-/// <reference path="api/open-api/redpackage.d.ts" />
-/// <reference path="api/open-api/favorites.d.ts" />
-/// <reference path="api/open-api/my-miniprogram.d.ts" />
-/// <reference path="api/open-api/license-plate.d.ts" />
 /// <reference path="api/open-api/channels.d.ts" />
-/// <reference path="api/open-api/device-voip.d.ts" />
-/// <reference path="api/open-api/group.d.ts" />
-/// <reference path="api/open-api/privacy.d.ts" />
 /// <reference path="api/open-api/customer-service.d.ts" />
+/// <reference path="api/open-api/device-voip.d.ts" />
+/// <reference path="api/open-api/facial.d.ts" />
+/// <reference path="api/open-api/favorites.d.ts" />
+/// <reference path="api/open-api/group.d.ts" />
+/// <reference path="api/open-api/invoice.d.ts" />
+/// <reference path="api/open-api/license-plate.d.ts" />
+/// <reference path="api/open-api/login.d.ts" />
+/// <reference path="api/open-api/my-miniprogram.d.ts" />
+/// <reference path="api/open-api/privacy.d.ts" />
+/// <reference path="api/open-api/redpackage.d.ts" />
+/// <reference path="api/open-api/settings.d.ts" />
+/// <reference path="api/open-api/soter.d.ts" />
+/// <reference path="api/open-api/sticker.d.ts" />
+/// <reference path="api/open-api/subscribe-message.d.ts" />
+/// <reference path="api/open-api/user-info.d.ts" />
+/// <reference path="api/open-api/werun.d.ts" />
+
 /// <reference path="api/device/bluetooth.d.ts" />
 /// <reference path="api/device/bluetooth-ble.d.ts" />
 /// <reference path="api/device/bluetooth-peripheral.d.ts" />
@@ -112,11 +116,15 @@
 /// <reference path="api/skyline/index.d.ts" />
 
 /// <reference path="api/cloud/index.d.ts" />
-/// <reference path="api/open-api/facial.d.ts" />
 
 /// <reference path="api/alipay/index.d.ts" />
 /// <reference path="api/qq/index.d.ts" />
+
+/// <reference path="api/swan/bookshelf.d.ts" />
+/// <reference path="api/swan/download-package.d.ts" />
 /// <reference path="api/swan/index.d.ts" />
+/// <reference path="api/swan/pay.d.ts" />
+
 
 /// <reference path="api/taro.extend.d.ts" />
 /// <reference path="api/taro.hooks.d.ts" />

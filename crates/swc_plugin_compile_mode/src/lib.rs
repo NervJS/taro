@@ -8,9 +8,8 @@ use swc_core::{
         proxies::TransformPluginProgramMetadata
     }
 };
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize};
 use std::collections::HashMap;
-use core::fmt::Debug;
 
 mod utils;
 mod transform;
@@ -18,10 +17,18 @@ mod transform_harmony;
 #[cfg(test)]
 mod tests;
 
+struct SerdeDefault;
+impl SerdeDefault {
+    fn platform_default () -> String {
+        String::from("WEAPP")
+    }
+}
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct PluginConfig {
     pub tmpl_prefix: String,
+    #[serde(default = "SerdeDefault::platform_default")]
+    pub platform: String,
     #[serde(default)]
     pub is_harmony: bool,
     #[serde(default)]

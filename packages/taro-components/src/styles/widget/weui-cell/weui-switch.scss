@@ -1,0 +1,84 @@
+.weui-cell_switch {
+  padding-top: calc(($weuiCellHeight - $weuiSwitchHeight) / 2);
+  padding-bottom: calc(($weuiCellHeight - $weuiSwitchHeight) / 2);
+  // &.weui-cell_readonly,
+  // &.weui-cell_disabled {
+  //   color: var(--weui-FG-3);
+  // }
+}
+.weui-switch {
+  appearance: none;
+}
+.weui-switch,
+.weui-switch-cp__box {
+  // vertical-align: bottom;
+  position: relative;
+  width: 52px;
+  height: $weuiSwitchHeight;
+  // background-color: var(--weui-FG-3);
+  border: 1px solid #DFDFDF; // 0;
+  // padding: 2px;
+  outline: 0;
+  border-radius: 16px;
+  box-sizing: border-box;
+  background-color: #DFDFDF;
+  transition: background-color .1s, border .1s;
+
+  &::before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: $weuiSwitchHeight - 2;
+    border-radius: 15px;
+    background-color: #FDFDFD;
+    transition: transform .35s cubic-bezier(0.45, 1, 0.4, 1);
+  }
+
+  &::after {
+    content: ' ';
+    position: absolute;
+    top: 0; // 2px;
+    left: 0; // 2px;
+    width: $weuiSwitchHeight - 2; // $weuiSwitchHeight - 4;
+    height: $weuiSwitchHeight - 2; // $weuiSwitchHeight - 4;
+    border-radius: 15px;
+    background-color: #fff; // 固定色值
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); // 0 2px 3px 0 rgba(0, 0, 0, 0.06);
+    transition: transform 0.35s cubic-bezier(0.4, 0.4, 0.25, 1.35);
+  }
+}
+.weui-switch:checked,
+// .weui-switch-cp__input:checked + .weui-switch-cp__box,
+// .weui-switch-cp__input[aria-checked="true"] + .weui-switch-cp__box,
+.weui-switch-cp__input:checked ~ .weui-switch-cp__box {
+  border-color: #04BE02;
+  background-color: #04BE02;
+
+  &:before {
+    transform: scale(0);
+  }
+
+  &::after {
+    transform: translateX(20px);
+  }
+}
+// .weui-switch[disabled],
+// .weui-switch-cp__input[disabled] + .weui-switch-cp__box,
+// .weui-switch-cp__input[aria-disabled="true"] + .weui-switch-cp__box {
+//   opacity: 0.1;
+// }
+
+// 兼容小程序/IE Edge的版本
+.weui-switch-cp__input {
+  position: absolute;
+  // width: 0;
+  // height: 0;
+  // opacity: 0;
+  // overflow: hidden;
+  left: -9999px;
+}
+.weui-switch-cp__box {
+  display: block;
+}
