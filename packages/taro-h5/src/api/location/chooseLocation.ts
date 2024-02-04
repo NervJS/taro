@@ -6,14 +6,13 @@ import { stringify } from 'query-string'
 import { MethodHandler } from '../../utils/handler'
 
 let container: HTMLDivElement | null = null
-function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt: Taro.chooseLocation.Option['mapOpts'] = {}) {
-  const { latitude, longitude, ...opts } = mapOpt
+function createLocationChooser (handler, mapOpt: Taro.chooseLocation.Option['mapOpts'] = {}) {
+  const { key = LOCATION_APIKEY, referer = 'myapp', ...opts } = mapOpt
   const query = {
     key,
     type: 1,
-    coord: mapOpt.coord ?? [latitude, longitude].every(e => Number(e) >= 0) ? `${latitude},${longitude}` : undefined,
-    referer: 'myapp',
-    ...opts
+    referer,
+    ...opts,
   }
   if (!container) {
     const html = `
@@ -112,7 +111,7 @@ export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, comp
           return handle.fail({}, { resolve, reject })
         }
       }
-    }, key, mapOpts)
+    }, mapOpts)
 
     document.body.appendChild(chooser.container)
 
