@@ -30,6 +30,72 @@ impl PreVisitor {
     }
 }
 impl VisitMut for PreVisitor {
+    fn visit_mut_jsx_element_children(&mut self, children: &mut Vec<JSXElementChild>) {
+        let len = children.len();
+
+        // 当 JSX 循环表达式存在兄弟节点，且这些兄弟节点中有动态节点（存在 JSX 表达式）时，
+        // 自动为该循环体外层包裹一个 <block>。
+        // 对应测试用例：should_loop_be_wrapped_when_its_not_the_only_child
+        if len > 1 {
+            let mut list: Vec<usize> = vec![];
+
+            // 收集 JSX 循环表达式到 list
+            children
+                .iter()
+                .enumerate()
+                .for_each(|(i, child)| {
+                    if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = child {
+                        if let Expr::Call(CallExpr { callee: Callee::Expr(callee_expr), args, .. }) = &**expr {
+                            if utils::is_call_expr_of_loop(callee_expr, args) {
+                                list.push(i);
+                            }
+                        }
+                    }
+                });
+
+            // 遍历 list，为每个 child 的外层包裹 <block>
+            fn wrap (list: Vec<usize>, children: &mut Vec<JSXElementChild>) {
+                list.into_iter().for_each(|i| {
+                    let child = &mut children[i];
+                    if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = child {
+                        let expr = expr.take();
+                        *child = JSXElementChild::JSXElement(Box::new(JSXElement {
+                            span,
+                            opening: JSXOpeningElement {
+                                name: JSXElementName::Ident(quote_ident!("block")),
+                                span,
+                                attrs: vec![],
+                                self_closing: false,
+                                type_args: None
+                            },
+                            children: vec![JSXElementChild::JSXExprContainer(JSXExprContainer { span, expr: JSXExpr::Expr(expr) })],
+                            closing: Some(JSXClosingElement { span, name: JSXElementName::Ident(quote_ident!("block")) })
+                        }));
+                    }
+                });
+            }
+
+            if list.len() == 1 {
+                // 只有一个 JSX 循环表达式时，检查兄弟节点是否全是静态节点，如果不是则要包裹 <block>
+                let mut pure = true;
+                let index = list[0];
+                for i in 0..len {
+                    if i != index && !utils::is_static_jsx_element_child(&children[i]) {
+                        pure = false;
+                        break;
+                    }
+                }
+                if !pure {
+                    wrap(list, children);
+                }
+            } else if list.len() > 1 {
+                // 有多个 JSX 循环表达式时一定要包裹 <block>
+                wrap(list, children);
+            }
+        }
+
+        children.visit_mut_children_with(self);
+    }
     fn visit_mut_jsx_element_child (&mut self, child: &mut JSXElementChild) {
         if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = child {
             let mut is_first_and_expr = false;

@@ -3,6 +3,7 @@ use swc_core::{
         atoms::Atom,
         ast::*,
         utils::{quote_ident, quote_str},
+        visit::{Visit, VisitWith},
     },
     common::{
         iter::IdentifyLast,
@@ -246,10 +247,10 @@ pub fn check_jsx_element_has_compile_ignore (el: &JSXElement) -> bool {
 /**
  * identify: `xx.map(function () {})` or `xx.map(() => {})`
  */
-pub fn is_call_expr_of_loop (callee_expr: &mut Box<Expr>, args: &mut Vec<ExprOrSpread>) -> bool {
-    if let Expr::Member(MemberExpr { prop: MemberProp::Ident(Ident { sym, ..}), .. }) = &mut **callee_expr {
+pub fn is_call_expr_of_loop (callee_expr: &Box<Expr>, args: &Vec<ExprOrSpread>) -> bool {
+    if let Expr::Member(MemberExpr { prop: MemberProp::Ident(Ident { sym, ..}), .. }) = &**callee_expr {
         if sym == "map" {
-            if let Some(ExprOrSpread { expr, .. }) = args.get_mut(0) {
+            if let Some(ExprOrSpread { expr, .. }) = args.get(0) {
                 return expr.is_arrow() || expr.is_fn_expr()
             }
         }
@@ -346,6 +347,25 @@ pub fn check_jsx_element_children_exist_loop (el: &mut JSXElement) -> bool {
     }
 
     false
+}
+
+pub fn is_static_jsx_element_child (jsx_element: &JSXElementChild) -> bool {
+    struct Visitor {
+        has_jsx_expr: bool
+    }
+    impl Visitor {
+        fn new () -> Self {
+            Visitor { has_jsx_expr: false }
+        }
+    }
+    impl Visit for Visitor {
+        fn visit_jsx_expr_container(&mut self, _n: &JSXExprContainer) {
+            self.has_jsx_expr = true;
+        }
+    }
+    let mut visitor = Visitor::new();
+    jsx_element.visit_with(&mut visitor);
+    return !visitor.has_jsx_expr;
 }
 
 pub fn create_original_node_renderer (visitor: &mut TransformVisitor) -> String {
