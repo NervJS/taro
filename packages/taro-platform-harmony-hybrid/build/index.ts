@@ -6,7 +6,8 @@ import { parseComponents } from './definition-json/parseCommponents'
 import { getAnnotatedApis } from './utils/getAnnotatedApis'
 import { getDeclaredApis } from './utils/getDeclaredApis'
 import { getH5ExportApis } from './utils/getH5ExportApis'
-import { removeFalseProperties, setPropertiesValue,sortKeys } from './utils/helper'
+import { removeFalseProperties, setPropertiesValue, sortKeys } from './utils/helper'
+import * as pathModule from 'path'
 
 function exportAbsentTaroApi (declaredApiList: string[], existApiList: string[]) {
   const taroH5Path = '@tarojs/taro-h5'
@@ -15,9 +16,7 @@ function exportAbsentTaroApi (declaredApiList: string[], existApiList: string[])
   const exportApis = declaredApiList.filter(api => !existApiList.includes(api)).filter(api => h5ExportApis.includes(api)).sort((a, b) => a.localeCompare(b))
   let code = '/** 该文件由脚本自动生成，请勿自行修改 */\n'
   code += `export {\n  ${exportApis.join(',\n  ')}\n} from '${taroH5Path}'\n`
-  const entryPath = require.resolve('@tarojs/plugin-platform-harmony-hybrid/src/api/apis/extend-h5-apis.ts')
-  
-  fsExtra.ensureFileSync(entryPath)
+  const entryPath = pathModule.resolve(__dirname, '../src/api/apis/extend-h5-apis.ts')
   fsExtra.writeFileSync(entryPath, code, 'utf-8')
 }
 
