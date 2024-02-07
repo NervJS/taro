@@ -1,4 +1,5 @@
 import * as fsExtra from 'fs-extra'
+import * as pathModule from 'path'
 
 import hosDefinition from './config/harmony-definition.json'
 import { parseApis } from './definition-json/parseApis'
@@ -7,7 +8,6 @@ import { getAnnotatedApis } from './utils/getAnnotatedApis'
 import { getDeclaredApis } from './utils/getDeclaredApis'
 import { getH5ExportApis } from './utils/getH5ExportApis'
 import { removeFalseProperties, setPropertiesValue, sortKeys } from './utils/helper'
-import * as pathModule from 'path'
 
 function exportAbsentTaroApi (declaredApiList: string[], existApiList: string[]) {
   const taroH5Path = '@tarojs/taro-h5'
