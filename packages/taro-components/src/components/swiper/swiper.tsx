@@ -280,6 +280,7 @@ export class Swiper implements ComponentInterface {
 
           setTimeout(() => {
             if (that.swiper && that.circular && !that.swiper.animating && that.swiper.slides?.length > 2) {
+              // @ts-ignore
               that.swiper.loopFix()
             }
           }, 50)

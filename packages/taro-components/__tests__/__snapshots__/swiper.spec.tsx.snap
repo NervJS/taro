@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Swiper events 1`] = `
-<taro-swiper-core class="taro-swiper-6" style="overflow: hidden;">
+<taro-swiper-core class="taro-swiper-6" id="taro-swiper-6" style="overflow: hidden; --swiper-container-mr: 0px; --swiper-container-ml: 0px;">
   <!---->
-  <div class="swiper-backface-hidden swiper-container swiper-horizontal swiper-initialized" style="overflow: visible; margin-right: 0px; margin-left: 0px;">
+  <div class="swiper-backface-hidden swiper-container swiper-horizontal swiper-initialized">
     <div class="swiper-wrapper" style="transition-duration: 0ms; transition-delay: 0ms; transform: translate3d(0px, 0px, 0px);">
       <taro-swiper-item-core class="swiper-slide" style="width: 0px;">
         <div style="height: 100%; background: green;"></div>
@@ -20,9 +20,9 @@ exports[`Swiper events 1`] = `
 `;
 
 exports[`Swiper props 1`] = `
-<taro-swiper-core class="taro-swiper-0" style="overflow: hidden;">
+<taro-swiper-core class="taro-swiper-0" id="taro-swiper-0" style="overflow: hidden; --swiper-container-mr: 0px; --swiper-container-ml: 0px;">
   <!---->
-  <div class="swiper-backface-hidden swiper-container swiper-horizontal swiper-initialized" style="overflow: visible; margin-right: 0px; margin-left: 0px;">
+  <div class="swiper-backface-hidden swiper-container swiper-horizontal swiper-initialized">
     <div class="swiper-wrapper" style="transition-duration: 0ms; transition-delay: 0ms; transform: translate3d(0px, 0px, 0px);">
       <taro-swiper-item-core class="swiper-slide" style="width: 0px;">
         <div style="height: 100%;"></div>
@@ -39,9 +39,9 @@ exports[`Swiper props 1`] = `
 `;
 
 exports[`Swiper should autoplay 1`] = `
-<taro-swiper-core class="taro-swiper-1" style="overflow: hidden;">
+<taro-swiper-core class="taro-swiper-1" id="taro-swiper-1" style="overflow: hidden; --swiper-container-mr: 0px; --swiper-container-ml: 0px;">
   <!---->
-  <div class="swiper-backface-hidden swiper-container swiper-horizontal swiper-initialized" style="overflow: visible; margin-right: 0px; margin-left: 0px;">
+  <div class="swiper-backface-hidden swiper-container swiper-horizontal swiper-initialized">
     <div class="swiper-wrapper" style="transition-duration: 0ms; transition-delay: 0ms; transform: translate3d(0px, 0px, 0px);">
       <taro-swiper-item-core class="swiper-slide" style="width: 0px;">
         <div style="height: 100%;"></div>
@@ -58,17 +58,17 @@ exports[`Swiper should autoplay 1`] = `
 `;
 
 exports[`Swiper should be circular 1`] = `
-<taro-swiper-core class="taro-swiper-2" style="overflow: hidden;">
+<taro-swiper-core class="taro-swiper-2" id="taro-swiper-2" style="overflow: hidden; --swiper-container-mr: 0px; --swiper-container-ml: 0px;">
   <!---->
-  <div class="swiper-backface-hidden swiper-container swiper-horizontal swiper-initialized" style="overflow: visible; margin-right: 0px; margin-left: 0px;">
+  <div class="swiper-backface-hidden swiper-container swiper-horizontal swiper-initialized">
     <div class="swiper-wrapper" style="transition-duration: 0ms; transition-delay: 0ms; transform: translate3d(0px, 0px, 0px);">
-      <taro-swiper-item-core class="swiper-slide swiper-slide-next" data-swiper-slide-index="1" style="width: 0px;">
+      <taro-swiper-item-core class="swiper-slide swiper-slide-next" data-swiper-slide-index="2" style="width: 0px;">
         <div></div>
       </taro-swiper-item-core>
-      <taro-swiper-item-core class="swiper-slide swiper-slide-prev" data-swiper-slide-index="2" style="width: 0px;">
+      <taro-swiper-item-core class="swiper-slide swiper-slide-prev" data-swiper-slide-index="0" style="width: 0px;">
         <div></div>
       </taro-swiper-item-core>
-      <taro-swiper-item-core class="swiper-slide swiper-slide-active" data-swiper-slide-index="0" style="width: 0px;">
+      <taro-swiper-item-core class="swiper-slide swiper-slide-active" data-swiper-slide-index="1" style="width: 0px;">
         <div></div>
       </taro-swiper-item-core>
     </div>
@@ -77,9 +77,9 @@ exports[`Swiper should be circular 1`] = `
 `;
 
 exports[`Swiper should be vertical 1`] = `
-<taro-swiper-core class="taro-swiper-3" style="overflow: hidden;">
+<taro-swiper-core class="taro-swiper-3" id="taro-swiper-3" style="overflow: hidden; --swiper-container-mt: 0px; --swiper-container-mb: 0px;">
   <!---->
-  <div class="swiper-backface-hidden swiper-container swiper-initialized swiper-vertical" style="overflow: visible; margin-top: 0px; margin-bottom: 0px;">
+  <div class="swiper-backface-hidden swiper-container swiper-initialized swiper-vertical">
     <div class="swiper-wrapper" style="transition-duration: 0ms; transition-delay: 0ms; transform: translate3d(0px, 0px, 0px);">
       <taro-swiper-item-core class="swiper-slide" style="height: 0px;">
         <div style="height: 100%;"></div>
@@ -96,9 +96,9 @@ exports[`Swiper should be vertical 1`] = `
 `;
 
 exports[`Swiper should display multi items within screen width 1`] = `
-<taro-swiper-core class="taro-swiper-5" style="overflow: hidden;">
+<taro-swiper-core class="taro-swiper-5" id="taro-swiper-5" style="overflow: hidden; --swiper-container-mr: 0px; --swiper-container-ml: 0px;">
   <!---->
-  <div class="swiper-backface-hidden swiper-container swiper-horizontal swiper-initialized" style="overflow: visible; margin-right: 0px; margin-left: 0px;">
+  <div class="swiper-backface-hidden swiper-container swiper-horizontal swiper-initialized">
     <div class="swiper-wrapper" style="transition-duration: 0ms; transition-delay: 0ms; transform: translate3d(0px, 0px, 0px);">
       <taro-swiper-item-core class="swiper-slide" style="width: 0px;">
         <div style="height: 100%;"></div>
@@ -115,9 +115,9 @@ exports[`Swiper should display multi items within screen width 1`] = `
 `;
 
 exports[`Swiper should has previous margin 1`] = `
-<taro-swiper-core class="taro-swiper-4" style="overflow: hidden;">
+<taro-swiper-core class="taro-swiper-4" id="taro-swiper-4" style="overflow: hidden; --swiper-container-mr: 0px; --swiper-container-ml: 10px;">
   <!---->
-  <div class="swiper-backface-hidden swiper-container swiper-horizontal swiper-initialized" style="overflow: visible; margin-right: 0px; margin-left: 10px;">
+  <div class="swiper-backface-hidden swiper-container swiper-horizontal swiper-initialized">
     <div class="swiper-wrapper" style="transition-duration: 0ms; transition-delay: 0ms; transform: translate3d(0px, 0px, 0px);">
       <taro-swiper-item-core class="swiper-slide" style="width: 0px;">
         <div style="height: 100%;"></div>
