@@ -5,6 +5,7 @@ import { Autoplay, Pagination, Zoom } from 'swiper/modules'
 import type ISwiper from 'swiper'
 import type { SwiperOptions } from 'swiper/types/swiper-options'
 import { debounce, waitUntil } from '../../utils'
+import Taro from '@tarojs/taro'
 
 let INSTANCE_ID = 0
 
@@ -20,6 +21,7 @@ export class Swiper implements ComponentInterface {
   @State() swiperWrapper: HTMLElement | null
   @State() private swiper: ISwiper
   @State() isWillLoadCalled = false
+
   /**
    * 是否显示面板指示点
    */
@@ -167,26 +169,11 @@ export class Swiper implements ComponentInterface {
     this.el.removeChild = <T extends Node>(oldChild: T): T => {
       return newVal.removeChild(oldChild)
     }
-    this.el.addEventListener('DOMNodeInserted', this.handleSwiperSizeDebounce)
-    this.el.addEventListener('DOMNodeRemoved', this.handleSwiperSizeDebounce)
-    this.el.addEventListener('MutationObserver', this.handleSwiperSizeDebounce)
   }
-
-  handleSwiperSizeDebounce = debounce(() => {
-    if (this.swiper) {
-      this.swiper.slides.forEach((slide, index) => {
-        if (slide.getAttribute('data-swiper-slide-index') === null) {
-          slide.setAttribute('data-swiper-slide-index', index.toString())
-        }
-      })
-      this.swiper.update()
-    }
-  }, 50)
 
   @Watch('circular')
   watchCircular() {
     if (this.swiper) {
-      this.swiper.destroy()
       this.handleInit()
     }
   }
@@ -194,7 +181,6 @@ export class Swiper implements ComponentInterface {
   @Watch('displayMultipleItems')
   watchDisplayMultipleItems() {
     if (this.swiper) {
-      this.swiper.destroy()
       this.handleInit()
     }
   }
@@ -203,14 +189,15 @@ export class Swiper implements ComponentInterface {
     this.isWillLoadCalled = true
   }
 
-  componentDidLoad() {
-    this.handleInit()
-  }
+  handleSwiperItemAdd = debounce((id: string) => {
+    if (id === `taro-swiper-${this.#id}`) {
+      this.handleInit()
+    }
+  }, 50)
 
-  disconnectedCallback() {
-    this.el.removeEventListener('DOMNodeInserted', this.handleSwiperSizeDebounce)
-    this.el.removeEventListener('DOMNodeRemoved', this.handleSwiperSizeDebounce)
-    this.el.removeEventListener('MutationObserver', this.handleSwiperSizeDebounce)
+  async componentDidLoad() {
+    await this.handleInit()
+    Taro.eventCenter.on('swiperItemAdd', this.handleSwiperItemAdd)
   }
 
   componentDidUpdate() {
@@ -218,13 +205,36 @@ export class Swiper implements ComponentInterface {
     this.swiper.update()
   }
 
+  disconnectedCallback() {
+    if (this.swiper) {
+      this.swiper.destroy()
+    }
+  }
+
+  handleRealIndexChange = debounce((realIndex: number, source: string) => {
+    this.current = realIndex
+    this.onChange.emit({
+      current: realIndex,
+      source: source,
+    })
+  }, 50)
+
+  handleAnimationFinish = debounce((realIndex: number, source: string) => {
+    this.onAnimationFinish.emit({
+      current: realIndex,
+      source: source,
+    })
+  }, 100)
+
   async handleInit() {
+    if (this.swiper) this.swiper.destroy()
     const { autoplay, circular, current, displayMultipleItems, duration, interval, vertical } = this
 
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
 
     const options: SwiperOptions = {
+      runCallbacksOnInit: false,
       modules: [Pagination, Autoplay, Zoom],
       pagination: {
         el: `.taro-swiper-${this.#id} > .swiper-container > .swiper-pagination`,
@@ -238,15 +248,20 @@ export class Swiper implements ComponentInterface {
       speed: duration,
       zoom: this.zoom,
       on: {
+        loopFix() {
+          if (that.autoplay && this.autoplay.paused) {
+            this.autoplay.start()
+          }
+        },
+        afterInit() {
+          if (that.circular && !this.animating && this.slides.length > 2) {
+            this.loopFix()
+          }
+        },
         realIndexChange() {
-          that.current = this.realIndex
-          // realIndexChange 触发在 autoplay 之前，所以需要 setTimeout 确保 #source 正确
-          setTimeout(() => {
-            that.onChange.emit({
-              current: this.realIndex,
-              source: that.#source,
-            })
-          }, 0)
+          if (this.realIndex !== that.current && !isNaN(this.realIndex)) {
+            that.handleRealIndexChange(this.realIndex, that.#source)
+          }
         },
         touchEnd: () => {
           that.#source = 'touch'
@@ -255,13 +270,19 @@ export class Swiper implements ComponentInterface {
           that.#source = 'autoplay'
         },
         transitionEnd() {
-          that.onAnimationFinish.emit({
-            current: this.realIndex,
-            source: that.#source,
-          })
-          if (!this.running) {
+          if (!isNaN(this.realIndex)) {
+            that.handleAnimationFinish(this.realIndex, that.#source)
+          }
+
+          if (!this.autoplay.running) {
             that.#source = ''
           }
+
+          setTimeout(() => {
+            if (that.swiper && that.circular && !that.swiper.animating && that.swiper.slides?.length > 2) {
+              that.swiper.loopFix()
+            }
+          }, 50)
         },
       },
     }
@@ -283,28 +304,30 @@ export class Swiper implements ComponentInterface {
   render() {
     const { vertical, indicatorDots, indicatorColor, indicatorActiveColor } = this
 
-    const hostStyle: Record<string, string> = { overflow: 'hidden' }
-    const style: Record<string, string> = { overflow: 'visible' }
-    if (this.full) {
-      hostStyle.height = '100%'
-      style.height = '100%'
-    }
-
     const [, previousMargin] = /^(\d+)px/.exec(this.previousMargin) || []
     const [, nextMargin] = /^(\d+)px/.exec(this.nextMargin) || []
     const pM = parseInt(previousMargin) || 0
     const nM = parseInt(nextMargin) || 0
-    if (vertical) {
-      style.marginTop = `${pM}px`
-      style.marginBottom = `${nM}px`
-    } else {
-      style.marginRight = `${nM}px`
-      style.marginLeft = `${pM}px`
-    }
 
     return (
-      <Host class={`taro-swiper-${this.#id}`} style={hostStyle}>
-        <div class="swiper-container" style={style}>
+      <Host
+        class={`taro-swiper-${this.#id}`}
+        style={Object.assign(
+          {
+            overflow: 'hidden',
+          },
+          this.full
+            ? {
+                height: '100%',
+              }
+            : {},
+          vertical
+            ? { '--swiper-container-mt': `${pM}px`, '--swiper-container-mb': `${nM}px` }
+            : { '--swiper-container-mr': `${nM}px`, '--swiper-container-ml': `${pM}px` }
+        )}
+        id={`taro-swiper-${this.#id}`}
+      >
+        <div class="swiper-container">
           <div class="swiper-wrapper">
             <slot />
           </div>

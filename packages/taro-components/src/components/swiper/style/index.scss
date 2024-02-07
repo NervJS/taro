@@ -8,6 +8,11 @@ taro-swiper-core {
     &-container {
       height: 100%;
       position: relative;
+      overflow: visible;
+      margin-top: var(--swiper-container-mt);
+      margin-bottom: var(--swiper-container-mb);
+      margin-left: var(--swiper-container-ml);
+      margin-right: var(--swiper-container-mr);
     }
 
     &-pagination {
