@@ -19,6 +19,10 @@ export function usePlugin (fileName: string): boolean {
   return false
 }
 
+const EXTENDED_PATH_REGEX = /^\\\\\?\\/
+const NON_ASCII_REGEX = /[^\x00-\x80]+/ // eslint-disable-line no-control-regex
+const SLASH_REGEX = /\\/g
+
 /**
  * Build a list of options to provide to Sass' `render` API.
  * @param opts the options provided to the plugin within a Stencil configuration file
@@ -220,7 +224,3 @@ export function getModuleId (orgImport: string): { moduleId?: string, filePath?:
 
   return m
 }
-
-const EXTENDED_PATH_REGEX = /^\\\\\?\\/
-const NON_ASCII_REGEX = /[^\x00-\x80]+/ // eslint-disable-line no-control-regex
-const SLASH_REGEX = /\\/g

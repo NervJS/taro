@@ -1,3 +1,6 @@
+import { sync as resolveSync } from 'resolve'
+import VirtualModulesPlugin from 'webpack-virtual-modules'
+
 import { parsePublicPath } from '../utils'
 import AppHelper from '../utils/app'
 import { componentConfig } from '../utils/component'
@@ -5,6 +8,7 @@ import { Combination } from './Combination'
 import { H5BaseConfig } from './H5BaseConfig'
 import { H5WebpackModule } from './H5WebpackModule'
 import { H5WebpackPlugin } from './H5WebpackPlugin'
+import WebpackPlugin from './WebpackPlugin'
 
 import type { Configuration, EntryNormalized, LibraryOptions } from 'webpack'
 import type { H5BuildConfig } from '../utils/types'
@@ -19,6 +23,8 @@ export class H5Combination extends Combination<H5BuildConfig> {
   webpackModule = new H5WebpackModule(this)
 
   isMultiRouterMode = false
+
+  isVirtualEntry = false
 
   process (config: Partial<H5BuildConfig>) {
     const baseConfig = new H5BaseConfig(this.appPath, config)
@@ -51,9 +57,20 @@ export class H5Combination extends Combination<H5BuildConfig> {
 
     modifyComponentConfig?.(componentConfig, config)
 
+    const virtualEntryMap: { [entryPath: string]: string } = {}
     if (this.isBuildNativeComp) {
       delete entry[entryFileName]
       this.appHelper.compsConfigList.forEach((comp, index) => {
+        try {
+          resolveSync(comp, { extensions: ['.js', '.ts'] })
+        } catch (e) {
+          // 报错证明没有入口文件，通过虚拟模块补全入口文件
+          this.isVirtualEntry = true
+          // 添加后缀，否则 module.resource 解析出来的 name 是不带后缀的，导致 h5-loader 无法加入编译流程
+          comp += '.js'
+          virtualEntryMap[comp] = 'export default {}'
+        }
+
         entry[index] = [comp]
       })
       this.webpackPlugin.pages = this.appHelper.appConfig?.components
@@ -77,11 +94,16 @@ export class H5Combination extends Combination<H5BuildConfig> {
     const plugin = this.webpackPlugin.getPlugins()
 
     if (this.isBuildNativeComp) {
+
+      if (this.isVirtualEntry) {
+        plugin.VirtualModule = WebpackPlugin.getPlugin(VirtualModulesPlugin, [virtualEntryMap])
+      }
+
       // Note: 当开发者没有配置时，优先使用 module 导出组件
       if (!webpackOutput.libraryTarget && !(webpackOutput.library as LibraryOptions)?.type) {
         webpackOutput.library = {
           name: webpackOutput.library as (Exclude<typeof webpackOutput.library, LibraryOptions>),
-          type: 'commonjs-module',
+          type: 'umd',
         }
       }
     }
@@ -154,6 +176,10 @@ export class H5Combination extends Combination<H5BuildConfig> {
     if (!isProd) {
       cacheGroups.name = false
       optimization.runtimeChunk = 'single'
+    }
+    // 组件编译模式下不做代码分割
+    if (this.isBuildNativeComp) {
+      optimization.splitChunks = false
     }
     return optimization
   }

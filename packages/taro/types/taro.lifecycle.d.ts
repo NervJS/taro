@@ -56,9 +56,12 @@ declare module './index' {
   }
 
   interface PageResizeObject {
+    deviceOrientation?: 'portrait' | 'landscape'
     size: {
       windowWidth: number
       windowHeight: number
+      screenWidth?: number
+      screenHeight?: number
     }
   }
 

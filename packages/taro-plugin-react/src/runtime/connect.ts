@@ -76,8 +76,17 @@ export function setReconciler (ReactDOM) {
       })
     })
 
-    hooks.tap('getDOMNode', inst => {
-      return ReactDOM.findDOMNode(inst)
+    hooks.tap('getDOMNode', (inst) => {
+      // 由于react 18移除了ReactDOM.findDOMNode方法，修复H5端 Taro.createSelectorQuery设置in(scope)时，报错问题
+      // https://zh-hans.react.dev/reference/react-dom/findDOMNode
+      if (!inst) {
+        return document
+      } else if (inst instanceof HTMLElement) {
+        return inst
+      } else if (inst.$taroPath) {
+        const el = document.getElementById(inst.$taroPath)
+        return el ?? document
+      }
     })
   }
 }
@@ -193,7 +202,7 @@ export function createReactApp (
       const root = ReactDOM.createRoot(container)
       root.render?.(h(AppWrapper))
     } else {
-      // eslint-disable-next-line 
+      // eslint-disable-next-line react/no-deprecated
       ReactDOM.render?.(h(AppWrapper), container)
     }
   }

@@ -131,13 +131,6 @@
     },
     "Color": false,
     "DB": false,
-    "DownloadTask": {
-      "abort": true,
-      "onProgressUpdate": true,
-      "offProgressUpdate": true,
-      "onHeadersReceived": true,
-      "offHeadersReceived": true
-    },
     "EditorContext": false,
     "EntryList": false,
     "EventChannel": false,
@@ -328,7 +321,9 @@
     "addPhoneCalendar": false,
     "addPhoneContact": false,
     "addPhoneRepeatCalendar": false,
+    "addRecentColorSign": false,
     "addVideoToFavorites": false,
+    "applyAddToMyApps": false,
     "arrayBufferToBase64": true,
     "authPrivateMessage": false,
     "authorize": false,
@@ -400,8 +395,7 @@
         "sourceType": {
           "album": true,
           "camera": true
-        },
-        "imageId": true
+        }
       },
       "success": {
         "tempFilePaths": true,
@@ -522,6 +516,7 @@
     "createWebAudioContext": false,
     "createWorker": false,
     "cropImage": false,
+    "deleteBookshelf": false,
     "disableAlertBeforeUnload": false,
     "downloadFile": {
       "object": {
@@ -541,6 +536,8 @@
         "profile": true
       }
     },
+    "downloadPackage": false,
+    "downloadPackages": false,
     "editImage": false,
     "enableAlertBeforeUnload": false,
     "env": {
@@ -616,6 +613,7 @@
     "getExptInfoSync": false,
     "getExtConfig": false,
     "getExtConfigSync": false,
+    "getFavorStatus": false,
     "getFileInfo": false,
     "getFileSystemManager": true,
     "getFuzzyLocation": {
@@ -628,6 +626,7 @@
       }
     },
     "getGroupEnterInfo": false,
+    "getGuildInfo": false,
     "getHCEState": false,
     "getImageInfo": {
       "object": {
@@ -705,8 +704,10 @@
       }
     },
     "getOpenUserInfo": false,
+    "getOptimalPriceInfo": false,
     "getPerformance": false,
     "getPrivacySetting": false,
+    "getQQRunData": false,
     "getRandomValues": false,
     "getRealtimeLogManager": false,
     "getRecorderManager": false,
@@ -851,6 +852,7 @@
         }
       }
     },
+    "getSystemRiskInfo": false,
     "getSystemSetting": {
       "return": {
         "bluetoothEnabled": true,
@@ -862,6 +864,7 @@
         }
       }
     },
+    "getTopStatus": false,
     "getUpdateManager": false,
     "getUserCryptoManager": false,
     "getUserInfo": {
@@ -944,6 +947,8 @@
     },
     "initFaceDetect": false,
     "initTabBarApis": false,
+    "insertBookshelf": false,
+    "isAddedToMyApps": false,
     "isBluetoothDevicePaired": false,
     "isVKSupport": false,
     "join1v1Chat": false,
@@ -963,6 +968,7 @@
         "status": true
       }
     },
+    "loadSubPackage": false,
     "login": {
       "object": {
         "timeout": true
@@ -989,6 +995,7 @@
         "events": true
       }
     },
+    "navigateToBookshelf": false,
     "navigateToMiniProgram": {
       "object": {
         "appId": true,
@@ -1126,6 +1133,7 @@
     "onWifiConnectedWithPartialInfo": false,
     "onWindowResize": true,
     "openAppAuthorizeSetting": false,
+    "openBdboxWebview": false,
     "openBluetoothAdapter": false,
     "openBusinessView": false,
     "openCard": false,
@@ -1155,6 +1163,9 @@
         "subscriptionsSetting": true
       }
     },
+    "openSingleStickerView": false,
+    "openStickerIPView": false,
+    "openStickerSetView": false,
     "openSystemBluetoothSetting": false,
     "openVideoEditor": false,
     "pageScrollTo": {
@@ -1187,6 +1198,7 @@
         "current": true
       }
     },
+    "queryBookshelf": false,
     "reLaunch": {
       "object": {
         "url": true
@@ -1283,6 +1295,7 @@
     "requestDeviceVoIP": false,
     "requestOrderPayment": false,
     "requestPayment": false,
+    "requestPolymerPayment": false,
     "requestSubscribeDeviceMessage": false,
     "requestSubscribeMessage": false,
     "requirePrivacyAuthorize": false,
@@ -1310,6 +1323,8 @@
         "data": true
       }
     },
+    "setCustomDress": false,
+    "setDocumentTitle": false,
     "setEnable1v1Chat": false,
     "setEnableDebug": false,
     "setInnerAudioOption": false,
@@ -1318,6 +1333,8 @@
         "keepScreenOn": true
       }
     },
+    "setMetaDescription": false,
+    "setMetaKeywords": false,
     "setNavigationBarColor": {
       "object": {
         "backgroundColor": true,
@@ -1330,6 +1347,7 @@
         "title": true
       }
     },
+    "setOfficialDress": false,
     "setPageInfo": false,
     "setScreenBrightness": false,
     "setStorage": {
@@ -1463,6 +1481,7 @@
     "stopRecord": false,
     "stopVoice": false,
     "stopWifi": false,
+    "subscribeService": false,
     "subscribeVoIPVideoMembers": false,
     "switchTab": {
       "object": {
@@ -1470,6 +1489,9 @@
       }
     },
     "tradePay": false,
+    "unsubscribeMessage": false,
+    "updateBookshelfReadTime": false,
+    "updateQQApp": false,
     "updateShareMenu": false,
     "updateVoIPChatMuteConfig": false,
     "updateWeChatApp": false,
@@ -1754,7 +1776,8 @@
       "safe-password-time-stamp": false,
       "safe-password-nonce": false,
       "safe-password-salt": false,
-      "safe-password-custom-hash": false
+      "safe-password-custom-hash": false,
+      "default-value": false
     },
     "keyboard-accessory": false,
     "label": {
@@ -2049,7 +2072,8 @@
         "selector": {
           "range": true,
           "range-key": true,
-          "value": true
+          "value": true,
+          "default-value": false
         },
         "multiSelector": {
           "range": true,
@@ -2059,7 +2083,8 @@
         "time": {
           "value": true,
           "start": true,
-          "end": true
+          "end": true,
+          "default-value": false
         },
         "date": {
           "value": true,
@@ -2069,7 +2094,8 @@
             "year": true,
             "month": true,
             "day": true
-          }
+          },
+          "default-value": false
         },
         "region": {
           "value": false,
@@ -2079,10 +2105,12 @@
             "city": false,
             "region": false,
             "sub-district": false
-          }
+          },
+          "default-value": false
         }
       },
-      "disabled": true
+      "disabled": true,
+      "header-text": false
     },
     "picker-view": {
       "value": true,
@@ -2090,7 +2118,8 @@
       "indicator-class": true,
       "mask-style": true,
       "mask-class": true,
-      "immediate-change": false
+      "immediate-change": false,
+      "default-value": false
     },
     "picker-view-column": false,
     "progress": {
@@ -2214,7 +2243,8 @@
       "background-color": true,
       "block-size": true,
       "block-color": true,
-      "show-value": true
+      "show-value": true,
+      "default-value": false
     },
     "slot": {
       "name": false
@@ -2259,7 +2289,8 @@
         "switch": true,
         "checkbox": true
       },
-      "color": true
+      "color": true,
+      "default-checked": false
     },
     "tab-item": false,
     "tabs": false,
@@ -2302,7 +2333,8 @@
         "return": false
       },
       "confirm-hold": false,
-      "adjust-keyboard-to": false
+      "adjust-keyboard-to": false,
+      "default-value": false
     },
     "video": {
       "src": true,
