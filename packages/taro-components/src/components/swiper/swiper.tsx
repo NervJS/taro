@@ -352,7 +352,16 @@ export class Swiper implements ComponentInterface {
             source: that.#source,
           })
         },
+        touchEnd: () => {
+          that.#source = 'touch'
+        },
+        autoplay() {
+          that.#source = 'autoplay'
+        },
         transitionEnd () {
+          setTimeout(() => {
+            that.#source = ''
+          })
           that.onAnimationFinish.emit({
             current: this.realIndex,
             source: that.#source,

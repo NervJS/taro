@@ -35,7 +35,7 @@ class MpaHistory implements History {
       url += `?${to.search}`
     }
     if (to.hash) {
-      url += `#${to.hash}`
+      url += to.hash.startsWith('#') ? to.hash : `#${to.hash}`
     }
     return url
   }
