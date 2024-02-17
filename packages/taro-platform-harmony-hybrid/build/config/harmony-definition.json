@@ -131,13 +131,6 @@
     },
     "Color": false,
     "DB": false,
-    "DownloadTask": {
-      "abort": true,
-      "onProgressUpdate": true,
-      "offProgressUpdate": true,
-      "onHeadersReceived": true,
-      "offHeadersReceived": true
-    },
     "EditorContext": false,
     "EntryList": false,
     "EventChannel": false,
@@ -402,8 +395,7 @@
         "sourceType": {
           "album": true,
           "camera": true
-        },
-        "imageId": true
+        }
       },
       "success": {
         "tempFilePaths": true,
@@ -2117,7 +2109,8 @@
           "default-value": false
         }
       },
-      "disabled": true
+      "disabled": true,
+      "header-text": false
     },
     "picker-view": {
       "value": true,
