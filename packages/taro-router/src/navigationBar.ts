@@ -11,7 +11,7 @@ const back_svg_str = `
 
 `
 
-export function initNavigationBar (container:HTMLElement) {
+export function initNavigationBar (container: HTMLElement) {
   const navigationBar = document.createElement('taro-navigation-bar-wrap')
   navigationBar.classList.add('taro-navigation-bar-no-icon')
   const navigationBarBackBtn = document.createElement('taro-navigation-bar-back')
