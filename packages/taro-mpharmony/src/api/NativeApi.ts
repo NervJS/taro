@@ -77,8 +77,8 @@ class NativeApi {
 
   // @ts-ignore
   @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
-  chooseMediaAssets (options: any, mode: object): any {
-    return [options, mode]
+  chooseMediaAssets (options: any): any {
+    return options
   }
 
   // @ts-ignore
