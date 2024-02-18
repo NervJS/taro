@@ -21,7 +21,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
-    "build": "pnpm -r --aggregate-output --filter=./packages/* build",
+    "build": "pnpm -r --filter=./packages/* build",
     "build:binding:debug": "pnpm --filter @tarojs/binding run build:debug",
     "build:binding:release": "pnpm --filter @tarojs/binding run build",
     "format::rs": "cargo fmt --all",
