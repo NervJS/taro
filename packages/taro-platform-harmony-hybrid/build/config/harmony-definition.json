@@ -234,13 +234,6 @@
     "NfcB": false,
     "NfcF": false,
     "NfcV": false,
-    "NodesRef": {
-      "context": true,
-      "node": true,
-      "boundingClientRect": true,
-      "scrollOffset": true,
-      "fields": true
-    },
     "OffscreenCanvas": false,
     "Path2D": true,
     "Performance": false,
