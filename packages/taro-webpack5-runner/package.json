@@ -89,7 +89,8 @@
     "webpack-chain": "6.5.1",
     "webpack-dev-server": "4.11.1",
     "webpack-format-messages": "^2.0.6",
-    "webpackbar": "^5.0.2"
+    "webpackbar": "^5.0.2",
+    "webpack-virtual-modules": "^0.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",

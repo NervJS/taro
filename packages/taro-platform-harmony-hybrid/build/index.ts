@@ -1,4 +1,5 @@
 import * as fsExtra from 'fs-extra'
+import * as pathModule from 'path'
 
 import hosDefinition from './config/harmony-definition.json'
 import { parseApis } from './definition-json/parseApis'
@@ -15,9 +16,7 @@ function exportAbsentTaroApi (declaredApiList: string[], existApiList: string[])
   const exportApis = declaredApiList.filter(api => !existApiList.includes(api)).filter(api => h5ExportApis.includes(api)).sort((a, b) => a.localeCompare(b))
   let code = '/** 该文件由脚本自动生成，请勿自行修改 */\n'
   code += `export {\n  ${exportApis.join(',\n  ')}\n} from '${taroH5Path}'\n`
-  const entryPath = require.resolve('@tarojs/plugin-platform-harmony-hybrid/src/api/apis/extend-h5-apis.ts')
-  
-  fsExtra.ensureFileSync(entryPath)
+  const entryPath = pathModule.resolve(__dirname, '../src/api/apis/extend-h5-apis.ts')
   fsExtra.writeFileSync(entryPath, code, 'utf-8')
 }
 

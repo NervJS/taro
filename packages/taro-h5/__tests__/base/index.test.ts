@@ -10,8 +10,9 @@ describe('others', () => {
   test('should covert base64 to arraybuffer', () => {
     const base64 = 'CxYh'
     const arrayBuffer = Taro.base64ToArrayBuffer(base64)
-    expect(arrayBuffer[0]).toBe(11)
-    expect(arrayBuffer[1]).toBe(22)
-    expect(arrayBuffer[2]).toBe(33)
+    const initBuffer = new Uint8Array(arrayBuffer)
+    expect(initBuffer[0]).toBe(11)
+    expect(initBuffer[1]).toBe(22)
+    expect(initBuffer[2]).toBe(33)
   })
 })
