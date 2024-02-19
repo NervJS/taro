@@ -111,6 +111,7 @@ export const components = {
     'enable-flex': _false,
     'scroll-anchoring': _false,
     enhanced: _false,
+    'using-sticky': _false,
     'paging-enabled': _false,
     'enable-passive': _false,
     'refresher-enabled': _false,
