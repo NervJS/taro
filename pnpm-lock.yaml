@@ -1103,7 +1103,7 @@ importers:
         version: registry.npmjs.org/mkdirp@1.0.4
       puppeteer:
         specifier: ^19.2.0
-        version: registry.npmjs.org/puppeteer@19.11.1(typescript@4.9.5)
+        version: registry.npmjs.org/puppeteer@19.11.1(typescript@5.3.3)
       rollup:
         specifier: ^3.8.1
         version: registry.npmjs.org/rollup@3.29.4
@@ -1118,13 +1118,13 @@ importers:
         version: registry.npmjs.org/stencil-vue2-output-target@0.0.4(@stencil/core@2.22.3)
       ts-node:
         specifier: ^10.9.1
-        version: registry.npmjs.org/ts-node@10.9.1(@types/node@18.19.12)(typescript@4.9.5)
+        version: registry.npmjs.org/ts-node@10.9.1(@types/node@18.19.12)(typescript@5.3.3)
       tsconfig-paths:
         specifier: ^3.14.1
         version: registry.npmjs.org/tsconfig-paths@3.14.2
       typescript:
-        specifier: ^4.7.4
-        version: registry.npmjs.org/typescript@4.9.5
+        specifier: ^5.3.3
+        version: 5.3.3
 
   packages/taro-components-advanced:
     dependencies:
@@ -2053,7 +2053,7 @@ importers:
         version: registry.npmjs.org/@rollup/plugin-node-resolve@15.2.3(rollup@3.21.5)
       '@rollup/plugin-typescript':
         specifier: ^11.1.0
-        version: registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@3.21.5)(tslib@2.6.2)(typescript@4.9.5)
+        version: registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@3.21.5)(tslib@2.6.2)(typescript@5.3.3)
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -2065,16 +2065,16 @@ importers:
         version: registry.npmjs.org/rollup-plugin-node-externals@5.1.3(rollup@3.21.5)
       rollup-plugin-ts:
         specifier: ^3.0.2
-        version: registry.npmjs.org/rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@3.21.5)(typescript@4.9.5)
+        version: registry.npmjs.org/rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@3.21.5)(typescript@5.3.3)
       ts-node:
         specifier: ^10.9.1
-        version: registry.npmjs.org/ts-node@10.9.1(@types/node@18.19.12)(typescript@4.9.5)
+        version: registry.npmjs.org/ts-node@10.9.1(@types/node@18.19.12)(typescript@5.3.3)
       tsconfig-paths:
         specifier: ^3.14.1
         version: registry.npmjs.org/tsconfig-paths@3.14.2
       typescript:
-        specifier: ^4.7.4
-        version: registry.npmjs.org/typescript@4.9.5
+        specifier: ^5.3.3
+        version: 5.3.3
 
   packages/taro-platform-harmony:
     dependencies:
@@ -2199,7 +2199,7 @@ importers:
         version: 15.2.3(rollup@2.79.1)
       '@rollup/plugin-typescript':
         specifier: ^11.1.0
-        version: registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@2.79.1)(tslib@2.6.2)(typescript@4.9.5)
+        version: registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@2.79.1)(tslib@2.6.2)(typescript@5.3.3)
       fast-glob:
         specifier: ^3.3.1
         version: registry.npmjs.org/fast-glob@3.3.1
@@ -2214,16 +2214,16 @@ importers:
         version: registry.npmjs.org/rollup-plugin-node-externals@5.1.3(rollup@2.79.1)
       rollup-plugin-ts:
         specifier: ^3.0.2
-        version: registry.npmjs.org/rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@2.79.1)(typescript@4.9.5)
+        version: registry.npmjs.org/rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@2.79.1)(typescript@5.3.3)
       ts-node:
         specifier: ^10.9.1
-        version: registry.npmjs.org/ts-node@10.9.1(@types/node@18.19.12)(typescript@4.9.5)
+        version: registry.npmjs.org/ts-node@10.9.1(@types/node@18.19.12)(typescript@5.3.3)
       tsconfig-paths:
         specifier: ^3.14.1
         version: registry.npmjs.org/tsconfig-paths@3.14.2
       typescript:
-        specifier: ^4.7.4
-        version: registry.npmjs.org/typescript@4.9.5
+        specifier: ^5.3.3
+        version: 5.3.3
 
   packages/taro-plugin-html:
     dependencies:
@@ -7455,6 +7455,18 @@ packages:
       call-bind: 1.0.2
       for-each: 0.3.3
       is-typed-array: 1.1.10
+
+  /typescript@4.9.5:
+    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==, tarball: https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
+
+  /typescript@5.3.3:
+    resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==, tarball: https://registry.npmjs.org/typescript/-/typescript-5.3.3.tgz}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: true
 
   /uglify-js@3.17.4:
     resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==, tarball: https://registry.npmjs.org/uglify-js/-/uglify-js-3.17.4.tgz}
@@ -13078,7 +13090,7 @@ packages:
       lodash.uniq: registry.npmjs.org/lodash.uniq@4.5.0
       resolve-from: registry.npmjs.org/resolve-from@5.0.0
       ts-node: registry.npmjs.org/ts-node@10.9.1(@types/node@20.11.0)(typescript@4.9.5)
-      typescript: registry.npmjs.org/typescript@4.9.5
+      typescript: 4.9.5
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -15883,7 +15895,7 @@ packages:
       webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
     dev: true
 
-  registry.npmjs.org/@puppeteer/browsers@0.5.0(typescript@4.9.5):
+  registry.npmjs.org/@puppeteer/browsers@0.5.0(typescript@5.3.3):
     resolution: {integrity: sha512-Uw6oB7VvmPRLE4iKsjuOh8zgDabhNX67dzo8U/BB0f9527qx+4eeUs+korU98OhG5C4ubg7ufBgVi63XYwS6TQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@puppeteer/browsers/-/browsers-0.5.0.tgz}
     id: registry.npmjs.org/@puppeteer/browsers/0.5.0
     name: '@puppeteer/browsers'
@@ -15902,7 +15914,7 @@ packages:
       progress: registry.npmjs.org/progress@2.0.3
       proxy-from-env: registry.npmjs.org/proxy-from-env@1.1.0
       tar-fs: registry.npmjs.org/tar-fs@2.1.1
-      typescript: registry.npmjs.org/typescript@4.9.5
+      typescript: 5.3.3
       unbzip2-stream: registry.npmjs.org/unbzip2-stream@1.4.3
       yargs: registry.npmjs.org/yargs@17.7.1
     transitivePeerDependencies:
@@ -16879,7 +16891,7 @@ packages:
       rollup: registry.npmjs.org/rollup@2.79.1
     dev: false
 
-  registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@2.79.1)(tslib@2.6.2)(typescript@4.9.5):
+  registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@2.79.1)(tslib@2.6.2)(typescript@5.3.3):
     resolution: {integrity: sha512-Ioir+x5Bejv72Lx2Zbz3/qGg7tvGbxQZALCLoJaGrkNXak/19+vKgKYJYM3i/fJxvsb23I9FuFQ8CUBEfsmBRg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.1.tgz}
     id: registry.npmjs.org/@rollup/plugin-typescript/11.1.1
     name: '@rollup/plugin-typescript'
@@ -16899,7 +16911,7 @@ packages:
       resolve: registry.npmjs.org/resolve@1.22.8
       rollup: registry.npmjs.org/rollup@2.79.1
       tslib: registry.npmjs.org/tslib@2.6.2
-      typescript: registry.npmjs.org/typescript@4.9.5
+      typescript: 5.3.3
     dev: true
 
   registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@3.21.5)(tslib@2.6.2)(typescript@4.9.5):
@@ -16923,6 +16935,29 @@ packages:
       rollup: registry.npmjs.org/rollup@3.21.5
       tslib: registry.npmjs.org/tslib@2.6.2
       typescript: registry.npmjs.org/typescript@4.9.5
+    dev: true
+
+  registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@3.21.5)(tslib@2.6.2)(typescript@5.3.3):
+    resolution: {integrity: sha512-Ioir+x5Bejv72Lx2Zbz3/qGg7tvGbxQZALCLoJaGrkNXak/19+vKgKYJYM3i/fJxvsb23I9FuFQ8CUBEfsmBRg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.1.tgz}
+    id: registry.npmjs.org/@rollup/plugin-typescript/11.1.1
+    name: '@rollup/plugin-typescript'
+    version: 11.1.1
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0||^3.0.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      tslib:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@5.1.0(rollup@3.21.5)
+      resolve: registry.npmjs.org/resolve@1.22.8
+      rollup: 3.21.5
+      tslib: registry.npmjs.org/tslib@2.6.2
+      typescript: 5.3.3
     dev: true
 
   registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@3.29.4)(tslib@2.6.2)(typescript@4.9.5):
@@ -23465,6 +23500,19 @@ packages:
       typescript: registry.npmjs.org/typescript@4.9.5
     dev: true
 
+  registry.npmjs.org/compatfactory@2.0.9(typescript@5.3.3):
+    resolution: {integrity: sha512-fvO+AWcmbO7P1S+A3mwm3IGr74eHMeq5ZLhNhyNQc9mVDNHT4oe0Gg0ksdIFFNXLK7k7Z/TYcLAUSQdRgh1bsA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/compatfactory/-/compatfactory-2.0.9.tgz}
+    id: registry.npmjs.org/compatfactory/2.0.9
+    name: compatfactory
+    version: 2.0.9
+    engines: {node: '>=14.9.0'}
+    peerDependencies:
+      typescript: '>=3.x || >= 4.x'
+    dependencies:
+      helpertypes: registry.npmjs.org/helpertypes@0.0.19
+      typescript: 5.3.3
+    dev: true
+
   registry.npmjs.org/component-bind@1.0.0:
     resolution: {integrity: sha512-WZveuKPeKAG9qY+FkYDeADzdHyTYdIboXS59ixDeRJL5ZhxpqUnxSOwop4FQjMsiYm3/Or8cegVbpAHNA7pHxw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/component-bind/-/component-bind-1.0.0.tgz}
     name: component-bind
@@ -24248,7 +24296,7 @@ packages:
       '@types/node': 20.11.0
       cosmiconfig: registry.npmjs.org/cosmiconfig@8.1.3
       ts-node: registry.npmjs.org/ts-node@10.9.1(@types/node@20.11.0)(typescript@4.9.5)
-      typescript: registry.npmjs.org/typescript@4.9.5
+      typescript: 4.9.5
     dev: true
 
   registry.npmjs.org/cosmiconfig@3.1.0:
@@ -38764,7 +38812,7 @@ packages:
       escape-goat: registry.npmjs.org/escape-goat@2.1.1
     dev: false
 
-  registry.npmjs.org/puppeteer-core@19.11.1(typescript@4.9.5):
+  registry.npmjs.org/puppeteer-core@19.11.1(typescript@5.3.3):
     resolution: {integrity: sha512-qcuC2Uf0Fwdj9wNtaTZ2OvYRraXpAK+puwwVW8ofOhOgLPZyz1c68tsorfIZyCUOpyBisjr+xByu7BMbEYMepA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/puppeteer-core/-/puppeteer-core-19.11.1.tgz}
     id: registry.npmjs.org/puppeteer-core/19.11.1
     name: puppeteer-core
@@ -38776,7 +38824,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@puppeteer/browsers': registry.npmjs.org/@puppeteer/browsers@0.5.0(typescript@4.9.5)
+      '@puppeteer/browsers': registry.npmjs.org/@puppeteer/browsers@0.5.0(typescript@5.3.3)
       chromium-bidi: registry.npmjs.org/chromium-bidi@0.4.7(devtools-protocol@0.0.1107588)
       cross-fetch: registry.npmjs.org/cross-fetch@3.1.5
       debug: 4.3.4
@@ -38785,7 +38833,7 @@ packages:
       https-proxy-agent: registry.npmjs.org/https-proxy-agent@5.0.1
       proxy-from-env: registry.npmjs.org/proxy-from-env@1.1.0
       tar-fs: registry.npmjs.org/tar-fs@2.1.1
-      typescript: registry.npmjs.org/typescript@4.9.5
+      typescript: 5.3.3
       unbzip2-stream: registry.npmjs.org/unbzip2-stream@1.4.3
       ws: registry.npmjs.org/ws@8.13.0
     transitivePeerDependencies:
@@ -38795,19 +38843,19 @@ packages:
       - utf-8-validate
     dev: true
 
-  registry.npmjs.org/puppeteer@19.11.1(typescript@4.9.5):
+  registry.npmjs.org/puppeteer@19.11.1(typescript@5.3.3):
     resolution: {integrity: sha512-39olGaX2djYUdhaQQHDZ0T0GwEp+5f9UB9HmEP0qHfdQHIq0xGQZuAZ5TLnJIc/88SrPLpEflPC+xUqOTv3c5g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/puppeteer/-/puppeteer-19.11.1.tgz}
     id: registry.npmjs.org/puppeteer/19.11.1
     name: puppeteer
     version: 19.11.1
     requiresBuild: true
     dependencies:
-      '@puppeteer/browsers': registry.npmjs.org/@puppeteer/browsers@0.5.0(typescript@4.9.5)
+      '@puppeteer/browsers': registry.npmjs.org/@puppeteer/browsers@0.5.0(typescript@5.3.3)
       cosmiconfig: registry.npmjs.org/cosmiconfig@8.1.3
       https-proxy-agent: registry.npmjs.org/https-proxy-agent@5.0.1
       progress: registry.npmjs.org/progress@2.0.3
       proxy-from-env: registry.npmjs.org/proxy-from-env@1.1.0
-      puppeteer-core: registry.npmjs.org/puppeteer-core@19.11.1(typescript@4.9.5)
+      puppeteer-core: registry.npmjs.org/puppeteer-core@19.11.1(typescript@5.3.3)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -40525,6 +40573,57 @@ packages:
       typescript: registry.npmjs.org/typescript@4.9.5
     dev: true
 
+  registry.npmjs.org/rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@2.79.1)(typescript@5.3.3):
+    resolution: {integrity: sha512-KkTLVifkUexEiAXS9VtSjDrjKr0TyusmNJpb2ZTAzI9VuPumSu4AktIaVNnwv70iUEitHwZtET7OAM+5n1u1tg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.2.0.tgz}
+    id: registry.npmjs.org/rollup-plugin-ts/3.2.0
+    name: rollup-plugin-ts
+    version: 3.2.0
+    engines: {node: '>=14.9.0', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
+    peerDependencies:
+      '@babel/core': '>=6.x || >=7.x'
+      '@babel/plugin-transform-runtime': '>=6.x || >=7.x'
+      '@babel/preset-env': '>=6.x || >=7.x'
+      '@babel/preset-typescript': '>=6.x || >=7.x'
+      '@babel/runtime': '>=6.x || >=7.x'
+      '@swc/core': '>=1.x'
+      '@swc/helpers': '>=0.2'
+      rollup: '>=1.x || >=2.x'
+      typescript: '>=3.2.x || >= 4.x'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/plugin-transform-runtime':
+        optional: true
+      '@babel/preset-env':
+        optional: true
+      '@babel/preset-typescript':
+        optional: true
+      '@babel/runtime':
+        optional: true
+      '@swc/core':
+        optional: true
+      '@swc/helpers':
+        optional: true
+    dependencies:
+      '@babel/core': registry.npmjs.org/@babel/core@7.21.8
+      '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime@7.21.4(@babel/core@7.21.8)
+      '@babel/preset-env': registry.npmjs.org/@babel/preset-env@7.21.5(@babel/core@7.21.8)
+      '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript@7.21.5(@babel/core@7.21.8)
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.21.5
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@5.0.2(rollup@2.79.1)
+      '@wessberg/stringutil': registry.npmjs.org/@wessberg/stringutil@1.0.19
+      ansi-colors: registry.npmjs.org/ansi-colors@4.1.3
+      browserslist: registry.npmjs.org/browserslist@4.21.5
+      browserslist-generator: registry.npmjs.org/browserslist-generator@2.0.3
+      compatfactory: registry.npmjs.org/compatfactory@2.0.9(typescript@5.3.3)
+      crosspath: registry.npmjs.org/crosspath@2.0.0
+      magic-string: registry.npmjs.org/magic-string@0.27.0
+      rollup: registry.npmjs.org/rollup@2.79.1
+      ts-clone-node: registry.npmjs.org/ts-clone-node@2.0.4(typescript@5.3.3)
+      tslib: registry.npmjs.org/tslib@2.5.0
+      typescript: 5.3.3
+    dev: true
+
   registry.npmjs.org/rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@3.21.5)(typescript@4.9.5):
     resolution: {integrity: sha512-KkTLVifkUexEiAXS9VtSjDrjKr0TyusmNJpb2ZTAzI9VuPumSu4AktIaVNnwv70iUEitHwZtET7OAM+5n1u1tg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.2.0.tgz}
     id: registry.npmjs.org/rollup-plugin-ts/3.2.0
@@ -40574,6 +40673,57 @@ packages:
       ts-clone-node: registry.npmjs.org/ts-clone-node@2.0.4(typescript@4.9.5)
       tslib: registry.npmjs.org/tslib@2.5.0
       typescript: registry.npmjs.org/typescript@4.9.5
+    dev: true
+
+  registry.npmjs.org/rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@3.21.5)(typescript@5.3.3):
+    resolution: {integrity: sha512-KkTLVifkUexEiAXS9VtSjDrjKr0TyusmNJpb2ZTAzI9VuPumSu4AktIaVNnwv70iUEitHwZtET7OAM+5n1u1tg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.2.0.tgz}
+    id: registry.npmjs.org/rollup-plugin-ts/3.2.0
+    name: rollup-plugin-ts
+    version: 3.2.0
+    engines: {node: '>=14.9.0', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
+    peerDependencies:
+      '@babel/core': '>=6.x || >=7.x'
+      '@babel/plugin-transform-runtime': '>=6.x || >=7.x'
+      '@babel/preset-env': '>=6.x || >=7.x'
+      '@babel/preset-typescript': '>=6.x || >=7.x'
+      '@babel/runtime': '>=6.x || >=7.x'
+      '@swc/core': '>=1.x'
+      '@swc/helpers': '>=0.2'
+      rollup: '>=1.x || >=2.x'
+      typescript: '>=3.2.x || >= 4.x'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/plugin-transform-runtime':
+        optional: true
+      '@babel/preset-env':
+        optional: true
+      '@babel/preset-typescript':
+        optional: true
+      '@babel/runtime':
+        optional: true
+      '@swc/core':
+        optional: true
+      '@swc/helpers':
+        optional: true
+    dependencies:
+      '@babel/core': registry.npmjs.org/@babel/core@7.21.8
+      '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime@7.21.4(@babel/core@7.21.8)
+      '@babel/preset-env': registry.npmjs.org/@babel/preset-env@7.21.5(@babel/core@7.21.8)
+      '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript@7.21.5(@babel/core@7.21.8)
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.21.5
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@5.0.2(rollup@3.21.5)
+      '@wessberg/stringutil': registry.npmjs.org/@wessberg/stringutil@1.0.19
+      ansi-colors: registry.npmjs.org/ansi-colors@4.1.3
+      browserslist: registry.npmjs.org/browserslist@4.21.5
+      browserslist-generator: registry.npmjs.org/browserslist-generator@2.0.3
+      compatfactory: registry.npmjs.org/compatfactory@2.0.9(typescript@5.3.3)
+      crosspath: registry.npmjs.org/crosspath@2.0.0
+      magic-string: registry.npmjs.org/magic-string@0.27.0
+      rollup: 3.21.5
+      ts-clone-node: registry.npmjs.org/ts-clone-node@2.0.4(typescript@5.3.3)
+      tslib: registry.npmjs.org/tslib@2.5.0
+      typescript: 5.3.3
     dev: true
 
   registry.npmjs.org/rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@3.29.4)(typescript@4.9.5):
@@ -43458,6 +43608,19 @@ packages:
       typescript: registry.npmjs.org/typescript@4.9.5
     dev: true
 
+  registry.npmjs.org/ts-clone-node@2.0.4(typescript@5.3.3):
+    resolution: {integrity: sha512-eG6FAgmQsenhIJOIFhUcO6yyYejBKZIKcI3y21jiQmIOrth5pD6GElyPAyeihbPSyBs3u/9PVNXy+5I7jGy8jA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ts-clone-node/-/ts-clone-node-2.0.4.tgz}
+    id: registry.npmjs.org/ts-clone-node/2.0.4
+    name: ts-clone-node
+    version: 2.0.4
+    engines: {node: '>=14.9.0'}
+    peerDependencies:
+      typescript: ^3.x || ^4.x
+    dependencies:
+      compatfactory: registry.npmjs.org/compatfactory@2.0.9(typescript@5.3.3)
+      typescript: 5.3.3
+    dev: true
+
   registry.npmjs.org/ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ts-interface-checker/-/ts-interface-checker-0.1.13.tgz}
     name: ts-interface-checker
@@ -43648,6 +43811,40 @@ packages:
       v8-compile-cache-lib: registry.npmjs.org/v8-compile-cache-lib@3.0.1
       yn: registry.npmjs.org/yn@3.1.1
 
+  registry.npmjs.org/ts-node@10.9.1(@types/node@18.19.12)(typescript@5.3.3):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ts-node/-/ts-node-10.9.1.tgz}
+    id: registry.npmjs.org/ts-node/10.9.1
+    name: ts-node
+    version: 10.9.1
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': registry.npmjs.org/@cspotcode/source-map-support@0.8.1
+      '@tsconfig/node10': registry.npmjs.org/@tsconfig/node10@1.0.9
+      '@tsconfig/node12': registry.npmjs.org/@tsconfig/node12@1.0.11
+      '@tsconfig/node14': registry.npmjs.org/@tsconfig/node14@1.0.3
+      '@tsconfig/node16': registry.npmjs.org/@tsconfig/node16@1.0.3
+      '@types/node': 18.19.12
+      acorn: registry.npmjs.org/acorn@8.8.2
+      acorn-walk: registry.npmjs.org/acorn-walk@8.2.0
+      arg: registry.npmjs.org/arg@4.1.3
+      create-require: registry.npmjs.org/create-require@1.1.1
+      diff: registry.npmjs.org/diff@4.0.2
+      make-error: registry.npmjs.org/make-error@1.3.6
+      typescript: 5.3.3
+      v8-compile-cache-lib: registry.npmjs.org/v8-compile-cache-lib@3.0.1
+      yn: registry.npmjs.org/yn@3.1.1
+    dev: true
+
   registry.npmjs.org/ts-node@10.9.1(@types/node@20.11.0)(typescript@4.9.5):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ts-node/-/ts-node-10.9.1.tgz}
     id: registry.npmjs.org/ts-node/10.9.1
@@ -43677,7 +43874,7 @@ packages:
       create-require: registry.npmjs.org/create-require@1.1.1
       diff: registry.npmjs.org/diff@4.0.2
       make-error: registry.npmjs.org/make-error@1.3.6
-      typescript: registry.npmjs.org/typescript@4.9.5
+      typescript: 4.9.5
       v8-compile-cache-lib: registry.npmjs.org/v8-compile-cache-lib@3.0.1
       yn: registry.npmjs.org/yn@3.1.1
     dev: true

@@ -14,14 +14,16 @@
   "include": ["src", "types"],
   "ts-node": {
     "compilerOptions": {
-      "module": "UMD",
-      "moduleResolution": "Node",
+      "forceConsistentCasingInFileNames": true,
+      "lib": ["ES2023"],
+      "module": "Node16",
+      "moduleResolution": "Node16",
       "noEmit": true,
       "resolveJsonModule": false,
-      "rootDir": ".",
-      "target": "ESNext"
+      "skipLibCheck": true,
+      "strict": true,
+      "target": "ES2022",
     },
-    "esm": true,
     "experimentalSpecifierResolution": "node",
     "require": ["tsconfig-paths/register"]
   }
