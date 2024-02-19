@@ -2,9 +2,10 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
 /**
  * 压缩视频接口
- * 
+ *
  * @canUse compressVideo
  * @null_implementation
  */

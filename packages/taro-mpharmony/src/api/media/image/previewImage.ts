@@ -9,12 +9,13 @@ import Taro from '@tarojs/taro'
 
 import { shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
+import native from '../../NativeApi'
 import { showActionSheet, showToast } from '../../ui/interaction/index'
 import { saveImageToPhotosAlbum } from './saveImageToPhotosAlbum'
 
 /**
  * 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
- * 
+ *
  * @canUse previewImage
  * @__object [urls, current, showmenu]
  */

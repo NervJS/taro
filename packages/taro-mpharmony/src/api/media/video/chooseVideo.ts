@@ -3,13 +3,14 @@ import { showActionSheet } from '@tarojs/taro-h5'
 
 import { shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
+import native from '../../NativeApi'
 
 
 /**
  * 拍摄视频或从手机相册中选视频
- * 
- * @canUse chooseVideo 
- * @__object [camera[back, front], compressed, maxDuration, sourceType[album, camera]] 
+ *
+ * @canUse chooseVideo
+ * @__object [camera[back, front], compressed, maxDuration, sourceType[album, camera]]
  * @__success [tempFilePath, duration, size, height, width]
  */
 export const chooseVideo: typeof Taro.chooseVideo = async (options) => {

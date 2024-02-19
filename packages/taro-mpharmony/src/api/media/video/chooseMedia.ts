@@ -3,12 +3,13 @@ import { showActionSheet } from '@tarojs/taro-h5'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
 /**
  * 拍摄或从手机相册中选择图片或视频
- * 
- * @canUse chooseMedia 
+ *
+ * @canUse chooseMedia
  * @__object [count, mediaType[video, image, mix], sourceType[album, camera], maxDuration, sizeType, camera[back, front]]
- * @__success [tempFiles, type] 
+ * @__success [tempFiles, type]
  */
 export const chooseMedia: typeof Taro.chooseMedia = async (options) => {
   const name = 'chooseMedia'
@@ -63,7 +64,7 @@ export const chooseMedia: typeof Taro.chooseMedia = async (options) => {
       sizeType: sizeType,
       camera: camera,
       apiName: name,
-      success: (res: any) => {       
+      success: (res: any) => {
         const result: Taro.chooseMedia.SuccessCallbackResult = {
           tempFiles: res.tempFiles,
           type: res.type,

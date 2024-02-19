@@ -17,7 +17,8 @@ export default class Index extends React.Component {
       {
         id: 'downloadFile',
         inputData: {
-          url: 'http://172.20.10.11:3000/static/test.jpg',
+          url: 'http://192.168.111.106:3000/test.jpg',
+          filePath: 'internal://cache/test.jpg',
           withCredentials: false,
         },
         func: (apiIndex, data) => {
@@ -27,7 +28,8 @@ export default class Index extends React.Component {
       {
         id: 'DownloadTask',
         inputData: {
-          url: 'http://172.20.10.11:3000/static/test.jpg',
+          url: 'http://192.168.111.106:3000/test.zip',
+          filePath: 'internal://cache/test.zip',
           withCredentials: false,
         },
         func: (apiIndex, data) => {

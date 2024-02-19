@@ -2,6 +2,9 @@ import Taro from '@tarojs/api'
 import { isFunction } from '@tarojs/shared'
 import { getParameterError, shouldBeObject } from 'src/utils'
 
+import { NativeRequest } from '../../interface/NativeRequest'
+import native from '../../NativeApi'
+
 export const _request = (options) => {
   const name = 'request'
 
@@ -28,8 +31,7 @@ export const _request = (options) => {
   let task!: Taro.RequestTask<any>
   const result: ReturnType<typeof Taro.request> = new Promise((resolve, reject) => {
     const upperMethod = method ? method.toUpperCase() : method
-    // @ts-ignore
-    task = native.request({
+    const taskID = native.request({
       url,
       method: upperMethod,
       ...otherOptions,
@@ -44,7 +46,9 @@ export const _request = (options) => {
         reject(res)
       },
     })
+    task = NativeRequest.getRequestTask(taskID)
   }) as any
+
 
   result.onHeadersReceived = task.onHeadersReceived.bind(task)
   result.offHeadersReceived = task.offHeadersReceived.bind(task)
@@ -62,7 +66,7 @@ const link = new Link(taroInterceptor)
 
 /**
  * 发起 HTTPS 网络请求
- * 
+ *
  * @canUse request
  * @__object [url, data, header, timeout, method[OPTIONS, GET, HEAD, POST, PUT, PATCH, DELETE, TRACE, CONNECT], responseType[text, arraybuffer], enableCache]
  * @__success [data, header, statusCode, cookies]
@@ -75,21 +79,21 @@ export function request (options) {
 
 /**
  * 网络请求任务对象
- * 
+ *
  * @canUse RequestTask
  * @__class [abort, onHeadersReceived, offHeadersReceived]
  */
 
 /**
  * 使用拦截器
- * 
+ *
  * @canNotUse addInterceptor
  */
 export const addInterceptor = link.addInterceptor.bind(link)
 
 /**
  * 清除所有拦截器
- * 
+ *
  * @canNotUse cleanInterceptors
  */
 export const cleanInterceptors = link.cleanInterceptors.bind(link)

@@ -3,10 +3,11 @@ import { showActionSheet } from '@tarojs/taro-h5'
 
 import { shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
+import native from '../../NativeApi'
 
 /**
  * 从本地相册选择图片或使用相机拍照。
- * 
+ *
  * @canUse chooseImage
  * @__object [count, sizeType[original, compressed], sourceType[album, camera]]
  * @__success [tempFilePaths, tempFiles]
@@ -60,8 +61,8 @@ export const chooseImage: typeof Taro.chooseImage = async (options) => {
       sourceType: sourceSelected,
       sizeType: sizeType,
       apiName: name,
-      success: (res: any) => {      
-        const tempFiles: Taro.chooseImage.ImageFile[] = [] 
+      success: (res: any) => {
+        const tempFiles: Taro.chooseImage.ImageFile[] = []
         for (const file of res.tempFiles) {
           const fileInfo: Taro.chooseImage.ImageFile = {
             path: file.tempFilePath,

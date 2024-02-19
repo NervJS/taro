@@ -3,10 +3,11 @@ import { shouldBeObject } from 'src/utils'
 import { wgs84Togcj02 } from 'src/utils/coordinateConvert'
 
 import { MethodHandler } from '../../utils/handler'
+import native from '../NativeApi'
 
 /**
  * 获取当前的模糊地理位置
- *  
+ *
  * @canUse getFuzzyLocation
  * @__object [type]
  * @__success [latitude, longitude]

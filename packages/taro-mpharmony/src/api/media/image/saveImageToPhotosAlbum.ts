@@ -2,11 +2,12 @@ import Taro from '@tarojs/api'
 
 import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
+import native from '../../NativeApi'
 
 /**
  * 保存图片到系统相册
- * 
- * @canUse saveImageToPhotosAlbum 
+ *
+ * @canUse saveImageToPhotosAlbum
  * @__object [filePath]
  */
 export const saveImageToPhotosAlbum: typeof Taro.saveImageToPhotosAlbum = (options) => {

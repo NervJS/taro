@@ -2,9 +2,10 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../NativeApi'
 /**
  * 保存文件到本地
- * 
+ *
  * @canUse saveFile
  * @__object [tempFilePath, filePath]
  * @__success [savedFilePath]
@@ -38,7 +39,6 @@ export const saveFile: typeof Taro.saveFile = (options) => {
   }
 
   return new Promise<Taro.saveFile.FailCallbackResult | Taro.saveFile.SuccessCallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.saveFile({
       tempFilePath: tempFilePath,
       filePath: filePath,

@@ -2,6 +2,7 @@ import Taro from '@tarojs/api'
 
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
+import native from '../NativeApi'
 
 /**
  * 跳转系统蓝牙设置页
@@ -157,7 +158,6 @@ export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
  * microphoneAuthorized, notificationAuthorized, phoneCalendarAuthorized]
  */
 export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = () => {
-  // @ts-ignore
   const info = native.getAppAuthorizeSetting()
   // @ts-ignore
   const appAuthorizeSetting: Taro.getAppAuthorizeSetting.Result = {

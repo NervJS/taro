@@ -1,5 +1,7 @@
 import { CanvasGradient } from '@tarojs/api'
 
+import native from '../NativeApi'
+
 interface IAction {
   func: (...arr: any[]) => void
   args: any[]
@@ -14,9 +16,9 @@ const TextBaseLineMap: Record<keyof Taro.CanvasContext.TextBaseline, CanvasTextB
 
 /**
  * canvas 组件的绘图上下文
- * 
+ *
  * @canUse CanvasContext
- * @__class 
+ * @__class
  * [arc, arcTo, beginPath, bezierCurveTo, clearRect, clip, closePath, createCircularGradient, createLinearGradient, createPattern,\
  * draw, drawImage, fill, fillRect, fillText, lineTo, measureText, moveTo, quadraticCurveTo, rect,\
  * restore, rotate, save, scale, setFillStyle, setFontSize, setGlobalAlpha, setLineCap, setLineDash,\

@@ -2,10 +2,11 @@ import Taro from '@tarojs/api'
 
 import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
+import native from '../../NativeApi'
 
 /**
  * 拨打电话
- * 
+ *
  * @canUse makePhoneCall
  * @__object [phoneNumber]
  */
