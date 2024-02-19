@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [16.x]
+        node-version: [16.x, 18.x, 20.x]
         settings:
           - host: macos-11
             target: x86_64-apple-darwin
