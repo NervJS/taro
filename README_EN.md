@@ -81,7 +81,7 @@ Juejin book: [Taro Cross-platform Development in Action](https://juejin.im/book/
 
 |  Name   | Link  | Intro | Framework  | Taro Version |
 |  ----  | ----  | ----  | ----  | ----  |
-| [taro-ui](https://github.com/NervJS/taro-ui)  | https://taro-ui.jd.com/#/ | A cross-platform UI library based on Taro | React | Taro 1/2/3 (Alpha-version needed for Taro 3） |
+| [taro-ui](https://github.com/NervJS/taro-ui)  | https://taro-ui.jd.com/#/ | A cross-platform UI library based on Taro | React | Taro 1/2/3 |
 | [NutUI](https://github.com/jdf2e/nutui)  | https://nutui.jd.com/#/ | A JD-style light-weighted Vue library | Vue3 | Taro 3 |
 | [taroify](https://github.com/mallfoundry/taroify)  | https://taroify.gitee.io/taroify.com/introduce/ | A light-weighted and reliable Taro library for mini-programs (Vant's Taro version) | React | Taro 3 |
 | [@antmjs/vantui](https://github.com/AntmJS/vantui)  | https://antmjs.github.io/vantui/#/home | A UI library that supports Taro and React, based on Youzan VantWeapp | React | Taro 3 |
