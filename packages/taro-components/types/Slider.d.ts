@@ -44,7 +44,7 @@ interface SliderProps extends StandardProps, FormItemProps {
   /** 已选择的颜色
    * @default "#1aad19"
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
-, harmony_hybrid   */
+   */
   activeColor?: string
   /** 背景条的颜色
    * @default "#e9e9e9"
