@@ -98,7 +98,7 @@ const useClickable = (props: any) => {
   })
   useEffect(() => {
     ref.current.props = props
-  });
+  })
 
   useEffect(() => {
     return () => {
