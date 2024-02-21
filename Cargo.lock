@@ -595,7 +595,6 @@ dependencies = [
  "enquote",
  "handlebars",
  "jmespath",
- "jsonnet-rs",
  "lazy_static",
  "log",
  "serde",
@@ -731,26 +730,6 @@ dependencies = [
  "serde",
  "serde_json",
  "slug",
-]
-
-[[package]]
-name = "jsonnet-rs"
-version = "0.17.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "82b396bdfc3ae94965555c9ec3efa2214e5f3921545a943ef9fc9873ff5e4723"
-dependencies = [
- "jsonnet-sys",
- "libc",
-]
-
-[[package]]
-name = "jsonnet-sys"
-version = "0.17.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "02347cbdf34234f30f0d92f0f8f678a15883bd5e1e4b3def4ed4a14f691d9add"
-dependencies = [
- "cc",
- "libc",
 ]
 
 [[package]]
