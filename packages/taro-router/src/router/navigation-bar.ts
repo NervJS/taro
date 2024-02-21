@@ -1,7 +1,6 @@
 import { eventCenter } from '@tarojs/runtime'
 
 import { navigateBack,reLaunch } from '../api'
-import { loadNavigationBarStyle } from '../style'
 import { isDingTalk } from '../utils'
 import stacks from './stack'
 
@@ -24,7 +23,6 @@ export default class NavigationBarHandler {
     this.cache ={}
     this.pageContext = pageContext
     this.init()
-    loadNavigationBarStyle()
 
     eventCenter.on('__taroH5SetNavigationTitle', (title)=> {
       this.setTitle(title)
