@@ -14,7 +14,7 @@ const back_svg_str = `
 </svg>
 `
 
-export function initNavigationBar (config: SpaRouterConfig | MpaRouterConfig, container:HTMLElement) {
+export function initNavigationBar (config: SpaRouterConfig | MpaRouterConfig, container: HTMLElement) {
   if(config.router.mode === 'multi') return
   
   const navigationBar = document.createElement('div')
