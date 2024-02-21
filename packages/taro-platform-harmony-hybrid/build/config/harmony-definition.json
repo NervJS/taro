@@ -131,13 +131,6 @@
     },
     "Color": false,
     "DB": false,
-    "DownloadTask": {
-      "abort": true,
-      "onProgressUpdate": true,
-      "offProgressUpdate": true,
-      "onHeadersReceived": true,
-      "offHeadersReceived": true
-    },
     "EditorContext": false,
     "EntryList": false,
     "EventChannel": false,
@@ -241,13 +234,6 @@
     "NfcB": false,
     "NfcF": false,
     "NfcV": false,
-    "NodesRef": {
-      "context": true,
-      "node": true,
-      "boundingClientRect": true,
-      "scrollOffset": true,
-      "fields": true
-    },
     "OffscreenCanvas": false,
     "Path2D": true,
     "Performance": false,
@@ -402,8 +388,7 @@
         "sourceType": {
           "album": true,
           "camera": true
-        },
-        "imageId": true
+        }
       },
       "success": {
         "tempFilePaths": true,
@@ -2117,7 +2102,8 @@
           "default-value": false
         }
       },
-      "disabled": true
+      "disabled": true,
+      "header-text": false
     },
     "picker-view": {
       "value": true,

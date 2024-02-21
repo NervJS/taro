@@ -2,6 +2,33 @@ import { LegacyException } from 'sass'
 
 import * as d from './declarations'
 
+const STOP_CHARS = [
+  '',
+  '\n',
+  '\r',
+  '\t',
+  ' ',
+  ':',
+  ';',
+  ',',
+  '{',
+  '}',
+  '.',
+  '#',
+  '@',
+  '!',
+  '[',
+  ']',
+  '(',
+  ')',
+  '&',
+  '+',
+  '~',
+  '^',
+  '*',
+  '$',
+]
+
 /**
  * Generates a diagnostic as a result of an error originating from Sass.
  *
@@ -162,30 +189,3 @@ function formatFileName (rootDir: string, fileName: string): string {
   }
   return fileName
 }
-
-const STOP_CHARS = [
-  '',
-  '\n',
-  '\r',
-  '\t',
-  ' ',
-  ':',
-  ';',
-  ',',
-  '{',
-  '}',
-  '.',
-  '#',
-  '@',
-  '!',
-  '[',
-  ']',
-  '(',
-  ')',
-  '&',
-  '+',
-  '~',
-  '^',
-  '*',
-  '$',
-]
