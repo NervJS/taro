@@ -37,6 +37,8 @@ jobs:
             target: x86_64-pc-windows-msvc
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
+          - host: ubuntu-latest
+            target: x86_64-unknown-linux-musl
     runs-on: ${{ matrix.settings.host }}
     steps:
       - name: Checkout
@@ -72,9 +74,9 @@ jobs:
           path: crates/native_binding
       - name: Test bindings
         run: pnpm test:binding
-        if: ${{ matrix.settings.target != 'x86_64-unknown-linux-gnu' }}
+        if: ${{ matrix.settings.target != 'x86_64-unknown-linux-gnu' && matrix.settings.target != 'x86_64-unknown-linux-musl'}}
       - name: Test bindings with docker
-        if: ${{ matrix.settings.target == 'x86_64-unknown-linux-gnu' }}
+        if: ${{ matrix.settings.target == 'x86_64-unknown-linux-gnu' || matrix.settings.target == 'x86_64-unknown-linux-musl'}}
         # 暂时使用了一个第三方的 docker 镜像
         run: docker run --rm -v $(pwd):/build -w /build chf007/pnpm pnpm test:binding
       # 以下的测试流程应该在所有平台都执行，但 windows 好像还有些问题，因此目前只在 ubuntu-latest 执行
