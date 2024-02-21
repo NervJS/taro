@@ -30,8 +30,6 @@ interface SwiperProps extends StandardProps {
    * @supported swan, tt, qq, jd
    * @weapp deprecated
    * @default ""
-   * @supported swan, tt, qq, jd
-   * @weapp deprecated
    */
   currentItemId?: string
   /** 自动切换时间间隔

@@ -91,8 +91,13 @@ const useClickable = (props: any) => {
     startTimestamp: number,
     startTimer?: ReturnType<typeof setTimeout>
     stayTimer?: ReturnType<typeof setTimeout>
+    props: any
   }>({
-    startTimestamp: 0
+    startTimestamp: 0,
+    props: props
+  })
+  useEffect(() => {
+    ref.current.props = props
   })
 
   useEffect(() => {
@@ -103,21 +108,21 @@ const useClickable = (props: any) => {
   }, [ref])
 
   const setStartTimer = () => {
-    const { hoverStyle, hoverStartTime } = props
+    const { hoverStyle, hoverStartTime } = ref.current.props
     if (hoverStyle) {
       ref.current.startTimer && clearTimeout(ref.current.startTimer)
       ref.current.startTimer = setTimeout(() => {
-        setIsHover(true)
+        setIsHover(() => true)
       }, hoverStartTime)
     }
   }
 
   const setStayTimer = () => {
-    const { hoverStyle, hoverStayTime } = props
+    const { hoverStyle, hoverStayTime } = ref.current.props
     if (hoverStyle) {
       ref.current.stayTimer && clearTimeout(ref.current.stayTimer)
       ref.current.stayTimer = setTimeout(() => {
-        isHover && setIsHover(false)
+        setIsHover(() => false)
       }, hoverStayTime)
     }
   }
@@ -132,19 +137,19 @@ const useClickable = (props: any) => {
           // onTouchMove,
           // onTouchCancel,
           onTouchEnd
-        } = props
+        } = ref.current.props
         return !!(hoverStyle || onClick || onLongPress || onTouchStart || onTouchEnd)
       },
       onShouldBlockNativeResponder: () => false,
       onPanResponderGrant: (evt: GestureResponderEvent) => {
-        const { onTouchStart } = props
+        const { onTouchStart } = ref.current.props
         onTouchStart && onTouchStart(getWxAppEvent(evt))
         ref.current.startTimestamp = evt.nativeEvent.timestamp
         setStartTimer()
       },
       onPanResponderTerminationRequest: () => true,
       onPanResponderRelease: (evt: GestureResponderEvent, gestureState) => {
-        const { onClick, onLongPress, onTouchEnd } = props
+        const { onClick, onLongPress, onTouchEnd } = ref.current.props
         onTouchEnd && onTouchEnd(getWxAppEvent(evt))
         const endTimestamp = evt.nativeEvent.timestamp
         const gapTime = endTimestamp - ref.current.startTimestamp

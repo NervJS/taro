@@ -16,14 +16,13 @@ interface IProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'ty
   type?: string
   className?: string
 }
- 
+
 interface IState {
   hover:boolean
   touch: boolean
 }
 
 class Button extends React.Component<IProps, IState> {
-    
   constructor (props) {
     super(props)
     this.state = {
@@ -31,9 +30,9 @@ class Button extends React.Component<IProps, IState> {
       touch: false
     }
   }
-  
-  startTimer
-  endTimer
+
+  startTimer: ReturnType<typeof setTimeout>
+  endTimer: ReturnType<typeof setTimeout>
 
   componentWillUnmount () {
     this.startTimer && clearTimeout(this.startTimer)
@@ -108,7 +107,7 @@ class Button extends React.Component<IProps, IState> {
         loading={loading.toString()}
         plain={plain.toString()}
       >
-        {loading && <i className='weui-loading' />}
+        {!!loading && <i className='weui-loading' />}
         {children}
       </button>
     )
