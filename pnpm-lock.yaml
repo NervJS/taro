@@ -360,6 +360,10 @@ importers:
         version: registry.npmjs.org/webpack-sources@3.2.3
 
   crates/native_binding:
+    dependencies:
+      '@napi-rs/triples':
+        specifier: 1.2.0
+        version: registry.npmjs.org/@napi-rs/triples@1.2.0
     optionalDependencies:
       '@tarojs/binding-darwin-arm64':
         specifier: workspace:*
@@ -13234,6 +13238,12 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  registry.npmjs.org/@napi-rs/triples@1.2.0:
+    resolution: {integrity: sha512-HAPjR3bnCsdXBsATpDIP5WCrw0JcACwhhrwIAQhiR46n+jm+a2F8kBsfseAuWtSyQ+H3Yebt2k43B5dy+04yMA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@napi-rs/triples/-/triples-1.2.0.tgz}
+    name: '@napi-rs/triples'
+    version: 1.2.0
+    dev: false
 
   registry.npmjs.org/@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3:
     resolution: {integrity: sha512-s88O1aVtXftvp5bCPB7WnmXc5IwOZZ7YPuwNPt+GtOOXpPvad1LfbmjYv+qII7zP6RU2QGnqve27dnLycEnyEQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.3.tgz}
