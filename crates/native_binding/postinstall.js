@@ -34,7 +34,7 @@ if (process.env.npm_config_build_from_source || process.env.BUILD_TARO_FROM_SOUR
     stdio: 'inherit',
     env: process.env,
   })
-  const dylibContent = readFileSync(join(resolve(__dirname, '..', '..'), 'target', 'release', `${dylibName}${libExt}`))
+  const dylibContent = readFileSync(join(__dirname, 'target', 'release', `${dylibName}${libExt}`))
   const triples = platformArchTriples[PLATFORM_NAME][ARCH_NAME]
   const tripe = triples[0]
   writeFileSync(join(__dirname, `taro.${tripe.platformArchABI}.node`), dylibContent)
