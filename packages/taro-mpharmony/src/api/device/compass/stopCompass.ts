@@ -2,6 +2,8 @@ import Taro from '@tarojs/api'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 停止监听罗盘数据
  * 

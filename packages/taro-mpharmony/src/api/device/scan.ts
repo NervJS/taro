@@ -2,6 +2,8 @@ import Taro from '@tarojs/api'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../NativeApi'
+
 /**
  * 调起客户端扫码界面，扫码成功后返回对应的结果
  * 
@@ -27,7 +29,6 @@ export const scanCode: typeof Taro.scanCode = (options) => {
   const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
-    // @ts-ignore
     native.scanCode({
       onlyFromCamera,
       scanType,

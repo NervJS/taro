@@ -2,6 +2,8 @@ import Taro from '@tarojs/api'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 开始监听罗盘数据
  * 
@@ -19,7 +21,6 @@ export const startCompass: typeof Taro.startCompass = (options) => {
     const { success, fail, complete } = options || {}
     const handle = new MethodHandler({ name, success, fail, complete })
 
-    // @ts-ignore
     native.startCompass({
       success: () => {
         const result: TaroGeneral.CallbackResult = {

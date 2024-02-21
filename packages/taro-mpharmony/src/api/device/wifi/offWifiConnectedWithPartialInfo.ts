@@ -3,7 +3,7 @@ import { shouldBeFunction } from 'src/utils'
 
 /**
  * 取消监听连接上 Wi-Fi 的事件
- * 
+ *
  * @canUse offWifiConnectedWithPartialInfo
  */
 export const offWifiConnectedWithPartialInfo: typeof Taro.offWifiConnectedWithPartialInfo = (callback) => {

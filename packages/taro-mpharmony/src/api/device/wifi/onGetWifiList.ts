@@ -3,7 +3,7 @@ import { shouldBeFunction } from 'src/utils'
 
 /**
  * 监听获取到 Wi-Fi 列表数据事件
- * 
+ *
  * @canUse onGetWifiList
  * @__callback [wifiList]
  */
