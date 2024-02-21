@@ -2,6 +2,8 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../NativeApi'
+
 /**
  * 获取本地已保存的文件列表
  * 
@@ -26,7 +28,6 @@ export const getSavedFileList: typeof Taro.getSavedFileList = (options) => {
   }>({ name, success, fail, complete })
 
   return new Promise<Taro.getSavedFileList.SuccessCallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.getSavedFileList({
       success: (res: any) => {
         const result: Taro.getSavedFileList.SuccessCallbackResult = {

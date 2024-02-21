@@ -4,7 +4,7 @@ import { MethodHandler } from 'src/utils/handler'
 
 /**
  * 请求获取 Wi-Fi 列表
- * 
+ *
  * @canUse getWifiList
  */
 export const getWifiList: typeof Taro.getWifiList = (options) => {

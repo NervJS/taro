@@ -4,7 +4,7 @@ import { MethodHandler } from 'src/utils/handler'
 
 /**
  * 关闭 Wi-Fi 模块
- * 
+ *
  * @canUse stopWifi
  */
 export const stopWifi: typeof Taro.stopWifi = (options) => {

@@ -4,7 +4,7 @@ import { MethodHandler } from 'src/utils/handler'
 
 /**
  * 初始化 Wi-Fi 模块
- * 
+ *
  * @canUse startWifi
  */
 export const startWifi: typeof Taro.startWifi = (options) => {

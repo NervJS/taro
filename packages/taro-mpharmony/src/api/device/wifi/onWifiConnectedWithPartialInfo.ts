@@ -3,7 +3,7 @@ import { shouldBeFunction } from 'src/utils'
 
 /**
  * 监听连接上 Wi-Fi 的事件
- * 
+ *
  * @canUse onWifiConnectedWithPartialInfo
  * @__callback [wifi]
  */

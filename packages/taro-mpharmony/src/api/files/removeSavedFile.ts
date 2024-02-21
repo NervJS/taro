@@ -2,6 +2,8 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../NativeApi'
+
 /**
  * 新开页面打开文档，支持格式
  * 
@@ -36,7 +38,6 @@ export const removeSavedFile: typeof Taro.removeSavedFile = (options) => {
   }
 
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.removeSavedFile({
       filePath: filePath,
       success: (res: any) => {

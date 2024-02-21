@@ -2,6 +2,8 @@ import Taro from '@tarojs/api'
 import { shouldBeFunction } from 'src/utils'
 import { taroCallbackMap } from 'src/utils/callbakMap'
 
+import native from '../../NativeApi'
+
 /**
  * 监听罗盘数据变化事件。频率：5 次/秒，接口调用后会自动开始监听，可使用 stopCompass 停止监听
  * 

@@ -4,7 +4,7 @@ import { MethodHandler } from 'src/utils/handler'
 
 /**
  * 连接 Wi-Fi
- * 
+ *
  * @canUse connectWifi
  * @__object [SSID, password, BSSID]
  */

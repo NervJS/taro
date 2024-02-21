@@ -2,6 +2,8 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../NativeApi'
+
 /**
  * 获取本地文件的文件信息
  * 
@@ -40,7 +42,6 @@ export const getSavedFileInfo: typeof Taro.getSavedFileInfo = (options) => {
   }
 
   return new Promise<Taro.getSavedFileInfo.SuccessCallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.getSavedFileInfo({
       filePath: filePath,
       success: (res: any) => {

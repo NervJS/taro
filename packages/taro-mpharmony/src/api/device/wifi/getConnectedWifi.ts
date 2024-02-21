@@ -4,7 +4,7 @@ import { MethodHandler } from 'src/utils/handler'
 
 /**
  * 获取已连接中的 Wi-Fi 信息
- * 
+ *
  * @canUse getConnectedWifi
  * @__success [wifi]
  */

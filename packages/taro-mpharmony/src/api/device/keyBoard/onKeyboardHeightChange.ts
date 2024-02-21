@@ -1,6 +1,8 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
 
+import native from '../../NativeApi'
+
 /**
  * 监听键盘高度变化
  * 
