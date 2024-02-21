@@ -25,7 +25,11 @@
   },
   "files": [
     "binding.js",
-    "binding.d.ts"
+    "binding.d.ts",
+    "src/**",
+    "build.rs",
+    "Cargo.toml",
+    "postinstall.js"
   ],
   "repository": {
     "type": "git",
