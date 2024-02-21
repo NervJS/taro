@@ -12,13 +12,16 @@ const back_svg_str = `
 `
 
 export function initNavigationBar (container:HTMLElement) {
-  const navigationBar = document.createElement('taro-navigation-bar-wrap')
+  const navigationBar = document.createElement('div')
   navigationBar.classList.add('taro-navigation-bar-no-icon')
-  const navigationBarBackBtn = document.createElement('taro-navigation-bar-back')
-  const navigationBarHomeBtn = document.createElement('taro-navigation-bar-home')
+  const navigationBarBackBtn = document.createElement('div')
+  navigationBarBackBtn.classList.add('taro-navigation-bar-back')
+  const navigationBarHomeBtn = document.createElement('div')
+  navigationBarHomeBtn.classList.add('taro-navigation-bar-home')
   navigationBarBackBtn.innerHTML = back_svg_str
   navigationBarHomeBtn.innerHTML = home_svg_str
-  const navigationBarTitle = document.createElement('taro-navigation-bar-title')
+  const navigationBarTitle = document.createElement('div')
+  navigationBarTitle.classList.add('taro-navigation-bar-title')
   navigationBar.appendChild(navigationBarHomeBtn)
   navigationBar.appendChild(navigationBarBackBtn)
   navigationBar.appendChild(navigationBarTitle)
