@@ -135,13 +135,6 @@
     },
     "Color": false,
     "DB": false,
-    "DownloadTask": {
-      "abort": true,
-      "onProgressUpdate": true,
-      "offProgressUpdate": true,
-      "onHeadersReceived": true,
-      "offHeadersReceived": true
-    },
     "EditorContext": {
       "blur": true,
       "clear": true,
@@ -326,7 +319,7 @@
       "offHeadersReceived": true
     },
     "RewardedVideoAd": false,
-    "ScrollView": {
+    "ScrollViewContext": {
       "scrollTo": true,
       "scrollIntoView": true
     },
@@ -353,7 +346,6 @@
     },
     "TCPSocket": false,
     "UDPSocket": false,
-    "UpdateManager": true,
     "UploadTask": {
       "abort": true,
       "onProgressUpdate": true,
@@ -471,7 +463,8 @@
     "canvasGetImageData": {
       "object": {
         "canvasId": true,
-        "data": true,
+        "x": true,
+        "y": true,
         "height": true,
         "width": true
       },
@@ -485,8 +478,8 @@
       "object": {
         "canvasId": true,
         "data": true,
-        "height": true,
-        "width": true
+        "x": true,
+        "y": true
       }
     },
     "canvasToTempFilePath": {
@@ -540,8 +533,7 @@
         "sourceType": {
           "album": true,
           "camera": true
-        },
-        "imageId": true
+        }
       },
       "success": {
         "tempFilePaths": true,
@@ -631,23 +623,7 @@
         "tempFilePath": true
       }
     },
-    "compressVideo": {
-      "object": {
-        "src": true,
-        "quality": {
-          "low": true,
-          "medium": true,
-          "high": true
-        },
-        "bitrate": true,
-        "fps": true,
-        "resolution": true
-      },
-      "success": {
-        "tempFilePath": true,
-        "size": true
-      }
-    },
+    "compressVideo": true,
     "connectSocket": {
       "object": {
         "url": true,

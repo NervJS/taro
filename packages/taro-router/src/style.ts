@@ -18,6 +18,7 @@ export function loadAnimateStyle (ms = 300) {
 .taro_router .taro_page.taro_tabbar_page,
 .taro_router .taro_page.taro_page_show.taro_page_stationed {
   transform: none;
+  transition: none;
 }
 
 .taro_router .taro_page.taro_page_show {
