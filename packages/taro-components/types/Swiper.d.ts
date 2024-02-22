@@ -27,7 +27,7 @@ interface SwiperProps extends StandardProps {
    */
   current?: number
   /** 当前所在滑块的 item-id ，不能与 current 被同时指定
-   * @supported swan, tt, qq, jd
+   * @supported swan, tt, qq, jd, harmony_hybrid
    * @weapp deprecated
    * @default ""
    */
