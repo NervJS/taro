@@ -600,13 +600,6 @@
  */
 
 /**
- * 使用微信内置地图查看位置(暂不支持scale入参)
- * 
- * @canUse openLocation
- * @__object [latitude, longitude, address, name]
- */
-
-/**
  * 打开视频编辑器
  * 
  * @canNotUse openVideoEditor 
