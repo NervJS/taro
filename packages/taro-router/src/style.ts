@@ -92,21 +92,21 @@ export function loadNavigationBarStyle () {
     display: none;
   }
 
-  taro-navigation-bar-title {
+  .taro-navigation-bar-title {
     font-size: 24px;
     height: 24px;
     line-height: 24px;
   }
 
-  .taro-navigation-bar-no-icon > taro-navigation-bar-home {
+  .taro-navigation-bar-no-icon > .taro-navigation-bar-home {
     display: none;
   }
 
-  .taro-navigation-bar-no-icon > taro-navigation-bar-back {
+  .taro-navigation-bar-no-icon > .taro-navigation-bar-back {
     display: none;
   }
 
-  .taro-navigation-bar-home > taro-navigation-bar-home {
+  .taro-navigation-bar-home-icon > .taro-navigation-bar-home {
     display: block;
     left: 8px;
     position: absolute;
@@ -114,16 +114,14 @@ export function loadNavigationBarStyle () {
     height: 24px;
   }
 
-  .taro-navigation-bar-back > taro-navigation-bar-back {
+  .taro-navigation-bar-back-icon > .taro-navigation-bar-back {
     display: block;
     left: 8px;
     position: absolute;
     width: 24px;
     height: 24px;
   }
-
-  `
-
+`
   addStyle(css)
 }
 
