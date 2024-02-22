@@ -16,8 +16,11 @@
   <a href="https://www.npmjs.com/package/@tarojs/taro">
     <img src="https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square">
   </a>
-  <a href="https://travis-ci.org/NervJS/taro">
-    <img src="https://img.shields.io/travis/NervJS/taro.svg?style=flat-square">
+  <a href="https://github.com/NervJS/taro/actions">
+    <img src="https://img.shields.io/github/actions/workflow/status/NervJS/taro/publish.yml?style=flat-square">
+  </a>
+  <a href="https://codecov.io/gh/NervJS/taro" > 
+  <img src="https://codecov.io/gh/NervJS/taro/graph/badge.svg?token=y06kPnzJaQ"/> 
   </a>
   <a href="https://github.com/NervJS/taro">
     <img src="https://img.shields.io/github/contributors/NervJS/taro" alt="GitHub contributors">
@@ -29,7 +32,7 @@
     <img src="https://img.shields.io/github/issues-closed/NervJS/taro" alt="GitHub closed issues">
   </a>
   <a href="https://github.com/NervJS/taro">
-    <img src="https://img.shields.io/github/commits-since/NervJS/taro/latest/next" alt="GitHub commits since latest release (by date)">
+    <img src="https://img.shields.io/github/commits-since/NervJS/taro/latest/main" alt="GitHub commits since latest release (by date)">
   </a>
   <a href="https://github.com/NervJS/taro">
     <img src="https://img.shields.io/github/release-date/NervJS/taro" alt="GitHub Release Date">
