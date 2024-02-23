@@ -5,7 +5,7 @@ interface GridViewProps extends StandardProps {
    * @supported weapp
    * @default "aligned"
    */
-  type: string
+  type: keyof GridViewProps.Type
   /** 交叉轴元素数量
    * @supported weapp
    * @default 2
@@ -26,6 +26,21 @@ interface GridViewProps extends StandardProps {
    * @default 0
    */
   maxCrossAxisExtent?: number
+  /**
+   * 长度为 4 的数组，按 top、right、bottom、left 顺序指定内边距
+   * @supported weapp
+   * @default [0, 0, 0, 0]
+   */
+  padding?: [number, number, number, number]
+}
+
+declare namespace GridViewProps {
+  interface Type {
+    /** 瀑布流，根据子元素高度自动布局 */
+    masonry
+    /** 每行高度由同一行中最大高度子节点决定 */
+    aligned
+  }
 }
 /**
  * 网格布局容器，仅支持作为 scroll-view 自定义模式下的直接子节点或 sticky-section 组件直接子节点。仅 Skyline 支持。
