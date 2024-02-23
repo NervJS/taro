@@ -53,6 +53,7 @@ export function cloneNode (this: TaroNode, isDeep = false) {
 
   for (const key in this) {
     const value: any = this[key]
+    // eslint-disable-next-line valid-typeof
     if ([PROPS, DATASET].includes(key) && typeof value === OBJECT) {
       newNode[key] = { ...value }
     } else if (key === '_value') {
