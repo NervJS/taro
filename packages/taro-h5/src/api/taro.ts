@@ -2,7 +2,7 @@ import Taro from '@tarojs/api'
 import { history } from '@tarojs/router'
 import { isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 
-import { getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, switchTab } from '../api'
+import { afterRouteChange, beforeRouteChange, getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, switchTab } from '../api'
 import { permanentlyNotSupport } from '../utils'
 
 const {
@@ -39,6 +39,8 @@ const taro: typeof Taro = {
   navigateTo,
   reLaunch,
   redirectTo,
+  beforeRouteChange,
+  afterRouteChange,
   getCurrentPages,
   switchTab
 }

@@ -68,6 +68,15 @@ declare module '../../index' {
     }
   }
 
+  namespace routeChange {
+    interface Param {
+      /** 新的页面的路径 */
+      toLocation: { path: string }
+    }
+
+    type CallbackFn = (param: Param) => void
+  }
+
   /** 页面间事件通信通道
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.html
@@ -216,5 +225,9 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateBack.html
      */
     navigateBack(option?: navigateBack.Option): Promise<TaroGeneral.CallbackResult>
+
+    beforeRouteChange(callbackfn: CallbackFn): void
+
+    afterRouteChange(callbackfn: CallbackFn): void
   }
 }
