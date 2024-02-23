@@ -441,7 +441,7 @@ require("./taro");
                                       <template is="{{xs.a(0, item.nn)}}" data="{{{i:item}}}" />
                                     </block>
                                   </view>
-                                  <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                                  <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                                     <block s-for="item.cn trackBy item.sid">
                                       <block>{{item.v}}</block>
                                     </block>
@@ -467,7 +467,7 @@ require("./taro");
                                   </block>
                                 </block>
                               </view>
-                              <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                              <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                                 <block s-for="item.cn trackBy item.sid">
                                   <block>{{item.v}}</block>
                                 </block>
@@ -493,7 +493,7 @@ require("./taro");
                               </block>
                             </block>
                           </view>
-                          <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                          <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                             <block s-for="item.cn trackBy item.sid">
                               <block>{{item.v}}</block>
                             </block>
@@ -519,7 +519,7 @@ require("./taro");
                           </block>
                         </block>
                       </view>
-                      <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                      <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                         <block s-for="item.cn trackBy item.sid">
                           <block>{{item.v}}</block>
                         </block>
@@ -545,7 +545,7 @@ require("./taro");
                       </block>
                     </block>
                   </view>
-                  <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                  <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                     <block s-for="item.cn trackBy item.sid">
                       <block>{{item.v}}</block>
                     </block>
@@ -571,7 +571,7 @@ require("./taro");
                   </block>
                 </block>
               </view>
-              <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+              <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                 <block s-for="item.cn trackBy item.sid">
                   <block>{{item.v}}</block>
                 </block>
@@ -597,7 +597,7 @@ require("./taro");
               </block>
             </block>
           </view>
-          <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+          <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
             <block s-for="item.cn trackBy item.sid">
               <block>{{item.v}}</block>
             </block>
@@ -623,7 +623,7 @@ require("./taro");
           </block>
         </block>
       </view>
-      <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+      <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
         <block s-for="item.cn trackBy item.sid">
           <block>{{item.v}}</block>
         </block>
@@ -655,13 +655,13 @@ require("./taro");
   <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block s-for="i.cn trackBy item.sid">
       <block s-if="item.nn === '8'">{{item.v}}</block>
-      <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+      <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
         <block s-for="item.cn trackBy item.sid">
           <block s-if="item.nn === '8'">{{item.v}}</block>
-          <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+          <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
             <block s-for="item.cn trackBy item.sid">
               <block s-if="item.nn === '8'">{{item.v}}</block>
-              <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+              <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                 <block s-for="item.cn trackBy item.sid">
                   <block>{{item.v}}</block>
                 </block>
@@ -675,16 +675,16 @@ require("./taro");
 </template>
 
 <template name="tmpl_0_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block s-for="i.cn trackBy item.sid">
       <block s-if="item.nn === '8'">{{item.v}}</block>
-      <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+      <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
         <block s-for="item.cn trackBy item.sid">
           <block s-if="item.nn === '8'">{{item.v}}</block>
-          <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+          <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
             <block s-for="item.cn trackBy item.sid">
               <block s-if="item.nn === '8'">{{item.v}}</block>
-              <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+              <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                 <block s-for="item.cn trackBy item.sid">
                   <block>{{item.v}}</block>
                 </block>
