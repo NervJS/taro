@@ -1,4 +1,4 @@
-import { addLeadingSlash } from '@tarojs/runtime'
+import { addLeadingSlash, eventCenter } from '@tarojs/runtime'
 import Taro from '@tarojs/taro'
 import { parsePath } from 'history'
 
@@ -127,4 +127,12 @@ export function getCurrentPages (): Taro.Page[] {
   }
   const pages = stacks.get()
   return pages.map(e => ({ ...e, route: e.path?.replace(/\?.*/g, '') || '' }))
+}
+
+export function beforeRouteChange (callbackFn: Taro.routeChange.CallbackFn): void {
+  eventCenter.on('__taroRouterChange', callbackFn)
+}
+
+export function afterRouteChange (callbackFn: Taro.routeChange.CallbackFn): void {
+  eventCenter.on('__afterTaroRouterChange', callbackFn)
 }
