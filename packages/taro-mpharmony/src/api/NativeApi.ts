@@ -191,6 +191,12 @@ class NativeApi {
 
   // @ts-ignore
   @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  setNavigationStyle (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
   getUserInfo (options: any): any {
     return options
   }
