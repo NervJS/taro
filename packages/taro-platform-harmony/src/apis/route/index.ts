@@ -16,6 +16,21 @@ function parseURL (raw = ''): [string, Record<string, unknown>] {
   const [urlStr, queryStr = ''] = raw.split('?')
   const query: Record<string, unknown> = queryToJson(queryStr)
   let url = urlStr.replace(/^\//, '')
+
+  // 处理相对路径
+  if (url.indexOf('.') === 0) {
+    const page = router.getState()
+    const parts = page.path.split('/')
+    parts.pop()
+    url.split('/').forEach((item) => {
+      if (item === '.') {
+        return
+      }
+      item === '..' ? parts.pop() : parts.push(item)
+    })
+    url = parts.join('/')
+  }
+
   if (isTabPage(url)) {
     query.$page = url
     url = TARO_TABBAR_PAGE_PATH
