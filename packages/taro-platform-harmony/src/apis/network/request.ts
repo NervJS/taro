@@ -6,7 +6,7 @@
 // ✅ RequestTask.onHeadersReceived
 
 import http from '@ohos.net.http'
-import { isString, isUndefined } from '@tarojs/shared'
+import { isString } from '@tarojs/shared'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 
@@ -59,10 +59,10 @@ export const request: typeof Taro.request = function (options) {
     }
 
     // 检查 Header 是否有 Referer
-    if (isUndefined(header.Referer)) {
-      const error = { errMsg: 'request fail parameter error: the header doesn‘t support Referer property' }
-      callAsyncFail(reject, error, options)
-    }
+    // if (isUndefined(header.Referer)) {
+    //   const error = { errMsg: 'request fail parameter error: the header doesn‘t support Referer property' }
+    //   callAsyncFail(reject, error, options)
+    // }
 
     // 检查 method 是否正确
     if (method) {
