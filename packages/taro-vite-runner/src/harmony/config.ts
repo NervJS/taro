@@ -96,7 +96,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       URLSearchParams: ['@tarojs/runtime', 'URLSearchParams'],
       getComputedStyle: ['@tarojs/runtime', 'getComputedStyle'],
       URL: ['@tarojs/runtime', 'URL'],
-      wx: ['@tarojs/taro', 'default'],
+      wx: ['@tarojs/taro', 'wx'],
       getCurrentPages: ['@tarojs/taro', 'getCurrentPages'],
       IntersectionObserver: ['@tarojs/taro', 'IntersectionObserver']
     }
