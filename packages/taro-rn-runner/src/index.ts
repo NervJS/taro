@@ -75,6 +75,7 @@ export default async function build (_appPath: string, config: any): Promise<any
       }
       onFinish(null)
     } catch (e) {
+      console.error(e)
       onFinish(e)
     }
   } else {
@@ -126,6 +127,7 @@ export default async function build (_appPath: string, config: any): Promise<any
       }
       onFinish(null)
     } catch (e) {
+      console.error(e)
       onFinish(e)
     }
   }
