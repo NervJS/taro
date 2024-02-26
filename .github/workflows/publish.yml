@@ -61,12 +61,6 @@ jobs:
     if: needs.need-publish.outputs.ABORT != 'true'
     uses: ./.github/workflows/build-rust-binding.yml
 
-  build-rust-wasm:
-    name: Build Rust WASM
-    needs: [need-publish]
-    if: needs.need-publish.outputs.ABORT != 'true'
-    uses: ./.github/workflows/build-rust-wasm.yml
-
   publish:
     permissions:
       contents: write # to create tags and refs
