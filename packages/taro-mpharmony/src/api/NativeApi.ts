@@ -613,6 +613,12 @@ class NativeApi {
   openAppAuthorizeSetting (option: any): any {
     return option
   }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  requestSubscribeMessage (option: any): any {
+    return option
+  }
 }
 
 const native = new NativeApi()
