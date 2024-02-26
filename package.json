@@ -188,6 +188,9 @@
           }
         }
       }
+    },
+    "overrides": {
+      "browserslist": "^4.23.0"
     }
   }
 }

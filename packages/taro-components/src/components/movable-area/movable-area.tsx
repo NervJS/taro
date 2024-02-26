@@ -1,12 +1,13 @@
 import { Component, h, Host, Prop, Element } from '@stencil/core'
 
+import { isElement } from '../../utils'
+
 @Component({
   tag: 'taro-movable-area-core',
   styleUrl: './area.scss'
 })
 export class MovableArea {
-
-  /** 
+  /**
    * 当里面的 movable-view 设置为支持双指缩放时，设置此值可将缩放手势生效区域修改为整个movable-area
    */
   @Prop() scaleArea: boolean
@@ -83,7 +84,7 @@ export class MovableArea {
         if (!(e = e.parentNode)) {
           return false
         }
-        return (!(e instanceof HTMLElement) || e !== document.body) && (e === t || e === t.element || e.element === t || loop(e, t))
+        return (!isElement(e) || e !== document.body) && (e === t || e === t.element || e.element === t || loop(e, t))
       }
 
       for (let i = 0; i < views.length; i++) {

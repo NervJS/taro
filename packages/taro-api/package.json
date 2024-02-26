@@ -27,7 +27,9 @@
     "clean": "rimraf ./dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
-    "test": "cross-env NODE_ENV=test jest --ci"
+    "test": "cross-env NODE_ENV=test jest",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
+    "test:dev": "cross-env NODE_ENV=test jest --watch"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
