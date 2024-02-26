@@ -96,7 +96,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
         port: webpackConfig.devServer?.port,
         pathname: routerMode === 'browser' ? routerBasename : '/'
       })
-      if (typeof webpackConfig.devServer.open === 'undefined') {
+      if (typeof webpackConfig.devServer.open === 'undefined' || webpackConfig.devServer.open === true) {
         webpackConfig.devServer.open = devUrl
       }
 

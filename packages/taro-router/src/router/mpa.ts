@@ -1,6 +1,7 @@
 /* eslint-disable dot-notation */
 import {
   createPageConfig,
+  Current,
   eventCenter, hooks,
   incrementId,
   stringify,
@@ -90,11 +91,16 @@ export async function createMultiRouter (
 
   app.onShow?.(launchParam as Record<string, any>)
 
-  window.addEventListener('visibilitychange', ()=>{
+  window.addEventListener('visibilitychange', () => {
+    const currentPath = Current.page?.path || ''
+    const path = currentPath.substring(0, currentPath.indexOf('?'))
+    const param = {}
+    // app的 onShow/onHide 生命周期的路径信息为当前页面的路径
+    Object.assign(param, launchParam, { path })
     if (document.visibilityState === 'visible') {
-      app.onShow?.(launchParam as Record<string, any>)
-    }else{
-      app.onHide?.(launchParam as Record<string, any>)
+      app.onShow?.(param as Record<string, any>)
+    } else {
+      app.onHide?.(param as Record<string, any>)
     }
   })
 }
