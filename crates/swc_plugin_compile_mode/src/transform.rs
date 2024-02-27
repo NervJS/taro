@@ -301,15 +301,6 @@ impl TransformVisitor {
                                 JSXAttrValue::JSXExprContainer(JSXExprContainer { expr: jsx_expr, .. }) => {
                                     let mut node_path = self.get_current_node_path();
 
-                                    // 处理事件属性
-                                    if is_event {
-                                        props.insert(event_name.unwrap(), String::from(EVENT_HANDLER));
-                                        if props.get(DATA_SID).is_none() {
-                                            props.insert(String::from(DATA_SID), format!("{{{{{}.sid}}}}", node_path));
-                                        }
-                                        return true
-                                    }
-
                                     // 处理 wxs 表达式属性
                                     if self.is_xscript_used() {
                                         if let JSXExpr::Expr(expr) = jsx_expr {
@@ -320,7 +311,7 @@ impl TransformVisitor {
                                                     if expr_string.is_some() {
                                                         let miniapp_attr_value = utils::gen_template(&expr_string.unwrap());
                                                         // 将结果输出到 <template>
-                                                        props.insert(miniapp_attr_name, miniapp_attr_value);
+                                                        props.insert(if is_event { event_name.unwrap() } else { miniapp_attr_name }, miniapp_attr_value);
                                                         // 该属性看作静态属性，可以从 JSX 中删除
                                                         return false
                                                     }
@@ -378,6 +369,15 @@ impl TransformVisitor {
                                                 _ => ()
                                             }
                                         }
+                                    }
+
+                                    // 处理事件属性
+                                    if is_event {
+                                        props.insert(event_name.unwrap(), String::from(EVENT_HANDLER));
+                                        if props.get(DATA_SID).is_none() {
+                                            props.insert(String::from(DATA_SID), format!("{{{{{}.sid}}}}", node_path));
+                                        }
+                                        return true
                                     }
 
                                     // 小程序组件标准属性 -> 取 @tarojs/shared 传递过来的属性值；非标准属性 -> 取属性名

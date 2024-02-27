@@ -60,3 +60,20 @@ test!(
     }
     "#
 );
+
+test!(
+    get_syntax_config(),
+    |_| tr(),
+    should_support_wxs_events,
+    r#"
+    function Index () {
+        return (
+            <View compileMode>
+                <Script src="./john.wxs" module="john"></Script>
+                <View onTouchStart={john.touchstart} onTouchMove={john.touchmove} onTouchEnd={john.touchend} />
+                <View hoverClass={cls} onTouchMove={john.touchmove} />
+            </View>
+        )
+    }
+    "#
+);
