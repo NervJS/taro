@@ -32,6 +32,8 @@ import TaroRichText from './richText'
 import TaroProgress from './progress'
 import TaroInnerHtml from './innerHtml'
 import TaroScrollView from './scrollView'
+import TaroMovableArea from './movableArea'
+import TaroMovableView from './movableView'
 import { TaroRadio, TaroRadioGroup } from './radio'
 import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 ${this.generateRenderNativeImport()}${this.generateRenderCompileModeImport()}
@@ -58,6 +60,8 @@ import type {
   TaroVideoElement,
   // TaroSwiperItemElement,
   TaroProgressElement,
+  TaroMovableAreaElement,
+  TaroMovableViewElement,
   TaroSwiperElement,
   TaroSwitchElement,
   TaroSliderElement,
@@ -103,6 +107,10 @@ function createChildItem (item: TaroElement) {
     TaroRadioGroup({ node: item as TaroRadioGroupElement })
   } else if (item.tagName === 'PROGRESS') {
     TaroProgress({node: item as  TaroProgressElement })
+  } else if (item.tagName === 'MOVABLEVIEW') {
+    TaroMovableView(item as TaroMovableViewElement)
+  } else if (item.tagName === 'MOVABLEAREA') {
+    TaroMovableArea(item as TaroMovableAreaElement)
   } else if (item.tagName === 'RADIO') {
     TaroRadio({ node: item as TaroRadioElement })
   } else if (item.tagName === 'LABEL') {

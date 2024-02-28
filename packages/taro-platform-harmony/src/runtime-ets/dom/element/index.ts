@@ -14,6 +14,8 @@ import {
   TaroSwitchElement,
   TaroTextAreaElement
 } from './form'
+import { TaroMovableAreaElement } from './movableArea'
+import { TaroMovableViewElement } from './movableView'
 import {
   TaroButtonElement,
   TaroIconElement,
@@ -76,6 +78,8 @@ export {
   TaroImageElement,
   TaroInputElement,
   TaroLabelElement,
+  TaroMovableAreaElement,
+  TaroMovableViewElement,
   TaroPickerElement,
   TaroProgressElement,
   TaroRadioElement,
