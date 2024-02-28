@@ -107,9 +107,9 @@ function createChildItem (item: TaroElement) {
     TaroRadioGroup({ node: item as TaroRadioGroupElement })
   } else if (item.tagName === 'PROGRESS') {
     TaroProgress({node: item as  TaroProgressElement })
-  } else if (item.tagName === 'MOVABLEVIEW') {
+  } else if (item.tagName === 'MOVABLE-VIEW') {
     TaroMovableView(item as TaroMovableViewElement)
-  } else if (item.tagName === 'MOVABLEAREA') {
+  } else if (item.tagName === 'MOVABLE-AREA') {
     TaroMovableArea(item as TaroMovableAreaElement)
   } else if (item.tagName === 'RADIO') {
     TaroRadio({ node: item as TaroRadioElement })
