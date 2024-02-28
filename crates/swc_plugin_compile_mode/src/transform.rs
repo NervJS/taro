@@ -268,12 +268,10 @@ impl TransformVisitor {
                     let idx = self.node_stack.pop().map(|i| i as u32);
                     let (children, ..) = self.build_xml_children(&mut el.children, idx);
                     children
-                } else if prop.sym == "Consumer" {
+                } else {
                     // 回退到旧的渲染模式
                     let node_path = self.get_current_node_path();
                     format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path)
-                } else {
-                    String::new()
                 }
             }
             _ => String::new()

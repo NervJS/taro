@@ -86,6 +86,7 @@ test!(
           <View compileMode>
             <Foo />
             <Foo title={myTitle} loading onClick={() => {}} />
+            <UI.Title />
           </View>
         )
     }
