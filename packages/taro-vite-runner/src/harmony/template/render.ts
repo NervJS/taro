@@ -29,6 +29,7 @@ import TaroSwiper from './swiper'
 import TaroWebView from './webview'
 import TaroTextArea from './textArea'
 import TaroRichText from './richText'
+import TaroProgress from './progress'
 import TaroInnerHtml from './innerHtml'
 import TaroScrollView from './scrollView'
 import { TaroRadio, TaroRadioGroup } from './radio'
@@ -56,6 +57,7 @@ import type {
   TaroTextAreaElement,
   TaroVideoElement,
   // TaroSwiperItemElement,
+  TaroProgressElement,
   TaroSwiperElement,
   TaroSwitchElement,
   TaroSliderElement,
@@ -99,6 +101,8 @@ function createChildItem (item: TaroElement) {
     TaroCheckbox({ node: item as TaroCheckboxElement })
   } else if (item.tagName === 'RADIO-GROUP') {
     TaroRadioGroup({ node: item as TaroRadioGroupElement })
+  } else if (item.tagName === 'PROGRESS') {
+    TaroProgress({node: item as  TaroProgressElement })
   } else if (item.tagName === 'RADIO') {
     TaroRadio({ node: item as TaroRadioElement })
   } else if (item.tagName === 'LABEL') {

@@ -24,6 +24,7 @@ import {
   TaroSwiperItemElement,
   TaroViewElement
 } from './normal'
+import { TaroProgressElement } from './progress'
 import { TaroScrollViewElement } from './scrollView'
 import { TaroTextElement } from './text'
 import { TaroVideoElement } from './video'
@@ -76,6 +77,7 @@ export {
   TaroInputElement,
   TaroLabelElement,
   TaroPickerElement,
+  TaroProgressElement,
   TaroRadioElement,
   TaroRadioGroupElement,
   TaroRichTextElement,
