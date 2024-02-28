@@ -28,6 +28,7 @@
     "build": "cross-env NODE_ENV=production run-s build:components build:library",
     "build:components": "stencil build",
     "build:library": "pnpm --filter @tarojs/components-library-react --filter @tarojs/components-library-vue2 --filter @tarojs/components-library-vue3 run build:ci",
+    "postbuild": "rimraf ./dist/hydrate/package.json",
     "dev:components": "cross-env NODE_ENV=development pnpm run build:components --watch",
     "dev:library-react": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-react run dev",
     "dev:library-vue2": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-vue2 run dev",
