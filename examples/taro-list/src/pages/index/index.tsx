@@ -2,7 +2,7 @@ import { View, Image, ScrollView, Text, Script } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { fetchProductsData } from '../../utils'
 import './index.scss'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 function useCanPan (): [boolean, React.Dispatch<React.SetStateAction<boolean>>] {
   const [canPan, setCanPan] = useState(false)

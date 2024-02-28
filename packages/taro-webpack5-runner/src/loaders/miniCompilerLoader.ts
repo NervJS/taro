@@ -46,7 +46,10 @@ export default async function (this: LoaderContext<IOptions>, source) {
             decorators: true
           },
           transform: {
-            legacyDecorator: true
+            legacyDecorator: true,
+            react: {
+              runtime: 'automatic'
+            }
           },
           experimental: {
             plugins: [
