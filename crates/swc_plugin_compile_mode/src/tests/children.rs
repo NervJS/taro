@@ -56,6 +56,29 @@ test!(
 test!(
     get_syntax_config(),
     |_| tr(),
+    should_support_context_api,
+    r#"
+    function Index () {
+        return (
+          <View compileMode>
+            {content0}
+            <MyContext.Provider value={{name:'ben'}}>
+              <View>{content1}</View>
+              <View>hello</View>
+              <View>{content2}</View>
+              <MyContext.Consumer>
+                {value => <View>name: {value.name}</View>}
+              </MyContext.Consumer>
+            </MyContext.Provider>
+          </View>
+        )
+    }
+    "#
+);
+
+test!(
+    get_syntax_config(),
+    |_| tr(),
     should_render_react_component,
     r#"
     function Index () {
