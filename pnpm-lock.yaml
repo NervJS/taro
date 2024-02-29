@@ -1492,6 +1492,8 @@ importers:
         specifier: 18.2.0
         version: registry.npmjs.org/react-test-renderer@18.2.0(react@18.2.0)
 
+  packages/taro-components/loader: {}
+
   packages/taro-extend:
     devDependencies:
       jest:

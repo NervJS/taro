@@ -1,5 +1,4 @@
 import { isFunction, isString, toDashed } from '@tarojs/shared'
-import path from 'path'
 
 import { componentConfig } from '../utils/component'
 
@@ -84,14 +83,13 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         )
       }
 
-      const outDir = path.resolve(process.cwd(), taroConfig.outputRoot || 'dist')
       // TODO 收集运行时使用 Harmony 依赖
       const deps = {
         // Note: 目前开发者工具版本支持以下依赖
         // '@hmscore/hms-js-base': '^6.1.0-300',
         // '@hmscore/hms-jsb-account': '^1.0.300'
       }
-      viteCompilerContext.modifyHostPackageDep(outDir, deps)
+      viteCompilerContext.modifyHostPackage(deps)
       // TODO 判断 ohpm 是否存在，如果存在则在 projectPath 目录下执行 ohpm install
     }
   }]

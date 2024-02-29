@@ -20,6 +20,14 @@ export interface IHarmonyConfig<T extends CompilerTypes = CompilerWebpackTypes> 
    */
   name?: string
 
+  /** oh-package.json 配置 */
+  ohPackage?: {
+    dependencies?: { [name: string]: string }
+    devDependencies?: { [name: string]: string }
+    main?: string
+    [k: string]: any
+  }
+
   /** 用于告诉 Taro 编译器需要抽取的公共文件 */
   commonChunks?: string[] | ((commonChunks: string[]) => string[])
 
