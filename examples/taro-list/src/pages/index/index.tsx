@@ -44,8 +44,10 @@ function useCurrentCategory () {
 }
 
 function Content () {
+  const [canPan, setCanPan] = useCanPan()
   return (
-    <View className='content'>
+    <View className='content' compileMode>
+      <Script src='./animation.wxs' module='ani'></Script>
       <View className='content__wrapper'></View>
       <View className='content__body'>
         <View className='content__card'>
@@ -82,26 +84,19 @@ function Content () {
             </View>
           </View>
         </View>
-        <Main/>
-      </View>
-    </View>
-  )
-}
-
-function Main () {
-  const [canPan, setCanPan] = useCanPan()
-  return (
-    <View className='main'>
-      <View className='main__banner-wrapper'>
-        <Image className='main__banner' mode="widthFix" src="https://res.wx.qq.com/op_res/Gnr7xWUyNQyvf47WmPbKKCtaVNNyqiH61l5dcIBQUKifZeRA-fcA13QZ0IjqUZf7nUnj5ObWm7PusO8OIwyOug" />
-      </View>
-      <View className='main__container-wrapper'>
-        <View className='main__container' style={canPan ? 'position: fixed;top: 0' : ''}>
-          <View className='main__tabs'>
-            <View className='main__tab main__tab--active'>课程</View>
-            <View className='main__tab'>评价</View>
+        <View className='main' onTransitionEnd={ani.mianTransitionEnd}>
+          <View className='main__banner-wrapper'>
+            <Image className='main__banner' mode="widthFix" src="https://res.wx.qq.com/op_res/Gnr7xWUyNQyvf47WmPbKKCtaVNNyqiH61l5dcIBQUKifZeRA-fcA13QZ0IjqUZf7nUnj5ObWm7PusO8OIwyOug" />
           </View>
-          <ProductList canPan={canPan} setCanPan={setCanPan}></ProductList>
+          <View className='main__container-wrapper'>
+            <View className='main__container' style={canPan ? 'position: fixed;top: 0' : ''}>
+              <View className='main__tabs'>
+                <View className='main__tab main__tab--active'>课程</View>
+                <View className='main__tab'>评价</View>
+              </View>
+              <ProductList canPan={canPan} setCanPan={setCanPan}></ProductList>
+            </View>
+          </View>
         </View>
       </View>
     </View>

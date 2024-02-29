@@ -81,9 +81,6 @@ function touchmove(e, ctx) {
         transform: 'translateY(0px)',
         transition: 'transform 0.4s ease'
       })
-      ctx.setTimeout(function () {
-        main.setStyle({ transform: 'none' })
-      }, 500)
     }
   }
 }
@@ -117,9 +114,6 @@ function touchend (e, ctx) {
         transform: 'translateY(0px)',
         transition: 'transform 0.4s ease'
       })
-      ctx.setTimeout(function () {
-        main.setStyle({ transform: 'none' })
-      }, 500)
       _setStatus(STATUS.INITIAL)
     }
   } else if (status === STATUS.UNFOLD) {
@@ -133,9 +127,18 @@ function touchend (e, ctx) {
   _resetStartY()
 }
 
-function toupper () {
-  if (status === STATUS.SCROLL) {
+function toupper (e, ctx) {
+  var main = ctx.selectComponent('.main__container')
+  var position = main.getComputedStyle(['position']).position
+  if (status === STATUS.SCROLL && position !== 'fixed') {
     status = STATUS.RESET
+  }
+}
+
+function mianTransitionEnd (e, ctx) {
+  var main = e.instance
+  if (main.getComputedStyle(['transform']).transform === "matrix(1, 0, 0, 1, 0, 0)") {
+    main.setStyle({ transform: 'none' })
   }
 }
 
@@ -144,4 +147,5 @@ module.exports = {
   touchmove: touchmove,
   touchend: touchend,
   toupper: toupper,
+  mianTransitionEnd: mianTransitionEnd,
 }
