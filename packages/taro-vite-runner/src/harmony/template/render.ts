@@ -108,9 +108,9 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'PROGRESS') {
     TaroProgress({node: item as  TaroProgressElement })
   } else if (item.tagName === 'MOVABLE-VIEW') {
-    TaroMovableView(item as TaroMovableViewElement)
+    TaroMovableView({node: item as TaroMovableViewElement })
   } else if (item.tagName === 'MOVABLE-AREA') {
-    TaroMovableArea(item as TaroMovableAreaElement)
+    TaroMovableArea({node: item as TaroMovableAreaElement })
   } else if (item.tagName === 'RADIO') {
     TaroRadio({ node: item as TaroRadioElement })
   } else if (item.tagName === 'LABEL') {
