@@ -171,6 +171,7 @@ export default class Parser extends BaseParser {
       }
     })
   }
+  .clip(false)
   .constraintSize({
     maxHeight: ${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`} ? \`calc(100% - \${convertNumber2VP(75)})\` : '100%'
   })

@@ -51,6 +51,8 @@ export default function TaroText (node: TaroTextElement) {
       Text(node.textContent)
         .textNormalFontStyle(getNormalAttributes(node.parentNode as TaroElement))
         .textSpecialFontStyle(getFontAttributes(node.parentNode as TaroElement))
+        .width(getNormalAttributes(node.parentNode as TaroElement).width)
+        .height(getNormalAttributes(node.parentNode as TaroElement).height)
     }
   } else {
     Text(node.textContent)
