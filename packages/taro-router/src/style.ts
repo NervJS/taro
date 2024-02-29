@@ -71,6 +71,60 @@ ${
   addStyle(css)
 }
 
+/**
+ * 插入导航栏相关的样式
+*/
+export function loadNavigationBarStyle () {
+  const css = `
+  .taro-navigation-bar-show {
+    background: white;
+    position: sticky;
+    z-index: 500;
+    top: 0;
+    padding-bottom: 8px;
+    padding-top: calc(env(safe-area-inset-top) + 8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .taro-navigation-bar-hide {
+    display: none;
+  }
+
+  .taro-navigation-bar-title {
+    font-size: 24px;
+    height: 24px;
+    line-height: 24px;
+  }
+
+  .taro-navigation-bar-no-icon > .taro-navigation-bar-home {
+    display: none;
+  }
+
+  .taro-navigation-bar-no-icon > .taro-navigation-bar-back {
+    display: none;
+  }
+
+  .taro-navigation-bar-home-icon > .taro-navigation-bar-home {
+    display: block;
+    left: 8px;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+  }
+
+  .taro-navigation-bar-back-icon > .taro-navigation-bar-back {
+    display: block;
+    left: 8px;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+  }
+`
+  addStyle(css)
+}
+
 export function addStyle (css) {
   if (!css) return
   const style = document.createElement('style')

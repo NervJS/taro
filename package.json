@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "3.6.22",
+  "version": "3.6.24-nightly.8",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -110,8 +110,8 @@
     "@types/tapable": "^1",
     "@types/webpack": "^4.41.26",
     "@types/webpack-dev-server": "^3.11.3",
-    "@typescript-eslint/eslint-plugin": "^5.17.0",
-    "@typescript-eslint/parser": "^5.17.0",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-preset-power-assert": "3.0.0",
     "babel-preset-taro": "workspace:*",

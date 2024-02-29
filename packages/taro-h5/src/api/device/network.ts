@@ -52,7 +52,6 @@ export const getNetworkType: typeof Taro.getNetworkType = (options = {}) => {
 }
 
 const networkStatusManager = new CallbackManager()
-
 const networkStatusListener = async () => {
   const { networkType } = await getNetworkType()
   const isConnected = networkType !== 'none'
@@ -81,6 +80,7 @@ export const offNetworkWeakChange = /* @__PURE__ */ temporarilyNotSupport('offNe
 
 export const offNetworkStatusChange: typeof Taro.offNetworkStatusChange = callback => {
   networkStatusManager.remove(callback)
+
   const connection = getConnection()
   if (connection && networkStatusManager.count() === 0) {
     connection.removeEventListener('change', networkStatusListener)

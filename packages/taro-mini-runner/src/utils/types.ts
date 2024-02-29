@@ -48,6 +48,7 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   isBuildQuickapp: boolean
   isSupportRecursive: boolean
   isSupportXS: boolean
+  withoutBuild?: boolean
   mode: 'production' | 'development'
   modifyComponentConfig: Func
   nodeModulesPath: string

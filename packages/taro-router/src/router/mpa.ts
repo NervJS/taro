@@ -1,12 +1,13 @@
 /* eslint-disable dot-notation */
 import {
   createPageConfig,
+  Current,
   eventCenter, hooks,
   incrementId,
   stringify,
 } from '@tarojs/runtime'
 
-import { setTitle } from '../utils/navigate'
+import { setMpaTitle } from '../utils'
 import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
 
@@ -34,6 +35,7 @@ export async function createMultiRouter (
   if (typeof app.onUnhandledRejection === 'function') {
     window.addEventListener('unhandledrejection', app.onUnhandledRejection)
   }
+  eventCenter.on('__taroH5SetNavigationTitle', setMpaTitle)
   RouterConfig.config = config
   const handler = new MultiPageHandler(config, history)
   const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
@@ -69,7 +71,7 @@ export async function createMultiRouter (
   let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
 
   if (pageConfig) {
-    setTitle(pageConfig.navigationBarTitleText ?? document.title)
+    setMpaTitle(pageConfig.navigationBarTitleText ?? document.title)
     if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
       enablePullDownRefresh = pageConfig.enablePullDownRefresh
     }
@@ -88,4 +90,17 @@ export async function createMultiRouter (
   handler.load(page, pageConfig)
 
   app.onShow?.(launchParam as Record<string, any>)
+
+  window.addEventListener('visibilitychange', () => {
+    const currentPath = Current.page?.path || ''
+    const path = currentPath.substring(0, currentPath.indexOf('?'))
+    const param = {}
+    // app的 onShow/onHide 生命周期的路径信息为当前页面的路径
+    Object.assign(param, launchParam, { path })
+    if (document.visibilityState === 'visible') {
+      app.onShow?.(param as Record<string, any>)
+    } else {
+      app.onHide?.(param as Record<string, any>)
+    }
+  })
 }

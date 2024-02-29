@@ -3,20 +3,20 @@
   align-items: center;
 }
 
-// .weui-progress__bar {
-//   background-color: $weuiProgressBg;
-//   height: $weuiProgressHeight;
-//   flex: 1;
-// }
+.weui-progress__bar {
+  background-color: $weuiProgressBg;
+  height: $weuiProgressHeight;
+  flex: 1;
+}
 
-// .weui-progress__inner-bar {
-//   width: 0;
-//   height: 100%;
-//   background-color: $weuiProgressColor;
-// }
+.weui-progress__inner-bar {
+  width: 0;
+  height: 100%;
+  background-color: $weuiProgressColor;
+}
 
-// .weui-progress__opr {
-//   display: block;
-//   margin-left: 15px;
-//   font-size: 0;
-// }
+.weui-progress__opr {
+  display: block;
+  margin-left: 15px;
+  font-size: 0;
+}

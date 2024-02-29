@@ -51,6 +51,8 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
 
   try {
     if (!config.isWatch) {
+      if (config.withoutBuild) return
+
       const compiler = webpack(webpackConfig)
       prebundle?.postCompilerStart(compiler)
       compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
@@ -94,9 +96,11 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
         port: webpackConfig.devServer?.port,
         pathname: routerMode === 'browser' ? routerBasename : '/'
       })
-      if (typeof webpackConfig.devServer.open === 'undefined') {
+      if (typeof webpackConfig.devServer.open === 'undefined' || webpackConfig.devServer.open === true) {
         webpackConfig.devServer.open = devUrl
       }
+
+      if (config.withoutBuild) return
 
       const compiler = webpack(webpackConfig)
       const server = new WebpackDevServer(webpackConfig.devServer, compiler)
@@ -148,13 +152,6 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
 }
 
 async function getDevServerOptions (appPath: string, config: H5BuildConfig): Promise<WebpackDevServer.Configuration> {
-  if (config.isBuildNativeComp) {
-    return {
-      devMiddleware: {
-        writeToDisk: true
-      }
-    }
-  }
   const publicPath = parsePublicPath(config.publicPath)
   const outputPath = path.join(appPath, config.outputRoot || 'dist')
   const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}
@@ -226,14 +223,18 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       }
       return item
     }))
+  } else {
+    proxy.push(...customProxy)
   }
 
   const chunkFilename = config.output?.chunkFilename as string ?? `${config.chunkDirectory || 'chunk'}/[name].js`
   const devServerOptions: WebpackDevServer.Configuration = recursiveMerge<any>(
     {
+      open: !config.isBuildNativeComp,
+      allowedHosts: 'all',
       devMiddleware: {
         publicPath,
-        writeToDisk: false
+        writeToDisk: config.isBuildNativeComp
       },
       static: [{
         directory: outputPath, // webpack4: devServerOptions.contentBase

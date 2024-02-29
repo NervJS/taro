@@ -28,6 +28,28 @@ $ npm run build
 
 小程序开发者工具导入项目，项目路径请指向 `blended-taro-component-vue3/miniapp`。
 
+### 测试编译原生组件在 H5 中的应用
+#### 1. 编译原生组件
+
+```bash
+$ cd taro-project
+$ npm run build:h5
+```
+
+#### 2. 编译 Taro-H5 项目
+
+```bash
+$ cd h5
+$ yarn dev:h5
+```
+
+#### 3. 编译 H5-HTML 项目
+```bash
+$ yarn global add http-server
+$ cd h5-html
+$ http-server -c-1
+```
+
 ### 介绍
 
 本示例包括了以下特性：
@@ -35,3 +57,5 @@ $ npm run build
 - 基本使用方法
 - 给组件传递 props
 - 为组件添加自定义组件的配置，如：`virtualHost`
+
+并分别展示了在 H5 import、H5 全局引用以及微信小程序上使用编译后组件的具体例子

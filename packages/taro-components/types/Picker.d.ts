@@ -4,6 +4,11 @@ import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 /** 选择器通用参数 */
 interface PickerStandardProps extends StandardProps, FormItemProps {
   /**
+   * 选择器的标题，微信小程序中仅安卓可用
+   * @supported weapp
+   */
+  headerText?: string
+  /**
    * 选择器类型，默认是普通选择器
    * @default "selector"
    * @supported weapp, h5, rn, harmony_hybrid
@@ -62,7 +67,7 @@ interface PickerSelectorProps extends PickerStandardProps {
    */
   value?: number
   /** 设置 React 非受控状态下的初始取值
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, harmony_hybrid
    */
   defaultValue?: number
   /**

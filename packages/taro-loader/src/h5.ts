@@ -47,6 +47,9 @@ export default function (this: webpack.LoaderContext<any>) {
   if (isBuildNativeComp) {
     const compPath = join(pathDirname, options.filename)
     return `import component from ${stringify(compPath)}
+${options.loaderMeta.importFrameworkStatement}
+${options.loaderMeta.extraImportForWeb}
+import { createH5NativeComponentConfig } from '${options.loaderMeta.creatorLocation}'
 import { initPxTransform } from '@tarojs/taro'
 ${setReconcilerPost}
 component.config = {}
@@ -59,7 +62,8 @@ initPxTransform.call(component, {
   unitPrecision: ${pxTransformConfig.unitPrecision},
   targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
 })
-export default component`
+const config = component.config
+export default createH5NativeComponentConfig(component, ${options.loaderMeta.frameworkArgs})`
   }
   if (options.bootstrap) return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
 

@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/binding-linux-x64-gnu",
   "description": "Native binding for taro",
-  "version": "3.6.22",
+  "version": "3.6.24-nightly.8",
   "os": [
     "linux"
   ],
@@ -14,7 +14,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">= 10"
+    "node": ">= 16"
   },
   "libc": [
     "glibc"

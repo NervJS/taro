@@ -4,6 +4,7 @@ import {
   createPageConfig, Current,
   eventCenter, hooks,
   incrementId,
+  safeExecute,
   stringify, stripBasename,
 } from '@tarojs/runtime'
 import { Action as LocationAction } from 'history'
@@ -11,7 +12,6 @@ import UniversalRouter from 'universal-router'
 
 import { prependBasename } from '../history'
 import { routesAlias } from '../utils'
-import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import PageHandler from './page'
 import stacks from './stack'
@@ -97,7 +97,6 @@ export function createRouter (
     let navigationBarBackgroundColor = config?.window?.navigationBarBackgroundColor || '#000000'
 
     if (pageConfig) {
-      setTitle(pageConfig.navigationBarTitleText ?? document.title)
       if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
         enablePullDownRefresh = pageConfig.enablePullDownRefresh
       }
@@ -209,6 +208,25 @@ export function createRouter (
   render({ location: history.location, action: LocationAction.Push })
 
   app.onShow?.(launchParam as Record<string, any>)
+
+  window.addEventListener('visibilitychange', () => {
+    const currentPath = Current.page?.path || ''
+    const path = currentPath.substring(0, currentPath.indexOf('?'))
+    const param = {}
+    // app的 onShow/onHide 生命周期的路径信息为当前页面的路径
+    Object.assign(param, launchParam, { path })
+    if (document.visibilityState === 'visible') {
+      app.onShow?.(param as Record<string, any>)
+      // 单页面app显示后一刻会触发当前 page.onShow 生命周期函数
+      Current.page?.onShow?.()
+    } else {
+      // 单页面app隐藏前一刻会触发当前 page.onHide 生命周期函数
+      if (Current.page?.path) {
+        safeExecute(Current.page?.path, 'onHide')
+      }
+      app.onHide?.(param as Record<string, any>)
+    }
+  })
 
   return history.listen(render)
 }
