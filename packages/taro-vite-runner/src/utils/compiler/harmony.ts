@@ -58,8 +58,8 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     if (this.taroConfig.isBuildNativeComp) {
       this.components = this.getComponents()
 
-      this.components?.length > 0 && this.components.forEach(compoent => {
-        this.collectNativeComponents(compoent)
+      this.components?.length > 0 && this.components.forEach(component => {
+        this.collectNativeComponents(component)
       })
     }
   }
