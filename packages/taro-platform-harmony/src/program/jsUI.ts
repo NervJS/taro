@@ -226,7 +226,7 @@ export default class Harmony extends TaroPlatformBase {
         fs.copy(src, outDir)
       })
 
-      this.modifyHostPackageDep(outDir)
+      this.modifyHostPackage(config.harmony)
     })
   }
 
@@ -288,12 +288,12 @@ export default class Harmony extends TaroPlatformBase {
       })
   }
 
-  async modifyHostPackageDep (dest: string) {
+  async modifyHostPackage ({ projectPath, hapName = 'entry' }) {
+    const packageJsonFile = path.join(projectPath, hapName, 'package.json')
     const hmsDeps = {
       '@hmscore/hms-js-base': '^6.1.0-300',
       '@hmscore/hms-jsb-account': '^1.0.300'
     }
-    const packageJsonFile = path.resolve(dest, '../../../../../package.json')
 
     const isExists = await fs.pathExists(packageJsonFile)
     if (!isExists) return
@@ -312,6 +312,8 @@ export default class Harmony extends TaroPlatformBase {
     packageJson = JSON.stringify(packageJson)
 
     await fs.writeFile(packageJsonFile, packageJson)
+
+    return packageJson
   }
 
   getChunkEntryModule (compilation, chunk, compiler = 'webpack4') {

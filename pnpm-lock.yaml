@@ -5835,7 +5835,7 @@ packages:
       ansi-styles: 2.2.1
       escape-string-regexp: 1.0.5
       has-ansi: registry.npmjs.org/has-ansi@2.0.0
-      strip-ansi: registry.npmjs.org/strip-ansi@3.0.1
+      strip-ansi: 3.0.1
       supports-color: 2.0.0
     dev: false
 
@@ -6230,10 +6230,6 @@ packages:
 
   /electron-to-chromium@1.4.677:
     resolution: {integrity: sha512-erDa3CaDzwJOpyvfKhOiJjBVNnMM0qxHq47RheVVwsSQrgBA9ZSGV9kdaOfZDPXcHzhG7lBxhj6A7KvfLJBd6Q==, tarball: https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.677.tgz}
-
-  /emoji-regex@7.0.3:
-    resolution: {integrity: sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==, tarball: https://registry.npmjs.org/emoji-regex/-/emoji-regex-7.0.3.tgz}
-    dev: false
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==, tarball: https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz}
@@ -6708,12 +6704,12 @@ packages:
   /glob@7.1.6:
     resolution: {integrity: sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==, tarball: https://registry.npmjs.org/glob/-/glob-7.1.6.tgz}
     dependencies:
-      fs.realpath: 1.0.0
-      inflight: 1.0.6
-      inherits: 2.0.4
-      minimatch: 3.1.2
-      once: 1.4.0
-      path-is-absolute: 1.0.1
+      fs.realpath: registry.npmjs.org/fs.realpath@1.0.0
+      inflight: registry.npmjs.org/inflight@1.0.6
+      inherits: registry.npmjs.org/inherits@2.0.4
+      minimatch: registry.npmjs.org/minimatch@3.1.2
+      once: registry.npmjs.org/once@1.4.0
+      path-is-absolute: registry.npmjs.org/path-is-absolute@1.0.1
 
   /glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==, tarball: https://registry.npmjs.org/glob/-/glob-7.2.3.tgz}
@@ -6949,11 +6945,6 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       has-tostringtag: 1.0.0
-
-  /is-fullwidth-code-point@2.0.0:
-    resolution: {integrity: sha512-VHskAKYM8RfSFXwee5t5cbN5PZeq1Wrh6qd5bkyiXIf6UQcN6w/A0eXM9r6t8d+GYOh+o6ZhiEnb88LN/Y8m2w==, tarball: https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-2.0.0.tgz}
-    engines: {node: '>=4'}
-    dev: false
 
   /is-fullwidth-code-point@3.0.0:
     resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==, tarball: https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz}
@@ -7966,18 +7957,16 @@ packages:
     resolution: {integrity: sha512-nOqH59deCq9SRHlxq1Aw85Jnt4w6KvLKqWVik6oA9ZklXLNIOlqg4F2yrT1MVaTjAqvVwdfeZ7w7aCvJD7ugkw==, tarball: https://registry.npmjs.org/string-width/-/string-width-2.1.1.tgz}
     engines: {node: '>=4'}
     dependencies:
-      is-fullwidth-code-point: 2.0.0
-      strip-ansi: registry.npmjs.org/strip-ansi@4.0.0
-    dev: false
+      is-fullwidth-code-point: registry.npmjs.org/is-fullwidth-code-point@2.0.0
+      strip-ansi: 4.0.0
 
   /string-width@3.1.0:
     resolution: {integrity: sha512-vafcv6KjVZKSgz06oM/H6GDBrAtz8vdhQakGjFIvNrHA6y3HCF1CInLy+QLq8dTJPQ1b+KDUqDFctkdRW44e1w==, tarball: https://registry.npmjs.org/string-width/-/string-width-3.1.0.tgz}
     engines: {node: '>=6'}
     dependencies:
-      emoji-regex: 7.0.3
-      is-fullwidth-code-point: 2.0.0
-      strip-ansi: registry.npmjs.org/strip-ansi@5.2.0
-    dev: false
+      emoji-regex: registry.npmjs.org/emoji-regex@7.0.3
+      is-fullwidth-code-point: registry.npmjs.org/is-fullwidth-code-point@2.0.0
+      strip-ansi: 5.2.0
 
   /string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==, tarball: https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz}
@@ -8020,6 +8009,25 @@ packages:
       call-bind: 1.0.2
       define-properties: 1.2.0
       es-abstract: 1.21.2
+
+  /strip-ansi@3.0.1:
+    resolution: {integrity: sha512-VhumSSbBqDTP8p2ZLKj40UjBCV4+v8bUSEpUb4KjRgWk9pbqGF4REFj6KEagidb2f/M6AzC0EmFyDNGaw9OCzg==, tarball: https://registry.npmjs.org/strip-ansi/-/strip-ansi-3.0.1.tgz}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      ansi-regex: registry.npmjs.org/ansi-regex@2.1.1
+    dev: false
+
+  /strip-ansi@4.0.0:
+    resolution: {integrity: sha512-4XaJ2zQdCzROZDivEVIDPkcQn8LMFSa8kj8Gxb/Lnwzv9A8VctNZ+lfivC/sV3ivW8ElJTERXZoPBRrZKkNKow==, tarball: https://registry.npmjs.org/strip-ansi/-/strip-ansi-4.0.0.tgz}
+    engines: {node: '>=4'}
+    dependencies:
+      ansi-regex: registry.npmjs.org/ansi-regex@3.0.1
+
+  /strip-ansi@5.2.0:
+    resolution: {integrity: sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==, tarball: https://registry.npmjs.org/strip-ansi/-/strip-ansi-5.2.0.tgz}
+    engines: {node: '>=6'}
+    dependencies:
+      ansi-regex: registry.npmjs.org/ansi-regex@4.1.1
 
   /strip-ansi@6.0.1:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==, tarball: https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz}
@@ -13803,7 +13811,7 @@ packages:
       freeport-async: registry.npmjs.org/freeport-async@2.0.0
       fs-extra: registry.npmjs.org/fs-extra@8.1.0
       getenv: registry.npmjs.org/getenv@1.0.0
-      glob: registry.npmjs.org/glob@7.2.3
+      glob: 7.2.3
       graphql: registry.npmjs.org/graphql@15.8.0
       graphql-tag: registry.npmjs.org/graphql-tag@2.12.6(graphql@15.8.0)
       https-proxy-agent: registry.npmjs.org/https-proxy-agent@5.0.1
@@ -13902,7 +13910,7 @@ packages:
       debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       find-up: registry.npmjs.org/find-up@5.0.0
       getenv: registry.npmjs.org/getenv@1.0.0
-      glob: registry.npmjs.org/glob@7.1.6
+      glob: 7.1.6
       resolve-from: registry.npmjs.org/resolve-from@5.0.0
       semver: registry.npmjs.org/semver@7.5.4
       slash: registry.npmjs.org/slash@3.0.0
@@ -13927,7 +13935,7 @@ packages:
       '@expo/config-types': registry.npmjs.org/@expo/config-types@50.0.0
       '@expo/json-file': registry.npmjs.org/@expo/json-file@8.2.37
       getenv: registry.npmjs.org/getenv@1.0.0
-      glob: registry.npmjs.org/glob@7.1.6
+      glob: 7.1.6
       require-from-string: registry.npmjs.org/require-from-string@2.0.2
       resolve-from: registry.npmjs.org/resolve-from@5.0.0
       semver: registry.npmjs.org/semver@7.5.3
@@ -13947,7 +13955,7 @@ packages:
       '@expo/config-types': registry.npmjs.org/@expo/config-types@50.0.0
       '@expo/json-file': registry.npmjs.org/@expo/json-file@8.3.0
       getenv: registry.npmjs.org/getenv@1.0.0
-      glob: registry.npmjs.org/glob@7.1.6
+      glob: 7.1.6
       require-from-string: registry.npmjs.org/require-from-string@2.0.2
       resolve-from: registry.npmjs.org/resolve-from@5.0.0
       semver: registry.npmjs.org/semver@7.5.3
@@ -14066,7 +14074,7 @@ packages:
       find-yarn-workspace-root: registry.npmjs.org/find-yarn-workspace-root@2.0.0
       fs-extra: registry.npmjs.org/fs-extra@9.1.0
       getenv: registry.npmjs.org/getenv@1.0.0
-      glob: registry.npmjs.org/glob@7.2.3
+      glob: 7.2.3
       jsc-safe-url: registry.npmjs.org/jsc-safe-url@0.2.4
       lightningcss: registry.npmjs.org/lightningcss@1.19.0
       postcss: registry.npmjs.org/postcss@8.4.33
@@ -16468,7 +16476,7 @@ packages:
       node-stream-zip: registry.npmjs.org/node-stream-zip@1.15.0
       ora: registry.npmjs.org/ora@5.4.1
       semver: registry.npmjs.org/semver@7.5.4
-      strip-ansi: registry.npmjs.org/strip-ansi@5.2.0
+      strip-ansi: 5.2.0
       wcwidth: registry.npmjs.org/wcwidth@1.0.1
       yaml: registry.npmjs.org/yaml@2.2.2
     transitivePeerDependencies:
@@ -16496,7 +16504,7 @@ packages:
       chalk: registry.npmjs.org/chalk@4.1.2
       execa: registry.npmjs.org/execa@5.1.1
       fast-xml-parser: registry.npmjs.org/fast-xml-parser@4.3.3
-      glob: registry.npmjs.org/glob@7.2.3
+      glob: 7.2.3
       logkitty: registry.npmjs.org/logkitty@0.7.1
     transitivePeerDependencies:
       - encoding
@@ -16510,7 +16518,7 @@ packages:
       chalk: registry.npmjs.org/chalk@4.1.2
       execa: registry.npmjs.org/execa@5.1.1
       fast-xml-parser: registry.npmjs.org/fast-xml-parser@4.2.2
-      glob: registry.npmjs.org/glob@7.2.3
+      glob: 7.2.3
       ora: registry.npmjs.org/ora@5.4.1
     transitivePeerDependencies:
       - encoding
@@ -16769,7 +16777,7 @@ packages:
       '@babel/parser': 7.23.6
       '@babel/preset-env': registry.npmjs.org/@babel/preset-env@7.21.5(@babel/core@7.21.8)
       flow-parser: registry.npmjs.org/flow-parser@0.206.0
-      glob: registry.npmjs.org/glob@7.2.3
+      glob: 7.2.3
       invariant: registry.npmjs.org/invariant@2.2.4
       jscodeshift: registry.npmjs.org/jscodeshift@0.14.0(@babel/preset-env@7.21.5)
       mkdirp: registry.npmjs.org/mkdirp@0.5.6
@@ -19999,9 +20007,6 @@ packages:
     resolution: {integrity: sha512-4CjkH20If1lhR5CGtqkrVg3bbOtFEG80X9v6jDOIUhbzzbB+UzPBGy8GQhUNVZ0yvMHdMpawCOcy5ydGMsagGQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ajv-formats/-/ajv-formats-1.6.1.tgz}
     name: ajv-formats
     version: 1.6.1
-    peerDependenciesMeta:
-      ajv:
-        optional: true
     dependencies:
       ajv: registry.npmjs.org/ajv@7.2.4
     dev: false
@@ -20010,9 +20015,6 @@ packages:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ajv-formats/-/ajv-formats-2.1.1.tgz}
     name: ajv-formats
     version: 2.1.1
-    peerDependenciesMeta:
-      ajv:
-        optional: true
     dependencies:
       ajv: registry.npmjs.org/ajv@8.12.0
 
@@ -20158,7 +20160,7 @@ packages:
     dependencies:
       colorette: registry.npmjs.org/colorette@1.4.0
       slice-ansi: registry.npmjs.org/slice-ansi@2.1.0
-      strip-ansi: registry.npmjs.org/strip-ansi@5.2.0
+      strip-ansi: 5.2.0
 
   registry.npmjs.org/ansi-gray@0.1.1:
     resolution: {integrity: sha512-HrgGIZUl8h2EHuZaU9hTR/cU5nhKxpVE1V6kdGsQ8e4zirElJ5fvtfc8N7Q1oq1aatO275i8pUFUCpNWCAnVWw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ansi-gray/-/ansi-gray-0.1.1.tgz}
@@ -23586,7 +23588,7 @@ packages:
     version: 5.0.0
     dependencies:
       string-width: 3.1.0
-      strip-ansi: registry.npmjs.org/strip-ansi@5.2.0
+      strip-ansi: 5.2.0
       wrap-ansi: registry.npmjs.org/wrap-ansi@5.1.0
     dev: false
 
@@ -23595,8 +23597,8 @@ packages:
     name: cliui
     version: 6.0.0
     dependencies:
-      string-width: registry.npmjs.org/string-width@4.2.3
-      strip-ansi: registry.npmjs.org/strip-ansi@6.0.1
+      string-width: 4.2.3
+      strip-ansi: 6.0.1
       wrap-ansi: registry.npmjs.org/wrap-ansi@6.2.0
 
   registry.npmjs.org/cliui@7.0.4:
@@ -29304,18 +29306,6 @@ packages:
       path-is-absolute: registry.npmjs.org/path-is-absolute@1.0.1
     dev: false
 
-  registry.npmjs.org/glob@7.1.6:
-    resolution: {integrity: sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/glob/-/glob-7.1.6.tgz}
-    name: glob
-    version: 7.1.6
-    dependencies:
-      fs.realpath: registry.npmjs.org/fs.realpath@1.0.0
-      inflight: registry.npmjs.org/inflight@1.0.6
-      inherits: registry.npmjs.org/inherits@2.0.4
-      minimatch: registry.npmjs.org/minimatch@3.1.2
-      once: registry.npmjs.org/once@1.4.0
-      path-is-absolute: registry.npmjs.org/path-is-absolute@1.0.1
-
   registry.npmjs.org/glob@7.2.0:
     resolution: {integrity: sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/glob/-/glob-7.2.0.tgz}
     name: glob
@@ -30584,8 +30574,8 @@ packages:
       mute-stream: registry.npmjs.org/mute-stream@0.0.7
       run-async: registry.npmjs.org/run-async@2.4.1
       rxjs: registry.npmjs.org/rxjs@6.6.7
-      string-width: registry.npmjs.org/string-width@2.1.1
-      strip-ansi: registry.npmjs.org/strip-ansi@5.2.0
+      string-width: 2.1.1
+      strip-ansi: 5.2.0
       through: registry.npmjs.org/through@2.3.8
 
   registry.npmjs.org/inquirer@7.3.3:
@@ -33217,7 +33207,7 @@ packages:
       jest-watcher: registry.npmjs.org/jest-watcher@29.7.0
       slash: registry.npmjs.org/slash@5.1.0
       string-length: registry.npmjs.org/string-length@5.0.1
-      strip-ansi: registry.npmjs.org/strip-ansi@7.0.1
+      strip-ansi: 7.0.1
     dev: true
 
   registry.npmjs.org/jest-watcher@27.5.1:
@@ -36620,7 +36610,7 @@ packages:
       cli-cursor: registry.npmjs.org/cli-cursor@2.1.0
       cli-spinners: registry.npmjs.org/cli-spinners@2.9.0
       log-symbols: registry.npmjs.org/log-symbols@2.2.0
-      strip-ansi: registry.npmjs.org/strip-ansi@5.2.0
+      strip-ansi: 5.2.0
       wcwidth: registry.npmjs.org/wcwidth@1.0.1
 
   registry.npmjs.org/ora@5.4.1:
@@ -38873,7 +38863,7 @@ packages:
     dependencies:
       '@jest/types': registry.npmjs.org/@jest/types@26.6.2
       ansi-regex: registry.npmjs.org/ansi-regex@5.0.1
-      ansi-styles: registry.npmjs.org/ansi-styles@4.3.0
+      ansi-styles: 4.3.0
       react-is: registry.npmjs.org/react-is@17.0.2
 
   registry.npmjs.org/pretty-format@27.5.1:
@@ -40668,7 +40658,7 @@ packages:
     version: 3.0.2
     hasBin: true
     dependencies:
-      glob: registry.npmjs.org/glob@7.2.3
+      glob: 7.2.3
 
   registry.npmjs.org/rimraf@5.0.0:
     resolution: {integrity: sha512-Jf9llaP+RvaEVS5nPShYFhtXIrb3LRKP281ib3So0KkeZKo2wIKyq0Re7TOSwanasA423PSr6CCIL4bP6T040g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/rimraf/-/rimraf-5.0.0.tgz}
@@ -42442,27 +42432,8 @@ packages:
     engines: {node: '>=12.20'}
     dependencies:
       char-regex: registry.npmjs.org/char-regex@2.0.1
-      strip-ansi: registry.npmjs.org/strip-ansi@7.0.1
+      strip-ansi: 7.0.1
     dev: true
-
-  registry.npmjs.org/string-width@2.1.1:
-    resolution: {integrity: sha512-nOqH59deCq9SRHlxq1Aw85Jnt4w6KvLKqWVik6oA9ZklXLNIOlqg4F2yrT1MVaTjAqvVwdfeZ7w7aCvJD7ugkw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/string-width/-/string-width-2.1.1.tgz}
-    name: string-width
-    version: 2.1.1
-    engines: {node: '>=4'}
-    dependencies:
-      is-fullwidth-code-point: registry.npmjs.org/is-fullwidth-code-point@2.0.0
-      strip-ansi: registry.npmjs.org/strip-ansi@4.0.0
-
-  registry.npmjs.org/string-width@3.1.0:
-    resolution: {integrity: sha512-vafcv6KjVZKSgz06oM/H6GDBrAtz8vdhQakGjFIvNrHA6y3HCF1CInLy+QLq8dTJPQ1b+KDUqDFctkdRW44e1w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/string-width/-/string-width-3.1.0.tgz}
-    name: string-width
-    version: 3.1.0
-    engines: {node: '>=6'}
-    dependencies:
-      emoji-regex: registry.npmjs.org/emoji-regex@7.0.3
-      is-fullwidth-code-point: registry.npmjs.org/is-fullwidth-code-point@2.0.0
-      strip-ansi: registry.npmjs.org/strip-ansi@5.2.0
 
   registry.npmjs.org/string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz}
@@ -42610,14 +42581,6 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       ansi-regex: registry.npmjs.org/ansi-regex@3.0.1
-
-  registry.npmjs.org/strip-ansi@5.2.0:
-    resolution: {integrity: sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/strip-ansi/-/strip-ansi-5.2.0.tgz}
-    name: strip-ansi
-    version: 5.2.0
-    engines: {node: '>=6'}
-    dependencies:
-      ansi-regex: registry.npmjs.org/ansi-regex@4.1.1
 
   registry.npmjs.org/strip-ansi@6.0.1:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz}
@@ -43171,7 +43134,7 @@ packages:
       ajv: registry.npmjs.org/ajv@6.12.6
       lodash: registry.npmjs.org/lodash@4.17.21
       slice-ansi: registry.npmjs.org/slice-ansi@2.1.0
-      string-width: registry.npmjs.org/string-width@3.1.0
+      string-width: 3.1.0
 
   registry.npmjs.org/table@6.8.1:
     resolution: {integrity: sha512-Y4X9zqrCftUhMeH2EptSSERdVKt/nEdijTOacGD/97EKjhQ/Qs8RTlEGABSJNNN8lac9kheH+af7yAkEWlgneA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/table/-/table-6.8.1.tgz}
@@ -46001,7 +45964,7 @@ packages:
     dependencies:
       ansi-styles: 3.2.1
       string-width: 3.1.0
-      strip-ansi: registry.npmjs.org/strip-ansi@5.2.0
+      strip-ansi: 5.2.0
     dev: false
 
   registry.npmjs.org/wrap-ansi@6.2.0:
@@ -46374,7 +46337,7 @@ packages:
       require-directory: registry.npmjs.org/require-directory@2.1.1
       require-main-filename: registry.npmjs.org/require-main-filename@2.0.0
       set-blocking: registry.npmjs.org/set-blocking@2.0.0
-      string-width: registry.npmjs.org/string-width@3.1.0
+      string-width: 3.1.0
       which-module: registry.npmjs.org/which-module@2.0.1
       y18n: registry.npmjs.org/y18n@4.0.3
       yargs-parser: registry.npmjs.org/yargs-parser@13.1.2
@@ -46393,7 +46356,7 @@ packages:
       require-directory: registry.npmjs.org/require-directory@2.1.1
       require-main-filename: registry.npmjs.org/require-main-filename@2.0.0
       set-blocking: registry.npmjs.org/set-blocking@2.0.0
-      string-width: registry.npmjs.org/string-width@4.2.3
+      string-width: 4.2.3
       which-module: registry.npmjs.org/which-module@2.0.1
       y18n: registry.npmjs.org/y18n@4.0.3
       yargs-parser: registry.npmjs.org/yargs-parser@18.1.3

@@ -58,8 +58,8 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     if (this.taroConfig.isBuildNativeComp) {
       this.components = this.getComponents()
 
-      this.components?.length > 0 && this.components.forEach(compoent => {
-        this.collectNativeComponents(compoent)
+      this.components?.length > 0 && this.components.forEach(component => {
+        this.collectNativeComponents(component)
       })
     }
   }
@@ -302,17 +302,17 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
   }
 
   // Note: 更新 oh-package 中项目依赖声明
-  modifyHostPackageDep (
-    outDir: string,
+  modifyHostPackage (
     hmsDeps: Record<string, string> = {},
     hmsDevDeps: Record<string, string> = {},
   ) {
-    const packageJsonFile = path.resolve(outDir, `../../../${this.useJSON5 !== false ? 'oh-package.json5' : 'package.json'}`)
+    const { projectPath, hapName = 'entry', ohPackage = {} } = this.taroConfig
+    const packageJsonFile = path.join(projectPath, hapName, `${this.useJSON5 !== false ? 'oh-package.json5' : 'package.json'}`)
 
     const isExists = fs.pathExistsSync(packageJsonFile)
     if (!isExists) return
 
-    const pkg = readJsonSync(packageJsonFile)
+    let pkg = readJsonSync(packageJsonFile)
     pkg.dependencies ||= {}
     for (const dep in hmsDeps) {
       pkg.dependencies[dep] = hmsDeps[dep]
@@ -321,7 +321,10 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     for (const dep in hmsDevDeps) {
       pkg.devDependencies[dep] = hmsDevDeps[dep]
     }
+    pkg = recursiveMerge(pkg, ohPackage)
     fs.writeJsonSync(packageJsonFile, pkg, { spaces: 2 })
+
+    return pkg
   }
 
   /** 工具函数 */
