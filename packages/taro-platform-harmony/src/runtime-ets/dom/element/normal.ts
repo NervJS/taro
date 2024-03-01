@@ -50,6 +50,7 @@ class TaroRichTextElement extends TaroElement<RichTextProps>{
   }
 }
 
+@Observed
 class TaroSwiperElement extends TaroElement<SwiperProps>{
   controller: SwiperController = new SwiperController()
 
