@@ -6,6 +6,13 @@ import { TaroElement } from './element'
 import type { WebViewProps } from '@tarojs/components/types'
 
 @Observed
+export class TaroInnerHtmlElement extends TaroElement {
+  constructor() {
+    super('InnerHtml')
+  }
+}
+
+@Observed
 export class TaroWebViewElement extends TaroElement<WebViewProps>{
   ports: web_webview.WebMessagePort[] = []
 

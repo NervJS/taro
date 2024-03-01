@@ -30,7 +30,7 @@ import { TaroProgressElement } from './progress'
 import { TaroScrollViewElement } from './scrollView'
 import { TaroTextElement } from './text'
 import { TaroVideoElement } from './video'
-import { TaroWebViewElement } from './webView'
+import { TaroInnerHtmlElement, TaroWebViewElement } from './webView'
 
 export function initHarmonyElement () {
   Current.createHarmonyElement = (tagName: string) => {
@@ -57,6 +57,7 @@ export function initHarmonyElement () {
       case 'textarea': return new TaroTextAreaElement()
       case 'form': return new TaroFormElement()
       case 'web-view': return new TaroWebViewElement()
+      case 'inner-html': return new TaroInnerHtmlElement()
       default: return new TaroElement(tagName)
     }
   }
@@ -76,6 +77,7 @@ export {
   TaroFormElement,
   TaroIconElement,
   TaroImageElement,
+  TaroInnerHtmlElement,
   TaroInputElement,
   TaroLabelElement,
   TaroMovableAreaElement,
