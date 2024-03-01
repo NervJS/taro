@@ -201,7 +201,7 @@ class TaroTextAreaElement extends TaroInputElement<TextareaProps>{
     super('TextArea')
   }
 }
-
+@Observed
 class TaroCheckboxElement extends TaroCheckedElement<CheckboxProps>{
   constructor() {
     super('Checkbox')
@@ -278,7 +278,7 @@ class TaroSwitchElement extends TaroCheckedElement<SwitchProps> {
     super('Switch')
   }
 }
-
+@Observed
 class TaroCheckboxGroupElement extends TaroFormWidgetElement<CheckboxGroupProps> {
   constructor() {
     super('CheckboxGroup')
