@@ -33,9 +33,10 @@ function getOptions (node: TaroCheckboxElement): CheckboxOptions {
   }
 }
 
+
 @Component
 export struct TaroCheckbox {
-  node: TaroCheckboxElement | null = null
+  @ObjectLink node: TaroCheckboxElement
 
   aboutToAppear () {
     if (this.node && !this.node._isInit) {
@@ -94,7 +95,7 @@ interface ChangeEventDetail { value: string[] }
 
 @Component
 export struct TaroCheckboxGroup {
-  node: TaroCheckboxGroupElement | null = null
+  @ObjectLink node: TaroCheckboxGroupElement
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))

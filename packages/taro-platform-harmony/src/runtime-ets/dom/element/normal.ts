@@ -19,25 +19,27 @@ class TaroViewElement extends TaroElement<ViewProps> {
   }
 }
 
+@Observed
 class TaroImageElement extends TaroElement<ImageProps> {
   constructor() {
     super('Image')
   }
 }
 
+@Observed
 class TaroButtonElement extends TaroElement<ButtonProps> {
   constructor() {
     super('Button')
   }
 }
 
-
+@Observed
 class TaroIconElement extends TaroElement<IconProps>{
   constructor() {
     super('Icon')
   }
 }
-
+@Observed
 class TaroLabelElement extends TaroElement<LabelProps>{
   constructor() {
     super('Label')

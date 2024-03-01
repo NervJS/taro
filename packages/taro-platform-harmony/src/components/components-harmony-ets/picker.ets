@@ -219,9 +219,10 @@ export struct PickerView {
   }
 }
 
+
 @Component
 export default struct TaroPicker {
-  node: TaroPickerElement | null = null
+  @ObjectLink node: TaroPickerElement
 
   aboutToAppear () {
     this.node?.addEventListener('click', this.handleClick)

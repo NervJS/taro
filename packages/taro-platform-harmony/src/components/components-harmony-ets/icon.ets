@@ -48,22 +48,26 @@ function getIconData (node: TaroIconElement): Resource | null {
   }
 }
 
-@Builder
-export default function TaroIcon (node: TaroIconElement) {
-  Image(getIconData(node))
-    .objectFit(ImageFit.Contain)
-    .fillColor(node._attrs.color || ICON_COLOR_MAP[node._attrs.type] || Color.Black)
-    .attributeModifier(commonStyleModify.setNode(node))
-    .size({
-      width: convertNumber2VP(Number(node._attrs.size) || 23),
-      height: convertNumber2VP(Number(node._attrs.size) || 23),
-    })
-    .width(getNormalAttributes(node).width || convertNumber2PX(23))
-    .height(getNormalAttributes(node).height || convertNumber2PX(23))
-    .onComplete(e => eventHandler(e, 'complete', node))
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
-    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
-    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      node._nodeInfo.areaInfo = res[1]
-    }))
+@Component
+export default struct TaroIcon {
+  @ObjectLink node: TaroIconElement
+  build() {
+    Image(getIconData(this.node))
+      .objectFit(ImageFit.Contain)
+      .fillColor(this.node._attrs.color || ICON_COLOR_MAP[this.node._attrs.type] || Color.Black)
+      .attributeModifier(commonStyleModify.setNode(this.node))
+      .size({
+        width: convertNumber2VP(Number(this.node._attrs.size) || 23),
+        height: convertNumber2VP(Number(this.node._attrs.size) || 23),
+      })
+      .width(getNormalAttributes(this.node).width || convertNumber2PX(23))
+      .height(getNormalAttributes(this.node).height || convertNumber2PX(23))
+      .onComplete(e => eventHandler(e, 'complete', this.node))
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        this.node._nodeInfo.areaInfo = res[1]
+      }))
+  }
 }
+

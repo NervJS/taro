@@ -32,6 +32,8 @@ import TaroRichText from './richText'
 import TaroProgress from './progress'
 import TaroInnerHtml from './innerHtml'
 import TaroScrollView from './scrollView'
+import TaroMovableArea from './movableArea'
+import TaroMovableView from './movableView'
 import { TaroRadio, TaroRadioGroup } from './radio'
 import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 ${this.generateRenderNativeImport()}${this.generateRenderCompileModeImport()}
@@ -58,6 +60,8 @@ import type {
   TaroVideoElement,
   // TaroSwiperItemElement,
   TaroProgressElement,
+  TaroMovableAreaElement,
+  TaroMovableViewElement,
   TaroSwiperElement,
   TaroSwitchElement,
   TaroSliderElement,
@@ -72,9 +76,9 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
     TaroText({ node: item as TaroTextElement })
   } else if (item.tagName === 'IMAGE') {
-    TaroImage(item as TaroImageElement)
+    TaroImage({node: item as TaroImageElement})
   } else if (item.tagName === 'BUTTON') {
-    TaroButton(item as TaroButtonElement)
+    TaroButton({node: item as TaroButtonElement})
   } else if (item.tagName === 'SCROLL-VIEW') {
     TaroScrollView({ node: item as TaroScrollViewElement })
   } else if (item.tagName === 'SLIDER') {
@@ -88,11 +92,11 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'SWIPER-ITEM') {
     TaroView({ node: item as TaroViewElement })
   } else if (item.tagName === 'INNER-HTML') {
-    TaroInnerHtml(item as TaroViewElement)
+    TaroInnerHtml({node: item as TaroViewElement})
   } else if (item.tagName === 'RICH-TEXT') {
     TaroRichText({ node: item as TaroRichTextElement })
   } else if (item.tagName === 'ICON') {
-    TaroIcon(item as TaroIconElement)
+    TaroIcon({node: item as TaroIconElement})
   } else if (item.tagName === 'TEXT-AREA') {
     TaroTextArea({ node: item as TaroTextAreaElement })
   } else if (item.tagName === 'CHECKBOX-GROUP') {
@@ -103,14 +107,18 @@ function createChildItem (item: TaroElement) {
     TaroRadioGroup({ node: item as TaroRadioGroupElement })
   } else if (item.tagName === 'PROGRESS') {
     TaroProgress({node: item as  TaroProgressElement })
+  } else if (item.tagName === 'MOVABLE-VIEW') {
+    TaroMovableView({node: item as TaroMovableViewElement })
+  } else if (item.tagName === 'MOVABLE-AREA') {
+    TaroMovableArea({node: item as TaroMovableAreaElement })
   } else if (item.tagName === 'RADIO') {
     TaroRadio({ node: item as TaroRadioElement })
   } else if (item.tagName === 'LABEL') {
-    TaroLabel(item as TaroLabelElement)
+    TaroLabel({node: item as TaroLabelElement})
   } else if (item.tagName === 'PICKER') {
     TaroPicker({ node: item as TaroPickerElement })
   } else if (item.tagName === 'FORM') {
-    TaroForm(item as TaroFormElement)
+    TaroForm({node: item as TaroFormElement})
   } else if (item.tagName === 'VIDEO') {
     TaroVideo({ node: item as TaroVideoElement })
   } else if (item.tagName === 'WEB-VIEW') {

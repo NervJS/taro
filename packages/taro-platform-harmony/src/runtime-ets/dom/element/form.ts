@@ -134,6 +134,7 @@ class TaroCheckedElement<T extends StandardProps & { checked?: boolean } = Stand
   }
 }
 
+@Observed
 class TaroInputElement<T extends FormWidgetProps = InputProps> extends TaroFormWidgetElement<T> {
   _height = 0
 
@@ -201,7 +202,7 @@ class TaroTextAreaElement extends TaroInputElement<TextareaProps>{
     super('TextArea')
   }
 }
-
+@Observed
 class TaroCheckboxElement extends TaroCheckedElement<CheckboxProps>{
   constructor() {
     super('Checkbox')
@@ -227,7 +228,7 @@ class TaroSliderElement extends TaroFormWidgetElement<SliderProps> {
     this._value = Number(this._attrs.value || 0)
   }
 }
-
+@Observed
 class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | PickerTimeProps | PickerDateProps | PickerMultiSelectorProps> {
   constructor() {
     super('Picker')
@@ -282,7 +283,7 @@ class TaroSwitchElement extends TaroCheckedElement<SwitchProps> {
     super('Switch')
   }
 }
-
+@Observed
 class TaroCheckboxGroupElement extends TaroFormWidgetElement<CheckboxGroupProps> {
   constructor() {
     super('CheckboxGroup')
@@ -334,6 +335,7 @@ class TaroRadioGroupElement extends TaroFormWidgetElement<RadioGroupProps> {
   }
 }
 
+@Observed
 class TaroFormElement extends TaroFormWidgetElement {
   constructor() {
     super('Form')
