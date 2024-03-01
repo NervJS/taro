@@ -1,0 +1,5 @@
+
+
+trait DoctorValidator {
+  fn validate ();
+}

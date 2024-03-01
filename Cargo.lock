@@ -2085,6 +2085,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "taro_doctor"
+version = "0.1.0"
+dependencies = [
+ "napi",
+ "napi-derive",
+ "regex",
+]
+
+[[package]]
 name = "taro_init"
 version = "0.0.1"
 dependencies = [
