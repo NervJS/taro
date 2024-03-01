@@ -81,7 +81,7 @@ function updateProp (ctx, comp, propKey, prevProps, props) {
     }
     return
   }
-  if (/^data-.+/.test(propKey)) {
+  if (/^(aria|data)-.+/.test(propKey)) {
     dom.setAttribute(propKey, val)
   }
   if (comp === SCROLL_VIEW) {

@@ -438,6 +438,31 @@
  */
 
 /**
+ * 监听小程序切前台事件
+ * 
+ * @canUse onAppShow
+ * @__callback [path, query, scene, shareTicket, referrerInfo]
+ */
+
+/**
+ * 监听小程序切后台事件
+ * 
+ * @canUse onAppHide
+ */
+
+/**
+ * 取消监听小程序切前台事件
+ * 
+ * @canUse offAppShow
+ */
+
+/**
+ * 取消监听小程序切后台事件
+ * 
+ * @canUse offAppHide
+ */
+
+/**
  * 取消用户主动截屏事件监听
  * 
  * @canNotUse offUserCaptureScreen
