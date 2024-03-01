@@ -70,3 +70,4 @@ export default struct TaroIcon {
       }))
   }
 }
+
