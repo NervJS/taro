@@ -1,6 +1,8 @@
-import { fs } from '@tarojs/helper'
+import { execSync } from 'node:child_process'
+import path from 'node:path'
+
+import { chalk, fs } from '@tarojs/helper'
 import { isFunction, isString, toDashed } from '@tarojs/shared'
-import path from 'path'
 
 import { componentConfig } from '../utils/component'
 
@@ -92,14 +94,22 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         // '@hmscore/hms-jsb-account': '^1.0.300'
       }
       const pkg = viteCompilerContext.modifyHostPackage(deps)
-      // TODO 判断 ohpm 是否存在，如果存在则在 projectPath 目录下执行 ohpm install
+
+      const { projectPath, hapName = 'entry', ohpm = '~/Library/Huawei/ohpm/bin/ohpm' } = taroConfig
+      const outputRoot = path.join(projectPath, hapName)
       if (taroConfig.isBuildNativeComp && typeof pkg.main === 'string' && pkg) {
-        const { projectPath, hapName = 'entry' } = taroConfig
-        const mainFile = path.join(projectPath, hapName, pkg.main)
+        const mainFile = path.join(outputRoot, pkg.main)
         // @ts-ignore
         const comps = viteCompilerContext.getComponents() || []
 
         fs.writeFileSync(mainFile, comps.map(comp => `export * from './${path.join('src/main', 'ets', comp.name)}'`).join('\n'))
+      }
+
+      try {
+        console.log() // eslint-disable-line no-console
+        execSync(`${ohpm} install`, { cwd: outputRoot, stdio: 'inherit' })
+      } catch (e) {
+        console.error(`自动安装依赖失败，请手动执行 ${chalk.yellow('ohpm install')} 或在 DevEco Studio 中打开 oh-package.json5 并点击 ${chalk.yellow('Sync Now')} 按钮`)
       }
     }
   }]

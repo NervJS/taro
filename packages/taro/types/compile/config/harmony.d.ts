@@ -28,6 +28,11 @@ export interface IHarmonyConfig<T extends CompilerTypes = CompilerWebpackTypes> 
     [k: string]: any
   }
 
+  /** ohpm-cli
+   * @default "~/Library/Huawei/ohpm/bin/ohpm"
+   */
+  ohpm?: string
+
   /** 用于告诉 Taro 编译器需要抽取的公共文件 */
   commonChunks?: string[] | ((commonChunks: string[]) => string[])
 
