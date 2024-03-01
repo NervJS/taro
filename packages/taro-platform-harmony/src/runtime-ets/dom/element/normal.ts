@@ -26,6 +26,7 @@ class TaroImageElement extends TaroElement<ImageProps> {
   }
 }
 
+@Observed
 class TaroButtonElement extends TaroElement<ButtonProps> {
   constructor() {
     super('Button')

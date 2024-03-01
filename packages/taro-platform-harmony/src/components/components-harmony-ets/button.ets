@@ -94,38 +94,41 @@ function getButtonMinHeight (node: TaroButtonElement): string | number | undefin
   return getButtonHeight(node)
 }
 
-@Builder
-export default function TaroButton (node: TaroButtonElement) {
-  Button({ stateEffect: !node._attrs.disabled }) {
-    Row() {
-      if (node._attrs.loading) {
-        LoadingProgress()
-        .width(20).height(20)
-        .color(getThemeAttributes(node).color)
+@Component
+export default struct TaroButton {
+  @ObjectLink node: TaroButtonElement
+  build() {
+    Button({ stateEffect: !this.node._attrs.disabled }) {
+      Row() {
+        if (this.node._attrs.loading) {
+          LoadingProgress()
+            .width(20).height(20)
+            .color(getThemeAttributes(this.node).color)
+        }
+        createLazyChildren(this.node)
       }
-      createLazyChildren(node)
     }
+    .themeStyles(getThemeAttributes(this.node))
+    .attributeModifier(commonStyleModify.setNode(this.node))
+    .constraintSize({
+      minWidth: this.node.hmStyle?.minWidth || getButtonMinWidth(this.node),
+      minHeight: this.node.hmStyle?.minHeight || getButtonMinHeight(this.node),
+      maxWidth: this.node.hmStyle?.maxWidth,
+      maxHeight: this.node.hmStyle?.maxHeight,
+    })
+    .type(ButtonType.Normal)
+    .onClick((e: ClickEvent) => {
+      if (this.node._attrs.formType && ['submit', 'reset'].includes(this.node._attrs.formType)) {
+        const eventName = this.node._attrs.formType + '-btn'
+        const event: TaroEvent = createTaroEvent(eventName, {}, this.node)
+        eventHandler(event, eventName, this.node)
+      }
+      eventHandler(e, 'click', this.node)
+    })
+    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      this.node._nodeInfo.areaInfo = res[1]
+    }))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
-  .themeStyles(getThemeAttributes(node))
-  .attributeModifier(commonStyleModify.setNode(node))
-  .constraintSize({
-    minWidth: node.hmStyle?.minWidth || getButtonMinWidth(node),
-    minHeight: node.hmStyle?.minHeight || getButtonMinHeight(node),
-    maxWidth: node.hmStyle?.maxWidth,
-    maxHeight: node.hmStyle?.maxHeight,
-  })
-  .type(ButtonType.Normal)
-  .onClick((e: ClickEvent) => {
-    if (node._attrs.formType && ['submit', 'reset'].includes(node._attrs.formType)) {
-      const eventName = node._attrs.formType + '-btn'
-      const event: TaroEvent = createTaroEvent(eventName, {}, node)
-      eventHandler(event, eventName, node)
-    }
-    eventHandler(e, 'click', node)
-  })
-  .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), node), node, TOUCH_EVENT_MAP.values()))
-  .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-    node._nodeInfo.areaInfo = res[1]
-  }))
-  .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
 }
