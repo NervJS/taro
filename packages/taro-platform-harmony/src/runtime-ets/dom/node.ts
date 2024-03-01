@@ -63,6 +63,18 @@ export class TaroNode extends TaroDataSourceElement {
     return this.childNodes.findIndex(node => node._nid === refChild._nid)
   }
 
+  public updateTextNode () {
+    // @ts-ignore
+    if (this.childNodes.length <= 0 || this.tagName !== 'VIEW') return
+
+    // TextNode 不具备 props 更新能力，需要由父节点来进行触发
+    this.childNodes.forEach(item => {
+      if (item.nodeType !== NodeType.TEXT_NODE) return
+
+      item._updateTrigger++
+    })
+  }
+
   // 更新对应的 ArkUI 组件
   public updateComponent () {
     if (!this._isCompileMode) return
@@ -217,6 +229,7 @@ export class TaroNode extends TaroDataSourceElement {
   }
 }
 
+@Observed
 export class TaroTextNode extends TaroNode {
   constructor(value = '', nodeName = '#text', nodeType: NodeType = NodeType.TEXT_NODE) {
     super(nodeName, nodeType)

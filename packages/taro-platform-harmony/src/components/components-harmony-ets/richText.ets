@@ -10,15 +10,20 @@ function generateText (node: TaroRichTextElement): string {
   return parseHtmlNode(node._attrs.nodes || '')
 }
 
-@Builder
-export default function TaroRichText (node: TaroRichTextElement) {
-  RichText(generateText(node))
-    .attributeModifier(commonStyleModify.setNode(node))
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
-    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      node._nodeInfo.areaInfo = res[1]
-    }))
-    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
+@Component
+export default struct TaroRichText {
+  @ObjectLink node: TaroRichTextElement
+
+  build () {
+    RichText(generateText(this.node))
+      .attributeModifier(commonStyleModify.setNode(this.node))
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        this.node._nodeInfo.areaInfo = res[1]
+      }))
+      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+  
+  }
 }
 
 // 将nodeTree转换成harmony需要的string结构

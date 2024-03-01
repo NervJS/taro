@@ -70,7 +70,7 @@ function createChildItem (item: TaroElement) {
   ${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'VIEW') {
     TaroView({ node: item as TaroViewElement })
   } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
-    TaroText(item as TaroTextElement)
+    TaroText({ node: item as TaroTextElement })
   } else if (item.tagName === 'IMAGE') {
     TaroImage(item as TaroImageElement)
   } else if (item.tagName === 'BUTTON') {
@@ -84,13 +84,13 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'INPUT') {
     TaroInput({ node: item as TaroInputElement })
   } else if (item.tagName === 'SWIPER') {
-    TaroSwiper(item as TaroSwiperElement)
+    TaroSwiper({ node: item as TaroSwiperElement })
   } else if (item.tagName === 'SWIPER-ITEM') {
     TaroView({ node: item as TaroViewElement })
   } else if (item.tagName === 'INNER-HTML') {
     TaroInnerHtml(item as TaroViewElement)
   } else if (item.tagName === 'RICH-TEXT') {
-    TaroRichText(item as TaroRichTextElement)
+    TaroRichText({ node: item as TaroRichTextElement })
   } else if (item.tagName === 'ICON') {
     TaroIcon(item as TaroIconElement)
   } else if (item.tagName === 'TEXT-AREA') {
@@ -112,9 +112,9 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'FORM') {
     TaroForm(item as TaroFormElement)
   } else if (item.tagName === 'VIDEO') {
-    TaroVideo(item as TaroVideoElement)
+    TaroVideo({ node: item as TaroVideoElement })
   } else if (item.tagName === 'WEB-VIEW') {
-    TaroWebView(item as TaroWebViewElement)
+    TaroWebView({ node: item as TaroWebViewElement })
   } else {
     TaroView({ node: item as TaroViewElement })
   }

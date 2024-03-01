@@ -30,7 +30,7 @@ function getPlaceholderColor (node: TaroTextAreaElement): string {
 export default struct TaroTextArea {
   @State value: string = ''
 
-  node: TaroTextAreaElement | null = null
+  @ObjectLink node: TaroTextAreaElement
 
   aboutToAppear () {
     if (this.node) {

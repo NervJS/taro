@@ -35,7 +35,7 @@ function themeStyles(isDisabled: boolean) {
 
 @Component
 export struct TaroRadio {
-  node: TaroRadioElement | null = null
+  @ObjectLink node: TaroRadioElement
   
   aboutToAppear () {
     if (this.node && !this.node._isInit) {
@@ -95,7 +95,7 @@ export struct TaroRadio {
 
 @Component
 export struct TaroRadioGroup {
-  node: TaroRadioGroupElement | null = null
+  @ObjectLink node: TaroRadioGroupElement
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))

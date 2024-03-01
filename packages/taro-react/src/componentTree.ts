@@ -69,4 +69,9 @@ export function updateFiberProps (
   props: Props,
 ): void {
   node[internalPropsKey] = props
+
+  if (process.env.TARO_PLATFORM === 'harmony') {
+    // @ts-ignore
+    node.updateTextNode()
+  }
 }
