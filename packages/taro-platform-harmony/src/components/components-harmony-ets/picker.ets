@@ -19,7 +19,7 @@ interface TimeRange {
 
 @CustomDialog
 export struct PickerView {
-  node: TaroPickerElement | null = null
+  @ObjectLink node: TaroPickerElement
 
   controller?: CustomDialogController
 
@@ -221,7 +221,7 @@ export struct PickerView {
 
 @Component
 export default struct TaroPicker {
-  node: TaroPickerElement | null = null
+  @ObjectLink node: TaroPickerElement
 
   aboutToAppear () {
     this.node?.addEventListener('click', this.handleClick)

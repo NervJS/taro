@@ -224,7 +224,7 @@ class TaroSliderElement extends TaroFormWidgetElement<SliderProps> {
     this._value = Number(this._attrs.value || 0)
   }
 }
-
+@Observed
 class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | PickerTimeProps | PickerDateProps | PickerMultiSelectorProps> {
   constructor() {
     super('Picker')
