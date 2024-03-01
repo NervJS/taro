@@ -134,6 +134,7 @@ class TaroCheckedElement<T extends StandardProps & { checked?: boolean } = Stand
   }
 }
 
+@Observed
 class TaroInputElement<T extends FormWidgetProps = InputProps> extends TaroFormWidgetElement<T> {
   _height = 0
 

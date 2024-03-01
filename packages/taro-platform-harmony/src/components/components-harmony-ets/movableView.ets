@@ -27,7 +27,7 @@ function columnAttrs(style: TaroStyleType) {
 
 @Component
 export default struct TaroMovableArea {
-  @ObjectLink node: TaroMovableAreaElement
+  @ObjectLink node: TaroMovableViewElement
   @Provide test: number = 1
   @Provide areaWidth: Length = 0
   @Provide areaHeight: Length = 0
