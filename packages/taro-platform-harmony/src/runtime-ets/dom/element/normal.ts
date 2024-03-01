@@ -32,7 +32,7 @@ class TaroButtonElement extends TaroElement<ButtonProps> {
   }
 }
 
-
+@Observed
 class TaroIconElement extends TaroElement<IconProps>{
   constructor() {
     super('Icon')
