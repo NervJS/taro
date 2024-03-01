@@ -329,6 +329,7 @@ class TaroRadioGroupElement extends TaroFormWidgetElement<RadioGroupProps> {
   }
 }
 
+@Observed
 class TaroFormElement extends TaroFormWidgetElement {
   constructor() {
     super('Form')
