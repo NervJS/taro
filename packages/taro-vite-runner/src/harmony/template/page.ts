@@ -105,7 +105,7 @@ export default class Parser extends BaseParser {
     if (this.buildConfig.isBuildNativeComp) {
       return `if (this.node) {\n  TaroView(this.node as TaroViewElement)\n}`
     }
-    
+
     const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
     let pageStr = `Column() {
   if (${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`}) {
@@ -363,7 +363,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       this.transArr2Str(`aboutToAppear() {${isBlended ?
         '\n  initHarmonyElement()' : ''}
   ${this.buildConfig.isBuildNativeComp
-    ? '' 
+    ? ''
     : ` const state = this.getPageState()
   if (this.pageStack.length >= state.index) {
     this.pageStack.length = state.index - 1

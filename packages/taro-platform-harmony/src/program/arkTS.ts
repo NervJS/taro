@@ -302,7 +302,7 @@ declare global {
     const that = this
     const { appPath } = that.ctx.paths
     const { config } = that.ctx.runOpts
-    const { outputRoot } = config
+    const { outputRoot, ohPackage = {} } = config
 
     if (!that.framework.includes('vue')) {
       that.excludeLibraries.push(/\bvue\b/)
@@ -320,9 +320,18 @@ declare global {
       ])
     }
 
+    const externals = Object.keys(ohPackage.dependencies).concat(Object.keys(ohPackage.devDependencies))
     function modifyResolveId({
       source = '', importer = '', options = {}, name = 'modifyResolveId', resolve
     }) {
+      if (externals.includes(source)) {
+        return {
+          external: true,
+          id: source,
+          resolvedBy: name,
+        }
+      }
+
       if (isFunction(resolve)) {
         if (source === that.runtimePath || that.runtimePath.includes(source)) {
           return resolve('@tarojs/runtime', importer, options)
