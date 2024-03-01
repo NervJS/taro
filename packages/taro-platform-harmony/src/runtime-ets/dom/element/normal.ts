@@ -37,7 +37,7 @@ class TaroIconElement extends TaroElement<IconProps>{
     super('Icon')
   }
 }
-
+@Observed
 class TaroLabelElement extends TaroElement<LabelProps>{
   constructor() {
     super('Label')

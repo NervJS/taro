@@ -48,7 +48,7 @@ function getPlaceholderColor (node: TaroInputElement): string {
 export default struct TaroInput {
   @State value: string = ''
 
-  node: TaroInputElement | null = null
+  @ObjectLink node: TaroInputElement
 
   aboutToAppear () {
     if (this.node) {
