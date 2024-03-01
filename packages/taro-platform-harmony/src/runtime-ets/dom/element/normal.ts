@@ -19,6 +19,7 @@ class TaroViewElement extends TaroElement<ViewProps> {
   }
 }
 
+@Observed
 class TaroImageElement extends TaroElement<ImageProps> {
   constructor() {
     super('Image')
