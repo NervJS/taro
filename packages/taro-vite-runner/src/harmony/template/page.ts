@@ -103,7 +103,7 @@ export default class Parser extends BaseParser {
 
   renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0) {
     if (this.buildConfig.isBuildNativeComp) {
-      return `if (this.node) {\n  TaroView(this.node as TaroViewElement)\n}`
+      return `if (this.node) {\n  TaroView({ node: this.node as TaroViewElement })\n}`
     }
     
     const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
@@ -159,7 +159,7 @@ export default class Parser extends BaseParser {
   Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
     Column() {
       if (${isTabPage ? 'this.node[index]' : 'this.node'}) {
-        TaroView(${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement)
+        TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement })
       }
     }
     .width('100%')

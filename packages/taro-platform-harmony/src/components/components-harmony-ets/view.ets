@@ -28,35 +28,39 @@ function columnAttrs (style: TaroStyleType) {
   })
 }
 
-@Builder
-export default function TaroView (node: TaroViewElement) {
-  if (FlexManager.isFlexNode(node) && FlexManager.flexOptions(node).direction !== FlexDirection.Column) {
-    Row() {
-      createLazyChildren(node)
+@Component
+export default struct TaroView {
+  @ObjectLink node: TaroViewElement
+
+  build () {
+    if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
+      Row() {
+        createLazyChildren(this.node)
+      }
+      .attributeModifier(commonStyleModify.setNode(this.node))
+      .rowAttrs(getNormalAttributes(this.node))
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        this.node._nodeInfo.areaInfo = res[1]
+      }))
+      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+      .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
+      .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
+    } else {
+      Column() {
+        createLazyChildren(this.node)
+      }
+      .attributeModifier(commonStyleModify.setNode(this.node))
+      .columnAttrs(getNormalAttributes(this.node))
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        this.node._nodeInfo.areaInfo = res[1]
+      }))
+      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+      .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
+      .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
     }
-    .attributeModifier(commonStyleModify.setNode(node))
-    .rowAttrs(getNormalAttributes(node))
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
-    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), node), node, TOUCH_EVENT_MAP.values()))
-    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      node._nodeInfo.areaInfo = res[1]
-    }))
-    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
-    .alignItems(FlexManager.flexOptions(node).alignItems as VerticalAlign)
-    .justifyContent(FlexManager.flexOptions(node).justifyContent)
-  } else {
-    Column() {
-      createLazyChildren(node)
-    }
-    .attributeModifier(commonStyleModify.setNode(node))
-    .columnAttrs(getNormalAttributes(node))
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
-    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), node), node, TOUCH_EVENT_MAP.values()))
-    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      node._nodeInfo.areaInfo = res[1]
-    }))
-    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
-    .alignItems(FlexManager.flexOptions(node).alignItems as HorizontalAlign)
-    .justifyContent(FlexManager.flexOptions(node).justifyContent)
   }
 }
