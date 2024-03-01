@@ -106,8 +106,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       }
 
       try {
-        console.log() // eslint-disable-line no-console
+        console.log(`\n\n开始 ${chalk.yellow('ohpm install')} 脚本执行...\n`) // eslint-disable-line no-console
         execSync(`${ohpm} install`, { cwd: outputRoot, stdio: 'inherit' })
+        console.log(`执行 ${chalk.yellow('ohpm install')} 脚本成功。\n`) // eslint-disable-line no-console
       } catch (e) {
         console.error(`自动安装依赖失败，请手动执行 ${chalk.yellow('ohpm install')} 或在 DevEco Studio 中打开 oh-package.json5 并点击 ${chalk.yellow('Sync Now')} 按钮`)
       }

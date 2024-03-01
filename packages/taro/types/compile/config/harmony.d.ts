@@ -33,6 +33,11 @@ export interface IHarmonyConfig<T extends CompilerTypes = CompilerWebpackTypes> 
    */
   ohpm?: string
 
+  /** 核心依赖前缀
+   * @description 用于告诉编译内容如何解析核心依赖，传入时将直接使用依赖前缀，同时不会为工程导入核心依赖
+   */
+  chorePackagePrefix?: string
+
   /** 用于告诉 Taro 编译器需要抽取的公共文件 */
   commonChunks?: string[] | ((commonChunks: string[]) => string[])
 
