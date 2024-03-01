@@ -103,9 +103,9 @@ export default class Parser extends BaseParser {
 
   renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0) {
     if (this.buildConfig.isBuildNativeComp) {
-      return `if (this.node) {\n  TaroView(this.node as TaroViewElement)\n}`
+      return `if (this.node) {\n  TaroView({ node: this.node as TaroViewElement })\n}`
     }
-    
+
     const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
     let pageStr = `Column() {
   if (${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`}) {
@@ -159,7 +159,7 @@ export default class Parser extends BaseParser {
   Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
     Column() {
       if (${isTabPage ? 'this.node[index]' : 'this.node'}) {
-        TaroView(${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement)
+        TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement })
       }
     }
     .width('100%')
@@ -171,6 +171,7 @@ export default class Parser extends BaseParser {
       }
     })
   }
+  .clip(false)
   .constraintSize({
     maxHeight: ${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`} ? \`calc(100% - \${convertNumber2VP(75)})\` : '100%'
   })
@@ -362,7 +363,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       this.transArr2Str(`aboutToAppear() {${isBlended ?
         '\n  initHarmonyElement()' : ''}
   ${this.buildConfig.isBuildNativeComp
-    ? '' 
+    ? ''
     : ` const state = this.getPageState()
   if (this.pageStack.length >= state.index) {
     this.pageStack.length = state.index - 1

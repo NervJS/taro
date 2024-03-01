@@ -117,8 +117,8 @@ export default class Harmony extends TaroPlatformHarmony {
     if (!lib) return
     if (this.excludeLibraries.some(e => typeof e === 'string' ? e === lib : e.test(lib))) return
 
+    const { outputRoot, chorePackagePrefix } = this.ctx.runOpts.config
     if (sync) {
-      const { outputRoot } = this.ctx.runOpts.config
       const targetPath = path.join(outputRoot, NODE_MODULES)
       // FIXME 不支持 alias 配置
       const libName = lib
@@ -226,6 +226,7 @@ export default class Harmony extends TaroPlatformHarmony {
         code = apiLoader(code)
       }
       if (this.extensions.includes(path.extname(lib))) {
+        // Note: 查询 externals 内的依赖，并将它们添加到 externalDeps 中
         code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {
           const { outputRoot } = this.ctx.runOpts.config
           const targetPath = path.join(outputRoot, NODE_MODULES, p1)
@@ -253,8 +254,11 @@ export default class Harmony extends TaroPlatformHarmony {
           code = '// @ts-nocheck\n' + code
         }
       }
-      if (/tarojs[\\/]taro[\\/]types[\\/]index.d.ts/.test(target)) {
-        code = `/// <reference path="global.d.ts" />
+
+      // Note: 传入 chorePackagePrefix 时，不生成核心依赖库
+      if (!chorePackagePrefix) {
+        if (/tarojs[\\/]taro[\\/]types[\\/]index.d.ts/.test(target)) {
+          code = `/// <reference path="global.d.ts" />
 
 /// <reference path="taro.api.d.ts" />
 /// <reference path="taro.component.d.ts" />
@@ -274,13 +278,14 @@ declare global {
   const defineAppConfig: (config: Taro.Config) => Taro.Config
   const definePageConfig: (config: Taro.Config) => Taro.Config
 }`
-      }
-      try {
-        const targetPath = target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm')
-        fs.ensureDirSync(path.dirname(targetPath))
-        fs.writeFileSync(targetPath, code)
-      } catch (e) {
-        console.error(`[taro-arkts] inject ${lib} to ${target} failed`, e)
+        }
+        try {
+          const targetPath = target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm')
+          fs.ensureDirSync(path.dirname(targetPath))
+          fs.writeFileSync(targetPath, code)
+        } catch (e) {
+          console.error(`[taro-arkts] inject ${lib} to ${target} failed`, e)
+        }
       }
     } else if (stat.isSymbolicLink()) {
       const realPath = fs.realpathSync(lib, { encoding: 'utf8' })
@@ -302,7 +307,7 @@ declare global {
     const that = this
     const { appPath } = that.ctx.paths
     const { config } = that.ctx.runOpts
-    const { outputRoot } = config
+    const { outputRoot, ohPackage = {}, chorePackagePrefix } = config
 
     if (!that.framework.includes('vue')) {
       that.excludeLibraries.push(/\bvue\b/)
@@ -320,9 +325,26 @@ declare global {
       ])
     }
 
+    const externals = Object.keys(ohPackage.dependencies).concat(Object.keys(ohPackage.devDependencies))
     function modifyResolveId({
       source = '', importer = '', options = {}, name = 'modifyResolveId', resolve
     }) {
+      if (externals.includes(source)) {
+        return {
+          external: true,
+          id: source,
+          resolvedBy: name,
+        }
+      }
+
+      if (chorePackagePrefix && that.indexOfLibraries(source) > -1) {
+        return {
+          external: true,
+          id: path.join(chorePackagePrefix, source),
+          resolvedBy: name,
+        }
+      }
+
       if (isFunction(resolve)) {
         if (source === that.runtimePath || that.runtimePath.includes(source)) {
           return resolve('@tarojs/runtime', importer, options)

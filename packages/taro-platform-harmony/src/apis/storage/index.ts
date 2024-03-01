@@ -7,32 +7,30 @@ import dataPreferences from '@ohos.data.preferences'
 import hilog from '@ohos.hilog'
 import { Current } from '@tarojs/runtime'
 
-import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../utils'
+import { temporarilyNotSupport, validateParams } from '../utils'
+import { MethodHandler } from '../utils/handler'
 
 import type Taro from '@tarojs/taro/types'
 
-const preferencesPromise = (Current as any).contextPromise
-  .then((context) => {
-    return bundleManager
-      .getBundleInfoForSelf(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
-      .then(data => {
-        return dataPreferences
-          .getPreferences(context, `${data.appInfo.uid}Store`)
-      })
-  })
-  .catch((error) => {
-    hilog.error(0x0000, 'TaroFailedTag', 'Failed to load the storage. Cause: %{public}s', error.code ? JSON.stringify(error) : error.message || error)
-  })
+let context
+let preferences: any
 
-async function getItem (key: string): Promise<{ result: boolean, data?: number | string | boolean }> {
+(Current as any).contextPromise.then((ctx) => {
+  context = ctx
+  return context
+})
+
+function getPreferences () {
   try {
-    const preferences = await preferencesPromise
-    const item = await preferences.get(key, null)
-
-    return { result: true, data: item }
+    if (!preferences) {
+      const data = bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
+      preferences = dataPreferences.getPreferencesSync(context, { name: `${data.appInfo.uid}Store` })
+    }
   } catch (error) {
-    return { result: false }
+    hilog.error(0x0000, 'TaroFailedTag', 'Failed to load the storage. Cause: %{public}s', error.code ? JSON.stringify(error) : error.message || error)
   }
+
+  return preferences
 }
 
 const storageSchema = {
@@ -40,88 +38,154 @@ const storageSchema = {
 }
 
 export function getStorage<T = any> (options: Taro.getStorage.Option<T>) {
+  const { key, success, fail, complete } = options || {}
+  const handle = new MethodHandler<{data: any}>({ name: 'getStorage', success, fail, complete })
+
   return new Promise((resolve, reject) => {
     try {
       validateParams('getStorage', options, storageSchema)
     } catch (error) {
       const res = { errMsg: error.message }
-      return callAsyncFail(reject, res, options)
+      return handle.fail(res, { resolve, reject })
     }
-    getItem(options.key).then(({ result, data }) => {
-      const res: Record<string, any> = { errMsg: 'getStorage:ok' }
 
-      if (result) {
-        res.data = data
-        callAsyncSuccess(resolve, res, options)
-      } else {
-        res.errMsg = 'getStorage:fail data not found'
-        callAsyncFail(reject, res, options)
-      }
-    })
+    const preferences = getPreferences()
+    
+    if (!preferences) return handle.fail({}, { resolve, reject })
+
+    const data = preferences.getSync(key, null)
+    if (data) {
+      return handle.success({ data }, { resolve, reject })
+    } else {
+      return handle.success({ errMsg: 'data not found' }, { resolve, reject })
+    }
   })
 }
 
+export function getStorageSync (key: string) {
+  if (!key) {
+    throw new Error('getStorageSync:fail parameter error: parameter should be String')
+  }
+
+  const preferences = getPreferences()
+  
+  if (!preferences) {
+    throw new Error('getStorageSync:fail:preferences is null')
+  }
+
+  const data = preferences.getSync(key, null)
+  if (data) {
+    return data
+  } else {
+    throw new Error('data not found')
+  }
+}
+
 export function setStorage (options: Taro.setStorage.Option) {
+  const { key, data, success, fail, complete } = options || {}
+  const handle = new MethodHandler({ name: 'setStorage', success, fail, complete })
+
   return new Promise((resolve, reject) => {
     try {
       validateParams('setStorage', options, storageSchema)
     } catch (error) {
       const res = { errMsg: error.message }
-      return callAsyncFail(reject, res, options)
+      return handle.fail(res, { resolve, reject })
     }
 
-    const { key, data } = options
-    const res = { errMsg: 'setStorage:ok' }
+    const preferences = getPreferences()
 
-    preferencesPromise.then(async (preferences) => {
-      await preferences.put(key, data)
-      await preferences.flush()
+    if (!preferences) return handle.fail({}, { resolve, reject })
 
-      callAsyncSuccess(resolve, res, options)
-    })
+    preferences.putSync(key, data)
+    preferences.flush()
+
+    return handle.success({}, { resolve, reject })
   })
 }
 
+export function setStorageSync (key: string, data: any) {
+  if (!key) {
+    throw new Error('setStorageSync:fail key error: key should be String')
+  }
+
+  const preferences = getPreferences()
+  
+  if (!preferences) {
+    throw new Error('setStorageSync:fail:preferences is null')
+  }
+
+  preferences.putSync(key, data)
+  preferences.flush()
+}
+
 export function removeStorage (options: Taro.removeStorage.Option) {
+  const { key, success, fail, complete } = options || {}
+  const handle = new MethodHandler({ name: 'removeStorage', success, fail, complete })
+
   return new Promise((resolve, reject) => {
     try {
       validateParams('removeStorage', options, storageSchema)
     } catch (error) {
       const res = { errMsg: error.message }
-      return callAsyncFail(reject, res, options)
+      return handle.fail(res, { resolve, reject })
     }
 
-    const { key } = options
+    const preferences = getPreferences()
 
-    preferencesPromise.then(async (preferences) => {
-      await preferences.delete(key)
-      await preferences.flush()
+    if (!preferences) return handle.fail({}, { resolve, reject })
 
-      const res = { errMsg: 'removeStorage:ok' }
-      callAsyncSuccess(resolve, res, options)
-    })
+    preferences.deleteSync(key)
+    preferences.flush()
+
+    return handle.success({}, { resolve, reject })
   })
 }
 
-export function clearStorage (options: Taro.clearStorage.Option) {
-  return new Promise(resolve => {
-    preferencesPromise.then(async (preferences) => {
-      await preferences.clear()
-      await preferences.flush()
+export function removeStorageSync (key: string) {
+  if (!key) {
+    throw new Error('removeStorageSync:fail key error: key should be String')
+  }
 
-      const res = { errMsg: 'clearStorage:ok' }
-      callAsyncSuccess(resolve, res, options)
-    })
+  const preferences = getPreferences()
+  
+  if (!preferences) {
+    throw new Error('removeStorageSync:fail:preferences is null')
+  }
+
+  preferences.deleteSync(key)
+  preferences.flush()
+}
+
+export function clearStorage (options: Taro.clearStorage.Option) {
+  const { success, fail, complete } = options || {}
+  const handle = new MethodHandler({ name: 'clearStorage', success, fail, complete })
+
+  return new Promise((resolve, reject) => {
+    const preferences = getPreferences()
+
+    if (!preferences) return handle.fail({}, { resolve, reject })
+
+    preferences.clearSync()
+    preferences.flush()
+    
+    return handle.success({}, { resolve, reject })
   })
+}
+
+export function clearStorageSync () {
+  const preferences = getPreferences()
+  
+  if (!preferences) {
+    throw new Error('clearStorageSync:fail:preferences is null')
+  }
+
+  preferences.clearSync()
+  preferences.flush()
 }
 
 export const getStorageInfoSync = temporarilyNotSupport('getStorageInfoSync')
 export const getStorageInfo = temporarilyNotSupport('getStorageInfo')
-
-export const getStorageSync = temporarilyNotSupport('getStorageSync', 'getStorage')
-export const setStorageSync = temporarilyNotSupport('setStorageSync', 'setStorage')
-export const clearStorageSync = temporarilyNotSupport('clearStorageSync', 'clearStorage')
-export const removeStorageSync = temporarilyNotSupport('removeStorageSync', 'removeStorage')
 
 export const createBufferURL = /* @__PURE__ */ temporarilyNotSupport('createBufferURL')
 export const revokeBufferURL = /* @__PURE__ */ temporarilyNotSupport('revokeBufferURL')

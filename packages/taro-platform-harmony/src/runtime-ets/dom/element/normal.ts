@@ -12,6 +12,7 @@ import type {
   ViewProps
 } from '@tarojs/components/types'
 
+@Observed
 class TaroViewElement extends TaroElement<ViewProps> {
   constructor() {
     super('View')

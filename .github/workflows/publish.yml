@@ -61,6 +61,12 @@ jobs:
     if: needs.need-publish.outputs.ABORT != 'true'
     uses: ./.github/workflows/build-rust-binding.yml
 
+  build-rust-wasm:
+    name: Build Rust WASM
+    needs: [need-publish]
+    if: needs.need-publish.outputs.ABORT != 'true'
+    uses: ./.github/workflows/build-rust-wasm.yml
+
   publish:
     permissions:
       contents: write # to create tags and refs
@@ -69,7 +75,7 @@ jobs:
       pull-requests: write # to create comment and so on
     name: Publish
     runs-on: ubuntu-latest
-    needs: [need-publish, build-rust-binding]
+    needs: [need-publish, build-rust-binding, build-rust-wasm]
     if: needs.need-publish.outputs.ABORT != 'true'
     env:
       CURRENT_VERSION: ''

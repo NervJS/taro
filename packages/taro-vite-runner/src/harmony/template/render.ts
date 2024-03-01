@@ -72,7 +72,7 @@ import type {
 @Builder
 function createChildItem (item: TaroElement) {
   ${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'VIEW') {
-    TaroView(item as TaroViewElement)
+    TaroView({ node: item as TaroViewElement })
   } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
     TaroText(item as TaroTextElement)
   } else if (item.tagName === 'IMAGE') {
@@ -80,7 +80,7 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'BUTTON') {
     TaroButton(item as TaroButtonElement)
   } else if (item.tagName === 'SCROLL-VIEW') {
-    TaroScrollView(item as TaroScrollViewElement)
+    TaroScrollView({ node: item as TaroScrollViewElement })
   } else if (item.tagName === 'SLIDER') {
     TaroSlider({ node: item as TaroSliderElement })
   } else if (item.tagName === 'SWITCH') {
@@ -90,7 +90,7 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'SWIPER') {
     TaroSwiper(item as TaroSwiperElement)
   } else if (item.tagName === 'SWIPER-ITEM') {
-    TaroView(item as TaroViewElement)
+    TaroView({ node: item as TaroViewElement })
   } else if (item.tagName === 'INNER-HTML') {
     TaroInnerHtml(item as TaroViewElement)
   } else if (item.tagName === 'RICH-TEXT') {
@@ -124,7 +124,7 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'WEB-VIEW') {
     TaroWebView(item as TaroWebViewElement)
   } else {
-    TaroView(item as TaroViewElement)
+    TaroView({ node: item as TaroViewElement })
   }
 }
 

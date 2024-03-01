@@ -65,25 +65,13 @@ export class TaroNode extends TaroDataSourceElement {
 
   // 更新对应的 ArkUI 组件
   public updateComponent () {
-    if (!this._isCompileMode && (!this.parentNode || !this.parentNode.listeners?.length)) return
+    if (!this._isCompileMode) return
 
-    const idx = this.parentNode.findIndex(this)
-
-    if (this._isCompileMode) {
-      // 半编译模式下走 @State 的更新模式
-      if (this._isDynamicNode) {
-        this._updateTrigger++
-      } else {
-        this.parentNode.updateComponent()
-      }
+    // 半编译模式下走 @State 的更新模式
+    if (this._isDynamicNode) {
+      this._updateTrigger++
     } else {
-      // 非半编译模式下走 LazyForEach 的更新模式
-      if (idx >= 0) {
-        this._updateTrigger++
-        this.parentNode.notifyDataChange(idx)
-      } else {
-        this.parentNode.notifyDataReload()
-      }
+      this.parentNode.updateComponent()
     }
   }
 
