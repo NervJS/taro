@@ -6,9 +6,10 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 const PROGRESS_ACTIVECOLOR = '#09BB07'
 const PROGRESS_BACKGROUNDCOLOR = '#EBEBEB'
 const PROGRESS_DEFAULTINFOFONTSIZE = 16
+
 @Component
-  export default struct TaroProgress {
-  node: TaroProgressElement | null = null
+export default struct TaroProgress {
+  @ObjectLink node: TaroProgressElement
 
   build() {
     if (this.node) {
@@ -25,7 +26,7 @@ const PROGRESS_DEFAULTINFOFONTSIZE = 16
             strokeRadius: parseFloat(this.node.getAttribute('borderRadius')),
             enableSmoothEffect: Boolean(this.node.getAttribute('active')),
           })
-          
+
           .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
           .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
@@ -35,7 +36,8 @@ const PROGRESS_DEFAULTINFOFONTSIZE = 16
           }))
 
         if (this.node.getAttribute('showInfo')) {
-          Text(`${this.node.getAttribute('percent')}%`).fontSize(this.node.getAttribute('fontSize') ?? PROGRESS_DEFAULTINFOFONTSIZE)
+          Text(`${this.node.getAttribute('percent')}%`)
+            .fontSize(this.node.getAttribute('fontSize') ?? PROGRESS_DEFAULTINFOFONTSIZE)
         }
       }
     }
