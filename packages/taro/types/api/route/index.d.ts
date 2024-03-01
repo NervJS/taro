@@ -226,8 +226,37 @@ declare module '../../index' {
      */
     navigateBack(option?: navigateBack.Option): Promise<TaroGeneral.CallbackResult>
 
-    beforeRouteChange(callbackfn: CallbackFn): void
+    /**
+     * 路由变化之前调用的方法，由于切换 route 的时候，是需要加载新的页面的资源，网络不好的时候会有一定的耗时，因此可以通过此方法做一些过渡动画
+     * 参数为一个回调函数，回调函数的参数类型为 `routeChange.Param`，可以获取到即将跳转的路由
+     * @supported h5
+     * @example
+     * ```ts
+     * import { beforeRouteChange, showLoading } from '@tarojs/taro'
+     * // 跳转之前设置 loading，优化用户体验
+     * beforeRouteChange((routeInfo) => {
+     *  console.log(routeInfo)
+     *  showLoading()
+     * })
+     * ```
+    */
+    beforeRouteChange(callbackfn: routeChange.CallbackFn): void
 
-    afterRouteChange(callbackfn: CallbackFn): void
+    /**
+     * 路由变化之后调用的方法，参数为一个回调函数，回调函数的参数类型为 `routeChange.Param`，可以获取到即将跳转的路由
+     * @supported h5
+     * @example
+     * ```ts
+     * import { afterRouteChange, hideLoading } from '@tarojs/taro'
+     * // 跳转之前设置 loading，优化用户体验
+     * afterRouteChange((routeInfo) => {
+     *  console.log(routeInfo)
+     *  // 其实每次路由切换 taro 已经会帮忙隐藏上个页面触发的 loading 了
+     *  // 所以下面的 hideLoading 是有点多余的，只是示范代码
+     *  hideLoading()
+     * })
+     * ```
+    */
+    afterRouteChange(callbackfn: routeChange.CallbackFn): void
   }
 }
