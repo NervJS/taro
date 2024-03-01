@@ -3,9 +3,12 @@ import { createChildItem } from './render'
 
 import type { TaroElement } from '@tarojs/runtime'
 
-@Builder
-export default function TaroInnerHtml (node: TaroElement) {
-  if (node.innerHTML) {
-    createChildItem(htmlParser(node.innerHTML))
+@Component
+export default struct TaroInnerHtml {
+  @ObjectLink node: TaroElement
+  build() {
+    if (this.node.innerHTML) {
+      createChildItem(htmlParser(this.node.innerHTML))
+    }
   }
 }

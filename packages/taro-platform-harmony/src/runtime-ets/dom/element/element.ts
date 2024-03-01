@@ -20,6 +20,7 @@ export interface TaroExtraProps {
   disabled?: boolean
 }
 
+@Observed
 export class TaroElement<T extends StandardProps = StandardProps> extends TaroNode {
   public _innerHTML = ''
   public _nodeInfo: TaroAny = {}
