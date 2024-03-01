@@ -6,7 +6,6 @@ import { createLazyChildren } from './render'
 import { FlexManager } from './utils/FlexManager'
 import { getNormalAttributes, } from './utils/helper'
 
-
 @Extend(Row)
 function rowAttrs(style: TaroStyleType) {
   .constraintSize({
@@ -43,7 +42,7 @@ function calcPosition(postion: number, start: number, end: number) {
 
 @Component
 export default struct TaroMovableView {
-  node: TaroMovableViewElement | null = null
+  @ObjectLink node: TaroMovableViewElement
   startX = 0
   startY = 0
   offsetX = 0
@@ -79,7 +78,11 @@ export default struct TaroMovableView {
           .columnAttrs(getNormalAttributes(this.node))
           .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
           .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
+          .onDragStart((e) => {
+            console.info('movableView::', 'dragStart')
+          })
           .onTouch((e) => {
+            e.stopPropagation()
             if (!this.node || this.node.getAttribute('disabled')) return
             const direction = this.node.getAttribute('direction')
             const touchItem = e.touches[0]
@@ -115,6 +118,7 @@ export default struct TaroMovableView {
 
           })
         }
+
       }
       .translate({ x: this.x, y: this.y })
       .onAreaChange((oldValue: Area, newValue: Area) => {
