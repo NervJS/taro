@@ -37,7 +37,7 @@ function themeStyles(isDisabled: boolean) {
 
 @Component
 export default struct TaroSlider {
-  node: TaroSliderElement | null = null
+  @ObjectLink node: TaroSliderElement
 
   @State value: number = 0
 

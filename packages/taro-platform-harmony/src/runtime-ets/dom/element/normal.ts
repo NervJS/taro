@@ -46,6 +46,7 @@ class TaroLabelElement extends TaroElement<LabelProps>{
   }
 }
 
+@Observed
 class TaroRichTextElement extends TaroElement<RichTextProps>{
   constructor() {
     super('RichText')
@@ -61,6 +62,7 @@ class TaroSwiperElement extends TaroElement<SwiperProps>{
   }
 }
 
+@Observed
 class TaroSwiperItemElement extends TaroElement<SwiperItemProps>{
   constructor() {
     super('SwiperItem')

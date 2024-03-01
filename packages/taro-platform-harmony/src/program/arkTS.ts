@@ -325,7 +325,7 @@ declare global {
       ])
     }
 
-    const externals = Object.keys(ohPackage.dependencies).concat(Object.keys(ohPackage.devDependencies))
+    const externals = Object.keys(ohPackage.dependencies || []).concat(Object.keys(ohPackage.devDependencies || []))
     function modifyResolveId({
       source = '', importer = '', options = {}, name = 'modifyResolveId', resolve
     }) {

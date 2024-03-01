@@ -193,7 +193,7 @@ class TaroInputElement<T extends FormWidgetProps = InputProps> extends TaroFormW
   }
 }
 
-
+@Observed
 class TaroTextAreaElement extends TaroInputElement<TextareaProps>{
   controller: TextAreaController = new TextAreaController()
 
@@ -208,6 +208,7 @@ class TaroCheckboxElement extends TaroCheckedElement<CheckboxProps>{
   }
 }
 
+@Observed
 class TaroRadioElement extends TaroCheckedElement<RadioProps>{
   public group?: string
 
@@ -215,6 +216,8 @@ class TaroRadioElement extends TaroCheckedElement<RadioProps>{
     super('Radio')
   }
 }
+
+@Observed
 class TaroSliderElement extends TaroFormWidgetElement<SliderProps> {
   _value = 0
 
@@ -273,6 +276,7 @@ class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | Pick
   }
 }
 
+@Observed
 class TaroSwitchElement extends TaroCheckedElement<SwitchProps> {
   constructor() {
     super('Switch')
@@ -304,6 +308,7 @@ class TaroCheckboxGroupElement extends TaroFormWidgetElement<CheckboxGroupProps>
   }
 }
 
+@Observed
 class TaroRadioGroupElement extends TaroFormWidgetElement<RadioGroupProps> {
   constructor() {
     super('RadioGroup')

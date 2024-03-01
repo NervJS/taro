@@ -14,37 +14,42 @@ interface IError {
   error: WebResourceError
 }
 
-@Builder
-export default function TaroWebView (node: TaroWebViewElement) {
-  Web({ src: node._attrs.src, controller: node.controller })
-    .attributeModifier(commonStyleModify.setNode(node))
-    .onPageEnd((e: IPageLoad) => {
-      // 1. 创建消息端口
-      node.ports = node.controller.createWebMessagePorts(true)
-      // 2. 发送端口1到HTML5
-      node.controller.postMessage('init_web_messageport', [node.ports[1]], '*');
-      // 3. 保存端口0到本地
-      node.nativePort = node.ports[0]
-      // 4. 设置回调函数
-      node.nativePort.onMessageEventExt((result) => {
-        const message = node.handleMessageFromWeb(result)
-        const messageEvent: TaroEvent = createTaroEvent('message', { detail: { data: message } }, node)
+@Component
+export default struct TaroWebView {
+  @ObjectLink node: TaroWebViewElement
 
-        eventHandler(messageEvent, 'message', node)
+  build () {
+    Web({ src: this.node._attrs.src, controller: this.node.controller })
+      .attributeModifier(commonStyleModify.setNode(this.node))
+      .onPageEnd((e: IPageLoad) => {
+        // 1. 创建消息端口
+        this.node.ports = this.node.controller.createWebMessagePorts(true)
+        // 2. 发送端口1到HTML5
+        this.node.controller.postMessage('init_web_messageport', [this.node.ports[1]], '*');
+        // 3. 保存端口0到本地
+        this.node.nativePort = this.node.ports[0]
+        // 4. 设置回调函数
+        this.node.nativePort.onMessageEventExt((result) => {
+          const message = this.node.handleMessageFromWeb(result)
+          const messageEvent: TaroEvent = createTaroEvent('message', { detail: { data: message } }, this.node)
+
+          eventHandler(messageEvent, 'message', this.node)
+        })
+
+        const onLoadEvent: TaroEvent = createTaroEvent('load', { detail: { src: this.node._attrs.src } }, this.node)
+
+        eventHandler(onLoadEvent, 'load', this.node)
       })
-
-      const onLoadEvent: TaroEvent = createTaroEvent('load', { detail: { src: node._attrs.src } }, node)
-
-      eventHandler(onLoadEvent, 'load', node)
-    })
-    .onErrorReceive(shouldBindEvent((e: IError) => {
-      const event: TaroEvent = createTaroEvent('error', { detail: { url: node._attrs.src, fullUrl: e.request.getRequestUrl() } }, node)
-      
-      eventHandler(event, 'error', node)
-    }, node, ['error']))
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
-    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      node._nodeInfo.areaInfo = res[1]
-    }))
-    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
+      .onErrorReceive(shouldBindEvent((e: IError) => {
+        const event: TaroEvent = createTaroEvent('error', { detail: { url: this.node._attrs.src, fullUrl: e.request.getRequestUrl() } }, this.node)
+        
+        eventHandler(event, 'error', this.node)
+      }, this.node, ['error']))
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        this.node._nodeInfo.areaInfo = res[1]
+      }))
+      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+  
+  }
 }
