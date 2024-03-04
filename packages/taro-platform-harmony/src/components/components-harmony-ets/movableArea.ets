@@ -26,12 +26,15 @@ function columnAttrs(style: TaroStyleType) {
   })
 }
 
+
 @Component
 export default struct TaroMovableArea {
   @ObjectLink node: TaroMovableAreaElement
-
   @Provide areaWidth: Length = 0
   @Provide areaHeight: Length = 0
+  @Provide scaleValue: number = 1
+  pinchValue:number = 1
+
 
   build() {
     if (this.node) {
@@ -48,6 +51,18 @@ export default struct TaroMovableArea {
           this.areaWidth = newValue.width
           this.areaHeight = newValue.height
         })
+        .onTouch(() => {
+          console.info('movableArea::touch1')
+        })
+        .gesture(
+          PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {
+            console.info('movableArea::Pinch start 2');
+            this.pinchValue = this.scaleValue
+          }).onActionUpdate((event) => {
+            this.scaleValue = this.pinchValue * event.scale;
+            console.info('movableArea::update2', this.scaleValue)
+          })
+        )
       } else {
         Column() {
           createLazyChildren(this.node)
@@ -61,6 +76,15 @@ export default struct TaroMovableArea {
           this.areaWidth = newValue.width
           this.areaHeight = newValue.height
         })
+        .gesture(
+          PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {
+            console.info('movableArea::Pinch start 2');
+            this.pinchValue = this.scaleValue
+          }).onActionUpdate((event) => {
+            this.scaleValue = this.pinchValue * event.scale;
+            console.info('movableArea::update2', this.scaleValue)
+          })
+        )
       }
     }
   }
