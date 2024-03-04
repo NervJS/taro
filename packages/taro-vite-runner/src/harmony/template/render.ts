@@ -66,7 +66,8 @@ import type {
   TaroSwitchElement,
   TaroSliderElement,
   TaroScrollViewElement,
-  TaroWebViewElement
+  TaroWebViewElement,
+  TaroInnerHtmlElement
 } from '../runtime'
 
 @Builder
@@ -92,7 +93,7 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'SWIPER-ITEM') {
     TaroView({ node: item as TaroViewElement })
   } else if (item.tagName === 'INNER-HTML') {
-    TaroInnerHtml({node: item as TaroViewElement})
+    TaroInnerHtml({node: item as TaroInnerHtmlElement})
   } else if (item.tagName === 'RICH-TEXT') {
     TaroRichText({ node: item as TaroRichTextElement })
   } else if (item.tagName === 'ICON') {
@@ -132,7 +133,7 @@ function createChildItem (item: TaroElement) {
 function createLazyChildren (node: TaroElement) {
   LazyForEach(node, (item: TaroElement) => {
     createChildItem(item)
-  }, (item: TaroElement) => \`\${item._nid}\${item._updateTrigger}\`)
+  }, (item: TaroElement) => item._nid)
 }
 
 export { createChildItem, createLazyChildren }
