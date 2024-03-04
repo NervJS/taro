@@ -48,6 +48,7 @@ export default function (this: webpack.LoaderContext<any>) {
     const compPath = join(pathDirname, options.filename)
     return `import component from ${stringify(compPath)}
 ${options.loaderMeta.importFrameworkStatement}
+${options.loaderMeta.extraImportForWeb}
 import { createH5NativeComponentConfig } from '${options.loaderMeta.creatorLocation}'
 import { initPxTransform } from '@tarojs/taro'
 ${setReconcilerPost}
