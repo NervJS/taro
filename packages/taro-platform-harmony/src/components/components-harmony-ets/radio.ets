@@ -3,7 +3,7 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 import commonStyleModify from './style'
 import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { FlexManager } from './utils/FlexManager'
+import { FlexManager } from './utils/flexManager'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import { TaroEvent, TaroAny, HarmonyType, TaroRadioGroupElement, TaroRadioElement } from '@tarojs/runtime'
@@ -36,7 +36,7 @@ function themeStyles(isDisabled: boolean) {
 @Component
 export struct TaroRadio {
   @ObjectLink node: TaroRadioElement
-  
+
   aboutToAppear () {
     if (this.node && !this.node._isInit) {
       this.node._isInit = true
@@ -61,7 +61,7 @@ export struct TaroRadio {
                   this.node.updateComponent()
                 } else {
                   this.node.updateCheckedValue(value)
-      
+
                   if (value) {
                     const event: TaroEvent = createTaroEvent('change', { detail: { value: this.node?._attrs.value } }, this.node)
                     eventHandler(event, 'change', this.node)

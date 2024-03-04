@@ -1,7 +1,7 @@
 import { isUndefined } from '@tarojs/shared'
 import { ObjectAssign } from '@tarojs/runtime'
 
-import { FlexManager } from './FlexManager'
+import { FlexManager } from './flexManager'
 import { TEXT_DEFAULT_STYLE } from './constant/style'
 
 import type { StandardProps, TextProps } from '@tarojs/components/types'
@@ -25,7 +25,7 @@ export function getFontAttributes (node: TaroElement): TaroTextStyleType {
 // 模拟 div 自动撑满父元素的情况
 function isMaxWidthView (node: TaroElement) {
   const parentNode: TaroElement = node.parentNode as TaroElement
-  
+
   return node.tagName === 'VIEW' && parentNode && parentNode.tagName === 'VIEW' &&
     !(FlexManager.isFlexNode(parentNode) && FlexManager.flexOptions(parentNode).direction !== FlexDirection.Column)
 }

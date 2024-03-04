@@ -22,7 +22,7 @@ pub const DIRECTION_ATTR: &str = "harmonyDirection";
 pub const HARMONY_IMPORTER: &str = "import { createLazyChildren, createChildItem } from '../render'
 import commonStyleModify from '../style'
 import { getButtonColor } from '../button'
-import { FlexManager } from '../utils/FlexManager'
+import { FlexManager } from '../utils/flexManager'
 import { TOUCH_EVENT_MAP } from '../utils/constant/event'
 import { BUTTON_THEME_COLOR } from '../utils/constant/style'
 import { getNodeThresholds, getNormalAttributes, getFontAttributes } from '../utils/helper'
