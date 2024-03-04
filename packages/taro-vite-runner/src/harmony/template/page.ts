@@ -337,13 +337,13 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       }, this.isTabbarPage),
       this.buildConfig.isBuildNativeComp ? '' : '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
       this.buildConfig.isBuildNativeComp ? '' : '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
-      this.buildConfig.isBuildNativeComp ? '' : '@State appConfig: AppConfig = window.__taroAppConfig || {}',
-      this.buildConfig.isBuildNativeComp ? '' : `@State tabBarList: ${this.isTabbarPage ? 'ITabBarItem' : 'TabBarItem'}[] = this.appConfig.tabBar?.list || []`,
+      this.buildConfig.isBuildNativeComp ? '' : '@State appConfig: Taro.AppConfig = window.__taroAppConfig || {}',
+      this.buildConfig.isBuildNativeComp ? '' : `@State tabBarList: ${this.isTabbarPage ? 'ITabBarItem' : 'Taro.TabBarItem'}[] = this.appConfig.tabBar?.list || []`,
     ].filter(item => item !== '').flat()
     if (this.isTabbarPage) {
       generateState.push(
         '@State isTabBarShow: boolean = true',
-        '@State tabBar: Partial<TabBar> = this.appConfig.tabBar || {}',
+        '@State tabBar: Partial<Taro.TabBar> = this.appConfig.tabBar || {}',
         '@State tabBarColor: string = this.tabBar.color || "#7A7E83"',
         '@State tabBarSelectedColor: string = this.tabBar.selectedColor || "#3CC51F"',
         '@State tabBarBackgroundColor: string = this.tabBar.backgroundColor || "#FFFFFF"',
@@ -718,7 +718,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
     }
 
     const code = this.transArr2Str([
-      'import type { AppConfig, TabBar, TabBarItem } from "@tarojs/taro/types"',
+      'import type Taro from "@tarojs/taro/types"',
       'import type { TFunc } from "@tarojs/runtime/dist/runtime.esm"',
       'import type common from "@ohos.app.ability.common"',
       '',
@@ -733,7 +733,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
           `const createComponent = [${this.tabbarList.map((_, i) => `page${i}`).join(', ')}]`,
           `const config = [${this.tabbarList.map((_, i) => `config${i}`).join(', ')}]`,
           '',
-          'interface ITabBarItem extends TabBarItem {',
+          'interface ITabBarItem extends Taro.TabBarItem {',
           this.transArr2Str([
             'key?: number',
             'badgeText?: string',
