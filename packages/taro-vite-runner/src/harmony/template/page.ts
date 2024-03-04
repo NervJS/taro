@@ -155,6 +155,7 @@ export default class Parser extends BaseParser {
     }
     .height(convertNumber2VP(75))
     .backgroundColor(this.navigationBarBackgroundColor${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
+    .zIndex(1)
   }
   Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
     Column() {
