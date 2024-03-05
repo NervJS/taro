@@ -78,7 +78,7 @@ export interface IHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfig {
   taroComponentsPath: string
   /** hooks */
   modifyHarmonyConfig: (config: Partial<AppConfig>) => void
-  modifyHostPackageDep: (outDir: string, deps?: Record<string, string>, devDeps?: Record<string, string>) => void
+  modifyHostPackage: (deps?: Record<string, string>, devDeps?: Record<string, string>) => Exclude<IHarmonyConfig['ohPackage'], void>
 }
 
 export type AddPageChunks = (pages: Map<string, string[]>, pagesNames?: string[]) => void

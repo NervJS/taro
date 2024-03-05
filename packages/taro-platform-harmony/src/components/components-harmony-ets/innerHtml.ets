@@ -1,11 +1,15 @@
 import htmlParser from './utils/htmlParser'
 import { createChildItem } from './render'
 
-import type { TaroElement } from '@tarojs/runtime'
+import type { TaroInnerHtmlElement } from '@tarojs/runtime'
 
-@Builder
-export default function TaroInnerHtml (node: TaroElement) {
-  if (node.innerHTML) {
-    createChildItem(htmlParser(node.innerHTML))
+@Component
+export default struct TaroInnerHtml {
+  @ObjectLink node: TaroInnerHtmlElement
+  
+  build() {
+    if (this.node.innerHTML) {
+      createChildItem(htmlParser(this.node.innerHTML))
+    }
   }
 }

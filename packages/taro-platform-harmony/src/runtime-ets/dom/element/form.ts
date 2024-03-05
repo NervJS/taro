@@ -134,6 +134,7 @@ class TaroCheckedElement<T extends StandardProps & { checked?: boolean } = Stand
   }
 }
 
+@Observed
 class TaroInputElement<T extends FormWidgetProps = InputProps> extends TaroFormWidgetElement<T> {
   _height = 0
 
@@ -193,7 +194,7 @@ class TaroInputElement<T extends FormWidgetProps = InputProps> extends TaroFormW
   }
 }
 
-
+@Observed
 class TaroTextAreaElement extends TaroInputElement<TextareaProps>{
   controller: TextAreaController = new TextAreaController()
 
@@ -201,13 +202,14 @@ class TaroTextAreaElement extends TaroInputElement<TextareaProps>{
     super('TextArea')
   }
 }
-
+@Observed
 class TaroCheckboxElement extends TaroCheckedElement<CheckboxProps>{
   constructor() {
     super('Checkbox')
   }
 }
 
+@Observed
 class TaroRadioElement extends TaroCheckedElement<RadioProps>{
   public group?: string
 
@@ -215,6 +217,8 @@ class TaroRadioElement extends TaroCheckedElement<RadioProps>{
     super('Radio')
   }
 }
+
+@Observed
 class TaroSliderElement extends TaroFormWidgetElement<SliderProps> {
   _value = 0
 
@@ -224,7 +228,7 @@ class TaroSliderElement extends TaroFormWidgetElement<SliderProps> {
     this._value = Number(this._attrs.value || 0)
   }
 }
-
+@Observed
 class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | PickerTimeProps | PickerDateProps | PickerMultiSelectorProps> {
   constructor() {
     super('Picker')
@@ -273,12 +277,13 @@ class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | Pick
   }
 }
 
+@Observed
 class TaroSwitchElement extends TaroCheckedElement<SwitchProps> {
   constructor() {
     super('Switch')
   }
 }
-
+@Observed
 class TaroCheckboxGroupElement extends TaroFormWidgetElement<CheckboxGroupProps> {
   constructor() {
     super('CheckboxGroup')
@@ -304,6 +309,7 @@ class TaroCheckboxGroupElement extends TaroFormWidgetElement<CheckboxGroupProps>
   }
 }
 
+@Observed
 class TaroRadioGroupElement extends TaroFormWidgetElement<RadioGroupProps> {
   constructor() {
     super('RadioGroup')
@@ -329,6 +335,7 @@ class TaroRadioGroupElement extends TaroFormWidgetElement<RadioGroupProps> {
   }
 }
 
+@Observed
 class TaroFormElement extends TaroFormWidgetElement {
   constructor() {
     super('Form')

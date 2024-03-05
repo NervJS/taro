@@ -135,7 +135,7 @@ export interface ViteHarmonyCompilerContext extends ViteCompilerContext<ViteHarm
   nativeComponents : Map<string, ViteNativeCompMeta>
   getCommonChunks: () => string[]
   modifyHarmonyConfig: (config: Partial<AppConfig>) => void
-  modifyHostPackageDep: (outDir: string, deps?: Record<string, string>, devDeps?: Record<string, string>) => void
+  modifyHostPackage: (deps?: Record<string, string>, devDeps?: Record<string, string>) => Exclude<IHarmonyConfig['ohPackage'], void>
   collectNativeComponents: (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) => void
   getScriptPath: (filePath: string) => string
   getStylePath: (filePath: string) => string

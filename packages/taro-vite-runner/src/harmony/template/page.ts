@@ -103,9 +103,9 @@ export default class Parser extends BaseParser {
 
   renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0) {
     if (this.buildConfig.isBuildNativeComp) {
-      return `if (this.node) {\n  TaroView(this.node as TaroViewElement)\n}`
+      return `if (this.node) {\n  TaroView({ node: this.node as TaroViewElement })\n}`
     }
-    
+
     const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
     let pageStr = `Column() {
   if (${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`}) {
@@ -155,11 +155,12 @@ export default class Parser extends BaseParser {
     }
     .height(convertNumber2VP(75))
     .backgroundColor(this.navigationBarBackgroundColor${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
+    .zIndex(1)
   }
   Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
     Column() {
       if (${isTabPage ? 'this.node[index]' : 'this.node'}) {
-        TaroView(${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement)
+        TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement })
       }
     }
     .width('100%')
@@ -167,10 +168,11 @@ export default class Parser extends BaseParser {
     .onAreaChange((_: Area, area: Area) => {
       const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
       if (node) {
-        node._scroll = area
+        node._nodeInfo._scroll = area
       }
     })
   }
+  .clip(false)
   .constraintSize({
     maxHeight: ${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`} ? \`calc(100% - \${convertNumber2VP(75)})\` : '100%'
   })
@@ -178,7 +180,7 @@ export default class Parser extends BaseParser {
   .onAreaChange((_: Area, area: Area) => {
     const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
     if (node) {
-      node._client = area
+      node._nodeInfo._client = area
     }
   })
   .onScroll(() => {
@@ -195,8 +197,8 @@ export default class Parser extends BaseParser {
 
     const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
     const distance: number = config${isTabPage ? '[index]' : ''}.onReachBottomDistance || ${this.appConfig.window?.onReachBottomDistance || 50}
-    const clientHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._client?.height) || 0
-    const scrollHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._scroll?.height) || 0
+    const clientHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._nodeInfo?._client?.height) || 0
+    const scrollHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._nodeInfo?._scroll?.height) || 0
     if (scrollHeight - clientHeight - offset.yOffset <= distance) {
       callFn(this.page.onReachBottom, this)
     }
@@ -336,13 +338,13 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       }, this.isTabbarPage),
       this.buildConfig.isBuildNativeComp ? '' : '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
       this.buildConfig.isBuildNativeComp ? '' : '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
-      this.buildConfig.isBuildNativeComp ? '' : '@State appConfig: AppConfig = window.__taroAppConfig || {}',
-      this.buildConfig.isBuildNativeComp ? '' : `@State tabBarList: ${this.isTabbarPage ? 'ITabBarItem' : 'TabBarItem'}[] = this.appConfig.tabBar?.list || []`,
+      this.buildConfig.isBuildNativeComp ? '' : '@State appConfig: Taro.AppConfig = window.__taroAppConfig || {}',
+      this.buildConfig.isBuildNativeComp ? '' : `@State tabBarList: ${this.isTabbarPage ? 'ITabBarItem' : 'Taro.TabBarItem'}[] = this.appConfig.tabBar?.list || []`,
     ].filter(item => item !== '').flat()
     if (this.isTabbarPage) {
       generateState.push(
         '@State isTabBarShow: boolean = true',
-        '@State tabBar: Partial<TabBar> = this.appConfig.tabBar || {}',
+        '@State tabBar: Partial<Taro.TabBar> = this.appConfig.tabBar || {}',
         '@State tabBarColor: string = this.tabBar.color || "#7A7E83"',
         '@State tabBarSelectedColor: string = this.tabBar.selectedColor || "#3CC51F"',
         '@State tabBarBackgroundColor: string = this.tabBar.backgroundColor || "#FFFFFF"',
@@ -362,7 +364,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       this.transArr2Str(`aboutToAppear() {${isBlended ?
         '\n  initHarmonyElement()' : ''}
   ${this.buildConfig.isBuildNativeComp
-    ? '' 
+    ? ''
     : ` const state = this.getPageState()
   if (this.pageStack.length >= state.index) {
     this.pageStack.length = state.index - 1
@@ -717,7 +719,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
     }
 
     const code = this.transArr2Str([
-      'import type { AppConfig, TabBar, TabBarItem } from "@tarojs/taro/types"',
+      'import type Taro from "@tarojs/taro/types"',
       'import type { TFunc } from "@tarojs/runtime/dist/runtime.esm"',
       'import type common from "@ohos.app.ability.common"',
       '',
@@ -732,7 +734,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
           `const createComponent = [${this.tabbarList.map((_, i) => `page${i}`).join(', ')}]`,
           `const config = [${this.tabbarList.map((_, i) => `config${i}`).join(', ')}]`,
           '',
-          'interface ITabBarItem extends TabBarItem {',
+          'interface ITabBarItem extends Taro.TabBarItem {',
           this.transArr2Str([
             'key?: number',
             'badgeText?: string',

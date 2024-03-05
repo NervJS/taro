@@ -16,18 +16,6 @@ function isEqual (obj1, obj2) {
   return JSON.stringify(obj1) === JSON.stringify(obj2)
 }
 
-function updateDOMInstance (dom: TaroElement, name?: string) {
-  if (!isHarmony) return
-
-  const isFormElement = dom instanceof FormElement
-  const isNotNeedUpdateDOM = isFormElement && name && !['value', 'name', 'checked'].includes(name)
-  if (isNotNeedUpdateDOM) return
-  
-  // @ts-ignore
-  dom.updateComponent && dom.updateComponent()
-}
-
-
 export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props) {
   const updatePayload = getUpdatePayload(dom, oldProps, newProps)
   if (updatePayload){
@@ -141,7 +129,6 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
         oldValue = null
       }
 
-      let needUpdateAfterMoved = false
       if (isObject<StyleValue>(oldValue)) {
         for (const i in oldValue) {
           if (!(value && i in (value as StyleValue))) {
@@ -151,15 +138,7 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
             } else {
               setStyle(style, i, '')
             }
-
-            if (isObject<StyleValue>(value) && !value[i]) {
-              needUpdateAfterMoved = true
-            }
           }
-        }
-
-        if (needUpdateAfterMoved) {
-          updateDOMInstance(dom)
         }
       }
 
@@ -169,9 +148,9 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
             // 鸿蒙伪类特殊处理
             if (isHarmony && (i === '::after' || i === '::before')) {
               setPseudo(dom, i, value[i] as unknown as StyleValue)
+            } else {
+              setStyle(style, i, value[i])
             }
-            setStyle(style, i, value[i])
-            updateDOMInstance(dom)
           }
         }
       }
@@ -189,10 +168,8 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
   } else if (!isFunction(value)) {
     if (value == null) {
       dom.removeAttribute(name)
-      updateDOMInstance(dom, name)
     } else {
       dom.setAttribute(name, value as string)
-      updateDOMInstance(dom, name)
     }
   }
 }

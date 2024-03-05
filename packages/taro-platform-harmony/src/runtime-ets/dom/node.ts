@@ -63,27 +63,27 @@ export class TaroNode extends TaroDataSourceElement {
     return this.childNodes.findIndex(node => node._nid === refChild._nid)
   }
 
+  public updateTextNode () {
+    // @ts-ignore
+    if (this.childNodes.length <= 0 || this.tagName !== 'VIEW') return
+
+    // TextNode 不具备 props 更新能力，需要由父节点来进行触发
+    this.childNodes.forEach(item => {
+      if (item.nodeType !== NodeType.TEXT_NODE) return
+
+      item._updateTrigger++
+    })
+  }
+
   // 更新对应的 ArkUI 组件
   public updateComponent () {
-    if (!this._isCompileMode && (!this.parentNode || !this.parentNode.listeners?.length)) return
+    if (!this._isCompileMode) return
 
-    const idx = this.parentNode.findIndex(this)
-
-    if (this._isCompileMode) {
-      // 半编译模式下走 @State 的更新模式
-      if (this._isDynamicNode) {
-        this._updateTrigger++
-      } else {
-        this.parentNode.updateComponent()
-      }
+    // 半编译模式下走 @State 的更新模式
+    if (this._isDynamicNode) {
+      this._updateTrigger++
     } else {
-      // 非半编译模式下走 LazyForEach 的更新模式
-      if (idx >= 0) {
-        this._updateTrigger++
-        this.parentNode.notifyDataChange(idx)
-      } else {
-        this.parentNode.notifyDataReload()
-      }
+      this.parentNode.updateComponent()
     }
   }
 
@@ -229,6 +229,7 @@ export class TaroNode extends TaroDataSourceElement {
   }
 }
 
+@Observed
 export class TaroTextNode extends TaroNode {
   constructor(value = '', nodeName = '#text', nodeType: NodeType = NodeType.TEXT_NODE) {
     super(nodeName, nodeType)

@@ -2,7 +2,7 @@ import { createTaroEvent, eventHandler, getComponentEventCallback, AREA_CHANGE_E
 
 import commonStyleModify from './style'
 import { createLazyChildren } from './render'
-import { FlexManager } from './utils/FlexManager'
+import { FlexManager } from './utils/flexManager'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroAny, TaroEvent, TaroCheckboxElement, TaroCheckboxGroupElement } from '@tarojs/runtime'
@@ -33,9 +33,10 @@ function getOptions (node: TaroCheckboxElement): CheckboxOptions {
   }
 }
 
+
 @Component
 export struct TaroCheckbox {
-  node: TaroCheckboxElement | null = null
+  @ObjectLink node: TaroCheckboxElement
 
   aboutToAppear () {
     if (this.node && !this.node._isInit) {
@@ -59,7 +60,7 @@ export struct TaroCheckbox {
                   this.node.updateComponent()
                 } else {
                   this.node.updateCheckedValue(value)
-      
+
                   if (value) {
                     const event: TaroEvent = createTaroEvent('change', { detail: { value: this.node?._attrs.value } }, this.node)
                     eventHandler(event, 'change', this.node)
@@ -94,7 +95,7 @@ interface ChangeEventDetail { value: string[] }
 
 @Component
 export struct TaroCheckboxGroup {
-  node: TaroCheckboxGroupElement | null = null
+  @ObjectLink node: TaroCheckboxGroupElement
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))

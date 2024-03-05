@@ -28,7 +28,7 @@ function themeStyles(isDisabled: boolean) {
 
 @Component
 export default struct TaroSwitch {
-  node: TaroSwitchElement | null = null
+  @ObjectLink node: TaroSwitchElement
 
   aboutToAppear () {
     if (this.node && !this.node._isInit) {

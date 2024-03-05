@@ -16,15 +16,19 @@ function getImageMode (mode: string): ImageFit {
   }
 }
 
-@Builder
-export default function TaroImage (node: TaroImageElement) {
-  Image(node.getAttribute('src'))
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
-    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      node._nodeInfo.areaInfo = res[1]
-    }))
-    .objectFit(getImageMode(node.getAttribute('mode')))
-    .attributeModifier(commonStyleModify.setNode(node))
-    .onComplete(e => eventHandler(e, 'complete', node))
-    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
+@Component
+export default struct TaroImage {
+  @ObjectLink node: TaroImageElement
+
+  build() {
+    Image(this.node.getAttribute('src'))
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        this.node._nodeInfo.areaInfo = res[1]
+      }))
+      .objectFit(getImageMode(this.node.getAttribute('mode')))
+      .attributeModifier(commonStyleModify.setNode(this.node))
+      .onComplete(e => eventHandler(e, 'complete', this.node))
+      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+  }
 }

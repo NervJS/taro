@@ -40,24 +40,28 @@ function getSwiperAttributes (node: TaroSwiperElement): SwiperAttrs {
   return swiperAttrs
 }
 
-@Builder
-export default function TaroSwiper (node: TaroSwiperElement) {
-  Swiper(node.controller) {
-    createLazyChildren(node)
+@Component
+export default struct TaroSwiper {
+  @ObjectLink node: TaroSwiperElement
+
+  build () {
+    Swiper(this.node.controller) {
+      createLazyChildren(this.node)
+    }
+      .attributeModifier(commonStyleModify.setNode(this.node))
+      .swiperAttr(getSwiperAttributes(this.node))
+      .indicatorStyle({
+        color: this.node.getAttribute('indicatorColor'),
+        selectedColor:  this.node.getAttribute('indicatorActiveColor')
+      })
+      .onChange((index: number) => {
+        const event: TaroEvent = createTaroEvent('change', { detail: { current: index } }, this.node)
+        eventHandler(event, 'change', this.node)
+      })
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        this.node._nodeInfo.areaInfo = res[1]
+      }))
+      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
-  .attributeModifier(commonStyleModify.setNode(node))
-  .swiperAttr(getSwiperAttributes(node))
-  .indicatorStyle({
-    color: node.getAttribute('indicatorColor'),
-    selectedColor:  node.getAttribute('indicatorActiveColor')
-  })
-  .onChange((index: number) => {
-    const event: TaroEvent = createTaroEvent('change', { detail: { current: index } }, node)
-    eventHandler(event, 'change', node)
-  })
-  .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
-  .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-    node._nodeInfo.areaInfo = res[1]
-  }))
-  .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
 }

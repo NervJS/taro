@@ -238,6 +238,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       // if (!cssCache.has(id)) {
       cssCache.set(id, css)
       // }
+      
       // 校验css
       validateStylelint(id, raw)
 
