@@ -1,8 +1,8 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { createLazyChildren } from './render'
-import { FlexManager } from './utils/flexManager'
+import PseduoChildren from './pseudo'
+import { FlexManager } from './utils/FlexManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
@@ -85,7 +85,7 @@ export default struct TaroScrollView {
     Scroll(this.node.scroller) {
       if (this.node._attrs.scrollX) {
         Row() {
-          createLazyChildren(this.node)
+          PseduoChildren(this.node)
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .rowAttrs(getNormalAttributes(this.node))
@@ -98,7 +98,7 @@ export default struct TaroScrollView {
         .flexGrow(0).flexShrink(0)
       } else {
         Column() {
-          createLazyChildren(this.node)
+          PseduoChildren(this.node)
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .columnAttrs(getNormalAttributes(this.node))

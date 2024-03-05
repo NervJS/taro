@@ -197,7 +197,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
               const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '').replace(usedSuffix, '')
               return cssCache.get(rawId) || ''
             })
-            const rawCode = parseJSXStyle(raw, cssRawArr)
+            const rawCode = parseJSXStyle(raw, cssRawArr, 'harmony')
             const s = new MagicString(rawCode)
             return {
               code: s.toString(),

@@ -42,6 +42,30 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
     linearGradient = hmStyle.backgroundImage
   }
 
+  let normalAttributes = getStyle(hmStyle)
+
+  normalAttributes.width = isMaxWidthView(node) && isUndefined(hmStyle.width) ? '100%' : hmStyle.width
+  normalAttributes.id =  _attrs.id || _nid
+
+  // taro_page 等写死在运行时里的节点，没有 _nodeInfo
+  if (node._nodeInfo) {
+    const overwriteStyle: TaroStyleType = node._nodeInfo?.overwriteStyle
+
+    // 处理覆盖属性：如动画的覆盖
+    if (overwriteStyle) {
+      normalAttributes = ObjectAssign(normalAttributes, overwriteStyle)
+    }
+  }
+  return normalAttributes
+}
+
+export function getStyle(hmStyle: HarmonyStyle): TaroStyleType {
+  let linearGradient: HarmonyType.LinearGradient | undefined = undefined
+  // 渐变
+  if (hmStyle.backgroundImage?.colors) {
+    linearGradient = hmStyle.backgroundImage
+  }
+
   let normalAttributes: HarmonyStyle = {
     // Flex相关
     flexBasis: hmStyle.flexBasis,
@@ -49,7 +73,7 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
     flexShrink: hmStyle.flexShrink,
     alignSelf: hmStyle.alignSelf,
     // 尺寸相关
-    width: isMaxWidthView(node) && isUndefined(hmStyle.width) ? '100%' : hmStyle.width,
+    width: hmStyle.width,
     height: hmStyle.height,
     minHeight: hmStyle.minHeight,
     maxHeight: hmStyle.maxHeight,
@@ -107,20 +131,13 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
     textDecoration: hmStyle.textDecoration,
     // 其他
     overflow: hmStyle.overflow,
-    id: _attrs.id || _nid,
     opacity: hmStyle.opacity,
-    zIndex: hmStyle.zIndex
-    // focus: _attrs.focus || false,
+    zIndex: hmStyle.zIndex,
+    // 定位
+    position: hmStyle.position,
+    top: hmStyle.top,
+    left: hmStyle.left,
   }
 
-  // taro_page 等写死在运行时里的节点，没有 _nodeInfo
-  if (node._nodeInfo) {
-    const overwriteStyle: TaroStyleType = node._nodeInfo?.overwriteStyle
-
-    // 处理覆盖属性：如动画的覆盖
-    if (overwriteStyle) {
-      normalAttributes = ObjectAssign(normalAttributes, overwriteStyle)
-    }
-  }
   return normalAttributes
 }
