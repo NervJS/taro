@@ -57,9 +57,8 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
         const state = { timestamp: Date.now() }
         if (pathPieces.pathname) {
           const originPath = routesAlias.getOrigin(pathPieces.pathname)
-          const pagePath = originPath.startsWith('/') ? originPath.substring(1) : originPath
-          if (!RouterConfig.pages.includes(pagePath)) {
-            const res = { errMsg: `${method}:fail page ${pagePath} is not found` }
+          if (!RouterConfig.isPage(addLeadingSlash(originPath))) {
+            const res = { errMsg: `${method}:fail page ${originPath} is not found` }
             fail?.(res)
             complete?.(res)
             if (fail || complete) {
