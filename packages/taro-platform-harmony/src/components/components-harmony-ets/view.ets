@@ -1,7 +1,7 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { createLazyChildren } from './render'
+import PseduoChildren from './pseudo'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
@@ -28,11 +28,12 @@ function columnAttrs (style: TaroStyleType) {
   })
 }
 
+
 @Builder
 export default function TaroView (node: TaroViewElement) {
   if (FlexManager.isFlexNode(node) && FlexManager.flexOptions(node).direction !== FlexDirection.Column) {
     Row() {
-      createLazyChildren(node)
+      PseduoChildren(node)
     }
     .attributeModifier(commonStyleModify.setNode(node))
     .rowAttrs(getNormalAttributes(node))
@@ -46,7 +47,7 @@ export default function TaroView (node: TaroViewElement) {
     .justifyContent(FlexManager.flexOptions(node).justifyContent)
   } else {
     Column() {
-      createLazyChildren(node)
+      PseduoChildren(node)
     }
     .attributeModifier(commonStyleModify.setNode(node))
     .columnAttrs(getNormalAttributes(node))

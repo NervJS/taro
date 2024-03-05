@@ -100,6 +100,7 @@ export interface TaroStyleType {
   zIndex?: number
   overflow?: boolean
   focus?: boolean
+  content?: string
 }
 
 export interface TaroTextStyleType {

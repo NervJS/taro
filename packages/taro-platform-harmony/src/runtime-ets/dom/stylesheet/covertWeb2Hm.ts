@@ -15,6 +15,7 @@ export const WEB_STYLE_MAP = {
   marginRight: ['_marginRight'],
   marginBottom: ['_marginBottom'],
   marginLeft: ['_marginLeft'],
+  position: ['_position'],
   top: ['_top'],
   left: ['_left'],
   flex: ['_flexGrow', '_flexShrink', '_flexBasis'],
@@ -74,7 +75,8 @@ export const WEB_STYLE_MAP = {
   textDecoration: ['_textDecoration'],
   textOverflow: ['_textOverflow'],
   WebkitLineClamp: ['_WebkitLineClamp'],
-  transform: ['_transform']
+  transform: ['_transform'],
+  display: ['_display']
 }
 
 // 将web端的style转换为hm端的style
@@ -458,6 +460,27 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties) {
         hmStyle._transform = parseTransform(value)
         break
       }
+      case 'position': {
+        hmStyle._position = value
+        break
+      }
+      case 'display': {
+        hmStyle._display = value
+        break
+      }
+      case 'zIndex': {
+        hmStyle._zIndex = Number(value)
+        break
+      }
+      case 'opacity': {
+        const val = Number(value)
+        hmStyle._opacity = Number.isNaN(val) ? 1 : val
+        break
+      }
+      case 'overflow': {
+        hmStyle._overflow = value === 'hidden'
+        break
+      }
       default: {
         hmStyle[key] = value
         break
@@ -472,9 +495,9 @@ function setBackgroundImage(hmStyle, value) {
     // 如果包含 url()，则说明是 background-image 属性
     const match = value.match(new RegExp('url\\([\'"]?(.*?)[\'"]?\\)'))
     if (match) {
-      hmStyle._backgroundImage = [{
+      hmStyle._backgroundImage = {
         src: match[1]
-      }]
+      }
     }
   }
 }
@@ -482,10 +505,10 @@ function setBackgroundImage(hmStyle, value) {
 function setBackgroundRepeat(hmStyle, value) {
   if (typeof value === 'string') {
     switch (value) {
-      case 'repeat-x': hmStyle._backgroundRepeat = [ImageRepeat.X]; break
-      case 'repeat-y': hmStyle._backgroundRepeat = [ImageRepeat.Y]; break
-      case 'no-repeat': hmStyle._backgroundRepeat = [ImageRepeat.NoRepeat]; break
-      default: hmStyle._backgroundRepeat = [ImageRepeat.XY]; break
+      case 'repeat-x': hmStyle._backgroundRepeat = ImageRepeat.X; break
+      case 'repeat-y': hmStyle._backgroundRepeat = ImageRepeat.Y; break
+      case 'no-repeat': hmStyle._backgroundRepeat = ImageRepeat.NoRepeat; break
+      default: hmStyle._backgroundRepeat = ImageRepeat.XY; break
     }
   }
 }
@@ -494,9 +517,9 @@ function setBackgroundSize(hmStyle, value) {
   if (typeof value === 'string') {
     const sizes = value.split(' ')
     if (sizes.length === 1) {
-      hmStyle._backgroundSize = [{ width: getUnit(sizes[0]) }]
+      hmStyle._backgroundSize = { width: getUnit(sizes[0]) }
     } else if (sizes.length === 2) {
-      hmStyle._backgroundSize = [{ width: getUnit(sizes[0]), height: getUnit(sizes[1]) }]
+      hmStyle._backgroundSize = { width: getUnit(sizes[0]), height: getUnit(sizes[1]) }
     }
   }
 }
@@ -508,28 +531,28 @@ function setBackgroundPosistion (hmStyle, value) {
     const vertical = positions[1].toLowerCase() || 'top'
 
     if (horizontal === 'left' && vertical === 'top') {
-      hmStyle._backgroundPosition = [Alignment.TopStart]
+      hmStyle._backgroundPosition = Alignment.TopStart
     } else if (horizontal === 'center' && vertical === 'top') {
-      hmStyle._backgroundPosition = [Alignment.Top]
+      hmStyle._backgroundPosition = Alignment.Top
     } else if (horizontal === 'right' && vertical === 'top') {
-      hmStyle._backgroundPosition = [Alignment.TopEnd]
+      hmStyle._backgroundPosition = Alignment.TopEnd
     } else if (horizontal === 'left' && vertical === 'center') {
-      hmStyle._backgroundPosition = [Alignment.Start]
+      hmStyle._backgroundPosition = Alignment.Start
     } else if (horizontal === 'center' && vertical === 'center') {
-      hmStyle._backgroundPosition = [Alignment.Center]
+      hmStyle._backgroundPosition = Alignment.Center
     } else if (horizontal === 'right' && vertical === 'center') {
-      hmStyle._backgroundPosition = [Alignment.End]
+      hmStyle._backgroundPosition = Alignment.End
     } else if (horizontal === 'left' && vertical === 'bottom') {
-      hmStyle._backgroundPosition = [Alignment.BottomStart]
+      hmStyle._backgroundPosition = Alignment.BottomStart
     } else if (horizontal === 'center' && vertical === 'bottom') {
-      hmStyle._backgroundPosition = [Alignment.Bottom]
+      hmStyle._backgroundPosition = Alignment.Bottom
     } else if (horizontal === 'right' && vertical === 'bottom') {
-      hmStyle._backgroundPosition = [Alignment.BottomEnd]
+      hmStyle._backgroundPosition = Alignment.BottomEnd
     } else {
       if (/^\d+(\.\d+)?(px|%|vw|vh)$/.test(horizontal)) {
-        hmStyle._backgroundPosition = [{ x: getUnit(horizontal) }]
+        hmStyle._backgroundPosition = { x: getUnit(horizontal) }
         if (/^\d+(\.\d+)?(px|%|vw|vh)$/.test(vertical)) {
-          hmStyle._backgroundPosition = [{ x: getUnit(horizontal), y: getUnit(vertical) }]
+          hmStyle._backgroundPosition = { x: getUnit(horizontal), y: getUnit(vertical) }
         }
       }
     }

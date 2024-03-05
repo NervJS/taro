@@ -1,6 +1,8 @@
 import { type Style, type TaroElement, convertNumber2PX, FormElement } from '@tarojs/runtime'
 import { capitalize, internalComponents, isFunction, isNumber, isObject, isString, toCamelCase } from '@tarojs/shared'
 
+// 拓展TaroElement的属性
+
 export type Props = Record<string, unknown>
 
 const isHarmony = process.env.TARO_PLATFORM === 'harmony'
@@ -143,7 +145,12 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       if (isObject<StyleValue>(oldValue)) {
         for (const i in oldValue) {
           if (!(value && i in (value as StyleValue))) {
-            setStyle(style, i, '')
+            // 鸿蒙伪类特殊处理
+            if (isHarmony && (i === '::after' || i === '::before')) {
+              setPseudo(dom, i, null)
+            } else {
+              setStyle(style, i, '')
+            }
 
             if (isObject<StyleValue>(value) && !value[i]) {
               needUpdateAfterMoved = true
@@ -159,6 +166,10 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       if (isObject<StyleValue>(value)) {
         for (const i in value) {
           if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
+            // 鸿蒙伪类特殊处理
+            if (isHarmony && (i === '::after' || i === '::before')) {
+              setPseudo(dom, i, value[i] as unknown as StyleValue)
+            }
             setStyle(style, i, value[i])
             updateDOMInstance(dom)
           }
@@ -183,5 +194,16 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       dom.setAttribute(name, value as string)
       updateDOMInstance(dom, name)
     }
+  }
+}
+
+// 设置鸿蒙伪类属性(特殊设置)
+function setPseudo(dom: TaroElement, name: '::after' | '::before', value: StyleValue | null){
+  if (name === '::after') {
+    // @ts-ignore
+    dom.set_pseudo_after(value)
+  } else if (name === '::before') {
+    // @ts-ignore
+    dom.set_pseudo_before(value)
   }
 }
