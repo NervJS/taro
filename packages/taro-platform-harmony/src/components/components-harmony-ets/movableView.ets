@@ -44,6 +44,7 @@ function calcPosition(postion: number, start: number, end: number) {
 }
 
 
+
 @Component
 export default struct TaroMovableView {
   @ObjectLink @Watch('onNodeUpdate') node: TaroMovableViewElement
@@ -188,12 +189,17 @@ export default struct TaroMovableView {
           .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
           .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
         }
+        Text(`${this.node?.area?.w}`).fontSize(20)
       }
       .translate({ x: this.x, y: this.y })
       .scale({ x: this.getScale(), y: this.getScale() })
       .onAreaChange((oldValue: Area, newValue: Area) => {
         this.selfWidth = newValue.width
         this.selfHeight = newValue.height
+
+
+
+        this.node.selfSize = {w: Number(newValue.width), h: Number(newValue.height)}
       })
       .gesture(
         GestureGroup(GestureMode.Parallel,
@@ -238,10 +244,17 @@ export default struct TaroMovableView {
           PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {
             console.info('movableArea::Pinch start 2');
             this.pinchValue = this.selfScaleValue
+
+
+
+            this.node.startScale()
           }).onActionUpdate((event) => {
             if(!this.node.getAttribute('scale')) return
             this.selfScaleValue = this.pinchValue * event.scale;
             console.info('movableArea::update2', this.selfScaleValue)
+
+
+            this.scaleValue = event.scale
           })
         )
       )

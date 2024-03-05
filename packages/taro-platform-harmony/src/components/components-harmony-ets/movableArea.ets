@@ -27,6 +27,7 @@ function columnAttrs(style: TaroStyleType) {
 }
 
 
+
 @Component
 export default struct TaroMovableArea {
   @ObjectLink node: TaroMovableAreaElement
@@ -74,16 +75,33 @@ export default struct TaroMovableArea {
         .onAreaChange((oldValue: Area, newValue: Area) => {
           this.areaWidth = newValue.width
           this.areaHeight = newValue.height
+          this.node.childNodes.forEach(item => {
+            if(item.nodeName === 'MOVABLE-VIEW') {
+              ;(item as TaroMovableViewElement).area = {
+                w: Number( newValue.width),
+                h: Number(newValue.height)
+              }
+            }
+          })
         })
         .gesture(
           PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {
             console.info('movableArea::Pinch start 2');
             this.pinchValue = this.scaleValue
+            this.node.childNodes.forEach(item => {
+              if(item.nodeName === 'MOVABLE-VIEW') {
+                ;(item as TaroMovableViewElement).startScale()
+              }
+            })
           }).onActionUpdate((event) => {
             const scaleArea = this.node.getAttribute('scaleArea')
             if (scaleArea) {
               this.scaleValue = this.pinchValue * event.scale;
-
+              this.node.childNodes.forEach(item => {
+                if(item.nodeName === 'MOVABLE-VIEW') {
+                  ;(item as TaroMovableViewElement).scaleValue = this.pinchValue * event.scale
+                }
+              })
             }
             console.info('movableArea::update2', this.scaleValue)
           })
