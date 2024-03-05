@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 初始化蓝牙模块
- * 
+ *
  * @canUse openBluetoothAdapter
  */
 export const openBluetoothAdapter: typeof Taro.openBluetoothAdapter = (options) => {
@@ -21,7 +23,6 @@ export const openBluetoothAdapter: typeof Taro.openBluetoothAdapter = (options) 
   }>({ name, success, fail, complete })
 
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.openBluetoothAdapter({
       success: (res: any) => {
         const result: TaroGeneral.BluetoothError = {

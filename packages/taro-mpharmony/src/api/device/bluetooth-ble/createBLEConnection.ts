@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 连接低功耗蓝牙设备
- * 
+ *
  * @canUse createBLEConnection
  * @__object [deviceId, timeout]
  */
@@ -32,14 +34,14 @@ export const createBLEConnection: typeof Taro.createBLEConnection = (options) =>
           errMsg: getParameterError({
             para: 'deviceId',
             correct: 'string',
-            wrong: deviceId,
-          }),
+            wrong: deviceId
+          })
         },
         { resolve, reject }
       )
     }
 
-    // @ts-ignore
+
     native.createBLEConnection({
       deviceId: deviceId,
       timeout: timeout,
@@ -48,13 +50,13 @@ export const createBLEConnection: typeof Taro.createBLEConnection = (options) =>
           /** 错误信息 */
           errMsg: '',
           /** 错误码 */
-          errCode: res[0],
+          errCode: res[0]
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      },
+      }
     })
   })
 }

@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 关闭蓝牙模块
- * 
+ *
  * @canUse closeBluetoothAdapter
  */
 export const closeBluetoothAdapter: typeof Taro.closeBluetoothAdapter = (options) => {
@@ -21,7 +23,6 @@ export const closeBluetoothAdapter: typeof Taro.closeBluetoothAdapter = (options
   }>({ name, success, fail, complete })
 
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.closeBluetoothAdapter({
       success: (res: any) => {
         const result: TaroGeneral.BluetoothError = {

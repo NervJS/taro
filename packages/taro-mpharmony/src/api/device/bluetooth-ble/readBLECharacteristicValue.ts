@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 读取低功耗蓝牙设备的特征值的二进制数据值
- * 
+ *
  * @canUse readBLECharacteristicValue
  * @__object [characteristicId, deviceId, serviceId]
  */
@@ -66,7 +68,6 @@ export const readBLECharacteristicValue: typeof Taro.readBLECharacteristicValue 
       )
     }
 
-    // @ts-ignore
     native.readBLECharacteristicValue({
       characteristicId: characteristicId,
       deviceId: deviceId,

@@ -149,8 +149,8 @@ class NativeApi {
 
   // @ts-ignore
   @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
-  chooseMediaAssets (options: any, mode: object): any {
-    return [options, mode]
+  chooseMediaAssets (options: any): any {
+    return options
   }
 
   // @ts-ignore
@@ -617,6 +617,138 @@ class NativeApi {
   // @ts-ignore
   @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   requestSubscribeMessage (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  closeBLEConnection (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  createBLEConnection (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  getBLEDeviceCharacteristics (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  getBLEDeviceRSSI (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  getBLEDeviceServices (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  notifyBLECharacteristicValueChange (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
+  onBLECharacteristicValueChange (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
+  onBLEConnectionStateChange (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  readBLECharacteristicValue (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  setBLEMTU (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  writeBLECharacteristicValue (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  closeBluetoothAdapter (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  getBluetoothAdapterState (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  getBluetoothDevices (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  getConnectedBluetoothDevices (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  offBluetoothAdapterStateChange (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  offBluetoothDeviceFound (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
+  onBluetoothAdapterStateChange (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
+  onBluetoothDeviceFound (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  openBluetoothAdapter (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  startBluetoothDevicesDiscovery (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  stopBluetoothDevicesDiscovery (option: any): any {
     return option
   }
 }

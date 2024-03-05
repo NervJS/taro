@@ -1,9 +1,11 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
 
+import native from '../../NativeApi'
+
 /**
  * 取消监听蓝牙适配器状态变化事件
- * 
+ *
  * @canUse offBluetoothAdapterStateChange
  */
 export const offBluetoothAdapterStateChange: typeof Taro.offBluetoothAdapterStateChange = (callback) => {
@@ -17,6 +19,5 @@ export const offBluetoothAdapterStateChange: typeof Taro.offBluetoothAdapterStat
     return
   }
 
-  // @ts-ignore
   native.offBluetoothAdapterStateChange(callback)
 }

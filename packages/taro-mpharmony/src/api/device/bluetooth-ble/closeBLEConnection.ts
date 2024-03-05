@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 断开与低功耗蓝牙设备的连接
- * 
+ *
  * @canUse closeBLEConnection
  * @__object [deviceId]
  */
@@ -32,14 +34,13 @@ export const closeBLEConnection: typeof Taro.closeBLEConnection = (options) => {
           errMsg: getParameterError({
             para: 'deviceId',
             correct: 'string',
-            wrong: deviceId,
-          }),
+            wrong: deviceId
+          })
         },
         { resolve, reject }
       )
     }
 
-    // @ts-ignore
     native.closeBLEConnection({
       deviceId: deviceId,
       success: (res: any) => {
@@ -47,13 +48,13 @@ export const closeBLEConnection: typeof Taro.closeBLEConnection = (options) => {
           /** 错误信息 */
           errMsg: '',
           /** 错误码 */
-          errCode: res[0],
+          errCode: res[0]
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      },
+      }
     })
   })
 }

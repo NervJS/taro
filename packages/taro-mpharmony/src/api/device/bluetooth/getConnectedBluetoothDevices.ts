@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 根据 uuid 获取处于已连接状态的设备
- * 
+ *
  * @canUse getConnectedBluetoothDevices
  * @__object [services]
  * @__success [devices]
@@ -27,7 +29,6 @@ export const getConnectedBluetoothDevices: typeof Taro.getConnectedBluetoothDevi
       errMsg?: string
     }>({ name, success, fail, complete })
 
-    // @ts-ignore
     native.getConnectedBluetoothDevices({
       services: services,
       success: (res: any) => {

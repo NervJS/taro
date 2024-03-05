@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 启用低功耗蓝牙设备特征值变化时的 notify 功能，订阅特征值
- * 
+ *
  * @canUse notifyBLECharacteristicValueChange
  * @__object [characteristicId, deviceId, serviceId, state]
  */
@@ -33,8 +35,8 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
           errMsg: getParameterError({
             para: 'characteristicId',
             correct: 'string',
-            wrong: characteristicId,
-          }),
+            wrong: characteristicId
+          })
         },
         { resolve, reject }
       )
@@ -46,8 +48,8 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
           errMsg: getParameterError({
             para: 'deviceId',
             correct: 'string',
-            wrong: deviceId,
-          }),
+            wrong: deviceId
+          })
         },
         { resolve, reject }
       )
@@ -59,8 +61,8 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
           errMsg: getParameterError({
             para: 'serviceId',
             correct: 'string',
-            wrong: serviceId,
-          }),
+            wrong: serviceId
+          })
         },
         { resolve, reject }
       )
@@ -72,14 +74,13 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
           errMsg: getParameterError({
             para: 'state',
             correct: 'boolean',
-            wrong: state,
-          }),
+            wrong: state
+          })
         },
         { resolve, reject }
       )
     }
 
-    // @ts-ignore
     native.notifyBLECharacteristicValueChange({
       characteristicId: characteristicId,
       deviceId: deviceId,
@@ -90,7 +91,7 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      },
+      }
     })
   })
 }

@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 获取本机蓝牙适配器状态
- * 
+ *
  * @canUse getBluetoothAdapterState
  * @__success [available, discovering]
  */
@@ -24,7 +26,6 @@ export const getBluetoothAdapterState: typeof Taro.getBluetoothAdapterState = (o
   }>({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
-    // @ts-ignore
     native.getBluetoothAdapterState({
       success: (res: any) => {
         const result: Taro.getBluetoothAdapterState.SuccessCallbackResult = {
