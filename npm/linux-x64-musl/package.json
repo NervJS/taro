@@ -1,21 +1,23 @@
 {
-  "name": "@tarojs/binding-darwin-x64",
-  "description": "Native binding for taro",
+  "name": "@tarojs/binding-linux-x64-musl",
   "version": "3.6.24",
   "os": [
-    "darwin"
+    "linux"
   ],
   "cpu": [
     "x64"
   ],
-  "main": "taro.darwin-x64.node",
+  "main": "taro.linux-x64-musl.node",
   "files": [
-    "taro.darwin-x64.node"
+    "taro.linux-x64-musl.node"
   ],
   "license": "MIT",
   "engines": {
     "node": ">= 16"
   },
+  "libc": [
+    "musl"
+  ],
   "publishConfig": {
     "access": "public"
   },

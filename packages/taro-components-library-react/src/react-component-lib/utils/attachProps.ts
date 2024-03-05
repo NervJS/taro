@@ -84,7 +84,7 @@ function finishedEventHandler (node: HTMLElement) {
   if (!controlledValue) return
 
   // 立即执行事件回调中用户可能触发了的 React 更新
-  flushSync()
+  flushSync(() => {})
 
   // 组件在 React 更新后的 React props
   const newProps = getPropsAfterReactUpdate(node)

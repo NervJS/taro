@@ -20,5 +20,4 @@ export const env = {
  */
 
 export * from './system'
-export * from './weapp/app-event'
 export * from './weapp/life-cycle'
