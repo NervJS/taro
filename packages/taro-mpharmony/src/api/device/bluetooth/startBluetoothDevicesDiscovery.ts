@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 开始搜寻附近的蓝牙外围设备
- * 
+ *
  * @canUse startBluetoothDevicesDiscovery
  * @__object [allowDuplicatesKey, interval, services]
  */
@@ -28,7 +30,7 @@ export const startBluetoothDevicesDiscovery: typeof Taro.startBluetoothDevicesDi
   }>({ name, success, fail, complete })
 
   return new Promise<Taro.startBluetoothDevicesDiscovery.Promised>((resolve, reject) => {
-    // @ts-ignore
+
     native.startBluetoothDevicesDiscovery({
       allowDuplicatesKey: allowDuplicatesKey,
       interval: interval,

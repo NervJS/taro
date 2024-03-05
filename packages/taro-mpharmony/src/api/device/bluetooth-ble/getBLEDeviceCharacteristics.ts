@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 获取蓝牙设备某个服务中所有特征值
- * 
+ *
  * @canUse getBLEDeviceCharacteristics
  * @__object [deviceId, serviceId]
  * @__success [characteristics]
@@ -34,8 +36,8 @@ export const getBLEDeviceCharacteristics: typeof Taro.getBLEDeviceCharacteristic
           errMsg: getParameterError({
             para: 'deviceId',
             correct: 'string',
-            wrong: deviceId,
-          }),
+            wrong: deviceId
+          })
         },
         { resolve, reject }
       )
@@ -47,14 +49,13 @@ export const getBLEDeviceCharacteristics: typeof Taro.getBLEDeviceCharacteristic
           errMsg: getParameterError({
             para: 'serviceId',
             correct: 'string',
-            wrong: serviceId,
-          }),
+            wrong: serviceId
+          })
         },
         { resolve, reject }
       )
     }
 
-    // @ts-ignore
     native.getBLEDeviceCharacteristics({
       deviceId: deviceId,
       serviceId: serviceId,
@@ -63,7 +64,7 @@ export const getBLEDeviceCharacteristics: typeof Taro.getBLEDeviceCharacteristic
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      },
+      }
     })
   })
 }

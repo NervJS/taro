@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 获取蓝牙低功耗设备的信号强度
- * 
+ *
  * @canUse getBLEDeviceRSSI
  * @__object [deviceId]
  * @__success [RSSI]
@@ -33,14 +35,13 @@ export const getBLEDeviceRSSI: typeof Taro.getBLEDeviceRSSI = (options) => {
           errMsg: getParameterError({
             para: 'deviceId',
             correct: 'string',
-            wrong: deviceId,
-          }),
+            wrong: deviceId
+          })
         },
         { resolve, reject }
       )
     }
 
-    // @ts-ignore
     native.getBLEDeviceRSSI({
       deviceId: deviceId,
       success: (res: any) => {
@@ -48,7 +49,7 @@ export const getBLEDeviceRSSI: typeof Taro.getBLEDeviceRSSI = (options) => {
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      },
+      }
     })
   })
 }

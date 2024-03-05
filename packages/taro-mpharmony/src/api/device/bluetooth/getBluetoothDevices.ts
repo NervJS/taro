@@ -2,9 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 获取在蓝牙模块生效期间所有已发现的蓝牙设备
- * 
+ *
  * @canUse getBluetoothDevices
  * @__success [devices]
  */
@@ -23,7 +25,6 @@ export const getBluetoothDevices: typeof Taro.getBluetoothDevices = (options) =>
   }>({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
-    // @ts-ignore
     native.getBluetoothDevices({
       success: (res: any) => {
         handle.success(res, { resolve, reject })
