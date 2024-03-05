@@ -5,38 +5,53 @@ import deviceInfo from '@ohos.deviceInfo'
 import _display from '@ohos.display'
 // 从 API Version 7 开始支持
 import i18n from '@ohos.i18n'
+import { Current, window } from '@tarojs/runtime'
 
 import { callAsyncFail, callAsyncSuccess } from '../utils'
 
 import type Taro from '@tarojs/taro/types'
 
 let display
+let navigationIndicatorRect
 let safeArea: TaroGeneral.SafeAreaResult | null = null
-try {
-  display = _display.getDefaultDisplaySync()
-  // @ts-ignore
-  display.getCutoutInfo((err, { boundingRects = [], waterfallDisplayAreaRects = {} }: _display.CutoutInfo = {}) => {
-    if (err?.code) {
-      console.error('Failed to get cutout info', JSON.stringify(err))
-      return
-    }
+let statusBarHeight
+let windowRect
 
-    const top = Math.max(...boundingRects.map(rect => rect.top * 2 + rect.height), waterfallDisplayAreaRects.top?.top + waterfallDisplayAreaRects.top?.height)
-    const bottom = (waterfallDisplayAreaRects.bottom?.top + waterfallDisplayAreaRects.bottom?.height) || display.height
-    const left = waterfallDisplayAreaRects.left?.left + waterfallDisplayAreaRects.left?.width
-    const right = (waterfallDisplayAreaRects.right?.left + waterfallDisplayAreaRects.right?.width) || display.width
-    safeArea = {
-      top,
-      bottom,
-      left,
-      right,
-      height: bottom - top,
-      width: right - left,
+(Current as any).contextPromise.then((context) => {
+  const win = window.__ohos.getLastWindow(context)
+  win.then(mainWindow => {
+    const topRect = mainWindow.getWindowAvoidArea(window.__ohos.AvoidAreaType.TYPE_SYSTEM).topRect
+    navigationIndicatorRect = mainWindow.getWindowAvoidArea(window.__ohos.AvoidAreaType.TYPE_NAVIGATION_INDICATOR).bottomRect
+    statusBarHeight = topRect.top + topRect.height
+    windowRect = mainWindow.getWindowProperties().windowRect
+
+    try {
+      display = _display.getDefaultDisplaySync()
+      // @ts-ignore
+      display.getCutoutInfo((err, { boundingRects = [], waterfallDisplayAreaRects = {} }: _display.CutoutInfo = {}) => {
+        if (err?.code) {
+          console.error('Failed to get cutout info', JSON.stringify(err))
+          return
+        }
+
+        const top = Math.max(...boundingRects.map(rect => rect.top + rect.height), waterfallDisplayAreaRects.top?.top + waterfallDisplayAreaRects.top?.height, statusBarHeight)
+        const bottom = display.height - Math.min(waterfallDisplayAreaRects.bottom?.top, navigationIndicatorRect?.top)
+        const left = waterfallDisplayAreaRects.left?.left + waterfallDisplayAreaRects.left?.width
+        const right = display.width - waterfallDisplayAreaRects.right?.left
+        safeArea = {
+          top,
+          bottom,
+          left,
+          right,
+          height: bottom - top,
+          width: right - left,
+        }
+      })
+    } catch (e) {
+      console.error('Failed to get display', e)
     }
   })
-} catch (e) {
-  console.error('Failed to get display', e)
-}
+})
 
 /* 同步版本 */
 export const getSystemInfoSync: typeof Taro.getSystemInfoSync = function () {
@@ -65,12 +80,12 @@ export const getSystemInfoSync: typeof Taro.getSystemInfoSync = function () {
   res.safeArea = safeArea // 在竖屏正方向下的安全区域 General.SafeAreaResult
   res.screenHeight = display?.height // 屏幕高度，单位px number
   res.screenWidth = display?.width // 屏幕宽度，单位px number
-  res.statusBarHeight = safeArea?.top // 状态栏的高度，单位px number
+  res.statusBarHeight = statusBarHeight // 状态栏的高度，单位px number
   res.system = deviceInfo?.osFullName // 操作系统及版本 string
   // Note: 更新配置时才能记录
   res.theme = AppStorage.get('__TARO_APP_CONFIG')?.colorMode === ConfigurationConstant.ColorMode.COLOR_MODE_DARK ? 'dark' : 'light' // 系统当前主题，取值为light或dark 'light' | 'dark'
-  res.windowHeight = display?.height // 可使用窗口高度，单位px number
-  res.windowWidth = display?.width // 可使用窗口宽度，单位px number
+  res.windowHeight = windowRect?.height // 可使用窗口高度，单位px number
+  res.windowWidth = windowRect?.width // 可使用窗口宽度，单位px number
   res.version = deviceInfo?.displayVersion // 版本号 string
 
   return res
