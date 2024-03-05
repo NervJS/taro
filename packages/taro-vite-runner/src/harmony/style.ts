@@ -66,7 +66,7 @@ function getCssIdSets (raw: string, id: string, sourceDir: string) {
                   extensions: CSS_EXT,
                 })
 
-                if (resolveId && CSS_LANGS_RE.test(resolveId)) {
+                if (resolveId && CSS_LANGS_RE.test(rawId)) {
                   // Note: 预加载依赖的 CSS 文件
                   const cssId = appendVirtualModulePrefix(resolveId + STYLE_SUFFIX)
                   cssIdSet.add(cssId)

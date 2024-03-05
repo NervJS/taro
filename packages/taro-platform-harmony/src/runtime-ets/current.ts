@@ -14,3 +14,5 @@ export const Current: any = {
   }),
   createHarmonyElement: null
 }
+
+export const getCurrentInstance = () => Current

@@ -442,9 +442,7 @@ ${this.isTabbarPage
       '  callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
       '    this.node[index] = instance',
       '  })',
-      '  callFn(this.page.onReady, this, params, (instance: TaroElement) => {',
-      '    this.node[index] = instance',
-      '  })',
+      '  callFn(this.page.onReady, this, params)',
       '}',
     ], 4)
     : this.transArr2Str([
@@ -452,9 +450,7 @@ ${this.isTabbarPage
       'callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
       '  this.node = instance',
       '})',
-      'callFn(this.page.onReady, this, params, (instance: TaroElement) => {',
-      '  this.node = instance',
-      '})',
+      'callFn(this.page.onReady, this, params)',
     ], 4)}
 }
 `.split('\n'), 2),
