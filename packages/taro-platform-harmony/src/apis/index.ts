@@ -33,7 +33,7 @@ const defaultUnitPrecision = 5
 const defaultTargetUnit = 'vp'
 
 export function getApp () {
-  return Current.app
+  return Current.app || {}
 }
 
 export function initPxTransform ({
