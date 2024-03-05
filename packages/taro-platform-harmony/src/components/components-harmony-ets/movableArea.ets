@@ -33,8 +33,7 @@ export default struct TaroMovableArea {
   @Provide areaWidth: Length = 0
   @Provide areaHeight: Length = 0
   @Provide scaleValue: number = 1
-  pinchValue:number = 1
-
+  pinchValue: number = 1
 
   build() {
     if (this.node) {
@@ -81,7 +80,11 @@ export default struct TaroMovableArea {
             console.info('movableArea::Pinch start 2');
             this.pinchValue = this.scaleValue
           }).onActionUpdate((event) => {
-            this.scaleValue = this.pinchValue * event.scale;
+            const scaleArea = this.node.getAttribute('scaleArea')
+            if (scaleArea) {
+              this.scaleValue = this.pinchValue * event.scale;
+
+            }
             console.info('movableArea::update2', this.scaleValue)
           })
         )
