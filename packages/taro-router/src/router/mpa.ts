@@ -35,7 +35,7 @@ export async function createMultiRouter (
   if (typeof app.onUnhandledRejection === 'function') {
     window.addEventListener('unhandledrejection', app.onUnhandledRejection)
   }
-  eventCenter.on('__taroH5SetNavigationTitle', setMpaTitle)
+  eventCenter.on('__taroH5SetNavigationBarTitle', setMpaTitle)
   RouterConfig.config = config
   const handler = new MultiPageHandler(config, history)
   const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
