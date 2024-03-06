@@ -8,7 +8,6 @@ export function modifyHarmonyWebpackChain (chain, data) {
   setLoader(chain)
 }
 
-
 function setVueLoader (chain, data) {
   const vueLoaderPath = getVueLoaderPath()
 

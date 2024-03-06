@@ -25,7 +25,6 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           viteCompilerContext.taroConfig.modifyMiniConfigs(viteCompilerContext.filesConfig)
         }
 
-
         const compPathId = await this.resolve(taroConfig.taroComponentsPath || '@tarojs/components/mini')
         if (compPathId) {
           const id = compPathId.id

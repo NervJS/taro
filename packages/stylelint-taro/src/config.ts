@@ -7,7 +7,6 @@ import miniprogram from './platform/miniprogram'
 import rn from './platform/rn'
 import { TaroStylelintConfig } from './platform/type'
 
-
 type PlatformType = 'h5' | 'miniprogram' | 'harmony' | 'rn'
 
 // 合并平台规则成并集

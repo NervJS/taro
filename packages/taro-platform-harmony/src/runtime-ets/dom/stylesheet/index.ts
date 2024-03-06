@@ -155,7 +155,6 @@ export default class StyleSheet {
     return FlexManager.reverseDirection(this.hmStyle.flexDirection)
   }
 
-
   set _flexDirection (value: FlexDirection) {
     this.hmStyle.flexDirection = value
   }
@@ -666,4 +665,3 @@ export default class StyleSheet {
     this.hmStyle.content = value
   }
 }
-

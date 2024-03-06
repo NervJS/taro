@@ -55,7 +55,6 @@ export default class NavigationBarHandler {
     return this.navigationBarElement.getElementsByTagName('taro-navigation-bar-back')?.[0]
   }
 
-
   get titleElement (){
     if (!this.navigationBarElement) return null
     return this.navigationBarElement.getElementsByTagName('taro-navigation-bar-title')?.[0]

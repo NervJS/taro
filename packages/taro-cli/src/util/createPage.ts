@@ -72,7 +72,6 @@ const addNewPage = (node: ObjectExpression, page: string): ConfigModificationSta
   return ConfigModificationState.Success
 }
 
-
 const modifyPages = (path: NodePath<ExportDefaultDeclaration>, newPageConfig, callback: ModifyCallback) => {
   let state = ConfigModificationState.Fail
   const node = path.node.declaration as any

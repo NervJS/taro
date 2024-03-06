@@ -45,5 +45,3 @@ export function setRouterParams(options) {
     ...options,
   }
 }
-
-

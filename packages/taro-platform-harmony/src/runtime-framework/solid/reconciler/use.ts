@@ -5,4 +5,3 @@ export function use(fn, ele, accessor) {
     fn(ele, accessor)
   })
 }
-

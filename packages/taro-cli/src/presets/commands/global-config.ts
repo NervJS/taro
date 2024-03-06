@@ -23,8 +23,6 @@ const PLUGIN_TYPE_TO_CONFIG_KEY = {
   preset: 'presets'
 }
 
-
-
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
     name: 'global-config',
@@ -134,4 +132,3 @@ export default (ctx: IPluginContext) => {
     }
   })
 }
-

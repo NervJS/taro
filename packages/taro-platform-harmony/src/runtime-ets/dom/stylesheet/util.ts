@@ -163,7 +163,6 @@ export class FlexManager {
   }
 }
 
-
 export class BORDER_STYLE_MAP {
   static solid = BorderStyle.Solid
   static dotted = BorderStyle.Dotted
@@ -187,7 +186,6 @@ export class BORDER_STYLE_MAP {
   
   }
 }
-
 
 export function getNodeMarginOrPaddingData (dataValue: string) {
   let res: any = {}
@@ -215,7 +213,6 @@ export function getNodeMarginOrPaddingData (dataValue: string) {
   }
   return res
 }
-
 
 export function getUnit (val) {
   // 空的字符串代表 Reconciler remove 了这个 prop，不进行后面的逻辑了

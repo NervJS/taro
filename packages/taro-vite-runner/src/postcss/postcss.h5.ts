@@ -50,8 +50,6 @@ const getPostcssExclude = (esnextModules: string []): (fileName: string) => bool
   }
 }
 
-
-
 export const getDefaultPostcssConfig = function ({
   designWidth,
   deviceRatio,

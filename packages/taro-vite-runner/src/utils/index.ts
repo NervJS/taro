@@ -172,7 +172,6 @@ export function getMinify (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig |
         : 'terser'
 }
 
-
 export function getCSSModulesOptions(taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig | ViteHarmonyBuildConfig): false | CSSModulesOptions {
   if (taroConfig.postcss?.cssModules?.enable !== true) return false
   const config = recursiveMerge(
@@ -187,7 +186,6 @@ export function getCSSModulesOptions(taroConfig: ViteMiniBuildConfig | ViteH5Bui
     generateScopedName: config.generateScopedName,
   }
 }
-
 
 export function getBabelOption (
   taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig | ViteHarmonyBuildConfig,

@@ -24,8 +24,6 @@ import { CompilerContext } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
 
-
-
 export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> implements ViteMiniCompilerContext {
   fileType: ViteFileType
   commonChunks: string[]

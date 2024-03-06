@@ -304,7 +304,6 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
     Current.router = null
   }
 
-
   LIFECYCLES.forEach((lifecycle) => {
     pageObj[lifecycle] = function () {
       return safeExecute(this.$taroPath, lifecycle, ...arguments)

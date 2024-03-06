@@ -572,4 +572,3 @@ describe('生成转换报告及日志', () => {
     expect(resFileMap.has('/wxProject/taroConvert/report/static/media')).toBeTruthy()
   })
 })
- 

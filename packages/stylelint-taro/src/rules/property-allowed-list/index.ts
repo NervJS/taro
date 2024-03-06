@@ -12,7 +12,6 @@ import { log, nameSpace, report, taroDocsUrl } from '../../utils'
 
 import type { Rule } from 'stylelint'
 
-
 export const ruleName = nameSpace('property-allowed-list')
 
 export const messages = stylelint.utils.ruleMessages(ruleName, {

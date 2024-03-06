@@ -9,7 +9,6 @@ import type { TaroElement, TaroText } from '@tarojs/runtime'
 import type { Fiber } from 'react-reconciler'
 import type { Props } from './props'
 
-
 export function precacheFiberNode (hostInst: Fiber, node: TaroElement | TaroText): void {
   node[internalInstanceKey] = hostInst
 }

@@ -3,7 +3,6 @@ import Taro from '@tarojs/api'
 import { CallbackManager } from '../utils/handler'
 import { NETWORK_TIMEOUT, setHeader, XHR_STATS } from './utils'
 
-
 const splitHeaders = (headers: string) => {
   const arr = headers.trim().split(/[\r\n]+/)
   const headerMap = {}

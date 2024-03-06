@@ -202,4 +202,3 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     },
   }
 }
-

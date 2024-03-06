@@ -6,7 +6,6 @@ import * as React from 'react'
 import { getTabBarPages, handleUrl, setTabInitRoute, updateCurrentJumpUrl, updateJumpAnimate } from './utils/index'
 import { BaseOption, CallbackResult } from './utils/types'
 
-
 type NavigateMethod = 'navigateTo' | 'redirectTo' | 'navigateBack' | 'switchTab' | 'reLaunch'
 
 interface NavigateOption extends BaseOption {

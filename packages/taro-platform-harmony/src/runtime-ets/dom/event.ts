@@ -55,7 +55,6 @@ export class TaroEvent<T = any> {
   }
 }
 
-
 export function createEvent (event: TaroEvent | string, type?: string, node?: TaroElement) {
   if (typeof event === 'string') {
     // For Vue3 using document.createEvent

@@ -21,5 +21,3 @@ export function getTypesList (type = ''): string[] {
 export function getTypeFilePath (name: string): string {
   return path.join(TYPES_DIR, `${name}.d.ts`)
 }
-
-

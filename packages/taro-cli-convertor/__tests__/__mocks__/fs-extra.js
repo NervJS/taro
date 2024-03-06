@@ -38,7 +38,6 @@ function setMockFiles (root, newMockFiles) {
   oriFileMap.set(root, newMockFiles)
 }
 
-
 /**
  * 获取原始的mock文件
  * 

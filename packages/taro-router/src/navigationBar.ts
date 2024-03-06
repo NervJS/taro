@@ -25,4 +25,3 @@ export function initNavigationBar (container: HTMLElement) {
   navigationBar.id = 'taro-navigation-bar'
   container.prepend(navigationBar)
 }
-
