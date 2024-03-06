@@ -199,7 +199,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
             })
             const rawCode = parseJSXStyle(raw, cssRawArr, {
               platformString: 'Harmony',
-              isEnableNesting: viteCompilerContext.useNesting
+              isEnableNesting: viteCompilerContext.taroConfig.useNesting
             })
             const s = new MagicString(rawCode)
             return {
