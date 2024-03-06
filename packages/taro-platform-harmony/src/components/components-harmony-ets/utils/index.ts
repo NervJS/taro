@@ -30,7 +30,7 @@ export function getUnit (val) {
 function handleNodeStyleData (dataValue: string, handler: (values: string[]) => { [key: string]: string } | void) {
   let res: any = {}
   if (dataValue) {
-    const values = dataValue.trim().split(/\s+/)
+    const values = dataValue.toString().trim().split(/\s+/)
     const data = handler(values)
 
     if (!data) return res

@@ -60,7 +60,7 @@ class AttributeManager {
     const dataValue: string = AttributeManager.getNodeStyle(style, 'animation')
 
     if (dataValue) {
-      let values: string[] = dataValue.trim().split(new RegExp("/\s+/"))
+      let values: string[] = dataValue.toString().trim().split(new RegExp("/\s+/"))
       switch (values.length) {
         case 4:
           res = { duration: values[0], curve: values[1], delay: values[2] }
