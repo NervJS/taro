@@ -182,7 +182,8 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
 
   // Note: 修改 harmony Hap 的配置文件，当前仅支持注入路由配置
   modifyHarmonyConfig (config: Partial<AppConfig> = {}) {
-    const { pages = [], tabBar } = config
+    const { tabBar } = config
+    const pages = (this.getPages() || []).map(item => item.name)
     const { projectPath, hapName = 'entry', outputRoot = 'dist', name = 'default' } = this.taroConfig
     const designWidth = this.taroConfig.designWidth || this.taroConfig.postcss?.pxtransform?.config?.designWidth || 750
     const buildProfilePath = path.join(projectPath, `build-profile.${this.useJSON5 !== false ? 'json5' : 'json'}`)
