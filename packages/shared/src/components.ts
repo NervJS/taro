@@ -75,7 +75,8 @@ const RichText = {
 const Text = {
   selectable: DEFAULT_FALSE,
   space: NO_DEFAULT_VALUE,
-  decode: DEFAULT_FALSE
+  decode: DEFAULT_FALSE,
+  ...touchEvents
 }
 
 const Button = {
@@ -140,7 +141,8 @@ const Input = {
 
 const Label = {
   for: NO_DEFAULT_VALUE,
-  name: NO_DEFAULT_VALUE
+  name: NO_DEFAULT_VALUE,
+  ...touchEvents
 }
 
 const Picker = {
