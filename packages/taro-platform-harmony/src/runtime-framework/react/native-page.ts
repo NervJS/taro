@@ -80,7 +80,11 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
 
     componentDidMount () {
       if (isDefaultEntryDom) {
-        Current.app = this
+        if (Current.app) {
+          Current.app = Object.assign(this, Current.app)
+        } else {
+          Current.app = this
+        }
       } else {
         nativeComponentApp = this
       }

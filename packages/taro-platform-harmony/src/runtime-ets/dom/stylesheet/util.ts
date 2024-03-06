@@ -192,7 +192,7 @@ export class BORDER_STYLE_MAP {
 export function getNodeMarginOrPaddingData (dataValue: string) {
   let res: any = {}
   if (dataValue) {
-    const values = dataValue.trim().split(new RegExp('\\s+'))
+    const values = dataValue.toString().trim().split(new RegExp('\\s+'))
     switch (values.length) {
       case 1:
         res = { top: values[0], right: values[0], bottom: values[0], left: values[0] }

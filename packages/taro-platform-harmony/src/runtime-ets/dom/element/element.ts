@@ -1,4 +1,5 @@
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
+import { EMPTY_OBJ, toCamelCase } from '@tarojs/shared'
 
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../../constant'
 import { findChildNodeWithDFS } from '../../utils'
@@ -6,7 +7,7 @@ import { initComponentNodeInfo, triggerAttributesCallback } from '../../utils/in
 import { bindAnimation } from '../bind'
 import { ClassList } from '../class-list'
 import { NodeType, TaroNode } from '../node'
-import StyleSheet from '../stylesheet'
+import StyleSheet, { HarmonyStyle } from '../stylesheet'
 
 import type { StandardProps } from '@tarojs/components/types'
 import type { TaroAny } from '../../utils'
@@ -25,10 +26,8 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
   public _innerHTML = ''
   public _nodeInfo: TaroAny = {}
   public readonly tagName: string
+  public dataset: Record<string, unknown> = EMPTY_OBJ
   public _attrs: T & TaroExtraProps = {} as T & TaroExtraProps
-
-  _client?: Area
-  _scroll?: Area
 
   constructor(tagName: string) {
     super(tagName.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase(), NodeType.ELEMENT_NODE)
@@ -75,6 +74,21 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
   }
 
   public setAttribute (name: string, value: TaroAny): void {
+    switch (name) {
+      case ID:
+        eventSource.delete(this._attrs.id)
+        eventSource.set(value, this as TaroAny)
+        break
+      default:
+        if (name.startsWith('data-')) {
+          if (this.dataset === EMPTY_OBJ) {
+            this.dataset = Object.create(null)
+          }
+          this.dataset[toCamelCase(name.replace(/^data-/, ''))] = value
+        }
+        break
+    }
+
     if (name === ID) {
       eventSource.delete(this._attrs.id)
       eventSource.set(value, this as TaroAny)
@@ -134,8 +148,6 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
     }, true) || []
   }
 
-  // TODO dataset
-
   public set innerHTML (value: string) {
     if (this.nodeType === NodeType.ELEMENT_NODE && this.ownerDocument) {
       const ele = this.ownerDocument.createElement('inner-html')
@@ -159,5 +171,45 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
 
   public get style (): ICSSStyleDeclaration | null {
     return this._style
+  }
+
+  // 伪类，不存在style动态设置，均已被转换为鸿蒙样式
+  // TODO：可根据实际情况，迁移到具体的组件中，如View、ScrollView中，Text\Image其实是不需要的
+  public _pseudo_before: StyleSheet | null
+
+  public get pseudo_before () {
+    return this._pseudo_before?.hmStyle
+  }
+
+  public set_pseudo_before (value: HarmonyStyle | null) {
+    if (value) {
+      if (!this._pseudo_before) {
+        this._pseudo_before = new StyleSheet()
+      }
+      Object.keys(value).forEach(key => {
+        this._pseudo_before![key] = value[key]
+      })
+    } else {
+      this._pseudo_before = null
+    }
+  }
+
+  public _pseudo_after: StyleSheet | null
+
+  public get pseudo_after () {
+    return this._pseudo_after?.hmStyle
+  }
+
+  public set_pseudo_after (value: HarmonyStyle | null) {
+    if (value) {
+      if (!this._pseudo_after) {
+        this._pseudo_after = new StyleSheet()
+      }
+      Object.keys(value).forEach(key => {
+        this._pseudo_after![key] = value[key]
+      })
+    } else {
+      this._pseudo_after = null
+    }
   }
 }

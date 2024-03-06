@@ -97,7 +97,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
       const { projectPath, hapName = 'entry', ohpm = '~/Library/Huawei/ohpm/bin/ohpm' } = taroConfig
       const outputRoot = path.join(projectPath, hapName)
-      if (taroConfig.isBuildNativeComp && typeof pkg.main === 'string' && pkg) {
+      if (taroConfig.isBuildNativeComp && typeof pkg?.main === 'string' && pkg.main) {
         const mainFile = path.join(outputRoot, pkg.main)
         // @ts-ignore
         const comps = viteCompilerContext.getComponents() || []

@@ -184,6 +184,7 @@ export function createPageConfig (component: any, pageName?: string, pageConfig?
         safeExecute(this.$taroPath, ON_READY)
         // 通过事件触发子组件的生命周期
         requestAnimationFrame(() => eventCenter.trigger(getOnReadyEventKey(id)))
+        this.onReady.called = true
       })
     },
     [ONSHOW] (options = {}) {

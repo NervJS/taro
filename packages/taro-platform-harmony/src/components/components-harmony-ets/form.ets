@@ -3,7 +3,7 @@ import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBL
 import commonStyleModify from './style'
 import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { FlexManager } from './utils/FlexManager'
+import { FlexManager } from './utils/flexManager'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroAny, TaroFormElement } from '@tarojs/runtime'

@@ -1,7 +1,7 @@
 const TARO_TEMPLATES_f0t0 = `import { createLazyChildren, createChildItem } from '../render'
 import commonStyleModify from '../style'
 import { getButtonColor } from '../button'
-import { FlexManager } from '../utils/FlexManager'
+import { FlexManager } from '../utils/flexManager'
 import { TOUCH_EVENT_MAP } from '../utils/constant/event'
 import { BUTTON_THEME_COLOR } from '../utils/constant/style'
 import { getNodeThresholds, getNormalAttributes, getFontAttributes } from '../utils/helper'

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-supporter",
-  "version": "4.0.0-beta.11",
+  "version": "4.0.0-beta.14",
   "description": "Taro rn supporter",
   "main": "dist/index.js",
   "scripts": {

@@ -1,24 +1,56 @@
+import ConfigurationConstant from '@ohos.app.ability.ConfigurationConstant'
 // 设备信息,从 API Version 6 开始支持
 import deviceInfo from '@ohos.deviceInfo'
 // 显示设备属性,从 API Version 7 开始支持
 import _display from '@ohos.display'
 // 从 API Version 7 开始支持
 import i18n from '@ohos.i18n'
-// 设备信息 从API Version 6开始，该接口不再维护，推荐使用新接口'@ohos.deviceInfo'进行设备信息查询
-import deviceMethod from '@system.device'
+import { Current, window } from '@tarojs/runtime'
 
 import { callAsyncFail, callAsyncSuccess } from '../utils'
 
 import type Taro from '@tarojs/taro/types'
 
-const display = _display.getDefaultDisplaySync()
+let display
+let navigationIndicatorRect
+let safeArea: TaroGeneral.SafeAreaResult | null = null
+let statusBarHeight
+let windowRect
 
-let device
+(Current as any).contextPromise.then((context) => {
+  const win = window.__ohos.getLastWindow(context)
+  win.then(mainWindow => {
+    const topRect = mainWindow.getWindowAvoidArea(window.__ohos.AvoidAreaType.TYPE_SYSTEM).topRect
+    navigationIndicatorRect = mainWindow.getWindowAvoidArea(window.__ohos.AvoidAreaType.TYPE_NAVIGATION_INDICATOR).bottomRect
+    statusBarHeight = topRect.top + topRect.height
+    windowRect = mainWindow.getWindowProperties().windowRect
 
-deviceMethod.getInfo({
-  success: data => {
-    device = data
-  }
+    try {
+      display = _display.getDefaultDisplaySync()
+      // @ts-ignore
+      display.getCutoutInfo((err, { boundingRects = [], waterfallDisplayAreaRects = {} }: _display.CutoutInfo = {}) => {
+        if (err?.code) {
+          console.error('Failed to get cutout info', JSON.stringify(err))
+          return
+        }
+
+        const top = Math.max(...boundingRects.map(rect => rect.top + rect.height), waterfallDisplayAreaRects.top?.top + waterfallDisplayAreaRects.top?.height, statusBarHeight)
+        const bottom = display.height - Math.min(waterfallDisplayAreaRects.bottom?.top, navigationIndicatorRect?.top)
+        const left = waterfallDisplayAreaRects.left?.left + waterfallDisplayAreaRects.left?.width
+        const right = display.width - waterfallDisplayAreaRects.right?.left
+        safeArea = {
+          top,
+          bottom,
+          left,
+          right,
+          height: bottom - top,
+          width: right - left,
+        }
+      })
+    } catch (e) {
+      console.error('Failed to get display', e)
+    }
+  })
 })
 
 /* 同步版本 */
@@ -32,7 +64,7 @@ export const getSystemInfoSync: typeof Taro.getSystemInfoSync = function () {
   res.cameraAuthorized = null // 允许使用摄像头的开关 boolean
   res.enableDebug = null // 是否已打开调试 boolean
   res.fontSizeSetting = null // 用户字体大小（单位px） number
-  res.language = i18n && i18n.getSystemLanguage && i18n.getSystemLanguage() // string
+  res.language = i18n?.getSystemLanguage?.() // string
   res.locationAuthorized = null // 定位的开关 boolean
   res.locationEnabled = null // 地理位置的系统开关 boolean
   res.microphoneAuthorized = null // 麦克风的开关 boolean
@@ -43,17 +75,18 @@ export const getSystemInfoSync: typeof Taro.getSystemInfoSync = function () {
   res.notificationSoundAuthorized = false // 通知带有声音的开关（仅 iOS 有效）boolean
   res.phoneCalendarAuthorized = null // 使用日历的开关 boolean
   res.wifiEnabled = false // Wi-Fi 的系统开关 boolean
-  res.pixelRatio = null // 设备像素比,number
-  res.platform = 'android' // 客户端平台 string
-  res.safeArea = null // 在竖屏正方向下的安全区域 General.SafeAreaResult
-  res.screenHeight = display && display.height // 屏幕高度，单位px number
-  res.screenWidth = display && display.width // 屏幕宽度，单位px number
-  res.statusBarHeight = null // 状态栏的高度，单位px number
-  res.system = deviceInfo && deviceInfo.osFullName // 操作系统及版本 string
-  res.theme = null // 系统当前主题，取值为light或dark 'light' | 'dark'
-  res.windowWidth = device && device.windowWidth // 可使用窗口宽度，单位px number
-  res.windowHeight = device && device.windowHeight // 可使用窗口高度，单位px number
-  res.version = deviceInfo && deviceInfo.displayVersion // 版本号 string
+  res.pixelRatio = display && (Math.round(display.xDPI / display.width * 100) / 100) // 设备像素比,number
+  res.platform = 'harmony' // 客户端平台 string
+  res.safeArea = safeArea // 在竖屏正方向下的安全区域 General.SafeAreaResult
+  res.screenHeight = display?.height // 屏幕高度，单位px number
+  res.screenWidth = display?.width // 屏幕宽度，单位px number
+  res.statusBarHeight = statusBarHeight // 状态栏的高度，单位px number
+  res.system = deviceInfo?.osFullName // 操作系统及版本 string
+  // Note: 更新配置时才能记录
+  res.theme = AppStorage.get('__TARO_APP_CONFIG')?.colorMode === ConfigurationConstant.ColorMode.COLOR_MODE_DARK ? 'dark' : 'light' // 系统当前主题，取值为light或dark 'light' | 'dark'
+  res.windowHeight = windowRect?.height // 可使用窗口高度，单位px number
+  res.windowWidth = windowRect?.width // 可使用窗口宽度，单位px number
+  res.version = deviceInfo?.displayVersion // 版本号 string
 
   return res
 }

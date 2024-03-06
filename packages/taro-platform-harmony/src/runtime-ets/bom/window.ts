@@ -3,6 +3,7 @@ import { History, Location } from '@tarojs/runtime/dist/runtime.esm'
 
 import { TaroEventTarget } from '../dom/eventTarget'
 import { getComputedStyle } from './getComputedStyle'
+import { nav } from './navigator'
 
 import type { TaroDocument } from '../dom/document'
 
@@ -13,6 +14,7 @@ class Window extends TaroEventTarget {
 
   public location: any
   public history: any
+  public navigator = nav
   public getComputedStyle = getComputedStyle
 
   constructor () {

@@ -26,7 +26,7 @@ import TaroPicker from './picker'
 import TaroSlider from './slider'
 import TaroSwitch from './switch'
 import TaroSwiper from './swiper'
-import TaroWebView from './webview'
+import TaroWebView from './webView'
 import TaroTextArea from './textArea'
 import TaroRichText from './richText'
 import TaroProgress from './progress'
@@ -49,12 +49,12 @@ import type {
   TaroCheckboxElement,
   TaroFormElement,
   TaroIconElement,
-  TaroLabelElement, 
-  TaroPickerElement, 
+  TaroLabelElement,
+  TaroPickerElement,
   TaroRadioElement,
   TaroRichTextElement,
-  TaroRadioGroupElement, 
-  TaroInputElement, 
+  TaroRadioGroupElement,
+  TaroInputElement,
   TaroCheckboxGroupElement,
   TaroTextAreaElement,
   TaroVideoElement,
@@ -165,7 +165,7 @@ export { createChildItem, createLazyChildren }
 
   generateRenderCompileModeCondition () {
     let result = ''
-    
+
     this.template.forEach((_, key) => {
       const keyData = key.split('_')
       const name = keyData[keyData.length - 1]

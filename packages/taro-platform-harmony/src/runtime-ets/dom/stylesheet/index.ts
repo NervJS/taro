@@ -15,7 +15,7 @@ export default class StyleSheet {
     return this.hmStyle.display
   }
 
-  set display (value: string) {
+  set _display (value: string) {
     this.hmStyle.display = value
   }
 
@@ -23,7 +23,7 @@ export default class StyleSheet {
     return this.hmStyle.position
   }
 
-  set position (value: string) {
+  set _position (value: string) {
     this.hmStyle.position = value
   }
 
@@ -245,17 +245,17 @@ export default class StyleSheet {
   }
 
   set _background (value: TaroAny) {
-    const _backgroundImage: HarmonyType.Background.backgroundImage = value?.image?.[0]
+    const _backgroundImage: HarmonyType.Background.backgroundImage = value?.image
     if (_backgroundImage) {
       this.hmStyle.backgroundImage = _backgroundImage.src
       if (_backgroundImage.repeat) {
         this.hmStyle.backgroundRepeat = _backgroundImage.repeat
       }
     }
-    this.hmStyle.backgroundImageSize = value?.size?.[0]
+    this.hmStyle.backgroundImageSize = value?.size
     this.hmStyle.backgroundColor = this.hmStyle.backgroundImage ? null : value?.color
 
-    const _backgroundPosition: HarmonyType.Background.backgroundImagePosition = value?.position?.[0]
+    const _backgroundPosition: HarmonyType.Background.backgroundImagePosition = value?.position
     this.hmStyle.backgroundImagePosition = _backgroundPosition
   }
 
@@ -272,7 +272,7 @@ export default class StyleSheet {
   }
 
   set _backgroundImage (value) {
-    this.hmStyle.backgroundImage = value?.[0]
+    this.hmStyle.backgroundImage = value
   }
 
   get backgroundRepeat () {
@@ -287,7 +287,7 @@ export default class StyleSheet {
   }
 
   set _backgroundRepeat (value: ImageRepeat[]) {
-    this.hmStyle.backgroundRepeat = value?.[0]
+    this.hmStyle.backgroundRepeat = value
   }
 
   get backgroundSize () {
@@ -297,7 +297,7 @@ export default class StyleSheet {
   }
 
   set _backgroundSize (value: HarmonyType.Background.backgroundImageSize[]) {
-    this.hmStyle.backgroundSize = value?.[0]
+    this.hmStyle.backgroundSize = value
   }
 
   get backgroundPosition () {
@@ -322,7 +322,7 @@ export default class StyleSheet {
   }
   
   set _backgroundPosition (value: HarmonyType.Background.backgroundImagePosition[]) {
-    this.hmStyle.backgroundPosition = value?.[0]
+    this.hmStyle.backgroundPosition = value
   }
 
   get border () {
@@ -493,7 +493,7 @@ export default class StyleSheet {
     return Number(this.hmStyle.zIndex)
   }
 
-  set zIndex (value: string) {
+  set _zIndex (value: string) {
     this.hmStyle.zIndex = Number(value)
   }
 
@@ -501,16 +501,15 @@ export default class StyleSheet {
     return this.hmStyle.opacity
   }
 
-  set opacity (value: string) {
-    const val = Number(value)
-    this.hmStyle.opacity = Number.isNaN(val) ? 1 : val
+  set _opacity (value: number) {
+    this.hmStyle.opacity = value
   }
 
   get overflow () {
     return this.hmStyle.overflow ? 'hidden' : 'visible'
   }
 
-  set overflow (value: string) {
+  set _overflow (value: string) {
     this.hmStyle.overflow = value === 'hidden'
   }
 
@@ -657,6 +656,14 @@ export default class StyleSheet {
 
   set _transformOrigin(value) {
     this.hmStyle.transformOrigin = value
+  }
+
+  get content () {
+    return this.hmStyle._content
+  }
+
+  set _content (value) {
+    this.hmStyle.content = value
   }
 }
 

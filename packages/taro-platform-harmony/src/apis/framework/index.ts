@@ -1,5 +1,3 @@
-import { Current } from '@tarojs/runtime'
-
 import { temporarilyNotSupport } from '../utils'
 
 export const ENV_TYPE = {
@@ -19,12 +17,10 @@ export function getEnv () {
   return ENV_TYPE.HARMONY
 }
 
-export { Current }
-
 // TODO
 export const getCurrentPages = () => []
 
-export const getCurrentInstance = () => Current
+export { Current, getCurrentInstance } from '@tarojs/runtime'
 
 export const requirePlugin = temporarilyNotSupport('requirePlugin')
 

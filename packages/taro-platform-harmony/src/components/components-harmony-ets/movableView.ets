@@ -3,7 +3,7 @@ import type { TaroMovableViewElement, TaroStyleType, TaroAny } from '@tarojs/run
 import commonStyleModify from './style'
 import { createLazyChildren } from './render'
 
-import { FlexManager } from './utils/FlexManager'
+import { FlexManager } from './utils/flexManager'
 import { getNormalAttributes, } from './utils/helper'
 
 @Extend(Row)

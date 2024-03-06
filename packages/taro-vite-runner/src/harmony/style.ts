@@ -66,7 +66,7 @@ function getCssIdSets (raw: string, id: string, sourceDir: string) {
                   extensions: CSS_EXT,
                 })
 
-                if (resolveId && CSS_LANGS_RE.test(resolveId)) {
+                if (resolveId && CSS_LANGS_RE.test(rawId)) {
                   // Note: 预加载依赖的 CSS 文件
                   const cssId = appendVirtualModulePrefix(resolveId + STYLE_SUFFIX)
                   cssIdSet.add(cssId)
@@ -197,7 +197,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
               const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '').replace(usedSuffix, '')
               return cssCache.get(rawId) || ''
             })
-            const rawCode = parseJSXStyle(raw, cssRawArr)
+            const rawCode = parseJSXStyle(raw, cssRawArr, 'harmony')
             const s = new MagicString(rawCode)
             return {
               code: s.toString(),

@@ -83,6 +83,16 @@ export default class Parser extends BaseParser {
 
   onWindowStageCreate(stage: ohWindow.WindowStage) {
     context.resolver(this.context)
+
+    this.context.getApplicationContext().on('environment', {
+      onConfigurationUpdated(config) {
+        AppStorage.setOrCreate('__TARO_APP_CONFIG', config)
+      },
+      onMemoryLevel(level) {
+        hooks.call('getMemoryLevel', { level })
+      }
+    })
+
     stage.loadContent('${entryPath}', (err, data) => {
       if (err.code) {
         return callFn(this.app?.onError, this, err)

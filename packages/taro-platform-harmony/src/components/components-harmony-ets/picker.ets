@@ -3,7 +3,7 @@ import { createLazyChildren } from './render'
 import commonStyleModify from './style'
 import { getSingleSelector, getMultiSelector } from './utils'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { FlexManager } from './utils/FlexManager'
+import { FlexManager } from './utils/flexManager'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroAny, TaroEvent } from '@tarojs/runtime'
@@ -238,8 +238,8 @@ export default struct TaroPicker {
           break
         case 'time': {
           const hour = new Date().getHours()
-          const minute = new Date().getMinutes() 
-  
+          const minute = new Date().getMinutes()
+
           defaultResetValue = `${('00'+hour).slice(-2)}:${('00'+minute).slice(-2)}`
           break
         }
@@ -248,7 +248,7 @@ export default struct TaroPicker {
           const day = data[1]
           const month = data[0]
           const year = data[2]
-  
+
           defaultResetValue = `${year}-${month}-${day}`
           break
         }
@@ -256,7 +256,7 @@ export default struct TaroPicker {
           defaultResetValue = ''
           break
       }
-  
+
       this.node._isInit = true
       this.node._reset = this.node.value || defaultResetValue
     }

@@ -1,7 +1,7 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { createLazyChildren } from './render'
+import PseduoChildren from './pseudo'
 import { FlexManager } from './utils/FlexManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
@@ -49,8 +49,8 @@ function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', x
     deltaY: vp2px(yOffset),
     scrollLeft: vp2px(currentXOffset),
     scrollTop: vp2px(currentYOffset),
-    scrollWidth: vp2px(Number(node._scroll?.width)),
-    scrollHeight: vp2px(Number(node._scroll?.height)),
+    scrollWidth: vp2px(Number(node._nodeInfo?._scroll?.width)),
+    scrollHeight: vp2px(Number(node._nodeInfo?._scroll?.height)),
   }
   const event: TaroEvent = createTaroEvent(eventName, { detail: value }, node)
 
@@ -85,27 +85,27 @@ export default struct TaroScrollView {
     Scroll(this.node.scroller) {
       if (this.node._attrs.scrollX) {
         Row() {
-          createLazyChildren(this.node)
+          PseduoChildren(this.node)
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .rowAttrs(getNormalAttributes(this.node))
         .width(null)
         .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
-          this.node._scroll = areaResult
+          this.node._nodeInfo._scroll = areaResult
         }, this.node, ['scroll', 'scrollstart', 'scrollend']))
         .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
         .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
         .flexGrow(0).flexShrink(0)
       } else {
         Column() {
-          createLazyChildren(this.node)
+          PseduoChildren(this.node)
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .columnAttrs(getNormalAttributes(this.node))
         .height(null)
         .alignItems(HorizontalAlign.Start)
         .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
-          this.node._scroll = areaResult
+          this.node._nodeInfo._scroll = areaResult
         }, this.node, ['scroll', 'scrollstart', 'scrollend']))
         .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
         .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
@@ -127,5 +127,6 @@ export default struct TaroScrollView {
     .onScrollStart(shouldBindEvent(() => { handleScrollEvent(this.node, 'scrollstart') }, this.node, ['scrollstart']))
     .onScrollStop(shouldBindEvent(() => { handleScrollEvent(this.node, 'scrollend') }, this.node, ['scrollend']))
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onReachEnd(shouldBindEvent(() => { handleScrollEvent(this.node, 'scrolltolower') }, this.node, ['scrolltolower']))
   }
 }

@@ -237,7 +237,11 @@ export function createReactApp (
     }
   } as unknown as AppInstance
 
-  Current.app = app
+  if (Current.app) {
+    Current.app = Object.assign(app, Current.app)
+  } else {
+    Current.app = app
+  }
 
   return app
 }

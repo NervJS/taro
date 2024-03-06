@@ -2,7 +2,7 @@ import type { TaroMovableAreaElement, TaroStyleType, TaroMovableViewElement} fro
 import commonStyleModify from './style'
 import { createLazyChildren } from './render'
 
-import { FlexManager } from './utils/FlexManager'
+import { FlexManager } from './utils/flexManager'
 import { getNormalAttributes } from './utils/helper'
 
 

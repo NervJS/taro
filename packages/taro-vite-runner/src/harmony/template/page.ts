@@ -108,7 +108,12 @@ export default class Parser extends BaseParser {
 
     const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
     let pageStr = `Column() {
-  if (${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`}) {
+  if (${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`}) {${isTabPage ? '' :`
+    Flex()
+      .width('100%')
+      .height(px2vp(this.statusBarHeight${isTabPage ? '[index]' : ''} || 126))
+      .backgroundColor(this.navigationBarBackgroundColor${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
+      .zIndex(1)`}
     Flex({
       direction: FlexDirection.Row,
       justifyContent: FlexAlign.Start,
@@ -155,6 +160,7 @@ export default class Parser extends BaseParser {
     }
     .height(convertNumber2VP(75))
     .backgroundColor(this.navigationBarBackgroundColor${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
+    .zIndex(1)
   }
   Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
     Column() {
@@ -167,7 +173,7 @@ export default class Parser extends BaseParser {
     .onAreaChange((_: Area, area: Area) => {
       const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
       if (node) {
-        node._scroll = area
+        node._nodeInfo._scroll = area
       }
     })
   }
@@ -179,7 +185,7 @@ export default class Parser extends BaseParser {
   .onAreaChange((_: Area, area: Area) => {
     const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
     if (node) {
-      node._client = area
+      node._nodeInfo._client = area
     }
   })
   .onScroll(() => {
@@ -196,8 +202,8 @@ export default class Parser extends BaseParser {
 
     const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
     const distance: number = config${isTabPage ? '[index]' : ''}.onReachBottomDistance || ${this.appConfig.window?.onReachBottomDistance || 50}
-    const clientHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._client?.height) || 0
-    const scrollHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._scroll?.height) || 0
+    const clientHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._nodeInfo?._client?.height) || 0
+    const scrollHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._nodeInfo?._scroll?.height) || 0
     if (scrollHeight - clientHeight - offset.yOffset <= distance) {
       callFn(this.page.onReachBottom, this)
     }
@@ -251,6 +257,8 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   callFn(this.page?.onShow, this)
 })
 .backgroundColor(this.tabBarBackgroundColor)`
+    } else {
+      pageStr += '\n.expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])'
     }
     if (SHOW_TREE) {
       pageStr = this.transArr2Str([
@@ -313,6 +321,9 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       this.renderState({
         decorator: 'State', name: 'isRefreshing', type: 'boolean', foreach: () => 'false', disabled: this.enableRefresh === 0 || this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
+      this.renderState({
+        decorator: 'State', name: 'statusBarHeight', type: 'number', foreach: () => '126', disabled: this.buildConfig.isBuildNativeComp
+      }, this.isTabbarPage),
       // Note: 仅普通页面包含 Home 按钮
       this.renderState({
         decorator: 'State', name: 'navigationBarHomeBtn', type: 'boolean', foreach: () => 'true', scope: ['page'], disabled: this.buildConfig.isBuildNativeComp
@@ -337,13 +348,13 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       }, this.isTabbarPage),
       this.buildConfig.isBuildNativeComp ? '' : '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
       this.buildConfig.isBuildNativeComp ? '' : '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
-      this.buildConfig.isBuildNativeComp ? '' : '@State appConfig: AppConfig = window.__taroAppConfig || {}',
-      this.buildConfig.isBuildNativeComp ? '' : `@State tabBarList: ${this.isTabbarPage ? 'ITabBarItem' : 'TabBarItem'}[] = this.appConfig.tabBar?.list || []`,
+      this.buildConfig.isBuildNativeComp ? '' : '@State appConfig: Taro.AppConfig = window.__taroAppConfig || {}',
+      this.buildConfig.isBuildNativeComp ? '' : `@State tabBarList: ${this.isTabbarPage ? 'ITabBarItem' : 'Taro.TabBarItem'}[] = this.appConfig.tabBar?.list || []`,
     ].filter(item => item !== '').flat()
     if (this.isTabbarPage) {
       generateState.push(
         '@State isTabBarShow: boolean = true',
-        '@State tabBar: Partial<TabBar> = this.appConfig.tabBar || {}',
+        '@State tabBar: Partial<Taro.TabBar> = this.appConfig.tabBar || {}',
         '@State tabBarColor: string = this.tabBar.color || "#7A7E83"',
         '@State tabBarSelectedColor: string = this.tabBar.selectedColor || "#3CC51F"',
         '@State tabBarBackgroundColor: string = this.tabBar.backgroundColor || "#FFFFFF"',
@@ -418,18 +429,21 @@ aboutToDisappear () {
 }
 
 handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {
-  ${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
-    ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
-    : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
   Current.contextPromise
     .then((context: common.BaseContext) => {
       const win = window.__ohos.getLastWindow(context)
       win.then(mainWindow => {
-        mainWindow.setFullScreen(true)
-        mainWindow.setSystemBarEnable(["status", "navigation"])
+        ${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
+    ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
+    : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
+            mainWindow.setFullScreen(true)
+            mainWindow.setSystemBarEnable(["status", "navigation"])
+          }`}
+        const topRect = mainWindow.getWindowAvoidArea(window.__ohos.AvoidAreaType.TYPE_SYSTEM).topRect
+        this.statusBarHeight${this.isTabbarPage ? '[index]' : ''} = Number(topRect.top + topRect.height) || 126
       })
     })
-}`}
+
   const params = router.getParams() as Record<string, string> || {}
 
 ${this.isTabbarPage
@@ -441,9 +455,7 @@ ${this.isTabbarPage
       '  callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
       '    this.node[index] = instance',
       '  })',
-      '  callFn(this.page.onReady, this, params, (instance: TaroElement) => {',
-      '    this.node[index] = instance',
-      '  })',
+      '  callFn(this.page.onReady, this, params)',
       '}',
     ], 4)
     : this.transArr2Str([
@@ -451,9 +463,7 @@ ${this.isTabbarPage
       'callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
       '  this.node = instance',
       '})',
-      'callFn(this.page.onReady, this, params, (instance: TaroElement) => {',
-      '  this.node = instance',
-      '})',
+      'callFn(this.page.onReady, this, params)',
     ], 4)}
 }
 `.split('\n'), 2),
@@ -718,7 +728,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
     }
 
     const code = this.transArr2Str([
-      'import type { AppConfig, TabBar, TabBarItem } from "@tarojs/taro/types"',
+      'import type Taro from "@tarojs/taro/types"',
       'import type { TFunc } from "@tarojs/runtime/dist/runtime.esm"',
       'import type common from "@ohos.app.ability.common"',
       '',
@@ -733,7 +743,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
           `const createComponent = [${this.tabbarList.map((_, i) => `page${i}`).join(', ')}]`,
           `const config = [${this.tabbarList.map((_, i) => `config${i}`).join(', ')}]`,
           '',
-          'interface ITabBarItem extends TabBarItem {',
+          'interface ITabBarItem extends Taro.TabBarItem {',
           this.transArr2Str([
             'key?: number',
             'badgeText?: string',

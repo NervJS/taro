@@ -18,21 +18,21 @@ class FlexManager {
   static convertFlexAlignItemsToColumnOrRow (direction: FlexDirection, alignItems: ItemAlign | undefined): 	VerticalAlign | HorizontalAlign {
     if (direction === FlexDirection.Column) {
       switch (alignItems) {
-        case ItemAlign.Start:
-          return HorizontalAlign.Start
+        case ItemAlign.Center:
+          return HorizontalAlign.Center
         case ItemAlign.End:
           return HorizontalAlign.End
         default:
-          return HorizontalAlign.Center
+          return HorizontalAlign.Start
       }
     } else {
       switch (alignItems) {
-        case ItemAlign.Start:
-          return VerticalAlign.Top
+        case ItemAlign.Center:
+          return VerticalAlign.Center
         case ItemAlign.End:
           return VerticalAlign.Bottom
         default:
-          return VerticalAlign.Center
+          return VerticalAlign.Top
       }
     }
   }
