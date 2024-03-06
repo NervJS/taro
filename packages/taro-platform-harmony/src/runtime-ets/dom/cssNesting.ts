@@ -39,7 +39,7 @@
 //   }), __nesting_style__);
 // }
 
-import { ReactElement } from 'react'
+import type { ReactElement } from 'react'
 
 type TMappingNode = {
   children: TMapping
@@ -67,12 +67,8 @@ function depthTraversal(root: ReactElement) {
   const selector_alias_count: Record<string, number> = {}
 
   const traverse = (tree) => {
-    if (tree) {
-      // 拆分classnames
-      const classnames = tree.props.className.split(' ')
-
-      const result: Record<string, TMapping> = {}
-
+    const result: Record<string, TMapping> = {}
+    if (tree && tree.props && (typeof tree.type === 'string')) {
       // 后代选择器
       const descendant_map = {
         children: {},
@@ -93,6 +89,8 @@ function depthTraversal(root: ReactElement) {
           processLeaf(tree.props.children, descendant_map)
         }
       }
+      // 拆分classnames
+      const classnames = (tree.props.className || '').split(' ')
       for (let i = 0; i < classnames.length; i++) {
         const cls = classnames[i]
         let name = cls
@@ -111,9 +109,8 @@ function depthTraversal(root: ReactElement) {
           node: tree
         }
       }
-
-      return result
     }
+    return result
   }
 
   const processLeaf = (leaf, descendant_map: TMappingNode) => {
@@ -157,7 +154,7 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
       const object = selector_mapping[selector]
       if (object) {
         selector_nodes.push({
-          mapping: (object.ref || object)[combinator_type === '>' ? 'children' : 'descendants'],
+          mapping: (object.ref || object)[combinator_type === ' > ' ? 'children' : 'descendants'],
           node: object.node
         })
       }
@@ -188,11 +185,18 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
     // 获取选中的节点列表
     const selectors_elements = findSelector(selectors, class_mapping)
     for (let i = 0; i < selectors_elements.length; i++) {
-      const ele = selectors_elements[i].node
+      let ele = selectors_elements[i].node
       if (ele) {
         if (ele.props.style) {
           Object.assign(ele.props.style, declaration)
         } else {
+          if (process.env.NODE_ENV !== 'production') {
+            // Dev环境的ReactElement会frozen，所以需要重新拷贝格新的对象，生产环境不会有该问题
+            if (Object.isFrozen(ele)) {
+              ele = unfreeze(ele)
+              selectors_elements[i].node = ele
+            }
+          }
           ele.props.style = declaration
         }
       }
@@ -200,15 +204,29 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
   })
 }
 
+// dev模式下解冻props，使其可以对props进行操作
+function unfreeze(object) {
+  const oo: any = {}
+  Object.keys(object).forEach(property => {
+    if (property === 'props') {
+      oo.props = {
+        ...object.props,
+        style: {}
+      }
+    } else {
+      oo[property] = object[property]
+    }
+  })
+  return oo
+}
+
 // 合并嵌套样式
 // 1、构建映射表，生成一份扁平的样式表结构
 // 2、遍历嵌套样式，根据选择器查找节点，合并样式
-function __combine_nesting_style__(react_tree: ReactElement, styles: NestingStyle) {
+export function __combine_nesting_style__(react_tree: ReactElement, styles: NestingStyle) {
   // 循环一遍，构建出一颗JSX映射表
   const { mapping, alias } = depthTraversal(react_tree)
   // 合并样式
   combineStyle(styles, mapping, alias)
   return react_tree
 }
-
-export default __combine_nesting_style__
