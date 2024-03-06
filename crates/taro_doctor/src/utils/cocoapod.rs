@@ -1,4 +1,14 @@
-pub enum CocoapodStatus {
+use anyhow::Result;
+use async_trait::async_trait;
+use semver::Version;
+
+use crate::utils::Process;
+use super::ProcessUtils;
+
+
+/// 
+/// cocoaspod status
+pub enum CocoaPodStatus {
    // iOS plugins will not work, installation required.
    NotInstalled,
 
@@ -21,18 +31,31 @@ pub enum CocoapodStatus {
 
 
 
-pub struct Cocoapod {
-  status: CocoapodStatus
+pub struct CocoaPod {
+  status: CocoaPodStatus
 }
 
 
-impl Cocoapod {
+impl CocoaPod {
+  pub fn new (status: CocoaPodStatus) -> CocoaPod {
+    CocoaPod {
+      status
+    }
+  }
 
+  
 }
 
-impl ProcessUtils for Cocoapod {
-  fn is_installed () -> bool {
-    Process::exits_happy()
+#[async_trait]
+impl Process for CocoaPod {
+  async fn is_installed () -> Result<bool> {
+    let output = ProcessUtils::exits_happy("which", vec!["pod"]).await?;
+    Ok(output != "pod not found")
+  }
+
+  async fn get_version () -> Result<Version> {
+    let output = ProcessUtils::exits_happy("pod", vec!["--version"]).await?;
+    Ok(Version::parse(output.as_str())?)
   }
 }
 

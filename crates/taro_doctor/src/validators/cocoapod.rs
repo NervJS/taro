@@ -1,17 +1,17 @@
 
-pub struct CocoapodValidator {
-  cocoapod: Cocoapod
+pub struct CocoaPodValidator {
+  cocoapod: CocoaPod
 }
 
-impl CocoapodValidator {
+impl CocoaPodValidator {
   fn new () {
-    CocoapodValidator {
-      cocoapod: Cocoapod::new()
+    CocoaPodValidator {
+      cocoapod: CocoaPod::new()
     }
   }
 }
 
-impl DoctorValidator for CocoapodValidator {
+impl DoctorValidator for CocoaPodValidator {
   fn validate () {
     
   }

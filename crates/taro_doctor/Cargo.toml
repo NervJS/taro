@@ -9,5 +9,10 @@ description = "taro 环境检测"
 [dependencies]
 napi = { version = "=2.15.2", features = ["napi4", "tokio_rt"] }
 napi-derive = { version = "=2.15.3" }
-regex = { version = "=1.5.6" }
+tokio = { version = "=1.36.0", features = ["fs", "macros", "io-util", "process"] }
+tokio-util = { version = "=0.7.10", features = ["io"] }
+regex = { version = "1.5.6" }
+anyhow = { version = "1.0.80" }
+semver = { version = "1.0.22" }
+async-trait = { version = "0.1.77" }
 
