@@ -1,4 +1,4 @@
-import type { TaroMovableAreaElement, TaroStyleType } from '@tarojs/runtime'
+import type { TaroMovableAreaElement, TaroStyleType, TaroMovableViewElement} from '@tarojs/runtime'
 import commonStyleModify from './style'
 import { createLazyChildren } from './render'
 
@@ -26,15 +26,9 @@ function columnAttrs(style: TaroStyleType) {
   })
 }
 
-
-
 @Component
 export default struct TaroMovableArea {
   @ObjectLink node: TaroMovableAreaElement
-  @Provide areaWidth: Length = 0
-  @Provide areaHeight: Length = 0
-  @Provide scaleValue: number = 1
-  pinchValue: number = 1
 
   build() {
     if (this.node) {
@@ -48,19 +42,31 @@ export default struct TaroMovableArea {
         .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
         .clip(true)
         .onAreaChange((oldValue: Area, newValue: Area) => {
-          this.areaWidth = newValue.width
-          this.areaHeight = newValue.height
-        })
-        .onTouch(() => {
-          console.info('movableArea::touch1')
+          this.node.childNodes.forEach(item => {
+            if(item.nodeName === 'MOVABLE-VIEW') {
+              ;(item as TaroMovableViewElement).area = {
+                w: Number( newValue.width),
+                h: Number(newValue.height)
+              }
+            }
+          })
         })
         .gesture(
           PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {
-            console.info('movableArea::Pinch start 2');
-            this.pinchValue = this.scaleValue
+            this.node.childNodes.forEach(item => {
+              if(item.nodeName === 'MOVABLE-VIEW') {
+                ;(item as TaroMovableViewElement).startScale()
+              }
+            })
           }).onActionUpdate((event) => {
-            this.scaleValue = this.pinchValue * event.scale;
-            console.info('movableArea::update2', this.scaleValue)
+            const scaleArea = this.node.getAttribute('scaleArea')
+            if (scaleArea) {
+              this.node.childNodes.forEach(item => {
+                if(item.nodeName === 'MOVABLE-VIEW') {
+                  ;(item as TaroMovableViewElement).doScale(event.scale)
+                }
+              })
+            }
           })
         )
       } else {
@@ -73,8 +79,6 @@ export default struct TaroMovableArea {
         .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
         .clip(true)
         .onAreaChange((oldValue: Area, newValue: Area) => {
-          this.areaWidth = newValue.width
-          this.areaHeight = newValue.height
           this.node.childNodes.forEach(item => {
             if(item.nodeName === 'MOVABLE-VIEW') {
               ;(item as TaroMovableViewElement).area = {
@@ -86,8 +90,6 @@ export default struct TaroMovableArea {
         })
         .gesture(
           PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {
-            console.info('movableArea::Pinch start 2');
-            this.pinchValue = this.scaleValue
             this.node.childNodes.forEach(item => {
               if(item.nodeName === 'MOVABLE-VIEW') {
                 ;(item as TaroMovableViewElement).startScale()
@@ -96,14 +98,12 @@ export default struct TaroMovableArea {
           }).onActionUpdate((event) => {
             const scaleArea = this.node.getAttribute('scaleArea')
             if (scaleArea) {
-              this.scaleValue = this.pinchValue * event.scale;
               this.node.childNodes.forEach(item => {
                 if(item.nodeName === 'MOVABLE-VIEW') {
-                  ;(item as TaroMovableViewElement).scaleValue = this.pinchValue * event.scale
+                  ;(item as TaroMovableViewElement).doScale(event.scale)
                 }
               })
             }
-            console.info('movableArea::update2', this.scaleValue)
           })
         )
       }
