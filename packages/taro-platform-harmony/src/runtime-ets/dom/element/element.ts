@@ -1,4 +1,5 @@
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
+import { EMPTY_OBJ, toCamelCase } from '@tarojs/shared'
 
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../../constant'
 import { findChildNodeWithDFS } from '../../utils'
@@ -24,6 +25,7 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
   public _innerHTML = ''
   public _nodeInfo: TaroAny = {}
   public readonly tagName: string
+  public dataset: Record<string, unknown> = EMPTY_OBJ
   public _attrs: T & TaroExtraProps = {} as T & TaroExtraProps
 
   constructor(tagName: string) {
@@ -71,6 +73,21 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
   }
 
   public setAttribute (name: string, value: TaroAny): void {
+    switch (name) {
+      case ID:
+        eventSource.delete(this._attrs.id)
+        eventSource.set(value, this as TaroAny)
+        break
+      default:
+        if (name.startsWith('data-')) {
+          if (this.dataset === EMPTY_OBJ) {
+            this.dataset = Object.create(null)
+          }
+          this.dataset[toCamelCase(name.replace(/^data-/, ''))] = value
+        }
+        break
+    }
+
     if (name === ID) {
       eventSource.delete(this._attrs.id)
       eventSource.set(value, this as TaroAny)
@@ -129,8 +146,6 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
       })
     }, true) || []
   }
-
-  // TODO dataset
 
   public set innerHTML (value: string) {
     if (this.nodeType === NodeType.ELEMENT_NODE && this.ownerDocument) {
