@@ -72,60 +72,62 @@ import type {
 
 @Builder
 function createChildItem (item: TaroElement) {
-  ${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'VIEW') {
-    TaroView({ node: item as TaroViewElement })
-  } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
-    TaroText({ node: item as TaroTextElement })
-  } else if (item.tagName === 'IMAGE') {
-    TaroImage({node: item as TaroImageElement})
-  } else if (item.tagName === 'BUTTON') {
-    TaroButton({node: item as TaroButtonElement})
-  } else if (item.tagName === 'SCROLL-VIEW') {
-    TaroScrollView({ node: item as TaroScrollViewElement })
-  } else if (item.tagName === 'SLIDER') {
-    TaroSlider({ node: item as TaroSliderElement })
-  } else if (item.tagName === 'SWITCH') {
-    TaroSwitch({ node: item as TaroSwitchElement })
-  } else if (item.tagName === 'INPUT') {
-    TaroInput({ node: item as TaroInputElement })
-  } else if (item.tagName === 'SWIPER') {
-    TaroSwiper({ node: item as TaroSwiperElement })
-  } else if (item.tagName === 'SWIPER-ITEM') {
-    TaroView({ node: item as TaroViewElement })
-  } else if (item.tagName === 'INNER-HTML') {
-    TaroInnerHtml({node: item as TaroInnerHtmlElement})
-  } else if (item.tagName === 'RICH-TEXT') {
-    TaroRichText({ node: item as TaroRichTextElement })
-  } else if (item.tagName === 'ICON') {
-    TaroIcon({node: item as TaroIconElement})
-  } else if (item.tagName === 'TEXT-AREA') {
-    TaroTextArea({ node: item as TaroTextAreaElement })
-  } else if (item.tagName === 'CHECKBOX-GROUP') {
-    TaroCheckboxGroup({ node: item as TaroCheckboxGroupElement })
-  } else if (item.tagName === 'CHECKBOX') {
-    TaroCheckbox({ node: item as TaroCheckboxElement })
-  } else if (item.tagName === 'RADIO-GROUP') {
-    TaroRadioGroup({ node: item as TaroRadioGroupElement })
-  } else if (item.tagName === 'PROGRESS') {
-    TaroProgress({node: item as  TaroProgressElement })
-  } else if (item.tagName === 'MOVABLE-VIEW') {
-    TaroMovableView({node: item as TaroMovableViewElement })
-  } else if (item.tagName === 'MOVABLE-AREA') {
-    TaroMovableArea({node: item as TaroMovableAreaElement })
-  } else if (item.tagName === 'RADIO') {
-    TaroRadio({ node: item as TaroRadioElement })
-  } else if (item.tagName === 'LABEL') {
-    TaroLabel({node: item as TaroLabelElement})
-  } else if (item.tagName === 'PICKER') {
-    TaroPicker({ node: item as TaroPickerElement })
-  } else if (item.tagName === 'FORM') {
-    TaroForm({node: item as TaroFormElement})
-  } else if (item.tagName === 'VIDEO') {
-    TaroVideo({ node: item as TaroVideoElement })
-  } else if (item.tagName === 'WEB-VIEW') {
-    TaroWebView({ node: item as TaroWebViewElement })
-  } else {
-    TaroView({ node: item as TaroViewElement })
+  if (item.hmStyle.display !== 'none') {
+    ${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'VIEW') {
+      TaroView({ node: item as TaroViewElement })
+    } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
+      TaroText({ node: item as TaroTextElement })
+    } else if (item.tagName === 'IMAGE') {
+      TaroImage({node: item as TaroImageElement})
+    } else if (item.tagName === 'BUTTON') {
+      TaroButton({node: item as TaroButtonElement})
+    } else if (item.tagName === 'SCROLL-VIEW') {
+      TaroScrollView({ node: item as TaroScrollViewElement })
+    } else if (item.tagName === 'SLIDER') {
+      TaroSlider({ node: item as TaroSliderElement })
+    } else if (item.tagName === 'SWITCH') {
+      TaroSwitch({ node: item as TaroSwitchElement })
+    } else if (item.tagName === 'INPUT') {
+      TaroInput({ node: item as TaroInputElement })
+    } else if (item.tagName === 'SWIPER') {
+      TaroSwiper({ node: item as TaroSwiperElement })
+    } else if (item.tagName === 'SWIPER-ITEM') {
+      TaroView({ node: item as TaroViewElement })
+    } else if (item.tagName === 'INNER-HTML') {
+      TaroInnerHtml({node: item as TaroInnerHtmlElement})
+    } else if (item.tagName === 'RICH-TEXT') {
+      TaroRichText({ node: item as TaroRichTextElement })
+    } else if (item.tagName === 'ICON') {
+      TaroIcon({node: item as TaroIconElement})
+    } else if (item.tagName === 'TEXT-AREA') {
+      TaroTextArea({ node: item as TaroTextAreaElement })
+    } else if (item.tagName === 'CHECKBOX-GROUP') {
+      TaroCheckboxGroup({ node: item as TaroCheckboxGroupElement })
+    } else if (item.tagName === 'CHECKBOX') {
+      TaroCheckbox({ node: item as TaroCheckboxElement })
+    } else if (item.tagName === 'RADIO-GROUP') {
+      TaroRadioGroup({ node: item as TaroRadioGroupElement })
+    } else if (item.tagName === 'PROGRESS') {
+      TaroProgress({node: item as  TaroProgressElement })
+    } else if (item.tagName === 'MOVABLE-VIEW') {
+      TaroMovableView({node: item as TaroMovableViewElement })
+    } else if (item.tagName === 'MOVABLE-AREA') {
+      TaroMovableArea({node: item as TaroMovableAreaElement })
+    } else if (item.tagName === 'RADIO') {
+      TaroRadio({ node: item as TaroRadioElement })
+    } else if (item.tagName === 'LABEL') {
+      TaroLabel({node: item as TaroLabelElement})
+    } else if (item.tagName === 'PICKER') {
+      TaroPicker({ node: item as TaroPickerElement })
+    } else if (item.tagName === 'FORM') {
+      TaroForm({node: item as TaroFormElement})
+    } else if (item.tagName === 'VIDEO') {
+      TaroVideo({ node: item as TaroVideoElement })
+    } else if (item.tagName === 'WEB-VIEW') {
+      TaroWebView({ node: item as TaroWebViewElement })
+    } else {
+      TaroView({ node: item as TaroViewElement })
+    }
   }
 }
 
@@ -170,8 +172,8 @@ export { createChildItem, createLazyChildren }
       const keyData = key.split('_')
       const name = keyData[keyData.length - 1]
       result = `${result}if (item._attrs?.compileMode === '${name}') {
-    ${key}({ node: item as TaroViewElement })
-  } else `
+      ${key}({ node: item as TaroViewElement })
+    } else `
     })
 
     return result
@@ -183,8 +185,8 @@ export { createChildItem, createLazyChildren }
     this.context.nativeComponents.forEach((nativeMeta, _) => {
       const { name } = nativeMeta
       result = `${result}if (item.tagName === '${name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}') {
-    ${name}({ props: (item._attrs as TaroAny).props })
-  } else `
+      ${name}({ props: (item._attrs as TaroAny).props })
+    } else `
     })
 
     return result
