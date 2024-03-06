@@ -81,14 +81,9 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 }
 
 function setStyle (style: Style, key: string, value: unknown) {
-  if (key[0] === '-') {
-    // 适配鸿蒙
-    if (isHarmony) {
-      style.setProperty(key, value as string)
-    } else {
-      style.setProperty(key, (value as string).toString())
-    }
+  if (key[0] === '-' && !isHarmony) {
     // css variables need not further judgment
+    style.setProperty(key, (value as string).toString())
     return
   }
 
