@@ -72,7 +72,7 @@ import type {
 
 @Builder
 function createChildItem (item: TaroElement) {
-  if (item.hmStyle.display !== 'none') {
+  if (item?.hmStyle?.display !== 'none') {
     ${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'VIEW') {
       TaroView({ node: item as TaroViewElement })
     } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
