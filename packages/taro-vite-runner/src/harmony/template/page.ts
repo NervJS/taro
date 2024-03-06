@@ -108,7 +108,12 @@ export default class Parser extends BaseParser {
 
     const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
     let pageStr = `Column() {
-  if (${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`}) {
+  if (${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`}) {${isTabPage ? '' :`
+    Flex()
+      .width('100%')
+      .height(px2vp(this.statusBarHeight${isTabPage ? '[index]' : ''} || 126))
+      .backgroundColor(this.navigationBarBackgroundColor${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
+      .zIndex(1)`}
     Flex({
       direction: FlexDirection.Row,
       justifyContent: FlexAlign.Start,
@@ -252,6 +257,8 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   callFn(this.page?.onShow, this)
 })
 .backgroundColor(this.tabBarBackgroundColor)`
+    } else {
+      pageStr += '\n.expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])'
     }
     if (SHOW_TREE) {
       pageStr = this.transArr2Str([
@@ -313,6 +320,9 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       }, this.isTabbarPage),
       this.renderState({
         decorator: 'State', name: 'isRefreshing', type: 'boolean', foreach: () => 'false', disabled: this.enableRefresh === 0 || this.buildConfig.isBuildNativeComp
+      }, this.isTabbarPage),
+      this.renderState({
+        decorator: 'State', name: 'statusBarHeight', type: 'number', foreach: () => '126', disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       // Note: 仅普通页面包含 Home 按钮
       this.renderState({
@@ -419,18 +429,21 @@ aboutToDisappear () {
 }
 
 handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {
-  ${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
-    ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
-    : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
   Current.contextPromise
     .then((context: common.BaseContext) => {
       const win = window.__ohos.getLastWindow(context)
       win.then(mainWindow => {
-        mainWindow.setFullScreen(true)
-        mainWindow.setSystemBarEnable(["status", "navigation"])
+        ${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
+    ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
+    : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
+            mainWindow.setFullScreen(true)
+            mainWindow.setSystemBarEnable(["status", "navigation"])
+          }`}
+        const topRect = mainWindow.getWindowAvoidArea(window.__ohos.AvoidAreaType.TYPE_SYSTEM).topRect
+        this.statusBarHeight${this.isTabbarPage ? '[index]' : ''} = Number(topRect.top + topRect.height) || 126
       })
     })
-}`}
+
   const params = router.getParams() as Record<string, string> || {}
 
 ${this.isTabbarPage
