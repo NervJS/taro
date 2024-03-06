@@ -10,7 +10,7 @@ import type { IPluginContext } from '@tarojs/service'
 import type { IHarmonyConfig } from '@tarojs/taro/types/compile'
 
 // 让其它平台插件可以继承此平台
-export { HarmonyOS_JSUI }
+export { HarmonyOS_ArkTS, HarmonyOS_JSUI }
 
 export interface IOptions {
   disableArkTS?: boolean
