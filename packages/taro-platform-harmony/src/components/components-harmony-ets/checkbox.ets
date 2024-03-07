@@ -46,7 +46,7 @@ export struct TaroCheckbox {
   }
 
   build () {
-    if (this.node) {
+    if (this.node && this.node?.hmStyle?.display !== 'none') {
       Stack() {
         Row() {
           Checkbox(getOptions(this.node))
@@ -121,7 +121,7 @@ export struct TaroCheckboxGroup {
   }
 
   build() {
-    if (this.node) {
+    if (this.node && this.node?.hmStyle?.display !== 'none') {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
           createLazyChildren(this.node)

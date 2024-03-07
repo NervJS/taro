@@ -83,7 +83,8 @@ export default struct TaroVideo {
   @ObjectLink node: TaroVideoElement
 
   build () {
-    Video(getVideoData(this.node))
+    if (this.node.hmStyle?.display !== 'none') {
+      Video(getVideoData(this.node))
       .attributeModifier(commonStyleModify.setNode(this.node))
       .props(getVideoProps(this.node))
       .aspectRatio(4 / 3)
@@ -102,6 +103,7 @@ export default struct TaroVideo {
         this.node._nodeInfo.areaInfo = res[1]
       }))
       .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    }
   }
 
 }

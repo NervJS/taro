@@ -32,7 +32,7 @@ export default struct TaroMovableView {
   @ObjectLink node: TaroMovableViewElement
 
   build() {
-    if (this.node) {
+    if (this.node && this.node.hmStyle?.display !== 'none') {
       Stack() {
         if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node)
           .direction !== FlexDirection.Column) {

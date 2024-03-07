@@ -45,7 +45,7 @@ export default struct TaroTextArea {
   }
 
   build () {
-    if (this.node) {
+    if (this.node && this.node.hmStyle?.display !== 'none') {
       TextArea({ text: this.value, placeholder: this.node._attrs?.placeholder || '', controller: this.node.controller })
         .key(this.node._nid)
         .maxLength(Number(this.node._attrs?.maxlength) || null)

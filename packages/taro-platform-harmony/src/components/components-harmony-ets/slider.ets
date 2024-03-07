@@ -94,7 +94,7 @@ export default struct TaroSlider {
   }
 
   build() {
-    if (this.node) {
+    if (this.node && this.node.hmStyle?.display !== 'none') {
       if (!!this.node._attrs.showValue) {
         Row() {
           this.createSlider(this.node)

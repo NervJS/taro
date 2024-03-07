@@ -8,7 +8,7 @@ export default struct TaroInnerHtml {
   @ObjectLink node: TaroInnerHtmlElement
   
   build() {
-    if (this.node.innerHTML) {
+    if (this.node?.hmStyle?.display !== 'none' && this.node.innerHTML) {
       createChildItem(htmlParser(this.node.innerHTML))
     }
   }

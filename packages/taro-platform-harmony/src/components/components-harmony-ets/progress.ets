@@ -12,7 +12,7 @@ export default struct TaroProgress {
   @ObjectLink node: TaroProgressElement
 
   build() {
-    if (this.node) {
+    if (this.node && this.node.hmStyle?.display !== 'none') {
       Row({ space: 5 }) {
         Progress({
           value: parseFloat(this.node.getAttribute('percent')),
