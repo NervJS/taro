@@ -1,4 +1,4 @@
-import { addLeadingSlash, stripBasename } from '@tarojs/runtime'
+import { prependBasename } from '../history'
 
 import type { MpaRouterConfig, SpaRouterConfig } from '../../types/router'
 
@@ -28,7 +28,6 @@ export class RouterConfig {
   static get customRoutes () { return this.router.customRoutes || {} }
 
   static isPage (url = '') {
-    if (this.router.basename) url = stripBasename(url, this.router.basename)
-    return this.pages.findIndex(e => addLeadingSlash(e) === addLeadingSlash(url)) !== -1
+    return this.pages.findIndex(e => prependBasename(e) === url) !== -1
   }
 }

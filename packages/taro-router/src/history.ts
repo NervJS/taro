@@ -1,5 +1,6 @@
-import { Action, createBrowserHistory, createHashHistory } from 'history'
 import { addLeadingSlash } from '@tarojs/runtime'
+import { Action, createBrowserHistory, createHashHistory } from 'history'
+
 import { RouterConfig } from './router'
 
 import type { IH5RouterConfig } from '@tarojs/taro/types/compile'
