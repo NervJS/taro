@@ -95,7 +95,7 @@ export function isRelativePath (id: string | undefined): boolean {
 }
 
 export function stripMultiPlatformExt (id: string): string {
-  return id.replace(new RegExp(`\\.${process.env.TARO_ENV}$`), '')
+  return id.replace(new RegExp(`\\.(${process.env.TARO_ENV}|${process.env.TARO_PLATFORM})$`), '')
 }
 
 export const addLeadingSlash = (url = '') => (url.charAt(0) === '/' ? url : '/' + url)
