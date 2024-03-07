@@ -1,5 +1,5 @@
 // @ts-nocheck
-import matrix4 from '@ohos.matrix4'
+// import matrix4 from '@ohos.matrix4'
 
 export interface HarmonyStyle extends TaroStyleType {
   textAlign?: TextAlign

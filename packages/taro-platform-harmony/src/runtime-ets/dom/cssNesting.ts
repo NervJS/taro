@@ -180,13 +180,13 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
       return []
     }
   }
-  if (nestingStyle && nestingStyle instanceof  Array) {
+  if (nestingStyle && nestingStyle instanceof Array) {
     // 合并样式
     nestingStyle.forEach(({ selectors, declaration }) => {
       // 获取选中的节点列表
       const selectors_elements = findSelector(selectors, class_mapping)
       for (let i = 0; i < selectors_elements.length; i++) {
-        let ele = selectors_elements[i].node
+        const ele = selectors_elements[i].node
         if (ele) {
           if (ele.props.style) {
             Object.assign(ele.props.style, declaration)
