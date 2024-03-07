@@ -32,6 +32,7 @@ import TaroRichText from './richText'
 import TaroProgress from './progress'
 import TaroInnerHtml from './innerHtml'
 import TaroScrollView from './scrollView'
+import TaroCanvas from './canvas'
 import TaroMovableArea from './movableArea'
 import TaroMovableView from './movableView'
 import { TaroRadio, TaroRadioGroup } from './radio'
@@ -64,6 +65,7 @@ import type {
   TaroMovableViewElement,
   TaroSwiperElement,
   TaroSwitchElement,
+  TaroCanvasElement,
   TaroSliderElement,
   TaroScrollViewElement,
   TaroWebViewElement,
@@ -112,6 +114,8 @@ function createChildItem (item: TaroElement) {
     TaroMovableView({node: item as TaroMovableViewElement })
   } else if (item.tagName === 'MOVABLE-AREA') {
     TaroMovableArea({node: item as TaroMovableAreaElement })
+  } else if (item.tagName === 'CANVAS') {
+    TaroCanvas({ node: item as TaroAny as TaroCanvasElement })
   } else if (item.tagName === 'RADIO') {
     TaroRadio({ node: item as TaroRadioElement })
   } else if (item.tagName === 'LABEL') {

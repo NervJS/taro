@@ -1,5 +1,6 @@
 import { Current } from '../../current'
 import { TaroTextNode } from '../node'
+import { TaroCanvasElement } from './canvas'
 import { TaroElement } from './element'
 import {
   FormElement,
@@ -55,6 +56,7 @@ export function initHarmonyElement () {
       case 'icon': return new TaroIconElement()
       case 'label': return new TaroLabelElement()
       case 'rich-text': return new TaroRichTextElement()
+      case 'canvas': return new TaroCanvasElement
       case 'swiper': return new TaroSwiperElement()
       case 'swiper-item': return new TaroSwiperItemElement()
       case 'textarea': return new TaroTextAreaElement()
@@ -74,6 +76,7 @@ export function initHarmonyElement () {
 export {
   FormElement,
   TaroButtonElement,
+  TaroCanvasElement,
   TaroCheckboxElement,
   TaroCheckboxGroupElement,
   TaroElement,
@@ -99,5 +102,4 @@ export {
   TaroTextElement,
   TaroVideoElement,
   TaroViewElement,
-  TaroWebViewElement
-}
+  TaroWebViewElement }
