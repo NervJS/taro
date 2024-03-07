@@ -252,6 +252,12 @@ export default class Harmony extends TaroPlatformHarmony {
         const ext = path.extname(target)
         if (['.ts'].includes(ext)) {
           code = '// @ts-nocheck\n' + code
+        } 
+
+        // 处理嵌套样式的编译，需要针对ReactElement进行props操作，dev模式下会Object.freeze，所以需要在开发模式下注入Object.freeze来覆盖解锁
+        // 处理的方法再taro-platform-harmony/src/runtime-ets/dom/cssNesting: ele.props.style = declaration
+        if (/react\/jsx-runtime/.test(lib) && process.env.NODE_ENV === 'development') {
+          code = 'Object.freeze = (obj) => obj \n' + code
         }
       }
 

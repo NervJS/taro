@@ -167,6 +167,11 @@ export namespace HarmonyType {
       centerX?: number | string
       centerY?: number | string
     }
-    export type Transform = matrix4.Matrix4Transit
+    // export type Transform = matrix4.Matrix4Transit
+    export type Transform = {
+      Translate?: Translate
+      Scale?: Scale
+      Rotate?: Rotate
+    }
   }
 }
