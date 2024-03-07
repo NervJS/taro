@@ -75,6 +75,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "async-trait"
+version = "0.1.77"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c980ee35e870bd1a4d2c8294d4c04d0499e67bca1e4b5cefcc693c2fa00caea9"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.50",
+]
+
+[[package]]
 name = "attohttpc"
 version = "0.26.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -228,7 +239,7 @@ checksum = "eee4243f1f26fc7a42710e7439c149e2b10b05472f88090acce52632f231a73a"
 dependencies = [
  "camino",
  "cargo-platform",
- "semver 1.0.20",
+ "semver 1.0.22",
  "serde",
  "serde_json",
  "thiserror",
@@ -893,7 +904,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "regex",
- "semver 1.0.20",
+ "semver 1.0.22",
  "syn 2.0.50",
 ]
 
@@ -1424,9 +1435,9 @@ dependencies = [
 
 [[package]]
 name = "semver"
-version = "1.0.20"
+version = "1.0.22"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "836fa6a3e1e547f9a2c4040802ec865b5d85f4014efe00555d7090a3dcaa1090"
+checksum = "92d43fe69e652f3df9bdc2b85b2854a0825b86e4fb76bc44d945137d053639ca"
 dependencies = [
  "serde",
 ]
@@ -2088,9 +2099,14 @@ dependencies = [
 name = "taro_doctor"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
+ "async-trait",
  "napi",
  "napi-derive",
  "regex",
+ "semver 1.0.22",
+ "tokio",
+ "tokio-util",
 ]
 
 [[package]]

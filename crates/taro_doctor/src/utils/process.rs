@@ -1,7 +1,7 @@
 use anyhow::{Context, Error, Result};
 use napi::tokio::process::Command;
 use semver::Version;
-use std::{env, os::unix::fs::PermissionsExt, path::Path, str::FromStr, vec};
+use std::{env, os::unix::fs::PermissionsExt, path::Path, process::Output, str::FromStr, vec};
 
 use async_trait::async_trait;
 
@@ -10,6 +10,24 @@ pub struct ProcessUtils { }
 
 
 impl ProcessUtils {
+  fn sanitize_executable_path (
+    executable: &str
+  ) -> String {
+    if executable.is_empty() {
+      return executable.to_string()
+    }
+
+    if cfg!(target_os = "windows") {
+      if executable.contains(" ") && !executable.contains("\"") {
+        format!("\"{}\"", executable)
+      } else {
+        executable.to_string()
+      }
+    } else {
+      executable.to_string()
+    }
+  }
+
   pub fn get_candidate_paths (
     command: &str,
     paths: Vec<&str>,
@@ -17,12 +35,14 @@ impl ProcessUtils {
     context: &Path
   ) -> Vec<String> {
     let with_extensions = if extensions.is_empty() {
-      extensions
-        .into_iter().map(|ext| command.to_string() + ext).collect()
-    } else {
       vec![command.to_string()]
+    } else {
+      extensions
+        .into_iter()
+        .map(|ext| command.to_string() + ext)
+        .collect()
     };
-
+    
     if Path::new(command).is_absolute() {
       return with_extensions
     }
@@ -48,6 +68,16 @@ impl ProcessUtils {
     candidates
   }
 
+  pub async fn get_executable (
+    command: &str, 
+    directory: Option<&str>
+  ) -> Result<String> {
+    return ProcessUtils::get_executable_path(
+      command,
+      directory,
+    ).await
+  }
+
   pub async fn get_executable_path (
     executable: &str,
     directory: Option<&str>
@@ -65,7 +95,11 @@ impl ProcessUtils {
     let context = Path::new(working_directory_string.as_str());
 
     // get os sep
-    let sep = if cfg!(target_os = "windows") { ";" } else { ":" };    
+    let sep = if cfg!(target_os = "windows") { 
+      ";" 
+    } else { 
+      ":" 
+    };    
     
     let extensions = if cfg!(target_os = "windows") && context.extension().is_none() {
       env::var("PATHEXT")?.split(sep).map(String::from).collect()
@@ -86,27 +120,44 @@ impl ProcessUtils {
       context
     );
 
-
     let mut found_candidates: Vec<&str> = vec![];
     let is_executable = 0x40;
     let is_readable = 0x100;
     let is_executable_and_readable = is_executable | is_readable;
 
     for candidate in candidates.iter() {
-      let file = tokio::fs::File::open(candidate.as_str()).await?;
-      let metadata = file.metadata().await?;
-      
       found_candidates.push(candidate.as_str());
 
-      let permissions = metadata.permissions();
-      let mode = permissions.mode();
+      let file = tokio::fs::File::open(candidate.as_str()).await;
 
-      if (mode & is_executable_and_readable == is_executable_and_readable) {
-        return Ok(candidate.to_string())
+      let result = match file {
+        Ok (file) => {
+          let metadata = file.metadata().await?;
+      
+          found_candidates.push(candidate.as_str());
+
+          let permissions = metadata.permissions();
+          let mode = permissions.mode();
+
+          if mode & is_executable_and_readable == is_executable_and_readable {
+            Some(candidate.to_string())
+          } else {
+            None
+          }
+        }
+        Err(_) => {
+          None
+        }
+      };
+
+      return if result.is_none() {
+        continue;
+      } else {
+        Ok(result.unwrap())
       }
     }
 
-    Err(Error::msg(""))
+    Err(Error::msg("Cannot find executable file."))
   }
 
   pub async fn can_run (
@@ -127,23 +178,48 @@ impl ProcessUtils {
     }
   }
 
-  pub async fn exits_happy (cli: &str, args: Vec<&str>) -> Result<String> {
-    let mut command = Command::new(cli);
+  pub async fn exits_happy (cli: &str, args: Vec<&str>) -> Result<bool> {
+    let is_can_run = ProcessUtils::can_run(cli, None).await?;
+    
+    if is_can_run {
+      let mut command = Command::new(cli);
+      command.args(args);
 
-    for i in args {
-      command.arg(i);
+      let output = command.output().await?;
+
+      if output.status.success() {
+        Ok(true)
+      } else {
+        Ok(false)
+      }
+    } else {
+      Ok(false)
     }
-
-    let output = command.output().await?;
-    let stdout = String::from_utf8_lossy(&output.stdout);
-
-    Ok(stdout.into_owned())
   } 
+
+  pub async fn run (
+    cli: &str,
+    args: Vec<&str>,
+    directiory: Option<&str>
+  ) -> Result<Output> {
+    let executable = ProcessUtils::get_executable(
+      cli,
+      directiory,
+    ).await?;
+
+    let mut command = Command::new(
+      ProcessUtils::sanitize_executable_path(&executable)
+    );
+
+    command.args(args);
+    Ok(command.output().await?)
+  }
 }
 
 
 #[async_trait]
-pub trait Process {
+pub trait Process<T> {
   async fn is_installed () -> Result<bool>;
   async fn get_version () -> Result<Version>;
+  async fn evaluate (&self) -> Result<T>;
 }
