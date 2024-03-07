@@ -20,16 +20,27 @@ export default function (complier: ViteH5CompilerContext | ViteHarmonyCompilerCo
       const allowedExts = Array.from(new Set(SCRIPT_EXT.concat(taroConfig.frameworkExts || [])))
         .map((item : string) => item.replace(/^\./, ''))
         .join('|')
-      // example: /\.weapp\.(js|jsx|ts|tsx|vue)/
-      const multiPlatformReg = new RegExp(`\\.${process.env.TARO_ENV}\\.(${allowedExts})`)
+      // example: /\.(weapp|mini)\.(js|jsx|ts|tsx|vue)/
+      const multiPlatformReg = new RegExp(`\\.(${process.env.TARO_ENV}|${process.env.TARO_PLATFORM})\\.(${allowedExts})`)
       if (multiPlatformReg.test(source)) return null
 
       const ext = path.extname(source)
-      const platformId = path.resolve(path.dirname(source), `${path.basename(source, ext)}.${process.env.TARO_ENV}${ext}`)
-      let resolution = await this.resolve(platformId, importer, {
-        ...options,
-        skipSelf: true
-      })
+      let resolution = await this.resolve(
+        path.resolve(path.dirname(source), `${path.basename(source, ext)}.${process.env.TARO_ENV}${ext}`),
+        importer,
+        {
+          ...options,
+          skipSelf: true
+        })
+      if (!resolution) {
+        resolution = await this.resolve(
+          path.resolve(path.dirname(source), `${path.basename(source, ext)}.${process.env.TARO_PLATFORM}${ext}`),
+          importer,
+          {
+            ...options,
+            skipSelf: true
+          })
+      }
 
       if (!resolution) {
         resolution = await this.resolve(source, importer, {

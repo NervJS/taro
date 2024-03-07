@@ -23,7 +23,8 @@ const base: RollupOptions & { plugins: InputPluginOption[] } = {
     ts({
       tsconfig: e => ({
         ...e,
-        declaration: false,
+        declaration: true,
+        sourceMap: true,
       })
     }),
     commonjs()
