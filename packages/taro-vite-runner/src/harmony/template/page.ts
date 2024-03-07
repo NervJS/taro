@@ -307,7 +307,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     if (!this.buildConfig.isBuildNativeComp) {
       structCodeArray.unshift('@Entry')
     } else if (page instanceof Array ? page[0].entryOption : page.entryOption) {
-      structCodeArray.unshift(`@Entry(${this.prettyPrintJson(page instanceof Array ? page[0].entryOption : page.entryOption)})`)
+      structCodeArray.unshift(`@Entry(${this.prettyPrintJson(page instanceof Array ? TARO_TABBAR_PAGE_PATH : page.entryOption)})`)
     }
 
     const generateState = [
