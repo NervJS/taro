@@ -208,6 +208,7 @@ export default class Parser extends BaseParser {
       callFn(this.page.onReachBottom, this)
     }
   })
+  .height((config.navigationStyle !== 'custom') ? \`calc(100%  - \${convertNumber2VP(75)})\` : '100%')
 }
 .width('100%')
 .height('100%')
