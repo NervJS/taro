@@ -1,6 +1,9 @@
 import { convertNumber2VP } from '@tarojs/runtime'
 import { isNumber } from '@tarojs/shared'
 
+import type { RichTextProps } from '@tarojs/components/types/RichText'
+import type { TaroRichTextElement } from '@tarojs/runtime'
+
 export function getSingleSelector(range, rangeKey): any[] {
   return range.map((data) => data[rangeKey])
 }
@@ -80,4 +83,27 @@ export function getNodeMarginOrPaddingData (dataValue: string) {
         break
     }
   })
+}
+
+export function generateText (node: TaroRichTextElement): string {
+  return parseHtmlNode(node._attrs.nodes || '')
+}
+
+// 将nodeTree转换成harmony需要的string结构
+function nodeToHtml(node: RichTextProps.Text | RichTextProps.HTMLElement): string {
+  if (node.type === 'text') {
+    return node.text;
+  }
+  if (node.attrs) {
+    const attributes = Object.entries(node.attrs)
+      .map((item: [string, string]) => `${item[0]}="${item[1]}"`)
+      .join(' ');
+    const childrenHtml: string = typeof node.children === 'string' ? node.children : (node.children || []).map((child: RichTextProps.Text | RichTextProps.HTMLElement) => nodeToHtml(child)).join('');
+    return `<${node.name}${attributes ? ' ' + attributes : ''}>${childrenHtml}</${node.name}>`;
+  }
+  return ''
+}
+
+function parseHtmlNode (nodes: Array<RichTextProps.Text | RichTextProps.HTMLElement> | string) {
+  return typeof nodes === 'string' ? nodes: `<div>${nodes.map(node => nodeToHtml(node)).join('')}</div>`
 }
