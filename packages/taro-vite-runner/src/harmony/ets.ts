@@ -71,7 +71,6 @@ export default async function (viteCompilerContext: ViteHarmonyCompilerContext):
         let match
         const realId = stripVirtualModulePrefix(id.split('?')[0])
 
-
         while ((match = importAndRequireRegex.exec(code)) !== null) {
           const moduleRelativePath = match[1]
           const modulePath = resolveSync(moduleRelativePath, { basedir: path.dirname(realId), extensions: ['.js', '.ts', '.ets'] })

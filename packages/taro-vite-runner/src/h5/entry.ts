@@ -145,7 +145,6 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         const routerMode = appConfig?.router?.mode || 'hash'
         const historyCreator = routerMode === 'browser' ? 'createBrowserHistory' : routerMode === 'multi' ? 'createMpaHistory' : 'createHashHistory'
         const appMountHandler = appConfig.tabBar ? 'handleAppMountWithTabbar' : 'handleAppMount'
-      
 
         return [
           setReconciler,

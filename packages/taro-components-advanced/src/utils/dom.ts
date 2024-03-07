@@ -38,4 +38,3 @@ export async function getScrollViewContextNode (id: string) {
   const query = createSelectorQuery()
   return new Promise((resolve) => query.select(id).node(({ node }) => resolve(node)).exec())
 }
-

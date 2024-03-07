@@ -63,7 +63,6 @@ class TaroDocument extends TaroNode {
     return new TaroComment(data)
   }
 
-
   public getElementById<T extends TaroElement> (id: string | undefined | null): T | null {
     const el = eventSource.get(id)
     return isUndefined(el) ? null : el as unknown as T

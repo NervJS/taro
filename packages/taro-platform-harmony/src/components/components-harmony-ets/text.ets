@@ -43,30 +43,34 @@ export default struct TaroText {
   @ObjectLink node: TaroTextElement
 
   build () {
-    if (this.node.nodeType === NodeType.TEXT_NODE && this.node.parentNode) {
-      if ((this.node.parentNode as TaroElement).tagName === 'BUTTON') {
-        Text(this.node.textContent)
-          .textNormalFontStyle(getNormalAttributes(this.node.parentNode as TaroElement))
-          .textSpecialFontStyle(getFontAttributes(this.node.parentNode as TaroElement))
-          .fontSize((this.node.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize(this.node.parentNode as TaroButtonElement))
-          .fontColor((this.node.parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node.parentNode as TaroButtonElement)._attrs.type).text))
-      } else {
-        Text(this.node.textContent)
-          .textNormalFontStyle(getNormalAttributes(this.node.parentNode as TaroElement))
-          .textSpecialFontStyle(getFontAttributes(this.node.parentNode as TaroElement))
-          .width(getNormalAttributes(this.node.parentNode as TaroElement).width)
-          .height(getNormalAttributes(this.node.parentNode as TaroElement).height)
+    if (this.node.nodeType === NodeType.TEXT_NODE) {
+      if (this.node.parentNode) {
+        if ((this.node.parentNode as TaroElement).tagName === 'BUTTON') {
+          Text(this.node.textContent)
+            .textNormalFontStyle(getNormalAttributes(this.node.parentNode as TaroElement))
+            .textSpecialFontStyle(getFontAttributes(this.node.parentNode as TaroElement))
+            .fontSize((this.node.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize(this.node.parentNode as TaroButtonElement))
+            .fontColor((this.node.parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node.parentNode as TaroButtonElement)._attrs.type).text))
+        } else {
+          Text(this.node.textContent)
+            .textNormalFontStyle(getNormalAttributes(this.node.parentNode as TaroElement))
+            .textSpecialFontStyle(getFontAttributes(this.node.parentNode as TaroElement))
+            .width(getNormalAttributes(this.node.parentNode as TaroElement).width)
+            .height(getNormalAttributes(this.node.parentNode as TaroElement).height)
+        }
       }
     } else {
-      Text(this.node.textContent)
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-      .attributeModifier(commonStyleModify.setNode(this.node))
-      .textNormalFontStyle(getNormalAttributes(this.node))
-      .textSpecialFontStyle(getFontAttributes(this.node))
-      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-        this.node._nodeInfo.areaInfo = res[1]
-      }))
+      if (this.node.hmStyle?.display !== 'none') {
+        Text(this.node.textContent)
+        .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+        .attributeModifier(commonStyleModify.setNode(this.node))
+        .textNormalFontStyle(getNormalAttributes(this.node))
+        .textSpecialFontStyle(getFontAttributes(this.node))
+        .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+        .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+          this.node._nodeInfo.areaInfo = res[1]
+        }))
+      }
     }
   }
 }

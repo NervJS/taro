@@ -5,7 +5,6 @@ import type { IPluginContext } from '@tarojs/service'
 import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 import type { PluginOption } from 'vite'
 
-
 export function miniVitePlugin (ctx: IPluginContext, componentConfig: IComponentConfig | undefined): PluginOption {
   return [
     injectLoaderMeta(ctx),
@@ -28,4 +27,3 @@ function injectLoaderMeta (ctx: IPluginContext): PluginOption {
     },
   }
 }
-

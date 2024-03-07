@@ -11,6 +11,8 @@ export function getFontAttributes (node: TaroElement): TaroTextStyleType {
   const hmStyle = node.hmStyle
   const attrs: TextProps = node._attrs || {}
 
+  if (!hmStyle) return {}
+
   const attributes: TaroAny = {
     WebkitLineClamp: attrs.maxLines || hmStyle.WebkitLineClamp || Infinity,
     // 已做处理的属性
@@ -32,6 +34,8 @@ function isMaxWidthView (node: TaroElement) {
 
 export function getNormalAttributes (node: TaroElement): TaroStyleType {
   const hmStyle = node.hmStyle
+  
+  if (!hmStyle) return {}
 
   const _nid = node._nid
   const _attrs: StandardProps = node._attrs || {}

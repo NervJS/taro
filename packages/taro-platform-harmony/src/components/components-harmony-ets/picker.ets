@@ -306,7 +306,7 @@ export default struct TaroPicker {
   }
 
   build() {
-    if (this.node) {
+    if (this.node && this.node.hmStyle?.display !== 'none') {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
           createLazyChildren(this.node)

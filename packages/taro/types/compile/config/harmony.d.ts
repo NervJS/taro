@@ -57,6 +57,9 @@ export interface IHarmonyConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   /** 指定 React 框架相关的代码是否使用开发环境（未压缩）代码，默认使用生产环境（压缩后）代码 */
   debugReact?: boolean
 
+  /** 是否允许解析嵌套样式，开启后，可能会影响部分使用了嵌套样式的组件性能 */
+  useNesting?: boolean
+
   /**
    * 自定义 Webpack 配置
    * @param chain  [webpackChain](https://github.com/neutrinojs/webpack-chain) 对象

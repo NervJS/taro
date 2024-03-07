@@ -44,8 +44,3 @@ export const setTabBarStyle = getApi('setTabBarStyle')
 export const showNavigationBarLoading = getApi('showNavigationBarLoading')
 export const showTabBar = getApi('showTabBar')
 export const showTabBarRedDot = getApi('showTabBarRedDot')
-
-
-
-
-

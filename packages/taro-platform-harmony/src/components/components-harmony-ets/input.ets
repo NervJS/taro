@@ -63,7 +63,7 @@ export default struct TaroInput {
   }
 
   build () {
-    if (this.node) {
+    if (this.node && this.node?.hmStyle?.display !== 'none') {
       TextInput({ text: this.value, placeholder: this.node._attrs?.placeholder || '', controller: this.node.controller })
       .key(this.node._nid)
       .type(getInputType(this.node))

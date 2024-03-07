@@ -21,7 +21,6 @@ export function modifyH5WebpackChain(ctx: IPluginContext, chain) {
   chain.merge({ externals })
 }
 
-
 function setStyleLoader(ctx: IPluginContext, chain) {
   const config = ctx.initialConfig.h5 || {}
 

@@ -5,7 +5,6 @@ import React from 'react'
 
 import { omit } from '../../utils'
 
-
 interface IProps {
   type: string
   color: string

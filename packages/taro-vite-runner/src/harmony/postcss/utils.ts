@@ -439,4 +439,3 @@ export const requireResolveFromRootWithFallback = (
   // Search in the root directory first, and fallback to the default require paths.
   return _require.resolve(id, { paths: [root, __dirname] })
 }
-

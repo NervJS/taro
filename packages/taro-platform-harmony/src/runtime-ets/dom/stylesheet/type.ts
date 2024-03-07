@@ -170,4 +170,3 @@ export namespace HarmonyType {
     export type Transform = matrix4.Matrix4Transit
   }
 }
-

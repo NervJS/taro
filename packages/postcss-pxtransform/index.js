@@ -36,7 +36,6 @@ const DEFAULT_WEAPP_OPTIONS = {
 
 const processed = Symbol('processed')
 
-
 let targetUnit
 
 module.exports = (options = {}) => {

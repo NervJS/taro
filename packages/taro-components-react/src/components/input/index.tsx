@@ -66,7 +66,6 @@ class Input extends React.Component<IProps, null> {
     if (this.props.focus && this.inputRef) this.inputRef.focus()
   }
 
-
   componentWillUnmount () {
     // 修复无法选择文件
     if (this.props.type === 'file') {
@@ -79,7 +78,6 @@ class Input extends React.Component<IProps, null> {
   UNSAFE_componentWillReceiveProps (nextProps: Readonly<IProps>) {
     if (!this.props.focus && nextProps.focus && this.inputRef) this.inputRef.focus()
   }
-
 
   handleInput (e) {
     e.stopPropagation()
@@ -119,7 +117,6 @@ class Input extends React.Component<IProps, null> {
       this.onInputExcuted = false
     }
   }
-
 
   handlePaste (e) {
     e.stopPropagation()

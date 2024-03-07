@@ -35,4 +35,3 @@ function injectLoaderMeta (ctx: IPluginContext): PluginOption {
     }
   }
 }
-

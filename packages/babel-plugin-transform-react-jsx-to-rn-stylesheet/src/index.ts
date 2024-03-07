@@ -140,7 +140,6 @@ export default function (babel: {
 
   const getModuleClassNameFunctionStmt = template(getModuleClassNameFunction)()
 
-
   function getMap (str) {
     return str.split(/\s+/).map((className) => {
       // return template(`${STYLE_SHEET_NAME}["${className}"]`)().expression

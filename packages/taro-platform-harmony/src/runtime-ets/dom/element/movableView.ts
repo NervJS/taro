@@ -84,7 +84,6 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
       typeof bindscale === 'function' && bindscale({ ...this.position, scale: this.scaleValue })
     }
   }
-  
 
   get scaleValue() {
     return this._scaleValue

@@ -208,6 +208,7 @@ export default class Parser extends BaseParser {
       callFn(this.page.onReachBottom, this)
     }
   })
+  .height((config.navigationStyle !== 'custom') ? \`calc(100%  - \${convertNumber2VP(75)})\` : '100%')
 }
 .width('100%')
 .height('100%')
@@ -305,6 +306,8 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     // 如果是编译成原生组件，则不需要加 @Entry 头部，否则都加上 @Entry，当成 Page 入口
     if (!this.buildConfig.isBuildNativeComp) {
       structCodeArray.unshift('@Entry')
+    } else if (page instanceof Array ? page[0].entryOption : page.entryOption) {
+      structCodeArray.unshift(`@Entry(${this.prettyPrintJson(page instanceof Array ? TARO_TABBAR_PAGE_PATH : page.entryOption)})`)
     }
 
     const generateState = [

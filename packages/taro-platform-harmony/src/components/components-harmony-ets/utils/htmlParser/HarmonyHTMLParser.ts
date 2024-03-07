@@ -99,5 +99,4 @@ function parseTag(htmlString, startIndex) {
   return tag
 }
 
-
 export default parseHTML

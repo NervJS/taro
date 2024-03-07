@@ -111,4 +111,3 @@ export const window: TaroWindow = process.env.TARO_PLATFORM === 'web' ? env.wind
 
 export const location = window.location
 export const history = window.history
-

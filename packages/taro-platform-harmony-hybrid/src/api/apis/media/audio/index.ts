@@ -24,4 +24,3 @@ export const createInnerAudioContext: typeof Taro.createInnerAudioContext = (opt
  * @canUse createAudioContext
  */
 export const createAudioContext: typeof Taro.createAudioContext = () => new AudioContext()
-

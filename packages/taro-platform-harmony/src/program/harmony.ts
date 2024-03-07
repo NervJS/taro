@@ -93,6 +93,7 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
       fileType: this.fileType,
       platformType: this.platformType,
       useETS: this.useETS,
+      useNesting: config.useNesting,
       useJSON5: this.useJSON5,
       ...extraOptions
     }

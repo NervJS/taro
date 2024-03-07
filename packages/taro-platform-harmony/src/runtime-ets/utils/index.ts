@@ -91,7 +91,6 @@ export function bindFn (fn: any, ctx: any, ...args: any) {
   }
 }
 
-
 // 使用深度优先遍历寻找节点树中对应的子节点，且只需要找到第一个
 // 通过 selector 判断是 id 还是 selector，从 node 的 id 和 className 属性中寻找
 export function findChildNodeWithDFS<T extends TaroElement = TaroElement> (node: TaroElement, selector: string | ((ele: T) => boolean), selectAll: true): T[] | null;

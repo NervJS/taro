@@ -95,7 +95,7 @@ export function isRelativePath (id: string | undefined): boolean {
 }
 
 export function stripMultiPlatformExt (id: string): string {
-  return id.replace(new RegExp(`\\.${process.env.TARO_ENV}$`), '')
+  return id.replace(new RegExp(`\\.(${process.env.TARO_ENV}|${process.env.TARO_PLATFORM})$`), '')
 }
 
 export const addLeadingSlash = (url = '') => (url.charAt(0) === '/' ? url : '/' + url)
@@ -172,7 +172,6 @@ export function getMinify (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig |
         : 'terser'
 }
 
-
 export function getCSSModulesOptions(taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig | ViteHarmonyBuildConfig): false | CSSModulesOptions {
   if (taroConfig.postcss?.cssModules?.enable !== true) return false
   const config = recursiveMerge(
@@ -187,7 +186,6 @@ export function getCSSModulesOptions(taroConfig: ViteMiniBuildConfig | ViteH5Bui
     generateScopedName: config.generateScopedName,
   }
 }
-
 
 export function getBabelOption (
   taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig | ViteHarmonyBuildConfig,

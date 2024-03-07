@@ -38,7 +38,7 @@ export default struct TaroSwitch {
   }
 
   build () {
-    if (this.node) {
+    if (this.node && this.node.hmStyle?.display !== 'none') {
       Toggle({
         type: this.node._attrs.type !== 'checkbox' ? ToggleType.Switch : ToggleType.Checkbox,
         isOn: this.node.checked,

@@ -8,7 +8,6 @@ import { TaroReconciler } from './reconciler'
 import type { Fiber } from 'react-reconciler'
 import type { Props } from './props'
 
-
 export type RestoreType = string | number | boolean | any[]
 
 interface RestoreItem {
@@ -31,7 +30,6 @@ export function getTargetInstForInputOrChangeEvent (e: TaroEvent, node: TaroElem
     return getInstIfValueChanged(targetInst, nextValue)
   }
 }
-
 
 function getInstIfValueChanged (targetInst: Fiber, nextValue: string) {
   const targetNode = getNodeFromInstance(targetInst)
@@ -95,7 +93,6 @@ function restoreImpl (
       break
   }
 }
-
 
 function restoreStateOfTarget (item: RestoreItem) {
   const internalInstance = getInstanceFromNode(item.target)

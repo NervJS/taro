@@ -1,6 +1,6 @@
 {
   "name": "stylelint-taro",
-  "version": "4.0.0-beta.14",
+  "version": "4.0.0-beta.17",
   "description": "Taro stylelint 规则集合",
   "main": "lib/index.js",
   "scripts": {

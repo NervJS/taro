@@ -68,11 +68,9 @@ class TaroEventTarget extends Events {
       }
     }
 
-
     if (event._stop) {
       this._stopPropagation(event)
     }
-
 
     return listeners != null
   }
@@ -94,6 +92,5 @@ class TaroEventTarget extends Events {
     }
   }
 }
-
 
 export { TaroEventTarget }

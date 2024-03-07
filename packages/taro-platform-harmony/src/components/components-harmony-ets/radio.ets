@@ -45,7 +45,7 @@ export struct TaroRadio {
   }
 
   build () {
-    if (this.node) {
+    if (this.node && this.node.hmStyle?.display !== 'none') {
       Stack() {
         Row() {
           Radio({
@@ -123,7 +123,7 @@ export struct TaroRadioGroup {
   }
 
   build() {
-    if (this.node) {
+    if (this.node && this.node.hmStyle?.display !== 'none') {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
           createLazyChildren(this.node)
