@@ -208,7 +208,13 @@ export default class Parser extends BaseParser {
       callFn(this.page.onReachBottom, this)
     }
   })
-  .height((config.navigationStyle !== 'custom') ? \`calc(100%  - \${convertNumber2VP(75)})\` : '100%')
+  ${
+  isTabPage
+    // eslint-disable-next-line no-template-curly-in-string
+    ? '.height((config[index].navigationStyle !== \'custom\') ? `calc(100%  - ${convertNumber2VP(75)})` : \'100%\')'
+    // eslint-disable-next-line no-template-curly-in-string
+    : '.height((config.navigationStyle !== \'custom\') ? `calc(100%  - ${convertNumber2VP(75)})` : \'100%\')'
+}
 }
 .width('100%')
 .height('100%')
@@ -313,6 +319,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
         name: 'scroller', type: 'Scroller', foreach: () => 'new Scroller()', disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       'page?: PageInstance',
+      'onReady?: TaroAny',
       this.renderState({
         decorator: 'State', name: 'pageList', type: 'PageInstance', scope: ['tabbar'], disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
@@ -461,6 +468,7 @@ ${this.isTabbarPage
     ], 4)
     : this.transArr2Str([
       `this.page = createComponent()`,
+      'this.onReady = this.page?.onReady?.bind(this.page)',
       'callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
       '  this.node = instance',
       '})',
