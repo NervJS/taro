@@ -147,12 +147,37 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
   if (!isUndefined(style.overflow)) {
     instance.clip(style.overflow)
   }
-  if (!isUndefined(style.transformOrigin)) {
-    instance.rotate({ centerX: style.transformOrigin.x, centerY: style.transformOrigin.y, angle: 0 })
-    instance.scale({ centerX: style.transformOrigin.x, centerY: style.transformOrigin.y })
-  }
+  // if (!isUndefined(style.transformOrigin)) {
+  //   instance.rotate({ centerX: style.transformOrigin.x, centerY: style.transformOrigin.y, angle: 0 })
+  //   instance.scale({ centerX: style.transformOrigin.x, centerY: style.transformOrigin.y })
+  // }
   if (!isUndefined(style.transform)) {
-    instance.transform(style.transform)
+    if (style.transform.Translate) {
+      instance.translate({
+        x: style.transform.Translate.x || 0,
+        y: style.transform.Translate.y || 0,
+        z: style.transform.Translate.z || 0,
+      })
+    }
+    if (style.transform.Scale) {
+      instance.scale({
+        x: style.transform.Scale.x || 0,
+        y: style.transform.Scale.y || 0,
+        z: style.transform.Scale.z || 0,
+        centerX: style.transformOrigin?.x,
+        centerY: style.transformOrigin?.y,
+      })
+    }
+    if (style.transform.Rotate) {
+      instance.rotate({
+        x: style.transform.Rotate.x || 0,
+        y: style.transform.Rotate.y || 0,
+        z: style.transform.Rotate.z || 0,
+        centerX: style.transformOrigin?.x,
+        centerY: style.transformOrigin?.y,
+        angle: 0
+      })
+    }
   }
   if (style.position === 'absolute' || style.position === 'fixed') {
     instance.position({

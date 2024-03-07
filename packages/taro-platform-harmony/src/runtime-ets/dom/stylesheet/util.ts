@@ -1,5 +1,5 @@
 // @ts-nocheck
-import matrix4 from '@ohos.matrix4'
+// import matrix4 from '@ohos.matrix4'
 import { isNumber } from '@tarojs/shared'
 
 import { convertNumber2VP } from '../../'
@@ -235,16 +235,23 @@ export function getUnit (val) {
 }
 
 export function getTransform(transform) {
+  // if (transform) {
+  //   return transform.reduce((res, item) => {
+  //     switch (item.type) {
+  //       case 'Translate': return res.translate(item.value)
+  //       case 'Scale': return res.scale(item.value)
+  //       case 'Rotate': return res.rotate(item.value)
+  //       case 'Matrix': return res.combine(matrix4.init(item.value))
+  //     }
+  //     return res
+  //   }, matrix4.identity())
+  // }
+  const result = {}
   if (transform) {
-    return transform.reduce((res, item) => {
-      switch (item.type) {
-        case 'Translate': return res.translate(item.value)
-        case 'Scale': return res.scale(item.value)
-        case 'Rotate': return res.rotate(item.value)
-        case 'Matrix': return res.combine(matrix4.init(item.value))
-      }
-      return res
-    }, matrix4.identity())
+    transform.forEach((item) => {
+      result[item.type] = item.value
+    })
+    return result
   }
 }
 

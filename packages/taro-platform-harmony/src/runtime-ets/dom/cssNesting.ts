@@ -68,7 +68,7 @@ function depthTraversal(root: ReactElement) {
 
   const traverse = (tree) => {
     const result: Record<string, TMapping> = {}
-    if (tree && tree.props && (typeof tree.type === 'string')) {
+    if (tree && tree.props) {
       // 后代选择器
       const descendant_map = {
         children: {},
@@ -125,7 +125,7 @@ function depthTraversal(root: ReactElement) {
     for (let i = 0; i < keys.length; i++) {
       const leaf_child_map = class_mapping[keys[i]]
       if (leaf_child_map) {
-        Object.assign(descendant_map.descendants, leaf_child_map.children)
+        Object.assign(descendant_map.descendants, leaf_child_map.descendants)
       }
     }
   }
@@ -180,44 +180,23 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
       return []
     }
   }
-  // 合并样式
-  nestingStyle.forEach(({ selectors, declaration }) => {
-    // 获取选中的节点列表
-    const selectors_elements = findSelector(selectors, class_mapping)
-    for (let i = 0; i < selectors_elements.length; i++) {
-      let ele = selectors_elements[i].node
-      if (ele) {
-        if (ele.props.style) {
-          Object.assign(ele.props.style, declaration)
-        } else {
-          if (process.env.NODE_ENV !== 'production') {
-            // Dev环境的ReactElement会frozen，所以需要重新拷贝格新的对象，生产环境不会有该问题
-            if (Object.isFrozen(ele)) {
-              ele = unfreeze(ele)
-              selectors_elements[i].node = ele
-            }
+  if (nestingStyle && nestingStyle instanceof Array) {
+    // 合并样式
+    nestingStyle.forEach(({ selectors, declaration }) => {
+      // 获取选中的节点列表
+      const selectors_elements = findSelector(selectors, class_mapping)
+      for (let i = 0; i < selectors_elements.length; i++) {
+        const ele = selectors_elements[i].node
+        if (ele) {
+          if (ele.props.style) {
+            Object.assign(ele.props.style, declaration)
+          } else {
+            ele.props.style = declaration
           }
-          ele.props.style = declaration
         }
       }
-    }
-  })
-}
-
-// dev模式下解冻props，使其可以对props进行操作
-function unfreeze(object) {
-  const oo: any = {}
-  Object.keys(object).forEach(property => {
-    if (property === 'props') {
-      oo.props = {
-        ...object.props,
-        style: {}
-      }
-    } else {
-      oo[property] = object[property]
-    }
-  })
-  return oo
+    })
+  }
 }
 
 // 合并嵌套样式
