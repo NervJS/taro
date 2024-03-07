@@ -55,7 +55,7 @@ export default struct TaroView {
         .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
       } else {
         Column() {
-          if (this.node._pseudo_after || this.node._pseudo_after) {
+          if (this.node._pseudo_before || this.node._pseudo_after) {
             PseduoChildren(this.node)
           } else {
             createLazyChildren(this.node)
