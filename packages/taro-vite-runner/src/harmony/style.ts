@@ -1,6 +1,6 @@
 import { transformSync } from '@babel/core'
 import { dataToEsm } from '@rollup/pluginutils'
-import { chalk, CSS_EXT, fs, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
+import { chalk, CSS_EXT, fs, REG_JS, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
 import { parse as parseJSXStyle } from '@tarojs/parse-css-to-stylesheet'
 import { isEqual } from 'lodash'
 import MagicString from 'magic-string'
@@ -19,7 +19,7 @@ import { compileCSS } from './postcss'
 import {
   commonjsProxyRE, CSS_LANGS_RE, cssModuleRE,
   htmlProxyRE, inlineCSSRE, inlineRE, loadParseImportRE,
-  SPECIAL_QUERY_RE, usedRE, usedSuffix
+  SPECIAL_QUERY_RE, tjsxRe, usedRE, usedSuffix
 } from './postcss/constants'
 import { finalizeCss, stripBomTag } from './postcss/utils'
 
@@ -151,8 +151,20 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       if (
         commonjsProxyRE.test(id) ||
         SPECIAL_QUERY_RE.test(id) ||
-        loadParseImportRE.test(id)
+        loadParseImportRE.test(id) ||
+        (id.indexOf(viteCompilerContext.sourceDir) === 0 && !tjsxRe.test(id)) // 如果是项目内，不是jsx、tsx直接过滤
       ) return
+      // 如果是node_modules的文件，判断是否js\jsx\tsx
+      if (/node_modules/.test(id)) {
+        if (REG_JS.test(id) || REG_SCRIPTS.test(id)) {
+          // 读写内容，判断raw是否含有createElement 或者 jsx-runtime
+          if (!(raw.includes('createElement') || raw.includes('jsx-runtime'))) {
+            // 普通js文件，不走样式处理
+            return
+          }
+        }
+      }
+
       if (!isStyleRequest(id)) {
         if (!REG_SCRIPTS.test(id)) return
         try {

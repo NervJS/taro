@@ -578,6 +578,19 @@ export default class StyleSheet {
     this.hmStyle.textAlign = value
   }
 
+  get verticalAlign() {
+    switch (this.hmStyle.verticalAlign) {
+      case Alignment.Center: return 'middle'; break
+      case Alignment.Top: return 'top'; break
+      case Alignment.Bottom: return 'bottom'; break
+      default: return ''
+    }
+  }
+
+  set _align (value: string) {
+    this.hmStyle.verticalAlign = value
+  }
+
   get lineHeight () {
     return this.hmStyle.lineHeight
   }
