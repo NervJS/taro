@@ -2,6 +2,7 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 
 import commonStyleModify from './style'
 import PseduoChildren from './pseudo'
+import { createLazyChildren } from './render'
 import { FlexManager } from './utils/FlexManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
@@ -86,7 +87,11 @@ export default struct TaroScrollView {
       Scroll(this.node.scroller) {
         if (this.node._attrs.scrollX) {
           Row() {
-            PseduoChildren(this.node)
+            if (this.node._pseudo_before || this.node._pseudo_after) {
+              PseduoChildren(this.node)
+            } else {
+              createLazyChildren(this.node)
+            }
           }
           .attributeModifier(commonStyleModify.setNode(this.node))
           .rowAttrs(getNormalAttributes(this.node))
@@ -99,7 +104,11 @@ export default struct TaroScrollView {
           .flexGrow(0).flexShrink(0)
         } else {
           Column() {
-            PseduoChildren(this.node)
+            if (this.node._pseudo_before || this.node._pseudo_after) {
+              PseduoChildren(this.node)
+            } else {
+              createLazyChildren(this.node)
+            }
           }
           .attributeModifier(commonStyleModify.setNode(this.node))
           .columnAttrs(getNormalAttributes(this.node))

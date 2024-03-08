@@ -2,6 +2,7 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 
 import commonStyleModify from './style'
 import PseduoChildren from './pseudo'
+import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/flexManager'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
@@ -36,7 +37,11 @@ export default struct TaroView {
     if (this.node.hmStyle?.display !== 'none') {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
-          PseduoChildren(this.node)
+          if (this.node._pseudo_before || this.node._pseudo_after) {
+            PseduoChildren(this.node)
+          } else {
+            createLazyChildren(this.node)
+          }
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .rowAttrs(getNormalAttributes(this.node))
@@ -50,7 +55,11 @@ export default struct TaroView {
         .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
       } else {
         Column() {
-          PseduoChildren(this.node)
+          if (this.node._pseudo_before || this.node._pseudo_after) {
+            PseduoChildren(this.node)
+          } else {
+            createLazyChildren(this.node)
+          }
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .columnAttrs(getNormalAttributes(this.node))

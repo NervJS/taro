@@ -13,12 +13,19 @@ export function getFontAttributes (node: TaroElement): TaroTextStyleType {
 
   if (!hmStyle) return {}
 
+  let lineHeight = hmStyle.lineHeight
+  if (!isUndefined(hmStyle.verticalAlign)) {
+    lineHeight = 0
+  }
+
   const attributes: TaroAny = {
     WebkitLineClamp: attrs.maxLines || hmStyle.WebkitLineClamp || Infinity,
     // 已做处理的属性
     letterSpacing: hmStyle.letterSpacing,
     textAlign: hmStyle.textAlign,
-    textOverflow: hmStyle.textOverflow
+    textOverflow: hmStyle.textOverflow,
+    verticalAlign: hmStyle.verticalAlign,
+    lineHeight: lineHeight
   }
 
   return attributes
@@ -131,7 +138,6 @@ export function getStyle(hmStyle: HarmonyStyle): TaroStyleType {
     fontStyle: hmStyle.fontStyle,
     fontWeight: hmStyle.fontWeight,
     fontFamily: hmStyle.fontFamily || TEXT_DEFAULT_STYLE.FONT_FAMILY,
-    lineHeight: hmStyle.lineHeight,
     textDecoration: hmStyle.textDecoration,
     // 其他
     overflow: hmStyle.overflow,

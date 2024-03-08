@@ -70,6 +70,7 @@ export const WEB_STYLE_MAP = {
   fontWeight: ['_fontWeight'],
   fontStyle: ['_fontStyle'],
   textAlign: ['_textAlign'],
+  verticalAlign: ['_align'],
   lineHeight: ['_lineHeight'],
   letterSpacing: ['_letterSpacing'],
   textDecoration: ['_textDecoration'],
@@ -415,6 +416,24 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties) {
             break
           default:
             hmStyle._textAlign = TextAlign.Start
+            break
+        }
+        break
+      }
+      case 'verticalAlign': {
+        switch (value) {
+          case 'supper':
+          case 'top':
+          case 'text-top':
+            hmStyle._align = Alignment.Top
+            break
+          case 'middle':
+            hmStyle._align = Alignment.Center
+            break
+          case 'sub':
+          case 'text-bottom':
+          case 'bottom':
+            hmStyle._align = Alignment.Bottom
             break
         }
         break

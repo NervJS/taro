@@ -1,4 +1,5 @@
 export const CSS_LANGS_RE = /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/
+export const JSX_TSX_LANGS_RE = /\.(jsx|tsx)(?:$|\?)/
 export const SPECIAL_QUERY_RE = /[?&](?:worker|sharedworker|raw|url)\b/
 
 export const enum PreprocessLang {
@@ -44,3 +45,5 @@ export const varRE = /^var\(/i
 export const loadParseImportRE = /(?:\?|&)load-parse-import\b/
 
 export const publicAssetUrlRE = /__TARO_VITE_PUBLIC_ASSET__([a-z\d]{8})__/g
+
+export const tjsxRe = /\.[tj]sx$/i

@@ -1,5 +1,6 @@
 import type { HarmonyStyle, TaroElement, TaroStyleType } from '@tarojs/runtime'
 import { isUndefined } from '../shared'
+import { computeBackgroundPosition } from './utils'
 import { getNormalAttributes, getStyle } from './utils/helper'
 
 function getTop (node: TaroElement): Length | number {
@@ -101,7 +102,15 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
     instance.backgroundImageSize(style.backgroundSize)
   }
   if (!isUndefined(style.backgroundPosition)) {
-    instance.backgroundImagePosition(style.backgroundPosition)
+    if (typeof style.backgroundPosition !== 'number') {
+      let pos = computeBackgroundPosition(style)
+      instance.backgroundImagePosition({
+        x: pos.offsetX,
+        y: pos.offsetY,
+      })
+    } else {
+      instance.backgroundImagePosition(style.backgroundPosition)
+    }
   }
   if (!isUndefined(style.borderTopStyle) || !isUndefined(style.borderRightStyle) || !isUndefined(style.borderBottomStyle) || !isUndefined(style.borderLeftStyle)) {
     instance.borderStyle({

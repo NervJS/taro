@@ -193,11 +193,7 @@ export class TaroElement<
 
   // 伪类，不存在style动态设置，均已被转换为鸿蒙样式
   // TODO：可根据实际情况，迁移到具体的组件中，如View、ScrollView中，Text\Image其实是不需要的
-  public _pseudo_before: StyleSheet | null
-
-  public get pseudo_before() {
-    return this._pseudo_before?.hmStyle
-  }
+  public _pseudo_before: StyleSheet | null = null
 
   public set_pseudo_before(value: HarmonyStyle | null) {
     if (value) {
@@ -212,11 +208,7 @@ export class TaroElement<
     }
   }
 
-  public _pseudo_after: StyleSheet | null
-
-  public get pseudo_after() {
-    return this._pseudo_after?.hmStyle
-  }
+  public _pseudo_after: StyleSheet | null = null
 
   public set_pseudo_after(value: HarmonyStyle | null) {
     if (value) {

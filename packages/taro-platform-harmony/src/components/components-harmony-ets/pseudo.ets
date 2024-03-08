@@ -4,8 +4,8 @@ import { createLazyChildren } from './render'
 
 import type { TaroViewElement, TaroStyleType, TaroTextStyleType } from '@tarojs/runtime'
 
-@Extend(Stack)
-function stackAttrs (style: TaroStyleType) {
+@Extend(Flex)
+function flexAttrs (style: TaroStyleType) {
   .constraintSize({
     minWidth: style.minWidth,
     maxWidth: style.maxWidth,
@@ -25,7 +25,6 @@ function textNormalFontStyle (style: TaroStyleType) {
   .fontWeight(style.fontWeight)
   .fontStyle(style.fontStyle)
   .fontFamily(style.fontFamily)
-  .lineHeight(style.lineHeight)
   .decoration({
     type: style.textDecoration,
     color: style.color
@@ -35,38 +34,40 @@ function textNormalFontStyle (style: TaroStyleType) {
 @Extend(Text)
 function textSpecialFontStyle(attr: TaroTextStyleType) {
   .textAlign(attr.textAlign)
+  .align(attr.verticalAlign)
   .textOverflow(attr.textOverflow)
   .maxLines(attr.WebkitLineClamp)
   .letterSpacing(attr.letterSpacing)
+  .lineHeight(attr.lineHeight)
 }
 
 @Builder
 export default function PseduoChildren (node: TaroViewElement) {
   // 伪类::Before
-  if (node.pseudo_before) {
-    if (node.pseudo_before.content) {
-      Text(node.pseudo_before.content)
-        .attributeModifier(pseudoModify.setStyle(node.pseudo_before))
-        .textNormalFontStyle(getStyle(node.pseudo_before || {}))
+  if (node._pseudo_before) {
+    if (node._pseudo_before?.hmStyle.content) {
+      Text(node._pseudo_before.hmStyle.content)
+        .attributeModifier(pseudoModify.setStyle(node._pseudo_before.hmStyle))
+        .textNormalFontStyle(getStyle(node._pseudo_before.hmStyle || {}))
         .textSpecialFontStyle(getFontAttributes(node))
     } else {
-      Stack() {}
-      .attributeModifier(pseudoModify.setStyle(node.pseudo_before || {}))
-      .stackAttrs(getStyle(node.pseudo_before || {}))
+      Flex() {}
+      .attributeModifier(pseudoModify.setStyle(node._pseudo_before.hmStyle || {}))
+      .flexAttrs(getStyle(node._pseudo_before.hmStyle || {}))
     }
   }
   createLazyChildren(node)
   // 伪类::After
-  if (node.pseudo_after) {
-    if (node.pseudo_after.content) {
-      Text(node.pseudo_after.content)
-        .attributeModifier(pseudoModify.setStyle(node.pseudo_after))
-        .textNormalFontStyle(getStyle(node.pseudo_after || {}))
+  if (node._pseudo_after) {
+    if (node._pseudo_after?.hmStyle.content) {
+      Text(node._pseudo_after.hmStyle.content)
+        .attributeModifier(pseudoModify.setStyle(node._pseudo_after.hmStyle))
+        .textNormalFontStyle(getStyle(node._pseudo_after.hmStyle || {}))
         .textSpecialFontStyle(getFontAttributes(node))
     } else {
-      Stack() {}
-      .attributeModifier(pseudoModify.setStyle(node.pseudo_after || {}))
-      .stackAttrs(getStyle(node.pseudo_after || {}))
+      Flex() {}
+      .attributeModifier(pseudoModify.setStyle(node._pseudo_after.hmStyle || {}))
+      .flexAttrs(getStyle(node._pseudo_after.hmStyle || {}))
     }
   }
 }
