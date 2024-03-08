@@ -17,7 +17,6 @@ function textNormalFontStyle (style: TaroStyleType) {
   .fontWeight(style.fontWeight)
   .fontStyle(style.fontStyle)
   .fontFamily(style.fontFamily)
-  .lineHeight(style.lineHeight)
   .decoration({
     type: style.textDecoration,
     color: style.color
@@ -27,9 +26,11 @@ function textNormalFontStyle (style: TaroStyleType) {
 @Extend(Text)
 function textSpecialFontStyle(attr: TaroTextStyleType) {
   .textAlign(attr.textAlign)
+  .align(attr.verticalAlign)
   .textOverflow(attr.textOverflow)
   .maxLines(attr.WebkitLineClamp)
   .letterSpacing(attr.letterSpacing)
+  .lineHeight(attr.lineHeight)
 }
 
 function getButtonFontSize (node: TaroButtonElement) {

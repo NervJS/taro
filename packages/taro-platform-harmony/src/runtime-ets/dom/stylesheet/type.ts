@@ -6,6 +6,8 @@ export interface HarmonyStyle extends TaroStyleType {
   textOverflow?: HarmonyType.Overflow
   WebkitLineClamp?: number
   letterSpacing?: number | string
+  verticalAlign?: Alignment
+  lineHeight?: Length
 }
 
 export interface TaroStyleType {
@@ -89,7 +91,6 @@ export interface TaroStyleType {
   fontStyle?: FontStyle
   fontWeight?: number | FontWeight | string
   fontFamily?: string | Resource
-  lineHeight?: string | number | Resource
   textDecoration?: TextDecorationType
 
   // gradient
@@ -108,6 +109,8 @@ export interface TaroTextStyleType {
   textOverflow?: HarmonyType.Overflow
   WebkitLineClamp?: number
   letterSpacing?: number | string
+  verticalAlign?: Alignment
+  lineHeight?: string | number | Resource
 }
 
 export namespace HarmonyType {
