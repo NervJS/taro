@@ -115,6 +115,14 @@ function depthTraversal(root: ReactElement) {
 
   const processLeaf = (leaf, descendant_map: TMappingNode) => {
     if (!leaf) return
+
+    // 如果是个数组
+    if (leaf instanceof Array) {
+      for (let i = 0; i < leaf.length; i++) {
+        processLeaf(leaf[i], descendant_map)
+      }
+    }
+
     const leaf_map = traverse(leaf)
     if (!leaf_map) return
     // 直接后代
