@@ -13,7 +13,8 @@ export class CanvasRenderingContext2DWXAdapter extends CanvasRenderingContext2D 
     // Not supported now
   }
 
-  draw() {
+  draw(cb?: (...args: any[]) => any) {
+    typeof cb === 'function' && cb()
     // Not supported now
   }
 
