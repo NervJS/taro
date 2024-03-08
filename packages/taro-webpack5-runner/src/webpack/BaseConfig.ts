@@ -90,7 +90,7 @@ export class BaseConfig {
         buildDependencies: {
           // 与 Config 中处理的配置文件保持一致
           config: [resolveScriptPath(path.join(appPath, 'config', 'index'))],
-          files: [resolveScriptPath(path.join(appPath, 'app.config'))]
+          files: [resolveScriptPath(path.join(appPath, 'src', 'app.config'))]
         },
         name: `${process.env.NODE_ENV}-${process.env.TARO_ENV}`
       }
