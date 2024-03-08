@@ -1,3 +1,4 @@
+import { addLeadingSlash } from '@tarojs/runtime'
 import { Action, createBrowserHistory, createHashHistory } from 'history'
 
 import { RouterConfig } from './router'
@@ -28,7 +29,7 @@ class MpaHistory implements History {
 
   parseUrl (to: Partial<Path>) {
     let url = to.pathname || ''
-    if (RouterConfig.isPage(url)) {
+    if (RouterConfig.isPage(addLeadingSlash(url))) {
       url += '.html'
     }
     if (to.search) {
