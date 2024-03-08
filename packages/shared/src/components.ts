@@ -445,6 +445,8 @@ const NativeSlot = {
   name: NO_DEFAULT_VALUE
 }
 
+const Script = {}
+
 export const internalComponents: Record<string, Record<string, string>> = {
   View,
   Icon,
@@ -486,6 +488,7 @@ export const internalComponents: Record<string, Record<string, string>> = {
   Slot,
   SlotView,
   NativeSlot,
+  Script,
 }
 
 export const controlledComponent = new Set([
