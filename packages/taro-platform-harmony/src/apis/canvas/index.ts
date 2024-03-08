@@ -10,9 +10,9 @@ export const createOffscreenCanvas = /* @__PURE__ */ temporarilyNotSupport('crea
 /** 创建 canvas 的绘图上下文 CanvasContext 对象 */
 // export const createCanvasContext = /* @__PURE__ */ temporarilyNotSupport('createOffscreenCanvas')
 export const createCanvasContext = (canvasId: string) => {
-  const dom = eventSource.get(canvasId)
+  const dom = eventSource.get(`canvasId-${canvasId}`)
+  // return dom as TaroCanvasElement
   if (dom) return (dom as unknown as TaroCanvasElement).context
-
 }
 
 /** 把当前画布指定区域的内容导出生成指定大小的图片 */
