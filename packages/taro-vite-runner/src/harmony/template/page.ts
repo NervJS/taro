@@ -162,59 +162,59 @@ export default class Parser extends BaseParser {
     .backgroundColor(this.navigationBarBackgroundColor${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
     .zIndex(1)
   }
-  Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
-    Column() {
-      if (${isTabPage ? 'this.node[index]' : 'this.node'}) {
-        TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement })
+  if (true) {
+    Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
+      Column() {
+        if (${isTabPage ? 'this.node[index]' : 'this.node'}) {
+          TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement })
+        }
       }
+      .width('100%')
+      .alignItems(HorizontalAlign.Start)
+      .onAreaChange((_: Area, area: Area) => {
+        const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
+        if (node) {
+          node._nodeInfo._scroll = area
+        }
+      })
     }
-    .width('100%')
-    .alignItems(HorizontalAlign.Start)
+    .clip(false)
+    .constraintSize({
+      maxHeight: ${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`} ? \`calc(100% - \${convertNumber2VP(75)})\` : '100%'
+    })
+    .scrollBar(typeof config${isTabPage ? '[index]' : ''}.enableScrollBar === 'boolean' ? config${isTabPage ? '[index]' : ''}.enableScrollBar : ${!this.appConfig.window?.enableScrollBar ? 'false' : 'true'})
     .onAreaChange((_: Area, area: Area) => {
       const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
       if (node) {
-        node._nodeInfo._scroll = area
+        node._nodeInfo._client = area
       }
     })
-  }
-  .clip(false)
-  .constraintSize({
-    maxHeight: ${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`} ? \`calc(100% - \${convertNumber2VP(75)})\` : '100%'
-  })
-  .scrollBar(typeof config${isTabPage ? '[index]' : ''}.enableScrollBar === 'boolean' ? config${isTabPage ? '[index]' : ''}.enableScrollBar : ${!this.appConfig.window?.enableScrollBar ? 'false' : 'true'})
-  .onAreaChange((_: Area, area: Area) => {
-    const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
-    if (node) {
-      node._nodeInfo._client = area
-    }
-  })
-  .onScroll(() => {
-    if (!this.page) return
-
-    const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
-    callFn(this.page.onPageScroll, this, {
-      scrollTop: offset.xOffset || 0,
-      scrollLeft: offset.yOffset || 0,
+    .onScroll(() => {
+      if (!this.page) return
+  
+      const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
+      callFn(this.page.onPageScroll, this, {
+        scrollTop: offset.xOffset || 0,
+        scrollLeft: offset.yOffset || 0,
+      })
     })
-  })
-  .onScrollStop(() => {
-    if (!this.page) return
-
-    const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
-    const distance: number = config${isTabPage ? '[index]' : ''}.onReachBottomDistance || ${this.appConfig.window?.onReachBottomDistance || 50}
-    const clientHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._nodeInfo?._client?.height) || 0
-    const scrollHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._nodeInfo?._scroll?.height) || 0
-    if (scrollHeight - clientHeight - offset.yOffset <= distance) {
-      callFn(this.page.onReachBottom, this)
-    }
-  })
-  ${
-  isTabPage
+    .onScrollStop(() => {
+      if (!this.page) return
+  
+      const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
+      const distance: number = config${isTabPage ? '[index]' : ''}.onReachBottomDistance || ${this.appConfig.window?.onReachBottomDistance || 50}
+      const clientHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._nodeInfo?._client?.height) || 0
+      const scrollHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._nodeInfo?._scroll?.height) || 0
+      if (scrollHeight - clientHeight - offset.yOffset <= distance) {
+        callFn(this.page.onReachBottom, this)
+      }
+    })
+    ${isTabPage
     // eslint-disable-next-line no-template-curly-in-string
     ? '.height((config[index].navigationStyle !== \'custom\') ? `calc(100%  - ${convertNumber2VP(75)})` : \'100%\')'
     // eslint-disable-next-line no-template-curly-in-string
-    : '.height((config.navigationStyle !== \'custom\') ? `calc(100%  - ${convertNumber2VP(75)})` : \'100%\')'
-}
+    : '.height((config.navigationStyle !== \'custom\') ? `calc(100%  - ${convertNumber2VP(75)})` : \'100%\')'}
+  }
 }
 .width('100%')
 .height('100%')
