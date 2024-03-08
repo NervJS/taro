@@ -35,6 +35,7 @@
     "@types/react-native": "^0.69.8"
   },
   "peerDependencies": {
+    "@tarojs/shared": "workspace:*",
     "react-native-device-info": "~10.3.0"
   }
 }

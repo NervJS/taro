@@ -3021,6 +3021,9 @@ importers:
       '@tarojs/runtime':
         specifier: workspace:*
         version: link:../taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -33680,10 +33683,10 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/miniprogram-compiler@0.2.2:
-    resolution: {integrity: sha512-fiJXv/15jCcRAU8YKcO7S7fkPKLa5ZBgpLN+d6B3r3KMktM5tAkDEQ+zm6aTfNoHurYOHcRyPyGf26gqQXlFXg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniprogram-compiler/-/miniprogram-compiler-0.2.2.tgz}
+  registry.npmjs.org/miniprogram-compiler@0.2.3:
+    resolution: {integrity: sha512-/MfFiXTBUwYxnrTbj1hgwk1+qGkMCTL1zi8IReOq/0SPVkUxpx19E89w+ohYCELFXkMfVbD+6ejrHh3Y1u5sVg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniprogram-compiler/-/miniprogram-compiler-0.2.3.tgz}
     name: miniprogram-compiler
-    version: 0.2.2
+    version: 0.2.3
     dependencies:
       glob: registry.npmjs.org/glob@7.2.3
       unescape-js: registry.npmjs.org/unescape-js@1.1.4
@@ -33703,7 +33706,7 @@ packages:
       csso: registry.npmjs.org/csso@3.5.1
       j-component: registry.npmjs.org/j-component@1.4.9
       less: registry.npmjs.org/less@3.13.1
-      miniprogram-compiler: registry.npmjs.org/miniprogram-compiler@0.2.2
+      miniprogram-compiler: registry.npmjs.org/miniprogram-compiler@0.2.3
       postcss: registry.npmjs.org/postcss@7.0.39
     dev: false
 
