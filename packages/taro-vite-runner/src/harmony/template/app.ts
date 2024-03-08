@@ -144,6 +144,7 @@ export default class Parser extends BaseParser {
       'import type Want from "@ohos.app.ability.Want"',
       'import type ohWindow from "@ohos.window"',
       '',
+      this.#setReconciler,
       'import UIAbility from "@ohos.app.ability.UIAbility"',
       'import AbilityConstant from "@ohos.app.ability.AbilityConstant"',
       'import { callFn, context, ObjectAssign, TaroAny, window } from "@tarojs/runtime"',
@@ -151,6 +152,7 @@ export default class Parser extends BaseParser {
       'import { initHarmonyElement, hooks } from "@tarojs/runtime"',
       'import { initPxTransform } from "@tarojs/taro"',
       `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
+      this.#setReconcilerPost,
       '',
       'window.__taroAppConfig = config',
       this.getInitPxTransform(),
@@ -174,10 +176,8 @@ export default class Parser extends BaseParser {
     const createApp = `${creator}(component, ${frameworkArgs})`
 
     return this.transArr2Str([
-      this.#setReconciler,
       `import { ${creator} } from "${creatorLocation}"`,
       `import component from "${escapePath(rawId)}"`,
-      this.#setReconcilerPost,
       importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(config)}`,
       `export default () => ${createApp}`,
