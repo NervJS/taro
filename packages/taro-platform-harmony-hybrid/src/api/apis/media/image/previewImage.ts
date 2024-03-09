@@ -8,6 +8,7 @@ import { isFunction } from '@tarojs/shared'
 import Taro from '@tarojs/taro'
 import { showActionSheet, showToast } from '@tarojs/taro-h5'
 
+import native from '../../NativeApi'
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 import { saveImageToPhotosAlbum } from './saveImageToPhotosAlbum'
@@ -85,7 +86,6 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
             if (tapIndex !== SAVE_IMAGE_BUTTON) {
               return
             }
-            // @ts-ignore
             native.downloadFile ({
               url: url, // 仅为示例，并非真实的资源
               success: function (res: any) {

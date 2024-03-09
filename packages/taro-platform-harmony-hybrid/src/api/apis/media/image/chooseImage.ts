@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
 import { showActionSheet } from '@tarojs/taro-h5'
 
+import native from '../../NativeApi'
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
@@ -53,15 +54,14 @@ export const chooseImage: typeof Taro.chooseImage = async (options) => {
   }
 
   return new Promise<Taro.chooseImage.SuccessCallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.chooseMediaAssets({
       count: count,
       mediaType: mediaType,
       sourceType: sourceSelected,
       sizeType: sizeType,
       apiName: name,
-      success: (res: any) => {      
-        const tempFiles: Taro.chooseImage.ImageFile[] = [] 
+      success: (res: any) => {
+        const tempFiles: Taro.chooseImage.ImageFile[] = []
         for (const file of res.tempFiles) {
           const fileInfo: Taro.chooseImage.ImageFile = {
             path: file.tempFilePath,
