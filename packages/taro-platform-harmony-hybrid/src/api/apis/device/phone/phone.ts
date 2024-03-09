@@ -1,11 +1,12 @@
 import Taro from '@tarojs/api'
 
+import native from '../../NativeApi'
 import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
 /**
  * 拨打电话
- * 
+ *
  * @canUse makePhoneCall
  * @__object [phoneNumber]
  */
@@ -37,7 +38,6 @@ export const makePhoneCall: typeof Taro.makePhoneCall = (options) => {
   }
 
   return new Promise((resolve, reject) => {
-    // @ts-ignore
     native.makePhoneCall({
       phoneNumber: phoneNumber,
       success: (res: any) => {
