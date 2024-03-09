@@ -40,7 +40,7 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   navigateToMiniProgram (options: any) {
     return options
   }
@@ -58,13 +58,13 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   request (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   saveDataUrlToFile (options: any): any {
     return options
   }
@@ -76,13 +76,13 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   startAccelerometer (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   stopAccelerometer (options: any): any {
     return options
   }
@@ -94,19 +94,19 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   offAccelerometerChange (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   startCompass (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   stopCompass (options: any): any {
     return options
   }
@@ -118,19 +118,19 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   offCompassChange (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   startGyroscope (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   stopGyroscope (options: any): any {
     return options
   }
@@ -142,79 +142,79 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   saveImageToPhotosAlbum (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   chooseMediaAssets (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   getVideoInfo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   getImageInfo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   compressVideo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   getLocation (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   openDocument (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   login (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   setNavigationStyle (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   getUserInfo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
   openSetting (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
   getSetting (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   setKeepScreenOn (options: any): any {
     return options
   }
@@ -226,7 +226,7 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   offUserCaptureScreen (options: any): any {
     return options
   }
@@ -238,19 +238,19 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   offLocationChange (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   setScreenBrightness (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   getScreenBrightness (options: any): any {
     return options
   }
@@ -262,7 +262,7 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   offMemoryWarning (options: any): any {
     return options
   }
@@ -286,72 +286,72 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   makePhoneCall (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   getSavedFileList (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   removeSavedFile (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   getSavedFileInfo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   addPhoneContact (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   scanCode (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   vibrateShort (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   vibrateLong (options: any): any {
     return options
   }
 
   // NativeUpdateManager
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   applyUpdate (): any {}
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   onCheckForUpdate (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   onUpdateFailed (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   onUpdateReady (options: any): any {
     return options
   }
@@ -538,7 +538,7 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   downloadFile (options: any): any {
     return options
   }
@@ -550,13 +550,13 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   offHeadersReceived (option: any, _: number): any {
     return option
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   offProgressUpdate (option: any, _: number): any {
     return option
   }
@@ -575,7 +575,7 @@ class NativeApi {
 
   // NativeFileSystemManager
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   getFileManager (): any {}
 
   // @ts-ignore
@@ -585,7 +585,7 @@ class NativeApi {
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true })
+  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
   saveFile (option: any): any {
     return option
   }

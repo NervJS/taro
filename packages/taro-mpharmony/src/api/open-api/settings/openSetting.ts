@@ -20,6 +20,5 @@ export const openSetting: typeof Taro.openSetting = function (options) {
     return Promise.reject(res)
   }
 
-  // @ts-ignore
   return native.openSetting(options)
 }
