@@ -25,15 +25,15 @@ export default class NavigationBarHandler {
     this.pageContext = pageContext
     this.init()
 
-    eventCenter.on('__taroH5SetNavigationBarTitle', (title)=> {
+    eventCenter.on('__taroH5SetNavigationBarTitle', (title) => {
       this.setTitle(title)
     })
 
-    eventCenter.on('__taroH5setNavigationBarLoading', (loading)=> {
+    eventCenter.on('__taroH5setNavigationBarLoading', (loading) => {
       this.setNavigationLoading(loading)
     })
 
-    eventCenter.on('__taroH5setNavigationBarColor', ({ backgroundColor, frontColor })=> {
+    eventCenter.on('__taroH5setNavigationBarColor', ({ backgroundColor, frontColor }) => {
       if (typeof backgroundColor === 'string') this.setNavigationBarBackground(backgroundColor)
 
       if (typeof frontColor === 'string') this.setNavigationBarTextStyle(frontColor)
