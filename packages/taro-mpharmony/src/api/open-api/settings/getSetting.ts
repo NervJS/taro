@@ -21,7 +21,6 @@ export const getSetting: typeof Taro.getSetting = function (options) {
     return Promise.reject(res)
   }
 
-  // @ts-ignore
   return native.getSetting(options)
 
 }
