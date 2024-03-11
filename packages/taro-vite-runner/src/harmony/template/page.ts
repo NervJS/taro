@@ -116,7 +116,7 @@ export default class Parser extends BaseParser {
 
   renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0) {
     if (this.buildConfig.isBuildNativeComp) {
-      return `if (this.node) {\n  TaroView({ node: this.node as TaroViewElement })\n}`
+      return `if (this.node) {\n  TaroView({ node: this.node as TaroViewElement, createLazyChildren: createLazyChildren })\n}`
     }
 
     const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
@@ -179,7 +179,7 @@ export default class Parser extends BaseParser {
     Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
       Column() {
         if (${isTabPage ? 'this.node[index]' : 'this.node'}) {
-          TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement })
+          TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement, createLazyChildren: createLazyChildren })
         }
       }
       .width('100%')
@@ -204,7 +204,7 @@ export default class Parser extends BaseParser {
     })
     .onScroll(() => {
       if (!this.page) return
-  
+
       const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
       callFn(this.page.onPageScroll, this, {
         scrollTop: offset.xOffset || 0,
@@ -213,7 +213,7 @@ export default class Parser extends BaseParser {
     })
     .onScrollStop(() => {
       if (!this.page) return
-  
+
       const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
       const distance: number = config${isTabPage ? '[index]' : ''}.onReachBottomDistance || ${this.appConfig.window?.onReachBottomDistance || 50}
       const clientHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._nodeInfo?._client?.height) || 0
@@ -752,6 +752,9 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       this.enableRefresh = pageRefresh.some(e => !!e) ? 2 : 0
     }
 
+    const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
+    const targetRoot = path.resolve(this.appPath, sourceRoot)
+    const fileName = path.relative(targetRoot, rawId)
     const code = this.transArr2Str([
       'import type Taro from "@tarojs/taro/types"',
       'import type { TFunc } from "@tarojs/runtime/dist/runtime.esm"',
@@ -762,6 +765,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       'import TaroView from "@tarojs/components/view"',
       'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
+      `import { createLazyChildren } from "./${path.relative(path.dirname(fileName), 'render')}"`,
       this.isTabbarPage
         ? [
           this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`),
@@ -786,13 +790,12 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       this.getInstantiatePage(page),
     ])
 
-    const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
     return resolveAbsoluteRequire({
       name,
       importer: rawId,
       code,
       outputRoot,
-      targetRoot: path.resolve(this.appPath, sourceRoot),
+      targetRoot,
       resolve,
       modifyResolveId,
     })

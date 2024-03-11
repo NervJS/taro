@@ -1,6 +1,5 @@
 import type { TaroMovableAreaElement, TaroStyleType, TaroMovableViewElement} from '@tarojs/runtime'
 import commonStyleModify from './style'
-import { createLazyChildren } from './render'
 
 import { FlexManager } from './utils/flexManager'
 import { getNormalAttributes } from './utils/helper'
@@ -28,13 +27,15 @@ function columnAttrs(style: TaroStyleType) {
 
 @Component
 export default struct TaroMovableArea {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroMovableAreaElement) => void = this.customBuilder
   @ObjectLink node: TaroMovableAreaElement
 
   build() {
     if (this.node && this.node.hmStyle?.display !== 'none') {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .rowAttrs(getNormalAttributes(this.node))
@@ -71,7 +72,7 @@ export default struct TaroMovableArea {
         )
       } else {
         Column() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .columnAttrs(getNormalAttributes(this.node))

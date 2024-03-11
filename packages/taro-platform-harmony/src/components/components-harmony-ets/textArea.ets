@@ -30,6 +30,8 @@ function getPlaceholderColor (node: TaroTextAreaElement): string {
 export default struct TaroTextArea {
   @State value: string = ''
 
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroTextAreaElement) => void = this.customBuilder
   @ObjectLink node: TaroTextAreaElement
 
   aboutToAppear () {
@@ -55,7 +57,7 @@ export default struct TaroTextArea {
         .textAttr(getFontAttributes(this.node))
         .onChange((value: string) => {
           const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)
-          
+
           this.value = value
           this.node?.updateFormWidgetValue(value)
           eventHandler(event, 'input', this.node)
@@ -67,7 +69,7 @@ export default struct TaroTextArea {
         })
         .onFocus(() => {
           const event: TaroEvent = createTaroEvent('focus', { detail: { value: this.value, height: this.node?._height } }, this.node)
-    
+
           eventHandler(event, 'focus', this.node)
         })
         .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {

@@ -28,6 +28,8 @@ function themeStyles(isDisabled: boolean) {
 
 @Component
 export default struct TaroSwitch {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroSwitchElement) => void = this.customBuilder
   @ObjectLink node: TaroSwitchElement
 
   aboutToAppear () {
@@ -50,7 +52,7 @@ export default struct TaroSwitch {
           if (this.node) {
             if (!this.node?._attrs.disabled) {
               const event: TaroEvent = createTaroEvent('change', { detail: { value: isOn } }, this.node)
-      
+
               this.node.updateCheckedValue(isOn)
               eventHandler(event, 'change', this.node)
             } else {

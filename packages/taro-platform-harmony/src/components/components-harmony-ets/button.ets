@@ -1,5 +1,4 @@
 import { eventHandler, createTaroEvent, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
-import { createLazyChildren } from './render'
 import commonStyleModify from './style'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
@@ -96,6 +95,8 @@ function getButtonMinHeight (node: TaroButtonElement): string | number | undefin
 
 @Component
 export default struct TaroButton {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroButtonElement) => void = this.customBuilder
   @ObjectLink node: TaroButtonElement
 
   build() {
@@ -107,7 +108,7 @@ export default struct TaroButton {
               .width(20).height(20)
               .color(getThemeAttributes(this.node).color)
           }
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
       }
       .themeStyles(getThemeAttributes(this.node))

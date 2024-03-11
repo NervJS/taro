@@ -16,6 +16,8 @@ interface IError {
 
 @Component
 export default struct TaroWebView {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroWebViewElement) => void = this.customBuilder
   @ObjectLink node: TaroWebViewElement
 
   build () {
@@ -43,7 +45,7 @@ export default struct TaroWebView {
         })
         .onErrorReceive(shouldBindEvent((e: IError) => {
           const event: TaroEvent = createTaroEvent('error', { detail: { url: this.node._attrs.src, fullUrl: e.request.getRequestUrl() } }, this.node)
-          
+
           eventHandler(event, 'error', this.node)
         }, this.node, ['error']))
         .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))

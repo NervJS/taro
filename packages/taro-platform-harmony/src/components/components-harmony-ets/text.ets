@@ -41,6 +41,8 @@ function getButtonFontSize (node: TaroButtonElement) {
 
 @Component
 export default struct TaroText {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroTextElement) => void = this.customBuilder
   @ObjectLink node: TaroTextElement
 
   build () {

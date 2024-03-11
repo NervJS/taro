@@ -1,7 +1,6 @@
 import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/flexManager'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
@@ -10,13 +9,15 @@ import type { TaroAny, TaroFormElement } from '@tarojs/runtime'
 
 @Component
 export default struct TaroForm {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroFormElement) => void = this.customBuilder
   @ObjectLink node: TaroFormElement
-  
+
   build() {
     if (this.node?.hmStyle?.display !== 'none') {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
@@ -29,7 +30,7 @@ export default struct TaroForm {
         .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
       } else {
         Column() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
