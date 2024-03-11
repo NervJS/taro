@@ -1,11 +1,11 @@
 import Taro from '@tarojs/api'
 
+import  native from '../../NativeApi'
 import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
-
 /**
  * 设置页面导航条颜色
- * 
+ *
  * @canUse setNavigationBarColor
  * @__object [backgroundColor, frontColor, animation]
  */
@@ -49,7 +49,6 @@ export const setNavigationBarColor: typeof Taro.setNavigationBarColor = (options
       }),
     })
   }
-  // @ts-ignore
   native.setNavigationBarColor({ frontColor, backgroundColor, ...otherOptions })
   return handle.success()
 }
