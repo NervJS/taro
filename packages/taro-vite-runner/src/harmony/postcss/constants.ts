@@ -46,4 +46,4 @@ export const loadParseImportRE = /(?:\?|&)load-parse-import\b/
 
 export const publicAssetUrlRE = /__TARO_VITE_PUBLIC_ASSET__([a-z\d]{8})__/g
 
-export const tjsxRe = /\.[tj]sx$/i
+export const tjsxRe = /\.[tj]sx?$/i

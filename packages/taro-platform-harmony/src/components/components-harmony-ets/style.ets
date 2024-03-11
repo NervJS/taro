@@ -96,7 +96,11 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
     instance.backgroundColor(style.backgroundColor)
   }
   if (!isUndefined(style.backgroundImage)) {
-    instance.backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
+    if (style.backgroundImage.colors) {
+      instance.linearGradient(style.backgroundImage)
+    } else {
+      instance.backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
+    }
   }
   if (!isUndefined(style.backgroundSize)) {
     instance.backgroundImageSize(style.backgroundSize)
@@ -150,11 +154,8 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
   if (!isUndefined(style.opacity)) {
     instance.opacity(style.opacity)
   }
-  if (!isUndefined(style.linearGradient)) {
-    instance.linearGradient(style.linearGradient)
-  }
   if (!isUndefined(style.overflow)) {
-    instance.clip(style.overflow)
+    instance.clip(style.overflow === 'hidden')
   }
   // if (!isUndefined(style.transformOrigin)) {
   //   instance.rotate({ centerX: style.transformOrigin.x, centerY: style.transformOrigin.y, angle: 0 })
@@ -173,8 +174,8 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
         x: style.transform.Scale.x || 0,
         y: style.transform.Scale.y || 0,
         z: style.transform.Scale.z || 0,
-        centerX: style.transformOrigin?.x,
-        centerY: style.transformOrigin?.y,
+        centerX: style.transformOrigin?.x || 0,
+        centerY: style.transformOrigin?.y || 0,
       })
     }
     if (style.transform.Rotate) {
@@ -182,8 +183,8 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
         x: style.transform.Rotate.x || 0,
         y: style.transform.Rotate.y || 0,
         z: style.transform.Rotate.z || 0,
-        centerX: style.transformOrigin?.x,
-        centerY: style.transformOrigin?.y,
+        centerX: style.transformOrigin?.x || 0,
+        centerY: style.transformOrigin?.y || 0,
         angle: 0
       })
     }

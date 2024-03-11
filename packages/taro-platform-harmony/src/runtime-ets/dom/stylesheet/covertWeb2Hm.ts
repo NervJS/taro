@@ -4,82 +4,6 @@ import { CSSProperties } from 'react'
 
 import { BORDER_STYLE_MAP, capitalizeFirstLetter, FlexManager, getNodeMarginOrPaddingData, getUnit } from './util'
 
-export const WEB_STYLE_MAP = {
-  padding: ['_paddingTop', '_paddingRight', '_paddingBottom', '_paddingLeft'],
-  paddingTop: ['_paddingTop'],
-  paddingRight: ['_paddingRight'],
-  paddingBottom: ['_paddingBottom'],
-  paddingLeft: ['_paddingLeft'],
-  margin: ['_marginTop', '_marginRight', '_marginBottom', '_marginLeft'],
-  marginTop: ['_marginTop'],
-  marginRight: ['_marginRight'],
-  marginBottom: ['_marginBottom'],
-  marginLeft: ['_marginLeft'],
-  position: ['_position'],
-  top: ['_top'],
-  left: ['_left'],
-  flex: ['_flexGrow', '_flexShrink', '_flexBasis'],
-  flexGrow: ['_flexGrow'],
-  flexShrink: ['_flexShrink'],
-  flexBasis: ['_flexBasis'],
-  alignSelf: ['_alignSelf'],
-  flexDirection: ['_flexDirection'],
-  justifyContent: ['_justifyContent'],
-  alignItems: ['_alignItems'],
-  alignContent: ['_alignContent'],
-  flexWrap: ['_flexWrap'],
-  width: ['_width'],
-  height: ['_height'],
-  minWidth: ['_minWidth'],
-  minHeight: ['_minHeight'],
-  maxWidth: ['_maxWidth'],
-  maxHeight: ['_maxHeight'],
-  background: ['_backgroundColor', '_backgroundImage', '_backgroundRepeat', '_backgroundSize', '_backgroundPosition'],
-  backgroundColor: ['_backgroundColor'],
-  backgroundImage: ['_backgroundImage'],
-  backgroundRepeat: ['_backgroundRepeat'],
-  backgroundSize: ['_backgroundSize'],
-  backgroundPosition: ['_backgroundPosition'],
-  border: ['_borderTopWidth', '_borderRightWidth', '_borderBottomWidth', '_borderLeftWidth', '_borderTopStyle', '_borderRightStyle', '_borderBottomStyle', '_borderLeftStyle', '_borderTopColor', '_borderRightColor', '_borderBottomColor', '_borderLeftColor'],
-  borderTop: ['_borderTopWidth', '_borderTopStyle', '_borderTopColor'],
-  borderRight: ['_borderRightWidth', '_borderRightStyle', '_borderRightColor'],
-  borderBottom: ['_borderBottomWidth', '_borderBottomStyle', '_borderBottomColor'],
-  borderLeft: ['_borderLeftWidth', '_borderLeftStyle', '_borderLeftColor'],
-  borderWidth: ['_borderTopWidth', '_borderRightWidth', '_borderBottomWidth', '_borderLeftWidth'],
-  borderLeftWidth: ['_borderLeftWidth'],
-  borderRightWidth: ['_borderRightWidth'],
-  borderTopWidth: ['_borderTopWidth'],
-  borderBottomWidth: ['_borderBottomWidth'],
-  borderStyle: ['_borderTopStyle', '_borderRightStyle', '_borderBottomStyle', '_borderLeftStyle'],
-  borderLeftStyle: ['_borderLeftStyle'],
-  borderRightStyle: ['_borderRightStyle'],
-  borderTopStyle: ['_borderTopStyle'],
-  borderBottomStyle: ['_borderBottomStyle'],
-  borderColor: ['_borderTopColor', '_borderRightColor', '_borderBottomColor', '_borderLeftColor'],
-  borderLeftColor: ['_borderLeftColor'],
-  borderRightColor: ['_borderRightColor'],
-  borderTopColor: ['_borderTopColor'],
-  borderBottomColor: ['_borderBottomColor'],
-  borderRadius: ['_borderTopLeftRadius', '_borderTopRightRadius', '_borderBottomLeftRadius', '_borderBottomRightRadius'],
-  borderTopLeftRadius: ['_borderTopLeftRadius'],
-  borderTopRightRadius: ['_borderTopRightRadius'],
-  borderBottomLeftRadius: ['_borderBottomLeftRadius'],
-  borderBottomRightRadius: ['_borderBottomRightRadius'],
-  color: ['_color'],
-  fontSize: ['_fontSize'],
-  fontWeight: ['_fontWeight'],
-  fontStyle: ['_fontStyle'],
-  textAlign: ['_textAlign'],
-  verticalAlign: ['_align'],
-  lineHeight: ['_lineHeight'],
-  letterSpacing: ['_letterSpacing'],
-  textDecoration: ['_textDecoration'],
-  textOverflow: ['_textOverflow'],
-  WebkitLineClamp: ['_WebkitLineClamp'],
-  transform: ['_transform'],
-  display: ['_display']
-}
-
 // 将web端的style转换为hm端的style
 export default function convertWebStyle2HmStyle(webStyle: CSSProperties) {
   const hmStyle: Record<string, any> = {}
@@ -88,58 +12,66 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties) {
     switch (key) {
       case 'padding': {
         const { top, bottom, left, right } = getNodeMarginOrPaddingData(value)
-        hmStyle._paddingTop = top
-        hmStyle._paddingBottom = bottom
-        hmStyle._paddingLeft = left
-        hmStyle._paddingRight = right
+        hmStyle.paddingTop = top
+        hmStyle.paddingBottom = bottom
+        hmStyle.paddingLeft = left
+        hmStyle.paddingRight = right
         break
       }
       case 'paddingTop': {
-        hmStyle._paddingTop = getUnit(value)
+        hmStyle.paddingTop = getUnit(value)
         break
       }
       case 'paddingBottom': {
-        hmStyle._paddingBottom = getUnit(value)
+        hmStyle.paddingBottom = getUnit(value)
         break
       }
       case 'paddingLeft': {
-        hmStyle._paddingLeft = getUnit(value)
+        hmStyle.paddingLeft = getUnit(value)
         break
       }
       case 'paddingRight': {
-        hmStyle._paddingRight = getUnit(value)
+        hmStyle.paddingRight = getUnit(value)
         break
       }
       case 'margin': {
         const { top, bottom, left, right } = getNodeMarginOrPaddingData(value)
-        hmStyle._marginTop = top
-        hmStyle._marginBottom = bottom
-        hmStyle._marginLeft = left
-        hmStyle._marginRight = right
+        hmStyle.marginTop = top
+        hmStyle.marginBottom = bottom
+        hmStyle.marginLeft = left
+        hmStyle.marginRight = right
         break
       }
       case 'marginTop': {
-        hmStyle._marginTop = getUnit(value)
+        hmStyle.marginTop = getUnit(value)
         break
       }
       case 'marginBottom': {
-        hmStyle._marginBottom = getUnit(value)
+        hmStyle.marginBottom = getUnit(value)
         break
       }
       case 'marginLeft': {
-        hmStyle._marginLeft = getUnit(value)
+        hmStyle.marginLeft = getUnit(value)
         break
       }
       case 'marginRight': {
-        hmStyle._marginRight = getUnit(value)
+        hmStyle.marginRight = getUnit(value)
         break
       }
       case 'top': {
-        hmStyle._top = getUnit(value)
+        hmStyle.top = getUnit(value)
         break
       }
       case 'left': {
-        hmStyle._left = getUnit(value)
+        hmStyle.left = getUnit(value)
+        break
+      }
+      case 'right': {
+        hmStyle.right = getUnit(value)
+        break
+      }
+      case 'bottom': {
+        hmStyle.bottom = getUnit(value)
         break
       }
       case 'flex': {
@@ -156,69 +88,69 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties) {
             res[index] = index < 2 ? Number(item) : item
           })
         }
-        hmStyle._flexGrow = getUnit(res[0])
-        hmStyle._flexShrink = Number(res[1])
-        hmStyle._flexBasis = Number(res[2])
+        hmStyle.flexGrow = getUnit(res[0])
+        hmStyle.flexShrink = Number(res[1])
+        hmStyle.flexBasis = Number(res[2])
         break
       }
       case 'flexGrow': {
-        hmStyle._flexGrow = getUnit(value)
+        hmStyle.flexGrow = getUnit(value)
         break
       }
       case 'flexShrink': {
-        hmStyle._flexShrink = Number(value)
+        hmStyle.flexShrink = Number(value)
         break
       }
       case 'flexBasis': {
-        hmStyle._flexBasis = Number(value)
+        hmStyle.flexBasis = Number(value)
         break
       }
       case 'alignSelf': {
-        hmStyle._alignSelf = FlexManager.itemAlign(value)
+        hmStyle.alignSelf = FlexManager.itemAlign(value)
         break
       }
       case 'flexDirection': {
-        hmStyle._flexDirection = FlexManager.direction(value)
+        hmStyle.flexDirection = FlexManager.direction(value)
         break
       }
       case 'justifyContent': {
-        hmStyle._justifyContent = FlexManager.flexAlign(value)
+        hmStyle.justifyContent = FlexManager.flexAlign(value)
         break
       }
       case 'alignItems': {
-        hmStyle._alignItems = FlexManager.itemAlign(value)
+        hmStyle.alignItems = FlexManager.itemAlign(value)
         break
       }
       case 'alignContent': {
-        hmStyle._alignContent = FlexManager.flexAlign(value)
+        hmStyle.alignContent = FlexManager.flexAlign(value)
         break
       }
       case 'flexWrap': {
-        hmStyle._flexWrap = FlexManager.flexWrap(value)
+        hmStyle.flexWrap = FlexManager.flexWrap(value)
         break
       }
       case 'width': {
-        hmStyle._width = getUnit(value)
+        hmStyle.width = getUnit(value)
         break
       }
       case 'height': {
-        hmStyle._height = getUnit(value)
+        hmStyle.height = getUnit(value)
         break
       }
       case 'minWidth': {
-        hmStyle._minWidth = getUnit(value)
+        hmStyle.minWidth = getUnit(value)
         break
       }
       case 'minHeight': {
-        hmStyle._minHeight = getUnit(value)
+        hmStyle.minHeight = getUnit(value)
         break
       }
       case 'maxWidth': {
-        hmStyle._maxWidth = getUnit(value)
+        hmStyle.maxWidth = getUnit(value)
         break
       }
       case 'maxHeight': {
-        hmStyle._maxHeight = getUnit(value)
+        hmStyle.maxHeight = getUnit(value)
         break
       }
       case 'background': {
@@ -226,7 +158,7 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties) {
         break
       }
       case 'backgroundColor': {
-        hmStyle._backgroundColor = value
+        hmStyle.backgroundColor = value
         break
       }
       case 'backgroundImage': {
@@ -247,146 +179,146 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties) {
       }
       case 'border': {
         const [width, style, color] = value.split(' ')
-        hmStyle._borderTopWidth = getUnit(width)
-        hmStyle._borderRightWidth = getUnit(width)
-        hmStyle._borderBottomWidth = getUnit(width)
-        hmStyle._borderLeftWidth = getUnit(width)
-        hmStyle._borderTopStyle = BORDER_STYLE_MAP.get(style)
-        hmStyle._borderRightStyle = BORDER_STYLE_MAP.get(style)
-        hmStyle._borderBottomStyle = BORDER_STYLE_MAP.get(style)
-        hmStyle._borderLeftStyle = BORDER_STYLE_MAP.get(style)
-        hmStyle._borderTopColor = color
-        hmStyle._borderRightColor = color
-        hmStyle._borderBottomColor = color
-        hmStyle._borderLeftColor = color
+        hmStyle.borderTopWidth = getUnit(width)
+        hmStyle.borderRightWidth = getUnit(width)
+        hmStyle.borderBottomWidth = getUnit(width)
+        hmStyle.borderLeftWidth = getUnit(width)
+        hmStyle.borderTopStyle = BORDER_STYLE_MAP.get(style)
+        hmStyle.borderRightStyle = BORDER_STYLE_MAP.get(style)
+        hmStyle.borderBottomStyle = BORDER_STYLE_MAP.get(style)
+        hmStyle.borderLeftStyle = BORDER_STYLE_MAP.get(style)
+        hmStyle.borderTopColor = color
+        hmStyle.borderRightColor = color
+        hmStyle.borderBottomColor = color
+        hmStyle.borderLeftColor = color
         break
       }
       case 'borderTop': {
         const [width, style, color] = value.split(' ')
-        hmStyle._borderTopWidth = getUnit(width)
-        hmStyle._borderTopStyle = BORDER_STYLE_MAP.get(style)
-        hmStyle._borderTopColor = color
+        hmStyle.borderTopWidth = getUnit(width)
+        hmStyle.borderTopStyle = BORDER_STYLE_MAP.get(style)
+        hmStyle.borderTopColor = color
         break
       }
       case 'borderRight': {
         const [width, style, color] = value.split(' ')
-        hmStyle._borderRightWidth = getUnit(width)
-        hmStyle._borderRightStyle = BORDER_STYLE_MAP.get(style)
-        hmStyle._borderRightColor = color
+        hmStyle.borderRightWidth = getUnit(width)
+        hmStyle.borderRightStyle = BORDER_STYLE_MAP.get(style)
+        hmStyle.borderRightColor = color
         break
       }
       case 'borderBottom': {
         const [width, style, color] = value.split(' ')
-        hmStyle._borderBottomWidth = getUnit(width)
-        hmStyle._borderBottomStyle = BORDER_STYLE_MAP.get(style)
-        hmStyle._borderBottomColor = color
+        hmStyle.borderBottomWidth = getUnit(width)
+        hmStyle.borderBottomStyle = BORDER_STYLE_MAP.get(style)
+        hmStyle.borderBottomColor = color
         break
       }
       case 'borderLeft': {
         const [width, style, color] = value.split(' ')
-        hmStyle._borderLeftWidth = getUnit(width)
-        hmStyle._borderLeftStyle = BORDER_STYLE_MAP.get(style)
-        hmStyle._borderLeftColor = color
+        hmStyle.borderLeftWidth = getUnit(width)
+        hmStyle.borderLeftStyle = BORDER_STYLE_MAP.get(style)
+        hmStyle.borderLeftColor = color
         break
       }
       case 'borderWidth': {
-        hmStyle._borderTopWidth = getUnit(value)
-        hmStyle._borderRightWidth = getUnit(value)
-        hmStyle._borderBottomWidth = getUnit(value)
-        hmStyle._borderLeftWidth = getUnit(value)
+        hmStyle.borderTopWidth = getUnit(value)
+        hmStyle.borderRightWidth = getUnit(value)
+        hmStyle.borderBottomWidth = getUnit(value)
+        hmStyle.borderLeftWidth = getUnit(value)
         break
       }
       case 'borderLeftWidth': {
-        hmStyle._borderLeftWidth = getUnit(value)
+        hmStyle.borderLeftWidth = getUnit(value)
         break
       }
       case 'borderRightWidth': {
-        hmStyle._borderRightWidth = getUnit(value)
+        hmStyle.borderRightWidth = getUnit(value)
         break
       }
       case 'borderTopWidth': {
-        hmStyle._borderTopWidth = getUnit(value)
+        hmStyle.borderTopWidth = getUnit(value)
         break
       }
       case 'borderBottomWidth': {
-        hmStyle._borderBottomWidth = getUnit(value)
+        hmStyle.borderBottomWidth = getUnit(value)
         break
       }
       case 'borderStyle': {
-        hmStyle._borderTopStyle = BORDER_STYLE_MAP.get(value)
-        hmStyle._borderRightStyle = BORDER_STYLE_MAP.get(value)
-        hmStyle._borderBottomStyle = BORDER_STYLE_MAP.get(value)
-        hmStyle._borderLeftStyle = BORDER_STYLE_MAP.get(value)
+        hmStyle.borderTopStyle = BORDER_STYLE_MAP.get(value)
+        hmStyle.borderRightStyle = BORDER_STYLE_MAP.get(value)
+        hmStyle.borderBottomStyle = BORDER_STYLE_MAP.get(value)
+        hmStyle.borderLeftStyle = BORDER_STYLE_MAP.get(value)
         break
       }
       case 'borderLeftStyle': {
-        hmStyle._borderLeftStyle = BORDER_STYLE_MAP.get(value)
+        hmStyle.borderLeftStyle = BORDER_STYLE_MAP.get(value)
         break
       }
       case 'borderRightStyle': {
-        hmStyle._borderRightStyle = BORDER_STYLE_MAP.get(value)
+        hmStyle.borderRightStyle = BORDER_STYLE_MAP.get(value)
         break
       }
       case 'borderTopStyle': {
-        hmStyle._borderTopStyle = BORDER_STYLE_MAP.get(value)
+        hmStyle.borderTopStyle = BORDER_STYLE_MAP.get(value)
         break
       }
       case 'borderBottomStyle': {
-        hmStyle._borderBottomStyle = BORDER_STYLE_MAP.get(value)
+        hmStyle.borderBottomStyle = BORDER_STYLE_MAP.get(value)
         break
       }
       case 'borderColor': {
-        hmStyle._borderTopColor = value
-        hmStyle._borderRightColor = value
-        hmStyle._borderBottomColor = value
-        hmStyle._borderLeftColor = value
+        hmStyle.borderTopColor = value
+        hmStyle.borderRightColor = value
+        hmStyle.borderBottomColor = value
+        hmStyle.borderLeftColor = value
         break
       }
       case 'borderLeftColor': {
-        hmStyle._borderLeftColor = value
+        hmStyle.borderLeftColor = value
         break
       }
       case 'borderRightColor': {
-        hmStyle._borderRightColor = value
+        hmStyle.borderRightColor = value
         break
       }
       case 'borderTopColor': {
-        hmStyle._borderTopColor = value
+        hmStyle.borderTopColor = value
         break
       }
       case 'borderBottomColor': {
-        hmStyle._borderBottomColor = value
+        hmStyle.borderBottomColor = value
         break
       }
       case 'borderRadius': {
-        hmStyle._borderTopLeftRadius = getUnit(value)
-        hmStyle._borderTopRightRadius = getUnit(value)
-        hmStyle._borderBottomLeftRadius = getUnit(value)
-        hmStyle._borderBottomRightRadius = getUnit(value)
+        hmStyle.borderTopLeftRadius = getUnit(value)
+        hmStyle.borderTopRightRadius = getUnit(value)
+        hmStyle.borderBottomLeftRadius = getUnit(value)
+        hmStyle.borderBottomRightRadius = getUnit(value)
         break
       }
       case 'borderTopLeftRadius': {
-        hmStyle._borderTopLeftRadius = getUnit(value)
+        hmStyle.borderTopLeftRadius = getUnit(value)
         break
       }
       case 'borderTopRightRadius': {
-        hmStyle._borderTopRightRadius = getUnit(value)
+        hmStyle.borderTopRightRadius = getUnit(value)
         break
       }
       case 'borderBottomLeftRadius': {
-        hmStyle._borderBottomLeftRadius = getUnit(value)
+        hmStyle.borderBottomLeftRadius = getUnit(value)
         break
       }
       case 'borderBottomRightRadius': {
-        hmStyle._borderBottomRightRadius = getUnit(value)
+        hmStyle.borderBottomRightRadius = getUnit(value)
         break
       }
       case 'color': {
-        hmStyle._color = value
+        hmStyle.color = value
         break
       }
       case 'fontSize': {
-        hmStyle._fontSize = getUnit(value)
+        hmStyle.fontSize = getUnit(value)
         break
       }
       case 'fontWeight': {
@@ -396,26 +328,26 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties) {
       case 'fontStyle': {
         switch (value) {
           case 'italic':
-            hmStyle._fontStyle = FontStyle.Italic
+            hmStyle.fontStyle = FontStyle.Italic
             break
           default:
-            hmStyle._fontStyle = FontStyle.Normal
+            hmStyle.fontStyle = FontStyle.Normal
         }
         break
       }
       case 'textAlign': {
         switch (value) {
           case 'left':
-            hmStyle._textAlign = TextAlign.Start
+            hmStyle.textAlign = TextAlign.Start
             break
           case 'center':
-            hmStyle._textAlign = TextAlign.Center
+            hmStyle.textAlign = TextAlign.Center
             break
           case 'right':
-            hmStyle._textAlign = TextAlign.End
+            hmStyle.textAlign = TextAlign.End
             break
           default:
-            hmStyle._textAlign = TextAlign.Start
+            hmStyle.textAlign = TextAlign.Start
             break
         }
         break
@@ -425,34 +357,34 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties) {
           case 'supper':
           case 'top':
           case 'text-top':
-            hmStyle._align = Alignment.Top
+            hmStyle.verticalAlign = Alignment.Top
             break
           case 'middle':
-            hmStyle._align = Alignment.Center
+            hmStyle.verticalAlign = Alignment.Center
             break
           case 'sub':
           case 'text-bottom':
           case 'bottom':
-            hmStyle._align = Alignment.Bottom
+            hmStyle.verticalAlign = Alignment.Bottom
             break
         }
         break
       }
       case 'lineHeight': {
-        hmStyle._lineHeight = getUnit(value)
+        hmStyle.lineHeight = getUnit(value)
         break
       }
       case 'letterSpacing': {
-        hmStyle._letterSpacing = getUnit(value)
+        hmStyle.letterSpacing = getUnit(value)
         break
       }
       case 'textDecoration': {
         if (typeof value === 'string') {
           switch (value) {
-            case 'underline': hmStyle._textDecoration = TextDecorationType.Underline; break
-            case 'overline': hmStyle._textDecoration = TextDecorationType.Overline; break
-            case 'line-through': hmStyle._textDecoration = TextDecorationType.LineThrough; break
-            default: hmStyle._textDecoration = TextDecorationType.None; break
+            case 'underline': hmStyle.textDecoration = TextDecorationType.Underline; break
+            case 'overline': hmStyle.textDecoration = TextDecorationType.Overline; break
+            case 'line-through': hmStyle.textDecoration = TextDecorationType.LineThrough; break
+            default: hmStyle.textDecoration = TextDecorationType.None; break
           }
         }
         break
@@ -465,39 +397,40 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties) {
             case 'ellipsis': overflow = TextOverflow.Ellipsis; break
             case 'marquee': overflow = TextOverflow.MARQUEE; break
           }
-          hmStyle._textOverflow = {
+          hmStyle.textOverflow = {
             overflow
           }
         }
         break
       }
       case 'WebkitLineClamp': {
-        hmStyle._WebkitLineClamp = Number(value)
+        hmStyle.WebkitLineClamp = Number(value)
         break 
       }
       case 'transform': {
-        hmStyle._transform = parseTransform(value)
+        // todo: 需要更新
+        // hmStyle.transform = parseTransform(value)
         break
       }
       case 'position': {
-        hmStyle._position = value
+        hmStyle.position = value
         break
       }
       case 'display': {
-        hmStyle._display = value
+        hmStyle.display = value
         break
       }
       case 'zIndex': {
-        hmStyle._zIndex = Number(value)
+        hmStyle.zIndex = Number(value)
         break
       }
       case 'opacity': {
         const val = Number(value)
-        hmStyle._opacity = Number.isNaN(val) ? 1 : val
+        hmStyle.opacity = Number.isNaN(val) ? 1 : val
         break
       }
       case 'overflow': {
-        hmStyle._overflow = value === 'hidden'
+        hmStyle.overflow = value
         break
       }
       default: {
@@ -514,20 +447,21 @@ function setBackgroundImage(hmStyle, value) {
     // 如果包含 url()，则说明是 background-image 属性
     const match = value.match(new RegExp('url\\([\'"]?(.*?)[\'"]?\\)'))
     if (match) {
-      hmStyle._backgroundImage = {
+      hmStyle.backgroundImage = {
         src: match[1]
       }
     }
   }
+  // todo 渐变需要处理
 }
 
 function setBackgroundRepeat(hmStyle, value) {
   if (typeof value === 'string') {
     switch (value) {
-      case 'repeat-x': hmStyle._backgroundRepeat = ImageRepeat.X; break
-      case 'repeat-y': hmStyle._backgroundRepeat = ImageRepeat.Y; break
-      case 'no-repeat': hmStyle._backgroundRepeat = ImageRepeat.NoRepeat; break
-      default: hmStyle._backgroundRepeat = ImageRepeat.XY; break
+      case 'repeat-x': hmStyle.backgroundRepeat = ImageRepeat.X; break
+      case 'repeat-y': hmStyle.backgroundRepeat = ImageRepeat.Y; break
+      case 'no-repeat': hmStyle.backgroundRepeat = ImageRepeat.NoRepeat; break
+      default: hmStyle.backgroundRepeat = ImageRepeat.XY; break
     }
   }
 }
@@ -536,9 +470,9 @@ function setBackgroundSize(hmStyle, value) {
   if (typeof value === 'string') {
     const sizes = value.split(' ')
     if (sizes.length === 1) {
-      hmStyle._backgroundSize = { width: getUnit(sizes[0]) }
+      hmStyle.backgroundSize = { width: getUnit(sizes[0]) }
     } else if (sizes.length === 2) {
-      hmStyle._backgroundSize = { width: getUnit(sizes[0]), height: getUnit(sizes[1]) }
+      hmStyle.backgroundSize = { width: getUnit(sizes[0]), height: getUnit(sizes[1]) }
     }
   }
 }
@@ -550,28 +484,28 @@ function setBackgroundPosistion (hmStyle, value) {
     const vertical = positions[1].toLowerCase() || 'top'
 
     if (horizontal === 'left' && vertical === 'top') {
-      hmStyle._backgroundPosition = Alignment.TopStart
+      hmStyle.backgroundPosition = Alignment.TopStart
     } else if (horizontal === 'center' && vertical === 'top') {
-      hmStyle._backgroundPosition = Alignment.Top
+      hmStyle.backgroundPosition = Alignment.Top
     } else if (horizontal === 'right' && vertical === 'top') {
-      hmStyle._backgroundPosition = Alignment.TopEnd
+      hmStyle.backgroundPosition = Alignment.TopEnd
     } else if (horizontal === 'left' && vertical === 'center') {
-      hmStyle._backgroundPosition = Alignment.Start
+      hmStyle.backgroundPosition = Alignment.Start
     } else if (horizontal === 'center' && vertical === 'center') {
-      hmStyle._backgroundPosition = Alignment.Center
+      hmStyle.backgroundPosition = Alignment.Center
     } else if (horizontal === 'right' && vertical === 'center') {
-      hmStyle._backgroundPosition = Alignment.End
+      hmStyle.backgroundPosition = Alignment.End
     } else if (horizontal === 'left' && vertical === 'bottom') {
-      hmStyle._backgroundPosition = Alignment.BottomStart
+      hmStyle.backgroundPosition = Alignment.BottomStart
     } else if (horizontal === 'center' && vertical === 'bottom') {
-      hmStyle._backgroundPosition = Alignment.Bottom
+      hmStyle.backgroundPosition = Alignment.Bottom
     } else if (horizontal === 'right' && vertical === 'bottom') {
-      hmStyle._backgroundPosition = Alignment.BottomEnd
+      hmStyle.backgroundPosition = Alignment.BottomEnd
     } else {
       if (/^\d+(\.\d+)?(px|%|vw|vh)$/.test(horizontal)) {
-        hmStyle._backgroundPosition = { x: getUnit(horizontal) }
+        hmStyle.backgroundPosition = { x: getUnit(horizontal) }
         if (/^\d+(\.\d+)?(px|%|vw|vh)$/.test(vertical)) {
-          hmStyle._backgroundPosition = { x: getUnit(horizontal), y: getUnit(vertical) }
+          hmStyle.backgroundPosition = { x: getUnit(horizontal), y: getUnit(vertical) }
         }
       }
     }
@@ -580,14 +514,15 @@ function setBackgroundPosistion (hmStyle, value) {
 
 function setFontWeight (hmStyle, value) {
   switch (value) {
-    case 'normal': hmStyle._fontWeight = FontWeight.Normal; break
-    case 'bold': hmStyle._fontWeight = FontWeight.Bold; break
-    case 'bolder': hmStyle._fontWeight = FontWeight.Bolder; break
-    case 'lighter': hmStyle._fontWeight = FontWeight.Lighter; break
-    default: hmStyle._fontWeight = Number(value); break
+    case 'normal': hmStyle.fontWeight = FontWeight.Normal; break
+    case 'bold': hmStyle.fontWeight = FontWeight.Bold; break
+    case 'bolder': hmStyle.fontWeight = FontWeight.Bolder; break
+    case 'lighter': hmStyle.fontWeight = FontWeight.Lighter; break
+    default: hmStyle.fontWeight = Number(value); break
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function parseTransform(transformString) {
   const transformRegex = /(\w+)\(([^)]+)\)/g
   const transforms = []

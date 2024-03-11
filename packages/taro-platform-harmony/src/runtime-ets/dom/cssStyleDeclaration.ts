@@ -1,7 +1,7 @@
 import { isObject, toCamelCase, toDashed } from '@tarojs/shared'
 
 import { TaroElement } from './element/element'
-import convertWebStyle2HmStyle, { WEB_STYLE_MAP } from './stylesheet/covertWeb2Hm'
+import convertWebStyle2HmStyle from './stylesheet/covertWeb2Hm'
 
 class CSSStyleDeclaration {
   // eslint-disable-next-line no-useless-constructor
@@ -26,6 +26,8 @@ class CSSStyleDeclaration {
     if (value === '' || value === undefined || value === null) {
       // TODO: 清空 stylesheet 里面的 hmstyle
       // this.el._st = {}
+      this._st.hmStyle = {}
+      return
     }
 
     const rules = value.split(';')
@@ -48,59 +50,32 @@ class CSSStyleDeclaration {
   }
 
   public setProperty (prop: string, value: any): void {
-    const node = this.el
-    
     prop = prop.includes('-') ? toCamelCase(prop) : prop
-
-    const webStyleList = WEB_STYLE_MAP[prop]
-    const needUpdateProperty = !prop.startsWith('_') && webStyleList && webStyleList.length > 0
-
+    const node = this.el
     if ((typeof value === 'string' && value.length) || typeof value === 'number' || isObject(value)) {
-      if (needUpdateProperty) {
-        const newProperty = convertWebStyle2HmStyle({ [prop]: value })
-
-        Object.keys(newProperty).forEach(key => {
-          node._st[key] = newProperty[key]
-        })
-      } else {
-        node._st[prop] = value
-      }
+      // if (needUpdateProperty) {
+      const newProperty = convertWebStyle2HmStyle({ [prop]: value })
+      Object.keys(newProperty).forEach(key => {
+        node._st.hmStyle[key] = newProperty[key]
+      })
     } else if (!value) {
-      // '' | undefined | null
-      if (needUpdateProperty) {
-        webStyleList.forEach(key => {
-          this.removeProperty(key)
-        })
-      } else {
-        this.removeProperty(prop)
-      }
+      this.removeProperty(prop)
     }
   }
 
   public getPropertyValue (prop: string): string | number {
-    const node = this.el
     prop = prop.includes('-') ? toCamelCase(prop) : prop
+    const node = this.el
     const value = node._st[prop]
     return value === undefined ? '' : value
   }
 
   public removeProperty (prop: string): string | number {
-    const node = this.el
     prop = prop.includes('-') ? toCamelCase(prop) : prop
-    const value = node._st[prop]
-    if (prop.startsWith('_')) {
-      prop = prop.replace('_', '')
-    }
-    if (value === undefined) {
-      // node._st[prop] = undefined
-      delete node._st.hmStyle[prop]
-      return ''
-    } else {
-      delete node._st.hmStyle[prop]
-      // node._st[prop] = undefined
-      // node._st = { ...node._st }
-      return value
-    }
+    const node = this.el
+    const value = node._st.hmStyle[prop]
+    delete node._st.hmStyle[prop]
+    return value
   }
 }
 

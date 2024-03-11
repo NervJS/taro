@@ -151,8 +151,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       if (
         commonjsProxyRE.test(id) ||
         SPECIAL_QUERY_RE.test(id) ||
-        loadParseImportRE.test(id) ||
-        (id.indexOf(viteCompilerContext.sourceDir) === 0 && !tjsxRe.test(id)) // 如果是项目内，不是jsx、tsx直接过滤
+        loadParseImportRE.test(id)
       ) return
       // 如果是node_modules的文件，判断是否js\jsx\tsx
       if (/node_modules/.test(id)) {

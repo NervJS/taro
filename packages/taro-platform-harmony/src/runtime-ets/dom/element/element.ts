@@ -182,7 +182,7 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
         this._pseudo_before = new StyleSheet()
       }
       Object.keys(value).forEach(key => {
-        this._pseudo_before![key] = value[key]
+        this._pseudo_before!.hmStyle[key] = value[key]
       })
     } else {
       this._pseudo_before = null
@@ -197,7 +197,7 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
         this._pseudo_after = new StyleSheet()
       }
       Object.keys(value).forEach(key => {
-        this._pseudo_after![key] = value[key]
+        this._pseudo_after!.hmStyle[key] = value[key]
       })
     } else {
       this._pseudo_after = null

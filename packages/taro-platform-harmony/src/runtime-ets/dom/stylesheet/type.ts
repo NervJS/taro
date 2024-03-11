@@ -37,6 +37,8 @@ export interface TaroStyleType {
   position?: 'relative' | 'absolute' | 'fixed'
   top?: Length
   left?: Length
+  bottom?: Length
+  right?: Length
 
   // flex
   flexBasis?: number | string
@@ -55,6 +57,9 @@ export interface TaroStyleType {
   backgroundRepeat?: ImageRepeat
   backgroundSize?: SizeOptions | ImageSize
   backgroundPosition?: Position | Alignment
+
+  // 渐变
+  linearGradient?: HarmonyType.LinearGradient
 
   // transform
   rotate?: HarmonyType.Transform.Rotate
@@ -99,7 +104,7 @@ export interface TaroStyleType {
   // other
   opacity?: number | Resource
   zIndex?: number
-  overflow?: boolean
+  overflow?: string
   focus?: boolean
   content?: string
 }
@@ -138,7 +143,6 @@ export namespace HarmonyType {
     export interface backgroundImage {
       src: ResourceStr
       repeat?: ImageRepeat
-      colors?: Array<[ResourceColor, number]>
     }
     export type backgroundImageSize = SizeOptions | ImageSize
     export type backgroundImagePosition = Position | Alignment

@@ -196,10 +196,11 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
       for (let i = 0; i < selectors_elements.length; i++) {
         const ele = selectors_elements[i].node
         if (ele) {
-          if (ele.props.style) {
-            Object.assign(ele.props.style, declaration)
+          // 直接注入到__hmStyle
+          if (ele.props.__hmStyle) {
+            Object.assign(ele.props.__hmStyle, declaration)
           } else {
-            ele.props.style = declaration
+            ele.props.__hmStyle = declaration
           }
         }
       }
