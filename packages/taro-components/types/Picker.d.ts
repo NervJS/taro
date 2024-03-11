@@ -225,6 +225,11 @@ interface PickerDateProps extends PickerStandardProps {
    * @supported weapp, h5, rn, harmony_hybrid
    */
   onChange: CommonEventFunction<PickerDateProps.ChangeEventDetail>
+  /**
+   * picker mode=date/time 时国际化
+   * @supported rn
+   */
+  locale?: PickerStandardProps.Locale
 }
 declare namespace PickerDateProps {
   interface Fields {
