@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import { showActionSheet } from '@tarojs/taro-h5'
 
+import native from '../../NativeApi'
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
@@ -55,7 +56,6 @@ export const chooseMedia: typeof Taro.chooseMedia = async (options) => {
   }
 
   return new Promise<Taro.chooseMedia.SuccessCallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.chooseMediaAssets({
       count: count,
       mediaType: mediaType,
@@ -64,7 +64,7 @@ export const chooseMedia: typeof Taro.chooseMedia = async (options) => {
       sizeType: sizeType,
       camera: camera,
       apiName: name,
-      success: (res: any) => {       
+      success: (res: any) => {
         const result: Taro.chooseMedia.SuccessCallbackResult = {
           tempFiles: res.tempFiles,
           type: res.type,
