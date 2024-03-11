@@ -1,13 +1,14 @@
 .weui-tabbar {
   display: flex;
+  align-items: center;
   position: absolute; // relative;
   z-index: 500;
   bottom: 0;
   width: 100%;
-  background-color: #F7F7FA; // $weuiBgColorPrimary;
+  background-color: #f7f7fa; // $weuiBgColorPrimary;
 
   &::before {
-    @include setTopLine(#C0BFC4); // $weuiLineColorLight
+    @include setTopLine(#c0bfc4); // $weuiLineColorLight
   }
 }
 
@@ -35,7 +36,7 @@
     .weui-tabbar__icon,
     .weui-tabbar__icon > i,
     .weui-tabbar__label {
-      color: #09BB07; // $weuiColorPrimary;
+      color: #09bb07; // $weuiColorPrimary;
     }
   }
 }
