@@ -16,8 +16,11 @@
   <a href="https://www.npmjs.com/package/@tarojs/taro">
     <img src="https://img.shields.io/npm/dt/@tarojs/taro.svg?style=flat-square">
   </a>
-  <a href="https://travis-ci.org/NervJS/taro">
-    <img src="https://img.shields.io/travis/NervJS/taro.svg?style=flat-square">
+  <a href="https://github.com/NervJS/taro/actions">
+    <img src="https://img.shields.io/github/actions/workflow/status/NervJS/taro/publish.yml?style=flat-square">
+  </a>
+  <a href="https://codecov.io/gh/NervJS/taro" > 
+  <img src="https://codecov.io/gh/NervJS/taro/graph/badge.svg?token=y06kPnzJaQ"/> 
   </a>
   <a href="https://github.com/NervJS/taro">
     <img src="https://img.shields.io/github/contributors/NervJS/taro" alt="GitHub contributors">
@@ -29,7 +32,7 @@
     <img src="https://img.shields.io/github/issues-closed/NervJS/taro" alt="GitHub closed issues">
   </a>
   <a href="https://github.com/NervJS/taro">
-    <img src="https://img.shields.io/github/commits-since/NervJS/taro/latest/next" alt="GitHub commits since latest release (by date)">
+    <img src="https://img.shields.io/github/commits-since/NervJS/taro/latest/main" alt="GitHub commits since latest release (by date)">
   </a>
   <a href="https://github.com/NervJS/taro">
     <img src="https://img.shields.io/github/release-date/NervJS/taro" alt="GitHub Release Date">
@@ -78,7 +81,7 @@ Taro 1/2 迁移至 Taro 3，请阅读[《Taro 版本升级权威指南》](https
 
 | 名称                                               | 地址                                            | 介绍                                                     | 支持的框架 | 支持的 Taro 版本                          |
 | -------------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------- | ---------- | ----------------------------------------- |
-| [taro-ui](https://github.com/NervJS/taro-ui)       | https://taro-ui.jd.com/#/                       | 一套基于 Taro 框架开发的多端 UI 组件库                   | React      | Taro 1/2/3 （Taro 3 需要安装 alpha 版本） |
+| [taro-ui](https://github.com/NervJS/taro-ui)       | https://taro-ui.jd.com/#/                       | 一套基于 Taro 框架开发的多端 UI 组件库                   | React      | Taro 1/2/3 |
 | [NutUI](https://github.com/jdf2e/nutui)            | https://nutui.jd.com/#/                         | 京东风格的轻量级移动端 Vue 组件库                        | Vue3       | Taro 3                                    |
 | [taroify](https://github.com/mallfoundry/taroify)  | https://taroify.gitee.io/taroify.com/introduce/ | 轻量、可靠的小程序端 Taro 组件库（Vant 的 Taro 版本）    | React      | Taro 3                                    |
 | [@antmjs/vantui](https://github.com/AntmJS/vantui) | https://antmjs.github.io/vantui/#/home          | 基于有赞 VantWeapp 开发的同时支持 Taro 和 React 的 UI 库 | React      | Taro 3                                    |

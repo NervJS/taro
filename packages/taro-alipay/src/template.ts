@@ -4,6 +4,7 @@ import { RecursiveTemplate } from '@tarojs/shared/dist/template'
 export class Template extends RecursiveTemplate {
   exportExpr = 'export default'
   supportXS = true
+  isXMLSupportRecursiveReference = false
   Adapter = {
     if: 'a:if',
     else: 'a:else',
@@ -18,8 +19,8 @@ export class Template extends RecursiveTemplate {
 
   transferComponents: Record<string, Record<string, string>> = {}
 
-  buildXsTemplate () {
-    return '<import-sjs name="xs" from="./utils.sjs" />'
+  buildXsTemplate (filePath = './utils') {
+    return `<import-sjs name="xs" from="${filePath}.sjs" />`
   }
 
   replacePropName (name, value, compName, componentAlias) {

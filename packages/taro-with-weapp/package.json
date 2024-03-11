@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "3.6.20",
+  "version": "3.6.24",
   "description": "taroize 之后的运行时",
   "main": "index.js",
   "files": [
@@ -22,6 +22,7 @@
     "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
     "test": "jest",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --silent",
     "test:cov": "jest --coverage"
   },
   "dependencies": {

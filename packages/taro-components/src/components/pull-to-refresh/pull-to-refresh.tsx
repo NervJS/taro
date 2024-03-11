@@ -31,7 +31,7 @@ try {
 const willPreventDefault = supportsPassive ? { passive: false } : false
 
 @Component({
-  tag: 'taro-pull-to-refresh',
+  tag: 'taro-pull-to-refresh-core',
   styleUrl: './style/index.scss'
 })
 export class PullToRefresh implements ComponentInterface {
@@ -99,16 +99,18 @@ export class PullToRefresh implements ComponentInterface {
     })
 
     Taro.eventCenter.on('__taroStopPullDownRefresh', ({ successHandler, errorHandler }) => {
-      try {
-        this.triggerPullDownRefresh(false)
-        successHandler({
-          errMsg: 'stopPullDownRefresh: ok'
-        })
-      } catch (e) {
-        errorHandler({
-          errMsg: 'stopPullDownRefresh: fail'
-        })
-      }
+      setTimeout(() => {
+        try {
+          this.triggerPullDownRefresh(false)
+          successHandler({
+            errMsg: 'stopPullDownRefresh: ok'
+          })
+        } catch (e) {
+          errorHandler({
+            errMsg: 'stopPullDownRefresh: fail'
+          })
+        }
+      }, 0)
     })
   }
 
@@ -147,6 +149,9 @@ export class PullToRefresh implements ComponentInterface {
   }
 
   destroy = () => {
+    // fix 频繁切换页面，可能会导致 this._to 为空造成报错
+    if(!this._to) return
+    
     const ele = this.scrollContainer
     Object.keys(this._to).forEach(key => {
       ele.removeEventListener(key, this._to[key])

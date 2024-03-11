@@ -24,6 +24,11 @@
   "files.associations": {
     "*.json": "jsonc"
   },
-  "rust-analyzer.linkedProjects": ["./crates/taro_init/Cargo.toml", "./crates/native_binding/Cargo.toml"],
+  "rust-analyzer.linkedProjects": [
+    "./crates/taro_init/Cargo.toml",
+    "./crates/native_binding/Cargo.toml",
+    "./crates/swc_plugin_compile_mode/Cargo.toml",
+    "./crates/swc_plugin_define_config/Cargo.toml"
+  ],
   "rust-analyzer.showUnlinkedFileNotification": false
 }

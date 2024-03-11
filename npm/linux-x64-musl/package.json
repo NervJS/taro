@@ -1,0 +1,25 @@
+{
+  "name": "@tarojs/binding-linux-x64-musl",
+  "version": "3.6.24",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "taro.linux-x64-musl.node",
+  "files": [
+    "taro.linux-x64-musl.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 16"
+  },
+  "libc": [
+    "musl"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/NervJS/taro"
+}

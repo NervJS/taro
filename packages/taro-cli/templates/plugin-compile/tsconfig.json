@@ -17,7 +17,6 @@
     "outDir": "./dist",
     "traceResolution": false,
     "sourceMap": true,
-    "baseUrl": ".",
     "rootDir": "./src",
     "declaration": true,
     "declarationDir": "types"

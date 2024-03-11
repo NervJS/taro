@@ -39,6 +39,11 @@ declare module '../../index' {
       lang?: keyof UserInfo.Language
       /** 声明获取用户个人信息后的用途，不超过30个字符 */
       desc: string
+      /** 当宿主未登录时，是否强制拉起登录框
+       * @supported tt
+       * @default false
+       */
+      force?: boolean
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -102,7 +107,7 @@ declare module '../../index' {
      *
      * **接口调整说明**
      * 在用户未授权过的情况下调用此接口，将不再出现授权弹窗，会直接进入 fail 回调（详见[《公告》](https://developers.weixin.qq.com/community/develop/doc/0000a26e1aca6012e896a517556c01))。在用户已授权的情况下调用此接口，可成功获取用户信息。
-     * @supported weapp, tt
+     * @supported weapp, jd, qq, tt, harmony_hybrid
      * @example
      * ```tsx
      * // 必须是在用户已经授权的情况下调用

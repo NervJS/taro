@@ -4,7 +4,7 @@ import {
   getPath,
   injectPageInstance
 } from '@tarojs/runtime'
-import { ensure, hooks, isBoolean, isFunction, isWebPlatform, noop } from '@tarojs/shared'
+import { ensure, hooks, isBoolean, isFunction, noop } from '@tarojs/shared'
 
 import { setDefaultDescriptor, setRouterParams } from './utils'
 
@@ -17,7 +17,6 @@ import type { ComponentOptions, CreateElement, VNode, VueConstructor } from 'vue
 export type V = typeof VueCtor
 
 let Vue
-const isWeb = isWebPlatform()
 
 function setReconciler () {
   hooks.tap('onRemoveAttribute', function (dom, qualifiedName) {
@@ -34,7 +33,7 @@ function setReconciler () {
     return instance.$options[lifecycle]
   })
 
-  if (isWeb) {
+  if (process.env.TARO_PLATFORM === 'web') {
     hooks.tap('createPullDownComponent', (el, path, vue: VueConstructor, _, stampId: string) => {
       const injectedPage = vue.extend({
         props: {
@@ -43,7 +42,7 @@ function setReconciler () {
         mixins: [el as ComponentOptions<VueCtor>, {
           created () {
             const pagePath = stampId ? getPath(path, { stamp: stampId }) : path
-            
+
             injectPageInstance(this, pagePath)
           }
         }]
@@ -53,7 +52,7 @@ function setReconciler () {
         name: 'PullToRefresh',
         render (h) {
           return h(
-            'taro-pull-to-refresh',
+            'taro-pull-to-refresh-core',
             {
               class: ['hydrated']
             },
@@ -87,11 +86,11 @@ export function connectVuePage (Vue: VueConstructor, id: string) {
     const options: ComponentOptions<VueCtor> = {
       render (h) {
         return h(
-          isWeb ? 'div' : 'root',
+          process.env.TARO_PLATFORM === 'web' ? 'div' : 'root',
           {
             attrs: {
               id,
-              class: isWeb ? 'taro_page' : ''
+              class: process.env.TARO_PLATFORM === 'web' ? 'taro_page' : ''
             }
           },
           [
@@ -150,7 +149,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
     }
   })
 
-  if (!isWeb) {
+  if (process.env.TARO_PLATFORM !== 'web') {
     wrapper.$mount(document.getElementById('app') as any)
   }
 
@@ -175,7 +174,7 @@ export function createVueApp (App: ComponentOptions<VueCtor>, vue: V, config: Ap
       value (options) {
         setRouterParams(options)
 
-        if (isWeb) {
+        if (process.env.TARO_PLATFORM === 'web') {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后再执行 render
           wrapper.$mount(document.getElementById(config?.appId || 'app') as any)
         }

@@ -80,6 +80,14 @@ declare module '../../index' {
     /**
      * 跳转至隐私协议页面。隐私合规开发指南详情可见《小程序隐私协议开发指南》
      * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.openPrivacyContract({
+     *   success: () => {}, // 打开成功
+     *   fail: () => {}, // 打开失败
+     *   complete: () => {}
+     * })
+     * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/privacy/wx.openPrivacyContract.html
      */
     openPrivacyContract(option?: openPrivacyContract.Option): void

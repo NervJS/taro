@@ -386,7 +386,7 @@ declare module '../../index' {
     startLocationUpdate(option?: startLocationUpdate.Option): void
 
     /** 使用微信内置地图查看位置
-     * @supported weapp, alipay, swan, jd, tt, h5
+     * @supported weapp, alipay, swan, jd, tt, h5, harmony_hybrid
      * @example
      * ```tsx
      * Taro.getLocation({
@@ -455,7 +455,7 @@ declare module '../../index' {
      * **注意**
      * - 工具中定位模拟使用IP定位，可能会有一定误差。且工具目前仅支持 gcj02 坐标。
      * - 使用第三方服务进行逆地址解析时，请确认第三方服务默认的坐标系，正确进行坐标转换。
-     * @supported weapp, swan, jd, qq, tt, rn
+     * @supported weapp, swan, jd, qq, tt, rn, harmony_hybrid
      * @example
      *  ```tsx
      * Taro.getLocation({
@@ -481,7 +481,7 @@ declare module '../../index' {
     /** 打开地图选择位置。
      *
      * `chooseLocation` api功能是依赖于腾讯位置服务，所以需要使用 api 密钥。如果您没有，可以前往腾讯位置服务[开发者控制台](https://lbs.qq.com/console/mykey.html?console=mykey)进行申请。
-     * @supported weapp, alipay, swan, jd, tt, h5
+     * @supported weapp, alipay, swan, jd, tt, h5, harmony_hybrid
      * @example
      * ```tsx
      * // config/index.js
@@ -499,7 +499,7 @@ declare module '../../index' {
     chooseLocation(option: chooseLocation.Option): Promise<chooseLocation.SuccessCallbackResult>
 
     /** 获取当前的模糊地理位置
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @example
      * ```tsx
      * Taro.getFuzzyLocation({

@@ -23,7 +23,7 @@ export class Template extends RecursiveTemplate {
     return name
   }
 
-  buildXsTemplate () {
-    return '<sjs module="xs" src="./utils.sjs" />'
+  buildXsTemplate (filePath = './utils') {
+    return `<sjs module="xs" src="${filePath}.sjs" />`
   }
 }

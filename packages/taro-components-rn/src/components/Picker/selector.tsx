@@ -20,7 +20,6 @@ function convertToObj (item?: any, rangeKey = ''): any {
 export default class Selector extends React.Component<SelectorProps, SelectorState> {
   static defaultProps = {
     range: [],
-    value: 0,
   }
 
   state: any = {
@@ -28,6 +27,7 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
     range: [],
     value: 0,
     pValue: '',
+    isInOnChangeUpdate: false
   }
 
   dismissByOk = false
@@ -42,11 +42,28 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
         })
       }
     }
-    if (nextProps.value !== lastState.pValue) {
-      ret = ret || {}
-      ret.value = nextProps.value
+
+    // eslint-disable-next-line eqeqeq
+    const isControlled = nextProps.value != undefined
+    if (isControlled) {
+      if (nextProps.value !== lastState.pValue) {
+        // 受控更新
+        ret ||= {}
+        ret.value = nextProps.value
+        ret.pValue = nextProps.value
+      } else if (lastState.isInOnChangeUpdate && nextProps.value !== lastState.value) {
+        // 受控还原
+        ret ||= {}
+        ret.isInOnChangeUpdate = false
+        ret.value = nextProps.value
+      }
+    } else if (lastState.pValue !== nextProps.value) {
+      // 初次更新才设置 defaultValue
+      ret ||= {}
       ret.pValue = nextProps.value
+      ret.value = nextProps.defaultValue ?? 0
     }
+
     return ret
   }
 
@@ -54,6 +71,7 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
     const { onChange = noop } = this.props
     const { value } = this.state
     onChange({ detail: { value } })
+    this.setState({ isInOnChangeUpdate: true })
   }
 
   onPickerChange = (value: any[]): void => {

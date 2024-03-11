@@ -1,10 +1,11 @@
+import { addLeadingSlash } from '@tarojs/runtime'
 import Taro from '@tarojs/taro'
 import { parsePath } from 'history'
 
 import { history, prependBasename } from './history'
 import { RouterConfig } from './router'
 import stacks from './router/stack'
-import { addLeadingSlash, routesAlias } from './utils'
+import { routesAlias } from './utils'
 
 import type { NavigateBackOption, Option } from '../types/api'
 
@@ -54,6 +55,19 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
       if ('url' in option) {
         const pathPieces = processNavigateUrl(option)
         const state = { timestamp: Date.now() }
+        if (pathPieces.pathname) {
+          const originPath = routesAlias.getOrigin(pathPieces.pathname)
+          if (!RouterConfig.isPage(addLeadingSlash(originPath))) {
+            const res = { errMsg: `${method}:fail page ${originPath} is not found` }
+            fail?.(res)
+            complete?.(res)
+            if (fail || complete) {
+              return resolve(res)
+            } else {
+              return reject(res)
+            }
+          }
+        }
         if (method === 'navigateTo') {
           history.push(pathPieces, state)
         } else if (method === 'redirectTo' || method === 'switchTab') {
@@ -74,7 +88,11 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
       const res = { errMsg: `${method}:fail ${error.message || error}` }
       fail?.(res)
       complete?.(res)
-      reject(res)
+      if (fail || complete) {
+        return resolve(res)
+      } else {
+        return reject(res)
+      }
     }
   })
 }

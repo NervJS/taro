@@ -11,6 +11,7 @@ import {
 import { cloneDeep } from 'lodash'
 import path from 'path'
 
+import { FILE_COUNTER_MAP } from '../plugins/MiniCompileModePlugin'
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.mini'
 import { WebpackModule } from './WebpackModule'
 
@@ -195,7 +196,7 @@ export class MiniWebpackModule {
   }
 
   getScriptRule () {
-    const { sourceDir } = this.combination
+    const { sourceDir, config } = this.combination
     const { compile = {} } = this.combination.config
     const rule: IRule = WebpackModule.getScriptRule()
 
@@ -212,6 +213,14 @@ export class MiniWebpackModule {
       ]
     } else {
       rule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
+    }
+
+    if (config.experimental?.compileMode === true) {
+      rule.use.compilerLoader = WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniCompilerLoader'), {
+        platform: config.platform.toUpperCase(),
+        template: config.template,
+        FILE_COUNTER_MAP,
+      })
     }
 
     return rule

@@ -1,22 +1,23 @@
 /* eslint-disable dot-notation */
 import {
+  addLeadingSlash,
   createPageConfig, Current,
   eventCenter, hooks,
   incrementId,
-  stringify,
+  safeExecute,
+  stringify, stripBasename,
 } from '@tarojs/runtime'
 import { Action as LocationAction } from 'history'
 import UniversalRouter from 'universal-router'
 
-import { history, prependBasename } from '../history'
-import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
-import { setTitle } from '../utils/navigate'
+import { prependBasename } from '../history'
+import { routesAlias } from '../utils'
 import { RouterConfig } from '.'
 import PageHandler from './page'
 import stacks from './stack'
 
 import type { AppInstance } from '@tarojs/runtime'
-import type { Listener as LocationListener } from 'history'
+import type { History, Listener as LocationListener } from 'history'
 import type { Routes } from 'universal-router'
 import type { SpaRouterConfig } from '../../types/router'
 
@@ -24,6 +25,7 @@ const createStampId = incrementId()
 let launchStampId = createStampId()
 
 export function createRouter (
+  history: History,
   app: AppInstance,
   config: SpaRouterConfig,
   framework?: string
@@ -32,7 +34,7 @@ export function createRouter (
     window.addEventListener('unhandledrejection', app.onUnhandledRejection)
   }
   RouterConfig.config = config
-  const handler = new PageHandler(config)
+  const handler = new PageHandler(config, history)
 
   routesAlias.set(handler.router.customRoutes)
   const basename = handler.router.basename
@@ -84,19 +86,31 @@ export function createRouter (
         // NOTE: webpack5 与 prebundle 搭配使用时，开发环境下初次启动时偶发错误，由于 HMR 加载 chunk hash 错误，导致热更新失败
         window.location.reload()
       } else {
-        throw new Error(error)
+        throw error
       }
     }
     if (!element) return
     const pageConfig = handler.pageConfig
     let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
+    let navigationStyle = config?.window?.navigationStyle || 'default'
+    let navigationBarTextStyle = config?.window?.navigationBarTextStyle || 'white'
+    let navigationBarBackgroundColor = config?.window?.navigationBarBackgroundColor || '#000000'
 
     if (pageConfig) {
-      setTitle(pageConfig.navigationBarTitleText ?? document.title)
       if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
         enablePullDownRefresh = pageConfig.enablePullDownRefresh
       }
+      if (typeof pageConfig.navigationStyle === 'string') {
+        navigationStyle = pageConfig.navigationStyle
+      }
+      if (typeof pageConfig.navigationBarTextStyle === 'string') {
+        navigationBarTextStyle = pageConfig.navigationBarTextStyle
+      }
+      if (typeof pageConfig.navigationBarBackgroundColor === 'string') {
+        navigationBarBackgroundColor = pageConfig.navigationBarBackgroundColor
+      }
     }
+    eventCenter.trigger('__taroSetNavigationStyle', navigationStyle, navigationBarTextStyle, navigationBarBackgroundColor)
 
     const currentPage = Current.page
     const pathname = handler.pathname
@@ -194,6 +208,25 @@ export function createRouter (
   render({ location: history.location, action: LocationAction.Push })
 
   app.onShow?.(launchParam as Record<string, any>)
+
+  window.addEventListener('visibilitychange', () => {
+    const currentPath = Current.page?.path || ''
+    const path = currentPath.substring(0, currentPath.indexOf('?'))
+    const param = {}
+    // app的 onShow/onHide 生命周期的路径信息为当前页面的路径
+    Object.assign(param, launchParam, { path })
+    if (document.visibilityState === 'visible') {
+      app.onShow?.(param as Record<string, any>)
+      // 单页面app显示后一刻会触发当前 page.onShow 生命周期函数
+      Current.page?.onShow?.()
+    } else {
+      // 单页面app隐藏前一刻会触发当前 page.onHide 生命周期函数
+      if (Current.page?.path) {
+        safeExecute(Current.page?.path, 'onHide')
+      }
+      app.onHide?.(param as Record<string, any>)
+    }
+  })
 
   return history.listen(render)
 }

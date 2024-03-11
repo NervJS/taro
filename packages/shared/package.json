@@ -1,32 +1,38 @@
 {
   "name": "@tarojs/shared",
-  "version": "3.6.20",
+  "version": "3.6.24",
   "description": "Taro utils internal use.",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/shared#readme",
   "license": "MIT",
-  "main": "dist/index.js",
+  "browser": "dist/index.js",
+  "main:h5": "dist/shared.esm.js",
+  "main": "dist/index.cjs.js",
   "module": "dist/shared.esm.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
+  "sideEffects": [],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
     "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.0",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
-    "rollup": "^2.79.0",
+    "lodash": "^4.17.21",
+    "rollup": "^3.8.1",
     "rollup-plugin-ts": "^3.0.2",
     "ts-jest": "^29.0.5",
     "typescript": "^4.7.4"

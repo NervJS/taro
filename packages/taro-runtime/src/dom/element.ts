@@ -22,7 +22,7 @@ import { NodeType } from './node_types'
 import { Style } from './style'
 import { treeToArray } from './tree'
 
-import type { Attributes, Func } from '../interface'
+import type { Attributes, TFunc } from '../interface'
 import type { TaroEvent } from './event'
 
 export class TaroElement extends TaroNode {
@@ -333,7 +333,8 @@ export class TaroElement extends TaroNode {
       }
 
       if (!isUndefined(result) && event.mpEvent) {
-        event.mpEvent[EVENT_CALLBACK_RESULT] = result
+        const res = hooks.call('modifyTaroEventReturn', this, event, result)
+        if (res) { event.mpEvent[EVENT_CALLBACK_RESULT] = result }
       }
 
       if (event._end && event._stop) {
@@ -393,7 +394,7 @@ export class TaroElement extends TaroNode {
     }
   }
 
-  static extend (methodName: string, options: Func | Record<string, any>) {
+  static extend (methodName: string, options: TFunc | Record<string, any>) {
     extend(TaroElement, methodName, options)
   }
 }
