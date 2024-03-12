@@ -109,6 +109,8 @@ export default class Harmony extends TaroPlatformHarmony {
     ['react/jsx-runtime', /^react[\\/]jsx-runtime$/], // Note: React 环境下自动注入，避免重复
   ]
 
+  harmonyScope = [...HARMONY_SCOPES]
+
   indexOfLibraries(lib: string) {
     return this.externalDeps.findIndex(([_, rgx]) => rgx.test(lib))
   }
@@ -237,7 +239,7 @@ export default class Harmony extends TaroPlatformHarmony {
           const { outputRoot } = this.ctx.runOpts.config
           const targetPath = path.join(outputRoot, NODE_MODULES, p1)
           const relativePath = parseRelativePath(path.dirname(target), targetPath)
-          if (HARMONY_SCOPES.every(e => !e.test(p1))) {
+          if (this.harmonyScope.every(e => !e.test(p1))) {
             if (this.indexOfLibraries(p1) === -1 && !/\.(d\.ts|flow\.js)$/.test(lib)) {
               this.externalDeps.push([p1, new RegExp(`^${p1.replace(/([-\\/$])/g, '\\$1')}$`)])
               this.moveLibraries(p1, targetPath, path.dirname(lib), true)
