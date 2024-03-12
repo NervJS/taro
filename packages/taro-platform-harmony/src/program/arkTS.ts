@@ -1,12 +1,12 @@
 import { defaultMainFields, fs, isEmptyObject, NODE_MODULES, resolveSync } from '@tarojs/helper'
 import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
-import { isFunction } from '@tarojs/shared'
 import * as path from 'path'
 
 import { apiLoader, HARMONY_SCOPES, PACKAGE_NAME, parseRelativePath, PLATFORM_NAME } from '../utils'
 import { TaroPlatformHarmony } from './harmony'
 
 import type { IPluginContext, TConfig } from '@tarojs/service'
+import type { ILoaderMeta } from '@tarojs/taro/types/compile/config/plugin'
 
 const frameworkAlias = {
   solid: 'solid',
@@ -340,9 +340,7 @@ declare global {
     }
 
     const externals = Object.keys(ohPackage.dependencies || []).concat(Object.keys(ohPackage.devDependencies || []))
-    function modifyResolveId({
-      source = '', importer = '', options = {}, name = 'modifyResolveId', resolve
-    }) {
+    function modifyResolveId({ source = '', name = 'modifyResolveId' }: Parameters<Exclude<ILoaderMeta['modifyResolveId'], undefined>>[0]) {
       if (externals.includes(source)) {
         return {
           external: true,
@@ -356,12 +354,6 @@ declare global {
           external: true,
           id: path.join(chorePackagePrefix, source),
           resolvedBy: name,
-        }
-      }
-
-      if (isFunction(resolve)) {
-        if (source === that.runtimePath || that.runtimePath.includes(source)) {
-          return resolve('@tarojs/runtime', importer, options)
         }
       }
 

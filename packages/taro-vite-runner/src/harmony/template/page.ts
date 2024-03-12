@@ -369,6 +369,10 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       this.renderState({
         decorator: 'State', name: 'props', type: 'TaroObject', foreach: () => '{}', disabled: !this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
+      // TODO 组件模式所需参数，后续应迁移到对应插件内
+      this.renderState({
+        decorator: 'State', name: 'params', type: 'TaroObject', foreach: () => '{}', disabled: !this.buildConfig.isBuildNativeComp
+      }, this.isTabbarPage),
       this.buildConfig.isBuildNativeComp ? '' : '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
       this.buildConfig.isBuildNativeComp ? '' : '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
       this.buildConfig.isBuildNativeComp ? '' : '@State appConfig: Taro.AppConfig = window.__taroAppConfig || {}',
@@ -451,12 +455,11 @@ aboutToDisappear () {
   this.removeEvent()` : 'callFn(this.page?.onUnload, this)'}
 }
 
-handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {
+handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {${this.buildConfig.isBuildNativeComp ? '' :`
   Current.contextPromise
     .then((context: common.BaseContext) => {
       const win = window.__ohos.getLastWindow(context)
-      win.then(mainWindow => {
-        ${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
+      win.then(mainWindow => {${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
     ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
     : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
             mainWindow.setFullScreen(true)
@@ -465,10 +468,8 @@ handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) 
         const topRect = mainWindow.getWindowAvoidArea(window.__ohos.AvoidAreaType.TYPE_SYSTEM).topRect
         this.statusBarHeight${this.isTabbarPage ? '[index]' : ''} = Number(topRect.top + topRect.height) || 126
       })
-    })
-
+    })\n`}
   const params = router.getParams() as Record<string, string> || {}
-
 ${this.isTabbarPage
     ? this.transArr2Str([
       'this.pageList ||= []',
@@ -480,7 +481,7 @@ ${this.isTabbarPage
       '  })',
       '  callFn(this.page.onReady, this, params)',
       '}',
-    ], 4)
+    ], 2)
     : this.transArr2Str([
       `this.page = createComponent()`,
       'this.onReady = this.page?.onReady?.bind(this.page)',
@@ -488,7 +489,7 @@ ${this.isTabbarPage
       '  this.node = instance',
       '})',
       'callFn(this.page.onReady, this, params)',
-    ], 4)}
+    ], 2)}
 }
 `.split('\n'), 2),
       this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
