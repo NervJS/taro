@@ -1,7 +1,7 @@
 import { eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, convertNumber2PX } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
+import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroIconElement, TaroAny } from '@tarojs/runtime'
 
@@ -56,13 +56,14 @@ export default struct TaroIcon {
       Image(getIconData(this.node))
         .objectFit(ImageFit.Contain)
         .fillColor(this.node._attrs.color || ICON_COLOR_MAP[this.node._attrs.type] || Color.Black)
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node, {
+          width: convertNumber2PX(23),
+          height: convertNumber2PX(23)
+        }))
         .size({
           width: convertNumber2VP(Number(this.node._attrs.size) || 23),
           height: convertNumber2VP(Number(this.node._attrs.size) || 23),
         })
-        .width(getNormalAttributes(this.node).width || convertNumber2PX(23))
-        .height(getNormalAttributes(this.node).height || convertNumber2PX(23))
         .onComplete(e => eventHandler(e, 'complete', this.node))
         .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
         .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))

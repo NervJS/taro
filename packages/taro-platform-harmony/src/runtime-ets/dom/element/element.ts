@@ -11,7 +11,7 @@ import StyleSheet, { HarmonyStyle } from '../stylesheet'
 
 import type { StandardProps } from '@tarojs/components/types'
 import type { TaroAny } from '../../utils'
-import type { ICSSStyleDeclaration } from '../cssStyleDeclaration'
+import { createCSSStyleDeclaration, type ICSSStyleDeclaration } from '../cssStyleDeclaration'
 
 type NamedNodeMap = ({ name: string, value: string })[]
 
@@ -31,7 +31,7 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
   constructor(tagName: string) {
     super(tagName.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase(), NodeType.ELEMENT_NODE)
     this.tagName = this.nodeName
-
+    this._style = createCSSStyleDeclaration(this)
     initComponentNodeInfo(this)
     bindAnimation(this)
   }
@@ -159,6 +159,7 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
     return this._innerHTML
   }
 
+  // 存放的样式，获取其实跟获取style是一样的，只不过这里取的更快捷，不需要走style的get方法进到cssStyleDeclaration
   public _st = new StyleSheet()
 
   // 经转换后的鸿蒙样式
@@ -173,7 +174,7 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
   }
 
   // 伪类，不存在style动态设置，均已被转换为鸿蒙样式
-  // TODO：可根据实际情况，迁移到具体的组件中，如View、ScrollView中，Text\Image其实是不需要的
+  // 可根据实际情况，迁移到具体的组件中，如View、ScrollView中，Text\Image其实是不需要的
   public _pseudo_before: StyleSheet | null = null
 
   public set_pseudo_before (value: HarmonyStyle | null) {

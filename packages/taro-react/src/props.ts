@@ -127,6 +127,7 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       if (isObject<StyleValue>(oldValue)) {
         for (const i in oldValue) {
           if (!(value && i in (value as StyleValue))) {
+            // harmony设置style，路径设置路径如下：dom.style => cssStyleDeclaration.setProperty => convertWebStyle2HmStyle => dom._st.hmStyle
             setStyle(style, i, '')
           }
         }
@@ -143,7 +144,7 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
   } else if (name === '__hmStyle') {
     // 鸿蒙样式特殊处理
     // @ts-ignore
-    const style = dom._st.hmStyle // 直接塞进hmStyle
+    const style = dom._st.hmStyle // __hmStyle是已经被处理过的鸿蒙样式，可以直接塞进hmStyle对象内
     if (isObject<StyleValue>(oldValue)) {
       for (const i in oldValue) {
         if (!(value && i in (value as StyleValue))) {

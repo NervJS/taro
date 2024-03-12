@@ -54,6 +54,7 @@ type TSelectorNode = {
 }
 
 export type NestingStyle = {
+  node: ReactElement
   selectors: string[]
   declaration: Record<string, any>
 }[]
@@ -71,6 +72,7 @@ function depthTraversal(root: ReactElement) {
     if (tree && tree.props) {
       // 后代选择器
       const descendant_map = {
+        node: tree,
         children: {},
         descendants: {}
       }
@@ -158,13 +160,35 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
 
     for (let i = 0; i < selector_list.length; i++) {
       const selector = selector_list[i]
-      // 查询选择器的节点
-      const object = selector_mapping[selector]
-      if (object) {
-        selector_nodes.push({
-          mapping: (object.ref || object)[combinator_type === ' > ' ? 'children' : 'descendants'],
-          node: object.node
-        })
+      if (selector instanceof Array) {
+        // 如果是数组，说明他是一个多类选择器：.a.b，我们需要搜索这两个类名都指向同一个node
+        let obj: any = null
+        for (let i = 0; i < selector.length; i++) {
+          // 查询选择器的节点
+          const object = selector_mapping[selector[i]]
+          if (object) {
+            if (!obj) { obj = object }
+            if (object.node === obj.node) continue
+          }
+          obj = null
+          break
+        }
+        // 找出最后搜寻出来的node
+        if (obj) {
+          selector_nodes.push({
+            mapping: (obj.ref || obj)[combinator_type === ' > ' ? 'children' : 'descendants'],
+            node: obj.node
+          })
+        }
+      } else {
+        // 查询选择器的节点
+        const object = selector_mapping[selector]
+        if (object) {
+          selector_nodes.push({
+            mapping: (object.ref || object)[combinator_type === ' > ' ? 'children' : 'descendants'],
+            node: object.node
+          })
+        }
       }
     }
     return selector_nodes
@@ -197,8 +221,9 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
         const ele = selectors_elements[i].node
         if (ele) {
           // 直接注入到__hmStyle
+          // Hack: ReactElement会在dev模式下被冻结，所以在dev模式下，我们会将Object.freeze覆盖使其失效
           if (ele.props.__hmStyle) {
-            Object.assign(ele.props.__hmStyle, declaration)
+            ele.props.__hmStyle = Object.assign({}, ele.props.__hmStyle, declaration)
           } else {
             ele.props.__hmStyle = declaration
           }

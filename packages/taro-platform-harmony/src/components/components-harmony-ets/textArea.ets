@@ -1,7 +1,7 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { getNodeThresholds, getNormalAttributes, getFontAttributes, shouldBindEvent, parseStyles } from './utils/helper'
+import { getNodeThresholds, getFontAttributes, shouldBindEvent, parseStyles } from './utils/helper'
 
 import type { TaroAny, TaroStyleType, TaroTextStyleType, TaroTextAreaElement, TaroEvent } from '@tarojs/runtime'
 
@@ -51,7 +51,7 @@ export default struct TaroTextArea {
         .maxLength(Number(this.node._attrs?.maxlength) || null)
         .placeholderColor(getPlaceholderColor(this.node))
         .attributeModifier(commonStyleModify.setNode(this.node))
-        .textStyle(getNormalAttributes(this.node))
+        .textStyle(this.node?.hmStyle)
         .textAttr(getFontAttributes(this.node))
         .onChange((value: string) => {
           const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)

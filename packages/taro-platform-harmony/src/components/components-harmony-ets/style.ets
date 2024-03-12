@@ -1,30 +1,32 @@
 import type { HarmonyStyle, TaroElement, TaroStyleType } from '@tarojs/runtime'
 import { isUndefined } from '../shared'
 import { computeBackgroundPosition } from './utils'
-import { getNormalAttributes, getStyle } from './utils/helper'
-
-function getTop (node: TaroElement): Length | number {
-  return node?.hmStyle?.top || 0
-}
-
-function getLeft (node: TaroElement): Length | number {
-  return node?.hmStyle?.left || 0
-}
+import { getNormalAttributes } from './utils/helper'
+import { isMaxWidthView } from './utils/styles'
 
 class CommonStyleModify implements AttributeModifier<CommonAttribute> {
   node: TaroElement | null = null
   style: TaroStyleType | null = null
+  initStyle?: TaroStyleType
 
-  setNode (node: TaroElement) {
+  setNode (node: TaroElement, initStyle?: TaroStyleType) {
     this.node = node
     this.style = getNormalAttributes(this.node)
-
+    this.initStyle = initStyle
+    // 覆盖初始化样式
+    if (initStyle) {
+      Object.keys(initStyle).forEach(key => {
+        if (this.style && !this.style[key]) {
+          this.style[key] = initStyle[key]
+        }
+      })
+    }
     return this
   }
 
   applyNormalAttribute(instance: CommonAttribute): void {
     if (this.node && this.style) {
-      setNormalAttributeIntoInstance(instance, this.style)
+      setNormalAttributeIntoInstance(instance, this.style, this.node)
     }
   }
 }
@@ -33,7 +35,7 @@ class PseudoStyleModify implements AttributeModifier<CommonAttribute> {
   style: TaroStyleType | null = null
 
   setStyle (style: HarmonyStyle) {
-    this.style = getStyle(style)
+    this.style = style
     return this
   }
 
@@ -45,7 +47,37 @@ class PseudoStyleModify implements AttributeModifier<CommonAttribute> {
 }
 
 
-function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroStyleType) {
+class RowStyleModify extends CommonStyleModify {
+
+  applyNormalAttribute(instance: CommonAttribute): void {
+    if (this.style) {
+      setNormalAttributeIntoInstance(instance, this.style, this.node)
+      instance.constraintSize({
+        minWidth: this.style.minWidth || this.style.width,
+        maxWidth: this.style.maxWidth,
+        minHeight: this.style.minHeight,
+        maxHeight: this.style.maxHeight
+      })
+    }
+  }
+}
+
+class ColumnStyleModify extends CommonStyleModify {
+  applyNormalAttribute(instance: CommonAttribute): void {
+    if (this.style) {
+      setNormalAttributeIntoInstance(instance, this.style, this.node)
+      instance.constraintSize({
+        minWidth: this.style.minWidth,
+        maxWidth: this.style.maxWidth,
+        minHeight: this.style.minHeight || this.style.height,
+        maxHeight: this.style.maxHeight
+      })
+    }
+  }
+}
+
+
+function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroStyleType, node?: TaroElement | null) {
   if (!isUndefined(style.id)) {
     instance.id(style.id)
     instance.key(style.id)
@@ -78,7 +110,9 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
       left: style.marginLeft
     })
   }
-  if (!isUndefined(style.width)) {
+  if (node) {
+    instance.width(isMaxWidthView(node as TaroElement) && isUndefined(style.width) ? '100%' : style.width)
+  } else {
     instance.width(style.width)
   }
   if (!isUndefined(style.height)) {
@@ -203,8 +237,8 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
   }
 }
 
-const modify = new CommonStyleModify()
-
 export const pseudoModify = new PseudoStyleModify()
+export const rowModify = new RowStyleModify()
+export const columnModify = new ColumnStyleModify()
 
-export default modify
+export default new CommonStyleModify()

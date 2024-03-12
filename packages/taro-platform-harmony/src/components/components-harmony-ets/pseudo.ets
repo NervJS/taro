@@ -1,4 +1,4 @@
-import { getFontAttributes, getStyle } from './utils/helper'
+import { getFontAttributes } from './utils/helper'
 import { pseudoModify } from './style'
 import { createLazyChildren } from './render'
 
@@ -48,12 +48,12 @@ export default function PseduoChildren (node: TaroViewElement) {
     if (node._pseudo_before?.hmStyle.content) {
       Text(node._pseudo_before.hmStyle.content)
         .attributeModifier(pseudoModify.setStyle(node._pseudo_before.hmStyle))
-        .textNormalFontStyle(getStyle(node._pseudo_before.hmStyle || {}))
+        .textNormalFontStyle(node._pseudo_before.hmStyle || {})
         .textSpecialFontStyle(getFontAttributes(node))
     } else {
       Flex() {}
       .attributeModifier(pseudoModify.setStyle(node._pseudo_before.hmStyle || {}))
-      .flexAttrs(getStyle(node._pseudo_before.hmStyle || {}))
+      .flexAttrs(node._pseudo_before.hmStyle || {})
     }
   }
   createLazyChildren(node)
@@ -62,12 +62,12 @@ export default function PseduoChildren (node: TaroViewElement) {
     if (node._pseudo_after?.hmStyle.content) {
       Text(node._pseudo_after.hmStyle.content)
         .attributeModifier(pseudoModify.setStyle(node._pseudo_after.hmStyle))
-        .textNormalFontStyle(getStyle(node._pseudo_after.hmStyle || {}))
+        .textNormalFontStyle(node._pseudo_after.hmStyle || {})
         .textSpecialFontStyle(getFontAttributes(node))
     } else {
       Flex() {}
       .attributeModifier(pseudoModify.setStyle(node._pseudo_after.hmStyle || {}))
-      .flexAttrs(getStyle(node._pseudo_after.hmStyle || {}))
+      .flexAttrs(node._pseudo_after.hmStyle || {})
     }
   }
 }

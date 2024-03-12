@@ -4,7 +4,7 @@ import commonStyleModify from './style'
 import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/flexManager'
-import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
+import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroLabelElement, TaroElement, TaroAny, TaroRadioElement, TaroCheckboxElement } from '@tarojs/runtime'
 

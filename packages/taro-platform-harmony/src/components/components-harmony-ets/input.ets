@@ -1,7 +1,7 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { getNormalAttributes, parseStyles, shouldBindEvent, getNodeThresholds } from './utils/helper'
+import { parseStyles, shouldBindEvent, getNodeThresholds } from './utils/helper'
 import { INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
 
 import type { TaroStyleType, TaroAny, TaroInputElement, TaroEvent } from '@tarojs/runtime'
@@ -71,7 +71,7 @@ export default struct TaroInput {
       .placeholderColor(getPlaceholderColor(this.node))
       .enterKeyType(INPUT_CONFIRM_MAP.get(this.node._attrs?.confirmType) || EnterKeyType.Done)
       .attributeModifier(commonStyleModify.setNode(this.node))
-      .styles(getNormalAttributes(this.node))
+      .styles(this.node?.hmStyle)
       .attrs(getAttributes(this.node))
       .onChange((value: string) => {
         const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)

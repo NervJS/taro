@@ -1,31 +1,9 @@
-import type { TaroMovableViewElement, TaroStyleType, TaroAny } from '@tarojs/runtime'
+import type { TaroMovableViewElement } from '@tarojs/runtime'
 
-import commonStyleModify from './style'
+import { rowModify, columnModify } from './style'
 import { createLazyChildren } from './render'
 
 import { FlexManager } from './utils/flexManager'
-import { getNormalAttributes, } from './utils/helper'
-
-@Extend(Row)
-function rowAttrs(style: TaroStyleType) {
-  .constraintSize({
-    minWidth: style.minWidth || style.width,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-}
-
-@Extend(Column)
-function columnAttrs(style: TaroStyleType) {
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight || style.height,
-    maxHeight: style.maxHeight
-  })
-}
-
 
 @Component
 export default struct TaroMovableView {
@@ -39,16 +17,14 @@ export default struct TaroMovableView {
           Row() {
             createLazyChildren(this.node)
           }
-          .attributeModifier(commonStyleModify.setNode(this.node))
-          .rowAttrs(getNormalAttributes(this.node))
+          .attributeModifier(rowModify.setNode(this.node))
           .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
           .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
         } else {
           Column() {
             createLazyChildren(this.node)
           }
-          .attributeModifier(commonStyleModify.setNode(this.node))
-          .columnAttrs(getNormalAttributes(this.node))
+          .attributeModifier(columnModify.setNode(this.node))
           .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
           .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
         }
