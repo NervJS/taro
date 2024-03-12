@@ -299,13 +299,13 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
         decorator: 'State', name: 'navigationBarHomeBtn', type: 'boolean', foreach: () => 'true', scope: ['page'], disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'navigationBarLoading', type: 'boolean', foreach: () => 'false', disabled: this.buildConfig.isBuildNativeComp
+        decorator: 'State', name: 'navigationBarLoading', type: 'boolean', foreach: () => 'false', disabled: this.buildConfig.isBuildNativeComp && !entryOption
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'navigationBarBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.navigationBarBackgroundColor`, disabled: this.buildConfig.isBuildNativeComp
+        decorator: 'State', name: 'navigationBarBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.navigationBarBackgroundColor`, disabled: this.buildConfig.isBuildNativeComp && !entryOption
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'navigationBarTextStyle', type: 'string', foreach: (_, i) => `config${i}.navigationBarTextStyle`, disabled: this.buildConfig.isBuildNativeComp
+        decorator: 'State', name: 'navigationBarTextStyle', type: 'string', foreach: (_, i) => `config${i}.navigationBarTextStyle`, disabled: this.buildConfig.isBuildNativeComp && !entryOption
       }, this.isTabbarPage),
       this.renderState({
         decorator: 'State', name: 'navigationBarTitleText', type: 'string', foreach: (_, i) => `config${i}.navigationBarTitleText`, disabled: this.buildConfig.isBuildNativeComp && !entryOption
@@ -663,9 +663,9 @@ removeEvent () {
     direction: FlexDirection.Row,
     justifyContent: FlexAlign.Start,
     alignItems: ItemAlign.Center,
-  }) {${!this.isTabbarPage ? `
+  }) {${!this.isTabbarPage && !this.buildConfig.isBuildNativeComp
     // FIXME 这里 pageStack 更新问题，需要第二次才能显示 Home 按钮
-    if (this.pageStack[0].path !== this.entryPagePath && this.navigationBarHomeBtn && this.pageStack.length === 1) {
+    ? `if (this.pageStack[0].path !== this.entryPagePath && this.navigationBarHomeBtn && this.pageStack.length === 1) {
       Image($r('app.media.taro_home'))
         .height(convertNumber2VP(40))
         .width(convertNumber2VP(40))
