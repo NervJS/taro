@@ -63,6 +63,10 @@ const outputTargets: OutputTarget[] = [
     autoDefineCustomElements: false,
     generateTypeDeclarations: false,
   },
+  {
+    type: 'dist-hydrate-script',
+    dir: 'dist/hydrate',
+  },
 ]
 
 if (!isProd) {

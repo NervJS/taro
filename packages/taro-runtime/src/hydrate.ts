@@ -33,6 +33,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
   SPECIAL_NODES ||= hooks.call('getSpecialNodes')!
 
   const nodeName = node.nodeName
+  let compileModeName = null
 
   if (isText(node)) {
     return {
@@ -75,7 +76,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
       data[Shortcuts.NodeName] = CATCH_VIEW
     }
     if (propInCamelCase === COMPILE_MODE) {
-      data[Shortcuts.NodeName] = props[prop]
+      compileModeName = props[prop]
     }
   }
 
@@ -103,6 +104,10 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
         delete data[prop]
       }
     }
+  }
+
+  if (compileModeName !== null) {
+    data[Shortcuts.NodeName] = compileModeName
   }
 
   const resData = hooks.call('transferHydrateData', data, node, componentAlias)

@@ -84,8 +84,7 @@ function finishedEventHandler (node: HTMLElement) {
   if (!controlledValue) return
 
   // 立即执行事件回调中用户可能触发了的 React 更新
-  // @ts-ignore
-  flushSync()
+  flushSync(() => { })
 
   // 组件在 React 更新后的 React props
   const newProps = getPropsAfterReactUpdate(node)
@@ -189,7 +188,7 @@ export const attachProps = (node: HTMLElementWithEvents, newProps: any, oldProps
       const handleChangeEvent = ['INPUT', 'TEXTAREA'].includes(getComponentName(node)) ? 'input' : 'change'
       node.__events ||= {}
       if (!node.__events.hasOwnProperty(handleChangeEvent)) {
-        syncEvent(node, handleChangeEvent, function () {})
+        syncEvent(node, handleChangeEvent, function () { })
       }
     }
   }

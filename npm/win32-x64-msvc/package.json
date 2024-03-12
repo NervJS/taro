@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/binding-win32-x64-msvc",
   "description": "Native binding for taro",
-  "version": "3.6.23",
+  "version": "3.6.24",
   "os": [
     "win32"
   ],
@@ -14,7 +14,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">= 10"
+    "node": ">= 16"
   },
   "publishConfig": {
     "access": "public"

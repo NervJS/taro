@@ -77,13 +77,13 @@ ${
 export function loadNavigationBarStyle () {
   const css = `
   .taro-navigation-bar-show {
+    display: flex;
     background: white;
     position: sticky;
     z-index: 500;
     top: 0;
     padding-bottom: 8px;
     padding-top: calc(env(safe-area-inset-top) + 8px);
-    display: flex;
     justify-content: center;
     align-items: center;
   }
@@ -92,38 +92,61 @@ export function loadNavigationBarStyle () {
     display: none;
   }
 
-  taro-navigation-bar-title {
-    font-size: 24px;
+  .taro-navigation-bar-title-wrap {
+    display: flex;
     height: 24px;
-    line-height: 24px;
+    > .taro-navigation-bar-title {
+      font-size: 24px;
+      height: 24px;
+      line-height: 24px;
+      max-width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      line-height: 24px;
+      text-overflow: ellipsis;
+    }
+    > .taro-navigation-bar-loading {
+      animation: loading 2s linear infinite;
+      display: none;
+      &.taro-navigation-bar-loading-show {
+        display: flex;
+      }
+    }
   }
 
-  .taro-navigation-bar-no-icon > taro-navigation-bar-home {
+  @keyframes loading {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }  
+
+  .taro-navigation-bar-no-icon > .taro-navigation-bar-home {
     display: none;
   }
 
-  .taro-navigation-bar-no-icon > taro-navigation-bar-back {
+  .taro-navigation-bar-no-icon > .taro-navigation-bar-back {
     display: none;
   }
 
-  .taro-navigation-bar-home > taro-navigation-bar-home {
-    display: block;
+  .taro-navigation-bar-home-icon > .taro-navigation-bar-home {
+    display: flex;
     left: 8px;
     position: absolute;
     width: 24px;
     height: 24px;
   }
 
-  .taro-navigation-bar-back > taro-navigation-bar-back {
-    display: block;
+  .taro-navigation-bar-back-icon > .taro-navigation-bar-back {
+    display: flex;
     left: 8px;
     position: absolute;
     width: 24px;
     height: 24px;
   }
-
-  `
-
+`
   addStyle(css)
 }
 

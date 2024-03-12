@@ -85,6 +85,11 @@ interface ScrollViewProps extends StandardProps {
    * @default false
    */
   enhanced?: boolean
+  /** 使 scroll-view 下的 position sticky 特性生效，否则滚动一屏后 sticky 元素会被隐藏
+   * @supported weapp
+   * @default false
+   */
+  usingSticky?: boolean
   /** iOS 下 scroll-view 边界弹性控制 (同时开启 enhanced 属性后生效)
    * @supported weapp, swan
    * @default true

@@ -9,14 +9,14 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-napi = { workspace = true}
-napi-derive = { workspace = true }
-tokio = { workspace = true }
-serde_json = { workspace = true }
-serde = { workspace = true }
-anyhow = { workspace = true }
+napi = { version = "=2.15.2", features = ["napi4", "tokio_rt"] }
+napi-derive = { version = "=2.15.3" }
+tokio = { version = "=1.36.0" }
+serde_json = { version = "=1.0.114" }
+serde = { version = "=1.0.197", features = ["serde_derive"] }
+anyhow = { version = "=1.0.80" }
 
-taro_init = { path = "../taro_init" }
+taro_init = { version = "0.0.1" }
 
 [build-dependencies]
-napi-build = { workspace = true }
+napi-build = { version = "=2.1.2" }
