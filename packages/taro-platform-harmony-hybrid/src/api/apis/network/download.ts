@@ -1,8 +1,8 @@
 import Taro from '@tarojs/api'
 
+import native from '../NativeApi'
 import { CallbackManager } from '../utils/handler'
 import { NETWORK_TIMEOUT, setHeader, XHR_STATS } from './utils'
-
 
 const splitHeaders = (headers: string) => {
   const arr = headers.trim().split(/[\r\n]+/)
@@ -55,8 +55,7 @@ const createDownloadTask = ({ url, header, filePath, withCredentials = true, tim
     reader.onload = () => {
       clearTimeout(timeoutInter)
       const base64Data = reader.result as string
-      // @ts-ignore
-      native .saveDataUrlToFile({
+      native.saveDataUrlToFile({
         filePath,
         url,
         data: base64Data,
