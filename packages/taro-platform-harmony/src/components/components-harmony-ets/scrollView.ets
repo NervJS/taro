@@ -69,7 +69,7 @@ export default struct TaroScrollView {
         if (this.node._attrs.scrollX) {
           Row() {
             if (this.node._pseudo_before || this.node._pseudo_after) {
-              PseduoChildren({ node: this.node })
+              PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
             } else {
               this.createLazyChildren(this.node)
             }
@@ -85,7 +85,7 @@ export default struct TaroScrollView {
         } else {
           Column() {
             if (this.node._pseudo_before || this.node._pseudo_after) {
-              PseduoChildren({ node: this.node })
+              PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
             } else {
               this.createLazyChildren(this.node)
             }

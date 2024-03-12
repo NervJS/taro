@@ -19,7 +19,7 @@ export default struct TaroView {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
           if (this.node._pseudo_before || this.node._pseudo_after) {
-            PseduoChildren({ node: this.node })
+            PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
           } else {
             this.createLazyChildren(this.node)
           }
@@ -36,7 +36,7 @@ export default struct TaroView {
       } else {
         Column() {
           if (this.node._pseudo_before || this.node._pseudo_after) {
-            PseduoChildren({ node: this.node })
+            PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
           } else {
             this.createLazyChildren(this.node)
           }

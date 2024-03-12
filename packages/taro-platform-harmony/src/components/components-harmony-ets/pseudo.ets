@@ -1,7 +1,7 @@
 import { getFontAttributes } from './utils/helper'
 import { pseudoModify } from './style'
 
-import type { TaroViewElement, TaroStyleType, TaroTextStyleType } from '@tarojs/runtime'
+import type { TaroViewElement, TaroStyleType, TaroTextStyleType, TaroAny } from '@tarojs/runtime'
 
 @Extend(Flex)
 function flexAttrs (style: TaroStyleType) {
@@ -43,7 +43,7 @@ function textSpecialFontStyle(attr: TaroTextStyleType) {
 @Component
 export default struct PseduoChildren {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroViewElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroAny) => void = this.customBuilder
   @ObjectLink node: TaroViewElement
 
   build () {
