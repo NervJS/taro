@@ -1,5 +1,6 @@
 import ohosWindow from '@ohos.window'
 import { History, Location } from '@tarojs/runtime/dist/runtime.esm'
+import { getSystemInfoSync } from '@tarojs/taro'
 
 import { TaroEventTarget } from '../dom/eventTarget'
 import { getComputedStyle } from './getComputedStyle'
@@ -28,6 +29,10 @@ class Window extends TaroEventTarget {
 
   get document (): TaroDocument {
     return this._doc
+  }
+
+  get devicePixelRatio () {
+    return getSystemInfoSync().pixelRatio
   }
 
   setTimeout (...args: Parameters<typeof setTimeout>) {
