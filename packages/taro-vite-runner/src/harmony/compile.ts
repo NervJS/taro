@@ -156,7 +156,7 @@ export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerCo
 
       this.emitFile({
         type: 'prebuilt-chunk',
-        code: renderGenerator.generate(),
+        code: renderGenerator.generate(fileName),
         fileName,
       })
     }

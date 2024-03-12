@@ -14,7 +14,7 @@ export default class RenderParser extends BaseParser {
     super()
   }
 
-  generate (name = 'TaroRender', resolve?: TRollupResolveMethod) {
+  generate (fileName: string, name = 'TaroRender', resolve?: TRollupResolveMethod) {
     const code = `import TaroImage from '@tarojs/components/image'
 import TaroText from '@tarojs/components/text'
 import TaroView from '@tarojs/components/view'
@@ -143,10 +143,9 @@ export { createChildItem, createLazyChildren }
     const { cwd: appPath, loaderMeta, taroConfig } = this.context
     const { outputRoot = 'dist', sourceRoot = 'src' } = taroConfig
     const { modifyResolveId } = loaderMeta
-    const importer = path.resolve(appPath, sourceRoot)
     return resolveAbsoluteRequire({
       name,
-      importer,
+      importer: path.resolve(appPath, sourceRoot, fileName),
       code,
       outputRoot,
       targetRoot: path.resolve(appPath, sourceRoot),
