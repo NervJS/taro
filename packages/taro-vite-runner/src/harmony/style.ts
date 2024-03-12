@@ -19,7 +19,7 @@ import { compileCSS } from './postcss'
 import {
   commonjsProxyRE, CSS_LANGS_RE, cssModuleRE,
   htmlProxyRE, inlineCSSRE, inlineRE, loadParseImportRE,
-  SPECIAL_QUERY_RE, tjsxRe, usedRE, usedSuffix
+  SPECIAL_QUERY_RE, usedRE, usedSuffix
 } from './postcss/constants'
 import { finalizeCss, stripBomTag } from './postcss/utils'
 
