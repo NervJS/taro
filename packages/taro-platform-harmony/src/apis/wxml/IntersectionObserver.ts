@@ -19,13 +19,13 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
   constructor(component: any, options: Taro.createIntersectionObserver.Option = {}) {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
-    const currentPage = getPageScrollerOrNode(page.node, page)
-    this._component = component || currentPage
+
+    this._component = component || getPageScrollerOrNode(page?.node, page)
     Object.assign(this._options, options)
   }
 
   public disconnect (): void {
-    if (this._observerNodes) {
+    if (this._observerNodes && this._component) {
       if (this._observerNodes instanceof Array) {
         this._observerNodes.forEach((n: TaroElement & any) => {
           disconnectEvent(n, VISIBLE_CHANGE_EVENT_NAME)
@@ -44,6 +44,8 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
   }
 
   public observe (targetSelector: string, callback: Taro.IntersectionObserver.ObserveCallback): void {
+    if (!this._component) return
+    
     const { observeAll, thresholds } = this._options
     const node = findChildNodeWithDFS(this._component, targetSelector, observeAll)
     this._observerNodes = node
