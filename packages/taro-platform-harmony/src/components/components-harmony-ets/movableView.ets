@@ -1,7 +1,6 @@
 import type { TaroMovableViewElement } from '@tarojs/runtime'
 
 import { rowModify, columnModify } from './style'
-import type { TaroMovableViewElement } from '@tarojs/runtime'
 
 import { FlexManager } from './utils/flexManager'
 
