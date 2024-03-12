@@ -1,18 +1,19 @@
-import type { TaroMovableAreaElement, TaroStyleType, TaroMovableViewElement} from '@tarojs/runtime'
+import type { TaroMovableAreaElement, TaroMovableViewElement} from '@tarojs/runtime'
 import { rowModify, columnModify } from './style'
-import { createLazyChildren } from './render'
 
 import { FlexManager } from './utils/flexManager'
 
 @Component
 export default struct TaroMovableArea {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroMovableAreaElement) => void = this.customBuilder
   @ObjectLink node: TaroMovableAreaElement
 
   build() {
     if (this.node && this.node.hmStyle?.display !== 'none') {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .attributeModifier(rowModify.setNode(this.node))
         .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
@@ -48,7 +49,7 @@ export default struct TaroMovableArea {
         )
       } else {
         Column() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .attributeModifier(columnModify.setNode(this.node))
         .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)

@@ -80,6 +80,8 @@ function handleUpdate (node: TaroVideoElement, e: VideoUpdateEvent) {
 
 @Component
 export default struct TaroVideo {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroVideoElement) => void = this.customBuilder
   @ObjectLink node: TaroVideoElement
 
   build () {

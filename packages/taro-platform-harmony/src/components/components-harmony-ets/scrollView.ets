@@ -2,7 +2,6 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 
 import { rowModify, columnModify } from './style'
 import PseduoChildren from './pseudo'
-import { createLazyChildren } from './render'
 import { FlexManager } from './utils/FlexManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNodeThresholds, getStyleAttr, shouldBindEvent } from './utils/helper'
@@ -60,6 +59,8 @@ function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', x
 
 @Component
 export default struct TaroScrollView {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroScrollViewElement) => void = this.customBuilder
   @ObjectLink node: TaroScrollViewElement
 
   build () {
@@ -68,9 +69,9 @@ export default struct TaroScrollView {
         if (this.node._attrs.scrollX) {
           Row() {
             if (this.node._pseudo_before || this.node._pseudo_after) {
-              PseduoChildren(this.node)
+              PseduoChildren({ node: this.node })
             } else {
-              createLazyChildren(this.node)
+              this.createLazyChildren(this.node)
             }
           }
           .attributeModifier(rowModify.setNode(this.node))
@@ -84,9 +85,9 @@ export default struct TaroScrollView {
         } else {
           Column() {
             if (this.node._pseudo_before || this.node._pseudo_after) {
-              PseduoChildren(this.node)
+              PseduoChildren({ node: this.node })
             } else {
-              createLazyChildren(this.node)
+              this.createLazyChildren(this.node)
             }
           }
           .attributeModifier(columnModify.setNode(this.node))

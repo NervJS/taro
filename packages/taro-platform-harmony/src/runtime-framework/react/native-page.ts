@@ -257,7 +257,7 @@ export function createNativePageConfig (Component, pageName: string, react: type
       window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
       // 触发onUnload生命周期
       safeExecute($taroPath, ONUNLOAD)
-      resetCurrent()
+      resetCurrent.call(this)
       unmounting = true
       Current.app!.unmount!($taroPath, () => {
         unmounting = false
@@ -310,9 +310,11 @@ export function createNativePageConfig (Component, pageName: string, react: type
   }
 
   function resetCurrent () {
-    // 小程序插件页面卸载之后返回到宿主页面时，需重置Current页面和路由。否则引发插件组件二次加载异常 fix:#11991
-    Current.page = null
-    Current.router = null
+    if (Current.page === this) {
+      // 小程序插件页面卸载之后返回到宿主页面时，需重置Current页面和路由。否则引发插件组件二次加载异常 fix:#11991
+      Current.page = null
+      Current.router = null
+    }
   }
 
   LIFECYCLES.forEach((lifecycle) => {

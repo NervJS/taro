@@ -50,7 +50,10 @@ function getIconData (node: TaroIconElement): Resource | null {
 
 @Component
 export default struct TaroIcon {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroIconElement) => void = this.customBuilder
   @ObjectLink node: TaroIconElement
+
   build() {
     if (this.node?.hmStyle?.display !== 'none') {
       Image(getIconData(this.node))

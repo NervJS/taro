@@ -114,72 +114,24 @@ export default class Parser extends BaseParser {
     return !!page
   }
 
-  renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0) {
+  renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0, entryOption?: unknown) {
+    const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
+    let pageStr = ''
     if (this.buildConfig.isBuildNativeComp) {
-      return `if (this.node) {\n  TaroView({ node: this.node as TaroViewElement })\n}`
+      pageStr = `${entryOption ? 'NavDestination()' : 'if (this.node)'} {\n  TaroView({ node: this.node as TaroViewElement, createLazyChildren: createLazyChildren })\n}`
+      if (entryOption) {
+        pageStr += `\n.title(this.renderTitle)`
+        pageStr += `\n.hideTitleBar(${isCustomNavigationBar ? `config.navigationStyle !== 'default'` : `config.navigationStyle === 'custom'`})`
+      }
+      return pageStr
     }
 
-    const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
-    let pageStr = `Column() {
-  if (${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`}) {${isTabPage ? '' :`
-    Flex()
-      .width('100%')
-      .height(px2vp(this.statusBarHeight${isTabPage ? '[index]' : ''} || 126))
-      .backgroundColor(this.navigationBarBackgroundColor${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
-      .zIndex(1)`}
-    Flex({
-      direction: FlexDirection.Row,
-      justifyContent: FlexAlign.Start,
-      alignItems: ItemAlign.Center,
-    }) {${!isTabPage ? `
-      // FIXME 这里 pageStack 更新问题，需要第二次才能显示 Home 按钮
-      if (this.pageStack[0].path !== this.entryPagePath && this.navigationBarHomeBtn && this.pageStack.length === 1) {
-        Image($r('app.media.taro_home'))
-          .height(convertNumber2VP(40))
-          .width(convertNumber2VP(40))
-          .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
-          .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
-          .objectFit(ImageFit.Contain)
-          .onClick(() => {
-            router.replaceUrl({
-              url: this.tabBarList.find(e => e.pagePath === this.entryPagePath) ? '${TARO_TABBAR_PAGE_PATH}' : this.entryPagePath,
-              params: {
-                '$page': this.entryPagePath,
-              },
-            })
-          })
-      } else if (this.pageStack.length > 1) {
-        Image($r('app.media.taro_arrow_left'))
-          .height(convertNumber2VP(40))
-          .width(convertNumber2VP(40))
-          .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
-          .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
-          .objectFit(ImageFit.Contain)
-          .onClick(() => {
-            router.back()
-          })
-      }` : ''}
-      Text(this.navigationBarTitleText${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarTitleText || ''}')
-        .margin({ left: convertNumber2VP(40) })
-        .fontSize(convertNumber2VP(32))
-        .fontColor((this.navigationBarTextStyle${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
-      if (this.navigationBarLoading${isTabPage ? '[index]' : ''}) {
-        LoadingProgress()
-        .margin({ left: convertNumber2VP(10) })
-        .height(convertNumber2VP(40))
-        .width(convertNumber2VP(40))
-        .color((this.navigationBarTextStyle${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
-      }
-    }
-    .height(convertNumber2VP(75))
-    .backgroundColor(this.navigationBarBackgroundColor${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
-    .zIndex(1)
-  }
-  if (true) {
+    pageStr = `Navigation() {
+  NavDestination() {
     Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
       Column() {
         if (${isTabPage ? 'this.node[index]' : 'this.node'}) {
-          TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement })
+          TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement, createLazyChildren: createLazyChildren })
         }
       }
       .width('100%')
@@ -192,9 +144,6 @@ export default class Parser extends BaseParser {
       })
     }
     .clip(false)
-    .constraintSize({
-      maxHeight: ${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`} ? \`calc(100% - \${convertNumber2VP(75)})\` : '100%'
-    })
     .scrollBar(typeof config${isTabPage ? '[index]' : ''}.enableScrollBar === 'boolean' ? config${isTabPage ? '[index]' : ''}.enableScrollBar : ${!this.appConfig.window?.enableScrollBar ? 'false' : 'true'})
     .onAreaChange((_: Area, area: Area) => {
       const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
@@ -204,7 +153,7 @@ export default class Parser extends BaseParser {
     })
     .onScroll(() => {
       if (!this.page) return
-  
+
       const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
       callFn(this.page.onPageScroll, this, {
         scrollTop: offset.xOffset || 0,
@@ -213,25 +162,25 @@ export default class Parser extends BaseParser {
     })
     .onScrollStop(() => {
       if (!this.page) return
-  
+
       const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
       const distance: number = config${isTabPage ? '[index]' : ''}.onReachBottomDistance || ${this.appConfig.window?.onReachBottomDistance || 50}
-      const clientHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._nodeInfo?._client?.height) || 0
-      const scrollHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._nodeInfo?._scroll?.height) || 0
+      const clientHeight: number = Number(this.node${isTabPage ? '[index]' : ''}?._nodeInfo?._client?.height) || 0
+      const scrollHeight: number = Number(this.node${isTabPage ? '[index]' : ''}?._nodeInfo?._scroll?.height) || 0
       if (scrollHeight - clientHeight - offset.yOffset <= distance) {
         callFn(this.page.onReachBottom, this)
       }
     })
-    ${isTabPage
-    // eslint-disable-next-line no-template-curly-in-string
-    ? '.height((config[index].navigationStyle !== \'custom\') ? `calc(100%  - ${convertNumber2VP(75)})` : \'100%\')'
-    // eslint-disable-next-line no-template-curly-in-string
-    : '.height((config.navigationStyle !== \'custom\') ? `calc(100%  - ${convertNumber2VP(75)})` : \'100%\')'}
   }
+  .hideTitleBar(true)
 }
 .width('100%')
 .height('100%')
-.backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColor || '#FFFFFF'}")`
+.backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColor || '#FFFFFF'}")
+.title(this.renderTitle)
+.titleMode(NavigationTitleMode.Mini)
+.hideTitleBar(${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle === 'custom'`})
+.hideBackButton(true)`
 
     if (isTabPage && enableRefresh > 1) {
       pageStr = `if (${appEnableRefresh
@@ -316,6 +265,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   }
 
   getInstantiatePage (page: VitePageMeta | VitePageMeta[]) {
+    const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
     const { modifyInstantiate } = this.loaderMeta
     const structCodeArray: unknown[] = [
       '@Component',
@@ -325,8 +275,8 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     // 如果是编译成原生组件，则不需要加 @Entry 头部，否则都加上 @Entry，当成 Page 入口
     if (!this.buildConfig.isBuildNativeComp) {
       structCodeArray.unshift('@Entry')
-    } else if (page instanceof Array ? page[0].entryOption : page.entryOption) {
-      structCodeArray.unshift(`@Entry(${this.prettyPrintJson(page instanceof Array ? TARO_TABBAR_PAGE_PATH : page.entryOption)})`)
+    } else if (entryOption) {
+      structCodeArray.unshift(`@Entry(${this.prettyPrintJson(page instanceof Array ? TARO_TABBAR_PAGE_PATH : entryOption)})`)
     }
 
     const generateState = [
@@ -344,9 +294,6 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       this.renderState({
         decorator: 'State', name: 'isRefreshing', type: 'boolean', foreach: () => 'false', disabled: this.enableRefresh === 0 || this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
-      this.renderState({
-        decorator: 'State', name: 'statusBarHeight', type: 'number', foreach: () => '126', disabled: this.buildConfig.isBuildNativeComp
-      }, this.isTabbarPage),
       // Note: 仅普通页面包含 Home 按钮
       this.renderState({
         decorator: 'State', name: 'navigationBarHomeBtn', type: 'boolean', foreach: () => 'true', scope: ['page'], disabled: this.buildConfig.isBuildNativeComp
@@ -361,13 +308,17 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
         decorator: 'State', name: 'navigationBarTextStyle', type: 'string', foreach: (_, i) => `config${i}.navigationBarTextStyle`, disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'navigationBarTitleText', type: 'string', foreach: (_, i) => `config${i}.navigationBarTitleText`, disabled: this.buildConfig.isBuildNativeComp
+        decorator: 'State', name: 'navigationBarTitleText', type: 'string', foreach: (_, i) => `config${i}.navigationBarTitleText`, disabled: this.buildConfig.isBuildNativeComp && !entryOption
       }, this.isTabbarPage),
       this.renderState({
         decorator: 'State', name: 'pageBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColor`, disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       this.renderState({
         decorator: 'State', name: 'props', type: 'TaroObject', foreach: () => '{}', disabled: !this.buildConfig.isBuildNativeComp
+      }, this.isTabbarPage),
+      // TODO 组件模式所需参数，后续应迁移到对应插件内
+      this.renderState({
+        decorator: 'State', name: 'params', type: 'TaroObject', foreach: () => '{}', disabled: !this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       this.buildConfig.isBuildNativeComp ? '' : '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
       this.buildConfig.isBuildNativeComp ? '' : '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
@@ -451,24 +402,20 @@ aboutToDisappear () {
   this.removeEvent()` : 'callFn(this.page?.onUnload, this)'}
 }
 
-handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {
-  Current.contextPromise
-    .then((context: common.BaseContext) => {
-      const win = window.__ohos.getLastWindow(context)
-      win.then(mainWindow => {
-        ${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
+handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {${this.buildConfig.isBuildNativeComp ? '' :`
+  if (${this.appConfig.window?.navigationStyle === 'custom'
     ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
     : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
-            mainWindow.setFullScreen(true)
-            mainWindow.setSystemBarEnable(["status", "navigation"])
-          }`}
-        const topRect = mainWindow.getWindowAvoidArea(window.__ohos.AvoidAreaType.TYPE_SYSTEM).topRect
-        this.statusBarHeight${this.isTabbarPage ? '[index]' : ''} = Number(topRect.top + topRect.height) || 126
+    Current.contextPromise
+      .then((context: common.BaseContext) => {
+        const win = window.__ohos.getLastWindow(context)
+        win.then(mainWindow => {${this.buildConfig.isBuildNativeComp ? '' : `
+          mainWindow.setFullScreen(true)
+          mainWindow.setSystemBarEnable(["status", "navigation"])
       })
-    })
-
+    })`}
+  }\n`}
   const params = router.getParams() as Record<string, string> || {}
-
 ${this.isTabbarPage
     ? this.transArr2Str([
       'this.pageList ||= []',
@@ -480,7 +427,7 @@ ${this.isTabbarPage
       '  })',
       '  callFn(this.page.onReady, this, params)',
       '}',
-    ], 4)
+    ], 2)
     : this.transArr2Str([
       `this.page = createComponent()`,
       'this.onReady = this.page?.onReady?.bind(this.page)',
@@ -488,7 +435,7 @@ ${this.isTabbarPage
       '  this.node = instance',
       '})',
       'callFn(this.page.onReady, this, params)',
-    ], 4)}
+    ], 2)}
 }
 `.split('\n'), 2),
       this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
@@ -710,6 +657,57 @@ removeEvent () {
   .justifyContent(FlexAlign.SpaceEvenly)
 }
 ` : ''}`.split('\n'), 2),
+      this.buildConfig.isBuildNativeComp && !entryOption ? '' : this.transArr2Str(`
+@Builder renderTitle() {
+  Flex({
+    direction: FlexDirection.Row,
+    justifyContent: FlexAlign.Start,
+    alignItems: ItemAlign.Center,
+  }) {${!this.isTabbarPage ? `
+    // FIXME 这里 pageStack 更新问题，需要第二次才能显示 Home 按钮
+    if (this.pageStack[0].path !== this.entryPagePath && this.navigationBarHomeBtn && this.pageStack.length === 1) {
+      Image($r('app.media.taro_home'))
+        .height(convertNumber2VP(40))
+        .width(convertNumber2VP(40))
+        .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
+        .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+        .objectFit(ImageFit.Contain)
+        .onClick(() => {
+          router.replaceUrl({
+            url: this.tabBarList.find(e => e.pagePath === this.entryPagePath) ? '${TARO_TABBAR_PAGE_PATH}' : this.entryPagePath,
+            params: {
+              '$page': this.entryPagePath,
+            },
+          })
+        })
+    } else if (this.pageStack.length > 1) {
+      Image($r('app.media.taro_arrow_left'))
+        .height(convertNumber2VP(40))
+        .width(convertNumber2VP(40))
+        .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
+        .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+        .objectFit(ImageFit.Contain)
+        .onClick(() => {
+          router.back()
+        })
+    }` : ''}
+    Text(this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTitleText || ''}')
+      .margin({ left: convertNumber2VP(40) })
+      .fontSize(convertNumber2VP(32))
+      .fontColor((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+    if (this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}) {
+      LoadingProgress()
+      .margin({ left: convertNumber2VP(10) })
+      .height(convertNumber2VP(40))
+      .width(convertNumber2VP(40))
+      .color((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+    }
+  }
+  .height('100%')
+  .backgroundColor(this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
+  .zIndex(1)
+}
+`.split('\n'), 2),
       this.enableRefresh ? this.transArr2Str(`
 handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : ''}state: RefreshStatus) {
   if (state === RefreshStatus.Refresh) {
@@ -724,7 +722,12 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
 `.split('\n'), 2): null,
       this.transArr2Str([
         'build() {',
-        this.transArr2Str(this.renderPage(this.isTabbarPage, this.appConfig.window?.enablePullDownRefresh, this.enableRefresh).split('\n'), 2).split('\n'),
+        this.transArr2Str(this.renderPage(
+          this.isTabbarPage,
+          this.appConfig.window?.enablePullDownRefresh,
+          this.enableRefresh,
+          entryOption,
+        ).split('\n'), 2).split('\n'),
         '}',
       ], 2)
     )
@@ -752,6 +755,9 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       this.enableRefresh = pageRefresh.some(e => !!e) ? 2 : 0
     }
 
+    const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
+    const targetRoot = path.resolve(this.appPath, sourceRoot)
+    const fileName = path.relative(targetRoot, rawId)
     const code = this.transArr2Str([
       'import type Taro from "@tarojs/taro/types"',
       'import type { TFunc } from "@tarojs/runtime/dist/runtime.esm"',
@@ -762,6 +768,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       'import TaroView from "@tarojs/components/view"',
       'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
+      `import { createLazyChildren } from "./${path.relative(path.dirname(fileName), 'render')}"`,
       this.isTabbarPage
         ? [
           this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`),
@@ -786,13 +793,12 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       this.getInstantiatePage(page),
     ])
 
-    const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
     return resolveAbsoluteRequire({
       name,
       importer: rawId,
       code,
       outputRoot,
-      targetRoot: path.resolve(this.appPath, sourceRoot),
+      targetRoot,
       resolve,
       modifyResolveId,
     })

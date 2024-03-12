@@ -7,7 +7,7 @@ import RenderParser from './template/render'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption, ResolvedConfig } from 'vite'
 
-const isTemplateRequest = (request: string): boolean => 
+const isTemplateRequest = (request: string): boolean =>
   !/\.ets(\?\S*)?$/.test(request) &&
   !commonjsProxyRE.test(request) &&
   !SPECIAL_QUERY_RE.test(request) &&
@@ -42,7 +42,7 @@ function extractTaroTemplates (inputString) {
 export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
   let viteConfig: ResolvedConfig
   let etsTemplateCache: Map<string, string>
-  
+
   return {
     name: 'taro:vite-compile-mode',
     enforce: 'pre',
@@ -152,11 +152,11 @@ export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerCo
     },
     buildEnd () {
       const renderGenerator = new RenderParser(etsTemplateCache, viteCompilerContext)
-      const fileName = path.join('npm', '@tarojs/components/render.ets')
+      const fileName = 'render.ets'
 
       this.emitFile({
         type: 'prebuilt-chunk',
-        code: renderGenerator.generate(),
+        code: renderGenerator.generate(fileName),
         fileName,
       })
     }

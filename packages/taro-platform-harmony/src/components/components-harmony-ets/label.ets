@@ -1,7 +1,6 @@
 import { Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, getPageScrollerOrNode, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/flexManager'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
@@ -37,13 +36,15 @@ function handleTargetChange (id: string) {
 
 @Component
 export default struct TaroLabel {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node:TaroLabelElement) => void = this.customBuilder
   @ObjectLink node:TaroLabelElement
 
   build() {
     if (this.node?.hmStyle?.display !== 'none') {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .onClick((e: ClickEvent) => {
@@ -62,7 +63,7 @@ export default struct TaroLabel {
         .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
       } else {
         Column() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .onClick((e: ClickEvent) => {

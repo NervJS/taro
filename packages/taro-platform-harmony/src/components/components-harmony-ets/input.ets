@@ -48,6 +48,8 @@ function getPlaceholderColor (node: TaroInputElement): string {
 export default struct TaroInput {
   @State value: string = ''
 
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroInputElement) => void = this.customBuilder
   @ObjectLink node: TaroInputElement
 
   aboutToAppear () {
@@ -75,7 +77,7 @@ export default struct TaroInput {
       .attrs(getAttributes(this.node))
       .onChange((value: string) => {
         const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)
-        
+
         this.value = value
         this.node?.updateFormWidgetValue(value)
         eventHandler(event, 'input', this.node)
@@ -91,7 +93,7 @@ export default struct TaroInput {
       })
       .onFocus(() => {
         const event: TaroEvent = createTaroEvent('focus', { detail: { value: this.value, height: this.node?._height } }, this.node)
-  
+
         eventHandler(event, 'focus', this.node)
       })
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {

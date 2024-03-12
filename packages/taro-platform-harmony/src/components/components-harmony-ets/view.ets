@@ -2,7 +2,6 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 
 import { rowModify, columnModify } from './style'
 import PseduoChildren from './pseudo'
-import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/flexManager'
 import { getNodeThresholds, shouldBindEvent } from './utils/helper'
@@ -11,6 +10,8 @@ import type { TaroViewElement, TaroAny } from '@tarojs/runtime'
 
 @Component
 export default struct TaroView {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroViewElement) => void = this.customBuilder
   @ObjectLink node: TaroViewElement
 
   build () {
@@ -18,9 +19,9 @@ export default struct TaroView {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
           if (this.node._pseudo_before || this.node._pseudo_after) {
-            PseduoChildren(this.node)
+            PseduoChildren({ node: this.node })
           } else {
-            createLazyChildren(this.node)
+            this.createLazyChildren(this.node)
           }
         }
         .attributeModifier(rowModify.setNode(this.node))
@@ -35,9 +36,9 @@ export default struct TaroView {
       } else {
         Column() {
           if (this.node._pseudo_before || this.node._pseudo_after) {
-            PseduoChildren(this.node)
+            PseduoChildren({ node: this.node })
           } else {
-            createLazyChildren(this.node)
+            this.createLazyChildren(this.node)
           }
         }
         .attributeModifier(columnModify.setNode(this.node))

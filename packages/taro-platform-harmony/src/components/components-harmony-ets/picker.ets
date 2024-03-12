@@ -1,5 +1,4 @@
 import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, TaroPickerElement, createTaroEvent } from '@tarojs/runtime'
-import { createLazyChildren } from './render'
 import commonStyleModify from './style'
 import { getSingleSelector, getMultiSelector } from './utils'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
@@ -226,6 +225,8 @@ export struct PickerView {
 
 @Component
 export default struct TaroPicker {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroPickerElement) => void = this.customBuilder
   @ObjectLink node: TaroPickerElement
 
   aboutToAppear () {
@@ -313,7 +314,7 @@ export default struct TaroPicker {
     if (this.node && this.node.hmStyle?.display !== 'none') {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .defaultEvent()
         .visibleChangeEvent()
@@ -321,7 +322,7 @@ export default struct TaroPicker {
         .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
       } else {
         Column() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .defaultEvent()
         .visibleChangeEvent()

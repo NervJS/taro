@@ -1,6 +1,5 @@
 import { getFontAttributes } from './utils/helper'
 import { pseudoModify } from './style'
-import { createLazyChildren } from './render'
 
 import type { TaroViewElement, TaroStyleType, TaroTextStyleType } from '@tarojs/runtime'
 
@@ -41,33 +40,41 @@ function textSpecialFontStyle(attr: TaroTextStyleType) {
   .lineHeight(attr.lineHeight)
 }
 
-@Builder
-export default function PseduoChildren (node: TaroViewElement) {
-  // 伪类::Before
-  if (node._pseudo_before) {
-    if (node._pseudo_before?.hmStyle.content) {
-      Text(node._pseudo_before.hmStyle.content)
-        .attributeModifier(pseudoModify.setStyle(node._pseudo_before.hmStyle))
-        .textNormalFontStyle(node._pseudo_before.hmStyle || {})
-        .textSpecialFontStyle(getFontAttributes(node))
-    } else {
-      Flex() {}
-      .attributeModifier(pseudoModify.setStyle(node._pseudo_before.hmStyle || {}))
-      .flexAttrs(node._pseudo_before.hmStyle || {})
-    }
-  }
-  createLazyChildren(node)
-  // 伪类::After
-  if (node._pseudo_after) {
-    if (node._pseudo_after?.hmStyle.content) {
-      Text(node._pseudo_after.hmStyle.content)
-        .attributeModifier(pseudoModify.setStyle(node._pseudo_after.hmStyle))
-        .textNormalFontStyle(node._pseudo_after.hmStyle || {})
-        .textSpecialFontStyle(getFontAttributes(node))
-    } else {
-      Flex() {}
-      .attributeModifier(pseudoModify.setStyle(node._pseudo_after.hmStyle || {}))
-      .flexAttrs(node._pseudo_after.hmStyle || {})
+@Component
+export default struct PseduoChildren {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroViewElement) => void = this.customBuilder
+  @ObjectLink node: TaroViewElement
+
+  build () {
+    if (true) {
+      // 伪类::Before
+      if (this.node._pseudo_before) {
+        if (this.node._pseudo_before?.hmStyle.content) {
+          Text(this.node._pseudo_before.hmStyle.content)
+            .attributeModifier(pseudoModify.setStyle(this.node._pseudo_before.hmStyle))
+            .textNormalFontStyle(this.node._pseudo_before.hmStyle || {})
+            .textSpecialFontStyle(getFontAttributes(this.node))
+        } else {
+          Flex() {}
+          .attributeModifier(pseudoModify.setStyle(this.node._pseudo_before.hmStyle || {}))
+          .flexAttrs(this.node._pseudo_before.hmStyle || {})
+        }
+      }
+      this.createLazyChildren(this.node)
+      // 伪类::After
+      if (this.node._pseudo_after) {
+        if (this.node._pseudo_after?.hmStyle.content) {
+          Text(this.node._pseudo_after.hmStyle.content)
+            .attributeModifier(pseudoModify.setStyle(this.node._pseudo_after.hmStyle))
+            .textNormalFontStyle(this.node._pseudo_after.hmStyle || {})
+            .textSpecialFontStyle(getFontAttributes(this.node))
+        } else {
+          Flex() {}
+          .attributeModifier(pseudoModify.setStyle(this.node._pseudo_after.hmStyle || {}))
+          .flexAttrs(this.node._pseudo_after.hmStyle || {})
+        }
+      }
     }
   }
 }
