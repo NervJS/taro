@@ -5,11 +5,11 @@ const config: TaroStylelintConfig = {
   // 禁止的选择器集合
   disAllowedSelectors: {
     'selector-max-id': 0, // 允许的最大id选择器数量
-    'selector-max-combinators': 0, // 允许的最大组合选择器数量
     'selector-max-type': 0, // 允许的最大类型选择器数量
     'selector-max-attribute': 0, // 允许的最大属性选择器数量
     'selector-max-universal': 0, // 允许的最大通配符选择器数量
-    'selector-pseudo-class-allowed-list': [], // 允许的伪类选择器
+    'selector-pseudo-class-allowed-list': ['before', 'after'], // 允许的伪类选择器
+    'selector-combinator-allowed-list': ['>', ' '], // 允许的组合选择器
   },
   // 支持的属性列表
   supportedProperties: {
@@ -69,9 +69,9 @@ const config: TaroStylelintConfig = {
     'color': true,
     'text-decoration': ['none', 'underline', 'line-through', 'overline'],
     'text-overflow': ['ellipsis', 'clip'],
-    'display': ['flex', 'block'],
+    'display': ['flex', 'block', 'none'],
     'flex': true,
-    'flex-direction': ['row', 'column'],
+    'flex-direction': ['row', 'row-reverse', 'column', 'column-reverse'],
     'justify-content': ['flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly'],
     'align-items': ['flex-start', 'flex-end', 'center', 'baseline', 'stretch'],
     'align-content': ['flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly'],
@@ -100,9 +100,9 @@ const config: TaroStylelintConfig = {
     'property-no-vendor-prefix': true, // 禁止属性前缀
     'at-rule-allowed-list': [], // 允许的at规则
     'color-named': ['never'], // 禁止使用命名颜色
-    'declaration-no-important': true, // 禁止使用!important
-    'unit-allowed-list': ['px', 'deg', '%', 'vh', 'vw', 's'], // 允许的单位
-    'function-disallowed-list': ['calc', 'min', 'max', 'clamp'], // 禁止的函数
+    'declaration-no-important': false, // 禁止使用!important
+    'unit-allowed-list': ['px', 'deg', '%', 'vh', 'vw', 's', 'rem'], // 允许的单位
+    'function-disallowed-list': ['min', 'max', 'clamp'], // 禁止的函数
   }
 }
 
