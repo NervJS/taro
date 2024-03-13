@@ -96,7 +96,7 @@ export interface IH5Config {
   /** 配置需要额外的经由 Taro 预设的 postcss 编译的模块 */
   esnextModules?: string[]
 
-  /** 用于控制在 H5 端是否使用兼容性组件库，详情请看 [React 兼容性组件库](https://taro-docs.jd.com/docs/next/h5#react-兼容性组件库)。(默认值：false) */
+  /** 用于控制在 H5 端是否使用兼容性组件库，详情请看 [React 兼容性组件库](https://taro-docs.jd.com/docs/h5#react-兼容性组件库)。(默认值：false) */
   useHtmlComponents?: boolean
 
   /** 用于控制在 H5 端是否使用旧版本适配器，旧版本采用全局注册组件，懒加载组件相关依赖；新版本适配器会自动注册相关组件，不再需要引入 @tarojs/components/loader 中的全局 defineCustomElements 方法。(默认值：false) */
