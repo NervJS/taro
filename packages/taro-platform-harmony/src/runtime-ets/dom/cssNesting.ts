@@ -154,7 +154,13 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
     let selector_list = [selector_string]
     const selector_nodes: TSelectorNode[] = []
     // 判断是否存在别名
-    if (alias[selector_string]) {
+    if (selector_string instanceof Array) {
+      selector_string.forEach(selector_string => {
+        if (alias[selector_string]) {
+          selector_list = selector_list.concat(alias[selector_string])
+        }
+      })
+    } else if (alias[selector_string]) {
       selector_list = selector_list.concat(alias[selector_string])
     }
 
