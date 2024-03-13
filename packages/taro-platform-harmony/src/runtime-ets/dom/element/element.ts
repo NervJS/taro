@@ -6,12 +6,12 @@ import { findChildNodeWithDFS } from '../../utils'
 import { initComponentNodeInfo, triggerAttributesCallback } from '../../utils/info'
 import { bindAnimation } from '../bind'
 import { ClassList } from '../class-list'
+import { type ICSSStyleDeclaration, createCSSStyleDeclaration } from '../cssStyleDeclaration'
 import { NodeType, TaroNode } from '../node'
 import StyleSheet, { HarmonyStyle } from '../stylesheet'
 
 import type { StandardProps } from '@tarojs/components/types'
 import type { TaroAny } from '../../utils'
-import { createCSSStyleDeclaration, type ICSSStyleDeclaration } from '../cssStyleDeclaration'
 
 type NamedNodeMap = ({ name: string, value: string })[]
 

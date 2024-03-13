@@ -42,6 +42,7 @@
 import type { ReactElement } from 'react'
 
 type TMappingNode = {
+  node: ReactElement
   children: TMapping
   descendants: TMapping
 }
@@ -153,13 +154,16 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
   const findElement = (selector_string, combinator_type, selector_mapping) => {
     let selector_list = [selector_string]
     const selector_nodes: TSelectorNode[] = []
+    let shouldUseCombinations = false
     // 判断是否存在别名
     if (selector_string instanceof Array) {
-      selector_string.forEach(selector_string => {
-        if (alias[selector_string]) {
-          selector_list = selector_list.concat(alias[selector_string])
+      // 多类选择器类名，需要进行排列组合选择了，一对多的查找 ['a', 'b']，需要找出所有a和b都指向同一个node的节点
+      selector_string.forEach((item, i) => {
+        if (alias[item]) {
+          selector_string[i] = [item, ...alias[item]]
         }
       })
+      shouldUseCombinations = true
     } else if (alias[selector_string]) {
       selector_list = selector_list.concat(alias[selector_string])
     }
@@ -167,17 +171,16 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
     for (let i = 0; i < selector_list.length; i++) {
       const selector = selector_list[i]
       if (selector instanceof Array) {
+        let obj
         // 如果是数组，说明他是一个多类选择器：.a.b，我们需要搜索这两个类名都指向同一个node
-        let obj: any = null
-        for (let i = 0; i < selector.length; i++) {
-          // 查询选择器的节点
-          const object = selector_mapping[selector[i]]
-          if (object) {
-            if (!obj) { obj = object }
-            if (object.node === obj.node) continue
-          }
-          obj = null
-          break
+        if (shouldUseCombinations) {
+          obj = generateCombinations(selector, (combination) => {
+            // combination 是组合后的选择器['parent', 'child']
+            const _obj = findSendNode(combination, selector_mapping)
+            if (_obj) return _obj
+          })
+        } else {
+          obj = findSendNode(selector, selector_mapping)
         }
         // 找出最后搜寻出来的node
         if (obj) {
@@ -237,6 +240,63 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
       }
     })
   }
+}
+
+// 排列组合选择器，找出符合的组合
+// let arrayA = [1, 2, 3];
+// let arrayB = [4, 5, 6];
+// let arrayC = 'abc'
+// let result = generateCombinations([arrayA, arrayB, arrayC], (combination) => { if (combination[0] == 3 ) { return combination }})
+// console.log(result)  => [3, 4, "abc"]
+function generateCombinations (arrays: (string[] | string)[], cbFn, currentCombination: (string[] | string)[] = []) {
+  if (arrays.length === 0) {
+    // 当所有数组都被处理完时，将当前组合添加到结果中
+    return cbFn(currentCombination.slice())
+  }
+  // 取出当前数组
+  const currentArray = arrays[0]
+  if (currentArray instanceof Array) {
+    // 遍历当前数组的每个元素
+    for (let i = 0; i < currentArray.length; i++) {
+      // 将当前元素添加到当前组合中
+      currentCombination.push(currentArray[i])
+      // 递归处理剩余的数组
+      const shouldStop = generateCombinations(arrays.slice(1), cbFn, currentCombination)
+      if (shouldStop) {
+        return shouldStop
+      }
+      // 回溯，移除最后一个元素，尝试其他组合
+      currentCombination.pop()
+    }
+  } else {
+    // 如果不是数组，直接将当前元素添加到当前组合中
+    currentCombination.push(currentArray)
+    // 递归处理剩余的数组
+    const shouldStop = generateCombinations(arrays.slice(1), cbFn, currentCombination)
+    if (shouldStop) {
+      return shouldStop
+    }
+    // 回溯，移除最后一个元素，尝试其他组合
+    currentCombination.pop()
+  }
+  return false
+}
+
+// 多类选择器辅助函数：.a.b => 这里的.a .b其实都是指向同一个node
+// 匹配寻找所有选择器都指向同一个node
+function findSendNode (selectorArr: string[], selector_mapping: TMapping) {
+  let obj: any = null
+  for (let i = 0; i < selectorArr.length; i++) {
+    // 查询选择器的节点
+    const object = selector_mapping[selectorArr[i]]
+    if (object) {
+      if (!obj) { obj = object }
+      if (object.node === obj.node) continue
+    }
+    obj = null
+    break
+  }
+  return obj
 }
 
 // 合并嵌套样式
