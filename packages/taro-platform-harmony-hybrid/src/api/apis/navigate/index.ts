@@ -1,12 +1,13 @@
 import Taro from '@tarojs/api'
 import { showModal } from '@tarojs/taro-h5'
 
+import native from '../NativeApi'
 import { shouldBeObject } from '../utils'
 import { MethodHandler } from '../utils/handler'
 
 /**
 * 打开另一个小程序
-* 
+*
 * @canUse navigateToMiniProgram
 * @__object [appId, path, extraData]
 */
@@ -19,7 +20,7 @@ export const navigateToMiniProgram: typeof Taro.navigateToMiniProgram = (options
     return Promise.reject(res)
   }
   return new Promise((resolve, reject) => {
-    const { success, fail, complete, ...otherOptions } = options as Exclude<typeof options, undefined>
+    const { success, fail, complete } = options as Exclude<typeof options, undefined>
     const handle = new MethodHandler({ name: apiName, success, fail, complete })
 
     showModal({
@@ -34,15 +35,7 @@ export const navigateToMiniProgram: typeof Taro.navigateToMiniProgram = (options
       },
       success: (res) => {
         if (res.confirm) {
-          // @ts-ignore
-          native.navigateToMiniProgram(otherOptions).then(
-            (res: any) => {
-              handle.success(res, { resolve, reject })
-            },
-            (res: any) => {
-              handle.fail(res, { resolve, reject })
-            }
-          )
+          native.navigateToMiniProgram(options)
         } else {
           handle.fail({ errMsg: 'cancel' }, { resolve, reject })
         }

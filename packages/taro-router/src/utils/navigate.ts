@@ -20,9 +20,13 @@ export function setMpaTitle (title: string): void {
 }
 
 export function setTitle (title: string): void {
-  eventCenter.trigger('__taroH5SetNavigationTitle', title)
+  eventCenter.trigger('__taroH5SetNavigationBarTitle', title)
 }
 
-export function setNavigationBarStyle (option: { backgroundColor: string, frontColor: string }){
+export function setNavigationBarStyle (option: { backgroundColor: string, frontColor: string }):void {
   eventCenter.trigger('__taroH5setNavigationBarColor', option)
+}
+
+export function setNavigationBarLoading (loading: boolean): void {
+  eventCenter.trigger('__taroH5setNavigationBarLoading', loading)
 }
