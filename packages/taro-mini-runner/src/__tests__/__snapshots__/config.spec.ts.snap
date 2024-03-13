@@ -534,7 +534,8 @@ require("./taro");
                 var _a;
                 if (element.isTransferElement) {
                     var _ref;
-                    var page = getCurrentPages()[0];
+                    var pages = getCurrentPages();
+                    var page = pages[pages.length - 1];
                     data["nn"] = element.dataName;
                     page.setData(_defineProperty({}, undefined(data.nn), data));
                     return _ref = {
@@ -2322,7 +2323,8 @@ require("./taro");
                 var _a;
                 if (element.isTransferElement) {
                     var _ref;
-                    var page = getCurrentPages()[0];
+                    var pages = getCurrentPages();
+                    var page = pages[pages.length - 1];
                     data["nn"] = element.dataName;
                     page.setData(_defineProperty({}, undefined(data.nn), data));
                     return _ref = {
@@ -4064,7 +4066,8 @@ require("./taro");
                 var _a;
                 if (element.isTransferElement) {
                     var _ref;
-                    var page = getCurrentPages()[0];
+                    var pages = getCurrentPages();
+                    var page = pages[pages.length - 1];
                     data["nn"] = element.dataName;
                     page.setData(_defineProperty({}, undefined(data.nn), data));
                     return _ref = {
