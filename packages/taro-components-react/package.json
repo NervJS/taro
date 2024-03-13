@@ -35,7 +35,7 @@
     "@tarojs/components": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
-    "swiper": "11.0.5",
+    "swiper": "11.0.7",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

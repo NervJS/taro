@@ -1,11 +1,12 @@
 import { Component, ComponentInterface, Element, Event, EventEmitter, h, Host, Prop, State, Watch } from '@stencil/core'
+import Taro from '@tarojs/taro'
 import SwiperJS from 'swiper'
 import { Autoplay, Pagination, Zoom } from 'swiper/modules'
 
+import { debounce, waitUntil } from '../../utils'
+
 import type ISwiper from 'swiper'
 import type { SwiperOptions } from 'swiper/types/swiper-options'
-import { debounce, waitUntil } from '../../utils'
-import Taro from '@tarojs/taro'
 
 let INSTANCE_ID = 0
 
@@ -95,15 +96,15 @@ export class Swiper implements ComponentInterface {
   @Event({
     eventName: 'change',
   })
-  onChange: EventEmitter
+    onChange: EventEmitter
 
   @Event({
     eventName: 'animationfinish',
   })
-  onAnimationFinish: EventEmitter
+    onAnimationFinish: EventEmitter
 
   @Watch('current')
-  watchCurrent(newVal) {
+  watchCurrent (newVal) {
     if (!this.isWillLoadCalled || !this.swiper) return
 
     const n = parseInt(newVal, 10)
@@ -117,7 +118,7 @@ export class Swiper implements ComponentInterface {
   }
 
   @Watch('autoplay')
-  watchAutoplay(newVal) {
+  watchAutoplay (newVal) {
     if (!this.isWillLoadCalled || !this.swiper) return
 
     const swiperAutoplay = this.swiper.autoplay
@@ -139,13 +140,13 @@ export class Swiper implements ComponentInterface {
   }
 
   @Watch('duration')
-  watchDuration(newVal) {
+  watchDuration (newVal) {
     if (!this.isWillLoadCalled || !this.swiper) return
     this.swiper.params.speed = newVal
   }
 
   @Watch('interval')
-  watchInterval(newVal) {
+  watchInterval (newVal) {
     if (!this.isWillLoadCalled || !this.swiper) return
 
     if (typeof this.swiper.params.autoplay === 'object') {
@@ -154,38 +155,38 @@ export class Swiper implements ComponentInterface {
   }
 
   @Watch('swiperWrapper')
-  watchSwiperWrapper(newVal?: HTMLElement) {
+  watchSwiperWrapper (newVal?: HTMLElement) {
     if (!this.isWillLoadCalled) return
     if (!newVal) return
-    this.el.appendChild = <T extends Node>(newChild: T): T => {
+    this.el.appendChild = <T extends Node> (newChild: T): T => {
       return newVal.appendChild(newChild)
     }
-    this.el.insertBefore = <T extends Node>(newChild: T, refChild: Node | null): T => {
+    this.el.insertBefore = <T extends Node> (newChild: T, refChild: Node | null): T => {
       return newVal.insertBefore(newChild, refChild)
     }
-    this.el.replaceChild = <T extends Node>(newChild: Node, oldChild: T): T => {
+    this.el.replaceChild = <T extends Node> (newChild: Node, oldChild: T): T => {
       return newVal.replaceChild(newChild, oldChild)
     }
-    this.el.removeChild = <T extends Node>(oldChild: T): T => {
+    this.el.removeChild = <T extends Node> (oldChild: T): T => {
       return newVal.removeChild(oldChild)
     }
   }
 
   @Watch('circular')
-  watchCircular() {
+  watchCircular () {
     if (this.swiper) {
       this.handleInit()
     }
   }
 
   @Watch('displayMultipleItems')
-  watchDisplayMultipleItems() {
+  watchDisplayMultipleItems () {
     if (this.swiper) {
       this.handleInit()
     }
   }
 
-  componentWillLoad() {
+  componentWillLoad () {
     this.isWillLoadCalled = true
   }
 
@@ -195,17 +196,17 @@ export class Swiper implements ComponentInterface {
     }
   }, 50)
 
-  async componentDidLoad() {
+  async componentDidLoad () {
     await this.handleInit()
     Taro.eventCenter.on('swiperItemAdd', this.handleSwiperItemAdd)
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     if (!this.swiper) return
     this.swiper.update()
   }
 
-  disconnectedCallback() {
+  disconnectedCallback () {
     if (this.swiper) {
       this.swiper.destroy()
     }
@@ -226,7 +227,7 @@ export class Swiper implements ComponentInterface {
     })
   }, 100)
 
-  async handleInit() {
+  async handleInit () {
     if (this.swiper) this.swiper.destroy()
     const { autoplay, circular, current, displayMultipleItems, duration, interval, vertical } = this
 
@@ -248,17 +249,17 @@ export class Swiper implements ComponentInterface {
       speed: duration,
       zoom: this.zoom,
       on: {
-        loopFix() {
+        loopFix () {
           if (that.autoplay && this.autoplay.paused) {
             this.autoplay.start()
           }
         },
-        afterInit() {
+        afterInit () {
           if (that.circular && !this.animating && this.slides.length > 2) {
             this.loopFix()
           }
         },
-        realIndexChange() {
+        realIndexChange () {
           if (this.realIndex !== that.current && !isNaN(this.realIndex)) {
             that.handleRealIndexChange(this.realIndex, that.#source)
           }
@@ -266,10 +267,10 @@ export class Swiper implements ComponentInterface {
         touchEnd: () => {
           that.#source = 'touch'
         },
-        autoplay() {
+        autoplay () {
           that.#source = 'autoplay'
         },
-        transitionEnd() {
+        transitionEnd () {
           if (!isNaN(this.realIndex)) {
             that.handleAnimationFinish(this.realIndex, that.#source)
           }
@@ -302,7 +303,7 @@ export class Swiper implements ComponentInterface {
     this.swiperWrapper = this.el.querySelector(`.taro-swiper-${this.#id} > .swiper-container > .swiper-wrapper`)
   }
 
-  render() {
+  render () {
     const { vertical, indicatorDots, indicatorColor, indicatorActiveColor } = this
 
     const [, previousMargin] = /^(\d+)px/.exec(this.previousMargin) || []
@@ -319,8 +320,8 @@ export class Swiper implements ComponentInterface {
           },
           this.full
             ? {
-                height: '100%',
-              }
+              height: '100%',
+            }
             : {},
           vertical
             ? { '--swiper-container-mt': `${pM}px`, '--swiper-container-mb': `${nM}px` }
@@ -330,7 +331,7 @@ export class Swiper implements ComponentInterface {
       >
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <slot />
+            <slot/>
           </div>
           {indicatorDots && (
             <div
