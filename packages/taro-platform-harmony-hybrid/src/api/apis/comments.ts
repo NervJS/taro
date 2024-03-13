@@ -2397,6 +2397,13 @@
  */
 
 /**
+ * NodesRef 对象，用于获取 WXML 节点信息的对象
+ * 
+ * @canUse NodesRef
+ * @__class [boundingClientRect, context, node, fields, scrollOffset]
+ */
+
+/**
  * Path2D
  * 
  * @canUse Path2D

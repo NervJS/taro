@@ -1,8 +1,8 @@
 import Taro from '@tarojs/taro'
 
+import native from '../../NativeApi'
 import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
-
 /**
  * 获取视频详细信息
  *
@@ -48,7 +48,6 @@ export const getVideoInfo: typeof Taro.getVideoInfo = (options) => {
   }
 
   return new Promise<Taro.getVideoInfo.SuccessCallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.getVideoInfo({
       src: src,
       success: (res: any) => {

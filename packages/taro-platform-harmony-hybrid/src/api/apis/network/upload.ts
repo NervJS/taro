@@ -1,10 +1,11 @@
 import { isFunction } from '@tarojs/shared'
 
+import { NativeUploadFile } from '../interface/NativeUploadFile'
+import native from '../NativeApi'
 import { getParameterError, shouldBeObject } from '../utils'
-
 /**
  * 将本地资源上传到服务器
- * 
+ *
  * @canUse uploadFile
  * @__object [url, filePath, name, header, formData, timeout, fileName, withCredentials]
  * @__success [data, statusCode, header, cookies]
@@ -38,8 +39,7 @@ export const uploadFile = (options) => {
     }
   }
 
-  // @ts-ignore
-  const task = native.uploadFile({
+  const objectID = native.uploadFile({
     url,
     filePath,
     name,
@@ -55,9 +55,11 @@ export const uploadFile = (options) => {
     },
   })
 
+  const task = NativeUploadFile.getUploadTask(objectID)
+
   /**
    * 一个可以监听上传进度变化事件，以及取消上传任务的对象
-   * 
+   *
    * @canUse UploadTask
    * @__class [abort, onProgressUpdate, offProgressUpdate, onHeadersReceived, offHeadersReceived]
    */
