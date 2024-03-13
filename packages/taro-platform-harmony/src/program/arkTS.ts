@@ -185,6 +185,7 @@ export default class Harmony extends TaroPlatformHarmony {
           || /\/{3}\s<reference\spath=['"][^'"\s]+['"]\s\/>/g.test(code))
           && `${libName}${path.extname(libDir)}` !== libDir
         ) {
+          // Note: 文件包含包内引用的依赖
           const pkgPath = path.relative(libName, libDir)
           if (new RegExp(`^index(${this.extensions.map(e => e.replace('.', '\\.')).join('|')})$`).test(pkgPath)) {
             // Note: 入口为 index 场景
@@ -235,7 +236,7 @@ export default class Harmony extends TaroPlatformHarmony {
       }
       if (this.extensions.includes(path.extname(lib))) {
         // Note: 查询 externals 内的依赖，并将它们添加到 externalDeps 中
-        code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {
+        code = code.replace(/(?:import\s|from\s|require\()['"]([^\\/.][^'"\s]+)['"]\)?/g, (src, p1) => {
           const { outputRoot } = this.ctx.runOpts.config
           const targetPath = path.join(outputRoot, NODE_MODULES, p1)
           const relativePath = parseRelativePath(path.dirname(target), targetPath)
