@@ -2,6 +2,7 @@ import { View, Button } from '@tarojs/components'
 import Taro, { useLoad, useDidShow } from '@tarojs/taro'
 import './index.scss'
 import { TestConsole } from '@/util/util'
+import {nativeApi} from "@/util/nativeApi";
 
 export default function Index() {
   useLoad(() => {
@@ -45,6 +46,24 @@ export default function Index() {
             })
         }}>
         性能测试
+      </Button>
+      <Button
+        onClick={()=>{
+          nativeApi.harmonyNavigateTo({
+            indexHtmlPath: '/spa/new/index.html',
+            taroPath: 'pages/performance/index/index'
+          })
+        }}>
+        多实例（多SPA跳转）：性能列表页
+      </Button>
+      <Button
+        onClick={()=>{
+          nativeApi.harmonyNavigateTo({
+            indexHtmlPath: '/spa/new/index.html',
+            taroPath: 'pages/api/index/index'
+          })
+        }}>
+        单实例（单SPA）：接口列表页
       </Button>
     </View>
   )
