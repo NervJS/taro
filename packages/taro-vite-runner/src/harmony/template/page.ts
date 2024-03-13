@@ -114,132 +114,6 @@ export default class Parser extends BaseParser {
     return !!page
   }
 
-  renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0, entryOption?: unknown) {
-    const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
-    let pageStr = ''
-    if (this.buildConfig.isBuildNativeComp) {
-      pageStr = `${entryOption ? 'NavDestination()' : 'if (this.node)'} {\n  TaroView({ node: this.node as TaroViewElement, createLazyChildren: createLazyChildren })\n}`
-      if (entryOption) {
-        pageStr += `\n.title(this.renderTitle)`
-        pageStr += `\n.hideTitleBar(${isCustomNavigationBar ? `config.navigationStyle !== 'default'` : `config.navigationStyle === 'custom'`})`
-      }
-      return pageStr
-    }
-
-    pageStr = `Navigation() {
-  NavDestination() {
-    Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
-      Column() {
-        if (${isTabPage ? 'this.node[index]' : 'this.node'}) {
-          TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement, createLazyChildren: createLazyChildren })
-        }
-      }
-      .width('100%')
-      .alignItems(HorizontalAlign.Start)
-      .onAreaChange((_: Area, area: Area) => {
-        const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
-        if (node) {
-          node._nodeInfo._scroll = area
-        }
-      })
-    }
-    .clip(false)
-    .scrollBar(typeof config${isTabPage ? '[index]' : ''}.enableScrollBar === 'boolean' ? config${isTabPage ? '[index]' : ''}.enableScrollBar : ${!this.appConfig.window?.enableScrollBar ? 'false' : 'true'})
-    .onAreaChange((_: Area, area: Area) => {
-      const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
-      if (node) {
-        node._nodeInfo._client = area
-      }
-    })
-    .onScroll(() => {
-      if (!this.page) return
-
-      const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
-      callFn(this.page.onPageScroll, this, {
-        scrollTop: offset.xOffset || 0,
-        scrollLeft: offset.yOffset || 0,
-      })
-    })
-    .onScrollStop(() => {
-      if (!this.page) return
-
-      const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
-      const distance: number = config${isTabPage ? '[index]' : ''}.onReachBottomDistance || ${this.appConfig.window?.onReachBottomDistance || 50}
-      const clientHeight: number = Number(this.node${isTabPage ? '[index]' : ''}?._nodeInfo?._client?.height) || 0
-      const scrollHeight: number = Number(this.node${isTabPage ? '[index]' : ''}?._nodeInfo?._scroll?.height) || 0
-      if (scrollHeight - clientHeight - offset.yOffset <= distance) {
-        callFn(this.page.onReachBottom, this)
-      }
-    })
-  }
-  .hideTitleBar(true)
-}
-.width('100%')
-.height('100%')
-.backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColor || '#FFFFFF'}")
-.title(this.renderTitle)
-.titleMode(NavigationTitleMode.Mini)
-.hideTitleBar(${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle === 'custom'`})
-.hideBackButton(true)`
-
-    if (isTabPage && enableRefresh > 1) {
-      pageStr = `if (${appEnableRefresh
-        ? `config${isTabPage ? '[index]' : ''}.enablePullDownRefresh !== false`
-        : `config${isTabPage ? '[index]' : ''}.enablePullDownRefresh`}) {
-  Refresh({ refreshing: ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} }) {
-${this.transArr2Str(pageStr.split('\n'), 4)}
-  }
-  .onStateChange(bindFn(this.handleRefreshStatus, this, index))
-} else {
-${this.transArr2Str(pageStr.split('\n'), 2)}
-}`
-    } else if (enableRefresh === 1) {
-      pageStr = `Refresh({ refreshing: ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} }) {
-${this.transArr2Str(pageStr.split('\n'), 2)}
-}
-.onStateChange(bindFn(this.handleRefreshStatus, this${isTabPage ? ', index' : ''}))`
-    }
-
-    if (isTabPage) {
-      // TODO: 根据页面配置判断每个页面是否需要注入下拉刷新模块
-      pageStr = `Tabs({
-  barPosition: this.tabBarPosition !== 'top' ? BarPosition.End : BarPosition.Start,
-  controller: this.tabBarController,
-  index: this.tabBarCurrentIndex,
-}) {
-  ForEach(this.tabBarList, (item: ITabBarItem, index) => {
-    TabContent() {
-${this.transArr2Str(pageStr.split('\n'), 6)}
-    }.tabBar(this.renderTabItemBuilder(index, item))
-  }, (item: ITabBarItem, index) => \`\${item.key || index}\`)
-}
-.vertical(false)
-.barMode(BarMode.Fixed)
-.barHeight(this.isTabBarShow ? 56 : 0)
-.animationDuration(this.tabBarAnimationDuration)
-.onChange((index: number) => {
-  if (this.tabBarCurrentIndex !== index) {
-    callFn(this.page?.onHide, this)
-    this.setTabBarCurrentIndex(index)
-  }
-  this.handlePageAppear()
-  callFn(this.page?.onShow, this)
-})
-.backgroundColor(this.tabBarBackgroundColor)`
-    } else {
-      pageStr += '\n.expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])'
-    }
-    if (SHOW_TREE) {
-      pageStr = this.transArr2Str([
-        'if (true) {',
-        this.transArr2Str(pageStr.split('\n'), 2),
-        this.transArr2Str(SHOW_TREE_BTN.split('\n'), 2),
-        '}',
-      ])
-    }
-    return pageStr
-  }
-
   renderState ({
     scope = ['page', 'tabbar'],
     decorator = '',
@@ -316,10 +190,6 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       this.renderState({
         decorator: 'State', name: 'props', type: 'TaroObject', foreach: () => '{}', disabled: !this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
-      // TODO 组件模式所需参数，后续应迁移到对应插件内
-      this.renderState({
-        decorator: 'State', name: 'params', type: 'TaroObject', foreach: () => '{}', disabled: !this.buildConfig.isBuildNativeComp
-      }, this.isTabbarPage),
       this.buildConfig.isBuildNativeComp ? '' : '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
       this.buildConfig.isBuildNativeComp ? '' : '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
       this.buildConfig.isBuildNativeComp ? '' : '@State appConfig: Taro.AppConfig = window.__taroAppConfig || {}',
@@ -339,6 +209,11 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
         '@State tabBarCurrentIndex: number = 0',
         'private tabBarController: TabsController = new TabsController()',
       )
+    }
+
+    const modifyRenderState = page instanceof Array ? page[0].modifyRenderState : page.modifyRenderState
+    if (isFunction(modifyRenderState)) {
+      modifyRenderState(generateState, this)
     }
 
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
@@ -364,26 +239,6 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   this.bindEvent()` : 'this.handlePageAppear()'}
 }`.split('\n'), 2),
       this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
-onPageShow () {
-  this.bindPageEvent()
-  const state = this.getPageState()
-  if (this.pageStack[this.pageStack.length - 1].path !== state.path) {
-    this.pageStack.length = state.index
-    this.pageStack[state.index - 1] = state
-  }
-  ${this.isTabbarPage ? `this.handleSwitchTab({ params: router.getParams() || {} })
-  this.pageList?.forEach(item => {
-    callFn(item?.onShow, this)
-  })` : 'callFn(this.page?.onShow, this)'}
-}
-
-onPageHide () {
-  this.removePageEvent()
-  ${this.isTabbarPage ? `this.pageList?.forEach(item => {
-    callFn(item?.onHide, this)
-  })` : 'callFn(this.page?.onHide, this)'}
-}
-
 getPageState() {
   const state = router.getState()
   state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as VitePageMeta).name}'
@@ -402,41 +257,7 @@ aboutToDisappear () {
   this.removeEvent()` : 'callFn(this.page?.onUnload, this)'}
 }
 
-handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {${this.buildConfig.isBuildNativeComp ? '' :`
-  if (${this.appConfig.window?.navigationStyle === 'custom'
-    ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
-    : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
-    Current.contextPromise
-      .then((context: common.BaseContext) => {
-        const win = window.__ohos.getLastWindow(context)
-        win.then(mainWindow => {${this.buildConfig.isBuildNativeComp ? '' : `
-          mainWindow.setFullScreen(true)
-          mainWindow.setSystemBarEnable(["status", "navigation"])
-      })
-    })`}
-  }\n`}
-  const params = router.getParams() as Record<string, string> || {}
-${this.isTabbarPage
-    ? this.transArr2Str([
-      'this.pageList ||= []',
-      'if (!this.pageList[index]) {',
-      '  this.pageList[index] = createComponent[index]()',
-      '  this.page = this.pageList[index]',
-      '  callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
-      '    this.node[index] = instance',
-      '  })',
-      '  callFn(this.page.onReady, this, params)',
-      '}',
-    ], 2)
-    : this.transArr2Str([
-      `this.page = createComponent()`,
-      'this.onReady = this.page?.onReady?.bind(this.page)',
-      'callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
-      '  this.node = instance',
-      '})',
-      'callFn(this.page.onReady, this, params)',
-    ], 2)}
-}
+${this.generatePageAppear(page)}
 `.split('\n'), 2),
       this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
 handleNavigationStyle = (option: TaroObject) => {
@@ -740,6 +561,203 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
     }
 
     return instantiatePage
+  }
+
+  generatePageAppear (page: VitePageMeta | VitePageMeta[]) {
+    let paramsString = 'router.getParams() as Record<string, string> || {}'
+
+    const modifyPageParams = page instanceof Array ? page[0].modifyPageParams : page.modifyPageParams
+    if (isFunction(modifyPageParams)) {
+      paramsString = modifyPageParams(paramsString)
+    }
+
+    return `handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {${this.buildConfig.isBuildNativeComp ? '' :`
+  if (${this.appConfig.window?.navigationStyle === 'custom'
+    ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
+    : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
+    Current.contextPromise
+      .then((context: common.BaseContext) => {
+        const win = window.__ohos.getLastWindow(context)
+        win.then(mainWindow => {${this.buildConfig.isBuildNativeComp ? '' : `
+          mainWindow.setFullScreen(true)
+          mainWindow.setSystemBarEnable(["status", "navigation"])
+      })
+    })`}
+  }\n`}
+  const params = ${paramsString}
+  ${this.isTabbarPage
+    ? this.transArr2Str([
+      'this.pageList ||= []',
+      'if (!this.pageList[index]) {',
+      '  this.pageList[index] = createComponent[index]()',
+      '  this.page = this.pageList[index]',
+      '  callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
+      '    this.node[index] = instance',
+      '  })',
+      '  callFn(this.page.onReady, this, params)',
+      '}',
+    ], 2)
+    : this.transArr2Str([
+      `this.page = createComponent()`,
+      'this.onReady = this.page?.onReady?.bind(this.page)',
+      'callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
+      '  this.node = instance',
+      '})',
+      'callFn(this.page.onReady, this, params)',
+    ], 2)}
+}`
+  }
+
+  renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0, entryOption?: unknown) {
+    const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
+    let pageStr = ''
+    if (this.buildConfig.isBuildNativeComp) {
+      pageStr = `${entryOption ? 'NavDestination()' : 'if (this.node)'} {\n  TaroView({ node: this.node as TaroViewElement, createLazyChildren: createLazyChildren })\n}\n.onShown(() => { callFn(this.page?.onShow, this) })\n.onHidden(() => { callFn(this.page?.onHide, this) })`
+      if (entryOption) {
+        pageStr += `\n.title(this.renderTitle)`
+        pageStr += `\n.hideTitleBar(${isCustomNavigationBar ? `config.navigationStyle !== 'default'` : `config.navigationStyle === 'custom'`})`
+      }
+      return pageStr
+    }
+
+    pageStr = `Navigation() {
+  NavDestination() {
+    Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
+      Column() {
+        if (${isTabPage ? 'this.node[index]' : 'this.node'}) {
+          TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement, createLazyChildren: createLazyChildren })
+        }
+      }
+      .width('100%')
+      .alignItems(HorizontalAlign.Start)
+      .onAreaChange((_: Area, area: Area) => {
+        const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
+        if (node) {
+          node._nodeInfo._scroll = area
+        }
+      })
+    }
+    .clip(false)
+    .scrollBar(typeof config${isTabPage ? '[index]' : ''}.enableScrollBar === 'boolean' ? config${isTabPage ? '[index]' : ''}.enableScrollBar : ${!this.appConfig.window?.enableScrollBar ? 'false' : 'true'})
+    .onAreaChange((_: Area, area: Area) => {
+      const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
+      if (node) {
+        node._nodeInfo._client = area
+      }
+    })
+    .onScroll(() => {
+      if (!this.page) return
+
+      const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
+      callFn(this.page.onPageScroll, this, {
+        scrollTop: offset.xOffset || 0,
+        scrollLeft: offset.yOffset || 0,
+      })
+    })
+    .onScrollStop(() => {
+      if (!this.page) return
+
+      const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
+      const distance: number = config${isTabPage ? '[index]' : ''}.onReachBottomDistance || ${this.appConfig.window?.onReachBottomDistance || 50}
+      const clientHeight: number = Number(this.node${isTabPage ? '[index]' : ''}?._nodeInfo?._client?.height) || 0
+      const scrollHeight: number = Number(this.node${isTabPage ? '[index]' : ''}?._nodeInfo?._scroll?.height) || 0
+      if (scrollHeight - clientHeight - offset.yOffset <= distance) {
+        callFn(this.page.onReachBottom, this)
+      }
+    })
+  }
+  .onShown(() => {
+    ${this.generatePageShown()}
+  })
+  .onHidden(() => {
+    ${this.generatePageShown()}
+  })
+  .hideTitleBar(true)
+}
+.width('100%')
+.height('100%')
+.backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColor || '#FFFFFF'}")
+.title(this.renderTitle)
+.titleMode(NavigationTitleMode.Mini)
+.hideTitleBar(${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle === 'custom'`})
+.hideBackButton(true)`
+
+    if (isTabPage && enableRefresh > 1) {
+      pageStr = `if (${appEnableRefresh
+        ? `config${isTabPage ? '[index]' : ''}.enablePullDownRefresh !== false`
+        : `config${isTabPage ? '[index]' : ''}.enablePullDownRefresh`}) {
+  Refresh({ refreshing: ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} }) {
+${this.transArr2Str(pageStr.split('\n'), 4)}
+  }
+  .onStateChange(bindFn(this.handleRefreshStatus, this, index))
+} else {
+${this.transArr2Str(pageStr.split('\n'), 2)}
+}`
+    } else if (enableRefresh === 1) {
+      pageStr = `Refresh({ refreshing: ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} }) {
+${this.transArr2Str(pageStr.split('\n'), 2)}
+}
+.onStateChange(bindFn(this.handleRefreshStatus, this${isTabPage ? ', index' : ''}))`
+    }
+
+    if (isTabPage) {
+      // TODO: 根据页面配置判断每个页面是否需要注入下拉刷新模块
+      pageStr = `Tabs({
+  barPosition: this.tabBarPosition !== 'top' ? BarPosition.End : BarPosition.Start,
+  controller: this.tabBarController,
+  index: this.tabBarCurrentIndex,
+}) {
+  ForEach(this.tabBarList, (item: ITabBarItem, index) => {
+    TabContent() {
+${this.transArr2Str(pageStr.split('\n'), 6)}
+    }.tabBar(this.renderTabItemBuilder(index, item))
+  }, (item: ITabBarItem, index) => \`\${item.key || index}\`)
+}
+.vertical(false)
+.barMode(BarMode.Fixed)
+.barHeight(this.isTabBarShow ? 56 : 0)
+.animationDuration(this.tabBarAnimationDuration)
+.onChange((index: number) => {
+  if (this.tabBarCurrentIndex !== index) {
+    callFn(this.page?.onHide, this)
+    this.setTabBarCurrentIndex(index)
+  }
+  this.handlePageAppear()
+  callFn(this.page?.onShow, this)
+})
+.backgroundColor(this.tabBarBackgroundColor)`
+    } else {
+      pageStr += '\n.expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])'
+    }
+    if (SHOW_TREE) {
+      pageStr = this.transArr2Str([
+        'if (true) {',
+        this.transArr2Str(pageStr.split('\n'), 2),
+        this.transArr2Str(SHOW_TREE_BTN.split('\n'), 2),
+        '}',
+      ])
+    }
+    return pageStr
+  }
+
+  generatePageShown () {
+    return `this.bindPageEvent()
+      const state = this.getPageState()
+      if (this.pageStack[this.pageStack.length - 1].path !== state.path) {
+        this.pageStack.length = state.index
+        this.pageStack[state.index - 1] = state
+      }
+      ${this.isTabbarPage ? `this.handleSwitchTab({ params: router.getParams() || {} })
+      this.pageList?.forEach(item => {
+        callFn(item?.onShow, this)
+      })` : 'callFn(this.page?.onShow, this)'}`
+  }
+
+  generatePageHidden () {
+    return `this.removePageEvent()
+      ${this.isTabbarPage ? `this.pageList?.forEach(item => {
+        callFn(item?.onHide, this)
+      })` : 'callFn(this.page?.onHide, this)'}`
   }
 
   parse (rawId: string, page: VitePageMeta | VitePageMeta[], name = 'TaroPage', resolve?: TRollupResolveMethod) {
