@@ -3581,8 +3581,8 @@ importers:
         specifier: workspace:*
         version: link:../taro-helper
       '@tarojs/parse-css-to-stylesheet':
-        specifier: ^0.0.36
-        version: registry.npmjs.org/@tarojs/parse-css-to-stylesheet@0.0.36
+        specifier: ^0.0.37
+        version: registry.npmjs.org/@tarojs/parse-css-to-stylesheet@0.0.37
       '@tarojs/runner-utils':
         specifier: workspace:*
         version: link:../taro-runner-utils
@@ -17211,10 +17211,10 @@ packages:
       defer-to-connect: registry.npmjs.org/defer-to-connect@1.1.3
     dev: false
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm-eabi@0.0.36:
-    resolution: {integrity: sha512-yYe4dRucmegGwsKZwuBBW/BBG5ZdD5fWoPqa49eDSZuufVc52p/8UkiO3vUJlIkFXEq3M/ush2tpAdE6NO/eQQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm-eabi/-/parse-css-to-stylesheet-android-arm-eabi-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm-eabi@0.0.37:
+    resolution: {integrity: sha512-jGi0VlH4yg19X89t1lR8pLfPjUBfBLILThNGhI3B+g5GK6Fit40J8WWgBc6gan2VOpxxy0d5CNYmLwlItRz5hw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm-eabi/-/parse-css-to-stylesheet-android-arm-eabi-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-android-arm-eabi'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [android]
@@ -17222,10 +17222,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm64@0.0.36:
-    resolution: {integrity: sha512-0SD4+UtU1IBIhNa9pfNSmqmeGJXwnz20cOKIIYnOunT8IM+hLU5lqxifqIdfdDPIr2FnGIKEraegSAojblCbVQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm64/-/parse-css-to-stylesheet-android-arm64-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm64@0.0.37:
+    resolution: {integrity: sha512-2Z8VPJJHKPUTMC5cZKVQAoumlQBDlDGu2BV8/OGcTJHuzL/V3Vi09G1PappUOdvSWMlu44DCGfd920oTO9IYjg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm64/-/parse-css-to-stylesheet-android-arm64-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-android-arm64'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [android]
@@ -17233,10 +17233,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-arm64@0.0.36:
-    resolution: {integrity: sha512-SOtCN0okicfQeFhx198k9NlWvzCV6nkcDtXjdBX25oLkzzAzQiTwlGTRDQwtjB+rSaM2B6i8xVk45CC3latbvg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-arm64/-/parse-css-to-stylesheet-darwin-arm64-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-arm64@0.0.37:
+    resolution: {integrity: sha512-ORZjJye9wlyPVaG9YfI1VwvAmBdpx/kYuMmpxwOowiq09U6Rz6nXSF/tLZ97q4l9y8b/KW0Zuwgy7CbriflXzA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-arm64/-/parse-css-to-stylesheet-darwin-arm64-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-darwin-arm64'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
@@ -17244,20 +17244,20 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-universal@0.0.36:
-    resolution: {integrity: sha512-s9KAdNsfHe1vA4xD6Bik24rOhko4hgYfgvpPUt/zcgAwMWZE3y16M0cRYxxz3v8mkTuUyPN2MT6XsVvHAa3zUQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-universal/-/parse-css-to-stylesheet-darwin-universal-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-universal@0.0.37:
+    resolution: {integrity: sha512-Hr3scP9j0B3NyOHVfiNnQ/TXaZu4JL197Pq4BqiT+w07rHvwnCHccs3IVPUyYepA4Etvkxrigf9ZfUDXoAJ6bw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-universal/-/parse-css-to-stylesheet-darwin-universal-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-darwin-universal'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-x64@0.0.36:
-    resolution: {integrity: sha512-VcRvG0kaXtmN6pcr19Cp9/BI+KqfdFFJ51lsZeBDODgjsk4rCAZD9NbteSbbUKTFqYF/85aRFJEQ/zNJ23pl5A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-x64/-/parse-css-to-stylesheet-darwin-x64-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-x64@0.0.37:
+    resolution: {integrity: sha512-9nCzxIvxXgP4MQ8C2ZdLsnfxJJ1oE6rZ72OFhiEMTJBXQ3MZDMh2lKybXs+StuYXOKIxt/mt99pQ953Lbv7RcQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-x64/-/parse-css-to-stylesheet-darwin-x64-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-darwin-x64'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -17265,10 +17265,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf@0.0.36:
-    resolution: {integrity: sha512-TKRNdeFbDGOrEwXpJcQg0oKM/McKOy+2LuLxV+K1RUuIaUwBCGfqvFAlpK/AYGkq1jgs06CuKKXLvON0dUTgPA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf/-/parse-css-to-stylesheet-linux-arm-gnueabihf-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf@0.0.37:
+    resolution: {integrity: sha512-XvI+E6sLsD2h/XMT2hDAI+1AHIPnrluUJIfCOpATC6bwsoiWgzZl1L66a7gkoU/h+bzmcPe4VfV+QTWs8zChzQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf/-/parse-css-to-stylesheet-linux-arm-gnueabihf-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
@@ -17276,10 +17276,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-gnu@0.0.36:
-    resolution: {integrity: sha512-3PzlcXr48jMpqwACnt70psHKV4zxzj44JAEBRAFjM05dDjo5tnMyuIwjsQTgIzYhZPpaOkjn9iwnohsw4B9/+Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-gnu/-/parse-css-to-stylesheet-linux-arm64-gnu-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-gnu@0.0.37:
+    resolution: {integrity: sha512-VsL7r21KDgzWhWzJ33Y9IrFMdF4nOwtt5jj6aKB9ugpG88ml0j6LGL1qotacXPB8Gm7MQpwH8y5SisCakQs9tQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-gnu/-/parse-css-to-stylesheet-linux-arm64-gnu-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-linux-arm64-gnu'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -17287,10 +17287,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-musl@0.0.36:
-    resolution: {integrity: sha512-o2r4HNTg6bQcbKm4ZWWTMv+J6wuCQ9zmvr3HeNIBsXcUU8oCbcyEymZ8sNtn55IqBpnSBuRjw1APFLrXs3Gtbw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-musl/-/parse-css-to-stylesheet-linux-arm64-musl-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-musl@0.0.37:
+    resolution: {integrity: sha512-HfsBEZj4m+IeN8IYfhv/D/u0Idq6PsH4/2+d6WrQYasTNS4ycmI9GeQfN+o9GgNNLnDGy4GEz+SYHbudfxv2hw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-musl/-/parse-css-to-stylesheet-linux-arm64-musl-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-linux-arm64-musl'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -17298,10 +17298,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-gnu@0.0.36:
-    resolution: {integrity: sha512-YGeBE6xQzLOeRNdTHG3HScVdSEuZWENjS5LJU7w9+DzIY4OcKuDy/NTPi8a2W9wpwgxul36aL3fDh6Ga5bJBMw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-gnu/-/parse-css-to-stylesheet-linux-x64-gnu-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-gnu@0.0.37:
+    resolution: {integrity: sha512-Y8Np2S2MFB+Mpc/dPHH1lf7Wb/iYQic7rMQRSy+EbJqSY8SscGFHju2hiEFempefDDXHjTKxcrfXQ1/abmDGmw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-gnu/-/parse-css-to-stylesheet-linux-x64-gnu-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-linux-x64-gnu'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -17309,10 +17309,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-musl@0.0.36:
-    resolution: {integrity: sha512-ERurv15yE/kwwaffn71hXgm68+knC4+0j0fxpndEF8MrFmkAbms+LU8IEZSj7O5b7gwCNC49uKFQyeuzl1psFw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-musl/-/parse-css-to-stylesheet-linux-x64-musl-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-musl@0.0.37:
+    resolution: {integrity: sha512-gFCrBjR0Pr782dftBrhGMQtyvIahvCiWRLVaEfbV/hyFp9dAA7IVc3WoOf7+KJbO4/Q5en24kdekpvcoyhbiwQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-musl/-/parse-css-to-stylesheet-linux-x64-musl-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-linux-x64-musl'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -17320,10 +17320,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-arm64-msvc@0.0.36:
-    resolution: {integrity: sha512-WY1A6nnLkInIWZhFFA3WKimGj7xC4hcAxAx3FSjhHPLb+9Cp226YvDfQEy+887uAm/iOXGarTNLKGN2wUNJ7bA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-arm64-msvc/-/parse-css-to-stylesheet-win32-arm64-msvc-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-arm64-msvc@0.0.37:
+    resolution: {integrity: sha512-T94CNqElTA2TVAn7lOKVdRwvvZY/WOxHXDBE7elmedImgYx6BrGgdZu/lInFt8CPCmisE53wWlqOQrYqAV6zmQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-arm64-msvc/-/parse-css-to-stylesheet-win32-arm64-msvc-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-win32-arm64-msvc'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
@@ -17331,10 +17331,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-ia32-msvc@0.0.36:
-    resolution: {integrity: sha512-CeTL6HBvLJiDGmhNbyGbQX0McNKidHRHOQwxI0Sb5vJ4CeHaBq7cupHOMvKcNyGE5l1c+BstV7vJC306+MXmBA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-ia32-msvc/-/parse-css-to-stylesheet-win32-ia32-msvc-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-ia32-msvc@0.0.37:
+    resolution: {integrity: sha512-xVK9GbQ7UvXN9fVx6ZtA4diLCkBKhNclPdHjwzROiaUIjT9veALPVqsomVlJA98yyEpdFa+NK+dDG7YdmTn59A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-ia32-msvc/-/parse-css-to-stylesheet-win32-ia32-msvc-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-win32-ia32-msvc'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
@@ -17342,10 +17342,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-x64-msvc@0.0.36:
-    resolution: {integrity: sha512-0+xh17XE4DwkCycuH4F5p+YvxzKQ3P0eAWpPRhlYeHTMSJ+Av0M1dHVZRvJM+L5Z54u+rLpdwRLz27gji5+wVQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-x64-msvc/-/parse-css-to-stylesheet-win32-x64-msvc-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-x64-msvc@0.0.37:
+    resolution: {integrity: sha512-nBUhXx6FxUoLZkGJepNAkF4NMzyBVrc8PDAorEuc28WO8EFZ8d/Fzfwo1dsR3thlYTtyqOtR7AToAykKkyecJA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-x64-msvc/-/parse-css-to-stylesheet-win32-x64-msvc-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet-win32-x64-msvc'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -17353,25 +17353,25 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/parse-css-to-stylesheet@0.0.36:
-    resolution: {integrity: sha512-xWywJGOyE+Qp7tpFDWGD5Mb5OUOmWQj6PeWSimTxEwcTnkWke9AhDfjGxX9chEmTLJ46/nSaotLdUavmhaqHYQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet/-/parse-css-to-stylesheet-0.0.36.tgz}
+  registry.npmjs.org/@tarojs/parse-css-to-stylesheet@0.0.37:
+    resolution: {integrity: sha512-UN5t+BqiUCj4BVwBtDHBEEkLFOUZ7CWI408OsybY1x4eRKas4mQRyyVxalxekRK+f88tL4pzVrg1VTp27vzqXQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet/-/parse-css-to-stylesheet-0.0.37.tgz}
     name: '@tarojs/parse-css-to-stylesheet'
-    version: 0.0.36
+    version: 0.0.37
     engines: {node: '>= 10'}
     optionalDependencies:
-      '@tarojs/parse-css-to-stylesheet-android-arm-eabi': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm-eabi@0.0.36
-      '@tarojs/parse-css-to-stylesheet-android-arm64': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm64@0.0.36
-      '@tarojs/parse-css-to-stylesheet-darwin-arm64': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-arm64@0.0.36
-      '@tarojs/parse-css-to-stylesheet-darwin-universal': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-universal@0.0.36
-      '@tarojs/parse-css-to-stylesheet-darwin-x64': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-x64@0.0.36
-      '@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf@0.0.36
-      '@tarojs/parse-css-to-stylesheet-linux-arm64-gnu': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-gnu@0.0.36
-      '@tarojs/parse-css-to-stylesheet-linux-arm64-musl': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-musl@0.0.36
-      '@tarojs/parse-css-to-stylesheet-linux-x64-gnu': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-gnu@0.0.36
-      '@tarojs/parse-css-to-stylesheet-linux-x64-musl': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-musl@0.0.36
-      '@tarojs/parse-css-to-stylesheet-win32-arm64-msvc': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-arm64-msvc@0.0.36
-      '@tarojs/parse-css-to-stylesheet-win32-ia32-msvc': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-ia32-msvc@0.0.36
-      '@tarojs/parse-css-to-stylesheet-win32-x64-msvc': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-x64-msvc@0.0.36
+      '@tarojs/parse-css-to-stylesheet-android-arm-eabi': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm-eabi@0.0.37
+      '@tarojs/parse-css-to-stylesheet-android-arm64': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm64@0.0.37
+      '@tarojs/parse-css-to-stylesheet-darwin-arm64': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-arm64@0.0.37
+      '@tarojs/parse-css-to-stylesheet-darwin-universal': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-universal@0.0.37
+      '@tarojs/parse-css-to-stylesheet-darwin-x64': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-x64@0.0.37
+      '@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf@0.0.37
+      '@tarojs/parse-css-to-stylesheet-linux-arm64-gnu': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-gnu@0.0.37
+      '@tarojs/parse-css-to-stylesheet-linux-arm64-musl': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-musl@0.0.37
+      '@tarojs/parse-css-to-stylesheet-linux-x64-gnu': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-gnu@0.0.37
+      '@tarojs/parse-css-to-stylesheet-linux-x64-musl': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-musl@0.0.37
+      '@tarojs/parse-css-to-stylesheet-win32-arm64-msvc': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-arm64-msvc@0.0.37
+      '@tarojs/parse-css-to-stylesheet-win32-ia32-msvc': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-ia32-msvc@0.0.37
+      '@tarojs/parse-css-to-stylesheet-win32-x64-msvc': registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-x64-msvc@0.0.37
     dev: false
 
   registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64@0.0.11:
