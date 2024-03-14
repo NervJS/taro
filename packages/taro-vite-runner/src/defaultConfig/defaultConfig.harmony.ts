@@ -31,7 +31,7 @@ const defaultConfig: Partial<ViteHarmonyBuildConfig> = {
       enable: true,
       config: {
         platform,
-        methods: ['platform'],
+        methods: ['platform', 'size'],
       }
     },
     htmltransform: {

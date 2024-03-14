@@ -38,6 +38,10 @@ const processed = Symbol('processed')
 
 let targetUnit
 
+const SPECIAL_PIXEL = ['Px', 'PX', 'pX']
+let unConvertTargetUnit
+let platform
+
 module.exports = (options = {}) => {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
   const exclude = options.exclude
@@ -46,6 +50,7 @@ module.exports = (options = {}) => {
   const designWidth = (input) =>
     typeof options.designWidth === 'function' ? options.designWidth(input) : options.designWidth
 
+  platform = options.platform
   switch (options.platform) {
     case 'h5': {
       targetUnit = options.targetUnit ?? 'rem'
@@ -84,6 +89,8 @@ module.exports = (options = {}) => {
     case 'harmony': {
       options.rootValue = (input) => 1 / options.deviceRatio[designWidth(input)]
       targetUnit = 'px'
+      unConvertTargetUnit = 'ch' // harmony对于大小写的PX转换成其他单位，用于rust解析
+      transUnits.push(...SPECIAL_PIXEL)
       break
     }
     default: {
@@ -200,12 +207,24 @@ module.exports = (options = {}) => {
           // 标记当前 node 已处理
           decl[processed] = true
 
-          if (decl.value.indexOf('px') === -1) return
+          if (!/px/i.test(decl.value)) return
 
           if (!satisfyPropList(decl.prop)) return
 
-          if (blacklistedSelector(opts.selectorBlackList, decl.parent.selector)) return
-          const value = decl.value.replace(pxRgx, pxReplace)
+          const isBlacklisted = blacklistedSelector(opts.selectorBlackList, decl.parent.selector)
+          if (isBlacklisted && platform !== 'harmony') return 
+          let value
+          if (isBlacklisted) {
+            // 如果是harmony平台，黑名单的样式单位做特殊处理
+            if (platform === 'harmony') {
+              value = decl.value.replace(pxRgx, (m, $1) => $1 ? $1 + unConvertTargetUnit : m)
+            } else {
+              // 如果是其他平台，黑名单的样式单位不做处理
+              return
+            }
+          } else {
+            value = decl.value.replace(pxRgx, pxReplace)
+          }
           // if rem unit already exists, do not add or replace
           if (declarationExists(decl.parent, decl.prop, value)) return
           if (opts.replace) {
@@ -219,7 +238,7 @@ module.exports = (options = {}) => {
             if (skip) return
             if (!opts.methods.includes('size')) return
 
-            if (rule.params.indexOf('px') === -1) return
+            if (!/px/i.test(rule.params)) return
             rule.params = rule.params.replace(pxRgx, pxReplace)
           },
         },
@@ -252,14 +271,28 @@ function convertLegacyOptions (options) {
 }
 
 function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransform) {
+  const specialPxRgx = pxRegex(SPECIAL_PIXEL)
   return function (input) {
     return function (m, $1) {
       if (!$1) return m
+
+      if (platform === 'harmony' && specialPxRgx.test(m)) {
+        // harmony对大小写的PX转换成其他单位，用于rust解析
+        return $1 + unConvertTargetUnit 
+      }
+
       if (!onePxTransform && parseInt($1, 10) === 1) {
+        if (platform === 'harmony') { return $1 + unConvertTargetUnit }
         return m
       }
       const pixels = parseFloat($1)
-      if (pixels < minPixelValue) return m
+      if (pixels < minPixelValue) {
+        if (platform === 'harmony') { return $1 + unConvertTargetUnit }
+        return m
+      }
+
+      // 转换工作，如果是harmony的话不转换
+      if (platform === 'harmony') { return m }
       let val = pixels / rootValue(input, m, $1)
       if (unitPrecision >= 0 && unitPrecision <= 100) {
         val = toFixed(val, unitPrecision)

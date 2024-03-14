@@ -78,7 +78,10 @@ function getRatio (value: number) {
 export function pxTransformHelper (size: number, unit?: string, isNumber = false): number | string {
   const config = (Current as any).taro?.config || {}
   const targetUnit = unit || config.targetUnit || defaultTargetUnit
-
+  
+  if (targetUnit === 'PX') {
+    return px2vp(size * display.scaledDensity) + 'vp'
+  }
   const ratio = getRatio(size)
   let val = size * ratio
 

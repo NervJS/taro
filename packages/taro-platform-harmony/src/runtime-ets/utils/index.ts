@@ -42,6 +42,10 @@ export function convertNumber2VP (value: number, unit = 'px') {
   if (unit === 'vw' || unit === 'vh') {
     return (value / 100 * (unit === 'vw' ? display.width: display.height)) + 'px'
   }
+  if (unit === 'PX') {
+    // 特殊单位：相当于PX、pX、Px
+    return pxTransformHelper(value, 'PX')
+  }
   return pxTransformHelper(value, 'vp')
 }
 
