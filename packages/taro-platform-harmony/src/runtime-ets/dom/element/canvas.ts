@@ -5,9 +5,9 @@ import { TaroElement } from './element'
 import type { CanvasProps, CanvasTouchEvent } from '@tarojs/components/types'
 
 export class CanvasRenderingContext2DWXAdapter extends CanvasRenderingContext2D {
-  constructor(settings?: RenderingContextSetting) {
-    super(settings)
-  }
+  // constructor(settings?: RenderingContextSetting) {
+  //   super(settings)
+  // }
 
   createCircularGradient() {
     // Not supported now
