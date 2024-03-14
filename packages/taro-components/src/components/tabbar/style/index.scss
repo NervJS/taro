@@ -42,7 +42,6 @@ body {
     position: relative;
     width: 100%;
     height: var(--taro-tabbar-height);
-    min-height: 50px;
     transition: bottom 0.2s, top 0.2s;
 
     &-top {
