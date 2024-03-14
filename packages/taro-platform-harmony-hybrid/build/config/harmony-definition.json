@@ -234,6 +234,13 @@
     "NfcB": false,
     "NfcF": false,
     "NfcV": false,
+    "NodesRef": {
+      "boundingClientRect": true,
+      "context": true,
+      "node": true,
+      "fields": true,
+      "scrollOffset": true
+    },
     "OffscreenCanvas": false,
     "Path2D": true,
     "Performance": false,
@@ -1242,41 +1249,7 @@
           "text": true,
           "arraybuffer": true
         },
-        "enableHttp2": true,
-        "enableQuic": true,
-        "enableCache": true,
-        "enableHttpDNS": true,
-        "httpDNSServiceId": true,
-        "enableChunked": true,
-        "forceCellularNetwork": true,
-        "enableCookie": true,
-        "referrerStrategy": {
-          "index": true,
-          "page": true,
-          "querystring": true
-        },
-        "jsonp": true,
-        "jsonpCache": true,
-        "mode": true,
-        "credentials": {
-          "include": true,
-          "same-origin": true,
-          "omit": true
-        },
-        "cache": {
-          "default": true,
-          "no-cache": true,
-          "reload": true,
-          "force-cache": true
-        },
-        "retryTimes": true,
-        "backup": true,
-        "signal": true,
-        "dataCheck": true,
-        "useStore": true,
-        "storeCheckKey": true,
-        "storeSign": true,
-        "storeCheck": true
+        "enableCache": true
       },
       "success": {
         "data": true,
@@ -2152,6 +2125,7 @@
     },
     "rtc-room": false,
     "rtc-room-item": false,
+    "script.ts": false,
     "scroll-view": {
       "scroll-x": true,
       "scroll-y": true,
@@ -2197,7 +2171,8 @@
       "refresher-two-level-close-threshold": false,
       "refresher-two-level-scroll-enabled": false,
       "refresher-ballistic-refresh-enabled": false,
-      "refresher-two-level-pinned": false
+      "refresher-two-level-pinned": false,
+      "using-sticky": false
     },
     "share-element": {
       "key": false,

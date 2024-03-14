@@ -1,8 +1,8 @@
 import Taro from '@tarojs/api'
 
+import native from '../../NativeApi'
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
-
 /**
  * 从本地相册选择图片或使用相机拍照。
  *
@@ -34,7 +34,6 @@ export const getImageInfo: typeof Taro.getImageInfo = function (options) {
   }>({ name, success, fail, complete })
 
   return new Promise<Taro.getImageInfo.SuccessCallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.getImageInfo({
       src: src,
       success: (res: any) => {

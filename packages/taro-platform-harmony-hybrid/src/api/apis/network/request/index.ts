@@ -1,6 +1,8 @@
 import Taro from '@tarojs/api'
 import { isFunction } from '@tarojs/shared'
 
+import { NativeRequest } from '../../interface/NativeRequest'
+import native from '../../NativeApi'
 import { getParameterError, shouldBeObject } from '../../utils'
 
 export const _request = (options) => {
@@ -29,8 +31,7 @@ export const _request = (options) => {
   let task!: Taro.RequestTask<any>
   const result: ReturnType<typeof Taro.request> = new Promise((resolve, reject) => {
     const upperMethod = method ? method.toUpperCase() : method
-    // @ts-ignore
-    task = native.request({
+    const taskID = native.request({
       url,
       method: upperMethod,
       ...otherOptions,
@@ -45,6 +46,7 @@ export const _request = (options) => {
         reject(res)
       },
     })
+    task = NativeRequest.getRequestTask(taskID)
   }) as any
 
   result.onHeadersReceived = task.onHeadersReceived.bind(task)
@@ -63,14 +65,9 @@ const link = new Link(taroInterceptor)
 
 /**
  * 发起 HTTPS 网络请求
- * 
+ *
  * @canUse request
- * @__object [url, data, header, timeout, method[OPTIONS, GET, HEAD, POST, PUT,\
- * PATCH, DELETE, TRACE, CONNECT], dataType[json, text, base64, arraybuffer], responseType[text, arraybuffer],\
- * enableHttp2, enableQuic, enableCache, enableHttpDNS, httpDNSServiceId, enableChunked, forceCellularNetwork, enableCookie, referrerStrategy[index,\
- * page, querystring], jsonp, jsonpCache, mode, credentials[include, same-origin,\
- * omit], cache[default, no-cache, reload, force-cache, force-cache], retryTimes, backup, signal, dataCheck,\
- * useStore, storeCheckKey, storeSign, storeCheck]
+ * @__object [url, data, header, timeout, method[OPTIONS, GET, HEAD, POST, PUT, PATCH, DELETE, TRACE, CONNECT], dataType[json, text, base64, arraybuffer], responseType[text, arraybuffer], enableCache]
  * @__success [data, header, statusCode, cookies]
  */
 export function request (options) {
@@ -81,7 +78,7 @@ export function request (options) {
 
 /**
  * 网络请求任务对象
- * 
+ *
  * @canUse RequestTask
  * @__class [abort, onHeadersReceived, offHeadersReceived]
  */

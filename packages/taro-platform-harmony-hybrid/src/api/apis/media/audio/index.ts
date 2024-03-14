@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
 
+import { NativeInnerAudioContext } from '../../interface/NativeAContextApi'
 import { AudioContext } from './AudioContext'
 import { InnerAudioContext } from './InnerAudioContext'
 
@@ -13,8 +14,7 @@ export const createInnerAudioContext: typeof Taro.createInnerAudioContext = (opt
   if (options && typeof options === 'object' && options.useWebAudioImplement) {
     return new InnerAudioContext()
   } else {
-    // @ts-ignore
-    return native.createInnerAudioContext()
+    return NativeInnerAudioContext.createInnerAudioContext()
   }
 }
 

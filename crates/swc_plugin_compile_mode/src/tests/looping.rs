@@ -82,3 +82,54 @@ test!(
     }
     "#
 );
+
+
+test!(
+    get_syntax_config(),
+    |_| tr(),
+    should_loop_with_fragment,
+    r#"
+    function Index () {
+        return (
+          <View compileMode>
+            {list.map(item => (
+                <>
+                    <View>title: {item.title}</View>
+                    <View>content: {item.content}</View>
+                </>
+            ))}
+          </View>
+        )
+    }
+    "#
+);
+
+
+test!(
+    get_syntax_config(),
+    |_| tr(),
+    should_loop_be_wrapped_when_its_not_the_only_child,
+    r#"
+    function Index () {
+        return (
+          <View compileMode>
+            <View>
+              <View><View>{content}</View></View>
+              {list.map(item => <View>{item}</View>)}
+            </View>
+            <View>
+              <View>1</View>
+              {list.map(item => <View hoverClass="myClass">{item}</View>)}
+              <View>2<View hoverClass="myClass"></View></View>
+            </View>
+            <View>
+              <View>1</View>
+              {list.map(item => <View>{item}</View>)}
+              <View>2<View hoverClass="myClass"></View></View>
+              {list.map(item => <View>{item}</View>)}
+            </View>
+          </View>
+        )
+    }
+    "#
+);
