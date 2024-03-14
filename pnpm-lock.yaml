@@ -359,6 +359,154 @@ importers:
         specifier: ^3.2.3
         version: 3.2.3
 
+  examples/harmony-anjuke-project:
+    dependencies:
+      '@babel/runtime':
+        specifier: ^7.14.5
+        version: 7.21.5
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../../packages/taro-components
+      '@tarojs/components-mpharmony':
+        specifier: workspace:*
+        version: link:../../packages/taro-components-mpharmony
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../../packages/taro-helper
+      '@tarojs/plugin-framework-react':
+        specifier: workspace:*
+        version: link:../../packages/taro-plugin-react
+      '@tarojs/plugin-platform-alipay':
+        specifier: workspace:*
+        version: link:../../packages/taro-alipay
+      '@tarojs/plugin-platform-h5':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-h5
+      '@tarojs/plugin-platform-jd':
+        specifier: workspace:*
+        version: link:../../packages/taro-jd
+      '@tarojs/plugin-platform-mpandroid':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-mpandroid
+      '@tarojs/plugin-platform-mpharmony':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-mpharmony
+      '@tarojs/plugin-platform-qq':
+        specifier: workspace:*
+        version: link:../../packages/taro-qq
+      '@tarojs/plugin-platform-swan':
+        specifier: workspace:*
+        version: link:../../packages/taro-swan
+      '@tarojs/plugin-platform-tt':
+        specifier: workspace:*
+        version: link:../../packages/taro-tt
+      '@tarojs/plugin-platform-weapp':
+        specifier: workspace:*
+        version: link:../../packages/taro-weapp
+      '@tarojs/react':
+        specifier: workspace:*
+        version: link:../../packages/taro-react
+      '@tarojs/router':
+        specifier: workspace:*
+        version: link:../../packages/taro-router
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../../packages/taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../../packages/taro
+      '@tarojs/with-weapp':
+        specifier: workspace:*
+        version: link:../../packages/taro-with-weapp
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      mini-html-parser2:
+        specifier: ^0.3.0
+        version: 0.3.0
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@babel/core':
+        specifier: ^7.8.0
+        version: 7.21.8
+      '@pmmmwh/react-refresh-webpack-plugin':
+        specifier: ^0.5.5
+        version: 0.5.10(@types/webpack@4.41.33)(react-refresh@0.11.0)(webpack-dev-server@4.11.1)(webpack@5.78.0)
+      '@tarojs/cli':
+        specifier: workspace:*
+        version: link:../../packages/taro-cli
+      '@tarojs/webpack5-runner':
+        specifier: workspace:*
+        version: link:../../packages/taro-webpack5-runner
+      '@types/lodash':
+        specifier: ^4.14.142
+        version: 4.14.194
+      '@types/lodash-es':
+        specifier: ^4.17.6
+        version: 4.17.7
+      '@types/node':
+        specifier: ^18.15.11
+        version: 18.18.12
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.2.6
+      '@types/webpack-env':
+        specifier: ^1.13.6
+        version: 1.18.4
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.20.0
+        version: 5.59.2(@typescript-eslint/parser@5.59.2)(eslint@8.41.0)(typescript@4.9.5)
+      '@typescript-eslint/parser':
+        specifier: ^5.20.0
+        version: 5.59.2(eslint@8.41.0)(typescript@4.9.5)
+      babel-preset-taro:
+        specifier: workspace:*
+        version: link:../../packages/babel-preset-taro
+      eslint:
+        specifier: ^8.12.0
+        version: 8.41.0
+      eslint-config-taro:
+        specifier: workspace:*
+        version: link:../../packages/eslint-config-taro
+      eslint-plugin-import:
+        specifier: ^2.12.0
+        version: 2.27.5(@typescript-eslint/parser@5.59.2)(eslint@8.41.0)
+      eslint-plugin-react:
+        specifier: ^7.8.2
+        version: 7.10.0(eslint@8.41.0)
+      eslint-plugin-react-hooks:
+        specifier: ^4.2.0
+        version: 4.6.0(eslint@8.41.0)
+      postcss:
+        specifier: ^8.4.18
+        version: 8.4.23
+      react-refresh:
+        specifier: ^0.11.0
+        version: 0.11.0
+      stylelint:
+        specifier: ^14.4.0
+        version: 14.16.1
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@18.18.12)(typescript@4.9.5)
+      typescript:
+        specifier: ^4.1.0
+        version: 4.9.5
+      webpack:
+        specifier: 5.78.0
+        version: 5.78.0
+
   examples/mini-program-example:
     dependencies:
       '@babel/runtime':
@@ -621,6 +769,163 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@18.18.12)(typescript@4.9.5)
+      webpack:
+        specifier: 5.78.0
+        version: 5.78.0
+
+  examples/wechat-app-taro:
+    dependencies:
+      '@babel/runtime':
+        specifier: ^7.21.5
+        version: 7.21.5
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../../packages/taro-components
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../../packages/taro-helper
+      '@tarojs/plugin-framework-react':
+        specifier: workspace:*
+        version: link:../../packages/taro-plugin-react
+      '@tarojs/plugin-platform-alipay':
+        specifier: workspace:*
+        version: link:../../packages/taro-alipay
+      '@tarojs/plugin-platform-h5':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-h5
+      '@tarojs/plugin-platform-jd':
+        specifier: workspace:*
+        version: link:../../packages/taro-jd
+      '@tarojs/plugin-platform-mpandroid':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-mpandroid
+      '@tarojs/plugin-platform-mpharmony':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-mpharmony
+      '@tarojs/plugin-platform-qq':
+        specifier: workspace:*
+        version: link:../../packages/taro-qq
+      '@tarojs/plugin-platform-swan':
+        specifier: workspace:*
+        version: link:../../packages/taro-swan
+      '@tarojs/plugin-platform-tt':
+        specifier: workspace:*
+        version: link:../../packages/taro-tt
+      '@tarojs/plugin-platform-weapp':
+        specifier: workspace:*
+        version: link:../../packages/taro-weapp
+      '@tarojs/react':
+        specifier: workspace:*
+        version: link:../../packages/taro-react
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../../packages/taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../../packages/taro
+      '@tarojs/with-weapp':
+        specifier: workspace:*
+        version: link:../../packages/taro-with-weapp
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      mini-html-parser2:
+        specifier: ^0.3.0
+        version: 0.3.0
+      react:
+        specifier: ^18.0.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@babel/core':
+        specifier: ^7.8.0
+        version: 7.21.8
+      '@pmmmwh/react-refresh-webpack-plugin':
+        specifier: ^0.5.5
+        version: 0.5.10(@types/webpack@4.41.33)(react-refresh@0.11.0)(webpack-dev-server@4.11.1)(webpack@5.78.0)
+      '@tarojs/cli':
+        specifier: workspace:*
+        version: link:../../packages/taro-cli
+      '@tarojs/taro-loader':
+        specifier: workspace:*
+        version: link:../../packages/taro-loader
+      '@tarojs/test-utils-react':
+        specifier: ^0.1.1
+        version: 0.1.1(@babel/core@7.21.8)(@tarojs/components@packages+taro-components)(@tarojs/helper@packages+taro-helper)(@tarojs/plugin-framework-react@packages+taro-plugin-react)(@tarojs/plugin-platform-h5@packages+taro-platform-h5)(@tarojs/react@packages+taro-react)(@tarojs/runtime@packages+taro-runtime)(@tarojs/shared@packages+shared)(react-dom@18.2.0)(react@18.2.0)
+      '@tarojs/webpack5-runner':
+        specifier: workspace:*
+        version: link:../../packages/taro-webpack5-runner
+      '@types/jest':
+        specifier: ^29.3.1
+        version: 29.5.1
+      '@types/lodash':
+        specifier: ^4.14.142
+        version: 4.14.194
+      '@types/lodash-es':
+        specifier: ^4.17.6
+        version: 4.17.7
+      '@types/node':
+        specifier: ^18.15.11
+        version: 18.18.12
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.2.6
+      '@types/webpack-env':
+        specifier: ^1.13.6
+        version: 1.18.4
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.20.0
+        version: 5.59.2(@typescript-eslint/parser@5.59.2)(eslint@8.41.0)(typescript@4.9.5)
+      '@typescript-eslint/parser':
+        specifier: ^5.20.0
+        version: 5.59.2(eslint@8.41.0)(typescript@4.9.5)
+      babel-preset-taro:
+        specifier: workspace:*
+        version: link:../../packages/babel-preset-taro
+      eslint:
+        specifier: ^8.12.0
+        version: 8.41.0
+      eslint-config-taro:
+        specifier: workspace:*
+        version: link:../../packages/eslint-config-taro
+      eslint-plugin-import:
+        specifier: ^2.12.0
+        version: 2.27.5(@typescript-eslint/parser@5.59.2)(eslint@8.41.0)
+      eslint-plugin-react:
+        specifier: ^7.8.2
+        version: 7.10.0(eslint@8.41.0)
+      eslint-plugin-react-hooks:
+        specifier: ^4.2.0
+        version: 4.6.0(eslint@8.41.0)
+      jest:
+        specifier: ^29.3.1
+        version: 29.7.0(@types/node@18.18.12)(ts-node@10.9.1)
+      jest-environment-jsdom:
+        specifier: ^29.5.0
+        version: 29.5.0
+      postcss:
+        specifier: ^8.4.18
+        version: 8.4.23
+      react-refresh:
+        specifier: ^0.11.0
+        version: 0.11.0
+      stylelint:
+        specifier: ^14.4.0
+        version: 14.16.1
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.1(@types/node@18.18.12)(typescript@4.9.5)
+      typescript:
+        specifier: ^4.1.0
+        version: 4.9.5
       webpack:
         specifier: 5.78.0
         version: 5.78.0
@@ -8307,7 +8612,7 @@ packages:
     resolution: {integrity: sha512-PueDR2HGihN3ciUNGr4uelropW7rqUfTiOn+8u0leg/42UhblPxHkfoh0Ruu3I9Y1962P3u2DY4+h7GVTSVU6g==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      expect: 29.5.0
+      expect: 29.7.0
       jest-snapshot: 29.5.0
     transitivePeerDependencies:
       - supports-color
@@ -11279,6 +11584,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: false
     optional: true
@@ -11288,6 +11594,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -11297,6 +11604,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: false
     optional: true
@@ -11306,6 +11614,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -11315,6 +11624,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: false
     optional: true
@@ -11324,6 +11634,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -11333,6 +11644,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: false
     optional: true
@@ -18266,6 +18578,12 @@ packages:
     dependencies:
       webidl-conversions: 7.0.0
 
+  /domhandler@2.4.2:
+    resolution: {integrity: sha512-JiK04h0Ht5u/80fdLMCEmV4zkNh2BcoMFBmZ/91WtYZ8qVXSKjiw7fXMgFPnHcSZgOo3XdinHvmnDUeMf5R4wA==}
+    dependencies:
+      domelementtype: 1.3.1
+    dev: false
+
   /domhandler@4.3.1:
     resolution: {integrity: sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==}
     engines: {node: '>= 4'}
@@ -18549,6 +18867,10 @@ packages:
 
   /enquire.js@2.1.6:
     resolution: {integrity: sha512-/KujNpO+PT63F7Hlpu4h3pE3TokKRHN26JYmQpPyjkRD/N57R7bPDNojMXdi7uveAKjYB7yQnartCxZnFWr0Xw==}
+    dev: false
+
+  /entities@1.1.2:
+    resolution: {integrity: sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==}
     dev: false
 
   /entities@2.2.0:
@@ -23483,7 +23805,7 @@ packages:
     dependencies:
       '@jest/types': 29.6.3
       chalk: 4.1.2
-      jest-get-type: 29.4.3
+      jest-get-type: 29.6.3
       jest-util: 29.7.0
       pretty-format: 29.7.0
     dev: true
@@ -23810,7 +24132,7 @@ packages:
     resolution: {integrity: sha512-u9YdeeVnghBUtpN5mVxjID7KbkKE1QU4f6uUwuxiY0vYRi9BUCLKlPEZfDGR67ofdFmDz9oPAy2G92Ujrntmow==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      jest-get-type: 29.4.3
+      jest-get-type: 29.6.3
       pretty-format: 29.7.0
     dev: true
 
@@ -24479,7 +24801,7 @@ packages:
       '@types/prettier': 2.7.2
       babel-preset-current-node-syntax: 1.0.1(@babel/core@7.21.8)
       chalk: 4.1.2
-      expect: 29.5.0
+      expect: 29.7.0
       graceful-fs: 4.2.11
       jest-diff: 29.5.0
       jest-get-type: 29.4.3
@@ -26583,6 +26905,14 @@ packages:
       webpack: 5.78.0(esbuild@0.14.54)
     dev: false
 
+  /mini-html-parser2@0.3.0:
+    resolution: {integrity: sha512-W4x1MCmtlnAH5M9qQ1WbRn+hTvv7bdrJx4VI+6SD0MUZatW/6K7v213Aidx7VDQmSKoRv+iAn5TswJnesOs71Q==}
+    dependencies:
+      domhandler: 2.4.2
+      entities: 1.1.2
+      events: 3.3.0
+    dev: false
+
   /miniapp-types@1.6.0:
     resolution: {integrity: sha512-Un8UaEAKCXcf6SdXkA9GhI46jjVWaQUrY5aoy2ZWHkG54kjOjlmPJZ4h3v2J/Si4kNs8KHEFSyNKoAPA+qNJQA==}
     dev: true
@@ -26763,8 +27093,8 @@ packages:
       - supports-color
     dev: false
 
-  /miniprogram-compiler@0.2.2:
-    resolution: {integrity: sha512-fiJXv/15jCcRAU8YKcO7S7fkPKLa5ZBgpLN+d6B3r3KMktM5tAkDEQ+zm6aTfNoHurYOHcRyPyGf26gqQXlFXg==}
+  /miniprogram-compiler@0.2.3:
+    resolution: {integrity: sha512-/MfFiXTBUwYxnrTbj1hgwk1+qGkMCTL1zi8IReOq/0SPVkUxpx19E89w+ohYCELFXkMfVbD+6ejrHh3Y1u5sVg==}
     dependencies:
       glob: 7.2.3
       unescape-js: 1.1.4
@@ -26780,7 +27110,7 @@ packages:
       csso: 3.5.1
       j-component: 1.4.9
       less: 3.13.1
-      miniprogram-compiler: 0.2.2
+      miniprogram-compiler: 0.2.3
       postcss: 7.0.39
     dev: false
 

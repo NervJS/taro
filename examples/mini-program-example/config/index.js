@@ -10,7 +10,7 @@ const config = {
     828: 1.81 / 2
   },
   sourceRoot: 'src',
-  outputRoot: `dist/${process.env.TARO_ENV}`,
+  outputRoot: `dist/spa/main`,
   plugins: [],
   alias: {
     '@/util': path.resolve(__dirname, '..', 'src/util'),
@@ -58,7 +58,7 @@ const config = {
     }
   },
   h5: {
-    publicPath: '/',
+    publicPath: '/spa/main/',
     staticDirectory: 'static',
     postcss: {
       autoprefixer: {
