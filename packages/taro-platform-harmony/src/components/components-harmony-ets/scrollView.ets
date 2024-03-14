@@ -1,13 +1,12 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
-import commonStyleModify from './style'
+import { rowModify, columnModify } from './style'
 import PseduoChildren from './pseudo'
-import { createLazyChildren } from './render'
 import { FlexManager } from './utils/FlexManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, getStyleAttr, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny, TaroStyleType, TaroScrollViewElement, TaroEvent } from '@tarojs/runtime'
+import type { TaroAny, TaroScrollViewElement, TaroEvent } from '@tarojs/runtime'
 
 interface ScrollViewAttrs {
   scrollBar: BarState
@@ -58,28 +57,10 @@ function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', x
   eventHandler(event, eventName, node)
 }
 
-@Extend(Row)
-function rowAttrs (style: TaroStyleType) {
-  .constraintSize({
-    minWidth: style.minWidth || style.width,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-}
-
-@Extend(Column)
-function columnAttrs (style: TaroStyleType) {
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight || style.height,
-    maxHeight: style.maxHeight
-  })
-}
-
 @Component
 export default struct TaroScrollView {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroScrollViewElement) => void = this.customBuilder
   @ObjectLink node: TaroScrollViewElement
 
   build () {
@@ -88,13 +69,12 @@ export default struct TaroScrollView {
         if (this.node._attrs.scrollX) {
           Row() {
             if (this.node._pseudo_before || this.node._pseudo_after) {
-              PseduoChildren(this.node)
+              PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
             } else {
-              createLazyChildren(this.node)
+              this.createLazyChildren(this.node)
             }
           }
-          .attributeModifier(commonStyleModify.setNode(this.node))
-          .rowAttrs(getNormalAttributes(this.node))
+          .attributeModifier(rowModify.setNode(this.node))
           .width(null)
           .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
             this.node._nodeInfo._scroll = areaResult
@@ -105,13 +85,12 @@ export default struct TaroScrollView {
         } else {
           Column() {
             if (this.node._pseudo_before || this.node._pseudo_after) {
-              PseduoChildren(this.node)
+              PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
             } else {
-              createLazyChildren(this.node)
+              this.createLazyChildren(this.node)
             }
           }
-          .attributeModifier(commonStyleModify.setNode(this.node))
-          .columnAttrs(getNormalAttributes(this.node))
+          .attributeModifier(columnModify.setNode(this.node))
           .height(null)
           .alignItems(HorizontalAlign.Start)
           .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
@@ -122,10 +101,10 @@ export default struct TaroScrollView {
           .flexGrow(0).flexShrink(0)
         }
       }
-      .width(getNormalAttributes(this.node).width)
-      .height(getNormalAttributes(this.node).height)
-      .flexGrow(getNormalAttributes(this.node).flexGrow)
-      .flexShrink(getNormalAttributes(this.node).flexShrink)
+      .width(getStyleAttr(this.node, 'width'))
+      .height(getStyleAttr(this.node, 'height'))
+      .flexGrow(this.node.hmStyle?.flexGrow)
+      .flexShrink(this.node.hmStyle?.flexShrink)
       .scrollable(getScrollable(this.node))
       .scrollBar(getAttributes(this.node).scrollBar)
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))

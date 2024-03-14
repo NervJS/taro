@@ -1,13 +1,15 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { generateText } from './utils' 
+import { generateText } from './utils'
 import { getNodeThresholds, shouldBindEvent } from './utils/helper'
 
 import type { TaroAny, TaroRichTextElement } from '@tarojs/runtime'
 
 @Component
 export default struct TaroRichText {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroRichTextElement) => void = this.customBuilder
   @ObjectLink node: TaroRichTextElement
 
   build () {

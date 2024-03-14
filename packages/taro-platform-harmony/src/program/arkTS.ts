@@ -1,12 +1,12 @@
 import { defaultMainFields, fs, isEmptyObject, NODE_MODULES, resolveSync } from '@tarojs/helper'
 import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
-import { isFunction } from '@tarojs/shared'
 import * as path from 'path'
 
 import { apiLoader, HARMONY_SCOPES, PACKAGE_NAME, parseRelativePath, PLATFORM_NAME } from '../utils'
 import { TaroPlatformHarmony } from './harmony'
 
 import type { IPluginContext, TConfig } from '@tarojs/service'
+import type { ILoaderMeta } from '@tarojs/taro/types/compile/config/plugin'
 
 const frameworkAlias = {
   solid: 'solid',
@@ -58,6 +58,12 @@ export default class Harmony extends TaroPlatformHarmony {
     return path.resolve(__dirname, './apis')
   }
 
+  get apiEntry() {
+    return [
+      /(@tarojs[\\/]plugin-platform-harmony-ets|taro-platform-harmony)[\\/]dist[\\/]apis[\\/]index\.ts/,
+    ]
+  }
+
   get componentLibrary() {
     return path.resolve(__dirname, './components-harmony-ets')
   }
@@ -102,6 +108,8 @@ export default class Harmony extends TaroPlatformHarmony {
     ['react', /^react$|react[\\/]cjs/],
     ['react/jsx-runtime', /^react[\\/]jsx-runtime$/], // Note: React 环境下自动注入，避免重复
   ]
+
+  harmonyScope = [...HARMONY_SCOPES]
 
   indexOfLibraries(lib: string) {
     return this.externalDeps.findIndex(([_, rgx]) => rgx.test(lib))
@@ -177,6 +185,7 @@ export default class Harmony extends TaroPlatformHarmony {
           || /\/{3}\s<reference\spath=['"][^'"\s]+['"]\s\/>/g.test(code))
           && `${libName}${path.extname(libDir)}` !== libDir
         ) {
+          // Note: 文件包含包内引用的依赖
           const pkgPath = path.relative(libName, libDir)
           if (new RegExp(`^index(${this.extensions.map(e => e.replace('.', '\\.')).join('|')})$`).test(pkgPath)) {
             // Note: 入口为 index 场景
@@ -222,17 +231,16 @@ export default class Harmony extends TaroPlatformHarmony {
       })
     } else if (stat.isFile()) {
       let code = fs.readFileSync(lib, { encoding: 'utf8' })
-      // TODO: 后续这部分代码应该根据使用的框架抽离到对应的平台插件处
-      if ([/(@tarojs[\\/]plugin-platform-harmony-ets|taro-platform-harmony)[\\/]dist[\\/]apis[\\/]index\.ts/].some(e => e.test(lib))) {
+      if (this.apiEntry.some(e => e.test(lib))) {
         code = apiLoader(code)
       }
       if (this.extensions.includes(path.extname(lib))) {
         // Note: 查询 externals 内的依赖，并将它们添加到 externalDeps 中
-        code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {
+        code = code.replace(/(?:import\s|from\s|require\()['"]([^\\/.][^'"\s]+)['"]\)?/g, (src, p1) => {
           const { outputRoot } = this.ctx.runOpts.config
           const targetPath = path.join(outputRoot, NODE_MODULES, p1)
           const relativePath = parseRelativePath(path.dirname(target), targetPath)
-          if (HARMONY_SCOPES.every(e => !e.test(p1))) {
+          if (this.harmonyScope.every(e => !e.test(p1))) {
             if (this.indexOfLibraries(p1) === -1 && !/\.(d\.ts|flow\.js)$/.test(lib)) {
               this.externalDeps.push([p1, new RegExp(`^${p1.replace(/([-\\/$])/g, '\\$1')}$`)])
               this.moveLibraries(p1, targetPath, path.dirname(lib), true)
@@ -333,9 +341,7 @@ declare global {
     }
 
     const externals = Object.keys(ohPackage.dependencies || []).concat(Object.keys(ohPackage.devDependencies || []))
-    function modifyResolveId({
-      source = '', importer = '', options = {}, name = 'modifyResolveId', resolve
-    }) {
+    function modifyResolveId({ source = '', name = 'modifyResolveId' }: Parameters<Exclude<ILoaderMeta['modifyResolveId'], undefined>>[0]) {
       if (externals.includes(source)) {
         return {
           external: true,
@@ -349,12 +355,6 @@ declare global {
           external: true,
           id: path.join(chorePackagePrefix, source),
           resolvedBy: name,
-        }
-      }
-
-      if (isFunction(resolve)) {
-        if (source === that.runtimePath || that.runtimePath.includes(source)) {
-          return resolve('@tarojs/runtime', importer, options)
         }
       }
 

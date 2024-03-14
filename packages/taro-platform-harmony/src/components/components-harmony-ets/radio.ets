@@ -1,7 +1,6 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/flexManager'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
@@ -35,6 +34,8 @@ function themeStyles(isDisabled: boolean) {
 
 @Component
 export struct TaroRadio {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroRadioElement) => void = this.customBuilder
   @ObjectLink node: TaroRadioElement
 
   aboutToAppear () {
@@ -95,6 +96,8 @@ export struct TaroRadio {
 
 @Component
 export struct TaroRadioGroup {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroRadioGroupElement) => void = this.customBuilder
   @ObjectLink node: TaroRadioGroupElement
 
   @Styles visibleChangeEvent () {
@@ -126,7 +129,7 @@ export struct TaroRadioGroup {
     if (this.node && this.node.hmStyle?.display !== 'none') {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .defaultEvent()
@@ -135,7 +138,7 @@ export struct TaroRadioGroup {
         .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
       } else {
         Column() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .defaultEvent()

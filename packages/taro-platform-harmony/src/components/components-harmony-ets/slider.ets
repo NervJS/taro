@@ -37,6 +37,8 @@ function themeStyles(isDisabled: boolean) {
 
 @Component
 export default struct TaroSlider {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroSliderElement) => void = this.customBuilder
   @ObjectLink node: TaroSliderElement
 
   @State value: number = 0
@@ -74,7 +76,7 @@ export default struct TaroSlider {
         } else {
           this.value = value
           this.node?.updateFormWidgetValue(value)
-          
+
           if (mode === SliderChangeMode.End) {
             const event: TaroEvent = createTaroEvent('change', { detail: { value: this.value } }, node)
             eventHandler(event, 'change', node)

@@ -1,7 +1,7 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { getNodeThresholds, getNormalAttributes, getFontAttributes, shouldBindEvent, parseStyles } from './utils/helper'
+import { getNodeThresholds, getFontAttributes, shouldBindEvent, parseStyles } from './utils/helper'
 
 import type { TaroAny, TaroStyleType, TaroTextStyleType, TaroTextAreaElement, TaroEvent } from '@tarojs/runtime'
 
@@ -30,6 +30,8 @@ function getPlaceholderColor (node: TaroTextAreaElement): string {
 export default struct TaroTextArea {
   @State value: string = ''
 
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroTextAreaElement) => void = this.customBuilder
   @ObjectLink node: TaroTextAreaElement
 
   aboutToAppear () {
@@ -51,11 +53,11 @@ export default struct TaroTextArea {
         .maxLength(Number(this.node._attrs?.maxlength) || null)
         .placeholderColor(getPlaceholderColor(this.node))
         .attributeModifier(commonStyleModify.setNode(this.node))
-        .textStyle(getNormalAttributes(this.node))
+        .textStyle(this.node?.hmStyle)
         .textAttr(getFontAttributes(this.node))
         .onChange((value: string) => {
           const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)
-          
+
           this.value = value
           this.node?.updateFormWidgetValue(value)
           eventHandler(event, 'input', this.node)
@@ -67,7 +69,7 @@ export default struct TaroTextArea {
         })
         .onFocus(() => {
           const event: TaroEvent = createTaroEvent('focus', { detail: { value: this.value, height: this.node?._height } }, this.node)
-    
+
           eventHandler(event, 'focus', this.node)
         })
         .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {

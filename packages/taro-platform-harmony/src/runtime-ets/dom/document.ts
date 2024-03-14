@@ -4,7 +4,6 @@ import { isUndefined } from '@tarojs/shared'
 import { Current } from '../current'
 import { findChildNodeWithDFS, getPageScrollerOrNode } from '../utils'
 import { TaroComment } from './comment'
-import { createCSSStyleDeclaration } from './cssStyleDeclaration'
 import { TaroElement } from './element/element'
 import { NodeType, TaroNode, TaroTextNode } from './node'
 
@@ -45,8 +44,6 @@ class TaroDocument extends TaroNode {
       node = new TaroElement(tagName)
     }
     node._doc = this
-    // Hack: 此 Proxy 不能放在 Element 类内定义，否则响应式更新会失效
-    node._style = createCSSStyleDeclaration(node)
     return node
   }
 

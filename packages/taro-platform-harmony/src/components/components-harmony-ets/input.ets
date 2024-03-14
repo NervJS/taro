@@ -1,7 +1,7 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { getNormalAttributes, parseStyles, shouldBindEvent, getNodeThresholds } from './utils/helper'
+import { parseStyles, shouldBindEvent, getNodeThresholds } from './utils/helper'
 import { INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
 
 import type { TaroStyleType, TaroAny, TaroInputElement, TaroEvent } from '@tarojs/runtime'
@@ -48,6 +48,8 @@ function getPlaceholderColor (node: TaroInputElement): string {
 export default struct TaroInput {
   @State value: string = ''
 
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroInputElement) => void = this.customBuilder
   @ObjectLink node: TaroInputElement
 
   aboutToAppear () {
@@ -71,11 +73,11 @@ export default struct TaroInput {
       .placeholderColor(getPlaceholderColor(this.node))
       .enterKeyType(INPUT_CONFIRM_MAP.get(this.node._attrs?.confirmType) || EnterKeyType.Done)
       .attributeModifier(commonStyleModify.setNode(this.node))
-      .styles(getNormalAttributes(this.node))
+      .styles(this.node?.hmStyle)
       .attrs(getAttributes(this.node))
       .onChange((value: string) => {
         const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)
-        
+
         this.value = value
         this.node?.updateFormWidgetValue(value)
         eventHandler(event, 'input', this.node)
@@ -91,7 +93,7 @@ export default struct TaroInput {
       })
       .onFocus(() => {
         const event: TaroEvent = createTaroEvent('focus', { detail: { value: this.value, height: this.node?._height } }, this.node)
-  
+
         eventHandler(event, 'focus', this.node)
       })
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {

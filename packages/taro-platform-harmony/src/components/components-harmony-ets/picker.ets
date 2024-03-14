@@ -1,10 +1,9 @@
 import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, TaroPickerElement, createTaroEvent } from '@tarojs/runtime'
-import { createLazyChildren } from './render'
 import commonStyleModify from './style'
 import { getSingleSelector, getMultiSelector } from './utils'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/flexManager'
-import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
+import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroAny, TaroEvent } from '@tarojs/runtime'
 
@@ -146,9 +145,10 @@ export struct PickerView {
               color: '#000'
             })
             .canLoop(false)
-            .attributeModifier(commonStyleModify.setNode(this.node))
-            .width(getNormalAttributes(this.node).width || '100%')
-            .backgroundColor(getNormalAttributes(this.node).backgroundColor || '#fff')
+            .attributeModifier(commonStyleModify.setNode(this.node, {
+              width: '100%',
+              backgroundColor: '#fff'
+            }))
             .onChange((_, index) => {
               this.node?.updateFormWidgetValue(index)
             })
@@ -158,9 +158,10 @@ export struct PickerView {
               color: '#000'
             })
             .canLoop(false)
-            .attributeModifier(commonStyleModify.setNode(this.node))
-            .width(getNormalAttributes(this.node).width || '100%')
-            .backgroundColor(getNormalAttributes(this.node).backgroundColor || '#fff')
+            .attributeModifier(commonStyleModify.setNode(this.node, {
+              width: '100%',
+              backgroundColor: '#fff'
+            }))
             .onChange((_, index) => {
               if (index instanceof Array) {
                 this.node?.updateFormWidgetValue(index)
@@ -187,9 +188,10 @@ export struct PickerView {
             .selectedTextStyle({
               color: '#000'
             })
-            .attributeModifier(commonStyleModify.setNode(this.node))
-            .width(getNormalAttributes(this.node).width || '100%')
-            .backgroundColor(getNormalAttributes(this.node).backgroundColor || '#fff')
+            .attributeModifier(commonStyleModify.setNode(this.node, {
+              width: '100%',
+              backgroundColor: '#fff'
+            }))
             .onDateChange(value => {
               const data = value.toLocaleDateString().split('/')
               const day = data[1]
@@ -203,9 +205,10 @@ export struct PickerView {
               color: '#000'
             })
             .canLoop(false)
-            .attributeModifier(commonStyleModify.setNode(this.node))
-            .width(getNormalAttributes(this.node).width || '100%')
-            .backgroundColor(getNormalAttributes(this.node).backgroundColor || '#fff')
+            .attributeModifier(commonStyleModify.setNode(this.node, {
+              width: '100%',
+              backgroundColor: '#fff'
+            }))
             .onChange((value) => {
               this.node?.updateFormWidgetValue(`${('00'+value[0]).slice(-2)}:${('00'+value[1]).slice(-2)}`)
             })
@@ -222,6 +225,8 @@ export struct PickerView {
 
 @Component
 export default struct TaroPicker {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroPickerElement) => void = this.customBuilder
   @ObjectLink node: TaroPickerElement
 
   aboutToAppear () {
@@ -309,7 +314,7 @@ export default struct TaroPicker {
     if (this.node && this.node.hmStyle?.display !== 'none') {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .defaultEvent()
         .visibleChangeEvent()
@@ -317,7 +322,7 @@ export default struct TaroPicker {
         .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
       } else {
         Column() {
-          createLazyChildren(this.node)
+          this.createLazyChildren(this.node)
         }
         .defaultEvent()
         .visibleChangeEvent()

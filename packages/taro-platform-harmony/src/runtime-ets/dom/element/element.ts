@@ -6,12 +6,12 @@ import { findChildNodeWithDFS } from '../../utils'
 import { initComponentNodeInfo, triggerAttributesCallback } from '../../utils/info'
 import { bindAnimation } from '../bind'
 import { ClassList } from '../class-list'
+import { type ICSSStyleDeclaration, createCSSStyleDeclaration } from '../cssStyleDeclaration'
 import { NodeType, TaroNode } from '../node'
 import StyleSheet, { HarmonyStyle } from '../stylesheet'
 
 import type { BaseTouchEvent, ITouchEvent, StandardProps } from '@tarojs/components/types'
 import type { TaroAny } from '../../utils'
-import type { ICSSStyleDeclaration } from '../cssStyleDeclaration'
 
 type NamedNodeMap = { name: string, value: string }[]
 
@@ -34,7 +34,7 @@ export class TaroElement<
   constructor(tagName: string) {
     super(tagName.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase(), NodeType.ELEMENT_NODE)
     this.tagName = this.nodeName
-
+    this._style = createCSSStyleDeclaration(this)
     initComponentNodeInfo(this)
     bindAnimation(this)
   }
@@ -178,6 +178,7 @@ export class TaroElement<
     return this._innerHTML
   }
 
+  // 存放的样式，获取其实跟获取style是一样的，只不过这里取的更快捷，不需要走style的get方法进到cssStyleDeclaration
   public _st = new StyleSheet()
 
   // 经转换后的鸿蒙样式
@@ -192,7 +193,7 @@ export class TaroElement<
   }
 
   // 伪类，不存在style动态设置，均已被转换为鸿蒙样式
-  // TODO：可根据实际情况，迁移到具体的组件中，如View、ScrollView中，Text\Image其实是不需要的
+  // 可根据实际情况，迁移到具体的组件中，如View、ScrollView中，Text\Image其实是不需要的
   public _pseudo_before: StyleSheet | null = null
 
   public set_pseudo_before(value: HarmonyStyle | null) {
@@ -200,8 +201,8 @@ export class TaroElement<
       if (!this._pseudo_before) {
         this._pseudo_before = new StyleSheet()
       }
-      Object.keys(value).forEach((key) => {
-        this._pseudo_before![key] = value[key]
+      Object.keys(value).forEach(key => {
+        this._pseudo_before!.hmStyle[key] = value[key]
       })
     } else {
       this._pseudo_before = null
@@ -215,8 +216,8 @@ export class TaroElement<
       if (!this._pseudo_after) {
         this._pseudo_after = new StyleSheet()
       }
-      Object.keys(value).forEach((key) => {
-        this._pseudo_after![key] = value[key]
+      Object.keys(value).forEach(key => {
+        this._pseudo_after!.hmStyle[key] = value[key]
       })
     } else {
       this._pseudo_after = null

@@ -127,12 +127,8 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       if (isObject<StyleValue>(oldValue)) {
         for (const i in oldValue) {
           if (!(value && i in (value as StyleValue))) {
-            // 鸿蒙伪类特殊处理
-            if (isHarmony && (i === '::after' || i === '::before')) {
-              setPseudo(dom, i, null)
-            } else {
-              setStyle(style, i, '')
-            }
+            // harmony设置style，路径设置路径如下：dom.style => cssStyleDeclaration.setProperty => convertWebStyle2HmStyle => dom._st.hmStyle
+            setStyle(style, i, '')
           }
         }
       }
@@ -140,16 +136,40 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       if (isObject<StyleValue>(value)) {
         for (const i in value) {
           if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
-            // 鸿蒙伪类特殊处理
-            if (isHarmony && (i === '::after' || i === '::before')) {
-              setPseudo(dom, i, value[i] as unknown as StyleValue)
-            } else {
-              setStyle(style, i, value[i])
-            }
+            setStyle(style, i, value[i])
           }
         }
       }
     }
+  } else if (name === '__hmStyle') {
+    // 鸿蒙样式特殊处理
+    // @ts-ignore
+    const style = dom._st.hmStyle // __hmStyle是已经被处理过的鸿蒙样式，可以直接塞进hmStyle对象内
+    if (isObject<StyleValue>(oldValue)) {
+      for (const i in oldValue) {
+        if (!(value && i in (value as StyleValue))) {
+          // 鸿蒙伪类特殊处理
+          if (isHarmony && (i === '::after' || i === '::before')) {
+            setPseudo(dom, i, null)
+          } else {
+            style[i] = ''
+          }
+        }
+      }
+    }
+    if (isObject<StyleValue>(value)) {
+      for (const i in value) {
+        if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
+          // 鸿蒙伪类特殊处理
+          if (isHarmony && (i === '::after' || i === '::before')) {
+            setPseudo(dom, i, value[i] as unknown as StyleValue)
+          } else {
+            style[i] = value[i]
+          }
+        }
+      }
+    }
+
   } else if (isEventName(name)) {
     setEvent(dom, name, value, oldValue)
   } else if (name === 'dangerouslySetInnerHTML') {

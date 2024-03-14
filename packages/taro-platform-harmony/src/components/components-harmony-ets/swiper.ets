@@ -1,7 +1,6 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { createLazyChildren } from './render'
 import { getNodeThresholds, shouldBindEvent } from './utils/helper'
 
 import type { TaroSwiperElement, TaroEvent, TaroAny } from '@tarojs/runtime'
@@ -42,12 +41,14 @@ function getSwiperAttributes (node: TaroSwiperElement): SwiperAttrs {
 
 @Component
 export default struct TaroSwiper {
+  @Builder customBuilder() {}
+  @BuilderParam createLazyChildren: (node: TaroSwiperElement) => void = this.customBuilder
   @ObjectLink node: TaroSwiperElement
 
   build () {
     if (this.node.hmStyle?.display !== 'none') {
       Swiper(this.node.controller) {
-        createLazyChildren(this.node)
+        this.createLazyChildren(this.node)
       }
         .attributeModifier(commonStyleModify.setNode(this.node))
         .swiperAttr(getSwiperAttributes(this.node))

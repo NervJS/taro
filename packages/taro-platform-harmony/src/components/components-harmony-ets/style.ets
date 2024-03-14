@@ -1,30 +1,32 @@
 import type { HarmonyStyle, TaroElement, TaroStyleType } from '@tarojs/runtime'
 import { isUndefined } from '../shared'
 import { computeBackgroundPosition } from './utils'
-import { getNormalAttributes, getStyle } from './utils/helper'
-
-function getTop (node: TaroElement): Length | number {
-  return node?.hmStyle?.top || 0
-}
-
-function getLeft (node: TaroElement): Length | number {
-  return node?.hmStyle?.left || 0
-}
+import { getNormalAttributes } from './utils/helper'
+import { isMaxWidthView } from './utils/styles'
 
 class CommonStyleModify implements AttributeModifier<CommonAttribute> {
   node: TaroElement | null = null
   style: TaroStyleType | null = null
+  initStyle?: TaroStyleType
 
-  setNode (node: TaroElement) {
+  setNode (node: TaroElement, initStyle?: TaroStyleType) {
     this.node = node
     this.style = getNormalAttributes(this.node)
-
+    this.initStyle = initStyle
+    // 覆盖初始化样式
+    if (initStyle) {
+      Object.keys(initStyle).forEach(key => {
+        if (this.style && !this.style[key]) {
+          this.style[key] = initStyle[key]
+        }
+      })
+    }
     return this
   }
 
   applyNormalAttribute(instance: CommonAttribute): void {
     if (this.node && this.style) {
-      setNormalAttributeIntoInstance(instance, this.style)
+      setNormalAttributeIntoInstance(instance, this.style, this.node)
     }
   }
 }
@@ -33,7 +35,7 @@ class PseudoStyleModify implements AttributeModifier<CommonAttribute> {
   style: TaroStyleType | null = null
 
   setStyle (style: HarmonyStyle) {
-    this.style = getStyle(style)
+    this.style = style
     return this
   }
 
@@ -45,7 +47,37 @@ class PseudoStyleModify implements AttributeModifier<CommonAttribute> {
 }
 
 
-function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroStyleType) {
+class RowStyleModify extends CommonStyleModify {
+
+  applyNormalAttribute(instance: CommonAttribute): void {
+    if (this.style) {
+      setNormalAttributeIntoInstance(instance, this.style, this.node)
+      instance.constraintSize({
+        minWidth: this.style.minWidth || this.style.width,
+        maxWidth: this.style.maxWidth,
+        minHeight: this.style.minHeight,
+        maxHeight: this.style.maxHeight
+      })
+    }
+  }
+}
+
+class ColumnStyleModify extends CommonStyleModify {
+  applyNormalAttribute(instance: CommonAttribute): void {
+    if (this.style) {
+      setNormalAttributeIntoInstance(instance, this.style, this.node)
+      instance.constraintSize({
+        minWidth: this.style.minWidth,
+        maxWidth: this.style.maxWidth,
+        minHeight: this.style.minHeight || this.style.height,
+        maxHeight: this.style.maxHeight
+      })
+    }
+  }
+}
+
+
+function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroStyleType, node?: TaroElement | null) {
   if (!isUndefined(style.id)) {
     instance.id(style.id)
     instance.key(style.id)
@@ -78,7 +110,9 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
       left: style.marginLeft
     })
   }
-  if (!isUndefined(style.width)) {
+  if (node) {
+    instance.width(isMaxWidthView(node as TaroElement) && isUndefined(style.width) ? '100%' : style.width)
+  } else {
     instance.width(style.width)
   }
   if (!isUndefined(style.height)) {
@@ -96,7 +130,11 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
     instance.backgroundColor(style.backgroundColor)
   }
   if (!isUndefined(style.backgroundImage)) {
-    instance.backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
+    if (style.backgroundImage.colors) {
+      instance.linearGradient(style.backgroundImage)
+    } else {
+      instance.backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
+    }
   }
   if (!isUndefined(style.backgroundSize)) {
     instance.backgroundImageSize(style.backgroundSize)
@@ -150,11 +188,8 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
   if (!isUndefined(style.opacity)) {
     instance.opacity(style.opacity)
   }
-  if (!isUndefined(style.linearGradient)) {
-    instance.linearGradient(style.linearGradient)
-  }
   if (!isUndefined(style.overflow)) {
-    instance.clip(style.overflow)
+    instance.clip(style.overflow === 'hidden')
   }
   // if (!isUndefined(style.transformOrigin)) {
   //   instance.rotate({ centerX: style.transformOrigin.x, centerY: style.transformOrigin.y, angle: 0 })
@@ -173,8 +208,8 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
         x: style.transform.Scale.x || 0,
         y: style.transform.Scale.y || 0,
         z: style.transform.Scale.z || 0,
-        centerX: style.transformOrigin?.x,
-        centerY: style.transformOrigin?.y,
+        centerX: style.transformOrigin?.x || 0,
+        centerY: style.transformOrigin?.y || 0,
       })
     }
     if (style.transform.Rotate) {
@@ -182,8 +217,8 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
         x: style.transform.Rotate.x || 0,
         y: style.transform.Rotate.y || 0,
         z: style.transform.Rotate.z || 0,
-        centerX: style.transformOrigin?.x,
-        centerY: style.transformOrigin?.y,
+        centerX: style.transformOrigin?.x || 0,
+        centerY: style.transformOrigin?.y || 0,
         angle: 0
       })
     }
@@ -202,8 +237,8 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
   }
 }
 
-const modify = new CommonStyleModify()
-
 export const pseudoModify = new PseudoStyleModify()
+export const rowModify = new RowStyleModify()
+export const columnModify = new ColumnStyleModify()
 
-export default modify
+export default new CommonStyleModify()

@@ -45,21 +45,37 @@ export function convertNumber2VP (value: number, unit = 'px') {
   return pxTransformHelper(value, 'vp')
 }
 
-export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, classNames: string, style: CSSProperties): CSSProperties {
+// 合并静态样式，从样式表里面找到对应的样式
+export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, classNames: string, style: CSSProperties): CSSProperties {
   const obj: CSSProperties[] = []
   const classes = typeof classNames === 'string' ? classNames.split(' ') : []
-  for (let i = 0; i < classes.length; i++) {
-    const className = classes[i]
-    if (styleSheet[className]) {
-      obj.push(styleSheet[className])
+  if (classes.length === 1) {
+    if (style) {
+      return Object.assign({}, styleSheet[classNames], style)
+    } else {
+      // 同一个引用
+      return styleSheet[classNames]
     }
+  } else {
+    for (let i = 0; i < classes.length; i++) {
+      const className = classes[i]
+      if (styleSheet[className]) {
+        obj.push(styleSheet[className])
+      }
+    }
+    if (style) {
+      obj.push(style)
+    }
+    return Object.assign.apply(null, [{}].concat(obj))
   }
+}
 
+// 动态样式计算，需要经过web2harmony进行反转
+export function calcDynamicStyle (style: CSSProperties): CSSProperties {
   if (style) {
-    obj.push(convertWebStyle2HmStyle(style))
+    return convertWebStyle2HmStyle(style)
   }
-  
-  return Object.assign.apply(null, [{}].concat(obj))
+  return {}
 }
 
 export function getPageScrollerOrNode (scrollerOrNode: any, page: any) {
