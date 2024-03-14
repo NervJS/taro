@@ -1,4 +1,5 @@
 import { taroJsComponents } from '@tarojs/helper'
+import path from 'path'
 
 import { componentConfig } from '../utils/component'
 import { BuildNativePlugin } from './BuildNativePlugin'
@@ -47,6 +48,9 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
       // 编译目标 - 小程序原生插件
       this.isBuildPlugin = true
       this.buildNativePlugin = BuildNativePlugin.getPlugin(this)
+      chain.merge({
+        context: path.join(process.cwd(), this.sourceRoot, 'plugin')
+      })
     }
 
     if (optimizeMainPackage) {
@@ -107,12 +111,10 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
   }
 
   getOptimization () {
-    const chunkPrefix = this.isBuildPlugin ? this.buildNativePlugin.chunkPrefix : ''
-
     return {
       usedExports: true,
       runtimeChunk: {
-        name: `${chunkPrefix}runtime`
+        name: 'runtime'
       },
       splitChunks: {
         chunks: 'all',
@@ -122,18 +124,18 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
           default: false,
           defaultVendors: false,
           common: {
-            name: `${chunkPrefix}common`,
+            name: 'common',
             minChunks: 2,
             priority: 1
           },
           vendors: {
-            name: `${chunkPrefix}vendors`,
+            name: 'vendors',
             minChunks: 2,
             test: module => /[\\/]node_modules[\\/]/.test(module.resource),
             priority: 10
           },
           taro: {
-            name: `${chunkPrefix}taro`,
+            name: 'taro',
             test: module => /@tarojs[\\/][a-z]+/.test(module.context),
             priority: 100
           }
