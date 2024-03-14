@@ -110,8 +110,8 @@ function parseHtmlNode (nodes: Array<RichTextProps.Text | RichTextProps.HTMLElem
 
 // 背景偏移算法：https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-position
 export function computeBackgroundPosition(style) {
-  let offsetX = 0
-  let offsetY = 0
+  let offsetX = style.backgroundPosition?.x || 0
+  let offsetY = style.backgroundPosition?.y || 0
   if (style.backgroundSize && typeof style.backgroundSize !== 'number') {
     if (!isUndefined(style.backgroundSize.width) && style.width) {
       if (typeof style.backgroundPosition.x === 'string' && style.backgroundPosition.x.indexOf('%') > 0) {
@@ -132,5 +132,6 @@ export function computeBackgroundPosition(style) {
       }
     }
   }
-  return { offsetX: isNaN(offsetX) ? style.backgroundPosition.x : offsetX, offsetY: isNaN(offsetY) ? style.backgroundPosition.y: offsetY }
+
+  return { offsetX, offsetY }
 }
