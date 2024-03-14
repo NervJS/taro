@@ -56,7 +56,7 @@ export function initHarmonyElement () {
       case 'icon': return new TaroIconElement()
       case 'label': return new TaroLabelElement()
       case 'rich-text': return new TaroRichTextElement()
-      case 'canvas': return new TaroCanvasElement
+      case 'canvas': return new TaroCanvasElement()
       case 'swiper': return new TaroSwiperElement()
       case 'swiper-item': return new TaroSwiperItemElement()
       case 'textarea': return new TaroTextAreaElement()

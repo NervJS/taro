@@ -1,7 +1,8 @@
-import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
-import { TaroCanvasElement } from 'src/runtime-ets'
+import { eventSource } from '@tarojs/runtime'
 
 import { temporarilyNotSupport } from '../utils'
+
+import type { TaroCanvasElement } from '@tarojs/runtime'
 // 画布
 
 /** 创建离屏 canvas 实例 */
