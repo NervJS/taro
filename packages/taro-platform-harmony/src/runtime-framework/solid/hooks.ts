@@ -1,9 +1,4 @@
-import {
-  AppInstance,
-  Current,
-  PageLifeCycle,
-  TFunc
-} from '@tarojs/runtime'
+import { Current } from '@tarojs/runtime'
 import { isArray, isFunction } from '@tarojs/shared'
 import {
   createMemo,
@@ -14,6 +9,12 @@ import {
 import { ReactMeta } from './app'
 import { getPageInstance, injectPageInstance } from './page'
 import { HOOKS_APP_ID } from './utils'
+
+import type {
+  AppInstance,
+  PageLifeCycle,
+  TFunc
+} from '@tarojs/runtime/dist/runtime.esm'
 
 const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
   return (fn: TFunc) => {
@@ -30,10 +31,13 @@ const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
         })
       }
 
-      if (isFunction(inst![lifecycle])) {
-        inst![lifecycle] = [inst?.[lifecycle], fn]
+      if (isFunction(inst[lifecycle])) {
+        inst[lifecycle] = [inst[lifecycle], fn]
       } else {
-        inst![lifecycle] = [...(inst![lifecycle] || []), fn]
+        inst[lifecycle] = [
+          ...((inst[lifecycle]) || []),
+          fn
+        ]
       }
 
       if (first) {
@@ -43,9 +47,9 @@ const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
       onCleanup(() => {
         const list = inst![lifecycle]
         if (list === fn) {
-          inst![lifecycle] = undefined
+          (inst[lifecycle]) = undefined
         } else if (isArray(list)) {
-          inst![lifecycle] = list.filter((item) => item !== fn)
+          (inst[lifecycle]) = list.filter(item => item !== fn)
         }
       })
     })
@@ -58,6 +62,7 @@ export const useDidShow = createTaroHook('componentDidShow')
 
 /** App */
 export const useError = createTaroHook('onError')
+export const useUnhandledRejection = createTaroHook('onUnhandledRejection')
 export const useLaunch = createTaroHook('onLaunch')
 export const usePageNotFound = createTaroHook('onPageNotFound')
 

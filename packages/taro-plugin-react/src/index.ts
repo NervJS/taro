@@ -13,7 +13,7 @@ import type { IPluginContext } from '@tarojs/service'
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
 import type { PluginOption } from 'vite'
 
-export type Frameworks = 'react' | 'preact' | 'nerv'
+export type Frameworks = 'react' | 'preact' | 'solid' | 'nerv'
 
 export function isReactLike(framework: IProjectConfig['framework'] = 'react'): framework is Frameworks {
   return ['react', 'preact', 'nerv', 'solid'].includes(framework)

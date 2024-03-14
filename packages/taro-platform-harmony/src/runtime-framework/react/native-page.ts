@@ -9,7 +9,7 @@ import {
   addLeadingSlash,
   getOnHideEventKey,
   getOnReadyEventKey,
-  getOnShowEventKey, 
+  getOnShowEventKey,
   getPath,
   injectPageInstance,
   removePageInstance,
@@ -157,7 +157,7 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     // create
     const nativeApp = document.createElement('nativeComponent')
     // insert
-    app.appendChild(nativeApp)
+    app?.appendChild(nativeApp)
     app = nativeApp
   }
   // eslint-disable-next-line react/no-deprecated

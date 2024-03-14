@@ -59,8 +59,8 @@ export class TaroNode extends TaroDataSourceElement {
     return this.childNodes[index] as TaroElement
   }
 
-  public findIndex (refChild: TaroNode): number {
-    return this.childNodes.findIndex(node => node._nid === refChild._nid)
+  public findIndex (refChild?: TaroNode): number {
+    return this.childNodes.findIndex(node => node._nid === refChild?._nid)
   }
 
   public updateTextNode () {
@@ -83,7 +83,7 @@ export class TaroNode extends TaroDataSourceElement {
     if (this._isDynamicNode) {
       this._updateTrigger++
     } else {
-      this.parentNode.updateComponent()
+      this.parentNode?.updateComponent()
     }
   }
 

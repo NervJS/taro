@@ -33,7 +33,7 @@ function aliasPlugin (ctx: IPluginContext, framework: Frameworks): PluginOption 
       name: 'taro-react:alias',
       config (config) {
         const alias: ({ find: string | RegExp, replacement: string })[] = [
-          { find: /react-dom$/, replacement: '@tarojs/react' }
+          { find: /react-dom$/, replacement: '@tarojs/react' },
         ]
 
         const isProd = config.mode === 'production'

@@ -1,10 +1,11 @@
 import { Current, document } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
-import { AppInstance, eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
+import { eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
 
 import { setReconciler } from './connect'
 import { injectPageInstance } from './page'
 import { EMPTY_OBJ, incrementId, isClassComponent } from './utils'
 
+import type { AppInstance } from '@tarojs/runtime'
 import type React from 'react'
 
 let h: typeof React.createElement

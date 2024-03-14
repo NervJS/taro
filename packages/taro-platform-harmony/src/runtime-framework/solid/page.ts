@@ -1,13 +1,17 @@
-import { Current } from '@tarojs/runtime'
-import { isArray, isFunction, isUndefined } from '@tarojs/shared'
+import { Current, document, requestAnimationFrame, window } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
+import { CONTEXT_ACTIONS, env, eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
+import { hooks, isArray, isFunction, isUndefined } from '@tarojs/shared'
 
-import { ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, ON_UNLOAD } from './contant'
+import { ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, ON_UNLOAD } from './constant'
 import { incrementId } from './utils'
+
+import type { PageConfig } from '@tarojs/taro'
 
 const instances = new Map<string, any>()
 const pageId = incrementId()
 
 export function injectPageInstance (inst: any, id: string) {
+  hooks.call('mergePageInstance', instances.get(id), inst)
   instances.set(id, inst)
 }
 
@@ -33,6 +37,7 @@ export function safeExecute (path: string, lifecycle: string, ...args: unknown[]
     return
   }
 
+  lifecycle = lifecycle.replace(/^on(Show|Hide)$/, 'componentDid$1')
   const func = instance[lifecycle]
 
   if (isArray(func)) {
@@ -75,9 +80,19 @@ export function getOnHideEventKey (path: string) {
   return path + '.' + ON_HIDE
 }
 
-export function createPageConfig (component: any, pageName?: string) {
+export function createPageConfig (component: any, pageName?: string, pageConfig?: PageConfig) {
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   const id = pageName ?? `taro_page_${pageId()}`
+  const [
+    ONLOAD,
+    ONUNLOAD,
+    ONREADY,
+    ONSHOW,
+    ONHIDE,
+    LIFECYCLES,
+    SIDE_EFFECT_LIFECYCLES,
+  ] = hooks.call('getMiniLifecycleImpl')!.page
+
   let pageElement: any = null
   let unmounting = false
   let prepareMountList: (() => void)[] = []
@@ -102,7 +117,7 @@ export function createPageConfig (component: any, pageName?: string) {
   let loadResolver: (...args: any[]) => void
   let hasLoaded: Promise<void>
   const page = {
-    onLoad (options: Readonly<Record<string, unknown>> = {}, cb?: (...args: any[]) => any) {
+    [ONLOAD] (options: Readonly<Record<string, unknown>> = {}, cb?: (...args: any[]) => any) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
 
       Current.page = this as any
@@ -118,21 +133,21 @@ export function createPageConfig (component: any, pageName?: string) {
 
       setCurrentRouter(this)
 
-      // window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
+      window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
 
       const mount = () => {
+        // @ts-ignore
         Current.app!.mount!(component, $taroPath, () => {
-          // pageElement = document.getElementById($taroPath)
+          pageElement = document.getElementById($taroPath)
 
-          // if (!pageElement) {
-          //   throw new Error(`没有找到页面实例。`)
-          // }
+          if (!pageElement) {
+            throw new Error(`没有找到页面实例。`)
+          }
 
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
           loadResolver()
-          cb && cb()
-          // pageElement.ctx = this
-          // pageElement.performUpdate(true, cb)
+          cb && cb(pageElement)
+          pageElement.ctx = this
         })
       }
 
@@ -142,10 +157,10 @@ export function createPageConfig (component: any, pageName?: string) {
         mount()
       }
     },
-    onUnLoad () {
+    [ONUNLOAD] () {
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
-      // window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
+      window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
 
       // 触发onUnload生命周期
       safeExecute($taroPath, ON_UNLOAD)
@@ -163,22 +178,31 @@ export function createPageConfig (component: any, pageName?: string) {
         }
       })
     },
-    onShow (options = {}) {
+    [ONREADY] () {
+      hasLoaded.then(() => {
+        // 触发生命周期
+        safeExecute(this.$taroPath, ON_READY)
+        // 通过事件触发子组件的生命周期
+        requestAnimationFrame(() => eventCenter.trigger(getOnReadyEventKey(id)))
+        this.onReady.called = true
+      })
+    },
+    [ONSHOW] (options = {}) {
       hasLoaded.then(() => {
         // 设置 Current 的 page 和 router
         Current.page = this as any
         setCurrentRouter(this)
         // 恢复上下文信息
-        // window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
+        window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
         // 触发生命周期
         safeExecute(this.$taroPath, ON_SHOW, options)
-        // TODO 通过事件触发子组件的生命周期
-        // raf(() => eventCenter.trigger(getOnShowEventKey(id)))
+        // 通过事件触发子组件的生命周期
+        requestAnimationFrame(() => eventCenter.trigger(getOnShowEventKey(id)))
       })
     },
-    onHide () {
+    [ONHIDE] () {
       // 缓存当前页面上下文信息
-      // window.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath)
+      window.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath)
 
       // 设置 Current 的 page 和 router
       if (Current.page === this) {
@@ -188,9 +212,46 @@ export function createPageConfig (component: any, pageName?: string) {
       // 触发生命周期
       safeExecute(this.$taroPath, ON_HIDE)
       // TODO 通过事件触发子组件的生命周期
-      // eventCenter.trigger(getOnHideEventKey(id))
-    }
+      eventCenter.trigger(getOnHideEventKey(id))
+    },
   }
+
+  LIFECYCLES.forEach((lifecycle) => {
+    let isDefer = false
+    lifecycle = lifecycle.replace(/^defer:/, () => {
+      isDefer = true
+      return ''
+    })
+    page[lifecycle] = function () {
+      const exec = () => safeExecute(this.$taroPath, lifecycle, ...arguments)
+      if (isDefer) {
+        hasLoaded.then(exec)
+      } else {
+        return exec()
+      }
+    }
+  })
+
+  // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
+  SIDE_EFFECT_LIFECYCLES.forEach(lifecycle => {
+    if (component[lifecycle] ||
+      component.prototype?.[lifecycle] ||
+      component[lifecycle.replace(/^on/, 'enable')] ||
+      pageConfig?.[lifecycle.replace(/^on/, 'enable')]
+    ) {
+      page[lifecycle] = function (...args) {
+        const target = args[0]?.target as any
+        if (target?.id) {
+          const id = target.id
+          const element = env.document.getElementById(id)
+          if (element) {
+            target.dataset = element.dataset
+          }
+        }
+        return safeExecute(this.$taroPath, lifecycle, ...args)
+      }
+    }
+  })
 
   return page
 }

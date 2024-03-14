@@ -1,5 +1,6 @@
-import { Current, document } from '@tarojs/runtime'
-import { hooks, isWebPlatform } from '@tarojs/shared'
+import { Current, document } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
+import { eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
+import { hooks } from '@tarojs/shared'
 import { batch, createContext, createRoot, createSignal, For } from 'solid-js'
 
 import { setReconciler } from './connect'
@@ -10,8 +11,6 @@ import { EMPTY_OBJ, HOOKS_APP_ID, setDefaultDescriptor, setRouterParams } from '
 import type { AppInstance, Instance, PageLifeCycle, PageProps, ReactAppInstance } from '@tarojs/runtime'
 import type { AppConfig } from '@tarojs/taro'
 import type { Component } from './connect'
-
-const isWeb = isWebPlatform()
 
 export const ReactMeta = {
   R: EMPTY_OBJ,
@@ -32,10 +31,7 @@ export function createSolidApp(App: Component, config: AppConfig) {
   }
 
   function renderReactRoot() {
-    let appId = 'app'
-    if (isWeb) {
-      appId = config?.appId || appId
-    }
+    const appId = 'app'
 
     if (ReactMeta.Container === EMPTY_OBJ) {
       const Container = document.createElement('view')
@@ -48,6 +44,7 @@ export function createSolidApp(App: Component, config: AppConfig) {
     render(AppWrapper, root)
   }
   const [pages, setPages] = createSignal<any[]>([])
+  const [elements, setElements] = createSignal<any[]>([])
 
   function AppWrapper () {
     appRef = {} as unknown as ReactAppInstance
@@ -71,23 +68,15 @@ export function createSolidApp(App: Component, config: AppConfig) {
               },
             })
 
-          if (isWeb) {
-            return h('div', { id, className: 'taro_page' }, children)
-          } else {
-            return h('root', { id }, children)
-          }
+          return h('root', { id }, children)
         },
       }),
     })
   }
 
-  if (!isWeb) {
-    renderReactRoot()
-  }
+  renderReactRoot()
 
-  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.call('getMiniLifecycleImpl')!.app
-
-  const appObj: AppInstance = Object.create(
+  const app: AppInstance = Object.create(
     {
       mount(component: Component, id: string, cb: () => void) {
         setPages((old) => [
@@ -96,13 +85,12 @@ export function createSolidApp(App: Component, config: AppConfig) {
         ])
         batch(cb)
       },
-
       unmount(id: string, cb: () => void) {
-        setPages(
-          pages().filter((item) => {
-            return item.id !== id
-          })
-        )
+        const idx = elements().findIndex((item) => item.id === id)
+        setElements((old) => {
+          old.splice(idx, 1)
+          return old
+        })
         batch(cb)
       },
     },
@@ -112,14 +100,9 @@ export function createSolidApp(App: Component, config: AppConfig) {
         value: config,
       }),
 
-      [ONLAUNCH]: setDefaultDescriptor({
+      onLaunch: setDefaultDescriptor({
         value(options) {
           setRouterParams(options)
-
-          if (isWeb) {
-            // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后执行 render
-            renderReactRoot()
-          }
 
           const onLaunch = () => {
             const app = getAppInstance()
@@ -151,28 +134,25 @@ export function createSolidApp(App: Component, config: AppConfig) {
 
           onLaunch()
           triggerAppHook('onLaunch', options)
+          eventCenter.trigger('__taroRouterLaunch', options)
         },
       }),
-
-      [ONSHOW]: setDefaultDescriptor({
+      onShow: setDefaultDescriptor({
         value(options) {
           setRouterParams(options)
           triggerAppHook('onShow', options)
         },
       }),
-
-      [ONHIDE]: setDefaultDescriptor({
+      onHide: setDefaultDescriptor({
         value() {
           triggerAppHook('onHide')
         },
       }),
-
       onError: setDefaultDescriptor({
         value(error: string) {
           triggerAppHook('onError', error)
         },
       }),
-
       onPageNotFound: setDefaultDescriptor({
         value(res: unknown) {
           triggerAppHook('onPageNotFound', res)
@@ -195,6 +175,6 @@ export function createSolidApp(App: Component, config: AppConfig) {
     }
   }
 
-  Current.app = appObj
-  return appObj
+  Current.app = app
+  return app
 }

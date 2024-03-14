@@ -5,11 +5,16 @@ import type { Style, TaroElement } from '@tarojs/runtime'
 
 export type Props = Record<string, unknown>
 
+const isHarmony = process.env.TARO_PLATFORM === 'harmony'
+const IS_NON_DIMENSIONAL = /max|aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
+
 function isEventName (s: string) {
   return s[0] === 'o' && s[1] === 'n'
 }
 
-const IS_NON_DIMENSIONAL = /max|aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
+function isEqual (obj1, obj2) {
+  return JSON.stringify(obj1) === JSON.stringify(obj2)
+}
 
 export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props) {
   const updatePayload = getUpdatePayload(dom, oldProps, newProps)
@@ -59,12 +64,11 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 
   const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
 
-  if (eventName === 'click' && compName in internalComponents) {
+  if (eventName === 'click' && !isHarmony && compName in internalComponents) {
     eventName = 'tap'
   }
 
   if (isFunction(value)) {
-    const isHarmony = process.env.TARO_PLATFORM === 'harmony'
     if (oldValue) {
       dom.removeEventListener(eventName, oldValue as any, !isHarmony ? false : undefined)
       dom.addEventListener(eventName, value, !isHarmony ? { isCapture, sideEffect: false } : undefined)
@@ -76,19 +80,24 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
   }
 }
 
-function setStyle (style: Style, key: string, value: string | number) {
-  if (key[0] === '-') {
-    style.setProperty(key, value.toString())
+function setStyle (style: Style, key: string, value: unknown) {
+  if (key[0] === '-' && !isHarmony) {
     // css variables need not further judgment
+    style.setProperty(key, (value as string).toString())
     return
   }
 
-  style[key] =
-    isNumber(value) && IS_NON_DIMENSIONAL.test(key) === false
-      ? convertNumber2PX(value)
-      : value == null
-        ? ''
-        : value
+  if (isHarmony && key.startsWith('_')) {
+    // harmony样式已处理
+    style[key] = value == null ? '' : value
+  } else {
+    style[key] =
+      isNumber(value) && IS_NON_DIMENSIONAL.test(key) === false
+        ? convertNumber2PX(value)
+        : value == null
+          ? ''
+          : value
+  }
 }
 
 type StyleValue = Record<string, string | number>
@@ -118,6 +127,7 @@ export function setProperty (dom: TaroElement, name: string, value: unknown, old
       if (isObject<StyleValue>(oldValue)) {
         for (const i in oldValue) {
           if (!(value && i in (value as StyleValue))) {
+            // harmony设置style，路径设置路径如下：dom.style => cssStyleDeclaration.setProperty => convertWebStyle2HmStyle => dom._st.hmStyle
             setStyle(style, i, '')
           }
         }
@@ -125,12 +135,41 @@ export function setProperty (dom: TaroElement, name: string, value: unknown, old
 
       if (isObject<StyleValue>(value)) {
         for (const i in value) {
-          if (!oldValue || value[i] !== (oldValue as StyleValue)[i]) {
+          if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
             setStyle(style, i, value[i])
           }
         }
       }
     }
+  } else if (name === '__hmStyle') {
+    // 鸿蒙样式特殊处理
+    // @ts-ignore
+    const style = dom._st.hmStyle // __hmStyle是已经被处理过的鸿蒙样式，可以直接塞进hmStyle对象内
+    if (isObject<StyleValue>(oldValue)) {
+      for (const i in oldValue) {
+        if (!(value && i in (value as StyleValue))) {
+          // 鸿蒙伪类特殊处理
+          if (isHarmony && (i === '::after' || i === '::before')) {
+            setPseudo(dom, i, null)
+          } else {
+            style[i] = ''
+          }
+        }
+      }
+    }
+    if (isObject<StyleValue>(value)) {
+      for (const i in value) {
+        if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
+          // 鸿蒙伪类特殊处理
+          if (isHarmony && (i === '::after' || i === '::before')) {
+            setPseudo(dom, i, value[i] as unknown as StyleValue)
+          } else {
+            style[i] = value[i]
+          }
+        }
+      }
+    }
+
   } else if (isEventName(name)) {
     setEvent(dom, name, value, oldValue)
   } else if (name === 'dangerouslySetInnerHTML') {
@@ -147,5 +186,16 @@ export function setProperty (dom: TaroElement, name: string, value: unknown, old
     } else {
       dom.setAttribute(name, value as string)
     }
+  }
+}
+
+// 设置鸿蒙伪类属性(特殊设置)
+function setPseudo(dom: TaroElement, name: '::after' | '::before', value: StyleValue | null){
+  if (name === '::after') {
+    // @ts-ignore
+    dom.set_pseudo_after(value)
+  } else if (name === '::before') {
+    // @ts-ignore
+    dom.set_pseudo_before(value)
   }
 }

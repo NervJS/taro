@@ -30,6 +30,7 @@ module.exports = (_, options = {}) => {
   const overrides = []
   const isVite = options.compiler === 'vite'
   const isReact = options.framework === 'react' || options.framework === 'preact' && !isVite
+  const isSolid = options.framework === 'solid'
   const isNerv = options.framework === 'nerv' && !isVite
   const isVue = options.framework === 'vue' && !isVite
   const isVue3 = options.framework === 'vue3' && !isVite
@@ -60,6 +61,11 @@ module.exports = (_, options = {}) => {
         })
       }
     }
+  } else if (isSolid) {
+    presets.push([require('babel-preset-solid'), {
+      moduleName: '@tarojs/plugin-framework-react/dist/runtime/reconciler',
+      generate: 'universal',
+    }])
   }
 
   if (isVue || isVue3) {
