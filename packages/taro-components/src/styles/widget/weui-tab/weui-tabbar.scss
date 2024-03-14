@@ -5,7 +5,7 @@
   z-index: 500;
   bottom: 0;
   width: 100%;
-  background-color: #F7F7Fa; // $weuiBgColorPrimary;
+  background-color: #F7F7FA; // $weuiBgColorPrimary;
 
   &::before {
     @include setTopLine(#C0BFC4); // $weuiLineColorLight
