@@ -1,18 +1,19 @@
-import { Component, ComponentInterface, Element, Host, h, Prop } from '@stencil/core'
+import { Component, ComponentInterface, Element, h, Host, Prop } from '@stencil/core'
 import Taro from '@tarojs/taro'
 
 const nativeCloneNode = Node.prototype.cloneNode
 
 @Component({
-  tag: 'taro-swiper-item-core',
+  tag: 'taro-swiper-item-core'
 })
 export class SwiperItem implements ComponentInterface {
+  #swiperId: string | undefined = undefined
   @Element() el: HTMLElement
 
   @Prop() itemId: string
   @Prop() deep: boolean = false
 
-  handleCloneNode(node: Node, deep: boolean) {
+  handleCloneNode (node: Node, deep: boolean) {
     const clonedNode = nativeCloneNode.call(node, false)
     const srcChildNodes = this.handleChildNodes(node)
 
@@ -35,7 +36,7 @@ export class SwiperItem implements ComponentInterface {
     return clonedNode
   }
 
-  handleChildNodes(node: Node) {
+  handleChildNodes (node: Node) {
     const childNodes = node.childNodes
 
     // check if element is stencil element without shadow dom
@@ -57,17 +58,22 @@ export class SwiperItem implements ComponentInterface {
     return Array.from(childNodes)
   }
 
-  componentDidRender() {
+  componentDidRender () {
     this.el.cloneNode = (deep = false) => {
       return this.handleCloneNode(this.el, deep)
     }
   }
 
-  componentWillLoad() {
-    Taro.eventCenter.trigger('swiperItemAdd', this.el.parentElement?.parentElement?.parentElement?.id)
+  componentWillLoad () {
+    this.#swiperId = this.el.parentElement?.parentElement?.parentElement?.id
+    Taro.eventCenter.trigger('swiperItemAdd', this.#swiperId)
   }
 
-  render() {
+  disconnectedCallback () {
+    Taro.eventCenter.trigger('swiperItemRemove', this.#swiperId)
+  }
+
+  render () {
     return <Host class="swiper-slide" item-id={this.itemId} />
   }
 }

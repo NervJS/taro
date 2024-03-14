@@ -12,16 +12,18 @@ let INSTANCE_ID = 0
 
 @Component({
   tag: 'taro-swiper-core',
-  styleUrls: ['./style/index.scss'],
+  styleUrls: ['./style/index.scss']
 })
 export class Swiper implements ComponentInterface {
   #id = INSTANCE_ID++
   #source = ''
 
+
   @Element() el: HTMLElement
   @State() swiperWrapper: HTMLElement | null
   @State() private swiper: ISwiper
   @State() isWillLoadCalled = false
+  @State() itemCount = 0
 
   /**
    * 是否显示面板指示点
@@ -94,12 +96,12 @@ export class Swiper implements ComponentInterface {
   @Prop() zoom = false
 
   @Event({
-    eventName: 'change',
+    eventName: 'change'
   })
     onChange: EventEmitter
 
   @Event({
-    eventName: 'animationfinish',
+    eventName: 'animationfinish'
   })
     onAnimationFinish: EventEmitter
 
@@ -154,23 +156,13 @@ export class Swiper implements ComponentInterface {
     }
   }
 
-  @Watch('swiperWrapper')
-  watchSwiperWrapper (newVal?: HTMLElement) {
-    if (!this.isWillLoadCalled) return
-    if (!newVal) return
-    this.el.appendChild = <T extends Node> (newChild: T): T => {
-      return newVal.appendChild(newChild)
-    }
-    this.el.insertBefore = <T extends Node> (newChild: T, refChild: Node | null): T => {
-      return newVal.insertBefore(newChild, refChild)
-    }
-    this.el.replaceChild = <T extends Node> (newChild: Node, oldChild: T): T => {
-      return newVal.replaceChild(newChild, oldChild)
-    }
-    this.el.removeChild = <T extends Node> (oldChild: T): T => {
-      return newVal.removeChild(oldChild)
-    }
-  }
+  handleRealIndexChange = debounce((realIndex: number, source: string) => {
+    this.current = realIndex
+    this.onChange.emit({
+      current: realIndex,
+      source: source
+    })
+  }, 50)
 
   @Watch('circular')
   watchCircular () {
@@ -186,6 +178,13 @@ export class Swiper implements ComponentInterface {
     }
   }
 
+  handleAnimationFinish = debounce((realIndex: number, source: string) => {
+    this.onAnimationFinish.emit({
+      current: realIndex,
+      source: source
+    })
+  }, 100)
+
   componentWillLoad () {
     this.isWillLoadCalled = true
   }
@@ -196,9 +195,22 @@ export class Swiper implements ComponentInterface {
     }
   }, 50)
 
-  async componentDidLoad () {
-    await this.handleInit()
-    Taro.eventCenter.on('swiperItemAdd', this.handleSwiperItemAdd)
+  @Watch('swiperWrapper')
+  watchSwiperWrapper (newVal?: HTMLElement) {
+    if (!this.isWillLoadCalled) return
+    if (!newVal) return
+    this.el.appendChild = <T extends Node>(newChild: T): T => {
+      return newVal.appendChild(newChild)
+    }
+    this.el.insertBefore = <T extends Node>(newChild: T, refChild: Node | null): T => {
+      return newVal.insertBefore(newChild, refChild)
+    }
+    this.el.replaceChild = <T extends Node>(newChild: Node, oldChild: T): T => {
+      return newVal.replaceChild(newChild, oldChild)
+    }
+    this.el.removeChild = <T extends Node>(oldChild: T): T => {
+      return newVal.removeChild(oldChild)
+    }
   }
 
   componentDidUpdate () {
@@ -212,20 +224,22 @@ export class Swiper implements ComponentInterface {
     }
   }
 
-  handleRealIndexChange = debounce((realIndex: number, source: string) => {
-    this.current = realIndex
-    this.onChange.emit({
-      current: realIndex,
-      source: source,
-    })
-  }, 50)
+  @Watch('itemCount')
+  watchItemCount () {
+    if (this.swiper) {
+      this.swiper.update()
+    }
+  }
 
-  handleAnimationFinish = debounce((realIndex: number, source: string) => {
-    this.onAnimationFinish.emit({
-      current: realIndex,
-      source: source,
+  async componentDidLoad () {
+    await this.handleInit()
+    Taro.eventCenter.on('swiperItemAdd', this.handleSwiperItemAdd)
+    Taro.eventCenter.on('swiperItemRemove', (id: string) => {
+      if (this.swiperWrapper && id === `taro-swiper-${this.#id}`) {
+        this.itemCount = [...this.swiperWrapper.childNodes].filter(i => i.nodeName === 'TARO-SWIPER-ITEM-CORE').length
+      }
     })
-  }, 100)
+  }
 
   async handleInit () {
     if (this.swiper) this.swiper.destroy()
@@ -240,7 +254,7 @@ export class Swiper implements ComponentInterface {
       pagination: {
         el: `.taro-swiper-${this.#id} > .swiper-container > .swiper-pagination`,
         clickable: true,
-        type: 'bullets',
+        type: 'bullets'
       },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
@@ -285,15 +299,15 @@ export class Swiper implements ComponentInterface {
               that.swiper.loopFix()
             }
           }, 50)
-        },
-      },
+        }
+      }
     }
 
     //  自动播放
     if (autoplay) {
       options.autoplay = {
         delay: interval,
-        disableOnInteraction: false,
+        disableOnInteraction: false
       }
     }
 
@@ -301,6 +315,9 @@ export class Swiper implements ComponentInterface {
 
     this.swiper = new SwiperJS(`.taro-swiper-${this.#id} > .swiper-container`, options)
     this.swiperWrapper = this.el.querySelector(`.taro-swiper-${this.#id} > .swiper-container > .swiper-wrapper`)
+    if (this.swiperWrapper) {
+      this.itemCount = [...this.swiperWrapper.childNodes].filter(i => i.nodeName === 'TARO-SWIPER-ITEM-CORE').length
+    }
   }
 
   render () {
@@ -316,11 +333,11 @@ export class Swiper implements ComponentInterface {
         class={`taro-swiper-${this.#id}`}
         style={Object.assign(
           {
-            overflow: 'hidden',
+            overflow: 'hidden'
           },
           this.full
             ? {
-              height: '100%',
+              height: '100%'
             }
             : {},
           vertical
@@ -331,7 +348,7 @@ export class Swiper implements ComponentInterface {
       >
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <slot/>
+            <slot />
           </div>
           {indicatorDots && (
             <div
@@ -339,7 +356,7 @@ export class Swiper implements ComponentInterface {
               style={{
                 '--swiper-pagination-bullet-inactive-opacity': '1',
                 '--swiper-pagination-bullet-inactive-color': indicatorColor,
-                '--swiper-pagination-color': indicatorActiveColor,
+                '--swiper-pagination-color': indicatorActiveColor
               }}
             />
           )}
