@@ -89,7 +89,7 @@ const Swiper: FC<SwiperProps> = ({
             current: newIndex
           }
         })
-      } catch (err) {
+      } catch (err) { /* empty */
       } // eslint-disable-line no-empty
       onChange(e)
     }
@@ -105,7 +105,7 @@ const Swiper: FC<SwiperProps> = ({
             current: index
           }
         })
-      } catch (err) {
+      } catch (err) { /* empty */
       } // eslint-disable-line no-empty
       onAnimationFinish(e)
     }
