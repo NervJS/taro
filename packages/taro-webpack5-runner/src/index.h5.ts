@@ -261,14 +261,16 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
             const pathname = chunkFilename.replace('[name]', path.basename(context.parsedUrl.pathname).replace(/\.[^.]*.hot-update\.(js|json)/, ''))
             return (['', 'auto'].includes(publicPath) ? '' : publicPath) + pathname
           }
-        }, {
-          from: /./,
-          to: publicPath
         }]
       },
       proxy
     },
-    customDevServerOption
+    customDevServerOption,
+    {
+      historyApiFallback: {
+        rewrites: [{ from: /./, to: publicPath }]
+      }
+    }
   )
 
   const originalPort = Number(devServerOptions.port)
