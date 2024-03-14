@@ -1,104 +1,208 @@
-/** 
- * Taro.setStorage 的同步版本
- * 
- * @canUse setStorageSync
- * @__object [key, data]
-*/
-export { setStorageSync } from '@tarojs/taro-h5'
+import Taro from '@tarojs/api'
 
-/**
- * 将数据存储在本地缓存中指定的 key 中
- * 
- * @canUse setStorage
- * @__object [data, key]
- */
-export { setStorage } from '@tarojs/taro-h5'
-
-/**
- * 根据 URL 销毁存在内存中的数据
- * 
- * @canNotUse revokeBufferURL
- */
-export { revokeBufferURL } from '@tarojs/taro-h5'
-
-/** 
- * Taro.removeStorage 的同步版本
- * 
- * @canUse removeStorageSync
-*/
-export { removeStorageSync } from '@tarojs/taro-h5'
-
-/** 
- * 从本地缓存中移除指定 key
- * 
- * @canUse removeStorage
- * @__object [key]
-*/
-export { removeStorage } from '@tarojs/taro-h5'
-
-/** 
- * Taro.getStorage 的同步版本
- * 
- * @canUse getStorageSync
-*/
-export { getStorageSync } from '@tarojs/taro-h5'
-
-/** 
- * Taro.getStorageInfo 的同步版本
- * 
- * @canUse getStorageInfoSync
- * @__return [currentSize, keys, limitSize]
-*/
-export { getStorageInfoSync } from '@tarojs/taro-h5'
-
-/** 
- * 异步获取当前storage的相关信息
- * 
- * @canUse getStorageInfo
- * @__success [currentSize, keys, limitSize]
-*/
-export { getStorageInfo } from '@tarojs/taro-h5'
-
-/** 
- * 从本地缓存中异步获取指定 key 的内容
- * 
- * @canUse getStorage
- * @__object [key]
- * @__success [data]
-*/
-export { getStorage } from '@tarojs/taro-h5'
-
-/**
- * 根据传入的 buffer 创建一个唯一的 URL 存在内存中
- * 
- * @canNotUse createBufferURL
- */
-export { createBufferURL } from '@tarojs/taro-h5'
-
-/** 
- * Taro.clearStorage 的同步版本
- * 
- * @canUse clearStorageSync
-*/
-export { clearStorageSync } from '@tarojs/taro-h5'
-
-/** 
- * 清理本地数据缓存
- * 
- * @canUse clearStorage
-*/
-export { clearStorage } from '@tarojs/taro-h5'
+import { shouldBeObject, temporarilyNotSupport } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
+import native from '../NativeApi'
+import { displayExecRes, handleData } from './util'
 
 /**
  * 创建缓存管理器
- * 
+ *
  * @canNotUse createCacheManager
  */
 export * from './background-fetch'
-export { createCacheManager } from '@tarojs/taro-h5'
 
-/**
- * CacheManager实例
- * 
- * @canNotUse CacheManager
- */
+
+// 周期性更新
+export const createCacheManager = /* @__PURE__ */ temporarilyNotSupport('createCacheManager')
+
+
+export const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
+  const status = native.setStorageSync({ key, data: JSON.stringify(handleData(data)) })
+  displayExecRes(status, setStorageSync.name)
+}
+
+// @ts-ignore
+export const setStorage: typeof Taro.setStorage = (options) => {
+  // options must be an Object
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `setStorage:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+  const { key, data, success, fail, complete } = options
+  const handle = new MethodHandler({ name: 'setStorage', success, fail, complete })
+
+  return new Promise((resolve, reject) => {
+    native.setStorage({
+      key: key,
+      data: data,
+      success: (res: any) => {
+        handle.success({ errMsg: res.errMsg }, { resolve,reject })
+      },
+      fail: (err: any) => {
+        handle.fail({ errMsg: err.errMsg }, { resolve,reject })
+      }
+    })
+  })
+}
+
+export const revokeBufferURL = /* @__PURE__ */ temporarilyNotSupport('revokeBufferURL')
+
+export const removeStorageSync: typeof Taro.removeStorageSync = (key: string) => {
+  const status = native.removeStorageSync({ key })
+  displayExecRes(status, removeStorageSync.name)
+}
+
+export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeStorage.Option) => {
+  // options must be an Object
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `removeStorage:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+  const { key, success, fail, complete } = options
+  const handle = new MethodHandler({ name: 'removeStorage', success, fail, complete })
+
+  return new Promise((resolve, reject) => {
+    native.removeStorage({
+      key: key,
+      success: (res: any) => {
+        handle.success({ errMsg: res.errMsg },{ resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail({ errMsg: err.errMsg },{ resolve,reject })
+      }
+    })
+  })
+}
+
+// @ts-ignore
+export const getStorageSync: typeof Taro.getStorageSync = (key) => {
+  const status = native.getStorageSync({ key })
+
+  if (status.done) {
+    let item: any
+    try {
+      item = JSON.parse(status.data)
+    } catch (e) {
+      item = status.data
+    }
+    return item
+  }
+  return ''
+}
+
+export const getStorage: typeof Taro.getStorage = <T>(options) => {
+  // options must be an Object
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `getStorage:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+
+  const { key, success, fail, complete } = options
+  const handle = new MethodHandler<Taro.getStorage.SuccessCallbackResult<T>>({
+    name: 'getStorage',
+    success,
+    fail,
+    complete
+  })
+
+  return new Promise((resolve, reject) => {
+    native.getStorage({
+      key: key,
+      success: (res: any) => {
+        let item: any
+        try {
+          item = JSON.parse(res.data)
+        } catch (e) {
+          item = res.data
+        }
+        const result: Taro.getStorage.SuccessCallbackResult<T> = {
+          data: item,
+          errMsg: res.errMsg,
+        }
+        handle.success(result, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail({ errMsg: err.errMsg }, { resolve,reject })
+      }
+    })
+  })
+
+}
+
+
+export const getStorageInfoSync: typeof Taro.getStorageInfoSync = () => {
+  const res: Taro.getStorageInfoSync.Option = {
+    keys: [],
+    limitSize: NaN,
+    currentSize: NaN
+  }
+  const status = native.getStorageInfoSync({ key: '' })
+
+  if (status.done) {
+    res.keys = JSON.parse(status.data)
+    return res
+  }
+  return res
+}
+
+export const getStorageInfo: typeof Taro.getStorageInfo = ({ success, fail, complete } = {}) => {
+  const handle = new MethodHandler<Taro.getStorageInfo.SuccessCallbackOption>({
+    name: 'getStorageInfo',
+    success,
+    fail,
+    complete
+  })
+
+  return new Promise((resolve, reject) => {
+    native.getStorageInfo({
+      success: (res: any) => {
+        const result: Taro.getStorageInfoSync.Option = {
+          keys: JSON.parse(res.data),
+          limitSize: NaN,
+          currentSize: NaN,
+        }
+        handle.success(result,{ resolve,reject })
+      },
+      fail: (err: any) => {
+        handle.fail({ errMsg: err.errMsg }, { resolve, reject })
+      }
+    })
+  })
+}
+
+
+export const createBufferURL = /* @__PURE__ */ temporarilyNotSupport('createBufferURL')
+
+export const clearStorageSync: typeof Taro.clearStorageSync = () => {
+  const status = native.clearStorageSync({ key: '' })
+  displayExecRes(status, clearStorageSync.name)
+}
+
+export const clearStorage: typeof Taro.clearStorage = ({ success, fail, complete } = {}) => {
+  const handle = new MethodHandler({ name: 'clearStorage', success, fail, complete })
+
+  return new Promise((resolve, reject) => {
+    native.clearStorage({
+      success: () => {
+        handle.success({ errMsg: 'ok' },{ reject,resolve })
+      },
+      fail: (err:any) => {
+        handle.fail({ errMsg: err.errMsg },{ reject,resolve })
+      }
+    })
+  })
+}
+
+export const batchSetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchSetStorageSync')
+export const batchSetStorage = /* @__PURE__ */ temporarilyNotSupport('batchSetStorage')
+export const batchGetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchGetStorageSync')
+export const batchGetStorage = /* @__PURE__ */ temporarilyNotSupport('batchGetStorage')
+
+export * from './background-fetch'
