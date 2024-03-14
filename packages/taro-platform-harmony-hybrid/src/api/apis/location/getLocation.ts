@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 
+import native from '../NativeApi'
 import { shouldBeObject } from '../utils'
 import { wgs84Togcj02 } from '../utils/coordinateConvert'
 import { MethodHandler } from '../utils/handler'
@@ -8,7 +9,7 @@ const HIGH_ACCURACY_TIMEOUT = 10000
 
 /**
  * 获取当前的地理位置、速度
- * 
+ *
  * @canUse getLocation
  * @__object [altitude, highAccuracyExpireTime, isHighAccuracy, type]
  * @__success [accuracy, altitude, horizontalAccuracy, latitude, longitude, speed, verticalAccuracy]
@@ -50,7 +51,6 @@ export const getLocation: typeof Taro.getLocation = (options) => {
       }, highAccuracyExpireTime ?? HIGH_ACCURACY_TIMEOUT)
     }
 
-    // @ts-ignore
     native.getLocation({
       success: (res: any) => {
         // 超时后即使后面回调触发了也不执行后面的逻辑
