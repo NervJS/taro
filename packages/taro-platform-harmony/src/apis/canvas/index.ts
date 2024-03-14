@@ -2,6 +2,7 @@ import { eventSource } from '@tarojs/runtime'
 
 import { temporarilyNotSupport } from '../utils'
 
+// @ts-ignore
 import type { TaroCanvasElement } from '@tarojs/runtime'
 // 画布
 

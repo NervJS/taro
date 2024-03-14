@@ -1,4 +1,5 @@
-import TaroText from '@tarojs/components/text'
+// @ts-ignore
+import { TaroText } from '@tarojs/components'
 import { document } from '@tarojs/runtime'
 import { createRenderer } from 'solid-js/universal'
 

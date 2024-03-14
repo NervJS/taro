@@ -783,7 +783,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       '',
       isBlended ? this.#setReconciler : null,
       'import router from "@ohos.router"',
-      'import TaroView from "@tarojs/components/view"',
+      'import { TaroView } from "@tarojs/components"',
       'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       `import { createLazyChildren } from "./${path.relative(path.dirname(fileName), 'render')}"`,

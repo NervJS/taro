@@ -15,30 +15,34 @@ export default class RenderParser extends BaseParser {
   }
 
   generate (fileName: string, name = 'TaroRender', resolve?: TRollupResolveMethod) {
-    const code = `import TaroImage from '@tarojs/components/image'
-import TaroText from '@tarojs/components/text'
-import TaroView from '@tarojs/components/view'
-import TaroIcon from '@tarojs/components/icon'
-import TaroForm from '@tarojs/components/form'
-import TaroLabel from '@tarojs/components/label'
-import TaroInput from '@tarojs/components/input'
-import TaroVideo from '@tarojs/components/video'
-import TaroButton from '@tarojs/components/button'
-import TaroPicker from '@tarojs/components/picker'
-import TaroSlider from '@tarojs/components/slider'
-import TaroSwitch from '@tarojs/components/switch'
-import TaroSwiper from '@tarojs/components/swiper'
-import TaroWebView from '@tarojs/components/webView'
-import TaroCanvas from '@tarojs/components/canvas'
-import TaroTextArea from '@tarojs/components/textArea'
-import TaroRichText from '@tarojs/components/richText'
-import TaroProgress from '@tarojs/components/progress'
-import TaroInnerHtml from '@tarojs/components/innerHtml'
-import TaroScrollView from '@tarojs/components/scrollView'
-import TaroMovableArea from '@tarojs/components/movableArea'
-import TaroMovableView from '@tarojs/components/movableView'
-import { TaroRadio, TaroRadioGroup } from '@tarojs/components/radio'
-import { TaroCheckboxGroup, TaroCheckbox } from '@tarojs/components/checkbox'
+    const code = `import {
+  TaroImage,
+  TaroText,
+  TaroView,
+  TaroIcon,
+  TaroForm,
+  TaroLabel,
+  TaroInput,
+  TaroVideo,
+  TaroButton,
+  TaroPicker,
+  TaroSlider,
+  TaroSwitch,
+  TaroSwiper,
+  TaroWebView,
+  TaroTextArea,
+  TaroRichText,
+  TaroProgress,
+  TaroInnerHtml,
+  TaroScrollView,
+  TaroMovableArea,
+  TaroMovableView,
+  TaroRadio,
+  TaroCanvas,
+  TaroRadioGroup,
+  TaroCheckboxGroup,
+  TaroCheckbox
+} from '@tarojs/components'
 ${this.generateRenderNativeImport()}${this.generateRenderCompileModeImport()}
 import { NodeType } from '@tarojs/runtime'
 

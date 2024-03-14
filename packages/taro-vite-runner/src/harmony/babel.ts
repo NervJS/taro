@@ -31,6 +31,7 @@ export default (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption =
                         }
                         return node
                       })
+                      ast.node.source.value = '@tarojs/components/tag'
                       ast.node.specifiers = newSpecifiers
                     },
                   },
