@@ -176,6 +176,8 @@ class PullDownRefresh extends React.Component<IProps, IState> {
   }
 
   destroy = () => {
+    if (!this._to) return
+
     const ele = this.scrollContainer
     Object.keys(this._to).forEach(key => {
       ele.removeEventListener(key, this._to[key])

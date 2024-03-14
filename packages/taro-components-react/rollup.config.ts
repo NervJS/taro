@@ -22,6 +22,7 @@ export default defineConfig({
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }) as InputPluginOption,
     postcss({
+      extract: true,
       inject: { insertAt: 'top' },
       minimize: true,
     }) as InputPluginOption,

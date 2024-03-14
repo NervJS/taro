@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-react",
-  "version": "3.6.22",
+  "version": "3.6.24",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
@@ -8,7 +8,9 @@
   "types": "types/index.d.ts",
   "sideEffects": [
     "./dist/components/**/loader.js",
-    "**/style/*.js"
+    "**/style/*.js",
+    "*.scss",
+    "*.css"
   ],
   "files": [
     "dist",

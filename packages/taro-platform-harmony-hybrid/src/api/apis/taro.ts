@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
 import { history } from '@tarojs/router'
 import { isFunction, PLATFORM_TYPE } from '@tarojs/shared'
+import { toByteArray } from 'base64-js'
 
 import {
   getApp,
@@ -15,6 +16,9 @@ import {
   switchTab
 } from './index'
 import { permanentlyNotSupport } from './utils'
+
+// @ts-ignore
+window.base64ToArrayBuffer = (base64: string) => toByteArray(base64).buffer
 
 const {
   Behavior,
@@ -217,6 +221,86 @@ function loadNavigationSytle () {
 }
 
 loadNavigationSytle()
+
+// 设置位置选择样式
+function loadChooseLocationStyle () {
+  const css = `
+.taro_choose_location {
+  display: flex;
+  position: fixed;
+  top: 100%;
+  z-index: 1;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  transition: ease top 0.3s;
+}
+.taro_choose_location_bar {
+  display: flex;
+  flex: 0 60px;
+  height: 60px;
+  background-color: #ededed;
+  color: #090909;
+  align-items: center;
+}
+.taro_choose_location_back {
+  position: relative;
+  flex: 0 40px;
+  margin-left: 10px;
+  width: 25px;
+  height: 30px;
+}
+.taro_choose_location_back::before {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: solid 15px;
+  border-color: transparent #090909 transparent transparent;
+  width: 0;
+  height: 0;
+  content: "";
+}
+.taro_choose_location_back::after {
+  display: block;
+  position: absolute;
+  left: 3px;
+  top: 0;
+  border: solid 15px;
+  border-color: transparent #ededed transparent transparent;
+  width: 0;
+  height: 0;
+  content: "";
+}
+.taro_choose_location_title {
+  flex: 1;
+  padding-left: 30px;
+  line-height: 60px;
+}
+.taro_choose_location_submit {
+  margin-right: 25px;
+  padding: 0;
+  border: none;
+  width: 75px;
+  height: 40px;
+  background-color: #08bf62;
+  line-height: 40px;
+  font-size: 20px;
+  color: #fff;
+}
+.taro_choose_location_frame {
+  flex: 1;
+}
+`
+
+  const style = document.createElement('style')
+  style.innerHTML = css
+  document.getElementsByTagName('head')[0].appendChild(style)
+}
+
+loadChooseLocationStyle()
+
 
 taro.getApp = getApp
 taro.pxTransform = pxTransform

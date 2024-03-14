@@ -46,7 +46,9 @@ export default class Modal {
       'min-height': '40px',
       'font-size': '15px',
       'line-height': '1.3',
-      color: '#808080'
+      color: '#808080',
+      'word-wrap': 'break-word',
+      'word-break': 'break-all',
     },
     footStyle: {
       position: 'relative',

@@ -56,14 +56,6 @@
  */
 
 /**
- * 打开地图选择位置。
- * 
- * @canUse chooseLocation
- * @__object [mapOpts]
- * @__success [address, latitude, longitude, name]
- */
-
-/**
  * 拍摄视频或从手机相册中选视频
  * 
  * @canNotUse chooseVideo 
@@ -446,6 +438,31 @@
  */
 
 /**
+ * 监听小程序切前台事件
+ * 
+ * @canUse onAppShow
+ * @__callback [path, query, scene, shareTicket, referrerInfo]
+ */
+
+/**
+ * 监听小程序切后台事件
+ * 
+ * @canUse onAppHide
+ */
+
+/**
+ * 取消监听小程序切前台事件
+ * 
+ * @canUse offAppShow
+ */
+
+/**
+ * 取消监听小程序切后台事件
+ * 
+ * @canUse offAppHide
+ */
+
+/**
  * 取消用户主动截屏事件监听
  * 
  * @canNotUse offUserCaptureScreen
@@ -605,13 +622,6 @@
  * 初始化蓝牙模块
  * 
  * @canNotUse openBluetoothAdapter
- */
-
-/**
- * 使用微信内置地图查看位置(暂不支持scale入参)
- * 
- * @canUse openLocation
- * @__object [latitude, longitude, address, name]
  */
 
 /**
@@ -2384,6 +2394,13 @@
  * 
  * @canUse MediaQueryObserver
  * @__class [observe, disconnect]
+ */
+
+/**
+ * NodesRef 对象，用于获取 WXML 节点信息的对象
+ * 
+ * @canUse NodesRef
+ * @__class [boundingClientRect, context, node, fields, scrollOffset]
  */
 
 /**

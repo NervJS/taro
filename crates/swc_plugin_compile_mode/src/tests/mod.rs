@@ -14,6 +14,7 @@ mod condition;
 mod looping;
 mod children;
 mod harmony;
+mod wxs;
 
 pub fn tr () -> impl Fold {
     let config = serde_json::from_str::<PluginConfig>(
@@ -22,6 +23,7 @@ pub fn tr () -> impl Fold {
             "tmpl_prefix": "f0",
             "components": {
                 "block": {},
+                "script": {},
                 "image": {
                     "src": "i.p3",
                     "mode": "xs.b(i.p1,'scaleToFill')",

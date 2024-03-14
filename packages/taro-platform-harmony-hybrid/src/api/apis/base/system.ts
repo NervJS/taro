@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
+import native from '../NativeApi'
 import { MethodHandler } from '../utils/handler'
-
 /**
  * 获取窗口信息
  *
@@ -11,7 +11,6 @@ import { MethodHandler } from '../utils/handler'
  * bottom, height, left, right, top, width]]
  */
 export const getWindowInfo: typeof Taro.getWindowInfo = () => {
-  // @ts-ignore
   const info = native.getWindowInfo()
   const windowInfo: Taro.getWindowInfo.Result = {
     pixelRatio: info.pixelRatio,
@@ -19,7 +18,7 @@ export const getWindowInfo: typeof Taro.getWindowInfo = () => {
     screenHeight: info.screenHeight,
     windowWidth: info.screenWidth,
     // @ts-ignore
-    windowHeight: info.screenHeight - (window.currentNavigationStyle === 'default' ? (window.navigationHeight || 0) : 0),
+    windowHeight: info.screenHeight - (window?.currentNavigation?.style === 'default' ? (window.navigationHeight || 0) : 0),
     statusBarHeight: info.statusBarHeight,
     safeArea: info.safeArea || {
       /** 安全区域右下角纵坐标 */
@@ -53,7 +52,6 @@ export const getSystemSetting: typeof Taro.getSystemSetting = () => {
   if (currentTime - lastGetSystemSettingTime < 500) {
     return lastSystemSettingResult
   }
-  // @ts-ignore
   const info = native.getSystemSetting()
   lastSystemSettingResult.bluetoothEnabled = info.bluetoothEnabled
   lastSystemSettingResult.locationEnabled = info.locationEnabled
@@ -70,9 +68,7 @@ export const getSystemSetting: typeof Taro.getSystemSetting = () => {
  * @__return [SDKVersion, enableDebug, host[appId], language, version, theme[dark, light]]
  */
 export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
-  // @ts-ignore
   const info = native.getAppBaseInfo()
-  // @ts-ignore
   const sdkApiVersion = native.getSystemInfoSync().ohosAPILevel.toString()
   const appBaseInfo: Taro.getAppBaseInfo.Result = {
     SDKVersion: sdkApiVersion,
@@ -94,7 +90,6 @@ export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
  * microphoneAuthorized, notificationAuthorized, phoneCalendarAuthorized]
  */
 export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = () => {
-  // @ts-ignore
   const info = native.getAppAuthorizeSetting()
   // @ts-ignore
   const appAuthorizeSetting: Taro.getAppAuthorizeSetting.Result = {
@@ -130,7 +125,6 @@ export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = () => 
  * locationReducedAccuracy, theme[dark, light], host[appId], enableDebug, deviceOrientation[portrait, landscape]]
  */
 export const getSystemInfoSync: typeof Taro.getSystemInfoSync = () => {
-  // @ts-ignore
   const info = native.getSystemInfoSync()
   const windowInfo = getWindowInfo()
   const systemSetting = getSystemSetting()

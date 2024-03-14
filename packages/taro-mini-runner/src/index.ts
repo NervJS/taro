@@ -52,6 +52,8 @@ export default async function build (appPath: string, config: IBuildConfig): Pro
   const webpackConfig: webpack.Configuration = webpackChain.toConfig()
 
   return new Promise<webpack.Stats>((resolve, reject) => {
+    if (config.withoutBuild) return
+
     const compiler = webpack(webpackConfig)
     const onBuildFinish = newConfig.onBuildFinish
     let prerender: Prerender
