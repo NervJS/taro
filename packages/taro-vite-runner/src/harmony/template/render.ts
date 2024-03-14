@@ -29,6 +29,7 @@ import TaroSlider from '@tarojs/components/slider'
 import TaroSwitch from '@tarojs/components/switch'
 import TaroSwiper from '@tarojs/components/swiper'
 import TaroWebView from '@tarojs/components/webView'
+import TaroCanvas from '@tarojs/components/canvas'
 import TaroTextArea from '@tarojs/components/textArea'
 import TaroRichText from '@tarojs/components/richText'
 import TaroProgress from '@tarojs/components/progress'
@@ -42,6 +43,7 @@ ${this.generateRenderNativeImport()}${this.generateRenderCompileModeImport()}
 import { NodeType } from '@tarojs/runtime'
 
 import type {
+  TaroAny,
   TaroViewElement,
   TaroElement,
   TaroImageElement,
@@ -65,6 +67,7 @@ import type {
   TaroMovableViewElement,
   TaroSwiperElement,
   TaroSwitchElement,
+  TaroCanvasElement,
   TaroSliderElement,
   TaroScrollViewElement,
   TaroWebViewElement,
@@ -113,6 +116,8 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
     TaroMovableView({ node: item as TaroMovableViewElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'MOVABLE-AREA') {
     TaroMovableArea({ node: item as TaroMovableAreaElement, createLazyChildren: createLazyChildren })
+  } else if (item.tagName === 'CANVAS') {
+    TaroCanvas({ node: item as TaroAny as TaroCanvasElement })
   } else if (item.tagName === 'RADIO') {
     TaroRadio({ node: item as TaroRadioElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'LABEL') {

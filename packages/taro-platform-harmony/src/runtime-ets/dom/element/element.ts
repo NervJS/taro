@@ -10,10 +10,10 @@ import { type ICSSStyleDeclaration, createCSSStyleDeclaration } from '../cssStyl
 import { NodeType, TaroNode } from '../node'
 import StyleSheet, { HarmonyStyle } from '../stylesheet'
 
-import type { StandardProps } from '@tarojs/components/types'
+import type { BaseTouchEvent, ITouchEvent, StandardProps } from '@tarojs/components/types'
 import type { TaroAny } from '../../utils'
 
-type NamedNodeMap = ({ name: string, value: string })[]
+type NamedNodeMap = { name: string, value: string }[]
 
 export interface TaroExtraProps {
   compileMode?: string | boolean
@@ -21,7 +21,10 @@ export interface TaroExtraProps {
   disabled?: boolean
 }
 
-export class TaroElement<T extends StandardProps = StandardProps> extends TaroNode {
+export class TaroElement<
+  T extends StandardProps<any, U> = StandardProps,
+  U extends BaseTouchEvent<any> = ITouchEvent
+> extends TaroNode {
   public _innerHTML = ''
   public _nodeInfo: TaroAny = {}
   public readonly tagName: string
@@ -36,30 +39,30 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
     bindAnimation(this)
   }
 
-  public set id (value: string) {
+  public set id(value: string) {
     this.setAttribute('id', value)
   }
 
-  public get id (): string {
+  public get id(): string {
     return this.getAttribute('id') || this._nid
   }
 
-  public set className (value: string) {
+  public set className(value: string) {
     this.setAttribute('class', value)
   }
 
-  public get className (): string {
+  public get className(): string {
     return this.getAttribute('class') || ''
   }
 
-  public get classList (): ClassList {
+  public get classList(): ClassList {
     return new ClassList(this.className, this)
   }
 
-  public get attributes (): NamedNodeMap {
+  public get attributes(): NamedNodeMap {
     const list: NamedNodeMap = []
 
-    Object.keys(this._attrs).forEach(name => {
+    Object.keys(this._attrs).forEach((name) => {
       const value: TaroAny = this._attrs[name]
 
       list.push({ name, value })
@@ -68,11 +71,11 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
     return list
   }
 
-  public get children (): TaroElement[] {
-    return this.childNodes.filter(node => node.nodeType === NodeType.ELEMENT_NODE) as TaroElement[]
+  public get children(): TaroElement[] {
+    return this.childNodes.filter((node) => node.nodeType === NodeType.ELEMENT_NODE) as TaroElement[]
   }
 
-  public setAttribute (name: string, value: TaroAny): void {
+  public setAttribute(name: string, value: TaroAny): void {
     switch (name) {
       case ID:
         eventSource.delete(this._attrs.id)
@@ -106,48 +109,64 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
     }
   }
 
-  public getAttribute (name: string): string {
+  public getAttribute(name: string): string {
     return this._attrs[name]
   }
 
-  public removeAttribute (name: string): void {
+  public removeAttribute(name: string): void {
     this._attrs[name] = null
   }
 
-  public hasAttribute (name: string): boolean {
+  public hasAttribute(name: string): boolean {
     return !!this._attrs[name]
   }
 
-  public hasAttributes (): boolean {
+  public hasAttributes(): boolean {
     return Object.keys(this._attrs).length > 0
   }
 
-  public getElementById<T extends TaroElement = TaroElement> (id: string | undefined | null) {
-    return findChildNodeWithDFS<T>(this as TaroAny, (el) => {
-      return el.id === id
-    }, false)
+  public getElementById<T extends TaroElement = TaroElement>(id: string | undefined | null) {
+    return findChildNodeWithDFS<T>(
+      this as TaroAny,
+      (el) => {
+        return el.id === id
+      },
+      false
+    )
   }
 
-  public getElementsByTagName<T extends TaroElement = TaroElement> (tagName: string) {
-    return findChildNodeWithDFS<T>(this as TaroAny, (el) => {
-      return el.nodeName === tagName || (tagName === '*' && this as TaroAny !== el)
-    }, true) || []
+  public getElementsByTagName<T extends TaroElement = TaroElement>(tagName: string) {
+    return (
+      findChildNodeWithDFS<T>(
+        this as TaroAny,
+        (el) => {
+          return el.nodeName === tagName || (tagName === '*' && (this as TaroAny) !== el)
+        },
+        true
+      ) || []
+    )
   }
 
-  public getElementsByClassName<T extends TaroElement = TaroElement> (className: string) {
+  public getElementsByClassName<T extends TaroElement = TaroElement>(className: string) {
     const classNames = className.trim().split(new RegExp('\\s+'))
 
-    return findChildNodeWithDFS<T>(this as TaroAny, (el) => {
-      const classList = el.classList
-      return classNames.every(c => {
-        const bool = classList.contains(c)
+    return (
+      findChildNodeWithDFS<T>(
+        this as TaroAny,
+        (el) => {
+          const classList = el.classList
+          return classNames.every((c) => {
+            const bool = classList.contains(c)
 
-        return bool
-      })
-    }, true) || []
+            return bool
+          })
+        },
+        true
+      ) || []
+    )
   }
 
-  public set innerHTML (value: string) {
+  public set innerHTML(value: string) {
     if (this.nodeType === NodeType.ELEMENT_NODE && this.ownerDocument) {
       const ele = this.ownerDocument.createElement('inner-html')
       ele._innerHTML = value
@@ -155,7 +174,7 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
     }
   }
 
-  public get innerHTML (): string {
+  public get innerHTML(): string {
     return this._innerHTML
   }
 
@@ -163,13 +182,13 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
   public _st = new StyleSheet()
 
   // 经转换后的鸿蒙样式
-  public get hmStyle () {
+  public get hmStyle() {
     return this._st.hmStyle
   }
 
   public _style: ICSSStyleDeclaration | null = null
 
-  public get style (): ICSSStyleDeclaration | null {
+  public get style(): ICSSStyleDeclaration | null {
     return this._style
   }
 
@@ -177,7 +196,7 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
   // 可根据实际情况，迁移到具体的组件中，如View、ScrollView中，Text\Image其实是不需要的
   public _pseudo_before: StyleSheet | null = null
 
-  public set_pseudo_before (value: HarmonyStyle | null) {
+  public set_pseudo_before(value: HarmonyStyle | null) {
     if (value) {
       if (!this._pseudo_before) {
         this._pseudo_before = new StyleSheet()
@@ -192,7 +211,7 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
 
   public _pseudo_after: StyleSheet | null = null
 
-  public set_pseudo_after (value: HarmonyStyle | null) {
+  public set_pseudo_after(value: HarmonyStyle | null) {
     if (value) {
       if (!this._pseudo_after) {
         this._pseudo_after = new StyleSheet()
