@@ -200,19 +200,17 @@ export class MiniWebpackModule {
     const { compile = {} } = this.combination.config
     const rule: IRule = WebpackModule.getScriptRule()
 
-    rule.exclude = []
-    if (compile.exclude && Array.isArray(compile.exclude)) {
-      rule.exclude.push(...compile.exclude)
+    rule.include = [
+      sourceDir,
+      filename => /(?<=node_modules[\\/]).*taro/.test(filename)
+    ]
+    if (Array.isArray(compile.include)) {
+      rule.include.unshift(...compile.include)
     }
-    rule.exclude.push(
-      (filename) => /css-loader/.test(filename) || (/node_modules/.test(filename) && !/taro/.test(filename))
-    )
-
-    rule.include = []
-    if (compile.include && Array.isArray(compile.include)) {
-      rule.include.push(...compile.include)
+  
+    if (Array.isArray(compile.exclude)) {
+      rule.exclude = [...compile.exclude]
     }
-    rule.include.push(sourceDir, (filename) => /taro/.test(filename))
 
     if (this.combination.config.experimental?.compileMode === true) {
       rule.use.compilerLoader = WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniCompilerLoader'), {

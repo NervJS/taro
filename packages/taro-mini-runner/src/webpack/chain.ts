@@ -392,17 +392,17 @@ export const getModule = (appPath: string, {
     }
   }
 
-  scriptRule.exclude = []
-  if (compile.exclude && Array.isArray(compile.exclude)) {
-    scriptRule.exclude.push(...compile.exclude)
+  scriptRule.include = [
+    sourceDir,
+    filename => /(?<=node_modules[\\/]).*taro/.test(filename)
+  ]
+  if (Array.isArray(compile.include)) {
+    scriptRule.include.unshift(...compile.include)
   }
-  scriptRule.exclude.push(filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename))))
 
-  scriptRule.include = []
-  if (compile.include && Array.isArray(compile.include)) {
-    scriptRule.include.push(...compile.include)
+  if (Array.isArray(compile.exclude)) {
+    scriptRule.exclude = [...compile.exclude]
   }
-  scriptRule.include.push(sourceDir, filename => /taro/.test(filename))
 
   const rule: Record<string, IRule> = {
     sass: {
