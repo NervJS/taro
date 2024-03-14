@@ -140,6 +140,6 @@ declare module './index' {
     /** 页面的组件选项 */
     options?: Record<string, unknown>
     /** 获得一个 EventChannel 对象，用于页面间通讯 */
-    getOpenerEventChannel?(): Record<string, any>;
+    getOpenerEventChannel?(): Record<string, any>
   }
 }
