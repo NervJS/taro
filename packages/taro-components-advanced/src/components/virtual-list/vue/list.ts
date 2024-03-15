@@ -35,6 +35,10 @@ export default defineComponent({
       type: [Number, Function],
       required: true
     },
+    queryPrefix: {
+      type: String,
+      default: ''
+    },
     unlimitedSize: {
       type: Boolean,
       default: false
@@ -133,7 +137,7 @@ export default defineComponent({
         } else {
           option.top = scrollOffset
         }
-        return getScrollViewContextNode(`#${this.preset.id}`).then((node: any) => node.scrollTo(option))
+        return getScrollViewContextNode(`${this.$props.queryPrefix}#${this.preset.id}`).then((node: any) => node.scrollTo(option))
       }
 
       this.scrollDirection = this.scrollOffset < scrollOffset ? 'forward' : 'backward'
@@ -209,7 +213,7 @@ export default defineComponent({
       return new Promise((resolve) => {
         if (index >= 0 && index < this.$props.itemCount) {
           const times = this.itemList.compareSize(index) ? 0 : 2
-          getRectSizeSync(`#${this.preset.id}-${index}`, 100, times).then(({ width, height }) => {
+          getRectSizeSync(`${this.$props.queryPrefix}#${this.preset.id}-${index}`, 100, times).then(({ width, height }) => {
             const size = isHorizontal ? width : height
             if (typeof size === 'number' && size > 0 && !this.itemList.compareSize(index, size)) {
               this.itemList.setSize(index, size)
