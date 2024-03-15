@@ -31,9 +31,7 @@ export function shouldBindEvent (cb: TFunc, node: TaroElement | null, eventNames
 }
 
 export function getNodeThresholds (node: TaroElement): number[] | null {
-  if (!node) return null
-
-  return node?._nodeInfo.thresholds || null
+  return node?._nodeInfo?.thresholds || null
 }
 
 

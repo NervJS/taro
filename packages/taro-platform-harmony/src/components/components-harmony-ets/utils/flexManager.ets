@@ -14,7 +14,7 @@ class FlexManager {
   static isFlexNode (node: TaroElement): boolean {
     return !!node.hmStyle?.display?.includes('flex')
   }
-  
+
   static convertFlexAlignItemsToColumnOrRow (direction: FlexDirection, alignItems: ItemAlign | undefined): 	VerticalAlign | HorizontalAlign {
     if (direction === FlexDirection.Column) {
       switch (alignItems) {
@@ -38,7 +38,7 @@ class FlexManager {
   }
 
   static flexOptions (node: TaroElement): IFlexOptions {
-    const hmStyle = node.hmStyle
+    const hmStyle = node.hmStyle || {}
     const isFlex = FlexManager.isFlexNode(node)
     const justifyContent: FlexAlign = isFlex ? (isUndefined(hmStyle.justifyContent) ? FlexAlign.Start : hmStyle.justifyContent) : FlexAlign.Start
 

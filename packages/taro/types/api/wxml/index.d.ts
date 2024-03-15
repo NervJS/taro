@@ -66,19 +66,25 @@ declare module '../../index' {
   }
 
   namespace IntersectionObserver {
-    /** 监听相交状态变化的回调函数 */
+    /** 监听相交状态变化的回调函数
+     * @description Harmony 找不到对应元素时，回调会返回一个 Error 对象
+     */
     type ObserveCallback = (result: ObserveCallbackResult) => void
-    interface ObserveCallbackResult {
+    interface ObserveCallbackResult extends TaroGeneral.CallbackResult {
+      /** 错误信息，会在找不到对应元素时返回
+       * @supported harmony
+       */
+      errMsg?: string
       /** 目标边界 */
-      boundingClientRect: BoundingClientRectResult
+      boundingClientRect?: BoundingClientRectResult
       /** 相交比例 */
-      intersectionRatio: number
+      intersectionRatio?: number
       /** 相交区域的边界 */
-      intersectionRect: IntersectionRectResult
+      intersectionRect?: IntersectionRectResult
       /** 参照区域的边界 */
-      relativeRect: RelativeRectResult
+      relativeRect?: RelativeRectResult
       /** 相交检测时的时间戳 */
-      time: number
+      time?: number
     }
     /** 参照区域的边界 */
     interface RelativeRectResult {

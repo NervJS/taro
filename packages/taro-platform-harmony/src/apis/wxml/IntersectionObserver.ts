@@ -45,7 +45,7 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
 
   public observe (targetSelector: string, callback: Taro.IntersectionObserver.ObserveCallback): void {
     if (!this._component) return
-    
+
     const { observeAll, thresholds } = this._options
     const node = findChildNodeWithDFS(this._component, targetSelector, observeAll)
     this._observerNodes = node
@@ -68,6 +68,10 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
           callback(this.handleResult(isVisible, currentRatio))
         })
       }
+    } else {
+      callback({
+        errMsg: 'IntersectionObserver.observe:fail cannot find the node for selector.'
+      })
     }
   }
 
