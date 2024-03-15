@@ -1,6 +1,7 @@
 /* eslint-disable dot-notation */
 import {
-  EMPTY_OBJ, ensure, getComponentsAlias, hooks, internalComponents,
+  EMPTY_OBJ, ensure, EventChannel,
+  getComponentsAlias, hooks, internalComponents,
   isArray, isFunction, isString, isUndefined, Shortcuts
 } from '@tarojs/shared'
 
@@ -227,6 +228,12 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       safeExecute(this.$taroPath, ON_HIDE)
       // 通过事件触发子组件的生命周期
       eventCenter.trigger(getOnHideEventKey(id))
+    }
+  }
+
+  if (process.env.TARO_PLATFORM === 'web') {
+    config.getOpenerEventChannel = () => {
+      return EventChannel.pageChannel
     }
   }
 
