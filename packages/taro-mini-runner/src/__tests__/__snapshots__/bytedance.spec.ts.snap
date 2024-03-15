@@ -24,8 +24,8 @@ require("./taro");
         function isFunction() {}
         function isArray() {}
         function processApis() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
+        const EMPTY_OBJ = {};
+        const hooks = {};
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -33,7 +33,7 @@ require("./taro");
         function connectVuePage() {}
         function createVueApp() {}
         function createVue3App() {}
-        var setGlobalDataPlugin = {};
+        const setGlobalDataPlugin = {};
         function useDidHide() {}
         function useDidShow() {}
         function useError() {}
@@ -56,13 +56,13 @@ require("./taro");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ "applyRefund", "canRateAwemeOrders", "checkFollowAwemeState", "checkFollowState", "continueToPay", "createOrder", "exitMiniProgram", "followAwemeUser", "followOfficialAccount", "getMenuButtonLayout", "getUserProfile", "hideInteractionBar", "navigateToVideoView", "openAwemeUserProfile", "openEcGood", "openWebcastRoom", "pay", "rateAwemeOrder", "showDouyinOpenAuth", "showInteractionBar" ]);
-        var apiDiff = {
+        const needPromiseApis = new Set([ "applyRefund", "canRateAwemeOrders", "checkFollowAwemeState", "checkFollowState", "continueToPay", "createOrder", "exitMiniProgram", "followAwemeUser", "followOfficialAccount", "getMenuButtonLayout", "getUserProfile", "hideInteractionBar", "navigateToVideoView", "openAwemeUserProfile", "openEcGood", "openWebcastRoom", "pay", "rateAwemeOrder", "showDouyinOpenAuth", "showInteractionBar" ]);
+        const apiDiff = {
             showToast: {
                 options: {
                     set: [ {
                         key: "icon",
-                        value: function value(options) {
+                        value(options) {
                             return options.icon === "error" ? "fail" : options.icon;
                         }
                     } ]
@@ -70,29 +70,29 @@ require("./taro");
             }
         };
         function transformMeta(api, options) {
-            var apiAlias = api;
-            Object.keys(apiDiff).forEach((function(item) {
-                var apiItem = apiDiff[item];
+            let apiAlias = api;
+            Object.keys(apiDiff).forEach(item => {
+                const apiItem = apiDiff[item];
                 if (api === item) {
                     if (apiItem.alias) {
                         apiAlias = apiItem.alias;
                     }
                     if (apiItem.options) {
-                        var change = apiItem.options.change;
-                        var set = apiItem.options.set;
+                        const change = apiItem.options.change;
+                        const set = apiItem.options.set;
                         if (change) {
-                            change.forEach((function(changeItem) {
+                            change.forEach(changeItem => {
                                 options[changeItem.new] = options[changeItem.old];
-                            }));
+                            });
                         }
                         if (set) {
-                            set.forEach((function(setItem) {
+                            set.forEach(setItem => {
                                 options[setItem.key] = typeof setItem.value === "function" ? setItem.value(options) : setItem.value;
-                            }));
+                            });
                         }
                     }
                 }
-            }));
+            });
             return {
                 key: apiAlias,
                 options: options
@@ -104,10 +104,10 @@ require("./taro");
                 transformMeta: transformMeta
             });
         }
-        var _true = "!0";
-        var _false = "!1";
-        var _empty = "";
-        var components = {
+        const _true = "!0";
+        const _false = "!1";
+        const _empty = "";
+        const components = {
             Icon: {
                 size: "24"
             },
@@ -271,14 +271,14 @@ require("./taro");
                 bindError: _empty
             }
         };
-        var hostConfig = {
+        const hostConfig = {
             initNativeApi: initNativeApi,
-            modifyMpEventImpl: function modifyMpEventImpl(event) {
+            modifyMpEventImpl(event) {
                 if (event.type === "regionchange") {
                     event.type = event.detail.type;
                 }
             },
-            modifyTaroEventReturn: function modifyTaroEventReturn(node, event, returnVal) {
+            modifyTaroEventReturn(node, event, returnVal) {
                 if (node.nodeName === "pay-button") {
                     if (event.type === "applyrefund" || event.type === "getgoodsinfo") {
                         return returnVal;
