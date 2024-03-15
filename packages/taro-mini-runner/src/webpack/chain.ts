@@ -392,19 +392,16 @@ export const getModule = (appPath: string, {
     }
   }
 
-  if (compile.exclude && compile.exclude.length) {
-    scriptRule.exclude = [
-      ...compile.exclude,
-      filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
-    ]
-  } else if (compile.include && compile.include.length) {
-    scriptRule.include = [
-      ...compile.include,
-      sourceDir,
-      filename => /taro/.test(filename)
-    ]
-  } else {
-    scriptRule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
+  scriptRule.include = [
+    sourceDir,
+    filename => /(?<=node_modules[\\/]).*taro/.test(filename)
+  ]
+  if (Array.isArray(compile.include)) {
+    scriptRule.include.unshift(...compile.include)
+  }
+
+  if (Array.isArray(compile.exclude)) {
+    scriptRule.exclude = [...compile.exclude]
   }
 
   const rule: Record<string, IRule> = {
@@ -448,7 +445,7 @@ export const getModule = (appPath: string, {
             // 否则，证明是外层，存在一下两种可能
             // resourcePath /xxx/uuu/aaa/node_modules/yy/zzz.wxml
             // --> result: npm/yy/zzz.wxml
-            
+
             // resourcePath /xxx/uuu/aaa/bbb/abc/yy/zzz.wxml
             // --> result: bbb/abc/yy/zzz.wxml
             return resourcePath.replace(appPath + '/', '').replace(/node_modules/gi, 'npm')
