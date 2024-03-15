@@ -132,6 +132,7 @@ export class TaroNode extends TaroDataSourceElement {
     } else if (this.nodeType === NodeType.ELEMENT_NODE) {
       const node = new TaroTextNode(value)
       node._doc = this.ownerDocument
+      node.parentNode = this
       this.childNodes = [node]
     }
   }
@@ -175,10 +176,10 @@ export class TaroNode extends TaroDataSourceElement {
     return child
   }
 
-  public insertBefore (newNode: TaroNode, referenceNode: TaroNode | null): TaroNode {
+  public insertBefore (newNode: TaroNode, referenceNode?: TaroNode): TaroNode {
     newNode.parentNode?.removeChild(newNode)
 
-    if (referenceNode === null) {
+    if (!referenceNode) {
       this.appendChild(newNode)
     } else {
       const idxOfRef = this.findIndex(referenceNode)

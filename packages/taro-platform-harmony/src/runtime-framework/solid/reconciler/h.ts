@@ -120,6 +120,7 @@ function insertNodes(parent: TaroNode, children: Children) {
     if (type === 'string') {
       const node = createTextNode(child as unknown as string)
       insertNode(parent, node)
+      node.parentNode = parent
       continue
     }
 
