@@ -11,3 +11,8 @@ export interface Option extends Base {
 export interface NavigateBackOption extends Base {
   delta: number
 }
+
+ export interface NavigateOption extends BaseOption {
+  url: string
+  events?: Record<string, any>
+}

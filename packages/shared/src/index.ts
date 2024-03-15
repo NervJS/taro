@@ -1,5 +1,6 @@
 export * from './components'
 export * from './constants'
+export * from './event-channel'
 export * from './event-emitter'
 export * from './is'
 export * from './native-apis'

@@ -1,4 +1,4 @@
-import { Events } from './emmiter'
+import { Events } from './event-emitter'
 
 interface ExeListItem {
   eventName: string
@@ -41,7 +41,7 @@ const pageChannel: PageEvt = new PageEvts()
 
 class RouteEvts extends Events {
   emit (events, data) {
-    pageChannel.off(events, null, null)
+    pageChannel.off(events)
     pageChannel.exeList.push({
       eventName: events,
       data
@@ -51,7 +51,7 @@ class RouteEvts extends Events {
   addEvents (events) {
     if (!events || typeof events !== 'object') return
     Object.keys(events).forEach(key => {
-      this.off(key, null, null)
+      this.off(key)
       this.on(key, events[key], this)
     })
   }
@@ -59,7 +59,4 @@ class RouteEvts extends Events {
 
 const routeChannel: RouteEvt = new RouteEvts()
 
-export default {
-  routeChannel,
-  pageChannel
-}
+export const EventChannel = { pageChannel, routeChannel }
