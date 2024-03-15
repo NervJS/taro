@@ -18,6 +18,12 @@ const config = {
   framework: 'react',
   defineConstants: {
   },
+  compiler: {
+    type: 'webpack5',
+    prebundle: {
+      enable: false
+    }
+  },
   mini: {
     postcss: {
       autoprefixer: {
