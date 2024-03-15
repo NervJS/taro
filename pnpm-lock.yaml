@@ -3017,6 +3017,9 @@ importers:
       '@tarojs/runtime':
         specifier: workspace:*
         version: link:../taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -3163,6 +3166,9 @@ importers:
       '@tarojs/router-rn':
         specifier: workspace:*
         version: link:../taro-router-rn
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       react-native-device-info:
         specifier: ~10.3.0
         version: registry.npmjs.org/react-native-device-info@10.3.1
