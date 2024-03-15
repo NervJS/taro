@@ -1433,6 +1433,8 @@ importers:
         specifier: 18.1.0
         version: registry.npmjs.org/react-test-renderer@18.1.0(react@18.1.0)
 
+  packages/taro-components/dist/hydrate: {}
+
   packages/taro-components/loader: {}
 
   packages/taro-extend:
@@ -3015,6 +3017,9 @@ importers:
       '@tarojs/runtime':
         specifier: workspace:*
         version: link:../taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -3161,6 +3166,9 @@ importers:
       '@tarojs/router-rn':
         specifier: workspace:*
         version: link:../taro-router-rn
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       react-native-device-info:
         specifier: ~10.3.0
         version: registry.npmjs.org/react-native-device-info@10.3.1

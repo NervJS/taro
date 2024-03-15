@@ -27,8 +27,8 @@ require("./taro");
         function isFunction() {}
         function isArray() {}
         function processApis() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
+        const EMPTY_OBJ = {};
+        const hooks = {};
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -36,7 +36,7 @@ require("./taro");
         function connectVuePage() {}
         function createVueApp() {}
         function createVue3App() {}
-        var setGlobalDataPlugin = {};
+        const setGlobalDataPlugin = {};
         function useDidHide() {}
         function useDidShow() {}
         function useError() {}
@@ -59,36 +59,36 @@ require("./taro");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ "addEventOnCalendar", "chooseAlbum", "closeCommunityEditor", "getSwanId", "requestPolymerPayment", "navigateBackSmartProgram", "navigateToSmartProgram", "setPageInfo", "closeReplyEditor", "deleteBookShelf", "deleteEventOnCalendar", "getSystemRiskInfo", "insertBookshelf", "loadSubPackage", "openCommunityEditor", "openReplyEditor", "openShare", "setDocumentTitle", "setMetaDescription", "setMetaKeywords", "shareFile", "subscribeService", "updateBookshelfReadTime" ]);
-        var apiDiff = {
+        const needPromiseApis = new Set([ "addEventOnCalendar", "chooseAlbum", "closeCommunityEditor", "getSwanId", "requestPolymerPayment", "navigateBackSmartProgram", "navigateToSmartProgram", "setPageInfo", "closeReplyEditor", "deleteBookShelf", "deleteEventOnCalendar", "getSystemRiskInfo", "insertBookshelf", "loadSubPackage", "openCommunityEditor", "openReplyEditor", "openShare", "setDocumentTitle", "setMetaDescription", "setMetaKeywords", "shareFile", "subscribeService", "updateBookshelfReadTime" ]);
+        const apiDiff = {
             login: {
                 alias: "getLoginCode"
             }
         };
         function transformMeta(api, options) {
-            var apiAlias = api;
-            Object.keys(apiDiff).forEach((function(item) {
-                var apiItem = apiDiff[item];
+            let apiAlias = api;
+            Object.keys(apiDiff).forEach(item => {
+                const apiItem = apiDiff[item];
                 if (api === item) {
                     if (apiItem.alias) {
                         apiAlias = apiItem.alias;
                     }
                     if (apiItem.options) {
-                        var change = apiItem.options.change;
-                        var set = apiItem.options.set;
+                        const change = apiItem.options.change;
+                        const set = apiItem.options.set;
                         if (change) {
-                            change.forEach((function(changeItem) {
+                            change.forEach(changeItem => {
                                 options[changeItem.new] = options[changeItem.old];
-                            }));
+                            });
                         }
                         if (set) {
-                            set.forEach((function(setItem) {
+                            set.forEach(setItem => {
                                 options[setItem.key] = typeof setItem.value === "function" ? setItem.value(options) : setItem.value;
-                            }));
+                            });
                         }
                     }
                 }
-            }));
+            });
             return {
                 key: apiAlias,
                 options: options
@@ -100,7 +100,7 @@ require("./taro");
                 transformMeta: transformMeta
             });
         }
-        var components = {
+        const components = {
             Progress: {
                 "border-radius": "0",
                 "font-size": "16",
@@ -317,26 +317,26 @@ require("./taro");
                 bindError: ""
             }
         };
-        var hostConfig = {
+        const hostConfig = {
             initNativeApi: initNativeApi,
-            getPathIndex: function getPathIndex(indexOfNode) {
-                return "".concat(indexOfNode);
+            getPathIndex(indexOfNode) {
+                return \`\${indexOfNode}\`;
             },
-            getSpecialNodes: function getSpecialNodes() {
+            getSpecialNodes() {
                 return [ "text", "image" ];
             },
-            modifyTaroEvent: function modifyTaroEvent(event, node) {
+            modifyTaroEvent(event, node) {
                 if (node.tagName === "MAP" && event.type === "regionchange") {
                     event.type = "end";
                 }
             },
-            getMiniLifecycle: function getMiniLifecycle(config) {
+            getMiniLifecycle(config) {
                 config.page[0] = "onInit";
                 return config;
             }
         };
         mergeReconciler(hostConfig);
-        var internalComponents = mergeInternalComponents(components);
+        const internalComponents = mergeInternalComponents(components);
         delete internalComponents.Input.cursor;
         delete internalComponents.Input["selection-start"];
         delete internalComponents.Input["selection-end"];
@@ -409,14 +409,6 @@ require("./taro");
   <block s-for="root.cn trackBy item.sid">
     <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
   </block>
-</template>
-
-<template name="tmpl_0_0">
-  <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block s-for="i.cn trackBy item.sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
-    </block>
-  </view>
 </template>
 
 <template name="tmpl_0_7">

@@ -24,8 +24,8 @@ require("./taro");
         function isFunction() {}
         function isArray() {}
         function processApis() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
+        const EMPTY_OBJ = {};
+        const hooks = {};
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -33,7 +33,7 @@ require("./taro");
         function connectVuePage() {}
         function createVueApp() {}
         function createVue3App() {}
-        var setGlobalDataPlugin = {};
+        const setGlobalDataPlugin = {};
         function useDidHide() {}
         function useDidShow() {}
         function useError() {}
@@ -65,7 +65,7 @@ require("./taro");
                 }
             };
         }
-        var components = {
+        const components = {
             Swiper: {
                 "easing-function": undefined("default")
             },
@@ -89,7 +89,7 @@ require("./taro");
                 "adjust-position": "true"
             }
         };
-        var hostConfig = {
+        const hostConfig = {
             initNativeApi: initNativeApi
         };
         mergeReconciler(hostConfig);
