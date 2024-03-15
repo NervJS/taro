@@ -110,4 +110,9 @@ export class CallbackManager<T extends unknown[] = unknown[]> {
       }
     })
   }
+
+  /** 清空所有回调 */
+  clear = () => {
+    this.callbacks = []
+  }
 }
