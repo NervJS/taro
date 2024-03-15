@@ -278,6 +278,7 @@ export function createNativePageConfig (Component, pageName: string, react: type
         safeExecute(this.$taroPath, ON_READY)
         // 通过事件触发子组件的生命周期
         requestAnimationFrame(() => eventCenter.trigger(getOnReadyEventKey(id)))
+        this.onReady = {}
         this.onReady.called = true
       })
     },

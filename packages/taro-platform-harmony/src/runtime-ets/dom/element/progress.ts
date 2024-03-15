@@ -8,6 +8,5 @@ export class TaroProgressElement extends TaroElement<ProgressProps> {
 
   constructor() {
     super('Progress')
-
   }
 }

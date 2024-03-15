@@ -4,12 +4,13 @@ import type { VideoProps } from '@tarojs/components/types'
 
 @Observed
 export class TaroVideoElement extends TaroElement<VideoProps> {
-  _currentTime = 0
 
   controller: VideoController = new VideoController()
 
   constructor() {
     super('Video')
+
+    this._nodeInfo._currentTime = 0
   }
 
   async play() {
@@ -40,11 +41,11 @@ export class TaroVideoElement extends TaroElement<VideoProps> {
   }
 
   get currentTime() {
-    return this._currentTime
+    return this._nodeInfo._currentTime
   }
 
   set currentTime(val: number) {
-    this._currentTime = val
+    this._nodeInfo._currentTime = val
     this.controller.setCurrentTime(val)
   }
 }

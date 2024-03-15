@@ -73,7 +73,7 @@ function getVideoProps (node: TaroVideoElement): VideoAttrs {
 }
 
 function handleUpdate (node: TaroVideoElement, e: VideoUpdateEvent) {
-  node._currentTime = e.time
+  node._nodeInfo._currentTime = e.time
 
   emitEvent(node, 'timeUpdate', { currentTime: e.time})
 }

@@ -50,7 +50,7 @@ function tapCallbackToNodeAndUpdate (node: TaroElement, eventName: string, callb
     callback && callback(...eventResult)
   }
 
-  if (!node._isDynamicNode || !node._isCompileMode) {
+  if (!node._isDynamicNode && node._isCompileMode) {
     node.updateComponent()
   }
 }

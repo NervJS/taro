@@ -35,8 +35,6 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
 
   _name = ''
 
-  _value: TaroAny = ''
-
   _reset: TaroAny = ''
 
   constructor (tagName: string) {
@@ -45,7 +43,7 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
     bindFocus(this)
 
     this._name = this._attrs.name || ''
-    this._value = this._attrs.value || ''
+    this._nodeInfo._value = this._attrs.value || ''
   }
 
   public setAttribute (name: string, value: any): void {
@@ -66,11 +64,10 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
 
   public set name (val: string) {
     this.updateFormWidgetName(val)
-    this.updateComponent()
   }
 
   public get value () {
-    return this._value
+    return this._nodeInfo._value
   }
 
   public set value (val: TaroAny) {
@@ -78,8 +75,6 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
 
     if (this._instance) {
       this._instance.value = val
-    } else {
-      this.updateComponent()
     }
   }
 
@@ -89,7 +84,7 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
   }
 
   public updateFormWidgetValue (val: TaroAny) {
-    this._value = val
+    this._nodeInfo._value = val
     this._attrs.value = val
   }
 
@@ -121,7 +116,6 @@ class TaroCheckedElement<T extends StandardProps & { checked?: boolean } = Stand
 
   set checked (val: boolean) {
     this.updateCheckedValue(val)
-    this.updateComponent()
   }
 
   public updateCheckedValue (val: boolean) {
@@ -220,12 +214,10 @@ class TaroRadioElement extends TaroCheckedElement<RadioProps>{
 
 @Observed
 class TaroSliderElement extends TaroFormWidgetElement<SliderProps> {
-  _value = 0
-
   constructor() {
     super('Slider')
 
-    this._value = Number(this._attrs.value || 0)
+    this._nodeInfo._value = Number(this._attrs.value || 0)
   }
 }
 @Observed

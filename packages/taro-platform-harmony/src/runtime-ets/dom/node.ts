@@ -77,10 +77,8 @@ export class TaroNode extends TaroDataSourceElement {
 
   // 更新对应的 ArkUI 组件
   public updateComponent () {
-    if (!this._isCompileMode) return
-
-    // 半编译模式下走 @State 的更新模式
-    if (this._isDynamicNode) {
+    // 非半编译模式或者半编译模式下拥有自主更新权力的节点走 @State 的更新模式
+    if (this._isDynamicNode || !this._isCompileMode) {
       this._updateTrigger++
     } else {
       this.parentNode?.updateComponent()
@@ -128,11 +126,12 @@ export class TaroNode extends TaroDataSourceElement {
   public set textContent (value: string) {
     if (this.nodeType === NodeType.TEXT_NODE) {
       this._textContent = value
-      this.parentNode?.updateComponent()
     } else if (this.nodeType === NodeType.ELEMENT_NODE) {
       const node = new TaroTextNode(value)
       node._doc = this.ownerDocument
-      this.childNodes = [node]
+      node.parentNode = this
+      this.childNodes.length = 0
+      this.childNodes.push(node)
     }
   }
 
@@ -150,7 +149,6 @@ export class TaroNode extends TaroDataSourceElement {
   public set nodeValue (value: string | null) {
     if (this.nodeType === NodeType.TEXT_NODE && value) {
       this.textContent = value
-      this.parentNode?.updateComponent()
     }
   }
 
@@ -163,11 +161,13 @@ export class TaroNode extends TaroDataSourceElement {
   }
 
   // TODO cloneNode()、contains()
-
-  public appendChild (child: TaroNode): TaroNode {
+  public connectParentNode (child: TaroNode) {
     child.parentNode?.removeChild(child)
     child.parentNode = this
+  }
 
+  public appendChild (child: TaroNode): TaroNode {
+    this.connectParentNode(child)
     this.childNodes.push(child)
     this.notifyDataAdd(this.childNodes.length - 1)
 
@@ -183,6 +183,7 @@ export class TaroNode extends TaroDataSourceElement {
     } else {
       const idxOfRef = this.findIndex(referenceNode)
       this.childNodes.splice(idxOfRef, 0, newNode)
+      this.connectParentNode(newNode)
       // TODO: 优化
       this.notifyDataReload()
     }
