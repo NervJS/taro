@@ -167,16 +167,18 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
       publicPath,
       contentBase: outputPath,
       writeToDisk: config.isBuildNativeComp,
+      proxy,
+    },
+    baseDevServerOption,
+    customDevServerOption,
+    {
       historyApiFallback: {
         rewrites: [{
           from: /./,
           to: publicPath
         }]
-      },
-      proxy,
-    },
-    baseDevServerOption,
-    customDevServerOption
+      }
+    }
   )
 
   if (devServerOptions.proxy?.length < 1) {

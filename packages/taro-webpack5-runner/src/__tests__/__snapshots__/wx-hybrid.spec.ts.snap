@@ -14,7 +14,7 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    78: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    923: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -32,8 +32,8 @@ require("./runtime");
         function toDashed() {}
         function processApis() {}
         function singleQuote() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
+        const EMPTY_OBJ = {};
+        const hooks = {};
         function Events() {}
         function ensure() {}
         function noop() {}
@@ -514,13 +514,13 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(184);
-        var taro = __webpack_require__(946);
+        var taro_runtime = __webpack_require__(521);
+        var taro = __webpack_require__(39);
         var classCallCheck = __webpack_require__(517);
         var createClass = __webpack_require__(872);
         var inherits = __webpack_require__(557);
         var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(757);
+        var react = __webpack_require__(525);
         var app_App = function(_React$Component) {
             (0, inherits.Z)(App, _React$Component);
             var _super = (0, createSuper.Z)(App);
@@ -578,7 +578,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(78);
+        return __webpack_exec__(923);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1441,17 +1441,17 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    525: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
                 return Component;
             }
         });
-        var Component = {};
+        const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    521: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             createReactApp: function() {
@@ -1468,12 +1468,12 @@ require("./runtime");
             }
         });
         __webpack_exports__["default"] = "taro-runtime-mock";
-        var window = {};
+        const window = {};
         function createReactApp() {}
         function createVueApp() {}
         function createVue3App() {}
     },
-    946: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    39: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             J1: function() {
                 return initPxTransform;
@@ -1489,7 +1489,7 @@ require("./runtime");
         function connectVuePage() {}
         function createVueApp() {}
         function createVue3App() {}
-        var setGlobalDataPlugin = {};
+        const setGlobalDataPlugin = {};
         function useDidHide() {}
         function useDidShow() {}
         function useError() {}
@@ -1521,8 +1521,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    823: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
+    27: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(521);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -1530,7 +1530,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(823);
+        return __webpack_exec__(27);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1599,7 +1599,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    900: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    609: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var taro_components_namespaceObject = {};
         __webpack_require__.r(taro_components_namespaceObject);
         __webpack_require__.d(taro_components_namespaceObject, {
@@ -1607,24 +1607,24 @@ require("./runtime");
                 return View;
             }
         });
-        var taro_runtime = __webpack_require__(184);
+        var taro_runtime = __webpack_require__(521);
         var classCallCheck = __webpack_require__(517);
         var createClass = __webpack_require__(872);
         var inherits = __webpack_require__(557);
         var createSuper = __webpack_require__(361);
-        var taro = __webpack_require__(946);
-        var react = __webpack_require__(757);
-        var Canvas = {};
-        var CoverView = {};
-        var CoverImage = {};
-        var Input = {};
-        var Picker = {};
-        var Swiper = {};
-        var SwiperItem = {};
-        var Text = {};
-        var Textarea = {};
-        var Video = {};
-        var View = {};
+        var taro = __webpack_require__(39);
+        var react = __webpack_require__(525);
+        const Canvas = {};
+        const CoverView = {};
+        const CoverImage = {};
+        const Input = {};
+        const Picker = {};
+        const Swiper = {};
+        const SwiperItem = {};
+        const Text = {};
+        const Textarea = {};
+        const Video = {};
+        const View = {};
         var taro_components = "taro-components-mock";
         var Index = function(_React$Component) {
             (0, inherits.Z)(Index, _React$Component);
@@ -1701,7 +1701,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(900);
+        return __webpack_exec__(609);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);

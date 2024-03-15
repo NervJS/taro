@@ -21,8 +21,8 @@ export class MovableView {
    * 超过可移动区域后，是否还可以移动
    */
   @Prop() outOfBounds: boolean = false
-  /** 
-   * 是否带有惯性 
+  /**
+   * 是否带有惯性
    */
   @Prop() inertia: boolean = false
   /**
@@ -404,7 +404,10 @@ export class MovableView {
     if (this.disabled || !this.element || this.scaling || !this.touching || touches.length > 1) {
       return
     }
-    e.preventDefault()
+
+    if (this.direction !== "horizontal") {
+      e.preventDefault()
+    }
 
     const touch = touches[0]
 
