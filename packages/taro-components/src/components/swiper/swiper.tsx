@@ -199,16 +199,16 @@ export class Swiper implements ComponentInterface {
   watchSwiperWrapper (newVal?: HTMLElement) {
     if (!this.isWillLoadCalled) return
     if (!newVal) return
-    this.el.appendChild = <T extends Node>(newChild: T): T => {
+    this.el.appendChild = <T extends Node> (newChild: T): T => {
       return newVal.appendChild(newChild)
     }
-    this.el.insertBefore = <T extends Node>(newChild: T, refChild: Node | null): T => {
+    this.el.insertBefore = <T extends Node> (newChild: T, refChild: Node | null): T => {
       return newVal.insertBefore(newChild, refChild)
     }
-    this.el.replaceChild = <T extends Node>(newChild: Node, oldChild: T): T => {
+    this.el.replaceChild = <T extends Node> (newChild: Node, oldChild: T): T => {
       return newVal.replaceChild(newChild, oldChild)
     }
-    this.el.removeChild = <T extends Node>(oldChild: T): T => {
+    this.el.removeChild = <T extends Node> (oldChild: T): T => {
       return newVal.removeChild(oldChild)
     }
   }
@@ -235,7 +235,7 @@ export class Swiper implements ComponentInterface {
     await this.handleInit()
     Taro.eventCenter.on('swiperItemAdd', this.handleSwiperItemAdd)
     Taro.eventCenter.on('swiperItemRemove', (id: string) => {
-      if (this.swiperWrapper && id === `taro-swiper-${this.#id}`) {
+      if (id === `taro-swiper-${this.#id}` && this.swiperWrapper) {
         this.itemCount = [...this.swiperWrapper.childNodes].filter(i => i.nodeName === 'TARO-SWIPER-ITEM-CORE').length
       }
     })
@@ -348,7 +348,7 @@ export class Swiper implements ComponentInterface {
       >
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <slot />
+            <slot/>
           </div>
           {indicatorDots && (
             <div
