@@ -499,7 +499,8 @@ require("./runtime");
             transferHydrateData(data, element, componentsAlias) {
                 var _a;
                 if (element.isTransferElement) {
-                    const page = getCurrentPages()[0];
+                    const pages = getCurrentPages();
+                    const page = pages[pages.length - 1];
                     data["nn"] = element.dataName;
                     page.setData({
                         [toCamelCase(data.nn)]: data
@@ -2766,7 +2767,8 @@ require("./runtime");
             transferHydrateData(data, element, componentsAlias) {
                 var _a;
                 if (element.isTransferElement) {
-                    const page = getCurrentPages()[0];
+                    const pages = getCurrentPages();
+                    const page = pages[pages.length - 1];
                     data["nn"] = element.dataName;
                     page.setData({
                         [toCamelCase(data.nn)]: data
@@ -3886,7 +3888,8 @@ require("./runtime");
             transferHydrateData(data, element, componentsAlias) {
                 var _a;
                 if (element.isTransferElement) {
-                    const page = getCurrentPages()[0];
+                    const pages = getCurrentPages();
+                    const page = pages[pages.length - 1];
                     data["nn"] = element.dataName;
                     page.setData({
                         [toCamelCase(data.nn)]: data
