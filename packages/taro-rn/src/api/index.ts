@@ -6,6 +6,8 @@ export {
   useLoad,
   useReady,
   useUnload,
+  useLaunch,
+  usePageNotFound,
   useRouter,
   usePullDownRefresh,
   useReachBottom,

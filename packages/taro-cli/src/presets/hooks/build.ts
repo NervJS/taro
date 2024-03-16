@@ -1,6 +1,6 @@
-import { IPluginContext } from '@tarojs/service'
-
 import * as hooks from '../constant'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   [

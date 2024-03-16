@@ -1,7 +1,7 @@
 const path = require('path')
-const fs = require('fs')
 
 function hasBrowserslist () {
+  const fs = require('@tarojs/helper').fs
   const root = process.cwd()
   try {
     const pkg = require(path.resolve(root, 'package.json'))
@@ -33,19 +33,22 @@ module.exports = (_, options = {}) => {
   const isVue = options.framework === 'vue'
   const isVue3 = options.framework === 'vue3'
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
+  const presetReactConfig = options.react || {}
 
   if (isNerv) {
     presets.push([require('@babel/preset-react'), {
       pragma: `${moduleName}.createElement`,
-      pragmaFrag: `${moduleName}.Fragment`
+      pragmaFrag: `${moduleName}.Fragment`,
+      ...presetReactConfig
     }])
   }
 
   if (isReact) {
     presets.push([require('@babel/preset-react'), {
-      runtime: options.reactJsxRuntime || 'automatic'
+      runtime: options.reactJsxRuntime || 'automatic',
+      ...presetReactConfig
     }])
-    if (process.env.TARO_ENV === 'h5' && process.env.NODE_ENV !== 'production' && options.hot !== false) {
+    if (process.env.TARO_PLATFORM === 'web' && process.env.NODE_ENV !== 'production' && options.hot !== false) {
       if (options.framework === 'react') {
         plugins.push([require('react-refresh/babel'), { skipEnvCheck: true }])
       } else if (options.framework === 'preact') {
@@ -69,7 +72,7 @@ module.exports = (_, options = {}) => {
   }
 
   if (options.ts) {
-    const config = {}
+    const config = typeof options.ts === 'object' ? options.ts : {}
     if (isNerv || isReact) {
       config.jsxPragma = moduleName
     }
@@ -175,14 +178,7 @@ module.exports = (_, options = {}) => {
     version
   }])
 
-  if (process.env.TARO_ENV === 'h5') {
-    const apis = require('@tarojs/taro-h5/dist/taroApis')
-    plugins.push([require('babel-plugin-transform-taroapi'), {
-      packageName: '@tarojs/taro',
-      apis
-    }])
-  }
-  if (typeof options['dynamic-import-node'] === 'boolean' ? options['dynamic-import-node'] : process.env.TARO_ENV !== 'h5') {
+  if (typeof options['dynamic-import-node'] === 'boolean' ? options['dynamic-import-node'] : process.env.TARO_PLATFORM !== 'web') {
     plugins.push([require('babel-plugin-dynamic-import-node')])
   }
 

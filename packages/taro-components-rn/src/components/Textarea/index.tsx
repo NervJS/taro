@@ -15,7 +15,7 @@ import Input from '../Input'
 import { omit } from '../../utils'
 import { TextareaProps } from './PropsType'
 
-const _Textarea: React.FC<TextareaProps> = (props: TextareaProps) => {
+const _Textarea: React.FC<TextareaProps> = (props) => {
   const { autoHeight, autoFocus, focus, maxlength, onLineChange } = props
   const textearaProps = omit(props, [
     'type',

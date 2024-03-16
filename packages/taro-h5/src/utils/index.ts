@@ -1,10 +1,11 @@
 /* eslint-disable prefer-promise-reject-errors */
 import Taro from '@tarojs/api'
-import { Current, hooks, TaroElement } from '@tarojs/runtime'
+import { Current, getCurrentPage, getHomePage, hooks } from '@tarojs/runtime'
+import { isFunction } from '@tarojs/shared'
 
 import { MethodHandler } from './handler'
 
-export const isProd = process.env.NODE_ENV === 'production'
+import type { TaroElement } from '@tarojs/runtime'
 
 export function shouldBeObject (target: unknown) {
   if (target && typeof target === 'object') return { flag: true }
@@ -42,18 +43,15 @@ interface IParameterErrorParam {
   para?: string
   correct?: string
   wrong?: unknown
+  level?: 'warn' | 'error' | 'log' | 'info' | 'debug'
 }
-export function getParameterError ({ name = '', para, correct, wrong }: IParameterErrorParam) {
+export function getParameterError ({ name = '', para, correct, wrong, level = 'error' }: IParameterErrorParam) {
   const parameter = para ? `parameter.${para}` : 'parameter'
   const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
-  if (name) {
-    return `${name}:fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
-  } else {
-    return `parameter error: ${parameter} should be ${correct} instead of ${errorType}`
-  }
+  return `${name ? `${name}:fail ` : ''}parameter ${level}: ${parameter} should be ${correct} instead of ${errorType}`
 }
 
-function upperCaseFirstLetter (string) {
+export function upperCaseFirstLetter (string) {
   if (typeof string !== 'string') return string
   string = string.replace(/^./, match => match.toUpperCase())
   return string
@@ -96,7 +94,7 @@ export function temporarilyNotSupport (name = '') {
       type: 'method',
       category: 'temporarily',
     })
-    if (isProd) {
+    if (process.env.NODE_ENV === 'production') {
       console.warn(errMsg)
       return handle.success({ errMsg })
     } else {
@@ -116,7 +114,7 @@ export function weixinCorpSupport (name: string) {
       type: 'method',
       category: 'weixin_corp',
     })
-    if (isProd) {
+    if (process.env.NODE_ENV === 'production') {
       console.warn(errMsg)
       return handle.success({ errMsg })
     } else {
@@ -136,7 +134,7 @@ export function permanentlyNotSupport (name = '') {
       type: 'method',
       category: 'permanently',
     })
-    if (isProd) {
+    if (process.env.NODE_ENV === 'production') {
       console.warn(errMsg)
       return handle.success({ errMsg })
     } else {
@@ -165,7 +163,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
     // @ts-ignore
     const targetApi = window?.wx?.[name]
     const opts = formatOptions(Object.assign({}, defaultOptions, options))
-    if (typeof targetApi === 'function') {
+    if (isFunction(targetApi)) {
       return new Promise<TResult>((resolve, reject) => {
         ['fail', 'success', 'complete'].forEach(k => {
           opts[k] = preRef => {
@@ -180,7 +178,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
           return targetApi(opts)
         })
       })
-    } else if (typeof standardMethod === 'function') {
+    } else if (isFunction(standardMethod)) {
       return standardMethod(opts)
     } else {
       return notSupported(options, ...args) as Promise<TResult>
@@ -188,6 +186,22 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
   }
 }
 
+/**
+ * 获取当前页面路径
+ * @returns
+ */
+export function getCurrentPath (): string {
+  const appConfig = (window as any).__taroAppConfig || {}
+  const routePath = getCurrentPage(appConfig.router?.mode, appConfig.router?.basename)
+  const homePath = getHomePage(appConfig.routes?.[0]?.path, appConfig.router?.basename, appConfig.router?.customRoutes, appConfig.entryPagePath)
+
+  /**
+   * createPageConfig 时根据 stack 的长度来设置 stamp 以保证页面 path 的唯一，此函数是在 createPageConfig 之前调用，预先设置 stamp=1
+   * url 上没有指定应用的启动页面时使用 homePath
+   */
+  return `${routePath === '/' ? homePath : routePath}?stamp=1`
+}
+
 export * from './animation'
-export * from './lodash'
+export * from './helper'
 export * from './valid'

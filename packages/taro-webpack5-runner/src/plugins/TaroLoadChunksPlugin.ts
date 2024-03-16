@@ -5,10 +5,10 @@ import {
 import { toDashed } from '@tarojs/shared'
 import { sources } from 'webpack'
 
-import { componentConfig } from '../template/component'
-import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
+import { componentConfig } from '../utils/component'
+import { addRequireToSource, chunkHasJs, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 
-import type { Chunk, ChunkGraph, Compilation, Compiler } from 'webpack'
+import type { Chunk, Compilation, Compiler } from 'webpack'
 import type { AddPageChunks, IComponent } from '../utils/types'
 import type TaroNormalModule from './TaroNormalModule'
 
@@ -118,7 +118,8 @@ export default class TaroLoadChunksPlugin {
           }
 
           const entryModule: TaroNormalModule = chunkEntryModule.rootModule ?? chunkEntryModule
-          const { miniType } = entryModule
+          const { miniType, isNativePage } = entryModule
+
           if (this.needAddCommon.length) {
             for (const item of this.needAddCommon) {
               if (getChunkIdOrName(chunk) === item) {
@@ -132,7 +133,7 @@ export default class TaroLoadChunksPlugin {
           }
 
           if (this.isIndependentPackages &&
-            (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT)
+            (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT || isNativePage)
           ) {
             return addRequireToSource(getChunkIdOrName(chunk), modules, commonChunks)
           }
@@ -165,7 +166,7 @@ export default class TaroLoadChunksPlugin {
       if (module.rawRequest === taroJsComponents) {
         this.isCompDepsFound = true
         const includes = componentConfig.includes
-        const moduleUsedExports = moduleGraph.getUsedExports(module, undefined)
+        const moduleUsedExports = moduleGraph.getUsedExports(module, chunk.runtime)
         if (moduleUsedExports === null || typeof moduleUsedExports === 'boolean') {
           componentConfig.includeAll = true
         } else {
@@ -177,11 +178,4 @@ export default class TaroLoadChunksPlugin {
       }
     }
   }
-}
-
-function chunkHasJs (chunk: Chunk, chunkGraph: ChunkGraph) {
-  if (chunk.name === chunk.runtime) return true
-  if (chunkGraph.getNumberOfEntryModules(chunk) > 0) return true
-
-  return Boolean(chunkGraph.getChunkModulesIterableBySourceType(chunk, 'javascript'))
 }

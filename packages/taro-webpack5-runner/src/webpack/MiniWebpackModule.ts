@@ -11,10 +11,11 @@ import {
 import { cloneDeep } from 'lodash'
 import path from 'path'
 
-import { getPostcssPlugins } from '../postcss/postcss.mini'
+import { FILE_COUNTER_MAP } from '../plugins/MiniCompileModePlugin'
+import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.mini'
 import { WebpackModule } from './WebpackModule'
 
-import type { IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
+import type { Func, PostcssOption } from '@tarojs/taro/types/compile'
 import type { MiniCombination } from './MiniCombination'
 import type { CssModuleOptionConfig, IRule } from './WebpackModule'
 
@@ -27,23 +28,35 @@ type CSSLoaders = {
 
 export class MiniWebpackModule {
   combination: MiniCombination
+  __postcssOption: [string, any, Func?][]
 
   constructor (combination: MiniCombination) {
     this.combination = combination
   }
 
   getModules () {
-    const { config, sourceRoot, fileType } = this.combination
+    const { appPath, config, sourceRoot, fileType } = this.combination
     const {
       buildAdapter,
       sassLoaderOption,
       lessLoaderOption,
-      stylusLoaderOption
+      stylusLoaderOption,
+      designWidth,
+      deviceRatio
     } = config
 
     const { postcssOption, postcssUrlOption, cssModuleOption } = this.parsePostCSSOptions()
 
-    const cssLoaders = this.getCSSLoaders(postcssOption, cssModuleOption)
+    this.__postcssOption = getDefaultPostcssConfig({
+      designWidth,
+      deviceRatio,
+      postcssOption,
+      alias: config.alias,
+    })
+
+    const postcssPlugins = getPostcssPlugins(appPath, this.__postcssOption)
+
+    const cssLoaders = this.getCSSLoaders(postcssPlugins, cssModuleOption)
     const resolveUrlLoader = WebpackModule.getResolveUrlLoader()
     const sassLoader = WebpackModule.getSassLoader(sassLoaderOption)
     const scssLoader = WebpackModule.getScssLoader(sassLoaderOption)
@@ -67,7 +80,7 @@ export class MiniWebpackModule {
         test: REG_STYLUS,
         oneOf: this.addCSSLoader(cssLoaders, stylusLoader)
       },
-      nomorlCss: {
+      normalCss: {
         test: REG_CSS,
         oneOf: cssLoaders
       },
@@ -80,7 +93,7 @@ export class MiniWebpackModule {
         generator: {
           filename ({ filename }) {
             const extname = path.extname(filename)
-            return filename.replace(sourceRoot + '/', '').replace(extname, fileType.templ)
+            return filename.replace(sourceRoot + '/', '').replace(extname, fileType.templ).replace(/node_modules/gi, 'npm')
           }
         },
         use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniTemplateLoader'), {
@@ -93,7 +106,7 @@ export class MiniWebpackModule {
         type: 'asset/resource',
         generator: {
           filename ({ filename }) {
-            return filename.replace(sourceRoot + '/', '')
+            return filename.replace(sourceRoot + '/', '').replace(/node_modules/gi, 'npm')
           }
         },
         use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniXScriptLoader'))]
@@ -118,22 +131,16 @@ export class MiniWebpackModule {
     return cssLoadersCopy
   }
 
-  getCSSLoaders (postcssOption: IPostcssOption, cssModuleOption: PostcssOption.cssModules) {
-    const { appPath, config } = this.combination
+  getCSSLoaders (postcssPlugins: any[], cssModuleOption: PostcssOption.cssModules) {
+    const { config } = this.combination
     const {
-      designWidth = 750,
-      deviceRatio,
       cssLoaderOption
     } = config
     const extractCSSLoader = WebpackModule.getExtractCSSLoader()
     const cssLoader = WebpackModule.getCSSLoader(cssLoaderOption)
     const postCSSLoader = WebpackModule.getPostCSSLoader({
       postcssOptions: {
-        plugins: getPostcssPlugins(appPath, {
-          designWidth,
-          deviceRatio,
-          postcssOption
-        })
+        plugins: postcssPlugins
       }
     })
 
@@ -189,23 +196,28 @@ export class MiniWebpackModule {
   }
 
   getScriptRule () {
-    const { sourceDir } = this.combination
+    const { sourceDir, config } = this.combination
     const { compile = {} } = this.combination.config
     const rule: IRule = WebpackModule.getScriptRule()
 
-    if (compile.exclude && compile.exclude.length) {
-      rule.exclude = [
-        ...compile.exclude,
-        filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
-      ]
-    } else if (compile.include && compile.include.length) {
-      rule.include = [
-        ...compile.include,
-        sourceDir,
-        filename => /taro/.test(filename)
-      ]
-    } else {
-      rule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
+    rule.include = [
+      sourceDir,
+      filename => /(?<=node_modules[\\/]).*taro/.test(filename)
+    ]
+    if (Array.isArray(compile.include)) {
+      rule.include.unshift(...compile.include)
+    }
+  
+    if (Array.isArray(compile.exclude)) {
+      rule.exclude = [...compile.exclude]
+    }
+
+    if (config.experimental?.compileMode === true) {
+      rule.use.compilerLoader = WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniCompilerLoader'), {
+        platform: config.platform.toUpperCase(),
+        template: config.template,
+        FILE_COUNTER_MAP,
+      })
     }
 
     return rule

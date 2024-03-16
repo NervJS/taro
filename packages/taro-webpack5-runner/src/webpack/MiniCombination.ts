@@ -1,6 +1,7 @@
 import { taroJsComponents } from '@tarojs/helper'
+import path from 'path'
 
-import { componentConfig } from '../template/component'
+import { componentConfig } from '../utils/component'
 import { BuildNativePlugin } from './BuildNativePlugin'
 import { Combination } from './Combination'
 import { MiniBaseConfig } from './MiniBaseConfig'
@@ -12,7 +13,6 @@ import type { IFileType, MiniBuildConfig } from '../utils/types'
 export class MiniCombination extends Combination<MiniBuildConfig> {
   buildNativePlugin: BuildNativePlugin
   fileType: IFileType
-  isBuildNativeComp = false
   isBuildPlugin = false
   optimizeMainPackage: { enable?: boolean | undefined, exclude?: any[] | undefined } = {
     enable: true
@@ -34,7 +34,6 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
         templ: '.wxml'
       },
       /** special mode */
-      isBuildNativeComp = false,
       isBuildPlugin = false,
       /** hooks */
       modifyComponentConfig,
@@ -45,14 +44,13 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
 
     modifyComponentConfig?.(componentConfig, config)
 
-    if (isBuildNativeComp) {
-      this.isBuildNativeComp = true
-    }
-
     if (isBuildPlugin) {
       // 编译目标 - 小程序原生插件
       this.isBuildPlugin = true
       this.buildNativePlugin = BuildNativePlugin.getPlugin(this)
+      chain.merge({
+        context: path.join(process.cwd(), this.sourceRoot, 'plugin')
+      })
     }
 
     if (optimizeMainPackage) {
@@ -69,6 +67,11 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     const webpackPlugin = new MiniWebpackPlugin(this)
     const webpackModule = new MiniWebpackModule(this)
 
+    const module = webpackModule.getModules()
+    const [, pxtransformOption] = webpackModule.__postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
+    webpackPlugin.pxtransformOption = pxtransformOption as any
+    const plugin = webpackPlugin.getPlugins()
+
     chain.merge({
       entry: webpackEntry,
       output: webpackOutput,
@@ -77,8 +80,8 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
       resolve: {
         alias: this.getAlias()
       },
-      plugin: webpackPlugin.getPlugins(),
-      module: webpackModule.getModules(),
+      plugin,
+      module,
       optimization: this.getOptimization()
     })
   }
@@ -108,12 +111,10 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
   }
 
   getOptimization () {
-    const chunkPrefix = this.isBuildPlugin ? this.buildNativePlugin.chunkPrefix : ''
-
     return {
       usedExports: true,
       runtimeChunk: {
-        name: `${chunkPrefix}runtime`
+        name: 'runtime'
       },
       splitChunks: {
         chunks: 'all',
@@ -123,18 +124,18 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
           default: false,
           defaultVendors: false,
           common: {
-            name: `${chunkPrefix}common`,
+            name: 'common',
             minChunks: 2,
             priority: 1
           },
           vendors: {
-            name: `${chunkPrefix}vendors`,
+            name: 'vendors',
             minChunks: 2,
             test: module => /[\\/]node_modules[\\/]/.test(module.resource),
             priority: 10
           },
           taro: {
-            name: `${chunkPrefix}taro`,
+            name: 'taro',
             test: module => /@tarojs[\\/][a-z]+/.test(module.context),
             priority: 100
           }

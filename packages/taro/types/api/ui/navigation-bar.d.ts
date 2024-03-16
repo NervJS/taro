@@ -85,7 +85,7 @@ declare module '../../index' {
     showNavigationBarLoading(option?: showNavigationBarLoading.Option): void
 
     /** 动态设置当前页面的标题
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, alipay, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.setNavigationBarTitle({
@@ -97,7 +97,7 @@ declare module '../../index' {
     setNavigationBarTitle(option: setNavigationBarTitle.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 设置页面导航条颜色
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @h5 不支持 animation 参数
      * @rn 不支持 animation 参数
      * @example

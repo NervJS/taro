@@ -1,4 +1,4 @@
-import type swc from '@swc/core'
+import type { swc } from '@tarojs/helper'
 import type Webpack from 'webpack'
 
 type CompilerTypes = 'webpack4' | 'webpack5'
@@ -19,7 +19,9 @@ interface IPrebundle {
 
 interface ICompiler {
   type: CompilerTypes
-  prebundle: IPrebundle
+  prebundle?: IPrebundle
+  /** 错误处理级别。可选值：0、1 */
+  errorLevel?: number
 }
 
 export type Compiler = CompilerTypes | ICompiler

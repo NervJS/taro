@@ -1,0 +1,1845 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`slot插槽 当元素设置slot属性且值为空串时，移除slot属性 1`] = `<View><SlotComponent renderAfter={<Block><View>这里是插入到组件slot name="after"中的内容</View></Block>}><View>这里是插入到组件slot name="before"中的内容</View></SlotComponent></View>`;
+
+exports[`style属性的解析 style属性值为变量 1`] = `<View style={value}></View>`;
+
+exports[`style属性的解析 判断是否为style属性 1`] = `
+Map {
+   => INFO [taroize] parseWXML - 入参 
+dirPath: wxml_undefined 
+parseImport: undefined 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxml__ 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxml__ 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View>Hello Word!</View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>Hello Word!</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxml_message 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxml_message 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View>{data}</View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>{data}</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+data 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxml_component_properties_string 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"id","value":"item-view1"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxml_component_properties_string 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View id="item-view1"></View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+id="item-view1" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+id 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View id="item-view1"></View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+id="item-view1" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+id 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+id="item-view1" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+id 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxml_component_properties_variable 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"id","value":"item-{{id}}"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxml_component_properties_variable 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View id={"item-" + id}></View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+id={"item-" + id} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+id 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View id={"item-" + id}></View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+id={"item-" + id} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+id 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+id={"item-" + id} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+id 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+id 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxml_keywords 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"checked","value":"{{false}}"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxml_keywords 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><Checkbox checked={false}></Checkbox></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Checkbox 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+checked={false} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+checked 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Checkbox 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Checkbox checked={false}></Checkbox> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Checkbox 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+checked={false} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+checked 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Checkbox 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Checkbox 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+checked={false} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+checked 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Checkbox 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxml_ternary_operations 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"hidden","value":"{{flag ? true : false}}"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxml_ternary_operations 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View hidden={flag ? true : false}>Hidden</View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+hidden={flag ? true : false} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+wx:if 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View wx:if={!(flag ? true : false)}>Hidden</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+wx:if={!(flag ? true : false)} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+flag 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>Hidden</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxml_string_operations 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxml_string_operations 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View>{"hello" + name}</View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>{"hello" + name}</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxml_wx_for 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"wx:for","value":"{{array}}"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxml_wx_for 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View wx:for={array}>{index + ": " + item.message}</View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+wx:for={array} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block>{array.map((item, index) => {
+    return <View>{index + ": " + item.message}</View>;
+  })}</Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+array 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+map 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+item 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+index 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>{index + ": " + item.message}</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+index 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+item 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+message 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+array 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+map 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+item 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+index 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>{index + ": " + item.message}</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+index 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+item 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+message 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxml_key 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"wx:key","value":"index"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"wx:for","value":"{{data}}"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: text 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxml_key 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View wx:key="index" wx:for={data}><Text>{item.name}</Text></View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+wx:key="index" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+wx:key 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+wx:for={data} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+key={index} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+key 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block>{data.map((item, index) => {
+    return <View key={index}><Text>{item.name}</Text></View>;
+  })}</Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+key={index} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+key 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+data 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+map 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+item 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+index 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View key={index}><Text>{item.name}</Text></View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+key={index} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+key 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+key={index} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+key 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+index 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Text>{item.name}</Text> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+item 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+data 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+map 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+item 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+index 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View key={index}><Text>{item.name}</Text></View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+key={index} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+key 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+key={index} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+key 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+index 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Text>{item.name}</Text> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+item 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Text 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxml_if 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"wx:if","value":"{{length > 5}}"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"wx:elif","value":"{{length > 2}}"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"wx:else","value":null} 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxml_if 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View wx:if={length > 5}>1</View><View wx:elif={length > 2}>2</View><View wx:else>3</View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+wx:if={length > 5} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+length 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>1</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+length 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>2</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>3</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxml_show 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"wx:show","value":"{{isShow}}"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxml_show 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View wx:show={isShow}>测试使用wx:if替换wx:show属性</View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+wx:show={isShow} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+wx:show 
+WARN [taroize] createWxmlVistor - wx:show 属性不能编译，会被替换为 wx:if 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+wx:if 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View wx:if={isShow}>测试使用wx:if替换wx:show属性</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+wx:if={isShow} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+isShow 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>测试使用wx:if替换wx:show属性</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxml_unsupported_classArray 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"class","value":"[1,2,3]"} 
+WARN [taroize] parseAttribute - Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxml_unsupported_classArray 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View className="12,3"></View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+className="12,3" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+className 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View className="12,3"></View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+className="12,3" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+className 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+className="12,3" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+className 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: anonymity_slot 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"class","value":"wrapper"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: anonymity_slot 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View className="wrapper"><View>这里是组件的内部节点</View><Slot></Slot></View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+className="wrapper" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+className 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View className="wrapper"><View>这里是组件的内部节点</View><Slot></Slot></View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+className="wrapper" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+className 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+className="wrapper" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+className 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>这里是组件的内部节点</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Slot></Slot> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - tagName: Slot 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+props 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+children 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: anonymity_wxml_slot 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: slot-component 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: anonymity_wxml_slot 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View><SlotComponent><View>插入slot的内容</View></SlotComponent></View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View><SlotComponent><View>插入slot的内容</View></SlotComponent></View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<SlotComponent><View>插入slot的内容</View></SlotComponent> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>插入slot的内容</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: named_slot 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"class","value":"wrapper"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"name","value":"before"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"name","value":"after"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: named_slot 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View className="wrapper"><Slot name="before"></Slot><View>这里是组件的内部细节</View><Slot name="after"></Slot></View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+className="wrapper" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+className 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+name="before" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+name="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View className="wrapper"><Slot name="before"></Slot><View>这里是组件的内部细节</View><Slot name="after"></Slot></View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+className="wrapper" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+className 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+name="before" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+name="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+className="wrapper" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+className 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Slot name="before"></Slot> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+name="before" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - tagName: Slot 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+props 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+renderBefore 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>这里是组件的内部细节</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Slot name="after"></Slot> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+name="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - tagName: Slot 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+props 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+renderAfter 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: named_wxml_slot 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: slot-component 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"slot","value":"before"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: slot-component 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"slot","value":"after"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: named_wxml_slot 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View><SlotComponent><View slot="before">这里是插入到组件slot name="before"中的内容</View><View slot="after">这里是插入到组件slot name="after"中的内容</View></SlotComponent></View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot="before" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View><SlotComponent><View slot="before">这里是插入到组件slot name="before"中的内容</View><View slot="after">这里是插入到组件slot name="after"中的内容</View></SlotComponent></View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot="before" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<SlotComponent><View slot="before">这里是插入到组件slot name="before"中的内容</View><View slot="after">这里是插入到组件slot name="after"中的内容</View></SlotComponent> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot="before" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View slot="before">这里是插入到组件slot name="before"中的内容</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot="before" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View slot="after">这里是插入到组件slot name="after"中的内容</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: component_slot_empty 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: slot-component 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"slot","value":""} 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: slot-component 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"slot","value":"after"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: component_slot_empty 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View><SlotComponent><View slot>这里是插入到组件slot name="before"中的内容</View><View slot="after">这里是插入到组件slot name="after"中的内容</View></SlotComponent></View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View><SlotComponent><View slot>这里是插入到组件slot name="before"中的内容</View><View slot="after">这里是插入到组件slot name="after"中的内容</View></SlotComponent></View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<SlotComponent><View slot>这里是插入到组件slot name="before"中的内容</View><View slot="after">这里是插入到组件slot name="after"中的内容</View></SlotComponent> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View slot>这里是插入到组件slot name="before"中的内容</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View slot="after">这里是插入到组件slot name="after"中的内容</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+slot="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+SlotComponent 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseWXML - 入参 
+dirPath: slot_name_no_string 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"class","value":"wrapper"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"name","value":"{{123}}"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"name","value":"after"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: slot_name_no_string 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><View className="wrapper"><Slot name={123}></Slot><View>这里是组件的内部细节</View><Slot name="after"></Slot></View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+className="wrapper" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+className 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+name={123} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+name="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View className="wrapper"><Slot name={123}></Slot><View>这里是组件的内部细节</View><Slot name="after"></Slot></View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+className="wrapper" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+className 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+name={123} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+name="after" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+className="wrapper" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+className 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Slot name={123}></Slot> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+name={123} 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+name 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Slot 
+INFO [taroize] createWxmlVistor - tagName: Slot 
+ERROR [taroize] createWxmlVistor - slot 的值不是一个字符串 
+INFO [taroize] parse - 入参 
+option: {"framework":"react","json":"{}","logFilePath":"","path":"wxs_src","rootPath":"","script":"Page({})","scriptPath":"","wxml":"n      <wxs src=".././../utils/test.wxs" module="wxs_test"/>n      <view>{{wxs_test.foo}}</view>n      <view>{{wxs_test.bar('nihao')}}</view>n    ","isApp":false} 
+INFO [taroize] parseWXML - 入参 
+dirPath: wxs_src 
+parseImport: undefined 
+INFO [taroize] parseNode - 入参 
+tagName: undefined 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"src","value":".././../utils/test.wxs"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseAttribute - 入参 
+attr: {"key":"module","value":"wxs_test"} 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: block 
+INFO [taroize] parseElement - 进入函数 
+INFO [taroize] parseNode - 入参 
+tagName: view 
+INFO [taroize] parseText - 进入函数 
+INFO [taroize] parseContent - 进入函数 
+INFO [taroize] createPreWxmlVistor - 入参 
+templates: [object Map] 
+INFO [taroize] templateBfs - 进入函数 
+INFO [taroize] createWxmlVistor - 入参 
+dirPath: wxs_src 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Block><Wxs src=".././../utils/test.wxs" module="wxs_test"></Wxs><View>{wxs_test.foo}</View><View>{wxs_test.bar('nihao')}</View></Block> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Wxs 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+src=".././../utils/test.wxs" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+src 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+module="wxs_test" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+module 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Wxs 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<Wxs src=".././../utils/test.wxs" module="wxs_test"></Wxs> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Wxs 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+src=".././../utils/test.wxs" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+src 
+INFO [taroize] createWxmlVistor - 解析JSXAttribute 
+module="wxs_test" 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+module 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Wxs 
+INFO [taroize] createWxmlVistor - tagName: Wxs 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>{wxs_test.foo}</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+wxs_test 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+foo 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXElement 
+<View>{wxs_test.bar('nihao')}</View> 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+wxs_test 
+INFO [taroize] createWxmlVistor - 解析Identifier 
+bar 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+View 
+INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
+Block 
+INFO [taroize] parseScript - 入参 
+scriptPath:  
+INFO [taroize] parseCode - 入参
+scriptPath:  
+INFO [taroize] parseScript - 解析CallExpression 
+Page({}) 
+INFO [taroize] parsePage - 入参 
+pagePath: Page({}) 
+INFO [taroize] parseScript - 解析Identifier 
+Page 
+,
+}
+`;
+
+exports[`wxml语法 wx:key="index"会转换成key="index" 1`] = `
+data.map((item, index) => {
+  return <View key={index}><Text>{item.name}</Text></View>;
+})
+`;
+
+exports[`wxml语法 wxml中class不支持数组写法 1`] = `<View className="12,3"></View>`;
+
+exports[`wxml语法 使用wx:if替换wx:show属性 1`] = `isShow && <View>测试使用wx:if替换wx:show属性</View>`;
+
+exports[`wxml语法 列表渲染 1`] = `
+array.map((item, index) => {
+  return <View>{index + ": " + item.message}</View>;
+})
+`;
+
+exports[`wxs wxs 多行注释 1`] = `
+module.exports = {
+  foo: "'hello world' from tools.wxs"
+  /*
+    msg:'123',
+    name:'xixi'
+  */
+};
+`;
+
+exports[`wxs wxs中 单行注释 1`] = `
+module.exports = {
+  foo: "'hello world' from tools.wxs"
+  // msg:'123'
+};
+`;
+
+exports[`wxs wxs标签中的getDate()转换为new Date() 1`] = `
+module.exports = {
+  date1: new Date(),
+  //参数为数字
+  date2: new Date(1500000000000),
+  //参数为字符串
+  date3: new Date("2017-7-14")
+};
+`;
+
+exports[`wxs 在页面中引入外部wxs，转换情况 1`] = `
+import { Block, View } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+import wxs_test from ".././../utils/test.wxs";
+Page({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Block><View>{wxs_test.foo}</View><View>{wxs_test.bar('nihao')}</View></Block>;
+  }
+}
+export default _C;
+`;
+
+exports[`wxs 页面中使用wxs 1`] = `
+module.exports = {
+  data: 'wxs demo'
+};
+`;
+
+exports[`wx作用域属性解析 wx:for & wx:for-xxx 1`] = `
+array.map((itemName, idx) => {
+  return <View>{idx + ": " + itemName.message}</View>;
+})
+`;
+
+exports[`wx作用域属性解析 wx:for & wx:if 1`] = `
+modalKey.map((item, index) => {
+  return <Block>{item.key && <View>{"the value is : " + item.value}</View>}</Block>;
+})
+`;
+
+exports[`wx作用域属性解析 wx:if & wx:for 1`] = `
+modalKey.map((item, index) => {
+  return <Block>{item.key && <View>{"the value is : " + item.value}</View>}</Block>;
+})
+`;
+
+exports[`解析wxs中创建正则表达式方法的转换 定义了正则表达式的修饰符,则使用自定义修饰符 1`] = `
+var a = new RegExp("jzy123", "img");
+module.exports = {
+  reg: a
+};
+`;
+
+exports[`解析wxs中创建正则表达式方法的转换 没有定义了正则表达式的修饰符,就不添加修饰符使用默认 1`] = `
+var a = new RegExp("jzy123");
+module.exports = {
+  reg: a
+};
+`;

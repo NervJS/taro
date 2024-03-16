@@ -14,7 +14,7 @@ jest.mock('cli-highlight', () => {
 
 jest.mock('@tarojs/helper', () => {
   const helper = jest.requireActual('@tarojs/helper')
-  const fs = jest.requireActual('fs-extra')
+  const fs = helper.fs
   return {
     __esModule: true,
     ...helper,
@@ -28,8 +28,7 @@ jest.mock('@tarojs/helper', () => {
 const runInspect = run('inspect', [
   'commands/build',
   'commands/inspect',
-  require.resolve('@tarojs/plugin-platform-weapp'),
-  'platforms/h5'
+  require.resolve('@tarojs/plugin-platform-weapp')
 ])
 
 describe('inspect', () => {

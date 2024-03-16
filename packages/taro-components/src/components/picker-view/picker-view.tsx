@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, Host, Element, Prop, Event, EventEmitter, Listen } from '@stencil/core'
+import { Component, h, Host, Element, Prop, Event, EventEmitter, Listen, Watch } from '@stencil/core'
 import classNames from 'classnames'
 
 import { convertStyle } from '../../utils'
@@ -41,6 +40,11 @@ export class PickerView {
   })
   onPickEnd: EventEmitter
 
+  @Watch('value')
+  onPropsChange() {
+    this.handleValueChange()
+  }
+
   @Listen('onselect')
   onSelect(e: CustomEvent<{ curIndex: string; selectedIndex: string }>) {
     e.stopPropagation()
@@ -66,12 +70,16 @@ export class PickerView {
   }
 
   componentDidLoad() {
+    this.handleValueChange()
+  }
+
+  handleValueChange() {
     const childList = this.el.querySelectorAll('taro-picker-view-column-core')
     childList.forEach((element, index) => {
       element.setAttribute('col', `${index}`)
-      let selectIndex = '0'
+      let selectIndex = 0
       if (!!this.value && this.value.length > index) {
-        selectIndex = `${this.value[index]}`
+        selectIndex = this.value[index]
       }
       const pickerHeight = this.el.getBoundingClientRect().height
       const indicatorHeight = this.indicator?.offsetHeight || 0

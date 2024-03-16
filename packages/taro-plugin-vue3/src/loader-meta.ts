@@ -5,11 +5,9 @@ interface ILoaderMeta {
   creator: string
   creatorLocation: string
   importFrameworkName: string
+  extraImportForWeb: string
+  execBeforeCreateWebApp: string
   isNeedRawLoader?: boolean
-  extraImportForWeb?: string
-  execBeforeCreateWebApp?: string
-  compatComponentImport?: string
-  compatComponentExtra?: string
   modifyConfig?: (config: Record<string, any>, source: string) => void
 }
 
@@ -26,11 +24,7 @@ const App = createApp({})
     creatorLocation: '@tarojs/plugin-framework-vue3/dist/runtime',
     importFrameworkName: 'h',
     isNeedRawLoader: true,
-    extraImportForWeb: `
-import { initVue3Components } from '@tarojs/components/dist-h5/vue3'
-`,
-    execBeforeCreateWebApp: `
-initVue3Components(component)
-`
+    extraImportForWeb: '',
+    execBeforeCreateWebApp: '',
   }
 }

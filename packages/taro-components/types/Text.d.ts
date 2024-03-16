@@ -3,49 +3,47 @@ import { StandardProps } from './common'
 interface TextProps extends StandardProps {
   /** 文本是否可选
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   selectable?: boolean
-
   /** 文本是否可选，该属性会使文本节点显示为 inline-block
    * @default false
-   * @supported weapp
+   * @supported weapp, h5, harmony_hybrid
    */
   userSelect?: boolean
-
   /** 显示连续空格
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
    */
   space?: keyof TextProps.TSpace
-
   /** 是否解码
    * @default false
    * @supported weapp, alipay, tt, qq, jd
+   * @h5 默认解码，不支持设置
    */
   decode?: boolean
-
   /** 多行省略，值须大于等于 1，表现同 css 的 -webkit-line-clamp 属性一致。
    * @supported alipay
    */
-  numberOfLines?: string
+  numberOfLines?: number
+  /** 限制文本最大行数
+   * @supported weapp
+   */
+  maxLines?: number
 }
 declare namespace TextProps {
   /** space 的合法值 */
   interface TSpace {
     /** 中文字符空格一半大小 */
     ensp
-
     /** 中文字符空格大小 */
     emsp
-
     /** 根据字体设置的空格大小 */
     nbsp
   }
 }
-
 /** 文本
  * @classification base
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

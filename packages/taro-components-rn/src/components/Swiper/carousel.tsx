@@ -43,7 +43,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   viewPager = React.createRef<ViewPager>()
 
-  private autoplayTimer: number
+  private autoplayTimer: ReturnType<typeof setTimeout>
   private isScrolling: boolean
   private count: number
 
@@ -198,8 +198,6 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
           style={this.props.style}
           // Lib does not support dynamically orientation change
           orientation={vertical ? 'vertical' : 'horizontal'}
-          // Lib does not support dynamically transitionStyle change
-          transitionStyle="scroll"
           ref={this.viewPager as any}
         >
           {pages}

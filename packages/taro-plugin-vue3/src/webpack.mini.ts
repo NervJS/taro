@@ -61,6 +61,13 @@ function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
         if (node.tagType === 1 /* COMPONENT */) {
           node.tagType = 0 /* ELEMENT */
         }
+
+        // v-html
+        const props = node.props
+        if(props.find(prop => prop.type === 7 && prop.name === 'html')) {
+          ['input', 'textarea', 'video', 'audio'].forEach(item => data.componentConfig.includes.add(item))
+        }
+
         data.componentConfig.includes.add(nodeName)
       }
 

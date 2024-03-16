@@ -1,4 +1,4 @@
-import CameraRoll from '@react-native-community/cameraroll'
+import { CameraRoll } from "@react-native-camera-roll/camera-roll"
 import { requestCameraPermissionsAsync } from 'expo-camera'
 import * as ImagePicker from 'expo-image-picker'
 import { successHandler, errorHandler } from '../utils'

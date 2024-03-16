@@ -14,11 +14,11 @@ import {
   UID
 } from '../constants'
 import { NodeType } from '../dom/node_types'
-import { Func } from '../interface'
 
 import type { TaroElement } from '../dom/element'
 import type { TaroNode } from '../dom/node'
 import type { TaroText } from '../dom/text'
+import type { TFunc } from '../interface'
 
 export const incrementId = () => {
   const chatCodes: number[] = []
@@ -79,15 +79,15 @@ export function isHasExtractProp (el: TaroElement): boolean {
  * @param type 事件类型
  */
 export function isParentBinded (node: TaroElement | null, type: string): boolean {
-  let res = false
-  while (node?.parentElement && node.parentElement._path !== ROOT_STR) {
-    if (node.parentElement.__handlers[type]?.length) {
-      res = true
-      break
+  while ((node = node?.parentElement || null)) {
+    if (!node || node.nodeName === ROOT_STR || node.nodeName === 'root-portal') {
+      return false
+    } else if (node.__handlers[type]?.length) {
+      return true
     }
-    node = node.parentElement
   }
-  return res
+
+  return false
 }
 
 export function shortcutAttr (key: string): string {
@@ -109,7 +109,7 @@ interface Ctor {
   new (...args: any[]): any
 }
 
-export function extend (ctor: Ctor, methodName: string, options: Func | Record<string, any>) {
+export function extend (ctor: Ctor, methodName: string, options: TFunc | Record<string, any>) {
   if (isFunction(options)) {
     options = {
       value: options
@@ -129,3 +129,5 @@ export function getComponentsAlias () {
   }
   return componentsAlias
 }
+
+export * from './lodash'

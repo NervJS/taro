@@ -25,7 +25,8 @@ jest.doMock('react-native', () => {
   const RNCCameraRoll = (jest.requireActual('./__tests__/__mock__/mockRNCCameraRoll') as any).default
   const MockClipboard = (jest.requireActual('./__tests__/__mock__/mockClipboard') as any).default
   const RNCGeolocation = (jest.requireActual('./__tests__/__mock__/mockRNCGeolocation') as any).default
-  ReactNative.NativeModules.RNCCameraRoll = RNCCameraRoll
+  ReactNative.NativeModules.RNCCameraRoll = RNCCameraRoll.RNCCameraRoll
+  ReactNative.NativeModules.RNCCameraRollPermissionModule = RNCCameraRoll.RNCCameraRollPermissionModule
   ReactNative.NativeModules.RNCClipboard = new MockClipboard()
   ReactNative.NativeModules.RNCGeolocation = RNCGeolocation
   Object.defineProperty(ReactNative.NativeModules, 'ImageLoader', {

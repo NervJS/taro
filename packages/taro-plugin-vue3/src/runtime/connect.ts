@@ -1,7 +1,4 @@
-import {
-  Current,
-  injectPageInstance
-} from '@tarojs/runtime'
+import { Current, getPath, injectPageInstance } from '@tarojs/runtime'
 import { ensure, hooks, isArray, isFunction } from '@tarojs/shared'
 import { provide } from 'vue'
 
@@ -23,14 +20,16 @@ export function setReconciler () {
     return instance.$options[lifecycle]
   })
 
-  if (process.env.TARO_ENV === 'h5') {
-    hooks.tap('createPullDownComponent', (component, path, h: typeof createElement) => {
+  if (process.env.TARO_PLATFORM === 'web') {
+    hooks.tap('createPullDownComponent', (component, path, h: typeof createElement, _, stampId: string) => {
       const inject = {
         props: {
           tid: String
         },
         created () {
-          injectPageInstance(this, path)
+          const pagePath = stampId ? getPath(path, { stamp: stampId }) : path
+
+          injectPageInstance(this, pagePath)
         }
       }
 
@@ -41,7 +40,7 @@ export function setReconciler () {
       return {
         render () {
           return h(
-            'taro-pull-to-refresh',
+            'taro-pull-to-refresh-core',
             {
               class: 'hydrated'
             },
@@ -92,7 +91,7 @@ function createVue3Page (h: typeof createElement, id: string) {
         return this.$slots.default()
       }
     }
-    const RootElement = process.env.TARO_ENV === 'h5' ? 'div' : 'root'
+    const RootElement = process.env.TARO_PLATFORM === 'web' ? 'div' : 'root'
     const PageComponent = Object.assign({}, component)
     const option = PageComponent.props?.option?.default?.() || {}
 
@@ -108,7 +107,7 @@ function createVue3Page (h: typeof createElement, id: string) {
               RootElement,
               {
                 id,
-                class: process.env.TARO_ENV === 'h5' ? 'taro_page' : ''
+                class: process.env.TARO_PLATFORM === 'web' ? 'taro_page' : ''
               },
               [
                 h(PageComponent, { tid: id, option })
@@ -133,7 +132,7 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
     return pages.slice()
   }
 
-  if (process.env.TARO_ENV !== 'h5') {
+  if (process.env.TARO_PLATFORM !== 'web') {
     appInstance = app.mount('#app')
   }
 
@@ -164,7 +163,7 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
     [ONLAUNCH]: setDefaultDescriptor({
       value (options) {
         setRouterParams(options)
-        if (process.env.TARO_ENV === 'h5') {
+        if (process.env.TARO_PLATFORM === 'web') {
           appInstance = app.mount(`#${config.appId || 'app'}`)
         }
 

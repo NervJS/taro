@@ -1,7 +1,9 @@
 import type helper from '@tarojs/helper'
-import type { IProjectConfig } from '@tarojs/taro/types/compile'
-import type { Attrs, Tagname } from '@tarojs/taro/types/compile/hooks'
+import type { Func, IProjectConfig } from '@tarojs/taro/types/compile'
+import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
 import type joi from 'joi'
+import type Webpack from 'webpack'
+import type Chain from 'webpack-chain'
 import type { PluginType } from './constants'
 
 export interface IPaths {
@@ -26,8 +28,6 @@ export interface IPaths {
    */
   nodeModulesPath: string
 }
-
-export type Func = (...args: any[]) => any
 
 export type IPluginsObject = Record<string, Record<any, any> | null>
 
@@ -66,15 +66,6 @@ export interface IFileType {
 
 export interface IPlatform extends IHook {
   useConfigName?: string
-}
-
-interface IModifyWebpackChain {
-  componentConfig?: {
-    includes: Set<string>
-    exclude: Set<string>
-    thirdPartyComponents: Map<Tagname, Attrs>
-    includeAll: boolean
-  }
 }
 
 export declare interface IPluginContext {
@@ -121,7 +112,7 @@ export declare interface IPluginContext {
   /**
    * 触发注册的钩子（使用`ctx.register`方法注册的钩子），传入钩子名和钩子所需参数
    */
-  applyPlugins: (args: string | { name: string, initialVal?: any, opts?: any })=> Promise<any>
+  applyPlugins: (args: string | { name: string, initialVal?: any, opts?: any }) => Promise<any>
   /**
    * 为插件添加入参校验
    */
@@ -139,9 +130,13 @@ export declare interface IPluginContext {
    */
   onBuildComplete: (fn: Func) => void
   /**
+   * 修改编译过程中的页面组件配置
+   */
+  onCompilerMake: (fn: (args: { compilation: Webpack.Compilation, compiler: Webpack.Compiler, plugin: any }) => void) => void
+  /**
    * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
    */
-  modifyWebpackChain: (fn: (args: { chain: any, webpack: any, data?: IModifyWebpackChain }) => void) => void
+  modifyWebpackChain: (fn: (args: { chain: Chain, webpack: typeof Webpack, data?: IModifyChainData }) => void) => void
   /**
    * 修改编译后的结果
    */
@@ -153,3 +148,5 @@ export declare interface IPluginContext {
 
   [key: string]: any
 }
+
+export declare type TConfig = Record<string, any>

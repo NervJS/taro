@@ -3,26 +3,28 @@ import { isArray, isFunction, isString } from '@tarojs/shared'
 import { AppConfig, SubPackage } from '@tarojs/taro'
 import md5 from 'md5'
 import path from 'path'
-import { Chunk, ChunkGraph, Compilation, Compiler, Module, sources } from 'webpack'
 import SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 
+import type { Chunk, ChunkGraph, Compilation, Compiler, Module, sources } from 'webpack'
 import type { IFileType } from '../utils/types'
+import type { MiniCombination } from '../webpack/MiniCombination'
 
 const PLUGIN_NAME = 'MiniSplitChunkPlugin' // 插件名
 const SUB_COMMON_DIR = 'sub-common' // 分包公共依赖目录
 const SUB_VENDORS_NAME = 'sub-vendors' // 分包 vendors 文件名
-const { ConcatSource, RawSource } = sources
 
 const FileExtsMap = {
   JS: '.js',
   JS_MAP: '.js.map',
-  STYLE: '.wxss'
+  STYLE: '.wxss',
+  TEMPLATE: '.wxml'
 } // 默认支持的文件扩展名
 
 // 插件 options
 interface MiniSplitChunksPluginOption {
   exclude?: (string | ExcludeFunctionItem)[]
   fileType: IFileType
+  combination: MiniCombination
 }
 
 // 排除函数
@@ -33,6 +35,7 @@ interface ExcludeFunctionItem {
 // 依赖信息
 interface DepInfo {
   identifier: string
+  rawIdentifier: string
   resource: string
   chunks: Set<string>
 }
@@ -292,6 +295,7 @@ const normalizeCacheGroups = (cacheGroups, defaultSizeTypes: string[]) => {
  */
 export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   options: any
+  combination: MiniCombination
   subCommonDeps: Map<string, DepInfo>
   subCommonChunks: Map<string, Set<string>>
   subPackagesVendors: Map<string, Chunk>
@@ -303,7 +307,6 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   subRoots: string[]
   subRootRegExps: RegExp[]
   fileType: IFileType
-  assets: { [pathname: string]: sources.Source }
 
   constructor (options: MiniSplitChunksPluginOption) {
     super()
@@ -319,18 +322,24 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       templ: '.wxml',
       xs: '.wxs'
     }
+    this.combination = options.combination
     FileExtsMap.STYLE = this.fileType.style
+    FileExtsMap.TEMPLATE = this.fileType.templ
   }
 
   apply (compiler: Compiler) {
     const { webpack, context, options } = compiler
-    const { util, Compilation } = webpack
+    const { util, Compilation, sources } = webpack
+    const { ConcatSource, RawSource } = sources
 
     this.context = context
-    this.subPackages = this.getSubpackageConfig(compiler).map((subPackage: SubPackage) => ({
-      ...subPackage,
-      root: this.formatSubRoot(subPackage.root)
-    }))
+    this.subPackages = this.getSubpackageConfig(compiler)
+      // 过滤掉独立分包
+      .filter((subPackage: SubPackage) => !subPackage.independent)
+      .map((subPackage: SubPackage) => ({
+        ...subPackage,
+        root: this.formatSubRoot(subPackage.root)
+      }))
     if (this.subPackages.length === 0) {
       return
     }
@@ -408,6 +417,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
                 this.subCommonDeps.set(depName, {
                   identifier,
                   resource,
+                  rawIdentifier: module.identifier(),
                   chunks: subCommonDepChunks
                 })
               } else {
@@ -462,94 +472,110 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         this.subCommonDeps = existSubCommonDeps
       })
 
-      compilation.hooks.processAssets.tap({
+      /**
+       * 处理分包文件
+      */
+      compilation.hooks.processAssets.tapAsync({
         name: PLUGIN_NAME,
-        stage: Compilation.PROCESS_ASSETS_STAGE_ANALYSE // see below for more stages
-      }, (assets) => {
-        this.assets = assets
-      })
-    })
+        stage: Compilation.PROCESS_ASSETS_STAGE_ANALYSE // 对分包文件进行处理，放在内部处理 assets 的最后阶段，该 stage 是倒数第二个顺序
+      }, this.tryAsync((assets: { [pathname: string]: sources.Source }) => {
+        for (const entryName of compilation.entries.keys()) {
+          if (this.isSubEntry(entryName)) {
+            // 一些已经存在拓展名的 entry，不做处理，否则当分包是原生小程序时会出现 index.wxss.wxss 等情况
+            if (path.extname(entryName)) continue
 
-    compiler.hooks.emit.tapAsync(PLUGIN_NAME, this.tryAsync((compilation: Compilation) => {
-      for (const entryName of compilation.entries.keys()) {
-        if (this.isSubEntry(entryName)) {
-          const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(entryName)) as string
-          const subCommon = [...(this.subCommonChunks.get(entryName) || [])]
-          for (const key in FileExtsMap) {
-            const ext = FileExtsMap[key]
-            if (ext === FileExtsMap.JS || ext === FileExtsMap.STYLE) {
-              const source = new ConcatSource()
-              const chunkName = `${entryName}${ext}`
-              const chunkAbsolutePath = path.resolve(this.distPath, chunkName)
-              const subVendorsPath = path.join(subRoot, `${SUB_VENDORS_NAME}${ext}`)
-              // 将子包 vendors 插入到 entry 中
-              if (this.assets[normalizePath(subVendorsPath)]) {
-                const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsPath)
-                const vendorsRelativePath = this.getRealRelativePath(chunkAbsolutePath, subVendorsAbsolutePath)
-                if (ext === FileExtsMap.STYLE) {
-                  source.add(`@import ${JSON.stringify(`${vendorsRelativePath}`)};`)
-                }
-                if (ext === FileExtsMap.JS) {
-                  source.add(`require(${JSON.stringify(`${vendorsRelativePath}`)});`)
-                }
-              }
-              // 将子包下的 common 模块替换为父包下的 common 模块
-              subCommon.forEach(moduleName => {
-                const moduleFileName = `${moduleName}${ext}`
-                const moduleFilePath = path.join(SUB_COMMON_DIR, moduleFileName)
-                const subRootModuleFilePath = path.join(subRoot, moduleFilePath)
-                const assetSource = this.assets[normalizePath(moduleFilePath)]
-                if (assetSource) {
-                  const moduleAbsolutePath = path.resolve(this.distPath, subRootModuleFilePath)
-                  const chunkRelativePath = this.getRealRelativePath(path.resolve(this.distPath, chunkName), moduleAbsolutePath)
-                  this.assets[normalizePath(subRootModuleFilePath)] = {
-                    size: () => assetSource.size(),
-                    source: () => assetSource.source(),
-                    updateHash: () => assetSource.updateHash,
-                    buffer: () => assetSource.buffer(),
-                    map: () => assetSource.map(),
-                    sourceAndMap: () => assetSource.sourceAndMap()
-                  }
+            const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(entryName)) as string
+            const subCommon = [...(this.subCommonChunks.get(entryName) || [])]
+            for (const key in FileExtsMap) {
+              const ext = FileExtsMap[key]
+              if (ext === FileExtsMap.JS || ext === FileExtsMap.STYLE || ext === FileExtsMap.TEMPLATE) {
+                const source = new ConcatSource()
+                const chunkName = `${entryName}${ext}`
+                const chunkAbsolutePath = path.resolve(this.distPath, chunkName)
+                const subVendorsPath = path.join(subRoot, `${SUB_VENDORS_NAME}${ext}`)
+                // 将子包 vendors 插入到 entry 中
+                if (assets[normalizePath(subVendorsPath)]) {
+                  const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsPath)
+                  const vendorsRelativePath = this.getRealRelativePath(chunkAbsolutePath, subVendorsAbsolutePath)
                   if (ext === FileExtsMap.STYLE) {
-                    source.add(`@import ${JSON.stringify(`${chunkRelativePath}`)};`)
+                    source.add(`@import ${JSON.stringify(`${vendorsRelativePath}`)};`)
                   }
                   if (ext === FileExtsMap.JS) {
-                    source.add(`require(${JSON.stringify(`${chunkRelativePath}`)});`)
+                    source.add(`require(${JSON.stringify(`${vendorsRelativePath}`)});`)
                   }
                 }
-              })
-              if (this.assets[chunkName]) {
-                const originSource = this.assets[chunkName].source()
-                if (ext === FileExtsMap.STYLE && typeof originSource === 'string') {
-                  if (originSource.indexOf('@charset') > -1) {
-                    this.assets[chunkName] = new RawSource(`@charset "UTF-8";${source.source()}${originSource.replace('@charset "UTF-8";', '')}`)
-                  } else {
-                    this.assets[chunkName] = new RawSource(`${source.source()}${originSource}`)
+                // 将子包下的 common 模块替换为父包下的 common 模块
+                subCommon.forEach(moduleName => {
+                  const moduleFileName = `${moduleName}${ext}`
+                  const moduleFilePath = path.join(SUB_COMMON_DIR, moduleFileName)
+                  const subRootModuleFilePath = path.join(subRoot, moduleFilePath)
+                  const assetSource = assets[normalizePath(moduleFilePath)]
+                  if (assetSource) {
+                    const moduleAbsolutePath = path.resolve(this.distPath, subRootModuleFilePath)
+                    const chunkRelativePath = this.getRealRelativePath(path.resolve(this.distPath, chunkName), moduleAbsolutePath)
+                    assets[normalizePath(subRootModuleFilePath)] = {
+                      size: () => assetSource.size(),
+                      source: () => assetSource.source(),
+                      updateHash: () => assetSource.updateHash,
+                      buffer: () => assetSource.buffer(),
+                      map: () => assetSource.map(),
+                      sourceAndMap: () => assetSource.sourceAndMap()
+                    }
+                    const originSourceMapPath = path.join(SUB_COMMON_DIR, `${moduleName}${FileExtsMap.JS_MAP}`)
+                    const originSourceMap = assets[originSourceMapPath]
+                    // 输出 source map
+                    if (ext === FileExtsMap.JS && originSourceMap) {
+                      const subRootSourceMapFilePath = path.join(subRoot, originSourceMapPath)
+                      assets[normalizePath(subRootSourceMapFilePath)] = {
+                        size: () => originSourceMap.size(),
+                        source: () => originSourceMap.source(),
+                        updateHash: () => originSourceMap.updateHash,
+                        buffer: () => originSourceMap.buffer(),
+                        map: () => originSourceMap.map(),
+                        sourceAndMap: () => originSourceMap.sourceAndMap()
+                      }
+                    }
+                    if (ext === FileExtsMap.STYLE) {
+                      source.add(`@import ${JSON.stringify(`${chunkRelativePath}`)};`)
+                    }
+                    if (ext === FileExtsMap.JS) {
+                      source.add(`require(${JSON.stringify(`${chunkRelativePath}`)});`)
+                    }
                   }
-                }
-                if (ext === FileExtsMap.JS && typeof originSource === 'string') {
-                  if (originSource.indexOf('use strict') > -1) {
-                    this.assets[chunkName] = new RawSource(`"use strict";${source.source()}${originSource.replace('"use strict";', '')}`)
-                  } else {
-                    this.assets[chunkName] = new RawSource(`${source.source()}${originSource}`)
+                })
+                if (assets[chunkName]) {
+                  const originSource = assets[chunkName].source()
+                  if (ext === FileExtsMap.STYLE && typeof originSource === 'string') {
+                    if (originSource.indexOf('@charset') > -1) {
+                      assets[chunkName] = new RawSource(`@charset "UTF-8";${source.source()}${originSource.replace('@charset "UTF-8";', '')}`)
+                    } else {
+                      assets[chunkName] = new RawSource(`${source.source()}${originSource}`)
+                    }
                   }
+                  if (ext === FileExtsMap.JS && typeof originSource === 'string') {
+                    if (originSource.indexOf('use strict') > -1) {
+                      assets[chunkName] = new RawSource(`"use strict";${source.source()}${originSource.replace('"use strict";', '')}`)
+                    } else {
+                      assets[chunkName] = new RawSource(`${source.source()}${originSource}`)
+                    }
+                  }
+                } else {
+                  assets[chunkName] = new RawSource(`${source.source()}`)
                 }
-              } else {
-                this.assets[chunkName] = new RawSource(`${source.source()}`)
               }
             }
           }
         }
-      }
-      /**
-       * 根目录下的sub-common资源删掉不输出
-       */
-      for (const assetPath in this.assets) {
-        if (new RegExp(`^${SUB_COMMON_DIR}\\/.*`).test(assetPath)) {
-          delete this.assets[assetPath]
+        /**
+         * 根目录下的sub-common资源删掉不输出
+         */
+        for (const assetPath in assets) {
+          if (new RegExp(`^${SUB_COMMON_DIR}\\/.*`).test(assetPath)) {
+            delete assets[assetPath]
+          }
         }
-      }
-    }))
+      }))
+    })
   }
 
   /**
@@ -590,7 +616,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   getSubpackageConfig (compiler: Compiler): SubPackage[] {
     const appEntry = this.getAppEntry(compiler)
     const appConfigPath = this.getConfigFilePath(appEntry)
-    const appConfig: AppConfig = readConfig(appConfigPath)
+    const appConfig: AppConfig = readConfig(appConfigPath, this.combination.config)
 
     return appConfig.subPackages || appConfig.subpackages || []
   }
@@ -742,6 +768,9 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
     subCommonDeps.forEach((depInfo: DepInfo, depName: string) => {
       const chunks: string[] = [...depInfo.chunks]
+      if (depInfo.rawIdentifier.startsWith('xml/compile-mode')) {
+        depName += '-templates'
+      }
       chunks.forEach(chunk => {
         if (subCommonChunks.has(chunk)) {
           const chunkSubCommon = subCommonChunks.get(chunk) as Set<string>

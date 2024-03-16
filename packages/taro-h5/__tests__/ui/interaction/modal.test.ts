@@ -8,20 +8,16 @@ describe('modal', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showModal({
       title: null,
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.title should be String instead of Null' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.title should be String instead of Null' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.content should be String', () => {
@@ -29,20 +25,16 @@ describe('modal', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showModal({
       content: undefined,
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.content should be String instead of Undefined' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.content should be String instead of Undefined' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.cancelText should be String', () => {
@@ -50,20 +42,16 @@ describe('modal', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showModal({
       cancelText: 1,
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.cancelText should be String instead of Number' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.cancelText should be String instead of Number' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.cancelText should not larger than 4 Chinese characters', () => {
@@ -71,20 +59,16 @@ describe('modal', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showModal({
       cancelText: '最多四个字',
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showModal:fail cancelText length should not larger then 4 Chinese characters' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showModal:fail cancelText length should not larger then 4 Chinese characters' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.confirmText should be String', () => {
@@ -92,20 +76,16 @@ describe('modal', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showModal({
       confirmText: 1,
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.confirmText should be String instead of Number' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.confirmText should be String instead of Number' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.confirmText should not larger than 4 Chinese characters', () => {
@@ -113,20 +93,16 @@ describe('modal', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showModal({
       confirmText: '最多四个字',
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showModal:fail confirmText length should not larger then 4 Chinese characters' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showModal:fail confirmText length should not larger then 4 Chinese characters' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.cancelColor should be String', () => {
@@ -134,20 +110,16 @@ describe('modal', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showModal({
       cancelColor: 1,
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.cancelColor should be String instead of Number' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.cancelColor should be String instead of Number' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.confirmColor should be String', () => {
@@ -155,20 +127,16 @@ describe('modal', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showModal({
       confirmColor: 1,
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.confirmColor should be String instead of Number' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showModal:fail parameter error: parameter.confirmColor should be String instead of Number' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('basic test', done => {
@@ -213,9 +181,9 @@ describe('modal', () => {
     const cancel = foot.firstChild
     const confirm: any = foot.lastChild
     expect(cancel).toHaveTextContent(cancelText)
-    expect(cancel).toHaveStyle('color: rgb(0, 0, 0)')
+    expect(cancel).toHaveStyle({ color: 'rgb(0, 0, 0)' })
     expect(confirm).toHaveTextContent(confirmText)
-    expect(confirm).toHaveStyle('color: rgb(60, 197, 31)')
+    expect(confirm).toHaveStyle({ color: 'rgb(60, 197, 31)' })
 
     setTimeout(() => {
       expect(modal).toBeVisible()
@@ -272,9 +240,9 @@ describe('modal', () => {
     const confirm = foot.lastChild
 
     expect(cancel).toHaveTextContent(cancelText)
-    expect(cancel).toHaveStyle(`color: ${cancelColor}`)
+    expect(cancel).toHaveStyle({ color: cancelColor })
     expect(confirm).toHaveTextContent(confirmText)
-    expect(confirm).toHaveStyle(`color: ${confirmColor}`)
+    expect(confirm).toHaveStyle({ color: confirmColor })
   })
 
   test('should not show cancel button', done => {
@@ -308,10 +276,10 @@ describe('modal', () => {
 
     setTimeout(() => {
       expect(title).not.toBeVisible()
-      expect(content).toHaveStyle(`
-        padding: 40px 20px 26px;
-        color: rgb(53, 53, 53);
-      `)
+      expect(content).toHaveStyle({
+        color: 'rgb(53, 53, 53)',
+        padding: '40px 20px 26px'
+      })
       done()
     }, 200)
   })

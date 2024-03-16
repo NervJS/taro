@@ -4,6 +4,7 @@ import {
   CATCH_VIEW,
   CATCHMOVE,
   CLASS,
+  COMPILE_MODE,
   ID,
   PURE_VIEW,
   STYLE,
@@ -25,22 +26,20 @@ let componentsAlias
  * it's a vnode traverser and modifier: that's exactly what Taro's doing in here.
  */
 export function hydrate (node: TaroElement | TaroText): MiniData {
-  if (!componentsAlias) {
-    // 初始化 componentsAlias
-    componentsAlias = getComponentsAlias()
-  }
+  // 初始化 componentsAlias
+  componentsAlias ||= getComponentsAlias()
 
-  if (!SPECIAL_NODES) {
-    // 初始化 SPECIAL_NODES
-    SPECIAL_NODES = hooks.call('getSpecialNodes')!
-  }
+  // 初始化 SPECIAL_NODES
+  SPECIAL_NODES ||= hooks.call('getSpecialNodes')!
 
   const nodeName = node.nodeName
+  let compileModeName = null
 
   if (isText(node)) {
     return {
+      sid: node.sid,
       [Shortcuts.Text]: node.nodeValue,
-      [Shortcuts.NodeName]: componentsAlias[nodeName]._num
+      [Shortcuts.NodeName]: componentsAlias[nodeName]?._num || '8'
     }
   }
 
@@ -68,25 +67,26 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
       prop !== CLASS &&
       prop !== STYLE &&
       prop !== ID &&
-      propInCamelCase !== CATCHMOVE
+      propInCamelCase !== CATCHMOVE &&
+      propInCamelCase !== COMPILE_MODE
     ) {
       data[propInCamelCase] = props[prop]
     }
-    if (nodeName === VIEW && propInCamelCase === CATCHMOVE && props[prop] !== false) {
+    if (
+      process.env.TARO_ENV !== 'swan' &&
+      nodeName === VIEW &&
+      propInCamelCase === CATCHMOVE &&
+      props[prop] !== false
+    ) {
       data[Shortcuts.NodeName] = CATCH_VIEW
+    }
+    if (propInCamelCase === COMPILE_MODE) {
+      compileModeName = props[prop]
     }
   }
 
-  let { childNodes } = node
-
-  // 过滤 comment 节点
-  childNodes = childNodes.filter(node => !isComment(node))
-
-  if (childNodes.length > 0) {
-    data[Shortcuts.Childnodes] = childNodes.map(hydrate)
-  } else {
-    data[Shortcuts.Childnodes] = []
-  }
+  // Children
+  data[Shortcuts.Childnodes] = node.childNodes.filter(node => !isComment(node)).map(hydrate)
 
   if (node.className !== '') {
     data[Shortcuts.Class] = node.className
@@ -97,7 +97,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     data[Shortcuts.Style] = cssText
   }
 
-  hooks.call('modifyHydrateData', data)
+  hooks.call('modifyHydrateData', data, node)
 
   const nn = data[Shortcuts.NodeName]
   const componentAlias = componentsAlias[nn]
@@ -111,5 +111,11 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     }
   }
 
-  return data
+  if (compileModeName !== null) {
+    data[Shortcuts.NodeName] = compileModeName
+  }
+
+  const resData = hooks.call('transferHydrateData', data, node, componentAlias)
+
+  return resData || data
 }

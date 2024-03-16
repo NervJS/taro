@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseScript CommonJS 导出页面 1`] = `
+const {
+  Block: Block,
+  View: View
+} = require("@tarojs/components");
+const React = require("react");
+const Taro = require("@tarojs/taro");
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+const wxs_date = require("../../utils/req.wxs");
+module.exports = {
+  data: {
+    message: 'Hello, Mini Program!'
+  },
+  onLoad() {
+    console.log('Page loaded.');
+  }
+};
+Component({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <View>{wxs_date.date}</View>;
+  }
+}
+module.exports = _C;
+`;
+
+exports[`parseScript app.js 1`] = `
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+App({
+  onLaunch() {
+    console.log('onLaunch');
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;
+`;
+
+exports[`parseScript getAPP || getCurrentPages 1`] = `
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+App({
+  onLaunch() {
+    const appInstance = Taro.getApp();
+    console.log('页面栈信息：', Taro.getCurrentPages());
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;
+`;
+
+exports[`parseScript page页面因通过动态插件url跳转到插件页面失败 1`] = `
+import { Block, Button } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+Page({
+  pluginUrl() {
+    const variable = 'plugin://hello-plugin/hello-page';
+    Taro.navigateTo({
+      url: variable
+    });
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Button onClick={this.pluginUrl}>动态插件url跳转失败</Button>;
+  }
+}
+export default _C;
+`;
+
+exports[`parseScript page页面因通过非插件url跳转到插件页面失败 1`] = `
+import { Block, Button } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+Page({
+  pluginUrl() {
+    Taro.navigateTo({
+      url: 'plugin://hello-plugin/'
+    });
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Button onClick={this.pluginUrl}>非插件url路径跳转失败</Button>;
+  }
+}
+export default _C;
+`;
+
+exports[`parseScript page页面通过插件url跳转到插件页面 1`] = `
+import { Block, Button } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+Page({
+  pluginUrl() {
+    Taro.navigateTo({
+      url: "/hello-plugin/pages/hello-page?param1=value"
+    });
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Button onClick={this.pluginUrl}>跳转到plugin</Button>;
+  }
+}
+export default _C;
+`;
+
+exports[`parseScript wxml expression 1`] = `
+import { Block, View } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+Page({
+  data: {
+    srt: 'Hello Word!'
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const {
+      str
+    } = this.data;
+    return <View>{str}</View>;
+  }
+}
+export default _C;
+`;
+
+exports[`parseScript wxml jsxText 1`] = `
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+Page({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Block>123</Block>;
+  }
+}
+export default _C;
+`;

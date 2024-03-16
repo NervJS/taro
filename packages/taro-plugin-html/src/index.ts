@@ -1,4 +1,3 @@
-
 import generator from '@babel/generator'
 import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
@@ -7,15 +6,12 @@ import { isArray, isString } from '@tarojs/shared'
 import * as path from 'path'
 
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 
-interface IOptions {
+export interface IOptions {
   pxtransformBlackList?: any[]
   modifyElements?(inline: string[], block: string[]): void
   enableSizeAPIs?: boolean
-}
-
-interface IComponentConfig {
-  includes: Set<string>
 }
 
 interface OnParseCreateElementArgs {
@@ -118,25 +114,27 @@ function patchMappingElements (ctx: IPluginContext, options: IOptions, inlineEle
   const content = helper.fs.readFileSync(filePath).toString()
   const ast = parser.parse(content, { sourceType: 'unambiguous' })
 
-  options.modifyElements?.(inlineElements, blockElements)
+  if (t.isNode(ast)) {
+    options.modifyElements?.(inlineElements, blockElements)
 
-  traverse(ast, {
-    VariableDeclarator (path) {
-      const node = path.node
-      const varid = node.id
-      if (varid.type === 'Identifier') {
-        if (varid.name === 'inlineElements') {
-          node.init = getNewExpression(inlineElements)
-        }
-        if (varid.name === 'blockElements') {
-          node.init = getNewExpression(blockElements)
+    traverse(ast, {
+      VariableDeclarator (path) {
+        const node = path.node
+        const varId = node.id
+        if (varId.type === 'Identifier') {
+          if (varId.name === 'inlineElements') {
+            node.init = getNewExpression(inlineElements)
+          }
+          if (varId.name === 'blockElements') {
+            node.init = getNewExpression(blockElements)
+          }
         }
       }
-    }
-  })
+    })
 
-  const str = generator(ast).code
-  helper.fs.writeFileSync(filePath, str)
+    const str = generator(ast).code
+    helper.fs.writeFileSync(filePath, str)
+  }
 }
 
 function getNewExpression (elements: string[]) {

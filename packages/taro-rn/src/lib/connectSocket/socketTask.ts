@@ -18,6 +18,22 @@ class SocketTask {
     }
   }
 
+  get CONNECTING () {
+    return 0
+  }
+
+  get OPEN () {
+    return 1
+  }
+
+  get CLOSING () {
+    return 2
+  }
+
+  get CLOSED () {
+    return 3
+  }
+
   get readyState (): number {
     return this.ws.readyState
   }

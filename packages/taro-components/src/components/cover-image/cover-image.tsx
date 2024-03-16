@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, Prop, Event, h, ComponentInterface, EventEmitter } from '@stencil/core'
 
 @Component({
@@ -30,8 +29,8 @@ export class CoverImage implements ComponentInterface {
     })
   }
 
-  imageOnError () {
-    this.onError.emit()
+  imageOnError (e: Event) {
+    this.onError.emit(e)
   }
 
   render () {

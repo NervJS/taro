@@ -136,9 +136,16 @@ export const downloadFile: typeof Taro.downloadFile = ({ url, header, withCreden
     })
   }) as any
 
-  result.headersReceive = task.onHeadersReceived
-  result.progress = task.onProgressUpdate
-  result.abort = task.abort
+  result.headersReceive = task.onHeadersReceived.bind(task)
+  result.progress = task.onProgressUpdate.bind(task)
 
-  return result
+  const properties = {}
+  Object.keys(task).forEach(key => {
+    properties[key] = {
+      get () {
+        return typeof task[key] === 'function' ? task[key].bind(task) : task[key]
+      }
+    }
+  })
+  return Object.defineProperties(result, properties)
 }

@@ -18,7 +18,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 检测是否开启视觉无障碍功能。
-     * @supported weapp
+     * @supported weapp, jd
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accessibility/wx.checkIsOpenAccessibility.html
      */
     checkIsOpenAccessibility(option: checkIsOpenAccessibility.Option): Promise<TaroGeneral.CallbackResult>

@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": true,
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
+    "module": "ESNext",
+    "noUnusedLocals": false,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "sourceMap": false,
+    "strictNullChecks": false,
+    "target": "ES2017",
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["./src", "./types"]
+}

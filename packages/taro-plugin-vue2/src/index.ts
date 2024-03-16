@@ -2,20 +2,24 @@ import { chalk, REG_VUE, VUE_EXT } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
 import { isString } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
+import { mergeWith } from 'lodash'
 
 import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 
 export const CUSTOM_WRAPPER = 'custom-wrapper'
 
-let isBuildH5
+
+interface OnParseCreateElementArgs {
+  nodeName: string
+  componentConfig: IComponentConfig
+}
 
 export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
   if (framework !== 'vue') return
-
-  isBuildH5 = process.env.TARO_ENV === 'h5'
 
   ctx.modifyWebpackChain(({ chain, data }) => {
     if (process.env.NODE_ENV !== 'production') {
@@ -24,8 +28,15 @@ export default (ctx: IPluginContext) => {
     customVueChain(chain, data)
     setLoader(chain)
 
-    if (isBuildH5) {
-      setStyleLoader(ctx, chain)
+    if (process.env.TARO_PLATFORM === 'web') {
+      const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
+      const externals: Record<string, string> = {}
+      if (isBuildNativeComp) {
+        // Note: 该模式不支持 prebundle 优化，不必再处理
+        externals.vue = 'vue'
+      }
+
+      chain.merge({ externals })
     }
   })
 
@@ -51,6 +62,13 @@ export default (ctx: IPluginContext) => {
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
+      prebundleOptions.exclude ||= []
+    }
+  })
+
+  ctx.onParseCreateElement(({ nodeName, componentConfig }: OnParseCreateElementArgs) => {
+    if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+      componentConfig.includes.add(nodeName)
     }
   })
 }
@@ -79,7 +97,7 @@ function customVueChain (chain, data) {
   // loader
   let vueLoaderOption
 
-  if (isBuildH5) {
+  if (process.env.TARO_PLATFORM === 'web') {
     // H5
     vueLoaderOption = {
       transformAssetUrls: {
@@ -157,25 +175,16 @@ function customVueChain (chain, data) {
     .options(vueLoaderOption)
 }
 
-function setStyleLoader (ctx: IPluginContext, chain) {
-  const config = ctx.initialConfig.h5 || {}
-
-  const { styleLoaderOption = {} } = config
-  chain.module
-    .rule('customStyle')
-    .merge({
-      use: [{
-        loader: 'style-loader',
-        options: styleLoaderOption
-      }]
-    })
-}
-
 function setLoader (chain) {
-  if (isBuildH5) {
+  function customizer (object = '', sources = '') {
+    if ([object, sources].every(e => typeof e === 'string')) return object + sources
+  }
+  if (process.env.TARO_PLATFORM === 'web') {
     chain.plugin('mainPlugin')
       .tap(args => {
-        args[0].loaderMeta = getLoaderMeta()
+        args[0].loaderMeta = mergeWith(
+          getLoaderMeta(), args[0].loaderMeta, customizer
+        )
         return args
       })
   } else {

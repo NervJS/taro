@@ -1,14 +1,18 @@
+import { addLeadingSlash } from '@tarojs/runtime'
+import { EventChannel } from '@tarojs/shared'
 import Taro from '@tarojs/taro'
 import { parsePath } from 'history'
 
 import { history, prependBasename } from './history'
 import { RouterConfig } from './router'
 import stacks from './router/stack'
-import { addLeadingSlash, routesAlias } from './utils'
+import { routesAlias } from './utils'
 
-import type { NavigateBackOption, Option } from '../types/api'
+import type { NavigateBackOption, NavigateOption, Option } from '../types/api'
 
 type MethodName = 'navigateTo' | 'navigateBack' | 'switchTab' | 'redirectTo' | 'reLaunch'
+
+const routeEvtChannel = EventChannel.routeChannel
 
 function processNavigateUrl (option: Option) {
   const pathPieces = parsePath(option.url)
@@ -43,7 +47,11 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
     stacks.method = method
     const { success, complete, fail } = option
     const unListen = history.listen(() => {
-      const res = { errMsg: `${method}:ok` }
+      const res: any = { errMsg: `${method}:ok` }
+      if (method === 'navigateTo') {
+        res.eventChannel = routeEvtChannel
+        routeEvtChannel.addEvents((option as NavigateOption).events)
+      }
       success?.(res)
       complete?.(res)
       resolve(res)
@@ -54,6 +62,19 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
       if ('url' in option) {
         const pathPieces = processNavigateUrl(option)
         const state = { timestamp: Date.now() }
+        if (pathPieces.pathname) {
+          const originPath = routesAlias.getOrigin(pathPieces.pathname)
+          if (!RouterConfig.isPage(addLeadingSlash(originPath))) {
+            const res = { errMsg: `${method}:fail page ${originPath} is not found` }
+            fail?.(res)
+            complete?.(res)
+            if (fail || complete) {
+              return resolve(res)
+            } else {
+              return reject(res)
+            }
+          }
+        }
         if (method === 'navigateTo') {
           history.push(pathPieces, state)
         } else if (method === 'redirectTo' || method === 'switchTab') {
@@ -64,13 +85,21 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
         }
       } else if (method === 'navigateBack') {
         stacks.delta = option.delta
-        history.go(-option.delta)
+        if (stacks.length > option.delta) {
+          history.go(-option.delta)
+        } else {
+          history.go(1 - stacks.length)
+        }
       }
     } catch (error) {
       const res = { errMsg: `${method}:fail ${error.message || error}` }
       fail?.(res)
       complete?.(res)
-      reject(res)
+      if (fail || complete) {
+        return resolve(res)
+      } else {
+        return reject(res)
+      }
     }
   })
 }
@@ -103,5 +132,5 @@ export function getCurrentPages (): Taro.Page[] {
     console.warn('多页面路由模式不支持使用 getCurrentPages 方法！')
   }
   const pages = stacks.get()
-  return pages.map(e => ({ ...e, route: e.path || '' }))
+  return pages.map(e => ({ ...e, route: e.path?.replace(/\?.*/g, '') || '' }))
 }

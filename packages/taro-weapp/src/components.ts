@@ -29,6 +29,7 @@ export const components = {
     'show-compass': _false,
     'show-scale': _false,
     'enable-overlooking': _false,
+    'enable-auto-max-overlooking': _false,
     'enable-zoom': _true,
     'enable-scroll': _true,
     'enable-rotate': _false,
@@ -40,6 +41,12 @@ export const components = {
     bindLabelTap: _empty,
     bindRegionChange: _empty,
     bindPoiTap: _empty,
+    bindPolylineTap: _empty,
+    bindAbilitySuccess: _empty,
+    bindAbilityFailed: _empty,
+    bindAuthSuccess: _empty,
+    bindInterpolatePoint: _empty,
+    bindError: _empty,
     bindAnchorPointTap: _empty
   },
   Button: {
@@ -54,10 +61,12 @@ export const components = {
     bindGetUserInfo: _empty,
     bindContact: _empty,
     bindGetPhoneNumber: _empty,
+    bindGetRealTimePhoneNumber: _empty,
     bindChooseAvatar: _empty,
     bindError: _empty,
     bindOpenSetting: _empty,
-    bindLaunchApp: _empty
+    bindLaunchApp: _empty,
+    bindAgreePrivacyAuthorization: _empty
   },
   Form: {
     'report-submit-timeout': _zero
@@ -73,10 +82,12 @@ export const components = {
     'safe-password-salt': '',
     'safe-password-custom-hash': '',
     'auto-fill': _empty,
-    bindKeyboardHeightChange: _empty
+    bindKeyboardHeightChange: _empty,
+    bindNicknameReview: _empty
   },
   Picker: {
-    'header-text': _empty
+    'header-text': _empty,
+    'level': 'region'
   },
   PickerView: {
     'immediate-change': _false,
@@ -99,24 +110,58 @@ export const components = {
   ScrollView: {
     'enable-flex': _false,
     'scroll-anchoring': _false,
+    enhanced: _false,
+    'using-sticky': _false,
+    'paging-enabled': _false,
+    'enable-passive': _false,
     'refresher-enabled': _false,
     'refresher-threshold': '45',
     'refresher-default-style': "'black'",
     'refresher-background': "'#FFF'",
     'refresher-triggered': _false,
-    enhanced: _false,
     bounces: _true,
     'show-scrollbar': _true,
-    'paging-enabled': _false,
     'fast-deceleration': _false,
+    type: "'list'",
+    reverse: _false,
+    clip: _true,
+    'enable-back-to-top': _false,
+    'cache-extent': _empty,
+    'min-drag-distance': '18',
+    'scroll-into-view-within-extent': _false,
+    'scroll-into-view-alignment': "'start'",
+    padding: '[0,0,0,0]',
+    'refresher-two-level-enabled': _false,
+    'refresher-two-level-triggered': _false,
+    'refresher-two-level-threshold': '150',
+    'refresher-two-level-close-threshold': '80',
+    'refresher-two-level-scroll-enabled': _false,
+    'refresher-ballistic-refresh-enabled': _false,
+    'refresher-two-level-pinned': _false,
     bindDragStart: _empty,
     bindDragging: _empty,
     bindDragEnd: _empty,
     bindRefresherPulling: _empty,
     bindRefresherRefresh: _empty,
     bindRefresherRestore: _empty,
-    bindRefresherAbort: _empty
+    bindRefresherAbort: _empty,
+    bindScrollStart: _empty,
+    bindScrollEnd: _empty,
+    bindRefresherWillRefresh: _empty,
+    bindRefresherStatusChange: _empty
   },
+  StickySection: {
+    'push-pinned-header': _true,
+  },
+  GridView: {
+    type: "'aligned'",
+    'cross-axis-count': '2',
+    'max-cross-axis-extent': _zero,
+    'main-axis-gap': _zero,
+    'cross-axis-gap': _zero,
+  },
+  ListView: {},
+  StickyHeader: {},
   Swiper: {
     'snap-to-edge': _false,
     'easing-function': "'default'"
@@ -148,12 +193,18 @@ export const components = {
     'auto-pause-if-navigate': _true,
     'auto-pause-if-open-native': _true,
     'picture-in-picture-mode': '[]',
+    'enable-auto-rotation': _false,
+    'referrer-policy': "'no-referrer'",
+    'enable-casting': _false,
     bindstatechange: _empty,
     bindfullscreenchange: _empty,
     bindnetstatus: _empty,
     bindAudioVolumeNotify: _empty,
     bindEnterPictureInPicture: _empty,
-    bindLeavePictureInPicture: _empty
+    bindLeavePictureInPicture: _empty,
+    bindCastingUserSelect: _empty,
+    bindCastingStateChange: _empty,
+    bindCastingInterrupt: _empty
   },
   Video: {
     title: _empty,
@@ -163,6 +214,7 @@ export const components = {
     'auto-pause-if-open-native': _true,
     'vslide-gesture': _false,
     'vslide-gesture-in-fullscreen': _true,
+    'show-bottom-progress': _true,
     'ad-unit-id': _empty,
     'poster-for-crawler': _empty,
     'show-casting-button': _false,
@@ -177,12 +229,22 @@ export const components = {
     'show-snapshot-button': _false,
     'show-background-playback-button': _false,
     'background-poster': _empty,
+    'referrer-policy': "'no-referrer'",
+    'is-drm': _false,
+    'is-live': _false,
+    'provision-url': _empty,
+    'certificate-url': _empty,
+    'license-url': _empty,
+    'preferred-peak-bit-rate': _empty,
     bindProgress: _empty,
     bindLoadedMetadata: _empty,
     bindControlsToggle: _empty,
     bindEnterPictureInPicture: _empty,
     bindLeavePictureInPicture: _empty,
     bindSeekComplete: _empty,
+    bindCastingUserSelect: _empty,
+    bindCastingStateChange: _empty,
+    bindCastingInterrupt: _empty,
     bindAdLoad: _empty,
     bindAdError: _empty,
     bindAdClose: _empty,
@@ -262,6 +324,7 @@ export const components = {
     'video-height': '640',
     'beauty-style': "'smooth'",
     filter: "'standard'",
+    'picture-in-picture-mode': '[]',
     animation: _empty,
     bindStateChange: _empty,
     bindNetStatus: _empty,
@@ -285,7 +348,7 @@ export const components = {
   NavigationBar: {
     title: _empty,
     loading: _false,
-    'front-color': _empty,
+    'front-color': "'#000000'",
     'background-color': _empty,
     'color-animation-duration': _zero,
     'color-animation-timing-func': "'linear'"
@@ -295,10 +358,12 @@ export const components = {
     'background-color': _empty,
     'background-color-top': _empty,
     'background-color-bottom': _empty,
+    'root-background-color': _empty,
     'scroll-top': "''",
     'scroll-duration': '300',
     'page-style': "''",
     'root-font-size': "''",
+    'page-orientation': "''",
     bindResize: _empty,
     bindScroll: _empty,
     bindScrollDone: _empty
@@ -340,5 +405,22 @@ export const components = {
     'easing-function': "'ease-out'"
   },
   KeyboardAccessory: {},
-  RootPortal: {},
+  RootPortal: {
+    enable: _true
+  },
+  ChannelLive: {
+    'feed-id': _empty,
+    'finder-user-name': _empty
+  },
+  ChannelVideo: {
+    'feed-id': _empty,
+    'finder-user-name': _empty,
+    'feed-token':_empty,
+    autoplay: _false,
+    loop: _false,
+    muted: _false,
+    'object-fit': "'contain'",
+    bindError: _empty
+  },
+  Snapshot: {}
 }

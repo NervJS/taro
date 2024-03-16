@@ -1,0 +1,130 @@
+.weui-agree {
+  display: block; // flex;
+  padding: .5em 15px;
+  // text-align: justify;
+  // justify-content: center;
+  // align-items: center;
+  // @include hyphens;
+
+  // line-height: 1.6;
+  font-size: 13px; // 14px;
+  // -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  a,
+  navigator {
+    color: $weuiLinkColorDefault;
+  }
+  navigator {
+    display: inline;
+  }
+}
+.weui-agree__text {
+  color: $weuiTextColorGray; // $weuiTextColorDesc;
+  // margin-left: 2px;
+  // min-width: 0;
+}
+.weui-agree__checkbox {
+  appearance: none;
+  // display: inline-block;
+  border: 1px solid #D1D1D1; // 0;
+  outline: 0;
+  border-radius: 3px;
+  position: relative;
+  top: 2px;
+  // vertical-align: 0; // middle;
+  // background-color: #FFFFFF; // currentColor;
+  // mask-position: 0 0;
+  // mask-repeat: no-repeat;
+  // mask-size: 100%;
+  // mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M500%20916.667C269.881%20916.667%2083.333%20730.119%2083.333%20500%2083.333%20269.881%20269.881%2083.333%20500%2083.333c230.119%200%20416.667%20186.548%20416.667%20416.667%200%20230.119-186.548%20416.667-416.667%20416.667zm0-50c202.504%200%20366.667-164.163%20366.667-366.667%200-202.504-164.163-366.667-366.667-366.667-202.504%200-366.667%20164.163-366.667%20366.667%200%20202.504%20164.163%20366.667%20366.667%20366.667z%22%20fill-rule%3D%22evenodd%22%20fill-opacity%3D%22.9%22%2F%3E%3C%2Fsvg%3E);
+  // color: $weuiLineColorDark;
+  width: 13px; // 1em;
+  height: 13px; // 1em;
+  font-size: 0; // 17px;
+  // flex-shrink: 0;
+  // margin-top: 0;
+
+  &:checked {
+    &::before {
+      font-family: 'weui';
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      text-align: center;
+      speak: none;
+      display: inline-block;
+      vertical-align: middle;
+      text-decoration: inherit;
+      content: '\EA08';
+      color: #09BB07;
+      font-size: 13px;
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -48%) scale(.73);
+    }
+  }
+
+  &:disabled {
+    background-color: #E1E1E1;
+
+    &:before {
+      color: #ADADAD;
+    }
+  }
+}
+// .weui-agree__checkbox-check { // 兼容小程序
+//   opacity: 0;
+//   position: absolute;
+//   width: 1px;
+//   height: 1px;
+//   overflow: hidden;
+// }
+// .weui-agree__checkbox:checked,
+// .weui-agree__checkbox-check[aria-checked="true"] + .weui-agree__checkbox {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm-1.177-7.86l-2.765-2.767L7%2012.431l3.119%203.121a1%201%200%20001.414%200l5.952-5.95-1.062-1.062-5.6%205.6z%22%2F%3E%3C%2Fsvg%3E);
+//   color: $weuiColorPrimary;
+// }
+// .weui-agree_animate {
+//   animation: weuiAgree 0.3s 1;
+// }
+
+// @keyframes weuiAgree {
+//   0% {
+//     transform: translateX(0);
+//   }
+
+//   16% {
+//     transform: translateX(-8px);
+//   }
+
+//   28% {
+//     transform: translateX(-16px);
+//   }
+
+//   44% {
+//     transform: translateX(0);
+//   }
+
+//   59% {
+//     transform: translateX(-16px);
+//   }
+
+//   73% {
+//     transform: translateX(0);
+//   }
+
+//   82% {
+//     transform: translateX(16px);
+//   }
+
+//   94% {
+//     transform: translateX(8px);
+//   }
+
+//   100% {
+//     transform: translateX(0);
+//   }
+// }

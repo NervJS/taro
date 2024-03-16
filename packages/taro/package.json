@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "3.5.10",
+  "version": "3.6.24",
   "description": "Taro framework",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro#readme",
   "main": "index.js",
@@ -24,8 +24,15 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "workspace:*",
+    "@tarojs/api": "workspace:*"
+  },
+  "devDependencies": {
+    "@tarojs/helper": "workspace:*",
     "@tarojs/runtime": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/helper": "workspace:~",
+    "@tarojs/runtime": "workspace:~"
   },
   "peerDependenciesMeta": {
     "@types/react": {
@@ -35,6 +42,9 @@
       "optional": true
     },
     "@types/webpack-dev-server": {
+      "optional": true
+    },
+    "postcss": {
       "optional": true
     },
     "vue": {

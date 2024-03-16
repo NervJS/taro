@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import fs from 'fs-extra'
+import { fs } from '@tarojs/helper'
 import path from 'path'
 import { performance } from 'perf_hooks'
 import { ProvidePlugin } from 'webpack'
@@ -41,9 +41,14 @@ import type { Stats } from 'webpack'
 
 export interface IMiniPrebundleConfig extends IPrebundleConfig {
   runtimePath?: string | string[]
+  isBuildPlugin?: boolean
 }
 
 export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
+  getIsBuildPluginPath (filePath, isBuildPlugin) {
+    return isBuildPlugin ? `${filePath}/plugin` : filePath
+  }
+
   async bundle () {
     const PREBUNDLE_START = performance.now()
 
@@ -111,7 +116,11 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
       cancelAnimationFrame: [taroRuntimeBundlePath, '_caf'],
       Element: [taroRuntimeBundlePath, 'TaroElement'],
       SVGElement: [taroRuntimeBundlePath, 'SVGElement'],
-      MutationObserver: [taroRuntimeBundlePath, 'MutationObserver']
+      MutationObserver: [taroRuntimeBundlePath, 'MutationObserver'],
+      history: [taroRuntimeBundlePath, 'history'],
+      location: [taroRuntimeBundlePath, 'location'],
+      URLSearchParams: [taroRuntimeBundlePath, 'URLSearchParams'],
+      URL: [taroRuntimeBundlePath, 'URL'],
     }
     const customWebpackConfig = this.option.webpack
     if (customWebpackConfig?.provide?.length) {
@@ -164,7 +173,9 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
             {
               deps: this.deps,
               env: this.env,
+              platformType: this.platformType,
               remoteAssets: this.metadata.remoteAssets,
+              isBuildPlugin: this.config.isBuildPlugin,
               runtimeRequirements: this.metadata.runtimeRequirements
             }
           ),
@@ -179,7 +190,11 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
             if (errors[0]) return reject(errors[0])
             const remoteAssets =
               assets
-                ?.filter(item => item.name !== 'runtime.js')
+                ?.filter(
+                  item => this.config.isBuildPlugin
+                    ? item.name !== 'plugin/runtime.js'
+                    : item.name !== 'runtime.js'
+                )
                 ?.map(item => ({
                   name: path.join('prebundle', item.name)
                 })) || []
@@ -192,7 +207,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
       this.metadata.remoteAssets = this.preMetadata.remoteAssets
     }
 
-    fs.copy(this.remoteCacheDir, path.join(mainBuildOutput.path, 'prebundle'))
+    fs.copy(this.remoteCacheDir, path.join(this.getIsBuildPluginPath(mainBuildOutput.path, this.config.isBuildPlugin), 'prebundle'))
 
     this.measure(`Build remote ${MF_NAME} duration`, BUILD_LIB_START)
   }

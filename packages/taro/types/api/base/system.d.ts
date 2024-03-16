@@ -351,10 +351,56 @@ declare module '../../index' {
     }
   }
 
+  namespace getSkylineInfoSync {
+    interface Result {
+      /** 当前运行环境是否支持 Skyline 渲染引擎 */
+      isSupported: boolean
+      /** 当前运行环境 Skyline 渲染引擎 的版本号，形如 0.9.7 */
+      version: string
+      /** 当前运行环境不支持 Skyline 渲染引擎 的原因，仅在 isSupported 为 false 时出现  */
+      reason?: string
+    }
+  }
+
+  namespace getSkylineInfo {
+    interface Option {
+      /** 接口调用成功的回调函数 */
+      success?: (res: Result) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult | Result) => void
+    }
+    interface Result {
+      /** 当前运行环境是否支持 Skyline 渲染引擎 */
+      isSupported: boolean
+      /** 当前运行环境 Skyline 渲染引擎 的版本号，形如 0.9.7 */
+      version: string
+      /** 当前运行环境不支持 Skyline 渲染引擎 的原因，仅在 isSupported 为 false 时出现  */
+      reason?: string
+    }
+  }
+
+  namespace getRendererUserAgent {
+    interface Option {
+      /** 接口调用成功的回调函数 */
+      success?: (res: Result) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult | Result) => void
+    }
+    interface Result {
+      userAgent: string
+    }
+  }
+
   namespace getDeviceInfo {
     interface Result {
       /** 应用二进制接口类型（仅 Android 支持） */
       abi?: string
+      /** 设备二进制接口类型（仅 Android 支持） */
+      deviceAbi: string
       /** 设备性能等级（仅Android小游戏）。取值为：-2 或 0（该设备无法运行小游戏），-1（性能未知），>=1（设备性能值，该值越高，设备性能越好，目前最高不到50） */
       benchmarkLevel: number
       /** 设备品牌 */
@@ -365,6 +411,8 @@ declare module '../../index' {
       system: string
       /** 客户端平台 */
       platform: string
+      /** 设备 CPU 型号（仅 Android 支持） */
+      CPUType: string
     }
   }
 
@@ -462,7 +510,7 @@ declare module '../../index' {
     openAppAuthorizeSetting(option: openAppAuthorizeSetting.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取窗口信息
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @h5 不支持 statusBarHeight、safeArea
      * @example
      * ```tsx
@@ -482,7 +530,7 @@ declare module '../../index' {
     getWindowInfo(): getWindowInfo.Result
 
     /** 获取设备设置
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      * @h5 不支持 bluetoothEnabled、locationEnabled、wifiEnabled
      * @example
      * ```tsx
@@ -498,7 +546,7 @@ declare module '../../index' {
     getSystemSetting(): getSystemSetting.Result
 
     /** [Taro.getSystemInfo](./getSystemInfo) 的同步版本
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @h5 不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
      * @weapp 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
      * @example
@@ -543,7 +591,7 @@ declare module '../../index' {
     getSystemInfoAsync(res?: getSystemInfoAsync.Option): Promise<getSystemInfo.Result>
 
     /** 获取系统信息，支持 `Promise` 化使用。
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @h5 不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
      * @weapp 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
      * @example
@@ -571,6 +619,27 @@ declare module '../../index' {
      */
     getSystemInfo(res?: getSystemInfo.Option): Promise<getSystemInfo.Result>
 
+    /** 获取当前运行环境对于 Skyline 渲染引擎 的支持情况
+     *  基础库 2.26.2 开始支持
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSkylineInfoSync.html
+     */
+    getSkylineInfoSync(): getSkylineInfoSync.Result
+
+    /** 获取当前运行环境对于 Skyline 渲染引擎 的支持情况
+     *  基础库 2.26.2 开始支持
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSkylineInfo.html
+     */
+    getSkylineInfo(option?: getSkylineInfo.Option): Promise<getSkylineInfo.Result>
+
+    /** 获取 Webview 小程序的 UserAgent
+     *  基础库 2.26.3 开始支持
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getRendererUserAgent.html
+     */
+    getRendererUserAgent(option?: getRendererUserAgent.Option): Promise<getRendererUserAgent.Result>
+
     /** 获取设备基础信息
      * @supported weapp, h5
      * @h5 不支持 abi、benchmarkLevel
@@ -590,7 +659,7 @@ declare module '../../index' {
     getDeviceInfo(): getDeviceInfo.Result
 
     /** 获取微信APP基础信息
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      * @h5 不支持 SDKVersion、host、version
      * @example
      * ```tsx
@@ -612,7 +681,7 @@ declare module '../../index' {
      * - 'authorized' 表示已经获得授权，无需再次请求授权；
      * - 'denied' 表示请求授权被拒绝，无法再次请求授权；（此情况需要引导用户[打开系统设置](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.openAppAuthorizeSetting.html)，在设置页中打开权限）
      * - 'non determined' 表示尚未请求授权，会在微信下一次调用系统相应权限时请求；（仅 iOS 会出现。此种情况下引导用户打开系统设置，不展示开关）
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      * @h5 暂未支持设置权限
      * @example
      * ```tsx

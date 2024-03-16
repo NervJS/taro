@@ -125,7 +125,7 @@ const _Input = (props: InputProps) => {
         setReturnValue(undefined)
       }
     }
-  }, [returnValue])
+  }, [returnValue, props.onInput, props.onChange])
 
   const onFocus = React.useCallback((): void => {
     const { onFocus = noop } = props
@@ -134,7 +134,7 @@ const _Input = (props: InputProps) => {
       target: { value: tmpValue.current || '' },
       detail: { value: tmpValue.current || '' }
     })
-  }, [returnValue])
+  }, [returnValue, props.onFocus])
 
   const onBlur = React.useCallback((): void => {
     const { onBlur = noop } = props
@@ -143,7 +143,7 @@ const _Input = (props: InputProps) => {
       target: { value: tmpValue.current || '' },
       detail: { value: tmpValue.current || '' }
     })
-  }, [])
+  }, [props.onBlur])
 
   /**
    * Callback that is called when a key is pressed.
@@ -168,7 +168,7 @@ const _Input = (props: InputProps) => {
       target: { value: tmpValue.current || '' },
       detail: { value: tmpValue.current || '' }
     })
-  }, [])
+  }, [props.onKeyDown, props.onConfirm])
 
   const onSubmitEditing = React.useCallback((): void => {
     const { onKeyDown = noop, onConfirm = noop } = props
@@ -182,7 +182,7 @@ const _Input = (props: InputProps) => {
       target: { value: tmpValue.current || '' },
       detail: { value: tmpValue.current || '' }
     })
-  }, [_multiline])
+  }, [_multiline, props.onKeyDown, props.onConfirm])
 
   const onContentSizeChange = React.useCallback((event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>): void => {
     const { width, height } = event.nativeEvent.contentSize
@@ -205,7 +205,7 @@ const _Input = (props: InputProps) => {
     }
   })()
 
-  const defaultValue = type === 'number' && value ? value + '' : value
+  const defaultValue = props.defaultValue ?? (type === 'number' && value ? value + '' : value)
 
   // fix: https://reactnative.dev/docs/textinput#multiline
   const textAlignVertical = _multiline ? 'top' : 'auto'
@@ -267,7 +267,8 @@ const _Input = (props: InputProps) => {
           padding: 0
         },
         style,
-        _multiline && _autoHeight && { height: Math.max(35, _height) }
+        // @ts-ignore
+        _multiline && _autoHeight && { height: Math.max(style?.minHeight || 35, _height) }
       ]}
     />
   )

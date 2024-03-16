@@ -7,7 +7,5 @@
     "sourceMap": true,
     "rootDir": "./src"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

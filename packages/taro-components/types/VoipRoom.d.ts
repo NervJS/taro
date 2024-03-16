@@ -6,19 +6,21 @@ interface VoipRoomProps extends StandardProps {
    * @supported weapp
    */
   mode?: keyof VoipRoomProps.Mode
-
   /** 仅在 mode 为 camera 时有效，前置或后置，值为front, back
    * @default front
    * @supported weapp
    */
   devicePosition?: keyof VoipRoomProps.DevicePosition
-
   /** 进入房间用户的 openid
    * @default "none"
    * @supported weapp
    */
   openId?: string
-
+  /** 画面与容器比例不一致时，画面的表现形式
+   * @supported weapp
+   * @default "fill"
+   */
+  objectFit?: 'fill' | 'contain' | 'cover'
   /** 创建对话窗口失败时触发
    * @supported weapp
    */
@@ -30,14 +32,12 @@ declare namespace VoipRoomProps {
     camera
     video
   }
-
   /** 摄像头类型 */
   interface DevicePosition {
     front
     back
   }
 }
-
 /** 多人音视频对话
  *
  * 需用户授权 `scope.camera`、`scope.record`。相关接口： [Taro.joinVoIPChat](/docs/apis/media/voip/joinVoIPChat)

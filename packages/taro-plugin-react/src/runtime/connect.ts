@@ -1,14 +1,10 @@
-import {
-  AppInstance, Current, document, getPageInstance,
-  incrementId, injectPageInstance, Instance,
-  PageLifeCycle, PageProps,
-  ReactAppInstance, ReactPageComponent
-} from '@tarojs/runtime'
+import { Current, document, getPageInstance, incrementId, injectPageInstance } from '@tarojs/runtime'
 import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
 
 import { reactMeta } from './react-meta'
 import { ensureIsArray, HOOKS_APP_ID, isClassComponent, setDefaultDescriptor, setRouterParams } from './utils'
 
+import type { AppInstance, Instance, PageLifeCycle, PageProps, ReactAppInstance, ReactPageComponent } from '@tarojs/runtime'
 import type { AppConfig } from '@tarojs/taro'
 import type * as React from 'react'
 
@@ -27,7 +23,10 @@ export function setReconciler (ReactDOM) {
   })
 
   hooks.tap('modifyMpEvent', function (event) {
-    event.type = event.type.replace(/-/g, '')
+    // Note: ohos 上事件没有设置 type 类型 setter 方法导致报错
+    Object.defineProperty(event, 'type', {
+      value: event.type.replace(/-/g, '')
+    })
   })
 
   hooks.tap('batchedEventUpdates', function (cb) {
@@ -49,7 +48,7 @@ export function setReconciler (ReactDOM) {
     })
   })
 
-  if (process.env.TARO_ENV === 'h5') {
+  if (process.env.TARO_PLATFORM === 'web') {
     hooks.tap('createPullDownComponent', (
       el: React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>,
       _,
@@ -67,7 +66,7 @@ export function setReconciler (ReactDOM) {
         }
 
         return h(
-          customWrapper || 'taro-pull-to-refresh',
+          customWrapper || 'taro-pull-to-refresh-core',
           null,
           h(el, {
             ...newProps,
@@ -77,8 +76,17 @@ export function setReconciler (ReactDOM) {
       })
     })
 
-    hooks.tap('getDOMNode', inst => {
-      return ReactDOM.findDOMNode(inst)
+    hooks.tap('getDOMNode', (inst) => {
+      // 由于react 18移除了ReactDOM.findDOMNode方法，修复H5端 Taro.createSelectorQuery设置in(scope)时，报错问题
+      // https://zh-hans.react.dev/reference/react-dom/findDOMNode
+      if (!inst) {
+        return document
+      } else if (inst instanceof HTMLElement) {
+        return inst
+      } else if (inst.$taroPath) {
+        const el = document.getElementById(inst.$taroPath)
+        return el ?? document
+      }
     })
   }
 }
@@ -128,7 +136,7 @@ export function connectReactPage (
             ...refs
           }))
 
-        if (process.env.TARO_ENV === 'h5') {
+        if (process.env.TARO_PLATFORM === 'web') {
           return h(
             'div',
             { id, className: 'taro_page' },
@@ -161,7 +169,7 @@ export function createReactApp (
   config: AppConfig
 ) {
   if (process.env.NODE_ENV !== 'production') {
-    ensure(!!dom, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'nerv\' ')
+    ensure(!!dom, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'preact\'/\'nerv\' ')
   }
 
   reactMeta.R = react
@@ -180,9 +188,13 @@ export function createReactApp (
     return appInstanceRef.current
   }
 
+  function waitAppWrapper (cb: () => void) {
+    appWrapper ? cb() : appWrapperPromise.then(() => cb())
+  }
+
   function renderReactRoot () {
     let appId = 'app'
-    if (process.env.TARO_ENV === 'h5') {
+    if (process.env.TARO_PLATFORM === 'web') {
       appId = config?.appId || appId
     }
     const container = document.getElementById(appId)
@@ -190,6 +202,7 @@ export function createReactApp (
       const root = ReactDOM.createRoot(container)
       root.render?.(h(AppWrapper))
     } else {
+      // eslint-disable-next-line react/no-deprecated
       ReactDOM.render?.(h(AppWrapper), container)
     }
   }
@@ -237,12 +250,12 @@ export function createReactApp (
       return h(
         App,
         props,
-        process.env.TARO_ENV === 'h5' ? h(Fragment ?? 'div', null, elements.slice()) : elements.slice()
+        process.env.TARO_PLATFORM === 'web' ? h(Fragment ?? 'div', null, elements.slice()) : elements.slice()
       )
     }
   }
 
-  if (process.env.TARO_ENV !== 'h5') {
+  if (process.env.TARO_PLATFORM !== 'web') {
     renderReactRoot()
   }
 
@@ -274,7 +287,7 @@ export function createReactApp (
       value (options) {
         setRouterParams(options)
 
-        if (process.env.TARO_ENV === 'h5') {
+        if (process.env.TARO_PLATFORM === 'web') {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后执行 render
           renderReactRoot()
         }
@@ -310,11 +323,7 @@ export function createReactApp (
           triggerAppHook('onLaunch', options)
         }
 
-        if (appWrapper) {
-          onLaunch()
-        } else {
-          appWrapperPromise.then(() => onLaunch())
-        }
+        waitAppWrapper(onLaunch)
       }
     }),
 
@@ -333,51 +342,63 @@ export function createReactApp (
           triggerAppHook('onShow', options)
         }
 
-        if (appWrapper) {
-          onShow()
-        } else {
-          appWrapperPromise.then(onShow)
-        }
+        waitAppWrapper(onShow)
       }
     }),
 
     [ONHIDE]: setDefaultDescriptor({
       value () {
-        /**
-         * trigger lifecycle
-         */
-        const app = getAppInstance()
-        // class component, componentDidHide
-        app?.componentDidHide?.()
-        // functional component, useDidHide
-        triggerAppHook('onHide')
+        const onHide = () => {
+          /**
+           * trigger lifecycle
+           */
+          const app = getAppInstance()
+          // class component, componentDidHide
+          app?.componentDidHide?.()
+          // functional component, useDidHide
+          triggerAppHook('onHide')
+        }
+
+        waitAppWrapper(onHide)
       }
     }),
 
     onError: setDefaultDescriptor({
       value (error: string) {
-        const app = getAppInstance()
-        app?.onError?.(error)
-        triggerAppHook('onError', error)
-        if (process.env.NODE_ENV !== 'production' && error?.includes('Minified React error')) {
-          console.warn('React 出现报错，请打开编译配置 mini.debugReact 查看报错详情：https://docs.taro.zone/docs/config-detail#minidebugreact')
+        const onError = () => {
+          const app = getAppInstance()
+          app?.onError?.(error)
+          triggerAppHook('onError', error)
+          if (process.env.NODE_ENV !== 'production' && error?.includes('Minified React error')) {
+            console.warn('React 出现报错，请打开编译配置 mini.debugReact 查看报错详情：https://docs.taro.zone/docs/config-detail#minidebugreact')
+          }
         }
+
+        waitAppWrapper(onError)
       }
     }),
 
     onUnhandledRejection: setDefaultDescriptor({
       value (res: unknown) {
-        const app = getAppInstance()
-        app?.onUnhandledRejection?.(res)
-        triggerAppHook('onUnhandledRejection', res)
+        const onUnhandledRejection = () => {
+          const app = getAppInstance()
+          app?.onUnhandledRejection?.(res)
+          triggerAppHook('onUnhandledRejection', res)
+        }
+
+        waitAppWrapper(onUnhandledRejection)
       }
     }),
 
     onPageNotFound: setDefaultDescriptor({
       value (res: unknown) {
-        const app = getAppInstance()
-        app?.onPageNotFound?.(res)
-        triggerAppHook('onPageNotFound', res)
+        const onPageNotFound = () => {
+          const app = getAppInstance()
+          app?.onPageNotFound?.(res)
+          triggerAppHook('onPageNotFound', res)
+        }
+
+        waitAppWrapper(onPageNotFound)
       }
     })
   })

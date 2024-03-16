@@ -2,53 +2,70 @@ name: Sync Components types
 on:
   schedule:
     - cron: '0 0 * * 6'
+  push:
+    branches:
+      - dev-ci
 
 jobs:
   sync-components-types:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout taro-docs
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: NervJS/taro-docs
           fetch-depth: 1
           path: .taro-docs
       - run : |
-          cp .taro-docs/packages/taro-components/types/* packages/taro-components/types
+          cp -r .taro-docs/packages/taro/types/* packages/taro/types
+          cp -r .taro-docs/packages/taro-components/types/* packages/taro-components/types
           rm -rf .taro-docs
 
+      # Bootstrap project
       - name: Cache pnpm modules
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: ~/.pnpm-store
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-
 
       - name: install
-        uses: pnpm/action-setup@v2.2.2
+        uses: pnpm/action-setup@v2.4.0
         with:
           version: 7
           run_install: |
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
             - args: [--filter @tarojs/components, -D, miniapp-types@latest]
+      # Note: 当前同步脚本使用 ts-node 与 node20 存在兼容问题，修复后解除版本限制
+      - name: Setup Node 16
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org' # Don't touch!
+
+      - name: build
+        run: pnpm --filter=@tarojs/components... build
 
       - name: execute sync script
         run: |
-          cd packages/taro-components
-          pnpm run sync:types
+          pnpm --filter=@tarojs/components run sync:types
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "refactor(types): sync components types"
-          title: "refactor(types): sync components types"
+          base: main
           body: "sync components types"
+          branch: "refactor/sync-types"
+          commit-message: "refactor(types): sync components types"
+          delete-branch: true
+          title: "refactor(types): sync components types"
           labels: |
             A-typings
             A-components

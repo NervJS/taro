@@ -1,0 +1,92 @@
+name: Build Rust Binaries
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: 'The name of the binary to build'
+        required: false
+        default: 'taro'
+        type: string
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [16.x]
+        settings:
+          - host: macos-11
+            target: x86_64-apple-darwin
+            build: |
+              pnpm build:binding:release
+              strip -x crates/native_binding/*.node
+          - host: windows-latest
+            build: pnpm build:binding:release
+            target: x86_64-pc-windows-msvc
+          - host: ubuntu-20.04
+            target: x86_64-unknown-linux-gnu
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
+            build: |-
+              set -e &&
+              pnpm build:binding:release --target x86_64-unknown-linux-gnu &&
+              strip crates/native_binding/*.node
+          - host: ubuntu-20.04
+            target: x86_64-unknown-linux-musl
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+            build: set -e && pnpm build:binding:release && strip crates/native_binding/*.node
+          - host: macos-11
+            target: aarch64-apple-darwin
+            build: |
+              pnpm build:binding:release --target aarch64-apple-darwin
+              strip -x crates/native_binding/*.node
+    name: stable - ${{ matrix.settings.target }}
+    runs-on: ${{ matrix.settings.host }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 7
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        if: ${{ !matrix.settings.docker }}
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        if: ${{ !matrix.settings.docker }}
+        with:
+          toolchain: stable
+          targets: ${{ matrix.settings.target }}
+      - name: Cache cargo
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            .cargo-cache
+            target/
+          key: ${{ matrix.settings.target }}-cargo-${{ matrix.settings.host }}
+      - name: Install dependencies
+        run: pnpm install --filter @tarojs/binding... --frozen-lockfile
+      - name: Build in docker
+        uses: addnab/docker-run-action@v3
+        if: ${{ matrix.settings.docker }}
+        with:
+          image: ${{ matrix.settings.docker }}
+          options: '--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build'
+          run: ${{ matrix.settings.build }}
+      - name: Build
+        run: ${{ matrix.settings.build }}
+        if: ${{ !matrix.settings.docker }}
+        shell: bash
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bindings-${{ matrix.settings.target }}
+          path: crates/native_binding/${{ inputs.name }}.*.node
+          if-no-files-found: error

@@ -13,6 +13,15 @@ const config = {
   outputRoot: 'dist',
   plugins: [path.join(process.cwd(), '/plugin-mv/index.js')],
   framework: 'react',
+  compiler: {
+    type: 'webpack5',
+    prebundle: {
+      enable: false
+    }
+  },
+  terser: {
+    enable: false
+  },
   mini: {
     enableSourceMap: false,
     postcss: {
@@ -40,6 +49,15 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
+    webpackChain(chain) {
+      chain.merge({
+        output: {
+          libraryTarget: 'umd',
+          library: 'NativeComponent',
+          chunkLoadingGlobal: 'NativeComponentJsonp',
+        },
+      })
+    },
     postcss: {
       autoprefixer: {
         enable: true,

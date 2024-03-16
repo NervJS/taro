@@ -154,16 +154,16 @@ export interface WindowConfig extends CommonConfig {
   allowsBounceVertical?: 'YES' | 'NO'
 }
 export interface AppConfig {
-  pages: string[],
-  window?: WindowConfig,
-  tabBar?: TabBar,
+  pages: string[]
+  window?: WindowConfig
+  tabBar?: TabBar
   subPackages?: SubPackage[]
-  subpackages?: SubPackage[],
-  designWidth: number,
-  deviceRatio: Record<number, number>,
-  linkPrefix: string[],
-  rn?: any,
-  entryPagePath?: string,
+  subpackages?: SubPackage[]
+  designWidth: number | ((size?: string | number) => number)
+  deviceRatio: Record<string, number>
+  linkPrefix: string[]
+  rn?: any
+  entryPagePath?: string
 }
 
 export interface RNAppConfig {

@@ -1,5 +1,5 @@
+import { fs } from '@tarojs/helper'
 import { isFunction, isObject, isString, noop, Shortcuts } from '@tarojs/shared'
-import * as fs from 'fs'
 import { join } from 'path'
 import * as webpack from 'webpack'
 
@@ -266,7 +266,7 @@ export class Prerender {
       if (typeof PRERENDER !== 'undefined') {
         module.exports = ${this.globalObject}._prerender
       }`
-      fs.appendFile(path, s, 'utf8', () => {
+      fs.appendFile(path, s, { encoding: 'utf8' }, () => {
         resolve()
       })
     })

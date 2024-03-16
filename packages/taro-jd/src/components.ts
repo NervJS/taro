@@ -13,5 +13,15 @@ export const components = {
   },
   Map: {
     bindRegionChange: ''
-  }
+  },
+  WebView: {
+    height: ''
+  },
+  Input: {
+    'adjust-position': 'true',
+  },
+  Textarea: {
+    'show-confirm-bar': 'true',
+    'adjust-position': 'true',
+  },
 }

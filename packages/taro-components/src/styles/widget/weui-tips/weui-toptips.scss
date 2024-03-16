@@ -1,0 +1,18 @@
+.weui-toptips {
+  display: none;
+  position: fixed;
+  transform: translateZ(0);
+  top: 0; // 8px;
+  left: 0; // 8px;
+  right: 0; // 8px;
+  padding: 5px; // 10px;
+  // border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+  color: #fff; // 固定色值
+  z-index: 5000; // 5500;
+  @include text_wrap();
+}
+.weui-toptips_warn {
+  background-color: $weuiColorWarn;
+}

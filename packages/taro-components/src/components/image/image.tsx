@@ -1,8 +1,6 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter } from '@stencil/core'
 import classNames from 'classnames'
 
-import('intersection-observer')
-
 export type Mode =
   'scaleToFill'
   | 'aspectFit'
@@ -30,6 +28,7 @@ export class Image implements ComponentInterface {
   @Prop() nativeProps = {}
 
   @State() aspectFillMode = 'width'
+  @State() didLoad = false
 
   @Event({
     eventName: 'load'
@@ -48,7 +47,7 @@ export class Image implements ComponentInterface {
       // 异步 api 关系
       if (entries[entries.length - 1].isIntersecting) {
         lazyImg.unobserve(this.imgRef)
-        this.imgRef.src = this.src
+        this.didLoad = true
       }
     }, {
       rootMargin: '300px 0px'
@@ -73,20 +72,22 @@ export class Image implements ComponentInterface {
     this.aspectFillMode = naturalWidth > naturalHeight ? 'width' : 'height'
   }
 
-  imageOnError () {
-    this.onError.emit()
+  imageOnError (e: Event) {
+    this.onError.emit(e)
   }
 
   render () {
     const {
       src,
-      mode = 'scaleToFill',
       lazyLoad = false,
       aspectFillMode = 'width',
       imageOnLoad,
       imageOnError,
-      nativeProps
+      nativeProps,
+      didLoad
     } = this
+    // mode="" 按默认值处理
+    const mode = this.mode || 'scaleToFill'
 
     const cls = classNames({
       'taro-img__widthfix': mode === 'widthFix'
@@ -100,24 +101,17 @@ export class Image implements ComponentInterface {
 
     return (
       <Host class={cls}>
-        {lazyLoad ? (
-          <img
-            ref={img => (this.imgRef = img!)}
-            class={imgCls}
-            onLoad={imageOnLoad.bind(this)}
-            onError={imageOnError.bind(this)}
-            {...nativeProps}
-          />
-        ) : (
-          <img
-            ref={img => (this.imgRef = img!)}
-            class={imgCls}
-            src={src}
-            onLoad={imageOnLoad.bind(this)}
-            onError={imageOnError.bind(this)}
-            {...nativeProps}
-          />
-        )}
+        {
+          src ? (
+            <img
+              ref={(img) => (this.imgRef = img!)}
+              class={imgCls}
+              src={lazyLoad && !didLoad ? undefined : src}
+              onLoad={imageOnLoad.bind(this)}
+              onError={imageOnError.bind(this)}
+              {...nativeProps} />
+          ) : ''
+        }
       </Host>
     )
   }

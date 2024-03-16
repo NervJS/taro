@@ -48,8 +48,8 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
 
     $ref = React.createRef<any>()
     startTimestamp = 0
-    startTimer: any
-    stayTimer: any
+    startTimer: ReturnType<typeof setTimeout>
+    stayTimer: ReturnType<typeof setTimeout>
 
     panResponder: any = PanResponder.create({
       onStartShouldSetPanResponder: () => {
@@ -85,7 +85,8 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
         onTouchEnd && onTouchEnd(this.getWxAppEvent(evt))
         const endTimestamp = evt.nativeEvent.timestamp
         const gapTime = endTimestamp - this.startTimestamp
-        const hasMove = Math.abs(gestureState.dx) >= 1 || Math.abs(gestureState.dy) >= 1
+        // 1 =>3, 修复部分android机型(三星折叠屏尤为明显),单击时dx,dy为>1，而被误判为move的情况。
+        const hasMove = Math.abs(gestureState.dx) >= 3 || Math.abs(gestureState.dy) >= 3
         if (!hasMove) {
           if (gapTime <= 350) {
             onClick && onClick(this.getWxAppEvent(evt))

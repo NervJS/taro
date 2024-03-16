@@ -2,9 +2,9 @@ import generator from '@babel/generator'
 import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
 import * as t from '@babel/types'
+import { fs } from '@tarojs/helper'
 import { camelCase, paramCase } from 'change-case'
-import fs from 'fs'
-import { flattenDeep, isEmpty, toArray, xorWith } from 'lodash'
+import { flattenDeep, isEmpty, isNil, toArray, uniq, xorWith } from 'lodash'
 import { format as prettify } from 'prettier'
 
 import { MINI_APP_TYPES } from './constants'
@@ -67,7 +67,7 @@ class GenerateTypes {
   }
 
   // 转换不存在的属性，便于添加到已有的类型声明中
-  convertProps (props: PROP) {
+  convertProps (props: PROP = {}) {
     const array = Array.from(new Set(flattenDeep(toArray(props))))
     const reverseProps: PROP = {}
     array.forEach((prop) => {
@@ -120,26 +120,27 @@ class GenerateTypes {
             const value = astPath.node.leadingComments?.[0]?.value || ''
             const preSupportedPlatforms = value.match(/@supported\s+(.+)/)?.[1].toLowerCase().split(/\s?[,，]\s?/) || []
             const isUnique = value.indexOf('@unique') !== -1
+            const isIgnore = value.indexOf('@ignore') !== -1
 
             // 保留内置类型
-            const inherentTypes = ['global', 'h5', 'rn']
+            const inherentTypes = ['global', 'h5', 'rn', 'quickapp', 'harmony', 'harmony_hybrid']
             inherentTypes.forEach((type) => {
               if (preSupportedPlatforms?.includes(type)) {
                 supportedPlatforms.push(type)
               }
             })
 
-            // 保留已有的支持平台
-            if (isUnique) {
-              supportedPlatforms.push(...preSupportedPlatforms)
+            // 保留 Taro 支持或平台独有特性
+            if (isUnique || isIgnore) {
+              supportedPlatforms.splice(0, supportedPlatforms.length, ...preSupportedPlatforms)
             }
 
-            if (isEmpty(supportedPlatforms) && value.indexOf('@unique') === -1) {
+            if (isEmpty(supportedPlatforms) && !(isUnique || isIgnore)) {
               astPath.remove()
             } else {
               astPath.node.leadingComments[0].value = value.replace(
                 /@supported .*?\n/,
-                `@supported ${supportedPlatforms.join(', ')}\n`
+                `@supported ${uniq(supportedPlatforms).join(', ')}\n`
               )
             }
           },
@@ -153,7 +154,7 @@ class GenerateTypes {
   }
 
   // 添加不存在的属性
-  addProps (ast: AST, props: PROP) {
+  addProps (ast: AST, props: PROP = {}) {
     const componentName = this.componentName
     const jsonSchemas = this.jsonSchemas[this.componentName]
     traverse(ast, {
@@ -201,15 +202,16 @@ class GenerateTypes {
                 let commentValue = `* ${propSchema.description?.replace(/\n/g, '\n * ')} \n`
                 commentValue += `* @supported ${props[prop].join(', ')}\n`
                 const { defaultValue, type } = propSchema
-                if (defaultValue) {
+                if (!isNil(defaultValue)) {
                   if (defaultValue instanceof Array) {
                     commentValue += `* @default ${defaultValue.join(',')}\n`
-                  } else if (!defaultValue.startsWith('"') && !['none', '无'].includes(defaultValue) && type === 'string') {
+                  } else if (typeof defaultValue === 'string' && !defaultValue.startsWith('"') && !['none', '无'].includes(defaultValue) && type === 'string') {
                     commentValue += `* @default "${propSchema.defaultValue.replace(/(^')|('$)/ig, '')}"\n`
                   } else {
                     commentValue += `* @default ${defaultValue}\n`
                   }
                 }
+
                 // @ts-ignore
                 node.leadingComments[0] ||= { type: 'CommentBlock' }
                 node.leadingComments[0].value = commentValue
@@ -259,7 +261,6 @@ class GenerateTypes {
         })
       },
     })
-
   }
 
   exec () {

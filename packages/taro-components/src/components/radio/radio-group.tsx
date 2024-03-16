@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Host, Prop, Event, EventEmitter, Listen, Element } from '@stencil/core'
 
 @Component({
@@ -6,7 +5,7 @@ import { Component, h, ComponentInterface, Host, Prop, Event, EventEmitter, List
 })
 export class RadioGroup implements ComponentInterface {
   private uniqueName = Date.now().toString(36)
-  private value: string
+  #value: string
 
   @Prop() name
 
@@ -32,10 +31,10 @@ export class RadioGroup implements ComponentInterface {
         }
       })
 
-      this.value = e.detail.value
+      this.#value = e.detail.value
 
       this.onChange.emit({
-        value: this.value
+        value: this.#value
       })
     }
   }
@@ -49,11 +48,11 @@ export class RadioGroup implements ComponentInterface {
 
     Object.defineProperty(this.el, 'value', {
       get: () => {
-        if (!this.value) {
+        if (!this.#value) {
           const childList = this.el.querySelectorAll('taro-radio-core')
-          this.value = this.getValues(childList)
+          this.#value = this.getValues(childList)
         }
-        return this.value
+        return this.#value
       },
       configurable: true
     })

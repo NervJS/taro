@@ -1,40 +1,74 @@
-import { getLoaderMetaForH5 } from './loader-meta'
+import { mergeWith } from 'lodash'
+
+import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
+import type Chain from 'webpack-chain'
 import type { Frameworks } from './index'
 
-export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks, chain) {
-  setAlias(ctx, chain)
+export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks, chain: Chain) {
   setLoader(framework, chain)
   setPlugin(ctx, framework, chain)
 
+  const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
+  const externals: Record<string, { [externalType: string]: string } | string> = {}
+  if (isBuildNativeComp) {
+    // Note: 该模式不支持 prebundle 优化，不必再处理
+    externals.react = {
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'react',
+      root: 'React'
+    }
+    externals['react-dom'] = {
+      commonjs: 'react-dom',
+      commonjs2: 'react-dom',
+      amd: 'react-dom',
+      root: 'ReactDOM'
+    }
+    if (framework === 'preact') {
+      externals.preact = 'preact'
+    }
+
+    chain.merge({
+      externalsType: 'umd'
+    })
+  }
+
   chain.merge({
+    externals,
     module: {
       rule: {
-        'process-import-taro': {
-          test: /taro-h5[\\/]dist[\\/]index/,
+        'process-import-taro-h5': {
+          test: /taro-h5[\\/]dist[\\/]api[\\/]taro/,
           loader: require.resolve('./api-loader')
         }
       }
-    }
+    },
+  })
+
+  chain.merge({
+    externals,
+    module: {
+      rule: {
+        'process-import-taro-harmony-hybrid': {
+          test: /plugin-platform-harmony-hybrid[\\/]dist[\\/]api[\\/]apis[\\/]taro/,
+          loader: require.resolve('./api-loader')
+        }
+      }
+    },
   })
 }
 
-function setAlias (ctx: IPluginContext, chain) {
-  const config = ctx.initialConfig
-  const alias = chain.resolve.alias
-
-  if (config.h5?.useHtmlComponents) {
-    alias.set('@tarojs/components$', '@tarojs/components-react/index')
-  } else {
-    alias.set('@tarojs/components$', '@tarojs/components/dist-h5/react')
-  }
-}
-
 function setLoader (framework: Frameworks, chain) {
+  function customizer (object = '', sources = '') {
+    if ([object, sources].every(e => typeof e === 'string')) return object + sources
+  }
   chain.plugin('mainPlugin')
     .tap(args => {
-      args[0].loaderMeta = getLoaderMetaForH5(framework)
+      args[0].loaderMeta = mergeWith(
+        getLoaderMeta(framework), args[0].loaderMeta, customizer
+      )
       return args
     })
 }

@@ -1,4 +1,4 @@
-import { chalk, recursiveMerge } from '@tarojs/helper'
+import { chalk, recursiveMerge, resolveScriptPath } from '@tarojs/helper'
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
 import path from 'path'
 import { Stats } from 'webpack'
@@ -44,7 +44,7 @@ export class BaseConfig {
                 const { warnings, errors } = formatMessages(stats)
 
                 if (stats.hasWarnings()) {
-                  console.log(chalk.bgKeyword('orange')('⚠️ Warinings: \n'))
+                  console.log(chalk.bgKeyword('orange')('⚠️ Warnings: \n'))
                   warnings.forEach(w => console.log(w + '\n'))
                 }
 
@@ -71,8 +71,8 @@ export class BaseConfig {
               }
             }
           ],
-          basic: config.logger?.quiet === false,
-          fancy: config.logger?.quiet !== false
+          basic: config.logger?.quiet === true,
+          fancy: config.logger?.quiet !== true,
         })
       },
       watchOptions: {
@@ -88,7 +88,9 @@ export class BaseConfig {
         type: 'filesystem',
         // 让缓存失效
         buildDependencies: {
-          config: [path.join(appPath, 'config/index.js')]
+          // 与 Config 中处理的配置文件保持一致
+          config: [resolveScriptPath(path.join(appPath, 'config', 'index'))],
+          files: [resolveScriptPath(path.join(appPath, 'src', 'app.config'))]
         },
         name: `${process.env.NODE_ENV}-${process.env.TARO_ENV}`
       }

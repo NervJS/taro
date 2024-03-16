@@ -1,16 +1,19 @@
-import { Func, getCurrentInstance } from '@tarojs/runtime'
-import { ComponentLifecycle, eventCenter, nextTick } from '@tarojs/taro'
+import { getCurrentInstance } from '@tarojs/runtime'
+import { ComponentLifecycle, createIntersectionObserver, createMediaQueryObserver,createSelectorQuery, eventCenter, nextTick } from '@tarojs/taro'
 
 import { clone } from './clone'
 import { diff } from './diff'
 import { appOptions, lifecycleMap, lifecycles, TaroLifeCycles, uniquePageLifecycle } from './lifecycle'
 import { bind, flattenBehaviors, isEqual, nonsupport, report, safeGet, safeSet } from './utils'
 
+import type { Func } from '@tarojs/taro/types/compile'
+
 type Observer = (newProps, oldProps, changePath: string) => void
 
 interface ObserverProperties {
   name: string
-  observer: string | Observer
+  observers: (string | Observer)[]
+  // observer: string | Observer
 }
 
 interface ComponentClass<P = Record<string, any>, S = Record<string, any>> extends ComponentLifecycle<P, S> {
@@ -39,12 +42,17 @@ function defineGetter (component, key: string, getter: string) {
       if (getter === 'props') {
         return component.props
       }
-      return {
-        ...component.state,
-        ...component.props
-      }
+      return component.state
+      // return {
+      //   ...component.state,
+      //   ...component.props
+      // }
     }
   })
+}
+
+function propToState (newValue, _oldValue, key: string) {
+  this.state[key] = newValue
 }
 
 function isFunction (o): o is Func {
@@ -63,7 +71,8 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       ['created', []],
       ['attached', []],
       ['ready', []],
-      ['detached', []]
+      ['detached', []],
+      ['lifetimes', []]
     ])
     const behaviorProperties = {}
     if (weappConf.behaviors?.length) {
@@ -90,7 +99,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       }
     }
 
-    class BaseComponent<P = Record<string, any>, S = Record<string, any>> extends ConnectComponent {
+    class BaseComponent<P = Record<string, any>, S extends Record<string, any> = Record<string, any>> extends ConnectComponent {
       private _observeProps: ObserverProperties[] = []
 
       // mixins 可以多次调用生命周期
@@ -123,19 +132,46 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       }
 
       private initProps (props: any) {
+        const properties = {}
         for (const propKey in props) {
           if (props.hasOwnProperty(propKey)) {
             const propValue = props[propKey]
             // propValue 可能是 null, 构造函数, 对象
-            if (propValue && !isFunction(propValue)) {
-              if (propValue.observer) {
-                this._observeProps.push({
-                  name: propKey,
-                  observer: propValue.observer
-                })
+            const observers = [propToState]
+            if(propValue === null || propValue === undefined){ // propValue为null、undefined情况
+              properties[propKey] = null
+            }
+            else if(isFunction(propValue)) { // propValue为Function，即Array、String、Boolean等情况时
+              if (propValue.name === 'Array') {
+                properties[propKey] = []
+              } else if(propValue.name === 'String'){
+                properties[propKey] = ''
+              } else if(propValue.name === 'Boolean'){
+                properties[propKey] = false
+              } else if(propValue.name === 'Number') {
+                properties[propKey] = 0
+              } else {
+                properties[propKey] = null
               }
             }
+            else if(typeof propValue === 'object') { // propValue为对象时
+              properties[propKey] = propValue.value
+              if (propValue.observer) {
+                observers.push(propValue.observer)
+              }
+            }
+            else {
+              properties[propKey] = null
+            }
+            this._observeProps.push({
+              name: propKey,
+              observers: observers
+            })
           }
+        }
+        this.state = {
+          ...properties,
+          ...this.state
         }
       }
 
@@ -285,6 +321,13 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
                   }
                 })
                 break
+              case 'lifetimes':
+                list.forEach(lifetimesObject => {
+                  for (const key in lifetimesObject) {
+                    this.initLifeCycles(key, lifetimesObject[key])
+                  }
+                })
+                break
               default:
                 break
             }
@@ -367,19 +410,21 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       }
 
       private triggerPropertiesObservers (prevProps, nextProps) {
-        this._observeProps.forEach(({ name: key, observer }) => {
+        this._observeProps.forEach(({ name: key, observers }) => {
           const prop = prevProps?.[key]
           const nextProp = nextProps[key]
           // 小程序是深比较不同之后才 trigger observer
           if (!isEqual(prop, nextProp)) {
-            if (typeof observer === 'string') {
-              const ob = this[observer]
-              if (isFunction(ob)) {
-                ob.call(this, nextProp, prop, key)
+            observers.forEach((observer)=>{
+              if (typeof observer === 'string') {
+                const ob = this[observer]
+                if (isFunction(ob)) {
+                  ob.call(this, nextProp, prop, key)
+                }
+              } else if (isFunction(observer)) {
+                observer.call(this, nextProp, prop, key)
               }
-            } else if (isFunction(observer)) {
-              observer.call(this, nextProp, prop, key)
-            }
+            })
           }
         })
       }
@@ -563,6 +608,13 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
           const page = this.current.page
           if (page?.[method]) {
             return page[method](...args)
+          } else if (method === 'createSelectorQuery') {
+            return createSelectorQuery()
+          } else if (method === 'createIntersectionObserver') {
+            // @ts-ignore
+            return createIntersectionObserver(...args)
+          } else if (method === 'createMediaQueryObserver') {
+            return createMediaQueryObserver()
           } else {
             console.error(`page 下没有 ${method} 方法`)
           }
@@ -625,3 +677,5 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
     return BaseComponent
   }
 }
+
+export * from './convert-tools'

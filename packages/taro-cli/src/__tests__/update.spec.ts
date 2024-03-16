@@ -35,7 +35,9 @@ jest.mock('ora', () => {
   ora.mockReturnValue({
     start () {
       return {
-        stop () {}
+        stop () {},
+        warn () {},
+        succeed (){}
       }
     }
   })
@@ -44,7 +46,7 @@ jest.mock('ora', () => {
 
 jest.mock('@tarojs/helper', () => {
   const helper = jest.requireActual('@tarojs/helper')
-  const fs = jest.requireActual('fs-extra')
+  const fs = helper.fs
   return {
     __esModule: true,
     ...helper,
@@ -91,7 +93,8 @@ function updatePkg (pkgPath: string, version: string) {
       '@tarojs/plugin-platform-swan': version,
       '@tarojs/plugin-platform-tt': version,
       '@tarojs/plugin-platform-jd': version,
-      '@tarojs/plugin-platform-qq': version
+      '@tarojs/plugin-platform-qq': version,
+      '@tarojs/plugin-platform-h5': version
     },
     devDependencies: {
       ...packageMap.devDependencies,
@@ -128,7 +131,8 @@ describe('update', () => {
     spy.mockImplementation(() => {})
     await runUpdate('', {
       options: {
-        npm: 'npm'
+        npm: 'npm',
+        disableGlobalConfig: true
       }
     })
     expect(spy).toBeCalledTimes(3)
@@ -139,7 +143,8 @@ describe('update', () => {
     await runUpdate('', {
       args: ['self'],
       options: {
-        npm: 'npm'
+        npm: 'npm',
+        disableGlobalConfig: true
       }
     })
     expect(execMocked).toBeCalledWith(`npm i -g @tarojs/cli@${lastestVersion}`)
@@ -150,7 +155,8 @@ describe('update', () => {
     await runUpdate('', {
       args: ['self'],
       options: {
-        npm: 'yarn'
+        npm: 'yarn',
+        disableGlobalConfig: true
       }
     })
     expect(execMocked).toBeCalledWith(`yarn global add @tarojs/cli@${lastestVersion}`)
@@ -161,7 +167,8 @@ describe('update', () => {
     await runUpdate('', {
       args: ['self'],
       options: {
-        npm: 'pnpm'
+        npm: 'pnpm',
+        disableGlobalConfig: true
       }
     })
     expect(execMocked).toBeCalledWith(`pnpm add -g @tarojs/cli@${lastestVersion}`)
@@ -172,7 +179,8 @@ describe('update', () => {
     await runUpdate('', {
       args: ['self'],
       options: {
-        npm: 'cnpm'
+        npm: 'cnpm',
+        disableGlobalConfig: true
       }
     })
     expect(execMocked).toBeCalledWith(`cnpm i -g @tarojs/cli@${lastestVersion}`)
@@ -183,7 +191,8 @@ describe('update', () => {
     await runUpdate('', {
       args: ['self', version],
       options: {
-        npm: 'npm'
+        npm: 'npm',
+        disableGlobalConfig: true
       }
     })
     expect(execMocked).toBeCalledWith(`npm i -g @tarojs/cli@${version}`)
@@ -201,7 +210,8 @@ describe('update', () => {
       await runUpdate('', {
         args: ['project'],
         options: {
-          npm: 'npm'
+          npm: 'npm',
+          disableGlobalConfig: true
         }
       })
     } catch (error) {} // eslint-disable-line no-empty
@@ -222,7 +232,8 @@ describe('update', () => {
     await runUpdate(appPath, {
       args: ['project'],
       options: {
-        npm: 'npm'
+        npm: 'npm',
+        disableGlobalConfig: true
       }
     })
     expect(writeJson.mock.calls[0][0]).toEqual(pkgPath)
@@ -244,7 +255,8 @@ describe('update', () => {
     await runUpdate(appPath, {
       args: ['project', version],
       options: {
-        npm: 'npm'
+        npm: 'npm',
+        disableGlobalConfig: true
       }
     })
     expect(writeJson.mock.calls[0][0]).toEqual(pkgPath)
@@ -264,7 +276,8 @@ describe('update', () => {
     await runUpdate(appPath, {
       args: ['project'],
       options: {
-        npm: 'yarn'
+        npm: 'yarn',
+        disableGlobalConfig: true
       }
     })
     expect(execMocked).toBeCalledWith('yarn install')
@@ -282,7 +295,8 @@ describe('update', () => {
     await runUpdate(appPath, {
       args: ['project'],
       options: {
-        npm: 'pnpm'
+        npm: 'pnpm',
+        disableGlobalConfig: true
       }
     })
     expect(execMocked).toBeCalledWith('pnpm install')
@@ -300,7 +314,8 @@ describe('update', () => {
     await runUpdate(appPath, {
       args: ['project'],
       options: {
-        npm: 'cnpm'
+        npm: 'cnpm',
+        disableGlobalConfig: true
       }
     })
     expect(execMocked).toBeCalledWith('cnpm install')

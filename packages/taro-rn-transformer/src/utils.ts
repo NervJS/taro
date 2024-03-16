@@ -1,6 +1,7 @@
 import { parseSync, transformFromAstSync, types } from '@babel/core'
 import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
+import * as t from '@babel/types'
 import { readConfig, resolveMainFilePath } from '@tarojs/helper'
 import * as fs from 'fs'
 import * as mimeType from 'mime-types'
@@ -24,7 +25,7 @@ export function getConfigContent (path: string) {
 }
 
 export function getStyleCode (code: string, basePath: string) {
-  const ast:any = parser.parse(code, {
+  const ast = parser.parse(code, {
     sourceType: 'module',
     plugins: [
       'jsx',
@@ -36,7 +37,7 @@ export function getStyleCode (code: string, basePath: string) {
 
   const styleTypes = RN_CSS_EXT
   const styleSource: Record<string, string>[] = []
-  traverse(ast, {
+  t.isNode(ast) && traverse(ast, {
     ImportDeclaration (path) {
       const node = path.node
       const resource: string = node.source.value
@@ -80,7 +81,7 @@ function isJSXSource (file: string, code: string) {
     result = false
   } else {
     // .js
-    const ast: any = parser.parse(code, {
+    const ast = parser.parse(code, {
       sourceType: 'module',
       plugins: [
         'jsx',
@@ -88,7 +89,7 @@ function isJSXSource (file: string, code: string) {
         'decorators-legacy'
       ]
     })
-    traverse(ast, {
+    t.isNode(ast) && traverse(ast, {
       JSXElement () {
         result = true
       }
@@ -215,7 +216,7 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
     return
   }
 
-  const astResult = parseSync(result.code, {
+  const ast = parseSync(result.code, {
     filename,
     caller: { name: 'taro' }
   })
@@ -228,97 +229,100 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
    * Map => [['Background', className]]
    */
   const componentClassMap = new Map()
-  traverse(astResult, {
-    Program: {
-      enter (astPath) {
-        linariaStyle = astPath.scope.generateUidIdentifier('linariaStyle')
-        let lastImportAstPath
-        for (const stmt of astPath.get('body')) {
-          if (types.isImportDeclaration(stmt.node)) {
-            lastImportAstPath = stmt
+
+  if (t.isNode(ast)) {
+    traverse(ast, {
+      Program: {
+        enter (astPath) {
+          linariaStyle = astPath.scope.generateUidIdentifier('linariaStyle')
+          let lastImportAstPath
+          for (const stmt of astPath.get('body')) {
+            if (types.isImportDeclaration(stmt.node)) {
+              lastImportAstPath = stmt
+            }
+          }
+          if (lastImportAstPath) {
+            const cssImportCSS = types.importDeclaration([types.importDefaultSpecifier(linariaStyle)], types.stringLiteral(outputFilename))
+            lastImportAstPath.insertAfter(cssImportCSS)
           }
         }
-        if (lastImportAstPath) {
-          const cssImportCSS = types.importDeclaration([types.importDefaultSpecifier(linariaStyle)], types.stringLiteral(outputFilename))
-          lastImportAstPath.insertAfter(cssImportCSS)
-        }
-      }
-    },
-    ObjectExpression (astPath) {
-      for (const node of astPath.node.properties) {
-        if (types.isObjectProperty(node) && types.isIdentifier(node.key) && node.key.name === 'class') {
-          if (types.isStringLiteral(node.value) && Object.keys(result.rules).includes(`.${node.value.value}`)) {
-            const componentProperty = astPath.node.properties.find((property) => {
-              if (types.isObjectProperty(property) && types.isIdentifier(property.key)) {
-                return property.key.name === 'name'
+      },
+      ObjectExpression (astPath) {
+        for (const node of astPath.node.properties) {
+          if (types.isObjectProperty(node) && types.isIdentifier(node.key) && node.key.name === 'class') {
+            if (types.isStringLiteral(node.value) && Object.keys(result.rules).includes(`.${node.value.value}`)) {
+              const componentProperty = astPath.node.properties.find((property) => {
+                if (types.isObjectProperty(property) && types.isIdentifier(property.key)) {
+                  return property.key.name === 'name'
+                }
+              })
+              if (types.isObjectProperty(componentProperty) && types.isStringLiteral(componentProperty.value)) {
+                componentClassMap.set(componentProperty.value.value, node.value.value)
               }
-            })
-            if (types.isObjectProperty(componentProperty) && types.isStringLiteral(componentProperty.value)) {
-              componentClassMap.set(componentProperty.value.value, node.value.value)
+              break
             }
-            break
           }
         }
-      }
-    },
-    JSXOpeningElement (astPath) {
-      const { attributes, name: component } = astPath.node
-      const className = types.isJSXIdentifier(component) && componentClassMap.get(component.name)
-      if (className) {
-        const index = attributes.findIndex(attribute =>
-          types.isJSXAttribute(attribute) && attribute.name.name === 'style')
+      },
+      JSXOpeningElement (astPath) {
+        const { attributes, name: component } = astPath.node
+        const className = types.isJSXIdentifier(component) && componentClassMap.get(component.name)
+        if (className) {
+          const index = attributes.findIndex(attribute =>
+            types.isJSXAttribute(attribute) && attribute.name.name === 'style')
 
-        let attribute = attributes[index]
-        const linariaExpression = types.memberExpression(
-          linariaStyle,
-          types.identifier(className)
-        )
-
-        // 不处理行内字符串样式，删除 style 属性
-        if (attribute && types.isJSXAttribute(attribute) && types.isStringLiteral(attribute.value)) {
-          attributes.splice(index, 1)
-          attribute = null as any
-        }
-
-        if (attribute) {
-          if (types.isJSXAttribute(attribute) && types.isJSXExpressionContainer(attribute.value)) {
-            const expression = attribute.value.expression
-            let elements
-            if (types.isArrayExpression(expression)) {
-              elements = expression.elements
-            } else {
-              elements = expression
-            }
-            // 合并 style 对象
-            // style = Object.assign({}, linariaStyle, { color: 'red' })
-            const mergeStyleExpression = types.callExpression(
-              types.identifier('Object.assign'),
-              // @ts-ignore
-              [types.objectExpression([])].concat(linariaExpression, elements)
-            )
-            attribute.value = types.jSXExpressionContainer(mergeStyleExpression)
-          }
-        } else {
-          attributes.push(
-            types.jsxAttribute(
-              types.jsxIdentifier('style'),
-              types.jsxExpressionContainer(linariaExpression)
-            )
+          let attribute = attributes[index]
+          const linariaExpression = types.memberExpression(
+            linariaStyle,
+            types.identifier(className)
           )
+
+          // 不处理行内字符串样式，删除 style 属性
+          if (attribute && types.isJSXAttribute(attribute) && types.isStringLiteral(attribute.value)) {
+            attributes.splice(index, 1)
+            attribute = null as any
+          }
+
+          if (attribute) {
+            if (types.isJSXAttribute(attribute) && types.isJSXExpressionContainer(attribute.value)) {
+              const expression = attribute.value.expression
+              let elements
+              if (types.isArrayExpression(expression)) {
+                elements = expression.elements
+              } else {
+                elements = expression
+              }
+              // 合并 style 对象
+              // style = Object.assign({}, linariaStyle, { color: 'red' })
+              const mergeStyleExpression = types.callExpression(
+                types.identifier('Object.assign'),
+                // @ts-ignore
+                [types.objectExpression([])].concat(linariaExpression, elements)
+              )
+              attribute.value = types.jSXExpressionContainer(mergeStyleExpression)
+            }
+          } else {
+            attributes.push(
+              types.jsxAttribute(
+                types.jsxIdentifier('style'),
+                types.jsxExpressionContainer(linariaExpression)
+              )
+            )
+          }
         }
       }
-    }
-  })
+    })
 
-  // 根据 ast 生成新的结果
-  const transformResult = astResult && transformFromAstSync(astResult, result.code, {
-    filename,
-    babelrc: false,
-    configFile: false,
-    sourceMaps: true,
-    sourceFileName: filename,
-    inputSourceMap: result.sourceMap
-  })
+    // 根据 ast 生成新的结果
+    const transformResult = transformFromAstSync(ast, result.code, {
+      filename,
+      babelrc: false,
+      configFile: false,
+      sourceMaps: true,
+      sourceFileName: filename,
+      inputSourceMap: result.sourceMap
+    })
 
-  return transformResult
+    return transformResult
+  }
 }

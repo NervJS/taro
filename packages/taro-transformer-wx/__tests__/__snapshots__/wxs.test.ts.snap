@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`wxs.ts测试 getRegExp 只有一个参数 1`] = `
+Map {
+  undefined => INFO [taro-transformer-wx] parseCode - 入参 
+code: var regexp = getRegExp('x'); 
+INFO [taro-transformer-wx] traverseWxsFile - 进入函数 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+regexp 
+INFO [taro-transformer-wx] traverseWxsFile - 解析CallExpression 
+getRegExp('x') 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+RegExp 
+,
+}
+`;
+
+exports[`wxs.ts测试 getRegExp 有一个参数，参数为变量 1`] = `
+Map {
+  undefined => INFO [taro-transformer-wx] parseCode - 入参 
+code: var regexp = getRegExp(param); 
+INFO [taro-transformer-wx] traverseWxsFile - 进入函数 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+regexp 
+INFO [taro-transformer-wx] traverseWxsFile - 解析CallExpression 
+getRegExp(param) 
+ERROR [taro-transformer-wx] traverseWxsFile - getRegExp 函数暂不支持传入变量类型的参数 
+,
+}
+`;
+
+exports[`wxs.ts测试 getRegExp 有一个参数，参数为非字符串 1`] = `
+Map {
+  undefined => INFO [taro-transformer-wx] parseCode - 入参 
+code: var regexp = getRegExp(123); 
+INFO [taro-transformer-wx] traverseWxsFile - 进入函数 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+regexp 
+INFO [taro-transformer-wx] traverseWxsFile - 解析CallExpression 
+getRegExp(123) 
+ERROR [taro-transformer-wx] traverseWxsFile - getRegExp 函数暂不支持传入非字符串类型的参数 
+,
+}
+`;
+
+exports[`wxs.ts测试 getRegExp 有两个参数 1`] = `
+Map {
+  undefined => INFO [taro-transformer-wx] parseCode - 入参 
+code: var regexp = getRegExp("x", "img"); 
+INFO [taro-transformer-wx] traverseWxsFile - 进入函数 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+regexp 
+INFO [taro-transformer-wx] traverseWxsFile - 解析CallExpression 
+getRegExp("x", "img") 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+RegExp 
+,
+}
+`;
+
+exports[`wxs.ts测试 getRegExp 有两个参数，其中某个参数为变量 1`] = `
+Map {
+  undefined => INFO [taro-transformer-wx] parseCode - 入参 
+code: var regexp = getRegExp(param, "img"); 
+INFO [taro-transformer-wx] traverseWxsFile - 进入函数 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+regexp 
+INFO [taro-transformer-wx] traverseWxsFile - 解析CallExpression 
+getRegExp(param, "img") 
+ERROR [taro-transformer-wx] traverseWxsFile - getRegExp 函数暂不支持传入变量类型的参数 
+,
+}
+`;
+
+exports[`wxs.ts测试 getRegExp 有两个参数，其中某个参数为非字符串 1`] = `
+Map {
+  undefined => INFO [taro-transformer-wx] parseCode - 入参 
+code: var regexp = getRegExp(123, "img"); 
+INFO [taro-transformer-wx] traverseWxsFile - 进入函数 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+regexp 
+INFO [taro-transformer-wx] traverseWxsFile - 解析CallExpression 
+getRegExp(123, "img") 
+ERROR [taro-transformer-wx] traverseWxsFile - getRegExp 函数暂不支持传入非字符串类型的参数 
+,
+}
+`;
+
+exports[`wxs.ts测试 wxs中使用wx原生方法的转换 1`] = `
+function getSystemInfo() {
+  return Taro.getSystemInfoSync();
+}
+module.exports = {
+  getSystemInfo: getSystemInfo
+};
+`;
+
+exports[`wxs.ts测试 wxs中使用wx原生方法的转换 2`] = `
+Map {
+  undefined => INFO [taro-transformer-wx] parseCode - 入参 
+code: 
+      function getSystemInfo() {
+        return wx.getSystemInfoSync();
+      }
+      module.exports = {
+        getSystemInfo : getSystemInfo
+      };
+     
+INFO [taro-transformer-wx] traverseWxsFile - 进入函数 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+getSystemInfo 
+INFO [taro-transformer-wx] traverseWxsFile - 解析BlockStatement 
+{
+  return wx.getSystemInfoSync();
+} 
+INFO [taro-transformer-wx] traverseWxsFile - 解析CallExpression 
+wx.getSystemInfoSync() 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+wx 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+Taro 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+getSystemInfoSync 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+module 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+exports 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+getSystemInfo 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+getSystemInfo 
+,
+}
+`;
+
+exports[`wxs.ts测试 wxs文件中的var regexp = getRegExp()转换为var regexp = new RegExp() 1`] = `
+Map {
+  undefined => INFO [taro-transformer-wx] parseCode - 入参 
+code: var regexp = getRegExp(); 
+INFO [taro-transformer-wx] traverseWxsFile - 进入函数 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+regexp 
+INFO [taro-transformer-wx] traverseWxsFile - 解析CallExpression 
+getRegExp() 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+RegExp 
+,
+}
+`;
+
+exports[`wxs.ts测试 wxs标签中的getDate()转换为new Date() 1`] = `
+module.exports = {
+  date1: new Date(),
+  //参数为数字
+  date2: new Date(1500000000000),
+  //参数为字符串
+  date3: new Date("2017-7-14")
+};
+`;
+
+exports[`wxs.ts测试 wxs标签中的getDate()转换为new Date() 2`] = `
+Map {
+  undefined => INFO [taro-transformer-wx] parseCode - 入参 
+code: 
+      module.exports = {
+        date1:getDate(),
+        //参数为数字
+        date2:getDate(1500000000000),
+        //参数为字符串
+        date3:getDate('2017-7-14') 
+      }
+     
+INFO [taro-transformer-wx] traverseWxsFile - 进入函数 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+module 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+exports 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+date1 
+INFO [taro-transformer-wx] traverseWxsFile - 解析CallExpression 
+getDate() 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+Date 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+date2 
+INFO [taro-transformer-wx] traverseWxsFile - 解析CallExpression 
+getDate(1500000000000) 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+Date 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+date3 
+INFO [taro-transformer-wx] traverseWxsFile - 解析CallExpression 
+getDate('2017-7-14') 
+INFO [taro-transformer-wx] traverseWxsFile - 解析Identifier 
+Date 
+,
+}
+`;

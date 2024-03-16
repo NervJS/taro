@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Button } from '@tarojs/components'
+import { View, Button, Image } from '@tarojs/components'
 import ListItem from '../../components/listItem/listItem'
+import Dog from './dog.jpg'
 import './list.scss'
 
 declare const requireMiniProgram: () => { whoami: string }
@@ -21,8 +22,10 @@ export default class Index extends Component<any, any> {
   }
 
   componentDidMount () {
-    // 测试 export
-    console.log(requireMiniProgram().whoami)
+    // 测试 export 京东小程序不支持在插件侧调用
+    if (process.env.TARO_ENV !== 'jd') {
+      console.log(requireMiniProgram().whoami)
+    }
   }
 
   onShareAppMessage() {
@@ -49,6 +52,8 @@ export default class Index extends Component<any, any> {
         </View>
 
         <Button onClick={this.getElement}>测试元素获取</Button>
+
+        <Image src={Dog} />
 
         <mp-comp></mp-comp>
       </View>

@@ -1,4 +1,3 @@
-import { ComponentType } from 'react'
 import Component from '@tarojs/components'
 
 declare module '@tarojs/components' {

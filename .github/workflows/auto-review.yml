@@ -3,7 +3,7 @@ on:
   # When Release Pull Request is merged
   pull_request:
     branches:
-      - next
+      - main
       - 2.x
 
 jobs:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name : GITHUB CONTEXT
         env: 
           GITHUB_CONTEXT: ${{ toJson(github) }} 

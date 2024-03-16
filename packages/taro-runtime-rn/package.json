@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime-rn",
-  "version": "3.5.10",
+  "version": "3.6.24",
   "description": "taro-runtime-rn",
   "main": "dist/index.js",
   "types": "./src/index.ts",
@@ -11,10 +11,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "lint": "eslint .",
-    "test": "jest",
-    "test:dev": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "lint": "eslint ."
   },
   "keywords": [
     "taro"
@@ -30,9 +27,15 @@
   "dependencies": {
     "@tarojs/components-rn": "workspace:*",
     "@tarojs/router-rn": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "react-native-device-info": "~10.3.0",
     "react-native-root-siblings": "^4.1.1"
   },
   "devDependencies": {
-    "@types/react-native": "^0.69.5"
+    "@types/react-native": "^0.69.8"
+  },
+  "peerDependencies": {
+    "@tarojs/shared": "workspace:*",
+    "react-native-device-info": "~10.3.0"
   }
 }

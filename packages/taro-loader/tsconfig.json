@@ -5,9 +5,7 @@
     "outDir": "lib",
     "rootDir": "./src",
     "module": "commonjs",
-    "sourceMap": true,
+    "sourceMap": true
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["./src"]
 }

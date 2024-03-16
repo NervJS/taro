@@ -2,48 +2,46 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface CheckboxProps extends StandardProps {
   /** `<Checkbox/>`标识，选中时触发`<CheckboxGroup/>`的 change 事件，并携带 `<Checkbox/>` 的 value
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   value: string
-
   /** 是否禁用
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    * @default false
    */
   disabled?: boolean
-
   /** 当前是否选中，可用来设置默认选中
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    * @default false
    */
   checked?: boolean
-
   /** checkbox的颜色，同 css 的 color
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   color?: string
-
+  /**
+   * Checkbox 的名字
+   * @supported h5, harmony, harmony_hybrid
+   */
+  name?: string
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
-   * @supported h5
+   * @supported h5, harmony_hybrid
    */
   nativeProps?: Record<string, unknown>
-
   /** 无障碍访问，（属性）元素的额外描述
    * @supported qq
    */
   ariaLabel?: string
-
   /** 选中项发生变化时触发 change 事件，小程序无此 API
-   * @supported alipay, h5, rn
+   * @supported alipay, h5, rn, harmony_hybrid
    */
   onChange?: CommonEventFunction<{
     value: string[]
   }>
 }
-
 /** 多选项目
  * @classification forms
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageCheckbox extends Component {

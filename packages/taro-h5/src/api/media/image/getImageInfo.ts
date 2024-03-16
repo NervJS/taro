@@ -38,12 +38,12 @@ export const getImageInfo: typeof Taro.getImageInfo = (options) => {
         width: image.naturalWidth,
         height: image.naturalHeight,
         path: getBase64Image(image) || src
-      }, resolve)
+      }, { resolve, reject })
     }
     image.onerror = (e: any) => {
       handle.fail({
         errMsg: e.message
-      }, reject)
+      }, { resolve, reject })
     }
     image.src = src
   })

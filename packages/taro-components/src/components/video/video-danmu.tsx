@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, State, Host, Method } from '@stencil/core'
 
 export interface Danmu {

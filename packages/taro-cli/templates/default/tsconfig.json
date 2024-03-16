@@ -13,16 +13,18 @@
     "noUnusedParameters": true,
     "strictNullChecks": true,
     "sourceMap": true,
-    "baseUrl": ".",
     "rootDir": ".",
-    "jsx": "<%= ['vue', 'vue3'].includes(framework) ? 'preserve' : 'react-jsx' %>",<% if (framework === 'preact') {%>
-    "skipLibCheck": true,<%}%>
+    "jsx": "{{#if (includes "Vue" "Vue3" s=framework)}}preserve{{else}}react-jsx{{/if}}",{{#if (eq framework "Preact") }}
+    "skipLibCheck": true,{{/if}}
     "allowJs": true,
     "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types"
-    ]
+    ],
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["./src", "./types"],
+  "include": ["./src", "./types", "./config"],
   "compileOnSave": false
 }

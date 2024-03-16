@@ -1,12 +1,13 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
+import { addLeadingSlash, getCurrentPage, stripBasename, stripSuffix } from '@tarojs/runtime'
 import Taro from '@tarojs/taro'
-import { addLeadingSlash, stripBasename, stripSuffix } from '@tarojs/router/dist/utils'
-import { IH5RouterConfig } from '@tarojs/taro/types/compile'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
 
 import { splitUrl } from '../../utils'
 import { TabbarItem } from './tabbar-item'
+
+import type { IH5RouterConfig } from '@tarojs/taro/types/compile'
 
 const STATUS_SHOW = 0
 const STATUS_HIDE = 1
@@ -82,9 +83,9 @@ export class Tabbar implements ComponentInterface {
 
   @Element() tabbar: HTMLDivElement
 
-  constructor () {
-    const list = this.conf.list
-    const customRoutes = this.conf.customRoutes
+  componentWillLoad () {
+    const list = this.conf?.list || []
+    const customRoutes = this.conf?.customRoutes || {}
     if (
       Object.prototype.toString.call(list) !== '[object Array]' ||
       list.length < 2 ||
@@ -118,20 +119,8 @@ export class Tabbar implements ComponentInterface {
   }
 
   getCurrentUrl () {
-    const routerMode = this.conf.mode
-    const routerBasename = this.conf.basename || '/'
-    let url
-    if (routerMode === 'hash') {
-      const href = window.location.href
-      const hashIndex = href.indexOf('#')
-      url = hashIndex === -1
-        ? ''
-        : href.substring(hashIndex + 1)
-    } else {
-      url = location.pathname
-    }
-    const processedUrl = addLeadingSlash(stripBasename(url, routerBasename))
-    return decodeURI(processedUrl === '/' ? this.homePage : processedUrl)
+    const routePath = getCurrentPage(this.conf.mode, this.conf.basename)
+    return decodeURI(routePath === '/' ? this.homePage : routePath)
   }
 
   getOriginUrl = (url: string) => {
@@ -380,6 +369,7 @@ export class Tabbar implements ComponentInterface {
                 isSelected={isSelected}
                 textColor={textColor}
                 iconPath={iconPath}
+                pagePath={item.pagePath}
                 text={item.text}
                 badgeText={item.badgeText}
                 showRedDot={item.showRedDot}

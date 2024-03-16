@@ -1,11 +1,10 @@
-import { chalk } from '@tarojs/helper'
+import { chalk, fs } from '@tarojs/helper'
 import { createHash } from 'crypto'
 import enhancedResolve from 'enhanced-resolve'
-import fs from 'fs-extra'
 import path from 'path'
 import { performance } from 'perf_hooks'
-import Chain from 'webpack-chain'
 
+import type Chain from 'webpack-chain'
 import type { CollectedDeps } from './constant'
 
 export interface Metadata {
@@ -43,13 +42,6 @@ export function getResolve () {
   return resolve
 }
 
-export function externalModule ({ path }: { path: string }) {
-  return {
-    path,
-    external: true
-  }
-}
-
 export function flattenId (id: string) {
   return id.replace(/(\s*>\s*)/g, '__').replace(/[/.:]/g, '_')
 }
@@ -62,7 +54,12 @@ export function getDefines (chain: Chain) {
   let defines
   if (chain.plugins.has('definePlugin')) {
     chain.plugin('definePlugin').tap(args => {
-      defines = args[0]
+      defines = { ...args[0] }
+      Object.keys(defines).forEach(name => {
+        if (typeof defines[name] !== 'string') {
+          delete defines[name]
+        }
+      })
       return args
     })
   }
@@ -86,7 +83,7 @@ export function isExclude (id: string, excludes: (string | RegExp)[]) {
 }
 
 export function isOptimizeIncluded (path: string) {
-  return /\.[jt]sx?$/.test(path)
+  return /\.m?[jt]sx?$/.test(path)
 }
 
 export function isScanIncluded (path: string) {

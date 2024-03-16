@@ -6,6 +6,10 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "jsx": "react",
+    "lib": ["ESNEXT"],
+    "paths": {
+      "react": ["./node_modules/@types/react", "./node_modules/react"]
+    },
     "types": ["react-native", "jest"],
     "typeRoots": ["./node_modules/@types", "../../node_modules/@types"]
   },

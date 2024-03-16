@@ -108,8 +108,8 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
   $touchable = React.createRef<TouchableWithoutFeedback>()
 
   isTouchEnd = false
-  pressInTimer: number
-  pressOutTimer: number
+  pressInTimer: ReturnType<typeof setTimeout>
+  pressOutTimer: ReturnType<typeof setTimeout>
 
   state: ButtonState = {
     isHover: false
@@ -203,6 +203,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
         onPressIn={this.onPressIn}
         onPressOut={this.onPressOut}
         ref={this.$touchable}
+        accessibilityRole="button"
         disabled={disabled}
       >
         <View

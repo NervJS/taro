@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, Prop, State, ComponentInterface, Event, EventEmitter, Listen, Element, Host } from '@stencil/core'
 import classNames from 'classnames'
 
@@ -15,7 +14,7 @@ export class Button implements ComponentInterface {
   @Prop() size: string
   @Prop() plain: boolean
   @Prop() loading = false
-  @Prop() formType: 'submit' | 'reset' | null = null
+  @Prop({ reflect: true }) formType: 'submit' | 'reset' | null = null
 
   @Element() el: HTMLElement
 

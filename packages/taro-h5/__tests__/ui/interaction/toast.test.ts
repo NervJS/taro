@@ -10,20 +10,16 @@ describe('toast', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showToast({
       title: 123,
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showToast:fail parameter error: parameter.title should be String instead of Number' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showToast:fail parameter error: parameter.title should be String instead of Number' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
   test('options.duration should be Number', () => {
@@ -31,23 +27,19 @@ describe('toast', () => {
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(4)
     Taro.showToast({
       duration: null,
       success,
       fail,
       complete
     })
-      .catch(err => {
-        const expectErrObj = { errMsg: 'showToast:fail parameter error: parameter.duration should be Number instead of Null' }
-        expect(success.mock.calls.length).toBe(0)
-        expect(fail).toHaveBeenCalledWith(expectErrObj)
-        expect(complete).toHaveBeenCalledWith(expectErrObj)
-        expect(err).toEqual(expectErrObj)
-      })
+    const expectErrObj = { errMsg: 'showToast:fail parameter error: parameter.duration should be Number instead of Null' }
+    expect(success.mock.calls.length).toBe(0)
+    expect(fail).toHaveBeenCalledWith(expectErrObj)
+    expect(complete).toHaveBeenCalledWith(expectErrObj)
   })
 
-  test('basic test', async done => {
+  test('basic test', async () => {
     const titleContent = 'xxx'
     const success = jest.fn()
     const complete = jest.fn()
@@ -81,7 +73,6 @@ describe('toast', () => {
 
     await delay(2000)
     expect(toast).not.toBeVisible()
-    done()
   })
 
   test('should show corresponding icon', () => {
@@ -103,7 +94,7 @@ describe('toast', () => {
     expect(icon.style.animation).toMatch('taroLoading 1s steps(12, end) infinite')
   })
 
-  test('should show image', () => {
+  test('should show image', async () => {
     Taro.showToast({
       title: 'github logo',
       image: '//storage.360buyimg.com/taro-static/static/images/icon_githubf.png',
@@ -112,17 +103,21 @@ describe('toast', () => {
 
     const toast: any = document.body.lastChild
     const icon = toast.lastChild.firstChild
-    const background = 'background-image: url(//storage.360buyimg.com/taro-static/static/images/icon_githubf.png)'
+    const background = {
+      'background-image': 'url(//storage.360buyimg.com/taro-static/static/images/icon_githubf.png)'
+    }
 
+    await delay(200)
     expect(icon).toHaveStyle(background)
 
     Taro.showToast({ title: 'success' })
 
+    await delay(200)
     expect(icon).not.toHaveStyle(background)
     // expect(icon).toHaveTextContent('')
   })
 
-  test('should show mask', async done => {
+  test('should show mask', async () => {
     Taro.showToast({
       title: 'hello',
       mask: true
@@ -133,10 +128,9 @@ describe('toast', () => {
 
     await delay(200)
     expect(mask).toBeVisible()
-    done()
   })
 
-  test('should close after 5 second', async done => {
+  test('should close after 5 second', async () => {
     Taro.showToast({
       title: 'hello',
       duration: 3000
@@ -146,14 +140,12 @@ describe('toast', () => {
 
     await delay(2000)
     expect(toast).toBeVisible()
-    done()
 
     await delay(4000)
     expect(toast).not.toBeVisible()
-    done()
-  })
+  }, 10000)
 
-  test('should hide toast immediately', async done => {
+  test('should hide toast immediately', async () => {
     Taro.showToast({
       title: 'hello',
       duration: 30000
@@ -165,6 +157,5 @@ describe('toast', () => {
     await delay(500)
 
     expect(toast).not.toBeVisible()
-    done()
   })
 })

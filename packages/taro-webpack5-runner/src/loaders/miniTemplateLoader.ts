@@ -19,7 +19,7 @@ export default function miniTemplateLoader (source) {
   const loadModule = request => this.importModule(request)
 
   parser.onattribute = ({ name, value }) => {
-    if (value && name === 'src' && isUrlRequest(value)) {
+    if (value && (name === 'src' || name === 'from') && isUrlRequest(value)) {
       const request = urlToRequest(value)
       requests.add(request)
     }

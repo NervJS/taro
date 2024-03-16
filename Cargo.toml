@@ -1,0 +1,22 @@
+[workspace]
+members = ["crates/*"]
+resolver = "2"
+
+[workspace.dependencies]
+serde_json = { version = "=1.0.114" }
+serde = { version = "=1.0.197", features = ["serde_derive"] }
+swc_core = { version = "0.87.*", features = ["ecma_plugin_transform", "ecma_utils"] }
+
+[patch.crates-io]
+taro_init = { path = "crates/taro_init" }
+
+[profile.dev]
+debug = 2
+incremental = true
+
+[profile.release]
+codegen-units = 1
+debug = false
+lto = false # disabled by now, because it will significantly increase our compile time. # https://github.com/swc-project/swc/issues/7479
+opt-level = 3
+strip = true

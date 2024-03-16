@@ -9,16 +9,25 @@ import buildConf from './webpack/build.conf'
 import { makeConfig } from './webpack/chain'
 
 import type { Func } from '@tarojs/taro/types/compile'
+import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
+import type { Stats } from 'webpack'
 import type { IBuildConfig } from './utils/types'
 
-const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
+const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: IBuildConfig['webpackChain']) => {
+  const data: IModifyChainData = {
+    componentConfig
+  }
   if (modifyWebpackChainFunc instanceof Function) {
-    await modifyWebpackChainFunc(chain, webpack, {
-      componentConfig
-    })
+    await modifyWebpackChainFunc(chain, webpack, data)
   }
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack, META_TYPE)
+  }
+}
+
+function errorHandling (errorLevel?: number, stats?: Stats) {
+  if (errorLevel === 1 && stats?.hasErrors()) {
+    process.exit(1)
   }
 }
 
@@ -39,9 +48,12 @@ export default async function build (appPath: string, config: IBuildConfig): Pro
   }
 
   /** webpack config */
+  const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
   const webpackConfig: webpack.Configuration = webpackChain.toConfig()
 
   return new Promise<webpack.Stats>((resolve, reject) => {
+    if (config.withoutBuild) return
+
     const compiler = webpack(webpackConfig)
     const onBuildFinish = newConfig.onBuildFinish
     let prerender: Prerender
@@ -61,7 +73,9 @@ export default async function build (appPath: string, config: IBuildConfig): Pro
         const error = err ?? stats.toJson().errors
         printBuildError(error)
         onFinish(error, null)
-        return reject(error)
+        reject(error)
+        errorHandling(errorLevel, stats)
+        return
       }
 
       if (!isEmpty(newConfig.prerender)) {

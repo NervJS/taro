@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, Watch, Element, State } from '@stencil/core'
 
 @Component({
@@ -8,7 +7,7 @@ import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, Watc
 export class Checkbox implements ComponentInterface {
   private inputEl: HTMLInputElement
   @Prop() name: string
-  @Prop() value = ''
+  @Prop({ mutable: true }) value: string | number = ''
   @Prop() color: string
   @Prop({ mutable: true }) id: string
   @Prop() checked = false
@@ -38,7 +37,7 @@ export class Checkbox implements ComponentInterface {
     this.id && this.el.removeAttribute('id')
   }
 
-  handleChange = e => {
+  handleChange = (e: Event) => {
     e.stopPropagation()
     this.onChange.emit({
       value: this.value

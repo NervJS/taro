@@ -1,11 +1,14 @@
-export default function (str) {
+export default function (str: string) {
   return `import {
+  setGlobalDataPlugin,
   useAddToFavorites,
   useDidHide,
   useDidShow,
-  setGlobalDataPlugin,
+  useError,
+  useLaunch,
   useLoad,
   useOptionMenuClick,
+  usePageNotFound,
   usePageScroll,
   usePullDownRefresh,
   usePullIntercept,
@@ -18,16 +21,21 @@ export default function (str) {
   useShareTimeline,
   useTabItemTap,
   useTitleClick,
+  useUnhandledRejection,
   useUnload
 } from '@tarojs/plugin-framework-vue3/dist/runtime'
 ${str}
 
+taro.setGlobalDataPlugin = setGlobalDataPlugin
 taro.useAddToFavorites = useAddToFavorites
 taro.useDidHide = useDidHide
 taro.useDidShow = useDidShow
+taro.useError = useError
+taro.useLaunch = useLaunch
 taro.setGlobalDataPlugin = setGlobalDataPlugin
 taro.useLoad = useLoad
 taro.useOptionMenuClick = useOptionMenuClick
+taro.usePageNotFound = usePageNotFound
 taro.usePageScroll = usePageScroll
 taro.usePullDownRefresh = usePullDownRefresh
 taro.usePullIntercept = usePullIntercept
@@ -40,15 +48,19 @@ taro.useShareAppMessage = useShareAppMessage
 taro.useShareTimeline = useShareTimeline
 taro.useTabItemTap = useTabItemTap
 taro.useTitleClick = useTitleClick
+taro.useUnhandledRejection = useUnhandledRejection
 taro.useUnload = useUnload
 
 export {
+  setGlobalDataPlugin,
   useAddToFavorites,
   useDidHide,
   useDidShow,
-  setGlobalDataPlugin,
+  useError,
+  useLaunch,
   useLoad,
   useOptionMenuClick,
+  usePageNotFound,
   usePageScroll,
   usePullDownRefresh,
   usePullIntercept,
@@ -61,6 +73,7 @@ export {
   useShareTimeline,
   useTabItemTap,
   useTitleClick,
+  useUnhandledRejection,
   useUnload
 }
 `

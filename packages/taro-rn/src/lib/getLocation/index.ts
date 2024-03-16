@@ -6,6 +6,8 @@ export async function getLocation(opts: Taro.getLocation.Option = {}): Promise<T
   const { isHighAccuracy = false, highAccuracyExpireTime = 3000, success, fail, complete } = opts
 
   try {
+    // @ts-ignore
+    // todo: fix types
     const { granted } = await requestForegroundPermissionsAsync()
     if (!granted) {
       const res = { errMsg: 'Permissions denied!' }

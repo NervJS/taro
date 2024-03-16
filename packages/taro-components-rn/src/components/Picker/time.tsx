@@ -15,28 +15,39 @@ function formatTimeStr(time = ''): Date {
 
 export default class TimeSelector extends React.Component<TimeProps, TimeState> {
   static defaultProps = {
-    value: new Date(),
     start: '00:00',
     end: '23:59'
   }
 
-  state: any = {
-    pValue: null,
-    value: new Date()
+  state = {
+    pValue: '',
+    value: '',
+    isInOnChangeUpdate: false,
   }
 
-  static getDerivedStateFromProps(nextProps: TimeProps, lastState: any) {
-    if (nextProps.value && nextProps.value !== lastState.pValue) {
-      const now = new Date()
-      if (!nextProps.value || typeof nextProps.value !== 'string') {
+  static getDerivedStateFromProps(nextProps: TimeProps, lastState: TimeState): Partial<TimeState> | null {
+    const nextIncomingValue = nextProps.value
+    // eslint-disable-next-line eqeqeq
+    const isControlled = nextIncomingValue != undefined
+    if (isControlled) {
+      if (nextIncomingValue !== lastState.pValue) {
+        // 受控更新
         return {
-          value: now,
-          pValue: now
+          pValue: nextIncomingValue,
+          value: nextIncomingValue,
+        }
+      } else if (lastState.isInOnChangeUpdate && nextIncomingValue !== lastState.value) {
+        // 受控还原
+        return {
+          value: nextIncomingValue,
+          isInOnChangeUpdate: false,
         }
       }
+    } else if (nextIncomingValue !== lastState.pValue) {
+      // 初次更新才设置 defaultValue
       return {
-        value: formatTimeStr(nextProps.value),
-        pValue: nextProps.value
+        pValue: nextIncomingValue,
+        value: nextProps.defaultValue ?? '00:00'
       }
     }
     return null
@@ -46,14 +57,10 @@ export default class TimeSelector extends React.Component<TimeProps, TimeState> 
     const { onChange = noop } = this.props
     const hh: string = ('0' + date.getHours()).slice(-2)
     const mm: string = ('0' + date.getMinutes()).slice(-2)
-    onChange({ detail: { value: `${hh}:${mm}` } })
-  }
-
-  onValueChange = (vals: string[]): void => {
-    const now = new Date()
-    now.setHours(+vals[0], +vals[1])
-    console.log('11', this.state)
-    this.setState({ value: now })
+    const value = `${hh}:${mm}`
+    this.setState({ value })
+    onChange({ detail: { value } })
+    this.setState({ isInOnChangeUpdate: true })
   }
 
   onDismiss = (): void => {
@@ -68,11 +75,10 @@ export default class TimeSelector extends React.Component<TimeProps, TimeState> 
     return (
       <AntDatePicker
         mode={'time'}
-        value={value}
+        value={formatTimeStr(value)}
         minDate={formatTimeStr(start)}
         maxDate={formatTimeStr(end)}
         onChange={this.onChange}
-        onValueChange={this.onValueChange}
         onDismiss={this.onDismiss}
         disabled={disabled}
       >

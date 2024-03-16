@@ -1,12 +1,14 @@
-import { Current, PageInstance } from '@tarojs/runtime'
+import { Current } from '@tarojs/runtime'
+
+import type { PageInstance } from '@tarojs/runtime'
 
 const pageScrollFn = {}
 let pageDOM: Element | Window = window
 
-export function bindPageScroll (page: PageInstance, pageEl: HTMLElement, distance = 50) {
+export function bindPageScroll (page: PageInstance, scrollEl: HTMLElement | Window, distance = 50) {
   const pagePath = (page ? page?.path : Current.router?.path) as string
-  pageScrollFn[pagePath] && pageEl.removeEventListener('scroll', pageScrollFn[pagePath])
-  pageDOM = pageEl
+  pageScrollFn[pagePath] && scrollEl.removeEventListener('scroll', pageScrollFn[pagePath])
+  pageDOM = scrollEl
 
   let isReachBottom = false
 

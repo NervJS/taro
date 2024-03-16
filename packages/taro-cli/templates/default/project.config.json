@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "./dist",
-  "projectname": "<%= projectName %>",
-  "description": "<%= description %>",
+  "projectname": "{{ projectName }}",
+  "description": "{{ description }}",
   "appid": "touristappid",
   "setting": {
     "urlCheck": true,

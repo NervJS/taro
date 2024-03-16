@@ -1,0 +1,228 @@
+.weui-half-screen-dialog {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: 255px;
+  max-height: 75%;
+  z-index: 5000;
+  line-height: 1.4;
+  background-color: var(--weui-BG-2);
+  color: var(--weui-FG-0);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  overflow: hidden;
+  padding: 0 24px;
+  padding: 0 calc(24px + constant(safe-area-inset-right)) constant(safe-area-inset-bottom) calc(24px + constant(safe-area-inset-left));
+  padding: 0 calc(24px + env(safe-area-inset-right)) env(safe-area-inset-bottom) calc(24px + env(safe-area-inset-left));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  outline: 0;
+
+  @media only screen and (max-device-height: 558px) {
+    max-height: calc(100% - 16px);
+  }
+}
+.weui-half-screen-dialog__hd {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  .weui-btn_icon {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: inherit;
+    &:active { opacity: 0.5; }
+  }
+}
+.weui-half-screen-dialog__hd__side {
+  position: relative;
+  left: -8px;
+}
+.weui-half-screen-dialog__hd__main {
+  flex: 1;
+  .weui-half-screen-dialog__hd__side + & {
+    text-align: center;
+    padding: 0 40px;
+  }
+  & + .weui-half-screen-dialog__hd__side {
+    right: -8px;
+    left: auto;
+    //兼容老版本
+    .weui-icon-btn,
+    .weui-btn_icon {
+      right: 0;
+    }
+  }
+}
+.weui-half-screen-dialog__title {
+  display: block;
+  color: var(--weui-FG-0);
+  font-weight: 500;
+  font-size: 15px;
+}
+.weui-half-screen-dialog__subtitle {
+  display: block;
+  color: var(--weui-FG-1);
+  font-size: 10px;
+}
+
+.weui-half-screen-dialog__bd {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+
+  @include hyphens();
+
+  padding-bottom: 56px;
+  font-size: 14px;
+  color: var(--weui-FG-0);
+}
+.weui-half-screen-dialog__desc {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--weui-FG-0);
+  line-height: 1.4;
+}
+.weui-half-screen-dialog__tips {
+  padding-top: 16px;
+  font-size: 14px;
+  color: var(--weui-FG-2);
+  line-height: 1.4;
+}
+.weui-half-screen-dialog__ft {
+  padding: 0 0 64px;
+  text-align: center;
+
+  // 兼容旧版没有.weui-half-screen-dialog__btn-area的场景
+  .weui-btn:nth-last-child(n+2),
+  .weui-btn:nth-last-child(n+2) + .weui-btn {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 8px;
+    width: 120px;
+  }
+}
+.weui-half-screen-dialog__btn-area {
+  & + .weui-half-screen-dialog__attachment-area {
+    margin-top: 24px;
+    margin-bottom: -34px;
+  }
+}
+
+.weui-half-screen-dialog_large {
+  max-height: none;
+  top: 16px;
+}
+.weui-half-screen-dialog_slide {
+  .weui-half-screen-dialog__hd {
+    min-height: 0;
+    padding: 12px 16px 16px;
+    justify-content: center;
+  }
+  .weui-half-screen-dialog__slide-icon {
+    position: absolute;
+    top: 12px;
+    display: flex;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--weui-BG-0);
+    @include dark {
+      background:var(--weui-FG-3);
+    };
+
+    justify-content: center;
+    align-items: center;
+
+    .weui-icon-arrow {
+      transform: rotate(90deg);
+      width: 0.8em;
+      height: 1.6em;
+      opacity: 0;
+    }
+  }
+}
+
+
+// 按钮组水平布局与垂直布局切换
+.weui-half-screen-dialog__btn-area {
+  @include weuiBtnWrapLayoutDefault();
+}
+.weui-half-screen-dialog_btn-wrap {
+  .weui-half-screen-dialog__btn-area {
+    @include weuiBtnWrapLayoutWrap();
+  }
+}
+
+
+.weui-icon-more {
+  mask: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E  %3Cpath fill-opacity='.9' fill-rule='evenodd' d='M5 10.25a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5zm7 0a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5zm7 0a1.75 1.75 0 1 1 0 3.5 1.75 1.75 0 0 1 0-3.5z'/%3E%3C/svg%3E") no-repeat 50% 50%;
+}
+.weui-icon-slide-down {
+  mask-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'%3E  %3Cdefs%3E    %3Crect id='dda90263-a290-4594-926f-6aba8cb4779f-a' width='24' height='24' x='0' y='0' rx='12'/%3E  %3C/defs%3E  %3Cg fill='none' fill-rule='evenodd'%3E    %3Cmask id='dda90263-a290-4594-926f-6aba8cb4779f-b' fill='%23fff'%3E      %3Cuse xlink:href='%23dda90263-a290-4594-926f-6aba8cb4779f-a'/%3E    %3C/mask%3E    %3Cuse fill='%23000' fill-opacity='.05' xlink:href='%23dda90263-a290-4594-926f-6aba8cb4779f-a'/%3E    %3Cg fill-opacity='.9' mask='url(%23dda90263-a290-4594-926f-6aba8cb4779f-b)'%3E      %3Cpath fill='%23000' d='M11.407 15.464L6.693 10.75l1.179-1.179 4.125 4.125 4.124-4.125L17.3 10.75l-4.714 4.714a.833.833 0 0 1-1.179 0z'/%3E    %3C/g%3E  %3C/g%3E%3C/svg%3E");
+}
+
+
+// 下面是兼容旧版本用的
+.weui-half-screen-dialog__hd {
+  .weui-icon-btn {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: inherit;
+    &:active { opacity: 0.5; }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      min-width: 44px;
+      min-height: 44px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+.weui-icon-btn {
+  & {
+    outline: 0;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+    background-color: transparent;
+    color: var(--weui-FG-0);
+    font-size: 0;
+    width: auto;
+    height: auto;
+  }
+}
+.weui-icon-btn_goback {
+  & {
+    color: $weuiTextColorTitle;
+    background-color: currentColor;
+    width: 0.71rem; // 字号17px下的12px
+    height: 1.42rem;
+    mask: url(data:image/svg+xml,%3Csvg%20width%3D%2212%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M10%2019.438L8.955%2020.5l-7.666-7.79a1.02%201.02%200%20010-1.42L8.955%203.5%2010%204.563%202.682%2012%2010%2019.438z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E) no-repeat 50% 50%;
+    mask-size: 100%;
+  }
+}
+.weui-icon-btn_close {
+  & {
+    color: $weuiTextColorTitle;
+    background-color: currentColor;
+    width: 1.42rem;
+    height: 1.42rem;
+    mask: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12.25%2010.693L6.057%204.5%205%205.557l6.193%206.193L5%2017.943%206.057%2019l6.193-6.193L18.443%2019l1.057-1.057-6.193-6.193L19.5%205.557%2018.443%204.5z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E) no-repeat 50% 50%;
+    mask-size: 100%;
+  }
+}
+

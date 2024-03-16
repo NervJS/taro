@@ -1,20 +1,18 @@
-import { Config, transformSync } from '@swc/core'
-import { REG_SCRIPTS } from '@tarojs/helper'
+import { defaultEsbuildLoader, defaultMainFields, esbuild, externalEsbuildModule, fs, REG_SCRIPTS, swc } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
-import esbuild, { Plugin } from 'esbuild'
-import fs from 'fs-extra'
 import { defaults } from 'lodash'
 import path from 'path'
-import Chain from 'webpack-chain'
 
 import {
-  externalModule,
   flattenId,
   getDefines,
   getHash,
   getResolve
 } from '../utils'
-import { assetsRE, CollectedDeps, defaultEsbuildLoader, moduleRE } from '../utils/constant'
+import { assetsRE, moduleRE } from '../utils/constant'
+
+import type Chain from 'webpack-chain'
+import type { CollectedDeps } from '../utils/constant'
 
 type ExportsData = ReturnType<typeof parse> & { hasReExports?: boolean, needInterop?: boolean }
 
@@ -24,7 +22,8 @@ interface BundleConfig {
   chain: Chain
   prebundleOutputDir: string
   customEsbuildConfig?: Record<string, any>
-  customSwcConfig?: Config
+  customSwcConfig?: swc.Config
+  mainFields?: string[]
 }
 
 // esbuild generates nested directory output with lowest common ancestor base
@@ -39,7 +38,8 @@ export async function bundle ({
   chain,
   prebundleOutputDir,
   customEsbuildConfig = {},
-  customSwcConfig = {}
+  customSwcConfig = {},
+  mainFields = [...defaultMainFields]
 }: BundleConfig) {
   await init
 
@@ -73,7 +73,7 @@ export async function bundle ({
     bundle: true,
     write: false,
     entryPoints: Array.from(flattenDeps.keys()),
-    mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
+    mainFields,
     format: 'esm',
     loader: defaults(customEsbuildConfig.loader, defaultEsbuildLoader),
     define: {
@@ -107,7 +107,7 @@ function getEntryPlugin ({
   flattenDeps: CollectedDeps
   flatIdExports: Map<string, ExportsData>
   prebundleOutputDir: string
-}): Plugin {
+}): esbuild.Plugin {
   const resolve = getResolve()
   return {
     name: 'entry',
@@ -121,7 +121,7 @@ function getEntryPlugin ({
 
         const outputFile = path.join(prebundleOutputDir, `${fileBasename}-${getHash(filePath)}${fileExt}`)
         await fs.writeFile(outputFile, fileContent)
-        return externalModule({ path: `./${path.relative(prebundleOutputDir, outputFile)}` })
+        return externalEsbuildModule({ path: `./${path.relative(prebundleOutputDir, outputFile)}` })
       })
 
       build.onResolve({ filter: moduleRE }, async ({ path: id, importer }) => {
@@ -138,10 +138,10 @@ function getEntryPlugin ({
           if (typeof resolvedPath === 'string' && !assetsRE.test(resolvedPath)) {
             return { path: resolvedPath }
           } else {
-            return externalModule({ path: id })
+            return externalEsbuildModule({ path: id })
           }
         } catch (e) {
-          return externalModule({ path: id })
+          return externalEsbuildModule({ path: id })
         }
       })
 
@@ -194,14 +194,14 @@ export function getSwcPlugin ({
 }: {
   appPath: string
   flatIdExports: Map<string, ExportsData>
-}, config?: Config): Plugin {
+}, config?: swc.Config): esbuild.Plugin {
   return {
     name: 'swc-plugin',
     setup (build) {
       build.onEnd(async ({ outputFiles = [], metafile = {} }) => {
         await Promise.all(outputFiles.map(async ({ path, text }) => {
           if (!REG_SCRIPTS.test(path)) return
-          const { code } = transformSync(text, defaults(config, { jsc: { target: 'es2015' } }))
+          const { code } = swc.transformSync(text, defaults(config, { jsc: { target: 'es2015' } }))
           fs.writeFile(path, code)
         }))
 
@@ -231,10 +231,10 @@ export function getSwcPlugin ({
               fs.move(srcPath, destPath)
                 .then(() => fs.writeFile(
                   srcPath,
-                  `const m = require('./${path.basename(destPath)}')
-module.exports = m.default
-exports.default = module.exports
-`
+                  `var m = require('./${path.basename(destPath)}');
+                   module.exports = m.default;
+                   exports.default = module.exports;
+                  `
                 ))
             )
           }

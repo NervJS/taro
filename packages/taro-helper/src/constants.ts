@@ -97,7 +97,7 @@ export const REG_SASS_SCSS = /\.scss$/
 export const REG_LESS = /\.less$/
 export const REG_STYLUS = /\.styl(us)?$/
 export const REG_STYLE = /\.(css|scss|sass|less|styl|stylus|wxss|acss|ttss|jxss|qss)(\?.*)?$/
-export const REG_CSS = /\.(css|wxss|acss|ttss)(\?.*)?$/
+export const REG_CSS = /\.(css|qss|jxss|wxss|acss|ttss)(\?.*)?$/
 export const REG_MEDIA = /\.(mp4|webm|ogg|mp3|m4a|wav|flac|aac)(\?.*)?$/
 export const REG_IMAGE = /\.(png|jpe?g|gif|bpm|svg|webp)(\?.*)?$/
 export const REG_FONT = /\.(woff2?|eot|ttf|otf)(\?.*)?$/
@@ -176,6 +176,7 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/plugin-platform-tt',
   '@tarojs/plugin-platform-qq',
   '@tarojs/plugin-platform-jd',
+  '@tarojs/plugin-platform-h5',
   '@tarojs/plugin-html',
   '@tarojs/plugin-mini-ci',
   '@tarojs/webpack5-runner',
@@ -202,10 +203,12 @@ export const taroJsMobxCommon = '@tarojs/mobx-common'
 export const DEVICE_RATIO_NAME = 'deviceRatio'
 export const isWindows = os.platform() === 'win32'
 
-export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.5'
-export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.5'
-export const TARO_CONFIG_FOLDER = '.taro3.5'
+export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.6-rs'
+export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.6-rs'
+export const TARO_CONFIG_FOLDER = '.taro3.6-rs'
 export const TARO_BASE_CONFIG = 'index.json'
+export const TARO_GLOBAL_CONFIG_DIR = '.taro-global-config'
+export const TARO_GLOBAL_CONFIG_FILE = 'index.json'
 
 export const OUTPUT_DIR = 'dist'
 export const SOURCE_DIR = 'src'
@@ -219,3 +222,5 @@ export enum FRAMEWORK_MAP {
   REACT = 'react',
   NERV = 'nerv'
 }
+
+export const defaultMainFields = ['browser', 'module', 'jsnext:main', 'main']

@@ -1,9 +1,10 @@
-import { capitalize, toCamelCase } from '@tarojs/shared'
+import { capitalize, Shortcuts, toCamelCase } from '@tarojs/shared'
 import { RecursiveTemplate } from '@tarojs/shared/dist/template'
 
 export class Template extends RecursiveTemplate {
   exportExpr = 'export default'
   supportXS = true
+  isXMLSupportRecursiveReference = false
   Adapter = {
     if: 'a:if',
     else: 'a:else',
@@ -16,8 +17,10 @@ export class Template extends RecursiveTemplate {
     type: 'alipay'
   }
 
-  buildXsTemplate () {
-    return '<import-sjs name="xs" from="./utils.sjs" />'
+  transferComponents: Record<string, Record<string, string>> = {}
+
+  buildXsTemplate (filePath = './utils') {
+    return `<import-sjs name="xs" from="${filePath}.sjs" />`
   }
 
   replacePropName (name, value, compName, componentAlias) {
@@ -53,7 +56,7 @@ export class Template extends RecursiveTemplate {
         return str + `${attr}="eh" `
       }
 
-      return str + `${attr}="{{ i.${toCamelCase(attr)} }}" `
+      return str + ` ${attr}="{{ i.${toCamelCase(attr)} }}" `
     }, '')
   }
 
@@ -64,6 +67,10 @@ export class Template extends RecursiveTemplate {
     delete result.slot
     delete result['slot-view']
     delete result['native-slot']
+
+    // PageMeta & NavigationBar
+    this.transferComponents['page-meta'] = result['page-meta']
+    delete result['page-meta']
 
     return result
   }
@@ -90,7 +97,7 @@ export class Template extends RecursiveTemplate {
     <block a:for="{{xs.f(i.cn)}}" a:key="sid">
       <swiper-item class="{{item.cl}}" style="{{item.st}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
         <block a:for="{{item.cn}}" a:key="sid">
-          <template is="{{xs.e(0)}}" data="{{i:item}}" />
+          <template is="{{xs.a(0, item.${Shortcuts.NodeName})}}" data="{{i:item}}" />
         </block>
       </swiper-item>
     </block>
@@ -112,10 +119,10 @@ export class Template extends RecursiveTemplate {
 
     return `<view a:if="{{item.nn==='${slotAlias}'}}" slot="{{item.${slotNamePropAlias}}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
         <block a:for="{{item.cn}}" a:key="sid">
-          <template is="{{xs.e(0)}}" data="{{i:item}}" />
+          <template is="{{xs.a(0, item.${Shortcuts.NodeName})}}" data="{{i:item}}" />
         </block>
       </view>
-      <template a:else is="{{xs.e(0)}}" data="{{i:item}}" />`
+      <template a:else is="{{xs.a(0, item.${Shortcuts.NodeName})}}" data="{{i:item}}" />`
   }
 
   buildXSTmpExtra () {
@@ -123,5 +130,29 @@ export class Template extends RecursiveTemplate {
     return `f: function (l) {
     return l.filter(function (i) {return i.nn === '${swiperItemAlias}'})
   }`
+  }
+
+  buildPageTemplate = (baseTempPath: string, page) => {
+    let pageMetaTemplate = ''
+    const pageConfig = page?.content
+
+    if (pageConfig?.enablePageMeta) {
+      const getComponentAttrs = (componentName: string, dataPath: string) => {
+        return Object.entries(this.transferComponents[componentName]).reduce((sum, [key, value]) => {
+          sum +=`${key}="${value === 'eh' ? value : `{{${value.replace('i.', dataPath)}}}`}" `
+          return sum
+        }, '')
+      }
+      const pageMetaAttrs = getComponentAttrs('page-meta', 'pageMeta.')
+
+      pageMetaTemplate = `
+<import-sjs name="xs" from="${baseTempPath.replace('base.axml', 'utils.sjs')}" />
+<page-meta data-sid="{{pageMeta.sid}}" ${pageMetaAttrs}></page-meta>`
+    }
+
+    const template = `<import src="${baseTempPath}"/>${pageMetaTemplate}
+<template is="taro_tmpl" data="{{${this.dataKeymap('root:root')}}}" />`
+
+    return template
   }
 }

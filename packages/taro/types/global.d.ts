@@ -2,11 +2,12 @@ declare namespace TaroGeneral {
   type IAnyObject = Record<string, any>
   type Optional<F> = F extends (arg: infer P) => infer R ? (arg?: P) => R : F
   type OptionalInterface<T> = { [K in keyof T]: Optional<T[K]> }
+  type TFunc = (...args: any[]) => any
   /** 事件监听函数 */
   type EventCallback = (
     /** 触发事件参数 */
     ...args: any
-    ) => void
+  ) => void
   /** 通用错误 */
   interface CallbackResult {
     /** 错误信息 */
@@ -35,7 +36,7 @@ declare namespace TaroGeneral {
     /** 阻止事件冒泡到父元素,阻止任何父事件处理程序被执行 */
     stopPropagation: () => void
   }
-  interface currentTarget extends Target {}
+  interface currentTarget extends Target { }
   interface Target {
     /** 事件源组件的id */
     id: string
@@ -378,45 +379,48 @@ declare namespace TaroGeneral {
      */
     13024
   }
-
+  type EventName = string | symbol
   // Events
   class Events {
     /**
      * 监听一个事件，接受参数
      */
-    on(eventName: string, listener: (...args: any[]) => void): this
+    on (eventName: EventName, listener: (...args: any[]) => void): this
 
     /**
      * 添加一个事件监听，并在事件触发完成之后移除Callbacks链
      */
-    once(eventName: string, listener: (...args: any[]) => void): this
+    once (eventName: EventName, listener: (...args: any[]) => void): this
 
     /**
      * 取消监听一个事件
      */
-    off(eventName: string, listener?: (...args: any[]) => void): this
+    off (eventName: EventName, listener?: (...args: any[]) => void): this
 
     /**
      * 取消监听的所有事件
      */
-    off(): this
+    off (): this
 
     /**
      * 触发一个事件，传参
      */
-    trigger(eventName: string, ...args: any[]): boolean
+    trigger (eventName: EventName, ...args: any[]): this
   }
 
   // ENV_TYPE
   enum ENV_TYPE {
     WEAPP = 'WEAPP',
-    WEB = 'WEB',
-    RN = 'RN',
     SWAN = 'SWAN',
     ALIPAY = 'ALIPAY',
     TT = 'TT',
     QQ = 'QQ',
-    JD = 'JD'
+    JD = 'JD',
+    WEB = 'WEB',
+    RN = 'RN',
+    HARMONY = 'HARMONY',
+    QUICKAPP = 'QUICKAPP',
+    HARMONYHYBRID = 'HARMONYHYBRID'
   }
 
   type TDeviceRatio = Record<string, number>

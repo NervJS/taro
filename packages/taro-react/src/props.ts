@@ -7,22 +7,39 @@ function isEventName (s: string) {
   return s[0] === 'o' && s[1] === 'n'
 }
 
-const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
+const IS_NON_DIMENSIONAL = /aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
 
 export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props) {
+  const updatePayload = getUpdatePayload(dom, oldProps, newProps)
+  if(updatePayload){
+    updatePropsByPayload(dom, oldProps, updatePayload)
+  }
+}
+
+export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updatePayload: any[]){
+  for(let i = 0; i < updatePayload.length; i += 2){ // key, value 成对出现
+    const key = updatePayload[i]; const newProp = updatePayload[i+1]; const oldProp = oldProps[key]
+    setProperty(dom, key, newProp, oldProp)
+  }
+}
+
+export function getUpdatePayload (dom: TaroElement, oldProps: Props, newProps: Props){
   let i: string
+  let updatePayload: any[] | null = null
 
   for (i in oldProps) {
     if (!(i in newProps)) {
-      setProperty(dom, i, null, oldProps[i])
+      (updatePayload = updatePayload || []).push(i, null)
     }
   }
   const isFormElement = dom instanceof FormElement
   for (i in newProps) {
     if (oldProps[i] !== newProps[i] || (isFormElement && i === 'value')) {
-      setProperty(dom, i, newProps[i], oldProps[i])
+      (updatePayload = updatePayload || []).push(i, newProps[i])
     }
   }
+
+  return updatePayload
 }
 
 // function eventProxy (e: CommonEvent) {
