@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-copy",
-  "version": "4.0.0-beta.22",
+  "version": "4.0.0-beta.23",
   "description": "rollup-plugin-copy for taro",
   "private": true,
   "main": "index.js",
