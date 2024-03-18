@@ -1,8 +1,8 @@
 import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import { fs } from '@tarojs/helper'
-import { basename, join } from 'path'
+import { join } from 'path'
 import { type InputPluginOption, type RollupOptions, defineConfig } from 'rollup'
+import copy from 'rollup-plugin-copy'
 import externals from 'rollup-plugin-node-externals'
 import ts from 'rollup-plugin-ts'
 
@@ -42,54 +42,16 @@ const compileConfig: RollupOptions = {
   },
   plugins: [
     ...base.plugins,
-    (() => {
-      let isWatched = false
-      return {
-        name: 'copy-runtime-watch',
-        async buildEnd () {
-          if (isWatched) return
-
-          const targets = [
-            { src: 'src/template/container.js', dest: 'dist/template' },
-            { src: 'src/components/components-harmony-ets', dest: 'dist' },
-            { src: 'src/components/components-harmony', dest: 'dist' },
-            { src: 'src/apis', dest: 'dist' },
-            { src: 'src/runtime-ets', dest: 'dist' },
-            { src: 'src/runtime-framework', dest: 'dist' },
-          ]
-
-          for (const item of targets) {
-            try {
-              let src = item.src
-              let dest = item.dest
-              dest = join(dest, basename(src))
-
-              src = join(cwd, src)
-              dest = join(cwd, dest)
-              const stat = fs.statSync(src)
-              fs.ensureDirSync(dest)
-              if (stat.isDirectory()) {
-                fs.copySync(src, dest, { recursive: true })
-                fs.watch(src, { recursive: true }, (_event, filename) => {
-                  if (!filename) return
-                  fs.copyFileSync(join(src, filename), join(dest, filename))
-                })
-              } else if (stat.isFile()) {
-                const filename = basename(src)
-                fs.copyFileSync(src, join(dest, filename))
-                fs.watchFile(src, () => {
-                  fs.copyFileSync(join(src), join(dest, filename))
-                })
-              }
-            } catch (error) {
-              console.error(error)
-            }
-          }
-
-          isWatched = true
-        }
-      }
-    })(),
+    copy({
+      targets: [
+        { src: 'src/template/container.js', dest: 'dist/template' },
+        { src: 'src/components/components-harmony-ets', dest: 'dist' },
+        { src: 'src/components/components-harmony', dest: 'dist' },
+        { src: 'src/apis', dest: 'dist' },
+        { src: 'src/runtime-ets', dest: 'dist' },
+        { src: 'src/runtime-framework', dest: 'dist' },
+      ]
+    }),
   ]
 }
 
