@@ -91,11 +91,6 @@ export class TaroElement<
         break
     }
 
-    if (name === ID) {
-      eventSource.delete(this._attrs.id)
-      eventSource.set(value, this as TaroAny)
-    }
-
     this._attrs[name] = value
 
     const attributeTriggerValue: TaroAny = ATTRIBUTES_CALLBACK_TRIGGER_MAP[name]
