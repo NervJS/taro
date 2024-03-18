@@ -62,6 +62,13 @@ export default struct TaroScrollView {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroScrollViewElement) => void = this.customBuilder
   @ObjectLink node: TaroScrollViewElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
+
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
 
   build () {
     if (this.node.hmStyle?.display !== 'none') {
@@ -74,7 +81,7 @@ export default struct TaroScrollView {
               this.createLazyChildren(this.node)
             }
           }
-          .attributeModifier(rowModify.setNode(this.node))
+          .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
           .width(null)
           .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
             this.node._nodeInfo._scroll = areaResult
@@ -90,7 +97,7 @@ export default struct TaroScrollView {
               this.createLazyChildren(this.node)
             }
           }
-          .attributeModifier(columnModify.setNode(this.node))
+          .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
           .height(null)
           .alignItems(HorizontalAlign.Start)
           .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {

@@ -96,6 +96,10 @@ export function getPageScrollerOrNode (scrollerOrNode: any, page: any) {
   return scrollerOrNode
 }
 
+export function ObjectKeys(obj: object): string[] {
+  return Object.keys(obj)
+}
+
 export function ObjectAssign(...objects) {
   return Object.assign.apply(this, [{}].concat(...objects))
 }

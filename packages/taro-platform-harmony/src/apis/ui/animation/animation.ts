@@ -1,4 +1,5 @@
 import matrix4 from '@ohos.matrix4'
+import { isUndefined } from '@tarojs/shared'
 
 import { temporarilyNotSupport } from '../../utils'
 
@@ -110,7 +111,7 @@ export class Animation implements Taro.Animation {
   }
 
   scale (sx: number, sy?: number | undefined): Taro.Animation {
-    this.rule.scale = { x: sx, y: sy }
+    this.rule.scale = { x: sx, y: isUndefined(sy) ? sx : sy }
     return this
   }
 

@@ -13,13 +13,21 @@ export default struct TaroForm {
   @BuilderParam createLazyChildren: (node: TaroFormElement) => void = this.customBuilder
   @ObjectLink node: TaroFormElement
 
+  @State overwriteStyle: Record<string, TaroAny> = {}
+
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
+
   build() {
     if (this.node?.hmStyle?.display !== 'none') {
       if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
         Row() {
           this.createLazyChildren(this.node)
         }
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
         .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
         .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
@@ -32,7 +40,7 @@ export default struct TaroForm {
         Column() {
           this.createLazyChildren(this.node)
         }
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
         .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
         .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {

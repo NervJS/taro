@@ -83,11 +83,18 @@ export default struct TaroVideo {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroVideoElement) => void = this.customBuilder
   @ObjectLink node: TaroVideoElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
+
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
 
   build () {
     if (this.node.hmStyle?.display !== 'none') {
       Video(getVideoData(this.node))
-      .attributeModifier(commonStyleModify.setNode(this.node))
+      .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .props(getVideoProps(this.node))
       .aspectRatio(4 / 3)
       .onStart(shouldBindEvent(() => { emitEvent(this.node, 'play') }, this.node, ['play']))

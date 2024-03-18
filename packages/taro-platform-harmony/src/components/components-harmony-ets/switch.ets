@@ -31,10 +31,12 @@ export default struct TaroSwitch {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroSwitchElement) => void = this.customBuilder
   @ObjectLink node: TaroSwitchElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
 
   aboutToAppear () {
     if (this.node && !this.node._isInit) {
       this.node._isInit = true
+      this.node._instance = this
       this.node._reset = this.node.checked || false
     }
   }
@@ -45,7 +47,7 @@ export default struct TaroSwitch {
         type: this.node._attrs.type !== 'checkbox' ? ToggleType.Switch : ToggleType.Checkbox,
         isOn: this.node.checked,
       })
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .attrs(getAttributes(this.node))
         .themeStyles(!!this.node._attrs.disabled)
         .onChange((isOn: boolean) => {

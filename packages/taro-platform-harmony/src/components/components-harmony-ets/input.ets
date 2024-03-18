@@ -51,6 +51,7 @@ export default struct TaroInput {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroInputElement) => void = this.customBuilder
   @ObjectLink node: TaroInputElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
 
   aboutToAppear () {
     if (this.node) {
@@ -72,7 +73,7 @@ export default struct TaroInput {
       .maxLength(Number(this.node._attrs?.maxlength) || null)
       .placeholderColor(getPlaceholderColor(this.node))
       .enterKeyType(INPUT_CONFIRM_MAP.get(this.node._attrs?.confirmType) || EnterKeyType.Done)
-      .attributeModifier(commonStyleModify.setNode(this.node))
+      .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .styles(this.node?.hmStyle)
       .attrs(getAttributes(this.node))
       .onChange((value: string) => {

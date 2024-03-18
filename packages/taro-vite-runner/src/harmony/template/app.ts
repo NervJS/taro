@@ -94,6 +94,9 @@ export default class Parser extends BaseParser {
     })
 
     stage.loadContent('${entryPath}', (err, data) => {
+      const windowClass = stage.getMainWindowSync()
+      Current.uiContext = windowClass.getUIContext()
+
       if (err.code) {
         return callFn(this.app?.onError, this, err)
       }
@@ -147,7 +150,7 @@ export default class Parser extends BaseParser {
       this.#setReconciler,
       'import UIAbility from "@ohos.app.ability.UIAbility"',
       'import AbilityConstant from "@ohos.app.ability.AbilityConstant"',
-      'import { callFn, context, ObjectAssign, TaroAny, window } from "@tarojs/runtime"',
+      'import { callFn, context, Current, ObjectAssign, TaroAny, window } from "@tarojs/runtime"',
       'import { AppInstance } from "@tarojs/runtime/dist/runtime.esm"',
       'import { initHarmonyElement, hooks } from "@tarojs/runtime"',
       'import { initPxTransform } from "@tarojs/taro"',

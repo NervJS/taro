@@ -29,8 +29,6 @@ interface FormWidgetProps extends StandardProps {
 }
 
 class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends TaroElement<T> {
-  _instance
-
   _isInit = false
 
   _name = ''

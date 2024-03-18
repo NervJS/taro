@@ -1,12 +1,18 @@
-import type { TaroCanvasElement } from '@tarojs/runtime'
+import type { TaroAny, TaroCanvasElement } from '@tarojs/runtime'
 import { cancelAnimationFrame, requestAnimationFrame } from '@tarojs/runtime'
-
+import commonStyleModify from './style'
 
 @Component
 export default struct TaroCanvas {
   @ObjectLink node: TaroCanvasElement
   rafId: number = 0
+  @State overwriteStyle: Record<string, TaroAny> = {}
 
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
 
   aboutToDisappear() {
     if(this.rafId) {
@@ -16,9 +22,11 @@ export default struct TaroCanvas {
 
   build() {
     Canvas(this.node._context)
-      .width('100%')
-      .height('100%')
-      .backgroundColor('#ffff00')
+      .attributeModifier(commonStyleModify.setNode(this.node as TaroAny, {
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#ffff00'
+      }).setAnimationStyle(this.overwriteStyle))
       .onReady(() => {
         const context = this.node._context
 

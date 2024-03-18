@@ -42,6 +42,7 @@ export default struct TaroSlider {
   @ObjectLink node: TaroSliderElement
 
   @State value: number = 0
+  @State overwriteStyle: Record<string, TaroAny> = {}
 
   aboutToAppear () {
     if (this.node) {
@@ -64,7 +65,7 @@ export default struct TaroSlider {
       style: SliderStyle.OutSet,
       direction: Axis.Horizontal
     })
-      .attributeModifier(commonStyleModify.setNode(node))
+      .attributeModifier(commonStyleModify.setNode(node).setAnimationStyle(this.overwriteStyle))
       .attrs(getAttributes(node))
       .width(!!node._attrs.showValue ? '90%' : '100%')
       .themeStyles(!!node._attrs.disabled)

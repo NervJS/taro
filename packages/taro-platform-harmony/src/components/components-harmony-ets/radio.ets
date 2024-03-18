@@ -37,10 +37,12 @@ export struct TaroRadio {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroRadioElement) => void = this.customBuilder
   @ObjectLink node: TaroRadioElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
 
   aboutToAppear () {
     if (this.node && !this.node._isInit) {
       this.node._isInit = true
+      this.node._instance = this
       this.node._reset = this.node.checked || false
     }
   }
@@ -54,7 +56,7 @@ export struct TaroRadio {
             value: this.node.value || '',
           })
             .checked(this.node.checked)
-            .attributeModifier(commonStyleModify.setNode(this.node))
+            .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
             .radioAttr(getAttributes(this.node))
             .onChange((value: boolean) => {
               if (this.node) {
@@ -99,6 +101,7 @@ export struct TaroRadioGroup {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroRadioGroupElement) => void = this.customBuilder
   @ObjectLink node: TaroRadioGroupElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
@@ -106,6 +109,7 @@ export struct TaroRadioGroup {
 
   aboutToAppear () {
     if (this.node) {
+      this.node._instance = this
       const childList = this.node.getElementsByTagName<TaroRadioElement>('RADIO')
       childList.forEach(element => {
         element.group = this.node?._attrs.name || this.node?._nid
@@ -131,7 +135,7 @@ export struct TaroRadioGroup {
         Row() {
           this.createLazyChildren(this.node)
         }
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .defaultEvent()
         .visibleChangeEvent()
         .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
@@ -140,7 +144,7 @@ export struct TaroRadioGroup {
         Column() {
           this.createLazyChildren(this.node)
         }
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .defaultEvent()
         .visibleChangeEvent()
         .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)

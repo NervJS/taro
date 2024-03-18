@@ -38,10 +38,12 @@ export struct TaroCheckbox {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroCheckboxElement) => void = this.customBuilder
   @ObjectLink node: TaroCheckboxElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
 
   aboutToAppear () {
     if (this.node && !this.node._isInit) {
       this.node._isInit = true
+      this.node._instance = this
       this.node._reset = this.node.checked || false
     }
   }
@@ -51,7 +53,7 @@ export struct TaroCheckbox {
       Stack() {
         Row() {
           Checkbox(getOptions(this.node))
-            .attributeModifier(commonStyleModify.setNode(this.node))
+            .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
             .checkboxAttr(getAttributes(this.node))
             .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
             .select(this.node.checked)
@@ -99,6 +101,7 @@ export struct TaroCheckboxGroup {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroCheckboxGroupElement) => void = this.customBuilder
   @ObjectLink node: TaroCheckboxGroupElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
@@ -106,6 +109,7 @@ export struct TaroCheckboxGroup {
 
   aboutToAppear () {
     if (this.node) {
+      this.node._instance = this
       // 阻止事件冒泡传递上去
       this.node.addEventListener('change', (e: TaroEvent<ChangeEventDetail>) => {
         e.stopPropagation()
@@ -129,7 +133,7 @@ export struct TaroCheckboxGroup {
         Row() {
           this.createLazyChildren(this.node)
         }
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .defaultEvent()
         .visibleChangeEvent()
         .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
@@ -138,7 +142,7 @@ export struct TaroCheckboxGroup {
         Column() {
           this.createLazyChildren(this.node)
         }
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .defaultEvent()
         .visibleChangeEvent()
         .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
