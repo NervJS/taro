@@ -22,6 +22,7 @@ export class Template extends UnRecursiveTemplate {
   constructor (pluginOptions?: IOptions) {
     super()
     this.pluginOptions = pluginOptions || {}
+    this.nestElements.set('root-portal', 3)
   }
 
   buildXsTemplate (filePath = './utils') {
