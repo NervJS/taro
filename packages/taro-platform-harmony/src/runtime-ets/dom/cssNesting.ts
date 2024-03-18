@@ -130,17 +130,19 @@ function depthTraversal(root: ReactElement) {
 
     const leaf_map = traverse(leaf)
     if (!leaf_map) return
+
     // 直接后代
     Object.assign(descendant_map.children, leaf_map)
+
     // 子孙后代
-    Object.assign(descendant_map.descendants, leaf_map)
-    const keys = Object.keys(leaf_map)
-    for (let i = 0; i < keys.length; i++) {
-      const leaf_child_map = class_mapping[keys[i]]
-      if (leaf_child_map) {
-        Object.assign(descendant_map.descendants, leaf_child_map.descendants)
+    const grandchild: (Record<string, TMapping> | TMapping)[] = [leaf_map]
+    Object.keys(leaf_map).forEach(key => {
+      const leaf_child_map = class_mapping[key]
+      if (leaf_child_map?.descendants) {
+        grandchild.push(leaf_child_map.descendants)
       }
-    }
+    })
+    Object.assign(descendant_map.descendants, ...grandchild)
   }
 
   traverse(root)

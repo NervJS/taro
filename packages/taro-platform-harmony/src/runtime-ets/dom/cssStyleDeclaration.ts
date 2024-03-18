@@ -78,6 +78,7 @@ class CSSStyleDeclaration {
 type ICSSStyleDeclaration = CSSStyleDeclaration & Record<string, any>
 
 function createCSSStyleDeclaration (node: TaroElement): CSSStyleDeclaration {
+  // FIXME 临时使用 Proxy 代理，后续需要优化
   return new Proxy(new CSSStyleDeclaration(node), {
     set (target, prop: string, value) {
       if (prop === 'cssText') {
