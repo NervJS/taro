@@ -2,11 +2,12 @@
 
 import { CSSProperties } from 'react'
 
+import { TaroElement } from '../element/element'
 import { BORDER_STYLE_MAP, capitalizeFirstLetter, FlexManager, getNodeMarginOrPaddingData, getUnit } from './util'
 
-// 将web端的style转换为hm端的style
-export default function convertWebStyle2HmStyle(webStyle: CSSProperties) {
-  const hmStyle: Record<string, any> = {}
+// Note: 将 web 端的 style 转换为 hm 端的 style
+export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: TaroElement) {
+  const hmStyle: Record<string, any> = node?._st?.hmStyle || {}
   Object.keys(webStyle).forEach((key) => {
     const value = webStyle[key]
     switch (key) {
@@ -405,7 +406,7 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties) {
       }
       case 'WebkitLineClamp': {
         hmStyle.WebkitLineClamp = Number(value)
-        break 
+        break
       }
       case 'transform': {
         // todo: 需要更新

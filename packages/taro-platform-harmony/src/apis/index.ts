@@ -58,28 +58,30 @@ export function initPxTransform ({
 
 const display = _display.getDefaultDisplaySync()
 
-let ratioInitialized = false
+let displayWidth = display.width
+let ratioCache: number | false = false
 let designWidthFunc: (input: number) => number
 let designWidth = defaultDesignWidth
 let deviceRatio = defaultDesignRatio
 function getRatio (value: number) {
-  if (!ratioInitialized) {
+  // Note: 提前调用 display 可能无法获取正确值
+  if (ratioCache === false || displayWidth !== display.width) {
     const config = (Current as any).taro?.config || {}
     if (!isFunction(designWidthFunc)) {
       designWidthFunc = isFunction(config.designWidth)
         ? config.designWidth
         : () => config.designWidth
+      designWidth = designWidthFunc(value) || defaultDesignWidth
+      deviceRatio = config.deviceRatio || defaultDesignRatio
+      if (!(designWidth in deviceRatio)) {
+        throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
+      }
     }
-    designWidth = designWidthFunc(value) || defaultDesignWidth
-    deviceRatio = config.deviceRatio || defaultDesignRatio
-    if (!(designWidth in deviceRatio)) {
-      throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
-    }
-    ratioInitialized = true
+    displayWidth = display.width
+    ratioCache = Math.min(display.width, display.height) / designWidth / deviceRatio[designWidth]
   }
 
-  // Note: 提前调用 display 可能无法获取正确值，故这里不做 ratio 缓存
-  return Math.min(display.width, display.height) / designWidth / deviceRatio[designWidth]
+  return ratioCache
 }
 
 // Note: 设置为 style 单位时会自动完成设计稿转换，设计开发者调用 API 时也许抹平差异，例如 pageScrollTo[option.offsetTop]

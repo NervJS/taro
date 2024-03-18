@@ -53,11 +53,7 @@ class CSSStyleDeclaration {
     prop = prop.includes('-') ? toCamelCase(prop) : prop
     const node = this.el
     if ((typeof value === 'string' && value.length) || typeof value === 'number' || isObject(value)) {
-      // if (needUpdateProperty) {
-      const newProperty = convertWebStyle2HmStyle({ [prop]: value })
-      Object.keys(newProperty).forEach(key => {
-        node._st.hmStyle[key] = newProperty[key]
-      })
+      convertWebStyle2HmStyle({ [prop]: value }, node)
     } else if (!value) {
       this.removeProperty(prop)
     }
