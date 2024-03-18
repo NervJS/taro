@@ -24,9 +24,27 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
 }
 
 export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updatePayload: any[]){
-  for (let i = 0; i < updatePayload.length; i += 2){ // key, value 成对出现
-    const key = updatePayload[i]; const newProp = updatePayload[i+1]; const oldProp = oldProps[key]
-    setProperty(dom, key, newProp, oldProp)
+  const handlers: (() => void)[] = []
+  for (let i = 0; i < updatePayload.length; i += 2){ 
+    // key, value 成对出现
+    const key = updatePayload[i]
+    const newProp = updatePayload[i+1]
+    const oldProp = oldProps[key]
+    if (isHarmony) {
+      // 鸿蒙样式前置插入，防止覆盖style
+      if (key === '__hmStyle') {
+        handlers.unshift(() => setHarmonyStyle(dom, newProp, oldProp))
+      } else {
+        handlers.push(() => setProperty(dom, key, newProp, oldProp))
+      }
+    } else {
+      setProperty(dom, key, newProp, oldProp)
+    }
+  }
+  if (isHarmony) {
+    for (let i = 0; i < handlers.length; i++){
+      handlers[i]()
+    }
   }
 }
 
@@ -105,6 +123,35 @@ interface DangerouslySetInnerHTML {
   __html?: string
 }
 
+// 鸿蒙样式特殊处理，需要在插入顺序中前置插入，防止覆盖了style
+function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
+  // @ts-ignore
+  const style = dom._st.hmStyle // __hmStyle是已经被处理过的鸿蒙样式，可以直接塞进hmStyle对象内
+  if (isObject<StyleValue>(oldValue)) {
+    for (const i in oldValue) {
+      if (!(value && i in (value as StyleValue))) {
+        // 鸿蒙伪类特殊处理
+        if (isHarmony && (i === '::after' || i === '::before')) {
+          setPseudo(dom, i, null)
+        } else {
+          style[i] = ''
+        }
+      }
+    }
+  }
+  if (isObject<StyleValue>(value)) {
+    for (const i in value) {
+      if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
+        // 鸿蒙伪类特殊处理
+        if (isHarmony && (i === '::after' || i === '::before')) {
+          setPseudo(dom, i, value[i] as unknown as StyleValue)
+        } else {
+          style[i] = value[i]
+        }
+      }
+    }
+  }
+}
 function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
   name = name === 'className' ? 'class' : name
 
@@ -141,35 +188,6 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
         }
       }
     }
-  } else if (name === '__hmStyle') {
-    // 鸿蒙样式特殊处理
-    // @ts-ignore
-    const style = dom._st.hmStyle // __hmStyle是已经被处理过的鸿蒙样式，可以直接塞进hmStyle对象内
-    if (isObject<StyleValue>(oldValue)) {
-      for (const i in oldValue) {
-        if (!(value && i in (value as StyleValue))) {
-          // 鸿蒙伪类特殊处理
-          if (isHarmony && (i === '::after' || i === '::before')) {
-            setPseudo(dom, i, null)
-          } else {
-            style[i] = ''
-          }
-        }
-      }
-    }
-    if (isObject<StyleValue>(value)) {
-      for (const i in value) {
-        if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
-          // 鸿蒙伪类特殊处理
-          if (isHarmony && (i === '::after' || i === '::before')) {
-            setPseudo(dom, i, value[i] as unknown as StyleValue)
-          } else {
-            style[i] = value[i]
-          }
-        }
-      }
-    }
-
   } else if (isEventName(name)) {
     setEvent(dom, name, value, oldValue)
   } else if (name === 'dangerouslySetInnerHTML') {

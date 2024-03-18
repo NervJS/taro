@@ -49,10 +49,20 @@ export function convertNumber2VP (value: number, unit = 'px') {
   return pxTransformHelper(value, 'vp')
 }
 
+export function parseClasses (classNames: string | string[] = []): string[] {
+  if (typeof classNames === 'string') {
+    return classNames.includes(' ') ? classNames.split(' ') : [classNames]
+  } else if (Array.isArray(classNames)) {
+    return classNames // Note: 不考虑支持单个元素传入多个类名的情况，过于损耗性能
+  }
+
+  return []
+}
+
 // 合并静态样式，从样式表里面找到对应的样式
-export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, classNames: string, style: CSSProperties): CSSProperties {
+export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, classNames: string | string[] = [], style: CSSProperties): CSSProperties {
   const obj: CSSProperties[] = []
-  const classes = typeof classNames === 'string' ? classNames.split(' ') : []
+  const classes = parseClasses(classNames)
   if (classes.length === 1) {
     if (style) {
       return Object.assign({}, styleSheet[classNames], style)

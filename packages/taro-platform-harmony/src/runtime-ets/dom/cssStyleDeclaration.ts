@@ -53,11 +53,7 @@ class CSSStyleDeclaration {
     prop = prop.includes('-') ? toCamelCase(prop) : prop
     const node = this.el
     if ((typeof value === 'string' && value.length) || typeof value === 'number' || isObject(value)) {
-      // if (needUpdateProperty) {
-      const newProperty = convertWebStyle2HmStyle({ [prop]: value })
-      Object.keys(newProperty).forEach(key => {
-        node._st.hmStyle[key] = newProperty[key]
-      })
+      convertWebStyle2HmStyle({ [prop]: value }, node)
     } else if (!value) {
       this.removeProperty(prop)
     }
@@ -82,6 +78,7 @@ class CSSStyleDeclaration {
 type ICSSStyleDeclaration = CSSStyleDeclaration & Record<string, any>
 
 function createCSSStyleDeclaration (node: TaroElement): CSSStyleDeclaration {
+  // FIXME 临时使用 Proxy 代理，后续需要优化
   return new Proxy(new CSSStyleDeclaration(node), {
     set (target, prop: string, value) {
       if (prop === 'cssText') {
