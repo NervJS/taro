@@ -227,9 +227,9 @@ export function getUnit (val) {
   }
   if (val) {
     // 匹配vw\vh
-    const exec = val.match(/(\d+)(vw|vh|px)$/)
+    const exec = val.match(/(-?\d+(\.\d+)?)(vw|vh|px)$/)
     if (exec) {
-      const [, num, unit] = exec
+      const [, num, , unit] = exec
       return convertNumber2VP(parseFloat(num), unit)
     }
   }
