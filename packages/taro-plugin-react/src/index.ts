@@ -27,11 +27,6 @@ export default (ctx: IPluginContext) => {
   ctx.modifyWebpackChain(({ chain }) => {
     // 通用
     setAlias(framework, chain)
-    chain.plugin('definePlugin').tap((args) => {
-      const config = args[0]
-      config.__TARO_FRAMEWORK__ = `"${framework}"`
-      return args
-    })
 
     if (process.env.TARO_PLATFORM === 'web') {
       // H5
@@ -158,16 +153,6 @@ function viteCommonPlugin(framework: Frameworks): PluginOption {
           : []
 
       return {
-        optimizeDeps:{
-          esbuildOptions:{
-            define: {
-              __TARO_FRAMEWORK__: `"${framework}"`
-            }
-          }
-        },
-        define: {
-          __TARO_FRAMEWORK__: `"${framework}"`,
-        },
         resolve: {
           alias,
         },
