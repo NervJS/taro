@@ -58,19 +58,27 @@ export function initPxTransform ({
 
 const display = _display.getDefaultDisplaySync()
 
+let ratioInitialized = false
 let designWidthFunc: (input: number) => number
+let designWidth = defaultDesignWidth
+let deviceRatio = defaultDesignRatio
 function getRatio (value: number) {
-  const config = (Current as any).taro?.config || {}
-  if (!isFunction(designWidthFunc)) {
-    designWidthFunc = isFunction(config.designWidth)
-      ? config.designWidth
-      : () => config.designWidth
+  if (!ratioInitialized) {
+    const config = (Current as any).taro?.config || {}
+    if (!isFunction(designWidthFunc)) {
+      designWidthFunc = isFunction(config.designWidth)
+        ? config.designWidth
+        : () => config.designWidth
+    }
+    designWidth = designWidthFunc(value) || defaultDesignWidth
+    deviceRatio = config.deviceRatio || defaultDesignRatio
+    if (!(designWidth in deviceRatio)) {
+      throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
+    }
+    ratioInitialized = true
   }
-  const designWidth = designWidthFunc(value) || defaultDesignWidth
-  const deviceRatio = config.deviceRatio || defaultDesignRatio
-  if (!(designWidth in deviceRatio)) {
-    throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
-  }
+
+  // Note: 提前调用 display 可能无法获取正确值，故这里不做 ratio 缓存
   return Math.min(display.width, display.height) / designWidth / deviceRatio[designWidth]
 }
 
@@ -78,7 +86,7 @@ function getRatio (value: number) {
 export function pxTransformHelper (size: number, unit?: string, isNumber = false): number | string {
   const config = (Current as any).taro?.config || {}
   const targetUnit = unit || config.targetUnit || defaultTargetUnit
-  
+
   if (targetUnit === 'PX') {
     return px2vp(size * display.scaledDensity) + 'vp'
   }
