@@ -538,5 +538,4 @@ export const nestElements = new Map([
   ['scroll-view', 4],
   ['swiper', 4],
   ['swiper-item', 4],
-  ['root-portal', 3],
 ])

@@ -19,6 +19,11 @@ export class Template extends RecursiveTemplate {
 
   transferComponents: Record<string, Record<string, string>> = {}
 
+  constructor () {
+    super()
+    this.nestElements.set('root-portal', 3)
+  }
+
   buildXsTemplate (filePath = './utils') {
     return `<import-sjs name="xs" from="${filePath}.sjs" />`
   }
