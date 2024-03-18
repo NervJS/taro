@@ -1,3 +1,7 @@
+import { parseClasses } from '../utils'
+
+import type { ReactElement } from 'react'
+
 // 抽出来的嵌套查询
 // const __nesting_style__ = [
 //   {
@@ -8,7 +12,7 @@
 //     }
 //   },
 // ]
-// 
+//
 // function Index() {
 //   return __combine_nesting_style__(jsx(TaroViewTagName, {
 //     className: "container aaa",
@@ -38,8 +42,6 @@
 //     ]
 //   }), __nesting_style__);
 // }
-
-import type { ReactElement } from 'react'
 
 type TMappingNode = {
   node: ReactElement
@@ -93,7 +95,7 @@ function depthTraversal(root: ReactElement) {
         }
       }
       // 拆分classnames
-      const classnames = (tree.props.className || '').split(' ')
+      const classnames = parseClasses(tree.props.className || '')
       for (let i = 0; i < classnames.length; i++) {
         const cls = classnames[i]
         let name = cls
