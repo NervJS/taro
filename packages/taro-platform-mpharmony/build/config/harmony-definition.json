@@ -70,7 +70,6 @@
       "onStop": true,
       "onTimeUpdate": true
     },
-    "CacheManager": false,
     "CameraContext": {
       "startRecord": true,
       "stopRecord": true,
@@ -1284,18 +1283,7 @@
         "phoneNumber": true
       }
     },
-    "navigateBack": {
-      "object": {
-        "delta": true
-      }
-    },
     "navigateBackMiniProgram": false,
-    "navigateTo": {
-      "object": {
-        "url": true,
-        "events": true
-      }
-    },
     "navigateToMiniProgram": {
       "object": {
         "appId": true,
@@ -1592,11 +1580,6 @@
         "current": true
       }
     },
-    "reLaunch": {
-      "object": {
-        "url": true
-      }
-    },
     "readBLECharacteristicValue": {
       "object": {
         "characteristicId": true,
@@ -1604,7 +1587,6 @@
         "serviceId": true
       }
     },
-    "redirectTo": true,
     "removeSavedFile": {
       "object": {
         "filePath": true
@@ -1943,11 +1925,6 @@
     "stopVoice": false,
     "stopWifi": true,
     "subscribeVoIPVideoMembers": false,
-    "switchTab": {
-      "object": {
-        "url": true
-      }
-    },
     "tradePay": false,
     "updateShareMenu": false,
     "updateVoIPChatMuteConfig": false,

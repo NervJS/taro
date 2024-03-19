@@ -58,6 +58,9 @@ export default class H5 extends TaroPlatformWeb {
       const rules = chain.module.rules
       const script = rules.get('script')
       const babelLoader = script.uses.get('babelLoader')
+      const routerApis = new Set(['navigateTo', 'navigateBack', 'redirectTo', 'reLaunch', 'switchTab'])
+      let apis = require(resolveSync('./taroApis'))
+      apis = new Set(Array.from(apis).filter((x: string) => !routerApis.has(x)))
       babelLoader.set('options', {
         ...babelLoader.get('options'),
         plugins: [
@@ -65,7 +68,7 @@ export default class H5 extends TaroPlatformWeb {
             require('babel-plugin-transform-taroapi'),
             {
               packageName: '@tarojs/taro',
-              apis: require(resolveSync('./taroApis')),
+              apis,
               definition: require(this.libraryDefinition),
             },
           ],
