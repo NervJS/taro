@@ -57,7 +57,7 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
           n._nodeInfo?.thresholds = thresholds
 
           setNodeEventCallbackAndTriggerComponentUpdate(n, VISIBLE_CHANGE_EVENT_NAME, (isVisible: boolean, currentRatio: number) => {
-            callback(this.handleResult(isVisible, currentRatio))
+            callback(this.handleResult(isVisible, currentRatio, n))
           })
         })
       } else {
@@ -65,7 +65,7 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
         node._nodeInfo?.thresholds = thresholds
 
         setNodeEventCallbackAndTriggerComponentUpdate(node, VISIBLE_CHANGE_EVENT_NAME, (isVisible: boolean, currentRatio: number) => {
-          callback(this.handleResult(isVisible, currentRatio))
+          callback(this.handleResult(isVisible, currentRatio, node))
         })
       }
     } else {
@@ -86,8 +86,10 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
   }
 
   // @ts-ignore
-  private handleResult (isVisible: boolean, currentRatio: number): Taro.IntersectionObserver.ObserveCallbackResult {
+  private handleResult (isVisible: boolean, currentRatio: number, node: TaroElement): Taro.IntersectionObserver.ObserveCallbackResult {
     const result = {
+      id: node.id,
+      dataset: node.dataset,
       intersectionRatio: currentRatio,
       // TODO 未做，等待能拿到element的info信息
       boundingClientRect: {
