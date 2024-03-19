@@ -15,7 +15,7 @@ function buildDomTree(dom: TTreeNode) {
     case 'span': tagName = 'text'; break
   }
   if (!tagName) return null
-  
+
   const ele = document.createElement(tagName)
   attributes && Object.keys(attributes).forEach(key => {
     if (key === 'style') {

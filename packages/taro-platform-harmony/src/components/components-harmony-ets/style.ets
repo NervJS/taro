@@ -1,13 +1,20 @@
-import type { HarmonyStyle, TaroElement, TaroStyleType } from '@tarojs/runtime'
-import { isUndefined } from '../shared'
+import type { TaroAny, HarmonyStyle, TaroElement, TaroStyleType } from '@tarojs/runtime'
+import { isUndefined } from '@tarojs/shared'
 import { computeBackgroundPosition } from './utils'
 import { getNormalAttributes } from './utils/helper'
 import { isMaxWidthView } from './utils/styles'
 
 class CommonStyleModify implements AttributeModifier<CommonAttribute> {
+  initStyle?: TaroStyleType
   node: TaroElement | null = null
   style: TaroStyleType | null = null
-  initStyle?: TaroStyleType
+  overwriteStyle: Record<string, TaroAny> = {}
+  
+  setAnimationStyle (overwriteStyle: Record<string, TaroAny>) {
+    this.overwriteStyle = overwriteStyle
+
+    return this
+  }
 
   setNode (node: TaroElement, initStyle?: TaroStyleType) {
     this.node = node
@@ -28,6 +35,8 @@ class CommonStyleModify implements AttributeModifier<CommonAttribute> {
     if (this.node && this.style) {
       setNormalAttributeIntoInstance(instance, this.style, this.node)
     }
+
+    setAnimationAttributeIntoInstance(instance, this.overwriteStyle)
   }
 }
 
@@ -59,6 +68,8 @@ class RowStyleModify extends CommonStyleModify {
         maxHeight: this.style.maxHeight
       })
     }
+
+    setAnimationAttributeIntoInstance(instance, this.overwriteStyle)
   }
 }
 
@@ -73,9 +84,32 @@ class ColumnStyleModify extends CommonStyleModify {
         maxHeight: this.style.maxHeight
       })
     }
+
+    setAnimationAttributeIntoInstance(instance, this.overwriteStyle)
   }
 }
 
+function setAnimationAttributeIntoInstance(instance: CommonAttribute, overwriteStyle: Record<string, TaroAny>) {
+  // Animation 需要提前和 @State 变量绑定才能产生动画效果，因此不能做 if else 判断
+  instance.translate({
+    x: overwriteStyle.translate?.x,
+    y: overwriteStyle.translate?.y,
+    z: overwriteStyle.translate?.z,
+  }).scale({
+    x: overwriteStyle.scale?.x,
+    y: overwriteStyle.scale?.y,
+    z: overwriteStyle.scale?.z,
+    centerX: overwriteStyle.transformOrigin?.x,
+    centerY: overwriteStyle.transformOrigin?.y,
+  }).rotate({
+    x: overwriteStyle.rotate?.x,
+    y: overwriteStyle.rotate?.y,
+    z: overwriteStyle.rotate?.z,
+    centerX: overwriteStyle.transformOrigin?.x,
+    centerY: overwriteStyle.transformOrigin?.y,
+    angle: overwriteStyle.rotate?.angle,
+  })
+}
 
 function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroStyleType, node?: TaroElement | null) {
   if (!isUndefined(style.id)) {
@@ -113,7 +147,9 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
   if (node) {
     instance.width(isMaxWidthView(node as TaroElement) && isUndefined(style.width) ? '100%' : style.width)
   } else {
-    instance.width(style.width)
+    if (!isUndefined(style.width)) {
+      instance.width(style.width)
+    }
   }
   if (!isUndefined(style.height)) {
     instance.height(style.height)

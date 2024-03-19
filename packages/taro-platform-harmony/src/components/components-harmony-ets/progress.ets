@@ -12,6 +12,13 @@ export default struct TaroProgress {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroProgressElement) => void = this.customBuilder
   @ObjectLink node: TaroProgressElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
+
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
 
   build() {
     if (this.node && this.node.hmStyle?.display !== 'none') {
@@ -20,7 +27,7 @@ export default struct TaroProgress {
           value: parseFloat(this.node.getAttribute('percent')),
           type: ProgressType.Linear
         })
-          .attributeModifier(commonStyleModify.setNode(this.node))
+          .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
           .color(this.node.getAttribute('activeColor') ?? PROGRESS_ACTIVECOLOR)
           .backgroundColor(this.node.getAttribute('backgroundColor') ?? PROGRESS_BACKGROUNDCOLOR)
           .style({

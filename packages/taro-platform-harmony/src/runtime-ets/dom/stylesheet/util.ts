@@ -183,7 +183,6 @@ export class BORDER_STYLE_MAP {
       case BorderStyle.Solid: return 'solid'
       default: return ''
     }
-  
   }
 }
 
@@ -191,25 +190,28 @@ export function getNodeMarginOrPaddingData (dataValue: string) {
   let res: any = {}
   if (dataValue) {
     const values = dataValue.toString().trim().split(new RegExp('\\s+'))
+    let val1: string
+    let val2: string
     switch (values.length) {
       case 1:
-        res = { top: values[0], right: values[0], bottom: values[0], left: values[0] }
+        val1 = getUnit(values[0])
+        res = { top: val1, right: val1, bottom: val1, left: val1 }
         break
       case 2:
-        res = { top: values[0], right: values[1], bottom: values[0], left: values[1] }
+        val1 = getUnit(values[0])
+        val2 = getUnit(values[1])
+        res = { top: val1, right: val2, bottom: val1, left: val2 }
         break
       case 3:
-        res = { top: values[0], right: values[1], bottom: values[2], left: values[1] }
+        val2 = getUnit(values[1])
+        res = { top: getUnit(values[0]), right: val2, bottom: getUnit(values[2]), left: val2 }
         break
       case 4:
-        res = { top: values[0], right: values[1], bottom: values[2], left: values[3] }
+        res = { top: getUnit(values[0]), right: getUnit(values[1]), bottom: getUnit(values[2]), left: getUnit(values[3]) }
         break
       default:
         break
     }
-    Object.keys(res).forEach(key => {
-      res[key] = getUnit(res[key]) || 0
-    })
   }
   return res
 }
@@ -225,9 +227,9 @@ export function getUnit (val) {
   }
   if (val) {
     // 匹配vw\vh
-    const exec = val.match(/([-.\d]+)(vw|vh|px)$/)
+    const exec = val.match(/(-?\d*(\.\d+)?)(vw|vh|px)$/)
     if (exec) {
-      const [, num, unit] = exec
+      const [, num, , unit] = exec
       return convertNumber2VP(parseFloat(num), unit)
     }
   }

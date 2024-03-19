@@ -33,6 +33,7 @@ export default struct TaroTextArea {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroTextAreaElement) => void = this.customBuilder
   @ObjectLink node: TaroTextAreaElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
 
   aboutToAppear () {
     if (this.node) {
@@ -52,7 +53,7 @@ export default struct TaroTextArea {
         .key(this.node._nid)
         .maxLength(Number(this.node._attrs?.maxlength) || null)
         .placeholderColor(getPlaceholderColor(this.node))
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .textStyle(this.node?.hmStyle)
         .textAttr(getFontAttributes(this.node))
         .onChange((value: string) => {

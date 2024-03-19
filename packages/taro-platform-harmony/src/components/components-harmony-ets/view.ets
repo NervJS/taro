@@ -13,6 +13,13 @@ export default struct TaroView {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroViewElement) => void = this.customBuilder
   @ObjectLink node: TaroViewElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
+
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
 
   build () {
     if (this.node.hmStyle?.display !== 'none') {
@@ -24,7 +31,7 @@ export default struct TaroView {
             this.createLazyChildren(this.node)
           }
         }
-        .attributeModifier(rowModify.setNode(this.node))
+        .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
         .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
         .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
@@ -41,7 +48,7 @@ export default struct TaroView {
             this.createLazyChildren(this.node)
           }
         }
-        .attributeModifier(columnModify.setNode(this.node))
+        .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
         .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
         .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {

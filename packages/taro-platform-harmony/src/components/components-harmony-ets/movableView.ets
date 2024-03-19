@@ -1,4 +1,4 @@
-import type { TaroMovableViewElement } from '@tarojs/runtime'
+import type { TaroAny, TaroMovableViewElement } from '@tarojs/runtime'
 
 import { rowModify, columnModify } from './style'
 
@@ -9,6 +9,13 @@ export default struct TaroMovableView {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroMovableViewElement) => void = this.customBuilder
   @ObjectLink node: TaroMovableViewElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
+
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
 
   build() {
     if (this.node && this.node.hmStyle?.display !== 'none') {
@@ -18,14 +25,14 @@ export default struct TaroMovableView {
           Row() {
             this.createLazyChildren(this.node)
           }
-          .attributeModifier(rowModify.setNode(this.node))
+          .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
           .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
           .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
         } else {
           Column() {
             this.createLazyChildren(this.node)
           }
-          .attributeModifier(columnModify.setNode(this.node))
+          .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
           .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
           .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
         }

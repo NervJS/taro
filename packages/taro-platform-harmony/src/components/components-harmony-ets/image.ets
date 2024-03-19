@@ -21,6 +21,13 @@ export default struct TaroImage {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroImageElement) => void = this.customBuilder
   @ObjectLink node: TaroImageElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
+
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
 
   build() {
     if (this.node?.hmStyle?.display !== 'none') {
@@ -30,7 +37,7 @@ export default struct TaroImage {
           this.node._nodeInfo.areaInfo = res[1]
         }))
         .objectFit(getImageMode(this.node.getAttribute('mode')))
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .onComplete(e => eventHandler(e, 'complete', this.node))
         .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
     }

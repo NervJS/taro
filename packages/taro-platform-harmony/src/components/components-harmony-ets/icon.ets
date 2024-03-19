@@ -53,6 +53,13 @@ export default struct TaroIcon {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroIconElement) => void = this.customBuilder
   @ObjectLink node: TaroIconElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
+
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
 
   build() {
     if (this.node?.hmStyle?.display !== 'none') {
@@ -62,7 +69,7 @@ export default struct TaroIcon {
         .attributeModifier(commonStyleModify.setNode(this.node, {
           width: convertNumber2PX(23),
           height: convertNumber2PX(23)
-        }))
+        }).setAnimationStyle(this.overwriteStyle))
         .size({
           width: convertNumber2VP(Number(this.node._attrs.size) || 23),
           height: convertNumber2VP(Number(this.node._attrs.size) || 23),

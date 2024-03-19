@@ -39,6 +39,13 @@ export default struct TaroLabel {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node:TaroLabelElement) => void = this.customBuilder
   @ObjectLink node:TaroLabelElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
+
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
 
   build() {
     if (this.node?.hmStyle?.display !== 'none') {
@@ -46,7 +53,7 @@ export default struct TaroLabel {
         Row() {
           this.createLazyChildren(this.node)
         }
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .onClick((e: ClickEvent) => {
           const firstChild: TaroElement | null = this.node.childNodes[0] as TaroElement | null
           const id: string = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid || ''
@@ -65,7 +72,7 @@ export default struct TaroLabel {
         Column() {
           this.createLazyChildren(this.node)
         }
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .onClick((e: ClickEvent) => {
           const firstChild: TaroElement | null = this.node.childNodes[0] as TaroElement | null
           const id: string = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid || ''

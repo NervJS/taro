@@ -44,6 +44,13 @@ export default struct TaroText {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroTextElement) => void = this.customBuilder
   @ObjectLink node: TaroTextElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
+
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
 
   build () {
     if (this.node.nodeType === NodeType.TEXT_NODE) {
@@ -66,7 +73,7 @@ export default struct TaroText {
       if (this.node.hmStyle?.display !== 'none') {
         Text(this.node.textContent)
         .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .textNormalFontStyle(this.node?.hmStyle)
         .textSpecialFontStyle(getFontAttributes(this.node))
         .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))

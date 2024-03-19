@@ -108,13 +108,9 @@ interface DangerouslySetInnerHTML {
 export function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
   name = name === 'className' ? 'class' : name
 
-  if (
-    name === 'key' ||
-    name === 'children' ||
-    name === 'ref'
-  ) {
-    // skip
-  } else if (name === 'style') {
+  if (['key', 'children', 'ref'].includes(name)) return
+
+  if (name === 'style') {
     const style = dom.style
     if (isString(value)) {
       style.cssText = value
@@ -169,7 +165,6 @@ export function setProperty (dom: TaroElement, name: string, value: unknown, old
         }
       }
     }
-
   } else if (isEventName(name)) {
     setEvent(dom, name, value, oldValue)
   } else if (name === 'dangerouslySetInnerHTML') {

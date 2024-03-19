@@ -26,6 +26,7 @@ export class TaroElement<
   U extends BaseTouchEvent<any> = ITouchEvent
 > extends TaroNode {
   public _innerHTML = ''
+  public _instance: TaroAny
   public _nodeInfo: TaroAny = {}
   public readonly tagName: string
   public dataset: Record<string, unknown> = EMPTY_OBJ
@@ -89,11 +90,6 @@ export class TaroElement<
           this.dataset[toCamelCase(name.replace(/^data-/, ''))] = value
         }
         break
-    }
-
-    if (name === ID) {
-      eventSource.delete(this._attrs.id)
-      eventSource.set(value, this as TaroAny)
     }
 
     this._attrs[name] = value

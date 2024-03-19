@@ -5,6 +5,7 @@ export const context: any = {
 // @ts-nocheck
 export const Current: any = {
   app: null,
+  uiContext: null,
   router: {},
   taro: {},
   contextPromise: new Promise(resolve => {

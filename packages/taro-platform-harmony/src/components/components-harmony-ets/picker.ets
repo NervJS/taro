@@ -7,7 +7,7 @@ import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroAny, TaroEvent } from '@tarojs/runtime'
 
-import { PickerDateProps, PickerMultiSelectorProps, PickerSelectorProps, PickerTimeProps } from './types'
+import { PickerDateProps, PickerMultiSelectorProps, PickerSelectorProps, PickerTimeProps } from '@tarojs/components/types'
 
 interface TimeRange {
   startHH: number

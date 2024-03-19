@@ -44,13 +44,20 @@ export default struct TaroSwiper {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroSwiperElement) => void = this.customBuilder
   @ObjectLink node: TaroSwiperElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
+
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
 
   build () {
     if (this.node.hmStyle?.display !== 'none') {
       Swiper(this.node.controller) {
         this.createLazyChildren(this.node)
       }
-        .attributeModifier(commonStyleModify.setNode(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
         .swiperAttr(getSwiperAttributes(this.node))
         .indicatorStyle({
           color: this.node.getAttribute('indicatorColor'),

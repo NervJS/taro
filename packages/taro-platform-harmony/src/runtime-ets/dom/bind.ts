@@ -1,3 +1,4 @@
+import { Current } from '../current'
 import { ObjectAssign } from '../utils'
 
 import type { TaroAny } from '../utils'
@@ -54,7 +55,7 @@ export function bindAnimation (node: TaroElement) {
             animateParams.duration = 0
           }
           animateParams.curve = Curve[convertToCamelCase(timingFunction)] || Curve.EaseInOut
-          animateTo(animateParams, () => {
+          Current.uiContext.animateTo(animateParams, () => {
             const transformOrigin: string = anim.transformOrigin
 
             if (transformOrigin) {
@@ -69,8 +70,7 @@ export function bindAnimation (node: TaroElement) {
               })
             }
 
-            node._nodeInfo.overwriteStyle = anim.rule
-            node.updateComponent()
+            node._instance.overwriteStyle = anim.rule
           })
         })
       }

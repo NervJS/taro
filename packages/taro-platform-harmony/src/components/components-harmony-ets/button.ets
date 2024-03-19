@@ -98,6 +98,13 @@ export default struct TaroButton {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroButtonElement) => void = this.customBuilder
   @ObjectLink node: TaroButtonElement
+  @State overwriteStyle: Record<string, TaroAny> = {}
+
+  aboutToAppear(): void {
+    if (this.node) {
+      this.node._instance = this
+    }
+  }
 
   build() {
     if (this.node?.hmStyle?.display !== 'none') {
@@ -112,7 +119,7 @@ export default struct TaroButton {
         }
       }
       .themeStyles(getThemeAttributes(this.node))
-      .attributeModifier(commonStyleModify.setNode(this.node))
+      .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .constraintSize({
         minWidth: this.node.hmStyle?.minWidth || getButtonMinWidth(this.node),
         minHeight: this.node.hmStyle?.minHeight || getButtonMinHeight(this.node),
