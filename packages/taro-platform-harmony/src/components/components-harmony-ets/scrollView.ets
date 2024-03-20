@@ -2,7 +2,7 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 
 import { rowModify, columnModify } from './style'
 import PseduoChildren from './pseudo'
-import { FlexManager } from './utils/FlexManager'
+import { FlexManager } from './utils/flexManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNodeThresholds, getStyleAttr, shouldBindEvent } from './utils/helper'
 
