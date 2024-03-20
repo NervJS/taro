@@ -399,7 +399,7 @@ declare global {
                 case 'solid':
                   compiler.loaderMeta ||= {}
                   compiler.loaderMeta.importFrameworkStatement = ``
-                  compiler.mockAppStatement = `
+                  compiler.loaderMeta.mockAppStatement = `
 function App(props) {
   return null
 }

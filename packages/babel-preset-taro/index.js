@@ -63,7 +63,7 @@ module.exports = (_, options = {}) => {
     }
   } else if (isSolid) {
     presets.push([require('babel-preset-solid'), {
-      moduleName: '@tarojs/plugin-framework-react/dist/runtime/reconciler',
+      moduleName: '@tarojs/plugin-framework-react/dist/reconciler',
       generate: 'universal',
     }])
   }

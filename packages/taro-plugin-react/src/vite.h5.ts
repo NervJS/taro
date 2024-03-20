@@ -80,7 +80,7 @@ function esbuildExclude (framework: Frameworks): PluginOption {
     enforce: 'pre',
     config: ()=>({
       optimizeDeps: {
-        exclude: ['react', 'preact']
+        exclude: ['react', 'preact', 'solid-js']
       }
     })
   }

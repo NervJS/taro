@@ -115,6 +115,9 @@ function setAlias(framework: Frameworks, chain) {
       alias.set('react$', 'nervjs')
       alias.set('react-dom$', 'nervjs')
       break
+    case 'solid':
+      alias.set('react/jsx-runtime', 'solid-js/h/jsx-runtime')
+      break
   }
 }
 
@@ -151,6 +154,12 @@ function viteCommonPlugin(framework: Frameworks): PluginOption {
             { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime' },
           ]
           : []
+      if (framework === 'solid') {
+        const reconcilerName = '@tarojs/plugin-framework-react/dist/reconciler'
+        alias.push(
+          { find: 'react/jsx-runtime', replacement: reconcilerName },
+        )
+      }
 
       return {
         resolve: {

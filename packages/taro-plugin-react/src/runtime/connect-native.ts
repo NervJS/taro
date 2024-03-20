@@ -13,7 +13,7 @@ import { isClassComponent } from './utils'
 import type { Instance, MpInstance, TaroRootElement } from '@tarojs/runtime'
 import type { AppInstance, PageInstance } from '@tarojs/taro'
 import type { Func } from '@tarojs/taro/types/compile'
-import type * as React from 'react'
+import type React from 'react'
 
 declare const getCurrentPages: () => PageInstance[]
 
