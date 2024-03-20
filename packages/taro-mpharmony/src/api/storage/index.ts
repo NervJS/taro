@@ -17,11 +17,23 @@ export * from './background-fetch'
 export const createCacheManager = /* @__PURE__ */ temporarilyNotSupport('createCacheManager')
 
 
+/** 
+ * Taro.setStorage 的同步版本
+ * 
+ * @canUse setStorageSync
+ * @__object [key, data]
+*/
 export const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
   const status = native.setStorageSync({ key, data: JSON.stringify(handleData(data)) })
   displayExecRes(status, setStorageSync.name)
 }
 
+/**
+ * 将数据存储在本地缓存中指定的 key 中
+ * 
+ * @canUse setStorage
+ * @__object [data, key]
+ */
 // @ts-ignore
 export const setStorage: typeof Taro.setStorage = (options) => {
   // options must be an Object
@@ -48,13 +60,29 @@ export const setStorage: typeof Taro.setStorage = (options) => {
   })
 }
 
+/**
+ * 根据 URL 销毁存在内存中的数据
+ * 
+ * @canNotUse revokeBufferURL
+ */
 export const revokeBufferURL = /* @__PURE__ */ temporarilyNotSupport('revokeBufferURL')
 
+/** 
+ * Taro.removeStorage 的同步版本
+ * 
+ * @canUse removeStorageSync
+*/
 export const removeStorageSync: typeof Taro.removeStorageSync = (key: string) => {
   const status = native.removeStorageSync({ key })
   displayExecRes(status, removeStorageSync.name)
 }
 
+/** 
+ * 从本地缓存中移除指定 key
+ * 
+ * @canUse removeStorage
+ * @__object [key]
+*/
 export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeStorage.Option) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
@@ -79,6 +107,11 @@ export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeSto
   })
 }
 
+/** 
+ * Taro.getStorage 的同步版本
+ * 
+ * @canUse getStorageSync
+*/
 // @ts-ignore
 export const getStorageSync: typeof Taro.getStorageSync = (key) => {
   const status = native.getStorageSync({ key })
@@ -95,6 +128,13 @@ export const getStorageSync: typeof Taro.getStorageSync = (key) => {
   return ''
 }
 
+/** 
+ * 从本地缓存中异步获取指定 key 的内容
+ * 
+ * @canUse getStorage
+ * @__object [key]
+ * @__success [data]
+*/
 export const getStorage: typeof Taro.getStorage = <T>(options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
@@ -136,7 +176,12 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
 
 }
 
-
+/** 
+ * Taro.getStorageInfo 的同步版本
+ * 
+ * @canUse getStorageInfoSync
+ * @__return [currentSize, keys, limitSize]
+*/
 export const getStorageInfoSync: typeof Taro.getStorageInfoSync = () => {
   const res: Taro.getStorageInfoSync.Option = {
     keys: [],
@@ -152,6 +197,12 @@ export const getStorageInfoSync: typeof Taro.getStorageInfoSync = () => {
   return res
 }
 
+/** 
+ * 异步获取当前storage的相关信息
+ * 
+ * @canUse getStorageInfo
+ * @__success [currentSize, keys, limitSize]
+*/
 export const getStorageInfo: typeof Taro.getStorageInfo = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler<Taro.getStorageInfo.SuccessCallbackOption>({
     name: 'getStorageInfo',
@@ -178,13 +229,28 @@ export const getStorageInfo: typeof Taro.getStorageInfo = ({ success, fail, comp
 }
 
 
+/**
+ * 根据传入的 buffer 创建一个唯一的 URL 存在内存中
+ * 
+ * @canNotUse createBufferURL
+ */
 export const createBufferURL = /* @__PURE__ */ temporarilyNotSupport('createBufferURL')
 
+/** 
+ * Taro.clearStorage 的同步版本
+ * 
+ * @canUse clearStorageSync
+*/
 export const clearStorageSync: typeof Taro.clearStorageSync = () => {
   const status = native.clearStorageSync({ key: '' })
   displayExecRes(status, clearStorageSync.name)
 }
 
+/** 
+ * 清除storage信息
+ * 
+ * @canUse clearStorage
+*/
 export const clearStorage: typeof Taro.clearStorage = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'clearStorage', success, fail, complete })
 
