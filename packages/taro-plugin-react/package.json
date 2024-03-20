@@ -19,8 +19,11 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "build": "rollup -c --bundleConfigAsCjs",
-    "dev": "rollup -c -w --bundleConfigAsCjs"
+    "prebuild": "run-s clean",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf --impl=move-remove dist",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
@@ -39,6 +42,7 @@
     "@prefresh/babel-plugin": "^0.4.1",
     "@prefresh/core": "^1.3.4",
     "@prefresh/webpack": "^3.2.3",
+    "@rollup/plugin-typescript": "^11.1.0",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
@@ -51,7 +55,8 @@
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
-    "typescript": "^4.7.4",
+    "solid-js": "^1.8.16",
+    "typescript": "^5.3.3",
     "vite": "^4.2.0",
     "webpack": "5.78.0"
   },

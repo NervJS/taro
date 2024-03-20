@@ -68,6 +68,23 @@ function aliasPlugin (ctx: IPluginContext, framework: Frameworks): PluginOption 
         }
       }
     }
+  } else if (framework === 'solid') {
+    return {
+      name: 'taro-solid:alias',
+      config () {
+        const reconcilerName = '@tarojs/plugin-framework-react/dist/reconciler'
+        const alias = [
+          { find: 'solid-js/web', replacement: reconcilerName },
+          { find: 'react/jsx-runtime', replacement: reconcilerName },
+        ]
+
+        return {
+          resolve: {
+            alias
+          }
+        }
+      }
+    }
   }
   return []
 }

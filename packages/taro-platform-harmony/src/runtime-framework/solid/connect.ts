@@ -5,7 +5,7 @@ import { ensureIsArray } from './utils'
 
 import type { TaroNode } from '@tarojs/runtime'
 
-export type Component = (props?: any) => TaroNode
+export type SolidComponent = (props?: any) => TaroNode
 
 export function setReconciler () {
   hooks.tap('batchedEventUpdates', function (cb) {

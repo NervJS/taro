@@ -1,12 +1,11 @@
 import { Current, document, requestAnimationFrame, TaroElement, window } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
-import { CONTEXT_ACTIONS, env, eventCenter, TFunc } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
+import { addLeadingSlash, CONTEXT_ACTIONS, env, eventCenter, TFunc } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
 import { ensure, hooks, isUndefined } from '@tarojs/shared'
 
 import { ReactMeta as reactMeta } from './app'
 import { setReconciler } from './connect'
 import { ON_HIDE, ON_READY, ON_SHOW } from './constant'
 import {
-  addLeadingSlash,
   getOnHideEventKey,
   getOnReadyEventKey,
   getOnShowEventKey,

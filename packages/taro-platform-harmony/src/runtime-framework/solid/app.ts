@@ -10,7 +10,7 @@ import { EMPTY_OBJ, HOOKS_APP_ID, setDefaultDescriptor, setRouterParams } from '
 
 import type { AppInstance, Instance, PageLifeCycle, PageProps, ReactAppInstance } from '@tarojs/runtime'
 import type { AppConfig } from '@tarojs/taro'
-import type { Component } from './connect'
+import type { SolidComponent } from './connect'
 
 export const ReactMeta = {
   R: EMPTY_OBJ,
@@ -18,7 +18,7 @@ export const ReactMeta = {
   PageContext: EMPTY_OBJ
 }
 
-export function createSolidApp(App: Component, config: AppConfig) {
+export function createSolidApp(App: SolidComponent, config: AppConfig) {
   setReconciler()
 
   if (ReactMeta.PageContext === EMPTY_OBJ) {
@@ -49,13 +49,13 @@ export function createSolidApp(App: Component, config: AppConfig) {
   function AppWrapper () {
     appRef = {} as unknown as ReactAppInstance
     return createComponent(App, {
-      children: createComponent(For as unknown as Component, {
+      children: createComponent(For as unknown as SolidComponent, {
         get each() {
           return pages()
         },
         children: ({ id, component }) => {
           const children = () =>
-            createComponent(ReactMeta.PageContext.Provider as unknown as Component, {
+            createComponent(ReactMeta.PageContext.Provider as unknown as SolidComponent, {
               value: id,
               children: () => {
                 injectPageInstance(
@@ -78,7 +78,7 @@ export function createSolidApp(App: Component, config: AppConfig) {
 
   const app: AppInstance = Object.create(
     {
-      mount(component: Component, id: string, cb: () => void) {
+      mount(component: SolidComponent, id: string, cb: () => void) {
         setPages((old) => [
           ...old,
           { id, component },
