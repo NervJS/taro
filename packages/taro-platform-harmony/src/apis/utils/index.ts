@@ -19,7 +19,7 @@ export function temporarilyNotSupport (name: string, recommended?: string) {
   return (option = {}, ...args) => {
     const { success, fail, complete } = option as any
     const handle = new MethodHandler({ name, success, fail, complete })
-    let errMsg = '暂时不支持 API'
+    let errMsg = `暂时不支持 API ${name}`
     if (recommended) {
       errMsg += `, 请使用 ${recommended}`
     }
