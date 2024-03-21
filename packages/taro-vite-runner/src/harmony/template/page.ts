@@ -670,7 +670,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
     ${this.generatePageShown()}
   })
   .onHidden(() => {
-    ${this.generatePageShown()}
+    ${this.generatePageHidden()}
   })
   .backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColor || '#FFFFFF'}")
   .hideTitleBar(true)
