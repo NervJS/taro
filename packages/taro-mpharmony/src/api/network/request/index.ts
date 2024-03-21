@@ -46,7 +46,8 @@ export const _request = (options) => {
         reject(res)
       },
     })
-    task = NativeRequest.getRequestTask(taskID)
+    // @ts-ignore
+    task = window.isOsChannel ? taskID : NativeRequest.getRequestTask(taskID)
   }) as any
 
 
