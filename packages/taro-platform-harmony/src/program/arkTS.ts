@@ -348,6 +348,13 @@ declare global {
           id: source,
           resolvedBy: name,
         }
+      } else if (source.includes('css_variables')) {
+        return {
+          external: true,
+          id: path.join(outputRoot, 'css_variables'),
+          moduleSideEffects: 'no-treeshake',
+          resolvedBy: name,
+        }
       }
 
       if (chorePackagePrefix && that.indexOfLibraries(source) > -1) {

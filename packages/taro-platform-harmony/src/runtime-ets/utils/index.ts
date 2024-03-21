@@ -38,6 +38,25 @@ export function convertNumber2PX (value: number) {
   return pxTransformHelper(value, 'vp')
 }
 
+// 全局的变量内容
+export const globalCss = {
+  map: {}
+}
+
+// Css变量的var方法
+export function __var_fn(value: string | (() => string), ...rest: any[]) {
+  if (typeof value === 'function') {
+    const res = value()
+    return typeof res !== 'undefined' ? res : (rest && (rest instanceof Array ? __var_fn.apply(null, rest) : __var_fn(rest)))
+  }
+  return typeof value !== 'undefined' ? value: (rest && (rest instanceof Array ? __var_fn.apply(null, rest) : __var_fn(rest)))
+}
+
+// Css变量的var方法，延迟获取变量
+export function __lazy_var_fn(fn, ...rest: any[]) {
+  return () => (fn() || __var_fn.apply(null, rest))
+}
+
 export function convertNumber2VP (value: number, unit = 'px') {
   if (unit === 'vw' || unit === 'vh') {
     return (value / 100 * (unit === 'vw' ? display.width: display.height)) + 'px'
@@ -65,10 +84,10 @@ export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, clas
   const classes = parseClasses(classNames)
   if (classes.length === 1) {
     if (style) {
-      return Object.assign({}, styleSheet[classNames], style)
+      return Object.assign({}, styleSheet[classes[0]], style)
     } else {
       // 同一个引用
-      return styleSheet[classNames]
+      return styleSheet[classes[0]]
     }
   } else {
     for (let i = 0; i < classes.length; i++) {

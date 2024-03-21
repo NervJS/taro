@@ -1,13 +1,13 @@
 import { transformSync } from '@babel/core'
 import { dataToEsm } from '@rollup/pluginutils'
 import { chalk, CSS_EXT, fs, REG_JS, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
-import { parse as parseJSXStyle } from '@tarojs/parse-css-to-stylesheet'
+import { combineCssVariables, parse as parseJSXStyle } from '@tarojs/parse-css-to-stylesheet'
 import { isEqual } from 'lodash'
 import MagicString from 'magic-string'
 import path from 'path'
 import stylelint from 'stylelint'
 
-import { appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'
+import { appendVirtualModulePrefix, resolveAbsoluteRequire, stripVirtualModulePrefix } from '../utils'
 import {
   checkPublicFile,
   fileToUrl,
@@ -90,10 +90,10 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
   let moduleCache: Map<string, Record<string, string>>
   let cssCache: Map<string, string>
   let globalCssCache: Set<string>
+  let globalCssVariables: string[] = []
 
   let viteConfig: ResolvedConfig
   let resolveUrl
-
   return {
     name: 'taro:vite-style',
     enforce: 'pre',
@@ -106,6 +106,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       viteConfig = config
     },
     buildStart() {
+      globalCssVariables = []
       // Ensure a new cache for every build (i.e. rebuilding in watch mode)
       if (cssModulesCache.has(viteConfig)) {
         moduleCache = cssModulesCache.get(viteConfig)!
@@ -208,11 +209,15 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
               const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '').replace(usedSuffix, '')
               return cssCache.get(rawId) || ''
             })
-            const rawCode = parseJSXStyle(raw, cssRawArr, {
+            const { code: raw_code, cssVariables } = parseJSXStyle(raw, cssRawArr, {
               platformString: 'Harmony',
               isEnableNesting: viteCompilerContext.taroConfig.useNesting
             })
-            const s = new MagicString(rawCode)
+            if (cssVariables) {
+              // CSS变量
+              globalCssVariables.push(cssVariables)
+            }
+            const s = new MagicString(raw_code)
             return {
               code: s.toString(),
               map: s.generateMap({ hires: true }),
@@ -272,6 +277,28 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
         map,
       }
     },
+    buildEnd() {
+      // 发射文件到根目录
+      const css_variables_code = combineCssVariables(globalCssVariables)
+      const importer = path.join(viteCompilerContext.sourceDir, 'css_variables')
+      const outputRoot = viteConfig.build.outDir
+      const targetRoot = viteCompilerContext.sourceDir
+
+      const file = 'css_variables.js'
+      this.emitFile({
+        type: 'prebuilt-chunk',
+        fileName: file,
+        // 需要手动处理alias映射
+        code: resolveAbsoluteRequire({
+          importer: importer,
+          code: css_variables_code || '',
+          outputRoot,
+          targetRoot,
+          modifyResolveId: viteCompilerContext.loaderMeta.modifyResolveId,
+        }),
+      })
+      
+    }
   }
 }
 
