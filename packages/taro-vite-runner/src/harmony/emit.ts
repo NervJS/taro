@@ -107,7 +107,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       let ohpmPath = ohpm
       let localOhpmPath = ''
       try {
-        localOhpmPath = execSync(`${process?.platform === 'win32'? 'where': 'which'} ohpm`).toString().replace(/\n/, '')
+        if (!ohpm) {
+          localOhpmPath = execSync(`${process?.platform === 'win32'? 'where': 'which'} ohpm`).toString().replace(/\n/, '')
+        }
       } catch (_) {
         localOhpmPath = ''
       }
