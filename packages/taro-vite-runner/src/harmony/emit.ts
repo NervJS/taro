@@ -95,7 +95,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       }
       const pkg = viteCompilerContext.modifyHostPackage(deps)
 
-      const { projectPath, hapName = 'entry', ohpm = '~/Library/Huawei/ohpm/bin/ohpm' } = taroConfig
+      const { projectPath, hapName = 'entry', ohpm } = taroConfig
       const outputRoot = path.join(projectPath, hapName)
       if (taroConfig.isBuildNativeComp && typeof pkg?.main === 'string' && pkg.main) {
         const mainFile = path.join(outputRoot, pkg.main)
@@ -104,10 +104,18 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
         fs.writeFileSync(mainFile, comps.map(comp => `export * from './${path.join('src/main', 'ets', comp.name)}'`).join('\n'))
       }
+      let ohpmPath = ohpm
+      let localOhpmPath = ''
+      try {
+        localOhpmPath = execSync(`${process?.platform === 'win32'? 'where': 'which'} ohpm`).toString().replace(/\n/, '')
+      } catch (_) {
+        localOhpmPath = ''
+      }
+      ohpmPath = ohpm || localOhpmPath ||'~/Library/Huawei/ohpm/bin/ohpm'
 
       try {
         console.log(`\n\n开始 ${chalk.yellow('ohpm install')} 脚本执行...\n`) // eslint-disable-line no-console
-        execSync(`${ohpm} install`, { cwd: outputRoot, stdio: 'inherit' })
+        execSync(`${ohpmPath} install`, { cwd: outputRoot, stdio: 'inherit' })
         console.log(`执行 ${chalk.yellow('ohpm install')} 脚本成功。\n`) // eslint-disable-line no-console
       } catch (e) {
         console.error(`自动安装依赖失败，请手动执行 ${chalk.yellow('ohpm install')} 或在 DevEco Studio 中打开 oh-package.json5 并点击 ${chalk.yellow('Sync Now')} 按钮`)
