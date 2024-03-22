@@ -95,22 +95,34 @@ export function loadNavigationBarStyle () {
   .taro-navigation-bar-title-wrap {
     display: flex;
     height: 24px;
-    > .taro-navigation-bar-title {
-      font-size: 24px;
-      height: 24px;
-      line-height: 24px;
-      max-width: 100px;
-      white-space: nowrap;
-      overflow: hidden;
-      line-height: 24px;
-      text-overflow: ellipsis;
+  }
+
+  .taro-navigation-bar-title-wrap > .taro-navigation-bar-loading {
+    display: none;
+    animation: loading 2s linear infinite;
+  }
+
+  .taro-navigation-bar-title-wrap .taro-navigation-bar-loading.taro-navigation-bar-loading-show {
+    display: flex;
+  }
+
+  .taro-navigation-bar-title-wrap > .taro-navigation-bar-title {
+    font-size: 24px;
+    height: 24px;
+    line-height: 24px;
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 24px;
+    text-overflow: ellipsis;
+  }
+
+  @keyframes loading {
+    from {
+      transform: rotate(0deg);
     }
-    > .taro-navigation-bar-loading {
-      animation: loading 2s linear infinite;
-      display: none;
-      &.taro-navigation-bar-loading-show {
-        display: flex;
-      }
+    to {
+      transform: rotate(360deg);
     }
   }
 

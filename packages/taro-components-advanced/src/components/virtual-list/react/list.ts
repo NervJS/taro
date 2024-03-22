@@ -130,7 +130,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     return new Promise((resolve) => {
       if (index >= 0 && index < this.props.itemCount) {
         const times = this.itemList.compareSize(index) ? 3 : 0
-        getRectSizeSync(`#${this.preset.id}-${index}`, 100, times).then(({ width, height }) => {
+        getRectSizeSync(`${this.props.queryPrefix}#${this.preset.id}-${index}`, 100, times).then(({ width, height }) => {
           const size = isHorizontal ? width : height
           if (typeof size === 'number' && size > 0 && !this.itemList.compareSize(index, size)) {
             this.itemList.setSize(index, size)
@@ -295,7 +295,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       } else {
         option.top = scrollOffset
       }
-      return getScrollViewContextNode(`#${this.preset.id}`).then((node: any) => node.scrollTo(option))
+      return getScrollViewContextNode(`${this.props.queryPrefix}#${this.preset.id}`).then((node: any) => node.scrollTo(option))
     }
 
     this.setState((prevState: IState) => {

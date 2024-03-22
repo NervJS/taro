@@ -19,14 +19,10 @@ use std::collections::HashMap;
 use crate::{PluginConfig, utils::as_xscript_expr_string};
 use crate::utils::{self, constants::*};
 
-struct PreVisitor {
-    is_in_and_expr: bool,
-}
+struct PreVisitor;
 impl PreVisitor {
     fn new () -> Self {
-        Self {
-            is_in_and_expr: false
-        }
+        Self {}
     }
 }
 impl VisitMut for PreVisitor {
@@ -98,8 +94,6 @@ impl VisitMut for PreVisitor {
     }
     fn visit_mut_jsx_element_child (&mut self, child: &mut JSXElementChild) {
         if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = child {
-            let mut is_first_and_expr = false;
-
             if let Expr::Paren(ParenExpr { expr: e, .. }) = &mut **expr {
                 *expr = e.take();
             }
@@ -107,8 +101,7 @@ impl VisitMut for PreVisitor {
             match &mut **expr {
                 Expr::Bin(BinExpr { op, left, right, ..}) => {
                     // C&&A 替换为 C?A:A'，原因是为了无论显示还是隐藏都保留一个元素，从而不影响兄弟节点的变量路径
-                    if *op == op!("&&") && !self.is_in_and_expr {
-                        is_first_and_expr = true;
+                    if *op == op!("&&") {
                         fn inject_compile_if (el: &mut Box<JSXElement>, condition: &mut Box<Expr>) -> () {
                             el.opening.attrs.push(utils::create_jsx_expr_attr(COMPILE_IF, condition.clone()));
                         }
@@ -185,15 +178,7 @@ impl VisitMut for PreVisitor {
                 _ => (),
             }
 
-            if is_first_and_expr {
-                self.is_in_and_expr = true;
-            }
-
             expr.visit_mut_children_with(self);
-
-            if is_first_and_expr {
-                self.is_in_and_expr = false;
-            }
         } else {
             child.visit_mut_children_with(self);
         }

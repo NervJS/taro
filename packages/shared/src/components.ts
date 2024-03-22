@@ -537,5 +537,5 @@ export const nestElements = new Map([
   ['form', 4],
   ['scroll-view', 4],
   ['swiper', 4],
-  ['swiper-item', 4]
+  ['swiper-item', 4],
 ])
