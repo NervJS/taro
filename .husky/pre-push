@@ -1,0 +1,4 @@
+#!/bin/sh
+if [ -x ".husky/pre-push-core.sh" ]; then
+  sh ".husky/pre-push-core.sh" || exit 1
+fi
