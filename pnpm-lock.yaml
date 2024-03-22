@@ -1014,7 +1014,7 @@ importers:
         version: registry.npmjs.org/csstype@3.1.2
       esbuild:
         specifier: ~0.19.5
-        version: registry.npmjs.org/esbuild@0.19.7
+        version: registry.npmjs.org/esbuild@0.20.2
       jquery:
         specifier: ^3.4.1
         version: registry.npmjs.org/jquery@3.6.4
@@ -1640,7 +1640,7 @@ importers:
         version: registry.npmjs.org/dotenv-expand@9.0.0
       esbuild:
         specifier: ~0.19.5
-        version: registry.npmjs.org/esbuild@0.19.7
+        version: registry.npmjs.org/esbuild@0.20.2
       find-yarn-workspace-root:
         specifier: 2.0.0
         version: registry.npmjs.org/find-yarn-workspace-root@2.0.0
@@ -1677,7 +1677,7 @@ importers:
         version: registry.npmjs.org/jest-environment-node@29.5.0
       ts-jest:
         specifier: ^29.0.5
-        version: registry.npmjs.org/ts-jest@29.1.0(@babel/core@7.21.8)(babel-jest@29.5.0)(esbuild@0.19.7)(jest@29.5.0)(typescript@4.9.5)
+        version: registry.npmjs.org/ts-jest@29.1.0(@babel/core@7.21.8)(babel-jest@29.5.0)(esbuild@0.20.2)(jest@29.5.0)(typescript@4.9.5)
       typescript:
         specifier: ^4.7.4
         version: registry.npmjs.org/typescript@4.9.5
@@ -2278,7 +2278,7 @@ importers:
         version: link:../taro
       esbuild:
         specifier: ~0.19.5
-        version: registry.npmjs.org/esbuild@0.19.7
+        version: registry.npmjs.org/esbuild@0.20.2
       preact:
         specifier: ^10.10.0
         version: registry.npmjs.org/preact@10.13.2
@@ -2305,7 +2305,7 @@ importers:
         version: registry.npmjs.org/typescript@4.9.5
       webpack:
         specifier: 5.78.0
-        version: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+        version: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
 
   packages/taro-plugin-react-devtools:
     dependencies:
@@ -3710,7 +3710,7 @@ importers:
         version: registry.npmjs.org/css-loader@6.7.3(webpack@5.78.0)
       css-minimizer-webpack-plugin:
         specifier: 3.4.1
-        version: registry.npmjs.org/css-minimizer-webpack-plugin@3.4.1(@parcel/css@1.14.0)(csso@5.0.5)(esbuild@0.19.7)(webpack@5.78.0)
+        version: registry.npmjs.org/css-minimizer-webpack-plugin@3.4.1(@parcel/css@1.14.0)(csso@5.0.5)(esbuild@0.20.2)(webpack@5.78.0)
       csso:
         specifier: ^5.0.2
         version: registry.npmjs.org/csso@5.0.5
@@ -3719,7 +3719,7 @@ importers:
         version: registry.npmjs.org/detect-port@1.5.1
       esbuild:
         specifier: ~0.19.5
-        version: registry.npmjs.org/esbuild@0.19.7
+        version: registry.npmjs.org/esbuild@0.20.2
       esbuild-loader:
         specifier: 2.18.0
         version: registry.npmjs.org/esbuild-loader@2.18.0(webpack@5.78.0)
@@ -3812,7 +3812,7 @@ importers:
         version: registry.npmjs.org/stylus-loader@6.2.0(stylus@0.55.0)(webpack@5.78.0)
       terser-webpack-plugin:
         specifier: ^5.1.3
-        version: registry.npmjs.org/terser-webpack-plugin@5.3.8(esbuild@0.19.7)(webpack@5.78.0)
+        version: registry.npmjs.org/terser-webpack-plugin@5.3.8(esbuild@0.20.2)(webpack@5.78.0)
       url-loader:
         specifier: 4.1.0
         version: registry.npmjs.org/url-loader@4.1.0(file-loader@6.0.0)(webpack@5.78.0)
@@ -3882,7 +3882,7 @@ importers:
         version: registry.npmjs.org/postcss@8.4.23
       ts-jest:
         specifier: ^29.0.5
-        version: registry.npmjs.org/ts-jest@29.1.0(@babel/core@7.21.8)(esbuild@0.19.7)(jest@29.5.0)(typescript@4.9.5)
+        version: registry.npmjs.org/ts-jest@29.1.0(@babel/core@7.21.8)(esbuild@0.20.2)(jest@29.5.0)(typescript@4.9.5)
       ts-node:
         specifier: ^10.9.1
         version: registry.npmjs.org/ts-node@10.9.1(@types/node@14.18.45)(typescript@4.9.5)
@@ -3891,7 +3891,7 @@ importers:
         version: registry.npmjs.org/typescript@4.9.5
       webpack:
         specifier: 5.78.0
-        version: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+        version: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
       webpack-merge:
         specifier: ^4.2.2
         version: registry.npmjs.org/webpack-merge@4.2.2
@@ -10475,100 +10475,100 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/@esbuild/android-arm64@0.19.7:
-    resolution: {integrity: sha512-YEDcw5IT7hW3sFKZBkCAQaOCJQLONVcD4bOyTXMZz5fr66pTHnAet46XAtbXAkJRfIn2YVhdC6R9g4xa27jQ1w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/android-arm64/-/android-arm64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/android-arm64@0.20.2:
+    resolution: {integrity: sha512-YEDcw5IT7hW3sFKZBkCAQaOCJQLONVcD4bOyTXMZz5fr66pTHnAet46XAtbXAkJRfIn2YVhdC6R9g4xa27jQ1w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/android-arm64/-/android-arm64-0.20.2.tgz}
     name: '@esbuild/android-arm64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [android]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/android-arm@0.19.7:
-    resolution: {integrity: sha512-YGSPnndkcLo4PmVl2tKatEn+0mlVMr3yEpOOT0BeMria87PhvoJb5dg5f5Ft9fbCVgtAz4pWMzZVgSEGpDAlww==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/android-arm/-/android-arm-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/android-arm@0.20.2:
+    resolution: {integrity: sha512-YGSPnndkcLo4PmVl2tKatEn+0mlVMr3yEpOOT0BeMria87PhvoJb5dg5f5Ft9fbCVgtAz4pWMzZVgSEGpDAlww==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/android-arm/-/android-arm-0.20.2.tgz}
     name: '@esbuild/android-arm'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [arm]
     os: [android]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/android-x64@0.19.7:
-    resolution: {integrity: sha512-jhINx8DEjz68cChFvM72YzrqfwJuFbfvSxZAk4bebpngGfNNRm+zRl4rtT9oAX6N9b6gBcFaJHFew5Blf6CvUw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/android-x64/-/android-x64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/android-x64@0.20.2:
+    resolution: {integrity: sha512-jhINx8DEjz68cChFvM72YzrqfwJuFbfvSxZAk4bebpngGfNNRm+zRl4rtT9oAX6N9b6gBcFaJHFew5Blf6CvUw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/android-x64/-/android-x64-0.20.2.tgz}
     name: '@esbuild/android-x64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [x64]
     os: [android]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/darwin-arm64@0.19.7:
-    resolution: {integrity: sha512-dr81gbmWN//3ZnBIm6YNCl4p3pjnabg1/ZVOgz2fJoUO1a3mq9WQ/1iuEluMs7mCL+Zwv7AY5e3g1hjXqQZ9Iw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/darwin-arm64@0.20.2:
+    resolution: {integrity: sha512-dr81gbmWN//3ZnBIm6YNCl4p3pjnabg1/ZVOgz2fJoUO1a3mq9WQ/1iuEluMs7mCL+Zwv7AY5e3g1hjXqQZ9Iw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.20.2.tgz}
     name: '@esbuild/darwin-arm64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/darwin-x64@0.19.7:
-    resolution: {integrity: sha512-Lc0q5HouGlzQEwLkgEKnWcSazqr9l9OdV2HhVasWJzLKeOt0PLhHaUHuzb8s/UIya38DJDoUm74GToZ6Wc7NGQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/darwin-x64@0.20.2:
+    resolution: {integrity: sha512-Lc0q5HouGlzQEwLkgEKnWcSazqr9l9OdV2HhVasWJzLKeOt0PLhHaUHuzb8s/UIya38DJDoUm74GToZ6Wc7NGQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.20.2.tgz}
     name: '@esbuild/darwin-x64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/freebsd-arm64@0.19.7:
-    resolution: {integrity: sha512-+y2YsUr0CxDFF7GWiegWjGtTUF6gac2zFasfFkRJPkMAuMy9O7+2EH550VlqVdpEEchWMynkdhC9ZjtnMiHImQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/freebsd-arm64/-/freebsd-arm64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/freebsd-arm64@0.20.2:
+    resolution: {integrity: sha512-+y2YsUr0CxDFF7GWiegWjGtTUF6gac2zFasfFkRJPkMAuMy9O7+2EH550VlqVdpEEchWMynkdhC9ZjtnMiHImQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/freebsd-arm64/-/freebsd-arm64-0.20.2.tgz}
     name: '@esbuild/freebsd-arm64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [freebsd]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/freebsd-x64@0.19.7:
-    resolution: {integrity: sha512-CdXOxIbIzPJmJhrpmJTLx+o35NoiKBIgOvmvT+jeSadYiWJn0vFKsl+0bSG/5lwjNHoIDEyMYc/GAPR9jxusTA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/freebsd-x64/-/freebsd-x64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/freebsd-x64@0.20.2:
+    resolution: {integrity: sha512-CdXOxIbIzPJmJhrpmJTLx+o35NoiKBIgOvmvT+jeSadYiWJn0vFKsl+0bSG/5lwjNHoIDEyMYc/GAPR9jxusTA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/freebsd-x64/-/freebsd-x64-0.20.2.tgz}
     name: '@esbuild/freebsd-x64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [x64]
     os: [freebsd]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/linux-arm64@0.19.7:
-    resolution: {integrity: sha512-inHqdOVCkUhHNvuQPT1oCB7cWz9qQ/Cz46xmVe0b7UXcuIJU3166aqSunsqkgSGMtUCWOZw3+KMwI6otINuC9g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-arm64/-/linux-arm64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/linux-arm64@0.20.2:
+    resolution: {integrity: sha512-inHqdOVCkUhHNvuQPT1oCB7cWz9qQ/Cz46xmVe0b7UXcuIJU3166aqSunsqkgSGMtUCWOZw3+KMwI6otINuC9g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-arm64/-/linux-arm64-0.20.2.tgz}
     name: '@esbuild/linux-arm64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/linux-arm@0.19.7:
-    resolution: {integrity: sha512-Y+SCmWxsJOdQtjcBxoacn/pGW9HDZpwsoof0ttL+2vGcHokFlfqV666JpfLCSP2xLxFpF1lj7T3Ox3sr95YXww==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-arm/-/linux-arm-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/linux-arm@0.20.2:
+    resolution: {integrity: sha512-Y+SCmWxsJOdQtjcBxoacn/pGW9HDZpwsoof0ttL+2vGcHokFlfqV666JpfLCSP2xLxFpF1lj7T3Ox3sr95YXww==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-arm/-/linux-arm-0.20.2.tgz}
     name: '@esbuild/linux-arm'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [arm]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/linux-ia32@0.19.7:
-    resolution: {integrity: sha512-2BbiL7nLS5ZO96bxTQkdO0euGZIUQEUXMTrqLxKUmk/Y5pmrWU84f+CMJpM8+EHaBPfFSPnomEaQiG/+Gmh61g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-ia32/-/linux-ia32-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/linux-ia32@0.20.2:
+    resolution: {integrity: sha512-2BbiL7nLS5ZO96bxTQkdO0euGZIUQEUXMTrqLxKUmk/Y5pmrWU84f+CMJpM8+EHaBPfFSPnomEaQiG/+Gmh61g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-ia32/-/linux-ia32-0.20.2.tgz}
     name: '@esbuild/linux-ia32'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [ia32]
     os: [linux]
@@ -10586,120 +10586,120 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@esbuild/linux-loong64@0.19.7:
-    resolution: {integrity: sha512-BVFQla72KXv3yyTFCQXF7MORvpTo4uTA8FVFgmwVrqbB/4DsBFWilUm1i2Oq6zN36DOZKSVUTb16jbjedhfSHw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-loong64/-/linux-loong64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/linux-loong64@0.20.2:
+    resolution: {integrity: sha512-BVFQla72KXv3yyTFCQXF7MORvpTo4uTA8FVFgmwVrqbB/4DsBFWilUm1i2Oq6zN36DOZKSVUTb16jbjedhfSHw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-loong64/-/linux-loong64-0.20.2.tgz}
     name: '@esbuild/linux-loong64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [loong64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/linux-mips64el@0.19.7:
-    resolution: {integrity: sha512-DzAYckIaK+pS31Q/rGpvUKu7M+5/t+jI+cdleDgUwbU7KdG2eC3SUbZHlo6Q4P1CfVKZ1lUERRFP8+q0ob9i2w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-mips64el/-/linux-mips64el-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/linux-mips64el@0.20.2:
+    resolution: {integrity: sha512-DzAYckIaK+pS31Q/rGpvUKu7M+5/t+jI+cdleDgUwbU7KdG2eC3SUbZHlo6Q4P1CfVKZ1lUERRFP8+q0ob9i2w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-mips64el/-/linux-mips64el-0.20.2.tgz}
     name: '@esbuild/linux-mips64el'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [mips64el]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/linux-ppc64@0.19.7:
-    resolution: {integrity: sha512-JQ1p0SmUteNdUaaiRtyS59GkkfTW0Edo+e0O2sihnY4FoZLz5glpWUQEKMSzMhA430ctkylkS7+vn8ziuhUugQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-ppc64/-/linux-ppc64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/linux-ppc64@0.20.2:
+    resolution: {integrity: sha512-JQ1p0SmUteNdUaaiRtyS59GkkfTW0Edo+e0O2sihnY4FoZLz5glpWUQEKMSzMhA430ctkylkS7+vn8ziuhUugQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-ppc64/-/linux-ppc64-0.20.2.tgz}
     name: '@esbuild/linux-ppc64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [ppc64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/linux-riscv64@0.19.7:
-    resolution: {integrity: sha512-xGwVJ7eGhkprY/nB7L7MXysHduqjpzUl40+XoYDGC4UPLbnG+gsyS1wQPJ9lFPcxYAaDXbdRXd1ACs9AE9lxuw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-riscv64/-/linux-riscv64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/linux-riscv64@0.20.2:
+    resolution: {integrity: sha512-xGwVJ7eGhkprY/nB7L7MXysHduqjpzUl40+XoYDGC4UPLbnG+gsyS1wQPJ9lFPcxYAaDXbdRXd1ACs9AE9lxuw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-riscv64/-/linux-riscv64-0.20.2.tgz}
     name: '@esbuild/linux-riscv64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [riscv64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/linux-s390x@0.19.7:
-    resolution: {integrity: sha512-U8Rhki5PVU0L0nvk+E8FjkV8r4Lh4hVEb9duR6Zl21eIEYEwXz8RScj4LZWA2i3V70V4UHVgiqMpszXvG0Yqhg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-s390x/-/linux-s390x-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/linux-s390x@0.20.2:
+    resolution: {integrity: sha512-U8Rhki5PVU0L0nvk+E8FjkV8r4Lh4hVEb9duR6Zl21eIEYEwXz8RScj4LZWA2i3V70V4UHVgiqMpszXvG0Yqhg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-s390x/-/linux-s390x-0.20.2.tgz}
     name: '@esbuild/linux-s390x'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [s390x]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/linux-x64@0.19.7:
-    resolution: {integrity: sha512-ZYZopyLhm4mcoZXjFt25itRlocKlcazDVkB4AhioiL9hOWhDldU9n38g62fhOI4Pth6vp+Mrd5rFKxD0/S+7aQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/linux-x64@0.20.2:
+    resolution: {integrity: sha512-ZYZopyLhm4mcoZXjFt25itRlocKlcazDVkB4AhioiL9hOWhDldU9n38g62fhOI4Pth6vp+Mrd5rFKxD0/S+7aQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.20.2.tgz}
     name: '@esbuild/linux-x64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/netbsd-x64@0.19.7:
-    resolution: {integrity: sha512-/yfjlsYmT1O3cum3J6cmGG16Fd5tqKMcg5D+sBYLaOQExheAJhqr8xOAEIuLo8JYkevmjM5zFD9rVs3VBcsjtQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/netbsd-x64/-/netbsd-x64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/netbsd-x64@0.20.2:
+    resolution: {integrity: sha512-/yfjlsYmT1O3cum3J6cmGG16Fd5tqKMcg5D+sBYLaOQExheAJhqr8xOAEIuLo8JYkevmjM5zFD9rVs3VBcsjtQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/netbsd-x64/-/netbsd-x64-0.20.2.tgz}
     name: '@esbuild/netbsd-x64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [x64]
     os: [netbsd]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/openbsd-x64@0.19.7:
-    resolution: {integrity: sha512-MYDFyV0EW1cTP46IgUJ38OnEY5TaXxjoDmwiTXPjezahQgZd+j3T55Ht8/Q9YXBM0+T9HJygrSRGV5QNF/YVDQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/openbsd-x64/-/openbsd-x64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/openbsd-x64@0.20.2:
+    resolution: {integrity: sha512-MYDFyV0EW1cTP46IgUJ38OnEY5TaXxjoDmwiTXPjezahQgZd+j3T55Ht8/Q9YXBM0+T9HJygrSRGV5QNF/YVDQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/openbsd-x64/-/openbsd-x64-0.20.2.tgz}
     name: '@esbuild/openbsd-x64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [x64]
     os: [openbsd]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/sunos-x64@0.19.7:
-    resolution: {integrity: sha512-JcPvgzf2NN/y6X3UUSqP6jSS06V0DZAV/8q0PjsZyGSXsIGcG110XsdmuWiHM+pno7/mJF6fjH5/vhUz/vA9fw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/sunos-x64/-/sunos-x64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/sunos-x64@0.20.2:
+    resolution: {integrity: sha512-JcPvgzf2NN/y6X3UUSqP6jSS06V0DZAV/8q0PjsZyGSXsIGcG110XsdmuWiHM+pno7/mJF6fjH5/vhUz/vA9fw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/sunos-x64/-/sunos-x64-0.20.2.tgz}
     name: '@esbuild/sunos-x64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [x64]
     os: [sunos]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/win32-arm64@0.19.7:
-    resolution: {integrity: sha512-ZA0KSYti5w5toax5FpmfcAgu3ZNJxYSRm0AW/Dao5up0YV1hDVof1NvwLomjEN+3/GMtaWDI+CIyJOMTRSTdMw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/win32-arm64/-/win32-arm64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/win32-arm64@0.20.2:
+    resolution: {integrity: sha512-ZA0KSYti5w5toax5FpmfcAgu3ZNJxYSRm0AW/Dao5up0YV1hDVof1NvwLomjEN+3/GMtaWDI+CIyJOMTRSTdMw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/win32-arm64/-/win32-arm64-0.20.2.tgz}
     name: '@esbuild/win32-arm64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/win32-ia32@0.19.7:
-    resolution: {integrity: sha512-CTOnijBKc5Jpk6/W9hQMMvJnsSYRYgveN6O75DTACCY18RA2nqka8dTZR+x/JqXCRiKk84+5+bRKXUSbbwsS0A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/win32-ia32/-/win32-ia32-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/win32-ia32@0.20.2:
+    resolution: {integrity: sha512-CTOnijBKc5Jpk6/W9hQMMvJnsSYRYgveN6O75DTACCY18RA2nqka8dTZR+x/JqXCRiKk84+5+bRKXUSbbwsS0A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/win32-ia32/-/win32-ia32-0.20.2.tgz}
     name: '@esbuild/win32-ia32'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
     optional: true
 
-  registry.npmjs.org/@esbuild/win32-x64@0.19.7:
-    resolution: {integrity: sha512-gRaP2sk6hc98N734luX4VpF318l3w+ofrtTu9j5L8EQXF+FzQKV6alCOHMVoJJHvVK/mGbwBXfOL1HETQu9IGQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.19.7.tgz}
+  registry.npmjs.org/@esbuild/win32-x64@0.20.2:
+    resolution: {integrity: sha512-gRaP2sk6hc98N734luX4VpF318l3w+ofrtTu9j5L8EQXF+FzQKV6alCOHMVoJJHvVK/mGbwBXfOL1HETQu9IGQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.20.2.tgz}
     name: '@esbuild/win32-x64'
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     cpu: [x64]
     os: [win32]
@@ -13495,7 +13495,7 @@ packages:
       react-refresh: registry.npmjs.org/react-refresh@0.11.0
       schema-utils: registry.npmjs.org/schema-utils@3.1.2
       source-map: registry.npmjs.org/source-map@0.7.4
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: true
 
   registry.npmjs.org/@prefresh/babel-plugin@0.4.4:
@@ -13535,7 +13535,7 @@ packages:
       '@prefresh/core': registry.npmjs.org/@prefresh/core@1.4.1(preact@10.13.2)
       '@prefresh/utils': registry.npmjs.org/@prefresh/utils@1.1.3
       preact: registry.npmjs.org/preact@10.13.2
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: true
 
   registry.npmjs.org/@puppeteer/browsers@0.5.0(typescript@5.3.3):
@@ -18237,7 +18237,7 @@ packages:
       make-dir: registry.npmjs.org/make-dir@2.1.0
       pify: registry.npmjs.org/pify@4.0.1
       schema-utils: registry.npmjs.org/schema-utils@2.7.1
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/babel-macros@1.2.0:
@@ -21598,7 +21598,7 @@ packages:
       normalize-path: registry.npmjs.org/normalize-path@3.0.0
       schema-utils: registry.npmjs.org/schema-utils@4.0.1
       serialize-javascript: registry.npmjs.org/serialize-javascript@6.0.1
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/copy-webpack-plugin@5.1.2(webpack@4.46.0):
@@ -22021,7 +22021,7 @@ packages:
       postcss-modules-values: registry.npmjs.org/postcss-modules-values@4.0.0(postcss@8.4.23)
       postcss-value-parser: registry.npmjs.org/postcss-value-parser@4.2.0
       semver: registry.npmjs.org/semver@7.5.0
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/css-mediaquery@0.1.2:
@@ -22030,7 +22030,7 @@ packages:
     version: 0.1.2
     dev: false
 
-  registry.npmjs.org/css-minimizer-webpack-plugin@3.4.1(@parcel/css@1.14.0)(csso@5.0.5)(esbuild@0.19.7)(webpack@5.78.0):
+  registry.npmjs.org/css-minimizer-webpack-plugin@3.4.1(@parcel/css@1.14.0)(csso@5.0.5)(esbuild@0.20.2)(webpack@5.78.0):
     resolution: {integrity: sha512-1u6D71zeIfgngN2XNRJefc/hY7Ybsxd74Jm4qngIXyUEk7fss3VUzuHxLAq/R8NAba4QU9OUSaMZlbpRc7bM4Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/css-minimizer-webpack-plugin/-/css-minimizer-webpack-plugin-3.4.1.tgz}
     id: registry.npmjs.org/css-minimizer-webpack-plugin/3.4.1
     name: css-minimizer-webpack-plugin
@@ -22055,13 +22055,13 @@ packages:
       '@parcel/css': registry.npmjs.org/@parcel/css@1.14.0
       cssnano: registry.npmjs.org/cssnano@5.1.15(postcss@8.4.23)
       csso: registry.npmjs.org/csso@5.0.5
-      esbuild: registry.npmjs.org/esbuild@0.19.7
+      esbuild: registry.npmjs.org/esbuild@0.20.2
       jest-worker: registry.npmjs.org/jest-worker@27.5.1
       postcss: registry.npmjs.org/postcss@8.4.23
       schema-utils: registry.npmjs.org/schema-utils@4.0.1
       serialize-javascript: registry.npmjs.org/serialize-javascript@6.0.1
       source-map: registry.npmjs.org/source-map@0.6.1
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/css-select-base-adapter@0.1.1:
@@ -24011,7 +24011,7 @@ packages:
       json5: registry.npmjs.org/json5@2.2.3
       loader-utils: registry.npmjs.org/loader-utils@2.0.4
       tapable: registry.npmjs.org/tapable@2.2.1
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
       webpack-sources: registry.npmjs.org/webpack-sources@2.3.1
     dev: false
 
@@ -24112,36 +24112,36 @@ packages:
       esbuild-windows-arm64: registry.npmjs.org/esbuild-windows-arm64@0.14.54
     dev: false
 
-  registry.npmjs.org/esbuild@0.19.7:
-    resolution: {integrity: sha512-6brbTZVqxhqgbpqBR5MzErImcpA0SQdoKOkcWK/U30HtQxnokIpG3TX2r0IJqbFUzqLjhU/zC1S5ndgakObVCQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/esbuild/-/esbuild-0.19.7.tgz}
+  registry.npmjs.org/esbuild@0.20.2:
+    resolution: {integrity: sha512-6brbTZVqxhqgbpqBR5MzErImcpA0SQdoKOkcWK/U30HtQxnokIpG3TX2r0IJqbFUzqLjhU/zC1S5ndgakObVCQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/esbuild/-/esbuild-0.20.2.tgz}
     name: esbuild
-    version: 0.19.7
+    version: 0.20.2
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
     optionalDependencies:
-      '@esbuild/android-arm': registry.npmjs.org/@esbuild/android-arm@0.19.7
-      '@esbuild/android-arm64': registry.npmjs.org/@esbuild/android-arm64@0.19.7
-      '@esbuild/android-x64': registry.npmjs.org/@esbuild/android-x64@0.19.7
-      '@esbuild/darwin-arm64': registry.npmjs.org/@esbuild/darwin-arm64@0.19.7
-      '@esbuild/darwin-x64': registry.npmjs.org/@esbuild/darwin-x64@0.19.7
-      '@esbuild/freebsd-arm64': registry.npmjs.org/@esbuild/freebsd-arm64@0.19.7
-      '@esbuild/freebsd-x64': registry.npmjs.org/@esbuild/freebsd-x64@0.19.7
-      '@esbuild/linux-arm': registry.npmjs.org/@esbuild/linux-arm@0.19.7
-      '@esbuild/linux-arm64': registry.npmjs.org/@esbuild/linux-arm64@0.19.7
-      '@esbuild/linux-ia32': registry.npmjs.org/@esbuild/linux-ia32@0.19.7
-      '@esbuild/linux-loong64': registry.npmjs.org/@esbuild/linux-loong64@0.19.7
-      '@esbuild/linux-mips64el': registry.npmjs.org/@esbuild/linux-mips64el@0.19.7
-      '@esbuild/linux-ppc64': registry.npmjs.org/@esbuild/linux-ppc64@0.19.7
-      '@esbuild/linux-riscv64': registry.npmjs.org/@esbuild/linux-riscv64@0.19.7
-      '@esbuild/linux-s390x': registry.npmjs.org/@esbuild/linux-s390x@0.19.7
-      '@esbuild/linux-x64': registry.npmjs.org/@esbuild/linux-x64@0.19.7
-      '@esbuild/netbsd-x64': registry.npmjs.org/@esbuild/netbsd-x64@0.19.7
-      '@esbuild/openbsd-x64': registry.npmjs.org/@esbuild/openbsd-x64@0.19.7
-      '@esbuild/sunos-x64': registry.npmjs.org/@esbuild/sunos-x64@0.19.7
-      '@esbuild/win32-arm64': registry.npmjs.org/@esbuild/win32-arm64@0.19.7
-      '@esbuild/win32-ia32': registry.npmjs.org/@esbuild/win32-ia32@0.19.7
-      '@esbuild/win32-x64': registry.npmjs.org/@esbuild/win32-x64@0.19.7
+      '@esbuild/android-arm': registry.npmjs.org/@esbuild/android-arm@0.20.2
+      '@esbuild/android-arm64': registry.npmjs.org/@esbuild/android-arm64@0.20.2
+      '@esbuild/android-x64': registry.npmjs.org/@esbuild/android-x64@0.20.2
+      '@esbuild/darwin-arm64': registry.npmjs.org/@esbuild/darwin-arm64@0.20.2
+      '@esbuild/darwin-x64': registry.npmjs.org/@esbuild/darwin-x64@0.20.2
+      '@esbuild/freebsd-arm64': registry.npmjs.org/@esbuild/freebsd-arm64@0.20.2
+      '@esbuild/freebsd-x64': registry.npmjs.org/@esbuild/freebsd-x64@0.20.2
+      '@esbuild/linux-arm': registry.npmjs.org/@esbuild/linux-arm@0.20.2
+      '@esbuild/linux-arm64': registry.npmjs.org/@esbuild/linux-arm64@0.20.2
+      '@esbuild/linux-ia32': registry.npmjs.org/@esbuild/linux-ia32@0.20.2
+      '@esbuild/linux-loong64': registry.npmjs.org/@esbuild/linux-loong64@0.20.2
+      '@esbuild/linux-mips64el': registry.npmjs.org/@esbuild/linux-mips64el@0.20.2
+      '@esbuild/linux-ppc64': registry.npmjs.org/@esbuild/linux-ppc64@0.20.2
+      '@esbuild/linux-riscv64': registry.npmjs.org/@esbuild/linux-riscv64@0.20.2
+      '@esbuild/linux-s390x': registry.npmjs.org/@esbuild/linux-s390x@0.20.2
+      '@esbuild/linux-x64': registry.npmjs.org/@esbuild/linux-x64@0.20.2
+      '@esbuild/netbsd-x64': registry.npmjs.org/@esbuild/netbsd-x64@0.20.2
+      '@esbuild/openbsd-x64': registry.npmjs.org/@esbuild/openbsd-x64@0.20.2
+      '@esbuild/sunos-x64': registry.npmjs.org/@esbuild/sunos-x64@0.20.2
+      '@esbuild/win32-arm64': registry.npmjs.org/@esbuild/win32-arm64@0.20.2
+      '@esbuild/win32-ia32': registry.npmjs.org/@esbuild/win32-ia32@0.20.2
+      '@esbuild/win32-x64': registry.npmjs.org/@esbuild/win32-x64@0.20.2
 
   registry.npmjs.org/escalade@3.1.1:
     resolution: {integrity: sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/escalade/-/escalade-3.1.1.tgz}
@@ -25701,7 +25701,7 @@ packages:
     dependencies:
       loader-utils: registry.npmjs.org/loader-utils@2.0.4
       schema-utils: registry.npmjs.org/schema-utils@2.7.1
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/file-type@16.5.4:
@@ -27400,7 +27400,7 @@ packages:
       lodash: registry.npmjs.org/lodash@4.17.21
       pretty-error: registry.npmjs.org/pretty-error@4.0.0
       tapable: registry.npmjs.org/tapable@2.2.1
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/html@1.0.0:
@@ -32012,7 +32012,7 @@ packages:
     dependencies:
       klona: registry.npmjs.org/klona@2.0.6
       less: registry.npmjs.org/less@4.1.3
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/less-loader@7.3.0(less@4.1.3)(webpack@4.46.0):
@@ -33475,7 +33475,7 @@ packages:
       webpack: ^5.0.0
     dependencies:
       schema-utils: registry.npmjs.org/schema-utils@4.0.1
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/miniapp-types@1.6.0:
@@ -35836,7 +35836,7 @@ packages:
       klona: registry.npmjs.org/klona@2.0.6
       postcss: registry.npmjs.org/postcss@8.4.23
       semver: registry.npmjs.org/semver@7.5.0
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/postcss-media-query-parser@0.2.3:
@@ -38986,7 +38986,7 @@ packages:
       klona: registry.npmjs.org/klona@2.0.6
       neo-async: registry.npmjs.org/neo-async@2.6.2
       sass: registry.npmjs.org/sass@1.50.0
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/sass@1.37.5:
@@ -40527,7 +40527,7 @@ packages:
     peerDependencies:
       webpack: ^5.0.0
     dependencies:
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/style-search@0.1.0:
@@ -40706,7 +40706,7 @@ packages:
       klona: registry.npmjs.org/klona@2.0.6
       normalize-path: registry.npmjs.org/normalize-path@3.0.0
       stylus: registry.npmjs.org/stylus@0.55.0
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/stylus@0.55.0:
@@ -41116,7 +41116,7 @@ packages:
       - bluebird
     dev: false
 
-  registry.npmjs.org/terser-webpack-plugin@5.3.8(esbuild@0.19.7)(webpack@5.78.0):
+  registry.npmjs.org/terser-webpack-plugin@5.3.8(esbuild@0.20.2)(webpack@5.78.0):
     resolution: {integrity: sha512-WiHL3ElchZMsK27P8uIUh4604IgJyAW47LVXGbEoB21DbQcZ+OuMpGjVYnEUaqcWM6dO8uS2qUbA7LSCWqvsbg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.8.tgz}
     id: registry.npmjs.org/terser-webpack-plugin/5.3.8
     name: terser-webpack-plugin
@@ -41136,12 +41136,12 @@ packages:
         optional: true
     dependencies:
       '@jridgewell/trace-mapping': registry.npmjs.org/@jridgewell/trace-mapping@0.3.18
-      esbuild: registry.npmjs.org/esbuild@0.19.7
+      esbuild: registry.npmjs.org/esbuild@0.20.2
       jest-worker: registry.npmjs.org/jest-worker@27.5.1
       schema-utils: registry.npmjs.org/schema-utils@3.1.2
       serialize-javascript: registry.npmjs.org/serialize-javascript@6.0.1
       terser: registry.npmjs.org/terser@5.17.1
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
 
   registry.npmjs.org/terser-webpack-plugin@5.3.8(webpack@5.78.0):
     resolution: {integrity: sha512-WiHL3ElchZMsK27P8uIUh4604IgJyAW47LVXGbEoB21DbQcZ+OuMpGjVYnEUaqcWM6dO8uS2qUbA7LSCWqvsbg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.8.tgz}
@@ -41569,7 +41569,7 @@ packages:
     name: ts-interface-checker
     version: 0.1.13
 
-  registry.npmjs.org/ts-jest@29.1.0(@babel/core@7.21.8)(babel-jest@29.5.0)(esbuild@0.19.7)(jest@29.5.0)(typescript@4.9.5):
+  registry.npmjs.org/ts-jest@29.1.0(@babel/core@7.21.8)(babel-jest@29.5.0)(esbuild@0.20.2)(jest@29.5.0)(typescript@4.9.5):
     resolution: {integrity: sha512-ZhNr7Z4PcYa+JjMl62ir+zPiNJfXJN6E8hSLnaUKhOgqcn8vb3e537cpkd0FuAfRK3sR1LSqM1MOhliXNgOFPA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ts-jest/-/ts-jest-29.1.0.tgz}
     id: registry.npmjs.org/ts-jest/29.1.0
     name: ts-jest
@@ -41596,7 +41596,7 @@ packages:
       '@babel/core': registry.npmjs.org/@babel/core@7.21.8
       babel-jest: registry.npmjs.org/babel-jest@29.5.0(@babel/core@7.21.8)
       bs-logger: registry.npmjs.org/bs-logger@0.2.6
-      esbuild: registry.npmjs.org/esbuild@0.19.7
+      esbuild: registry.npmjs.org/esbuild@0.20.2
       fast-json-stable-stringify: registry.npmjs.org/fast-json-stable-stringify@2.1.0
       jest: registry.npmjs.org/jest@29.5.0
       jest-util: registry.npmjs.org/jest-util@29.5.0
@@ -41684,7 +41684,7 @@ packages:
       yargs-parser: registry.npmjs.org/yargs-parser@21.1.1
     dev: true
 
-  registry.npmjs.org/ts-jest@29.1.0(@babel/core@7.21.8)(esbuild@0.19.7)(jest@29.5.0)(typescript@4.9.5):
+  registry.npmjs.org/ts-jest@29.1.0(@babel/core@7.21.8)(esbuild@0.20.2)(jest@29.5.0)(typescript@4.9.5):
     resolution: {integrity: sha512-ZhNr7Z4PcYa+JjMl62ir+zPiNJfXJN6E8hSLnaUKhOgqcn8vb3e537cpkd0FuAfRK3sR1LSqM1MOhliXNgOFPA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ts-jest/-/ts-jest-29.1.0.tgz}
     id: registry.npmjs.org/ts-jest/29.1.0
     name: ts-jest
@@ -41710,7 +41710,7 @@ packages:
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core@7.21.8
       bs-logger: registry.npmjs.org/bs-logger@0.2.6
-      esbuild: registry.npmjs.org/esbuild@0.19.7
+      esbuild: registry.npmjs.org/esbuild@0.20.2
       fast-json-stable-stringify: registry.npmjs.org/fast-json-stable-stringify@2.1.0
       jest: registry.npmjs.org/jest@29.5.0(@types/node@14.18.45)(ts-node@10.9.1)
       jest-util: registry.npmjs.org/jest-util@29.5.0
@@ -42625,7 +42625,7 @@ packages:
       loader-utils: registry.npmjs.org/loader-utils@2.0.4
       mime-types: registry.npmjs.org/mime-types@2.1.35
       schema-utils: registry.npmjs.org/schema-utils@2.7.1
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/url-parse-lax@1.0.0:
@@ -43052,7 +43052,7 @@ packages:
       loader-utils: registry.npmjs.org/loader-utils@1.4.2
       vue-hot-reload-api: registry.npmjs.org/vue-hot-reload-api@2.3.4
       vue-style-loader: registry.npmjs.org/vue-style-loader@4.1.3
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     transitivePeerDependencies:
       - arc-templates
       - atpl
@@ -43576,7 +43576,7 @@ packages:
       - esbuild
       - uglify-js
 
-  registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7):
+  registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2):
     resolution: {integrity: sha512-gT5DP72KInmE/3azEaQrISjTvLYlSM0j1Ezhht/KLVkrqtv10JoP/RXhwmX/frrutOPuSq3o5Vq0ehR/4Vmd1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.78.0.tgz}
     id: registry.npmjs.org/webpack/5.78.0
     name: webpack
@@ -43610,7 +43610,7 @@ packages:
       neo-async: registry.npmjs.org/neo-async@2.6.2
       schema-utils: registry.npmjs.org/schema-utils@3.1.2
       tapable: registry.npmjs.org/tapable@2.2.1
-      terser-webpack-plugin: registry.npmjs.org/terser-webpack-plugin@5.3.8(esbuild@0.19.7)(webpack@5.78.0)
+      terser-webpack-plugin: registry.npmjs.org/terser-webpack-plugin@5.3.8(esbuild@0.20.2)(webpack@5.78.0)
       watchpack: registry.npmjs.org/watchpack@2.4.0
       webpack-sources: registry.npmjs.org/webpack-sources@3.2.3
     transitivePeerDependencies:
@@ -43631,7 +43631,7 @@ packages:
       consola: registry.npmjs.org/consola@2.15.3
       pretty-time: registry.npmjs.org/pretty-time@1.1.0
       std-env: registry.npmjs.org/std-env@3.3.3
-      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
+      webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.20.2)
     dev: false
 
   registry.npmjs.org/websocket-driver@0.7.4:
