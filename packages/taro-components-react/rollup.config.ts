@@ -15,7 +15,6 @@ export default defineConfig({
     externals({
       deps: true,
       devDeps: false,
-      include: [/^react$/]
     }) as InputPluginOption,
     nodeResolve({
       preferBuiltins: false,

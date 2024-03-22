@@ -48,6 +48,7 @@ export * from './emitter/emitter'
 export { hydrate } from './hydrate'
 export { nextTick } from './next-tick'
 export { options } from './options'
+export * from './perf'
 export * from './utils'
 // typings
 export * from './dsl/instance'

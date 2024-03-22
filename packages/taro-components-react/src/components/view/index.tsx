@@ -1,7 +1,10 @@
 import './style/index.css'
 
 import classNames from 'classnames'
-import React from 'react'
+
+import { useState } from '../../utils/hooks'
+
+import type React from 'react'
 
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverClass?: string
@@ -17,95 +20,95 @@ interface IState {
   hover: boolean
   touch: boolean
 }
+type TSolidState = () => IState
 
-class View extends React.Component<IProps, IState> {
-  state = {
+function View ({
+  className,
+  hoverClass,
+  onTouchStart,
+  onTouchEnd,
+  onTouchMove,
+  hoverStartTime = 50,
+  hoverStayTime = 400,
+  ...other
+}: IProps) {
+  let timeoutEvent: ReturnType<typeof setTimeout>
+  let startTime = 0
+  const [state, setState] = useState<IState>({
     hover: false,
     touch: false
+  })
+
+  const cls = classNames(
+    '',
+    {
+      [`${hoverClass}`]: ((process.env.FRAMEWORK === 'solid' ? (state as TSolidState)() : state) as IState).hover
+    },
+    className
+  )
+
+  const _onTouchStart = e => {
+    if (hoverClass) {
+      setState((e) => ({
+        ...e,
+        touch: true
+      }))
+      setTimeout(() => {
+        if (((process.env.FRAMEWORK === 'solid' ? (state as TSolidState)() : state) as IState).touch) {
+          setState((e) => ({
+            ...e,
+            hover: true
+          }))
+        }
+      }, hoverStartTime)
+    }
+    onTouchStart && onTouchStart(e)
+    if (other.onLongPress) {
+      timeoutEvent = setTimeout(() => {
+        other.onLongPress!()
+      }, 350)
+      startTime = new Date().getTime()
+    }
   }
 
-  timeoutEvent: ReturnType<typeof setTimeout>
-  startTime = 0
-
-  render () {
-    const {
-      className,
-      hoverClass,
-      onTouchStart,
-      onTouchEnd,
-      onTouchMove,
-      hoverStartTime = 50,
-      hoverStayTime = 400,
-      ...other
-    } = this.props
-
-    const cls = classNames(
-      '',
-      {
-        [`${hoverClass}`]: this.state.hover
-      },
-      className
-    )
-
-    const _onTouchStart = e => {
-      if (hoverClass) {
-        this.setState(() => ({
-          touch: true
-        }))
-        setTimeout(() => {
-          if (this.state.touch) {
-            this.setState(() => ({
-              hover: true
-            }))
-          }
-        }, hoverStartTime)
-      }
-      onTouchStart && onTouchStart(e)
-      if (this.props.onLongPress) {
-        this.timeoutEvent = setTimeout(() => {
-          this.props.onLongPress!()
-        }, 350)
-        this.startTime = new Date().getTime()
-      }
-    }
-
-    const _onTouchMove = e => {
-      clearTimeout(this.timeoutEvent)
-      onTouchMove && onTouchMove(e)
-    }
-
-    const _onTouchEnd = e => {
-      const spanTime = new Date().getTime() - this.startTime
-      if (spanTime < 350) {
-        clearTimeout(this.timeoutEvent)
-      }
-      if (hoverClass) {
-        this.setState(() => ({
-          touch: false
-        }))
-        setTimeout(() => {
-          if (!this.state.touch) {
-            this.setState(() => ({
-              hover: false
-            }))
-          }
-        }, hoverStayTime)
-      }
-      onTouchEnd && onTouchEnd(e)
-    }
-
-    return (
-      <div
-        className={cls}
-        onTouchStart={_onTouchStart}
-        onTouchEnd={_onTouchEnd}
-        onTouchMove={_onTouchMove}
-        {...other}
-      >
-        {this.props.children}
-      </div>
-    )
+  const _onTouchMove = e => {
+    clearTimeout(timeoutEvent)
+    onTouchMove && onTouchMove(e)
   }
+
+  const _onTouchEnd = e => {
+    const spanTime = new Date().getTime() - startTime
+    if (spanTime < 350) {
+      clearTimeout(timeoutEvent)
+    }
+    if (hoverClass) {
+      setState((e) => ({
+        ...e,
+        touch: false
+      }))
+      setTimeout(() => {
+        if (!((process.env.FRAMEWORK === 'solid' ? (state as TSolidState)() : state) as IState).touch) {
+          setState((e) => ({
+            ...e,
+            hover: false
+          }))
+        }
+      }, hoverStayTime)
+    }
+    onTouchEnd && onTouchEnd(e)
+  }
+
+  return (
+    <div
+      className={cls}
+      onTouchStart={_onTouchStart}
+      onTouchEnd={_onTouchEnd}
+      onTouchMove={_onTouchMove}
+      {...other}
+    >
+      {other.children}
+    </div>
+  )
 }
 
 export default View
