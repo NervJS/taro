@@ -1,5 +1,5 @@
 import * as SolidReconciler from '@tarojs/plugin-framework-react/dist/reconciler'
-import { Current, document, getPageInstance, incrementId, injectPageInstance } from '@tarojs/runtime'
+import { Current, document, getPageInstance, incrementId, injectPageInstance, PAGE_INIT, perf } from '@tarojs/runtime'
 import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
 import * as Solid from 'solid-js'
 
@@ -232,7 +232,10 @@ export function createReactApp (
       const key = id + pageKeyId()
       const page = () => h(pageWrapper, { key, tid: id })
       this.pages.push(page)
-      this.forceUpdate(cb)
+      this.forceUpdate((...args) => {
+        perf.stop(PAGE_INIT)
+        return cb(...args)
+      })
     }
 
     public unmount (id: string, cb: () => void) {
@@ -428,7 +431,7 @@ export function createReactApp (
 }
 
 export type SolidComponent = (props?: any) => TaroNode
-export function createSolidApp(App: SolidComponent, config: AppConfig) {
+export function createSolidApp (App: SolidComponent, config: AppConfig) {
   setReconciler()
 
   const appRef: AppInstance = {
@@ -476,10 +479,17 @@ export function createSolidApp(App: SolidComponent, config: AppConfig) {
               },
             })
 
-          const root = SolidReconciler.createElement(process.env.TARO_PLATFORM === 'web' ? 'div' : 'root')
-          SolidReconciler.setProp(root, 'id', id)
-          SolidReconciler.setProp(root, 'className', 'taro_page')
+          const root = process.env.TARO_PLATFORM === 'web'
+            ? document.createElement('div')
+            : SolidReconciler.createElement('root')
+          if (process.env.TARO_PLATFORM === 'web') {
+            root.setAttribute('id', id)
+            root.classList.add('taro_page')
+          } else {
+            SolidReconciler.setProp(root, 'id', id)
+          }
           SolidReconciler.insert(root, children)
+          return root
         },
       }),
     })
@@ -506,7 +516,10 @@ export function createSolidApp(App: SolidComponent, config: AppConfig) {
       mount(component: SolidComponent, id: string, cb: () => void) {
         const appInstance = getAppInstance()
         appInstance?.mount(component, id)
-        Solid.batch(cb)
+        Solid.batch((...args) => {
+          perf.stop(PAGE_INIT)
+          return cb(...args)
+        })
       },
       unmount(id: string, cb: () => void) {
         const appInstance = getAppInstance()
@@ -523,6 +536,10 @@ export function createSolidApp(App: SolidComponent, config: AppConfig) {
       [ONLAUNCH]: setDefaultDescriptor({
         value(options) {
           setRouterParams(options)
+
+          if (process.env.TARO_PLATFORM === 'web') {
+            renderSolidRoot()
+          }
 
           const onLaunch = () => {
             const app = getAppInstance()

@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "module": "ESNext",
     "sourceMap": false,
     "typeRoots": ["./node_modules/@types"]

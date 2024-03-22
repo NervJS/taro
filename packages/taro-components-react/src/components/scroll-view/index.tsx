@@ -1,9 +1,12 @@
 import './style/index.css'
 
+import { isFunction } from '@tarojs/shared'
 import classNames from 'classnames'
-import React from 'react'
 
 import { throttle } from '../../utils'
+import { useEffect, useRef } from '../../utils/hooks'
+
+import type React from 'react'
 
 function easeOutScroll (from = 0, to = 0, callback) {
   if (from === to || typeof from !== 'number') {
@@ -37,26 +40,26 @@ function scrollIntoView (id = '', isHorizontal = false, animated = true, scrollI
   })
 }
 
-function scrollVertical (top, isAnimation) {
+function scrollVertical (container, scrollTop, top, isAnimation) {
   if (isAnimation) {
-    easeOutScroll(this._scrollTop, top, pos => {
-      if (this.container) this.container.scrollTop = pos
+    easeOutScroll(scrollTop.current, top, pos => {
+      if (container.current) container.current.scrollTop = pos
     })
   } else {
-    if (this.container) this.container.scrollTop = top
+    if (container.current) container.current.scrollTop = top
   }
-  this._scrollTop = top
+  scrollTop.current = top
 }
 
-function scrollHorizontal (left, isAnimation) {
+function scrollHorizontal (container, scrollLeft, left, isAnimation) {
   if (isAnimation) {
-    easeOutScroll(this._scrollLeft, left, pos => {
-      if (this.container) this.container.scrollLeft = pos
+    easeOutScroll(scrollLeft.current, left, pos => {
+      if (container.current) container.current.scrollLeft = pos
     })
   } else {
-    if (this.container) this.container.scrollLeft = left
+    if (container.current) container.current.scrollLeft = left
   }
-  this._scrollLeft = left
+  scrollLeft.current = left
 }
 
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -76,24 +79,15 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   onTouchMove: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
 }
 
-class ScrollView extends React.Component<IProps> {
-  _scrollTop: any = null
-  _scrollLeft: any = null
-  container: any = null
-
-  onTouchMove = e => {
+function ScrollView (props: IProps) {
+  const _scrollTop = useRef<any>(null)
+  const _scrollLeft = useRef<any>(null)
+  const container = useRef<any>(null)
+  const onTouchMove = (e) => {
     e.stopPropagation()
   }
 
-  componentDidMount () {
-    this.handleScroll(this.props, true)
-  }
-
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    this.handleScroll(nextProps)
-  }
-
-  handleScroll (props: IProps, isInit = false) {
+  const handleScroll = (props: IProps, isInit = false) => {
     // scrollIntoView
     if (
       props.scrollIntoView &&
@@ -111,98 +105,101 @@ class ScrollView extends React.Component<IProps> {
     } else {
       const isAnimation = !!props.scrollWithAnimation
       // Y 轴滚动
-      if (props.scrollY && typeof props.scrollTop === 'number' && props.scrollTop !== this._scrollTop) {
+      if (props.scrollY && typeof props.scrollTop === 'number' && props.scrollTop !== _scrollTop.current) {
         if (isInit) {
-          setTimeout(() => scrollVertical.bind(this)(props.scrollTop, isAnimation), 10)
+          setTimeout(() => scrollVertical(container, _scrollTop, props.scrollTop, isAnimation), 10)
         } else {
-          scrollVertical.bind(this)(props.scrollTop, isAnimation)
+          scrollVertical(container, _scrollTop, props.scrollTop, isAnimation)
         }
       }
       // X 轴滚动
-      if (props.scrollX && typeof props.scrollLeft === 'number' && props.scrollLeft !== this._scrollLeft) {
+      if (props.scrollX && typeof props.scrollLeft === 'number' && props.scrollLeft !== _scrollLeft.current) {
         if (isInit) {
-          setTimeout(() => scrollHorizontal.bind(this)(props.scrollLeft, isAnimation), 10)
+          setTimeout(() => scrollHorizontal(container, _scrollLeft, props.scrollLeft, isAnimation), 10)
         } else {
-          scrollHorizontal.bind(this)(props.scrollLeft, isAnimation)
+          scrollHorizontal(container, _scrollLeft, props.scrollLeft, isAnimation)
         }
       }
     }
   }
 
-  render () {
-    const {
-      className,
-      style = {},
-      onScroll,
-      onScrollToUpper,
-      onScrollToLower,
-      onTouchMove,
-      scrollX,
-      scrollY
-    } = this.props
-    let { upperThreshold = 50, lowerThreshold = 50 } = this.props
-    const cls = classNames(
-      'taro-scroll',
-      {
-        'taro-scroll-view__scroll-x': scrollX,
-        'taro-scroll-view__scroll-y': scrollY
-      },
-      className
-    )
-    upperThreshold = Number(upperThreshold)
-    lowerThreshold = Number(lowerThreshold)
-    const upperAndLower = e => {
-      if (!this.container) return
-      const { offsetWidth, offsetHeight, scrollLeft, scrollTop, scrollHeight, scrollWidth } = this.container
-      if (
-        onScrollToLower &&
-        ((this.props.scrollY && offsetHeight + scrollTop + lowerThreshold >= scrollHeight) ||
-          (this.props.scrollX && offsetWidth + scrollLeft + lowerThreshold >= scrollWidth))
-      ) {
-        onScrollToLower(e)
-      }
-      if (
-        onScrollToUpper &&
-        ((this.props.scrollY && scrollTop <= upperThreshold) || (this.props.scrollX && scrollLeft <= upperThreshold))
-      ) {
-        onScrollToUpper(e)
-      }
+  useEffect(() => {
+    handleScroll(props, true)
+  }, [])
+
+  const {
+    className,
+    style = {},
+    onScroll,
+    onScrollToUpper,
+    onScrollToLower,
+    scrollX,
+    scrollY
+  } = props
+  let { upperThreshold = 50, lowerThreshold = 50 } = props
+  const cls = classNames(
+    'taro-scroll',
+    {
+      'taro-scroll-view__scroll-x': scrollX,
+      'taro-scroll-view__scroll-y': scrollY
+    },
+    className
+  )
+  upperThreshold = Number(upperThreshold)
+  lowerThreshold = Number(lowerThreshold)
+  const upperAndLower = e => {
+    if (!container.current) return
+    const { offsetWidth, offsetHeight, scrollLeft, scrollTop, scrollHeight, scrollWidth } = container.current
+    if (
+      onScrollToLower &&
+      ((props.scrollY && offsetHeight + scrollTop + lowerThreshold >= scrollHeight) ||
+        (props.scrollX && offsetWidth + scrollLeft + lowerThreshold >= scrollWidth))
+    ) {
+      onScrollToLower(e)
     }
-    const upperAndLowerThrottle = throttle(upperAndLower, 200)
-    const _onScroll = e => {
-      const { scrollLeft, scrollTop, scrollHeight, scrollWidth } = this.container
-      this._scrollLeft = scrollLeft
-      this._scrollTop = scrollTop
-      Object.defineProperty(e, 'detail', {
-        enumerable: true,
-        writable: true,
-        value: {
-          scrollLeft,
-          scrollTop,
-          scrollHeight,
-          scrollWidth
-        }
-      })
-      upperAndLowerThrottle(e)
-      onScroll && onScroll(e)
+    if (
+      onScrollToUpper &&
+      ((props.scrollY && scrollTop <= upperThreshold) || (props.scrollX && scrollLeft <= upperThreshold))
+    ) {
+      onScrollToUpper(e)
     }
-    const _onTouchMove = e => {
-      onTouchMove ? onTouchMove(e) : this.onTouchMove(e)
-    }
-    return (
-      <div
-        ref={container => {
-          this.container = container
-        }}
-        style={style}
-        className={cls}
-        onScroll={_onScroll}
-        onTouchMove={_onTouchMove}
-      >
-        {this.props.children}
-      </div>
-    )
   }
+  const upperAndLowerThrottle = throttle(upperAndLower, 200)
+  const _onScroll = e => {
+    const { scrollLeft, scrollTop, scrollHeight, scrollWidth } = container.current
+    _scrollLeft.current = scrollLeft
+    _scrollTop.current = scrollTop
+    Object.defineProperty(e, 'detail', {
+      enumerable: true,
+      writable: true,
+      value: {
+        scrollLeft,
+        scrollTop,
+        scrollHeight,
+        scrollWidth
+      }
+    })
+    upperAndLowerThrottle(e)
+    onScroll && onScroll(e)
+  }
+  const _onTouchMove = e => {
+    isFunction(props.onTouchMove) ? props.onTouchMove(e) : onTouchMove(e)
+  }
+  return (
+    <div
+      ref={e => {
+        if (e) {
+          container.current = e
+        }
+      }}
+      style={style}
+      className={cls}
+      onScroll={_onScroll}
+      onTouchMove={_onTouchMove}
+    >
+      {props.children}
+    </div>
+  )
 }
 
 export default ScrollView

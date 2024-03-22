@@ -12,7 +12,7 @@ const base: RollupOptions = {
     externals({
       deps: true,
       devDeps: false,
-      include: ['react', 'react-dom']
+      include: [/@tarojs/]
     }),
     ts(),
   ]
