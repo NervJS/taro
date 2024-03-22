@@ -39,6 +39,15 @@ function getButtonFontSize (node: TaroButtonElement) {
   return isMini ? convertNumber2VP(26) : convertNumber2VP(36)
 }
 
+function getTextInViewWidth (node: TaroElement | null): TaroAny {
+  if (node) {
+    const hmStyle = node.hmStyle || {}
+    const isFlexView = hmStyle.display === 'flex'
+
+    return isFlexView ? null : getStyleAttr(node, 'width')
+  }
+}
+
 @Component
 export default struct TaroText {
   @Builder customBuilder() {}
@@ -65,8 +74,7 @@ export default struct TaroText {
           Text(this.node.textContent)
             .textNormalFontStyle(this.node.parentElement?.hmStyle || {})
             .textSpecialFontStyle(getFontAttributes(this.node.parentElement as TaroElement))
-            .width(getStyleAttr(this.node.parentElement, 'width'))
-            .height(getStyleAttr(this.node.parentElement, 'height'))
+            .width(getTextInViewWidth(this.node.parentElement))
         }
       }
     } else {

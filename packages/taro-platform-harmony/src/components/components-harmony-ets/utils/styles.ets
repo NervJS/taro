@@ -27,13 +27,54 @@ export function getFontAttributes (node: TaroElement): TaroTextStyleType {
     }
   }
 
+  const isFlexText = hmStyle.display === 'flex'
+  let textAlign = hmStyle.textAlign
+  let verticalAlign = hmStyle.verticalAlign
+
+  // 按照 w3c 规范，一旦设置了 display: flex，textAlign 和 verticalAlign 都会直接失效
+  // 需要使用 justifyContent 和 alignItems
+  if (isFlexText) {
+    switch (hmStyle.justifyContent) {
+      case FlexAlign.Start:
+        textAlign = TextAlign.Start
+        break
+      case FlexAlign.Center:
+        textAlign = TextAlign.Center
+        break
+      case FlexAlign.End:
+        textAlign = TextAlign.End
+        break
+      case FlexAlign.SpaceBetween:
+      case FlexAlign.SpaceAround:
+        textAlign = TextAlign.JUSTIFY
+        break
+      default:
+        textAlign = TextAlign.Start
+        break
+    }
+    switch (hmStyle.alignItems) {
+      case ItemAlign.Start:
+        verticalAlign = Alignment.Top
+        break
+      case ItemAlign.Center:
+        verticalAlign = Alignment.Center
+        break
+      case ItemAlign.End:
+        verticalAlign = Alignment.End
+        break
+      default:
+        verticalAlign = Alignment.Top
+        break
+    }
+  }
+
   const attributes: TaroAny = {
+    textAlign,
+    verticalAlign,
     WebkitLineClamp: WebkitLineClamp,
     // 已做处理的属性
     letterSpacing: hmStyle.letterSpacing,
-    textAlign: hmStyle.textAlign,
     textOverflow: hmStyle.textOverflow,
-    verticalAlign: hmStyle.verticalAlign,
     lineHeight: lineHeight
   }
 
