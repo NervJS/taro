@@ -1,3 +1,4 @@
+import { isString } from '@tarojs/shared'
 import { eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, NodeType } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
@@ -43,8 +44,10 @@ function getTextInViewWidth (node: TaroElement | null): TaroAny {
   if (node) {
     const hmStyle = node.hmStyle || {}
     const isFlexView = hmStyle.display === 'flex'
+    const width: TaroAny = getStyleAttr(node, 'width')
+    const isPercentWidth = isString(width) && width.includes('%')
 
-    return isFlexView ? null : getStyleAttr(node, 'width')
+    return isFlexView || isPercentWidth ? null : getStyleAttr(node, 'width')
   }
 }
 

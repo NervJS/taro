@@ -85,8 +85,7 @@ export function getFontAttributes (node: TaroElement): TaroTextStyleType {
 export function isMaxWidthView (node: TaroElement) {
   const parentNode: TaroElement = node.parentNode as TaroElement
 
-  return node.tagName === 'VIEW' && parentNode && parentNode.tagName === 'VIEW' &&
-    !(FlexManager.isFlexNode(parentNode) && FlexManager.flexOptions(parentNode).direction !== FlexDirection.Column)
+  return node.tagName === 'VIEW' && parentNode && parentNode.tagName === 'VIEW' && !FlexManager.isFlexNode(parentNode)
 }
 
 export function getNormalAttributes (node: TaroElement): HarmonyStyle {
