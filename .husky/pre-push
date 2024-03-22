@@ -1,4 +1,5 @@
 #!/bin/sh
 if [ -x ".husky/pre-push-core.sh" ]; then
+  echo "Running core pre-push script..."
   sh ".husky/pre-push-core.sh" || exit 1
 fi
