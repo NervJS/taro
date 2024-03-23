@@ -2,7 +2,7 @@ import { View, Button } from '@tarojs/components'
 import Taro, { useLoad, useDidShow } from '@tarojs/taro'
 import './index.scss'
 import { TestConsole } from '@/util/util'
-import {nativeApi} from "@/util/nativeApi";
+import nativeApi from "@/util/nativeApi";
 
 export default function Index() {
   useLoad(() => {
