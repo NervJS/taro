@@ -154,6 +154,12 @@ export function createRouter (
       const delta = stacks.getDelta(pathname)
       // NOTE: Safari 内核浏览器在非应用页面返回上一页时，会触发额外的 POP 事件，此处需避免当前页面被错误卸载
       if (currentPage !== stacks.getItem(prevIndex)) {
+        eventCenter.once('__taroPageWillShowAfterDestroyed', () => {
+          if (prevIndex > -1) {
+            const pageInstance = stacks.getItem(prevIndex)
+            pageInstance && handler.willShow(pageInstance)
+          }
+        })
         handler.unload(currentPage, delta, prevIndex > -1)
         if (prevIndex > -1) {
           eventCenter.once('__taroPageOnShowAfterDestroyed', () => {
