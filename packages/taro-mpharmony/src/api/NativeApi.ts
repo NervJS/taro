@@ -876,8 +876,35 @@ class AsyncToSyncProxy {
   }
 }
 
+class HybridApi extends NativeApi {
 
-const nativeApi = new NativeApi()
+  hideKeyboard (): any {
+    // @ts-ignore
+    return window.isOsChannel ? osChannel.hideKeyboard() : super.hideKeyboard()
+  }
+
+  makePhoneCall (_option: any): any {
+    // @ts-ignore
+    return window.isOsChannel ? osChannel.makePhoneCall(_option) : super.makePhoneCall(_option)
+  }
+
+  request (_option: any): any {
+    // @ts-ignore
+    return window.isOsChannel ? osChannel.request(_option) : super.request(_option)
+  }
+
+  getAppAuthorizeSetting (): any {
+    // @ts-ignore
+    return window.isOsChannel ? osChannel.getAppAuthorizeSetting() : super.getAppAuthorizeSetting()
+  }
+
+  getSystemSetting (): any {
+    // @ts-ignore
+    return window.isOsChannel ? osChannel.getSystemSetting() : super.getSystemSetting()
+  }
+}
+
+const nativeApi = new HybridApi()
 const native = new Proxy(nativeApi, new CacheStorageProxy(nativeApi))
 
 export default native
