@@ -18,7 +18,8 @@ export const hostConfig = {
   },
   transferHydrateData (data, element, componentsAlias) {
     if (element.isTransferElement) {
-      const page = getCurrentPages()[0]
+      const pages = getCurrentPages()
+      const page = pages[pages.length - 1]
       data[Shortcuts.NodeName] = element.dataName
       page.setData({
         [toCamelCase(data.nn)]: data
