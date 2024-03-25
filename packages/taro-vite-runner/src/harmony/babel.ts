@@ -1,5 +1,6 @@
 import { transformAsync, transformSync } from '@babel/core'
 import { SCRIPT_EXT } from '@tarojs/helper'
+import { Identifier } from 'babel-types'
 
 import type * as BabelCore from '@babel/core'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
@@ -34,6 +35,21 @@ export default (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption =
                       ast.node.source.value = '@tarojs/components/tag'
                       ast.node.specifiers = newSpecifiers
                     },
+                    ExportNamedDeclaration(path) {
+                      const { node } = path;
+                      if (node.source && node.source.value === '@tarojs/components') {
+                        const newSpecifiers = node.specifiers.map(specifier => {
+                          if (t.isExportSpecifier(specifier)) {
+                            const exportedName = (specifier.exported as Identifier).name
+                            return t.exportSpecifier(t.identifier(`Taro${exportedName}TagName`), specifier.exported)
+                          }
+                          return specifier
+                        })
+              
+                        // Note: 不更改源，因为我们只是重命名导出
+                        node.specifiers = newSpecifiers
+                      }
+                    }
                   },
                 }
               }
