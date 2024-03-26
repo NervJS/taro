@@ -207,6 +207,8 @@ export async function compileCSS(
     )
   }
 
+  postcssPlugins.push((await import('postcss-css-variables')).default({}))
+
   if (!postcssPlugins.length) {
     return {
       code,

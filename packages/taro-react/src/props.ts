@@ -133,6 +133,9 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
         // 鸿蒙伪类特殊处理
         if (isHarmony && (i === '::after' || i === '::before')) {
           setPseudo(dom, i, null)
+        } else if (isHarmony && (i === '::first-child' || i === '::last-child')) {
+          // @ts-ignore
+          dom.set_pseudo_class(i, null)
         } else {
           style[i] = ''
         }
@@ -145,6 +148,9 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
         // 鸿蒙伪类特殊处理
         if (isHarmony && (i === '::after' || i === '::before')) {
           setPseudo(dom, i, value[i] as unknown as StyleValue)
+        } else if (isHarmony && (i === '::first-child' || i === '::last-child')) {
+          // @ts-ignore
+          dom.set_pseudo_class(i, value)
         } else {
           style[i] = value[i]
         }
