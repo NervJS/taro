@@ -109,12 +109,14 @@ export default struct TaroButton {
   build() {
     if (this.node?.hmStyle?.display !== 'none') {
       Button({ stateEffect: !this.node._attrs.disabled }) {
-        Row() {
-          if (this.node._attrs.loading) {
+        if (this.node._attrs.loading) {
+          Row() {
             LoadingProgress()
               .width(20).height(20)
               .color(getThemeAttributes(this.node).color)
+            this.createLazyChildren(this.node)
           }
+        } else {
           this.createLazyChildren(this.node)
         }
       }

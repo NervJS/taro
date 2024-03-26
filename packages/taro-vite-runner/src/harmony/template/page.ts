@@ -856,13 +856,9 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     const nativeCreatePage = `createNativePageConfig(component, '${page.name}', React, ReactDOM, config)`
     const createPage = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
     
-    const { sourceRoot = 'src' } = this.buildConfig
-    const targetRoot = path.resolve(this.appPath, sourceRoot)
-    const fileName = path.relative(targetRoot, rawId)
     return this.transArr2Str([
       `import { ${createPageFn} } from '${creatorLocation}'`,
       `import component from "${escapePath(rawId)}"`,
-      `import "./${path.relative(path.dirname(fileName), 'css_variables.js')}"`,
       importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(page.config)}`,
       page?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,

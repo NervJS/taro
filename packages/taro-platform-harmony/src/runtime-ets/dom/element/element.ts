@@ -188,7 +188,7 @@ export class TaroElement<
     return this._style
   }
 
-  // 伪类，不存在style动态设置，均已被转换为鸿蒙样式
+  // 伪元素，不存在style动态设置，均已被转换为鸿蒙样式
   // 可根据实际情况，迁移到具体的组件中，如View、ScrollView中，Text\Image其实是不需要的
   public _pseudo_before: StyleSheet | null = null
 
@@ -217,6 +217,24 @@ export class TaroElement<
       })
     } else {
       this._pseudo_after = null
+    }
+  }
+  
+  // 伪类，在获取的时候根据dom和parent的关系，动态设置
+  public _pseudo_class: Record<string, StyleSheet | null> = {
+    // ["::first-child"]: new StyleSheet(),
+  }
+
+  public set_pseudo_class(name: string, value: HarmonyStyle | null) {
+    if (value) {
+      if (!this._pseudo_class[name]) {
+        this._pseudo_class[name] = new StyleSheet()
+      }
+      Object.keys(value).forEach(key => {
+        this._pseudo_class[name]!.hmStyle[key] = value[key]
+      })
+    } else {
+      this._pseudo_class[name] = null
     }
   }
 }
