@@ -35,6 +35,7 @@ class TaroDocument extends TaroNode {
       case 'div': tagName = 'view'; break
       case 'p': tagName = 'text'; break
       case 'span': tagName = 'text'; break
+      case 'a': tagName = 'text'; break
     }
     // @ts-ignore
     if (Current?.createHarmonyElement) {
