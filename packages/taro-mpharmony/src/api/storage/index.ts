@@ -17,9 +17,9 @@ export * from './background-fetch'
 export const createCacheManager = /* @__PURE__ */ temporarilyNotSupport('createCacheManager')
 
 
-/** 
+/**
  * Taro.setStorage 的同步版本
- * 
+ *
  * @canUse setStorageSync
  * @__object [key, data]
 */
@@ -30,7 +30,7 @@ export const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
 
 /**
  * 将数据存储在本地缓存中指定的 key 中
- * 
+ *
  * @canUse setStorage
  * @__object [data, key]
  */
@@ -49,7 +49,7 @@ export const setStorage: typeof Taro.setStorage = (options) => {
   return new Promise((resolve, reject) => {
     native.setStorage({
       key: key,
-      data: data,
+      data: JSON.stringify(handleData(data)),
       success: (res: any) => {
         handle.success({ errMsg: res.errMsg }, { resolve,reject })
       },
@@ -62,14 +62,14 @@ export const setStorage: typeof Taro.setStorage = (options) => {
 
 /**
  * 根据 URL 销毁存在内存中的数据
- * 
+ *
  * @canNotUse revokeBufferURL
  */
 export const revokeBufferURL = /* @__PURE__ */ temporarilyNotSupport('revokeBufferURL')
 
-/** 
+/**
  * Taro.removeStorage 的同步版本
- * 
+ *
  * @canUse removeStorageSync
 */
 export const removeStorageSync: typeof Taro.removeStorageSync = (key: string) => {
@@ -77,9 +77,9 @@ export const removeStorageSync: typeof Taro.removeStorageSync = (key: string) =>
   displayExecRes(status, removeStorageSync.name)
 }
 
-/** 
+/**
  * 从本地缓存中移除指定 key
- * 
+ *
  * @canUse removeStorage
  * @__object [key]
 */
@@ -107,9 +107,9 @@ export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeSto
   })
 }
 
-/** 
+/**
  * Taro.getStorage 的同步版本
- * 
+ *
  * @canUse getStorageSync
 */
 // @ts-ignore
@@ -123,14 +123,14 @@ export const getStorageSync: typeof Taro.getStorageSync = (key) => {
     } catch (e) {
       item = status.data
     }
-    return item
+    return item.data
   }
   return ''
 }
 
-/** 
+/**
  * 从本地缓存中异步获取指定 key 的内容
- * 
+ *
  * @canUse getStorage
  * @__object [key]
  * @__success [data]
@@ -163,7 +163,7 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
           item = res.data
         }
         const result: Taro.getStorage.SuccessCallbackResult<T> = {
-          data: item,
+          data: item.data,
           errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
@@ -176,9 +176,9 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
 
 }
 
-/** 
+/**
  * Taro.getStorageInfo 的同步版本
- * 
+ *
  * @canUse getStorageInfoSync
  * @__return [currentSize, keys, limitSize]
 */
@@ -197,9 +197,9 @@ export const getStorageInfoSync: typeof Taro.getStorageInfoSync = () => {
   return res
 }
 
-/** 
+/**
  * 异步获取当前storage的相关信息
- * 
+ *
  * @canUse getStorageInfo
  * @__success [currentSize, keys, limitSize]
 */
@@ -231,14 +231,14 @@ export const getStorageInfo: typeof Taro.getStorageInfo = ({ success, fail, comp
 
 /**
  * 根据传入的 buffer 创建一个唯一的 URL 存在内存中
- * 
+ *
  * @canNotUse createBufferURL
  */
 export const createBufferURL = /* @__PURE__ */ temporarilyNotSupport('createBufferURL')
 
-/** 
+/**
  * Taro.clearStorage 的同步版本
- * 
+ *
  * @canUse clearStorageSync
 */
 export const clearStorageSync: typeof Taro.clearStorageSync = () => {
@@ -246,9 +246,9 @@ export const clearStorageSync: typeof Taro.clearStorageSync = () => {
   displayExecRes(status, clearStorageSync.name)
 }
 
-/** 
+/**
  * 清除storage信息
- * 
+ *
  * @canUse clearStorage
 */
 export const clearStorage: typeof Taro.clearStorage = ({ success, fail, complete } = {}) => {
@@ -266,9 +266,14 @@ export const clearStorage: typeof Taro.clearStorage = ({ success, fail, complete
   })
 }
 
+// @ts-ignore
 export const batchSetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchSetStorageSync')
+// @ts-ignore
 export const batchSetStorage = /* @__PURE__ */ temporarilyNotSupport('batchSetStorage')
+// @ts-ignore
 export const batchGetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchGetStorageSync')
+// @ts-ignore
 export const batchGetStorage = /* @__PURE__ */ temporarilyNotSupport('batchGetStorage')
 
+// @ts-ignore
 export * from './background-fetch'
