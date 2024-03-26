@@ -1,4 +1,4 @@
-import { fs } from '@tarojs/helper'
+import { defaultMainFields, fs, resolveSync } from '@tarojs/helper'
 
 import { getLoaderMeta } from './loader-meta'
 
@@ -36,6 +36,11 @@ function aliasPlugin (ctx: IPluginContext, framework: Frameworks): PluginOption 
           { find: /react-dom$/, replacement: '@tarojs/react' }
         ]
 
+        const mainFields = ['unpkg', ...defaultMainFields]
+        const resolveOptions = {
+          basedir: process.cwd(),
+          mainFields,
+        }
         const isProd = config.mode === 'production'
         // TODO：harmony 目前会导致部分包用 production 版本，部分用 development 版本，导致许多 api 报错
         const isHarmony = ctx.runOpts.options.platform === 'harmony'
@@ -48,7 +53,7 @@ function aliasPlugin (ctx: IPluginContext, framework: Frameworks): PluginOption 
 
           // 在React18中，使用了exports字段约定了模块暴露路径，其中并未暴露 ./cjs/ 。这将使上面的alias在编译时报错。相当的tricky。
           // Why writeJson？ prebundle will load package.json via readFile to check exports property.
-          const reactPkgPath = require.resolve('react/package.json', { paths: [process.cwd()] })
+          const reactPkgPath = resolveSync('react/package.json', resolveOptions)
           if (reactPkgPath) {
             const reactPkg = require('react/package.json')
             const reactVersion = (reactPkg.version || '')
