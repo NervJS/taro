@@ -90,7 +90,6 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
   let moduleCache: Map<string, Record<string, string>>
   let cssCache: Map<string, string>
   let globalCssCache: Set<string>
-  let globalCssVariables: string[] = []
 
   let viteConfig: ResolvedConfig
   let resolveUrl
@@ -106,7 +105,6 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       viteConfig = config
     },
     buildStart() {
-      globalCssVariables = []
       // Ensure a new cache for every build (i.e. rebuilding in watch mode)
       if (cssModulesCache.has(viteConfig)) {
         moduleCache = cssModulesCache.get(viteConfig)!
@@ -209,14 +207,11 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
               const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '').replace(usedSuffix, '')
               return cssCache.get(rawId) || ''
             })
-            const { code: raw_code, cssVariables } = parseJSXStyle(raw, cssRawArr, {
+            const { code: raw_code } = parseJSXStyle(raw, cssRawArr, {
               platformString: 'Harmony',
               isEnableNesting: viteCompilerContext.taroConfig.useNesting
             })
-            if (cssVariables) {
-              // CSS变量
-              globalCssVariables.push(cssVariables)
-            }
+
             const s = new MagicString(raw_code)
             return {
               code: s.toString(),
