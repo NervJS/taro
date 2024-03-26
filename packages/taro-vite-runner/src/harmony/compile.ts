@@ -1,6 +1,7 @@
 import { resolveSync, swc } from '@tarojs/helper'
 import path from 'path'
 
+import { resolveAbsoluteRequire } from '../utils'
 import { commonjsProxyRE, CSS_LANGS_RE, loadParseImportRE, SPECIAL_QUERY_RE } from './postcss/constants'
 import RenderParser from './template/render'
 
@@ -135,9 +136,20 @@ export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerCo
 
       // 遍历 templates, 输出 template 里的内容到 path.join(config.outputRoot, 'npm', '@tarojs/components/static/')
       for (const key in templates) {
-        const template = templates[key]
         const name = `${key}.ets`
-        const fileName = path.join('npm', '@tarojs/components/static', name)
+        const fileName = path.join('static', name)
+        const { cwd: appPath, loaderMeta, taroConfig } = viteCompilerContext
+        const { outputRoot = 'dist', sourceRoot = 'src' } = taroConfig
+        const { modifyResolveId } = loaderMeta
+        const template = resolveAbsoluteRequire({
+          name,
+          importer: path.resolve(appPath, sourceRoot, fileName),
+          code: templates[key],
+          outputRoot,
+          targetRoot: path.resolve(appPath, sourceRoot),
+          resolve: this.resolve,
+          modifyResolveId,
+        })
 
         etsTemplateCache.set(key, template)
 

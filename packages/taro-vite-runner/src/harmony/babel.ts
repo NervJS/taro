@@ -35,8 +35,8 @@ export default (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption =
                       ast.node.source.value = '@tarojs/components/tag'
                       ast.node.specifiers = newSpecifiers
                     },
-                    ExportNamedDeclaration(path) {
-                      const { node } = path;
+                    ExportNamedDeclaration(ast) {
+                      const { node } = ast
                       if (node.source && node.source.value === '@tarojs/components') {
                         const newSpecifiers = node.specifiers.map(specifier => {
                           if (t.isExportSpecifier(specifier)) {
@@ -46,7 +46,7 @@ export default (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption =
                           return specifier
                         })
               
-                        // Note: 不更改源，因为我们只是重命名导出
+                        node.source.value = '@tarojs/components/tag'
                         node.specifiers = newSpecifiers
                       }
                     }

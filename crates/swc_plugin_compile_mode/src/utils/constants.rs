@@ -20,16 +20,16 @@ pub const STYLE_ATTR: &str = "style";
 pub const DIRECTION_ATTR: &str = "harmonyDirection";
 
 pub const HARMONY_IMPORTER: &str = "import { createLazyChildren, createChildItem } from '../render'
-import commonStyleModify from '../style'
-import { getButtonColor } from '../button'
-import { FlexManager } from '../utils/flexManager'
-import { TOUCH_EVENT_MAP } from '../utils/constant/event'
-import { BUTTON_THEME_COLOR } from '../utils/constant/style'
-import { getNodeThresholds, getNormalAttributes, getFontAttributes } from '../utils/helper'
-import { NodeType, convertNumber2VP, TaroElement, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../../runtime'
-import { DynamicCenter } from '../utils/DynamicCenter'
+import commonStyleModify from '@tarojs/components/style'
+import { getButtonColor } from '@tarojs/components/button'
+import { FlexManager } from '@tarojs/components/utils/flexManager'
+import { TOUCH_EVENT_MAP } from '@tarojs/components/utils/constant/event'
+import { BUTTON_THEME_COLOR } from '@tarojs/components/utils/constant/style'
+import { getNodeThresholds, getNormalAttributes, getFontAttributes } from '@tarojs/components/utils/helper'
+import { NodeType, convertNumber2VP, TaroElement, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { DynamicCenter } from '@tarojs/components/utils/DynamicCenter'
 
-import type { TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '../../runtime'
+import type { HarmonyStyle, TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '@tarojs/runtime'
 
 ";
 
@@ -54,7 +54,7 @@ function columnAttrs (style: TaroStyleType) {
 "#;
 
 pub const HARMONY_TEXT_STYLE_BIND: &str = r#"@Extend(Text)
-function textNormalFontStyle (style: TaroStyleType) {
+function textNormalFontStyle (style: HarmonyStyle) {
   .id(style.id)
   .key(style.id)
   .opacity(style.opacity)

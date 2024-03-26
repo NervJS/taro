@@ -7,5 +7,11 @@ declare module '@tarojs/taro/types/compile/viteCompilerContext' {
     modifyRenderState?: (state: (string | null)[], parser: any) => void
 
     modifyPageParams?: (paramsString: string) => string
+
+    modifyPageImport?: (importStr: string[]) => void
+
+    modifyPageAppear?: (appearStr: string, entryOption?: Record<string, unknown>) => string
+
+    modifyPageBuild?: (buildStr: string) => string
   }
 }

@@ -211,17 +211,18 @@ export default class Parser extends BaseParser {
       )
     }
 
+    const modifyPageBuild = page instanceof Array ? page[0].modifyPageBuild : page.modifyPageBuild
+    const modifyPageAppear = page instanceof Array ? page[0].modifyPageAppear : page.modifyPageAppear
     const modifyRenderState = page instanceof Array ? page[0].modifyRenderState : page.modifyRenderState
+    
     if (isFunction(modifyRenderState)) {
       modifyRenderState(generateState, this)
     }
 
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
-    structCodeArray.push(
-      this.transArr2Str(generateState, 2),
-      '',
-      this.transArr2Str(`aboutToAppear() {${isBlended ?
-        '\n  initHarmonyElement()' : ''}
+
+    // 生成 aboutToAppear 函数内容
+    let appearStr = `${isBlended ? '  initHarmonyElement()' : ''}
   ${this.buildConfig.isBuildNativeComp
     ? ''
     : ` const state = this.getPageState()
@@ -236,7 +237,29 @@ export default class Parser extends BaseParser {
   index = index >= 0 ? index : 0
   this.handlePageAppear(index)
   this.setTabBarCurrentIndex(index)
-  this.bindEvent()` : 'this.handlePageAppear()'}
+  this.bindEvent()` : 'this.handlePageAppear()'}`
+
+    if (isFunction(modifyPageAppear)) {
+      appearStr = modifyPageAppear(appearStr, entryOption)
+    }
+
+    // 生成 build 函数内容
+    let buildStr = this.renderPage(
+      this.isTabbarPage,
+      this.appConfig.window?.enablePullDownRefresh,
+      this.enableRefresh,
+      entryOption,
+    )
+
+    if (isFunction(modifyPageBuild)) {
+      buildStr = modifyPageBuild(buildStr)
+    }
+
+    structCodeArray.push(
+      this.transArr2Str(generateState, 2),
+      '',
+      this.transArr2Str(`aboutToAppear() {
+${appearStr}
 }`.split('\n'), 2),
       this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
 getPageState() {
@@ -478,7 +501,7 @@ removeEvent () {
   .justifyContent(FlexAlign.SpaceEvenly)
 }
 ` : ''}`.split('\n'), 2),
-      this.buildConfig.isBuildNativeComp && !entryOption ? '' : this.transArr2Str(`
+      this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
 @Builder renderTitle() {
   Flex({
     direction: FlexDirection.Row,
@@ -543,12 +566,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
 `.split('\n'), 2): null,
       this.transArr2Str([
         'build() {',
-        this.transArr2Str(this.renderPage(
-          this.isTabbarPage,
-          this.appConfig.window?.enablePullDownRefresh,
-          this.enableRefresh,
-          entryOption,
-        ).split('\n'), 2).split('\n'),
+        this.transArr2Str(buildStr.split('\n'), 2).split('\n'),
         '}',
       ], 2)
     )
@@ -585,7 +603,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
     })`}
   }\n`}
   const params = ${paramsString}
-  ${this.isTabbarPage
+${this.isTabbarPage
     ? this.transArr2Str([
       'this.pageList ||= []',
       'if (!this.pageList[index]) {',
@@ -776,17 +794,26 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
     const targetRoot = path.resolve(this.appPath, sourceRoot)
     const fileName = path.relative(targetRoot, rawId)
-    const code = this.transArr2Str([
+    const importList = [
       'import type Taro from "@tarojs/taro/types"',
       'import type { TFunc } from "@tarojs/runtime/dist/runtime.esm"',
       'import type common from "@ohos.app.ability.common"',
       '',
-      isBlended ? this.#setReconciler : null,
+      isBlended ? this.#setReconciler : '',
       'import router from "@ohos.router"',
       'import { TaroView } from "@tarojs/components"',
       'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       `import { createLazyChildren } from "./${path.relative(path.dirname(fileName), 'render')}"`,
+    ]
+
+    const modifyPageImport = page instanceof Array ? page[0].modifyPageImport : page.modifyPageImport
+    if (isFunction(modifyPageImport)) {
+      modifyPageImport(importList)
+    }
+
+    const code = this.transArr2Str([
+      ...importList,
       this.isTabbarPage
         ? [
           this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`),
