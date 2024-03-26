@@ -51,6 +51,9 @@ export default class H5 extends TaroPlatformWeb {
 
   get componentLibrary() {
     if (this.useHtmlComponents && this.aliasFramework === 'react') {
+      if (this.framework === 'solid') {
+        return require.resolve('@tarojs/components-react/dist/solid')
+      }
       return require.resolve('./runtime/components')
     } else if (this.useDeprecatedAdapterComponent) {
       return require.resolve(`@tarojs/components/lib/${this.aliasFramework}/component-lib`)
