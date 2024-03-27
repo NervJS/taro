@@ -55,8 +55,6 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
       this.ctx.component = this
       const rootElement = this.root.current!
       rootElement.ctx = this.ctx
-      // TODO: performUpdate
-      // rootElement.performUpdate(true)
     }
 
     render () {
@@ -89,6 +87,13 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
         nativeComponentApp = this
       }
       cb && cb()
+    }
+
+    // React 16 uncaught error 会导致整个应用 crash，
+    // 目前把错误缩小到页面
+    componentDidCatch (error, info: React.ErrorInfo) {
+      console.warn(error)
+      console.error(info.componentStack)
     }
 
     mount (Component, compId, getCtx, cb?) {
