@@ -49,7 +49,7 @@ export const setStorage: typeof Taro.setStorage = (options) => {
   return new Promise((resolve, reject) => {
     native.setStorage({
       key: key,
-      data: data,
+      data: JSON.stringify(handleData(data)),
       success: (res: any) => {
         handle.success({ errMsg: res.errMsg }, { resolve,reject })
       },
@@ -163,7 +163,7 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
           item = res.data
         }
         const result: Taro.getStorage.SuccessCallbackResult<T> = {
-          data: item,
+          data: item.data,
           errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
