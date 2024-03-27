@@ -27,11 +27,6 @@ export default (ctx: IPluginContext) => {
   ctx.modifyWebpackChain(({ chain }) => {
     // 通用
     setAlias(framework, chain)
-    chain.plugin('definePlugin').tap((args) => {
-      const config = args[0]
-      config.__TARO_FRAMEWORK__ = `"${framework}"`
-      return args
-    })
 
     if (process.env.TARO_PLATFORM === 'web') {
       // H5
@@ -120,6 +115,9 @@ function setAlias(framework: Frameworks, chain) {
       alias.set('react$', 'nervjs')
       alias.set('react-dom$', 'nervjs')
       break
+    case 'solid':
+      alias.set('react/jsx-runtime', 'solid-js/h/jsx-runtime')
+      break
   }
 }
 
@@ -156,18 +154,14 @@ function viteCommonPlugin(framework: Frameworks): PluginOption {
             { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime' },
           ]
           : []
+      if (framework === 'solid') {
+        const reconcilerName = '@tarojs/plugin-framework-react/dist/reconciler'
+        alias.push(
+          { find: 'react/jsx-runtime', replacement: reconcilerName },
+        )
+      }
 
       return {
-        optimizeDeps:{
-          esbuildOptions:{
-            define: {
-              __TARO_FRAMEWORK__: `"${framework}"`
-            }
-          }
-        },
-        define: {
-          __TARO_FRAMEWORK__: `"${framework}"`,
-        },
         resolve: {
           alias,
         },

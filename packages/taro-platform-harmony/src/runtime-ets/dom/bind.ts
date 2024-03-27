@@ -16,9 +16,24 @@ function bindAttributesCallback (node: TaroElement, attributeName: string, callb
 
 export function bindScrollTo (node: TaroScrollViewElement) {
   bindAttributesCallback(node, 'scrollTo', () => {
+    // 获取当前滚动容器的滚动信息
+    const currentOffset = node.scroller?.currentOffset()
+    const currentScrollTop = currentOffset?.yOffset ?? 0
+    const currentScrollLeft = currentOffset?.xOffset ?? 0
+
+    // 处理将要设置的滚动信息，把js提供的px数字转成harmony接收的vp数字
+    const nextScrollTop = node._attrs.scrollTop ? px2vp(node._attrs.scrollTop) : 0
+    const nextScrollLeft = node._attrs.scrollLeft ? px2vp(node._attrs.scrollLeft) : 0
+
+    // 当top和left前后差值都小于误差精度是不做处理
+    if (Math.abs(nextScrollTop - currentScrollTop) < 0.5 &&
+      Math.abs(nextScrollLeft - currentScrollLeft) < 0.5) {
+      return
+    }
+
     node.scroller.scrollTo({
-      xOffset: node._attrs.scrollLeft || 0,
-      yOffset: node._attrs.scrollTop || 0,
+      xOffset: nextScrollLeft,
+      yOffset: nextScrollTop,
     })
   })
 }

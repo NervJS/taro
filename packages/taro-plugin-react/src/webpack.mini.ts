@@ -1,4 +1,4 @@
-import { fs } from '@tarojs/helper'
+import { defaultMainFields, fs, resolveSync } from '@tarojs/helper'
 import path from 'path'
 
 import { getLoaderMeta } from './loader-meta'
@@ -15,6 +15,11 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
   const config = ctx.initialConfig
   const alias = chain.resolve.alias
 
+  const mainFields = ['unpkg', ...defaultMainFields]
+  const resolveOptions = {
+    basedir: process.cwd(),
+    mainFields,
+  }
   if (framework === 'react') {
     alias.set('react-dom$', '@tarojs/react')
     alias.set('react-dom/client$', '@tarojs/react')
@@ -23,7 +28,7 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
     if (!isProd && config.mini?.debugReact !== true) {
       // 不是生产环境，且没有设置 debugReact，则使用压缩版本的 react 依赖，减少体积
       // 兼容pnpm workspace
-      const reactModulePath = require.resolve('react', { paths: [process.cwd()] })
+      const reactModulePath = resolveSync('react', resolveOptions)!
       const newFilePath = path.join(path.dirname(reactModulePath), 'cjs', 'react.production.min.js')
 
       alias.set('react-reconciler$', 'react-reconciler/cjs/react-reconciler.production.min.js')
@@ -32,7 +37,7 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
 
       // 在React18中，使用了exports字段约定了模块暴露路径，其中并未暴露 ./cjs/ 。这将使上面的alias在编译时报错。相当的tricky。
       // Why writeJson？ prebundle will load package.json via readFile to check exports property.
-      const reactPkgPath = require.resolve('react/package.json', { paths: [process.cwd()] })
+      const reactPkgPath = resolveSync('react/package.json', resolveOptions)
       if (reactPkgPath) {
         const reactPkg = require('react/package.json')
         const reactVersion = reactPkg.version || ''
@@ -44,6 +49,11 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
         }
       }
     }
+  } else if (framework === 'solid') {
+    const reconcilerName = '@tarojs/plugin-framework-react/dist/reconciler'
+    alias.set('solid-js/web', reconcilerName)
+    // Note: 本地 link 调试时，避免 solid 重复打包
+    alias.set('solid-js$', resolveSync('solid-js', resolveOptions))
   }
 }
 

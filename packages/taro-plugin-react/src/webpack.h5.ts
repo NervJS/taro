@@ -1,4 +1,4 @@
-import { REG_TARO_H5 } from '@tarojs/helper'
+import { defaultMainFields, REG_TARO_H5, resolveSync } from '@tarojs/helper'
 import { mergeWith } from 'lodash'
 
 import { getLoaderMeta } from './loader-meta'
@@ -95,5 +95,22 @@ function setPlugin(ctx: IPluginContext, framework: Frameworks, chain) {
       chain.plugin('hotModuleReplacementPlugin').use(require('webpack').HotModuleReplacementPlugin)
       chain.plugin('fastRefreshPlugin').use(require('@prefresh/webpack'))
     }
+  }
+
+  const mainFields = ['unpkg', ...defaultMainFields]
+  const resolveOptions = {
+    basedir: process.cwd(),
+    mainFields,
+  }
+  if (framework === 'solid') {
+    const reconcilerName = '@tarojs/plugin-framework-react/dist/reconciler'
+    const alias = chain.resolve.alias
+    alias.set(reconcilerName, resolveSync('solid-js/web', resolveOptions))
+    // Note: 本地 link 调试时，避免 solid 重复打包
+    alias.set('solid-js$', resolveSync('solid-js', resolveOptions))
+  } else if (framework === 'react') {
+    const alias = chain.resolve.alias
+    // Note: 本地 link 调试时，避免 react 重复打包
+    alias.set('react$', resolveSync('react', resolveOptions))
   }
 }

@@ -99,6 +99,20 @@ class App extends React.Component {
     Object.assign(loaderMeta, nervMeta)
   }
 
+  if (framework === 'solid') {
+    Object.assign(loaderMeta, {
+      creator: 'createSolidApp',
+      frameworkArgs: 'config',
+      importFrameworkStatement: '',
+      importFrameworkName: '',
+      mockAppStatement: `
+function App(props) {
+  return null
+}
+`,
+    })
+  }
+
   if (process.env.TARO_PLATFORM === 'web') {
     if (framework === 'react') {
       const react = require('react')
