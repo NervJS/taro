@@ -1,3 +1,4 @@
+import osChannelApi from './osChannelApi'
 
 
 class NativeApi {
@@ -876,35 +877,25 @@ class AsyncToSyncProxy {
   }
 }
 
-class HybridApi extends NativeApi {
+class OsChannelProxy {
+  private readonly useOsChannel: boolean
+  private readonly cacheProxy: any
 
-  hideKeyboard (): any {
-    // @ts-ignore
-    return window.isOsChannel ? osChannel.hideKeyboard() : super.hideKeyboard()
+  constructor (useOsChannel: boolean) {
+    this.useOsChannel = useOsChannel
+    this.cacheProxy = new Proxy(nativeApi, new CacheStorageProxy(nativeApi))
   }
 
-  makePhoneCall (_option: any): any {
-    // @ts-ignore
-    return window.isOsChannel ? osChannel.makePhoneCall(_option) : super.makePhoneCall(_option)
-  }
-
-  request (_option: any): any {
-    // @ts-ignore
-    return window.isOsChannel ? osChannel.request(_option) : super.request(_option)
-  }
-
-  getAppAuthorizeSetting (): any {
-    // @ts-ignore
-    return window.isOsChannel ? osChannel.getAppAuthorizeSetting() : super.getAppAuthorizeSetting()
-  }
-
-  getSystemSetting (): any {
-    // @ts-ignore
-    return window.isOsChannel ? osChannel.getSystemSetting() : super.getSystemSetting()
+  get (_target:any, prop:string) {
+    return (...args: any) => {
+      if (this.useOsChannel && osChannelApi.hasOwnProperty(prop)) {
+        return osChannelApi[prop](...args)
+      }
+      return this.cacheProxy[prop](...args)
+    }
   }
 }
 
-const nativeApi = new HybridApi()
-const native = new Proxy(nativeApi, new CacheStorageProxy(nativeApi))
-
+const nativeApi = new NativeApi()
+const native = new Proxy(nativeApi, new OsChannelProxy(false))
 export default native
