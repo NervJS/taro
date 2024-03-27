@@ -7,7 +7,7 @@ import type { StandardProps, TextProps } from '@tarojs/components/types'
 import type { TaroAny, TaroElement, TaroStyleType, TaroTextStyleType, HarmonyStyle } from '@tarojs/runtime'
 
 export function getFontAttributes (node: TaroElement): TaroTextStyleType {
-  const hmStyle = node.hmStyle
+  let hmStyle = getNormalAttributes(node)
   const attrs: TextProps = node._attrs || {}
 
   if (!hmStyle) return {}
@@ -88,7 +88,7 @@ export function isMaxWidthView (node: TaroElement) {
   return node.tagName === 'VIEW' && parentNode && parentNode.tagName === 'VIEW' && !FlexManager.isFlexNode(parentNode)
 }
 
-export function getNormalAttributes (node: TaroElement): HarmonyStyle {
+export function getNormalAttributes (node: TaroElement, initStyle?: HarmonyStyle): HarmonyStyle {
   const hmStyle = node.hmStyle
   
   if (!hmStyle) return {}
@@ -101,6 +101,11 @@ export function getNormalAttributes (node: TaroElement): HarmonyStyle {
   // 覆盖属性
   normalAttributes.id =  _attrs.id || _nid
 
+  let pseudoStylesheet = getPseudoClass(node)
+  if (pseudoStylesheet) {
+    normalAttributes = ObjectAssign({}, normalAttributes, pseudoStylesheet)
+  }
+
   // taro_page 等写死在运行时里的节点，没有 _nodeInfo
   if (node._nodeInfo) {
     const overwriteStyle: TaroStyleType = node._nodeInfo?.overwriteStyle
@@ -109,7 +114,82 @@ export function getNormalAttributes (node: TaroElement): HarmonyStyle {
       normalAttributes = ObjectAssign({}, normalAttributes, overwriteStyle)
     }
   }
+  // 初始化默认的值
+  if (initStyle) {
+    normalAttributes = ObjectAssign({}, initStyle, normalAttributes)
+  }
   return normalAttributes
+}
+
+// 应用伪类样式
+function getPseudoClass (node: TaroElement): HarmonyStyle | null {
+  // 伪类
+  const _pseudo_class = Object.keys(node._pseudo_class)
+  if (_pseudo_class.length) {
+    for (let i = 0; i < _pseudo_class.length; i++) {
+      const pseudoKey = _pseudo_class[i]
+      const pseudoStylesheet = node._pseudo_class[pseudoKey]
+      if (!pseudoStylesheet) continue
+      switch(pseudoKey) {
+        case "::first-child": {
+          if (node.parentNode?.firstChild?._nid === node._nid) {
+            return pseudoStylesheet.hmStyle
+          }
+          break
+        }
+        case "::last-child": {
+          if (node.parentNode?.lastChild?._nid === node._nid) {
+            return pseudoStylesheet.hmStyle
+          }
+          break
+        }
+        default: {
+          // 解析nth-child()
+          // 找出当前节点在父节点中的位置
+          // 公式
+          let matchs: [number, number] | null = null
+          if (pseudoKey === '::nth-child(odd)') {
+            matchs = [2, 1]
+          } else if (pseudoKey === '::nth-child(even)') {
+            matchs = [2, 0]
+          } else {
+            matchs = parseNthChild(pseudoKey)
+          }
+          if (matchs) {
+            let index = node.parentNode?.childNodes.findIndex((child) => child._nid === node._nid)
+            if (isUndefined(index)) return null
+            else {
+              index = index + 1
+              if (matchs[0] === 0) {
+                if (index === matchs[1]) {
+                  return pseudoStylesheet.hmStyle
+                }
+              } else {
+                if ((index - matchs[1]) % matchs[0] === 0) {
+                  return pseudoStylesheet.hmStyle
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return null
+}
+
+// 正则匹配nth-child
+function parseNthChild(selector: string): [number, number] | null {
+  const regex = /nth-child\((?:(-?\d*)n\s*)?([+-]?\s*\d+)?\)/;
+  const match = selector.match(regex);
+  
+  if (match) {
+      const a = match[1] ? parseInt(match[1]) : 0;
+      const b = match[2] ? parseInt(match[2]) : 0;
+      return [a, b];
+  } else {
+      return null;
+  }
 }
 
 

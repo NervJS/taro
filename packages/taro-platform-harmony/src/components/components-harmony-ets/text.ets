@@ -4,7 +4,7 @@ import { eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_
 import commonStyleModify from './style'
 import { getButtonColor } from './button'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
-import { getNodeThresholds, getStyleAttr, getFontAttributes, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, getStyleAttr, getFontAttributes, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
 import type { TaroButtonElement, TaroElement, TaroTextElement, TaroAny, TaroTextStyleType, TaroStyleType } from '@tarojs/runtime'
 
@@ -69,13 +69,14 @@ export default struct TaroText {
       if (this.node.parentNode) {
         if ((this.node.parentNode as TaroElement).tagName === 'BUTTON') {
           Text(this.node.textContent)
-            .textNormalFontStyle(this.node.parentElement?.hmStyle || {})
+            .textNormalFontStyle(getNormalAttributes(this.node.parentElement!, {
+              fontSize: getButtonFontSize(this.node.parentNode as TaroButtonElement),
+              color: getButtonColor(this.node.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node.parentNode as TaroButtonElement)._attrs.type || '').text)
+            }))
             .textSpecialFontStyle(getFontAttributes(this.node.parentElement as TaroElement))
-            .fontSize((this.node.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize(this.node.parentNode as TaroButtonElement))
-            .fontColor((this.node.parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node.parentNode as TaroButtonElement)._attrs.type).text))
         } else {
           Text(this.node.textContent)
-            .textNormalFontStyle(this.node.parentElement?.hmStyle || {})
+            .textNormalFontStyle(getNormalAttributes(this.node.parentElement!))
             .textSpecialFontStyle(getFontAttributes(this.node.parentElement as TaroElement))
             .width(getTextInViewWidth(this.node.parentElement))
         }
@@ -85,7 +86,7 @@ export default struct TaroText {
         Text(this.node.textContent)
         .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
         .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-        .textNormalFontStyle(this.node?.hmStyle)
+        .textNormalFontStyle(getNormalAttributes(this.node))
         .textSpecialFontStyle(getFontAttributes(this.node))
         .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
