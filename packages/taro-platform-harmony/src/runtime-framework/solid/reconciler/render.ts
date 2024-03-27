@@ -1,6 +1,7 @@
 // @ts-ignore
 import { TaroText } from '@tarojs/components'
 import { document } from '@tarojs/runtime'
+import { isFunction, isString } from '@tarojs/shared'
 import { createRenderer } from 'solid-js/universal'
 
 import { h } from './h'
@@ -47,11 +48,10 @@ const renderer = createRenderer<TaroNode>({
 export const render = renderer.render
 export const effect = renderer.effect
 export const memo = renderer.memo
-export const createComponent = (type, props) => {
-  if (typeof type === 'string') {
-    return h(type, props)
-  }
-  return renderer.createComponent(type, props)
+export const createComponent = (type, props?) => {
+  if (isString(type)) return h(type, props)
+  if (isFunction(type)) return renderer.createComponent(type, props)
+  return renderer.createComponent(Fragment, props)
 }
 export const createElement = renderer.createElement
 export const createTextNode = renderer.createTextNode
@@ -60,3 +60,12 @@ export const insert = renderer.insert
 export const spread = renderer.spread
 export const setProp = renderer.setProp
 export const mergeProps = renderer.mergeProps
+
+function Fragment(props) {
+  return props.children
+}
+function jsx(type, props) {
+  return createComponent(type, props)
+}
+
+export { Fragment, jsx, jsx as jsxDEV, jsx as jsxs }

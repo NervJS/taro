@@ -330,8 +330,8 @@ declare global {
     // @ts-ignore
     if (that.framework === 'solid') {
       that.externalDeps.push([
-        '@tarojs/plugin-framework-react/dist/runtime/reconciler',
-        /^@tarojs\/plugin-framework-react\/dist\/runtime\/reconciler$/,
+        '@tarojs/plugin-framework-react/dist/reconciler',
+        /^@tarojs\/plugin-framework-react\/dist\/reconciler$/,
         path.join(this.runtimeFrameworkLibrary, 'reconciler')
       ])
       that.externalDeps.push([

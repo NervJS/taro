@@ -1,5 +1,6 @@
 import type { TaroElement } from '@tarojs/runtime'
 import { isUndefined } from '@tarojs/shared'
+import { getNormalAttributes } from './styles.ets'
 
 interface IFlexOptions {
   direction: FlexDirection,
@@ -38,7 +39,7 @@ class FlexManager {
   }
 
   static flexOptions (node: TaroElement): IFlexOptions {
-    const hmStyle = node.hmStyle || {}
+    const hmStyle = getNormalAttributes(node) || {}
     const isFlex = FlexManager.isFlexNode(node)
     const justifyContent: FlexAlign = isFlex ? (isUndefined(hmStyle.justifyContent) ? FlexAlign.Start : hmStyle.justifyContent) : FlexAlign.Start
 

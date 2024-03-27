@@ -131,11 +131,15 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
     for (const i in oldValue) {
       if (!(value && i in (value as StyleValue))) {
         // 鸿蒙伪类特殊处理
-        if (isHarmony && (i === '::after' || i === '::before')) {
-          setPseudo(dom, i, null)
-        } else if (isHarmony && (i === '::first-child' || i === '::last-child')) {
-          // @ts-ignore
-          dom.set_pseudo_class(i, null)
+        if (isHarmony) {
+          if (i === '::after' || i === '::before') {
+            setPseudo(dom, i, null)
+          } else if (['::first-child', '::last-child'].includes(i) || i.startsWith('::nth-child')) {
+            // @ts-ignore
+            dom.set_pseudo_class(i, null)
+          } else {
+            style[i] = ''
+          }
         } else {
           style[i] = ''
         }
@@ -146,11 +150,15 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
     for (const i in value) {
       if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
         // 鸿蒙伪类特殊处理
-        if (isHarmony && (i === '::after' || i === '::before')) {
-          setPseudo(dom, i, value[i] as unknown as StyleValue)
-        } else if (isHarmony && (i === '::first-child' || i === '::last-child')) {
-          // @ts-ignore
-          dom.set_pseudo_class(i, value)
+        if (isHarmony) {
+          if (i === '::after' || i === '::before') {
+            setPseudo(dom, i, value[i] as unknown as StyleValue)
+          } else if (['::first-child', '::last-child'].includes(i) || i.startsWith('::nth-child')) {
+            // @ts-ignore
+            dom.set_pseudo_class(i, value[i])
+          } else {
+            style[i] = value[i]
+          }
         } else {
           style[i] = value[i]
         }
