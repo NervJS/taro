@@ -8,7 +8,7 @@ use swc_core::{
       self,
       ast::*,
       atoms::Atom,
-      visit::{VisitMut, VisitMutWith},
+      visit::{swc_ecma_ast, VisitMut, VisitMutWith},
   },
 };
 use std::collections::HashMap;
@@ -52,8 +52,6 @@ impl PreVisitor {
 impl VisitMut for PreVisitor {
     fn visit_mut_jsx_element_child (&mut self, child: &mut JSXElementChild) {
         if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = child {
-            let mut is_first_and_expr = false;
-
             if let Expr::Paren(ParenExpr { expr: e, .. }) = &mut **expr {
                 *expr = e.take();
             }
@@ -63,34 +61,34 @@ impl VisitMut for PreVisitor {
                 // 将 aa && <B /> 转换为 aa ? <B /> : <B compileIgnore />
                 Expr::Bin(BinExpr { op, left, right, ..}) => {
                     // C&&A 替换为 C?A:A'，原因是为了无论显示还是隐藏都保留一个元素，从而不影响兄弟节点的变量路径
-                    if *op == op!("&&") && !self.is_in_and_expr {
-                        is_first_and_expr = true;
+                    if *op == op!("&&") {
                         fn inject_compile_if (el: &mut Box<JSXElement>, condition: &mut Box<Expr>) -> () {
                             el.opening.attrs.push(utils::create_jsx_expr_attr(COMPILE_IF, condition.clone()));
                         }
-                        fn get_element_double (element_name: JSXElementName, condition: &mut Box<Expr>, right: &mut Box<Expr>) -> Expr {
+                        fn get_element_double (condition: &mut Box<Expr>, right: &mut Box<Expr>) -> Expr {
                             Expr::Cond(CondExpr {
                                 span,
                                 test: condition.take(),
                                 cons: right.take(),
                                 alt: Box::new(utils::create_self_closing_jsx_element_expr(
-                                    element_name, // element 替换为同类型的元素。在显示/隐藏切换时，让运行时 diff 只更新必要属性而不是整个节点刷新
+                                    JSXElementName::Ident(swc_ecma_ast::Ident::new(
+                                        "View".into(), 
+                                        span // 使用适当的 Span
+                                    )), // element 替换为同类型的元素。在显示/隐藏切换时，让运行时 diff 只更新必要属性而不是整个节点刷新
                                     Some(vec![utils::create_jsx_bool_attr(COMPILE_IGNORE)]
                                 )))
                             })
                         }
                         match &mut **right {
                             Expr::JSXElement(el) => {
-                                let element_name = el.opening.name.clone();
                                 inject_compile_if(el, left);
-                                **expr = get_element_double(element_name, left, right);
+                                **expr = get_element_double(left, right);
                             },
                             Expr::Paren(ParenExpr { expr: paren_expr, .. }) => {
                                 if paren_expr.is_jsx_element() {
                                     let el: &mut Box<JSXElement> = paren_expr.as_mut_jsx_element().unwrap();
-                                    let element_name = el.opening.name.clone();
                                     inject_compile_if(el, left);
-                                    **expr = get_element_double(element_name, left, paren_expr);
+                                    **expr = get_element_double(left, paren_expr);
                                 }
                             },
                             Expr::Lit(_) => {
@@ -111,15 +109,7 @@ impl VisitMut for PreVisitor {
                 _ => (),
             }
 
-            if is_first_and_expr {
-                self.is_in_and_expr = true;
-            }
-
             expr.visit_mut_children_with(self);
-
-            if is_first_and_expr {
-                self.is_in_and_expr = false;
-            }
         } else {
             child.visit_mut_children_with(self);
         }

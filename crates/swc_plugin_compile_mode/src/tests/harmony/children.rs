@@ -72,3 +72,25 @@ test!(
     }
     "#
 );
+
+test!(
+  get_syntax_config(),
+  |_| tr(),
+  should_render_complex_children,
+  r#"
+  function Index () {
+    return (
+      <View className="goods" compileMode>
+        {showModal &&
+          <View className={`regds ${isShow ? 'regds-qsl-anm' : ''} ${item.backurl ? 'regds-bg' : ''}`} onClick={goToDetail} style={{ backgroundImage: item.backurl ? `url(${item.backurl})` : `linear-gradient(to right, #fff, #fff), linear-gradient(225deg, rgba(${item.rgbvalue2},.28), rgba(${item.rgbvalue1},.28))` }}>
+            <View className="regds-pimg">
+              <Image style={{ zIndex: (item.mainurl ? !isPlay : true) ? 1 : 0 }} className={`regds-img ${dynamicPlay ? 'dynamic' : ''}`} src={imgbase_sku} />
+              {haveIcon && <Image className="regds-img-icon" src={iconList.imgIcon.url1} style={{ width: `${iconList.imgIcon.width}rpx`, height: `${iconList.imgIcon.height}rpx` }} />}
+            </View>
+          </View>
+        }
+      </View>
+    )
+  }
+  "#
+);
