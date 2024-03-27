@@ -1378,9 +1378,6 @@ importers:
       classnames:
         specifier: ^2.2.5
         version: registry.npmjs.org/classnames@2.3.2
-      solid-js:
-        specifier: ^1.8.16
-        version: 1.8.16
       swiper:
         specifier: 6.8.0
         version: registry.npmjs.org/swiper@6.8.0
@@ -1391,6 +1388,9 @@ importers:
       '@babel/core':
         specifier: ^7.14.5
         version: registry.npmjs.org/@babel/core@7.21.8
+      '@babel/preset-react':
+        specifier: ^7.22.15
+        version: 7.23.3(@babel/core@7.21.8)
       '@rollup/plugin-babel':
         specifier: ^6.0.4
         version: registry.npmjs.org/@rollup/plugin-babel@6.0.4(@babel/core@7.21.8)(@types/babel__core@7.20.0)(rollup@3.29.4)
@@ -1400,15 +1400,24 @@ importers:
       '@rollup/plugin-node-resolve':
         specifier: ^15.2.3
         version: registry.npmjs.org/@rollup/plugin-node-resolve@15.2.3(rollup@3.29.4)
+      '@rollup/plugin-replace':
+        specifier: ^4.0.0
+        version: 4.0.0(rollup@3.29.4)
       '@rollup/plugin-typescript':
         specifier: ^11.1.0
         version: registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@3.29.4)(tslib@2.6.2)(typescript@4.9.5)
       '@types/node':
         specifier: ^18.19.12
         version: 18.19.12
+      babel-preset-solid:
+        specifier: ^1.8.15
+        version: 1.8.15(@babel/core@7.21.8)
       postcss:
         specifier: ^8.4.18
         version: registry.npmjs.org/postcss@8.4.33
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
       rollup:
         specifier: ^3.8.1
         version: registry.npmjs.org/rollup@3.29.4
@@ -1421,6 +1430,9 @@ importers:
       rollup-plugin-ts:
         specifier: ^3.0.2
         version: registry.npmjs.org/rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@3.29.4)(typescript@4.9.5)
+      solid-js:
+        specifier: ^1.8.16
+        version: 1.8.16
       typescript:
         specifier: ^4.7.4
         version: registry.npmjs.org/typescript@4.9.5
@@ -4416,7 +4428,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.23.6
-    dev: false
 
   /@babel/helper-module-imports@7.22.15:
     resolution: {integrity: sha512-0pYVBnDKZO2fnSPCrgM/6WMc7eS20Fbok+0r88fp+YtWVLZrp4CkafFGIp+W0VKw4a22sgebPT99y+FDNMdP4w==, tarball: https://registry.npmjs.org/@babel/helper-module-imports/-/helper-module-imports-7.22.15.tgz}
@@ -5276,6 +5287,16 @@ packages:
       rollup: registry.npmjs.org/rollup@3.21.5
     dev: true
 
+  /@rollup/plugin-replace@4.0.0(rollup@3.29.4):
+    resolution: {integrity: sha512-+rumQFiaNac9y64OHtkHGmdjm7us9bo1PlbgQfdihQtuNxzjpaB064HbRnewUOggLQxVCCyINfStkgmBeQpv1g==, tarball: https://registry.npmjs.org/@rollup/plugin-replace/-/plugin-replace-4.0.0.tgz}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0(rollup@3.29.4)
+      magic-string: 0.25.9
+      rollup: registry.npmjs.org/rollup@3.29.4
+    dev: true
+
   /@rollup/plugin-typescript@11.1.1(rollup@3.21.5)(tslib@2.6.2)(typescript@5.3.3):
     resolution: {integrity: sha512-Ioir+x5Bejv72Lx2Zbz3/qGg7tvGbxQZALCLoJaGrkNXak/19+vKgKYJYM3i/fJxvsb23I9FuFQ8CUBEfsmBRg==, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.1.tgz}
     engines: {node: '>=14.0.0'}
@@ -5294,6 +5315,18 @@ packages:
       rollup: registry.npmjs.org/rollup@3.21.5
       tslib: registry.npmjs.org/tslib@2.6.2
       typescript: 5.3.3
+    dev: true
+
+  /@rollup/pluginutils@3.1.0(rollup@3.29.4):
+    resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==, tarball: https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-3.1.0.tgz}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      '@types/estree': 0.0.39
+      estree-walker: 1.0.1
+      picomatch: 2.3.1
+      rollup: registry.npmjs.org/rollup@3.29.4
     dev: true
 
   /@rollup/pluginutils@4.2.1:
@@ -5984,7 +6017,6 @@ packages:
       '@babel/types': 7.23.6
       html-entities: 2.3.3
       validate-html-nesting: 1.2.2
-    dev: false
 
   /babel-preset-solid@1.8.15(@babel/core@7.21.8):
     resolution: {integrity: sha512-P2yOQbB7Hn/m4YvpXV6ExHIMcgNWXWXcvY4kJzG3yqAB3hKS58OZRsvJ7RObsZWqXRvZTITBIwnpK0BMGu+ZIQ==, tarball: https://registry.npmjs.org/babel-preset-solid/-/babel-preset-solid-1.8.15.tgz}
@@ -5993,7 +6025,6 @@ packages:
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core@7.21.8
       babel-plugin-jsx-dom-expressions: 0.37.17(@babel/core@7.21.8)
-    dev: false
 
   /balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==, tarball: https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz}
@@ -6416,6 +6447,7 @@ packages:
 
   /csstype@3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==, tarball: https://registry.npmjs.org/csstype/-/csstype-3.1.2.tgz}
+    dev: true
 
   /debug@2.6.9(supports-color@6.1.0):
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==, tarball: https://registry.npmjs.org/debug/-/debug-2.6.9.tgz}
@@ -7252,7 +7284,6 @@ packages:
 
   /html-entities@2.3.3:
     resolution: {integrity: sha512-DV5Ln36z34NNTDgnz0EWGBLZENelNAtkiFA4kyNOG2tDI6Mz1uSWiq1wAKdyjnJwyDiDO7Fa2SO1CTxPXL8VxA==, tarball: https://registry.npmjs.org/html-entities/-/html-entities-2.3.3.tgz}
-    dev: false
 
   /ignore@5.2.4:
     resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==, tarball: https://registry.npmjs.org/ignore/-/ignore-5.2.4.tgz}
@@ -8186,6 +8217,13 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /react@18.2.0:
+    resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==, tarball: https://registry.npmjs.org/react/-/react-18.2.0.tgz}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      loose-envify: 1.4.0
+    dev: true
+
   /read-pkg-up@7.0.1:
     resolution: {integrity: sha512-zK0TB7Xd6JpCLmlLmufqykGE+/TlOePD6qKClNW7hHDKFh/J7/7gCWGR7joEQEW1bKq3a3yUZSObOoWLFQ4ohg==, tarball: https://registry.npmjs.org/read-pkg-up/-/read-pkg-up-7.0.1.tgz}
     engines: {node: '>=8'}
@@ -8433,10 +8471,12 @@ packages:
       seroval: ^1.0
     dependencies:
       seroval: 1.0.4
+    dev: true
 
   /seroval@1.0.4:
     resolution: {integrity: sha512-qQs/N+KfJu83rmszFQaTxcoJoPn6KNUruX4KmnmyD0oZkUoiNvJ1rpdYKDf4YHM05k+HOgCxa3yvf15QbVijGg==, tarball: https://registry.npmjs.org/seroval/-/seroval-1.0.4.tgz}
     engines: {node: '>=10'}
+    dev: true
 
   /shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==, tarball: https://registry.npmjs.org/shebang-command/-/shebang-command-2.0.0.tgz}
@@ -8477,6 +8517,7 @@ packages:
       csstype: 3.1.2
       seroval: 1.0.4
       seroval-plugins: 1.0.4(seroval@1.0.4)
+    dev: true
 
   /source-map@0.5.7:
     resolution: {integrity: sha512-LbrmJOMUSdEVxIKvdcJzQC+nQhe8FUZQTXQy6+I75skNgn3OoQ0DZA8YnFa7gp8tqtL3KPf1kmo0R5DoApeSGQ==, tarball: https://registry.npmjs.org/source-map/-/source-map-0.5.7.tgz}
@@ -8779,7 +8820,6 @@ packages:
 
   /validate-html-nesting@1.2.2:
     resolution: {integrity: sha512-hGdgQozCsQJMyfK5urgFcWEqsSSrK63Awe0t/IMR0bZ0QMtnuaiHzThW81guu3qx9abLi99NEuiaN6P9gVYsNg==, tarball: https://registry.npmjs.org/validate-html-nesting/-/validate-html-nesting-1.2.2.tgz}
-    dev: false
 
   /validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==, tarball: https://registry.npmjs.org/validate-npm-package-license/-/validate-npm-package-license-3.0.4.tgz}
