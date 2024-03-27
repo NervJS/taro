@@ -1,3 +1,4 @@
+import { createComponent, h, render } from '@tarojs/plugin-framework-react/dist/reconciler'
 import { Current, document } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
 import { eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
 import { hooks } from '@tarojs/shared'
@@ -5,7 +6,6 @@ import { batch, createContext, createRoot, createSignal, For } from 'solid-js'
 
 import { setReconciler } from './connect'
 import { getPageInstance, injectPageInstance } from './page'
-import { createComponent, h, render } from './reconciler'
 import { EMPTY_OBJ, HOOKS_APP_ID, setDefaultDescriptor, setRouterParams } from './utils'
 
 import type { AppInstance, Instance, PageLifeCycle, PageProps, ReactAppInstance } from '@tarojs/runtime'
