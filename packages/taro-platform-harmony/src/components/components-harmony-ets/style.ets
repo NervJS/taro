@@ -109,7 +109,7 @@ function setAnimationAttributeIntoInstance(instance: CommonAttribute, overwriteS
     z: overwriteStyle.rotate?.z || style.transform?.Rotate?.z,
     centerX: overwriteStyle.transformOrigin?.x || style.transformOrigin?.x || 0,
     centerY: overwriteStyle.transformOrigin?.y || style.transformOrigin?.y || 0,
-    angle: 0
+    angle: overwriteStyle.rotate?.angle || style.transform?.Rotate?.angle || 0,
   })
 }
 

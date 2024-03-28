@@ -423,8 +423,11 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: 
         break
       }
       case 'transform': {
-        // todo: 需要更新
-        // hmStyle.transform = parseTransform(value)
+        hmStyle.transform = parseTransform(value)
+        break
+      }
+      case 'transformOrigin': {
+        hmStyle.transformOrigin = parseTransformOrigin(value)
         break
       }
       case 'position': {
@@ -602,12 +605,12 @@ function setFontWeight (hmStyle, value) {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function parseTransform(transformString) {
   const transformRegex = /(\w+)\(([^)]+)\)/g
-  const transforms = []
+  const transform = {}
 
   let matchs
   while ((matchs = transformRegex.exec(transformString)) !== null) {
     const [, type, valueString] = matchs
-    const values = valueString.split(/\s*,\s*/).map(parseFloat)
+    const values = valueString.split(/\s*,\s*/)
 
     const transformObj = {
       type: capitalizeFirstLetter(type),
@@ -617,62 +620,101 @@ function parseTransform(transformString) {
     switch (type) {
       case 'translate':
       case 'translate3d':
-        transformObj.value.x = parseFloat(getUnit(values[0])) || 0
-        transformObj.value.y = parseFloat(getUnit(values[1])) || 0
-        transformObj.value.z = parseFloat(getUnit(values[2])) || 0
+        transformObj.value.x = (getUnit(values[0])) || 0
+        transformObj.value.y = (getUnit(values[1])) || 0
+        transformObj.value.z = (getUnit(values[2])) || 0
         break
       case 'translateX':
-        transformObj.value.x = parseFloat(getUnit(values[0])) || 0
+        transformObj.value.x = (getUnit(values[0])) || 0
         break
       case 'translateY':
-        transformObj.value.y = parseFloat(getUnit(values[0])) || 0
+        transformObj.value.y = (getUnit(values[0])) || 0
         break
       case 'translateZ':
-        transformObj.value.z = parseFloat(getUnit(values[0])) || 0
+        transformObj.value.z = (getUnit(values[0])) || 0
         break
       case 'rotate':
-        transformObj.value.angle = parseFloat(getUnit(values[0])) || 0
+      case 'rotateZ':
+        transformObj.value.angle = (getUnit(values[0])) || 0
         transformObj.value.x = 0
         transformObj.value.y = 0
         transformObj.value.z = 1
         break
       case 'rotate3d':
-        transformObj.value.angle = parseFloat(getUnit(values[0])) || 0
+        transformObj.value.angle = getUnit(values[0]) || 0
         transformObj.value.x = values[1] || 0
         transformObj.value.y = values[2] || 0
         transformObj.value.z = values[3] || 0
         break
       case 'rotateX':
-        transformObj.value.angle = parseFloat(getUnit(values[0])) || 0
+        transformObj.value.angle = getUnit(values[0]) || 0
         transformObj.value.x = 1
         transformObj.value.y = 0
         transformObj.value.z = 0
         break
       case 'rotateY':
-        transformObj.value.angle = parseFloat(getUnit(values[0])) || 0
+        transformObj.value.angle = getUnit(values[0]) || 0
         transformObj.value.x = 0
         transformObj.value.y = 1
         transformObj.value.z = 0
         break
       case 'scale':
       case 'scale3d':
-        transformObj.value.x = values[0] || 1
-        transformObj.value.y = values[1] || values[0] || 1
-        transformObj.value.z = values[2] || 1
+        transformObj.value.x = parseFloat(values[0]) || 1
+        transformObj.value.y = parseFloat(values[1] || values[0]) || 1
+        transformObj.value.z = parseFloat(values[2]) || 1
         break
       case 'scaleX':
-        transformObj.value.x = values[0] || 1
+        transformObj.value.x = parseFloat(values[0]) || 1
         break
       case 'scaleY':
-        transformObj.value.y = values[0] || 1
+        transformObj.value.y = parseFloat(values[0]) || 1
         break
       default:
         // Handle unrecognized transform types or ignore them
         break
     }
 
-    transforms.push(transformObj)
+    transform[transformObj.type] = transformObj.value
   }
 
-  return transforms
+  return transform
+}
+
+// 方向转百分比
+function directionToPercent(direction: string) {
+  switch (direction) {
+    case 'top':
+    case 'left':
+      return '0%'
+    case 'center':
+      return '50%'
+    case 'bottom':
+    case 'right':
+      return '100%'
+    default:
+      return direction
+  }
+}
+
+// 解析transform-orgin
+function parseTransformOrigin (value: string) {
+  if (typeof value === 'string') {
+    const values = value.split(' ')
+    if (values.length === 1) {
+      return {
+        x: getUnit(directionToPercent(values[0])),
+        y: getUnit(directionToPercent(values[0]))
+      }
+    } else if (values.length === 2) {
+      return {
+        x: getUnit(directionToPercent(values[0])),
+        y: getUnit(directionToPercent(values[1]))
+      }
+    }
+  }
+  return {
+    x: 0,
+    y: 0
+  }
 }
