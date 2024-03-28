@@ -3,7 +3,21 @@ import { ComponentType } from 'react'
 import { StandardProps } from './common'
 
 interface SnapshotProps extends StandardProps {
-  id: string
+  /**
+   * 渲染模式
+   * @supported weapp
+   * @default 'view'
+   */
+  mode: keyof SnapshotProps.Mode
+}
+
+declare namespace SnapshotProps {
+  interface Mode {
+    /** 以真实节点渲染 */
+    view
+    /** 对子节点生成的内容截图渲染 */
+    picture
+  }
 }
 
 /** 截图组件。

@@ -45,6 +45,7 @@ export { GridView } from './GridView'
 export { ListView } from './ListView'
 export { ShareElement } from './ShareElement'
 export { Snapshot } from './SnapShot'
+export { Span } from './Span'
 export { StickyHeader } from './StickyHeader'
 export { StickySection } from './StickySection'
 

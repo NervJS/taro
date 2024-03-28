@@ -66,6 +66,7 @@ import { ShareElementProps } from './ShareElement'
 import { SliderProps } from './Slider'
 import { SlotProps } from './Slot'
 import { SnapshotProps } from './SnapShot'
+import { SpanProps } from './Span'
 import { StickyHeaderProps } from './StickyHeader'
 import { StickySectionProps } from './StickySection'
 import { SwiperProps } from './Swiper'
@@ -144,6 +145,7 @@ export declare const Textarea: VueComponentType<TextareaProps>
 export declare const GridView: VueComponentType<GridViewProps>
 export declare const ListView: VueComponentType<ListViewProps>
 export declare const Snapshot: VueComponentType<SnapshotProps>
+export declare const Span: VueComponentType<SpanProps>
 export declare const ShareElement: VueComponentType<ShareElementProps>
 export declare const StickyHeader: VueComponentType<StickyHeaderProps>
 export declare const StickySection: VueComponentType<StickySectionProps>
@@ -266,6 +268,8 @@ declare global {
       'taro-share-element-core': ElementAttrs<TransformReact2VueType<ShareElementProps>>
       'snapshot': ElementAttrs<TransformReact2VueType<SnapshotProps>>
       'taro-snapshot-core': ElementAttrs<TransformReact2VueType<SnapshotProps>>
+      'span': ElementAttrs<TransformReact2VueType<SpanProps>>
+      'taro-span-core': ElementAttrs<TransformReact2VueType<SpanProps>>
       'sticky-header': ElementAttrs<TransformReact2VueType<StickyHeaderProps>>
       'taro-sticky-header-core': ElementAttrs<TransformReact2VueType<StickyHeaderProps>>
       'sticky-section': ElementAttrs<TransformReact2VueType<StickySectionProps>>
