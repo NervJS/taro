@@ -30,6 +30,7 @@ export interface IPrebundleParam {
   isBuildPlugin?: boolean
   alias?: Record<string, any>
   defineConstants?: Record<string, any>
+  modifyAppConfig?: (appConfig: any) => Promise<any>
 }
 
 export default class TaroPrebundle {
@@ -67,6 +68,7 @@ export default class TaroPrebundle {
       isBuildPlugin,
       alias,
       defineConstants,
+      modifyAppConfig,
     } = this.params
     let chunkFilename = chain.output.get('chunkFilename') ?? `${chunkDirectory}/[name].js`
     chunkFilename = chunkFilename.replace(/\[([a-z]*hash)[^[\]\s]*\]/ig, '_$1_')
@@ -89,6 +91,7 @@ export default class TaroPrebundle {
       isBuildPlugin,
       alias,
       defineConstants,
+      modifyAppConfig,
     }
   }
 
