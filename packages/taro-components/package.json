@@ -49,14 +49,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@stencil/core": "^2.22.2",
+    "@stencil/core": "2.22.2-dev.1678795942.e009e9",
     "@tarojs/components-advanced": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
     "hls.js": "^1.1.5",
     "resolve-pathname": "^3.0.0",
-    "tslib": "^2.6.2",
-    "swiper": "6.8.0"
+    "swiper": "11.0.7",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@babel/generator": "^7.20.0",

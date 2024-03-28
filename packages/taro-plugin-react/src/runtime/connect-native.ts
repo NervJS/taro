@@ -151,6 +151,7 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     app?.parentNode?.appendChild(nativeApp)
     app = nativeApp
   }
+  // eslint-disable-next-line 
   ReactDOM.render(
     h(Entry, {}),
     app

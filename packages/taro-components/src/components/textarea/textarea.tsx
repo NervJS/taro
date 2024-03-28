@@ -226,6 +226,7 @@ export class Textarea implements ComponentInterface {
         disabled={disabled}
         maxlength={maxlength}
         autofocus={autoFocus}
+        // @ts-ignore
         onInput={handleInput}
         onFocus={handleFocus}
         onBlur={handleBlur}

@@ -58,6 +58,7 @@ const outputTargets: OutputTarget[] = [
   {
     type: 'dist-custom-elements',
     minify: isProd,
+    customElementsExportBehavior:'single-export-module',
     // inlineDynamicImports: true,
     autoDefineCustomElements: false,
     generateTypeDeclarations: false,

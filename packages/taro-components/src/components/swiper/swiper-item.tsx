@@ -1,4 +1,5 @@
-import { Component, ComponentInterface, Element, Host, h, Prop } from '@stencil/core'
+import { Component, ComponentInterface, Element, h, Host, Prop } from '@stencil/core'
+import Taro from '@tarojs/taro'
 
 const nativeCloneNode = Node.prototype.cloneNode
 
@@ -6,6 +7,7 @@ const nativeCloneNode = Node.prototype.cloneNode
   tag: 'taro-swiper-item-core'
 })
 export class SwiperItem implements ComponentInterface {
+  #swiperId: string | undefined = undefined
   @Element() el: HTMLElement
 
   @Prop() itemId: string
@@ -62,9 +64,16 @@ export class SwiperItem implements ComponentInterface {
     }
   }
 
+  componentWillLoad () {
+    this.#swiperId = this.el.parentElement?.parentElement?.parentElement?.id
+    Taro.eventCenter.trigger('swiperItemAdd', this.#swiperId)
+  }
+
+  disconnectedCallback () {
+    Taro.eventCenter.trigger('swiperItemRemove', this.#swiperId)
+  }
+
   render () {
-    return (
-      <Host class='swiper-slide' item-id={this.itemId} />
-    )
+    return <Host class="swiper-slide" item-id={this.itemId} />
   }
 }
