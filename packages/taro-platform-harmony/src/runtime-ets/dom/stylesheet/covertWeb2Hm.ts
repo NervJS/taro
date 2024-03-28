@@ -5,6 +5,15 @@ import { CSSProperties } from 'react'
 import { TaroElement } from '../element/element'
 import { BORDER_STYLE_MAP, capitalizeFirstLetter, FlexManager, getNodeMarginOrPaddingData, getUnit } from './util'
 
+// 背景解析正则
+const BACKGROUND_REGEX = {
+  IMAGE: /url\((['"])?(.*?)\1\)|(linear|radial)-gradient\([^)]*\)/,
+  COLOR: /(#[0-9a-fA-F]{3,6}|rgb\(\d+,\s*\d+,\s*\d+\)|rgba?\(\d+,\s*\d+,\s*\d+,\s*(?:0?\.\d+|\d+%)\)|transparent)/,
+  REPEAT: /(repeat-x|repeat-y|repeat|space|round|no-repeat)/,
+  POSITION: /(top|left|center|right|bottom|\d+(\.\d+)?(px|%|vw|vh)?)+/g,
+  SIZE: /(cover|contain|\d+(\.\d+)?(px|%|vw|vh)?)+/g
+}
+
 // Note: 将 web 端的 style 转换为 hm 端的 style
 export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: TaroElement) {
   const hmStyle: Record<string, any> = node?._st?.hmStyle || {}
@@ -155,7 +164,12 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: 
         break
       }
       case 'background': {
-        // TODO： 暂未实现
+        const bg = setBackground(value)
+        if (bg['background-color']) { hmStyle.backgroundColor = bg['background-color'] }
+        bg['background-image'] && setBackgroundImage(hmStyle, bg['background-image'])
+        bg['background-repeat'] && setBackgroundRepeat(hmStyle, bg['background-repeat'])
+        bg['background-position'] && setBackgroundPosistion(hmStyle, bg['background-position'])
+        bg['background-size'] && setBackgroundSize(hmStyle, bg['background-size'])
         break
       }
       case 'backgroundColor': {
@@ -456,6 +470,61 @@ function setBackgroundImage(hmStyle, value) {
   // todo 渐变需要处理
 }
 
+// 解析background属性
+function setBackground (backgroundValue: string) {
+  const result = {
+    'background-color': '',
+    'background-image': '',
+    'background-repeat': '',
+    'background-position': '',
+    'background-size': ''
+  }
+
+  if (!backgroundValue) return result
+
+  // 匹配background-image
+  const imageMatch = backgroundValue.match(BACKGROUND_REGEX.IMAGE)
+  if (imageMatch) {
+    result['background-image'] = imageMatch[0]
+    backgroundValue = backgroundValue.replace(imageMatch[0], '').trim()
+  }
+
+  // 匹配background-color
+  const colorMatch = backgroundValue.match(BACKGROUND_REGEX.COLOR)
+  if (colorMatch) {
+    result['background-color'] = colorMatch[0]
+    backgroundValue = backgroundValue.replace(colorMatch[0], '').trim()
+  }
+
+  // 匹配background-repeat
+  const repeatMatch = backgroundValue.match(BACKGROUND_REGEX.REPEAT)
+  if (repeatMatch) {
+    result['background-repeat'] = repeatMatch[0]
+    backgroundValue = backgroundValue.replace(repeatMatch[0], '').trim()
+  }
+
+  // 匹配background-position,background-size
+  // 先分割 / 分割出background-position\background-size
+  const positionSize = backgroundValue.split('/')
+  const [position, size] = positionSize
+  // 匹配background-position
+  if (position) {
+    const positionMatch = position.match(BACKGROUND_REGEX.POSITION)
+    if (positionMatch) {
+      result['background-position'] = positionMatch.join(' ')
+    }
+  }
+  if (size) {
+    // 匹配background-size
+    const sizeMatch = size.match(BACKGROUND_REGEX.SIZE)
+    if (sizeMatch) {
+      result['background-size'] = sizeMatch.join(' ')
+    }
+  }
+
+  return result
+}
+
 function setBackgroundRepeat(hmStyle, value) {
   if (typeof value === 'string') {
     switch (value) {
@@ -469,6 +538,13 @@ function setBackgroundRepeat(hmStyle, value) {
 
 function setBackgroundSize(hmStyle, value) {
   if (typeof value === 'string') {
+    if (value === 'cover') {
+      hmStyle.backgroundSize = ImageSize.Cover
+      return
+    } else if (value === 'contain') {
+      hmStyle.backgroundSize = ImageSize.Contain
+      return
+    }
     const sizes = value.split(' ')
     if (sizes.length === 1) {
       hmStyle.backgroundSize = { width: getUnit(sizes[0]) }
@@ -482,7 +558,7 @@ function setBackgroundPosistion (hmStyle, value) {
   if (typeof value === 'string') {
     const positions = value.split(' ')
     const horizontal = positions[0].toLowerCase()
-    const vertical = positions[1].toLowerCase() || 'top'
+    const vertical = positions[1]?.toLowerCase() || 'top'
 
     if (horizontal === 'left' && vertical === 'top') {
       hmStyle.backgroundPosition = Alignment.TopStart

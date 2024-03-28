@@ -220,14 +220,14 @@ export function getUnit (val) {
   // 空的字符串代表 Reconciler remove 了这个 prop，不进行后面的逻辑了
   if (val === '') return val
 
-  if (/\d+(vp)$/.test(val)) {
+  if (/\d+(vp|px)$/.test(val)) {
     return val
   } else if (isNumber(val)) {
-    return convertNumber2VP(parseFloat(val))
+    return parseFloat(val) + 'px'
   }
   if (val) {
     // 匹配vw\vh
-    const exec = val.match(/(-?\d*(\.\d+)?)(vw|vh|px)$/)
+    const exec = val.match(/(-?\d*(\.\d+)?)(vw|vh)$/)
     if (exec) {
       const [, num, , unit] = exec
       return convertNumber2VP(parseFloat(num), unit)
