@@ -106,14 +106,6 @@ export function getNormalAttributes (node: TaroElement, initStyle?: HarmonyStyle
     normalAttributes = ObjectAssign({}, normalAttributes, pseudoStylesheet)
   }
 
-  // taro_page 等写死在运行时里的节点，没有 _nodeInfo
-  if (node._nodeInfo) {
-    const overwriteStyle: TaroStyleType = node._nodeInfo?.overwriteStyle
-    // 处理覆盖属性：如动画的覆盖
-    if (overwriteStyle) {
-      normalAttributes = ObjectAssign({}, normalAttributes, overwriteStyle)
-    }
-  }
   // 初始化默认的值
   if (initStyle) {
     normalAttributes = ObjectAssign({}, initStyle, normalAttributes)

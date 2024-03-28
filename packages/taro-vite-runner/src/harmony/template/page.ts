@@ -240,7 +240,7 @@ export default class Parser extends BaseParser {
   this.bindEvent()` : 'this.handlePageAppear()'}`
 
     if (isFunction(modifyPageAppear)) {
-      appearStr = modifyPageAppear(appearStr, entryOption)
+      appearStr = modifyPageAppear(appearStr)
     }
 
     // 生成 build 函数内容
