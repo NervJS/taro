@@ -2,25 +2,19 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
-    "removeComments": false,
-    "preserveConstEnums": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "noEmit": true,
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
+    "declaration": false, // fix IDE compile error(tsc --noEmit false --declaration true). ref: https://github.com/microsoft/TypeScript/issues/47663#issuecomment-1519138189
     "outDir": "lib",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "strictNullChecks": true,
-    "sourceMap": true,
     "rootDir": ".",
-    "jsx": "{{#if (includes "Vue" "Vue3" s=framework)}}preserve{{else}}react-jsx{{/if}}",{{#if (eq framework "Preact") }}
-    "skipLibCheck": true,{{/if}}
+    "jsx": "{{#if (includes "Vue" "Vue3" s=framework)}}preserve{{else}}react-jsx{{/if}}",
+    "skipLibCheck": true,
     "allowJs": true,
     "resolveJsonModule": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "paths": {
       // TS5090 leading './'
       "@/*": ["./src/*"]
