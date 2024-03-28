@@ -2125,7 +2125,10 @@
     },
     "rtc-room": false,
     "rtc-room-item": false,
-    "script.ts": false,
+    "script": {
+      "src": false,
+      "module": false
+    },
     "scroll-view": {
       "scroll-x": true,
       "scroll-y": true,
