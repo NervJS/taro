@@ -5,6 +5,7 @@ import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
+import increment from '../common/rollup-increment-plugin'
 import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
 import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule, stripMultiPlatformExt, stripVirtualModulePrefix } from '../utils'
 import { DEFAULT_TERSER_OPTIONS, HARMONY_SCOPES } from '../utils/constants'
@@ -185,6 +186,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         // TODO doc needed: sourcemapType not supported
         sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
         rollupOptions: {
+          treeshake: !!taroConfig.isWatch,
           external: HARMONY_SCOPES,
           makeAbsoluteExternalsRelative: 'ifRelativeSource',
           output: {
@@ -231,6 +233,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
                 },
               }
             )) as InputPluginOption,
+            increment(),
           ],
         },
         commonjsOptions: {
