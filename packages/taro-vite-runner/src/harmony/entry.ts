@@ -32,6 +32,8 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
         const { taroConfig, cwd: appPath, app } = viteCompilerContext
         const appConfig = app.config
+        // Note: 监听 app 配置文件
+        this.addWatchFile(viteCompilerContext.getConfigFilePath(viteCompilerContext.getAppScriptPath()))
         // Note: rawfile innerHTML 模版，供 innerHtml 的 webview 加载
         const { outputRoot = 'dist' } = taroConfig
         const rawFileDir = path.join(path.resolve(outputRoot, '..'), 'resources/rawfile')
