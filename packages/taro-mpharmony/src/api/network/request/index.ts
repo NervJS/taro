@@ -311,7 +311,7 @@ class RequestTask {
       this.headersCallback.delete(callback)
     } else {
       // eslint-disable-next-line no-console
-      console.log('offHeadersReceived callback invalid')
+      console.debug('offHeadersReceived callback invalid')
     }
   }
 }
