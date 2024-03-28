@@ -5,6 +5,15 @@ import { CSSProperties } from 'react'
 import { TaroElement } from '../element/element'
 import { BORDER_STYLE_MAP, capitalizeFirstLetter, FlexManager, getNodeMarginOrPaddingData, getUnit } from './util'
 
+// 背景解析正则
+const BACKGROUND_REGEX = {
+  IMAGE: /url\((['"])?(.*?)\1\)|(linear|radial)-gradient\([^)]*\)/,
+  COLOR: /(#[0-9a-fA-F]{3,6}|rgb\(\d+,\s*\d+,\s*\d+\)|rgba?\(\d+,\s*\d+,\s*\d+,\s*(?:0?\.\d+|\d+%)\)|transparent)/,
+  REPEAT: /(repeat-x|repeat-y|repeat|space|round|no-repeat)/,
+  POSITION: /(top|left|center|right|bottom|\d+(\.\d+)?(px|%|vw|vh)?)+/g,
+  SIZE: /(cover|contain|\d+(\.\d+)?(px|%|vw|vh)?)+/g
+}
+
 // Note: 将 web 端的 style 转换为 hm 端的 style
 export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: TaroElement) {
   const hmStyle: Record<string, any> = node?._st?.hmStyle || {}
@@ -155,7 +164,12 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: 
         break
       }
       case 'background': {
-        // TODO： 暂未实现
+        const bg = setBackground(value)
+        if (bg['background-color']) { hmStyle.backgroundColor = bg['background-color'] }
+        bg['background-image'] && setBackgroundImage(hmStyle, bg['background-image'])
+        bg['background-repeat'] && setBackgroundRepeat(hmStyle, bg['background-repeat'])
+        bg['background-position'] && setBackgroundPosistion(hmStyle, bg['background-position'])
+        bg['background-size'] && setBackgroundSize(hmStyle, bg['background-size'])
         break
       }
       case 'backgroundColor': {
@@ -409,8 +423,11 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: 
         break
       }
       case 'transform': {
-        // todo: 需要更新
-        // hmStyle.transform = parseTransform(value)
+        hmStyle.transform = parseTransform(value)
+        break
+      }
+      case 'transformOrigin': {
+        hmStyle.transformOrigin = parseTransformOrigin(value)
         break
       }
       case 'position': {
@@ -456,6 +473,61 @@ function setBackgroundImage(hmStyle, value) {
   // todo 渐变需要处理
 }
 
+// 解析background属性
+function setBackground (backgroundValue: string) {
+  const result = {
+    'background-color': '',
+    'background-image': '',
+    'background-repeat': '',
+    'background-position': '',
+    'background-size': ''
+  }
+
+  if (!backgroundValue) return result
+
+  // 匹配background-image
+  const imageMatch = backgroundValue.match(BACKGROUND_REGEX.IMAGE)
+  if (imageMatch) {
+    result['background-image'] = imageMatch[0]
+    backgroundValue = backgroundValue.replace(imageMatch[0], '').trim()
+  }
+
+  // 匹配background-color
+  const colorMatch = backgroundValue.match(BACKGROUND_REGEX.COLOR)
+  if (colorMatch) {
+    result['background-color'] = colorMatch[0]
+    backgroundValue = backgroundValue.replace(colorMatch[0], '').trim()
+  }
+
+  // 匹配background-repeat
+  const repeatMatch = backgroundValue.match(BACKGROUND_REGEX.REPEAT)
+  if (repeatMatch) {
+    result['background-repeat'] = repeatMatch[0]
+    backgroundValue = backgroundValue.replace(repeatMatch[0], '').trim()
+  }
+
+  // 匹配background-position,background-size
+  // 先分割 / 分割出background-position\background-size
+  const positionSize = backgroundValue.split('/')
+  const [position, size] = positionSize
+  // 匹配background-position
+  if (position) {
+    const positionMatch = position.match(BACKGROUND_REGEX.POSITION)
+    if (positionMatch) {
+      result['background-position'] = positionMatch.join(' ')
+    }
+  }
+  if (size) {
+    // 匹配background-size
+    const sizeMatch = size.match(BACKGROUND_REGEX.SIZE)
+    if (sizeMatch) {
+      result['background-size'] = sizeMatch.join(' ')
+    }
+  }
+
+  return result
+}
+
 function setBackgroundRepeat(hmStyle, value) {
   if (typeof value === 'string') {
     switch (value) {
@@ -469,6 +541,13 @@ function setBackgroundRepeat(hmStyle, value) {
 
 function setBackgroundSize(hmStyle, value) {
   if (typeof value === 'string') {
+    if (value === 'cover') {
+      hmStyle.backgroundSize = ImageSize.Cover
+      return
+    } else if (value === 'contain') {
+      hmStyle.backgroundSize = ImageSize.Contain
+      return
+    }
     const sizes = value.split(' ')
     if (sizes.length === 1) {
       hmStyle.backgroundSize = { width: getUnit(sizes[0]) }
@@ -482,7 +561,7 @@ function setBackgroundPosistion (hmStyle, value) {
   if (typeof value === 'string') {
     const positions = value.split(' ')
     const horizontal = positions[0].toLowerCase()
-    const vertical = positions[1].toLowerCase() || 'top'
+    const vertical = positions[1]?.toLowerCase() || 'top'
 
     if (horizontal === 'left' && vertical === 'top') {
       hmStyle.backgroundPosition = Alignment.TopStart
@@ -526,12 +605,12 @@ function setFontWeight (hmStyle, value) {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function parseTransform(transformString) {
   const transformRegex = /(\w+)\(([^)]+)\)/g
-  const transforms = []
+  const transform = {}
 
   let matchs
   while ((matchs = transformRegex.exec(transformString)) !== null) {
     const [, type, valueString] = matchs
-    const values = valueString.split(/\s*,\s*/).map(parseFloat)
+    const values = valueString.split(/\s*,\s*/)
 
     const transformObj = {
       type: capitalizeFirstLetter(type),
@@ -541,62 +620,101 @@ function parseTransform(transformString) {
     switch (type) {
       case 'translate':
       case 'translate3d':
-        transformObj.value.x = parseFloat(getUnit(values[0])) || 0
-        transformObj.value.y = parseFloat(getUnit(values[1])) || 0
-        transformObj.value.z = parseFloat(getUnit(values[2])) || 0
+        transformObj.value.x = (getUnit(values[0])) || 0
+        transformObj.value.y = (getUnit(values[1])) || 0
+        transformObj.value.z = (getUnit(values[2])) || 0
         break
       case 'translateX':
-        transformObj.value.x = parseFloat(getUnit(values[0])) || 0
+        transformObj.value.x = (getUnit(values[0])) || 0
         break
       case 'translateY':
-        transformObj.value.y = parseFloat(getUnit(values[0])) || 0
+        transformObj.value.y = (getUnit(values[0])) || 0
         break
       case 'translateZ':
-        transformObj.value.z = parseFloat(getUnit(values[0])) || 0
+        transformObj.value.z = (getUnit(values[0])) || 0
         break
       case 'rotate':
-        transformObj.value.angle = parseFloat(getUnit(values[0])) || 0
+      case 'rotateZ':
+        transformObj.value.angle = (getUnit(values[0])) || 0
         transformObj.value.x = 0
         transformObj.value.y = 0
         transformObj.value.z = 1
         break
       case 'rotate3d':
-        transformObj.value.angle = parseFloat(getUnit(values[0])) || 0
+        transformObj.value.angle = getUnit(values[0]) || 0
         transformObj.value.x = values[1] || 0
         transformObj.value.y = values[2] || 0
         transformObj.value.z = values[3] || 0
         break
       case 'rotateX':
-        transformObj.value.angle = parseFloat(getUnit(values[0])) || 0
+        transformObj.value.angle = getUnit(values[0]) || 0
         transformObj.value.x = 1
         transformObj.value.y = 0
         transformObj.value.z = 0
         break
       case 'rotateY':
-        transformObj.value.angle = parseFloat(getUnit(values[0])) || 0
+        transformObj.value.angle = getUnit(values[0]) || 0
         transformObj.value.x = 0
         transformObj.value.y = 1
         transformObj.value.z = 0
         break
       case 'scale':
       case 'scale3d':
-        transformObj.value.x = values[0] || 1
-        transformObj.value.y = values[1] || values[0] || 1
-        transformObj.value.z = values[2] || 1
+        transformObj.value.x = parseFloat(values[0]) || 1
+        transformObj.value.y = parseFloat(values[1] || values[0]) || 1
+        transformObj.value.z = parseFloat(values[2]) || 1
         break
       case 'scaleX':
-        transformObj.value.x = values[0] || 1
+        transformObj.value.x = parseFloat(values[0]) || 1
         break
       case 'scaleY':
-        transformObj.value.y = values[0] || 1
+        transformObj.value.y = parseFloat(values[0]) || 1
         break
       default:
         // Handle unrecognized transform types or ignore them
         break
     }
 
-    transforms.push(transformObj)
+    transform[transformObj.type] = transformObj.value
   }
 
-  return transforms
+  return transform
+}
+
+// 方向转百分比
+function directionToPercent(direction: string) {
+  switch (direction) {
+    case 'top':
+    case 'left':
+      return '0%'
+    case 'center':
+      return '50%'
+    case 'bottom':
+    case 'right':
+      return '100%'
+    default:
+      return direction
+  }
+}
+
+// 解析transform-orgin
+function parseTransformOrigin (value: string) {
+  if (typeof value === 'string') {
+    const values = value.split(' ')
+    if (values.length === 1) {
+      return {
+        x: getUnit(directionToPercent(values[0])),
+        y: getUnit(directionToPercent(values[0]))
+      }
+    } else if (values.length === 2) {
+      return {
+        x: getUnit(directionToPercent(values[0])),
+        y: getUnit(directionToPercent(values[1]))
+      }
+    }
+  }
+  return {
+    x: 0,
+    y: 0
+  }
 }

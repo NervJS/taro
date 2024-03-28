@@ -36,7 +36,7 @@ class CommonStyleModify implements AttributeModifier<CommonAttribute> {
       setNormalAttributeIntoInstance(instance, this.style, this.node)
     }
 
-    setAnimationAttributeIntoInstance(instance, this.overwriteStyle)
+    setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
   }
 }
 
@@ -69,7 +69,7 @@ class RowStyleModify extends CommonStyleModify {
       })
     }
 
-    setAnimationAttributeIntoInstance(instance, this.overwriteStyle)
+    setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
   }
 }
 
@@ -85,29 +85,31 @@ class ColumnStyleModify extends CommonStyleModify {
       })
     }
 
-    setAnimationAttributeIntoInstance(instance, this.overwriteStyle)
+    setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
   }
 }
 
-function setAnimationAttributeIntoInstance(instance: CommonAttribute, overwriteStyle: Record<string, TaroAny>) {
+function setAnimationAttributeIntoInstance(instance: CommonAttribute, overwriteStyle: Record<string, TaroAny>, style: TaroStyleType) {
   // Animation 需要提前和 @State 变量绑定才能产生动画效果，因此不能做 if else 判断
   instance.translate({
-    x: overwriteStyle.translate?.x,
-    y: overwriteStyle.translate?.y,
-    z: overwriteStyle.translate?.z,
-  }).scale({
-    x: overwriteStyle.scale?.x,
-    y: overwriteStyle.scale?.y,
-    z: overwriteStyle.scale?.z,
-    centerX: overwriteStyle.transformOrigin?.x,
-    centerY: overwriteStyle.transformOrigin?.y,
-  }).rotate({
-    x: overwriteStyle.rotate?.x,
-    y: overwriteStyle.rotate?.y,
-    z: overwriteStyle.rotate?.z,
-    centerX: overwriteStyle.transformOrigin?.x,
-    centerY: overwriteStyle.transformOrigin?.y,
-    angle: overwriteStyle.rotate?.angle,
+    x: overwriteStyle.translate?.x || style.transform?.Translate?.x,
+    y: overwriteStyle.translate?.y || style.transform?.Translate?.y,
+    z: overwriteStyle.translate?.z || style.transform?.Translate?.z,
+  })
+  instance.scale({
+    x: overwriteStyle.scale?.x || style.transform?.Scale?.x,
+    y: overwriteStyle.scale?.y || style.transform?.Scale?.y,
+    z: overwriteStyle.scale?.z || style.transform?.Scale?.z,
+    centerX: overwriteStyle.transformOrigin?.x || style.transformOrigin?.x || 0,
+    centerY: overwriteStyle.transformOrigin?.y || style.transformOrigin?.y || 0,
+  })
+  instance.rotate({
+    x: overwriteStyle.rotate?.x || style.transform?.Rotate?.x,
+    y: overwriteStyle.rotate?.y || style.transform?.Rotate?.y,
+    z: overwriteStyle.rotate?.z || style.transform?.Rotate?.z,
+    centerX: overwriteStyle.transformOrigin?.x || style.transformOrigin?.x || 0,
+    centerY: overwriteStyle.transformOrigin?.y || style.transformOrigin?.y || 0,
+    angle: overwriteStyle.rotate?.angle || style.transform?.Rotate?.angle || 0,
   })
 }
 
@@ -231,34 +233,35 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
   //   instance.rotate({ centerX: style.transformOrigin.x, centerY: style.transformOrigin.y, angle: 0 })
   //   instance.scale({ centerX: style.transformOrigin.x, centerY: style.transformOrigin.y })
   // }
-  if (!isUndefined(style.transform)) {
-    if (style.transform.Translate) {
-      instance.translate({
-        x: style.transform.Translate.x || 0,
-        y: style.transform.Translate.y || 0,
-        z: style.transform.Translate.z || 0,
-      })
-    }
-    if (style.transform.Scale) {
-      instance.scale({
-        x: style.transform.Scale.x || 0,
-        y: style.transform.Scale.y || 0,
-        z: style.transform.Scale.z || 0,
-        centerX: style.transformOrigin?.x || 0,
-        centerY: style.transformOrigin?.y || 0,
-      })
-    }
-    if (style.transform.Rotate) {
-      instance.rotate({
-        x: style.transform.Rotate.x || 0,
-        y: style.transform.Rotate.y || 0,
-        z: style.transform.Rotate.z || 0,
-        centerX: style.transformOrigin?.x || 0,
-        centerY: style.transformOrigin?.y || 0,
-        angle: 0
-      })
-    }
-  }
+  // // Note: 移植到setAnimationAttributeIntoInstance设置
+  // if (!isUndefined(style.transform)) {
+  //   if (style.transform.Translate) {
+  //     instance.translate({
+  //       x: style.transform.Translate.x || 0,
+  //       y: style.transform.Translate.y || 0,
+  //       z: style.transform.Translate.z || 0,
+  //     })
+  //   }
+  //   if (style.transform.Scale) {
+  //     instance.scale({
+  //       x: style.transform.Scale.x || 0,
+  //       y: style.transform.Scale.y || 0,
+  //       z: style.transform.Scale.z || 0,
+  //       centerX: style.transformOrigin?.x || 0,
+  //       centerY: style.transformOrigin?.y || 0,
+  //     })
+  //   }
+  //   if (style.transform.Rotate) {
+  //     instance.rotate({
+  //       x: style.transform.Rotate.x || 0,
+  //       y: style.transform.Rotate.y || 0,
+  //       z: style.transform.Rotate.z || 0,
+  //       centerX: style.transformOrigin?.x || 0,
+  //       centerY: style.transformOrigin?.y || 0,
+  //       angle: 0
+  //     })
+  //   }
+  // }
   if (style.position === 'absolute' || style.position === 'fixed') {
     instance.position({
       x: style.left || 0,

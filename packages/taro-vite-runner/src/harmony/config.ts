@@ -5,16 +5,18 @@ import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
+import increment from '../common/rollup-increment-plugin'
 import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
 import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule, stripMultiPlatformExt, stripVirtualModulePrefix } from '../utils'
 import { DEFAULT_TERSER_OPTIONS, HARMONY_SCOPES } from '../utils/constants'
 import { logger } from '../utils/logger'
 import { TARO_COMP_SUFFIX } from './entry'
 import { QUERY_IS_NATIVE_SCRIPT } from './ets'
+import { PAGE_SUFFIX } from './page'
 
 import type { RollupInjectOptions } from '@rollup/plugin-inject'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
-import type { InputPluginOption } from 'rollup'
+import type { InputPluginOption, OutputOptions } from 'rollup'
 import type { PluginOption } from 'vite'
 
 export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
@@ -170,102 +172,128 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
   return {
     name: 'taro:vite-harmony-config',
-    config: async () => ({
-      mode: getMode(taroConfig),
-      build: {
-        outDir: taroConfig.outputRoot || 'dist',
-        target: 'esnext',
-        cssCodeSplit: true,
-        emptyOutDir: false,
-        lib: {
-          entry: getEntryOption(),
-          formats: ['es'],
+    config: async () => {
+      const output: OutputOptions = {
+        entryFileNames(chunkInfo) {
+          let name
+          if (taroConfig.isBuildNativeComp || taroConfig.blended) {
+            const pagePath = path.relative(taroConfig.sourceRoot || 'src', path.dirname(stripVirtualModulePrefix(chunkInfo.facadeModuleId || '')))
+            const pageName = path.join(pagePath, chunkInfo.name)
+            name = stripMultiPlatformExt(pageName + TARO_COMP_SUFFIX) + taroConfig.fileType.script
+          } else {
+            name = stripMultiPlatformExt(chunkInfo.name + TARO_COMP_SUFFIX) + taroConfig.fileType.script
+          }
+
+          if (chunkInfo.facadeModuleId && chunkInfo.facadeModuleId.includes(QUERY_IS_NATIVE_SCRIPT)) {
+            name += QUERY_IS_NATIVE_SCRIPT
+          }
+
+          return name
         },
-        watch: taroConfig.isWatch ? {} : null,
-        // TODO doc needed: sourcemapType not supported
-        sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
-        rollupOptions: {
-          external: HARMONY_SCOPES,
-          makeAbsoluteExternalsRelative: 'ifRelativeSource',
-          output: {
-            entryFileNames(chunkInfo) {
-              let name
-              if (taroConfig.isBuildNativeComp || taroConfig.blended) {
-                const pagePath = path.relative(taroConfig.sourceRoot || 'src', path.dirname(stripVirtualModulePrefix(chunkInfo.facadeModuleId || '')))
-                const pageName = path.join(pagePath, chunkInfo.name)
-                name = stripMultiPlatformExt(pageName + TARO_COMP_SUFFIX) + taroConfig.fileType.script
-              } else {
-                name = stripMultiPlatformExt(chunkInfo.name + TARO_COMP_SUFFIX) + taroConfig.fileType.script
-              }
+        chunkFileNames(chunkInfo) {
+          if (chunkInfo.moduleIds?.some(id => id.includes(taroConfig.fileType.script))) {
+            return `[name]${taroConfig.fileType.script}`
+          }
+          return '[name].js'
+        },
+        manualChunks(id, { getModuleInfo }) {
+          const moduleInfo = getModuleInfo(id)
+          if (taroConfig.isBuildNativeComp || taroConfig.blended) return
 
-              if (chunkInfo.facadeModuleId && chunkInfo.facadeModuleId.includes(QUERY_IS_NATIVE_SCRIPT)) {
-                name += QUERY_IS_NATIVE_SCRIPT
-              }
+          if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
+            return 'vendors'
+          } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1 && !isVirtualModule(id)) {
+            return 'common'
+          }
+        },
+      }
 
-              return name
-            },
-            chunkFileNames(chunkInfo) {
-              if (chunkInfo.moduleIds?.some(id => id.includes(taroConfig.fileType.script))) {
-                return `[name]${taroConfig.fileType.script}`
-              }
-              return '[name].js'
-            },
-            manualChunks(id, { getModuleInfo }) {
-              const moduleInfo = getModuleInfo(id)
-              if (taroConfig.isBuildNativeComp || taroConfig.blended) return
+      if (taroConfig.isWatch) {
+        delete output.manualChunks
+        output.preserveModules = true
+        output.preserveModulesRoot = 'src'
+        output.minifyInternalExports = false
+      }
 
-              if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
-                return 'vendors'
-              } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1 && !isVirtualModule(id)) {
-                return 'common'
-              }
-            },
+      return {
+        mode: getMode(taroConfig),
+        build: {
+          outDir: taroConfig.outputRoot || 'dist',
+          target: 'esnext',
+          cssCodeSplit: true,
+          emptyOutDir: false,
+          lib: {
+            entry: getEntryOption(),
+            formats: ['es'],
           },
-          plugins: [
-            inject(getInjectOption()) as InputPluginOption,
-            babel(getBabelOption(
-              taroConfig,
-              {
-                babelOption: {
-                  extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.es6', '.es', '.ets'],
+          watch: taroConfig.isWatch ? {} : null,
+          // TODO doc needed: sourcemapType not supported
+          sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
+          rollupOptions: {
+            treeshake: !!taroConfig.isWatch,
+            external: HARMONY_SCOPES,
+            makeAbsoluteExternalsRelative: 'ifRelativeSource',
+            output: output as any,
+            plugins: [
+              inject(getInjectOption()) as InputPluginOption,
+              babel(getBabelOption(
+                taroConfig,
+                {
+                  babelOption: {
+                    extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.es6', '.es', '.ets'],
+                  },
+                }
+              )) as InputPluginOption,
+              increment({
+                force: (id) => /app\.config/.test(id),
+                comparisonId: (id = '', files) => {
+                  if (/[\\/]node_modules[\\/]/.test(id)) return false
+
+                  const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
+                  const etx = path.extname(rawId)
+                  id = etx ? rawId.replace(new RegExp(`${etx}$`), '') : rawId
+
+                  const list = Array.from(files)
+                  const rgx = new RegExp(`^${id}\\.config`)
+                  return list.some(file => rgx.test(file))
                 },
-              }
-            )) as InputPluginOption,
+              }),
+            ],
+          },
+          commonjsOptions: {
+            // TODO: 优化过滤
+            include: [/./],
+            extensions: ['.js', '.ts'],
+            transformMixedEsModules: true,
+          },
+          minify: getMinify(taroConfig),
+          terserOptions:
+            getMinify(taroConfig) === 'terser'
+              ? recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})
+              : undefined,
+        },
+        define: getDefineOption(),
+        resolve: {
+          mainFields: [...defaultMainFields],
+          extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.vue', '.ets'],
+          alias: [
+            ...getAliasOption(),
           ],
+          dedupe: ['@tarojs/shared', '@tarojs/runtime'],
         },
-        commonjsOptions: {
-          // TODO: 优化过滤
-          include: [/./],
-          extensions: ['.js', '.ts'],
-          transformMixedEsModules: true,
+        esbuild: {
+          jsxDev: false,
         },
-        minify: getMinify(taroConfig),
-        terserOptions:
-          getMinify(taroConfig) === 'terser'
-            ? recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})
-            : undefined,
-      },
-      define: getDefineOption(),
-      resolve: {
-        mainFields: [...defaultMainFields],
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.vue', '.ets'],
-        alias: [
-          ...getAliasOption(),
-        ],
-        dedupe: ['@tarojs/shared', '@tarojs/runtime'],
-      },
-      esbuild: {
-        jsxDev: false,
-      },
-      css: {
-        postcss: {
-          plugins: getPostcssPlugins(appPath, __postcssOption),
+        css: {
+          postcss: {
+            plugins: getPostcssPlugins(appPath, __postcssOption),
+          },
+          preprocessorOptions: {
+            ...(await getSassOption()),
+          },
+          modules: getCSSModulesOptions(taroConfig),
         },
-        preprocessorOptions: {
-          ...(await getSassOption()),
-        },
-        modules: getCSSModulesOptions(taroConfig),
-      },
-    }),
+      }
+    },
   }
 }

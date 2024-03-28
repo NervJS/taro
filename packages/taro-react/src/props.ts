@@ -105,17 +105,12 @@ function setStyle (style: Style, key: string, value: unknown) {
     return
   }
 
-  if (isHarmony && key.startsWith('_')) {
-    // harmony样式已处理
-    style[key] = value == null ? '' : value
-  } else {
-    style[key] =
-      isNumber(value) && IS_NON_DIMENSIONAL.test(key) === false
-        ? convertNumber2PX(value)
-        : value == null
-          ? ''
-          : value
-  }
+  style[key] =
+    isNumber(value) && IS_NON_DIMENSIONAL.test(key) === false
+      ? (isHarmony ? value + 'px' : convertNumber2PX(value))
+      : value == null
+        ? ''
+        : value
 }
 
 type StyleValue = Record<string, string | number>
