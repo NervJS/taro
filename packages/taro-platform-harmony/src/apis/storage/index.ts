@@ -22,7 +22,7 @@ let preferences: any
 
 function getPreferences () {
   try {
-    if (!preferences) {
+    if (!preferences && context) {
       const data = bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
       preferences = dataPreferences.getPreferencesSync(context, { name: `${data.appInfo.uid}Store` })
     }
@@ -37,13 +37,42 @@ const storageSchema = {
   key: 'String'
 }
 
+function checkContextExist (api: string, isAsync = false) {
+  if (!context) {
+    const message = `${api} 调用失败，Taro 不支持过早地调用 ${api}，请确保页面已经渲染完成再调用此 API`
+    if (isAsync) {
+      return {
+        isExist: false,
+        error: Promise.reject(new Error(message))
+      }
+    } else {
+      console.warn(message)
+
+      return {
+        isExist: false,
+      }
+    }
+  }
+
+  return {
+    isExist: true,
+  }
+}
+
 export function getStorage<T = any> (options: Taro.getStorage.Option<T>) {
+  const name = 'getStorage'
+  const { isExist, error } = checkContextExist(name, true)
+
+  if (!isExist) {
+    return error
+  }
+
   const { key, success, fail, complete } = options || {}
-  const handle = new MethodHandler<{data: any}>({ name: 'getStorage', success, fail, complete })
+  const handle = new MethodHandler<{data: any}>({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
     try {
-      validateParams('getStorage', options, storageSchema)
+      validateParams(name, options, storageSchema)
     } catch (error) {
       const res = { errMsg: error.message }
       return handle.fail(res, { resolve, reject })
@@ -63,14 +92,21 @@ export function getStorage<T = any> (options: Taro.getStorage.Option<T>) {
 }
 
 export function getStorageSync (key: string) {
+  const name = 'getStorageSync'
+  const { isExist, error } = checkContextExist(name, false)
+
+  if (!isExist) {
+    return error
+  }
+
   if (!key) {
-    throw new Error('getStorageSync:fail parameter error: parameter should be String')
+    throw new Error(`${name}:fail parameter error: parameter should be String`)
   }
 
   const preferences = getPreferences()
   
   if (!preferences) {
-    throw new Error('getStorageSync:fail:preferences is null')
+    throw new Error(`${name}:fail:preferences is null`)
   }
 
   const data = preferences.getSync(key, null)
@@ -82,12 +118,19 @@ export function getStorageSync (key: string) {
 }
 
 export function setStorage (options: Taro.setStorage.Option) {
+  const name = 'setStorage'
+  const { isExist, error } = checkContextExist(name, true)
+
+  if (!isExist) {
+    return error
+  }
+
   const { key, data, success, fail, complete } = options || {}
-  const handle = new MethodHandler({ name: 'setStorage', success, fail, complete })
+  const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
     try {
-      validateParams('setStorage', options, storageSchema)
+      validateParams(name, options, storageSchema)
     } catch (error) {
       const res = { errMsg: error.message }
       return handle.fail(res, { resolve, reject })
@@ -105,14 +148,21 @@ export function setStorage (options: Taro.setStorage.Option) {
 }
 
 export function setStorageSync (key: string, data: any) {
+  const name = 'setStorageSync'
+  const { isExist, error } = checkContextExist(name, false)
+
+  if (!isExist) {
+    return error
+  }
+
   if (!key) {
-    throw new Error('setStorageSync:fail key error: key should be String')
+    throw new Error(`${name}:fail key error: key should be String`)
   }
 
   const preferences = getPreferences()
   
   if (!preferences) {
-    throw new Error('setStorageSync:fail:preferences is null')
+    throw new Error(`${name}:fail:preferences is null`)
   }
 
   preferences.putSync(key, data)
@@ -120,12 +170,19 @@ export function setStorageSync (key: string, data: any) {
 }
 
 export function removeStorage (options: Taro.removeStorage.Option) {
+  const name = 'removeStorage'
+  const { isExist, error } = checkContextExist(name, true)
+
+  if (!isExist) {
+    return error
+  }
+
   const { key, success, fail, complete } = options || {}
-  const handle = new MethodHandler({ name: 'removeStorage', success, fail, complete })
+  const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
     try {
-      validateParams('removeStorage', options, storageSchema)
+      validateParams(name, options, storageSchema)
     } catch (error) {
       const res = { errMsg: error.message }
       return handle.fail(res, { resolve, reject })
@@ -143,14 +200,21 @@ export function removeStorage (options: Taro.removeStorage.Option) {
 }
 
 export function removeStorageSync (key: string) {
+  const name = 'removeStorageSync'
+  const { isExist, error } = checkContextExist(name, false)
+
+  if (!isExist) {
+    return error
+  }
+
   if (!key) {
-    throw new Error('removeStorageSync:fail key error: key should be String')
+    throw new Error(`${name}:fail key error: key should be String`)
   }
 
   const preferences = getPreferences()
   
   if (!preferences) {
-    throw new Error('removeStorageSync:fail:preferences is null')
+    throw new Error(`${name}:fail:preferences is null`)
   }
 
   preferences.deleteSync(key)
@@ -158,8 +222,15 @@ export function removeStorageSync (key: string) {
 }
 
 export function clearStorage (options: Taro.clearStorage.Option) {
+  const name = 'clearStorage'
+  const { isExist, error } = checkContextExist(name, true)
+
+  if (!isExist) {
+    return error
+  }
+
   const { success, fail, complete } = options || {}
-  const handle = new MethodHandler({ name: 'clearStorage', success, fail, complete })
+  const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
     const preferences = getPreferences()
@@ -174,10 +245,17 @@ export function clearStorage (options: Taro.clearStorage.Option) {
 }
 
 export function clearStorageSync () {
+  const name = 'clearStorageSync'
+  const { isExist, error } = checkContextExist(name, false)
+
+  if (!isExist) {
+    return error
+  }
+
   const preferences = getPreferences()
   
   if (!preferences) {
-    throw new Error('clearStorageSync:fail:preferences is null')
+    throw new Error(`${name}:fail:preferences is null`)
   }
 
   preferences.clearSync()
