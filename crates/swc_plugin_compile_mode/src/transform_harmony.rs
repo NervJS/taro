@@ -15,9 +15,7 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 use crate::PluginConfig;
 use crate::utils::{self, constants::*, harmony::components::*};
-
 pub struct PreVisitor {
-  is_in_and_expr: bool,
 }
 
 pub enum EtsDirection {
@@ -27,9 +25,7 @@ pub enum EtsDirection {
 
 impl PreVisitor {
     fn new () -> Self {
-        Self {
-            is_in_and_expr: false
-        }
+        Self {}
     }
     fn process_cond_expr (&self, expr: &mut CondExpr) {
         let test = &expr.test;
@@ -56,7 +52,6 @@ impl VisitMut for PreVisitor {
                 *expr = e.take();
             }
 
-            // is_in_and_expr 为 false 时，表示为当前 expr 的第一个 && 表达式，即当出现 aa && bb && <View /> 这种表达式时，只会处理最右侧的 && 表达式
             match &mut **expr {
                 // 将 aa && <B /> 转换为 aa ? <B /> : <B compileIgnore />
                 Expr::Bin(BinExpr { op, left, right, ..}) => {

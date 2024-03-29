@@ -28,6 +28,9 @@ export default class Harmony extends TaroPlatformHarmony {
   useJSON5 = true
   runtimePath: string[] | string = []
   taroComponentsPath = `${PACKAGE_NAME}/dist/components-harmony-ets`
+  apiEntryList = [
+    /(@tarojs[\\/]plugin-platform-harmony-ets|taro-platform-harmony)[\\/]dist[\\/]apis[\\/]index\.ts/,
+  ]
 
   #defineConstants: Record<string, string> = {}
 
@@ -59,9 +62,7 @@ export default class Harmony extends TaroPlatformHarmony {
   }
 
   get apiEntry() {
-    return [
-      /(@tarojs[\\/]plugin-platform-harmony-ets|taro-platform-harmony)[\\/]dist[\\/]apis[\\/]index\.ts/,
-    ]
+    return this.apiEntryList
   }
 
   get componentLibrary() {

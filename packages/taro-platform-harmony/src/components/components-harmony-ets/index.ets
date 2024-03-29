@@ -23,6 +23,26 @@ import TaroMovableView from './movableView'
 import { TaroRadio, TaroRadioGroup } from './radio'
 import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 
+import commonStyleModify from './style'
+import { getButtonColor } from './button'
+import { FlexManager } from './utils/flexManager'
+import { DynamicCenter } from './utils/DynamicCenter'
+import { TOUCH_EVENT_MAP } from './utils/constant/event'
+import { BUTTON_THEME_COLOR } from './utils/constant/style'
+import { getNodeThresholds, getNormalAttributes, getFontAttributes } from './utils/helper'
+
+export {
+  FlexManager,
+  DynamicCenter,
+  getButtonColor,
+  TOUCH_EVENT_MAP,
+  getFontAttributes,
+  commonStyleModify,
+  getNodeThresholds,
+  BUTTON_THEME_COLOR,
+  getNormalAttributes,
+}
+
 export {
   TaroImage,
   TaroCanvas,

@@ -65,13 +65,13 @@ function getThemeAttributes (node: TaroButtonElement): TaroStyleType {
   }
 }
 
-function getButtonWidth (node: TaroButtonElement) {
+function getButtonWidth (node: TaroButtonElement): string | number {
   const isMini = node._attrs.size === 'mini'
 
   return isMini ? convertNumber2VP(120) : '100%'
 }
 
-function getButtonHeight (node: TaroButtonElement) {
+function getButtonHeight (node: TaroButtonElement): string | number {
   const isMini = node._attrs.size === 'mini'
 
   return isMini ? convertNumber2VP(60) : convertNumber2VP(92)

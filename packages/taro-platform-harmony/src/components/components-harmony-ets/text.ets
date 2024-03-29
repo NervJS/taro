@@ -34,7 +34,7 @@ function textSpecialFontStyle(attr: TaroTextStyleType) {
   .lineHeight(attr.lineHeight)
 }
 
-function getButtonFontSize (node: TaroButtonElement) {
+function getButtonFontSize (node: TaroButtonElement): string | number {
   const isMini = node._attrs.size === 'mini'
 
   return isMini ? convertNumber2VP(26) : convertNumber2VP(36)
