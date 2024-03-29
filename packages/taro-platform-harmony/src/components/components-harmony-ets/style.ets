@@ -168,7 +168,11 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
     instance.backgroundColor(style.backgroundColor)
   }
   if (!isUndefined(style.backgroundImage)) {
-    if (style.backgroundImage.colors) {
+    if (style.backgroundImage.center) {
+      // radialGradient
+      instance.radialGradient(style.backgroundImage)
+    } else if (style.backgroundImage.colors) {
+      // linearGradient
       instance.linearGradient(style.backgroundImage)
     } else {
       instance.backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)

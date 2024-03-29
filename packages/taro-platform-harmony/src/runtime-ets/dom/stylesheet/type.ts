@@ -60,6 +60,7 @@ export interface TaroStyleType {
 
   // 渐变
   linearGradient?: HarmonyType.LinearGradient
+  radialGradient?: HarmonyType.RadialGradient
 
   // transform
   rotate?: HarmonyType.Transform.Rotate
@@ -98,9 +99,6 @@ export interface TaroStyleType {
   fontFamily?: string | Resource
   textDecoration?: TextDecorationType
 
-  // gradient
-  linearGradient?: HarmonyType.LinearGradient
-
   // other
   opacity?: number | Resource
   zIndex?: number
@@ -127,6 +125,12 @@ export namespace HarmonyType {
   export interface LinearGradient {
     angle?: number | string
     direction?: GradientDirection
+    colors: Array<[ResourceColor, number]>
+    repeating?: boolean
+  }
+  export interface RadialGradient {
+    center: Point
+    radius: number | string
     colors: Array<[ResourceColor, number]>
     repeating?: boolean
   }
