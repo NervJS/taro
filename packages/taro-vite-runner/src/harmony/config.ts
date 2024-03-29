@@ -17,7 +17,7 @@ import { PAGE_SUFFIX } from './page'
 import type { RollupInjectOptions } from '@rollup/plugin-inject'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { InputPluginOption, OutputOptions } from 'rollup'
-import type { PluginOption } from 'vite'
+import type { Plugin, PluginOption } from 'vite'
 
 export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
   const { taroConfig, cwd: appPath } = viteCompilerContext
@@ -172,6 +172,13 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
   return {
     name: 'taro:vite-harmony-config',
+    options(opt) {
+      if (opt.plugins instanceof Array) {
+        // Note: 移除冗余的 babel 插件，改用 runner 提供的版本
+        const idx = opt.plugins.findIndex(e => e && (e as Plugin).name === 'vite:react-babel')
+        opt.plugins.splice(idx, 1)
+      }
+    },
     config: async () => {
       const output: OutputOptions = {
         entryFileNames(chunkInfo) {
@@ -208,12 +215,13 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         },
       }
 
-      if (taroConfig.isWatch) {
-        delete output.manualChunks
-        output.preserveModules = true
-        output.preserveModulesRoot = 'src'
-        output.minifyInternalExports = false
-      }
+      // FIXME 需要调整依赖解析后再启用
+      // if (taroConfig.isWatch) {
+      //   delete output.manualChunks
+      //   output.preserveModules = true
+      //   output.preserveModulesRoot = 'src'
+      //   output.minifyInternalExports = false
+      // }
 
       return {
         mode: getMode(taroConfig),

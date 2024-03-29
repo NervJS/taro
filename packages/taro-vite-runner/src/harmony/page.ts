@@ -11,6 +11,8 @@ export const TARO_TABBAR_PAGE_PATH = 'taro_tabbar'
 
 export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
   const name = 'taro:vite-harmony-page'
+  const pages = viteCompilerContext.getPages()
+
   return {
     name,
     enforce: 'pre',
@@ -40,7 +42,6 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       const appRoot = path.resolve(appPath, sourceRoot)
       const parse = new PageParser(appPath, appConfig, taroConfig, loaderMeta)
       const tabbarList = appConfig.tabBar?.list || []
-      const pages = viteCompilerContext.getPages()
       const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
 
       if (id.endsWith(PAGE_SUFFIX)) {
