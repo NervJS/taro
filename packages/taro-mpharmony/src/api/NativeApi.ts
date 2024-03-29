@@ -1,4 +1,5 @@
 import osChannelApi from './osChannelApi'
+import { RequestTask } from './request'
 
 
 class NativeApi {
@@ -877,17 +878,24 @@ class AsyncToSyncProxy {
   }
 }
 
-class OsChannelProxy {
+class HybridProxy {
+  private readonly useAxios: boolean
   private readonly useOsChannel: boolean
   private readonly cacheProxy: any
+  private readonly requestApi = 'request'
 
-  constructor (useOsChannel: boolean) {
+  constructor (useAxios: boolean, useOsChannel: boolean, nativeApi: NativeApi) {
+    this.useAxios = useAxios
     this.useOsChannel = useOsChannel
     this.cacheProxy = new Proxy(nativeApi, new CacheStorageProxy(nativeApi))
   }
 
   get (_target:any, prop:string) {
     return (...args: any) => {
+      if ( this.useAxios && prop === this.requestApi ) {
+        // @ts-ignore
+        return new RequestTask(...args)
+      }
       if (this.useOsChannel && osChannelApi.hasOwnProperty(prop)) {
         return osChannelApi[prop](...args)
       }
@@ -897,5 +905,5 @@ class OsChannelProxy {
 }
 
 const nativeApi = new NativeApi()
-const native = new Proxy(nativeApi, new OsChannelProxy(false))
+const native = new Proxy(nativeApi, new HybridProxy(false, false, nativeApi)) // 第一个false是默认走jsb，true是走纯js， 第二个false是不走osChannel
 export default native
