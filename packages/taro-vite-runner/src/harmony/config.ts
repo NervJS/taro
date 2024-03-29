@@ -172,6 +172,10 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
   return {
     name: 'taro:vite-harmony-config',
+    options(o) {
+      console.log(o.plugins?.[14])
+      o.plugins.splice(14, 1)
+    },
     config: async () => {
       const output: OutputOptions = {
         entryFileNames(chunkInfo) {
@@ -208,12 +212,13 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         },
       }
 
-      if (taroConfig.isWatch) {
-        delete output.manualChunks
-        output.preserveModules = true
-        output.preserveModulesRoot = 'src'
-        output.minifyInternalExports = false
-      }
+      // FIXME 需要调整依赖解析后再启用
+      // if (taroConfig.isWatch) {
+      //   delete output.manualChunks
+      //   output.preserveModules = true
+      //   output.preserveModulesRoot = 'src'
+      //   output.minifyInternalExports = false
+      // }
 
       return {
         mode: getMode(taroConfig),
