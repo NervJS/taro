@@ -251,8 +251,10 @@ export default class Harmony extends TaroPlatformHarmony {
           return src
         })
 
-        const define = {
-          ...this.defineConstants
+        const define: Record<string, string> = {
+          ...this.defineConstants,
+          // Note: React 开发环境可能调用 stack 可能导致 appWrapper 实例变更
+          'ReactDebugCurrentFrame.getCurrentStack': 'ReactDebugCurrentFrame.getCurrentStack$',
         }
         if ([/(@tarojs[\\/]runtime|taro-runtime)[\\/]dist/].some(e => e.test(lib))) {
           define.global = 'globalThis'
