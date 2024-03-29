@@ -185,11 +185,14 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           let name
           if (taroConfig.isBuildNativeComp || taroConfig.blended) {
             const pagePath = path.relative(taroConfig.sourceRoot || 'src', path.dirname(stripVirtualModulePrefix(chunkInfo.facadeModuleId || '')))
-            const pageName = path.join(pagePath, chunkInfo.name)
-            name = stripMultiPlatformExt(pageName + TARO_COMP_SUFFIX) + taroConfig.fileType.script
+            name = path.join(pagePath, chunkInfo.name)
           } else {
-            name = stripMultiPlatformExt(chunkInfo.name + TARO_COMP_SUFFIX) + taroConfig.fileType.script
+            name = chunkInfo.name
           }
+
+          const appId = viteCompilerContext.app.config.appId || 'app'
+          const isTaroComp = appId === name || viteCompilerContext.pages.some(page => page.name === name) || viteCompilerContext.components?.some(comp => comp.name === name)
+          name = stripMultiPlatformExt(`${name}${isTaroComp ? TARO_COMP_SUFFIX : ''}`) + taroConfig.fileType.script
 
           if (chunkInfo.facadeModuleId && chunkInfo.facadeModuleId.includes(QUERY_IS_NATIVE_SCRIPT)) {
             name += QUERY_IS_NATIVE_SCRIPT
@@ -215,13 +218,14 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         },
       }
 
-      // FIXME 需要调整依赖解析后再启用
-      // if (taroConfig.isWatch) {
-      //   delete output.manualChunks
-      //   output.preserveModules = true
-      //   output.preserveModulesRoot = 'src'
-      //   output.minifyInternalExports = false
-      // }
+      if (taroConfig.isWatch) {
+        delete output.manualChunks
+        output.preserveModules = true
+        output.preserveModulesRoot = 'src'
+        output.minifyInternalExports = false
+        // Note: 修复虚拟模块的依赖和引用，使其能够正确的输出
+        output.sanitizeFileName = (filename) => filename.replace(/^_virtual[\\/]/, '').replace(/[\0?*]/g, '_')
+      }
 
       return {
         mode: getMode(taroConfig),

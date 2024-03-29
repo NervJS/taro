@@ -278,16 +278,31 @@ export function resolveAbsoluteRequire ({
       name,
       resolve,
     })?.id || source : source)
+    let parsePath = ''
     if (absolutePath.startsWith(outputRoot)) {
-      const outputFile = path.resolve(
-        outputRoot,
-        path.isAbsolute(importer) ? path.relative(targetRoot, importer) : importer
-      )
+      let outputPath = importer
+      if (path.isAbsolute(outputPath)) {
+        const commonPath = getCommonPath(targetRoot, importer)
+        outputPath = path.relative(commonPath, importer)
+      }
+      const outputFile = path.resolve(outputRoot, outputPath)
       const outputDir = path.dirname(outputFile)
-      return src.replace(source, parseRelativePath(outputDir, absolutePath))
+      parsePath = src.replace(source, parseRelativePath(outputDir, absolutePath))
     } else if (absolutePath.startsWith(targetRoot)) {
-      return src.replace(source, parseRelativePath(path.dirname(importer), absolutePath))
+      parsePath = src.replace(source, parseRelativePath(path.dirname(importer), absolutePath))
+    } else {
+      parsePath = src.replace(source, absolutePath)
     }
-    return src.replace(source, absolutePath)
+    return parsePath
   })
+}
+
+function getCommonPath(a: string, b: string) {
+  const aArr = a.split('/')
+  const bArr = b.split('/')
+  let i = 0
+  while (aArr[i] === bArr[i]) {
+    i++
+  }
+  return aArr.slice(0, i).join('/')
 }
