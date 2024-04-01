@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "declaration": true,
     "lib": ["ESNext"],
     "outDir": "dist",
     "rootDir": "./src",
@@ -10,6 +11,6 @@
     "esModuleInterop": true,
     "preserveConstEnums": true
   },
-  "include": ["./src", "./types"],
+  "include": ["./src"],
   "exclude": ["./src/__tests__", "./src/template/comp.ts", "./src/template/custom-wrapper.ts"]
 }

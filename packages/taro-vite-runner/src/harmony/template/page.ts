@@ -10,6 +10,20 @@ import type { AppConfig, TabBarItem } from '@tarojs/taro'
 import type { TRollupResolveMethod } from '@tarojs/taro/types/compile/config/plugin'
 import type { ViteHarmonyBuildConfig, VitePageMeta } from '@tarojs/taro/types/compile/viteCompilerContext'
 
+export interface TaroHarmonyPageMeta extends VitePageMeta {
+  entryOption?: Record<string, unknown>
+
+  modifyRenderState?: (this: Parser, state: (string | null)[]) => void
+
+  modifyPageParams?: (this: Parser, paramsString: string) => string
+
+  modifyPageImport?: (this: Parser, importStr: string[]) => void
+
+  modifyPageAppear?: (this: Parser, appearStr: string) => string
+
+  modifyPageBuild?: (this: Parser, buildStr: string) => string
+}
+
 const SHOW_TREE = false
 const showTreeFunc = (isTabbarPage: boolean) => `  handleTree (tree: TaroNode | null, level = 1, taskQueen: TFunc[] = []) {
   if (!tree) return
@@ -88,8 +102,8 @@ export default class Parser extends BaseParser {
   constructor (
     protected appPath: string,
     protected appConfig: AppConfig,
-    protected buildConfig: ViteHarmonyBuildConfig,
-    protected loaderMeta: Record<string, unknown>,
+    public buildConfig: ViteHarmonyBuildConfig,
+    public loaderMeta: Record<string, unknown>,
   ) {
     super()
     this.init()
@@ -138,7 +152,7 @@ export default class Parser extends BaseParser {
     return null
   }
 
-  getInstantiatePage (page: VitePageMeta | VitePageMeta[]) {
+  getInstantiatePage (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
     const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
     const { modifyInstantiate } = this.loaderMeta
     const structCodeArray: unknown[] = [
@@ -216,7 +230,7 @@ export default class Parser extends BaseParser {
     const modifyRenderState = page instanceof Array ? page[0].modifyRenderState : page.modifyRenderState
 
     if (isFunction(modifyRenderState)) {
-      modifyRenderState(generateState, this)
+      modifyRenderState.call(this, generateState)
     }
 
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
@@ -240,7 +254,7 @@ export default class Parser extends BaseParser {
   this.bindEvent()` : 'this.handlePageAppear()'}`
 
     if (isFunction(modifyPageAppear)) {
-      appearStr = modifyPageAppear(appearStr)
+      appearStr = modifyPageAppear.call(this, appearStr)
     }
 
     // 生成 build 函数内容
@@ -251,7 +265,7 @@ export default class Parser extends BaseParser {
     )
 
     if (isFunction(modifyPageBuild)) {
-      buildStr = modifyPageBuild(buildStr)
+      buildStr = modifyPageBuild.call(this, buildStr)
     }
 
     structCodeArray.push(
@@ -263,7 +277,7 @@ export default class Parser extends BaseParser {
       this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
 getPageState() {
   const state = router.getState()
-  state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as VitePageMeta).name}'
+  state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as TaroHarmonyPageMeta).name}'
   if (state.path.endsWith('/')) {
     state.path += 'index'
   }
@@ -580,12 +594,12 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
     return instantiatePage
   }
 
-  generatePageAppear (page: VitePageMeta | VitePageMeta[]) {
+  generatePageAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
     let paramsString = 'router.getParams() as Record<string, string> || {}'
 
     const modifyPageParams = page instanceof Array ? page[0].modifyPageParams : page.modifyPageParams
     if (isFunction(modifyPageParams)) {
-      paramsString = modifyPageParams(paramsString)
+      paramsString = modifyPageParams.call(this, paramsString)
     }
 
     return `handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {${this.buildConfig.isBuildNativeComp ? '' :`
@@ -774,13 +788,13 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       })` : 'callFn(this.page?.onHide, this)'}`
   }
 
-  parse (rawId: string, page: VitePageMeta | VitePageMeta[], name = 'TaroPage', resolve?: TRollupResolveMethod) {
+  parse (rawId: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[], name = 'TaroPage', resolve?: TRollupResolveMethod) {
     const { modifyResolveId } = this.loaderMeta
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
     this.isTabbarPage = page instanceof Array
     const pageRefresh: boolean[] = page instanceof Array
       ? page.map(e => this.isEnable(this.appConfig.window?.enablePullDownRefresh, e.config.enablePullDownRefresh))
-      : [this.isEnable(this.appConfig.window?.enablePullDownRefresh, (page as VitePageMeta)?.config.enablePullDownRefresh)]
+      : [this.isEnable(this.appConfig.window?.enablePullDownRefresh, (page as TaroHarmonyPageMeta)?.config.enablePullDownRefresh)]
     if (pageRefresh.every(e => !!e)) {
       this.enableRefresh = 1
     } else {
@@ -805,7 +819,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
     const modifyPageImport = page instanceof Array ? page[0].modifyPageImport : page.modifyPageImport
     if (isFunction(modifyPageImport)) {
-      modifyPageImport(importList)
+      modifyPageImport.call(this, importList)
     }
 
     const code = this.transArr2Str([
@@ -845,7 +859,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     })
   }
 
-  parseEntry (rawId: string, page: VitePageMeta) {
+  parseEntry (rawId: string, page: TaroHarmonyPageMeta) {
     const { creatorLocation, importFrameworkStatement } = this.loaderMeta
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
     const createPageFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
