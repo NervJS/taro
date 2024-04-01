@@ -137,9 +137,6 @@ export default class CLI {
           // 根据 framework 启用插件
           const framework = kernel.config?.initialConfig.framework
           switch (framework) {
-            case 'vue':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-vue2')
-              break
             case 'vue3':
               kernel.optsPlugins.push('@tarojs/plugin-framework-vue3')
               break

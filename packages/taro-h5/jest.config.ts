@@ -13,7 +13,6 @@ const config: Config = {
     '@tarojs/taro-h5': '<rootDir>/src/index.ts',
     '@tarojs/shared': path.resolve(__dirname, '..', '..', 'packages/shared/src/index.ts'),
     '@tarojs/plugin-framework-react/dist/runtime': '<rootDir>/__mocks__/taro-framework',
-    '@tarojs/plugin-framework-vue2/dist/runtime': '<rootDir>/__mocks__/taro-framework',
     '@tarojs/plugin-framework-vue3/dist/runtime': '<rootDir>/__mocks__/taro-framework',
     // @ts-ignore
     '(^.+\\.(css|sass|scss|less|styl|stylus|pcss|postcss)$)|weui': ['jest-transform-css', {

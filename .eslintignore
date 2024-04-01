@@ -15,8 +15,6 @@ packages/taro-components/loader
 packages/taro-components/src/components
 packages/taro-components-library-react/components.ts
 packages/taro-components-library-vue3/components.ts
-packages/taro-components-library-vue3/components.ts
-
 
 packages/taro-webpack-runner/src/__tests__/__snapshots__
 packages/taro-webpack-runner/src/__tests__/fixtures

@@ -56,10 +56,7 @@
     "@tarojs/react": "{{ version }}",
     "react-dom": "^18.0.0",
     "react": "^18.0.0"{{/if}}{{#if (eq framework "Preact") }}
-    "preact": "^10.5.15"{{/if}}{{#if (eq framework "Vue") }}
-    "@tarojs/plugin-framework-vue2": "{{ version }}",
-    "vue-template-compiler": "^2.5.0",
-    "vue": "^2.5.0"{{/if}}{{#if (eq framework "Vue3") }}
+    "preact": "^10.5.15"{{/if}}{{#if (eq framework "Vue3") }}
     "@tarojs/plugin-framework-vue3": "{{ version }}",
     "vue": "^3.0.0"{{/if}}
   },{{#if (includes "Webpack4" "Webpack5" s=compiler)}}
@@ -75,13 +72,9 @@
     "webpack": "5.78.0",
     "@tarojs/taro-loader": "{{ version }}",
     "@tarojs/webpack5-runner": "{{ version }}",{{/if}}
-    "babel-preset-taro": "{{ version }}",{{#if (includes "Vue" "Vue3" s=framework)}}
+    "babel-preset-taro": "{{ version }}",{{#if (eq framework "Vue3") }}
     "css-loader": "3.4.2",
-    "style-loader": "1.3.0",{{/if}}{{#if (eq framework "Vue") }}
-    "@tarojs/test-utils-vue": "^0.1.1",
-    "@vue/babel-preset-jsx": "^1.2.4",
-    "vue-loader": "^15.9.2",
-    "eslint-plugin-vue": "^8.x",{{/if}}{{#if (eq framework "Vue3") }}
+    "style-loader": "1.3.0",
     "@tarojs/test-utils-vue3": "^0.1.1",
     "@vue/babel-plugin-jsx": "^1.0.6",
     "@vue/compiler-sfc": "^3.0.0",
@@ -128,9 +121,7 @@
     "@preact/preset-vite": "^2.5.0",
     "@prefresh/core": "^1.3.4",
     "@prefresh/babel-plugin": "^0.4.1",{{/if}}{{#if (eq framework "React") }}
-    "react-refresh": "^0.11.0",{{/if}}{{#if (eq framework "Vue") }}
-    "@vitejs/plugin-vue2": "^2.2.0",
-    "eslint-plugin-vue": "^8.x",{{/if}}{{#if (eq framework "Vue3") }}
+    "react-refresh": "^0.11.0",{{/if}}{{#if (eq framework "Vue3") }}
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
     "eslint-plugin-vue": "^8.0.0",{{/if}}{{#if (eq css "Sass") }}

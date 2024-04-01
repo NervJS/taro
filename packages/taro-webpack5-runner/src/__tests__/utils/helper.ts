@@ -1,5 +1,4 @@
 import ReactLikePlugin from '@tarojs/plugin-framework-react'
-import Vue2Plugin from '@tarojs/plugin-framework-vue2'
 import Vue3Plugin from '@tarojs/plugin-framework-vue3'
 import * as runnerUtils from '@tarojs/runner-utils'
 import * as joinPath from 'memory-fs/lib/join'
@@ -69,15 +68,9 @@ export function frameworkPatch(chain, webpack, config) {
   }
 
   let frameworkPlugin: any = ReactLikePlugin
-  switch (config.framework) {
-    case 'vue':
-      config.opts = {}
-      frameworkPlugin = Vue2Plugin
-      break
-    case 'vue3':
-      config.opts = {}
-      frameworkPlugin = Vue3Plugin
-      break
+  if (config.framework === 'vue3') {
+    config.opts = {}
+    frameworkPlugin = Vue3Plugin
   }
 
   frameworkPlugin(mockCtx)

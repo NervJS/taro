@@ -561,9 +561,9 @@ export default defineComponent({
 
     return render(this.preset.outerElement, outerElementProps, [
       this.getRenderExpandNodes(isHorizontal ? isRtl ? 'right' : 'left' : 'top'),
-      process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
+      this.$slots.top?.(),
       this.getRenderColumnNode(),
-      process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
+      this.$slots.bottom?.(),
       this.getRenderExpandNodes(isHorizontal ? isRtl ? 'left' : 'right' : 'bottom'),
     ])
   }

@@ -1,6 +1,6 @@
-describe('vue', () => {
-  process.env.FRAMEWORK = 'vue'
-  const vue2Plugin = require('@tarojs/plugin-framework-vue2')
+describe('vue3', () => {
+  process.env.FRAMEWORK = 'vue3'
+  const vue3Plugin = require('@tarojs/plugin-framework-vue3')
   const runtime = require('../../dist/runtime.esm')
   global.document = runtime.document
   global.window = runtime.window
@@ -18,19 +18,6 @@ describe('vue', () => {
     const appDidShow = jest.fn()
     const appDidHide = jest.fn()
     const onLoad = jest.fn()
-    // const onUnload = jest.fn()
-    // const onShow = jest.fn()
-    // const onHide = jest.fn()
-    // const onPullDownRefresh = jest.fn()
-    // const onReachBottom = jest.fn()
-    // const onPageScroll = jest.fn()
-    // const onShareAppMessage = jest.fn()
-    // const onResize = jest.fn()
-    // const onTabItemTap = jest.fn()
-    // const onTitleClick = jest.fn()
-    // const onOptionMenuClick = jest.fn()
-    // const onPopMenuClick = jest.fn()
-    // const onPullIntercept = jest.fn()
 
     const App = ({
       onShow () {
@@ -44,7 +31,7 @@ describe('vue', () => {
       }
     })
 
-    const app = vue2Plugin.createVueApp(App, Vue)
+    const app = vue3Plugin.createVue3App(App, Vue.h, {})
 
     const Home = new Vue({
       onLoad () {

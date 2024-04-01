@@ -206,11 +206,7 @@ impl Creator {
     for file in files {
       let file_relative_path = normalize_path_str(file.replace(template_path, "").as_str());
       let framework = options.framework;
-      let is_vue_framework = if let Some(framework) = framework {
-        framework == FrameworkType::Vue || framework == FrameworkType::Vue3
-      } else {
-        false
-      };
+      let is_vue_framework = framework.is_some_and(|framework| framework == FrameworkType::Vue3);
       if is_vue_framework && file_relative_path.ends_with(".jsx") {
         continue;
       }

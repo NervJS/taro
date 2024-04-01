@@ -1,6 +1,5 @@
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { componentConfig, componentNameSet, elementNameSet } from '../utils/component'
-import { isRenderNode } from './TaroComponentsExportsPlugin'
 import TaroNormalModule, { TaroBaseNormalModule } from './TaroNormalModule'
 
 import type { Func } from '@tarojs/taro/types/compile'
@@ -80,9 +79,7 @@ export default class TaroNormalModulesPlugin {
                   !(nameOfCallee && nameOfCallee.includes('createBlock')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementVNode')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementBlock')) &&
-                  !(nameOfCallee && nameOfCallee.includes('resolveComponent')) && // 收集使用解析函数的组件名称
-                  // 兼容 Vue 2.0 渲染函数及 JSX
-                  !isRenderNode(node, ancestors)
+                  !(nameOfCallee && nameOfCallee.includes('resolveComponent'))
                 ) {
                   return
                 }
@@ -90,7 +87,6 @@ export default class TaroNormalModulesPlugin {
 
               const [type, prop] = node.arguments
 
-              // 防止 vue2 中类似 h() 的定义报错
               if (!type) return
 
               const componentName = (type as acorn.Identifier).name

@@ -48,18 +48,15 @@ export async function compile<T extends IMiniBuildConfig | IH5BuildConfig = Comm
     const alias = chain.resolve.alias
     alias.set('@tarojs/components$', path.resolve(__dirname, '../mocks/taro-components'))
     alias.set('@tarojs/plugin-framework-react/dist/runtime', path.resolve(__dirname, '../mocks/taro'))
-    alias.set('@tarojs/plugin-framework-vue2/dist/runtime', path.resolve(__dirname, '../mocks/taro'))
     alias.set('@tarojs/plugin-framework-vue3/dist/runtime', path.resolve(__dirname, '../mocks/taro'))
     alias.set('@tarojs/runtime', path.resolve(__dirname, '../mocks/taro-runtime'))
     alias.set('@tarojs/shared', path.resolve(__dirname, '../mocks/taro-shared'))
     alias.set('@tarojs/taro', path.resolve(__dirname, '../mocks/taro'))
     alias.set('react$', path.resolve(__dirname, '../mocks/react'))
     alias.set('vue', path.resolve(__dirname, '../mocks/vue'))
-    alias.set('nervjs', path.resolve(__dirname, '../mocks/nerv'))
     if (isWeb) {
       alias.set('@tarojs/router', path.resolve(__dirname, '../mocks/taro-router'))
       alias.set('@tarojs/components/lib/react', path.resolve(__dirname, '../mocks/taro-components'))
-      alias.set('@tarojs/components/lib/vue', path.resolve(__dirname, '../mocks/taro-components'))
       alias.set('@tarojs/components/lib/vue3', path.resolve(__dirname, '../mocks/taro-components'))
       alias.set('@tarojs/components/loader', path.resolve(__dirname, '../mocks/taro-components'))
       alias.set('@tarojs/components/dist/taro-components/taro-components.css', path.resolve(__dirname, '../mocks/taro-components.css'))

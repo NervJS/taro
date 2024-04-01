@@ -2,8 +2,6 @@ export function setReconciler () {}
 export function connectReactPage () {}
 export function createReactApp () {}
 export function createNativeComponentConfig () {}
-export function connectVuePage () {}
-export function createVueApp () {}
 export function createVue3App () {}
 export const setGlobalDataPlugin = {}
 

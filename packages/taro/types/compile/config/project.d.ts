@@ -139,8 +139,8 @@ export interface IProjectBaseConfig {
   /** 模板循环次数 */
   baseLevel?: number
 
-  /** 使用的开发框架。可选值：react、preact、nerv、vue、vue3 */
-  framework?: 'react' | 'preact' | 'solid' | 'nerv' | 'vue' | 'vue3'
+  /** 使用的开发框架。可选值：react、preact、vue3 */
+  framework?: 'react' | 'preact' | 'solid' | 'vue3'
   frameworkExts?: string[]
 
   /** 使用的编译工具。可选值：webpack4、webpack5 */
@@ -293,8 +293,8 @@ export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   /** 一个 preset 是一系列 Taro 插件的集合，配置语法同 plugins */
   presets?: PluginItem[]
 
-  /** 使用的开发框架。可选值：react、preact、nerv、vue、vue3 */
-  framework?: 'react' | 'preact' | 'solid' | 'nerv' | 'vue' | 'vue3'
+  /** 使用的开发框架。可选值：react、preact、vue3 */
+  framework?: 'react' | 'preact' | 'solid' | 'vue3'
 
   /** Webpack5 持久化缓存配置。具体配置请参考 [WebpackConfig.cache](https://webpack.js.org/configuration/cache/#cache) */
   cache?: ICache

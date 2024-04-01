@@ -196,7 +196,6 @@ type ITaroHooks = {
   getEventCenter: (EventsClass: typeof Events) => Events
   isBubbleEvents: (eventName: string) => boolean
   getSpecialNodes: () => string[]
-  /** 解决 Vue2 布尔值属性值的设置问题 */
   onRemoveAttribute: (element, qualifiedName: string) => boolean
   /** 用于把 React 同一事件回调中的所有 setState 合并到同一个更新处理中 */
   batchedEventUpdates: (cb: TFunc) => void
@@ -355,6 +354,6 @@ export const hooks = new TaroHooks<ITaroHooks>({
   modifyAddEventListener: TaroHook(HOOK_TYPE.SINGLE),
 
   modifyRemoveEventListener: TaroHook(HOOK_TYPE.SINGLE),
-  
+
   getMemoryLevel: TaroHook(HOOK_TYPE.SINGLE),
 })

@@ -242,14 +242,6 @@ export default class Project extends Creator {
         name: 'PReact',
         value: FrameworkType.Preact
       },
-      // {
-      //   name: 'Nerv',
-      //   value: 'nerv'
-      // },
-      {
-        name: 'Vue',
-        value: FrameworkType.Vue
-      },
       {
         name: 'Vue3',
         value: FrameworkType.Vue3
@@ -484,8 +476,6 @@ function getOpenSourceTemplates (platform) {
       switch (platform) {
         case 'react':
           return resolve(collection.react)
-        case 'vue':
-          return resolve(collection.vue)
         default:
           return resolve([NONE_AVAILABLE_TEMPLATE])
       }

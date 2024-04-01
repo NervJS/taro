@@ -15,7 +15,7 @@ const baseConfig = {
     externals({
       deps: true,
       devDeps: false,
-      include: [/^(react|react-dom|nervjs|vue)$/, /^inversify$/]
+      include: [/^(react|react-dom|vue)$/]
     }),
     ts(),
   ]

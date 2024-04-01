@@ -96,8 +96,6 @@ export default function (viteCompilerContext: ViteMiniCompilerContext | undefine
                 !(nameOfCallee?.includes('createElementVNode')) &&
                 !(nameOfCallee?.includes('createElementBlock')) &&
                 !(nameOfCallee?.includes('resolveComponent')) // 收集使用解析函数的组件名称
-                // TODO: 兼容 vue 2.0 渲染函数及 JSX，函数名 h 与 _c 在压缩后太常见，需要做更多限制后才能兼容
-                // nameOfCallee !== 'h' && nameOfCallee !== '_c'
               ) {
                 return
               }

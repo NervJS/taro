@@ -8,7 +8,6 @@ import { resolveSync } from './utils'
 import type { IPluginContext, TConfig } from '@tarojs/service'
 
 const compLibraryAlias = {
-  vue: 'vue2',
   vue3: 'vue3',
 }
 
@@ -133,10 +132,6 @@ export default class H5 extends TaroPlatformWeb {
         }
 
         switch (this.framework) {
-          case 'vue':
-            args[0].loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components/lib/vue2/components-loader'\nimport * as list from '@tarojs/components'\n`
-            args[0].loaderMeta.execBeforeCreateWebApp += `initVue2Components(list)\n`
-            break
           case 'vue3':
             args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
             args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
@@ -204,10 +199,6 @@ export default class H5 extends TaroPlatformWeb {
               }
 
               switch (that.framework) {
-                case 'vue':
-                  viteCompilerContext.loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components/lib/vue2/components-loader'\nimport * as list from '@tarojs/components'\n`
-                  viteCompilerContext.loaderMeta.execBeforeCreateWebApp += `initVue2Components(list)\n`
-                  break
                 case 'vue3':
                   viteCompilerContext.loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
                   viteCompilerContext.loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`

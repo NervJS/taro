@@ -2,7 +2,7 @@ import { Config } from '@stencil/core'
 import { OutputTarget } from '@stencil/core/internal'
 import externals from 'rollup-plugin-node-externals'
 
-import { reactOutputTarget, vue2OutputTarget, vue3OutputTarget } from './output-target'
+import { reactOutputTarget, vue3OutputTarget } from './output-target'
 import scssPlugin from './plugin/sass-plugin'
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -12,25 +12,6 @@ const outputTargets: OutputTarget[] = [
     customElementsDir: 'dist/components',
     includeImportCustomElements: true,
     proxiesFile: '../taro-components-library-react/src/components.ts',
-  }),
-  vue2OutputTarget({
-    componentCorePackage: '@tarojs/components',
-    componentModels: [{
-      elements: ['taro-input-core', 'taro-textarea-core'],
-      targetAttr: 'value',
-      event: 'update:modelValue',
-    }, {
-      elements: ['taro-picker-core', 'taro-slider-core'],
-      targetAttr: 'value',
-      event: 'update:modelValue',
-    }, {
-      elements: ['taro-switch-core'],
-      targetAttr: 'checked',
-      event: 'update:modelValue',
-    }],
-    customElementsDir: 'dist/components',
-    includeImportCustomElements: true,
-    proxiesFile: '../taro-components-library-vue2/src/components.ts',
   }),
   vue3OutputTarget({
     componentCorePackage: '@tarojs/components',
