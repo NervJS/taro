@@ -9,8 +9,6 @@ import React, { useEffect, useRef } from 'react'
 import { Autoplay, Pagination, Zoom } from 'swiper/modules'
 import { Swiper as SwiperReact, SwiperSlide } from 'swiper/react'
 
-import { nonNullable } from '../../utils'
-
 import type { default as SwiperClass } from 'swiper/types/swiper-class'
 
 const SwiperItem = SwiperSlide
@@ -21,6 +19,7 @@ type TaroSwiperEvent = ({
 }: {
   detail: { current: number, source: SwiperIndexChangeSource }
 }) => void
+
 interface TaroSwiperProps {
   autoplay?: boolean
   interval?: number
@@ -73,7 +72,7 @@ const Swiper: React.FC<TaroSwiperProps> = ({
   }
 
   const moduleArray = [autoplay ? Autoplay : null, indicatorDots ? Pagination : null, zoom ? Zoom : null].filter(
-    nonNullable
+    i => i !== null
   )
 
   useEffect(() => {

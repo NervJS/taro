@@ -227,7 +227,11 @@ export class Swiper implements ComponentInterface {
   @Watch('itemCount')
   watchItemCount () {
     if (this.swiper) {
-      this.swiper.update()
+      if (this.swiper.slides?.length > this.itemCount) {
+        this.handleInit()
+      } else {
+        this.swiper.update()
+      }
     }
   }
 
