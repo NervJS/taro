@@ -10,6 +10,15 @@ import type { AppConfig, TabBarItem } from '@tarojs/taro'
 import type { TRollupResolveMethod } from '@tarojs/taro/types/compile/config/plugin'
 import type { ViteHarmonyBuildConfig, VitePageMeta } from '@tarojs/taro/types/compile/viteCompilerContext'
 
+export interface IMethod {
+  name: string
+  decorators?: string[]
+  prefix?: string
+  type?: 'function' | 'arrow' | 'method' | 'async function' | 'async arrow' | 'async method'
+  params?: string[] | false
+  body?: string
+}
+
 export interface TaroHarmonyPageMeta extends VitePageMeta {
   entryOption?: Record<string, unknown>
 
@@ -22,15 +31,8 @@ export interface TaroHarmonyPageMeta extends VitePageMeta {
   modifyPageAppear?: (this: Parser, appearStr: string) => string
 
   modifyPageBuild?: (this: Parser, buildStr: string) => string
-}
 
-export interface IMethod {
-  name: string
-  decorators?: string[]
-  prefix?: string
-  type?: 'function' | 'arrow' | 'method' | 'async function' | 'async arrow' | 'async method'
-  params?: string[] | false
-  body?: string
+  modifyPageMethods?: (this: Parser, methods: IMethod[]) => void
 }
 
 const SHOW_TREE = false
@@ -195,6 +197,7 @@ export default class Parser extends BaseParser {
     const modifyPageBuild = page instanceof Array ? page[0].modifyPageBuild : page.modifyPageBuild
     const modifyPageAppear = page instanceof Array ? page[0].modifyPageAppear : page.modifyPageAppear
     const modifyRenderState = page instanceof Array ? page[0].modifyRenderState : page.modifyRenderState
+    const modifyPageMethods = page instanceof Array ? page[0].modifyPageMethods : page.modifyPageMethods
 
     if (isFunction(modifyRenderState)) {
       modifyRenderState.call(this, generateState)
@@ -669,6 +672,10 @@ for (let i = 0; i < taskQueen.length; i++) {
   await new Promise<void>((resolve) => setTimeout(resolve, 16))
 }`,
       })
+    }
+
+    if (isFunction(modifyPageMethods)) {
+      modifyPageMethods.call(this, generateMethods)
     }
 
     generateMethods.push({
