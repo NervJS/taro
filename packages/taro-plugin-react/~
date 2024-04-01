@@ -1,0 +1,15 @@
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+::1             localhost
+127.0.0.1 ling-design-dev.jd.com
+127.0.0.1 ling-component-dev.jd.com
+127.0.0.1  taro-ext.jd.com
+# This line is auto added by aTrustAgent, do not modify, or aTrustAgent may unable to work
+127.0.0.1	localhost.sangfor.com.cn
+
