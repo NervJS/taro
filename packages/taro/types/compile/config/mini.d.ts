@@ -3,6 +3,7 @@ import type Chain from 'webpack-chain'
 import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
 import type { OutputOptions as RollupOutputOptions } from 'rollup'
 import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
+import type { OutputExt } from './project'
 
 interface Runtime {
   enableInnerHTML?: boolean
@@ -12,21 +13,6 @@ interface Runtime {
   enableCloneNode?: boolean
   enableContains?: boolean
   enableMutationObserver?: boolean
-}
-
-interface OutputExt {
-  /**
-   * 编译前清空输出目录
-   * @since Taro v3.6.9
-   * @description
-   * - 默认清空输出目录，可设置 clean: false 不清空
-   * - 可设置 clean: { keep: ['project.config.json'] } 保留指定文件
-   * - 注意 clean.keep 不支持函数
-   */
-  clean?: boolean | {
-    /** 保留指定文件不删除 */
-    keep?: Array<string | RegExp> | string | RegExp
-  }
 }
 
 export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> {

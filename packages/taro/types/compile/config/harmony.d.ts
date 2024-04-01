@@ -1,12 +1,12 @@
+import type { OutputOptions as RollupOutputOptions } from 'rollup'
+import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
 
 import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
-import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
+import type { CompilerTypes, CompilerWebpackTypes } from '../compiler'
+import type { OutputExt } from './project'
 
 export interface IHarmonyConfig<T extends CompilerTypes = CompilerWebpackTypes>  {
-  /** Harmony 编译方式 */
-  compiler?: Compiler
-
   /** Harmony 项目地址 */
   projectPath: string
 

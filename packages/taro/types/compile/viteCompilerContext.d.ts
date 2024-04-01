@@ -1,9 +1,10 @@
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import type { AppConfig, PageConfig } from '@tarojs/taro'
 import type { PluginContext } from 'rollup'
-import type { AppConfig, PageConfig } from '../index'
 import type { IMiniFilesConfig, IH5Config, IHarmonyConfig, IMiniAppConfig } from './config'
 import type { IProjectConfig } from './config/project'
 import type { IComponentConfig } from './hooks'
+import type { IFileType } from './index'
 
 export interface ViteNativeCompMeta {
   name: string
@@ -40,7 +41,6 @@ export interface VitePageMeta {
   templatePath?: string
   cssPath?: string
 }
-
 
 export interface ViteH5BuildConfig extends CommonBuildConfig, IH5Config<'vite'> {
   entryFileName?: string

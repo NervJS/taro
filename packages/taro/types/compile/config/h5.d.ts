@@ -5,6 +5,7 @@ import type HtmlWebpackPlugin from 'html-webpack-plugin'
 import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
 import type { OutputOptions as RollupOutputOptions } from 'rollup'
 import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
+import type { OutputExt } from './project'
 
 export interface IH5RouterConfig {
   /** 配置路由模式 */
@@ -40,7 +41,9 @@ export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
   /** webpack 编译模式下，可用于修改、拓展 Webpack 的 output 选项，配置项参考[官方文档](https://webpack.js.org/configuration/output/)
   * vite 编译模式下，用于修改、扩展 rollup 的 output，目前仅适配 chunkFileNames 和 assetFileNames 两个配置，修改其他配置请使用 vite 插件进行修改。配置想参考[官方文档](https://rollupjs.org/configuration-options/)
   */
-  output?: T extends 'vite' ? Pick<RollupOutputOptions, 'chunkFileNames' | 'assetFileNames' > : Webpack.Configuration['output']
+  output?: T extends 'vite'
+    ? Pick<RollupOutputOptions, 'chunkFileNames'>  & OutputExt
+    : Webpack.Configuration['output'] & OutputExt
 
   /** 路由相关的配置 */
   router?: IH5RouterConfig
@@ -120,7 +123,7 @@ export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
   }
   /** 生成的代码是否要兼容旧版浏览器，值为 true 时，会去读取 package.json 的 browserslist 字段。只在 vite 编译模式下有效 */
   legacy?: T extends 'vite' ? boolean : undefined
-  
+
   /** 使用的编译工具。可选值：webpack4、webpack5、vite */
   compiler?: Compiler<T>
 }
