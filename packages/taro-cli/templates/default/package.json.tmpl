@@ -59,16 +59,13 @@
     "preact": "^10.5.15"{{/if}}{{#if (eq framework "Vue3") }}
     "@tarojs/plugin-framework-vue3": "{{ version }}",
     "vue": "^3.0.0"{{/if}}
-  },{{#if (includes "Webpack4" "Webpack5" s=compiler)}}
+  },{{#if (includes "Webpack5" s=compiler)}}
   "devDependencies": {
     "@babel/core": "^7.8.0",
     "@tarojs/cli": "{{ version }}",
     "@types/webpack-env": "^1.13.6",{{#if (includes "React" "Preact" s=framework)}}
     "@tarojs/test-utils-react": "^0.1.1",
-    "@types/react": "^18.0.0",{{/if}}{{#if (eq compiler "Webpack4") }}
-    "@tarojs/mini-runner": "{{ version }}",
-    "@tarojs/webpack-runner": "{{ version }}",
-    "webpack": "4.46.0",{{/if}}{{#if (eq compiler "Webpack5") }}
+    "@types/react": "^18.0.0",{{/if}}{{#if (eq compiler "Webpack5") }}
     "webpack": "5.78.0",
     "@tarojs/taro-loader": "{{ version }}",
     "@tarojs/webpack5-runner": "{{ version }}",{{/if}}

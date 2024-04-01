@@ -55,17 +55,7 @@ export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroP
     const { appPath } = this.ctx.paths
     const { npm } = this.helper
 
-    let runnerPkg: string
-    switch (this.compiler) {
-      case 'webpack5':
-        runnerPkg = '@tarojs/webpack5-runner'
-        break
-      case 'vite':
-        runnerPkg = '@tarojs/vite-runner'
-        break
-      default:
-        runnerPkg = '@tarojs/webpack-runner'
-    }
+    const runnerPkg = this.compiler === 'vite' ? '@tarojs/vite-runner' : '@tarojs/webpack5-runner'
 
     const runner = await npm.getNpmPkg(runnerPkg, appPath)
 

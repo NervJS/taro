@@ -1,6 +1,6 @@
 # `@tarojs/taro-loader`
 
-暴露给 `@tarojs/mini-runner` 和 `@tarojs/webpack-runner` 使用的 Webpack loader，包含以下 `loader`:
+暴露给 `@tarojs/webpack5-runner` 使用的 Webpack loader，包含以下 `loader`:
 
 ## app
 
