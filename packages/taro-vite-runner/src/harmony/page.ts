@@ -11,7 +11,6 @@ export const TARO_TABBAR_PAGE_PATH = 'taro_tabbar'
 
 export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
   const name = 'taro:vite-harmony-page'
-  const pages = viteCompilerContext.getPages()
 
   return {
     name,
@@ -57,7 +56,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
         if (isTabbarPage) {
           if (tabbarList[0].pagePath === page.name) {
-            const tabbarPages = tabbarList.map(item => pages.find(e => e.name === item.pagePath)!)
+            const tabbarPages = tabbarList.map(item => viteCompilerContext.pages.find(e => e.name === item.pagePath)!)
             const tabbarId = path.join(appRoot, `${TARO_TABBAR_PAGE_PATH}`)
             this.emitFile({
               type: 'prebuilt-chunk',

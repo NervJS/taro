@@ -214,7 +214,7 @@ export default class Parser extends BaseParser {
     const modifyPageBuild = page instanceof Array ? page[0].modifyPageBuild : page.modifyPageBuild
     const modifyPageAppear = page instanceof Array ? page[0].modifyPageAppear : page.modifyPageAppear
     const modifyRenderState = page instanceof Array ? page[0].modifyRenderState : page.modifyRenderState
-    
+
     if (isFunction(modifyRenderState)) {
       modifyRenderState(generateState, this)
     }
@@ -225,7 +225,7 @@ export default class Parser extends BaseParser {
     let appearStr = `${isBlended ? '  initHarmonyElement()' : ''}
   ${this.buildConfig.isBuildNativeComp
     ? ''
-    : ` const state = this.getPageState()
+    : `const state = this.getPageState()
   if (this.pageStack.length >= state.index) {
     this.pageStack.length = state.index - 1
   }
@@ -248,7 +248,6 @@ export default class Parser extends BaseParser {
       this.isTabbarPage,
       this.appConfig.window?.enablePullDownRefresh,
       this.enableRefresh,
-      entryOption,
     )
 
     if (isFunction(modifyPageBuild)) {
@@ -258,9 +257,9 @@ export default class Parser extends BaseParser {
     structCodeArray.push(
       this.transArr2Str(generateState, 2),
       '',
-      this.transArr2Str(`aboutToAppear() {
-${appearStr}
-}`.split('\n'), 2),
+      this.transArr2Str(`aboutToAppear() {${appearStr}
+}
+`.split('\n'), 2),
       this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
 getPageState() {
   const state = router.getState()
@@ -626,16 +625,13 @@ ${this.isTabbarPage
 }`
   }
 
-  renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0, entryOption?: unknown) {
+  renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0) {
     const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
     let pageStr = ''
     if (this.buildConfig.isBuildNativeComp) {
-      pageStr = `${entryOption ? 'NavDestination()' : 'if (this.node)'} {\n  TaroView({ node: this.node as TaroViewElement, createLazyChildren: createLazyChildren })\n}\n.onShown(() => { callFn(this.page?.onShow, this) })\n.onHidden(() => { callFn(this.page?.onHide, this) })`
-      if (entryOption) {
-        pageStr += `\n.title(this.renderTitle)`
-        pageStr += `\n.hideTitleBar(${isCustomNavigationBar ? `config.navigationStyle !== 'default'` : `config.navigationStyle === 'custom'`})`
-      }
-      return pageStr
+      return `if (true) {
+  TaroView({ node: this.node as TaroViewElement, createLazyChildren: createLazyChildren })
+}`
     }
 
     pageStr = `Navigation() {
@@ -855,7 +851,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     const createPageFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
     const nativeCreatePage = `createNativePageConfig(component, '${page.name}', React, ReactDOM, config)`
     const createPage = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
-    
+
     return this.transArr2Str([
       `import { ${createPageFn} } from '${creatorLocation}'`,
       `import component from "${escapePath(rawId)}"`,
