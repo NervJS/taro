@@ -380,7 +380,7 @@ export default class List extends React.PureComponent<IProps, IState> {
   }
 
   getRenderItemNode (index: number, type: 'node' | 'placeholder' = 'node') {
-    const { item, itemData, itemKey = defaultItemKey, useIsScrolling } = this.props
+    const { item, itemData, itemKey = defaultItemKey, useIsScrolling, placeholderElement } = this.props
     const { isScrolling } = this.state
     const key = itemKey(index, itemData)
 
@@ -390,7 +390,7 @@ export default class List extends React.PureComponent<IProps, IState> {
         key,
         id: `${this.preset.id}-${index}-wrapper`,
         style: this.preset.isBrick ? style : { display: 'none' }
-      })
+      }, placeholderElement ? React.createElement(placeholderElement): null)
     }
 
     return React.createElement<any>(this.preset.itemElement, {

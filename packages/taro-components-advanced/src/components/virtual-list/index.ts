@@ -92,6 +92,10 @@ interface VirtualListProps<T = any> extends Omit<StandardProps, 'children'> {
    * @default ''
    */
   queryPrefix?: string
+  /**
+   * 防止滑动太快，顶部元素为渲染完成造成白屏现象，给提供一个占位元素可以用来做骨架
+  */
+  placeholderElement?: ComponentType
 }
 
 declare namespace VirtualListProps {
