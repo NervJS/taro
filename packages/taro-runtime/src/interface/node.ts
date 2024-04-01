@@ -1,6 +1,6 @@
 import { HydratedData } from './index'
 
-export type UpdatePayloadValue = string | boolean | HydratedData
+export type UpdatePayloadValue = string | boolean | HydratedData | null
 export type DataTree = Record<string, UpdatePayloadValue | ReturnType<HydratedData>>
 export interface UpdatePayload {
   path: string

@@ -302,6 +302,8 @@ export class TaroNode extends TaroEventTarget {
 
     // Data Structure
     const index = this.findIndex(child)
+    const isLastChild = index === this.childNodes.length -1
+    const path = child._path
     this.childNodes.splice(index, 1)
     child.parentNode = null
 
@@ -312,7 +314,14 @@ export class TaroNode extends TaroEventTarget {
 
     // Serialization
     if (this._root && doUpdate !== false) {
-      this.updateChildNodes()
+      if (isLastChild) {
+        this.enqueueUpdate({
+          path,
+          value: null
+        })
+      } else {
+        this.updateChildNodes()
+      }
     }
 
     return child

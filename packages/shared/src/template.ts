@@ -76,6 +76,7 @@ const weixinAdapter: IAdapter = {
 }
 
 export class BaseTemplate {
+  protected voidNodeName = 'void_node'
   protected _baseLevel = 0
   protected exportExpr = 'module.exports ='
   protected isSupportRecursive: boolean
@@ -219,6 +220,10 @@ export class BaseTemplate {
     return result
   }
 
+  private buildVoidNodeTemplate () {
+    return `<template name="${this.voidNodeName}" />`
+  }
+
   protected buildBaseTemplate () {
     const Adapter = this.Adapter
     const data = !this.isSupportRecursive && this.supportXS
@@ -237,6 +242,7 @@ export class BaseTemplate {
     <template is="{{${xs}}}" data="{{${data}}}" />
   </block>
 </template>
+${this.buildVoidNodeTemplate()}
 `
   }
 
@@ -555,6 +561,7 @@ ${this.buildXsTemplate()}
 
   protected buildXSTmplName () {
     return `function (l, n) {
+    if (n === undefined) return '${this.voidNodeName}'
     return 'tmpl_' + l + '_' + n
   }`
   }
@@ -685,6 +692,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
 
     // l >= containerLevel 是为了避免 baselevel 倒数两三层几层组件恰好不是 listA 中的组件，而最后一个组件又刚好是 listA 的组件，导致出现 l >= baselevel 却没有走入新的嵌套循环的问题 #14883
     return `function (l, n, s) {
+    if (n === undefined) return '${this.voidNodeName}'
     var a = ${JSON.stringify(listA)}
     var b = ${JSON.stringify(listB)}
     if (a.indexOf(n) === -1) {
