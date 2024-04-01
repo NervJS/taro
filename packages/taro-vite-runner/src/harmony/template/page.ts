@@ -24,72 +24,16 @@ export interface TaroHarmonyPageMeta extends VitePageMeta {
   modifyPageBuild?: (this: Parser, buildStr: string) => string
 }
 
+export interface IMethod {
+  name: string
+  decorators?: string[]
+  prefix?: string
+  type?: 'function' | 'arrow' | 'method' | 'async function' | 'async arrow' | 'async method'
+  params?: string[] | false
+  body?: string
+}
+
 const SHOW_TREE = false
-const showTreeFunc = (isTabbarPage: boolean) => `  handleTree (tree: TaroNode | null, level = 1, taskQueen: TFunc[] = []) {
-  if (!tree) return
-
-  const res: Record<string, string> = {}
-  Object.keys(tree).forEach(k => {
-    const item: TaroAny = tree[k]
-    if (k === 'nodeName' && item === 'TEXT') {
-      return
-    }
-    // 匹配的属性
-    if (['nodeName', '_st', '_textContent', '_attrs'].includes(k)) {
-      res[k] = item
-    }
-  })
-  let attr = ''
-  Object.keys(res).forEach(k => {
-    // 过滤空的
-    if (k === 'nodeName') {
-      return
-    } else  if (k === '_textContent' && !res[k]) {
-      return
-    } else if (k === '_st' && !Object.keys(res[k]).length) {
-      return
-    } else if (k === '_attrs' && !Object.keys(res[k]).length) {
-      return
-    }
-    attr += \`\${k}=\${JSON.stringify(res[k])} \`
-  })
-
-  if(tree.childNodes?.length) {
-    taskQueen.push(() => {
-      console.info('taro-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}>\`)
-    })
-    tree.childNodes.forEach(child => {
-      this.handleTree(child, level+1, taskQueen)
-    })
-    taskQueen.push(() => {
-      console.info('taro-ele' + new Array(level).join('   '), \`</\${res.nodeName}>\`)
-    })
-  } else {
-    taskQueen.push(() => {
-      console.info('taro-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}/>\`)
-    })
-  }
-}
-
-async showTree() {
-  const taskQueen: TFunc[] = []
-
-  this.handleTree(this.node${isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}, 1, taskQueen)
-  for (let i = 0; i < taskQueen.length; i++) {
-    taskQueen[i]()
-    await new Promise<void>((resolve) => setTimeout(resolve, 16))
-  }
-}
-`
-const SHOW_TREE_BTN = `Button({ type: ButtonType.Circle, stateEffect: true }) {
-  Text('打印 NodeTree')
-    .fontSize(7).fontColor(Color.White)
-    .size({ width: 25, height: 25 })
-    .textAlign(TextAlign.Center)
-}
-.width(55).height(55).margin({ left: 20 }).backgroundColor(Color.Blue)
-.position({ x: '75%', y: '80%' })
-.onClick(bindFn(this.showTree, this))`
 
 export default class Parser extends BaseParser {
   isTabbarPage: boolean
@@ -150,6 +94,29 @@ export default class Parser extends BaseParser {
       return `${decorator ? `@${decorator} ` : ''}${name}: ${type} = ${prefix}${foreach(null, '')}${suffix}`
     }
     return null
+  }
+
+  renderMethods (methods: IMethod[]) {
+    return methods.map((method, index) => {
+      const { name = '', decorators = [], params = [], body, prefix = '', type = 'method' } = method
+      if (!name || methods.findIndex(e => e.name === name) !== index) {
+        console.warn(`Taro(PageParser): Method name is empty or duplicate: ${name}`)
+        return null
+      }
+
+      const decoratorStr = decorators.length > 0 ? `${decorators.map(e => `@${e}`).join('\n')}\n` : ''
+      const prefixSrc = `${decoratorStr}${prefix ? `${prefix} ` : ''}`
+      const paramStr = params ? `${params.join(', ')}` : ''
+      const promiseSymbol = type.includes('async') ? 'async ' : ''
+
+      if (/\bfunction\b/.test(type)) {
+        return `${prefixSrc}${name}: ${promiseSymbol}function (${paramStr}) {${body ? `\n${this.transArr2Str(body.split('\n'), 2)}\n` : ''}}`
+      } else if (/\barrow\b/.test(type)) {
+        return `${prefixSrc}${name} = ${promiseSymbol}(${paramStr}) => {${body ? `\n${this.transArr2Str(body.split('\n'), 2)}\n` : ''}}`
+      } else {
+        return `${prefixSrc}${promiseSymbol}${name} (${paramStr})${body ? ` {\n${this.transArr2Str(body.split('\n'), 2)}\n}` : ''}`
+      }
+    }).join('\n\n')
   }
 
   getInstantiatePage (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
@@ -236,22 +203,24 @@ export default class Parser extends BaseParser {
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
 
     // 生成 aboutToAppear 函数内容
-    let appearStr = `${isBlended ? '  initHarmonyElement()' : ''}
-  ${this.buildConfig.isBuildNativeComp
-    ? ''
-    : `const state = this.getPageState()
-  if (this.pageStack.length >= state.index) {
-    this.pageStack.length = state.index - 1
-  }
-  this.pageStack.push(state)`}
-  ${this.isTabbarPage ? `const params = router.getParams() as Record<string, string> || {}
-  let index = params.$page
-    ? this.tabBarList.findIndex(e => e.pagePath === params.$page)
-    : this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)
-  index = index >= 0 ? index : 0
-  this.handlePageAppear(index)
-  this.setTabBarCurrentIndex(index)
-  this.bindEvent()` : 'this.handlePageAppear()'}`
+    let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as string[]).concat(
+      this.buildConfig.isBuildNativeComp ? [] :[
+        'const state = this.getPageState()',
+        'if (this.pageStack.length >= state.index) {',
+        '  this.pageStack.length = state.index - 1',
+        '}',
+        `this.pageStack.push(state)`,
+      ],
+      this.isTabbarPage ? [
+        'const params = router.getParams() as Record<string, string> || {}',
+        'let index = params.$page',
+        '  ? this.tabBarList.findIndex(e => e.pagePath === params.$page)',
+        '  : this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)',
+        'index = index >= 0 ? index : 0',
+        'this.handlePageAppear(index)',
+        'this.setTabBarCurrentIndex(index)',
+        'this.bindTabBarEvent()',
+      ] : ['this.handlePageAppear()']))}`
 
     if (isFunction(modifyPageAppear)) {
       appearStr = modifyPageAppear.call(this, appearStr)
@@ -268,320 +237,449 @@ export default class Parser extends BaseParser {
       buildStr = modifyPageBuild.call(this, buildStr)
     }
 
+    const generateMethods: IMethod[] = [{
+      name: 'getPageState',
+      body: `const state = router.getState()
+state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as TaroHarmonyPageMeta).name}'
+if (state.path.endsWith('/')) {
+state.path += 'index'
+}
+return state`,
+    },
+    {
+      name: 'aboutToAppear',
+      body: appearStr,
+    },
+    {
+      name: 'aboutToDisappear',
+      body: this.isTabbarPage ? `this.pageList?.forEach(item => {
+callFn(item?.onUnload, this)
+})
+this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'
+    },
+    {
+      name: 'handlePageAppear',
+      params: this.isTabbarPage ? ['index = this.tabBarCurrentIndex'] : [],
+      body: this.generatePageAppear(page),
+    }]
+
+    if (this.buildConfig.isBuildNativeComp) {
+      const idx = generateMethods.findIndex(e => e.name === 'getPageState')
+      generateMethods.splice(idx, 1)
+    } else {
+      generateMethods.push({
+        name: 'handleNavigationStyle',
+        type: 'arrow',
+        params: ['option: TaroObject'],
+        body: this.transArr2Str([
+          `if (option.title) this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.title`,
+          `if (option.backgroundColor) this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.backgroundColor || '#000000'`,
+          `if (option.frontColor) this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.frontColor || 'white'`,
+          this.isTabbarPage
+            ? null
+            : `if (typeof option.home === 'boolean') this.navigationBarHomeBtn = option.home`,
+          `if (typeof option.loading === 'boolean') this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.loading`,
+        ]),
+      }, {
+        name: 'handlePageStyle',
+        type: 'arrow',
+        params: ['option: TaroObject'],
+        body: `if (option.backgroundColor) this.pageBackgroundColor = option.backgroundColor || '#FFFFFF'`,
+      }, {
+        name: 'bindPageEvent',
+        body: this.transArr2Str([
+          `eventCenter.on('__taroNavigationStyle', this.handleNavigationStyle)`,
+          `eventCenter.on('__taroPageStyle', this.handlePageStyle)`,
+        ]),
+      }, {
+        name: 'removePageEvent',
+        body: this.transArr2Str([
+          `eventCenter.off('__taroNavigationStyle', this.handleNavigationStyle)`,
+          `eventCenter.off('__taroPageStyle', this.handlePageStyle)`,
+        ]),
+      }, {
+        decorators: ['Builder'],
+        name: 'renderTitle',
+        body: `Flex({
+  direction: FlexDirection.Row,
+  justifyContent: FlexAlign.Start,
+  alignItems: ItemAlign.Center,
+}) {${!this.isTabbarPage && !this.buildConfig.isBuildNativeComp
+  // FIXME 这里 pageStack 更新问题，需要第二次才能显示 Home 按钮
+    ? `if (this.pageStack[0].path !== this.entryPagePath && this.navigationBarHomeBtn && this.pageStack.length === 1) {
+    Image($r('app.media.taro_home'))
+      .height(convertNumber2VP(40))
+      .width(convertNumber2VP(40))
+      .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
+      .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+      .objectFit(ImageFit.Contain)
+      .onClick(() => {
+        router.replaceUrl({
+          url: this.tabBarList.find(e => e.pagePath === this.entryPagePath) ? '${TARO_TABBAR_PAGE_PATH}' : this.entryPagePath,
+          params: {
+            '$page': this.entryPagePath,
+          },
+        })
+      })
+  } else if (this.pageStack.length > 1) {
+    Image($r('app.media.taro_arrow_left'))
+      .height(convertNumber2VP(40))
+      .width(convertNumber2VP(40))
+      .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
+      .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+      .objectFit(ImageFit.Contain)
+      .onClick(() => {
+        router.back()
+      })
+  }` : ''}
+  Text(this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTitleText || ''}')
+    .margin({ left: convertNumber2VP(40) })
+    .fontSize(convertNumber2VP(32))
+    .fontColor((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+  if (this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}) {
+    LoadingProgress()
+    .margin({ left: convertNumber2VP(10) })
+    .height(convertNumber2VP(40))
+    .width(convertNumber2VP(40))
+    .color((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+  }
+}
+.height('100%')
+.backgroundColor(this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
+.zIndex(1)`,
+      })
+
+      if (this.isTabbarPage) {
+        generateMethods.push({
+          name: 'setTabBarCurrentIndex',
+          type: 'arrow',
+          params: ['index: number'],
+          body: this.transArr2Str([
+            'this.tabBarCurrentIndex = index',
+            'this.page = this.pageList[index]',
+          ]),
+        }, {
+          name: 'updateTabBarKey',
+          type: 'arrow',
+          params: ['index = 0', 'odd: TaroAny = {}'],
+          body: this.transArr2Str([
+            `const obj: TaroAny = this.tabBarList[index]`,
+            `if (Object.keys(obj).every(key => odd[key] === obj[key])) return`,
+            '',
+            `const idx: TaroAny = obj.key || index`,
+            `const len = this.tabBarList.length`,
+            `obj.key = (Math.floor(idx / len) + 1) * len + index`,
+          ]),
+        }, {
+          name: 'handleSwitchTab',
+          type: 'arrow',
+          params: ['option: TaroObject'],
+          body: this.transArr2Str([
+            `const index = this.tabBarList.findIndex(e => e.pagePath === option.params.$page)`,
+            `if (index >= 0 && this.tabBarCurrentIndex !== index) {`,
+            `  this.page?.onHide?.()`,
+            `  this.setTabBarCurrentIndex(index)`,
+            `}`,
+          ]),
+        }, {
+          name: 'handleSetTabBarBadge',
+          type: 'arrow',
+          params: ['option: TaroObject'],
+          body: this.transArr2Str([
+            `const list = [...this.tabBarList]`,
+            `if (!!list[option.index]) {`,
+            `  const obj = list[option.index]`,
+            `  const odd: ITabBarItem = ObjectAssign(obj)`,
+            `  obj.showRedDot = false`,
+            `  obj.badgeText = option.text`,
+            `  this.updateTabBarKey(option.index, odd)`,
+            `}`,
+            `this.tabBarList = list`,
+          ]),
+        }, {
+          name: 'handleRemoveTabBarBadge',
+          type: 'arrow',
+          params: ['option: TaroObject'],
+          body: this.transArr2Str([
+            `const list = [...this.tabBarList]`,
+            `if (!!list[option.index]) {`,
+            `  const obj = list[option.index]`,
+            `  const odd: ITabBarItem = ObjectAssign(obj)`,
+            `  obj.badgeText = undefined`,
+            `  this.updateTabBarKey(option.index, odd)`,
+            `}`,
+            `this.tabBarList = list`,
+          ]),
+        }, {
+          name: 'handleShowTabBarRedDot',
+          type: 'arrow',
+          params: ['option: TaroObject'],
+          body: this.transArr2Str([
+            `const list = [...this.tabBarList]`,
+            `if (!!list[option.index]) {`,
+            `  const obj = list[option.index]`,
+            `  const odd: ITabBarItem = ObjectAssign(obj)`,
+            `  obj.badgeText = undefined`,
+            `  obj.showRedDot = true`,
+            `  this.updateTabBarKey(option.index, odd)`,
+            `}`,
+            `this.tabBarList = list`,
+          ]),
+        }, {
+          name: 'handleHideTabBarRedDot',
+          type: 'arrow',
+          params: ['option: TaroObject'],
+          body: this.transArr2Str([
+            `const list = [...this.tabBarList]`,
+            `if (!!list[option.index]) {`,
+            `  const obj = list[option.index]`,
+            `  const odd: ITabBarItem = ObjectAssign(obj)`,
+            `  obj.showRedDot = false`,
+            `  this.updateTabBarKey(option.index, odd)`,
+            `}`,
+            `this.tabBarList = list`,
+          ]),
+        }, {
+          name: 'handleShowTabBar',
+          type: 'arrow',
+          params: ['option: TaroObject'],
+          body: this.transArr2Str([
+            `if (option.animation) {`,
+            `  animateTo({`,
+            `    duration: this.tabBarAnimationDuration,`,
+            `    tempo: 1,`,
+            `    playMode: PlayMode.Normal,`,
+            `    iterations: 1,`,
+            `  }, () => {`,
+            `    this.isTabBarShow = true`,
+            `  })`,
+            `} else {`,
+            `  this.isTabBarShow = true`,
+            `}`,
+          ]),
+        }, {
+          name: 'handleHideTabBar',
+          type: 'arrow',
+          params: ['option: TaroObject'],
+          body: this.transArr2Str([
+            `if (option.animation) {`,
+            `  animateTo({`,
+            `    duration: this.tabBarAnimationDuration,`,
+            `    tempo: 1,`,
+            `    playMode: PlayMode.Normal,`,
+            `    iterations: 1,`,
+            `  }, () => {`,
+            `    this.isTabBarShow = false`,
+            `  })`,
+            `} else {`,
+            `  this.isTabBarShow = false`,
+            `}`,
+          ]),
+        }, {
+          name: 'handleSetTabBarStyle',
+          type: 'arrow',
+          params: ['option: TaroObject'],
+          body: this.transArr2Str([
+            `if (option.backgroundColor) this.tabBarBackgroundColor = option.backgroundColor`,
+            `if (option.borderStyle) this.tabBarBorderStyle = option.borderStyle`,
+            `if (option.color) this.tabBarColor = option.color`,
+            `if (option.selectedColor) this.tabBarSelectedColor = option.selectedColor`,
+          ]),
+        }, {
+          name: 'handleSetTabBarItem',
+          type: 'arrow',
+          params: ['option: TaroObject'],
+          body: this.transArr2Str([
+            `const list = [...this.tabBarList]`,
+            `if (!!list[option.index]) {`,
+            `  const obj = list[option.index]`,
+            `  const odd: ITabBarItem = ObjectAssign(obj)`,
+            `  if (option.iconPath) {`,
+            `    obj.iconPath = option.iconPath`,
+            `    this.tabBarWithImage = true`,
+            `  }`,
+            `  if (option.selectedIconPath) obj.selectedIconPath = option.selectedIconPath`,
+            `  if (option.text) obj.text = option.text`,
+            `  this.updateTabBarKey(option.index, odd)`,
+            `}`,
+            `this.tabBarList = list`,
+          ]),
+        }, {
+          name: 'bindTabBarEvent',
+          body: this.transArr2Str([
+            `eventCenter.on('__taroSwitchTab', this.handleSwitchTab)`,
+            `eventCenter.on('__taroSetTabBarBadge', this.handleSetTabBarBadge)`,
+            `eventCenter.on('__taroRemoveTabBarBadge', this.handleRemoveTabBarBadge)`,
+            `eventCenter.on('__taroShowTabBarRedDotHandler', this.handleShowTabBarRedDot)`,
+            `eventCenter.on('__taroHideTabBarRedDotHandler', this.handleHideTabBarRedDot)`,
+            `eventCenter.on('__taroShowTabBar', this.handleShowTabBar)`,
+            `eventCenter.on('__taroHideTabBar', this.handleHideTabBar)`,
+            `eventCenter.on('__taroSetTabBarStyle', this.handleSetTabBarStyle)`,
+            `eventCenter.on('__taroSetTabBarItem', this.handleSetTabBarItem)`,
+          ]),
+        }, {
+          name: 'removeTabBarEvent',
+          body: this.transArr2Str([
+            `eventCenter.off('__taroSwitchTab', this.handleSwitchTab)`,
+            `eventCenter.off('__taroSetTabBarBadge', this.handleSetTabBarBadge)`,
+            `eventCenter.off('__taroRemoveTabBarBadge', this.handleRemoveTabBarBadge)`,
+            `eventCenter.off('__taroShowTabBarRedDotHandler', this.handleShowTabBarRedDot)`,
+            `eventCenter.off('__taroHideTabBarRedDotHandler', this.handleHideTabBarRedDot)`,
+            `eventCenter.off('__taroShowTabBar', this.handleShowTabBar)`,
+            `eventCenter.off('__taroHideTabBar', this.handleHideTabBar)`,
+            `eventCenter.off('__taroSetTabBarStyle', this.handleSetTabBarStyle)`,
+            `eventCenter.off('__taroSetTabBarItem', this.handleSetTabBarItem)`,
+          ]),
+        }, {
+          decorators: ['Builder'],
+          name: 'renderTabBarInnerBuilder',
+          params: ['index: number', 'item: ITabBarItem'],
+          body: this.transArr2Str([
+            'Column() {',
+            '  if (this.tabBarWithImage) {',
+            '    Image(this.tabBarCurrentIndex === index && item.selectedIconPath || item.iconPath)',
+            '      .width(24)',
+            '      .height(24)',
+            '      .objectFit(ImageFit.Contain)',
+            '    Text(item.text)',
+            '      .fontColor(this.tabBarCurrentIndex === index ? this.tabBarSelectedColor : this.tabBarColor)',
+            '      .fontSize(10)',
+            '      .fontWeight(this.tabBarCurrentIndex === index ? 500 : 400)',
+            '      .lineHeight(14)',
+            '      .maxLines(1)',
+            '      .textOverflow({ overflow: TextOverflow.Ellipsis })',
+            '      .margin({ top: 7, bottom: 7 })',
+            '  } else {',
+            '    Text(item.text)',
+            '      .fontColor(this.tabBarCurrentIndex === index ? this.tabBarSelectedColor : this.tabBarColor)',
+            '      .fontSize(16)',
+            '      .fontWeight(this.tabBarCurrentIndex === index ? 500 : 400)',
+            '      .lineHeight(22)',
+            '      .maxLines(1)',
+            '      .textOverflow({ overflow: TextOverflow.Ellipsis })',
+            '      .margin({ top: 17, bottom: 7 })',
+            '  }',
+            '}',
+          ]),
+        }, {
+          decorators: ['Builder'],
+          name: 'renderTabItemBuilder',
+          params: ['index: number', 'item: ITabBarItem'],
+          body: this.transArr2Str([
+            'Column() {',
+            '  if (!!item.badgeText || item.showRedDot) {',
+            '    Badge({',
+            '      value: item.badgeText || "",',
+            '      position: BadgePosition.RightTop,',
+            '      style: {',
+            '        badgeSize: !!item.badgeText ? 16 : 6,',
+            '        badgeColor: Color.Red,',
+            '      }',
+            '    }) {',
+            '      this.renderTabBarInnerBuilder(index, item)',
+            '    }',
+            '  } else {',
+            '    this.renderTabBarInnerBuilder(index, item)',
+            '  }',
+            '}',
+            '.margin({ top: 4 })',
+            '.width("100%").height("100%")',
+            '.justifyContent(FlexAlign.SpaceEvenly)',
+          ]),
+        })
+      }
+    }
+
+    if (this.enableRefresh) {
+      const params = ['state: RefreshStatus']
+      if (this.isTabbarPage) {
+        params.unshift('index = this.tabBarCurrentIndex')
+      }
+      generateMethods.push({
+        name: 'handleRefreshStatus',
+        params,
+        body: this.transArr2Str([
+          `if (state === RefreshStatus.Refresh) {`,
+          `  ${this.isTabbarPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = true`,
+          `  callFn(this.page?.onPullDownRefresh, this)`,
+          `} else if (state === RefreshStatus.Done) {`,
+          `  ${this.isTabbarPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = false`,
+          `} else if (state === RefreshStatus.Drag) {`,
+          `  callFn(this.page?.onPullIntercept, this)`,
+          `}`,
+        ]),
+      })
+    }
+
+    if (SHOW_TREE) {
+      generateMethods.push({
+        name: 'handleTree',
+        params: ['tree: TaroNode | null', 'level = 1', 'taskQueen: TFunc[] = []'],
+        body: `if (!tree) return
+
+const res: Record<string, string> = {}
+Object.keys(tree).forEach(k => {
+  const item: TaroAny = tree[k]
+  if (k === 'nodeName' && item === 'TEXT') {
+    return
+  }
+  // 匹配的属性
+  if (['nodeName', '_st', '_textContent', '_attrs'].includes(k)) {
+    res[k] = item
+  }
+})
+let attr = ''
+Object.keys(res).forEach(k => {
+  // 过滤空的
+  if (k === 'nodeName') {
+    return
+  } else  if (k === '_textContent' && !res[k]) {
+    return
+  } else if (k === '_st' && !Object.keys(res[k]).length) {
+    return
+  } else if (k === '_attrs' && !Object.keys(res[k]).length) {
+    return
+  }
+  attr += \`\${k}=\${JSON.stringify(res[k])} \`
+})
+
+if(tree.childNodes?.length) {
+  taskQueen.push(() => {
+    console.info('taro-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}>\`)
+  })
+  tree.childNodes.forEach(child => {
+    this.handleTree(child, level + 1, taskQueen)
+  })
+  taskQueen.push(() => {
+    console.info('taro-ele' + new Array(level).join('   '), \`</\${res.nodeName}>\`)
+  })
+} else {
+  taskQueen.push(() => {
+    console.info('taro-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}/>\`)
+  })
+}`,
+      }, {
+        name: 'showTree',
+        type: 'async arrow',
+        body: `const taskQueen: TFunc[] = []
+
+this.handleTree(this.node${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}, 1, taskQueen)
+for (let i = 0; i < taskQueen.length; i++) {
+  taskQueen[i]()
+  await new Promise<void>((resolve) => setTimeout(resolve, 16))
+}`,
+      })
+    }
+
+    generateMethods.push({
+      name: 'build',
+      body: buildStr,
+    })
+
     structCodeArray.push(
       this.transArr2Str(generateState, 2),
       '',
-      this.transArr2Str(`aboutToAppear() {${appearStr}
-}
-`.split('\n'), 2),
-      this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
-getPageState() {
-  const state = router.getState()
-  state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as TaroHarmonyPageMeta).name}'
-  if (state.path.endsWith('/')) {
-    state.path += 'index'
-  }
-  return state
-}
-`.split('\n'), 2),
-      SHOW_TREE ? this.transArr2Str(showTreeFunc(this.isTabbarPage).split('\n'), 2) : null,
-      this.transArr2Str(`
-aboutToDisappear () {
-  ${this.isTabbarPage ? `this.pageList?.forEach(item => {
-    callFn(item?.onUnload, this)
-  })
-  this.removeEvent()` : 'callFn(this.page?.onUnload, this)'}
-}
-
-${this.generatePageAppear(page)}
-`.split('\n'), 2),
-      this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
-handleNavigationStyle = (option: TaroObject) => {
-  if (option.title) this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.title
-  if (option.backgroundColor) this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.backgroundColor || '#000000'
-  if (option.frontColor) this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.frontColor || 'white'${this.isTabbarPage
-  ? ''
-  : "\n  if (typeof option.home === 'boolean') this.navigationBarHomeBtn = option.home"}
-  if (typeof option.loading === 'boolean') this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.loading
-}
-
-handlePageStyle = (option: TaroObject) => {
-  if (option.backgroundColor) this.pageBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.backgroundColor || '#FFFFFF'
-}
-${this.isTabbarPage ? `
-setTabBarCurrentIndex(index: number) {
-  this.tabBarCurrentIndex = index
-  this.page = this.pageList[index]
-}
-
-updateTabBarKey = (index = 0, odd: TaroAny = {}) => {
-  const obj: TaroAny = this.tabBarList[index]
-  if (Object.keys(obj).every(key => odd[key] === obj[key])) return
-
-  const idx: TaroAny = obj.key || index
-  const len = this.tabBarList.length
-  obj.key = (Math.floor(idx / len) + 1) * len + index
-}
-
-handleSwitchTab = (option: TaroObject) => {
-  const index = this.tabBarList.findIndex(e => e.pagePath === option.params.$page)
-  if (index >= 0 && this.tabBarCurrentIndex !== index) {
-    this.page?.onHide?.()
-    this.setTabBarCurrentIndex(index)
-  }
-}
-
-handleSetTabBarBadge = (option: TaroObject) => {
-  const list = [...this.tabBarList]
-  if (!!list[option.index]) {
-    const obj = list[option.index]
-    const odd: ITabBarItem = ObjectAssign(obj)
-    obj.showRedDot = false
-    obj.badgeText = option.text
-    this.updateTabBarKey(option.index, odd)
-  }
-  this.tabBarList = list
-}
-
-handleRemoveTabBarBadge = (option: TaroObject) => {
-  const list = [...this.tabBarList]
-  if (!!list[option.index]) {
-    const obj = list[option.index]
-    const odd: ITabBarItem = ObjectAssign(obj)
-    obj.badgeText = undefined
-    this.updateTabBarKey(option.index, odd)
-  }
-  this.tabBarList = list
-}
-
-handleShowTabBarRedDot = (option: TaroObject) => {
-  const list = [...this.tabBarList]
-  if (!!list[option.index]) {
-    const obj = list[option.index]
-    const odd: ITabBarItem = ObjectAssign(obj)
-    obj.badgeText = undefined
-    obj.showRedDot = true
-    this.updateTabBarKey(option.index, odd)
-  }
-  this.tabBarList = list
-}
-
-handleHideTabBarRedDot = (option: TaroObject) => {
-  const list = [...this.tabBarList]
-  if (!!list[option.index]) {
-    const obj = list[option.index]
-    const odd: ITabBarItem = ObjectAssign(obj)
-    obj.showRedDot = false
-    this.updateTabBarKey(option.index, odd)
-  }
-  this.tabBarList = list
-}
-
-handleShowTabBar = (option: TaroObject) => {
-  if (option.animation) {
-    animateTo({
-      duration: this.tabBarAnimationDuration,
-      tempo: 1,
-      playMode: PlayMode.Normal,
-      iterations: 1,
-    }, () => {
-      this.isTabBarShow = true
-    })
-  } else {
-    this.isTabBarShow = true
-  }
-}
-
-handleHideTabBar = (option: TaroObject) => {
-  if (option.animation) {
-    animateTo({
-      duration: this.tabBarAnimationDuration,
-      tempo: 1,
-      playMode: PlayMode.Normal,
-      iterations: 1,
-    }, () => {
-      this.isTabBarShow = false
-    })
-  } else {
-    this.isTabBarShow = false
-  }
-}
-
-handleSetTabBarStyle = (option: TaroObject) => {
-  if (option.backgroundColor) this.tabBarBackgroundColor = option.backgroundColor
-  if (option.borderStyle) this.tabBarBorderStyle = option.borderStyle
-  if (option.color) this.tabBarColor = option.color
-  if (option.selectedColor) this.tabBarSelectedColor = option.selectedColor
-}
-
-handleSetTabBarItem = (option: TaroObject) => {
-  const list = [...this.tabBarList]
-  if (!!list[option.index]) {
-    const obj = list[option.index]
-    const odd: ITabBarItem = ObjectAssign(obj)
-    if (option.iconPath) {
-      obj.iconPath = option.iconPath
-      this.tabBarWithImage = true
-    }
-    if (option.selectedIconPath) obj.selectedIconPath = option.selectedIconPath
-    if (option.text) obj.text = option.text
-    this.updateTabBarKey(option.index, odd)
-  }
-  this.tabBarList = list
-}
-` : ''}
-bindPageEvent () {
-  eventCenter.on('__taroNavigationStyle', this.handleNavigationStyle)
-  eventCenter.on('__taroPageStyle', this.handlePageStyle)
-}
-
-removePageEvent () {
-  eventCenter.off('__taroNavigationStyle', this.handleNavigationStyle)
-  eventCenter.off('__taroPageStyle', this.handlePageStyle)
-}
-${this.isTabbarPage ? `
-bindEvent () {
-  eventCenter.on('__taroSwitchTab', this.handleSwitchTab)
-  eventCenter.on('__taroSetTabBarBadge', this.handleSetTabBarBadge)
-  eventCenter.on('__taroRemoveTabBarBadge', this.handleRemoveTabBarBadge)
-  eventCenter.on('__taroShowTabBarRedDotHandler', this.handleShowTabBarRedDot)
-  eventCenter.on('__taroHideTabBarRedDotHandler', this.handleHideTabBarRedDot)
-  eventCenter.on('__taroShowTabBar', this.handleShowTabBar)
-  eventCenter.on('__taroHideTabBar', this.handleHideTabBar)
-  eventCenter.on('__taroSetTabBarStyle', this.handleSetTabBarStyle)
-  eventCenter.on('__taroSetTabBarItem', this.handleSetTabBarItem)
-}
-
-removeEvent () {
-  eventCenter.off('__taroSwitchTab', this.handleSwitchTab)
-  eventCenter.off('__taroSetTabBarBadge', this.handleSetTabBarBadge)
-  eventCenter.off('__taroRemoveTabBarBadge', this.handleRemoveTabBarBadge)
-  eventCenter.off('__taroShowTabBarRedDotHandler', this.handleShowTabBarRedDot)
-  eventCenter.off('__taroHideTabBarRedDotHandler', this.handleHideTabBarRedDot)
-  eventCenter.off('__taroShowTabBar', this.handleShowTabBar)
-  eventCenter.off('__taroHideTabBar', this.handleHideTabBar)
-  eventCenter.off('__taroSetTabBarStyle', this.handleSetTabBarStyle)
-  eventCenter.off('__taroSetTabBarItem', this.handleSetTabBarItem)
-}
-
-@Builder renderTabBarInnerBuilder(index: number, item: ITabBarItem) {
-  Column() {
-    if (this.tabBarWithImage) {
-      Image(this.tabBarCurrentIndex === index && item.selectedIconPath || item.iconPath)
-        .width(24)
-        .height(24)
-        .objectFit(ImageFit.Contain)
-      Text(item.text)
-        .fontColor(this.tabBarCurrentIndex === index ? this.tabBarSelectedColor : this.tabBarColor)
-        .fontSize(10)
-        .fontWeight(this.tabBarCurrentIndex === index ? 500 : 400)
-        .lineHeight(14)
-        .maxLines(1)
-        .textOverflow({ overflow: TextOverflow.Ellipsis })
-        .margin({ top: 7, bottom: 7 })
-    } else {
-      Text(item.text)
-        .fontColor(this.tabBarCurrentIndex === index ? this.tabBarSelectedColor : this.tabBarColor)
-        .fontSize(16)
-        .fontWeight(this.tabBarCurrentIndex === index ? 500 : 400)
-        .lineHeight(22)
-        .maxLines(1)
-        .textOverflow({ overflow: TextOverflow.Ellipsis })
-        .margin({ top: 17, bottom: 7 })
-    }
-  }
-}
-
-@Builder renderTabItemBuilder(index: number, item: ITabBarItem) {
-  Column() {
-    if (!!item.badgeText || item.showRedDot) {
-      Badge({
-        value: item.badgeText || '',
-        position: BadgePosition.RightTop,
-        style: {
-          badgeSize: !!item.badgeText ? 16 : 6,
-          badgeColor: Color.Red,
-        }
-      }) {
-        this.renderTabBarInnerBuilder(index, item)
-      }
-    } else {
-      this.renderTabBarInnerBuilder(index, item)
-    }
-  }
-  .margin({ top: 4 })
-  .width('100%').height('100%')
-  .justifyContent(FlexAlign.SpaceEvenly)
-}
-` : ''}`.split('\n'), 2),
-      this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
-@Builder renderTitle() {
-  Flex({
-    direction: FlexDirection.Row,
-    justifyContent: FlexAlign.Start,
-    alignItems: ItemAlign.Center,
-  }) {${!this.isTabbarPage && !this.buildConfig.isBuildNativeComp
-    // FIXME 这里 pageStack 更新问题，需要第二次才能显示 Home 按钮
-    ? `if (this.pageStack[0].path !== this.entryPagePath && this.navigationBarHomeBtn && this.pageStack.length === 1) {
-      Image($r('app.media.taro_home'))
-        .height(convertNumber2VP(40))
-        .width(convertNumber2VP(40))
-        .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
-        .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
-        .objectFit(ImageFit.Contain)
-        .onClick(() => {
-          router.replaceUrl({
-            url: this.tabBarList.find(e => e.pagePath === this.entryPagePath) ? '${TARO_TABBAR_PAGE_PATH}' : this.entryPagePath,
-            params: {
-              '$page': this.entryPagePath,
-            },
-          })
-        })
-    } else if (this.pageStack.length > 1) {
-      Image($r('app.media.taro_arrow_left'))
-        .height(convertNumber2VP(40))
-        .width(convertNumber2VP(40))
-        .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
-        .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
-        .objectFit(ImageFit.Contain)
-        .onClick(() => {
-          router.back()
-        })
-    }` : ''}
-    Text(this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTitleText || ''}')
-      .margin({ left: convertNumber2VP(40) })
-      .fontSize(convertNumber2VP(32))
-      .fontColor((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
-    if (this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}) {
-      LoadingProgress()
-      .margin({ left: convertNumber2VP(10) })
-      .height(convertNumber2VP(40))
-      .width(convertNumber2VP(40))
-      .color((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
-    }
-  }
-  .height('100%')
-  .backgroundColor(this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
-  .zIndex(1)
-}
-`.split('\n'), 2),
-      this.enableRefresh ? this.transArr2Str(`
-handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : ''}state: RefreshStatus) {
-  if (state === RefreshStatus.Refresh) {
-    ${this.isTabbarPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = true
-    callFn(this.page?.onPullDownRefresh, this)
-  } else if (state === RefreshStatus.Done) {
-    ${this.isTabbarPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = false
-  } else if (state === RefreshStatus.Drag) {
-    callFn(this.page?.onPullIntercept, this)
-  }
-}
-`.split('\n'), 2): null,
-      this.transArr2Str([
-        'build() {',
-        this.transArr2Str(buildStr.split('\n'), 2).split('\n'),
-        '}',
-      ], 2)
+      this.transArr2Str(this.renderMethods(generateMethods).split('\n'), 2),
     )
 
     structCodeArray.push('}', '')
@@ -602,40 +700,35 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       paramsString = modifyPageParams.call(this, paramsString)
     }
 
-    return `handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {${this.buildConfig.isBuildNativeComp ? '' :`
-  if (${this.appConfig.window?.navigationStyle === 'custom'
-    ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
-    : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
-    Current.contextPromise
-      .then((context: common.BaseContext) => {
-        const win = window.__ohos.getLastWindow(context)
-        win.then(mainWindow => {${this.buildConfig.isBuildNativeComp ? '' : `
-          mainWindow.setFullScreen(true)
-          mainWindow.setSystemBarEnable(["status", "navigation"])
-      })
-    })`}
-  }\n`}
-  const params = ${paramsString}
+    return `${this.buildConfig.isBuildNativeComp ? '' :`if (${this.appConfig.window?.navigationStyle === 'custom'
+      ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
+      : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
+  Current.contextPromise
+    .then((context: common.BaseContext) => {
+      const win = window.__ohos.getLastWindow(context)
+      win.then(mainWindow => {${this.buildConfig.isBuildNativeComp ? '' : `
+        mainWindow.setFullScreen(true)
+        mainWindow.setSystemBarEnable(["status", "navigation"])
+    })
+  })`}
+}\n`}
+const params = ${paramsString}
 ${this.isTabbarPage
-    ? this.transArr2Str([
-      'this.pageList ||= []',
-      'if (!this.pageList[index]) {',
-      '  this.pageList[index] = createComponent[index]()',
-      '  this.page = this.pageList[index]',
-      '  callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
-      '    this.node[index] = instance',
-      '  })',
-      '  callFn(this.page.onReady, this, params)',
-      '}',
-    ], 2)
-    : this.transArr2Str([
-      `this.page = createComponent()`,
-      'this.onReady = this.page?.onReady?.bind(this.page)',
-      'callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
-      '  this.node = instance',
-      '})',
-      'callFn(this.page.onReady, this, params)',
-    ], 2)}
+    ? `this.pageList ||= []
+if (!this.pageList[index]) {
+  this.pageList[index] = createComponent[index]()
+  this.page = this.pageList[index]
+  callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
+    this.node[index] = instance
+  })
+  callFn(this.page.onReady, this, params)
+}`
+    : `this.page = createComponent()
+this.onReady = this.page?.onReady?.bind(this.page)
+callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
+  this.node = instance
+})
+callFn(this.page.onReady, this, params)`
 }`
   }
 
@@ -761,7 +854,18 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       pageStr = this.transArr2Str([
         'if (true) {',
         this.transArr2Str(pageStr.split('\n'), 2),
-        this.transArr2Str(SHOW_TREE_BTN.split('\n'), 2),
+        this.transArr2Str([
+          'Button({ type: ButtonType.Circle, stateEffect: true }) {',
+          '  Text(\'打印 NodeTree\')',
+          '    .fontSize(7).fontColor(Color.White)',
+          '    .size({ width: 25, height: 25 })',
+          '    .textAlign(TextAlign.Center)',
+          '}',
+          '.width(55).height(55).margin({ left: 20 })',
+          '.backgroundColor(Color.Blue)',
+          '.position({ x: \'75%\', y: \'80%\' })',
+          '.onClick(bindFn(this.showTree, this))',
+        ], 2),
         '}',
       ])
     }

@@ -42,7 +42,7 @@ export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
   * vite 编译模式下，用于修改、扩展 rollup 的 output，目前仅适配 chunkFileNames 和 assetFileNames 两个配置，修改其他配置请使用 vite 插件进行修改。配置想参考[官方文档](https://rollupjs.org/configuration-options/)
   */
   output?: T extends 'vite'
-    ? Pick<RollupOutputOptions, 'chunkFileNames'>  & OutputExt
+    ? Pick<RollupOutputOptions, 'chunkFileNames' | 'assetFileNames'>  & OutputExt
     : Webpack.Configuration['output'] & OutputExt
 
   /** 路由相关的配置 */
