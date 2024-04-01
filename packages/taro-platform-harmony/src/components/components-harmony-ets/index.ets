@@ -29,13 +29,14 @@ import { FlexManager } from './utils/flexManager'
 import { DynamicCenter } from './utils/DynamicCenter'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
-import { getNodeThresholds, getNormalAttributes, getFontAttributes } from './utils/helper'
+import { shouldBindEvent, getNodeThresholds, getNormalAttributes, getFontAttributes } from './utils/helper'
 
 export {
   FlexManager,
   DynamicCenter,
   getButtonColor,
   TOUCH_EVENT_MAP,
+  shouldBindEvent,
   getFontAttributes,
   commonStyleModify,
   getNodeThresholds,
