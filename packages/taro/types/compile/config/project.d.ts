@@ -293,7 +293,7 @@ export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   /** 一个 preset 是一系列 Taro 插件的集合，配置语法同 plugins */
   presets?: PluginItem[]
 
-  /** 使用的开发框架。可选值：react、preact、vue3 */
+  /** 使用的开发框架。可选值：react、preact、solid、vue3 */
   framework?: 'react' | 'preact' | 'solid' | 'vue3'
 
   /** Webpack5 持久化缓存配置。具体配置请参考 [WebpackConfig.cache](https://webpack.js.org/configuration/cache/#cache) */

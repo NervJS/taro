@@ -57,21 +57,6 @@ function addConfig (source) {
   return additionConfig
 }
 
-const nervMeta = {
-  importFrameworkStatement: `
-import Nerv from 'nervjs';
-`,
-  mockAppStatement: `
-class App extends Nerv.Component {
-  render () {
-    return this.props.children
-  }
-}
-`,
-  frameworkArgs: 'Nerv, Nerv, config',
-  importFrameworkName: 'Nerv'
-}
-
 export function getLoaderMeta (framework: Frameworks): ILoaderMeta {
   const loaderMeta = {
     importFrameworkStatement: `
@@ -94,9 +79,6 @@ class App extends React.Component {
     modifyConfig (config, source) {
       Object.assign(config, addConfig(source))
     }
-  }
-  if (framework === 'nerv') {
-    Object.assign(loaderMeta, nervMeta)
   }
 
   if (framework === 'solid') {

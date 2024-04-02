@@ -13,10 +13,10 @@ import type { IPluginContext } from '@tarojs/service'
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
 import type { PluginOption } from 'vite'
 
-export type Frameworks = 'react' | 'preact' | 'solid' | 'nerv'
+export type Frameworks = 'react' | 'preact' | 'solid' | 'vue3'
 
 export function isReactLike(framework: IProjectConfig['framework'] = 'react'): framework is Frameworks {
-  return ['react', 'preact', 'nerv', 'solid'].includes(framework)
+  return ['react', 'preact', 'solid'].includes(framework)
 }
 
 export default (ctx: IPluginContext) => {
@@ -110,10 +110,6 @@ function setAlias(framework: Frameworks, chain) {
       alias.set('react-dom/test-utils', 'preact/test-utils')
       alias.set('react-dom', 'preact/compat')
       alias.set('react/jsx-runtime', 'preact/jsx-runtime')
-      break
-    case 'nerv':
-      alias.set('react$', 'nervjs')
-      alias.set('react-dom$', 'nervjs')
       break
     case 'solid':
       alias.set('react/jsx-runtime', 'solid-js/h/jsx-runtime')
