@@ -1556,9 +1556,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
             createVue3App: function() {
                 return createVue3App;
             },
-            createVueApp: function() {
-                return createVueApp;
-            },
             window: function() {
                 return window;
             }
@@ -1566,7 +1563,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
         __webpack_exports__["default"] = "taro-runtime-mock";
         var window = {};
         function createReactApp() {}
-        function createVueApp() {}
         function createVue3App() {}
         function createRecursiveComponentConfig() {}
         function createPageConfig() {}
@@ -1584,8 +1580,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
         function connectReactPage() {}
         function createReactApp() {}
         function createNativeComponentConfig() {}
-        function connectVuePage() {}
-        function createVueApp() {}
         function createVue3App() {}
         var setGlobalDataPlugin = {};
         function useDidHide() {}
@@ -2846,8 +2840,6 @@ require("./runtime");
         function connectReactPage() {}
         function createReactApp() {}
         function createNativeComponentConfig() {}
-        function connectVuePage() {}
-        function createVueApp() {}
         function createVue3App() {}
         var setGlobalDataPlugin = {};
         function useDidHide() {}
@@ -3128,9 +3120,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
             createVue3App: function() {
                 return createVue3App;
             },
-            createVueApp: function() {
-                return createVueApp;
-            },
             window: function() {
                 return window;
             }
@@ -3138,7 +3127,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
         __webpack_exports__["default"] = "taro-runtime-mock";
         var window = {};
         function createReactApp() {}
-        function createVueApp() {}
         function createVue3App() {}
         function createRecursiveComponentConfig() {}
         function createPageConfig() {}
@@ -3974,8 +3962,6 @@ require("./runtime");
         function connectReactPage() {}
         function createReactApp() {}
         function createNativeComponentConfig() {}
-        function connectVuePage() {}
-        function createVueApp() {}
         function createVue3App() {}
         var setGlobalDataPlugin = {};
         function useDidHide() {}
@@ -4891,9 +4877,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
             createVue3App: function() {
                 return createVue3App;
             },
-            createVueApp: function() {
-                return createVueApp;
-            },
             window: function() {
                 return window;
             }
@@ -4901,7 +4884,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
         __webpack_exports__["default"] = "taro-runtime-mock";
         var window = {};
         function createReactApp() {}
-        function createVueApp() {}
         function createVue3App() {}
         function createRecursiveComponentConfig() {}
         function createPageConfig() {}

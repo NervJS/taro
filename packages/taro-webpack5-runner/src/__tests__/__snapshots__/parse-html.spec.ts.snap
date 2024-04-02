@@ -533,8 +533,6 @@ require("./runtime");
         function connectReactPage() {}
         function createReactApp() {}
         function createNativeComponentConfig() {}
-        function connectVuePage() {}
-        function createVueApp() {}
         function createVue3App() {}
         var setGlobalDataPlugin = {};
         function useDidHide() {}
@@ -1379,9 +1377,6 @@ require("./runtime");
             createVue3App: function() {
                 return createVue3App;
             },
-            createVueApp: function() {
-                return createVueApp;
-            },
             window: function() {
                 return window;
             }
@@ -1389,7 +1384,6 @@ require("./runtime");
         __webpack_exports__["default"] = "taro-runtime-mock";
         var window = {};
         function createReactApp() {}
-        function createVueApp() {}
         function createVue3App() {}
         function createRecursiveComponentConfig() {}
         function createPageConfig() {}
