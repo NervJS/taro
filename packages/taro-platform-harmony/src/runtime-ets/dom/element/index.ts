@@ -22,6 +22,7 @@ import {
   TaroIconElement,
   TaroImageElement,
   TaroLabelElement,
+  TaroOtherElement,
   TaroRichTextElement,
   TaroSwiperElement,
   TaroSwiperItemElement,
@@ -63,7 +64,7 @@ export function initHarmonyElement () {
       case 'form': return new TaroFormElement()
       case 'web-view': return new TaroWebViewElement()
       case 'inner-html': return new TaroInnerHtmlElement()
-      default: return new TaroElement(tagName)
+      default: return new TaroOtherElement(tagName)
     }
   }
 

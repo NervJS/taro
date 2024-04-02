@@ -13,6 +13,9 @@ import type {
 } from '@tarojs/components/types'
 
 @Observed
+class TaroOtherElement extends TaroElement<ViewProps> {}
+
+@Observed
 class TaroViewElement extends TaroElement<ViewProps> {
   constructor() {
     super('View')
@@ -83,6 +86,7 @@ export {
   TaroIconElement,
   TaroImageElement,
   TaroLabelElement,
+  TaroOtherElement,
   TaroRichTextElement,
   TaroSwiperElement,
   TaroSwiperItemElement,
