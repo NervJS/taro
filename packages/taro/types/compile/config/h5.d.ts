@@ -43,7 +43,7 @@ export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
   */
   output?: T extends 'vite'
     ? Pick<RollupOutputOptions, 'chunkFileNames' | 'assetFileNames'>  & OutputExt
-    : Webpack.Configuration['output'] & OutputExt
+    : Webpack.Configuration['output']
 
   /** 路由相关的配置 */
   router?: IH5RouterConfig
