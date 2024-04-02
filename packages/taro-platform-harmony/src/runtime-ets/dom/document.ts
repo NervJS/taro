@@ -5,6 +5,7 @@ import { Current } from '../current'
 import { findChildNodeWithDFS, getPageScrollerOrNode } from '../utils'
 import { TaroComment } from './comment'
 import { TaroElement } from './element/element'
+import { FixedLayer } from './element/normal'
 import { NodeType, TaroNode, TaroTextNode } from './node'
 
 import type { Window } from '../bom/window'
@@ -15,6 +16,9 @@ class TaroDocument extends TaroNode {
   public body: TaroElement
   public cookie = ''
   private _win: Window
+
+  // 浮动层
+  public fixedLayer: FixedLayer
 
   constructor(window: Window) {
     super('#document', NodeType.DOCUMENT_NODE)

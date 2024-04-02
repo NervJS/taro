@@ -1,4 +1,5 @@
 import { TaroDocument } from '../dom/document'
+import { FixedLayer } from '../dom/element/normal'
 import { window } from './window'
 
 function createDocument (): TaroDocument {
@@ -32,6 +33,9 @@ function createDocument (): TaroDocument {
   doc.head = head
   doc.body = body
 
+  // Fixed Layer
+  doc.fixedLayer = new FixedLayer()
+  
   return doc
 }
 

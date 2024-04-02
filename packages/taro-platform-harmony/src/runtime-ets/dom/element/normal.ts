@@ -69,7 +69,16 @@ class TaroSwiperItemElement extends TaroElement<SwiperItemProps>{
   }
 }
 
+// Fixed浮层节点树
+@Observed
+class FixedLayer extends TaroElement {
+  constructor() {
+    super('View')
+  }
+}
+
 export {
+  FixedLayer,
   TaroButtonElement,
   TaroIconElement,
   TaroImageElement,
@@ -77,5 +86,5 @@ export {
   TaroRichTextElement,
   TaroSwiperElement,
   TaroSwiperItemElement,
-  TaroViewElement, 
+  TaroViewElement
 }

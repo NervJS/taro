@@ -140,10 +140,12 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
 }
 
 @Builder
-function createLazyChildren (node: TaroElement) {
+function createLazyChildren (node: TaroElement, layer = 0) {
   LazyForEach(node, (item: TaroElement) => {
-    createChildItem(item, createLazyChildren)
-  }, (item: TaroElement) => item._nid)
+    if (!item._nodeInfo || item._nodeInfo.layer === layer) {
+      createChildItem(item, createLazyChildren)
+    }
+  }, (item: TaroElement) => \`\${item._nid}-\${item._nodeInfo?.layer || 0}\`)
 }
 
 export { createChildItem, createLazyChildren }

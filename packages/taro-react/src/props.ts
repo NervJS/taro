@@ -133,6 +133,10 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
             // @ts-ignore
             dom.set_pseudo_class(i, null)
           } else {
+            if (i === 'position' && oldValue[i] === 'fixed') {
+              // @ts-ignore
+              dom.setLayer(0)
+            }
             style[i] = ''
           }
         } else {
@@ -152,6 +156,12 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
             // @ts-ignore
             dom.set_pseudo_class(i, value[i])
           } else {
+            if (i === 'position') {
+              if (value[i] === 'fixed' || (value[i] !== 'fixed' && oldValue?.[i])) {
+                // @ts-ignore
+                dom.setLayer(value[i] === 'fixed' ? 1 : 0)
+              }
+            }
             style[i] = value[i]
           }
         } else {

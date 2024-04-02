@@ -224,9 +224,6 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
       bottomRight: style.borderBottomRightRadius
     })
   }
-  if (!isUndefined(style.zIndex)) {
-    instance.zIndex(style.zIndex)
-  }
   if (!isUndefined(style.opacity)) {
     instance.opacity(style.opacity)
   }
@@ -271,12 +268,20 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
       x: style.left || 0,
       y: style.top || 0,
     })
+    // 绝对定位和固定定位在web上都会脱离文档流，因此需要设置zIndex让它相比正常流的元素更上层
+    instance.zIndex(1)
   }
   if (style.position === 'relative') {
     instance.offset({
       x: style.left || 0,
       y: style.top || 0,
     })
+    // 绝对定位和固定定位在web上都会脱离文档流，因此需要设置zIndex让它相比正常流的元素更上层
+    instance.zIndex(1)
+  }
+  if (!isUndefined(style.zIndex)) {
+    // 为了适应position不设置z-index也能高于同层级组件，估且让设置了z-index的会更高一级
+    instance.zIndex(style.zIndex + 1)
   }
 }
 

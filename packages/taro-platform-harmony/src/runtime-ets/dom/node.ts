@@ -220,6 +220,13 @@ export class TaroNode extends TaroDataSourceElement {
     const idx = this.findIndex(child)
     if (idx < 0) throw new Error('TaroNode:removeChild NotFoundError')
 
+    // 渲染，层级大于0的节点需要让其回到正常层级，然后删掉
+    // @ts-ignore
+    if (child._nodeInfo?.layer > 0) {
+      // @ts-ignore
+      child.setLayer(0) // 删除固定层级上的节点
+    }
+
     this.childNodes.splice(idx, 1)
     child.dispose()
     this.notifyDataDelete(idx)

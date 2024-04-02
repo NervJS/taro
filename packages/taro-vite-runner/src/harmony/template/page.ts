@@ -795,6 +795,10 @@ callFn(this.page.onReady, this, params)`
         callFn(this.page.onReachBottom, this)
       }
     })
+    Stack() {
+      createLazyChildren(document.fixedLayer as TaroElement, 1)
+    }
+    .position({ x: 0, y: 0 })
   }
   .onShown(() => {
     ${this.generatePageShown()}
@@ -925,7 +929,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       isBlended ? this.#setReconciler : '',
       'import router from "@ohos.router"',
       'import { TaroView } from "@tarojs/components"',
-      'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window } from "@tarojs/runtime"',
+      'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window, document } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       `import { createLazyChildren } from "./${path.relative(path.dirname(fileName), 'render')}"`,
     ]

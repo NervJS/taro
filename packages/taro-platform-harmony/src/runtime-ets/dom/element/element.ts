@@ -1,6 +1,7 @@
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { EMPTY_OBJ, toCamelCase } from '@tarojs/shared'
 
+import { document } from '../../bom/document'
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../../constant'
 import { findChildNodeWithDFS } from '../../utils'
 import { initComponentNodeInfo, triggerAttributesCallback } from '../../utils/info'
@@ -27,7 +28,10 @@ export class TaroElement<
 > extends TaroNode {
   public _innerHTML = ''
   public _instance: TaroAny
-  public _nodeInfo: TaroAny = {}
+  public _nodeInfo: TaroAny = {
+    layer: 0 // 渲染层级
+  }
+  
   public readonly tagName: string
   public dataset: Record<string, unknown> = EMPTY_OBJ
   public _attrs: T & TaroExtraProps = {} as T & TaroExtraProps
@@ -235,6 +239,26 @@ export class TaroElement<
       })
     } else {
       this._pseudo_class[name] = null
+    }
+  }
+
+  // 设置渲染层级，0为正常层级，大于0为固定层级
+  public setLayer (value: number) {
+    this._nodeInfo.layer = value
+
+    if (value > 0) {
+      // 插入到root层
+      document.fixedLayer.childNodes.push(this)
+      document.fixedLayer.notifyDataAdd(document.fixedLayer.childNodes.length - 1)
+    } else {
+      const idx = document.fixedLayer.childNodes.findIndex(n => n._nid === this._nid)
+      document.fixedLayer.childNodes.splice(idx, 1)
+      document.fixedLayer.notifyDataDelete(idx)
+    }
+
+    if (this.parentNode) {
+      this.parentNode.notifyDataChange(this.parentNode.findIndex(this))
+      this.updateComponent()
     }
   }
 }
