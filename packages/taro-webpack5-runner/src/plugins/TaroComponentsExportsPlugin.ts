@@ -34,7 +34,7 @@ export default class TaroComponentsExportsPlugin {
       normalModuleFactory.hooks.parser.for('javascript/auto').tap(PLUGIN_NAME, (parser) => {
         parser.hooks.program.tap(PLUGIN_NAME, (program) => {
           walk.ancestor(program, {
-            CallExpression: (node, ancestors) => {
+            CallExpression: (node, _ancestors) => {
               // @ts-ignore
               const callee = node.callee
 

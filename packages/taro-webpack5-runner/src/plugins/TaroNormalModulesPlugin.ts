@@ -58,7 +58,7 @@ export default class TaroNormalModulesPlugin {
           currentModule.clear()
 
           walk.ancestor(ast, {
-            CallExpression: (node, ancestors) => {
+            CallExpression: (node, _ancestors) => {
               // @ts-ignore
               const callee = node.callee
 
