@@ -1,5 +1,4 @@
 import { defaultMainFields, fs, isEmptyObject, NODE_MODULES, resolveSync } from '@tarojs/helper'
-import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 import * as path from 'path'
 
 import { apiLoader, HARMONY_SCOPES, PACKAGE_NAME, parseRelativePath, PLATFORM_NAME } from '../utils'
@@ -398,11 +397,10 @@ declare global {
       }
       function injectLoaderMeta() {
         return {
-          name: 'taro:vite-h5-loader-meta',
+          name: 'taro:vite-loader-meta',
           async buildStart () {
-            await this.load({ id: VITE_COMPILER_LABEL })
-            const info = this.getModuleInfo(VITE_COMPILER_LABEL)
-            const compiler = info?.meta.viteCompilerContext
+            const { getViteHarmonyCompilerContext } = that.ctx.runnerUtils
+            const compiler = getViteHarmonyCompilerContext(this)
             if (compiler) {
               switch (that.framework) {
                 // @ts-ignore

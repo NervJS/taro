@@ -16,6 +16,7 @@ export interface IMethod {
   prefix?: string
   type?: 'function' | 'arrow' | 'method' | 'async function' | 'async arrow' | 'async method'
   params?: string[] | false
+  return?: string
   body?: string
 }
 
@@ -110,13 +111,14 @@ export default class Parser extends BaseParser {
       const prefixSrc = `${decoratorStr}${prefix ? `${prefix} ` : ''}`
       const paramStr = params ? `${params.join(', ')}` : ''
       const promiseSymbol = type.includes('async') ? 'async ' : ''
+      const returnStr = method.return ? `: ${method.return}` : ''
 
       if (/\bfunction\b/.test(type)) {
-        return `${prefixSrc}${name}: ${promiseSymbol}function (${paramStr}) {${body ? `\n${this.transArr2Str(body.split('\n'), 2)}\n` : ''}}`
+        return `${prefixSrc}${name}: ${promiseSymbol}function (${paramStr})${returnStr} {${body ? `\n${this.transArr2Str(body.split('\n'), 2)}\n` : ''}}`
       } else if (/\barrow\b/.test(type)) {
-        return `${prefixSrc}${name} = ${promiseSymbol}(${paramStr}) => {${body ? `\n${this.transArr2Str(body.split('\n'), 2)}\n` : ''}}`
+        return `${prefixSrc}${name} = ${promiseSymbol}(${paramStr})${returnStr} => {${body ? `\n${this.transArr2Str(body.split('\n'), 2)}\n` : ''}}`
       } else {
-        return `${prefixSrc}${promiseSymbol}${name} (${paramStr})${body ? ` {\n${this.transArr2Str(body.split('\n'), 2)}\n}` : ''}`
+        return `${prefixSrc}${promiseSymbol}${name} (${paramStr})${returnStr}${body ? ` {\n${this.transArr2Str(body.split('\n'), 2)}\n}` : ''}`
       }
     }).join('\n\n')
   }
@@ -953,7 +955,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
         ]
         : [
           `import createComponent, { config } from "${rawId + TARO_COMP_SUFFIX}"`,
-          isBlended ? this.#setReconcilerPost : null,
+          isBlended && this.#setReconcilerPost ? this.#setReconcilerPost : null,
         ],
       '',
       this.getInstantiatePage(page),
