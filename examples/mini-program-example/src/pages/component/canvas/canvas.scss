@@ -1,0 +1,10 @@
+.canvas {
+  width: 305px;
+  height: 305px;
+  background-color: #f7f7f7;
+  margin-top: 30px;
+}
+
+[data-weui-theme=dark] .canvas {
+  background-color: #1f1f1f;
+}
