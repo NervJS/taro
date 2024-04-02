@@ -43,7 +43,7 @@ export default class RenderParser extends BaseParser {
   TaroCheckboxGroup,
   TaroCheckbox
 } from '@tarojs/components'
-${this.generateRenderNativeImport()}${this.generateRenderCompileModeImport()}
+${this.generateRenderExtraComponentsImport()}${this.generateRenderNativeImport()}${this.generateRenderCompileModeImport()}
 import { NodeType } from '@tarojs/runtime'
 
 import type {
@@ -80,7 +80,7 @@ import type {
 
 @Builder
 function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroElement) => void) {
-  ${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'VIEW') {
+  ${this.generateRenderExtraComponentsCondition()}${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'VIEW') {
     TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
     TaroText({ node: item as TaroTextElement, createLazyChildren: createLazyChildren })
@@ -163,6 +163,39 @@ export { createChildItem, createLazyChildren }
       resolve,
       modifyResolveId,
     })
+  }
+
+  generateRenderExtraComponentsImport () {
+    let result = ''
+    const extraComponents = this.context.extraComponents
+
+    if (extraComponents.length <= 0) return result
+
+    result = 'import {\n'
+    extraComponents.forEach(components => {
+      const taroName = `Taro${components}`
+
+      result = `${result}  ${taroName},\n`
+    })
+
+    return `${result}} from '@tarojs/components'\n`
+  }
+
+  generateRenderExtraComponentsCondition () {
+    let result = ''
+    const extraComponents = this.context.extraComponents
+
+    if (extraComponents.length <= 0) return result
+
+    extraComponents.forEach(components => {
+      const taroName = `Taro${components}`
+
+      result = `${result}if (item.tagName === '${components.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}') {
+    ${taroName}({ node: item as TaroAny, createLazyChildren: createLazyChildren })
+  } else `
+    })
+
+    return result
   }
 
   generateRenderCompileModeImport () {

@@ -43,6 +43,8 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
   useETS: boolean
   useJSON5: boolean
   useNesting: boolean
+  // 用于插件去拓展额外的组件
+  extraComponents: string[] = []
   nativeExt = ['.ets']
   nativeComponents = new Map<string, ViteNativeCompMeta>()
 
