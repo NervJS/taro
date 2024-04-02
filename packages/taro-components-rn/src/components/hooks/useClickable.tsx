@@ -158,11 +158,11 @@ const useClickable = (props: any) => {
         if (!hasMove) {
           // @ts-ignore
           if (Platform.OS === 'harmony') {
-            let ms = Math.floor(gapTime / 1000);
-            if (ms > 0) { // 这种情况是 1000毫秒以上 || 单位小于毫秒的情况 
-              let us = Math.floor(ms / 1000);
-              if (us > 0 || ms > 10) {  // 防止以后系统升级改成毫秒后的容错处理
-                gapTime = ms;
+            const ms = Math.floor(gapTime / 1000)
+            if (ms > 0) { // 这种情况是 1000毫秒以上 || 单位小于毫秒的情况
+              const us = Math.floor(ms / 1000)
+              if (us > 0 || ms > 10) { // 防止以后系统升级改成毫秒后的容错处理
+                gapTime = ms
               }
             }
           }

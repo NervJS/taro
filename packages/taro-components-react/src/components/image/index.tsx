@@ -18,7 +18,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
 function Image (props: IProps) {
   const imgRef = useRef<HTMLImageElement | null>(null)
   const observer = useRef<Partial<IntersectionObserver>>({})
-  const [_, setIsLoaded] = useState(false)
+  const [, setIsLoaded] = useState(false)
   const {
     className,
     style = {},
