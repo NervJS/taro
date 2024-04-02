@@ -156,6 +156,7 @@ const useClickable = (props: any) => {
         // 1 =>3, 修复部分android机型(三星折叠屏尤为明显),单击时dx,dy为>1，而被误判为move的情况。
         const hasMove = Math.abs(gestureState.dx) >= 3 || Math.abs(gestureState.dy) >= 3
         if (!hasMove) {
+          // @ts-ignore
           if (Platform.OS === 'harmony') {
             let ms = Math.floor(gapTime / 1000);
             if (ms > 0) { // 这种情况是 1000毫秒以上 || 单位小于毫秒的情况 
