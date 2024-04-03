@@ -23,7 +23,7 @@ export const writeBLECharacteristicValue: typeof Taro.writeBLECharacteristicValu
     }
     const { characteristicId, deviceId, serviceId, value, success, fail, complete } = options as Exclude<
       typeof options,
-      undefined
+    undefined
     >
 
     const handle = new MethodHandler<{

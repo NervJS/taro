@@ -59,7 +59,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
 
   let children: Node[] = []
 
-  function loadImage(url: string, loadFail: typeof fail): Promise<Node> {
+  function loadImage (url: string, loadFail: typeof fail): Promise<Node> {
     return new Promise((resolve) => {
       const item = document.createElement('taro-swiper-item-core')
       item.style.cssText = 'display:flex;align-items:start;justify-content:center;overflow-y:scroll;'
@@ -74,7 +74,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
       div.style.zIndex = '900'
 
       let pressTimer
-      function startPress() {
+      function startPress () {
         pressTimer = setTimeout(async function () {
           if (!showmenu) {
             return
@@ -117,7 +117,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
         }, PRESS_TIME) // 这里的1000表示长按的时间，以毫秒为单位，您可以根据需要调整
       }
 
-      function cancelPress() {
+      function cancelPress () {
         clearTimeout(pressTimer)
       }
 

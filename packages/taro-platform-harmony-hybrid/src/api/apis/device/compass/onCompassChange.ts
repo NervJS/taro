@@ -23,7 +23,7 @@ export const onCompassChange: typeof Taro.onCompassChange = (callback) => {
   try {
     if (!taroCallbackMap.has(callback)) {
       // eslint-disable-next-line no-inner-declarations
-      function newCallback(res: any) {
+      function newCallback (res: any) {
         const result: Taro.onCompassChange.OnCompassChangeCallbackResult = {
           /** 精度 */
           accuracy: res.accuracy === 3 ? 'high' : 'unreliable',

@@ -1,6 +1,6 @@
 import { Status } from '../NativeApi'
 
-export function displayExecRes(status: Status, method: string) {
+export function displayExecRes (status: Status, method: string) {
   if (!status.done) {
     console.error({ errMsg: `${method} execution fail: ` + status.errorMsg })
   } else {
@@ -8,7 +8,7 @@ export function displayExecRes(status: Status, method: string) {
   }
 }
 
-export function handleData(data) {
+export function handleData (data) {
   const type = typeof data
   let obj = {}
 

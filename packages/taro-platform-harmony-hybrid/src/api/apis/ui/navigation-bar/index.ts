@@ -2,14 +2,14 @@ import Taro from '@tarojs/api'
 import { addStyle } from '@tarojs/router/dist/style'
 import { setTitle } from '@tarojs/router/dist/utils/navigate'
 
+import native from '../../NativeApi'
 import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
-import native from '../../NativeApi'
 
 /**
  * 导航条与Web层叠布局，导航条可见情况下Web页面顶部空出一定高度的留白
  */
-function loadNavigationSytle() {
+function loadNavigationSytle () {
   if (typeof window === 'undefined') {
     return
   }
@@ -111,7 +111,7 @@ export const setNavigationBarColor: typeof Taro.setNavigationBarColor = (options
 
   const { frontColor, backgroundColor, success, fail, complete, ...otherOptions } = options as Exclude<
     typeof options,
-    undefined
+  undefined
   >
   const handle = new MethodHandler({ name: apiName, success, fail, complete })
 

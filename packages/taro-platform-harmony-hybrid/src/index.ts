@@ -8,7 +8,7 @@ export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
     name: 'harmony-hybrid',
     useConfigName: 'h5',
-    async fn({ config }) {
+    async fn ({ config }) {
       const program = new H5(ctx, config)
       await program.start()
     },

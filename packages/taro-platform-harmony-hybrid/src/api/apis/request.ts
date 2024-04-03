@@ -28,7 +28,7 @@ export class RequestTask {
   public interceptor
   public httpRequest
 
-  constructor(object) {
+  constructor (object) {
     const { url, headers, method, timeout, responseType, enableCache } = object || {}
     let { data } = object || {}
     const { success, fail, complete, dataType } = object || {}
@@ -175,7 +175,7 @@ export class RequestTask {
   /**
    * interrupt request task
    */
-  abort() {
+  abort () {
     this.abortFlag = true
     if (this.httpRequest) {
       source.cancel('requestTask cancelled by the user!')
@@ -185,7 +185,7 @@ export class RequestTask {
     }
   }
 
-  onHeadersReceived(callback) {
+  onHeadersReceived (callback) {
     if (!callback) {
       console.error('[AdvancedAPI] Invalid, callback is null')
       return
@@ -209,7 +209,7 @@ export class RequestTask {
    * unsubscribe HTTP Response Header event
    * remove all if callback is null, otherwise remove the specialized callback
    */
-  offHeadersReceived(callback) {
+  offHeadersReceived (callback) {
     if (this.headersCallback.has(callback)) {
       if (this.httpRequest) {
         this.httpRequest.interceptors.eject(this.interceptor)

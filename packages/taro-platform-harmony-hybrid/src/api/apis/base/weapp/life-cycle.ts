@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
 
-function getCustomLaunchInfo() {
+function getCustomLaunchInfo () {
   let launchInfo
   try {
     // @ts-ignore
@@ -39,7 +39,7 @@ function getCustomLaunchInfo() {
 }
 
 let launchOptions
-export function initLaunchOptions(options = {}) {
+export function initLaunchOptions (options = {}) {
   Object.assign(options, getCustomLaunchInfo())
   launchOptions = options
 }

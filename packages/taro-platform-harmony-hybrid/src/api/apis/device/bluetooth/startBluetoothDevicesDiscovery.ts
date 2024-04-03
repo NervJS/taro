@@ -22,7 +22,7 @@ export const startBluetoothDevicesDiscovery: typeof Taro.startBluetoothDevicesDi
   }
   const { allowDuplicatesKey, interval, services, success, fail, complete } = options as Exclude<
     typeof options,
-    undefined
+  undefined
   >
 
   const handle = new MethodHandler<{

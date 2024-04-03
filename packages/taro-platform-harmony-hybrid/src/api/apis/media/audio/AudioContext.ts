@@ -9,7 +9,7 @@ import Taro from '@tarojs/api'
 export class AudioContext implements Taro.AudioContext {
   Instance?: HTMLAudioElement
 
-  constructor() {
+  constructor () {
     this.Instance = new Audio()
 
     Taro.eventCenter.on('__taroRouterChange', () => {
@@ -17,19 +17,19 @@ export class AudioContext implements Taro.AudioContext {
     })
   }
 
-  get paused() {
+  get paused () {
     return this.Instance?.paused ?? true
   }
 
-  get src() {
+  get src () {
     return this.Instance?.src || ''
   }
 
-  set src(e) {
+  set src (e) {
     this.setProperty('src', e)
   }
 
-  private setProperty(key: string, value: unknown) {
+  private setProperty (key: string, value: unknown) {
     if (this.Instance) {
       this.Instance[key] = value
     }

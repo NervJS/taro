@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
-import { MethodHandler } from '../utils/handler'
 import native from '../NativeApi'
+import { MethodHandler } from '../utils/handler'
 
 /**
  * 使手机发生较短时间的振动（15 ms）(harmony平台暂不支持入参type属性)

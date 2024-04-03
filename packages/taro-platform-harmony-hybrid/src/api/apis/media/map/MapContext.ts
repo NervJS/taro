@@ -12,11 +12,11 @@ import Taro from '@tarojs/taro'
 export class MapContext implements Taro.MapContext {
   Map: any
 
-  constructor(Map) {
+  constructor (Map) {
     this.Map = Map
   }
 
-  getCenterLocation(
+  getCenterLocation (
     _option?: Taro.MapContext.GetCenterLocationOption | undefined
   ): Promise<Taro.MapContext.GetCenterLocationSuccessCallbackResult> {
     try {
@@ -40,7 +40,7 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  setLocMarkerIcon(_option?: Taro.MapContext.SetLocMarkerIconOption | undefined): Promise<TaroGeneral.CallbackResult> {
+  setLocMarkerIcon (_option?: Taro.MapContext.SetLocMarkerIconOption | undefined): Promise<TaroGeneral.CallbackResult> {
     try {
       this.Map._setLocMarkerIcon(_option)
       const successResult: TaroGeneral.CallbackResult = {
@@ -59,12 +59,12 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  moveToLocation(_option: Taro.MapContext.MoveToLocationOption): Promise<TaroGeneral.CallbackResult> {
+  moveToLocation (_option: Taro.MapContext.MoveToLocationOption): Promise<TaroGeneral.CallbackResult> {
     const errorResult: TaroGeneral.CallbackResult = { errMsg: `moveToLocation接口未支持` }
     return Promise.reject(errorResult)
   }
 
-  translateMarker(_option: Taro.MapContext.TranslateMarkerOption): Promise<TaroGeneral.CallbackResult> {
+  translateMarker (_option: Taro.MapContext.TranslateMarkerOption): Promise<TaroGeneral.CallbackResult> {
     try {
       const flagObj = this.Map._translateMarker(_option)
       const successResult: TaroGeneral.CallbackResult = {
@@ -103,7 +103,7 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  moveAlong(_object: any) {
+  moveAlong (_object: any) {
     try {
       const flagObj = this.Map._moveAlong(_object)
       const successResult: any = {
@@ -138,7 +138,7 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  includePoints(_option: Taro.MapContext.IncludePointsOption): Promise<TaroGeneral.CallbackResult> {
+  includePoints (_option: Taro.MapContext.IncludePointsOption): Promise<TaroGeneral.CallbackResult> {
     try {
       const flag = this.Map._includePoints(_option)
       const successResult: TaroGeneral.CallbackResult = {
@@ -163,7 +163,7 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  getRegion(
+  getRegion (
     _option?: Taro.MapContext.GetRegionOption | undefined
   ): Promise<Taro.MapContext.GetRegionSuccessCallbackResult> {
     try {
@@ -186,7 +186,7 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  getRotate(
+  getRotate (
     _option?: Taro.MapContext.GetRotateOption | undefined
   ): Promise<Taro.MapContext.GetRotateSuccessCallbackResult> {
     try {
@@ -208,7 +208,7 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  getSkew(_option?: Taro.MapContext.GetSkewOption | undefined): Promise<Taro.MapContext.GetSkewSuccessCallbackResult> {
+  getSkew (_option?: Taro.MapContext.GetSkewOption | undefined): Promise<Taro.MapContext.GetSkewSuccessCallbackResult> {
     try {
       const Skew = this.Map._getSkew()
       const successResult: Taro.MapContext.GetSkewSuccessCallbackResult = {
@@ -228,7 +228,7 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  getScale(
+  getScale (
     _option?: Taro.MapContext.GetScaleOption | undefined
   ): Promise<Taro.MapContext.GetScaleSuccessCallbackResult> {
     try {
@@ -250,7 +250,7 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  setCenterOffset(_option: Taro.MapContext.SetCenterOffsetOption): Promise<TaroGeneral.CallbackResult> {
+  setCenterOffset (_option: Taro.MapContext.SetCenterOffsetOption): Promise<TaroGeneral.CallbackResult> {
     try {
       this.Map._setCenterOffset(_option)
       const successResult: TaroGeneral.CallbackResult = {
@@ -269,17 +269,17 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  removeCustomLayer(_option: Taro.MapContext.RemoveCustomLayerOption): Promise<TaroGeneral.CallbackResult> {
+  removeCustomLayer (_option: Taro.MapContext.RemoveCustomLayerOption): Promise<TaroGeneral.CallbackResult> {
     const errorResult: TaroGeneral.CallbackResult = { errMsg: `removeCustomLayer接口未支持` }
     return Promise.reject(errorResult)
   }
 
-  addCustomLayer(_option: Taro.MapContext.AddCustomLayerOption): Promise<TaroGeneral.CallbackResult> {
+  addCustomLayer (_option: Taro.MapContext.AddCustomLayerOption): Promise<TaroGeneral.CallbackResult> {
     const errorResult: TaroGeneral.CallbackResult = { errMsg: `addCustomLayer接口未支持` }
     return Promise.reject(errorResult)
   }
 
-  addGroundOverlay(_option: Taro.MapContext.AddGroundLayerOption): Promise<TaroGeneral.CallbackResult> {
+  addGroundOverlay (_option: Taro.MapContext.AddGroundLayerOption): Promise<TaroGeneral.CallbackResult> {
     try {
       const flag = this.Map._addGroundOverlay(_option)
       const successResult: TaroGeneral.CallbackResult = {
@@ -303,27 +303,27 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  addVisualLayer(_option: Taro.MapContext.AddVisualLayerOption): Promise<TaroGeneral.CallbackResult> {
+  addVisualLayer (_option: Taro.MapContext.AddVisualLayerOption): Promise<TaroGeneral.CallbackResult> {
     const errorResult: TaroGeneral.CallbackResult = { errMsg: `addVisualLayer接口未支持` }
     return Promise.reject(errorResult)
   }
 
-  removeVisualLayer(_option: Taro.MapContext.RemoveVisualLayerOption): Promise<TaroGeneral.CallbackResult> {
+  removeVisualLayer (_option: Taro.MapContext.RemoveVisualLayerOption): Promise<TaroGeneral.CallbackResult> {
     const errorResult: TaroGeneral.CallbackResult = { errMsg: `removeVisualLayer接口未支持` }
     return Promise.reject(errorResult)
   }
 
-  addArc(_option: Taro.MapContext.AddArcOption): Promise<TaroGeneral.CallbackResult> {
+  addArc (_option: Taro.MapContext.AddArcOption): Promise<TaroGeneral.CallbackResult> {
     const errorResult: TaroGeneral.CallbackResult = { errMsg: `addArc接口未支持` }
     return Promise.reject(errorResult)
   }
 
-  removeArc(_option: Taro.MapContext.RemoveArcOption): Promise<TaroGeneral.CallbackResult> {
+  removeArc (_option: Taro.MapContext.RemoveArcOption): Promise<TaroGeneral.CallbackResult> {
     const errorResult: TaroGeneral.CallbackResult = { errMsg: `removeArc接口未支持` }
     return Promise.reject(errorResult)
   }
 
-  setBoundary(_option: Taro.MapContext.SetBoundaryOption): Promise<TaroGeneral.CallbackResult> {
+  setBoundary (_option: Taro.MapContext.SetBoundaryOption): Promise<TaroGeneral.CallbackResult> {
     try {
       const flag = this.Map._setBoundary(_option)
       const successResult: TaroGeneral.CallbackResult = {
@@ -347,7 +347,7 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  updateGroundOverlay(_option: Taro.MapContext.UpdateGroundOverlayOption): Promise<TaroGeneral.CallbackResult> {
+  updateGroundOverlay (_option: Taro.MapContext.UpdateGroundOverlayOption): Promise<TaroGeneral.CallbackResult> {
     try {
       const flagObj = this.Map._updateGroundOverlay(_option)
       const successResult: TaroGeneral.CallbackResult = {
@@ -385,7 +385,7 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  removeGroundOverlay(_option: Taro.MapContext.RemoveGroundOverlayOption): Promise<TaroGeneral.CallbackResult> {
+  removeGroundOverlay (_option: Taro.MapContext.RemoveGroundOverlayOption): Promise<TaroGeneral.CallbackResult> {
     try {
       const newTargetOverlay = this.Map._removeGroundOverlay(_option)
       const successResult: TaroGeneral.CallbackResult = {
@@ -412,22 +412,22 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  toScreenLocation(_option: Taro.MapContext.ToScreenLocationOption): Promise<TaroGeneral.CallbackResult> {
+  toScreenLocation (_option: Taro.MapContext.ToScreenLocationOption): Promise<TaroGeneral.CallbackResult> {
     const errorResult: TaroGeneral.CallbackResult = { errMsg: `toScreenLocation接口未支持` }
     return Promise.reject(errorResult)
   }
 
-  fromScreenLocation(_option: Taro.MapContext.FromScreenLocationOption): Promise<TaroGeneral.CallbackResult> {
+  fromScreenLocation (_option: Taro.MapContext.FromScreenLocationOption): Promise<TaroGeneral.CallbackResult> {
     const errorResult: TaroGeneral.CallbackResult = { errMsg: `fromScreenLocation接口未支持` }
     return Promise.reject(errorResult)
   }
 
-  openMapApp(_option: Taro.MapContext.OpenMapAppOption): Promise<TaroGeneral.CallbackResult> {
+  openMapApp (_option: Taro.MapContext.OpenMapAppOption): Promise<TaroGeneral.CallbackResult> {
     const errorResult: TaroGeneral.CallbackResult = { errMsg: `openMapApp接口未支持` }
     return Promise.reject(errorResult)
   }
 
-  addMarkers(_option: Taro.MapContext.AddMarkersOption): Promise<TaroGeneral.CallbackResult> {
+  addMarkers (_option: Taro.MapContext.AddMarkersOption): Promise<TaroGeneral.CallbackResult> {
     try {
       this.Map._addMarkers(_option)
       const successResult: TaroGeneral.CallbackResult = {
@@ -446,7 +446,7 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  removeMarkers(_option: Taro.MapContext.RemoveMarkersOption): Promise<TaroGeneral.CallbackResult> {
+  removeMarkers (_option: Taro.MapContext.RemoveMarkersOption): Promise<TaroGeneral.CallbackResult> {
     try {
       const TargetMarker = this.Map._removeMarkers(_option)
       const successResult: TaroGeneral.CallbackResult = {
@@ -471,14 +471,14 @@ export class MapContext implements Taro.MapContext {
     }
   }
 
-  initMarkerCluster(
+  initMarkerCluster (
     _option?: Taro.MapContext.InitMarkerClusterOption | undefined
   ): Promise<TaroGeneral.CallbackResult> {
     const errorResult: TaroGeneral.CallbackResult = { errMsg: `initMarkerCluster接口未支持` }
     return Promise.reject(errorResult)
   }
 
-  on(
+  on (
     _event: keyof Taro.MapContext.MapEvent,
     _callback: (res: Taro.MapContext.MapEventMarkerClusterCreate | Taro.MapContext.MapEventMarkerClusterClick) => void
   ): void {

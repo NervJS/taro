@@ -67,10 +67,10 @@ class RequestTask {
   private readonly complete: (arg0: any) => any
   private readonly httpRequest: any
   private headersCallback: Map<any, any>
-  private result: { data?: any; statusCode?: any; header?: any; cookies?: any; errMsg: string | undefined }
+  private result: { data?: any, statusCode?: any, header?: any, cookies?: any, errMsg: string | undefined }
   private res: { errMsg: string }
 
-  constructor(object: any) {
+  constructor (object: any) {
     const { url, header, method = 'GET', timeout, responseType, enableCache } = object || {}
     let { data } = object || {}
     const { success, fail, complete } = object || {}
@@ -165,7 +165,7 @@ class RequestTask {
   /**
    * interrupt request task
    */
-  abort() {
+  abort () {
     this.httpRequest.destroy()
     this.abortFlag = true
     this.res = {
@@ -179,7 +179,7 @@ class RequestTask {
    * subscribe HTTP Response Header event
    * @callback params header {Object}: HTTP Response Header
    */
-  onHeadersReceived(callback: any) {
+  onHeadersReceived (callback: any) {
     const taskCallback = (header: any) => {
       !this.abortFlag &&
         callback({
@@ -202,7 +202,7 @@ class RequestTask {
    * unsubscribe HTTP Response Header event
    * remove all if callback is null, otherwise remove the specialized callback
    */
-  offHeadersReceived(callback: any) {
+  offHeadersReceived (callback: any) {
     if (!callback) {
       this.headersCallback.clear()
       if (this.httpRequest) {

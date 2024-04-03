@@ -22,7 +22,7 @@ export const previewMedia: typeof Taro.previewMedia = async (options) => {
   defineCustomElementTaroSwiperCore()
   defineCustomElementTaroSwiperItemCore()
 
-  function loadImageAndVideo(sources: Taro.previewMedia.Sources, loadFail: typeof fail): Promise<Node> {
+  function loadImageAndVideo (sources: Taro.previewMedia.Sources, loadFail: typeof fail): Promise<Node> {
     return new Promise((resolve) => {
       const item = document.createElement('taro-swiper-item-core')
       item.style.cssText = 'display:flex;align-items:start;justify-content:center;overflow-y:scroll;'

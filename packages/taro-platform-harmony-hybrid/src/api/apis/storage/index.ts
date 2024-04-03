@@ -1,8 +1,8 @@
 import Taro from '@tarojs/api'
 
+import native from '../NativeApi'
 import { shouldBeObject, temporarilyNotSupport } from '../utils'
 import { MethodHandler } from '../utils/handler'
-import native from '../NativeApi'
 import { displayExecRes, handleData } from './util'
 
 /**

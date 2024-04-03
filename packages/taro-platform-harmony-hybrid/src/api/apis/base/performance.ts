@@ -72,7 +72,7 @@ class Performance implements Taro.Performance {
     viewLayerRenderEndTime: 0,
   }
 
-  createObserver(callback): Taro.PerformanceObserver {
+  createObserver (callback): Taro.PerformanceObserver {
     if (typeof callback === 'function') {
       // do nothing
     }
@@ -97,7 +97,7 @@ class Performance implements Taro.Performance {
     return performanceObserver
   }
 
-  getEntries(): Taro.PerformanceEntry[] {
+  getEntries (): Taro.PerformanceEntry[] {
     const result: Taro.PerformanceEntry = {
       /** 指标类型 */
       entryType: 'navigation',
@@ -108,7 +108,7 @@ class Performance implements Taro.Performance {
     return [result]
   }
 
-  getEntriesByName(name: string, entryType: string): Taro.PerformanceEntry[] {
+  getEntriesByName (name: string, entryType: string): Taro.PerformanceEntry[] {
     const result: Taro.PerformanceEntry = {
       /** 指标类型 */
       entryType: entryType as keyof Taro.PerformanceEntry.EntryType,
@@ -119,7 +119,7 @@ class Performance implements Taro.Performance {
     return [result]
   }
 
-  getEntriesByType(entryType: string): Taro.PerformanceEntry[] {
+  getEntriesByType (entryType: string): Taro.PerformanceEntry[] {
     const result: Taro.PerformanceEntry = {
       /** 指标类型 */
       entryType: entryType as keyof Taro.PerformanceEntry.EntryType,
@@ -130,7 +130,7 @@ class Performance implements Taro.Performance {
     return [result]
   }
 
-  setBufferSize(size: number): void {
+  setBufferSize (size: number): void {
     if (typeof size === 'number') {
       // do nothing
     }

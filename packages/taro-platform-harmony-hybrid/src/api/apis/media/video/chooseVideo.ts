@@ -1,9 +1,9 @@
 import Taro from '@tarojs/api'
 import { showActionSheet } from '@tarojs/taro-h5'
 
+import native from '../../NativeApi'
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
-import native from '../../NativeApi'
 
 /**
  * 拍摄视频或从手机相册中选视频

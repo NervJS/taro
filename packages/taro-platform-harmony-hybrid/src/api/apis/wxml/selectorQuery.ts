@@ -16,7 +16,7 @@ interface ISelectorQueryQueue {
 
 type TSelectorQueryQueueCallback = (res: ISelectorQueryQueue) => void
 
-function filter(fields, dom?: HTMLElement, selector?: string) {
+function filter (fields, dom?: HTMLElement, selector?: string) {
   if (!dom) return null
 
   const isViewport = selector === '.taro_page'
@@ -138,7 +138,7 @@ function filter(fields, dom?: HTMLElement, selector?: string) {
  * WXML节点信息API
  * @return {Object} SelectorQuery 对象实例
  */
-function queryBat(queue: ISelectorQueryQueue[], cb: (...args: any[]) => any): void {
+function queryBat (queue: ISelectorQueryQueue[], cb: (...args: any[]) => any): void {
   const result: any[] = []
 
   queue.forEach((item) => {
@@ -191,7 +191,7 @@ export class SelectorQuery implements Taro.SelectorQuery {
   _queueCb: (TSelectorQueryQueueCallback | null)[]
   _component?: TaroGeneral.IAnyObject
 
-  constructor() {
+  constructor () {
     this._defaultWebviewId = null
     this._webviewId = null
     this._queue = []
@@ -199,28 +199,28 @@ export class SelectorQuery implements Taro.SelectorQuery {
     this._component
   }
 
-  in(component: TaroGeneral.IAnyObject) {
+  in (component: TaroGeneral.IAnyObject) {
     this._component = component
     return this
   }
 
-  select(selector: string) {
+  select (selector: string) {
     // 小程序里跨自定义组件的后代选择器 '>>>' 在 h5 替换为普通后代选择器 '>'
     if (typeof selector === 'string') selector = selector.replace('>>>', '>')
     return new NodesRef(selector, this, true)
   }
 
-  selectAll(selector: string) {
+  selectAll (selector: string) {
     // 小程序里跨自定义组件的后代选择器 '>>>' 在 h5 替换为普通后代选择器 '>'
     if (typeof selector === 'string') selector = selector.replace('>>>', '>')
     return new NodesRef(selector, this, false)
   }
 
-  selectViewport() {
+  selectViewport () {
     return new NodesRef('.taro_page', this, true)
   }
 
-  exec(cb) {
+  exec (cb) {
     queryBat(this._queue, (res) => {
       const _queueCb = this._queueCb
       res.forEach((item, index) => {
@@ -232,7 +232,7 @@ export class SelectorQuery implements Taro.SelectorQuery {
     return this as unknown as Taro.NodesRef
   }
 
-  _push(selector: string, component, single, fields, callback: TSelectorQueryQueueCallback | null = null) {
+  _push (selector: string, component, single, fields, callback: TSelectorQueryQueueCallback | null = null) {
     this._queue.push({
       component,
       selector,

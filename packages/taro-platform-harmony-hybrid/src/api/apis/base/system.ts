@@ -1,8 +1,8 @@
 import Taro from '@tarojs/api'
 
+import native from '../NativeApi'
 import { shouldBeObject } from '../utils'
 import { MethodHandler } from '../utils/handler'
-import native from '../NativeApi'
 
 /**
  * 跳转系统蓝牙设置页

@@ -61,7 +61,7 @@ const taro: typeof Taro = {
 
 export const requirePlugin = permanentlyNotSupport('requirePlugin')
 
-function getConfig(): Record<string, any> {
+function getConfig (): Record<string, any> {
   if (this?.pxTransformConfig) return this.pxTransformConfig
   return ((taro as any).config ||= {})
 }
@@ -197,7 +197,7 @@ eventCenter.on('__taroExitFullScreen', () => {
 })
 
 // 根据是否有导航栏设置页面样式
-function loadNavigationSytle() {
+function loadNavigationSytle () {
   if (typeof window === 'undefined') {
     return
   }
@@ -224,7 +224,7 @@ function loadNavigationSytle() {
 loadNavigationSytle()
 
 // 设置位置选择样式
-function loadChooseLocationStyle() {
+function loadChooseLocationStyle () {
   const css = `
 .taro_choose_location {
   display: flex;

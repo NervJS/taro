@@ -21,7 +21,7 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
   MIN_PLAYBACKRATE = 0.5
   MAX_PLAYBACKRATE = 2.0
 
-  constructor() {
+  constructor () {
     this.Instance = new Audio()
     this.errorStack = new CallbackManager()
     this.stopStack = new CallbackManager()
@@ -38,59 +38,59 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
     document.body.appendChild(this.Instance)
   }
 
-  set autoplay(e) {
+  set autoplay (e) {
     this.setProperty('autoplay', e)
   }
 
-  get autoplay() {
+  get autoplay () {
     return this.Instance?.autoplay || false
   }
 
-  get buffered() {
+  get buffered () {
     return this.Instance?.buffered.length || 0
   }
 
-  get currentTime() {
+  get currentTime () {
     return this.Instance?.currentTime || 0
   }
 
-  set currentTime(e) {
+  set currentTime (e) {
     this.seek(e)
   }
 
-  get duration() {
+  get duration () {
     return this.Instance?.duration || 0
   }
 
-  set loop(e) {
+  set loop (e) {
     this.setProperty('loop', e)
   }
 
-  get loop() {
+  get loop () {
     return this.Instance?.loop || false
   }
 
-  get paused() {
+  get paused () {
     return this.Instance?.paused ?? true
   }
 
-  set src(e) {
+  set src (e) {
     this.setProperty('src', e)
   }
 
-  get src() {
+  get src () {
     return this.Instance?.src || ''
   }
 
-  set volume(e) {
+  set volume (e) {
     this.setProperty('volume', e)
   }
 
-  get volume() {
+  get volume () {
     return this.Instance?.volume || 1
   }
 
-  set playbackRate(e) {
+  set playbackRate (e) {
     if (e < this.MIN_PLAYBACKRATE) {
       e = this.MIN_PLAYBACKRATE
     }
@@ -100,35 +100,35 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
     this.setProperty('playbackRate', e)
   }
 
-  get playbackRate() {
+  get playbackRate () {
     return this.Instance?.playbackRate || 1
   }
 
-  set obeyMuteSwitch(_e) {
+  set obeyMuteSwitch (_e) {
     permanentlyNotSupport('InnerAudioContext.obeyMuteSwitch')()
   }
 
-  get obeyMuteSwitch() {
+  get obeyMuteSwitch () {
     return true
   }
 
-  set startTime(e) {
+  set startTime (e) {
     this.__startTime = e
   }
 
-  get startTime() {
+  get startTime () {
     return this.__startTime || 0
   }
 
-  set referrerPolicy(e) {
+  set referrerPolicy (e) {
     this.Instance?.setAttribute('referrerpolicy', e)
   }
 
-  get referrerPolicy() {
+  get referrerPolicy () {
     return this.Instance?.getAttribute('referrerpolicy') || 'origin'
   }
 
-  private setProperty(key: string, value: unknown) {
+  private setProperty (key: string, value: unknown) {
     if (this.Instance) {
       this.Instance[key] = value
     }

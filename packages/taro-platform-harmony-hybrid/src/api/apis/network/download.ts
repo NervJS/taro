@@ -204,7 +204,7 @@ export const downloadFile: typeof Taro.downloadFile = ({
   result.progress = task.onProgressUpdate
 
   return new Proxy(result, {
-    get(target, prop) {
+    get (target, prop) {
       const object = prop in task ? task : target
       const value = object[prop]
       return typeof value === 'function' ? value.bind(object) : value

@@ -30,25 +30,25 @@ export const createInterstitialAd = () => {
  * @null_implementation
  */
 class InterstitialAd implements Taro.InterstitialAd {
-  destroy(): void {}
+  destroy (): void {}
 
-  offClose(_callback: Taro.InterstitialAd.OnCloseCallback): void {}
+  offClose (_callback: Taro.InterstitialAd.OnCloseCallback): void {}
 
-  offError(_callback: Taro.InterstitialAd.OnErrorCallback): void {}
+  offError (_callback: Taro.InterstitialAd.OnErrorCallback): void {}
 
-  offLoad(_callback: Taro.InterstitialAd.OnLoadCallback): void {}
+  offLoad (_callback: Taro.InterstitialAd.OnLoadCallback): void {}
 
-  onClose(_callback: Taro.InterstitialAd.OnCloseCallback): void {}
+  onClose (_callback: Taro.InterstitialAd.OnCloseCallback): void {}
 
-  onError(_callback: Taro.InterstitialAd.OnErrorCallback): void {}
+  onError (_callback: Taro.InterstitialAd.OnErrorCallback): void {}
 
-  onLoad(_callback: Taro.InterstitialAd.OnLoadCallback): void {}
+  onLoad (_callback: Taro.InterstitialAd.OnLoadCallback): void {}
 
-  load(): Promise<any> {
+  load (): Promise<any> {
     return Promise.resolve()
   }
 
-  show(): Promise<any> {
+  show (): Promise<any> {
     return Promise.resolve()
   }
 }

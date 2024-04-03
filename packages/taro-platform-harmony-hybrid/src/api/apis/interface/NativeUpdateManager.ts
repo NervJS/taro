@@ -5,26 +5,26 @@ import native from '../NativeApi'
 export class NativeUpdateManager implements Taro.UpdateManager {
   private static nativeUpdateManager: NativeUpdateManager
 
-  static getUpdateManager() {
+  static getUpdateManager () {
     if (!NativeUpdateManager.nativeUpdateManager) {
       NativeUpdateManager.nativeUpdateManager = new NativeUpdateManager()
     }
     return NativeUpdateManager.nativeUpdateManager
   }
 
-  applyUpdate() {
+  applyUpdate () {
     native.applyUpdate()
   }
 
-  onCheckForUpdate(callback: Taro.UpdateManager.OnCheckForUpdateCallback) {
+  onCheckForUpdate (callback: Taro.UpdateManager.OnCheckForUpdateCallback) {
     native.onCheckForUpdate(callback)
   }
 
-  onUpdateFailed(callback: (res: TaroGeneral.CallbackResult) => void) {
+  onUpdateFailed (callback: (res: TaroGeneral.CallbackResult) => void) {
     native.onUpdateFailed(callback)
   }
 
-  onUpdateReady(callback: (res: TaroGeneral.CallbackResult) => void) {
+  onUpdateReady (callback: (res: TaroGeneral.CallbackResult) => void) {
     native.onUpdateReady(callback)
   }
 }

@@ -23,7 +23,7 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
     }
     const { characteristicId, deviceId, serviceId, state, success, fail, complete } = options as Exclude<
       typeof options,
-      undefined
+    undefined
     >
 
     const handle = new MethodHandler({ name, success, fail, complete })

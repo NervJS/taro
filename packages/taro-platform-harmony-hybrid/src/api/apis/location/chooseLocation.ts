@@ -4,7 +4,7 @@ import { stringify } from 'query-string'
 import { MethodHandler } from '../utils/handler'
 
 let container: HTMLDivElement | null = null
-function createLocationChooser(handler, mapOpt: Taro.chooseLocation.Option['mapOpts'] = {}) {
+function createLocationChooser (handler, mapOpt: Taro.chooseLocation.Option['mapOpts'] = {}) {
   // @ts-ignore
   const systemBarHeight = window.systemBarHeight ? window.systemBarHeight : 0
   const { key = LOCATION_APIKEY, referer = 'myapp', ...opts } = mapOpt
@@ -34,27 +34,27 @@ function createLocationChooser(handler, mapOpt: Taro.chooseLocation.Option['mapO
   }
   const main: HTMLDivElement = container.querySelector('.taro_choose_location') as HTMLDivElement
 
-  function show() {
+  function show () {
     setTimeout(() => {
       main.style.top = '0'
     })
   }
 
-  function hide() {
+  function hide () {
     main.style.top = '100%'
   }
 
-  function back() {
+  function back () {
     hide()
     handler({ errMsg: 'cancel' })
   }
 
-  function submit() {
+  function submit () {
     hide()
     handler()
   }
 
-  function remove() {
+  function remove () {
     container?.remove()
     container = null
     window.removeEventListener('popstate', back)

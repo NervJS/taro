@@ -4,7 +4,7 @@ import { shouldBeObject } from '../utils'
 import { MethodHandler } from '../utils/handler'
 
 let container: HTMLDivElement | null = null
-function createContainer(options: Taro.openLocation.Option) {
+function createContainer (options: Taro.openLocation.Option) {
   const key = LOCATION_APIKEY
   const { longitude, latitude, name, address } = options
   // @ts-ignore
@@ -26,16 +26,16 @@ function createContainer(options: Taro.openLocation.Option) {
   }
   const main: HTMLDivElement = container.querySelector('.taro_choose_location') as HTMLDivElement
 
-  function show() {
+  function show () {
     main.style.top = '0'
   }
 
-  function hide() {
+  function hide () {
     main.style.top = '100%'
     remove()
   }
 
-  function remove() {
+  function remove () {
     container?.remove()
     container = null
   }

@@ -55,7 +55,7 @@ export const _request = (options) => {
   return result
 }
 
-function taroInterceptor(chain) {
+function taroInterceptor (chain) {
   return _request(chain.requestParams)
 }
 
@@ -70,7 +70,7 @@ const link = new Link(taroInterceptor)
  * @__object [url, data, header, timeout, method[OPTIONS, GET, HEAD, POST, PUT, PATCH, DELETE, TRACE, CONNECT], dataType[json, text, base64, arraybuffer], responseType[text, arraybuffer], enableCache]
  * @__success [data, header, statusCode, cookies]
  */
-export function request(options) {
+export function request (options) {
   const result = link.request.bind(link)(options)
   result.catch(() => {})
   return result

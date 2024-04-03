@@ -1,6 +1,6 @@
 import * as resolve from 'resolve'
 
-export function resolveSync(
+export function resolveSync (
   id: string,
   opts: resolve.SyncOpts = {
     basedir: __dirname,
