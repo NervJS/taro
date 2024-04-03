@@ -1,10 +1,10 @@
 import Taro from '@tarojs/taro'
-import { shouldBeObject } from 'src/utils'
-import { MethodHandler } from 'src/utils/handler'
+import { shouldBeObject } from 'src/api/apis/utils'
+import { MethodHandler } from 'src/api/apis/utils/handler'
 
 /**
  * 开启小程序进入前台时接收位置消息
- * 
+ *
  * @canUse startLocationUpdate
  */
 export const startLocationUpdate: typeof Taro.startLocationUpdate = (options) => {

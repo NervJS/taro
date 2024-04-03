@@ -23,6 +23,6 @@ export const offWifiConnectedWithPartialInfo: typeof Taro.offWifiConnectedWithPa
       /** 只包含 SSID 属性的 WifiInfo 对象 */
       wifi: { SSID: res.wifi.SSID },
     }
-    callback(result)
+    callback && callback(result)
   })
 }

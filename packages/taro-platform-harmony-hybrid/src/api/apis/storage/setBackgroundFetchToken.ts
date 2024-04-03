@@ -15,18 +15,18 @@ export const setBackgroundFetchToken: typeof Taro.setBackgroundFetchToken = func
 
   // options must be an Object
   const isObject = shouldBeObject(options)
-  if (!isObject.flag) {
-    const res = { errMsg: `${name}:fail ${isObject.msg}` }
-    console.error(res.errMsg)
-    return
-  }
+  // if (!isObject.flag) {
+  //   const res = { errMsg: `${name}:fail ${isObject.msg}` }
+  //   console.error(res.errMsg)
+  //   return
+  // }
 
   const { token, success, fail, complete } = options as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name, success, fail, complete })
 
   // token must be String
-  if (typeof token !== 'string') {
-    return handle.fail({
+  if (!isObject.flag || typeof token !== 'string') {
+    return handle.fail<TaroGeneral.CallbackResult>({
       errMsg: getParameterError({
         para: 'token',
         correct: 'string',
@@ -35,7 +35,7 @@ export const setBackgroundFetchToken: typeof Taro.setBackgroundFetchToken = func
     })
   }
 
-  return new Promise((resolve, reject) => {
+  return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     native.setStorage({
       key: 'setStorageSync',
       data: 'token',

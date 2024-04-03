@@ -31,7 +31,7 @@
     "dev:jd": "npm run build:jd -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch",
     "dev:harmony-hybrid": "npm run build:harmony-hybrid -- --watch",
-    "clear:mpharmony": "rm -rf node_modules/.taro/mpharmony && npm run dev:mpharmony",
+    "clear:harmony-hybrid": "rm -rf node_modules/.taro/harmony-hybrid && npm run dev:harmony-hybrid",
     "rebuild": "cd ../../packages/%npm_config_package% && pnpm build && cd ../../examples/mini-program-example && rimraf node_modules && pnpm install"
   },
   "browserslist": [

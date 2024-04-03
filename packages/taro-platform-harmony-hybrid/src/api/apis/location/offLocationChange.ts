@@ -1,11 +1,11 @@
 import Taro from '@tarojs/taro'
-import { shouldBeFunction } from 'src/utils'
+import { shouldBeFunction } from 'src/api/apis/utils'
 
 import native from '../NativeApi'
 
 /**
  * 取消监听实时地理位置变化事件
- * 
+ *
  * @canUse offLocationChange
  */
 export const offLocationChange: typeof Taro.offLocationChange = (callback) => {
@@ -34,10 +34,6 @@ export const offLocationChange: typeof Taro.offLocationChange = (callback) => {
       /** 垂直精度，单位 m */
       verticalAccuracy: res.accuracy,
     }
-    const result: TaroGeneral.CallbackResult = {
-      /** 错误信息 */
-      errMsg: JSON.stringify(cbResult),
-    }
-    callback(result)
+    callback && callback(cbResult)
   })
 }

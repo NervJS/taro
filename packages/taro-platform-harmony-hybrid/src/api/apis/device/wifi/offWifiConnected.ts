@@ -34,6 +34,6 @@ export const offWifiConnected: typeof Taro.offWifiConnected = (callback) => {
         frequency: res.wifi.frequency,
       },
     }
-    callback(result)
+    callback && callback(result)
   })
 }

@@ -1,9 +1,9 @@
 import Taro from '@tarojs/taro'
-import { shouldBeFunction } from 'src/utils'
+import { shouldBeFunction } from 'src/api/apis/utils'
 
-/** 
+/**
  * 监听持续定位接口返回失败时触发
- * 
+ *
  * @canUse onLocationChangeError
  * @__callback [errCode]
 */

@@ -4,7 +4,7 @@ import { View } from '@tarojs/components'
 import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
-import definition from '@tarojs/plugin-platform-mpharmony/build/config/harmony-definition.json'
+import definition from '@tarojs/plugin-platform-harmony-hybrid/build/config/harmony-definition.json'
 
 /**
  * 基础

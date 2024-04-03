@@ -9,7 +9,7 @@ export function displayExecRes (status: Status, method: string) {
 }
 
 export function handleData (data) {
-  const type = typeof dataåå
+  const type = typeof data
   let obj = {}
 
   if (type === 'symbol') {

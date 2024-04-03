@@ -24,7 +24,7 @@ export const getLocation: typeof Taro.getLocation = (options) => {
     return Promise.reject(res)
   }
   const {
-    altitude = 'false',
+    altitude = false,
     highAccuracyExpireTime,
     isHighAccuracy = false,
     type = 'wgs84',
@@ -37,7 +37,7 @@ export const getLocation: typeof Taro.getLocation = (options) => {
   return new Promise<Taro.getLocation.SuccessCallbackResult>((resolve, reject) => {
     const loc: Partial<Taro.getLocation.SuccessCallbackResult> = {}
     let flag = true
-    let timeoutId: NodeJS.Timeout
+    let timeoutId: number
     // 只有开启了高精度定位才需要设置超时时间，默认超时时间10秒
     if (isHighAccuracy) {
       timeoutId = setTimeout(function () {
@@ -79,7 +79,7 @@ export const getLocation: typeof Taro.getLocation = (options) => {
           /** 位置的精确度 */
           accuracy: res.accuracy,
           /** 高度，单位 m */
-          altitude: JSON.parse(altitude) ? res.altitude : 0,
+          altitude: altitude ? res.altitude : 0,
           /** 水平精度，单位 m */
           horizontalAccuracy: res.accuracy,
           /** 纬度，范围为 -90~90，负数表示南纬 */
