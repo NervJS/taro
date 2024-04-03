@@ -191,7 +191,7 @@ export { createChildItem, createLazyChildren }
       const taroName = `Taro${components}`
 
       result = `${result}if (item.tagName === '${components.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}') {
-    ${taroName}({ node: item as TaroAny, createLazyChildren: createLazyChildren })
+    ${taroName}({ node: item as TaroAny, createLazyChildren, createChildItem })
   } else `
     })
 
