@@ -176,7 +176,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       if (opt.plugins instanceof Array) {
         // Note: 移除冗余的 babel 插件，改用 runner 提供的版本
         const idx = opt.plugins.findIndex(e => e && (e as Plugin).name === 'vite:react-babel')
-        opt.plugins.splice(idx, 1)
+        if (idx >= 0) opt.plugins.splice(idx, 1)
       }
     },
     config: async () => {
@@ -274,7 +274,6 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           },
           commonjsOptions: {
             // TODO: 优化过滤
-            include: [/./],
             extensions: ['.js', '.ts'],
             transformMixedEsModules: true,
           },

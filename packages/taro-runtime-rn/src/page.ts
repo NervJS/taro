@@ -138,7 +138,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       dimensionsSubscription: EmitterSubscription | undefined
       isPageReady: boolean
 
-      constructor (props: any) {
+      constructor(props: any) {
         super(props)
         const refreshStyle = globalAny?.__taroRefreshStyle ?? {}
         const backgroundTextStyle =
@@ -291,7 +291,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         Current.page = inst
       }
 
-      pullDownRefresh = (path, refresh) => {
+      pullDownRefresh = ({ path, refresh }) => {
         if (getPageStr(path) === getPageStr(pagePath)) {
           this.setState({ refreshing: refresh })
         }
