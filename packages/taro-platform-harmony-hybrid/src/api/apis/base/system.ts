@@ -58,7 +58,8 @@ export const getWindowInfo: typeof Taro.getWindowInfo = () => {
     screenHeight: info.screenHeight,
     windowWidth: info.screenWidth,
     // @ts-ignore
-    windowHeight: info.screenHeight - (window?.currentNavigation?.style === 'default' ? (window.navigationHeight || 0) : 0),
+    windowHeight:
+      info.screenHeight - (window?.currentNavigation?.style === 'default' ? window.navigationHeight || 0 : 0),
     statusBarHeight: info.statusBarHeight,
     safeArea: info.safeArea || {
       /** 安全区域右下角纵坐标 */
@@ -72,7 +73,7 @@ export const getWindowInfo: typeof Taro.getWindowInfo = () => {
       /** 安全区域左上角纵坐标, 状态栏高度 */
       top: info.statusBarHeight,
       /** 安全区域的宽度，单位逻辑像素 */
-      width: info.screenWidth
+      width: info.screenWidth,
     },
   }
   return windowInfo
@@ -122,7 +123,7 @@ export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
     /** 操作系统及版本 */
     system: info.system,
     /** 客户端平台 */
-    platform: info.platform
+    platform: info.platform,
   }
   return deviceInfo
 }
@@ -144,7 +145,7 @@ export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
     host: { appId: info.appId },
     language: info.appLanguage,
     version: info.appVersion,
-    theme: info.theme
+    theme: info.theme,
   }
   return appBaseInfo
 }
@@ -176,7 +177,7 @@ export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = () => 
     /** 允许微信通知的开关 */
     notificationAuthorized: info.notificationAuthorized,
     /** 允许微信读写日历的开关 */
-    phoneCalendarAuthorized: info.phoneCalendarAuthorized
+    phoneCalendarAuthorized: info.phoneCalendarAuthorized,
   }
   return appAuthorizeSetting
 }

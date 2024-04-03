@@ -8,7 +8,7 @@ export * from './taro'
 export * from './taro-h5'
 
 let list: Record<string, unknown> | null = null
-export function canIUse (scheme = '') {
+export function canIUse(scheme = '') {
   /** Note: 此处方法仅作适配使用，用于避免 babel 无法识别的情况，比如通过变量传递的 scheme 等等
    * 同时，此处的 scheme 不包括在编译时写入的 hooks 等方法，故而不支持相关判断
    */

@@ -10,7 +10,7 @@ import native from '../../NativeApi'
  * @canUse onCompassChange
  * @__callback [accuracy, direction]
  */
-export const onCompassChange: typeof Taro.onCompassChange = callback => {
+export const onCompassChange: typeof Taro.onCompassChange = (callback) => {
   const name = 'onCompassChange'
   // callback must be an Function
   const isFunction = shouldBeFunction(callback)
@@ -23,12 +23,12 @@ export const onCompassChange: typeof Taro.onCompassChange = callback => {
   try {
     if (!taroCallbackMap.has(callback)) {
       // eslint-disable-next-line no-inner-declarations
-      function newCallback (res: any) {
+      function newCallback(res: any) {
         const result: Taro.onCompassChange.OnCompassChangeCallbackResult = {
           /** 精度 */
           accuracy: res.accuracy === 3 ? 'high' : 'unreliable',
           /** 面对的方向度数 */
-          direction: res.direction
+          direction: res.direction,
         }
         callback(result)
       }

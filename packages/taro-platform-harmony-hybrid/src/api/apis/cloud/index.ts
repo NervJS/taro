@@ -2,7 +2,7 @@ import Taro from '@tarojs/api'
 
 /**
  * 云开发 SDK 实例
- * 
+ *
  * @canUse cloud
  * @null_implementation
  */
@@ -76,6 +76,6 @@ export class cloud implements Taro.cloud {
 
 /**
  * 云开发 SDK 数据库实例 Taro.cloud.database()
- * 
+ *
  * @canNotUse DB
  */

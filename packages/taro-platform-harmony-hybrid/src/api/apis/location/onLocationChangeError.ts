@@ -6,7 +6,7 @@ import { shouldBeFunction } from 'src/api/apis/utils'
  *
  * @canUse onLocationChangeError
  * @__callback [errCode]
-*/
+ */
 export const onLocationChangeError: typeof Taro.onLocationChangeError = (callback) => {
   const name = 'onLocationChangeError'
   // callback must be an Function

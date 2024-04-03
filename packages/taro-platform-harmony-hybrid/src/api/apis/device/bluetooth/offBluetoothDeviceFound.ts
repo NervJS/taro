@@ -19,7 +19,6 @@ export const offBluetoothDeviceFound: typeof Taro.offBluetoothDeviceFound = (cal
     return
   }
 
-
   native.offBluetoothDeviceFound((res: any) => {
     const result: Taro.onBluetoothDeviceFound.CallbackResult = {
       /** 新搜索到的设备列表 */

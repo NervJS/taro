@@ -21,7 +21,7 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
 
   protected isHandlerError = false
 
-  constructor ({ name, success, fail, complete }: IMethodParam<T>) {
+  constructor({ name, success, fail, complete }: IMethodParam<T>) {
     this.methodName = name
     this.__success = success
     this.__fail = fail
@@ -30,7 +30,7 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     this.isHandlerError = isFunction(this.__complete) || isFunction(this.__fail)
   }
 
-  success<U = Record<string, unknown>> (
+  success<U = Record<string, unknown>>(
     res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {},
     promise: IMockPromise = {}
   ): Promise<T & U & TaroGeneral.CallbackResult> {
@@ -44,7 +44,7 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     return resolve(res as Required<T & U & TaroGeneral.CallbackResult>)
   }
 
-  fail<U = Record<string, unknown>> (
+  fail<U = Record<string, unknown>>(
     res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {},
     promise: IMockPromise = {}
   ): Promise<T & U & TaroGeneral.CallbackResult> {

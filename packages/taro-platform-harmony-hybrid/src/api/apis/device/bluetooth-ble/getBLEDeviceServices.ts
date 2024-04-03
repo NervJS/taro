@@ -36,8 +36,8 @@ export const getBLEDeviceServices: typeof Taro.getBLEDeviceServices = (options) 
           errMsg: getParameterError({
             para: 'deviceId',
             correct: 'string',
-            wrong: deviceId
-          })
+            wrong: deviceId,
+          }),
         },
         { resolve, reject }
       )
@@ -50,7 +50,7 @@ export const getBLEDeviceServices: typeof Taro.getBLEDeviceServices = (options) 
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

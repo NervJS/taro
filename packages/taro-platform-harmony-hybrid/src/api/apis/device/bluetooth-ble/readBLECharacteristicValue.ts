@@ -23,7 +23,7 @@ export const readBLECharacteristicValue: typeof Taro.readBLECharacteristicValue 
     }
     const { characteristicId, deviceId, serviceId, success, fail, complete } = options as Exclude<
       typeof options,
-    undefined
+      undefined
     >
 
     const handle = new MethodHandler({ name, success, fail, complete })

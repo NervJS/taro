@@ -4,7 +4,7 @@ import native from '../../NativeApi'
 
 /**
  * 取消监听内存不足告警事件
- * 
+ *
  * @canUse offMemoryWarning
  * @null_implementation
  */

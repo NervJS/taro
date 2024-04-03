@@ -34,13 +34,12 @@ export const createBLEConnection: typeof Taro.createBLEConnection = (options) =>
           errMsg: getParameterError({
             para: 'deviceId',
             correct: 'string',
-            wrong: deviceId
-          })
+            wrong: deviceId,
+          }),
         },
         { resolve, reject }
       )
     }
-
 
     native.createBLEConnection({
       deviceId: deviceId,
@@ -50,13 +49,13 @@ export const createBLEConnection: typeof Taro.createBLEConnection = (options) =>
           /** 错误信息 */
           errMsg: '',
           /** 错误码 */
-          errCode: res[0]
+          errCode: res[0],
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

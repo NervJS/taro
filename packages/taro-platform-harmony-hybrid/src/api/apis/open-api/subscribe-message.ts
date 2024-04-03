@@ -13,9 +13,9 @@ export const requestSubscribeMessage = (options) => {
   try {
     native.requestSubscribeMessage(options)
   } catch (res) {
-    const result:Taro.requestSubscribeMessage.FailCallbackResult = {
+    const result: Taro.requestSubscribeMessage.FailCallbackResult = {
       errCode: 500,
-      errMsg: JSON.stringify(res)
+      errMsg: JSON.stringify(res),
     }
     options.fail?.(result)
     options.complete?.(result)

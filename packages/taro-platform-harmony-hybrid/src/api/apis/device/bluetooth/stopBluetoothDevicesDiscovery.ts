@@ -23,7 +23,6 @@ export const stopBluetoothDevicesDiscovery: typeof Taro.stopBluetoothDevicesDisc
   }>({ name, success, fail, complete })
 
   return new Promise<Taro.stopBluetoothDevicesDiscovery.Promised>((resolve, reject) => {
-
     native.stopBluetoothDevicesDiscovery({
       success: (res: any) => {
         const result: TaroGeneral.BluetoothError = {

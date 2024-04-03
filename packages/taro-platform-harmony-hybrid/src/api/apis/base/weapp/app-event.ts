@@ -116,7 +116,6 @@ export { onAudioInterruptionEnd } from '@tarojs/taro-h5'
  */
 export { onAudioInterruptionBegin } from '@tarojs/taro-h5'
 
-
 // app 以及 page onShow/onHide 生命周期回调处理
 // ---------------------------------------------------
 const appPageShowListener = () => {
@@ -182,7 +181,6 @@ export const offAppShow: typeof Taro.offAppShow = (callback) => {
 export const offAppHide: typeof Taro.offAppHide = (callback) => {
   appHideCallbackManager.removeEvery(callback)
 }
-
 
 /**
  * 取消监听未处理的 Promise 拒绝事件

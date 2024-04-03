@@ -12,17 +12,15 @@ import { displayExecRes, handleData } from './util'
  */
 export * from './background-fetch'
 
-
 // 周期性更新
 export const createCacheManager = /* @__PURE__ */ temporarilyNotSupport('createCacheManager')
-
 
 /**
  * Taro.setStorage 的同步版本
  *
  * @canUse setStorageSync
  * @__object [key, data]
-*/
+ */
 export const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
   const status = native.setStorageSync({ key, data: JSON.stringify(handleData(data)) })
   displayExecRes(status, setStorageSync.name)
@@ -51,11 +49,11 @@ export const setStorage: typeof Taro.setStorage = (options) => {
       key: key,
       data: JSON.stringify(handleData(data)),
       success: (res: any) => {
-        handle.success({ errMsg: res.errMsg }, { resolve,reject })
+        handle.success({ errMsg: res.errMsg }, { resolve, reject })
       },
       fail: (err: any) => {
-        handle.fail({ errMsg: err.errMsg }, { resolve,reject })
-      }
+        handle.fail({ errMsg: err.errMsg }, { resolve, reject })
+      },
     })
   })
 }
@@ -71,7 +69,7 @@ export const revokeBufferURL = /* @__PURE__ */ temporarilyNotSupport('revokeBuff
  * Taro.removeStorage 的同步版本
  *
  * @canUse removeStorageSync
-*/
+ */
 export const removeStorageSync: typeof Taro.removeStorageSync = (key: string) => {
   const status = native.removeStorageSync({ key })
   displayExecRes(status, removeStorageSync.name)
@@ -82,7 +80,7 @@ export const removeStorageSync: typeof Taro.removeStorageSync = (key: string) =>
  *
  * @canUse removeStorage
  * @__object [key]
-*/
+ */
 export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeStorage.Option) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
@@ -98,11 +96,11 @@ export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeSto
     native.removeStorage({
       key: key,
       success: (res: any) => {
-        handle.success({ errMsg: res.errMsg },{ resolve, reject })
+        handle.success({ errMsg: res.errMsg }, { resolve, reject })
       },
       fail: (err: any) => {
-        handle.fail({ errMsg: err.errMsg },{ resolve,reject })
-      }
+        handle.fail({ errMsg: err.errMsg }, { resolve, reject })
+      },
     })
   })
 }
@@ -111,7 +109,7 @@ export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeSto
  * Taro.getStorage 的同步版本
  *
  * @canUse getStorageSync
-*/
+ */
 // @ts-ignore
 export const getStorageSync: typeof Taro.getStorageSync = (key) => {
   const status = native.getStorageSync({ key })
@@ -134,7 +132,7 @@ export const getStorageSync: typeof Taro.getStorageSync = (key) => {
  * @canUse getStorage
  * @__object [key]
  * @__success [data]
-*/
+ */
 export const getStorage: typeof Taro.getStorage = <T>(options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
@@ -149,7 +147,7 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
     name: 'getStorage',
     success,
     fail,
-    complete
+    complete,
   })
 
   return new Promise((resolve, reject) => {
@@ -169,11 +167,10 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
-        handle.fail({ errMsg: err.errMsg }, { resolve,reject })
-      }
+        handle.fail({ errMsg: err.errMsg }, { resolve, reject })
+      },
     })
   })
-
 }
 
 /**
@@ -181,12 +178,12 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
  *
  * @canUse getStorageInfoSync
  * @__return [currentSize, keys, limitSize]
-*/
+ */
 export const getStorageInfoSync: typeof Taro.getStorageInfoSync = () => {
   const res: Taro.getStorageInfoSync.Option = {
     keys: [],
     limitSize: NaN,
-    currentSize: NaN
+    currentSize: NaN,
   }
   const status = native.getStorageInfoSync({ key: '' })
 
@@ -202,13 +199,13 @@ export const getStorageInfoSync: typeof Taro.getStorageInfoSync = () => {
  *
  * @canUse getStorageInfo
  * @__success [currentSize, keys, limitSize]
-*/
+ */
 export const getStorageInfo: typeof Taro.getStorageInfo = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler<Taro.getStorageInfo.SuccessCallbackOption>({
     name: 'getStorageInfo',
     success,
     fail,
-    complete
+    complete,
   })
 
   return new Promise((resolve, reject) => {
@@ -219,15 +216,14 @@ export const getStorageInfo: typeof Taro.getStorageInfo = ({ success, fail, comp
           limitSize: NaN,
           currentSize: NaN,
         }
-        handle.success(result,{ resolve,reject })
+        handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail({ errMsg: err.errMsg }, { resolve, reject })
-      }
+      },
     })
   })
 }
-
 
 /**
  * 根据传入的 buffer 创建一个唯一的 URL 存在内存中
@@ -240,7 +236,7 @@ export const createBufferURL = /* @__PURE__ */ temporarilyNotSupport('createBuff
  * Taro.clearStorage 的同步版本
  *
  * @canUse clearStorageSync
-*/
+ */
 export const clearStorageSync: typeof Taro.clearStorageSync = () => {
   const status = native.clearStorageSync({ key: '' })
   displayExecRes(status, clearStorageSync.name)
@@ -250,18 +246,18 @@ export const clearStorageSync: typeof Taro.clearStorageSync = () => {
  * 清除storage信息
  *
  * @canUse clearStorage
-*/
+ */
 export const clearStorage: typeof Taro.clearStorage = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'clearStorage', success, fail, complete })
 
   return new Promise((resolve, reject) => {
     native.clearStorage({
       success: () => {
-        handle.success({ errMsg: 'ok' },{ reject,resolve })
+        handle.success({ errMsg: 'ok' }, { reject, resolve })
       },
-      fail: (err:any) => {
-        handle.fail({ errMsg: err.errMsg },{ reject,resolve })
-      }
+      fail: (err: any) => {
+        handle.fail({ errMsg: err.errMsg }, { reject, resolve })
+      },
     })
   })
 }

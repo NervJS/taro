@@ -5,7 +5,7 @@ export * from './apis/taro'
 
 export default taro
 
-function safeStringify (obj) {
+function safeStringify(obj) {
   try {
     return JSON.stringify(obj, null, 2)
   } catch (error) {
@@ -14,19 +14,19 @@ function safeStringify (obj) {
   }
 }
 
-function logFun (funObj, message) {
+function logFun(funObj, message) {
   return new Proxy(funObj, {
-    apply (target, thisArg, args) {
+    apply(target, thisArg, args) {
       // eslint-disable-next-line no-console
       console.debug('%s, 参数为: %s', message, safeStringify(args))
       return target.apply(thisArg, args)
-    }
+    },
   })
 }
 
-function logObj (obj) {
+function logObj(obj) {
   return new Proxy(obj, {
-    get (target, property) {
+    get(target, property) {
       if (typeof target[property] !== 'function') {
         const value = target[property]
         // @ts-ignore
@@ -57,7 +57,7 @@ function logObj (obj) {
         console.debug('%s, 返回值为: %s', log, safeStringify(result))
         return result
       }
-    }
+    },
   })
 }
 

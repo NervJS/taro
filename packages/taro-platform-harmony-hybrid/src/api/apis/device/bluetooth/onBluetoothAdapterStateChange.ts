@@ -20,6 +20,5 @@ export const onBluetoothAdapterStateChange: typeof Taro.onBluetoothAdapterStateC
     return
   }
 
-
   native.onBluetoothAdapterStateChange(callback)
 }

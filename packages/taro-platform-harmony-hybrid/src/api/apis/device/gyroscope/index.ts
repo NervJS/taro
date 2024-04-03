@@ -1,6 +1,6 @@
 /**
  * 取消监听陀螺仪数据变化事件。
- * 
+ *
  * @canNotUse offGyroscopeChange
  */
 export * from './onGyroscopeChange'

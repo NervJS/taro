@@ -1,6 +1,6 @@
 /**
  * 百度智能小程序可接入百度搜索和百度 App，setPageInfo 负责为小程序设置各类页面基础信息，包括标题、关键字、页面描述以及图片信息、视频信息等。
- * 
+ *
  * @canNotUse setPageInfo
  */
 export { setPageInfo } from '@tarojs/taro-h5'

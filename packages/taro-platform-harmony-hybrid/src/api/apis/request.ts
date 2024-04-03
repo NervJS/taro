@@ -14,10 +14,8 @@ const errMsgMap = new Map([
   [28, 'Timeout was reached'],
   [73, 'Remote file already exists'],
   [78, 'Remote file not found'],
-  [999, 'Unknown Other Error']
+  [999, 'Unknown Other Error'],
 ])
-
-
 
 export class RequestTask {
   public responseHeader
@@ -30,7 +28,7 @@ export class RequestTask {
   public interceptor
   public httpRequest
 
-  constructor (object) {
+  constructor(object) {
     const { url, headers, method, timeout, responseType, enableCache } = object || {}
     let { data } = object || {}
     const { success, fail, complete, dataType } = object || {}
@@ -44,39 +42,45 @@ export class RequestTask {
     this.httpRequest = axios.create({
       responseType: responseType || 'text',
       headers: headers,
-      timeout: timeout || 2000
+      timeout: timeout || 2000,
     })
 
     // 请求拦截器
-    this.httpRequest.interceptors.request.use((config) => {
-      if (config.enableCache === false) {
-        return config
-      }
-      // 处理缓存
-      const cacheData = localStorage.getItem(config.url)
-      if (cacheData !== null) {
-        let result = cacheData
-        if (dataType === 'json') {
-          result = JSON.parse(cacheData)
+    this.httpRequest.interceptors.request.use(
+      (config) => {
+        if (config.enableCache === false) {
+          return config
         }
-        source.cancel('cache has useful data!!')
-        return Promise.resolve({ result })
+        // 处理缓存
+        const cacheData = localStorage.getItem(config.url)
+        if (cacheData !== null) {
+          let result = cacheData
+          if (dataType === 'json') {
+            result = JSON.parse(cacheData)
+          }
+          source.cancel('cache has useful data!!')
+          return Promise.resolve({ result })
+        }
+        return config
+      },
+      (error) => {
+        console.error('error: ', error)
       }
-      return config
-    }, error => {
-      console.error('error: ', error)
-    })
+    )
 
     // 响应拦截器
-    this.httpRequest.interceptors.response.use((response) => {
-    // 缓存数据
-      if (response.config.enableCache === false) {
-        localStorage.setItem(response.config.url, JSON.stringify(response.data))
+    this.httpRequest.interceptors.response.use(
+      (response) => {
+        // 缓存数据
+        if (response.config.enableCache === false) {
+          localStorage.setItem(response.config.url, JSON.stringify(response.data))
+        }
+        return response
+      },
+      (error) => {
+        console.error('error: ', error)
       }
-      return response
-    }, error => {
-      console.error('error: ', error)
-    })
+    )
 
     if (!object) {
       console.error('request error: params illegal')
@@ -114,7 +118,7 @@ export class RequestTask {
       method: method,
       url: url,
       CancelToken: source.token,
-      enableCache: enableCache || false
+      enableCache: enableCache || false,
     })
       .then((response) => {
         if (success && !this.abortFlag) {
@@ -143,7 +147,7 @@ export class RequestTask {
             statusCode: response.status,
             header: response.headers,
             cookies: response.cookies ? [response.cookies] : [],
-            errMsg: 'request:ok'
+            errMsg: 'request:ok',
           }
           this.result = res
           success(res)
@@ -152,7 +156,7 @@ export class RequestTask {
       .catch((err) => {
         console.error('request error: ' + JSON.stringify(err))
         if (fail && !this.abortFlag) {
-        // eslint-disable-next-line no-console
+          // eslint-disable-next-line no-console
           const res = { errMsg: errMsgMap.has(err.code) ? errMsgMap.get(err.code) : `${JSON.stringify(err)}` }
           this.result = res
           fail(res)
@@ -171,7 +175,7 @@ export class RequestTask {
   /**
    * interrupt request task
    */
-  abort () {
+  abort() {
     this.abortFlag = true
     if (this.httpRequest) {
       source.cancel('requestTask cancelled by the user!')
@@ -181,7 +185,7 @@ export class RequestTask {
     }
   }
 
-  onHeadersReceived (callback) {
+  onHeadersReceived(callback) {
     if (!callback) {
       console.error('[AdvancedAPI] Invalid, callback is null')
       return
@@ -202,17 +206,17 @@ export class RequestTask {
   }
 
   /**
-  * unsubscribe HTTP Response Header event
-  * remove all if callback is null, otherwise remove the specialized callback
-  */
-  offHeadersReceived (callback) {
+   * unsubscribe HTTP Response Header event
+   * remove all if callback is null, otherwise remove the specialized callback
+   */
+  offHeadersReceived(callback) {
     if (this.headersCallback.has(callback)) {
       if (this.httpRequest) {
         this.httpRequest.interceptors.eject(this.interceptor)
       }
       this.headersCallback.delete(callback)
     } else {
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.debug('offHeadersReceived callback invalid')
     }
   }

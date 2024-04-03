@@ -7,7 +7,7 @@ import type { IPluginContext, TConfig } from '@tarojs/service'
 
 const compLibraryAlias = {
   vue: 'vue2',
-  vue3: 'vue3'
+  vue3: 'vue3',
 }
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-harmony-hybrid'
@@ -15,36 +15,36 @@ export default class H5 extends TaroPlatformWeb {
   platform = 'harmony-hybrid'
   runtimePath = `${PACKAGE_NAME}/dist/runtime`
 
-  constructor (ctx: IPluginContext, config: TConfig) {
+  constructor(ctx: IPluginContext, config: TConfig) {
     super(ctx, config)
     this.setupTransaction.addWrapper({
-      close () {
+      close() {
         this.modifyWebpackConfig()
-      }
+      },
     })
   }
 
-  get framework () {
+  get framework() {
     return this.ctx.initialConfig.framework || 'react'
   }
 
-  get useHtmlComponents () {
+  get useHtmlComponents() {
     return !!this.ctx.initialConfig.h5?.useHtmlComponents
   }
 
-  get useDeprecatedAdapterComponent () {
+  get useDeprecatedAdapterComponent() {
     return !!this.ctx.initialConfig.h5?.useDeprecatedAdapterComponent
   }
 
-  get apiLibrary () {
+  get apiLibrary() {
     return require.resolve('./runtime/apis')
   }
 
-  get aliasFramework (): string {
+  get aliasFramework(): string {
     return compLibraryAlias[this.framework] || 'react'
   }
 
-  get componentLibrary () {
+  get componentLibrary() {
     if (this.useHtmlComponents && this.aliasFramework === 'react') {
       return require.resolve('./runtime/components')
     } else if (this.useDeprecatedAdapterComponent) {
@@ -54,22 +54,22 @@ export default class H5 extends TaroPlatformWeb {
     }
   }
 
-  get componentAdapter () {
+  get componentAdapter() {
     return path.join(path.dirname(require.resolve('@tarojs/components')), '..', 'lib')
   }
 
-  get routerLibrary () {
+  get routerLibrary() {
     return require.resolve('@tarojs/router')
   }
 
-  get libraryDefinition () {
+  get libraryDefinition() {
     return resolveSync('./definition.json')
   }
 
   /**
    * 修改 Webpack 配置
    */
-  modifyWebpackConfig () {
+  modifyWebpackConfig() {
     this.ctx.modifyWebpackChain(({ chain }) => {
       const rules = chain.module.rules
       const script = rules.get('script')
@@ -85,10 +85,10 @@ export default class H5 extends TaroPlatformWeb {
             {
               packageName: '@tarojs/taro',
               apis,
-              definition: require(this.libraryDefinition)
-            }
-          ]
-        ]
+              definition: require(this.libraryDefinition),
+            },
+          ],
+        ],
       })
 
       const alias = chain.resolve.alias
@@ -100,7 +100,7 @@ export default class H5 extends TaroPlatformWeb {
       chain.plugin('mainPlugin').tap((args) => {
         args[0].loaderMeta ||= {
           extraImportForWeb: '',
-          execBeforeCreateWebApp: ''
+          execBeforeCreateWebApp: '',
         }
 
         // Note: 旧版本适配器不会自动注册 Web Components 组件，需要加载 defineCustomElements 脚本自动注册使用的组件
@@ -125,7 +125,9 @@ export default class H5 extends TaroPlatformWeb {
             break
           default:
             if (this.useHtmlComponents) {
-              args[0].loaderMeta.extraImportForWeb += `import '${require.resolve('@tarojs/components-react/dist/index.css')}'\nimport { PullDownRefresh } from '@tarojs/components'\n`
+              args[0].loaderMeta.extraImportForWeb += `import '${require.resolve(
+                '@tarojs/components-react/dist/index.css'
+              )}'\nimport { PullDownRefresh } from '@tarojs/components'\n`
               args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
             }
         }

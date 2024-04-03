@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
 
-function getCustomLaunchInfo () {
+function getCustomLaunchInfo() {
   let launchInfo
   try {
     // @ts-ignore
@@ -39,14 +39,14 @@ function getCustomLaunchInfo () {
 }
 
 let launchOptions
-export function initLaunchOptions (options = {}) {
+export function initLaunchOptions(options = {}) {
   Object.assign(options, getCustomLaunchInfo())
   launchOptions = options
 }
 
 /**
  * 获取程序启动时的参数
- * 
+ *
  * @canUse getLaunchOptionsSync
  * @__return [path, query, scene, shareTicket, referrerInfo, apiCategory]
  */

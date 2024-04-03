@@ -1,4 +1,4 @@
-export function throttle (fn, threshold = 250, scope?) {
+export function throttle(fn, threshold = 250, scope?) {
   let lastTime = 0
   let deferTimer: ReturnType<typeof setTimeout>
   return function (...args) {
@@ -17,7 +17,7 @@ export function throttle (fn, threshold = 250, scope?) {
   }
 }
 
-export function debounce (fn, ms = 250, scope?) {
+export function debounce(fn, ms = 250, scope?) {
   let timer: ReturnType<typeof setTimeout>
 
   return function (...args) {

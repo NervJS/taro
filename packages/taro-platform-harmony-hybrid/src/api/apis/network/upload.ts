@@ -21,7 +21,7 @@ export const uploadFile = (options) => {
 
   const { url, filePath, name, success, fail, complete, ...otherOptions } = options as Exclude<
     typeof options,
-  undefined
+    undefined
   >
   const requireOptions = { url, filePath, name }
   for (const option in requireOptions) {
@@ -73,4 +73,3 @@ export const uploadFile = (options) => {
     })
   return promise
 }
-

@@ -1,13 +1,13 @@
 /**
  * 判断支持版本
- * 
+ *
  * @canNotUse isVKSupport
  */
 export { isVKSupport } from '@tarojs/taro-h5'
 
 /**
  * 创建 vision kit 会话对象
- * 
+ *
  * @canNotUse createVKSession
  */
 export { createVKSession } from '@tarojs/taro-h5'

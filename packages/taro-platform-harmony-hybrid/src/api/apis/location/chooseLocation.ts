@@ -4,7 +4,7 @@ import { stringify } from 'query-string'
 import { MethodHandler } from '../utils/handler'
 
 let container: HTMLDivElement | null = null
-function createLocationChooser (handler, mapOpt: Taro.chooseLocation.Option['mapOpts'] = {}) {
+function createLocationChooser(handler, mapOpt: Taro.chooseLocation.Option['mapOpts'] = {}) {
   // @ts-ignore
   const systemBarHeight = window.systemBarHeight ? window.systemBarHeight : 0
   const { key = LOCATION_APIKEY, referer = 'myapp', ...opts } = mapOpt
@@ -23,7 +23,10 @@ function createLocationChooser (handler, mapOpt: Taro.chooseLocation.Option['map
     <p class='taro_choose_location_title'>位置</p>
     <button class='taro_choose_location_submit'>完成</button>
   </div>
-  <iframe id='map-iframe' class='taro_choose_location_frame' frameborder='0' src="https://apis.map.qq.com/tools/locpicker?${stringify(query, { arrayFormat: 'comma', skipNull: true })}"/>
+  <iframe id='map-iframe' class='taro_choose_location_frame' frameborder='0' src="https://apis.map.qq.com/tools/locpicker?${stringify(
+    query,
+    { arrayFormat: 'comma', skipNull: true }
+  )}"/>
 </div>
 `
     container = document.createElement('div')
@@ -31,27 +34,27 @@ function createLocationChooser (handler, mapOpt: Taro.chooseLocation.Option['map
   }
   const main: HTMLDivElement = container.querySelector('.taro_choose_location') as HTMLDivElement
 
-  function show () {
+  function show() {
     setTimeout(() => {
       main.style.top = '0'
     })
   }
 
-  function hide () {
+  function hide() {
     main.style.top = '100%'
   }
 
-  function back () {
+  function back() {
     hide()
     handler({ errMsg: 'cancel' })
   }
 
-  function submit () {
+  function submit() {
     hide()
     handler()
   }
 
-  function remove () {
+  function remove() {
     container?.remove()
     container = null
     window.removeEventListener('popstate', back)
@@ -71,7 +74,7 @@ function createLocationChooser (handler, mapOpt: Taro.chooseLocation.Option['map
 
 /**
  * 打开地图选择位置。
- * 
+ *
  * @canUse chooseLocation
  * @__object [mapOpts]
  * @__success [address, latitude, longitude, name]
@@ -107,9 +110,7 @@ export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, comp
           return handle.fail({}, { resolve, reject })
         }
       }
-    },
-    mapOpts
-    )
+    }, mapOpts)
 
     document.body.appendChild(chooser.container)
 

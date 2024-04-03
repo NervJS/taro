@@ -40,11 +40,11 @@ export const setBackgroundFetchToken: typeof Taro.setBackgroundFetchToken = func
       key: 'setStorageSync',
       data: 'token',
       success: (res: any) => {
-        handle.success({ errMsg: res.errMsg }, { resolve,reject })
+        handle.success({ errMsg: res.errMsg }, { resolve, reject })
       },
       fail: (err: any) => {
-        handle.fail({ errMsg: err.errMsg }, { resolve,reject })
-      }
+        handle.fail({ errMsg: err.errMsg }, { resolve, reject })
+      },
     })
   })
 }

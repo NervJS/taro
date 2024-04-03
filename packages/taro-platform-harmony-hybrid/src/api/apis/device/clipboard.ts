@@ -6,7 +6,7 @@
  */
 /**
  * 设置系统剪贴板的内容
- * 
+ *
  * @canUse setClipboardData
  * @__object [data]
  */
@@ -14,7 +14,7 @@ export { setClipboardData } from '@tarojs/taro-h5'
 
 /**
  * 获取系统剪贴板的内容
- * 
+ *
  * @canUse getClipboardData
  * @__success [data]
  */

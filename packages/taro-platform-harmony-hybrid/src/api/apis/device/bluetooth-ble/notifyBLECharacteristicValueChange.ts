@@ -23,7 +23,7 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
     }
     const { characteristicId, deviceId, serviceId, state, success, fail, complete } = options as Exclude<
       typeof options,
-    undefined
+      undefined
     >
 
     const handle = new MethodHandler({ name, success, fail, complete })
@@ -35,8 +35,8 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
           errMsg: getParameterError({
             para: 'characteristicId',
             correct: 'string',
-            wrong: characteristicId
-          })
+            wrong: characteristicId,
+          }),
         },
         { resolve, reject }
       )
@@ -48,8 +48,8 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
           errMsg: getParameterError({
             para: 'deviceId',
             correct: 'string',
-            wrong: deviceId
-          })
+            wrong: deviceId,
+          }),
         },
         { resolve, reject }
       )
@@ -61,8 +61,8 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
           errMsg: getParameterError({
             para: 'serviceId',
             correct: 'string',
-            wrong: serviceId
-          })
+            wrong: serviceId,
+          }),
         },
         { resolve, reject }
       )
@@ -74,8 +74,8 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
           errMsg: getParameterError({
             para: 'state',
             correct: 'boolean',
-            wrong: state
-          })
+            wrong: state,
+          }),
         },
         { resolve, reject }
       )
@@ -91,7 +91,7 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

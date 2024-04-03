@@ -2,7 +2,7 @@ import Taro from '@tarojs/taro'
 
 /**
  * 发送微信支付
- * 
+ *
  * @canUse requestPayment
  * @null_implementation
  */

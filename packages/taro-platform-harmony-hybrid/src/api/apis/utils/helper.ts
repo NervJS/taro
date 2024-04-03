@@ -1,4 +1,4 @@
-export function createDownload (url = '', download = '') {
+export function createDownload(url = '', download = '') {
   const link = document.createElement('a')
   link.style.display = 'none'
   link.href = url

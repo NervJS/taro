@@ -14,7 +14,7 @@ const TextBaseLineMap: Record<keyof Taro.CanvasContext.TextBaseline, CanvasTextB
   normal: 'alphabetic',
   hanging: 'hanging',
   alphabetic: 'alphabetic',
-  ideographic: 'ideographic'
+  ideographic: 'ideographic',
 }
 
 /**
@@ -32,255 +32,258 @@ export class CanvasContext implements Taro.CanvasContext {
   __raw__: CanvasRenderingContext2D
   actions: IAction[] = []
 
-  constructor (canvas, ctx) {
+  constructor(canvas, ctx) {
     this.canvas = canvas
     this.ctx = ctx
   }
 
-  set ctx (e: CanvasRenderingContext2D) {
+  set ctx(e: CanvasRenderingContext2D) {
     this.__raw__ = e
   }
 
-  get ctx () {
+  get ctx() {
     return this.__raw__ || {}
   }
 
   canvas: HTMLCanvasElement
 
-  protected emptyActions () {
+  protected emptyActions() {
     this.actions.length = 0
   }
 
-  protected enqueueActions (func: IAction['func'], ...args) {
+  protected enqueueActions(func: IAction['func'], ...args) {
     this.actions.push({
       func,
       args,
     })
   }
 
-  set fillStyle (e) {
+  set fillStyle(e) {
     this.enqueueActions(() => {
       this.ctx.fillStyle = e
     })
   }
 
-  get fillStyle () {
+  get fillStyle() {
     return this.ctx.fillStyle as string
   }
 
-  set font (e) {
+  set font(e) {
     this.ctx.font = e
   }
 
-  get font () {
+  get font() {
     return this.ctx.font
   }
 
-  set globalAlpha (e) {
+  set globalAlpha(e) {
     this.enqueueActions(() => {
       this.ctx.globalAlpha = e
     })
   }
 
-  get globalAlpha () {
+  get globalAlpha() {
     return this.ctx.globalAlpha
   }
 
-  set globalCompositeOperation (e) {
+  set globalCompositeOperation(e) {
     this.enqueueActions(() => {
       this.ctx.globalCompositeOperation = e
     })
   }
 
-  get globalCompositeOperation () {
+  get globalCompositeOperation() {
     return this.ctx.globalCompositeOperation
   }
 
-  set lineCap (e) {
+  set lineCap(e) {
     this.enqueueActions(() => {
       this.ctx.lineCap = e
     })
   }
 
-  get lineCap () {
+  get lineCap() {
     return this.ctx.lineCap
   }
 
-  set lineDashOffset (e) {
+  set lineDashOffset(e) {
     this.enqueueActions(() => {
       this.ctx.lineDashOffset = e
     })
   }
 
-  get lineDashOffset () {
+  get lineDashOffset() {
     return this.ctx.lineDashOffset
   }
 
-  set lineJoin (e) {
+  set lineJoin(e) {
     this.enqueueActions(() => {
       this.ctx.lineJoin = e
     })
   }
 
-  get lineJoin () {
+  get lineJoin() {
     return this.ctx.lineJoin
   }
 
-  set lineWidth (e) {
+  set lineWidth(e) {
     this.enqueueActions(() => {
       this.ctx.lineWidth = e
     })
   }
 
-  get lineWidth () {
+  get lineWidth() {
     return this.ctx.lineWidth
   }
 
-  set miterLimit (e) {
+  set miterLimit(e) {
     this.enqueueActions(() => {
       this.ctx.miterLimit = e
     })
   }
 
-  get miterLimit () {
+  get miterLimit() {
     return this.ctx.miterLimit
   }
 
-  set shadowBlur (e) {
+  set shadowBlur(e) {
     this.enqueueActions(() => {
       this.ctx.shadowBlur = e
     })
   }
 
-  get shadowBlur () {
+  get shadowBlur() {
     return this.ctx.shadowBlur
   }
 
-  set shadowColor (e) {
+  set shadowColor(e) {
     this.enqueueActions(() => {
       this.ctx.shadowColor = e
     })
   }
 
-  get shadowColor () {
+  get shadowColor() {
     return this.ctx.shadowColor
   }
 
-  set shadowOffsetX (e) {
+  set shadowOffsetX(e) {
     this.enqueueActions(() => {
       this.ctx.shadowOffsetX = e
     })
   }
 
-  get shadowOffsetX () {
+  get shadowOffsetX() {
     return this.ctx.shadowOffsetX
   }
 
-  set shadowOffsetY (e) {
+  set shadowOffsetY(e) {
     this.enqueueActions(() => {
       this.ctx.shadowOffsetY = e
     })
   }
 
-  get shadowOffsetY () {
+  get shadowOffsetY() {
     return this.ctx.shadowOffsetY
   }
 
-  set strokeStyle (e) {
+  set strokeStyle(e) {
     this.enqueueActions(() => {
       this.ctx.strokeStyle = e
     })
   }
 
-  get strokeStyle () {
+  get strokeStyle() {
     return this.ctx.strokeStyle as string
   }
 
   /** 小程序文档中不包括 ↓↓↓ */
-  set textAlign (e) {
+  set textAlign(e) {
     this.ctx.textAlign = e
   }
 
-  get textAlign () {
+  get textAlign() {
     return this.ctx.textAlign
   }
 
-  set textBaseline (e) {
+  set textBaseline(e) {
     this.ctx.textBaseline = e
   }
 
-  get textBaseline () {
+  get textBaseline() {
     return this.ctx.textBaseline
   }
 
-  set direction (e) {
+  set direction(e) {
     this.ctx.direction = e
   }
 
-  get direction () {
+  get direction() {
     return this.ctx.direction
   }
 
-  set imageSmoothingEnabled (e) {
+  set imageSmoothingEnabled(e) {
     this.enqueueActions(() => {
       this.ctx.imageSmoothingEnabled = e
     })
   }
 
-  get imageSmoothingEnabled () {
+  get imageSmoothingEnabled() {
     return this.ctx.imageSmoothingEnabled
   }
 
-  set imageSmoothingQuality (e) {
+  set imageSmoothingQuality(e) {
     this.enqueueActions(() => {
       this.ctx.imageSmoothingQuality = e
     })
   }
 
-  get imageSmoothingQuality () {
+  get imageSmoothingQuality() {
     return this.ctx.imageSmoothingQuality
   }
 
-  set filter (e) {
+  set filter(e) {
     this.enqueueActions(() => {
       this.ctx.filter = e
     })
   }
 
-  get filter () {
+  get filter() {
     return this.ctx.filter
   }
   /** 小程序文档中不包括 ↑↑↑ */
 
-  arc (...args) {
+  arc(...args) {
     return this.enqueueActions(this.ctx.arc, ...args)
   }
 
-  arcTo (...args) {
+  arcTo(...args) {
     return this.enqueueActions(this.ctx.arcTo, ...args)
   }
 
-  beginPath (...args) {
+  beginPath(...args) {
     return this.enqueueActions(this.ctx.beginPath, ...args)
   }
 
-  bezierCurveTo (...args) {
+  bezierCurveTo(...args) {
     return this.enqueueActions(this.ctx.bezierCurveTo, ...args)
   }
 
-  clearRect (...args) {
+  clearRect(...args) {
     return this.enqueueActions(this.ctx.clearRect, ...args)
   }
 
-  clip (...args) {
+  clip(...args) {
     return this.enqueueActions(this.ctx.clip, ...args)
   }
 
-  closePath (...args) {
+  closePath(...args) {
     return this.enqueueActions(this.ctx.closePath, ...args)
   }
 
-  createPattern (imageResource: string, repetition: keyof Taro.CanvasContext.Repetition): CanvasPattern | null | Promise<CanvasPattern | null> {
+  createPattern(
+    imageResource: string,
+    repetition: keyof Taro.CanvasContext.Repetition
+  ): CanvasPattern | null | Promise<CanvasPattern | null> {
     // 需要转换为 Image
     if (typeof imageResource === 'string') {
       const img = new Image()
@@ -299,7 +302,7 @@ export class CanvasContext implements Taro.CanvasContext {
    * 将之前在绘图上下文中的描述（路径、变形、样式）画到 canvas 中。
    * @todo 每次 draw 都会读取 width 和 height
    */
-  async draw (reserve?: boolean, callback?: (...args: any[]) => any): Promise<void> {
+  async draw(reserve?: boolean, callback?: (...args: any[]) => any): Promise<void> {
     try {
       if (!reserve) {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
@@ -320,7 +323,7 @@ export class CanvasContext implements Taro.CanvasContext {
     }
   }
 
-  drawImage (imageResource: string, ...extra: any[]): void {
+  drawImage(imageResource: string, ...extra: any[]): void {
     // 如果是本地file://开头的文件路径，需要先转换为internal://开头的沙箱路径
     if (imageResource.startsWith('file://')) {
       imageResource = native.copyFileToSandboxCache(imageResource).internalCachePath
@@ -344,102 +347,104 @@ export class CanvasContext implements Taro.CanvasContext {
     })
   }
 
-  fill (...args) {
+  fill(...args) {
     return this.enqueueActions(this.ctx.fill, ...args)
   }
 
-  fillRect (...args) {
+  fillRect(...args) {
     return this.enqueueActions(this.ctx.fillRect, ...args)
   }
 
-  fillText (...args) {
+  fillText(...args) {
     return this.enqueueActions(this.ctx.fillText, ...args)
   }
 
-  lineTo (...args) {
+  lineTo(...args) {
     return this.enqueueActions(this.ctx.lineTo, ...args)
   }
 
-  moveTo (...args) {
+  moveTo(...args) {
     return this.enqueueActions(this.ctx.moveTo, ...args)
   }
 
-  quadraticCurveTo (...args) {
+  quadraticCurveTo(...args) {
     return this.enqueueActions(this.ctx.quadraticCurveTo, ...args)
   }
 
-  rect (...args) {
+  rect(...args) {
     return this.enqueueActions(this.ctx.rect, ...args)
   }
 
   // @ts-ignore
-  reset () { return this.ctx.reset() }
-  restore (...args) {
+  reset() {
+    return this.ctx.reset()
+  }
+  restore(...args) {
     return this.enqueueActions(this.ctx.restore, ...args)
   }
 
-  rotate (...args) {
+  rotate(...args) {
     return this.enqueueActions(this.ctx.rotate, ...args)
   }
 
-  save (...args) {
+  save(...args) {
     return this.enqueueActions(this.ctx.save, ...args)
   }
 
-  scale (...args) {
+  scale(...args) {
     return this.enqueueActions(this.ctx.scale, ...args)
   }
 
-  setFillStyle (color: string | CanvasGradient): void {
+  setFillStyle(color: string | CanvasGradient): void {
     this.enqueueActions(() => {
       this.ctx.fillStyle = color
     })
   }
 
-  setFontSize (fontSize: number): void {
+  setFontSize(fontSize: number): void {
     this.enqueueActions(() => {
       this.ctx.font = `${fontSize}px sans-serif`
     })
   }
 
-  setGlobalAlpha (alpha: number): void {
+  setGlobalAlpha(alpha: number): void {
     this.enqueueActions(() => {
       this.ctx.globalAlpha = alpha
     })
   }
 
-  setLineCap (lineCap: keyof Taro.CanvasContext.LineCap): void {
+  setLineCap(lineCap: keyof Taro.CanvasContext.LineCap): void {
     this.enqueueActions(() => {
       this.ctx.lineCap = lineCap
     })
   }
 
-  setLineDash (pattern: number[], offset: number): void {
+  setLineDash(pattern: number[], offset: number): void {
     this.enqueueActions(() => {
       this.ctx.setLineDash(pattern)
       this.ctx.lineDashOffset = offset
     })
   }
 
-  setLineJoin (lineJoin: keyof Taro.CanvasContext.LineJoin): void {
+  setLineJoin(lineJoin: keyof Taro.CanvasContext.LineJoin): void {
     this.enqueueActions(() => {
       this.ctx.lineJoin = lineJoin
     })
   }
 
-  setLineWidth (lineWidth: number): void {
+  setLineWidth(lineWidth: number): void {
     this.enqueueActions(() => {
       this.ctx.lineWidth = lineWidth
     })
   }
 
-  setMiterLimit (miterLimit: number): void {
+  setMiterLimit(miterLimit: number): void {
     this.enqueueActions(() => {
       this.ctx.miterLimit = miterLimit
     })
   }
 
-  setShadow (offsetX: number, offsetY: number, blur: number, color: string): void {
+  setShadow(offsetX: number, offsetY: number, blur: number, color: string): void {
     this.enqueueActions(() => {
       this.ctx.shadowOffsetX = offsetX
       this.ctx.shadowOffsetY = offsetY
@@ -448,59 +453,59 @@ export class CanvasContext implements Taro.CanvasContext {
     })
   }
 
-  setStrokeStyle (color: string | CanvasGradient): void {
+  setStrokeStyle(color: string | CanvasGradient): void {
     this.enqueueActions(() => {
       this.ctx.strokeStyle = color
     })
   }
 
-  setTextAlign (align: keyof Taro.CanvasContext.Align): void {
+  setTextAlign(align: keyof Taro.CanvasContext.Align): void {
     this.enqueueActions(() => {
       this.ctx.textAlign = align
     })
   }
 
-  setTextBaseline (textBaseline: keyof Taro.CanvasContext.TextBaseline): void {
+  setTextBaseline(textBaseline: keyof Taro.CanvasContext.TextBaseline): void {
     this.enqueueActions(() => {
       this.ctx.textBaseline = TextBaseLineMap[textBaseline] || 'alphabetic'
     })
   }
 
-  setTransform (...args) {
+  setTransform(...args) {
     return this.enqueueActions(this.ctx.setTransform, ...args)
   }
 
-  stroke (...args) {
+  stroke(...args) {
     return this.enqueueActions(this.ctx.stroke, ...args)
   }
 
-  strokeRect (...args) {
+  strokeRect(...args) {
     return this.enqueueActions(this.ctx.strokeRect, ...args)
   }
 
-  strokeText (...args) {
+  strokeText(...args) {
     return this.enqueueActions(this.ctx.strokeText, ...args)
   }
 
-  transform (...args) {
+  transform(...args) {
     return this.enqueueActions(this.ctx.transform, ...args)
   }
 
-  translate (...args) {
+  translate(...args) {
     return this.enqueueActions(this.ctx.translate, ...args)
   }
 
-  measureText (text: string): TextMetrics {
+  measureText(text: string): TextMetrics {
     return this.ctx.measureText(text)
   }
 
-  createCircularGradient (x: number, y: number, r: number): CanvasGradient {
+  createCircularGradient(x: number, y: number, r: number): CanvasGradient {
     const radialGradient = this.ctx.createRadialGradient(x, y, 0, x, y, r)
 
     return radialGradient
   }
 
-  createLinearGradient (x0: number, y0: number, x1: number, y1: number): CanvasGradient {
+  createLinearGradient(x0: number, y0: number, x1: number, y1: number): CanvasGradient {
     return this.ctx.createLinearGradient(x0, y0, x1, y1)
   }
 }

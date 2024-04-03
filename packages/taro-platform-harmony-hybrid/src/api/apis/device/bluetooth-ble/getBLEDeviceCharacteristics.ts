@@ -36,8 +36,8 @@ export const getBLEDeviceCharacteristics: typeof Taro.getBLEDeviceCharacteristic
           errMsg: getParameterError({
             para: 'deviceId',
             correct: 'string',
-            wrong: deviceId
-          })
+            wrong: deviceId,
+          }),
         },
         { resolve, reject }
       )
@@ -49,8 +49,8 @@ export const getBLEDeviceCharacteristics: typeof Taro.getBLEDeviceCharacteristic
           errMsg: getParameterError({
             para: 'serviceId',
             correct: 'string',
-            wrong: serviceId
-          })
+            wrong: serviceId,
+          }),
         },
         { resolve, reject }
       )
@@ -64,7 +64,7 @@ export const getBLEDeviceCharacteristics: typeof Taro.getBLEDeviceCharacteristic
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

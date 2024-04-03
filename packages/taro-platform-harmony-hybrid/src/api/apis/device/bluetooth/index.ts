@@ -1,13 +1,13 @@
 /**
  * 蓝牙配对接口
- * 
+ *
  * @canNotUse makeBluetoothPair
  */
 export { makeBluetoothPair } from '@tarojs/taro-h5'
 
 /**
  * 查询蓝牙设备是否配对
- * 
+ *
  * @canNotUse isBluetoothDevicePaired
  */
 export * from './closeBluetoothAdapter'

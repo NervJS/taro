@@ -19,13 +19,7 @@ export const scanCode: typeof Taro.scanCode = (options) => {
     const res = { errMsg: `${name}:fail invalid params` }
     return Promise.reject(res)
   }
-  const {
-    onlyFromCamera = false,
-    scanType = [],
-    success,
-    fail,
-    complete
-  } = options || {}
+  const { onlyFromCamera = false, scanType = [], success, fail, complete } = options || {}
   const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {

@@ -21,7 +21,7 @@ export const compressImage: typeof Taro.compressImage = (options) => {
   }
   const { src, quality, compressedWidth, compressHeight, success, fail, complete } = options as Exclude<
     typeof options,
-  undefined
+    undefined
   >
   const handle = new MethodHandler<{
     tempFilePath?: string

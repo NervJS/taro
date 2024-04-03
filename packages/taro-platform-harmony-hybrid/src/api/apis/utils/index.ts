@@ -5,7 +5,7 @@ import { isFunction } from '@tarojs/shared'
 
 import { MethodHandler } from './handler'
 
-export function shouldBeObject (target: unknown) {
+export function shouldBeObject(target: unknown) {
   if (target && typeof target === 'object') return { flag: true }
   return {
     flag: false,
@@ -16,7 +16,7 @@ export function shouldBeObject (target: unknown) {
   }
 }
 
-export function shouldBeFunction (target: unknown) {
+export function shouldBeFunction(target: unknown) {
   if (target && typeof target === 'function') return { flag: true }
   return {
     flag: false,
@@ -27,7 +27,7 @@ export function shouldBeFunction (target: unknown) {
   }
 }
 
-export function findDOM (inst?): TaroElement | HTMLElement | undefined {
+export function findDOM(inst?): TaroElement | HTMLElement | undefined {
   if (inst && hooks.isExist('getDOMNode')) {
     return hooks.call('getDOMNode', inst)
   }
@@ -53,7 +53,7 @@ interface IParameterErrorParam {
   correct?: string
   wrong?: unknown
 }
-export function getParameterError ({ name = '', para, correct, wrong }: IParameterErrorParam) {
+export function getParameterError({ name = '', para, correct, wrong }: IParameterErrorParam) {
   const parameter = para ? `parameter.${para}` : 'parameter'
   const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
   if (name) {
@@ -63,13 +63,13 @@ export function getParameterError ({ name = '', para, correct, wrong }: IParamet
   }
 }
 
-function upperCaseFirstLetter (string) {
+function upperCaseFirstLetter(string) {
   if (typeof string !== 'string') return string
   string = string.replace(/^./, (match) => match.toUpperCase())
   return string
 }
 
-export function inlineStyle (style) {
+export function inlineStyle(style) {
   let res = ''
   for (const attr in style) res += `${attr}: ${style[attr]};`
   if (res.indexOf('display: flex;') >= 0) res += 'display: -webkit-box;display: -webkit-flex;'
@@ -78,12 +78,12 @@ export function inlineStyle (style) {
   return res
 }
 
-export function setTransform (el, val) {
+export function setTransform(el, val) {
   el.style.webkitTransform = val
   el.style.transform = val
 }
 
-export function serializeParams (params) {
+export function serializeParams(params) {
   if (!params) {
     return ''
   }
@@ -99,7 +99,7 @@ export function serializeParams (params) {
     .join('&')
 }
 
-export function temporarilyNotSupport (name = '') {
+export function temporarilyNotSupport(name = '') {
   return (option = {}, ...args) => {
     const { success, fail, complete } = option as any
     const handle = new MethodHandler({ name, success, fail, complete })
@@ -119,7 +119,7 @@ export function temporarilyNotSupport (name = '') {
   }
 }
 
-export function weixinCorpSupport (name: string) {
+export function weixinCorpSupport(name: string) {
   return (option = {}, ...args) => {
     const { success, fail, complete } = option as any
     const handle = new MethodHandler({ name, success, fail, complete })
@@ -139,7 +139,7 @@ export function weixinCorpSupport (name: string) {
   }
 }
 
-export function permanentlyNotSupport (name = '') {
+export function permanentlyNotSupport(name = '') {
   return (option = {}, ...args: any[]) => {
     const { success, fail, complete } = option as any
     const handle = new MethodHandler({ name, success, fail, complete })
@@ -167,7 +167,7 @@ interface IProcessOpenApi<TOptions = Record<string, unknown>, TResult extends Ta
   formatResult?: (res: TResult) => TResult
 }
 
-export function processOpenApi<TOptions = Record<string, unknown>, TResult extends TaroGeneral.CallbackResult = any> ({
+export function processOpenApi<TOptions = Record<string, unknown>, TResult extends TaroGeneral.CallbackResult = any>({
   name,
   defaultOptions,
   standardMethod,
@@ -181,7 +181,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
     const opts = formatOptions(Object.assign({}, defaultOptions, options))
     if (isFunction(targetApi)) {
       return new Promise<TResult>((resolve, reject) => {
-        ['fail', 'success', 'complete'].forEach((k) => {
+        ;['fail', 'success', 'complete'].forEach((k) => {
           opts[k] = (preRef) => {
             const res = formatResult(preRef)
             options[k] && options[k](res)
@@ -206,7 +206,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
  * 获取当前页面路径
  * @returns
  */
-export function getCurrentPath (): string {
+export function getCurrentPath(): string {
   const appConfig = (window as any).__taroAppConfig || {}
   const routePath = getCurrentPage(appConfig.router?.mode, appConfig.router?.basename)
   const homePath = getHomePage(

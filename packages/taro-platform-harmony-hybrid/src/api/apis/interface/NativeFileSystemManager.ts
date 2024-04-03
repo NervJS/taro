@@ -6,33 +6,31 @@ import native from '../NativeApi'
 export class NativeFileSystemManager implements Taro.FileSystemManager {
   private static nativeFileSystemManager: NativeFileSystemManager
 
-  constructor () {
+  constructor() {
     native.getFileManager()
   }
 
-  static getFileSystemManager () {
-    if ( !NativeFileSystemManager.nativeFileSystemManager ) {
-      NativeFileSystemManager.nativeFileSystemManager =  new NativeFileSystemManager()
+  static getFileSystemManager() {
+    if (!NativeFileSystemManager.nativeFileSystemManager) {
+      NativeFileSystemManager.nativeFileSystemManager = new NativeFileSystemManager()
     }
     return NativeFileSystemManager.nativeFileSystemManager
   }
 
-
-  access (option: any): void {
+  access(option: any): void {
     native.access(option)
   }
 
-
-  getFileInfo (option: any): any {
+  getFileInfo(option: any): any {
     native.getFileInfo(option)
   }
 
-  readFile (option: any): any {
+  readFile(option: any): any {
     native.readFile({
       ...(option || {}),
       success: (res) => {
         const result = {
-          data: res?.bufBase64 !== undefined ? toByteArray(res.bufBase64).buffer : res?.result
+          data: res?.bufBase64 !== undefined ? toByteArray(res.bufBase64).buffer : res?.result,
         }
         option?.success && option.success(result)
         option?.complete && option.complete(result)
@@ -44,7 +42,7 @@ export class NativeFileSystemManager implements Taro.FileSystemManager {
     })
   }
 
-  readFileSync (filePath: string, encoding?: string, position?: number, length?: number): any {
+  readFileSync(filePath: string, encoding?: string, position?: number, length?: number): any {
     const data = native.readFileSync({
       filePath,
       encoding,
@@ -54,172 +52,170 @@ export class NativeFileSystemManager implements Taro.FileSystemManager {
     if (data?.error) {
       throw data.error
     }
-    return (data?.bufBase64 !== undefined ? toByteArray(data.bufBase64).buffer : data?.result)
+    return data?.bufBase64 !== undefined ? toByteArray(data.bufBase64).buffer : data?.result
   }
 
-  accessSync (option: any): any {
+  accessSync(option: any): any {
     return option
   }
 
-  appendFile (option: any): any {
+  appendFile(option: any): any {
     return option
   }
 
-  appendFileSync (option: any): any {
+  appendFileSync(option: any): any {
     return option
   }
 
-  close (option: any): any {
+  close(option: any): any {
     return option
   }
 
-  closeSync (option: any): any {
+  closeSync(option: any): any {
     return option
   }
 
-  copyFile (option: any): any {
+  copyFile(option: any): any {
     return option
   }
 
-  copyFileSync (option: any): any {
+  copyFileSync(option: any): any {
     return option
   }
 
-  fstat (option: any): any {
+  fstat(option: any): any {
     return option
   }
 
-  fstatSync (option: any): any {
+  fstatSync(option: any): any {
     return option
   }
 
-  ftruncate (option: any): any {
+  ftruncate(option: any): any {
     return option
   }
 
-  ftruncateSync (option: any): any {
+  ftruncateSync(option: any): any {
     return option
   }
 
-
-  getSavedFileList (option: any): any {
+  getSavedFileList(option: any): any {
     return option
   }
 
-  mkdir (option: any): any {
+  mkdir(option: any): any {
     return option
   }
 
-  mkdirSync (option: any): any {
+  mkdirSync(option: any): any {
     return option
   }
 
-  open (option: any): any {
+  open(option: any): any {
     return option
   }
 
-  openSync (option: any): any {
+  openSync(option: any): any {
     return option
   }
 
-  read (option: any): any {
+  read(option: any): any {
     return option
   }
 
-  readCompressedFile (option: any): any {
+  readCompressedFile(option: any): any {
     return option
   }
 
-  readCompressedFileSync (option: any): any {
+  readCompressedFileSync(option: any): any {
     return option
   }
 
-
-  readSync (option: any): any {
+  readSync(option: any): any {
     return option
   }
 
-  readZipEntry (option: any): any {
+  readZipEntry(option: any): any {
     return option
   }
 
-  readdir (option: any): any {
+  readdir(option: any): any {
     return option
   }
 
-  readdirSync (option: any): any {
+  readdirSync(option: any): any {
     return option
   }
 
-  removeSavedFile (option: any): any {
+  removeSavedFile(option: any): any {
     return option
   }
 
-  rename (option: any): any {
+  rename(option: any): any {
     return option
   }
 
-  renameSync (option: any): any {
+  renameSync(option: any): any {
     return option
   }
 
-  rmdir (option: any): any {
+  rmdir(option: any): any {
     return option
   }
 
-  rmdirSync (option: any): any {
+  rmdirSync(option: any): any {
     return option
   }
 
-  saveFile (option: any): any {
+  saveFile(option: any): any {
     return option
   }
 
-  saveFileSync (option: any): any {
+  saveFileSync(option: any): any {
     return option
   }
 
-  stat (option: any): any {
+  stat(option: any): any {
     return option
   }
 
-  statSync (option: any): any {
+  statSync(option: any): any {
     return option
   }
 
-  truncate (option: any): any {
+  truncate(option: any): any {
     return option
   }
 
-  truncateSync (option: any): any {
+  truncateSync(option: any): any {
     return option
   }
 
-  unlink (option: any): any {
+  unlink(option: any): any {
     return option
   }
 
-  unlinkSync (option: any): any {
+  unlinkSync(option: any): any {
     return option
   }
 
-  unzip (option: any): any {
+  unzip(option: any): any {
     return option
   }
 
-  write (option: any): any {
+  write(option: any): any {
     return option
   }
 
-  writeFile (option: any): any {
+  writeFile(option: any): any {
     return option
   }
 
-  writeFileSync (option: any): any {
+  writeFileSync(option: any): any {
     return option
   }
 
-  writeSync (option: any): any {
+  writeSync(option: any): any {
     return option
   }
 }

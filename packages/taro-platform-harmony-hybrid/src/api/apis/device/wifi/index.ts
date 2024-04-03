@@ -1,6 +1,6 @@
 /**
  * 设置 wifiList 中 AP 的相关信息
- * 
+ *
  * @canNotUse setWifiList
  */
 export * from './connectWifi'
@@ -18,7 +18,7 @@ export { setWifiList } from '@tarojs/taro-h5'
 
 /**
  * Wifi 信息(native 返回)
- * 
+ *
  * @canUse WifiInfo
  * @__class [SSID, BSSID, secure, signalStrength, frequency]
  */
