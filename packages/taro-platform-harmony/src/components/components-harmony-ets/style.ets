@@ -1,8 +1,54 @@
-import type { TaroAny, HarmonyStyle, TaroElement, TaroStyleType } from '@tarojs/runtime'
+import type { TaroAny, HarmonyStyle, TaroElement, TaroStyleType, TaroTextElement }  from '@tarojs/runtime'
 import { isUndefined } from '@tarojs/shared'
 import { computeBackgroundPosition } from './utils'
 import { getNormalAttributes } from './utils/helper'
 import { isMaxWidthView } from './utils/styles'
+
+class TextStyleModify implements AttributeModifier<TextAttribute> {
+  initStyle?: TaroStyleType
+  node: TaroTextElement | null = null
+  style: HarmonyStyle | null = null
+  overwriteStyle: Record<string, TaroAny> = {}
+  withNormal = false
+
+  withNormalStyle () {
+    this.withNormal = true
+    return this
+  }
+
+  setAnimationStyle (overwriteStyle: Record<string, TaroAny>) {
+    this.overwriteStyle = overwriteStyle
+
+    return this
+  }
+
+  setNode (node: TaroTextElement, initStyle?: HarmonyStyle) {
+    this.node = node
+    this.style = getNormalAttributes(this.node)
+    this.initStyle = initStyle
+    // 覆盖初始化样式
+    if (initStyle) {
+      Object.keys(initStyle).forEach(key => {
+        if (this.style && !this.style[key]) {
+          this.style[key] = initStyle[key]
+        }
+      })
+    }
+    return this
+  }
+
+  applyNormalAttribute(instance: TextAttribute): void {
+    if (this.node && this.style) {
+      if (this.withNormal) {
+        setNormalAttributeIntoInstance(instance, this.style, this.node)
+      }
+      setNormalTextAttributeIntoInstance(instance, this.style, this.node)
+      setSpecialTextAttributeIntoInstance(instance, this.style, this.node)
+    }
+
+    setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
+  }
+}
 
 class CommonStyleModify implements AttributeModifier<CommonAttribute> {
   initStyle?: TaroStyleType
@@ -55,7 +101,6 @@ class PseudoStyleModify implements AttributeModifier<CommonAttribute> {
   }
 }
 
-
 class RowStyleModify extends CommonStyleModify {
 
   applyNormalAttribute(instance: CommonAttribute): void {
@@ -89,7 +134,7 @@ class ColumnStyleModify extends CommonStyleModify {
   }
 }
 
-function setAnimationAttributeIntoInstance(instance: CommonAttribute, overwriteStyle: Record<string, TaroAny>, style: TaroStyleType) {
+export function setAnimationAttributeIntoInstance(instance: CommonAttribute, overwriteStyle: Record<string, TaroAny>, style: TaroStyleType) {
   // Animation 需要提前和 @State 变量绑定才能产生动画效果，因此不能做 if else 判断
   instance.translate({
     x: overwriteStyle.translate?.x || style.transform?.Translate?.x,
@@ -113,7 +158,52 @@ function setAnimationAttributeIntoInstance(instance: CommonAttribute, overwriteS
   })
 }
 
-function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroStyleType, node?: TaroElement | null) {
+export function setNormalTextAttributeIntoInstance(instance: TextAttribute | SpanAttribute, style: HarmonyStyle, node?: TaroTextElement | null) {
+  if (!isUndefined(style.color)) {
+    instance.fontColor(style.color)
+  }
+  if (!isUndefined(style.fontSize)) {
+    instance.fontSize(style.fontSize)
+  }
+  if (!isUndefined(style.fontWeight)) {
+    instance.fontWeight(style.fontWeight)
+  }
+  if (!isUndefined(style.fontStyle)) {
+    instance.fontStyle(style.fontStyle)
+  }
+  if (!isUndefined(style.fontFamily)) {
+    instance.fontFamily(style.fontFamily)
+  }
+  if (!isUndefined(style.textDecoration)) {
+    instance.decoration({
+      type: style.textDecoration,
+      color: style.color
+    })
+  }
+}
+
+export function setSpecialTextAttributeIntoInstance(instance: TextAttribute, style: HarmonyStyle, node?: TaroTextElement | null) {
+  if (!isUndefined(style.textAlign)) {
+    instance.textAlign(style.textAlign)
+  }
+  if (!isUndefined(style.verticalAlign)) {
+    instance.align(style.verticalAlign)
+  }
+  if (!isUndefined(style.textOverflow)) {
+    instance.textOverflow(style.textOverflow)
+  }
+  if (!isUndefined(style.WebkitLineClamp)) {
+    instance.maxLines(style.WebkitLineClamp)
+  }
+  if (!isUndefined(style.letterSpacing)) {
+    instance.letterSpacing(style.letterSpacing)
+  }
+  if (!isUndefined(style.lineHeight)) {
+    instance.lineHeight(style.lineHeight)
+  }
+}
+
+export function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroStyleType, node?: TaroElement | null) {
   if (!isUndefined(style.id)) {
     instance.id(style.id)
     instance.key(style.id)
@@ -288,5 +378,6 @@ function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroSt
 export const pseudoModify = new PseudoStyleModify()
 export const rowModify = new RowStyleModify()
 export const columnModify = new ColumnStyleModify()
+export const textModify = new TextStyleModify()
 
 export default new CommonStyleModify()

@@ -5,7 +5,7 @@ import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroImageElement, TaroAny } from '@tarojs/runtime'
 
-function getImageMode (mode: string): ImageFit {
+export function getImageMode (mode: string): ImageFit {
   switch (mode) {
     case 'aspectFit': return ImageFit.Contain
     case 'aspectFill': return ImageFit.Cover
