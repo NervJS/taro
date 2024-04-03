@@ -89,6 +89,7 @@ export {
   TaroLabelElement,
   TaroMovableAreaElement,
   TaroMovableViewElement,
+  TaroOtherElement,
   TaroPickerElement,
   TaroProgressElement,
   TaroRadioElement,
@@ -103,4 +104,5 @@ export {
   TaroTextElement,
   TaroVideoElement,
   TaroViewElement,
-  TaroWebViewElement }
+  TaroWebViewElement
+}
