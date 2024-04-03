@@ -250,10 +250,10 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       } = await compileCSS(id, raw, viteConfig, urlReplacer, isGlobalModule)
 
       // if (!cssCache.has(id)) {
-      
+
       cssCache.set(id, css)
       // }
-      
+
       // 校验css
       validateStylelint(id, raw)
 
