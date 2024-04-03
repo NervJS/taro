@@ -921,6 +921,10 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
     const targetRoot = path.resolve(this.appPath, sourceRoot)
     const fileName = path.relative(targetRoot, rawId)
+    let renderPath = path.posix.relative(path.dirname(fileName), 'render')
+    if (/^[^./]/.test(renderPath)) {
+      renderPath = `./${renderPath}`
+    }
     const importList = [
       'import type Taro from "@tarojs/taro/types"',
       'import type { TFunc } from "@tarojs/runtime/dist/runtime.esm"',
@@ -931,7 +935,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       'import { TaroView } from "@tarojs/components"',
       'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window, document } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
-      `import { createLazyChildren } from "./${path.relative(path.dirname(fileName), 'render')}"`,
+      `import { createLazyChildren } from "${renderPath}"`,
     ]
 
     const modifyPageImport = page instanceof Array ? page[0].modifyPageImport : page.modifyPageImport
