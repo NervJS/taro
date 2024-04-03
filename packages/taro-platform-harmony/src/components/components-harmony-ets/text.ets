@@ -82,12 +82,14 @@ function createTextChildNode (item: TaroElement, align: ImageSpanAlignment) {
       .attributeModifier(commonStyleModify.setNode(item))
       .objectFit(getImageMode(item.getAttribute('mode')))
       .verticalAlign(align)
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
   } else if (item.nodeType === NodeType.TEXT_NODE) {
     Span(item.textContent)
   } else if (item.tagName === 'TEXT') {
     Span(item.textContent)
       .attributeModifier(spanModify.setNode(item))
       .letterSpacing(item._st.hmStyle.letterSpacing)
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
   }
 }
 
