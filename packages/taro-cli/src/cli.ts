@@ -145,10 +145,6 @@ export default class CLI {
           }
           if (frameworkMap[framework]) {
             kernel.optsPlugins.push(frameworkMap[framework])
-          } else {
-            // 使用自定义的plugins
-            const plugins = kernel.config?.initialConfig.plugins
-            kernel.optsPlugins.concat(plugins)
           }
 
           // 编译小程序插件
