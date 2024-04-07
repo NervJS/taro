@@ -10,7 +10,9 @@ describe('vue', () => {
     expect(assets.length).toMatchSnapshot()
 
     const output = getOutput(stats, config)
-    console.log('liuyang111111', output)
+
+    expect(output).toEqual('liuyangAAAAAA')
+
     expect(output).toMatchSnapshot()
   })
 })
