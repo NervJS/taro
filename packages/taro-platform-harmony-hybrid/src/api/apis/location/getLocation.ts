@@ -37,7 +37,7 @@ export const getLocation: typeof Taro.getLocation = (options) => {
   return new Promise<Taro.getLocation.SuccessCallbackResult>((resolve, reject) => {
     const loc: Partial<Taro.getLocation.SuccessCallbackResult> = {}
     let flag = true
-    let timeoutId: number
+    let timeoutId: ReturnType<typeof setTimeout>
     // 只有开启了高精度定位才需要设置超时时间，默认超时时间10秒
     if (isHighAccuracy) {
       timeoutId = setTimeout(function () {
