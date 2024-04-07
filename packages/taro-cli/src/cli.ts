@@ -136,16 +136,19 @@ export default class CLI {
 
           // 根据 framework 启用插件
           const framework = kernel.config?.initialConfig.framework
-          switch (framework) {
-            case 'vue':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-vue2')
-              break
-            case 'vue3':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-vue3')
-              break
-            default:
-              kernel.optsPlugins.push('@tarojs/plugin-framework-react')
-              break
+          const frameworkMap = {
+            vue: '@tarojs/plugin-framework-vue2',
+            vue3: '@tarojs/plugin-framework-vue3',
+            react: '@tarojs/plugin-framework-react',
+            preact: '@tarojs/plugin-framework-react',
+            nerv: '@tarojs/plugin-framework-react',
+          }
+          if (frameworkMap[framework]) {
+            kernel.optsPlugins.push(frameworkMap[framework])
+          } else {
+            // 使用自定义的plugins
+            const plugins = kernel.config?.initialConfig.plugins
+            kernel.optsPlugins.concat(plugins)
           }
 
           // 编译小程序插件
