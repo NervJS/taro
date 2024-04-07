@@ -311,24 +311,22 @@ export default struct TaroPicker {
   }
 
   build() {
-    if (this.node && this.node.hmStyle?.display !== 'none') {
-      if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
-        Row() {
-          this.createLazyChildren(this.node)
-        }
-        .defaultEvent()
-        .visibleChangeEvent()
-        .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
-      } else {
-        Column() {
-          this.createLazyChildren(this.node)
-        }
-        .defaultEvent()
-        .visibleChangeEvent()
-        .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
+    if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
+      Row() {
+        this.createLazyChildren(this.node)
       }
+      .defaultEvent()
+      .visibleChangeEvent()
+      .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
+      .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
+    } else {
+      Column() {
+        this.createLazyChildren(this.node)
+      }
+      .defaultEvent()
+      .visibleChangeEvent()
+      .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
+      .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
     }
   }
 }

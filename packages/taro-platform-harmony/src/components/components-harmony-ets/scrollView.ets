@@ -71,59 +71,57 @@ export default struct TaroScrollView {
   }
 
   build () {
-    if (this.node.hmStyle?.display !== 'none') {
-      Scroll(this.node.scroller) {
-        if (this.node._attrs.scrollX) {
-          Row() {
-            if (this.node._pseudo_before || this.node._pseudo_after) {
-              PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
-            } else {
-              this.createLazyChildren(this.node)
-            }
+    Scroll(this.node.scroller) {
+      if (this.node._attrs.scrollX) {
+        Row() {
+          if (this.node._pseudo_before || this.node._pseudo_after) {
+            PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
+          } else {
+            this.createLazyChildren(this.node)
           }
-          .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-          .width(null)
-          .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
-            this.node._nodeInfo._scroll = areaResult
-          }, this.node, ['scroll', 'scrollstart', 'scrollend']))
-          .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
-          .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
-          .flexGrow(0).flexShrink(0)
-        } else {
-          Column() {
-            if (this.node._pseudo_before || this.node._pseudo_after) {
-              PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
-            } else {
-              this.createLazyChildren(this.node)
-            }
-          }
-          .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-          .height(null)
-          .alignItems(HorizontalAlign.Start)
-          .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
-            this.node._nodeInfo._scroll = areaResult
-          }, this.node, ['scroll', 'scrollstart', 'scrollend']))
-          .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
-          .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
-          .flexGrow(0).flexShrink(0)
         }
+        .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+        .width(null)
+        .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
+          this.node._nodeInfo._scroll = areaResult
+        }, this.node, ['scroll', 'scrollstart', 'scrollend']))
+        .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
+        .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
+        .flexGrow(0).flexShrink(0)
+      } else {
+        Column() {
+          if (this.node._pseudo_before || this.node._pseudo_after) {
+            PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
+          } else {
+            this.createLazyChildren(this.node)
+          }
+        }
+        .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+        .height(null)
+        .alignItems(HorizontalAlign.Start)
+        .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
+          this.node._nodeInfo._scroll = areaResult
+        }, this.node, ['scroll', 'scrollstart', 'scrollend']))
+        .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
+        .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
+        .flexGrow(0).flexShrink(0)
       }
-      .width(getStyleAttr(this.node, 'width'))
-      .height(getStyleAttr(this.node, 'height'))
-      .flexGrow(this.node.hmStyle?.flexGrow)
-      .flexShrink(this.node.hmStyle?.flexShrink)
-      .scrollable(getScrollable(this.node))
-      .scrollBar(getAttributes(this.node).scrollBar)
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-      .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
-      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-        this.node._nodeInfo.areaInfo = res[1]
-      }))
-      .onScroll(shouldBindEvent(() => { handleScrollEvent(this.node, 'scroll') }, this.node, ['scroll']))
-      .onScrollStart(shouldBindEvent(() => { handleScrollEvent(this.node, 'scrollstart') }, this.node, ['scrollstart']))
-      .onScrollStop(shouldBindEvent(() => { handleScrollEvent(this.node, 'scrollend') }, this.node, ['scrollend']))
-      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-      .onReachEnd(shouldBindEvent(() => { handleScrollEvent(this.node, 'scrolltolower') }, this.node, ['scrolltolower']))
     }
+    .width(getStyleAttr(this.node, 'width'))
+    .height(getStyleAttr(this.node, 'height'))
+    .flexGrow(this.node.hmStyle?.flexGrow)
+    .flexShrink(this.node.hmStyle?.flexShrink)
+    .scrollable(getScrollable(this.node))
+    .scrollBar(getAttributes(this.node).scrollBar)
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      this.node._nodeInfo.areaInfo = res[1]
+    }))
+    .onScroll(shouldBindEvent(() => { handleScrollEvent(this.node, 'scroll') }, this.node, ['scroll']))
+    .onScrollStart(shouldBindEvent(() => { handleScrollEvent(this.node, 'scrollstart') }, this.node, ['scrollstart']))
+    .onScrollStop(shouldBindEvent(() => { handleScrollEvent(this.node, 'scrollend') }, this.node, ['scrollend']))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onReachEnd(shouldBindEvent(() => { handleScrollEvent(this.node, 'scrolltolower') }, this.node, ['scrolltolower']))
   }
 }

@@ -45,32 +45,30 @@ export default struct TaroText {
       if (this.node.parentNode) {
         if ((this.node.parentNode as TaroElement).tagName === 'BUTTON') {
           Text(this.node.textContent)
-            .attributeModifier(textModify.setNode(this.node, {
+            .attributeModifier(textModify.setNode(this.node?.parentElement as TaroElement, {
               fontSize: getButtonFontSize(this.node.parentNode as TaroButtonElement),
               color: getButtonColor(this.node.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node.parentNode as TaroButtonElement)._attrs.type || '').text)
             }))
         } else {
           Text(this.node.textContent)
-            .attributeModifier(textModify.setNode(this.node))
+            .attributeModifier(textModify.setNode(this.node?.parentElement as TaroElement))
             .width(getTextInViewWidth(this.node.parentElement))
         }
       }
     } else {
-      if (this.node.hmStyle?.display !== 'none') {
-        Text(this.node.textContent) {
-          if (this.node.childNodes.length > 1) {
-            ForEach(this.node.childNodes, (item: TaroElement) => {
-              createTextChildNode(item, getSpanVerticalAlign(this.node.hmStyle?.verticalAlign))
-            }, (item: TaroElement) => item._nid)
-          }
+      Text(this.node.textContent) {
+        if (this.node.childNodes.length > 1) {
+          ForEach(this.node.childNodes, (item: TaroElement) => {
+            createTextChildNode(item, getSpanVerticalAlign(this.node.hmStyle?.verticalAlign))
+          }, (item: TaroElement) => item._nid)
         }
-        .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-        .attributeModifier(textModify.setNode(this.node).withNormalStyle().setAnimationStyle(this.overwriteStyle))
-        .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-        .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          this.node._nodeInfo.areaInfo = res[1]
-        }))
       }
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .attributeModifier(textModify.setNode(this.node).withNormalStyle().setAnimationStyle(this.overwriteStyle))
+      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        this.node._nodeInfo.areaInfo = res[1]
+      }))
     }
   }
 }

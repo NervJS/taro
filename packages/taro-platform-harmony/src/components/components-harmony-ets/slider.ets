@@ -97,18 +97,16 @@ export default struct TaroSlider {
   }
 
   build() {
-    if (this.node && this.node.hmStyle?.display !== 'none') {
-      if (!!this.node._attrs.showValue) {
-        Row() {
-          this.createSlider(this.node)
-          Text(Number(this.value).toFixed(0))
-            .width('10%')
-            .textAlign(TextAlign.Center)
-            .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
-        }
-      } else {
+    if (!!this.node._attrs.showValue) {
+      Row() {
         this.createSlider(this.node)
+        Text(Number(this.value).toFixed(0))
+          .width('10%')
+          .textAlign(TextAlign.Center)
+          .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
       }
+    } else {
+      this.createSlider(this.node)
     }
   }
 }

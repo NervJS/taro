@@ -799,6 +799,8 @@ callFn(this.page.onReady, this, params)`
       createLazyChildren(document.fixedLayer as TaroElement, 1)
     }
     .position({ x: 0, y: 0 })
+    .width(0)
+    .height(0)
   }
   .onShown(() => {
     ${this.generatePageShown()}

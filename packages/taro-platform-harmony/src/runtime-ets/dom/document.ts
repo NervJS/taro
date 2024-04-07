@@ -19,6 +19,8 @@ class TaroDocument extends TaroNode {
 
   // 浮动层
   public fixedLayer: FixedLayer
+  // 浮层的父节点关系
+  public layerParents: Record<string, Record<string, true>> = {}
 
   constructor(window: Window) {
     super('#document', NodeType.DOCUMENT_NODE)

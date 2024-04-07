@@ -62,25 +62,23 @@ export default struct TaroIcon {
   }
 
   build() {
-    if (this.node?.hmStyle?.display !== 'none') {
-      Image(getIconData(this.node))
-        .objectFit(ImageFit.Contain)
-        .fillColor(this.node._attrs.color || ICON_COLOR_MAP[this.node._attrs.type] || Color.Black)
-        .attributeModifier(commonStyleModify.setNode(this.node, {
-          width: convertNumber2PX(23),
-          height: convertNumber2PX(23)
-        }).setAnimationStyle(this.overwriteStyle))
-        .size({
-          width: convertNumber2VP(Number(this.node._attrs.size) || 23),
-          height: convertNumber2VP(Number(this.node._attrs.size) || 23),
-        })
-        .onComplete(e => eventHandler(e, 'complete', this.node))
-        .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-        .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-        .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          this.node._nodeInfo.areaInfo = res[1]
-        }))
-    }
+    Image(getIconData(this.node))
+      .objectFit(ImageFit.Contain)
+      .fillColor(this.node._attrs.color || ICON_COLOR_MAP[this.node._attrs.type] || Color.Black)
+      .attributeModifier(commonStyleModify.setNode(this.node, {
+        width: convertNumber2PX(23),
+        height: convertNumber2PX(23)
+      }).setAnimationStyle(this.overwriteStyle))
+      .size({
+        width: convertNumber2VP(Number(this.node._attrs.size) || 23),
+        height: convertNumber2VP(Number(this.node._attrs.size) || 23),
+      })
+      .onComplete(e => eventHandler(e, 'complete', this.node))
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        this.node._nodeInfo.areaInfo = res[1]
+      }))
   }
 }
 

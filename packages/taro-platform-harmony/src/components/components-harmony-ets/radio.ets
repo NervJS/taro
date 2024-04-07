@@ -48,49 +48,47 @@ export struct TaroRadio {
   }
 
   build () {
-    if (this.node && this.node.hmStyle?.display !== 'none') {
-      Stack() {
-        Row() {
-          Radio({
-            group: this.node.group || this.node.parentNode?._nid || '',
-            value: this.node.value || '',
-          })
-            .checked(this.node.checked)
-            .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-            .radioAttr(getAttributes(this.node))
-            .onChange((value: boolean) => {
-              if (this.node) {
-                if (!!this.node?._attrs.disabled) {
-                  this.node.updateComponent()
-                } else {
-                  this.node.updateCheckedValue(value)
+    Stack() {
+      Row() {
+        Radio({
+          group: this.node.group || this.node.parentNode?._nid || '',
+          value: this.node.value || '',
+        })
+          .checked(this.node.checked)
+          .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+          .radioAttr(getAttributes(this.node))
+          .onChange((value: boolean) => {
+            if (this.node) {
+              if (!!this.node?._attrs.disabled) {
+                this.node.updateComponent()
+              } else {
+                this.node.updateCheckedValue(value)
 
-                  if (value) {
-                    const event: TaroEvent = createTaroEvent('change', { detail: { value: this.node?._attrs.value } }, this.node)
-                    eventHandler(event, 'change', this.node)
-                  }
+                if (value) {
+                  const event: TaroEvent = createTaroEvent('change', { detail: { value: this.node?._attrs.value } }, this.node)
+                  eventHandler(event, 'change', this.node)
                 }
               }
-            })
-            .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-            .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-              if (this.node) {
-                this.node._nodeInfo.areaInfo = res[1]
-              }
-            }))
-            .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-          Text(this.node.textContent)
-            .textAlign(TextAlign.Center)
-            .opacity(!!this.node?._attrs.disabled ? 0.4 : 1)
-        }
-        .onClick(() => {
-          if (this.node) {
-            if (!this.node._checked && !this.node?._attrs.disabled) {
-              this.node.checked = !this.node.checked
             }
-          }
-        })
+          })
+          .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+          .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+            if (this.node) {
+              this.node._nodeInfo.areaInfo = res[1]
+            }
+          }))
+          .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+        Text(this.node.textContent)
+          .textAlign(TextAlign.Center)
+          .opacity(!!this.node?._attrs.disabled ? 0.4 : 1)
       }
+      .onClick(() => {
+        if (this.node) {
+          if (!this.node._checked && !this.node?._attrs.disabled) {
+            this.node.checked = !this.node.checked
+          }
+        }
+      })
     }
   }
 }
@@ -130,26 +128,24 @@ export struct TaroRadioGroup {
   }
 
   build() {
-    if (this.node && this.node.hmStyle?.display !== 'none') {
-      if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
-        Row() {
-          this.createLazyChildren(this.node)
-        }
-        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-        .defaultEvent()
-        .visibleChangeEvent()
-        .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
-      } else {
-        Column() {
-          this.createLazyChildren(this.node)
-        }
-        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-        .defaultEvent()
-        .visibleChangeEvent()
-        .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
+    if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
+      Row() {
+        this.createLazyChildren(this.node)
       }
+      .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+      .defaultEvent()
+      .visibleChangeEvent()
+      .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
+      .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
+    } else {
+      Column() {
+        this.createLazyChildren(this.node)
+      }
+      .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+      .defaultEvent()
+      .visibleChangeEvent()
+      .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
+      .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
     }
   }
 }

@@ -243,22 +243,66 @@ export class TaroElement<
   }
 
   // 设置渲染层级，0为正常层级，大于0为固定层级
+  // 1、appendChild的时候会判断是否需要设置层级
+  // 2、taro-react的setProperty，在处理属性变化的时候，会判断是否需要设置层级
+  // 3、removeChild的时候，会判断是否需要移除层级
   public setLayer (value: number) {
+    if (!this.parentNode) return // 没有父节点，不需要设置层级关系
     this._nodeInfo.layer = value
 
     if (value > 0) {
-      // 插入到root层
+      // 插入到固定浮层
       document.fixedLayer.childNodes.push(this)
       document.fixedLayer.notifyDataAdd(document.fixedLayer.childNodes.length - 1)
+      // 绑定祖先的节点id，建立关系，方便在祖先卸载（removeChild）的时候，能够找到该节点使其卸载
+      const _parentRecord = {}
+      generateLayerParentIds(_parentRecord, this)
+      document.layerParents[this._nid] = _parentRecord
     } else {
       const idx = document.fixedLayer.childNodes.findIndex(n => n._nid === this._nid)
       document.fixedLayer.childNodes.splice(idx, 1)
       document.fixedLayer.notifyDataDelete(idx)
+
+      delete document.layerParents[this._nid]
     }
 
     if (this.parentNode) {
       this.parentNode.notifyDataChange(this.parentNode.findIndex(this))
       this.updateComponent()
     }
+  }
+
+  protected toggleLayer(add: boolean) {
+    if (add) {
+      if (this._st?.hmStyle.position === 'fixed') {
+        this.setLayer(1)
+      }
+    } else {
+      // 识别document.layerParents里面是否有需要移除的固定元素
+      if (this._nodeInfo?.layer > 0) {
+        // @ts-ignore
+        delete document.layerParents[this._nid]
+        this.setLayer(0)
+      } else {
+        Object.keys(document.layerParents).forEach(fixedId => {
+          const parentIds = document.layerParents[fixedId]
+          if (parentIds[this._nid]) {
+            // 需要移除fixedId
+            delete document.layerParents[fixedId]
+            const fixedNode = eventSource.get(fixedId) as unknown as TaroElement
+            if (fixedNode) {
+              fixedNode.setLayer(0)
+            }
+          }
+        })
+      }
+    }
+  }
+}
+
+function generateLayerParentIds(ids: Record<string, true>, node?: TaroElement) {
+  if (node?.parentElement) {
+    ids[node.parentElement._nid] = true
+    generateLayerParentIds(ids, node.parentElement)
   }
 }

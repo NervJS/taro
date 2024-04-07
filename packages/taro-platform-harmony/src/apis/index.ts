@@ -112,7 +112,8 @@ export function pxTransform (size: number): number | string {
   const val = size
   switch (targetUnit) {
     case 'vp':
-      return pxTransformHelper(size, 'px')
+      // return pxTransformHelper(size, 'px')
+      return `${size}lpx`
     default:
       // NOTE: 鸿蒙环境下 style 会自动完成设计稿转换，无需在方法内二次调整
   }

@@ -32,6 +32,7 @@ export interface TaroStyleType {
   maxWidth?: Length
 
   display?: 'flex' | 'block' | 'none'
+  visibility?: 'visible' | 'hidden'
 
   // position
   position?: 'relative' | 'absolute' | 'fixed'

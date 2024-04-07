@@ -193,7 +193,11 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       if (isObject<StyleValue>(oldValue)) {
         for (const i in oldValue) {
           if (!(value && i in (value as StyleValue))) {
-            // harmony设置style，路径设置路径如下：dom.style => cssStyleDeclaration.setProperty => convertWebStyle2HmStyle => dom._st.hmStyle
+            // Harmony特殊处理
+            if (isHarmony && i === 'position' && oldValue[i] === 'fixed') {
+              // @ts-ignore
+              dom.setLayer(0)
+            }
             setStyle(style, i, '')
           }
         }
@@ -202,6 +206,13 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       if (isObject<StyleValue>(value)) {
         for (const i in value) {
           if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
+            // Harmony特殊处理
+            if (isHarmony && i === 'position') {
+              if (value[i] === 'fixed' || (value[i] !== 'fixed' && oldValue?.[i])) {
+                // @ts-ignore
+                dom.setLayer(value[i] === 'fixed' ? 1 : 0)
+              }
+            }
             setStyle(style, i, value[i])
           }
         }

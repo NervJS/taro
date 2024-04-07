@@ -208,6 +208,14 @@ export function setNormalAttributeIntoInstance(instance: CommonAttribute, style:
     instance.id(style.id)
     instance.key(style.id)
   }
+  if (!isUndefined(style.display) || !isUndefined(style.visibility)) {
+    instance.visibility(style.display === 'none' 
+      ? Visibility.None : 
+      !isUndefined(style.visibility) 
+        ? (style.visibility === 'hidden' ? Visibility.Hidden :  Visibility.Visible)
+        : Visibility.Visible
+    )
+  }
   if (!isUndefined(style.flexGrow)) {
     instance.flexGrow(style.flexGrow)
   }

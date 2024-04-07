@@ -176,6 +176,9 @@ export class TaroNode extends TaroDataSourceElement {
     this.childNodes.push(child)
     this.notifyDataAdd(this.childNodes.length - 1)
 
+    // @ts-ignore
+    child.toggleLayer?.(true)
+
     checkIsCompileModeAndInstallAfterDOMAction(child, this)
     return child
   }
@@ -191,6 +194,9 @@ export class TaroNode extends TaroDataSourceElement {
       this.connectParentNode(newNode)
       // TODO: 优化
       this.notifyDataReload()
+
+      // @ts-ignore
+      newNode.toggleLayer?.(true)
     }
 
     checkIsCompileModeAndInstallAfterDOMAction(newNode, this)
@@ -220,13 +226,6 @@ export class TaroNode extends TaroDataSourceElement {
     const idx = this.findIndex(child)
     if (idx < 0) throw new Error('TaroNode:removeChild NotFoundError')
 
-    // 渲染，层级大于0的节点需要让其回到正常层级，然后删掉
-    // @ts-ignore
-    if (child._nodeInfo?.layer > 0) {
-      // @ts-ignore
-      child.setLayer(0) // 删除固定层级上的节点
-    }
-
     this.childNodes.splice(idx, 1)
     child.dispose()
     this.notifyDataDelete(idx)
@@ -237,9 +236,14 @@ export class TaroNode extends TaroDataSourceElement {
   }
 
   public dispose () {
+    // 渲染，层级大于0的节点需要让其回到正常层级，然后删掉
+    // @ts-ignore
+    this.toggleLayer?.(false)
+
     this.parentNode = null
     this.childNodes = []
   }
+
 }
 
 @Observed
