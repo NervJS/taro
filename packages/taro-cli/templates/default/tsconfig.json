@@ -1,7 +1,13 @@
 {
   "compilerOptions": {
+    // https://npmjs.com/package/@tsconfig/recommended
     "target": "es2017",
     "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "noEmit": true,
@@ -12,7 +18,6 @@
     "strictNullChecks": true,
     "rootDir": ".",
     "jsx": "{{#if (includes "Vue" "Vue3" s=framework)}}preserve{{else}}react-jsx{{/if}}",
-    "skipLibCheck": true,
     "allowJs": true,
     "resolveJsonModule": true,
     "paths": {
