@@ -59,6 +59,7 @@ export const getWindowInfo: typeof Taro.getWindowInfo = () => {
     windowWidth: info.screenWidth,
     // @ts-ignore
     windowHeight:
+      // @ts-ignore
       info.screenHeight - (window?.currentNavigation?.style === 'default' ? window.navigationHeight || 0 : 0),
     statusBarHeight: info.statusBarHeight,
     safeArea: info.safeArea || {
