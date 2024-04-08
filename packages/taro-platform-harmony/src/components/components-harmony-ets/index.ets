@@ -23,7 +23,7 @@ import TaroMovableView from './movableView'
 import { TaroRadio, TaroRadioGroup } from './radio'
 import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 
-import commonStyleModify from './style'
+import commonStyleModify, { rowModify, columnModify } from './style'
 import { getButtonColor } from './button'
 import { FlexManager } from './utils/flexManager'
 import { DynamicCenter } from './utils/DynamicCenter'
@@ -39,6 +39,8 @@ export {
   shouldBindEvent,
   getFontAttributes,
   commonStyleModify,
+  rowModify,
+  columnModify,
   getNodeThresholds,
   BUTTON_THEME_COLOR,
   getNormalAttributes,
