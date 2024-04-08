@@ -116,6 +116,9 @@ class RowStyleModify extends CommonStyleModify {
       if (this.node) {
         instance.alignItems(FlexManager.alignItems<VerticalAlign>(this.node))
         instance.justifyContent(FlexManager.justifyContent(this.node))
+        if (this.node._st.hmStyle.overflow === 'scroll') {
+          instance.height('100%')
+        }
       }
     }
 
@@ -136,6 +139,9 @@ class ColumnStyleModify extends CommonStyleModify {
       if (this.node) {
         instance.alignItems(FlexManager.alignItems<HorizontalAlign>(this.node))
         instance.justifyContent(FlexManager.justifyContent(this.node))
+        if (this.node._st.hmStyle.overflow === 'scroll') {
+          instance.width('100%')
+        }
       }
     }
 

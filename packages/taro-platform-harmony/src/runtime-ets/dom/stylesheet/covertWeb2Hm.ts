@@ -448,7 +448,11 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: 
         break
       }
       case 'overflow': {
-        hmStyle.overflow = value
+        if (value === 'auto') {
+          hmStyle.overflow = 'scroll'
+        } else {
+          hmStyle.overflow = value
+        }
         break
       }
       default: {

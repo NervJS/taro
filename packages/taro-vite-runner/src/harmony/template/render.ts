@@ -80,7 +80,9 @@ import type {
 
 @Builder
 function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroElement) => void) {
-  ${this.generateRenderExtraComponentsCondition()}${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'VIEW') {
+  ${this.generateRenderExtraComponentsCondition()}${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'SCROLL-VIEW' || item._st.hmStyle.overflow === 'scroll') {
+    TaroScrollView({ node: item as TaroScrollViewElement, createLazyChildren: createLazyChildren })
+  } else if (item.tagName === 'VIEW') {
     TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
     TaroText({ node: item as TaroTextElement, createLazyChildren: createLazyChildren })
@@ -88,8 +90,6 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
     TaroImage({ node: item as TaroImageElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'BUTTON') {
     TaroButton({ node: item as TaroButtonElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'SCROLL-VIEW') {
-    TaroScrollView({ node: item as TaroScrollViewElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'SLIDER') {
     TaroSlider({ node: item as TaroSliderElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'SWITCH') {

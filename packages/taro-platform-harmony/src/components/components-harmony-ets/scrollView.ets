@@ -105,6 +105,7 @@ export default struct TaroScrollView {
     }
     .width(getStyleAttr(this.node, 'width'))
     .height(getStyleAttr(this.node, 'height'))
+    .align(Alignment.TopStart)
     .flexGrow(this.node.hmStyle?.flexGrow)
     .flexShrink(this.node.hmStyle?.flexShrink)
     .scrollable(getScrollable(this.node))
