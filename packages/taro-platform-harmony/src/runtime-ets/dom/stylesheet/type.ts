@@ -5,6 +5,7 @@ export interface HarmonyStyle extends TaroStyleType {
   textAlign?: TextAlign
   textOverflow?: HarmonyType.Overflow
   WebkitLineClamp?: number
+  whiteSpace?: string
   letterSpacing?: number | string
   verticalAlign?: Alignment
   lineHeight?: Length
@@ -112,6 +113,7 @@ export interface TaroTextStyleType {
   textAlign?: TextAlign
   textOverflow?: HarmonyType.Overflow
   WebkitLineClamp?: number
+  whiteSpace?: string
   letterSpacing?: number | string
   verticalAlign?: Alignment
   lineHeight?: string | number | Resource

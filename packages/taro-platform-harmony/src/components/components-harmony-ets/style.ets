@@ -192,6 +192,9 @@ export function setSpecialTextAttributeIntoInstance(instance: TextAttribute, sty
   if (!isUndefined(style.textOverflow)) {
     instance.textOverflow(style.textOverflow)
   }
+  if (!isUndefined(style.whiteSpace) && style.whiteSpace === 'nowrap') {
+    instance.maxLines(1)
+  }
   if (!isUndefined(style.WebkitLineClamp)) {
     instance.maxLines(style.WebkitLineClamp)
   }
