@@ -151,6 +151,9 @@ export default class Parser extends BaseParser {
         decorator: 'State', name: 'node', type: '(TaroElement | null)', foreach: () => 'null'
       }, this.isTabbarPage),
       this.renderState({
+        decorator: 'State', name: 'layerNode', type: '(TaroElement | null)', foreach: () => 'null'
+      }, this.isTabbarPage),
+      this.renderState({
         decorator: 'State', name: 'isRefreshing', type: 'boolean', foreach: () => 'false', disabled: this.enableRefresh === 0 || this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       // Note: 仅普通页面包含 Home 按钮
@@ -225,7 +228,12 @@ export default class Parser extends BaseParser {
         'this.handlePageAppear(index)',
         'this.setTabBarCurrentIndex(index)',
         'this.bindTabBarEvent()',
-      ] : ['this.handlePageAppear()']))}`
+      ] : ['this.handlePageAppear()'],
+      [
+        'Current.page.layerNode = this.layerNode',
+        'Current.page.layerParents = []',
+      ] 
+    ))}`
 
     if (isFunction(modifyPageAppear)) {
       appearStr = modifyPageAppear.call(this, appearStr)
@@ -729,6 +737,9 @@ if (!this.pageList[index]) {
   this.page = this.pageList[index]
   callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
     this.node[index] = instance
+
+    this.layerNode[index] = Current.createHarmonyElement("VIEW")
+    Current.page.layerParents[index] = []
   })
   callFn(this.page.onReady, this, params)
 }`
@@ -736,6 +747,9 @@ if (!this.pageList[index]) {
 this.onReady = this.page?.onReady?.bind(this.page)
 callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
   this.node = instance
+  
+  this.layerNode = Current.createHarmonyElement("VIEW")
+  Current.page.layerParents = []
 })
 callFn(this.page.onReady, this, params)`
 }`
@@ -795,13 +809,15 @@ callFn(this.page.onReady, this, params)`
         callFn(this.page.onReachBottom, this)
       }
     })
-    Stack() {
-      createLazyChildren(document.fixedLayer as TaroElement, 1)
+    if (${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'}) {
+      Stack() {
+        createLazyChildren(${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'} as TaroElement, 1)
+      }
+      .position({ x: 0, y: 0 })
+      .height('100%')
+      .width('100%')
+      .responseRegion({ x: 0, y: 0, width: 0, height: 0 })
     }
-    .position({ x: 0, y: 0 })
-    .height('100%')
-    .width('100%')
-    .responseRegion({ x: 0, y: 0, width: 0, height: 0 })
   }
   .onShown(() => {
     ${this.generatePageShown()}
