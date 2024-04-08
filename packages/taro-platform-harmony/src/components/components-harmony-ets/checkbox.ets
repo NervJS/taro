@@ -1,10 +1,11 @@
 import { createTaroEvent, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
-import commonStyleModify from './style'
+import commonStyleModify, { rowModify, columnModify } from './style'
 import { FlexManager } from './utils/flexManager'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroAny, TaroEvent, TaroCheckboxElement, TaroCheckboxGroupElement } from '@tarojs/runtime'
+import { isUndefined } from '@tarojs/shared'
 
 interface CheckboxOptions {
   name?: string
@@ -126,24 +127,27 @@ export struct TaroCheckboxGroup {
   }
 
   build() {
-    if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
-      Row() {
+    if (!isUndefined(this.node._st.hmStyle.flexWrap)) {
+      Flex(FlexManager.flexOptions(this.node)) {
         this.createLazyChildren(this.node)
       }
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .defaultEvent()
       .visibleChangeEvent()
-      .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
-      .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
+    } else if (FlexManager.isFlexNode(this.node) && FlexManager.direction(this.node) !== FlexDirection.Column) {
+      Row() {
+        this.createLazyChildren(this.node)
+      }
+      .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+      .defaultEvent()
+      .visibleChangeEvent()
     } else {
       Column() {
         this.createLazyChildren(this.node)
       }
-      .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+      .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .defaultEvent()
       .visibleChangeEvent()
-      .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
-      .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
     }
   }
 }

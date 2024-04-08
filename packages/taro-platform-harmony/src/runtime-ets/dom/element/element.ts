@@ -270,6 +270,7 @@ export class TaroElement<
 
     const currentLayerNode = this.currentLayerNode
     const currentLayerParents = this.currentLayerParents
+    if (!currentLayerNode || !currentLayerParents) return
     if (value > 0) {
       // 插入到固定浮层
       currentLayerNode.childNodes.push(this)
@@ -298,9 +299,8 @@ export class TaroElement<
         this.setLayer(1)
       }
     } else {
-
       const currentLayerParents = this.currentLayerParents
-
+      if (!currentLayerParents) return
       // 识别Current.page.layerParents里面是否有需要移除的固定元素
       if (this._nodeInfo?.layer > 0) {
         delete currentLayerParents[this._nid]

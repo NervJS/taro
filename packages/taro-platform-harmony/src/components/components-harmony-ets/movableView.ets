@@ -1,8 +1,9 @@
 import type { TaroAny, TaroMovableViewElement } from '@tarojs/runtime'
 
-import { rowModify, columnModify } from './style'
+import commonStyleModify, { rowModify, columnModify } from './style'
 
 import { FlexManager } from './utils/flexManager'
+import { isUndefined } from '@tarojs/shared'
 
 @Component
 export default struct TaroMovableView {
@@ -19,21 +20,21 @@ export default struct TaroMovableView {
 
   build() {
     Stack() {
-      if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node)
-        .direction !== FlexDirection.Column) {
+      if (!isUndefined(this.node._st.hmStyle.flexWrap)) {
+        Flex(FlexManager.flexOptions(this.node)) {
+          this.createLazyChildren(this.node)
+        }
+        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+      } else if (FlexManager.isFlexNode(this.node) && FlexManager.direction(this.node) !== FlexDirection.Column) {
         Row() {
           this.createLazyChildren(this.node)
         }
         .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-        .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
       } else {
         Column() {
           this.createLazyChildren(this.node)
         }
         .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-        .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
       }
     }
     .translate({ x: this.node.position.x, y: this.node.position.y })

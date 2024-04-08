@@ -3,6 +3,7 @@ import { isUndefined } from '@tarojs/shared'
 import { computeBackgroundPosition } from './utils'
 import { getNormalAttributes } from './utils/helper'
 import { isMaxWidthView } from './utils/styles'
+import { FlexManager } from './utils/flexManager.ets'
 
 class TextStyleModify implements AttributeModifier<TextAttribute> {
   initStyle?: TaroStyleType
@@ -103,7 +104,7 @@ class PseudoStyleModify implements AttributeModifier<CommonAttribute> {
 
 class RowStyleModify extends CommonStyleModify {
 
-  applyNormalAttribute(instance: CommonAttribute): void {
+  applyNormalAttribute(instance: RowAttribute): void {
     if (this.style) {
       setNormalAttributeIntoInstance(instance, this.style, this.node)
       instance.constraintSize({
@@ -112,6 +113,10 @@ class RowStyleModify extends CommonStyleModify {
         minHeight: this.style.minHeight,
         maxHeight: this.style.maxHeight
       })
+      if (this.node) {
+        instance.alignItems(FlexManager.alignItems<VerticalAlign>(this.node))
+        instance.justifyContent(FlexManager.justifyContent(this.node))
+      }
     }
 
     setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
@@ -119,7 +124,7 @@ class RowStyleModify extends CommonStyleModify {
 }
 
 class ColumnStyleModify extends CommonStyleModify {
-  applyNormalAttribute(instance: CommonAttribute): void {
+  applyNormalAttribute(instance: ColumnAttribute): void {
     if (this.style) {
       setNormalAttributeIntoInstance(instance, this.style, this.node)
       instance.constraintSize({
@@ -128,6 +133,10 @@ class ColumnStyleModify extends CommonStyleModify {
         minHeight: this.style.minHeight || this.style.height,
         maxHeight: this.style.maxHeight
       })
+      if (this.node) {
+        instance.alignItems(FlexManager.alignItems<HorizontalAlign>(this.node))
+        instance.justifyContent(FlexManager.justifyContent(this.node))
+      }
     }
 
     setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})

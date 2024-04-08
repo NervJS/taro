@@ -58,7 +58,7 @@ export default struct TaroText {
     } else {
       Text(this.node.textContent) {
         // text 下还有标签
-        if (this.node.childNodes.length > 1 || ((this.node.childNodes[0] && this.node.childNodes[0] as TaroElement).nodeType === NodeType.ELEMENT_NODE)) {
+        if (this.node.childNodes.length > 1 || ((this.node.childNodes[0] && this.node.childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
           ForEach(this.node.childNodes, (item: TaroElement) => {
             createTextChildNode(item, getSpanVerticalAlign(this.node.hmStyle?.verticalAlign))
           }, (item: TaroElement) => item._nid)

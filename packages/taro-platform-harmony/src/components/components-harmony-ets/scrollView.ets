@@ -85,8 +85,6 @@ export default struct TaroScrollView {
         .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
           this.node._nodeInfo._scroll = areaResult
         }, this.node, ['scroll', 'scrollstart', 'scrollend']))
-        .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
         .flexGrow(0).flexShrink(0)
       } else {
         Column() {
@@ -102,8 +100,6 @@ export default struct TaroScrollView {
         .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
           this.node._nodeInfo._scroll = areaResult
         }, this.node, ['scroll', 'scrollstart', 'scrollend']))
-        .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
         .flexGrow(0).flexShrink(0)
       }
     }
