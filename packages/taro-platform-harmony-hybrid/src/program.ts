@@ -7,7 +7,7 @@ import type { IPluginContext, TConfig } from '@tarojs/service'
 
 const compLibraryAlias = {
   vue: 'vue2',
-  vue3: 'vue3'
+  vue3: 'vue3',
 }
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-harmony-hybrid'
@@ -20,7 +20,7 @@ export default class H5 extends TaroPlatformWeb {
     this.setupTransaction.addWrapper({
       close () {
         this.modifyWebpackConfig()
-      }
+      },
     })
   }
 
@@ -85,10 +85,10 @@ export default class H5 extends TaroPlatformWeb {
             {
               packageName: '@tarojs/taro',
               apis,
-              definition: require(this.libraryDefinition)
-            }
-          ]
-        ]
+              definition: require(this.libraryDefinition),
+            },
+          ],
+        ],
       })
 
       const alias = chain.resolve.alias
@@ -100,7 +100,7 @@ export default class H5 extends TaroPlatformWeb {
       chain.plugin('mainPlugin').tap((args) => {
         args[0].loaderMeta ||= {
           extraImportForWeb: '',
-          execBeforeCreateWebApp: ''
+          execBeforeCreateWebApp: '',
         }
 
         // Note: 旧版本适配器不会自动注册 Web Components 组件，需要加载 defineCustomElements 脚本自动注册使用的组件
@@ -125,7 +125,9 @@ export default class H5 extends TaroPlatformWeb {
             break
           default:
             if (this.useHtmlComponents) {
-              args[0].loaderMeta.extraImportForWeb += `import '${require.resolve('@tarojs/components-react/dist/index.css')}'\nimport { PullDownRefresh } from '@tarojs/components'\n`
+              args[0].loaderMeta.extraImportForWeb += `import '${require.resolve(
+                '@tarojs/components-react/dist/index.css'
+              )}'\nimport { PullDownRefresh } from '@tarojs/components'\n`
               args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
             }
         }

@@ -86,7 +86,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
             if (tapIndex !== SAVE_IMAGE_BUTTON) {
               return
             }
-            native.downloadFile ({
+            native.downloadFile({
               url: url, // 仅为示例，并非真实的资源
               success: function (res: any) {
                 // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
@@ -96,22 +96,22 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
                     showToast({
                       title: '保存成功',
                       icon: 'success',
-                      duration: SHOW_TIME
+                      duration: SHOW_TIME,
                     })
                     handle.success(res)
                   },
                   fail: function (err: any) {
                     handle.fail(err)
-                  }
+                  },
                 })
               },
               fail: function (err: any) {
                 handle.fail(err)
-              }
+              },
             })
           } catch (e) {
             return handle.fail({
-              errMsg: e.errMsg?.replace('^.*:fail ', '')
+              errMsg: e.errMsg?.replace('^.*:fail ', ''),
             })
           }
         }, PRESS_TIME) // 这里的1000表示长按的时间，以毫秒为单位，您可以根据需要调整

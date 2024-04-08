@@ -1,6 +1,6 @@
 /**
  * 环境变量
- * 
+ *
  * @canUse env
  * @__variable [FRAMEWORK, TARO_ENV, USER_DATA_PATH]
  */
@@ -14,7 +14,7 @@ export const env = {
 
 /**
  * 向调试面板中打印日志。console 是一个全局对象，可以直接访问。
- * 
+ *
  * @canUse console
  * @__class [debug, error, group, groupEnd, info, log, warn]
  */
