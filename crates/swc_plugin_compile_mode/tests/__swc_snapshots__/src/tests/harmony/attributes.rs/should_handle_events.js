@@ -1,33 +1,21 @@
-const TARO_TEMPLATES_f0t0 = `import { createLazyChildren, createChildItem } from '../render'
-import commonStyleModify from '@tarojs/components/style'
-import { getButtonColor } from '@tarojs/components/button'
-import { FlexManager } from '@tarojs/components/utils/flexManager'
-import { TOUCH_EVENT_MAP } from '@tarojs/components/utils/constant/event'
-import { BUTTON_THEME_COLOR } from '@tarojs/components/utils/constant/style'
-import { getNodeThresholds, getNormalAttributes, getFontAttributes } from '@tarojs/components/utils/helper'
+const TARO_TEMPLATES_f0t0 = `import {
+  rowModify,
+  FlexManager,
+  columnModify,
+  DynamicCenter,
+  getButtonColor,
+  TOUCH_EVENT_MAP,
+  getFontAttributes,
+  commonStyleModify,
+  getNodeThresholds,
+  BUTTON_THEME_COLOR,
+  getNormalAttributes
+} from '@tarojs/components'
 import { NodeType, convertNumber2VP, TaroElement, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
-import { DynamicCenter } from '@tarojs/components/utils/DynamicCenter'
+import { createLazyChildren, createChildItem } from '../render'
 
 import type { HarmonyStyle, TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '@tarojs/runtime'
 
-@Extend(Row)
-function rowAttrs (style: TaroStyleType) {
-  .constraintSize({
-    minWidth: style.minWidth || style.width,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-}
-@Extend(Column)
-function columnAttrs (style: TaroStyleType) {
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight || style.height,
-    maxHeight: style.maxHeight
-  })
-}
 function getImageMode (mode: string): ImageFit {
   switch (mode) {
     case 'aspectFit': return ImageFit.Contain
@@ -55,44 +43,32 @@ export default struct TARO_TEMPLATES_f0t0 {
   build() {
     Column() {
       Column() {}
-      .attributeModifier(commonStyleModify.setNode(this.node0.childNodes[0] as TaroElement))
-      .columnAttrs(getNormalAttributes(this.node0.childNodes[0] as TaroElement))
+      .attributeModifier(columnModify.setNode(this.node0.childNodes[0] as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node0.childNodes[0] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         (this.node0.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .alignItems(FlexManager.flexOptions(this.node0.childNodes[0] as TaroElement).alignItems as HorizontalAlign)
-      .justifyContent(FlexManager.flexOptions(this.node0.childNodes[0] as TaroElement).justifyContent)
       .onClick(e => eventHandler(e, 'click', this.node0.childNodes[0] as TaroElement))
       Column() {}
-      .attributeModifier(commonStyleModify.setNode(this.node0.childNodes[1] as TaroElement))
-      .columnAttrs(getNormalAttributes(this.node0.childNodes[1] as TaroElement))
+      .attributeModifier(columnModify.setNode(this.node0.childNodes[1] as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[1] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[1] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node0.childNodes[1] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         (this.node0.childNodes[1] as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .alignItems(FlexManager.flexOptions(this.node0.childNodes[1] as TaroElement).alignItems as HorizontalAlign)
-      .justifyContent(FlexManager.flexOptions(this.node0.childNodes[1] as TaroElement).justifyContent)
       .onClick(e => eventHandler(e, 'click', this.node0.childNodes[1] as TaroElement))
       Column() {}
-      .attributeModifier(commonStyleModify.setNode(this.node1 as TaroElement))
-      .columnAttrs(getNormalAttributes(this.node1 as TaroElement))
+      .attributeModifier(columnModify.setNode(this.node1 as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node1 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node1 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node1 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         (this.node1 as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .alignItems(FlexManager.flexOptions(this.node1 as TaroElement).alignItems as HorizontalAlign)
-      .justifyContent(FlexManager.flexOptions(this.node1 as TaroElement).justifyContent)
       .onClick(e => eventHandler(e, 'click', this.node1 as TaroElement))
       Column() {}
-      .attributeModifier(commonStyleModify.setNode(this.node2 as TaroElement))
-      .columnAttrs(getNormalAttributes(this.node2 as TaroElement))
+      .attributeModifier(columnModify.setNode(this.node2 as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node2 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node2 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node2 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         (this.node2 as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .alignItems(FlexManager.flexOptions(this.node2 as TaroElement).alignItems as HorizontalAlign)
-      .justifyContent(FlexManager.flexOptions(this.node2 as TaroElement).justifyContent)
       Image((this.node0.childNodes[4] as TaroElement).getAttribute('src'))
       .objectFit(getImageMode((this.node0.childNodes[4] as TaroElement).getAttribute('mode')))
       .attributeModifier(commonStyleModify.setNode(this.node0.childNodes[4] as TaroElement))
@@ -102,25 +78,19 @@ export default struct TARO_TEMPLATES_f0t0 {
       }))
       .onComplete(e => eventHandler(e, 'complete', this.node0.childNodes[4] as TaroElement))
       Column() {}
-      .attributeModifier(commonStyleModify.setNode(this.node0.childNodes[5] as TaroElement))
-      .columnAttrs(getNormalAttributes(this.node0.childNodes[5] as TaroElement))
+      .attributeModifier(columnModify.setNode(this.node0.childNodes[5] as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[5] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[5] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node0.childNodes[5] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         (this.node0.childNodes[5] as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .alignItems(FlexManager.flexOptions(this.node0.childNodes[5] as TaroElement).alignItems as HorizontalAlign)
-      .justifyContent(FlexManager.flexOptions(this.node0.childNodes[5] as TaroElement).justifyContent)
       .onClick(e => eventHandler(e, 'click', this.node0.childNodes[5] as TaroElement))
       .onTouch(e => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node0.childNodes[5] as TaroElement))
     }
-    .attributeModifier(commonStyleModify.setNode(this.node0 as TaroElement))
-    .columnAttrs(getNormalAttributes(this.node0 as TaroElement))
+    .attributeModifier(columnModify.setNode(this.node0 as TaroElement))
     .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
     .onAreaChange(getComponentEventCallback(this.node0 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       (this.node0 as TaroElement)._nodeInfo.areaInfo = res[1]
     }))
-    .alignItems(FlexManager.flexOptions(this.node0 as TaroElement).alignItems as HorizontalAlign)
-    .justifyContent(FlexManager.flexOptions(this.node0 as TaroElement).justifyContent)
   }
 }
 `;

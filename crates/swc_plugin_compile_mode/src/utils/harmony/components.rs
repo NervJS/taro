@@ -4,9 +4,9 @@ pub fn get_component_attr_str (node_name: &str, tag_name: &str) -> String {
   if tag_name == "text" {
     format!(".attributeModifier(commonStyleModify.setNode(this.{} as TaroElement))\n.textSpecialFontStyle(getFontAttributes(this.{} as TaroElement))", node_name, node_name)
   } else if tag_name == "row" {
-    format!(".attributeModifier(commonStyleModify.setNode(this.{} as TaroElement))\n.rowAttrs(getNormalAttributes(this.{} as TaroElement))", node_name, node_name)
+    format!(".attributeModifier(rowModify.setNode(this.{} as TaroElement))", node_name)
   } else if tag_name == "column" {
-    format!(".attributeModifier(commonStyleModify.setNode(this.{} as TaroElement))\n.columnAttrs(getNormalAttributes(this.{} as TaroElement))", node_name, node_name)
+    format!(".attributeModifier(columnModify.setNode(this.{} as TaroElement))", node_name)
   } else {
     format!(".attributeModifier(commonStyleModify.setNode(this.{} as TaroElement))", node_name)
   }
@@ -29,14 +29,8 @@ pub fn get_view_component_str (node_name: &str, child_content: &str, direction: 
     EtsDirection::Row => "Row",
     EtsDirection::Column => "Column"
   };
-  let container_align_type = match direction {
-    EtsDirection::Row => "VerticalAlign",
-    EtsDirection::Column => "HorizontalAlign"
-  };
-  format!("{container}() {{{children}}}\n{style}\n.alignItems(FlexManager.flexOptions(this.{node_id} as TaroElement).alignItems as {container_align_type})\n.justifyContent(FlexManager.flexOptions(this.{node_id} as TaroElement).justifyContent)",
+  format!("{container}() {{{children}}}\n{style}",
     container = container,
-    container_align_type = container_align_type,
-    node_id = node_name,
     children = match child_content {
       "" => "".to_string(),
       _ => format!("\n{}", child_content)

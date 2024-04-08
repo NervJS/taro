@@ -1,33 +1,21 @@
-const TARO_TEMPLATES_f0t0 = `import { createLazyChildren, createChildItem } from '../render'
-import commonStyleModify from '@tarojs/components/style'
-import { getButtonColor } from '@tarojs/components/button'
-import { FlexManager } from '@tarojs/components/utils/flexManager'
-import { TOUCH_EVENT_MAP } from '@tarojs/components/utils/constant/event'
-import { BUTTON_THEME_COLOR } from '@tarojs/components/utils/constant/style'
-import { getNodeThresholds, getNormalAttributes, getFontAttributes } from '@tarojs/components/utils/helper'
+const TARO_TEMPLATES_f0t0 = `import {
+  rowModify,
+  FlexManager,
+  columnModify,
+  DynamicCenter,
+  getButtonColor,
+  TOUCH_EVENT_MAP,
+  getFontAttributes,
+  commonStyleModify,
+  getNodeThresholds,
+  BUTTON_THEME_COLOR,
+  getNormalAttributes
+} from '@tarojs/components'
 import { NodeType, convertNumber2VP, TaroElement, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
-import { DynamicCenter } from '@tarojs/components/utils/DynamicCenter'
+import { createLazyChildren, createChildItem } from '../render'
 
 import type { HarmonyStyle, TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '@tarojs/runtime'
 
-@Extend(Row)
-function rowAttrs (style: TaroStyleType) {
-  .constraintSize({
-    minWidth: style.minWidth || style.width,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-}
-@Extend(Column)
-function columnAttrs (style: TaroStyleType) {
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight || style.height,
-    maxHeight: style.maxHeight
-  })
-}
 @Extend(Text)
 function textNormalFontStyle (style: HarmonyStyle) {
   .id(style.id)
@@ -109,14 +97,11 @@ export default struct TARO_TEMPLATES_f0t0 {
             }))
           }
         }
-        .attributeModifier(commonStyleModify.setNode(this.node1 as TaroElement))
-        .columnAttrs(getNormalAttributes(this.node1 as TaroElement))
+        .attributeModifier(columnModify.setNode(this.node1 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node1 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node1 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node1 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node1 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
-        .alignItems(FlexManager.flexOptions(this.node1 as TaroElement).alignItems as HorizontalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node1 as TaroElement).justifyContent)
       } else {
         if (this.node0.childNodes[0].nodeType === NodeType.TEXT_NODE && this.node0.childNodes[0].parentNode) {
           if ((this.node0.childNodes[0].parentNode as TaroButtonElement).tagName === 'BUTTON') {
@@ -169,14 +154,11 @@ export default struct TARO_TEMPLATES_f0t0 {
               }))
             }
           }
-          .attributeModifier(commonStyleModify.setNode(this.node4 as TaroElement))
-          .columnAttrs(getNormalAttributes(this.node4 as TaroElement))
+          .attributeModifier(columnModify.setNode(this.node4 as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node4 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node4 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node4 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
             (this.node4 as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
-          .alignItems(FlexManager.flexOptions(this.node4 as TaroElement).alignItems as HorizontalAlign)
-          .justifyContent(FlexManager.flexOptions(this.node4 as TaroElement).justifyContent)
         } else {
           if (this.node3.nodeType === NodeType.TEXT_NODE && this.node3.parentNode) {
             if ((this.node3.parentNode as TaroButtonElement).tagName === 'BUTTON') {
@@ -228,14 +210,11 @@ export default struct TARO_TEMPLATES_f0t0 {
             }))
           }
         }
-        .attributeModifier(commonStyleModify.setNode(this.node2 as TaroElement))
-        .columnAttrs(getNormalAttributes(this.node2 as TaroElement))
+        .attributeModifier(columnModify.setNode(this.node2 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node2 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node2 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node2 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node2 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
-        .alignItems(FlexManager.flexOptions(this.node2 as TaroElement).alignItems as HorizontalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node2 as TaroElement).justifyContent)
       }
       if ((this.node0.childNodes[2] as TaroElement)._attrs.compileIf) {
         Column() {
@@ -263,14 +242,11 @@ export default struct TARO_TEMPLATES_f0t0 {
             }))
           }
         }
-        .attributeModifier(commonStyleModify.setNode(this.node7 as TaroElement))
-        .columnAttrs(getNormalAttributes(this.node7 as TaroElement))
+        .attributeModifier(columnModify.setNode(this.node7 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node7 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node7 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node7 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node7 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
-        .alignItems(FlexManager.flexOptions(this.node7 as TaroElement).alignItems as HorizontalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node7 as TaroElement).justifyContent)
       } else {
         if ((this.node0.childNodes[2] as TaroElement)._attrs.compileIf) {
           Column() {
@@ -298,14 +274,11 @@ export default struct TARO_TEMPLATES_f0t0 {
               }))
             }
           }
-          .attributeModifier(commonStyleModify.setNode(this.node6 as TaroElement))
-          .columnAttrs(getNormalAttributes(this.node6 as TaroElement))
+          .attributeModifier(columnModify.setNode(this.node6 as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node6 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node6 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node6 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
             (this.node6 as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
-          .alignItems(FlexManager.flexOptions(this.node6 as TaroElement).alignItems as HorizontalAlign)
-          .justifyContent(FlexManager.flexOptions(this.node6 as TaroElement).justifyContent)
         } else {
           if (this.node5.nodeType === NodeType.TEXT_NODE && this.node5.parentNode) {
             if ((this.node5.parentNode as TaroButtonElement).tagName === 'BUTTON') {
@@ -358,14 +331,11 @@ export default struct TARO_TEMPLATES_f0t0 {
             }))
           }
         }
-        .attributeModifier(commonStyleModify.setNode(this.node8 as TaroElement))
-        .columnAttrs(getNormalAttributes(this.node8 as TaroElement))
+        .attributeModifier(columnModify.setNode(this.node8 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node8 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node8 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node8 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node8 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
-        .alignItems(FlexManager.flexOptions(this.node8 as TaroElement).alignItems as HorizontalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node8 as TaroElement).justifyContent)
       }
       if ((this.node0.childNodes[4] as TaroElement)._attrs.compileIf) {
       } else {
@@ -394,14 +364,11 @@ export default struct TARO_TEMPLATES_f0t0 {
             }))
           }
         }
-        .attributeModifier(commonStyleModify.setNode(this.node9 as TaroElement))
-        .columnAttrs(getNormalAttributes(this.node9 as TaroElement))
+        .attributeModifier(columnModify.setNode(this.node9 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node9 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node9 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node9 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node9 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
-        .alignItems(FlexManager.flexOptions(this.node9 as TaroElement).alignItems as HorizontalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node9 as TaroElement).justifyContent)
       }
       if ((this.node0.childNodes[5] as TaroElement)._attrs.compileIf) {
         Column() {
@@ -429,14 +396,11 @@ export default struct TARO_TEMPLATES_f0t0 {
             }))
           }
         }
-        .attributeModifier(commonStyleModify.setNode(this.node10 as TaroElement))
-        .columnAttrs(getNormalAttributes(this.node10 as TaroElement))
+        .attributeModifier(columnModify.setNode(this.node10 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node10 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node10 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node10 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node10 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
-        .alignItems(FlexManager.flexOptions(this.node10 as TaroElement).alignItems as HorizontalAlign)
-        .justifyContent(FlexManager.flexOptions(this.node10 as TaroElement).justifyContent)
       }
       if ((this.node0.childNodes[6] as TaroElement)._attrs.compileIf) {
         if (this.node0.childNodes[6].nodeType === NodeType.TEXT_NODE && this.node0.childNodes[6].parentNode) {
@@ -488,23 +452,17 @@ export default struct TARO_TEMPLATES_f0t0 {
         }
       }
       Column() {}
-      .attributeModifier(commonStyleModify.setNode(this.node11 as TaroElement))
-      .columnAttrs(getNormalAttributes(this.node11 as TaroElement))
+      .attributeModifier(columnModify.setNode(this.node11 as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node11 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node11 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node11 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         (this.node11 as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .alignItems(FlexManager.flexOptions(this.node11 as TaroElement).alignItems as HorizontalAlign)
-      .justifyContent(FlexManager.flexOptions(this.node11 as TaroElement).justifyContent)
     }
-    .attributeModifier(commonStyleModify.setNode(this.node0 as TaroElement))
-    .columnAttrs(getNormalAttributes(this.node0 as TaroElement))
+    .attributeModifier(columnModify.setNode(this.node0 as TaroElement))
     .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
     .onAreaChange(getComponentEventCallback(this.node0 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       (this.node0 as TaroElement)._nodeInfo.areaInfo = res[1]
     }))
-    .alignItems(FlexManager.flexOptions(this.node0 as TaroElement).alignItems as HorizontalAlign)
-    .justifyContent(FlexManager.flexOptions(this.node0 as TaroElement).justifyContent)
   }
 }
 `;

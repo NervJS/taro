@@ -20,7 +20,9 @@ pub const STYLE_ATTR: &str = "style";
 pub const DIRECTION_ATTR: &str = "harmonyDirection";
 
 pub const HARMONY_IMPORTER: &str = "import {
+  rowModify,
   FlexManager,
+  columnModify,
   DynamicCenter,
   getButtonColor,
   TOUCH_EVENT_MAP,
@@ -36,26 +38,6 @@ import { createLazyChildren, createChildItem } from '../render'
 import type { HarmonyStyle, TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '@tarojs/runtime'
 
 ";
-
-pub const HARMONY_FLEX_STYLE_BIND: &str = r#"@Extend(Row)
-function rowAttrs (style: TaroStyleType) {
-  .constraintSize({
-    minWidth: style.minWidth || style.width,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-}
-@Extend(Column)
-function columnAttrs (style: TaroStyleType) {
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight || style.height,
-    maxHeight: style.maxHeight
-  })
-}
-"#;
 
 pub const HARMONY_TEXT_STYLE_BIND: &str = r#"@Extend(Text)
 function textNormalFontStyle (style: HarmonyStyle) {
@@ -88,6 +70,7 @@ function getButtonFontSize (node: TaroButtonElement) {
   return isMini ? convertNumber2VP(26) : convertNumber2VP(36)
 }
 "#;
+
 pub const HARMONY_IMAGE_STYLE_BIND: &str = r#"function getImageMode (mode: string): ImageFit {
   switch (mode) {
     case 'aspectFit': return ImageFit.Contain
