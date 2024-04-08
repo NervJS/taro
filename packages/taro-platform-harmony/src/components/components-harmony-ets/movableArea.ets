@@ -1,7 +1,9 @@
 import type { TaroAny, TaroMovableAreaElement, TaroMovableViewElement } from '@tarojs/runtime'
-import { rowModify, columnModify } from './style'
+
+import commonStyleModify, { rowModify, columnModify } from './style'
 
 import { FlexManager } from './utils/flexManager'
+import { isUndefined } from '@tarojs/shared'
 
 @Component
 export default struct TaroMovableArea {
@@ -17,13 +19,45 @@ export default struct TaroMovableArea {
   }
 
   build() {
-    if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
+    if (!isUndefined(this.node._st.hmStyle.flexWrap)) {
+      Flex(FlexManager.flexOptions(this.node)) {
+        this.createLazyChildren(this.node)
+      }
+      .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+      .clip(true)
+      .onAreaChange((oldValue: Area, newValue: Area) => {
+        this.node.childNodes.forEach(item => {
+          if(item.nodeName === 'MOVABLE-VIEW') {
+            ;(item as TaroMovableViewElement).area = {
+              w: Number( newValue.width),
+              h: Number(newValue.height)
+            }
+          }
+        })
+      })
+      .gesture(
+        PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {
+          this.node.childNodes.forEach(item => {
+            if(item.nodeName === 'MOVABLE-VIEW') {
+              ;(item as TaroMovableViewElement).startScale()
+            }
+          })
+        }).onActionUpdate((event) => {
+          const scaleArea = this.node.getAttribute('scaleArea')
+          if (scaleArea) {
+            this.node.childNodes.forEach(item => {
+              if(item.nodeName === 'MOVABLE-VIEW') {
+                ;(item as TaroMovableViewElement).doScale(event.scale)
+              }
+            })
+          }
+        })
+      )
+    } else if (FlexManager.isFlexNode(this.node) && FlexManager.direction(this.node) !== FlexDirection.Column) {
       Row() {
         this.createLazyChildren(this.node)
       }
       .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-      .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
-      .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
       .clip(true)
       .onAreaChange((oldValue: Area, newValue: Area) => {
         this.node.childNodes.forEach(item => {
@@ -58,8 +92,6 @@ export default struct TaroMovableArea {
         this.createLazyChildren(this.node)
       }
       .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-      .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
-      .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
       .clip(true)
       .onAreaChange((oldValue: Area, newValue: Area) => {
         this.node.childNodes.forEach(item => {

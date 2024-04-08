@@ -1,8 +1,8 @@
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { EMPTY_OBJ, toCamelCase } from '@tarojs/shared'
 
-import { document } from '../../bom/document'
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../../constant'
+import { Current } from '../../current'
 import { findChildNodeWithDFS } from '../../utils'
 import { initComponentNodeInfo, triggerAttributesCallback } from '../../utils/info'
 import { bindAnimation } from '../bind'
@@ -242,6 +242,24 @@ export class TaroElement<
     }
   }
 
+  get currentLayerNode () {
+    if (typeof Current.page.tabBarCurrentIndex !== 'undefined') {
+      // Tabbar
+      return Current.page.layerNode[Current.page.tabBarCurrentIndex]
+    } else {
+      return Current.page.layerNode
+    }
+  }
+
+  get currentLayerParents () {
+    if (typeof Current.page.tabBarCurrentIndex !== 'undefined') {
+      // Tabbar
+      return Current.page.layerParents[Current.page.tabBarCurrentIndex]
+    } else {
+      return Current.page.layerParents
+    }
+  }
+
   // 设置渲染层级，0为正常层级，大于0为固定层级
   // 1、appendChild的时候会判断是否需要设置层级
   // 2、taro-react的setProperty，在处理属性变化的时候，会判断是否需要设置层级
@@ -250,20 +268,23 @@ export class TaroElement<
     if (!this.parentNode) return // 没有父节点，不需要设置层级关系
     this._nodeInfo.layer = value
 
+    const currentLayerNode = this.currentLayerNode
+    const currentLayerParents = this.currentLayerParents
+    if (!currentLayerNode || !currentLayerParents) return
     if (value > 0) {
       // 插入到固定浮层
-      document.fixedLayer.childNodes.push(this)
-      document.fixedLayer.notifyDataAdd(document.fixedLayer.childNodes.length - 1)
+      currentLayerNode.childNodes.push(this)
+      currentLayerNode.notifyDataAdd(currentLayerNode.childNodes.length - 1)
       // 绑定祖先的节点id，建立关系，方便在祖先卸载（removeChild）的时候，能够找到该节点使其卸载
       const _parentRecord = {}
       generateLayerParentIds(_parentRecord, this)
-      document.layerParents[this._nid] = _parentRecord
+      currentLayerParents[this._nid] = _parentRecord
     } else {
-      const idx = document.fixedLayer.childNodes.findIndex(n => n._nid === this._nid)
-      document.fixedLayer.childNodes.splice(idx, 1)
-      document.fixedLayer.notifyDataDelete(idx)
+      const idx = currentLayerNode.childNodes.findIndex(n => n._nid === this._nid)
+      currentLayerNode.childNodes.splice(idx, 1)
+      currentLayerNode.notifyDataDelete(idx)
 
-      delete document.layerParents[this._nid]
+      delete currentLayerParents[this._nid]
     }
 
     if (this.parentNode) {
@@ -278,17 +299,18 @@ export class TaroElement<
         this.setLayer(1)
       }
     } else {
-      // 识别document.layerParents里面是否有需要移除的固定元素
+      const currentLayerParents = this.currentLayerParents
+      if (!currentLayerParents) return
+      // 识别Current.page.layerParents里面是否有需要移除的固定元素
       if (this._nodeInfo?.layer > 0) {
-        // @ts-ignore
-        delete document.layerParents[this._nid]
+        delete currentLayerParents[this._nid]
         this.setLayer(0)
       } else {
-        Object.keys(document.layerParents).forEach(fixedId => {
-          const parentIds = document.layerParents[fixedId]
+        Object.keys(currentLayerParents).forEach(fixedId => {
+          const parentIds =currentLayerParents[fixedId]
           if (parentIds[this._nid]) {
             // 需要移除fixedId
-            delete document.layerParents[fixedId]
+            delete currentLayerParents[fixedId]
             const fixedNode = eventSource.get(fixedId) as unknown as TaroElement
             if (fixedNode) {
               fixedNode.setLayer(0)
