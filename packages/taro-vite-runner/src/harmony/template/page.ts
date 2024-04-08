@@ -232,7 +232,7 @@ export default class Parser extends BaseParser {
       [
         'Current.page.layerNode = this.layerNode',
         'Current.page.layerParents = []',
-      ] 
+      ]
     ))}`
 
     if (isFunction(modifyPageAppear)) {
@@ -747,7 +747,7 @@ if (!this.pageList[index]) {
 this.onReady = this.page?.onReady?.bind(this.page)
 callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
   this.node = instance
-  
+
   this.layerNode = Current.createHarmonyElement("VIEW")
   Current.page.layerParents = []
 })
@@ -939,8 +939,11 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
     const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
     const targetRoot = path.resolve(this.appPath, sourceRoot)
-    const fileName = path.relative(targetRoot, rawId)
-    let renderPath = path.posix.relative(path.dirname(fileName), 'render')
+    let renderPath = path.posix.normalize(path.relative(
+      path.dirname(rawId),
+      path.join(targetRoot, 'render')
+    ))
+    renderPath = renderPath.split(path.sep).join('/')
     if (/^[^./]/.test(renderPath)) {
       renderPath = `./${renderPath}`
     }
