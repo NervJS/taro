@@ -181,7 +181,7 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
     const opts = formatOptions(Object.assign({}, defaultOptions, options))
     if (isFunction(targetApi)) {
       return new Promise<TResult>((resolve, reject) => {
-        ['fail', 'success', 'complete'].forEach((k) => {
+        ;['fail', 'success', 'complete'].forEach((k) => {
           opts[k] = (preRef) => {
             const res = formatResult(preRef)
             options[k] && options[k](res)

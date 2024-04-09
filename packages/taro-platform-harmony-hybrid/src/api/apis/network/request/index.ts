@@ -82,3 +82,17 @@ export function request (options) {
  * @canUse RequestTask
  * @__class [abort, onHeadersReceived, offHeadersReceived]
  */
+
+/**
+ * 使用拦截器
+ *
+ * @canNotUse addInterceptor
+ */
+export const addInterceptor = link.addInterceptor.bind(link)
+
+/**
+ * 清除所有拦截器
+ *
+ * @canNotUse cleanInterceptors
+ */
+export const cleanInterceptors = link.cleanInterceptors.bind(link)

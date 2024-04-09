@@ -2,13 +2,12 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "declaration": true,
-    "module": "ESNext",
-    "sourceMap": true,
     "esModuleInterop": true,
-    "outDir": "dist"
+    "module": "ESNext",
+    "preserveConstEnums": true,
+    "sourceMap": true
   },
-  "include": ["./src", "./types", "rollup.config.ts"],
+  "include": ["./src", "./types", "./rollup.config.ts"],
   "ts-node": {
     "compilerOptions": {
       "forceConsistentCasingInFileNames": true,

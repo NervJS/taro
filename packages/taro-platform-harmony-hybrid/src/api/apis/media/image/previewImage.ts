@@ -35,7 +35,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
     return Promise.reject(res)
   }
 
-  const { urls = [], current = '', success, fail, complete, showmenu } = options
+  const { urls = [], current, success, fail, complete, showmenu } = options
   const handle = new MethodHandler({ name: 'previewImage', success, fail, complete })
   const container = document.createElement('div')
   const removeHandler = () => {
@@ -86,7 +86,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
             if (tapIndex !== SAVE_IMAGE_BUTTON) {
               return
             }
-            native.downloadFile ({
+            native.downloadFile({
               url: url, // 仅为示例，并非真实的资源
               success: function (res: any) {
                 // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
@@ -96,22 +96,22 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
                     showToast({
                       title: '保存成功',
                       icon: 'success',
-                      duration: SHOW_TIME
+                      duration: SHOW_TIME,
                     })
                     handle.success(res)
                   },
                   fail: function (err: any) {
                     handle.fail(err)
-                  }
+                  },
                 })
               },
               fail: function (err: any) {
                 handle.fail(err)
-              }
+              },
             })
           } catch (e) {
             return handle.fail({
-              errMsg: e.errMsg?.replace('^.*:fail ', '')
+              errMsg: e.errMsg?.replace('^.*:fail ', ''),
             })
           }
         }, PRESS_TIME) // 这里的1000表示长按的时间，以毫秒为单位，您可以根据需要调整
@@ -150,7 +150,13 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
     swiper.appendChild(child)
   }
 
-  const currentIndex = typeof current === 'number' ? current : urls.indexOf(current)
+  // 根据微信小程序文档标准（https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.previewImage.html）
+  // current是一个字符串
+  let currentIndex = 0
+  if (current && typeof current === 'string') {
+    const index = urls.indexOf(current)
+    currentIndex = index > -1 ? index : 0
+  }
 
   swiper.current = currentIndex
 
@@ -173,7 +179,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
   indexContainer.style.zIndex = '999' // 确保显示在最上层
   indexDisplay.style.border = '1px solid #111'
   indexContainer.appendChild(indexDisplay)
-  indexDisplay.innerText = `${currentIndex + 2} / ${urls.length}`
+  indexDisplay.innerText = `${currentIndex + 1} / ${urls.length}`
 
   // 监听滑块index并渲染
   swiper.addEventListener('change', (e) => {

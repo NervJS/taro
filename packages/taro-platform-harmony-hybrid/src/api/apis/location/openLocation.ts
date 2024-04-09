@@ -50,7 +50,7 @@ function createContainer (options: Taro.openLocation.Option) {
 
 /**
  * 使用微信内置地图查看位置(暂不支持scale入参)
- * 
+ *
  * @canUse openLocation
  * @__object [latitude, longitude, address, name]
  */
@@ -63,11 +63,7 @@ export const openLocation: typeof Taro.openLocation = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { success, fail, complete } = options as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
