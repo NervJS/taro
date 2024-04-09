@@ -13,6 +13,8 @@ interface SwiperAttrs {
   vertical?: boolean
   autoPlay?: boolean
   indicator?: boolean
+  nextMargin?: Length
+  prevMargin?: Length
 }
 
 @Extend(Swiper)
@@ -24,6 +26,8 @@ function swiperAttr (attr: SwiperAttrs) {
   .vertical(attr.vertical)
   .autoPlay(attr.autoPlay)
   .indicator(attr.indicator)
+  .nextMargin(attr.nextMargin)
+  .prevMargin(attr.prevMargin)
 }
 
 function getSwiperAttributes (node: TaroSwiperElement): SwiperAttrs {
@@ -36,6 +40,8 @@ function getSwiperAttributes (node: TaroSwiperElement): SwiperAttrs {
   swiperAttrs.vertical = _attrs.vertical || false
   swiperAttrs.autoPlay = _attrs.autoplay || false
   swiperAttrs.indicator = _attrs.indicatorDots || false
+  swiperAttrs.nextMargin = _attrs.nextMargin || 0
+  swiperAttrs.prevMargin = _attrs.previousMargin || 0
   return swiperAttrs
 }
 

@@ -1,6 +1,6 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
-import { rowModify, columnModify } from './style'
+import commonStyleModify from './style'
 import PseduoChildren from './pseudo'
 import { FlexManager } from './utils/flexManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
@@ -70,9 +70,13 @@ export default struct TaroScrollView {
     }
   }
 
+  isScrollX() {
+    return this.node._attrs.scrollX || getStyleAttr(this.node, 'overflow') === 'scroll' && getStyleAttr(this.node, 'flexDirection') === FlexDirection.Row
+  }
+
   build () {
     Scroll(this.node.scroller) {
-      if (this.node._attrs.scrollX) {
+      if (this.isScrollX()) {
         Row() {
           if (this.node._pseudo_before || this.node._pseudo_after) {
             PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
@@ -80,7 +84,9 @@ export default struct TaroScrollView {
             this.createLazyChildren(this.node)
           }
         }
-        .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+        .alignItems(FlexManager.alignItems<VerticalAlign>(this.node))
+        .justifyContent(FlexManager.justifyContent(this.node))
+        .height(getStyleAttr(this.node, 'height'))
         .width(null)
         .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
           this.node._nodeInfo._scroll = areaResult
@@ -94,20 +100,21 @@ export default struct TaroScrollView {
             this.createLazyChildren(this.node)
           }
         }
-        .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+        .alignItems(FlexManager.alignItems<HorizontalAlign>(this.node))
+        .justifyContent(FlexManager.justifyContent(this.node))
+        .width(getStyleAttr(this.node, 'width'))
         .height(null)
-        .alignItems(HorizontalAlign.Start)
         .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
           this.node._nodeInfo._scroll = areaResult
         }, this.node, ['scroll', 'scrollstart', 'scrollend']))
         .flexGrow(0).flexShrink(0)
       }
     }
-    .width(getStyleAttr(this.node, 'width'))
-    .height(getStyleAttr(this.node, 'height'))
+    .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+    .width(this.isScrollX() ? getStyleAttr(this.node, 'width') : undefined)
+    .height(!this.isScrollX() ? getStyleAttr(this.node, 'height') : undefined)
     .align(Alignment.TopStart)
-    .flexGrow(this.node.hmStyle?.flexGrow)
-    .flexShrink(this.node.hmStyle?.flexShrink)
+    .clip(true)
     .scrollable(getScrollable(this.node))
     .scrollBar(getAttributes(this.node).scrollBar)
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
