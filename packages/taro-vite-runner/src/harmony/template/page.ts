@@ -233,7 +233,7 @@ export default class Parser extends BaseParser {
         'Current.page.layerNode = this.layerNode',
         'Current.page.layerParents = Current.page.layerParents || []',
         this.isTabbarPage ? 'Current.page.layerParents[index] = []' : ''
-      ] 
+      ]
     ))}`
 
     if (isFunction(modifyPageAppear)) {
