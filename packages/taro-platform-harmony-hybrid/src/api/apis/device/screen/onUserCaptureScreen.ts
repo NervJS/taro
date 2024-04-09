@@ -25,7 +25,7 @@ export const onUserCaptureScreen: typeof Taro.onUserCaptureScreen = (callback) =
       // eslint-disable-next-line no-inner-declarations
       function newCallback (res: any) {
         const result: TaroGeneral.CallbackResult = {
-          errMsg: res === 'ohos not support path' ? `${name}:ok` : JSON.stringify(res)
+          errMsg: res === 'ohos not support path' ? `${name}:ok` : JSON.stringify(res),
         }
         callback(result)
       }

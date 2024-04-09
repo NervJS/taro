@@ -13,7 +13,7 @@ import {
   nextTick,
   redirectTo,
   reLaunch,
-  switchTab
+  switchTab,
 } from './index'
 import native from './NativeApi'
 import { permanentlyNotSupport } from './utils'
@@ -116,7 +116,7 @@ const defaultDesignWidth = 750
 const defaultDesignRatio: TaroGeneral.TDeviceRatio = {
   640: 2.34 / 2,
   750: 1,
-  828: 1.81 / 2
+  828: 1.81 / 2,
 }
 const defaultBaseFontSize = 20
 const defaultUnitPrecision = 5
@@ -127,7 +127,7 @@ const initPxTransform = function ({
   deviceRatio = defaultDesignRatio,
   baseFontSize = defaultBaseFontSize,
   unitPrecision = defaultUnitPrecision,
-  targetUnit = defaultTargetUnit
+  targetUnit = defaultTargetUnit,
 }) {
   const config = getConfig.call(this)
   config.designWidth = designWidth
@@ -141,9 +141,8 @@ const pxTransform = function (size = 0) {
   const config = getConfig.call(this)
   const baseFontSize = config.baseFontSize || defaultBaseFontSize
   const deviceRatio = config.deviceRatio || defaultDesignRatio
-  const designWidth = (((input = 0) => isFunction(config.designWidth)
-    ? config.designWidth(input)
-    : config.designWidth))(size)
+  const designWidth = ((input = 0) =>
+    isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth)(size)
   if (!(designWidth in config.deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
@@ -172,7 +171,7 @@ const pxTransform = function (size = 0) {
 
 /**
  * 判断能否使用WebP格式
- * 
+ *
  * @canUse canIUseWebp
  */
 const canIUseWebp = function () {
@@ -220,7 +219,7 @@ eventCenter.on('__taroEnterFullScreen', () => {
   native.setNavigationStyle({
     style: 'custom',
     textStyle: 'black',
-    backgroundColor: '#000000'
+    backgroundColor: '#000000',
   })
   // @ts-ignore
   if (typeof window.originCapsuleState === 'undefined') {
@@ -349,7 +348,6 @@ function loadChooseLocationStyle () {
 
 loadChooseLocationStyle()
 
-
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.initPxTransform = initPxTransform
@@ -359,7 +357,7 @@ export default taro
 
 /**
  * 跳转预加载 API
- * 
+ *
  * @canUse preload
  */
 export {

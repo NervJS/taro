@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
 
-import  native from '../NativeApi'
+import native from '../NativeApi'
 /**
  * 获取菜单按钮（右上角胶囊按钮）的布局位置信息
  *

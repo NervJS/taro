@@ -11,17 +11,15 @@ export class NativeFileSystemManager implements Taro.FileSystemManager {
   }
 
   static getFileSystemManager () {
-    if ( !NativeFileSystemManager.nativeFileSystemManager ) {
-      NativeFileSystemManager.nativeFileSystemManager =  new NativeFileSystemManager()
+    if (!NativeFileSystemManager.nativeFileSystemManager) {
+      NativeFileSystemManager.nativeFileSystemManager = new NativeFileSystemManager()
     }
     return NativeFileSystemManager.nativeFileSystemManager
   }
 
-
   access (option: any): void {
     native.access(option)
   }
-
 
   getFileInfo (option: any): any {
     native.getFileInfo(option)
@@ -32,7 +30,7 @@ export class NativeFileSystemManager implements Taro.FileSystemManager {
       ...(option || {}),
       success: (res) => {
         const result = {
-          data: res?.bufBase64 !== undefined ? toByteArray(res.bufBase64).buffer : res?.result
+          data: res?.bufBase64 !== undefined ? toByteArray(res.bufBase64).buffer : res?.result,
         }
         option?.success && option.success(result)
         option?.complete && option.complete(result)
@@ -54,7 +52,7 @@ export class NativeFileSystemManager implements Taro.FileSystemManager {
     if (data?.error) {
       throw data.error
     }
-    return (data?.bufBase64 !== undefined ? toByteArray(data.bufBase64).buffer : data?.result)
+    return data?.bufBase64 !== undefined ? toByteArray(data.bufBase64).buffer : data?.result
   }
 
   accessSync (option: any): any {
@@ -101,7 +99,6 @@ export class NativeFileSystemManager implements Taro.FileSystemManager {
     return option
   }
 
-
   getSavedFileList (option: any): any {
     return option
   }
@@ -133,7 +130,6 @@ export class NativeFileSystemManager implements Taro.FileSystemManager {
   readCompressedFileSync (option: any): any {
     return option
   }
-
 
   readSync (option: any): any {
     return option
