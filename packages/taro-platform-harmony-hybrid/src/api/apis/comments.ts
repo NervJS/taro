@@ -5,12 +5,6 @@
  */
 
 /**
- * 添加手机通讯录联系人
- *
- * @canNotUse addPhoneContact
- */
-
-/**
  * 向系统日历添加重复事件
  *
  * @canNotUse addPhoneRepeatCalendar
@@ -29,79 +23,10 @@
  */
 
 /**
- * 获取 canvas 区域隐含的像素数据。
- *
- * @canUse canvasGetImageData
- * @__object [canvasId, x, y, height, width]
- * @__success [data, height, width]
- */
-
-/**
- * 将像素数据绘制到画布
- *
- * @canUse canvasPutImageData
- * @__object [canvasId, data, x, y]
- */
-
-/**
- * 获取设备内是否录入如指纹等生物信息的接口
- *
- * @canNotUse checkIsSoterEnrolledInDevice
- */
-
-/**
- * 获取本机支持的 SOTER 生物认证方式
- *
- * @canNotUse checkIsSupportSoterAuthentication
- */
-
-/**
- * 拍摄视频或从手机相册中选视频
- *
- * @canNotUse chooseVideo
- */
-
-/**
- * 清理本地数据缓存
- *
- * @canUse clearStorage
- */
-
-/**
- * Taro.clearStorage 的同步版本
- *
- * @canUse clearStorageSync
- */
-
-/**
- * 断开与低功耗蓝牙设备的连接
- *
- * @canNotUse closeBLEConnection
- */
-
-/**
- * 关闭蓝牙模块
- *
- * @canNotUse closeBluetoothAdapter
- */
-
-/**
- * 压缩图片接口，可选压缩质量
- *
- * @canNotUse compressImage
- */
-
-/**
  * 创建一个 WebSocket 连接
  *
  * @canUse connectSocket
  * @__object [url, header, protocols, tcpNoDelay]
- */
-
-/**
- * 连接 Wi-Fi
- *
- * @canNotUse connectWifi
  */
 
 /**
@@ -112,33 +37,9 @@
  */
 
 /**
- * 连接低功耗蓝牙设备
- *
- * @canNotUse createBLEConnection
- */
-
-/**
- * 创建 camera 上下文 CameraContext 对象
- *
- * @canNotUse createCameraContext
- */
-
-/**
  * 创建并返回一个 IntersectionObserver 对象实例
  *
  * @canUse createIntersectionObserver
- */
-
-/**
- * 创建 live-player 上下文 LivePlayerContext 对象
- *
- * @canNotUse createLivePlayerContext
- */
-
-/**
- * 创建 map 上下文 MapContext 对象。
- *
- * @canNotUse createMapContext
  */
 
 /**
@@ -151,24 +52,6 @@
  * 创建 video 上下文 VideoContext 对象。
  *
  * @canUse createVideoContext
- */
-
-/**
- * 获取蓝牙设备某个服务中所有特征值
- *
- * @canNotUse getBLEDeviceCharacteristics
- */
-
-/**
- * 获取蓝牙低功耗设备的信号强度
- *
- * @canNotUse getBLEDeviceRSSI
- */
-
-/**
- * 获取蓝牙设备所有服务(service)
- *
- * @canNotUse getBLEDeviceServices
  */
 
 /**
@@ -185,18 +68,6 @@
  */
 
 /**
- * 获取本机蓝牙适配器状态
- *
- * @canNotUse getBluetoothAdapterState
- */
-
-/**
- * 获取在蓝牙模块生效期间所有已发现的蓝牙设备
- *
- * @canNotUse getBluetoothDevices
- */
-
-/**
  * 获取系统剪贴板的内容
  *
  * @canUse getClipboardData
@@ -204,33 +75,9 @@
  */
 
 /**
- * 根据 uuid 获取处于已连接状态的设备
- *
- * @canNotUse getConnectedBluetoothDevices
- */
-
-/**
- * 获取已连接中的 Wi-Fi 信息
- *
- * @canNotUse getConnectedWifi
- */
-
-/**
- * 获取设备基础信息
- *
- * @canNotUse getDeviceInfo
- */
-
-/**
  * 获取本次程序启动时的参数
  *
  * @canNotUse getEnterOptionsSync
- */
-
-/**
- * 关闭监听实时位置变化，前后台都停止消息接收
- *
- * @canNotUse getFileInfo
  */
 
 /**
@@ -241,81 +88,10 @@
  */
 
 /**
- * 获取全局唯一的录音管理器
- *
- * @canNotUse getRecorderManager
- */
-
-/**
- * 获取本地文件的文件信息
- *
- * @canNotUse getSavedFileInfo
- */
-
-/**
- * 获取本地已保存的文件列表
- *
- * @canNotUse getSavedFileList
- */
-
-/**
- * 获取屏幕亮度
- *
- * @canNotUse getScreenBrightness
- * @__success [value]
- */
-
-/**
- * 从本地缓存中异步获取指定 key 的内容
- *
- * @canUse getStorage
- * @__object [key]
- * @__success [data]
- */
-
-/**
- * 异步获取当前storage的相关信息
- *
- * @canUse getStorageInfo
- * @__success [currentSize, keys, limitSize]
- */
-
-/**
- * Taro.getStorageInfo 的同步版本
- *
- * @canUse getStorageInfoSync
- * @__return [currentSize, keys, limitSize]
- */
-
-/**
- * Taro.getStorage 的同步版本
- *
- * @canUse getStorageSync
- */
-
-/**
- * 异步获取系统信息
- *
- * @canNotUse getSystemInfoAsync
- */
-
-/**
- * 请求获取 Wi-Fi 列表
- *
- * @canNotUse getWifiList
- */
-
-/**
  * 隐藏 loading 提示框
  *
  * @canUse hideLoading
  * @__object [noConflict]
- */
-
-/**
- * 隐藏页面导航条加载图标
- *
- * @canNotUse hideNavigationBarLoading
  */
 
 /**
@@ -348,36 +124,6 @@
  */
 
 /**
- * 启用低功耗蓝牙设备特征值变化时的 notify 功能，订阅特征值
- *
- * @canNotUse notifyBLECharacteristicValueChange
- */
-
-/**
- * 取消监听加速度数据事件，参数为空，则取消所有的事件监听
- *
- * @canNotUse offAccelerometerChange
- */
-
-/**
- * 取消监听蓝牙适配器状态变化事件
- *
- * @canNotUse offBluetoothAdapterStateChange
- */
-
-/**
- * 取消监听寻找到新设备的事件
- *
- * @canNotUse offBluetoothDeviceFound
- */
-
-/**
- * 取消监听罗盘数据变化事件，参数为空，则取消所有的事件监听。
- *
- * @canNotUse offCompassChange
- */
-
-/**
  * 取消监听设备方向变化事件，参数为空，则取消所有的事件监听。
  *
  * @canNotUse offDeviceMotionChange
@@ -387,30 +133,6 @@
  * 取消监听音频播放错误事件
  *
  * @canUse offError
- */
-
-/**
- * 取消监听获取到 Wi-Fi 列表数据事件
- *
- * @canNotUse offGetWifiList
- */
-
-/**
- * 取消监听键盘高度变化事件
- *
- * @canNotUse offKeyboardHeightChange
- */
-
-/**
- * 取消监听实时地理位置变化事件
- *
- * @canNotUse offLocationChange
- */
-
-/**
- * 取消监听持续定位接口返回失败时触发
- *
- * @canNotUse offLocationChangeError
  */
 
 /**
@@ -463,63 +185,9 @@
  */
 
 /**
- * 取消用户主动截屏事件监听
- *
- * @canNotUse offUserCaptureScreen
- */
-
-/**
- * 取消监听连接上 Wi-Fi 的事件
- *
- * @canNotUse offWifiConnected
- */
-
-/**
- * 取消监听连接上 Wi-Fi 的事件
- *
- * @canNotUse offWifiConnectedWithPartialInfo
- */
-
-/**
  * 取消监听窗口尺寸变化事件
  *
  * @canUse offWindowResize
- */
-
-/**
- * 监听加速度数据事件。频率根据 Taro.startAccelerometer() 的 interval 参数。可使用 Taro.stopAccelerometer() 停止监听。
- *
- * @canNotUse onAccelerometerChange
- */
-
-/**
- * 监听低功耗蓝牙设备的特征值变化事件
- *
- * @canNotUse onBLECharacteristicValueChange
- */
-
-/**
- * 监听低功耗蓝牙连接状态的改变事件
- *
- * @canNotUse onBLEConnectionStateChange
- */
-
-/**
- * 监听蓝牙适配器状态变化事件
- *
- * @canNotUse onBluetoothAdapterStateChange
- */
-
-/**
- * 监听寻找到新设备的事件
- *
- * @canNotUse onBluetoothDeviceFound
- */
-
-/**
- * 监听罗盘数据变化事件。频率：5 次/秒，接口调用后会自动开始监听，可使用 stopCompass 停止监听
- *
- * @canNotUse onCompassChange
  */
 
 /**
@@ -532,39 +200,6 @@
  * 监听小程序错误事件
  *
  * @canUse onError
- */
-
-/**
- * 监听获取到 Wi-Fi 列表数据事件
- *
- * @canNotUse onGetWifiList
- */
-
-/**
- * 监听陀螺仪数据变化事件。频率根据 Taro.startGyroscope() 的 interval 参数。可以使用 Taro.stopGyroscope() 停止监听。
- *
- * @canNotUse onGyroscopeChange
- */
-
-/**
- * 监听键盘高度变化
- *
- * @canNotUse onKeyboardHeightChange
- * @__callback [height]
- */
-
-/**
- * 监听实时地理位置变化事件
- *
- * @canNotUse onLocationChange
- * @__callback [accuracy, altitude, horizontalAccuracy, atitude, longitude, speed, verticalAccuracy]
- */
-
-/**
- * 监听持续定位接口返回失败时触发
- *
- * @canNotUse onLocationChangeError
- * @__callback [errCode]
  */
 
 /**
@@ -595,39 +230,9 @@
  */
 
 /**
- * 监听连接上 Wi-Fi 的事件
- *
- * @canNotUse onWifiConnected
- */
-
-/**
- * 监听连接上 Wi-Fi 的事件
- *
- * @canNotUse onWifiConnectedWithPartialInfo
- */
-
-/**
  * 监听窗口尺寸变化事件
  *
  * @canUse onWindowResize
- */
-
-/**
- * 跳转系统授权管理页
- *
- * @canNotUse openAppAuthorizeSetting
- */
-
-/**
- * 初始化蓝牙模块
- *
- * @canNotUse openBluetoothAdapter
- */
-
-/**
- * 打开视频编辑器
- *
- * @canNotUse openVideoEditor
  */
 
 /**
@@ -638,39 +243,6 @@
  */
 
 /**
- * previewImage api基于开源的React组件[react-wx-images-viewer](https://github.com/react-ld/react-wx-images-viewer)开发，感谢！
- * 在新页面中全屏预览图片/视频。预览的过程中用户可以进行保存图片/视频、发送给朋友等操作。
- *
- * @canUse previewMedia
- * @__object [sources, current]
- */
-
-/**
- * 读取低功耗蓝牙设备的特征值的二进制数据值
- *
- * @canNotUse readBLECharacteristicValue
- */
-
-/**
- * 新开页面打开文档，支持格式
- *
- * @canNotUse removeSavedFile
- */
-
-/**
- * 从本地缓存中移除指定 key
- *
- * @canUse removeStorage
- * @__object [key]
- */
-
-/**
- * Taro.removeStorage 的同步版本
- *
- * @canUse removeStorageSync
- */
-
-/**
  * 移除 tabBar 某一项右上角的文本
  *
  * @canUse removeTabBarBadge
@@ -678,61 +250,10 @@
  */
 
 /**
- * 保存文件到本地
- *
- * @canNotUse saveFile
- */
-
-/**
- * 保存视频到系统相册
- *
- * @canNotUse saveVideoToPhotosAlbum
- */
-
-/**
- * 调起客户端扫码界面，扫码成功后返回对应的结果
- *
- * @canNotUse scanCode
- */
-
-/**
- * 协商设置蓝牙低功耗的最大传输单元
- *
- * @canNotUse setBLEMTU
- */
-
-/**
  * 设置系统剪贴板的内容
  *
  * @canUse setClipboardData
  * @__object [data]
- */
-
-/**
- * 设置页面导航条标题
- *
- * @canUse setNavigationBarTitle
- * @__object [title]
- */
-
-/**
- * 设置屏幕亮度
- *
- * @canNotUse setScreenBrightness
- */
-
-/**
- * 将数据存储在本地缓存中指定的 key 中
- *
- * @canUse setStorage
- * @__object [data, key]
- */
-
-/**
- * Taro.setStorage 的同步版本
- *
- * @canUse setStorageSync
- * @__object [key, data]
  */
 
 /**
@@ -780,12 +301,6 @@
  */
 
 /**
- * 显示页面导航条加载图标
- *
- * @canNotUse showNavigationBarLoading
- */
-
-/**
  * 显示 tabBar
  *
  * @canUse showTabBar
@@ -807,46 +322,9 @@
  */
 
 /**
- * 开始监听加速度数据。
- *
- * @canNotUse startAccelerometer
- * @__object [interval[game, ui, normal]]
- */
-
-/**
- * 开始搜寻附近的蓝牙外围设备
- *
- * @canNotUse startBluetoothDevicesDiscovery
- */
-
-/**
- * 开始监听罗盘数据
- *
- * @canNotUse startCompass
- */
-
-/**
  * 开始监听设备方向的变化。
  *
  * @canNotUse startDeviceMotionListening
- */
-
-/**
- * 开始监听陀螺仪数据
- *
- * @canNotUse startGyroscope
- */
-
-/**
- * 开启小程序进入前台时接收位置消息
- *
- * @canNotUse startLocationUpdate
- */
-
-/**
- * 开启小程序进入前后台时均接收位置消息
- *
- * @canNotUse startLocationUpdateBackground
  */
 
 /**
@@ -856,81 +334,15 @@
  */
 
 /**
- * 开始 SOTER 生物认证。
- *
- * @canNotUse startSoterAuthentication
- */
-
-/**
- * 初始化 Wi-Fi 模块
- *
- * @canNotUse startWifi
- */
-
-/**
- * 停止监听加速度数据。
- *
- * @canNotUse stopAccelerometer
- */
-
-/**
- * 停止搜寻附近的蓝牙外围设备
- *
- * @canNotUse stopBluetoothDevicesDiscovery
- */
-
-/**
- * 停止监听罗盘数据
- *
- * @canNotUse stopCompass
- */
-
-/**
  * 停止监听设备方向的变化。
  *
  * @canNotUse stopDeviceMotionListening
  */
 
 /**
- * 停止监听陀螺仪数据
- *
- * @canNotUse stopGyroscope
- */
-
-/**
- * 关闭监听实时位置变化，前后台都停止消息接收
- *
- * @canNotUse stopLocationUpdate
- */
-
-/**
  * 停止当前页面下拉刷新。
  *
  * @canUse stopPullDownRefresh
- */
-
-/**
- * 关闭 Wi-Fi 模块
- *
- * @canNotUse stopWifi
- */
-
-/**
- * 使手机发生较长时间的振动（400 ms)
- *
- * @canNotUse vibrateLong
- */
-
-/**
- * 使手机发生较短时间的振动（15 ms）(harmony平台暂不支持入参type属性)
- *
- * @canNotUse vibrateShort
- */
-
-/**
- * 向低功耗蓝牙设备特征值中写入二进制数据
- *
- * @canNotUse writeBLECharacteristicValue
  */
 
 /**
@@ -943,12 +355,6 @@
  * 收藏文件
  *
  * @canNotUse addFileToFavorites
- */
-
-/**
- * 使用拦截器
- *
- * @canNotUse addInterceptor
  */
 
 /**
@@ -1066,12 +472,6 @@
  */
 
 /**
- * 清除所有拦截器
- *
- * @canNotUse cleanInterceptors
- */
-
-/**
  * 关闭 WebSocket 连接
  *
  * @canNotUse closeSocket
@@ -1081,18 +481,6 @@
  * 建立本地作为蓝牙低功耗外围设备的服务端，可创建多个
  *
  * @canNotUse createBLEPeripheralServer
- */
-
-/**
- * 根据传入的 buffer 创建一个唯一的 URL 存在内存中
- *
- * @canNotUse createBufferURL
- */
-
-/**
- * 创建缓存管理器
- *
- * @canNotUse createCacheManager
  */
 
 /**
@@ -1869,12 +1257,6 @@
  */
 
 /**
- * 请求订阅消息
- *
- * @canNotUse requestSubscribeMessage
- */
-
-/**
  * 模拟隐私接口调用，并触发隐私弹窗逻辑
  *
  * @canNotUse requirePrivacyAuthorize
@@ -1884,12 +1266,6 @@
  * 预约视频号直播
  *
  * @canNotUse reserveChannelsLive
- */
-
-/**
- * 根据 URL 销毁存在内存中的数据
- *
- * @canNotUse revokeBufferURL
  */
 
 /**
@@ -2109,60 +1485,6 @@
  */
 
 /**
- * 仅小程序插件中能调用该接口
- *
- * @canNotUse authorizeForMiniProgram
- */
-
-/**
- * 云开发 SDK 实例
- *
- * @canNotUse cloud
- */
-
-/**
- * 压缩视频接口
- *
- * @canNotUse compressVideo
- */
-
-/**
- * 创建插屏广告组件
- *
- * @canNotUse createInterstitialAd
- */
-
-/**
- * 关闭小程序页面返回询问对话框
- *
- * @canNotUse disableAlertBeforeUnload
- */
-
-/**
- * 开启小程序页面返回询问对话框
- *
- * @canNotUse enableAlertBeforeUnload
- */
-
-/**
- * 获取当前帐号信息
- *
- * @canNotUse getAccountInfoSync
- */
-
-/**
- * 拉取 backgroundFetch 客户端缓存数据
- *
- * @canNotUse getBackgroundFetchData
- */
-
-/**
- * canvas 组件的绘图上下文
- *
- * @canNotUse getExptInfoSync
- */
-
-/**
  * 获取日志管理器对象
  *
  * @canNotUse getLogManager
@@ -2181,87 +1503,15 @@
  */
 
 /**
- * 获取转发详细信息
- *
- * @canNotUse getShareInfo
- */
-
-/**
  * 获取全局唯一的版本更新管理器
  *
  * @canNotUse getUpdateManager
  */
 
 /**
- * 隐藏返回首页按钮
- *
- * @canNotUse hideHomeButton
- */
-
-/**
- * 隐藏当前页面的转发按钮
- *
- * @canNotUse hideShareMenu
- */
-
-/**
- * 取消监听内存不足告警事件
- *
- * @canNotUse offMemoryWarning
- */
-
-/**
- * 监听内存不足告警事件
- *
- * @canNotUse onMemoryWarning
- */
-
-/**
- * 打开视频号主页
- *
- * @canNotUse openChannelsUserProfile
- */
-
-/**
- * 新开页面打开文档，支持格式
- *
- * @canNotUse openDocument
- */
-
-/**
- * canvas 组件的绘图上下文
- *
- * @canNotUse reportAnalytics
- */
-
-/**
- * 发送微信支付
- *
- * @canNotUse requestPayment
- */
-
-/**
- * 拉取 backgroundFetch 客户端缓存数据
- *
- * @canNotUse setBackgroundFetchToken
- */
-
-/**
  * 设置是否打开调试开关
  *
  * @canNotUse setEnableDebug
- */
-
-/**
- * 动态设置置顶栏文字内容
- *
- * @canNotUse setTopBarText
- */
-
-/**
- * 显示当前页面的转发按钮
- *
- * @canNotUse showShareMenu
  */
 
 /**
