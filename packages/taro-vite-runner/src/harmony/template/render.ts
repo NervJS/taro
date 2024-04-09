@@ -80,7 +80,7 @@ import type {
 
 @Builder
 function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroElement) => void) {
-  ${this.generateRenderExtraComponentsCondition()}${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'SCROLL-VIEW' || item._st.hmStyle.overflow === 'scroll') {
+  ${this.generateRenderExtraComponentsCondition()}${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'SCROLL-VIEW' || item._st?.hmStyle.overflow === 'scroll') {
     TaroScrollView({ node: item as TaroScrollViewElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'VIEW') {
     TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
