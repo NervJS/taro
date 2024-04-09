@@ -100,7 +100,7 @@ export function getStorage<T = any> (options: Taro.getStorage.Option<T>) {
 
     kvStore = kvStore as distributedKVStore.SingleKVStore
     kvStore.get(key, (err, data) => {
-      if (!err) {
+      if (err) {
         handle.fail({ errMsg: `Failed to get data. Code:${err.code},message:${err.message}` }, { resolve, reject })
         return
       }
@@ -131,7 +131,7 @@ export function setStorage (options: Taro.setStorage.Option) {
 
     kvStore = kvStore as distributedKVStore.SingleKVStore
     kvStore.put(key, data, (err) => {
-      if (!err) {
+      if (err) {
         handle.fail({ errMsg: `Failed to put data. Code:${err.code},message:${err.message}` }, { resolve, reject })
         return
       }
@@ -162,7 +162,7 @@ export function removeStorage (options: Taro.removeStorage.Option) {
 
     kvStore = kvStore as distributedKVStore.SingleKVStore
     kvStore.delete(key, (err) => {
-      if (!err) {
+      if (err) {
         handle.fail({ errMsg: `Failed to delete data. Code:${err.code},message:${err.message}` }, { resolve, reject })
         return
       }
