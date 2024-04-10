@@ -99,7 +99,9 @@ export interface TaroStyleType {
   fontStyle?: FontStyle
   fontWeight?: number | FontWeight | string
   fontFamily?: string | Resource
-  textDecoration?: TextDecorationType
+  textDecoration?: {
+    type: TextDecorationType
+  }
 
   // other
   opacity?: number | Resource

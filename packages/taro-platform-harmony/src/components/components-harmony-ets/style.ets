@@ -191,7 +191,7 @@ export function setNormalTextAttributeIntoInstance(instance: TextAttribute | Spa
   }
   if (!isUndefined(style.textDecoration)) {
     instance.decoration({
-      type: style.textDecoration,
+      type: style.textDecoration.type,
       color: style.color
     })
   }
