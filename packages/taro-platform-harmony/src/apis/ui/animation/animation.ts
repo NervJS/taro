@@ -1,4 +1,4 @@
-// import matrix4 from '@ohos.matrix4'
+import matrix4 from '@ohos.matrix4'
 import { isUndefined } from '@tarojs/shared'
 
 import { temporarilyNotSupport } from '../../utils'
@@ -78,17 +78,13 @@ export class Animation implements Taro.Animation {
     return this
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   matrix (a: number, b: number, c: number, d: number, tx: number, ty: number): Taro.Animation {
-    // this.rule.transform = matrix4.init([a, b, c, d, tx, ty])
-    temporarilyNotSupport('animation.matrix')()
+    this.rule.transform = matrix4.init([a, b, c, d, tx, ty])
     return this
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   matrix3d (a1: number, b1: number, c1: number, d1: number, a2: number, b2: number, c2: number, d2: number, a3: number, b3: number, c3: number, d3: number, a4: number, b4: number, c4: number, d4: number): Taro.Animation {
-    // this.rule.transform = matrix4.init([a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3, a4, b4, c4, d4])
-    temporarilyNotSupport('animation.matrix3d')()
+    this.rule.transform = matrix4.init([a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3, a4, b4, c4, d4])
     return this
   }
 
