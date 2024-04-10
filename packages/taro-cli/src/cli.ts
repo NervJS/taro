@@ -7,6 +7,7 @@ import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
 
 const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor', 'update', 'config']
+const DEFAULT_FRAMEWORK = 'react'
 
 export default class CLI {
   appPath: string
@@ -135,7 +136,7 @@ export default class CLI {
           }
 
           // 根据 framework 启用插件
-          const framework = kernel.config?.initialConfig.framework
+          const framework = kernel.config?.initialConfig.framework || DEFAULT_FRAMEWORK
           const frameworkMap = {
             vue: '@tarojs/plugin-framework-vue2',
             vue3: '@tarojs/plugin-framework-vue3',
