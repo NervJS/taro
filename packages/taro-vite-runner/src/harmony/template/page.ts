@@ -28,9 +28,9 @@ export interface TaroHarmonyPageMeta extends VitePageMeta {
 
   modifyPageParams?: (this: Parser, paramsString: string) => string
 
-  modifyPageImport?: (this: Parser, importStr: string[]) => void
+  modifyPageImport?: (this: Parser, importStr: string[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => void
 
-  modifyPageAppear?: (this: Parser, appearStr: string) => string
+  modifyPageAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
   modifyPageBuild?: (this: Parser, buildStr: string) => string
 
@@ -238,7 +238,7 @@ export default class Parser extends BaseParser {
     ))}`
 
     if (isFunction(modifyPageAppear)) {
-      appearStr = modifyPageAppear.call(this, appearStr)
+      appearStr = modifyPageAppear.call(this, appearStr, page)
     }
 
     // 生成 build 函数内容
@@ -963,7 +963,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
     const modifyPageImport = page instanceof Array ? page[0].modifyPageImport : page.modifyPageImport
     if (isFunction(modifyPageImport)) {
-      modifyPageImport.call(this, importList)
+      modifyPageImport.call(this, importList, page)
     }
 
     const code = this.transArr2Str([
