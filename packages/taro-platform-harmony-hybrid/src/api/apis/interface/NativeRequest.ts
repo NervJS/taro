@@ -2,7 +2,6 @@ import Taro from '@tarojs/api'
 
 import native from '../NativeApi'
 
-
 export class NativeRequest implements Taro.RequestTask<any> {
   readonly [Symbol.toStringTag]: string = 'NativeRequest'
   private objectId: number
@@ -15,7 +14,7 @@ export class NativeRequest implements Taro.RequestTask<any> {
   }
 
   abort (): void {
-    native.abort( {}, this.objectId)
+    native.abort({}, this.objectId)
   }
 
   onHeadersReceived (option: any): void {
@@ -26,7 +25,9 @@ export class NativeRequest implements Taro.RequestTask<any> {
     native.offHeadersReceived(option, this.objectId)
   }
 
-  catch<TResult = never> (onrejected?: ((reason: any) => (PromiseLike<TResult> | TResult)) | undefined | null): Promise<any> {
+  catch<TResult = never> (
+    onrejected?: ((reason: any) => PromiseLike<TResult> | TResult) | undefined | null
+  ): Promise<any> {
     return Promise.resolve(onrejected)
   }
 
@@ -38,13 +39,13 @@ export class NativeRequest implements Taro.RequestTask<any> {
     return option
   }
 
-  then<TResult = never> (onrejected?: ((reason: any) => (PromiseLike<TResult> | TResult)) | undefined | null): Promise<any> {
+  then<TResult = never> (
+    onrejected?: ((reason: any) => PromiseLike<TResult> | TResult) | undefined | null
+  ): Promise<any> {
     return Promise.resolve(onrejected)
   }
 
   finally (onfinally?: (() => void) | null | undefined): any {
     throw new Error(onfinally as undefined)
   }
-
-
 }

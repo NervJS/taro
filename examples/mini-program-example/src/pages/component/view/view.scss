@@ -1,0 +1,23 @@
+.example{
+  margin-bottom: 60px;
+  &-body{
+    &__list{
+      display: flex;
+      &-item{
+        flex: auto;
+        height: 300px;
+        background-color: #0bb20c;
+        margin: 5px;
+      }
+    }
+    &__list--vertical{
+      width: 200px;
+      flex-direction: column;
+      margin-left: auto;
+      margin-right: auto;
+      .example-body__list-item{
+        flex: 1 1 200px;
+      }
+    }
+  }
+}

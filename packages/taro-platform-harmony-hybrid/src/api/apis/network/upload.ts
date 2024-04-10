@@ -73,4 +73,3 @@ export const uploadFile = (options) => {
     })
   return promise
 }
-

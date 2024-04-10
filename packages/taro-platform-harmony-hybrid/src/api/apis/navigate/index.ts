@@ -6,11 +6,11 @@ import { shouldBeObject } from '../utils'
 import { MethodHandler } from '../utils/handler'
 
 /**
-* 打开另一个小程序
-*
-* @canUse navigateToMiniProgram
-* @__object [appId, path, extraData]
-*/
+ * 打开另一个小程序
+ *
+ * @canUse navigateToMiniProgram
+ * @__object [appId, path, extraData]
+ */
 export const navigateToMiniProgram: typeof Taro.navigateToMiniProgram = (options) => {
   const apiName = 'navigateToMiniProgram'
   // options must be an Object
