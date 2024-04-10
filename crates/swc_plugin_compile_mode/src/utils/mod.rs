@@ -320,15 +320,22 @@ pub fn extract_jsx_loop <'a> (callee_expr: &mut Box<Expr>, args: &'a mut Vec<Exp
 
 pub fn check_jsx_element_children_exist_loop (el: &mut JSXElement) -> bool {
     for child in el.children.iter_mut() {
-        if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = child {
-            if let Expr::Call(CallExpr { callee: Callee::Expr(callee_expr), args, .. }) = &mut **expr {
-                if is_call_expr_of_loop(callee_expr, args) {
-                    return true
-                }
-            }
+        if check_jsx_element_child_is_loop(child)  {
+            return true
         }
     }
 
+    false
+}
+
+pub fn check_jsx_element_child_is_loop (child: &mut JSXElementChild) -> bool {
+    if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = child {
+        if let Expr::Call(CallExpr { callee: Callee::Expr(callee_expr), args, .. }) = &mut **expr {
+            if is_call_expr_of_loop(callee_expr, args) {
+                return true
+            }
+        }
+    }
     false
 }
 
@@ -342,7 +349,7 @@ pub fn create_original_node_renderer (visitor: &mut TransformVisitor) -> String 
 
 pub fn create_normal_text_template (visitor: &mut TransformVisitor) -> String {
     let node_path = visitor.get_current_node_path();
-    let code = add_spaces_to_lines(get_text_component_str(&node_path).as_str());
+    let code = add_spaces_to_lines(get_text_component_str(&format!("this.{}", &node_path)).as_str());
 
     visitor.component_set.insert(TEXT_TAG.clone().to_string());
 
