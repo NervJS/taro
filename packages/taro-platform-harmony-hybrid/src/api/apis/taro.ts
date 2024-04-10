@@ -1,4 +1,4 @@
-import Taro from '@tarojs/api'
+import Taro from '@tarojs/plugin-platform-h5/dist/runtime/apis'
 import { history } from '@tarojs/router'
 import { isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 import { toByteArray } from 'base64-js'
@@ -33,6 +33,29 @@ const {
   eventCenter,
   Events,
   preload,
+  useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useError,
+  useLaunch,
+  useLoad,
+  useOptionMenuClick,
+  usePageNotFound,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
+  useReady,
+  useResize,
+  useRouter,
+  useSaveExitState,
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick,
+  useScope,
+  useUnhandledRejection,
+  useUnload
 } = Taro as any
 
 const taro: typeof Taro = {
@@ -57,6 +80,29 @@ const taro: typeof Taro = {
   redirectTo,
   getCurrentPages,
   switchTab,
+  useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useError,
+  useLaunch,
+  useLoad,
+  useOptionMenuClick,
+  usePageNotFound,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
+  useReady,
+  useResize,
+  useRouter,
+  useSaveExitState,
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick,
+  useScope,
+  useUnhandledRejection,
+  useUnload
 }
 
 export const requirePlugin = permanentlyNotSupport('requirePlugin')
@@ -331,4 +377,27 @@ export {
   options,
   preload,
   pxTransform,
+  useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useError,
+  useLaunch,
+  useLoad,
+  useOptionMenuClick,
+  usePageNotFound,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
+  useReady,
+  useResize,
+  useRouter,
+  useSaveExitState,
+  useScope,
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick,
+  useUnhandledRejection,
+  useUnload
 }
