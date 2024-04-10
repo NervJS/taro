@@ -21,6 +21,7 @@ export interface IMethod {
 }
 
 export interface TaroHarmonyPageMeta extends VitePageMeta {
+  originName: string
   entryOption?: Record<string, unknown>
 
   modifyRenderState?: (this: Parser, state: (string | null)[]) => void
@@ -925,6 +926,9 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
   parse (rawId: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[], name = 'TaroPage', resolve?: TRollupResolveMethod) {
     const { modifyResolveId } = this.loaderMeta
+    const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
+    const targetRoot = path.resolve(this.appPath, sourceRoot)
+
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
     this.isTabbarPage = page instanceof Array
     const pageRefresh: boolean[] = page instanceof Array
@@ -936,8 +940,6 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       this.enableRefresh = pageRefresh.some(e => !!e) ? 2 : 0
     }
 
-    const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
-    const targetRoot = path.resolve(this.appPath, sourceRoot)
     let renderPath = path.posix.normalize(path.relative(
       path.dirname(rawId),
       path.join(targetRoot, 'render')
@@ -983,7 +985,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
           '}',
         ]
         : [
-          `import createComponent, { config } from "${rawId + TARO_COMP_SUFFIX}"`,
+          `import createComponent, { config } from "${path.resolve(targetRoot, (page as TaroHarmonyPageMeta).originName) + TARO_COMP_SUFFIX}"`,
           isBlended && this.#setReconcilerPost ? this.#setReconcilerPost : null,
         ],
       '',

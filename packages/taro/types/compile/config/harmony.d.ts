@@ -6,7 +6,12 @@ import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
 import type { CompilerTypes, CompilerWebpackTypes } from '../compiler'
 import type { OutputExt } from './project'
 
-export interface IHarmonyConfig<T extends CompilerTypes = CompilerWebpackTypes>  {
+export interface IHarmonyRouterConfig {
+  /** 配置自定义路由 */
+  customRoutes?: IOption
+}
+
+export interface IHarmonyConfig<T extends CompilerTypes = 'vite'> {
   /** Harmony 项目地址 */
   projectPath: string
 
@@ -73,6 +78,9 @@ export interface IHarmonyConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   output?: T extends 'vite'
     ? Pick<RollupOutputOptions, 'chunkFileNames'>  & OutputExt
     : Webpack.Configuration['output'] & OutputExt
+
+  /** 路由相关的配置 */
+  router?: IHarmonyRouterConfig
 
   /** 配置 postcss 相关插件 */
   postcss?: IPostcssOption<'harmony'>
