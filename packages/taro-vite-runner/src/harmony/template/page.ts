@@ -233,7 +233,7 @@ export default class Parser extends BaseParser {
         'Current.page.layerNode = this.layerNode',
         'Current.page.layerParents = Current.page.layerParents || []',
         this.isTabbarPage ? 'Current.page.layerParents[index] = []' : ''
-      ] 
+      ]
     ))}`
 
     if (isFunction(modifyPageAppear)) {
@@ -322,9 +322,9 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'
   // FIXME 这里 pageStack 更新问题，需要第二次才能显示 Home 按钮
     ? `if (this.pageStack[0].path !== this.entryPagePath && this.navigationBarHomeBtn && this.pageStack.length === 1) {
     Image($r('app.media.taro_home'))
-      .height(convertNumber2VP(40))
-      .width(convertNumber2VP(40))
-      .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
+      .height(convertNumber2VP(40 / 7.5, 'vw'))
+      .width(convertNumber2VP(40 / 7.5, 'vw'))
+      .margin({ left: convertNumber2VP(40 / 7.5, 'vw'), right: convertNumber2VP(-20 / 7.5, 'vw') })
       .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
       .objectFit(ImageFit.Contain)
       .onClick(() => {
@@ -337,9 +337,9 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'
       })
   } else if (this.pageStack.length > 1) {
     Image($r('app.media.taro_arrow_left'))
-      .height(convertNumber2VP(40))
-      .width(convertNumber2VP(40))
-      .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
+      .height(convertNumber2VP(40 / 7.5, 'vw'))
+      .width(convertNumber2VP(40 / 7.5, 'vw'))
+      .margin({ left: convertNumber2VP(40 / 7.5, 'vw'), right: convertNumber2VP(-20 / 7.5, 'vw') })
       .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
       .objectFit(ImageFit.Contain)
       .onClick(() => {
@@ -347,14 +347,14 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'
       })
   }` : ''}
   Text(this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTitleText || ''}')
-    .margin({ left: convertNumber2VP(40) })
-    .fontSize(convertNumber2VP(32))
+    .margin({ left: convertNumber2VP(40 / 7.5, 'vw') })
+    .fontSize(convertNumber2VP(32 / 7.5, 'vw'))
     .fontColor((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
   if (this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}) {
     LoadingProgress()
-    .margin({ left: convertNumber2VP(10) })
-    .height(convertNumber2VP(40))
-    .width(convertNumber2VP(40))
+    .margin({ left: convertNumber2VP(10 / 7.5, 'vw') })
+    .height(convertNumber2VP(40 / 7.5, 'vw'))
+    .width(convertNumber2VP(40 / 7.5, 'vw'))
     .color((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
   }
 }

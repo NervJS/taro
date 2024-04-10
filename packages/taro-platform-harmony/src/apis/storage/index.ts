@@ -3,8 +3,7 @@
  * https://developer.harmonyos.com/cn/docs/documentation/doc-references-V3/js-apis-data-preferences-0000001427745052-V3
 */
 import bundleManager from '@ohos.bundle.bundleManager'
-import dataPreferences from '@ohos.data.preferences'
-import hilog from '@ohos.hilog'
+import distributedKVStore from '@ohos.data.distributedKVStore'
 import { Current } from '@tarojs/runtime'
 
 import { temporarilyNotSupport, validateParams } from '../utils'
@@ -13,32 +12,53 @@ import { MethodHandler } from '../utils/handler'
 import type Taro from '@tarojs/taro/types'
 
 let context
-let preferences: any
+let kvManager: distributedKVStore.KVManager
+let kvStore: distributedKVStore.SingleKVStore
 
 (Current as any).contextPromise.then((ctx) => {
   context = ctx
-  return context
-})
-
-function getPreferences () {
-  try {
-    if (!preferences && context) {
-      const data = bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
-      preferences = dataPreferences.getPreferencesSync(context, { name: `${data.appInfo.uid}Store` })
-    }
-  } catch (error) {
-    hilog.error(0x0000, 'TaroFailedTag', 'Failed to load the storage. Cause: %{public}s', error.code ? JSON.stringify(error) : error.message || error)
+  const kvManagerConfig: distributedKVStore.KVManagerConfig = {
+    context: context,
+    bundleName: 'com.example.taro'
   }
 
-  return preferences
-}
+  try {
+    // 创建KVManager实例
+    kvManager = distributedKVStore.createKVManager(kvManagerConfig)
+    // 继续创建获取数据库
+    const options: distributedKVStore.Options = {
+      createIfMissing: true,
+      encrypt: false,
+      backup: false,
+      autoSync: false,
+      // kvStoreType不填时，默认创建多设备协同数据库
+      kvStoreType: distributedKVStore.KVStoreType.SINGLE_VERSION,
+      // 多设备协同数据库：kvStoreType: distributedKVStore.KVStoreType.DEVICE_COLLABORATION,
+      securityLevel: distributedKVStore.SecurityLevel.S1
+    }
+
+    const data = bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
+    kvManager.getKVStore<distributedKVStore.SingleKVStore>(`${data.appInfo.uid}Store`, options, (err, store: distributedKVStore.SingleKVStore) => {
+      if (err) {
+        console.error(`Failed to get KVStore: Code:${err.code},message:${err.message}`)
+        return
+      }
+      kvStore = store
+      // 请确保获取到键值数据库实例后，再进行相关数据操作
+    })
+  } catch (e) {
+    console.error(`Failed to create KVManager. Code:${e.code},message:${e.message}`)
+  }
+
+  return context
+})
 
 const storageSchema = {
   key: 'String'
 }
 
 function checkContextExist (api: string, isAsync = false) {
-  if (!context) {
+  if (!context || !kvStore) {
     const message = `${api} 调用失败，Taro 不支持过早地调用 ${api}，请确保页面已经渲染完成再调用此 API`
     if (isAsync) {
       return {
@@ -78,43 +98,16 @@ export function getStorage<T = any> (options: Taro.getStorage.Option<T>) {
       return handle.fail(res, { resolve, reject })
     }
 
-    const preferences = getPreferences()
-    
-    if (!preferences) return handle.fail({}, { resolve, reject })
+    kvStore = kvStore as distributedKVStore.SingleKVStore
+    kvStore.get(key, (err, data) => {
+      if (err) {
+        handle.fail({ errMsg: `Failed to get data. Code:${err.code},message:${err.message}` }, { resolve, reject })
+        return
+      }
 
-    const data = preferences.getSync(key, null)
-    if (data) {
-      return handle.success({ data }, { resolve, reject })
-    } else {
-      return handle.success({ errMsg: 'data not found' }, { resolve, reject })
-    }
+      handle.success({ data }, { resolve, reject })
+    })
   })
-}
-
-export function getStorageSync (key: string) {
-  const name = 'getStorageSync'
-  const { isExist, error } = checkContextExist(name, false)
-
-  if (!isExist) {
-    return error
-  }
-
-  if (!key) {
-    throw new Error(`${name}:fail parameter error: parameter should be String`)
-  }
-
-  const preferences = getPreferences()
-  
-  if (!preferences) {
-    throw new Error(`${name}:fail:preferences is null`)
-  }
-
-  const data = preferences.getSync(key, null)
-  if (data) {
-    return data
-  } else {
-    throw new Error('data not found')
-  }
 }
 
 export function setStorage (options: Taro.setStorage.Option) {
@@ -136,37 +129,16 @@ export function setStorage (options: Taro.setStorage.Option) {
       return handle.fail(res, { resolve, reject })
     }
 
-    const preferences = getPreferences()
+    kvStore = kvStore as distributedKVStore.SingleKVStore
+    kvStore.put(key, data, (err) => {
+      if (err) {
+        handle.fail({ errMsg: `Failed to put data. Code:${err.code},message:${err.message}` }, { resolve, reject })
+        return
+      }
 
-    if (!preferences) return handle.fail({}, { resolve, reject })
-
-    preferences.putSync(key, data)
-    preferences.flush()
-
-    return handle.success({}, { resolve, reject })
+      handle.success({}, { resolve, reject })
+    })
   })
-}
-
-export function setStorageSync (key: string, data: any) {
-  const name = 'setStorageSync'
-  const { isExist, error } = checkContextExist(name, false)
-
-  if (!isExist) {
-    return error
-  }
-
-  if (!key) {
-    throw new Error(`${name}:fail key error: key should be String`)
-  }
-
-  const preferences = getPreferences()
-  
-  if (!preferences) {
-    throw new Error(`${name}:fail:preferences is null`)
-  }
-
-  preferences.putSync(key, data)
-  preferences.flush()
 }
 
 export function removeStorage (options: Taro.removeStorage.Option) {
@@ -188,78 +160,16 @@ export function removeStorage (options: Taro.removeStorage.Option) {
       return handle.fail(res, { resolve, reject })
     }
 
-    const preferences = getPreferences()
+    kvStore = kvStore as distributedKVStore.SingleKVStore
+    kvStore.delete(key, (err) => {
+      if (err) {
+        handle.fail({ errMsg: `Failed to delete data. Code:${err.code},message:${err.message}` }, { resolve, reject })
+        return
+      }
 
-    if (!preferences) return handle.fail({}, { resolve, reject })
-
-    preferences.deleteSync(key)
-    preferences.flush()
-
-    return handle.success({}, { resolve, reject })
+      handle.success({}, { resolve, reject })
+    })
   })
-}
-
-export function removeStorageSync (key: string) {
-  const name = 'removeStorageSync'
-  const { isExist, error } = checkContextExist(name, false)
-
-  if (!isExist) {
-    return error
-  }
-
-  if (!key) {
-    throw new Error(`${name}:fail key error: key should be String`)
-  }
-
-  const preferences = getPreferences()
-  
-  if (!preferences) {
-    throw new Error(`${name}:fail:preferences is null`)
-  }
-
-  preferences.deleteSync(key)
-  preferences.flush()
-}
-
-export function clearStorage (options: Taro.clearStorage.Option) {
-  const name = 'clearStorage'
-  const { isExist, error } = checkContextExist(name, true)
-
-  if (!isExist) {
-    return error
-  }
-
-  const { success, fail, complete } = options || {}
-  const handle = new MethodHandler({ name, success, fail, complete })
-
-  return new Promise((resolve, reject) => {
-    const preferences = getPreferences()
-
-    if (!preferences) return handle.fail({}, { resolve, reject })
-
-    preferences.clearSync()
-    preferences.flush()
-    
-    return handle.success({}, { resolve, reject })
-  })
-}
-
-export function clearStorageSync () {
-  const name = 'clearStorageSync'
-  const { isExist, error } = checkContextExist(name, false)
-
-  if (!isExist) {
-    return error
-  }
-
-  const preferences = getPreferences()
-  
-  if (!preferences) {
-    throw new Error(`${name}:fail:preferences is null`)
-  }
-
-  preferences.clearSync()
-  preferences.flush()
 }
 
 export const getStorageInfoSync = temporarilyNotSupport('getStorageInfoSync')
@@ -272,6 +182,12 @@ export const batchSetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchS
 export const batchSetStorage = /* @__PURE__ */ temporarilyNotSupport('batchSetStorage')
 export const batchGetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchGetStorageSync')
 export const batchGetStorage = /* @__PURE__ */ temporarilyNotSupport('batchGetStorage')
+
+export const clearStorage = temporarilyNotSupport('removeStorageSync')
+export const getStorageSync = temporarilyNotSupport('getStorageSync', 'getStorage')
+export const setStorageSync = temporarilyNotSupport('setStorageSync', 'setStorage')
+export const clearStorageSync = temporarilyNotSupport('clearStorageSync', 'clearStorage')
+export const removeStorageSync = temporarilyNotSupport('removeStorageSync', 'removeStorage')
 
 export * from './background-fetch'
 export * from './cache-manager'
