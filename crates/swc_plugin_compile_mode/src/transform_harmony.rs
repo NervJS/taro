@@ -201,7 +201,7 @@ impl TransformVisitor {
               }
               TEXT_TAG => {
                 self.component_set.insert(name.clone());
-                get_text_component_str(&dynmaic_node_name)
+                get_text_component_str(&format!("this.{}", &dynmaic_node_name))
               }
               IMAGE_TAG => {
                 self.component_set.insert(name.clone());
@@ -283,7 +283,7 @@ impl TransformVisitor {
           let content = utils::jsx_text_to_string(&jsx_text.value);
           if !content.is_empty() {
             let current_path = self.get_current_node_path();
-            let code = utils::add_spaces_to_lines(get_text_component_str(&current_path).as_str());
+            let code = utils::add_spaces_to_lines(get_text_component_str(&format!("this.{}", &current_path)).as_str());
 
             children_string.push_str(code.as_str());
             self.component_set.insert(TEXT_TAG.clone().to_string());
@@ -328,7 +328,7 @@ impl TransformVisitor {
           let current_path = self.get_current_node_path();
 
           self.component_set.insert(TEXT_TAG.to_string());
-          utils::add_spaces_to_lines(get_text_component_str(&current_path).as_str())
+          utils::add_spaces_to_lines(get_text_component_str(&format!("this.{}", &current_path)).as_str())
         }
         Expr::Cond(cond_expr) => self.build_ets_cond_expr(cond_expr),
         _ => String::new(),

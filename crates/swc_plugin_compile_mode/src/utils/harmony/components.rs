@@ -48,16 +48,16 @@ pub fn get_image_component_str (node_name: &str) -> String {
 
 pub fn get_text_component_str (node_name: &str) -> String {
   format!(
-"if (this.{node_id}.nodeType === NodeType.TEXT_NODE && this.{node_id}.parentNode) {{
-  if ((this.{node_id}.parentNode as TaroButtonElement).tagName === 'BUTTON') {{
-    Text(this.{node_id}.textContent)\n{style}    .fontSize((this.{node_id}.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.{node_id}.parentNode as TaroButtonElement)))
-    .fontColor((this.{node_id}.parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.{node_id}.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.{node_id}.parentNode as TaroButtonElement)._attrs.type).text))
+"if ({node_id}.nodeType === NodeType.TEXT_NODE && {node_id}.parentNode) {{
+  if (({node_id}.parentNode as TaroButtonElement).tagName === 'BUTTON') {{
+    Text({node_id}.textContent)\n{style}    .fontSize(({node_id}.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize(({node_id}.parentNode as TaroButtonElement)))
+    .fontColor(({node_id}.parentNode as TaroButtonElement).hmStyle.color || getButtonColor({node_id}.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get(({node_id}.parentNode as TaroButtonElement)._attrs.type).text))
   }} else {{
-    Text(this.{node_id}.textContent)\n{style}  }}
+    Text({node_id}.textContent)\n{style}  }}
 }} else {{
-  Text(this.{node_id}.textContent)
-  .onClick((e: ClickEvent) => eventHandler(e, 'click', this.{node_id} as TaroElement))
-  .textNormalFontStyle(getNormalAttributes(this.{node_id}))\n{style_with_event}}}
+  Text({node_id}.textContent)
+  .onClick((e: ClickEvent) => eventHandler(e, 'click', {node_id} as TaroElement))
+  .textNormalFontStyle(getNormalAttributes({node_id}))\n{style_with_event}}}
 ",
   node_id = node_name,
   style = utils::add_spaces_to_lines_with_count(&get_component_attr_str(node_name, "text"), 4),
