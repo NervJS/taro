@@ -618,7 +618,7 @@
     },
     "closeBluetoothAdapter": true,
     "closeSocket": false,
-    "cloud": false,
+    "cloud": true,
     "compressImage": {
       "object": {
         "src": true,
@@ -687,7 +687,7 @@
     "createInferenceSession": false,
     "createInnerAudioContext": true,
     "createIntersectionObserver": true,
-    "createInterstitialAd": false,
+    "createInterstitialAd": true,
     "createLivePlayerContext": true,
     "createLivePusherContext": false,
     "createMapContext": true,
@@ -839,7 +839,15 @@
         "wifi": true
       }
     },
-    "getDeviceInfo": false,
+    "getDeviceInfo": {
+      "return": {
+        "benchmarkLevel": true,
+        "brand": true,
+        "model": true,
+        "system": true,
+        "platform": true
+      }
+    },
     "getDeviceVoIPList": false,
     "getEnterOptionsSync": false,
     "getExptInfoSync": true,
@@ -1059,7 +1067,55 @@
         }
       }
     },
-    "getSystemInfoAsync": false,
+    "getSystemInfoAsync": {
+      "success": {
+        "brand": true,
+        "model": true,
+        "pixelRatio": true,
+        "screenWidth": true,
+        "screenHeight": true,
+        "windowWidth": true,
+        "windowHeight": true,
+        "statusBarHeight": true,
+        "language": true,
+        "version": true,
+        "system": true,
+        "platform": true,
+        "fontSizeSetting": true,
+        "SDKVersion": true,
+        "benchmarkLevel": true,
+        "albumAuthorized": true,
+        "cameraAuthorized": true,
+        "locationAuthorized": true,
+        "microphoneAuthorized": true,
+        "notificationAuthorized": true,
+        "phoneCalendarAuthorized": true,
+        "bluetoothEnabled": true,
+        "locationEnabled": true,
+        "wifiEnabled": true,
+        "safeArea": {
+          "bottom": true,
+          "height": true,
+          "left": true,
+          "right": true,
+          "top": true,
+          "width": true
+        },
+        "locationReducedAccuracy": true,
+        "theme": {
+          "dark": true,
+          "light": true
+        },
+        "host": {
+          "appId": true
+        },
+        "enableDebug": true,
+        "deviceOrientation": {
+          "portrait": true,
+          "landscape": true
+        }
+      }
+    },
     "getSystemInfoSync": {
       "return": {
         "brand": true,
@@ -1470,7 +1526,7 @@
       }
     },
     "onWindowResize": true,
-    "openAppAuthorizeSetting": false,
+    "openAppAuthorizeSetting": true,
     "openBdboxWebview": false,
     "openBluetoothAdapter": true,
     "openBusinessView": false,
