@@ -402,8 +402,9 @@ pub fn create_original_node_renderer_foreach(visitor: &mut TransformVisitor) -> 
 pub fn create_original_node_renderer(visitor: &mut TransformVisitor) -> String {
   add_spaces_to_lines(
     format!(
-      "createChildItem(this.{} as TaroElement, createLazyChildren)",
-      visitor.get_current_node_path()
+      "createChildItem({} as TaroElement, createLazyChildren)",
+      visitor.get_dynmaic_node_name(visitor.get_current_node_path())
+      
     )
     .as_str(),
   )

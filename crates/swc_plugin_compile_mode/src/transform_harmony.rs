@@ -154,7 +154,7 @@ impl TransformVisitor {
     "".to_owned()
   }
 
-  fn get_dynmaic_node_name(&mut self, name: String) -> String {
+  pub fn get_dynmaic_node_name(&mut self, name: String) -> String {
     let node_name = if self.deal_loop_now {
       name
     } else {
@@ -285,27 +285,32 @@ impl TransformVisitor {
               args,
               ..
             }) => {
+              let mut handle_loop = false;
               // 如果这个child是一个loop， {xxx.map(item => <Xxx><x></x><x></x></Xxx>)}
               if let Some(return_jsx) = utils::extract_jsx_loop(callee_expr, args) {
-                let loop_start = format!(
-                  "ForEach(this.{}.childNodes, (item: TaroElement) => {{\n",
-                  self.node_name.last().unwrap()
-                );
-                let loop_foot = "}, (item: TaroElement) => item._nid);";
+                if !self.deal_loop_now {
+                  handle_loop = true;
+                  let loop_start = format!(
+                    "ForEach(this.{}.childNodes, (item: TaroElement) => {{\n",
+                    self.node_name.last().unwrap()
+                  );
+                  let loop_foot = "}, (item: TaroElement) => item._nid);";
 
-                // let loop_body = self.build_ets_children(&mut vec![JSXElementChild::JSXElement(return_jsx) ], None);
+                  // let loop_body = self.build_ets_children(&mut vec![JSXElementChild::JSXElement(return_jsx) ], None);
 
-                println!("start");
-                self.deal_loop_now = true;
-                self.node_name.push("item".to_string());
-                let loop_body = self.build_ets_element(return_jsx);
-                self.node_name.pop();
-                self.deal_loop_now = false;
+                  println!("start");
+                  self.deal_loop_now = true;
+                  self.node_name.push("item".to_string());
+                  let loop_body = self.build_ets_element(return_jsx);
+                  self.node_name.pop();
+                  self.deal_loop_now = false;
 
-                children_string.push_str(&utils::add_spaces_to_lines(&loop_start));
-                children_string.push_str(&utils::add_spaces_to_lines(&loop_body));
-                children_string.push_str(&utils::add_spaces_to_lines(&loop_foot));
-              } else {
+                  children_string.push_str(&utils::add_spaces_to_lines(&loop_start));
+                  children_string.push_str(&utils::add_spaces_to_lines(&loop_body));
+                  children_string.push_str(&utils::add_spaces_to_lines(&loop_foot));
+                }
+              }
+              if !handle_loop {
                 let mut tmpl = utils::create_normal_text_template(self, false);
                 if utils::is_render_fn(callee_expr) {
                   tmpl = utils::create_original_node_renderer(self);
@@ -384,8 +389,8 @@ impl TransformVisitor {
 
     children_string.push_str(
       format!(
-        "if ((this.{} as TaroElement)._attrs.compileIf) {{\n{}}}",
-        self.get_current_node_path(),
+        "if (({} as TaroElement)._attrs.compileIf) {{\n{}}}",
+        self.get_dynmaic_node_name(self.get_current_node_path()),
         cons_children_string
       )
       .as_str(),
@@ -503,7 +508,7 @@ impl TransformVisitor {
     direction
   }
 
-  fn build_ets_event(&self, opening_element: &mut JSXOpeningElement) -> String {
+  fn build_ets_event(&mut self, opening_element: &mut JSXOpeningElement) -> String {
     let mut event_string = String::new();
 
     // 在 transform 中使用的是 retain_mut 方法，在 retain_mut 中，如果 return false，就代表该属性不需要保留，在小程序中主要用于剪枝静态属性，鸿蒙这里不需要处理
@@ -527,7 +532,7 @@ impl TransformVisitor {
 
           event_string.push_str(&create_component_event(
             jsx_attr_name.as_str(),
-            &self.get_current_node_path(),
+            self.get_dynmaic_node_name(self.get_current_node_path()).as_str(),
           ))
         }
       }
