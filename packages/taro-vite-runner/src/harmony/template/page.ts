@@ -21,15 +21,16 @@ export interface IMethod {
 }
 
 export interface TaroHarmonyPageMeta extends VitePageMeta {
+  originName: string
   entryOption?: Record<string, unknown>
 
   modifyRenderState?: (this: Parser, state: (string | null)[]) => void
 
   modifyPageParams?: (this: Parser, paramsString: string) => string
 
-  modifyPageImport?: (this: Parser, importStr: string[]) => void
+  modifyPageImport?: (this: Parser, importStr: string[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => void
 
-  modifyPageAppear?: (this: Parser, appearStr: string) => string
+  modifyPageAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
   modifyPageBuild?: (this: Parser, buildStr: string) => string
 
@@ -233,11 +234,11 @@ export default class Parser extends BaseParser {
         'Current.page.layerNode = this.layerNode',
         'Current.page.layerParents = Current.page.layerParents || []',
         this.isTabbarPage ? 'Current.page.layerParents[index] = []' : ''
-      ] 
+      ]
     ))}`
 
     if (isFunction(modifyPageAppear)) {
-      appearStr = modifyPageAppear.call(this, appearStr)
+      appearStr = modifyPageAppear.call(this, appearStr, page)
     }
 
     // 生成 build 函数内容
@@ -322,9 +323,9 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'
   // FIXME 这里 pageStack 更新问题，需要第二次才能显示 Home 按钮
     ? `if (this.pageStack[0].path !== this.entryPagePath && this.navigationBarHomeBtn && this.pageStack.length === 1) {
     Image($r('app.media.taro_home'))
-      .height(convertNumber2VP(40))
-      .width(convertNumber2VP(40))
-      .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
+      .height(convertNumber2VP(40 / 7.5, 'vw'))
+      .width(convertNumber2VP(40 / 7.5, 'vw'))
+      .margin({ left: convertNumber2VP(40 / 7.5, 'vw'), right: convertNumber2VP(-20 / 7.5, 'vw') })
       .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
       .objectFit(ImageFit.Contain)
       .onClick(() => {
@@ -337,9 +338,9 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'
       })
   } else if (this.pageStack.length > 1) {
     Image($r('app.media.taro_arrow_left'))
-      .height(convertNumber2VP(40))
-      .width(convertNumber2VP(40))
-      .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
+      .height(convertNumber2VP(40 / 7.5, 'vw'))
+      .width(convertNumber2VP(40 / 7.5, 'vw'))
+      .margin({ left: convertNumber2VP(40 / 7.5, 'vw'), right: convertNumber2VP(-20 / 7.5, 'vw') })
       .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
       .objectFit(ImageFit.Contain)
       .onClick(() => {
@@ -347,14 +348,14 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'
       })
   }` : ''}
   Text(this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTitleText || ''}')
-    .margin({ left: convertNumber2VP(40) })
-    .fontSize(convertNumber2VP(32))
+    .margin({ left: convertNumber2VP(40 / 7.5, 'vw') })
+    .fontSize(convertNumber2VP(32 / 7.5, 'vw'))
     .fontColor((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
   if (this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}) {
     LoadingProgress()
-    .margin({ left: convertNumber2VP(10) })
-    .height(convertNumber2VP(40))
-    .width(convertNumber2VP(40))
+    .margin({ left: convertNumber2VP(10 / 7.5, 'vw') })
+    .height(convertNumber2VP(40 / 7.5, 'vw'))
+    .width(convertNumber2VP(40 / 7.5, 'vw'))
     .color((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
   }
 }
@@ -925,6 +926,9 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
   parse (rawId: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[], name = 'TaroPage', resolve?: TRollupResolveMethod) {
     const { modifyResolveId } = this.loaderMeta
+    const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
+    const targetRoot = path.resolve(this.appPath, sourceRoot)
+
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
     this.isTabbarPage = page instanceof Array
     const pageRefresh: boolean[] = page instanceof Array
@@ -936,8 +940,6 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       this.enableRefresh = pageRefresh.some(e => !!e) ? 2 : 0
     }
 
-    const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
-    const targetRoot = path.resolve(this.appPath, sourceRoot)
     let renderPath = path.posix.normalize(path.relative(
       path.dirname(rawId),
       path.join(targetRoot, 'render')
@@ -961,7 +963,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
     const modifyPageImport = page instanceof Array ? page[0].modifyPageImport : page.modifyPageImport
     if (isFunction(modifyPageImport)) {
-      modifyPageImport.call(this, importList)
+      modifyPageImport.call(this, importList, page)
     }
 
     const code = this.transArr2Str([
@@ -983,7 +985,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
           '}',
         ]
         : [
-          `import createComponent, { config } from "${rawId + TARO_COMP_SUFFIX}"`,
+          `import createComponent, { config } from "${path.resolve(targetRoot, (page as TaroHarmonyPageMeta).originName) + TARO_COMP_SUFFIX}"`,
           isBlended && this.#setReconcilerPost ? this.#setReconcilerPost : null,
         ],
       '',

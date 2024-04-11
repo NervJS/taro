@@ -5,7 +5,6 @@ import { Current } from '../current'
 import { findChildNodeWithDFS, getPageScrollerOrNode } from '../utils'
 import { TaroComment } from './comment'
 import { TaroElement } from './element/element'
-import { FixedLayer } from './element/normal'
 import { NodeType, TaroNode, TaroTextNode } from './node'
 
 import type { Window } from '../bom/window'

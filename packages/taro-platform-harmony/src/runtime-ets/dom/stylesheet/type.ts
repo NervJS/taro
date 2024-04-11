@@ -99,7 +99,9 @@ export interface TaroStyleType {
   fontStyle?: FontStyle
   fontWeight?: number | FontWeight | string
   fontFamily?: string | Resource
-  textDecoration?: TextDecorationType
+  textDecoration?: {
+    type: TextDecorationType
+  }
 
   // other
   opacity?: number | Resource
@@ -132,7 +134,7 @@ export namespace HarmonyType {
     repeating?: boolean
   }
   export interface RadialGradient {
-    center: Point
+    center: any
     radius: number | string
     colors: Array<[ResourceColor, number]>
     repeating?: boolean

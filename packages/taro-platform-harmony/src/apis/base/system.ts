@@ -35,7 +35,7 @@ let windowRect
         }
 
         const top = Math.max(...boundingRects.map(rect => rect.top + rect.height), waterfallDisplayAreaRects.top?.top + waterfallDisplayAreaRects.top?.height, statusBarHeight)
-        const bottom = display.height - Math.min(waterfallDisplayAreaRects.bottom?.top, navigationIndicatorRect?.top)
+        const bottom = Math.min(display.height - waterfallDisplayAreaRects.bottom?.top, navigationIndicatorRect?.top)
         const left = waterfallDisplayAreaRects.left?.left + waterfallDisplayAreaRects.left?.width
         const right = display.width - waterfallDisplayAreaRects.right?.left
         safeArea = {
