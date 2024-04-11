@@ -2146,6 +2146,9 @@ importers:
       '@tarojs/components-react':
         specifier: workspace:*
         version: link:../taro-components-react
+      '@tarojs/plugin-platform-h5':
+        specifier: workspace:*
+        version: link:../taro-platform-h5
       '@tarojs/router':
         specifier: workspace:*
         version: link:../taro-router
