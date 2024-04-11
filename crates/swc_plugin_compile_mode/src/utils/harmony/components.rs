@@ -2,22 +2,22 @@ use crate::{transform_harmony::EtsDirection, utils};
 
 pub fn get_component_attr_str (node_name: &str, tag_name: &str) -> String {
   if tag_name == "text" {
-    format!(".attributeModifier(commonStyleModify.setNode(this.{} as TaroElement))\n.textSpecialFontStyle(getFontAttributes(this.{} as TaroElement))", node_name, node_name)
+    format!(".attributeModifier(commonStyleModify.setNode({} as TaroElement))\n.textSpecialFontStyle(getFontAttributes({} as TaroElement))", node_name, node_name)
   } else if tag_name == "row" {
-    format!(".attributeModifier(rowModify.setNode(this.{} as TaroElement))", node_name)
+    format!(".attributeModifier(rowModify.setNode({} as TaroElement))", node_name)
   } else if tag_name == "column" {
-    format!(".attributeModifier(columnModify.setNode(this.{} as TaroElement))", node_name)
+    format!(".attributeModifier(columnModify.setNode({} as TaroElement))", node_name)
   } else {
-    format!(".attributeModifier(commonStyleModify.setNode(this.{} as TaroElement))", node_name)
+    format!(".attributeModifier(commonStyleModify.setNode({} as TaroElement))", node_name)
   }
 }
 
 pub fn get_component_style_str (node_name: &str, tag_name: &str) -> String {
   format!(
 r#"{}
-.onVisibleAreaChange(getNodeThresholds(this.{node_id} as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.{node_id} as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
-.onAreaChange(getComponentEventCallback(this.{node_id} as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {{
-  (this.{node_id} as TaroElement)._nodeInfo.areaInfo = res[1]
+.onVisibleAreaChange(getNodeThresholds({node_id} as TaroElement) || [0.0, 1.0], getComponentEventCallback({node_id} as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
+.onAreaChange(getComponentEventCallback({node_id} as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {{
+  ({node_id} as TaroElement)._nodeInfo.areaInfo = res[1]
 }}))"#,
     get_component_attr_str(node_name, tag_name),
     node_id = node_name,
@@ -40,7 +40,7 @@ pub fn get_view_component_str (node_name: &str, child_content: &str, direction: 
 }
 
 pub fn get_image_component_str (node_name: &str) -> String {
-  format!("Image((this.{node_id} as TaroElement).getAttribute('src'))\n.objectFit(getImageMode((this.{node_id} as TaroElement).getAttribute('mode')))\n{style}",
+  format!("Image(({node_id} as TaroElement).getAttribute('src'))\n.objectFit(getImageMode(({node_id} as TaroElement).getAttribute('mode')))\n{style}",
     node_id = node_name,
     style = get_component_style_str(node_name, "image")
   )
@@ -75,5 +75,5 @@ pub fn create_component_event (event_name: &str, node_name: &str) -> String {
     }
   };
 
-  format!("\n.{}(e => eventHandler(e, {}, this.{} as TaroElement))", event_name, process_event_trigger_name(&event_name.get(2..).unwrap().to_lowercase()), node_name)
+  format!("\n.{}(e => eventHandler(e, {}, {} as TaroElement))", event_name, process_event_trigger_name(&event_name.get(2..).unwrap().to_lowercase()), node_name)
 }

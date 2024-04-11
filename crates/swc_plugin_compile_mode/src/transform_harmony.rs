@@ -177,7 +177,7 @@ impl TransformVisitor {
           // 内置组件
           Some(_) => {
             // 事件的处理，根据事件添加对应的 ets 事件处理函数
-            let event_string: String = self.build_ets_event(opening_element);
+            let mut event_string: String = self.build_ets_event(opening_element);
             let element_direction: EtsDirection = self.build_ets_direction(opening_element);
 
             // 判断 el 的子元素是否只有一个循环，如果是的话，直接使用 createLazyChildren 来生成后续子节点
@@ -197,15 +197,17 @@ impl TransformVisitor {
             let mut code = match name.as_str() {
               VIEW_TAG => {
                 self.component_set.insert(name.clone());
-                get_view_component_str(&dynmaic_node_name, &children, element_direction)
+                
+                get_view_component_str(&format!("this.{}", &dynmaic_node_name), &children, element_direction)
               }
               TEXT_TAG => {
                 self.component_set.insert(name.clone());
+                event_string = "".to_owned();
                 get_text_component_str(&format!("this.{}", &dynmaic_node_name))
               }
               IMAGE_TAG => {
                 self.component_set.insert(name.clone());
-                get_image_component_str(&dynmaic_node_name)
+                get_image_component_str(&format!("this.{}", &dynmaic_node_name))
               }
               _ => String::new(),
             };
