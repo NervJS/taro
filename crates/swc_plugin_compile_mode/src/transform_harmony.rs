@@ -128,6 +128,7 @@ pub struct TransformVisitor {
   pub get_tmpl_name: Box<dyn FnMut() -> String>,
   pub node_name_vec: Vec<String>,
   pub get_node_name: Box<dyn FnMut() -> String>,
+  pub deal_loop_now: bool,
 }
 
 impl TransformVisitor {
@@ -145,23 +146,41 @@ impl TransformVisitor {
       component_set: HashSet::new(),
       node_name_vec: vec![],
       get_node_name,
+      deal_loop_now: false,
     }
+  }
+
+  fn build_loop_children_ets_element(&mut self, el: &mut JSXElement) -> String {
+    "".to_owned()
+  }
+
+  fn get_dynmaic_node_name(&mut self, name: String) -> String {
+    let node_name = if self.deal_loop_now {
+      name
+    } else {
+      format!("this.{}", name)
+    };
+    node_name.to_string()
   }
 
   fn build_ets_element(&mut self, el: &mut JSXElement) -> String {
     // jsx 节点添加动态 id，需要判断是否存在静态节点
     let dynmaic_node_name: String;
     let mut is_node_name_created = false;
+    println!("is_node_name_created: {}", is_node_name_created);
 
     // 如果是半编译状态下碰到的第一个 jsx，或者 jsx 含有动态属性，则创建新的 node_name
-    if !self.check_jsx_is_static(el) || self.node_stack.is_empty() {
+    if !self.deal_loop_now && (!self.check_jsx_is_static(el) || self.node_stack.is_empty()) {
       dynmaic_node_name = utils::create_jsx_dynamic_id(el, self);
+      println!("dynmaic_node_name if:: {}", dynmaic_node_name);
       self.node_name.push(dynmaic_node_name.clone());
       is_node_name_created = true;
     } else {
       dynmaic_node_name = self.get_current_node_path();
+      println!("dynmaic_node_name else:: {}", dynmaic_node_name);
     }
 
+    println!("========================================");
     let opening_element = &mut el.opening;
 
     let child_string = match &opening_element.name {
@@ -179,35 +198,31 @@ impl TransformVisitor {
             // 事件的处理，根据事件添加对应的 ets 事件处理函数
             let mut event_string: String = self.build_ets_event(opening_element);
             let element_direction: EtsDirection = self.build_ets_direction(opening_element);
-
-            // 判断 el 的子元素是否只有一个循环，如果是的话，直接使用 createLazyChildren 来生成后续子节点
-            let is_loop_exist = utils::check_jsx_element_children_exist_loop(el);
-            let mut children = utils::create_original_node_renderer_foreach(self);
-
-            if !is_loop_exist {
-              let (ets_children, ..) = self.build_ets_children(&mut el.children, None);
-              children = ets_children;
-            }
+            let (children, ..) = self.build_ets_children(&mut el.children, None);
 
             // 当前 node_name 节点树已全部递归完毕
             if is_node_name_created {
               self.node_name.pop();
             }
-
+            println!("dynmaic_node_name: {:?}", dynmaic_node_name);
             let mut code = match name.as_str() {
               VIEW_TAG => {
                 self.component_set.insert(name.clone());
-                
-                get_view_component_str(&format!("this.{}", &dynmaic_node_name), &children, element_direction)
+
+                get_view_component_str(
+                  &self.get_dynmaic_node_name(dynmaic_node_name),
+                  &children,
+                  element_direction,
+                )
               }
               TEXT_TAG => {
                 self.component_set.insert(name.clone());
                 event_string = "".to_owned();
-                get_text_component_str(&format!("this.{}", &dynmaic_node_name))
+                get_text_component_str(&self.get_dynmaic_node_name(dynmaic_node_name))
               }
               IMAGE_TAG => {
                 self.component_set.insert(name.clone());
-                get_image_component_str(&format!("this.{}", &dynmaic_node_name))
+                get_image_component_str(&self.get_dynmaic_node_name(dynmaic_node_name))
               }
               _ => String::new(),
             };
@@ -256,6 +271,7 @@ impl TransformVisitor {
           expr: JSXExpr::Expr(jsx_expr),
           ..
         }) => {
+          println!("JSXElementChild:: {:?}", jsx_expr);
           // 如果套着 ()，则获取括号里面的内容
           if let Expr::Paren(ParenExpr { expr, .. }) = &mut **jsx_expr {
             *jsx_expr = expr.take();
@@ -266,16 +282,39 @@ impl TransformVisitor {
             }
             Expr::Call(CallExpr {
               callee: Callee::Expr(callee_expr),
+              args,
               ..
             }) => {
-              let mut tmpl = utils::create_normal_text_template(self);
-              if utils::is_render_fn(callee_expr) {
-                tmpl = utils::create_original_node_renderer(self);
+              // 如果这个child是一个loop， {xxx.map(item => <Xxx><x></x><x></x></Xxx>)}
+              if let Some(return_jsx) = utils::extract_jsx_loop(callee_expr, args) {
+                let loop_start = format!(
+                  "ForEach(this.{}.childNodes, (item: TaroElement) => {{\n",
+                  self.node_name.last().unwrap()
+                );
+                let loop_foot = "}, (item: TaroElement) => item._nid);";
+
+                // let loop_body = self.build_ets_children(&mut vec![JSXElementChild::JSXElement(return_jsx) ], None);
+
+                println!("start");
+                self.deal_loop_now = true;
+                self.node_name.push("item".to_string());
+                let loop_body = self.build_ets_element(return_jsx);
+                self.node_name.pop();
+                self.deal_loop_now = false;
+
+                children_string.push_str(&utils::add_spaces_to_lines(&loop_start));
+                children_string.push_str(&utils::add_spaces_to_lines(&loop_body));
+                children_string.push_str(&utils::add_spaces_to_lines(&loop_foot));
+              } else {
+                let mut tmpl = utils::create_normal_text_template(self, false);
+                if utils::is_render_fn(callee_expr) {
+                  tmpl = utils::create_original_node_renderer(self);
+                }
+                children_string.push_str(&tmpl);
               }
-              children_string.push_str(&tmpl);
             }
             _ => {
-              let code = utils::create_normal_text_template(self);
+              let code = utils::create_normal_text_template(self, false);
               children_string.push_str(&code);
             }
           };
@@ -285,7 +324,9 @@ impl TransformVisitor {
           let content = utils::jsx_text_to_string(&jsx_text.value);
           if !content.is_empty() {
             let current_path = self.get_current_node_path();
-            let code = utils::add_spaces_to_lines(get_text_component_str(&format!("this.{}", &current_path)).as_str());
+            let code = utils::add_spaces_to_lines(
+              get_text_component_str(&self.get_dynmaic_node_name(current_path)).as_str(),
+            );
 
             children_string.push_str(code.as_str());
             self.component_set.insert(TEXT_TAG.clone().to_string());
@@ -330,7 +371,9 @@ impl TransformVisitor {
           let current_path = self.get_current_node_path();
 
           self.component_set.insert(TEXT_TAG.to_string());
-          utils::add_spaces_to_lines(get_text_component_str(&format!("this.{}", &current_path)).as_str())
+          utils::add_spaces_to_lines(
+            get_text_component_str(&self.get_dynmaic_node_name(current_path)).as_str(),
+          )
         }
         Expr::Cond(cond_expr) => self.build_ets_cond_expr(cond_expr),
         _ => String::new(),
@@ -532,7 +575,9 @@ impl VisitMut for TransformVisitor {
   // https://rustdoc.swc.rs/swc_ecma_visit/trait.VisitMut.html
   // 半编译模式入口，遍历 jsx 语法树，寻找拥有 COMPILE_MODE 属性节点，预处理节点所在的子树，并根据子树信息生成 tmpl_contents
   fn visit_mut_jsx_element(&mut self, el: &mut JSXElement) {
+    // println!("visit_mut_jsx_element: {:?}", el);
     let mut tmpl_name = String::new();
+    // 遍历 JSX 元素的属性，寻找特定的 COMPILE_MODE 属性比如 <xxx COMPILE_MODE>xxx</xxx>
     for attr in &mut el.opening.attrs {
       if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
         if let JSXAttrName::Ident(jsx_attr_name) = &jsx_attr.name {
@@ -594,6 +639,8 @@ export default struct TARO_TEMPLATES_{name} {{
       self
         .templates
         .insert(tmpl_name, format!("`{}`", tmpl_contents));
+
+      //   println!("templates: {:?}", self.templates);
 
       // 数据清理
       self.node_stack.clear();
