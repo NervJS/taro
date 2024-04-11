@@ -1,3 +1,6 @@
+import { existsSync } from 'node:fs'
+import * as path from 'node:path'
+
 import * as hooks from '../constant'
 
 import type { IPluginContext } from '@tarojs/service'
@@ -27,8 +30,9 @@ export default (ctx: IPluginContext) => {
     name: 'create',
     optionsMap: {
       '--name [name]': '名称',
+      '--dir [dir]': '页面目录（创建页面时有效，默认src/pages）',
       '--description [description]': '介绍',
-      '--type [type]': '模版类型(page(默认)|plugin-command|plugin-build|plugin-template)'
+      '--type [type]': '模版类型(page(默认)|plugin-command|plugin-build|plugin-template)',
     },
     synopsisList: [
       'taro create page',
@@ -47,12 +51,24 @@ export default (ctx: IPluginContext) => {
           if (typeof name !== 'string') {
             return console.log(chalk.red('请输入需要创建的页面名称'))
           }
+          const firstCharCode = name.charCodeAt(0)
+          if (
+            encodeURIComponent(name) !== name ||
+            !((firstCharCode >= 65 && firstCharCode <= 90) || (firstCharCode >= 97 && firstCharCode <= 122))
+          ) {
+            return console.log(chalk.red('页面名称不合法'))
+          }
+          const pageDir = options.dir || 'src/pages'
+          if (existsSync(path.join(appPath, pageDir, name))) {
+            return console.log(chalk.red('页面已存在'))
+          }
 
           const Page = require('../../create/page').default
           const page = new Page({
             pageName: name,
             projectDir: appPath,
             description,
+            pageDir,
             async modifyCustomTemplateConfig (cb: TSetCustomTemplateConfig) {
               await ctx.applyPlugins({ name: hooks.MODIFY_CREATE_TEMPLATE, opts: cb })
             }

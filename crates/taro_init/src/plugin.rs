@@ -58,6 +58,7 @@ impl Plugin {
       typescript: None,
       template: self.template.clone(),
       page_name: None,
+      page_dir: None,
       compiler: None,
       set_page_name: None,
       change_ext: None,

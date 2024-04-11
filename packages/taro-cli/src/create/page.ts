@@ -1,4 +1,4 @@
-import { CompilerType, createPage as createPageBinding,CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
+import { CompilerType, createPage as createPageBinding, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
 import { chalk, DEFAULT_TEMPLATE_SRC, fs, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
 import { isNil } from 'lodash'
 import * as path from 'path'
@@ -15,6 +15,7 @@ export interface IPageConf {
   template: string
   description?: string
   pageName: string
+  pageDir: string
   date?: string
   framework: FrameworkType
   css: CSSType
@@ -24,7 +25,7 @@ export interface IPageConf {
   customTemplatePath?: string
 }
 interface IPageArgs extends IPageConf {
-  modifyCustomTemplateConfig : TGetCustomTemplate
+  modifyCustomTemplateConfig: TGetCustomTemplate
 }
 interface ITemplateInfo {
   css: CSSType
@@ -40,7 +41,7 @@ type TCustomTemplateInfo = Omit<ITemplateInfo & {
 
 export type TSetCustomTemplateConfig = (customTemplateConfig: TCustomTemplateInfo) => void
 
-type TGetCustomTemplate = (cb: TSetCustomTemplateConfig ) => Promise<void>
+type TGetCustomTemplate = (cb: TSetCustomTemplateConfig) => Promise<void>
 
 const DEFAULT_TEMPLATE_INFO = {
   name: 'default',
@@ -137,7 +138,7 @@ export default class Page extends Creator {
     this.conf.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
     // apply 插件，由插件设置自定义模版 config
     await this.modifyCustomTemplateConfig(this.setCustomTemplateConfig.bind(this))
-    if(!this.conf.isCustomTemplate){
+    if (!this.conf.isCustomTemplate) {
       const pkgTemplateInfo = this.getPkgTemplateInfo()
       this.setTemplateConfig(pkgTemplateInfo)
       if (!fs.existsSync(this.templatePath(this.conf.template))) {
@@ -178,6 +179,7 @@ export default class Page extends Creator {
       date: this.conf.date,
       description: this.conf.description,
       pageName,
+      pageDir: this.conf.pageDir,
       isCustomTemplate,
       customTemplatePath,
       basePageFiles: files,

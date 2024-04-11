@@ -52,6 +52,7 @@ pub async fn create_page(
     conf.template_root,
     conf.description,
     conf.page_name,
+    conf.page_dir,
     conf.date,
     conf.framework,
     conf.css,

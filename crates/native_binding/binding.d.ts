@@ -25,6 +25,7 @@ export interface CreateOptions {
   typescript?: boolean
   template: string
   pageName?: string
+  pageDir?: string
   compiler?: CompilerType
   setPageName?: string
   changeExt?: boolean
@@ -66,6 +67,7 @@ export interface Page {
   templateRoot: string
   description?: string
   pageName: string
+  pageDir: string
   date?: string
   framework: FrameworkType
   css: CSSType

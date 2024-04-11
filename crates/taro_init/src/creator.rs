@@ -32,6 +32,7 @@ pub struct CreateOptions {
   pub typescript: Option<bool>,
   pub template: String,
   pub page_name: Option<String>,
+  pub page_dir: Option<String>,
   pub compiler: Option<CompilerType>,
   pub set_page_name: Option<String>,
   pub change_ext: Option<bool>,

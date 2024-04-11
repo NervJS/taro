@@ -105,6 +105,7 @@ impl Project {
       typescript: self.typescript.clone(),
       template: self.template.clone(),
       page_name: Some("index".to_string()),
+      page_dir: None,
       compiler: self.compiler.clone(),
       set_page_name: None,
       change_ext: None,

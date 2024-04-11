@@ -8,17 +8,17 @@ const handler = {
   '/types/vue.d.ts' (err, { framework, typescript }) {
     return ['Vue', 'Vue3'].includes(framework) && !!typescript
   },
-  '/src/pages/index/index.jsx' (err, { pageName }) {
-    return { setPageName: `/src/pages/${pageName}/index.jsx` }
+  '/src/pages/index/index.jsx' (err, { pageName, pageDir }) {
+    return { setPageName: `${pageDir || '/src/pages'}/${pageName}/index.jsx` }
   },
-  '/src/pages/index/index.css' (err, { pageName }) {
-    return { setPageName: `/src/pages/${pageName}/index.css` }
+  '/src/pages/index/index.css' (err, { pageName, pageDir }) {
+    return { setPageName: `${pageDir || '/src/pages'}/${pageName}/index.css` }
   },
-  '/src/pages/index/index.vue' (err, { pageName }) {
-    return { setPageName: `/src/pages/${pageName}/index.vue` }
+  '/src/pages/index/index.vue' (err, { pageName, pageDir }) {
+    return { setPageName: `${pageDir || '/src/pages'}/${pageName}/index.vue` }
   },
-  '/src/pages/index/index.config.js' (err, { pageName }) {
-    return { setPageName: `/src/pages/${pageName}/index.config.js` }
+  '/src/pages/index/index.config.js' (err, { pageName, pageDir }) {
+    return { setPageName: `${pageDir || '/src/pages'}/${pageName}/index.config.js` }
   },
   '/_editorconfig' () {
     return { setPageName: `/.editorconfig` }
