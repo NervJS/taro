@@ -27,11 +27,27 @@ export class TaroElement<
   U extends BaseTouchEvent<any> = ITouchEvent
 > extends TaroNode {
   public _innerHTML = ''
-  public _instance: TaroAny
   public _nodeInfo: TaroAny = {
     layer: 0 // 渲染层级
   }
   
+  public hm_instance: TaroAny
+
+  public get _instance () {
+    return this.hm_instance
+  }
+
+  public set _instance (value) {
+    this.hm_instance = value
+    if (this._nodeInfo.aboutToAppear) {
+      let task
+      // eslint-disable-next-line no-cond-assign
+      while (task = this._nodeInfo.aboutToAppear.shift()) {
+        task()
+      }
+    }
+  }
+
   public readonly tagName: string
   public dataset: Record<string, unknown> = EMPTY_OBJ
   public _attrs: T & TaroExtraProps = {} as T & TaroExtraProps
@@ -319,6 +335,63 @@ export class TaroElement<
         })
       }
     }
+  }
+
+  // 设置动画  
+  public setAnimation (animationData) {
+    if (!this._instance) {
+      if (!this._nodeInfo.aboutToAppear) {
+        this._nodeInfo.aboutToAppear = []
+      }
+      this._nodeInfo.aboutToAppear.push(() => {
+        this.setAnimation(animationData)
+      })
+      return
+    }
+
+    // 防止动画闪烁，需要把第一帧的内容先设置上去设置初始样式
+    if (animationData && animationData.keyframes && animationData.keyframes[0] && animationData.keyframes[0].percentage === 0) {
+      this._instance.overwriteStyle = animationData.keyframes[0].event
+    }
+    
+    // 首次设置，不用实例替换
+    if (!this._nodeInfo.hasAnimation) {
+      this._nodeInfo.hasAnimation = true
+      setTimeout(() => {
+        this.playAnimation(animationData)
+      }, 0)
+    } else if (this.parentNode) {
+      const idx = this.parentNode.findIndex(this)
+      // Note: 因为keyframeAnimateTo无法暂停，华为没有支持，只能临时先换掉实例，重新创建ark节点，使得原本的keyframeAnimateTo失效
+      // remove
+      this.parentNode.childNodes.splice(idx, 1)
+      this.parentNode.notifyDataDelete(idx)
+
+      setTimeout(() => {
+        // insert
+        this.parentNode?.childNodes.splice(idx, 0, this)
+        this.parentNode?.notifyDataAdd(idx)
+
+        // 执行动画
+        if (animationData) {
+          this.playAnimation(animationData)
+        }
+      }, 0)
+    }
+  }
+
+  private playAnimation (animationData) {
+    this._instance.getUIContext?.().keyframeAnimateTo({
+      delay: animationData.params.delay,
+      iterations: animationData.params.iterations,
+    }, animationData.keyframes.map(item => {
+      return {
+        duration: item.duration,
+        event: () => {
+          this._instance.overwriteStyle = item.event
+        }
+      }
+    }))
   }
 }
 

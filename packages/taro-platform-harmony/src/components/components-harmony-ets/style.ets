@@ -151,26 +151,26 @@ class ColumnStyleModify extends CommonStyleModify {
 
 export function setAnimationAttributeIntoInstance(instance: CommonAttribute, overwriteStyle: Record<string, TaroAny>, style: TaroStyleType) {
   // Animation 需要提前和 @State 变量绑定才能产生动画效果，因此不能做 if else 判断
-  // instance.translate({
-  //   x: overwriteStyle.translate?.x || style.transform?.Translate?.x,
-  //   y: overwriteStyle.translate?.y || style.transform?.Translate?.y,
-  //   z: overwriteStyle.translate?.z || style.transform?.Translate?.z,
-  // })
-  // instance.scale({
-  //   x: overwriteStyle.scale?.x || style.transform?.Scale?.x,
-  //   y: overwriteStyle.scale?.y || style.transform?.Scale?.y,
-  //   z: overwriteStyle.scale?.z || style.transform?.Scale?.z,
-  //   centerX: overwriteStyle.transformOrigin?.x || style.transformOrigin?.x || 0,
-  //   centerY: overwriteStyle.transformOrigin?.y || style.transformOrigin?.y || 0,
-  // })
-  // instance.rotate({
-  //   x: overwriteStyle.rotate?.x || style.transform?.Rotate?.x,
-  //   y: overwriteStyle.rotate?.y || style.transform?.Rotate?.y,
-  //   z: overwriteStyle.rotate?.z || style.transform?.Rotate?.z,
-  //   centerX: overwriteStyle.transformOrigin?.x || style.transformOrigin?.x || 0,
-  //   centerY: overwriteStyle.transformOrigin?.y || style.transformOrigin?.y || 0,
-  //   angle: overwriteStyle.rotate?.angle || style.transform?.Rotate?.angle || 0,
-  // })
+  instance.translate({
+    x: overwriteStyle.transform?.Translate?.x || style.transform?.Translate?.x,
+    y: overwriteStyle.transform?.Translate?.y || style.transform?.Translate?.y,
+    z: overwriteStyle.transform?.Translate?.z || style.transform?.Translate?.z,
+  })
+  instance.scale({
+    x: overwriteStyle.transform?.Scale?.x || style.transform?.Scale?.x,
+    y: overwriteStyle.transform?.Scale?.y || style.transform?.Scale?.y,
+    z: overwriteStyle.transform?.Scale?.z || style.transform?.Scale?.z,
+    centerX: overwriteStyle.transformOrigin?.x || style.transformOrigin?.x || 0,
+    centerY: overwriteStyle.transformOrigin?.y || style.transformOrigin?.y || 0,
+  })
+  instance.rotate({
+    x: overwriteStyle.transform?.Rotate?.x || style.transform?.Rotate?.x,
+    y: overwriteStyle.transform?.Rotate?.y || style.transform?.Rotate?.y,
+    z: overwriteStyle.transform?.Rotate?.z || style.transform?.Rotate?.z,
+    centerX: overwriteStyle.transformOrigin?.x || style.transformOrigin?.x || 0,
+    centerY: overwriteStyle.transformOrigin?.y || style.transformOrigin?.y || 0,
+    angle: overwriteStyle.transform?.Rotate?.angle || style.transform?.Rotate?.angle || 0,
+  })
 }
 
 export function setNormalTextAttributeIntoInstance(instance: TextAttribute | SpanAttribute, style: HarmonyStyle, node?: TaroTextElement | null) {
@@ -366,34 +366,34 @@ export function setNormalAttributeIntoInstance(instance: CommonAttribute, style:
     // 为了适应position不设置z-index也能高于同层级组件，估且让设置了z-index的会更高一级
     instance.zIndex(style.zIndex + 1)
   }
-  if (!isUndefined(style.transform)) {
-    if (style.transform.Translate) {
-      instance.translate({
-        x: style.transform.Translate.x || 0,
-        y: style.transform.Translate.y || 0,
-        z: style.transform.Translate.z || 0,
-      })
-    }
-    if (style.transform.Scale) {
-      instance.scale({
-        x: style.transform.Scale.x || 0,
-        y: style.transform.Scale.y || 0,
-        z: style.transform.Scale.z || 0,
-        centerX: style.transformOrigin?.x || 0,
-        centerY: style.transformOrigin?.y || 0,
-      })
-    }
-    if (style.transform.Rotate) {
-      instance.rotate({
-        x: style.transform.Rotate.x || 0,
-        y: style.transform.Rotate.y || 0,
-        z: style.transform.Rotate.z || 0,
-        centerX: style.transformOrigin?.x || 0,
-        centerY: style.transformOrigin?.y || 0,
-        angle: style.transform.Rotate.angle
-      })
-    }
-  }
+  // if (!isUndefined(style.transform)) {
+  //   if (style.transform.Translate) {
+  //     instance.translate({
+  //       x: style.transform.Translate.x || 0,
+  //       y: style.transform.Translate.y || 0,
+  //       z: style.transform.Translate.z || 0,
+  //     })
+  //   }
+  //   if (style.transform.Scale) {
+  //     instance.scale({
+  //       x: style.transform.Scale.x || 0,
+  //       y: style.transform.Scale.y || 0,
+  //       z: style.transform.Scale.z || 0,
+  //       centerX: style.transformOrigin?.x || 0,
+  //       centerY: style.transformOrigin?.y || 0,
+  //     })
+  //   }
+  //   if (style.transform.Rotate) {
+  //     instance.rotate({
+  //       x: style.transform.Rotate.x || 0,
+  //       y: style.transform.Rotate.y || 0,
+  //       z: style.transform.Rotate.z || 0,
+  //       centerX: style.transformOrigin?.x || 0,
+  //       centerY: style.transformOrigin?.y || 0,
+  //       angle: style.transform.Rotate.angle
+  //     })
+  //   }
+  // }
 }
 
 export const pseudoModify = new PseudoStyleModify()

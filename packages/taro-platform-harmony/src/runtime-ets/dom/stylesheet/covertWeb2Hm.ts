@@ -455,6 +455,10 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: 
         }
         break
       }
+      case 'animation': {
+        // TODO：不支持解析Style上的动画参数
+        break
+      }
       default: {
         hmStyle[key] = value
         break

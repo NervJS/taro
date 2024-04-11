@@ -72,12 +72,11 @@ export function bindAnimation (node: TaroElement) {
           animateParams.curve = Curve[convertToCamelCase(timingFunction)] || Curve.EaseInOut
           Current.uiContext.animateTo(animateParams, () => {
             const transformOrigin: string = anim.transformOrigin
-
             if (transformOrigin) {
               const splitOrigin = transformOrigin.split(' ')
               Object.keys(anim.rule).forEach(key => {
                 if (key === 'transform') {
-                  const transform = ['scale', 'rotate'].includes(anim.rule[key])
+                  const transform = anim.rule[key]
                   Object.keys(transform).forEach((transformKey => {
                     if (['scale', 'rotate'].includes(transform[transformKey])) {
                       transform[transformKey] = ObjectAssign(transform[transformKey], {
@@ -90,7 +89,6 @@ export function bindAnimation (node: TaroElement) {
                 }
               })
             }
-
             node._instance.overwriteStyle = anim.rule
           })
         })
