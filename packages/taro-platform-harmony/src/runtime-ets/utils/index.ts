@@ -38,7 +38,7 @@ export function convertNumber2PX (value: number) {
   return pxTransformHelper(value, 'vp')
 }
 
-export function convertNumber2VP (value: number, unit = 'px') {
+export function convertNumber2VP (value: number, unit = 'px'): string | number {
   if (unit === 'vw' || unit === 'vh') {
     return (value / 100 * (unit === 'vw' ? display.width: display.height)) + 'px'
   }
