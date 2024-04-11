@@ -57,7 +57,7 @@ pub fn get_text_component_str (node_name: &str) -> String {
 }} else {{
   Text({node_id}.textContent)
   .onClick((e: ClickEvent) => eventHandler(e, 'click', {node_id} as TaroElement))
-  .textNormalFontStyle(getNormalAttributes({node_id}))\n{style_with_event}}}
+  .textNormalFontStyle(getNormalAttributes({node_id}  as TaroElement))\n{style_with_event}}}
 ",
   node_id = node_name,
   style = utils::add_spaces_to_lines_with_count(&get_component_attr_str(node_name, "text"), 4),
