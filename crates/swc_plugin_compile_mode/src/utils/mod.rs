@@ -416,7 +416,8 @@ pub fn create_normal_text_template(visitor: &mut TransformVisitor, disable_this:
   let node_name = if disable_this {
     String::from("item")
   } else {
-    format!("this.{}", &node_path)
+    visitor.get_dynmaic_node_name(node_path)
+
   };
 
   let code = add_spaces_to_lines(get_text_component_str(&node_name).as_str());
