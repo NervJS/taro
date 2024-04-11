@@ -7,7 +7,7 @@ import path from 'path'
 
 import increment from '../common/rollup-increment-plugin'
 import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
-import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule, stripMultiPlatformExt, stripVirtualModulePrefix } from '../utils'
+import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule, stripMultiPlatformExt, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
 import { DEFAULT_TERSER_OPTIONS, HARMONY_SCOPES } from '../utils/constants'
 import { logger } from '../utils/logger'
 import { TARO_COMP_SUFFIX } from './entry'
@@ -185,14 +185,18 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           let name
           if (taroConfig.isBuildNativeComp || taroConfig.blended) {
             const pagePath = path.relative(taroConfig.sourceRoot || 'src', path.dirname(stripVirtualModulePrefix(chunkInfo.facadeModuleId || '')))
-            name = path.join(pagePath, chunkInfo.name)
+            if (chunkInfo.name.includes(pagePath)) {
+              name = chunkInfo.name
+            } else {
+              name = path.join(pagePath, chunkInfo.name)
+            }
           } else {
             name = chunkInfo.name
           }
 
           const appId = viteCompilerContext.app.config.appId || 'app'
           const isTaroComp = appId === name || viteCompilerContext.pages.some(page => page.name === name) || viteCompilerContext.components?.some(comp => comp.name === name)
-          name = stripMultiPlatformExt(`${name}${isTaroComp ? TARO_COMP_SUFFIX : ''}`) + taroConfig.fileType.script
+          name = stripMultiPlatformExt(`${name}${isTaroComp && virtualModulePrefixREG.test(chunkInfo.facadeModuleId || '') ? TARO_COMP_SUFFIX : ''}`) + taroConfig.fileType.script
 
           if (chunkInfo.facadeModuleId && chunkInfo.facadeModuleId.includes(QUERY_IS_NATIVE_SCRIPT)) {
             name += QUERY_IS_NATIVE_SCRIPT
