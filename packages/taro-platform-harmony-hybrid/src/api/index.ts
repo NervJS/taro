@@ -18,9 +18,9 @@ function logFun (funObj, message) {
   return new Proxy(funObj, {
     apply (target, thisArg, args) {
       // eslint-disable-next-line no-console
-      console.log(`${message}, 参数为 ${safeStringify(args)}`)
+      console.debug('%s, 参数为: %s', message, safeStringify(args))
       return target.apply(thisArg, args)
-    }
+    },
   })
 }
 
@@ -31,7 +31,7 @@ function logObj (obj) {
         const value = target[property]
         // @ts-ignore
         // eslint-disable-next-line no-console
-        console.log(`调用 native ${property} property，结果为：${safeStringify(value)} `)
+        console.debug('调用 native %o property，结果为：%s ', property, safeStringify(value))
         return value
       }
 
@@ -53,12 +53,11 @@ function logObj (obj) {
         }
 
         const result = target[property].apply(this, args)
-        log = `${log}, 返回值为${safeStringify(result)}`
         // eslint-disable-next-line no-console
-        console.log(`${log}`)
+        console.debug('%s, 返回值为: %s', log, safeStringify(result))
         return result
       }
-    }
+    },
   })
 }
 

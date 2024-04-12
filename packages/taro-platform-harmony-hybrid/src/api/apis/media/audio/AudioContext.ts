@@ -2,7 +2,7 @@ import Taro from '@tarojs/api'
 
 /**
  * AudioContext 实例
- * 
+ *
  * @canUse AudioContext
  * @__class [pause, play, seek, setSrc]
  */
