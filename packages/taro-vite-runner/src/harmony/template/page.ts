@@ -212,7 +212,7 @@ export default class Parser extends BaseParser {
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
 
     // 生成 aboutToAppear 函数内容
-    let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as string[]).concat(
+    let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as unknown[]).concat(
       this.buildConfig.isBuildNativeComp ? [] :[
         'const state = this.getPageState()',
         'if (this.pageStack.length >= state.index) {',
@@ -233,7 +233,7 @@ export default class Parser extends BaseParser {
       [
         'Current.page.layerNode = this.layerNode',
         'Current.page.layerParents = Current.page.layerParents || []',
-        this.isTabbarPage ? 'Current.page.layerParents[index] = []' : ''
+        this.isTabbarPage ? 'Current.page.layerParents[index] = []' : null
       ]
     ))}`
 
