@@ -867,7 +867,7 @@ export default class Convertor {
           if (needInsertImportTaro && !hasTaroImport(bodyNode)) {
             // 根据模块类型（commonjs/es6) 确定导入taro模块的类型
             if (isCommonjsModule(ast.program.body as any)) {
-              ;(astPath.node as t.Program).body.unshift(
+              (astPath.node as t.Program).body.unshift(
                 t.variableDeclaration('const', [
                   t.variableDeclarator(
                     t.identifier('Taro'),
@@ -876,7 +876,7 @@ export default class Convertor {
                 ])
               )
             } else {
-              ;(astPath.node as t.Program).body.unshift(
+              (astPath.node as t.Program).body.unshift(
                 t.importDeclaration([t.importDefaultSpecifier(t.identifier('Taro'))], t.stringLiteral('@tarojs/taro'))
               )
             }

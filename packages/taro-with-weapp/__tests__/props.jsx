@@ -157,7 +157,7 @@ describe('lifecycle', () => {
 
     @withWeapp({
       attached () {
-        this.triggerEvent('fork','a')
+        this.triggerEvent('fork', 'a')
       }
     })
     class A extends TaroComponent {

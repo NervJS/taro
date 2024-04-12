@@ -59,5 +59,4 @@ export class AnchorElement extends TaroElement {
       super.setAttribute(qualifiedName, value)
     }
   }
-
 }

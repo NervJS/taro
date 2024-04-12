@@ -288,7 +288,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 export function createComponentConfig (component: React.ComponentClass, componentName?: string, data?: Record<string, unknown>) {
   const id = componentName ?? `taro_component_${pageId()}`
   let componentElement: TaroRootElement | null = null
-  const [ ATTACHED, DETACHED ] = hooks.call('getMiniLifecycleImpl')!.component
+  const [ATTACHED, DETACHED] = hooks.call('getMiniLifecycleImpl')!.component
 
   const config: any = {
     [ATTACHED] () {
@@ -336,7 +336,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
 
 export function createRecursiveComponentConfig (componentName?: string) {
   const isCustomWrapper = componentName === CUSTOM_WRAPPER
-  const [ ATTACHED, DETACHED ] = hooks.call('getMiniLifecycleImpl')!.component
+  const [ATTACHED, DETACHED] = hooks.call('getMiniLifecycleImpl')!.component
 
   const lifeCycles = isCustomWrapper
     ? {
@@ -384,5 +384,6 @@ export function createRecursiveComponentConfig (componentName?: string) {
       methods: {
         eh: eventHandler
       },
-      ...lifeCycles }, { isCustomWrapper })
+      ...lifeCycles
+    }, { isCustomWrapper })
 }

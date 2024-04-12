@@ -41,7 +41,7 @@ function getEnv (config: IProjectConfig) {
 function getDefineConstants (config: IProjectConfig) {
   const env = getEnv(config)
   const constantsToParse = config.rnconfig?.defineConstants || config?.defineConstants
-  
+
   return {
     ...(constantsToParse ? parseDefineConst(constantsToParse) : {}),
     ...env

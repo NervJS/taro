@@ -25,7 +25,7 @@ export class PageProvider extends React.Component<any> {
 
   componentDidMount (): void {
     const { navigation } = this.props
-    if(navigation){
+    if (navigation) {
       this.unSubscribleFocus = this.props.navigation.addListener('focus', () => {
         if (navigationRef && navigationRef?.current) {
           navigationRef.current.setOptions = navigation.setOptions
