@@ -51,7 +51,7 @@ export default defineAppConfig({
     'pages/api/alipay/index',
     'pages/api/analysis/index',
     'pages/api/basics/basics/index',
-    'pages/api/basics/debug/index',
+    'pages/api/basics/nativeDebug/index',
     'pages/api/basics/encryption/index',
     'pages/api/basics/miniProgram/index',
     'pages/api/basics/performance/index',
