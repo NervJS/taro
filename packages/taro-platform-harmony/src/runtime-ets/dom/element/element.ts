@@ -357,6 +357,7 @@ export class TaroElement<
     // 首次设置，不用实例替换
     if (!this._nodeInfo.hasAnimation) {
       this._nodeInfo.hasAnimation = true
+      // 下一帧播放，等节点样式首次设置上去在进行覆盖
       setTimeout(() => {
         this.playAnimation(animationData)
       }, 0)
@@ -367,6 +368,7 @@ export class TaroElement<
       this.parentNode.childNodes.splice(idx, 1)
       this.parentNode.notifyDataDelete(idx)
 
+      // 下一帧播放，等实例被移除掉，再重新插入
       setTimeout(() => {
         // insert
         this.parentNode?.childNodes.splice(idx, 0, this)
