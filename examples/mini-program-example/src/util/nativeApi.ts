@@ -1,7 +1,10 @@
+// @ts-ignore
+const decorator = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true }) || (target => target)
+
 // @proxyClassSign('')
 class NativeApi {
   // @ts-ignore
-  @window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @decorator
   harmonyNavigateTo(options: any) {
     return options
   }

@@ -1,788 +1,797 @@
 import osChannelApi from './osChannelApi'
 import { RequestTask } from './request'
 
+// @ts-ignore
+const syncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true }) || (target => target)
+// @ts-ignore
+const syncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: false }) || (target => target)
+// @ts-ignore
+const asyncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true }) || (target => target)
+// @ts-ignore
+const asyncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false }) || (target => target)
+
 class NativeApi {
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getWindowInfo (): any {
     return ''
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getDeviceInfo (): any {
     return ''
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getSystemInfoSync (): any {
     return ''
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getSystemSetting (): any {
     return ''
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAppBaseInfo (): any {
     return ''
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAppAuthorizeSetting (): any {
     return ''
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   navigateToMiniProgram (options: any) {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setNavigationBarColor (options: any) {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getMenuButtonBoundingClientRect (): any {
     return ''
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   request (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   saveDataUrlToFile (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   copyFileToSandboxCache (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   startAccelerometer (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   stopAccelerometer (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   onAccelerometerChange (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   offAccelerometerChange (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   startCompass (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   stopCompass (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   onCompassChange (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   offCompassChange (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   startGyroscope (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   stopGyroscope (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   onGyroscopeChange (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   saveImageToPhotosAlbum (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   chooseMediaAssets (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getVideoInfo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getImageInfo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   compressVideo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getLocation (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   openDocument (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   login (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setNavigationStyle (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getUserInfo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   openSetting (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   getSetting (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setKeepScreenOn (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   onUserCaptureScreen (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   offUserCaptureScreen (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   onLocationChange (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   offLocationChange (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setScreenBrightness (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getScreenBrightness (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   onMemoryWarning (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   offMemoryWarning (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   hideKeyboard (options?: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   onKeyboardHeightChange (options?: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   offKeyboardHeightChange (options?: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   makePhoneCall (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getSavedFileList (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   removeSavedFile (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getSavedFileInfo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   addPhoneContact (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   scanCode (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   vibrateShort (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   vibrateLong (options: any): any {
     return options
   }
 
   // NativeUpdateManager
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   applyUpdate (): any {}
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   onCheckForUpdate (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   onUpdateFailed (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   onUpdateReady (options: any): any {
     return options
   }
 
   // NativeAContextApi
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   createInnerAudioContext (): any {}
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   innerAudioStop (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   innerAudioPlay (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: false }))
+  @(syncAndNotRelease)
   innerAudioOnPlay (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: false }))
+  @(syncAndNotRelease)
   innerAudioOnStop (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: false }))
+  @(syncAndNotRelease)
   innerAudioOnError (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: false }))
+  @(syncAndNotRelease)
   innerAudioOnEnded (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAudioContextVolume (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setAudioContextVolume (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAudioContextStartTime (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setAudioContextStartTime (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAudioContextPlaybackRate (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setAudioContextPlaybackRate (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAudioContextPaused (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setAudioContextPaused (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAudioContextObeyMuteSwitch (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setAudioContextObeyMuteSwitch (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAudioContextLoop (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setAudioContextLoop (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAudioContextDuration (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setAudioContextDuration (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAudioContextCurrentTime (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setAudioContextCurrentTime (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAudioContextBuffered (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setAudioContextBuffered (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAudioContextAutoplay (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setAudioContextAutoplay (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getAudioContextSrc (option: any, _: number) {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setAudioContextSrc (option: any, _: number) {
     return option
   }
 
   // NativeUploadFile
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   uploadFile (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   downloadFile (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   abort (option: any, _: number): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   offHeadersReceived (option: any, _: number): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   offProgressUpdate (option: any, _: number): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   onHeadersReceived (option: any, _: number): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   onProgressUpdate (option: any, _: number): any {
     return option
   }
 
   // NativeFileSystemManager
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getFileManager (): any {}
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   access (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   saveFile (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   getFileInfo (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   readFile (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   readFileSync (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   openAppAuthorizeSetting (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   requestSubscribeMessage (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   closeBLEConnection (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   createBLEConnection (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getBLEDeviceCharacteristics (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getBLEDeviceRSSI (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getBLEDeviceServices (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   notifyBLECharacteristicValueChange (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   onBLECharacteristicValueChange (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   onBLEConnectionStateChange (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   readBLECharacteristicValue (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   setBLEMTU (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   writeBLECharacteristicValue (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   closeBluetoothAdapter (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getBluetoothAdapterState (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getBluetoothDevices (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getConnectedBluetoothDevices (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   offBluetoothAdapterStateChange (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   offBluetoothDeviceFound (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   onBluetoothAdapterStateChange (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   onBluetoothDeviceFound (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   openBluetoothAdapter (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   startBluetoothDevicesDiscovery (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   stopBluetoothDevicesDiscovery (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: false, autoRelease: true }))
+  @(syncAndRelease)
   getExecStatus (option: any): any {
     // 获取缓存数据
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: false }))
+  @(asyncAndNotRelease)
   setStorage (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: true }))
+  @(asyncAndRelease)
   removeStorage (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: true }))
+  @(asyncAndRelease)
   getStorage (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: true }))
+  @(asyncAndRelease)
   getStorageInfo (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @(window.MethodChannel?.jsBridgeMode({ isAsync: true, autoRelease: true }))
+  @(asyncAndRelease)
   clearStorage (option: any): any {
     return option
   }
