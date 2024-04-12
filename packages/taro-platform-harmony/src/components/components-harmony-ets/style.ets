@@ -36,6 +36,11 @@ class TextStyleModify implements AttributeModifier<TextAttribute> {
 
   setAnimationStyle (overwriteStyle: Record<string, TaroAny>) {
     this.overwriteStyle = overwriteStyle
+    if (this.style && this.overwriteStyle) {
+      Object.keys(this.overwriteStyle).forEach(key => {
+        this.style![key] = this.overwriteStyle[key]
+      })
+    }
     return this
   }
 
@@ -43,12 +48,12 @@ class TextStyleModify implements AttributeModifier<TextAttribute> {
     if (this.node && this.style) {
       if (this.withNormal) {
         setNormalAttributeIntoInstance(instance, this.style, this.node)
+        setTransformAttributeIntoInstance(instance, this.style || {})
       }
       setNormalTextAttributeIntoInstance(instance, this.style, this.node)
       setSpecialTextAttributeIntoInstance(instance, this.style, this.node)
     }
 
-    setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
   }
 }
 
@@ -87,9 +92,8 @@ class CommonStyleModify implements AttributeModifier<CommonAttribute> {
   applyNormalAttribute(instance: CommonAttribute): void {
     if (this.node && this.style) {
       setNormalAttributeIntoInstance(instance, this.style, this.node)
+      setTransformAttributeIntoInstance(instance, this.style || {})
     }
-
-    setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
   }
 }
 
@@ -123,9 +127,9 @@ class RowStyleModify extends CommonStyleModify {
         instance.alignItems(FlexManager.alignItems<VerticalAlign>(this.node))
         instance.justifyContent(FlexManager.justifyContent(this.node))
       }
+      setTransformAttributeIntoInstance(instance, this.style || {})
     }
 
-    setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
   }
 }
 
@@ -143,33 +147,33 @@ class ColumnStyleModify extends CommonStyleModify {
         instance.alignItems(FlexManager.alignItems<HorizontalAlign>(this.node))
         instance.justifyContent(FlexManager.justifyContent(this.node))
       }
+      setTransformAttributeIntoInstance(instance, this.style || {})
     }
 
-    setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
   }
 }
 
-export function setAnimationAttributeIntoInstance(instance: CommonAttribute, overwriteStyle: Record<string, TaroAny>, style: TaroStyleType) {
+export function setTransformAttributeIntoInstance(instance: CommonAttribute, style: TaroStyleType) {
   // Animation 需要提前和 @State 变量绑定才能产生动画效果，因此不能做 if else 判断
   instance.translate({
-    x: overwriteStyle.transform?.Translate?.x || style.transform?.Translate?.x,
-    y: overwriteStyle.transform?.Translate?.y || style.transform?.Translate?.y,
-    z: overwriteStyle.transform?.Translate?.z || style.transform?.Translate?.z,
+    x: style.transform?.Translate?.x,
+    y: style.transform?.Translate?.y,
+    z: style.transform?.Translate?.z,
   })
   instance.scale({
-    x: overwriteStyle.transform?.Scale?.x || style.transform?.Scale?.x,
-    y: overwriteStyle.transform?.Scale?.y || style.transform?.Scale?.y,
-    z: overwriteStyle.transform?.Scale?.z || style.transform?.Scale?.z,
-    centerX: overwriteStyle.transformOrigin?.x || style.transformOrigin?.x || 0,
-    centerY: overwriteStyle.transformOrigin?.y || style.transformOrigin?.y || 0,
+    x: style.transform?.Scale?.x,
+    y: style.transform?.Scale?.y,
+    z: style.transform?.Scale?.z,
+    centerX: style.transformOrigin?.x || 0,
+    centerY: style.transformOrigin?.y || 0,
   })
   instance.rotate({
-    x: overwriteStyle.transform?.Rotate?.x || style.transform?.Rotate?.x,
-    y: overwriteStyle.transform?.Rotate?.y || style.transform?.Rotate?.y,
-    z: overwriteStyle.transform?.Rotate?.z || style.transform?.Rotate?.z,
-    centerX: overwriteStyle.transformOrigin?.x || style.transformOrigin?.x || 0,
-    centerY: overwriteStyle.transformOrigin?.y || style.transformOrigin?.y || 0,
-    angle: overwriteStyle.transform?.Rotate?.angle || style.transform?.Rotate?.angle || 0,
+    x: style.transform?.Rotate?.x,
+    y: style.transform?.Rotate?.y,
+    z: style.transform?.Rotate?.z,
+    centerX: style.transformOrigin?.x || 0,
+    centerY: style.transformOrigin?.y || 0,
+    angle: style.transform?.Rotate?.angle || 0,
   })
 }
 
