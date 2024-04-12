@@ -77,7 +77,7 @@ class Input extends React.Component<IProps, null> {
   }
 
   UNSAFE_componentWillReceiveProps (nextProps: Readonly<IProps>) {
-    if(!this.props.focus && nextProps.focus && this.inputRef) this.inputRef.focus()
+    if (!this.props.focus && nextProps.focus && this.inputRef) this.inputRef.focus()
   }
 
 

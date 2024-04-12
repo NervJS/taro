@@ -316,7 +316,6 @@ export class BaseTemplate {
           ? `<template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />`
           : `<template is="{{'tmpl_' + c + '_' + item.nn}}" data="{{${data}}}" />`
     }
-
   }
 
   private getChildren (comp: Component, level: number): string {
