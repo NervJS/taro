@@ -1189,6 +1189,9 @@ importers:
       sass:
         specifier: ^1.58.3
         version: registry.npmjs.org/sass@1.69.7
+      stencil-solid-output-target:
+        specifier: 0.1.3
+        version: registry.npmjs.org/stencil-solid-output-target@0.1.3(@stencil/core@2.22.3)
       stencil-vue2-output-target:
         specifier: 0.0.4
         version: registry.npmjs.org/stencil-vue2-output-target@0.0.4(@stencil/core@2.22.3)
@@ -9166,7 +9169,7 @@ packages:
     resolution: {integrity: sha512-xebP81SNcPuNpPP3uzeW1NYXxI3rxyJzF3pD6sH4jE7o/IX+WtSpwnVU+qIsDPyk0d3hmFQ7mjqc6AtV604hbg==, tarball: https://registry.npmjs.org/update-browserslist-db/-/update-browserslist-db-1.0.13.tgz}
     hasBin: true
     peerDependencies:
-      browserslist: ^4.23.0
+      browserslist: '>= 4.21.0'
     dependencies:
       browserslist: 4.23.0
       escalade: 3.1.1
@@ -31515,6 +31518,33 @@ packages:
       path-scurry: registry.npmjs.org/path-scurry@1.7.0
     dev: false
 
+  registry.npmjs.org/glob@10.3.12:
+    resolution: {integrity: sha512-TCNv8vJ+xz4QiqTpfOJA7HvYv+tNIRHKfUWw/q+v2jdgN4ebz+KY9tGx5J4rHP0o84mNP+ApH66HRX8us3Khqg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/glob/-/glob-10.3.12.tgz}
+    name: glob
+    version: 10.3.12
+    engines: {node: '>=16 || 14 >=14.17'}
+    hasBin: true
+    dependencies:
+      foreground-child: registry.npmjs.org/foreground-child@3.1.1
+      jackspeak: registry.npmjs.org/jackspeak@2.3.6
+      minimatch: registry.npmjs.org/minimatch@9.0.1
+      minipass: registry.npmjs.org/minipass@7.0.4
+      path-scurry: registry.npmjs.org/path-scurry@1.10.2
+    dev: true
+
+  registry.npmjs.org/glob@6.0.4:
+    resolution: {integrity: sha512-MKZeRNyYZAVVVG1oZeLaWie1uweH40m9AZwIwxyPbTSX4hHrVYSzLg0Ro5Z5R7XKkIX+Cc6oD1rqeDJnwsB8/A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/glob/-/glob-6.0.4.tgz}
+    name: glob
+    version: 6.0.4
+    requiresBuild: true
+    dependencies:
+      inflight: 1.0.6
+      inherits: 2.0.4
+      minimatch: 3.1.2
+      once: 1.4.0
+      path-is-absolute: 1.0.1
+    optional: true
+
   registry.npmjs.org/glob@7.1.2:
     resolution: {integrity: sha512-MJTUg1kjuLeQCJ+ccE4Vpa6kKVXkPYJ2mOCQyUuKLcLQsdrMCpBPUi8qVE6+YuaJkozeA9NusTAw3hLr8Xe5EQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/glob/-/glob-7.1.2.tgz}
     name: glob
@@ -32527,6 +32557,12 @@ packages:
     version: 8.0.3
     engines: {node: '>=14'}
     hasBin: true
+    dev: true
+
+  registry.npmjs.org/hyper-dom-expressions@0.33.14:
+    resolution: {integrity: sha512-LOIT+exFceP+lpreBSj7UIx7Xhmpxw9pB5FIReCTp37GX0jOjGG88LiIM8oqsYjXhIIJtBSZKQN/i1ITS8SAUQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/hyper-dom-expressions/-/hyper-dom-expressions-0.33.14.tgz}
+    name: hyper-dom-expressions
+    version: 0.33.14
     dev: true
 
   registry.npmjs.org/iconv-lite@0.4.24:
@@ -33815,6 +33851,28 @@ packages:
       '@isaacs/cliui': registry.npmjs.org/@isaacs/cliui@8.0.2
     optionalDependencies:
       '@pkgjs/parseargs': 0.11.0
+
+  registry.npmjs.org/jackspeak@2.3.6:
+    resolution: {integrity: sha512-N3yCS/NegsOBokc8GAdM8UcmfsKiSS8cipheD/nivzr700H+nsMOxJjQnvwOcRYVuFkdH0wGUvW2WbXGmrZGbQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jackspeak/-/jackspeak-2.3.6.tgz}
+    name: jackspeak
+    version: 2.3.6
+    engines: {node: '>=14'}
+    dependencies:
+      '@isaacs/cliui': registry.npmjs.org/@isaacs/cliui@8.0.2
+    optionalDependencies:
+      '@pkgjs/parseargs': registry.npmjs.org/@pkgjs/parseargs@0.11.0
+    dev: true
+
+  registry.npmjs.org/jackspeak@2.3.6:
+    resolution: {integrity: sha512-N3yCS/NegsOBokc8GAdM8UcmfsKiSS8cipheD/nivzr700H+nsMOxJjQnvwOcRYVuFkdH0wGUvW2WbXGmrZGbQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jackspeak/-/jackspeak-2.3.6.tgz}
+    name: jackspeak
+    version: 2.3.6
+    engines: {node: '>=14'}
+    dependencies:
+      '@isaacs/cliui': registry.npmjs.org/@isaacs/cliui@8.0.2
+    optionalDependencies:
+      '@pkgjs/parseargs': registry.npmjs.org/@pkgjs/parseargs@0.11.0
+    dev: true
 
   registry.npmjs.org/javascript-stringify@1.6.0:
     resolution: {integrity: sha512-fnjC0up+0SjEJtgmmG+teeel68kutkvzfctO/KxE3qJlbunkJYAshgH3boU++gSBHP8z5/r0ts0qRIrHf0RTQQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/javascript-stringify/-/javascript-stringify-1.6.0.tgz}
@@ -36862,6 +36920,13 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  registry.npmjs.org/lru-cache@10.2.0:
+    resolution: {integrity: sha512-2bIM8x+VAf6JT4bKAljS1qUWgMsqZRPGJS6FSahIMPVvctcNhyVp7AJu7quxOW9jwkryBReKZY5tY5JYv2n/7Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lru-cache/-/lru-cache-10.2.0.tgz}
+    name: lru-cache
+    version: 10.2.0
+    engines: {node: 14 || >=16.14}
+    dev: true
+
   registry.npmjs.org/lru-cache@4.1.5:
     resolution: {integrity: sha512-sWZlbEP2OsHNkXrMl5GYk/jKk70MBng6UU4YI/qGDYbgf6YbP4EvmqISbXCoJiRKs+1bSpFHVgQxvJ17F2li5g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lru-cache/-/lru-cache-4.1.5.tgz}
     name: lru-cache
@@ -37743,6 +37808,13 @@ packages:
     name: minipass
     version: 5.0.0
     engines: {node: '>=8'}
+
+  registry.npmjs.org/minipass@7.0.4:
+    resolution: {integrity: sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minipass/-/minipass-7.0.4.tgz}
+    name: minipass
+    version: 7.0.4
+    engines: {node: '>=16 || 14 >=14.17'}
+    dev: true
 
   registry.npmjs.org/miniprogram-api-typings@3.9.1:
     resolution: {integrity: sha512-oyratzOWyuFhBzONp06l0FBPu03ltCd1sRWoy2v38SnAKxtpZ8ySLTSEw//hIsBdocMda7fFZEjOG57L57mcUw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/miniprogram-api-typings/-/miniprogram-api-typings-3.9.1.tgz}
@@ -39425,6 +39497,16 @@ packages:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/path-parse/-/path-parse-1.0.7.tgz}
     name: path-parse
     version: 1.0.7
+
+  registry.npmjs.org/path-scurry@1.10.2:
+    resolution: {integrity: sha512-7xTavNy5RQXnsjANvVvMkEjvloOinkAjv/Z6Ildz9v2RinZ4SBKTWFOVRbaF8p0vpHnyjV/UwNDdKuUv6M5qcA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/path-scurry/-/path-scurry-1.10.2.tgz}
+    name: path-scurry
+    version: 1.10.2
+    engines: {node: '>=16 || 14 >=14.17'}
+    dependencies:
+      lru-cache: registry.npmjs.org/lru-cache@10.2.0
+      minipass: registry.npmjs.org/minipass@7.0.4
+    dev: true
 
   registry.npmjs.org/path-scurry@1.7.0:
     resolution: {integrity: sha512-UkZUeDjczjYRE495+9thsgcVgsaCPkaw80slmfVFgllxY+IO8ubTsOpFVjDPROBqJdHfVPUFRHPBV/WciOVfWg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/path-scurry/-/path-scurry-1.7.0.tgz}
@@ -44617,6 +44699,20 @@ packages:
     name: std-env
     version: 3.3.3
     dev: false
+
+  registry.npmjs.org/stencil-solid-output-target@0.1.3(@stencil/core@2.22.3):
+    resolution: {integrity: sha512-PtV3kACvu3Jr1miQ2/YYbpqgIf65qfVWajT3c0rtFZhBLCWK7ge2bNCHbMOXQJcqQta0+aI/TxLHVSkf+gy7dQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/stencil-solid-output-target/-/stencil-solid-output-target-0.1.3.tgz}
+    id: registry.npmjs.org/stencil-solid-output-target/0.1.3
+    name: stencil-solid-output-target
+    version: 0.1.3
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@stencil/core': ^2
+    dependencies:
+      '@stencil/core': registry.npmjs.org/@stencil/core@2.22.3
+      glob: registry.npmjs.org/glob@10.3.12
+      hyper-dom-expressions: registry.npmjs.org/hyper-dom-expressions@0.33.14
+    dev: true
 
   registry.npmjs.org/stencil-vue2-output-target@0.0.4(@stencil/core@2.22.3):
     resolution: {integrity: sha512-57E0J3Wc8hs3Is2AnZWbxEHhUMrPoJtR8rSPpacYVudd4n+n6LJwT5Ubm3jQv8TF3QZ33ry5lRPkLk9yN+xUuQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/stencil-vue2-output-target/-/stencil-vue2-output-target-0.0.4.tgz}

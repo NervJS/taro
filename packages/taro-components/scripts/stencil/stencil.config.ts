@@ -2,7 +2,7 @@ import { Config } from '@stencil/core'
 import { OutputTarget } from '@stencil/core/internal'
 import externals from 'rollup-plugin-node-externals'
 
-import { reactOutputTarget, vue2OutputTarget, vue3OutputTarget } from './output-target'
+import { reactOutputTarget, solidOutputTarget, vue2OutputTarget, vue3OutputTarget } from './output-target'
 import scssPlugin from './plugin/sass-plugin'
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -50,6 +50,12 @@ const outputTargets: OutputTarget[] = [
     customElementsDir: 'dist/components',
     includeImportCustomElements: true,
     proxiesFile: '../taro-components-library-vue3/src/components.ts',
+  }),
+  solidOutputTarget({
+    componentCorePackage: '@tarojs/components',
+    customElementsDir: 'dist/components',
+    includeImportCustomElements: true,
+    proxiesFile: '../taro-components-library-react/src/components.ts',
   }),
   {
     type: 'dist',
