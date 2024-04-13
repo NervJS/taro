@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/transformer-wx",
-  "version": "4.0.0-beta.43",
+  "version": "4.0.0-beta.45",
   "description": "Transfrom Nerv Component to Wechat mini program.",
   "repository": {
     "type": "git",

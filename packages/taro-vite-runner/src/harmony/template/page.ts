@@ -21,15 +21,16 @@ export interface IMethod {
 }
 
 export interface TaroHarmonyPageMeta extends VitePageMeta {
+  originName: string
   entryOption?: Record<string, unknown>
 
   modifyRenderState?: (this: Parser, state: (string | null)[]) => void
 
   modifyPageParams?: (this: Parser, paramsString: string) => string
 
-  modifyPageImport?: (this: Parser, importStr: string[]) => void
+  modifyPageImport?: (this: Parser, importStr: string[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => void
 
-  modifyPageAppear?: (this: Parser, appearStr: string) => string
+  modifyPageAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
   modifyPageBuild?: (this: Parser, buildStr: string) => string
 
@@ -211,7 +212,7 @@ export default class Parser extends BaseParser {
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
 
     // 生成 aboutToAppear 函数内容
-    let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as string[]).concat(
+    let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as unknown[]).concat(
       this.buildConfig.isBuildNativeComp ? [] :[
         'const state = this.getPageState()',
         'if (this.pageStack.length >= state.index) {',
@@ -232,12 +233,12 @@ export default class Parser extends BaseParser {
       [
         'Current.page.layerNode = this.layerNode',
         'Current.page.layerParents = Current.page.layerParents || []',
-        this.isTabbarPage ? 'Current.page.layerParents[index] = []' : ''
+        this.isTabbarPage ? 'Current.page.layerParents[index] = []' : null
       ]
     ))}`
 
     if (isFunction(modifyPageAppear)) {
-      appearStr = modifyPageAppear.call(this, appearStr)
+      appearStr = modifyPageAppear.call(this, appearStr, page)
     }
 
     // 生成 build 函数内容
@@ -925,6 +926,9 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
   parse (rawId: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[], name = 'TaroPage', resolve?: TRollupResolveMethod) {
     const { modifyResolveId } = this.loaderMeta
+    const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
+    const targetRoot = path.resolve(this.appPath, sourceRoot)
+
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
     this.isTabbarPage = page instanceof Array
     const pageRefresh: boolean[] = page instanceof Array
@@ -936,8 +940,6 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       this.enableRefresh = pageRefresh.some(e => !!e) ? 2 : 0
     }
 
-    const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
-    const targetRoot = path.resolve(this.appPath, sourceRoot)
     let renderPath = path.posix.normalize(path.relative(
       path.dirname(rawId),
       path.join(targetRoot, 'render')
@@ -961,7 +963,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
     const modifyPageImport = page instanceof Array ? page[0].modifyPageImport : page.modifyPageImport
     if (isFunction(modifyPageImport)) {
-      modifyPageImport.call(this, importList)
+      modifyPageImport.call(this, importList, page)
     }
 
     const code = this.transArr2Str([
@@ -983,7 +985,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
           '}',
         ]
         : [
-          `import createComponent, { config } from "${rawId + TARO_COMP_SUFFIX}"`,
+          `import createComponent, { config } from "${path.resolve(targetRoot, (page as TaroHarmonyPageMeta).originName) + TARO_COMP_SUFFIX}"`,
           isBlended && this.#setReconcilerPost ? this.#setReconcilerPost : null,
         ],
       '',

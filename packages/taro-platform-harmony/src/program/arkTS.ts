@@ -259,8 +259,10 @@ export default class Harmony extends TaroPlatformHarmony {
         if ([/(@tarojs[\\/]runtime|taro-runtime)[\\/]dist/].some(e => e.test(lib))) {
           define.global = 'globalThis'
         }
-        code = this.replaceDefineValue(code, define)
         const ext = path.extname(target)
+        if (![/d\.e?tsx?$/, /\.(json|md)$/].some(e => e.test(target))) {
+          code = this.replaceDefineValue(code, define, ext)
+        }
         if (['.ts'].includes(ext)) {
           code = '// @ts-nocheck\n' + code
         }
@@ -310,9 +312,13 @@ declare global {
     }
   }
 
-  replaceDefineValue (code: string, define: Record<string, string>) {
+  replaceDefineValue (code: string, define: Record<string, string>, ext = '.js') {
     Object.keys(define).forEach(key => {
-      code = code.replace(new RegExp(`\\b${key}\\b`, 'g'), define[key])
+      let value = define[key]
+      if (/^['"`].*['"`]$/.test(value) && ['.ts', '.tsx', '.ets'].includes(ext)) {
+        value = `(${value} as string)`
+      }
+      code = code.replace(new RegExp(`\\b${key}\\b`, 'g'), value)
     })
     return code
   }

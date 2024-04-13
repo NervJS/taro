@@ -52,8 +52,16 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
 
     componentDidMount () {
       this.ctx.component = this
-      const rootElement = this.root.current!
-      rootElement.ctx = this.ctx
+      if (this.root.current) {
+        this.root.current = this.ctx
+      }
+    }
+
+    // React 16 uncaught error 会导致整个应用 crash，
+    // 目前把错误缩小到页面
+    componentDidCatch (error, info: React.ErrorInfo) {
+      console.warn(error)
+      console.error(info.componentStack)
     }
 
     render () {

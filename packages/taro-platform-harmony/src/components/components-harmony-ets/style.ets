@@ -36,6 +36,11 @@ class TextStyleModify implements AttributeModifier<TextAttribute> {
 
   setAnimationStyle (overwriteStyle: Record<string, TaroAny>) {
     this.overwriteStyle = overwriteStyle
+    if (this.style && this.overwriteStyle) {
+      Object.keys(this.overwriteStyle).forEach(key => {
+        this.style![key] = this.overwriteStyle[key]
+      })
+    }
     return this
   }
 
@@ -43,12 +48,12 @@ class TextStyleModify implements AttributeModifier<TextAttribute> {
     if (this.node && this.style) {
       if (this.withNormal) {
         setNormalAttributeIntoInstance(instance, this.style, this.node)
+        setTransformAttributeIntoInstance(instance, this.style || {})
       }
       setNormalTextAttributeIntoInstance(instance, this.style, this.node)
       setSpecialTextAttributeIntoInstance(instance, this.style, this.node)
     }
 
-    setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
   }
 }
 
@@ -87,9 +92,8 @@ class CommonStyleModify implements AttributeModifier<CommonAttribute> {
   applyNormalAttribute(instance: CommonAttribute): void {
     if (this.node && this.style) {
       setNormalAttributeIntoInstance(instance, this.style, this.node)
+      setTransformAttributeIntoInstance(instance, this.style || {})
     }
-
-    setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
   }
 }
 
@@ -123,9 +127,9 @@ class RowStyleModify extends CommonStyleModify {
         instance.alignItems(FlexManager.alignItems<VerticalAlign>(this.node))
         instance.justifyContent(FlexManager.justifyContent(this.node))
       }
+      setTransformAttributeIntoInstance(instance, this.style || {})
     }
 
-    setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
   }
 }
 
@@ -143,34 +147,34 @@ class ColumnStyleModify extends CommonStyleModify {
         instance.alignItems(FlexManager.alignItems<HorizontalAlign>(this.node))
         instance.justifyContent(FlexManager.justifyContent(this.node))
       }
+      setTransformAttributeIntoInstance(instance, this.style || {})
     }
 
-    setAnimationAttributeIntoInstance(instance, this.overwriteStyle, this.style || {})
   }
 }
 
-export function setAnimationAttributeIntoInstance(instance: CommonAttribute, overwriteStyle: Record<string, TaroAny>, style: TaroStyleType) {
+export function setTransformAttributeIntoInstance(instance: CommonAttribute, style: TaroStyleType) {
   // Animation 需要提前和 @State 变量绑定才能产生动画效果，因此不能做 if else 判断
-  // instance.translate({
-  //   x: overwriteStyle.translate?.x || style.transform?.Translate?.x,
-  //   y: overwriteStyle.translate?.y || style.transform?.Translate?.y,
-  //   z: overwriteStyle.translate?.z || style.transform?.Translate?.z,
-  // })
-  // instance.scale({
-  //   x: overwriteStyle.scale?.x || style.transform?.Scale?.x,
-  //   y: overwriteStyle.scale?.y || style.transform?.Scale?.y,
-  //   z: overwriteStyle.scale?.z || style.transform?.Scale?.z,
-  //   centerX: overwriteStyle.transformOrigin?.x || style.transformOrigin?.x || 0,
-  //   centerY: overwriteStyle.transformOrigin?.y || style.transformOrigin?.y || 0,
-  // })
-  // instance.rotate({
-  //   x: overwriteStyle.rotate?.x || style.transform?.Rotate?.x,
-  //   y: overwriteStyle.rotate?.y || style.transform?.Rotate?.y,
-  //   z: overwriteStyle.rotate?.z || style.transform?.Rotate?.z,
-  //   centerX: overwriteStyle.transformOrigin?.x || style.transformOrigin?.x || 0,
-  //   centerY: overwriteStyle.transformOrigin?.y || style.transformOrigin?.y || 0,
-  //   angle: overwriteStyle.rotate?.angle || style.transform?.Rotate?.angle || 0,
-  // })
+  instance.translate({
+    x: style.transform?.Translate?.x,
+    y: style.transform?.Translate?.y,
+    z: style.transform?.Translate?.z,
+  })
+  instance.scale({
+    x: style.transform?.Scale?.x,
+    y: style.transform?.Scale?.y,
+    z: style.transform?.Scale?.z,
+    centerX: style.transformOrigin?.x || 0,
+    centerY: style.transformOrigin?.y || 0,
+  })
+  instance.rotate({
+    x: style.transform?.Rotate?.x,
+    y: style.transform?.Rotate?.y,
+    z: style.transform?.Rotate?.z,
+    centerX: style.transformOrigin?.x || 0,
+    centerY: style.transformOrigin?.y || 0,
+    angle: style.transform?.Rotate?.angle || 0,
+  })
 }
 
 export function setNormalTextAttributeIntoInstance(instance: TextAttribute | SpanAttribute, style: HarmonyStyle, node?: TaroTextElement | null) {
@@ -191,7 +195,7 @@ export function setNormalTextAttributeIntoInstance(instance: TextAttribute | Spa
   }
   if (!isUndefined(style.textDecoration)) {
     instance.decoration({
-      type: style.textDecoration,
+      type: style.textDecoration.type,
       color: style.color
     })
   }
@@ -366,34 +370,34 @@ export function setNormalAttributeIntoInstance(instance: CommonAttribute, style:
     // 为了适应position不设置z-index也能高于同层级组件，估且让设置了z-index的会更高一级
     instance.zIndex(style.zIndex + 1)
   }
-  if (!isUndefined(style.transform)) {
-    if (style.transform.Translate) {
-      instance.translate({
-        x: style.transform.Translate.x || 0,
-        y: style.transform.Translate.y || 0,
-        z: style.transform.Translate.z || 0,
-      })
-    }
-    if (style.transform.Scale) {
-      instance.scale({
-        x: style.transform.Scale.x || 0,
-        y: style.transform.Scale.y || 0,
-        z: style.transform.Scale.z || 0,
-        centerX: style.transformOrigin?.x || 0,
-        centerY: style.transformOrigin?.y || 0,
-      })
-    }
-    if (style.transform.Rotate) {
-      instance.rotate({
-        x: style.transform.Rotate.x || 0,
-        y: style.transform.Rotate.y || 0,
-        z: style.transform.Rotate.z || 0,
-        centerX: style.transformOrigin?.x || 0,
-        centerY: style.transformOrigin?.y || 0,
-        angle: style.transform.Rotate.angle
-      })
-    }
-  }
+  // if (!isUndefined(style.transform)) {
+  //   if (style.transform.Translate) {
+  //     instance.translate({
+  //       x: style.transform.Translate.x || 0,
+  //       y: style.transform.Translate.y || 0,
+  //       z: style.transform.Translate.z || 0,
+  //     })
+  //   }
+  //   if (style.transform.Scale) {
+  //     instance.scale({
+  //       x: style.transform.Scale.x || 0,
+  //       y: style.transform.Scale.y || 0,
+  //       z: style.transform.Scale.z || 0,
+  //       centerX: style.transformOrigin?.x || 0,
+  //       centerY: style.transformOrigin?.y || 0,
+  //     })
+  //   }
+  //   if (style.transform.Rotate) {
+  //     instance.rotate({
+  //       x: style.transform.Rotate.x || 0,
+  //       y: style.transform.Rotate.y || 0,
+  //       z: style.transform.Rotate.z || 0,
+  //       centerX: style.transformOrigin?.x || 0,
+  //       centerY: style.transformOrigin?.y || 0,
+  //       angle: style.transform.Rotate.angle
+  //     })
+  //   }
+  // }
 }
 
 export const pseudoModify = new PseudoStyleModify()

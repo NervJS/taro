@@ -33,7 +33,7 @@ export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updateP
     if (isHarmony) {
       // 鸿蒙样式前置插入，防止覆盖style
       if (key === '__hmStyle') {
-        handlers.unshift(() => setHarmonyStyle(dom, newProp, oldProp))
+        handlers.splice(0, 0, () => setHarmonyStyle(dom, newProp, oldProp))
       } else {
         handlers.push(() => setProperty(dom, key, newProp, oldProp))
       }
@@ -129,9 +129,12 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
         if (isHarmony) {
           if (i === '::after' || i === '::before') {
             setPseudo(dom, i, null)
-          } else if (['::first-child', '::last-child'].includes(i) || i.startsWith('::nth-child')) {
+          } else if (['::first-child', '::last-child'].includes(i) || `${i}`.indexOf('::nth-child') === 0) {
             // @ts-ignore
             dom.set_pseudo_class(i, null)
+          } else if (i === 'animation') {
+            // @ts-ignore
+            dom.setAnimation(null)
           } else {
             if (i === 'position' && oldValue[i] === 'fixed') {
               // @ts-ignore
@@ -155,6 +158,9 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
           } else if (['::first-child', '::last-child'].includes(i) || i.startsWith('::nth-child')) {
             // @ts-ignore
             dom.set_pseudo_class(i, value[i])
+          } else if (i === 'animation') {
+            // @ts-ignore
+            dom.setAnimation(value[i])
           } else {
             if (i === 'position') {
               if (value[i] === 'fixed' || (value[i] !== 'fixed' && oldValue?.[i])) {
