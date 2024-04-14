@@ -9,8 +9,8 @@ export function getConfig(path) {
   return path.hub.file.metadata.config
 }
 
-export function getTaroComponentsMap() {
-  return global._taroComponentsMap
+export function getTaroComponentsMap(path) {
+  return path.hub.file.metadata.taroComponentsMap || new Map()
 }
 
 export const getRendererConfig = (path, renderer) => {
@@ -58,14 +58,8 @@ export function tagNameToIdentifier(name) {
 }
 
 export function getTagName(tag) {
-  const taroComponentsMap = getTaroComponentsMap()
-
   const jsxName = tag.openingElement.name
-  let tagName = jsxElementNameToString(jsxName)
-  if (taroComponentsMap.get(tagName)) {
-    tagName = convertCamelToKebabCase(taroComponentsMap.get(tagName))
-  }
-  return tagName
+  return jsxElementNameToString(jsxName)
 }
 
 export function isComponent(tagName) {

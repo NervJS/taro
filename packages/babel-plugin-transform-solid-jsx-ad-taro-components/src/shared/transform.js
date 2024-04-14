@@ -9,14 +9,17 @@ import { createTemplate as createTemplateUniversal } from '../universal/template
 import transformComponent from './component'
 import transformFragmentChildren from './fragment'
 import {
+  convertCamelToKebabCase,
   escapeHTML,
   getConfig,
   getStaticExpression,
   getTagName,
+  getTaroComponentsMap,
   isComponent,
   isDynamic,
   transformCondition,
-  trimWhitespace } from './utils'
+  trimWhitespace,
+} from './utils'
 
 export function transformJSX(path) {
   const config = getConfig(path)
@@ -27,7 +30,7 @@ export function transformJSX(path) {
       ? {}
       : {
         topLevel: true,
-        lastElement: true
+        lastElement: true,
       }
   )
 
@@ -73,7 +76,7 @@ export function transformThis(path) {
       }
     },
   })
-  return node => {
+  return (node) => {
     if (thisId) {
       parent.push({
         id: thisId,
@@ -110,10 +113,9 @@ export function transformNode(path, info = {}) {
       exprs: [],
       dynamics: [],
       postExprs: [],
-      text: true
+      text: true,
     }
-    if (!info.skipId && config.generate !== 'ssr')
-      results.id = path.scope.generateUidIdentifier('el$')
+    if (!info.skipId && config.generate !== 'ssr') results.id = path.scope.generateUidIdentifier('el$')
     return results
   } else if (t.isJSXExpressionContainer(node)) {
     if (t.isJSXEmptyExpression(node.expression)) return null
@@ -121,7 +123,7 @@ export function transformNode(path, info = {}) {
       !isDynamic(path.get('expression'), {
         checkMember: true,
         checkTags: !!info.componentChild,
-        native: !info.componentChild
+        native: !info.componentChild,
       })
     ) {
       return { exprs: [node.expression], template: '' }
@@ -143,22 +145,19 @@ export function transformNode(path, info = {}) {
         expr.length > 1
           ? [
             t.callExpression(
-              t.arrowFunctionExpression(
-                [],
-                t.blockStatement([expr[0], t.returnStatement(expr[1])])
-              ),
+              t.arrowFunctionExpression([], t.blockStatement([expr[0], t.returnStatement(expr[1])])),
               []
-            )
+            ),
           ]
           : [expr],
       template: '',
-      dynamic: true
+      dynamic: true,
     }
   } else if (t.isJSXSpreadChild(node)) {
     if (
       !isDynamic(path.get('expression'), {
         checkMember: true,
-        native: !info.componentChild
+        native: !info.componentChild,
       })
     )
       return { exprs: [node.expression], template: '' }
@@ -166,7 +165,7 @@ export function transformNode(path, info = {}) {
     return {
       exprs: [expr],
       template: '',
-      dynamic: true
+      dynamic: true,
     }
   }
 }
@@ -185,16 +184,18 @@ export function getCreateTemplate(config, path, result) {
 
 export function transformElement(config, path, info = {}) {
   const node = path.node
-  const tagName = getTagName(node)
+  let tagName = getTagName(node)
+  const taroComponent = getTaroComponentsMap(path).get(tagName)
+  if (taroComponent) {
+    tagName = convertCamelToKebabCase(taroComponent)
+  }
   // <Component ...></Component>
   if (isComponent(tagName)) return transformComponent(path)
 
   // <div ...></div>
   // const element = getTransformElemet(config, path, tagName);
 
-  const tagRenderer = (config.renderers ?? []).find(renderer =>
-    renderer.elements.includes(tagName)
-  )
+  const tagRenderer = (config.renderers ?? []).find((renderer) => renderer.elements.includes(tagName))
 
   if (tagRenderer?.name === 'dom' || getConfig(path).generate === 'dom') {
     return transformElementDOM(path, info)

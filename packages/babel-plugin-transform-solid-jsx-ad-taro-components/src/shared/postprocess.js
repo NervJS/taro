@@ -22,6 +22,6 @@ export default (path) => {
     ssrTemplates.length > 0 && appendTemplatesSSR(path, ssrTemplates)
   }
 
-  const taroComponentsMap = getTaroComponentsMap()
+  const taroComponentsMap = getTaroComponentsMap(path)
   taroComponentsMap.clear()
 }

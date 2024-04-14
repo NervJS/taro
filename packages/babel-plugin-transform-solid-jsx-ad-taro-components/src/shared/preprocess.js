@@ -26,7 +26,7 @@ const JSXValidator = {
 
 export default (path, { opts }) => {
   const merged = (path.hub.file.metadata.config = Object.assign({}, config, opts))
-  const taroComponentsMap = (global._taroComponentsMap ||= new Map())
+  const taroComponentsMap = (path.hub.file.metadata.taroComponentsMap ||= new Map())
   const lib = merged.requireImportSource
   if (lib) {
     const comments = path.hub.file.ast.comments

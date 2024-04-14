@@ -4,19 +4,25 @@ import { transformNode } from '../shared/transform'
 import {
   canNativeSpread,
   checkLength,
+  convertCamelToKebabCase,
   convertJSXIdentifier,
   escapeStringForTemplate,
   filterChildren,
   getConfig,
   getRendererConfig,
   getTagName,
+  getTaroComponentsMap,
   isDynamic,
   registerImportMethod,
   transformCondition,
 } from '../shared/utils'
 
 export function transformElement(path) {
-  const tagName = getTagName(path.node)
+  let tagName = getTagName(path.node)
+  const taroComponent = getTaroComponentsMap(path).get(tagName)
+  if (taroComponent) {
+    tagName = convertCamelToKebabCase(taroComponent)
+  }
   const results = {
     id: path.scope.generateUidIdentifier('el$'),
     declarations: [],
@@ -69,7 +75,9 @@ function transformAttributes(path, results) {
       const node = attribute.node
 
       let value = node.value
-      const key = t.isJSXNamespacedName(node.name) ? `${node.name.namespace.name}:${node.name.name.name}` : node.name.name
+      const key = t.isJSXNamespacedName(node.name)
+        ? `${node.name.namespace.name}:${node.name.name.name}`
+        : node.name.name
       const reservedNameSpace = t.isJSXNamespacedName(node.name) && node.name.namespace.name === 'use'
       if (t.isJSXNamespacedName(node.name) && reservedNameSpace && !t.isJSXExpressionContainer(value)) {
         node.value = value = t.jsxExpressionContainer(value || t.jsxEmptyExpression())
