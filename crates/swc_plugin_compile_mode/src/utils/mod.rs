@@ -3,6 +3,7 @@ use swc_core::{
   common::{iter::IdentifyLast, util::take::Take, DUMMY_SP as span},
   ecma::{ast::*, atoms::Atom, utils::quote_str},
 };
+use regex::Regex;
 
 use self::{constants::*, harmony::components::get_text_component_str};
 use crate::transform_harmony::TransformVisitor;
@@ -359,6 +360,20 @@ pub fn extract_jsx_loop<'a>(
   None
 }
 
+pub fn get_valid_nodes(children: &Vec<JSXElementChild>) -> usize {
+  let re = Regex::new(r"^\s*$").unwrap();
+  let filtered_children: Vec<&JSXElementChild> = children.iter().filter(|&item| match item {
+    JSXElementChild::JSXText(JSXText{value, ..}) => {
+      println!("JSXText: {:?}", value);
+      // 用正则判断value是否只含在\n和空格，如果时，返回false
+      println!("reResult: {:?}", re.is_match(value));
+      !re.is_match(value)
+    }
+    _ => true
+  }).collect();
+  filtered_children.len()
+}
+
 pub fn check_jsx_element_children_exist_loop(el: &mut JSXElement) -> bool {
   for child in el.children.iter_mut() {
     if check_jsx_element_child_is_loop(child) {
@@ -392,8 +407,8 @@ pub fn check_jsx_element_child_is_loop(child: &mut JSXElementChild) -> bool {
 pub fn create_original_node_renderer_foreach(visitor: &mut TransformVisitor) -> String {
   add_spaces_to_lines(
     format!(
-      "createLazyChildren(this.{})",
-      visitor.get_current_node_path()
+      "createLazyChildren({})",
+      visitor.get_dynmaic_node_name(visitor.get_current_node_path())
     )
     .as_str(),
   )
@@ -404,7 +419,6 @@ pub fn create_original_node_renderer(visitor: &mut TransformVisitor) -> String {
     format!(
       "createChildItem({} as TaroElement, createLazyChildren)",
       visitor.get_dynmaic_node_name(visitor.get_current_node_path())
-      
     )
     .as_str(),
   )
@@ -417,7 +431,6 @@ pub fn create_normal_text_template(visitor: &mut TransformVisitor, disable_this:
     String::from("item")
   } else {
     visitor.get_dynmaic_node_name(node_path)
-
   };
 
   let code = add_spaces_to_lines(get_text_component_str(&node_name).as_str());

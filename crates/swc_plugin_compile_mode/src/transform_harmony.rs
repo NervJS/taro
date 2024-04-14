@@ -195,10 +195,26 @@ impl TransformVisitor {
         {
           // 内置组件
           Some(_) => {
+            
             // 事件的处理，根据事件添加对应的 ets 事件处理函数
             let mut event_string: String = self.build_ets_event(opening_element);
             let element_direction: EtsDirection = self.build_ets_direction(opening_element);
-            let (children, ..) = self.build_ets_children(&mut el.children, None);
+            let mut children = utils::create_original_node_renderer_foreach(self);
+
+            // 只处理元素的子元素只有一个循环的情况和子元素没有循环的情况，其他情况先用 createLazyChildren 生成子结点
+            let is_loop_exist = utils::check_jsx_element_children_exist_loop(el);
+            let el_children_len = utils::get_valid_nodes(&el.children);
+            println!("****************************");
+            // println!("el: {:?}", el.children);
+            println!("is_loop_exist: {:?}", is_loop_exist);
+            println!("el_children_len: {:?}", el_children_len);
+            println!("****************************");
+            if !is_loop_exist ||  is_loop_exist && el_children_len == 1 {
+              let (temp_children, ..) = self.build_ets_children(&mut el.children, None);
+              children = temp_children;
+            }
+
+
 
             // 当前 node_name 节点树已全部递归完毕
             if is_node_name_created {
