@@ -85,3 +85,6 @@ artifacts
 
 # harmony-hybrid extend-h5-apis file
 packages/taro-platform-harmony-hybrid/src/api/apis/extend-h5-apis.ts
+
+# babel-plugin-transform-solid-jsx-ad-taro-components build file
+packages/babel-plugin-transform-solid-jsx-ad-taro-components/index.js

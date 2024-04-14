@@ -1,0 +1,6 @@
+src/
+rollup.config.js
+test/
+coverage/
+.travis.yml
+*.config.js
