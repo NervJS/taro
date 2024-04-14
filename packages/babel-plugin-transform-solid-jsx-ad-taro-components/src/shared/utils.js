@@ -9,6 +9,10 @@ export function getConfig(path) {
   return path.hub.file.metadata.config
 }
 
+export function getTaroComponentsMap() {
+  return global._taroComponentsMap
+}
+
 export const getRendererConfig = (path, renderer) => {
   const config = getConfig(path)
   return config?.renderers?.find((r) => r.name === renderer) ?? config
@@ -54,8 +58,14 @@ export function tagNameToIdentifier(name) {
 }
 
 export function getTagName(tag) {
+  const taroComponentsMap = getTaroComponentsMap()
+
   const jsxName = tag.openingElement.name
-  return jsxElementNameToString(jsxName)
+  let tagName = jsxElementNameToString(jsxName)
+  if (taroComponentsMap.get(tagName)) {
+    tagName = convertCamelToKebabCase(taroComponentsMap.get(tagName))
+  }
+  return tagName
 }
 
 export function isComponent(tagName) {
@@ -404,4 +414,12 @@ const templateEscapes = new Map([
 
 export function escapeStringForTemplate(str) {
   return str.replace(/[{\\`\n\t\b\f\v\r\u2028\u2029]/g, (ch) => templateEscapes.get(ch))
+}
+
+export function convertCamelToKebabCase(camelCaseStr) {
+  return camelCaseStr.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+}
+
+export function isTaroComponent(packageName) {
+  return packageName === '@tarojs/components'
 }
