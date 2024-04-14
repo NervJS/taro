@@ -33,8 +33,22 @@ export function createRouter (
   if (typeof app.onUnhandledRejection === 'function') {
     window.addEventListener('unhandledrejection', app.onUnhandledRejection)
   }
-  RouterConfig.config = config
   const handler = new PageHandler(config, history)
+  const pagesSet = new Set(config.pages || []);
+  if (handler.router.customRoutes) {
+    for (const key in handler.router.customRoutes) {
+      const path = handler.router.customRoutes[key];
+      if (typeof path === 'string') {
+        pagesSet.add(path);
+      } else {
+        path.forEach((p) => {
+          pagesSet.add(p);
+        });
+      }
+    }
+  }
+  const pages = Array.from(pagesSet);
+  RouterConfig.config = { ...config, pages };
 
   routesAlias.set(handler.router.customRoutes)
   const basename = handler.router.basename
