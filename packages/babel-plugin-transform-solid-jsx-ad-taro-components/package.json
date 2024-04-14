@@ -30,8 +30,6 @@
     "@babel/preset-env": "^7.20.2",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "@tarojs/shared": "3.6.23",
-    "@tarojs/webpack5-runner": "3.6.23",
     "babel-jest": "^29.3.1",
     "babel-plugin-tester": "^11.0.4",
     "jest": "^29.7.0",

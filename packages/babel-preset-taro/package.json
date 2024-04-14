@@ -39,7 +39,8 @@
     "babel-plugin-transform-imports-api": "1.0.0",
     "babel-preset-solid": "^1.8.15",
     "core-js": "^3.6.5",
-    "react-refresh": "^0.11.0"
+    "react-refresh": "^0.11.0",
+    "babel-plugin-transform-solid-jsx-ad-taro-components": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",

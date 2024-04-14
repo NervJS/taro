@@ -4,17 +4,23 @@ import path from 'path'
 const plugins = [
   nodeResolve({
     rootDir: path.join(process.cwd(), '../..'),
-    moduleDirectories: ['node_modules', 'packages']
-  })
+    moduleDirectories: ['node_modules', 'packages'],
+  }),
 ]
 
 export default {
   input: 'src/index.js',
-  external: ['@babel/plugin-syntax-jsx', '@babel/helper-module-imports', '@babel/types', 'html-entities', 'validate-html-nesting'],
+  external: [
+    '@babel/plugin-syntax-jsx',
+    '@babel/helper-module-imports',
+    '@babel/types',
+    'html-entities',
+    'validate-html-nesting',
+  ],
   output: {
-    file: 'index.js',
+    file: 'babel-plugin-jsx-dom-expressions.js',
     format: 'cjs',
-    exports: 'auto'
+    exports: 'auto',
   },
-  plugins
+  plugins,
 }
