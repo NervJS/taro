@@ -12,6 +12,9 @@
   },
   "readmeFilename": "README.md",
   "main": "index.js",
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",

@@ -18,7 +18,7 @@ export default {
     'validate-html-nesting',
   ],
   output: {
-    file: 'babel-plugin-jsx-dom-expressions.js',
+    file: 'dist/index.js',
     format: 'cjs',
     exports: 'auto',
   },
