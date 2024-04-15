@@ -364,9 +364,7 @@ pub fn get_valid_nodes(children: &Vec<JSXElementChild>) -> usize {
   let re = Regex::new(r"^\s*$").unwrap();
   let filtered_children: Vec<&JSXElementChild> = children.iter().filter(|&item| match item {
     JSXElementChild::JSXText(JSXText{value, ..}) => {
-      println!("JSXText: {:?}", value);
       // 用正则判断value是否只含在\n和空格，如果时，返回false
-      println!("reResult: {:?}", re.is_match(value));
       !re.is_match(value)
     }
     _ => true

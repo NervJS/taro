@@ -167,20 +167,16 @@ impl TransformVisitor {
     // jsx 节点添加动态 id，需要判断是否存在静态节点
     let dynmaic_node_name: String;
     let mut is_node_name_created = false;
-    println!("is_node_name_created: {}", is_node_name_created);
 
     // 如果是半编译状态下碰到的第一个 jsx，或者 jsx 含有动态属性，则创建新的 node_name
     if !self.deal_loop_now && (!self.check_jsx_is_static(el) || self.node_stack.is_empty()) {
       dynmaic_node_name = utils::create_jsx_dynamic_id(el, self);
-      println!("dynmaic_node_name if:: {}", dynmaic_node_name);
       self.node_name.push(dynmaic_node_name.clone());
       is_node_name_created = true;
     } else {
       dynmaic_node_name = self.get_current_node_path();
-      println!("dynmaic_node_name else:: {}", dynmaic_node_name);
     }
 
-    println!("========================================");
     let opening_element = &mut el.opening;
 
     let child_string = match &opening_element.name {
@@ -204,12 +200,7 @@ impl TransformVisitor {
             // 只处理元素的子元素只有一个循环的情况和子元素没有循环的情况，其他情况先用 createLazyChildren 生成子结点
             let is_loop_exist = utils::check_jsx_element_children_exist_loop(el);
             let el_children_len = utils::get_valid_nodes(&el.children);
-            println!("****************************");
-            // println!("el: {:?}", el.children);
-            println!("is_loop_exist: {:?}", is_loop_exist);
-            println!("el_children_len: {:?}", el_children_len);
-            println!("****************************");
-            if !is_loop_exist ||  is_loop_exist && el_children_len == 1 {
+            if !is_loop_exist || is_loop_exist && el_children_len == 1 {
               let (temp_children, ..) = self.build_ets_children(&mut el.children, None);
               children = temp_children;
             }
@@ -220,7 +211,6 @@ impl TransformVisitor {
             if is_node_name_created {
               self.node_name.pop();
             }
-            println!("dynmaic_node_name: {:?}", dynmaic_node_name);
             let mut code = match name.as_str() {
               VIEW_TAG => {
                 self.component_set.insert(name.clone());
@@ -287,7 +277,6 @@ impl TransformVisitor {
           expr: JSXExpr::Expr(jsx_expr),
           ..
         }) => {
-          println!("JSXElementChild:: {:?}", jsx_expr);
           // 如果套着 ()，则获取括号里面的内容
           if let Expr::Paren(ParenExpr { expr, .. }) = &mut **jsx_expr {
             *jsx_expr = expr.take();
@@ -596,7 +585,6 @@ impl VisitMut for TransformVisitor {
   // https://rustdoc.swc.rs/swc_ecma_visit/trait.VisitMut.html
   // 半编译模式入口，遍历 jsx 语法树，寻找拥有 COMPILE_MODE 属性节点，预处理节点所在的子树，并根据子树信息生成 tmpl_contents
   fn visit_mut_jsx_element(&mut self, el: &mut JSXElement) {
-    // println!("visit_mut_jsx_element: {:?}", el);
     let mut tmpl_name = String::new();
     // 遍历 JSX 元素的属性，寻找特定的 COMPILE_MODE 属性比如 <xxx COMPILE_MODE>xxx</xxx>
     for attr in &mut el.opening.attrs {
