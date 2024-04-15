@@ -37,6 +37,11 @@ class FlexManager {
     }
   }
 
+  static useFlexLayout (node: TaroElement): boolean {
+    const hmStyle: HarmonyStyle = getNormalAttributes(node) || {}
+    return !isUndefined(hmStyle.flexWrap) || [ItemAlign.Stretch, ItemAlign.Baseline].indexOf(hmStyle.alignItems!) !== -1
+  }
+
   static flexOptions (node: TaroElement): IFlexOptions {
     const hmStyle: HarmonyStyle = getNormalAttributes(node) || {}
     const isFlex = FlexManager.isFlexNode(node)

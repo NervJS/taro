@@ -20,7 +20,7 @@ export default struct TaroMovableView {
 
   build() {
     Stack() {
-      if (!isUndefined(this.node._st.hmStyle.flexWrap)) {
+      if (FlexManager.useFlexLayout(this.node)) {
         Flex(FlexManager.flexOptions(this.node)) {
           this.createLazyChildren(this.node)
         }
