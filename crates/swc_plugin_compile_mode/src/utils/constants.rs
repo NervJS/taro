@@ -30,14 +30,109 @@ pub const HARMONY_IMPORTER: &str = "import {
   commonStyleModify,
   getNodeThresholds,
   BUTTON_THEME_COLOR,
-  getNormalAttributes
+  getStyleAttr,
+  getNormalAttributes,
+  shouldBindEvent,
+  textModify,
+  setNormalTextAttributeIntoInstance
 } from '@tarojs/components'
-import { NodeType, convertNumber2VP, TaroElement, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
-import { createLazyChildren, createChildItem } from '../render'
+import {
+  NodeType,
+  convertNumber2VP,
+  TaroElement,
+  eventHandler,
+  getComponentEventCallback,
+  AREA_CHANGE_EVENT_NAME,
+  VISIBLE_CHANGE_EVENT_NAME
+} from '@tarojs/runtime'
+import { 
+  createLazyChildren, 
+  createChildItem 
+} from '../render'
 
-import type { HarmonyStyle, TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '@tarojs/runtime'
-
+import type {
+  TaroTextElement,
+  HarmonyStyle,
+  TaroButtonElement,
+  TaroViewElement,
+  TaroAny,
+  TaroStyleType,
+  TaroTextStyleType
+} from '@tarojs/runtime'
+import { isString } from '@tarojs/shared'
 ";
+
+pub const HARMONY_TEXT_HELPER_FUNCITON: &str = r#"
+@Builder
+function createTextChildNode (item: TaroElement, align: ImageSpanAlignment) {
+  if (item.tagName === 'IMAGE') {
+    ImageSpan(item.getAttribute('src'))
+      .attributeModifier(commonStyleModify.setNode(item))
+      .objectFit(getImageMode(item.getAttribute('mode')))
+      .verticalAlign(align)
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
+  } else if (item.nodeType === NodeType.TEXT_NODE) {
+    Span(item.textContent)
+  } else if (item.tagName === 'TEXT') {
+    Span(item.textContent)
+      .attributeModifier((new SpanStyleModify()).setNode(item as TaroTextElement))
+      .letterSpacing(item._st.hmStyle.letterSpacing)
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
+  }
+}
+
+class SpanStyleModify implements AttributeModifier<SpanAttribute> {
+  node: TaroTextElement | null = null
+  style: HarmonyStyle | null = null
+  overwriteStyle: Record<string, TaroAny> = {}
+  withNormal = false
+
+  setNode (node: TaroTextElement) {
+    this.node = node
+    this.style = getNormalAttributes(this.node)
+    return this
+  }
+
+  applyNormalAttribute(instance: SpanAttribute): void {
+    if (this.node && this.style) {
+      setNormalTextAttributeIntoInstance(instance, this.style, this.node)
+    }
+  }
+}
+
+function getSpanVerticalAlign (verticalAlign?: Alignment) {
+  switch (verticalAlign) {
+    case Alignment.Start:
+    case Alignment.TopStart:
+    case Alignment.Top:
+    case Alignment.TopEnd: {
+      return ImageSpanAlignment.TOP
+    }
+    case Alignment.End:
+    case Alignment.BottomStart:
+    case Alignment.Bottom:
+    case Alignment.BottomEnd: {
+      return ImageSpanAlignment.BOTTOM
+    }
+    case Alignment.Center: {
+      return ImageSpanAlignment.CENTER
+    }
+  }
+  return ImageSpanAlignment.BASELINE
+}
+
+function getTextInViewWidth (node: TaroElement | null): TaroAny {
+  if (node) {
+    const hmStyle = node.hmStyle || {}
+    const isFlexView = hmStyle.display === 'flex'
+    const width: TaroAny = getStyleAttr(node, 'width')
+    const isPercentWidth = isString(width) && width.includes('%')
+
+    return isFlexView || isPercentWidth ? null : getStyleAttr(node, 'width')
+  }
+}
+
+"#;
 
 pub const HARMONY_TEXT_STYLE_BIND: &str = r#"@Extend(Text)
 function textNormalFontStyle (style: HarmonyStyle) {
@@ -51,7 +146,7 @@ function textNormalFontStyle (style: HarmonyStyle) {
   .fontFamily(style.fontFamily)
   .lineHeight(style.lineHeight)
   .decoration({
-    type: style.textDecoration,
+    type: style.textDecoration  as TaroAny,
     color: style.color
   })
 }

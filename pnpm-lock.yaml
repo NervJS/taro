@@ -3679,8 +3679,8 @@ importers:
         specifier: workspace:*
         version: link:../taro-helper
       '@tarojs/parse-css-to-stylesheet':
-        specifier: ^0.0.52
-        version: registry.npmjs.org/@tarojs/parse-css-to-stylesheet@0.0.52
+        specifier: ^0.0.53
+        version: 0.0.53
       '@tarojs/runner-utils':
         specifier: workspace:*
         version: link:../taro-runner-utils
@@ -4752,7 +4752,6 @@ packages:
       '@babel/helper-string-parser': 7.23.4
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
-    dev: true
 
   /@esbuild/android-arm64@0.18.20:
     resolution: {integrity: sha512-Nz4rJcchGDtENV0eMKUNa6L12zz2zBDXuhj/Vjh18zGqB44Bi7MBMSXjgunJgjRhCmKOjnPuZp4Mb6OKqtMHLQ==, tarball: https://registry.npmjs.org/@esbuild/android-arm64/-/android-arm64-0.18.20.tgz}
@@ -5693,6 +5692,329 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /@tarojs/plugin-doctor-darwin-arm64@0.0.11:
+    resolution: {integrity: sha512-H3C0TQD7k9YalSR2kgrVEvP1TfhSeRQDQQXhSurLStNuTqhrk8JSzxbxYC/Of5edM/uu+5xOzT0YfMV2LKG5UA==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64/-/plugin-doctor-darwin-arm64-0.0.11.tgz}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-darwin-universal@0.0.11:
+    resolution: {integrity: sha512-iZXID/UBsFGkouXJV/g/UTogPJ9IqCNmqCQ/bTZYNnIPHxxCUVZj7R1or8f/RJk3IHi0WroZHVbkz/NF9IqMVA==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-universal/-/plugin-doctor-darwin-universal-0.0.11.tgz}
+    engines: {node: '>= 10'}
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-darwin-x64@0.0.11:
+    resolution: {integrity: sha512-wNFty0LOq0lX2WMG3ea0IYsvSq0Y1Z24zIumSfnsL8R3x3AaKQBf0d/nzY++Wp0Kc7rEskS9gtYR7Z0b4oB9tA==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-x64/-/plugin-doctor-darwin-x64-0.0.11.tgz}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-freebsd-x64@0.0.11:
+    resolution: {integrity: sha512-ymFqr5w8CdEvYMQS3zzRfmiAe/6yFF8b2sufvHHbggLDgdDoAQfOuXAMHH0tK4TQTM6hXdHi2Ii3xwGPFczPGg==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-freebsd-x64/-/plugin-doctor-freebsd-x64-0.0.11.tgz}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-linux-arm-gnueabihf@0.0.11:
+    resolution: {integrity: sha512-Ti8g3/WyD/kPOV9RAQB/jZwLivwdf9v9ZmdPUb4T56c4ehhD7cOCInhc5/0TrDR2b882vTnVc3GLAgG/EiFliw==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm-gnueabihf/-/plugin-doctor-linux-arm-gnueabihf-0.0.11.tgz}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-linux-arm64-gnu@0.0.11:
+    resolution: {integrity: sha512-oirqs+UYX6lKNxjFW6zpUGliW3ovC/v3fw76c4E8I18KVgTTRLpcqDiXPBgId0cyr3xdtKG0idzE5RXL/cNJFg==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-gnu/-/plugin-doctor-linux-arm64-gnu-0.0.11.tgz}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-linux-arm64-musl@0.0.11:
+    resolution: {integrity: sha512-SXes1wj2MLQod50+9sgSZlN4eli3VXVxMNqdk03ArrWtFURCpuDiHwRERjoqlo91Hf4IxU6zU7ml86gPZ0dkaw==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-musl/-/plugin-doctor-linux-arm64-musl-0.0.11.tgz}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-linux-x64-gnu@0.0.11:
+    resolution: {integrity: sha512-nyW2tjzYA8nw39pKpaYtpGbEOZNRTV97Ir+UEvsuZbAr5F1lV2Q+2IwN8dGY41/lXw9JQay6FDRqUPRXAMB4kw==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-gnu/-/plugin-doctor-linux-x64-gnu-0.0.11.tgz}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-linux-x64-musl@0.0.11:
+    resolution: {integrity: sha512-epKcAwJdVYMGmeWdqGZrdOS+nhDz4SiGlZqYMcDjSlGK7OM0wlSor6xpz59adYVe86t/a/gjimu5IT2ofVEfsA==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-musl/-/plugin-doctor-linux-x64-musl-0.0.11.tgz}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-win32-ia32-msvc@0.0.11:
+    resolution: {integrity: sha512-UBKdbbtDK1QmsRZiKEjo+TtSt+E/ljIzx5wbDna2yEuDtJqBwNg6SqkYg3LxUiJK8O5hwwVJGdJWI9a9bHpI8w==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-win32-ia32-msvc/-/plugin-doctor-win32-ia32-msvc-0.0.11.tgz}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-win32-x64-msvc@0.0.11:
+    resolution: {integrity: sha512-2ABKPwTpT93PIk6+s/cGGUnu32OcyfAzz5y9gpLQ/i3XwysPSBq9Lt6Z1VCD2DVPnloIdWU+NYk5gXhCoWZV5A==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-win32-x64-msvc/-/plugin-doctor-win32-x64-msvc-0.0.11.tgz}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@swc/core-darwin-arm64@1.3.96:
+    resolution: {integrity: sha512-8hzgXYVd85hfPh6mJ9yrG26rhgzCmcLO0h1TIl8U31hwmTbfZLzRitFQ/kqMJNbIBCwmNH1RU2QcJnL3d7f69A==, tarball: https://registry.npmjs.org/@swc/core-darwin-arm64/-/core-darwin-arm64-1.3.96.tgz}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@swc/core-darwin-x64@1.3.96:
+    resolution: {integrity: sha512-mFp9GFfuPg+43vlAdQZl0WZpZSE8sEzqL7sr/7Reul5McUHP0BaLsEzwjvD035ESfkY8GBZdLpMinblIbFNljQ==, tarball: https://registry.npmjs.org/@swc/core-darwin-x64/-/core-darwin-x64-1.3.96.tgz}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@swc/core-linux-arm-gnueabihf@1.3.96:
+    resolution: {integrity: sha512-8UEKkYJP4c8YzYIY/LlbSo8z5Obj4hqcv/fUTHiEePiGsOddgGf7AWjh56u7IoN/0uEmEro59nc1ChFXqXSGyg==, tarball: https://registry.npmjs.org/@swc/core-linux-arm-gnueabihf/-/core-linux-arm-gnueabihf-1.3.96.tgz}
+    engines: {node: '>=10'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@swc/core-linux-arm64-gnu@1.3.96:
+    resolution: {integrity: sha512-c/IiJ0s1y3Ymm2BTpyC/xr6gOvoqAVETrivVXHq68xgNms95luSpbYQ28rqaZC8bQC8M5zdXpSc0T8DJu8RJGw==, tarball: https://registry.npmjs.org/@swc/core-linux-arm64-gnu/-/core-linux-arm64-gnu-1.3.96.tgz}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@swc/core-linux-arm64-musl@1.3.96:
+    resolution: {integrity: sha512-i5/UTUwmJLri7zhtF6SAo/4QDQJDH2fhYJaBIUhrICmIkRO/ltURmpejqxsM/ye9Jqv5zG7VszMC0v/GYn/7BQ==, tarball: https://registry.npmjs.org/@swc/core-linux-arm64-musl/-/core-linux-arm64-musl-1.3.96.tgz}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@swc/core-linux-x64-gnu@1.3.96:
+    resolution: {integrity: sha512-USdaZu8lTIkm4Yf9cogct/j5eqtdZqTgcTib4I+NloUW0E/hySou3eSyp3V2UAA1qyuC72ld1otXuyKBna0YKQ==, tarball: https://registry.npmjs.org/@swc/core-linux-x64-gnu/-/core-linux-x64-gnu-1.3.96.tgz}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@swc/core-linux-x64-musl@1.3.96:
+    resolution: {integrity: sha512-QYErutd+G2SNaCinUVobfL7jWWjGTI0QEoQ6hqTp7PxCJS/dmKmj3C5ZkvxRYcq7XcZt7ovrYCTwPTHzt6lZBg==, tarball: https://registry.npmjs.org/@swc/core-linux-x64-musl/-/core-linux-x64-musl-1.3.96.tgz}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@swc/core-win32-arm64-msvc@1.3.96:
+    resolution: {integrity: sha512-hjGvvAduA3Un2cZ9iNP4xvTXOO4jL3G9iakhFsgVhpkU73SGmK7+LN8ZVBEu4oq2SUcHO6caWvnZ881cxGuSpg==, tarball: https://registry.npmjs.org/@swc/core-win32-arm64-msvc/-/core-win32-arm64-msvc-1.3.96.tgz}
+    engines: {node: '>=10'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@swc/core-win32-ia32-msvc@1.3.96:
+    resolution: {integrity: sha512-Far2hVFiwr+7VPCM2GxSmbh3ikTpM3pDombE+d69hkedvYHYZxtTF+2LTKl/sXtpbUnsoq7yV/32c9R/xaaWfw==, tarball: https://registry.npmjs.org/@swc/core-win32-ia32-msvc/-/core-win32-ia32-msvc-1.3.96.tgz}
+    engines: {node: '>=10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@swc/core-win32-x64-msvc@1.3.96:
+    resolution: {integrity: sha512-4VbSAniIu0ikLf5mBX81FsljnfqjoVGleEkCQv4+zRlyZtO3FHoDPkeLVoy6WRlj7tyrRcfUJ4mDdPkbfTO14g==, tarball: https://registry.npmjs.org/@swc/core-win32-x64-msvc/-/core-win32-x64-msvc-1.3.96.tgz}
+    engines: {node: '>=10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-android-arm-eabi@0.0.53:
+    resolution: {integrity: sha512-+5EIdeUe3sWsMQ7Mqo+PuLhX1IOveptDdaRvKCGKSETNA9T3i8xHQUzj3/qYZiVkqStzrQJvG52cVcGOYIT0AQ==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm-eabi/-/parse-css-to-stylesheet-android-arm-eabi-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-android-arm64@0.0.53:
+    resolution: {integrity: sha512-hTYmiBTwFVTSqyWzgmX6wZ80gXXVoJPGV8nlDQlgd2tQATaglurinm6DzErj/bY8TOXNCq+OdZgY5bEZnYJNCw==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm64/-/parse-css-to-stylesheet-android-arm64-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-darwin-arm64@0.0.53:
+    resolution: {integrity: sha512-kqwqClrcyDivXaSs1oarRgiRGS+bWQxnW8WnOIe0+mjwpeqfcAhJW0eWM7weJ5g/mCrMgV9SAzaGuC+hES8ntQ==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-arm64/-/parse-css-to-stylesheet-darwin-arm64-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-darwin-universal@0.0.53:
+    resolution: {integrity: sha512-TZcI2K600evJHuaA7NrWqkYDeNCL1NyvJOVDdy92r2JJqRjgcTGnGsR96Oe+ik9FN9161ffJYSq6Tn4ymi73tg==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-universal/-/parse-css-to-stylesheet-darwin-universal-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-darwin-x64@0.0.53:
+    resolution: {integrity: sha512-hgTCua9nthklz9idCxVsqdmPXHX0S6/jeRF1ThiwjlYgnW4nMUpqfuY7vA6CpXjmzDFcscxq7b4mKqkvTlWjqA==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-x64/-/parse-css-to-stylesheet-darwin-x64-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf@0.0.53:
+    resolution: {integrity: sha512-v8MscHq5Kn+HDGzDn5SAGwPal5RUdWhTJMGfjxWxdKiQJG2SeaErdlt2SqzEWAexGUVEHFyAJMILW5V03eKOmw==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf/-/parse-css-to-stylesheet-linux-arm-gnueabihf-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-linux-arm64-gnu@0.0.53:
+    resolution: {integrity: sha512-zQtrGFiRqplC7Q5BLSVr5//saUO/+X/aIFKhHIagaJy/NRDcQlL8tnG8XaKZ4ZFIZK1L2W2ZXQO6MUvy+2D2Og==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-gnu/-/parse-css-to-stylesheet-linux-arm64-gnu-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-linux-arm64-musl@0.0.53:
+    resolution: {integrity: sha512-dZyt+/vytByuCRmCESMQ7UTItkOhsNuQ3E9o1NBVVMDUrvwiZMfqsgXLOWCS/qK5h80UAfR8tGmZ/i+QVVIZlg==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-musl/-/parse-css-to-stylesheet-linux-arm64-musl-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-linux-x64-gnu@0.0.53:
+    resolution: {integrity: sha512-HLM3KVBW6DPQ2dE2VnLMtY8rQ9ZJuBSx8+UqQcs7zGyuOV4RXUc0FuLpUqfODyCylAgIy5U2WDUc6E/Hc5DROw==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-gnu/-/parse-css-to-stylesheet-linux-x64-gnu-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-linux-x64-musl@0.0.53:
+    resolution: {integrity: sha512-2GDB9ze80JEygvvbxVisg0CeNcuWfzo1CgWmeq3/GpKL75Q0AkvhsUV80Z6Vy1eJ4F8bqGtJlJsfY5sQloELkg==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-musl/-/parse-css-to-stylesheet-linux-x64-musl-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-win32-arm64-msvc@0.0.53:
+    resolution: {integrity: sha512-jZ1yERioNSAa+OasHTOlIgFgzbtbrEIpaeRATQkC1P8z99QSOB/ObO0AJCKKmluSCoFOTMoP4hiyJXus3pvciQ==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-arm64-msvc/-/parse-css-to-stylesheet-win32-arm64-msvc-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-win32-ia32-msvc@0.0.53:
+    resolution: {integrity: sha512-oRSUc8nz36uDC+LaJLO4j3/niXhm18ErZmsMdO38yF38xQa/yo7p+PpL3n7m6Vw3cZcaersxADYWWJWvm115kg==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-ia32-msvc/-/parse-css-to-stylesheet-win32-ia32-msvc-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet-win32-x64-msvc@0.0.53:
+    resolution: {integrity: sha512-uWjUbWi9yQWRxipRslgbWNbnW1qjFhiPfTJ2yXno/7oqz0Dhj9HyKM6WMjJayV3yVuaOaF+sU79LL+Mwz6AGvw==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-x64-msvc/-/parse-css-to-stylesheet-win32-x64-msvc-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/parse-css-to-stylesheet@0.0.53:
+    resolution: {integrity: sha512-8oNYisF0eoaSxLbuZvULKI3eh6+XbcgndWjn9p0HE5VTv9ZV9VXOvuFK7j0atky/VB0PYjBN2s6gbS88xbbOxA==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet/-/parse-css-to-stylesheet-0.0.53.tgz}
+    engines: {node: '>= 10'}
+    optionalDependencies:
+      '@tarojs/parse-css-to-stylesheet-android-arm-eabi': 0.0.53
+      '@tarojs/parse-css-to-stylesheet-android-arm64': 0.0.53
+      '@tarojs/parse-css-to-stylesheet-darwin-arm64': 0.0.53
+      '@tarojs/parse-css-to-stylesheet-darwin-universal': 0.0.53
+      '@tarojs/parse-css-to-stylesheet-darwin-x64': 0.0.53
+      '@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf': 0.0.53
+      '@tarojs/parse-css-to-stylesheet-linux-arm64-gnu': 0.0.53
+      '@tarojs/parse-css-to-stylesheet-linux-arm64-musl': 0.0.53
+      '@tarojs/parse-css-to-stylesheet-linux-x64-gnu': 0.0.53
+      '@tarojs/parse-css-to-stylesheet-linux-x64-musl': 0.0.53
+      '@tarojs/parse-css-to-stylesheet-win32-arm64-msvc': 0.0.53
+      '@tarojs/parse-css-to-stylesheet-win32-ia32-msvc': 0.0.53
+      '@tarojs/parse-css-to-stylesheet-win32-x64-msvc': 0.0.53
+    dev: false
 
   /@tarojs/plugin-doctor-darwin-arm64@0.0.11:
     resolution: {integrity: sha512-H3C0TQD7k9YalSR2kgrVEvP1TfhSeRQDQQXhSurLStNuTqhrk8JSzxbxYC/Of5edM/uu+5xOzT0YfMV2LKG5UA==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64/-/plugin-doctor-darwin-arm64-0.0.11.tgz}
@@ -7989,6 +8311,35 @@ packages:
       - supports-color
     optional: true
 
+  /mv@2.1.1:
+    resolution: {integrity: sha512-at/ZndSy3xEGJ8i0ygALh8ru9qy7gWW1cmkaqBN29JmMlIvM//MEO9y1sk/avxuwnPcfhkejkLsuPxH81BrkSg==, tarball: https://registry.npmjs.org/mv/-/mv-2.1.1.tgz}
+    engines: {node: '>=0.8.0'}
+    requiresBuild: true
+    dependencies:
+      mkdirp: registry.npmjs.org/mkdirp@0.5.6
+      ncp: registry.npmjs.org/ncp@2.0.0
+      rimraf: registry.npmjs.org/rimraf@2.4.5
+    optional: true
+
+  /native-request@1.1.0:
+    resolution: {integrity: sha512-uZ5rQaeRn15XmpgE0xoPL8YWqcX90VtCFglYwAgkvKM5e8fog+vePLAhHxuuv/gRkrQxIeh5U3q9sMNUrENqWw==, tarball: https://registry.npmjs.org/native-request/-/native-request-1.1.0.tgz}
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /needle@3.2.0:
+    resolution: {integrity: sha512-oUvzXnyLiVyVGoianLijF9O/RecZUf7TkBfimjGrLM4eQhXyeJwM6GeAWccwfQ9aa4gMCZKqhAOuLaMIcQxajQ==, tarball: https://registry.npmjs.org/needle/-/needle-3.2.0.tgz}
+    engines: {node: '>= 4.4.x'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      debug: 3.2.7(supports-color@6.1.0)
+      iconv-lite: registry.npmjs.org/iconv-lite@0.6.3
+      sax: registry.npmjs.org/sax@1.2.4
+    transitivePeerDependencies:
+      - supports-color
+    optional: true
+
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==, tarball: https://registry.npmjs.org/neo-async/-/neo-async-2.6.2.tgz}
     dev: false
@@ -8457,6 +8808,14 @@ packages:
       typescript: 5.3.3
     dev: true
 
+  /rollup@2.75.6:
+    resolution: {integrity: sha512-OEf0TgpC9vU6WGROJIk1JA3LR5vk/yvqlzxqdrE2CzzXnqKXNzbAwlWUXis8RS3ZPe7LAq+YUxsRa0l3r27MLA==, tarball: https://registry.npmjs.org/rollup/-/rollup-2.75.6.tgz}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: false
+
   /rollup@3.21.5:
     resolution: {integrity: sha512-a4NTKS4u9PusbUJcfF4IMxuqjFzjm6ifj76P54a7cKnvVzJaG12BLVR+hgU2YDGHzyMMQNxLAZWuALsn8q2oQg==, tarball: https://registry.npmjs.org/rollup/-/rollup-3.21.5.tgz}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
@@ -8471,7 +8830,6 @@ packages:
     hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
 
   /safe-buffer@5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==, tarball: https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.2.1.tgz}
@@ -41859,7 +42217,7 @@ packages:
     engines: {node: '>=0.10'}
     requiresBuild: true
     dependencies:
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
+      graceful-fs: 4.2.11
       micromatch: registry.npmjs.org/micromatch@3.1.10(supports-color@6.1.0)
       readable-stream: registry.npmjs.org/readable-stream@2.3.8
     transitivePeerDependencies:

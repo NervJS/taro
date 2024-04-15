@@ -14,6 +14,7 @@ import type Taro from '@tarojs/taro/types'
 let context
 let kvManager: distributedKVStore.KVManager
 let kvStore: distributedKVStore.SingleKVStore
+let kvStorePromise: Promise<void>
 
 (Current as any).contextPromise.then((ctx) => {
   context = ctx
@@ -38,13 +39,16 @@ let kvStore: distributedKVStore.SingleKVStore
     }
 
     const data = bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
-    kvManager.getKVStore<distributedKVStore.SingleKVStore>(`${data.appInfo.uid}Store`, options, (err, store: distributedKVStore.SingleKVStore) => {
-      if (err) {
-        console.error(`Failed to get KVStore: Code:${err.code},message:${err.message}`)
-        return
-      }
-      kvStore = store
-      // 请确保获取到键值数据库实例后，再进行相关数据操作
+    kvStorePromise = new Promise(resolve => {
+      kvManager.getKVStore<distributedKVStore.SingleKVStore>(`${data.appInfo.uid}Store`, options, (err, store: distributedKVStore.SingleKVStore) => {
+        if (err) {
+          console.error(`Failed to get KVStore: Code:${err.code},message:${err.message}`)
+          return
+        }
+        kvStore = store
+        // 请确保获取到键值数据库实例后，再进行相关数据操作
+        resolve()
+      })
     })
   } catch (e) {
     console.error(`Failed to create KVManager. Code:${e.code},message:${e.message}`)
@@ -58,7 +62,7 @@ const storageSchema = {
 }
 
 function checkContextExist (api: string, isAsync = false) {
-  if (!context || !kvStore) {
+  if (!context) {
     const message = `${api} 调用失败，Taro 不支持过早地调用 ${api}，请确保页面已经渲染完成再调用此 API`
     if (isAsync) {
       return {
@@ -91,21 +95,23 @@ export function getStorage<T = any> (options: Taro.getStorage.Option<T>) {
   const handle = new MethodHandler<{data: any}>({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
-    try {
-      validateParams(name, options, storageSchema)
-    } catch (error) {
-      const res = { errMsg: error.message }
-      return handle.fail(res, { resolve, reject })
-    }
-
-    kvStore = kvStore as distributedKVStore.SingleKVStore
-    kvStore.get(key, (err, data) => {
-      if (err) {
-        handle.fail({ errMsg: `Failed to get data. Code:${err.code},message:${err.message}` }, { resolve, reject })
-        return
+    kvStorePromise.then(() => {
+      try {
+        validateParams(name, options, storageSchema)
+      } catch (error) {
+        const res = { errMsg: error.message }
+        return handle.fail(res, { resolve, reject })
       }
-
-      handle.success({ data }, { resolve, reject })
+  
+      kvStore = kvStore as distributedKVStore.SingleKVStore
+      kvStore.get(key, (err, data) => {
+        if (err) {
+          handle.fail({ errMsg: `Failed to get data. Code:${err.code},message:${err.message}` }, { resolve, reject })
+          return
+        }
+  
+        handle.success({ data }, { resolve, reject })
+      })
     })
   })
 }
@@ -122,21 +128,23 @@ export function setStorage (options: Taro.setStorage.Option) {
   const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
-    try {
-      validateParams(name, options, storageSchema)
-    } catch (error) {
-      const res = { errMsg: error.message }
-      return handle.fail(res, { resolve, reject })
-    }
-
-    kvStore = kvStore as distributedKVStore.SingleKVStore
-    kvStore.put(key, data, (err) => {
-      if (err) {
-        handle.fail({ errMsg: `Failed to put data. Code:${err.code},message:${err.message}` }, { resolve, reject })
-        return
+    kvStorePromise.then(() => {
+      try {
+        validateParams(name, options, storageSchema)
+      } catch (error) {
+        const res = { errMsg: error.message }
+        return handle.fail(res, { resolve, reject })
       }
-
-      handle.success({}, { resolve, reject })
+  
+      kvStore = kvStore as distributedKVStore.SingleKVStore
+      kvStore.put(key, data, (err) => {
+        if (err) {
+          handle.fail({ errMsg: `Failed to put data. Code:${err.code},message:${err.message}` }, { resolve, reject })
+          return
+        }
+  
+        handle.success({}, { resolve, reject })
+      })
     })
   })
 }
@@ -153,21 +161,23 @@ export function removeStorage (options: Taro.removeStorage.Option) {
   const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
-    try {
-      validateParams(name, options, storageSchema)
-    } catch (error) {
-      const res = { errMsg: error.message }
-      return handle.fail(res, { resolve, reject })
-    }
-
-    kvStore = kvStore as distributedKVStore.SingleKVStore
-    kvStore.delete(key, (err) => {
-      if (err) {
-        handle.fail({ errMsg: `Failed to delete data. Code:${err.code},message:${err.message}` }, { resolve, reject })
-        return
+    kvStorePromise.then(() => {
+      try {
+        validateParams(name, options, storageSchema)
+      } catch (error) {
+        const res = { errMsg: error.message }
+        return handle.fail(res, { resolve, reject })
       }
-
-      handle.success({}, { resolve, reject })
+  
+      kvStore = kvStore as distributedKVStore.SingleKVStore
+      kvStore.delete(key, (err) => {
+        if (err) {
+          handle.fail({ errMsg: `Failed to delete data. Code:${err.code},message:${err.message}` }, { resolve, reject })
+          return
+        }
+  
+        handle.success({}, { resolve, reject })
+      })
     })
   })
 }
