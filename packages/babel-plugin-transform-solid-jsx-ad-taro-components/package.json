@@ -17,7 +17,9 @@
   ],
   "sideEffects": false,
   "scripts": {
+    "prebuild": "pnpm run clean",
     "build": "rollup -c --bundleConfigAsCjs",
+    "clean": "rimraf ./dist",
     "test": "pnpm run build && jest --no-cache",
     "test:coverage": "pnpm run build && jest --coverage --no-cache",
     "prepublishOnly": "pnpm run build",
