@@ -172,3 +172,10 @@ Apache-2.0 (intersection-observer):
 The following files embed [intersection-observer](https://github.com/GoogleChromeLabs/intersection-observer) Apache-2.0:
 `/packages/taro-api/src/polyfill/intersection-observer.ts`
 See `/LICENSE.txt` for details of the license.
+
+==================
+
+MIT (babel-plugin-jsx-dom-expressions):
+The following files embed [babel-plugin-jsx-dom-expressions](https://github.com/ryansolid/dom-expressions/blob/main/packages/babel-plugin-jsx-dom-expressions) MIT:
+`/packages/babel-plugin-transform-solid-jsx-ad-taro-components/src/*`
+See `/LICENSE` for details of the license.

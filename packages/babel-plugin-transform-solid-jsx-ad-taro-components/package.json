@@ -1,12 +1,14 @@
 {
   "name": "babel-plugin-transform-solid-jsx-ad-taro-components",
   "description": "A JSX to DOM plugin that wraps expressions for fine grained change detection",
-  "version": "0.37.19",
-  "author": "Ryan Carniato",
+  "version": "4.0.0-beta.45",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryansolid/dom-expressions/blob/main/packages/babel-plugin-jsx-dom-expressions"
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
   },
   "readmeFilename": "README.md",
   "main": "index.js",
@@ -38,6 +40,5 @@
     "jsdom": "^21.0.0",
     "rollup": "^4.9.5",
     "rollup-plugin-node-externals": "^4.0.0"
-  },
-  "gitHead": "eb463c653325e24824422cff6bfed0d35113ef33"
+  }
 }
