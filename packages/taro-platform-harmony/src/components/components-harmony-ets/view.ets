@@ -23,7 +23,7 @@ export default struct TaroView {
   }
 
   build () {
-    if (!isUndefined(this.node._st.hmStyle.flexWrap)) {
+    if (FlexManager.useFlexLayout(this.node)) {
       Flex(FlexManager.flexOptions(this.node)) {
         if (this.node._pseudo_before || this.node._pseudo_after) {
           PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
