@@ -34,21 +34,21 @@ export function createRouter (
     window.addEventListener('unhandledrejection', app.onUnhandledRejection)
   }
   const handler = new PageHandler(config, history)
-  const pagesSet = new Set(config.pages || []);
+  const pagesSet = new Set(config.pages || [])
   if (handler.router.customRoutes) {
     for (const key in handler.router.customRoutes) {
-      const path = handler.router.customRoutes[key];
+      const path = handler.router.customRoutes[key]
       if (typeof path === 'string') {
-        pagesSet.add(path);
+        pagesSet.add(path)
       } else {
         path.forEach((p) => {
-          pagesSet.add(p);
-        });
+          pagesSet.add(p)
+        })
       }
     }
   }
-  const pages = Array.from(pagesSet);
-  RouterConfig.config = { ...config, pages };
+  const pages = Array.from(pagesSet)
+  RouterConfig.config = { ...config, pages }
 
   routesAlias.set(handler.router.customRoutes)
   const basename = handler.router.basename
