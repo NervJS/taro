@@ -23,15 +23,18 @@ import TaroMovableView from './movableView'
 import { TaroRadio, TaroRadioGroup } from './radio'
 import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 
-import commonStyleModify, { rowModify, columnModify } from './style'
+import commonStyleModify, { rowModify, columnModify, textModify, setNormalTextAttributeIntoInstance } from './style'
 import { getButtonColor } from './button'
 import { FlexManager } from './utils/flexManager'
 import { DynamicCenter } from './utils/DynamicCenter'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
+import { getStyleAttr } from './utils/styles'
 import { shouldBindEvent, getNodeThresholds, getNormalAttributes, getFontAttributes } from './utils/helper'
 
 export {
+  textModify,
+  getStyleAttr,
   FlexManager,
   DynamicCenter,
   getButtonColor,
@@ -44,6 +47,7 @@ export {
   getNodeThresholds,
   BUTTON_THEME_COLOR,
   getNormalAttributes,
+  setNormalTextAttributeIntoInstance
 }
 
 export {
