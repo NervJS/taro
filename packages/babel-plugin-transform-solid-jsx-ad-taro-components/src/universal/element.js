@@ -19,9 +19,12 @@ import {
 
 export function transformElement(path) {
   let tagName = getTagName(path.node)
-  const taroComponent = getTaroComponentsMap(path).get(tagName)
-  if (taroComponent) {
-    tagName = convertCamelToKebabCase(taroComponent)
+  const config = getConfig(path)
+  if (config.uniqueTransform) {
+    const taroComponent = getTaroComponentsMap(path).get(tagName)
+    if (taroComponent) {
+      tagName = convertCamelToKebabCase(taroComponent)
+    }
   }
   const results = {
     id: path.scope.generateUidIdentifier('el$'),

@@ -22,6 +22,7 @@ module.exports = function (context, options = {}) {
           contextToCustomElements: true,
           wrapConditionals: true,
           generate: 'dom',
+          uniqueTransform: false,
         },
         options
       ),

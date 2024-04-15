@@ -185,9 +185,11 @@ export function getCreateTemplate(config, path, result) {
 export function transformElement(config, path, info = {}) {
   const node = path.node
   let tagName = getTagName(node)
-  const taroComponent = getTaroComponentsMap(path).get(tagName)
-  if (taroComponent) {
-    tagName = convertCamelToKebabCase(taroComponent)
+  if (config.uniqueTransform) {
+    const taroComponent = getTaroComponentsMap(path).get(tagName)
+    if (taroComponent) {
+      tagName = convertCamelToKebabCase(taroComponent)
+    }
   }
   // <Component ...></Component>
   if (isComponent(tagName)) return transformComponent(path)

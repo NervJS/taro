@@ -73,6 +73,7 @@ module.exports = (_, options = {}) => {
       {
         moduleName: '@tarojs/plugin-framework-react/dist/reconciler',
         generate: 'universal',
+        uniqueTransform: process.env.TARO_PLATFORM !== 'web',
       },
     ])
   }

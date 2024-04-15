@@ -5,6 +5,7 @@ fork from [babel-plugin-jsx-dom-expressions](https://github.com/ryansolid/dom-ex
 This package is a JSX compiler built for [DOM Expressions](https://github.com/ryansolid/dom-expressions) to provide a general JSX to DOM transformation for reactive libraries that do fine grained change detection. This package aims to convert JSX statements to native DOM statements and wrap JSX expressions with functions that can be implemented with the library of your choice. Sort of like a JSX to Hyperscript for fine change detection.
 
 ## What Has Been Modified?
+- Added uniqueTransform configuration, defaulting to false, indicating that the following processing should not be performed.
 - Within the transformElement function of the universal module, perform matching against components from @tarojs/components. Modify the transformation of these components such that they are instead invoked via createElement calls.
 
 ### Example
