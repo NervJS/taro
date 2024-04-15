@@ -227,41 +227,7 @@ pub fn check_jsx_element_has_compile_ignore(el: &JSXElement) -> bool {
     false
 }
 
-// pub fn find_jsx_element_in_loop(args: &mut Vec<ExprOrSpread>) {
-//   if let Some(ExprOrSpread { expr: boxed_fn, .. }) = args.get_mut(0) {
-//     if let Expr::Fn(FnExpr {
-//       function: boxed_function,
-//       ..
-//     }) = &mut **boxed_fn
-//     {
-//       if let Function {
-//         body: optioned_body,
-//         ..
-//       } = &mut **boxed_function
-//       {
-//         match optioned_body {
-//           Some(BlockStmt { stmts, .. }) => {
-//             if let optioned_stmt = stmts.get_mut(0) {
-//               match optioned_stmt {
-//                 Some(stmt) => match stmt {
-//                   Return(ReturnStmt {
-//                     arg: optioned_arg, ..
-//                   }) => match optioned_arg {
-//                     Some(Expr::Paren(ParenExpr { expr: test_, .. })) => return test_,
-//                     None => {}
-//                   },
-//                   _ => {}
-//                 },
-//                 None => {}
-//               }
-//             }
-//           }
-//           None => {}
-//         }
-//       }
-//     }
-//   }
-// }
+
 
 /**
  * identify: `xx.map(function () {})` or `xx.map(() => {})`
