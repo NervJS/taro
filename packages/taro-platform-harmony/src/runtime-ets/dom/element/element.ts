@@ -260,18 +260,24 @@ export class TaroElement<
 
   get currentLayerNode () {
     if (typeof Current.page.tabBarCurrentIndex !== 'undefined') {
+      Current.page.layerNode ||= []
+      Current.page.layerNode[Current.page.tabBarCurrentIndex] ||= Current.createHarmonyElement('VIEW')
       // Tabbar
       return Current.page.layerNode[Current.page.tabBarCurrentIndex]
     } else {
+      Current.page.layerNode ||= Current.createHarmonyElement('VIEW')
       return Current.page.layerNode
     }
   }
 
   get currentLayerParents () {
     if (typeof Current.page.tabBarCurrentIndex !== 'undefined') {
+      Current.page.layerParents ||= []
+      Current.page.layerParents[Current.page.tabBarCurrentIndex] ||= []
       // Tabbar
       return Current.page.layerParents[Current.page.tabBarCurrentIndex]
     } else {
+      Current.page.layerParents ||= []
       return Current.page.layerParents
     }
   }
