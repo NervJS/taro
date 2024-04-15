@@ -180,7 +180,7 @@ function queryBat (queue: ISelectorQueryQueue[], cb: (...args: any[]) => any): v
 
 /**
  * 查询节点信息
- * 
+ *
  * @canUse SelectorQuery
  * @__class [in, select, selectAll, selectViewport, exec]
  */

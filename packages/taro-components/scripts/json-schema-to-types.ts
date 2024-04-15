@@ -279,7 +279,8 @@ class GenerateTypes {
     this.formatJSDoc(ast)
     const result = generator(ast)
     const code = prettify(result.code, {
-      parser: 'typescript', semi: false,
+      parser: 'typescript',
+      semi: false,
       singleQuote: true,
       printWidth: 120
     })

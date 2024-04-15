@@ -14,7 +14,7 @@ const TextBaseLineMap: Record<keyof Taro.CanvasContext.TextBaseline, CanvasTextB
   normal: 'alphabetic',
   hanging: 'hanging',
   alphabetic: 'alphabetic',
-  ideographic: 'ideographic'
+  ideographic: 'ideographic',
 }
 
 /**
@@ -280,7 +280,10 @@ export class CanvasContext implements Taro.CanvasContext {
     return this.enqueueActions(this.ctx.closePath, ...args)
   }
 
-  createPattern (imageResource: string, repetition: keyof Taro.CanvasContext.Repetition): CanvasPattern | null | Promise<CanvasPattern | null> {
+  createPattern (
+    imageResource: string,
+    repetition: keyof Taro.CanvasContext.Repetition
+  ): CanvasPattern | null | Promise<CanvasPattern | null> {
     // 需要转换为 Image
     if (typeof imageResource === 'string') {
       const img = new Image()
@@ -372,8 +375,12 @@ export class CanvasContext implements Taro.CanvasContext {
     return this.enqueueActions(this.ctx.rect, ...args)
   }
 
-  // @ts-ignore
-  reset () { return this.ctx.reset() }
+
+  reset () {
+    // @ts-ignore
+    return this.ctx.reset()
+  }
+
   restore (...args) {
     return this.enqueueActions(this.ctx.restore, ...args)
   }

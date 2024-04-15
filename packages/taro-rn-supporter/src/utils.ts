@@ -180,7 +180,7 @@ function getBlockList (config: IProjectConfig) {
   const path = `${process.cwd()}/${srcDir}/app.config`
   const configPath = helper.resolveMainFilePath(path)
   const appConfig = helper.readConfig(configPath, config)
-  if( appConfig?.pages?.length === 1 && !!appConfig?.rn?.singleMode){
+  if (appConfig?.pages?.length === 1 && !!appConfig?.rn?.singleMode) {
     regExp.push(/@tarojs\/router-rn/)
   }
   return regExp
@@ -194,7 +194,8 @@ export {
   isTaroRunner,
   resolveExtFile,
   resolvePathFromAlias,
-  setFromRunner }
+  setFromRunner
+}
 
 export function getOpenHost () {
   let result

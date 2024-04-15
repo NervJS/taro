@@ -41,7 +41,7 @@ export class TaroBaseNormalModule extends webpack.NormalModule {
     this.collectProps = read()
     this.elementNameSet = read()
     this.componentNameSet = read()
-    
+
     if (!isEmpty(this.collectProps)) {
       for (const key in this.collectProps) {
         const attrs = componentConfig.thirdPartyComponents.get(key)

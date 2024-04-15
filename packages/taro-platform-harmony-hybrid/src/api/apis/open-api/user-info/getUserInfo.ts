@@ -37,3 +37,10 @@ export const getUserInfo: typeof Taro.getUserInfo = (options) => {
   })
   return ret
 }
+
+/**
+ * 用户信息
+ *
+ * @canUse UserInfo
+ * @__class [nickName, avatarUrl]
+ */

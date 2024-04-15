@@ -16,7 +16,7 @@ const unstable_batchedUpdates = (fn, a) => {
   }
 
   isInsideEventHandler = true
-  
+
   try {
     return TaroReconciler.batchedUpdates(fn, a)
   } finally {

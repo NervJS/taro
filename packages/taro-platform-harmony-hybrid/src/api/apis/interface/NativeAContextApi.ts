@@ -5,7 +5,7 @@ import native from '../NativeApi'
 export class NativeInnerAudioContext implements Taro.InnerAudioContext {
   private objectId: number
 
-  constructor ()  {
+  constructor () {
     this.objectId = native.createInnerAudioContext()
   }
 
@@ -125,8 +125,7 @@ export class NativeInnerAudioContext implements Taro.InnerAudioContext {
     native.innerAudioOnError(option, this.objectId)
   }
 
-  destroy (): void {
-  }
+  destroy (): void {}
 
   offCanplay (option: any): void {
     return option
@@ -192,12 +191,9 @@ export class NativeInnerAudioContext implements Taro.InnerAudioContext {
     return option
   }
 
-  pause (): void {
-  }
+  pause (): void {}
 
   seek (option: any): void {
     return option
   }
-
-
 }

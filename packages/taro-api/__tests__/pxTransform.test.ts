@@ -76,5 +76,4 @@ describe('pxtransform', () => {
     })
     expect(Taro.pxTransform(20)).toBe('0.585rem')
   })
-
 })

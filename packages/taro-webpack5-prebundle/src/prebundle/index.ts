@@ -72,8 +72,8 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     this.customSwcConfig = swc
     this.env = env
     this.platformType = platformType
-    this.mode = ['production', 'development', 'none'].find(e => e === env) as TMode
-      || (!isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
+    this.mode = ['production', 'development', 'none'].find(e => e === env) as TMode ||
+      (!isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
     this.prebundleCacheDir = path.resolve(cacheDir, './prebundle')
     this.remoteCacheDir = path.resolve(cacheDir, './remote')
     this.metadataPath = path.join(cacheDir, 'metadata.json')
@@ -213,7 +213,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
       if (deps.length > 0) {
         console.log(
           chalk.yellowBright(
-            `检测到依赖编译错误，已跳过`, deps.sort(sortDeps).map(e => chalk.bold(e)).join('、'),`依赖预编译。`,
+            `检测到依赖编译错误，已跳过`, deps.sort(sortDeps).map(e => chalk.bold(e)).join('、'), `依赖预编译。`,
             `\n    > 可以通过手动配置 ${
               terminalLink('compiler.prebundle.exclude', 'https://nervjs.github.io/taro-docs/docs/next/config-detail#compilerprebundleexclude')
             } 忽略该提示`

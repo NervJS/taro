@@ -815,9 +815,9 @@ export default class TaroMiniPlugin {
         // 判断是否为第三方依赖的正则，如果 test 为 false 则为第三方依赖
         const notNpmPkgReg = /^[.\\/]/
         if (
-          !this.options.skipProcessUsingComponents
-          && !compPath.startsWith('plugin://')
-          && !notNpmPkgReg.test(compPath)
+          !this.options.skipProcessUsingComponents &&
+          !compPath.startsWith('plugin://') &&
+          !notNpmPkgReg.test(compPath)
         ) {
           const tempCompPath = getNpmPackageAbsolutePath(compPath)
 
@@ -1154,7 +1154,7 @@ export default class TaroMiniPlugin {
           ...config.content.usingComponents
         }
 
-        if(isUsingCustomWrapper) {
+        if (isUsingCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
         if (!template.isSupportRecursive && !page.isNative) {
@@ -1256,7 +1256,7 @@ export default class TaroMiniPlugin {
           ...config.content.usingComponents
         }
 
-        if(isUsingCustomWrapper) {
+        if (isUsingCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
         if (!template.isSupportRecursive && !page.isNative) {
@@ -1439,10 +1439,10 @@ export default class TaroMiniPlugin {
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if (
-        (REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName))
-        && this.options.commonChunks.includes(fileName)
+        (REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) &&
+        this.options.commonChunks.includes(fileName) &&
         // app.wxss 不能引入独立分包中的 common 样式文件
-        && independentPackageNames.every(name => !assetName.includes(name))
+        independentPackageNames.every(name => !assetName.includes(name))
       ) {
         commons.add('\n')
         commons.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)

@@ -24,26 +24,26 @@ export const getLocation: typeof Taro.getLocation = (options) => {
     return Promise.reject(res)
   }
   const {
-    altitude = 'false',
+    altitude = false,
     highAccuracyExpireTime,
     isHighAccuracy = false,
     type = 'wgs84',
     success,
     fail,
-    complete
+    complete,
   } = options as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise<Taro.getLocation.SuccessCallbackResult>((resolve, reject) => {
     const loc: Partial<Taro.getLocation.SuccessCallbackResult> = {}
     let flag = true
-    let timeoutId: NodeJS.Timeout
+    let timeoutId: ReturnType<typeof setTimeout>
     // 只有开启了高精度定位才需要设置超时时间，默认超时时间10秒
     if (isHighAccuracy) {
       timeoutId = setTimeout(function () {
         if (!loc.latitude && !loc.longitude) {
           const result: TaroGeneral.CallbackResult = {
-            errMsg: '定位超时！'
+            errMsg: '定位超时！',
           }
           flag = false
           handle.fail(result, { resolve, reject })
@@ -70,7 +70,7 @@ export const getLocation: typeof Taro.getLocation = (options) => {
           loc.longitude = isHighAccuracy ? lng : parseFloat(lng.toFixed(6))
         } else {
           const result: TaroGeneral.CallbackResult = {
-            errMsg: 'type参数有误，仅支持"wgs84"和"gcj02"坐标系！'
+            errMsg: 'type参数有误，仅支持"wgs84"和"gcj02"坐标系！',
           }
           clearTimeout(timeoutId)
           return handle.fail(result, { resolve, reject })
