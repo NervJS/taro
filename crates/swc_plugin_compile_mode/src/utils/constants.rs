@@ -34,7 +34,8 @@ pub const HARMONY_IMPORTER: &str = "import {
   getNormalAttributes,
   shouldBindEvent,
   textModify,
-  setNormalTextAttributeIntoInstance
+  setNormalTextAttributeIntoInstance,
+  getImageMode
 } from '@tarojs/components'
 import {
   NodeType,
