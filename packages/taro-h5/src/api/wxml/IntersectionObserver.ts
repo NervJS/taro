@@ -10,7 +10,6 @@ type TListener = {
 }
 
 export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
-
   // 自定义组件实例
   private _component: TaroGeneral.IAnyObject
   // 选项
@@ -131,5 +130,4 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
     const listener = this._listeners.find(listener => listener.element === element)
     return listener ? listener.callback : null
   }
-
 }

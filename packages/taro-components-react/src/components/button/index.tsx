@@ -5,7 +5,7 @@ import React from 'react'
 
 import { omit } from '../../utils'
 
-interface IProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'>  {
+interface IProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
   size?: string
   plain?: boolean
   hoverClass?: string

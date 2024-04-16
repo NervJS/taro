@@ -35,5 +35,4 @@ describe('taro interceptorify', () => {
     const res2 = await execLink.request({ msg: 'test2' })
     expect(res2.msg).toBe('test2__exec')
   })
-
 })

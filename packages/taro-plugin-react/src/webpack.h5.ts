@@ -46,7 +46,6 @@ export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks
       }
     },
   })
-
 }
 
 function setLoader (framework: Frameworks, chain) {

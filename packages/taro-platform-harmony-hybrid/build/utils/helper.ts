@@ -60,7 +60,7 @@ export function removeFalseProperties (obj: object) {
 
 /**
  * 将属性值全部赋值为false
- * @param obj 
+ * @param obj
  */
 export function setPropertiesValue (obj: object) {
   for (const prop in obj) {

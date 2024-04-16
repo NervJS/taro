@@ -291,7 +291,7 @@ export default class List extends React.PureComponent<IProps, IState> {
         duration: 300,
       }
       if (isHorizontal) {
-        option.left	= scrollOffset
+        option.left = scrollOffset
       } else {
         option.top = scrollOffset
       }

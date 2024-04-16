@@ -82,7 +82,7 @@ export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, comp
         errMsg: 'LOCATION_APIKEY needed'
       }, { resolve, reject })
     }
-    
+
     const key = LOCATION_APIKEY
 
     const onMessage = event => {
