@@ -357,7 +357,7 @@ function insertParentStyle(data: {key: string, value: CSSProperties}, class_mapp
 // 合并嵌套样式
 // 1、构建映射表，生成一份扁平的样式表结构
 // 2、遍历嵌套样式，根据选择器查找节点，合并样式
-export function __combine_nesting_style__(react_tree: ReactElement, styles: NestingStyle | null) {
+export function __combine_nesting_style__(react_tree: ReactElement, styles: NestingStyle | null = null) {
   if (react_tree) {
     let newStyle = styles
     const parentProps: {

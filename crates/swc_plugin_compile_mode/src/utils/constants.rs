@@ -147,7 +147,7 @@ function textNormalFontStyle (style: HarmonyStyle) {
   .fontFamily(style.fontFamily)
   .lineHeight(style.lineHeight)
   .decoration({
-    type: style.textDecoration  as TaroAny,
+    type: style.textDecoration?.type,
     color: style.color
   })
 }

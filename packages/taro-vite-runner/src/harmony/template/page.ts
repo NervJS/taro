@@ -229,12 +229,7 @@ export default class Parser extends BaseParser {
         'this.handlePageAppear(index)',
         'this.setTabBarCurrentIndex(index)',
         'this.bindTabBarEvent()',
-      ] : ['this.handlePageAppear()'],
-      [
-        'Current.page.layerNode = this.layerNode',
-        'Current.page.layerParents = Current.page.layerParents || []',
-        this.isTabbarPage ? 'Current.page.layerParents[index] = []' : null
-      ]
+      ] : ['this.handlePageAppear()']
     ))}`
 
     if (isFunction(modifyPageAppear)) {
@@ -742,16 +737,14 @@ if (!this.pageList[index]) {
   })
   callFn(this.page.onReady, this, params)
 }
-
-this.layerNode[index] = Current.createHarmonyElement("VIEW")`
+`
     : `this.page = createComponent()
 this.onReady = this.page?.onReady?.bind(this.page)
 callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
   this.node = instance
 })
 callFn(this.page.onReady, this, params)
-
-this.layerNode = Current.createHarmonyElement("VIEW")`
+`
 }`
   }
 

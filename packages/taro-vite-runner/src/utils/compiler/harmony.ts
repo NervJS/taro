@@ -42,7 +42,6 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
   fileType: ViteFileType
   useETS: boolean
   useJSON5: boolean
-  useNesting: boolean
   // 用于插件去拓展额外的组件
   extraComponents: string[] = []
   nativeExt = ['.ets']
@@ -54,7 +53,6 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     this.fileType = this.taroConfig.fileType
     this.useETS = taroConfig.useETS !== false
     this.useJSON5 = taroConfig.useJSON5 !== false
-    this.useNesting = taroConfig.useNesting !== false
     this.commonChunks = this.getCommonChunks()
     this.app = this.getApp()
     this.pages = this.getPages()
