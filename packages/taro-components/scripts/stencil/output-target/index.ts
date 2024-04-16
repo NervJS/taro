@@ -2,18 +2,18 @@ import { generateProxies as generateReactProxies } from '@stencil/react-output-t
 import { normalizeOutputTarget as normalizeReactOutputTarget } from '@stencil/react-output-target/dist/plugin'
 import { generateProxies as generateVue3Proxies } from '@stencil/vue-output-target/dist/output-vue'
 import { normalizeOutputTarget as normalizeVueOutputTarget } from '@stencil/vue-output-target/dist/plugin'
+
 import {
   generateProxies as generateSolidProxies,
   normalizeOutputTarget as normalizeSolidOutputTarget,
   validateOutputTarget,
-} from 'stencil-solid-output-target/dist/index.cjs'
-
+} from './output-solid'
 import { generateVue2Proxies } from './output-vue2'
 
 import type { CompilerCtx, ComponentCompilerMeta, Config, OutputTargetCustom } from '@stencil/core/internal'
 import type { OutputTargetReact } from '@stencil/react-output-target'
 import type { OutputTargetVue } from '@stencil/vue-output-target'
-import type { OutputTargetSolid } from 'stencil-solid-output-target'
+import type { OutputTargetSolid } from './output-solid'
 
 export function sortBy<T> (array: ReadonlyArray<T>, prop: (item: T) => string): ReadonlyArray<T> {
   return array.slice().sort((a, b) => {

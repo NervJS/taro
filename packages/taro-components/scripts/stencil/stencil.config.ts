@@ -55,7 +55,7 @@ const outputTargets: OutputTarget[] = [
     componentCorePackage: '@tarojs/components',
     customElementsDir: 'dist/components',
     includeImportCustomElements: true,
-    proxiesFile: '../taro-components-library-react/src/components.ts',
+    proxiesFile: '../taro-components-library-solid/src/components.ts',
   }),
   {
     type: 'dist',

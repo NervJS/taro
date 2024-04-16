@@ -1189,9 +1189,6 @@ importers:
       sass:
         specifier: ^1.58.3
         version: registry.npmjs.org/sass@1.69.7
-      stencil-solid-output-target:
-        specifier: 0.1.3
-        version: 0.1.3(@stencil/core@2.22.3)
       stencil-vue2-output-target:
         specifier: 0.0.4
         version: registry.npmjs.org/stencil-vue2-output-target@0.0.4(@stencil/core@2.22.3)
@@ -7339,10 +7336,6 @@ packages:
       lru-cache: registry.npmjs.org/lru-cache@6.0.0
     dev: true
 
-  /hyper-dom-expressions@0.33.14:
-    resolution: {integrity: sha512-LOIT+exFceP+lpreBSj7UIx7Xhmpxw9pB5FIReCTp37GX0jOjGG88LiIM8oqsYjXhIIJtBSZKQN/i1ITS8SAUQ==, tarball: https://registry.npmjs.org/hyper-dom-expressions/-/hyper-dom-expressions-0.33.14.tgz}
-    dev: true
-
   /ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==, tarball: https://registry.npmjs.org/ieee754/-/ieee754-1.2.1.tgz}
     dev: true
@@ -8604,17 +8597,6 @@ packages:
 
   /spdx-license-ids@3.0.13:
     resolution: {integrity: sha512-XkD+zwiqXHikFZm4AX/7JSCXA98U5Db4AFd5XUg/+9UNtnH75+Z9KxtpYiJZx36mUDVOwH83pl7yvCer6ewM3w==, tarball: https://registry.npmjs.org/spdx-license-ids/-/spdx-license-ids-3.0.13.tgz}
-    dev: true
-
-  /stencil-solid-output-target@0.1.3(@stencil/core@2.22.3):
-    resolution: {integrity: sha512-PtV3kACvu3Jr1miQ2/YYbpqgIf65qfVWajT3c0rtFZhBLCWK7ge2bNCHbMOXQJcqQta0+aI/TxLHVSkf+gy7dQ==, tarball: https://registry.npmjs.org/stencil-solid-output-target/-/stencil-solid-output-target-0.1.3.tgz}
-    engines: {node: '>=16.0.0'}
-    peerDependencies:
-      '@stencil/core': ^2
-    dependencies:
-      '@stencil/core': registry.npmjs.org/@stencil/core@2.22.3
-      glob: 10.3.12
-      hyper-dom-expressions: 0.33.14
     dev: true
 
   /string-width@2.1.1:
