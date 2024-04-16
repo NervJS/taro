@@ -14,24 +14,27 @@ export interface ComponentSupplementaryTypes {
   slot?: string
 }
 
+const traverseChildren = (child, _h, createComponent) => {
+  if (typeof child === 'string') {
+    return child
+  } else if (typeof child === 'function') {
+    return child()
+  } else if (Array.isArray(child)) {
+    return child.map((_c) => traverseChildren(_c, _h, createComponent))
+  }
+  return createComponent(_h, child.tagName, child.props)
+
+}
+
 const createComponent = <ElementType extends HTMLStencilElement>(
   _h: typeof h,
   tagName: string,
   props: StencilSolidInternalProps<ElementType>,
 ): any => {
   let children: JSX.Element[] = []
-
-  if (props.children) {
+  if (props?.children) {
     if (Array.isArray(props.children)) {
-      children = props.children.map((child: any) => {
-        if (typeof child === 'string') {
-          return child
-        } else if (typeof child === 'function') {
-          return child()
-        } else {
-          return createComponent(_h, child.tagName, child.props)
-        }
-      })
+      children = props.children.map((child: any) => traverseChildren(child, _h, createComponent))
     } else if (typeof props.children === 'string') {
       children = [props.children]
     } else if (typeof props.children === 'function') {

@@ -35,8 +35,7 @@
     "version:release": "pnpm --parallel -r --aggregate-output --filter=./{npm/**,crates/native_binding,packages/*} exec npm version ${npm_package_version}",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_package_version}\"",
     "version:changelog": "conventional-changelog -p angular",
-    "artifacts": "pnpm --filter @tarojs/helper --filter @tarojs/binding run artifacts",
-    "build-solid": "pnpm --filter @tarojs/components-library-solid run build:ci"
+    "artifacts": "pnpm --filter @tarojs/helper --filter @tarojs/binding run artifacts"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
