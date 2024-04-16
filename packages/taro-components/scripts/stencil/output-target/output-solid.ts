@@ -66,7 +66,7 @@ export function createComponentDefinition(componentCompilerMeta: PartialExcept<C
   let template = `export const ${tagNameAsPascal} = /*@__PURE__*/createSolidComponent<${IMPORT_TYPES}.${tagNameAsPascal}, HTML${tagNameAsPascal}Element>('${componentCompilerMeta.tagName}'`
 
   if (includeImportCustomElements) {
-    template += `, undefined, undefined, define${tagNameAsPascal}`
+    template += `, undefined, define${tagNameAsPascal}`
   }
 
   template += `);`
@@ -85,7 +85,7 @@ export const generateProxies = (config: Config, components: ComponentCompilerMet
   const imports = `/* eslint-disable */
 /* tslint:disable */
 /* auto-generated solid proxies */
-import { createSolidComponent } from './solid-component-lib/utils';\n`
+import { createSolidComponent } from './solid-component-lib';\n`
 
   const generateTypeImports = () => {
     if (outputTarget.componentCorePackage !== undefined) {
@@ -116,6 +116,7 @@ import { createSolidComponent } from './solid-component-lib/utils';\n`
     registerCustomElements = `${APPLY_POLYFILLS}().then(() => ${REGISTER_CUSTOM_ELEMENTS}());`
   } else if (!outputTarget.includePolyfills && outputTarget.includeDefineCustomElements) {
     sourceImports = `import { ${REGISTER_CUSTOM_ELEMENTS} } from '${pathToCorePackageLoader}';\n`
+
     registerCustomElements = `${REGISTER_CUSTOM_ELEMENTS}();`
   }
 
