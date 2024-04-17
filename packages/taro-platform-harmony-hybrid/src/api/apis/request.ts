@@ -1,7 +1,12 @@
+import { CallbackManager } from './utils/handler'
+
 const axios = require('axios').default
 
 const CancelToken = axios.CancelToken
 const source = CancelToken.source()
+const callbackManager = {
+  headersReceived: new CallbackManager()
+}
 
 const errMsgMap = new Map([
   [401, 'Parameter error'],
@@ -17,12 +22,11 @@ const errMsgMap = new Map([
   [999, 'Unknown Other Error'],
 ])
 
+let isHeaderReceived = false
 export class RequestTask {
-  public responseHeader
   public abortFlag
   public fail
   public complete
-  public headersCallback
   public result
   public res
   public interceptor
@@ -33,11 +37,9 @@ export class RequestTask {
     let { data } = object || {}
     const { success, fail, complete, dataType } = object || {}
 
-    this.responseHeader = null
     this.abortFlag = false
     this.fail = fail
     this.complete = complete
-    this.headersCallback = new Set()
     // 使用axios.create来创建axios实例
     this.httpRequest = axios.create({
       responseType: responseType || 'text',
@@ -75,6 +77,9 @@ export class RequestTask {
         if (response.config.enableCache === false) {
           localStorage.setItem(response.config.url, JSON.stringify(response.data))
         }
+        callbackManager.headersReceived.trigger({
+          header: response.headers
+        })
         return response
       },
       (error) => {
@@ -122,7 +127,6 @@ export class RequestTask {
     })
       .then((response) => {
         if (success && !this.abortFlag) {
-          this.responseHeader = response.headers
           let result = response.result
           if (response.config.responseType === 'text') {
             if (dataType === 'text') {
@@ -186,22 +190,20 @@ export class RequestTask {
   }
 
   onHeadersReceived (callback) {
-    if (!callback) {
-      console.error('[AdvancedAPI] Invalid, callback is null')
-      return
-    }
-    const taskCallback = (header) => {
-      !this.abortFlag && callback({ header })
-    }
-    if (!this.headersCallback.has(callback)) {
-      this.headersCallback.add(taskCallback)
-      if (this.httpRequest) {
-        this.interceptor = this.httpRequest.interceptors.response.use((response) => {
-          taskCallback(this.responseHeader)
-          return response
-        })
+    if (isHeaderReceived === false) {
+      const taskCallback = (header) => {
+        !this.abortFlag && callback({ header })
       }
-      taskCallback(this.responseHeader)
+      if (!callback) {
+        console.error('[AdvancedAPI] Invalid, callback is null')
+        return
+      }
+      if (callbackManager) {
+        isHeaderReceived = true
+        callbackManager.headersReceived.addUnique(taskCallback)
+      }
+    } else {
+      callbackManager.headersReceived.remove(callback)
     }
   }
 
@@ -210,14 +212,12 @@ export class RequestTask {
    * remove all if callback is null, otherwise remove the specialized callback
    */
   offHeadersReceived (callback) {
-    if (this.headersCallback.has(callback)) {
-      if (this.httpRequest) {
-        this.httpRequest.interceptors.eject(this.interceptor)
-      }
-      this.headersCallback.delete(callback)
-    } else {
-      // eslint-disable-next-line no-console
-      console.debug('offHeadersReceived callback invalid')
+    if (!callback) {
+      console.error('Invalid, callback is null')
+      return
+    }
+    if (callbackManager && isHeaderReceived) {
+      callbackManager.headersReceived.remove(callback)
     }
   }
 }
