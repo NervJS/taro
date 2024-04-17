@@ -1178,7 +1178,7 @@
       }
     },
     "getTopStatus": false,
-    "getUpdateManager": false,
+    "getUpdateManager": true,
     "getUserCryptoManager": false,
     "getUserInfo": {
       "object": {
@@ -1754,7 +1754,11 @@
       }
     },
     "setBackgroundColor": false,
-    "setBackgroundFetchToken": true,
+    "setBackgroundFetchToken": {
+      "object": {
+        "token": true
+      }
+    },
     "setBackgroundTextStyle": false,
     "setClipboardData": {
       "object": {
