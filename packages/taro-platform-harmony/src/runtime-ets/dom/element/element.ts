@@ -9,7 +9,7 @@ import { bindAnimation } from '../bind'
 import { ClassList } from '../class-list'
 import { type ICSSStyleDeclaration, createCSSStyleDeclaration } from '../cssStyleDeclaration'
 import { NodeType, TaroNode } from '../node'
-import StyleSheet, { HarmonyStyle } from '../stylesheet'
+import StyleSheet, { HarmonyStyle, TaroStyleType } from '../stylesheet'
 
 import type { BaseTouchEvent, ITouchEvent, StandardProps } from '@tarojs/components/types'
 import type { TaroAny } from '../../utils'
@@ -20,6 +20,7 @@ export interface TaroExtraProps {
   compileMode?: string | boolean
   compileIf?: boolean
   disabled?: boolean
+  __hmStyle?: TaroStyleType
 }
 
 export class TaroElement<

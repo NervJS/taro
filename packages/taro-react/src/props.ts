@@ -108,7 +108,7 @@ function setStyle (style: Style, key: string, value: unknown) {
   style[key] =
     isNumber(value) && IS_NON_DIMENSIONAL.test(key) === false
       ? (isHarmony ? value + 'px' : convertNumber2PX(value))
-      : value == null
+      : value === null
         ? ''
         : value
 }
@@ -176,6 +176,8 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
       }
     }
   }
+
+  dom.setAttribute('__hmStyle', value)
 }
 function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
   name = name === 'className' ? 'class' : name

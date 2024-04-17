@@ -60,25 +60,18 @@ export function parseClasses (classNames: string | string[] = []): string[] {
 }
 
 // 合并静态样式，从样式表里面找到对应的样式
-export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, classNames: string | string[] = [], style: CSSProperties): CSSProperties {
+export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, classNames: string | string[] = []): CSSProperties {
   const obj: CSSProperties[] = []
   const classes = parseClasses(classNames)
   if (classes.length === 1) {
-    if (style) {
-      return Object.assign({}, styleSheet[classes[0]], style)
-    } else {
-      // 同一个引用
-      return styleSheet[classes[0]]
-    }
+    // 同一个引用
+    return styleSheet[classes[0]]
   } else {
     for (let i = 0; i < classes.length; i++) {
       const className = classes[i]
       if (styleSheet[className]) {
         obj.push(styleSheet[className])
       }
-    }
-    if (style) {
-      obj.push(style)
     }
     return Object.assign.apply(null, [{}].concat(obj))
   }
