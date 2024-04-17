@@ -130,7 +130,8 @@ export default class ListSet {
     return Math.max(startIndex, Math.min(this.length - 1, this.getSizeCount(wrapperSize + scrollOffset)))
   }
 
-  getRangeToRender (direction: 'forward' | 'backward', scrollOffset = 0, block = false) {
+  getRangeToRender (_direction: 'forward' | 'backward', scrollOffset = 0, _block = false) {
+    
     if (this.length === 0) {
       return [0, 0, 0, 0]
     }
