@@ -260,6 +260,7 @@ export class TaroElement<
   }
 
   get currentLayerNode () {
+    if (!Current.page) return null
     if (typeof Current.page.tabBarCurrentIndex !== 'undefined') {
       Current.page.layerNode ||= []
       Current.page.layerNode[Current.page.tabBarCurrentIndex] ||= Current.createHarmonyElement('VIEW')
@@ -272,6 +273,7 @@ export class TaroElement<
   }
 
   get currentLayerParents () {
+    if (!Current.page) return null
     if (typeof Current.page.tabBarCurrentIndex !== 'undefined') {
       Current.page.layerParents ||= []
       Current.page.layerParents[Current.page.tabBarCurrentIndex] ||= []
