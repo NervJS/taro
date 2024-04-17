@@ -1,5 +1,5 @@
 import _display from '@ohos.display'
-import { pxTransformHelper } from '@tarojs/taro'
+import { getSystemInfoSync, pxTransformHelper } from '@tarojs/taro'
 
 import { NodeType } from '../dom/node'
 import convertWebStyle2HmStyle from '../dom/stylesheet/covertWeb2Hm'
@@ -90,6 +90,27 @@ export function calcDynamicStyle (style: CSSProperties): CSSProperties {
     return convertWebStyle2HmStyle(style)
   }
   return {}
+}
+
+// css env()环境样式获取
+export function __env__(safeAreaType: string, fallback?: string | number) {
+  const sysInfo = getSystemInfoSync()
+  
+  switch (safeAreaType) {
+    case 'safe-area-inset-top': {
+      return sysInfo.safeArea?.top ? `${sysInfo.safeArea?.top}px` : fallback
+    }
+    case 'safe-area-inset-right': {
+      return sysInfo.safeArea?.right ? `${sysInfo.screenWidth - sysInfo.safeArea?.right}px` : fallback
+    }
+    case 'safe-area-inset-bottom': {
+      return sysInfo.safeArea?.bottom ? `${sysInfo.screenHeight - sysInfo.safeArea?.bottom}px` : fallback
+    }
+    case 'safe-area-inset-left': {
+      return sysInfo.safeArea?.left ? `${sysInfo.safeArea?.left}px` : fallback
+    }
+  }
+  return fallback
 }
 
 export function getPageScrollerOrNode (scrollerOrNode: any, page: any) {
