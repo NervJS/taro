@@ -24,10 +24,10 @@ if (fs.existsSync(componentsPath)) {
    * 当前不支持配置通用的 manipulatePropsFunction 方法，因此需要手动添加
    * https://github.com/ionic-team/stencil-ds-output-targets/issues/243
    */
-  // if (!code.includes('./helper')) {
-  //   code = code.replace('/* auto-generated solid proxies */', `/* auto-generated solid proxies */\nimport { manipulatePropsFunction } from './helper'`)
-  //   code = code.replace(/\(([^,)]+)[^;]*,\s([^,]+)\);/ig, '($1, undefined, manipulatePropsFunction, $2);')
-  // }
+  if (!code.includes('./helper')) {
+    code = code.replace('/* auto-generated solid proxies */', `/* auto-generated solid proxies */\nimport { manipulatePropsFunction } from './helper'`)
+    code = code.replace(/\(([^,)]+)[^;]*,\s([^,]+)\);/ig, '($1, manipulatePropsFunction, $2);')
+  }
 
   if (!code.includes('Fragment')) {
     const comps = ['Block']

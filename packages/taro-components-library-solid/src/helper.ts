@@ -1,10 +1,6 @@
-interface StencilReactInternalProps<ElementType> extends React.HTMLAttributes<ElementType> {
-  forwardedRef: React.RefObject<ElementType>
-  ref?: React.Ref<any>
-}
 
-export const manipulatePropsFunction = <ElementType>(
-  originalProps: StencilReactInternalProps<ElementType>,
+export const manipulatePropsFunction = (
+  originalProps: any,
   propsToPass: Record<string, unknown> = {}
 ) => {
   const { dangerouslySetInnerHTML, style } = originalProps

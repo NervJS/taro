@@ -1,4 +1,4 @@
-import { Component, JSX } from 'solid-js'
+import { Component, createMemo, JSX, mergeProps } from 'solid-js'
 import h from 'solid-js/h'
 
 import { camelToDashCase } from './utils'
@@ -7,47 +7,11 @@ export interface HTMLStencilElement extends HTMLElement {
   componentOnReady(): Promise<this>
 }
 
-type StencilSolidInternalProps<ElementType> = JSX.DOMAttributes<ElementType>
+export type StencilSolidInternalProps<ElementType> = JSX.DOMAttributes<ElementType>
 
 export interface ComponentSupplementaryTypes {
   style?: JSX.CSSProperties
   slot?: string
-}
-
-const traverseChildren = (child, _h, createComponent) => {
-  if (typeof child === 'string') {
-    return child
-  } else if (typeof child === 'function') {
-    return child()
-  } else if (Array.isArray(child)) {
-    return child.map((_c) => traverseChildren(_c, _h, createComponent))
-  }
-  return createComponent(_h, child.tagName, child.props)
-
-}
-
-const createComponent = <ElementType extends HTMLStencilElement>(
-  _h: typeof h,
-  tagName: string,
-  props: StencilSolidInternalProps<ElementType>,
-): any => {
-  let children: JSX.Element[] = []
-  if (props?.children) {
-    if (Array.isArray(props.children)) {
-      children = props.children.map((child: any) => traverseChildren(child, _h, createComponent))
-    } else if (typeof props.children === 'string') {
-      children = [props.children]
-    } else if (typeof props.children === 'function') {
-      children = [(props as any).children()]
-    } else if (typeof props.children === 'object') {
-      children = [createComponent(_h, tagName, {
-        ...props.children,
-        textContent: props.textContent ?? undefined,
-      })]
-    }
-  }
-
-  return _h(tagName, props, children)
 }
 
 export const createSolidComponent = <
@@ -68,9 +32,14 @@ export const createSolidComponent = <
   }
 
   const getProps = (props: any) => {
+
     let propsToPass: typeof props = {}
 
     for (const key in props) {
+      if (key === 'children') {
+        continue
+      }
+
       if (!props.hasOwnProperty(key)) {
         continue
       }
@@ -91,17 +60,27 @@ export const createSolidComponent = <
   }
 
   function SolidComponentWrapper(props: { children: JSX.Element } & any) {
-    const propsToPass = {
-      ...getProps(props),
-      ref: (element: Element) => {
-        syncEvents(element, props)
+    const _mergeProps = mergeProps(getProps(props), { ref: (element: Element) => {
+      syncEvents(element, props)
+    } })
+    const children = props.children
+    if (children) {
+      if (typeof children === 'string') {
+        return createMemo(() => h(tagName, _mergeProps, children))
+      } else if (Array.isArray(children)) {
+        const _children = children.map((child: any) => {
+          return child()
+        })
+        return createMemo(() => h(tagName, _mergeProps, _children))
       }
-    }
 
-    return createComponent(h, tagName, propsToPass)
+      return createMemo(() => h(tagName, _mergeProps, typeof children === 'function' ? (props as any).children(): null))
+
+    }
+    return createMemo(() => h(tagName, _mergeProps))
   }
 
-  return SolidComponentWrapper
+  return SolidComponentWrapper as any
 }
 
 function syncEvents(node: Element, props: any) {
