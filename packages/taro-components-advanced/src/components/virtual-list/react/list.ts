@@ -1,9 +1,10 @@
+import { CustomWrapper } from '@tarojs/components'
 import { isNumber } from '@tarojs/shared'
 import memoizeOne from 'memoize-one'
 import React from 'react'
 
 import { cancelTimeout, convertNumber2PX, defaultItemKey, getRectSizeSync, getScrollViewContextNode, omit, requestTimeout } from '../../../utils'
-import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
+// import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../dom-helpers'
 import ListSet from '../list-set'
 import Preset from '../preset'
@@ -36,6 +37,7 @@ export default class List extends React.PureComponent<IProps, IState> {
 
   itemList: ListSet
   preset: Preset
+  flag: number
 
   constructor (props: IProps) {
     super(props)
@@ -266,7 +268,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       cancelTimeout(this._resetIsScrollingTimeoutId)
     }
 
-    this._resetIsScrollingTimeoutId = requestTimeout(this._resetIsScrolling, IS_SCROLLING_DEBOUNCE_INTERVAL)
+    this._resetIsScrollingTimeoutId = requestTimeout(this._resetIsScrolling, 500)
   }
 
   _resetIsScrolling = () => {
@@ -295,7 +297,8 @@ export default class List extends React.PureComponent<IProps, IState> {
       } else {
         option.top = scrollOffset
       }
-      return getScrollViewContextNode(`${this.props.queryPrefix}#${this.preset.id}`).then((node: any) => node.scrollTo(option))
+
+      return getScrollViewContextNode(`${this.props.queryPrefix}#${this.preset.id}`).then((node: any) => node?.scrollTo(option))
     }
 
     this.setState((prevState: IState) => {
@@ -386,23 +389,27 @@ export default class List extends React.PureComponent<IProps, IState> {
 
     const style = this.preset.getItemStyle(index)
     if (type === 'placeholder') {
-      return React.createElement<any>(this.preset.itemElement, {
-        key,
-        id: `${this.preset.id}-${index}-wrapper`,
-        style: this.preset.isBrick ? style : { display: 'none' }
-      }, placeholderElement ? React.createElement(placeholderElement): null)
+      return React.createElement(CustomWrapper, null, 
+        React.createElement<any>(this.preset.itemElement,{
+          key,
+          id: `${this.preset.id}-${index}-wrapper`,
+          style: this.preset.isBrick ? style : { display: 'none' }
+        },
+        placeholderElement ? React.createElement(placeholderElement): null))
     }
 
-    return React.createElement<any>(this.preset.itemElement, {
-      key: itemKey(index, itemData),
-      id: `${this.preset.id}-${index}-wrapper`,
-      style
-    }, React.createElement(item, {
-      id: `${this.preset.id}-${index}`,
-      data: itemData,
-      index,
-      isScrolling: useIsScrolling ? isScrolling : undefined
-    }))
+    return React.createElement(CustomWrapper, null,
+      React.createElement<any>(this.preset.itemElement, {
+        key: itemKey(index, itemData),
+        id: `${this.preset.id}-${index}-wrapper`,
+        style
+      }, 
+      React.createElement(item, {
+        id: `${this.preset.id}-${index}`,
+        data: itemData,
+        index,
+        isScrolling: useIsScrolling ? isScrolling : undefined
+      })))
   }
 
   getRenderColumnNode () {
@@ -445,22 +452,30 @@ export default class List extends React.PureComponent<IProps, IState> {
     const restCount = itemCount - stopIndex
     const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
     const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
-
-    for (let itemIndex = 0; itemIndex < stopIndex + postPlaceholder; itemIndex++) {
+    let realIndex
+    if (isScrolling) {
+      if (!this.flag || this.flag < stopIndex + postPlaceholder) {
+        this.flag = stopIndex + postPlaceholder
+      }
+      realIndex = this.flag
+    } else {
+      this.flag = null
+      realIndex = stopIndex + postPlaceholder
+    }
+    for (let itemIndex = 0; itemIndex < realIndex; itemIndex++) {
       if (!this.preset.isBrick) {
         if (itemIndex < startIndex - prevPlaceholder) {
           itemIndex = startIndex - prevPlaceholder
           continue
         }
       }
-
       if (itemIndex < startIndex || itemIndex > stopIndex) {
         items.push(this.getRenderItemNode(itemIndex, 'placeholder'))
       } else {
         items.push(this.getRenderItemNode(itemIndex))
       }
     }
-    return React.createElement<any>(this.preset.innerElement, columnProps, items)
+    return React.createElement(CustomWrapper, null, React.createElement<any>(this.preset.innerElement, columnProps, items)) 
   }
 
   render () {

@@ -16,6 +16,7 @@ const VirtualList = React.forwardRef(function VirtualList (props: VirtualListPro
     initialScrollOffset = 0,
     overscanCount = 1,
     queryPrefix = '',
+    enhanced = true,
     ...rest
   } = props as IProps
 
@@ -30,6 +31,7 @@ const VirtualList = React.forwardRef(function VirtualList (props: VirtualListPro
   return React.createElement(List, {
     ref,
     ...rest,
+    enhanced,
     outerElementType,
     itemElementType,
     innerElementType,

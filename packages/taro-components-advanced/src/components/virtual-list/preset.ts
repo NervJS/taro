@@ -132,7 +132,7 @@ export default class Preset {
   }
 
   get enhanced () {
-    return this.props.enhanced || true
+    return this.props.enhanced
   }
 
   isShaking (diff?: number) {

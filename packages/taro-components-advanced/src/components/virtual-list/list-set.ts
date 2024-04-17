@@ -134,13 +134,15 @@ export default class ListSet {
     if (this.length === 0) {
       return [0, 0, 0, 0]
     }
-
     const startIndex = this.getStartIndex(scrollOffset)
     const stopIndex = this.getStopIndex(this.wrapperSize, scrollOffset, startIndex)
 
+   
+
     // Overscan by one item in each direction so that tab/focus works. If there isn't at least one extra item, tab loops back around.
-    const overscanBackward = !block || direction === 'backward' ? Math.max(1, this.overscan) : 1
-    const overscanForward = !block || direction === 'forward' ? Math.max(1, this.overscan) : 1
+    const overscanBackward = Math.max(1, this.overscan || 1)
+    const overscanForward = Math.max(1, this.overscan || 1)
+
     return [
       Math.max(0, startIndex - overscanBackward),
       Math.max(0, Math.min(this.length - 1, stopIndex + overscanForward)),
