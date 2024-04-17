@@ -9,7 +9,7 @@ export interface ConfigEnv {
   mode: string
 }
 
-export type UserConfigFn = (mergin: WebpackMerge, env: ConfigEnv) => IProjectConfig | Promise<IProjectConfig>
+export type UserConfigFn = (merge: WebpackMerge, env: ConfigEnv) => IProjectConfig | Promise<IProjectConfig>
 export type UserConfigExport = IProjectConfig | Promise<IProjectConfig> | UserConfigFn
 
 /**
