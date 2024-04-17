@@ -1,4 +1,4 @@
-import Taro from '@tarojs/api'
+import Taro from '@tarojs/plugin-platform-h5/dist/runtime/apis'
 import { history } from '@tarojs/router'
 import { isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 import { toByteArray } from 'base64-js'
@@ -13,8 +13,9 @@ import {
   nextTick,
   redirectTo,
   reLaunch,
-  switchTab
+  switchTab,
 } from './index'
+import native from './NativeApi'
 import { permanentlyNotSupport } from './utils'
 
 // @ts-ignore
@@ -31,7 +32,30 @@ const {
   options,
   eventCenter,
   Events,
-  preload
+  preload,
+  useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useError,
+  useLaunch,
+  useLoad,
+  useOptionMenuClick,
+  usePageNotFound,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
+  useReady,
+  useResize,
+  useRouter,
+  useSaveExitState,
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick,
+  useScope,
+  useUnhandledRejection,
+  useUnload
 } = Taro as any
 
 const taro: typeof Taro = {
@@ -55,7 +79,30 @@ const taro: typeof Taro = {
   reLaunch,
   redirectTo,
   getCurrentPages,
-  switchTab
+  switchTab,
+  useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useError,
+  useLaunch,
+  useLoad,
+  useOptionMenuClick,
+  usePageNotFound,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
+  useReady,
+  useResize,
+  useRouter,
+  useSaveExitState,
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick,
+  useScope,
+  useUnhandledRejection,
+  useUnload
 }
 
 export const requirePlugin = permanentlyNotSupport('requirePlugin')
@@ -69,7 +116,7 @@ const defaultDesignWidth = 750
 const defaultDesignRatio: TaroGeneral.TDeviceRatio = {
   640: 2.34 / 2,
   750: 1,
-  828: 1.81 / 2
+  828: 1.81 / 2,
 }
 const defaultBaseFontSize = 20
 const defaultUnitPrecision = 5
@@ -80,7 +127,7 @@ const initPxTransform = function ({
   deviceRatio = defaultDesignRatio,
   baseFontSize = defaultBaseFontSize,
   unitPrecision = defaultUnitPrecision,
-  targetUnit = defaultTargetUnit
+  targetUnit = defaultTargetUnit,
 }) {
   const config = getConfig.call(this)
   config.designWidth = designWidth
@@ -94,9 +141,8 @@ const pxTransform = function (size = 0) {
   const config = getConfig.call(this)
   const baseFontSize = config.baseFontSize || defaultBaseFontSize
   const deviceRatio = config.deviceRatio || defaultDesignRatio
-  const designWidth = (((input = 0) => isFunction(config.designWidth)
-    ? config.designWidth(input)
-    : config.designWidth))(size)
+  const designWidth = ((input = 0) =>
+    isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth)(size)
   if (!(designWidth in config.deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
@@ -125,7 +171,7 @@ const pxTransform = function (size = 0) {
 
 /**
  * 判断能否使用WebP格式
- * 
+ *
  * @canUse canIUseWebp
  */
 const canIUseWebp = function () {
@@ -153,8 +199,7 @@ if (typeof window !== 'undefined') {
 // 更新导航栏状态
 Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundColor) => {
   if (typeof window !== 'undefined') {
-    // @ts-ignore
-    window.native?.setNavigationStyle?.(style, textStyle, backgroundColor)
+    native.setNavigationStyle({ style, textStyle, backgroundColor })
     // @ts-ignore
     Object.assign(window.currentNavigation, {
       style,
@@ -171,8 +216,11 @@ Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundCol
 
 // 进入全屏时隐藏导航栏和胶囊按钮
 eventCenter.on('__taroEnterFullScreen', () => {
-  // @ts-ignore
-  window.native?.setNavigationStyle?.('custom', 'black', '#000000')
+  native.setNavigationStyle({
+    style: 'custom',
+    textStyle: 'black',
+    backgroundColor: '#000000',
+  })
   // @ts-ignore
   if (typeof window.originCapsuleState === 'undefined') {
     // @ts-ignore
@@ -186,8 +234,7 @@ eventCenter.on('__taroEnterFullScreen', () => {
 eventCenter.on('__taroExitFullScreen', () => {
   // @ts-ignore
   const { style, textStyle, backgroundColor } = window.currentNavigation
-  // @ts-ignore
-  window.native?.setNavigationStyle?.(style, textStyle, backgroundColor)
+  native.setNavigationStyle({ style, textStyle, backgroundColor })
   // @ts-ignore
   if (typeof window.originCapsuleState !== 'undefined') {
     // @ts-ignore
@@ -301,7 +348,6 @@ function loadChooseLocationStyle () {
 
 loadChooseLocationStyle()
 
-
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.initPxTransform = initPxTransform
@@ -311,7 +357,7 @@ export default taro
 
 /**
  * 跳转预加载 API
- * 
+ *
  * @canUse preload
  */
 export {
@@ -331,4 +377,27 @@ export {
   options,
   preload,
   pxTransform,
+  useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useError,
+  useLaunch,
+  useLoad,
+  useOptionMenuClick,
+  usePageNotFound,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
+  useReady,
+  useResize,
+  useRouter,
+  useSaveExitState,
+  useScope,
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick,
+  useUnhandledRejection,
+  useUnload
 }

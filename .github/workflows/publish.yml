@@ -4,6 +4,7 @@ on:
     branches:
       - 'chore/**'
       - 'feat/**'
+      - 'fix/**'
   # When Release Pull Request is merged
   pull_request:
     branches:

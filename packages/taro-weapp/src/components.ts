@@ -89,7 +89,7 @@ export const components = {
   },
   Picker: {
     'header-text': _empty,
-    'level': 'region'
+    level: 'region'
   },
   PickerView: {
     'immediate-change': _false,
@@ -113,6 +113,7 @@ export const components = {
     'enable-flex': _false,
     'scroll-anchoring': _false,
     enhanced: _false,
+    'using-sticky': _false,
     'paging-enabled': _false,
     'enable-passive': _false,
     'refresher-enabled': _false,

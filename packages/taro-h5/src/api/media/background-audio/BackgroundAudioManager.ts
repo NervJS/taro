@@ -47,7 +47,7 @@ export class BackgroundAudioManager implements Taro.BackgroundAudioManager {
     const { currentTime = 0, buffered: timeRange } = this.Instance || {}
     if (timeRange) {
       for (let i = 0; i < timeRange.length; i++) {
-        if(timeRange.start(i) <= currentTime && timeRange.end(i) >= currentTime) {
+        if (timeRange.start(i) <= currentTime && timeRange.end(i) >= currentTime) {
           return timeRange.end(i)
         }
       }

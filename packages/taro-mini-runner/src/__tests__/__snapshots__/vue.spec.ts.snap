@@ -11,53 +11,17 @@ require("./taro");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 2 ], {
     3: function(module, exports, __webpack_require__) {},
-    6: function(module, __webpack_exports__, __webpack_require__) {
+    7: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
-        function _typeof(obj) {
-            "@babel/helpers - typeof";
-            return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-                return typeof obj;
-            } : function(obj) {
-                return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-            }, _typeof(obj);
-        }
-        function _toPrimitive(input, hint) {
-            if (_typeof(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if (_typeof(res) !== "object") return res;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return (hint === "string" ? String : Number)(input);
-        }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return _typeof(key) === "symbol" ? key : String(key);
-        }
-        function _defineProperty(obj, key, value) {
-            key = _toPropertyKey(key);
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
         var mocks_taro = "taro";
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isFunction() {}
         function isArray() {}
         function processApis() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
+        const EMPTY_OBJ = {};
+        const hooks = {};
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -65,7 +29,7 @@ require("./taro");
         function connectVuePage() {}
         function createVueApp() {}
         function createVue3App() {}
-        var setGlobalDataPlugin = {};
+        const setGlobalDataPlugin = {};
         function useDidHide() {}
         function useDidShow() {}
         function useError() {}
@@ -88,19 +52,17 @@ require("./taro");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
+        const needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
-                modifyApis: function modifyApis(apis) {
+                modifyApis(apis) {
                     apis.delete("lanDebug");
                 },
-                transformMeta: function transformMeta(api, options) {
+                transformMeta(api, options) {
                     var _a;
                     if (api === "showShareMenu") {
-                        options.menus = (_a = options.showShareItems) === null || _a === void 0 ? void 0 : _a.map((function(item) {
-                            return item === "wechatFriends" ? "shareAppMessage" : item === "wechatMoment" ? "shareTimeline" : item;
-                        }));
+                        options.menus = (_a = options.showShareItems) === null || _a === void 0 ? void 0 : _a.map(item => item === "wechatFriends" ? "shareAppMessage" : item === "wechatMoment" ? "shareTimeline" : item);
                     }
                     return {
                         key: api,
@@ -120,11 +82,11 @@ require("./taro");
                 return (_c = (_b = (_a = taro.getCurrentInstance()) === null || _a === void 0 ? void 0 : _a.page) === null || _b === void 0 ? void 0 : _b.renderer) !== null && _c !== void 0 ? _c : "webview";
             };
         }
-        var _true = "true";
-        var _false = "false";
-        var _empty = "";
-        var _zero = "0";
-        var components = {
+        const _true = "true";
+        const _false = "false";
+        const _empty = "";
+        const _zero = "0";
+        const components = {
             Progress: {
                 "border-radius": _zero,
                 "font-size": "16",
@@ -233,6 +195,7 @@ require("./taro");
                 "enable-flex": _false,
                 "scroll-anchoring": _false,
                 enhanced: _false,
+                "using-sticky": _false,
                 "paging-enabled": _false,
                 "enable-passive": _false,
                 "refresher-enabled": _false,
@@ -549,26 +512,29 @@ require("./taro");
             },
             Span: {}
         };
-        var hostConfig = {
+        const hostConfig = {
             initNativeApi: initNativeApi,
-            getMiniLifecycle: function getMiniLifecycle(config) {
-                var methods = config.page[5];
+            getMiniLifecycle(config) {
+                const methods = config.page[5];
                 if (methods.indexOf("onSaveExitState") === -1) {
                     methods.push("onSaveExitState");
                 }
                 return config;
             },
-            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+            transferHydrateData(data, element, componentsAlias) {
                 var _a;
                 if (element.isTransferElement) {
-                    var _ref;
-                    var page = getCurrentPages()[0];
+                    const pages = getCurrentPages();
+                    const page = pages[pages.length - 1];
                     data["nn"] = element.dataName;
-                    page.setData(_defineProperty({}, undefined(data.nn), data));
-                    return _ref = {
-                        sid: element.sid
-                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
-                    _ref;
+                    page.setData({
+                        [undefined(data.nn)]: data
+                    });
+                    return {
+                        sid: element.sid,
+                        ["v"]: "",
+                        ["nn"]: ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"
+                    };
                 }
             }
         };
@@ -607,7 +573,7 @@ require("./taro");
             targetUnit: undefined
         });
     }
-}, [ [ 6, 0, 1 ] ] ]);
+}, [ [ 7, 0, 1 ] ] ]);
 
 
 
@@ -658,7 +624,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_0_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -666,15 +632,15 @@ require("./taro");
 </template>
 
 <template name="tmpl_0_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_0_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_0_53">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -682,7 +648,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_0_3">
-  <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p3}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -690,7 +656,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_0_1">
-  <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" binderror="eh" bindload="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p3}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" binderror="eh" bindload="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -734,7 +700,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_1_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -742,15 +708,15 @@ require("./taro");
 </template>
 
 <template name="tmpl_1_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_1_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_1_53">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -790,7 +756,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_2_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -798,15 +764,15 @@ require("./taro");
 </template>
 
 <template name="tmpl_2_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_2_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_2_53">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -846,7 +812,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_3_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -854,15 +820,15 @@ require("./taro");
 </template>
 
 <template name="tmpl_3_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_3_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_3_53">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -902,7 +868,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_4_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -910,7 +876,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_4_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -950,7 +916,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_5_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -958,7 +924,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_5_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -998,7 +964,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_6_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1038,7 +1004,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_7_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1078,7 +1044,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_8_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1118,7 +1084,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_9_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1158,7 +1124,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_10_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1198,7 +1164,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_11_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1238,7 +1204,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_12_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1278,7 +1244,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_13_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1318,7 +1284,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_14_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p3,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.e(15)}}" data="{{i:item,c:c,l:l}}" />
     </block>
@@ -1355,7 +1321,7 @@ require("./taro");
 
 /** filePath: dist/pages/index/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
-    7: function(module, __webpack_exports__, __webpack_require__) {
+    6: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
@@ -1438,7 +1404,7 @@ require("./taro");
         }, config || {}));
         var pages_index = __webpack_exports__["default"] = index;
     }
-}, [ [ 7, 0, 1 ] ] ]);
+}, [ [ 6, 0, 1 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
@@ -1459,8 +1425,8 @@ require("./taro");
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
-    var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
-    var b = ["4","38","39","22","19","36","40","41"]
+    var a = ["7","0","21","5","2","12","6","4","56","57","29","23","53","61","62","51"]
+    var b = ["4","56","57","29","23","53","61","62","51"]
     if (a.indexOf(n) === -1) {
       l = 0
     }
@@ -1488,7 +1454,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l, n) {
-    var b = ["4","38","39","22","19","36","40","41"]
+    var b = ["4","56","57","29","23","53","61","62","51"]
     if (b.indexOf(n) > -1) {
       if (l) l += ','
       l += n

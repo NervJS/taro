@@ -1,8 +1,8 @@
 import Taro from '@tarojs/api'
 
+import native from '../NativeApi'
 import { CallbackManager } from '../utils/handler'
 import { NETWORK_TIMEOUT, setHeader, XHR_STATS } from './utils'
-
 
 const splitHeaders = (headers: string) => {
   const arr = headers.trim().split(/[\r\n]+/)
@@ -16,14 +16,22 @@ const splitHeaders = (headers: string) => {
   return headerMap
 }
 
-const createDownloadTask = ({ url, header, filePath, withCredentials = true, timeout, success, error }): Taro.DownloadTask => {
+const createDownloadTask = ({
+  url,
+  header,
+  filePath,
+  withCredentials = true,
+  timeout,
+  success,
+  error,
+}): Taro.DownloadTask => {
   let timeoutInter: ReturnType<typeof setTimeout>
   let totalData = 0
   const apiName = 'downloadFile'
   const xhr = new XMLHttpRequest()
   const callbackManager = {
     headersReceived: new CallbackManager(),
-    progressUpdate: new CallbackManager()
+    progressUpdate: new CallbackManager(),
   }
 
   xhr.open('GET', url, true)
@@ -31,20 +39,20 @@ const createDownloadTask = ({ url, header, filePath, withCredentials = true, tim
   xhr.responseType = 'blob'
   setHeader(xhr, header)
 
-  xhr.onprogress = e => {
+  xhr.onprogress = (e) => {
     const { loaded, total } = e
     totalData = total
     callbackManager.progressUpdate.trigger({
-      progress: Math.round(loaded / total * 100),
+      progress: Math.round((loaded / total) * 100),
       totalBytesWritten: loaded,
-      totalBytesExpectedToWrite: total
+      totalBytesExpectedToWrite: total,
     })
   }
 
   xhr.onreadystatechange = () => {
     if (xhr.readyState !== XHR_STATS.HEADERS_RECEIVED) return
     callbackManager.headersReceived.trigger({
-      header: splitHeaders(xhr.getAllResponseHeaders())
+      header: splitHeaders(xhr.getAllResponseHeaders()),
     })
   }
 
@@ -55,8 +63,7 @@ const createDownloadTask = ({ url, header, filePath, withCredentials = true, tim
     reader.onload = () => {
       clearTimeout(timeoutInter)
       const base64Data = reader.result as string
-      // @ts-ignore
-      native .saveDataUrlToFile({
+      native.saveDataUrlToFile({
         filePath,
         url,
         data: base64Data,
@@ -74,9 +81,9 @@ const createDownloadTask = ({ url, header, filePath, withCredentials = true, tim
         },
         fail: (res) => {
           error({
-            errMsg: `${apiName}:fail ${res.errMsg}`
+            errMsg: `${apiName}:fail ${res.errMsg}`,
           })
-        }
+        },
       })
     }
     reader.readAsDataURL(response)
@@ -85,13 +92,13 @@ const createDownloadTask = ({ url, header, filePath, withCredentials = true, tim
   xhr.onabort = () => {
     clearTimeout(timeoutInter)
     error({
-      errMsg: `${apiName}:fail abort`
+      errMsg: `${apiName}:fail abort`,
     })
   }
 
   xhr.onerror = (e: ProgressEvent<EventTarget> & { message?: string }) => {
     error({
-      errMsg: `${apiName}:fail ${e.message}`
+      errMsg: `${apiName}:fail ${e.message}`,
     })
   }
 
@@ -112,7 +119,7 @@ const createDownloadTask = ({ url, header, filePath, withCredentials = true, tim
       xhr.onerror = null
       abort()
       error({
-        errMsg: `${apiName}:fail timeout`
+        errMsg: `${apiName}:fail timeout`,
       })
     }, timeout || NETWORK_TIMEOUT)
   }
@@ -123,7 +130,7 @@ const createDownloadTask = ({ url, header, filePath, withCredentials = true, tim
    * 监听 HTTP Response Header 事件。会比请求完成事件更早
    * @param {HeadersReceivedCallback} callback HTTP Response Header 事件的回调函数
    */
-  const onHeadersReceived = callbackManager.headersReceived.add
+  const onHeadersReceived = callbackManager.headersReceived.addUnique
   /**
    * 取消监听 HTTP Response Header 事件
    * @param {HeadersReceivedCallback} callback HTTP Response Header 事件的回调函数
@@ -134,7 +141,7 @@ const createDownloadTask = ({ url, header, filePath, withCredentials = true, tim
    * 监听进度变化事件
    * @param {ProgressUpdateCallback} callback HTTP Response Header 事件的回调函数
    */
-  const onProgressUpdate = callbackManager.progressUpdate.add
+  const onProgressUpdate = callbackManager.progressUpdate.addUnique
   /**
    * 取消监听进度变化事件
    * @param {ProgressUpdateCallback} callback HTTP Response Header 事件的回调函数
@@ -146,7 +153,7 @@ const createDownloadTask = ({ url, header, filePath, withCredentials = true, tim
     onHeadersReceived,
     offHeadersReceived,
     onProgressUpdate,
-    offProgressUpdate
+    offProgressUpdate,
   }
 }
 
@@ -157,12 +164,21 @@ const createDownloadTask = ({ url, header, filePath, withCredentials = true, tim
 
 /**
  * 下载文件资源到本地
- * 
+ *
  * @canUse downloadFile
  * @__object [url, filePath, header, timeout, withCredentials]
  * @__success [filePath, statusCode, tempFilePath, header, dataLength, cookies, profile]
  */
-export const downloadFile: typeof Taro.downloadFile = ({ url, header, filePath, withCredentials, timeout, success, fail, complete }) => {
+export const downloadFile: typeof Taro.downloadFile = ({
+  url,
+  header,
+  filePath,
+  withCredentials,
+  timeout,
+  success,
+  fail,
+  complete,
+}) => {
   let task!: Taro.DownloadTask
   const result: ReturnType<typeof Taro.downloadFile> = new Promise((resolve, reject) => {
     task = createDownloadTask({
@@ -171,16 +187,16 @@ export const downloadFile: typeof Taro.downloadFile = ({ url, header, filePath, 
       filePath,
       withCredentials,
       timeout,
-      success: res => {
+      success: (res) => {
         success && success(res)
         complete && complete(res)
         resolve(res)
       },
-      error: res => {
+      error: (res) => {
         fail && fail(res)
         complete && complete(res)
         reject(res)
-      }
+      },
     })
   }) as any
 

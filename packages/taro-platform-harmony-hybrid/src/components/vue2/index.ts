@@ -72,4 +72,12 @@ export { WebView } from '@tarojs/components/lib/vue2'
 // export { default as ListView } from './components/list/list'
 // export { MatchMedia } from './components/match-media/match-media'
 // export { default as PageContainer } from './components/page-container/page-container'
-export { StickyHeader, StickySection, RootPortal, GridView, ListView, MatchMedia, PageContainer } from '@tarojs/components/lib/vue2'
+export {
+  StickyHeader,
+  StickySection,
+  RootPortal,
+  GridView,
+  ListView,
+  MatchMedia,
+  PageContainer,
+} from '@tarojs/components/lib/vue2'

@@ -115,7 +115,7 @@ export default class Swiper implements ISwiper {
     return false
   }
 
-  getBreakpoint (breakpoints: { [width: number]: SwiperOptions,[ratio: string]: SwiperOptions } | undefined): string {
+  getBreakpoint (breakpoints: { [width: number]: SwiperOptions, [ratio: string]: SwiperOptions } | undefined): string {
     return ''
   }
 

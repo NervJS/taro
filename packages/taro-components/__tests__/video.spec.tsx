@@ -130,7 +130,7 @@ describe('Video', () => {
       video.play = play
       await video?.play()
       await page.waitForChanges()
-  
+
       expect(play.mock.calls.length).toBe(1)
 
       expect(page.root).toMatchSnapshot()
@@ -150,7 +150,7 @@ describe('Video', () => {
       video.pause = pause
       await video?.pause()
       await page.waitForChanges()
-  
+
       expect(pause.mock.calls.length).toBe(1)
 
       expect(page.root).toMatchSnapshot()

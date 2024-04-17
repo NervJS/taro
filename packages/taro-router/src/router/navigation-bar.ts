@@ -1,6 +1,6 @@
 import { eventCenter } from '@tarojs/runtime'
 
-import { navigateBack,reLaunch } from '../api'
+import { navigateBack, reLaunch } from '../api'
 import { isDingTalk } from '../utils'
 import stacks from './stack'
 
@@ -11,24 +11,29 @@ interface NavigationBarCache {
   fontColor?: string
   title?: string
   show?: boolean
+  loading?: boolean
 }
 
 export default class NavigationBarHandler {
   pageContext: PageHandler
-  navigationBarElement: Element
+  navigationBarElement: HTMLElement
   cache: Record<string, NavigationBarCache>
   isLoadDdEntry = false
 
-  constructor (pageContext: PageHandler){
-    this.cache ={}
+  constructor (pageContext: PageHandler) {
+    this.cache = {}
     this.pageContext = pageContext
     this.init()
 
-    eventCenter.on('__taroH5SetNavigationTitle', (title)=> {
+    eventCenter.on('__taroH5SetNavigationBarTitle', (title) => {
       this.setTitle(title)
     })
 
-    eventCenter.on('__taroH5setNavigationBarColor', ({ backgroundColor, frontColor })=> {
+    eventCenter.on('__taroH5setNavigationBarLoading', (loading) => {
+      this.setNavigationLoading(loading)
+    })
+
+    eventCenter.on('__taroH5setNavigationBarColor', ({ backgroundColor, frontColor }) => {
       if (typeof backgroundColor === 'string') this.setNavigationBarBackground(backgroundColor)
 
       if (typeof frontColor === 'string') this.setNavigationBarTextStyle(frontColor)
@@ -43,19 +48,24 @@ export default class NavigationBarHandler {
     navigateBack()
   }
 
-  get homeBtnElement (){
+  get homeBtnElement () {
     if (!this.navigationBarElement) return null
     return this.navigationBarElement.getElementsByClassName('taro-navigation-bar-home')?.[0]
   }
 
-  get backBtnElement (){
+  get backBtnElement () {
     if (!this.navigationBarElement) return null
     return this.navigationBarElement.getElementsByClassName('taro-navigation-bar-back')?.[0]
   }
 
-  get titleElement (){
+  get titleElement () {
     if (!this.navigationBarElement) return null
     return this.navigationBarElement.getElementsByClassName('taro-navigation-bar-title')?.[0]
+  }
+
+  get loadingElement () {
+    if (!this.navigationBarElement) return null
+    return this.navigationBarElement.getElementsByClassName('taro-navigation-bar-loading')[0]
   }
 
   init () {
@@ -65,8 +75,8 @@ export default class NavigationBarHandler {
     this.backBtnElement?.addEventListener('click', this.backFn.bind(this))
   }
 
-  setNavigationBarElement (){
-    this.navigationBarElement = document.getElementById('taro-navigation-bar') as Element
+  setNavigationBarElement () {
+    this.navigationBarElement = document.getElementById('taro-navigation-bar') as HTMLElement
   }
 
   load () {
@@ -76,9 +86,10 @@ export default class NavigationBarHandler {
     this.setFnBtnState()
     this.setNavigationBarBackground()
     this.setNavigationBarTextStyle()
+    this.setNavigationLoading()
   }
 
-  setCacheValue (){
+  setCacheValue () {
     const currentPage = this.pageContext.currentPage
     if (typeof this.cache[currentPage] !== 'object') {
       this.cache[currentPage] = {}
@@ -94,6 +105,38 @@ export default class NavigationBarHandler {
     } else {
       this.fnBtnToggleToHome()
     }
+  }
+
+  shiftLoadingState (show: boolean) {
+    if (!this.loadingElement) return
+    if (show) {
+      this.loadingElement.classList.add('taro-navigation-bar-loading-show')
+    } else {
+      this.loadingElement.classList.remove('taro-navigation-bar-loading-show')
+    }
+  }
+
+  setNavigationLoading (show?: boolean) {
+    if (!this.navigationBarElement) return
+    const currentPage = this.pageContext.currentPage
+    let isShow
+    if (typeof show === 'boolean') {
+      isShow = show
+      this.cache[currentPage] &&
+      (this.cache[currentPage].loading = isShow)
+    } else {
+      const cacheValue = this.cache[currentPage]?.loading
+      if (typeof cacheValue === 'boolean') {
+        isShow = cacheValue
+      } else {
+        // 默认值为 false
+        isShow = false
+        this.cache[currentPage] &&
+        (this.cache[currentPage].loading = isShow)
+      }
+    }
+
+    this.shiftLoadingState(isShow)
   }
 
   setNavigationBarBackground (backgroundColor?: string) {
@@ -171,25 +214,25 @@ export default class NavigationBarHandler {
     this.titleElement.innerHTML = proceedTitle
   }
 
-  fnBtnToggleToHome (){
+  fnBtnToggleToHome () {
     if (!this.navigationBarElement) return
     this.navigationBarElement.classList.add('taro-navigation-bar-home-icon')
     this.navigationBarElement.classList.remove('taro-navigation-bar-back-icon')
   }
 
-  fnBtnToggleToBack (){
+  fnBtnToggleToBack () {
     if (!this.navigationBarElement) return
     this.navigationBarElement.classList.remove('taro-navigation-bar-home-icon')
     this.navigationBarElement.classList.add('taro-navigation-bar-back-icon')
   }
 
-  fnBtnToggleToNone (){
+  fnBtnToggleToNone () {
     if (!this.navigationBarElement) return
     this.navigationBarElement.classList.remove('taro-navigation-bar-home-icon')
     this.navigationBarElement.classList.remove('taro-navigation-bar-back-icon')
   }
 
-  setNavigationBarVisible (show?){
+  setNavigationBarVisible (show?) {
     if (!this.navigationBarElement) return
 
     let shouldShow
@@ -197,7 +240,7 @@ export default class NavigationBarHandler {
       shouldShow = show
     } else {
       shouldShow = this.pageContext.config.window?.navigationStyle
-      if (typeof this.pageContext.pageConfig?.navigationStyle === 'string'){
+      if (typeof this.pageContext.pageConfig?.navigationStyle === 'string') {
         shouldShow = this.pageContext.pageConfig.navigationStyle
       }
     }

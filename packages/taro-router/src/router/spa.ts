@@ -4,6 +4,7 @@ import {
   createPageConfig, Current,
   eventCenter, hooks,
   incrementId,
+  safeExecute,
   stringify, stripBasename,
 } from '@tarojs/runtime'
 import { Action as LocationAction } from 'history'
@@ -61,7 +62,7 @@ export function createRouter (
   const render: LocationListener = async ({ location, action }) => {
     handler.pathname = decodeURI(location.pathname)
 
-    if ((window as any).__taroAppConfig?.usingWindowScroll) window.scrollTo(0,0)
+    if ((window as any).__taroAppConfig?.usingWindowScroll) window.scrollTo(0, 0)
     eventCenter.trigger('__taroRouterChange', {
       toLocation: {
         path: handler.pathname
@@ -208,11 +209,22 @@ export function createRouter (
 
   app.onShow?.(launchParam as Record<string, any>)
 
-  window.addEventListener('visibilitychange', ()=>{
+  window.addEventListener('visibilitychange', () => {
+    const currentPath = Current.page?.path || ''
+    const path = currentPath.substring(0, currentPath.indexOf('?'))
+    const param = {}
+    // app的 onShow/onHide 生命周期的路径信息为当前页面的路径
+    Object.assign(param, launchParam, { path })
     if (document.visibilityState === 'visible') {
-      app.onShow?.(launchParam as Record<string, any>)
-    }else{
-      app.onHide?.(launchParam as Record<string, any>)
+      app.onShow?.(param as Record<string, any>)
+      // 单页面app显示后一刻会触发当前 page.onShow 生命周期函数
+      Current.page?.onShow?.()
+    } else {
+      // 单页面app隐藏前一刻会触发当前 page.onHide 生命周期函数
+      if (Current.page?.path) {
+        safeExecute(Current.page?.path, 'onHide')
+      }
+      app.onHide?.(param as Record<string, any>)
     }
   })
 

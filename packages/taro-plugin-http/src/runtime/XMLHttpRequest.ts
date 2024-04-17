@@ -63,20 +63,20 @@ function createXMLHttpRequestEvent (event: string, target:XMLHttpRequest, loaded
   const e = createEvent(event) as XMLHttpRequestEvent
   try {
     Object.defineProperties(e, {
-      'currentTarget': {
+      currentTarget: {
         enumerable: true,
         value: target
       },
-      'target': {
+      target: {
         enumerable: true,
         value: target
       },
-      'loaded': {
+      loaded: {
         enumerable: true,
         value: loaded || 0
       },
       // 读 Content-Range 字段，目前来说作用不大,先和 loaded 保持一致
-      'total': {
+      total: {
         enumerable: true,
         value: loaded || 0
       }
@@ -425,8 +425,7 @@ export class XMLHttpRequest extends Events {
   }
 
   getAllResponseHeaders () {
-    if (this.#readyState === XMLHttpRequest.UNSENT || this.#readyState === XMLHttpRequest.OPENED || !this.#resHeader)
-      return ''
+    if (this.#readyState === XMLHttpRequest.UNSENT || this.#readyState === XMLHttpRequest.OPENED || !this.#resHeader) { return '' }
 
     return Object.keys(this.#resHeader)
       .map((key) => `${key}: ${this.#resHeader![key]}`)
@@ -434,8 +433,7 @@ export class XMLHttpRequest extends Events {
   }
 
   getResponseHeader (name) {
-    if (this.#readyState === XMLHttpRequest.UNSENT || this.#readyState === XMLHttpRequest.OPENED || !this.#resHeader)
-      return null
+    if (this.#readyState === XMLHttpRequest.UNSENT || this.#readyState === XMLHttpRequest.OPENED || !this.#resHeader) { return null }
 
     // 处理大小写不敏感
     const key = Object.keys(this.#resHeader).find((item) => item.toLowerCase() === name.toLowerCase())

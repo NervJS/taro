@@ -449,7 +449,7 @@ export default class TaroMiniPlugin {
         return independentPackage
       }
     })
-  } 
+  }
 
   getChangedFiles (compiler: Compiler) {
     return compiler.modifiedFiles
@@ -494,14 +494,14 @@ export default class TaroMiniPlugin {
         Object.keys(pluginConfig).forEach(pluginKey => {
           if (pluginKey === 'pages') {
             Object.keys(pluginConfig[pluginKey]).forEach(pageKey => {
-              if (`plugin/${pluginConfig[pluginKey][pageKey]}` === key) {
+              if (`${pluginConfig[pluginKey][pageKey]}` === key) {
                 isPage = true
               }
             })
           }
           if (pluginKey === 'publicComponents') {
             Object.keys(pluginConfig[pluginKey]).forEach(pageKey => {
-              if (`plugin/${pluginConfig[pluginKey][pageKey]}` === key) {
+              if (`${pluginConfig[pluginKey][pageKey]}` === key) {
                 isComponent = true
               }
             })
@@ -529,9 +529,9 @@ export default class TaroMiniPlugin {
       }
     })
     if (!template.isSupportRecursive) {
-      this.addEntry(path.resolve(__dirname, '..', 'template/comp'), this.getIsBuildPluginPath('comp', true), META_TYPE.STATIC)
+      this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
     }
-    this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), this.getIsBuildPluginPath('custom-wrapper', true), META_TYPE.STATIC)
+    this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), 'custom-wrapper', META_TYPE.STATIC)
     normalFiles.forEach(item => {
       this.addEntry(item.path, item.name, META_TYPE.NORMAL, {
         library: {
@@ -811,9 +811,9 @@ export default class TaroMiniPlugin {
         // 判断是否为第三方依赖的正则，如果 test 为 false 则为第三方依赖
         const notNpmPkgReg = /^[.\\/]/
         if (
-          !this.options.skipProcessUsingComponents
-          && !compPath.startsWith('plugin://')
-          && !notNpmPkgReg.test(compPath)
+          !this.options.skipProcessUsingComponents &&
+          !compPath.startsWith('plugin://') &&
+          !notNpmPkgReg.test(compPath)
         ) {
           const tempCompPath = getNpmPackageAbsolutePath(compPath)
 
@@ -850,7 +850,7 @@ export default class TaroMiniPlugin {
 
           // 收集独立分包的组件，用于后续单独编译
           independentPackage?.components?.push(componentPath)
-          
+
           this.components.add(componentObj)
           this.compileFile(componentObj, independentPackage)
         }
@@ -1090,8 +1090,8 @@ export default class TaroMiniPlugin {
 
   /** 生成小程序独立分包的相关文件 */
   async generateIndependentMiniFiles (compilation: Compilation, compiler: Compiler) {
-    const { template, isBuildPlugin, sourceDir } = this.options
-    const baseTemplateName = this.getIsBuildPluginPath('base', isBuildPlugin)
+    const { template, sourceDir } = this.options
+    const baseTemplateName = 'base'
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
     // @ts-ignore
     const childName = compilation.__name
@@ -1119,7 +1119,7 @@ export default class TaroMiniPlugin {
         }
       })
       this.generateTemplateFile(compilation, compiler, `${name}/${customWrapperName}`, template.buildCustomComponentTemplate, this.options.fileType.templ)
-      this.generateXSFile(compilation, compiler, `${name}/utils`, isBuildPlugin)
+      this.generateXSFile(compilation, compiler, `${name}/utils`)
     })
 
     this.pages.forEach(page => {
@@ -1144,13 +1144,13 @@ export default class TaroMiniPlugin {
       }
 
       if (config) {
-        const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, independentName, this.getTargetFilePath(this.getIsBuildPluginPath(baseCompName, isBuildPlugin), ''))))
-        const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, independentName, this.getTargetFilePath(this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), ''))))
+        const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, independentName, this.getTargetFilePath(baseCompName, ''))))
+        const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, independentName, this.getTargetFilePath(customWrapperName, ''))))
         config.content.usingComponents = {
           ...config.content.usingComponents
         }
 
-        if(isUsingCustomWrapper) {
+        if (isUsingCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
         if (!template.isSupportRecursive && !page.isNative) {
@@ -1166,7 +1166,7 @@ export default class TaroMiniPlugin {
     const { RawSource } = compiler.webpack.sources
     const { template, combination, isBuildPlugin, sourceDir } = this.options
     const { modifyMiniConfigs } = combination.config
-    const baseTemplateName = this.getIsBuildPluginPath('base', isBuildPlugin)
+    const baseTemplateName = 'base'
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
 
     /**
@@ -1191,7 +1191,7 @@ export default class TaroMiniPlugin {
     }
     if (!template.isSupportRecursive) {
       // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
-      this.generateTemplateFile(compilation, compiler, this.getIsBuildPluginPath(baseCompName, isBuildPlugin), template.buildBaseComponentTemplate, this.options.fileType.templ)
+      this.generateTemplateFile(compilation, compiler, baseCompName, template.buildBaseComponentTemplate, this.options.fileType.templ)
       const baseCompConfig = {
         component: true,
         usingComponents: {
@@ -1200,7 +1200,7 @@ export default class TaroMiniPlugin {
       }
       if (isUsingCustomWrapper) {
         baseCompConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
-        this.generateConfigFile(compilation, compiler, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), {
+        this.generateConfigFile(compilation, compiler, customWrapperName, {
           component: true,
           usingComponents: {
             [baseCompName]: `./${baseCompName}`,
@@ -1208,10 +1208,10 @@ export default class TaroMiniPlugin {
           }
         })
       }
-      this.generateConfigFile(compilation, compiler, this.getIsBuildPluginPath(baseCompName, isBuildPlugin), baseCompConfig)
+      this.generateConfigFile(compilation, compiler, baseCompName, baseCompConfig)
     } else {
       if (isUsingCustomWrapper) {
-        this.generateConfigFile(compilation, compiler, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), {
+        this.generateConfigFile(compilation, compiler, customWrapperName, {
           component: true,
           usingComponents: {
             [customWrapperName]: `./${customWrapperName}`
@@ -1220,11 +1220,10 @@ export default class TaroMiniPlugin {
       }
     }
     this.generateTemplateFile(compilation, compiler, baseTemplateName, template.buildTemplate, componentConfig)
-    isUsingCustomWrapper && this.generateTemplateFile(compilation, compiler, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), template.buildCustomComponentTemplate, this.options.fileType.templ)
-    this.generateXSFile(compilation, compiler, 'utils', isBuildPlugin)
-
+    isUsingCustomWrapper && this.generateTemplateFile(compilation, compiler, customWrapperName, template.buildCustomComponentTemplate, this.options.fileType.templ)
+    this.generateXSFile(compilation, compiler, 'utils')
     this.components.forEach(component => {
-      const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(sourceDir, this.getTemplatePath(baseTemplateName))))
+      const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(component.name)]
       if (config) {
         this.generateConfigFile(compilation, compiler, component.path, config.content)
@@ -1234,7 +1233,7 @@ export default class TaroMiniPlugin {
       }
     })
     this.pages.forEach(page => {
-      const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTemplatePath(baseTemplateName))))
+      const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(page.name)]
       // pages 里面会混合独立分包的，在这里需要过滤一下，避免重复生成 assets
       const isIndependent = !!this.getIndependentPackage(page.path)
@@ -1247,13 +1246,13 @@ export default class TaroMiniPlugin {
       }
 
       if (config) {
-        const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(this.getIsBuildPluginPath(baseCompName, isBuildPlugin), ''))))
-        const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), ''))))
+        const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(baseCompName, ''))))
+        const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(customWrapperName, ''))))
         config.content.usingComponents = {
           ...config.content.usingComponents
         }
 
-        if(isUsingCustomWrapper) {
+        if (isUsingCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
         if (!template.isSupportRecursive && !page.isNative) {
@@ -1272,8 +1271,7 @@ export default class TaroMiniPlugin {
       if (fs.existsSync(pluginJSONPath)) {
         const pluginJSON = fs.readJSONSync(pluginJSONPath)
         this.modifyPluginJSON(pluginJSON)
-        const relativePath = pluginJSONPath.replace(sourceDir, '').replace(/\\/g, '/')
-        compilation.assets[relativePath] = new RawSource(JSON.stringify(pluginJSON))
+        compilation.assets['plugin.json'] = new RawSource(JSON.stringify(pluginJSON))
       }
     }
   }
@@ -1328,7 +1326,7 @@ export default class TaroMiniPlugin {
     compilation.assets[fileTemplName] = new RawSource(templStr)
   }
 
-  generateXSFile (compilation: Compilation, compiler: Compiler, xsPath, isBuildPlugin: boolean) {
+  generateXSFile (compilation: Compilation, compiler: Compiler, xsPath) {
     const { RawSource } = compiler.webpack.sources
     const ext = this.options.fileType.xs
     const isSupportXS = this.options.template.supportXS
@@ -1339,7 +1337,7 @@ export default class TaroMiniPlugin {
 
     const xs = this.options.template.buildXScript()
     const fileXsName = this.getTargetFilePath(xsPath, ext)
-    const filePath = this.getIsBuildPluginPath(fileXsName, isBuildPlugin)
+    const filePath = fileXsName
     compilation.assets[filePath] = new RawSource(xs)
   }
 
@@ -1350,13 +1348,12 @@ export default class TaroMiniPlugin {
       componentName = componentName.replace(/node_modules/gi, 'npm')
     } else {
       componentName = componentPath.replace(this.options.sourceDir, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
+      if (this.options.isBuildPlugin) {
+        componentName = componentName.replace(/plugin\//, '')
+      }
     }
 
     return componentName.replace(/^(\/|\\)/, '')
-  }
-
-  getIsBuildPluginPath (filePath, isBuildPlugin) {
-    return isBuildPlugin ? `plugin/${filePath}` : filePath
   }
 
   /**
@@ -1438,10 +1435,10 @@ export default class TaroMiniPlugin {
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if (
-        (REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName))
-        && this.options.commonChunks.includes(fileName)
+        (REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) &&
+        this.options.commonChunks.includes(fileName) &&
         // app.wxss 不能引入独立分包中的 common 样式文件
-        && independentPackageNames.every(name => !assetName.includes(name))
+        independentPackageNames.every(name => !assetName.includes(name))
       ) {
         commons.add('\n')
         commons.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
