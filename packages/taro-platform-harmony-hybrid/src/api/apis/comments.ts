@@ -1497,12 +1497,6 @@
  */
 
 /**
- * 获取全局唯一的版本更新管理器
- *
- * @canNotUse getUpdateManager
- */
-
-/**
  * 设置是否打开调试开关
  *
  * @canNotUse setEnableDebug
