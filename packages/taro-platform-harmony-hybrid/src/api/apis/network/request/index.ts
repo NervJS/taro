@@ -2,7 +2,8 @@ import Taro from '@tarojs/api'
 import { isFunction } from '@tarojs/shared'
 
 import { NativeRequest } from '../../interface/NativeRequest'
-import native, { judgeUseAxios } from '../../NativeApi'
+import native from '../../NativeApi'
+import { judgeUseAxios } from '../../NativeApiHybridProxy'
 import { getParameterError, shouldBeObject } from '../../utils'
 
 export const _request = (options) => {

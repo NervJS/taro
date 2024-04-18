@@ -1,4 +1,4 @@
-import { Status } from '../NativeApi'
+import { Status } from '../NativeApiHybridProxy'
 
 export function displayExecRes (status: Status, method: string) {
   if (!status.done) {
