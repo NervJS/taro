@@ -36,9 +36,10 @@ export default (ctx: IPluginContext) => {
       'taro global-config reset',
     ],
     optionsMap: {
+      '-r --registry [url]': '指定 npm registry',
       '-h, --help': 'output usage information'
     },
-    fn ({ _ }) {
+    fn ({ _, options }) {
       const [, action, pluginName] = _
       const { getUserHomeDir, TARO_GLOBAL_CONFIG_DIR, fs, TARO_GLOBAL_CONFIG_FILE } = ctx.helper
       const homedir = getUserHomeDir()
@@ -46,6 +47,7 @@ export default (ctx: IPluginContext) => {
       if (!homedir) return console.log('找不到用户根目录')
       const rootPath = getRootPath()
       const templatePath = path.join(rootPath, 'templates', 'global-config')
+      const registry = options.registry || options.r
       function makeSureConfigExists () {
         if (!fs.existsSync(globalPluginConfigDir)) {
           const spinner = ora(`目录不存在，全局配置初始化`).start()
@@ -73,8 +75,12 @@ export default (ctx: IPluginContext) => {
           spinner.fail('安装的插件名不合规！')
           process.exit(1)
         }
+        let command = `cd ${globalPluginConfigDir} && npm ${actionType} ${pluginName}`
+        if (registry) {
+          command += ` --registry=${registry}`
+        }
         execCommand({
-          command: `cd ${globalPluginConfigDir} && npm ${actionType} ${pluginName}`,
+          command,
           successCallback (data) {
             console.log(data.replace(/\n$/, ''))
             spinner.start(`开始修改${presetOrPluginChineseName}配置`)
