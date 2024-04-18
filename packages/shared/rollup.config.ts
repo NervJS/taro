@@ -1,6 +1,6 @@
+import typescript from '@rollup/plugin-typescript'
 import { mergeWith } from 'lodash'
 import { defineConfig } from 'rollup'
-import ts from 'rollup-plugin-ts'
 
 import type { RollupOptions } from 'rollup'
 
@@ -10,11 +10,11 @@ const baseConfig: RollupOptions = {
     exports: 'named'
   },
   plugins: [
-    ts({
-      tsconfig: e => ({
-        ...e,
+    typescript({
+      compilerOptions: {
         preserveConstEnums: true,
-      })
+      },
+      include: ['src/**/*']
     })
   ]
 }
