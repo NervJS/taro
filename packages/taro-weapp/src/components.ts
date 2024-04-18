@@ -164,8 +164,28 @@ export const components = {
     'cross-axis-gap': _zero,
     padding: '[0, 0, 0, 0]'
   },
+  GridBuilder: {
+    type: "'aligned'",
+    list: '[]',
+    'cross-axis-count': '2',
+    'max-cross-axis-extent': _zero,
+    'main-axis-gap': _zero,
+    'cross-axis-gap': _zero,
+    padding: '[0, 0, 0, 0]',
+    bindItemBuild: _empty,
+    bindItemDispose: _empty
+  },
   ListView: {
     padding: '[0, 0, 0, 0]'
+  },
+  ListBuilder: {
+    list: '[]',
+    type: 'static',
+    padding: '[0, 0, 0, 0]',
+    'child-count': _empty,
+    'child-height': _empty,
+    bindItemBuild: _empty,
+    bindItemDispose: _empty
   },
   StickyHeader: {
     'offset-top': '0',
