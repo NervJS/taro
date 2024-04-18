@@ -20,4 +20,5 @@ export const env = {
  */
 
 export * from './system'
+export * from './update'
 export * from './weapp/life-cycle'

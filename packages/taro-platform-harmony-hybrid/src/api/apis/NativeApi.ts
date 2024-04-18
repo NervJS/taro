@@ -10,6 +10,7 @@ const asyncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMod
 // @ts-ignore
 const asyncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false }) || (target => target)
 
+export let judgeUseAxios = false
 class NativeApi {
   // @ts-ignore
   @(syncAndRelease)
@@ -893,6 +894,7 @@ class HybridProxy {
   get (_target: any, prop: string) {
     return (...args: any) => {
       if (this.useAxios && prop === this.requestApi) {
+        judgeUseAxios = this.useAxios
         // @ts-ignore
         return new RequestTask(...args)
       }

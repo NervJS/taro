@@ -8,7 +8,7 @@ import native from '../NativeApi'
  * 拉取 backgroundFetch 客户端缓存数据
  *
  * @canUse setBackgroundFetchToken
- * @null_implementation
+ * @__object [token]
  */
 export const setBackgroundFetchToken: typeof Taro.setBackgroundFetchToken = function (options) {
   const name = 'setBackgroundFetchToken'

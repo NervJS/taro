@@ -16,7 +16,9 @@ export const components = {
     'user-select': _false
   },
   Text: {
-    'user-select': _false
+    'user-select': _false,
+    overflow: 'visible',
+    'max-lines': ''
   },
   Map: {
     polygons: '[]',
@@ -152,6 +154,7 @@ export const components = {
   },
   StickySection: {
     'push-pinned-header': _true,
+    padding: '[0, 0, 0, 0]'
   },
   GridView: {
     type: "'aligned'",
@@ -159,9 +162,15 @@ export const components = {
     'max-cross-axis-extent': _zero,
     'main-axis-gap': _zero,
     'cross-axis-gap': _zero,
+    padding: '[0, 0, 0, 0]'
   },
-  ListView: {},
-  StickyHeader: {},
+  ListView: {
+    padding: '[0, 0, 0, 0]'
+  },
+  StickyHeader: {
+    'offset-top': '0',
+    padding: '[0, 0, 0, 0]'
+  },
   Swiper: {
     'snap-to-edge': _false,
     'easing-function': "'default'"
@@ -422,5 +431,8 @@ export const components = {
     'object-fit': "'contain'",
     bindError: _empty
   },
-  Snapshot: {}
+  Snapshot: {
+    mode: "'view'",
+  },
+  Span: {}
 }

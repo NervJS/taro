@@ -16,7 +16,7 @@ import {
   switchTab,
 } from './index'
 import native from './NativeApi'
-import { permanentlyNotSupport } from './utils'
+// import { permanentlyNotSupport } from './utils'
 
 // @ts-ignore
 window.base64ToArrayBuffer = (base64: string) => toByteArray(base64).buffer
@@ -105,7 +105,15 @@ const taro: typeof Taro = {
   useUnload
 }
 
-export const requirePlugin = permanentlyNotSupport('requirePlugin')
+// export const requirePlugin = permanentlyNotSupport('requirePlugin')
+const requirePlugin = () => {
+  return {
+    world: '',
+    hello: function () {
+
+    }
+  }
+}
 
 function getConfig (): Record<string, any> {
   if (this?.pxTransformConfig) return this.pxTransformConfig
@@ -348,6 +356,7 @@ function loadChooseLocationStyle () {
 
 loadChooseLocationStyle()
 
+taro.requirePlugin = requirePlugin
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.initPxTransform = initPxTransform
@@ -377,6 +386,7 @@ export {
   options,
   preload,
   pxTransform,
+  requirePlugin,
   useAddToFavorites,
   useDidHide,
   useDidShow,
