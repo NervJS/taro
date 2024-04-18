@@ -26,12 +26,13 @@
     "testEnvironment": "node",
     "testEnvironmentOptions": {}
   },
+  "engines": {
+    "node": ">= 18"
+  },
   "devDependencies": {
-    "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
-    "postcss": "^8.4.18"
+    "postcss": "^8.4.38"
   },
   "peerDependencies": {
-    "postcss": "^8.4.18"
+    "postcss": "^8"
   }
 }
