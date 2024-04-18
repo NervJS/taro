@@ -160,7 +160,7 @@ module.exports = (_, options = {}) => {
       decoratorsBeforeExport,
       legacy: decoratorsLegacy !== false
     }],
-    [require('@babel/plugin-proposal-class-properties'), { loose }]
+    [require('@babel/plugin-transform-class-properties'), { loose }]
   )
 
   plugins.push([require('@babel/plugin-transform-runtime'), {
