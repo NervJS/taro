@@ -3,6 +3,8 @@
   "version": "4.0.0-beta.33",
   "description": "Taro framework",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro#readme",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "typings": "types/index.d.ts",
   "files": [
@@ -21,8 +23,9 @@
   "keywords": [
     "taro"
   ],
-  "author": "O2Team",
-  "license": "MIT",
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
     "@tarojs/api": "workspace:*"
   },
@@ -32,9 +35,9 @@
     "@tarojs/runtime": "workspace:*"
   },
   "peerDependencies": {
-    "@tarojs/helper": "workspace:~",
-    "@tarojs/shared": "workspace:~",
-    "@tarojs/runtime": "workspace:~"
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/runtime": "workspace:*"
   },
   "peerDependenciesMeta": {
     "@types/react": {
