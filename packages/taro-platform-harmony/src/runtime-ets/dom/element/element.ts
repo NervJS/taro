@@ -403,7 +403,7 @@ export class TaroElement<
 
     if (keyframes) {
       let cur_percentage = 0
-      Current.uiContext.keyframeAnimateTo({
+      this._instance.getUIContext()?.keyframeAnimateTo({
         delay: animationDelay,
         iterations: animationIterationCount,
       }, keyframes.map(item => {

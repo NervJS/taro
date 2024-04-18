@@ -160,7 +160,7 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
         if (isHarmony) {
           if (i === '::after' || i === '::before') {
             setPseudo(dom, i, null)
-          } else if (['::first-child', '::last-child'].includes(i) || `${i}`.indexOf('::nth-child') === 0) {
+          } else if (['::first-child', '::last-child', '::empty'].includes(i) || `${i}`.indexOf('::nth-child') === 0) {
             // @ts-ignore
             dom.set_pseudo_class(i, null)
           } else {
@@ -186,7 +186,7 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
         if (isHarmony) {
           if (i === '::after' || i === '::before') {
             setPseudo(dom, i, value[i] as unknown as StyleValue)
-          } else if (['::first-child', '::last-child'].includes(i) || i.startsWith('::nth-child')) {
+          } else if (['::first-child', '::last-child', '::empty'].includes(i) || i.startsWith('::nth-child')) {
             // @ts-ignore
             dom.set_pseudo_class(i, value[i])
           } else {

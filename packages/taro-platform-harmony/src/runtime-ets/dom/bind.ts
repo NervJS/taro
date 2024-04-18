@@ -70,7 +70,7 @@ export function bindAnimation (node: TaroElement) {
             animateParams.duration = 0
           }
           animateParams.curve = Curve[convertToCamelCase(timingFunction)] || Curve.EaseInOut
-          Current.uiContext.animateTo(animateParams, () => {
+          node._instance.getUIContext()?.animateTo(animateParams, () => {
             const transformOrigin: string = anim.transformOrigin
             if (transformOrigin) {
               const splitOrigin = transformOrigin.split(' ')
