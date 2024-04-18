@@ -2,6 +2,8 @@
   "name": "stylelint-taro",
   "version": "4.0.0-beta.33",
   "description": "Taro stylelint 规则集合",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "lib/index.js",
   "scripts": {
     "dev": "tsc -w",
@@ -22,18 +24,17 @@
     "stylelint",
     "stylelint-plugin"
   ],
-  "author": "O2Team",
-  "license": "MIT",
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "4.17.21"
   },
   "devDependencies": {
-    "@types/node": "^20.10.4",
-    "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
-    "jest-environment-node": "^29.5.0",
-    "jest-preset-stylelint": "^6.0.0",
-    "typescript": "^5.3.3"
+    "jest-preset-stylelint": "^7.0.0"
+  },
+  "peerDependencies": {
+    "stylelint": "^16"
   },
   "jest": {
     "clearMocks": true,
