@@ -1,4 +1,4 @@
-import TaroImage from './image'
+import TaroImage, { getImageMode } from './image'
 import TaroText from './text'
 import TaroView from './view'
 import TaroIcon from './icon'
@@ -47,7 +47,8 @@ export {
   getNodeThresholds,
   BUTTON_THEME_COLOR,
   getNormalAttributes,
-  setNormalTextAttributeIntoInstance
+  setNormalTextAttributeIntoInstance,
+  getImageMode,
 }
 
 export {
@@ -76,5 +77,5 @@ export {
   TaroRadio,
   TaroRadioGroup,
   TaroCheckboxGroup,
-  TaroCheckbox
+  TaroCheckbox,
 }
