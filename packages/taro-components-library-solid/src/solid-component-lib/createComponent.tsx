@@ -1,4 +1,4 @@
-import { Component, JSX, mergeProps, splitProps } from 'solid-js'
+import { Component, createEffect, JSX, mergeProps, splitProps } from 'solid-js'
 import h from 'solid-js/h'
 import { memo } from 'solid-js/web'
 
@@ -35,6 +35,7 @@ export const createSolidComponent = <
   function SolidComponentWrapper(props: { children: JSX.Element } & any) {
     const [local, other] = splitProps(props, ['children'])
     const eventsMap = new Map()
+    const reactiveKeys = []
     const getProps = (_props: any) => {
 
       let propsToPass: typeof props = {}
@@ -47,6 +48,9 @@ export const createSolidComponent = <
           eventsMap.set(key, _props[key])
           continue
         }
+        if (_props[key]?.get) {
+          reactiveKeys.push(key)
+        }
         const propValue = _props[key]
         propsToPass[camelToDashCase(key)] = propValue
       }
@@ -58,8 +62,12 @@ export const createSolidComponent = <
       return propsToPass
     }
 
-    const _mergeProps = mergeProps(getProps(other), { ref: (element: Element) => {
+    const [, getterObj] = splitProps(other, reactiveKeys)
+
+    const _mergeProps = mergeProps(getProps(other), { ref: (element: HTMLElement) => {
       syncEvents(element, eventsMap)
+
+      setReactiveProps(element, getterObj)
     } })
 
     return memo(() => h(tagName, _mergeProps, local.children), true)
@@ -68,13 +76,28 @@ export const createSolidComponent = <
   return SolidComponentWrapper as any
 }
 
-function syncEvents(node: Element, eventsMap: Map<string, () => void>) {
+function setReactiveProps(node: HTMLElement, getterObj: Record<string, any>) {
+  createEffect(() => {
+    for (const key in getterObj) {
+      if (key === 'style') {
+        node.style.cssText = getterObj[key]
+      } else if (key === 'classList') {
+        node.classList.add(getterObj[key])
+      } else {
+        node.setAttribute(key, getterObj[key])
+      }
+    }
+  })
+
+}
+
+function syncEvents(node: HTMLElement, eventsMap: Map<string, () => void>) {
   for (const [key, value] of eventsMap) {
     syncEvent(node, key, value)
   }
 }
 
-function syncEvent(node: Element & { __events?: { [key: string]: ((e: Event) => any) | undefined } }, propName: string, propValue: any) {
+function syncEvent(node: HTMLElement & { __events?: { [key: string]: ((e: Event) => any) | undefined } }, propName: string, propValue: any) {
   const eventName = propName.substring(2)[0].toLowerCase() + propName.substring(3)
 
   const eventStore = node.__events || (node.__events = {})
