@@ -1,17 +1,24 @@
 import { ComponentType } from 'react'
 import { StandardProps } from './common'
 interface GridViewProps extends StandardProps {
-  /** 布局方式。masonry - 瀑布流，根据子元素高度自动布局。  aligned - 每行高度由同一行中最大高度子节点决定。
+  /**
+   * 布局方式
    * @supported weapp
    * @default "aligned"
+   *
+   * 可选值:
+   * - aligned: 每行高度由同一行中最大高度子节点决定
+   * - masonry: 瀑布流，根据子元素高度自动布局
    */
-  type: keyof GridViewProps.Type
-  /** 交叉轴元素数量
+  type: 'aligned' | 'masonry'
+  /**
+   * 交叉轴元素数量
    * @supported weapp
    * @default 2
    */
   crossAxisCount?: number
-  /** 主轴方向间隔
+  /**
+   * 主轴方向间隔
    * @supported weapp
    * @default 0
    */
@@ -34,14 +41,6 @@ interface GridViewProps extends StandardProps {
   padding?: [number, number, number, number]
 }
 
-declare namespace GridViewProps {
-  interface Type {
-    /** 瀑布流，根据子元素高度自动布局 */
-    masonry
-    /** 每行高度由同一行中最大高度子节点决定 */
-    aligned
-  }
-}
 /**
  * 网格布局容器，仅支持作为 scroll-view 自定义模式下的直接子节点或 sticky-section 组件直接子节点。仅 Skyline 支持。
  * @classification skyline
