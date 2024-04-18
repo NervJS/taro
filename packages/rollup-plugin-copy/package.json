@@ -3,6 +3,8 @@
   "version": "4.0.0-beta.33",
   "description": "rollup-plugin-copy for taro",
   "private": true,
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "files": [
     "lib"
@@ -12,11 +14,13 @@
     "dev": "tsc -w"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@tarojs/helper": "workspace:*",
-    "rollup": "^3.8.1",
-    "typescript": "^4.7.4"
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "@tarojs/helper": "workspace:*"
+  },
+  "peerDependencies": {
+    "rollup": "^4"
   }
 }
