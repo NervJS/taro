@@ -102,9 +102,7 @@ require("./taro");
                 "user-select": _false
             },
             Text: {
-                "user-select": _false,
-                overflow: "visible",
-                "max-lines": ""
+                "user-select": _false
             },
             Map: {
                 polygons: "[]",
@@ -239,24 +237,17 @@ require("./taro");
                 bindRefresherStatusChange: _empty
             },
             StickySection: {
-                "push-pinned-header": _true,
-                padding: "[0, 0, 0, 0]"
+                "push-pinned-header": _true
             },
             GridView: {
                 type: "'aligned'",
                 "cross-axis-count": "2",
                 "max-cross-axis-extent": _zero,
                 "main-axis-gap": _zero,
-                "cross-axis-gap": _zero,
-                padding: "[0, 0, 0, 0]"
+                "cross-axis-gap": _zero
             },
-            ListView: {
-                padding: "[0, 0, 0, 0]"
-            },
-            StickyHeader: {
-                "offset-top": "0",
-                padding: "[0, 0, 0, 0]"
-            },
+            ListView: {},
+            StickyHeader: {},
             Swiper: {
                 "snap-to-edge": _false,
                 "easing-function": "'default'"
@@ -511,10 +502,7 @@ require("./taro");
                 "object-fit": "'contain'",
                 bindError: _empty
             },
-            Snapshot: {
-                mode: "'view'"
-            },
-            Span: {}
+            Snapshot: {}
         };
         const hostConfig = {
             initNativeApi: initNativeApi,
@@ -1882,9 +1870,7 @@ require("./taro");
                 "user-select": _false
             },
             Text: {
-                "user-select": _false,
-                overflow: "visible",
-                "max-lines": ""
+                "user-select": _false
             },
             Map: {
                 polygons: "[]",
@@ -2019,24 +2005,17 @@ require("./taro");
                 bindRefresherStatusChange: _empty
             },
             StickySection: {
-                "push-pinned-header": _true,
-                padding: "[0, 0, 0, 0]"
+                "push-pinned-header": _true
             },
             GridView: {
                 type: "'aligned'",
                 "cross-axis-count": "2",
                 "max-cross-axis-extent": _zero,
                 "main-axis-gap": _zero,
-                "cross-axis-gap": _zero,
-                padding: "[0, 0, 0, 0]"
+                "cross-axis-gap": _zero
             },
-            ListView: {
-                padding: "[0, 0, 0, 0]"
-            },
-            StickyHeader: {
-                "offset-top": "0",
-                padding: "[0, 0, 0, 0]"
-            },
+            ListView: {},
+            StickyHeader: {},
             Swiper: {
                 "snap-to-edge": _false,
                 "easing-function": "'default'"
@@ -2291,10 +2270,7 @@ require("./taro");
                 "object-fit": "'contain'",
                 bindError: _empty
             },
-            Snapshot: {
-                mode: "'view'"
-            },
-            Span: {}
+            Snapshot: {}
         };
         const hostConfig = {
             initNativeApi: initNativeApi,
@@ -3616,9 +3592,7 @@ require("./taro");
                 "user-select": _false
             },
             Text: {
-                "user-select": _false,
-                overflow: "visible",
-                "max-lines": ""
+                "user-select": _false
             },
             Map: {
                 polygons: "[]",
@@ -3753,24 +3727,17 @@ require("./taro");
                 bindRefresherStatusChange: _empty
             },
             StickySection: {
-                "push-pinned-header": _true,
-                padding: "[0, 0, 0, 0]"
+                "push-pinned-header": _true
             },
             GridView: {
                 type: "'aligned'",
                 "cross-axis-count": "2",
                 "max-cross-axis-extent": _zero,
                 "main-axis-gap": _zero,
-                "cross-axis-gap": _zero,
-                padding: "[0, 0, 0, 0]"
+                "cross-axis-gap": _zero
             },
-            ListView: {
-                padding: "[0, 0, 0, 0]"
-            },
-            StickyHeader: {
-                "offset-top": "0",
-                padding: "[0, 0, 0, 0]"
-            },
+            ListView: {},
+            StickyHeader: {},
             Swiper: {
                 "snap-to-edge": _false,
                 "easing-function": "'default'"
@@ -4025,10 +3992,7 @@ require("./taro");
                 "object-fit": "'contain'",
                 bindError: _empty
             },
-            Snapshot: {
-                mode: "'view'"
-            },
-            Span: {}
+            Snapshot: {}
         };
         const hostConfig = {
             initNativeApi: initNativeApi,
