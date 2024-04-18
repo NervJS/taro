@@ -5,10 +5,13 @@
   "main": "index.js",
   "author": "Simba",
   "license": "MIT",
+  "engines": {
+    "node": ">= 18"
+  },
   "devDependencies": {
-    "postcss": "^8.4.18"
+    "postcss": "^8.4.38"
   },
   "peerDependencies": {
-    "postcss": "^8.4.18"
+    "postcss": "^8"
   }
 }
