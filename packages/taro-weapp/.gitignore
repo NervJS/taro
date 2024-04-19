@@ -1,2 +1,2 @@
-types
-!types/shims-*
+dist/types
+!dist/types/shims-*
