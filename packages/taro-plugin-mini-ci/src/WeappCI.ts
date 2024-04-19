@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
-import * as crypto from 'crypto'
+import * as crypto from 'node:crypto'
+import * as os from 'node:os'
+import * as path from 'node:path'
+
 import * as ci from 'miniprogram-ci'
 import { Project } from 'miniprogram-ci'
-import * as os from 'os'
-import * as path from 'path'
 import * as shell from 'shelljs'
 
 import BaseCI, { ProjectType } from './BaseCi'

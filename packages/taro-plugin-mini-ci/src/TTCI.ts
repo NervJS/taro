@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import * as path from 'path'
+import * as path from 'node:path'
 
 import BaseCI from './BaseCi'
 import { TTInstance } from './types'
@@ -7,7 +7,7 @@ import { getNpmPkgSync } from './utils/npm'
 import { printQrcode2Terminal } from './utils/qrcode'
 
 export default class TTCI extends BaseCI {
-  tt: TTInstance
+  tt: typeof TTInstance
 
   init () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper

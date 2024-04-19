@@ -1,19 +1,16 @@
 import { IMinidev, useDefaults } from 'minidev'
-import TTInstance from 'tt-ide-cli'
 
-export type AlipayInstance = { minidev: IMinidev; useDefaults: typeof useDefaults }
+export * as TTInstance from 'tt-ide-cli'
 
-export type TTInstance = typeof TTInstance
+export type AlipayInstance = { minidev: IMinidev, useDefaults: typeof useDefaults }
 
-export module DingTalk {
-
+export namespace DingTalk {
   interface IOpenSDKConfig {
     appKey: string
     appSecret: string
     accessToken?: string
     host?: string
   }
-
   export interface ITaskProgressMessage<T> {
     status: 'pending' |'building' |'success' |'failed' | 'overtime'
     data: T
@@ -34,7 +31,7 @@ export module DingTalk {
     ignoreWebViewDomainCheck?: boolean
     buildTarget: 'Preview'|'RemoteLegacy'|'RemoteX'|'RemoteXLite'|'RemoteBoatman'|'Publish'
   }
-  interface MiniAppOpenSDK {
+  export interface MiniAppOpenSDK {
     /** 配置 */
     setConfig(config: IOpenSDKConfig)
 

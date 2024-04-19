@@ -27,36 +27,42 @@
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
-    "@tarojs/service": "workspace:*",
-    "jimp": "^0.22.4",
-    "jsqr": "^1.4.0",
-    "minimist": "^1.2.5",
-    "miniprogram-ci": "^1.8.35",
-    "qrcode": "^1.5.1",
-    "shelljs": "^0.8.4"
+    "jimp": "0.22.12",
+    "jsqr": "1.4.0",
+    "minimist": "1.2.8",
+    "miniprogram-ci": "1.9.15",
+    "qrcode": "1.5.3",
+    "resolve": "1.22.8",
+    "shelljs": "0.8.5"
   },
   "devDependencies": {
-    "@types/qrcode": "^1.5.0",
-    "@types/shelljs": "^0.8.11"
+    "@tarojs/service": "workspace:*",
+    "@types/qrcode": "^1.5.5",
+    "@types/shelljs": "^0.8.15",
+    "minidev": "^2.1.5",
+    "tt-ide-cli": "^0.1.25"
   },
   "peerDependencies": {
-    "dingtalk-miniapp-opensdk": "^1.0.7",
-    "jd-miniprogram-ci": "^1.0.2",
-    "minidev": "^1.5.1",
-    "tt-ide-cli": "^0.1.13"
+    "dingtalk-miniapp-opensdk": "^1.0.8",
+    "jd-miniprogram-ci": "^1.0.5",
+    "minidev": "^2.1.5",
+    "tt-ide-cli": "^0.1.25"
   },
   "peerDependenciesMeta": {
     "dingtalk-miniapp-opensdk": {
+      "optional": true
+    },
+    "jd-miniprogram-ci": {
       "optional": true
     },
     "minidev": {
       "optional": true
     },
     "tt-ide-cli": {
-      "optional": true
-    },
-    "jd-miniprogram-ci": {
       "optional": true
     }
   }
