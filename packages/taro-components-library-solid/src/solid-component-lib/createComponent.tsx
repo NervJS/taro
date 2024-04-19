@@ -1,8 +1,9 @@
+import { isFunction } from '@tarojs/shared'
 import { Component, createEffect, JSX, mergeProps, splitProps } from 'solid-js'
 import h from 'solid-js/h'
 import { memo } from 'solid-js/web'
 
-import { camelToDashCase } from './utils'
+import { camelToDashCase, isPropNameAnEvent, syncAttribute, syncEvent } from './utils'
 
 export interface HTMLStencilElement extends HTMLElement {
   componentOnReady(): Promise<this>
@@ -13,6 +14,21 @@ export type StencilSolidInternalProps<ElementType> = JSX.DOMAttributes<ElementTy
 export interface ComponentSupplementaryTypes {
   style?: JSX.CSSProperties
   slot?: string
+}
+
+function setReactiveProps(node: HTMLElement, getterObj: Record<string, any>) {
+  createEffect(() => {
+    for (const key in getterObj) {
+      syncAttribute(node, key, getterObj[key])
+    }
+  })
+
+}
+
+function syncEvents(node: HTMLElement, eventsMap: Map<string, () => void>) {
+  for (const [key, value] of eventsMap) {
+    syncEvent(node, key, value)
+  }
 }
 
 export const createSolidComponent = <
@@ -33,7 +49,7 @@ export const createSolidComponent = <
   }
 
   function SolidComponentWrapper(props: { children: JSX.Element } & any) {
-    const [local, other] = splitProps(props, ['children'])
+    const [local, other] = splitProps(props, ['children', 'ref'])
     const eventsMap = new Map()
     const reactiveKeys = []
     const getProps = (_props: any) => {
@@ -65,8 +81,8 @@ export const createSolidComponent = <
     const [, getterObj] = splitProps(other, reactiveKeys)
 
     const _mergeProps = mergeProps(getProps(other), { ref: (element: HTMLElement) => {
+      if (local.ref && isFunction(local.ref)) local.ref(element)
       syncEvents(element, eventsMap)
-
       setReactiveProps(element, getterObj)
     } })
 
@@ -74,50 +90,4 @@ export const createSolidComponent = <
   }
 
   return SolidComponentWrapper as any
-}
-
-function setReactiveProps(node: HTMLElement, getterObj: Record<string, any>) {
-  createEffect(() => {
-    for (const key in getterObj) {
-      if (key === 'style') {
-        node.style.cssText = getterObj[key]
-      } else if (key === 'classList') {
-        node.classList.add(getterObj[key])
-      } else {
-        node.setAttribute(key, getterObj[key])
-      }
-    }
-  })
-
-}
-
-function syncEvents(node: HTMLElement, eventsMap: Map<string, () => void>) {
-  for (const [key, value] of eventsMap) {
-    syncEvent(node, key, value)
-  }
-}
-
-function syncEvent(node: HTMLElement & { __events?: { [key: string]: ((e: Event) => any) | undefined } }, propName: string, propValue: any) {
-  const eventName = propName.substring(2)[0].toLowerCase() + propName.substring(3)
-
-  const eventStore = node.__events || (node.__events = {})
-  const oldEventHandler = eventStore[eventName]
-
-  // Remove old listener so they don't double up.
-  if (oldEventHandler) {
-    node.removeEventListener(eventName, oldEventHandler)
-  }
-
-  node.addEventListener(
-    eventName,
-    (eventStore[eventName] = function handler(e: Event) {
-      if (propValue) {
-        propValue.call(this, e)
-      }
-    })
-  )
-}
-
-function isPropNameAnEvent(propName: string) {
-  return propName.startsWith('on') && propName[2] === propName[2].toUpperCase()
 }

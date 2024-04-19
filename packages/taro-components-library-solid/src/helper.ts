@@ -1,14 +1,9 @@
-
 export const manipulatePropsFunction = (
-  originalProps: any,
+  _: any,
   propsToPass: Record<string, unknown> = {}
 ) => {
-  const { dangerouslySetInnerHTML, style } = originalProps
-  if (typeof style !== 'string') {
-    propsToPass.style = style
-  }
+  // solid暂时不需要配置转换props
   return {
     ...propsToPass,
-    dangerouslySetInnerHTML
   }
 }
