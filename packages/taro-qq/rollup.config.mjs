@@ -1,16 +1,17 @@
+import typescript from '@rollup/plugin-typescript'
 import * as path from 'path'
 import externals from 'rollup-plugin-node-externals'
-import ts from 'rollup-plugin-ts'
+import { fileURLToPath } from 'url'
 
-const cwd = __dirname
+const __filename = fileURLToPath(new URL(import.meta.url))
+const cwd = path.dirname(__filename)
 
 const base = {
   plugins: [
     externals({
-      deps: true,
-      devDeps: false,
+      peerDeps: true,
     }),
-    ts()
+    typescript()
   ]
 }
 
@@ -37,4 +38,4 @@ const runtimeConfig = {
   ...base
 }
 
-module.exports = [compileConfig, runtimeConfig]
+export default [compileConfig, runtimeConfig]
