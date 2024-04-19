@@ -51,6 +51,9 @@ export { Span } from './Span'
 export { StickyHeader } from './StickyHeader'
 export { StickySection } from './StickySection'
 export { OpenContainer } from './OpenContainer'
+export { DraggableSheet } from './DraggableSheet'
+export { NestedScrollHeader } from './NestedScrollHeader'
+export { NestedScrollBody } from './NestedScrollBody'
 
 /** 导航 */
 export { FunctionalPageNavigator } from './FunctionalPageNavigator'

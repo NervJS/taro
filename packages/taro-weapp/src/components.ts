@@ -466,4 +466,13 @@ export const components = {
     openElevation: _zero,
     openBorderRadius: _zero
   },
+  DraggableSheet: {
+    initialChildSize: '0.5',
+    minChildSize: '0.25',
+    maxChildSize: '1.0',
+    snap: _false,
+    snapSizes: '[]'
+  },
+  NestedScrollHeader: {},
+  NestedScrollBody: {},
 }
