@@ -1,6 +1,7 @@
+import * as path from 'node:path'
+
 import { recursiveMerge } from '@tarojs/helper'
 import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
-import * as path from 'path'
 
 import { getPkgVersion } from '../utils/package'
 import TaroPlatform from './platform'
