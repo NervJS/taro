@@ -1,11 +1,18 @@
+import typescript from '@rollup/plugin-typescript'
 import * as path from 'path'
-import ts from 'rollup-plugin-ts'
+import externals from 'rollup-plugin-node-externals'
+import { fileURLToPath } from 'url'
 
-const cwd = __dirname
+const __filename = fileURLToPath(new URL(import.meta.url))
+const cwd = path.dirname(__filename)
 
 const base = {
-  external: ['@tarojs/shared', '@tarojs/service'],
-  plugins: [ts()]
+  plugins: [
+    externals({
+      peerDeps: true,
+    }),
+    typescript()
+  ]
 }
 
 // 供 CLI 编译时使用的 Taro 插件入口
@@ -42,4 +49,4 @@ const runtimeUtilsConfig = {
   ...base
 }
 
-module.exports = [compileConfig, runtimeConfig, runtimeUtilsConfig]
+export default [compileConfig, runtimeConfig, runtimeUtilsConfig]
