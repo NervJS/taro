@@ -51,7 +51,6 @@ export interface ViteHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfi
   fileType: IFileType
   useETS?: boolean
   useJSON5?: boolean
-  useNesting?: boolean
   blended?: boolean
   runtimePath?: string | string[]
   taroComponentsPath: string

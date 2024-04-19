@@ -103,6 +103,16 @@ export interface TaroStyleType {
     type: TextDecorationType
   }
 
+  // animation
+  animationName?: {
+    percentage: number
+    event: TaroStyleType
+  }[]
+  animationDuration?: number
+  animationTimingFunction?: string
+  animationDelay?: number
+  animationIterationCount?: number
+
   // other
   opacity?: number | Resource
   zIndex?: number

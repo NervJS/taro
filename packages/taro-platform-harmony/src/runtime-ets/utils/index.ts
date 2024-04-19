@@ -1,5 +1,5 @@
 import _display from '@ohos.display'
-import { pxTransformHelper } from '@tarojs/taro'
+import { getSystemInfoSync, pxTransformHelper } from '@tarojs/taro'
 
 import { NodeType } from '../dom/node'
 import convertWebStyle2HmStyle from '../dom/stylesheet/covertWeb2Hm'
@@ -60,25 +60,18 @@ export function parseClasses (classNames: string | string[] = []): string[] {
 }
 
 // 合并静态样式，从样式表里面找到对应的样式
-export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, classNames: string | string[] = [], style: CSSProperties): CSSProperties {
+export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, classNames: string | string[] = []): CSSProperties {
   const obj: CSSProperties[] = []
   const classes = parseClasses(classNames)
   if (classes.length === 1) {
-    if (style) {
-      return Object.assign({}, styleSheet[classes[0]], style)
-    } else {
-      // 同一个引用
-      return styleSheet[classes[0]]
-    }
+    // 同一个引用
+    return styleSheet[classes[0]]
   } else {
     for (let i = 0; i < classes.length; i++) {
       const className = classes[i]
       if (styleSheet[className]) {
         obj.push(styleSheet[className])
       }
-    }
-    if (style) {
-      obj.push(style)
     }
     return Object.assign.apply(null, [{}].concat(obj))
   }
@@ -90,6 +83,27 @@ export function calcDynamicStyle (style: CSSProperties): CSSProperties {
     return convertWebStyle2HmStyle(style)
   }
   return {}
+}
+
+// css env()环境样式获取
+export function __env__(safeAreaType: string, fallback?: string | number) {
+  const sysInfo = getSystemInfoSync()
+  
+  switch (safeAreaType) {
+    case 'safe-area-inset-top': {
+      return sysInfo.safeArea?.top ? `${sysInfo.safeArea?.top}px` : fallback
+    }
+    case 'safe-area-inset-right': {
+      return sysInfo.safeArea?.right ? `${sysInfo.screenWidth - sysInfo.safeArea?.right}px` : fallback
+    }
+    case 'safe-area-inset-bottom': {
+      return sysInfo.safeArea?.bottom ? `${sysInfo.screenHeight - sysInfo.safeArea?.bottom}px` : fallback
+    }
+    case 'safe-area-inset-left': {
+      return sysInfo.safeArea?.left ? `${sysInfo.safeArea?.left}px` : fallback
+    }
+  }
+  return fallback
 }
 
 export function getPageScrollerOrNode (scrollerOrNode: any, page: any) {
