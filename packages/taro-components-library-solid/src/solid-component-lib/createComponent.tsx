@@ -75,10 +75,10 @@ export const createSolidComponent = <
       return propsToPass
     }
 
-    const untrackProps = getUnTrackProps(other)
+    const unTrackProps = getUnTrackProps(other)
     const [reactiveProps] = splitProps(other, reactiveKeys)
 
-    const _mergeProps = mergeProps(untrackProps, { ref: (element: HTMLElement) => {
+    const _mergeProps = mergeProps(unTrackProps, { ref: (element: HTMLElement) => {
       if (local.ref && isFunction(local.ref)) local.ref(element)
       syncEvents(element, eventsMap)
       setReactiveProps(element, reactiveProps)
