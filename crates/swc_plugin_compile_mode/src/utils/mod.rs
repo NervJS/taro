@@ -208,7 +208,7 @@ pub fn get_harmony_component_style(visitor: &mut TransformVisitor) -> String {
         }
     };
 
-    build_component(IMAGE_TAG, HARMONY_IMAGE_STYLE_BIND);
+    // build_component(IMAGE_TAG, HARMONY_IMAGE_STYLE_BIND);
     build_component(TEXT_TAG, HARMONY_TEXT_STYLE_BIND);
     build_component(TEXT_TAG, HARMONY_TEXT_HELPER_FUNCITON);
 
