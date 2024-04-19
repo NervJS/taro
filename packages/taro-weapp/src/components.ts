@@ -454,5 +454,16 @@ export const components = {
   Snapshot: {
     mode: "'view'",
   },
-  Span: {}
+  Span: {},
+  OpenContainer: {
+    transitionType: "'fade'",
+    transitionDuration: '300',
+    closedColor: "'white'",
+    closedElevation: _zero,
+    closeBorderRadius: _zero,
+    middleColor: _empty,
+    openColor: "'white'",
+    openElevation: _zero,
+    openBorderRadius: _zero
+  },
 }

@@ -50,6 +50,7 @@ export { Snapshot } from './SnapShot'
 export { Span } from './Span'
 export { StickyHeader } from './StickyHeader'
 export { StickySection } from './StickySection'
+export { OpenContainer } from './OpenContainer'
 
 /** 导航 */
 export { FunctionalPageNavigator } from './FunctionalPageNavigator'
