@@ -1,10 +1,13 @@
+import * as path from 'node:path'
+
 import json from '@rollup/plugin-json'
 import nodeResolve from '@rollup/plugin-node-resolve'
-import * as path from 'path'
-import { externals } from 'rollup-plugin-node-externals'
-import ts from 'rollup-plugin-ts'
+import typescript from '@rollup/plugin-typescript'
+import externals from 'rollup-plugin-node-externals'
+import { fileURLToPath } from 'url'
 
-const cwd = __dirname
+const __filename = fileURLToPath(new URL(import.meta.url))
+const cwd = path.dirname(__filename)
 
 // 供 CLI 编译时使用的 Taro 插件入口
 const compileConfig = {
@@ -12,6 +15,7 @@ const compileConfig = {
   output: {
     file: path.join(cwd, 'dist/index.js'),
     format: 'cjs',
+    sourcemap: true,
     exports: 'named',
   },
   plugins: [
@@ -21,7 +25,7 @@ const compileConfig = {
     }),
     nodeResolve(),
     json(),
-    ts()
+    typescript()
   ]
 }
 
@@ -30,10 +34,11 @@ const runtimeConfig = {
   input: path.join(cwd, 'src/runtime/index.ts'),
   output: {
     file: path.join(cwd, 'dist/runtime.js'),
+    sourcemap: true,
     format: 'es'
   },
   external: ['@tarojs/taro', '@tarojs/runtime', '@tarojs/shared'],
-  plugins: [nodeResolve(), ts()]
+  plugins: [nodeResolve(), typescript()]
 }
 
-module.exports = [compileConfig, runtimeConfig]
+export default [compileConfig, runtimeConfig]
