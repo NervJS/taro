@@ -30,13 +30,18 @@ export function syncAttribute(el: HTMLElement, attribute: string, value: any) {
     }
     el.style.cssText = value
   } else if (attribute === 'classList') {
-    const addClassList = []
+    const [addList, removeList] = [[], []]
     if (isObject<Record<string, any>>(value)) {
       for (const k in value) {
-        if (value[k]) addClassList.push
+        if (value[k]) {
+          addList.push(k)
+        } else {
+          removeList.push(k)
+        }
       }
     }
-    el.classList.add(...addClassList)
+    el.classList.add(...addList)
+    el.classList.remove(...removeList)
   } else {
     el.setAttribute(attribute, value)
   }
