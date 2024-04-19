@@ -1,4 +1,5 @@
 import type { TaroAny, HarmonyStyle, TaroElement, TaroStyleType, TaroTextElement }  from '@tarojs/runtime'
+import { ObjectAssign }  from '@tarojs/runtime'
 import { isUndefined } from '@tarojs/shared'
 import { computeBackgroundPosition } from './utils'
 import { getNormalAttributes } from './utils/helper'
@@ -36,7 +37,9 @@ class TextStyleModify implements AttributeModifier<TextAttribute> {
 
   setAnimationStyle (overwriteStyle: Record<string, TaroAny>) {
     this.overwriteStyle = overwriteStyle
-    if (this.style && this.overwriteStyle) {
+    if (this.style && this.overwriteStyle && Object.keys(this.overwriteStyle).length) {
+      // 防止污染原始样式
+      this.style = ObjectAssign({}, this.style)
       Object.keys(this.overwriteStyle).forEach(key => {
         this.style![key] = this.overwriteStyle[key]
       })
@@ -81,7 +84,9 @@ class CommonStyleModify implements AttributeModifier<CommonAttribute> {
   
   setAnimationStyle (overwriteStyle: Record<string, TaroAny>) {
     this.overwriteStyle = overwriteStyle
-    if (this.style && this.overwriteStyle) {
+    if (this.style && this.overwriteStyle && Object.keys(this.overwriteStyle).length) {
+      // 防止污染原始样式
+      this.style = ObjectAssign({}, this.style)
       Object.keys(this.overwriteStyle).forEach(key => {
         this.style![key] = this.overwriteStyle[key]
       })
@@ -226,6 +231,7 @@ export function setSpecialTextAttributeIntoInstance(instance: TextAttribute, sty
 }
 
 export function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroStyleType, node?: TaroElement | null) {
+  instance.renderFit(RenderFit.RESIZE_FILL)
   if (!isUndefined(style.id)) {
     instance.id(style.id)
     instance.key(style.id)

@@ -1,5 +1,6 @@
 // 从 API Version 6 开始支持
 import pasteboard from '@ohos.pasteboard'
+import promptAction from '@ohos.promptAction'
 import { isString } from '@tarojs/shared'
 
 import { callAsyncFail, getParameterError, object2String } from '../utils'
@@ -38,6 +39,9 @@ export const setClipboardData: typeof Taro.setClipboardData = function (options)
         }
         callAsyncFail(reject, res, options)
       } else {
+
+        promptAction.showToast({ message: '内容已复制' })
+        
         return handle.success({
           data,
         }, { resolve, reject })

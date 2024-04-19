@@ -193,7 +193,7 @@ export const batchSetStorage = /* @__PURE__ */ temporarilyNotSupport('batchSetSt
 export const batchGetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchGetStorageSync')
 export const batchGetStorage = /* @__PURE__ */ temporarilyNotSupport('batchGetStorage')
 
-export const clearStorage = temporarilyNotSupport('removeStorageSync')
+export const clearStorage = temporarilyNotSupport('clearStorage')
 export const getStorageSync = temporarilyNotSupport('getStorageSync', 'getStorage')
 export const setStorageSync = temporarilyNotSupport('setStorageSync', 'setStorage')
 export const clearStorageSync = temporarilyNotSupport('clearStorageSync', 'clearStorage')

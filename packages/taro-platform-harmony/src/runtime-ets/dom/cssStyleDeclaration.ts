@@ -1,4 +1,4 @@
-import { isObject, toCamelCase, toDashed } from '@tarojs/shared'
+import { isObject, isUndefined, toCamelCase, toDashed } from '@tarojs/shared'
 
 import { TaroElement } from './element/element'
 import convertWebStyle2HmStyle from './stylesheet/covertWeb2Hm'
@@ -55,6 +55,20 @@ class CSSStyleDeclaration {
     if ((typeof value === 'string' && value.length) || typeof value === 'number' || isObject(value)) {
       convertWebStyle2HmStyle({ [prop]: value }, node)
     } else if (!value) {
+      if (value === '') {
+        // value设置为null或者''了
+        this.removeProperty(prop)
+        return
+      }
+      // 判断class的样式表中是否存在该属性
+      // 如果存在，则style删除，无需把hmStyle的值删除
+      // 如果不存在，则hmStyle上该样式是style设置的，需要删除
+      if (isUndefined(this.el._attrs?.__hmStyle?.[prop])) {
+        if (this.el && this.el._st) {
+          this.el._st.hmStyle[prop] = this.el._attrs?.__hmStyle?.[prop]
+        }
+        return
+      }
       this.removeProperty(prop)
     }
   }

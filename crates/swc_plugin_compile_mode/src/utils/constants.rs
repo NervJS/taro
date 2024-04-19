@@ -34,7 +34,8 @@ pub const HARMONY_IMPORTER: &str = "import {
   getNormalAttributes,
   shouldBindEvent,
   textModify,
-  setNormalTextAttributeIntoInstance
+  setNormalTextAttributeIntoInstance,
+  getImageMode
 } from '@tarojs/components'
 import {
   NodeType,
@@ -146,7 +147,7 @@ function textNormalFontStyle (style: HarmonyStyle) {
   .fontFamily(style.fontFamily)
   .lineHeight(style.lineHeight)
   .decoration({
-    type: style.textDecoration  as TaroAny,
+    type: style.textDecoration?.type,
     color: style.color
   })
 }

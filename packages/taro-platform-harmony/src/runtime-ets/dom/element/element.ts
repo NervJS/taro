@@ -9,7 +9,7 @@ import { bindAnimation } from '../bind'
 import { ClassList } from '../class-list'
 import { type ICSSStyleDeclaration, createCSSStyleDeclaration } from '../cssStyleDeclaration'
 import { NodeType, TaroNode } from '../node'
-import StyleSheet, { HarmonyStyle } from '../stylesheet'
+import StyleSheet, { HarmonyStyle, TaroStyleType } from '../stylesheet'
 
 import type { BaseTouchEvent, ITouchEvent, StandardProps } from '@tarojs/components/types'
 import type { TaroAny } from '../../utils'
@@ -20,6 +20,7 @@ export interface TaroExtraProps {
   compileMode?: string | boolean
   compileIf?: boolean
   disabled?: boolean
+  __hmStyle?: TaroStyleType
 }
 
 export class TaroElement<
@@ -259,6 +260,7 @@ export class TaroElement<
   }
 
   get currentLayerNode () {
+    if (!Current.page) return null
     if (typeof Current.page.tabBarCurrentIndex !== 'undefined') {
       Current.page.layerNode ||= []
       Current.page.layerNode[Current.page.tabBarCurrentIndex] ||= Current.createHarmonyElement('VIEW')
@@ -271,6 +273,7 @@ export class TaroElement<
   }
 
   get currentLayerParents () {
+    if (!Current.page) return null
     if (typeof Current.page.tabBarCurrentIndex !== 'undefined') {
       Current.page.layerParents ||= []
       Current.page.layerParents[Current.page.tabBarCurrentIndex] ||= []
@@ -344,20 +347,22 @@ export class TaroElement<
   }
 
   // 设置动画  
-  public setAnimation (animationData) {
+  public setAnimation (playing) {
     if (!this._instance) {
       if (!this._nodeInfo.aboutToAppear) {
         this._nodeInfo.aboutToAppear = []
       }
       this._nodeInfo.aboutToAppear.push(() => {
-        this.setAnimation(animationData)
+        this.setAnimation(playing)
       })
       return
     }
 
+    const keyframes = this._st.hmStyle.animationName
+
     // 防止动画闪烁，需要把第一帧的内容先设置上去设置初始样式
-    if (animationData && animationData.keyframes && animationData.keyframes[0] && animationData.keyframes[0].percentage === 0) {
-      this._instance.overwriteStyle = animationData.keyframes[0].event
+    if (playing && keyframes && keyframes[0] && keyframes[0].percentage === 0) {
+      this._instance.overwriteStyle = keyframes[0].event
     }
     
     // 首次设置，不用实例替换
@@ -365,7 +370,9 @@ export class TaroElement<
       this._nodeInfo.hasAnimation = true
       // 下一帧播放，等节点样式首次设置上去在进行覆盖
       setTimeout(() => {
-        this.playAnimation(animationData)
+        if (playing) {
+          this.playAnimation()
+        }
       }, 0)
     } else if (this.parentNode) {
       const idx = this.parentNode.findIndex(this)
@@ -381,25 +388,36 @@ export class TaroElement<
         this.parentNode?.notifyDataAdd(idx)
 
         // 执行动画
-        if (animationData) {
-          this.playAnimation(animationData)
+        if (playing) {
+          this.playAnimation()
         }
       }, 0)
     }
   }
 
-  private playAnimation (animationData) {
-    this._instance.getUIContext?.().keyframeAnimateTo({
-      delay: animationData.params.delay,
-      iterations: animationData.params.iterations,
-    }, animationData.keyframes.map(item => {
-      return {
-        duration: item.duration,
-        event: () => {
-          this._instance.overwriteStyle = item.event
+  private playAnimation () {
+    const { 
+      animationDuration = 0, animationDelay = 0, animationIterationCount = 1, animationName: keyframes, 
+      animationTimingFunction
+    } = this._st.hmStyle
+
+    if (keyframes) {
+      let cur_percentage = 0
+      Current.uiContext.keyframeAnimateTo({
+        delay: animationDelay,
+        iterations: animationIterationCount,
+      }, keyframes.map(item => {
+        const duration = (item.percentage - cur_percentage) * animationDuration
+        cur_percentage = item.percentage
+        return {
+          duration: duration,
+          curve: item.event.animationTimingFunction || animationTimingFunction,
+          event: () => {
+            this._instance.overwriteStyle = item.event
+          }
         }
-      }
-    }))
+      }))
+    }
   }
 }
 

@@ -260,7 +260,7 @@ export default class Harmony extends TaroPlatformHarmony {
           define.global = 'globalThis'
         }
         const ext = path.extname(target)
-        if (![/d\.e?tsx?$/, /\.(json|md)$/].some(e => e.test(target))) {
+        if (![/d\.e?tsx?$/, /\.(json|map|md)$/].some(e => e.test(target))) {
           code = this.replaceDefineValue(code, define, ext)
         }
         if (['.ts'].includes(ext)) {
