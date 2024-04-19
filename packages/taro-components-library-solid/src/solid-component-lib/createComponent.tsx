@@ -3,7 +3,7 @@ import { Component, createEffect, JSX, mergeProps, splitProps } from 'solid-js'
 import h from 'solid-js/h'
 import { memo } from 'solid-js/web'
 
-import { camelToDashCase, isPropNameAnEvent, syncAttribute, syncEvent } from './utils'
+import { camelToDashCase, isPropNameAnEvent, isReactiveKey, syncAttribute, syncEvent } from './utils'
 
 export interface HTMLStencilElement extends HTMLElement {
   componentOnReady(): Promise<this>
@@ -52,10 +52,8 @@ export const createSolidComponent = <
     const [local, other] = splitProps(props, ['children', 'ref'])
     const eventsMap = new Map()
     const reactiveKeys = []
-    const getProps = (_props: any) => {
-
+    const getUnTrackProps = (_props: Record<string, any>) => {
       let propsToPass: typeof props = {}
-
       for (const key in _props) {
         if (!_props.hasOwnProperty(key)) {
           continue
@@ -64,26 +62,26 @@ export const createSolidComponent = <
           eventsMap.set(key, _props[key])
           continue
         }
-        if (_props[key]?.get) {
+        if (isReactiveKey(_props, key)) {
           reactiveKeys.push(key)
+          continue
         }
         const propValue = _props[key]
         propsToPass[camelToDashCase(key)] = propValue
       }
-
       if (manipulatePropsFunction !== undefined) {
         propsToPass = manipulatePropsFunction(_props, propsToPass)
       }
-
       return propsToPass
     }
 
-    const [, getterObj] = splitProps(other, reactiveKeys)
+    const untrackProps = getUnTrackProps(other)
+    const [reactiveProps] = splitProps(other, reactiveKeys)
 
-    const _mergeProps = mergeProps(getProps(other), { ref: (element: HTMLElement) => {
+    const _mergeProps = mergeProps(untrackProps, { ref: (element: HTMLElement) => {
       if (local.ref && isFunction(local.ref)) local.ref(element)
       syncEvents(element, eventsMap)
-      setReactiveProps(element, getterObj)
+      setReactiveProps(element, reactiveProps)
     } })
 
     return memo(() => h(tagName, _mergeProps, local.children), true)

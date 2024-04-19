@@ -39,9 +39,9 @@ export function syncAttribute(el: HTMLElement, attribute: string, value: any) {
           removeList.push(k)
         }
       }
+      el.classList.add(...addList)
+      el.classList.remove(...removeList)
     }
-    el.classList.add(...addList)
-    el.classList.remove(...removeList)
   } else {
     el.setAttribute(attribute, value)
   }

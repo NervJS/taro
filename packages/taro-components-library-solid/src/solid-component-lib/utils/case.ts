@@ -3,3 +3,6 @@ export const camelToDashCase = (str: string) =>
 
 export const isPropNameAnEvent = (propName: string) =>
   propName.startsWith('on') && propName[2] === propName[2].toUpperCase()
+
+export const isReactiveKey = <T extends Record<string, any>>(obj: T, key: keyof T) =>
+  Object.getOwnPropertyDescriptor(obj, key).get
