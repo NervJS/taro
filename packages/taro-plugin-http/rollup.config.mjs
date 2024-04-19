@@ -1,7 +1,6 @@
 import * as path from 'node:path'
 
 import json from '@rollup/plugin-json'
-import nodeResolve from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
 import externals from 'rollup-plugin-node-externals'
 import { fileURLToPath } from 'url'
@@ -20,10 +19,8 @@ const compileConfig = {
   },
   plugins: [
     externals({
-      deps: true,
-      devDeps: false,
+      peerDeps: true,
     }),
-    nodeResolve(),
     json(),
     typescript()
   ]
@@ -37,8 +34,12 @@ const runtimeConfig = {
     sourcemap: true,
     format: 'es'
   },
-  external: ['@tarojs/taro', '@tarojs/runtime', '@tarojs/shared'],
-  plugins: [nodeResolve(), typescript()]
+  plugins: [
+    externals({
+      peerDeps: true,
+    }),
+    typescript()
+  ]
 }
 
 export default [compileConfig, runtimeConfig]

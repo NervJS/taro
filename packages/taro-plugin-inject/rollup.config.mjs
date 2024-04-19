@@ -10,7 +10,7 @@ const base = {
   external: ['./apis-list', './components'],
   plugins: [
     externals({
-      devDeps: true
+      peerDeps: true
     }),
     typescript()
   ]

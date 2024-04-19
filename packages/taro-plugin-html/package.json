@@ -29,13 +29,16 @@
   "engines": {
     "node": ">= 18"
   },
-  "dependencies": {
+  "devDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*"
+  },
+  "peerDependencies": {
     "@tarojs/helper": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*"
-  },
-  "devDependencies": {
-    "@tarojs/service": "workspace:*",
-    "@tarojs/taro": "workspace:*"
   }
 }

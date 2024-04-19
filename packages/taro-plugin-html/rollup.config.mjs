@@ -9,8 +9,7 @@ const cwd = path.dirname(__filename)
 const base = {
   plugins: [
     externals({
-      deps: true,
-      devDeps: false,
+      peerDeps: true,
     }),
     typescript(),
   ]
