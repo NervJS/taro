@@ -1178,7 +1178,7 @@
       }
     },
     "getTopStatus": false,
-    "getUpdateManager": false,
+    "getUpdateManager": true,
     "getUserCryptoManager": false,
     "getUserInfo": {
       "object": {
@@ -1296,18 +1296,9 @@
         "phoneNumber": true
       }
     },
-    "navigateBack": {
-      "object": {
-        "delta": true
-      }
-    },
+    "navigateBack": false,
     "navigateBackMiniProgram": false,
-    "navigateTo": {
-      "object": {
-        "url": true,
-        "events": true
-      }
-    },
+    "navigateTo": false,
     "navigateToBookshelf": false,
     "navigateToMiniProgram": {
       "object": {
@@ -1603,11 +1594,7 @@
       }
     },
     "queryBookshelf": false,
-    "reLaunch": {
-      "object": {
-        "url": true
-      }
-    },
+    "reLaunch": false,
     "readBLECharacteristicValue": {
       "object": {
         "characteristicId": true,
@@ -1615,7 +1602,7 @@
         "serviceId": true
       }
     },
-    "redirectTo": true,
+    "redirectTo": false,
     "removeSavedFile": {
       "object": {
         "filePath": true
@@ -1754,7 +1741,11 @@
       }
     },
     "setBackgroundColor": false,
-    "setBackgroundFetchToken": true,
+    "setBackgroundFetchToken": {
+      "object": {
+        "token": true
+      }
+    },
     "setBackgroundTextStyle": false,
     "setClipboardData": {
       "object": {
@@ -1967,11 +1958,7 @@
     "stopWifi": true,
     "subscribeService": false,
     "subscribeVoIPVideoMembers": false,
-    "switchTab": {
-      "object": {
-        "url": true
-      }
-    },
+    "switchTab": false,
     "tradePay": false,
     "unsubscribeMessage": false,
     "updateBookshelfReadTime": false,
