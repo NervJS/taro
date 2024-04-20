@@ -155,7 +155,7 @@ export default class Parser extends BaseParser {
         decorator: 'State', name: 'layerNode', type: '(TaroElement | null)', foreach: () => 'null'
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'isRefreshing', type: 'boolean', foreach: () => 'false', disabled: this.enableRefresh === 0 || this.buildConfig.isBuildNativeComp
+        decorator: 'State', name: 'isRefreshing', type: 'boolean', foreach: () => 'false', disabled: this.enableRefresh === 0
       }, this.isTabbarPage),
       // Note: 仅普通页面包含 Home 按钮
       this.renderState({
@@ -174,7 +174,10 @@ export default class Parser extends BaseParser {
         decorator: 'State', name: 'navigationBarTitleText', type: 'string', foreach: (_, i) => `config${i}.navigationBarTitleText`, disabled: this.buildConfig.isBuildNativeComp && !entryOption
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'pageBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColor`, disabled: this.buildConfig.isBuildNativeComp
+        decorator: 'State', name: 'pageBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColor`
+      }, this.isTabbarPage),
+      this.renderState({
+        decorator: 'State', name: 'pageBackgroundContentColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColorContent`
       }, this.isTabbarPage),
       this.renderState({
         decorator: 'State', name: 'props', type: 'TaroObject', foreach: () => '{}', disabled: !this.buildConfig.isBuildNativeComp
@@ -743,8 +746,7 @@ this.onReady = this.page?.onReady?.bind(this.page)
 callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
   this.node = instance
 })
-callFn(this.page.onReady, this, params)
-`
+callFn(this.page.onReady, this, params)`
 }`
   }
 
