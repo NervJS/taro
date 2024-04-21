@@ -3,7 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "lib": ["ESNext"],
-    "module": "ESNext"
+    "module": "ESNext",
+    "esModuleInterop": true
   },
   "include": ["./src"]
 }
