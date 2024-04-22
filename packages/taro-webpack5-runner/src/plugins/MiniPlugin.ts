@@ -464,12 +464,12 @@ export default class TaroMiniPlugin {
    * 分析 app 入口文件，搜集页面、组件信息，
    * 往 this.dependencies 中添加资源模块
    */
-  run (compiler: Compiler) {
+  async run (compiler: Compiler) {
     if (this.options.isBuildPlugin) {
       this.getPluginFiles()
       this.getConfigFiles(compiler)
     } else {
-      this.appConfig = this.getAppConfig()
+      this.appConfig = await this.getAppConfig()
       this.getPages()
       this.getPagesConfig()
       this.getDarkMode()
@@ -601,7 +601,7 @@ export default class TaroMiniPlugin {
    * 获取 app config 配置内容
    * @returns app config 配置内容
    */
-  getAppConfig (): AppConfig {
+  async getAppConfig (): Promise<AppConfig> {
     const appName = path.basename(this.appEntry).replace(path.extname(this.appEntry), '')
 
     this.compileFile({
@@ -615,6 +615,10 @@ export default class TaroMiniPlugin {
 
     if (isEmptyObject(appConfig)) {
       throw new Error('缺少 app 全局配置文件，请检查！')
+    }
+    const { modifyAppConfig } = this.options.combination.config
+    if (typeof modifyAppConfig === 'function') {
+      await modifyAppConfig(appConfig)
     }
     return appConfig as AppConfig
   }
