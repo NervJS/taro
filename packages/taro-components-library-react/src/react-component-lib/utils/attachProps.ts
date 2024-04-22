@@ -104,7 +104,7 @@ export const syncEvent = (
   const oldEventHandler = eventStore[eventName]
 
   if (!newEventHandler) {
-    node.removeEventListener(eventName, oldEventHandler)
+    oldEventHandler && node.removeEventListener(eventName, oldEventHandler)
   } else {
     if (oldEventHandler) {
       if (oldEventHandler.fn === newEventHandler) {
