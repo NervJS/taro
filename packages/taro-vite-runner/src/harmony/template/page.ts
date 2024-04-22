@@ -297,7 +297,10 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'
         name: 'handlePageStyle',
         type: 'arrow',
         params: ['option: TaroObject'],
-        body: `if (option.backgroundColor) this.pageBackgroundColor = option.backgroundColor || '#FFFFFF'`,
+        body: this.transArr2Str([
+          `if (option.backgroundColor) this.pageBackgroundColor = option.backgroundColor || '#FFFFFF'`,
+          `if (option.backgroundColorContext) this.pageBackgroundContentColor = option.backgroundColorContext || '#FFFFFF'`,
+        ]),
       }, {
         name: 'bindPageEvent',
         body: this.transArr2Str([
