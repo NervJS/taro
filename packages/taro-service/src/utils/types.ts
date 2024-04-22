@@ -136,7 +136,6 @@ export declare interface IPluginContext {
    */
   onCompilerMake: (fn: (args: { compilation: Webpack.Compilation, compiler: Webpack.Compiler, plugin: any }) => void) => void
   /**
-   * 
    * 编译前，修改 App 配置
    */
   modifyAppConfig: (fn: (args: { appConfig: AppConfig }) => void) => void
