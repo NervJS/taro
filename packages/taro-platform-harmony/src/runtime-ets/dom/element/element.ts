@@ -1,4 +1,4 @@
-import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
+import { eventCenter, eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { EMPTY_OBJ, toCamelCase } from '@tarojs/shared'
 
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../../constant'
@@ -31,7 +31,7 @@ export class TaroElement<
   public _nodeInfo: TaroAny = {
     layer: 0 // 渲染层级
   }
-  
+
   public hm_instance: TaroAny
 
   public get _instance () {
@@ -115,14 +115,24 @@ export class TaroElement<
 
     this._attrs[name] = value
 
-    const attributeTriggerValue: TaroAny = ATTRIBUTES_CALLBACK_TRIGGER_MAP[name]
-    if (attributeTriggerValue) {
-      const triggerName: TaroAny = attributeTriggerValue.triggerName
-      const valueInspect: TaroAny = attributeTriggerValue.valueInspect
+    if (['PAGE-META', 'NAVIGATION-BAR'].includes(this.tagName)) {
+      // FIXME 等 Harmony 支持更细粒度的 @Watch 方法后移出
+      eventCenter.trigger('__taroComponentAttributeUpdate', {
+        id: this._nid,
+        tagName: this.tagName,
+        attribute: name,
+        value
+      })
+    } else {
+      const attributeTriggerValue: TaroAny = ATTRIBUTES_CALLBACK_TRIGGER_MAP[name]
+      if (attributeTriggerValue) {
+        const triggerName: TaroAny = attributeTriggerValue.triggerName
+        const valueInspect: TaroAny = attributeTriggerValue.valueInspect
 
-      if (valueInspect && !valueInspect(value)) return
+        if (valueInspect && !valueInspect(value)) return
 
-      triggerAttributesCallback(this, triggerName)
+        triggerAttributesCallback(this, triggerName)
+      }
     }
   }
 
@@ -240,7 +250,7 @@ export class TaroElement<
       this._pseudo_after = null
     }
   }
-  
+
   // 伪类，在获取的时候根据dom和parent的关系，动态设置
   public _pseudo_class: Record<string, StyleSheet | null> = {
     // ["::first-child"]: new StyleSheet(),
@@ -346,7 +356,7 @@ export class TaroElement<
     }
   }
 
-  // 设置动画  
+  // 设置动画
   public setAnimation (playing) {
     if (!this._instance) {
       if (!this._nodeInfo.aboutToAppear) {
@@ -364,7 +374,7 @@ export class TaroElement<
     if (playing && keyframes && keyframes[0] && keyframes[0].percentage === 0) {
       this._instance.overwriteStyle = keyframes[0].event
     }
-    
+
     // 首次设置，不用实例替换
     if (!this._nodeInfo.hasAnimation) {
       this._nodeInfo.hasAnimation = true
@@ -396,8 +406,8 @@ export class TaroElement<
   }
 
   private playAnimation () {
-    const { 
-      animationDuration = 0, animationDelay = 0, animationIterationCount = 1, animationName: keyframes, 
+    const {
+      animationDuration = 0, animationDelay = 0, animationIterationCount = 1, animationName: keyframes,
       animationTimingFunction
     } = this._st.hmStyle
 
