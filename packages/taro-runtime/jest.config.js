@@ -11,10 +11,6 @@ module.exports = {
     ENABLE_CONTAINS: true,
   },
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
-  moduleNameMapper: {
-    '@tarojs/shared': path.resolve(__dirname, '..', '..', 'packages/shared/src/index.ts'),
-    '@tarojs/react': path.resolve(__dirname, '..', '..', 'packages/taro-react/dist/index.js'),
-  },
   preset: 'ts-jest',
   setupFiles: [path.resolve(__dirname, './src/__tests__/setup.js')],
   testEnvironment: 'node',

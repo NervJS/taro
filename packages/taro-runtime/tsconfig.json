@@ -5,7 +5,6 @@
     "declaration": true,
     "module": "ESNext",
     "outDir": "./dist",
-    "sourceMap": true,
     "target": "ES2017"
   },
   "include": ["./src", "./rollup.config.ts"],

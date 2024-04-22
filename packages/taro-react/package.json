@@ -5,6 +5,7 @@
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-react#readme",
   "license": "MIT",
+  "main": "dist/react.esm.js",
   "module": "dist/react.esm.js",
   "files": [
     "dist"
