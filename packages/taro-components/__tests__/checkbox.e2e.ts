@@ -42,7 +42,7 @@ describe('Checkbox', () => {
         />`).join('')}
       </taro-checkbox-group-core>`,
     })
-    
+
     await page.waitForChanges()
     const el = await page.find('taro-checkbox-group-core')
     const inputList = await page.findAll('input')

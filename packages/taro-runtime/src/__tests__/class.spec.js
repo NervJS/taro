@@ -13,7 +13,7 @@ describe('Class', () => {
       div.className = 'test1 test2'
       expect(div.className).toBe('test1 test2')
     })
-  
+
     it('removeAttribute: class', () => {
       const div = document.createElement('div')
       div.className = 'test'
@@ -23,7 +23,7 @@ describe('Class', () => {
   })
 
   describe('classList', () => {
-    it('get value', ()  => {
+    it('get value', () => {
       const div = document.createElement('div')
       expect(div.classList.value).toBe('')
       div.classList.add('test1')
@@ -38,7 +38,7 @@ describe('Class', () => {
       expect(div.classList.value).toBe('test1 test2')
     })
 
-    it('get length', ()  => {
+    it('get length', () => {
       const div = document.createElement('div')
       div.classList.add('test1')
       expect(div.classList.length).toBe(1)
@@ -55,7 +55,7 @@ describe('Class', () => {
       div.classList.add('test2')
       expect(div.className).toBe('test1 test2')
     })
-  
+
     it('trigger remove function', () => {
       const div = document.createElement('div')
       div.classList.add('test1')
@@ -67,7 +67,7 @@ describe('Class', () => {
       div.classList.remove('test1')
       expect(div.className).toBe('')
     })
-  
+
     it('trigger toggle function', () => {
       const div = document.createElement('div')
       div.classList.toggle('test')
@@ -85,7 +85,7 @@ describe('Class', () => {
       div.classList.replace('test4', 'test5')
       expect(div.className).toBe('test3 test2')
     })
-  
+
     it('trigger contains function', () => {
       const div = document.createElement('div')
       div.classList.add('test1')

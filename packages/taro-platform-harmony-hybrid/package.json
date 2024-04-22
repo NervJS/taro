@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-harmony-hybrid",
-  "version": "3.6.25",
+  "version": "3.6.27",
   "description": "Harmony 端平台插件",
   "author": "ZakaryCode",
   "license": "MIT",
@@ -44,6 +44,7 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro-h5": "workspace:*",
+    "@tarojs/plugin-platform-h5": "workspace:*",
     "babel-plugin-transform-taroapi": "workspace:*",
     "resolve": "^1.22.0",
     "lodash-es": "4.17.21",

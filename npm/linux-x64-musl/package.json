@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/binding-linux-x64-musl",
-  "version": "3.6.25",
+  "version": "3.6.27",
   "os": [
     "linux"
   ],

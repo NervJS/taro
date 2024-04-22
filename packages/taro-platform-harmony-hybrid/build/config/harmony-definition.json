@@ -618,7 +618,7 @@
     },
     "closeBluetoothAdapter": true,
     "closeSocket": false,
-    "cloud": false,
+    "cloud": true,
     "compressImage": {
       "object": {
         "src": true,
@@ -687,7 +687,7 @@
     "createInferenceSession": false,
     "createInnerAudioContext": true,
     "createIntersectionObserver": true,
-    "createInterstitialAd": false,
+    "createInterstitialAd": true,
     "createLivePlayerContext": true,
     "createLivePusherContext": false,
     "createMapContext": true,
@@ -839,7 +839,15 @@
         "wifi": true
       }
     },
-    "getDeviceInfo": false,
+    "getDeviceInfo": {
+      "return": {
+        "benchmarkLevel": true,
+        "brand": true,
+        "model": true,
+        "system": true,
+        "platform": true
+      }
+    },
     "getDeviceVoIPList": false,
     "getEnterOptionsSync": false,
     "getExptInfoSync": true,
@@ -1059,7 +1067,55 @@
         }
       }
     },
-    "getSystemInfoAsync": false,
+    "getSystemInfoAsync": {
+      "success": {
+        "brand": true,
+        "model": true,
+        "pixelRatio": true,
+        "screenWidth": true,
+        "screenHeight": true,
+        "windowWidth": true,
+        "windowHeight": true,
+        "statusBarHeight": true,
+        "language": true,
+        "version": true,
+        "system": true,
+        "platform": true,
+        "fontSizeSetting": true,
+        "SDKVersion": true,
+        "benchmarkLevel": true,
+        "albumAuthorized": true,
+        "cameraAuthorized": true,
+        "locationAuthorized": true,
+        "microphoneAuthorized": true,
+        "notificationAuthorized": true,
+        "phoneCalendarAuthorized": true,
+        "bluetoothEnabled": true,
+        "locationEnabled": true,
+        "wifiEnabled": true,
+        "safeArea": {
+          "bottom": true,
+          "height": true,
+          "left": true,
+          "right": true,
+          "top": true,
+          "width": true
+        },
+        "locationReducedAccuracy": true,
+        "theme": {
+          "dark": true,
+          "light": true
+        },
+        "host": {
+          "appId": true
+        },
+        "enableDebug": true,
+        "deviceOrientation": {
+          "portrait": true,
+          "landscape": true
+        }
+      }
+    },
     "getSystemInfoSync": {
       "return": {
         "brand": true,
@@ -1122,7 +1178,7 @@
       }
     },
     "getTopStatus": false,
-    "getUpdateManager": false,
+    "getUpdateManager": true,
     "getUserCryptoManager": false,
     "getUserInfo": {
       "object": {
@@ -1240,18 +1296,9 @@
         "phoneNumber": true
       }
     },
-    "navigateBack": {
-      "object": {
-        "delta": true
-      }
-    },
+    "navigateBack": false,
     "navigateBackMiniProgram": false,
-    "navigateTo": {
-      "object": {
-        "url": true,
-        "events": true
-      }
-    },
+    "navigateTo": false,
     "navigateToBookshelf": false,
     "navigateToMiniProgram": {
       "object": {
@@ -1470,7 +1517,7 @@
       }
     },
     "onWindowResize": true,
-    "openAppAuthorizeSetting": false,
+    "openAppAuthorizeSetting": true,
     "openBdboxWebview": false,
     "openBluetoothAdapter": true,
     "openBusinessView": false,
@@ -1547,11 +1594,7 @@
       }
     },
     "queryBookshelf": false,
-    "reLaunch": {
-      "object": {
-        "url": true
-      }
-    },
+    "reLaunch": false,
     "readBLECharacteristicValue": {
       "object": {
         "characteristicId": true,
@@ -1559,7 +1602,7 @@
         "serviceId": true
       }
     },
-    "redirectTo": true,
+    "redirectTo": false,
     "removeSavedFile": {
       "object": {
         "filePath": true
@@ -1698,7 +1741,11 @@
       }
     },
     "setBackgroundColor": false,
-    "setBackgroundFetchToken": true,
+    "setBackgroundFetchToken": {
+      "object": {
+        "token": true
+      }
+    },
     "setBackgroundTextStyle": false,
     "setClipboardData": {
       "object": {
@@ -1911,11 +1958,7 @@
     "stopWifi": true,
     "subscribeService": false,
     "subscribeVoIPVideoMembers": false,
-    "switchTab": {
-      "object": {
-        "url": true
-      }
-    },
+    "switchTab": false,
     "tradePay": false,
     "unsubscribeMessage": false,
     "updateBookshelfReadTime": false,

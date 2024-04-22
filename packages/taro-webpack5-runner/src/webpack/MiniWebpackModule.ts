@@ -207,7 +207,7 @@ export class MiniWebpackModule {
     if (Array.isArray(compile.include)) {
       rule.include.unshift(...compile.include)
     }
-  
+
     if (Array.isArray(compile.exclude)) {
       rule.exclude = [...compile.exclude]
     }

@@ -38,7 +38,7 @@ export default class PageHandler {
     return routePath === '/' ? this.homePage : routePath
   }
 
-  get appId () { return this.config.appId ||'app' }
+  get appId () { return this.config.appId || 'app' }
   get router () { return this.config.router || {} }
   get routerMode () { return this.router.mode || 'hash' }
   get customRoutes () { return this.router.customRoutes || {} }

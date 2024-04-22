@@ -1,4 +1,4 @@
-import Taro from '@tarojs/api'
+import Taro from '@tarojs/plugin-platform-h5/dist/runtime/apis'
 import { history } from '@tarojs/router'
 import { isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 import { toByteArray } from 'base64-js'
@@ -16,7 +16,7 @@ import {
   switchTab,
 } from './index'
 import native from './NativeApi'
-import { permanentlyNotSupport } from './utils'
+// import { permanentlyNotSupport } from './utils'
 
 // @ts-ignore
 window.base64ToArrayBuffer = (base64: string) => toByteArray(base64).buffer
@@ -33,6 +33,29 @@ const {
   eventCenter,
   Events,
   preload,
+  useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useError,
+  useLaunch,
+  useLoad,
+  useOptionMenuClick,
+  usePageNotFound,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
+  useReady,
+  useResize,
+  useRouter,
+  useSaveExitState,
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick,
+  useScope,
+  useUnhandledRejection,
+  useUnload
 } = Taro as any
 
 const taro: typeof Taro = {
@@ -57,9 +80,40 @@ const taro: typeof Taro = {
   redirectTo,
   getCurrentPages,
   switchTab,
+  useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useError,
+  useLaunch,
+  useLoad,
+  useOptionMenuClick,
+  usePageNotFound,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
+  useReady,
+  useResize,
+  useRouter,
+  useSaveExitState,
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick,
+  useScope,
+  useUnhandledRejection,
+  useUnload
 }
 
-export const requirePlugin = permanentlyNotSupport('requirePlugin')
+// export const requirePlugin = permanentlyNotSupport('requirePlugin')
+const requirePlugin = () => {
+  return {
+    world: '',
+    hello: function () {
+
+    }
+  }
+}
 
 function getConfig (): Record<string, any> {
   if (this?.pxTransformConfig) return this.pxTransformConfig
@@ -302,6 +356,7 @@ function loadChooseLocationStyle () {
 
 loadChooseLocationStyle()
 
+taro.requirePlugin = requirePlugin
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.initPxTransform = initPxTransform
@@ -331,4 +386,28 @@ export {
   options,
   preload,
   pxTransform,
+  requirePlugin,
+  useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useError,
+  useLaunch,
+  useLoad,
+  useOptionMenuClick,
+  usePageNotFound,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
+  useReady,
+  useResize,
+  useRouter,
+  useSaveExitState,
+  useScope,
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick,
+  useUnhandledRejection,
+  useUnload
 }

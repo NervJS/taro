@@ -86,7 +86,7 @@ describe('navigation', () => {
         expect(res.errMsg).toBe('showNavigationBarLoading:ok')
         const loadingElement = document.querySelector('.taro-navigation-bar-loading-show')
         expect(loadingElement).toBeTruthy()
-  
+
         Taro.hideNavigationBarLoading().then(res => {
           expect(res.errMsg).toBe('hideNavigationBarLoading:ok')
           const loadingElement = document.querySelector('.taro-navigation-bar-loading-show')

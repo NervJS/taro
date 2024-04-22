@@ -522,7 +522,7 @@ describe('parseAst', () => {
         const { add } = require('/add')
         Page({})
       `,
-      '/pages/index/add.js':`
+      '/pages/index/add.js': `
         function add(num1,num2){
           return num1 + num2
         }
@@ -545,7 +545,7 @@ describe('parseAst', () => {
     })
     const { ast } = convert.parseAst({
       ast: taroizeResult.ast,
-      sourceFilePath: path.join(root,'/pages/index/index.js'),
+      sourceFilePath: path.join(root, '/pages/index/index.js'),
       outputFilePath: '',
       importStylePath: '',
       depComponents: new Set(),
@@ -557,13 +557,13 @@ describe('parseAst', () => {
     expect(jsCode).toMatchSnapshot()
   })
 
-  test('处理js文件中非正常路径，比如 a/b',() => {
+  test('处理js文件中非正常路径，比如 a/b', () => {
     const DEMO_ABSOLUTE = {
       '/pages/index/index.js': `
         const { add } = require('add')
         Page({})
       `,
-      '/pages/index/add.js':`
+      '/pages/index/add.js': `
         function add(num1,num2){
           return num1 + num2
         }
@@ -586,7 +586,7 @@ describe('parseAst', () => {
     })
     const { ast } = convert.parseAst({
       ast: taroizeResult.ast,
-      sourceFilePath: path.join(root,'/pages/index/index.js'),
+      sourceFilePath: path.join(root, '/pages/index/index.js'),
       outputFilePath: '',
       importStylePath: '',
       depComponents: new Set(),
@@ -598,7 +598,7 @@ describe('parseAst', () => {
     expect(jsCode).toMatchSnapshot()
   })
 
-  test('使用 resolveAlias 配置项用来自定义模块路径的映射规则',() => {
+  test('使用 resolveAlias 配置项用来自定义模块路径的映射规则', () => {
     const DEMO_RESOLVEALIAS = {
       '/pages/index/index.js': `
         const { formatTime } = require('@utils/tools/util.js')
@@ -606,7 +606,7 @@ describe('parseAst', () => {
         const { test } = require('com/navigation-bar/test')
         Page({})
       `,
-      '/pages/index/utils.js':`
+      '/pages/index/utils.js': `
         const name = 'wsjzy'
         const mesg = 'who are you ?'
         module.exports = {
@@ -614,7 +614,7 @@ describe('parseAst', () => {
           mesg
         }
       `,
-      '/pages/tools/util.js':`
+      '/pages/tools/util.js': `
         function formatTime() {
           return '1111' + '2222'
         }
@@ -625,7 +625,7 @@ describe('parseAst', () => {
           a
         }
       `,
-      '/components/navigation-bar/test.js':`
+      '/components/navigation-bar/test.js': `
         const test = 'test from components'
         module.exports = {
           test
@@ -633,7 +633,7 @@ describe('parseAst', () => {
       `,
     }
     // 为app.json配置resolveAlias配置项
-    convert.entryJSON = { 
+    convert.entryJSON = {
       pages: ['pages/index/index'],
       resolveAlias: {
         '~/*': '/*',
@@ -661,7 +661,7 @@ describe('parseAst', () => {
     })
     const { ast } = convert.parseAst({
       ast: taroizeResult.ast,
-      sourceFilePath: path.join(root,'/pages/index/index.js'),
+      sourceFilePath: path.join(root, '/pages/index/index.js'),
       outputFilePath: '',
       importStylePath: '',
       depComponents: new Set(),

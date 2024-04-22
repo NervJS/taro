@@ -87,7 +87,7 @@ export const components = {
   },
   Picker: {
     'header-text': _empty,
-    'level': 'region'
+    level: 'region'
   },
   PickerView: {
     'immediate-change': _false,
@@ -415,7 +415,7 @@ export const components = {
   ChannelVideo: {
     'feed-id': _empty,
     'finder-user-name': _empty,
-    'feed-token':_empty,
+    'feed-token': _empty,
     autoplay: _false,
     loop: _false,
     muted: _false,

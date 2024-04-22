@@ -89,20 +89,20 @@ export interface RouterOption{
 
 export function createRouter (config: RouterConfig, options:RouterOption) {
   if (config?.tabBar?.list?.length) {
-    return createTabNavigate(config,options)
+    return createTabNavigate(config, options)
   } else {
-    return createStackNavigate(config,options)
+    return createStackNavigate(config, options)
   }
 }
 
-// 初始化路由相关，入口组件，onLaunch，onShow  
-export function getInitOptions (config){
+// 初始化路由相关，入口组件，onLaunch，onShow
+export function getInitOptions (config) {
   const initRouteName = getInitRouteName(config)
   const initParams = getInitParams(config, initRouteName)
   const initPath = config.pages.find(p => p.name === initRouteName)?.pagePath
   return {
     path: initPath,
-    query:initParams,
+    query: initParams,
   }
 }
 
@@ -343,7 +343,7 @@ function getLinkingConfig (config: RouterConfig) {
   }
 }
 
-function defaultOnUnhandledAction (action){
+function defaultOnUnhandledAction (action) {
   // @ts-ignore
   if (process.env.NODE_ENV === 'production') {
     return
@@ -380,9 +380,9 @@ function defaultOnUnhandledAction (action){
   console.error(message)
 }
 
-function handlePageNotFound (action, options){
-  const routeObj:Record<string,any> = action?.payload  ?? {}
-  if(routeObj?.name){
+function handlePageNotFound (action, options) {
+  const routeObj:Record<string, any> = action?.payload ?? {}
+  if (routeObj?.name) {
     options?.onUnhandledAction && options?.onUnhandledAction({
       path: getCurrentJumpUrl() ?? routeObj?.name,
       query: routeObj?.params ?? {}
@@ -402,7 +402,7 @@ function createTabNavigate (config: RouterConfig, options: RouterOption) {
   return <NavigationContainer
     ref={navigationRef}
     linking={linking}
-    onUnhandledAction = {(action)=> handlePageNotFound(action, options)}
+    onUnhandledAction = {(action) => handlePageNotFound(action, options)}
   >
     <Stack.Navigator
       detachInactiveScreens={false}
@@ -446,7 +446,7 @@ function createStackNavigate (config: RouterConfig, options:RouterOption) {
   return <NavigationContainer
     ref={navigationRef}
     linking={linking}
-    onUnhandledAction = {(action)=> handlePageNotFound(action, options)}
+    onUnhandledAction = {(action) => handlePageNotFound(action, options)}
   >
     <Stack.Navigator
       detachInactiveScreens={false}
