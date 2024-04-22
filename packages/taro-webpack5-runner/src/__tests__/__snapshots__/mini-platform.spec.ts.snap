@@ -2985,7 +2985,8 @@ require("./runtime");
             },
             Textarea: {
                 "show-confirm-bar": "true",
-                "adjust-position": "true"
+                "adjust-position": "true",
+                "disable-default-padding": "false"
             }
         };
         const hostConfig = {
