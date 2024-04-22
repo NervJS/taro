@@ -33,7 +33,8 @@ function isEqual (obj1, obj2) {
   }
 
   // 遍历对象的每个键，比较两个对象同一键的值
-  for (const key of keys1) {
+  for (let i = 0; i < keys1.length; i++) {
+    const key = keys1[i]
     if (obj1[key] !== obj2[key]) {
       return false
     }
