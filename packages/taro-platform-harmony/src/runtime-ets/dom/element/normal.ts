@@ -6,6 +6,8 @@ import type {
   IconProps,
   ImageProps,
   LabelProps,
+  NavigationBarProps,
+  PageMetaProps,
   RichTextProps,
   SwiperItemProps,
   SwiperProps,
@@ -72,12 +74,28 @@ class TaroSwiperItemElement extends TaroElement<SwiperItemProps> {
   }
 }
 
+@Observed
+class TaroPageMetaElement extends TaroElement<PageMetaProps> {
+  constructor() {
+    super('PageMeta')
+  }
+}
+
+@Observed
+class TaroNavigationBarElement extends TaroElement<NavigationBarProps> {
+  constructor() {
+    super('NavigationBar')
+  }
+}
+
 export {
   TaroButtonElement,
   TaroIconElement,
   TaroImageElement,
   TaroLabelElement,
+  TaroNavigationBarElement,
   TaroOtherElement,
+  TaroPageMetaElement,
   TaroRichTextElement,
   TaroSwiperElement,
   TaroSwiperItemElement,

@@ -41,7 +41,9 @@ export default class RenderParser extends BaseParser {
   TaroCanvas,
   TaroRadioGroup,
   TaroCheckboxGroup,
-  TaroCheckbox
+  TaroCheckbox,
+  TaroPageMeta,
+  TaroNavigationBar
 } from '@tarojs/components'
 ${this.generateRenderExtraComponentsImport()}${this.generateRenderNativeImport()}${this.generateRenderCompileModeImport()}
 import { NodeType } from '@tarojs/runtime'
@@ -75,7 +77,9 @@ import type {
   TaroSliderElement,
   TaroScrollViewElement,
   TaroWebViewElement,
-  TaroInnerHtmlElement
+  TaroInnerHtmlElement,
+  TaroPageMetaElement,
+  TaroNavigationBarElement
 } from '@tarojs/runtime'
 
 @Builder
@@ -134,6 +138,10 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
     TaroVideo({ node: item as TaroVideoElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'WEB-VIEW') {
     TaroWebView({ node: item as TaroWebViewElement, createLazyChildren: createLazyChildren })
+  } else if (item.tagName === 'PAGE-META') {
+    TaroPageMeta({ node: item as TaroPageMetaElement, createLazyChildren: createLazyChildren })
+  } else if (item.tagName === 'NAVIGATION-BAR') {
+    TaroNavigationBar({ node: item as TaroNavigationBarElement, createLazyChildren: createLazyChildren })
   } else {
     TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
   }
