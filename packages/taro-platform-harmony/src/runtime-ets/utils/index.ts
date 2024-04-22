@@ -49,31 +49,39 @@ export function convertNumber2VP (value: number, unit = 'px'): string | number {
   return pxTransformHelper(value, 'vp')
 }
 
-export function parseClasses (classNames: string | string[] = []): string[] {
-  if (typeof classNames === 'string') {
-    return classNames.includes(' ') ? classNames.split(' ') : [classNames]
-  } else if (Array.isArray(classNames)) {
-    return classNames // Note: 不考虑支持单个元素传入多个类名的情况，过于损耗性能
-  }
-
-  return []
+export function parseClasses (classNames = ''): string[] {
+  return classNames.includes(' ') ? classNames.split(' ') : [classNames]
 }
 
 // 合并静态样式，从样式表里面找到对应的样式
-export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, classNames: string | string[] = []): CSSProperties {
+export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, classNames = ''): CSSProperties {
   const obj: CSSProperties[] = []
+
+  if (!styleSheet.cache) {
+    styleSheet.cache = {}
+  }
+  const cache: Record<string, CSSProperties> = styleSheet.cache as Record<string, CSSProperties>
+
   const classes = parseClasses(classNames)
   if (classes.length === 1) {
     // 同一个引用
     return styleSheet[classes[0]]
   } else {
-    for (let i = 0; i < classes.length; i++) {
-      const className = classes[i]
-      if (styleSheet[className]) {
-        obj.push(styleSheet[className])
+    if (cache[classNames]) {
+      return cache[classNames]
+    } else {
+      for (let i = 0; i < classes.length; i++) {
+        const className = classes[i]
+        if (styleSheet[className]) {
+          obj.push(styleSheet[className])
+        }
       }
+      const result = Object.assign.apply(null, [{}].concat(obj))
+
+      cache[classNames] = result
+      
+      return result
     }
-    return Object.assign.apply(null, [{}].concat(obj))
   }
 }
 
