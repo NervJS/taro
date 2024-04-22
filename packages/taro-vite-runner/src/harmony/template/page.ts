@@ -770,6 +770,9 @@ callFn(this.page.onReady, this, params)`
   }
   .width('100%')
   .alignItems(HorizontalAlign.Start)
+  .constraintSize({
+    minHeight: '100%',
+  })
   .onAreaChange((_: Area, area: Area) => {
     const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
     if (node) {
@@ -779,6 +782,7 @@ callFn(this.page.onReady, this, params)`
 }
 .backgroundColor(${isTabPage ? 'this.pageBackgroundContentColor[index] || this.pageBackgroundColor[index]' : 'this.pageBackgroundContentColor || this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColorContent || this.appConfig.window?.backgroundColor || '#FFFFFF'}")
 .clip(false)
+.height('100%')
 .scrollBar(typeof config${isTabPage ? '[index]' : ''}.enableScrollBar === 'boolean' ? config${isTabPage ? '[index]' : ''}.enableScrollBar : ${!this.appConfig.window?.enableScrollBar ? 'false' : 'true'})
 .onAreaChange((_: Area, area: Area) => {
   const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
