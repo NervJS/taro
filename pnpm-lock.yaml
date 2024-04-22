@@ -3541,6 +3541,9 @@ importers:
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+      webpack-sources:
+        specifier: 3.2.3
+        version: registry.npmjs.org/webpack-sources@3.2.3
     devDependencies:
       '@tarojs/components':
         specifier: workspace:*
@@ -6410,12 +6413,6 @@ packages:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
     dev: true
-
-  /webpack-sources@1.4.3:
-    resolution: {integrity: sha512-lgTS3Xhv1lCOKo7SA5TjKXMjpSM4sBjNV5+q2bqesbSPs5FjGmU6jjtBSkX9b4qW87vDIsCIlUPOEhbZrMdjeQ==, tarball: https://registry.npmjs.org/webpack-sources/-/webpack-sources-1.4.3.tgz}
-    dependencies:
-      source-list-map: registry.npmjs.org/source-list-map@2.0.1
-      source-map: registry.npmjs.org/source-map@0.6.1
 
   /whatwg-fetch@3.6.2:
     resolution: {integrity: sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==, tarball: https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz}
@@ -40148,7 +40145,7 @@ packages:
       source-map: registry.npmjs.org/source-map@0.6.1
       terser: registry.npmjs.org/terser@4.8.1
       webpack: registry.npmjs.org/webpack@4.46.0
-      webpack-sources: 1.4.3
+      webpack-sources: registry.npmjs.org/webpack-sources@1.4.3
       worker-farm: registry.npmjs.org/worker-farm@1.7.0
 
   registry.npmjs.org/terser-webpack-plugin@3.1.0(webpack@4.46.0):
