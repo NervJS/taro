@@ -153,7 +153,7 @@ export function showActionSheet (options) {
           reject,
           {
             ...data,
-            errMsg: data.errMsg.replace('showActionMenu', 'showActionSheet')
+            errMsg: data.errMsg?.replace('showActionMenu', 'showActionSheet')
           },
           options
         )

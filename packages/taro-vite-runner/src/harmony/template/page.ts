@@ -265,10 +265,13 @@ return state`,
     },
     {
       name: 'aboutToDisappear',
-      body: this.isTabbarPage ? `this.pageList?.forEach(item => {
-callFn(item?.onUnload, this)
+      body: this.transArr2Str([
+        this.isTabbarPage ? `this.pageList?.forEach(item => {
+  callFn(item?.onUnload, this)
 })
-this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'
+this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)',
+        this.generatePageHidden(),
+      ])
     },
     {
       name: 'handlePageAppear',
@@ -285,6 +288,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'
         type: 'arrow',
         params: ['option: TaroObject'],
         body: this.transArr2Str([
+          `console.log('taro-test: handleNavigationStyle', JSON.stringify(option))`,
           `if (option.title) this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.title`,
           `if (option.backgroundColor) this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.backgroundColor || '#000000'`,
           `if (option.frontColor) this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.frontColor || 'white'`,
@@ -750,7 +754,8 @@ callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
   this.node = instance
 })
 callFn(this.page.onReady, this, params)`
-}`
+}
+${this.generatePageShown()}`
   }
 
   renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0) {
@@ -831,29 +836,20 @@ ${this.transArr2Str(pageStr.split('\n'), 2)}
 
     // Note: 增加头部导航
     pageStr = `Navigation() {
-  NavDestination() {
 ${this.transArr2Str(pageStr.split('\n'), 4)}
-    if (${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'}) {
-      Stack() {
-        createLazyChildren(${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'} as TaroElement, 1)
-      }
-      .position({ x: 0, y: 0 })
-      .height('100%')
-      .width('100%')
-      .responseRegion({ x: 0, y: 0, width: 0, height: 0 })
+  if (${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'}) {
+    Stack() {
+      createLazyChildren(${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'} as TaroElement, 1)
     }
+    .position({ x: 0, y: 0 })
+    .height('100%')
+    .width('100%')
+    .responseRegion({ x: 0, y: 0, width: 0, height: 0 })
   }
-  .onShown(() => {
-    ${this.generatePageShown()}
-  })
-  .onHidden(() => {
-    ${this.generatePageHidden()}
-  })
-  .backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColor || '#FFFFFF'}")
-  .hideTitleBar(true)
-  }
-.width('100%')
+}
+.backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColor || '#FFFFFF'}")
 .height('100%')
+.width('100%')
 .title(this.renderTitle)
 .titleMode(NavigationTitleMode.Mini)
 .hideTitleBar(${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle === 'custom'`})
@@ -911,23 +907,35 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   }
 
   generatePageShown () {
-    return `this.bindPageEvent()
-      const state = this.getPageState()
-      if (this.pageStack[this.pageStack.length - 1].path !== state.path) {
-        this.pageStack.length = state.index
-        this.pageStack[state.index - 1] = state
-      }
-      ${this.isTabbarPage ? `this.handleSwitchTab({ params: router.getParams() || {} })
-      this.pageList?.forEach(item => {
-        callFn(item?.onShow, this)
-      })` : 'callFn(this.page?.onShow, this)'}`
+    const arr = [
+      'this.bindPageEvent()',
+      'const state = this.getPageState()',
+      'if (this.pageStack[this.pageStack.length - 1].path !== state.path) {',
+      '  this.pageStack.length = state.index',
+      '  this.pageStack[state.index - 1] = state',
+      '}',
+    ]
+    if (this.isTabbarPage) {
+      arr.push(`this.handleSwitchTab({ params: router.getParams() || {} })`)
+      arr.push(`this.pageList?.forEach(item => {`)
+      arr.push(`  callFn(item?.onShow, this)`)
+      arr.push(`})`)
+    } else {
+      arr.push('callFn(this.page?.onShow, this)')
+    }
+    return this.transArr2Str(arr)
   }
 
   generatePageHidden () {
-    return `this.removePageEvent()
-      ${this.isTabbarPage ? `this.pageList?.forEach(item => {
-        callFn(item?.onHide, this)
-      })` : 'callFn(this.page?.onHide, this)'}`
+    const arr = ['this.removePageEvent()']
+    if (this.isTabbarPage) {
+      arr.push(`this.pageList?.forEach(item => {`)
+      arr.push(`  callFn(item?.onHide, this)`)
+      arr.push(`})`)
+    } else {
+      arr.push('callFn(this.page?.onHide, this)')
+    }
+    return this.transArr2Str(arr)
   }
 
   parse (rawId: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[], name = 'TaroPage', resolve?: TRollupResolveMethod) {
