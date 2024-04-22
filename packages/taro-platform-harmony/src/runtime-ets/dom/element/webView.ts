@@ -13,13 +13,13 @@ export class TaroInnerHtmlElement extends TaroElement {
 }
 
 @Observed
-export class TaroWebViewElement extends TaroElement<WebViewProps>{
+export class TaroWebViewElement extends TaroElement<WebViewProps> {
   ports: web_webview.WebMessagePort[] = []
 
   nativePort: web_webview.WebMessagePort | null = null
 
   message: web_webview.WebMessageExt = new web_webview.WebMessageExt()
-  
+
   controller: web_webview.WebviewController = new web_webview.WebviewController()
 
   constructor() {
@@ -62,7 +62,7 @@ export class TaroWebViewElement extends TaroElement<WebViewProps>{
     }
     catch (error) {
       const e: business_error.BusinessError = error as business_error.BusinessError
-      
+
       console.error(`ErrorCode: ${e.code},  Message: ${e.message}`)
     }
   }
