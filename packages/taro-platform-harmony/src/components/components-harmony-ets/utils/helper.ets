@@ -1,7 +1,9 @@
+import { VIEW } from '@tarojs/runtime/dist/runtime.esm'
+
 import { getNormalAttributes, getFontAttributes, getStyleAttr } from './styles'
 
 import type { TFunc } from '@tarojs/runtime/dist/runtime.esm'
-import type { TaroElement } from '@tarojs/runtime'
+import type { TaroElement, TaroNode } from '@tarojs/runtime'
 
 export const parseStyles = (styles = ''): Record<string, string> => {
   const styleObj: Record<string, string> = {}
@@ -34,5 +36,16 @@ export function getNodeThresholds (node: TaroElement): number[] | null {
   return node?._nodeInfo?.thresholds || null
 }
 
+export function isTagFirstChild (node: TaroElement, tagName = VIEW, level = 0): boolean {
+  const parent: TaroElement | null = node.parentElement
+  const list: TaroNode[] = node.parentNode?.childNodes || []
+  if (!parent || list.length < 1 || level < 0) return false
+
+  if (parent.nodeName === tagName.toUpperCase()) {
+    return list[0] === node
+  } else {
+    return list[0] === node && isTagFirstChild(parent, tagName, --level)
+  }
+}
 
 export { getNormalAttributes, getFontAttributes, getStyleAttr }

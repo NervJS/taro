@@ -22,6 +22,8 @@ import TaroMovableArea from './movableArea'
 import TaroMovableView from './movableView'
 import { TaroRadio, TaroRadioGroup } from './radio'
 import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
+import TaroPageMeta from './pageMeta'
+import TaroNavigationBar from './navigationBar'
 
 import commonStyleModify, { rowModify, columnModify, textModify, setNormalTextAttributeIntoInstance } from './style'
 import { getButtonColor } from './button'
@@ -78,4 +80,6 @@ export {
   TaroRadioGroup,
   TaroCheckboxGroup,
   TaroCheckbox,
+  TaroPageMeta,
+  TaroNavigationBar,
 }
