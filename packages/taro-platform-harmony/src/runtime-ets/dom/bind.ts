@@ -1,4 +1,3 @@
-import { Current } from '../current'
 import { ObjectAssign } from '../utils'
 
 import type { TaroAny } from '../utils'
