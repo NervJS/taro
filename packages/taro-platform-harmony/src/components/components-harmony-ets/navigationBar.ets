@@ -19,15 +19,15 @@ export default struct TaroNavigationBar {
       this.node._instance = this
     }
 
-    eventCenter.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate.bind(this))
+    eventCenter.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
     this.handleAttributes(this.node._attrs)
   }
 
   aboutToDisappear(): void {
-    eventCenter.off('__taroComponentAttributeUpdate', this.handleAttributeUpdate.bind(this))
+    eventCenter.off('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
   }
 
-  handleAttributeUpdate (opt: IComponentAttributeUpdateEvents) {
+  handleAttributeUpdate = (opt: IComponentAttributeUpdateEvents) => {
     if (opt.id === this.node._nid && opt.tagName === 'NAVIGATION-BAR') {
       const attrs: Record<string, TaroAny> = {}
       attrs[opt.attribute] = opt.value
@@ -38,7 +38,6 @@ export default struct TaroNavigationBar {
   handleAttributes (attrs: Record<string, TaroAny>) {
     const options: Record<string, TaroAny> = {}
 
-    // FIXME 更新类型支持度
     if (attrs.title) {
       options.title = attrs.title
     }
@@ -52,6 +51,7 @@ export default struct TaroNavigationBar {
       options.frontColor = attrs.frontColor
     }
     eventCenter.trigger('__taroNavigationStyle', options)
+    // FIXME: 以下属性暂时不支持
     // attrs.colorAnimationDuration
     // attrs.colorAnimationTimingFunc
   }

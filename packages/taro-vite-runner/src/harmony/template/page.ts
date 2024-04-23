@@ -225,7 +225,7 @@ export default class Parser extends BaseParser {
       ],
       this.isTabbarPage ? [
         'const params = router.getParams() as Record<string, string> || {}',
-        'let index = params.$page',
+        'let index: TaroAny = params.$page',
         '  ? this.tabBarList.findIndex(e => e.pagePath === params.$page)',
         '  : this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)',
         'index = index >= 0 ? index : 0',
@@ -270,7 +270,6 @@ return state`,
   callFn(item?.onUnload, this)
 })
 this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)',
-        this.buildConfig.isBuildNativeComp ? '' : this.generatePageHidden(),
       ])
     },
     {
@@ -284,11 +283,17 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)',
       generateMethods.splice(idx, 1)
     } else {
       generateMethods.push({
+        name: 'onPageShow',
+        body: this.generatePageShown(),
+      },
+      {
+        name: 'onPageHide',
+        body: this.generatePageHidden(),
+      }, {
         name: 'handleNavigationStyle',
         type: 'arrow',
         params: ['option: TaroObject'],
         body: this.transArr2Str([
-          `console.log('taro-test: handleNavigationStyle', JSON.stringify(option))`,
           `if (option.title) this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.title`,
           `if (option.backgroundColor) this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.backgroundColor || '#000000'`,
           `if (option.frontColor) this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.frontColor || 'white'`,
@@ -303,8 +308,8 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)',
         params: ['option: TaroObject'],
         body: this.transArr2Str([
           // TODO backgroundTextStyle
-          `if (option.backgroundColor) this.pageBackgroundColor = option.backgroundColor || '#FFFFFF'`,
-          `if (option.backgroundColorContext) this.pageBackgroundContentColor = option.backgroundColorContext || '#FFFFFF'`,
+          `if (option.backgroundColor) this.pageBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.backgroundColor || '#FFFFFF'`,
+          `if (option.backgroundColorContext) this.pageBackgroundContentColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.backgroundColorContext || '#FFFFFF'`,
         ]),
       }, {
         name: 'bindPageEvent',
@@ -750,13 +755,12 @@ if (!this.pageList[index]) {
 }
 `
     : `this.page = createComponent()
-this.onReady = this.page?.onReady?.bind(this.page)
+this.onReady = bindFn(this.page.onReady, this.page)
 callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
   this.node = instance
 })
 callFn(this.page.onReady, this, params)`
-}
-${this.buildConfig.isBuildNativeComp ? '' : this.generatePageShown()}`
+}`
   }
 
   renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0) {
