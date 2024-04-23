@@ -56,12 +56,12 @@ export default struct TaroPageMeta {
       options.backgroundTextStyle = attrs.backgroundTextStyle
     }
 
-    if (attrs.scrollTop || attrs.scrollDuration) {
-      pageScrollTo({
-        scrollTop: attrs.scrollTop || this.node._attrs.scrollTop,
-        duration: attrs.scrollDuration || this.node._attrs.scrollDuration,
-      })
-    }
+    // if (attrs.scrollTop || attrs.scrollDuration) {
+    //   pageScrollTo({
+    //     scrollTop: attrs.scrollTop || this.node._attrs.scrollTop,
+    //     duration: attrs.scrollDuration || this.node._attrs.scrollDuration,
+    //   })
+    // }
     // pageStyle
     if (attrs.rootBackgroundColor) {
       options.backgroundColor = attrs.rootBackgroundColor
