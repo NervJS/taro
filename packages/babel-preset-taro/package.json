@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "4.0.0-beta.51",
+  "version": "4.0.0-beta.52",
   "description": "Taro babel preset",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
