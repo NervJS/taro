@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 // import { ProjectType } from './../../taro-plugin-mini-ci/src/BaseCi';
 import template from '@babel/template'
 import traverse, { NodePath } from '@babel/traverse'
@@ -22,7 +24,6 @@ import {
 import { isNull, isUndefined } from '@tarojs/shared'
 import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
-import * as path from 'path'
 import Processors from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 import * as prettier from 'prettier'
@@ -1464,7 +1465,7 @@ export default class Convertor {
   }
 
   private formatFile (jsCode: string, _template = '') {
-    let code = jsCode
+    const code = jsCode
     const config = { ...prettierJSConfig }
     return prettier.format(code, config)
   }

@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import generate from '@babel/generator'
 import {
   chalk,
@@ -11,7 +13,6 @@ import {
   resolveScriptPath,
   SCRIPT_EXT,
 } from '@tarojs/helper'
-import * as path from 'path'
 import * as prettier from 'prettier'
 
 import { globals } from './global'
@@ -117,7 +118,7 @@ function getRelativePath (_rootPath: string, sourceFilePath: string, oriPath: st
     if (alias) {
       // 预防用户定义了模块路径的映射规则但没有使用的情况
       absolutePath = revertScriptPath(path.join(sourceFilePath, '..', oriPath), SCRIPT_EXT)
-      
+
       Object.keys(alias).forEach((key) => {
         const newKey = key.replace(/\/\*$/, '')
 
@@ -459,9 +460,9 @@ export function getWxssImports (content: string) {
  * @param { IReportData } reportErroMsg 报错信息
  */
 export function generateReportFile (
-  sourceFilePath, 
-  targeFileDir, 
-  targeFileName, 
+  sourceFilePath,
+  targeFileDir,
+  targeFileName,
   reportErroMsg?: IReportData
 ) {
   try {
@@ -567,12 +568,12 @@ export function printToLogFile () {
  * @param pluginComponentPath 小程序中引用的插件路径
  * @param pluginInfo 插件信息
  * @returns
- */  
+ */
 export function replacePluginComponentUrl (pluginComponentPath, pluginInfo) {
   // 捕获跳转路径中的插件名和页面名，替换为子包路径
   const regexPluginUrl = /plugin:\/\/([^/]+)\/([^/?]+)/
   const matchPluginUrl = pluginComponentPath.match(regexPluginUrl)
-  if (!matchPluginUrl) {      
+  if (!matchPluginUrl) {
     createErrorCodeMsg(
       'ImportSrcPathFormatError',
       `引用插件路径格式异常，插件路径：${pluginComponentPath}`,
@@ -583,7 +584,7 @@ export function replacePluginComponentUrl (pluginComponentPath, pluginInfo) {
   }
 
   // 捕获页面名
-  const componentName = matchPluginUrl[2]  
+  const componentName = matchPluginUrl[2]
 
   // 通过引用的插件组件名在注册的插件组件信息中查找组件路径
   let componentPath = null
@@ -609,7 +610,7 @@ export function replacePluginComponentUrl (pluginComponentPath, pluginInfo) {
 /**
  * 将部分 ast 节点转为代码片段
  * @param ast astNode 节点
- * @returns 
+ * @returns
  */
 export function astToCode (ast) {
   if (!ast) return ''
@@ -627,7 +628,7 @@ export function astToCode (ast) {
 
 /**
  * 解析项目名称
- * @param projectPath 项目路径 
+ * @param projectPath 项目路径
  * @returns { string } 项目名称
  */
 export function parseProjectName (projectPath: string): string {
@@ -642,8 +643,8 @@ export function parseProjectName (projectPath: string): string {
 
 /**
  *  统计工程目录下文件数量
- * @param projectPath 
- * @returns 
+ * @param projectPath
+ * @returns
  */
 export function computeProjectFileNums (projectPath: string): number {
   let count = 0
@@ -667,13 +668,13 @@ export function computeProjectFileNums (projectPath: string): number {
 
 /**
  * 通过错误代码信息的 msgType、filePath 在 errMsgs 中寻找对应 errMsg
- * @param msgType  
- * @param filePath 
- * @param errMsgList 
+ * @param msgType
+ * @param filePath
+ * @param errMsgList
  */
 function findErrMsg (
-  msgType: string, 
-  filePath: string, 
+  msgType: string,
+  filePath: string,
   errMsgList: ErrMsgs[]
 ): undefined | ErrMsgs {
   return errMsgList.find((errMsg) => {
@@ -684,7 +685,7 @@ function findErrMsg (
 /**
  * 判断 errCodeMsg 是否包含 code 代码
  * @param errCodeMsg 错误信息代码
- * @returns 
+ * @returns
  */
 function hasCode (errCodeMsg: ErrCodeMsg): boolean {
   return !!errCodeMsg.codeBeforeConvert?.code
@@ -706,11 +707,11 @@ export function paseGlobalErrMsgs (errCodeMsgs: ErrCodeMsg[]): ErrMsgs[] {
           errMsgs.errCodeList.push(errCodeMsg)
         }
       } else {
-        errMsgList.push({ 
-          filePath, 
-          msgType, 
-          errCodeList: [errCodeMsg], 
-          mesDescribe: hasCode(errCodeMsg) ? '' : errCodeMsg.describe 
+        errMsgList.push({
+          filePath,
+          msgType,
+          errCodeList: [errCodeMsg],
+          mesDescribe: hasCode(errCodeMsg) ? '' : errCodeMsg.describe
         })
       }
     }
@@ -726,8 +727,8 @@ export function paseGlobalErrMsgs (errCodeMsgs: ErrCodeMsg[]): ErrMsgs[] {
  * @param { string } wxmlPath wxml文件路径
  */
 export function parseError (
-  errMsg: IReportError, 
-  jsPath: string, 
+  errMsg: IReportError,
+  jsPath: string,
   wxmlPath: string
 ) {
   const filePathMap = new Map([
@@ -755,13 +756,13 @@ export function parseError (
  * @param describe 错误描述
  * @param code 错误代码
  * @param filePath 错误信息所在文件路径
- * @returns 
+ * @returns
  */
 export function createErrorCodeMsg (
-  msgType: string, 
-  describe: string, 
-  code: string, 
-  filePath: string, 
+  msgType: string,
+  describe: string,
+  code: string,
+  filePath: string,
   position?: { col: number, row: number } | undefined
 ) {
   const errorCodeMst = {
@@ -795,7 +796,7 @@ export class IReportError extends Error {
 
   constructor (
     message: string,
-    msgType?: string, 
+    msgType?: string,
     filePath?: string | 'JS_FILE' | 'WXML_FILE',
     code?: string,
     location?: { col: number, row: number } | undefined
