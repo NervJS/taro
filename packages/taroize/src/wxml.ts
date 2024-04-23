@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+import * as path from 'node:path'
+
 import { parse as parseFile } from '@babel/parser'
 import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
@@ -7,6 +9,7 @@ import { printLog, processTypeEnum } from '@tarojs/helper'
 import { toCamelCase } from '@tarojs/shared'
 import { parse, parseDefaults } from 'himalaya-wxml'
 import { camelCase, cloneDeep } from 'lodash'
+import * as prettier from 'prettier'
 
 import { getCacheWxml, saveCacheWxml } from './cache'
 import { reserveKeyWords } from './constant'
@@ -29,9 +32,6 @@ import {
   parseCode,
   updateLogFileContent,
 } from './utils'
-
-const { prettyPrint } = require('html')
-const pathTool = require('path')
 
 const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
@@ -271,11 +271,11 @@ export const createPreWxmlVistor = (templates: Map<string, Templates>) => {
  * @returns 需要导入的wxs语句集合
  */
 export function getWxsImports (templateFileName, usedWxses, dirPath) {
-  const templatePath = pathTool.join(globals.rootPath, 'imports', `${templateFileName}.js`)
+  const templatePath = path.join(globals.rootPath, 'imports', `${templateFileName}.js`)
   const wxsImports: (t.ImportDeclaration | t.VariableDeclaration)[] = []
   for (const usedWxs of usedWxses) {
-    const wxsAbsPath = pathTool.resolve(dirPath, `${usedWxs.src}.js`)
-    const wxsRelPath = pathTool.relative(pathTool.dirname(templatePath), wxsAbsPath)
+    const wxsAbsPath = path.resolve(dirPath, `${usedWxs.src}.js`)
+    const wxsRelPath = path.relative(path.dirname(templatePath), wxsAbsPath)
     wxsImports.push(buildImportStatement(normalizePath(wxsRelPath), [], usedWxs.module))
   }
   return wxsImports
@@ -722,11 +722,18 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   )
 
   try {
-    wxml = prettyPrint(wxml, {
-      max_char: 0,
-      indent_char: 0,
-      unformatted: ['text', 'wxs'],
-    })
+    if (wxml) {
+      const REG_WXS = /(<wxs)[^>]*>[\s\S]*?(<\/ *wxs *>)/g
+      if (REG_WXS.test(wxml)) {
+        // prettier html parser 只对 <srcipt> 标签里的 JS 脚本进行格式化，<wxs> 里的脚本会被格式化在一行中，此时脚本如果存在注释的话会报错。
+        // 因此需要把 <wxs> 转换为 <script> 后再使用 prettier 进行格式化。
+        wxml = wxml.replace(/<wxs/g, '<script').replace(/<\/ *wxs *>/g, '</script>')
+        wxml = prettier.format(wxml, { parser: 'html' })
+        wxml = wxml.replace(/<script/g, '<wxs').replace(/<\/ *script *>/g, '</wxs>')
+      } else {
+        wxml = prettier.format(wxml, { parser: 'html' })
+      }
+    }
   } catch (error) {
     updateLogFileContent(`WARN [taroize] parseWXML - wxml代码格式化异常 ${getLineBreak()}${error} ${getLineBreak()}`)
     //

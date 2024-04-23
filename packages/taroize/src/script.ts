@@ -1,4 +1,4 @@
-import traverse, { NodePath, Visitor } from '@babel/traverse'
+import traverse, { type NodePath, type Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
 import { navigateFunc } from './constant'
