@@ -31,6 +31,7 @@ export default struct TaroPageMeta {
       this.node._instance = this
     }
 
+    // FIXME 在 Harmony 提供 @Watch 文档后，根据 node 实际使用更细粒度的监听
     eventCenter.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
     this.handleAttributes(this.node._attrs)
   }
