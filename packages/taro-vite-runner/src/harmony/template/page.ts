@@ -270,7 +270,7 @@ return state`,
   callFn(item?.onUnload, this)
 })
 this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)',
-        this.generatePageHidden(),
+        this.buildConfig.isBuildNativeComp ? '' : this.generatePageHidden(),
       ])
     },
     {
@@ -755,7 +755,7 @@ callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
 })
 callFn(this.page.onReady, this, params)`
 }
-${this.generatePageShown()}`
+${this.buildConfig.isBuildNativeComp ? '' : this.generatePageShown()}`
   }
 
   renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0) {
