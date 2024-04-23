@@ -159,7 +159,7 @@ export default class Parser extends BaseParser {
       }, this.isTabbarPage),
       // Note: 仅普通页面包含 Home 按钮
       this.renderState({
-        decorator: 'State', name: 'navigationBarHomeBtn', type: 'boolean', foreach: () => 'true', scope: ['page'], disabled: this.buildConfig.isBuildNativeComp
+        decorator: 'State', name: 'navigationBarHomeBtn', type: 'boolean', foreach: () => 'true', scope: ['page'], disabled: this.buildConfig.isBuildNativeComp && !entryOption
       }, this.isTabbarPage),
       this.renderState({
         decorator: 'State', name: 'navigationBarLoading', type: 'boolean', foreach: () => 'false', disabled: this.buildConfig.isBuildNativeComp && !entryOption
@@ -174,19 +174,28 @@ export default class Parser extends BaseParser {
         decorator: 'State', name: 'navigationBarTitleText', type: 'string', foreach: (_, i) => `config${i}.navigationBarTitleText`, disabled: this.buildConfig.isBuildNativeComp && !entryOption
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'pageBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColor`
+        decorator: 'State', name: 'pageBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColor`, disabled: this.buildConfig.isBuildNativeComp && !entryOption
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'pageBackgroundContentColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColorContent`
+        decorator: 'State', name: 'pageBackgroundContentColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColorContent`, disabled: this.buildConfig.isBuildNativeComp && !entryOption
       }, this.isTabbarPage),
       this.renderState({
         decorator: 'State', name: 'props', type: 'TaroObject', foreach: () => '{}', disabled: !this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
-      this.buildConfig.isBuildNativeComp ? '' : '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
-      this.buildConfig.isBuildNativeComp ? '' : '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
-      this.buildConfig.isBuildNativeComp ? '' : '@State appConfig: Taro.AppConfig = window.__taroAppConfig || {}',
-      this.buildConfig.isBuildNativeComp ? '' : `@State tabBarList: ${this.isTabbarPage ? 'ITabBarItem' : 'Taro.TabBarItem'}[] = this.appConfig.tabBar?.list || []`,
+      this.renderState({
+        decorator: 'StorageLink("__TARO_PAGE_STACK")', name: 'pageStack', type: 'router.RouterState[]', foreach: () => '[]', disabled: this.buildConfig.isBuildNativeComp
+      }, this.isTabbarPage),
+      this.renderState({
+        decorator: 'StorageProp("__TARO_ENTRY_PAGE_PATH")', name: 'entryPagePath', type: 'string', foreach: () => '""', disabled: this.buildConfig.isBuildNativeComp
+      }, this.isTabbarPage),
+      this.renderState({
+        decorator: 'State', name: 'appConfig', type: 'Taro.AppConfig', foreach: () => 'window.__taroAppConfig || {}', disabled: this.buildConfig.isBuildNativeComp
+      }, this.isTabbarPage),
+      this.renderState({
+        decorator: 'State', name: 'tabBarList', type: `${this.isTabbarPage ? 'ITabBarItem' : 'Taro.TabBarItem'}[]`, foreach: () => 'this.appConfig.tabBar?.list || []', disabled: this.buildConfig.isBuildNativeComp
+      }, this.isTabbarPage),
     ].filter(item => item !== '').flat()
+
     if (this.isTabbarPage) {
       generateState.push(
         '@State isTabBarShow: boolean = true',
@@ -278,7 +287,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)',
       body: this.generatePageAppear(page),
     }]
 
-    if (this.buildConfig.isBuildNativeComp) {
+    if (this.buildConfig.isBuildNativeComp && !entryOption) {
       const idx = generateMethods.findIndex(e => e.name === 'getPageState')
       generateMethods.splice(idx, 1)
     } else {
