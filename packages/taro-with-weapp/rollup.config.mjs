@@ -1,16 +1,14 @@
-import babel from '@rollup/plugin-babel'
-import commonjs from '@rollup/plugin-commonjs'
-import resolve from '@rollup/plugin-node-resolve'
-import * as path from 'path'
-import ts from 'rollup-plugin-ts'
+import * as path from 'node:path'
 
-const cwd = __dirname
+import typescript from '@rollup/plugin-typescript'
+import externals from 'rollup-plugin-node-externals'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(new URL(import.meta.url))
+const cwd = path.dirname(__filename)
 
 const baseConfig = {
   input: path.join(cwd, 'src/index.ts'),
-  external: d => {
-    return d.includes('@tarojs/runtime') || d.includes('@tarojs/taro') || d.includes('@babel/runtime')
-  },
   output: [
     {
       file: path.join(cwd, 'dist/index.js'),
@@ -42,17 +40,8 @@ const baseConfig = {
     }
   ],
   plugins: [
-    resolve({
-      preferBuiltins: false
-    }),
-    ts(),
-    commonjs({
-      include: 'node_modules/**'
-    }),
-    babel({
-      extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
-      babelHelpers: 'runtime'
-    })
+    externals(),
+    typescript(),
   ]
 }
 const esmConfig = Object.assign({}, baseConfig, {
@@ -74,4 +63,4 @@ function rollup () {
     return [baseConfig, esmConfig]
   }
 }
-module.exports = rollup()
+export default rollup()
