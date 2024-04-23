@@ -302,6 +302,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)',
         type: 'arrow',
         params: ['option: TaroObject'],
         body: this.transArr2Str([
+          // TODO backgroundTextStyle
           `if (option.backgroundColor) this.pageBackgroundColor = option.backgroundColor || '#FFFFFF'`,
           `if (option.backgroundColorContext) this.pageBackgroundContentColor = option.backgroundColorContext || '#FFFFFF'`,
         ]),

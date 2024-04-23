@@ -39,12 +39,13 @@ export function getNodeThresholds (node: TaroElement): number[] | null {
 export function isTagFirstChild (node: TaroElement, tagName = VIEW, level = 0): boolean {
   const parent: TaroElement | null = node.parentElement
   const list: TaroNode[] = node.parentNode?.childNodes || []
-  if (!parent || list.length < 1 || level < 0) return false
+  if (list.length < 1 || level < 0) return false
+  else if (!parent) return true
 
   if (parent.nodeName === tagName.toUpperCase()) {
     return list[0] === node
   } else {
-    return list[0] === node && isTagFirstChild(parent, tagName, --level)
+    return (list[0] === node) && isTagFirstChild(parent, tagName, --level)
   }
 }
 
