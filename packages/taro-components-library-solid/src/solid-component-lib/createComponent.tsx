@@ -1,7 +1,7 @@
 import { isFunction } from '@tarojs/shared'
-import { Component, createEffect, JSX, mergeProps, splitProps } from 'solid-js'
+import { Component, JSX, mergeProps, splitProps } from 'solid-js'
 import h from 'solid-js/h'
-import { memo } from 'solid-js/web'
+import { effect as _$effect, memo } from 'solid-js/web'
 
 import { camelToDashCase, isPropNameAnEvent, isReactiveKey, syncAttribute, syncEvent } from './utils'
 
@@ -17,12 +17,11 @@ export interface ComponentSupplementaryTypes {
 }
 
 function setReactiveProps(node: HTMLElement, getterObj: Record<string, any>) {
-  createEffect(() => {
+  _$effect(() => {
     for (const key in getterObj) {
       syncAttribute(node, key, getterObj[key])
     }
   })
-
 }
 
 function syncEvents(node: HTMLElement, eventsMap: Map<string, () => void>) {

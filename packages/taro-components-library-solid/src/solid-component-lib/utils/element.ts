@@ -1,4 +1,5 @@
 import { isObject } from '@tarojs/shared'
+import { setAttribute as _$setAttribute } from 'solid-js/web'
 
 export function syncEvent(el: HTMLElement & { __events?: { [key: string]: ((e: Event) => any) | undefined } }, propName: string, propValue: any) {
   const eventName = propName.substring(2)[0].toLowerCase() + propName.substring(3)
@@ -43,6 +44,6 @@ export function syncAttribute(el: HTMLElement, attribute: string, value: any) {
       el.classList.remove(...removeList)
     }
   } else {
-    el.setAttribute(attribute, value)
+    _$setAttribute(el, attribute, value)
   }
 }
