@@ -220,8 +220,13 @@ export { createChildItem, createLazyChildren }
     let result = ''
 
     this.context.nativeComponents.forEach((nativeMeta, _) => {
-      const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath)
-      result = `${result}import ${nativeMeta.name} from '../../../${nativePath}'\n`
+      if (nativeMeta.isPackage) {
+        result += `import ${nativeMeta.name} from '${nativeMeta.scriptPath}'\n`
+      } else {
+        const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath)
+        result = `${result}import ${nativeMeta.name} from '../../../${nativePath}'\n`
+      }
+
     })
 
     return result
