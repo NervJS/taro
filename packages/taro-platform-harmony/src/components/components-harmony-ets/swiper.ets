@@ -77,5 +77,28 @@ export default struct TaroSwiper {
         this.node._nodeInfo.areaInfo = res[1]
       }))
       .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+      .onGestureSwipe(shouldBindEvent((index: number, extraInfo: SwiperAnimationEvent) => {
+        const currentOffset = extraInfo.currentOffset || 0
+        // 判断设置的滚动方向
+        const isVertical = this.node._attrs.vertical || false
+        let event: TaroEvent
+        if (isVertical) {
+          event = createTaroEvent('transition', { detail: { dx: 0, dy: currentOffset } }, this.node)
+        } else {
+          event = createTaroEvent('transition', { detail: { dx: currentOffset, dy: 0 } }, this.node)
+        }
+        eventHandler(event, 'transition', this.node)
+      }, this.node, ['transition']))
+      .onTouch(shouldBindEvent((event: TouchEvent) => {
+        if (event.type === TouchType.Down) {
+          eventHandler(event, 'touchStart', this.node)
+        }
+        if (event.type === TouchType.Up) {
+          eventHandler(event, 'touchEnd', this.node)
+        }
+        if (event.type === TouchType.Move) {
+          eventHandler(event, 'touchMove', this.node)
+        }
+      }, this.node, ['touchstart', 'touchmove', 'touchend']))
   }
 }
