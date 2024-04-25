@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { defaultMainFields, fs, resolveSync } from '@tarojs/helper'
-import path from 'path'
 
 import { getLoaderMeta } from './loader-meta'
 
