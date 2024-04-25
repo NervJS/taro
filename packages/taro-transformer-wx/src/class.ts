@@ -1,8 +1,9 @@
+import { extname, sep } from 'node:path'
+
 import generate from '@babel/generator'
-import { NodePath } from '@babel/traverse'
+import template from '@babel/template'
 import * as t from '@babel/types'
 import { get as safeGet, kebabCase, set as safeSet, uniqueId } from 'lodash'
-import { extname, sep } from 'path'
 
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
 import {
@@ -37,11 +38,11 @@ import {
   pathResolver,
 } from './utils'
 
-const stopPropagationExpr = require('@babel/template').default(
+import type { NodePath } from '@babel/traverse'
+
+const stopPropagationExpr = template(
   `typeof e === 'object' && e.stopPropagation && e.stopPropagation()`
 )
-
-// const stopPropagationExpr = require('babel-template')(`typeof e === 'object' && e.stopPropagation && e.stopPropagation()`)
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
@@ -143,7 +144,7 @@ class Transformer {
     this.classPath = path
     this.sourcePath = sourcePath
     this.sourceDir = sourceDir
-    this.moduleNames = Object.keys(path.scope.getAllBindings('module'))
+    this.moduleNames = Object.keys(path.scope.getAllBindings())
     this.componentProperies = new Set(componentProperies)
     this.methods = methods
     this.compile()
@@ -300,7 +301,7 @@ class Transformer {
             t.identifier(anonymousFuncName),
             [t.identifier(indexKey), t.restElement(t.identifier('e'))],
             t.blockStatement([
-              isCatch ? stopPropagationExpr() : t.emptyStatement(),
+              isCatch ? stopPropagationExpr() as t.Statement : t.emptyStatement(),
               t.returnStatement(
                 t.logicalExpression('&&', arrayFunc, t.callExpression(arrayFunc, [t.spreadElement(t.identifier('e'))]))
               ),
