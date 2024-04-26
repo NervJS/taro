@@ -21,11 +21,8 @@
     "@tarojs/components": "workspace:*"
   },
   "devDependencies": {
-    "@babel/cli": "^7.14.5",
-    "@babel/core": "^7.14.5",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "babel-preset-taro": "workspace:*",
+    "@tarojs/helper": "workspace:*",
+    "postcss": "^8.4.18",
     "vue": "3.2.47"
   }
 }
