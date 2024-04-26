@@ -224,7 +224,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         },
       }
 
-      if (taroConfig.isWatch) {
+      if (taroConfig.isWatch && !taroConfig.blended) {
         delete output.manualChunks
         output.preserveModules = true
         output.preserveModulesRoot = 'src'

@@ -184,16 +184,16 @@ export default class Parser extends BaseParser {
       }, this.isTabbarPage),
       this.renderState({
         decorator: 'StorageLink("__TARO_PAGE_STACK")', name: 'pageStack', type: 'router.RouterState[]', foreach: () => '[]', disabled: this.buildConfig.isBuildNativeComp
-      }, this.isTabbarPage),
+      }, false),
       this.renderState({
         decorator: 'StorageProp("__TARO_ENTRY_PAGE_PATH")', name: 'entryPagePath', type: 'string', foreach: () => '""', disabled: this.buildConfig.isBuildNativeComp
-      }, this.isTabbarPage),
+      }, false),
       this.renderState({
         decorator: 'State', name: 'appConfig', type: 'Taro.AppConfig', foreach: () => 'window.__taroAppConfig || {}', disabled: this.buildConfig.isBuildNativeComp
-      }, this.isTabbarPage),
+      }, false),
       this.renderState({
         decorator: 'State', name: 'tabBarList', type: `${this.isTabbarPage ? 'ITabBarItem' : 'Taro.TabBarItem'}[]`, foreach: () => 'this.appConfig.tabBar?.list || []', disabled: this.buildConfig.isBuildNativeComp
-      }, this.isTabbarPage),
+      }, false),
     ].filter(item => item !== '').flat()
 
     if (this.isTabbarPage) {
@@ -373,10 +373,10 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)',
     .fontColor((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
   if (this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}) {
     LoadingProgress()
-    .margin({ left: convertNumber2VP(10 / 7.5, 'vw') })
-    .height(convertNumber2VP(40 / 7.5, 'vw'))
-    .width(convertNumber2VP(40 / 7.5, 'vw'))
-    .color((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+      .margin({ left: convertNumber2VP(10 / 7.5, 'vw') })
+      .height(convertNumber2VP(40 / 7.5, 'vw'))
+      .width(convertNumber2VP(40 / 7.5, 'vw'))
+      .color((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
   }
 }
 .height('100%')
