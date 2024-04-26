@@ -1,0 +1,71 @@
+{
+  "name": "@tarojs/plugin-framework-react",
+  "version": "4.0.0-beta.33",
+  "description": "React/Preact/Nerv 框架插件",
+  "author": "drchan",
+  "homepage": "https://github.com/nervjs/taro",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "sideEffects": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "prebuild": "run-s clean",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf --impl=move-remove dist",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "acorn": "8.11.3",
+    "acorn-walk": "8.3.2",
+    "lodash": "4.17.21",
+    "tslib": "2.6.2"
+  },
+  "devDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
+    "solid-js": "^1.8.17",
+    "vite": "^5.2.10",
+    "webpack-chain": "6.5.1"
+  },
+  "peerDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "solid-js": "^1.8.0",
+    "vite": "^5",
+    "webpack": "^5"
+  },
+  "peerDependenciesMeta": {
+    "solid-js": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    },
+    "webpack": {
+      "optional": true
+    }
+  }
+}
