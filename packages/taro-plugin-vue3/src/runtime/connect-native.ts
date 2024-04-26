@@ -14,7 +14,7 @@ import { isClassComponent, setReconciler } from './connect'
 
 import type { TaroRootElement } from '@tarojs/runtime'
 import type { PageInstance } from '@tarojs/taro'
-import type { ComponentOptions, h as createElement } from '@vue/runtime-core'
+import type { ComponentOptions, h as createElement } from 'vue'
 
 declare const getCurrentPages: () => PageInstance[]
 
