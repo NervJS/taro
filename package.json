@@ -71,6 +71,7 @@
     "@tarojs/plugin-framework-react": "workspace:*",
     "@tarojs/plugin-framework-vue2": "workspace:*",
     "@tarojs/plugin-framework-vue3": "workspace:*",
+    "@tarojs/plugin-framework-solid": "workspace:*",
     "@tarojs/plugin-platform-alipay": "workspace:*",
     "@tarojs/plugin-platform-h5": "workspace:*",
     "@tarojs/plugin-platform-harmony-hybrid": "workspace:*",

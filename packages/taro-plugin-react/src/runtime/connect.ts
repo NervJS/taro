@@ -221,7 +221,7 @@ export function createReactApp (
     private pages: Array<() => PageComponent> = []
     private elements: Array<PageComponent> = []
 
-    constructor (props) {
+    constructor(props) {
       super(props)
       appWrapper = this
       appWrapperResolver(this)
@@ -435,10 +435,10 @@ export function createSolidApp (App: SolidComponent, config: AppConfig) {
   setReconciler()
 
   const appRef: AppInstance = {
-    mount: () => {},
-    unmount: () => {},
+    mount: () => { },
+    unmount: () => { },
   }
-  function getAppInstance(): any {
+  function getAppInstance (): any {
     return appRef
   }
 
@@ -461,7 +461,7 @@ export function createSolidApp (App: SolidComponent, config: AppConfig) {
     return SolidReconciler.createComponent(App, {
       ref: appRef,
       children: SolidReconciler.createComponent(Solid.For as unknown as SolidComponent, {
-        get each() {
+        get each () {
           return pages()
         },
         children: ({ id, component }) => {
@@ -495,7 +495,7 @@ export function createSolidApp (App: SolidComponent, config: AppConfig) {
     })
   }
 
-  function renderSolidRoot() {
+  function renderSolidRoot () {
     let appId = 'app'
     if (process.env.TARO_PLATFORM === 'web') {
       appId = config?.appId || appId
@@ -513,7 +513,7 @@ export function createSolidApp (App: SolidComponent, config: AppConfig) {
 
   const appObj: AppInstance = Object.create(
     {
-      mount(component: SolidComponent, id: string, cb: () => void) {
+      mount (component: SolidComponent, id: string, cb: () => void) {
         const appInstance = getAppInstance()
         appInstance?.mount(component, id)
         Solid.batch((...args) => {
@@ -521,7 +521,7 @@ export function createSolidApp (App: SolidComponent, config: AppConfig) {
           return cb(...args)
         })
       },
-      unmount(id: string, cb: () => void) {
+      unmount (id: string, cb: () => void) {
         const appInstance = getAppInstance()
         appInstance?.unmount(id)
         Solid.batch(cb)
@@ -534,7 +534,7 @@ export function createSolidApp (App: SolidComponent, config: AppConfig) {
       }),
 
       [ONLAUNCH]: setDefaultDescriptor({
-        value(options) {
+        value (options) {
           setRouterParams(options)
 
           if (process.env.TARO_PLATFORM === 'web') {
@@ -574,30 +574,30 @@ export function createSolidApp (App: SolidComponent, config: AppConfig) {
         },
       }),
       [ONSHOW]: setDefaultDescriptor({
-        value(options) {
+        value (options) {
           setRouterParams(options)
           triggerAppHook('onShow', options)
         },
       }),
       [ONHIDE]: setDefaultDescriptor({
-        value() {
+        value () {
           triggerAppHook('onHide')
         },
       }),
       onError: setDefaultDescriptor({
-        value(error: string) {
+        value (error: string) {
           triggerAppHook('onError', error)
         },
       }),
       onPageNotFound: setDefaultDescriptor({
-        value(res: unknown) {
+        value (res: unknown) {
           triggerAppHook('onPageNotFound', res)
         },
       }),
     }
   )
 
-  function triggerAppHook(lifecycle: keyof PageLifeCycle | keyof AppInstance, ...option) {
+  function triggerAppHook (lifecycle: keyof PageLifeCycle | keyof AppInstance, ...option) {
     const instance = getPageInstance(HOOKS_APP_ID)
     if (instance) {
       const app = getAppInstance()

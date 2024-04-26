@@ -1,0 +1,78 @@
+{
+  "name": "@tarojs/plugin-framework-solid",
+  "version": "4.0.0-beta.47",
+  "description": "Solid 框架插件",
+  "author": "drchan",
+  "homepage": "https://github.com/nervjs/taro",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "sideEffects": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "prebuild": "run-s clean",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf --impl=move-remove dist",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "acorn": "^8.0.4",
+    "acorn-walk": "^8.0.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@prefresh/babel-plugin": "^0.4.1",
+    "@prefresh/core": "^1.3.4",
+    "@prefresh/webpack": "^3.2.3",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "esbuild": "~0.19.5",
+    "rollup": "^3.8.1",
+    "rollup-plugin-node-externals": "^5.0.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "solid-js": "^1.8.16",
+    "typescript": "^5.3.3",
+    "vite": "^4.2.0",
+    "vite-plugin-solid": "^2.10.2",
+    "webpack": "5.78.0"
+  },
+  "peerDependencies": {
+    "@tarojs/runtime": "workspace:~",
+    "@tarojs/shared": "workspace:~",
+    "vite": "^4.2.0",
+    "vite-plugin-solid": "^2.10.2",
+    "solid-js": ">=1"
+  },
+  "peerDependenciesMeta": {
+    "@prefresh/webpack": {
+      "optional": true
+    },
+    "vite-plugin-solid": {
+      "optional": true
+    },
+    "solid-js": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    }
+  }
+}
