@@ -1,7 +1,7 @@
 import type { TaroAny, HarmonyStyle, TaroElement, TaroStyleType, TaroTextElement }  from '@tarojs/runtime'
 import { ObjectAssign }  from '@tarojs/runtime'
 import { isUndefined } from '@tarojs/shared'
-import { computeBackgroundPosition } from './utils'
+import { computeBackgroundPosition, convertVp2Px } from './utils'
 import { getNormalAttributes } from './utils/helper'
 import { isMaxWidthView } from './utils/styles'
 import { FlexManager } from './utils/flexManager.ets'
@@ -376,34 +376,15 @@ export function setNormalAttributeIntoInstance(instance: CommonAttribute, style:
     // 为了适应position不设置z-index也能高于同层级组件，估且让设置了z-index的会更高一级
     instance.zIndex(style.zIndex + 1)
   }
-  // if (!isUndefined(style.transform)) {
-  //   if (style.transform.Translate) {
-  //     instance.translate({
-  //       x: style.transform.Translate.x || 0,
-  //       y: style.transform.Translate.y || 0,
-  //       z: style.transform.Translate.z || 0,
-  //     })
-  //   }
-  //   if (style.transform.Scale) {
-  //     instance.scale({
-  //       x: style.transform.Scale.x || 0,
-  //       y: style.transform.Scale.y || 0,
-  //       z: style.transform.Scale.z || 0,
-  //       centerX: style.transformOrigin?.x || 0,
-  //       centerY: style.transformOrigin?.y || 0,
-  //     })
-  //   }
-  //   if (style.transform.Rotate) {
-  //     instance.rotate({
-  //       x: style.transform.Rotate.x || 0,
-  //       y: style.transform.Rotate.y || 0,
-  //       z: style.transform.Rotate.z || 0,
-  //       centerX: style.transformOrigin?.x || 0,
-  //       centerY: style.transformOrigin?.y || 0,
-  //       angle: style.transform.Rotate.angle
-  //     })
-  //   }
-  // }
+  if (!isUndefined(style.boxShadow)) {
+    instance.shadow({
+      radius: convertVp2Px(style.boxShadow.radius),
+      color: style.boxShadow.color,
+      offsetX: convertVp2Px(style.boxShadow.offsetX),
+      offsetY: convertVp2Px(style.boxShadow.offsetY),
+      fill: style.boxShadow.fill,
+    })
+  }
 }
 
 export const pseudoModify = new PseudoStyleModify()
