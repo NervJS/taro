@@ -1,6 +1,5 @@
-import osChannelApi from './osChannelApi'
-import { RequestTask } from './request'
-
+import { HybridProxy } from './NativeApiHybridProxy'
+import { NativeDataChangeListener, SyncCacheProxyHandler } from './NativeApiSyncCacheProxy'
 // @ts-ignore
 const syncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true }) || (target => target)
 // @ts-ignore
@@ -10,8 +9,31 @@ const asyncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMod
 // @ts-ignore
 const asyncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false }) || (target => target)
 
-export let judgeUseAxios = false
-class NativeApi {
+export class NativeApi {
+  /**
+   * 获取哪些Api的数据需要缓存。
+   * @return  string[] Api的方法名数组
+   */
+  // @ts-ignore
+  @(syncAndRelease)
+  enableCacheMethodNames (): string[] {
+    return []
+  }
+
+  /**
+   * 系统层获取到监听器。
+   * 1.系统层，保存listener
+   * 2.系统层，监听系统数据变化，发生变化后，调用listener.change(methodName)即可。
+   */
+  // @ts-ignore
+  @(syncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  obtainNativeChangeListener (listener: NativeDataChangeListener | null) {
+    return null
+  }
+
+
   // @ts-ignore
   @(syncAndRelease)
   getWindowInfo (): any {
@@ -798,114 +820,35 @@ class NativeApi {
   }
 }
 
-export interface Status {
-  done: boolean
-  data: string
-  errorMsg: string
-}
+export class ProxyChain {
+  private target: any
 
-class CacheStorageProxy {
-  private cacheMap: Map<any, any>
-  private readonly nativeApi: NativeApi
-  private readonly asyncToSyncProxy: any
-
-  constructor (nativeApi: NativeApi) {
-    this.nativeApi = nativeApi
-    this.cacheMap = new Map<string, any>()
-    this.asyncToSyncProxy = new Proxy(nativeApi, new AsyncToSyncProxy(this.nativeApi))
+  constructor (target: object) {
+    this.target = target
   }
 
-  // @ts-ignore
-  get (target: { [x: string]: any }, prop: string) {
-    if (prop === 'getStorageSync') {
-      return (...args: any[]) => {
-        const key = args[0].key
-        if (this.cacheMap.has(key)) {
-          return this.cacheMap.get(key)
-        } else {
-          const status = this.asyncToSyncProxy.getStorageSync({ key })
-          if (status.done && status.errMsg === '') {
-            this.cacheMap.set(key, status)
-          }
-          return status
-        }
-      }
-    }
-    if (prop === 'setStorageSync') {
-      return (...args: any[]) => {
-        const { key, data } = args[0]
-        const status = this.asyncToSyncProxy.setStorageSync({ key, data })
-        if (status.done && status.errMsg === '') {
-          this.cacheMap.set(key, status)
-        }
-        return status
-      }
-    }
-    return (...args: any[]) => {
-      return this.asyncToSyncProxy[prop](...args)
-    }
+  // 添加一个新的Proxy处理器
+  addHandler (handler: (target: any) => ProxyHandler<any>): ProxyChain {
+    const h = handler(this.target)
+    this.target = new Proxy(this.target, h)
+    return this
+  }
+
+  // 创建并获取最终的Proxy对象
+  getProxy (): any {
+    return this.target
   }
 }
 
-class AsyncToSyncProxy {
-  private readonly nativeApi: NativeApi
-  private readonly STATUS: Status = { done: false, data: '', errorMsg: `search timeout` }
-  private methods = ['setStorageSync', 'removeStorageSync', 'getStorageSync', 'getStorageInfoSync', 'clearStorageSync']
+/**
+ * 链式Proxy
+ * 通过[addHandler]添加ProxyHandler
+ * 通过[getProxy]获取最终的target
+ */
+const native = new ProxyChain(new NativeApi())
+  .addHandler((target) => new SyncCacheProxyHandler(target))
+  // HybridProxy第一个false是默认走jsb，true是走纯js， 第二个false是不走osChannel
+  .addHandler((target) => new HybridProxy(false, false, target))
+  .getProxy()
 
-  constructor (nativeApi: NativeApi) {
-    this.nativeApi = nativeApi
-  }
-
-  get (target: { [x: string]: any }, prop: string) {
-    if (this.methods.includes(prop)) {
-      return (...args: any[]) => {
-        const asyncFunc = prop.substring(0, prop.length - 'Sync'.length)
-        this.nativeApi[asyncFunc](...args)
-
-        let count = 0
-        while (count < 20000) {
-          count++
-          if (count % 2000 === 0) {
-            const status = this.nativeApi.getExecStatus({ method: prop, key: args[0].key })
-            if (status.done || status.errorMsg) {
-              return status
-            }
-          }
-        }
-        return this.STATUS
-      }
-    }
-    return target[prop]
-  }
-}
-
-class HybridProxy {
-  private readonly useAxios: boolean
-  private readonly useOsChannel: boolean
-  private readonly cacheProxy: any
-  private readonly requestApi = 'request'
-
-  constructor (useAxios: boolean, useOsChannel: boolean, nativeApi: NativeApi) {
-    this.useAxios = useAxios
-    this.useOsChannel = useOsChannel
-    this.cacheProxy = new Proxy(nativeApi, new CacheStorageProxy(nativeApi))
-  }
-
-  get (_target: any, prop: string) {
-    return (...args: any) => {
-      if (this.useAxios && prop === this.requestApi) {
-        judgeUseAxios = this.useAxios
-        // @ts-ignore
-        return new RequestTask(...args)
-      }
-      if (this.useOsChannel && osChannelApi.hasOwnProperty(prop)) {
-        return osChannelApi[prop](...args)
-      }
-      return this.cacheProxy[prop](...args)
-    }
-  }
-}
-
-const nativeApi = new NativeApi()
-const native = new Proxy(nativeApi, new HybridProxy(false, false, nativeApi)) // 第一个false是默认走jsb，true是走纯js， 第二个false是不走osChannel
 export default native
