@@ -9,7 +9,7 @@ export function modifyHarmonyWebpackChain (chain) {
 function setAlias (chain) {
   const alias = chain.resolve.alias
 
-  alias.set('solid-js/web', RECONCILER_NAME)
+  alias.set('solid-js/web$', RECONCILER_NAME)
 }
 
 function setLoader (chain) {

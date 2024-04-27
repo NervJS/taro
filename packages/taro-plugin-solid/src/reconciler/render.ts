@@ -1,5 +1,6 @@
 import { document, TaroElement, TaroNode, TaroText } from '@tarojs/runtime'
 import { createRenderer } from 'solid-js/universal'
+import { createComponent as _createComponent, insert as _insert, render as _render } from 'solid-js/web/dist/web.cjs'
 
 import { setProperty } from './props'
 
@@ -39,14 +40,14 @@ const ref = createRenderer<TaroNode>({
   },
 })
 
-export const render = ref.render
+export const render = process.env.TARO_PLATFORM === 'web' ? _render : ref.render
 export const effect = ref.effect
 export const memo = ref.memo
 export const createElement = ref.createElement
-export const createComponent = ref.createComponent
+export const createComponent = process.env.TARO_PLATFORM === 'web' ? _createComponent : ref.createComponent
 export const createTextNode = ref.createTextNode
 export const insertNode = ref.insertNode
-export const insert = ref.insert
+export const insert = process.env.TARO_PLATFORM === 'web' ? _insert : ref.insert
 export const spread = ref.spread
 export const setProp = ref.setProp
 export const mergeProps = ref.mergeProps

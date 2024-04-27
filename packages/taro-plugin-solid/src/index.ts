@@ -1,5 +1,5 @@
 import { fs, REG_TARO_H5 } from '@tarojs/helper'
-import { isString } from '@tarojs/shared'
+import { capitalize, internalComponents, isString, toCamelCase } from '@tarojs/shared'
 
 import { h5iVitePlugin } from './vite.h5'
 import { harmonyVitePlugin } from './vite.harmony'
@@ -9,9 +9,15 @@ import { modifyHarmonyWebpackChain } from './webpack.harmony'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 import type { PluginOption } from 'vite'
 
 export const RECONCILER_NAME = '@tarojs/plugin-framework-solid/dist/reconciler'
+
+interface OnParseCreateElementArgs {
+  nodeName: string
+  componentConfig: IComponentConfig
+}
 
 export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
@@ -19,7 +25,6 @@ export default (ctx: IPluginContext) => {
   if (framework !== 'solid') return
 
   ctx.modifyWebpackChain(({ chain }) => {
-    // 通用
 
     chain.plugin('definePlugin').tap((args) => {
       const config = args[0]
@@ -93,6 +98,13 @@ export default (ctx: IPluginContext) => {
         // 小程序
         compiler.vitePlugins.push(miniVitePlugin(ctx))
       }
+    }
+  })
+
+  // 映射、收集使用到的小程序组件
+  ctx.onParseCreateElement(({ nodeName, componentConfig }: OnParseCreateElementArgs) => {
+    if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+      componentConfig.includes.add(nodeName)
     }
   })
 }

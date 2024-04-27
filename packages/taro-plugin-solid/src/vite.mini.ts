@@ -30,7 +30,7 @@ function aliasPlugin (): PluginOption {
     name: 'taro-solid:alias',
     config () {
       const alias = [
-        { find: 'solid-js/web', replacement: RECONCILER_NAME },
+        { find: 'solid-js/web$', replacement: RECONCILER_NAME },
         { find: 'react/jsx-runtime', replacement: RECONCILER_NAME },
       ]
 

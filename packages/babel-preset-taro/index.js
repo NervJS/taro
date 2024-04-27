@@ -62,10 +62,18 @@ module.exports = (_, options = {}) => {
       }
     }
   } else if (isSolid) {
-    presets.push([require('babel-preset-solid'), {
-      moduleName: '@tarojs/plugin-framework-solid/dist/reconciler',
-      generate: 'universal',
-    }])
+    const solidOptions = {}
+    if (process.env.TARO_PLATFORM !== 'web') {
+      Object.assign(solidOptions, {
+        moduleName: '@tarojs/plugin-framework-solid/dist/reconciler',
+        generate: 'universal',
+        uniqueTransform: true,
+      })
+    }
+    presets.push([
+      require('babel-plugin-transform-solid-jsx-ad-taro-components'),
+      solidOptions,
+    ])
   }
 
   if (isVue || isVue3) {

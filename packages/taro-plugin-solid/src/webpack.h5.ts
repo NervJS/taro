@@ -1,7 +1,6 @@
 import { defaultMainFields, REG_TARO_H5, resolveSync } from '@tarojs/helper'
 import { mergeWith } from 'lodash'
 
-import { RECONCILER_NAME } from './index'
 import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
@@ -9,7 +8,7 @@ import type Chain from 'webpack-chain'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, chain: Chain) {
   setLoader(chain)
-  setPlugin(ctx)
+  setPlugin(chain)
 
   const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
   const externals: Record<string, { [externalType: string]: string } | string> = {}
@@ -74,7 +73,6 @@ function setPlugin (chain) {
     mainFields,
   }
   const alias = chain.resolve.alias
-  alias.set(RECONCILER_NAME, resolveSync('solid-js/web', resolveOptions))
   // Note: 本地 link 调试时，避免 solid 重复打包
   alias.set('solid-js$', resolveSync('solid-js', resolveOptions))
 }
