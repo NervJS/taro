@@ -1,6 +1,6 @@
+import path from 'node:path'
 
 import { fs, resolveSync } from '@tarojs/helper'
-import path from 'path'
 
 import { appendVirtualModulePrefix, resolveAbsoluteRequire, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
 

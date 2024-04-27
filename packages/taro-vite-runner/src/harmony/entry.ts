@@ -1,6 +1,7 @@
+import path from 'node:path'
+
 import { fs, isEmptyObject, removePathPrefix, resolveMainFilePath } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
-import path from 'path'
 
 import { appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'
 import { QUERY_IS_NATIVE_SCRIPT } from './ets'

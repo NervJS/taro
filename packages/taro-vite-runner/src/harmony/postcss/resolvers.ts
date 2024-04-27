@@ -1,7 +1,8 @@
+import { createRequire } from 'node:module'
+import path from 'node:path'
+
 import { fs } from '@tarojs/helper'
 import MagicString from 'magic-string'
-import { createRequire } from 'module'
-import path from 'path'
 import { type Alias, type ResolvedConfig, type ResolveFn, normalizePath } from 'vite'
 
 import { cssDataUriRE, cssUrlRE, importCssRE, PostCssDialectLang, PreprocessLang } from './constants'

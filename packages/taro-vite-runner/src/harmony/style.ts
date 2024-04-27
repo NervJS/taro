@@ -1,10 +1,11 @@
+import path from 'node:path'
+
 import { transformSync } from '@babel/core'
 import { dataToEsm } from '@rollup/pluginutils'
 import { chalk, CSS_EXT, fs, NODE_MODULES_REG, REG_JS, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
 import { parse as parseJSXStyle } from '@tarojs/parse-css-to-stylesheet'
 import { isEqual } from 'lodash'
 import MagicString from 'magic-string'
-import path from 'path'
 import stylelint from 'stylelint'
 
 import { appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'

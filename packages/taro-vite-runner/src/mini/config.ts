@@ -1,9 +1,10 @@
+import path from 'node:path'
+
 import { babel } from '@rollup/plugin-babel'
 import inject, { RollupInjectOptions } from '@rollup/plugin-inject'
 import { defaultMainFields, fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
-import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.mini'
 import {

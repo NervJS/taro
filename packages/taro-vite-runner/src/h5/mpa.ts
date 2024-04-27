@@ -1,9 +1,10 @@
+import path from 'node:path'
+
 import { fs, removeHeadSlash } from '@tarojs/helper'
 import history from 'connect-history-api-fallback'
-import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
-import { appendVirtualModulePrefix, generateQueryString, genRouterResource, getMode, getQueryParams } from '../utils'  
+import { appendVirtualModulePrefix, generateQueryString, genRouterResource, getMode, getQueryParams } from '../utils'
 import { ENTRY_QUERY, PAGENAME_QUERY } from '../utils/constants'
 import { getHtmlScript } from '../utils/html'
 
@@ -103,7 +104,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         const pageName = removeHeadSlash(path.join(basename, name))
         rewrites.push(createRewire(pageName, baseUrl, proxyKeys))
       })
-      server.middlewares.use(history({          
+      server.middlewares.use(history({
         disableDotRule: undefined,
         htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
         rewrites: rewrites
@@ -113,7 +114,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       // 处理 html 文件
       const isEntry = getIsHtmlEntry(source)
       if (isEntry) return source
-      
+
       // 处理 config.ts 入口文件
       const resolved = await this.resolve(source, importer, { ...options, skipSelf: true })
       if (resolved?.id && pages.some(({ configPath })=> resolved.id.startsWith(configPath))) {
@@ -152,11 +153,11 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
           const params = { [PAGENAME_QUERY]: page.name }
           const queryString = generateQueryString(params)
           srciptSource = page.configPath.replace(sourceDir, '') + `?${queryString}`
-        } 
+        }
         const htmlScript = getHtmlScript(srciptSource, pxtransformOption)
 
         return html.replace(/<script><%= htmlWebpackPlugin.options.script %><\/script>/, htmlScript)
-      } 
+      }
     },
   }
 }

@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { removeHeadSlash } from '@tarojs/helper'
-import path from 'path'
 
 import { addLeadingSlash, appendVirtualModulePrefix, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
 import { PageParser } from './template'

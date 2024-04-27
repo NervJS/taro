@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { REG_SCRIPTS, resolveSync, swc } from '@tarojs/helper'
-import path from 'path'
 
 import { resolveAbsoluteRequire } from '../utils'
 import { commonjsProxyRE, CSS_LANGS_RE, loadParseImportRE, SPECIAL_QUERY_RE } from './postcss/constants'
