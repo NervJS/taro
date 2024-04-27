@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-rn",
-  "version": "4.0.0-beta.33",
+  "version": "4.0.0-beta.54",
   "description": "Taro RN framework",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -67,6 +67,7 @@
     "@testing-library/jest-native": "^5.4.2",
     "@testing-library/react-native": "^12.4.1",
     "@types/jest": "^27.4.1",
+    "dpdm": "^3.14.0",
     "expo": "~50.0.2",
     "fbjs-scripts": "^3.0.1",
     "jest": "^29.3.1",

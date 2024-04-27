@@ -34,7 +34,7 @@ export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
     const page = taro.getCurrentInstance().page
 
     let scrollValue = -1
-    let scroller = page.scroller
+    let scroller = getPageScrollerOrNode(page.scroller, page)
     const currentPageNode = getPageScrollerOrNode(page.node, page)
 
     if (scrollTop || typeof scrollTop === 'number') {

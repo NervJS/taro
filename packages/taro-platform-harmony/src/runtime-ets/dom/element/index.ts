@@ -22,6 +22,9 @@ import {
   TaroIconElement,
   TaroImageElement,
   TaroLabelElement,
+  TaroNavigationBarElement,
+  TaroOtherElement,
+  TaroPageMetaElement,
   TaroRichTextElement,
   TaroSwiperElement,
   TaroSwiperItemElement,
@@ -63,7 +66,9 @@ export function initHarmonyElement () {
       case 'form': return new TaroFormElement()
       case 'web-view': return new TaroWebViewElement()
       case 'inner-html': return new TaroInnerHtmlElement()
-      default: return new TaroElement(tagName)
+      case 'page-meta': return new TaroPageMetaElement()
+      case 'navigation-bar': return new TaroNavigationBarElement()
+      default: return new TaroOtherElement(tagName)
     }
   }
 
@@ -88,6 +93,9 @@ export {
   TaroLabelElement,
   TaroMovableAreaElement,
   TaroMovableViewElement,
+  TaroNavigationBarElement,
+  TaroOtherElement,
+  TaroPageMetaElement,
   TaroPickerElement,
   TaroProgressElement,
   TaroRadioElement,
@@ -102,4 +110,5 @@ export {
   TaroTextElement,
   TaroVideoElement,
   TaroViewElement,
-  TaroWebViewElement }
+  TaroWebViewElement
+}

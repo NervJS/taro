@@ -14,6 +14,7 @@ export interface ViteNativeCompMeta {
   isNative: true
   templatePath: string
   cssPath?: string
+  isPackage?: boolean
 }
 
 export interface ViteFileType {
@@ -51,7 +52,6 @@ export interface ViteHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfi
   fileType: IFileType
   useETS?: boolean
   useJSON5?: boolean
-  useNesting?: boolean
   blended?: boolean
   runtimePath?: string | string[]
   taroComponentsPath: string
@@ -133,6 +133,7 @@ export interface ViteHarmonyCompilerContext extends ViteCompilerContext<ViteHarm
   nativeExt: string[]
   fileType: ViteFileType
   commonChunks: string[]
+  extraComponents: string[]
   nativeComponents : Map<string, ViteNativeCompMeta>
   getCommonChunks: () => string[]
   modifyHarmonyConfig: (config: Partial<AppConfig>) => void

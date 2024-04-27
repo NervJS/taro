@@ -72,6 +72,9 @@ export class Animation implements Taro.Animation {
       transformOrigin,
       rule: Object.assign({}, this.rule)
     })
+    if (this.rule.transform) {
+      this.rule.transform = Object.assign({}, this.rule.transform)
+    }
     return this
   }
 
@@ -86,92 +89,137 @@ export class Animation implements Taro.Animation {
   }
 
   rotate (angle: number): Taro.Animation {
-    this.rule.rotate = { x: 0, y: 0, z: 1, angle }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Rotate = { x: 0, y: 0, z: 1, angle }
     return this
   }
 
   rotate3d (x: number, y?: number | undefined, z?: number | undefined, angle?: number | undefined): Taro.Animation {
-    this.rule.rotate = { x, y, z, angle }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Rotate = { x, y, z, angle }
     return this
   }
 
   rotateX (angle: number): Taro.Animation {
-    this.rule.rotate = { x: 1, y: 0, z: 0, angle }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Rotate = { x: 1, y: 0, z: 0, angle }
     return this
   }
 
   rotateY (angle: number): Taro.Animation {
-    this.rule.rotate = { x: 0, y: 1, z: 0, angle }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Rotate = { x: 0, y: 1, z: 0, angle }
     return this
   }
 
   rotateZ (angle: number): Taro.Animation {
-    this.rule.rotate = { x: 0, y: 0, z: 1, angle }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Rotate = { x: 0, y: 0, z: 1, angle }
     return this
   }
 
   scale (sx: number, sy?: number | undefined): Taro.Animation {
-    this.rule.scale = { x: sx, y: isUndefined(sy) ? sx : sy }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Scale = { x: sx, y: isUndefined(sy) ? sx : sy }
     return this
   }
 
   scale3d (sx: number, sy: number, sz: number): Taro.Animation {
-    this.rule.scale = { x: sx, y: sy, z: sz }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Scale = { x: sx, y: sy, z: sz }
     return this
   }
 
   scaleX (scale: number): Taro.Animation {
-    this.rule.scale = { x: scale }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Scale = { x: scale }
     return this
   }
 
   scaleY (scale: number): Taro.Animation {
-    this.rule.scale = { y: scale }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Scale = { y: scale }
     return this
   }
 
   scaleZ (scale: number): Taro.Animation {
-    this.rule.scale = { z: scale }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Scale = { z: scale }
     return this
   }
 
   skew (ax: number, ay: number): Taro.Animation {
-    this.rule.skew = { x: ax, y: ay }
+    temporarilyNotSupport('animation.skew:' + `${ax}, ${ay}`)(ax, ay)
     return this
   }
 
   skewX (angle: number): Taro.Animation {
-    this.rule.skew = { x: angle }
+    temporarilyNotSupport('animation.skewX:' + angle)(angle)
     return this
   }
 
   skewY (angle: number): Taro.Animation {
-    this.rule.skew = { y: angle }
+    temporarilyNotSupport('animation.skewY:' + angle)(angle)
     return this
   }
 
   translate (tx?: number | undefined, ty?: number | undefined): Taro.Animation {
-    this.rule.translate = { x: tx, y: ty }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Translate = { x: tx, y: ty }
     return this
   }
 
   translate3d (tx?: number | undefined, ty?: number | undefined, tz?: number | undefined): Taro.Animation {
-    this.rule.translate = { x: tx, y: ty, z: tz }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Translate = { x: tx, y: ty, z: tz }
     return this
   }
 
   translateX (translation: number): Taro.Animation {
-    this.rule.translate = { x: translation }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Translate = { x: translation }
     return this
   }
 
   translateY (translation: number): Taro.Animation {
-    this.rule.translate = { y: translation }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Translate = { y: translation }
     return this
   }
 
   translateZ (translation: number): Taro.Animation {
-    this.rule.translate = { z: translation }
+    if (!this.rule.transform) {
+      this.rule.transform = {}
+    }
+    this.rule.transform.Translate = { z: translation }
     return this
   }
 
@@ -186,23 +234,17 @@ export class Animation implements Taro.Animation {
   }
 
   width (value: string | number): Taro.Animation {
-    this.rule.size = {
-      ...this.rule.size,
-      width: value
-    }
+    this.rule.width = value
     return this
   }
 
   height (value: string | number): Taro.Animation {
-    this.rule.size = {
-      ...this.rule.size,
-      height: value
-    }
+    this.rule.height = value
     return this
   }
 
   left (value: string | number): Taro.Animation {
-    temporarilyNotSupport('animation.left:' + value)(value)
+    this.rule.left = value
     return this
   }
 
@@ -212,7 +254,7 @@ export class Animation implements Taro.Animation {
   }
 
   top (value: string | number): Taro.Animation {
-    temporarilyNotSupport('animation.top:' + value)(value)
+    this.rule.top = value
     return this
   }
 

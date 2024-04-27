@@ -41,9 +41,11 @@ export default class RenderParser extends BaseParser {
   TaroCanvas,
   TaroRadioGroup,
   TaroCheckboxGroup,
-  TaroCheckbox
+  TaroCheckbox,
+  TaroPageMeta,
+  TaroNavigationBar
 } from '@tarojs/components'
-${this.generateRenderNativeImport()}${this.generateRenderCompileModeImport()}
+${this.generateRenderExtraComponentsImport()}${this.generateRenderNativeImport()}${this.generateRenderCompileModeImport()}
 import { NodeType } from '@tarojs/runtime'
 
 import type {
@@ -75,12 +77,16 @@ import type {
   TaroSliderElement,
   TaroScrollViewElement,
   TaroWebViewElement,
-  TaroInnerHtmlElement
+  TaroInnerHtmlElement,
+  TaroPageMetaElement,
+  TaroNavigationBarElement
 } from '@tarojs/runtime'
 
 @Builder
 function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroElement) => void) {
-  ${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'VIEW') {
+  ${this.generateRenderExtraComponentsCondition()}${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'SCROLL-VIEW' || item._st?.hmStyle.overflow === 'scroll') {
+    TaroScrollView({ node: item as TaroScrollViewElement, createLazyChildren: createLazyChildren })
+  } else if (item.tagName === 'VIEW') {
     TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
     TaroText({ node: item as TaroTextElement, createLazyChildren: createLazyChildren })
@@ -88,8 +94,6 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
     TaroImage({ node: item as TaroImageElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'BUTTON') {
     TaroButton({ node: item as TaroButtonElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'SCROLL-VIEW') {
-    TaroScrollView({ node: item as TaroScrollViewElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'SLIDER') {
     TaroSlider({ node: item as TaroSliderElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'SWITCH') {
@@ -134,16 +138,22 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
     TaroVideo({ node: item as TaroVideoElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'WEB-VIEW') {
     TaroWebView({ node: item as TaroWebViewElement, createLazyChildren: createLazyChildren })
+  } else if (item.tagName === 'PAGE-META') {
+    TaroPageMeta({ node: item as TaroPageMetaElement, createLazyChildren: createLazyChildren })
+  } else if (item.tagName === 'NAVIGATION-BAR') {
+    TaroNavigationBar({ node: item as TaroNavigationBarElement, createLazyChildren: createLazyChildren })
   } else {
     TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
   }
 }
 
 @Builder
-function createLazyChildren (node: TaroElement) {
+function createLazyChildren (node: TaroElement, layer = 0) {
   LazyForEach(node, (item: TaroElement) => {
-    createChildItem(item, createLazyChildren)
-  }, (item: TaroElement) => item._nid)
+    if (!item._nodeInfo || item._nodeInfo.layer === layer) {
+      createChildItem(item, createLazyChildren)
+    }
+  }, (item: TaroElement) => \`\${item._nid}-\${item._nodeInfo?.layer || 0}\`)
 }
 
 export { createChildItem, createLazyChildren }
@@ -163,6 +173,39 @@ export { createChildItem, createLazyChildren }
     })
   }
 
+  generateRenderExtraComponentsImport () {
+    let result = ''
+    const extraComponents = this.context.extraComponents
+
+    if (extraComponents.length <= 0) return result
+
+    result = 'import {\n'
+    extraComponents.forEach(components => {
+      const taroName = `Taro${components}`
+
+      result = `${result}  ${taroName},\n`
+    })
+
+    return `${result}} from '@tarojs/components'\n`
+  }
+
+  generateRenderExtraComponentsCondition () {
+    let result = ''
+    const extraComponents = this.context.extraComponents
+
+    if (extraComponents.length <= 0) return result
+
+    extraComponents.forEach(components => {
+      const taroName = `Taro${components}`
+
+      result = `${result}if (item.tagName === '${components.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}') {
+    ${taroName}({ node: item as TaroAny, createLazyChildren, createChildItem })
+  } else `
+    })
+
+    return result
+  }
+
   generateRenderCompileModeImport () {
     let result = ''
 
@@ -177,8 +220,13 @@ export { createChildItem, createLazyChildren }
     let result = ''
 
     this.context.nativeComponents.forEach((nativeMeta, _) => {
-      const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath)
-      result = `${result}import ${nativeMeta.name} from '../../../${nativePath}'\n`
+      if (nativeMeta.isPackage) {
+        result += `import ${nativeMeta.name} from '${nativeMeta.scriptPath}'\n`
+      } else {
+        const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath)
+        result = `${result}import ${nativeMeta.name} from '../../../${nativePath}'\n`
+      }
+
     })
 
     return result

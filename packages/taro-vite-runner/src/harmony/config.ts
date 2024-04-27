@@ -7,7 +7,7 @@ import path from 'path'
 
 import increment from '../common/rollup-increment-plugin'
 import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
-import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule, stripMultiPlatformExt, stripVirtualModulePrefix } from '../utils'
+import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule, stripMultiPlatformExt, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
 import { DEFAULT_TERSER_OPTIONS, HARMONY_SCOPES } from '../utils/constants'
 import { logger } from '../utils/logger'
 import { TARO_COMP_SUFFIX } from './entry'
@@ -176,7 +176,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       if (opt.plugins instanceof Array) {
         // Note: 移除冗余的 babel 插件，改用 runner 提供的版本
         const idx = opt.plugins.findIndex(e => e && (e as Plugin).name === 'vite:react-babel')
-        opt.plugins.splice(idx, 1)
+        if (idx >= 0) opt.plugins.splice(idx, 1)
       }
     },
     config: async () => {
@@ -185,14 +185,20 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           let name
           if (taroConfig.isBuildNativeComp || taroConfig.blended) {
             const pagePath = path.relative(taroConfig.sourceRoot || 'src', path.dirname(stripVirtualModulePrefix(chunkInfo.facadeModuleId || '')))
-            name = path.join(pagePath, chunkInfo.name)
+            if (chunkInfo.name.includes(pagePath)) {
+              name = chunkInfo.name
+            } else {
+              name = path.join(pagePath, chunkInfo.name)
+            }
           } else {
             name = chunkInfo.name
           }
 
           const appId = viteCompilerContext.app.config.appId || 'app'
           const isTaroComp = appId === name || viteCompilerContext.pages.some(page => page.name === name) || viteCompilerContext.components?.some(comp => comp.name === name)
-          name = stripMultiPlatformExt(`${name}${isTaroComp ? TARO_COMP_SUFFIX : ''}`) + taroConfig.fileType.script
+          // 如果同时存在app.ets和app.js，因为鸿蒙IDE编译会把app.ets编译成app.ts，会跟app.js冲突，识别都是/app，导致app.js被app.ts覆盖了，所以需要名字
+          const suffix = isTaroComp ? virtualModulePrefixREG.test(chunkInfo.facadeModuleId || '') ? TARO_COMP_SUFFIX : '_comp' : ''
+          name = stripMultiPlatformExt(`${name}${suffix}`) + taroConfig.fileType.script
 
           if (chunkInfo.facadeModuleId && chunkInfo.facadeModuleId.includes(QUERY_IS_NATIVE_SCRIPT)) {
             name += QUERY_IS_NATIVE_SCRIPT
@@ -218,7 +224,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         },
       }
 
-      if (taroConfig.isWatch) {
+      if (taroConfig.isWatch && !taroConfig.blended) {
         delete output.manualChunks
         output.preserveModules = true
         output.preserveModulesRoot = 'src'
@@ -274,7 +280,6 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           },
           commonjsOptions: {
             // TODO: 优化过滤
-            include: [/./],
             extensions: ['.js', '.ts'],
             transformMixedEsModules: true,
           },

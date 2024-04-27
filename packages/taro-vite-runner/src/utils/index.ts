@@ -298,8 +298,8 @@ export function resolveAbsoluteRequire ({
 }
 
 function getCommonPath(a: string, b: string) {
-  const aArr = a.split('/')
-  const bArr = b.split('/')
+  const aArr = path.normalize(a).split(/[\\/]/)
+  const bArr = path.normalize(b).split(/[\\/]/)
   let i = 0
   while (aArr[i] === bArr[i]) {
     i++

@@ -1,10 +1,12 @@
+import { removeHeadSlash } from '@tarojs/helper'
 import path from 'path'
 
-import { appendVirtualModulePrefix, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
+import { addLeadingSlash, appendVirtualModulePrefix, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
 import { PageParser } from './template'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
+import type { TaroHarmonyPageMeta } from './template/page'
 
 export const PAGE_SUFFIX = '?page-loader=true'
 export const TARO_TABBAR_PAGE_PATH = 'taro_tabbar'
@@ -56,24 +58,53 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
         if (isTabbarPage) {
           if (tabbarList[0].pagePath === page.name) {
-            const tabbarPages = tabbarList.map(item => viteCompilerContext.pages.find(e => e.name === item.pagePath)!)
+            const tabbarPages = tabbarList.map(item => viteCompilerContext.pages.find((e: TaroHarmonyPageMeta) => {
+              if (e.name === item.pagePath) {
+                e.originName = item.pagePath
+                return true
+              }
+            })!)
             const tabbarId = path.join(appRoot, `${TARO_TABBAR_PAGE_PATH}`)
             this.emitFile({
               type: 'prebuilt-chunk',
               fileName: viteCompilerContext.getTargetFilePath(TARO_TABBAR_PAGE_PATH, '.ets'),
-              code: parse.parse(tabbarId, tabbarPages, name, this.resolve),
+              code: parse.parse(tabbarId, tabbarPages as TaroHarmonyPageMeta[], name, this.resolve),
               exports: ['default'],
             })
           }
         } else {
-          this.emitFile({
-            type: 'prebuilt-chunk',
-            fileName: viteCompilerContext.getTargetFilePath(page.name, '.ets'),
-            code: parse.parse(path.resolve(appRoot, page.name), page, name, this.resolve),
-            exports: ['default'],
+          const list: string[] = []
+          const key = Object.keys(taroConfig.router?.customRoutes || {}).find(e => [page.name, addLeadingSlash(page.name)].includes(e))
+          if (key) {
+            const alias = taroConfig.router?.customRoutes![key]
+            if (alias instanceof Array) {
+              list.push(...alias)
+            } else {
+              list.push(alias)
+            }
+          } else {
+            list.push(page.name)
+          }
+
+          list.forEach(pageName => {
+            pageName = removeHeadSlash(pageName)
+            if (!pageName) {
+              pageName = 'index'
+            }
+
+            this.emitFile({
+              type: 'prebuilt-chunk',
+              fileName: viteCompilerContext.getTargetFilePath(pageName, '.ets'),
+              code: parse.parse(path.resolve(appRoot, pageName), {
+                ...page,
+                originName: page.name,
+                name: pageName,
+              } as TaroHarmonyPageMeta, name, this.resolve),
+              exports: ['default'],
+            })
           })
         }
-        return parse.parseEntry(rawId, page)
+        return parse.parseEntry(rawId, page as TaroHarmonyPageMeta)
       }
     },
   }

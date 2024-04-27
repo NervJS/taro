@@ -80,3 +80,8 @@ export function computeBackgroundPosition(style) {
 
   return { offsetX, offsetY }
 }
+
+export function convertVp2Px(val: string | number) {
+  const vp = parseFloat(`${val}`)
+  return vp2px(vp)
+}

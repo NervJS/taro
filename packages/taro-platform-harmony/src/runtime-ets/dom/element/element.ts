@@ -1,14 +1,15 @@
-import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
+import { eventCenter, eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { EMPTY_OBJ, toCamelCase } from '@tarojs/shared'
 
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../../constant'
+import { Current } from '../../current'
 import { findChildNodeWithDFS } from '../../utils'
 import { initComponentNodeInfo, triggerAttributesCallback } from '../../utils/info'
 import { bindAnimation } from '../bind'
 import { ClassList } from '../class-list'
 import { type ICSSStyleDeclaration, createCSSStyleDeclaration } from '../cssStyleDeclaration'
 import { NodeType, TaroNode } from '../node'
-import StyleSheet, { HarmonyStyle } from '../stylesheet'
+import StyleSheet, { HarmonyStyle, TaroStyleType } from '../stylesheet'
 
 import type { BaseTouchEvent, ITouchEvent, StandardProps } from '@tarojs/components/types'
 import type { TaroAny } from '../../utils'
@@ -19,6 +20,7 @@ export interface TaroExtraProps {
   compileMode?: string | boolean
   compileIf?: boolean
   disabled?: boolean
+  __hmStyle?: TaroStyleType
 }
 
 export class TaroElement<
@@ -26,8 +28,27 @@ export class TaroElement<
   U extends BaseTouchEvent<any> = ITouchEvent
 > extends TaroNode {
   public _innerHTML = ''
-  public _instance: TaroAny
-  public _nodeInfo: TaroAny = {}
+  public _nodeInfo: TaroAny = {
+    layer: 0 // 渲染层级
+  }
+
+  public hm_instance: TaroAny
+
+  public get _instance () {
+    return this.hm_instance
+  }
+
+  public set _instance (value) {
+    this.hm_instance = value
+    if (this._nodeInfo.aboutToAppear) {
+      let task
+      // eslint-disable-next-line no-cond-assign
+      while (task = this._nodeInfo.aboutToAppear.shift()) {
+        task()
+      }
+    }
+  }
+
   public readonly tagName: string
   public dataset: Record<string, unknown> = EMPTY_OBJ
   public _attrs: T & TaroExtraProps = {} as T & TaroExtraProps
@@ -94,14 +115,24 @@ export class TaroElement<
 
     this._attrs[name] = value
 
-    const attributeTriggerValue: TaroAny = ATTRIBUTES_CALLBACK_TRIGGER_MAP[name]
-    if (attributeTriggerValue) {
-      const triggerName: TaroAny = attributeTriggerValue.triggerName
-      const valueInspect: TaroAny = attributeTriggerValue.valueInspect
+    if (['PAGE-META', 'NAVIGATION-BAR'].includes(this.tagName)) {
+      // FIXME 等 Harmony 支持更细粒度的 @Watch 方法后移出
+      eventCenter.trigger('__taroComponentAttributeUpdate', {
+        id: this._nid,
+        tagName: this.tagName,
+        attribute: name,
+        value
+      })
+    } else {
+      const attributeTriggerValue: TaroAny = ATTRIBUTES_CALLBACK_TRIGGER_MAP[name]
+      if (attributeTriggerValue) {
+        const triggerName: TaroAny = attributeTriggerValue.triggerName
+        const valueInspect: TaroAny = attributeTriggerValue.valueInspect
 
-      if (valueInspect && !valueInspect(value)) return
+        if (valueInspect && !valueInspect(value)) return
 
-      triggerAttributesCallback(this, triggerName)
+        triggerAttributesCallback(this, triggerName)
+      }
     }
   }
 
@@ -219,7 +250,7 @@ export class TaroElement<
       this._pseudo_after = null
     }
   }
-  
+
   // 伪类，在获取的时候根据dom和parent的关系，动态设置
   public _pseudo_class: Record<string, StyleSheet | null> = {
     // ["::first-child"]: new StyleSheet(),
@@ -236,5 +267,173 @@ export class TaroElement<
     } else {
       this._pseudo_class[name] = null
     }
+  }
+
+  get currentLayerNode () {
+    if (!Current.page) return null
+    if (typeof Current.page.tabBarCurrentIndex !== 'undefined') {
+      Current.page.layerNode ||= []
+      Current.page.layerNode[Current.page.tabBarCurrentIndex] ||= Current.createHarmonyElement('VIEW')
+      // Tabbar
+      return Current.page.layerNode[Current.page.tabBarCurrentIndex]
+    } else {
+      Current.page.layerNode ||= Current.createHarmonyElement('VIEW')
+      return Current.page.layerNode
+    }
+  }
+
+  get currentLayerParents () {
+    if (!Current.page) return null
+    if (typeof Current.page.tabBarCurrentIndex !== 'undefined') {
+      Current.page.layerParents ||= []
+      Current.page.layerParents[Current.page.tabBarCurrentIndex] ||= []
+      // Tabbar
+      return Current.page.layerParents[Current.page.tabBarCurrentIndex]
+    } else {
+      Current.page.layerParents ||= []
+      return Current.page.layerParents
+    }
+  }
+
+  // 设置渲染层级，0为正常层级，大于0为固定层级
+  // 1、appendChild的时候会判断是否需要设置层级
+  // 2、taro-react的setProperty，在处理属性变化的时候，会判断是否需要设置层级
+  // 3、removeChild的时候，会判断是否需要移除层级
+  public setLayer (value: number) {
+    if (!this.parentNode) return // 没有父节点，不需要设置层级关系
+    this._nodeInfo.layer = value
+
+    const currentLayerNode = this.currentLayerNode
+    const currentLayerParents = this.currentLayerParents
+    if (!currentLayerNode || !currentLayerParents) return
+    if (value > 0) {
+      // 插入到固定浮层
+      currentLayerNode.childNodes.push(this)
+      currentLayerNode.notifyDataAdd(currentLayerNode.childNodes.length - 1)
+      // 绑定祖先的节点id，建立关系，方便在祖先卸载（removeChild）的时候，能够找到该节点使其卸载
+      const _parentRecord = {}
+      generateLayerParentIds(_parentRecord, this)
+      currentLayerParents[this._nid] = _parentRecord
+    } else {
+      const idx = currentLayerNode.childNodes.findIndex(n => n._nid === this._nid)
+      currentLayerNode.childNodes.splice(idx, 1)
+      currentLayerNode.notifyDataDelete(idx)
+
+      delete currentLayerParents[this._nid]
+    }
+
+    if (this.parentNode) {
+      this.parentNode.notifyDataChange(this.parentNode.findIndex(this))
+      this.updateComponent()
+    }
+  }
+
+  protected toggleLayer(add: boolean) {
+    if (add) {
+      if (this._st?.hmStyle.position === 'fixed') {
+        this.setLayer(1)
+      }
+    } else {
+      const currentLayerParents = this.currentLayerParents
+      if (!currentLayerParents) return
+      // 识别Current.page.layerParents里面是否有需要移除的固定元素
+      if (this._nodeInfo?.layer > 0) {
+        delete currentLayerParents[this._nid]
+        this.setLayer(0)
+      } else {
+        Object.keys(currentLayerParents).forEach(fixedId => {
+          const parentIds =currentLayerParents[fixedId]
+          if (parentIds[this._nid]) {
+            // 需要移除fixedId
+            delete currentLayerParents[fixedId]
+            const fixedNode = eventSource.get(fixedId) as unknown as TaroElement
+            if (fixedNode) {
+              fixedNode.setLayer(0)
+            }
+          }
+        })
+      }
+    }
+  }
+
+  // 设置动画
+  public setAnimation (playing) {
+    if (!this._instance) {
+      if (!this._nodeInfo.aboutToAppear) {
+        this._nodeInfo.aboutToAppear = []
+      }
+      this._nodeInfo.aboutToAppear.push(() => {
+        this.setAnimation(playing)
+      })
+      return
+    }
+
+    const keyframes = this._st.hmStyle.animationName
+
+    // 防止动画闪烁，需要把第一帧的内容先设置上去设置初始样式
+    if (playing && keyframes && keyframes[0] && keyframes[0].percentage === 0) {
+      this._instance.overwriteStyle = keyframes[0].event
+    }
+
+    // 首次设置，不用实例替换
+    if (!this._nodeInfo.hasAnimation) {
+      this._nodeInfo.hasAnimation = true
+      // 下一帧播放，等节点样式首次设置上去在进行覆盖
+      setTimeout(() => {
+        if (playing) {
+          this.playAnimation()
+        }
+      }, 0)
+    } else if (this.parentNode) {
+      const idx = this.parentNode.findIndex(this)
+      // Note: 因为keyframeAnimateTo无法暂停，华为没有支持，只能临时先换掉实例，重新创建ark节点，使得原本的keyframeAnimateTo失效
+      // remove
+      this.parentNode.childNodes.splice(idx, 1)
+      this.parentNode.notifyDataDelete(idx)
+
+      // 下一帧播放，等实例被移除掉，再重新插入
+      setTimeout(() => {
+        // insert
+        this.parentNode?.childNodes.splice(idx, 0, this)
+        this.parentNode?.notifyDataAdd(idx)
+
+        // 执行动画
+        if (playing) {
+          this.playAnimation()
+        }
+      }, 0)
+    }
+  }
+
+  private playAnimation () {
+    const {
+      animationDuration = 0, animationDelay = 0, animationIterationCount = 1, animationName: keyframes,
+      animationTimingFunction
+    } = this._st.hmStyle
+
+    if (keyframes) {
+      let cur_percentage = 0
+      this._instance.getUIContext()?.keyframeAnimateTo({
+        delay: animationDelay,
+        iterations: animationIterationCount,
+      }, keyframes.map(item => {
+        const duration = (item.percentage - cur_percentage) * animationDuration
+        cur_percentage = item.percentage
+        return {
+          duration: duration,
+          curve: item.event.animationTimingFunction || animationTimingFunction,
+          event: () => {
+            this._instance.overwriteStyle = item.event
+          }
+        }
+      }))
+    }
+  }
+}
+
+function generateLayerParentIds(ids: Record<string, true>, node?: TaroElement) {
+  if (node?.parentElement) {
+    ids[node.parentElement._nid] = true
+    generateLayerParentIds(ids, node.parentElement)
   }
 }

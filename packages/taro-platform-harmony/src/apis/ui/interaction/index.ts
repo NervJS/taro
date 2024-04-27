@@ -1,4 +1,4 @@
-import prompt from '@ohos.prompt'
+import promptAction from '@ohos.promptAction'
 
 import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../../utils'
 
@@ -29,7 +29,7 @@ export function showToast (options) {
       return callAsyncFail(reject, res, options)
     }
 
-    prompt.showToast({
+    promptAction.showToast({
       message: options.title,
       duration: options.duration,
       bottom: options.bottom
@@ -72,37 +72,20 @@ export function showModal (options) {
     })
   }
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const modalOptions = {
       title,
       message: content,
       buttons: buttons,
-      success: (data) => {
-        if (data.index === 1 || !showCancel) {
-          callAsyncSuccess(
-            resolve,
-            {
-              ...resCallback('showModal'),
-              confirm: true,
-              cancel: false,
-              content: null
-            },
-            options
-          )
-        } else {
-          callAsyncSuccess(
-            resolve,
-            {
-              ...resCallback('showModal'),
-              confirm: false,
-              cancel: true
-            },
-            options
-          )
-        }
-      },
-      // 鸿蒙没有失败方法，只有取消
-      cancel: (_) => {
+    }
+
+    promptAction.showDialog(modalOptions, (error, data) => {
+      if (error) {
+        const res = { errMsg: error }
+        callAsyncFail(reject, res, options)
+      }
+
+      if (data.index === 0 && showCancel) {
         callAsyncSuccess(
           resolve,
           {
@@ -112,10 +95,19 @@ export function showModal (options) {
           },
           options
         )
+      } else {
+        callAsyncSuccess(
+          resolve,
+          {
+            ...resCallback('showModal'),
+            confirm: true,
+            cancel: false,
+            content: null
+          },
+          options
+        )
       }
-    }
-
-    prompt.showDialog(modalOptions)
+    })
   })
 }
 
@@ -152,37 +144,36 @@ export function showActionSheet (options) {
 
     const actionSheetOptions = {
       title,
-      buttons,
-      success: (data) => {
-        callAsyncSuccess(
-          resolve,
-          {
-            ...data,
-            ...resCallback('showActionSheet')
-          },
-          options
-        )
-      },
-      // 取消方法，并非失败
-      fail: (data) => {
+      buttons
+    }
+
+    promptAction.showActionMenu(actionSheetOptions, (error, data) => {
+      if (error) {
         callAsyncFail(
           reject,
           {
             ...data,
-            errMsg: data.errMsg.replace('showActionMenu', 'showActionSheet')
+            errMsg: data.errMsg?.replace('showActionMenu', 'showActionSheet')
           },
           options
         )
       }
-    }
 
-    prompt.showActionMenu(actionSheetOptions)
+      callAsyncSuccess(
+        resolve,
+        {
+          ...data,
+          ...resCallback('showActionSheet')
+        },
+        options
+      )
+    })
   })
 }
 
 export function hideToast (options) {
   return new Promise(resolve => {
-    prompt.showToast({
+    promptAction.showToast({
       message: '关闭中',
       duration: 10,
       bottom: '9999px'
