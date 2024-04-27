@@ -41,16 +41,6 @@ const runtimeConfig: RollupOptions = {
   ...base
 }
 
-const reconcilerConfig: RollupOptions = {
-  input: path.join(cwd, 'src/runtime/reconciler/index.ts'),
-  output: {
-    file: path.join(cwd, 'dist/reconciler.js'),
-    format: 'es',
-    sourcemap: true
-  },
-  ...base
-}
-
 // loader 入口
 const loaderConfig: RollupOptions = {
   input: path.join(cwd, 'src/api-loader.ts'),
@@ -66,6 +56,5 @@ const loaderConfig: RollupOptions = {
 export default defineConfig([
   compileConfig,
   loaderConfig,
-  reconcilerConfig,
   runtimeConfig,
 ])

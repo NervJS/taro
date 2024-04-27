@@ -13,10 +13,10 @@ import type { IPluginContext } from '@tarojs/service'
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
 import type { PluginOption } from 'vite'
 
-export type Frameworks = 'react' | 'preact' | 'solid' | 'nerv'
+export type Frameworks = 'react' | 'preact' | 'nerv'
 
-export function isReactLike(framework: IProjectConfig['framework'] = 'react'): framework is Frameworks {
-  return ['react', 'preact', 'nerv', 'solid'].includes(framework)
+export function isReactLike (framework: IProjectConfig['framework'] = 'react'): framework is Frameworks {
+  return ['react', 'preact', 'nerv'].includes(framework)
 }
 
 export default (ctx: IPluginContext) => {
@@ -63,7 +63,7 @@ export default (ctx: IPluginContext) => {
 
       const taroReactPlugin: esbuild.Plugin = {
         name: 'taroReactPlugin',
-        setup(build) {
+        setup (build) {
           build.onLoad({ filter: REG_TARO_H5 }, ({ path }) => {
             const content = fs.readFileSync(path).toString()
             return {
@@ -101,7 +101,7 @@ export default (ctx: IPluginContext) => {
   })
 }
 
-function setAlias(framework: Frameworks, chain) {
+function setAlias (framework: Frameworks, chain) {
   const alias = chain.resolve.alias
 
   switch (framework) {
@@ -114,9 +114,6 @@ function setAlias(framework: Frameworks, chain) {
     case 'nerv':
       alias.set('react$', 'nervjs')
       alias.set('react-dom$', 'nervjs')
-      break
-    case 'solid':
-      alias.set('react/jsx-runtime', 'solid-js/h/jsx-runtime')
       break
   }
 }
@@ -141,10 +138,10 @@ function VitePresetPlugin (framework: Frameworks): PluginOption {
     })
 }
 
-function viteCommonPlugin(framework: Frameworks): PluginOption {
+function viteCommonPlugin (framework: Frameworks): PluginOption {
   return {
     name: 'taro-react:common',
-    config() {
+    config () {
       const alias =
         framework === 'preact'
           ? [
@@ -154,12 +151,6 @@ function viteCommonPlugin(framework: Frameworks): PluginOption {
             { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime' },
           ]
           : []
-      if (framework === 'solid') {
-        const reconcilerName = '@tarojs/plugin-framework-react/dist/reconciler'
-        alias.push(
-          { find: 'react/jsx-runtime', replacement: reconcilerName },
-        )
-      }
 
       return {
         resolve: {

@@ -1,3 +1,4 @@
+/** @TODO createElement setProp 在solid-js/web中导出不报错 */
 import { createComponent, createElement, insert, render, setProp } from '@tarojs/plugin-framework-solid/dist/reconciler'
 import {
   AppInstance,

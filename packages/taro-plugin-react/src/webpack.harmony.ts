@@ -49,10 +49,6 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
         }
       }
     }
-  } else if (framework === 'solid') {
-    const reconcilerName = '@tarojs/plugin-framework-react/dist/reconciler'
-    alias.set('solid-js/web', reconcilerName)
-    alias.set('react/jsx-runtime', reconcilerName)
   }
 }
 

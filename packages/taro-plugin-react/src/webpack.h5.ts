@@ -73,8 +73,8 @@ export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks
   })
 }
 
-function setLoader(framework: Frameworks, chain) {
-  function customizer(object = '', sources = '') {
+function setLoader (framework: Frameworks, chain) {
+  function customizer (object = '', sources = '') {
     if ([object, sources].every((e) => typeof e === 'string')) return object + sources
   }
   chain.plugin('mainPlugin').tap((args) => {
@@ -83,7 +83,7 @@ function setLoader(framework: Frameworks, chain) {
   })
 }
 
-function setPlugin(ctx: IPluginContext, framework: Frameworks, chain) {
+function setPlugin (ctx: IPluginContext, framework: Frameworks, chain) {
   const config = ctx.initialConfig
   const webpackConfig = chain.toConfig()
   const isProd = webpackConfig.mode === 'production'
@@ -102,13 +102,7 @@ function setPlugin(ctx: IPluginContext, framework: Frameworks, chain) {
     basedir: process.cwd(),
     mainFields,
   }
-  if (framework === 'solid') {
-    const reconcilerName = '@tarojs/plugin-framework-react/dist/reconciler'
-    const alias = chain.resolve.alias
-    alias.set(reconcilerName, resolveSync('solid-js/web', resolveOptions))
-    // Note: 本地 link 调试时，避免 solid 重复打包
-    alias.set('solid-js$', resolveSync('solid-js', resolveOptions))
-  } else if (framework === 'react') {
+  if (framework === 'react') {
     const alias = chain.resolve.alias
     // Note: 本地 link 调试时，避免 react 重复打包
     alias.set('react$', resolveSync('react', resolveOptions))

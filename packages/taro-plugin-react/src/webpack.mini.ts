@@ -49,11 +49,6 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
         }
       }
     }
-  } else if (framework === 'solid') {
-    const reconcilerName = '@tarojs/plugin-framework-react/dist/reconciler'
-    alias.set('solid-js/web', reconcilerName)
-    // Note: 本地 link 调试时，避免 solid 重复打包
-    alias.set('solid-js$', resolveSync('solid-js', resolveOptions))
   }
 }
 
