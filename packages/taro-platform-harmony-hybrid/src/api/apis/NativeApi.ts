@@ -10,29 +10,12 @@ const asyncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMod
 const asyncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false }) || (target => target)
 
 export class NativeApi {
-  /**
-   * 获取哪些Api的数据需要缓存。
-   * @return  string[] Api的方法名数组
-   */
-  // @ts-ignore
-  @(syncAndNotRelease)
-  enableCacheMethodNames (): string[] {
-    return []
-  }
-
-  /**
-   * 系统层获取到监听器。
-   * 1.系统层，保存listener
-   * 2.系统层，监听系统数据变化，发生变化后，调用listener.change(methodName)即可。
-   */
   // @ts-ignore
   @(syncAndNotRelease)
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  obtainNativeChangeListener (listener: NativeDataChangeListener | null) {
-    return null
+  registerNativeListener (listener: NativeDataChangeListener | null): void {
   }
-
 
   // @ts-ignore
   @(syncAndRelease)

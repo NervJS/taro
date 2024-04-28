@@ -35,6 +35,16 @@ export interface NativeDataChangeListener {
    * @param update        数据更新（不传，则更新整个方法的缓存数据）
    */
   change: (methodName: string, methodArgs: any[], update?: (old: any) => any) => void
+  /**
+   * 注册
+   * @param methodName    要注册的方法名
+   */
+  register: (methodName: string) => void
+  /**
+   * 解注册
+   * @param methodName    要解注册的方法名
+   */
+  unregister:(methodName: string) => void
 
 }
 
@@ -45,19 +55,25 @@ export class SyncCacheProxyHandler {
   private readonly nativeApi: NativeApi
   private listener: NativeDataChangeListener | null = null
   private readonly cache: NativeDataCache
-  private enableMethodNames: string[]
+  private enableMethodNames: Set<string> = new Set<string>()
 
   constructor (nativeApi: NativeApi) {
     this.nativeApi = nativeApi
     this.cache = new NativeDataCache()
-    this.enableMethodNames = nativeApi.enableCacheMethodNames()
-
+    // 绑定类的this到self变量
+    const self = this
     this.on({
-      change: (methodName: string, methodArgs: any[], update?: (old: any) => any): void => {
-        if (this.enableMethodNames.includes(methodName)) {
-          const cacheKey = this.generateCacheKey(methodName, methodArgs)
-          const cacheValue = this.cache.get(cacheKey)
-          this.updateNativeData(this.cache, methodName, methodArgs, update ? update(cacheValue) : undefined)
+      register (methodName: string): void {
+        self.enableMethodNames.add(methodName)
+      },
+      unregister (methodName: string): void {
+        self.enableMethodNames.delete(methodName)
+      },
+      change (methodName: string, methodArgs: any[], update?: (old: any) => any): void {
+        if (self.enableMethodNames.has(methodName)) {
+          const cacheKey = self.generateCacheKey(methodName, methodArgs)
+          const cacheValue = self.cache.get(cacheKey)
+          self.updateNativeData(self.cache, methodName, methodArgs, update ? update(cacheValue) : undefined)
         }
       }
     })
@@ -69,7 +85,7 @@ export class SyncCacheProxyHandler {
    */
   on (listener: NativeDataChangeListener) {
     this.listener = listener
-    this.nativeApi.obtainNativeChangeListener(this.listener)
+    this.nativeApi.registerNativeListener(this.listener)
   }
 
   /**
@@ -111,7 +127,7 @@ export class SyncCacheProxyHandler {
   get (target: NativeApi, propKey: string | symbol, receiver: any) {
     const origMethod = Reflect.get(target, propKey, receiver)
     const methodName = `${String(propKey)}`
-    if (typeof origMethod === 'function' && this.enableMethodNames.includes(methodName)) {
+    if (typeof origMethod === 'function' && this.enableMethodNames.has(methodName)) {
       return (...args: any[]) => {
         const cacheKey = this.generateCacheKey(`${String(propKey)}`, args)
         if (this.cache.has(cacheKey)) {
