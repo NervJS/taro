@@ -32,7 +32,9 @@ export function showToast (options) {
     promptAction.showToast({
       message: options.title,
       duration: options.duration,
-      bottom: options.bottom
+      bottom: options.bottom,
+      // @ts-ignore
+      showMode: 1 // 设置弹窗显示模式，显示在应用之上。
     })
     callAsyncSuccess(resolve, resCallback('showToast'), options)
   })
