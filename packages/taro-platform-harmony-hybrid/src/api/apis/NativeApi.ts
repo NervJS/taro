@@ -10,7 +10,7 @@ const asyncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMod
 // @ts-ignore
 const asyncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false }) || (target => target)
 
-export let judgeUseAxios = false
+// export let judgeUseAxios = false
 class NativeApi {
   // @ts-ignore
   @(syncAndRelease)

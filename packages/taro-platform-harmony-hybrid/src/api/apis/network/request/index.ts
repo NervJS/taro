@@ -1,4 +1,5 @@
 import { request as h5Request } from '@tarojs/taro-h5'
+
 import { request as nativeReuqest } from './nativeRequest'
 
 
@@ -7,8 +8,8 @@ import { request as nativeReuqest } from './nativeRequest'
  * @param options 请求选项
  * @param useNativeRequest 默认使用true
  */
-export function request(options: any, useNativeRequest: boolean = true){
-  return useNativeRequest ? nativeReuqest(options) : h5Request(options);
+export function request (options: any, useNativeRequest: boolean = false) {
+  return useNativeRequest ? nativeReuqest(options) : h5Request(options)
 }
 
 

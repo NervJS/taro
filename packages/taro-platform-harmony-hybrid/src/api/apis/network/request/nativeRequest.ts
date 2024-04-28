@@ -2,7 +2,7 @@ import Taro from '@tarojs/api'
 import { isFunction } from '@tarojs/shared'
 
 import { NativeRequest } from '../../interface/NativeRequest'
-import native, { judgeUseAxios } from '../../NativeApi'
+import native from '../../NativeApi'
 import { getParameterError, shouldBeObject } from '../../utils'
 
 export const _request = (options) => {
@@ -46,7 +46,7 @@ export const _request = (options) => {
         reject(res)
       },
     })
-    task = judgeUseAxios ? taskID : NativeRequest.getRequestTask(taskID)
+    task = NativeRequest.getRequestTask(taskID)
   }) as any
 
   result.onHeadersReceived = task.onHeadersReceived.bind(task)

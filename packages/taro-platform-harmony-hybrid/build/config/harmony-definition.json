@@ -927,7 +927,7 @@
         "verticalAccuracy": true
       }
     },
-    "getLogManager": false,
+    "getLogManager": true,
     "getMenuButtonBoundingClientRect": {
       "return": {
         "left": true,
@@ -958,7 +958,7 @@
     "getPrivacySetting": false,
     "getQQRunData": false,
     "getRandomValues": false,
-    "getRealtimeLogManager": false,
+    "getRealtimeLogManager": true,
     "getRecorderManager": true,
     "getRendererUserAgent": false,
     "getSavedFileInfo": {
@@ -1755,7 +1755,7 @@
     "setCustomDress": false,
     "setDocumentTitle": false,
     "setEnable1v1Chat": false,
-    "setEnableDebug": false,
+    "setEnableDebug": true,
     "setInnerAudioOption": false,
     "setKeepScreenOn": {
       "object": {
