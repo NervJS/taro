@@ -27,7 +27,7 @@ test!(
             <View class={myClass}>
               <View style={myStyle} customProp={myCustomProp}></View>
               <View hoverStayTime={myTime}>
-                <View hoverClass={myHoverClass}></View>
+                <View hoverClass={myHoverClass} id={myId}></View>
               </View>
             </View>
           </View>
