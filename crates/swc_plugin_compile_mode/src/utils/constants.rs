@@ -68,9 +68,31 @@ pub const HARMONY_TEXT_HELPER_FUNCITON: &str = r#"
 function createTextChildNode (item: TaroElement, align: ImageSpanAlignment) {
   if (item.tagName === 'IMAGE') {
     ImageSpan(item.getAttribute('src'))
-      .attributeModifier(commonStyleModify.setNode(item))
       .objectFit(getImageMode(item.getAttribute('mode')))
       .verticalAlign(align)
+      .width(item._st.hmStyle.width)
+      .height(item._st.hmStyle.height)
+      .margin({
+        top: item._st.hmStyle.marginTop,
+        left: item._st.hmStyle.marginLeft,
+        right: item._st.hmStyle.marginRight,
+        bottom: item._st.hmStyle.marginBottom,
+      })
+      .padding({
+        top: item._st.hmStyle.paddingTop,
+        left: item._st.hmStyle.paddingLeft,
+        right: item._st.hmStyle.paddingRight,
+        bottom: item._st.hmStyle.paddingBottom,
+      })
+      .textBackgroundStyle({
+        color: item._st.hmStyle.backgroundColor,
+        radius: {
+          topLeft: item._st.hmStyle.borderTopLeftRadius,
+          topRight: item._st.hmStyle.borderTopRightRadius,
+          bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
+          bottomRight: item._st.hmStyle.borderBottomRightRadius,
+        }
+      })
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
   } else if (item.nodeType === NodeType.TEXT_NODE) {
     Span(item.textContent)
@@ -78,6 +100,15 @@ function createTextChildNode (item: TaroElement, align: ImageSpanAlignment) {
     Span(item.textContent)
       .attributeModifier((new SpanStyleModify()).setNode(item as TaroTextElement))
       .letterSpacing(item._st.hmStyle.letterSpacing)
+      .textBackgroundStyle({
+        color: item._st.hmStyle.backgroundColor,
+        radius: {
+          topLeft: item._st.hmStyle.borderTopLeftRadius,
+          topRight: item._st.hmStyle.borderTopRightRadius,
+          bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
+          bottomRight: item._st.hmStyle.borderBottomRightRadius,
+        }
+      })
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
   }
 }
