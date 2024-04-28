@@ -145,9 +145,6 @@ impl TransformVisitor {
         }
     }
 
-    fn build_loop_children_ets_element(&mut self, el: &mut JSXElement) -> String {
-        "".to_owned()
-    }
 
     pub fn get_dynmaic_node_name(&mut self, name: String) -> String {
         let node_name = if self.deal_loop_now { name } else { format!("this.{}", name) };
@@ -311,7 +308,7 @@ impl TransformVisitor {
                         );
 
                         children_string.push_str(code.as_str());
-                        self.component_set.insert(TEXT_TAG.clone().to_string());
+                        self.component_set.insert(TEXT_TAG.to_string());
                         retain_child_counter += 1;
                     }
                 }
@@ -608,7 +605,6 @@ impl VisitMut for TransformVisitor {
             );
             let tmpl_contents =
                 HARMONY_IMPORTER.to_owned() +
-                utils::get_harmony_component_style(self).as_str() +
                 format!(
                     r#"@Component
 export default struct TARO_TEMPLATES_{name} {{
@@ -624,7 +620,7 @@ export default struct TARO_TEMPLATES_{name} {{
 "#,
                     name = tmpl_name,
                     content = tmpl_main_contents
-                ).as_str();
+                ).as_str() + utils::get_harmony_component_style(self).as_str();
 
             self.templates.insert(tmpl_name, format!("`{}`", tmpl_contents));
 
