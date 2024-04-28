@@ -113,6 +113,7 @@ class PseudoStyleModify implements AttributeModifier<CommonAttribute> {
   applyNormalAttribute(instance: CommonAttribute): void {
     if (this.style) {
       setNormalAttributeIntoInstance(instance, this.style)
+      setTransformAttributeIntoInstance(instance, this.style || {})
     }
   }
 }
