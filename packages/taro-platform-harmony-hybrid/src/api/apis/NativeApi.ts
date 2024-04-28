@@ -15,7 +15,7 @@ export class NativeApi {
    * @return  string[] Api的方法名数组
    */
   // @ts-ignore
-  @(syncAndRelease)
+  @(syncAndNotRelease)
   enableCacheMethodNames (): string[] {
     return []
   }
@@ -26,7 +26,7 @@ export class NativeApi {
    * 2.系统层，监听系统数据变化，发生变化后，调用listener.change(methodName)即可。
    */
   // @ts-ignore
-  @(syncAndRelease)
+  @(syncAndNotRelease)
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   obtainNativeChangeListener (listener: NativeDataChangeListener | null) {
