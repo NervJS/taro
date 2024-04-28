@@ -57,6 +57,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     const nativeCompPathList: string[] = []
 
     for (const comp of viteCompilerContext.nativeComponents.values()) {
+      if (comp.isPackage) continue
       nativeCompPathList.push(comp.templatePath + QUERY_IS_NATIVE_SCRIPT)
     }
 

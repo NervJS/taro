@@ -89,6 +89,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
 
         // emit native components' json
         for (const comp of viteCompilerContext.nativeComponents.values()) {
+          if (comp.isPackage) continue
           generateConfigFile(this, viteCompilerContext, {
             filePath: comp.name,
             config: comp.config
