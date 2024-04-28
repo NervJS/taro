@@ -100,7 +100,7 @@ export default (ctx: IPluginContext) => {
       fs.ensureDirSync(outputPath)
 
       // is build native components mode?
-      const isBuildNativeComp = _[1] === 'native-components'
+      const isBuildNativeComp = _[1] === 'native-components' || _[1] === 'pure-native-components'
 
       await ctx.applyPlugins(hooks.ON_BUILD_START)
       await ctx.applyPlugins({
