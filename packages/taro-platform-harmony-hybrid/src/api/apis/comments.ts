@@ -1479,27 +1479,9 @@
  */
 
 /**
- * 获取日志管理器对象
- *
- * @canNotUse getLogManager
- */
-
-/**
  * 程序测速上报
  *
  * @canNotUse getPerformance
- */
-
-/**
- * 获取实时日志管理器对象
- *
- * @canNotUse getRealtimeLogManager
- */
-
-/**
- * 设置是否打开调试开关
- *
- * @canNotUse setEnableDebug
  */
 
 /**
