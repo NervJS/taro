@@ -8,7 +8,7 @@ import { request as nativeReuqest } from './nativeRequest'
  * @param options 请求选项
  * @param useNativeRequest 默认使用true
  */
-export function request (options: any, useNativeRequest: boolean = false) {
+export function request (options: any, useNativeRequest: boolean = true) {
   return useNativeRequest ? nativeReuqest(options) : h5Request(options)
 }
 
