@@ -42,18 +42,6 @@ export function modifyH5WebpackChain (ctx: IPluginContext, chain: Chain) {
       }
     },
   })
-
-  chain.merge({
-    externals,
-    module: {
-      rule: {
-        'process-import-taro-harmony-hybrid': {
-          test: /taro-platform-harmony-hybrid[\\/]dist[\\/]api[\\/]apis[\\/]taro/,
-          loader: require.resolve('./api-loader')
-        }
-      }
-    },
-  })
 }
 
 function setLoader (chain) {
