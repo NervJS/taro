@@ -163,7 +163,6 @@ export default class CLI {
             customCommand(command, kernel, args)
             break
           }
-          console.log('args+++', args)
           customCommand(command, kernel, {
             args,
             _,
