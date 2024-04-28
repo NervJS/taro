@@ -101,6 +101,8 @@ export default (ctx: IPluginContext) => {
 
       // is build native components mode?
       const isBuildNativeComp = _[1] === 'native-components' || _[1] === 'pure-native-components'
+      // 是否构造一个纯净的，不包含环境功能适配的原生组件
+      const isBuildPureNativeComp = _[1] === 'pure-native-components'
 
       await ctx.applyPlugins(hooks.ON_BUILD_START)
       await ctx.applyPlugins({
@@ -112,6 +114,7 @@ export default (ctx: IPluginContext) => {
             mode: isProduction ? 'production' : 'development',
             blended,
             isBuildNativeComp,
+            isBuildPureNativeComp,
             withoutBuild,
             newBlended,
             async modifyWebpackChain(chain, webpack, data) {
