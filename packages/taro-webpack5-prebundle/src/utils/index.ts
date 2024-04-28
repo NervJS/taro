@@ -1,7 +1,8 @@
+import path from 'node:path'
+import { performance } from 'node:perf_hooks'
+
 import { chalk, fs, getHash } from '@tarojs/helper'
 import enhancedResolve from 'enhanced-resolve'
-import path from 'path'
-import { performance } from 'perf_hooks'
 
 import type Chain from 'webpack-chain'
 import type { CollectedDeps } from './constant'

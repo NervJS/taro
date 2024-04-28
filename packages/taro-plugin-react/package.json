@@ -43,7 +43,7 @@
     "@tarojs/shared": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "webpack-chain": "6.5.1",
+    "webpack-chain": "^6.5.1",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
     "vite": "^5.2.10"

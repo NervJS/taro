@@ -47,7 +47,7 @@
     "@types/react-dom": "^18.2.25",
     "solid-js": "^1.8.17",
     "vite": "^5.2.10",
-    "webpack-chain": "6.5.1"
+    "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
     "@tarojs/helper": "workspace:*",
