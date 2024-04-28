@@ -55,6 +55,7 @@ export function parseClasses (classNames = ''): string[] {
 
 // 合并静态样式，从样式表里面找到对应的样式
 export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, classNames = ''): CSSProperties {
+  classNames = classNames || '' // 兼容有些开发者传入了false/null等非字符串类型
   const obj: CSSProperties[] = []
 
   if (!styleSheet.cache) {

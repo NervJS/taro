@@ -77,7 +77,7 @@ function depthTraversal(root: ReactElement) {
       // import { View } from '~/components'
       // hack：如果是taro节点，但是被赋予了__styleSheet，则走一下__styleSheet转__hmStyle
       if (tree.props.__styleSheet && typeof tree.type !== 'function') {
-        tree.props.__hmStyle = tree.props.__styleSheet.value
+        tree.props.__hmStyle = Object.assign({}, tree.props.__hmStyle, tree.props.__styleSheet.value)
       }
 
       // 后代选择器
