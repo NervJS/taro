@@ -18,8 +18,8 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@jest/test-sequencer": "29.7.0",
-    "jest-resolve": "29.7.0",
-    "jest-runner": "29.7.0"
+    "@jest/test-sequencer": "^29.7.0",
+    "jest-resolve": "^29.7.0",
+    "jest-runner": "^29.7.0"
   }
 }

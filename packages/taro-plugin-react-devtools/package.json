@@ -29,8 +29,8 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "cross-spawn": "7.0.3",
-    "detect-port": "1.5.1",
+    "cross-spawn": "^7.0.3",
+    "detect-port": "^1.5.1",
     "react-devtools": "4.14.0"
   },
   "devDependencies": {

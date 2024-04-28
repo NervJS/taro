@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@tarojs/helper": "workspace:*",
-    "scss-bundle": "3.1.2"
+    "scss-bundle": "^3.1.2"
   },
   "devDependencies": {
     "@tarojs/taro": "workspace:*"

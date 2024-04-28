@@ -11,7 +11,7 @@ import { cleanScssBugUrl, fixScssBugImportValue, isExternalUrl, requireResolveFr
 import type Less from 'less'
 import type PostCSS from 'postcss'
 import type { ExistingRawSourceMap, RollupError } from 'rollup'
-import type Sass from 'sass'
+import type Sass from 'sass' // FIXME update ^1.75.0
 import type Stylus from 'stylus'
 
 interface CSSAtImportResolvers {

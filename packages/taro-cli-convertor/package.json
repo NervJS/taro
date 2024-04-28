@@ -37,11 +37,11 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@babel/generator": "7.24.4",
-    "@babel/template": "7.24.0",
-    "@babel/traverse": "7.24.1",
+    "@babel/generator": "^7.24.4",
+    "@babel/template": "^7.24.0",
+    "@babel/traverse": "^7.24.1",
     "@tarojs/binding": "workspace:*",
-    "@babel/types": "7.24.0",
+    "@babel/types": "^7.24.0",
     "@tarojs/cli": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/shared": "workspace:*",
@@ -49,7 +49,7 @@
     "@tarojs/transformer-wx": "workspace:*",
     "postcss": "^8.4.38",
     "postcss-taro-unit-transform": "workspace:*",
-    "prettier": "2.8.8"
+    "prettier": "^2.8.8"
   },
   "devDependencies": {
     "@babel/parser": "^7.24.4",

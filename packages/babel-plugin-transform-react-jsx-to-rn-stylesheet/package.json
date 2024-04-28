@@ -22,7 +22,7 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "camelize": "1.0.1",
+    "camelize": "^1.0.1",
     "taro-css-to-react-native": "workspace:*"
   },
   "devDependencies": {

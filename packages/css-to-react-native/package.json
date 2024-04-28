@@ -51,10 +51,10 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "camelize": "1.0.1",
-    "css": "3.0.0",
-    "css-color-keywords": "1.0.0",
-    "css-mediaquery": "0.1.2",
-    "postcss-value-parser": "4.2.0"
+    "camelize": "^1.0.1",
+    "css": "^3.0.0",
+    "css-color-keywords": "^1.0.0",
+    "css-mediaquery": "^0.1.2",
+    "postcss-value-parser": "^4.2.0"
   }
 }

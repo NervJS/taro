@@ -32,10 +32,10 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "acorn": "8.11.3",
-    "acorn-walk": "8.3.2",
-    "lodash": "4.17.21",
-    "tslib": "2.6.2"
+    "acorn": "^8.11.3",
+    "acorn-walk": "^8.3.2",
+    "lodash": "^4.17.21",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@tarojs/helper": "workspace:*",

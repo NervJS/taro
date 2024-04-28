@@ -41,7 +41,7 @@
     "@tarojs/react": "workspace:*",
     "@types/react": "^18.2.79",
     "@vue/runtime-core": "^3.4.23",
-    "lodash": "4.17.21",
+    "lodash": "^4.17.21",
     "react": "^18.2.0"
   }
 }

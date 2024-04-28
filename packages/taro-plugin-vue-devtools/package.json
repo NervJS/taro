@@ -30,8 +30,8 @@
   },
   "dependencies": {
     "@vue/devtools": "6.0.0-beta.15",
-    "cross-spawn": "7.0.3",
-    "detect-port": "1.5.1"
+    "cross-spawn": "^7.0.3",
+    "detect-port": "^1.5.1"
   },
   "devDependencies": {
     "@tarojs/service": "workspace:*",

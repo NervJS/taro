@@ -15,7 +15,7 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "lodash": "4.17.21"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@babel/core": "7.24.4",

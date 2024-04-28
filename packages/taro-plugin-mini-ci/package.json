@@ -31,13 +31,13 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "jimp": "0.22.12",
-    "jsqr": "1.4.0",
-    "minimist": "1.2.8",
-    "miniprogram-ci": "1.9.15",
-    "qrcode": "1.5.3",
-    "resolve": "1.22.8",
-    "shelljs": "0.8.5"
+    "jimp": "^0.22.12",
+    "jsqr": "^1.4.0",
+    "minimist": "^1.2.8",
+    "miniprogram-ci": "^1.9.15",
+    "qrcode": "^1.5.3",
+    "resolve": "^1.22.8",
+    "shelljs": "^0.8.5"
   },
   "devDependencies": {
     "@tarojs/service": "workspace:*",
