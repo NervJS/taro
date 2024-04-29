@@ -1,11 +1,11 @@
 // import * as t from '@babel/types'
 import { PluginPass } from '@babel/core'
 import { Visitor } from '@babel/traverse'
-import { CLIEngine } from 'eslint'
+import { ESLint } from 'eslint'
 
 import { codeFrameError } from './utils'
 
-const cli = new CLIEngine({
+const cli = new ESLint({
   baseConfig: {
     extends: ['plugin:taro/transformer'],
   },
