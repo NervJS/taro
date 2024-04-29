@@ -163,6 +163,10 @@ function depthTraversal(root: ReactElement) {
 function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias: Record<string, string[]>) {
 
   const findElement = (selector_string, combinator_type, selector_mapping, remainder_selector, declaration) => {
+    // 防止修改原数组
+    if (selector_string instanceof Array) {
+      selector_string = selector_string.slice()
+    }
     let selector_list = [selector_string]
     const selector_nodes: TSelectorNode[] = []
     let shouldUseCombinations = false
@@ -182,31 +186,36 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
     for (let i = 0; i < selector_list.length; i++) {
       const selector = selector_list[i]
       if (selector instanceof Array) {
-        let obj
+        let hitElements: any
         // 如果是数组，说明他是一个多类选择器：.a.b，我们需要搜索这两个类名都指向同一个node
         if (shouldUseCombinations) {
-          obj = generateCombinations(selector, (combination) => {
+          hitElements = generateCombinations(selector, (combination) => {
             // combination 是组合后的选择器['parent', 'child']
             const _obj = findSendNode(combination, selector_mapping)
             if (_obj) return _obj
           })
         } else {
-          obj = findSendNode(selector, selector_mapping)
+          hitElements = findSendNode(selector, selector_mapping)
         }
         // 找出最后搜寻出来的node
-        if (obj) {
-          if (typeof obj.node.type === 'function') {
-            // 自定义组件，往下传递需要搜寻的内容向里面搜寻
-            const nestingData = {
-              selectors: [selector_string, combinator_type, ...remainder_selector.slice()],
-              declaration: declaration
+        if (hitElements) {
+          let objs = [hitElements]
+          objs = flattenArray(objs)
+          objs.forEach(obj => {
+            if (typeof obj.node.type === 'function') {
+              // 自定义组件，往下传递需要搜寻的内容向里面搜寻
+              const nestingData = {
+                selectors: [selector_string, combinator_type, ...remainder_selector.slice()],
+                declaration: declaration
+              }
+              obj.node.props.__nesting = obj.node.props.__nesting ?
+                [...obj.node.props.__nesting, nestingData] : [nestingData]
             }
-            obj.node.props.__nesting = obj.node.props.__nesting ?
-              [...obj.node.props.__nesting, nestingData] : [nestingData]
-          }
-          selector_nodes.push({
-            mapping: (obj.ref || obj)[combinator_type === ' > ' ? 'children' : 'descendants'],
-            node: obj.node
+            selector_nodes.push({
+              // @ts-ignore
+              mapping: (obj.ref || obj)[combinator_type === ' > ' ? 'children' : 'descendants'],
+              node: obj.node
+            })
           })
         }
       } else {
@@ -286,17 +295,19 @@ function generateCombinations (arrays: (string[] | string)[], cbFn, currentCombi
   const currentArray = arrays[0]
   if (currentArray instanceof Array) {
     // 遍历当前数组的每个元素
+    const eles: TMappingNode[] = []
     for (let i = 0; i < currentArray.length; i++) {
       // 将当前元素添加到当前组合中
       currentCombination.push(currentArray[i])
       // 递归处理剩余的数组
       const shouldStop = generateCombinations(arrays.slice(1), cbFn, currentCombination)
       if (shouldStop) {
-        return shouldStop
+        eles.push(shouldStop)
       }
       // 回溯，移除最后一个元素，尝试其他组合
       currentCombination.pop()
     }
+    return eles
   } else {
     // 如果不是数组，直接将当前元素添加到当前组合中
     currentCombination.push(currentArray)
@@ -390,4 +401,11 @@ export function __combine_nesting_style__(react_tree: ReactElement, styles: Nest
     }
   }
   return react_tree
+}
+
+// 拍平数组
+function flattenArray(arr) {
+  return arr.reduce((acc, val) => {
+    return acc.concat(Array.isArray(val) ? flattenArray(val) : val)
+  }, [])
 }
