@@ -209,7 +209,8 @@ pub fn get_harmony_component_style(visitor: &mut TransformVisitor) -> String {
     };
 
     // build_component(IMAGE_TAG, HARMONY_IMAGE_STYLE_BIND);
-    build_component(TEXT_TAG, HARMONY_TEXT_STYLE_BIND);
+    // build_component(TEXT_TAG, HARMONY_TEXT_STYLE_BIND);
+    build_component(TEXT_TAG, HARMONY_TEXT_BUILDER);
     build_component(TEXT_TAG, HARMONY_TEXT_HELPER_FUNCITON);
 
     harmony_component_style
@@ -360,7 +361,7 @@ pub fn create_normal_text_template(visitor: &mut TransformVisitor, disable_this:
 
     let code = add_spaces_to_lines(get_text_component_str(&node_name).as_str());
 
-    visitor.component_set.insert(TEXT_TAG.clone().to_string());
+    visitor.component_set.insert(TEXT_TAG.to_string());
     code
 }
 
