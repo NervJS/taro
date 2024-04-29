@@ -31,7 +31,7 @@ module.exports = {
     camelcase: 0,
     'eol-last': 0,
     'comma-dangle': 0,
-    'no-mixed-operators': 1,
+    'no-mixed-operators': 0,
     'no-multiple-empty-lines': 0,
     'import/first': 2,
     'import/newline-after-import': 2,

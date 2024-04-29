@@ -561,7 +561,7 @@ declare module './index' {
      */
     themeLocation?: string
     /** 配置自定义组件代码按需注入 */
-    lazyCodeLoading?: string
+    lazyCodeLoading?: 'requiredComponents' | string
     /** 单页模式相关配置 */
     singlePage?: SinglePage
     /** 聊天素材小程序打开相关配置
