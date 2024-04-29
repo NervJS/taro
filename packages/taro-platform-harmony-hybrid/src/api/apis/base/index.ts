@@ -20,6 +20,8 @@ export const env = {
  */
 
 export * from './debug/index'
+export * from './getAppAuthorizeSetting'
+export * from './getSystemSetting'
 export * from './system'
 export * from './update'
 export * from './weapp/life-cycle'

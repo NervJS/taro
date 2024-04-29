@@ -1,6 +1,3 @@
-import osChannelApi from './osChannelApi'
-// import { RequestTask } from './request'
-
 // @ts-ignore
 const syncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true }) || (target => target)
 // @ts-ignore
@@ -879,33 +876,33 @@ class AsyncToSyncProxy {
   }
 }
 
-class HybridProxy {
-  // private readonly useAxios: boolean
-  private readonly useOsChannel: boolean
-  private readonly cacheProxy: any
-  // private readonly requestApi = 'request'
-
-  constructor (useOsChannel: boolean, nativeApi: NativeApi) {
-    // this.useAxios = useAxios
-    this.useOsChannel = useOsChannel
-    this.cacheProxy = new Proxy(nativeApi, new CacheStorageProxy(nativeApi))
-  }
-
-  get (_target: any, prop: string) {
-    return (...args: any) => {
-      // if (this.useAxios && prop === this.requestApi) {
-      //   judgeUseAxios = this.useAxios
-      //   // @ts-ignore
-      //   return new RequestTask(...args)
-      // }
-      if (this.useOsChannel && osChannelApi.hasOwnProperty(prop)) {
-        return osChannelApi[prop](...args)
-      }
-      return this.cacheProxy[prop](...args)
-    }
-  }
-}
+// class HybridProxy {
+//   // private readonly useAxios: boolean
+//   private readonly useOsChannel: boolean
+//   private readonly cacheProxy: any
+//   // private readonly requestApi = 'request'
+//
+//   constructor (useOsChannel: boolean, nativeApi: NativeApi) {
+//     // this.useAxios = useAxios
+//     this.useOsChannel = useOsChannel
+//     this.cacheProxy = new Proxy(nativeApi, new CacheStorageProxy(nativeApi))
+//   }
+//
+//   get (_target: any, prop: string) {
+//     return (...args: any) => {
+//       // if (this.useAxios && prop === this.requestApi) {
+//       //   judgeUseAxios = this.useAxios
+//       //   // @ts-ignore
+//       //   return new RequestTask(...args)
+//       // }
+//       if (this.useOsChannel && osChannelApi.hasOwnProperty(prop)) {
+//         return osChannelApi[prop](...args)
+//       }
+//       return this.cacheProxy[prop](...args)
+//     }
+//   }
+// }
 
 const nativeApi = new NativeApi()
-const native = new Proxy(nativeApi, new HybridProxy(false, nativeApi)) // 第一个false是默认走jsb，true是走纯js， 第二个false是不走osChannel
+const native = new Proxy(nativeApi, new CacheStorageProxy(nativeApi)) // 第一个false是默认走jsb，true是走纯js， 第二个false是不走osChannel
 export default native
