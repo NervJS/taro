@@ -11,6 +11,7 @@ pub struct PreVisitor {}
 pub enum EtsDirection {
     Row,
     Column,
+    Flex,
 }
 
 impl PreVisitor {
@@ -144,7 +145,6 @@ impl TransformVisitor {
             deal_loop_now: false,
         }
     }
-
 
     pub fn get_dynmaic_node_name(&mut self, name: String) -> String {
         let node_name = if self.deal_loop_now { name } else { format!("this.{}", name) };
@@ -433,9 +433,11 @@ impl TransformVisitor {
                     let jsx_attr_name = name.to_string();
                     if jsx_attr_name == DIRECTION_ATTR {
                         if let Some(JSXAttrValue::Lit(Lit::Str(Str { value, .. }))) = &jsx_attr.value {
-                            if value == "row" {
-                                direction = EtsDirection::Row;
-                            }
+                            direction = match value.as_str() {
+                                "row" => EtsDirection::Row,
+                                "flex" => EtsDirection::Flex,
+                                _ => EtsDirection::Column,
+                            };
                         }
                     } else if jsx_attr_name == STYLE_ATTR {
                         if
@@ -620,7 +622,8 @@ export default struct TARO_TEMPLATES_{name} {{
 "#,
                     name = tmpl_name,
                     content = tmpl_main_contents
-                ).as_str() + utils::get_harmony_component_style(self).as_str();
+                ).as_str() +
+                utils::get_harmony_component_style(self).as_str();
 
             self.templates.insert(tmpl_name, format!("`{}`", tmpl_contents));
 
