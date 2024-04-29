@@ -29,8 +29,7 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">= 18",
-    "npm": ">= 6"
+    "node": ">= 18"
   },
   "dependencies": {
     "@react-native-community/cli-config": "^12.3.0",
@@ -59,7 +58,6 @@
     "react": "18.2.0",
     "react-native": "^0.73.1",
     "react-native-svg": "~14.1.0",
-    "react-test-renderer": "18.2.0",
-    "typescript": "^4.7.4"
+    "react-test-renderer": "18.2.0"
   }
 }

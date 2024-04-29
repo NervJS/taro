@@ -2,6 +2,8 @@
   "name": "@tarojs/runtime-rn",
   "version": "4.0.0-beta.54",
   "description": "taro-runtime-rn",
+  "author": "yechunxi",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "./src/index.ts",
   "files": [
@@ -20,9 +22,11 @@
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
-  "author": "yechunxi",
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
+  },
+  "engines": {
+    "node": ">= 18"
   },
   "dependencies": {
     "@tarojs/components-rn": "workspace:*",
