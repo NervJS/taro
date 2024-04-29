@@ -778,6 +778,15 @@ callFn(this.page.onReady, this, params)`
     if (this.buildConfig.isBuildNativeComp) {
       return `if (true) {
   TaroView({ node: this.node as TaroViewElement, createLazyChildren: createLazyChildren })
+  if (${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'}) {
+    Stack() {
+      createLazyChildren(${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'} as TaroElement, 1)
+    }
+    .position({ x: 0, y: 0 })
+    .height('100%')
+    .width('100%')
+    .responseRegion({ x: 0, y: 0, width: 0, height: 0 })
+  }
 }`
     }
 
@@ -785,6 +794,15 @@ callFn(this.page.onReady, this, params)`
   Column() {
     if (${isTabPage ? 'this.node[index]' : 'this.node'}) {
       TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement, createLazyChildren: createLazyChildren })
+      if (${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'}) {
+        Stack() {
+          createLazyChildren(${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'} as TaroElement, 1)
+        }
+        .position({ x: 0, y: 0 })
+        .height('100%')
+        .width('100%')
+        .responseRegion({ x: 0, y: 0, width: 0, height: 0 })
+      }
     }
   }
   .width('100%')
@@ -851,15 +869,6 @@ ${this.transArr2Str(pageStr.split('\n'), 2)}
     // Note: 增加头部导航
     pageStr = `Navigation() {
 ${this.transArr2Str(pageStr.split('\n'), 4)}
-  if (${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'}) {
-    Stack() {
-      createLazyChildren(${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'} as TaroElement, 1)
-    }
-    .position({ x: 0, y: 0 })
-    .height('100%')
-    .width('100%')
-    .responseRegion({ x: 0, y: 0, width: 0, height: 0 })
-  }
 }
 .backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColor || '#FFFFFF'}")
 .height('100%')
