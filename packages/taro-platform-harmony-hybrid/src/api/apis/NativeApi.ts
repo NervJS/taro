@@ -1,3 +1,4 @@
+import { NativeDataChangeListener, SyncCacheProxyHandler } from './NativeApiSyncCacheProxy'
 // @ts-ignore
 const syncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true }) || (target => target)
 // @ts-ignore
@@ -8,7 +9,14 @@ const asyncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMod
 const asyncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false }) || (target => target)
 
 // export let judgeUseAxios = false
-class NativeApi {
+export class NativeApi {
+  // @ts-ignore
+  @(syncAndNotRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  registerNativeListener (listener: NativeDataChangeListener | null): void {
+  }
+
   // @ts-ignore
   @(syncAndRelease)
   getWindowInfo (): any {
@@ -904,5 +912,6 @@ class AsyncToSyncProxy {
 // }
 
 const nativeApi = new NativeApi()
-const native = new Proxy(nativeApi, new CacheStorageProxy(nativeApi)) // 第一个false是默认走jsb，true是走纯js， 第二个false是不走osChannel
+const cacheNativeApi = new Proxy(nativeApi, new SyncCacheProxyHandler(nativeApi))
+const native = new Proxy(cacheNativeApi, new CacheStorageProxy(cacheNativeApi)) // 第一个false是默认走jsb，true是走纯js， 第二个false是不走osChannel
 export default native
