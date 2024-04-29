@@ -18,7 +18,7 @@
     "@rollup/plugin-inject": "^5.0.3",
     "@rollup/pluginutils": "^5.0.5",
     "@tarojs/helper": "workspace:*",
-    "@tarojs/parse-css-to-stylesheet": "^0.0.64",
+    "@tarojs/parse-css-to-stylesheet": "^0.0.67",
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
