@@ -158,7 +158,7 @@ class XMLModule extends Module {
 
   updateHash (hash, context) {
     super.updateHash(hash, context)
-    hash.update(this.buildInfo.hash)
+    hash.update(this.buildInfo?.hash)
   }
 
   updateCacheModule (module) {

@@ -41,7 +41,7 @@
     "postcss": "^8.4.38",
     "webpack": "5.91.0",
     "webpack-chain": "^6.5.1",
-    "webpack-dev-server": "^5.0.4"
+    "webpack-dev-server": "^4.15.2"
   },
   "peerDependencies": {
     "@tarojs/components": "workspace:*",
@@ -55,7 +55,7 @@
     "vue": "^3",
     "webpack": "^5",
     "webpack-chain": "^6",
-    "webpack-dev-server": "^5"
+    "webpack-dev-server": "^4"
   },
   "peerDependenciesMeta": {
     "@types/react": {
