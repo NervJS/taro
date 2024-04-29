@@ -24,7 +24,7 @@ export interface TaroHarmonyPageMeta extends VitePageMeta {
   originName: string
   entryOption?: Record<string, unknown>
 
-  modifyRenderState?: (this: Parser, state: (string | null)[]) => void
+  modifyRenderState?: (this: Parser, state: (string | null)[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => void
 
   modifyPageParams?: (this: Parser, paramsString: string) => string
 
@@ -218,7 +218,7 @@ export default class Parser extends BaseParser {
     const modifyPageMethods = page instanceof Array ? page[0].modifyPageMethods : page.modifyPageMethods
 
     if (isFunction(modifyRenderState)) {
-      modifyRenderState.call(this, generateState)
+      modifyRenderState.call(this, generateState, page)
     }
 
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
@@ -986,7 +986,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       'import { TaroView } from "@tarojs/components"',
       'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window, document } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
-      `import { createLazyChildren } from "${renderPath}"`,
+      `import { createLazyChildren, createNormalChildren } from "${renderPath}"`,
     ]
 
     const modifyPageImport = page instanceof Array ? page[0].modifyPageImport : page.modifyPageImport

@@ -156,7 +156,17 @@ function createLazyChildren (node: TaroElement, layer = 0) {
   }, (item: TaroElement) => \`\${item._nid}-\${item._nodeInfo?.layer || 0}\`)
 }
 
-export { createChildItem, createLazyChildren }
+
+@Builder
+function createNormalChildren (node: TaroElement, layer = 0) {
+  ForEach(node.childNodes, (item: TaroElement) => {
+    if (!item._nodeInfo || item._nodeInfo.layer === layer) {
+      createChildItem(item, createNormalChildren)
+    }
+  }, (item: TaroElement) => \`\${item._nid}-\${item._nodeInfo?.layer || 0}\`)
+}
+
+export { createChildItem, createLazyChildren, createNormalChildren }
 `
 
     const { cwd: appPath, loaderMeta, taroConfig } = this.context
