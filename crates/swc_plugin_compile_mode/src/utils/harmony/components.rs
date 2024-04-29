@@ -45,7 +45,7 @@ pub fn get_view_component_str(node_name: &str, child_content: &str, direction: E
         }
         EtsDirection::Flex => {
             component_name = "Flex";
-            component_param = format!("FlexManager.flexOptions({})", node_name);
+            component_param = format!("FlexManager.flexOptions({} as TaroElement)", node_name);
         }
     }
     let style = get_component_style_str(node_name, component_name.to_lowercase().as_str());
