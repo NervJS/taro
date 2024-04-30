@@ -26,7 +26,7 @@ export interface TaroHarmonyPageMeta extends VitePageMeta {
 
   modifyRenderState?: (this: Parser, state: (string | null)[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => void
 
-  modifyPageParams?: (this: Parser, paramsString: string) => string
+  modifyPageParams?: (this: Parser, paramsString: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
   modifyPageImport?: (this: Parser, importStr: string[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => void
 
@@ -34,9 +34,9 @@ export interface TaroHarmonyPageMeta extends VitePageMeta {
 
   modifyPageDisAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
-  modifyPageBuild?: (this: Parser, buildStr: string) => string
+  modifyPageBuild?: (this: Parser, buildStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
-  modifyPageMethods?: (this: Parser, methods: IMethod[]) => void
+  modifyPageMethods?: (this: Parser, methods: IMethod[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => void
 }
 
 const SHOW_TREE = false
@@ -230,7 +230,7 @@ export default class Parser extends BaseParser {
     )
 
     if (isFunction(modifyPageBuild)) {
-      buildStr = modifyPageBuild.call(this, buildStr)
+      buildStr = modifyPageBuild.call(this, buildStr, page)
     }
 
     const generateMethods: IMethod[] = [{
@@ -676,7 +676,7 @@ for (let i = 0; i < taskQueen.length; i++) {
     }
 
     if (isFunction(modifyPageMethods)) {
-      modifyPageMethods.call(this, generateMethods)
+      modifyPageMethods.call(this, generateMethods, page)
     }
 
     generateMethods.push({
@@ -705,7 +705,7 @@ for (let i = 0; i < taskQueen.length; i++) {
 
     const modifyPageParams = page instanceof Array ? page[0].modifyPageParams : page.modifyPageParams
     if (isFunction(modifyPageParams)) {
-      paramsString = modifyPageParams.call(this, paramsString)
+      paramsString = modifyPageParams.call(this, paramsString, page)
     }
 
     return `${this.buildConfig.isBuildNativeComp ? '' :`if (${this.appConfig.window?.navigationStyle === 'custom'
