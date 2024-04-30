@@ -33,7 +33,6 @@ export function showToast (options) {
       message: options.title,
       duration: options.duration,
       bottom: options.bottom,
-      // @ts-ignore
       showMode: 1 // 设置弹窗显示模式，显示在应用之上。
     })
     callAsyncSuccess(resolve, resCallback('showToast'), options)
