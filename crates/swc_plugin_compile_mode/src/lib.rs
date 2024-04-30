@@ -24,6 +24,11 @@ impl SerdeDefault {
     }
 }
 
+#[derive(Deserialize,  Debug)]
+pub struct ComponentReplace {
+    pub current_init: String,
+    pub dependency_define: String,
+}
 #[derive(Deserialize, Debug)]
 pub struct PluginConfig {
     pub tmpl_prefix: String,
@@ -41,6 +46,9 @@ pub struct PluginConfig {
     pub support_components: Vec<String>,
     #[serde(default)]
     pub event_adapter: HashMap<String, String>,
+    #[serde(default)]
+    pub component_replace: HashMap<String, ComponentReplace>,
+
 }
 
 /// An example plugin function with macro support.
@@ -66,7 +74,7 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
             .unwrap()
     )
     .unwrap();
-
+    println!("config::: {:?}", config);
     // 如果 config 中的 is_harmony 字段为 true 则走 harmony_transform, 否则则走 transform
     let visitor: Box<dyn VisitMut> = if config.is_harmony {
         Box::new(transform_harmony::TransformVisitor::new(config))

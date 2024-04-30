@@ -1,4 +1,4 @@
-use crate::{ transform_harmony::EtsDirection, utils::{ self, harmony::components } };
+use crate::transform_harmony::EtsDirection;
 
 pub fn get_component_attr_str(node_name: &str, tag_name: &str) -> String {
     if tag_name == "text" {
