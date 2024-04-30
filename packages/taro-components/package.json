@@ -35,7 +35,7 @@
     "generate:stencil-config": "esbuild ./scripts/stencil/stencil.config.ts --external:lightningcss --bundle --platform=node --outfile=stencil.config.js",
     "sync:types": "pnpm run tsx --files scripts/json-schema-to-types.ts",
     "test": "cross-env NODE_ENV=test stencil test --spec --e2e",
-    "test:ci": "pnpm test -- --ci -i --coverage  --no-build -- ./__tests__/camera.spec.tsx",
+    "test:ci": "pnpm test -- --ci -i --coverage --silent --no-build",
     "test:coverage": "pnpm test -- --ci --screenshot --coverage",
     "test:watch": "pnpm test -- --screenshot --watch",
     "tsx": "ts-node --skipIgnore"
@@ -62,6 +62,7 @@
     "swiper": "6.8.0"
   },
   "devDependencies": {
+    "@tarojs/taro-h5": "workspace:*",
     "@babel/generator": "^7.21.4",
     "@babel/parser": "^7.23.0",
     "@babel/traverse": "^7.21.4",
