@@ -163,8 +163,8 @@ export default class CLI {
             customCommand(command, kernel, args)
             break
           }
-
           customCommand(command, kernel, {
+            args,
             _,
             platform,
             plugin,

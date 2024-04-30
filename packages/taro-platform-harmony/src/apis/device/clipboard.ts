@@ -40,7 +40,12 @@ export const setClipboardData: typeof Taro.setClipboardData = function (options)
         callAsyncFail(reject, res, options)
       } else {
 
-        promptAction.showToast({ message: '内容已复制' })
+        promptAction.showToast({ 
+          message: '内容已复制', 
+          duration: 1500,
+          bottom: '50%',
+          showMode: 1 // 设置弹窗显示模式，显示在应用之上。
+        })
         
         return handle.success({
           data,

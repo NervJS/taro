@@ -11,6 +11,7 @@ pub struct PreVisitor {}
 pub enum EtsDirection {
     Row,
     Column,
+    Flex,
 }
 
 impl PreVisitor {
@@ -143,10 +144,6 @@ impl TransformVisitor {
             get_node_name,
             deal_loop_now: false,
         }
-    }
-
-    fn build_loop_children_ets_element(&mut self, el: &mut JSXElement) -> String {
-        "".to_owned()
     }
 
     pub fn get_dynmaic_node_name(&mut self, name: String) -> String {
@@ -311,7 +308,7 @@ impl TransformVisitor {
                         );
 
                         children_string.push_str(code.as_str());
-                        self.component_set.insert(TEXT_TAG.clone().to_string());
+                        self.component_set.insert(TEXT_TAG.to_string());
                         retain_child_counter += 1;
                     }
                 }
@@ -436,9 +433,11 @@ impl TransformVisitor {
                     let jsx_attr_name = name.to_string();
                     if jsx_attr_name == DIRECTION_ATTR {
                         if let Some(JSXAttrValue::Lit(Lit::Str(Str { value, .. }))) = &jsx_attr.value {
-                            if value == "row" {
-                                direction = EtsDirection::Row;
-                            }
+                            direction = match value.as_str() {
+                                "row" => EtsDirection::Row,
+                                "flex" => EtsDirection::Flex,
+                                _ => EtsDirection::Column,
+                            };
                         }
                     } else if jsx_attr_name == STYLE_ATTR {
                         if
@@ -608,7 +607,6 @@ impl VisitMut for TransformVisitor {
             );
             let tmpl_contents =
                 HARMONY_IMPORTER.to_owned() +
-                utils::get_harmony_component_style(self).as_str() +
                 format!(
                     r#"@Component
 export default struct TARO_TEMPLATES_{name} {{
@@ -624,7 +622,8 @@ export default struct TARO_TEMPLATES_{name} {{
 "#,
                     name = tmpl_name,
                     content = tmpl_main_contents
-                ).as_str();
+                ).as_str() +
+                utils::get_harmony_component_style(self).as_str();
 
             self.templates.insert(tmpl_name, format!("`{}`", tmpl_contents));
 
