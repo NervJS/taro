@@ -32,6 +32,8 @@ export interface TaroHarmonyPageMeta extends VitePageMeta {
 
   modifyPageAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
+  modifyPageDisAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
+
   modifyPageBuild?: (this: Parser, buildStr: string) => string
 
   modifyPageMethods?: (this: Parser, methods: IMethod[]) => void
@@ -213,39 +215,11 @@ export default class Parser extends BaseParser {
     }
 
     const modifyPageBuild = page instanceof Array ? page[0].modifyPageBuild : page.modifyPageBuild
-    const modifyPageAppear = page instanceof Array ? page[0].modifyPageAppear : page.modifyPageAppear
     const modifyRenderState = page instanceof Array ? page[0].modifyRenderState : page.modifyRenderState
     const modifyPageMethods = page instanceof Array ? page[0].modifyPageMethods : page.modifyPageMethods
 
     if (isFunction(modifyRenderState)) {
       modifyRenderState.call(this, generateState, page)
-    }
-
-    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
-
-    // 生成 aboutToAppear 函数内容
-    let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as unknown[]).concat(
-      this.buildConfig.isBuildNativeComp ? [] :[
-        'const state = this.getPageState()',
-        'if (this.pageStack.length >= state.index) {',
-        '  this.pageStack.length = state.index - 1',
-        '}',
-        `this.pageStack.push(state)`,
-      ],
-      this.isTabbarPage ? [
-        'const params = router.getParams() as Record<string, string> || {}',
-        'let index: TaroAny = params.$page',
-        '  ? this.tabBarList.findIndex(e => e.pagePath === params.$page)',
-        '  : this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)',
-        'index = index >= 0 ? index : 0',
-        'this.handlePageAppear(index)',
-        'this.setTabBarCurrentIndex(index)',
-        'this.bindTabBarEvent()',
-      ] : ['this.handlePageAppear()']
-    ))}`
-
-    if (isFunction(modifyPageAppear)) {
-      appearStr = modifyPageAppear.call(this, appearStr, page)
     }
 
     // 生成 build 函数内容
@@ -270,21 +244,16 @@ return state`,
     },
     {
       name: 'aboutToAppear',
-      body: appearStr,
+      body: this.generatePageAboutToAppear(page),
     },
     {
       name: 'aboutToDisappear',
-      body: this.transArr2Str([
-        this.isTabbarPage ? `this.pageList?.forEach(item => {
-  callFn(item?.onUnload, this)
-})
-this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)',
-      ])
+      body: this.generatePageAboutToDisAppear(page)
     },
     {
       name: 'handlePageAppear',
       params: this.isTabbarPage ? ['index = this.tabBarCurrentIndex'] : [],
-      body: this.generatePageAppear(page),
+      body: this.generatePageHandleAppear(page),
     }]
 
     if (this.buildConfig.isBuildNativeComp && !entryOption) {
@@ -731,7 +700,7 @@ for (let i = 0; i < taskQueen.length; i++) {
     return instantiatePage
   }
 
-  generatePageAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
+  generatePageHandleAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
     let paramsString = 'router.getParams() as Record<string, string> || {}'
 
     const modifyPageParams = page instanceof Array ? page[0].modifyPageParams : page.modifyPageParams
@@ -927,6 +896,56 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       ])
     }
     return pageStr
+  }
+
+  generatePageAboutToAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
+    const modifyPageAppear = page instanceof Array ? page[0].modifyPageAppear : page.modifyPageAppear
+
+    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
+
+    // 生成 aboutToAppear 函数内容
+    let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as unknown[]).concat(
+      this.buildConfig.isBuildNativeComp ? [] :[
+        'const state = this.getPageState()',
+        'if (this.pageStack.length >= state.index) {',
+        '  this.pageStack.length = state.index - 1',
+        '}',
+        `this.pageStack.push(state)`,
+      ],
+      this.isTabbarPage ? [
+        'const params = router.getParams() as Record<string, string> || {}',
+        'let index: TaroAny = params.$page',
+        '  ? this.tabBarList.findIndex(e => e.pagePath === params.$page)',
+        '  : this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)',
+        'index = index >= 0 ? index : 0',
+        'this.handlePageAppear(index)',
+        'this.setTabBarCurrentIndex(index)',
+        'this.bindTabBarEvent()',
+      ] : ['this.handlePageAppear()']
+    ))}`
+
+    if (isFunction(modifyPageAppear)) {
+      appearStr = modifyPageAppear.call(this, appearStr, page)
+    }
+
+    return appearStr
+  }
+
+  generatePageAboutToDisAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
+    const modifyPageDisAppear = page instanceof Array ? page[0].modifyPageDisAppear : page.modifyPageDisAppear
+
+    // 生成 aboutToDisAppear 函数内容
+    let disAppearStr = this.transArr2Str([
+      this.isTabbarPage ? `this.pageList?.forEach(item => {
+callFn(item?.onUnload, this)
+})
+this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
+
+    if (isFunction(modifyPageDisAppear)) {
+      disAppearStr = modifyPageDisAppear.call(this, disAppearStr, page)
+    }
+
+    return disAppearStr
   }
 
   generatePageShown () {
