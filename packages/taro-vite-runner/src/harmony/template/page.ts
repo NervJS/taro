@@ -827,7 +827,7 @@ callFn(this.page.onReady, this, params)`
     node._nodeInfo._client = area
   }
 })
-.onScroll(() => {
+.onDidScroll(() => {
   if (!this.page) return
 
   const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
