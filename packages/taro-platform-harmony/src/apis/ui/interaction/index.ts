@@ -172,16 +172,7 @@ export function showActionSheet (options) {
   })
 }
 
-export function hideToast (options) {
-  return new Promise(resolve => {
-    promptAction.showToast({
-      message: '关闭中',
-      duration: 10,
-      bottom: '9999px'
-    })
-    callAsyncSuccess(resolve, resCallback('hideToast'), options)
-  })
-}
+export const hideToast = /* @__PURE__ */ temporarilyNotSupport('hideToast')
 
 export const showLoading = temporarilyNotSupport('showLoading')
 export const hideLoading = temporarilyNotSupport('hideLoading')
