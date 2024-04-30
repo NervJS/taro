@@ -1,10 +1,10 @@
 import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import { mergeWith } from 'lodash-es'
+import { mergeWith } from 'lodash'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
-import typescript from '@rollup/plugin-typescript'
+import ts from 'rollup-plugin-ts'
 
 import type { InputPluginOption, RollupOptions } from 'rollup'
 
@@ -23,8 +23,11 @@ const baseConfig: RollupOptions = {
       preferBuiltins: false,
       mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }) as InputPluginOption,
-    typescript({
-      include: ['src/**/*'] // 必须添加这行，否则会打包出 rollup.config.d.ts
+    ts({
+      tsconfig: (e) => ({
+        ...e,
+        sourceMap: true,
+      }),
     }),
     commonjs() as InputPluginOption,
     postcss({
