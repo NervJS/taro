@@ -47,6 +47,7 @@ export function initHarmonyElement () {
       case 'movable-view': return new TaroMovableViewElement()
       case 'progress': return new TaroProgressElement()
       case 'scroll-view': return new TaroScrollViewElement()
+      case 'scroll-list': return new TaroScrollViewElement()
       case 'checkbox-group': return new TaroCheckboxGroupElement()
       case 'input': return new TaroInputElement()
       case 'picker': return new TaroPickerElement()

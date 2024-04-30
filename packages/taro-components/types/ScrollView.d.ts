@@ -134,7 +134,7 @@ interface ScrollViewProps extends StandardProps {
   /** 渲染模式
    * list - 列表模式。只会渲染在屏节点，会根据直接子节点是否在屏来按需渲染，若只有一个直接子节点则性能会退化
    * custom - 自定义模式。只会渲染在屏节点，子节点可以是 sticky-section list-view grid-view 等组件
-   * @supported weapp
+   * @supported weapp, harmony
    * @default 'list'
    */
   type?: 'list' | 'custom'

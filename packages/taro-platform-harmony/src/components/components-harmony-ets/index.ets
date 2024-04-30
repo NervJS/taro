@@ -25,6 +25,10 @@ import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 import TaroPageMeta from './pageMeta'
 import TaroNavigationBar from './navigationBar'
 
+import TaroListView from './listView'
+import TaroStickySection from './stickySection'
+import TaroScrollList from './scrollList'
+
 import commonStyleModify, { rowModify, columnModify, textModify, setNormalTextAttributeIntoInstance } from './style'
 import { getButtonColor } from './button'
 import { FlexManager } from './utils/flexManager'
@@ -82,4 +86,7 @@ export {
   TaroCheckbox,
   TaroPageMeta,
   TaroNavigationBar,
+  TaroListView,
+  TaroStickySection,
+  TaroScrollList
 }
