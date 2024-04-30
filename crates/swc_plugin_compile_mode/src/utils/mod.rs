@@ -6,7 +6,7 @@ use swc_core::{
 use regex::Regex;
 
 use self::{ constants::*, harmony::components::get_text_component_str };
-use crate::transform_harmony::TransformVisitor;
+use crate::{transform_harmony::TransformVisitor, ComponentReplace};
 use crate::PluginConfig;
 
 pub mod constants;
@@ -198,12 +198,31 @@ pub fn add_spaces_to_lines(input: &str) -> String {
     add_spaces_to_lines_with_count(input, count)
 }
 
+pub fn get_harmony_replace_component_dependency_define (visitor: &mut TransformVisitor) -> String {
+    let component_set = &visitor.component_set;
+    let component_replace =  &visitor.config.component_replace;
+    let mut harmony_component_style = String::new();
+
+    component_replace.iter().for_each(|(k, v)| {
+        if component_set.contains(k) {
+            if let ComponentReplace {dependency_define, ..} = v {
+
+                harmony_component_style.push_str(dependency_define);
+                harmony_component_style.push_str("\n");
+            }
+        }
+    });
+
+    harmony_component_style
+}
+
 pub fn get_harmony_component_style(visitor: &mut TransformVisitor) -> String {
     let component_set = &visitor.component_set;
+    let component_replace =  &visitor.config.component_replace;
     let mut harmony_component_style = String::new();
 
     let mut build_component = |component_tag: &str, component_style: &str| {
-        if component_set.contains(component_tag) {
+        if component_set.contains(component_tag) && !component_replace.contains_key(component_tag) {
             harmony_component_style.push_str(component_style);
         }
     };
