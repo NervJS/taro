@@ -1,11 +1,14 @@
 import Taro from '@tarojs/api'
 
-
+let display
 let bluetooth
 let geoLocationManager
 let wifiManager
 
 try {
+  // @ts-ignore
+  display = requireNapi('display')
+
   // @ts-ignore
   bluetooth = requireNapi('bluetooth')
 
