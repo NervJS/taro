@@ -1,6 +1,10 @@
-import { IMinidev, useDefaults } from 'minidev'
+// import { IMinidev, useDefaults } from 'minidev'
 
-export * as TTInstance from 'tt-ide-cli'
+// export * as TTInstance from 'tt-ide-cli'
+
+// @FIXME miniprogram-ci、minidev、tt-ide-cli 这些包的依赖有非常多废弃和告警，所以不安装为 dev 依赖，后续手动补充类型
+type IMinidev = any
+declare const useDefaults
 
 export type AlipayInstance = { minidev: IMinidev, useDefaults: typeof useDefaults }
 
