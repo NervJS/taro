@@ -53,8 +53,8 @@
     "react-native-svg-transformer": "^0.14.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5",
-    "@babel/preset-env": "^7.14.5",
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
     "react": "18.2.0",
     "react-native": "^0.73.1",
     "react-native-svg": "~14.1.0",

@@ -40,13 +40,13 @@
     "core-js": "^3.36.1"
   },
   "devDependencies": {
-    "@babel/core": "7.24.4",
-    "@babel/preset-react": "7.24.1",
-    "react-refresh": "0.14.0",
-    "@prefresh/babel-plugin": "0.5.1",
-    "babel-preset-solid": "1.8.16",
-    "@vue/babel-plugin-jsx": "1.2.2",
-    "@react-native/babel-preset": "0.75.0-main",
+    "@babel/core": "^7.24.4",
+    "@babel/preset-react": "^7.24.1",
+    "react-refresh": "^0.14.0",
+    "@prefresh/babel-plugin": "^0.5.1",
+    "babel-preset-solid": "^1.8.16",
+    "@vue/babel-plugin-jsx": "^1.2.2",
+    "@react-native/babel-preset": "^0.75.0-main",
     "@tarojs/taro-rn": "workspace:*"
   },
   "peerDependencies": {
