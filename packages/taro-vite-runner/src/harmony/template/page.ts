@@ -1014,7 +1014,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
       'import { TaroView } from "@tarojs/components"',
       'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window, document } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
-      `import { createLazyChildren, createNormalChildren } from "${renderPath}"`,
+      `import { createLazyChildren } from "${renderPath}"`,
     ]
 
     const modifyPageImport = page instanceof Array ? page[0].modifyPageImport : page.modifyPageImport

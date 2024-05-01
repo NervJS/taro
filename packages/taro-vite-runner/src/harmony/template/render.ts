@@ -173,23 +173,7 @@ function createLazyChildren (node: TaroElement, layer = 0) {
   }, (item: TaroElement) => \`\${item._nid}-\${item._nodeInfo?.layer || 0}\`)
 }
 
-
-@Builder
-function createNormalChildren (node: TaroElement, layer = 0) {
-  ForEach(node.childNodes, (item: TaroElement) => {
-    if (!item._nodeInfo || item._nodeInfo.layer === layer) {
-      if (node.tagName === 'LIST-VIEW') {
-        ListItem() {
-          createChildItem(item, createLazyChildren)
-        }
-      } else {
-        createChildItem(item, createLazyChildren)
-      }
-    }
-  }, (item: TaroElement) => \`\${item._nid}-\${item._nodeInfo?.layer || 0}\`)
-}
-
-export { createChildItem, createLazyChildren, createNormalChildren }
+export { createChildItem, createLazyChildren }
 `
 
     const { cwd: appPath, loaderMeta, taroConfig } = this.context
