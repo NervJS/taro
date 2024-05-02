@@ -1,98 +1,15 @@
-import Taro from '@tarojs/api'
-import { isFunction } from '@tarojs/shared'
+import { request as h5Request } from '@tarojs/taro-h5'
 
-import { NativeRequest } from '../../interface/NativeRequest'
-import native, { judgeUseAxios } from '../../NativeApi'
-import { getParameterError, shouldBeObject } from '../../utils'
+import { request as nativeReuqest } from './nativeRequest'
 
-export const _request = (options) => {
-  const name = 'request'
 
-  const isObject = shouldBeObject(options)
-  if (!isObject.flag) {
-    const res = { errMsg: `${name}:fail ${isObject.msg}` }
-    return Promise.reject(res)
-  }
-
-  const { url, success, fail, complete, method, ...otherOptions } = options as Exclude<typeof options, undefined>
-  if (typeof url !== 'string') {
-    const res = {
-      errMsg: getParameterError({
-        para: 'url',
-        correct: 'string',
-        wrong: url,
-      }),
-    }
-    isFunction(fail) && fail(res)
-    isFunction(complete) && complete(res)
-    return Promise.reject(res)
-  }
-
-  let task!: Taro.RequestTask<any>
-  const result: ReturnType<typeof Taro.request> = new Promise((resolve, reject) => {
-    const upperMethod = method ? method.toUpperCase() : method
-    const taskID = native.request({
-      url,
-      method: upperMethod,
-      ...otherOptions,
-      success: (res: any) => {
-        isFunction(success) && success(res)
-        isFunction(complete) && complete(res)
-        resolve(res)
-      },
-      fail: (res: any) => {
-        isFunction(fail) && fail(res)
-        isFunction(complete) && complete(res)
-        reject(res)
-      },
-    })
-    task = judgeUseAxios ? taskID : NativeRequest.getRequestTask(taskID)
-  }) as any
-
-  result.onHeadersReceived = task.onHeadersReceived.bind(task)
-  result.offHeadersReceived = task.offHeadersReceived.bind(task)
-  result.abort = task.abort.bind(task)
-  return result
+/**
+ * 封装请求方法
+ * @param options 请求选项
+ * @param useNativeRequest 默认使用true
+ */
+export function request (options: any, useNativeRequest: boolean = true) {
+  return useNativeRequest ? nativeReuqest(options) : h5Request(options)
 }
 
-function taroInterceptor (chain) {
-  return _request(chain.requestParams)
-}
 
-// @ts-ignore
-const { Link } = Taro
-const link = new Link(taroInterceptor)
-
-/**
- * 发起 HTTPS 网络请求
- *
- * @canUse request
- * @__object [url, data, header, timeout, method[OPTIONS, GET, HEAD, POST, PUT, PATCH, DELETE, TRACE, CONNECT], dataType[json, text, base64, arraybuffer], responseType[text, arraybuffer], enableCache]
- * @__success [data, header, statusCode, cookies]
- */
-export function request (options) {
-  const result = link.request.bind(link)(options)
-  result.catch(() => {})
-  return result
-}
-
-/**
- * 网络请求任务对象
- *
- * @canUse RequestTask
- * @__class [abort, onHeadersReceived, offHeadersReceived]
- */
-
-/**
- * 使用拦截器
- *
- * @canNotUse addInterceptor
- */
-export const addInterceptor = link.addInterceptor.bind(link)
-
-/**
- * 清除所有拦截器
- *
- * @canNotUse cleanInterceptors
- */
-export const cleanInterceptors = link.cleanInterceptors.bind(link)

@@ -69,6 +69,10 @@ export class WebPrebundle extends BasePrebundle<IWebPrebundleConfig> {
       chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
       globalObject: mainBuildOutput.globalObject,
       path: this.remoteCacheDir,
+      environment: {
+        // @ts-expect-error 待 webpack 升级后移除注释
+        asyncFunction: true,
+      }
     }
 
     this.metadata.mfHash = getMfHash({

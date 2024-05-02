@@ -376,7 +376,9 @@ impl TransformVisitor {
                                     }
 
                                     // 小程序组件标准属性 -> 取 @tarojs/shared 传递过来的属性值；非标准属性 -> 取属性名
-                                    let value: &str = attrs_map.get(&miniapp_attr_name).unwrap_or(&jsx_attr_name);
+                                    let value: &str = attrs_map.get(&miniapp_attr_name)
+                                        .map(|res| res.as_str())
+                                        .unwrap_or(if miniapp_attr_name == "id" { "uid" } else { &jsx_attr_name });
                                     // 按当前节点在节点树中的位置换算路径
                                     node_path.push('.');
                                     let value = if value.contains(TMPL_DATA_ROOT) {

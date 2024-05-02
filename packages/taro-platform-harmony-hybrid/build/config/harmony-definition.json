@@ -927,7 +927,7 @@
         "verticalAccuracy": true
       }
     },
-    "getLogManager": false,
+    "getLogManager": true,
     "getMenuButtonBoundingClientRect": {
       "return": {
         "left": true,
@@ -958,7 +958,7 @@
     "getPrivacySetting": false,
     "getQQRunData": false,
     "getRandomValues": false,
-    "getRealtimeLogManager": false,
+    "getRealtimeLogManager": true,
     "getRecorderManager": true,
     "getRendererUserAgent": false,
     "getSavedFileInfo": {
@@ -1755,7 +1755,7 @@
     "setCustomDress": false,
     "setDocumentTitle": false,
     "setEnable1v1Chat": false,
-    "setEnableDebug": false,
+    "setEnableDebug": true,
     "setInnerAudioOption": false,
     "setKeepScreenOn": {
       "object": {
@@ -2144,6 +2144,13 @@
       "scroll-top": false
     },
     "custom-wrapper": true,
+    "draggable-sheet": {
+      "initial-child-size": false,
+      "min-child-size": false,
+      "max-child-size": false,
+      "snap": false,
+      "snap-sizes": false
+    },
     "editor": {
       "read-only": false,
       "placeholder": false,
@@ -2169,12 +2176,29 @@
       },
       "args": false
     },
+    "grid-builder": {
+      "type": {
+        "aligned": false,
+        "masonry": false
+      },
+      "list": false,
+      "child-count": false,
+      "cross-axis-count": false,
+      "max-cross-axis-extent": false,
+      "main-axis-gap": false,
+      "cross-axis-gap": false,
+      "padding": false
+    },
     "grid-view": {
-      "type": false,
       "cross-axis-count": false,
       "main-axis-gap": false,
       "cross-axis-gap": false,
-      "max-cross-axis-extent": false
+      "max-cross-axis-extent": false,
+      "type": {
+        "aligned": false,
+        "masonry": false
+      },
+      "padding": false
     },
     "icon": {
       "type": {
@@ -2263,7 +2287,19 @@
     },
     "lifestyle": false,
     "like": false,
-    "list-view": false,
+    "list-builder": {
+      "type": {
+        "static": false,
+        "dynamic": false
+      },
+      "list": false,
+      "child-count": false,
+      "child-height": false,
+      "padding": false
+    },
+    "list-view": {
+      "padding": false
+    },
     "live-player": {
       "src": true,
       "mode": {
@@ -2495,7 +2531,23 @@
       "hover-stay-time": false,
       "short-link": false
     },
+    "nested-scroll-body": false,
+    "nested-scroll-header": false,
     "official-account": false,
+    "open-container": {
+      "transition-type": {
+        "fade": false,
+        "fadeThrough": false
+      },
+      "transition-duration": false,
+      "closed-color": false,
+      "closed-elevation": false,
+      "close-border-radius": false,
+      "middle-color": false,
+      "open-color": false,
+      "open-elevation": false,
+      "open-border-radius": false
+    },
     "open-data": {
       "type": {
         "groupName": false,
@@ -2666,7 +2718,8 @@
       "enable-passive": false,
       "type": {
         "list": false,
-        "custom": false
+        "custom": false,
+        "nested": false
       },
       "reverse": false,
       "cache-extent": false,
@@ -2732,10 +2785,20 @@
     "slot": {
       "name": false
     },
-    "snapshot": false,
-    "sticky-header": false,
+    "snapshot": {
+      "mode": {
+        "view": false,
+        "picture": false
+      }
+    },
+    "span": false,
+    "sticky-header": {
+      "offset-top": false,
+      "padding": false
+    },
     "sticky-section": {
-      "push-pinned-header": false
+      "push-pinned-header": false,
+      "padding": false
     },
     "swiper": {
       "indicator-dots": true,
@@ -2786,7 +2849,13 @@
         "nbsp": false
       },
       "decode": false,
-      "max-lines": false
+      "max-lines": false,
+      "overflow": {
+        "clip": false,
+        "fade": false,
+        "ellipsis": false,
+        "visible": false
+      }
     },
     "textarea": {
       "value": true,
