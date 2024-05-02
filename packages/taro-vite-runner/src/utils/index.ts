@@ -297,6 +297,7 @@ export function resolveAbsoluteRequire ({
   })
 }
 
+let lastCommonPath = ''
 function getCommonPath(a: string, b: string) {
   const aArr = path.normalize(a).split(/[\\/]/)
   const bArr = path.normalize(b).split(/[\\/]/)
@@ -304,5 +305,15 @@ function getCommonPath(a: string, b: string) {
   while (aArr[i] === bArr[i]) {
     i++
   }
-  return aArr.slice(0, i).join('/')
+
+  if (aArr.length > i) {
+    // Note: 项目外部文件，仅返回所有外部文件的最短公共路径
+    if (!lastCommonPath || lastCommonPath.split(/[\\/]/).length > i) {
+      lastCommonPath = aArr.slice(0, i).join('/')
+    }
+    return lastCommonPath
+  } else {
+    // Note: 项目内部文件，返回项目根路径
+    return a
+  }
 }
