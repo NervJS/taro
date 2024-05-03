@@ -194,7 +194,8 @@ export {
   isTaroRunner,
   resolveExtFile,
   resolvePathFromAlias,
-  setFromRunner }
+  setFromRunner
+}
 
 export function getOpenHost () {
   let result

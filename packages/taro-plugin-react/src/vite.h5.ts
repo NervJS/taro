@@ -78,7 +78,7 @@ function esbuildExclude (framework: Frameworks): PluginOption {
   return {
     name: 'taro-react:esvuild-exclude',
     enforce: 'pre',
-    config: ()=>({
+    config: () => ({
       optimizeDeps: {
         exclude: ['react', 'preact', 'solid-js']
       }

@@ -45,7 +45,7 @@ export default (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption =
                           }
                           return specifier
                         })
-              
+
                         node.source.value = '@tarojs/components/tag'
                         node.specifiers = newSpecifiers
                       }
@@ -62,7 +62,7 @@ export default (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption =
           map: result?.map || null,
         }
       }
-      
+
       return null
     }
   }, {

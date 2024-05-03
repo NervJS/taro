@@ -20,10 +20,11 @@ const rule: Rule = (primary) => {
     const validOptions = utils.validateOptions(result, ruleName, {
       actual: primary
     })
-    if (!validOptions)
+    if (!validOptions) {
       return
+    }
     const platform = ['harmony', 'rn']
-    
+
     root.walkRules(ruleNode => {
       const selector = ruleNode.selector
       if (!/^[.#]?[a-zA-Z0-9_-]+$/.test(selector)) {
@@ -34,7 +35,6 @@ const rule: Rule = (primary) => {
           message: messages.rejected(selector, platform.join(', ')),
         })
       }
-          
     })
   }
 }

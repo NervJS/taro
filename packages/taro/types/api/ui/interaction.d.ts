@@ -238,7 +238,7 @@ declare module '../../index' {
     showActionSheet(option: showActionSheet.Option): Promise<showActionSheet.SuccessCallbackResult>
 
     /** 隐藏消息提示框
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.hideToast.html
      */
     hideToast(option?: hideToast.Option): void

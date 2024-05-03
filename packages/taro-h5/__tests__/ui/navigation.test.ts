@@ -1,5 +1,7 @@
 import * as Taro from '@tarojs/taro-h5'
 
+import { buildApp } from '../utils'
+
 const mockConsole = require('jest-mock-console')
 
 describe('navigation', () => {
@@ -71,6 +73,27 @@ describe('navigation', () => {
           expect(complete.mock.calls[0][0]).toEqual({ errMsg: expectMsg })
           expect(res.errMsg).toMatch(expectMsg)
         })
+    })
+  })
+  describe('showNavigationBarLoading / hideNavigationBarLoading', () => {
+    beforeEach(() => {
+      mockConsole()
+      buildApp()
+    })
+
+    test('should be able to showNavigationBarLoading / hideNavigationBarLoading', done => {
+      Taro.showNavigationBarLoading().then(res => {
+        expect(res.errMsg).toBe('showNavigationBarLoading:ok')
+        const loadingElement = document.querySelector('.taro-navigation-bar-loading-show')
+        expect(loadingElement).toBeTruthy()
+
+        Taro.hideNavigationBarLoading().then(res => {
+          expect(res.errMsg).toBe('hideNavigationBarLoading:ok')
+          const loadingElement = document.querySelector('.taro-navigation-bar-loading-show')
+          expect(loadingElement).toBeFalsy()
+          done()
+        })
+      })
     })
   })
 })

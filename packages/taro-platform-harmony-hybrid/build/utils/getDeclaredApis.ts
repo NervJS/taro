@@ -53,7 +53,7 @@ function getApisObj (declareContent: string) {
 
 /**
  * 获取taro已声明的API,不含Hooks/拓展API以及Taro官网的env/cloud/console
- * 
+ *
  * @returns 返回一个key为API名字，value为支持平台数组的对象
  */
 export function getDeclaredApis () {

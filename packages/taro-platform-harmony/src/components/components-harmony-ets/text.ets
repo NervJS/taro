@@ -1,7 +1,7 @@
 import { isString } from '@tarojs/shared'
 import { eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, NodeType } from '@tarojs/runtime'
 
-import commonStyleModify, { textModify, setNormalTextAttributeIntoInstance } from './style'
+import { textModify, setNormalTextAttributeIntoInstance } from './style'
 import { getButtonColor } from './button'
 import { getImageMode } from './image'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
@@ -60,7 +60,7 @@ export default struct TaroText {
         // text 下还有标签
         if (this.node.childNodes.length > 1 || ((this.node.childNodes[0] && this.node.childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
           ForEach(this.node.childNodes, (item: TaroElement) => {
-            createTextChildNode(item, getSpanVerticalAlign(this.node.hmStyle?.verticalAlign))
+            createTextChildNode(item)
           }, (item: TaroElement) => item._nid)
         }
       }
@@ -75,12 +75,41 @@ export default struct TaroText {
 }
 
 @Builder
-function createTextChildNode (item: TaroElement, align: ImageSpanAlignment) {
+function createTextChildNode (item: TaroElement) {
   if (item.tagName === 'IMAGE') {
     ImageSpan(item.getAttribute('src'))
-      .attributeModifier(commonStyleModify.setNode(item))
+      // .attributeModifier(commonStyleModify.setNode(item))
       .objectFit(getImageMode(item.getAttribute('mode')))
-      .verticalAlign(align)
+      // .verticalAlign(align)
+      .width(item._st.hmStyle.width)
+      .height(item._st.hmStyle.height)
+      .margin({
+        top: item._st.hmStyle.marginTop,
+        left: item._st.hmStyle.marginLeft,
+        right: item._st.hmStyle.marginRight,
+        bottom: item._st.hmStyle.marginBottom,
+      })
+      .padding({
+        top: item._st.hmStyle.paddingTop,
+        left: item._st.hmStyle.paddingLeft,
+        right: item._st.hmStyle.paddingRight,
+        bottom: item._st.hmStyle.paddingBottom,
+      })
+      .textBackgroundStyle({
+        color: item._st.hmStyle.backgroundColor,
+        radius: {
+          topLeft: item._st.hmStyle.borderTopLeftRadius,
+          topRight: item._st.hmStyle.borderTopRightRadius,
+          bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
+          bottomRight: item._st.hmStyle.borderBottomRightRadius,
+        }
+      })
+      .borderRadius({
+        topLeft: item._st.hmStyle.borderTopLeftRadius,
+        topRight: item._st.hmStyle.borderTopRightRadius,
+        bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
+        bottomRight: item._st.hmStyle.borderBottomRightRadius
+      })
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
   } else if (item.nodeType === NodeType.TEXT_NODE) {
     Span(item.textContent)
@@ -88,30 +117,39 @@ function createTextChildNode (item: TaroElement, align: ImageSpanAlignment) {
     Span(item.textContent)
       .attributeModifier(spanModify.setNode(item))
       .letterSpacing(item._st.hmStyle.letterSpacing)
+      .textBackgroundStyle({
+        color: item._st.hmStyle.backgroundColor,
+        radius: {
+          topLeft: item._st.hmStyle.borderTopLeftRadius,
+          topRight: item._st.hmStyle.borderTopRightRadius,
+          bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
+          bottomRight: item._st.hmStyle.borderBottomRightRadius,
+        }
+      })
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
   }
 }
 
-function getSpanVerticalAlign (verticalAlign?: Alignment) {
-  switch (verticalAlign) {
-    case Alignment.Start:
-    case Alignment.TopStart:
-    case Alignment.Top:
-    case Alignment.TopEnd: {
-      return ImageSpanAlignment.TOP
-    }
-    case Alignment.End:
-    case Alignment.BottomStart:
-    case Alignment.Bottom:
-    case Alignment.BottomEnd: {
-      return ImageSpanAlignment.BOTTOM
-    }
-    case Alignment.Center: {
-      return ImageSpanAlignment.CENTER
-    }
-  }
-  return ImageSpanAlignment.BASELINE
-}
+// function getSpanVerticalAlign (verticalAlign?: Alignment) {
+//   switch (verticalAlign) {
+//     case Alignment.Start:
+//     case Alignment.TopStart:
+//     case Alignment.Top:
+//     case Alignment.TopEnd: {
+//       return ImageSpanAlignment.TOP
+//     }
+//     case Alignment.End:
+//     case Alignment.BottomStart:
+//     case Alignment.Bottom:
+//     case Alignment.BottomEnd: {
+//       return ImageSpanAlignment.BOTTOM
+//     }
+//     case Alignment.Center: {
+//       return ImageSpanAlignment.CENTER
+//     }
+//   }
+//   return ImageSpanAlignment.BASELINE
+// }
 
 
 class SpanStyleModify implements AttributeModifier<SpanAttribute> {

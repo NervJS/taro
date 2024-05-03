@@ -140,29 +140,26 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
             const propValue = props[propKey]
             // propValue 可能是 null, 构造函数, 对象
             const observers = [propToState]
-            if (propValue === null || propValue === undefined){ // propValue为null、undefined情况
+            if (propValue === null || propValue === undefined) { // propValue为null、undefined情况
               properties[propKey] = null
-            }
-            else if (isFunction(propValue)) { // propValue为Function，即Array、String、Boolean等情况时
+            } else if (isFunction(propValue)) { // propValue为Function，即Array、String、Boolean等情况时
               if (propValue.name === 'Array') {
                 properties[propKey] = []
-              } else if (propValue.name === 'String'){
+              } else if (propValue.name === 'String') {
                 properties[propKey] = ''
-              } else if (propValue.name === 'Boolean'){
+              } else if (propValue.name === 'Boolean') {
                 properties[propKey] = false
               } else if (propValue.name === 'Number') {
                 properties[propKey] = 0
               } else {
                 properties[propKey] = null
               }
-            }
-            else if (typeof propValue === 'object') { // propValue为对象时
+            } else if (typeof propValue === 'object') { // propValue为对象时
               properties[propKey] = propValue.value
               if (propValue.observer) {
                 observers.push(propValue.observer)
               }
-            }
-            else {
+            } else {
               properties[propKey] = null
             }
             this._observeProps.push({
@@ -336,7 +333,6 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
             }
           }
         }
-
       }
 
       private initComputed (weappConf) {
@@ -441,7 +437,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
           const nextProp = nextProps[key]
           // 小程序是深比较不同之后才 trigger observer
           if (!isEqual(prop, nextProp)) {
-            observers.forEach((observer)=>{
+            observers.forEach((observer) => {
               if (typeof observer === 'string') {
                 const ob = this[observer]
                 if (isFunction(ob)) {

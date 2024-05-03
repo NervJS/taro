@@ -9,13 +9,37 @@ const TARO_TEMPLATES_f0t0 = `import {
   commonStyleModify,
   getNodeThresholds,
   BUTTON_THEME_COLOR,
-  getNormalAttributes
+  getStyleAttr,
+  getNormalAttributes,
+  shouldBindEvent,
+  textModify,
+  setNormalTextAttributeIntoInstance,
+  getImageMode
 } from '@tarojs/components'
-import { NodeType, convertNumber2VP, TaroElement, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
-import { createLazyChildren, createChildItem } from '../render'
+import {
+  NodeType,
+  convertNumber2VP,
+  TaroElement,
+  eventHandler,
+  getComponentEventCallback,
+  AREA_CHANGE_EVENT_NAME,
+  VISIBLE_CHANGE_EVENT_NAME
+} from '@tarojs/runtime'
+import { 
+  createLazyChildren, 
+  createChildItem 
+} from '../render'
 
-import type { HarmonyStyle, TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '@tarojs/runtime'
-
+import type {
+  TaroTextElement,
+  HarmonyStyle,
+  TaroButtonElement,
+  TaroViewElement,
+  TaroAny,
+  TaroStyleType,
+  TaroTextStyleType
+} from '@tarojs/runtime'
+import { isString } from '@tarojs/shared'
 @Component
 export default struct TARO_TEMPLATES_f0t0 {
   node: TaroViewElement = new TaroElement('Ignore')
@@ -31,7 +55,7 @@ export default struct TARO_TEMPLATES_f0t0 {
   build() {
     Column() {
       Column() {
-        createChildItem(this.node0.childNodes[0].childNodes[0] as TaroElement)
+        createChildItem(this.node0.childNodes[0].childNodes[0] as TaroElement, createLazyChildren)
       }
       .attributeModifier(columnModify.setNode(this.node0.childNodes[0] as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -39,7 +63,7 @@ export default struct TARO_TEMPLATES_f0t0 {
         (this.node0.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
       Column() {
-        createChildItem(this.node0.childNodes[1].childNodes[0] as TaroElement)
+        createChildItem(this.node0.childNodes[1].childNodes[0] as TaroElement, createLazyChildren)
       }
       .attributeModifier(columnModify.setNode(this.node0.childNodes[1] as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[1] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[1] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))

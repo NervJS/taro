@@ -1,0 +1,15 @@
+@import "@/styles/variables.scss";
+
+.test-style {
+    color: #f5f5f5;
+    background-color: $color-success;
+}
+
+.capsule-btn {
+    color: $color-grey-6;
+    white-space: nowrap;
+    display: flex;
+    background-color: $color-success;
+    transition: 0.3s;
+    justify-content: center;
+}

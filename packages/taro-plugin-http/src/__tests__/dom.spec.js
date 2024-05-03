@@ -5,7 +5,6 @@ describe('DOM', () => {
   global.document = runtime.document
 
   describe('document', () => {
-
     it('document setCookie', async () => {
       expect(document.cookie).toBe('')
       document.cookie = 'aaa=1111-2222-33-444-abcdefgasd; path=/; expires=Mon, 18 Jan 2038 19:14:07 GMT; secure;'

@@ -148,7 +148,7 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     // create
     const nativeApp = document.createElement('nativeComponent')
     // insert
-    app?.appendChild(nativeApp)
+    app?.parentNode?.appendChild(nativeApp)
     app = nativeApp
   }
   // eslint-disable-next-line react/no-deprecated

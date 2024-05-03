@@ -46,7 +46,7 @@ export function initLaunchOptions (options = {}) {
 
 /**
  * 获取程序启动时的参数
- * 
+ *
  * @canUse getLaunchOptionsSync
  * @__return [path, query, scene, shareTicket, referrerInfo, apiCategory]
  */

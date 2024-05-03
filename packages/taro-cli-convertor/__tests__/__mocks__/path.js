@@ -1,8 +1,8 @@
 /**
  * mock join方法
- * 
- * @param  {...string} pathSegments 
- * @returns 
+ *
+ * @param  {...string} pathSegments
+ * @returns
  */
 function joinMock (...pathSegments) {
   // 定义一个函数来处理路径段
@@ -19,14 +19,14 @@ function joinMock (...pathSegments) {
 
   for (let segment of pathSegments) {
     // 将路劲中的 `\\` 替换为 `/` (示例："E:\\code\\taro-16\\packages\\taro-cli")
-    if (segment.includes(`\\`)){
+    if (segment.includes(`\\`)) {
       segment = segment.replace(/\\/g, '/')
     }
-    
+
     // 去掉路径段两端的斜杠并分割路径
     const segments = segment.split('/').filter(processPathSegment)
 
-    // 处理路径段中的 `..` 
+    // 处理路径段中的 `..`
     for (const subSegment of segments) {
       if (subSegment === '..') {
         // 如果是 `..`，则回退一层

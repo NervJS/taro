@@ -112,7 +112,7 @@ function filter (fields, dom) {
     return res
   }
   if (context) {
-    // TODO: 暂未实现获取 context
+    // TODO: 暂未实现获取  context
     // const typeName = dom.type
     // if (/^video/i.test(typeName)) {
     //   return { context: dom }
@@ -179,9 +179,13 @@ function filter (fields, dom) {
 
 function querySelector (selector, selectAll) {
   if (typeof selector === 'string') {
-    return parseHandler(selector, selectAll)
+    return selector.split(',').reduce((prev, current) => {
+      const item = current.trim()
+
+      return prev.concat(parseHandler(item, selectAll))
+    }, [])
   }
-  return null
+  return []
 }
 
 function queryBat (queue, cb) {
@@ -196,7 +200,7 @@ function queryBat (queue, cb) {
   traversalDFSDom(element)
   queue.forEach((item) => {
     const { selector, single, fields } = item
-    
+
     if (single) {
       const dom = querySelector(selector, !single)[0]
       // eslint-disable-next-line no-async-promise-executor

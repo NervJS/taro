@@ -3,7 +3,7 @@ import history from 'connect-history-api-fallback'
 import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
-import { appendVirtualModulePrefix, generateQueryString, genRouterResource, getMode, getQueryParams } from '../utils'  
+import { appendVirtualModulePrefix, generateQueryString, genRouterResource, getMode, getQueryParams } from '../utils'
 import { ENTRY_QUERY, PAGENAME_QUERY } from '../utils/constants'
 import { getHtmlScript } from '../utils/html'
 
@@ -48,7 +48,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
   }
 
   function getIsHtmlEntry (pathName: string) {
-    return pages.some(({ name })=> {
+    return pages.some(({ name }) => {
       const pageName = removeHeadSlash(path.join(basename, name))
       const htmlPath = path.join(appPath, taroConfig.sourceRoot || 'src', `${pageName}.html`)
       return htmlPath === pathName
@@ -84,7 +84,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         getRoutesConfig
       }
     },
-    config: () =>({
+    config: () => ({
       build: {
         rollupOptions: {
           input: getInput(),
@@ -99,11 +99,11 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       const proxy = server.config.server.proxy || {}
       const proxyKeys = Object.keys(proxy)
       const baseUrl = server.config.base ?? '/'
-      pages.forEach(({ name })=> {
+      pages.forEach(({ name }) => {
         const pageName = removeHeadSlash(path.join(basename, name))
         rewrites.push(createRewire(pageName, baseUrl, proxyKeys))
       })
-      server.middlewares.use(history({          
+      server.middlewares.use(history({
         disableDotRule: undefined,
         htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
         rewrites: rewrites
@@ -113,10 +113,10 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       // 处理 html 文件
       const isEntry = getIsHtmlEntry(source)
       if (isEntry) return source
-      
+
       // 处理 config.ts 入口文件
       const resolved = await this.resolve(source, importer, { ...options, skipSelf: true })
-      if (resolved?.id && pages.some(({ configPath })=> resolved.id.startsWith(configPath))) {
+      if (resolved?.id && pages.some(({ configPath }) => resolved.id.startsWith(configPath))) {
         // mpa 模式，入口文件为每个page下的config
         const queryParams = getQueryParams(source)
         const pageName = queryParams?.[PAGENAME_QUERY]
@@ -144,19 +144,19 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         let srciptSource = configPath.replace(sourceDir, '')
         let page
         if (isProd) {
-          page = pages.filter(({ name })=> filePath?.startsWith(`/${removeHeadSlash(path.join(basename, name))}`))?.[0]
+          page = pages.filter(({ name }) => filePath?.startsWith(`/${removeHeadSlash(path.join(basename, name))}`))?.[0]
         } else {
-          page = pages.filter(({ name })=> originalUrl?.startsWith(`/${removeHeadSlash(path.join(basename, name))}`))?.[0]
+          page = pages.filter(({ name }) => originalUrl?.startsWith(`/${removeHeadSlash(path.join(basename, name))}`))?.[0]
         }
         if (page) {
           const params = { [PAGENAME_QUERY]: page.name }
           const queryString = generateQueryString(params)
           srciptSource = page.configPath.replace(sourceDir, '') + `?${queryString}`
-        } 
+        }
         const htmlScript = getHtmlScript(srciptSource, pxtransformOption)
 
         return html.replace(/<script><%= htmlWebpackPlugin.options.script %><\/script>/, htmlScript)
-      } 
+      }
     },
   }
 }

@@ -256,7 +256,7 @@ declare module '../../index' {
     ): T
 
     /** Taro.getStorageInfo 的同步版本
-     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn, harmony_hybrid
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, harmony_hybrid
      * @example
      * ```tsx
      * try {

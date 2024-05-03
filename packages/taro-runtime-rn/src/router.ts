@@ -1,6 +1,6 @@
 /**
  * router-rn 接口都改为require 引入， 单页不引用的router
- * 
+ *
  */
 let routerObj: any = {}
 try {
@@ -8,7 +8,7 @@ try {
   // eslint-disable-next-line
 } catch (e) {}
 
-function getApi (key){
+function getApi (key) {
   if (!routerObj?.[key]) {
     return () => {
       console.error(`Single page can not support ${key}, if you have multiple pages configured, you can try restart and reset cache`)
@@ -32,10 +32,10 @@ export const hideTabBar = getApi('hideTabBar')
 export const hideTabBarRedDot = getApi('hideTabBarRedDot')
 export const navigateBack = getApi('navigateBack')
 export const navigateTo = getApi('navigateTo')
-export const redirectTo = getApi('redirectTo') 
+export const redirectTo = getApi('redirectTo')
 export const reLaunch = getApi('reLaunch')
 export const switchTab = getApi('switchTab')
-export const removeTabBarBadge = getApi('removeTabBarBadge') 
+export const removeTabBarBadge = getApi('removeTabBarBadge')
 export const setNavigationBarColor = getApi('setNavigationBarColor')
 export const setNavigationBarTitle = getApi('setNavigationBarTitle')
 export const setTabBarBadge = getApi('setTabBarBadge')

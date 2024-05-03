@@ -187,7 +187,7 @@ class TaroInputElement<T extends FormWidgetProps = InputProps> extends TaroFormW
 }
 
 @Observed
-class TaroTextAreaElement extends TaroInputElement<TextareaProps>{
+class TaroTextAreaElement extends TaroInputElement<TextareaProps> {
   controller: TextAreaController = new TextAreaController()
 
   constructor() {
@@ -195,14 +195,14 @@ class TaroTextAreaElement extends TaroInputElement<TextareaProps>{
   }
 }
 @Observed
-class TaroCheckboxElement extends TaroCheckedElement<CheckboxProps>{
+class TaroCheckboxElement extends TaroCheckedElement<CheckboxProps> {
   constructor() {
     super('Checkbox')
   }
 }
 
 @Observed
-class TaroRadioElement extends TaroCheckedElement<RadioProps>{
+class TaroRadioElement extends TaroCheckedElement<RadioProps> {
   public group?: string
 
   constructor() {
@@ -232,7 +232,7 @@ class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | Pick
       case 'selector': {
         const key = this._attrs.rangeKey
         const item = this._attrs.range[this.value]
-        
+
         if (key) {
           return item[key]
         } else {
@@ -261,7 +261,7 @@ class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | Pick
     super.reset()
 
     const event: TaroEvent = createTaroEvent('change', { detail: { value: this._reset } }, this)
-    
+
     event.stopPropagation()
     eventHandler(event, 'change', this)
   }
@@ -337,7 +337,7 @@ class TaroFormElement extends TaroFormWidgetElement {
 
       findChildNodeWithDFS<TaroFormWidgetElement>(this, item => {
         if (!item.name) return false
-        
+
         switch (item.nodeName) {
           case 'INPUT':
           case 'RADIO':
@@ -368,9 +368,9 @@ class TaroFormElement extends TaroFormWidgetElement {
         e.stopPropagation()
         switch (item.nodeName) {
           case 'INPUT':
-          case 'SLIDER': 
+          case 'SLIDER':
           case 'PICKER':
-          case 'RADIO': 
+          case 'RADIO':
           case 'SWITCH':
           case 'CHECKBOX':
           case 'TEXTAREA':

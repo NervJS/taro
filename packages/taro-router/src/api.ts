@@ -1,4 +1,5 @@
 import { addLeadingSlash } from '@tarojs/runtime'
+import { EventChannel } from '@tarojs/shared'
 import Taro from '@tarojs/taro'
 import { parsePath } from 'history'
 
@@ -7,9 +8,11 @@ import { RouterConfig } from './router'
 import stacks from './router/stack'
 import { routesAlias } from './utils'
 
-import type { NavigateBackOption, Option } from '../types/api'
+import type { NavigateBackOption, NavigateOption, Option } from '../types/api'
 
 type MethodName = 'navigateTo' | 'navigateBack' | 'switchTab' | 'redirectTo' | 'reLaunch'
+
+const routeEvtChannel = EventChannel.routeChannel
 
 function processNavigateUrl (option: Option) {
   const pathPieces = parsePath(option.url)
@@ -44,7 +47,11 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
     stacks.method = method
     const { success, complete, fail } = option
     const unListen = history.listen(() => {
-      const res = { errMsg: `${method}:ok` }
+      const res: any = { errMsg: `${method}:ok` }
+      if (method === 'navigateTo') {
+        res.eventChannel = routeEvtChannel
+        routeEvtChannel.addEvents((option as NavigateOption).events)
+      }
       success?.(res)
       complete?.(res)
       resolve(res)
@@ -57,9 +64,8 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
         const state = { timestamp: Date.now() }
         if (pathPieces.pathname) {
           const originPath = routesAlias.getOrigin(pathPieces.pathname)
-          const pagePath = originPath.startsWith('/') ? originPath.substring(1) : originPath
-          if (!RouterConfig.pages.includes(pagePath)) {
-            const res = { errMsg: `${method}:fail page ${pagePath} is not found` }
+          if (!RouterConfig.isPage(addLeadingSlash(originPath)) && !RouterConfig.isPage(addLeadingSlash(pathPieces.pathname))) {
+            const res = { errMsg: `${method}:fail page ${originPath} is not found` }
             fail?.(res)
             complete?.(res)
             if (fail || complete) {

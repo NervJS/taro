@@ -26,8 +26,8 @@ require("./taro");
         function isFunction() {}
         function isArray() {}
         function processApis() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
+        const EMPTY_OBJ = {};
+        const hooks = {};
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -35,7 +35,7 @@ require("./taro");
         function connectVuePage() {}
         function createVueApp() {}
         function createVue3App() {}
-        var setGlobalDataPlugin = {};
+        const setGlobalDataPlugin = {};
         function useDidHide() {}
         function useDidShow() {}
         function useError() {}
@@ -58,36 +58,36 @@ require("./taro");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ "addEventOnCalendar", "chooseAlbum", "closeCommunityEditor", "getSwanId", "requestPolymerPayment", "navigateBackSmartProgram", "navigateToSmartProgram", "setPageInfo", "closeReplyEditor", "deleteBookShelf", "deleteEventOnCalendar", "getSystemRiskInfo", "insertBookshelf", "loadSubPackage", "openCommunityEditor", "openReplyEditor", "openShare", "setDocumentTitle", "setMetaDescription", "setMetaKeywords", "shareFile", "subscribeService", "updateBookshelfReadTime" ]);
-        var apiDiff = {
+        const needPromiseApis = new Set([ "addEventOnCalendar", "chooseAlbum", "closeCommunityEditor", "getSwanId", "requestPolymerPayment", "navigateBackSmartProgram", "navigateToSmartProgram", "setPageInfo", "closeReplyEditor", "deleteBookShelf", "deleteEventOnCalendar", "getSystemRiskInfo", "insertBookshelf", "loadSubPackage", "openCommunityEditor", "openReplyEditor", "openShare", "setDocumentTitle", "setMetaDescription", "setMetaKeywords", "shareFile", "subscribeService", "updateBookshelfReadTime" ]);
+        const apiDiff = {
             login: {
                 alias: "getLoginCode"
             }
         };
         function transformMeta(api, options) {
-            var apiAlias = api;
-            Object.keys(apiDiff).forEach((function(item) {
-                var apiItem = apiDiff[item];
+            let apiAlias = api;
+            Object.keys(apiDiff).forEach(item => {
+                const apiItem = apiDiff[item];
                 if (api === item) {
                     if (apiItem.alias) {
                         apiAlias = apiItem.alias;
                     }
                     if (apiItem.options) {
-                        var change = apiItem.options.change;
-                        var set = apiItem.options.set;
+                        const change = apiItem.options.change;
+                        const set = apiItem.options.set;
                         if (change) {
-                            change.forEach((function(changeItem) {
+                            change.forEach(changeItem => {
                                 options[changeItem.new] = options[changeItem.old];
-                            }));
+                            });
                         }
                         if (set) {
-                            set.forEach((function(setItem) {
+                            set.forEach(setItem => {
                                 options[setItem.key] = typeof setItem.value === "function" ? setItem.value(options) : setItem.value;
-                            }));
+                            });
                         }
                     }
                 }
-            }));
+            });
             return {
                 key: apiAlias,
                 options: options
@@ -99,7 +99,7 @@ require("./taro");
                 transformMeta: transformMeta
             });
         }
-        var components = {
+        const components = {
             Progress: {
                 "border-radius": "0",
                 "font-size": "16",
@@ -316,26 +316,26 @@ require("./taro");
                 bindError: ""
             }
         };
-        var hostConfig = {
+        const hostConfig = {
             initNativeApi: initNativeApi,
-            getPathIndex: function getPathIndex(indexOfNode) {
-                return "".concat(indexOfNode);
+            getPathIndex(indexOfNode) {
+                return \`\${indexOfNode}\`;
             },
-            getSpecialNodes: function getSpecialNodes() {
+            getSpecialNodes() {
                 return [ "text", "image" ];
             },
-            modifyTaroEvent: function modifyTaroEvent(event, node) {
+            modifyTaroEvent(event, node) {
                 if (node.tagName === "MAP" && event.type === "regionchange") {
                     event.type = "end";
                 }
             },
-            getMiniLifecycle: function getMiniLifecycle(config) {
+            getMiniLifecycle(config) {
                 config.page[0] = "onInit";
                 return config;
             }
         };
         mergeReconciler(hostConfig);
-        var internalComponents = mergeInternalComponents(components);
+        const internalComponents = mergeInternalComponents(components);
         delete internalComponents.Input.cursor;
         delete internalComponents.Input["selection-start"];
         delete internalComponents.Input["selection-end"];
@@ -410,14 +410,6 @@ require("./taro");
   </block>
 </template>
 
-<template name="tmpl_0_0">
-  <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block s-for="i.cn trackBy item.sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
-    </block>
-  </view>
-</template>
-
 <template name="tmpl_0_7">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block s-for="i.cn trackBy item.sid">
@@ -440,7 +432,7 @@ require("./taro");
                                       <template is="{{xs.a(0, item.nn)}}" data="{{{i:item}}}" />
                                     </block>
                                   </view>
-                                  <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                                  <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                                     <block s-for="item.cn trackBy item.sid">
                                       <block>{{item.v}}</block>
                                     </block>
@@ -456,7 +448,7 @@ require("./taro");
                                     </block>
                                   </button>
                                   <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
-                                  <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                                  <swiper s-elif="{{item.nn==='41'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                                     <block s-for="xs.f(item.cn) trackBy item.sid">
                                       <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
                                     </block>
@@ -466,7 +458,7 @@ require("./taro");
                                   </block>
                                 </block>
                               </view>
-                              <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                              <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                                 <block s-for="item.cn trackBy item.sid">
                                   <block>{{item.v}}</block>
                                 </block>
@@ -482,7 +474,7 @@ require("./taro");
                                 </block>
                               </button>
                               <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
-                              <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                              <swiper s-elif="{{item.nn==='41'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                                 <block s-for="xs.f(item.cn) trackBy item.sid">
                                   <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
                                 </block>
@@ -492,7 +484,7 @@ require("./taro");
                               </block>
                             </block>
                           </view>
-                          <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                          <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                             <block s-for="item.cn trackBy item.sid">
                               <block>{{item.v}}</block>
                             </block>
@@ -508,7 +500,7 @@ require("./taro");
                             </block>
                           </button>
                           <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
-                          <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                          <swiper s-elif="{{item.nn==='41'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                             <block s-for="xs.f(item.cn) trackBy item.sid">
                               <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
                             </block>
@@ -518,7 +510,7 @@ require("./taro");
                           </block>
                         </block>
                       </view>
-                      <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                      <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                         <block s-for="item.cn trackBy item.sid">
                           <block>{{item.v}}</block>
                         </block>
@@ -534,7 +526,7 @@ require("./taro");
                         </block>
                       </button>
                       <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
-                      <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                      <swiper s-elif="{{item.nn==='41'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                         <block s-for="xs.f(item.cn) trackBy item.sid">
                           <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
                         </block>
@@ -544,7 +536,7 @@ require("./taro");
                       </block>
                     </block>
                   </view>
-                  <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                  <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                     <block s-for="item.cn trackBy item.sid">
                       <block>{{item.v}}</block>
                     </block>
@@ -560,7 +552,7 @@ require("./taro");
                     </block>
                   </button>
                   <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
-                  <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+                  <swiper s-elif="{{item.nn==='41'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                     <block s-for="xs.f(item.cn) trackBy item.sid">
                       <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
                     </block>
@@ -570,7 +562,7 @@ require("./taro");
                   </block>
                 </block>
               </view>
-              <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+              <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                 <block s-for="item.cn trackBy item.sid">
                   <block>{{item.v}}</block>
                 </block>
@@ -586,7 +578,7 @@ require("./taro");
                 </block>
               </button>
               <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
-              <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+              <swiper s-elif="{{item.nn==='41'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                 <block s-for="xs.f(item.cn) trackBy item.sid">
                   <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
                 </block>
@@ -596,7 +588,7 @@ require("./taro");
               </block>
             </block>
           </view>
-          <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+          <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
             <block s-for="item.cn trackBy item.sid">
               <block>{{item.v}}</block>
             </block>
@@ -612,7 +604,7 @@ require("./taro");
             </block>
           </button>
           <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
-          <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+          <swiper s-elif="{{item.nn==='41'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
             <block s-for="xs.f(item.cn) trackBy item.sid">
               <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
             </block>
@@ -622,7 +614,7 @@ require("./taro");
           </block>
         </block>
       </view>
-      <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+      <text s-elif="{{item.nn==='6'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
         <block s-for="item.cn trackBy item.sid">
           <block>{{item.v}}</block>
         </block>
@@ -638,7 +630,7 @@ require("./taro");
         </block>
       </button>
       <input s-elif="{{item.nn==='21'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" value="{{item.p14}}" type="{{xs.b(item.p13,'')}}" password="{{xs.b(item.p7,!1)}}" placeholder="{{item.p8}}" placeholder-style="{{item.p10}}" placeholder-class="{{xs.b(item.p9,'input-placeholder')}}" disabled="{{item.p4}}" maxlength="{{xs.b(item.p5,140)}}" cursor-spacing="{{xs.b(item.p3,0)}}" focus="{{xs.b(item.focus,!1)}}" confirm-type="{{xs.b(item.p1,'done')}}" confirm-hold="{{xs.b(item.p0,!1)}}" cursor="{{xs.b(item.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(item.p12,-1)}}" selection-end="{{xs.b(item.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{item.p6}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh" />
-      <swiper s-elif="{{item.nn==='40'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+      <swiper s-elif="{{item.nn==='41'&&(item.st||item.cl)}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" indicator-dots="{{xs.b(item.p7,!1)}}" indicator-color="{{xs.b(item.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(item.p5,'#000000')}}" autoplay="{{xs.b(item.p0,!1)}}" current="{{xs.b(item.p2,0)}}" interval="{{xs.b(item.p8,5000)}}" duration="{{xs.b(item.p4,500)}}" circular="{{xs.b(item.p1,!1)}}" vertical="{{xs.b(item.p11,!1)}}" previous-margin="{{xs.b(item.p10,'0px')}}" next-margin="{{xs.b(item.p9,'0px')}}" display-multiple-items="{{xs.b(item.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
         <block s-for="xs.f(item.cn) trackBy item.sid">
           <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
         </block>
@@ -654,13 +646,13 @@ require("./taro");
   <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block s-for="i.cn trackBy item.sid">
       <block s-if="item.nn === '8'">{{item.v}}</block>
-      <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+      <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
         <block s-for="item.cn trackBy item.sid">
           <block s-if="item.nn === '8'">{{item.v}}</block>
-          <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+          <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
             <block s-for="item.cn trackBy item.sid">
               <block s-if="item.nn === '8'">{{item.v}}</block>
-              <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+              <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                 <block s-for="item.cn trackBy item.sid">
                   <block>{{item.v}}</block>
                 </block>
@@ -674,16 +666,16 @@ require("./taro");
 </template>
 
 <template name="tmpl_0_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block s-for="i.cn trackBy item.sid">
       <block s-if="item.nn === '8'">{{item.v}}</block>
-      <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+      <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
         <block s-for="item.cn trackBy item.sid">
           <block s-if="item.nn === '8'">{{item.v}}</block>
-          <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+          <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
             <block s-for="item.cn trackBy item.sid">
               <block s-if="item.nn === '8'">{{item.v}}</block>
-              <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
+              <text s-else id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" selectable="{{xs.b(item.p1,!1)}}" space="{{item.p2}}" decode="{{xs.b(item.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh">
                 <block s-for="item.cn trackBy item.sid">
                   <block>{{item.v}}</block>
                 </block>
@@ -716,15 +708,15 @@ require("./taro");
   </cover-image>
 </template>
 
-<template name="tmpl_0_43">
+<template name="tmpl_0_44">
   <template is="{{xs.c(i, 'tmpl_0_')}}" data="{{{ i:i }}}" />
 </template>
 
-<template name="tmpl_0_43_focus">
+<template name="tmpl_0_44_focus">
   <textarea value="{= i.p13 =}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
-<template name="tmpl_0_43_blur">
+<template name="tmpl_0_44_blur">
   <textarea value="{= i.p13 =}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
@@ -763,7 +755,7 @@ require("./taro");
   </cover-view>
 </template>
 
-<template name="tmpl_0_36">
+<template name="tmpl_0_37">
   <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{= i.p5 =}" scroll-left="{= i.p4 =}" scroll-into-view="{= i.p3 =}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block s-for="i.cn trackBy item.sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
@@ -771,7 +763,7 @@ require("./taro");
   </scroll-view>
 </template>
 
-<template name="tmpl_0_40">
+<template name="tmpl_0_41">
   <swiper indicator-dots="{{xs.b(i.p7,!1)}}" indicator-color="{{xs.b(i.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(i.p5,'#000000')}}" autoplay="{{xs.b(i.p0,!1)}}" current="{{xs.b(i.p2,0)}}" interval="{{xs.b(i.p8,5000)}}" duration="{{xs.b(i.p4,500)}}" circular="{{xs.b(i.p1,!1)}}" vertical="{{xs.b(i.p11,!1)}}" previous-margin="{{xs.b(i.p10,'0px')}}" next-margin="{{xs.b(i.p9,'0px')}}" display-multiple-items="{{xs.b(i.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongtap="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block s-for="xs.f(i.cn) trackBy item.sid" s-key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
@@ -779,7 +771,7 @@ require("./taro");
   </swiper>
 </template>
 
-<template name="tmpl_0_41">
+<template name="tmpl_0_42">
   <swiper-item item-id="{{i.p0}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block s-for="i.cn trackBy item.sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{{ i:item }}}" />
@@ -803,7 +795,7 @@ require("./taro");
   </image>
 </template>
 
-<template name="tmpl_0_44">
+<template name="tmpl_0_45">
   <video src="{{i.p20}}" duration="{{i.p6}}" controls="{{xs.b(i.p2,!0)}}" danmu-list="{{i.p4}}" danmu-btn="{{i.p3}}" enable-danmu="{{i.p7}}" autoplay="{{xs.b(i.p1,!1)}}" loop="{{xs.b(i.p10,!1)}}" muted="{{xs.b(i.p11,!1)}}" initial-time="{{xs.b(i.p9,0)}}" page-gesture="{{xs.b(i.p13,!1)}}" direction="{{i.p5}}" show-progress="{{xs.b(i.p19,!0)}}" show-fullscreen-btn="{{xs.b(i.p16,!0)}}" show-play-btn="{{xs.b(i.p18,!0)}}" show-center-play-btn="{{xs.b(i.p15,!0)}}" enable-progress-gesture="{{xs.b(i.p8,!0)}}" object-fit="{{xs.b(i.p12,'contain')}}" poster="{{i.p14}}" show-mute-btn="{{xs.b(i.p17,!1)}}" bindplay="eh" bindpause="eh" bindended="eh" bindtimeupdate="eh" bindfullscreenchange="eh" bindwaiting="eh" binderror="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block s-for="i.cn trackBy item.sid">
       <ad s-if={{item.nn==='9'}} id="{{item.uid||item.sid}}" data-sid="{{item.sid}}" unit-id="{{item.p1}}" ad-intervals="{{item.p0}}" bindload="eh" binderror="eh" bindclose="eh" style="{{item.st}}" class="{{item.cl}}" bindtap="eh"></ad>
@@ -1350,7 +1342,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l) {
-    return l.filter(function (i) {return i.nn === '41'})
+    return l.filter(function (i) {return i.nn === '42'})
   }
 }
 

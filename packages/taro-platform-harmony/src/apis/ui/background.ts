@@ -11,7 +11,8 @@ export function setBackgroundColor(options: Taro.setBackgroundColor.Option) {
 
   return new Promise((resolve, reject) => {
     eventCenter.trigger('__taroPageStyle', {
-      backgroundColor: options.backgroundColor || options.backgroundColorTop || options.backgroundColorBottom,
+      backgroundColor: options.backgroundColorBottom || options.backgroundColor,
+      backgroundColorContext: options.backgroundColorTop || options.backgroundColor
     })
 
     return handle.success({}, { resolve, reject })

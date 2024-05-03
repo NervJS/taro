@@ -41,6 +41,10 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    queryPrefix: {
+      type: String,
+      default: ''
+    },
     position: {
       type: String,
       default: 'absolute'
@@ -122,7 +126,7 @@ export default defineComponent({
           duration: 300,
         }
         option.top = scrollOffset
-        return getScrollViewContextNode(`#${this.preset.id}`).then((node: any) => node.scrollTo(option))
+        return getScrollViewContextNode(`${this.$props.queryPrefix}#${this.preset.id}`).then((node: any) => node.scrollTo(option))
       }
 
       this.scrollDirection = this.scrollOffset < scrollOffset ? 'forward' : 'backward'
@@ -193,7 +197,7 @@ export default defineComponent({
               const itemIndex = this.itemMap.getItemIndexByPosition(column, row)
               if (itemIndex >= 0 && itemIndex < this.$props.itemCount) {
                 const times = this.itemMap.compareSizeByPosition(column, row) ? 3 : 0
-                getRectSizeSync(`#${this.preset.id}-${itemIndex}`, 100, times).then(({ height }) => {
+                getRectSizeSync(`${this.$props.queryPrefix}#${this.preset.id}-${itemIndex}`, 100, times).then(({ height }) => {
                   if (typeof height === 'number' && height > 0 && !this.itemMap.compareSizeByPosition(column, row, height)) {
                     this.itemMap.setSizeByPosition(column, row, height)
                   }

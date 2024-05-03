@@ -76,6 +76,7 @@ common/autoinstallers/*/.npmrc
 
 target/
 debug/
+!packages/taro-platform-harmony-hybrid/src/api/apis/base/debug
 
 # Binding artifacts
 artifacts

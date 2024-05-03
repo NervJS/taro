@@ -113,6 +113,15 @@ export interface TaroStyleType {
   animationDelay?: number
   animationIterationCount?: number
 
+  // shadow
+  boxShadow?: {
+    radius: number
+    color?: string
+    offsetX?: number
+    offsetY?: number
+    fill?: boolean
+  }
+
   // other
   opacity?: number | Resource
   zIndex?: number

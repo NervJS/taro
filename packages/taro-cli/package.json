@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "4.0.0-beta.47",
+  "version": "4.0.0-beta.61",
   "description": "cli tool for taro",
   "main": "index.js",
   "types": "dist/index.d.ts",
@@ -65,10 +65,10 @@
     "xml2js": "^0.5.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5",
-    "@babel/traverse": "^7.20.0",
-    "@babel/types": "^7.23.0",
-    "@types/babel__traverse": "^7.20.2",
+    "@babel/core": "^7.23.0",
+    "@babel/traverse": "^7.23.0",
+    "@babel/types": "^7.24.5",
+    "@types/babel__traverse": "^7.20.5",
     "babel-jest": "^29.7.0",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",

@@ -23,9 +23,9 @@ export function pxTransform (size: number): number {
   const deviceWidthDp = Dimensions.get('window').width
   const config: AppConfig = globalAny.__taroAppConfig?.appConfig || {}
   const deviceRatio = config.deviceRatio || defaultRadio
-  const designWidth = (((input = 0) => isFunction(config.designWidth)
+  const designWidth = ((input = 0) => isFunction(config.designWidth)
     ? config.designWidth(input)
-    : config.designWidth || defaultWidth))(size)
+    : config.designWidth || defaultWidth)(size)
   if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
