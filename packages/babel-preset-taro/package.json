@@ -40,7 +40,7 @@
     "babel-preset-solid": "^1.8.15",
     "core-js": "^3.6.5",
     "react-refresh": "^0.11.0",
-    "babel-plugin-transform-solid-jsx-ad-taro-components": "workspace:*"
+    "babel-plugin-transform-solid-jsx": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",

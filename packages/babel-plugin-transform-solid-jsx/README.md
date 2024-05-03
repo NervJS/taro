@@ -1,4 +1,4 @@
-# babel-plugin-transform-solid-jsx-ad-taro-components
+# babel-plugin-transform-solid-jsx
 
 fork from [babel-plugin-jsx-dom-expressions](https://github.com/ryansolid/dom-expressions/blob/main/packages/babel-plugin-jsx-dom-expressions) version: 0.37.19
 

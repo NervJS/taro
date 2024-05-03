@@ -177,5 +177,5 @@ See `/LICENSE.txt` for details of the license.
 
 MIT (babel-plugin-jsx-dom-expressions):
 The following files embed [babel-plugin-jsx-dom-expressions](https://github.com/ryansolid/dom-expressions/blob/main/packages/babel-plugin-jsx-dom-expressions) MIT:
-`/packages/babel-plugin-transform-solid-jsx-ad-taro-components/src/*`
+`/packages/babel-plugin-transform-solid-jsx/src/*`
 See `/LICENSE` for details of the license.

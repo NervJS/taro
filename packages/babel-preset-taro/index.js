@@ -69,7 +69,7 @@ module.exports = (_, options = {}) => {
     }
   } else if (isSolid) {
     presets.push([
-      require('babel-plugin-transform-solid-jsx-ad-taro-components'),
+      require('babel-plugin-transform-solid-jsx'),
       {
         moduleName: '@tarojs/plugin-framework-react/dist/reconciler',
         generate: 'universal',
