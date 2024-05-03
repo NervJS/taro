@@ -14,7 +14,7 @@ import type { PluginOption } from 'vite'
 
 export const RECONCILER_NAME = '@tarojs/plugin-framework-solid/dist/reconciler'
 
-interface OnParseCreateElementArgs {
+interface IParseCreateElementArgs {
   nodeName: string
   componentConfig: IComponentConfig
 }
@@ -102,7 +102,7 @@ export default (ctx: IPluginContext) => {
   })
 
   // 映射、收集使用到的小程序组件
-  ctx.onParseCreateElement(({ nodeName, componentConfig }: OnParseCreateElementArgs) => {
+  ctx.onParseCreateElement(({ nodeName, componentConfig }: IParseCreateElementArgs) => {
     if (capitalize(toCamelCase(nodeName)) in internalComponents) {
       componentConfig.includes.add(nodeName)
     }
