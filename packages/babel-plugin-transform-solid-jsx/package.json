@@ -13,6 +13,7 @@
   "readmeFilename": "README.md",
   "main": "index.js",
   "files": [
+    "index.js",
     "dist"
   ],
   "sideEffects": false,
