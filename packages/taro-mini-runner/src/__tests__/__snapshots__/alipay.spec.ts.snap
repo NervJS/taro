@@ -69,7 +69,7 @@ require("./taro");
         function useTabItemTap() {}
         function useScope() {}
     },
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         (function(navigator) {
             var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
@@ -832,25 +832,39 @@ require("./taro");
             Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["c"])(components);
         }).call(this, __webpack_require__(4)["navigator"]);
     },
-    13: function(module, exports, __webpack_require__) {},
-    17: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, exports, __webpack_require__) {},
+    18: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
-        var runtime = __webpack_require__(12);
+        var runtime = __webpack_require__(13);
         var taro_runtime = __webpack_require__(4);
         var taro = __webpack_require__(0);
-        var classCallCheck = __webpack_require__(5);
+        var classCallCheck = __webpack_require__(6);
         var createClass = __webpack_require__(7);
-        var inherits = __webpack_require__(8);
-        var createSuper = __webpack_require__(6);
+        var possibleConstructorReturn = __webpack_require__(8);
+        var getPrototypeOf = __webpack_require__(5);
+        var inherits = __webpack_require__(9);
         var react = __webpack_require__(1);
-        var app = __webpack_require__(13);
+        var app = __webpack_require__(14);
+        function _callSuper(_this, derived, args) {
+            function isNativeReflectConstruct() {
+                if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+                if (Reflect.construct.sham) return false;
+                if (typeof Proxy === "function") return true;
+                try {
+                    return !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+                } catch (e) {
+                    return false;
+                }
+            }
+            derived = Object(getPrototypeOf["a"])(derived);
+            return Object(possibleConstructorReturn["a"])(_this, isNativeReflectConstruct() ? Reflect.construct(derived, args || [], Object(getPrototypeOf["a"])(_this).constructor) : derived.apply(_this, args));
+        }
         var app_App = function(_Component) {
             Object(inherits["a"])(App, _Component);
-            var _super = Object(createSuper["a"])(App);
             function App() {
                 Object(classCallCheck["a"])(this, App);
-                return _super.apply(this, arguments);
+                return _callSuper(this, App, arguments);
             }
             Object(createClass["a"])(App, [ {
                 key: "componentDidMount",
@@ -870,7 +884,7 @@ require("./taro");
             return App;
         }(react["Component"]);
         var entry_cachename_app_src_app = app_App;
-        var taro_react = __webpack_require__(9);
+        var taro_react = __webpack_require__(10);
         var config = {
             pages: [ "pages/index/index" ],
             window: {
@@ -894,7 +908,7 @@ require("./taro");
             targetUnit: undefined
         });
     }
-}, [ [ 17, 0, 1, 3, 2 ] ] ]);
+}, [ [ 18, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -1070,8 +1084,8 @@ require("./taro");
 /** filePath: dist/pages/index/index.js **/
 /*! For license information please see index.js.LICENSE.txt */
 (my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 7 ], {
-    15: function(module, exports, __webpack_require__) {},
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    16: function(module, exports, __webpack_require__) {},
+    17: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(4);
@@ -1410,19 +1424,33 @@ require("./taro");
                 }));
             };
         }
-        var classCallCheck = __webpack_require__(5);
+        var classCallCheck = __webpack_require__(6);
         var createClass = __webpack_require__(7);
-        var inherits = __webpack_require__(8);
-        var createSuper = __webpack_require__(6);
+        var possibleConstructorReturn = __webpack_require__(8);
+        var getPrototypeOf = __webpack_require__(5);
+        var inherits = __webpack_require__(9);
         var react = __webpack_require__(1);
         var taro_components = __webpack_require__(2);
-        var index = __webpack_require__(15);
+        var index = __webpack_require__(16);
+        function _callSuper(_this, derived, args) {
+            function isNativeReflectConstruct() {
+                if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+                if (Reflect.construct.sham) return false;
+                if (typeof Proxy === "function") return true;
+                try {
+                    return !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+                } catch (e) {
+                    return false;
+                }
+            }
+            derived = Object(getPrototypeOf["a"])(derived);
+            return Object(possibleConstructorReturn["a"])(_this, isNativeReflectConstruct() ? Reflect.construct(derived, args || [], Object(getPrototypeOf["a"])(_this).constructor) : derived.apply(_this, args));
+        }
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
-            var _super = Object(createSuper["a"])(Index);
             function Index() {
                 Object(classCallCheck["a"])(this, Index);
-                return _super.apply(this, arguments);
+                return _callSuper(this, Index, arguments);
             }
             Object(createClass["a"])(Index, [ {
                 key: "componentWillMount",
@@ -1482,7 +1510,7 @@ require("./taro");
         }, config || {}));
         var pages_index = __webpack_exports__["default"] = index_Index;
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.js.LICENSE.txt **/
 /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
@@ -1493,6 +1521,10 @@ require("./taro");
 
 /** filePath: dist/taro.js **/
 (my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 1 ], {
+    10: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_exports__["a"] = "taro-react-mock";
+    },
     2: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         var _unused_webpack_default_export = "taro-components-mock";
@@ -1501,10 +1533,6 @@ require("./taro");
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         __webpack_exports__["default"] = "taro-runtime-mock";
-    },
-    9: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_exports__["a"] = "taro-react-mock";
     }
 } ]);
 
@@ -1545,17 +1573,7 @@ export default {
 }, , function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _classCallCheck;
-    }));
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createSuper;
+        return _getPrototypeOf;
     }));
     function _getPrototypeOf(o) {
         _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
@@ -1563,44 +1581,15 @@ export default {
         };
         return _getPrototypeOf(o);
     }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === "function") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _classCallCheck;
+    }));
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
         }
-    }
-    var esm_typeof = __webpack_require__(3);
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (Object(esm_typeof["a"])(call) === "object" || typeof call === "function")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError("Derived constructors may only return object or undefined");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -1638,6 +1627,26 @@ export default {
             writable: false
         });
         return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _possibleConstructorReturn;
+    }));
+    var esm_typeof = __webpack_require__(3);
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+        }
+        return self;
+    }
+    function _possibleConstructorReturn(self, call) {
+        if (call && (Object(esm_typeof["a"])(call) === "object" || typeof call === "function")) {
+            return call;
+        } else if (call !== void 0) {
+            throw new TypeError("Derived constructors may only return object or undefined");
+        }
+        return _assertThisInitialized(self);
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";

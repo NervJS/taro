@@ -39,6 +39,7 @@ describe('inspect', () => {
         'build'
       ],
       options: {
+        args: expect.any(Object),
         platform: undefined,
         publicPath: undefined,
         isWatch: false,
