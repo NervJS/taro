@@ -1,6 +1,6 @@
 import { PLATFORMS } from '@tarojs/helper'
 import { isArray, isFunction, PLATFORM_TYPE } from '@tarojs/shared'
-import { ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
+import { IPostcssOption } from '@tarojs/taro/types/compile'
 
 import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import MiniCompileModePlugin from '../plugins/MiniCompileModePlugin'
@@ -97,15 +97,9 @@ export class MiniWebpackPlugin {
 
   getCopyWebpackPlugin () {
     const combination = this.combination
-    const { appPath, config, isBuildPlugin } = combination
-    let { copy } = config
+    const { appPath, config } = combination
+    const { copy } = config
     let copyWebpackPlugin
-
-    if (isBuildPlugin) {
-      copy ||= {} as ICopyOptions
-      copy!.patterns ||= []
-      copy.patterns.push(combination.buildNativePlugin.getCopyPattern())
-    }
 
     if (copy?.patterns.length) {
       copyWebpackPlugin = WebpackPlugin.getCopyWebpackPlugin(appPath, copy)

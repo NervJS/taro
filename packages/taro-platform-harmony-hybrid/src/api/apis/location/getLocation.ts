@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 
+import native from '../NativeApi'
 import { shouldBeObject } from '../utils'
 import { wgs84Togcj02 } from '../utils/coordinateConvert'
 import { MethodHandler } from '../utils/handler'
@@ -8,7 +9,7 @@ const HIGH_ACCURACY_TIMEOUT = 10000
 
 /**
  * 获取当前的地理位置、速度
- * 
+ *
  * @canUse getLocation
  * @__object [altitude, highAccuracyExpireTime, isHighAccuracy, type]
  * @__success [accuracy, altitude, horizontalAccuracy, latitude, longitude, speed, verticalAccuracy]
@@ -23,26 +24,26 @@ export const getLocation: typeof Taro.getLocation = (options) => {
     return Promise.reject(res)
   }
   const {
-    altitude = 'false',
+    altitude = false,
     highAccuracyExpireTime,
     isHighAccuracy = false,
     type = 'wgs84',
     success,
     fail,
-    complete
+    complete,
   } = options as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise<Taro.getLocation.SuccessCallbackResult>((resolve, reject) => {
     const loc: Partial<Taro.getLocation.SuccessCallbackResult> = {}
     let flag = true
-    let timeoutId: NodeJS.Timeout
+    let timeoutId: ReturnType<typeof setTimeout>
     // 只有开启了高精度定位才需要设置超时时间，默认超时时间10秒
     if (isHighAccuracy) {
       timeoutId = setTimeout(function () {
         if (!loc.latitude && !loc.longitude) {
           const result: TaroGeneral.CallbackResult = {
-            errMsg: '定位超时！'
+            errMsg: '定位超时！',
           }
           flag = false
           handle.fail(result, { resolve, reject })
@@ -50,7 +51,6 @@ export const getLocation: typeof Taro.getLocation = (options) => {
       }, highAccuracyExpireTime ?? HIGH_ACCURACY_TIMEOUT)
     }
 
-    // @ts-ignore
     native.getLocation({
       success: (res: any) => {
         // 超时后即使后面回调触发了也不执行后面的逻辑
@@ -70,7 +70,7 @@ export const getLocation: typeof Taro.getLocation = (options) => {
           loc.longitude = isHighAccuracy ? lng : parseFloat(lng.toFixed(6))
         } else {
           const result: TaroGeneral.CallbackResult = {
-            errMsg: 'type参数有误，仅支持"wgs84"和"gcj02"坐标系！'
+            errMsg: 'type参数有误，仅支持"wgs84"和"gcj02"坐标系！',
           }
           clearTimeout(timeoutId)
           return handle.fail(result, { resolve, reject })

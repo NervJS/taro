@@ -91,7 +91,7 @@ export function triggerAttributesCallback (node, attributeName) {
 
   const value = node._attrs[attributeName]
   const cb = node._nodeInfo.attributeCallback[attributeName]
-    
+
   isFunction(cb) && cb(value)
 }
 

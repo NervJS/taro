@@ -313,7 +313,7 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
   return {
     name: 'taro:vite-style-post',
     enforce: 'post',
-    configResolved( config ) {
+    configResolved(config) {
       viteConfig = config
     },
     buildStart() {

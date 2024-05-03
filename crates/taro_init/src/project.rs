@@ -93,7 +93,7 @@ impl Project {
     let creator = Creator::new(self.template_root.clone(), project_path_str.clone());
     let template_path = creator.get_template_path(&[&self.template]);
     let filter = &FILE_FILTER;
-    let all_files = get_all_files_in_folder(template_path.clone(), filter)?;
+    let all_files = get_all_files_in_folder(template_path.clone(), filter, None)?;
     let mut create_options = CreateOptions {
       css: Some(self.css.clone()),
       css_ext: None,
@@ -114,7 +114,7 @@ impl Project {
       is_custom_template: None,
       plugin_type: None,
     };
-    let all_files = all_files.iter().map(|f| f.as_str()).collect::<Vec<_>>();
+    let all_files = all_files.iter().filter_map(|f| f.to_str()).collect::<Vec<_>>();
     println!();
     println!(
       "{} {}",

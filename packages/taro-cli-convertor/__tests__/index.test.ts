@@ -522,7 +522,7 @@ describe('parseAst', () => {
         const { add } = require('/add')
         Page({})
       `,
-      '/pages/index/add.js':`
+      '/pages/index/add.js': `
         function add(num1,num2){
           return num1 + num2
         }
@@ -563,7 +563,7 @@ describe('parseAst', () => {
         const { add } = require('add')
         Page({})
       `,
-      '/pages/index/add.js':`
+      '/pages/index/add.js': `
         function add(num1,num2){
           return num1 + num2
         }
@@ -606,7 +606,7 @@ describe('parseAst', () => {
         const { test } = require('com/navigation-bar/test')
         Page({})
       `,
-      '/pages/index/utils.js':`
+      '/pages/index/utils.js': `
         const name = 'wsjzy'
         const mesg = 'who are you ?'
         module.exports = {
@@ -614,7 +614,7 @@ describe('parseAst', () => {
           mesg
         }
       `,
-      '/pages/tools/util.js':`
+      '/pages/tools/util.js': `
         function formatTime() {
           return '1111' + '2222'
         }
@@ -625,7 +625,7 @@ describe('parseAst', () => {
           a
         }
       `,
-      '/components/navigation-bar/test.js':`
+      '/components/navigation-bar/test.js': `
         const test = 'test from components'
         module.exports = {
           test

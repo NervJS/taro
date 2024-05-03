@@ -181,9 +181,9 @@ export default class Harmony extends TaroPlatformHarmony {
       if (ext) {
         const code = fs.readFileSync(lib, { encoding: 'utf8' })
         if (
-          (/(?:import\s|from\s|require\()['"]([\\/.][^'"\s]+)['"]\)?/g.test(code)
-          || /\/{3}\s<reference\spath=['"][^'"\s]+['"]\s\/>/g.test(code))
-          && `${libName}${path.extname(libDir)}` !== libDir
+          (/(?:import\s|from\s|require\()['"]([\\/.][^'"\s]+)['"]\)?/g.test(code) ||
+          /\/{3}\s<reference\spath=['"][^'"\s]+['"]\s\/>/g.test(code)) &&
+          `${libName}${path.extname(libDir)}` !== libDir
         ) {
           // Note: 文件包含包内引用的依赖
           const pkgPath = path.relative(libName, libDir)

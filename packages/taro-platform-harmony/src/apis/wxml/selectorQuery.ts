@@ -200,7 +200,7 @@ function queryBat (queue, cb) {
   traversalDFSDom(element)
   queue.forEach((item) => {
     const { selector, single, fields } = item
-    
+
     if (single) {
       const dom = querySelector(selector, !single)[0]
       // eslint-disable-next-line no-async-promise-executor

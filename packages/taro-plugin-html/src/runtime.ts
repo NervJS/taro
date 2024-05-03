@@ -75,7 +75,7 @@ hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias) => {
     payload.value = ensureRect(props, element.style.cssText)
   }
 
-  if (blockElements.has(element.nodeName)) {
+  if (blockElements.has(element.nodeName) && process.env.TARO_ENV !== 'swan') {
     const viewAlias = componentsAlias.view._num
     const staticViewAlias = componentsAlias['static-view']._num
     const catchViewAlias = componentsAlias['catch-view']._num
@@ -128,7 +128,7 @@ hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias) => {
     payload.value = ensureRect(props, element.style.cssText)
   }
 
-  if (blockElements.has(element.nodeName)) {
+  if (blockElements.has(element.nodeName) && process.env.TARO_ENV !== 'swan') {
     const viewAlias = componentsAlias.view._num
     const staticViewAlias = componentsAlias['static-view']._num
     const pureViewAlias = componentsAlias['pure-view']._num
@@ -201,7 +201,7 @@ hooks.tap('modifyAddEventListener', (element, sideEffect, getComponentsAlias) =>
 
 hooks.tap('modifyRemoveEventListener', (element, sideEffect, getComponentsAlias) => {
   // 如果已没有绑定事件，且是 block 元素，则转换为 static-view 或 pure-view
-  if (blockElements.has(element.nodeName) && sideEffect !== false && !element.isAnyEventBinded()) {
+  if (process.env.TARO_ENV !== 'swan' && blockElements.has(element.nodeName) && sideEffect !== false && !element.isAnyEventBinded()) {
     const componentsAlias = getComponentsAlias()
     const value = isHasExtractProp(element) ? 'static-view' : 'pure-view'
     const valueAlias = componentsAlias[value]._num

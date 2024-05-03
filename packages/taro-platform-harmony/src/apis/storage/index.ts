@@ -102,14 +102,14 @@ export function getStorage<T = any> (options: Taro.getStorage.Option<T>) {
         const res = { errMsg: error.message }
         return handle.fail(res, { resolve, reject })
       }
-  
+
       kvStore = kvStore as distributedKVStore.SingleKVStore
       kvStore.get(key, (err, data) => {
         if (err) {
           handle.fail({ errMsg: `Failed to get data. Code:${err.code},message:${err.message}` }, { resolve, reject })
           return
         }
-  
+
         handle.success({ data }, { resolve, reject })
       })
     })
@@ -135,14 +135,14 @@ export function setStorage (options: Taro.setStorage.Option) {
         const res = { errMsg: error.message }
         return handle.fail(res, { resolve, reject })
       }
-  
+
       kvStore = kvStore as distributedKVStore.SingleKVStore
       kvStore.put(key, data, (err) => {
         if (err) {
           handle.fail({ errMsg: `Failed to put data. Code:${err.code},message:${err.message}` }, { resolve, reject })
           return
         }
-  
+
         handle.success({}, { resolve, reject })
       })
     })
@@ -168,14 +168,14 @@ export function removeStorage (options: Taro.removeStorage.Option) {
         const res = { errMsg: error.message }
         return handle.fail(res, { resolve, reject })
       }
-  
+
       kvStore = kvStore as distributedKVStore.SingleKVStore
       kvStore.delete(key, (err) => {
         if (err) {
           handle.fail({ errMsg: `Failed to delete data. Code:${err.code},message:${err.message}` }, { resolve, reject })
           return
         }
-  
+
         handle.success({}, { resolve, reject })
       })
     })

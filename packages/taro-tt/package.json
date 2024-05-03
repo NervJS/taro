@@ -27,7 +27,8 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/service": "workspace:*"
+    "@tarojs/service": "workspace:*",
+    "webpack-sources": "3.2.3"
   },
   "devDependencies": {
     "@tarojs/components": "workspace:*",

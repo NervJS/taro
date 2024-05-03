@@ -708,7 +708,7 @@ for (let i = 0; i < taskQueen.length; i++) {
       paramsString = modifyPageParams.call(this, paramsString, page)
     }
 
-    return `${this.buildConfig.isBuildNativeComp ? '' :`if (${this.appConfig.window?.navigationStyle === 'custom'
+    return `${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
       ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
       : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
   Current.contextPromise
@@ -905,7 +905,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
     // 生成 aboutToAppear 函数内容
     let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as unknown[]).concat(
-      this.buildConfig.isBuildNativeComp ? [] :[
+      this.buildConfig.isBuildNativeComp ? [] : [
         'const state = this.getPageState()',
         'if (this.pageStack.length >= state.index) {',
         '  this.pageStack.length = state.index - 1',

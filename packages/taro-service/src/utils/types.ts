@@ -1,3 +1,5 @@
+import { AppConfig } from '@tarojs/taro'
+
 import type helper from '@tarojs/helper'
 import type runnerUtils from '@tarojs/runner-utils'
 import type { Func, IMiniFilesConfig, IProjectConfig } from '@tarojs/taro/types/compile'
@@ -138,6 +140,10 @@ export declare interface IPluginContext {
    * 修改编译过程中的页面组件配置
    */
   onCompilerMake: (fn: (args: { compilation: Webpack.Compilation, compiler: Webpack.Compiler, plugin: any }) => void) => void
+  /**
+   * 编译前，修改 App 配置
+   */
+  modifyAppConfig: (fn: (args: { appConfig: AppConfig }) => void) => void
   /**
    * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
    */

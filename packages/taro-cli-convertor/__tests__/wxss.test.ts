@@ -28,7 +28,7 @@ describe('引入外部wxss文件', () => {
       }
     `
     const WITHOUT_WXSS_DEMO = {
-      '/pages/common.wxss':`
+      '/pages/common.wxss': `
         page {
           height: 100vh;
           display: flex;
@@ -54,7 +54,7 @@ describe('引入外部wxss文件', () => {
       }
     `
     const WITHOUT_WXSS_DEMO = {
-      '/pages/common.wxss':`
+      '/pages/common.wxss': `
         page {
           height: 100vh;
           display: flex;
@@ -80,7 +80,7 @@ describe('引入外部wxss文件', () => {
       }
     `
     const WITHOUT_WXSS_DEMO = {
-      '/pages/common.wxss':`
+      '/pages/common.wxss': `
         page {
           height: 100vh;
           display: flex;
@@ -105,7 +105,7 @@ describe('引入外部wxss文件', () => {
       }
     `
     const DEMO_FONTS = {
-      '/fonts/Algerian.ttf':'字体二进制',
+      '/fonts/Algerian.ttf': '字体二进制',
       '/pages/index/index.wxss': wxssStr
     }
     setMockFiles(root, DEMO_JS_FILE_INFO)
@@ -115,5 +115,4 @@ describe('引入外部wxss文件', () => {
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()
   })
-  
 })

@@ -243,7 +243,6 @@ export class TaroNode extends TaroDataSourceElement {
     this.parentNode = null
     this.childNodes = []
   }
-
 }
 
 @Observed

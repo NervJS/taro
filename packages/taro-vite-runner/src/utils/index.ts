@@ -69,7 +69,7 @@ export function getComponentName (viteCompilerContext: ViteH5CompilerContext | V
   return componentName.replace(/^(\/|\\)/, '')
 }
 
-const virtualModulePrefix ='\0'
+const virtualModulePrefix = '\0'
 export const virtualModulePrefixREG = new RegExp(`^${virtualModulePrefix}`)
 
 export function appendVirtualModulePrefix (id: string): string {
@@ -105,8 +105,8 @@ export const stripTrailingSlash = (url = '') => (url.charAt(url.length - 1) === 
 export function getMode (config: ViteH5BuildConfig | ViteHarmonyBuildConfig | ViteMiniBuildConfig) {
   const preMode = config.mode || process.env.NODE_ENV
   const modes: ('production' | 'development' | 'none')[] = ['production', 'development', 'none']
-  const mode = modes.find(e => e === preMode)
-    || (!config.isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
+  const mode = modes.find(e => e === preMode) ||
+    (!config.isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
   return mode
 }
 

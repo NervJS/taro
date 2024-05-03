@@ -243,7 +243,6 @@ export { createChildItem, createLazyChildren }
         const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath)
         result = `${result}import ${nativeMeta.name} from '../../../${nativePath}'\n`
       }
-
     })
 
     return result

@@ -57,7 +57,7 @@ export function getResolver (opt: Options = {}, config: IProjectConfig, resolveR
     resolver.assetExts = assetExts.filter(ext => ext !== 'svg')
     resolver.sourceExts.push('svg')
   }
-  if (blockList.length > 0){
+  if (blockList.length > 0) {
     resolver.blockList = blockList
   }
   // 兼容0.60

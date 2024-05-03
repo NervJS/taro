@@ -114,7 +114,15 @@ export default (ctx: IPluginContext) => {
             isBuildNativeComp,
             withoutBuild,
             newBlended,
-            async modifyWebpackChain(chain, webpack, data) {
+            async modifyAppConfig (appConfig) {
+              await ctx.applyPlugins({
+                name: hooks.MODIFY_APP_CONFIG,
+                opts: {
+                  appConfig
+                }
+              })
+            },
+            async modifyWebpackChain (chain, webpack, data) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_WEBPACK_CHAIN,
                 initialVal: chain,

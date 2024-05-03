@@ -221,7 +221,6 @@ interface IPluginOptions {
 }
 
 export default class MiniCompileModePlugin {
-
   // eslint-disable-next-line no-useless-constructor
   constructor (private options: IPluginOptions) {}
 

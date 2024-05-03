@@ -11,7 +11,6 @@ type PlatformType = 'h5' | 'miniprogram' | 'harmony' | 'rn'
 
 // 合并平台规则成并集
 function mergeRule (platforms) {
-
   const rules = {}
 
   // 合并选择器
@@ -43,7 +42,7 @@ function mergeRule (platforms) {
       properties[name] = { ...config.supportedProperties }
     }
   })
-  
+
   // 只有harmony和rn支持
   if (supportPropertiesCheck) {
     // rules['taro/no-nested-selectors'] = true
@@ -83,7 +82,7 @@ function mergeRule (platforms) {
   return rules
 }
 
-const ruleMap = { harmony, rn, miniprogram, h5 } 
+const ruleMap = { harmony, rn, miniprogram, h5 }
 
 // 根据平台生成规则
 function taroRules(platforms: PlatformType[] = []) {
@@ -99,7 +98,6 @@ function getPlatformConfigs (platforms: PlatformType[]): TaroStylelintConfig[] {
 
 // 到处合并配置的方法
 module.exports = function mergeConfig(platforms: PlatformType[], stylelintConfig: stylelint.Config): stylelint.Config {
-  
   // 注入环境变量
   process.env.__PLATFORMS__ = platforms.join(',')
 

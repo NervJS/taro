@@ -4892,35 +4892,6 @@ module.exports = function isGlob(str, options) {
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+is-number@7.0.0/node_modules/is-number/index.js":
-/*!***************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+is-number@7.0.0/node_modules/is-number/index.js ***!
-  \***************************************************************************************************/
-/***/ ((module) => {
-
-"use strict";
-/*!
- * is-number <https://github.com/jonschlinkert/is-number>
- *
- * Copyright (c) 2014-present, Jon Schlinkert.
- * Released under the MIT License.
- */
-
-
-
-module.exports = function(num) {
-  if (typeof num === 'number') {
-    return num - num === 0;
-  }
-  if (typeof num === 'string' && num.trim() !== '') {
-    return Number.isFinite ? Number.isFinite(+num) : isFinite(+num);
-  }
-  return false;
-};
-
-
-/***/ }),
-
 /***/ "../../node_modules/.pnpm/registry.npmjs.org+merge2@1.4.1/node_modules/merge2/index.js":
 /*!*********************************************************************************************!*\
   !*** ../../node_modules/.pnpm/registry.npmjs.org+merge2@1.4.1/node_modules/merge2/index.js ***!

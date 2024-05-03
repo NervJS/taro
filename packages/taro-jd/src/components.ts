@@ -23,5 +23,6 @@ export const components = {
   Textarea: {
     'show-confirm-bar': 'true',
     'adjust-position': 'true',
+    'disable-default-padding': 'false',
   },
 }

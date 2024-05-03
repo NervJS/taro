@@ -128,7 +128,7 @@ module.exports = (options = {}) => {
 
       /** 是否跳过当前文件不处理 */
       let skip = false
-      
+
       if (exclude && exclude?.(result.opts.from)) {
         return null
       }
@@ -212,7 +212,7 @@ module.exports = (options = {}) => {
           if (!satisfyPropList(decl.prop)) return
 
           const isBlacklisted = blacklistedSelector(opts.selectorBlackList, decl.parent.selector)
-          if (isBlacklisted && platform !== 'harmony') return 
+          if (isBlacklisted && platform !== 'harmony') return
           let value
           if (isBlacklisted) {
             // 如果是harmony平台，黑名单的样式单位做特殊处理
@@ -278,7 +278,7 @@ function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransfor
 
       if (platform === 'harmony' && specialPxRgx.test(m)) {
         // harmony对大小写的PX转换成其他单位，用于rust解析
-        return $1 + unConvertTargetUnit 
+        return $1 + unConvertTargetUnit
       }
 
       if (!onePxTransform && parseInt($1, 10) === 1) {

@@ -27,6 +27,7 @@
   "dependencies": {
     "@tarojs/components-rn": "workspace:*",
     "@tarojs/router-rn": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "react-native-device-info": "~10.12.0",
     "react-native-root-siblings": "^5.0.1"
   },
@@ -34,6 +35,7 @@
     "react-native": "^0.73.1"
   },
   "peerDependencies": {
+    "@tarojs/shared": "workspace:*",
     "react-native-device-info": "~10.12.0"
   }
 }

@@ -46,7 +46,7 @@ impl Plugin {
     let project_path_str = project_path.to_string_lossy().to_string();
     let creator = Creator::new(self.template_root.clone(), project_path_str.clone());
     let template_path = creator.get_template_path(&[&self.template]);
-    let all_files = get_all_files_in_folder(template_path.clone(), &[])?;
+    let all_files = get_all_files_in_folder(template_path.clone(), &[], None)?;
     let mut options = CreateOptions {
       css_ext: None,
       css: None,
@@ -67,7 +67,7 @@ impl Plugin {
       page_dir: None,
       set_sub_pkg_page_name: None,
     };
-    let all_files = all_files.iter().map(|f| f.as_str()).collect::<Vec<_>>();
+    let all_files = all_files.iter().filter_map(|f| f.to_str()).collect::<Vec<_>>();
     println!();
     println!(
       "{} {}",

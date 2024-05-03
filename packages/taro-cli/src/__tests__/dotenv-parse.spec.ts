@@ -45,7 +45,6 @@ describe('inspect', () => {
   })
 
   describe('cli mode env', () => {
-
     it('dotenvParse .env .env.dev should success', async () => {
       expect(process.env.TARO_test).toBeUndefined()
       dotenvParse(path.resolve(__dirname, 'env'), 'TARO_', 'dev')

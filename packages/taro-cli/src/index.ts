@@ -20,4 +20,5 @@ export {
   defineConfig,
   doctor,
   getRootPath,
-  Project }
+  Project
+}

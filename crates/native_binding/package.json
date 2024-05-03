@@ -9,7 +9,8 @@
     "triples": {
       "default": true,
       "additional": [
-        "aarch64-apple-darwin"
+        "aarch64-apple-darwin",
+        "x86_64-unknown-linux-musl"
       ]
     }
   },
@@ -20,11 +21,16 @@
     "format": "run-p format:source format:rs",
     "format:rs": "cargo fmt",
     "format:source": "prettier . -w",
-    "test": "ava"
+    "test": "ava",
+    "postinstall": "node postinstall.js"
   },
   "files": [
     "binding.js",
-    "binding.d.ts"
+    "binding.d.ts",
+    "src/**",
+    "build.rs",
+    "Cargo.toml",
+    "postinstall.js"
   ],
   "repository": {
     "type": "git",
@@ -38,6 +44,9 @@
   "devDependencies": {
     "@napi-rs/cli": "3.0.0-alpha.5",
     "ava": "5.3.1"
+  },
+  "dependencies": {
+    "@napi-rs/triples": "1.2.0"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"

@@ -7,6 +7,7 @@ import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
 
 const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor', 'update', 'config']
+const DEFAULT_FRAMEWORK = 'react'
 
 export default class CLI {
   appPath: string
@@ -135,17 +136,16 @@ export default class CLI {
           }
 
           // 根据 framework 启用插件
-          const framework = kernel.config?.initialConfig.framework
-          switch (framework) {
-            case 'vue':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-vue2')
-              break
-            case 'vue3':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-vue3')
-              break
-            default:
-              kernel.optsPlugins.push('@tarojs/plugin-framework-react')
-              break
+          const framework = kernel.config?.initialConfig.framework || DEFAULT_FRAMEWORK
+          const frameworkMap = {
+            vue: '@tarojs/plugin-framework-vue2',
+            vue3: '@tarojs/plugin-framework-vue3',
+            react: '@tarojs/plugin-framework-react',
+            preact: '@tarojs/plugin-framework-react',
+            nerv: '@tarojs/plugin-framework-react',
+          }
+          if (frameworkMap[framework]) {
+            kernel.optsPlugins.push(frameworkMap[framework])
           }
 
           // 编译小程序插件

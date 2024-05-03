@@ -54,7 +54,7 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConf
   protected processConfig () {}
 
   watchConfigFile (rollupCtx: PluginContext) {
-    this.configFileList.forEach((configFile)=> rollupCtx.addWatchFile(configFile))
+    this.configFileList.forEach((configFile) => rollupCtx.addWatchFile(configFile))
   }
 
   getAppScriptPath (): string {

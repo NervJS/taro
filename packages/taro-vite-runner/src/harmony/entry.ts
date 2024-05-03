@@ -72,11 +72,10 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             this.emitFile({
               type: 'chunk',
               id: comp.templatePath + QUERY_IS_NATIVE_SCRIPT,
-              fileName:  path.relative(viteCompilerContext.sourceDir, comp.templatePath) + QUERY_IS_NATIVE_SCRIPT,
+              fileName: path.relative(viteCompilerContext.sourceDir, comp.templatePath) + QUERY_IS_NATIVE_SCRIPT,
               implicitlyLoadedAfterOneOf: [rawId]
             })
           }
-          
         }
 
         // emit tabbar

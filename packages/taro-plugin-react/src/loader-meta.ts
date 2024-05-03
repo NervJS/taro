@@ -117,7 +117,7 @@ function App(props) {
     if (framework === 'react') {
       const react = require('react')
       const majorVersion = Number((react.version || '18').split('.')[0])
-      if ( majorVersion >= 18) {
+      if (majorVersion >= 18) {
         // Note: In react 18 or above, should using react-dom/client
         loaderMeta.importFrameworkStatement = loaderMeta.importFrameworkStatement.replace('\'react-dom\'', '\'react-dom/client\'')
         loaderMeta.extraImportForWeb += `import { findDOMNode, render, unstable_batchedUpdates } from 'react-dom'\n`

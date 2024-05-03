@@ -70,9 +70,9 @@ class TaroDocument extends TaroNode {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
     const element = getPageScrollerOrNode(page.node, page)
-  
+
     if (element == null) return null
-    
+
     return findChildNodeWithDFS(element, selectors)
   }
 
@@ -80,9 +80,9 @@ class TaroDocument extends TaroNode {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
     const element = getPageScrollerOrNode(page.node, page)
-  
+
     if (element == null) return []
-    
+
     return findChildNodeWithDFS(element, selectors, true) || []
   }
   // @Todo

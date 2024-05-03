@@ -24,7 +24,6 @@ const meta = {
 }
 
 const rule: Rule = (primary) => {
-
   return (root, result) => {
     const validOptions = Object.keys(primary).every((key) => {
       if (primary[key]) {
