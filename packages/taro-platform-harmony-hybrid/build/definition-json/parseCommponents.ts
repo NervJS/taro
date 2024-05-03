@@ -39,9 +39,9 @@ export function parseComponents () {
      * 包括基本类型、基本类型数组、Aarry、Record、某些数组类型、对象类型或者单个对象等
      * 例如MapProps.marker[]、('push' | 'pop')[]、{ [key: string]: number | string | any }、MapProps
      */
-    if (baseType.includes(type) || baseTypeArray.includes(type) || type.includes('Array<')
-      || type.includes('Record<') || type.includes('[]') || /^\{[\s\S]*?\}$/.test(type)
-      || /^[A-Z][a-zA-Z]*?$/.test(type)) {
+    if (baseType.includes(type) || baseTypeArray.includes(type) || type.includes('Array<') ||
+      type.includes('Record<') || type.includes('[]') || /^\{[\s\S]*?\}$/.test(type) ||
+      /^[A-Z][a-zA-Z]*?$/.test(type)) {
       return false
     }
     return true

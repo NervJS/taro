@@ -449,9 +449,9 @@ export const parseModule = (appPath: string, {
      * 除了包含 taro 和 inversify 的第三方依赖均不经过 babel-loader 处理
      */
     scriptRule.exclude = [filename =>
-      /css-loader/.test(filename)
+      /css-loader/.test(filename) ||
       // || /@tarojs[\\/]components/.test(filename) Note: stencil 2.14 开始使用了 import.meta.url 需要额外处理
-      || (/node_modules/.test(filename) && !(/taro/.test(filename) || /inversify/.test(filename)))]
+      (/node_modules/.test(filename) && !(/taro/.test(filename) || /inversify/.test(filename)))]
   }
 
   const rule: {

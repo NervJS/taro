@@ -5,3 +5,4 @@ packages:
   - '!**/dist/**'
   - 'npm/**'
   - 'crates/native_binding'
+  - 'examples/mini-program-example'

@@ -14,6 +14,7 @@ export interface ViteNativeCompMeta {
   isNative: true
   templatePath: string
   cssPath?: string
+  isPackage?: boolean
 }
 
 export interface ViteFileType {

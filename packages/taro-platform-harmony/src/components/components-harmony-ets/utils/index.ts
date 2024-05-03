@@ -50,7 +50,7 @@ function nodeToHtml(node: RichTextProps.Text | RichTextProps.HTMLElement): strin
 }
 
 function parseHtmlNode (nodes: Array<RichTextProps.Text | RichTextProps.HTMLElement> | string) {
-  return typeof nodes === 'string' ? nodes: `<div>${nodes.map(node => nodeToHtml(node)).join('')}</div>`
+  return typeof nodes === 'string' ? nodes : `<div>${nodes.map(node => nodeToHtml(node)).join('')}</div>`
 }
 
 // 背景偏移算法：https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-position
@@ -79,4 +79,9 @@ export function computeBackgroundPosition(style) {
   }
 
   return { offsetX, offsetY }
+}
+
+export function convertVp2Px(val: string | number) {
+  const vp = parseFloat(`${val}`)
+  return vp2px(vp)
 }

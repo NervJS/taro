@@ -14,6 +14,7 @@ const VirtualWaterfall = React.forwardRef(function VirtualWaterfall (props: Virt
     itemElementType = View,
     initialScrollOffset = 0,
     overscanDistance = 50,
+    queryPrefix = '',
     ...rest
   } = props as IProps
 
@@ -34,6 +35,7 @@ const VirtualWaterfall = React.forwardRef(function VirtualWaterfall (props: Virt
     initialScrollOffset,
     overscanDistance,
     outerWrapper,
+    queryPrefix,
   })
 })
 

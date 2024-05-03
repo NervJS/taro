@@ -1,4 +1,4 @@
-use crate::{ transform_harmony::EtsDirection, utils };
+use crate::{ transform_harmony::EtsDirection, utils::{ self, harmony::components } };
 
 pub fn get_component_attr_str(node_name: &str, tag_name: &str) -> String {
     if tag_name == "text" {
@@ -29,18 +29,33 @@ pub fn get_component_style_str(node_name: &str, tag_name: &str) -> String {
 }
 
 pub fn get_view_component_str(node_name: &str, child_content: &str, direction: EtsDirection) -> String {
-    let container = match direction {
-        EtsDirection::Row => "Row",
-        EtsDirection::Column => "Column",
+    let component_name;
+    let mut component_param = "".to_string();
+    let component_children = match child_content {
+        "" => "".to_string(),
+        _ => format!("\n{}", child_content),
     };
+
+    match direction {
+        EtsDirection::Row => {
+            component_name = "Row";
+        }
+        EtsDirection::Column => {
+            component_name = "Column";
+        }
+        EtsDirection::Flex => {
+            component_name = "Flex";
+            component_param = format!("FlexManager.flexOptions({} as TaroElement)", node_name);
+        }
+    }
+    let style = get_component_style_str(node_name, component_name.to_lowercase().as_str());
+
     format!(
-        "{container}() {{{children}}}\n{style}",
-        container = container,
-        children = match child_content {
-            "" => "".to_string(),
-            _ => format!("\n{}", child_content),
-        },
-        style = get_component_style_str(node_name, container.to_lowercase().as_str())
+        "{name}({param}) {{{children}}}\n{style}",
+        name = component_name,
+        param = component_param,
+        children = component_children,
+        style = style
     )
 }
 
@@ -53,39 +68,7 @@ pub fn get_image_component_str(node_name: &str) -> String {
 }
 
 pub fn get_text_component_str(node_name: &str) -> String {
-    format!(
-        "if ({node_id}.nodeType === NodeType.TEXT_NODE) {{
-  if ({node_id}.parentNode) {{
-    if (({node_id}.parentNode as TaroElement).tagName === 'BUTTON') {{
-      Text({node_id}.textContent)
-        .attributeModifier(textModify.setNode({node_id}?.parentElement as TaroElement, {{
-          fontSize: getButtonFontSize({node_id}.parentNode as TaroButtonElement),
-          color: getButtonColor({node_id}.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get(({node_id}.parentNode as TaroButtonElement)._attrs.type || '').text)
-        }}))
-    }} else {{
-      Text({node_id}.textContent)
-        .attributeModifier(textModify.setNode({node_id}?.parentElement as TaroElement))
-        .width(getTextInViewWidth({node_id}.parentElement))
-    }}
-  }}
-}} else {{
-  Text({node_id}.textContent) {{
-    // text 下还有标签
-    if ({node_id}.childNodes.length > 1 || (({node_id}.childNodes[0] && {node_id}.childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {{
-      ForEach({node_id}.childNodes, (item: TaroElement) => {{
-        createTextChildNode(item, getSpanVerticalAlign(({node_id} as TaroElement).hmStyle?.verticalAlign))
-      }}, (item: TaroElement) => item._nid)
-    }}
-  }}
-  .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', {node_id}  as TaroElement), {node_id}  as TaroElement, ['click']))
-  .attributeModifier(textModify.setNode({node_id} as TaroElement).withNormalStyle())
-  .onVisibleAreaChange(getNodeThresholds(({node_id} as TaroElement)) || [0.0, 1.0], getComponentEventCallback(({node_id} as TaroElement), VISIBLE_CHANGE_EVENT_NAME))
-  .onAreaChange(getComponentEventCallback(({node_id} as TaroElement), AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {{
-    ({node_id} as TaroElement)._nodeInfo.areaInfo = res[1]
-  }}))
-}}",
-        node_id = node_name
-    )
+    format!("createText({node_id} as TaroTextElement)", node_id = node_name)
 }
 
 pub fn create_component_event(event_name: &str, node_name: &str) -> String {

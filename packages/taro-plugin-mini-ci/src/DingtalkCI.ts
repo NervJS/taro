@@ -24,7 +24,7 @@ export default class DingtalkCI extends BaseCI {
     try {
       this.dingtalkSDK = getNpmPkgSync('dingtalk-miniapp-opensdk', process.cwd()).sdk
     } catch (error) {
-      printLog( processTypeEnum.ERROR, chalk.red('请安装依赖：dingtalk-miniapp-opensdk , 该依赖用于CI预览、上传钉钉小程序'))
+      printLog(processTypeEnum.ERROR, chalk.red('请安装依赖：dingtalk-miniapp-opensdk , 该依赖用于CI预览、上传钉钉小程序'))
       process.exit(1)
     }
 
@@ -99,7 +99,7 @@ export default class DingtalkCI extends BaseCI {
 
       const previewQrcodePath = path.join(this.projectPath, 'preview.png')
       await generateQrcodeImageFile(previewQrcodePath, previewUrl)
-      printLog(processTypeEnum.REMIND, `预览版二维码已生成，存储在:"${ previewQrcodePath }",二维码内容是："${ previewUrl }"`)
+      printLog(processTypeEnum.REMIND, `预览版二维码已生成，存储在:"${previewQrcodePath}",二维码内容是："${previewUrl}"`)
 
       this.triggerPreviewHooks({
         success: true,
@@ -110,7 +110,7 @@ export default class DingtalkCI extends BaseCI {
         }
       })
     } catch (error) {
-      printLog(processTypeEnum.ERROR, chalk.red(`预览失败 ${ new Date().toLocaleString() } \n${ error.message }`))
+      printLog(processTypeEnum.ERROR, chalk.red(`预览失败 ${new Date().toLocaleString()} \n${error.message}`))
 
       this.triggerPreviewHooks({
         success: false,
@@ -169,7 +169,7 @@ export default class DingtalkCI extends BaseCI {
       })
 
       // 体验码规则：dingtalk://dingtalkclient/action/open_micro_app?corpId=xxx&miniAppId=yyy&source=trial&version=构建id&agentId=xxx&pVersion=1&packageType=1
-      console.log(chalk.green(`版本 ${ result.packageVersion } 上传成功 ${new Date().toLocaleString()}`))
+      console.log(chalk.green(`版本 ${result.packageVersion} 上传成功 ${new Date().toLocaleString()}`))
 
       this.triggerUploadHooks({
         success: true,

@@ -230,5 +230,4 @@ describe('lifecycle', () => {
 
     expect(spy).toBeCalledWith({})
   })
-
 })

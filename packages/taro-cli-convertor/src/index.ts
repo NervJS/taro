@@ -903,7 +903,7 @@ export default class Convertor {
                 } else if (!t.isBinaryExpression(astPath.parent) || astPath.parent.operator !== '+') {
                   const position = {
                     row: astPath.node.loc?.start?.line || 0,
-                    col: astPath.node.loc?.start?.column || 0
+                    col: astPath.node.loc?.start?.column || 0,
                   }
                   createErrorCodeMsg(
                     'ImageNotFound',
@@ -1272,12 +1272,7 @@ export default class Convertor {
       }
     } catch (err) {
       this.entryJSON = {}
-      createErrorCodeMsg(
-        'AppConfigReadError',
-        `app${this.fileTypes.CONFIG} 读取失败，请检查！`,
-        '',
-        this.entryJSONPath
-      )
+      createErrorCodeMsg('AppConfigReadError', `app${this.fileTypes.CONFIG} 读取失败，请检查！`, '', this.entryJSONPath)
       console.log(chalk.red(`app${this.fileTypes.CONFIG} 读取失败，请检查！`))
       updateLogFileContent(
         `ERROR [taro-cli-convertor] getApp - app${
@@ -1664,12 +1659,7 @@ ${code}
       try {
         if (!fs.existsSync(pageJSPath)) {
           updateLogFileContent(`ERROR [taro-cli-convertor] traversePages - 页面 ${page} 没有 JS 文件 ${getLineBreak()}`)
-          throw new IReportError(
-            `页面 ${page} 没有 JS 文件！`,
-            'MissingJSFileError',
-            pagePath,
-            ''
-          )
+          throw new IReportError(`页面 ${page} 没有 JS 文件！`, 'MissingJSFileError', pagePath, '')
         }
         const param: ITaroizeOptions = {}
         printLog(processTypeEnum.CONVERT, '页面文件', this.generateShowPath(pageJSPath))
@@ -1818,12 +1808,7 @@ ${code}
           updateLogFileContent(
             `ERROR [taro-cli-convertor] traverseComponents - 自定义组件 ${component} 没有 JS 文件 ${getLineBreak()}`
           )
-          throw new IReportError(
-            `自定义组件 ${component} 没有 JS 文件！`,
-            'MissingJSFileError',
-            componentJSPath,
-            ''
-          )
+          throw new IReportError(`自定义组件 ${component} 没有 JS 文件！`, 'MissingJSFileError', componentJSPath, '')
         }
         printLog(processTypeEnum.CONVERT, '组件文件', this.generateShowPath(componentJSPath))
         let componentConfig
@@ -2049,12 +2034,7 @@ ${code}
       try {
         const pluginConfigJson = JSON.parse(String(fs.readFileSync(pluginConfigPath)))
         if (!pluginConfigJson) {
-          createErrorCodeMsg(
-            'emptyPluginConfig',
-            '插件配置信息为空，请检查！',
-            '',
-            pluginConfigPath
-          )
+          createErrorCodeMsg('emptyPluginConfig', '插件配置信息为空，请检查！', '', pluginConfigPath)
           console.log('插件配置信息为空，请检查！')
           updateLogFileContent(`WARN [taro-cli-convertor] parsePluginConfig - 插件配置信息为空 ${getLineBreak()}`)
           return
@@ -2087,12 +2067,7 @@ ${code}
           pluginInfo.entryFilePath = path.join(pluginInfo.pluginRoot, entryFilePath)
         }
       } catch (err) {
-        createErrorCodeMsg(
-          'PluginJsonParsingError',
-          '解析plugin.json失败，请检查！',
-          '',
-          pluginConfigPath
-        )
+        createErrorCodeMsg('PluginJsonParsingError', '解析plugin.json失败，请检查！', '', pluginConfigPath)
         updateLogFileContent(
           `ERROR [taro-cli-convertor] parsePluginConfig - plugin.json 解析异常 ${getLineBreak()}${err} ${getLineBreak()}`
         )
@@ -2138,7 +2113,7 @@ ${code}
       pkgObj.dependencies['@tarojs/with-weapp'] = `^${version}`
       fs.writeJSONSync(path.join(this.convertRoot, 'package.json'), pkgObj, {
         spaces: 2,
-        EOL: '\n'
+        EOL: '\n',
       })
       printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, 'package.json')))
       printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, 'config/index.js')))
@@ -2174,7 +2149,7 @@ ${code}
       projectPath: this.root,
       pagesNum: this.pages.size,
       filesNum: computeProjectFileNums(this.root),
-      errMsgList: errMsgList
+      errMsgList: errMsgList,
     }
 
     try {
@@ -2183,8 +2158,10 @@ ${code}
       generateReportFile(reportBundleFilePath, path.join(reportDir, '/static/js'), 'bundle.js', reportData)
       generateReportFile(reportStyleFilePath, path.join(reportDir, '/static/css'), 'main.css')
       generateReportFile(fontBlodFilePath, path.join(reportDir, '/static/media'), 'HarmonyOS_Sans_SC_Bold.ttf')
-      generateReportFile(fontMediumFilePath, path.join( reportDir, '/static/media'), 'HarmonyOS_Sans_SC_Medium.ttf')
-      console.log(`转换报告已生成，请在浏览器中打开 ${path.join(this.convertRoot, 'report', 'report.html')} 查看转换报告`)
+      generateReportFile(fontMediumFilePath, path.join(reportDir, '/static/media'), 'HarmonyOS_Sans_SC_Medium.ttf')
+      console.log(
+        `转换报告已生成，请在浏览器中打开 ${path.join(this.convertRoot, 'report', 'report.html')} 查看转换报告`
+      )
     } catch (error) {
       console.log(`报告生成失败 ${error.message}`)
     }

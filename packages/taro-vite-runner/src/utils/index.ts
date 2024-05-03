@@ -69,7 +69,7 @@ export function getComponentName (viteCompilerContext: ViteH5CompilerContext | V
   return componentName.replace(/^(\/|\\)/, '')
 }
 
-const virtualModulePrefix ='\0'
+const virtualModulePrefix = '\0'
 export const virtualModulePrefixREG = new RegExp(`^${virtualModulePrefix}`)
 
 export function appendVirtualModulePrefix (id: string): string {
@@ -105,8 +105,8 @@ export const stripTrailingSlash = (url = '') => (url.charAt(url.length - 1) === 
 export function getMode (config: ViteH5BuildConfig | ViteHarmonyBuildConfig | ViteMiniBuildConfig) {
   const preMode = config.mode || process.env.NODE_ENV
   const modes: ('production' | 'development' | 'none')[] = ['production', 'development', 'none']
-  const mode = modes.find(e => e === preMode)
-    || (!config.isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
+  const mode = modes.find(e => e === preMode) ||
+    (!config.isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
   return mode
 }
 
@@ -297,6 +297,7 @@ export function resolveAbsoluteRequire ({
   })
 }
 
+let lastCommonPath = ''
 function getCommonPath(a: string, b: string) {
   const aArr = path.normalize(a).split(/[\\/]/)
   const bArr = path.normalize(b).split(/[\\/]/)
@@ -304,5 +305,15 @@ function getCommonPath(a: string, b: string) {
   while (aArr[i] === bArr[i]) {
     i++
   }
-  return aArr.slice(0, i).join('/')
+
+  if (aArr.length > i) {
+    // Note: 项目外部文件，仅返回所有外部文件的最短公共路径
+    if (!lastCommonPath || lastCommonPath.split(/[\\/]/).length > i) {
+      lastCommonPath = aArr.slice(0, i).join('/')
+    }
+    return lastCommonPath
+  } else {
+    // Note: 项目内部文件，返回项目根路径
+    return a
+  }
 }

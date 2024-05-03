@@ -112,6 +112,7 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
     const selected: any = range[value]
 
     return (
+      // @ts-ignore
       <AntPicker
         data={range}
         value={[selected && selected.value]}

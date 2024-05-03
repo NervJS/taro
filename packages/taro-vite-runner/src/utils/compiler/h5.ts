@@ -92,7 +92,7 @@ export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> impl
       this.logger.error(error)
       process.exit(1)
     }
-    
+
     const projectConfig = JSON.parse(projectConfigString) || {}
     return projectConfig?.browserslist || ['last 3 versions', 'Android >= 4.1', 'ios >= 8']
   }

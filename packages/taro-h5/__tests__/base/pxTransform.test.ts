@@ -76,5 +76,4 @@ describe('pxtransform', () => {
     })
     expect(Taro.pxTransform(320)).toBe('50vw')
   })
-
 })

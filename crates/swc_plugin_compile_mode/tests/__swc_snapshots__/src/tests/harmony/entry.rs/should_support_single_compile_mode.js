@@ -9,13 +9,37 @@ const TARO_TEMPLATES_f0t0 = `import {
   commonStyleModify,
   getNodeThresholds,
   BUTTON_THEME_COLOR,
-  getNormalAttributes
+  getStyleAttr,
+  getNormalAttributes,
+  shouldBindEvent,
+  textModify,
+  setNormalTextAttributeIntoInstance,
+  getImageMode
 } from '@tarojs/components'
-import { NodeType, convertNumber2VP, TaroElement, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
-import { createLazyChildren, createChildItem } from '../render'
+import {
+  NodeType,
+  convertNumber2VP,
+  TaroElement,
+  eventHandler,
+  getComponentEventCallback,
+  AREA_CHANGE_EVENT_NAME,
+  VISIBLE_CHANGE_EVENT_NAME
+} from '@tarojs/runtime'
+import { 
+  createLazyChildren, 
+  createChildItem 
+} from '../render'
 
-import type { HarmonyStyle, TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '@tarojs/runtime'
-
+import type {
+  TaroTextElement,
+  HarmonyStyle,
+  TaroButtonElement,
+  TaroViewElement,
+  TaroAny,
+  TaroStyleType,
+  TaroTextStyleType
+} from '@tarojs/runtime'
+import { isString } from '@tarojs/shared'
 @Component
 export default struct TARO_TEMPLATES_f0t0 {
   node: TaroViewElement = new TaroElement('Ignore')

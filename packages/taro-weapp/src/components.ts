@@ -16,7 +16,9 @@ export const components = {
     'user-select': _false
   },
   Text: {
-    'user-select': _false
+    'user-select': _false,
+    overflow: 'visible',
+    'max-lines': ''
   },
   Map: {
     polygons: '[]',
@@ -87,7 +89,7 @@ export const components = {
   },
   Picker: {
     'header-text': _empty,
-    'level': 'region'
+    level: 'region'
   },
   PickerView: {
     'immediate-change': _false,
@@ -111,6 +113,7 @@ export const components = {
     'enable-flex': _false,
     'scroll-anchoring': _false,
     enhanced: _false,
+    'using-sticky': _false,
     'paging-enabled': _false,
     'enable-passive': _false,
     'refresher-enabled': _false,
@@ -151,6 +154,7 @@ export const components = {
   },
   StickySection: {
     'push-pinned-header': _true,
+    padding: '[0, 0, 0, 0]'
   },
   GridView: {
     type: "'aligned'",
@@ -158,9 +162,35 @@ export const components = {
     'max-cross-axis-extent': _zero,
     'main-axis-gap': _zero,
     'cross-axis-gap': _zero,
+    padding: '[0, 0, 0, 0]'
   },
-  ListView: {},
-  StickyHeader: {},
+  GridBuilder: {
+    type: "'aligned'",
+    list: '[]',
+    'cross-axis-count': '2',
+    'max-cross-axis-extent': _zero,
+    'main-axis-gap': _zero,
+    'cross-axis-gap': _zero,
+    padding: '[0, 0, 0, 0]',
+    bindItemBuild: _empty,
+    bindItemDispose: _empty
+  },
+  ListView: {
+    padding: '[0, 0, 0, 0]'
+  },
+  ListBuilder: {
+    list: '[]',
+    type: 'static',
+    padding: '[0, 0, 0, 0]',
+    'child-count': _empty,
+    'child-height': _empty,
+    bindItemBuild: _empty,
+    bindItemDispose: _empty
+  },
+  StickyHeader: {
+    'offset-top': '0',
+    padding: '[0, 0, 0, 0]'
+  },
   Swiper: {
     'snap-to-edge': _false,
     'easing-function': "'default'"
@@ -414,12 +444,35 @@ export const components = {
   ChannelVideo: {
     'feed-id': _empty,
     'finder-user-name': _empty,
-    'feed-token':_empty,
+    'feed-token': _empty,
     autoplay: _false,
     loop: _false,
     muted: _false,
     'object-fit': "'contain'",
     bindError: _empty
   },
-  Snapshot: {}
+  Snapshot: {
+    mode: "'view'",
+  },
+  Span: {},
+  OpenContainer: {
+    transitionType: "'fade'",
+    transitionDuration: '300',
+    closedColor: "'white'",
+    closedElevation: _zero,
+    closeBorderRadius: _zero,
+    middleColor: _empty,
+    openColor: "'white'",
+    openElevation: _zero,
+    openBorderRadius: _zero
+  },
+  DraggableSheet: {
+    initialChildSize: '0.5',
+    minChildSize: '0.25',
+    maxChildSize: '1.0',
+    snap: _false,
+    snapSizes: '[]'
+  },
+  NestedScrollHeader: {},
+  NestedScrollBody: {},
 }

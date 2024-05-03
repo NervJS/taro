@@ -31,6 +31,7 @@ export interface IPrebundleConfig {
   isBuildPlugin?: boolean
   alias?: Record<string, any>
   defineConstants?: Record<string, any>
+  modifyAppConfig?: (appConfig: any) => Promise<any>
 }
 
 type TMode = 'production' | 'development' | 'none'
@@ -71,8 +72,8 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     this.customSwcConfig = swc
     this.env = env
     this.platformType = platformType
-    this.mode = ['production', 'development', 'none'].find(e => e === env) as TMode
-      || (!isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
+    this.mode = ['production', 'development', 'none'].find(e => e === env) as TMode ||
+      (!isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
     this.prebundleCacheDir = path.resolve(cacheDir, './prebundle')
     this.remoteCacheDir = path.resolve(cacheDir, './remote')
     this.metadataPath = path.join(cacheDir, 'metadata.json')
@@ -132,14 +133,16 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   }
 
   /** 找出所有 webpack entry */
-  getEntries (appJsPath: string) {
+  async getEntries (appJsPath: string) {
     const { appPath, sourceRoot } = this.config
     const entries: string[] = this.parseEntries(this.config.entry)
 
     const appConfigPath = resolveMainFilePath(`${appJsPath.replace(path.extname(appJsPath), '')}.config`)
     if (fs.existsSync(appConfigPath)) {
       const appConfig = readConfig(appConfigPath, this.config)
-
+      if (typeof this.config.modifyAppConfig === 'function') {
+        await this.config.modifyAppConfig(appConfig)
+      }
       appConfig.pages.forEach((page: string) => {
         const pageJsPath = resolveMainFilePath(path.join(appPath, sourceRoot, page))
         entries.push(pageJsPath)

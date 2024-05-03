@@ -135,6 +135,12 @@ function getPseudoClass (node: TaroElement): HarmonyStyle | null {
           }
           break
         }
+        case "::empty": {
+          if (node.children?.length === 0) {
+            return pseudoStylesheet.hmStyle
+          }
+          break
+        }
         default: {
           // 解析nth-child()
           // 找出当前节点在父节点中的位置

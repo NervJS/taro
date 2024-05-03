@@ -108,12 +108,12 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       let localOhpmPath = ''
       try {
         if (!ohpm) {
-          localOhpmPath = execSync(`${process?.platform === 'win32'? 'where': 'which'} ohpm`).toString().replace(/\n/, '')
+          localOhpmPath = execSync(`${process?.platform === 'win32' ? 'where' : 'which'} ohpm`).toString().replace(/\n/, '')
         }
       } catch (_) {
         localOhpmPath = ''
       }
-      ohpmPath = ohpm || localOhpmPath ||'~/Library/Huawei/ohpm/bin/ohpm'
+      ohpmPath = ohpm || localOhpmPath || '~/Library/Huawei/ohpm/bin/ohpm'
 
       try {
         console.log(`\n\n开始 ${chalk.yellow('ohpm install')} 脚本执行...\n`) // eslint-disable-line no-console

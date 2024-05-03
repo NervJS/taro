@@ -9,6 +9,6 @@ const { getMetroConfig } = require('@tarojs/rn-supporter')
  */
 const config = {}
 
-module.exports = (async function (){
+module.exports = (async function () {
   return mergeConfig(getDefaultConfig(__dirname), await getMetroConfig(), config)
 })()

@@ -39,5 +39,12 @@ export default struct TaroImage {
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .onComplete(e => eventHandler(e, 'complete', this.node))
       .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+      // TODO: 临时改为申明式，后续等鸿蒙修复modify设置失败的bug后删除该申明
+      .borderRadius({
+        topLeft: this.node._st.hmStyle.borderTopLeftRadius,
+        topRight: this.node._st.hmStyle.borderTopRightRadius,
+        bottomLeft: this.node._st.hmStyle.borderBottomLeftRadius,
+        bottomRight: this.node._st.hmStyle.borderBottomRightRadius
+      })
   }
 }

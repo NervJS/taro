@@ -1,4 +1,4 @@
-import Taro from '@tarojs/api'
+import Taro from '@tarojs/plugin-platform-h5/dist/runtime/apis'
 import { history } from '@tarojs/router'
 import { isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 import { toByteArray } from 'base64-js'
@@ -13,9 +13,10 @@ import {
   nextTick,
   redirectTo,
   reLaunch,
-  switchTab
+  switchTab,
 } from './index'
-import { permanentlyNotSupport } from './utils'
+import native from './NativeApi'
+// import { permanentlyNotSupport } from './utils'
 
 // @ts-ignore
 window.base64ToArrayBuffer = (base64: string) => toByteArray(base64).buffer
@@ -31,7 +32,30 @@ const {
   options,
   eventCenter,
   Events,
-  preload
+  preload,
+  useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useError,
+  useLaunch,
+  useLoad,
+  useOptionMenuClick,
+  usePageNotFound,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
+  useReady,
+  useResize,
+  useRouter,
+  useSaveExitState,
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick,
+  useScope,
+  useUnhandledRejection,
+  useUnload
 } = Taro as any
 
 const taro: typeof Taro = {
@@ -55,10 +79,41 @@ const taro: typeof Taro = {
   reLaunch,
   redirectTo,
   getCurrentPages,
-  switchTab
+  switchTab,
+  useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useError,
+  useLaunch,
+  useLoad,
+  useOptionMenuClick,
+  usePageNotFound,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
+  useReady,
+  useResize,
+  useRouter,
+  useSaveExitState,
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick,
+  useScope,
+  useUnhandledRejection,
+  useUnload
 }
 
-export const requirePlugin = permanentlyNotSupport('requirePlugin')
+// export const requirePlugin = permanentlyNotSupport('requirePlugin')
+const requirePlugin = () => {
+  return {
+    world: '',
+    hello: function () {
+
+    }
+  }
+}
 
 function getConfig (): Record<string, any> {
   if (this?.pxTransformConfig) return this.pxTransformConfig
@@ -69,7 +124,7 @@ const defaultDesignWidth = 750
 const defaultDesignRatio: TaroGeneral.TDeviceRatio = {
   640: 2.34 / 2,
   750: 1,
-  828: 1.81 / 2
+  828: 1.81 / 2,
 }
 const defaultBaseFontSize = 20
 const defaultUnitPrecision = 5
@@ -80,7 +135,7 @@ const initPxTransform = function ({
   deviceRatio = defaultDesignRatio,
   baseFontSize = defaultBaseFontSize,
   unitPrecision = defaultUnitPrecision,
-  targetUnit = defaultTargetUnit
+  targetUnit = defaultTargetUnit,
 }) {
   const config = getConfig.call(this)
   config.designWidth = designWidth
@@ -94,9 +149,8 @@ const pxTransform = function (size = 0) {
   const config = getConfig.call(this)
   const baseFontSize = config.baseFontSize || defaultBaseFontSize
   const deviceRatio = config.deviceRatio || defaultDesignRatio
-  const designWidth = (((input = 0) => isFunction(config.designWidth)
-    ? config.designWidth(input)
-    : config.designWidth))(size)
+  const designWidth = ((input = 0) =>
+    isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth)(size)
   if (!(designWidth in config.deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
@@ -125,7 +179,7 @@ const pxTransform = function (size = 0) {
 
 /**
  * 判断能否使用WebP格式
- * 
+ *
  * @canUse canIUseWebp
  */
 const canIUseWebp = function () {
@@ -153,8 +207,7 @@ if (typeof window !== 'undefined') {
 // 更新导航栏状态
 Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundColor) => {
   if (typeof window !== 'undefined') {
-    // @ts-ignore
-    window.native?.setNavigationStyle?.(style, textStyle, backgroundColor)
+    native.setNavigationStyle({ style, textStyle, backgroundColor })
     // @ts-ignore
     Object.assign(window.currentNavigation, {
       style,
@@ -171,8 +224,11 @@ Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundCol
 
 // 进入全屏时隐藏导航栏和胶囊按钮
 eventCenter.on('__taroEnterFullScreen', () => {
-  // @ts-ignore
-  window.native?.setNavigationStyle?.('custom', 'black', '#000000')
+  native.setNavigationStyle({
+    style: 'custom',
+    textStyle: 'black',
+    backgroundColor: '#000000',
+  })
   // @ts-ignore
   if (typeof window.originCapsuleState === 'undefined') {
     // @ts-ignore
@@ -186,8 +242,7 @@ eventCenter.on('__taroEnterFullScreen', () => {
 eventCenter.on('__taroExitFullScreen', () => {
   // @ts-ignore
   const { style, textStyle, backgroundColor } = window.currentNavigation
-  // @ts-ignore
-  window.native?.setNavigationStyle?.(style, textStyle, backgroundColor)
+  native.setNavigationStyle({ style, textStyle, backgroundColor })
   // @ts-ignore
   if (typeof window.originCapsuleState !== 'undefined') {
     // @ts-ignore
@@ -222,6 +277,86 @@ function loadNavigationSytle () {
 
 loadNavigationSytle()
 
+// 设置位置选择样式
+function loadChooseLocationStyle () {
+  const css = `
+.taro_choose_location {
+  display: flex;
+  position: fixed;
+  top: 100%;
+  z-index: 1;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  transition: ease top 0.3s;
+}
+.taro_choose_location_bar {
+  display: flex;
+  flex: 0 60px;
+  height: 60px;
+  background-color: #ededed;
+  color: #090909;
+  align-items: center;
+}
+.taro_choose_location_back {
+  position: relative;
+  flex: 0 40px;
+  margin-left: 10px;
+  width: 25px;
+  height: 30px;
+}
+.taro_choose_location_back::before {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: solid 15px;
+  border-color: transparent #090909 transparent transparent;
+  width: 0;
+  height: 0;
+  content: "";
+}
+.taro_choose_location_back::after {
+  display: block;
+  position: absolute;
+  left: 3px;
+  top: 0;
+  border: solid 15px;
+  border-color: transparent #ededed transparent transparent;
+  width: 0;
+  height: 0;
+  content: "";
+}
+.taro_choose_location_title {
+  flex: 1;
+  padding-left: 30px;
+  line-height: 60px;
+}
+.taro_choose_location_submit {
+  margin-right: 25px;
+  padding: 0;
+  border: none;
+  width: 75px;
+  height: 40px;
+  background-color: #08bf62;
+  line-height: 40px;
+  font-size: 20px;
+  color: #fff;
+}
+.taro_choose_location_frame {
+  flex: 1;
+}
+`
+
+  const style = document.createElement('style')
+  style.innerHTML = css
+  document.getElementsByTagName('head')[0].appendChild(style)
+}
+
+loadChooseLocationStyle()
+
+taro.requirePlugin = requirePlugin
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.initPxTransform = initPxTransform
@@ -231,7 +366,7 @@ export default taro
 
 /**
  * 跳转预加载 API
- * 
+ *
  * @canUse preload
  */
 export {
@@ -251,4 +386,28 @@ export {
   options,
   preload,
   pxTransform,
+  requirePlugin,
+  useAddToFavorites,
+  useDidHide,
+  useDidShow,
+  useError,
+  useLaunch,
+  useLoad,
+  useOptionMenuClick,
+  usePageNotFound,
+  usePageScroll,
+  usePullDownRefresh,
+  usePullIntercept,
+  useReachBottom,
+  useReady,
+  useResize,
+  useRouter,
+  useSaveExitState,
+  useScope,
+  useShareAppMessage,
+  useShareTimeline,
+  useTabItemTap,
+  useTitleClick,
+  useUnhandledRejection,
+  useUnload
 }

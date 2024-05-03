@@ -72,6 +72,7 @@ export default struct TaroInput {
     .maxLength(Number(this.node._attrs?.maxlength) || null)
     .placeholderColor(getPlaceholderColor(this.node))
     .enterKeyType(INPUT_CONFIRM_MAP.get(this.node._attrs?.confirmType) || EnterKeyType.Done)
+    .padding(0) // Note: 移出 Input 默认 padding 设置
     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
     .styles(this.node?.hmStyle)
     .attrs(getAttributes(this.node))

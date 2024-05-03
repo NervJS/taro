@@ -122,7 +122,7 @@ export default struct TaroScrollView {
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       this.node._nodeInfo.areaInfo = res[1]
     }))
-    .onScroll(shouldBindEvent(() => { handleScrollEvent(this.node, 'scroll') }, this.node, ['scroll']))
+    .onDidScroll(shouldBindEvent((xOffset: number, yOffset: number) => { handleScrollEvent(this.node, 'scroll', xOffset, yOffset) }, this.node, ['scroll']))
     .onScrollStart(shouldBindEvent(() => { handleScrollEvent(this.node, 'scrollstart') }, this.node, ['scrollstart']))
     .onScrollStop(shouldBindEvent(() => { handleScrollEvent(this.node, 'scrollend') }, this.node, ['scrollend']))
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))

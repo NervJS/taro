@@ -21,8 +21,8 @@ exports[`vue3 should build vue3 app 2`] = `
         render._withStripped = true;
         var vue = __webpack_require__(1);
         var indexvue_type_script_lang_js_ = {
-            "setup": function setup() {
-                var msg = Object(vue["ref"])("Hello world");
+            "setup"() {
+                const msg = Object(vue["ref"])("Hello world");
                 return {
                     "msg": msg
                 };
@@ -263,7 +263,7 @@ exports[`vue3 should build vue3 app 2`] = `
         return createPageConfig;
     }));
     __webpack_exports__["default"] = "taro-runtime-mock";
-    var window = {};
+    const window = {};
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
@@ -273,8 +273,8 @@ exports[`vue3 should build vue3 app 2`] = `
     "use strict";
     var _unused_webpack_default_export = "vue-mock";
 }, function(module, exports, __webpack_require__) {
-    var _require = __webpack_require__(0), hooks = _require.hooks;
-    var taro = __webpack_require__(5).default;
+    const {"hooks": hooks} = __webpack_require__(0);
+    const taro = __webpack_require__(5).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
@@ -297,7 +297,7 @@ exports[`vue3 should build vue3 app 2`] = `
         return timeoutInterceptor;
     }));
     var taro_runtime = __webpack_require__(0);
-    var ENV_TYPE = {
+    const ENV_TYPE = {
         "WEAPP": "WEAPP",
         "SWAN": "SWAN",
         "ALIPAY": "ALIPAY",
@@ -337,191 +337,110 @@ exports[`vue3 should build vue3 app 2`] = `
             return undefined || "Unknown";
         }
     }
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-    function _typeof(obj) {
-        "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, _typeof(obj);
-    }
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return _typeof(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
-    }
     var taro_shared = "taro-shared-mock";
-    var chain_Chain = function() {
-        function Chain(requestParams, interceptors, index) {
-            _classCallCheck(this, Chain);
+    class chain_Chain {
+        "constructor"(requestParams, interceptors, index) {
             this.index = index || 0;
             this.requestParams = requestParams || {};
             this.interceptors = interceptors || [];
         }
-        _createClass(Chain, [ {
-            "key": "proceed",
-            "value": function proceed() {
-                var requestParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-                this.requestParams = requestParams;
-                if (this.index >= this.interceptors.length) {
-                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
-                }
-                var nextInterceptor = this._getNextInterceptor();
-                var nextChain = this._getNextChain();
-                var p = nextInterceptor(nextChain);
-                var res = p.catch((function(err) {
-                    return Promise.reject(err);
-                }));
-                Object.keys(p).forEach((function(k) {
-                    return undefined(p[k]) && (res[k] = p[k]);
-                }));
-                return res;
+        "proceed"(requestParams = {}) {
+            this.requestParams = requestParams;
+            if (this.index >= this.interceptors.length) {
+                throw new Error("chain 参数错误, 请勿直接修改 request.chain");
             }
-        }, {
-            "key": "_getNextInterceptor",
-            "value": function _getNextInterceptor() {
-                return this.interceptors[this.index];
-            }
-        }, {
-            "key": "_getNextChain",
-            "value": function _getNextChain() {
-                return new Chain(this.requestParams, this.interceptors, this.index + 1);
-            }
-        } ]);
-        return Chain;
-    }();
-    var interceptor_Link = function() {
-        function Link(interceptor) {
-            _classCallCheck(this, Link);
+            const nextInterceptor = this._getNextInterceptor();
+            const nextChain = this._getNextChain();
+            const p = nextInterceptor(nextChain);
+            const res = p.catch(err => Promise.reject(err));
+            Object.keys(p).forEach(k => undefined(p[k]) && (res[k] = p[k]));
+            return res;
+        }
+        "_getNextInterceptor"() {
+            return this.interceptors[this.index];
+        }
+        "_getNextChain"() {
+            return new chain_Chain(this.requestParams, this.interceptors, this.index + 1);
+        }
+    }
+    class interceptor_Link {
+        "constructor"(interceptor) {
             this.taroInterceptor = interceptor;
             this.chain = new chain_Chain;
         }
-        _createClass(Link, [ {
-            "key": "request",
-            "value": function request(requestParams) {
-                var chain = this.chain;
-                var taroInterceptor = this.taroInterceptor;
-                chain.interceptors = chain.interceptors.filter((function(interceptor) {
-                    return interceptor !== taroInterceptor;
-                })).concat(taroInterceptor);
-                return chain.proceed(Object.assign({}, requestParams));
-            }
-        }, {
-            "key": "addInterceptor",
-            "value": function addInterceptor(interceptor) {
-                this.chain.interceptors.push(interceptor);
-            }
-        }, {
-            "key": "cleanInterceptors",
-            "value": function cleanInterceptors() {
-                this.chain = new chain_Chain;
-            }
-        } ]);
-        return Link;
-    }();
+        "request"(requestParams) {
+            const chain = this.chain;
+            const taroInterceptor = this.taroInterceptor;
+            chain.interceptors = chain.interceptors.filter(interceptor => interceptor !== taroInterceptor).concat(taroInterceptor);
+            return chain.proceed(Object.assign({}, requestParams));
+        }
+        "addInterceptor"(interceptor) {
+            this.chain.interceptors.push(interceptor);
+        }
+        "cleanInterceptors"() {
+            this.chain = new chain_Chain;
+        }
+    }
     function interceptorify(promiseifyApi) {
         return new interceptor_Link((function(chain) {
             return promiseifyApi(chain.requestParams);
         }));
     }
     function timeoutInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var p;
-        var res = new Promise((function(resolve, reject) {
-            var timeout = setTimeout((function() {
+        const requestParams = chain.requestParams;
+        let p;
+        const res = new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => {
                 clearTimeout(timeout);
                 reject(new Error("网络链接超时,请稍后再试！"));
-            }), requestParams && requestParams.timeout || 6e4);
+            }, requestParams && requestParams.timeout || 6e4);
             p = chain.proceed(requestParams);
-            p.then((function(res) {
+            p.then(res => {
                 if (!timeout) return;
                 clearTimeout(timeout);
                 resolve(res);
-            })).catch((function(err) {
+            }).catch(err => {
                 timeout && clearTimeout(timeout);
                 reject(err);
-            }));
-        }));
+            });
+        });
         if (!undefined(p) && undefined(p.abort)) res.abort = p.abort;
         return res;
     }
     function logInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
-        var p = chain.proceed(requestParams);
-        var res = p.then((function(res) {
-            console.log("http <-- ".concat(url, " result:"), res);
+        const requestParams = chain.requestParams;
+        const {"method": method, "data": data, "url": url} = requestParams;
+        console.log(\`http \${method || "GET"} --\\x3e \${url} data: \`, data);
+        const p = chain.proceed(requestParams);
+        const res = p.then(res => {
+            console.log(\`http <-- \${url} result:\`, res);
             return res;
-        }));
+        });
         if (undefined(p.abort)) res.abort = p.abort;
         return res;
-    }
-    function _defineProperty(obj, key, value) {
-        key = _toPropertyKey(key);
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                "value": value,
-                "enumerable": true,
-                "configurable": true,
-                "writable": true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
     }
     function Behavior(options) {
         return options;
     }
     function getPreload(current) {
         return function(key, val) {
-            current.preloadData = undefined(key) ? key : _defineProperty({}, key, val);
+            current.preloadData = undefined(key) ? key : {
+                [key]: val
+            };
         };
     }
-    var defaultDesignWidth = 750;
-    var defaultDesignRatio = {
+    const defaultDesignWidth = 750;
+    const defaultDesignRatio = {
         "640": 2.34 / 2,
         "750": 1,
         "828": 1.81 / 2
     };
-    var defaultBaseFontSize = 20;
-    var defaultUnitPrecision = 5;
-    var defaultTargetUnit = "rpx";
+    const defaultBaseFontSize = 20;
+    const defaultUnitPrecision = 5;
+    const defaultTargetUnit = "rpx";
     function getInitPxTransform(taro) {
         return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
+            const {"designWidth": designWidth = defaultDesignWidth, "deviceRatio": deviceRatio = defaultDesignRatio, "baseFontSize": baseFontSize = defaultBaseFontSize, "targetUnit": targetUnit = defaultTargetUnit, "unitPrecision": unitPrecision = defaultUnitPrecision} = config;
             taro.config = taro.config || {};
             taro.config.designWidth = designWidth;
             taro.config.deviceRatio = deviceRatio;
@@ -532,20 +451,17 @@ exports[`vue3 should build vue3 app 2`] = `
     }
     function getPxTransform(taro) {
         return function(size) {
-            var config = taro.config || {};
-            var baseFontSize = config.baseFontSize;
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
-            var designWidth = function() {
-                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-                return undefined(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
-            }(size);
+            const config = taro.config || {};
+            const baseFontSize = config.baseFontSize;
+            const deviceRatio = config.deviceRatio || defaultDesignRatio;
+            const designWidth = ((input = 0) => undefined(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth)(size);
             if (!(designWidth in deviceRatio)) {
-                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
+                throw new Error(\`deviceRatio 配置中不存在 \${designWidth} 的设置！\`);
             }
-            var targetUnit = config.targetUnit || defaultTargetUnit;
-            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
-            var formatSize = ~~size;
-            var rootValue = 1 / deviceRatio[designWidth];
+            const targetUnit = config.targetUnit || defaultTargetUnit;
+            const unitPrecision = config.unitPrecision || defaultUnitPrecision;
+            const formatSize = ~~size;
+            let rootValue = 1 / deviceRatio[designWidth];
             switch (targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
@@ -555,14 +471,14 @@ exports[`vue3 should build vue3 app 2`] = `
                 rootValue *= 2;
                 break;
             }
-            var val = formatSize / rootValue;
+            let val = formatSize / rootValue;
             if (unitPrecision >= 0 && unitPrecision <= 100) {
                 val = Number(val.toFixed(unitPrecision));
             }
             return val + targetUnit;
         };
     }
-    var Taro = {
+    const Taro = {
         "Behavior": Behavior,
         "getEnv": getEnv,
         "ENV_TYPE": ENV_TYPE,
@@ -588,8 +504,8 @@ exports[`vue3 should build vue3 app 2`] = `
     function createRouter() {}
     var vue = __webpack_require__(1);
     var app = __webpack_require__(4);
-    var App = Object(vue["createApp"])({
-        "onShow": function onShow(options) {}
+    const App = Object(vue["createApp"])({
+        "onShow"(options) {}
     });
     var src_app = App;
     var taro_runtime = __webpack_require__(0);
@@ -625,8 +541,8 @@ exports[`vue3 should build vue3 app 2`] = `
     }
     config.routes = [ Object.assign({
         "path": "pages/index/index",
-        "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 7));
+        "load": function(context, params) {
+            const page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 7));
             return [ page, context, params ];
         }
     }, {

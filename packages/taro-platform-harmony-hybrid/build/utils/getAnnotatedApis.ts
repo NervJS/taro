@@ -2,7 +2,7 @@ import * as fsExtra from 'fs-extra'
 
 /**
  * 获取comments.ts中注释的API列表
- * 
+ *
  * @returns api列表
  */
 export function getAnnotatedApis () {

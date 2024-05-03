@@ -122,10 +122,10 @@ export function handleUrl (url: string): Record<string, any> {
   }
 }
 
-export function updateCurrentJumpUrl (path: string){
+export function updateCurrentJumpUrl (path: string) {
   globalAny.__taroJumpUrl = path
 }
 
-export function getCurrentJumpUrl (): string{
+export function getCurrentJumpUrl (): string {
   return globalAny?.__taroJumpUrl ?? ''
 }
