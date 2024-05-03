@@ -4,10 +4,9 @@ import Taro from '@tarojs/api'
 let abilityAccessCtrl
 
 try {
-  // @ts-ignore
+  global.require
   abilityAccessCtrl = requireNapi('abilityAccessCtrl')
-} catch (error) {
-}
+} catch (e) {} // eslint-disable-line no-empty
 
 // @ts-ignore
 export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = () => {
@@ -36,50 +35,42 @@ export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = () => 
   try {
     albumAuthorized = atManager.checkAccessTokenSync(tokenID, permissionsList.album)
     albumAuthorized = grantStatus(albumAuthorized)
-  } catch (e) {
-  }
+  } catch (e) {} // eslint-disable-line no-empty
   let bluetoothAuthorized = 'not determined'
   try {
     bluetoothAuthorized = atManager.checkAccessTokenSync(tokenID, permissionsList.bluetooth)
     bluetoothAuthorized = grantStatus(bluetoothAuthorized)
-  } catch (e) {
-  }
+  } catch (e) {} // eslint-disable-line no-empty
   let cameraAuthorized = 'not determined'
   try {
     cameraAuthorized = atManager.checkAccessTokenSync(tokenID, permissionsList.camera)
     cameraAuthorized = grantStatus(cameraAuthorized)
-  } catch (e) {
-  }
+  } catch (e) {} // eslint-disable-line no-empty
   let locationAuthorized = 'not determined'
   try {
     locationAuthorized = atManager.checkAccessTokenSync(tokenID, permissionsList.location)
     locationAuthorized = grantStatus(locationAuthorized)
-  } catch (e) {
-  }
+  } catch (e) {} // eslint-disable-line no-empty
   let locationAccuracy = 'not determined'
   try {
     locationAccuracy =
       atManager.checkAccessTokenSync(tokenID, permissionsList.locationAccuracy) === 0 ? 'full' : 'reduced'
-  } catch (e) {
-  }
+  } catch (e) {} // eslint-disable-line no-empty
   let microphoneAuthorized = 'not determined'
   try {
     microphoneAuthorized = atManager.checkAccessTokenSync(tokenID, permissionsList.microphone)
     microphoneAuthorized = grantStatus(microphoneAuthorized)
-  } catch (e) {
-  }
+  } catch (e) {} // eslint-disable-line no-empty
   let notificationAuthorized = 'not determined'
   try {
     notificationAuthorized = atManager.checkAccessTokenSync(tokenID, permissionsList.notification)
     notificationAuthorized = grantStatus(notificationAuthorized)
-  } catch (e) {
-  }
+  } catch (e) {} // eslint-disable-line no-empty
   let phoneCalendarAuthorized = 'not determined'
   try {
     phoneCalendarAuthorized = atManager.checkAccessTokenSync(tokenID, permissionsList.phoneCalendar)
     phoneCalendarAuthorized = grantStatus(phoneCalendarAuthorized)
-  } catch (e) {
-  }
+  } catch (e) {} // eslint-disable-line no-empty
   const result = {
     albumAuthorized,
     bluetoothAuthorized,

@@ -3,9 +3,8 @@ import Taro from '@tarojs/taro'
 let inputMethod
 
 try {
-  // @ts-ignore
   inputMethod = requireNapi('inputMethod')
-} catch (error) {}
+} catch (e) {} // eslint-disable-line no-empty
 
 export const hideKeyboard:typeof Taro.hideKeyboard = () => {
   return new Promise((resolve, reject) => {
