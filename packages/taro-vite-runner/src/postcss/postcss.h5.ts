@@ -63,7 +63,7 @@ export const getDefaultPostcssConfig = function ({
   if (deviceRatio) {
     pxtransform.config!.deviceRatio = deviceRatio
   }
- 
+
   // 由于 vite 缺少 postcss 文件的 filter 能力，所以只能针对 postcss-pxtransform 这个插件，在内部进行 filter，后面跟进 vite 的特性可以进行修改
   pxtransform.config!.exclude = getPostcssExclude(esnextModules)
 

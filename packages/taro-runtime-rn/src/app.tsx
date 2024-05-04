@@ -1,9 +1,9 @@
 import { Provider as TCNProvider } from '@tarojs/components-rn'
+import { EventChannel } from '@tarojs/shared'
 import React, { Component, ComponentProps, createElement, createRef, forwardRef } from 'react'
 import { RootSiblingParent } from 'react-native-root-siblings'
 
 import { Current } from './current'
-import EventChannel from './EventChannel'
 import { AppInstance, PageLifeCycle } from './instance'
 import { getPageInstance } from './page'
 import { createRouter, getInitOptions, getRouteEventChannel } from './router'

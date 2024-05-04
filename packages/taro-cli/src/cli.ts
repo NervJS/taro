@@ -6,9 +6,8 @@ import * as path from 'path'
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
 
-type Framework = Kernel['config']['initialConfig']['framework']
-
 const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor', 'update', 'config']
+const DEFAULT_FRAMEWORK = 'react'
 
 export default class CLI {
   appPath: string
@@ -18,10 +17,6 @@ export default class CLI {
 
   run () {
     return this.parseArgs()
-  }
-
-  getSimpleFramework (framework: Framework): Exclude<Framework, 'preact' | 'nerv'> {
-    return ['react', 'preact', 'nerv', undefined].includes(framework) ? 'react' : framework as Exclude<Framework, 'preact' | 'nerv'>
   }
 
   async parseArgs () {
@@ -140,23 +135,18 @@ export default class CLI {
             }
           }
 
-          // 根据 framework 启用插件 若用户自实现编译器插件 需要使用用户提供的 关联#15470
-          const framework = kernel.config?.initialConfig.framework
-          switch (this.getSimpleFramework(framework)) {
-            case 'vue':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-vue2')
-              break
-            case 'vue3':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-vue3')
-              break
-            case 'solid':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-solid')
-              break
-            case 'react':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-react')
-              break
-            default:
-              break
+          // 根据 framework 启用插件
+          const framework = kernel.config?.initialConfig.framework || DEFAULT_FRAMEWORK
+          const frameworkMap = {
+            vue: '@tarojs/plugin-framework-vue2',
+            vue3: '@tarojs/plugin-framework-vue3',
+            react: '@tarojs/plugin-framework-react',
+            preact: '@tarojs/plugin-framework-react',
+            nerv: '@tarojs/plugin-framework-react',
+            solid: '@tarojs/plugin-framework-solid',
+          }
+          if (frameworkMap[framework]) {
+            kernel.optsPlugins.push(frameworkMap[framework])
           }
 
           // 编译小程序插件
@@ -174,8 +164,8 @@ export default class CLI {
             customCommand(command, kernel, args)
             break
           }
-
           customCommand(command, kernel, {
+            args,
             _,
             platform,
             plugin,

@@ -90,7 +90,7 @@ export class TaroNode extends TaroDataSourceElement {
     return this._nid
   }
 
-  public get firstChild (): TaroNode | null{
+  public get firstChild (): TaroNode | null {
     return this.childNodes[0] || null
   }
 
@@ -243,7 +243,6 @@ export class TaroNode extends TaroDataSourceElement {
     this.parentNode = null
     this.childNodes = []
   }
-
 }
 
 @Observed

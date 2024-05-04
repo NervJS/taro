@@ -1,10 +1,10 @@
+import { EventChannel } from '@tarojs/shared'
 import { Component, Context, createContext, createElement, createRef, forwardRef, RefObject } from 'react'
 import { AppState, Dimensions, EmitterSubscription, RefreshControl, ScrollView } from 'react-native'
 
 import { isClassComponent } from './app'
 import { Current } from './current'
 import { eventCenter } from './emmiter'
-import EventChannel from './EventChannel'
 import { Instance, PageInstance } from './instance'
 import { getCurrentRoute, isTabPage, PageProvider } from './router'
 import {

@@ -47,7 +47,7 @@ export function findIntersection(data) {
         if (Array.isArray(commonValues)) {
           if (Array.isArray(currentValues)) {
             commonValues = commonValues.filter(value => currentValues.includes(value))
-          } else if (currentValues){
+          } else if (currentValues) {
             commonValues = commonValues.filter(value => currentValues === true || currentValues.includes(value))
           }
         } else if (commonValues === true) {

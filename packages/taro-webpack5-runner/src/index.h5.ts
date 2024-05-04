@@ -36,6 +36,7 @@ export default async function build (appPath: string, rawConfig: IH5BuildConfig)
       publicPath,
       alias: combination.config.alias,
       defineConstants: combination.config.defineConstants,
+      modifyAppConfig: combination.config.modifyAppConfig
     })
     try {
       await prebundle.run(combination.getPrebundleOptions())
@@ -96,7 +97,7 @@ export default async function build (appPath: string, rawConfig: IH5BuildConfig)
         port: webpackConfig.devServer?.port,
         pathname: routerMode === 'browser' ? routerBasename : '/'
       })
-      if (typeof webpackConfig.devServer.open === 'undefined') {
+      if (typeof webpackConfig.devServer.open === 'undefined' || webpackConfig.devServer.open === true) {
         webpackConfig.devServer.open = devUrl
       }
 
@@ -261,14 +262,16 @@ async function getDevServerOptions (appPath: string, config: IH5BuildConfig): Pr
             const pathname = chunkFilename.replace('[name]', path.basename(context.parsedUrl.pathname).replace(/\.[^.]*.hot-update\.(js|json)/, ''))
             return (['', 'auto'].includes(publicPath) ? '' : publicPath) + pathname
           }
-        }, {
-          from: /./,
-          to: publicPath
         }]
       },
       proxy
     },
-    customDevServerOption
+    customDevServerOption,
+    {
+      historyApiFallback: {
+        rewrites: [{ from: /./, to: publicPath }]
+      }
+    }
   )
 
   const originalPort = Number(devServerOptions.port)

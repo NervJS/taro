@@ -83,7 +83,7 @@ export function getSuperClassCode(path: NodePath<t.ClassDeclaration>) {
         code,
         sourcePath: sourceValue,
       }
-    } catch (error) {}
+    } catch (e) {} // eslint-disable-line no-empty
   }
 }
 
@@ -787,8 +787,8 @@ export function printToLogFile() {
 
 /**
  * 将部分 ast 节点转为代码片段
- * @param ast 
- * @returns 
+ * @param ast
+ * @returns
  */
 export function astToCode (ast) {
   if (!ast) return ''
@@ -822,7 +822,7 @@ export class IReportError extends Error {
 
   constructor (
     message: string,
-    msgType?: string, 
+    msgType?: string,
     filePath?: string | 'JS_FILE' | 'WXML_FILE',
     code?: string,
     location?: { col: number, row: number } | undefined

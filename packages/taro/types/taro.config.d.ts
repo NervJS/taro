@@ -32,6 +32,11 @@ declare module './index' {
      * @default: "#ffffff"
      */
     backgroundColor?: string
+    /** 页面容器背景色， HexColor
+     * @see: https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/skyline/custom-route.html#%E8%AE%BE%E7%BD%AE%E9%A1%B5%E9%9D%A2%E9%80%8F%E6%98%8E
+     * @default: "#ffffff"
+     */
+    backgroundColorContent?: string
     /** 下拉背景字体、loading 图的样式，仅支持 dark/light
      * 当 app.json 中配置 darkmode 为 true 时可通过变量的形式配置
      * @see: https://developers.weixin.qq.com/miniprogram/dev/framework/ability/darkmode.html
@@ -424,7 +429,7 @@ declare module './index' {
     decodeQuery?: 'disable'
   }
 
-  interface AppConfig {
+  export interface AppConfig {
     /** 小程序默认启动首页，未指定 entryPagePath 时，数组的第一项代表小程序的初始页面（首页）。 */
     entryPagePath?: string
     /** 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面 */
@@ -561,7 +566,7 @@ declare module './index' {
      */
     themeLocation?: string
     /** 配置自定义组件代码按需注入 */
-    lazyCodeLoading?: string
+    lazyCodeLoading?: 'requiredComponents' | string
     /** 单页模式相关配置 */
     singlePage?: SinglePage
     /** 聊天素材小程序打开相关配置

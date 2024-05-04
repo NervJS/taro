@@ -65,13 +65,10 @@ export default struct TaroIcon {
     Image(getIconData(this.node))
       .objectFit(ImageFit.Contain)
       .fillColor(this.node._attrs.color || ICON_COLOR_MAP[this.node._attrs.type] || Color.Black)
-      .attributeModifier(commonStyleModify.setNode(this.node, {
-        width: convertNumber2PX(23),
-        height: convertNumber2PX(23)
-      }).setAnimationStyle(this.overwriteStyle))
+      .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .size({
-        width: convertNumber2VP(Number(this.node._attrs.size) || 23),
-        height: convertNumber2VP(Number(this.node._attrs.size) || 23),
+        width: Number(this.node._attrs.size) || 23,
+        height: Number(this.node._attrs.size) || 23
       })
       .onComplete(e => eventHandler(e, 'complete', this.node))
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))

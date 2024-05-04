@@ -68,12 +68,14 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
         // native components
         for (const comp of viteCompilerContext.nativeComponents.values()) {
-          this.emitFile({
-            type: 'chunk',
-            id: comp.templatePath + QUERY_IS_NATIVE_SCRIPT,
-            fileName:  path.relative(viteCompilerContext.sourceDir, comp.templatePath) + QUERY_IS_NATIVE_SCRIPT,
-            implicitlyLoadedAfterOneOf: [rawId]
-          })
+          if (!comp.isPackage) {
+            this.emitFile({
+              type: 'chunk',
+              id: comp.templatePath + QUERY_IS_NATIVE_SCRIPT,
+              fileName: path.relative(viteCompilerContext.sourceDir, comp.templatePath) + QUERY_IS_NATIVE_SCRIPT,
+              implicitlyLoadedAfterOneOf: [rawId]
+            })
+          }
         }
 
         // emit tabbar

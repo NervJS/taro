@@ -110,7 +110,7 @@ const BUBBLE_EVENTS = new Set([
   'longTap',
   'change',
   'submit',
-  'submit-btn', 
+  'submit-btn',
   'reset-btn'
 ])
 
@@ -143,7 +143,7 @@ export function eventHandler (event, type: string, node: TaroElement) {
 
     // hooks.call('dispatchTaroEventFinish', e, node)
   }
-  
+
   dispatch()
   if (isBatchUpdates) {
     // collectBatchFunction(type, dispatch)

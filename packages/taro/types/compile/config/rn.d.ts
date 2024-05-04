@@ -20,7 +20,7 @@ export interface IRNConfig {
   /** [less](https://lesscss.org/usage/#less-options) 相关配置 */
   less?: IOption
 
-  /** [stylus](https://github.com/NervJS/taro/blob/next/packages/taro-rn-style-transformer/README.md#rnstylus) 相关配置 */
+  /** [stylus](https://github.com/NervJS/taro/blob/main/packages/taro-rn-style-transformer/README.md#rnstylus) 相关配置 */
   stylus?: IOption
 
   /** 配置 postcss 相关插件 */

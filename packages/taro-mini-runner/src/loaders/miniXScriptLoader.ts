@@ -26,7 +26,7 @@ export default async function (source) {
         )
       }
     }
-    
+
     await Promise.all(importings)
     callback(null, source)
   } catch (error) {

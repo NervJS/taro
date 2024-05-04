@@ -7,7 +7,6 @@ import type { HarmonyStyle, HarmonyType, TaroStyleType, TaroTextStyleType } from
 export { HarmonyStyle, HarmonyType, TaroStyleType, TaroTextStyleType }
 
 export default class StyleSheet {
-
   public hmStyle: HarmonyStyle = {}
 
   get display () {
@@ -157,7 +156,7 @@ export default class StyleSheet {
         case ImageRepeat.Y: return 'repeat-y'; break
         case ImageRepeat.XY: return 'repeat'; break
         case ImageRepeat.NoRepeat: return 'no-repeat'; break
-      } 
+      }
     }
   }
 
@@ -196,7 +195,7 @@ export default class StyleSheet {
     return this.hmStyle.borderWidth
   }
 
-  get borderLeftWidth () { 
+  get borderLeftWidth () {
     return this.hmStyle.borderLeftWidth
   }
 
@@ -378,5 +377,4 @@ export default class StyleSheet {
   get content () {
     return this.hmStyle._content
   }
-
 }

@@ -51,7 +51,6 @@ export function Portal<T extends boolean = false, S extends boolean = false> (pr
       el.appendChild(container)
       props.ref && (props as any).ref(container)
       onCleanup(() => el.removeChild(container))
-
     },
     undefined,
     { render: !hydrating }

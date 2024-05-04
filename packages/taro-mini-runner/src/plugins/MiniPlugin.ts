@@ -706,9 +706,9 @@ export default class TaroMiniPlugin {
         // 判断是否为第三方依赖的正则，如果 test 为 false 则为第三方依赖
         const notNpmPkgReg = /^[.\\/]/
         if (
-          !this.options.skipProcessUsingComponents
-          && !compPath.startsWith('plugin://')
-          && !notNpmPkgReg.test(compPath)
+          !this.options.skipProcessUsingComponents &&
+          !compPath.startsWith('plugin://') &&
+          !notNpmPkgReg.test(compPath)
         ) {
           const tempCompPath = getNpmPackageAbsolutePath(compPath)
 
@@ -980,6 +980,7 @@ export default class TaroMiniPlugin {
         baseCompConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
         this.generateConfigFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), {
           component: true,
+          styleIsolation: 'apply-shared',
           usingComponents: {
             [baseCompName]: `./${baseCompName}`,
             [customWrapperName]: `./${customWrapperName}`
@@ -1102,7 +1103,7 @@ export default class TaroMiniPlugin {
     })
 
     this.adjustConfigContent(config)
-    
+
     const fileConfigStr = JSON.stringify(config)
     compilation.assets[fileConfigName] = {
       size: () => fileConfigStr.length,

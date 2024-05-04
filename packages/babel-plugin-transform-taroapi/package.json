@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-taroapi",
-  "version": "4.0.0-beta.47",
+  "version": "4.0.0-beta.61",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -14,8 +14,8 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5",
-    "@babel/types": "^7.14.5",
+    "@babel/core": "^7.23.0",
+    "@babel/types": "^7.23.0",
     "babel-jest": "^29.7.0",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",

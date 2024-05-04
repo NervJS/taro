@@ -5,7 +5,7 @@ interface Globals {
   logFilePath: string // 日志文件路径
   errCodeMsgs: ErrCodeMsg[] // 错误代码信息 (转换报告涉及的字段)
   currentParseFile: string // 当前解析的文件 (转换报告涉及的字段)
-  logCount: number 
+  logCount: number
   logFileContent: string
 }
 
@@ -14,5 +14,5 @@ export const globals: Globals = {
   errCodeMsgs: [],
   currentParseFile: '',
   logCount: 0,
-  logFileContent: ''
+  logFileContent: '',
 }

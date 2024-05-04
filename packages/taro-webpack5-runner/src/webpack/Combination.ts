@@ -56,8 +56,8 @@ export class Combination<T extends IMiniBuildConfig | IH5BuildConfig | IHarmonyB
 
   async pre (rawConfig: T) {
     const preMode = rawConfig.mode || process.env.NODE_ENV
-    const mode = ['production', 'development', 'none'].find(e => e === preMode)
-      || (!rawConfig.isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
+    const mode = ['production', 'development', 'none'].find(e => e === preMode) ||
+      (!rawConfig.isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
     /** process config.sass options */
     const sassLoaderOption = await getSassLoaderOption(rawConfig)
     this.config = {

@@ -10,31 +10,31 @@ testRule({
   ],
   // 不可通过用例
   reject: [
-    { 
+    {
       code: '.a .b {}',
       message: messages.rejected('.a .b', 'harmony, rn'),
       line: 1,
       column: 1,
-    }, 
-    { 
+    },
+    {
       code: '#a .b {}',
       message: messages.rejected('#a .b', 'harmony, rn'),
       line: 1,
       column: 1,
-    }, 
-    { 
+    },
+    {
       code: '.a>.b {}',
       message: messages.rejected('.a>.b', 'harmony, rn'),
       line: 1,
       column: 1,
-    }, 
-    { 
+    },
+    {
       code: '.a+.b {}',
       message: messages.rejected('.a+.b', 'harmony, rn'),
       line: 1,
       column: 1,
-    }, 
-    { 
+    },
+    {
       code: '.a~.b {}',
       message: messages.rejected('.a~.b', 'harmony, rn'),
       line: 1,

@@ -3,7 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "lib": ["ESNext"],
-    "module": "ESNext"
+    "module": "ESNext",
+    "declaration": true,
+    "outDir": "dist"
   },
   "include": ["./src"]
 }

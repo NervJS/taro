@@ -35,12 +35,11 @@ function handleTargetChange (id: string) {
   }
 }
 
-
 @Component
 export default struct TaroLabel {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node:TaroLabelElement) => void = this.customBuilder
-  @ObjectLink node:TaroLabelElement
+  @BuilderParam createLazyChildren: (node: TaroLabelElement) => void = this.customBuilder
+  @ObjectLink node: TaroLabelElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
   aboutToAppear(): void {
@@ -50,7 +49,6 @@ export default struct TaroLabel {
   }
 
   build() {
-
     if (FlexManager.useFlexLayout(this.node)) {
       Flex(FlexManager.flexOptions(this.node)) {
         this.createLazyChildren(this.node)

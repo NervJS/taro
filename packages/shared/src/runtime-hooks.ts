@@ -355,6 +355,6 @@ export const hooks = new TaroHooks<ITaroHooks>({
   modifyAddEventListener: TaroHook(HOOK_TYPE.SINGLE),
 
   modifyRemoveEventListener: TaroHook(HOOK_TYPE.SINGLE),
-  
+
   getMemoryLevel: TaroHook(HOOK_TYPE.SINGLE),
 })

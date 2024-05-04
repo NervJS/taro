@@ -72,7 +72,7 @@ export const useTabItemTap = taroHooks('onTabItemTap')
 
 export const useLaunch = taroHooks('onLaunch')
 
-export const usePageNotFound= taroHooks('onPageNotFound')
+export const usePageNotFound = taroHooks('onPageNotFound')
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useRouter = (dynamic = false) => {

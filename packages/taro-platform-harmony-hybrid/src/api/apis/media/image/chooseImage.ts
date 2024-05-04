@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
 import { showActionSheet } from '@tarojs/taro-h5'
 
+import native from '../../NativeApi'
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
@@ -41,27 +42,29 @@ export const chooseImage: typeof Taro.chooseImage = async (options) => {
   if (sourceType.length === 1) {
     sourceSelected = sourceType[0]
   } else if (typeof sourceType !== 'object' || (sourceType.includes('album') && sourceType.includes('camera'))) {
-    const selected = await showActionSheet({ itemList: ['拍摄', '从相册选择'] }).then((res) => {
-      sourceSelected = (res.tapIndex === 0 ? 'camera' : 'album')
-      return true
-    }, () => {
-      return false
-    })
+    const selected = await showActionSheet({ itemList: ['拍摄', '从相册选择'] }).then(
+      (res) => {
+        sourceSelected = res.tapIndex === 0 ? 'camera' : 'album'
+        return true
+      },
+      () => {
+        return false
+      }
+    )
     if (!selected) {
       return handle.fail({ errMsg: 'fail cancel' })
     }
   }
 
   return new Promise<Taro.chooseImage.SuccessCallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.chooseMediaAssets({
       count: count,
       mediaType: mediaType,
       sourceType: sourceSelected,
       sizeType: sizeType,
       apiName: name,
-      success: (res: any) => {      
-        const tempFiles: Taro.chooseImage.ImageFile[] = [] 
+      success: (res: any) => {
+        const tempFiles: Taro.chooseImage.ImageFile[] = []
         for (const file of res.tempFiles) {
           const fileInfo: Taro.chooseImage.ImageFile = {
             path: file.tempFilePath,

@@ -24,7 +24,6 @@ const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
     if (fnRef.current !== fn) fnRef.current = fn
 
     React.useLayoutEffect(() => {
-
       let inst = instRef.current = getPageInstance(id)
       let first = false
       if (!inst) {
