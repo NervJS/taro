@@ -63,7 +63,7 @@ interface GridBuilderProps extends StandardProps {
 }
 
 /**
- * 网格构造器，仅支持作为 <scroll-view type="custom"> 模式的直接子节点，仅 Skyline 支持。
+ * 网格构造器，仅支持作为 `<scroll-view type="custom">` 模式的直接子节点，仅 Skyline 支持。
  * @classification skyline
  * @supported weapp
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/grid-builder.html
