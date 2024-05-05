@@ -9,20 +9,45 @@ export class NativeRequest implements Taro.RequestTask<any> {
     this.objectId = objectId
   }
 
-  static getRequestTask (objectId: number) {
+  static createRequestTask (option: any) {
+    const objectId = native.callInstance(option, {
+      type: 'create',
+      name: 'RequestTask',
+      objectId: -1,
+      isAsync: false,
+      autoRelease: true
+    })
     return new NativeRequest(objectId)
   }
 
   abort (): void {
-    native.abort({}, this.objectId)
+    native.callInstance({}, {
+      type: 'function',
+      name: 'abort',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   onHeadersReceived (option: any): void {
-    native.onHeadersReceived(option, this.objectId)
+    native.callInstance(option, {
+      type: 'function',
+      name: 'onHeadersReceived',
+      objectId: this.objectId,
+      isAsync: true,
+      autoRelease: false
+    })
   }
 
   offHeadersReceived (option: any): void {
-    native.offHeadersReceived(option, this.objectId)
+    native.callInstance(option, {
+      type: 'function',
+      name: 'offHeadersReceived',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   catch<TResult = never> (

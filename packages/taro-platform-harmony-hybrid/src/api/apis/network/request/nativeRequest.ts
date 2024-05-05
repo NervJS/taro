@@ -2,7 +2,6 @@ import Taro from '@tarojs/api'
 import { isFunction } from '@tarojs/shared'
 
 import { NativeRequest } from '../../interface/NativeRequest'
-import native from '../../NativeApi'
 import { getParameterError, shouldBeObject } from '../../utils'
 
 export const _request = (options) => {
@@ -31,7 +30,7 @@ export const _request = (options) => {
   let task!: Taro.RequestTask<any>
   const result: ReturnType<typeof Taro.request> = new Promise((resolve, reject) => {
     const upperMethod = method ? method.toUpperCase() : method
-    const taskID = native.request({
+    task = NativeRequest.createRequestTask({
       url,
       method: upperMethod,
       ...otherOptions,
@@ -46,7 +45,6 @@ export const _request = (options) => {
         reject(res)
       },
     })
-    task = NativeRequest.getRequestTask(taskID)
   }) as any
 
   result.onHeadersReceived = task.onHeadersReceived.bind(task)

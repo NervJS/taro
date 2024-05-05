@@ -6,123 +6,307 @@ export class NativeInnerAudioContext implements Taro.InnerAudioContext {
   private objectId: number
 
   constructor () {
-    this.objectId = native.createInnerAudioContext()
+    this.objectId = native.callInstance({}, {
+      type: 'create',
+      name: 'InnerAudioContext',
+      objectId: -1,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   get volume () {
-    return native.getAudioContextVolume({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'get',
+      name: 'volume',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   set volume (option: any) {
-    native.setAudioContextVolume(option, this.objectId)
+    native.callInstance(option, {
+      type: 'set',
+      name: 'volume',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   get startTime () {
-    return native.getAudioContextStartTime({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'get',
+      name: 'startTime',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   set startTime (option: any) {
-    native.setAudioContextStartTime(option, this.objectId)
+    native.callInstance(option, {
+      type: 'set',
+      name: 'startTime',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   get playbackRate () {
-    return native.getAudioContextPlaybackRate({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'get',
+      name: 'playbackRate',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   set playbackRate (option: any) {
-    native.setAudioContextPlaybackRate(option, this.objectId)
+    native.callInstance(option, {
+      type: 'set',
+      name: 'playbackRate',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   get paused () {
-    return native.getAudioContextPaused({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'get',
+      name: 'paused',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   set paused (option: any) {
-    native.setAudioContextPaused(option, this.objectId)
+    native.callInstance(option, {
+      type: 'set',
+      name: 'paused',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   get obeyMuteSwitch () {
-    return native.getAudioContextObeyMuteSwitch({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'get',
+      name: 'obeyMuteSwitch',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   set obeyMuteSwitch (option: any) {
-    native.setAudioContextObeyMuteSwitch(option, this.objectId)
+    native.callInstance(option, {
+      type: 'set',
+      name: 'obeyMuteSwitch',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   get loop () {
-    return native.getAudioContextLoop({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'get',
+      name: 'loop',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   set loop (option: any) {
-    native.setAudioContextLoop(option, this.objectId)
+    native.callInstance(option, {
+      type: 'set',
+      name: 'loop',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   get duration () {
-    return native.getAudioContextDuration({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'get',
+      name: 'duration',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   set duration (option: any) {
-    native.setAudioContextDuration(option, this.objectId)
+    native.callInstance(option, {
+      type: 'set',
+      name: 'duration',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   get currentTime () {
-    return native.getAudioContextCurrentTime({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'get',
+      name: 'currentTime',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   set currentTime (option: any) {
-    native.setAudioContextCurrentTime(option, this.objectId)
+    native.callInstance(option, {
+      type: 'set',
+      name: 'currentTime',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   get buffered () {
-    return native.getAudioContextBuffered({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'get',
+      name: 'buffered',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   set buffered (option: any) {
-    native.setAudioContextBuffered(option, this.objectId)
+    native.callInstance(option, {
+      type: 'set',
+      name: 'buffered',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   get autoplay () {
-    return native.getAudioContextAutoplay({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'get',
+      name: 'volume',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   set autoplay (option: any) {
-    native.setAudioContextAutoplay(option, this.objectId)
+    native.callInstance(option, {
+      type: 'set',
+      name: 'autoplay',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   get src () {
-    return native.getAudioContextSrc({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'get',
+      name: 'src',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   set src (option: any) {
-    native.setAudioContextSrc(option, this.objectId)
+    native.callInstance(option, {
+      type: 'set',
+      name: 'src',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   static createInnerAudioContext () {
     return new NativeInnerAudioContext()
   }
 
+  pause (): void {
+    return native.callInstance({}, {
+      type: 'function',
+      name: 'pause',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
+  }
+
   stop (): void {
-    native.innerAudioStop({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'function',
+      name: 'stop',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   play (): void {
-    native.innerAudioPlay({}, this.objectId)
+    return native.callInstance({}, {
+      type: 'function',
+      name: 'play',
+      objectId: this.objectId,
+      isAsync: false,
+      autoRelease: true
+    })
   }
 
   onStop (option: any): void {
-    native.innerAudioOnStop(option, this.objectId)
+    return native.callInstance(option, {
+      type: 'function',
+      name: 'onStop',
+      objectId: this.objectId,
+      isAsync: true,
+      autoRelease: false
+    })
   }
 
   onPlay (option: any): void {
-    native.innerAudioOnPlay(option, this.objectId)
+    return native.callInstance(option, {
+      type: 'function',
+      name: 'onPlay',
+      objectId: this.objectId,
+      isAsync: true,
+      autoRelease: false
+    })
   }
 
   onEnded (option: any): void {
-    native.innerAudioOnEnded(option, this.objectId)
+    return native.callInstance(option, {
+      type: 'function',
+      name: 'onEnded',
+      objectId: this.objectId,
+      isAsync: true,
+      autoRelease: false
+    })
   }
 
   onError (option: any): void {
-    native.innerAudioOnError(option, this.objectId)
+    return native.callInstance(option, {
+      type: 'function',
+      name: 'onError',
+      objectId: this.objectId,
+      isAsync: true,
+      autoRelease: false
+    })
   }
 
   destroy (): void {}
@@ -190,8 +374,6 @@ export class NativeInnerAudioContext implements Taro.InnerAudioContext {
   onWaiting (option: any): void {
     return option
   }
-
-  pause (): void {}
 
   seek (option: any): void {
     return option
