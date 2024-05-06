@@ -3,9 +3,8 @@ import Taro from '@tarojs/api'
 let call
 
 try {
-  // @ts-ignore
   call = requireNapi('telephony.call')
-} catch (error) {}
+} catch (e) {} // eslint-disable-line no-empty
 
 const ErrorCode = {
   PARAMETER_ERROR: 202,

@@ -6,18 +6,11 @@ let geoLocationManager
 let wifiManager
 
 try {
-  // @ts-ignore
   display = requireNapi('display')
-
-  // @ts-ignore
   bluetooth = requireNapi('bluetooth')
-
-  // @ts-ignore
   geoLocationManager = requireNapi('geoLocationManager')
-
-  // @ts-ignore
   wifiManager = requireNapi('wifi')
-} catch (error) {}
+} catch (e) {} // eslint-disable-line no-empty
 
 // @ts-ignore
 export const getSystemSetting: typeof Taro.getSystemSetting = () => {
