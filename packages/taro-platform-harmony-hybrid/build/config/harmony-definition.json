@@ -391,7 +391,7 @@
     "WriteResult": false,
     "addCard": false,
     "addFileToFavorites": false,
-    "addInterceptor": false,
+    "addInterceptor": true,
     "addPhoneCalendar": {
       "object": {
         "title": true,
@@ -608,7 +608,7 @@
         "width": true
       }
     },
-    "cleanInterceptors": false,
+    "cleanInterceptors": true,
     "clearStorage": true,
     "clearStorageSync": true,
     "closeBLEConnection": {
