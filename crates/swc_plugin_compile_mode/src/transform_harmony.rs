@@ -6,6 +6,7 @@ use swc_core::{
     common::{ util::take::Take, DUMMY_SP as span },
     ecma::{ self, ast::*, atoms::Atom, visit::{ swc_ecma_ast, VisitMut, VisitMutWith } },
 };
+use regex::Regex;
 pub struct PreVisitor {}
 
 pub enum EtsDirection {
@@ -192,18 +193,21 @@ impl TransformVisitor {
                             self.node_name.pop();
                         }
 
+                        let current_node_name = self.get_dynmaic_node_name(dynmaic_node_name);
                         // 如果config配置的替换组件里有这个，就直接拿配置项里的当组件实例化
                         let mut code = if self.config.component_replace.contains_key(name.as_str()) {
                             self.component_set.insert(name.clone());
                             let ComponentReplace{current_init, ..} = self.config.component_replace.get(name.as_str()).unwrap();
-                            current_init.to_string()
+                            // 把入参的node改成对应的变量
+                            let reg = Regex::new(r"\bnode\b").unwrap();
+                            reg.replace_all(current_init, format!("({} as TaroElement)", current_node_name)).to_string()
                         } else {
                             match name.as_str() {
                                 VIEW_TAG => {
                                     self.component_set.insert(name.clone());
 
                                     get_view_component_str(
-                                        &self.get_dynmaic_node_name(dynmaic_node_name),
+                                        &current_node_name,
                                         &children,
                                         element_direction
                                     )
@@ -211,11 +215,11 @@ impl TransformVisitor {
                                 TEXT_TAG => {
                                     self.component_set.insert(name.clone());
                                     event_string = "".to_owned();
-                                    get_text_component_str(&self.get_dynmaic_node_name(dynmaic_node_name))
+                                    get_text_component_str(&current_node_name)
                                 }
                                 IMAGE_TAG => {
                                     self.component_set.insert(name.clone());
-                                    get_image_component_str(&self.get_dynmaic_node_name(dynmaic_node_name))
+                                    get_image_component_str(&current_node_name)
                                 }
                                 _ => String::new(),
                             }

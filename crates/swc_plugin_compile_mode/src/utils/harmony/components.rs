@@ -61,7 +61,12 @@ pub fn get_view_component_str(node_name: &str, child_content: &str, direction: E
 
 pub fn get_image_component_str(node_name: &str) -> String {
     format!(
-        "Image(({node_id} as TaroElement).getAttribute('src'))\n.objectFit(getImageMode(({node_id} as TaroElement).getAttribute('mode')))\n{style}",
+        "Image(({node_id} as TaroElement).getAttribute('src'))\n.objectFit(getImageMode(({node_id} as TaroElement).getAttribute('mode')))\n{style}\n.borderRadius({{
+  topLeft: ({node_id} as TaroElement)._st.hmStyle.borderTopLeftRadius,
+  topRight: ({node_id} as TaroElement)._st.hmStyle.borderTopRightRadius,
+  bottomLeft: ({node_id} as TaroElement)._st.hmStyle.borderBottomLeftRadius,
+  bottomRight: ({node_id} as TaroElement)._st.hmStyle.borderBottomRightRadius
+}})",
         node_id = node_name,
         style = get_component_style_str(node_name, "image")
     )
