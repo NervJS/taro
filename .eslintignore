@@ -41,5 +41,3 @@ packages/taro-plugin-vue-devtools/src/backend
 
 packages/taro-helper/swc
 crates
-
-packages/babel-plugin-transform-solid-jsx/test

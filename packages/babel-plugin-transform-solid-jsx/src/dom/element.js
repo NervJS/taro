@@ -105,7 +105,11 @@ export function transformElement(path, info) {
     if (toBeClosed) results.template += `</${tagName}>`
   }
   if (info.topLevel && config.hydratable && results.hasHydratableEvent) {
-    const runHydrationEvents = registerImportMethod(path, 'runHydrationEvents', getRendererConfig(path, 'dom').moduleName)
+    const runHydrationEvents = registerImportMethod(
+      path,
+      'runHydrationEvents',
+      getRendererConfig(path, 'dom').moduleName
+    )
     results.postExprs.push(t.expressionStatement(t.callExpression(runHydrationEvents, [])))
   }
   if (wrapSVG) results.template += '</svg>'
@@ -290,8 +294,9 @@ function transformAttributes(path, results) {
         styleAttribute.node.value.expression.properties.splice(index - i - 1, 1)
       }
     })
-    if (!styleAttribute.node.value.expression.properties.length)
+    if (!styleAttribute.node.value.expression.properties.length) {
       path.get('openingElement').node.attributes.splice(styleAttribute.key, 1)
+    }
   }
 
   // preprocess classList
@@ -411,9 +416,9 @@ function transformAttributes(path, results) {
           }
           let binding
           const isFunction =
-              t.isIdentifier(value.expression) &&
-              (binding = path.scope.getBinding(value.expression.name)) &&
-              binding.kind === 'const'
+            t.isIdentifier(value.expression) &&
+            (binding = path.scope.getBinding(value.expression.name)) &&
+            binding.kind === 'const'
           if (!isFunction && t.isLVal(value.expression)) {
             const refIdentifier = path.scope.generateUidIdentifier('_ref$')
             results.exprs.unshift(
@@ -821,13 +826,14 @@ function createPlaceholder(path, results, tempPath, i, char) {
         ])
       )
     )
-  } else
+  } else {
     results.declarations.push(
       t.variableDeclarator(
         exprId,
         t.memberExpression(t.identifier(tempPath), t.identifier(i === 0 ? 'firstChild' : 'nextSibling'))
       )
     )
+  }
   return [exprId, contentId]
 }
 
@@ -843,8 +849,9 @@ function detectExpressions(children, index, config) {
       t.isJSXExpressionContainer(node) &&
       !t.isJSXEmptyExpression(node.expression) &&
       getStaticExpression(children[index - 1]) === false
-    )
+    ) {
       return true
+    }
     let tagName
     if (t.isJSXElement(node) && (tagName = getTagName(node)) && isComponent(tagName)) return true
   }
@@ -865,8 +872,9 @@ function detectExpressions(children, index, config) {
             (t.isJSXExpressionContainer(attr.value) &&
               !(t.isStringLiteral(attr.value.expression) || t.isNumericLiteral(attr.value.expression)))
         )
-      )
+      ) {
         return true
+      }
       const nextChildren = filterChildren(children[i].get('children'))
       if (nextChildren.length) if (detectExpressions(nextChildren, 0, config)) return true
     }

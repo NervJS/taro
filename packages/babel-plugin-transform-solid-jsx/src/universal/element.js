@@ -213,10 +213,11 @@ function transformChildren(path, results) {
               ])
             )
           )
-        } else
+        } else {
           insert = t.callExpression(createTextNode, [
             t.templateLiteral([t.templateElement({ raw: escapeStringForTemplate(child.template) })], []),
           ])
+        }
       }
       appends.push(t.expressionStatement(t.callExpression(insertNode, [results.id, insert])))
       results.declarations.push(...child.declarations)

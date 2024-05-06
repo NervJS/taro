@@ -31,8 +31,9 @@ function appendToTemplate(template, value) {
 export function transformElement(path, info) {
   const config = getConfig(path)
   // contains spread attributes
-  if (path.node.openingElement.attributes.some((a) => t.isJSXSpreadAttribute(a)))
+  if (path.node.openingElement.attributes.some((a) => t.isJSXSpreadAttribute(a))) {
     return createElement(path, { ...info, ...config })
+  }
 
   const tagName = getTagName(path.node)
   const voidTag = VoidElements.indexOf(tagName) > -1
@@ -504,7 +505,7 @@ function createElement(path, { topLevel, hydratable }) {
 
         if (hasChildren && key === 'children') return
         if (key === 'ref' || key.startsWith('use:') || key.startsWith('prop:') || key.startsWith('on')) return
-        if (t.isJSXExpressionContainer(value))
+        if (t.isJSXExpressionContainer(value)) {
           if (
             isDynamic(attribute.get('value').get('expression'), {
               checkMember: true,
@@ -516,7 +517,7 @@ function createElement(path, { topLevel, hydratable }) {
               t.objectMethod('get', id, [], t.blockStatement([t.returnStatement(expr.body)]), !t.isValidIdentifier(key))
             )
           } else runningObject.push(t.objectProperty(id, value.expression))
-        else runningObject.push(t.objectProperty(id, value))
+        } else runningObject.push(t.objectProperty(id, value))
       }
     })
 
