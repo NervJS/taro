@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   chalk,
   fs,
@@ -9,16 +11,7 @@ import {
   resolveSync,
 } from '@tarojs/helper'
 import { isArray, isFunction } from '@tarojs/shared'
-import {
-  ViteAppMeta,
-  ViteFileType,
-  ViteHarmonyBuildConfig,
-  ViteHarmonyCompilerContext,
-  ViteNativeCompMeta,
-  VitePageMeta
-} from '@tarojs/taro/types/compile/viteCompilerContext'
 import JSON5 from 'json5'
-import path from 'path'
 
 import defaultConfig from '../../defaultConfig/defaultConfig.harmony'
 import { TARO_TABBAR_PAGE_PATH } from '../../harmony/page'
@@ -27,8 +20,16 @@ import { parseRelativePath } from '..'
 import { CompilerContext } from './base'
 
 import type { AppConfig, PageConfig } from '@tarojs/taro'
+import type {
+  ViteAppMeta,
+  ViteFileType,
+  ViteHarmonyBuildConfig,
+  ViteHarmonyCompilerContext,
+  ViteNativeCompMeta,
+  VitePageMeta,
+} from '@tarojs/taro/types/compile/viteCompilerContext'
 
-function readJsonSync (file: string) {
+function readJsonSync(file: string) {
   const ext = path.extname(file)
   if (ext === '.json5') {
     const raw = fs.readFileSync(file, 'utf-8')
@@ -42,17 +43,23 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
   fileType: ViteFileType
   useETS: boolean
   useJSON5: boolean
-  useNesting: boolean
+  // 用于插件去拓展额外的组件
+  extraComponents: string[] = []
   nativeExt = ['.ets']
   nativeComponents = new Map<string, ViteNativeCompMeta>()
+  ohpmPackageList: string[] = []
 
-  constructor (appPath: string, taroConfig: ViteHarmonyBuildConfig) {
+  constructor(appPath: string, taroConfig: ViteHarmonyBuildConfig) {
     super(appPath, taroConfig)
+
+    // 收集所有配置定义的鸿蒙
+    this.ohpmPackageList = Object.values(this.taroConfig?.harmony?.ohPackage ?? {}).reduce((acc, cur) => {
+      return [...acc, ...Object.keys(cur)]
+    }, [])
 
     this.fileType = this.taroConfig.fileType
     this.useETS = taroConfig.useETS !== false
     this.useJSON5 = taroConfig.useJSON5 !== false
-    this.useNesting = taroConfig.useNesting !== false
     this.commonChunks = this.getCommonChunks()
     this.app = this.getApp()
     this.pages = this.getPages()
@@ -60,17 +67,18 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     if (this.taroConfig.isBuildNativeComp) {
       this.components = this.getComponents()
 
-      this.components?.length > 0 && this.components.forEach(component => {
-        this.collectNativeComponents(component)
-      })
+      this.components?.length > 0 &&
+        this.components.forEach((component) => {
+          this.collectNativeComponents(component)
+        })
     }
   }
 
-  processConfig () {
+  processConfig() {
     this.taroConfig = recursiveMerge({}, defaultConfig, this.rawTaroConfig)
   }
 
-  getCommonChunks () {
+  getCommonChunks() {
     const { commonChunks } = this.taroConfig
     const defaultCommonChunks = ['runtime', 'vendors', 'taro', 'common']
     let customCommonChunks: string[] = defaultCommonChunks
@@ -100,7 +108,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
 
     this.filesConfig[this.getConfigFilePath(pageMeta.name)] = {
       path: configPath,
-      content: config
+      content: config,
     }
 
     // 编译原生组件的时候，不要把 pages 里引用的自定义组件带上
@@ -112,7 +120,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     return pageMeta
   }
 
-  collectNativeComponents (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) {
+  collectNativeComponents(meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) {
     const { name, scriptPath, config } = meta
     const { usingComponents } = config
 
@@ -124,6 +132,21 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
       if (isAliasPath(compPath, alias)) {
         compPath = replaceAliasPath(scriptPath, compPath, alias)
         usingComponents[compName] = compPath
+      }
+
+      // 如果是鸿蒙的包
+      if (new RegExp(`^(${this.ohpmPackageList.join('|')})`).test(compPath)) {
+        const nativeCompMeta: ViteNativeCompMeta = {
+          name: compName,
+          scriptPath: compPath,
+          config: {},
+          configPath: '',
+          isNative: true,
+          templatePath: compPath,
+          isPackage: true,
+        }
+        this.nativeComponents.set(compPath, nativeCompMeta)
+        return
       }
 
       const compScriptPath = resolveMainFilePath(path.resolve(path.dirname(scriptPath), compPath))
@@ -169,7 +192,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
       Object.assign(config, data)
     } else {
       const list = config[key] || []
-      const idx = list.findIndex(item => item.name === value)
+      const idx = list.findIndex((item) => item.name === value)
       if (idx >= 0) {
         list[idx].value = data
       } else {
@@ -183,14 +206,17 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
   }
 
   // Note: 修改 harmony Hap 的配置文件，当前仅支持注入路由配置
-  modifyHarmonyConfig (config: Partial<AppConfig> = {}) {
+  modifyHarmonyConfig(config: Partial<AppConfig> = {}) {
     const { tabBar } = config
-    const pages = (this.pages || []).map(item => item.name)
+    const pages = (this.pages || []).map((item) => item.name)
     const { projectPath, hapName = 'entry', outputRoot = 'dist', name = 'default' } = this.taroConfig
     const designWidth = this.taroConfig.designWidth || this.taroConfig.postcss?.pxtransform?.config?.designWidth || 750
     const buildProfilePath = path.join(projectPath, `build-profile.${this.useJSON5 !== false ? 'json5' : 'json'}`)
     const srcPath = `./${hapName}`
-    const hapConfigPath = path.join(path.resolve(outputRoot, '..'), `${this.useJSON5 !== false ? 'module.json5' : 'config.json'}`)
+    const hapConfigPath = path.join(
+      path.resolve(outputRoot, '..'),
+      `${this.useJSON5 !== false ? 'module.json5' : 'config.json'}`
+    )
     try {
       const profile = readJsonSync(buildProfilePath)
       profile.modules ||= []
@@ -205,11 +231,9 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
           targets: [
             {
               name: 'default',
-              applyToProducts: [
-                'default'
-              ]
-            }
-          ]
+              applyToProducts: ['default'],
+            },
+          ],
         })
       }
       fs.writeJsonSync(buildProfilePath, profile, { spaces: 2 })
@@ -261,7 +285,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
         const tabBarLength = tabBarList.length || 0
         if (tabBarLength > 1) {
           etsPage.push(TARO_TABBAR_PAGE_PATH)
-          etsPage.push(...pages.filter(item => tabBarList.every(tab => tab.pagePath !== item)))
+          etsPage.push(...pages.filter((item) => tabBarList.every((tab) => tab.pagePath !== item)))
         } else {
           etsPage.push(...pages)
         }
@@ -279,9 +303,9 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
         // FA 模型
         hapConfig.module.js ||= []
         const jsFAs = hapConfig.module.js
-        const target = jsFAs.find(item => item.name === name)
+        const target = jsFAs.find((item) => item.name === name)
         const mode = {
-          syntax: this.useETS ? 'ets': 'hml',
+          syntax: this.useETS ? 'ets' : 'hml',
           type: 'pageAbility',
         }
         if (target) {
@@ -305,12 +329,13 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
   }
 
   // Note: 更新 oh-package 中项目依赖声明
-  modifyHostPackage (
-    hmsDeps: Record<string, string> = {},
-    hmsDevDeps: Record<string, string> = {},
-  ) {
+  modifyHostPackage(hmsDeps: Record<string, string> = {}, hmsDevDeps: Record<string, string> = {}) {
     const { projectPath, hapName = 'entry', ohPackage = {} } = this.taroConfig
-    const packageJsonFile = path.join(projectPath, hapName, `${this.useJSON5 !== false ? 'oh-package.json5' : 'package.json'}`)
+    const packageJsonFile = path.join(
+      projectPath,
+      hapName,
+      `${this.useJSON5 !== false ? 'oh-package.json5' : 'package.json'}`
+    )
 
     const isExists = fs.pathExistsSync(packageJsonFile)
     if (!isExists) return

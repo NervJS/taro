@@ -396,10 +396,10 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: 
       case 'textDecoration': {
         if (typeof value === 'string') {
           switch (value) {
-            case 'underline': hmStyle.textDecoration = TextDecorationType.Underline; break
-            case 'overline': hmStyle.textDecoration = TextDecorationType.Overline; break
-            case 'line-through': hmStyle.textDecoration = TextDecorationType.LineThrough; break
-            default: hmStyle.textDecoration = TextDecorationType.None; break
+            case 'underline': hmStyle.textDecoration = { type: TextDecorationType.Underline }; break
+            case 'overline': hmStyle.textDecoration = { type: TextDecorationType.Overline }; break
+            case 'line-through': hmStyle.textDecoration = { type: TextDecorationType.LineThrough }; break
+            default: hmStyle.textDecoration = { type: TextDecorationType.None }; break
           }
         }
         break
@@ -448,7 +448,15 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: 
         break
       }
       case 'overflow': {
-        hmStyle.overflow = value
+        if (value === 'auto') {
+          hmStyle.overflow = 'scroll'
+        } else {
+          hmStyle.overflow = value
+        }
+        break
+      }
+      case 'animation': {
+        // TODO：不支持解析Style上的动画参数
         break
       }
       default: {

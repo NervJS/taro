@@ -25,7 +25,7 @@ function textNormalFontStyle (style: TaroStyleType) {
   .fontStyle(style.fontStyle)
   .fontFamily(style.fontFamily)
   .decoration({
-    type: style.textDecoration,
+    type: style.textDecoration?.type || TextDecorationType.None,
     color: style.color
   })
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-react-devtools",
-  "version": "4.0.0-beta.33",
+  "version": "4.0.0-beta.54",
   "description": "Taro 小程序端支持使用 React DevTools 的插件",
   "author": "luckyadam",
   "license": "MIT",
@@ -29,8 +29,8 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "cross-spawn": "7.0.3",
-    "detect-port": "1.5.1",
+    "cross-spawn": "^7.0.3",
+    "detect-port": "^1.5.1",
     "react-devtools": "4.14.0"
   },
   "devDependencies": {

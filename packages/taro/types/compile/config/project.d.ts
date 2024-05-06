@@ -115,7 +115,7 @@ export interface IProjectBaseConfig {
   jsMinimizer?: 'terser' | 'esbuild'
 
   /** 配置 CSS 压缩工具 (默认 csso) */
-  cssMinimizer?: 'csso' | 'esbuild' | 'parcelCss'
+  cssMinimizer?: 'csso' | 'esbuild' | 'lightningcss'
 
   /** 配置 csso 工具以压缩 CSS 代码 */
   csso?: TogglableOptions
@@ -274,7 +274,7 @@ export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   jsMinimizer?: 'terser' | 'esbuild'
 
   /** 配置 CSS 压缩工具 (默认 csso) */
-  cssMinimizer?: 'csso' | 'esbuild' | 'parcelCss'
+  cssMinimizer?: 'csso' | 'esbuild' | 'lightningcss'
 
   /** 配置 csso 工具以压缩 CSS 代码 */
   csso?: TogglableOptions

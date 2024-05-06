@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "4.0.0-beta.33",
+  "version": "4.0.0-beta.54",
   "description": "taro runtime for mini apps.",
   "author": "yuche",
   "license": "MIT",
@@ -41,7 +41,7 @@
     "@tarojs/react": "workspace:*",
     "@types/react": "^18.2.79",
     "@vue/runtime-core": "^3.4.23",
-    "lodash": "4.17.21",
+    "lodash": "^4.17.21",
     "react": "^18.2.0"
   }
 }

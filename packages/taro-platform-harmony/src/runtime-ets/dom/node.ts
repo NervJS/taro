@@ -90,7 +90,7 @@ export class TaroNode extends TaroDataSourceElement {
     return this._nid
   }
 
-  public get firstChild (): TaroNode | null{
+  public get firstChild (): TaroNode | null {
     return this.childNodes[0] || null
   }
 
@@ -176,6 +176,9 @@ export class TaroNode extends TaroDataSourceElement {
     this.childNodes.push(child)
     this.notifyDataAdd(this.childNodes.length - 1)
 
+    // @ts-ignore
+    child.toggleLayer?.(true)
+
     checkIsCompileModeAndInstallAfterDOMAction(child, this)
     return child
   }
@@ -191,6 +194,9 @@ export class TaroNode extends TaroDataSourceElement {
       this.connectParentNode(newNode)
       // TODO: 优化
       this.notifyDataReload()
+
+      // @ts-ignore
+      newNode.toggleLayer?.(true)
     }
 
     checkIsCompileModeAndInstallAfterDOMAction(newNode, this)
@@ -230,9 +236,14 @@ export class TaroNode extends TaroDataSourceElement {
   }
 
   public dispose () {
+    // 渲染，层级大于0的节点需要让其回到正常层级，然后删掉
+    // @ts-ignore
+    this.toggleLayer?.(false)
+
     this.parentNode = null
     this.childNodes = []
   }
+
 }
 
 @Observed

@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 import { escapePath, resolveAbsoluteRequire } from '../../utils'
 import { TARO_COMP_SUFFIX } from '../entry'

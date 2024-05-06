@@ -5,6 +5,7 @@ export interface HarmonyStyle extends TaroStyleType {
   textAlign?: TextAlign
   textOverflow?: HarmonyType.Overflow
   WebkitLineClamp?: number
+  whiteSpace?: string
   letterSpacing?: number | string
   verticalAlign?: Alignment
   lineHeight?: Length
@@ -32,6 +33,7 @@ export interface TaroStyleType {
   maxWidth?: Length
 
   display?: 'flex' | 'block' | 'none'
+  visibility?: 'visible' | 'hidden'
 
   // position
   position?: 'relative' | 'absolute' | 'fixed'
@@ -97,7 +99,28 @@ export interface TaroStyleType {
   fontStyle?: FontStyle
   fontWeight?: number | FontWeight | string
   fontFamily?: string | Resource
-  textDecoration?: TextDecorationType
+  textDecoration?: {
+    type: TextDecorationType
+  }
+
+  // animation
+  animationName?: {
+    percentage: number
+    event: TaroStyleType
+  }[]
+  animationDuration?: number
+  animationTimingFunction?: string
+  animationDelay?: number
+  animationIterationCount?: number
+
+  // shadow
+  boxShadow?: {
+    radius: number
+    color?: string
+    offsetX?: number
+    offsetY?: number
+    fill?: boolean
+  }
 
   // other
   opacity?: number | Resource
@@ -111,6 +134,7 @@ export interface TaroTextStyleType {
   textAlign?: TextAlign
   textOverflow?: HarmonyType.Overflow
   WebkitLineClamp?: number
+  whiteSpace?: string
   letterSpacing?: number | string
   verticalAlign?: Alignment
   lineHeight?: string | number | Resource
@@ -129,7 +153,7 @@ export namespace HarmonyType {
     repeating?: boolean
   }
   export interface RadialGradient {
-    center: Point
+    center: any
     radius: number | string
     colors: Array<[ResourceColor, number]>
     repeating?: boolean

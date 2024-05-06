@@ -1,7 +1,8 @@
+import { createRequire } from 'node:module'
+
 import remapping from '@ampproject/remapping'
 import { resolveSync } from '@tarojs/helper'
 import MagicString from 'magic-string'
-import { createRequire } from 'module'
 
 import { cssDataUriRE, cssUrlRE, importCssRE, varRE } from './constants'
 

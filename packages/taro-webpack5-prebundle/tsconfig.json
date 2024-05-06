@@ -10,6 +10,6 @@
     "rootDir": "./src",
     "sourceMap": true
   },
-  "include": ["./src", "../../types"],
+  "include": ["./src", "../taro-webpack5-runner/types"],
   "exclude": ["./src/__tests__"]
 }

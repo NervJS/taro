@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   fs,
   readConfig,
@@ -8,13 +10,12 @@ import {
   resolveMainFilePath,
   resolveScriptPath
 } from '@tarojs/helper'
-import { ViteH5BuildConfig, ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
-import path from 'path'
 
 import defaultConfig from '../../defaultConfig/defaultConfig.h5'
 import { CompilerContext } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
+import type { ViteH5BuildConfig, ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 
 export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> implements ViteH5CompilerContext {
   routerMeta: {
@@ -92,7 +93,7 @@ export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> impl
       this.logger.error(error)
       process.exit(1)
     }
-    
+
     const projectConfig = JSON.parse(projectConfigString) || {}
     return projectConfig?.browserslist || ['last 3 versions', 'Android >= 4.1', 'ios >= 8']
   }

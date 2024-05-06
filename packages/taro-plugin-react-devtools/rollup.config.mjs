@@ -1,9 +1,9 @@
 import * as path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import typescript from '@rollup/plugin-typescript'
 import copy from 'rollup-plugin-copy'
 import externals from 'rollup-plugin-node-externals'
-import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(new URL(import.meta.url))
 const cwd = path.dirname(__filename)

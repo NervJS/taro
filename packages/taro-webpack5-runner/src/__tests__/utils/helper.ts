@@ -1,24 +1,12 @@
 import ReactLikePlugin from '@tarojs/plugin-framework-react'
 import Vue3Plugin from '@tarojs/plugin-framework-vue3'
 import * as runnerUtils from '@tarojs/runner-utils'
-import * as joinPath from 'memory-fs/lib/join'
 import * as path from 'path'
 
 import { componentConfig } from '../../utils/component'
 
 import type { IFs } from 'memfs'
 import type { CommonBuildConfig, IH5BuildConfig, IMiniBuildConfig } from '../../utils/types'
-
-interface EnsuredFs extends IFs {
-  join: () => string
-}
-
-export function ensureWebpackMemoryFs(fs: IFs): EnsuredFs {
-  const newFs: EnsuredFs = Object.create(fs)
-  newFs.join = joinPath
-
-  return newFs
-}
 
 export function readDir(fs: IFs, dir: string) {
   let files: string[] = []

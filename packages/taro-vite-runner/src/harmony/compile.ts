@@ -1,5 +1,6 @@
-import { resolveSync, swc } from '@tarojs/helper'
-import path from 'path'
+import path from 'node:path'
+
+import { REG_SCRIPTS, resolveSync, swc } from '@tarojs/helper'
 
 import { resolveAbsoluteRequire } from '../utils'
 import { commonjsProxyRE, CSS_LANGS_RE, loadParseImportRE, SPECIAL_QUERY_RE } from './postcss/constants'
@@ -14,7 +15,7 @@ const isTemplateRequest = (request: string): boolean =>
   !SPECIAL_QUERY_RE.test(request) &&
   !loadParseImportRE.test(request) &&
   !CSS_LANGS_RE.test(request) &&
-  /\.[tj]sx$/i.test(request)
+  REG_SCRIPTS.test(request)
 
 let FILE_COUNTER = 0
 

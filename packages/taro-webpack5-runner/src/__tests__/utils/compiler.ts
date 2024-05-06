@@ -2,7 +2,7 @@ import helper from '@tarojs/helper'
 import { Weapp } from '@tarojs/plugin-platform-weapp'
 import { isWebPlatform } from '@tarojs/shared'
 import * as path from 'path'
-import * as merge from 'webpack-merge'
+import merge from 'webpack-merge'
 
 import buildWeb from '../../../dist/index.h5'
 import buildMini from '../../../dist/index.mini'

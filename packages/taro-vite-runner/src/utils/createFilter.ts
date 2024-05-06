@@ -3,9 +3,9 @@
  * MIT License http://www.opensource.org/licenses/mit-license.php
  * Author Tobias Rich Harris @richard.a.harris@gmail.com
  */
+import path from 'node:path'
 
 import { isArray } from '@tarojs/shared'
-import path from 'path'
 import pm from 'picomatch'
 
 function ensureArray(thing) {

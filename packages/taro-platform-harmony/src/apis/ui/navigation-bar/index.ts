@@ -19,7 +19,7 @@ export const setNavigationBarTitle: typeof Taro.setNavigationBarTitle = function
 
 export const setNavigationBarColor: typeof Taro.setNavigationBarColor = function (options) {
   const { success, fail, complete } = options || {}
-  const handle = new MethodHandler({ name: 'setNavigationBarTitle', success, fail, complete })
+  const handle = new MethodHandler({ name: 'setNavigationBarColor', success, fail, complete })
 
   return new Promise((resolve, reject) => {
     eventCenter.trigger('__taroNavigationStyle', {

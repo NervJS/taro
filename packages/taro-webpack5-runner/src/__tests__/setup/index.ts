@@ -1,16 +1,13 @@
 import { createFsFromVolume, Volume } from 'memfs'
 
-import { ensureWebpackMemoryFs } from '../utils/helper'
-
 jest.mock('webpack', () => {
   const originalModule = jest.requireActual('webpack')
   const webpack = config => {
     const compiler = originalModule(config)
     const fs = createFsFromVolume(new Volume())
-    const ensuredFs = ensureWebpackMemoryFs(fs)
 
     compiler.inputFileSystem._writeVirtualFile = () => {}
-    compiler.outputFileSystem = ensuredFs
+    compiler.outputFileSystem = fs
 
     return compiler
   }

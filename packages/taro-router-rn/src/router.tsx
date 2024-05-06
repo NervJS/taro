@@ -8,7 +8,7 @@ import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 
 import { navigationRef } from './rootNavigation'
-import { getCurrentJumpUrl, getTabInitRoute, getTabItemConfig, getTabVisible, handleUrl, hasJumpAnimate, setTabConfig } from './utils/index'
+import { getCurrentJumpUrl, getTabInitRoute, getTabItemConfig, getTabVisible, handleUrl, setTabConfig } from './utils/index'
 import BackButton from './view/BackButton'
 import HeadTitle from './view/HeadTitle'
 import CustomTabBar from './view/TabBar'
@@ -407,11 +407,7 @@ function createTabNavigate (config: RouterConfig, options: RouterOption) {
       detachInactiveScreens={false}
       {...stackProps}
       // @ts-ignore
-      screenOptions={() => ({
-        ...screenOptions,
-        animation: hasJumpAnimate() ? 'default' : 'none',
-        animationEnabled: !!hasJumpAnimate()
-      })}
+      screenOptions={screenOptions}
       initialRouteName={getInitRouteName(config)}
     >
       <Stack.Screen
@@ -451,11 +447,7 @@ function createStackNavigate (config: RouterConfig, options:RouterOption) {
       detachInactiveScreens={false}
       {...stackProps}
       // @ts-ignore
-      screenOptions={() => ({
-        ...screenOptions,
-        animation: hasJumpAnimate() ? 'default' : 'none',
-        animationEnabled: !!hasJumpAnimate()
-      })}
+      screenOptions={screenOptions}
       initialRouteName={getInitRouteName(config)}
     >{pageList.map(item => {
         const initParams = getInitParams(config, item.name)

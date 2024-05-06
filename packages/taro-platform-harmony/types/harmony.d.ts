@@ -9,3 +9,7 @@ declare var PlayMode: any
 declare var animateTo: any
 declare var Curve: any
 declare var AppStorage: any
+
+declare module '@ohos.data.distributedKVStore' {
+  export = any
+}

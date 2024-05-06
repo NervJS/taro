@@ -92,27 +92,25 @@ export default struct TaroVideo {
   }
 
   build () {
-    if (this.node.hmStyle?.display !== 'none') {
-      Video(getVideoData(this.node))
-      .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-      .props(getVideoProps(this.node))
-      .aspectRatio(4 / 3)
-      .onStart(shouldBindEvent(() => { emitEvent(this.node, 'play') }, this.node, ['play']))
-      .onPause(shouldBindEvent(() => { emitEvent(this.node, 'pause') }, this.node, ['pause']))
-      .onFinish(shouldBindEvent(() => { emitEvent(this.node, 'ended') }, this.node, ['ended']))
-      .onError(shouldBindEvent(() => { emitEvent(this.node, 'error') }, this.node, ['error']))
-      .onUpdate((e) => { handleUpdate(this.node, e) })
-      .onPrepared(shouldBindEvent((e: TaroAny) => { emitEvent(this.node, 'loadedMetaData', { duration: e.duration }) }, this.node, ['loadedmetadata']))
-      .onSeeking(shouldBindEvent((e: TaroAny) => { emitEvent(this.node, 'seeking', { duration: e.time }) }, this.node, ['seeking']))
-      .onSeeked(shouldBindEvent(() => { emitEvent(this.node, 'seeked') }, this.node, ['seeked']))
-      .onFullscreenChange(shouldBindEvent((e: TaroAny) => { emitEvent(this.node, 'fullScreenChange', { fullScreen: e.fullscreen}) }, this.node, ['fullscreenchange']))
-      .onClick((e: ClickEvent) => { eventHandler(e, 'click', this.node) })
-      .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
-      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-        this.node._nodeInfo.areaInfo = res[1]
-      }))
-      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-    }
+    Video(getVideoData(this.node))
+    .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+    .props(getVideoProps(this.node))
+    .aspectRatio(4 / 3)
+    .onStart(shouldBindEvent(() => { emitEvent(this.node, 'play') }, this.node, ['play']))
+    .onPause(shouldBindEvent(() => { emitEvent(this.node, 'pause') }, this.node, ['pause']))
+    .onFinish(shouldBindEvent(() => { emitEvent(this.node, 'ended') }, this.node, ['ended']))
+    .onError(shouldBindEvent(() => { emitEvent(this.node, 'error') }, this.node, ['error']))
+    .onUpdate((e) => { handleUpdate(this.node, e) })
+    .onPrepared(shouldBindEvent((e: TaroAny) => { emitEvent(this.node, 'loadedMetaData', { duration: e.duration }) }, this.node, ['loadedmetadata']))
+    .onSeeking(shouldBindEvent((e: TaroAny) => { emitEvent(this.node, 'seeking', { duration: e.time }) }, this.node, ['seeking']))
+    .onSeeked(shouldBindEvent(() => { emitEvent(this.node, 'seeked') }, this.node, ['seeked']))
+    .onFullscreenChange(shouldBindEvent((e: TaroAny) => { emitEvent(this.node, 'fullScreenChange', { fullScreen: e.fullscreen}) }, this.node, ['fullscreenchange']))
+    .onClick((e: ClickEvent) => { eventHandler(e, 'click', this.node) })
+    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      this.node._nodeInfo.areaInfo = res[1]
+    }))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
 }

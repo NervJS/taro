@@ -194,22 +194,31 @@ function queryBat (queue, cb) {
 
   arr = []
   traversalDFSDom(element)
-  queue.forEach(item => {
+  queue.forEach((item) => {
     const { selector, single, fields } = item
-    const nodeList = querySelector(selector, !single)
-
-    result.push(nodeList.map(dom => {
+    
+    if (single) {
+      const dom = querySelector(selector, !single)[0]
       // eslint-disable-next-line no-async-promise-executor
-      return new Promise(async resolve => {
+      result.push(new Promise(async resolve => {
         await setNodeEventCallbackAndTriggerComponentUpdate(dom, AREA_CHANGE_EVENT_NAME, null, true)
-
         resolve(filter(fields, dom))
-      })
-    }))
+      }))
+    } else {
+      const nodeList = querySelector(selector, !single)
+      result.push(nodeList.map(dom => {
+        // eslint-disable-next-line no-async-promise-executor
+        return new Promise(async resolve => {
+          await setNodeEventCallbackAndTriggerComponentUpdate(dom, AREA_CHANGE_EVENT_NAME, null, true)
+
+          resolve(filter(fields, dom))
+        })
+      }))
+    }
   })
 
   Promise.all(result.map(item => {
-    return Promise.all(item)
+    return item instanceof Array ? Promise.all(item) : item
   })).then(data => {
     cb(data)
   })

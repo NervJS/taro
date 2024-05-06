@@ -1,5 +1,6 @@
 import resolveReactNativePath from '@react-native-community/cli-config/build/resolveReactNativePath'
 import { findProjectRoot } from '@react-native-community/cli-tools'
+import { mergeConfig, MetroConfig } from 'metro'
 import * as os from 'os'
 import * as path from 'path'
 
@@ -42,13 +43,13 @@ export function getTransformer (opt: Options = {}) {
   return transform
 }
 
-export function getResolver (opt: Options = {}, config: IProjectConfig) {
+export function getResolver (opt: Options = {}, config: IProjectConfig, resolveRequest?: any) {
   const blockList = getBlockList(config)
   const handleEntryFile = (opt.fromRunner ?? true) ? handleTaroFile : handleFile
   const resolver: any = {
     sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs', 'svgx'],
     resolveRequest: (context, moduleName, platform) => {
-      return handleEntryFile(context, moduleName, platform, config)
+      return handleEntryFile(context, moduleName, platform, config, resolveRequest)
     },
     resolverMainFields: ['react-native', 'browser', 'main'],
   }
@@ -97,7 +98,7 @@ export const shareObject:ShareObject = {
   metroServerInstance: null
 }
 
-export async function getMetroConfig (opt: Options = {}) {
+export async function getMetroConfig (opt: Options = {}, toMergeConfig?: MetroConfig): Promise<MetroConfig> {
   const config = await getProjectConfig()
   const rnConfig = config.rn || {}
   const entry = rnConfig?.entry || 'app'
@@ -108,9 +109,9 @@ export async function getMetroConfig (opt: Options = {}) {
   shareObject.qr = opt.qr ?? false
   shareObject.entry = entry
   shareObject.cacheStore = cacheStore
-  return {
+  const taroMetroConfig = {
     transformer: getTransformer(opt),
-    resolver: getResolver(opt, config),
+    resolver: getResolver(opt, config, toMergeConfig?.resolver?.resolveRequest),
     serializer: {
       // We can include multiple copies of InitializeCore here because metro will
       // only add ones that are already part of the bundle
@@ -126,9 +127,25 @@ export async function getMetroConfig (opt: Options = {}) {
     server: {
       enhanceMiddleware: (Middleware, Server) => {
         shareObject.metroServerInstance = Server
+        // @ts-ignore
         shareObject.port = Server._config.server.port
         return Middleware
       }
-    }
+    },
   }
+  if (!toMergeConfig) return taroMetroConfig
+
+  const blockListTaro = taroMetroConfig.resolver?.blockList
+  const blockListMerge = toMergeConfig.resolver?.blockList
+
+  const finalConfig = mergeConfig(taroMetroConfig, toMergeConfig, {
+    resolver: {
+      blockList: [
+        ...(blockListTaro instanceof RegExp ? [blockListTaro] : blockListTaro || []),
+        ...(blockListMerge instanceof RegExp ? [blockListMerge] : blockListMerge || []),
+      ],
+      resolveRequest: taroMetroConfig.resolver?.resolveRequest,
+    }
+  })
+  return finalConfig
 }

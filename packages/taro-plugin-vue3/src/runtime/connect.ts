@@ -13,7 +13,7 @@ import type {
   ComponentPublicInstance,
   h as createElement,
   VNode
-} from '@vue/runtime-core'
+} from 'vue'
 
 export function setReconciler () {
   hooks.tap('getLifecycle', function (instance, lifecycle) {

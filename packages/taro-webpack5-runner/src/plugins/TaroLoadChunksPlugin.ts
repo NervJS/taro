@@ -57,7 +57,7 @@ export default class TaroLoadChunksPlugin {
         /**
          * 收集 common chunks 中使用到 @tarojs/components 中的组件
          */
-        commonChunks = chunksArray.filter(chunk => this.commonChunks.includes(chunk.name) && chunkHasJs(chunk, compilation.chunkGraph)).reverse()
+        commonChunks = chunksArray.filter(chunk => this.commonChunks.includes(chunk.name!) && chunkHasJs(chunk, compilation.chunkGraph)).reverse()
 
         this.isCompDepsFound = false
         for (const chunk of commonChunks) {
@@ -66,7 +66,7 @@ export default class TaroLoadChunksPlugin {
         if (!this.isCompDepsFound) {
           // common chunks 找不到再去别的 chunk 中找
           chunksArray
-            .filter(chunk => !this.commonChunks.includes(chunk.name))
+            .filter(chunk => !this.commonChunks.includes(chunk.name!))
             .some(chunk => {
               this.collectComponents(compiler, compilation, chunk)
               return this.isCompDepsFound

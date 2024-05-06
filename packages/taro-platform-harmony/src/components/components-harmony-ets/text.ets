@@ -1,38 +1,13 @@
 import { isString } from '@tarojs/shared'
 import { eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, NodeType } from '@tarojs/runtime'
 
-import commonStyleModify from './style'
+import { textModify, setNormalTextAttributeIntoInstance } from './style'
 import { getButtonColor } from './button'
+import { getImageMode } from './image'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
-import { getNodeThresholds, getStyleAttr, getFontAttributes, shouldBindEvent, getNormalAttributes } from './utils/helper'
+import { getNodeThresholds, getStyleAttr, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
-import type { TaroButtonElement, TaroElement, TaroTextElement, TaroAny, TaroTextStyleType, TaroStyleType } from '@tarojs/runtime'
-
-@Extend(Text)
-function textNormalFontStyle (style: TaroStyleType) {
-  .id(style.id)
-  .key(style.id)
-  .opacity(style.opacity)
-  .fontColor(style.color)
-  .fontSize(style.fontSize)
-  .fontWeight(style.fontWeight)
-  .fontStyle(style.fontStyle)
-  .fontFamily(style.fontFamily)
-  .decoration({
-    type: style.textDecoration,
-    color: style.color
-  })
-}
-
-@Extend(Text)
-function textSpecialFontStyle(attr: TaroTextStyleType) {
-  .textAlign(attr.textAlign)
-  .align(attr.verticalAlign)
-  .textOverflow(attr.textOverflow)
-  .maxLines(attr.WebkitLineClamp)
-  .letterSpacing(attr.letterSpacing)
-  .lineHeight(attr.lineHeight)
-}
+import type { TaroButtonElement, TaroElement, TaroTextElement, TaroAny, HarmonyStyle } from '@tarojs/runtime'
 
 function getButtonFontSize (node: TaroButtonElement): string | number {
   const isMini = node._attrs.size === 'mini'
@@ -50,6 +25,7 @@ function getTextInViewWidth (node: TaroElement | null): TaroAny {
     return isFlexView || isPercentWidth ? null : getStyleAttr(node, 'width')
   }
 }
+
 
 @Component
 export default struct TaroText {
@@ -69,30 +45,124 @@ export default struct TaroText {
       if (this.node.parentNode) {
         if ((this.node.parentNode as TaroElement).tagName === 'BUTTON') {
           Text(this.node.textContent)
-            .textNormalFontStyle(getNormalAttributes(this.node.parentElement!, {
+            .attributeModifier(textModify.setNode(this.node?.parentElement as TaroElement, {
               fontSize: getButtonFontSize(this.node.parentNode as TaroButtonElement),
               color: getButtonColor(this.node.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node.parentNode as TaroButtonElement)._attrs.type || '').text)
             }))
-            .textSpecialFontStyle(getFontAttributes(this.node.parentElement as TaroElement))
         } else {
           Text(this.node.textContent)
-            .textNormalFontStyle(getNormalAttributes(this.node.parentElement!))
-            .textSpecialFontStyle(getFontAttributes(this.node.parentElement as TaroElement))
+            .attributeModifier(textModify.setNode(this.node?.parentElement as TaroElement))
             .width(getTextInViewWidth(this.node.parentElement))
         }
       }
     } else {
-      if (this.node.hmStyle?.display !== 'none') {
-        Text(this.node.textContent)
-        .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-        .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-        .textNormalFontStyle(getNormalAttributes(this.node))
-        .textSpecialFontStyle(getFontAttributes(this.node))
-        .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-        .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          this.node._nodeInfo.areaInfo = res[1]
-        }))
+      Text(this.node.textContent) {
+        // text 下还有标签
+        if (this.node.childNodes.length > 1 || ((this.node.childNodes[0] && this.node.childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
+          ForEach(this.node.childNodes, (item: TaroElement) => {
+            createTextChildNode(item, getSpanVerticalAlign(this.node.hmStyle?.verticalAlign))
+          }, (item: TaroElement) => item._nid)
+        }
       }
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .attributeModifier(textModify.setNode(this.node).withNormalStyle().setAnimationStyle(this.overwriteStyle))
+      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        this.node._nodeInfo.areaInfo = res[1]
+      }))
     }
   }
 }
+
+@Builder
+function createTextChildNode (item: TaroElement, align: ImageSpanAlignment) {
+  if (item.tagName === 'IMAGE') {
+    ImageSpan(item.getAttribute('src'))
+      // .attributeModifier(commonStyleModify.setNode(item))
+      .objectFit(getImageMode(item.getAttribute('mode')))
+      .verticalAlign(align)
+      .width(item._st.hmStyle.width)
+      .height(item._st.hmStyle.height)
+      .margin({
+        top: item._st.hmStyle.marginTop,
+        left: item._st.hmStyle.marginLeft,
+        right: item._st.hmStyle.marginRight,
+        bottom: item._st.hmStyle.marginBottom,
+      })
+      .padding({
+        top: item._st.hmStyle.paddingTop,
+        left: item._st.hmStyle.paddingLeft,
+        right: item._st.hmStyle.paddingRight,
+        bottom: item._st.hmStyle.paddingBottom,
+      })
+      .textBackgroundStyle({
+        color: item._st.hmStyle.backgroundColor,
+        radius: {
+          topLeft: item._st.hmStyle.borderTopLeftRadius,
+          topRight: item._st.hmStyle.borderTopRightRadius,
+          bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
+          bottomRight: item._st.hmStyle.borderBottomRightRadius,
+        }
+      })
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
+  } else if (item.nodeType === NodeType.TEXT_NODE) {
+    Span(item.textContent)
+  } else if (item.tagName === 'TEXT') {
+    Span(item.textContent)
+      .attributeModifier(spanModify.setNode(item))
+      .letterSpacing(item._st.hmStyle.letterSpacing)
+      .textBackgroundStyle({
+        color: item._st.hmStyle.backgroundColor,
+        radius: {
+          topLeft: item._st.hmStyle.borderTopLeftRadius,
+          topRight: item._st.hmStyle.borderTopRightRadius,
+          bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
+          bottomRight: item._st.hmStyle.borderBottomRightRadius,
+        }
+      })
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
+  }
+}
+
+function getSpanVerticalAlign (verticalAlign?: Alignment) {
+  switch (verticalAlign) {
+    case Alignment.Start:
+    case Alignment.TopStart:
+    case Alignment.Top:
+    case Alignment.TopEnd: {
+      return ImageSpanAlignment.TOP
+    }
+    case Alignment.End:
+    case Alignment.BottomStart:
+    case Alignment.Bottom:
+    case Alignment.BottomEnd: {
+      return ImageSpanAlignment.BOTTOM
+    }
+    case Alignment.Center: {
+      return ImageSpanAlignment.CENTER
+    }
+  }
+  return ImageSpanAlignment.BASELINE
+}
+
+
+class SpanStyleModify implements AttributeModifier<SpanAttribute> {
+  node: TaroTextElement | null = null
+  style: HarmonyStyle | null = null
+  overwriteStyle: Record<string, TaroAny> = {}
+  withNormal = false
+
+  setNode (node: TaroTextElement) {
+    this.node = node
+    this.style = getNormalAttributes(this.node)
+    return this
+  }
+
+  applyNormalAttribute(instance: SpanAttribute): void {
+    if (this.node && this.style) {
+      setNormalTextAttributeIntoInstance(instance, this.style, this.node)
+    }
+  }
+}
+
+const spanModify = new SpanStyleModify()

@@ -1,5 +1,5 @@
+import path from 'node:path'
 import { NODE_MODULES_REG, SCRIPT_EXT } from '@tarojs/helper'
-import path from 'path'
 
 import { isVirtualModule } from '../utils'
 

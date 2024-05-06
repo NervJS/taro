@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "4.0.0-beta.33",
+  "version": "4.0.0-beta.54",
   "description": "Taro babel preset",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
@@ -26,27 +26,27 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@babel/plugin-transform-class-properties": "7.24.1",
-    "@babel/plugin-proposal-decorators": "7.24.1",
-    "@babel/plugin-transform-runtime": "7.24.3",
-    "@babel/preset-env": "7.24.4",
-    "@babel/preset-typescript": "7.24.1",
-    "@babel/runtime": "7.24.4",
-    "@babel/runtime-corejs3": "7.24.4",
+    "@babel/plugin-transform-class-properties": "^7.24.1",
+    "@babel/plugin-proposal-decorators": "^7.24.1",
+    "@babel/plugin-transform-runtime": "^7.24.3",
+    "@babel/preset-env": "^7.24.4",
+    "@babel/preset-typescript": "^7.24.1",
+    "@babel/runtime": "^7.24.4",
+    "@babel/runtime-corejs3": "^7.24.4",
     "@tarojs/helper": "workspace:*",
-    "babel-plugin-dynamic-import-node": "2.3.3",
-    "babel-plugin-minify-dead-code-elimination": "0.5.2",
-    "babel-plugin-transform-imports-api": "1.0.0",
-    "core-js": "3.36.1"
+    "babel-plugin-dynamic-import-node": "^2.3.3",
+    "babel-plugin-minify-dead-code-elimination": "^0.5.2",
+    "babel-plugin-transform-imports-api": "^1.0.0",
+    "core-js": "^3.36.1"
   },
   "devDependencies": {
-    "@babel/core": "7.24.4",
-    "@babel/preset-react": "7.24.1",
-    "react-refresh": "0.14.0",
-    "@prefresh/babel-plugin": "0.5.1",
-    "babel-preset-solid": "1.8.16",
-    "@vue/babel-plugin-jsx": "1.2.2",
-    "@react-native/babel-preset": "0.75.0-main",
+    "@babel/core": "^7.24.4",
+    "@babel/preset-react": "^7.24.1",
+    "react-refresh": "^0.14.0",
+    "@prefresh/babel-plugin": "^0.5.1",
+    "babel-preset-solid": "^1.8.16",
+    "@vue/babel-plugin-jsx": "^1.2.2",
+    "@react-native/babel-preset": "^0.75.0-main",
     "@tarojs/taro-rn": "workspace:*"
   },
   "peerDependencies": {

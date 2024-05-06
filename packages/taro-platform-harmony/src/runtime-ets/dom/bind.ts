@@ -1,4 +1,3 @@
-import { Current } from '../current'
 import { ObjectAssign } from '../utils'
 
 import type { TaroAny } from '../utils'
@@ -70,21 +69,25 @@ export function bindAnimation (node: TaroElement) {
             animateParams.duration = 0
           }
           animateParams.curve = Curve[convertToCamelCase(timingFunction)] || Curve.EaseInOut
-          Current.uiContext.animateTo(animateParams, () => {
+          node._instance.getUIContext()?.animateTo(animateParams, () => {
             const transformOrigin: string = anim.transformOrigin
-
             if (transformOrigin) {
               const splitOrigin = transformOrigin.split(' ')
               Object.keys(anim.rule).forEach(key => {
-                if (['scale', 'rotate'].includes(key)) {
-                  anim.rule[key] = ObjectAssign(anim.rule[key], {
-                    centerX: splitOrigin[0],
-                    centerY: splitOrigin[1],
-                  })
+                if (key === 'transform') {
+                  const transform = anim.rule[key]
+                  Object.keys(transform).forEach((transformKey => {
+                    if (['scale', 'rotate'].includes(transform[transformKey])) {
+                      transform[transformKey] = ObjectAssign(transform[transformKey], {
+                        centerX: splitOrigin[0],
+                        centerY: splitOrigin[1],
+                      })
+                    }
+
+                  }))
                 }
               })
             }
-
             node._instance.overwriteStyle = anim.rule
           })
         })

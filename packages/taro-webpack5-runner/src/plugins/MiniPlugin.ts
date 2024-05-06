@@ -193,7 +193,7 @@ export default class TaroMiniPlugin {
       PLUGIN_NAME,
       this.tryAsync<Compiler>(async compiler => {
         const changedFiles = this.getChangedFiles(compiler)
-        if (changedFiles?.size > 0) {
+        if (changedFiles && changedFiles?.size > 0) {
           this.isWatch = true
         }
         await this.run(compiler)
@@ -443,7 +443,7 @@ export default class TaroMiniPlugin {
         return independentPackage
       }
     })
-  } 
+  }
 
   getChangedFiles (compiler: Compiler) {
     return compiler.modifiedFiles
@@ -844,7 +844,7 @@ export default class TaroMiniPlugin {
 
           // 收集独立分包的组件，用于后续单独编译
           independentPackage?.components?.push(componentPath)
-          
+
           this.components.add(componentObj)
           this.compileFile(componentObj, independentPackage)
         }

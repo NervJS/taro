@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/transformer-wx",
-  "version": "4.0.0-beta.33",
+  "version": "4.0.0-beta.54",
   "description": "Transfrom Nerv Component to Wechat mini program.",
   "author": "O2Team",
   "license": "MIT",
@@ -35,22 +35,22 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@babel/code-frame": "7.24.2",
-    "@babel/core": "7.24.4",
-    "@babel/generator": "7.24.4",
-    "@babel/parser": "7.24.4",
-    "@babel/template": "7.24.0",
-    "@babel/traverse": "7.24.1",
-    "@babel/types": "7.24.0",
-    "eslint-plugin-taro": "2.2.19",
-    "babel-plugin-preval": "5.1.0",
-    "babel-plugin-transform-define": "2.1.4",
-    "@babel/plugin-proposal-do-expressions": "7.24.1",
+    "@babel/code-frame": "^7.24.2",
+    "@babel/core": "^7.24.4",
+    "@babel/generator": "^7.24.4",
+    "@babel/parser": "^7.24.4",
+    "@babel/template": "^7.24.0",
+    "@babel/traverse": "^7.24.1",
+    "@babel/types": "^7.24.0",
+    "eslint-plugin-taro": "^2.2.19",
+    "babel-plugin-preval": "^5.1.0",
+    "babel-plugin-transform-define": "^2.1.4",
+    "@babel/plugin-proposal-do-expressions": "^7.24.1",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
     "typescript": "^5.4.5",
-    "lodash": "4.17.21",
-    "prettier": "2.8.8"
+    "lodash": "^4.17.21",
+    "prettier": "^2.8.8"
   },
   "devDependencies": {
     "@types/babel__traverse": "^7.20.5",

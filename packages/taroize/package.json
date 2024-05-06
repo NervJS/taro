@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taroize",
-  "version": "4.0.0-beta.33",
+  "version": "4.0.0-beta.54",
   "description": "转换原生微信小程序代码为 Taro 代码",
   "author": "yuche",
   "license": "MIT",
@@ -54,17 +54,17 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@babel/code-frame": "7.24.2",
-    "@babel/generator": "7.24.4",
-    "@babel/parser": "7.24.4",
-    "@babel/template": "7.24.0",
-    "@babel/traverse": "7.24.1",
-    "@babel/types": "7.24.0",
+    "@babel/code-frame": "^7.24.2",
+    "@babel/generator": "^7.24.4",
+    "@babel/parser": "^7.24.4",
+    "@babel/template": "^7.24.0",
+    "@babel/traverse": "^7.24.1",
+    "@babel/types": "^7.24.0",
     "@tarojs/helper": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "himalaya-wxml": "1.1.0",
-    "lodash": "4.17.21",
-    "prettier": "2.8.8"
+    "himalaya-wxml": "^1.1.0",
+    "lodash": "^4.17.21",
+    "prettier": "^2.8.8"
   },
   "devDependencies": {
     "@types/babel__generator": "^7.6.8",

@@ -1,14 +1,13 @@
-import type { TaroElement } from '@tarojs/runtime'
+import type { TaroElement, HarmonyStyle } from '@tarojs/runtime'
 import { isUndefined } from '@tarojs/shared'
 import { getNormalAttributes } from './styles.ets'
 
 interface IFlexOptions {
   direction: FlexDirection,
   justifyContent: FlexAlign,
-  alignItems: VerticalAlign | HorizontalAlign,
-  // Row 和 Column 不支持下面两个属性
-  // wrap: FlexWrap,
-  // alignContent: FlexAlignContent
+  alignItems: ItemAlign,
+  wrap?: FlexWrap,
+  alignContent?: FlexAlign
 }
 
 class FlexManager {
@@ -38,23 +37,51 @@ class FlexManager {
     }
   }
 
-  static flexOptions (node: TaroElement): IFlexOptions {
-    const hmStyle = getNormalAttributes(node) || {}
-    const isFlex = FlexManager.isFlexNode(node)
-    const justifyContent: FlexAlign = isFlex ? (isUndefined(hmStyle.justifyContent) ? FlexAlign.Start : hmStyle.justifyContent) : FlexAlign.Start
+  static useFlexLayout (node: TaroElement): boolean {
+    const hmStyle: HarmonyStyle = getNormalAttributes(node) || {}
+    return !isUndefined(hmStyle.flexWrap) || [ItemAlign.Stretch, ItemAlign.Baseline].indexOf(hmStyle.alignItems!) !== -1
+  }
 
+  static flexOptions (node: TaroElement): IFlexOptions {
+    const hmStyle: HarmonyStyle = getNormalAttributes(node) || {}
+    const isFlex = FlexManager.isFlexNode(node)
     let flexDirection = hmStyle.flexDirection
     if (!flexDirection && flexDirection !== 0) {
       flexDirection = hmStyle.display === 'flex' ? FlexDirection.Row : FlexDirection.Column
     }
 
-    const alignItems = isFlex ? FlexManager.convertFlexAlignItemsToColumnOrRow(flexDirection, hmStyle.alignItems) : HorizontalAlign.Start
-
     return {
-      alignItems,
-      justifyContent,
+      alignItems: isFlex ? (isUndefined(hmStyle.alignItems) ? ItemAlign.Start : hmStyle.alignItems) : ItemAlign.Start,
+      justifyContent: isFlex ? (isUndefined(hmStyle.justifyContent) ? FlexAlign.Start : hmStyle.justifyContent) : FlexAlign.Start,
       direction: flexDirection,
+      wrap: isFlex ? hmStyle.flexWrap: FlexWrap.NoWrap,
+      alignContent: isFlex ? hmStyle.alignContent: FlexAlign.Start
     }
+  }
+
+  static direction (node: TaroElement): FlexDirection {
+    const hmStyle: HarmonyStyle = getNormalAttributes(node)
+    let flexDirection = hmStyle.flexDirection
+    if (!flexDirection && flexDirection !== 0) {
+      flexDirection = hmStyle.display === 'flex' ? FlexDirection.Row : FlexDirection.Column
+    }
+    return flexDirection
+  }
+
+  static alignItems<T> (node: TaroElement): T {
+    const hmStyle: HarmonyStyle = getNormalAttributes(node)
+    const isFlex = FlexManager.isFlexNode(node)
+    let flexDirection = hmStyle.flexDirection
+    if (!flexDirection && flexDirection !== 0) {
+      flexDirection = hmStyle.display === 'flex' ? FlexDirection.Row : FlexDirection.Column
+    }
+    return (isFlex ? FlexManager.convertFlexAlignItemsToColumnOrRow(flexDirection, hmStyle.alignItems) : HorizontalAlign.Start) as T
+  }
+
+  static justifyContent (node: TaroElement): FlexAlign {
+    const hmStyle: HarmonyStyle = getNormalAttributes(node)
+    const isFlex = FlexManager.isFlexNode(node)
+    return isFlex ? (isUndefined(hmStyle.justifyContent) ? FlexAlign.Start : hmStyle.justifyContent) : FlexAlign.Start
   }
 }
 

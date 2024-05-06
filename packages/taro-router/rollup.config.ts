@@ -2,7 +2,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
-import ts from 'rollup-plugin-ts'
+import typescript from '@rollup/plugin-typescript'
 
 import type { RollupOptions } from 'rollup'
 
@@ -22,11 +22,8 @@ const baseConfig: RollupOptions = {
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
     }),
-    ts({
-      tsconfig: e => ({
-        ...e,
-        sourceMap: true
-      })
+    typescript({
+      include: ['src/**/*', "types/**/*"] // 必须添加这行，否则会打包出 rollup.config.d.ts
     }),
     commonjs()
   ]

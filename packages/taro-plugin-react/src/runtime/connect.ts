@@ -1,12 +1,10 @@
-import * as SolidReconciler from '@tarojs/plugin-framework-react/dist/reconciler'
 import { Current, document, getPageInstance, incrementId, injectPageInstance, PAGE_INIT, perf } from '@tarojs/runtime'
 import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
-import * as Solid from 'solid-js'
 
-import { reactMeta, solidMeta } from './react-meta'
+import { reactMeta } from './react-meta'
 import { ensureIsArray, HOOKS_APP_ID, isClassComponent, setDefaultDescriptor, setRouterParams } from './utils'
 
-import type { AppInstance, Instance, PageLifeCycle, PageProps, ReactAppInstance, ReactPageComponent, TaroNode } from '@tarojs/runtime'
+import type { AppInstance, Instance, PageLifeCycle, PageProps, ReactAppInstance, ReactPageComponent } from '@tarojs/runtime'
 import type { AppConfig } from '@tarojs/taro'
 import type React from 'react'
 import type TReactDOM from 'react-dom'
@@ -34,11 +32,7 @@ export function setReconciler (ReactDOM?) {
   })
 
   hooks.tap('batchedEventUpdates', function (cb) {
-    if (process.env.FRAMEWORK !== 'solid') {
-      ReactDOM?.unstable_batchedUpdates(cb)
-    } else {
-      Solid.batch(cb)
-    }
+    ReactDOM?.unstable_batchedUpdates(cb)
   })
 
   hooks.tap('mergePageInstance', function (prev, next) {
@@ -422,188 +416,6 @@ export function createReactApp (
       const func = hooks.call('getLifecycle', instance, lifecycle)
       if (Array.isArray(func)) {
         func.forEach(cb => cb.apply(app, option))
-      }
-    }
-  }
-
-  Current.app = appObj
-  return appObj
-}
-
-export type SolidComponent = (props?: any) => TaroNode
-export function createSolidApp (App: SolidComponent, config: AppConfig) {
-  setReconciler()
-
-  const appRef: AppInstance = {
-    mount: () => {},
-    unmount: () => {},
-  }
-  function getAppInstance(): any {
-    return appRef
-  }
-
-  function AppWrapper () {
-    const [pages, setPages] = Solid.createSignal<any[]>([])
-
-    appRef.mount = (component: SolidComponent, id: string) => {
-      setPages((old) => {
-        return [...old, { id, component }]
-      })
-    }
-    appRef.unmount = (id) => {
-      setPages(
-        pages().filter((item) => {
-          return item.id !== id
-        })
-      )
-    }
-
-    return SolidReconciler.createComponent(App, {
-      ref: appRef,
-      children: SolidReconciler.createComponent(Solid.For as unknown as SolidComponent, {
-        get each() {
-          return pages()
-        },
-        children: ({ id, component }) => {
-          const children = () =>
-            SolidReconciler.createComponent(solidMeta.PageContext.Provider as unknown as SolidComponent, {
-              value: id,
-              children: () => {
-                injectPageInstance(
-                  { id: id, type: 'page' } as unknown as Instance<PageProps>,
-                  id
-                )
-                return SolidReconciler.createComponent(component, {
-                  tid: id,
-                })
-              },
-            })
-
-          const root = process.env.TARO_PLATFORM === 'web'
-            ? document.createElement('div')
-            : SolidReconciler.createElement('root')
-          if (process.env.TARO_PLATFORM === 'web') {
-            root.setAttribute('id', id)
-            root.classList.add('taro_page')
-          } else {
-            SolidReconciler.setProp(root, 'id', id)
-          }
-          SolidReconciler.insert(root, children)
-          return root
-        },
-      }),
-    })
-  }
-
-  function renderSolidRoot() {
-    let appId = 'app'
-    if (process.env.TARO_PLATFORM === 'web') {
-      appId = config?.appId || appId
-    }
-
-    const container = document.getElementById(appId)
-    SolidReconciler.render(AppWrapper, container)
-  }
-
-  if (process.env.TARO_PLATFORM !== 'web') {
-    renderSolidRoot()
-  }
-
-  const [ONLAUNCH, ONSHOW, ONHIDE] = hooks.call('getMiniLifecycleImpl')!.app
-
-  const appObj: AppInstance = Object.create(
-    {
-      mount(component: SolidComponent, id: string, cb: () => void) {
-        const appInstance = getAppInstance()
-        appInstance?.mount(component, id)
-        Solid.batch((...args) => {
-          perf.stop(PAGE_INIT)
-          return cb(...args)
-        })
-      },
-      unmount(id: string, cb: () => void) {
-        const appInstance = getAppInstance()
-        appInstance?.unmount(id)
-        Solid.batch(cb)
-      },
-    },
-    {
-      config: setDefaultDescriptor({
-        configurable: true,
-        value: config,
-      }),
-
-      [ONLAUNCH]: setDefaultDescriptor({
-        value(options) {
-          setRouterParams(options)
-
-          if (process.env.TARO_PLATFORM === 'web') {
-            renderSolidRoot()
-          }
-
-          const onLaunch = () => {
-            const app = getAppInstance()
-
-            if (app) {
-              // 把 App Class 上挂载的额外属性同步到全局 app 对象中
-              if (app.taroGlobalData) {
-                const globalData = app.taroGlobalData
-                const keys = Object.keys(globalData)
-                const descriptors = Object.getOwnPropertyDescriptors(globalData)
-                keys.forEach(key => {
-                  Object.defineProperty(this, key, {
-                    configurable: true,
-                    enumerable: true,
-                    get () {
-                      return globalData[key]
-                    },
-                    set (value) {
-                      globalData[key] = value
-                    }
-                  })
-                })
-                Object.defineProperties(this, descriptors)
-              }
-
-              app.onCreate?.()
-            }
-          }
-
-          onLaunch()
-          triggerAppHook('onLaunch', options)
-        },
-      }),
-      [ONSHOW]: setDefaultDescriptor({
-        value(options) {
-          setRouterParams(options)
-          triggerAppHook('onShow', options)
-        },
-      }),
-      [ONHIDE]: setDefaultDescriptor({
-        value() {
-          triggerAppHook('onHide')
-        },
-      }),
-      onError: setDefaultDescriptor({
-        value(error: string) {
-          triggerAppHook('onError', error)
-        },
-      }),
-      onPageNotFound: setDefaultDescriptor({
-        value(res: unknown) {
-          triggerAppHook('onPageNotFound', res)
-        },
-      }),
-    }
-  )
-
-  function triggerAppHook(lifecycle: keyof PageLifeCycle | keyof AppInstance, ...option) {
-    const instance = getPageInstance(HOOKS_APP_ID)
-    if (instance) {
-      const app = getAppInstance()
-      const func = hooks.call('getLifecycle', instance, lifecycle)
-      if (Array.isArray(func)) {
-        func.forEach((cb) => cb.apply(app, option))
       }
     }
   }

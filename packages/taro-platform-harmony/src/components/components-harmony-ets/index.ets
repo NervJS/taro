@@ -1,4 +1,4 @@
-import TaroImage from './image'
+import TaroImage, { getImageMode } from './image'
 import TaroText from './text'
 import TaroView from './view'
 import TaroIcon from './icon'
@@ -22,25 +22,35 @@ import TaroMovableArea from './movableArea'
 import TaroMovableView from './movableView'
 import { TaroRadio, TaroRadioGroup } from './radio'
 import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
+import TaroPageMeta from './pageMeta'
+import TaroNavigationBar from './navigationBar'
 
-import commonStyleModify from './style'
+import commonStyleModify, { rowModify, columnModify, textModify, setNormalTextAttributeIntoInstance } from './style'
 import { getButtonColor } from './button'
 import { FlexManager } from './utils/flexManager'
 import { DynamicCenter } from './utils/DynamicCenter'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
-import { getNodeThresholds, getNormalAttributes, getFontAttributes } from './utils/helper'
+import { getStyleAttr } from './utils/styles'
+import { shouldBindEvent, getNodeThresholds, getNormalAttributes, getFontAttributes } from './utils/helper'
 
 export {
+  textModify,
+  getStyleAttr,
   FlexManager,
   DynamicCenter,
   getButtonColor,
   TOUCH_EVENT_MAP,
+  shouldBindEvent,
   getFontAttributes,
   commonStyleModify,
+  rowModify,
+  columnModify,
   getNodeThresholds,
   BUTTON_THEME_COLOR,
   getNormalAttributes,
+  setNormalTextAttributeIntoInstance,
+  getImageMode,
 }
 
 export {
@@ -69,5 +79,7 @@ export {
   TaroRadio,
   TaroRadioGroup,
   TaroCheckboxGroup,
-  TaroCheckbox
+  TaroCheckbox,
+  TaroPageMeta,
+  TaroNavigationBar,
 }

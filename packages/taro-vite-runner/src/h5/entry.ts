@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { fs, isEmptyObject } from '@tarojs/helper'
-import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
 import { appendVirtualModulePrefix, generateQueryString, getMode, getQueryParams } from '../utils'

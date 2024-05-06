@@ -1,5 +1,6 @@
 import { FONT_LIMIT, IMAGE_LIMIT, MEDIA_LIMIT } from '@tarojs/runner-utils'
-import { ViteH5BuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
+
+import type { ViteH5BuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
 
 const platform = 'h5'
 

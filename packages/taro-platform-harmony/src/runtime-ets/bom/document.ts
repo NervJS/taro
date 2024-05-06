@@ -1,3 +1,5 @@
+import { APP, BODY, HEAD, HTML } from '@tarojs/runtime/dist/runtime.esm'
+
 import { TaroDocument } from '../dom/document'
 import { window } from './window'
 
@@ -15,11 +17,11 @@ function createDocument (): TaroDocument {
 
   const doc = new TaroDocument(window)
   const documentCreateElement = doc.createElement.bind(doc)
-  const html = documentCreateElement('html')
-  const head = documentCreateElement('head')
-  const body = documentCreateElement('body')
+  const html = documentCreateElement(HTML)
+  const head = documentCreateElement(HEAD)
+  const body = documentCreateElement(BODY)
   const container = documentCreateElement('container') // 多包一层主要为了兼容 vue
-  const app = documentCreateElement('app')
+  const app = documentCreateElement(APP)
   app.id = 'app'
 
   doc.appendChild(html)

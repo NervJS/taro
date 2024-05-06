@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "4.0.0-beta.33",
+  "version": "4.0.0-beta.54",
   "description": "Taro Service",
   "author": "luckyadam",
   "license": "MIT",
@@ -39,16 +39,16 @@
     "@tarojs/helper": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "joi": "17.12.3",
-    "lodash": "4.17.21",
-    "ora": "5.4.1",
-    "resolve": "1.22.8",
-    "tapable": "2.2.1",
-    "webpack-merge": "5.10.0"
+    "joi": "^17.12.3",
+    "lodash": "^4.17.21",
+    "ora": "^5.4.1",
+    "resolve": "^1.22.8",
+    "tapable": "^2.2.1",
+    "webpack-merge": "^5.10.0"
   },
   "devDependencies": {
     "@tarojs/taro": "workspace:*",
     "webpack": "^5.91.0",
-    "webpack-chain": "6.5.1"
+    "webpack-chain": "^6.5.1"
   }
 }

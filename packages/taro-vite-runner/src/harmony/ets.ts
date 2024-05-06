@@ -1,6 +1,6 @@
+import path from 'node:path'
 
 import { fs, resolveSync } from '@tarojs/helper'
-import path from 'path'
 
 import { appendVirtualModulePrefix, resolveAbsoluteRequire, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
 
@@ -75,7 +75,7 @@ export default async function (viteCompilerContext: ViteHarmonyCompilerContext):
           const moduleRelativePath = match[1]
           const modulePath = resolveSync(moduleRelativePath, { basedir: path.dirname(realId), extensions: ['.js', '.ts', '.ets'] })
 
-          if (modulePath) {
+          if (modulePath && !modulePath.includes('node_modules')) {
             const isETS = modulePath.endsWith('.ets')
             const fileName = path.relative(viteCompilerContext.sourceDir, modulePath)
 
