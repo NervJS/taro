@@ -2,7 +2,8 @@ import {
   CHANGE,
   INPUT,
   TYPE,
-  VALUE } from '../constants'
+  VALUE
+} from '../constants'
 import { TaroElement } from './element'
 
 import type { TaroEvent } from './event'

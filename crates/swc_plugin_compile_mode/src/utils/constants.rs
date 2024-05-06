@@ -15,6 +15,7 @@ pub const REACT_RESERVED: [&str; 2] = ["key", "ref"];
 pub const VIEW_TAG: &str = "view";
 pub const TEXT_TAG: &str = "text";
 pub const IMAGE_TAG: &str = "image";
+pub const SCRIPT_TAG: &str = "script";
 
 pub const STYLE_ATTR: &str = "style";
 pub const DIRECTION_ATTR: &str = "harmonyDirection";

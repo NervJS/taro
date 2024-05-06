@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli-convertor",
-  "version": "4.0.0-beta.58",
+  "version": "4.0.0-beta.62",
   "description": "cli tool for taro-convert",
   "main": "index.js",
   "scripts": {
@@ -37,11 +37,11 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@babel/generator": "^7.20.0",
-    "@babel/template": "^7.20.0",
-    "@babel/traverse": "^7.20.0",
+    "@babel/generator": "^7.23.0",
+    "@babel/template": "^7.24.0",
+    "@babel/traverse": "^7.23.0",
+    "@babel/types": "^7.24.5",
     "@tarojs/binding": "workspace:*",
-    "@babel/types": "^7.23.0",
     "@tarojs/cli": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/shared": "workspace:*",
@@ -54,8 +54,8 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.14.5",
-    "@types/babel__template": "^7.4.2",
-    "@types/babel__traverse": "~7.18.3",
+    "@types/babel__template": "^7.4.4",
+    "@types/babel__traverse": "^7.20.5",
     "@tarojs/taro": "workspace:*",
     "jest": "^29.7.0",
     "jest-cli": "^29.3.1",

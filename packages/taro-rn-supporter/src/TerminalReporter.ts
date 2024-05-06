@@ -64,12 +64,12 @@ export default class TaroTerminalReporter extends TerminalReporter {
         // 监听DeltaCalculator的change事件，把入口文件也加入到_modifiedFiles集合中
         bundler.getDependencyGraph().then(dependencyGraph => {
           dependencyGraph.getWatcher().on('change', ({ eventsQueue }) => {
-            const changedFiles = eventsQueue.filter( item => {
+            const changedFiles = eventsQueue.filter(item => {
               // APP配置文件变更和页面配置文件新增或删除时，重新编译入口文件
               if (item.filePath.includes(`${shareObject.entry}.config`)) {
                 return true
               }
-              return item.type !=='change'
+              return item.type !== 'change'
             }).map(item => item.filePath)
             // 如果配置文件修改之后，把入口文件添加到修改列表中
             const deltaCalculator = deltaBundler._deltaCalculators.get(entryGraphVersion.graph)

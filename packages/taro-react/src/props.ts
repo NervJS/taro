@@ -46,17 +46,17 @@ function isEqual (obj1, obj2) {
 
 export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props) {
   const updatePayload = getUpdatePayload(dom, oldProps, newProps)
-  if (updatePayload){
+  if (updatePayload) {
     updatePropsByPayload(dom, oldProps, updatePayload)
   }
 }
 
-export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updatePayload: any[]){
+export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updatePayload: any[]) {
   const handlers: (() => void)[] = []
-  for (let i = 0; i < updatePayload.length; i += 2){ 
+  for (let i = 0; i < updatePayload.length; i += 2) {
     // key, value 成对出现
     const key = updatePayload[i]
-    const newProp = updatePayload[i+1]
+    const newProp = updatePayload[i + 1]
     const oldProp = oldProps[key]
     if (isHarmony) {
       // 鸿蒙样式前置插入，防止覆盖style
@@ -70,13 +70,13 @@ export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updateP
     }
   }
   if (isHarmony) {
-    for (let i = 0; i < handlers.length; i++){
+    for (let i = 0; i < handlers.length; i++) {
       handlers[i]()
     }
   }
 }
 
-export function getUpdatePayload (dom: TaroElement, oldProps: Props, newProps: Props){
+export function getUpdatePayload (dom: TaroElement, oldProps: Props, newProps: Props) {
   let i: string
   let updatePayload: any[] | null = null
 
@@ -90,7 +90,7 @@ export function getUpdatePayload (dom: TaroElement, oldProps: Props, newProps: P
     if (oldProps[i] !== newProps[i] || (isFormElement && i === 'value')) {
       // 如果都是 style，且 style 里面的值相等，则无需记录到 payload 中
       if (i === 'style' && isObject(oldProps[i]) && isObject(newProps[i]) && isEqual(oldProps[i], newProps[i])) continue
-      
+
       (updatePayload = updatePayload || []).push(i, newProps[i])
     }
   }
@@ -170,7 +170,7 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
             } else if (i === 'animationName') {
               // @ts-ignore
               dom.setAnimation(false)
-            } 
+            }
             style[i] = ''
           }
         } else {
@@ -198,7 +198,7 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
             } else if (i === 'animationName') {
               // @ts-ignore
               dom.setAnimation(true)
-            } 
+            }
             style[i] = value[i]
           }
         } else {
@@ -277,7 +277,7 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
 }
 
 // 设置鸿蒙伪类属性(特殊设置)
-function setPseudo(dom: TaroElement, name: '::after' | '::before', value: StyleValue | null){
+function setPseudo(dom: TaroElement, name: '::after' | '::before', value: StyleValue | null) {
   if (name === '::after') {
     // @ts-ignore
     dom.set_pseudo_after(value)

@@ -70,7 +70,7 @@ describe('mini-split-chunks', () => {
         const chunkPaths: string[] = []
         const matchChunks = (fileContent || '').match(new RegExp(regexp, 'g'))
         ;(matchChunks || []).forEach(chunkPath => {
-          const regex =new RegExp(regexp, 'g')
+          const regex = new RegExp(regexp, 'g')
           const matches = [...chunkPath.matchAll(regex)]
           const paths: string[] = matches.map(match => {
             // @ts-ignore

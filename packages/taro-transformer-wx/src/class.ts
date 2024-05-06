@@ -143,7 +143,9 @@ class Transformer {
     this.classPath = path
     this.sourcePath = sourcePath
     this.sourceDir = sourceDir
-    this.moduleNames = Object.keys(path.scope.getAllBindings('module'))
+    this.moduleNames = Object.entries(path.scope.getAllBindings()).filter(([, binding]) => {
+      return binding.kind === 'module'
+    }).map(([key]) => (key))
     this.componentProperies = new Set(componentProperies)
     this.methods = methods
     this.compile()

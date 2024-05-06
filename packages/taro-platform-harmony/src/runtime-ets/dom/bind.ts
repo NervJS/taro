@@ -76,15 +76,14 @@ export function bindAnimation (node: TaroElement) {
               Object.keys(anim.rule).forEach(key => {
                 if (key === 'transform') {
                   const transform = anim.rule[key]
-                  Object.keys(transform).forEach((transformKey => {
+                  Object.keys(transform).forEach(transformKey => {
                     if (['scale', 'rotate'].includes(transform[transformKey])) {
                       transform[transformKey] = ObjectAssign(transform[transformKey], {
                         centerX: splitOrigin[0],
                         centerY: splitOrigin[1],
                       })
                     }
-
-                  }))
+                  })
                 }
               })
             }

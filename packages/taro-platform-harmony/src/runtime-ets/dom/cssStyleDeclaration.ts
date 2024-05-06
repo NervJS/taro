@@ -42,7 +42,7 @@ class CSSStyleDeclaration {
       const [propName, ...valList] = rule.split(':')
       const val = valList.join(':')
 
-      if (typeof val === undefined) {
+      if (typeof val === 'undefined') {
         continue
       }
       this.setProperty(propName.trim(), val.trim())

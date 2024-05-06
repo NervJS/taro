@@ -43,7 +43,7 @@ type TCustomTemplateInfo = Omit<ITemplateInfo & {
 
 export type TSetCustomTemplateConfig = (customTemplateConfig: TCustomTemplateInfo) => void
 
-type TGetCustomTemplate = (cb: TSetCustomTemplateConfig ) => Promise<void>
+type TGetCustomTemplate = (cb: TSetCustomTemplateConfig) => Promise<void>
 
 const DEFAULT_TEMPLATE_INFO = {
   name: 'default',
@@ -121,7 +121,7 @@ export default class Page extends Creator {
   }
 
   setPageEntryPath (files: string[], handler) {
-    const configFileName = files.find((filename)=> /\.config\.(js|ts)$/.test(filename))
+    const configFileName = files.find((filename) => /\.config\.(js|ts)$/.test(filename))
     if (!configFileName) return
     const getPageFn = handler[configFileName]
     const { setPageName = '', setSubPkgName = '' } = getPageFn?.(() => {}, this.conf) || {}
@@ -175,7 +175,7 @@ export default class Page extends Creator {
     this.conf.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
     // apply 插件，由插件设置自定义模版 config
     await this.modifyCustomTemplateConfig(this.setCustomTemplateConfig.bind(this))
-    if (!this.conf.isCustomTemplate){
+    if (!this.conf.isCustomTemplate) {
       const pkgTemplateInfo = this.getPkgTemplateInfo()
       this.setTemplateConfig(pkgTemplateInfo)
       if (!fs.existsSync(this.templatePath(this.conf.template))) {
@@ -192,16 +192,18 @@ export default class Page extends Creator {
     const { subPkg, projectDir, typescript } = this.conf
     const [sourceString, pageString] = this.pageEntryPath.split('/src/')
     const appConfigPath = resolveScriptPath(path.join(projectDir, sourceString, 'src', 'app.config'))
-    if (!fs.existsSync(appConfigPath)) return console.log(
-      `${chalk.red('x ')}${chalk.grey(`无法获取 ${appConfigPath} 配置文件，请手动到配置文件中补全新页面信息`)}`
-    )
+    if (!fs.existsSync(appConfigPath)) {
+      return console.log(
+        `${chalk.red('x ')}${chalk.grey(`无法获取 ${appConfigPath} 配置文件，请手动到配置文件中补全新页面信息`)}`
+      )
+    }
     const configFileContent = fs.readFileSync(appConfigPath, 'utf-8')
     const ast = parse(configFileContent, {
       sourceType: 'module',
       plugins: typescript ? ['typescript'] : []
     })
 
-    const callback = (state: ConfigModificationState) =>{
+    const callback = (state: ConfigModificationState) => {
       modifyState = state
     }
 
@@ -250,7 +252,7 @@ export default class Page extends Creator {
     const basePageFiles = fs.existsSync(handlerPath) ? require(handlerPath).basePageFiles : []
     const files = Array.isArray(basePageFiles) ? basePageFiles : []
     const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : {}
-    
+
     this.setPageEntryPath(files, handler)
 
     createPageBinding({

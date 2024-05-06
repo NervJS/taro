@@ -329,7 +329,7 @@ describe('文件转换', () => {
     expect(spy).toHaveBeenCalledTimes(2)
     expect(spy.mock.calls[1]).toMatchInlineSnapshot(`
       [
-        页面: /pages/index/index转换失败 页面 /pages/index/index 没有 JS 文件！,
+        "页面: /pages/index/index转换失败 页面 /pages/index/index 没有 JS 文件！",
       ]
     `)
   })

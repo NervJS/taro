@@ -95,7 +95,7 @@ function depthTraversal(root: ReactElement) {
             // eslint-disable-next-line @typescript-eslint/no-use-before-define
             processLeaf(tree.props.children[i], descendant_map)
           }
-        } else if (typeof tree.props.children !== 'string'){
+        } else if (typeof tree.props.children !== 'string') {
           // 收集叶子节点所拥有的类名
           // eslint-disable-next-line @typescript-eslint/no-use-before-define
           processLeaf(tree.props.children, descendant_map)
@@ -161,7 +161,6 @@ function depthTraversal(root: ReactElement) {
 
 // 将嵌套样式与节点合并
 function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias: Record<string, string[]>) {
-
   const findElement = (selector_string, combinator_type, selector_mapping, remainder_selector, declaration) => {
     // 防止修改原数组
     if (selector_string instanceof Array) {
@@ -208,8 +207,8 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
                 selectors: [selector_string, combinator_type, ...remainder_selector.slice()],
                 declaration: declaration
               }
-              obj.node.props.__nesting = obj.node.props.__nesting ?
-                [...obj.node.props.__nesting, nestingData] : [nestingData]
+              obj.node.props.__nesting = obj.node.props.__nesting
+                ? [...obj.node.props.__nesting, nestingData] : [nestingData]
             }
             selector_nodes.push({
               // @ts-ignore
@@ -228,8 +227,8 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
               selectors: [selector_string, combinator_type, ...remainder_selector.slice()],
               declaration: declaration
             }
-            object.node.props.__nesting = object.node.props.__nesting ?
-              [...object.node.props.__nesting, nestingData] : [nestingData]
+            object.node.props.__nesting = object.node.props.__nesting
+              ? [...object.node.props.__nesting, nestingData] : [nestingData]
           }
           selector_nodes.push({
             mapping: (object.ref || object)[combinator_type === ' > ' ? 'children' : 'descendants'],
@@ -342,7 +341,7 @@ function findSendNode (selectorArr: string[], selector_mapping: TMapping) {
 function insertParentStyle(data: {key: string, value: CSSProperties}, class_mapping: TMapping, alias: Record<string, string[]>) {
   const { key, value } = data
   key.split(' ').forEach(key => {
-    let classnames = [key] 
+    let classnames = [key]
     if (alias[key]) {
       classnames = classnames.concat(alias[key])
     }
@@ -362,7 +361,6 @@ function insertParentStyle(data: {key: string, value: CSSProperties}, class_mapp
       }
     })
   })
-
 }
 
 // 合并嵌套样式
@@ -374,7 +372,7 @@ export function __combine_nesting_style__(react_tree: ReactElement, styles: Nest
     const parentProps: {
       __styleSheet?: {key: string, value: CSSProperties}
       __nesting?: NestingStyle
-    } = // @ts-ignore 
+    } = // @ts-ignore
     react_tree._owner?.pendingProps // Hack：取出父组件的props，考虑版本问题，取的内部属性，可能会有问题
 
     if (newStyle || (parentProps && (parentProps.__styleSheet || parentProps.__nesting))) {

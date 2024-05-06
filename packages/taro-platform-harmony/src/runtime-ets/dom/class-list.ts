@@ -95,12 +95,12 @@ export class ClassList {
 
     if (~index) {
       this.tokenList.splice(index, 1, replacement_token)
-		  this._update()
+      this._update()
     }
   }
 
   toString () {
-	  return this.tokenList.filter(v => v !== '').join(' ')
+    return this.tokenList.filter(v => v !== '').join(' ')
   }
 
   private checkTokenIsValid (token: string) {

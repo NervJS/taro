@@ -56,5 +56,4 @@ export class MediaQueryObserver implements Taro.MediaQueryObserver {
       }
     }
   }
-
 }

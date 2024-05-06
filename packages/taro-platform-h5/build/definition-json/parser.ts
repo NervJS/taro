@@ -14,7 +14,7 @@ const tsconfig: ts.CompilerOptions = {
   paths: {
     '@tarojs/api': ['node_modules/@tarojs/taro/types']
   },
-  'types': ['@tarojs/taro-h5/types']
+  types: ['@tarojs/taro-h5/types']
 }
 const CompRGX = /^Taro(.*)Core$/
 const IgnoreSymbols = [

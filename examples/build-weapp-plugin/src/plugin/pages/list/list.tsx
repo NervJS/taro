@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Taro from '@tarojs/taro'
-import { View, Button } from '@tarojs/components'
+import { View, Button, Image } from '@tarojs/components'
 import ListItem from '../../components/listItem/listItem'
+import Dog from './dog.jpg'
 import './list.scss'
 
 declare const requireMiniProgram: () => { whoami: string }
@@ -51,6 +52,8 @@ export default class Index extends Component<any, any> {
         </View>
 
         <Button onClick={this.getElement}>测试元素获取</Button>
+
+        <Image src={Dog} />
 
         <mp-comp></mp-comp>
       </View>

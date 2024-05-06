@@ -43,7 +43,10 @@ export default class RenderParser extends BaseParser {
   TaroCheckboxGroup,
   TaroCheckbox,
   TaroPageMeta,
-  TaroNavigationBar
+  TaroNavigationBar,
+  TaroScrollList,
+  TaroListView,
+  TaroStickySection
 } from '@tarojs/components'
 ${this.generateRenderExtraComponentsImport()}${this.generateRenderNativeImport()}${this.generateRenderCompileModeImport()}
 import { NodeType } from '@tarojs/runtime'
@@ -79,13 +82,17 @@ import type {
   TaroWebViewElement,
   TaroInnerHtmlElement,
   TaroPageMetaElement,
-  TaroNavigationBarElement
+  TaroNavigationBarElement,
 } from '@tarojs/runtime'
 
 @Builder
 function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroElement) => void) {
   ${this.generateRenderExtraComponentsCondition()}${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'SCROLL-VIEW' || item._st?.hmStyle.overflow === 'scroll') {
-    TaroScrollView({ node: item as TaroScrollViewElement, createLazyChildren: createLazyChildren })
+    if (item.getAttribute('type') === 'custom') {
+      TaroScrollList({ node: item as TaroScrollViewElement, createLazyChildren: createLazyChildren })
+    } else {
+      TaroScrollView({ node: item as TaroScrollViewElement, createLazyChildren: createLazyChildren })
+    }
   } else if (item.tagName === 'VIEW') {
     TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
@@ -142,6 +149,10 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
     TaroPageMeta({ node: item as TaroPageMetaElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'NAVIGATION-BAR') {
     TaroNavigationBar({ node: item as TaroNavigationBarElement, createLazyChildren: createLazyChildren })
+  } else if (item.tagName === 'STICKY-SECTION') {
+    TaroStickySection({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
+  } else if (item.tagName === 'LIST-VIEW') {
+    TaroListView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
   } else {
     TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
   }
@@ -151,22 +162,18 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
 function createLazyChildren (node: TaroElement, layer = 0) {
   LazyForEach(node, (item: TaroElement) => {
     if (!item._nodeInfo || item._nodeInfo.layer === layer) {
-      createChildItem(item, createLazyChildren)
+      if (node.tagName === 'LIST-VIEW') {
+        ListItem() {
+          createChildItem(item, createLazyChildren)
+        }
+      } else {
+        createChildItem(item, createLazyChildren)
+      }
     }
   }, (item: TaroElement) => \`\${item._nid}-\${item._nodeInfo?.layer || 0}\`)
 }
 
-
-@Builder
-function createNormalChildren (node: TaroElement, layer = 0) {
-  ForEach(node.childNodes, (item: TaroElement) => {
-    if (!item._nodeInfo || item._nodeInfo.layer === layer) {
-      createChildItem(item, createNormalChildren)
-    }
-  }, (item: TaroElement) => \`\${item._nid}-\${item._nodeInfo?.layer || 0}\`)
-}
-
-export { createChildItem, createLazyChildren, createNormalChildren }
+export { createChildItem, createLazyChildren }
 `
 
     const { cwd: appPath, loaderMeta, taroConfig } = this.context
@@ -236,7 +243,6 @@ export { createChildItem, createLazyChildren, createNormalChildren }
         const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath)
         result = `${result}import ${nativeMeta.name} from '../../../${nativePath}'\n`
       }
-
     })
 
     return result

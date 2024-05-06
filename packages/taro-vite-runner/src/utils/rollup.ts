@@ -23,15 +23,15 @@ const getRelativeUrlFromDocument = (relativePath: string, umd = false) =>
   )
 
 export const getGenericImportMetaMechanism =
-	(getUrl: (chunkId: string) => string) =>
-	  (property: string | null, { chunkId }: { chunkId: string }) => {
-	    const urlMechanism = getUrl(chunkId)
-	    return property === null
-	      ? `({ url: ${urlMechanism} })`
-	      : property === 'url'
-	        ? urlMechanism
-	        : 'undefined'
-	  }
+  (getUrl: (chunkId: string) => string) =>
+    (property: string | null, { chunkId }: { chunkId: string }) => {
+      const urlMechanism = getUrl(chunkId)
+      return property === null
+        ? `({ url: ${urlMechanism} })`
+        : property === 'url'
+          ? urlMechanism
+          : 'undefined'
+    }
 
 const getFileUrlFromFullPath = (path: string) => `require('u' + 'rl').pathToFileURL(${path}).href`
 

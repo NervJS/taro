@@ -120,7 +120,7 @@ describe('转换报告', () => {
     setMockFiles(root, REPORT_DEMO)
     const convertor = new Convertor(root, false)
     convertor.run()
-     
+
     expect(resFileMap.has('/wxProject/taroConvert/report/static/media/HarmonyOS_Sans_SC_Medium.ttf')).toBeTruthy()
     expect(resFileMap.has('/wxProject/taroConvert/report/static/media/HarmonyOS_Sans_SC_Bold.ttf')).toBeTruthy()
     expect(resFileMap.has('/wxProject/taroConvert/report/favicon.ico')).toBeTruthy()
@@ -128,7 +128,7 @@ describe('转换报告', () => {
     resFileMap.delete('/wxProject/taroConvert/report/static/media/HarmonyOS_Sans_SC_Bold.ttf')
     resFileMap.delete('/wxProject/taroConvert/report/favicon.ico')
 
-    expect(resFileMap).toMatchSnapshot()   
+    expect(resFileMap).toMatchSnapshot()
     expect(resFileMap.has('/wxProject/taroConvert/report')).toBeTruthy()
     expect(resFileMap.has('/wxProject/taroConvert/report/static/js')).toBeTruthy()
     expect(resFileMap.has('/wxProject/taroConvert/report/static/css')).toBeTruthy()
@@ -167,7 +167,7 @@ describe('生成转换报告及日志', () => {
     const convert = new Convertor(root, false)
     expect(spy).toHaveBeenCalledTimes(3)
     convert.generateReport()
-    
+
     expect(resFileMap.has('/wxProject/taroConvert/report')).toBeTruthy()
     expect(resFileMap.has('/wxProject/taroConvert/report/static/js')).toBeTruthy()
     expect(resFileMap.has('/wxProject/taroConvert/report/static/css')).toBeTruthy()
@@ -185,7 +185,7 @@ describe('生成转换报告及日志', () => {
         },
       },
       '/images': {
-        '/tu.jpg':'',
+        '/tu.jpg': '',
       },
       '/project.config.json': `{}`,
       '/app.js': `App({})`,
@@ -216,12 +216,12 @@ describe('生成转换报告及日志', () => {
           ],
           "plugins": {}
         }`,
-        '/pages':{
-          '/index':{
-            '/index.js':`Page({})`,
-            '/index.wxml':``,
-            '/index.json':`{}`,
-            '/index.wxss':``,
+        '/pages': {
+          '/index': {
+            '/index.js': `Page({})`,
+            '/index.wxml': ``,
+            '/index.json': `{}`,
+            '/index.wxss': ``,
           }
         }
       },
@@ -254,9 +254,9 @@ describe('生成转换报告及日志', () => {
           '/index.wxss': '',
         },
       },
-      '/components':{
-        '/index':{
-          '/index.wxml':''
+      '/components': {
+        '/index': {
+          '/index.wxml': ''
         }
       },
       '/project.config.json': `{}`,
@@ -295,14 +295,14 @@ describe('生成转换报告及日志', () => {
             "hello-list": "plugin://hello-component"
           }
         }`,
-        '/pages':{
-          '/index':{
-            '/index.js':`Page({})`,
-            '/index.wxml':``,
-            '/index.json':`{
+        '/pages': {
+          '/index': {
+            '/index.js': `Page({})`,
+            '/index.wxml': ``,
+            '/index.json': `{
 
             }`,
-            '/index.wxss':``,
+            '/index.wxss': ``,
           }
         }
       }
@@ -320,22 +320,22 @@ describe('生成转换报告及日志', () => {
   test('插件配置信息为空，解析plugin.json失败', () => {
     const PLUGIN_PATH_ABNORMAL = {
       '/plugin': {
-        '/components':{
-          '/hello-component.js':`Component({})`,
-          '/hello-component.wxml':`<text>plugin/components/hello-component.wxml</text>`,
-          '/hello-component.json':`{
+        '/components': {
+          '/hello-component.js': `Component({})`,
+          '/hello-component.wxml': `<text>plugin/components/hello-component.wxml</text>`,
+          '/hello-component.json': `{
             "component": true,
             "usingComponents": {}
             }`,
-          '/hello-component.wxss':``,
+          '/hello-component.wxss': ``,
         },
-        '/pages':{
-          '/hello-page.js':`Page({})`,
-          '/hello-page.wxml':'<text>This is a plugin page!</text>',
-          '/hello-page.json':'{}',
-          '/hello-page.wxss':'',
+        '/pages': {
+          '/hello-page.js': `Page({})`,
+          '/hello-page.wxml': '<text>This is a plugin page!</text>',
+          '/hello-page.json': '{}',
+          '/hello-page.wxss': '',
         },
-        '/plugin.json':Buffer.alloc(0),
+        '/plugin.json': Buffer.alloc(0),
       },
     }
     setMockFiles(root, DEMO_PLUGIN_COMPLETE_DIRECTORY)
@@ -373,22 +373,22 @@ describe('生成转换报告及日志', () => {
   test('引用了未注册的插件组件', () => {
     const USE_NOT_REGISTERED_COMPONENT = {
       '/plugin': {
-        '/components':{
-          '/hello-component.js':`Component({})`,
-          '/hello-component.wxml':`<text>plugin/components/hello-component.wxml</text>`,
-          '/hello-component.json':`{
+        '/components': {
+          '/hello-component.js': `Component({})`,
+          '/hello-component.wxml': `<text>plugin/components/hello-component.wxml</text>`,
+          '/hello-component.json': `{
             "component": true,
             "usingComponents": {}
             }`,
-          '/hello-component.wxss':``,
+          '/hello-component.wxss': ``,
         },
-        '/pages':{
-          '/hello-page.js':`Page({})`,
-          '/hello-page.wxml':'<text>This is a plugin page!</text>',
-          '/hello-page.json':'{}',
-          '/hello-page.wxss':'',
+        '/pages': {
+          '/hello-page.js': `Page({})`,
+          '/hello-page.wxml': '<text>This is a plugin page!</text>',
+          '/hello-page.json': '{}',
+          '/hello-page.wxss': '',
         },
-        '/plugin.json':`
+        '/plugin.json': `
           {
             "pages": {
               "hello-page": "pages/hello-page"
@@ -428,14 +428,14 @@ describe('生成转换报告及日志', () => {
       },
       '/project.config.json': `{}`,
       '/app.js': `App({})`,
-      '/app.json':`
+      '/app.json': `
         {
           "pages": [
             "pages/index/index"
           ]
         }
       `,
-      '/node_modules':{}
+      '/node_modules': {}
     }
 
     setMockFiles(root, NODE_MODULES_NO_INSTALL)

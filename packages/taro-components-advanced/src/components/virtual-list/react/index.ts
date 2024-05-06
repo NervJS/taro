@@ -15,6 +15,7 @@ const VirtualList = React.forwardRef(function VirtualList (props: VirtualListPro
     itemElementType = View,
     initialScrollOffset = 0,
     overscanCount = 1,
+    queryPrefix = '',
     ...rest
   } = props as IProps
 
@@ -35,6 +36,7 @@ const VirtualList = React.forwardRef(function VirtualList (props: VirtualListPro
     direction,
     initialScrollOffset,
     overscanCount,
+    queryPrefix,
     outerWrapper,
   })
 })

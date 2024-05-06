@@ -35,10 +35,10 @@ function harmonyConfig (): PluginOption {
     name: 'taro-vue3:harmony-config',
     config: () => ({
       define: {
-        'ENABLE_ADJACENT_HTML': true,
-        'ENABLE_CLONE_NODE': true,
-        'ENABLE_TEMPLATE_CONTENT': true,
-        'ENABLE_MUTATION_OBSERVER': true,
+        ENABLE_ADJACENT_HTML: true,
+        ENABLE_CLONE_NODE: true,
+        ENABLE_TEMPLATE_CONTENT: true,
+        ENABLE_MUTATION_OBSERVER: true,
       }
     })
   }

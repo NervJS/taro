@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-rn",
-  "version": "4.0.0-beta.58",
+  "version": "4.0.0-beta.62",
   "description": "Taro RN framework",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -61,8 +61,8 @@
     "react-native-stylekit": "^1.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5",
-    "@babel/preset-env": "^7.14.5",
+    "@babel/core": "^7.23.0",
+    "@babel/preset-env": "^7.20.0",
     "@react-native/babel-preset": "^0.73.18",
     "@testing-library/jest-native": "^5.4.2",
     "@testing-library/react-native": "^12.4.1",

@@ -59,8 +59,7 @@ export class TaroWebViewElement extends TaroElement<WebViewProps> {
           return null
         }
       }
-    }
-    catch (error) {
+    } catch (error) {
       const e: business_error.BusinessError = error as business_error.BusinessError
 
       console.error(`ErrorCode: ${e.code},  Message: ${e.message}`)

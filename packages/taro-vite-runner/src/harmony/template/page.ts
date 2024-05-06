@@ -26,15 +26,17 @@ export interface TaroHarmonyPageMeta extends VitePageMeta {
 
   modifyRenderState?: (this: Parser, state: (string | null)[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => void
 
-  modifyPageParams?: (this: Parser, paramsString: string) => string
+  modifyPageParams?: (this: Parser, paramsString: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
   modifyPageImport?: (this: Parser, importStr: string[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => void
 
   modifyPageAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
-  modifyPageBuild?: (this: Parser, buildStr: string) => string
+  modifyPageDisAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
-  modifyPageMethods?: (this: Parser, methods: IMethod[]) => void
+  modifyPageBuild?: (this: Parser, buildStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
+
+  modifyPageMethods?: (this: Parser, methods: IMethod[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => void
 }
 
 const SHOW_TREE = false
@@ -213,39 +215,11 @@ export default class Parser extends BaseParser {
     }
 
     const modifyPageBuild = page instanceof Array ? page[0].modifyPageBuild : page.modifyPageBuild
-    const modifyPageAppear = page instanceof Array ? page[0].modifyPageAppear : page.modifyPageAppear
     const modifyRenderState = page instanceof Array ? page[0].modifyRenderState : page.modifyRenderState
     const modifyPageMethods = page instanceof Array ? page[0].modifyPageMethods : page.modifyPageMethods
 
     if (isFunction(modifyRenderState)) {
       modifyRenderState.call(this, generateState, page)
-    }
-
-    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
-
-    // 生成 aboutToAppear 函数内容
-    let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as unknown[]).concat(
-      this.buildConfig.isBuildNativeComp ? [] :[
-        'const state = this.getPageState()',
-        'if (this.pageStack.length >= state.index) {',
-        '  this.pageStack.length = state.index - 1',
-        '}',
-        `this.pageStack.push(state)`,
-      ],
-      this.isTabbarPage ? [
-        'const params = router.getParams() as Record<string, string> || {}',
-        'let index: TaroAny = params.$page',
-        '  ? this.tabBarList.findIndex(e => e.pagePath === params.$page)',
-        '  : this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)',
-        'index = index >= 0 ? index : 0',
-        'this.handlePageAppear(index)',
-        'this.setTabBarCurrentIndex(index)',
-        'this.bindTabBarEvent()',
-      ] : ['this.handlePageAppear()']
-    ))}`
-
-    if (isFunction(modifyPageAppear)) {
-      appearStr = modifyPageAppear.call(this, appearStr, page)
     }
 
     // 生成 build 函数内容
@@ -256,7 +230,7 @@ export default class Parser extends BaseParser {
     )
 
     if (isFunction(modifyPageBuild)) {
-      buildStr = modifyPageBuild.call(this, buildStr)
+      buildStr = modifyPageBuild.call(this, buildStr, page)
     }
 
     const generateMethods: IMethod[] = [{
@@ -270,21 +244,16 @@ return state`,
     },
     {
       name: 'aboutToAppear',
-      body: appearStr,
+      body: this.generatePageAboutToAppear(page),
     },
     {
       name: 'aboutToDisappear',
-      body: this.transArr2Str([
-        this.isTabbarPage ? `this.pageList?.forEach(item => {
-  callFn(item?.onUnload, this)
-})
-this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)',
-      ])
+      body: this.generatePageAboutToDisAppear(page)
     },
     {
       name: 'handlePageAppear',
       params: this.isTabbarPage ? ['index = this.tabBarCurrentIndex'] : [],
-      body: this.generatePageAppear(page),
+      body: this.generatePageHandleAppear(page),
     }]
 
     if (this.buildConfig.isBuildNativeComp && !entryOption) {
@@ -707,7 +676,7 @@ for (let i = 0; i < taskQueen.length; i++) {
     }
 
     if (isFunction(modifyPageMethods)) {
-      modifyPageMethods.call(this, generateMethods)
+      modifyPageMethods.call(this, generateMethods, page)
     }
 
     generateMethods.push({
@@ -731,15 +700,15 @@ for (let i = 0; i < taskQueen.length; i++) {
     return instantiatePage
   }
 
-  generatePageAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
+  generatePageHandleAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
     let paramsString = 'router.getParams() as Record<string, string> || {}'
 
     const modifyPageParams = page instanceof Array ? page[0].modifyPageParams : page.modifyPageParams
     if (isFunction(modifyPageParams)) {
-      paramsString = modifyPageParams.call(this, paramsString)
+      paramsString = modifyPageParams.call(this, paramsString, page)
     }
 
-    return `${this.buildConfig.isBuildNativeComp ? '' :`if (${this.appConfig.window?.navigationStyle === 'custom'
+    return `${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
       ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
       : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
   Current.contextPromise
@@ -827,7 +796,7 @@ callFn(this.page.onReady, this, params)`
     node._nodeInfo._client = area
   }
 })
-.onScroll(() => {
+.onDidScroll(() => {
   if (!this.page) return
 
   const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
@@ -929,6 +898,56 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     return pageStr
   }
 
+  generatePageAboutToAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
+    const modifyPageAppear = page instanceof Array ? page[0].modifyPageAppear : page.modifyPageAppear
+
+    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
+
+    // 生成 aboutToAppear 函数内容
+    let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as unknown[]).concat(
+      this.buildConfig.isBuildNativeComp ? [] : [
+        'const state = this.getPageState()',
+        'if (this.pageStack.length >= state.index) {',
+        '  this.pageStack.length = state.index - 1',
+        '}',
+        `this.pageStack.push(state)`,
+      ],
+      this.isTabbarPage ? [
+        'const params = router.getParams() as Record<string, string> || {}',
+        'let index: TaroAny = params.$page',
+        '  ? this.tabBarList.findIndex(e => e.pagePath === params.$page)',
+        '  : this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)',
+        'index = index >= 0 ? index : 0',
+        'this.handlePageAppear(index)',
+        'this.setTabBarCurrentIndex(index)',
+        'this.bindTabBarEvent()',
+      ] : ['this.handlePageAppear()']
+    ))}`
+
+    if (isFunction(modifyPageAppear)) {
+      appearStr = modifyPageAppear.call(this, appearStr, page)
+    }
+
+    return appearStr
+  }
+
+  generatePageAboutToDisAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
+    const modifyPageDisAppear = page instanceof Array ? page[0].modifyPageDisAppear : page.modifyPageDisAppear
+
+    // 生成 aboutToDisAppear 函数内容
+    let disAppearStr = this.transArr2Str([
+      this.isTabbarPage ? `this.pageList?.forEach(item => {
+callFn(item?.onUnload, this)
+})
+this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
+
+    if (isFunction(modifyPageDisAppear)) {
+      disAppearStr = modifyPageDisAppear.call(this, disAppearStr, page)
+    }
+
+    return disAppearStr
+  }
+
   generatePageShown () {
     const arr = [
       'this.bindPageEvent()',
@@ -995,7 +1014,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       'import { TaroView } from "@tarojs/components"',
       'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window, document } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
-      `import { createLazyChildren, createNormalChildren } from "${renderPath}"`,
+      `import { createLazyChildren } from "${renderPath}"`,
     ]
 
     const modifyPageImport = page instanceof Array ? page[0].modifyPageImport : page.modifyPageImport

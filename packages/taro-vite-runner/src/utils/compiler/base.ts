@@ -47,14 +47,14 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConf
 
   protected process () {
     this.processConfig()
-    this.sourceDir = path.join(this.cwd, this.taroConfig.sourceRoot as string)
+    this.sourceDir = path.resolve(this.cwd, this.taroConfig.sourceRoot as string)
     this.frameworkExts = this.taroConfig.frameworkExts || SCRIPT_EXT
   }
 
   protected processConfig () {}
 
   watchConfigFile (rollupCtx: PluginContext) {
-    this.configFileList.forEach((configFile)=> rollupCtx.addWatchFile(configFile))
+    this.configFileList.forEach((configFile) => rollupCtx.addWatchFile(configFile))
   }
 
   getAppScriptPath (): string {

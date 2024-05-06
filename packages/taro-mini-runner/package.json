@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mini-runner",
-  "version": "4.0.0-beta.58",
+  "version": "4.0.0-beta.62",
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
@@ -10,10 +10,8 @@
     "mv:comp": "node ./mv-comp.js",
     "clean": "rimraf --impl=move-remove dist",
     "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
-    "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
-    "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
+    "test:coverage": "cross-env NODE_ENV=jest jest --coverage"
   },
   "repository": {
     "type": "git",

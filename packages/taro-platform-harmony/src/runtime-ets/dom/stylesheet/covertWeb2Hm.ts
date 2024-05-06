@@ -7,8 +7,8 @@ import { BORDER_STYLE_MAP, capitalizeFirstLetter, FlexManager, getNodeMarginOrPa
 
 // 背景解析正则
 const BACKGROUND_REGEX = {
-  IMAGE: /url\((['"])?(.*?)\1\)|(linear|radial)-gradient\([^)]*\)/,
-  COLOR: /(#[0-9a-fA-F]{3,6}|rgb\(\d+,\s*\d+,\s*\d+\)|rgba?\(\d+,\s*\d+,\s*\d+,\s*(?:0?\.\d+|\d+%)\)|transparent)/,
+  IMAGE: /url\((['"])?(.*?)\1\)|((linear|radial)-gradient\([^)]*\))/g,
+  COLOR: /(#[0-9a-fA-F]{3,8}|rgb\(\d+,\s*\d+,\s*\d+\)|rgba?\(\d+,\s*\d+,\s*\d+,\s*(?:0?\.\d+|\d+%)\)|transparent)/,
   REPEAT: /(repeat-x|repeat-y|repeat|space|round|no-repeat)/,
   POSITION: /(top|left|center|right|bottom|\d+(\.\d+)?(px|%|vw|vh)?)+/g,
   SIZE: /(cover|contain|\d+(\.\d+)?(px|%|vw|vh)?)+/g
@@ -469,20 +469,24 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: 
 }
 
 function setBackgroundImage(hmStyle, value) {
-  if (typeof value === 'string' && value.indexOf('url(') !== -1 && value.indexOf(')') !== -1) {
-    // 如果包含 url()，则说明是 background-image 属性
-    const match = value.match(new RegExp('url\\([\'"]?(.*?)[\'"]?\\)'))
-    if (match) {
-      hmStyle.backgroundImage = {
-        src: match[1]
+  if (typeof value === 'string') {
+    if (value.indexOf('url(') !== -1 && value.indexOf(')') !== -1) {
+      // 如果包含 url()，则说明是 background-image 属性
+      const match = value.match(new RegExp('url\\([\'"]?(.*?)[\'"]?\\)'))
+      if (match) {
+        hmStyle.backgroundImage = {
+          src: match[1]
+        }
       }
+    } else if (value.indexOf('linear-gradient(') !== -1) {
+      hmStyle.backgroundImage = parseGradient(value)
     }
   }
-  // todo 渐变需要处理
 }
 
 // 解析background属性
 function setBackground (backgroundValue: string) {
+  backgroundValue = preprocessCss(backgroundValue)
   const result = {
     'background-color': '',
     'background-image': '',
@@ -725,4 +729,77 @@ function parseTransformOrigin (value: string) {
     x: 0,
     y: 0
   }
+}
+
+function directionToAngle(direction) {
+  const map = {
+    'to top': 270,
+    'to bottom': 90,
+    'to left': 180,
+    'to right': 0,
+    'to top left': 225,
+    'to left top': 225,
+    'to top right': 315,
+    'to right top': 315,
+    'to bottom left': 135,
+    'to left bottom': 135,
+    'to bottom right': 45,
+    'to right bottom': 45
+  }
+  return map[direction.toLowerCase()] || 0 // 默认为0度（to right）
+}
+
+function parseGradient(gradientString) {
+  const directionPattern = /linear-gradient\((to [a-z ]+|\d+deg),/
+  const directionMatch = gradientString.match(directionPattern)
+  let angle
+
+  if (directionMatch) {
+    const direction = directionMatch[1]
+    if (direction.includes('deg')) {
+      angle = parseInt(direction, 10)
+    } else {
+      angle = directionToAngle(direction)
+    }
+  } else {
+    angle = 0 // 默认方向为向右（0度）
+  }
+  const colorPattern = /(?:(#[0-9a-f]{3,8}|rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(?:,\s*\d*\.?\d+\s*)?\)))\s*(\d*%|)/gi
+  const colors = []
+  let match
+  while ((match = colorPattern.exec(gradientString)) !== null) {
+    const color = match[1] ? match[1].trim() : null
+    const position = match[2] ? parseInt(match[2], 10) / 100 : null
+    colors.push([color, position])
+  }
+
+  if (colors.some(color => color[1] === null)) {
+    const step = 1 / (colors.length - 1)
+    colors.forEach((color, index) => (color[1] = index * step))
+  }
+
+  return {
+    angle: angle,
+    colors: colors
+  }
+}
+
+function rgbaToHex(rgba) {
+  const parts = rgba.match(/rgba?\((\d+),\s*(\d+),\s*(\d+),?\s*(\d*\.?\d+)?\)/)
+  if (!parts) return rgba // 如果匹配失败，返回原字符串
+
+  const r = parseInt(parts[1]).toString(16).padStart(2, '0')
+  const g = parseInt(parts[2]).toString(16).padStart(2, '0')
+  const b = parseInt(parts[3]).toString(16).padStart(2, '0')
+  if (parts[4]) {
+    const a = parts[4] ? Math.round(parseFloat(parts[4]) * 255).toString(16).padStart(2, '0') : 'ff'
+    return `#${a}${r}${g}${b}`
+  } else {
+    return `#${r}${g}${b}`
+  }
+}
+function preprocessCss(css) {
+  return css.replace(/rgba?\((\d+\s*,\s*\d+\s*,\s*\d+\s*,?\s*\d*\.?\d*)\)/g, (match) => {
+    return rgbaToHex(match)
+  })
 }
