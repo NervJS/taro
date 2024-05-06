@@ -130,11 +130,11 @@ export default class H5 extends TaroPlatformWeb {
       })
 
       // 修改htmlWebpackPlugin插件的script脚本
-      chain.plugin('htmlWebpackPlugin').tap((args)=>{
+      chain.plugin('htmlWebpackPlugin').tap((args) => {
         const options = this.config?.postcss?.pxtransform?.config || {}
         // const max = options?.maxRootSize ?? 40
         // const min = options?.minRootSize ?? 20
-        const baseFontSize = options?.baseFontSize || 20//(min > 1 ? min : 20)
+        const baseFontSize = options?.baseFontSize || 20// (min > 1 ? min : 20)
         const designWidth = (input => typeof this.config.designWidth === 'function'
           ? this.config.designWidth(input)
           : this.config.designWidth)(baseFontSize)
@@ -151,7 +151,7 @@ export default class H5 extends TaroPlatformWeb {
           htmlScript = `!function(n){function f(){var e=n.document.documentElement;var w=Math.floor(e.getBoundingClientRect().width);if(w<600){var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}else if(w<840){w=${designWidth}/2;var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}else if(w<1440){w=${designWidth}/2;var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}else{w=${designWidth}/2;var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}}n.addEventListener("resize",(function(){f()}));f()}(window);`
         }
         args[0].script = htmlScript
-        return args;
+        return args
       })
 
       // Note: 本地调试 stencil 组件库时，如果启用 sourceMap 则需要相关配置
