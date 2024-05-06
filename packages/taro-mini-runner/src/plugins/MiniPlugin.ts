@@ -987,6 +987,7 @@ export default class TaroMiniPlugin {
         baseCompConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
         this.generateConfigFile(compilation, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), {
           component: true,
+          styleIsolation: 'apply-shared',
           usingComponents: {
             [baseCompName]: `./${baseCompName}`,
             [customWrapperName]: `./${customWrapperName}`

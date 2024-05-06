@@ -19,6 +19,9 @@ export const env = {
  * @__class [debug, error, group, groupEnd, info, log, warn]
  */
 
+export * from './debug/index'
+export * from './getAppAuthorizeSetting'
+export * from './getSystemSetting'
 export * from './system'
 export * from './update'
 export * from './weapp/life-cycle'

@@ -6,7 +6,6 @@ import { resolveSync } from './resolve'
 import type { IPluginContext, TConfig } from '@tarojs/service'
 
 const compLibraryAlias = {
-  vue: 'vue2',
   vue3: 'vue3',
 }
 
@@ -115,10 +114,6 @@ export default class H5 extends TaroPlatformWeb {
         }
 
         switch (this.framework) {
-          case 'vue':
-            args[0].loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components/lib/vue2/components-loader'\nimport * as list from '@tarojs/components'\n`
-            args[0].loaderMeta.execBeforeCreateWebApp += `initVue2Components(list)\n`
-            break
           case 'vue3':
             args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
             args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
@@ -131,6 +126,31 @@ export default class H5 extends TaroPlatformWeb {
               args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
             }
         }
+        return args
+      })
+
+      // 修改htmlWebpackPlugin插件的script脚本
+      chain.plugin('htmlWebpackPlugin').tap((args) => {
+        const options = this.config?.postcss?.pxtransform?.config || {}
+        // const max = options?.maxRootSize ?? 40
+        // const min = options?.minRootSize ?? 20
+        const baseFontSize = options?.baseFontSize || 20// (min > 1 ? min : 20)
+        const designWidth = (input => typeof this.config.designWidth === 'function'
+          ? this.config.designWidth(input)
+          : this.config.designWidth)(baseFontSize)
+        const rootValue = baseFontSize / this.config.deviceRatio![designWidth!] * 2
+        let htmlScript = ''
+        if ((this.config?.targetUnit ?? 'rem') === 'rem') {
+          /**
+           * 缩放策略为：
+           * 1. 手机-竖屏，缩放策略为“自动缩放”
+           * 2. 折叠屏、Pad竖屏，缩放策略为“依据设计尺寸，大小不变”
+           * 3. Pad(模屏)、2in1(默认)，缩放策略为“依据设计尺寸，大小不变”
+           * 4. 2in1（全屏），缩放策略为“依据设计尺寸，大小不变”
+           */
+          htmlScript = `!function(n){function f(){var e=n.document.documentElement;var w=Math.floor(e.getBoundingClientRect().width);if(w<600){var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}else if(w<840){w=${designWidth}/2;var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}else if(w<1440){w=${designWidth}/2;var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}else{w=${designWidth}/2;var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}}n.addEventListener("resize",(function(){f()}));f()}(window);`
+        }
+        args[0].script = htmlScript
         return args
       })
 
