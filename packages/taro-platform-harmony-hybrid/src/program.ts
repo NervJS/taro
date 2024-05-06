@@ -141,39 +141,14 @@ export default class H5 extends TaroPlatformWeb {
         const rootValue = baseFontSize / this.config.deviceRatio![designWidth!] * 2
         let htmlScript = ''
         if ((this.config?.targetUnit ?? 'rem') === 'rem') {
-          htmlScript = `
-!function(n){
-    function f(){
-        var e=n.document.documentElement;
-        var w=Math.floor(e.getBoundingClientRect().width);
-        if(w < 600){
-            // 手机-竖屏，缩放策略为“自动缩放”
-            var x=${rootValue}*w/${designWidth};
-            e.style.fontSize=x+"px"
-        }
-        else if(w < 840) {
-            // 折叠屏、Pad竖屏，缩放策略为“依据设计尺寸，大小不变”
-            w = ${designWidth} / 2
-            var x=${rootValue}*w/${designWidth};
-            e.style.fontSize=x+"px"
-        }
-        else if(w < 1440){
-            // Pad(模屏)、2in1(默认)，缩放策略为“依据设计尺寸，大小不变”
-            w = ${designWidth} / 2
-            var x=${rootValue}*w/${designWidth};
-            e.style.fontSize=x+"px"
-        }
-        else {
-            // 2in1（全屏），缩放策略为“依据设计尺寸，大小不变”
-            w = ${designWidth} / 2
-            var x=${rootValue}*w/${designWidth};
-            e.style.fontSize=x+"px"
-        }
-    }
-    n.addEventListener("resize",(function(){f()}));
-    f()
-}(window);
-`
+          /**
+           * 缩放策略为：
+           * 1. 手机-竖屏，缩放策略为“自动缩放”
+           * 2. 折叠屏、Pad竖屏，缩放策略为“依据设计尺寸，大小不变”
+           * 3. Pad(模屏)、2in1(默认)，缩放策略为“依据设计尺寸，大小不变”
+           * 4. 2in1（全屏），缩放策略为“依据设计尺寸，大小不变”
+           */
+          htmlScript = `!function(n){function f(){var e=n.document.documentElement;var w=Math.floor(e.getBoundingClientRect().width);if(w<600){var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}else if(w<840){w=${designWidth}/2;var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}else if(w<1440){w=${designWidth}/2;var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}else{w=${designWidth}/2;var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}}n.addEventListener("resize",(function(){f()}));f()}(window);`
         }
         args[0].script = htmlScript
         return args;
