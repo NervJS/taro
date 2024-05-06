@@ -77,7 +77,7 @@ function renderToCSS (src, filename, options, transformOptions: TransformOptions
       let defaultExt = ''
       
       if (process.platform === 'win32') {
-        prev = decodeURIComponent(prev);
+        prev = decodeURIComponent(prev)
       }
 
       if (path.isAbsolute(prev)) {
