@@ -1037,12 +1037,6 @@
  */
 
 /**
- * 监听隐私接口需要用户授权事件。
- *
- * @canNotUse onNeedPrivacyAuthorization
- */
-
-/**
  * 在最近的八次网络请求中, 出现下列三个现象之一则判定弱网。
  * - 出现三次以上连接超时
  * - 出现三次 rtt 超过 400
@@ -1485,27 +1479,9 @@
  */
 
 /**
- * 获取日志管理器对象
- *
- * @canNotUse getLogManager
- */
-
-/**
  * 程序测速上报
  *
  * @canNotUse getPerformance
- */
-
-/**
- * 获取实时日志管理器对象
- *
- * @canNotUse getRealtimeLogManager
- */
-
-/**
- * 设置是否打开调试开关
- *
- * @canNotUse setEnableDebug
  */
 
 /**

@@ -424,7 +424,7 @@ declare module './index' {
     decodeQuery?: 'disable'
   }
 
-  interface AppConfig {
+  export interface AppConfig {
     /** 小程序默认启动首页，未指定 entryPagePath 时，数组的第一项代表小程序的初始页面（首页）。 */
     entryPagePath?: string
     /** 接受一个数组，每一项都是字符串，来指定小程序由哪些页面组成，数组的第一项代表小程序的初始页面 */
@@ -561,7 +561,7 @@ declare module './index' {
      */
     themeLocation?: string
     /** 配置自定义组件代码按需注入 */
-    lazyCodeLoading?: string
+    lazyCodeLoading?: 'requiredComponents' | string
     /** 单页模式相关配置 */
     singlePage?: SinglePage
     /** 聊天素材小程序打开相关配置

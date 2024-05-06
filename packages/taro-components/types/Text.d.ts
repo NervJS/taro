@@ -25,6 +25,12 @@ interface TextProps extends StandardProps {
    * @supported alipay
    */
   numberOfLines?: number
+  /**
+   * 文本溢出处理
+   * @supported weapp-skyline
+   * @default 'visible'
+   */
+  overflow?: keyof TextProps.Overflow
   /** 限制文本最大行数
    * @supported weapp
    */
@@ -39,6 +45,16 @@ declare namespace TextProps {
     emsp
     /** 根据字体设置的空格大小 */
     nbsp
+  }
+  interface Overflow {
+    /** 修剪文本 */
+    clip
+    /** 淡出 */
+    fade
+    /** 显示省略号 */
+    ellipsis
+    /** 文本不截断 */
+    visible
   }
 }
 /** 文本
