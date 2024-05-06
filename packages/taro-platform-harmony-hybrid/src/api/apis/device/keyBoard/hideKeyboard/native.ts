@@ -1,8 +1,8 @@
 import Taro from '@tarojs/taro'
 
-import native from '../../NativeApi'
-import { shouldBeObject } from '../../utils'
-import { MethodHandler } from '../../utils/handler'
+import native from '../../../NativeApi'
+import { shouldBeObject } from '../../../utils'
+import { MethodHandler } from '../../../utils/handler'
 
 /**
  * 在input、textarea等focus拉起键盘之后，手动调用此接口收起键盘
