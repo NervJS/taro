@@ -9,7 +9,8 @@ import {
   isDynamic,
   registerImportMethod,
   transformCondition,
-  trimWhitespace } from './utils'
+  trimWhitespace,
+} from './utils'
 
 function convertComponentIdentifier(node) {
   if (t.isJSXIdentifier(node)) {
@@ -42,7 +43,7 @@ export default function transformComponent(path) {
   path
     .get('openingElement')
     .get('attributes')
-    .forEach(attribute => {
+    .forEach((attribute) => {
       const node = attribute.node
       if (t.isJSXSpreadAttribute(node)) {
         if (runningObject.length) {
@@ -51,7 +52,7 @@ export default function transformComponent(path) {
         }
         props.push(
           isDynamic(attribute.get('argument'), {
-            checkMember: true
+            checkMember: true,
           }) && (dynamicSpread = true)
             ? t.isCallExpression(node.argument) &&
               !node.argument.arguments.length &&
@@ -63,11 +64,12 @@ export default function transformComponent(path) {
         )
       } else {
         // handle weird babel bug around HTML entities
-        const value = (t.isStringLiteral(node.value) ? t.stringLiteral(node.value.value): node.value) || t.booleanLiteral(true)
+        const value =
+          (t.isStringLiteral(node.value) ? t.stringLiteral(node.value.value) : node.value) || t.booleanLiteral(true)
         const id = convertJSXIdentifier(node.name)
         const key = id.name
         if (hasChildren && key === 'children') return
-        if (t.isJSXExpressionContainer(value))
+        if (t.isJSXExpressionContainer(value)) {
           if (key === 'ref') {
             if (config.generate === 'ssr') return
             // Normalize expressions for non-null and type-as
@@ -80,9 +82,9 @@ export default function transformComponent(path) {
             }
             let binding
             const isFunction =
-                t.isIdentifier(value.expression) &&
-                (binding = path.scope.getBinding(value.expression.name)) &&
-                binding.kind === 'const'
+              t.isIdentifier(value.expression) &&
+              (binding = path.scope.getBinding(value.expression.name)) &&
+              binding.kind === 'const'
             if (!isFunction && t.isLVal(value.expression)) {
               const refIdentifier = path.scope.generateUidIdentifier('_ref$')
               runningObject.push(
@@ -91,9 +93,7 @@ export default function transformComponent(path) {
                   t.identifier('ref'),
                   [t.identifier('r$')],
                   t.blockStatement([
-                    t.variableDeclaration('var', [
-                      t.variableDeclarator(refIdentifier, value.expression)
-                    ]),
+                    t.variableDeclaration('var', [t.variableDeclarator(refIdentifier, value.expression)]),
                     t.expressionStatement(
                       t.conditionalExpression(
                         t.binaryExpression(
@@ -104,7 +104,7 @@ export default function transformComponent(path) {
                         t.callExpression(refIdentifier, [t.identifier('r$')]),
                         t.assignmentExpression('=', value.expression, t.identifier('r$'))
                       )
-                    )
+                    ),
                   ])
                 )
               )
@@ -118,9 +118,7 @@ export default function transformComponent(path) {
                   t.identifier('ref'),
                   [t.identifier('r$')],
                   t.blockStatement([
-                    t.variableDeclaration('var', [
-                      t.variableDeclarator(refIdentifier, value.expression)
-                    ]),
+                    t.variableDeclaration('var', [t.variableDeclarator(refIdentifier, value.expression)]),
                     t.expressionStatement(
                       t.logicalExpression(
                         '&&',
@@ -131,7 +129,7 @@ export default function transformComponent(path) {
                         ),
                         t.callExpression(refIdentifier, [t.identifier('r$')])
                       )
-                    )
+                    ),
                   ])
                 )
               )
@@ -139,14 +137,13 @@ export default function transformComponent(path) {
           } else if (
             isDynamic(attribute.get('value').get('expression'), {
               checkMember: true,
-              checkTags: true
+              checkTags: true,
             })
           ) {
             if (
               config.wrapConditionals &&
               config.generate !== 'ssr' &&
-              (t.isLogicalExpression(value.expression) ||
-                t.isConditionalExpression(value.expression))
+              (t.isLogicalExpression(value.expression) || t.isConditionalExpression(value.expression))
             ) {
               const expr = transformCondition(attribute.get('value').get('expression'), true)
 
@@ -159,10 +156,7 @@ export default function transformComponent(path) {
                   !t.isValidIdentifier(key)
                 )
               )
-            } else if (
-              t.isCallExpression(value.expression) &&
-              t.isArrowFunctionExpression(value.expression.callee)
-            ) {
+            } else if (t.isCallExpression(value.expression) && t.isArrowFunctionExpression(value.expression.callee)) {
               const callee = value.expression.callee
               const body = t.isBlockStatement(callee.body)
                 ? callee.body
@@ -181,7 +175,7 @@ export default function transformComponent(path) {
               )
             }
           } else runningObject.push(t.objectProperty(id, value.expression))
-        else runningObject.push(t.objectProperty(id, value))
+        } else runningObject.push(t.objectProperty(id, value))
       }
     })
 
@@ -191,7 +185,9 @@ export default function transformComponent(path) {
       const body =
         t.isCallExpression(childResult[0]) && t.isFunction(childResult[0].arguments[0])
           ? childResult[0].arguments[0].body
-          : childResult[0].body ? childResult[0].body : childResult[0]
+          : childResult[0].body
+            ? childResult[0].body
+            : childResult[0]
       runningObject.push(
         t.objectMethod(
           'get',
@@ -213,12 +209,7 @@ export default function transformComponent(path) {
   // handle hoisting conditionals
   if (exprs.length > 1) {
     const ret = exprs.pop()
-    exprs = [
-      t.callExpression(
-        t.arrowFunctionExpression([], t.blockStatement([...exprs, t.returnStatement(ret)])),
-        []
-      )
-    ]
+    exprs = [t.callExpression(t.arrowFunctionExpression([], t.blockStatement([...exprs, t.returnStatement(ret)])), [])]
   }
   return { exprs, template: '', component: true }
 }
@@ -240,15 +231,10 @@ function transformComponentChildren(children, config) {
       const child = transformNode(path, {
         topLevel: true,
         componentChild: true,
-        lastElement: true
+        lastElement: true,
       })
       dynamic = dynamic || child.dynamic
-      if (
-        config.generate === 'ssr' &&
-        filteredChildren.length > 1 &&
-        child.dynamic &&
-        t.isFunction(child.exprs[0])
-      ) {
+      if (config.generate === 'ssr' && filteredChildren.length > 1 && child.dynamic && t.isFunction(child.exprs[0])) {
         child.exprs[0] = child.exprs[0].body
       }
       pathNodes.push(path.node)
@@ -259,11 +245,7 @@ function transformComponentChildren(children, config) {
 
   if (transformedChildren.length === 1) {
     transformedChildren = transformedChildren[0]
-    if (
-      !t.isJSXExpressionContainer(pathNodes[0]) &&
-      !t.isJSXSpreadChild(pathNodes[0]) &&
-      !t.isJSXText(pathNodes[0])
-    ) {
+    if (!t.isJSXExpressionContainer(pathNodes[0]) && !t.isJSXSpreadChild(pathNodes[0]) && !t.isJSXText(pathNodes[0])) {
       transformedChildren =
         t.isCallExpression(transformedChildren) &&
         !transformedChildren.arguments.length &&

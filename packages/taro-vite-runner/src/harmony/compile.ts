@@ -75,6 +75,8 @@ export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerCo
         FILE_COUNTER_MAP.set(resourcePath, FILE_COUNTER++)
       }
 
+      const componentReplace = viteCompilerContext.taroConfig?.harmony?.compileModeSetting?.componentReplace || {}
+
       const { code } = swc.transformSync(source, {
         filename: resourcePath,
         sourceMaps: true,
@@ -105,6 +107,8 @@ export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerCo
                 {
                   tmpl_prefix: `f${FILE_COUNTER_MAP.get(resourcePath)}`,
                   is_harmony: true,
+                  component_replace: componentReplace,
+
                   support_events: [
                     'onLoad',
                     'onClick',

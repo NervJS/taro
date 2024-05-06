@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "4.0.0-beta.61",
+  "version": "4.0.0-beta.63",
   "description": "Taro babel preset",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
@@ -37,9 +37,9 @@
     "babel-plugin-dynamic-import-node": "2.3.3",
     "babel-plugin-minify-dead-code-elimination": "^0.5.2",
     "babel-plugin-transform-imports-api": "1.0.0",
+    "babel-plugin-transform-solid-jsx": "workspace:*",
     "core-js": "^3.6.5",
-    "react-refresh": "^0.11.0",
-    "babel-plugin-transform-solid-jsx": "workspace:*"
+    "react-refresh": "^0.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.23.0",

@@ -159,8 +159,7 @@ export function transformNode(path, info = {}) {
         checkMember: true,
         native: !info.componentChild,
       })
-    )
-      return { exprs: [node.expression], template: '' }
+    ) { return { exprs: [node.expression], template: '' } }
     const expr = t.arrowFunctionExpression([], node.expression)
     return {
       exprs: [expr],
