@@ -280,7 +280,11 @@ export function createReactApp (
     },
 
     unmount (id: string, cb: () => void) {
-      appWrapper.unmount(id, cb)
+      if (appWrapper) {
+        appWrapper.unmount(id, cb)
+      } else {
+        appWrapperPromise.then(appWrapper => appWrapper.unmount(id, cb))
+      }
     }
   }, {
     config: setDefaultDescriptor({
