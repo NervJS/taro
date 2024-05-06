@@ -1,6 +1,6 @@
-import { request as h5Request, addInterceptor as h5AddInterceptor, cleanInterceptors as h5CleanInterceptors } from '@tarojs/taro-h5'
+import { addInterceptor as h5AddInterceptor, cleanInterceptors as h5CleanInterceptors, request as h5Request } from '@tarojs/taro-h5'
 
-import { request as nativeReuqest, addInterceptor as nativeAddInterceptor, cleanInterceptors as nativeCleanInterceptors } from './nativeRequest'
+import { addInterceptor as nativeAddInterceptor, cleanInterceptors as nativeCleanInterceptors, request as nativeReuqest } from './nativeRequest'
 
 /**
  * 发起 HTTPS 网络请求
@@ -27,7 +27,7 @@ export function request (options: any, useNativeRequest: boolean = true) {
  *
  * @canUse addInterceptor
  */
-export function addInterceptor (interceptor, useNativeRequest: boolean = true){
+export function addInterceptor (interceptor, useNativeRequest: boolean = true) {
   return useNativeRequest ? nativeAddInterceptor(interceptor) : h5AddInterceptor(interceptor)
 }
 
