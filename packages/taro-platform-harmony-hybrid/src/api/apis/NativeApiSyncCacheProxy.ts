@@ -36,14 +36,14 @@ export interface NativeDataChangeListener {
   change: (methodName: string, methodArgs: any[]) => void
   /**
    * 注册
-   * @param methodName    要注册的方法名
+   * @param methodName    要注册的方法名列表
    */
-  register: (methodName: string) => void
+  register: (methodNames: string[]) => void
   /**
    * 解注册
-   * @param methodName    要解注册的方法名
+   * @param methodName    要解注册的方法名列表
    */
-  unregister:(methodName: string) => void
+  unregister:(methodNames: string[]) => void
 
 }
 
@@ -52,7 +52,7 @@ export interface NativeDataChangeListener {
  */
 export class SyncCacheProxyHandler {
   private readonly nativeApi: NativeApi
-  private listener: NativeDataChangeListener | null = null
+  private readonly listener: NativeDataChangeListener
   private readonly cache: NativeDataCache
   private enableMethodNames: Set<string> = new Set<string>()
 
@@ -61,27 +61,24 @@ export class SyncCacheProxyHandler {
     this.cache = new NativeDataCache()
     // 绑定类的this到self变量
     const self = this
-    this.on({
-      register (methodName: string): void {
-        self.enableMethodNames.add(methodName)
+    // 监听Native数据变化
+    this.listener = {
+      register: (methodNames: string[]) => {
+        methodNames.forEach((name: string) => {
+          self.enableMethodNames.add(name)
+        })
       },
-      unregister (methodName: string): void {
-        self.enableMethodNames.delete(methodName)
+      unregister: (methodNames: string[]) => {
+        methodNames.forEach((name: string) => {
+          self.enableMethodNames.delete(name)
+        })
       },
-      change (methodName: string, methodArgs: any[]): void {
+      change: (methodName: string, methodArgs: any[]) => {
         if (self.enableMethodNames.has(methodName)) {
           self.updateNativeData(self.cache, methodName, methodArgs)
         }
       }
-    })
-  }
-
-  /**
-   * 监听Native数据变化
-   * @param listener  监听器
-   */
-  on (listener: NativeDataChangeListener) {
-    this.listener = listener
+    }
     this.nativeApi.registerNativeListener(this.listener)
   }
 
@@ -91,7 +88,7 @@ export class SyncCacheProxyHandler {
    * @param methodName    要更新的方法名
    * @param methodArgs    要更新的方法参数
    */
-  updateNativeData (cache: NativeDataCache, methodName: string, methodArgs: any[]) {
+  private updateNativeData (cache: NativeDataCache, methodName: string, methodArgs: any[]) {
     const cacheKey = this.generateCacheKey(methodName, methodArgs)
     // 删除该key对应的数据
     cache.delete(cacheKey)
@@ -112,7 +109,7 @@ export class SyncCacheProxyHandler {
    * @param methodName    方法名
    * @param methodArgs    方法参数
    */
-  generateCacheKey (methodName: string, methodArgs: any[]): string {
+  private generateCacheKey (methodName: string, methodArgs: any[]): string {
     return `${methodName}_${JSON.stringify(methodArgs)}`
   }
 
