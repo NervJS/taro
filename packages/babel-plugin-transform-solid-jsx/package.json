@@ -24,8 +24,7 @@
     "test": "pnpm run build && jest --no-cache",
     "test:coverage": "pnpm run build && jest --coverage --no-cache",
     "prepublishOnly": "pnpm run build",
-    "prepare": "pnpm run build",
-    "lint": "eslint  --cache ."
+    "prepare": "pnpm run build"
   },
   "dependencies": {
     "@babel/helper-module-imports": "7.18.6",
