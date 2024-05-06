@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-library-vue2",
-  "version": "4.0.0-beta.61",
+  "version": "4.0.0-beta.62",
   "description": "Taro 组件库 Vue2 版本库",
   "private": true,
   "main": "index.js",
