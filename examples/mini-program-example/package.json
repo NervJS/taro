@@ -78,7 +78,7 @@
     "stylelint": "^14.4.0",
     "@typescript-eslint/parser": "^5.20.0",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
-    "typescript": "^4.1.0",
+    "typescript": "^5.4.5",
     "postcss": "^8.4.18",
     "ts-node": "^10.9.1",
     "@types/node": "^18.15.11"
