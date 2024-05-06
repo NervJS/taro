@@ -186,7 +186,10 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     const targetPath = path.join(path.resolve(outputRoot, '..'), 'resources/base', isProfile ? 'profile' : 'element')
     const fileName = `${isProfile ? value : key}.json`
     const configPath = path.join(targetPath, fileName)
-    const config = readJsonSync(configPath)
+    let config = {}
+    try {
+      config = readJsonSync(configPath)
+    } catch (e) {} // eslint-disable-line no-empty
     if (isProfile) {
       Object.assign(config, data)
     } else {
@@ -201,6 +204,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
         })
       }
     }
+    fs.ensureDirSync(path.dirname(configPath))
     fs.writeJsonSync(configPath, config, { spaces: 2 })
   }
 
