@@ -24,6 +24,11 @@ impl SerdeDefault {
     }
 }
 
+#[derive(Deserialize,  Debug)]
+pub struct ComponentReplace {
+    pub current_init: String,
+    pub dependency_define: String,
+}
 #[derive(Deserialize, Debug)]
 pub struct PluginConfig {
     pub tmpl_prefix: String,
@@ -41,6 +46,9 @@ pub struct PluginConfig {
     pub support_components: Vec<String>,
     #[serde(default)]
     pub event_adapter: HashMap<String, String>,
+    #[serde(default)]
+    pub component_replace: HashMap<String, ComponentReplace>,
+
 }
 
 /// An example plugin function with macro support.
