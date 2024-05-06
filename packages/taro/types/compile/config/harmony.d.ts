@@ -53,6 +53,16 @@ export interface IHarmonyConfig<T extends CompilerTypes = 'vite'> {
     filter?: (filename: string) => boolean
   }
 
+  /** 用于配置半编译模式下的选项 */
+  compileModeSetting?: {
+    componentReplace?: {
+      [key: string]: {
+        current_init: string
+        dependency_define: string
+      }
+    }
+  }
+
   /** 用于控制是否生成 js、css 对应的 sourceMap (默认值：watch 模式下为 true，否则为 false) */
   enableSourceMap?: boolean
 
@@ -70,10 +80,10 @@ export interface IHarmonyConfig<T extends CompilerTypes = 'vite'> {
   webpackChain?: (chain: Chain, webpack: typeof Webpack) => void
 
   /** webpack 编译模式下，可用于修改、拓展 Webpack 的 output 选项，配置项参考[官方文档](https://webpack.js.org/configuration/output/)
-  * vite 编译模式下，用于修改、扩展 rollup 的 output，目前仅适配 chunkFileNames 和 assetFileNames 两个配置，修改其他配置请使用 vite 插件进行修改。配置想参考[官方文档](https://rollupjs.org/configuration-options/)
-  */
+   * vite 编译模式下，用于修改、扩展 rollup 的 output，目前仅适配 chunkFileNames 和 assetFileNames 两个配置，修改其他配置请使用 vite 插件进行修改。配置想参考[官方文档](https://rollupjs.org/configuration-options/)
+   */
   output?: T extends 'vite'
-    ? Pick<RollupOutputOptions, 'chunkFileNames'>  & OutputExt
+    ? Pick<RollupOutputOptions, 'chunkFileNames'> & OutputExt
     : Webpack.Configuration['output'] & OutputExt
 
   /** 路由相关的配置 */
