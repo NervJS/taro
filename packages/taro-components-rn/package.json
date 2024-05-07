@@ -51,7 +51,7 @@
     "jest-cli": "^26.4.2",
     "jest-environment-node": "^26.0.0",
     "jest-expo": "^47.0.0",
-    "metro-babel-register": "^0.72.1",
+    "metro-babel-register": "^0.80.9",
     "metro-react-native-babel-preset": "^0.72.1",
     "react": "18.1.0",
     "react-native": "^0.70.5",
