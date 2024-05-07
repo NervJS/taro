@@ -50,7 +50,7 @@
     ]
   },
   "dependencies": {
-    "@babel/code-frame": "^7.21.4",
+    "@babel/code-frame": "^7.24.2",
     "@babel/core": "^7.21.8",
     "@babel/generator": "^7.21.4",
     "@babel/helper-plugin-utils": "^7.22.5",
