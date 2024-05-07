@@ -161,6 +161,12 @@ class NativeApi {
 
   // @ts-ignore
   @(syncAndRelease)
+  chooseMediumAssets (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
   getVideoInfo (options: any): any {
     return options
   }
@@ -342,7 +348,7 @@ class NativeApi {
   // NativeUpdateManager
   // @ts-ignore
   @(syncAndRelease)
-  applyUpdate (): any {}
+  applyUpdate (): any { }
 
   // @ts-ignore
   @(syncAndRelease)
@@ -365,7 +371,7 @@ class NativeApi {
   // NativeAContextApi
   // @ts-ignore
   @(syncAndRelease)
-  createInnerAudioContext (): any {}
+  createInnerAudioContext (): any { }
 
   // @ts-ignore
   @(syncAndRelease)
@@ -581,7 +587,7 @@ class NativeApi {
   // NativeFileSystemManager
   // @ts-ignore
   @(syncAndRelease)
-  getFileManager (): any {}
+  getFileManager (): any { }
 
   // @ts-ignore
   @(asyncAndNotRelease)

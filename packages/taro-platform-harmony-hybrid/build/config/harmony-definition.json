@@ -585,6 +585,33 @@
         "type": true
       }
     },
+    "chooseMedium": {
+      "object": {
+        "count": true,
+        "mediaType": {
+          "video": true,
+          "image": true,
+          "mix": true
+        },
+        "sourceType": {
+          "album": true,
+          "camera": true
+        },
+        "maxDuration": true,
+        "sizeType": true,
+        "camera": {
+          "back": true,
+          "front": true
+        },
+        "takingSupported": true,
+        "editSupported": true,
+        "searchSupported": true
+      },
+      "success": {
+        "tempFiles": true,
+        "type": true
+      }
+    },
     "chooseMessageFile": false,
     "choosePoi": false,
     "chooseVideo": {
