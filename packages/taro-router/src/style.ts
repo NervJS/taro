@@ -64,7 +64,8 @@ ${
   }
 
 ` : ''}
-  .taro_page_shade,
+  .taro_page_shade:has(+.taro_page_stationed),
+  .taro_page_shade.taro_tabbar_page,
   .taro_router > .taro_page.taro_page_show.taro_page_stationed:not(.taro_page_shade):not(.taro_tabbar_page):not(:last-child) {
     display: none;
   }
