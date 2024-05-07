@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@types/qrcode": "^1.5.0",
-    "@types/shelljs": "^0.8.11"
+    "@types/shelljs": "^0.8.15"
   },
   "peerDependencies": {
     "dingtalk-miniapp-opensdk": "^1.0.7",
