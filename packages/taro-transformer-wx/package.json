@@ -87,7 +87,7 @@
     "@tarojs/taro": "2.2.19",
     "@types/babel-core": "6.25.6",
     "@types/babel-generator": "6.25.3",
-    "@types/babel-template": "6.25.2",
+    "@types/babel-template": "6.25.5",
     "@types/babel-traverse": "6.25.3",
     "@types/babel-types": "7.0.8",
     "@types/babel__core": "^7.20.1",
