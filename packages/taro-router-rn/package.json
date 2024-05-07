@@ -30,7 +30,7 @@
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.7.0",
     "@react-navigation/routers": "^6.1.0",
-    "@react-navigation/stack": "^6.1.1",
+    "@react-navigation/stack": "^6.3.29",
     "nanoid": "^3.1.12",
     "query-string": "^7.1.1",
     "react-native-gesture-handler": "~2.9.0",
