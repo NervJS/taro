@@ -15,6 +15,12 @@ export default struct TaroMovableView {
   aboutToAppear(): void {
     if (this.node) {
       this.node._instance = this
+
+      setTimeout(() => {
+        const x = this.node.getAttribute('x') ? +this.node.getAttribute('x') : 0
+        const y = this.node.getAttribute('y') ? +this.node.getAttribute('y') : 0
+        this.node.checkPositionBoundary({ x, y }, this.node.scaleValue)
+      }, 0)
     }
   }
 
