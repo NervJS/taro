@@ -1,8 +1,21 @@
 /**
+ * 匹配到缩写的颜色值时进行扩写，如 '#fff'扩写后为'#ffffff'
+ * @param hex
+ */
+function expandHex (hex) {
+  return hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, function (_m, r, g, b) {
+    return '#' + r + r + g + g + b + b
+  })
+}
+
+/**
  * 颜色反转，用于适配深色模式
  * @param hex 十六进制颜色值
  */
 export function invertColor (hex: string) {
+  // 扩展缩写的颜色值
+  hex = expandHex(hex)
+
   // 移除 # 符号
   hex = hex.replace('#', '')
 
