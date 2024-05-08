@@ -182,7 +182,7 @@ jobs:
 
       # Create git tag
       - name: Create Git Tag
-        uses: azu/action-package-version-to-git-tag@v2
+        uses: azu/action-package-version-to-git-tag@v3
         with:
           version: ${{ env.CURRENT_VERSION }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
