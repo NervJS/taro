@@ -80,8 +80,10 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
 
       this.checkPositionBoundary(this.position, val)
 
-      const bindscale = this.getAttribute('bindscale')
-      typeof bindscale === 'function' && bindscale({ ...this.position, scale: this.scaleValue })
+      const scaleFns = this?.__listeners?.scale || []
+      scaleFns.forEach((fn) => {
+        fn({ ...this.position, scale: this.scaleValue })
+      })
     }
   }
 
@@ -124,10 +126,12 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
         areaHeightEnd + incrementHeight * 0.5 + this._outOfBounds
       )
     }
-    const bindchange = this.getAttribute('bindchange')
-    if (typeof bindchange === 'function') {
-      bindchange({ x, y, source: 'touch' })
-    }
+
+    const changeFns = this?.__listeners?.change || []
+    changeFns.forEach((fn) => {
+      fn({ x, y, source: 'touch' })
+    })
+
     this.position = {
       x: x,
       y: y,
