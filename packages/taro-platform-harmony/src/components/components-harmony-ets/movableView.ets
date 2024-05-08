@@ -1,9 +1,21 @@
-import type { TaroAny, TaroMovableViewElement } from '@tarojs/runtime'
+import type { TaroAny, TaroMovableViewElement, TaroElement } from '@tarojs/runtime'
 
 import commonStyleModify, { rowModify, columnModify } from './style'
 
 import { FlexManager } from './utils/flexManager'
 import { isUndefined } from '@tarojs/shared'
+
+function callTouchEventFnFromGesture(node: TaroElement, eventName: string, gestureEvent: GestureEvent) {
+  const touchFns = (node?.__listeners?.[eventName] || []) as Function[]
+  touchFns.forEach(fn => {
+    fn({
+      changedTouches: gestureEvent.fingerList.map(finger => ({
+        clientX: finger.globalX,
+        clientY: finger.globalY
+      }))
+    })
+  })
+}
 
 @Component
 export default struct TaroMovableView {
@@ -53,19 +65,16 @@ export default struct TaroMovableView {
         PanGesture({fingers:1}).onActionStart((e: GestureEvent) => {
 
           this.node.startMove()
+          callTouchEventFnFromGesture(this.node, 'touchstart', e)
         }).onActionUpdate((e: GestureEvent) => {
-
+          callTouchEventFnFromGesture(this.node, 'touchmove', e)
           this.node.doMove({
             x: e.offsetX,
             y: e.offsetY
           })
-          // 事件处理
-          const bindchange = this.node.getAttribute('bindchange')
-          if (typeof bindchange === 'function') {
-          }
 
         }).onActionEnd(() => {
-          // this.updatePosition()
+          callTouchEventFnFromGesture(this.node, 'touchend', e)
           this.node.checkPositionBoundary(this.node.position, this.node.scaleValue)
         }),
         PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {
