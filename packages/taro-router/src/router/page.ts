@@ -260,23 +260,33 @@ export default class PageHandler {
     }
   }
 
-  hide (page?: PageInstance | null) {
+  hide (page?: PageInstance | null, animation = false) {
     if (!page) return
 
     // NOTE: 修复多页并发问题，此处可能因为路由跳转过快，执行时页面可能还没有创建成功
     const pageEl = this.getPageContainer(page)
     if (pageEl) {
-      if (this.hideTimer) {
-        clearTimeout(this.hideTimer)
-        this.hideTimer = null
+      if (animation) {
+        if (this.hideTimer) {
+          clearTimeout(this.hideTimer)
+          this.hideTimer = null
+          this.lastHidePage?.classList?.add?.('taro_page_shade')
+        }
+        this.lastHidePage = pageEl
+        this.hideTimer = setTimeout(() => {
+          this.hideTimer = null
+          pageEl.classList.add('taro_page_shade')
+        }, this.animationDuration + this.animationDelay)
+        page.onHide?.()
+      } else {
+        if (this.hideTimer) {
+          clearTimeout(this.hideTimer)
+          this.hideTimer = null
+          this.lastHidePage?.classList?.add?.('taro_page_shade')
+        }
         pageEl.classList.add('taro_page_shade')
+        this.lastHidePage = pageEl
       }
-      this.lastHidePage = pageEl
-      this.hideTimer = setTimeout(() => {
-        this.hideTimer = null
-        pageEl.classList.add('taro_page_shade')
-      }, this.animationDuration + this.animationDelay)
-      page.onHide?.()
     } else {
       setTimeout(() => this.hide(page), 0)
     }
