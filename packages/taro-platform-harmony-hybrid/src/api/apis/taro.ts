@@ -16,6 +16,7 @@ import {
   switchTab,
 } from './index'
 import native from './NativeApi'
+import { invertColor } from './utils/colorConvert'
 // import { permanentlyNotSupport } from './utils'
 
 // @ts-ignore
@@ -207,6 +208,11 @@ if (typeof window !== 'undefined') {
 // 更新导航栏状态
 Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundColor) => {
   if (typeof window !== 'undefined') {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      // 当前处于深色模式，对textStyle和backgroundColor进行反转
+      textStyle = textStyle === 'black' ? 'white' : 'black'
+      backgroundColor = invertColor(backgroundColor)
+    }
     native.setNavigationStyle({ style, textStyle, backgroundColor })
     // @ts-ignore
     Object.assign(window.currentNavigation, {
