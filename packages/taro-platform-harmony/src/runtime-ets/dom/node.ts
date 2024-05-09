@@ -32,6 +32,7 @@ export class TaroNode extends TaroDataSourceElement {
   public parentNode: TaroNode | null = null
   public _nid: string = genId()
   public _doc: TaroDocument | null = null
+  public _instance?: TaroAny
 
   private _textContent = ''
 
@@ -78,7 +79,7 @@ export class TaroNode extends TaroDataSourceElement {
   // 更新对应的 ArkUI 组件
   public updateComponent () {
     // 非半编译模式或者半编译模式下拥有自主更新权力的节点走 @State 的更新模式
-    if (this._isDynamicNode || !this._isCompileMode) {
+    if (this._isDynamicNode || (!this._isCompileMode && this._instance)) {
       this._updateTrigger++
     } else {
       this.parentNode?.updateComponent()
@@ -131,6 +132,9 @@ export class TaroNode extends TaroDataSourceElement {
   public set textContent (value: string) {
     if (this.nodeType === NodeType.TEXT_NODE) {
       this._textContent = value
+      if (!this._instance) {
+        this.updateComponent()
+      }
     } else if (this.nodeType === NodeType.ELEMENT_NODE) {
       const node = new TaroTextNode(value)
       node._doc = this.ownerDocument
