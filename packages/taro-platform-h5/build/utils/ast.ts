@@ -1,3 +1,4 @@
+import path from 'path'
 import ts from 'typescript'
 
 export interface DocEntry {
@@ -30,10 +31,9 @@ export function generateDocumentation (
 
   for (const sourceFile of program.getSourceFiles()) {
     if (param.withDeclaration !== false || !sourceFile.isDeclarationFile) {
-      if (
-        (param.mapAll === true && filepaths.includes(sourceFile.fileName))
-        || sourceFile.fileName === filepaths[0]
-      ) {
+      // 规范化路径，修复window环境无法生成definition.json文件
+      const normalSrcFile = path.normalize(sourceFile.fileName)
+      if ((param.mapAll === true && filepaths.includes(normalSrcFile)) || normalSrcFile === path.normalize(filepaths[0])) {
         ts.forEachChild(sourceFile, (n) => visitAST(n, output))
       }
     }
@@ -43,12 +43,12 @@ export function generateDocumentation (
 
   function visitAST (node: ts.Node, o: DocEntry[]) {
     // Only consider exported nodes
-    if (!isNodeExported(node as ts.Declaration) || node.kind === ts.SyntaxKind.EndOfFileToken || node.kind === ts.SyntaxKind.DeclareKeyword
-        || ts.isImportDeclaration(node) || ts.isImportEqualsDeclaration(node) || ts.isImportClause(node)
-        || ts.isExportAssignment(node) || ts.isExportDeclaration(node)
-        || ts.isExpressionStatement(node) || ts.isEmptyStatement(node)
-        || ts.isStringLiteral(node)
-        || node.kind === ts.SyntaxKind.ExportKeyword) {
+    if (!isNodeExported(node as ts.Declaration) || node.kind === ts.SyntaxKind.EndOfFileToken || node.kind === ts.SyntaxKind.DeclareKeyword ||
+        ts.isImportDeclaration(node) || ts.isImportEqualsDeclaration(node) || ts.isImportClause(node) ||
+        ts.isExportAssignment(node) || ts.isExportDeclaration(node) ||
+        ts.isExpressionStatement(node) || ts.isEmptyStatement(node) ||
+        ts.isStringLiteral(node) ||
+        node.kind === ts.SyntaxKind.ExportKeyword) {
       return
     }
 
@@ -136,7 +136,7 @@ export function generateDocumentation (
   }
 
   /** Serialize a types (type or interface) symbol information */
-  function serializeType (symbol: ts.Symbol, name?: string, type?:  keyof typeof ts.SyntaxKind): DocEntry {
+  function serializeType (symbol: ts.Symbol, name?: string, type?: keyof typeof ts.SyntaxKind): DocEntry {
     // console.log(type, Object.keys(symbol))
     const doc: DocEntry = serializeSymbol(symbol, name, type)
     symbol.exports && symbol.exports.forEach((value) => {

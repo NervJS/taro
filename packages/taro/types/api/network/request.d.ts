@@ -13,8 +13,8 @@ declare module '../../index' {
        */
       header?: TaroGeneral.IAnyObject
       /** 超时时间，单位为毫秒
-       * @default 2000
-       * @supported weapp, h5, tt, alipay
+       * @default 60000
+       * @supported weapp, h5, tt, alipay, rn
        */
       timeout?: number
       /** HTTP 请求方法
@@ -78,7 +78,7 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
+      complete?: (res: Partial<SuccessCallbackResult> & TaroGeneral.CallbackResult) => void
       /** 设置是否使用 jsonp 方式获取数据
        * @default false
        * @supported h5
@@ -262,7 +262,7 @@ declare module '../../index' {
   }
 
   /** 网络请求任务对象
-   * @supported weapp, h5, rn, alipay, swan, tt, qq
+   * @supported weapp, h5, rn, alipay, swan, tt, qq, harmony_hybrid
    * @example
    * 回调函数(Callback)用法：
    *
@@ -316,12 +316,12 @@ declare module '../../index' {
    */
   interface RequestTask<T> extends Promise<request.SuccessCallbackResult<T>> {
     /** 中断请求任务
-     * @supported weapp, tt
+     * @supported weapp, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.abort.html
      */
     abort(): void
     /** 监听 HTTP Response Header 事件。会比请求完成事件更早
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.onHeadersReceived.html
      */
     onHeadersReceived(
@@ -329,7 +329,7 @@ declare module '../../index' {
       callback: RequestTask.onHeadersReceived.Callback
     ): void
     /** 取消监听 HTTP Response Header 事件
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.offHeadersReceived.html
      */
     offHeadersReceived(
@@ -400,7 +400,7 @@ declare module '../../index' {
      * - 对于 `GET` 方法的数据，会将数据转换成 query string（`encodeURIComponent(k)=encodeURIComponent(v)&encodeURIComponent(k)=encodeURIComponent(v)...`）
      * - 对于 `POST` 方法且 `header['content-type']` 为 `application/json` 的数据，会对数据进行 JSON 序列化
      * - 对于 `POST` 方法且 `header['content-type']` 为 `application/x-www-form-urlencoded` 的数据，会将数据转换成 query string `（encodeURIComponent(k)=encodeURIComponent(v)&encodeURIComponent(k)=encodeURIComponent(v)...）`
-     * @supported weapp, h5, rn, alipay, swan, tt, qq
+     * @supported weapp, h5, rn, alipay, swan, tt, qq, harmony_hybrid
      * @example
      * ```tsx
      * Taro.request({

@@ -16,6 +16,7 @@ export default (ctx: IPluginContext) => {
       '--env [env]': 'Value for process.env.NODE_ENV',
       '--mode [mode]': 'Value of dotenv extname',
       '-p, --port [port]': 'Specified port',
+      '--no-build': 'Do not build project',
       '--platform': '[rn] Specific React-Native build target: android / ios, android is default value',
       '--reset-cache': '[rn] Clear transform cache',
       '--public-path': '[rn] Assets public path',
@@ -35,15 +36,16 @@ export default (ctx: IPluginContext) => {
       'taro build --type weapp --watch',
       'taro build --type weapp --env production',
       'taro build --type weapp --blended',
+      'taro build --type weapp --no-build',
       'taro build native-components --type weapp',
       'taro build --type weapp --new-blended',
       'taro build --plugin weapp --watch',
       'taro build --plugin weapp',
-      'taro build --type weapp --mode prepare --env-prefix TARO_APP_'
+      'taro build --type weapp --mode prepare --env-prefix TARO_APP_',
     ],
     async fn (opts) {
       const { options, config, _ } = opts
-      const { platform, isWatch, blended, newBlended } = options
+      const { platform, isWatch, blended, newBlended, withoutBuild } = options
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
 
@@ -110,7 +112,16 @@ export default (ctx: IPluginContext) => {
             mode: isProduction ? 'production' : 'development',
             blended,
             isBuildNativeComp,
+            withoutBuild,
             newBlended,
+            async modifyAppConfig (appConfig) {
+              await ctx.applyPlugins({
+                name: hooks.MODIFY_APP_CONFIG,
+                opts: {
+                  appConfig
+                }
+              })
+            },
             async modifyWebpackChain (chain, webpack, data) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_WEBPACK_CHAIN,

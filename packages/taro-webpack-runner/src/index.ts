@@ -16,6 +16,7 @@ import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelpe
 
 import type { Func } from '@tarojs/taro/types/compile'
 import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
+import type { Stats } from 'webpack'
 import type { BuildConfig } from './utils/types'
 
 export const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: BuildConfig['webpackChain']) => {
@@ -30,13 +31,22 @@ export const customizeChain = async (chain, modifyWebpackChainFunc: Func, custom
   }
 }
 
+function errorHandling (errorLevel?: number, stats?: Stats) {
+  if (errorLevel === 1 && stats?.hasErrors()) {
+    process.exit(1)
+  }
+}
+
 const buildProd = async (appPath: string, config: BuildConfig, appHelper: AppHelper): Promise<void> => {
   const webpackChain = prodConf(appPath, config, appHelper)
   await customizeChain(webpackChain, config.modifyWebpackChain!, config.webpackChain)
   if (typeof config.onWebpackChainReady === 'function') {
     config.onWebpackChainReady(webpackChain)
   }
+  const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
   const webpackConfig = webpackChain.toConfig()
+  if (config.withoutBuild) return
+
   const compiler = webpack(webpackConfig)
   const onBuildFinish = config.onBuildFinish
   compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
@@ -68,6 +78,7 @@ const buildProd = async (appPath: string, config: BuildConfig, appHelper: AppHel
         })
       }
       resolve()
+      errorHandling(errorLevel, stats)
     })
   })
 }
@@ -81,6 +92,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
   const outputPath = path.join(appPath, conf.outputRoot as string)
   const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}
   const webpackChain = devConf(appPath, config, appHelper)
+  const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
   const onBuildFinish = config.onBuildFinish
   await customizeChain(webpackChain, config.modifyWebpackChain!, config.webpackChain)
 
@@ -140,29 +152,35 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
       }
       return item
     }))
+  } else {
+    proxy.push(...customProxy)
   }
 
   if (typeof config.onWebpackChainReady === 'function') {
     config.onWebpackChainReady(webpackChain)
   }
 
-  const devServerOptions = config.isBuildNativeComp
-    ? { writeToDisk: true }
-    : recursiveMerge<WebpackDevServer.Configuration>(
-      {
-        publicPath,
-        contentBase: outputPath,
-        historyApiFallback: {
-          rewrites: [{
-            from: /./,
-            to: publicPath
-          }]
-        },
-        proxy,
-      },
-      baseDevServerOption,
-      customDevServerOption
-    )
+  const devServerOptions = recursiveMerge<WebpackDevServer.Configuration>(
+    {
+      open: !config.isBuildNativeComp,
+      disableHostCheck: true,
+      publicPath,
+      contentBase: outputPath,
+      writeToDisk: config.isBuildNativeComp,
+      proxy,
+    },
+    baseDevServerOption,
+    customDevServerOption,
+    {
+      historyApiFallback: {
+        rewrites: [{
+          from: /./,
+          to: publicPath
+        }]
+      }
+    }
+  )
+
   if (devServerOptions.proxy?.length < 1) {
     // Note: proxy 不可以为空数组
     delete devServerOptions.proxy
@@ -200,6 +218,8 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
 
   const webpackConfig = webpackChain.toConfig()
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
+  if (config.withoutBuild) return
+
   const compiler = webpack(webpackConfig) as webpack.Compiler
   bindDevLogger(compiler, devUrl)
   const server = new WebpackDevServer(compiler, devServerOptions)
@@ -217,6 +237,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
         isWatch: true
       })
     }
+    errorHandling(errorLevel, stats)
   })
   compiler.hooks.failed.tap('taroBuildDone', error => {
     if (typeof onBuildFinish === 'function') {
@@ -226,6 +247,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
         isWatch: true
       })
     }
+    process.exit(1)
   })
   return new Promise<void>((resolve, reject) => {
     server.listen(devServerOptions.port, (devServerOptions.host as string), err => {

@@ -28,7 +28,12 @@ const config = {
     }
   },
   framework: 'vue3',
-  compiler: 'webpack4',
+  compiler: {
+    type: 'webpack5',
+    prebundle: {
+      enable: false
+    }
+  },
   mini: {
     postcss: {
       pxtransform: {
@@ -53,6 +58,15 @@ const config = {
     }
   },
   h5: {
+    webpackChain(chain) {
+      chain.merge({
+        output: {
+          libraryTarget: 'umd',
+          library: 'NativeComponent',
+          chunkLoadingGlobal: 'NativeComponentJsonp',
+        },
+      })
+    },
     publicPath: '/',
     staticDirectory: 'static',
     postcss: {

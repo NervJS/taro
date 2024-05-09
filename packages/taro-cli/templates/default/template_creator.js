@@ -23,11 +23,11 @@ const handler = {
   '/_editorconfig' () {
     return { setPageName: `/.editorconfig` }
   },
-  '/_env.dev' () {
-    return { setPageName: `/.env.dev` }
+  '/_env.development' () {
+    return { setPageName: `/.env.development` }
   },
-  '/_env.prod' () {
-    return { setPageName: `/.env.prod` }
+  '/_env.production' () {
+    return { setPageName: `/.env.production` }
   },
   '/_env.test' () {
     return { setPageName: `/.env.test` }

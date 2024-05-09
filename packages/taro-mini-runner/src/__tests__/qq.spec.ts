@@ -4,6 +4,9 @@ import { QQ } from '@tarojs/plugin-platform-qq'
 import { compile, getOutput } from './utils/compiler'
 
 const program = new QQ({ helper } as any, {})
+program.modifyTemplate({})
+program.beforeBuild()
+
 const customConfig = {
   buildAdapter: 'qq',
   globalObject: program.globalObject,

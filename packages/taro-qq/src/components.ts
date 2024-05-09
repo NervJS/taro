@@ -16,7 +16,7 @@ export const components = {
     bindAddGroupApp: ''
   },
   Ad: {
-    'type': 'banner',
+    type: 'banner',
     'ad-left': '',
     'ad-top': '',
     'ad-width': '',

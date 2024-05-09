@@ -2,8 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement, render } from 'nervjs'
+
 import withWeapp from '../src'
-import { TaroComponent, delay } from './utils'
+import { delay, TaroComponent } from './utils'
 
 describe('lifecycle', () => {
   /**
@@ -99,7 +100,7 @@ describe('lifecycle', () => {
 
     expect(scratch.textContent).toBe('b')
     expect(spy).toBeCalled()
-    expect(spy).toBeCalledWith('b', 'b')
+    expect(spy).toBeCalledWith('b', 'a')
   })
 
   test('observer should work', () => {
@@ -126,7 +127,7 @@ describe('lifecycle', () => {
 
     @withWeapp({
       data: {
-        a: 'a'
+        b: 'b'
       }
     })
     class B extends TaroComponent {
@@ -136,15 +137,15 @@ describe('lifecycle', () => {
       }
 
       render () {
-        return <A a={this.data.a} />
+        return <A a={this.data.b} />
       }
     }
 
     render(<B />, scratch)
 
-    expect(scratch.textContent).toBe('a')
+    expect(scratch.textContent).toBe('b')
     expect(spy).toBeCalled()
-    expect(spy).toBeCalledWith('a', 'a')
+    expect(spy).toBeCalledWith('b', 'a')
 
     inst.setData({ a: 'b' })
     inst.forceUpdate()
@@ -155,8 +156,8 @@ describe('lifecycle', () => {
     const spy = jest.fn()
 
     @withWeapp({
-      ready () {
-        this.triggerEvent('fork', 'a', 'b', 'c')
+      attached () {
+        this.triggerEvent('fork', 'a')
       }
     })
     class A extends TaroComponent {
@@ -178,6 +179,11 @@ describe('lifecycle', () => {
 
     render(<B />, scratch)
 
-    expect(spy).toBeCalledWith(...['a', 'b', 'c'].map(s => ({ detail: s })))
+    expect(spy).toBeCalledWith({
+      type: 'fork',
+      detail: 'a',
+      target: { id: '', dataset: {} },
+      currentTarget: { id: '', dataset: {} }
+    })
   })
 })

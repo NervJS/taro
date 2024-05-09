@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-style-transformer",
-  "version": "3.6.20",
+  "version": "3.6.28",
   "description": "提供Taro RN 统一处理样式文件能力",
   "main": "dist/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "dev": "tsc -w",
     "lint": "eslint .",
     "test": "jest",
-    "test:ci": "jest --ci --silent --coverage false"
+    "test:ci": "jest --ci -i --coverage --silent"
   },
   "repository": {
     "type": "git",

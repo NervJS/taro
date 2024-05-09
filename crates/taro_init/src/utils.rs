@@ -2,6 +2,7 @@ use anyhow::{Error, Ok, Context};
 use console::style;
 use futures::FutureExt;
 use spinners::{Spinner, Spinners};
+use std::path::PathBuf;
 use std::{env, process, result};
 use std::{fs, path::Path, process::Stdio};
 use tokio::io::{AsyncBufReadExt, BufReader};
@@ -10,21 +11,30 @@ use tokio::process::Command;
 use crate::async_fs;
 use crate::constants::{NpmType, PACKAGES_MANAGEMENT, HANDLEBARS};
 
-pub fn get_all_files_in_folder(folder: String, filter: &[&str]) -> Result<Vec<String>, Error> {
+pub fn get_all_files_in_folder<P: AsRef<Path>>(
+  folder: P,
+  filter: &[&str],
+  need_folder: Option<bool>,
+) -> Result<Vec<PathBuf>, Error> {
   let mut files = Vec::new();
-  let paths = fs::read_dir(folder)?;
-  for path in paths {
-    let path = path?;
-    if path.path().is_dir() {
-      let sub_files = get_all_files_in_folder(path.path().to_string_lossy().to_string(), filter)?;
-      files.extend(sub_files);
-    } else {
-      let file_name = path.file_name().to_string_lossy().to_string();
-      if !filter.contains(&file_name.as_str()) {
-        files.push(path.path().to_string_lossy().to_string());
+  let entries = fs::read_dir(folder.as_ref())?;
+  let need_folder = need_folder.unwrap_or(false);
+
+  for entry in entries {
+    let entry = entry?;
+    let path = entry.path();
+    if path.is_dir() {
+      if need_folder {
+        files.push(path.clone());
+      }
+      files.extend(get_all_files_in_folder(&path, filter, Some(need_folder))?);
+    } else if let Some(file_name) = path.file_name().and_then(|n| n.to_str()) {
+      if !filter.contains(&file_name) {
+        files.push(path);
       }
     }
   }
+
   Ok(files)
 }
 
@@ -38,7 +48,10 @@ pub async fn generate_with_template(from_path: &str, dest_path: &str, data: &imp
   };
   let dir_name = Path::new(dest_path).parent().unwrap().to_string_lossy().to_string();
   async_fs::create_dir_all(&dir_name).await.with_context(|| format!("文件夹创建失败: {}", dir_name))?;
+  let metadata = async_fs::metadata(from_path).await.with_context(|| format!("文件读取失败: {}", from_path))?;
   async_fs::write(dest_path, template).await.with_context(|| format!("文件写入失败: {}", dest_path))?;
+  #[cfg(unix)]
+  async_fs::set_permissions(dest_path, metadata.permissions()).await.with_context(|| format!("文件权限设置失败: {}", dest_path))?;
   Ok(())
 }
 

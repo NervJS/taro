@@ -3,16 +3,16 @@ import { StandardProps } from './common'
 interface TextProps extends StandardProps {
   /** 文本是否可选
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   selectable?: boolean
   /** 文本是否可选，该属性会使文本节点显示为 inline-block
    * @default false
-   * @supported weapp, h5
+   * @supported weapp, h5, harmony_hybrid
    */
   userSelect?: boolean
   /** 显示连续空格
-   * @supported weapp, alipay, swan, tt, qq, jd, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
    */
   space?: keyof TextProps.TSpace
   /** 是否解码
@@ -25,6 +25,12 @@ interface TextProps extends StandardProps {
    * @supported alipay
    */
   numberOfLines?: number
+  /**
+   * 文本溢出处理
+   * @supported weapp-skyline
+   * @default 'visible'
+   */
+  overflow?: keyof TextProps.Overflow
   /** 限制文本最大行数
    * @supported weapp
    */
@@ -40,10 +46,20 @@ declare namespace TextProps {
     /** 根据字体设置的空格大小 */
     nbsp
   }
+  interface Overflow {
+    /** 修剪文本 */
+    clip
+    /** 淡出 */
+    fade
+    /** 显示省略号 */
+    ellipsis
+    /** 文本不截断 */
+    visible
+  }
 }
 /** 文本
  * @classification base
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

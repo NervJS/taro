@@ -1,0 +1,15 @@
+@import '../../../styles/base/variable/weui-cell';
+@import '../../../styles/widget/weui-cell/weui-form/weui-form_common';
+
+taro-input-core {
+  display: block;
+}
+
+input {
+  display: block;
+  overflow: hidden;
+  height: 1.4rem;
+  text-overflow: clip;
+  text-align: inherit;
+  white-space: nowrap;
+}

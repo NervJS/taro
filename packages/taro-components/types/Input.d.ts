@@ -2,21 +2,26 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface InputProps extends StandardProps, FormItemProps {
   /** 输入框的初始内容
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   value?: string
+  /** 设置 React 非受控输入框的初始内容
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @unique
+   */
+  defaultValue?: string
   /** input 的类型
    * @default "text"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   type?: keyof InputProps.Type
   /** 是否是密码类型
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   password?: boolean
   /** 输入框为空时占位符
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   placeholder?: string
   /** 指定 placeholder 的样式
@@ -34,12 +39,12 @@ interface InputProps extends StandardProps, FormItemProps {
   placeholderTextColor?: string
   /** 是否禁用
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   disabled?: boolean
   /** 最大输入长度，设置为 -1 的时候不限制最大长度
    * @default 140
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   maxlength?: number
   /** 指定光标与键盘的距离，单位 px 。取 input 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离
@@ -50,12 +55,12 @@ interface InputProps extends StandardProps, FormItemProps {
   /** (即将废弃，请直接使用 focus )自动聚焦，拉起键盘
    * @default false
    * @deprecated
-   * @supported weapp, qq, jd, h5
+   * @supported weapp, qq, jd, h5, harmony_hybrid
    */
   autoFocus?: boolean
   /** 获取焦点
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   focus?: boolean
   /** 设置键盘右下角按钮的文字，仅在type='text'时生效
@@ -144,7 +149,7 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   controlled?: boolean
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
-   * @supported h5
+   * @supported h5, harmony_hybrid
    */
   nativeProps?: Record<string, unknown>
   /** 组件名字，用于表单提交获取数据。
@@ -166,19 +171,19 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   clueType?: number
   /** 当键盘输入时，触发input事件，event.detail = {value, cursor, keyCode}，处理函数可以直接 return 一个字符串，将替换输入框的内容。
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onInput?: CommonEventFunction<InputProps.inputEventDetail>
   /** 输入框聚焦时触发，event.detail = { value, height }，height 为键盘高度
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onFocus?: CommonEventFunction<InputProps.inputForceEventDetail>
   /** 输入框失去焦点时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onBlur?: CommonEventFunction<InputProps.inputValueEventDetail>
   /** 点击完成按钮时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onConfirm?: CommonEventFunction<InputProps.inputValueEventDetail>
   /** 键盘高度发生变化的时候触发此事件
@@ -194,11 +199,11 @@ declare namespace InputProps {
   /** Input 类型 */
   interface Type {
     /** 文本输入键盘
-     * @supported weapp, alipay, h5, rn
+     * @supported weapp, alipay, h5, rn, harmony_hybrid
      */
     text
     /** 数字输入键盘
-     * @supported weapp, alipay, h5, rn
+     * @supported weapp, alipay, h5, rn, harmony_hybrid
      */
     number
     /** 身份证输入键盘
@@ -206,7 +211,7 @@ declare namespace InputProps {
      */
     idcard
     /** 带小数点的数字键盘
-     * @supported weapp, alipay, h5, rn
+     * @supported weapp, alipay, h5, rn, harmony_hybrid
      */
     digit
     /** 密码安全输入键盘[指引](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/safe-password.html)
@@ -271,7 +276,7 @@ declare namespace InputProps {
 }
 /** 输入框。该组件是原生组件，使用时请注意相关限制
  * @classification forms
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * class App extends Component {

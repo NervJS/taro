@@ -10,7 +10,7 @@ import {
   getLineBreak,
   isCommonjsModule,
   parseCode,
-  printToLogFile,
+  updateLogFileContent,
 } from './utils'
 import { WXS } from './wxml'
 
@@ -56,6 +56,7 @@ function replacePluginUrl (node, pluginInfo) {
       if (urlProperty) {
         if (!t.isStringLiteral(urlProperty.value)) {
           // navigateFunc的url如果是动态化则不转换
+          updateLogFileContent(`WARN [taroize] replacePluginUrl - navigateFunc 的 url 是动态的 ${getLineBreak()}`)
           return
         }
 
@@ -66,6 +67,7 @@ function replacePluginUrl (node, pluginInfo) {
         const matchPluginUrl = urlValue.match(regexPluginUrl)
         if (!matchPluginUrl) {
           // 非插件路径，不做处理
+          updateLogFileContent(`WARN [taroize] replacePluginUrl - 非插件路径 ${getLineBreak()}`)
           return
         }
 
@@ -100,7 +102,7 @@ export function parseScript (
   isApp = false,
   pluginInfo?
 ) {
-  printToLogFile(`package: taroize, funName: parseScript, scriptPath: ${scriptPath} ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] parseScript - 入参 ${getLineBreak()}scriptPath: ${scriptPath} ${getLineBreak()}`)
   script = script || 'Page({})'
   if (t.isJSXText(returned as any)) {
     const block = buildBlockElement()
@@ -112,14 +114,17 @@ export function parseScript (
   let foundWXInstance = false
   const vistor: Visitor = {
     BlockStatement (path) {
+      updateLogFileContent(`INFO [taroize] parseScript - 解析BlockStatement ${getLineBreak()}${path} ${getLineBreak()}`)
       path.scope.rename('wx', 'Taro')
     },
     Identifier (path) {
+      updateLogFileContent(`INFO [taroize] parseScript - 解析Identifier ${getLineBreak()}${path} ${getLineBreak()}`)
       if (path.isReferenced() && path.node.name === 'wx') {
         path.replaceWith(t.identifier('Taro'))
       }
     },
     CallExpression (path) {
+      updateLogFileContent(`INFO [taroize] parseScript - 解析CallExpression ${getLineBreak()}${path} ${getLineBreak()}`)
       const callee = path.get('callee')
       replaceIdentifier(callee as NodePath<t.Node>)
       replaceMemberExpression(callee as NodePath<t.Node>)
@@ -210,10 +215,11 @@ function parsePage (
   isApp = false,
   pluginInfo?
 ) {
-  printToLogFile(`package: taroize, funName: parsePage, pagePath: ${pagePath} ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] parsePage - 入参 ${getLineBreak()}pagePath: ${pagePath} ${getLineBreak()}`)
   const stateKeys: string[] = []
   pagePath.traverse({
     CallExpression (path) {
+      updateLogFileContent(`INFO [taroize] parsePage - 解析CallExpression ${getLineBreak()}${path} ${getLineBreak()}`)
       const callee = path.get('callee')
       replaceIdentifier(callee as NodePath<t.Node>)
       replaceMemberExpression(callee as NodePath<t.Node>)

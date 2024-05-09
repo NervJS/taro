@@ -1,8 +1,9 @@
 import { isString, isUndefined } from '@tarojs/shared'
 
+import env from '../env'
 import { URLSearchParams } from './URLSearchParams'
 
-export class URL {
+class TaroURL {
   static createObjectURL () {
     throw new Error('Oops, not support URL.createObjectURL() in miniprogram.')
   }
@@ -172,6 +173,9 @@ export class URL {
   }
 }
 
+export type { TaroURL }
+export const URL: typeof TaroURL = process.env.TARO_PLATFORM === 'web' ? env.window.URL : TaroURL
+
 export function parseUrl (url = '') {
   const result = {
     href: '',
@@ -206,7 +210,7 @@ export function parseUrl (url = '') {
   return result
 }
 
-export function parseUrlBase (url: string, base?: string) {
+function parseUrlBase (url: string, base?: string) {
   const VALID_URL = /^(https?:)\/\//i
 
   let fullUrl = ''

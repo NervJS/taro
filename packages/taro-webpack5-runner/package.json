@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "3.6.20",
+  "version": "3.6.28",
   "description": "Taro app runner",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "mv:comp": "node ./mv-comp.js",
     "clean": "rimraf dist",
     "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
     "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
@@ -42,9 +42,6 @@
     "@tarojs/plugin-platform-tt": "workspace:*",
     "@tarojs/plugin-platform-weapp": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
-    "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/taro": "workspace:*",
     "@tarojs/taro-loader": "workspace:*",
     "@tarojs/webpack5-prebundle": "workspace:*",
     "acorn-walk": "^8.0.0",
@@ -93,10 +90,14 @@
     "webpack-chain": "6.5.1",
     "webpack-dev-server": "4.11.1",
     "webpack-format-messages": "^2.0.6",
+    "webpack-virtual-modules": "^0.5.0",
     "webpackbar": "^5.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "@types/node": "^14.14.31",
     "@types/sax": "^1.2.4",
     "globby": "^12.0.2",
@@ -107,13 +108,16 @@
     "memfs": "^3.1.2",
     "memory-fs": "^0.5.0",
     "postcss": "^8.4.18",
-    "ts-node": "^10.9.1",
     "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
     "typescript": "^4.7.4",
     "webpack": "5.78.0",
     "webpack-merge": "^4.2.2"
   },
   "peerDependencies": {
+    "@tarojs/runtime": "workspace:~",
+    "@tarojs/shared": "workspace:~",
+    "@tarojs/taro": "workspace:~",
     "postcss": "^8.4.18",
     "webpack": "^5.78.0"
   }

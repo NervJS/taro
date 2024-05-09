@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import { getMobileDetect } from '@tarojs/router/dist/utils/navigate'
+import { isMobile } from 'is-mobile'
 
 import { showActionSheet } from '../../../api/ui'
 import { getParameterError, shouldBeObject } from '../../../utils'
@@ -33,8 +33,8 @@ export const chooseMedia = async function (
     complete,
   } = options
   const handle = new MethodHandler({ name: methodName, success, fail, complete })
-  const withImage = mediaType.length < 1 ||  mediaType.indexOf('image') > -1
-  const withVideo = mediaType.length < 1 ||  mediaType.indexOf('video') > -1
+  const withImage = mediaType.length < 1 || mediaType.indexOf('image') > -1
+  const withVideo = mediaType.length < 1 || mediaType.indexOf('video') > -1
   const res: Partial<Taro.chooseMedia.SuccessCallbackResult> = {
     tempFiles: [],
     type: withImage && withVideo ? 'mix' : withImage ? 'image' : 'video',
@@ -64,8 +64,7 @@ export const chooseMedia = async function (
   }
 
   // Note: Input 仅在移动端支持 capture 属性，可以使用 getUserMedia 替代（暂不考虑）
-  const md = getMobileDetect()
-  if (md.mobile()) {
+  if (isMobile()) {
     if (sourceType.length > 1 || sourceType.length < 1) {
       try {
         const { tapIndex } = await showActionSheet({

@@ -46,6 +46,7 @@ import {
   printToLogFile,
   replaceJSXTextWithTextComponent,
   setting,
+  updateLogFileContent,
 } from './utils'
 import { traverseWxsFile } from './wxs'
 
@@ -200,7 +201,7 @@ export interface TransformResult extends Result {
 export type TransformOptions = Options
 
 function parseCode (code: string) {
-  printToLogFile(`package: taro-transformer-wx, funName: parseCode ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taro-transformer-wx] parseCode - 入参 ${getLineBreak()}code: ${code} ${getLineBreak()}`)
   const ast: any = parse(code, {
     sourceType: 'module',
     plugins: [
@@ -289,25 +290,29 @@ export default function transform(options: TransformOptions): TransformResult {
   // })
 
   if (options.isNormal) {
-    if (options.isTyped) {
-      const mainClassNode = ast.program.body.find((v) => {
-        return t.isClassDeclaration(v)
-      }) as t.ClassDeclaration | undefined
-      if (mainClassNode) {
-        resetTSClassProperty(mainClassNode.body.body as any)
+    try {
+      if (options.isTyped) {
+        const mainClassNode = ast.program.body.find((v) => {
+          return t.isClassDeclaration(v)
+        }) as t.ClassDeclaration | undefined
+        if (mainClassNode) {
+          resetTSClassProperty(mainClassNode.body.body as any)
+        }
       }
-    }
 
-    // 对wxs文件进行转换
-    if (options.sourcePath.endsWith('.wxs')) {
-      return traverseWxsFile(ast, defaultResult)
-    }
+      // 对wxs文件进行转换
+      if (options.sourcePath.endsWith('.wxs')) {
+        return traverseWxsFile(ast, defaultResult)
+      }
 
-    const code = generate(ast.program as any).code
-    return {
-      ...defaultResult,
-      ast,
-      code,
+      const code = generate(ast.program as any).code
+      return {
+        ...defaultResult,
+        ast,
+        code,
+      }
+    } finally {
+      printToLogFile()
     }
   }
   // transformFromAst(ast, code)

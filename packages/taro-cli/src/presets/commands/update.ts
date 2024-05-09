@@ -63,7 +63,7 @@ export default (ctx: IPluginContext) => {
         const updateTarget = isSelf ? ' CLI ' : ' Taro 项目依赖'
         const spinString = `正在更新${updateTarget}到 v${version} ...`
         const spinner = ora(spinString).start()
-        execCommand({ 
+        execCommand({
           command,
           successCallback (data) {
             spinner.stop()

@@ -223,6 +223,7 @@ export default class StyleTransform {
     const css = JSON.stringify(styleObject, null, 2)
       .replace(/"(scalePx2dp\(.*?\))"/g, '$1')
       .replace(/"(scaleVu2dp\(.*?\))"/g, '$1')
+      .replace(/\\\\/g, '\\')
 
     // 注入自适应方法 scalePx2dp
     return getWrapedCSS(css)

@@ -37,7 +37,7 @@ export function getTransformer (opt: Options = {}) {
       }
     })
   }
-  if(process.env.PUBLIC_PATH) {
+  if (process.env.PUBLIC_PATH) {
     transform.publicPath = process.env.PUBLIC_PATH
   }
   return transform
@@ -57,7 +57,7 @@ export function getResolver (opt: Options = {}, config: IProjectConfig) {
     resolver.assetExts = assetExts.filter(ext => ext !== 'svg')
     resolver.sourceExts.push('svg')
   }
-  if(blockList.length > 0){
+  if (blockList.length > 0) {
     resolver.blockList = blockList
   }
   // 兼容0.60

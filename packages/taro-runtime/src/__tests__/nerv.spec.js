@@ -21,18 +21,18 @@ describe.skip('nerv', () => {
       componentDidShow (...arg) {
         appDidShow(...arg)
       }
-  
+
       componentDidHide (...arg) {
         appDidHide(...arg)
       }
-  
+
       render () {
         return this.props.children
       }
     }
-  
+
     app = runtime.createReactApp(App, React, ReactDOM, {})
-  
+
     app.onLaunch()
   })
 
@@ -59,71 +59,71 @@ describe.skip('nerv', () => {
     let homeContainer
     beforeAll(() => {
       homeContainer = React.createRef()
-  
+
       class Home extends React.Component {
         componentDidShow (...arg) {
           onShow(...arg)
         }
-  
+
         componentDidHide (...arg) {
           onHide(...arg)
         }
-  
+
         componentDidMount () {
           onLoad()
         }
-  
+
         onReachBottom () {
           onReachBottom()
         }
-  
+
         onPageScroll () {
           onPageScroll.apply(this, arguments)
         }
-  
+
         onShareAppMessage () {
           onShareAppMessage.apply(this, arguments)
         }
-  
+
         onResize () {
           onResize.apply(this, arguments)
         }
-  
+
         onTabItemTap () {
           onTabItemTap.apply(this, arguments)
         }
-  
+
         onTitleClick () {
           onTitleClick()
         }
-  
+
         onOptionMenuClick () {
           onOptionMenuClick()
         }
-  
+
         onPopMenuClick () {
           onPopMenuClick()
         }
-  
+
         onPullIntercept () {
           onPullIntercept()
         }
-  
+
         onPullDownRefresh () {
           onPullDownRefresh()
         }
-  
+
         componentWillUnmount () {
           onUnload()
         }
-  
+
         render () {
           return <view id='home' ref={homeContainer}>home</view>
         }
       }
-  
+
       home = runtime.createPageConfig(Home, '/page/home')
-  
+
       home.setData = function (_, cb) {
         cb()
       }
@@ -382,25 +382,25 @@ describe.skip('nerv', () => {
     let homeContainer
     beforeAll(() => {
       homeContainer = React.createRef()
-  
+
       class Home extends React.Component {
         constructor (props) {
           super(props)
           // eslint-disable-next-line @typescript-eslint/no-this-alias
           homeInst = this
         }
-  
+
         state = {
           render: 'home'
         }
-  
+
         render () {
           return <view id='home' ref={homeContainer}>{this.state.render}</view>
         }
       }
-  
+
       home = runtime.createPageConfig(Home, '/page/home')
-  
+
       home.setData = function (data, cb) {
         dataSpy(data)
         cb()

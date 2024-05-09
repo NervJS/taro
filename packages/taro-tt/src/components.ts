@@ -43,7 +43,7 @@ export const components = {
     'enable-play-gesture': _false,
     'show-playback-rate-btn': _false,
     'enable-play-in-background': _false,
-    'signature': _empty,
+    signature: _empty,
     bindProgress: _empty,
     bindSeekComplete: _empty,
     bindAdLoad: _empty,
@@ -159,6 +159,14 @@ export const components = {
     'default-text': _empty,
     'default-avatar': _empty,
     'use-empty-value': _false,
+    bindError: _empty
+  },
+  AwemeUserCard: {
+    'aweme-id': _empty,
+    width: '504',
+    height: '144',
+    fixed: _false,
+    'left-right-padding': _empty,
     bindError: _empty
   }
 }

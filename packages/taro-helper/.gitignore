@@ -1,6 +1,1 @@
-swc/**/target/*
-!swc/**/target/wasm32-wasi
-swc/**/target/wasm32-wasi/*
-!swc/**/target/wasm32-wasi/release
-swc/**/target/wasm32-wasi/release/*
-!swc/**/target/wasm32-wasi/release/*.wasm
+swc/*.wasm

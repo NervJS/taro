@@ -4,12 +4,13 @@ import { isEmpty } from 'lodash'
 import webpack from 'webpack'
 
 import { Prerender } from './prerender/prerender'
+import { errorHandling } from './utils/webpack'
 import { MiniCombination } from './webpack/MiniCombination'
 
 import type { Stats } from 'webpack'
 import type { MiniBuildConfig } from './utils/types'
 
-export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<Stats> {
+export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<Stats | void> {
   const combination = new MiniCombination(appPath, rawConfig)
   await combination.make()
 
@@ -25,6 +26,7 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     isBuildPlugin: combination.isBuildPlugin,
     alias: combination.config.alias,
     defineConstants: combination.config.defineConstants,
+    modifyAppConfig: combination.config.modifyAppConfig
   })
   try {
     await prebundle.run(combination.getPrebundleOptions())
@@ -36,7 +38,9 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
 
-  return new Promise<Stats>((resolve, reject) => {
+  return new Promise<Stats | void>((resolve, reject) => {
+    if (config.withoutBuild) return
+
     const compiler = webpack(webpackConfig)
     const onBuildFinish = config.onBuildFinish
     let prerender: Prerender
@@ -52,10 +56,13 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     }
 
     const callback = async (err: Error, stats: Stats) => {
+      const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
       if (err || stats.hasErrors()) {
         const error = err ?? stats.toJson().errors
         onFinish(error, null)
-        return reject(error)
+        reject(error)
+        errorHandling(errorLevel, stats)
+        return
       }
 
       if (!isEmpty(config.prerender)) {

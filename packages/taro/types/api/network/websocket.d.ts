@@ -138,22 +138,22 @@ declare module '../../index' {
   }
 
   /** WebSocket 任务，可通过 [Taro.connectSocket()](/docs/apis/network/websocket/SocketTask) 接口创建返回。
-   * @supported weapp, h5, rn, alipay, swan
+   * @supported weapp, h5, rn, alipay, swan, harmony_hybrid
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.html
    */
   interface SocketTask {
     /** 通过 WebSocket 连接发送数据
-     * @supported weapp, h5, rn, alipay, swan, tt
+     * @supported weapp, h5, rn, alipay, swan, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.send.html
      */
     send(option: SocketTask.SendOption): void
     /** 关闭 WebSocket 连接
-     * @supported weapp, h5, rn, alipay, swan, tt
+     * @supported weapp, h5, rn, alipay, swan, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.close.html
      */
     close(option: SocketTask.CloseOption): void
     /** 监听 WebSocket 连接打开事件
-     * @supported weapp, h5, rn, alipay, swan, tt
+     * @supported weapp, h5, rn, alipay, swan, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onOpen.html
      */
     onOpen(
@@ -161,7 +161,7 @@ declare module '../../index' {
       callback: SocketTask.OnOpenCallback
     ): void
     /** 监听 WebSocket 连接关闭事件
-     * @supported weapp, h5, rn, alipay, swan, tt
+     * @supported weapp, h5, rn, alipay, swan, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onClose.html
      */
     onClose(
@@ -169,7 +169,7 @@ declare module '../../index' {
       callback: SocketTask.OnCloseCallback
     ): void
     /** 监听 WebSocket 错误事件
-     * @supported weapp, h5, rn, alipay, swan, tt
+     * @supported weapp, h5, rn, alipay, swan, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onError.html
      */
     onError(
@@ -177,7 +177,7 @@ declare module '../../index' {
       callback: SocketTask.OnErrorCallback
     ): void
     /** 监听 WebSocket 接受到服务器的消息事件
-     * @supported weapp, h5, rn, alipay, swan, tt
+     * @supported weapp, h5, rn, alipay, swan, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/SocketTask.onMessage.html
      */
     onMessage<T = any>(
@@ -320,7 +320,7 @@ declare module '../../index' {
      * **并发数**
      * - 1.7.0 及以上版本，最多可以同时存在 5 个 WebSocket 连接。
      * - 1.7.0 以下版本，一个小程序同时只能有一个 WebSocket 连接，如果当前已存在一个 WebSocket 连接，会自动关闭该连接，并重新创建一个 WebSocket 连接。
-     * @supported weapp, h5, rn, alipay, swan
+     * @supported weapp, h5, rn, alipay, swan, harmony_hybrid
      * @example
      * ```tsx
      * Taro.connectSocket({

@@ -5,8 +5,7 @@ module.exports = {
     'import',
     'jest',
     'react',
-    'simple-import-sort',
-    'prettier'
+    'simple-import-sort'
   ],
   extends: [
     'eslint:recommended',
@@ -14,7 +13,6 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react/recommended',
-    'prettier'
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 0,
@@ -31,6 +29,10 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': [1, { functions: false, classes: false }],
     '@typescript-eslint/no-var-requires': 0,
     camelcase: 0,
+    'eol-last': 0,
+    'comma-dangle': 0,
+    'no-mixed-operators': 0,
+    'no-multiple-empty-lines': 0,
     'import/first': 2,
     'import/newline-after-import': 2,
     'import/no-duplicates': 2,

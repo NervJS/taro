@@ -16,7 +16,8 @@ const SUB_VENDORS_NAME = 'sub-vendors' // 分包 vendors 文件名
 const FileExtsMap = {
   JS: '.js',
   JS_MAP: '.js.map',
-  STYLE: '.wxss'
+  STYLE: '.wxss',
+  TEMPLATE: '.wxml'
 } // 默认支持的文件扩展名
 
 // 插件 options
@@ -34,6 +35,7 @@ interface ExcludeFunctionItem {
 // 依赖信息
 interface DepInfo {
   identifier: string
+  rawIdentifier: string
   resource: string
   chunks: Set<string>
 }
@@ -322,6 +324,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     }
     this.combination = options.combination
     FileExtsMap.STYLE = this.fileType.style
+    FileExtsMap.TEMPLATE = this.fileType.templ
   }
 
   apply (compiler: Compiler) {
@@ -414,6 +417,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
                 this.subCommonDeps.set(depName, {
                   identifier,
                   resource,
+                  rawIdentifier: module.identifier(),
                   chunks: subCommonDepChunks
                 })
               } else {
@@ -484,7 +488,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
             const subCommon = [...(this.subCommonChunks.get(entryName) || [])]
             for (const key in FileExtsMap) {
               const ext = FileExtsMap[key]
-              if (ext === FileExtsMap.JS || ext === FileExtsMap.STYLE) {
+              if (ext === FileExtsMap.JS || ext === FileExtsMap.STYLE || ext === FileExtsMap.TEMPLATE) {
                 const source = new ConcatSource()
                 const chunkName = `${entryName}${ext}`
                 const chunkAbsolutePath = path.resolve(this.distPath, chunkName)
@@ -764,6 +768,9 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
 
     subCommonDeps.forEach((depInfo: DepInfo, depName: string) => {
       const chunks: string[] = [...depInfo.chunks]
+      if (depInfo.rawIdentifier.startsWith('xml/compile-mode')) {
+        depName += '-templates'
+      }
       chunks.forEach(chunk => {
         if (subCommonChunks.has(chunk)) {
           const chunkSubCommon = subCommonChunks.get(chunk) as Set<string>

@@ -52,6 +52,9 @@ export interface IWebPrebundleConfig extends IPrebundleConfig {
 export class WebPrebundle extends BasePrebundle<IWebPrebundleConfig> {
   constructor (protected config: IWebPrebundleConfig, protected option: IPrebundle) {
     super(config, option)
+    if (this.mode !== 'production') {
+      this.mainFields.unshift('main:h5')
+    }
   }
 
   async buildLib () {
@@ -66,6 +69,10 @@ export class WebPrebundle extends BasePrebundle<IWebPrebundleConfig> {
       chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
       globalObject: mainBuildOutput.globalObject,
       path: this.remoteCacheDir,
+      environment: {
+        // @ts-expect-error 待 webpack 升级后移除注释
+        asyncFunction: true,
+      }
     }
 
     this.metadata.mfHash = getMfHash({
@@ -158,7 +165,7 @@ export class WebPrebundle extends BasePrebundle<IWebPrebundleConfig> {
     this.isUseCache = true
 
     /** 扫描出所有的 node_modules 依赖 */
-    const entries: string[] = this.getEntries(this.entryPath)
+    const entries: string[] = await this.getEntries(this.entryPath)
     const { include = [], exclude = [] } = this.option
     const idx = exclude.findIndex(e => e === '@tarojs/runtime')
     if (idx >= 0) {

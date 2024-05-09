@@ -1,4 +1,4 @@
-import { isNumber, isWebPlatform } from '@tarojs/shared'
+import { isNumber } from '@tarojs/shared'
 import classNames from 'classnames'
 import memoizeOne from 'memoize-one'
 import { defineComponent } from 'vue'
@@ -7,8 +7,6 @@ import { cancelTimeout, convertNumber2PX, defaultItemKey, getRectSizeSync, getSc
 import render from '../../../utils/vue-render'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import Preset, { type IProps } from '../preset'
-
-const isWeb = isWebPlatform()
 
 export default defineComponent({
   props: {
@@ -43,6 +41,10 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    queryPrefix: {
+      type: String,
+      default: ''
+    },
     position: {
       type: String,
       default: 'absolute'
@@ -73,15 +75,15 @@ export default defineComponent({
     },
     outerElementType: {
       type: String,
-      default: isWeb ? 'taro-scroll-view-core' : 'scroll-view'
+      default: process.env.TARO_PLATFORM === 'web' ? 'taro-scroll-view-core' : 'scroll-view'
     },
     innerElementType: {
       type: String,
-      default: isWeb ? 'taro-view-core' : 'view'
+      default: process.env.TARO_PLATFORM === 'web' ? 'taro-view-core' : 'view'
     },
     itemElementType: {
       type: String,
-      default: isWeb ? 'taro-view-core' : 'view'
+      default: process.env.TARO_PLATFORM === 'web' ? 'taro-view-core' : 'view'
     },
     outerTagName: String,
     innerTagName: String,
@@ -124,7 +126,7 @@ export default defineComponent({
           duration: 300,
         }
         option.top = scrollOffset
-        return getScrollViewContextNode(`#${this.preset.id}`).then((node: any) => node.scrollTo(option))
+        return getScrollViewContextNode(`${this.$props.queryPrefix}#${this.preset.id}`).then((node: any) => node.scrollTo(option))
       }
 
       this.scrollDirection = this.scrollOffset < scrollOffset ? 'forward' : 'backward'
@@ -195,7 +197,7 @@ export default defineComponent({
               const itemIndex = this.itemMap.getItemIndexByPosition(column, row)
               if (itemIndex >= 0 && itemIndex < this.$props.itemCount) {
                 const times = this.itemMap.compareSizeByPosition(column, row) ? 3 : 0
-                getRectSizeSync(`#${this.preset.id}-${itemIndex}`, 100, times).then(({ height }) => {
+                getRectSizeSync(`${this.$props.queryPrefix}#${this.preset.id}-${itemIndex}`, 100, times).then(({ height }) => {
                   if (typeof height === 'number' && height > 0 && !this.itemMap.compareSizeByPosition(column, row, height)) {
                     this.itemMap.setSizeByPosition(column, row, height)
                   }
