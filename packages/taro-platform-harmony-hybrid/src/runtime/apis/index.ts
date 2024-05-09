@@ -1,6 +1,9 @@
 import definition from '@tarojs/plugin-platform-harmony-hybrid/dist/definition.json'
 import isMatchWith from 'lodash-es/isMatchWith'
 import setWith from 'lodash-es/setWith'
+import { initLaunchOptions } from 'src/api/apis'
+import native from 'src/api/apis/NativeApi'
+import { invertColor } from 'src/api/apis/utils/colorConvert'
 
 import Taro from './taro'
 
@@ -27,10 +30,6 @@ export function canIUse (scheme = '') {
 }
 
 export default Taro
-
-import native from 'src/api/apis/NativeApi'
-import { invertColor } from 'src/api/apis/utils/colorConvert'
-import { initLaunchOptions } from 'src/api/apis'
 
 // 同步小程序启动时的参数
 Taro.eventCenter.once('__taroRouterLaunch', initLaunchOptions)

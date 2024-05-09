@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
 import DefaultTaroH5 from '@tarojs/taro-h5/dist/api/taro'
+import * as taroH5 from '@tarojs/taro-h5/dist/api/taro'
 
 import {
   getApp,
@@ -35,12 +36,11 @@ const NamedTaroHarmonyHybrid: typeof Taro = {
   switchTab,
   requirePlugin
 }
-
-export * from '@tarojs/taro-h5/dist/api/taro'
-
+export default NamedTaroHarmonyHybrid
 // 覆写H5的requirePlugin
-export {
+export const taroHarmonyHybrid = {
+  ...taroH5,
   requirePlugin
 }
 
-export default NamedTaroHarmonyHybrid
+
