@@ -43,6 +43,8 @@ class TaroEventTarget extends Events {
   }
 
   public dispatchEvent (event: TaroEvent) {
+    // @ts-ignore
+    event.currentTarget = this
     const cancelable = event.cancelable
     const listeners = this.__listeners[event.type]
 
