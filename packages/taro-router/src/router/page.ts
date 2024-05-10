@@ -25,10 +25,12 @@ export default class PageHandler {
   protected navigationBarHandler: NavigationBarHandler
 
   public homePage: string
+  public originHomePage: string
 
   constructor (config: SpaRouterConfig, public history: History) {
     this.config = config
     this.homePage = getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath)
+    this.originHomePage = this.config.entryPagePath || this.routes[0].path || this.basename
     this.mount()
     this.navigationBarHandler = new NavigationBarHandler(this)
   }
