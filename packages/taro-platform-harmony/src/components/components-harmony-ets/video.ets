@@ -95,7 +95,6 @@ export default struct TaroVideo {
     Video(getVideoData(this.node))
     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
     .props(getVideoProps(this.node))
-    .aspectRatio(4 / 3)
     .onStart(shouldBindEvent(() => { emitEvent(this.node, 'play') }, this.node, ['play']))
     .onPause(shouldBindEvent(() => { emitEvent(this.node, 'pause') }, this.node, ['pause']))
     .onFinish(shouldBindEvent(() => { emitEvent(this.node, 'ended') }, this.node, ['ended']))
