@@ -73,7 +73,7 @@ export default struct TaroMovableView {
             y: e.offsetY
           })
 
-        }).onActionEnd(() => {
+        }).onActionEnd((e: GestureEvent) => {
           callTouchEventFnFromGesture(this.node, 'touchend', e)
           this.node.checkPositionBoundary(this.node.position, this.node.scaleValue)
         }),
