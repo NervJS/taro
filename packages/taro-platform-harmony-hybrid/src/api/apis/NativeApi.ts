@@ -161,6 +161,12 @@ class NativeApi {
 
   // @ts-ignore
   @(syncAndRelease)
+  chooseMediumAssets (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
   getVideoInfo (options: any): any {
     return options
   }
