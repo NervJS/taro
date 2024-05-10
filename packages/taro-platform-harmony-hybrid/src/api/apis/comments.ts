@@ -49,6 +49,18 @@
  */
 
 /**
+ * 判断能否使用WebP格式
+ *
+ * @canUse canIUseWebp
+ */
+
+/**
+ * 跳转预加载 API
+ *
+ * @canUse preload
+ */
+
+/**
  * 创建 video 上下文 VideoContext 对象。
  *
  * @canUse createVideoContext
