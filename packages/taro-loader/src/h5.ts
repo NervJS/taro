@@ -50,6 +50,7 @@ export default function (this: webpack.LoaderContext<any>) {
     return `${setReconciler}
 import component from ${stringify(compPath)}
 ${options.loaderMeta.importFrameworkStatement}
+${options.loaderMeta.extraImportForWeb}
 import { createH5NativeComponentConfig } from '${options.loaderMeta.creatorLocation}'
 import { initPxTransform } from '@tarojs/taro'
 ${setReconcilerPost}

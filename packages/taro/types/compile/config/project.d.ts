@@ -1,6 +1,7 @@
 import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
 import type { Input } from 'postcss'
+import type { AppConfig } from '../../index'
 import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
 import type { IModifyChainData } from '../hooks'
 import type { ICopyOptions, IOption, ISassOptions, TogglableOptions } from './util'
@@ -176,6 +177,8 @@ export interface IProjectBaseConfig {
   onCompilerMake?: (compilation: Webpack.Compilation, compiler: Webpack.Compiler, plugin: any) => Promise<any>
 
   onWebpackChainReady?: (webpackChain: Chain) => Promise<any>
+
+  modifyAppConfig?: (appConfig: AppConfig) => Promise<any>
 
   /**
    * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail#miniwebpackchain)

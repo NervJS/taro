@@ -49,8 +49,8 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       if (id.endsWith(PAGE_SUFFIX)) {
         const page = viteCompilerContext.getPageById(rawId) || viteCompilerContext.getComponentById(rawId)
         // Note: 组件编译模式下禁用 TabBar 页面生成
-        const isTabbarPage = !taroConfig.isBuildNativeComp
-          && tabbarList.some(item => item.pagePath === page?.name)
+        const isTabbarPage = !taroConfig.isBuildNativeComp &&
+          tabbarList.some(item => item.pagePath === page?.name)
 
         if (!page) {
           viteCompilerContext.logger.warn(`编译页面 ${rawId} 失败!`)

@@ -133,6 +133,7 @@ export default async function (viteCompilerContext: ViteHarmonyCompilerContext):
         outputRoot,
         targetRoot: path.resolve(appPath, sourceRoot),
         resolve: this.resolve,
+        modifyResolveId: viteCompilerContext.loaderMeta.modifyResolveId,
       })
 
       return {

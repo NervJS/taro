@@ -52,12 +52,12 @@ export function generateDocumentation (
 
   function visitAST (node: ts.Node, o: DocEntry[]) {
     // Only consider exported nodes
-    if (!isNodeExported(node as ts.Declaration) || node.kind === ts.SyntaxKind.EndOfFileToken || node.kind === ts.SyntaxKind.DeclareKeyword
-        || ts.isImportDeclaration(node) || ts.isImportEqualsDeclaration(node) || ts.isImportClause(node)
-        || ts.isExportAssignment(node) || ts.isExportDeclaration(node)
-        || ts.isExpressionStatement(node) || ts.isEmptyStatement(node)
-        || ts.isStringLiteral(node)
-        || node.kind === ts.SyntaxKind.ExportKeyword) {
+    if (!isNodeExported(node as ts.Declaration) || node.kind === ts.SyntaxKind.EndOfFileToken || node.kind === ts.SyntaxKind.DeclareKeyword ||
+        ts.isImportDeclaration(node) || ts.isImportEqualsDeclaration(node) || ts.isImportClause(node) ||
+        ts.isExportAssignment(node) || ts.isExportDeclaration(node) ||
+        ts.isExpressionStatement(node) || ts.isEmptyStatement(node) ||
+        ts.isStringLiteral(node) ||
+        node.kind === ts.SyntaxKind.ExportKeyword) {
       return
     }
 

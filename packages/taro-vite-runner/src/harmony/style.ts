@@ -314,7 +314,7 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
   return {
     name: 'taro:vite-style-post',
     enforce: 'post',
-    configResolved( config ) {
+    configResolved(config) {
       viteConfig = config
     },
     buildStart() {
@@ -608,7 +608,7 @@ function validateStylelint(id: string, code: string) {
   }).then(res => {
     if (res.errored) {
       // eslint-disable-next-line no-console
-      console.log(res.output)
+      // console.log(res.output)
     } else {
       res.results.forEach(res => {
         if (res.warnings.length) {

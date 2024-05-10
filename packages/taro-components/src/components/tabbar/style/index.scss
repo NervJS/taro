@@ -8,7 +8,7 @@ body {
 }
 
 :root {
-  --taro-tabbar-height: $weuiTabBarHeight;
+  --taro-tabbar-height: #{$weuiTabBarHeight};
 }
 
 #app {

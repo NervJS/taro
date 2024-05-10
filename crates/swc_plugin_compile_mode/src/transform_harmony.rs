@@ -1,16 +1,18 @@
 use crate::utils::{ self, constants::*, harmony::components::* };
-use crate::PluginConfig;
+use crate::{PluginConfig, ComponentReplace};
 use std::collections::HashMap;
 use std::collections::HashSet;
 use swc_core::{
     common::{ util::take::Take, DUMMY_SP as span },
     ecma::{ self, ast::*, atoms::Atom, visit::{ swc_ecma_ast, VisitMut, VisitMutWith } },
 };
+use regex::Regex;
 pub struct PreVisitor {}
 
 pub enum EtsDirection {
     Row,
     Column,
+    Flex,
 }
 
 impl PreVisitor {
@@ -145,10 +147,6 @@ impl TransformVisitor {
         }
     }
 
-    fn build_loop_children_ets_element(&mut self, el: &mut JSXElement) -> String {
-        "".to_owned()
-    }
-
     pub fn get_dynmaic_node_name(&mut self, name: String) -> String {
         let node_name = if self.deal_loop_now { name } else { format!("this.{}", name) };
         node_name.to_string()
@@ -194,26 +192,37 @@ impl TransformVisitor {
                         if is_node_name_created {
                             self.node_name.pop();
                         }
-                        let mut code = match name.as_str() {
-                            VIEW_TAG => {
-                                self.component_set.insert(name.clone());
 
-                                get_view_component_str(
-                                    &self.get_dynmaic_node_name(dynmaic_node_name),
-                                    &children,
-                                    element_direction
-                                )
+                        let current_node_name = self.get_dynmaic_node_name(dynmaic_node_name);
+                        // 如果config配置的替换组件里有这个，就直接拿配置项里的当组件实例化
+                        let mut code = if self.config.component_replace.contains_key(name.as_str()) {
+                            self.component_set.insert(name.clone());
+                            let ComponentReplace{current_init, ..} = self.config.component_replace.get(name.as_str()).unwrap();
+                            // 把入参的node改成对应的变量
+                            let reg = Regex::new(r"\bnode\b").unwrap();
+                            reg.replace_all(current_init, format!("({} as TaroElement)", current_node_name)).to_string()
+                        } else {
+                            match name.as_str() {
+                                VIEW_TAG => {
+                                    self.component_set.insert(name.clone());
+
+                                    get_view_component_str(
+                                        &current_node_name,
+                                        &children,
+                                        element_direction
+                                    )
+                                }
+                                TEXT_TAG => {
+                                    self.component_set.insert(name.clone());
+                                    event_string = "".to_owned();
+                                    get_text_component_str(&current_node_name)
+                                }
+                                IMAGE_TAG => {
+                                    self.component_set.insert(name.clone());
+                                    get_image_component_str(&current_node_name)
+                                }
+                                _ => String::new(),
                             }
-                            TEXT_TAG => {
-                                self.component_set.insert(name.clone());
-                                event_string = "".to_owned();
-                                get_text_component_str(&self.get_dynmaic_node_name(dynmaic_node_name))
-                            }
-                            IMAGE_TAG => {
-                                self.component_set.insert(name.clone());
-                                get_image_component_str(&self.get_dynmaic_node_name(dynmaic_node_name))
-                            }
-                            _ => String::new(),
                         };
 
                         code.push_str(event_string.as_str());
@@ -311,7 +320,7 @@ impl TransformVisitor {
                         );
 
                         children_string.push_str(code.as_str());
-                        self.component_set.insert(TEXT_TAG.clone().to_string());
+                        self.component_set.insert(TEXT_TAG.to_string());
                         retain_child_counter += 1;
                     }
                 }
@@ -436,9 +445,11 @@ impl TransformVisitor {
                     let jsx_attr_name = name.to_string();
                     if jsx_attr_name == DIRECTION_ATTR {
                         if let Some(JSXAttrValue::Lit(Lit::Str(Str { value, .. }))) = &jsx_attr.value {
-                            if value == "row" {
-                                direction = EtsDirection::Row;
-                            }
+                            direction = match value.as_str() {
+                                "row" => EtsDirection::Row,
+                                "flex" => EtsDirection::Flex,
+                                _ => EtsDirection::Column,
+                            };
                         }
                     } else if jsx_attr_name == STYLE_ATTR {
                         if
@@ -608,7 +619,7 @@ impl VisitMut for TransformVisitor {
             );
             let tmpl_contents =
                 HARMONY_IMPORTER.to_owned() +
-                utils::get_harmony_component_style(self).as_str() +
+                utils::get_harmony_replace_component_dependency_define(self).as_str() +
                 format!(
                     r#"@Component
 export default struct TARO_TEMPLATES_{name} {{
@@ -624,7 +635,8 @@ export default struct TARO_TEMPLATES_{name} {{
 "#,
                     name = tmpl_name,
                     content = tmpl_main_contents
-                ).as_str();
+                ).as_str() +
+                utils::get_harmony_component_style(self).as_str();
 
             self.templates.insert(tmpl_name, format!("`{}`", tmpl_contents));
 

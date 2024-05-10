@@ -113,6 +113,7 @@ class PseudoStyleModify implements AttributeModifier<CommonAttribute> {
   applyNormalAttribute(instance: CommonAttribute): void {
     if (this.style) {
       setNormalAttributeIntoInstance(instance, this.style)
+      setTransformAttributeIntoInstance(instance, this.style || {})
     }
   }
 }
@@ -169,15 +170,15 @@ export function setTransformAttributeIntoInstance(instance: CommonAttribute, sty
     x: style.transform?.Scale?.x,
     y: style.transform?.Scale?.y,
     z: style.transform?.Scale?.z,
-    centerX: style.transformOrigin?.x || 0,
-    centerY: style.transformOrigin?.y || 0,
+    centerX: style.transformOrigin?.x,
+    centerY: style.transformOrigin?.y,
   })
   instance.rotate({
     x: style.transform?.Rotate?.x,
     y: style.transform?.Rotate?.y,
     z: style.transform?.Rotate?.z,
-    centerX: style.transformOrigin?.x || 0,
-    centerY: style.transformOrigin?.y || 0,
+    centerX: style.transformOrigin?.x,
+    centerY: style.transformOrigin?.y,
     angle: style.transform?.Rotate?.angle || 0,
   })
 }

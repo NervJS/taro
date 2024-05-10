@@ -1,11 +1,12 @@
 import Taro from '@tarojs/taro'
 
+import native from '../../NativeApi'
 import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
 /**
  * 设置是否保持常亮状态
- * 
+ *
  * @canUse setKeepScreenOn
  * @__object [keepScreenOn]
  */
@@ -34,7 +35,6 @@ export const setKeepScreenOn: typeof Taro.setKeepScreenOn = (options) => {
         { resolve, reject }
       )
     }
-    // @ts-ignore
     native.setKeepScreenOn({
       keepScreenOn: keepScreenOn,
       success: (res: any) => {

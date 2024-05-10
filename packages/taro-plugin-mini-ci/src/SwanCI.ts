@@ -51,7 +51,7 @@ export default class SwanCI extends BaseCI {
         await generateQrcodeImageFile(previewQrcodePath, qrContent)
         printLog(
           processTypeEnum.REMIND,
-          `预览二维码已生成，存储在:"${ previewQrcodePath }",二维码内容是：${ qrContent }`
+          `预览二维码已生成，存储在:"${previewQrcodePath}",二维码内容是：${qrContent}`
         )
 
         this.triggerPreviewHooks({
@@ -62,7 +62,6 @@ export default class SwanCI extends BaseCI {
             qrCodeLocalPath: previewQrcodePath
           }
         })
-
       } else {
         this.triggerPreviewHooks({
           success: false,
@@ -93,7 +92,7 @@ export default class SwanCI extends BaseCI {
         await generateQrcodeImageFile(uploadQrcodePath, qrContent)
         printLog(
           processTypeEnum.REMIND,
-          `体验版二维码已生成，存储在:"${ uploadQrcodePath }",二维码内容是：${ qrContent }`
+          `体验版二维码已生成，存储在:"${uploadQrcodePath}",二维码内容是：${qrContent}`
         )
 
         this.triggerUploadHooks({
@@ -117,7 +116,6 @@ export default class SwanCI extends BaseCI {
       }
     })
   }
-
 }
 
 interface UploadResponse {

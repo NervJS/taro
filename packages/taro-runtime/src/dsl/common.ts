@@ -1,6 +1,7 @@
 /* eslint-disable dot-notation */
 import {
-  EMPTY_OBJ, ensure, getComponentsAlias, hooks, internalComponents,
+  EMPTY_OBJ, ensure, EventChannel,
+  getComponentsAlias, hooks, internalComponents,
   isArray, isFunction, isString, isUndefined, Shortcuts
 } from '@tarojs/shared'
 
@@ -230,6 +231,12 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     }
   }
 
+  if (process.env.TARO_PLATFORM === 'web') {
+    config.getOpenerEventChannel = () => {
+      return EventChannel.pageChannel
+    }
+  }
+
   LIFECYCLES.forEach((lifecycle) => {
     let isDefer = false
     lifecycle = lifecycle.replace(/^defer:/, () => {
@@ -281,7 +288,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 export function createComponentConfig (component: React.ComponentClass, componentName?: string, data?: Record<string, unknown>) {
   const id = componentName ?? `taro_component_${pageId()}`
   let componentElement: TaroRootElement | null = null
-  const [ ATTACHED, DETACHED ] = hooks.call('getMiniLifecycleImpl')!.component
+  const [ATTACHED, DETACHED] = hooks.call('getMiniLifecycleImpl')!.component
 
   const config: any = {
     [ATTACHED] () {
@@ -329,7 +336,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
 
 export function createRecursiveComponentConfig (componentName?: string) {
   const isCustomWrapper = componentName === CUSTOM_WRAPPER
-  const [ ATTACHED, DETACHED ] = hooks.call('getMiniLifecycleImpl')!.component
+  const [ATTACHED, DETACHED] = hooks.call('getMiniLifecycleImpl')!.component
 
   const lifeCycles = isCustomWrapper
     ? {
@@ -377,5 +384,6 @@ export function createRecursiveComponentConfig (componentName?: string) {
       methods: {
         eh: eventHandler
       },
-      ...lifeCycles }, { isCustomWrapper })
+      ...lifeCycles
+    }, { isCustomWrapper })
 }

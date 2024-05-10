@@ -75,7 +75,7 @@ export default class Config {
     try {
       this.initialGlobalConfig = fs.readJSONSync(globalPluginConfigPath) || {}
       spinner.succeed('获取 taro 全局配置成功')
-    } catch (e){
+    } catch (e) {
       spinner.stop()
       console.warn(`获取全局配置失败，如果需要启用全局插件请查看配置文件: ${globalPluginConfigPath} `)
     }

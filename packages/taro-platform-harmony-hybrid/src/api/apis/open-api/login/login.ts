@@ -1,13 +1,14 @@
 import Taro from '@tarojs/taro'
 
+import native from '../../NativeApi'
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
 /**
  * 调用接口获取登录凭证（code）
- *  
+ *
  * @canUse login
- * @__object [timeout] 
+ * @__object [timeout]
  * @__success [code]
  */
 export const login: typeof Taro.login = (options) => {
@@ -25,7 +26,6 @@ export const login: typeof Taro.login = (options) => {
   const handle = new MethodHandler({ name, success, fail, complete })
 
   let loginPromise = new Promise((resolve, reject) => {
-    // @ts-ignore
     native.login({
       success: (res: any) => {
         resolve(res)

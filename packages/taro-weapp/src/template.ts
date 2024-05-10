@@ -22,6 +22,7 @@ export class Template extends UnRecursiveTemplate {
   constructor (pluginOptions?: IOptions) {
     super()
     this.pluginOptions = pluginOptions || {}
+    this.nestElements.set('root-portal', 3)
   }
 
   buildXsTemplate (filePath = './utils') {
@@ -110,7 +111,7 @@ export class Template extends UnRecursiveTemplate {
     if (pageConfig?.enablePageMeta) {
       const getComponentAttrs = (componentName: string, dataPath: string) => {
         return Object.entries(this.transferComponents[componentName]).reduce((sum, [key, value]) => {
-          sum +=`${key}="${value === 'eh' ? value : `{{${value.replace('i.', dataPath)}}}`}" `
+          sum += `${key}="${value === 'eh' ? value : `{{${value.replace('i.', dataPath)}}}`}" `
           return sum
         }, '')
       }

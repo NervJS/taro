@@ -47,7 +47,7 @@ export function resolvePresetsOrPlugins (root: string, args: IPluginsObject, typ
   // 全局的插件引入报错，不抛出 Error 影响主流程，而是通过 log 提醒然后把插件 filter 掉，保证主流程不变
   const resolvedPresetsOrPlugins: IPlugin[] = []
   const presetsOrPluginsNames = Object.keys(args) || []
-  for ( let i = 0; i < presetsOrPluginsNames.length; i++ ) {
+  for (let i = 0; i < presetsOrPluginsNames.length; i++) {
     const item = presetsOrPluginsNames[i]
     let fPath
     try {

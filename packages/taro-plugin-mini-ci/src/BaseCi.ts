@@ -176,7 +176,6 @@ export default abstract class BaseCI {
     )
     this.version = pluginOpts.version || packageInfo.taroConfig?.version
     this.desc = pluginOpts.desc || packageInfo.taroConfig?.desc || `CI构建自动构建于${new Date().toLocaleTimeString()}`
-
   }
 
   setProjectPath (path: string) {

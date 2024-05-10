@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "4.0.0-beta.54",
+  "version": "4.0.0-beta.66",
   "description": "Taro-router",
   "author": "O2Team",
   "license": "MIT",
@@ -55,6 +55,7 @@
   },
   "peerDependencies": {
     "@tarojs/runtime": "workspace:*",
-    "@tarojs/taro": "workspace:*"
+    "@tarojs/taro": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   }
 }

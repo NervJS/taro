@@ -60,11 +60,13 @@ export default function (viteCompilerContext: ViteMiniCompilerContext | undefine
           }
         }
 
-        if (stylePath) return {
-          code: [
-            `import "${target}";\n`,
-            stylePath ? `import "${stylePath}${QUERY_IS_NATIVE_STYLE}";\n` : ''
-          ].join('')
+        if (stylePath) {
+          return {
+            code: [
+              `import "${target}";\n`,
+              stylePath ? `import "${stylePath}${QUERY_IS_NATIVE_STYLE}";\n` : ''
+            ].join('')
+          }
         }
       } else if (IS_NATIVE_STYLE_REG.test(id)) {
         let source = id.replace(new RegExp(`\\${QUERY_IS_NATIVE_STYLE}`), '')

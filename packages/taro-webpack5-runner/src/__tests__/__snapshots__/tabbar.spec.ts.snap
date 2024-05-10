@@ -13,23 +13,8 @@ require("./vendors");
 
 require("./runtime");
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 524 ], {
-    461: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var toPropertyKey = __webpack_require__(721);
-        function _defineProperty(obj, key, value) {
-            key = (0, toPropertyKey.A)(key);
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
+    923: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -47,26 +32,24 @@ require("./runtime");
         function toDashed() {}
         function processApis() {}
         function singleQuote() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
+        const EMPTY_OBJ = {};
+        const hooks = {};
         function Events() {}
         function ensure() {}
         function noop() {}
         function warn() {}
         var taro_shared = "taro-shared-mock";
-        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
+        const needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
-                modifyApis: function modifyApis(apis) {
+                modifyApis(apis) {
                     apis.delete("lanDebug");
                 },
-                transformMeta: function transformMeta(api, options) {
+                transformMeta(api, options) {
                     var _a;
                     if (api === "showShareMenu") {
-                        options.menus = (_a = options.showShareItems) === null || _a === void 0 ? void 0 : _a.map((function(item) {
-                            return item === "wechatFriends" ? "shareAppMessage" : item === "wechatMoment" ? "shareTimeline" : item;
-                        }));
+                        options.menus = (_a = options.showShareItems) === null || _a === void 0 ? void 0 : _a.map((item => item === "wechatFriends" ? "shareAppMessage" : item === "wechatMoment" ? "shareTimeline" : item));
                     }
                     return {
                         key: api,
@@ -86,11 +69,11 @@ require("./runtime");
                 return (_c = (_b = (_a = taro.getCurrentInstance()) === null || _a === void 0 ? void 0 : _a.page) === null || _b === void 0 ? void 0 : _b.renderer) !== null && _c !== void 0 ? _c : "webview";
             };
         }
-        var _true = "true";
-        var _false = "false";
-        var _empty = "";
-        var _zero = "0";
-        var components = {
+        const _true = "true";
+        const _false = "false";
+        const _empty = "";
+        const _zero = "0";
+        const components = {
             Progress: {
                 "border-radius": _zero,
                 "font-size": "16",
@@ -102,7 +85,9 @@ require("./runtime");
                 "user-select": _false
             },
             Text: {
-                "user-select": _false
+                "user-select": _false,
+                overflow: "visible",
+                "max-lines": ""
             },
             Map: {
                 polygons: "[]",
@@ -197,6 +182,7 @@ require("./runtime");
                 "enable-flex": _false,
                 "scroll-anchoring": _false,
                 enhanced: _false,
+                "using-sticky": _false,
                 "paging-enabled": _false,
                 "enable-passive": _false,
                 "refresher-enabled": _false,
@@ -236,17 +222,44 @@ require("./runtime");
                 bindRefresherStatusChange: _empty
             },
             StickySection: {
-                "push-pinned-header": _true
+                "push-pinned-header": _true,
+                padding: "[0, 0, 0, 0]"
             },
             GridView: {
                 type: "'aligned'",
                 "cross-axis-count": "2",
                 "max-cross-axis-extent": _zero,
                 "main-axis-gap": _zero,
-                "cross-axis-gap": _zero
+                "cross-axis-gap": _zero,
+                padding: "[0, 0, 0, 0]"
             },
-            ListView: {},
-            StickyHeader: {},
+            GridBuilder: {
+                type: "'aligned'",
+                list: "[]",
+                "cross-axis-count": "2",
+                "max-cross-axis-extent": _zero,
+                "main-axis-gap": _zero,
+                "cross-axis-gap": _zero,
+                padding: "[0, 0, 0, 0]",
+                bindItemBuild: _empty,
+                bindItemDispose: _empty
+            },
+            ListView: {
+                padding: "[0, 0, 0, 0]"
+            },
+            ListBuilder: {
+                list: "[]",
+                type: "static",
+                padding: "[0, 0, 0, 0]",
+                "child-count": _empty,
+                "child-height": _empty,
+                bindItemBuild: _empty,
+                bindItemDispose: _empty
+            },
+            StickyHeader: {
+                "offset-top": "0",
+                padding: "[0, 0, 0, 0]"
+            },
             Swiper: {
                 "snap-to-edge": _false,
                 "easing-function": "'default'"
@@ -501,38 +514,66 @@ require("./runtime");
                 "object-fit": "'contain'",
                 bindError: _empty
             },
-            Snapshot: {}
+            Snapshot: {
+                mode: "'view'"
+            },
+            Span: {},
+            OpenContainer: {
+                transitionType: "'fade'",
+                transitionDuration: "300",
+                closedColor: "'white'",
+                closedElevation: _zero,
+                closeBorderRadius: _zero,
+                middleColor: _empty,
+                openColor: "'white'",
+                openElevation: _zero,
+                openBorderRadius: _zero
+            },
+            DraggableSheet: {
+                initialChildSize: "0.5",
+                minChildSize: "0.25",
+                maxChildSize: "1.0",
+                snap: _false,
+                snapSizes: "[]"
+            },
+            NestedScrollHeader: {},
+            NestedScrollBody: {}
         };
-        var hostConfig = {
+        const hostConfig = {
             initNativeApi: initNativeApi,
-            getMiniLifecycle: function getMiniLifecycle(config) {
-                var methods = config.page[5];
+            getMiniLifecycle(config) {
+                const methods = config.page[5];
                 if (methods.indexOf("onSaveExitState") === -1) {
                     methods.push("onSaveExitState");
                 }
                 return config;
             },
-            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+            transferHydrateData(data, element, componentsAlias) {
                 var _a;
                 if (element.isTransferElement) {
-                    var page = getCurrentPages()[0];
+                    const pages = getCurrentPages();
+                    const page = pages[pages.length - 1];
                     data["nn"] = element.dataName;
-                    page.setData(_defineProperty({}, toCamelCase(data.nn), data));
-                    return _defineProperty(_defineProperty({
-                        sid: element.sid
-                    }, "v", ""), "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8");
+                    page.setData({
+                        [toCamelCase(data.nn)]: data
+                    });
+                    return {
+                        sid: element.sid,
+                        ["v"]: "",
+                        ["nn"]: ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"
+                    };
                 }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(413);
-        var taro = __webpack_require__(60);
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(176);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
+        var taro_runtime = __webpack_require__(521);
+        var taro = __webpack_require__(39);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
         var app_App = function(_Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -602,8 +643,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(461);
+    __webpack_require__.O(0, [ 216, 592 ], (function() {
+        return __webpack_exec__(923);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -690,7 +731,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -698,14 +739,14 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_0_17">
+<template name="tmpl_0_20">
   <cover-image src="{{i.p0}}" bindload="eh" binderror="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -713,16 +754,16 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
   </cover-image>
 </template>
 
-<template name="tmpl_0_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_0_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </cover-view>
 </template>
 
-<template name="tmpl_0_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_0_59">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -730,7 +771,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_3">
-  <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p3}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -738,7 +779,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_1">
-  <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" binderror="eh" bindload="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p3}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" binderror="eh" bindload="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -782,7 +823,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_1_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -790,23 +831,23 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_1_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_1_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_1_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </cover-view>
 </template>
 
-<template name="tmpl_1_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_1_59">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -846,7 +887,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_2_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -854,23 +895,23 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_2_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_2_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_2_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </cover-view>
 </template>
 
-<template name="tmpl_2_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_2_59">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -910,7 +951,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_3_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -918,23 +959,23 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_3_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_3_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_3_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </cover-view>
 </template>
 
-<template name="tmpl_3_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_3_59">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -974,7 +1015,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_4_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -982,15 +1023,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_4_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_4_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_4_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1030,7 +1071,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_5_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1038,15 +1079,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_5_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_5_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_5_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1086,15 +1127,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_6_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_6_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_6_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1134,15 +1175,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_7_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_7_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_7_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1182,15 +1223,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_8_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_8_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_8_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1230,15 +1271,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_9_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_9_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_9_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1278,15 +1319,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_10_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_10_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_10_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1326,15 +1367,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_11_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_11_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_11_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1374,15 +1415,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_12_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_12_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_12_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1422,15 +1463,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_13_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_13_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_13_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1470,15 +1511,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_14_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.e(15)}}" data="{{i:item,c:c,l:l}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_14_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_14_21">
+  <cover-view scroll-top="{{xs.b(i.p1,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" marker-id="{{i.p0}}" slot="{{i.p2}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.e(15)}}" data="{{i:item,c:c,l:l}}" />
     </block>
@@ -1498,18 +1539,18 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/common.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 76 ], {
-    865: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
+    525: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
                 return Component;
             }
         });
-        var Component = {};
+        const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    549: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    829: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             DN: function() {
                 return CoverImage;
@@ -1524,20 +1565,21 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
                 return CoverView;
             }
         });
-        var Canvas = {};
-        var CoverView = {};
-        var CoverImage = {};
-        var Input = {};
-        var Picker = {};
-        var Swiper = {};
-        var SwiperItem = {};
-        var Text = {};
-        var Textarea = {};
-        var Video = {};
-        var View = {};
+        const Canvas = {};
+        const CoverView = {};
+        const CoverImage = {};
+        const Input = {};
+        const Picker = {};
+        const Swiper = {};
+        const SwiperItem = {};
+        const Text = {};
+        const Textarea = {};
+        const Video = {};
+        const View = {};
         var __WEBPACK_DEFAULT_EXPORT__ = "taro-components-mock";
     },
-    413: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    521: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -1549,14 +1591,14 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
                 return window;
             }
         });
-        var __WEBPACK_DEFAULT_EXPORT__ = "taro-runtime-mock";
-        var window = {};
+        __webpack_exports__["default"] = "taro-runtime-mock";
+        const window = {};
         function createReactApp() {}
         function createVue3App() {}
         function createRecursiveComponentConfig() {}
         function createPageConfig() {}
     },
-    60: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    39: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             ND: function() {
                 return createReactApp;
@@ -1570,7 +1612,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
         function createReactApp() {}
         function createNativeComponentConfig() {}
         function createVue3App() {}
-        var setGlobalDataPlugin = {};
+        const setGlobalDataPlugin = {};
         function useDidHide() {}
         function useDidShow() {}
         function useError() {}
@@ -1601,17 +1643,17 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/comp.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 862 ], {
-    728: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(413);
-        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
+    227: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(521);
+        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 76 ], (function() {
-        return __webpack_exec__(728);
+    __webpack_require__.O(0, [ 592 ], (function() {
+        return __webpack_exec__(227);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1627,16 +1669,16 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/custom-tab-bar/index.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 777 ], {
-    42: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(413);
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(176);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
-        var taro_components = __webpack_require__(549);
-        var taro = __webpack_require__(60);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 23 ], {
+    222: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(521);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
+        var taro_components = __webpack_require__(829);
+        var taro = __webpack_require__(39);
         var Index = function(_Component) {
             function Index() {
                 (0, classCallCheck.A)(this, Index);
@@ -1694,15 +1736,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/pages/detail/index.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 154 ], {
-    682: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(413);
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(176);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
-        var taro_components = __webpack_require__(549);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 32 ], {
+    314: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(521);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
+        var taro_components = __webpack_require__(829);
         var Index = function(_Component) {
             function Index() {
                 (0, classCallCheck.A)(this, Index);
@@ -1748,15 +1790,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 421 ], {
-    803: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(413);
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(176);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
-        var taro_components = __webpack_require__(549);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
+    309: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(521);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
+        var taro_components = __webpack_require__(829);
         var Index = function(_Component) {
             function Index() {
                 (0, classCallCheck.A)(this, Index);
@@ -1802,8 +1844,8 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
-    var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
-    var b = ["4","38","39","22","19","36","40","41"]
+    var a = ["7","0","21","5","2","12","6","4","62","63","31","24","59","68","69","57"]
+    var b = ["4","62","63","31","24","59","68","69","57"]
     if (a.indexOf(n) === -1) {
       l = 0
     }
@@ -1831,7 +1873,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l, n) {
-    var b = ["4","38","39","22","19","36","40","41"]
+    var b = ["4","62","63","31","24","59","68","69","57"]
     if (b.indexOf(n) > -1) {
       if (l) l += ','
       l += n
@@ -1843,8 +1885,8 @@ module.exports = {
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 96 ], {
-    363: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
+    517: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -1895,20 +1937,34 @@ module.exports = {
             }
         }
     },
-    176: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    872: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(721);
+        var esm_typeof = __webpack_require__(817);
+        function _toPrimitive(input, hint) {
+            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if ((0, esm_typeof.Z)(res) !== "object") return res;
+                throw new TypeError("@@toPrimitive must return a primitive value.");
+            }
+            return (hint === "string" ? String : Number)(input);
+        }
+        function _toPropertyKey(arg) {
+            var key = _toPrimitive(arg, "string");
+            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        }
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, (0, _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__.A)(descriptor.key), descriptor);
+                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -1920,9 +1976,61 @@ module.exports = {
             return Constructor;
         }
     },
-    311: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
-            A: function() {
+            Z: function() {
+                return _createSuper;
+            }
+        });
+        function _getPrototypeOf(o) {
+            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+                return o.__proto__ || Object.getPrototypeOf(o);
+            };
+            return _getPrototypeOf(o);
+        }
+        function _isNativeReflectConstruct() {
+            if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+            if (Reflect.construct.sham) return false;
+            if (typeof Proxy === "function") return true;
+            try {
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+        var esm_typeof = __webpack_require__(817);
+        function _assertThisInitialized(self) {
+            if (self === void 0) {
+                throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            }
+            return self;
+        }
+        function _possibleConstructorReturn(self, call) {
+            if (call && ((0, esm_typeof.Z)(call) === "object" || typeof call === "function")) {
+                return call;
+            } else if (call !== void 0) {
+                throw new TypeError("Derived constructors may only return object or undefined");
+            }
+            return _assertThisInitialized(self);
+        }
+        function _createSuper(Derived) {
+            var hasNativeReflectConstruct = _isNativeReflectConstruct();
+            return function _createSuperInternal() {
+                var Super = _getPrototypeOf(Derived), result;
+                if (hasNativeReflectConstruct) {
+                    var NewTarget = _getPrototypeOf(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return _possibleConstructorReturn(this, result);
+            };
+        }
+    },
+    557: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            Z: function() {
                 return _inherits;
             }
         });
@@ -1950,29 +2058,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    721: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            A: function() {
-                return toPropertyKey;
-            }
-        });
-        var esm_typeof = __webpack_require__(347);
-        function toPrimitive(t, r) {
-            if ("object" != (0, esm_typeof.A)(t) || !t) return t;
-            var e = t[Symbol.toPrimitive];
-            if (void 0 !== e) {
-                var i = e.call(t, r || "default");
-                if ("object" != (0, esm_typeof.A)(i)) return i;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return ("string" === r ? String : Number)(t);
-        }
-        function toPropertyKey(t) {
-            var i = toPrimitive(t, "string");
-            return "symbol" == (0, esm_typeof.A)(i) ? i : i + "";
-        }
-    },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    817: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
@@ -2006,23 +2092,8 @@ require("./vendors");
 
 require("./runtime");
 
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 524 ], {
-    980: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var toPropertyKey = __webpack_require__(721);
-        function _defineProperty(obj, key, value) {
-            key = (0, toPropertyKey.A)(key);
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
+(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 143 ], {
+    140: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -2040,16 +2111,16 @@ require("./runtime");
         function toDashed() {}
         function processApis() {}
         function singleQuote() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
+        const EMPTY_OBJ = {};
+        const hooks = {};
         function Events() {}
         function ensure() {}
         function noop() {}
         function warn() {}
         var taro_shared = "taro-shared-mock";
-        var runtime_navigator = __webpack_require__(413)["navigator"];
-        var needPromiseApis = new Set([ "addCardAuth", "getOpenUserInfo", "chooseAlipayContact", "chooseCity", "chooseContact", "choosePhoneContact", "datePicker", "getAddress", "getAuthCode", "getPhoneNumber", "getRunData", "getRunScene", "getServerTime", "getTitleColor", "rsa", "paySignCenter", "tradePay", "isCollected", "multiLevelSelect", "onLocatedComplete", "optionsSelect", "prompt", "regionPicker", "setLocatedCity", "showAuthGuide", "textRiskIdentification", "vibrate", "watchShake", "connectBLEDevice", "disconnectBLEDevice", "makeBluetoothPair", "writeBLECharacteristicValue", "readBLECharacteristicValue", "notifyBLECharacteristicValueChange", "getBLEDeviceServices", "getBLEDeviceCharacteristics", "openBluetoothAdapter", "closeBluetoothAdapter", "getBluetoothAdapterState", "startBluetoothDevicesDiscovery", "stopBluetoothDevicesDiscovery", "getBluetoothDevices", "getConnectedBluetoothDevices" ]);
-        var apiDiff = {
+        var runtime_navigator = __webpack_require__(521)["navigator"];
+        const needPromiseApis = new Set([ "addCardAuth", "getOpenUserInfo", "chooseAlipayContact", "chooseCity", "chooseContact", "choosePhoneContact", "datePicker", "getAddress", "getAuthCode", "getPhoneNumber", "getRunData", "getRunScene", "getServerTime", "getTitleColor", "rsa", "paySignCenter", "tradePay", "isCollected", "multiLevelSelect", "onLocatedComplete", "optionsSelect", "prompt", "regionPicker", "setLocatedCity", "showAuthGuide", "textRiskIdentification", "vibrate", "watchShake", "connectBLEDevice", "disconnectBLEDevice", "makeBluetoothPair", "writeBLECharacteristicValue", "readBLECharacteristicValue", "notifyBLECharacteristicValueChange", "getBLEDeviceServices", "getBLEDeviceCharacteristics", "openBluetoothAdapter", "closeBluetoothAdapter", "getBluetoothAdapterState", "startBluetoothDevicesDiscovery", "stopBluetoothDevicesDiscovery", "getBluetoothDevices", "getConnectedBluetoothDevices" ]);
+        const apiDiff = {
             login: {
                 alias: "getAuthCode",
                 options: {
@@ -2078,7 +2149,7 @@ require("./runtime");
                     } ],
                     set: [ {
                         key: "type",
-                        value: function value(options) {
+                        value(options) {
                             if (options.type === "error") {
                                 return "fail";
                             }
@@ -2123,7 +2194,7 @@ require("./runtime");
                 options: {
                     set: [ {
                         key: "current",
-                        value: function value(options) {
+                        value(options) {
                             return options.urls.indexOf(options.current || options.urls[0]);
                         }
                     } ]
@@ -2165,12 +2236,12 @@ require("./runtime");
                 options: {
                     set: [ {
                         key: "latitude",
-                        value: function value(options) {
+                        value(options) {
                             return String(options.latitude);
                         }
                     }, {
                         key: "longitude",
-                        value: function value(options) {
+                        value(options) {
                             return String(options.longitude);
                         }
                     } ]
@@ -2213,7 +2284,7 @@ require("./runtime");
                     } ],
                     set: [ {
                         key: "type",
-                        value: function value(options) {
+                        value(options) {
                             return options.scanType && options.scanType[0].slice(0, -4) || "qr";
                         }
                     } ]
@@ -2240,12 +2311,12 @@ require("./runtime");
                 alias: "disconnectBLEDevice"
             }
         };
-        var asyncResultApiDiff = {
+        const asyncResultApiDiff = {
             alert: {
                 res: {
                     set: [ {
                         key: "confirm",
-                        value: function value(res) {
+                        value(res) {
                             return res.success;
                         }
                     } ]
@@ -2255,7 +2326,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "value",
-                        value: function value(res) {
+                        value(res) {
                             return res.brightness;
                         }
                     } ],
@@ -2266,7 +2337,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "result",
-                        value: function value(res) {
+                        value(res) {
                             return res.code;
                         }
                     } ]
@@ -2276,7 +2347,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "data",
-                        value: function value(res) {
+                        value(res) {
                             return res.text;
                         }
                     } ]
@@ -2286,7 +2357,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "tempFilePaths",
-                        value: function value(res) {
+                        value(res) {
                             return res.apFilePaths;
                         }
                     } ]
@@ -2296,7 +2367,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "tempFilePath",
-                        value: function value(res) {
+                        value(res) {
                             return res.apFilePath;
                         }
                     } ]
@@ -2306,7 +2377,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "code",
-                        value: function value(res) {
+                        value(res) {
                             return res.authCode;
                         }
                     } ]
@@ -2316,7 +2387,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "extConfig",
-                        value: function value(res) {
+                        value(res) {
                             return res.data;
                         }
                     } ]
@@ -2326,7 +2397,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "savedFilePath",
-                        value: function value(res) {
+                        value(res) {
                             return res.apFilePath;
                         }
                     } ]
@@ -2336,13 +2407,11 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "services",
-                        value: function value(res) {
-                            return res.services.map((function(item) {
-                                return {
-                                    uuid: item.serviceId,
-                                    isPrimary: item.isPrimary
-                                };
-                            }));
+                        value(res) {
+                            return res.services.map((item => ({
+                                uuid: item.serviceId,
+                                isPrimary: item.isPrimary
+                            })));
                         }
                     } ]
                 }
@@ -2355,23 +2424,23 @@ require("./runtime");
                     url: options
                 };
             }
-            var defaultHeaders = {
+            const defaultHeaders = {
                 "content-type": "application/json"
             };
             options.headers = defaultHeaders;
             if (options.header) {
-                for (var k in options.header) {
-                    var lowerK = k.toLocaleLowerCase();
+                for (const k in options.header) {
+                    const lowerK = k.toLocaleLowerCase();
                     options.headers[lowerK] = options.header[k];
                 }
                 delete options.header;
             }
-            var originSuccess = options.success;
-            var originFail = options.fail;
-            var originComplete = options.complete;
-            var requestTask;
-            var p = new Promise((function(resolve, reject) {
-                options.success = function(res) {
+            const originSuccess = options.success;
+            const originFail = options.fail;
+            const originComplete = options.complete;
+            let requestTask;
+            const p = new Promise(((resolve, reject) => {
+                options.success = res => {
                     res.statusCode = res.status;
                     delete res.status;
                     res.header = res.headers;
@@ -2379,17 +2448,17 @@ require("./runtime");
                     originSuccess && originSuccess(res);
                     resolve(res);
                 };
-                options.fail = function(res) {
+                options.fail = res => {
                     originFail && originFail(res);
                     reject(res);
                 };
-                options.complete = function(res) {
+                options.complete = res => {
                     originComplete && originComplete(res);
                 };
-                var nativeRequest = my.canIUse("request") ? my.request : my.httpRequest;
+                const nativeRequest = my.canIUse("request") ? my.request : my.httpRequest;
                 requestTask = nativeRequest(options);
             }));
-            p.abort = function(cb) {
+            p.abort = cb => {
                 cb && cb();
                 if (requestTask) {
                     requestTask.abort();
@@ -2400,12 +2469,12 @@ require("./runtime");
         }
         function handleSyncApis(key, global, args) {
             if (key === "getStorageSync") {
-                var arg1 = args[0];
+                const arg1 = args[0];
                 if (arg1 != null) {
-                    var res = global[key]({
+                    const res = global[key]({
                         key: arg1
                     });
-                    var data = null;
+                    let data = null;
                     if (res.hasOwnProperty("data")) {
                         data = res.data;
                     } else if (res.hasOwnProperty("APDataStorage")) {
@@ -2416,27 +2485,27 @@ require("./runtime");
                 return console.error("getStorageSync \\u4f20\\u5165\\u53c2\\u6570\\u9519\\u8bef");
             }
             if (key === "setStorageSync") {
-                var _arg = args[0];
-                var arg2 = args[1];
-                if (_arg != null) {
+                const arg1 = args[0];
+                const arg2 = args[1];
+                if (arg1 != null) {
                     return global[key]({
-                        key: _arg,
+                        key: arg1,
                         data: arg2
                     });
                 }
                 return console.error("setStorageSync \\u4f20\\u5165\\u53c2\\u6570\\u9519\\u8bef");
             }
             if (key === "removeStorageSync") {
-                var _arg2 = args[0];
-                if (_arg2 != null) {
+                const arg1 = args[0];
+                if (arg1 != null) {
                     return global[key]({
-                        key: _arg2
+                        key: arg1
                     });
                 }
                 return console.error("removeStorageSync \\u4f20\\u5165\\u53c2\\u6570\\u9519\\u8bef");
             }
             if (key === "createSelectorQuery") {
-                var query = global[key]();
+                const query = global[key]();
                 query.in = function() {
                     return query;
                 };
@@ -2445,7 +2514,7 @@ require("./runtime");
             return global[key].apply(global, args);
         }
         function transformMeta(api, options) {
-            var apiAlias = api;
+            let apiAlias = api;
             if (api === "showModal") {
                 options.cancelButtonText = options.cancelText || "\\u53d6\\u6d88";
                 options.confirmButtonText = options.confirmText || "\\u786e\\u5b9a";
@@ -2455,22 +2524,22 @@ require("./runtime");
                     apiAlias = "alert";
                 }
             } else {
-                Object.keys(apiDiff).forEach((function(item) {
-                    var apiItem = apiDiff[item];
+                Object.keys(apiDiff).forEach((item => {
+                    const apiItem = apiDiff[item];
                     if (api === item) {
                         if (apiItem.alias) {
                             apiAlias = apiItem.alias;
                         }
                         if (apiItem.options) {
-                            var change = apiItem.options.change;
-                            var set = apiItem.options.set;
+                            const change = apiItem.options.change;
+                            const set = apiItem.options.set;
                             if (change) {
-                                change.forEach((function(changeItem) {
+                                change.forEach((changeItem => {
                                     options[changeItem.new] = options[changeItem.old];
                                 }));
                             }
                             if (set) {
-                                set.forEach((function(setItem) {
+                                set.forEach((setItem => {
                                     options[setItem.key] = typeof setItem.value === "function" ? setItem.value(options) : setItem.value;
                                 }));
                             }
@@ -2484,9 +2553,9 @@ require("./runtime");
             };
         }
         function modifyApis(apis) {
-            Object.keys(apiDiff).map((function(key) {
+            Object.keys(apiDiff).map((key => {
                 apis.add(key);
-                var platformKey = apiDiff[key].alias;
+                const platformKey = apiDiff[key].alias;
                 platformKey && apis.delete(platformKey);
             }));
             apis.add("showModal");
@@ -2514,23 +2583,23 @@ require("./runtime");
                     my.closeSocket();
                 };
             }
-            Object.keys(asyncResultApiDiff).forEach((function(apiKey) {
-                var apiItem = asyncResultApiDiff[apiKey];
+            Object.keys(asyncResultApiDiff).forEach((apiKey => {
+                const apiItem = asyncResultApiDiff[apiKey];
                 if (key !== apiKey) {
                     return;
                 }
                 if (!apiItem.res) {
                     return;
                 }
-                var set = apiItem.res.set;
-                var remove = apiItem.res.remove;
+                const set = apiItem.res.set;
+                const remove = apiItem.res.remove;
                 if (set) {
-                    set.forEach((function(setItem) {
+                    set.forEach((setItem => {
                         res[setItem.key] = typeof setItem.value === "function" ? setItem.value(res) : setItem.value;
                     }));
                 }
                 if (remove) {
-                    remove.forEach((function(removeItem) {
+                    remove.forEach((removeItem => {
                         delete res[removeItem];
                     }));
                 }
@@ -2546,7 +2615,7 @@ require("./runtime");
                 request: request
             });
         }
-        var components = {
+        const components = {
             View: {
                 "disable-scroll": "false",
                 hidden: "false",
@@ -2747,43 +2816,47 @@ require("./runtime");
                 bindScroll: ""
             }
         };
-        var BUBBLE_EVENTS = new Set([ "touchStart", "touchMove", "touchEnd", "touchCancel", "tap", "longTap" ]);
-        var hostConfig = {
+        const BUBBLE_EVENTS = new Set([ "touchStart", "touchMove", "touchEnd", "touchCancel", "tap", "longTap" ]);
+        const hostConfig = {
             initNativeApi: initNativeApi,
-            getMiniLifecycle: function getMiniLifecycle(config) {
+            getMiniLifecycle(config) {
                 config.component[0] = "didMount";
                 config.component[1] = "didUnmount";
                 return config;
             },
-            getEventCenter: function getEventCenter(Events) {
+            getEventCenter(Events) {
                 if (!my.taroEventCenter) {
                     my.taroEventCenter = new Events;
                 }
                 return my.taroEventCenter;
             },
-            modifyTaroEvent: function modifyTaroEvent(event, node) {
+            modifyTaroEvent(event, node) {
                 if (node.tagName === "SWIPER" && event.type === "animationend") {
                     event.type = "animationfinish";
                 }
             },
-            isBubbleEvents: function isBubbleEvents(eventName) {
+            isBubbleEvents(eventName) {
                 return BUBBLE_EVENTS.has(eventName);
             },
-            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+            transferHydrateData(data, element, componentsAlias) {
                 var _a;
                 if (element.isTransferElement) {
-                    var page = getCurrentPages()[0];
+                    const pages = getCurrentPages();
+                    const page = pages[pages.length - 1];
                     data["nn"] = element.dataName;
-                    page.setData(_defineProperty({}, toCamelCase(data.nn), data));
-                    return _defineProperty(_defineProperty({
-                        sid: element.sid
-                    }, "v", ""), "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8");
+                    page.setData({
+                        [toCamelCase(data.nn)]: data
+                    });
+                    return {
+                        sid: element.sid,
+                        ["v"]: "",
+                        ["nn"]: ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"
+                    };
                 }
             },
-            modifyRecursiveComponentConfig: function modifyRecursiveComponentConfig(componentConfig, _ref2) {
-                var isCustomWrapper = _ref2.isCustomWrapper;
+            modifyRecursiveComponentConfig(componentConfig, {isCustomWrapper: isCustomWrapper}) {
                 return isCustomWrapper ? Object.assign(Object.assign({}, componentConfig), {
-                    deriveDataFromProps: function deriveDataFromProps(nextProps) {
+                    deriveDataFromProps(nextProps) {
                         if (this.data.i !== undefined && this.props.i !== nextProps.i) {
                             this.setData({
                                 i: nextProps.i
@@ -2793,23 +2866,23 @@ require("./runtime");
                 }) : componentConfig;
             }
         };
-        var _navigator = runtime_navigator, userAgent = _navigator.userAgent;
+        const {userAgent: userAgent} = runtime_navigator;
         Object.defineProperty(runtime_navigator, "userAgent", {
             configurable: true,
             enumerable: true,
-            get: function get() {
+            get() {
                 return userAgent || runtime_navigator.swuserAgent || "";
             }
         });
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(413);
+        var taro_runtime = __webpack_require__(521);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
         function createNativeComponentConfig() {}
         function createVue3App() {}
-        var setGlobalDataPlugin = {};
+        const setGlobalDataPlugin = {};
         function useDidHide() {}
         function useDidShow() {}
         function useError() {}
@@ -2834,11 +2907,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(176);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
         var app_App = function(_Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -2905,8 +2978,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(980);
+    __webpack_require__.O(0, [ 216, 592 ], (function() {
+        return __webpack_exec__(140);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -2991,7 +3064,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
@@ -2999,15 +3072,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_0_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" onScrollToUpper="eh" onScrollToLower="eh" onScroll="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_0_59">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" onScrollToUpper="eh" onScrollToLower="eh" onScroll="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" onDragStart="eh" onDragging="eh" onDragEnd="eh" onRefresherPulling="eh" onRefresherRefresh="eh" onRefresherRestore="eh" onRefresherAbort="eh" onScrollStart="eh" onScrollEnd="eh" onRefresherWillRefresh="eh" onRefresherStatusChange="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
@@ -3015,7 +3088,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_3">
-  <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p3}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
@@ -3023,7 +3096,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_1">
-  <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" onError="eh" onLoad="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p3}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" onError="eh" onLoad="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
@@ -3038,18 +3111,18 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/common.js **/
 "use strict";
 
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 76 ], {
-    865: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 592 ], {
+    525: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
                 return Component;
             }
         });
-        var Component = {};
+        const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    549: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    829: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             EY: function() {
                 return Text;
@@ -3058,20 +3131,21 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
                 return View;
             }
         });
-        var Canvas = {};
-        var CoverView = {};
-        var CoverImage = {};
-        var Input = {};
-        var Picker = {};
-        var Swiper = {};
-        var SwiperItem = {};
-        var Text = {};
-        var Textarea = {};
-        var Video = {};
-        var View = {};
+        const Canvas = {};
+        const CoverView = {};
+        const CoverImage = {};
+        const Input = {};
+        const Picker = {};
+        const Swiper = {};
+        const SwiperItem = {};
+        const Text = {};
+        const Textarea = {};
+        const Video = {};
+        const View = {};
         var __WEBPACK_DEFAULT_EXPORT__ = "taro-components-mock";
     },
-    413: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    521: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -3083,8 +3157,8 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
                 return window;
             }
         });
-        var __WEBPACK_DEFAULT_EXPORT__ = "taro-runtime-mock";
-        var window = {};
+        __webpack_exports__["default"] = "taro-runtime-mock";
+        const window = {};
         function createReactApp() {}
         function createVue3App() {}
         function createRecursiveComponentConfig() {}
@@ -3099,15 +3173,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/pages/about/index.js **/
 "use strict";
 
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 886 ], {
-    320: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(413);
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(176);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
-        var taro_components = __webpack_require__(549);
+(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 567 ], {
+    996: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(521);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
+        var taro_components = __webpack_require__(829);
         var Index = function(_Component) {
             function Index() {
                 (0, classCallCheck.A)(this, Index);
@@ -3153,15 +3227,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 421 ], {
-    803: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(413);
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(176);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
-        var taro_components = __webpack_require__(549);
+(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 539 ], {
+    309: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(521);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
+        var taro_components = __webpack_require__(829);
         var Index = function(_Component) {
             function Index() {
                 (0, classCallCheck.A)(this, Index);
@@ -3216,15 +3290,15 @@ export default {
     return 'tmpl_' + n + '_container'
   },
   f: function (l) {
-    return l.filter(function (i) {return i.nn === '41'})
+    return l.filter(function (i) {return i.nn === '69'})
   }
 }
 
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 96 ], {
-    363: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 216 ], {
+    517: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -3275,20 +3349,34 @@ export default {
             }
         }
     },
-    176: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    872: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(721);
+        var esm_typeof = __webpack_require__(817);
+        function _toPrimitive(input, hint) {
+            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if ((0, esm_typeof.Z)(res) !== "object") return res;
+                throw new TypeError("@@toPrimitive must return a primitive value.");
+            }
+            return (hint === "string" ? String : Number)(input);
+        }
+        function _toPropertyKey(arg) {
+            var key = _toPrimitive(arg, "string");
+            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        }
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, (0, _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__.A)(descriptor.key), descriptor);
+                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -3300,9 +3388,61 @@ export default {
             return Constructor;
         }
     },
-    311: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
-            A: function() {
+            Z: function() {
+                return _createSuper;
+            }
+        });
+        function _getPrototypeOf(o) {
+            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+                return o.__proto__ || Object.getPrototypeOf(o);
+            };
+            return _getPrototypeOf(o);
+        }
+        function _isNativeReflectConstruct() {
+            if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+            if (Reflect.construct.sham) return false;
+            if (typeof Proxy === "function") return true;
+            try {
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+        var esm_typeof = __webpack_require__(817);
+        function _assertThisInitialized(self) {
+            if (self === void 0) {
+                throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            }
+            return self;
+        }
+        function _possibleConstructorReturn(self, call) {
+            if (call && ((0, esm_typeof.Z)(call) === "object" || typeof call === "function")) {
+                return call;
+            } else if (call !== void 0) {
+                throw new TypeError("Derived constructors may only return object or undefined");
+            }
+            return _assertThisInitialized(self);
+        }
+        function _createSuper(Derived) {
+            var hasNativeReflectConstruct = _isNativeReflectConstruct();
+            return function _createSuperInternal() {
+                var Super = _getPrototypeOf(Derived), result;
+                if (hasNativeReflectConstruct) {
+                    var NewTarget = _getPrototypeOf(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return _possibleConstructorReturn(this, result);
+            };
+        }
+    },
+    557: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            Z: function() {
                 return _inherits;
             }
         });
@@ -3330,29 +3470,7 @@ export default {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    721: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            A: function() {
-                return toPropertyKey;
-            }
-        });
-        var esm_typeof = __webpack_require__(347);
-        function toPrimitive(t, r) {
-            if ("object" != (0, esm_typeof.A)(t) || !t) return t;
-            var e = t[Symbol.toPrimitive];
-            if (void 0 !== e) {
-                var i = e.call(t, r || "default");
-                if ("object" != (0, esm_typeof.A)(i)) return i;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return ("string" === r ? String : Number)(t);
-        }
-        function toPropertyKey(t) {
-            var i = toPrimitive(t, "string");
-            return "symbol" == (0, esm_typeof.A)(i) ? i : i + "";
-        }
-    },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    817: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
@@ -3384,23 +3502,8 @@ require("./vendors");
 
 require("./runtime");
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 524 ], {
-    740: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var toPropertyKey = __webpack_require__(721);
-        function _defineProperty(obj, key, value) {
-            key = (0, toPropertyKey.A)(key);
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
+    925: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -3418,26 +3521,24 @@ require("./runtime");
         function toDashed() {}
         function processApis() {}
         function singleQuote() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
+        const EMPTY_OBJ = {};
+        const hooks = {};
         function Events() {}
         function ensure() {}
         function noop() {}
         function warn() {}
         var taro_shared = "taro-shared-mock";
-        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
+        const needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
-                modifyApis: function modifyApis(apis) {
+                modifyApis(apis) {
                     apis.delete("lanDebug");
                 },
-                transformMeta: function transformMeta(api, options) {
+                transformMeta(api, options) {
                     var _a;
                     if (api === "showShareMenu") {
-                        options.menus = (_a = options.showShareItems) === null || _a === void 0 ? void 0 : _a.map((function(item) {
-                            return item === "wechatFriends" ? "shareAppMessage" : item === "wechatMoment" ? "shareTimeline" : item;
-                        }));
+                        options.menus = (_a = options.showShareItems) === null || _a === void 0 ? void 0 : _a.map((item => item === "wechatFriends" ? "shareAppMessage" : item === "wechatMoment" ? "shareTimeline" : item));
                     }
                     return {
                         key: api,
@@ -3457,11 +3558,11 @@ require("./runtime");
                 return (_c = (_b = (_a = taro.getCurrentInstance()) === null || _a === void 0 ? void 0 : _a.page) === null || _b === void 0 ? void 0 : _b.renderer) !== null && _c !== void 0 ? _c : "webview";
             };
         }
-        var _true = "true";
-        var _false = "false";
-        var _empty = "";
-        var _zero = "0";
-        var components = {
+        const _true = "true";
+        const _false = "false";
+        const _empty = "";
+        const _zero = "0";
+        const components = {
             Progress: {
                 "border-radius": _zero,
                 "font-size": "16",
@@ -3473,7 +3574,9 @@ require("./runtime");
                 "user-select": _false
             },
             Text: {
-                "user-select": _false
+                "user-select": _false,
+                overflow: "visible",
+                "max-lines": ""
             },
             Map: {
                 polygons: "[]",
@@ -3568,6 +3671,7 @@ require("./runtime");
                 "enable-flex": _false,
                 "scroll-anchoring": _false,
                 enhanced: _false,
+                "using-sticky": _false,
                 "paging-enabled": _false,
                 "enable-passive": _false,
                 "refresher-enabled": _false,
@@ -3607,17 +3711,44 @@ require("./runtime");
                 bindRefresherStatusChange: _empty
             },
             StickySection: {
-                "push-pinned-header": _true
+                "push-pinned-header": _true,
+                padding: "[0, 0, 0, 0]"
             },
             GridView: {
                 type: "'aligned'",
                 "cross-axis-count": "2",
                 "max-cross-axis-extent": _zero,
                 "main-axis-gap": _zero,
-                "cross-axis-gap": _zero
+                "cross-axis-gap": _zero,
+                padding: "[0, 0, 0, 0]"
             },
-            ListView: {},
-            StickyHeader: {},
+            GridBuilder: {
+                type: "'aligned'",
+                list: "[]",
+                "cross-axis-count": "2",
+                "max-cross-axis-extent": _zero,
+                "main-axis-gap": _zero,
+                "cross-axis-gap": _zero,
+                padding: "[0, 0, 0, 0]",
+                bindItemBuild: _empty,
+                bindItemDispose: _empty
+            },
+            ListView: {
+                padding: "[0, 0, 0, 0]"
+            },
+            ListBuilder: {
+                list: "[]",
+                type: "static",
+                padding: "[0, 0, 0, 0]",
+                "child-count": _empty,
+                "child-height": _empty,
+                bindItemBuild: _empty,
+                bindItemDispose: _empty
+            },
+            StickyHeader: {
+                "offset-top": "0",
+                padding: "[0, 0, 0, 0]"
+            },
             Swiper: {
                 "snap-to-edge": _false,
                 "easing-function": "'default'"
@@ -3872,38 +4003,66 @@ require("./runtime");
                 "object-fit": "'contain'",
                 bindError: _empty
             },
-            Snapshot: {}
+            Snapshot: {
+                mode: "'view'"
+            },
+            Span: {},
+            OpenContainer: {
+                transitionType: "'fade'",
+                transitionDuration: "300",
+                closedColor: "'white'",
+                closedElevation: _zero,
+                closeBorderRadius: _zero,
+                middleColor: _empty,
+                openColor: "'white'",
+                openElevation: _zero,
+                openBorderRadius: _zero
+            },
+            DraggableSheet: {
+                initialChildSize: "0.5",
+                minChildSize: "0.25",
+                maxChildSize: "1.0",
+                snap: _false,
+                snapSizes: "[]"
+            },
+            NestedScrollHeader: {},
+            NestedScrollBody: {}
         };
-        var hostConfig = {
+        const hostConfig = {
             initNativeApi: initNativeApi,
-            getMiniLifecycle: function getMiniLifecycle(config) {
-                var methods = config.page[5];
+            getMiniLifecycle(config) {
+                const methods = config.page[5];
                 if (methods.indexOf("onSaveExitState") === -1) {
                     methods.push("onSaveExitState");
                 }
                 return config;
             },
-            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+            transferHydrateData(data, element, componentsAlias) {
                 var _a;
                 if (element.isTransferElement) {
-                    var page = getCurrentPages()[0];
+                    const pages = getCurrentPages();
+                    const page = pages[pages.length - 1];
                     data["nn"] = element.dataName;
-                    page.setData(_defineProperty({}, toCamelCase(data.nn), data));
-                    return _defineProperty(_defineProperty({
-                        sid: element.sid
-                    }, "v", ""), "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8");
+                    page.setData({
+                        [toCamelCase(data.nn)]: data
+                    });
+                    return {
+                        sid: element.sid,
+                        ["v"]: "",
+                        ["nn"]: ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"
+                    };
                 }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(413);
+        var taro_runtime = __webpack_require__(521);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
         function createNativeComponentConfig() {}
         function createVue3App() {}
-        var setGlobalDataPlugin = {};
+        const setGlobalDataPlugin = {};
         function useDidHide() {}
         function useDidShow() {}
         function useError() {}
@@ -3928,11 +4087,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(176);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
         var app_App = function(_Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -3999,8 +4158,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(740);
+    __webpack_require__.O(0, [ 216, 592 ], (function() {
+        return __webpack_exec__(925);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -4087,7 +4246,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4095,15 +4254,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_0_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_0_59">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4111,7 +4270,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_3">
-  <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p3}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4119,7 +4278,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_1">
-  <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" binderror="eh" bindload="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p3}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" binderror="eh" bindload="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4163,7 +4322,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_1_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4171,15 +4330,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_1_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_1_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_1_59">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4219,7 +4378,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_2_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4227,15 +4386,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_2_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_2_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_2_59">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4275,7 +4434,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_3_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4283,15 +4442,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_3_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
   </text>
 </template>
 
-<template name="tmpl_3_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_3_59">
+  <scroll-view scroll-x="{{xs.b(i.p33,!1)}}" scroll-y="{{xs.b(i.p34,!1)}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{xs.b(i.p32,!1)}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{xs.b(i.p15,'black')}}" refresher-background="{{xs.b(i.p13,'#FFF')}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{xs.b(i.p36,'list')}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{xs.b(i.p28,'start')}}" padding="{{xs.b(i.p11,[0,0,0,0])}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4331,7 +4490,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_4_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4339,7 +4498,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_4_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4379,7 +4538,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_5_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4387,7 +4546,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_5_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4427,7 +4586,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_6_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4467,7 +4626,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_7_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4507,7 +4666,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_8_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4547,7 +4706,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_9_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4587,7 +4746,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_10_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4627,7 +4786,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_11_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4667,7 +4826,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_12_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4707,7 +4866,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_13_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -4747,7 +4906,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_14_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p3,!1)}}" space="{{i.p4}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" user-select="{{xs.b(i.p5,false)}}" overflow="{{xs.b(i.p2,visible)}}" max-lines="{{i.p1}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.e(15)}}" data="{{i:item,c:c,l:l}}" />
     </block>
@@ -4767,18 +4926,18 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/common.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 76 ], {
-    865: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
+    525: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
                 return Component;
             }
         });
-        var Component = {};
+        const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    549: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    829: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             EY: function() {
                 return Text;
@@ -4787,20 +4946,21 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
                 return View;
             }
         });
-        var Canvas = {};
-        var CoverView = {};
-        var CoverImage = {};
-        var Input = {};
-        var Picker = {};
-        var Swiper = {};
-        var SwiperItem = {};
-        var Text = {};
-        var Textarea = {};
-        var Video = {};
-        var View = {};
+        const Canvas = {};
+        const CoverView = {};
+        const CoverImage = {};
+        const Input = {};
+        const Picker = {};
+        const Swiper = {};
+        const SwiperItem = {};
+        const Text = {};
+        const Textarea = {};
+        const Video = {};
+        const View = {};
         var __WEBPACK_DEFAULT_EXPORT__ = "taro-components-mock";
     },
-    413: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    521: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -4812,8 +4972,8 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
                 return window;
             }
         });
-        var __WEBPACK_DEFAULT_EXPORT__ = "taro-runtime-mock";
-        var window = {};
+        __webpack_exports__["default"] = "taro-runtime-mock";
+        const window = {};
         function createReactApp() {}
         function createVue3App() {}
         function createRecursiveComponentConfig() {}
@@ -4824,17 +4984,17 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/comp.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 862 ], {
-    728: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(413);
-        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
+    227: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(521);
+        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 76 ], (function() {
-        return __webpack_exec__(728);
+    __webpack_require__.O(0, [ 592 ], (function() {
+        return __webpack_exec__(227);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -4850,15 +5010,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/pages/about/index.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 886 ], {
-    320: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(413);
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(176);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
-        var taro_components = __webpack_require__(549);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 567 ], {
+    996: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(521);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
+        var taro_components = __webpack_require__(829);
         var Index = function(_Component) {
             function Index() {
                 (0, classCallCheck.A)(this, Index);
@@ -4904,15 +5064,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 421 ], {
-    803: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(413);
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(176);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
-        var taro_components = __webpack_require__(549);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
+    309: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(521);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
+        var taro_components = __webpack_require__(829);
         var Index = function(_Component) {
             function Index() {
                 (0, classCallCheck.A)(this, Index);
@@ -4958,8 +5118,8 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
-    var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
-    var b = ["4","38","39","22","19","36","40","41"]
+    var a = ["7","0","21","5","2","12","6","4","62","63","31","24","59","68","69","57"]
+    var b = ["4","62","63","31","24","59","68","69","57"]
     if (a.indexOf(n) === -1) {
       l = 0
     }
@@ -4987,7 +5147,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l, n) {
-    var b = ["4","38","39","22","19","36","40","41"]
+    var b = ["4","62","63","31","24","59","68","69","57"]
     if (b.indexOf(n) > -1) {
       if (l) l += ','
       l += n
@@ -4999,8 +5159,8 @@ module.exports = {
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 96 ], {
-    363: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
+    517: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -5051,20 +5211,34 @@ module.exports = {
             }
         }
     },
-    176: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    872: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(721);
+        var esm_typeof = __webpack_require__(817);
+        function _toPrimitive(input, hint) {
+            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if ((0, esm_typeof.Z)(res) !== "object") return res;
+                throw new TypeError("@@toPrimitive must return a primitive value.");
+            }
+            return (hint === "string" ? String : Number)(input);
+        }
+        function _toPropertyKey(arg) {
+            var key = _toPrimitive(arg, "string");
+            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        }
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, (0, _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__.A)(descriptor.key), descriptor);
+                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -5076,9 +5250,61 @@ module.exports = {
             return Constructor;
         }
     },
-    311: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
-            A: function() {
+            Z: function() {
+                return _createSuper;
+            }
+        });
+        function _getPrototypeOf(o) {
+            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+                return o.__proto__ || Object.getPrototypeOf(o);
+            };
+            return _getPrototypeOf(o);
+        }
+        function _isNativeReflectConstruct() {
+            if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+            if (Reflect.construct.sham) return false;
+            if (typeof Proxy === "function") return true;
+            try {
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+        var esm_typeof = __webpack_require__(817);
+        function _assertThisInitialized(self) {
+            if (self === void 0) {
+                throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            }
+            return self;
+        }
+        function _possibleConstructorReturn(self, call) {
+            if (call && ((0, esm_typeof.Z)(call) === "object" || typeof call === "function")) {
+                return call;
+            } else if (call !== void 0) {
+                throw new TypeError("Derived constructors may only return object or undefined");
+            }
+            return _assertThisInitialized(self);
+        }
+        function _createSuper(Derived) {
+            var hasNativeReflectConstruct = _isNativeReflectConstruct();
+            return function _createSuperInternal() {
+                var Super = _getPrototypeOf(Derived), result;
+                if (hasNativeReflectConstruct) {
+                    var NewTarget = _getPrototypeOf(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return _possibleConstructorReturn(this, result);
+            };
+        }
+    },
+    557: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            Z: function() {
                 return _inherits;
             }
         });
@@ -5106,29 +5332,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    721: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            A: function() {
-                return toPropertyKey;
-            }
-        });
-        var esm_typeof = __webpack_require__(347);
-        function toPrimitive(t, r) {
-            if ("object" != (0, esm_typeof.A)(t) || !t) return t;
-            var e = t[Symbol.toPrimitive];
-            if (void 0 !== e) {
-                var i = e.call(t, r || "default");
-                if ("object" != (0, esm_typeof.A)(i)) return i;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return ("string" === r ? String : Number)(t);
-        }
-        function toPropertyKey(t) {
-            var i = toPrimitive(t, "string");
-            return "symbol" == (0, esm_typeof.A)(i) ? i : i + "";
-        }
-    },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    817: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;

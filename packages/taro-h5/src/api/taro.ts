@@ -79,9 +79,9 @@ const pxTransform = function (size = 0) {
   const config = getConfig.call(this)
   const baseFontSize = config.baseFontSize || defaultBaseFontSize
   const deviceRatio = config.deviceRatio || defaultDesignRatio
-  const designWidth = (((input = 0) => isFunction(config.designWidth)
+  const designWidth = ((input = 0) => isFunction(config.designWidth)
     ? config.designWidth(input)
-    : config.designWidth))(size)
+    : config.designWidth)(size)
   if (!(designWidth in config.deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }

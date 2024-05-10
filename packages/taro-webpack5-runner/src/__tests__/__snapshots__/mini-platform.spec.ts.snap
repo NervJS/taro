@@ -15,23 +15,8 @@ require("./vendors");
 
 require("./runtime");
 
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 524 ], {
-    980: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var toPropertyKey = __webpack_require__(721);
-        function _defineProperty(obj, key, value) {
-            key = (0, toPropertyKey.A)(key);
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
+(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 143 ], {
+    140: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -49,16 +34,16 @@ require("./runtime");
         function toDashed() {}
         function processApis() {}
         function singleQuote() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
+        const EMPTY_OBJ = {};
+        const hooks = {};
         function Events() {}
         function ensure() {}
         function noop() {}
         function warn() {}
         var taro_shared = "taro-shared-mock";
-        var runtime_navigator = __webpack_require__(413)["navigator"];
-        var needPromiseApis = new Set([ "addCardAuth", "getOpenUserInfo", "chooseAlipayContact", "chooseCity", "chooseContact", "choosePhoneContact", "datePicker", "getAddress", "getAuthCode", "getPhoneNumber", "getRunData", "getRunScene", "getServerTime", "getTitleColor", "rsa", "paySignCenter", "tradePay", "isCollected", "multiLevelSelect", "onLocatedComplete", "optionsSelect", "prompt", "regionPicker", "setLocatedCity", "showAuthGuide", "textRiskIdentification", "vibrate", "watchShake", "connectBLEDevice", "disconnectBLEDevice", "makeBluetoothPair", "writeBLECharacteristicValue", "readBLECharacteristicValue", "notifyBLECharacteristicValueChange", "getBLEDeviceServices", "getBLEDeviceCharacteristics", "openBluetoothAdapter", "closeBluetoothAdapter", "getBluetoothAdapterState", "startBluetoothDevicesDiscovery", "stopBluetoothDevicesDiscovery", "getBluetoothDevices", "getConnectedBluetoothDevices" ]);
-        var apiDiff = {
+        var runtime_navigator = __webpack_require__(521)["navigator"];
+        const needPromiseApis = new Set([ "addCardAuth", "getOpenUserInfo", "chooseAlipayContact", "chooseCity", "chooseContact", "choosePhoneContact", "datePicker", "getAddress", "getAuthCode", "getPhoneNumber", "getRunData", "getRunScene", "getServerTime", "getTitleColor", "rsa", "paySignCenter", "tradePay", "isCollected", "multiLevelSelect", "onLocatedComplete", "optionsSelect", "prompt", "regionPicker", "setLocatedCity", "showAuthGuide", "textRiskIdentification", "vibrate", "watchShake", "connectBLEDevice", "disconnectBLEDevice", "makeBluetoothPair", "writeBLECharacteristicValue", "readBLECharacteristicValue", "notifyBLECharacteristicValueChange", "getBLEDeviceServices", "getBLEDeviceCharacteristics", "openBluetoothAdapter", "closeBluetoothAdapter", "getBluetoothAdapterState", "startBluetoothDevicesDiscovery", "stopBluetoothDevicesDiscovery", "getBluetoothDevices", "getConnectedBluetoothDevices" ]);
+        const apiDiff = {
             login: {
                 alias: "getAuthCode",
                 options: {
@@ -87,7 +72,7 @@ require("./runtime");
                     } ],
                     set: [ {
                         key: "type",
-                        value: function value(options) {
+                        value(options) {
                             if (options.type === "error") {
                                 return "fail";
                             }
@@ -132,7 +117,7 @@ require("./runtime");
                 options: {
                     set: [ {
                         key: "current",
-                        value: function value(options) {
+                        value(options) {
                             return options.urls.indexOf(options.current || options.urls[0]);
                         }
                     } ]
@@ -174,12 +159,12 @@ require("./runtime");
                 options: {
                     set: [ {
                         key: "latitude",
-                        value: function value(options) {
+                        value(options) {
                             return String(options.latitude);
                         }
                     }, {
                         key: "longitude",
-                        value: function value(options) {
+                        value(options) {
                             return String(options.longitude);
                         }
                     } ]
@@ -222,7 +207,7 @@ require("./runtime");
                     } ],
                     set: [ {
                         key: "type",
-                        value: function value(options) {
+                        value(options) {
                             return options.scanType && options.scanType[0].slice(0, -4) || "qr";
                         }
                     } ]
@@ -249,12 +234,12 @@ require("./runtime");
                 alias: "disconnectBLEDevice"
             }
         };
-        var asyncResultApiDiff = {
+        const asyncResultApiDiff = {
             alert: {
                 res: {
                     set: [ {
                         key: "confirm",
-                        value: function value(res) {
+                        value(res) {
                             return res.success;
                         }
                     } ]
@@ -264,7 +249,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "value",
-                        value: function value(res) {
+                        value(res) {
                             return res.brightness;
                         }
                     } ],
@@ -275,7 +260,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "result",
-                        value: function value(res) {
+                        value(res) {
                             return res.code;
                         }
                     } ]
@@ -285,7 +270,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "data",
-                        value: function value(res) {
+                        value(res) {
                             return res.text;
                         }
                     } ]
@@ -295,7 +280,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "tempFilePaths",
-                        value: function value(res) {
+                        value(res) {
                             return res.apFilePaths;
                         }
                     } ]
@@ -305,7 +290,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "tempFilePath",
-                        value: function value(res) {
+                        value(res) {
                             return res.apFilePath;
                         }
                     } ]
@@ -315,7 +300,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "code",
-                        value: function value(res) {
+                        value(res) {
                             return res.authCode;
                         }
                     } ]
@@ -325,7 +310,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "extConfig",
-                        value: function value(res) {
+                        value(res) {
                             return res.data;
                         }
                     } ]
@@ -335,7 +320,7 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "savedFilePath",
-                        value: function value(res) {
+                        value(res) {
                             return res.apFilePath;
                         }
                     } ]
@@ -345,13 +330,11 @@ require("./runtime");
                 res: {
                     set: [ {
                         key: "services",
-                        value: function value(res) {
-                            return res.services.map((function(item) {
-                                return {
-                                    uuid: item.serviceId,
-                                    isPrimary: item.isPrimary
-                                };
-                            }));
+                        value(res) {
+                            return res.services.map((item => ({
+                                uuid: item.serviceId,
+                                isPrimary: item.isPrimary
+                            })));
                         }
                     } ]
                 }
@@ -364,23 +347,23 @@ require("./runtime");
                     url: options
                 };
             }
-            var defaultHeaders = {
+            const defaultHeaders = {
                 "content-type": "application/json"
             };
             options.headers = defaultHeaders;
             if (options.header) {
-                for (var k in options.header) {
-                    var lowerK = k.toLocaleLowerCase();
+                for (const k in options.header) {
+                    const lowerK = k.toLocaleLowerCase();
                     options.headers[lowerK] = options.header[k];
                 }
                 delete options.header;
             }
-            var originSuccess = options.success;
-            var originFail = options.fail;
-            var originComplete = options.complete;
-            var requestTask;
-            var p = new Promise((function(resolve, reject) {
-                options.success = function(res) {
+            const originSuccess = options.success;
+            const originFail = options.fail;
+            const originComplete = options.complete;
+            let requestTask;
+            const p = new Promise(((resolve, reject) => {
+                options.success = res => {
                     res.statusCode = res.status;
                     delete res.status;
                     res.header = res.headers;
@@ -388,17 +371,17 @@ require("./runtime");
                     originSuccess && originSuccess(res);
                     resolve(res);
                 };
-                options.fail = function(res) {
+                options.fail = res => {
                     originFail && originFail(res);
                     reject(res);
                 };
-                options.complete = function(res) {
+                options.complete = res => {
                     originComplete && originComplete(res);
                 };
-                var nativeRequest = my.canIUse("request") ? my.request : my.httpRequest;
+                const nativeRequest = my.canIUse("request") ? my.request : my.httpRequest;
                 requestTask = nativeRequest(options);
             }));
-            p.abort = function(cb) {
+            p.abort = cb => {
                 cb && cb();
                 if (requestTask) {
                     requestTask.abort();
@@ -409,12 +392,12 @@ require("./runtime");
         }
         function handleSyncApis(key, global, args) {
             if (key === "getStorageSync") {
-                var arg1 = args[0];
+                const arg1 = args[0];
                 if (arg1 != null) {
-                    var res = global[key]({
+                    const res = global[key]({
                         key: arg1
                     });
-                    var data = null;
+                    let data = null;
                     if (res.hasOwnProperty("data")) {
                         data = res.data;
                     } else if (res.hasOwnProperty("APDataStorage")) {
@@ -425,27 +408,27 @@ require("./runtime");
                 return console.error("getStorageSync \\u4f20\\u5165\\u53c2\\u6570\\u9519\\u8bef");
             }
             if (key === "setStorageSync") {
-                var _arg = args[0];
-                var arg2 = args[1];
-                if (_arg != null) {
+                const arg1 = args[0];
+                const arg2 = args[1];
+                if (arg1 != null) {
                     return global[key]({
-                        key: _arg,
+                        key: arg1,
                         data: arg2
                     });
                 }
                 return console.error("setStorageSync \\u4f20\\u5165\\u53c2\\u6570\\u9519\\u8bef");
             }
             if (key === "removeStorageSync") {
-                var _arg2 = args[0];
-                if (_arg2 != null) {
+                const arg1 = args[0];
+                if (arg1 != null) {
                     return global[key]({
-                        key: _arg2
+                        key: arg1
                     });
                 }
                 return console.error("removeStorageSync \\u4f20\\u5165\\u53c2\\u6570\\u9519\\u8bef");
             }
             if (key === "createSelectorQuery") {
-                var query = global[key]();
+                const query = global[key]();
                 query.in = function() {
                     return query;
                 };
@@ -454,7 +437,7 @@ require("./runtime");
             return global[key].apply(global, args);
         }
         function transformMeta(api, options) {
-            var apiAlias = api;
+            let apiAlias = api;
             if (api === "showModal") {
                 options.cancelButtonText = options.cancelText || "\\u53d6\\u6d88";
                 options.confirmButtonText = options.confirmText || "\\u786e\\u5b9a";
@@ -464,22 +447,22 @@ require("./runtime");
                     apiAlias = "alert";
                 }
             } else {
-                Object.keys(apiDiff).forEach((function(item) {
-                    var apiItem = apiDiff[item];
+                Object.keys(apiDiff).forEach((item => {
+                    const apiItem = apiDiff[item];
                     if (api === item) {
                         if (apiItem.alias) {
                             apiAlias = apiItem.alias;
                         }
                         if (apiItem.options) {
-                            var change = apiItem.options.change;
-                            var set = apiItem.options.set;
+                            const change = apiItem.options.change;
+                            const set = apiItem.options.set;
                             if (change) {
-                                change.forEach((function(changeItem) {
+                                change.forEach((changeItem => {
                                     options[changeItem.new] = options[changeItem.old];
                                 }));
                             }
                             if (set) {
-                                set.forEach((function(setItem) {
+                                set.forEach((setItem => {
                                     options[setItem.key] = typeof setItem.value === "function" ? setItem.value(options) : setItem.value;
                                 }));
                             }
@@ -493,9 +476,9 @@ require("./runtime");
             };
         }
         function modifyApis(apis) {
-            Object.keys(apiDiff).map((function(key) {
+            Object.keys(apiDiff).map((key => {
                 apis.add(key);
-                var platformKey = apiDiff[key].alias;
+                const platformKey = apiDiff[key].alias;
                 platformKey && apis.delete(platformKey);
             }));
             apis.add("showModal");
@@ -523,23 +506,23 @@ require("./runtime");
                     my.closeSocket();
                 };
             }
-            Object.keys(asyncResultApiDiff).forEach((function(apiKey) {
-                var apiItem = asyncResultApiDiff[apiKey];
+            Object.keys(asyncResultApiDiff).forEach((apiKey => {
+                const apiItem = asyncResultApiDiff[apiKey];
                 if (key !== apiKey) {
                     return;
                 }
                 if (!apiItem.res) {
                     return;
                 }
-                var set = apiItem.res.set;
-                var remove = apiItem.res.remove;
+                const set = apiItem.res.set;
+                const remove = apiItem.res.remove;
                 if (set) {
-                    set.forEach((function(setItem) {
+                    set.forEach((setItem => {
                         res[setItem.key] = typeof setItem.value === "function" ? setItem.value(res) : setItem.value;
                     }));
                 }
                 if (remove) {
-                    remove.forEach((function(removeItem) {
+                    remove.forEach((removeItem => {
                         delete res[removeItem];
                     }));
                 }
@@ -555,7 +538,7 @@ require("./runtime");
                 request: request
             });
         }
-        var components = {
+        const components = {
             View: {
                 "disable-scroll": "false",
                 hidden: "false",
@@ -756,43 +739,47 @@ require("./runtime");
                 bindScroll: ""
             }
         };
-        var BUBBLE_EVENTS = new Set([ "touchStart", "touchMove", "touchEnd", "touchCancel", "tap", "longTap" ]);
-        var hostConfig = {
+        const BUBBLE_EVENTS = new Set([ "touchStart", "touchMove", "touchEnd", "touchCancel", "tap", "longTap" ]);
+        const hostConfig = {
             initNativeApi: initNativeApi,
-            getMiniLifecycle: function getMiniLifecycle(config) {
+            getMiniLifecycle(config) {
                 config.component[0] = "didMount";
                 config.component[1] = "didUnmount";
                 return config;
             },
-            getEventCenter: function getEventCenter(Events) {
+            getEventCenter(Events) {
                 if (!my.taroEventCenter) {
                     my.taroEventCenter = new Events;
                 }
                 return my.taroEventCenter;
             },
-            modifyTaroEvent: function modifyTaroEvent(event, node) {
+            modifyTaroEvent(event, node) {
                 if (node.tagName === "SWIPER" && event.type === "animationend") {
                     event.type = "animationfinish";
                 }
             },
-            isBubbleEvents: function isBubbleEvents(eventName) {
+            isBubbleEvents(eventName) {
                 return BUBBLE_EVENTS.has(eventName);
             },
-            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+            transferHydrateData(data, element, componentsAlias) {
                 var _a;
                 if (element.isTransferElement) {
-                    var page = getCurrentPages()[0];
+                    const pages = getCurrentPages();
+                    const page = pages[pages.length - 1];
                     data["nn"] = element.dataName;
-                    page.setData(_defineProperty({}, toCamelCase(data.nn), data));
-                    return _defineProperty(_defineProperty({
-                        sid: element.sid
-                    }, "v", ""), "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8");
+                    page.setData({
+                        [toCamelCase(data.nn)]: data
+                    });
+                    return {
+                        sid: element.sid,
+                        ["v"]: "",
+                        ["nn"]: ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"
+                    };
                 }
             },
-            modifyRecursiveComponentConfig: function modifyRecursiveComponentConfig(componentConfig, _ref2) {
-                var isCustomWrapper = _ref2.isCustomWrapper;
+            modifyRecursiveComponentConfig(componentConfig, {isCustomWrapper: isCustomWrapper}) {
                 return isCustomWrapper ? Object.assign(Object.assign({}, componentConfig), {
-                    deriveDataFromProps: function deriveDataFromProps(nextProps) {
+                    deriveDataFromProps(nextProps) {
                         if (this.data.i !== undefined && this.props.i !== nextProps.i) {
                             this.setData({
                                 i: nextProps.i
@@ -802,23 +789,23 @@ require("./runtime");
                 }) : componentConfig;
             }
         };
-        var _navigator = runtime_navigator, userAgent = _navigator.userAgent;
+        const {userAgent: userAgent} = runtime_navigator;
         Object.defineProperty(runtime_navigator, "userAgent", {
             configurable: true,
             enumerable: true,
-            get: function get() {
+            get() {
                 return userAgent || runtime_navigator.swuserAgent || "";
             }
         });
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(413);
+        var taro_runtime = __webpack_require__(521);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
         function createNativeComponentConfig() {}
         function createVue3App() {}
-        var setGlobalDataPlugin = {};
+        const setGlobalDataPlugin = {};
         function useDidHide() {}
         function useDidShow() {}
         function useError() {}
@@ -843,11 +830,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(176);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
         var app_App = function(_Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -899,8 +886,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(980);
+    __webpack_require__.O(0, [ 216, 592 ], (function() {
+        return __webpack_exec__(140);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -959,7 +946,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
@@ -986,15 +973,15 @@ require("./runtime");
   </cover-image>
 </template>
 
-<template name="tmpl_0_43">
+<template name="tmpl_0_44">
   <template is="{{xs.c(i, 'tmpl_0_')}}" data="{{i:i}}" />
 </template>
 
-<template name="tmpl_0_43_focus">
+<template name="tmpl_0_44_focus">
   <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onFocus="eh" onBlur="eh" onLineChange="eh" onInput="eh" onConfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
-<template name="tmpl_0_43_blur">
+<template name="tmpl_0_44_blur">
   <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onFocus="eh" onBlur="eh" onLineChange="eh" onInput="eh" onConfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
@@ -1006,7 +993,7 @@ require("./runtime");
   </cover-view>
 </template>
 
-<template name="tmpl_0_36">
+<template name="tmpl_0_37">
   <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" onScrollToUpper="eh" onScrollToLower="eh" onScroll="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
@@ -1014,7 +1001,7 @@ require("./runtime");
   </scroll-view>
 </template>
 
-<template name="tmpl_0_40">
+<template name="tmpl_0_41">
   <swiper indicator-dots="{{xs.b(i.p7,!1)}}" indicator-color="{{xs.b(i.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(i.p5,'#000000')}}" autoplay="{{xs.b(i.p0,!1)}}" current="{{xs.b(i.p2,0)}}" interval="{{xs.b(i.p8,5000)}}" duration="{{xs.b(i.p4,500)}}" circular="{{xs.b(i.p1,!1)}}" vertical="{{xs.b(i.p11,!1)}}" previous-margin="{{xs.b(i.p10,'0px')}}" next-margin="{{xs.b(i.p9,'0px')}}" display-multiple-items="{{xs.b(i.p3,1)}}" onChange="eh" onTransition="eh" onAnimationFinish="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{xs.f(i.cn)}}" a:key="sid">
       <swiper-item class="{{item.cl}}" style="{{item.st}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
@@ -1042,7 +1029,7 @@ require("./runtime");
   </image>
 </template>
 
-<template name="tmpl_0_44">
+<template name="tmpl_0_45">
   <video src="{{i.p20}}" duration="{{i.p6}}" controls="{{xs.b(i.p2,!0)}}" danmu-list="{{i.p4}}" danmu-btn="{{i.p3}}" enable-danmu="{{i.p7}}" autoplay="{{xs.b(i.p1,!1)}}" loop="{{xs.b(i.p10,!1)}}" muted="{{xs.b(i.p11,!1)}}" initial-time="{{xs.b(i.p9,0)}}" page-gesture="{{xs.b(i.p13,!1)}}" direction="{{i.p5}}" show-progress="{{xs.b(i.p19,!0)}}" show-fullscreen-btn="{{xs.b(i.p16,!0)}}" show-play-btn="{{xs.b(i.p18,!0)}}" show-center-play-btn="{{xs.b(i.p15,!0)}}" enable-progress-gesture="{{xs.b(i.p8,!0)}}" object-fit="{{xs.b(i.p12,'contain')}}" poster="{{i.p14}}" show-mute-btn="{{xs.b(i.p17,!1)}}" onPlay="eh" onPause="eh" onEnded="eh" onTimeUpdate="eh" onFullScreenChange="eh" onWaiting="eh" onError="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
@@ -1066,18 +1053,19 @@ require("./runtime");
 /** filePath: dist/common.js **/
 "use strict";
 
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 76 ], {
-    865: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 592 ], {
+    525: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
                 return Component;
             }
         });
-        var Component = {};
+        const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    413: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    521: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -1089,8 +1077,8 @@ require("./runtime");
                 return window;
             }
         });
-        var __WEBPACK_DEFAULT_EXPORT__ = "taro-runtime-mock";
-        var window = {};
+        __webpack_exports__["default"] = "taro-runtime-mock";
+        const window = {};
         function createReactApp() {}
         function createVue3App() {}
         function createRecursiveComponentConfig() {}
@@ -1108,10 +1096,10 @@ require("./runtime");
 /*! For license information please see index.js.LICENSE.txt */
 "use strict";
 
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 421 ], {
-    361: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(413);
-        var esm_typeof = __webpack_require__(347);
+(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 539 ], {
+    504: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(521);
+        var esm_typeof = __webpack_require__(817);
         function _regeneratorRuntime() {
             "use strict";
             _regeneratorRuntime = function _regeneratorRuntime() {
@@ -1241,22 +1229,22 @@ require("./runtime");
             }
             function maybeInvokeDelegate(e, r) {
                 var n = r.method, o = e.iterator[n];
-                if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", 
-                r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", 
+                if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return",
+                r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw",
                 r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y;
                 var i = tryCatch(o, e.iterator, r.arg);
-                if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, 
+                if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null,
                 y;
                 var a = i.arg;
-                return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", 
-                r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), 
+                return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next",
+                r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"),
                 r.delegate = null, y);
             }
             function pushTryEntry(t) {
                 var e = {
                     tryLoc: t[0]
                 };
-                1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), 
+                1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]),
                 this.tryEntries.push(e);
             }
             function resetTryEntry(t) {
@@ -1275,7 +1263,7 @@ require("./runtime");
                     if ("function" == typeof e.next) return e;
                     if (!isNaN(e.length)) {
                         var o = -1, i = function next() {
-                            for (;++o < e.length; ) if (n.call(e, o)) return next.value = e[o], next.done = !1, 
+                            for (;++o < e.length; ) if (n.call(e, o)) return next.value = e[o], next.done = !1,
                             next;
                             return next.value = t, next.done = !0, next;
                         };
@@ -1290,12 +1278,12 @@ require("./runtime");
             }), o(GeneratorFunctionPrototype, "constructor", {
                 value: GeneratorFunction,
                 configurable: !0
-            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), 
+            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"),
             e.isGeneratorFunction = function(t) {
                 var e = "function" == typeof t && t.constructor;
                 return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name));
             }, e.mark = function(t) {
-                return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, 
+                return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype,
                 define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t;
             }, e.awrap = function(t) {
                 return {
@@ -1326,7 +1314,7 @@ require("./runtime");
             }, e.values = values, Context.prototype = {
                 constructor: Context,
                 reset: function reset(e) {
-                    if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, 
+                    if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null,
                     this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t);
                 },
                 stop: function stop() {
@@ -1339,7 +1327,7 @@ require("./runtime");
                     if (this.done) throw e;
                     var r = this;
                     function handle(n, o) {
-                        return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), 
+                        return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t),
                         !!o;
                     }
                     for (var o = this.tryEntries.length - 1; o >= 0; --o) {
@@ -1369,19 +1357,19 @@ require("./runtime");
                     }
                     i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null);
                     var a = i ? i.completion : {};
-                    return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, 
+                    return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc,
                     y) : this.complete(a);
                 },
                 complete: function complete(t, e) {
                     if ("throw" === t.type) throw t.arg;
-                    return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, 
-                    this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), 
+                    return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg,
+                    this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e),
                     y;
                 },
                 finish: function finish(t) {
                     for (var e = this.tryEntries.length - 1; e >= 0; --e) {
                         var r = this.tryEntries[e];
-                        if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), 
+                        if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r),
                         y;
                     }
                 },
@@ -1437,22 +1425,22 @@ require("./runtime");
                 }));
             };
         }
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(176);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
-        var Canvas = {};
-        var CoverView = {};
-        var CoverImage = {};
-        var Input = {};
-        var Picker = {};
-        var Swiper = {};
-        var SwiperItem = {};
-        var Text = {};
-        var Textarea = {};
-        var Video = {};
-        var View = {};
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
+        const Canvas = {};
+        const CoverView = {};
+        const CoverImage = {};
+        const Input = {};
+        const Picker = {};
+        const Swiper = {};
+        const SwiperItem = {};
+        const Text = {};
+        const Textarea = {};
+        const Video = {};
+        const View = {};
         var taro_components = "taro-components-mock";
         var Index = function(_Component) {
             function Index() {
@@ -1521,8 +1509,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(361);
+    __webpack_require__.O(0, [ 216, 592 ], (function() {
+        return __webpack_exec__(504);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1550,15 +1538,15 @@ export default {
     return 'tmpl_' + n + '_container'
   },
   f: function (l) {
-    return l.filter(function (i) {return i.nn === '41'})
+    return l.filter(function (i) {return i.nn === '42'})
   }
 }
 
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 96 ], {
-    363: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 216 ], {
+    517: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -1609,20 +1597,34 @@ export default {
             }
         }
     },
-    176: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    872: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(721);
+        var esm_typeof = __webpack_require__(817);
+        function _toPrimitive(input, hint) {
+            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if ((0, esm_typeof.Z)(res) !== "object") return res;
+                throw new TypeError("@@toPrimitive must return a primitive value.");
+            }
+            return (hint === "string" ? String : Number)(input);
+        }
+        function _toPropertyKey(arg) {
+            var key = _toPrimitive(arg, "string");
+            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        }
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, (0, _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__.A)(descriptor.key), descriptor);
+                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -1634,9 +1636,61 @@ export default {
             return Constructor;
         }
     },
-    311: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
-            A: function() {
+            Z: function() {
+                return _createSuper;
+            }
+        });
+        function _getPrototypeOf(o) {
+            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+                return o.__proto__ || Object.getPrototypeOf(o);
+            };
+            return _getPrototypeOf(o);
+        }
+        function _isNativeReflectConstruct() {
+            if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+            if (Reflect.construct.sham) return false;
+            if (typeof Proxy === "function") return true;
+            try {
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+        var esm_typeof = __webpack_require__(817);
+        function _assertThisInitialized(self) {
+            if (self === void 0) {
+                throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            }
+            return self;
+        }
+        function _possibleConstructorReturn(self, call) {
+            if (call && ((0, esm_typeof.Z)(call) === "object" || typeof call === "function")) {
+                return call;
+            } else if (call !== void 0) {
+                throw new TypeError("Derived constructors may only return object or undefined");
+            }
+            return _assertThisInitialized(self);
+        }
+        function _createSuper(Derived) {
+            var hasNativeReflectConstruct = _isNativeReflectConstruct();
+            return function _createSuperInternal() {
+                var Super = _getPrototypeOf(Derived), result;
+                if (hasNativeReflectConstruct) {
+                    var NewTarget = _getPrototypeOf(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return _possibleConstructorReturn(this, result);
+            };
+        }
+    },
+    557: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            Z: function() {
                 return _inherits;
             }
         });
@@ -1664,29 +1718,7 @@ export default {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    721: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            A: function() {
-                return toPropertyKey;
-            }
-        });
-        var esm_typeof = __webpack_require__(347);
-        function toPrimitive(t, r) {
-            if ("object" != (0, esm_typeof.A)(t) || !t) return t;
-            var e = t[Symbol.toPrimitive];
-            if (void 0 !== e) {
-                var i = e.call(t, r || "default");
-                if ("object" != (0, esm_typeof.A)(i)) return i;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return ("string" === r ? String : Number)(t);
-        }
-        function toPropertyKey(t) {
-            var i = toPrimitive(t, "string");
-            return "symbol" == (0, esm_typeof.A)(i) ? i : i + "";
-        }
-    },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    817: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
@@ -1718,8 +1750,8 @@ require("./vendors");
 
 require("./runtime");
 
-(tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 524 ], {
-    335: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+(tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 143 ], {
+    25: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -1737,20 +1769,20 @@ require("./runtime");
         function toDashed() {}
         function processApis() {}
         function singleQuote() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
+        const EMPTY_OBJ = {};
+        const hooks = {};
         function Events() {}
         function ensure() {}
         function noop() {}
         function warn() {}
         var taro_shared = "taro-shared-mock";
-        var needPromiseApis = new Set([ "applyRefund", "canRateAwemeOrders", "checkFollowAwemeState", "checkFollowState", "continueToPay", "createOrder", "exitMiniProgram", "followAwemeUser", "followOfficialAccount", "getMenuButtonLayout", "getUserProfile", "hideInteractionBar", "navigateToVideoView", "openAwemeUserProfile", "openEcGood", "openWebcastRoom", "pay", "rateAwemeOrder", "showDouyinOpenAuth", "showInteractionBar" ]);
-        var apiDiff = {
+        const needPromiseApis = new Set([ "applyRefund", "canRateAwemeOrders", "checkFollowAwemeState", "checkFollowState", "continueToPay", "createOrder", "exitMiniProgram", "followAwemeUser", "followOfficialAccount", "getMenuButtonLayout", "getUserProfile", "hideInteractionBar", "navigateToVideoView", "openAwemeUserProfile", "openEcGood", "openWebcastRoom", "pay", "rateAwemeOrder", "showDouyinOpenAuth", "showInteractionBar" ]);
+        const apiDiff = {
             showToast: {
                 options: {
                     set: [ {
                         key: "icon",
-                        value: function value(options) {
+                        value(options) {
                             return options.icon === "error" ? "fail" : options.icon;
                         }
                     } ]
@@ -1758,23 +1790,23 @@ require("./runtime");
             }
         };
         function transformMeta(api, options) {
-            var apiAlias = api;
-            Object.keys(apiDiff).forEach((function(item) {
-                var apiItem = apiDiff[item];
+            let apiAlias = api;
+            Object.keys(apiDiff).forEach((item => {
+                const apiItem = apiDiff[item];
                 if (api === item) {
                     if (apiItem.alias) {
                         apiAlias = apiItem.alias;
                     }
                     if (apiItem.options) {
-                        var change = apiItem.options.change;
-                        var set = apiItem.options.set;
+                        const change = apiItem.options.change;
+                        const set = apiItem.options.set;
                         if (change) {
-                            change.forEach((function(changeItem) {
+                            change.forEach((changeItem => {
                                 options[changeItem.new] = options[changeItem.old];
                             }));
                         }
                         if (set) {
-                            set.forEach((function(setItem) {
+                            set.forEach((setItem => {
                                 options[setItem.key] = typeof setItem.value === "function" ? setItem.value(options) : setItem.value;
                             }));
                         }
@@ -1792,10 +1824,10 @@ require("./runtime");
                 transformMeta: transformMeta
             });
         }
-        var _true = "!0";
-        var _false = "!1";
-        var _empty = "";
-        var components = {
+        const _true = "!0";
+        const _false = "!1";
+        const _empty = "";
+        const components = {
             Icon: {
                 size: "24"
             },
@@ -1959,14 +1991,14 @@ require("./runtime");
                 bindError: _empty
             }
         };
-        var hostConfig = {
+        const hostConfig = {
             initNativeApi: initNativeApi,
-            modifyMpEventImpl: function modifyMpEventImpl(event) {
+            modifyMpEventImpl(event) {
                 if (event.type === "regionchange") {
                     event.type = event.detail.type;
                 }
             },
-            modifyTaroEventReturn: function modifyTaroEventReturn(node, event, returnVal) {
+            modifyTaroEventReturn(node, event, returnVal) {
                 if (node.nodeName === "pay-button") {
                     if (event.type === "applyrefund" || event.type === "getgoodsinfo") {
                         return returnVal;
@@ -1976,13 +2008,13 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(413);
+        var taro_runtime = __webpack_require__(521);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
         function createNativeComponentConfig() {}
         function createVue3App() {}
-        var setGlobalDataPlugin = {};
+        const setGlobalDataPlugin = {};
         function useDidHide() {}
         function useDidShow() {}
         function useError() {}
@@ -2007,11 +2039,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(560);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
         var app_App = function(_Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -2063,8 +2095,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(335);
+    __webpack_require__.O(0, [ 216, 592 ], (function() {
+        return __webpack_exec__(25);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -2125,7 +2157,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block tt:for="{{i.cn}}" tt:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
@@ -2152,15 +2184,15 @@ require("./runtime");
   </cover-image>
 </template>
 
-<template name="tmpl_0_43">
+<template name="tmpl_0_44">
   <template is="{{xs.c(i, 'tmpl_0_')}}" data="{{i:i}}" />
 </template>
 
-<template name="tmpl_0_43_focus">
+<template name="tmpl_0_44_focus">
   <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
-<template name="tmpl_0_43_blur">
+<template name="tmpl_0_44_blur">
   <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
@@ -2172,7 +2204,7 @@ require("./runtime");
   </cover-view>
 </template>
 
-<template name="tmpl_0_36">
+<template name="tmpl_0_37">
   <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block tt:for="{{i.cn}}" tt:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
@@ -2180,7 +2212,7 @@ require("./runtime");
   </scroll-view>
 </template>
 
-<template name="tmpl_0_40">
+<template name="tmpl_0_41">
   <swiper indicator-dots="{{xs.b(i.p7,!1)}}" indicator-color="{{xs.b(i.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(i.p5,'#000000')}}" autoplay="{{xs.b(i.p0,!1)}}" current="{{xs.b(i.p2,0)}}" interval="{{xs.b(i.p8,5000)}}" duration="{{xs.b(i.p4,500)}}" circular="{{xs.b(i.p1,!1)}}" vertical="{{xs.b(i.p11,!1)}}" previous-margin="{{xs.b(i.p10,'0px')}}" next-margin="{{xs.b(i.p9,'0px')}}" display-multiple-items="{{xs.b(i.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block tt:for="{{i.cn}}" tt:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
@@ -2188,7 +2220,7 @@ require("./runtime");
   </swiper>
 </template>
 
-<template name="tmpl_0_41">
+<template name="tmpl_0_42">
   <swiper-item item-id="{{i.p0}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block tt:for="{{i.cn}}" tt:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
@@ -2212,7 +2244,7 @@ require("./runtime");
   </image>
 </template>
 
-<template name="tmpl_0_44">
+<template name="tmpl_0_45">
   <video src="{{i.p20}}" duration="{{i.p6}}" controls="{{xs.b(i.p2,!0)}}" danmu-list="{{i.p4}}" danmu-btn="{{i.p3}}" enable-danmu="{{i.p7}}" autoplay="{{xs.b(i.p1,!1)}}" loop="{{xs.b(i.p10,!1)}}" muted="{{xs.b(i.p11,!1)}}" initial-time="{{xs.b(i.p9,0)}}" page-gesture="{{xs.b(i.p13,!1)}}" direction="{{i.p5}}" show-progress="{{xs.b(i.p19,!0)}}" show-fullscreen-btn="{{xs.b(i.p16,!0)}}" show-play-btn="{{xs.b(i.p18,!0)}}" show-center-play-btn="{{xs.b(i.p15,!0)}}" enable-progress-gesture="{{xs.b(i.p8,!0)}}" object-fit="{{xs.b(i.p12,'contain')}}" poster="{{i.p14}}" show-mute-btn="{{xs.b(i.p17,!1)}}" bindplay="eh" bindpause="eh" bindended="eh" bindtimeupdate="eh" bindfullscreenchange="eh" bindwaiting="eh" binderror="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block tt:for="{{i.cn}}" tt:key="sid">
       <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
@@ -2236,18 +2268,19 @@ require("./runtime");
 /** filePath: dist/common.js **/
 "use strict";
 
-(tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 76 ], {
-    865: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 592 ], {
+    525: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
                 return Component;
             }
         });
-        var Component = {};
+        const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    413: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    521: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -2259,8 +2292,8 @@ require("./runtime");
                 return window;
             }
         });
-        var __WEBPACK_DEFAULT_EXPORT__ = "taro-runtime-mock";
-        var window = {};
+        __webpack_exports__["default"] = "taro-runtime-mock";
+        const window = {};
         function createReactApp() {}
         function createVue3App() {}
         function createRecursiveComponentConfig() {}
@@ -2272,10 +2305,10 @@ require("./runtime");
 /*! For license information please see index.js.LICENSE.txt */
 "use strict";
 
-(tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 421 ], {
-    361: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(413);
-        var esm_typeof = __webpack_require__(347);
+(tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 539 ], {
+    504: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(521);
+        var esm_typeof = __webpack_require__(817);
         function _regeneratorRuntime() {
             "use strict";
             _regeneratorRuntime = function _regeneratorRuntime() {
@@ -2405,22 +2438,22 @@ require("./runtime");
             }
             function maybeInvokeDelegate(e, r) {
                 var n = r.method, o = e.iterator[n];
-                if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", 
-                r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", 
+                if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return",
+                r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw",
                 r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y;
                 var i = tryCatch(o, e.iterator, r.arg);
-                if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, 
+                if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null,
                 y;
                 var a = i.arg;
-                return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", 
-                r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), 
+                return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next",
+                r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"),
                 r.delegate = null, y);
             }
             function pushTryEntry(t) {
                 var e = {
                     tryLoc: t[0]
                 };
-                1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), 
+                1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]),
                 this.tryEntries.push(e);
             }
             function resetTryEntry(t) {
@@ -2439,7 +2472,7 @@ require("./runtime");
                     if ("function" == typeof e.next) return e;
                     if (!isNaN(e.length)) {
                         var o = -1, i = function next() {
-                            for (;++o < e.length; ) if (n.call(e, o)) return next.value = e[o], next.done = !1, 
+                            for (;++o < e.length; ) if (n.call(e, o)) return next.value = e[o], next.done = !1,
                             next;
                             return next.value = t, next.done = !0, next;
                         };
@@ -2454,12 +2487,12 @@ require("./runtime");
             }), o(GeneratorFunctionPrototype, "constructor", {
                 value: GeneratorFunction,
                 configurable: !0
-            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), 
+            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"),
             e.isGeneratorFunction = function(t) {
                 var e = "function" == typeof t && t.constructor;
                 return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name));
             }, e.mark = function(t) {
-                return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, 
+                return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype,
                 define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t;
             }, e.awrap = function(t) {
                 return {
@@ -2490,7 +2523,7 @@ require("./runtime");
             }, e.values = values, Context.prototype = {
                 constructor: Context,
                 reset: function reset(e) {
-                    if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, 
+                    if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null,
                     this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t);
                 },
                 stop: function stop() {
@@ -2503,7 +2536,7 @@ require("./runtime");
                     if (this.done) throw e;
                     var r = this;
                     function handle(n, o) {
-                        return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), 
+                        return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t),
                         !!o;
                     }
                     for (var o = this.tryEntries.length - 1; o >= 0; --o) {
@@ -2533,19 +2566,19 @@ require("./runtime");
                     }
                     i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null);
                     var a = i ? i.completion : {};
-                    return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, 
+                    return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc,
                     y) : this.complete(a);
                 },
                 complete: function complete(t, e) {
                     if ("throw" === t.type) throw t.arg;
-                    return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, 
-                    this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), 
+                    return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg,
+                    this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e),
                     y;
                 },
                 finish: function finish(t) {
                     for (var e = this.tryEntries.length - 1; e >= 0; --e) {
                         var r = this.tryEntries[e];
-                        if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), 
+                        if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r),
                         y;
                     }
                 },
@@ -2601,22 +2634,22 @@ require("./runtime");
                 }));
             };
         }
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(560);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
-        var Canvas = {};
-        var CoverView = {};
-        var CoverImage = {};
-        var Input = {};
-        var Picker = {};
-        var Swiper = {};
-        var SwiperItem = {};
-        var Text = {};
-        var Textarea = {};
-        var Video = {};
-        var View = {};
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
+        const Canvas = {};
+        const CoverView = {};
+        const CoverImage = {};
+        const Input = {};
+        const Picker = {};
+        const Swiper = {};
+        const SwiperItem = {};
+        const Text = {};
+        const Textarea = {};
+        const Video = {};
+        const View = {};
         var taro_components = "taro-components-mock";
         var Index = function(_Component) {
             function Index() {
@@ -2685,8 +2718,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(361);
+    __webpack_require__.O(0, [ 216, 592 ], (function() {
+        return __webpack_exec__(504);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -2719,14 +2752,14 @@ module.exports = {
   e: function (n) {
     return 'tmpl_' + n + '_container'
   },
-  
+
 }
 
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 96 ], {
-    363: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 216 ], {
+    517: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -2777,19 +2810,19 @@ module.exports = {
             }
         }
     },
-    560: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    872: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(347);
-        function toPrimitive(t, r) {
-            if ("object" != (0, esm_typeof.A)(t) || !t) return t;
-            var e = t[Symbol.toPrimitive];
-            if (void 0 !== e) {
-                var i = e.call(t, r || "default");
-                if ("object" != (0, esm_typeof.A)(i)) return i;
+        var esm_typeof = __webpack_require__(817);
+        function _toPrimitive(input, hint) {
+            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if ((0, esm_typeof.Z)(res) !== "object") return res;
                 throw new TypeError("@@toPrimitive must return a primitive value.");
             }
             return ("string" === r ? String : Number)(t);
@@ -2816,9 +2849,61 @@ module.exports = {
             return Constructor;
         }
     },
-    311: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
-            A: function() {
+            Z: function() {
+                return _createSuper;
+            }
+        });
+        function _getPrototypeOf(o) {
+            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+                return o.__proto__ || Object.getPrototypeOf(o);
+            };
+            return _getPrototypeOf(o);
+        }
+        function _isNativeReflectConstruct() {
+            if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+            if (Reflect.construct.sham) return false;
+            if (typeof Proxy === "function") return true;
+            try {
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+        var esm_typeof = __webpack_require__(817);
+        function _assertThisInitialized(self) {
+            if (self === void 0) {
+                throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            }
+            return self;
+        }
+        function _possibleConstructorReturn(self, call) {
+            if (call && ((0, esm_typeof.Z)(call) === "object" || typeof call === "function")) {
+                return call;
+            } else if (call !== void 0) {
+                throw new TypeError("Derived constructors may only return object or undefined");
+            }
+            return _assertThisInitialized(self);
+        }
+        function _createSuper(Derived) {
+            var hasNativeReflectConstruct = _isNativeReflectConstruct();
+            return function _createSuperInternal() {
+                var Super = _getPrototypeOf(Derived), result;
+                if (hasNativeReflectConstruct) {
+                    var NewTarget = _getPrototypeOf(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return _possibleConstructorReturn(this, result);
+            };
+        }
+    },
+    557: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            Z: function() {
                 return _inherits;
             }
         });
@@ -2846,7 +2931,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    817: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
@@ -2878,8 +2963,8 @@ require("./vendors");
 
 require("./runtime");
 
-(jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 524 ], {
-    356: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+(jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 143 ], {
+    711: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -2897,8 +2982,8 @@ require("./runtime");
         function toDashed() {}
         function processApis() {}
         function singleQuote() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
+        const EMPTY_OBJ = {};
+        const hooks = {};
         function Events() {}
         function ensure() {}
         function noop() {}
@@ -2913,7 +2998,7 @@ require("./runtime");
                 }
             };
         }
-        var components = {
+        const components = {
             Swiper: {
                 "easing-function": singleQuote("default")
             },
@@ -2934,21 +3019,22 @@ require("./runtime");
             },
             Textarea: {
                 "show-confirm-bar": "true",
-                "adjust-position": "true"
+                "adjust-position": "true",
+                "disable-default-padding": "false"
             }
         };
-        var hostConfig = {
+        const hostConfig = {
             initNativeApi: initNativeApi
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(413);
+        var taro_runtime = __webpack_require__(521);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
         function createNativeComponentConfig() {}
         function createVue3App() {}
-        var setGlobalDataPlugin = {};
+        const setGlobalDataPlugin = {};
         function useDidHide() {}
         function useDidShow() {}
         function useError() {}
@@ -2973,11 +3059,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(560);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
         var app_App = function(_Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -3029,8 +3115,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(356);
+    __webpack_require__.O(0, [ 216, 592 ], (function() {
+        return __webpack_exec__(711);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -3091,7 +3177,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3118,15 +3204,15 @@ require("./runtime");
   </cover-image>
 </template>
 
-<template name="tmpl_0_43">
+<template name="tmpl_0_44">
   <template is="{{xs.c(i, 'tmpl_0_')}}" data="{{i:i,c:c}}" />
 </template>
 
-<template name="tmpl_0_43_focus">
+<template name="tmpl_0_44_focus">
   <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
-<template name="tmpl_0_43_blur">
+<template name="tmpl_0_44_blur">
   <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
@@ -3138,7 +3224,7 @@ require("./runtime");
   </cover-view>
 </template>
 
-<template name="tmpl_0_36">
+<template name="tmpl_0_37">
   <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3146,7 +3232,7 @@ require("./runtime");
   </scroll-view>
 </template>
 
-<template name="tmpl_0_40">
+<template name="tmpl_0_41">
   <swiper indicator-dots="{{xs.b(i.p7,!1)}}" indicator-color="{{xs.b(i.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(i.p5,'#000000')}}" autoplay="{{xs.b(i.p0,!1)}}" current="{{xs.b(i.p2,0)}}" interval="{{xs.b(i.p8,5000)}}" duration="{{xs.b(i.p4,500)}}" circular="{{xs.b(i.p1,!1)}}" vertical="{{xs.b(i.p11,!1)}}" previous-margin="{{xs.b(i.p10,'0px')}}" next-margin="{{xs.b(i.p9,'0px')}}" display-multiple-items="{{xs.b(i.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3154,7 +3240,7 @@ require("./runtime");
   </swiper>
 </template>
 
-<template name="tmpl_0_41">
+<template name="tmpl_0_42">
   <swiper-item item-id="{{i.p0}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3178,7 +3264,7 @@ require("./runtime");
   </image>
 </template>
 
-<template name="tmpl_0_44">
+<template name="tmpl_0_45">
   <video src="{{i.p20}}" duration="{{i.p6}}" controls="{{xs.b(i.p2,!0)}}" danmu-list="{{i.p4}}" danmu-btn="{{i.p3}}" enable-danmu="{{i.p7}}" autoplay="{{xs.b(i.p1,!1)}}" loop="{{xs.b(i.p10,!1)}}" muted="{{xs.b(i.p11,!1)}}" initial-time="{{xs.b(i.p9,0)}}" page-gesture="{{xs.b(i.p13,!1)}}" direction="{{i.p5}}" show-progress="{{xs.b(i.p19,!0)}}" show-fullscreen-btn="{{xs.b(i.p16,!0)}}" show-play-btn="{{xs.b(i.p18,!0)}}" show-center-play-btn="{{xs.b(i.p15,!0)}}" enable-progress-gesture="{{xs.b(i.p8,!0)}}" object-fit="{{xs.b(i.p12,'contain')}}" poster="{{i.p14}}" show-mute-btn="{{xs.b(i.p17,!1)}}" bindplay="eh" bindpause="eh" bindended="eh" bindtimeupdate="eh" bindfullscreenchange="eh" bindwaiting="eh" binderror="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3239,7 +3325,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_1_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3254,7 +3340,7 @@ require("./runtime");
   </cover-view>
 </template>
 
-<template name="tmpl_1_36">
+<template name="tmpl_1_37">
   <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3262,7 +3348,7 @@ require("./runtime");
   </scroll-view>
 </template>
 
-<template name="tmpl_1_40">
+<template name="tmpl_1_41">
   <swiper indicator-dots="{{xs.b(i.p7,!1)}}" indicator-color="{{xs.b(i.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(i.p5,'#000000')}}" autoplay="{{xs.b(i.p0,!1)}}" current="{{xs.b(i.p2,0)}}" interval="{{xs.b(i.p8,5000)}}" duration="{{xs.b(i.p4,500)}}" circular="{{xs.b(i.p1,!1)}}" vertical="{{xs.b(i.p11,!1)}}" previous-margin="{{xs.b(i.p10,'0px')}}" next-margin="{{xs.b(i.p9,'0px')}}" display-multiple-items="{{xs.b(i.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3270,7 +3356,7 @@ require("./runtime");
   </swiper>
 </template>
 
-<template name="tmpl_1_41">
+<template name="tmpl_1_42">
   <swiper-item item-id="{{i.p0}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3319,7 +3405,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_2_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3334,7 +3420,7 @@ require("./runtime");
   </cover-view>
 </template>
 
-<template name="tmpl_2_36">
+<template name="tmpl_2_37">
   <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3342,7 +3428,7 @@ require("./runtime");
   </scroll-view>
 </template>
 
-<template name="tmpl_2_40">
+<template name="tmpl_2_41">
   <swiper indicator-dots="{{xs.b(i.p7,!1)}}" indicator-color="{{xs.b(i.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(i.p5,'#000000')}}" autoplay="{{xs.b(i.p0,!1)}}" current="{{xs.b(i.p2,0)}}" interval="{{xs.b(i.p8,5000)}}" duration="{{xs.b(i.p4,500)}}" circular="{{xs.b(i.p1,!1)}}" vertical="{{xs.b(i.p11,!1)}}" previous-margin="{{xs.b(i.p10,'0px')}}" next-margin="{{xs.b(i.p9,'0px')}}" display-multiple-items="{{xs.b(i.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3350,7 +3436,7 @@ require("./runtime");
   </swiper>
 </template>
 
-<template name="tmpl_2_41">
+<template name="tmpl_2_42">
   <swiper-item item-id="{{i.p0}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3399,7 +3485,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_3_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3414,7 +3500,7 @@ require("./runtime");
   </cover-view>
 </template>
 
-<template name="tmpl_3_36">
+<template name="tmpl_3_37">
   <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3422,7 +3508,7 @@ require("./runtime");
   </scroll-view>
 </template>
 
-<template name="tmpl_3_40">
+<template name="tmpl_3_41">
   <swiper indicator-dots="{{xs.b(i.p7,!1)}}" indicator-color="{{xs.b(i.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(i.p5,'#000000')}}" autoplay="{{xs.b(i.p0,!1)}}" current="{{xs.b(i.p2,0)}}" interval="{{xs.b(i.p8,5000)}}" duration="{{xs.b(i.p4,500)}}" circular="{{xs.b(i.p1,!1)}}" vertical="{{xs.b(i.p11,!1)}}" previous-margin="{{xs.b(i.p10,'0px')}}" next-margin="{{xs.b(i.p9,'0px')}}" display-multiple-items="{{xs.b(i.p3,1)}}" bindchange="eh" bindtransition="eh" bindanimationfinish="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3430,7 +3516,7 @@ require("./runtime");
   </swiper>
 </template>
 
-<template name="tmpl_3_41">
+<template name="tmpl_3_42">
   <swiper-item item-id="{{i.p0}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
@@ -3479,7 +3565,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_4_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3535,7 +3621,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_5_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3583,7 +3669,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_6_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3631,7 +3717,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_7_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3679,7 +3765,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_8_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3727,7 +3813,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_9_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3775,7 +3861,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_10_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3823,7 +3909,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_11_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3871,7 +3957,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_12_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3919,7 +4005,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_13_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -3967,7 +4053,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_14_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block jd:for="{{i.cn}}" jd:key="sid">
       <template is="{{xs.e(15)}}" data="{{i:item,c:c,l:l}}" />
     </block>
@@ -3995,18 +4081,19 @@ require("./runtime");
 /** filePath: dist/common.js **/
 "use strict";
 
-(jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 76 ], {
-    865: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 592 ], {
+    525: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
                 return Component;
             }
         });
-        var Component = {};
+        const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    413: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    521: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -4018,8 +4105,8 @@ require("./runtime");
                 return window;
             }
         });
-        var __WEBPACK_DEFAULT_EXPORT__ = "taro-runtime-mock";
-        var window = {};
+        __webpack_exports__["default"] = "taro-runtime-mock";
+        const window = {};
         function createReactApp() {}
         function createVue3App() {}
         function createRecursiveComponentConfig() {}
@@ -4030,17 +4117,17 @@ require("./runtime");
 /** filePath: dist/comp.js **/
 "use strict";
 
-(jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 862 ], {
-    728: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(413);
-        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
+(jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 367 ], {
+    227: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(521);
+        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 76 ], (function() {
-        return __webpack_exec__(728);
+    __webpack_require__.O(0, [ 592 ], (function() {
+        return __webpack_exec__(227);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -4057,10 +4144,10 @@ require("./runtime");
 /*! For license information please see index.js.LICENSE.txt */
 "use strict";
 
-(jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 421 ], {
-    361: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(413);
-        var esm_typeof = __webpack_require__(347);
+(jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 539 ], {
+    504: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(521);
+        var esm_typeof = __webpack_require__(817);
         function _regeneratorRuntime() {
             "use strict";
             _regeneratorRuntime = function _regeneratorRuntime() {
@@ -4190,22 +4277,22 @@ require("./runtime");
             }
             function maybeInvokeDelegate(e, r) {
                 var n = r.method, o = e.iterator[n];
-                if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", 
-                r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", 
+                if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return",
+                r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw",
                 r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y;
                 var i = tryCatch(o, e.iterator, r.arg);
-                if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, 
+                if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null,
                 y;
                 var a = i.arg;
-                return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", 
-                r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), 
+                return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next",
+                r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"),
                 r.delegate = null, y);
             }
             function pushTryEntry(t) {
                 var e = {
                     tryLoc: t[0]
                 };
-                1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), 
+                1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]),
                 this.tryEntries.push(e);
             }
             function resetTryEntry(t) {
@@ -4224,7 +4311,7 @@ require("./runtime");
                     if ("function" == typeof e.next) return e;
                     if (!isNaN(e.length)) {
                         var o = -1, i = function next() {
-                            for (;++o < e.length; ) if (n.call(e, o)) return next.value = e[o], next.done = !1, 
+                            for (;++o < e.length; ) if (n.call(e, o)) return next.value = e[o], next.done = !1,
                             next;
                             return next.value = t, next.done = !0, next;
                         };
@@ -4239,12 +4326,12 @@ require("./runtime");
             }), o(GeneratorFunctionPrototype, "constructor", {
                 value: GeneratorFunction,
                 configurable: !0
-            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), 
+            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"),
             e.isGeneratorFunction = function(t) {
                 var e = "function" == typeof t && t.constructor;
                 return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name));
             }, e.mark = function(t) {
-                return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, 
+                return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype,
                 define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t;
             }, e.awrap = function(t) {
                 return {
@@ -4275,7 +4362,7 @@ require("./runtime");
             }, e.values = values, Context.prototype = {
                 constructor: Context,
                 reset: function reset(e) {
-                    if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, 
+                    if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null,
                     this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t);
                 },
                 stop: function stop() {
@@ -4288,7 +4375,7 @@ require("./runtime");
                     if (this.done) throw e;
                     var r = this;
                     function handle(n, o) {
-                        return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), 
+                        return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t),
                         !!o;
                     }
                     for (var o = this.tryEntries.length - 1; o >= 0; --o) {
@@ -4318,19 +4405,19 @@ require("./runtime");
                     }
                     i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null);
                     var a = i ? i.completion : {};
-                    return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, 
+                    return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc,
                     y) : this.complete(a);
                 },
                 complete: function complete(t, e) {
                     if ("throw" === t.type) throw t.arg;
-                    return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, 
-                    this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), 
+                    return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg,
+                    this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e),
                     y;
                 },
                 finish: function finish(t) {
                     for (var e = this.tryEntries.length - 1; e >= 0; --e) {
                         var r = this.tryEntries[e];
-                        if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), 
+                        if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r),
                         y;
                     }
                 },
@@ -4386,22 +4473,22 @@ require("./runtime");
                 }));
             };
         }
-        var classCallCheck = __webpack_require__(270);
-        var createClass = __webpack_require__(560);
-        var callSuper = __webpack_require__(363);
-        var inherits = __webpack_require__(311);
-        var react = __webpack_require__(865);
-        var Canvas = {};
-        var CoverView = {};
-        var CoverImage = {};
-        var Input = {};
-        var Picker = {};
-        var Swiper = {};
-        var SwiperItem = {};
-        var Text = {};
-        var Textarea = {};
-        var Video = {};
-        var View = {};
+        var classCallCheck = __webpack_require__(517);
+        var createClass = __webpack_require__(872);
+        var inherits = __webpack_require__(557);
+        var createSuper = __webpack_require__(361);
+        var react = __webpack_require__(525);
+        const Canvas = {};
+        const CoverView = {};
+        const CoverImage = {};
+        const Input = {};
+        const Picker = {};
+        const Swiper = {};
+        const SwiperItem = {};
+        const Text = {};
+        const Textarea = {};
+        const Video = {};
+        const View = {};
         var taro_components = "taro-components-mock";
         var Index = function(_Component) {
             function Index() {
@@ -4470,8 +4557,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(361);
+    __webpack_require__.O(0, [ 216, 592 ], (function() {
+        return __webpack_exec__(504);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -4492,8 +4579,8 @@ require("./runtime");
 /** filePath: dist/utils.jds **/
 module.exports = {
   a: function (l, n, s) {
-    var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
-    var b = ["4","38","39","22","19","36","40","41"]
+    var a = ["7","0","18","5","2","11","6","4","39","40","22","19","37","41","42","root-portal"]
+    var b = ["4","39","40","22","19","37","41","42","root-portal"]
     if (a.indexOf(n) === -1) {
       l = 0
     }
@@ -4521,7 +4608,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l, n) {
-    var b = ["4","38","39","22","19","36","40","41"]
+    var b = ["4","39","40","22","19","37","41","42","root-portal"]
     if (b.indexOf(n) > -1) {
       if (l) l += ','
       l += n
@@ -4533,8 +4620,8 @@ module.exports = {
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 96 ], {
-    363: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 216 ], {
+    517: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -4585,19 +4672,19 @@ module.exports = {
             }
         }
     },
-    560: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    872: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(347);
-        function toPrimitive(t, r) {
-            if ("object" != (0, esm_typeof.A)(t) || !t) return t;
-            var e = t[Symbol.toPrimitive];
-            if (void 0 !== e) {
-                var i = e.call(t, r || "default");
-                if ("object" != (0, esm_typeof.A)(i)) return i;
+        var esm_typeof = __webpack_require__(817);
+        function _toPrimitive(input, hint) {
+            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if ((0, esm_typeof.Z)(res) !== "object") return res;
                 throw new TypeError("@@toPrimitive must return a primitive value.");
             }
             return ("string" === r ? String : Number)(t);
@@ -4624,9 +4711,61 @@ module.exports = {
             return Constructor;
         }
     },
-    311: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
-            A: function() {
+            Z: function() {
+                return _createSuper;
+            }
+        });
+        function _getPrototypeOf(o) {
+            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+                return o.__proto__ || Object.getPrototypeOf(o);
+            };
+            return _getPrototypeOf(o);
+        }
+        function _isNativeReflectConstruct() {
+            if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+            if (Reflect.construct.sham) return false;
+            if (typeof Proxy === "function") return true;
+            try {
+                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+        var esm_typeof = __webpack_require__(817);
+        function _assertThisInitialized(self) {
+            if (self === void 0) {
+                throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+            }
+            return self;
+        }
+        function _possibleConstructorReturn(self, call) {
+            if (call && ((0, esm_typeof.Z)(call) === "object" || typeof call === "function")) {
+                return call;
+            } else if (call !== void 0) {
+                throw new TypeError("Derived constructors may only return object or undefined");
+            }
+            return _assertThisInitialized(self);
+        }
+        function _createSuper(Derived) {
+            var hasNativeReflectConstruct = _isNativeReflectConstruct();
+            return function _createSuperInternal() {
+                var Super = _getPrototypeOf(Derived), result;
+                if (hasNativeReflectConstruct) {
+                    var NewTarget = _getPrototypeOf(this).constructor;
+                    result = Reflect.construct(Super, arguments, NewTarget);
+                } else {
+                    result = Super.apply(this, arguments);
+                }
+                return _possibleConstructorReturn(this, result);
+            };
+        }
+    },
+    557: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            Z: function() {
                 return _inherits;
             }
         });
@@ -4654,7 +4793,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    817: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
@@ -4686,7 +4825,118 @@ exports[`mini-platform qq should base template loop 10 times 2`] = `
 (function() {
     "use strict";
     var __webpack_exports__ = {};
-    var react_Component = {};
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+    function _typeof(obj) {
+        "@babel/helpers - typeof";
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, _typeof(obj);
+    }
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return _typeof(key) === "symbol" ? key : String(key);
+    }
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            "writable": false
+        });
+        return Constructor;
+    }
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+        };
+        return _setPrototypeOf(o, p);
+    }
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== "function" && superClass !== null) {
+            throw new TypeError("Super expression must either be null or a function");
+        }
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            "constructor": {
+                "value": subClass,
+                "writable": true,
+                "configurable": true
+            }
+        });
+        Object.defineProperty(subClass, "prototype", {
+            "writable": false
+        });
+        if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === "function") return true;
+        try {
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+        }
+        return self;
+    }
+    function _possibleConstructorReturn(self, call) {
+        if (call && (_typeof(call) === "object" || typeof call === "function")) {
+            return call;
+        } else if (call !== void 0) {
+            throw new TypeError("Derived constructors may only return object or undefined");
+        }
+        return _assertThisInitialized(self);
+    }
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return _possibleConstructorReturn(this, result);
+        };
+    }
+    const Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
         function App() {
@@ -4728,7 +4978,118 @@ exports[`mini-platform qq should build qq app 2`] = `
 (function() {
     "use strict";
     var __webpack_exports__ = {};
-    var react_Component = {};
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+    function _typeof(obj) {
+        "@babel/helpers - typeof";
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, _typeof(obj);
+    }
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return _typeof(key) === "symbol" ? key : String(key);
+    }
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            "writable": false
+        });
+        return Constructor;
+    }
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+        };
+        return _setPrototypeOf(o, p);
+    }
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== "function" && superClass !== null) {
+            throw new TypeError("Super expression must either be null or a function");
+        }
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            "constructor": {
+                "value": subClass,
+                "writable": true,
+                "configurable": true
+            }
+        });
+        Object.defineProperty(subClass, "prototype", {
+            "writable": false
+        });
+        if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === "function") return true;
+        try {
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+        }
+        return self;
+    }
+    function _possibleConstructorReturn(self, call) {
+        if (call && (_typeof(call) === "object" || typeof call === "function")) {
+            return call;
+        } else if (call !== void 0) {
+            throw new TypeError("Derived constructors may only return object or undefined");
+        }
+        return _assertThisInitialized(self);
+    }
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return _possibleConstructorReturn(this, result);
+        };
+    }
+    const Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
         function App() {
@@ -4770,7 +5131,118 @@ exports[`mini-platform swan should build swan app 2`] = `
 (function() {
     "use strict";
     var __webpack_exports__ = {};
-    var react_Component = {};
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+    function _typeof(obj) {
+        "@babel/helpers - typeof";
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, _typeof(obj);
+    }
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return _typeof(key) === "symbol" ? key : String(key);
+    }
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            "writable": false
+        });
+        return Constructor;
+    }
+    function _setPrototypeOf(o, p) {
+        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+            o.__proto__ = p;
+            return o;
+        };
+        return _setPrototypeOf(o, p);
+    }
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== "function" && superClass !== null) {
+            throw new TypeError("Super expression must either be null or a function");
+        }
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            "constructor": {
+                "value": subClass,
+                "writable": true,
+                "configurable": true
+            }
+        });
+        Object.defineProperty(subClass, "prototype", {
+            "writable": false
+        });
+        if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+    function _getPrototypeOf(o) {
+        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+            return o.__proto__ || Object.getPrototypeOf(o);
+        };
+        return _getPrototypeOf(o);
+    }
+    function _isNativeReflectConstruct() {
+        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === "function") return true;
+        try {
+            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    function _assertThisInitialized(self) {
+        if (self === void 0) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+        }
+        return self;
+    }
+    function _possibleConstructorReturn(self, call) {
+        if (call && (_typeof(call) === "object" || typeof call === "function")) {
+            return call;
+        } else if (call !== void 0) {
+            throw new TypeError("Derived constructors may only return object or undefined");
+        }
+        return _assertThisInitialized(self);
+    }
+    function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+            var Super = _getPrototypeOf(Derived), result;
+            if (hasNativeReflectConstruct) {
+                var NewTarget = _getPrototypeOf(this).constructor;
+                result = Reflect.construct(Super, arguments, NewTarget);
+            } else {
+                result = Super.apply(this, arguments);
+            }
+            return _possibleConstructorReturn(this, result);
+        };
+    }
+    const Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
         function App() {

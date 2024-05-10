@@ -80,11 +80,9 @@ async fn rename_file(file_path: &str, old_name: &str, new_name: &str) -> anyhow:
   let base_name = file_path.file_name();
   if let Some(base_name) = base_name {
     let base_name = base_name.to_string_lossy();
-    if base_name.eq(old_name) {
-      let new_base_name = base_name.replace(old_name, new_name);
-      let new_file_path = file_path.with_file_name(new_base_name);
-      async_fs::rename(file_path, new_file_path).await?;
-    }
+    let new_base_name = base_name.replace(old_name, new_name);
+    let new_file_path = file_path.with_file_name(new_base_name);
+    async_fs::rename(file_path, new_file_path).await?;
   }
   Ok(())
 }
@@ -118,13 +116,19 @@ pub async fn change_default_name_in_template(
   let mut project_files = get_all_files_in_folder(
     project_path.to_string(),
     &["yarn.lock", "package-lock.json"],
+    Some(true)
   )?;
   project_files.reverse();
   for file_path in project_files.iter() {
+    let file_path = file_path.to_str();
+    if file_path.is_none() {
+      continue;
+    }
+    let file_path = file_path.unwrap();
     if file_path.contains("node_modules") {
       continue;
     }
-    if async_fs::metadata(file_path).await?.is_file() {
+    if !async_fs::metadata(file_path).await?.is_dir() {
       replace_name_in_utf8_file(file_path, project_name, default_name.as_str()).await?;
     }
     if should_rename_file(file_path, &default_name) {

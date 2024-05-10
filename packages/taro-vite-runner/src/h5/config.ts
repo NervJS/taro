@@ -120,7 +120,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       mode,
       build: {
         outDir: path.join(appPath, taroConfig.outputRoot as string),
-        target:  taroConfig.legacy ? undefined : 'es6',
+        target: taroConfig.legacy ? undefined : 'es6',
         cssCodeSplit: true,
         emptyOutDir: false,
         watch: taroConfig.isWatch ? {} : null,

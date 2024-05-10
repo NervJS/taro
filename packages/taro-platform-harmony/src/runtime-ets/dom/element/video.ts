@@ -4,7 +4,6 @@ import type { VideoProps } from '@tarojs/components/types'
 
 @Observed
 export class TaroVideoElement extends TaroElement<VideoProps> {
-
   controller: VideoController = new VideoController()
 
   constructor() {

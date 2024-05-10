@@ -31,45 +31,49 @@ const prettierJSConfig: prettier.Options = {
 /* 转换报告信息 */
 export interface IReportData {
   projectName: string // 工程名称
-  projectPath: string	// 工程路径
-  pagesNum: number	// 页面数
-  filesNum: number 	// 文件数
-  errMsgList: Array<ErrMsgs>	// 异常信息列表
+  projectPath: string // 工程路径
+  pagesNum: number // 页面数
+  filesNum: number // 文件数
+  errMsgList: Array<ErrMsgs> // 异常信息列表
 }
 
 /* 单个错误信息 */
 export interface ErrMsgs {
-  filePath: string	// 文件路径
+  filePath: string // 文件路径
   msgType: string // 异常类型
   mesDescribe: string // 信息描述
-  errCodeList: Array<ErrCodeMsg>	// 异常代码信息列表
+  errCodeList: Array<ErrCodeMsg> // 异常代码信息列表
 }
 
 /* 单个错误的代码信息 */
 export interface ErrCodeMsg {
   msgType: string // 错误类型
   describe: string // 信息描述
-  codeBeforeConvert?: { // 转换之前的异常代码信息
+  codeBeforeConvert?: {
+    // 转换之前的异常代码信息
     filePath: string // 异常文件路径
     code: string // 异常代码
-    location?: Location	// 异常代码位置
+    location?: Location // 异常代码位置
   }
-  codeAfterConvert?: { // 转换之后的异常代码信息
+  codeAfterConvert?: {
+    // 转换之后的异常代码信息
     filePath: string // 异常文件路径
     code: string // 异常代码
-    location?: Location	// 异常代码位置
+    location?: Location // 异常代码位置
   }
 }
 
 /* 代码位置 */
 export interface Location {
-  start?: {	// 开始位置
-    col: number	// 列
-    row: number	// 行
+  start?: {
+    // 开始位置
+    col: number // 列
+    row: number // 行
   }
-  end?: {		// 结束位置
-    col: number	// 列
-    row: number	// 行
+  end?: {
+    // 结束位置
+    col: number // 列
+    row: number // 行
   }
 }
 
@@ -459,12 +463,7 @@ export function getWxssImports (content: string) {
  * @param { string } targeFileName 转换后文件名
  * @param { IReportData } reportErroMsg 报错信息
  */
-export function generateReportFile (
-  sourceFilePath,
-  targeFileDir,
-  targeFileName,
-  reportErroMsg?: IReportData
-) {
+export function generateReportFile (sourceFilePath, targeFileDir, targeFileName, reportErroMsg?: IReportData) {
   try {
     if (!fs.existsSync(targeFileDir)) {
       fs.mkdirSync(targeFileDir, { recursive: true })
@@ -500,12 +499,7 @@ export function generateDir (dirPath) {
       fs.mkdirSync(dirPath)
     }
   } catch (error) {
-    createErrorCodeMsg(
-      'CreateFolderError',
-      `创建文件夹${dirPath}失败`,
-      '',
-      dirPath
-    )
+    createErrorCodeMsg('CreateFolderError', `创建文件夹${dirPath}失败`, '', dirPath)
     console.log(`创建文件夹${dirPath}失败`)
   }
 }
@@ -553,12 +547,7 @@ export function printToLogFile () {
     globals.logFileContent = ''
   } catch (error) {
     console.error(`写入日志文件异常 ${error.message}}`)
-    throw new IReportError(
-      '写日志文件异常',
-      'WriteLogException',
-      globals.logFilePath,
-      ''
-    )
+    throw new IReportError('写日志文件异常', 'WriteLogException', globals.logFilePath, '')
   }
 }
 
@@ -672,13 +661,9 @@ export function computeProjectFileNums (projectPath: string): number {
  * @param filePath
  * @param errMsgList
  */
-function findErrMsg (
-  msgType: string,
-  filePath: string,
-  errMsgList: ErrMsgs[]
-): undefined | ErrMsgs {
+function findErrMsg (msgType: string, filePath: string, errMsgList: ErrMsgs[]): undefined | ErrMsgs {
   return errMsgList.find((errMsg) => {
-    return (errMsg.msgType === msgType) && (errMsg.filePath === filePath)
+    return errMsg.msgType === msgType && errMsg.filePath === filePath
   })
 }
 
@@ -697,7 +682,7 @@ function hasCode (errCodeMsg: ErrCodeMsg): boolean {
  */
 export function paseGlobalErrMsgs (errCodeMsgs: ErrCodeMsg[]): ErrMsgs[] {
   const errMsgList: ErrMsgs[] = []
-  errCodeMsgs.forEach((errCodeMsg: ErrCodeMsg ) => {
+  errCodeMsgs.forEach((errCodeMsg: ErrCodeMsg) => {
     const msgType = errCodeMsg.msgType
     const filePath = errCodeMsg.codeBeforeConvert?.filePath
     if (msgType && filePath) {
@@ -711,7 +696,7 @@ export function paseGlobalErrMsgs (errCodeMsgs: ErrCodeMsg[]): ErrMsgs[] {
           filePath,
           msgType,
           errCodeList: [errCodeMsg],
-          mesDescribe: hasCode(errCodeMsg) ? '' : errCodeMsg.describe
+          mesDescribe: hasCode(errCodeMsg) ? '' : errCodeMsg.describe,
         })
       }
     }
@@ -726,14 +711,10 @@ export function paseGlobalErrMsgs (errCodeMsgs: ErrCodeMsg[]): ErrMsgs[] {
  * @param { string } jsPath  js文件路径
  * @param { string } wxmlPath wxml文件路径
  */
-export function parseError (
-  errMsg: IReportError,
-  jsPath: string,
-  wxmlPath: string
-) {
+export function parseError (errMsg: IReportError, jsPath: string, wxmlPath: string) {
   const filePathMap = new Map([
     ['WXML_FILE', wxmlPath],
-    ['JS_FILE', jsPath]
+    ['JS_FILE', jsPath],
   ])
   if (errMsg.msgType) {
     const currentFilePath = filePathMap.get(errMsg.filePath) || errMsg.filePath
@@ -743,8 +724,8 @@ export function parseError (
       codeBeforeConvert: {
         filePath: currentFilePath,
         code: errMsg.code,
-        location: { start: errMsg.location }
-      }
+        location: { start: errMsg.location },
+      },
     }
     globals.errCodeMsgs.push(errCodeMsg)
   }
@@ -771,8 +752,8 @@ export function createErrorCodeMsg (
     codeBeforeConvert: {
       filePath,
       code,
-      location: { start: position || { col: 0, row: 0 } }
-    }
+      location: { start: position || { col: 0, row: 0 } },
+    },
   }
   globals.errCodeMsgs.push(errorCodeMst)
 }
@@ -781,7 +762,6 @@ export function createErrorCodeMsg (
  *  拓展原生 Error 属性
  */
 export class IReportError extends Error {
-
   // 错误信息类型
   msgType: string
 
@@ -806,7 +786,6 @@ export class IReportError extends Error {
     this.filePath = filePath || ''
     this.code = code || ''
     this.location = location || { col: 0, row: 0 }
-
   }
 }
 

@@ -52,10 +52,10 @@ export function setNodeValue (node: FormElement, oldValue: RestoreType, value, t
   if (value != null) {
     if (type === 'number') {
       if (
-        (value === 0 && node.value === '') ||
+        (value === 0 && node.value === '')
         // We explicitly want to coerce to number here if possible.
         // eslint-disable-next-line
-        oldValue != value
+        || oldValue != value
       ) {
         node.value = toString(value)
       }

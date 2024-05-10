@@ -58,6 +58,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     const nativeCompPathList: string[] = []
 
     for (const comp of viteCompilerContext.nativeComponents.values()) {
+      if (comp.isPackage) continue
       nativeCompPathList.push(comp.templatePath + QUERY_IS_NATIVE_SCRIPT)
     }
 
@@ -195,6 +196,8 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             name = chunkInfo.name
           }
 
+          name = name.replace(/[\\/]+/g, '/')
+
           const appId = viteCompilerContext.app.config.appId || 'app'
           const isTaroComp = appId === name || viteCompilerContext.pages.some(page => page.name === name) || viteCompilerContext.components?.some(comp => comp.name === name)
           // 如果同时存在app.ets和app.js，因为鸿蒙IDE编译会把app.ets编译成app.ts，会跟app.js冲突，识别都是/app，导致app.js被app.ts覆盖了，所以需要名字
@@ -203,6 +206,10 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
           if (chunkInfo.facadeModuleId && chunkInfo.facadeModuleId.includes(QUERY_IS_NATIVE_SCRIPT)) {
             name += QUERY_IS_NATIVE_SCRIPT
+          }
+
+          if (name.startsWith('.')) {
+            name = name.replace(/^\.[.\\/]+/, '')
           }
 
           return name

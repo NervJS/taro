@@ -13,14 +13,16 @@ tokio-util = { version = "=0.7.10" }
 futures = { version = "=0.3.30" }
 handlebars = { version = "=4.5.0" }
 handlebars_misc_helpers = { version = "=0.13.0" }
-serde_json = { version = "=1.0.108" }
-serde = { version = "=1.0.193", features = ["serde_derive"] }
+serde_json = { version = "=1.0.114" }
+serde = { version = "=1.0.197", features = ["serde_derive"] }
 anyhow = { version = "=1.0.75" }
 console = { version = "=0.15.7" }
 spinners = { version = "=4.1.1" }
 regex = { version = "=1.10.2" }
 swc_core = { version = "0.87.*", features = ["ecma_plugin_transform", "ecma_utils"] }
 
+[patch.crates-io]
+taro_init = { path = "crates/taro_init" }
 
 [profile.dev]
 debug = 2

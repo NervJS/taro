@@ -23,10 +23,10 @@ class CSSStyleDeclaration {
   }
 
   public set cssText (value: string) {
+    // 复制，防止被篡改到attr上的原始内容
+    this._st.hmStyle = Object.assign({}, this.el._attrs?.__hmStyle) || {}
     if (value === '' || value === undefined || value === null) {
-      // TODO: 清空 stylesheet 里面的 hmstyle
-      // this.el._st = {}
-      this._st.hmStyle = {}
+      // 清空style，只保留class的样式
       return
     }
 
@@ -42,7 +42,7 @@ class CSSStyleDeclaration {
       const [propName, ...valList] = rule.split(':')
       const val = valList.join(':')
 
-      if (typeof val === undefined) {
+      if (typeof val === 'undefined') {
         continue
       }
       this.setProperty(propName.trim(), val.trim())

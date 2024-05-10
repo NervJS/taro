@@ -4,7 +4,9 @@
     "baseUrl": ".",
     "lib": ["ESNext"],
     "module": "ESNext",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "declaration": true,
+    "outDir": "dist"
   },
   "include": ["./src"]
 }

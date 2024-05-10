@@ -32,7 +32,8 @@ export function showToast (options) {
     promptAction.showToast({
       message: options.title,
       duration: options.duration,
-      bottom: options.bottom
+      bottom: options.bottom,
+      showMode: 1 // 设置弹窗显示模式，显示在应用之上。
     })
     callAsyncSuccess(resolve, resCallback('showToast'), options)
   })
@@ -171,16 +172,7 @@ export function showActionSheet (options) {
   })
 }
 
-export function hideToast (options) {
-  return new Promise(resolve => {
-    promptAction.showToast({
-      message: '关闭中',
-      duration: 10,
-      bottom: '9999px'
-    })
-    callAsyncSuccess(resolve, resCallback('hideToast'), options)
-  })
-}
+export const hideToast = /* @__PURE__ */ temporarilyNotSupport('hideToast')
 
 export const showLoading = temporarilyNotSupport('showLoading')
 export const hideLoading = temporarilyNotSupport('hideLoading')

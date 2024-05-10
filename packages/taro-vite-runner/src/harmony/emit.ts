@@ -4,6 +4,7 @@ import path from 'node:path'
 import { chalk, fs } from '@tarojs/helper'
 import { isFunction, isString, toDashed } from '@tarojs/shared'
 
+import { addLeadingSlash } from '../utils'
 import { componentConfig } from '../utils/component'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
@@ -102,18 +103,34 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         // @ts-ignore
         const comps = viteCompilerContext.getComponents() || []
 
-        fs.writeFileSync(mainFile, comps.map(comp => `export * from './${path.join('src/main', 'ets', comp.name)}'`).join('\n'))
+        const lines: string[] = []
+        comps.forEach(comp => {
+          const key = Object.keys(taroConfig.router?.customRoutes || {}).find(e => [comp.name, addLeadingSlash(comp.name)].includes(e))
+
+          if (key) {
+            const alias = taroConfig.router?.customRoutes![key]
+            if (alias instanceof Array) {
+              alias.forEach(item => lines.push(`export * from './${path.join('src/main', 'ets', item)}'`))
+            } else if (typeof alias === 'string') {
+              lines.push(`export * from './${path.join('src/main', 'ets', alias)}'`)
+            }
+          } else {
+            lines.push(`export * from './${path.join('src/main', 'ets', comp.name)}'`)
+          }
+        })
+        lines.push('')
+        fs.writeFileSync(mainFile, lines.join('\n'))
       }
       let ohpmPath = ohpm
       let localOhpmPath = ''
       try {
         if (!ohpm) {
-          localOhpmPath = execSync(`${process?.platform === 'win32'? 'where': 'which'} ohpm`).toString().replace(/\n/, '')
+          localOhpmPath = execSync(`${process?.platform === 'win32' ? 'where' : 'which'} ohpm`).toString().replace(/\n/, '')
         }
       } catch (_) {
         localOhpmPath = ''
       }
-      ohpmPath = ohpm || localOhpmPath ||'~/Library/Huawei/ohpm/bin/ohpm'
+      ohpmPath = ohpm || localOhpmPath || '~/Library/Huawei/ohpm/bin/ohpm'
 
       try {
         console.log(`\n\n开始 ${chalk.yellow('ohpm install')} 脚本执行...\n`) // eslint-disable-line no-console

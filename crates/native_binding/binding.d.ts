@@ -35,11 +35,11 @@ export interface CreateOptions {
   pluginType?: string
 }
 
-export function createPage(conf: Page, handlers: Record<string, (err: Error | null, value: CreateOptions) => any>): Promise<void>
+export function createPage(conf: Page, handlers: Record<string, (err: Error | null, arg: CreateOptions) => any>): Promise<void>
 
 export function createPlugin(conf: Plugin): Promise<void>
 
-export function createProject(conf: Project, handlers: Record<string, (err: Error | null, value: CreateOptions) => any>): Promise<void>
+export function createProject(conf: Project, handlers: Record<string, (err: Error | null, arg: CreateOptions) => any>): Promise<void>
 
 export const enum CSSType {
   None = 'None',

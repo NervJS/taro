@@ -633,8 +633,10 @@ export default function transform(options: TransformOptions): TransformResult {
       }
 
       if (name === 'Provider') {
-        const modules = path.scope.getAllBindings()
-        const providerBinding = Object.values(modules).some((m: Binding) => m.identifier.name === 'Provider')
+        const modules = Object.entries(path.scope.getAllBindings()).filter(([, binding]) => {
+          return binding.kind === 'module'
+        }).map(([, binding]) => (binding))
+        const providerBinding = modules.some((m: Binding) => m.identifier.name === 'Provider')
         if (providerBinding) {
           path.node.name = t.jSXIdentifier('View') as any
           const store = path.node.attributes.find((attr) => t.isJSXAttribute(attr) && attr.name.name === 'store')

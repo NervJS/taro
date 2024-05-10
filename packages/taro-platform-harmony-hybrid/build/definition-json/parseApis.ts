@@ -3,7 +3,7 @@ import * as pathModule from 'path'
 
 /**
  * 解析API注释信息
- * 
+ *
  * @returns { object } apisDefinition - 返回api支持情况对象
  */
 export function parseApis () {

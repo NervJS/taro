@@ -40,7 +40,7 @@ export function convertNumber2PX (value: number) {
 
 export function convertNumber2VP (value: number, unit = 'px'): string | number {
   if (unit === 'vw' || unit === 'vh') {
-    return (value / 100 * (unit === 'vw' ? display.width: display.height)) + 'px'
+    return (value / 100 * (unit === 'vw' ? display.width : display.height)) + 'px'
   }
   if (unit === 'PX') {
     // 特殊单位：相当于PX、pX、Px
@@ -55,6 +55,7 @@ export function parseClasses (classNames = ''): string[] {
 
 // 合并静态样式，从样式表里面找到对应的样式
 export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, classNames = ''): CSSProperties {
+  classNames = classNames || '' // 兼容有些开发者传入了false/null等非字符串类型
   const obj: CSSProperties[] = []
 
   if (!styleSheet.cache) {
@@ -79,7 +80,7 @@ export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, clas
       const result = Object.assign.apply(null, [{}].concat(obj))
 
       cache[classNames] = result
-      
+
       return result
     }
   }
@@ -96,7 +97,7 @@ export function calcDynamicStyle (style: CSSProperties): CSSProperties {
 // css env()环境样式获取
 export function __env__(safeAreaType: string, fallback?: string | number) {
   const sysInfo = getSystemInfoSync()
-  
+
   switch (safeAreaType) {
     case 'safe-area-inset-top': {
       return sysInfo.safeArea?.top ? `${sysInfo.safeArea?.top}px` : fallback

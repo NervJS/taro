@@ -280,5 +280,4 @@ describe('lifecycle', () => {
     const root = ReactDOM.createRoot(scratch)
     root.render(<A />)
   })
-
 })

@@ -95,7 +95,7 @@ export const URLSearchParams = process.env.TARO_PLATFORM === 'web' ? env.window.
     return name in this.#dict
   }
 
-  keys (){
+  keys () {
     return Object.keys(this.#dict)
   }
 

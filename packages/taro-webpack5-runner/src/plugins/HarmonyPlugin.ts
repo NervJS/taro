@@ -1018,10 +1018,10 @@ export default class TaroHarmonyPlugin {
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if (
-        (REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName))
-        && this.options.commonChunks.includes(fileName)
+        (REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) &&
+        this.options.commonChunks.includes(fileName) &&
         // app.wxss 不能引入独立分包中的 common 样式文件
-        && independentPackageNames.every(name => !assetName.includes(name))
+        independentPackageNames.every(name => !assetName.includes(name))
       ) {
         commons.add('\n')
         commons.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)

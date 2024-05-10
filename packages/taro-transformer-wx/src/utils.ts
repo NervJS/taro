@@ -84,7 +84,7 @@ export function getSuperClassCode(path: NodePath<t.ClassDeclaration>) {
         code,
         sourcePath: sourceValue,
       }
-    } catch (error) {}
+    } catch (e) {} // eslint-disable-line no-empty
   }
 }
 

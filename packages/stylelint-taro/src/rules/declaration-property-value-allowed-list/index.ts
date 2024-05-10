@@ -23,9 +23,7 @@ const meta = {
 }
 
 const rule: Rule = (primary) => {
-
   return (root, result) => {
-
     const validOptions = Object.keys(primary).every((key) => {
       if (primary[key]) {
         return validateOptions(result, ruleName, {
@@ -41,7 +39,7 @@ const rule: Rule = (primary) => {
     }
 
     const { intersection } = findIntersection(primary)
-		
+
     Object.keys(intersection).forEach(key => {
       if (intersection[key] === true) {
         delete intersection[key]
@@ -70,7 +68,7 @@ const rule: Rule = (primary) => {
           if (propPatterns.some((pattern) => {
             return optionsMatches(primary[platform], pattern, value) || primary[platform][pattern] === true
           })) {
-            return 
+            return
           }
           platforms.push(platform)
         }
@@ -78,7 +76,7 @@ const rule: Rule = (primary) => {
 
       const index = declarationValueIndex(decl)
       const endIndex = index + decl.value.length
-			
+
       report({
         message: messages.rejected(prop, value, platforms.join(', ')),
         node: decl,

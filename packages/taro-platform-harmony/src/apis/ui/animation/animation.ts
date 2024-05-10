@@ -23,7 +23,6 @@ type TStep = {
 type TRule = Record<string, any>
 
 export class Animation implements Taro.Animation {
-
   unit: string
   DEFAULT: IAnimationAttr
 

@@ -37,7 +37,7 @@ jest.mock('ora', () => {
       return {
         stop () {},
         warn () {},
-        succeed (){}
+        succeed () {}
       }
     }
   })

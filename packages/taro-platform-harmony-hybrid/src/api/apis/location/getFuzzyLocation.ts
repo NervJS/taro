@@ -1,12 +1,12 @@
 import Taro from '@tarojs/taro'
 
+import native from '../NativeApi'
 import { shouldBeObject } from '../utils'
 import { wgs84Togcj02 } from '../utils/coordinateConvert'
 import { MethodHandler } from '../utils/handler'
-
 /**
  * 获取当前的模糊地理位置
- *  
+ *
  * @canUse getFuzzyLocation
  * @__object [type]
  * @__success [latitude, longitude]
@@ -20,12 +20,7 @@ export const getFuzzyLocation: typeof Taro.getFuzzyLocation = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    type = 'wgs84',
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { type = 'wgs84', success, fail, complete } = options as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise<Taro.getFuzzyLocation.SuccessCallbackResult>((resolve, reject) => {
@@ -36,14 +31,13 @@ export const getFuzzyLocation: typeof Taro.getFuzzyLocation = (options) => {
     const timeoutId = setTimeout(function () {
       if (!fuzzyLocation.latitude && !fuzzyLocation.longitude) {
         const result: TaroGeneral.CallbackResult = {
-          errMsg: '定位超时！'
+          errMsg: '定位超时！',
         }
         flag = false
         handle.fail(result, { resolve, reject })
       }
     }, 10000)
 
-    // @ts-ignore
     native.getLocation({
       success: (res: any) => {
         // 超时后即使后面回调触发了也不后面的逻辑
@@ -62,7 +56,7 @@ export const getFuzzyLocation: typeof Taro.getFuzzyLocation = (options) => {
           fuzzyLocation.longitude = parseFloat(lng.toFixed(6))
         } else {
           const result: TaroGeneral.CallbackResult = {
-            errMsg: 'type参数有误，仅支持"wgs84"和"gcj02"坐标系！'
+            errMsg: 'type参数有误，仅支持"wgs84"和"gcj02"坐标系！',
           }
           clearTimeout(timeoutId)
           return handle.fail(result, { resolve, reject })
@@ -74,10 +68,10 @@ export const getFuzzyLocation: typeof Taro.getFuzzyLocation = (options) => {
           return
         }
         const result: TaroGeneral.CallbackResult = {
-          errMsg: `${name}:fail errCode: ${res.errCode}`
+          errMsg: `${name}:fail errCode: ${res.errCode}`,
         }
         handle.fail(result, { resolve, reject })
-      }
+      },
     })
   })
 }

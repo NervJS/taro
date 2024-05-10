@@ -47,9 +47,9 @@ export function getPxTransform (taro) {
     const config = taro.config || {}
     const baseFontSize = config.baseFontSize
     const deviceRatio = config.deviceRatio || defaultDesignRatio
-    const designWidth = (((input = 0) => isFunction(config.designWidth)
+    const designWidth = ((input = 0) => isFunction(config.designWidth)
       ? config.designWidth(input)
-      : config.designWidth || defaultDesignWidth))(size)
+      : config.designWidth || defaultDesignWidth)(size)
     if (!(designWidth in deviceRatio)) {
       throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
     }

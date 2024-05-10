@@ -57,6 +57,8 @@ export interface PageInstance extends PageLifeCycle {
   options?: Record<string, unknown>
   /** 页面渲染引擎类型 */
   renderer?: 'webview' | 'skyline'
+  /** 获得一个 EventChannel 对象，用于页面间通讯 */
+  getOpenerEventChannel?(): Record<string, any>
 }
 
 interface Show {

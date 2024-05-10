@@ -1,11 +1,11 @@
 import Taro from '@tarojs/taro'
 
+import native from '../../NativeApi'
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
-
 /**
  * 获取用户信息
- * 
+ *
  * @canUse getUserInfo
  * @__object [lang, withCredentials]
  * @__success [userInfo]
@@ -25,7 +25,6 @@ export const getUserInfo: typeof Taro.getUserInfo = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  // @ts-ignore
   const ret = native.getUserInfo({
     lang: lang,
     withCredentials: withCredentials,
@@ -38,3 +37,10 @@ export const getUserInfo: typeof Taro.getUserInfo = (options) => {
   })
   return ret
 }
+
+/**
+ * 用户信息
+ *
+ * @canUse UserInfo
+ * @__class [nickName, avatarUrl]
+ */

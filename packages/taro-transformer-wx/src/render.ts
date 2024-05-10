@@ -672,8 +672,7 @@ export class RenderParser {
     { parentNode, parentPath, isFinalReturn, isIfStemInLoop }: JSXHandler
   ) {
     if (t.isReturnStatement(parentNode)) {
-      if (!isFinalReturn && !isIfStemInLoop) {
-      } else {
+      if (isFinalReturn || isIfStemInLoop) {
         const ifStatement = parentPath.findParent((p) => p.isIfStatement()) as any
         const blockStatement = parentPath.findParent(
           (p) => p.isBlockStatement() && p.parentPath === ifStatement

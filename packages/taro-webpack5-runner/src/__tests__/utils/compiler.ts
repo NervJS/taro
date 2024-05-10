@@ -75,6 +75,7 @@ export async function compile<T extends IMiniBuildConfig | IH5BuildConfig = Comm
 
   if (isMiniConfig(customConfig) && customConfig.buildAdapter === 'weapp') {
     const program = new Weapp({ helper } as any, {})
+    program.modifyTemplate?.({})
     customConfig.globalObject = program.globalObject
     customConfig.fileType = program.fileType
     customConfig.template = program.template

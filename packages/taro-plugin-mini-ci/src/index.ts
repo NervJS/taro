@@ -64,7 +64,7 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
             password: joi.string().required()
           }),
           /** 阿里小程序上传配置 */
-          alipay:joi.alternatives().try(
+          alipay: joi.alternatives().try(
             joi.object({
               appid: joi.string().required(),
               toolId: joi.string().required(),
@@ -212,5 +212,4 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
       }
     })
   })
-
 }

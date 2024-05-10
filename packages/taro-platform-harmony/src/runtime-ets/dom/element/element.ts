@@ -342,7 +342,7 @@ export class TaroElement<
         this.setLayer(0)
       } else {
         Object.keys(currentLayerParents).forEach(fixedId => {
-          const parentIds =currentLayerParents[fixedId]
+          const parentIds = currentLayerParents[fixedId]
           if (parentIds[this._nid]) {
             // 需要移除fixedId
             delete currentLayerParents[fixedId]
