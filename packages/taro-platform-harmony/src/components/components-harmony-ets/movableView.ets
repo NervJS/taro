@@ -3,19 +3,8 @@ import type { TaroAny, TaroMovableViewElement, TaroElement } from '@tarojs/runti
 import commonStyleModify, { rowModify, columnModify } from './style'
 
 import { FlexManager } from './utils/flexManager'
-import { isUndefined } from '@tarojs/shared'
 
-function callTouchEventFnFromGesture(node: TaroElement, eventName: string, gestureEvent: GestureEvent) {
-  const touchFns = (node?.__listeners?.[eventName] || []) as Function[]
-  touchFns.forEach(fn => {
-    fn({
-      changedTouches: gestureEvent.fingerList.map(finger => ({
-        clientX: finger.globalX,
-        clientY: finger.globalY
-      }))
-    })
-  })
-}
+
 
 @Component
 export default struct TaroMovableView {
@@ -58,23 +47,23 @@ export default struct TaroMovableView {
     .translate({ x: this.node.position.x, y: this.node.position.y })
     .scale({ x: this.node.scaleValue, y: this.node.scaleValue })
     .onAreaChange((oldValue: Area, newValue: Area) => {
-      this.node.selfSize = {w: Number(newValue.width), h: Number(newValue.height)}
+      this.node.selfSize = { w: Number(newValue.width), h: Number(newValue.height) }
     })
     .gesture(
       GestureGroup(GestureMode.Exclusive,
-        PanGesture({fingers:1}).onActionStart((e: GestureEvent) => {
+        PanGesture({ fingers: 1 }).onActionStart((e: GestureEvent) => {
 
           this.node.startMove()
-          callTouchEventFnFromGesture(this.node, 'touchstart', e)
+          this.node.callTouchEventFnFromGesture('touchstart', e)
         }).onActionUpdate((e: GestureEvent) => {
-          callTouchEventFnFromGesture(this.node, 'touchmove', e)
+          this.node.callTouchEventFnFromGesture('touchmove', e)
           this.node.doMove({
             x: e.offsetX,
             y: e.offsetY
           })
 
         }).onActionEnd((e: GestureEvent) => {
-          callTouchEventFnFromGesture(this.node, 'touchend', e)
+          this.node.callTouchEventFnFromGesture('touchend', e)
           this.node.checkPositionBoundary(this.node.position, this.node.scaleValue)
         }),
         PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {

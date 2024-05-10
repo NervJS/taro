@@ -194,4 +194,16 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
 
     super.setAttribute(name, value)
   }
+
+  public callTouchEventFnFromGesture(eventName: string, gestureEvent: GestureEvent) {
+    const touchFns = (this?.__listeners?.[eventName] || []) as Function[]
+    touchFns.forEach(fn => {
+      fn({
+        changedTouches: gestureEvent.fingerList.map(finger => ({
+          clientX: finger.globalX,
+          clientY: finger.globalY
+        }))
+      })
+    })
+  }
 }
