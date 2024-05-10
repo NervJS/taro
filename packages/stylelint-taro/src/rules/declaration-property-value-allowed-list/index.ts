@@ -1,11 +1,11 @@
-import stylelint from 'stylelint'
-import declarationValueIndex from 'stylelint/lib/utils/declarationValueIndex'
-import matchesStringOrRegExp from 'stylelint/lib/utils/matchesStringOrRegExp'
-import optionsMatches from 'stylelint/lib/utils/optionsMatches'
-import validateObjectWithArrayProps from 'stylelint/lib/utils/validateObjectWithArrayProps'
-import validateOptions from 'stylelint/lib/utils/validateOptions'
-import { isBoolean, isRegExp, isString } from 'stylelint/lib/utils/validateTypes'
-import vendor from 'stylelint/lib/utils/vendor'
+import { utils } from 'stylelint'
+import declarationValueIndex from 'stylelint/lib/utils/declarationValueIndex.cjs'
+import matchesStringOrRegExp from 'stylelint/lib/utils/matchesStringOrRegExp.cjs'
+import optionsMatches from 'stylelint/lib/utils/optionsMatches.cjs'
+import validateObjectWithArrayProps from 'stylelint/lib/utils/validateObjectWithArrayProps.cjs'
+import validateOptions from 'stylelint/lib/utils/validateOptions.cjs'
+import { isBoolean, isRegExp, isString } from 'stylelint/lib/utils/validateTypes.cjs'
+import vendor from 'stylelint/lib/utils/vendor.cjs'
 
 import { findIntersection, log, nameSpace, report, taroDocsUrl } from '../../utils'
 
@@ -13,7 +13,7 @@ import type { Rule } from 'stylelint'
 
 export const ruleName = nameSpace('declaration-property-value-allowed-list')
 
-export const messages = stylelint.utils.ruleMessages(ruleName, {
+export const messages = utils.ruleMessages(ruleName, {
   rejected: (property, value, platfrom) => log(`"${property}" 暂不支持值 "${value}"，受限端: "${platfrom}"`)
 })
 
