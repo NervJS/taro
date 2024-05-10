@@ -48,6 +48,8 @@
     "@tarojs/components": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*",
+    "@tarojs/taro-h5": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "jest-environment-jsdom": "^29.6.4",
     "jsdom": "^21.1.0"
   },
