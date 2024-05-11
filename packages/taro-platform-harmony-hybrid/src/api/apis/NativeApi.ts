@@ -20,7 +20,7 @@ class NativeApi {
   chooseLocation (options: any): any {
     return options
   }
-  
+
   // @ts-ignore
   @(syncAndRelease)
   getWindowInfo (): any {
