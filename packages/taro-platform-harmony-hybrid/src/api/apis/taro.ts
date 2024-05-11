@@ -1,6 +1,5 @@
 import Taro from '@tarojs/api'
-import DefaultTaroH5 from '@tarojs/taro-h5/dist/api/taro'
-import * as taroH5 from '@tarojs/taro-h5/dist/api/taro'
+import TaroH5, { getAppInfo } from '@tarojs/taro-h5/dist/api/taro'
 
 import {
   getApp,
@@ -23,24 +22,68 @@ const requirePlugin = () => {
   }
 }
 
-const NamedTaroHarmonyHybrid: typeof Taro = {
-  ...DefaultTaroH5,
-  getApp,
+const {
+  Behavior,
+  getEnv,
+  ENV_TYPE,
+  Link,
+  interceptors,
+  interceptorify,
+  Current,
+  options,
+  eventCenter,
+  Events,
+  preload,
+  history,
+  pxTransform,
+  initPxTransform,
+  canIUseWebp
+} = TaroH5 as any
+
+const taro: typeof Taro = {
+  // @ts-ignore
+  Behavior,
+  getEnv,
+  ENV_TYPE,
+  Link,
+  interceptors,
+  interceptorify,
+  Current,
   getCurrentInstance,
-  getCurrentPages,
+  options,
+  nextTick,
+  eventCenter,
+  Events,
+  preload,
+  history,
   navigateBack,
   navigateTo,
-  nextTick,
-  redirectTo,
   reLaunch,
+  redirectTo,
+  getCurrentPages,
   switchTab,
-  requirePlugin
-}
-export default NamedTaroHarmonyHybrid
-// 覆写H5的requirePlugin
-export const taroHarmonyHybrid = {
-  ...taroH5,
-  requirePlugin
+  requirePlugin,
+  getApp
 }
 
+export default taro
 
+export {
+  Behavior,
+  canIUseWebp,
+  Current,
+  ENV_TYPE,
+  eventCenter,
+  Events,
+  getAppInfo,
+  getEnv,
+  history,
+  initPxTransform,
+  interceptorify,
+  interceptors,
+  Link,
+  options,
+  preload,
+  pxTransform,
+  requirePlugin
+}
