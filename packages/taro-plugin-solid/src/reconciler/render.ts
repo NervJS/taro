@@ -1,6 +1,6 @@
 import { document, TaroElement, TaroNode, TaroText } from '@tarojs/runtime'
 import { createRenderer } from 'solid-js/universal'
-import { createComponent as _createComponent, insert as _insert, render as _render } from 'solid-js/web/dist/web.cjs'
+import { createComponent as _createComponent, insert as _insert, render as _render } from 'solid-js/web/dist/web'
 
 import { setProperty } from './props'
 

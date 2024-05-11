@@ -1,5 +1,6 @@
 import { fs, REG_TARO_H5 } from '@tarojs/helper'
 import { capitalize, internalComponents, isString, toCamelCase } from '@tarojs/shared'
+import solidPlugin from 'vite-plugin-solid'
 
 import { h5iVitePlugin } from './vite.h5'
 import { harmonyVitePlugin } from './vite.harmony'
@@ -10,7 +11,6 @@ import { modifyMiniWebpackChain } from './webpack.mini'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
-import type { PluginOption } from 'vite'
 
 export const RECONCILER_NAME = '@tarojs/plugin-framework-solid/dist/reconciler'
 
@@ -86,18 +86,33 @@ export default (ctx: IPluginContext) => {
       esbuildConfig.plugins.push(taroSolidPlugin)
     } else if (compiler.type === 'vite') {
       compiler.vitePlugins ||= []
-      compiler.vitePlugins.push(viteCommonPlugin())
-      compiler.vitePlugins.push(VitePresetPlugin())
+      const solidOptions = {}
       if (process.env.TARO_PLATFORM === 'web') {
         // H5
-        compiler.vitePlugins.push(h5iVitePlugin(ctx))
+        compiler.vitePlugins.push(...h5iVitePlugin(ctx))
       } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {
         // 鸿蒙
         compiler.vitePlugins.push(harmonyVitePlugin(ctx))
       } else {
+        Object.assign(solidOptions, {
+          moduleName: RECONCILER_NAME,
+          generate: 'universal',
+          uniqueTransform: true,
+        })
         // 小程序
         compiler.vitePlugins.push(miniVitePlugin(ctx))
       }
+      // @TODO vite的插件需要内部删除babel-preset-solid
+      compiler.vitePlugins.push(solidPlugin({
+        babel: {
+          presets: [
+            [
+              require('babel-plugin-transform-solid-jsx'),
+              solidOptions
+            ],
+          ],
+        },
+      }))
     }
   })
 
@@ -109,21 +124,3 @@ export default (ctx: IPluginContext) => {
   })
 }
 
-function VitePresetPlugin (): PluginOption {
-  return require('vite-plugin-solid')
-}
-
-function viteCommonPlugin (): PluginOption {
-  return {
-    name: 'taro-solid:common',
-    config () {
-      const alias = [{ find: 'react/jsx-runtime', replacement: RECONCILER_NAME }]
-
-      return {
-        resolve: {
-          alias,
-        },
-      }
-    },
-  }
-}

@@ -44,6 +44,7 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
+    "babel-plugin-transform-solid-jsx": "workspace:*",
     "esbuild": "~0.19.5",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
@@ -57,9 +58,9 @@
   "peerDependencies": {
     "@tarojs/runtime": "workspace:~",
     "@tarojs/shared": "workspace:~",
+    "solid-js": ">=1",
     "vite": "^4.2.0",
-    "vite-plugin-solid": "^2.10.2",
-    "solid-js": ">=1"
+    "vite-plugin-solid": "^2.10.2"
   },
   "peerDependenciesMeta": {
     "@prefresh/webpack": {

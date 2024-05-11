@@ -7,11 +7,10 @@ import { getLoaderMeta } from './loader-meta'
 import type { IPluginContext } from '@tarojs/service'
 import type { PluginOption } from 'vite'
 
-export function h5iVitePlugin (ctx: IPluginContext): PluginOption {
+export function h5iVitePlugin (ctx: IPluginContext): PluginOption[] {
   return [
     injectLoaderMeta(ctx),
     setTaroApi(),
-    esbuildExclude()
   ]
 }
 
@@ -71,15 +70,4 @@ function setTaroApi (): PluginOption {
   }
 }
 
-// todo 后面看看能否把 preact 改为虚拟模块
-function esbuildExclude (): PluginOption {
-  return {
-    name: 'taro-solid:esvuild-exclude',
-    enforce: 'pre',
-    config: () => ({
-      optimizeDeps: {
-        exclude: ['solid-js']
-      }
-    })
-  }
-}
+
