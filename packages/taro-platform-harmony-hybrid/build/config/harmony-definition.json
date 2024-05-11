@@ -657,7 +657,7 @@
         "tempFilePath": true
       }
     },
-    "compressVideo": true,
+    "compressVideo": false,
     "connectSocket": {
       "object": {
         "url": true,

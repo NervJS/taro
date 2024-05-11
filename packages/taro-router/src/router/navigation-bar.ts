@@ -41,7 +41,7 @@ export default class NavigationBarHandler {
   }
 
   private toHomeFn () {
-    reLaunch({ url: this.pageContext.homePage })
+    reLaunch({ url: this.pageContext.originHomePage })
   }
 
   private backFn () {
