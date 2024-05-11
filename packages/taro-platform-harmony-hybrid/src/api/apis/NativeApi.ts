@@ -11,6 +11,18 @@ const asyncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridge
 class NativeApi {
   // @ts-ignore
   @(syncAndRelease)
+  openLocation (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  chooseLocation (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
   getWindowInfo (): any {
     return ''
   }
