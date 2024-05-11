@@ -2,6 +2,8 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/api/apis/utils'
 import { MethodHandler } from 'src/api/apis/utils/handler'
 
+import native from '../NativeApi'
+
 /**
  * 关闭监听实时位置变化，前后台都停止消息接收
  *
