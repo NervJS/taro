@@ -621,7 +621,9 @@ impl VisitMut for TransformVisitor {
                 HARMONY_IMPORTER.to_owned() +
                 utils::get_harmony_replace_component_dependency_define(self).as_str() +
                 format!(
-                    r#"@Component
+                    r#"
+@Reusable
+@Component
 export default struct TARO_TEMPLATES_{name} {{
   node: TaroViewElement = new TaroElement('Ignore')
 
