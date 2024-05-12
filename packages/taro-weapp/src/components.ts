@@ -475,4 +475,7 @@ export const components = {
   },
   NestedScrollHeader: {},
   NestedScrollBody: {},
+  PanGestureHandler: {
+    onGestureEvent: _empty,
+  },
 }

@@ -54,6 +54,7 @@ export { OpenContainer } from './OpenContainer'
 export { DraggableSheet } from './DraggableSheet'
 export { NestedScrollHeader } from './NestedScrollHeader'
 export { NestedScrollBody } from './NestedScrollBody'
+export { PanGestureHandler } from './PanGestureHandler'
 
 /** 导航 */
 export { FunctionalPageNavigator } from './FunctionalPageNavigator'
