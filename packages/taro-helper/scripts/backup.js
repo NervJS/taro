@@ -7,7 +7,7 @@ if (process.env.CI &&
     process.env.CI.toLowerCase() !== 'false')
 ) {
   // 判断是否为 CI 环境，CI 环境不走 backup 逻辑，否则两个 wasm 会被覆盖
-  return 
+  return
 }
 
 plugins.forEach(plugin => {

@@ -11,8 +11,8 @@ interface Option {
 const logFileMap = new Map()
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数
-  appendFile: jest.fn((path,content):any => {
-    logFileMap.set(path,content)
+  appendFile: jest.fn((path, content):any => {
+    logFileMap.set(path, content)
   })
 }))
 

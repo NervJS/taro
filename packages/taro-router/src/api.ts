@@ -60,21 +60,18 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
 
     try {
       if ('url' in option) {
-        const pathPieces = processNavigateUrl(option)
-        const state = { timestamp: Date.now() }
-        if (pathPieces.pathname) {
-          const originPath = routesAlias.getOrigin(pathPieces.pathname)
-          if (!RouterConfig.isPage(addLeadingSlash(originPath))) {
-            const res = { errMsg: `${method}:fail page ${originPath} is not found` }
-            fail?.(res)
-            complete?.(res)
-            if (fail || complete) {
-              return resolve(res)
-            } else {
-              return reject(res)
-            }
+        if (!RouterConfig.isPage(addLeadingSlash(option.url))) {
+          const res = { errMsg: `${method}:fail page ${option.url} is not found` }
+          fail?.(res)
+          complete?.(res)
+          if (fail || complete) {
+            return resolve(res)
+          } else {
+            return reject(res)
           }
         }
+        const pathPieces = processNavigateUrl(option)
+        const state = { timestamp: Date.now() }
         if (method === 'navigateTo') {
           history.push(pathPieces, state)
         } else if (method === 'redirectTo' || method === 'switchTab') {

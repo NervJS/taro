@@ -10,13 +10,13 @@ const QUALITY = 1.0 // 图片质量，为1.0时和原图片质量一致
 const DX = 0 // imageResource的左上角在目标 canvas 上 x 轴的位置
 const DY = 0 // imageResource的左上角在目标 canvas 上 y 轴的位置
 
-/** 
+/**
  * 把当前画布指定区域的内容导出生成指定大小的图片
- * 
+ *
  * @canUse canvasToTempFilePath
  * @__object [canvas, canvasId, quality, destHeight, destWidth, fileType[jpg, png], height, width, x, y]
  * @__success [tempFilePath]
-*/
+ */
 export const canvasToTempFilePath: typeof Taro.canvasToTempFilePath = (options, inst) => {
   const name = 'canvasToTempFilePath'
   // options must be an Object
@@ -26,7 +26,7 @@ export const canvasToTempFilePath: typeof Taro.canvasToTempFilePath = (options, 
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const { 
+  const {
     canvas,
     canvasId,
     quality = 1.0,
@@ -37,9 +37,9 @@ export const canvasToTempFilePath: typeof Taro.canvasToTempFilePath = (options, 
     width = 0,
     x = 0,
     y = 0,
-    success, 
-    fail, 
-    complete 
+    success,
+    fail,
+    complete,
   } = options as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name, success, fail, complete })
 

@@ -5,10 +5,10 @@ import { getFiberCurrentPropsFromNode, getInstanceFromNode, getNodeFromInstance 
 import { isTextInputElement, ReactDOMInputRestoreControlledState, ReactDOMTextareaRestoreControlledState, toString } from './domInput'
 import { updateValueIfChanged } from './inputValueTracking'
 import { Props } from './props'
-import { TaroReconciler } from './reconciler' 
+import { TaroReconciler } from './reconciler'
 
 
-export type RestoreType =  string | number | boolean | any[]
+export type RestoreType = string | number | boolean | any[]
 
 interface RestoreItem {
   target: TaroElement

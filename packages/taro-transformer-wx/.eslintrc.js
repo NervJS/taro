@@ -32,7 +32,6 @@ module.exports = {
     'no-new-func': 'off',
     'no-new': 'off',
     'prefer-const': 'off',
-    'no-empty': 'off',
     'no-unsafe-optional-chaining': 'off',
     'no-prototype-builtins': 'off',
     camelcase: 'off',

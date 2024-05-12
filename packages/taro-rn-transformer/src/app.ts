@@ -37,7 +37,7 @@ function getPagesResource (appPath: string, basePath: string, pathPrefix: string
   }
 }
 
-function getPageComponent (pagePath: string){
+function getPageComponent (pagePath: string) {
   const screen = camelCase(pagePath)
   const screenConfigName = `${screen}Config`
   return `createPageConfig(${screen},{...${screenConfigName},pagePath:'${pagePath}'})`

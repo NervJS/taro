@@ -102,7 +102,7 @@ export const addPhoneRepeatCalendar: typeof Taro.addPhoneRepeatCalendar = (optio
   return handle.success()
 }
 
-export const addPhoneCalendar: typeof Taro.addPhoneCalendar =  (options) => {
+export const addPhoneCalendar: typeof Taro.addPhoneCalendar = (options) => {
   const methodName = 'addPhoneCalendar'
   // options must be an Object
   const isObject = shouldBeObject(options)

@@ -1,0 +1,12 @@
+@import "@/styles/variables.scss";
+
+.test-style {
+    color: #f5f5f5;
+    background-color: $color-success;
+}
+.form-item{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+

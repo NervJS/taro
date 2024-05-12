@@ -5,7 +5,7 @@ import native from '../NativeApi'
 export class NativeUploadFile implements Taro.UploadTask {
   private objectId: number
 
-  constructor ( objectId: number) {
+  constructor (objectId: number) {
     this.objectId = objectId
   }
 
@@ -14,7 +14,7 @@ export class NativeUploadFile implements Taro.UploadTask {
   }
 
   abort (): void {
-    native.abort({}, this.objectId )
+    native.abort({}, this.objectId)
   }
 
   offHeadersReceived (option: any): void {

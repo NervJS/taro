@@ -62,7 +62,7 @@ export function createRouter (
   const render: LocationListener = async ({ location, action }) => {
     handler.pathname = decodeURI(location.pathname)
 
-    if ((window as any).__taroAppConfig?.usingWindowScroll) window.scrollTo(0,0)
+    if ((window as any).__taroAppConfig?.usingWindowScroll) window.scrollTo(0, 0)
     eventCenter.trigger('__taroRouterChange', {
       toLocation: {
         path: handler.pathname
@@ -132,6 +132,7 @@ export function createRouter (
     } else if (currentPage && handler.isTabBar(handler.pathname)) {
       if (handler.isSamePage(currentPage)) return
       if (handler.isTabBar(currentPage!.path!)) {
+        // NOTE: 从 tabBar 页面切换到 tabBar 页面
         handler.hide(currentPage)
         stacks.pushTab(currentPage!.path!.split('?')[0])
       } else if (stacks.length > 0) {
@@ -170,7 +171,7 @@ export function createRouter (
       handler.unload(currentPage, delta)
       shouldLoad = true
     } else if (action === 'PUSH') {
-      handler.hide(currentPage)
+      handler.hide(currentPage, true)
       shouldLoad = true
     }
 

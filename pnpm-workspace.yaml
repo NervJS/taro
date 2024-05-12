@@ -4,3 +4,4 @@ packages:
   - '!**/__tests__/**'
   - 'npm/**'
   - 'crates/native_binding'
+  - 'examples/mini-program-example'

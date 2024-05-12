@@ -1,6 +1,6 @@
 import { isUrlRequest, urlToRequest } from 'loader-utils'
 
-export default  async function (source) {
+export default async function (source) {
   const REG_REQUIRE = /require\(['"](.+\.wxs)['"]\)/g
   const callback = this.async()
 
@@ -26,7 +26,7 @@ export default  async function (source) {
         )
       }
     }
-    
+
     await Promise.all(importings)
     callback(null, source)
   } catch (error) {

@@ -1,6 +1,6 @@
 import { eventCenter } from '@tarojs/runtime'
 
-import { navigateBack,reLaunch } from '../api'
+import { navigateBack, reLaunch } from '../api'
 import { isDingTalk } from '../utils'
 import stacks from './stack'
 
@@ -20,8 +20,8 @@ export default class NavigationBarHandler {
   cache: Record<string, NavigationBarCache>
   isLoadDdEntry = false
 
-  constructor (pageContext: PageHandler){
-    this.cache ={}
+  constructor (pageContext: PageHandler) {
+    this.cache = {}
     this.pageContext = pageContext
     this.init()
 
@@ -41,7 +41,7 @@ export default class NavigationBarHandler {
   }
 
   private toHomeFn () {
-    reLaunch({ url: this.pageContext.homePage })
+    reLaunch({ url: this.pageContext.originHomePage })
   }
 
   private backFn () {
@@ -75,7 +75,7 @@ export default class NavigationBarHandler {
     this.backBtnElement?.addEventListener('click', this.backFn.bind(this))
   }
 
-  setNavigationBarElement (){
+  setNavigationBarElement () {
     this.navigationBarElement = document.getElementById('taro-navigation-bar') as HTMLElement
   }
 
@@ -89,7 +89,7 @@ export default class NavigationBarHandler {
     this.setNavigationLoading()
   }
 
-  setCacheValue (){
+  setCacheValue () {
     const currentPage = this.pageContext.currentPage
     if (typeof this.cache[currentPage] !== 'object') {
       this.cache[currentPage] = {}
@@ -214,25 +214,25 @@ export default class NavigationBarHandler {
     this.titleElement.innerHTML = proceedTitle
   }
 
-  fnBtnToggleToHome (){
+  fnBtnToggleToHome () {
     if (!this.navigationBarElement) return
     this.navigationBarElement.classList.add('taro-navigation-bar-home-icon')
     this.navigationBarElement.classList.remove('taro-navigation-bar-back-icon')
   }
 
-  fnBtnToggleToBack (){
+  fnBtnToggleToBack () {
     if (!this.navigationBarElement) return
     this.navigationBarElement.classList.remove('taro-navigation-bar-home-icon')
     this.navigationBarElement.classList.add('taro-navigation-bar-back-icon')
   }
 
-  fnBtnToggleToNone (){
+  fnBtnToggleToNone () {
     if (!this.navigationBarElement) return
     this.navigationBarElement.classList.remove('taro-navigation-bar-home-icon')
     this.navigationBarElement.classList.remove('taro-navigation-bar-back-icon')
   }
 
-  setNavigationBarVisible (show?){
+  setNavigationBarVisible (show?) {
     if (!this.navigationBarElement) return
 
     let shouldShow
@@ -240,7 +240,7 @@ export default class NavigationBarHandler {
       shouldShow = show
     } else {
       shouldShow = this.pageContext.config.window?.navigationStyle
-      if (typeof this.pageContext.pageConfig?.navigationStyle === 'string'){
+      if (typeof this.pageContext.pageConfig?.navigationStyle === 'string') {
         shouldShow = this.pageContext.pageConfig.navigationStyle
       }
     }
