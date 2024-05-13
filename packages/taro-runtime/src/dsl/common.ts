@@ -276,6 +276,14 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
   config.eh = eventHandler
 
+  Object.assign(config, {
+    weh: (evt) => {
+      'worklet'
+      // eslint-disable-next-line no-console
+      console.log(evt)
+    }
+  })
+
   if (!isUndefined(data)) {
     config.data = data
   }

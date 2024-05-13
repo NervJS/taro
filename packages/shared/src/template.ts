@@ -109,7 +109,7 @@ export class BaseTemplate {
 
   private buildAttribute (attrs: Attributes, nodeName: string): string {
     return Object.keys(attrs)
-      .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') || k.startsWith('catch') ? attrs[k] : `{${this.getAttrValue(attrs[k], k, nodeName)}}`}" `)
+      .map(k => `${k}="${k.startsWith('bind') || k.startsWith('on') || k.startsWith('catch') || k.startsWith('worklet') ? attrs[k] : `{${this.getAttrValue(attrs[k], k, nodeName)}}`}" `)
       .join('')
   }
 
@@ -137,6 +137,8 @@ export class BaseTemplate {
             let propValue = component[prop]
             if (prop.startsWith('bind') || propValue === 'eh') {
               propValue = 'eh'
+            } if (prop.startsWith('worklet')) {
+              propValue = 'weh'
             } else if (propValue === '') {
               const propInCamelCase = toCamelCase(prop)
               const propAlias = componentAlias[propInCamelCase] || propInCamelCase
@@ -250,6 +252,8 @@ export class BaseTemplate {
         }
         return str + ` bind${value}="eh"`
       } else if (attr.startsWith('bind')) {
+        return str + ` ${attr}="eh"`
+      } else if (attr.startsWith('worklet')) {
         return str + ` ${attr}="eh"`
       } else if (attr.startsWith('on')) {
         // react, vue3
