@@ -42,7 +42,6 @@ export const createSolidComponent = <
   ) => ExpandedPropsTypes,
   defineCustomElement?: () => void,
 ): Component<PropType & JSX.DOMAttributes<ElementType> & ComponentSupplementaryTypes> => {
-
   if (defineCustomElement !== undefined) {
     defineCustomElement()
   }
@@ -77,11 +76,13 @@ export const createSolidComponent = <
     const unTrackProps = getUnTrackProps(other)
     const [reactiveProps] = splitProps(other, reactiveKeys)
 
-    const _mergeProps = mergeProps(unTrackProps, { ref: (element: HTMLElement) => {
-      if (local.ref && isFunction(local.ref)) local.ref(element)
-      syncEvents(element, eventsMap)
-      setReactiveProps(element, reactiveProps)
-    } })
+    const _mergeProps = mergeProps(unTrackProps, {
+      ref: (element: HTMLElement) => {
+        if (local.ref && isFunction(local.ref)) local.ref(element)
+        syncEvents(element, eventsMap)
+        setReactiveProps(element, reactiveProps)
+      }
+    })
 
     return memo(() => h(tagName, _mergeProps, local.children), true)
   }
