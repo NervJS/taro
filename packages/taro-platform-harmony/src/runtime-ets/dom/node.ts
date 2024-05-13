@@ -273,7 +273,7 @@ function checkIsCompileModeAndInstallAfterDOMAction (node: TaroNode, parentNode:
 }
 
 function checkIsCompileModeAndUninstallAfterDOMAction (node: TaroNode) {
-  if (!node._isCompileMode || !parentNode._instance) return
+  if (!node._isCompileMode || !node?._instance) return
 
   node._instance.dynamicCenter?.uninstall?.(node)
 }
