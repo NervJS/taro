@@ -179,6 +179,7 @@ export { createChildItem, createLazyChildren }
     const { cwd: appPath, loaderMeta, taroConfig } = this.context
     const { outputRoot = 'dist', sourceRoot = 'src' } = taroConfig
     const { modifyResolveId } = loaderMeta
+    console.log('code', code) // eslint-disable-line
     return resolveAbsoluteRequire({
       name,
       importer: path.resolve(appPath, sourceRoot, fileName),
@@ -241,7 +242,7 @@ export { createChildItem, createLazyChildren }
         result += `import ${nativeMeta.name} from '${nativeMeta.scriptPath}'\n`
       } else {
         const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath)
-        result = `${result}import ${nativeMeta.name} from '../../../${nativePath}'\n`
+        result = `${result}import ${nativeMeta.name} from './${nativePath}'\n`
       }
     })
 
