@@ -179,7 +179,6 @@ export { createChildItem, createLazyChildren }
     const { cwd: appPath, loaderMeta, taroConfig } = this.context
     const { outputRoot = 'dist', sourceRoot = 'src' } = taroConfig
     const { modifyResolveId } = loaderMeta
-    console.log('code', code) // eslint-disable-line
     return resolveAbsoluteRequire({
       name,
       importer: path.resolve(appPath, sourceRoot, fileName),
