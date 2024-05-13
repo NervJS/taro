@@ -31,7 +31,6 @@ function aliasPlugin (): PluginOption {
     config () {
       const alias = [
         { find: 'solid-js/web$', replacement: RECONCILER_NAME },
-        { find: 'react/jsx-runtime', replacement: RECONCILER_NAME },
       ]
 
       return {

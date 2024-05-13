@@ -103,7 +103,7 @@ export default (ctx: IPluginContext) => {
         compiler.vitePlugins.push(miniVitePlugin(ctx))
       }
       // @TODO vite的插件需要内部删除babel-preset-solid
-      compiler.vitePlugins.push(solidPlugin({
+      compiler.vitePlugins.unshift(solidPlugin({
         babel: {
           presets: [
             [
