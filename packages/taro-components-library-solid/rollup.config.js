@@ -18,7 +18,7 @@ const config = {
     externals({
       deps: true,
       devDeps: false,
-      include: ['solid-js'],
+      include: [/^solid-js\.*/, /@tarojs/],
     }),
     resolve({
       preferBuiltins: false,
