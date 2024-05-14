@@ -1067,12 +1067,12 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
     let createFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
     
     const nativeCreatePage = `createNativePageConfig(component, '${page.name}', React, ReactDOM, config)`
-    let createPage = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
+    let createPageOrComponent = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
 
     // 如果是pure，说明不是一个页面，而是一个组件，这个时候修改import和createPage
     if(this.isPure) {
       createFn = 'createNativeComponentConfig'
-      createPage = `createNativeComponentConfig(component, React, ReactDOM, config)`
+      createPageOrComponent = `createNativeComponentConfig(component, React, ReactDOM, config)`
     }
 
 
@@ -1083,7 +1083,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
       `export const config = ${this.prettyPrintJson(page.config)}`,
       page?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,
       page?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
-      `export default () => ${createPage}`,
+      `export default () => ${createPageOrComponent}`,
     ])
   }
 }
