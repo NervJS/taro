@@ -847,7 +847,7 @@ class CacheStorageProxy {
           return this.cacheMap.get(key)
         } else {
           const status = this.asyncToSyncProxy.getStorageSync({ key })
-          if (status.done && status.errMsg === '') {
+          if (status.done && status.errorMsg === '') {
             this.cacheMap.set(key, status)
           }
           return status
@@ -858,7 +858,8 @@ class CacheStorageProxy {
       return (...args: any[]) => {
         const { key, data } = args[0]
         const status = this.asyncToSyncProxy.setStorageSync({ key, data })
-        if (status.done && status.errMsg === '') {
+        if (status.done && status.errorMsg === '') {
+          status.data = data
           this.cacheMap.set(key, status)
         }
         return status
