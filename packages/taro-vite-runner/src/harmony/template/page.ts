@@ -349,6 +349,7 @@ return state`,
   }
 }
 .height('100%')
+.width('100%')
 .backgroundColor(this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
 .zIndex(1)`,
       })
