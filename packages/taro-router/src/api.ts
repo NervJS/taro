@@ -31,6 +31,9 @@ function processNavigateUrlWithRelativePath (option: Option): Partial<Path> {
     pathPieces.pathname = parts.join('/')
   }
 
+  // 确保是 / 开头的路径
+  pathPieces.pathname = addLeadingSlash(pathPieces.pathname)
+
   // hack fix history v5 bug: https://github.com/remix-run/history/issues/814
   if (!pathPieces.search) pathPieces.search = ''
 
@@ -66,9 +69,11 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
 
     try {
       if ('url' in option) {
-        let pathPieces = processNavigateUrlWithRelativePath(option)
         // Note: 因为 RouterConfig.isPage 方法不对 customRoutes 和 basename 进行处理，所以这里也不处理
-        if (!RouterConfig.isPage(addLeadingSlash(pathPieces.pathname))) {
+        let pathPieces = processNavigateUrlWithRelativePath(option)
+        // Note: 这里还有判断一种情况，可能是直接跳转到自定义路由的页面，所以需要把 customRoute 转化为页面 router
+        const originPath = routesAlias.getOrigin(pathPieces.pathname)
+        if (!RouterConfig.isPage(pathPieces.pathname) && !RouterConfig.isPage(originPath)) {
           const res = { errMsg: `${method}:fail page ${option.url} is not found` }
           fail?.(res)
           complete?.(res)
