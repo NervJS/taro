@@ -1070,8 +1070,10 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
     let createPage = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
 
     // 如果是pure，说明不是一个页面，而是一个组件，这个时候修改import和createPage
-    createFn = 'createNativeComponentConfig'
-    createPage = `createNativeComponentConfig(component, React, ReactDOM, config)`
+    if(this.isPure) {
+      createFn = 'createNativeComponentConfig'
+      createPage = `createNativeComponentConfig(component, React, ReactDOM, config)`
+    }
 
 
     return this.transArr2Str([

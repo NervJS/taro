@@ -37,7 +37,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     },
     load (id) {
       if (!viteCompilerContext) return
-      const { taroConfig, cwd: appPath, app, loaderMeta,isPure } = viteCompilerContext
+      const { taroConfig, cwd: appPath, app, loaderMeta, isPure } = viteCompilerContext
       const appConfig = app.config
       const { sourceRoot = 'src' } = taroConfig
       const appRoot = path.resolve(appPath, sourceRoot)
