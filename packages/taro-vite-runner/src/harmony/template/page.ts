@@ -54,6 +54,7 @@ export default class Parser extends BaseParser {
     protected appConfig: AppConfig,
     public buildConfig: ViteHarmonyBuildConfig,
     public loaderMeta: Record<string, unknown>,
+    public isPure?: boolean
   ) {
     super()
     this.init()
@@ -1063,12 +1064,18 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
   parseEntry (rawId: string, page: TaroHarmonyPageMeta) {
     const { creatorLocation, importFrameworkStatement } = this.loaderMeta
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
-    const createPageFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
+    let createFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
+    
     const nativeCreatePage = `createNativePageConfig(component, '${page.name}', React, ReactDOM, config)`
-    const createPage = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
+    let createPage = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
+
+    // 如果是pure，说明不是一个页面，而是一个组件，这个时候修改import和createPage
+    createFn = 'createNativeComponentConfig'
+    createPage = `createNativeComponentConfig(component, React, ReactDOM, config)`
+
 
     return this.transArr2Str([
-      `import { ${createPageFn} } from '${creatorLocation}'`,
+      `import { ${createFn} } from '${creatorLocation}'`,
       `import component from "${escapePath(rawId)}"`,
       importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(page.config)}`,
