@@ -28,9 +28,20 @@ export const setClipboardData: typeof Taro.setClipboardData = function (options)
 
   return new Promise((resolve, reject) => {
     const systemPasteboard = pasteboard.getSystemPasteboard()
-    const pasteData = pasteboard.createPlainTextData(data)
+    const pasteData = pasteboard.createData(pasteboard.MIMETYPE_TEXT_PLAIN, data)
 
-    systemPasteboard.setPasteData(pasteData, (error, data) => { // callback形式调用异步接口
+    try {
+      systemPasteboard.setDataSync(pasteData)
+      promptAction.showToast({
+        message: '内容已复制',
+        duration: 1500,
+        bottom: '50%',
+        showMode: 1 // 设置弹窗显示模式，显示在应用之上。
+      })
+      return handle.success({
+        data,
+      }, { resolve, reject })
+    } catch (error) {
       if (error) {
         console.error('Failed to set PasteData. Cause: ' + JSON.stringify(error))
         res = {
@@ -38,19 +49,8 @@ export const setClipboardData: typeof Taro.setClipboardData = function (options)
           error: error
         }
         callAsyncFail(reject, res, options)
-      } else {
-        promptAction.showToast({
-          message: '内容已复制',
-          duration: 1500,
-          bottom: '50%',
-          showMode: 1 // 设置弹窗显示模式，显示在应用之上。
-        })
-
-        return handle.success({
-          data,
-        }, { resolve, reject })
       }
-    })
+    }
   })
 }
 
@@ -62,7 +62,7 @@ export const getClipboardData: typeof Taro.getClipboardData = function (options)
   const handle = new MethodHandler({ name: 'getClipboardData', success, fail, complete })
   return new Promise((resolve, reject) => {
     const systemPasteboard = pasteboard.getSystemPasteboard()
-    systemPasteboard.getPasteData((error, pasteData) => { // callback 形式调用异步接口
+    systemPasteboard.getData((error, pasteData) => { // callback 形式调用异步接口
       if (error) {
         console.error('Failed to obtain PasteData. Cause: ' + JSON.stringify(error))
         return handle.fail({
