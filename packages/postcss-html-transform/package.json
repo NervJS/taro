@@ -1,6 +1,6 @@
 {
   "name": "postcss-html-transform",
-  "version": "4.0.0-beta.70",
+  "version": "4.0.0-beta.71",
   "description": "transform html tag name selector",
   "main": "index.js",
   "author": "drchan",

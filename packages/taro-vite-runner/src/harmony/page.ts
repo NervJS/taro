@@ -37,11 +37,11 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     },
     load (id) {
       if (!viteCompilerContext) return
-      const { taroConfig, cwd: appPath, app, loaderMeta } = viteCompilerContext
+      const { taroConfig, cwd: appPath, app, loaderMeta, isPure } = viteCompilerContext
       const appConfig = app.config
       const { sourceRoot = 'src' } = taroConfig
       const appRoot = path.resolve(appPath, sourceRoot)
-      const parse = new PageParser(appPath, appConfig, taroConfig, loaderMeta)
+      const parse = new PageParser(appPath, appConfig, taroConfig, loaderMeta, isPure)
       const tabbarList = appConfig.tabBar?.list || []
       const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
 

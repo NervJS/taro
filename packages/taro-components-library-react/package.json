@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-library-react",
-  "version": "4.0.0-beta.70",
+  "version": "4.0.0-beta.71",
   "description": "Taro 组件库 React 版本库",
   "private": true,
   "main": "index.js",
