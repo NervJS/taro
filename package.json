@@ -78,10 +78,6 @@
     "typescript": "^5.4.0",
     "babel-jest": "^29.7.0",
     "@babel/runtime": "^7.24.4",
-    "ts-jest": "^29.1.2",
-    "jest": "^29.7.0",
-    "jest-cli": "^29.7.0",
-    "jest-taro-helper": "workspace:*",
     "rollup": "^4.16.4",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -91,15 +87,23 @@
     "@types/node": "^18",
     "eslint": "^8.57.0",
     "@tarojs/taro-loader": "workspace:*",
-
+    "ts-node": "^10.9.1",
+    
+    "jsdom": "^24.0.0",
+    "ts-jest": "^29.1.2",
+    "jest": "^29.7.0",
+    "jest-cli": "^29.7.0",
+    "jest-taro-helper": "workspace:*",
+    "jest-environment-jsdom": "^29.6.4",
     "jest-environment-node": "^29.7.0",
+
     "stylelint": "^16.3.1",
     "stylelint-config-standard-scss": "^3.0.0",
     "stylelint-order": "^6.0.3",
+
     "@babel/core": "^7.24.4",
     "@babel/cli": "^7.24.1",
     "@babel/preset-env": "^7.24.4",
-
 
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
