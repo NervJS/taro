@@ -5,16 +5,18 @@
   "author": "O2Team",
   "license": "MIT",
   "main": "dist/index.js",
-  "typings": "src/index.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "src",
     "dist",
     "types"
   ],
   "scripts": {
+    "prebuild": "pnpm run clean",
     "build": "tsc",
+    "clean": "rimraf --impl=move-remove ./dist",
     "dev": "tsc -w",
-    "lint": "eslint ."
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
   },
   "repository": {
     "type": "git",
