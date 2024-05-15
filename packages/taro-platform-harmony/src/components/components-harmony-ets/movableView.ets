@@ -50,7 +50,7 @@ export default struct TaroMovableView {
       this.node.selfSize = { w: Number(newValue.width), h: Number(newValue.height) }
     })
     .gesture(
-      GestureGroup(GestureMode.Exclusive,
+      GestureGroup(GestureMode.Sequence,
         PanGesture({ fingers: 1 }).onActionStart((e: GestureEvent) => {
 
           this.node.startMove()
