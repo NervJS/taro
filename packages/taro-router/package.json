@@ -20,7 +20,7 @@
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "clean": "rimraf --impl=move-remove ./dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
-    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
+    "rollup": "rollup --config rollup.config.mts --configPlugin typescript",
     "test": "cross-env NODE_ENV=jest jest",
     "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=jest jest --watch"
@@ -37,21 +37,18 @@
   },
   "dependencies": {
     "dingtalk-jsapi": "~2.15.2",
-    "history": "^5.1.0",
+    "history": "^5.3.0",
     "mobile-detect": "^1.4.2",
-    "query-string": "^7.1.1",
+    "query-string": "^9.0.0",
     "tslib": "^2.6.2",
-    "universal-router": "^8.3.0"
+    "universal-router": "^9.2.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.7",
     "@tarojs/components": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "@tarojs/taro-h5": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "jest-environment-jsdom": "^29.6.4",
-    "jsdom": "^21.1.0"
+    "@tarojs/shared": "workspace:*"
   },
   "peerDependencies": {
     "@tarojs/runtime": "workspace:*",

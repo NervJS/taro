@@ -8,5 +8,5 @@
     "outDir": "dist",
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["./src", "./types", "./rollup.config.ts"]
+  "include": ["./src", "./types", "rollup.config.mts"]
 }
