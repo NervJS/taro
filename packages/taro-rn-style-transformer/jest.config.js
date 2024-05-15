@@ -1,8 +1,5 @@
 module.exports = {
-  verbose: true,
-  transform: {
-    '^.+\\.js$': 'babel-jest',
-    '^.+\\.tsx?$': 'ts-jest'
-  },
-  testPathIgnorePatterns: ['/node_modules/']
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  testRegex: '/__tests__/.*.spec.tsx?$'
 }

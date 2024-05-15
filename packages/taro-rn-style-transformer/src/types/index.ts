@@ -1,12 +1,12 @@
-import { ProcessOptions } from 'postcss'
-import { Options } from 'sass'
+import type { ProcessOptions } from 'postcss'
+import type { Options } from 'sass'
 
 // sass
 // https://github.com/sass/node-sass#options
 export interface SassConfig {
   sass?: SassGlobalConfig
   alias?: Record<string, string>
-  options: Options
+  options: Options<'sync'>
   additionalData?: string | ((key: string) => string)
 }
 
