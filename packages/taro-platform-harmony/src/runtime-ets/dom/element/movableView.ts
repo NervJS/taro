@@ -30,6 +30,8 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
   _area?: Tsize
   // 自己元素的大小
   _selfSize?: Tsize
+  _areaInited: false
+  _selfSizeInited: false
 
   // 元素的位置
   _position: Tpoint = {
@@ -54,6 +56,9 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
   }
 
   set area(val: Tsize) {
+    if (this._area === undefined) {
+      this._areaInited = true
+    }
     this._area = val
   }
 
@@ -87,6 +92,10 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
     }
   }
 
+  get visibility () {
+    return this._areaInited && this._selfSizeInited ? Visibility.Visible : Visibility.Hidden
+  }
+
   get scaleValue() {
     return this._scaleValue
   }
@@ -96,8 +105,12 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
   }
 
   doMove(val: Tpoint) {
-    if (!this.area || !this.selfSize) return
-    if (this.getAttribute('disabled')) return
+    if (!this.area || !this.selfSize) {
+      return
+    }
+    if (this.getAttribute('disabled')) {
+      return
+    }
     const direction = this.getAttribute('direction')
 
     // 容器的宽高终点
@@ -146,12 +159,38 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
     this._position = val
   }
 
+  set area(val: Tsize) {
+
+    this._area = val
+    if (!this._areaInited) {
+      this._areaInited = true
+      this.initPositionFromAttribute()
+    }
+  }
+
+  get area(): Tsize | undefined {
+    return this._area
+  }
+
   set selfSize(val: Tsize) {
     this._selfSize = val
+    if (!this._selfSizeInited) {
+      this._selfSizeInited = true
+      this.initPositionFromAttribute()
+    }
   }
 
   get selfSize(): Tsize | undefined {
     return this._selfSize
+  }
+
+  initPositionFromAttribute () {
+    if (!this.area || !this.selfSize) {
+      return 
+    }
+    const x = this.getAttribute('x') ? Number(this.getAttribute('x')) : 0
+    const y = this.getAttribute('y') ? Number(this.getAttribute('y')) : 0
+    this.checkPositionBoundary({ x, y }, this.scaleValue)
   }
 
   checkPositionBoundary(position: Tpoint, scale: number) {

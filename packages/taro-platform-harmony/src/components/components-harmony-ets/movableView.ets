@@ -17,11 +17,6 @@ export default struct TaroMovableView {
     if (this.node) {
       this.node._instance = this
 
-      setTimeout(() => {
-        const x = this.node.getAttribute('x') ? Number(this.node.getAttribute('x')) : 0
-        const y = this.node.getAttribute('y') ? Number(this.node.getAttribute('y')) : 0
-        this.node.checkPositionBoundary({ x, y }, this.node.scaleValue)
-      }, 0)
     }
   }
 
@@ -49,8 +44,9 @@ export default struct TaroMovableView {
     .onAreaChange((oldValue: Area, newValue: Area) => {
       this.node.selfSize = { w: Number(newValue.width), h: Number(newValue.height) }
     })
+    .visibility(this.node.visibility)
     .gesture(
-      GestureGroup(GestureMode.Exclusive,
+      GestureGroup(GestureMode.Parallel,
         PanGesture({ fingers: 1 }).onActionStart((e: GestureEvent) => {
 
           this.node.startMove()
