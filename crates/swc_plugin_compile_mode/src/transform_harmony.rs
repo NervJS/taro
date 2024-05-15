@@ -199,7 +199,7 @@ impl TransformVisitor {
                             self.component_set.insert(name.clone());
                             let ComponentReplace{current_init, ..} = self.config.component_replace.get(name.as_str()).unwrap();
                             // 把入参的node改成对应的变量
-                            let reg = Regex::new(r"\bnode\b").unwrap();
+                            let reg = Regex::new(r"\bnode\b(?!:)").unwrap();
                             reg.replace_all(current_init, format!("({} as TaroElement)", current_node_name)).to_string()
                         } else {
                             match name.as_str() {

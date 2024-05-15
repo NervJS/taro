@@ -9,11 +9,6 @@ export class DynamicCenter {
 
   uninstall (node: TaroElement) {
     if (!node._isCompileMode || !node._instance) return
-
-    if (node._attrs?._dynamicID) {
-      node._instance[node._attrs._dynamicID] = null
-    }
-    node._instance = null
   }
 
   bindComponentToNodeWithDFS (node: TaroElement, component: TaroAny) {
