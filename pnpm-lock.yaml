@@ -2080,10 +2080,10 @@ importers:
   packages/taro-rn-supporter:
     dependencies:
       '@react-native-community/cli-config':
-        specifier: ^12.3.0
+        specifier: ^12.3.6
         version: 12.3.6
       '@react-native-community/cli-tools':
-        specifier: ^12.3.0
+        specifier: ^12.3.6
         version: 12.3.6
       '@react-native/metro-babel-transformer':
         specifier: ^0.73.2
@@ -2100,6 +2100,9 @@ importers:
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -2128,14 +2131,14 @@ importers:
         specifier: ^0.80.0
         version: 0.80.8
       mime-types:
-        specifier: ^2.1.27
+        specifier: ^2.1.35
         version: 2.1.35
       qrcode:
-        specifier: ^1.5.1
+        specifier: ^1.5.3
         version: 1.5.3
       react-native-svg-transformer:
-        specifier: ^0.14.3
-        version: 0.14.3(react-native-svg@14.1.0)(react-native@0.73.7)
+        specifier: ^1.4.0
+        version: 1.4.0(react-native-svg@14.1.0)(react-native@0.72.14)(typescript@5.4.5)
     devDependencies:
       '@babel/core':
         specifier: ^7.24.4
@@ -2143,15 +2146,18 @@ importers:
       '@babel/preset-env':
         specifier: ^7.24.4
         version: 7.24.4(@babel/core@7.24.4)
+      '@types/lodash':
+        specifier: ^4.17.0
+        version: 4.17.0
       react:
-        specifier: 18.2.0
+        specifier: ^18.2.0
         version: 18.2.0
       react-native:
-        specifier: ^0.73.1
-        version: 0.73.7(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+        specifier: ^0.72.3
+        version: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-svg:
         specifier: ~14.1.0
-        version: 14.1.0(react-native@0.73.7)(react@18.2.0)
+        version: 14.1.0(react-native@0.72.14)(react@18.2.0)
       react-test-renderer:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
@@ -2177,7 +2183,7 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       mime-types:
-        specifier: ^2.1.27
+        specifier: ^2.1.35
         version: 2.1.35
       mkdirp:
         specifier: ^1.0.4
@@ -2187,8 +2193,11 @@ importers:
         version: 3.0.0
     devDependencies:
       '@types/lodash':
-        specifier: 4.17.0
+        specifier: ^4.17.0
         version: 4.17.0
+      '@types/mime-types':
+        specifier: ^2.1.4
+        version: 2.1.4
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -2274,7 +2283,7 @@ importers:
         version: 18.2.0
       react-native:
         specifier: ^0.72.3
-        version: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+        version: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
 
   packages/taro-runner-utils:
     dependencies:
@@ -2334,7 +2343,7 @@ importers:
         version: 18.2.0
       react-native:
         specifier: ^0.72.3
-        version: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+        version: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-device-info:
         specifier: ^10.12.0
         version: 10.12.1(react-native@0.72.14)
@@ -6948,7 +6957,7 @@ packages:
     transitivePeerDependencies:
       - encoding
 
-  /@react-native-community/cli-plugin-metro@11.4.1:
+  /@react-native-community/cli-plugin-metro@11.4.1(@babel/core@7.24.4):
     resolution: {integrity: sha512-JxbIqknYcQ5Z4rWROtu5LNakLfMiKoWcMoPqIrBLrV5ILm1XUJj1/8fATCcotZqV3yzB3SCJ3RrhKx7dQ3YELw==, tarball: https://registry.npmjs.org/@react-native-community/cli-plugin-metro/-/cli-plugin-metro-11.4.1.tgz}
     dependencies:
       '@react-native-community/cli-server-api': 11.4.1
@@ -6958,11 +6967,12 @@ packages:
       metro: 0.76.9
       metro-config: 0.76.9
       metro-core: 0.76.9
-      metro-react-native-babel-transformer: 0.76.9
+      metro-react-native-babel-transformer: 0.76.9(@babel/core@7.24.4)
       metro-resolver: 0.76.9
       metro-runtime: 0.76.9
       readline: 1.3.0
     transitivePeerDependencies:
+      - '@babel/core'
       - bufferutil
       - encoding
       - supports-color
@@ -7048,7 +7058,7 @@ packages:
     dependencies:
       joi: 17.12.3
 
-  /@react-native-community/cli@11.4.1:
+  /@react-native-community/cli@11.4.1(@babel/core@7.24.4):
     resolution: {integrity: sha512-NdAageVMtNhtvRsrq4NgJf5Ey2nA1CqmLvn7PhSawg+aIzMKmZuzWxGVwr9CoPGyjvNiqJlCWrLGR7NzOyi/sA==, tarball: https://registry.npmjs.org/@react-native-community/cli/-/cli-11.4.1.tgz}
     engines: {node: '>=16'}
     hasBin: true
@@ -7058,7 +7068,7 @@ packages:
       '@react-native-community/cli-debugger-ui': 11.4.1
       '@react-native-community/cli-doctor': 11.4.1
       '@react-native-community/cli-hermes': 11.4.1
-      '@react-native-community/cli-plugin-metro': 11.4.1
+      '@react-native-community/cli-plugin-metro': 11.4.1(@babel/core@7.24.4)
       '@react-native-community/cli-server-api': 11.4.1
       '@react-native-community/cli-tools': 11.4.1
       '@react-native-community/cli-types': 11.4.1
@@ -7071,6 +7081,7 @@ packages:
       prompts: 2.4.2
       semver: 7.6.0
     transitivePeerDependencies:
+      - '@babel/core'
       - bufferutil
       - encoding
       - supports-color
@@ -7504,7 +7515,7 @@ packages:
     dependencies:
       invariant: 2.2.4
       nullthrows: 1.1.1
-      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
 
   /@react-native/virtualized-lists@0.73.4(react-native@0.73.7):
     resolution: {integrity: sha512-HpmLg1FrEiDtrtAbXiwCgXFYyloK/dOIPIuWW3fsqukwJEWAiTzm1nXGJ7xPU5XTHiWZ4sKup5Ebaj8z7iyWog==, tarball: https://registry.npmjs.org/@react-native/virtualized-lists/-/virtualized-lists-0.73.4.tgz}
@@ -7529,7 +7540,7 @@ packages:
       '@react-navigation/native': 6.1.17(react-native@0.72.14)(react@18.2.0)
       color: 4.2.3
       react: 18.2.0
-      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-safe-area-context: 4.5.0(react-native@0.72.14)(react@18.2.0)
       react-native-screens: 3.31.1(react-native@0.72.14)(react@18.2.0)
       warn-once: 0.1.1
@@ -7559,7 +7570,7 @@ packages:
     dependencies:
       '@react-navigation/native': 6.1.17(react-native@0.72.14)(react@18.2.0)
       react: 18.2.0
-      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-safe-area-context: 4.5.0(react-native@0.72.14)(react@18.2.0)
     dev: false
 
@@ -7575,7 +7586,7 @@ packages:
       '@react-navigation/elements': 1.3.30(@react-navigation/native@6.1.17)(react-native-safe-area-context@4.5.0)(react-native@0.72.14)(react@18.2.0)
       '@react-navigation/native': 6.1.17(react-native@0.72.14)(react@18.2.0)
       react: 18.2.0
-      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-safe-area-context: 4.5.0(react-native@0.72.14)(react@18.2.0)
       react-native-screens: 3.31.1(react-native@0.72.14)(react@18.2.0)
       warn-once: 0.1.1
@@ -7592,7 +7603,7 @@ packages:
       fast-deep-equal: 3.1.3
       nanoid: 3.3.7
       react: 18.2.0
-      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /@react-navigation/routers@6.1.9:
@@ -7615,7 +7626,7 @@ packages:
       '@react-navigation/native': 6.1.17(react-native@0.72.14)(react@18.2.0)
       color: 4.2.3
       react: 18.2.0
-      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-gesture-handler: 2.16.2(react-native@0.72.14)(react@18.2.0)
       react-native-safe-area-context: 4.5.0(react-native@0.72.14)(react@18.2.0)
       react-native-screens: 3.31.1(react-native@0.72.14)(react@18.2.0)
@@ -8210,97 +8221,144 @@ packages:
       '@stencil/core': 2.22.3
     dev: true
 
-  /@svgr/babel-plugin-add-jsx-attribute@4.2.0:
-    resolution: {integrity: sha512-j7KnilGyZzYr/jhcrSYS3FGWMZVaqyCG0vzMCwzvei0coIkczuYMcniK07nI0aHJINciujjH11T72ICW5eL5Ig==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-4.2.0.tgz}
-    engines: {node: '>=8'}
-    dev: false
-
-  /@svgr/babel-plugin-remove-jsx-attribute@4.2.0:
-    resolution: {integrity: sha512-3XHLtJ+HbRCH4n28S7y/yZoEQnRpl0tvTZQsHqvaeNXPra+6vE5tbRliH3ox1yZYPCxrlqaJT/Mg+75GpDKlvQ==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-remove-jsx-attribute/-/babel-plugin-remove-jsx-attribute-4.2.0.tgz}
-    engines: {node: '>=8'}
-    dev: false
-
-  /@svgr/babel-plugin-remove-jsx-empty-expression@4.2.0:
-    resolution: {integrity: sha512-yTr2iLdf6oEuUE9MsRdvt0NmdpMBAkgK8Bjhl6epb+eQWk6abBaX3d65UZ3E3FWaOwePyUgNyNCMVG61gGCQ7w==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-remove-jsx-empty-expression/-/babel-plugin-remove-jsx-empty-expression-4.2.0.tgz}
-    engines: {node: '>=8'}
-    dev: false
-
-  /@svgr/babel-plugin-replace-jsx-attribute-value@4.2.0:
-    resolution: {integrity: sha512-U9m870Kqm0ko8beHawRXLGLvSi/ZMrl89gJ5BNcT452fAjtF2p4uRzXkdzvGJJJYBgx7BmqlDjBN/eCp5AAX2w==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-replace-jsx-attribute-value/-/babel-plugin-replace-jsx-attribute-value-4.2.0.tgz}
-    engines: {node: '>=8'}
-    dev: false
-
-  /@svgr/babel-plugin-svg-dynamic-title@4.3.3:
-    resolution: {integrity: sha512-w3Be6xUNdwgParsvxkkeZb545VhXEwjGMwExMVBIdPQJeyMQHqm9Msnb2a1teHBqUYL66qtwfhNkbj1iarCG7w==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-svg-dynamic-title/-/babel-plugin-svg-dynamic-title-4.3.3.tgz}
-    engines: {node: '>=8'}
-    dev: false
-
-  /@svgr/babel-plugin-svg-em-dimensions@4.2.0:
-    resolution: {integrity: sha512-C0Uy+BHolCHGOZ8Dnr1zXy/KgpBOkEUYY9kI/HseHVPeMbluaX3CijJr7D4C5uR8zrc1T64nnq/k63ydQuGt4w==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-svg-em-dimensions/-/babel-plugin-svg-em-dimensions-4.2.0.tgz}
-    engines: {node: '>=8'}
-    dev: false
-
-  /@svgr/babel-plugin-transform-react-native-svg@4.2.0:
-    resolution: {integrity: sha512-7YvynOpZDpCOUoIVlaaOUU87J4Z6RdD6spYN4eUb5tfPoKGSF9OG2NuhgYnq4jSkAxcpMaXWPf1cePkzmqTPNw==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-transform-react-native-svg/-/babel-plugin-transform-react-native-svg-4.2.0.tgz}
-    engines: {node: '>=8'}
-    dev: false
-
-  /@svgr/babel-plugin-transform-svg-component@4.2.0:
-    resolution: {integrity: sha512-hYfYuZhQPCBVotABsXKSCfel2slf/yvJY8heTVX1PCTaq/IgASq1IyxPPKJ0chWREEKewIU/JMSsIGBtK1KKxw==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-transform-svg-component/-/babel-plugin-transform-svg-component-4.2.0.tgz}
-    engines: {node: '>=8'}
-    dev: false
-
-  /@svgr/babel-preset@4.3.3:
-    resolution: {integrity: sha512-6PG80tdz4eAlYUN3g5GZiUjg2FMcp+Wn6rtnz5WJG9ITGEF1pmFdzq02597Hn0OmnQuCVaBYQE1OVFAnwOl+0A==, tarball: https://registry.npmjs.org/@svgr/babel-preset/-/babel-preset-4.3.3.tgz}
-    engines: {node: '>=8'}
-    dependencies:
-      '@svgr/babel-plugin-add-jsx-attribute': 4.2.0
-      '@svgr/babel-plugin-remove-jsx-attribute': 4.2.0
-      '@svgr/babel-plugin-remove-jsx-empty-expression': 4.2.0
-      '@svgr/babel-plugin-replace-jsx-attribute-value': 4.2.0
-      '@svgr/babel-plugin-svg-dynamic-title': 4.3.3
-      '@svgr/babel-plugin-svg-em-dimensions': 4.2.0
-      '@svgr/babel-plugin-transform-react-native-svg': 4.2.0
-      '@svgr/babel-plugin-transform-svg-component': 4.2.0
-    dev: false
-
-  /@svgr/core@4.3.3:
-    resolution: {integrity: sha512-qNuGF1QON1626UCaZamWt5yedpgOytvLj5BQZe2j1k1B8DUG4OyugZyfEwBeXozCUwhLEpsrgPrE+eCu4fY17w==, tarball: https://registry.npmjs.org/@svgr/core/-/core-4.3.3.tgz}
-    engines: {node: '>=8'}
-    dependencies:
-      '@svgr/plugin-jsx': 4.3.3
-      camelcase: 5.3.1
-      cosmiconfig: 5.2.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@svgr/hast-util-to-babel-ast@4.3.2:
-    resolution: {integrity: sha512-JioXclZGhFIDL3ddn4Kiq8qEqYM2PyDKV0aYno8+IXTLuYt6TOgHUbUAAFvqtb0Xn37NwP0BTHglejFoYr8RZg==, tarball: https://registry.npmjs.org/@svgr/hast-util-to-babel-ast/-/hast-util-to-babel-ast-4.3.2.tgz}
-    engines: {node: '>=8'}
-    dependencies:
-      '@babel/types': 7.24.0
-    dev: false
-
-  /@svgr/plugin-jsx@4.3.3:
-    resolution: {integrity: sha512-cLOCSpNWQnDB1/v+SUENHH7a0XY09bfuMKdq9+gYvtuwzC2rU4I0wKGFEp1i24holdQdwodCtDQdFtJiTCWc+w==, tarball: https://registry.npmjs.org/@svgr/plugin-jsx/-/plugin-jsx-4.3.3.tgz}
-    engines: {node: '>=8'}
+  /@svgr/babel-plugin-add-jsx-attribute@8.0.0(@babel/core@7.24.4):
+    resolution: {integrity: sha512-b9MIk7yhdS1pMCZM8VeNfUlSKVRhsHZNMl5O9SfaX0l0t5wjdgu4IDzGB8bpnGBBOjGST3rRFVsaaEtI4W6f7g==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-8.0.0.tgz}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.24.4
-      '@svgr/babel-preset': 4.3.3
-      '@svgr/hast-util-to-babel-ast': 4.3.2
+    dev: false
+
+  /@svgr/babel-plugin-remove-jsx-attribute@8.0.0(@babel/core@7.24.4):
+    resolution: {integrity: sha512-BcCkm/STipKvbCl6b7QFrMh/vx00vIP63k2eM66MfHJzPr6O2U0jYEViXkHJWqXqQYjdeA9cuCl5KWmlwjDvbA==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-remove-jsx-attribute/-/babel-plugin-remove-jsx-attribute-8.0.0.tgz}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.24.4
+    dev: false
+
+  /@svgr/babel-plugin-remove-jsx-empty-expression@8.0.0(@babel/core@7.24.4):
+    resolution: {integrity: sha512-5BcGCBfBxB5+XSDSWnhTThfI9jcO5f0Ai2V24gZpG+wXF14BzwxxdDb4g6trdOux0rhibGs385BeFMSmxtS3uA==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-remove-jsx-empty-expression/-/babel-plugin-remove-jsx-empty-expression-8.0.0.tgz}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.24.4
+    dev: false
+
+  /@svgr/babel-plugin-replace-jsx-attribute-value@8.0.0(@babel/core@7.24.4):
+    resolution: {integrity: sha512-KVQ+PtIjb1BuYT3ht8M5KbzWBhdAjjUPdlMtpuw/VjT8coTrItWX6Qafl9+ji831JaJcu6PJNKCV0bp01lBNzQ==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-replace-jsx-attribute-value/-/babel-plugin-replace-jsx-attribute-value-8.0.0.tgz}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.24.4
+    dev: false
+
+  /@svgr/babel-plugin-svg-dynamic-title@8.0.0(@babel/core@7.24.4):
+    resolution: {integrity: sha512-omNiKqwjNmOQJ2v6ge4SErBbkooV2aAWwaPFs2vUY7p7GhVkzRkJ00kILXQvRhA6miHnNpXv7MRnnSjdRjK8og==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-svg-dynamic-title/-/babel-plugin-svg-dynamic-title-8.0.0.tgz}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.24.4
+    dev: false
+
+  /@svgr/babel-plugin-svg-em-dimensions@8.0.0(@babel/core@7.24.4):
+    resolution: {integrity: sha512-mURHYnu6Iw3UBTbhGwE/vsngtCIbHE43xCRK7kCw4t01xyGqb2Pd+WXekRRoFOBIY29ZoOhUCTEweDMdrjfi9g==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-svg-em-dimensions/-/babel-plugin-svg-em-dimensions-8.0.0.tgz}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.24.4
+    dev: false
+
+  /@svgr/babel-plugin-transform-react-native-svg@8.1.0(@babel/core@7.24.4):
+    resolution: {integrity: sha512-Tx8T58CHo+7nwJ+EhUwx3LfdNSG9R2OKfaIXXs5soiy5HtgoAEkDay9LIimLOcG8dJQH1wPZp/cnAv6S9CrR1Q==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-transform-react-native-svg/-/babel-plugin-transform-react-native-svg-8.1.0.tgz}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.24.4
+    dev: false
+
+  /@svgr/babel-plugin-transform-svg-component@8.0.0(@babel/core@7.24.4):
+    resolution: {integrity: sha512-DFx8xa3cZXTdb/k3kfPeaixecQLgKh5NVBMwD0AQxOzcZawK4oo1Jh9LbrcACUivsCA7TLG8eeWgrDXjTMhRmw==, tarball: https://registry.npmjs.org/@svgr/babel-plugin-transform-svg-component/-/babel-plugin-transform-svg-component-8.0.0.tgz}
+    engines: {node: '>=12'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.24.4
+    dev: false
+
+  /@svgr/babel-preset@8.1.0(@babel/core@7.24.4):
+    resolution: {integrity: sha512-7EYDbHE7MxHpv4sxvnVPngw5fuR6pw79SkcrILHJ/iMpuKySNCl5W1qcwPEpU+LgyRXOaAFgH0KhwD18wwg6ug==, tarball: https://registry.npmjs.org/@svgr/babel-preset/-/babel-preset-8.1.0.tgz}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.24.4
+      '@svgr/babel-plugin-add-jsx-attribute': 8.0.0(@babel/core@7.24.4)
+      '@svgr/babel-plugin-remove-jsx-attribute': 8.0.0(@babel/core@7.24.4)
+      '@svgr/babel-plugin-remove-jsx-empty-expression': 8.0.0(@babel/core@7.24.4)
+      '@svgr/babel-plugin-replace-jsx-attribute-value': 8.0.0(@babel/core@7.24.4)
+      '@svgr/babel-plugin-svg-dynamic-title': 8.0.0(@babel/core@7.24.4)
+      '@svgr/babel-plugin-svg-em-dimensions': 8.0.0(@babel/core@7.24.4)
+      '@svgr/babel-plugin-transform-react-native-svg': 8.1.0(@babel/core@7.24.4)
+      '@svgr/babel-plugin-transform-svg-component': 8.0.0(@babel/core@7.24.4)
+    dev: false
+
+  /@svgr/core@8.1.0(typescript@5.4.5):
+    resolution: {integrity: sha512-8QqtOQT5ACVlmsvKOJNEaWmRPmcojMOzCz4Hs2BGG/toAp/K38LcsMRyLp349glq5AzJbCEeimEoxaX6v/fLrA==, tarball: https://registry.npmjs.org/@svgr/core/-/core-8.1.0.tgz}
+    engines: {node: '>=14'}
+    dependencies:
+      '@babel/core': 7.24.4
+      '@svgr/babel-preset': 8.1.0(@babel/core@7.24.4)
+      camelcase: 6.3.0
+      cosmiconfig: 8.3.6(typescript@5.4.5)
+      snake-case: 3.0.4
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+    dev: false
+
+  /@svgr/hast-util-to-babel-ast@8.0.0:
+    resolution: {integrity: sha512-EbDKwO9GpfWP4jN9sGdYwPBU0kdomaPIL2Eu4YwmgP+sJeXT+L7bMwJUBnhzfH8Q2qMBqZ4fJwpCyYsAN3mt2Q==, tarball: https://registry.npmjs.org/@svgr/hast-util-to-babel-ast/-/hast-util-to-babel-ast-8.0.0.tgz}
+    engines: {node: '>=14'}
+    dependencies:
+      '@babel/types': 7.24.0
+      entities: 4.5.0
+    dev: false
+
+  /@svgr/plugin-jsx@8.1.0(@svgr/core@8.1.0):
+    resolution: {integrity: sha512-0xiIyBsLlr8quN+WyuxooNW9RJ0Dpr8uOnH/xrCVO8GLUcwHISwj1AG0k+LFzteTkAA0GbX0kj9q6Dk70PTiPA==, tarball: https://registry.npmjs.org/@svgr/plugin-jsx/-/plugin-jsx-8.1.0.tgz}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@svgr/core': '*'
+    dependencies:
+      '@babel/core': 7.24.4
+      '@svgr/babel-preset': 8.1.0(@babel/core@7.24.4)
+      '@svgr/core': 8.1.0(typescript@5.4.5)
+      '@svgr/hast-util-to-babel-ast': 8.0.0
       svg-parser: 2.0.4
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@svgr/plugin-svgo@4.3.1:
-    resolution: {integrity: sha512-PrMtEDUWjX3Ea65JsVCwTIXuSqa3CG9px+DluF1/eo9mlDrgrtFE7NE/DjdhjJgSM9wenlVBzkzneSIUgfUI/w==, tarball: https://registry.npmjs.org/@svgr/plugin-svgo/-/plugin-svgo-4.3.1.tgz}
-    engines: {node: '>=8'}
+  /@svgr/plugin-svgo@8.1.0(@svgr/core@8.1.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-Ywtl837OGO9pTLIN/onoWLmDQ4zFUycI1g76vuKGEz6evR/ZTJlJuz3G/fIkb6OVBJ2g0o6CGJzaEjfmEo3AHA==, tarball: https://registry.npmjs.org/@svgr/plugin-svgo/-/plugin-svgo-8.1.0.tgz}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@svgr/core': '*'
     dependencies:
-      cosmiconfig: 5.2.1
-      merge-deep: 3.0.3
-      svgo: 1.3.2
+      '@svgr/core': 8.1.0(typescript@5.4.5)
+      cosmiconfig: 8.3.6(typescript@5.4.5)
+      deepmerge: 4.3.1
+      svgo: 3.2.0
+    transitivePeerDependencies:
+      - typescript
     dev: false
 
   /@swc/core-darwin-arm64@1.3.96:
@@ -8957,6 +9015,10 @@ packages:
   /@types/lodash@4.17.0:
     resolution: {integrity: sha512-t7dhREVv6dbNj0q17X12j7yDG4bD/DHYX7o5/DbDxobP0HnGPgpRz2Ej77aL7TZT3DSw13fqUTj8J4mMnqa7WA==, tarball: https://registry.npmjs.org/@types/lodash/-/lodash-4.17.0.tgz}
 
+  /@types/mime-types@2.1.4:
+    resolution: {integrity: sha512-lfU4b34HOri+kAY5UheuFMWPDOI+OPceBSHZKp69gEyTL/mmJ4cnU6Y/rlme3UL3GyOn6Y42hyIEw0/q8sWx5w==, tarball: https://registry.npmjs.org/@types/mime-types/-/mime-types-2.1.4.tgz}
+    dev: true
+
   /@types/mime@1.3.5:
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==, tarball: https://registry.npmjs.org/@types/mime/-/mime-1.3.5.tgz}
 
@@ -9031,10 +9093,6 @@ packages:
   /@types/prop-types@15.7.12:
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==, tarball: https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.12.tgz}
     dev: true
-
-  /@types/q@1.5.8:
-    resolution: {integrity: sha512-hroOstUScF6zhIi+5+x0dzqrHA1EJi+Irri6b1fxolMTqqHIV/Cg77EtnQcZqZCu8hR3mX2BzIxN4/GzI68Kfw==, tarball: https://registry.npmjs.org/@types/q/-/q-1.5.8.tgz}
-    dev: false
 
   /@types/qrcode@1.5.5:
     resolution: {integrity: sha512-CdfBi/e3Qk+3Z/fXYShipBT13OJ2fDO2Q2w5CIP5anLTLIndQG9z6P1cnm+8zCWSpm5dnxMFd/uREtb0EXuQzg==, tarball: https://registry.npmjs.org/@types/qrcode/-/qrcode-1.5.5.tgz}
@@ -10392,19 +10450,6 @@ packages:
       es-abstract: 1.23.3
       es-shim-unscopables: 1.0.2
 
-  /array.prototype.reduce@1.0.7:
-    resolution: {integrity: sha512-mzmiUCVwtiD4lgxYP8g7IYy8El8p2CSMePvIbTS7gchKir/L1fgJrk0yDKmAX6mnRQFKNADYIk8nNlTris5H1Q==, tarball: https://registry.npmjs.org/array.prototype.reduce/-/array.prototype.reduce-1.0.7.tgz}
-    engines: {node: '>= 0.4'}
-    dependencies:
-      call-bind: 1.0.7
-      define-properties: 1.2.1
-      es-abstract: 1.23.3
-      es-array-method-boxes-properly: 1.0.0
-      es-errors: 1.3.0
-      es-object-atoms: 1.0.0
-      is-string: 1.0.7
-    dev: false
-
   /array.prototype.toreversed@1.1.2:
     resolution: {integrity: sha512-wwDCoT4Ck4Cz7sLtgUmzR5UV3YF5mFHUlbChCzZBQZ+0m2cl/DH3tKgvphv1nKgFsJ48oCSg6p91q2Vm0I/ZMA==, tarball: https://registry.npmjs.org/array.prototype.toreversed/-/array.prototype.toreversed-1.1.2.tgz}
     dependencies:
@@ -11704,17 +11749,6 @@ packages:
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
 
-  /clone-deep@0.2.4:
-    resolution: {integrity: sha512-we+NuQo2DHhSl+DP6jlUiAhyAjBQrYnpOk15rN6c6JSPScjiCLh8IbSU+VTcph6YS3o7mASE8a0+gbZ7ChLpgg==, tarball: https://registry.npmjs.org/clone-deep/-/clone-deep-0.2.4.tgz}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      for-own: 0.1.5
-      is-plain-object: 2.0.4
-      kind-of: 3.2.2
-      lazy-cache: 1.0.4
-      shallow-clone: 0.1.2
-    dev: false
-
   /clone-deep@4.0.1:
     resolution: {integrity: sha512-neHB9xuzh/wk0dIHweyAXv2aPGZIVk3pLMe+/RNzINf17fe0OG96QroktYAUm7SM1PBnzTabaLboqqxDyMU+SQ==, tarball: https://registry.npmjs.org/clone-deep/-/clone-deep-4.0.1.tgz}
     engines: {node: '>=6'}
@@ -11747,15 +11781,6 @@ packages:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==, tarball: https://registry.npmjs.org/co/-/co-4.6.0.tgz}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
     dev: true
-
-  /coa@2.0.2:
-    resolution: {integrity: sha512-q5/jG+YQnSy4nRTV4F7lPepBJZ8qBNJJDBuJdoejDyLXgmL7IEo+Le2JDZudFTFt7mrCqIRaSjws4ygRCTCAXA==, tarball: https://registry.npmjs.org/coa/-/coa-2.0.2.tgz}
-    engines: {node: '>= 4.0'}
-    dependencies:
-      '@types/q': 1.5.8
-      chalk: 2.4.2
-      q: 1.5.1
-    dev: false
 
   /code-excerpt@4.0.0:
     resolution: {integrity: sha512-xxodCmBen3iy2i0WtAK8FlFNrRzjUqjRsMfho58xT/wvZU1YTM3fCnRjcy1gJPMepaRlgm/0e6w8SpWHpn3/cA==, tarball: https://registry.npmjs.org/code-excerpt/-/code-excerpt-4.0.0.tgz}
@@ -12340,7 +12365,6 @@ packages:
       parse-json: 5.2.0
       path-type: 4.0.0
       typescript: 5.4.5
-    dev: true
 
   /cosmiconfig@9.0.0(typescript@5.4.5):
     resolution: {integrity: sha512-itvL5h8RETACmOTFc4UfIyB2RfEHi71Ax6E/PivVxq9NseKbOWpeyHEOIbmAw1rs8Ak0VursQNww7lf7YtUwzg==, tarball: https://registry.npmjs.org/cosmiconfig/-/cosmiconfig-9.0.0.tgz}
@@ -12576,19 +12600,6 @@ packages:
       webpack: 5.91.0(esbuild@0.20.2)
     dev: false
 
-  /css-select-base-adapter@0.1.1:
-    resolution: {integrity: sha512-jQVeeRG70QI08vSTwf1jHxp74JoZsr2XSgETae8/xC8ovSnL2WF87GTLO86Sbwdt2lK4Umg4HnnwMO4YF3Ce7w==, tarball: https://registry.npmjs.org/css-select-base-adapter/-/css-select-base-adapter-0.1.1.tgz}
-    dev: false
-
-  /css-select@2.1.0:
-    resolution: {integrity: sha512-Dqk7LQKpwLoH3VovzZnkzegqNSuAziQyNZUcrdDM401iY+R5NkGBXGmtO05/yaXQziALuPogeG0b7UAgjnTJTQ==, tarball: https://registry.npmjs.org/css-select/-/css-select-2.1.0.tgz}
-    dependencies:
-      boolbase: 1.0.0
-      css-what: 3.4.2
-      domutils: 1.7.0
-      nth-check: 1.0.2
-    dev: false
-
   /css-select@4.3.0:
     resolution: {integrity: sha512-wPpOYtnsVontu2mODhA19JrqWxNsfdatRKd64kmpRbQgh1KtItko5sTnEpPdpSaJszTOhEMlF/RPz28qj4HqhQ==, tarball: https://registry.npmjs.org/css-select/-/css-select-4.3.0.tgz}
     dependencies:
@@ -12615,14 +12626,6 @@ packages:
       source-map: 0.5.7
     dev: false
 
-  /css-tree@1.0.0-alpha.37:
-    resolution: {integrity: sha512-DMxWJg0rnz7UgxKT0Q1HU/L9BeJI0M6ksor0OgqOnF+aRCDWg/N2641HmVyU9KVIu0OVVWOb2IpC9A+BJRnejg==, tarball: https://registry.npmjs.org/css-tree/-/css-tree-1.0.0-alpha.37.tgz}
-    engines: {node: '>=8.0.0'}
-    dependencies:
-      mdn-data: 2.0.4
-      source-map: 0.6.1
-    dev: false
-
   /css-tree@1.1.3:
     resolution: {integrity: sha512-tRpdppF7TRazZrjJ6v3stzv93qxRcSsFmW6cX0Zm2NVKpxE1WV1HblnghVv9TreireHkqI/VDEsfolRF1p6y7Q==, tarball: https://registry.npmjs.org/css-tree/-/css-tree-1.1.3.tgz}
     engines: {node: '>=8.0.0'}
@@ -12644,11 +12647,6 @@ packages:
     dependencies:
       mdn-data: 2.0.30
       source-map-js: 1.2.0
-
-  /css-what@3.4.2:
-    resolution: {integrity: sha512-ACUm3L0/jiZTqfzRM3Hi9Q8eZqd6IK37mMWPLz9PJxkLWllYeRf+EHUSHYEtFop2Eqytaq1FizFVh7XfBnXCDQ==, tarball: https://registry.npmjs.org/css-what/-/css-what-3.4.2.tgz}
-    engines: {node: '>= 6'}
-    dev: false
 
   /css-what@6.1.0:
     resolution: {integrity: sha512-HTUrgRJ7r4dsZKU6GjmpfRK1O76h97Z8MfS1G0FozR+oF2kG6Vfe8JE6zwrkbxigziPHinCJ+gCPjA9EaBDtRw==, tarball: https://registry.npmjs.org/css-what/-/css-what-6.1.0.tgz}
@@ -12801,6 +12799,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       css-tree: 1.1.3
+    dev: true
 
   /csso@5.0.5:
     resolution: {integrity: sha512-0LrrStPOdJj+SPCCrGhzryycLjwcgUSHBtxNA8aIDxf0GLsRh1cKYhB00Gd1lDOS4yGH69+SNn13+TWbVHETFQ==, tarball: https://registry.npmjs.org/csso/-/csso-5.0.5.tgz}
@@ -13334,13 +13333,6 @@ packages:
     dependencies:
       utila: 0.4.0
 
-  /dom-serializer@0.2.2:
-    resolution: {integrity: sha512-2/xPb3ORsQ42nHYiSunXkDjPLBaEj/xTwUO4B7XCZQTRk7EBtTOPaygh10YAAh2OI1Qrp6NWfpAhzswj0ydt9g==, tarball: https://registry.npmjs.org/dom-serializer/-/dom-serializer-0.2.2.tgz}
-    dependencies:
-      domelementtype: 2.3.0
-      entities: 2.2.0
-    dev: false
-
   /dom-serializer@1.4.1:
     resolution: {integrity: sha512-VHwB3KfrcOOkelEG2ZOfxqLZdfkil8PtJi4P8N2MMXucZq2yLp75ClViUlOVwyoHEDjYU433Aq+5zWP61+RGag==, tarball: https://registry.npmjs.org/dom-serializer/-/dom-serializer-1.4.1.tgz}
     dependencies:
@@ -13363,10 +13355,6 @@ packages:
     resolution: {integrity: sha512-oNlcUdHsC4zb7Msx7JN3K0Nro1dzJ48knvBOnDPKJ2GV9wl1i5vydJZUSyOfrkKFDZEud/jBsTk92S/VGSAe/g==, tarball: https://registry.npmjs.org/dom7/-/dom7-3.0.0.tgz}
     dependencies:
       ssr-window: 3.0.0
-    dev: false
-
-  /domelementtype@1.3.1:
-    resolution: {integrity: sha512-BSKB+TSpMpFI/HOxCNr1O8aMOTZ8hT3pM3GQ0w/mWRmkhEDSFJkkyzz4XQsBV44BChwGkrDfMyjVD0eA2aFV3w==, tarball: https://registry.npmjs.org/domelementtype/-/domelementtype-1.3.1.tgz}
     dev: false
 
   /domelementtype@2.3.0:
@@ -13398,13 +13386,6 @@ packages:
     engines: {node: '>= 4'}
     dependencies:
       domelementtype: 2.3.0
-
-  /domutils@1.7.0:
-    resolution: {integrity: sha512-Lgd2XcJ/NjEw+7tFvfKxOzCYKZsdct5lczQ2ZaQY8Djz7pfAD3Gbp8ySJWtreII/vDlMVmxwa6pHmdxIYgttDg==, tarball: https://registry.npmjs.org/domutils/-/domutils-1.7.0.tgz}
-    dependencies:
-      dom-serializer: 0.2.2
-      domelementtype: 1.3.1
-    dev: false
 
   /domutils@2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==, tarball: https://registry.npmjs.org/domutils/-/domutils-2.8.0.tgz}
@@ -13730,10 +13711,6 @@ packages:
       typed-array-length: 1.0.6
       unbox-primitive: 1.0.2
       which-typed-array: 1.1.15
-
-  /es-array-method-boxes-properly@1.0.0:
-    resolution: {integrity: sha512-wd6JXUmyHmt8T5a2xreUwKcGPq6f1f+WwIJkijUqiGcJz1qqnZgP6XIK+QyIWU5lT7imeNxUll48bziG+TSYcA==, tarball: https://registry.npmjs.org/es-array-method-boxes-properly/-/es-array-method-boxes-properly-1.0.0.tgz}
-    dev: false
 
   /es-define-property@1.0.0:
     resolution: {integrity: sha512-jxayLKShrEqqzJ0eumQbVhTYQM27CfT1T35+gCgDFoL82JLsXqTJ76zv6A0YLOgEnLUMvLzsDsGIrl8NFpT2gQ==, tarball: https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.0.tgz}
@@ -15199,21 +15176,9 @@ packages:
     dependencies:
       is-callable: 1.2.7
 
-  /for-in@0.1.8:
-    resolution: {integrity: sha512-F0to7vbBSHP8E3l6dCjxNOLuSFAACIxFy3UehTUlG7svlXi37HHsDkyVcHo0Pq8QwrE+pXvWSVX3ZT1T9wAZ9g==, tarball: https://registry.npmjs.org/for-in/-/for-in-0.1.8.tgz}
-    engines: {node: '>=0.10.0'}
-    dev: false
-
   /for-in@1.0.2:
     resolution: {integrity: sha512-7EwmXrOjyL+ChxMhmG5lnW9MPt1aIeZEwKhQzoBUdTV0N3zuwWDZYVJatDvZ2OyzPUvdIAZDsCetk3coyMfcnQ==, tarball: https://registry.npmjs.org/for-in/-/for-in-1.0.2.tgz}
     engines: {node: '>=0.10.0'}
-    dev: false
-
-  /for-own@0.1.5:
-    resolution: {integrity: sha512-SKmowqGTJoPzLO1T0BBJpkfp3EMacCMOuH40hOUbrbzElVktk4DioXVM99QkLCyKoiuOmyjgcWMpVz2xjE7LZw==, tarball: https://registry.npmjs.org/for-own/-/for-own-0.1.5.tgz}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      for-in: 1.0.2
     dev: false
 
   /foreground-child@3.1.1:
@@ -18403,13 +18368,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /kind-of@2.0.1:
-    resolution: {integrity: sha512-0u8i1NZ/mg0b+W3MGGw5I7+6Eib2nx72S/QvXa0hYjEkjTknYmEYQJwGu3mLC0BrhtJjtQafTkyRUQ75Kx0LVg==, tarball: https://registry.npmjs.org/kind-of/-/kind-of-2.0.1.tgz}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      is-buffer: 1.1.6
-    dev: false
-
   /kind-of@3.2.2:
     resolution: {integrity: sha512-NOW9QQXMoZGg/oqnVNoNTTIFEIid1627WCffUBJEdMxYApq7mNE7CpzucIPc+ZQg25Phej7IJSmX3hO+oblOtQ==, tarball: https://registry.npmjs.org/kind-of/-/kind-of-3.2.2.tgz}
     engines: {node: '>=0.10.0'}
@@ -18463,16 +18421,6 @@ packages:
     dependencies:
       picocolors: 1.0.0
       shell-quote: 1.8.1
-
-  /lazy-cache@0.2.7:
-    resolution: {integrity: sha512-gkX52wvU/R8DVMMt78ATVPFMJqfW8FPz1GZ1sVHBVQHmu/WvhIWE4cE1GBzhJNFicDeYhnwp6Rl35BcAIM3YOQ==, tarball: https://registry.npmjs.org/lazy-cache/-/lazy-cache-0.2.7.tgz}
-    engines: {node: '>=0.10.0'}
-    dev: false
-
-  /lazy-cache@1.0.4:
-    resolution: {integrity: sha512-RE2g0b5VGZsOCFOCgP7omTRYFqydmZkBwl5oNnQ1lDYC57uyO9KqNnNVxT7COSHTxrRCWVcAVOcbjk+tvh/rgQ==, tarball: https://registry.npmjs.org/lazy-cache/-/lazy-cache-1.0.4.tgz}
-    engines: {node: '>=0.10.0'}
-    dev: false
 
   /less-loader@12.2.0(less@4.2.0)(webpack@5.91.0):
     resolution: {integrity: sha512-MYUxjSQSBUQmowc0l5nPieOYwMzGPUaTzB6inNW/bdPEG9zOL3eAAD1Qw5ZxSPk7we5dMojHwNODYMV1hq4EVg==, tarball: https://registry.npmjs.org/less-loader/-/less-loader-12.2.0.tgz}
@@ -19138,10 +19086,6 @@ packages:
   /mdn-data@2.0.30:
     resolution: {integrity: sha512-GaqWWShW4kv/G9IEucWScBx9G1/vsFZZJUO+tD26M8J8z3Kw5RDQjaoZe03YAClgeS/SWPOcb4nkFBTEi5DUEA==, tarball: https://registry.npmjs.org/mdn-data/-/mdn-data-2.0.30.tgz}
 
-  /mdn-data@2.0.4:
-    resolution: {integrity: sha512-iV3XNKw06j5Q7mi6h+9vbx23Tv7JkjEVgKHW4pimwyDGWm0OIQntJJ+u1C6mg6mK1EaTv42XQ7w76yuzH7M2cA==, tarball: https://registry.npmjs.org/mdn-data/-/mdn-data-2.0.4.tgz}
-    dev: false
-
   /media-typer@0.3.0:
     resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==, tarball: https://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz}
     engines: {node: '>= 0.6'}
@@ -19241,15 +19185,6 @@ packages:
       trim-newlines: 3.0.1
       type-fest: 0.18.1
       yargs-parser: 20.2.9
-    dev: false
-
-  /merge-deep@3.0.3:
-    resolution: {integrity: sha512-qtmzAS6t6grwEkNrunqTBdn0qKwFgNWvlxUbAV8es9M7Ot1EbyApytCnvE0jALPa46ZpKDUo527kKiaWplmlFA==, tarball: https://registry.npmjs.org/merge-deep/-/merge-deep-3.0.3.tgz}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      arr-union: 3.1.0
-      clone-deep: 0.2.4
-      kind-of: 3.2.2
     dev: false
 
   /merge-descriptors@1.0.1:
@@ -19437,9 +19372,11 @@ packages:
     dependencies:
       uglify-es: 3.3.9
 
-  /metro-react-native-babel-preset@0.76.9:
+  /metro-react-native-babel-preset@0.76.9(@babel/core@7.24.4):
     resolution: {integrity: sha512-eCBtW/UkJPDr6HlMgFEGF+964DZsUEF9RGeJdZLKWE7d/0nY3ABZ9ZAGxzu9efQ35EWRox5bDMXUGaOwUe5ikQ==, tarball: https://registry.npmjs.org/metro-react-native-babel-preset/-/metro-react-native-babel-preset-0.76.9.tgz}
     engines: {node: '>=16'}
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.24.4
       '@babel/plugin-proposal-async-generator-functions': 7.20.7(@babel/core@7.24.4)
@@ -19483,14 +19420,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /metro-react-native-babel-transformer@0.76.9:
+  /metro-react-native-babel-transformer@0.76.9(@babel/core@7.24.4):
     resolution: {integrity: sha512-xXzHcfngSIkbQj+U7i/anFkNL0q2QVarYSzr34CFkzKLa79Rp16B8ki7z9eVVqo9W3B4TBcTXl3BipgRoOoZSQ==, tarball: https://registry.npmjs.org/metro-react-native-babel-transformer/-/metro-react-native-babel-transformer-0.76.9.tgz}
     engines: {node: '>=16'}
+    peerDependencies:
+      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.24.4
       babel-preset-fbjs: 3.4.0(@babel/core@7.24.4)
       hermes-parser: 0.12.0
-      metro-react-native-babel-preset: 0.76.9
+      metro-react-native-babel-preset: 0.76.9(@babel/core@7.24.4)
       nullthrows: 1.1.1
     transitivePeerDependencies:
       - supports-color
@@ -19678,7 +19617,7 @@ packages:
       metro-file-map: 0.76.9
       metro-inspector-proxy: 0.76.9
       metro-minify-uglify: 0.76.9
-      metro-react-native-babel-preset: 0.76.9
+      metro-react-native-babel-preset: 0.76.9(@babel/core@7.24.4)
       metro-resolver: 0.76.9
       metro-runtime: 0.76.9
       metro-source-map: 0.76.9
@@ -19977,14 +19916,6 @@ packages:
     dependencies:
       for-in: 1.0.2
       is-extendable: 1.0.1
-    dev: false
-
-  /mixin-object@2.0.1:
-    resolution: {integrity: sha512-ALGF1Jt9ouehcaXaHhn6t1yGWRqGaHkPFndtFVHfZXOvkIZ/yoGaSi0AHVTafb3ZBGg4dr/bDwnaEKqCXzchMA==, tarball: https://registry.npmjs.org/mixin-object/-/mixin-object-2.0.1.tgz}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      for-in: 0.1.8
-      is-extendable: 0.1.1
     dev: false
 
   /mkdirp-classic@0.5.3:
@@ -20302,12 +20233,6 @@ packages:
       path-key: 4.0.0
     dev: true
 
-  /nth-check@1.0.2:
-    resolution: {integrity: sha512-WeBOdju8SnzPN5vTUJYxYUxLeXpCaVP5i5e0LF8fg7WORF2Wd7wFX/pk0tYZk7s8T+J7VLy0Da6J1+wCT0AtHg==, tarball: https://registry.npmjs.org/nth-check/-/nth-check-1.0.2.tgz}
-    dependencies:
-      boolbase: 1.0.0
-    dev: false
-
   /nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==, tarball: https://registry.npmjs.org/nth-check/-/nth-check-2.1.1.tgz}
     dependencies:
@@ -20392,19 +20317,6 @@ packages:
       define-properties: 1.2.1
       es-abstract: 1.23.3
       es-object-atoms: 1.0.0
-
-  /object.getownpropertydescriptors@2.1.8:
-    resolution: {integrity: sha512-qkHIGe4q0lSYMv0XI4SsBTJz3WaURhLvd0lKSgtVuOsJ2krg4SgMw3PIRQFMp07yi++UR3se2mkcLqsBNpBb/A==, tarball: https://registry.npmjs.org/object.getownpropertydescriptors/-/object.getownpropertydescriptors-2.1.8.tgz}
-    engines: {node: '>= 0.8'}
-    dependencies:
-      array.prototype.reduce: 1.0.7
-      call-bind: 1.0.7
-      define-properties: 1.2.1
-      es-abstract: 1.23.3
-      es-object-atoms: 1.0.0
-      gopd: 1.0.1
-      safe-array-concat: 1.1.2
-    dev: false
 
   /object.groupby@1.0.3:
     resolution: {integrity: sha512-+Lhy3TQTuzXI5hevh8sBGqbmurHbbIjAi0Z4S63nthVLmLxfbj4T54a4CfZrXIrt9iP4mVAPYMo/v99taj3wjQ==, tarball: https://registry.npmjs.org/object.groupby/-/object.groupby-1.0.3.tgz}
@@ -22256,6 +22168,7 @@ packages:
   /q@1.5.1:
     resolution: {integrity: sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==, tarball: https://registry.npmjs.org/q/-/q-1.5.1.tgz}
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
+    dev: true
 
   /qrcode-terminal@0.11.0:
     resolution: {integrity: sha512-Uu7ii+FQy4Qf82G4xu7ShHhjhGahEpCWc3x8UavY3CTcWV+ufmmCtwkr7ZKsX42jdL0kr1B5FKUeqJvAn51jzQ==, tarball: https://registry.npmjs.org/qrcode-terminal/-/qrcode-terminal-0.11.0.tgz}
@@ -22456,7 +22369,7 @@ packages:
     peerDependencies:
       react-native: '*'
     dependencies:
-      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: true
 
   /react-native-device-info@10.12.1(react-native@0.73.7):
@@ -22493,7 +22406,7 @@ packages:
       lodash: 4.17.21
       prop-types: 15.8.1
       react: 18.2.0
-      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /react-native-image-pan-zoom@2.1.12(react-native@0.73.7)(react@18.2.0):
@@ -22600,7 +22513,7 @@ packages:
       react-native: '*'
     dependencies:
       react: 18.2.0
-      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /react-native-safe-area-context@4.8.2(react-native@0.73.7)(react@18.2.0):
@@ -22621,7 +22534,7 @@ packages:
     dependencies:
       react: 18.2.0
       react-freeze: 1.0.4(react@18.2.0)
-      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
       warn-once: 0.1.1
     dev: false
 
@@ -22629,21 +22542,33 @@ packages:
     resolution: {integrity: sha512-iG7Fqpjo81QfAFwsj09XpexZlNPHTZTIclioaHqQDjcNt62ehlSwSgKFxNeQ2RkW9M4dgQbOJHN+pniFjSQ9rA==, tarball: https://registry.npmjs.org/react-native-stylekit/-/react-native-stylekit-1.0.0.tgz}
     dev: false
 
-  /react-native-svg-transformer@0.14.3(react-native-svg@14.1.0)(react-native@0.73.7):
-    resolution: {integrity: sha512-agDGdMeeBAsWEgg/u7mjtR2Z3c8smGCLep/n3svwifut9dpswZCP+bSIrU8ekg6RNtxAJL+eGJbWjJ38vWxw6g==, tarball: https://registry.npmjs.org/react-native-svg-transformer/-/react-native-svg-transformer-0.14.3.tgz}
+  /react-native-svg-transformer@1.4.0(react-native-svg@14.1.0)(react-native@0.72.14)(typescript@5.4.5):
+    resolution: {integrity: sha512-ZJ9dpSl8EONXbFQcVoGVr0cAl/7Vm/sKtOH1V6Mf9lcdyeT1/rfww43xgSfQWjmneTNTTXjslM5EoyZTHPfawQ==, tarball: https://registry.npmjs.org/react-native-svg-transformer/-/react-native-svg-transformer-1.4.0.tgz}
     peerDependencies:
-      react-native: '>=0.45.0'
-      react-native-svg: '>=6.5.1'
+      react-native: '>=0.59.0'
+      react-native-svg: '>=12.0.0'
     dependencies:
-      '@svgr/core': 4.3.3
-      '@svgr/plugin-svgo': 4.3.1
+      '@svgr/core': 8.1.0(typescript@5.4.5)
+      '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0)
+      '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)(typescript@5.4.5)
       path-dirname: 1.0.2
-      react-native: 0.73.7(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
-      react-native-svg: 14.1.0(react-native@0.73.7)(react@18.2.0)
-      semver: 5.7.2
+      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native-svg: 14.1.0(react-native@0.72.14)(react@18.2.0)
     transitivePeerDependencies:
       - supports-color
+      - typescript
     dev: false
+
+  /react-native-svg@14.1.0(react-native@0.72.14)(react@18.2.0):
+    resolution: {integrity: sha512-HeseElmEk+AXGwFZl3h56s0LtYD9HyGdrpg8yd9QM26X+d7kjETrRQ9vCjtxuT5dCZEIQ5uggU1dQhzasnsCWA==, tarball: https://registry.npmjs.org/react-native-svg/-/react-native-svg-14.1.0.tgz}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      css-select: 5.1.0
+      css-tree: 1.1.3
+      react: 18.2.0
+      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
 
   /react-native-svg@14.1.0(react-native@0.73.7)(react@18.2.0):
     resolution: {integrity: sha512-HeseElmEk+AXGwFZl3h56s0LtYD9HyGdrpg8yd9QM26X+d7kjETrRQ9vCjtxuT5dCZEIQ5uggU1dQhzasnsCWA==, tarball: https://registry.npmjs.org/react-native-svg/-/react-native-svg-14.1.0.tgz}
@@ -22655,6 +22580,7 @@ packages:
       css-tree: 1.1.3
       react: 18.2.0
       react-native: 0.73.7(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+    dev: true
 
   /react-native-webview@13.6.4(react-native@0.73.7)(react@18.2.0):
     resolution: {integrity: sha512-AdgmaMBHPcyERTvng9eSGgHX6AleyUlSusWAxngSOSdiYGgHW81T6C5A8j/ImJAF9oZg0bQDxp43Hu56tzENZQ==, tarball: https://registry.npmjs.org/react-native-webview/-/react-native-webview-13.6.4.tgz}
@@ -22668,7 +22594,7 @@ packages:
       react-native: 0.73.7(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
-  /react-native@0.72.14(@babel/preset-env@7.24.4)(react@18.2.0):
+  /react-native@0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0):
     resolution: {integrity: sha512-7L0ync/mSyyUPL09lXYFiseibKwhXs4dWVm8olWfFAKqe8xjwsGD4CWXCUEydhHI906FIhJKMjIK59wb98zAug==, tarball: https://registry.npmjs.org/react-native/-/react-native-0.72.14.tgz}
     engines: {node: '>=16'}
     hasBin: true
@@ -22676,7 +22602,7 @@ packages:
       react: 18.2.0
     dependencies:
       '@jest/create-cache-key-function': 29.7.0
-      '@react-native-community/cli': 11.4.1
+      '@react-native-community/cli': 11.4.1(@babel/core@7.24.4)
       '@react-native-community/cli-platform-android': 11.4.1
       '@react-native-community/cli-platform-ios': 11.4.1
       '@react-native/assets-registry': 0.72.0
@@ -22714,6 +22640,7 @@ packages:
       ws: 6.2.2
       yargs: 17.7.2
     transitivePeerDependencies:
+      - '@babel/core'
       - '@babel/preset-env'
       - bufferutil
       - encoding
@@ -23915,16 +23842,6 @@ packages:
   /setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==, tarball: https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.2.0.tgz}
 
-  /shallow-clone@0.1.2:
-    resolution: {integrity: sha512-J1zdXCky5GmNnuauESROVu31MQSnLoYvlyEn6j2Ztk6Q5EHFIhxkMhYcv6vuDzl2XEzoRr856QwzMgWM/TmZgw==, tarball: https://registry.npmjs.org/shallow-clone/-/shallow-clone-0.1.2.tgz}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      is-extendable: 0.1.1
-      kind-of: 2.0.1
-      lazy-cache: 0.2.7
-      mixin-object: 2.0.1
-    dev: false
-
   /shallow-clone@3.0.1:
     resolution: {integrity: sha512-/6KqX+GVUdqPuPPd2LxDDxzX6CAbjJehAAOKlNpqqUpAqPM6HeL8f+o3a+JsyGjn2lv0WY8UsTgUJjU9Ok55NA==, tarball: https://registry.npmjs.org/shallow-clone/-/shallow-clone-3.0.1.tgz}
     engines: {node: '>=8'}
@@ -24347,6 +24264,7 @@ packages:
   /stable@0.1.8:
     resolution: {integrity: sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==, tarball: https://registry.npmjs.org/stable/-/stable-0.1.8.tgz}
     deprecated: 'Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility'
+    dev: true
 
   /stack-generator@2.0.10:
     resolution: {integrity: sha512-mwnua/hkqM6pF4k8SnmZ2zfETsRUpWXREfA/goT8SLCV4iOFa4bzOX2nDipWAZFPTjLvQB82f5yaodMVhK0yJQ==, tarball: https://registry.npmjs.org/stack-generator/-/stack-generator-2.0.10.tgz}
@@ -24960,27 +24878,6 @@ packages:
 
   /svg-tags@1.0.0:
     resolution: {integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==, tarball: https://registry.npmjs.org/svg-tags/-/svg-tags-1.0.0.tgz}
-
-  /svgo@1.3.2:
-    resolution: {integrity: sha512-yhy/sQYxR5BkC98CY7o31VGsg014AKLEPxdfhora76l36hD9Rdy5NZA/Ocn6yayNPgSamYdtX2rFJdcv07AYVw==, tarball: https://registry.npmjs.org/svgo/-/svgo-1.3.2.tgz}
-    engines: {node: '>=4.0.0'}
-    deprecated: This SVGO version is no longer supported. Upgrade to v2.x.x.
-    hasBin: true
-    dependencies:
-      chalk: 2.4.2
-      coa: 2.0.2
-      css-select: 2.1.0
-      css-select-base-adapter: 0.1.1
-      css-tree: 1.0.0-alpha.37
-      csso: 4.2.0
-      js-yaml: 3.14.1
-      mkdirp: 0.5.6
-      object.values: 1.2.0
-      sax: 1.2.4
-      stable: 0.1.8
-      unquote: 1.1.1
-      util.promisify: 1.0.1
-    dev: false
 
   /svgo@2.8.0:
     resolution: {integrity: sha512-+N/Q9kV1+F+UeWYoSiULYo4xYSDQlTgb+ayMobAXPwMnLvop7oxKMo9OzIrX5x3eS4L4f2UHhc9axXwY8DpChg==, tarball: https://registry.npmjs.org/svgo/-/svgo-2.8.0.tgz}
@@ -25950,10 +25847,6 @@ packages:
     resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==, tarball: https://registry.npmjs.org/unpipe/-/unpipe-1.0.0.tgz}
     engines: {node: '>= 0.8'}
 
-  /unquote@1.1.1:
-    resolution: {integrity: sha512-vRCqFv6UhXpWxZPyGDh/F3ZpNv8/qo7w6iufLpQg9aKnQ71qM4B5KiI7Mia9COcjEhrO9LueHpMYjYzsWH3OIg==, tarball: https://registry.npmjs.org/unquote/-/unquote-1.1.1.tgz}
-    dev: false
-
   /unset-value@1.0.0:
     resolution: {integrity: sha512-PcA2tsuGSF9cnySLHTLSh2qrQiJ70mn+r+Glzxv2TWZblxsxCC52BDlZoPCsz7STd9pN7EZetkWZBAvk4cgZdQ==, tarball: https://registry.npmjs.org/unset-value/-/unset-value-1.0.0.tgz}
     engines: {node: '>=0.10.0'}
@@ -26073,15 +25966,6 @@ packages:
 
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==, tarball: https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz}
-
-  /util.promisify@1.0.1:
-    resolution: {integrity: sha512-g9JpC/3He3bm38zsLupWryXHoEcS22YHthuPQSJdMy6KNrzIRzWqcsHzD/WUnqe45whVou4VIsPew37DoXWNrA==, tarball: https://registry.npmjs.org/util.promisify/-/util.promisify-1.0.1.tgz}
-    dependencies:
-      define-properties: 1.2.1
-      es-abstract: 1.23.3
-      has-symbols: 1.0.3
-      object.getownpropertydescriptors: 2.1.8
-    dev: false
 
   /utila@0.4.0:
     resolution: {integrity: sha512-Z0DbgELS9/L/75wZbro8xAnT50pBVFQZ+hUEueGDU5FN51YSCYM+jdxsfCiHjwNP/4LCDD0i/graKpeBnOXKRA==, tarball: https://registry.npmjs.org/utila/-/utila-0.4.0.tgz}
