@@ -284,7 +284,6 @@ impl TransformVisitor {
 
                                     // let loop_body = self.build_ets_children(&mut vec![JSXElementChild::JSXElement(return_jsx) ], None);
 
-                                    println!("start");
                                     self.deal_loop_now = true;
                                     self.node_name.push("item".to_string());
                                     let loop_body = self.build_ets_element(return_jsx);
