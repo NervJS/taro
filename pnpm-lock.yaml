@@ -2158,6 +2158,21 @@ importers:
 
   packages/taro-rn-transformer:
     dependencies:
+      '@babel/core':
+        specifier: ^7.24.4
+        version: 7.24.4
+      '@babel/parser':
+        specifier: ^7.24.4
+        version: 7.24.5
+      '@babel/traverse':
+        specifier: ^7.24.1
+        version: 7.24.5
+      '@babel/types':
+        specifier: ^7.24.0
+        version: 7.24.0
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../taro-helper
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -2171,21 +2186,12 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
     devDependencies:
-      '@babel/core':
-        specifier: ^7.14.5
-        version: 7.24.4
-      '@babel/parser':
-        specifier: ^7.14.5
-        version: 7.24.4
-      '@babel/traverse':
-        specifier: ^7.14.5
-        version: 7.24.1
-      '@babel/types':
-        specifier: 7.24.0
-        version: 7.24.0
-      '@tarojs/helper':
-        specifier: workspace:*
-        version: link:../taro-helper
+      '@types/lodash':
+        specifier: 4.17.0
+        version: 4.17.0
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
 
   packages/taro-router:
     dependencies:
