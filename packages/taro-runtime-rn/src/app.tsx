@@ -35,7 +35,6 @@ export function createReactNativeApp (AppEntry: any, config: RNAppConfig, FirstP
   const isReactComponent = isClassComponent(AppEntry)
   let entryComponent: any = AppEntry
   if (!isReactComponent) {
-    // eslint-disable-next-line react/display-name
     entryComponent = forwardRef((props, ref) => {
       return <AppEntry forwardRef={ref} {...props} />
     })

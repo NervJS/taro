@@ -2322,19 +2322,19 @@ importers:
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
-      react-native-device-info:
-        specifier: ~10.12.0
-        version: 10.12.1(react-native@0.73.7)
-      react-native-root-siblings:
-        specifier: ^5.0.1
-        version: 5.0.1(react@18.2.0)
     devDependencies:
       react:
         specifier: ^18.2.0
         version: 18.2.0
       react-native:
-        specifier: ^0.73.1
-        version: 0.73.7(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+        specifier: ^0.72.3
+        version: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native-device-info:
+        specifier: ^10.12.0
+        version: 10.12.1(react-native@0.72.14)
+      react-native-root-siblings:
+        specifier: ^5.0.1
+        version: 5.0.1(react@18.2.0)
 
   packages/taro-service:
     dependencies:
@@ -22444,6 +22444,14 @@ packages:
       react: 18.2.0
       react-native: 0.73.7(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
+
+  /react-native-device-info@10.12.1(react-native@0.72.14):
+    resolution: {integrity: sha512-VZ/C0mzN+W/NDAugNl94+XnqPj6uvMh0DB+a4lezUQfwDj6yRcdLMmPVq21gbCwgZJdkJBXMGc/2RDFh7ukbLQ==, tarball: https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-10.12.1.tgz}
+    peerDependencies:
+      react-native: '*'
+    dependencies:
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+    dev: true
 
   /react-native-device-info@10.12.1(react-native@0.73.7):
     resolution: {integrity: sha512-VZ/C0mzN+W/NDAugNl94+XnqPj6uvMh0DB+a4lezUQfwDj6yRcdLMmPVq21gbCwgZJdkJBXMGc/2RDFh7ukbLQ==, tarball: https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-10.12.1.tgz}

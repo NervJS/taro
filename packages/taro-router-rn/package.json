@@ -8,14 +8,13 @@
   "types": "dist/index.d.ts",
   "files": [
     "src",
-    "dist",
-    "types"
+    "dist"
   ],
   "scripts": {
     "prebuild": "pnpm run clean",
-    "build": "tsc",
     "clean": "rimraf --impl=move-remove ./dist",
     "dev": "tsc -w",
+    "build": "tsc",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
   },
   "repository": {
@@ -45,7 +44,7 @@
     "react-native": "^0.72.3"
   },
   "peerDependencies": {
-    "react": ">= 18.2.0",
+    "react": ">= 18",
     "react-native": ">= 0.63.0",
     "react-native-gesture-handler": ">= 2.0.0",
     "react-native-safe-area-context": ">= 4.4.0",
