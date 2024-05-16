@@ -1,8 +1,8 @@
-import { Weapp } from '@tarojs/plugin-platform-weapp'
+import { Weapp } from '../../taro-platform-weapp/dist/types'
 
 import { components } from './components'
 
-import type { IOptions } from '@tarojs/plugin-platform-weapp'
+import type { IOptions } from '../../taro-platform-weapp/dist/types'
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-qq'
 
