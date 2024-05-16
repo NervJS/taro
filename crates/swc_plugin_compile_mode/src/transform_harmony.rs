@@ -638,6 +638,11 @@ export default struct TARO_TEMPLATES_{name} {{
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
   }}
 
+  aboutToReuse(params: TaroAny): void {{
+    this.node = params.node
+    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
+  }}
+
 {content}}}
 "#,
                     name = tmpl_name,

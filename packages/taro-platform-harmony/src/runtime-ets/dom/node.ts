@@ -219,6 +219,7 @@ export class TaroNode extends TaroDataSourceElement {
     oldChild.dispose()
     this.notifyDataChange(idxOfRef)
 
+    checkIsCompileModeAndUninstallAfterDOMAction(oldChild)
     checkIsCompileModeAndInstallAfterDOMAction(newChild, this)
 
     return oldChild
