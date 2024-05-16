@@ -31,6 +31,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^17.6.6
         version: 17.8.1
+      '@rollup/plugin-babel':
+        specifier: ^6.0.4
+        version: 6.0.4(@babel/core@7.24.4)(@types/babel__core@7.20.5)(rollup@4.17.2)
       '@rollup/plugin-commonjs':
         specifier: ^25.0.7
         version: 25.0.7(rollup@4.17.2)
@@ -40,6 +43,9 @@ importers:
       '@rollup/plugin-node-resolve':
         specifier: ^15.2.3
         version: 15.2.3(rollup@4.17.2)
+      '@rollup/plugin-replace':
+        specifier: ^4.0.0
+        version: 4.0.0(rollup@4.17.2)
       '@rollup/plugin-typescript':
         specifier: ^11.1.6
         version: 11.1.6(rollup@4.17.2)(typescript@5.4.5)
@@ -188,7 +194,7 @@ importers:
         specifier: ^4.1.2
         version: 4.1.5
       postcss:
-        specifier: ^8.4.18
+        specifier: ^8.4.38
         version: 8.4.38
       postcss-scss:
         specifier: ^4.0.3
@@ -275,7 +281,7 @@ importers:
         version: link:../../packages/taro-plugin-react
       '@tarojs/plugin-platform-alipay':
         specifier: workspace:*
-        version: link:../../packages/taro-alipay
+        version: link:../../packages/taro-platform-alipay
       '@tarojs/plugin-platform-h5':
         specifier: workspace:*
         version: link:../../packages/taro-platform-h5
@@ -284,19 +290,19 @@ importers:
         version: link:../../packages/taro-platform-harmony-hybrid
       '@tarojs/plugin-platform-jd':
         specifier: workspace:*
-        version: link:../../packages/taro-jd
+        version: link:../../packages/taro-platform-jd
       '@tarojs/plugin-platform-qq':
         specifier: workspace:*
-        version: link:../../packages/taro-qq
+        version: link:../../packages/taro-platform-qq
       '@tarojs/plugin-platform-swan':
         specifier: workspace:*
         version: link:../../packages/taro-swan
       '@tarojs/plugin-platform-tt':
         specifier: workspace:*
-        version: link:../../packages/taro-tt
+        version: link:../../packages/taro-platform-tt
       '@tarojs/plugin-platform-weapp':
         specifier: workspace:*
-        version: link:../../packages/taro-weapp
+        version: link:../../packages/taro-platform-weapp
       '@tarojs/react':
         specifier: workspace:*
         version: link:../../packages/taro-react
@@ -362,7 +368,7 @@ importers:
         specifier: ^4.2.0
         version: 4.6.2(eslint@8.57.0)
       postcss:
-        specifier: ^8.4.18
+        specifier: ^8.4.38
         version: 8.4.38
       react-refresh:
         specifier: ^0.11.0
@@ -546,39 +552,13 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0
 
-  packages/postcss-html-transform:
-    devDependencies:
-      postcss:
-        specifier: ^8.4.38
-        version: 8.4.38
+  packages/postcss-html-transform: {}
 
-  packages/postcss-plugin-constparse:
-    devDependencies:
-      postcss:
-        specifier: ^8.4.38
-        version: 8.4.38
+  packages/postcss-plugin-constparse: {}
 
-  packages/postcss-pxtransform:
-    devDependencies:
-      postcss:
-        specifier: ^8.4.38
-        version: 8.4.38
+  packages/postcss-pxtransform: {}
 
-  packages/postcss-unit-transform:
-    dependencies:
-      postcss:
-        specifier: ^6.0.21
-        version: 6.0.23
-      typescript:
-        specifier: ^4.7.4
-        version: 4.9.5
-    devDependencies:
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
-      ts-jest:
-        specifier: ^29.0.5
-        version: 29.1.2(@babel/core@7.24.4)(babel-jest@29.7.0)(jest@29.7.0)(typescript@4.9.5)
+  packages/postcss-unit-transform: {}
 
   packages/rollup-plugin-copy:
     dependencies:
@@ -661,18 +641,6 @@ importers:
         specifier: ^4.15.2
         version: 4.15.2(webpack@5.91.0)
 
-  packages/taro-alipay:
-    devDependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-
   packages/taro-api:
     devDependencies:
       '@tarojs/runtime':
@@ -744,7 +712,7 @@ importers:
         version: link:../taro-platform-h5
       '@tarojs/plugin-platform-weapp':
         specifier: workspace:*
-        version: link:../taro-weapp
+        version: link:../taro-platform-weapp
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -936,28 +904,10 @@ importers:
       memoize-one:
         specifier: ^6.0.0
         version: 6.0.0
-      postcss:
-        specifier: ^8.4.18
-        version: 8.4.38
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
     devDependencies:
-      '@babel/cli':
-        specifier: ^7.14.5
-        version: 7.24.1(@babel/core@7.24.4)
-      '@babel/core':
-        specifier: ^7.14.5
-        version: 7.24.4
-      '@babel/plugin-transform-typescript':
-        specifier: ^7.20.2
-        version: 7.24.5(@babel/core@7.24.4)
-      '@rollup/plugin-commonjs':
-        specifier: ^25.0.7
-        version: 25.0.7(rollup@2.79.1)
-      '@rollup/plugin-node-resolve':
-        specifier: ^15.2.3
-        version: 15.2.3(rollup@2.79.1)
       '@tarojs/runtime':
         specifier: workspace:*
         version: link:../taro-runtime
@@ -967,33 +917,12 @@ importers:
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
-      '@types/node':
-        specifier: ^18.19.12
-        version: 18.19.31
-      babel-preset-taro:
-        specifier: workspace:*
-        version: link:../babel-preset-taro
       react:
         specifier: ^18.2.0
         version: 18.2.0
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.2.0)
-      rollup:
-        specifier: ^2.79.0
-        version: 2.79.1
-      rollup-plugin-node-externals:
-        specifier: ^5.0.0
-        version: 5.1.3(rollup@2.79.1)
-      rollup-plugin-postcss:
-        specifier: ^4.0.2
-        version: 4.0.2(postcss@8.4.38)(ts-node@10.9.2)
-      rollup-plugin-ts:
-        specifier: ^3.0.2
-        version: 3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@2.79.1)(typescript@4.9.5)
-      typescript:
-        specifier: ^4.7.4
-        version: 4.9.5
       vue:
         specifier: 3.2.47
         version: 3.2.47
@@ -1038,6 +967,9 @@ importers:
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -1051,57 +983,24 @@ importers:
         specifier: ^2.6.2
         version: 2.6.2
     devDependencies:
-      '@babel/core':
-        specifier: ^7.14.5
-        version: 7.24.4
       '@babel/preset-react':
-        specifier: ^7.22.15
+        specifier: ^7.24.1
         version: 7.24.1(@babel/core@7.24.4)
-      '@rollup/plugin-babel':
-        specifier: ^6.0.4
-        version: 6.0.4(@babel/core@7.24.4)(rollup@3.29.4)
-      '@rollup/plugin-commonjs':
-        specifier: ^25.0.7
-        version: 25.0.7(rollup@3.29.4)
-      '@rollup/plugin-node-resolve':
-        specifier: ^15.2.3
-        version: 15.2.3(rollup@3.29.4)
-      '@rollup/plugin-replace':
-        specifier: ^4.0.0
-        version: 4.0.0(rollup@3.29.4)
-      '@rollup/plugin-typescript':
-        specifier: ^11.1.0
-        version: 11.1.6(rollup@3.29.4)(tslib@2.6.2)(typescript@4.9.5)
-      '@types/node':
-        specifier: ^18.19.12
-        version: 18.19.31
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../taro-helper
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
       babel-preset-solid:
         specifier: ^1.8.15
         version: 1.8.16(@babel/core@7.24.4)
-      postcss:
-        specifier: ^8.4.18
-        version: 8.4.38
       react:
         specifier: ^18.2.0
         version: 18.2.0
-      rollup:
-        specifier: ^3.8.1
-        version: 3.29.4
-      rollup-plugin-node-externals:
-        specifier: ^5.0.0
-        version: 5.1.3(rollup@3.29.4)
-      rollup-plugin-postcss:
-        specifier: ^4.0.2
-        version: 4.0.2(postcss@8.4.38)(ts-node@10.9.2)
-      rollup-plugin-ts:
-        specifier: ^3.0.2
-        version: 3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@4.9.5)
       solid-js:
         specifier: ^1.8.16
         version: 1.8.17
-      typescript:
-        specifier: ^4.7.4
-        version: 4.9.5
 
   packages/taro-components-rn:
     dependencies:
@@ -1270,9 +1169,6 @@ importers:
       mock-socket:
         specifier: ^7.1.0
         version: 7.1.0
-      postcss:
-        specifier: ^8.4.18
-        version: 8.4.38
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1371,15 +1267,6 @@ importers:
         specifier: ^7.20.5
         version: 7.20.5
 
-  packages/taro-jd:
-    devDependencies:
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-
   packages/taro-loader:
     dependencies:
       '@tarojs/helper':
@@ -1392,6 +1279,18 @@ importers:
       webpack:
         specifier: 5.91.0
         version: 5.91.0
+
+  packages/taro-platform-alipay:
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
 
   packages/taro-platform-h5:
     dependencies:
@@ -1431,37 +1330,13 @@ importers:
       lodash-es:
         specifier: 4.17.21
         version: 4.17.21
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.2
     devDependencies:
-      '@rollup/plugin-commonjs':
-        specifier: ^25.0.7
-        version: 25.0.7(rollup@3.29.4)
-      '@rollup/plugin-json':
-        specifier: ^6.1.0
-        version: 6.1.0(rollup@3.29.4)
-      '@rollup/plugin-node-resolve':
-        specifier: ^15.2.3
-        version: 15.2.3(rollup@3.29.4)
-      '@rollup/plugin-typescript':
-        specifier: ^11.1.0
-        version: 11.1.6(rollup@3.29.4)(typescript@5.4.5)
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
-      rollup:
-        specifier: ^3.8.1
-        version: 3.29.4
-      rollup-plugin-node-externals:
-        specifier: ^5.0.0
-        version: 5.1.3(rollup@3.29.4)
-      rollup-plugin-ts:
-        specifier: ^3.4.5
-        version: 3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@5.4.5)
-      tsconfig-paths:
-        specifier: ^3.14.1
-        version: 3.15.0
-      typescript:
-        specifier: ^5.3.3
-        version: 5.4.5
 
   packages/taro-platform-harmony:
     dependencies:
@@ -1620,6 +1495,51 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.4.5
+
+  packages/taro-platform-jd:
+    devDependencies:
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/taro-platform-qq:
+    devDependencies:
+      '@tarojs/plugin-platform-weapp':
+        specifier: workspace:*
+        version: link:../taro-platform-weapp
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/taro-platform-tt:
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/taro-platform-weapp:
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
 
   packages/taro-plugin-html:
     devDependencies:
@@ -1860,18 +1780,6 @@ importers:
       vue:
         specifier: ^3.4.25
         version: 3.4.26(typescript@5.4.5)
-
-  packages/taro-qq:
-    devDependencies:
-      '@tarojs/plugin-platform-weapp':
-        specifier: workspace:*
-        version: link:../taro-weapp
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
 
   packages/taro-react:
     dependencies:
@@ -2157,10 +2065,6 @@ importers:
       taro-css-to-react-native:
         specifier: workspace:*
         version: link:../css-to-react-native
-    devDependencies:
-      postcss:
-        specifier: ^8.4.18
-        version: 8.4.38
 
   packages/taro-rn-supporter:
     dependencies:
@@ -2543,18 +2447,6 @@ importers:
         specifier: 4.17.0
         version: 4.17.0
 
-  packages/taro-tt:
-    devDependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-
   packages/taro-vite-runner:
     dependencies:
       '@ampproject/remapping':
@@ -2669,9 +2561,6 @@ importers:
       less:
         specifier: ^4.2.0
         version: 4.2.0
-      postcss:
-        specifier: ^8.4.38
-        version: 8.4.38
       rollup:
         specifier: ^4.16.4
         version: 4.17.2
@@ -2687,18 +2576,6 @@ importers:
       vite:
         specifier: ^5.2.10
         version: 5.2.11(@types/node@18.19.31)(less@4.2.0)(sass@1.44.0)(stylus@0.63.0)(terser@5.31.0)
-
-  packages/taro-weapp:
-    devDependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
 
   packages/taro-webpack5-prebundle:
     dependencies:
@@ -2886,22 +2763,22 @@ importers:
         version: link:../taro-plugin-vue3
       '@tarojs/plugin-platform-alipay':
         specifier: workspace:*
-        version: link:../taro-alipay
+        version: link:../taro-platform-alipay
       '@tarojs/plugin-platform-jd':
         specifier: workspace:*
-        version: link:../taro-jd
+        version: link:../taro-platform-jd
       '@tarojs/plugin-platform-qq':
         specifier: workspace:*
-        version: link:../taro-qq
+        version: link:../taro-platform-qq
       '@tarojs/plugin-platform-swan':
         specifier: workspace:*
         version: link:../taro-swan
       '@tarojs/plugin-platform-tt':
         specifier: workspace:*
-        version: link:../taro-tt
+        version: link:../taro-platform-tt
       '@tarojs/plugin-platform-weapp':
         specifier: workspace:*
-        version: link:../taro-weapp
+        version: link:../taro-platform-weapp
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -2926,9 +2803,6 @@ importers:
       memfs:
         specifier: ^4.9.1
         version: 4.9.2
-      postcss:
-        specifier: ^8.4.38
-        version: 8.4.38
       sass:
         specifier: ^1.75.0
         version: 1.75.0
@@ -7548,7 +7422,6 @@ packages:
       '@rollup/pluginutils': 5.1.0(rollup@4.17.2)
       '@types/babel__core': 7.20.5
       rollup: 4.17.2
-    dev: false
 
   /@rollup/plugin-babel@6.0.4(@babel/core@7.24.4)(rollup@2.79.1):
     resolution: {integrity: sha512-YF7Y52kFdFT/xVSuVdjkV5ZdX/3YtmX0QulG+x0taQOtJdHYzVU61aSSkAgVJ7NOv6qPkIYiJSgSWWN/DM5sGw==, tarball: https://registry.npmjs.org/@rollup/plugin-babel/-/plugin-babel-6.0.4.tgz}
@@ -7569,25 +7442,6 @@ packages:
       rollup: 2.79.1
     dev: false
 
-  /@rollup/plugin-babel@6.0.4(@babel/core@7.24.4)(rollup@3.29.4):
-    resolution: {integrity: sha512-YF7Y52kFdFT/xVSuVdjkV5ZdX/3YtmX0QulG+x0taQOtJdHYzVU61aSSkAgVJ7NOv6qPkIYiJSgSWWN/DM5sGw==, tarball: https://registry.npmjs.org/@rollup/plugin-babel/-/plugin-babel-6.0.4.tgz}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-      '@types/babel__core': ^7.1.9
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
-    peerDependenciesMeta:
-      '@types/babel__core':
-        optional: true
-      rollup:
-        optional: true
-    dependencies:
-      '@babel/core': 7.24.4
-      '@babel/helper-module-imports': 7.24.3
-      '@rollup/pluginutils': 5.1.0(rollup@3.29.4)
-      rollup: 3.29.4
-    dev: true
-
   /@rollup/plugin-commonjs@20.0.0(rollup@2.79.1):
     resolution: {integrity: sha512-5K0g5W2Ol8hAcTHqcTBHiA7M58tfmYi1o9KxeJuuRNpGaTa5iLjcyemBitCBcKXaHamOBBEH2dGom6v6Unmqjg==, tarball: https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-20.0.0.tgz}
     engines: {node: '>= 8.0.0'}
@@ -7603,24 +7457,6 @@ packages:
       resolve: 1.22.8
       rollup: 2.79.1
     dev: false
-
-  /@rollup/plugin-commonjs@25.0.7(rollup@2.79.1):
-    resolution: {integrity: sha512-nEvcR+LRjEjsaSsc4x3XZfCCvZIaSMenZu/OiwOKGN2UhQpAYI7ru7czFvyWbErlpoGjnSX3D5Ch5FcMA3kRWQ==, tarball: https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-25.0.7.tgz}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^2.68.0||^3.0.0||^4.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@2.79.1)
-      commondir: 1.0.1
-      estree-walker: 2.0.2
-      glob: 8.1.0
-      is-reference: 1.2.1
-      magic-string: 0.30.10
-      rollup: 2.79.1
-    dev: true
 
   /@rollup/plugin-commonjs@25.0.7(rollup@3.29.4):
     resolution: {integrity: sha512-nEvcR+LRjEjsaSsc4x3XZfCCvZIaSMenZu/OiwOKGN2UhQpAYI7ru7czFvyWbErlpoGjnSX3D5Ch5FcMA3kRWQ==, tarball: https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-25.0.7.tgz}
@@ -7723,24 +7559,6 @@ packages:
       rollup: 2.79.1
     dev: false
 
-  /@rollup/plugin-node-resolve@15.2.3(rollup@2.79.1):
-    resolution: {integrity: sha512-j/lym8nf5E21LwBT4Df1VD6hRO2L2iwUeUmP7litikRsVp1H6NWx20NEp0Y7su+7XGc476GnXXc4kFeZNGmaSQ==, tarball: https://registry.npmjs.org/@rollup/plugin-node-resolve/-/plugin-node-resolve-15.2.3.tgz}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^2.78.0||^3.0.0||^4.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@2.79.1)
-      '@types/resolve': 1.20.2
-      deepmerge: 4.3.1
-      is-builtin-module: 3.2.1
-      is-module: 1.0.0
-      resolve: 1.22.8
-      rollup: 2.79.1
-    dev: true
-
   /@rollup/plugin-node-resolve@15.2.3(rollup@3.29.4):
     resolution: {integrity: sha512-j/lym8nf5E21LwBT4Df1VD6hRO2L2iwUeUmP7litikRsVp1H6NWx20NEp0Y7su+7XGc476GnXXc4kFeZNGmaSQ==, tarball: https://registry.npmjs.org/@rollup/plugin-node-resolve/-/plugin-node-resolve-15.2.3.tgz}
     engines: {node: '>=14.0.0'}
@@ -7787,14 +7605,14 @@ packages:
       rollup: 2.79.1
     dev: false
 
-  /@rollup/plugin-replace@4.0.0(rollup@3.29.4):
+  /@rollup/plugin-replace@4.0.0(rollup@4.17.2):
     resolution: {integrity: sha512-+rumQFiaNac9y64OHtkHGmdjm7us9bo1PlbgQfdihQtuNxzjpaB064HbRnewUOggLQxVCCyINfStkgmBeQpv1g==, tarball: https://registry.npmjs.org/@rollup/plugin-replace/-/plugin-replace-4.0.0.tgz}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     dependencies:
-      '@rollup/pluginutils': 3.1.0(rollup@3.29.4)
+      '@rollup/pluginutils': 3.1.0(rollup@4.17.2)
       magic-string: 0.25.9
-      rollup: 3.29.4
+      rollup: 4.17.2
     dev: true
 
   /@rollup/plugin-typescript@11.1.6(rollup@3.29.4)(tslib@2.6.2)(typescript@4.9.5):
@@ -7867,7 +7685,7 @@ packages:
       rollup: 2.79.1
     dev: false
 
-  /@rollup/pluginutils@3.1.0(rollup@3.29.4):
+  /@rollup/pluginutils@3.1.0(rollup@4.17.2):
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==, tarball: https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-3.1.0.tgz}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
@@ -7876,7 +7694,7 @@ packages:
       '@types/estree': 0.0.39
       estree-walker: 1.0.1
       picomatch: 2.3.1
-      rollup: 3.29.4
+      rollup: 4.17.2
     dev: true
 
   /@rollup/pluginutils@5.1.0(rollup@2.79.1):
@@ -7892,6 +7710,7 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
       rollup: 2.79.1
+    dev: false
 
   /@rollup/pluginutils@5.1.0(rollup@3.29.4):
     resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==, tarball: https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-5.1.0.tgz}
@@ -21536,15 +21355,6 @@ packages:
   /postcss-value-parser@4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==, tarball: https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz}
 
-  /postcss@6.0.23:
-    resolution: {integrity: sha512-soOk1h6J3VMTZtVeVpv15/Hpdl2cBLX3CAw4TAbkpTJiNPk9YP/zWcD1ND+xEtvyuuvKzbxliTOIyvkSeSJ6ag==, tarball: https://registry.npmjs.org/postcss/-/postcss-6.0.23.tgz}
-    engines: {node: '>=4.0.0'}
-    dependencies:
-      chalk: 2.4.2
-      source-map: 0.6.1
-      supports-color: 5.5.0
-    dev: false
-
   /postcss@7.0.39:
     resolution: {integrity: sha512-yioayjNbHn6z1/Bywyb2Y4s3yvDAeXGOyxqD+LnVOinq6Mdmd++SW2wUNVzavyyHxd6+DxzWGIuosg6P1Rj8uA==, tarball: https://registry.npmjs.org/postcss/-/postcss-7.0.39.tgz}
     engines: {node: '>=6.0.0'}
@@ -22820,15 +22630,6 @@ packages:
       rollup-pluginutils: 2.8.2
     dev: false
 
-  /rollup-plugin-node-externals@5.1.3(rollup@2.79.1):
-    resolution: {integrity: sha512-Q3VMjsn39r0/mjKrX++rFlC7kwL7YZdScdyU7BEo+PrEremal3mnol/1X+wQUU++7NeqC1ZNAeRYnHGtsTu9GQ==, tarball: https://registry.npmjs.org/rollup-plugin-node-externals/-/rollup-plugin-node-externals-5.1.3.tgz}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^2.60.0 || ^3.0.0
-    dependencies:
-      rollup: 2.79.1
-    dev: true
-
   /rollup-plugin-node-externals@5.1.3(rollup@3.29.4):
     resolution: {integrity: sha512-Q3VMjsn39r0/mjKrX++rFlC7kwL7YZdScdyU7BEo+PrEremal3mnol/1X+wQUU++7NeqC1ZNAeRYnHGtsTu9GQ==, tarball: https://registry.npmjs.org/rollup-plugin-node-externals/-/rollup-plugin-node-externals-5.1.3.tgz}
     engines: {node: '>=14.0.0'}
@@ -22878,52 +22679,6 @@ packages:
       style-inject: 0.3.0
     transitivePeerDependencies:
       - ts-node
-    dev: true
-
-  /rollup-plugin-ts@3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@2.79.1)(typescript@4.9.5):
-    resolution: {integrity: sha512-9iCstRJpEZXSRQuXitlSZAzcGlrqTbJg1pE4CMbEi6xYldxVncdPyzA2I+j6vnh73wBymZckerS+Q/iEE/M3Ow==, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.4.5.tgz}
-    engines: {node: '>=16.15.1', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
-    peerDependencies:
-      '@babel/core': '>=7.x'
-      '@babel/plugin-transform-runtime': '>=7.x'
-      '@babel/preset-env': '>=7.x'
-      '@babel/preset-typescript': '>=7.x'
-      '@babel/runtime': '>=7.x'
-      '@swc/core': '>=1.x'
-      '@swc/helpers': '>=0.2'
-      rollup: '>=1.x || >=2.x || >=3.x'
-      typescript: '>=3.2.x || >= 4.x || >= 5.x'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@babel/plugin-transform-runtime':
-        optional: true
-      '@babel/preset-env':
-        optional: true
-      '@babel/preset-typescript':
-        optional: true
-      '@babel/runtime':
-        optional: true
-      '@swc/core':
-        optional: true
-      '@swc/helpers':
-        optional: true
-    dependencies:
-      '@babel/core': 7.24.4
-      '@babel/preset-env': 7.24.4(@babel/core@7.24.4)
-      '@babel/runtime': 7.24.4
-      '@rollup/pluginutils': 5.1.0(rollup@2.79.1)
-      '@wessberg/stringutil': 1.0.19
-      ansi-colors: 4.1.3
-      browserslist: 4.23.0
-      browserslist-generator: 2.1.0
-      compatfactory: 3.0.0(typescript@4.9.5)
-      crosspath: 2.0.0
-      magic-string: 0.30.10
-      rollup: 2.79.1
-      ts-clone-node: 3.0.0(typescript@4.9.5)
-      tslib: 2.6.2
-      typescript: 4.9.5
     dev: true
 
   /rollup-plugin-ts@3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@4.9.5):
@@ -25017,41 +24772,6 @@ packages:
   /ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==, tarball: https://registry.npmjs.org/ts-interface-checker/-/ts-interface-checker-0.1.13.tgz}
 
-  /ts-jest@29.1.2(@babel/core@7.24.4)(babel-jest@29.7.0)(jest@29.7.0)(typescript@4.9.5):
-    resolution: {integrity: sha512-br6GJoH/WUX4pu7FbZXuWGKGNDuU7b8Uj77g/Sp7puZV6EXzuByl6JrECvm0MzVzSTkSHWTihsXt+5XYER5b+g==, tarball: https://registry.npmjs.org/ts-jest/-/ts-jest-29.1.2.tgz}
-    engines: {node: ^16.10.0 || ^18.0.0 || >=20.0.0}
-    hasBin: true
-    peerDependencies:
-      '@babel/core': '>=7.0.0-beta.0 <8'
-      '@jest/types': ^29.0.0
-      babel-jest: ^29.0.0
-      esbuild: '*'
-      jest: ^29.0.0
-      typescript: '>=4.3 <6'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@jest/types':
-        optional: true
-      babel-jest:
-        optional: true
-      esbuild:
-        optional: true
-    dependencies:
-      '@babel/core': 7.24.4
-      babel-jest: 29.7.0(@babel/core@7.24.4)
-      bs-logger: 0.2.6
-      fast-json-stable-stringify: 2.1.0
-      jest: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
-      jest-util: 29.7.0
-      json5: 2.2.3
-      lodash.memoize: 4.1.2
-      make-error: 1.3.6
-      semver: 7.6.0
-      typescript: 4.9.5
-      yargs-parser: 21.1.1
-    dev: true
-
   /ts-jest@29.1.2(@babel/core@7.24.4)(babel-jest@29.7.0)(jest@29.7.0)(typescript@5.4.5):
     resolution: {integrity: sha512-br6GJoH/WUX4pu7FbZXuWGKGNDuU7b8Uj77g/Sp7puZV6EXzuByl6JrECvm0MzVzSTkSHWTihsXt+5XYER5b+g==, tarball: https://registry.npmjs.org/ts-jest/-/ts-jest-29.1.2.tgz}
     engines: {node: ^16.10.0 || ^18.0.0 || >=20.0.0}
@@ -25362,6 +25082,7 @@ packages:
     resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==, tarball: https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz}
     engines: {node: '>=4.2.0'}
     hasBin: true
+    dev: true
 
   /typescript@5.4.5:
     resolution: {integrity: sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==, tarball: https://registry.npmjs.org/typescript/-/typescript-5.4.5.tgz}

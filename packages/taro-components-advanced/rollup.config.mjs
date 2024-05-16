@@ -1,8 +1,8 @@
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
+import ts from '@rollup/plugin-typescript'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
-import ts from 'rollup-plugin-ts'
 
 export default {
   input: [
@@ -33,9 +33,7 @@ export default {
       preferBuiltins: false,
       mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }),
-    ts({
-      sourceMap: true,
-    }),
+    ts(),
     commonjs(),
     postcss({
       inject: { insertAt: 'top' },

@@ -103,7 +103,6 @@
     "globby": "^12.0.2",
     "jest-transform-css": "^6.0.1",
     "memfs": "^4.9.1",
-    "postcss": "^8.4.38",
     "webpack": "5.91.0",
     "webpack-merge": "^5.10.0"
   },

@@ -23,9 +23,6 @@
   "engines": {
     "node": ">= 18"
   },
-  "devDependencies": {
-    "postcss": "^8.4.38"
-  },
   "peerDependencies": {
     "postcss": "^8"
   }

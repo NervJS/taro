@@ -1,14 +1,11 @@
 import commonjs from '@rollup/plugin-commonjs'
-import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import { merge } from 'lodash'
+import ts from '@rollup/plugin-typescript'
+import { merge } from 'lodash-es'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
-import ts from 'rollup-plugin-ts'
 
-import type { InputPluginOption, RollupOptions } from 'rollup'
-
-const baseConfig: RollupOptions = {
+const baseConfig = {
   output: {
     format: 'es',
     exports: 'named',
@@ -17,30 +14,20 @@ const baseConfig: RollupOptions = {
   treeshake: false,
 }
 
-function getPlugins<T = InputPluginOption>(pre: T[] = [], post: T[] = []) {
+function getPlugins(pre = [], post = []) {
   return [
     ...pre,
     nodeResolve({
       preferBuiltins: false,
       mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }),
-    json({
-      compact: true,
-      preferConst: true,
-    }),
-    ts({
-      tsconfig: (e) => ({
-        ...e,
-        declaration: true,
-        sourceMap: true,
-      }),
-    }),
+    ts(),
     commonjs(),
     ...post,
   ]
 }
 
-const variesConfig: RollupOptions[] = [
+const variesConfig = [
   {
     input: 'src/index.ts', // 供 CLI 编译时使用的 Taro 插件入口
     output: {
