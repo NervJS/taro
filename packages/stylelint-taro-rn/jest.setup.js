@@ -1,9 +1,14 @@
-"use strict"; // eslint-disable-line
+// import { getTestRule } from 'jest-preset-stylelint'
+import stylelint from 'stylelint'
 
-const _ = require('lodash')
-const stylelint = require('stylelint')
+// import taroRulesPlugin from './dist'
 
-global.testRule = (rule, schema) => {
+// global.testRule = getTestRule({
+//   plugins: taroRulesPlugin,
+//   loadLint: () => Promise.resolve(require('stylelint').lint)
+// })
+
+global.testRule = (schema) => {
   expect.extend({
     toHaveMessage (testCase) {
       if (testCase.message === undefined) {
@@ -25,7 +30,7 @@ global.testRule = (rule, schema) => {
       plugins: ['./src'],
       rules: {
         [schema.ruleName]: schema.config
-      }
+      },
     }
 
     if (schema.accept && schema.accept.length) {
@@ -33,7 +38,7 @@ global.testRule = (rule, schema) => {
         schema.accept.forEach(testCase => {
           const spec = testCase.only ? it.only : it
 
-          spec(testCase.description || 'no description', () => {
+          spec(testCase.description || 'no description', async () => {
             const options = {
               code: testCase.code,
               config: stylelintConfig,
@@ -47,8 +52,7 @@ global.testRule = (rule, schema) => {
               }
 
               // Check the fix
-              return stylelint
-                .lint(Object.assign({ fix: true }, options))
+              return stylelint.lint(Object.assign({ fix: true }, options))
                 .then(output2 => {
                   const fixedCode = getOutputCss(output2)
 
@@ -102,8 +106,7 @@ global.testRule = (rule, schema) => {
               }
 
               // Check the fix
-              return stylelint
-                .lint(Object.assign({ fix: true }, options))
+              return stylelint.lint(Object.assign({ fix: true }, options))
                 .then(output2 => {
                   const fixedCode = getOutputCss(output2)
 
@@ -143,11 +146,10 @@ global.testConfig = input => {
       }
     }
 
-    return stylelint
-      .lint({
-        code: '',
-        config
-      })
+    return stylelint.lint({
+      code: '',
+      config
+    })
       .then(function (data) {
         const invalidOptionWarnings = data.results[0].invalidOptionWarnings
 

@@ -1,23 +1,22 @@
 import StyleTransform, { getWrapedCSS } from '../src/transforms'
+import { TransformOptions } from '../src/types'
 
 // 初始化config
 const styleTransform = new StyleTransform({})
 
-async function run (src, filename = './__tests__/styles/a.css', options = { platform: 'android' }, debug) {
+async function run (src, filename = './__tests__/styles/a.css', options: TransformOptions = { platform: 'android' }, debug?: boolean) {
   if (typeof src === 'object') {
     ({
       src,
       filename = './__tests__/styles/a.css',
-      options = { platform: 'android' },
+      options = { platform: 'android' } as TransformOptions,
       debug
     } = src || {})
   }
 
   const css = await styleTransform.transform(src, filename, options)
   if (debug) {
-    // eslint-disable-next-line
     console.log(filename + ' source: ', src)
-    // eslint-disable-next-line
     console.log(filename + ' target: ', css)
   }
   return css

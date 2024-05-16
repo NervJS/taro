@@ -1,4 +1,5 @@
 import { getTestRule } from 'jest-preset-stylelint'
+
 import taroRulesPlugin from './lib'
 
 global.testRule = getTestRule({

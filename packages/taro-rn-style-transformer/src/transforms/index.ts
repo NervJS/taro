@@ -94,7 +94,7 @@ export default class StyleTransform {
       rn: recursiveMerge({}, DEFAULT_RN_CONFIG, config.rn)
     }
 
-    Reflect.ownKeys(this.config.rn).forEach((key: string) => {
+    Reflect.ownKeys(this.config.rn || {}).forEach((key: string) => {
       if (
         [
           ProcessTypes.SASS,
@@ -104,7 +104,7 @@ export default class StyleTransform {
         ].includes(key.toLocaleLowerCase() as any)
       ) {
         const processConfig = {
-          ...this.config.rn[key],
+          ...(this.config.rn || {})[key],
           alias: config.alias ?? {}
         }
         if (key.toLocaleLowerCase() === ProcessTypes.SASS) {
@@ -142,7 +142,7 @@ export default class StyleTransform {
     }
 
     // postcss 插件，比如处理平台特有样式，单位转换
-    return await this.postCSS({
+    return this.postCSS({
       css,
       map,
       filename,
@@ -212,7 +212,7 @@ export default class StyleTransform {
       result.css,
       {
         parseMediaQueries: true,
-        scalable: this.config.rn.postcss?.scalable
+        scalable: this.config.rn?.postcss?.scalable
       }
     )
 

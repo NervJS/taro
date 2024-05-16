@@ -1,6 +1,5 @@
+import { hasInterpolation } from '../utils'
 import { endsWith } from './endsWith'
-
-const hasInterpolation = require('../utils/hasInterpolation')
 
 /**
  * Check whether a property is standard

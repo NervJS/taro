@@ -202,7 +202,7 @@ export interface Config {
   deviceRatio?: Record<string, number>
   sass?: SassGlobalConfig
   alias?: Record<string, string>
-  rn: RNConfig
+  rn?: RNConfig
 }
 
 export interface TransformOptions {
@@ -213,7 +213,7 @@ export interface TransformOptions {
   projectRoot?: string
   publicPath?: string
   customTransformOptions?: any
-  config: Config
+  config?: Config
 }
 
 // resolve

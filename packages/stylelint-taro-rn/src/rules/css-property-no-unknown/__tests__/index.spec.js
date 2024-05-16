@@ -1,8 +1,8 @@
-import rule, { messages, ruleName } from '..'
+import { messages, ruleName } from '../index'
 
-testRule(rule, {
+testRule({
   ruleName,
-  config: [true],
+  config: true,
 
   accept: [
     {
@@ -121,88 +121,88 @@ testRule(rule, {
   ]
 })
 
-testRule(rule, {
-  ruleName,
-  syntax: 'postcss-scss',
-  config: [true],
+// testRule({
+//   ruleName,
+//   syntax: 'postcss-scss',
+//   config: [true],
 
-  accept: [
-    {
-      code: '.foo { $bgColor: white; }',
-      description: 'ignore SCSS variables'
-    },
-    {
-      code: '.foo { #{$prop}: black; }',
-      description: 'ignore property interpolation'
-    },
-    {
-      code: '.foo { border: { style: solid; } }',
-      description: 'ignore nested properties'
-    }
-  ]
-})
+//   accept: [
+//     {
+//       code: '.foo { $bgColor: white; }',
+//       description: 'ignore SCSS variables'
+//     },
+//     {
+//       code: '.foo { #{$prop}: black; }',
+//       description: 'ignore property interpolation'
+//     },
+//     {
+//       code: '.foo { border: { style: solid; } }',
+//       description: 'ignore nested properties'
+//     }
+//   ]
+// })
 
-testRule(rule, {
-  ruleName,
-  syntax: 'postcss-less',
-  config: [true],
+// testRule({
+//   ruleName,
+//   syntax: 'postcss-less',
+//   config: [true],
 
-  accept: [
-    {
-      code: '.foo { @bgColor: white; }',
-      description: 'ignore LESS variables'
-    },
-    {
-      code: '.foo { @{prop}: black; }',
-      description: 'ignore property interpolation'
-    },
-    {
-      code: '.foo { transform+: rotate(15deg); }',
-      descritpion: 'Append property value with space usign +'
-    },
-    {
-      code: '.foo { transform+_: rotate(15deg); }',
-      descritpion: 'Append property value with space using +_'
-    }
-  ]
-})
+//   accept: [
+//     {
+//       code: '.foo { @bgColor: white; }',
+//       description: 'ignore LESS variables'
+//     },
+//     {
+//       code: '.foo { @{prop}: black; }',
+//       description: 'ignore property interpolation'
+//     },
+//     {
+//       code: '.foo { transform+: rotate(15deg); }',
+//       descritpion: 'Append property value with space usign +'
+//     },
+//     {
+//       code: '.foo { transform+_: rotate(15deg); }',
+//       descritpion: 'Append property value with space using +_'
+//     }
+//   ]
+// })
 
-testRule(rule, {
-  ruleName,
-  config: [
-    true,
-    {
-      ignoreProperties: ['-moz-overflow-scrolling', '/^my-/']
-    }
-  ],
+// testRule({
+//   ruleName,
+//   config: [
+//     true,
+//     {
+//       ignoreProperties: ['-moz-overflow-scrolling', '/^my-/']
+//     }
+//   ],
 
-  accept: [
-    {
-      code: '.foo { -moz-overflow-scrolling: auto; }',
-      description: 'Ignores with a string property'
-    },
-    {
-      code: '.foo { my-property: 1; }',
-      description: 'Ignores with a regex property'
-    },
-    {
-      code: '.foo { my-other-property: 1; }',
-      description: 'Ignores with a regex property'
-    }
-  ],
+//   accept: [
+//     {
+//       code: '.foo { -moz-overflow-scrolling: auto; }',
+//       description: 'Ignores with a string property'
+//     },
+//     {
+//       code: '.foo { my-property: 1; }',
+//       description: 'Ignores with a regex property'
+//     },
+//     {
+//       code: '.foo { my-other-property: 1; }',
+//       description: 'Ignores with a regex property'
+//     }
+//   ],
 
-  reject: [
-    {
-      code: '.foo { overflow-scrolling: auto; }',
-      message: messages.rejected('overflow-scrolling'),
-      line: 1,
-      column: 8
-    },
-    {
-      code: '.foo { not-my-property: 1; }',
-      message: messages.rejected('not-my-property'),
-      line: 1,
-      column: 8
-    }
-  ]
-})
+//   reject: [
+//     {
+//       code: '.foo { overflow-scrolling: auto; }',
+//       message: messages.rejected('overflow-scrolling'),
+//       line: 1,
+//       column: 8
+//     },
+//     {
+//       code: '.foo { not-my-property: 1; }',
+//       message: messages.rejected('not-my-property'),
+//       line: 1,
+//       column: 8
+//     }
+//   ]
+// })

@@ -4,19 +4,19 @@ module.exports = {
   clearMocks: true,
   collectCoverage: false,
   collectCoverageFrom: [
-    "lib/**/*.js"
+    'lib/**/*.js'
   ],
-  coverageDirectory: "./.coverage/",
+  coverageDirectory: './.coverage/',
   coverageReporters: [
-    "lcov",
-    "text"
+    'lcov',
+    'text'
   ],
   coverageThreshold: {
-    "global": {
-      "branches": 75,
-      "functions": 75,
-      "lines": 75,
-      "statements": 75
+    global: {
+      branches: 75,
+      functions: 75,
+      lines: 75,
+      statements: 75
     }
   },
   setupFiles: ['./jest.setup.js'],

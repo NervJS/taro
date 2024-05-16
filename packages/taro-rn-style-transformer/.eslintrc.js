@@ -4,6 +4,7 @@ module.exports = {
   ...config,
   rules: {
     ...config.rules,
+    'no-console': 0,
     '@typescript-eslint/no-use-before-define': 0,
   }
 }
