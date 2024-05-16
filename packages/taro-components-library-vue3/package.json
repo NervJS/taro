@@ -22,7 +22,6 @@
   },
   "devDependencies": {
     "@tarojs/helper": "workspace:*",
-    "postcss": "^8.4.18",
     "vue": "3.2.47"
   }
 }

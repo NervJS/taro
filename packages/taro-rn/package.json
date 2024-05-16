@@ -43,7 +43,7 @@
     "@react-native-community/netinfo": "~11.2.0",
     "@tarojs/runtime-rn": "workspace:*",
     "babel-preset-expo": "~10.0.0",
-    "base64-js": "^1.3.0",
+    "base64-js": "^1.5.1",
     "deprecated-react-native-prop-types": "^2.3.0",
     "expo-av": "~13.10.0",
     "expo-barcode-scanner": "~12.9.0",

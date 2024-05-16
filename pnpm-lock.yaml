@@ -162,16 +162,22 @@ importers:
         version: 8.0.3
       jest:
         specifier: ^29.7.0
-        version: 29.7.0(@types/node@18.19.31)
+        version: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
       jest-cli:
         specifier: ^29.7.0
-        version: 29.7.0(@types/node@18.19.31)
+        version: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
+      jest-environment-jsdom:
+        specifier: ^29.6.4
+        version: 29.7.0
       jest-environment-node:
         specifier: ^29.7.0
         version: 29.7.0
       jest-taro-helper:
         specifier: workspace:*
         version: link:packages/jest-helper
+      jsdom:
+        specifier: ^24.0.0
+        version: 24.0.0
       lint-staged:
         specifier: ^13.0.2
         version: 13.3.0
@@ -207,7 +213,7 @@ importers:
         version: 7.1.2(rollup@4.17.2)
       rollup-plugin-postcss:
         specifier: ^4.0.2
-        version: 4.0.2(postcss@8.4.38)
+        version: 4.0.2(postcss@8.4.38)(ts-node@10.9.2)
       stylelint:
         specifier: ^16.3.1
         version: 16.4.0(typescript@5.4.5)
@@ -220,6 +226,9 @@ importers:
       ts-jest:
         specifier: ^29.1.2
         version: 29.1.2(@babel/core@7.24.4)(babel-jest@29.7.0)(jest@29.7.0)(typescript@5.4.5)
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       typescript:
         specifier: ^5.4.0
         version: 5.4.5
@@ -566,7 +575,7 @@ importers:
     devDependencies:
       jest:
         specifier: ^29.7.0
-        version: 29.7.0(@types/node@18.19.31)
+        version: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
       ts-jest:
         specifier: ^29.0.5
         version: 29.1.2(@babel/core@7.24.4)(babel-jest@29.7.0)(jest@29.7.0)(typescript@4.9.5)
@@ -909,9 +918,6 @@ importers:
       sass:
         specifier: ^1.58.3
         version: 1.75.0
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tsconfig-paths:
         specifier: ^3.14.1
         version: 3.15.0
@@ -981,7 +987,7 @@ importers:
         version: 5.1.3(rollup@2.79.1)
       rollup-plugin-postcss:
         specifier: ^4.0.2
-        version: 4.0.2(postcss@8.4.38)
+        version: 4.0.2(postcss@8.4.38)(ts-node@10.9.2)
       rollup-plugin-ts:
         specifier: ^3.0.2
         version: 3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@2.79.1)(typescript@4.9.5)
@@ -997,25 +1003,13 @@ importers:
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
-      tslib:
-        specifier: ^2.6.2
-        version: 2.6.2
     devDependencies:
-      '@babel/cli':
-        specifier: ^7.14.5
-        version: 7.24.1(@babel/core@7.24.4)
-      '@babel/core':
-        specifier: ^7.14.5
-        version: 7.24.4
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
       babel-preset-taro:
         specifier: workspace:*
         version: link:../babel-preset-taro
-      postcss:
-        specifier: ^8.4.18
-        version: 8.4.38
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1032,9 +1026,6 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
-      postcss:
-        specifier: ^8.4.18
-        version: 8.4.38
       vue:
         specifier: 3.2.47
         version: 3.2.47
@@ -1101,7 +1092,7 @@ importers:
         version: 5.1.3(rollup@3.29.4)
       rollup-plugin-postcss:
         specifier: ^4.0.2
-        version: 4.0.2(postcss@8.4.38)
+        version: 4.0.2(postcss@8.4.38)(ts-node@10.9.2)
       rollup-plugin-ts:
         specifier: ^3.0.2
         version: 3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@4.9.5)
@@ -1216,10 +1207,10 @@ importers:
         specifier: ^1.7.5
         version: 1.7.5
       base64-js:
-        specifier: ^1.3.0
+        specifier: ^1.5.1
         version: 1.5.1
       ics:
-        specifier: ^3.1.0
+        specifier: ^3.7.2
         version: 3.7.2
       is-mobile:
         specifier: ^4.0.0
@@ -1234,30 +1225,27 @@ importers:
         specifier: ^1.3.6
         version: 1.3.6
       query-string:
-        specifier: ^7.1.1
-        version: 7.1.3
+        specifier: ^9.0.0
+        version: 9.0.0
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
       whatwg-fetch:
-        specifier: ^3.4.0
+        specifier: ^3.6.20
         version: 3.6.20
     devDependencies:
-      '@babel/core':
-        specifier: ^7.14.5
-        version: 7.24.4
-      '@rollup/plugin-commonjs':
-        specifier: ^25.0.7
-        version: 25.0.7(rollup@3.29.4)
       '@rollup/plugin-node-resolve':
         specifier: ^15.2.3
         version: 15.2.3(rollup@3.29.4)
-      '@rollup/plugin-typescript':
-        specifier: ^11.1.0
-        version: 11.1.6(rollup@3.29.4)(tslib@2.6.2)(typescript@4.9.5)
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
+      '@tarojs/taro-h5':
+        specifier: workspace:*
+        version: 'link:'
       '@testing-library/jest-dom':
         specifier: ^5.16.4
         version: 5.17.0
@@ -1270,15 +1258,6 @@ importers:
       babel-jest:
         specifier: ^29.7.0
         version: 29.7.0(@babel/core@7.24.4)
-      jest:
-        specifier: ^29.3.1
-        version: 29.7.0(@types/node@18.19.31)
-      jest-cli:
-        specifier: ^29.3.1
-        version: 29.7.0(@types/node@18.19.31)
-      jest-environment-jsdom:
-        specifier: ^29.6.4
-        version: 29.7.0
       jest-fetch-mock:
         specifier: ^3.0.3
         version: 3.0.3
@@ -1287,10 +1266,7 @@ importers:
         version: 1.3.0(jest@29.7.0)
       jest-transform-css:
         specifier: ^6.0.1
-        version: 6.0.1(postcss@8.4.38)
-      jsdom:
-        specifier: ^21.1.0
-        version: 21.1.2
+        version: 6.0.1(postcss@8.4.38)(ts-node@10.9.2)
       mock-socket:
         specifier: ^7.1.0
         version: 7.1.0
@@ -1309,15 +1285,9 @@ importers:
       rollup-plugin-node-externals:
         specifier: ^5.0.0
         version: 5.1.3(rollup@3.29.4)
-      rollup-plugin-postcss:
-        specifier: ^4.0.2
-        version: 4.0.2(postcss@8.4.38)
       rollup-plugin-ts:
         specifier: ^3.0.2
         version: 3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@4.9.5)
-      ts-jest:
-        specifier: ^29.0.5
-        version: 29.1.2(@babel/core@7.24.4)(babel-jest@29.7.0)(jest@29.7.0)(typescript@4.9.5)
       typescript:
         specifier: ^4.7.4
         version: 4.9.5
@@ -1486,9 +1456,6 @@ importers:
       rollup-plugin-ts:
         specifier: ^3.4.5
         version: 3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@5.4.5)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       tsconfig-paths:
         specifier: ^3.14.1
         version: 3.15.0
@@ -1596,7 +1563,7 @@ importers:
         specifier: workspace:*
         version: link:../babel-plugin-transform-taroapi
       base64-js:
-        specifier: ^1.3.0
+        specifier: ^1.5.1
         version: 1.5.1
       change-case:
         specifier: ^4.1.2
@@ -1608,10 +1575,10 @@ importers:
         specifier: 4.17.21
         version: 4.17.21
       query-string:
-        specifier: ^7.1.1
-        version: 7.1.3
+        specifier: ^9.0.0
+        version: 9.0.0
       whatwg-fetch:
-        specifier: ^3.4.0
+        specifier: ^3.6.20
         version: 3.6.20
     devDependencies:
       '@rollup/plugin-commonjs':
@@ -1647,9 +1614,6 @@ importers:
       rollup-plugin-ts:
         specifier: ^3.4.5
         version: 3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@5.4.5)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@types/node@14.18.63)(typescript@5.4.5)
       tsconfig-paths:
         specifier: ^3.14.1
         version: 3.15.0
@@ -1958,7 +1922,7 @@ importers:
         specifier: ~10.0.0
         version: 10.0.2(@babel/core@7.24.4)
       base64-js:
-        specifier: ^1.3.0
+        specifier: ^1.5.1
         version: 1.5.1
       deprecated-react-native-prop-types:
         specifier: ^2.3.0
@@ -2314,24 +2278,21 @@ importers:
         specifier: ~2.15.2
         version: 2.15.4
       history:
-        specifier: ^5.1.0
+        specifier: ^5.3.0
         version: 5.3.0
       mobile-detect:
         specifier: ^1.4.2
         version: 1.4.5
       query-string:
-        specifier: ^7.1.1
-        version: 7.1.3
+        specifier: ^9.0.0
+        version: 9.0.0
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
       universal-router:
-        specifier: ^8.3.0
-        version: 8.3.0
+        specifier: ^9.2.0
+        version: 9.2.0
     devDependencies:
-      '@rollup/plugin-commonjs':
-        specifier: ^25.0.7
-        version: 25.0.7(rollup@4.17.2)
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
@@ -2347,12 +2308,6 @@ importers:
       '@tarojs/taro-h5':
         specifier: workspace:*
         version: link:../taro-h5
-      jest-environment-jsdom:
-        specifier: ^29.6.4
-        version: 29.7.0
-      jsdom:
-        specifier: ^21.1.0
-        version: 21.1.2
 
   packages/taro-router-rn:
     dependencies:
@@ -2375,8 +2330,8 @@ importers:
         specifier: ^3.1.12
         version: 3.3.7
       query-string:
-        specifier: ^7.1.1
-        version: 7.1.3
+        specifier: ^9.0.0
+        version: 9.0.0
       react-native-gesture-handler:
         specifier: ~2.14.0
         version: 2.14.1(react-native@0.73.7)(react@18.2.0)
@@ -2964,7 +2919,7 @@ importers:
         version: 12.2.0
       jest-transform-css:
         specifier: ^6.0.1
-        version: 6.0.1(postcss@8.4.38)
+        version: 6.0.1(postcss@8.4.38)(ts-node@10.9.2)
       less:
         specifier: ^4.2.0
         version: 4.2.0
@@ -5902,7 +5857,7 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@jest/core@29.7.0:
+  /@jest/core@29.7.0(ts-node@10.9.2):
     resolution: {integrity: sha512-n7aeXWKMnGtDA48y8TLWJPJmLmmZ642Ceo78cYWEpiD7FzDgmNDV/GCVRorPABdXLJZ/9wzzgZAlHjXjxDHGsg==, tarball: https://registry.npmjs.org/@jest/core/-/core-29.7.0.tgz}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -5923,7 +5878,7 @@ packages:
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.7.0
-      jest-config: 29.7.0(@types/node@18.19.31)
+      jest-config: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
       jest-haste-map: 29.7.0
       jest-message-util: 29.7.0
       jest-regex-util: 29.6.3
@@ -8669,7 +8624,7 @@ packages:
       jest:
         optional: true
     dependencies:
-      jest: 29.7.0(@types/node@18.19.31)
+      jest: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
       jest-matcher-utils: 29.7.0
       pretty-format: 29.7.0
       react: 18.2.0
@@ -10093,7 +10048,6 @@ packages:
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /aggregate-error@3.1.0:
     resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==, tarball: https://registry.npmjs.org/aggregate-error/-/aggregate-error-3.1.0.tgz}
@@ -12428,7 +12382,7 @@ packages:
       capture-stack-trace: 1.0.2
     dev: false
 
-  /create-jest@29.7.0(@types/node@18.19.31):
+  /create-jest@29.7.0(@types/node@18.19.31)(ts-node@10.9.2):
     resolution: {integrity: sha512-Adz2bdH0Vq3F53KEMJOoftQFutWCukm6J24wbPWRO4k1kMY7gS7ds/uoJkNuV8wDCtWWnuwGcJwpWcih+zEW1Q==, tarball: https://registry.npmjs.org/create-jest/-/create-jest-29.7.0.tgz}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
@@ -12437,7 +12391,7 @@ packages:
       chalk: 4.1.2
       exit: 0.1.2
       graceful-fs: 4.2.11
-      jest-config: 29.7.0(@types/node@18.19.31)
+      jest-config: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
       jest-util: 29.7.0
       prompts: 2.4.2
     transitivePeerDependencies:
@@ -12856,19 +12810,11 @@ packages:
     dependencies:
       cssom: 0.3.8
 
-  /cssstyle@3.0.0:
-    resolution: {integrity: sha512-N4u2ABATi3Qplzf0hWbVCdjenim8F3ojEXpBDF5hBpjzW182MjNGLqfmQ0SkSPeQ+V86ZXgeH8aXj6kayd4jgg==, tarball: https://registry.npmjs.org/cssstyle/-/cssstyle-3.0.0.tgz}
-    engines: {node: '>=14'}
-    dependencies:
-      rrweb-cssom: 0.6.0
-    dev: true
-
   /cssstyle@4.0.1:
     resolution: {integrity: sha512-8ZYiJ3A/3OkDd093CBT/0UKDWry7ak4BdPTFP2+QEP7cmhouyq/Up709ASSj2cK02BbZiMgk7kYjZNS4QP5qrQ==, tarball: https://registry.npmjs.org/cssstyle/-/cssstyle-4.0.1.tgz}
     engines: {node: '>=18'}
     dependencies:
       rrweb-cssom: 0.6.0
-    dev: false
 
   /csstype@2.6.21:
     resolution: {integrity: sha512-Z1PhmomIfypOpoMjRQB70jfvy/wxT50qW08YXO5lMIJkrdq4yOTR+AW7FqutScmB9NkLwxo+jU+kZLbofZZq/w==, tarball: https://registry.npmjs.org/csstype/-/csstype-2.6.21.tgz}
@@ -12913,22 +12859,12 @@ packages:
       whatwg-url: 11.0.0
     dev: true
 
-  /data-urls@4.0.0:
-    resolution: {integrity: sha512-/mMTei/JXPqvFqQtfyTowxmJVwr2PVAeCcDxyFf6LhoOu/09TX2OX3kb2wzi4DMXcfj4OItwDOnhl5oziPnT6g==, tarball: https://registry.npmjs.org/data-urls/-/data-urls-4.0.0.tgz}
-    engines: {node: '>=14'}
-    dependencies:
-      abab: 2.0.6
-      whatwg-mimetype: 3.0.0
-      whatwg-url: 12.0.1
-    dev: true
-
   /data-urls@5.0.0:
     resolution: {integrity: sha512-ZYP5VBHshaDAiVZxjbRVcFJpc+4xGgT0bK3vzy1HLN8jTO975HEbuYzZJcHoQEY5K1a0z8YayJkyVETa08eNTg==, tarball: https://registry.npmjs.org/data-urls/-/data-urls-5.0.0.tgz}
     engines: {node: '>=18'}
     dependencies:
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.0.0
-    dev: false
 
   /data-view-buffer@1.0.1:
     resolution: {integrity: sha512-0lht7OugA5x3iJLOWFhWK/5ehONdprk0ISXqVFn/NFrDu+cuc8iADFrGQz5BnRK7LLU3JmkbXSxaqX+/mXYtUA==, tarball: https://registry.npmjs.org/data-view-buffer/-/data-view-buffer-1.0.1.tgz}
@@ -13044,6 +12980,11 @@ packages:
   /decode-uri-component@0.2.2:
     resolution: {integrity: sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==, tarball: https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.2.tgz}
     engines: {node: '>=0.10'}
+    dev: false
+
+  /decode-uri-component@0.4.1:
+    resolution: {integrity: sha512-+8VxcR21HhTy8nOt6jf20w0c9CADrw1O8d+VZ/YzzCt4bJ3uBjw+D1q2osAB8RnpwwaeYBxy0HyKQxD5JBMuuQ==, tarball: https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.4.1.tgz}
+    engines: {node: '>=14.16'}
     dev: false
 
   /decompress-response@3.3.0:
@@ -14122,7 +14063,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/utils': 5.62.0(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
-      jest: 29.7.0(@types/node@18.19.31)
+      jest: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -15077,6 +15018,11 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /filter-obj@5.1.0:
+    resolution: {integrity: sha512-qWeTREPoT7I0bifpPUXtxkZJ1XJzxWtfoWWkdVGqa+eCr3SHW/Ocp89o8vLvbUuQnadybJpjOKu4V+RwO6sGng==, tarball: https://registry.npmjs.org/filter-obj/-/filter-obj-5.1.0.tgz}
+    engines: {node: '>=14.16'}
+    dev: false
+
   /finalhandler@1.1.2:
     resolution: {integrity: sha512-aAWcW57uxVNrQZqFXjITpW3sIUQmHGG3qSb9mUah9MgMC4NeWhNOlNjXEYq3HjRAvL6arUviZGGJsBg6z0zsWA==, tarball: https://registry.npmjs.org/finalhandler/-/finalhandler-1.1.2.tgz}
     engines: {node: '>= 0.8'}
@@ -16024,7 +15970,6 @@ packages:
     engines: {node: '>=18'}
     dependencies:
       whatwg-encoding: 3.1.1
-    dev: false
 
   /html-entities@2.3.3:
     resolution: {integrity: sha512-DV5Ln36z34NNTDgnz0EWGBLZENelNAtkiFA4kyNOG2tDI6Mz1uSWiq1wAKdyjnJwyDiDO7Fa2SO1CTxPXL8VxA==, tarball: https://registry.npmjs.org/html-entities/-/html-entities-2.3.3.tgz}
@@ -16157,7 +16102,6 @@ packages:
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /http-proxy-middleware@1.3.1:
     resolution: {integrity: sha512-13eVVDYS4z79w7f1+NPllJtOQFx/FdUW4btIvVRMaRlUY9VGstAbo5MOhLEuUgZFRHn3x50ufn25zkj/boZnEg==, tarball: https://registry.npmjs.org/http-proxy-middleware/-/http-proxy-middleware-1.3.1.tgz}
@@ -16217,7 +16161,6 @@ packages:
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /human-signals@2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==, tarball: https://registry.npmjs.org/human-signals/-/human-signals-2.1.0.tgz}
@@ -17157,7 +17100,7 @@ packages:
       - utf-8-validate
     dev: true
 
-  /jest-cli@29.7.0(@types/node@18.19.31):
+  /jest-cli@29.7.0(@types/node@18.19.31)(ts-node@10.9.2):
     resolution: {integrity: sha512-OVVobw2IubN/GSYsxETi+gOe7Ka59EFMR/twOU3Jb2GnKKeMGJB5SGUUrEz3SFVmJASUdZUzy83sLNNQ2gZslg==, tarball: https://registry.npmjs.org/jest-cli/-/jest-cli-29.7.0.tgz}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
@@ -17167,14 +17110,14 @@ packages:
       node-notifier:
         optional: true
     dependencies:
-      '@jest/core': 29.7.0
+      '@jest/core': 29.7.0(ts-node@10.9.2)
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
       chalk: 4.1.2
-      create-jest: 29.7.0(@types/node@18.19.31)
+      create-jest: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
       exit: 0.1.2
       import-local: 3.1.0
-      jest-config: 29.7.0(@types/node@18.19.31)
+      jest-config: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
       jest-util: 29.7.0
       jest-validate: 29.7.0
       yargs: 17.7.2
@@ -17226,7 +17169,7 @@ packages:
       - utf-8-validate
     dev: true
 
-  /jest-config@29.7.0(@types/node@18.19.31):
+  /jest-config@29.7.0(@types/node@18.19.31)(ts-node@10.9.2):
     resolution: {integrity: sha512-uXbpfeQ7R6TZBqI3/TxCU4q4ttk3u0PJeC+E0zbfSoSjq6bJ7buBPxzQPL0ifrkY4DNu4JUdk0ImlBUYi840eQ==, tarball: https://registry.npmjs.org/jest-config/-/jest-config-29.7.0.tgz}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -17261,6 +17204,7 @@ packages:
       pretty-format: 29.7.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
@@ -17550,7 +17494,7 @@ packages:
     peerDependencies:
       jest: '>= 22.4.2'
     dependencies:
-      jest: 29.7.0(@types/node@18.19.31)
+      jest: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
     dev: true
 
   /jest-mock@27.5.1:
@@ -17596,7 +17540,7 @@ packages:
     peerDependencies:
       jest: ^29.0.2
     dependencies:
-      jest: 29.7.0(@types/node@18.19.31)
+      jest: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
     dev: true
 
   /jest-regex-util@27.5.1:
@@ -17837,7 +17781,7 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /jest-transform-css@6.0.1(postcss@8.4.38):
+  /jest-transform-css@6.0.1(postcss@8.4.38)(ts-node@10.9.2):
     resolution: {integrity: sha512-i78Pi2MW6vcdsUFSRx1kPbjbEIO0pBWwh1Y+PcDrLwTv/6e5p7fzsV/gxFW/SYMHS8DUvMdRVTwVCkA/y+t0iQ==, tarball: https://registry.npmjs.org/jest-transform-css/-/jest-transform-css-6.0.1.tgz}
     peerDependencies:
       postcss: ^8.4.12
@@ -17845,7 +17789,7 @@ packages:
       common-tags: 1.8.2
       cross-spawn: 7.0.3
       postcss: 8.4.38
-      postcss-load-config: 4.0.1(postcss@8.4.38)
+      postcss-load-config: 4.0.1(postcss@8.4.38)(ts-node@10.9.2)
       postcss-modules: 4.3.1(postcss@8.4.38)
       style-inject: 0.3.0
     transitivePeerDependencies:
@@ -17912,7 +17856,7 @@ packages:
     dependencies:
       ansi-escapes: 6.2.1
       chalk: 4.1.2
-      jest: 29.7.0(@types/node@18.19.31)
+      jest: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
       jest-regex-util: 29.6.3
       jest-watcher: 29.7.0
       slash: 5.1.0
@@ -17984,7 +17928,7 @@ packages:
       - utf-8-validate
     dev: true
 
-  /jest@29.7.0(@types/node@18.19.31):
+  /jest@29.7.0(@types/node@18.19.31)(ts-node@10.9.2):
     resolution: {integrity: sha512-NIy3oAFp9shda19hy4HK0HRTWKtPJmGdnvywu01nOqNC2vZg+Z+fvJDxpMQA88eb2I9EcafcdjYgsDthnYTvGw==, tarball: https://registry.npmjs.org/jest/-/jest-29.7.0.tgz}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
@@ -17994,10 +17938,10 @@ packages:
       node-notifier:
         optional: true
     dependencies:
-      '@jest/core': 29.7.0
+      '@jest/core': 29.7.0(ts-node@10.9.2)
       '@jest/types': 29.6.3
       import-local: 3.1.0
-      jest-cli: 29.7.0(@types/node@18.19.31)
+      jest-cli: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -18208,47 +18152,6 @@ packages:
       - utf-8-validate
     dev: true
 
-  /jsdom@21.1.2:
-    resolution: {integrity: sha512-sCpFmK2jv+1sjff4u7fzft+pUh2KSUbUrEHYHyfSIbGTIcmnjyp83qg6qLwdJ/I3LpTXx33ACxeRL7Lsyc6lGQ==, tarball: https://registry.npmjs.org/jsdom/-/jsdom-21.1.2.tgz}
-    engines: {node: '>=14'}
-    peerDependencies:
-      canvas: ^2.5.0
-    peerDependenciesMeta:
-      canvas:
-        optional: true
-    dependencies:
-      abab: 2.0.6
-      acorn: 8.11.3
-      acorn-globals: 7.0.1
-      cssstyle: 3.0.0
-      data-urls: 4.0.0
-      decimal.js: 10.4.3
-      domexception: 4.0.0
-      escodegen: 2.1.0
-      form-data: 4.0.0
-      html-encoding-sniffer: 3.0.0
-      http-proxy-agent: 5.0.0
-      https-proxy-agent: 5.0.1
-      is-potential-custom-element-name: 1.0.1
-      nwsapi: 2.2.9
-      parse5: 7.1.2
-      rrweb-cssom: 0.6.0
-      saxes: 6.0.0
-      symbol-tree: 3.2.4
-      tough-cookie: 4.1.4
-      w3c-xmlserializer: 4.0.0
-      webidl-conversions: 7.0.0
-      whatwg-encoding: 2.0.0
-      whatwg-mimetype: 3.0.0
-      whatwg-url: 12.0.1
-      ws: 8.17.0
-      xml-name-validator: 4.0.0
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-    dev: true
-
   /jsdom@24.0.0:
     resolution: {integrity: sha512-UDS2NayCvmXSXVP6mpTj+73JnNQadZlr9N68189xib2tx5Mls7swlTNao26IoHv46BZJFvXygyRtyXd1feAk1A==, tarball: https://registry.npmjs.org/jsdom/-/jsdom-24.0.0.tgz}
     engines: {node: '>=18'}
@@ -18283,7 +18186,6 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: false
 
   /jsesc@0.5.0:
     resolution: {integrity: sha512-uZz5UnB7u4T9LvwmFqXii7pZSouaRPorGs5who1Ip7VO0wxanFvBL7GkM6dTHlgX+jhBApRetaWpnDabOeTcnA==, tarball: https://registry.npmjs.org/jsesc/-/jsesc-0.5.0.tgz}
@@ -20628,8 +20530,8 @@ packages:
   /path-to-regexp@0.1.7:
     resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==, tarball: https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-0.1.7.tgz}
 
-  /path-to-regexp@3.2.0:
-    resolution: {integrity: sha512-jczvQbCUS7XmS7o+y1aEO9OBVFeZBQ1MDSEqmO7xSoPgOPoowY/SxLpZ6Vh97/8qHZOteiCKb7gkG9gA2ZUxJA==, tarball: https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-3.2.0.tgz}
+  /path-to-regexp@6.2.2:
+    resolution: {integrity: sha512-GQX3SSMokngb36+whdpRXE+3f9V8UzyAorlYvOGx87ufGHehNTn5lCxrKtLyZ4Yl/wEKnNnr98ZzOwwDZV5ogw==, tarball: https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-6.2.2.tgz}
     dev: false
 
   /path-type@3.0.0:
@@ -20991,7 +20893,7 @@ packages:
       resolve: 1.22.8
     dev: false
 
-  /postcss-load-config@3.1.4(postcss@8.4.38):
+  /postcss-load-config@3.1.4(postcss@8.4.38)(ts-node@10.9.2):
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==, tarball: https://registry.npmjs.org/postcss-load-config/-/postcss-load-config-3.1.4.tgz}
     engines: {node: '>= 10'}
     peerDependencies:
@@ -21005,10 +20907,11 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.38
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       yaml: 1.10.2
     dev: true
 
-  /postcss-load-config@4.0.1(postcss@8.4.38):
+  /postcss-load-config@4.0.1(postcss@8.4.38)(ts-node@10.9.2):
     resolution: {integrity: sha512-vEJIc8RdiBRu3oRAI0ymerOn+7rPuMvRXslTvZUKZonDHFIczxztIyJ1urxM1x9JXEikvpWWTUUqal5j/8QgvA==, tarball: https://registry.npmjs.org/postcss-load-config/-/postcss-load-config-4.0.1.tgz}
     engines: {node: '>= 14'}
     peerDependencies:
@@ -21022,6 +20925,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.38
+      ts-node: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
       yaml: 2.4.2
     dev: true
 
@@ -22010,6 +21914,15 @@ packages:
       strict-uri-encode: 2.0.0
     dev: false
 
+  /query-string@9.0.0:
+    resolution: {integrity: sha512-4EWwcRGsO2H+yzq6ddHcVqkCQ2EFUSfDMEjF8ryp8ReymyZhIuaFRGLomeOQLkrzacMHoyky2HW0Qe30UbzkKw==, tarball: https://registry.npmjs.org/query-string/-/query-string-9.0.0.tgz}
+    engines: {node: '>=18'}
+    dependencies:
+      decode-uri-component: 0.4.1
+      filter-obj: 5.1.0
+      split-on-first: 3.0.0
+    dev: false
+
   /querystringify@2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==, tarball: https://registry.npmjs.org/querystringify/-/querystringify-2.2.0.tgz}
 
@@ -22943,7 +22856,7 @@ packages:
       rollup: 4.17.2
     dev: true
 
-  /rollup-plugin-postcss@4.0.2(postcss@8.4.38):
+  /rollup-plugin-postcss@4.0.2(postcss@8.4.38)(ts-node@10.9.2):
     resolution: {integrity: sha512-05EaY6zvZdmvPUDi3uCcAQoESDcYnv8ogJJQRp6V5kZ6J6P7uAVJlrTZcaaA20wTH527YTnKfkAoPxWI/jPp4w==, tarball: https://registry.npmjs.org/rollup-plugin-postcss/-/rollup-plugin-postcss-4.0.2.tgz}
     engines: {node: '>=10'}
     peerDependencies:
@@ -22956,7 +22869,7 @@ packages:
       p-queue: 6.6.2
       pify: 5.0.0
       postcss: 8.4.38
-      postcss-load-config: 3.1.4(postcss@8.4.38)
+      postcss-load-config: 3.1.4(postcss@8.4.38)(ts-node@10.9.2)
       postcss-modules: 4.3.1(postcss@8.4.38)
       promise.series: 0.2.0
       resolve: 1.22.8
@@ -23919,6 +23832,11 @@ packages:
   /split-on-first@1.1.0:
     resolution: {integrity: sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==, tarball: https://registry.npmjs.org/split-on-first/-/split-on-first-1.1.0.tgz}
     engines: {node: '>=6'}
+    dev: false
+
+  /split-on-first@3.0.0:
+    resolution: {integrity: sha512-qxQJTx2ryR0Dw0ITYyekNQWpz6f8dGd7vffGNflQQ3Iqj9NJ6qiZ7ELpZsJ/QBhIVAiDfXdag3+Gp8RvWa62AA==, tarball: https://registry.npmjs.org/split-on-first/-/split-on-first-3.0.0.tgz}
+    engines: {node: '>=12'}
     dev: false
 
   /split-string@3.1.0:
@@ -25025,19 +24943,11 @@ packages:
       punycode: 2.3.1
     dev: true
 
-  /tr46@4.1.1:
-    resolution: {integrity: sha512-2lv/66T7e5yNyhAAC4NaKe5nVavzuGJQVVtRYLyQ2OI8tsJ61PMLlelehb0wi2Hx6+hT/OJUWZcw8MjlSRnxvw==, tarball: https://registry.npmjs.org/tr46/-/tr46-4.1.1.tgz}
-    engines: {node: '>=14'}
-    dependencies:
-      punycode: 2.3.1
-    dev: true
-
   /tr46@5.0.0:
     resolution: {integrity: sha512-tk2G5R2KRwBd+ZN0zaEXpmzdKyOYksXwywulIX95MBODjSzMIuQnQ3m8JxgbhnL1LeVo7lqQKsYa1O3Htl7K5g==, tarball: https://registry.npmjs.org/tr46/-/tr46-5.0.0.tgz}
     engines: {node: '>=18'}
     dependencies:
       punycode: 2.3.1
-    dev: false
 
   /traverse@0.6.6:
     resolution: {integrity: sha512-kdf4JKs8lbARxWdp7RKdNzoJBhGUcIalSYibuGyHJbmk40pOysQ0+QPvlkCOICOivDWU2IJo2rkrxyTK2AH4fw==, tarball: https://registry.npmjs.org/traverse/-/traverse-0.6.6.tgz}
@@ -25132,7 +25042,7 @@ packages:
       babel-jest: 29.7.0(@babel/core@7.24.4)
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.7.0(@types/node@18.19.31)
+      jest: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
       jest-util: 29.7.0
       json5: 2.2.3
       lodash.memoize: 4.1.2
@@ -25167,7 +25077,7 @@ packages:
       babel-jest: 29.7.0(@babel/core@7.24.4)
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.7.0(@types/node@18.19.31)
+      jest: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
       jest-util: 29.7.0
       json5: 2.2.3
       lodash.memoize: 4.1.2
@@ -25175,37 +25085,6 @@ packages:
       semver: 7.6.0
       typescript: 5.4.5
       yargs-parser: 21.1.1
-    dev: true
-
-  /ts-node@10.9.2(@types/node@14.18.63)(typescript@5.4.5):
-    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==, tarball: https://registry.npmjs.org/ts-node/-/ts-node-10.9.2.tgz}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.11
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 14.18.63
-      acorn: 8.11.3
-      acorn-walk: 8.3.2
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.4.5
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
     dev: true
 
   /ts-node@10.9.2(@types/node@18.19.31)(typescript@4.9.5):
@@ -25588,10 +25467,10 @@ packages:
       object-keys: 1.1.1
     dev: true
 
-  /universal-router@8.3.0:
-    resolution: {integrity: sha512-cBkihRoHvRQAjdUnDE1GGuuw/TPAIi8z2pEsSmUVAWLeZdgjHzzAb1+0VOO6NvBOvySItOTQikzaGlRxRdJBnA==, tarball: https://registry.npmjs.org/universal-router/-/universal-router-8.3.0.tgz}
+  /universal-router@9.2.0:
+    resolution: {integrity: sha512-V5PyhtX7JaUDF+EM8YvP4NlfPcqYfswMJV3J0LVPqBC70sabj6UAu3rPI7kSMNwRDZ+F6Wf0zcEmECcglHx2xg==, tarball: https://registry.npmjs.org/universal-router/-/universal-router-9.2.0.tgz}
     dependencies:
-      path-to-regexp: 3.2.0
+      path-to-regexp: 6.2.2
     dev: false
 
   /universal-user-agent@6.0.1:
@@ -25939,7 +25818,6 @@ packages:
     engines: {node: '>=18'}
     dependencies:
       xml-name-validator: 5.0.0
-    dev: false
 
   /walker@1.0.8:
     resolution: {integrity: sha512-ts/8E8l5b7kY0vlWLewOkDXMmPdLcVV4GmOQLyxuSswIJsweeFZtAsMF7k1Nszz+TYBQrlYRmzOnr398y1JemQ==, tarball: https://registry.npmjs.org/walker/-/walker-1.0.8.tgz}
@@ -26248,7 +26126,6 @@ packages:
     engines: {node: '>=18'}
     dependencies:
       iconv-lite: 0.6.3
-    dev: false
 
   /whatwg-fetch@3.6.20:
     resolution: {integrity: sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==, tarball: https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-3.6.20.tgz}
@@ -26264,7 +26141,6 @@ packages:
   /whatwg-mimetype@4.0.0:
     resolution: {integrity: sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg==, tarball: https://registry.npmjs.org/whatwg-mimetype/-/whatwg-mimetype-4.0.0.tgz}
     engines: {node: '>=18'}
-    dev: false
 
   /whatwg-url-without-unicode@8.0.0-3:
     resolution: {integrity: sha512-HoKuzZrUlgpz35YO27XgD28uh/WJH4B0+3ttFqRo//lmq+9T/mIOJ6kqmINI9HpUpz1imRC/nR/lxKpJiv0uig==, tarball: https://registry.npmjs.org/whatwg-url-without-unicode/-/whatwg-url-without-unicode-8.0.0-3.tgz}
@@ -26282,21 +26158,12 @@ packages:
       webidl-conversions: 7.0.0
     dev: true
 
-  /whatwg-url@12.0.1:
-    resolution: {integrity: sha512-Ed/LrqB8EPlGxjS+TrsXcpUond1mhccS3pchLhzSgPCnTimUCKj3IZE75pAs5m6heB2U2TMerKFUXheyHY+VDQ==, tarball: https://registry.npmjs.org/whatwg-url/-/whatwg-url-12.0.1.tgz}
-    engines: {node: '>=14'}
-    dependencies:
-      tr46: 4.1.1
-      webidl-conversions: 7.0.0
-    dev: true
-
   /whatwg-url@14.0.0:
     resolution: {integrity: sha512-1lfMEm2IEr7RIV+f4lUNPOqfFL+pO+Xw3fJSqmjX9AbXcXcYOkCe1P6+9VBZB6n94af16NfZf+sSk0JCBZC9aw==, tarball: https://registry.npmjs.org/whatwg-url/-/whatwg-url-14.0.0.tgz}
     engines: {node: '>=18'}
     dependencies:
       tr46: 5.0.0
       webidl-conversions: 7.0.0
-    dev: false
 
   /whatwg-url@5.0.0:
     resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==, tarball: https://registry.npmjs.org/whatwg-url/-/whatwg-url-5.0.0.tgz}
@@ -26545,7 +26412,6 @@ packages:
   /xml-name-validator@5.0.0:
     resolution: {integrity: sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg==, tarball: https://registry.npmjs.org/xml-name-validator/-/xml-name-validator-5.0.0.tgz}
     engines: {node: '>=18'}
-    dev: false
 
   /xml-parse-from-string@1.0.1:
     resolution: {integrity: sha512-ErcKwJTF54uRzzNMXq2X5sMIy88zJvfN2DmdoQvy7PAFJ+tPRU6ydWuOKNMyfmOjdyBQTFREi60s0Y0SyI0G0g==, tarball: https://registry.npmjs.org/xml-parse-from-string/-/xml-parse-from-string-1.0.1.tgz}

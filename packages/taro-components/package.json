@@ -78,7 +78,6 @@
     "miniapp-types": "1.6.0",
     "puppeteer": "^19.2.0",
     "sass": "^1.58.3",
-    "ts-node": "^10.9.1",
     "tsconfig-paths": "^3.14.1",
     "mkdirp": "^1.0.4",
     "rollup-plugin-node-externals": "^5.0.0",
