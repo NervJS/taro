@@ -22,7 +22,7 @@ const toggleTabBar = function<T extends ToggleAPIs['type']> (type: T): Extract<T
     return new Promise((resolve, reject) => {
       const taro = (Current as any).taro
       const page = taro.getCurrentInstance().page
-      const currentData = page._data?.taroTabBar || page.tabBar
+      const currentData = page?._data?.taroTabBar || page?.tabBar
       const res = { errMsg: `${type}TabBar:ok` }
       const error = { errMsg: `${type}TabBar:fail not TabBar page` }
 
@@ -49,7 +49,7 @@ export const setTabBarStyle: typeof Taro.setTabBarStyle = function (options = {}
   return new Promise((resolve, reject) => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
-    const currentData = page._data?.taroTabBar || page.tabBar
+    const currentData = page?._data?.taroTabBar || page?.tabBar
     const res = { errMsg: 'setTabBarStyle:ok' }
     const error = { errMsg: 'setTabBarStyle:fail not TabBar page' }
 
@@ -74,7 +74,7 @@ export const setTabBarItem: typeof Taro.setTabBarItem = function (options) {
   return new Promise((resolve, reject) => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
-    const currentData = page._data?.taroTabBar || page.tabBar
+    const currentData = page?._data?.taroTabBar || page?.tabBar
     const res = { errMsg: 'setTabBarItem:ok' }
     const error = { errMsg: 'setTabBarItem:fail not TabBar page' }
 

@@ -12,8 +12,8 @@ import { isUndefined } from '@tarojs/shared'
 function handleTargetChange (id: string) {
   const taro: TaroAny = Current.taro
   const page: TaroAny = taro.getCurrentInstance().page
-  const currentPageNode: TaroElement = getPageScrollerOrNode(page.node, page)
-  const node: TaroElement | null = currentPageNode.getElementById(id)
+  const currentPageNode: TaroElement = getPageScrollerOrNode(page?.node, page)
+  const node: TaroElement | null = currentPageNode?.getElementById(id)
 
   if (!node) return
 
