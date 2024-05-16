@@ -51,7 +51,6 @@
     "@tarojs/taro": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/sax": "^1.2.4",
-    "postcss": "^8.4.38",
     "less": "^4.2.0",
     "rollup": "^4.16.4",
     "sass": "1.44.0",
