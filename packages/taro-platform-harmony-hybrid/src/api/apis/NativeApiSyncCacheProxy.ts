@@ -1,5 +1,3 @@
-import { NativeApi } from './NativeApi'
-
 export class NativeDataCache {
   private cache = new Map<string, any>()
 
@@ -51,12 +49,12 @@ export interface NativeDataChangeListener {
  * 同步数据缓存ProxyHandler
  */
 export class SyncCacheProxyHandler {
-  private readonly nativeApi: NativeApi
+  private readonly nativeApi: any
   private readonly listener: NativeDataChangeListener
   private readonly cache: NativeDataCache
   private enableMethodNames: Set<string> = new Set<string>()
 
-  constructor (nativeApi: NativeApi) {
+  constructor (nativeApi: any) {
     this.nativeApi = nativeApi
     this.cache = new NativeDataCache()
     // 绑定类的this到self变量
@@ -113,7 +111,7 @@ export class SyncCacheProxyHandler {
     return `${methodName}_${JSON.stringify(methodArgs)}`
   }
 
-  get (target: NativeApi, propKey: string | symbol, receiver: any) {
+  get (target: any, propKey: string | symbol, receiver: any) {
     const origMethod = Reflect.get(target, propKey, receiver)
     const methodName = `${String(propKey)}`
     if (typeof origMethod === 'function' && this.enableMethodNames.has(methodName)) {
