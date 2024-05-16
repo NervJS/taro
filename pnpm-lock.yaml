@@ -281,7 +281,7 @@ importers:
         version: link:../../packages/taro-plugin-react
       '@tarojs/plugin-platform-alipay':
         specifier: workspace:*
-        version: link:../../packages/taro-alipay
+        version: link:../../packages/taro-platform-alipay
       '@tarojs/plugin-platform-h5':
         specifier: workspace:*
         version: link:../../packages/taro-platform-h5
@@ -290,19 +290,19 @@ importers:
         version: link:../../packages/taro-platform-harmony-hybrid
       '@tarojs/plugin-platform-jd':
         specifier: workspace:*
-        version: link:../../packages/taro-jd
+        version: link:../../packages/taro-platform-jd
       '@tarojs/plugin-platform-qq':
         specifier: workspace:*
-        version: link:../../packages/taro-qq
+        version: link:../../packages/taro-platform-qq
       '@tarojs/plugin-platform-swan':
         specifier: workspace:*
         version: link:../../packages/taro-swan
       '@tarojs/plugin-platform-tt':
         specifier: workspace:*
-        version: link:../../packages/taro-tt
+        version: link:../../packages/taro-platform-tt
       '@tarojs/plugin-platform-weapp':
         specifier: workspace:*
-        version: link:../../packages/taro-weapp
+        version: link:../../packages/taro-platform-weapp
       '@tarojs/react':
         specifier: workspace:*
         version: link:../../packages/taro-react
@@ -667,18 +667,6 @@ importers:
         specifier: ^4.15.2
         version: 4.15.2(webpack@5.91.0)
 
-  packages/taro-alipay:
-    devDependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-
   packages/taro-api:
     devDependencies:
       '@tarojs/runtime':
@@ -750,7 +738,7 @@ importers:
         version: link:../taro-platform-h5
       '@tarojs/plugin-platform-weapp':
         specifier: workspace:*
-        version: link:../taro-weapp
+        version: link:../taro-platform-weapp
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -1308,15 +1296,6 @@ importers:
         specifier: ^7.20.5
         version: 7.20.5
 
-  packages/taro-jd:
-    devDependencies:
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-
   packages/taro-loader:
     dependencies:
       '@tarojs/helper':
@@ -1329,6 +1308,18 @@ importers:
       webpack:
         specifier: 5.91.0
         version: 5.91.0
+
+  packages/taro-platform-alipay:
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
 
   packages/taro-platform-h5:
     dependencies:
@@ -1533,6 +1524,51 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.4.5
+
+  packages/taro-platform-jd:
+    devDependencies:
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/taro-platform-qq:
+    devDependencies:
+      '@tarojs/plugin-platform-weapp':
+        specifier: workspace:*
+        version: link:../taro-platform-weapp
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/taro-platform-tt:
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/taro-platform-weapp:
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
 
   packages/taro-plugin-html:
     devDependencies:
@@ -1773,18 +1809,6 @@ importers:
       vue:
         specifier: ^3.4.25
         version: 3.4.26(typescript@5.4.5)
-
-  packages/taro-qq:
-    devDependencies:
-      '@tarojs/plugin-platform-weapp':
-        specifier: workspace:*
-        version: link:../taro-weapp
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
 
   packages/taro-react:
     dependencies:
@@ -2456,18 +2480,6 @@ importers:
         specifier: 4.17.0
         version: 4.17.0
 
-  packages/taro-tt:
-    devDependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-
   packages/taro-vite-runner:
     dependencies:
       '@ampproject/remapping':
@@ -2600,18 +2612,6 @@ importers:
       vite:
         specifier: ^5.2.10
         version: 5.2.11(@types/node@18.19.31)(less@4.2.0)(sass@1.44.0)(stylus@0.63.0)(terser@5.31.0)
-
-  packages/taro-weapp:
-    devDependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
 
   packages/taro-webpack5-prebundle:
     dependencies:
@@ -2799,22 +2799,22 @@ importers:
         version: link:../taro-plugin-vue3
       '@tarojs/plugin-platform-alipay':
         specifier: workspace:*
-        version: link:../taro-alipay
+        version: link:../taro-platform-alipay
       '@tarojs/plugin-platform-jd':
         specifier: workspace:*
-        version: link:../taro-jd
+        version: link:../taro-platform-jd
       '@tarojs/plugin-platform-qq':
         specifier: workspace:*
-        version: link:../taro-qq
+        version: link:../taro-platform-qq
       '@tarojs/plugin-platform-swan':
         specifier: workspace:*
         version: link:../taro-swan
       '@tarojs/plugin-platform-tt':
         specifier: workspace:*
-        version: link:../taro-tt
+        version: link:../taro-platform-tt
       '@tarojs/plugin-platform-weapp':
         specifier: workspace:*
-        version: link:../taro-weapp
+        version: link:../taro-platform-weapp
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
