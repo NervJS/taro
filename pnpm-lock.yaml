@@ -1044,6 +1044,9 @@ importers:
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -1063,6 +1066,9 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
       babel-preset-solid:
         specifier: ^1.8.15
         version: 1.8.16(@babel/core@7.24.4)

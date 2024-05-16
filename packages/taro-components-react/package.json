@@ -32,6 +32,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/taro": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "@tarojs/components": "workspace:*",
     "@babel/runtime": "^7.14.5",
     "classnames": "^2.2.5",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
     "@babel/preset-react": "^7.24.1",
     "babel-preset-solid": "^1.8.15",
     "react": "^18.2.0",
