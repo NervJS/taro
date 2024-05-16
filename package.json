@@ -79,6 +79,8 @@
     "babel-jest": "^29.7.0",
     "@babel/runtime": "^7.24.4",
     "rollup": "^4.16.4",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-replace": "^4.0.0",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",

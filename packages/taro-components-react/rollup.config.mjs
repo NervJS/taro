@@ -1,40 +1,34 @@
-import babel, { type RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
+import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
+import ts from '@rollup/plugin-typescript'
 import { recursiveMerge } from '@tarojs/helper'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
-import ts from 'rollup-plugin-ts'
 
-import type { InputPluginOption, RollupOptions } from 'rollup'
 
-const base: RollupOptions & { plugins: InputPluginOption[] } = {
+const base = {
   input: 'src/index.ts',
   plugins: [
     externals({
       deps: true,
       devDeps: false,
-    }) as InputPluginOption,
+    }),
     nodeResolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
-    }) as InputPluginOption,
+    }),
     postcss({
       extract: true,
       inject: { insertAt: 'top' },
       minimize: true,
-    }) as InputPluginOption,
-    ts({
-      tsconfig: e => ({
-        ...e,
-        sourceMap: true,
-      })
-    }) as InputPluginOption,
+    }),
+    ts(),
     commonjs({
       include: '../../node_modules/**'
-    }) as InputPluginOption,
+    }),
   ],
   treeshake: false,
   output: {
@@ -48,13 +42,13 @@ const base: RollupOptions & { plugins: InputPluginOption[] } = {
   }
 }
 
-const babelConfig: RollupBabelInputPluginOptions = {
+const babelConfig = {
   extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
   babelHelpers: 'runtime',
 }
 
 const react = () => {
-  const config: typeof base = recursiveMerge({}, base)
+  const config = recursiveMerge({}, base)
   config.plugins.push(
     babel({
       ...babelConfig,
@@ -75,7 +69,7 @@ const react = () => {
 }
 
 const solid = () => {
-  const config: typeof base = recursiveMerge({}, base, {
+  const config = recursiveMerge({}, base, {
     output: {
       dir: 'dist/solid',
     },
