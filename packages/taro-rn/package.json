@@ -75,8 +75,7 @@
     "jest-expo": "^50.0.0",
     "mock-socket": "^7.1.0",
     "react": "18.2.0",
-    "react-native": "^0.73.1",
-    "react-test-renderer": "18.2.0"
+    "react-native": "^0.73.1"
   },
   "peerDependencies": {
     "@bam.tech/react-native-image-resizer": "~3.0.5",
