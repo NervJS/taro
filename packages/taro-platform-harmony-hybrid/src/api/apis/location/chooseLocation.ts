@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import { stringify } from 'query-string'
+import queryString from 'query-string'
 
 import { MethodHandler } from '../utils/handler'
 
@@ -23,7 +23,7 @@ function createLocationChooser (handler, mapOpt: Taro.chooseLocation.Option['map
     <p class='taro_choose_location_title'>位置</p>
     <button class='taro_choose_location_submit'>完成</button>
   </div>
-  <iframe id='map-iframe' class='taro_choose_location_frame' frameborder='0' src="https://apis.map.qq.com/tools/locpicker?${stringify(
+  <iframe id='map-iframe' class='taro_choose_location_frame' frameborder='0' src="https://apis.map.qq.com/tools/locpicker?${queryString.stringify(
     query,
     { arrayFormat: 'comma', skipNull: true }
   )}"/>

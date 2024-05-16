@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 import { safeExecute } from '@tarojs/runtime'
 import { isNil } from 'lodash'
-import { parse } from 'query-string'
+import queryString from 'query-string'
 
 import { CallbackManager } from '../../utils/handler'
 
@@ -38,7 +38,7 @@ const getApp = () => {
     /** 小程序切前台的路径 */
     path: path?.substring(0, path.indexOf('?')) || '',
     /** 小程序切前台的 query 参数 */
-    query: parse(location.search),
+    query: queryString.parse(location.search),
     /** 来源信息。 */
     referrerInfo: {},
     /** 小程序切前台的[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) */
