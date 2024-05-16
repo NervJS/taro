@@ -54,6 +54,7 @@ export interface ViteHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfi
   useJSON5?: boolean
   blended?: boolean
   runtimePath?: string | string[]
+  isPure?: boolean
   taroComponentsPath: string
 }
 
@@ -105,7 +106,6 @@ export interface ViteCompilerContext<T> {
   logger
   filesConfig: IMiniFilesConfig
   configFileList: string[]
-  isPure?: boolean
   compilePage: (pageName: string) => VitePageMeta
   watchConfigFile: (rollupCtx: PluginContext) => void
   getAppScriptPath: () => string
