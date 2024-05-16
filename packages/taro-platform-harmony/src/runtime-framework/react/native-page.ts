@@ -378,6 +378,7 @@ export function createNativeComponentConfig (
       const app = isNewBlended ? nativeComponentApp : Current.app
 
       const mountComponent = () => {
+        const app = isNewBlended ? nativeComponentApp : Current.app
         const compId = (this.compId = getNativeCompId())
 
         this.config = componentConfig
