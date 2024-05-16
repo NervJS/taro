@@ -84,6 +84,7 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-node-externals": "^7.1.1",
+    "@rollup/plugin-commonjs": "^25.0.7",
     "@types/node": "^18",
     "eslint": "^8.57.0",
     "@tarojs/taro-loader": "workspace:*",
@@ -107,7 +108,6 @@
 
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
-    "@rollup/plugin-commonjs": "^25.0.7",
     "@types/debug": "^4.1.5",
     "@types/fs-extra": "^8.0.1",
     "@types/history": "^4.7.5",
