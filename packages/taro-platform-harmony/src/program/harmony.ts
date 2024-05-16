@@ -94,6 +94,7 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
       platformType: this.platformType,
       useETS: this.useETS,
       useJSON5: this.useJSON5,
+      isPure: Boolean(ctx?.runOpts?.options?.args?.pure),
       ...extraOptions
     }
   }
