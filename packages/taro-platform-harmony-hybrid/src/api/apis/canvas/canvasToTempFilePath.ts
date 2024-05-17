@@ -26,10 +26,11 @@ export const canvasToTempFilePath: typeof Taro.canvasToTempFilePath = (options, 
     console.error(res.errMsg)
     return Promise.reject(res)
   }
+
   const {
     canvas,
     canvasId,
-    quality = 1.0,
+    quality = QUALITY,
     destHeight = 0,
     destWidth = 0,
     fileType = 'png',
@@ -41,32 +42,65 @@ export const canvasToTempFilePath: typeof Taro.canvasToTempFilePath = (options, 
     fail,
     complete,
   } = options as Exclude<typeof options, undefined>
+
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  const el = findDOM(inst) as HTMLElement
-  // 如果传入了Canvas实例，则直接使用，未传入canvas实例则通过canvasId获取
-  const imgData = canvas?.toDataURL('png', QUALITY)
-  const img = new Image()
-  img.src = imgData ?? ''
-  const inCanvas = imgData ? img : (el?.querySelector(`canvas[canvas-id="${canvasId}"]`) as HTMLCanvasElement)
-  // 创建一个新的canvas元素
+  let inCanvas: HTMLCanvasElement | HTMLImageElement
+
+  // 创建一个新的canvas元素用于绘制导出的图片
   const outCanvas = document.createElement('canvas')
   const ctx = outCanvas.getContext('2d') as CanvasRenderingContext2D
+  if (!ctx) {
+    const res = { errMsg: `${name}:fail, Can't get 2D rendering context` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+
   outCanvas.width = destWidth
   outCanvas.height = destHeight
+
   // 设置背景为白色
   ctx.fillStyle = '#FFFFFF'
   ctx.fillRect(0, 0, outCanvas.width, outCanvas.height)
-  ctx.drawImage(inCanvas, x, y, width, height, DX, DY, destWidth, destHeight)
 
-  try {
-    const dataURL = outCanvas?.toDataURL(`image/${(fileType === 'jpg' ? 'jpeg' : fileType) || 'png'}`, quality)
-    return handle.success({
-      tempFilePath: dataURL,
-    })
-  } catch (e) {
-    return handle.fail({
-      errMsg: e.message,
-    })
-  }
+  return new Promise((resolve, reject) => {
+    if (canvas) {
+      // 如果传入了Canvas实例，则直接使用
+      const imgData = canvas.toDataURL('png', QUALITY)
+      inCanvas = new Image()
+      inCanvas.src = imgData
+      // 如果inCanvas是Image元素，需要等待图像加载完成后再绘制
+      inCanvas.onload = () => {
+        ctx.drawImage(inCanvas, x, y, width, height, DX, DY, destWidth, destHeight)
+        const dataURL = outCanvas.toDataURL(`image/${(fileType === 'jpg' ? 'jpeg' : fileType) || 'png'}`, quality)
+        handle.success({
+          tempFilePath: dataURL,
+        }, { resolve, reject })
+      }
+      inCanvas.onerror = () => {
+        const res = { errMsg: `${name}:fail Image failed to load` }
+        console.error(res.errMsg)
+        handle.fail(res, { resolve, reject })
+      }
+    } else if (canvasId) {
+      // 否则通过canvasId获取canvas元素
+      const el = findDOM(inst) as HTMLElement
+      inCanvas = el?.querySelector(`canvas[canvas-id="${canvasId}"]`) as HTMLCanvasElement
+      if (!inCanvas) {
+        const res = { errMsg: `${name}:fail, Can't find canvas with id ${canvasId}` }
+        console.error(res.errMsg)
+        return Promise.reject(res)
+      } else {
+        ctx.drawImage(inCanvas, x, y, width, height, DX, DY, destWidth, destHeight)
+        const dataURL = outCanvas.toDataURL(`image/${(fileType === 'jpg' ? 'jpeg' : fileType) || 'png'}`, quality)
+        handle.success({
+          tempFilePath: dataURL,
+        }, { resolve, reject })
+      }
+    } else {
+      const res = { errMsg: `${name}:fail, canvasId or canvas is required` }
+      console.error(res.errMsg)
+      return Promise.reject(res)
+    }
+  })
 }

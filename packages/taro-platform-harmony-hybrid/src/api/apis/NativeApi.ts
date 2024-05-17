@@ -401,6 +401,12 @@ export class NativeApi {
 
   // @ts-ignore
   @(syncAndRelease)
+  innerAudioPause (option: any, _: number) {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
   innerAudioPlay (option: any, _: number) {
     return option
   }

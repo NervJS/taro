@@ -552,7 +552,8 @@
     "chooseLicensePlate": false,
     "chooseLocation": {
       "object": {
-        "mapOpts": true
+        "latitude": true,
+        "longitude": true
       },
       "success": {
         "address": true,
@@ -1323,9 +1324,18 @@
         "phoneNumber": true
       }
     },
-    "navigateBack": false,
+    "navigateBack": {
+      "object": {
+        "delta": true
+      }
+    },
     "navigateBackMiniProgram": false,
-    "navigateTo": false,
+    "navigateTo": {
+      "object": {
+        "url": true,
+        "events": true
+      }
+    },
     "navigateToBookshelf": false,
     "navigateToMiniProgram": {
       "object": {
@@ -1621,7 +1631,11 @@
       }
     },
     "queryBookshelf": false,
-    "reLaunch": false,
+    "reLaunch": {
+      "object": {
+        "url": true
+      }
+    },
     "readBLECharacteristicValue": {
       "object": {
         "characteristicId": true,
@@ -1629,7 +1643,11 @@
         "serviceId": true
       }
     },
-    "redirectTo": false,
+    "redirectTo": {
+      "object": {
+        "url": true
+      }
+    },
     "removeSavedFile": {
       "object": {
         "filePath": true
@@ -1985,7 +2003,11 @@
     "stopWifi": true,
     "subscribeService": false,
     "subscribeVoIPVideoMembers": false,
-    "switchTab": false,
+    "switchTab": {
+      "object": {
+        "url": true
+      }
+    },
     "tradePay": false,
     "unsubscribeMessage": false,
     "updateBookshelfReadTime": false,
