@@ -1,4 +1,4 @@
-import { getCameraPermissionsAsync, getMicrophonePermissionsAsync, requestCameraPermissionsAsync, requestMicrophonePermissionsAsync } from 'expo-camera'
+import { Camera } from 'expo-camera'
 import { getMediaLibraryPermissionsAsync, requestMediaLibraryPermissionsAsync } from 'expo-image-picker'
 import {
   getForegroundPermissionsAsync,
@@ -9,6 +9,13 @@ import {
 import { AppState, Linking, NativeEventSubscription } from 'react-native'
 
 import { errorHandler, successHandler } from '../utils'
+
+const {
+  getCameraPermissionsAsync,
+  getMicrophonePermissionsAsync,
+  requestCameraPermissionsAsync,
+  requestMicrophonePermissionsAsync
+} = Camera
 
 const scopeMap = {
   'scope.userLocation': [getForegroundPermissionsAsync, requestForegroundPermissionsAsync],

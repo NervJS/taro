@@ -1,5 +1,5 @@
 import { CameraRoll } from '@react-native-camera-roll/camera-roll'
-import { requestCameraPermissionsAsync } from 'expo-camera'
+import { Camera } from 'expo-camera'
 import {
   ImagePickerAsset,
   launchCameraAsync,
@@ -88,7 +88,7 @@ export async function _chooseMedia(opts: Taro.chooseImage.Option | Taro.chooseVi
   }
   const messString = mediaTypes === MediaTypeOptions.Images ? 'Image' : mediaTypes === MediaTypeOptions.Videos ? 'Video' : 'Media'
   const isCamera = sourceType[0] === 'camera'
-  const { granted } = isCamera ? await requestCameraPermissionsAsync() : await requestMediaLibraryPermissionsAsync()
+  const { granted } = isCamera ? await Camera.requestCameraPermissionsAsync() : await requestMediaLibraryPermissionsAsync()
   if (!granted) {
     const res = { errMsg: 'Permissions denied!' }
     return errorHandler(fail, complete)(res)

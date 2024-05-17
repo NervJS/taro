@@ -26,6 +26,7 @@ packages/taro/types
 packages/taro-router/__tests__
 
 packages/taro-rn-style-transformer/src/transforms/StyleSheet
+packages/taro-rn/src/lib/index.ts
 packages/taro-rn/src/__tests__
 
 packages/taro-runtime/src/polyfill

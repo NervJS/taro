@@ -1,6 +1,6 @@
 module.exports = {
   preset: 'jest-expo',
-  verbose: true,
+  testEnvironment: 'node',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testMatch: ['<rootDir>/__tests__/**/**.test.[jt]s?(x)'],
   transformIgnorePatterns: [

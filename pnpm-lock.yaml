@@ -1917,7 +1917,7 @@ importers:
         version: 51.0.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)
       jest-expo:
         specifier: ^51.0.1
-        version: 51.0.1(@babel/core@7.24.4)(jest@29.7.0)(react@18.2.0)
+        version: 51.0.2(@babel/core@7.24.4)(jest@29.7.0)(react@18.2.0)
       mock-socket:
         specifier: ^9.3.1
         version: 9.3.1
@@ -17375,8 +17375,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /jest-expo@51.0.1(@babel/core@7.24.4)(jest@29.7.0)(react@18.2.0):
-    resolution: {integrity: sha512-dnLditgU4RXeQnz5XmyMm1EoOn8k1i7F1DSxA3edjIqK5lydzjfeUHwef7Bs0ToOMIIqm5Bs37i7tsHYpMNLCw==, tarball: https://registry.npmjs.org/jest-expo/-/jest-expo-51.0.1.tgz}
+  /jest-expo@51.0.2(@babel/core@7.24.4)(jest@29.7.0)(react@18.2.0):
+    resolution: {integrity: sha512-ijIcjEASh2uORA3DBubOiIJTrPZXp8J3FedaEdnZPT09FkyTH8tZXp/ZRv37LKUomGA5XEHDYR2FY3UMfdIa7g==, tarball: https://registry.npmjs.org/jest-expo/-/jest-expo-51.0.2.tgz}
     hasBin: true
     dependencies:
       '@expo/config': 9.0.1
