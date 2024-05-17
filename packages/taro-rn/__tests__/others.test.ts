@@ -1,5 +1,5 @@
-import { base64ToArrayBuffer } from '../lib/base64ToArrayBuffer'
-import { arrayBufferToBase64 } from '../lib/arrayBufferToBase64'
+import { arrayBufferToBase64 } from '../src/lib/arrayBufferToBase64'
+import { base64ToArrayBuffer } from '../src/lib/base64ToArrayBuffer'
 
 const Taro = { base64ToArrayBuffer, arrayBufferToBase64 }
 

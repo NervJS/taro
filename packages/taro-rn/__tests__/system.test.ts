@@ -1,5 +1,5 @@
-import { getSystemInfo } from '../lib/getSystemInfo'
-import { getSystemInfoSync } from '../lib/getSystemInfoSync'
+import { getSystemInfo } from '../src/lib/getSystemInfo'
+import { getSystemInfoSync } from '../src/lib/getSystemInfoSync'
 
 const Taro = { getSystemInfo, getSystemInfoSync }
 

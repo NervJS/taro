@@ -1,5 +1,5 @@
 // import { DeviceMotion } from 'expo-sensors'
-import * as Taro from '../lib/deviceMotion'
+import * as Taro from '../src/lib/deviceMotion'
 
 describe('deviceMotion', () => {
   it('should startDeviceMotionListening success', () => {

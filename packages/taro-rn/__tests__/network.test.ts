@@ -1,4 +1,5 @@
-import * as network from '../lib/network'
+import * as network from '../src/lib/network'
+
 const Taro = Object.assign({}, network)
 
 describe('network', () => {

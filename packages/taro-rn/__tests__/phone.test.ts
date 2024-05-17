@@ -1,4 +1,4 @@
-import * as phone from '../lib/makePhoneCall'
+import * as phone from '../src/lib/makePhoneCall'
 
 const Taro = Object.assign({}, phone)
 

@@ -1,5 +1,6 @@
 import { DeviceEventEmitter } from 'react-native'
-import * as Taro from '../lib/keyboard'
+
+import * as Taro from '../src/lib/keyboard'
 
 describe('keyboard', () => {
   it('should hideKeyboard success', () => {

@@ -1,6 +1,6 @@
-import { getImageInfo } from '../lib/getImageInfo'
-import { saveImageToPhotosAlbum } from '../lib/saveImageToPhotosAlbum'
-import { saveVideoToPhotosAlbum } from '../lib/saveVideoToPhotosAlbum'
+import { getImageInfo } from '../src/lib/getImageInfo'
+import { saveImageToPhotosAlbum } from '../src/lib/saveImageToPhotosAlbum'
+import { saveVideoToPhotosAlbum } from '../src/lib/saveVideoToPhotosAlbum'
 
 const Taro = {
   getImageInfo,

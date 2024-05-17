@@ -49,13 +49,14 @@
   "devDependencies": {
     "@rnx-kit/metro-resolver-symlinks": "^0.1.36",
     "babel-plugin-transform-react-jsx-to-rn-stylesheet": "workspace:*",
-    "expo": "~50.0.2",
+    "expo": "~51.0.5",
     "expo-file-system": "~16.0.0",
     "react": "^18.2.0",
     "react-native": "^0.72.3",
     "rollup": "^4.16.4"
   },
   "peerDependencies": {
+    "expo": ">= 51",
     "react": ">= 18",
     "react-native": ">= 0.63.0"
   }

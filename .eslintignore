@@ -1,6 +1,7 @@
 dist
 dist-h5
 lib
+!**/src/lib
 node_modules
 *.d.ts
 *.ets

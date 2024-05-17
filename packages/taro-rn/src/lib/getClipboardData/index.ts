@@ -1,4 +1,5 @@
 import Clipboard from '@react-native-clipboard/clipboard'
+
 import { errorHandler } from '../../utils'
 
 export function getClipboardData (opts: Taro.getClipboardData.Option = {}): Promise<Taro.getClipboardData.Promised> {

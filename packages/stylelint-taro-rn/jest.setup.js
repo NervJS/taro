@@ -1,4 +1,5 @@
 // import { getTestRule } from 'jest-preset-stylelint'
+import _ from 'lodash'
 import stylelint from 'stylelint'
 
 // import taroRulesPlugin from './dist'

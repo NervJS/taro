@@ -1,4 +1,4 @@
-import { errorHandler, successHandler } from "../../utils"
+import { errorHandler, successHandler } from '../../utils'
 
 function serializeParams(params) {
   if (!params) {
@@ -53,7 +53,7 @@ function _request<T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
   params.method = method
   let controller
   // eslint-disable-next-line no-undef
-  if (typeof(AbortController) !== 'undefined' ) {
+  if (typeof (AbortController) !== 'undefined') {
     // eslint-disable-next-line no-undef
     controller = new AbortController()
     const signal = controller.signal

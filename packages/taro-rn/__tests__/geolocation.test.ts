@@ -1,4 +1,4 @@
-import * as Taro from '../lib/getLocation'
+import * as Taro from '../src/lib/getLocation'
 import { mockGetCurrentPosition } from './__mock__/mockRNCGeolocation'
 
 describe('location', () => {

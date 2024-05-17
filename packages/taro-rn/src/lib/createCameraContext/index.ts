@@ -1,5 +1,7 @@
-import { errorHandler, successHandler } from '../../utils'
 import { requestCameraPermissionsAsync, requestMicrophonePermissionsAsync } from 'expo-camera'
+
+import { errorHandler, successHandler } from '../../utils'
+
 const globalAny: any = global
 
 class CameraContext {
@@ -15,7 +17,7 @@ class CameraContext {
    */
   startRecord = (option: Taro.CameraContext.StartRecordOption) => {
     Promise.all([requestCameraPermissionsAsync(), requestMicrophonePermissionsAsync()]).then(([cameraPermission, microphonePermission]) => {
-      if(cameraPermission.granted && microphonePermission.granted) {
+      if (cameraPermission.granted && microphonePermission.granted) {
         this.cameraRef?.recordAsync().then((res) => {
           const { uri } = res
           const result = {

@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 // node packages/taro-rn/getliblist.js > packages/taro-rn/libList.js
 
 const { readdirSync, writeFileSync } = require('fs')
 const path = require('path')
+
 const getDirectories = source =>
   readdirSync(source, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
