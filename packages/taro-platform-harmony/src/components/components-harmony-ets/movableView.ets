@@ -47,7 +47,7 @@ export default struct TaroMovableView {
     .visibility(this.node.visibility)
     .gesture(
       GestureGroup(GestureMode.Parallel,
-        PanGesture({ fingers: 1 }).onActionStart((e: GestureEvent) => {
+        PanGesture(getPanOption(this.node)).onActionStart((e: GestureEvent) => {
 
           this.node.startMove()
           this.node.callTouchEventFnFromGesture('touchstart', e)
@@ -70,4 +70,22 @@ export default struct TaroMovableView {
       )
     )
   }
+}
+
+
+function getPanOption(node: TaroMovableViewElement) {
+  const attrDirection = node.getAttribute('direction')
+  let panDirection = PanDirection.All
+
+  if(node.getAttribute('disabled')) {
+    panDirection = PanDirection.None
+  } else if(attrDirection === 'horizontal') {
+    panDirection = PanDirection.Horizontal
+  } else if (attrDirection === 'vertical') {
+    panDirection = PanDirection.Vertical
+  }
+  return new PanGestureOptions({
+    direction: panDirection,
+    fingers: 1
+  })
 }
