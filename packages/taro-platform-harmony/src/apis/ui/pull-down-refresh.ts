@@ -1,14 +1,17 @@
 import { Current } from '@tarojs/runtime'
 
-import { callAsyncSuccess } from '../utils'
+import { callAsyncFail, callAsyncSuccess } from '../utils'
 
 import type Taro from '@tarojs/taro/types'
 
 export const startPullDownRefresh: typeof Taro.startPullDownRefresh = function (options) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
 
+    if (!page) {
+      return callAsyncFail(reject, { errMsg: 'stopPullDownRefresh:fail' }, options)
+    }
     if (page.isRefreshing instanceof Array) {
       const index = page.tabBarCurrentIndex || 0
       page.isRefreshing[index] = true
@@ -23,10 +26,13 @@ export const startPullDownRefresh: typeof Taro.startPullDownRefresh = function (
 }
 
 export const stopPullDownRefresh: typeof Taro.stopPullDownRefresh = function (options) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
 
+    if (!page) {
+      return callAsyncFail(reject, { errMsg: 'stopPullDownRefresh:fail' }, options)
+    }
     if (page.isRefreshing instanceof Array) {
       const index = page.tabBarCurrentIndex || 0
       page.isRefreshing[index] = false

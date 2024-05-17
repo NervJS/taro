@@ -192,9 +192,9 @@ function queryBat (queue, cb) {
   const result: any = []
   const taro = (Current as any).taro
   const page = taro.getCurrentInstance().page
-  const element = getPageScrollerOrNode(page.node, page)
+  const element = getPageScrollerOrNode(page?.node, page)
 
-  if (element == null) return null
+  if (!element) return null
 
   arr = []
   traversalDFSDom(element)

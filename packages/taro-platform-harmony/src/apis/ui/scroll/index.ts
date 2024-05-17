@@ -34,8 +34,8 @@ export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
     const page = taro.getCurrentInstance().page
 
     let scrollValue = -1
-    let scroller = getPageScrollerOrNode(page.scroller, page)
-    const currentPageNode = getPageScrollerOrNode(page.node, page)
+    let scroller = getPageScrollerOrNode(page?.scroller, page)
+    const currentPageNode = getPageScrollerOrNode(page?.node, page)
 
     if (scrollTop || typeof scrollTop === 'number') {
       scrollValue = scrollTop
@@ -66,13 +66,13 @@ export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
         scrollValue = areaInfo.globalPosition.y + yOffset + pxTransformHelper(offsetTop, 'px', true)
       }
     }
-    const { xOffset } = scroller.currentOffset()
-
-    if (scrollValue === -1) {
+    if (!scroller || scrollValue === -1) {
       return handle.fail({
         errMsg: '请检查传入的 scrollTop 或 selector 是否合法'
       }, { resolve, reject })
     }
+
+    const { xOffset } = scroller.currentOffset()
 
     try {
       scroller.scrollTo({
