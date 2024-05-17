@@ -79,6 +79,10 @@ function getContextKey(obj) {
   return res
 }
 
+export function isTaroCanvasElement (item: TaroAny): item is TaroCanvasElement{
+  return item?.tagName === "CANVAS"
+}
+
 @Observed
 export class TaroCanvasElement extends TaroElement<CanvasProps, CanvasTouchEvent> {
   _drawList: {

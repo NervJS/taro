@@ -21,7 +21,7 @@ import type {
   SwitchProps,
   TextareaProps
 } from '@tarojs/components/types'
-import type { TaroAny } from '../../utils'
+import type { TaroAny } from '@tarojs/runtime'
 
 interface FormWidgetProps extends StandardProps {
   name?: string
@@ -126,6 +126,10 @@ class TaroCheckedElement<T extends StandardProps & { checked?: boolean } = Stand
   }
 }
 
+export function isTaroInputElement (item: TaroAny): item is TaroInputElement{
+  return item?.tagName === "INPUT"
+}
+
 @Observed
 class TaroInputElement<T extends FormWidgetProps = InputProps> extends TaroFormWidgetElement<T> {
   _height = 0
@@ -186,6 +190,10 @@ class TaroInputElement<T extends FormWidgetProps = InputProps> extends TaroFormW
   }
 }
 
+export function isTaroTextAreaElement (item: TaroAny): item is TaroTextAreaElement{
+  return item?.tagName === "TEXT-AREA"
+}
+
 @Observed
 class TaroTextAreaElement extends TaroInputElement<TextareaProps> {
   controller: TextAreaController = new TextAreaController()
@@ -194,11 +202,19 @@ class TaroTextAreaElement extends TaroInputElement<TextareaProps> {
     super('TextArea')
   }
 }
+export function isTaroCheckboxElement (item: TaroAny): item is TaroCheckboxElement{
+  return item?.tagName === "CHECKBOX"
+}
+
 @Observed
 class TaroCheckboxElement extends TaroCheckedElement<CheckboxProps> {
   constructor() {
     super('Checkbox')
   }
+}
+
+export function isTaroRadioElement (item: TaroAny): item is TaroRadioElement{
+  return item?.tagName === "RADIO"
 }
 
 @Observed
@@ -210,6 +226,10 @@ class TaroRadioElement extends TaroCheckedElement<RadioProps> {
   }
 }
 
+export function isTaroSliderElement (item: TaroAny): item is TaroSliderElement{
+  return item?.tagName === "SLIDER"
+}
+
 @Observed
 class TaroSliderElement extends TaroFormWidgetElement<SliderProps> {
   constructor() {
@@ -218,6 +238,10 @@ class TaroSliderElement extends TaroFormWidgetElement<SliderProps> {
     this._nodeInfo._value = Number(this._attrs.value || 0)
   }
 }
+export function isTaroPickerElement (item: TaroAny): item is TaroPickerElement{
+  return item?.tagName === "PICKER"
+}
+
 @Observed
 class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | PickerTimeProps | PickerDateProps | PickerMultiSelectorProps> {
   constructor() {
@@ -267,12 +291,20 @@ class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | Pick
   }
 }
 
+export function isTaroSwitchElement (item: TaroAny): item is TaroSwitchElement{
+  return item?.tagName === "SWITCH"
+}
+
 @Observed
 class TaroSwitchElement extends TaroCheckedElement<SwitchProps> {
   constructor() {
     super('Switch')
   }
 }
+export function isTaroCheckboxGroupElement (item: TaroAny): item is TaroCheckboxGroupElement{
+  return item?.tagName === "CHECKBOX-GROUP"
+}
+
 @Observed
 class TaroCheckboxGroupElement extends TaroFormWidgetElement<CheckboxGroupProps> {
   constructor() {
@@ -299,6 +331,10 @@ class TaroCheckboxGroupElement extends TaroFormWidgetElement<CheckboxGroupProps>
   }
 }
 
+export function isTaroRadioGroupElement (item: TaroAny): item is TaroRadioGroupElement{
+  return item?.tagName === "RADIO-GROUP"
+}
+
 @Observed
 class TaroRadioGroupElement extends TaroFormWidgetElement<RadioGroupProps> {
   constructor() {
@@ -323,6 +359,10 @@ class TaroRadioGroupElement extends TaroFormWidgetElement<RadioGroupProps> {
       element.reset()
     })
   }
+}
+
+export function isTaroFormElement (item: TaroAny): item is TaroFormElement{
+  return item?.tagName === "FORM"
 }
 
 @Observed

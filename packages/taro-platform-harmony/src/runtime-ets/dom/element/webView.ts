@@ -1,15 +1,23 @@
 import business_error from '@ohos.base'
 import web_webview from '@ohos.web.webview'
-
+// import type { TaroAny } from '@tarojs/runtime'
 import { TaroElement } from './element'
 
 import type { WebViewProps } from '@tarojs/components/types'
+
+export function isTaroInnerHtmlElement (item: TaroAny): item is TaroInnerHtmlElement{
+  return item?.tagName === "INNER-HTML"
+}
 
 @Observed
 export class TaroInnerHtmlElement extends TaroElement {
   constructor() {
     super('InnerHtml')
   }
+}
+
+export function isTaroWebViewElement (item: TaroAny): item is TaroWebViewElement{
+  return item?.tagName === "WEB-VIEW"
 }
 
 @Observed
