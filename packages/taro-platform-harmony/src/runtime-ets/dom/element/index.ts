@@ -16,7 +16,7 @@ import {
   TaroTextAreaElement
 } from './form'
 import { TaroMovableAreaElement } from './movableArea'
-import { TaroMovableViewElement } from './movableView'
+import { TaroMovableViewElement, isTaroMovableViewElement } from './movableView'
 import {
   TaroButtonElement,
   TaroIconElement,
@@ -112,4 +112,9 @@ export {
   TaroVideoElement,
   TaroViewElement,
   TaroWebViewElement
+}
+
+
+export {
+  isTaroMovableViewElement
 }
