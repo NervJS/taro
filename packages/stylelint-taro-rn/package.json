@@ -4,7 +4,15 @@
   "author": "O2Team",
   "license": "MIT",
   "version": "4.0.0-beta.66",
-  "main": "dist/index.js",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
   "files": [
     "dist",
     "src",
@@ -23,8 +31,11 @@
   "scripts": {
     "prebuild": "pnpm run clean",
     "clean": "rimraf --impl=move-remove ./dist",
-    "build": "babel src --out-dir ./dist",
-    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest"
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
   },
   "repository": {
     "type": "git",
@@ -37,8 +48,6 @@
     "react-native-known-styling-properties": "^1.3.0"
   },
   "devDependencies": {
-    "jest-light-runner": "^0.6.0",
-    "jest-preset-stylelint": "^7.0.0",
     "lodash": "^4.17.21"
   },
   "peerDependencies": {

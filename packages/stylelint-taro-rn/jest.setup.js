@@ -1,13 +1,5 @@
-// import { getTestRule } from 'jest-preset-stylelint'
 import _ from 'lodash'
 import stylelint from 'stylelint'
-
-// import taroRulesPlugin from './dist'
-
-// global.testRule = getTestRule({
-//   plugins: taroRulesPlugin,
-//   loadLint: () => Promise.resolve(require('stylelint').lint)
-// })
 
 global.testRule = (schema) => {
   expect.extend({

@@ -1,5 +1,5 @@
-import { hasInterpolation } from '../utils'
-import { endsWith } from './endsWith'
+import { endsWith } from './endsWith.js'
+import { hasInterpolation } from './hasInterpolation.js'
 
 /**
  * Check whether a property is standard

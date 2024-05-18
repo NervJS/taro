@@ -30,9 +30,6 @@
   "dependencies": {
     "lodash": "^4.17.21"
   },
-  "devDependencies": {
-    "jest-preset-stylelint": "^7.0.0"
-  },
   "peerDependencies": {
     "stylelint": "^16"
   }
