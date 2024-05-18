@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import View from '../View'
 import Text from '../Text'
-import { BarCodeScanningResult, Camera, CameraMountError, PermissionStatus } from 'expo-camera'
+import { BarcodeScanningResult, Camera, CameraView, CameraMountError, PermissionStatus } from 'expo-camera'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import { CameraProps, CameraState } from './PropsType'
 import styles from './styles'
@@ -14,7 +14,7 @@ export class _Camera extends Component<CameraProps, CameraState> {
     }
   }
 
-  expoCameraRef = React.createRef<Camera>()
+  expoCameraRef = React.createRef<CameraView>()
 
   async componentDidMount(): Promise<void> {
     const permission = await Camera.requestCameraPermissionsAsync()
@@ -33,7 +33,7 @@ export class _Camera extends Component<CameraProps, CameraState> {
     this.props.onInitDone && this.props.onInitDone(event)
   }
 
-  onScanCode = (event: BarCodeScanningResult): void => {
+  onScanCode = (event: BarcodeScanningResult): void => {
     const { data } = event
     this.props.onScanCode && this.props.onScanCode({
       detail: {
@@ -46,7 +46,8 @@ export class _Camera extends Component<CameraProps, CameraState> {
   render(): JSX.Element {
     const { hasPermission } = this.state
     const { devicePosition, style, mode, flash } = this.props
-    const type = !devicePosition ? null : Camera.Constants.Type[devicePosition]
+    const type = !devicePosition ? null : CameraView.Constants.Type[devicePosition]
+
     if (hasPermission === null) {
       return <View />
     }
@@ -63,7 +64,7 @@ export class _Camera extends Component<CameraProps, CameraState> {
         }
         : {}
     return (
-      <Camera
+      <CameraView
         ref={this.expoCameraRef}
         // @ts-ignore
         type={type}

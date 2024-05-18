@@ -1,11 +1,14 @@
 import '@testing-library/jest-native/extend-expect'
+
+import mockRNCAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock'
+import mockRNCClipboard from '@react-native-clipboard/clipboard/jest/clipboard-mock'
 import { NetInfoStateType } from '@react-native-community/netinfo'
 import mockRNCNetInfo from '@react-native-community/netinfo/jest/netinfo-mock'
-import mockRNCAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock'
 import mockRNCDeviceInfo from 'react-native-device-info/jest/react-native-device-info-mock'
-import mockRNCClipboard from '@react-native-clipboard/clipboard/jest/clipboard-mock'
-import mockRNCGeolocation from './__tests__/__mock__/mockRNCGeolocation'
+
 import mockRNCameraRoll from './__tests__/__mock__/mockRNCCameraRoll'
+import mockRNCGeolocation from './__tests__/__mock__/mockRNCGeolocation'
+
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
 jest.doMock('@react-native-community/netinfo', () => ({ ...mockRNCNetInfo, NetInfoStateType }))
 jest.doMock('@react-native-async-storage/async-storage', () => mockRNCAsyncStorage)

@@ -1,8 +1,7 @@
 import { utils } from 'stylelint'
+import declarationValueIndex from 'stylelint/lib/utils/declarationValueIndex.cjs'
 
 import { namespace } from '../../utils'
-
-const declarationValueIndex = require('stylelint/lib/utils/declarationValueIndex')
 
 export const ruleName = namespace('line-height-no-value-without-unit')
 

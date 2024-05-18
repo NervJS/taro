@@ -1,6 +1,7 @@
 import Clipboard from '@react-native-clipboard/clipboard'
-import { getClipboardData } from '../lib/getClipboardData'
-import { setClipboardData } from '../lib/setClipboardData'
+
+import { getClipboardData } from '../src/lib/getClipboardData'
+import { setClipboardData } from '../src/lib/setClipboardData'
 
 const Taro = {
   setClipboardData,

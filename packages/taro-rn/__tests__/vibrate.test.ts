@@ -1,4 +1,4 @@
-import * as vibrate from '../lib/vibrate'
+import * as vibrate from '../src/lib/vibrate'
 
 const Taro = Object.assign({}, vibrate)
 

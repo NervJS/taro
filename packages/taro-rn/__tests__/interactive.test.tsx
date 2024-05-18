@@ -1,10 +1,11 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
-import { render, fireEvent } from '@testing-library/react-native';
-import ActionSheet from '../lib/showActionSheet/ActionSheet'
-import Dialog from '../lib/showModal/Dialog'
-import { Mask } from '../lib/Mask'
-import { Popup } from '../lib/Popup'
+
+import { Mask } from '../src/lib/Mask'
+import { Popup } from '../src/lib/Popup'
+import ActionSheet from '../src/lib/showActionSheet/ActionSheet'
+import Dialog from '../src/lib/showModal/Dialog'
 
 describe('interactive', function () {
   describe('showActionSheet', function () {
@@ -36,7 +37,7 @@ describe('interactive', function () {
       expect(getAllByText('Option Two')).toHaveLength(1)
       expect(getAllByText('cancel')).toHaveLength(1)
       fireEvent.press(getByText('Option One'))
-      expect(onPress).toHaveBeenCalled();
+      expect(onPress).toHaveBeenCalled()
     })
   })
   describe('showModal', function () {
@@ -80,8 +81,8 @@ describe('interactive', function () {
       expect(getByLabelText('mask')).toHaveStyle({
         backgroundColor: 'red'
       })
-      fireEvent.press(getByText('Press me'));
-      expect(onPress).toHaveBeenCalled();
+      fireEvent.press(getByText('Press me'))
+      expect(onPress).toHaveBeenCalled()
     })
   })
   describe('Popup', () => {
@@ -94,8 +95,8 @@ describe('interactive', function () {
         onShow={onShow}
         onClose={onClose}
       ><Text>Press me</Text></Popup>)
-      fireEvent.press(getByText('Press me'));
-      expect(onClose).toHaveBeenCalled();
+      fireEvent.press(getByText('Press me'))
+      expect(onClose).toHaveBeenCalled()
     })
   })
 })

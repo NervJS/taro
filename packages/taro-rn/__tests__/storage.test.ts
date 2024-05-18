@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { setStorage } from '../lib/setStorage'
-import { getStorage } from '../lib/getStorage'
-import { clearStorage } from '../lib/clearStorage'
-import { getStorageInfo } from '../lib/getStorageInfo'
-import { removeStorage } from '../lib/removeStorage'
+
+import { clearStorage } from '../src/lib/clearStorage'
+import { getStorage } from '../src/lib/getStorage'
+import { getStorageInfo } from '../src/lib/getStorageInfo'
+import { removeStorage } from '../src/lib/removeStorage'
+import { setStorage } from '../src/lib/setStorage'
 
 const Taro = {
   setStorage,

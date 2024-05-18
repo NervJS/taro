@@ -1,4 +1,8 @@
 export { endsWith } from './endsWith'
+export * from './hasInterpolation'
+export * from './hasLessInterpolation'
+export * from './hasPsvInterpolation'
+export * from './hasScssInterpolation'
 export { isCustomProperty } from './isCustomProperty'
 export { isExportBlock } from './isExportBlock'
 export { isStandardSyntaxDeclaration } from './isStandardSyntaxDeclaration'

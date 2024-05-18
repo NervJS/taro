@@ -1,12 +1,12 @@
 import _ from 'lodash'
-import stylelint from 'stylelint'
-import isCustomProperty from 'stylelint/lib/utils/isCustomProperty'
-import isStandardSyntaxProperty from 'stylelint/lib/utils/isStandardSyntaxProperty'
-import matchesStringOrRegExp from 'stylelint/lib/utils/matchesStringOrRegExp'
-import validateObjectWithArrayProps from 'stylelint/lib/utils/validateObjectWithArrayProps'
-import validateOptions from 'stylelint/lib/utils/validateOptions'
-import { isBoolean, isRegExp, isString } from 'stylelint/lib/utils/validateTypes'
-import vendor from 'stylelint/lib/utils/vendor'
+import { utils } from 'stylelint'
+import isCustomProperty from 'stylelint/lib/utils/isCustomProperty.cjs'
+import isStandardSyntaxProperty from 'stylelint/lib/utils/isStandardSyntaxProperty.cjs'
+import matchesStringOrRegExp from 'stylelint/lib/utils/matchesStringOrRegExp.cjs'
+import validateObjectWithArrayProps from 'stylelint/lib/utils/validateObjectWithArrayProps.cjs'
+import validateOptions from 'stylelint/lib/utils/validateOptions.cjs'
+import { isBoolean, isRegExp, isString } from 'stylelint/lib/utils/validateTypes.cjs'
+import vendor from 'stylelint/lib/utils/vendor.cjs'
 
 import { log, nameSpace, report, taroDocsUrl } from '../../utils'
 
@@ -14,7 +14,7 @@ import type { Rule } from 'stylelint'
 
 export const ruleName = nameSpace('property-allowed-list')
 
-export const messages = stylelint.utils.ruleMessages(ruleName, {
+export const messages = utils.ruleMessages(ruleName, {
   rejected: (property, platfrom) => log(`"${property}" 暂不支持该属性，受限端 "${platfrom}"`)
 })
 

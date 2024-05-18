@@ -2,6 +2,7 @@ import { recursiveMerge } from '@tarojs/helper'
 import * as path from 'path'
 
 import StyleTransform, { getWrapedCSS } from '../src/transforms'
+import { TransformOptions } from '../src/types'
 
 const defaultConfig = {
   designWidth: 750,
@@ -34,15 +35,15 @@ const defaultConfig = {
   }
 }
 
-async function run (src, filename = './__tests__/styles/a.css', debug) {
-  let options = { platform: 'android' }
+async function run (src, filename = './__tests__/styles/a.css', debug?) {
+  let options: TransformOptions = { platform: 'android' }
   let config
 
   if (typeof src === 'object') {
     ({
       src,
       filename = './__tests__/styles/a.css',
-      options = { platform: 'android' },
+      options = { platform: 'android' } as TransformOptions,
       debug,
       config
     } = src || {})
@@ -53,9 +54,7 @@ async function run (src, filename = './__tests__/styles/a.css', debug) {
   const styleTransform = new StyleTransform(mergeConfig)
   const css = await styleTransform.transform(src, filename, options)
   if (debug) {
-    // eslint-disable-next-line
     console.log(filename + ' source: ', src)
-    // eslint-disable-next-line
     console.log(filename + ' target: ', css)
   }
   return css

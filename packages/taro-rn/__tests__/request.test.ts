@@ -1,4 +1,4 @@
-import * as request from '../lib/request'
+import * as request from '../src/lib/request'
 
 const Taro = Object.assign({}, request)
 

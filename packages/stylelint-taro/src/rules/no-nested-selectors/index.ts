@@ -1,4 +1,4 @@
-import stylelint, { utils } from 'stylelint'
+import { utils } from 'stylelint'
 
 import { log, nameSpace, report, taroDocsUrl } from '../../utils'
 
@@ -6,7 +6,7 @@ import type { Rule } from 'stylelint'
 
 export const ruleName = nameSpace('no-nested-selectors')
 
-export const messages = stylelint.utils.ruleMessages(ruleName, {
+export const messages = utils.ruleMessages(ruleName, {
   rejected: (selector, platfrom) => log(`"${selector}" 仅能使用单个class选择器，受限端 "${platfrom}"`)
 })
 

@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc",
-    "test": "jest"
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest"
   },
   "files": [
     "lib",
@@ -35,33 +35,5 @@
   },
   "peerDependencies": {
     "stylelint": "^16"
-  },
-  "jest": {
-    "clearMocks": true,
-    "collectCoverage": false,
-    "collectCoverageFrom": [
-      "lib/**/*.js"
-    ],
-    "coverageDirectory": "./.coverage/",
-    "coverageReporters": [
-      "lcov",
-      "text"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 75,
-        "functions": 75,
-        "lines": 75,
-        "statements": 75
-      }
-    },
-    "setupFiles": [
-      "./jest-setup.js"
-    ],
-    "testEnvironment": "node",
-    "roots": [
-      "lib"
-    ],
-    "testRegex": ".*\\.test\\.js$|lib/.*/__tests__/.*\\.js$"
   }
 }

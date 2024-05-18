@@ -1,5 +1,6 @@
-import { WebSocket, Server } from 'mock-socket'
-import * as connectSocket from '../lib/connectSocket'
+import { Server, WebSocket } from 'mock-socket'
+
+import * as connectSocket from '../src/lib/connectSocket'
 
 const Taro = Object.assign({}, connectSocket)
 
@@ -128,12 +129,11 @@ describe('websocket', () => {
       success,
       complete
     }).then(socketTask => {
-
       const socketTaskSend = jest.spyOn(socketTask.ws, 'send')
       const socketTaskClose = jest.spyOn(socketTask.ws, 'close')
       const closeCode = 100
       const closeReason = 'hey'
-  
+
       socketTask.onOpen(() => {
         socketTask.send({
           data: msg,
@@ -143,7 +143,7 @@ describe('websocket', () => {
           },
         })
       })
-  
+
       socketTask.onMessage(res => {
         expect(res.data).toMatch(msg2)
         socketTask.close({
@@ -155,7 +155,7 @@ describe('websocket', () => {
           },
         })
       })
-  
+
       socketTask.onClose(({ code, reason }) => {
         const expectMsg = 'connectSocket:ok'
         expect(connected.mock.calls.length).toBe(1)
