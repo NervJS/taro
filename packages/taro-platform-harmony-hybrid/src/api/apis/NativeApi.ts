@@ -871,6 +871,16 @@ class CacheStorageProxy {
         return status
       }
     }
+    if (prop === 'removeStorageSync') {
+      return (...args: any[]) => {
+        const { key } = args[0]
+        const status = this.asyncToSyncProxy.removeStorageSync({ key })
+        if (status.done && status.errorMsg === '') {
+          this.cacheMap.delete(key)
+        }
+        return status
+      }
+    }
     return (...args: any[]) => {
       return this.asyncToSyncProxy[prop](...args)
     }
