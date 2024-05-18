@@ -1,4 +1,5 @@
-module.exports = {
+/** @type {import('stylelint').Config} */
+export default {
   plugins: ['stylelint-taro-rn'],
   rules: {
     'taro-rn/css-property-no-unknown': true,
