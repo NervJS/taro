@@ -1,30 +1,14 @@
-module.exports = {
-  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
+// /** @type {import('jest').Config} */
+/** @type {import('ts-jest').JestConfigWithTsJest} */
+export default {
   preset: 'jest-preset-stylelint',
-  clearMocks: true,
-  collectCoverage: false,
-  collectCoverageFrom: [
-    'lib/**/*.js'
-  ],
-  coverageDirectory: './.coverage/',
-  coverageReporters: [
-    'lcov',
-    'text'
-  ],
-  coverageThreshold: {
-    global: {
-      branches: 75,
-      functions: 75,
-      lines: 75,
-      statements: 75
-    }
-  },
+  runner: 'jest-light-runner',
   setupFiles: ['./jest.setup.js'],
-  testEnvironment: 'node',
   testMatch: ['**/src/**/__tests__/?(*.)+(spec|test).[jt]s?(x)'],
-  testPathIgnorePatterns: ['node_modules'],
+  extensionsToTreatAsEsm: ['.ts'],
   transform: {
     '^.+\\.m?[tj]sx?$': ['ts-jest', {
+      useESM: true,
       diagnostics: false,
       tsconfig: 'tsconfig.test.json'
     }],

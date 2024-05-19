@@ -4,17 +4,26 @@
   "description": "Taro stylelint 规则集合",
   "author": "O2Team",
   "license": "MIT",
-  "main": "lib/index.js",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
   "scripts": {
-    "dev": "tsc -w",
-    "build": "tsc",
-    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest"
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./dist",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings --loader ts-node/esm\" jest",
+    "lint": "eslint src --ext .js,.ts"
   },
   "files": [
-    "lib",
-    "src",
-    "README.md",
-    "!**/__tests__"
+    "dist"
   ],
   "keywords": [
     "css",

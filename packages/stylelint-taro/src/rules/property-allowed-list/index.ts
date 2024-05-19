@@ -1,20 +1,20 @@
 import _ from 'lodash'
-import { utils } from 'stylelint'
-import isCustomProperty from 'stylelint/lib/utils/isCustomProperty.cjs'
-import isStandardSyntaxProperty from 'stylelint/lib/utils/isStandardSyntaxProperty.cjs'
-import matchesStringOrRegExp from 'stylelint/lib/utils/matchesStringOrRegExp.cjs'
-import validateObjectWithArrayProps from 'stylelint/lib/utils/validateObjectWithArrayProps.cjs'
-import validateOptions from 'stylelint/lib/utils/validateOptions.cjs'
-import { isBoolean, isRegExp, isString } from 'stylelint/lib/utils/validateTypes.cjs'
-import vendor from 'stylelint/lib/utils/vendor.cjs'
+import stylelint from 'stylelint'
+import isCustomProperty from 'stylelint/lib/utils/isCustomProperty.mjs'
+import isStandardSyntaxProperty from 'stylelint/lib/utils/isStandardSyntaxProperty.mjs'
+import matchesStringOrRegExp from 'stylelint/lib/utils/matchesStringOrRegExp.mjs'
+import validateObjectWithArrayProps from 'stylelint/lib/utils/validateObjectWithArrayProps.mjs'
+import validateOptions from 'stylelint/lib/utils/validateOptions.mjs'
+import { isBoolean, isRegExp, isString } from 'stylelint/lib/utils/validateTypes.mjs'
+import vendor from 'stylelint/lib/utils/vendor.mjs'
 
-import { log, nameSpace, report, taroDocsUrl } from '../../utils'
+import { log, nameSpace, report, taroDocsUrl } from '../../utils/index.ts'
 
 import type { Rule } from 'stylelint'
 
 export const ruleName = nameSpace('property-allowed-list')
 
-export const messages = utils.ruleMessages(ruleName, {
+export const messages = stylelint.utils.ruleMessages(ruleName, {
   rejected: (property, platfrom) => log(`"${property}" 暂不支持该属性，受限端 "${platfrom}"`)
 })
 
@@ -39,7 +39,7 @@ const rule: Rule = (primary) => {
       return
     }
 
-    const _arr = []
+    const _arr: string[] = []
     Object.keys(primary).forEach(key => {
       _arr.push(...Object.keys(primary[key]))
     })
@@ -62,7 +62,7 @@ const rule: Rule = (primary) => {
         return
       }
 
-      const platform = []
+      const platform: string[] = []
       Object.keys(primary).forEach(key => {
         if (primary[key]) {
           const platformKeys = Object.keys(primary[key])

@@ -1,12 +1,12 @@
-import { utils } from 'stylelint'
+import stylelint from 'stylelint'
 
-import { log, nameSpace, report, taroDocsUrl } from '../../utils'
+import { log, nameSpace, report, taroDocsUrl } from '../../utils/index.ts'
 
 import type { Rule } from 'stylelint'
 
 export const ruleName = nameSpace('no-nested-selectors')
 
-export const messages = utils.ruleMessages(ruleName, {
+export const messages = stylelint.utils.ruleMessages(ruleName, {
   rejected: (selector, platfrom) => log(`"${selector}" 仅能使用单个class选择器，受限端 "${platfrom}"`)
 })
 
@@ -17,7 +17,7 @@ const meta = {
 
 const rule: Rule = (primary) => {
   return (root, result) => {
-    const validOptions = utils.validateOptions(result, ruleName, {
+    const validOptions = stylelint.utils.validateOptions(result, ruleName, {
       actual: primary
     })
     if (!validOptions) {
