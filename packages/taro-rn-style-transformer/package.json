@@ -15,7 +15,7 @@
     "build": "tsc",
     "dev": "tsc -w",
     "lint": "eslint src --ext .js,.ts",
-    "test": "jest",
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings --loader ts-node/esm\" jest",
     "test:ci": "jest --ci -i --coverage --silent",
     "test:clear": "jest --clearCache"
   },
@@ -30,10 +30,10 @@
     "node": ">= 18"
   },
   "dependencies": {
+    "@react-native/metro-babel-transformer": "^0.73.2",
     "@tarojs/helper": "workspace:*",
     "fbjs": "^3.0.5",
     "less": "^4.2.0",
-    "@react-native/metro-babel-transformer": "^0.73.2",
     "postcss-import": "^16.1.0",
     "postcss-pxtransform": "workspace:*",
     "postcss-reporter": "^7.1.0",

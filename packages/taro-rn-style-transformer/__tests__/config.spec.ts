@@ -53,10 +53,12 @@ async function run (src, filename = './__tests__/styles/a.css', debug?) {
   // console.log('mergeConfig', JSON.stringify(mergeConfig, null, '  '))
   const styleTransform = new StyleTransform(mergeConfig)
   const css = await styleTransform.transform(src, filename, options)
+
   if (debug) {
     console.log(filename + ' source: ', src)
     console.log(filename + ' target: ', css)
   }
+
   return css
 }
 

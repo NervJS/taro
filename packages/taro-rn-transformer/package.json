@@ -7,8 +7,8 @@
   "main": "dist/index.js",
   "types": "./src/types/index.d.ts",
   "files": [
-    "dist/",
-    "src/types/"
+    "dist",
+    "src/types"
   ],
   "scripts": {
     "prebuild": "pnpm run clean",
@@ -17,7 +17,7 @@
     "dev": "tsc -w",
     "test": "jest",
     "test:ci": "jest --ci -i --coverage --silent",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint src __tests__ --ext .js,.jsx,.ts,.tsx"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
@@ -42,10 +42,6 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.17.0",
-    "@types/mime-types": "^2.1.4",
-    "react": "^18.2.0"
-  },
-  "peerDependencies": {
-    "react": ">= 18"
+    "@types/mime-types": "^2.1.4"
   }
 }

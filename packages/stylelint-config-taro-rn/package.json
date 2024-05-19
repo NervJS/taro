@@ -30,7 +30,7 @@
     "stylelint-taro-rn": "workspace:*"
   },
   "devDependencies": {
-    "stylelint": "^16.3.1"
+    "stylelint": "^16.4.0"
   },
   "peerDependencies": {
     "stylelint": "^16",

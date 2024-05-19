@@ -145,7 +145,7 @@
     "rollup": "^4.16.4",
     "rollup-plugin-node-externals": "^7.1.1",
     "rollup-plugin-postcss": "^4.0.2",
-    "stylelint": "^16.3.1",
+    "stylelint": "^16.4.0",
     "stylelint-config-standard-scss": "^3.0.0",
     "stylelint-order": "^6.0.3",
     "ts-jest": "^29.1.2",
