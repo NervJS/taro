@@ -2,7 +2,6 @@ import { recursiveMerge } from '@tarojs/helper'
 import * as path from 'path'
 
 import StyleTransform, { getWrapedCSS } from '../src/transforms'
-import { TransformOptions } from '../src/types'
 
 const defaultConfig = {
   designWidth: 750,
@@ -35,22 +34,21 @@ const defaultConfig = {
   }
 }
 
-async function run (src, filename = './__tests__/styles/a.css', debug?) {
-  let options: TransformOptions = { platform: 'android' }
+async function run (src, filename = './__tests__/styles/a.css', debug) {
+  let options = { platform: 'android' }
   let config
 
   if (typeof src === 'object') {
     ({
       src,
       filename = './__tests__/styles/a.css',
-      options = { platform: 'android' } as TransformOptions,
+      options = { platform: 'android' },
       debug,
       config
     } = src || {})
   }
 
   const mergeConfig = recursiveMerge({}, defaultConfig, config)
-  // console.log('mergeConfig', JSON.stringify(mergeConfig, null, '  '))
   const styleTransform = new StyleTransform(mergeConfig)
   const css = await styleTransform.transform(src, filename, options)
 

@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
-    "allowJs": true
+    "allowJs": true,
+    "noUnusedLocals": false
   }
 }

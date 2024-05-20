@@ -1,15 +1,14 @@
 import StyleTransform, { getWrapedCSS } from '../src/transforms'
-import { TransformOptions } from '../src/types'
 
 // 初始化config
 const styleTransform = new StyleTransform({})
 
-async function run (src, filename = './__tests__/styles/a.css', options: TransformOptions = { platform: 'android' }, debug?: boolean) {
+async function run (src, filename = './__tests__/styles/a.css', options = { platform: 'android' }, debug?: boolean) {
   if (typeof src === 'object') {
     ({
       src,
       filename = './__tests__/styles/a.css',
-      options = { platform: 'android' } as TransformOptions,
+      options = { platform: 'android' },
       debug
     } = src || {})
   }
@@ -65,6 +64,7 @@ describe('style transform in cross platform', () => {
       filename: './__tests__/styles/a.scss',
       src: "@import './c.scss';"
     })
+
     expect(css).toEqual(getWrapedCSS(`{
   "drn": {
     "color": "red"

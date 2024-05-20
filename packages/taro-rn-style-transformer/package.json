@@ -14,8 +14,8 @@
     "clean": "rimraf --impl=move-remove ./dist",
     "build": "tsc",
     "dev": "tsc -w",
-    "lint": "eslint src --ext .js,.ts",
-    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings --loader ts-node/esm\" jest",
+    "lint": "eslint src __tests__ --ext .js,.ts",
+    "test": "jest",
     "test:ci": "jest --ci -i --coverage --silent",
     "test:clear": "jest --clearCache"
   },
@@ -48,8 +48,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
-    "postcss": "^8.4.38",
-    "react": "^18.2.0"
+    "postcss": "^8.4.38"
   },
   "peerDependencies": {
     "postcss": ">= 8"

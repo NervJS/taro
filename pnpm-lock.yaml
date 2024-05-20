@@ -230,10 +230,10 @@ importers:
         specifier: ^16.4.0
         version: 16.4.0(typescript@5.4.5)
       stylelint-config-standard-scss:
-        specifier: ^3.0.0
-        version: 3.0.0(postcss@8.4.38)(stylelint@16.4.0)
+        specifier: ^13.1.0
+        version: 13.1.0(postcss@8.4.38)(stylelint@16.4.0)
       stylelint-order:
-        specifier: ^6.0.3
+        specifier: ^6.0.4
         version: 6.0.4(stylelint@16.4.0)
       ts-jest:
         specifier: ^29.1.2
@@ -1062,10 +1062,7 @@ importers:
         version: 5.1.3(rollup@3.29.4)
       rollup-plugin-ts:
         specifier: ^3.0.2
-        version: 3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@4.9.5)
-      typescript:
-        specifier: ^4.7.4
-        version: 4.9.5
+        version: 3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@5.4.5)
 
   packages/taro-helper:
     dependencies:
@@ -1252,7 +1249,7 @@ importers:
         version: 15.2.3(rollup@3.29.4)
       '@rollup/plugin-typescript':
         specifier: ^11.1.0
-        version: 11.1.6(rollup@3.29.4)(tslib@2.6.2)(typescript@4.9.5)
+        version: 11.1.6(rollup@3.29.4)(tslib@2.6.2)(typescript@5.4.5)
       fast-glob:
         specifier: ^3.3.1
         version: 3.3.2
@@ -1267,16 +1264,13 @@ importers:
         version: 5.1.3(rollup@3.29.4)
       rollup-plugin-ts:
         specifier: ^3.0.2
-        version: 3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@4.9.5)
+        version: 3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@5.4.5)
       solid-js:
         specifier: ^1.8.16
         version: 1.8.17
       tslib:
         specifier: ^2.4.0
         version: 2.6.2
-      typescript:
-        specifier: ^4.8.2
-        version: 4.9.5
 
   packages/taro-platform-harmony-hybrid:
     dependencies:
@@ -1346,7 +1340,7 @@ importers:
         version: 15.2.3(rollup@3.29.4)
       '@rollup/plugin-typescript':
         specifier: ^11.1.0
-        version: 11.1.6(rollup@3.29.4)(typescript@5.4.5)
+        version: 11.1.6(rollup@3.29.4)(tslib@2.6.2)(typescript@5.4.5)
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -1371,9 +1365,6 @@ importers:
       tsconfig-paths:
         specifier: ^3.14.1
         version: 3.15.0
-      typescript:
-        specifier: ^5.3.3
-        version: 5.4.5
 
   packages/taro-platform-jd:
     devDependencies:
@@ -1921,9 +1912,6 @@ importers:
       postcss:
         specifier: ^8.4.38
         version: 8.4.38
-      react:
-        specifier: ^18.2.0
-        version: 18.2.0
 
   packages/taro-rn-supporter:
     dependencies:
@@ -7441,7 +7429,7 @@ packages:
       rollup: 4.17.2
     dev: false
 
-  /@rollup/plugin-typescript@11.1.6(rollup@3.29.4)(tslib@2.6.2)(typescript@4.9.5):
+  /@rollup/plugin-typescript@11.1.6(rollup@3.29.4)(tslib@2.6.2)(typescript@5.4.5):
     resolution: {integrity: sha512-R92yOmIACgYdJ7dJ97p4K69I8gg6IEHt8M7dUBxN3W6nrO8uUxX5ixl0yU/N3aZTi8WhPuICvOHXQvF6FaykAA==, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.6.tgz}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -7458,25 +7446,6 @@ packages:
       resolve: 1.22.8
       rollup: 3.29.4
       tslib: 2.6.2
-      typescript: 4.9.5
-    dev: true
-
-  /@rollup/plugin-typescript@11.1.6(rollup@3.29.4)(typescript@5.4.5):
-    resolution: {integrity: sha512-R92yOmIACgYdJ7dJ97p4K69I8gg6IEHt8M7dUBxN3W6nrO8uUxX5ixl0yU/N3aZTi8WhPuICvOHXQvF6FaykAA==, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.6.tgz}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^2.14.0||^3.0.0||^4.0.0
-      tslib: '*'
-      typescript: '>=3.7.0'
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-      tslib:
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@3.29.4)
-      resolve: 1.22.8
-      rollup: 3.29.4
       typescript: 5.4.5
     dev: true
 
@@ -11359,16 +11328,6 @@ packages:
     dependencies:
       array-ify: 1.0.0
       dot-prop: 5.3.0
-    dev: true
-
-  /compatfactory@3.0.0(typescript@4.9.5):
-    resolution: {integrity: sha512-WD5kF7koPwVoyKL8p0LlrmIZtilrD46sQStyzzxzTFinMKN2Dxk1hN+sddLSQU1mGIZvQfU8c+ONSghvvM40jg==, tarball: https://registry.npmjs.org/compatfactory/-/compatfactory-3.0.0.tgz}
-    engines: {node: '>=14.9.0'}
-    peerDependencies:
-      typescript: '>=3.x || >= 4.x || >= 5.x'
-    dependencies:
-      helpertypes: 0.0.19
-      typescript: 4.9.5
     dev: true
 
   /compatfactory@3.0.0(typescript@5.4.5):
@@ -22664,52 +22623,6 @@ packages:
       - ts-node
     dev: true
 
-  /rollup-plugin-ts@3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@4.9.5):
-    resolution: {integrity: sha512-9iCstRJpEZXSRQuXitlSZAzcGlrqTbJg1pE4CMbEi6xYldxVncdPyzA2I+j6vnh73wBymZckerS+Q/iEE/M3Ow==, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.4.5.tgz}
-    engines: {node: '>=16.15.1', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
-    peerDependencies:
-      '@babel/core': '>=7.x'
-      '@babel/plugin-transform-runtime': '>=7.x'
-      '@babel/preset-env': '>=7.x'
-      '@babel/preset-typescript': '>=7.x'
-      '@babel/runtime': '>=7.x'
-      '@swc/core': '>=1.x'
-      '@swc/helpers': '>=0.2'
-      rollup: '>=1.x || >=2.x || >=3.x'
-      typescript: '>=3.2.x || >= 4.x || >= 5.x'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@babel/plugin-transform-runtime':
-        optional: true
-      '@babel/preset-env':
-        optional: true
-      '@babel/preset-typescript':
-        optional: true
-      '@babel/runtime':
-        optional: true
-      '@swc/core':
-        optional: true
-      '@swc/helpers':
-        optional: true
-    dependencies:
-      '@babel/core': 7.24.4(supports-color@9.4.0)
-      '@babel/preset-env': 7.24.4(@babel/core@7.24.4)
-      '@babel/runtime': 7.24.4
-      '@rollup/pluginutils': 5.1.0(rollup@3.29.4)
-      '@wessberg/stringutil': 1.0.19
-      ansi-colors: 4.1.3
-      browserslist: 4.23.0
-      browserslist-generator: 2.1.0
-      compatfactory: 3.0.0(typescript@4.9.5)
-      crosspath: 2.0.0
-      magic-string: 0.30.10
-      rollup: 3.29.4
-      ts-clone-node: 3.0.0(typescript@4.9.5)
-      tslib: 2.6.2
-      typescript: 4.9.5
-    dev: true
-
   /rollup-plugin-ts@3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(@babel/runtime@7.24.4)(rollup@3.29.4)(typescript@5.4.5):
     resolution: {integrity: sha512-9iCstRJpEZXSRQuXitlSZAzcGlrqTbJg1pE4CMbEi6xYldxVncdPyzA2I+j6vnh73wBymZckerS+Q/iEE/M3Ow==, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.4.5.tgz}
     engines: {node: '>=16.15.1', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
@@ -23900,46 +23813,56 @@ packages:
       postcss-selector-parser: 6.0.16
     dev: false
 
-  /stylelint-config-recommended-scss@5.0.2(postcss@8.4.38)(stylelint@16.4.0):
-    resolution: {integrity: sha512-b14BSZjcwW0hqbzm9b0S/ScN2+3CO3O4vcMNOw2KGf8lfVSwJ4p5TbNEXKwKl1+0FMtgRXZj6DqVUe/7nGnuBg==, tarball: https://registry.npmjs.org/stylelint-config-recommended-scss/-/stylelint-config-recommended-scss-5.0.2.tgz}
+  /stylelint-config-recommended-scss@14.0.0(postcss@8.4.38)(stylelint@16.4.0):
+    resolution: {integrity: sha512-HDvpoOAQ1RpF+sPbDOT2Q2/YrBDEJDnUymmVmZ7mMCeNiFSdhRdyGEimBkz06wsN+HaFwUh249gDR+I9JR7Onw==, tarball: https://registry.npmjs.org/stylelint-config-recommended-scss/-/stylelint-config-recommended-scss-14.0.0.tgz}
+    engines: {node: '>=18.12.0'}
     peerDependencies:
-      stylelint: ^14.0.0
+      postcss: ^8.3.3
+      stylelint: ^16.0.2
+    peerDependenciesMeta:
+      postcss:
+        optional: true
     dependencies:
+      postcss: 8.4.38
       postcss-scss: 4.0.9(postcss@8.4.38)
       stylelint: 16.4.0(typescript@5.4.5)
-      stylelint-config-recommended: 6.0.0(stylelint@16.4.0)
-      stylelint-scss: 4.7.0(stylelint@16.4.0)
-    transitivePeerDependencies:
-      - postcss
+      stylelint-config-recommended: 14.0.0(stylelint@16.4.0)
+      stylelint-scss: 6.3.0(stylelint@16.4.0)
     dev: true
 
-  /stylelint-config-recommended@6.0.0(stylelint@16.4.0):
-    resolution: {integrity: sha512-ZorSSdyMcxWpROYUvLEMm0vSZud2uB7tX1hzBZwvVY9SV/uly4AvvJPPhCcymZL3fcQhEQG5AELmrxWqtmzacw==, tarball: https://registry.npmjs.org/stylelint-config-recommended/-/stylelint-config-recommended-6.0.0.tgz}
+  /stylelint-config-recommended@14.0.0(stylelint@16.4.0):
+    resolution: {integrity: sha512-jSkx290CglS8StmrLp2TxAppIajzIBZKYm3IxT89Kg6fGlxbPiTiyH9PS5YUuVAFwaJLl1ikiXX0QWjI0jmgZQ==, tarball: https://registry.npmjs.org/stylelint-config-recommended/-/stylelint-config-recommended-14.0.0.tgz}
+    engines: {node: '>=18.12.0'}
     peerDependencies:
-      stylelint: ^14.0.0
+      stylelint: ^16.0.0
     dependencies:
       stylelint: 16.4.0(typescript@5.4.5)
     dev: true
 
-  /stylelint-config-standard-scss@3.0.0(postcss@8.4.38)(stylelint@16.4.0):
-    resolution: {integrity: sha512-zt3ZbzIbllN1iCmc94e4pDxqpkzeR6CJo5DDXzltshuXr+82B8ylHyMMARNnUYrZH80B7wgY7UkKTYCFM0UUyw==, tarball: https://registry.npmjs.org/stylelint-config-standard-scss/-/stylelint-config-standard-scss-3.0.0.tgz}
+  /stylelint-config-standard-scss@13.1.0(postcss@8.4.38)(stylelint@16.4.0):
+    resolution: {integrity: sha512-Eo5w7/XvwGHWkeGLtdm2FZLOMYoZl1omP2/jgFCXyl2x5yNz7/8vv4Tj6slHvMSSUNTaGoam/GAZ0ZhukvalfA==, tarball: https://registry.npmjs.org/stylelint-config-standard-scss/-/stylelint-config-standard-scss-13.1.0.tgz}
+    engines: {node: '>=18.12.0'}
     peerDependencies:
-      stylelint: ^14.0.0
+      postcss: ^8.3.3
+      stylelint: ^16.3.1
+    peerDependenciesMeta:
+      postcss:
+        optional: true
     dependencies:
+      postcss: 8.4.38
       stylelint: 16.4.0(typescript@5.4.5)
-      stylelint-config-recommended-scss: 5.0.2(postcss@8.4.38)(stylelint@16.4.0)
-      stylelint-config-standard: 24.0.0(stylelint@16.4.0)
-    transitivePeerDependencies:
-      - postcss
+      stylelint-config-recommended-scss: 14.0.0(postcss@8.4.38)(stylelint@16.4.0)
+      stylelint-config-standard: 36.0.0(stylelint@16.4.0)
     dev: true
 
-  /stylelint-config-standard@24.0.0(stylelint@16.4.0):
-    resolution: {integrity: sha512-+RtU7fbNT+VlNbdXJvnjc3USNPZRiRVp/d2DxOF/vBDDTi0kH5RX2Ny6errdtZJH3boO+bmqIYEllEmok4jiuw==, tarball: https://registry.npmjs.org/stylelint-config-standard/-/stylelint-config-standard-24.0.0.tgz}
+  /stylelint-config-standard@36.0.0(stylelint@16.4.0):
+    resolution: {integrity: sha512-3Kjyq4d62bYFp/Aq8PMKDwlgUyPU4nacXsjDLWJdNPRUgpuxALu1KnlAHIj36cdtxViVhXexZij65yM0uNIHug==, tarball: https://registry.npmjs.org/stylelint-config-standard/-/stylelint-config-standard-36.0.0.tgz}
+    engines: {node: '>=18.12.0'}
     peerDependencies:
-      stylelint: ^14.0.0
+      stylelint: ^16.1.0
     dependencies:
       stylelint: 16.4.0(typescript@5.4.5)
-      stylelint-config-recommended: 6.0.0(stylelint@16.4.0)
+      stylelint-config-recommended: 14.0.0(stylelint@16.4.0)
     dev: true
 
   /stylelint-order@6.0.4(stylelint@16.4.0):
@@ -23952,11 +23875,13 @@ packages:
       stylelint: 16.4.0(typescript@5.4.5)
     dev: true
 
-  /stylelint-scss@4.7.0(stylelint@16.4.0):
-    resolution: {integrity: sha512-TSUgIeS0H3jqDZnby1UO1Qv3poi1N8wUYIJY6D1tuUq2MN3lwp/rITVo0wD+1SWTmRm0tNmGO0b7nKInnqF6Hg==, tarball: https://registry.npmjs.org/stylelint-scss/-/stylelint-scss-4.7.0.tgz}
+  /stylelint-scss@6.3.0(stylelint@16.4.0):
+    resolution: {integrity: sha512-8OSpiuf1xC7f8kllJsBOFAOYp/mR/C1FXMVeOFjtJPw+AFvEmC93FaklHt7MlOqU4poxuQ1TkYMyfI0V+1SxjA==, tarball: https://registry.npmjs.org/stylelint-scss/-/stylelint-scss-6.3.0.tgz}
+    engines: {node: '>=18.12.0'}
     peerDependencies:
-      stylelint: ^14.5.1 || ^15.0.0
+      stylelint: ^16.0.2
     dependencies:
+      known-css-properties: 0.30.0
       postcss-media-query-parser: 0.2.3
       postcss-resolve-nested-selector: 0.1.1
       postcss-selector-parser: 6.0.16
@@ -24593,16 +24518,6 @@ packages:
     dependencies:
       typescript: 5.4.5
 
-  /ts-clone-node@3.0.0(typescript@4.9.5):
-    resolution: {integrity: sha512-egavvyHbIoelkgh1IC2agNB1uMNjB8VJgh0g/cn0bg2XXTcrtjrGMzEk4OD3Fi2hocICjP3vMa56nkzIzq0FRg==, tarball: https://registry.npmjs.org/ts-clone-node/-/ts-clone-node-3.0.0.tgz}
-    engines: {node: '>=14.9.0'}
-    peerDependencies:
-      typescript: ^3.x || ^4.x || ^5.x
-    dependencies:
-      compatfactory: 3.0.0(typescript@4.9.5)
-      typescript: 4.9.5
-    dev: true
-
   /ts-clone-node@3.0.0(typescript@5.4.5):
     resolution: {integrity: sha512-egavvyHbIoelkgh1IC2agNB1uMNjB8VJgh0g/cn0bg2XXTcrtjrGMzEk4OD3Fi2hocICjP3vMa56nkzIzq0FRg==, tarball: https://registry.npmjs.org/ts-clone-node/-/ts-clone-node-3.0.0.tgz}
     engines: {node: '>=14.9.0'}
@@ -24916,12 +24831,6 @@ packages:
   /typedarray@0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==, tarball: https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz}
     dev: false
-
-  /typescript@4.9.5:
-    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==, tarball: https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: true
 
   /typescript@5.4.5:
     resolution: {integrity: sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==, tarball: https://registry.npmjs.org/typescript/-/typescript-5.4.5.tgz}

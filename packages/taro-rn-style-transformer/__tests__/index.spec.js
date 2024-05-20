@@ -1,17 +1,16 @@
 import StyleTransform, { getWrapedCSS } from '../src/transforms'
-import { TransformOptions } from '../src/types'
 
 // 初始化
 const styleTransform = new StyleTransform({})
 
 async function run (src, filename = './__tests__/styles/a.css', debug?: boolean) {
-  let options: TransformOptions = { platform: 'android' }
+  let options = { platform: 'android' }
 
   if (typeof src === 'object') {
     ({
       src,
       filename = './__tests__/styles/a.css',
-      options = { platform: 'android' } as TransformOptions,
+      options = { platform: 'android' },
       debug
     } = src || {})
   }
