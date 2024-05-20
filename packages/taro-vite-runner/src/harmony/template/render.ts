@@ -147,8 +147,8 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
     TaroSwiper({ node: item, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'SWIPER-ITEM') {
     TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'INNER-HTML') {
-    TaroInnerHtml({ node: item as TaroInnerHtmlElement, createChildItem: createChildItem })
+  } else if (isTaroInnerHtmlElement(item)) {
+    TaroInnerHtml({ node: item, createChildItem: createChildItem })
   } else if (isTaroRichTextElement(item)) {
     TaroRichText({ node: item, createLazyChildren: createLazyChildren })
   } else if (isTaroIconElement(item)) {
