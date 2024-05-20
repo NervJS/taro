@@ -1835,6 +1835,9 @@ importers:
       rollup-plugin-image-file:
         specifier: ^1.0.2
         version: 1.0.2
+      stylelint-config-taro-rn:
+        specifier: workspace:*
+        version: link:../stylelint-config-taro-rn
     devDependencies:
       '@rnx-kit/metro-resolver-symlinks':
         specifier: ^0.1.36

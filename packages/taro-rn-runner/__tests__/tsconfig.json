@@ -3,6 +3,7 @@
   "compilerOptions": {
     "jsx": "react",
     "sourceMap": true,
-    "module": "commonjs"
+    "module": "commonjs",
+    "noUnusedLocals": false,
   }
 }

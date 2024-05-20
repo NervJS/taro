@@ -11,7 +11,7 @@
     "build": "tsc",
     "dev": "tsc -w",
     "lint": "eslint src templates --ext .js,.ts",
-    "test": "jest --silent",
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest",
     "test:ci": "jest --ci -i --coverage --silent",
     "test:coverage": "jest --coverage",
     "test:dev": "jest --watch",
@@ -44,7 +44,8 @@
     "acorn-jsx": "^5.3.2",
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
-    "rollup-plugin-image-file": "^1.0.2"
+    "rollup-plugin-image-file": "^1.0.2",
+    "stylelint-config-taro-rn": "workspace:*"
   },
   "devDependencies": {
     "@rnx-kit/metro-resolver-symlinks": "^0.1.36",

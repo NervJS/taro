@@ -20,10 +20,11 @@ describe('build_components', () => {
         output: 'dist/single'
       }
     })
+
     expect(getCode(result)).toMatchSnapshot()
   })
 
-  it('nativeComponents  not set', async () => {
+  it('nativeComponents not set', async () => {
     const result = await runner(appPath, {
       ...config
     })
