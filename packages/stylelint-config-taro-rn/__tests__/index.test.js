@@ -1,4 +1,4 @@
-import stylelint from 'stylelint'
+const stylelint = require('stylelint')
 
 describe('stylelint-config-react-native-css-modules', () => {
   async function runStylelint (css) {

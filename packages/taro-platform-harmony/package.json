@@ -49,7 +49,6 @@
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
     "solid-js": "^1.8.16",
-    "tslib": "^2.4.0",
-    "typescript": "^4.8.2"
+    "tslib": "^2.4.0"
   }
 }

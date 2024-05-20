@@ -4,7 +4,6 @@
   "description": "Shareable stylelint config for React Native CSS modules",
   "author": "O2Team",
   "license": "MIT",
-  "type": "module",
   "main": "index.js",
   "files": [
     "index.js"
