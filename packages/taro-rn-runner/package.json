@@ -11,11 +11,11 @@
     "build": "tsc",
     "dev": "tsc -w",
     "lint": "eslint src templates --ext .js,.ts",
-    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest",
-    "test:ci": "jest --ci -i --coverage --silent",
-    "test:coverage": "jest --coverage",
-    "test:dev": "jest --watch",
-    "updateSnapshot": "jest --updateSnapshot"
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest --silent",
+    "test:ci": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest --ci -i --coverage --silent",
+    "test:coverage": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest --coverage",
+    "test:dev": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest --watch",
+    "updateSnapshot": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest --updateSnapshot"
   },
   "keywords": [
     "taro"
@@ -49,11 +49,16 @@
   },
   "devDependencies": {
     "@rnx-kit/metro-resolver-symlinks": "^0.1.36",
+    "@tarojs/components": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "babel-plugin-transform-react-jsx-to-rn-stylesheet": "workspace:*",
     "expo": "~51.0.5",
     "expo-file-system": "~16.0.0",
+    "query-string": "^9.0.0",
     "react": "^18.2.0",
+    "react-is": "^18.3.1",
     "react-native": "^0.72.3",
+    "react-native-root-siblings": "^5.0.1",
     "rollup": "^4.16.4"
   },
   "peerDependencies": {

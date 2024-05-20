@@ -1,7 +1,7 @@
 import * as path from 'path'
 
-import runner from '../dist/index'
 import { build } from '../src/config/build-component'
+import runner from '../src/index'
 import { appPath, config } from './mock/components_testdata'
 
 const getCode = (result) => result.output.map(chunk => chunk.code)

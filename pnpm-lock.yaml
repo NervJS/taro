@@ -958,7 +958,7 @@ importers:
         version: 18.2.0
       react-native:
         specifier: ^0.72.3
-        version: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+        version: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-svg:
         specifier: 14.1.0
         version: 14.1.0(react-native@0.72.14)(react@18.2.0)
@@ -1789,7 +1789,7 @@ importers:
         version: 18.2.0
       react-native:
         specifier: ^0.72.3
-        version: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+        version: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
 
   packages/taro-rn-runner:
     dependencies:
@@ -1842,6 +1842,12 @@ importers:
       '@rnx-kit/metro-resolver-symlinks':
         specifier: ^0.1.36
         version: 0.1.36
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       babel-plugin-transform-react-jsx-to-rn-stylesheet:
         specifier: workspace:*
         version: link:../babel-plugin-transform-react-jsx-to-rn-stylesheet
@@ -1851,12 +1857,21 @@ importers:
       expo-file-system:
         specifier: ~16.0.0
         version: 16.0.9(expo@51.0.5)
+      query-string:
+        specifier: ^9.0.0
+        version: 9.0.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
+      react-is:
+        specifier: ^18.3.1
+        version: 18.3.1
       react-native:
         specifier: ^0.72.3
-        version: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+        version: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native-root-siblings:
+        specifier: ^5.0.1
+        version: 5.0.1(react@18.2.0)
       rollup:
         specifier: ^4.16.4
         version: 4.17.2
@@ -1993,7 +2008,7 @@ importers:
         version: 18.2.0
       react-native:
         specifier: ^0.72.3
-        version: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+        version: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-svg:
         specifier: ~14.1.0
         version: 14.1.0(react-native@0.72.14)(react@18.2.0)
@@ -2107,7 +2122,7 @@ importers:
         version: 18.2.0
       react-native:
         specifier: ^0.72.3
-        version: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+        version: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
 
   packages/taro-runner-utils:
     dependencies:
@@ -2167,7 +2182,7 @@ importers:
         version: 18.2.0
       react-native:
         specifier: ^0.72.3
-        version: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+        version: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-device-info:
         specifier: ^10.12.0
         version: 10.12.1(react-native@0.72.14)
@@ -4300,7 +4315,7 @@ packages:
       react-native: '*'
     dependencies:
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /@bang88/react-native-ultimate-listview@4.1.0:
@@ -6548,7 +6563,7 @@ packages:
       react-native: ^0.0.0-0 || >=0.60 <1.0
     dependencies:
       merge-options: 3.0.4
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /@react-native-camera-roll/camera-roll@7.7.0(react-native@0.72.14):
@@ -6557,7 +6572,7 @@ packages:
     peerDependencies:
       react-native: '>=0.59'
     dependencies:
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /@react-native-clipboard/clipboard@1.14.1(react-native@0.72.14)(react@18.2.0):
@@ -6569,7 +6584,7 @@ packages:
       react-native-windows: ^0.61.0 || ^0.62.0 || ^0.63.0 || ^0.64.0 || ^0.65.0 || ^0.66.0 || ^0.67.0 || ^0.68.0 || ^0.69.0 || ^0.70.0 || ^0.71.0 || ^0.72.0 || ^0.73.0
     dependencies:
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /@react-native-community/cli-clean@11.4.1:
@@ -6670,7 +6685,7 @@ packages:
     transitivePeerDependencies:
       - encoding
 
-  /@react-native-community/cli-plugin-metro@11.4.1(@babel/core@7.24.4):
+  /@react-native-community/cli-plugin-metro@11.4.1:
     resolution: {integrity: sha512-JxbIqknYcQ5Z4rWROtu5LNakLfMiKoWcMoPqIrBLrV5ILm1XUJj1/8fATCcotZqV3yzB3SCJ3RrhKx7dQ3YELw==, tarball: https://registry.npmjs.org/@react-native-community/cli-plugin-metro/-/cli-plugin-metro-11.4.1.tgz}
     dependencies:
       '@react-native-community/cli-server-api': 11.4.1
@@ -6680,12 +6695,11 @@ packages:
       metro: 0.76.9
       metro-config: 0.76.9
       metro-core: 0.76.9
-      metro-react-native-babel-transformer: 0.76.9(@babel/core@7.24.4)
+      metro-react-native-babel-transformer: 0.76.9
       metro-resolver: 0.76.9
       metro-runtime: 0.76.9
       readline: 1.3.0
     transitivePeerDependencies:
-      - '@babel/core'
       - bufferutil
       - encoding
       - supports-color
@@ -6746,7 +6760,7 @@ packages:
     dependencies:
       joi: 17.12.3
 
-  /@react-native-community/cli@11.4.1(@babel/core@7.24.4):
+  /@react-native-community/cli@11.4.1:
     resolution: {integrity: sha512-NdAageVMtNhtvRsrq4NgJf5Ey2nA1CqmLvn7PhSawg+aIzMKmZuzWxGVwr9CoPGyjvNiqJlCWrLGR7NzOyi/sA==, tarball: https://registry.npmjs.org/@react-native-community/cli/-/cli-11.4.1.tgz}
     engines: {node: '>=16'}
     hasBin: true
@@ -6756,7 +6770,7 @@ packages:
       '@react-native-community/cli-debugger-ui': 11.4.1
       '@react-native-community/cli-doctor': 11.4.1
       '@react-native-community/cli-hermes': 11.4.1
-      '@react-native-community/cli-plugin-metro': 11.4.1(@babel/core@7.24.4)
+      '@react-native-community/cli-plugin-metro': 11.4.1
       '@react-native-community/cli-server-api': 11.4.1
       '@react-native-community/cli-tools': 11.4.1
       '@react-native-community/cli-types': 11.4.1
@@ -6769,7 +6783,6 @@ packages:
       prompts: 2.4.2
       semver: 7.6.0
     transitivePeerDependencies:
-      - '@babel/core'
       - bufferutil
       - encoding
       - supports-color
@@ -6783,7 +6796,7 @@ packages:
       react-native: '*'
     dependencies:
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /@react-native-community/netinfo@11.3.2(react-native@0.72.14):
@@ -6791,7 +6804,7 @@ packages:
     peerDependencies:
       react-native: '>=0.59'
     dependencies:
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /@react-native-community/slider@4.5.2:
@@ -6805,7 +6818,7 @@ packages:
       react-native: '*'
     dependencies:
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /@react-native/assets-registry@0.72.0:
@@ -6895,11 +6908,9 @@ packages:
       - '@babel/preset-env'
       - supports-color
 
-  /@react-native/babel-preset@0.74.83(@babel/core@7.24.4)(@babel/preset-env@7.24.4):
+  /@react-native/babel-preset@0.74.83(@babel/preset-env@7.24.4):
     resolution: {integrity: sha512-KJuu3XyVh3qgyUer+rEqh9a/JoUxsDOzkJNfRpDyXiAyjDRoVch60X/Xa/NcEQ93iCVHAWs0yQ+XGNGIBCYE6g==, tarball: https://registry.npmjs.org/@react-native/babel-preset/-/babel-preset-0.74.83.tgz}
     engines: {node: '>=18'}
-    peerDependencies:
-      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.24.4(supports-color@9.4.0)
       '@babel/plugin-proposal-async-generator-functions': 7.20.7(@babel/core@7.24.4)
@@ -7135,7 +7146,7 @@ packages:
     dependencies:
       invariant: 2.2.4
       nullthrows: 1.1.1
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
 
   /@react-navigation/bottom-tabs@6.5.20(@react-navigation/native@6.1.17)(react-native-safe-area-context@4.5.0)(react-native-screens@3.31.1)(react-native@0.72.14)(react@18.2.0):
     resolution: {integrity: sha512-ow6Z06iS4VqBO8d7FP+HsGjJLWt2xTWIvuWjpoCvsM/uQXzCRDIjBv9HaKcXbF0yTW7IMir0oDAbU5PFzEDdgA==, tarball: https://registry.npmjs.org/@react-navigation/bottom-tabs/-/bottom-tabs-6.5.20.tgz}
@@ -7150,7 +7161,7 @@ packages:
       '@react-navigation/native': 6.1.17(react-native@0.72.14)(react@18.2.0)
       color: 4.2.3
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-safe-area-context: 4.5.0(react-native@0.72.14)(react@18.2.0)
       react-native-screens: 3.31.1(react-native@0.72.14)(react@18.2.0)
       warn-once: 0.1.1
@@ -7180,7 +7191,7 @@ packages:
     dependencies:
       '@react-navigation/native': 6.1.17(react-native@0.72.14)(react@18.2.0)
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-safe-area-context: 4.5.0(react-native@0.72.14)(react@18.2.0)
     dev: false
 
@@ -7196,7 +7207,7 @@ packages:
       '@react-navigation/elements': 1.3.30(@react-navigation/native@6.1.17)(react-native-safe-area-context@4.5.0)(react-native@0.72.14)(react@18.2.0)
       '@react-navigation/native': 6.1.17(react-native@0.72.14)(react@18.2.0)
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-safe-area-context: 4.5.0(react-native@0.72.14)(react@18.2.0)
       react-native-screens: 3.31.1(react-native@0.72.14)(react@18.2.0)
       warn-once: 0.1.1
@@ -7213,7 +7224,7 @@ packages:
       fast-deep-equal: 3.1.3
       nanoid: 3.3.7
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /@react-navigation/routers@6.1.9:
@@ -7236,7 +7247,7 @@ packages:
       '@react-navigation/native': 6.1.17(react-native@0.72.14)(react@18.2.0)
       color: 4.2.3
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-gesture-handler: 2.16.2(react-native@0.72.14)(react@18.2.0)
       react-native-safe-area-context: 4.5.0(react-native@0.72.14)(react@18.2.0)
       react-native-screens: 3.31.1(react-native@0.72.14)(react@18.2.0)
@@ -8255,7 +8266,7 @@ packages:
       jest-matcher-utils: 29.7.0
       pretty-format: 29.7.0
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
       redent: 3.0.0
     dev: true
 
@@ -8274,7 +8285,7 @@ packages:
       jest-matcher-utils: 29.7.0
       pretty-format: 29.7.0
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
       redent: 3.0.0
     dev: true
 
@@ -10344,7 +10355,7 @@ packages:
       '@babel/plugin-transform-parameters': 7.24.5(@babel/core@7.24.4)
       '@babel/preset-react': 7.24.1(@babel/core@7.24.4)
       '@babel/preset-typescript': 7.24.1(@babel/core@7.24.4)
-      '@react-native/babel-preset': 0.74.83(@babel/core@7.24.4)(@babel/preset-env@7.24.4)
+      '@react-native/babel-preset': 0.74.83(@babel/preset-env@7.24.4)
       babel-plugin-react-native-web: 0.19.11
       react-refresh: 0.14.2
     transitivePeerDependencies:
@@ -12414,7 +12425,6 @@ packages:
   /decode-uri-component@0.4.1:
     resolution: {integrity: sha512-+8VxcR21HhTy8nOt6jf20w0c9CADrw1O8d+VZ/YzzCt4bJ3uBjw+D1q2osAB8RnpwwaeYBxy0HyKQxD5JBMuuQ==, tarball: https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.4.1.tgz}
     engines: {node: '>=14.16'}
-    dev: false
 
   /decompress-response@3.3.0:
     resolution: {integrity: sha512-BzRPQuY1ip+qDonAOz42gRm/pg9F768C+npV/4JOsxRC2sq+Rlk+Q4ZCAsOhnIaMrgarILY+RMUIvMmmX1qAEA==, tarball: https://registry.npmjs.org/decompress-response/-/decompress-response-3.3.0.tgz}
@@ -14379,7 +14389,6 @@ packages:
   /filter-obj@5.1.0:
     resolution: {integrity: sha512-qWeTREPoT7I0bifpPUXtxkZJ1XJzxWtfoWWkdVGqa+eCr3SHW/Ocp89o8vLvbUuQnadybJpjOKu4V+RwO6sGng==, tarball: https://registry.npmjs.org/filter-obj/-/filter-obj-5.1.0.tgz}
     engines: {node: '>=14.16'}
-    dev: false
 
   /finalhandler@1.1.2:
     resolution: {integrity: sha512-aAWcW57uxVNrQZqFXjITpW3sIUQmHGG3qSb9mUah9MgMC4NeWhNOlNjXEYq3HjRAvL6arUviZGGJsBg6z0zsWA==, tarball: https://registry.npmjs.org/finalhandler/-/finalhandler-1.1.2.tgz}
@@ -18885,11 +18894,9 @@ packages:
     dependencies:
       uglify-es: 3.3.9
 
-  /metro-react-native-babel-preset@0.76.9(@babel/core@7.24.4):
+  /metro-react-native-babel-preset@0.76.9:
     resolution: {integrity: sha512-eCBtW/UkJPDr6HlMgFEGF+964DZsUEF9RGeJdZLKWE7d/0nY3ABZ9ZAGxzu9efQ35EWRox5bDMXUGaOwUe5ikQ==, tarball: https://registry.npmjs.org/metro-react-native-babel-preset/-/metro-react-native-babel-preset-0.76.9.tgz}
     engines: {node: '>=16'}
-    peerDependencies:
-      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.24.4(supports-color@9.4.0)
       '@babel/plugin-proposal-async-generator-functions': 7.20.7(@babel/core@7.24.4)
@@ -18933,16 +18940,14 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /metro-react-native-babel-transformer@0.76.9(@babel/core@7.24.4):
+  /metro-react-native-babel-transformer@0.76.9:
     resolution: {integrity: sha512-xXzHcfngSIkbQj+U7i/anFkNL0q2QVarYSzr34CFkzKLa79Rp16B8ki7z9eVVqo9W3B4TBcTXl3BipgRoOoZSQ==, tarball: https://registry.npmjs.org/metro-react-native-babel-transformer/-/metro-react-native-babel-transformer-0.76.9.tgz}
     engines: {node: '>=16'}
-    peerDependencies:
-      '@babel/core': '*'
     dependencies:
       '@babel/core': 7.24.4(supports-color@9.4.0)
       babel-preset-fbjs: 3.4.0(@babel/core@7.24.4)
       hermes-parser: 0.12.0
-      metro-react-native-babel-preset: 0.76.9(@babel/core@7.24.4)
+      metro-react-native-babel-preset: 0.76.9
       nullthrows: 1.1.1
     transitivePeerDependencies:
       - supports-color
@@ -19136,7 +19141,7 @@ packages:
       metro-file-map: 0.76.9
       metro-inspector-proxy: 0.76.9
       metro-minify-uglify: 0.76.9
-      metro-react-native-babel-preset: 0.76.9(@babel/core@7.24.4)
+      metro-react-native-babel-preset: 0.76.9
       metro-resolver: 0.76.9
       metro-runtime: 0.76.9
       metro-source-map: 0.76.9
@@ -21724,7 +21729,6 @@ packages:
       decode-uri-component: 0.4.1
       filter-obj: 5.1.0
       split-on-first: 3.0.0
-    dev: false
 
   /querystringify@2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==, tarball: https://registry.npmjs.org/querystringify/-/querystringify-2.2.0.tgz}
@@ -21850,7 +21854,7 @@ packages:
       react-native: '*'
     dependencies:
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /react-native-device-info@10.12.1(react-native@0.72.14):
@@ -21858,7 +21862,7 @@ packages:
     peerDependencies:
       react-native: '*'
     dependencies:
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: true
 
   /react-native-device-info@11.1.0(react-native@0.72.14):
@@ -21866,7 +21870,7 @@ packages:
     peerDependencies:
       react-native: '*'
     dependencies:
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /react-native-gesture-handler@2.16.2(react-native@0.72.14)(react@18.2.0):
@@ -21881,7 +21885,7 @@ packages:
       lodash: 4.17.21
       prop-types: 15.8.1
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /react-native-image-pan-zoom@2.1.12(react-native@0.72.14)(react@18.2.0):
@@ -21891,7 +21895,7 @@ packages:
       react-native: '*'
     dependencies:
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /react-native-image-zoom-viewer@3.0.1(react-native@0.72.14)(react@18.2.0):
@@ -21901,7 +21905,7 @@ packages:
       react-native: '*'
     dependencies:
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-image-pan-zoom: 2.1.12(react-native@0.72.14)(react@18.2.0)
     dev: false
 
@@ -21921,7 +21925,7 @@ packages:
     dependencies:
       '@types/geojson': 7946.0.14
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /react-native-modal-popover@2.1.3(react-native@0.72.14)(react@18.2.0):
@@ -21933,7 +21937,7 @@ packages:
       lodash: 4.17.21
       prop-types: 15.8.1
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /react-native-pager-view@6.3.1(react-native@0.72.14)(react@18.2.0):
@@ -21943,7 +21947,7 @@ packages:
       react-native: '*'
     dependencies:
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /react-native-root-siblings@5.0.1(react@18.2.0):
@@ -21963,7 +21967,7 @@ packages:
       react-native: '*'
     dependencies:
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /react-native-safe-area-context@4.5.0(react-native@0.72.14)(react@18.2.0):
@@ -21973,7 +21977,7 @@ packages:
       react-native: '*'
     dependencies:
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
   /react-native-screens@3.31.1(react-native@0.72.14)(react@18.2.0):
@@ -21984,7 +21988,7 @@ packages:
     dependencies:
       react: 18.2.0
       react-freeze: 1.0.4(react@18.2.0)
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
       warn-once: 0.1.1
     dev: false
 
@@ -21998,7 +22002,7 @@ packages:
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0)
       '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)(typescript@5.4.5)
       path-dirname: 1.0.2
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
       react-native-svg: 14.1.0(react-native@0.72.14)(react@18.2.0)
     transitivePeerDependencies:
       - supports-color
@@ -22014,7 +22018,7 @@ packages:
       css-select: 5.1.0
       css-tree: 1.1.3
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
 
   /react-native-webview@13.10.2(react-native@0.72.14)(react@18.2.0):
     resolution: {integrity: sha512-rjrTuPBtpHbI3owoyvSR+bRJqHfsdo5V3nVfU+G65CotkSLewEcGfA9cq7Qv3nzm5t0KEDIt0G/n7hQFjsXihQ==, tarball: https://registry.npmjs.org/react-native-webview/-/react-native-webview-13.10.2.tgz}
@@ -22025,10 +22029,10 @@ packages:
       escape-string-regexp: 2.0.0
       invariant: 2.2.4
       react: 18.2.0
-      react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
+      react-native: 0.72.14(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
-  /react-native@0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0):
+  /react-native@0.72.14(@babel/preset-env@7.24.4)(react@18.2.0):
     resolution: {integrity: sha512-7L0ync/mSyyUPL09lXYFiseibKwhXs4dWVm8olWfFAKqe8xjwsGD4CWXCUEydhHI906FIhJKMjIK59wb98zAug==, tarball: https://registry.npmjs.org/react-native/-/react-native-0.72.14.tgz}
     engines: {node: '>=16'}
     hasBin: true
@@ -22036,7 +22040,7 @@ packages:
       react: 18.2.0
     dependencies:
       '@jest/create-cache-key-function': 29.7.0
-      '@react-native-community/cli': 11.4.1(@babel/core@7.24.4)
+      '@react-native-community/cli': 11.4.1
       '@react-native-community/cli-platform-android': 11.4.1
       '@react-native-community/cli-platform-ios': 11.4.1
       '@react-native/assets-registry': 0.72.0
@@ -22074,7 +22078,6 @@ packages:
       ws: 6.2.2
       yargs: 17.7.2
     transitivePeerDependencies:
-      - '@babel/core'
       - '@babel/preset-env'
       - bufferutil
       - encoding
@@ -22111,7 +22114,7 @@ packages:
     dependencies:
       object-assign: 4.1.1
       react: 18.2.0
-      react-is: 16.13.1
+      react-is: 18.3.1
 
   /react-test-renderer@18.2.0(react@18.2.0):
     resolution: {integrity: sha512-JWD+aQ0lh2gvh4NM3bBM42Kx+XybOxCpgYK7F8ugAlpaTSnWsX+39Z4XkOykGZAHrjwwTZT3x3KxswVWxHPUqA==, tarball: https://registry.npmjs.org/react-test-renderer/-/react-test-renderer-18.2.0.tgz}
@@ -23459,7 +23462,6 @@ packages:
   /split-on-first@3.0.0:
     resolution: {integrity: sha512-qxQJTx2ryR0Dw0ITYyekNQWpz6f8dGd7vffGNflQQ3Iqj9NJ6qiZ7ELpZsJ/QBhIVAiDfXdag3+Gp8RvWa62AA==, tarball: https://registry.npmjs.org/split-on-first/-/split-on-first-3.0.0.tgz}
     engines: {node: '>=12'}
-    dev: false
 
   /split-string@3.1.0:
     resolution: {integrity: sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==, tarball: https://registry.npmjs.org/split-string/-/split-string-3.1.0.tgz}

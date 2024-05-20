@@ -108,7 +108,10 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
       }),
       // @ts-ignore
       pluginReplace({
-        'process.env.NODE_ENV': JSON.stringify('production')
+        preventAssignment: true,
+        values: {
+          'process.env.NODE_ENV': JSON.stringify('production')
+        }
       }),
       // @ts-ignore
       commonjs(),
