@@ -23,7 +23,7 @@ export interface TaroExtraProps {
   __hmStyle?: TaroStyleType
 }
 
-export function isTaroElement (item: TaroAny): item is TaroElement{
+export function isTaroElement (item: TaroAny): item is TaroElement {
   return item instanceof TaroElement
 }
 

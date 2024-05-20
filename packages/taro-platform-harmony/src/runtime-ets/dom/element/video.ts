@@ -2,7 +2,7 @@ import { TaroElement } from './element'
 import type { TaroAny } from '@tarojs/runtime'
 import type { VideoProps } from '@tarojs/components/types'
 
-export function isTaroVideoElement (item: TaroAny): item is TaroVideoElement{
+export function isTaroVideoElement (item: TaroAny): item is TaroVideoElement {
   return item?.tagName === "VIDEO"
 }
  

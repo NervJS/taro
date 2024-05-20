@@ -3,7 +3,7 @@ import { TaroElement } from './element'
 import type { TaroAny } from '@tarojs/runtime'
 import type { ScrollViewProps } from '@tarojs/components/types'
 
-export function isTaroScrollViewElement (item: TaroAny): item is TaroScrollViewElement{
+export function isTaroScrollViewElement (item: TaroAny): item is TaroScrollViewElement {
   return item?.tagName === "SCROLL-VIEW"
 }
  

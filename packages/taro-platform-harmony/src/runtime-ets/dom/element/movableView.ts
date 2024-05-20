@@ -22,7 +22,7 @@ function calcPosition(postion: number, start: number, end: number) {
   }
 }
 
-export function isTaroMovableViewElement (item: TaroAny): item is TaroMovableViewElement{
+export function isTaroMovableViewElement (item: TaroAny): item is TaroMovableViewElement {
   return item?.tagName === "MOVABLE-VIEW"
 }
  

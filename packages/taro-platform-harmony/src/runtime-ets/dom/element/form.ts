@@ -126,7 +126,7 @@ class TaroCheckedElement<T extends StandardProps & { checked?: boolean } = Stand
   }
 }
 
-export function isTaroInputElement (item: TaroAny): item is TaroInputElement{
+export function isTaroInputElement (item: TaroAny): item is TaroInputElement {
   return item?.tagName === "INPUT"
 }
 
@@ -190,7 +190,7 @@ class TaroInputElement<T extends FormWidgetProps = InputProps> extends TaroFormW
   }
 }
 
-export function isTaroTextAreaElement (item: TaroAny): item is TaroTextAreaElement{
+export function isTaroTextAreaElement (item: TaroAny): item is TaroTextAreaElement {
   return item?.tagName === "TEXT-AREA"
 }
 
@@ -202,7 +202,7 @@ class TaroTextAreaElement extends TaroInputElement<TextareaProps> {
     super('TextArea')
   }
 }
-export function isTaroCheckboxElement (item: TaroAny): item is TaroCheckboxElement{
+export function isTaroCheckboxElement (item: TaroAny): item is TaroCheckboxElement {
   return item?.tagName === "CHECKBOX"
 }
 
@@ -213,7 +213,7 @@ class TaroCheckboxElement extends TaroCheckedElement<CheckboxProps> {
   }
 }
 
-export function isTaroRadioElement (item: TaroAny): item is TaroRadioElement{
+export function isTaroRadioElement (item: TaroAny): item is TaroRadioElement {
   return item?.tagName === "RADIO"
 }
 
@@ -226,7 +226,7 @@ class TaroRadioElement extends TaroCheckedElement<RadioProps> {
   }
 }
 
-export function isTaroSliderElement (item: TaroAny): item is TaroSliderElement{
+export function isTaroSliderElement (item: TaroAny): item is TaroSliderElement {
   return item?.tagName === "SLIDER"
 }
 
@@ -238,7 +238,7 @@ class TaroSliderElement extends TaroFormWidgetElement<SliderProps> {
     this._nodeInfo._value = Number(this._attrs.value || 0)
   }
 }
-export function isTaroPickerElement (item: TaroAny): item is TaroPickerElement{
+export function isTaroPickerElement (item: TaroAny): item is TaroPickerElement {
   return item?.tagName === "PICKER"
 }
 
@@ -291,7 +291,7 @@ class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | Pick
   }
 }
 
-export function isTaroSwitchElement (item: TaroAny): item is TaroSwitchElement{
+export function isTaroSwitchElement (item: TaroAny): item is TaroSwitchElement {
   return item?.tagName === "SWITCH"
 }
 
@@ -301,7 +301,7 @@ class TaroSwitchElement extends TaroCheckedElement<SwitchProps> {
     super('Switch')
   }
 }
-export function isTaroCheckboxGroupElement (item: TaroAny): item is TaroCheckboxGroupElement{
+export function isTaroCheckboxGroupElement (item: TaroAny): item is TaroCheckboxGroupElement {
   return item?.tagName === "CHECKBOX-GROUP"
 }
 
@@ -331,7 +331,7 @@ class TaroCheckboxGroupElement extends TaroFormWidgetElement<CheckboxGroupProps>
   }
 }
 
-export function isTaroRadioGroupElement (item: TaroAny): item is TaroRadioGroupElement{
+export function isTaroRadioGroupElement (item: TaroAny): item is TaroRadioGroupElement {
   return item?.tagName === "RADIO-GROUP"
 }
 
@@ -361,7 +361,7 @@ class TaroRadioGroupElement extends TaroFormWidgetElement<RadioGroupProps> {
   }
 }
 
-export function isTaroFormElement (item: TaroAny): item is TaroFormElement{
+export function isTaroFormElement (item: TaroAny): item is TaroFormElement {
   return item?.tagName === "FORM"
 }
 
