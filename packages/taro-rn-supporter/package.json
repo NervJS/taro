@@ -6,8 +6,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "files": [
-    "dist/",
-    "src/types/",
+    "dist",
     "entry-file.js",
     "TerminalReporter.js"
   ],

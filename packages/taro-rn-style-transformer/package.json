@@ -14,10 +14,9 @@
     "clean": "rimraf --impl=move-remove ./dist",
     "build": "tsc",
     "dev": "tsc -w",
-    "lint": "eslint src --ext .js,.ts",
-    "test": "jest",
-    "test:ci": "jest --ci -i --coverage --silent",
-    "test:clear": "jest --clearCache"
+    "lint": "eslint src __tests__ --ext .js,.ts",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
@@ -30,10 +29,10 @@
     "node": ">= 18"
   },
   "dependencies": {
+    "@react-native/metro-babel-transformer": "^0.73.2",
     "@tarojs/helper": "workspace:*",
     "fbjs": "^3.0.5",
     "less": "^4.2.0",
-    "@react-native/metro-babel-transformer": "^0.73.2",
     "postcss-import": "^16.1.0",
     "postcss-pxtransform": "workspace:*",
     "postcss-reporter": "^7.1.0",
@@ -48,8 +47,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
-    "postcss": "^8.4.38",
-    "react": "^18.2.0"
+    "postcss": "^8.4.38"
   },
   "peerDependencies": {
     "postcss": ">= 8"

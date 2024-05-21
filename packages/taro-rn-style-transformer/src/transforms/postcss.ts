@@ -55,6 +55,7 @@ export function makePostcssPlugins ({
   ]
 
   if (pxtransformOption.enable) {
+    // @ts-ignore
     plugins.push(pxtransform(pxtransformOption.config))
   }
 

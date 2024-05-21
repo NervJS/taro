@@ -10,7 +10,7 @@ const getDirectories = source =>
 
 const info = '// 由 getLibList.js 脚本生成, 不要进行手动修改, 请不要手动修改'
 const dirs = getDirectories(path.join(__dirname, '../src/lib'))
-console.log(`dirs: ${dirs}\n`)
+// console.log(`dirs: ${dirs}\n`)
 const fileString = (`${info}
 module.exports = ${JSON.stringify(dirs, null, 2).replace(/"/g, "'")}\n`)
 

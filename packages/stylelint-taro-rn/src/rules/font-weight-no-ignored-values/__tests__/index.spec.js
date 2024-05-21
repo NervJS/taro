@@ -1,9 +1,9 @@
-import rule, { messages, ruleName } from '..'
+import { messages, ruleName } from '../index.js'
 
 const acceptedWeights = ['400', '700', 'normal', 'bold']
 const rejectedWeights = ['100', '200', '300', '500', '600', '800', '900']
 
-testRule(rule, {
+testRule({
   ruleName,
   config: [true],
 

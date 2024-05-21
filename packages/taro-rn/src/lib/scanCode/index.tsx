@@ -1,12 +1,13 @@
-import { initialWindowMetrics } from 'react-native-safe-area-context'
-import { BarcodeType, CameraView } from 'expo-camera'
 import { BarCodeScanner, requestPermissionsAsync } from 'expo-barcode-scanner'
-import { BackHandler, Image, TouchableOpacity, StyleSheet, View, Dimensions, Platform, StatusBar } from 'react-native'
+import { BarcodeType, CameraView } from 'expo-camera'
+import React from 'react'
+import { BackHandler, Dimensions, Image, Platform, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native'
+import RootSiblings from 'react-native-root-siblings'
+import { initialWindowMetrics } from 'react-native-safe-area-context'
+
+import { chooseMedia, MEDIA_TYPE } from '../media'
 import iconClose from './icon_close.png'
 import iconPic from './icon_pic.png'
-import RootSiblings from 'react-native-root-siblings'
-import { chooseMedia, MEDIA_TYPE } from '../media'
-import React from 'react'
 
 export let scannerView
 
@@ -150,7 +151,7 @@ function scanFromPhoto(callback, errorCallBack) {
 
 export async function scanCode(option: Taro.scanCode.Option = {}): Promise<Taro.scanCode.SuccessCallbackResult> {
   const { success, fail, complete, onlyFromCamera, scanType = ['barCode', 'qrCode'] } = option
-  const { granted } = await requestPermissionsAsync();
+  const { granted } = await requestPermissionsAsync()
   if (!granted) {
     const res = { errMsg: 'Permissions denied!' }
     fail?.(res)

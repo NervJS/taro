@@ -1,6 +1,6 @@
-import rule, { messages, ruleName } from '..'
+import { messages, ruleName } from '../index.js'
 
-testRule(rule, {
+testRule({
   ruleName,
   config: [true],
 

@@ -1,6 +1,6 @@
-import rule, { messages, ruleName } from '..'
+import { messages, ruleName } from '../index.js'
 
-testRule(rule, {
+testRule({
   ruleName,
   config: [true],
 
@@ -97,7 +97,7 @@ testRule(rule, {
   ]
 })
 
-testRule(rule, {
+testRule({
   ruleName,
   syntax: 'postcss-scss',
   config: [true],
@@ -118,7 +118,7 @@ testRule(rule, {
   ]
 })
 
-testRule(rule, {
+testRule({
   ruleName,
   syntax: 'postcss-less',
   config: [true],
@@ -143,7 +143,7 @@ testRule(rule, {
   ]
 })
 
-testRule(rule, {
+testRule({
   ruleName,
   config: [
     true,

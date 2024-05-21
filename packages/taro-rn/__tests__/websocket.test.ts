@@ -6,7 +6,6 @@ const Taro = Object.assign({}, connectSocket)
 
 describe('websocket', () => {
   beforeEach(() => {
-    // @ts-ignore
     global.WebSocket = WebSocket
   })
 
@@ -105,7 +104,7 @@ describe('websocket', () => {
     socketTaskTwo.close({})
     socketTaskThree.close({})
   })
-  // @ts-ignore
+
   test('should work basically', (done) => {
     const fakeURL = 'wss://localhost:8080'
     const mockServer = new Server(fakeURL)

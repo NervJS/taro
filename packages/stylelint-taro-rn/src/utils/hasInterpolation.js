@@ -1,4 +1,6 @@
-import { hasLessInterpolation, hasPsvInterpolation, hasScssInterpolation } from '../utils'
+import { hasLessInterpolation } from './hasLessInterpolation.js'
+import { hasPsvInterpolation } from './hasPsvInterpolation.js'
+import { hasScssInterpolation } from './hasScssInterpolation.js'
 
 /**
  * Check whether a string has interpolation
