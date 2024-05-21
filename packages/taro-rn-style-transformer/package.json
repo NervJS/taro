@@ -15,9 +15,8 @@
     "build": "tsc",
     "dev": "tsc -w",
     "lint": "eslint src __tests__ --ext .js,.ts",
-    "test": "jest",
-    "test:ci": "jest --ci -i --coverage --silent",
-    "test:clear": "jest --clearCache"
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage"
   },
   "repository": {
     "type": "git",

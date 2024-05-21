@@ -63,7 +63,7 @@ export function makePostcssPlugins ({
 
   plugins.push(
     // @ts-ignore
-    // stylelint(stylelintConfig),
+    stylelint(stylelintConfig),
     // @ts-ignore
     reporterSkip({ skipRows, filename }),
     require('postcss-reporter')({ clearReportedMessages: true })

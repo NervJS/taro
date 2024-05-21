@@ -1,9 +1,11 @@
+import { describe, expect, test } from 'vitest'
+
 import StyleTransform, { getWrapedCSS } from '../src/transforms'
 
 // 初始化config
 const styleTransform = new StyleTransform({})
 
-async function run (src, filename = './__tests__/styles/a.css', options = { platform: 'android' }, debug?: boolean) {
+async function run (src, filename = './__tests__/styles/a.css', options = { platform: 'android' }, debug) {
   if (typeof src === 'object') {
     ({
       src,
@@ -22,7 +24,7 @@ async function run (src, filename = './__tests__/styles/a.css', options = { plat
 }
 
 describe('style transform in cross platform', () => {
-  it('postcss cross platform conditional compile', async () => {
+  test('postcss cross platform conditional compile', async () => {
     const css = await run(`
       .test {
         color: red;
@@ -44,7 +46,7 @@ describe('style transform in cross platform', () => {
 }`))
   })
 
-  it('not surport style', async () => {
+  test('not surport style', async () => {
     const css = await run(`
       .test {
         o: 0.5;
@@ -59,7 +61,7 @@ describe('style transform in cross platform', () => {
 }`))
   })
 
-  it('nest sass import cross platform', async () => {
+  test('nest sass import cross platform', async () => {
     const css = await run({
       filename: './__tests__/styles/a.scss',
       src: "@import './c.scss';"
