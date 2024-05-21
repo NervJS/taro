@@ -53,10 +53,11 @@
     "@tarojs/components-advanced": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
+    "hammerjs": "^2.0.8",
     "hls.js": "^1.1.5",
     "resolve-pathname": "^3.0.0",
-    "tslib": "^2.6.2",
-    "swiper": "6.8.0"
+    "swiper": "6.8.0",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@babel/generator": "^7.20.0",
@@ -74,6 +75,7 @@
     "lightningcss": "^1.22.1",
     "lodash": "^4.17.21",
     "miniapp-types": "1.6.0",
+    "mkdirp": "^1.0.4",
     "puppeteer": "^19.2.0",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
@@ -81,8 +83,7 @@
     "stencil-vue2-output-target": "0.0.4",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^3.14.1",
-    "typescript": "^5.3.3",
-    "mkdirp": "^1.0.4"
+    "typescript": "^5.3.3"
   },
   "peerDependenciesMeta": {
     "@types/react": {
