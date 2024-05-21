@@ -41,7 +41,6 @@
     "@tarojs/components": "workspace:*",
     "@tarojs/components-react": "workspace:*",
     "@tarojs/runtime": "workspace:*",
-    "@tarojs/router": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/helper": "workspace:*",
