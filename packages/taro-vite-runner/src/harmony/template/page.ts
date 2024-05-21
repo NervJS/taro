@@ -352,6 +352,9 @@ return state`,
 .height('100%')
 .width('100%')
 .backgroundColor(this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
+.padding({
+  top: px2vp(sysInfo.safeArea?.top || 0),
+})
 .zIndex(1)`,
       })
 
@@ -844,7 +847,7 @@ ${this.transArr2Str(pageStr.split('\n'), 4)}
 .backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColor || '#FFFFFF'}")
 .height('100%')
 .width('100%')
-.title(this.renderTitle)
+.title({ builder: this.renderTitle, height: 48 + px2vp(sysInfo.safeArea?.top || 0) })
 .titleMode(NavigationTitleMode.Mini)
 .hideTitleBar(${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle === 'custom'`})
 .hideBackButton(true)`
@@ -874,9 +877,10 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   this.handlePageAppear()
   callFn(this.page?.onShow, this)
 })
-.backgroundColor(this.tabBarBackgroundColor)`
-    } else {
-      pageStr += '\n.expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])'
+.backgroundColor(this.tabBarBackgroundColor)
+.padding({
+  bottom: px2vp(sysInfo.screenHeight - (sysInfo.safeArea?.bottom || 0)),
+})`
     }
     if (SHOW_TREE) {
       pageStr = this.transArr2Str([
@@ -1014,6 +1018,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
       isBlended ? this.#setReconciler : '',
       'import router from "@ohos.router"',
       'import { TaroView } from "@tarojs/components"',
+      'import { getSystemInfoSync } from "@tarojs/taro"',
       'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window, document } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       `import { createLazyChildren } from "${renderPath}"`,
@@ -1047,6 +1052,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
           isBlended && this.#setReconcilerPost ? this.#setReconcilerPost : null,
         ],
       '',
+      'const sysInfo: TaroAny = getSystemInfoSync()',
       this.getInstantiatePage(page),
     ])
 
