@@ -61,10 +61,10 @@ describe('interactive', function () {
         ].filter(Boolean)}
       ><Text>Test</Text></Dialog>)
       expect(getByText('TITLE')).toHaveStyle({
-        fontSize: 18
+        fontSize: 17
       })
       expect(getByText('Test')).toHaveStyle({
-        fontSize: 15
+        fontSize: 17
       })
       expect(getByText('confirm')).toHaveStyle({
         color: '#3CC51F'

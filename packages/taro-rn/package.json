@@ -19,7 +19,7 @@
     "clean": "rimraf --impl=move-remove ./dist apiList.js libList.js",
     "build": "tsc && pnpm run assets && pnpm run script",
     "dev": "pnpm run assets && tsc --watch",
-    "lint": "eslint src script __tests__ --ext .js,.ts",
+    "lint": "eslint src script __tests__ --ext .js,.jsx.ts,.tsx",
     "test": "jest --silent",
     "test:ci": "jest --ci -i --coverage --silent",
     "test:coverage": "jest --coverage",
@@ -74,7 +74,7 @@
     "dpdm": "^3.14.0",
     "expo": "~51.0.5",
     "jest-expo": "^51.0.1",
-    "mock-socket": "^9.3.1",
+    "mock-socket": "^7.1.0",
     "react": "^18.2.0",
     "react-native": "^0.72.3"
   },

@@ -1,14 +1,15 @@
-import React from 'react'
+import { TextPropTypes, ViewPropTypes } from 'deprecated-react-native-prop-types'
 import PropTypes from 'prop-types'
+import React from 'react'
 import {
-  View,
+  Dimensions,
+  Platform,
+  StyleSheet,
   Text,
   TouchableHighlight,
-  Dimensions,
-  StyleSheet,
-  Platform
+  View
 } from 'react-native'
-import { ViewPropTypes, TextPropTypes } from 'deprecated-react-native-prop-types'
+
 import { Mask } from '../Mask'
 import { create } from '../StyleSheet'
 import V from '../variable'
