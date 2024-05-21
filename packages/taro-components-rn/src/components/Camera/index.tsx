@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import View from '../View'
 import Text from '../Text'
-import { BarcodeScanningResult, Camera, CameraView, CameraMountError, PermissionStatus } from 'expo-camera'
-import { BarCodeScanner } from 'expo-barcode-scanner'
+import { BarcodeScanningResult, Camera, CameraView, CameraMountError, PermissionStatus, BarcodeType } from 'expo-camera'
 import { CameraProps, CameraState } from './PropsType'
 import styles from './styles'
+import { CameraType } from 'expo-camera/build/legacy/Camera.types'
 
 export class _Camera extends Component<CameraProps, CameraState> {
   constructor(props: CameraProps) {
@@ -46,7 +46,7 @@ export class _Camera extends Component<CameraProps, CameraState> {
   render(): JSX.Element {
     const { hasPermission } = this.state
     const { devicePosition, style, mode, flash } = this.props
-    const type = !devicePosition ? null : CameraView.Constants.Type[devicePosition]
+    const type = !devicePosition ? CameraType.front : CameraType[devicePosition]
 
     if (hasPermission === null) {
       return <View />
@@ -58,7 +58,7 @@ export class _Camera extends Component<CameraProps, CameraState> {
       mode === 'scanCode'
         ? {
           barCodeScannerSettings: {
-            barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr]
+            barCodeTypes: ['qr'] as BarcodeType[]
           },
           onBarCodeScanned: this.onScanCode
         }
@@ -66,12 +66,10 @@ export class _Camera extends Component<CameraProps, CameraState> {
     return (
       <CameraView
         ref={this.expoCameraRef}
-        // @ts-ignore
-        type={type}
-        flashMode={flash}
+        facing={type}
+        flash={flash}
         onMountError={this.onError}
         onCameraReady={this.onInitDone}
-        ratio={this.props.ratio}
         {...barCodeScannerSettings}
         style={[styles.camera, style]}
       />
