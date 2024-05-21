@@ -1,4 +1,5 @@
 import * as path from 'path'
+import { describe, expect, test } from 'vitest'
 
 import { build } from '../src/config/build-component'
 import runner from '../src/index'
@@ -7,12 +8,7 @@ import { appPath, config } from './mock/components_testdata'
 const getCode = (result) => result.output.map(chunk => chunk.code)
 
 describe('build_components', () => {
-  const spy = jest.spyOn(process, 'cwd')
-  spy.mockReturnValue(path.resolve(__dirname, '', 'mock'))
-  // metro runServer 容易超时
-  jest.setTimeout(300000)
-
-  it('single component', async () => {
+  test('single component', async () => {
     const result = await runner(appPath, {
       ...config,
       nativeComponents: {
@@ -24,14 +20,12 @@ describe('build_components', () => {
     expect(getCode(result)).toMatchSnapshot()
   })
 
-  it('nativeComponents not set', async () => {
-    const result = await runner(appPath, {
-      ...config
-    })
+  test('nativeComponents not set', async () => {
+    const result = await runner(appPath, { ...config })
     expect(getCode(result)).toMatchSnapshot()
   })
 
-  it('multiple components', async () => {
+  test('multiple components', async () => {
     const result = await build(config, {
       input: ['components/cell/index', 'components/navbar/index'],
       sourceRootPath: path.resolve(__dirname, './mock/src'),
@@ -42,7 +36,7 @@ describe('build_components', () => {
     expect(getCode(result)).toMatchSnapshot()
   })
 
-  it('modify rollup config', async () => {
+  test('modify rollup config', async () => {
     const result = await build(config, {
       input: ['components/cell/index', 'components/navbar/index'],
       sourceRootPath: path.resolve(__dirname, './mock/src'),
@@ -61,7 +55,7 @@ describe('build_components', () => {
     expect(getCode(result)).toMatchSnapshot()
   })
 
-  it('svg transform', async () => {
+  test('svg transform', async () => {
     const result = await build(config, {
       input: ['components/svg/index'],
       sourceRootPath: path.resolve(__dirname, './mock/src'),
@@ -72,7 +66,7 @@ describe('build_components', () => {
     expect(getCode(result))
   })
 
-  it('named export', async () => {
+  test('named export', async () => {
     const result = await build(config, {
       input: ['utils/namedExport/index'],
       sourceRootPath: path.resolve(__dirname, './mock/src'),
@@ -82,7 +76,7 @@ describe('build_components', () => {
     expect(getCode(result)).toMatchSnapshot()
   })
 
-  it('dynamic require', async () => {
+  test('dynamic require', async () => {
     const result = await build(config, {
       input: ['utils/dynamicImport/index'],
       sourceRootPath: path.resolve(__dirname, './mock/src'),
@@ -92,7 +86,7 @@ describe('build_components', () => {
     expect(getCode(result)).toMatchSnapshot()
   })
 
-  it('require react-native component', async () => {
+  test('require react-native component', async () => {
     const result = await build(config, {
       input: ['utils/requireReactNative/index'],
       sourceRootPath: path.resolve(__dirname, './mock/src'),

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`build_components dynamic require 1`] = `
+exports[`build_components > dynamic require 1`] = `
 [
   "function getDefaultExportFromCjs (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -19,10 +19,9 @@ console.log({reactIs:reactIs});
 ]
 `;
 
-exports[`build_components modify rollup config 1`] = `
+exports[`build_components > modify rollup config 1`] = `
 [
-  "import 'react';
-import View from '@tarojs/components-rn/dist/components/View';
+  "import View from '@tarojs/components-rn/dist/components/View';
 import Text from '@tarojs/components-rn/dist/components/Text';
 import taro from '@tarojs/taro-rn';
 import { StyleSheet } from 'react-native';
@@ -59,8 +58,7 @@ function _mergeEleStyles(){return [].concat.apply([],arguments).reduce((pre,cur)
 
 export { Cell as default };
 ",
-  "import 'react';
-import { navigateBack } from '@tarojs/taro-rn/dist/api';
+  "import { navigateBack } from '@tarojs/taro-rn/dist/api';
 import View from '@tarojs/components-rn/dist/components/View';
 import Text from '@tarojs/components-rn/dist/components/Text';
 import Image from '@tarojs/components-rn/dist/components/Image';
@@ -114,10 +112,9 @@ export { Navbar as default };
 ]
 `;
 
-exports[`build_components multiple components 1`] = `
+exports[`build_components > multiple components 1`] = `
 [
-  "import 'react';
-import View from '@tarojs/components-rn/dist/components/View';
+  "import View from '@tarojs/components-rn/dist/components/View';
 import Text from '@tarojs/components-rn/dist/components/Text';
 import taro from '@tarojs/taro-rn';
 import { StyleSheet } from 'react-native';
@@ -154,8 +151,7 @@ function _mergeEleStyles(){return [].concat.apply([],arguments).reduce((pre,cur)
 
 export { Cell as default };
 ",
-  "import 'react';
-import { navigateBack } from '@tarojs/taro-rn/dist/api';
+  "import { navigateBack } from '@tarojs/taro-rn/dist/api';
 import View from '@tarojs/components-rn/dist/components/View';
 import Text from '@tarojs/components-rn/dist/components/Text';
 import Image from '@tarojs/components-rn/dist/components/Image';
@@ -209,7 +205,7 @@ export { Navbar as default };
 ]
 `;
 
-exports[`build_components named export 1`] = `
+exports[`build_components > named export 1`] = `
 [
   "import { Platform as Platform$1, NativeEventEmitter, NativeModules } from 'react-native';
 
@@ -317,10 +313,9 @@ console.log({fileBuild:fileBuild});
 ]
 `;
 
-exports[`build_components nativeComponents not set 1`] = `
+exports[`build_components > nativeComponents not set 1`] = `
 [
-  "import 'react';
-import View from '@tarojs/components-rn/dist/components/View';
+  "import View from '@tarojs/components-rn/dist/components/View';
 import Text from '@tarojs/components-rn/dist/components/Text';
 import taro from '@tarojs/taro-rn';
 import { StyleSheet } from 'react-native';
@@ -360,7 +355,7 @@ export { Cell as default };
 ]
 `;
 
-exports[`build_components require react-native component 1`] = `
+exports[`build_components > require react-native component 1`] = `
 [
   "import { jsx, Fragment, jsxs } from 'react/jsx-runtime';
 import { Children, Component } from 'react';
@@ -402,10 +397,9 @@ console.log({silblings:RootSiblingsManager});
 ]
 `;
 
-exports[`build_components single component 1`] = `
+exports[`build_components > single component 1`] = `
 [
-  "import 'react';
-import View from '@tarojs/components-rn/dist/components/View';
+  "import View from '@tarojs/components-rn/dist/components/View';
 import Text from '@tarojs/components-rn/dist/components/Text';
 import taro from '@tarojs/taro-rn';
 import { StyleSheet } from 'react-native';
