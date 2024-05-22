@@ -20,8 +20,7 @@
   "devDependencies": {
     "@babel/core": "7.24.4",
     "@babel/types": "7.24.0",
-    "@types/babel__core": "7.20.5",
-    "@tarojs/plugin-platform-h5": "workspace:*"
+    "@types/babel__core": "7.20.5"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0-0"
