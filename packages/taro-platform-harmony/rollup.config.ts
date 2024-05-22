@@ -18,7 +18,7 @@ const base: RollupOptions & { plugins: InputPluginOption[] } = {
     }),
     nodeResolve({
       preferBuiltins: false
-    }),
+    }) as InputPluginOption,
     ts({
       tsconfig: e => ({
         ...e,
@@ -26,7 +26,7 @@ const base: RollupOptions & { plugins: InputPluginOption[] } = {
         sourceMap: true,
       })
     }),
-    commonjs()
+    commonjs() as InputPluginOption
   ]
 }
 
