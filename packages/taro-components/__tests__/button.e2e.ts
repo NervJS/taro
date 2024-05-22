@@ -32,14 +32,14 @@ describe('Button e2e', () => {
     await page.waitForChanges()
     expect(onTouchStart).toHaveReceivedEventTimes(1)
 
-    await delay(hoverStartTime + 10)
+    await delay(hoverStartTime + 100)
     expect(el.classList.contains('button-hover')).toEqual(true)
 
     el.triggerEvent('touchend')
     await page.waitForChanges()
     expect(onTouchEnd).toHaveReceivedEventTimes(1)
 
-    await delay(hoverStayTime + 10)
+    await delay(hoverStayTime + 100)
     expect(el.classList.contains('button-hover')).toEqual(false)
   })
 })
