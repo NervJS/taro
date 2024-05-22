@@ -48,7 +48,7 @@ importers:
         version: 4.0.0(rollup@4.17.2)
       '@rollup/plugin-typescript':
         specifier: ^11.1.6
-        version: 11.1.6(rollup@4.17.2)(typescript@5.4.5)
+        version: 11.1.6(rollup@4.17.2)(tslib@2.6.2)(typescript@5.4.5)
       '@tarojs/taro-loader':
         specifier: workspace:*
         version: link:packages/taro-loader
@@ -244,6 +244,9 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.2(@types/node@18.19.31)(typescript@5.4.5)
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.2
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -1334,7 +1337,7 @@ importers:
         version: 15.2.3(rollup@3.29.4)
       '@rollup/plugin-typescript':
         specifier: ^11.1.0
-        version: 11.1.6(rollup@3.29.4)(typescript@5.4.5)
+        version: 11.1.6(rollup@3.29.4)(tslib@2.6.2)(typescript@5.4.5)
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -1370,10 +1373,11 @@ importers:
         version: link:../shared
 
   packages/taro-platform-qq:
-    devDependencies:
+    dependencies:
       '@tarojs/plugin-platform-weapp':
         specifier: workspace:*
         version: link:../taro-platform-weapp
+    devDependencies:
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
@@ -7439,7 +7443,7 @@ packages:
       rollup: 4.17.2
     dev: false
 
-  /@rollup/plugin-typescript@11.1.6(rollup@3.29.4)(typescript@5.4.5):
+  /@rollup/plugin-typescript@11.1.6(rollup@3.29.4)(tslib@2.6.2)(typescript@5.4.5):
     resolution: {integrity: sha512-R92yOmIACgYdJ7dJ97p4K69I8gg6IEHt8M7dUBxN3W6nrO8uUxX5ixl0yU/N3aZTi8WhPuICvOHXQvF6FaykAA==, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.6.tgz}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -7455,10 +7459,11 @@ packages:
       '@rollup/pluginutils': 5.1.0(rollup@3.29.4)
       resolve: 1.22.8
       rollup: 3.29.4
+      tslib: 2.6.2
       typescript: 5.4.5
     dev: true
 
-  /@rollup/plugin-typescript@11.1.6(rollup@4.17.2)(typescript@5.4.5):
+  /@rollup/plugin-typescript@11.1.6(rollup@4.17.2)(tslib@2.6.2)(typescript@5.4.5):
     resolution: {integrity: sha512-R92yOmIACgYdJ7dJ97p4K69I8gg6IEHt8M7dUBxN3W6nrO8uUxX5ixl0yU/N3aZTi8WhPuICvOHXQvF6FaykAA==, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.6.tgz}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -7474,6 +7479,7 @@ packages:
       '@rollup/pluginutils': 5.1.0(rollup@4.17.2)
       resolve: 1.22.8
       rollup: 4.17.2
+      tslib: 2.6.2
       typescript: 5.4.5
     dev: true
 
