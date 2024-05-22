@@ -12,7 +12,6 @@
     "mv:comp": "node ./mv-comp.js",
     "clean": "rimraf --impl=move-remove dist",
     "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i",
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
     "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
