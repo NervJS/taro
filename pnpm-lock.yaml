@@ -726,9 +726,6 @@ importers:
       '@stencil/vue-output-target':
         specifier: 0.7.0
         version: 0.7.0(@stencil/core@2.22.3)
-      '@tarojs/taro-h5':
-        specifier: workspace:*
-        version: link:../taro-h5
       '@types/jest':
         specifier: ^27.4.1
         version: 27.5.2
@@ -1861,6 +1858,9 @@ importers:
       babel-plugin-transform-react-jsx-to-rn-stylesheet:
         specifier: workspace:*
         version: link:../babel-plugin-transform-react-jsx-to-rn-stylesheet
+      babel-preset-taro:
+        specifier: workspace:*
+        version: link:../babel-preset-taro
       expo:
         specifier: ~51.0.5
         version: 51.0.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)

@@ -12,6 +12,7 @@
     "dev": "tsc -w",
     "lint": "eslint src templates __tests__ --ext .js,.ts",
     "test": "vitest run",
+    "test:ci": "vitest run --coverage",
     "test:dev": "vitest",
     "test:update": "vitest --update"
   },
@@ -46,6 +47,7 @@
     "stylelint-config-taro-rn": "workspace:*"
   },
   "devDependencies": {
+    "babel-preset-taro": "workspace:*",
     "@rnx-kit/metro-resolver-symlinks": "^0.1.36",
     "@tarojs/components": "workspace:*",
     "@tarojs/taro": "workspace:*",
@@ -60,6 +62,7 @@
     "rollup": "^4.16.4"
   },
   "peerDependencies": {
+    "babel-preset-taro": "workspace:*",
     "expo": ">= 51",
     "react": ">= 18",
     "react-native": ">= 0.63.0"
