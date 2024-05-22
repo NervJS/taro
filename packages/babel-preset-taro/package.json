@@ -50,7 +50,7 @@
     "@tarojs/taro-rn": "workspace:*"
   },
   "peerDependencies": {
-    "@babel/core": "^7.0.0-0",
+    "@babel/core": "^7.0.0",
     "@babel/preset-react": "^7.24.1",
     "react-refresh": "^0.14.0",
     "@prefresh/babel-plugin": "^0.5.1",
