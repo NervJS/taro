@@ -926,8 +926,8 @@ importers:
         specifier: 1.3.2
         version: 1.3.2(react-native@0.72.14)(react@18.2.0)
       react-native-pager-view:
-        specifier: 6.3.1
-        version: 6.3.1(react-native@0.72.14)(react@18.2.0)
+        specifier: 6.2.3
+        version: 6.2.3(react-native@0.72.14)(react@18.2.0)
       react-native-webview:
         specifier: 13.10.2
         version: 13.10.2(react-native@0.72.14)(react@18.2.0)
@@ -956,6 +956,9 @@ importers:
       expo:
         specifier: ~51.0.5
         version: 51.0.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)
+      expo-module-scripts:
+        specifier: ^3.5.1
+        version: 3.5.1(@babel/core@7.24.4)(babel-jest@29.7.0)(eslint@8.57.0)(jest@29.7.0)(prettier@2.8.8)(react@18.2.0)
       jest-expo:
         specifier: ^51.0.1
         version: 51.0.2(@babel/core@7.24.4)(jest@29.7.0)(react@18.2.0)
@@ -5225,6 +5228,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@expo/npm-proofread@1.0.1:
+    resolution: {integrity: sha512-yDyBlNIgg+rKoKCOVM9ZyAtgqRx6gHw+JtmZTrYYW4auAfwS6kE/iInmCpVXPqRy0OhJHgXj6q5PCgWELLVMeg==, tarball: https://registry.npmjs.org/@expo/npm-proofread/-/npm-proofread-1.0.1.tgz}
+    hasBin: true
+    dependencies:
+      semver: 5.7.2
+    dev: true
+
   /@expo/osascript@2.1.0:
     resolution: {integrity: sha512-bOhuFnlRaS7CU33+rFFIWdcET/Vkyn1vsN8BYFwCDEF5P1fVVvYN7bFOsQLTMD3nvi35C1AGmtqUr/Wfv8Xaow==, tarball: https://registry.npmjs.org/@expo/osascript/-/osascript-2.1.0.tgz}
     engines: {node: '>=12'}
@@ -8280,6 +8290,27 @@ packages:
       redent: 3.0.0
     dev: true
 
+  /@testing-library/react-hooks@7.0.2(react@18.2.0):
+    resolution: {integrity: sha512-dYxpz8u9m4q1TuzfcUApqi8iFfR6R0FaMbr2hjZJy1uC8z+bO/K4v8Gs9eogGKYQop7QsrBTFkv/BCF7MzD2Cg==, tarball: https://registry.npmjs.org/@testing-library/react-hooks/-/react-hooks-7.0.2.tgz}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+      react-test-renderer: '>=16.9.0'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-test-renderer:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.24.4
+      '@types/react': 18.3.1
+      '@types/react-dom': 18.3.0
+      '@types/react-test-renderer': 18.3.0
+      react: 18.2.0
+      react-error-boundary: 3.1.4(react@18.2.0)
+    dev: true
+
   /@testing-library/react-native@12.5.0(jest@29.7.0)(react-native@0.72.14)(react@18.2.0):
     resolution: {integrity: sha512-0dKpxF5jJyjCH6r9JAiJ6jivpjntBH5ixaS+dHavMMr8aBDU76BwHMuYvekqQ6F/t30Ik3UhygQaZEz0VmiU6w==, tarball: https://registry.npmjs.org/@testing-library/react-native/-/react-native-12.5.0.tgz}
     peerDependencies:
@@ -8330,6 +8361,10 @@ packages:
 
   /@tsconfig/node16@1.0.4:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==, tarball: https://registry.npmjs.org/@tsconfig/node16/-/node16-1.0.4.tgz}
+    dev: true
+
+  /@tsconfig/node18@18.2.4:
+    resolution: {integrity: sha512-5xxU8vVs9/FNcvm3gE07fPbn9tl6tqGGWA9tSlwsUEkBxtRnTsNmwrV8gasZ9F/EobaSv9+nu8AxUKccw77JpQ==, tarball: https://registry.npmjs.org/@tsconfig/node18/-/node18-18.2.4.tgz}
     dev: true
 
   /@types/archy@0.0.31:
@@ -8638,6 +8673,12 @@ packages:
       '@types/react': 18.3.1
     dev: true
 
+  /@types/react-test-renderer@18.3.0:
+    resolution: {integrity: sha512-HW4MuEYxfDbOHQsVlY/XtOvNHftCVEPhJF2pQXXwcUiUF+Oyb0usgp48HSgpK5rt8m9KZb22yqOeZm+rrVG8gw==, tarball: https://registry.npmjs.org/@types/react-test-renderer/-/react-test-renderer-18.3.0.tgz}
+    dependencies:
+      '@types/react': 18.3.1
+    dev: true
+
   /@types/react@18.3.1:
     resolution: {integrity: sha512-V0kuGBX3+prX+DQ/7r2qsv1NsdfnCLnTgnRJ1pYnxykBhGMz+qj+box5lq7XsO5mtZsBqpjwwTu/7wszPfMBcw==, tarball: https://registry.npmjs.org/@types/react/-/react-18.3.1.tgz}
     dependencies:
@@ -8835,7 +8876,6 @@ packages:
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@typescript-eslint/eslint-plugin@7.9.0(@typescript-eslint/parser@7.9.0)(eslint@8.57.0)(typescript@5.4.5):
     resolution: {integrity: sha512-6e+X0X3sFe/G/54aC3jt0txuMTURqLyekmEHViqyA2VnxhLMpvA6nqmcjIy+Cr9tLDHPssA74BP5Mx9HQIxBEA==, tarball: https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-7.9.0.tgz}
@@ -8883,7 +8923,6 @@ packages:
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@typescript-eslint/parser@7.9.0(eslint@8.57.0)(typescript@5.4.5):
     resolution: {integrity: sha512-qHMJfkL5qvgQB2aLvhUSXxbK7OLnDkwPzFalg458pxQgfxKDfT1ZDbHQM/I6mDIf/svlMkj21kzKuQ2ixJlatQ==, tarball: https://registry.npmjs.org/@typescript-eslint/parser/-/parser-7.9.0.tgz}
@@ -8920,7 +8959,6 @@ packages:
     dependencies:
       '@typescript-eslint/types': 6.21.0
       '@typescript-eslint/visitor-keys': 6.21.0
-    dev: false
 
   /@typescript-eslint/scope-manager@7.9.0:
     resolution: {integrity: sha512-ZwPK4DeCDxr3GJltRz5iZejPFAAr4Wk3+2WIBaj1L5PYK5RgxExu/Y68FFVclN0y6GGwH8q+KgKRCvaTmFBbgQ==, tarball: https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-7.9.0.tgz}
@@ -8948,7 +8986,6 @@ packages:
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@typescript-eslint/type-utils@7.9.0(eslint@8.57.0)(typescript@5.4.5):
     resolution: {integrity: sha512-6Qy8dfut0PFrFRAZsGzuLoM4hre4gjzWJB6sUvdunCYZsYemTkzZNwF1rnGea326PHPT3zn5Lmg32M/xfJfByA==, tarball: https://registry.npmjs.org/@typescript-eslint/type-utils/-/type-utils-7.9.0.tgz}
@@ -8978,7 +9015,6 @@ packages:
   /@typescript-eslint/types@6.21.0:
     resolution: {integrity: sha512-1kFmZ1rOm5epu9NZEZm1kckCDGj5UJEf7P1kliH4LKu/RkwpsfqqGmY2OOcUs18lSlQBKLDYBOGxRVtrMN5lpg==, tarball: https://registry.npmjs.org/@typescript-eslint/types/-/types-6.21.0.tgz}
     engines: {node: ^16.0.0 || >=18.0.0}
-    dev: false
 
   /@typescript-eslint/types@7.9.0:
     resolution: {integrity: sha512-oZQD9HEWQanl9UfsbGVcZ2cGaR0YT5476xfWE0oE5kQa2sNK2frxOlkeacLOTh9po4AlUT5rtkGyYM5kew0z5w==, tarball: https://registry.npmjs.org/@typescript-eslint/types/-/types-7.9.0.tgz}
@@ -9026,7 +9062,6 @@ packages:
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@typescript-eslint/typescript-estree@7.9.0(typescript@5.4.5):
     resolution: {integrity: sha512-zBCMCkrb2YjpKV3LA0ZJubtKCDxLttxfdGmwZvTqqWevUPN0FZvSI26FalGFFUZU/9YQK/A4xcQF9o/VVaCKAg==, tarball: https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-7.9.0.tgz}
@@ -9087,7 +9122,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
       - typescript
-    dev: false
 
   /@typescript-eslint/utils@7.9.0(eslint@8.57.0)(typescript@5.4.5):
     resolution: {integrity: sha512-5KVRQCzZajmT4Ep+NEgjXCvjuypVvYHUW7RHlXzNPuak2oWpVoD1jf5xCP0dPAuNIchjC7uQyvbdaSTFaLqSdA==, tarball: https://registry.npmjs.org/@typescript-eslint/utils/-/utils-7.9.0.tgz}
@@ -9119,7 +9153,6 @@ packages:
     dependencies:
       '@typescript-eslint/types': 6.21.0
       eslint-visitor-keys: 3.4.3
-    dev: false
 
   /@typescript-eslint/visitor-keys@7.9.0:
     resolution: {integrity: sha512-iESPx2TNLDNGQLyjKhUvIKprlP49XNEK+MvIf9nIO7ZZaZdbnfWKHnXAgufpxqfA0YryH8XToi4+CjBgVnFTSQ==, tarball: https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-7.9.0.tgz}
@@ -10235,7 +10268,6 @@ packages:
     resolution: {integrity: sha512-jZVI+s9Zg3IqA/kdi0i6UDCybUI3aSBLnglhYbSSjKlV7yF1F/5LWv8MakQmvYpnbJDS6fcBL2KzHSxNCMtWSQ==, tarball: https://registry.npmjs.org/babel-plugin-dynamic-import-node/-/babel-plugin-dynamic-import-node-2.3.3.tgz}
     dependencies:
       object.assign: 4.1.5
-    dev: false
 
   /babel-plugin-empower-assert@2.0.0(power-assert@1.6.1):
     resolution: {integrity: sha512-xAzOOTEYIp8BnbHNmU7xKj7mePlPP3/bvFqcjBTeJBDzl+pne4ZjNcpOnaV6WUYnux3fcOOgRW622CsWlU4SGg==, tarball: https://registry.npmjs.org/babel-plugin-empower-assert/-/babel-plugin-empower-assert-2.0.0.tgz}
@@ -13414,6 +13446,15 @@ packages:
       get-stdin: 6.0.0
     dev: true
 
+  /eslint-config-prettier@8.10.0(eslint@8.57.0):
+    resolution: {integrity: sha512-SM8AMJdeQqRYT9O9zguiruQZaN7+z+E4eAP9oiLNGKMtomwaB1E9dcgUD6ZAn/eQAb52USbvezbiljfZUhbJcg==, tarball: https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-8.10.0.tgz}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dependencies:
+      eslint: 8.57.0
+    dev: true
+
   /eslint-config-standard@14.1.1(eslint-plugin-import@2.29.1)(eslint-plugin-node@10.0.0)(eslint-plugin-promise@6.1.1)(eslint-plugin-standard@4.1.0)(eslint@8.57.0):
     resolution: {integrity: sha512-Z9B+VR+JIXRxz21udPTL9HpFMyoMUEeX1G251EQ6e05WD9aPVtVBn09XUmZ259wCMlCDmYDSZG62Hhm+ZTJcUg==, tarball: https://registry.npmjs.org/eslint-config-standard/-/eslint-config-standard-14.1.1.tgz}
     peerDependencies:
@@ -13428,6 +13469,33 @@ packages:
       eslint-plugin-node: 10.0.0(eslint@8.57.0)
       eslint-plugin-promise: 6.1.1(eslint@8.57.0)
       eslint-plugin-standard: 4.1.0(eslint@8.57.0)
+    dev: true
+
+  /eslint-config-universe@12.1.0(eslint@8.57.0)(prettier@2.8.8)(typescript@5.4.5):
+    resolution: {integrity: sha512-nAT0/rcOyYvsy0tY1yq0/BchUQImRCpORONzCvLkjixRBH5CbkMddb/V8ZlOLPgkfu3lp+sByRmSXNfoupTj2w==, tarball: https://registry.npmjs.org/eslint-config-universe/-/eslint-config-universe-12.1.0.tgz}
+    peerDependencies:
+      eslint: '>=8.10'
+      prettier: '>=3'
+    peerDependenciesMeta:
+      prettier:
+        optional: true
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.4.5)
+      '@typescript-eslint/parser': 6.21.0(eslint@8.57.0)(typescript@5.4.5)
+      eslint: 8.57.0
+      eslint-config-prettier: 8.10.0(eslint@8.57.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)
+      eslint-plugin-node: 11.1.0(eslint@8.57.0)
+      eslint-plugin-prettier: 5.1.3(eslint-config-prettier@8.10.0)(eslint@8.57.0)(prettier@2.8.8)
+      eslint-plugin-react: 7.34.1(eslint@8.57.0)
+      eslint-plugin-react-hooks: 4.6.2(eslint@8.57.0)
+      prettier: 2.8.8
+    transitivePeerDependencies:
+      - '@types/eslint'
+      - eslint-import-resolver-typescript
+      - eslint-import-resolver-webpack
+      - supports-color
+      - typescript
     dev: true
 
   /eslint-import-resolver-node@0.3.9:
@@ -13466,7 +13534,6 @@ packages:
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /eslint-module-utils@2.8.1(@typescript-eslint/parser@7.9.0)(eslint-import-resolver-node@0.3.9)(eslint@8.57.0):
     resolution: {integrity: sha512-rXDXR3h7cs7dy9RNpUlQf80nX31XWJEyGq1tRMo+6GsO5VmTe4UTwtmonAD4ZkAsrfMVDA2wlGJ3790Ys+D49Q==, tarball: https://registry.npmjs.org/eslint-module-utils/-/eslint-module-utils-2.8.1.tgz}
@@ -13508,6 +13575,17 @@ packages:
       regexpp: 3.2.0
     dev: true
 
+  /eslint-plugin-es@3.0.1(eslint@8.57.0):
+    resolution: {integrity: sha512-GUmAsJaN4Fc7Gbtl8uOBlayo2DqhwWvEzykMHSCZHU3XdJ+NSzzZcVhXh3VxX5icqQ+oQdIEawXX8xkR3mIFmQ==, tarball: https://registry.npmjs.org/eslint-plugin-es/-/eslint-plugin-es-3.0.1.tgz}
+    engines: {node: '>=8.10.0'}
+    peerDependencies:
+      eslint: '>=4.19.1'
+    dependencies:
+      eslint: 8.57.0
+      eslint-utils: 2.1.0
+      regexpp: 3.2.0
+    dev: true
+
   /eslint-plugin-import@2.29.1(@typescript-eslint/parser@6.21.0)(eslint@8.57.0):
     resolution: {integrity: sha512-BbPC0cuExzhiMo4Ff1BTVwHpjjv28C5R+btTOGaCRC7UEz801up0JadwkeSk5Ued6TG34uaczuVuH6qyy5YUxw==, tarball: https://registry.npmjs.org/eslint-plugin-import/-/eslint-plugin-import-2.29.1.tgz}
     engines: {node: '>=4'}
@@ -13541,7 +13619,6 @@ packages:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
       - supports-color
-    dev: false
 
   /eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.9.0)(eslint@8.57.0):
     resolution: {integrity: sha512-BbPC0cuExzhiMo4Ff1BTVwHpjjv28C5R+btTOGaCRC7UEz801up0JadwkeSk5Ued6TG34uaczuVuH6qyy5YUxw==, tarball: https://registry.npmjs.org/eslint-plugin-import/-/eslint-plugin-import-2.29.1.tgz}
@@ -13615,6 +13692,21 @@ packages:
       semver: 6.3.1
     dev: true
 
+  /eslint-plugin-node@11.1.0(eslint@8.57.0):
+    resolution: {integrity: sha512-oUwtPJ1W0SKD0Tr+wqu92c5xuCeQqB3hSCHasn/ZgjFdA9iDGNkNf2Zi9ztY7X+hNuMib23LNGRm6+uN+KLE3g==, tarball: https://registry.npmjs.org/eslint-plugin-node/-/eslint-plugin-node-11.1.0.tgz}
+    engines: {node: '>=8.10.0'}
+    peerDependencies:
+      eslint: '>=5.16.0'
+    dependencies:
+      eslint: 8.57.0
+      eslint-plugin-es: 3.0.1(eslint@8.57.0)
+      eslint-utils: 2.1.0
+      ignore: 5.3.1
+      minimatch: 3.1.2
+      resolve: 1.22.8
+      semver: 6.3.1
+    dev: true
+
   /eslint-plugin-prettier@4.2.1(eslint-config-prettier@6.15.0)(eslint@8.57.0)(prettier@2.8.8):
     resolution: {integrity: sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==, tarball: https://registry.npmjs.org/eslint-plugin-prettier/-/eslint-plugin-prettier-4.2.1.tgz}
     engines: {node: '>=12.0.0'}
@@ -13630,6 +13722,27 @@ packages:
       eslint-config-prettier: 6.15.0(eslint@8.57.0)
       prettier: 2.8.8
       prettier-linter-helpers: 1.0.0
+    dev: true
+
+  /eslint-plugin-prettier@5.1.3(eslint-config-prettier@8.10.0)(eslint@8.57.0)(prettier@2.8.8):
+    resolution: {integrity: sha512-C9GCVAs4Eq7ZC/XFQHITLiHJxQngdtraXaM+LoUFoFp/lHNl2Zn8f3WQbe9HvTBBQ9YnKFB0/2Ajdqwo5D1EAw==, tarball: https://registry.npmjs.org/eslint-plugin-prettier/-/eslint-plugin-prettier-5.1.3.tgz}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      '@types/eslint': '>=8.0.0'
+      eslint: '>=8.0.0'
+      eslint-config-prettier: '*'
+      prettier: '>=3.0.0'
+    peerDependenciesMeta:
+      '@types/eslint':
+        optional: true
+      eslint-config-prettier:
+        optional: true
+    dependencies:
+      eslint: 8.57.0
+      eslint-config-prettier: 8.10.0(eslint@8.57.0)
+      prettier: 2.8.8
+      prettier-linter-helpers: 1.0.0
+      synckit: 0.8.8
     dev: true
 
   /eslint-plugin-promise@6.1.1(eslint@8.57.0):
@@ -13718,6 +13831,13 @@ packages:
 
   /eslint-utils@1.4.3:
     resolution: {integrity: sha512-fbBN5W2xdY45KulGXmLHZ3c3FHfVYmKg0IrAKGOkT/464PQsx2UeIzfz1RmEci+KLm1bBaAzZAh8+/E+XAeZ8Q==, tarball: https://registry.npmjs.org/eslint-utils/-/eslint-utils-1.4.3.tgz}
+    engines: {node: '>=6'}
+    dependencies:
+      eslint-visitor-keys: 1.3.0
+    dev: true
+
+  /eslint-utils@2.1.0:
+    resolution: {integrity: sha512-w94dQYoauyvlDc43XnGB8lU3Zt713vNChgt4EWwhXAP2XkBvndfxF0AgIqKOOasjPIPzj9JqgwkwbCYD0/V3Zg==, tarball: https://registry.npmjs.org/eslint-utils/-/eslint-utils-2.1.0.tgz}
     engines: {node: '>=6'}
     dependencies:
       eslint-visitor-keys: 1.3.0
@@ -14163,6 +14283,49 @@ packages:
     dependencies:
       expo: 51.0.5(@babel/core@7.24.4)(@babel/preset-env@7.24.4)
     dev: false
+
+  /expo-module-scripts@3.5.1(@babel/core@7.24.4)(babel-jest@29.7.0)(eslint@8.57.0)(jest@29.7.0)(prettier@2.8.8)(react@18.2.0):
+    resolution: {integrity: sha512-mNLhXI+0YhvO2VRLxomhtVnd/kTX6TqMXqCABMLLIxaYhS3WbkCiy4PZq1/cTqxoLcO2lmGwvmyRwjwR+rVgHQ==, tarball: https://registry.npmjs.org/expo-module-scripts/-/expo-module-scripts-3.5.1.tgz}
+    hasBin: true
+    dependencies:
+      '@babel/cli': 7.24.1(@babel/core@7.24.4)
+      '@babel/plugin-transform-export-namespace-from': 7.24.1(@babel/core@7.24.4)
+      '@babel/preset-env': 7.24.4(@babel/core@7.24.4)
+      '@babel/preset-typescript': 7.24.1(@babel/core@7.24.4)
+      '@expo/npm-proofread': 1.0.1
+      '@testing-library/react-hooks': 7.0.2(react@18.2.0)
+      '@tsconfig/node18': 18.2.4
+      '@types/jest': 29.5.12
+      babel-plugin-dynamic-import-node: 2.3.3
+      babel-preset-expo: 11.0.6(@babel/core@7.24.4)(@babel/preset-env@7.24.4)
+      commander: 2.20.3
+      eslint-config-universe: 12.1.0(eslint@8.57.0)(prettier@2.8.8)(typescript@5.4.5)
+      find-yarn-workspace-root: 2.0.0
+      glob: 7.2.3
+      jest-expo: 51.0.2(@babel/core@7.24.4)(jest@29.7.0)(react@18.2.0)
+      jest-snapshot-prettier: /prettier@2.8.8
+      jest-watch-typeahead: 2.2.1(jest@29.7.0)
+      ts-jest: 29.0.5(@babel/core@7.24.4)(babel-jest@29.7.0)(jest@29.7.0)(typescript@5.4.5)
+      typescript: 5.4.5
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@jest/types'
+      - '@types/eslint'
+      - babel-jest
+      - bufferutil
+      - canvas
+      - esbuild
+      - eslint
+      - eslint-import-resolver-typescript
+      - eslint-import-resolver-webpack
+      - jest
+      - prettier
+      - react
+      - react-dom
+      - react-test-renderer
+      - supports-color
+      - utf-8-validate
+    dev: true
 
   /expo-modules-autolinking@1.11.1:
     resolution: {integrity: sha512-2dy3lTz76adOl7QUvbreMCrXyzUiF8lygI7iFJLjgIQIVH+43KnFWE5zBumpPbkiaq0f0uaFpN9U0RGQbnKiMw==, tarball: https://registry.npmjs.org/expo-modules-autolinking/-/expo-modules-autolinking-1.11.1.tgz}
@@ -19529,7 +19692,6 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       brace-expansion: 2.0.1
-    dev: false
 
   /minimatch@9.0.4:
     resolution: {integrity: sha512-KqWh+VchfxcMNRAJjj2tnsSJdNbHsVgnkBhTNrW7AjVo6OvLtxw8zfT9oLw1JSohlFzJ8jCoTgaoXvJ+kHt6fw==, tarball: https://registry.npmjs.org/minimatch/-/minimatch-9.0.4.tgz}
@@ -22032,6 +22194,16 @@ packages:
       scheduler: 0.23.2
     dev: true
 
+  /react-error-boundary@3.1.4(react@18.2.0):
+    resolution: {integrity: sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==, tarball: https://registry.npmjs.org/react-error-boundary/-/react-error-boundary-3.1.4.tgz}
+    engines: {node: '>=10', npm: '>=6'}
+    peerDependencies:
+      react: '>=16.13.1'
+    dependencies:
+      '@babel/runtime': 7.24.4
+      react: 18.2.0
+    dev: true
+
   /react-freeze@1.0.4(react@18.2.0):
     resolution: {integrity: sha512-r4F0Sec0BLxWicc7HEyo2x3/2icUTrRmDjaaRyzzn+7aDyFZliszMDOgLVwSnQnYENOlL1o569Ze2HZefk8clA==, tarball: https://registry.npmjs.org/react-freeze/-/react-freeze-1.0.4.tgz}
     engines: {node: '>=10'}
@@ -22154,8 +22326,8 @@ packages:
       react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.4)(react@18.2.0)
     dev: false
 
-  /react-native-pager-view@6.3.1(react-native@0.72.14)(react@18.2.0):
-    resolution: {integrity: sha512-U7Ep6ukTA5pKMQskSxHpDI9RoESzBHDcBfVFwnK5SRCy9632Dq4a7Jp2m8vA9mK5k6Vi7yaqqKLFVoHnUdC8zA==, tarball: https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-6.3.1.tgz}
+  /react-native-pager-view@6.2.3(react-native@0.72.14)(react@18.2.0):
+    resolution: {integrity: sha512-dqVpXWFtPNfD3D2QQQr8BP+ullS5MhjRJuF8Z/qml4QTILcrWaW8F5iAxKkQR3Jl0ikcEryG/+SQlNcwlo0Ggg==, tarball: https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-6.2.3.tgz}
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -24329,6 +24501,14 @@ packages:
   /symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==, tarball: https://registry.npmjs.org/symbol-tree/-/symbol-tree-3.2.4.tgz}
 
+  /synckit@0.8.8:
+    resolution: {integrity: sha512-HwOKAP7Wc5aRGYdKH+dw0PRRpbO841v2DENBtjnR5HFWoiNByAl7vrx3p0G/rCyYXQsrxqtX48TImFtPcIHSpQ==, tarball: https://registry.npmjs.org/synckit/-/synckit-0.8.8.tgz}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    dependencies:
+      '@pkgr/core': 0.1.1
+      tslib: 2.6.2
+    dev: true
+
   /synckit@0.9.0:
     resolution: {integrity: sha512-7RnqIMq572L8PeEzKeBINYEJDDxpcH8JEgLwUqBd3TkofhFRbkq4QLR0u+36avGAhCRbk2nnmjcW9SE531hPDg==, tarball: https://registry.npmjs.org/synckit/-/synckit-0.9.0.tgz}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -24772,6 +24952,41 @@ packages:
 
   /ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==, tarball: https://registry.npmjs.org/ts-interface-checker/-/ts-interface-checker-0.1.13.tgz}
+
+  /ts-jest@29.0.5(@babel/core@7.24.4)(babel-jest@29.7.0)(jest@29.7.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-PL3UciSgIpQ7f6XjVOmbi96vmDHUqAyqDr8YxzopDqX3kfgYtX1cuNeBjP+L9sFXi6nzsGGA6R3fP3DDDJyrxA==, tarball: https://registry.npmjs.org/ts-jest/-/ts-jest-29.0.5.tgz}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    hasBin: true
+    peerDependencies:
+      '@babel/core': '>=7.0.0-beta.0 <8'
+      '@jest/types': ^29.0.0
+      babel-jest: ^29.0.0
+      esbuild: '*'
+      jest: ^29.0.0
+      typescript: '>=4.3'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@jest/types':
+        optional: true
+      babel-jest:
+        optional: true
+      esbuild:
+        optional: true
+    dependencies:
+      '@babel/core': 7.24.4(supports-color@9.4.0)
+      babel-jest: 29.7.0(@babel/core@7.24.4)
+      bs-logger: 0.2.6
+      fast-json-stable-stringify: 2.1.0
+      jest: 29.7.0(@types/node@18.19.31)(ts-node@10.9.2)
+      jest-util: 29.7.0
+      json5: 2.2.3
+      lodash.memoize: 4.1.2
+      make-error: 1.3.6
+      semver: 7.6.0
+      typescript: 5.4.5
+      yargs-parser: 21.1.1
+    dev: true
 
   /ts-jest@29.1.2(@babel/core@7.24.4)(babel-jest@29.7.0)(jest@29.7.0)(typescript@5.4.5):
     resolution: {integrity: sha512-br6GJoH/WUX4pu7FbZXuWGKGNDuU7b8Uj77g/Sp7puZV6EXzuByl6JrECvm0MzVzSTkSHWTihsXt+5XYER5b+g==, tarball: https://registry.npmjs.org/ts-jest/-/ts-jest-29.1.2.tgz}
