@@ -1,5 +1,6 @@
 import { swc } from '@tarojs/helper'
 import { getComponentsAlias } from '@tarojs/shared'
+import { isUrlRequest, urlToRequest } from 'loader-utils'
 
 import { templatesCache, XMLDependency } from '../plugins/MiniCompileModePlugin'
 
