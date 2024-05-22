@@ -29,8 +29,10 @@
   "engines": {
     "node": ">= 18"
   },
+  "dependencies": {
+    "@tarojs/plugin-platform-weapp": "workspace:*"
+  },
   "devDependencies": {
-    "@tarojs/plugin-platform-weapp": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/service": "workspace:*"
   },

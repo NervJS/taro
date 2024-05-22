@@ -1,4 +1,4 @@
-import { Weapp } from '../../taro-platform-weapp/dist/types'
+import { Weapp } from '@tarojs/plugin-platform-weapp'
 
 import { components } from './components'
 
