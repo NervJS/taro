@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
+import Taro from '@tarojs/taro-h5'
 import { history } from '../src/history'
-import { createRouter, navigateTo } from '../src/index'
+import { createRouter } from '../src/index'
 
 window.scrollTo = jest.fn()
 const wait = (timeout) => {
@@ -87,7 +87,7 @@ describe.skip('router component', () => {
 
     await wait(100)
     expect(window.getComputedStyle(dom.childNodes[0]).display).toEqual('block')
-    navigateTo({
+    Taro.navigateTo({
       url: '/pages/about/index'
     })
     await wait(100)
@@ -137,7 +137,7 @@ describe.skip('router component', () => {
     ReactDOM.render(<RouterComponent />, document.createElement('div'))
     await wait(100)
     expect(routerParams).toMatchObject({})
-    navigateTo({
+    Taro.navigateTo({
       url: '/pages/about/index'
     })
     await wait(100)

@@ -1,5 +1,6 @@
+import Taro from '@tarojs/taro-h5'
 import { history } from '../src/history'
-import { createRouter, navigateTo, reLaunch, navigateBack, redirectTo } from '../src/index'
+import { createRouter } from '../src/index'
 
 beforeEach(() => {
   const inst = {}
@@ -56,7 +57,7 @@ describe.skip('navigateTo/navigateBack/redirectTo/reLaunch', () => {
     const thirdPartyWebsite = 'https://www.baidu.com'
     
     const spy = jest.spyOn(window.location, 'assign').mockImplementation(() => {})
-    navigateTo({ url: thirdPartyWebsite })
+    Taro.navigateTo({ url: thirdPartyWebsite })
     expect(spy).toHaveBeenCalledWith(thirdPartyWebsite)
     spy.mockClear()
   })
@@ -65,14 +66,14 @@ describe.skip('navigateTo/navigateBack/redirectTo/reLaunch', () => {
     const mockListener = jest.fn()
     history.listen(mockListener)
 
-    navigateTo({ url: url2 })
+    Taro.navigateTo({ url: url2 })
     expect(mockListener).toHaveBeenCalledWith({ fromLocation: location1, toLocation: location2, action: 'PUSH' })
   })
 
   it('should notify listeners with proper params when calling navigateBack', () => {
     // jsdom无法准确模拟history的全部功能，这里使用spy代替
     const spy = jest.spyOn(window.history, 'go')
-    navigateBack({ delta: 1 })
+    Taro.navigateBack({ delta: 1 })
     expect(spy).toHaveBeenCalledWith(-1)
   })
 
@@ -80,13 +81,13 @@ describe.skip('navigateTo/navigateBack/redirectTo/reLaunch', () => {
     const mockListener = jest.fn()
     history.listen(mockListener)
 
-    redirectTo({ url: url3 })
+    Taro.redirectTo({ url: url3 })
     expect(mockListener).toHaveBeenCalledWith({ fromLocation: location2, toLocation: location3, action: 'REPLACE' })
   })
 
   xit('should disable back button when calling reLaunch', () => {
     // Taro.navigateTo({ url: url2 })
-    reLaunch({ url: url2 })
+    Taro.reLaunch({ url: url2 })
     expect(history.length).toBe(0)
   })
 })

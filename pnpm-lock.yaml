@@ -1537,6 +1537,9 @@ importers:
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       rollup-plugin-copy:
         specifier: workspace:*
         version: link:../rollup-plugin-copy
@@ -1602,6 +1605,9 @@ importers:
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       rollup-plugin-copy:
         specifier: workspace:*
         version: link:../rollup-plugin-copy
@@ -2075,6 +2081,9 @@ importers:
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
+      '@tarojs/taro-h5':
+        specifier: workspace:*
+        version: link:../taro-h5
 
   packages/taro-router-rn:
     dependencies:

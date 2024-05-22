@@ -13,6 +13,9 @@ const config: Config = {
   },
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
+  moduleNameMapper: {
+    '@tarojs/taro': '@tarojs/taro-h5',
+  },
   testEnvironmentOptions: {
     url: 'https://taro.aotu.io',
   },

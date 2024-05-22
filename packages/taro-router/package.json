@@ -47,11 +47,13 @@
     "@tarojs/components": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "@tarojs/shared": "workspace:*"
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro-h5": "workspace:*"
   },
   "peerDependencies": {
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "@tarojs/shared": "workspace:*"
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro-h5": "workspace:*"
   }
 }

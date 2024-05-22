@@ -35,7 +35,8 @@
   },
   "devDependencies": {
     "@tarojs/service": "workspace:*",
-    "rollup-plugin-copy": "workspace:*"
+    "rollup-plugin-copy": "workspace:*",
+    "@tarojs/taro": "workspace:*"
   },
   "peerDependencies": {
     "@tarojs/helper": "workspace:*",
