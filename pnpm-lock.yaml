@@ -1379,6 +1379,18 @@ importers:
         specifier: workspace:*
         version: link:../shared
 
+  packages/taro-platform-swan:
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+
   packages/taro-platform-tt:
     devDependencies:
       '@tarojs/components':
@@ -2219,18 +2231,6 @@ importers:
         specifier: ^6.5.1
         version: 6.5.1
 
-  packages/taro-swan:
-    devDependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-
   packages/taro-transformer-wx:
     dependencies:
       '@babel/code-frame':
@@ -2626,7 +2626,7 @@ importers:
         version: link:../taro-platform-qq
       '@tarojs/plugin-platform-swan':
         specifier: workspace:*
-        version: link:../taro-swan
+        version: link:../taro-platform-swan
       '@tarojs/plugin-platform-tt':
         specifier: workspace:*
         version: link:../taro-platform-tt
