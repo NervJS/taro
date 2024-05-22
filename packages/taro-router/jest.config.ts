@@ -11,9 +11,6 @@ const config: Config = {
     ENABLE_CLONE_NODE: true,
     ENABLE_CONTAINS: true,
   },
-  moduleNameMapper: {
-    '@tarojs/taro': '@tarojs/taro-h5',
-  },
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   testEnvironmentOptions: {
