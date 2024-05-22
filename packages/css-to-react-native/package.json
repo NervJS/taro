@@ -2,16 +2,18 @@
   "name": "taro-css-to-react-native",
   "description": "Convert CSS text to a React Native stylesheet object",
   "version": "4.0.0-beta.66",
-  "main": "dist/index.js",
+  "author": "O2Team",
   "license": "MIT",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
   "files": [
     "dist",
     "src",
-    "index.d.ts",
-    "CHANGELOG.md",
-    "README.md"
+    "index.d.ts"
   ],
   "scripts": {
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./dist",
     "build": "babel src --ignore *.spec.js --out-dir ./dist",
     "test": "jest"
   },

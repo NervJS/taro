@@ -2,9 +2,9 @@
   "name": "babel-preset-taro",
   "version": "4.0.0-beta.66",
   "description": "Taro babel preset",
-  "author": "yuche <i@yuche.me>",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
+  "author": "O2Team",
   "license": "MIT",
+  "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
   "main": "index.js",
   "files": [
     "rn/",
@@ -16,7 +16,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "jest --collectCoverage",
+    "test": "jest",
     "test:ci": "jest --ci -i --coverage --silent"
   },
   "bugs": {
@@ -46,7 +46,7 @@
     "@prefresh/babel-plugin": "^0.5.1",
     "babel-preset-solid": "^1.8.16",
     "@vue/babel-plugin-jsx": "^1.2.2",
-    "@react-native/babel-preset": "^0.75.0-main",
+    "@react-native/babel-preset": "^0.74.83",
     "@tarojs/taro-rn": "workspace:*"
   },
   "peerDependencies": {
@@ -56,7 +56,7 @@
     "@prefresh/babel-plugin": "^0.5.1",
     "babel-preset-solid": "^1.8.16",
     "@vue/babel-plugin-jsx": "^1.2.2",
-    "@react-native/babel-preset": "^0.75.0",
+    "@react-native/babel-preset": "^0.74.0",
     "@tarojs/taro-rn": "workspace:*"
   },
   "peerDependenciesMeta": {
