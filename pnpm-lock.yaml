@@ -2081,9 +2081,6 @@ importers:
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
-      '@tarojs/taro-h5':
-        specifier: workspace:*
-        version: link:../taro-h5
 
   packages/taro-router-rn:
     dependencies:

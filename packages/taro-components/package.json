@@ -63,7 +63,6 @@
     "swiper": "6.8.0"
   },
   "devDependencies": {
-    "@tarojs/taro-h5": "workspace:*",
     "@babel/generator": "^7.21.4",
     "@babel/parser": "^7.23.0",
     "@babel/traverse": "^7.21.4",

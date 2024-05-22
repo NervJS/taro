@@ -1,5 +1,6 @@
 import { Config } from '@stencil/core'
 import { OutputTarget } from '@stencil/core/internal'
+import * as path from 'path'
 import externals from 'rollup-plugin-node-externals'
 
 import { reactOutputTarget, vue3OutputTarget } from './output-target'
@@ -99,7 +100,7 @@ export const config: Config = {
       }
     },
     moduleNameMapper: {
-      '@tarojs/taro': '@tarojs/taro-h5',
+      '@tarojs/taro': path.resolve(__dirname, '..', '..', 'packages/taro-h5/dist/index'),
       '(\\.(css|less|sass|scss))|weui': '<rootDir>/__mocks__/styleMock.js',
       '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
     },
