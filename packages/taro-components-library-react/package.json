@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "build:ci": "run-s clean prod",
+    "build": "run-s clean prod",
     "clean": "rimraf --impl=move-remove ../taro-components/lib/react",
     "dev": "pnpm run prod -w",
     "preprod": "node ./scripts/fix.js",
@@ -22,8 +22,10 @@
   },
   "devDependencies": {
     "@tarojs/helper": "workspace:*",
-    "babel-preset-taro": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@tarojs/helper": "workspace:*"
   }
 }

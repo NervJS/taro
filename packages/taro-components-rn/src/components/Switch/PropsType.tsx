@@ -1,5 +1,6 @@
-import { FormItemProps } from '@tarojs/components'
 import { StyleProp, ViewStyle } from 'react-native'
+
+import type { FormItemProps } from '@tarojs/components'
 
 export type EventOnChange = {
   detail: {

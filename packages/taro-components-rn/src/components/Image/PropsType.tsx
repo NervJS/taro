@@ -1,5 +1,6 @@
 import { StyleProp, ImageStyle, ImageResizeMode } from 'react-native'
-import { ImageProps as _ImageProps } from '@tarojs/components/types/Image'
+
+import type { ImageProps as _ImageProps } from '@tarojs/components/types/Image'
 export interface ImageState {
   ratio: number;
   layoutWidth: number;

@@ -1,5 +1,6 @@
 import { StyleProp, ViewStyle } from 'react-native'
-import { RadioProps as _RadioProps } from '@tarojs/components/types/Radio'
+
+import type { RadioProps as _RadioProps } from '@tarojs/components/types/Radio'
 
 export type EventOnChange = {
   value: any;

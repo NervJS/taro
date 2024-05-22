@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "build:ci": "run-s clean prod",
+    "build": "run-s clean prod",
     "clean": "rimraf --impl=move-remove ../taro-components/lib/vue3",
     "dev": "pnpm run prod -w",
     "preprod": "node ./scripts/fix.js",
@@ -23,5 +23,8 @@
   "devDependencies": {
     "@tarojs/helper": "workspace:*",
     "vue": "3.2.47"
+  },
+  "peerDependencies": {
+    "@tarojs/helper": "workspace:*"
   }
 }

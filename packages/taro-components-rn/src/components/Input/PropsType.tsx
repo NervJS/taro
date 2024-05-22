@@ -1,5 +1,6 @@
-import { FormItemProps } from '@tarojs/components'
 import { ViewStyle, StyleProp } from 'react-native'
+
+import type { FormItemProps } from '@tarojs/components'
 
 export type Event = {
   target: { value?: string };

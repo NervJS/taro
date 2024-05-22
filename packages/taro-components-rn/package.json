@@ -34,7 +34,6 @@
     "@ant-design/react-native": "5.0.0",
     "@react-native-community/slider": "4.5.2",
     "@react-native-picker/picker": "2.7.5",
-    "@tarojs/components": "workspace:*",
     "@tarojs/router-rn": "workspace:*",
     "expo-av": "13.10.0",
     "expo-barcode-scanner": "13.0.1",
@@ -45,6 +44,7 @@
     "react-native-webview": "13.10.2"
   },
   "devDependencies": {
+    "@tarojs/components": "workspace:*",
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
     "@react-native/babel-preset": "^0.73.18",
@@ -60,6 +60,7 @@
     "react-native-svg": "14.1.0"
   },
   "peerDependencies": {
+    "@tarojs/components": "workspace:*",
     "@react-native-community/slider": ">= 4.5",
     "@react-native-picker/picker": ">= 2.6",
     "expo": ">= 51",

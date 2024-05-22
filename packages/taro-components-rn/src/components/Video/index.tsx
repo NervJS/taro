@@ -6,7 +6,6 @@ import React, { Component } from 'react'
 // import Danmu from './danmu'
 // import Controls from './controls'
 import { formatTime } from './utils'
-import { VideoProps } from '@tarojs/components/types/Video'
 import {
   AVPlaybackStatus,
   ResizeMode,
@@ -20,6 +19,8 @@ import Text from '../Text'
 import Image from '../Image'
 import { onFullscreenChangeEventDetail } from './PropsType'
 import { DimensionValue, ImageStyle } from 'react-native'
+
+import type { VideoProps } from '@tarojs/components/types/Video'
 /**
  * @typedef {Object} Danmu
  * @property {string} text 弹幕文字

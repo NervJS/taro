@@ -25,9 +25,10 @@
   "scripts": {
     "prepare": "run-p generate:*",
     "prebuild": "run-p generate:*",
-    "build": "cross-env NODE_ENV=production run-s build:components build:library",
+    "build": "cross-env NODE_ENV=production run-s build:components",
+    "build:all": "cross-env NODE_ENV=production run-s build:components build:library",
     "build:components": "stencil build",
-    "build:library": "pnpm --filter @tarojs/components-library-react --filter @tarojs/components-library-vue3 run build:ci",
+    "build:library": "pnpm --filter @tarojs/components-library-react --filter @tarojs/components-library-vue3 run build",
     "dev:components": "cross-env NODE_ENV=development pnpm run build:components --watch",
     "dev:library-react": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-react run dev",
     "dev:library-vue3": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-vue3 run dev",

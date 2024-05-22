@@ -1,6 +1,7 @@
-import { FormItemProps } from '@tarojs/components'
-import { RadioGroupProps as _RadioGroupProps } from '@tarojs/components/types/RadioGroup'
 import { StyleProp, ViewStyle } from 'react-native'
+
+import type { RadioGroupProps as _RadioGroupProps } from '@tarojs/components/types/RadioGroup'
+import type { FormItemProps } from '@tarojs/components'
 
 export type EventOnChange = {
   value: any;

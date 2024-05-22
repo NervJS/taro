@@ -112,9 +112,6 @@ importers:
       babel-preset-power-assert:
         specifier: 3.0.0
         version: 3.0.0(power-assert@1.6.1)
-      babel-preset-taro:
-        specifier: workspace:*
-        version: link:packages/babel-preset-taro
       conventional-changelog-cli:
         specifier: ^2.0.1
         version: 2.2.2
@@ -827,9 +824,6 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
-      babel-preset-taro:
-        specifier: workspace:*
-        version: link:../babel-preset-taro
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -904,9 +898,6 @@ importers:
       '@react-native-picker/picker':
         specifier: 2.7.5
         version: 2.7.5(react-native@0.72.14)(react@18.2.0)
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
       '@tarojs/router-rn':
         specifier: workspace:*
         version: link:../taro-router-rn
@@ -941,6 +932,9 @@ importers:
       '@react-native/babel-preset':
         specifier: ^0.73.18
         version: 0.73.21(@babel/core@7.24.4)(@babel/preset-env@7.24.4)
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
       '@testing-library/jest-native':
         specifier: ^5.4.2
         version: 5.4.3(react-native@0.72.14)(react@18.2.0)
