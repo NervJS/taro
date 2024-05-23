@@ -2,7 +2,7 @@
   "name": "@tarojs/helper",
   "version": "4.0.0-beta.75",
   "description": "Taro Helper",
-  "author": "luckyadam",
+  "author": "O2Team",
   "license": "MIT",
   "main": "index.js",
   "types": "dist/index.d.ts",

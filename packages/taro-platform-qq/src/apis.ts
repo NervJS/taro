@@ -1,7 +1,8 @@
+import { processApis } from '@tarojs/shared'
+
 import {
   needPromiseApis
 } from '../../taro-platform-weapp/dist/runtime-utils'
-import { processApis } from '@tarojs/shared'
 
 declare const qq: any
 

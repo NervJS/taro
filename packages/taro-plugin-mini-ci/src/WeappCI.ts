@@ -6,8 +6,8 @@ import * as path from 'node:path'
 import * as shell from 'shelljs'
 
 import BaseCI, { ProjectType } from './BaseCi'
-import { generateQrcodeImageFile, printQrcode2Terminal, readQrcodeImageContent } from './utils/qrcode'
 import { getNpmPkgSync } from './utils/npm'
+import { generateQrcodeImageFile, printQrcode2Terminal, readQrcodeImageContent } from './utils/qrcode'
 
 export default class WeappCI extends BaseCI {
   private instance

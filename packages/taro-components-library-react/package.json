@@ -3,6 +3,8 @@
   "version": "4.0.0-beta.75",
   "description": "Taro 组件库 React 版本库",
   "private": true,
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "build": "run-s clean prod",
@@ -12,8 +14,6 @@
     "prod": "rollup -c"
   },
   "keywords": [],
-  "author": "ZakaryCode",
-  "license": "MIT",
   "engines": {
     "node": ">= 18"
   },

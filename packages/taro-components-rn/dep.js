@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-console */
 const { parseDependencyTree } = require('dpdm')
 const { peerDependencies } = require('./package.json')
 

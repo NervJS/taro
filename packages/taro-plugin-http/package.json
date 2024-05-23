@@ -2,6 +2,8 @@
   "name": "@tarojs/plugin-http",
   "version": "4.0.0-beta.75",
   "description": "Taro 小程序端支持使用 web 请求 的插件",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "dev": "rollup -c -w",
@@ -22,8 +24,6 @@
   "keywords": [
     "Taro"
   ],
-  "author": "bigmeow <https://github.com/bigmeow>",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },

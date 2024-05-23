@@ -2,7 +2,7 @@
   "name": "@tarojs/taroize",
   "version": "4.0.0-beta.75",
   "description": "转换原生微信小程序代码为 Taro 代码",
-  "author": "yuche",
+  "author": "O2Team",
   "license": "MIT",
   "main": "index.js",
   "files": [

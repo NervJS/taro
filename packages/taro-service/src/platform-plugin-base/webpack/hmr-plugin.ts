@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 import type { Compiler } from 'webpack'
 
 export default class TaroMiniHMRPlugin {
