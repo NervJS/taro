@@ -112,7 +112,7 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     photoSelectOptions.MIMEType = picker.PhotoViewMIMETypes.IMAGE_TYPE // 过滤选择媒体文件类型为IMAGE
 
     photoViewPicker.select(photoSelectOptions).then((photoSelectResult) => {
-      callAsyncSuccess(resolve, { tempFilePaths: photoSelectResult.photoUris })
+      callAsyncSuccess(resolve, { tempFilePaths: photoSelectResult.photoUris }, options)
     }).catch((error) => {
       callAsyncFail(reject, error, options)
     })

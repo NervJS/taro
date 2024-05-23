@@ -199,8 +199,14 @@ impl TransformVisitor {
                             self.component_set.insert(name.clone());
                             let ComponentReplace{current_init, ..} = self.config.component_replace.get(name.as_str()).unwrap();
                             // 把入参的node改成对应的变量
-                            let reg = Regex::new(r"\bnode\b").unwrap();
-                            reg.replace_all(current_init, format!("({} as TaroElement)", current_node_name)).to_string()
+                            let reg = Regex::new(r"\bnode\b(:?)").unwrap();
+                            reg.replace_all(current_init, |caps: &regex::Captures| {
+                                if &caps[1] == ":" {
+                                    "node:".to_string()
+                                } else {
+                                    format!("({} as TaroElement)", current_node_name)
+                                }
+                            }).to_string()
                         } else {
                             match name.as_str() {
                                 VIEW_TAG => {
@@ -284,7 +290,6 @@ impl TransformVisitor {
 
                                     // let loop_body = self.build_ets_children(&mut vec![JSXElementChild::JSXElement(return_jsx) ], None);
 
-                                    println!("start");
                                     self.deal_loop_now = true;
                                     self.node_name.push("item".to_string());
                                     let loop_body = self.build_ets_element(return_jsx);
@@ -621,13 +626,20 @@ impl VisitMut for TransformVisitor {
                 HARMONY_IMPORTER.to_owned() +
                 utils::get_harmony_replace_component_dependency_define(self).as_str() +
                 format!(
-                    r#"@Component
+                    r#"
+@Reusable
+@Component
 export default struct TARO_TEMPLATES_{name} {{
   node: TaroViewElement = new TaroElement('Ignore')
 
   dynamicCenter: DynamicCenter = new DynamicCenter()
 
   aboutToAppear () {{
+    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
+  }}
+
+  aboutToReuse(params: TaroAny): void {{
+    this.node = params.node
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
   }}
 

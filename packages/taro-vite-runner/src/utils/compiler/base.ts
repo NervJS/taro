@@ -101,9 +101,12 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConf
 
     const subPackages = appConfig.subPackages || appConfig.subpackages || []
     subPackages.forEach(item => {
-      if (item.pages?.length) {
+      // 兼容 pages: [''] 等非法情况
+      const pages = (item.pages || []).filter(item => !!item)
+
+      if (pages.length > 0) {
         const root = item.root
-        item.pages.forEach(page => {
+        pages.forEach(page => {
           const subPageName = `${root}/${page}`.replace(/\/{2,}/g, '/')
 
           for (const mainPage of pagesList) {

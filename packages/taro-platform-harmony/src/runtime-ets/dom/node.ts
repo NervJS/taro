@@ -219,6 +219,7 @@ export class TaroNode extends TaroDataSourceElement {
     oldChild.dispose()
     this.notifyDataChange(idxOfRef)
 
+    checkIsCompileModeAndUninstallAfterDOMAction(oldChild)
     checkIsCompileModeAndInstallAfterDOMAction(newChild, this)
 
     return oldChild
@@ -273,7 +274,7 @@ function checkIsCompileModeAndInstallAfterDOMAction (node: TaroNode, parentNode:
 }
 
 function checkIsCompileModeAndUninstallAfterDOMAction (node: TaroNode) {
-  if (!node._isCompileMode || !parentNode._instance) return
+  if (!node._isCompileMode || !node?._instance) return
 
   node._instance.dynamicCenter?.uninstall?.(node)
 }

@@ -55,6 +55,7 @@ export default class Parser extends BaseParser {
     protected appConfig: AppConfig,
     public buildConfig: ViteHarmonyBuildConfig,
     public loaderMeta: Record<string, unknown>,
+    public isPure?: boolean
   ) {
     super()
     this.init()
@@ -350,7 +351,11 @@ return state`,
   }
 }
 .height('100%')
+.width('100%')
 .backgroundColor(this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
+.padding({
+  top: px2vp(sysInfo.safeArea?.top || 0),
+})
 .zIndex(1)`,
       })
 
@@ -843,7 +848,7 @@ ${this.transArr2Str(pageStr.split('\n'), 4)}
 .backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColor || '#FFFFFF'}")
 .height('100%')
 .width('100%')
-.title(this.renderTitle)
+.title({ builder: this.renderTitle, height: 48 + px2vp(sysInfo.safeArea?.top || 0) })
 .titleMode(NavigationTitleMode.Mini)
 .hideTitleBar(${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle === 'custom'`})
 .hideBackButton(true)`
@@ -873,9 +878,10 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   this.handlePageAppear()
   callFn(this.page?.onShow, this)
 })
-.backgroundColor(this.tabBarBackgroundColor)`
-    } else {
-      pageStr += '\n.expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])'
+.backgroundColor(this.tabBarBackgroundColor)
+.padding({
+  bottom: px2vp(sysInfo.screenHeight - (sysInfo.safeArea?.bottom || 0)),
+})`
     }
     if (SHOW_TREE) {
       pageStr = this.transArr2Str([
@@ -1013,6 +1019,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
       isBlended ? this.#setReconciler : '',
       'import router from "@ohos.router"',
       'import { TaroView } from "@tarojs/components"',
+      'import { getSystemInfoSync } from "@tarojs/taro"',
       'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window, document } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       `import { createLazyChildren } from "${renderPath}"`,
@@ -1046,6 +1053,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
           isBlended && this.#setReconcilerPost ? this.#setReconcilerPost : null,
         ],
       '',
+      'const sysInfo: TaroAny = getSystemInfoSync()',
       this.getInstantiatePage(page),
     ])
 
@@ -1063,18 +1071,25 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
   parseEntry (rawId: string, page: TaroHarmonyPageMeta) {
     const { creatorLocation, importFrameworkStatement } = this.loaderMeta
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
-    const createPageFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
+    let createFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
+
     const nativeCreatePage = `createNativePageConfig(component, '${page.name}', React, ReactDOM, config)`
-    const createPage = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
+    let createPageOrComponent = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
+
+    // 如果是pure，说明不是一个页面，而是一个组件，这个时候修改import和createPage
+    if (this.isPure) {
+      createFn = 'createNativeComponentConfig'
+      createPageOrComponent = `createNativeComponentConfig(component, React, ReactDOM, config)`
+    }
 
     return this.transArr2Str([
-      `import { ${createPageFn} } from '${creatorLocation}'`,
+      `import { ${createFn} } from '${creatorLocation}'`,
       `import component from "${escapePath(rawId)}"`,
       importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(page.config)}`,
       page?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,
       page?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
-      `export default () => ${createPage}`,
+      `export default () => ${createPageOrComponent}`,
     ])
   }
 }

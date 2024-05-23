@@ -42,7 +42,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       const appConfig = app.config
       const { sourceRoot = 'src' } = taroConfig
       const appRoot = path.resolve(appPath, sourceRoot)
-      const parse = new PageParser(appPath, appConfig, taroConfig, loaderMeta)
+      const parse = new PageParser(appPath, appConfig, taroConfig, loaderMeta, taroConfig.isPure)
       const tabbarList = appConfig.tabBar?.list || []
       const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
 

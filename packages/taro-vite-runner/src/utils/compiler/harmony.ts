@@ -135,7 +135,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
       }
 
       // 如果是鸿蒙的包
-      if (new RegExp(`^(${this.ohpmPackageList.join('|')})`).test(compPath)) {
+      if (this.ohpmPackageList?.length && new RegExp(`^(${this.ohpmPackageList.join('|')})`).test(compPath)) {
         const nativeCompMeta: ViteNativeCompMeta = {
           name: compName,
           scriptPath: compPath,

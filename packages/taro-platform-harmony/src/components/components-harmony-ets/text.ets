@@ -61,7 +61,7 @@ export default struct TaroText {
         if (this.node.childNodes.length > 1 || ((this.node.childNodes[0] && this.node.childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
           ForEach(this.node.childNodes, (item: TaroElement) => {
             createTextChildNode(item)
-          }, (item: TaroElement) => item._nid)
+          }, (item: TaroElement) => `${item._nid}${this.node._updateTrigger}`)
         }
       }
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
@@ -129,28 +129,6 @@ function createTextChildNode (item: TaroElement) {
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
   }
 }
-
-// function getSpanVerticalAlign (verticalAlign?: Alignment) {
-//   switch (verticalAlign) {
-//     case Alignment.Start:
-//     case Alignment.TopStart:
-//     case Alignment.Top:
-//     case Alignment.TopEnd: {
-//       return ImageSpanAlignment.TOP
-//     }
-//     case Alignment.End:
-//     case Alignment.BottomStart:
-//     case Alignment.Bottom:
-//     case Alignment.BottomEnd: {
-//       return ImageSpanAlignment.BOTTOM
-//     }
-//     case Alignment.Center: {
-//       return ImageSpanAlignment.CENTER
-//     }
-//   }
-//   return ImageSpanAlignment.BASELINE
-// }
-
 
 class SpanStyleModify implements AttributeModifier<SpanAttribute> {
   node: TaroTextElement | null = null

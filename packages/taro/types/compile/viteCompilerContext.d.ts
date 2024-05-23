@@ -55,6 +55,7 @@ export interface ViteHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfi
   useJSON5?: boolean
   blended?: boolean
   runtimePath?: string | string[]
+  isPure?: boolean
   taroComponentsPath: string
 }
 

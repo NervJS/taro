@@ -1,4 +1,5 @@
 import { TaroElement } from './element'
+import type { TaroAny } from '../../utils'
 
 import type { MovableViewProps } from '@tarojs/components/types'
 
@@ -21,6 +22,9 @@ function calcPosition(postion: number, start: number, end: number) {
   }
 }
 
+export function isTaroMovableViewElement (item: TaroAny): item is TaroMovableViewElement{
+  return item instanceof TaroMovableViewElement
+}
 @Observed
 export class TaroMovableViewElement extends TaroElement<MovableViewProps & { animation: undefined }> {
   _scaleValue = 1
@@ -30,6 +34,8 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
   _area?: Tsize
   // 自己元素的大小
   _selfSize?: Tsize
+  _areaInited: false
+  _selfSizeInited: false
 
   // 元素的位置
   _position: Tpoint = {
@@ -51,14 +57,6 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
       return this.selfSize ? this.selfSize.w / 3 : 0
     }
     return 0
-  }
-
-  set area(val: Tsize) {
-    this._area = val
-  }
-
-  get area(): Tsize | undefined {
-    return this._area
   }
 
   startScale() {
@@ -87,6 +85,10 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
     }
   }
 
+  get visibility () {
+    return this._areaInited && this._selfSizeInited ? Visibility.Visible : Visibility.Hidden
+  }
+
   get scaleValue() {
     return this._scaleValue
   }
@@ -96,8 +98,12 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
   }
 
   doMove(val: Tpoint) {
-    if (!this.area || !this.selfSize) return
-    if (this.getAttribute('disabled')) return
+    if (!this.area || !this.selfSize) {
+      return
+    }
+    if (this.getAttribute('disabled')) {
+      return
+    }
     const direction = this.getAttribute('direction')
 
     // 容器的宽高终点
@@ -146,12 +152,39 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
     this._position = val
   }
 
+  set area(val: Tsize) {
+    if(val.w === this._area?.w && val.h === this._area?.h) return
+    this._area = val
+    if (!this._areaInited) {
+      this._areaInited = true
+      this.initPositionFromAttribute()
+    }
+  }
+
+  get area(): Tsize | undefined {
+    return this._area
+  }
+
   set selfSize(val: Tsize) {
+    if(val.w === this._selfSize?.w && val.h === this._selfSize?.h) return
     this._selfSize = val
+    if (!this._selfSizeInited) {
+      this._selfSizeInited = true
+      this.initPositionFromAttribute()
+    }
   }
 
   get selfSize(): Tsize | undefined {
     return this._selfSize
+  }
+
+  initPositionFromAttribute () {
+    if (!this.area || !this.selfSize) {
+      return
+    }
+    const x = this.getAttribute('x') ? Number(this.getAttribute('x')) : 0
+    const y = this.getAttribute('y') ? Number(this.getAttribute('y')) : 0
+    this.checkPositionBoundary({ x, y }, this.scaleValue)
   }
 
   checkPositionBoundary(position: Tpoint, scale: number) {
@@ -193,5 +226,17 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
     }
 
     super.setAttribute(name, value)
+  }
+
+  public callTouchEventFnFromGesture(eventName: string, gestureEvent: GestureEvent) {
+    const touchFns = (this?.__listeners?.[eventName] || []) as Function[]
+    touchFns.forEach(fn => {
+      fn({
+        changedTouches: gestureEvent.fingerList.map(finger => ({
+          clientX: finger.globalX,
+          clientY: finger.globalY
+        }))
+      })
+    })
   }
 }

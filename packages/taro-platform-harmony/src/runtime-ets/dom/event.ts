@@ -86,7 +86,6 @@ function stopOrTriggerPropagation (event: TaroEvent, node: TaroElement) {
 
   // eslint-disable-next-line no-unmodified-loop-condition
   while ((target = target.parentNode as TaroElement)) {
-    event.currentTarget = target
     const listeners = target.__listeners[event.type]
 
     if (!Array.isArray(listeners) || target._attrs?.disabled) {
