@@ -7,5 +7,5 @@ export default function (componentName: string, options?: Record<string, any>, c
     const name = `on${key.charAt(0).toUpperCase()}${key.slice(1)}`
     el[name] = on[key]
   })
-  return h(componentName, { ...attrs, ...props, ...slots, ... el }, children)
+  return h(componentName, { ...attrs, ...props, ...slots, ...el }, children)
 }

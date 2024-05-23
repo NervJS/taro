@@ -2,8 +2,7 @@
   "name": "@tarojs/taro-loader",
   "version": "4.0.0-beta.75",
   "description": "Taro runner use webpack loader",
-  "author": "yuche <i@yuche.me>",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
+  "author": "O2Team",
   "license": "MIT",
   "main": "lib/app.js",
   "directories": {

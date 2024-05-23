@@ -4,7 +4,6 @@
   "description": "create taro app with one command",
   "author": "O2Team",
   "license": "MIT",
-  "homepage": "https://github.com/nervjs/taro/tree/main/packages/create-app#readme",
   "main": "./dist/index.js",
   "scripts": {
     "prebuild": "pnpm run clean",
