@@ -12,7 +12,7 @@ import { NodeType, TaroNode } from '../node'
 import StyleSheet, { HarmonyStyle, TaroStyleType } from '../stylesheet'
 
 import type { BaseTouchEvent, ITouchEvent, StandardProps } from '@tarojs/components/types'
-import type { TaroAny } from '../../utils'
+import type { TaroAny } from '@tarojs/runtime'
 
 type NamedNodeMap = { name: string, value: string }[]
 
@@ -21,6 +21,10 @@ export interface TaroExtraProps {
   compileIf?: boolean
   disabled?: boolean
   __hmStyle?: TaroStyleType
+}
+
+export function isTaroElement (item: TaroAny): item is TaroElement {
+  return item instanceof TaroElement
 }
 
 export class TaroElement<

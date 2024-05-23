@@ -1,5 +1,5 @@
 import { TaroElement } from './element'
-import type { TaroAny } from '../../utils'
+import type { TaroAny } from '@tarojs/runtime'
 
 import type { MovableViewProps } from '@tarojs/components/types'
 
@@ -22,10 +22,11 @@ function calcPosition(postion: number, start: number, end: number) {
   }
 }
 
-export function isTaroMovableViewElement (item: TaroAny): item is TaroMovableViewElement{
-  return item instanceof TaroMovableViewElement
+export function isTaroMovableViewElement (item: TaroAny): item is TaroMovableViewElement {
+  return item?.tagName === "MOVABLE-VIEW"
 }
-@Observed
+ 
+ @Observed
 export class TaroMovableViewElement extends TaroElement<MovableViewProps & { animation: undefined }> {
   _scaleValue = 1
   _scalevalueTemp = 1

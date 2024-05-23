@@ -1,8 +1,12 @@
 import { TaroElement } from './element'
-
+import type { TaroAny } from '@tarojs/runtime'
 import type { VideoProps } from '@tarojs/components/types'
 
-@Observed
+export function isTaroVideoElement (item: TaroAny): item is TaroVideoElement {
+  return item?.tagName === "VIDEO"
+}
+ 
+ @Observed
 export class TaroVideoElement extends TaroElement<VideoProps> {
   controller: VideoController = new VideoController()
 

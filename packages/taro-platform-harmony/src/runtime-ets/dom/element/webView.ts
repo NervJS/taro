@@ -1,15 +1,28 @@
 import business_error from '@ohos.base'
 import web_webview from '@ohos.web.webview'
-
+// import type { TaroAny } from '@tarojs/runtime'
 import { TaroElement } from './element'
 
-import type { WebViewProps } from '@tarojs/components/types'
+import type { WebViewProps, StandardProps } from '@tarojs/components/types'
+
+export function isTaroInnerHtmlElement (item: TaroAny): item is TaroInnerHtmlElement {
+  return item?.tagName === "INNER-HTML"
+}
+// TaroInnerHtmlElement本来使用StandardProps作为TaroElement的泛型入参，但是这样isTaroInnerHtmlElement在ets的判断里会出现不可达分支，
+// 所以新建一个InnerHtmlProps绕过这个问题，meaningless_isInnerHtml也是一个无意义字段
+interface InnerHtmlProps extends StandardProps {
+  meaningless_isInnerHtml?: boolean
+}
 
 @Observed
-export class TaroInnerHtmlElement extends TaroElement {
+export class TaroInnerHtmlElement extends TaroElement<InnerHtmlProps> {
   constructor() {
     super('InnerHtml')
   }
+}
+
+export function isTaroWebViewElement (item: TaroAny): item is TaroWebViewElement {
+  return item?.tagName === "WEB-VIEW"
 }
 
 @Observed
