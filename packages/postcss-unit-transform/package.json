@@ -2,6 +2,8 @@
   "name": "postcss-taro-unit-transform",
   "version": "4.0.0-beta.75",
   "description": "小程序单位转换",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -28,8 +30,6 @@
       "/node_modules/"
     ]
   },
-  "author": "luckyadam",
-  "license": "MIT",
   "peerDependencies": {
     "postcss": "^8"
   }

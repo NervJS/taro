@@ -19,8 +19,6 @@
   },
   "files": [
     "bin",
-    "__tests__",
-    "scripts",
     "src",
     "dist",
     "templates",

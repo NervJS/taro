@@ -1,8 +1,9 @@
-import { InputProps, EventOnLineChange } from '../Input/PropsType'
+import { FormItemProps } from '@tarojs/components'
 
-import type { FormItemProps } from '@tarojs/components'
+import { EventOnLineChange, InputProps } from '../Input/PropsType'
+
 export interface TextareaProps extends InputProps, FormItemProps {
-  autoHeight?: boolean;
-  autoFocus?: boolean;
-  onLineChange?: (evt: EventOnLineChange) => void;
+  autoHeight?: boolean
+  autoFocus?: boolean
+  onLineChange?: (evt: EventOnLineChange) => void
 }

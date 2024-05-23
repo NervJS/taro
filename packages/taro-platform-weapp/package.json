@@ -2,10 +2,10 @@
   "name": "@tarojs/plugin-platform-weapp",
   "version": "4.0.0-beta.75",
   "description": "微信小程序平台插件",
-  "author": "drchan",
+  "author": "O2Team",
   "license": "MIT",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-weapp#readme",
   "main": "index.js",
+  "types": "dist/types/index.d.ts",
   "keywords": [
     "taro"
   ],
@@ -13,17 +13,16 @@
     "index.js",
     "dist"
   ],
-  "types": "dist/types/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NervJS/taro.git"
-  },
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
   },
   "engines": {
     "node": ">= 18"

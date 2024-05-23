@@ -2,6 +2,8 @@
   "name": "postcss-pxtransform",
   "version": "4.0.0-beta.75",
   "description": "PostCSS plugin px 转小程序 rpx及h5 rem 单位",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "keywords": [
     "postcss",
@@ -9,8 +11,10 @@
     "postcss-plugin",
     "pxtransform"
   ],
-  "author": "Pines-Cheng <spider.cs.nuc@gmail.com>",
-  "license": "MIT",
+  "files": [
+    "lib",
+    "index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
@@ -18,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "homepage": "https://github.com/NervJS/taro/tree/next/packages/postcss-pxtransform#readme",
+  "homepage": "https://github.com/NervJS/taro/tree/main/packages/postcss-pxtransform#readme",
   "scripts": {
     "test": "jest"
   },

@@ -11,8 +11,7 @@
     "html-tags.js",
     "react.js",
     "preact.js",
-    "vue3.js",
-    "README.md"
+    "vue3.js"
   ],
   "repository": {
     "type": "git",

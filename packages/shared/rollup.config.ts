@@ -1,5 +1,5 @@
 import typescript from '@rollup/plugin-typescript'
-import { mergeWith } from 'lodash'
+import _ from 'lodash'
 import { defineConfig } from 'rollup'
 
 import type { RollupOptions } from 'rollup'
@@ -54,8 +54,8 @@ export default defineConfig(variesConfig.map(v => {
       return objValue.concat(srcValue)
     }
     if (typeof objValue === 'object') {
-      return mergeWith({}, objValue, srcValue, customizer)
+      return _.mergeWith({}, objValue, srcValue, customizer)
     }
   }
-  return mergeWith({}, baseConfig, v, customizer)
+  return _.mergeWith({}, baseConfig, v, customizer)
 }))

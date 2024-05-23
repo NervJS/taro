@@ -1,8 +1,9 @@
 import React, {
   useCallback,
 } from 'react'
-import View from '../View'
+
 import { omit } from '../../utils'
+import View from '../View'
 
 import type { NavigatorProps } from '@tarojs/components/types/Navigator'
 

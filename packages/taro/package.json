@@ -13,9 +13,6 @@
     "html.css",
     "html5.css"
   ],
-  "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
@@ -35,7 +32,6 @@
     "@tarojs/components": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@tarojs/taro": "workspace:*",
     "@types/react": "^18.3.1",
     "html-webpack-plugin": "^5.6.0",
     "postcss": "^8.4.38",
@@ -47,7 +43,6 @@
     "@tarojs/components": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@tarojs/taro": "workspace:*",
     "@types/react": "^18",
     "html-webpack-plugin": "^5",
     "rollup": "^4",

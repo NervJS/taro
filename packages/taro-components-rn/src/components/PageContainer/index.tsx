@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal } from 'react-native'
-import Container from './container'
 
+import Container from './container'
 import { PageContainerProps } from './PropsType'
 
 /**

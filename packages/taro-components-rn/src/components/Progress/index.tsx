@@ -24,14 +24,15 @@
 
 import * as React from 'react'
 import {
-  View,
-  Text,
   Animated,
-  Easing,
   DimensionValue,
+  Easing,
+  Text,
+  View,
 } from 'react-native'
-import styles from './styles'
+
 import { ProgressProps, ProgressState } from './PropsType'
+import styles from './styles'
 
 export default class _Progress extends React.Component<ProgressProps, ProgressState> {
   static defaultProps = {

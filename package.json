@@ -107,6 +107,7 @@
     "babel-jest": "^29.7.0",
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-preset-power-assert": "3.0.0",
+    "babel-preset-taro": "workspace:*",
     "conventional-changelog-cli": "^2.0.1",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2",

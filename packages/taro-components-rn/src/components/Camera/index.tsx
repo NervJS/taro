@@ -1,10 +1,11 @@
+import { BarcodeScanningResult, BarcodeType, Camera, CameraMountError, CameraView, PermissionStatus } from 'expo-camera'
+import { CameraType } from 'expo-camera/build/legacy/Camera.types'
 import React, { Component } from 'react'
-import View from '../View'
+
 import Text from '../Text'
-import { BarcodeScanningResult, Camera, CameraView, CameraMountError, PermissionStatus, BarcodeType } from 'expo-camera'
+import View from '../View'
 import { CameraProps, CameraState } from './PropsType'
 import styles from './styles'
-import { CameraType } from 'expo-camera/build/legacy/Camera.types'
 
 export class _Camera extends Component<CameraProps, CameraState> {
   constructor(props: CameraProps) {

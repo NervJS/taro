@@ -2,23 +2,15 @@
   "name": "@tarojs/service",
   "version": "4.0.0-beta.75",
   "description": "Taro Service",
-  "author": "luckyadam",
+  "author": "O2Team",
   "license": "MIT",
   "main": "index.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "build": "run-s clean prod",
-    "dev": "tsc -w",
-    "prod": "tsc",
+    "prebuild": "pnpm run clean",
     "clean": "rimraf --impl=move-remove dist types",
-    "prepack": "pnpm run build",
-    "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent --passWithNoTests",
-    "test:dev": "cross-env NODE_ENV=jest jest --watch"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NervJS/taro.git"
+    "dev": "tsc -w",
+    "build": "tsc"
   },
   "files": [
     "index.js",
@@ -31,7 +23,10 @@
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "homepage": "https://github.com/NervJS/taro#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
   "engines": {
     "node": ">= 18"
   },
