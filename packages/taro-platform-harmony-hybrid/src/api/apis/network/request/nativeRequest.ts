@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
 import { isFunction } from '@tarojs/shared'
+import { toByteArray } from 'base64-js'
 
 import { NativeRequest } from '../../interface/NativeRequest'
 import native from '../../NativeApi'
@@ -14,7 +15,7 @@ export const _request = (options) => {
     return Promise.reject(res)
   }
 
-  const { url, success, fail, complete, method, ...otherOptions } = options as Exclude<typeof options, undefined>
+  const { url, success, fail, complete, method, dataType, ...otherOptions } = options as Exclude<typeof options, undefined>
   if (typeof url !== 'string') {
     const res = {
       errMsg: getParameterError({
@@ -34,11 +35,23 @@ export const _request = (options) => {
     const taskID = native.request({
       url,
       method: upperMethod,
+      dataType,
       ...otherOptions,
       success: (res: any) => {
-        isFunction(success) && success(res)
-        isFunction(complete) && complete(res)
-        resolve(res)
+        const result = {
+          data: res.data,
+          statusCode: res.statusCode,
+          header: res.header,
+          cookies: res.cookies,
+          errMsg: res.errMsg
+        }
+        // Èç¹ûÇëÇóµÄÊÇ¶þ½øÖÆÊý¾Ý£¬Ôò½«·µ»ØÖµ×ª»»³É ArrayBuffer
+        if (res.isArrayBuffer && dataType === 'arraybuffer') {
+          result.data = toByteArray(res.data).buffer
+        }
+        isFunction(success) && success(result)
+        isFunction(complete) && complete(result)
+        resolve(result)
       },
       fail: (res: any) => {
         isFunction(fail) && fail(res)
@@ -63,36 +76,15 @@ function taroInterceptor (chain) {
 const { Link } = Taro
 const link = new Link(taroInterceptor)
 
-/**
- * å‘èµ· HTTPS ç½‘ç»œè¯·æ±‚
- *
- * @canUse request
- * @__object [url, data, header, timeout, method[OPTIONS, GET, HEAD, POST, PUT, PATCH, DELETE, TRACE, CONNECT], dataType[json, text, base64, arraybuffer], responseType[text, arraybuffer], enableCache]
- * @__success [data, header, statusCode, cookies]
- */
+
 export function request (options) {
   const result = link.request.bind(link)(options)
   result.catch(() => {})
   return result
 }
 
-/**
- * ç½‘ç»œè¯·æ±‚ä»»åŠ¡å¯¹è±¡
- *
- * @canUse RequestTask
- * @__class [abort, onHeadersReceived, offHeadersReceived]
- */
 
-/**
- * ä½¿ç”¨æ‹¦æˆªå™¨
- *
- * @canNotUse addInterceptor
- */
 export const addInterceptor = link.addInterceptor.bind(link)
 
-/**
- * æ¸…é™¤æ‰€æœ‰æ‹¦æˆªå™¨
- *
- * @canNotUse cleanInterceptors
- */
+
 export const cleanInterceptors = link.cleanInterceptors.bind(link)

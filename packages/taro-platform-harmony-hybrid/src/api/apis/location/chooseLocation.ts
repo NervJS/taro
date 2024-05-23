@@ -1,6 +1,8 @@
 import Taro from '@tarojs/api'
 import queryString from 'query-string'
 
+import native from '../NativeApi'
+import { shouldBeObject } from '../utils'
 import { MethodHandler } from '../utils/handler'
 
 let container: HTMLDivElement | null = null
@@ -76,45 +78,41 @@ function createLocationChooser (handler, mapOpt: Taro.chooseLocation.Option['map
  * 打开地图选择位置。
  *
  * @canUse chooseLocation
- * @__object [mapOpts]
+ * @__object [latitude, longitude]
  * @__success [address, latitude, longitude, name]
  */
-export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, complete, mapOpts } = {}) => {
-  const handle = new MethodHandler({ name: 'chooseLocation', success, fail, complete })
-  return new Promise((resolve, reject) => {
-    const chooseLocation: Partial<Taro.chooseLocation.SuccessCallbackResult> = {}
-    const onMessage = (event) => {
-      // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
-      const loc = event.data
-
-      // 防止其他应用也会向该页面 post 信息，需判断 module 是否为'locationPicker'
-      if (!loc || loc.module !== 'locationPicker') return
-
-      chooseLocation.name = loc.poiname
-      chooseLocation.address = loc.poiaddress
-      chooseLocation.latitude = loc.latlng.lat
-      chooseLocation.longitude = loc.latlng.lng
-    }
-
-    const chooser = createLocationChooser((res) => {
-      window.removeEventListener('message', onMessage, false)
-      setTimeout(() => {
-        chooser.remove()
-      }, 300)
-      if (res) {
-        return handle.fail(res, { resolve, reject })
-      } else {
-        if (chooseLocation.latitude && chooseLocation.longitude) {
-          return handle.success(chooseLocation, { resolve, reject })
-        } else {
-          return handle.fail({}, { resolve, reject })
+export const chooseLocation: typeof Taro.chooseLocation = (options = {}) => {
+  const name = 'chooseLocation'
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `openLocation:fail ${isObject.msg}` }
+    return Promise.reject(res)
+  }
+  const {
+    latitude,
+    longitude,
+    success,
+    fail,
+    complete
+  } = options
+  const handle = new MethodHandler({ name, success, fail, complete })
+  return new Promise<Taro.chooseLocation.SuccessCallbackResult>((resolve, reject) => {
+    native.chooseLocation({
+      latitude,
+      longitude,
+      success: (res: any) => {
+        const result: Taro.chooseLocation.SuccessCallbackResult = {
+          address: res.address,
+          latitude: res.location.latitude,
+          longitude: res.location.longitude,
+          name: res.name,
+          errMsg: `${name}:ok`
         }
+        handle.success(result, { resolve, reject })
+      },
+      fail: (res: any) => {
+        handle.fail(res, { resolve, reject })
       }
-    }, mapOpts)
-
-    document.body.appendChild(chooser.container)
-
-    window.addEventListener('message', onMessage, false)
-    chooser.show()
+    })
   })
 }
