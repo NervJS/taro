@@ -21,6 +21,7 @@ describe('mini-split-chunks', () => {
     const { stats, config } = await compile(appName, {
       platformType: 'mini',
       webpackChain (chain) {
+        chain.mode('development')
         chain.merge({
           externals: [
             'lodash'

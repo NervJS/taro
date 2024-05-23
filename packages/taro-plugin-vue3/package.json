@@ -38,10 +38,10 @@
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
+    "vue-loader": "^17.0.0",
     "@vue/compiler-core": "^3.4.25",
     "vite": "^5.2.10",
     "vue": "^3.4.25"
-
   },
   "peerDependencies": {
     "@tarojs/helper": "workspace:*",
@@ -50,6 +50,7 @@
     "@tarojs/shared": "workspace:*",
     "@vitejs/plugin-vue": "^5",
     "@vitejs/plugin-vue-jsx": "^3",
+    "vue-loader": "^17.0.0",
     "vite": "^5",
     "vue": "^3"
   },

@@ -49,9 +49,13 @@ export function frameworkPatch(chain, webpack, config) {
       framework: config.framework || 'react',
     },
     modifyWebpackChain: (cb) => cb({ chain, webpack, data: { componentConfig } }),
-    modifyViteConfig: (cb) => cb({ viteConfig: { plugins: [] }, componentConfig }),
+    modifyViteConfig: (cb) => {
+      const cbList: any = []
+      cbList.push(cb)
+    },
     modifyRunnerOpts: (cb) => cb(config),
     onParseCreateElement: (cb) => cb({ nodeName: '', componentConfig }),
+    applyPlugins: () => null,
     runnerUtils,
   }
 

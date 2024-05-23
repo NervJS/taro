@@ -20,8 +20,7 @@ export default class H5 extends TaroPlatformWeb {
     super(ctx, config)
     this.setupTransaction.addWrapper({
       close() {
-        this.modifyWebpackConfig()
-        this.modifyViteConfig()
+        this.compiler === 'webpack5' ? this.modifyWebpackConfig() : this.modifyViteConfig()
       },
     })
   }
