@@ -15,7 +15,7 @@
     "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
     "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
-    "updateSnapshot": "jest --updateSnapshot"
+    "updateSnapshot": "cross-env NODE_ENV=jest jest --ci -i -u"
   },
   "repository": {
     "type": "git",
