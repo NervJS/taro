@@ -13,8 +13,8 @@ require("./vendors");
 
 require("./runtime");
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    849: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 524 ], {
+    244: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -567,7 +567,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(521);
+        var taro_runtime = __webpack_require__(103);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -598,11 +598,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(517);
-        var createClass = __webpack_require__(872);
-        var inherits = __webpack_require__(557);
-        var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(525);
+        var classCallCheck = __webpack_require__(378);
+        var createClass = __webpack_require__(109);
+        var callSuper = __webpack_require__(54);
+        var inherits = __webpack_require__(324);
+        var react = __webpack_require__(831);
         var app_App = function(_Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -645,8 +645,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(849);
+    __webpack_require__.O(0, [ 96, 76 ], (function() {
+        return __webpack_exec__(244);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1377,8 +1377,8 @@ require("./runtime");
 /** filePath: dist/common.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    525: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 76 ], {
+    831: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -1388,8 +1388,7 @@ require("./runtime");
         const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    521: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.r(__webpack_exports__);
+    103: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -1401,7 +1400,7 @@ require("./runtime");
                 return window;
             }
         });
-        __webpack_exports__["default"] = "taro-runtime-mock";
+        var __WEBPACK_DEFAULT_EXPORT__ = "taro-runtime-mock";
         const window = {};
         function createReactApp() {}
         function createVue3App() {}
@@ -1413,17 +1412,17 @@ require("./runtime");
 /** filePath: dist/comp.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    227: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(521);
-        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 862 ], {
+    329: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(103);
+        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(227);
+    __webpack_require__.O(0, [ 76 ], (function() {
+        return __webpack_exec__(329);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1439,14 +1438,14 @@ require("./runtime");
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    631: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(521);
-        var classCallCheck = __webpack_require__(517);
-        var createClass = __webpack_require__(872);
-        var inherits = __webpack_require__(557);
-        var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(525);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 421 ], {
+    960: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(103);
+        var classCallCheck = __webpack_require__(378);
+        var createClass = __webpack_require__(109);
+        var callSuper = __webpack_require__(54);
+        var inherits = __webpack_require__(324);
+        var react = __webpack_require__(831);
         const Canvas = {};
         const CoverView = {};
         const CoverImage = {};
@@ -1488,8 +1487,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(631);
+    __webpack_require__.O(0, [ 96, 76 ], (function() {
+        return __webpack_exec__(960);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1548,8 +1547,8 @@ module.exports = {
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    517: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 96 ], {
+    54: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -1569,7 +1568,7 @@ module.exports = {
                 return !!t;
             })();
         }
-        var esm_typeof = __webpack_require__(347);
+        var esm_typeof = __webpack_require__(967);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -1588,7 +1587,7 @@ module.exports = {
             return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
         }
     },
-    270: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    378: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _classCallCheck;
@@ -1600,26 +1599,26 @@ module.exports = {
             }
         }
     },
-    872: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    109: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(327);
-        function _toPrimitive(input, hint) {
-            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if ((0, esm_typeof.Z)(res) !== "object") return res;
+        var esm_typeof = __webpack_require__(967);
+        function toPrimitive(t, r) {
+            if ("object" != (0, esm_typeof.A)(t) || !t) return t;
+            var e = t[Symbol.toPrimitive];
+            if (void 0 !== e) {
+                var i = e.call(t, r || "default");
+                if ("object" != (0, esm_typeof.A)(i)) return i;
                 throw new TypeError("@@toPrimitive must return a primitive value.");
             }
-            return (hint === "string" ? String : Number)(input);
+            return ("string" === r ? String : Number)(t);
         }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        function toPropertyKey(t) {
+            var i = toPrimitive(t, "string");
+            return "symbol" == (0, esm_typeof.A)(i) ? i : i + "";
         }
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
@@ -1627,7 +1626,7 @@ module.exports = {
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+                Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -1639,61 +1638,9 @@ module.exports = {
             return Constructor;
         }
     },
-    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    324: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
-                return _createSuper;
-            }
-        });
-        function _getPrototypeOf(o) {
-            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-                return o.__proto__ || Object.getPrototypeOf(o);
-            };
-            return _getPrototypeOf(o);
-        }
-        function _isNativeReflectConstruct() {
-            if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-            if (Reflect.construct.sham) return false;
-            if (typeof Proxy === "function") return true;
-            try {
-                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-        var esm_typeof = __webpack_require__(327);
-        function _assertThisInitialized(self) {
-            if (self === void 0) {
-                throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-            }
-            return self;
-        }
-        function _possibleConstructorReturn(self, call) {
-            if (call && ((0, esm_typeof.Z)(call) === "object" || typeof call === "function")) {
-                return call;
-            } else if (call !== void 0) {
-                throw new TypeError("Derived constructors may only return object or undefined");
-            }
-            return _assertThisInitialized(self);
-        }
-        function _createSuper(Derived) {
-            var hasNativeReflectConstruct = _isNativeReflectConstruct();
-            return function _createSuperInternal() {
-                var Super = _getPrototypeOf(Derived), result;
-                if (hasNativeReflectConstruct) {
-                    var NewTarget = _getPrototypeOf(this).constructor;
-                    result = Reflect.construct(Super, arguments, NewTarget);
-                } else {
-                    result = Super.apply(this, arguments);
-                }
-                return _possibleConstructorReturn(this, result);
-            };
-        }
-    },
-    557: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
+            A: function() {
                 return _inherits;
             }
         });
@@ -1721,7 +1668,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    327: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    967: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
@@ -1751,118 +1698,7 @@ exports[`sass should build app with sass web 2`] = `
 (function() {
     "use strict";
     var __webpack_exports__ = {};
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-    function _typeof(obj) {
-        "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, _typeof(obj);
-    }
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return _typeof(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
-    }
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            "constructor": {
-                "value": subClass,
-                "writable": true,
-                "configurable": true
-            }
-        });
-        Object.defineProperty(subClass, "prototype", {
-            "writable": false
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === "function") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === "object" || typeof call === "function")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError("Derived constructors may only return object or undefined");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-    const Component = {};
+    const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
         function App() {
@@ -1895,8 +1731,8 @@ require("./vendors");
 
 require("./runtime");
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    925: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 524 ], {
+    582: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -2449,7 +2285,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(521);
+        var taro_runtime = __webpack_require__(103);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -2480,11 +2316,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(517);
-        var createClass = __webpack_require__(872);
-        var inherits = __webpack_require__(557);
-        var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(525);
+        var classCallCheck = __webpack_require__(378);
+        var createClass = __webpack_require__(109);
+        var callSuper = __webpack_require__(54);
+        var inherits = __webpack_require__(324);
+        var react = __webpack_require__(831);
         var app_App = function(_Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -2536,8 +2372,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(925);
+    __webpack_require__.O(0, [ 96, 76 ], (function() {
+        return __webpack_exec__(582);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -3270,8 +3106,8 @@ require("./runtime");
 /** filePath: dist/common.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    525: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 76 ], {
+    831: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -3281,8 +3117,7 @@ require("./runtime");
         const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    521: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.r(__webpack_exports__);
+    103: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -3294,7 +3129,7 @@ require("./runtime");
                 return window;
             }
         });
-        __webpack_exports__["default"] = "taro-runtime-mock";
+        var __WEBPACK_DEFAULT_EXPORT__ = "taro-runtime-mock";
         const window = {};
         function createReactApp() {}
         function createVue3App() {}
@@ -3306,17 +3141,17 @@ require("./runtime");
 /** filePath: dist/comp.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    227: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(521);
-        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 862 ], {
+    329: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(103);
+        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(227);
+    __webpack_require__.O(0, [ 76 ], (function() {
+        return __webpack_exec__(329);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -3332,14 +3167,14 @@ require("./runtime");
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    718: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(521);
-        var classCallCheck = __webpack_require__(517);
-        var createClass = __webpack_require__(872);
-        var inherits = __webpack_require__(557);
-        var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(525);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 421 ], {
+    330: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(103);
+        var classCallCheck = __webpack_require__(378);
+        var createClass = __webpack_require__(109);
+        var callSuper = __webpack_require__(54);
+        var inherits = __webpack_require__(324);
+        var react = __webpack_require__(831);
         const Canvas = {};
         const CoverView = {};
         const CoverImage = {};
@@ -3393,8 +3228,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(718);
+    __webpack_require__.O(0, [ 96, 76 ], (function() {
+        return __webpack_exec__(330);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -3453,8 +3288,8 @@ module.exports = {
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    517: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 96 ], {
+    54: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -3474,7 +3309,7 @@ module.exports = {
                 return !!t;
             })();
         }
-        var esm_typeof = __webpack_require__(347);
+        var esm_typeof = __webpack_require__(967);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -3493,7 +3328,7 @@ module.exports = {
             return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
         }
     },
-    270: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    378: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _classCallCheck;
@@ -3505,26 +3340,26 @@ module.exports = {
             }
         }
     },
-    872: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    109: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(817);
-        function _toPrimitive(input, hint) {
-            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if ((0, esm_typeof.Z)(res) !== "object") return res;
+        var esm_typeof = __webpack_require__(967);
+        function toPrimitive(t, r) {
+            if ("object" != (0, esm_typeof.A)(t) || !t) return t;
+            var e = t[Symbol.toPrimitive];
+            if (void 0 !== e) {
+                var i = e.call(t, r || "default");
+                if ("object" != (0, esm_typeof.A)(i)) return i;
                 throw new TypeError("@@toPrimitive must return a primitive value.");
             }
-            return (hint === "string" ? String : Number)(input);
+            return ("string" === r ? String : Number)(t);
         }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        function toPropertyKey(t) {
+            var i = toPrimitive(t, "string");
+            return "symbol" == (0, esm_typeof.A)(i) ? i : i + "";
         }
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
@@ -3532,7 +3367,7 @@ module.exports = {
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+                Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -3544,61 +3379,9 @@ module.exports = {
             return Constructor;
         }
     },
-    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    324: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
-                return _createSuper;
-            }
-        });
-        function _getPrototypeOf(o) {
-            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-                return o.__proto__ || Object.getPrototypeOf(o);
-            };
-            return _getPrototypeOf(o);
-        }
-        function _isNativeReflectConstruct() {
-            if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-            if (Reflect.construct.sham) return false;
-            if (typeof Proxy === "function") return true;
-            try {
-                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-        var esm_typeof = __webpack_require__(817);
-        function _assertThisInitialized(self) {
-            if (self === void 0) {
-                throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-            }
-            return self;
-        }
-        function _possibleConstructorReturn(self, call) {
-            if (call && ((0, esm_typeof.Z)(call) === "object" || typeof call === "function")) {
-                return call;
-            } else if (call !== void 0) {
-                throw new TypeError("Derived constructors may only return object or undefined");
-            }
-            return _assertThisInitialized(self);
-        }
-        function _createSuper(Derived) {
-            var hasNativeReflectConstruct = _isNativeReflectConstruct();
-            return function _createSuperInternal() {
-                var Super = _getPrototypeOf(Derived), result;
-                if (hasNativeReflectConstruct) {
-                    var NewTarget = _getPrototypeOf(this).constructor;
-                    result = Reflect.construct(Super, arguments, NewTarget);
-                } else {
-                    result = Super.apply(this, arguments);
-                }
-                return _possibleConstructorReturn(this, result);
-            };
-        }
-    },
-    557: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
+            A: function() {
                 return _inherits;
             }
         });
@@ -3626,7 +3409,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    817: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    967: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
@@ -3658,118 +3441,7 @@ exports[`sass should build app with scss web 2`] = `
 (function() {
     "use strict";
     var __webpack_exports__ = {};
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-    function _typeof(obj) {
-        "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, _typeof(obj);
-    }
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return _typeof(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
-    }
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            "constructor": {
-                "value": subClass,
-                "writable": true,
-                "configurable": true
-            }
-        });
-        Object.defineProperty(subClass, "prototype", {
-            "writable": false
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === "function") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === "object" || typeof call === "function")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError("Derived constructors may only return object or undefined");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-    const Component = {};
+    const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
         function App() {
@@ -3811,8 +3483,8 @@ require("./vendors");
 
 require("./runtime");
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    925: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 524 ], {
+    582: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -4365,7 +4037,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(521);
+        var taro_runtime = __webpack_require__(103);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -4396,11 +4068,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(517);
-        var createClass = __webpack_require__(872);
-        var inherits = __webpack_require__(557);
-        var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(525);
+        var classCallCheck = __webpack_require__(378);
+        var createClass = __webpack_require__(109);
+        var callSuper = __webpack_require__(54);
+        var inherits = __webpack_require__(324);
+        var react = __webpack_require__(831);
         var app_App = function(_Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -4452,8 +4124,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(925);
+    __webpack_require__.O(0, [ 96, 76 ], (function() {
+        return __webpack_exec__(582);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -5187,8 +4859,8 @@ require("./runtime");
 /** filePath: dist/common.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    525: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 76 ], {
+    831: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -5198,8 +4870,7 @@ require("./runtime");
         const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    521: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.r(__webpack_exports__);
+    103: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -5211,7 +4882,7 @@ require("./runtime");
                 return window;
             }
         });
-        __webpack_exports__["default"] = "taro-runtime-mock";
+        var __WEBPACK_DEFAULT_EXPORT__ = "taro-runtime-mock";
         const window = {};
         function createReactApp() {}
         function createVue3App() {}
@@ -5223,17 +4894,17 @@ require("./runtime");
 /** filePath: dist/comp.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    227: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(521);
-        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 862 ], {
+    329: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(103);
+        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(227);
+    __webpack_require__.O(0, [ 76 ], (function() {
+        return __webpack_exec__(329);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -5249,14 +4920,14 @@ require("./runtime");
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    718: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(521);
-        var classCallCheck = __webpack_require__(517);
-        var createClass = __webpack_require__(872);
-        var inherits = __webpack_require__(557);
-        var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(525);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 421 ], {
+    330: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(103);
+        var classCallCheck = __webpack_require__(378);
+        var createClass = __webpack_require__(109);
+        var callSuper = __webpack_require__(54);
+        var inherits = __webpack_require__(324);
+        var react = __webpack_require__(831);
         const Canvas = {};
         const CoverView = {};
         const CoverImage = {};
@@ -5310,8 +4981,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(718);
+    __webpack_require__.O(0, [ 96, 76 ], (function() {
+        return __webpack_exec__(330);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -5370,8 +5041,8 @@ module.exports = {
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    517: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 96 ], {
+    54: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -5391,7 +5062,7 @@ module.exports = {
                 return !!t;
             })();
         }
-        var esm_typeof = __webpack_require__(347);
+        var esm_typeof = __webpack_require__(967);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -5410,7 +5081,7 @@ module.exports = {
             return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
         }
     },
-    270: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    378: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _classCallCheck;
@@ -5422,26 +5093,26 @@ module.exports = {
             }
         }
     },
-    872: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    109: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(817);
-        function _toPrimitive(input, hint) {
-            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if ((0, esm_typeof.Z)(res) !== "object") return res;
+        var esm_typeof = __webpack_require__(967);
+        function toPrimitive(t, r) {
+            if ("object" != (0, esm_typeof.A)(t) || !t) return t;
+            var e = t[Symbol.toPrimitive];
+            if (void 0 !== e) {
+                var i = e.call(t, r || "default");
+                if ("object" != (0, esm_typeof.A)(i)) return i;
                 throw new TypeError("@@toPrimitive must return a primitive value.");
             }
-            return (hint === "string" ? String : Number)(input);
+            return ("string" === r ? String : Number)(t);
         }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        function toPropertyKey(t) {
+            var i = toPrimitive(t, "string");
+            return "symbol" == (0, esm_typeof.A)(i) ? i : i + "";
         }
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
@@ -5449,7 +5120,7 @@ module.exports = {
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+                Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -5461,61 +5132,9 @@ module.exports = {
             return Constructor;
         }
     },
-    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    324: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
-                return _createSuper;
-            }
-        });
-        function _getPrototypeOf(o) {
-            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-                return o.__proto__ || Object.getPrototypeOf(o);
-            };
-            return _getPrototypeOf(o);
-        }
-        function _isNativeReflectConstruct() {
-            if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-            if (Reflect.construct.sham) return false;
-            if (typeof Proxy === "function") return true;
-            try {
-                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-        var esm_typeof = __webpack_require__(817);
-        function _assertThisInitialized(self) {
-            if (self === void 0) {
-                throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-            }
-            return self;
-        }
-        function _possibleConstructorReturn(self, call) {
-            if (call && ((0, esm_typeof.Z)(call) === "object" || typeof call === "function")) {
-                return call;
-            } else if (call !== void 0) {
-                throw new TypeError("Derived constructors may only return object or undefined");
-            }
-            return _assertThisInitialized(self);
-        }
-        function _createSuper(Derived) {
-            var hasNativeReflectConstruct = _isNativeReflectConstruct();
-            return function _createSuperInternal() {
-                var Super = _getPrototypeOf(Derived), result;
-                if (hasNativeReflectConstruct) {
-                    var NewTarget = _getPrototypeOf(this).constructor;
-                    result = Reflect.construct(Super, arguments, NewTarget);
-                } else {
-                    result = Super.apply(this, arguments);
-                }
-                return _possibleConstructorReturn(this, result);
-            };
-        }
-    },
-    557: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
+            A: function() {
                 return _inherits;
             }
         });
@@ -5543,7 +5162,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    817: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    967: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
@@ -5576,118 +5195,7 @@ exports[`sass should set global sass content with data web 2`] = `
 (function() {
     "use strict";
     var __webpack_exports__ = {};
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-    function _typeof(obj) {
-        "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, _typeof(obj);
-    }
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return _typeof(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
-    }
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            "constructor": {
-                "value": subClass,
-                "writable": true,
-                "configurable": true
-            }
-        });
-        Object.defineProperty(subClass, "prototype", {
-            "writable": false
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === "function") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === "object" || typeof call === "function")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError("Derived constructors may only return object or undefined");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-    const Component = {};
+    const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
         function App() {
@@ -5729,8 +5237,8 @@ require("./vendors");
 
 require("./runtime");
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    925: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 524 ], {
+    582: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -6283,7 +5791,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(521);
+        var taro_runtime = __webpack_require__(103);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -6314,11 +5822,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(517);
-        var createClass = __webpack_require__(872);
-        var inherits = __webpack_require__(557);
-        var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(525);
+        var classCallCheck = __webpack_require__(378);
+        var createClass = __webpack_require__(109);
+        var callSuper = __webpack_require__(54);
+        var inherits = __webpack_require__(324);
+        var react = __webpack_require__(831);
         var app_App = function(_Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -6370,8 +5878,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(925);
+    __webpack_require__.O(0, [ 96, 76 ], (function() {
+        return __webpack_exec__(582);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -7105,8 +6613,8 @@ require("./runtime");
 /** filePath: dist/common.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    525: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 76 ], {
+    831: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -7116,8 +6624,7 @@ require("./runtime");
         const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    521: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.r(__webpack_exports__);
+    103: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -7129,7 +6636,7 @@ require("./runtime");
                 return window;
             }
         });
-        __webpack_exports__["default"] = "taro-runtime-mock";
+        var __WEBPACK_DEFAULT_EXPORT__ = "taro-runtime-mock";
         const window = {};
         function createReactApp() {}
         function createVue3App() {}
@@ -7141,17 +6648,17 @@ require("./runtime");
 /** filePath: dist/comp.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    227: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(521);
-        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 862 ], {
+    329: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(103);
+        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(227);
+    __webpack_require__.O(0, [ 76 ], (function() {
+        return __webpack_exec__(329);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -7167,14 +6674,14 @@ require("./runtime");
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    718: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(521);
-        var classCallCheck = __webpack_require__(517);
-        var createClass = __webpack_require__(872);
-        var inherits = __webpack_require__(557);
-        var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(525);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 421 ], {
+    330: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(103);
+        var classCallCheck = __webpack_require__(378);
+        var createClass = __webpack_require__(109);
+        var callSuper = __webpack_require__(54);
+        var inherits = __webpack_require__(324);
+        var react = __webpack_require__(831);
         const Canvas = {};
         const CoverView = {};
         const CoverImage = {};
@@ -7228,8 +6735,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(718);
+    __webpack_require__.O(0, [ 96, 76 ], (function() {
+        return __webpack_exec__(330);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -7288,8 +6795,8 @@ module.exports = {
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    517: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 96 ], {
+    54: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -7309,7 +6816,7 @@ module.exports = {
                 return !!t;
             })();
         }
-        var esm_typeof = __webpack_require__(347);
+        var esm_typeof = __webpack_require__(967);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -7328,7 +6835,7 @@ module.exports = {
             return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
         }
     },
-    270: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    378: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _classCallCheck;
@@ -7340,26 +6847,26 @@ module.exports = {
             }
         }
     },
-    872: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    109: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(817);
-        function _toPrimitive(input, hint) {
-            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if ((0, esm_typeof.Z)(res) !== "object") return res;
+        var esm_typeof = __webpack_require__(967);
+        function toPrimitive(t, r) {
+            if ("object" != (0, esm_typeof.A)(t) || !t) return t;
+            var e = t[Symbol.toPrimitive];
+            if (void 0 !== e) {
+                var i = e.call(t, r || "default");
+                if ("object" != (0, esm_typeof.A)(i)) return i;
                 throw new TypeError("@@toPrimitive must return a primitive value.");
             }
-            return (hint === "string" ? String : Number)(input);
+            return ("string" === r ? String : Number)(t);
         }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        function toPropertyKey(t) {
+            var i = toPrimitive(t, "string");
+            return "symbol" == (0, esm_typeof.A)(i) ? i : i + "";
         }
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
@@ -7367,7 +6874,7 @@ module.exports = {
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+                Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -7379,61 +6886,9 @@ module.exports = {
             return Constructor;
         }
     },
-    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    324: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
-                return _createSuper;
-            }
-        });
-        function _getPrototypeOf(o) {
-            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-                return o.__proto__ || Object.getPrototypeOf(o);
-            };
-            return _getPrototypeOf(o);
-        }
-        function _isNativeReflectConstruct() {
-            if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-            if (Reflect.construct.sham) return false;
-            if (typeof Proxy === "function") return true;
-            try {
-                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-        var esm_typeof = __webpack_require__(817);
-        function _assertThisInitialized(self) {
-            if (self === void 0) {
-                throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-            }
-            return self;
-        }
-        function _possibleConstructorReturn(self, call) {
-            if (call && ((0, esm_typeof.Z)(call) === "object" || typeof call === "function")) {
-                return call;
-            } else if (call !== void 0) {
-                throw new TypeError("Derived constructors may only return object or undefined");
-            }
-            return _assertThisInitialized(self);
-        }
-        function _createSuper(Derived) {
-            var hasNativeReflectConstruct = _isNativeReflectConstruct();
-            return function _createSuperInternal() {
-                var Super = _getPrototypeOf(Derived), result;
-                if (hasNativeReflectConstruct) {
-                    var NewTarget = _getPrototypeOf(this).constructor;
-                    result = Reflect.construct(Super, arguments, NewTarget);
-                } else {
-                    result = Super.apply(this, arguments);
-                }
-                return _possibleConstructorReturn(this, result);
-            };
-        }
-    },
-    557: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
+            A: function() {
                 return _inherits;
             }
         });
@@ -7461,7 +6916,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    817: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    967: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
@@ -7494,118 +6949,7 @@ exports[`sass should set global sass content with source & dir web 2`] = `
 (function() {
     "use strict";
     var __webpack_exports__ = {};
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-    function _typeof(obj) {
-        "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, _typeof(obj);
-    }
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return _typeof(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
-    }
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            "constructor": {
-                "value": subClass,
-                "writable": true,
-                "configurable": true
-            }
-        });
-        Object.defineProperty(subClass, "prototype", {
-            "writable": false
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === "function") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === "object" || typeof call === "function")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError("Derived constructors may only return object or undefined");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-    const Component = {};
+    const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
         function App() {
@@ -7647,8 +6991,8 @@ require("./vendors");
 
 require("./runtime");
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    925: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 524 ], {
+    582: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -8201,7 +7545,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(521);
+        var taro_runtime = __webpack_require__(103);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -8232,11 +7576,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(517);
-        var createClass = __webpack_require__(872);
-        var inherits = __webpack_require__(557);
-        var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(525);
+        var classCallCheck = __webpack_require__(378);
+        var createClass = __webpack_require__(109);
+        var callSuper = __webpack_require__(54);
+        var inherits = __webpack_require__(324);
+        var react = __webpack_require__(831);
         var app_App = function(_Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -8288,8 +7632,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(925);
+    __webpack_require__.O(0, [ 96, 76 ], (function() {
+        return __webpack_exec__(582);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -9023,8 +8367,8 @@ require("./runtime");
 /** filePath: dist/common.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    525: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 76 ], {
+    831: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -9034,8 +8378,7 @@ require("./runtime");
         const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    521: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.r(__webpack_exports__);
+    103: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -9047,7 +8390,7 @@ require("./runtime");
                 return window;
             }
         });
-        __webpack_exports__["default"] = "taro-runtime-mock";
+        var __WEBPACK_DEFAULT_EXPORT__ = "taro-runtime-mock";
         const window = {};
         function createReactApp() {}
         function createVue3App() {}
@@ -9059,17 +8402,17 @@ require("./runtime");
 /** filePath: dist/comp.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    227: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(521);
-        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 862 ], {
+    329: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(103);
+        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(227);
+    __webpack_require__.O(0, [ 76 ], (function() {
+        return __webpack_exec__(329);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -9085,14 +8428,14 @@ require("./runtime");
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    718: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(521);
-        var classCallCheck = __webpack_require__(517);
-        var createClass = __webpack_require__(872);
-        var inherits = __webpack_require__(557);
-        var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(525);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 421 ], {
+    330: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(103);
+        var classCallCheck = __webpack_require__(378);
+        var createClass = __webpack_require__(109);
+        var callSuper = __webpack_require__(54);
+        var inherits = __webpack_require__(324);
+        var react = __webpack_require__(831);
         const Canvas = {};
         const CoverView = {};
         const CoverImage = {};
@@ -9146,8 +8489,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(718);
+    __webpack_require__.O(0, [ 96, 76 ], (function() {
+        return __webpack_exec__(330);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -9206,8 +8549,8 @@ module.exports = {
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    517: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 96 ], {
+    54: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -9227,7 +8570,7 @@ module.exports = {
                 return !!t;
             })();
         }
-        var esm_typeof = __webpack_require__(347);
+        var esm_typeof = __webpack_require__(967);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -9246,7 +8589,7 @@ module.exports = {
             return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
         }
     },
-    270: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    378: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _classCallCheck;
@@ -9258,26 +8601,26 @@ module.exports = {
             }
         }
     },
-    872: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    109: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(817);
-        function _toPrimitive(input, hint) {
-            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if ((0, esm_typeof.Z)(res) !== "object") return res;
+        var esm_typeof = __webpack_require__(967);
+        function toPrimitive(t, r) {
+            if ("object" != (0, esm_typeof.A)(t) || !t) return t;
+            var e = t[Symbol.toPrimitive];
+            if (void 0 !== e) {
+                var i = e.call(t, r || "default");
+                if ("object" != (0, esm_typeof.A)(i)) return i;
                 throw new TypeError("@@toPrimitive must return a primitive value.");
             }
-            return (hint === "string" ? String : Number)(input);
+            return ("string" === r ? String : Number)(t);
         }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        function toPropertyKey(t) {
+            var i = toPrimitive(t, "string");
+            return "symbol" == (0, esm_typeof.A)(i) ? i : i + "";
         }
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
@@ -9285,7 +8628,7 @@ module.exports = {
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+                Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -9297,61 +8640,9 @@ module.exports = {
             return Constructor;
         }
     },
-    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    324: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
-                return _createSuper;
-            }
-        });
-        function _getPrototypeOf(o) {
-            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-                return o.__proto__ || Object.getPrototypeOf(o);
-            };
-            return _getPrototypeOf(o);
-        }
-        function _isNativeReflectConstruct() {
-            if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-            if (Reflect.construct.sham) return false;
-            if (typeof Proxy === "function") return true;
-            try {
-                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-        var esm_typeof = __webpack_require__(817);
-        function _assertThisInitialized(self) {
-            if (self === void 0) {
-                throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-            }
-            return self;
-        }
-        function _possibleConstructorReturn(self, call) {
-            if (call && ((0, esm_typeof.Z)(call) === "object" || typeof call === "function")) {
-                return call;
-            } else if (call !== void 0) {
-                throw new TypeError("Derived constructors may only return object or undefined");
-            }
-            return _assertThisInitialized(self);
-        }
-        function _createSuper(Derived) {
-            var hasNativeReflectConstruct = _isNativeReflectConstruct();
-            return function _createSuperInternal() {
-                var Super = _getPrototypeOf(Derived), result;
-                if (hasNativeReflectConstruct) {
-                    var NewTarget = _getPrototypeOf(this).constructor;
-                    result = Reflect.construct(Super, arguments, NewTarget);
-                } else {
-                    result = Super.apply(this, arguments);
-                }
-                return _possibleConstructorReturn(this, result);
-            };
-        }
-    },
-    557: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
+            A: function() {
                 return _inherits;
             }
         });
@@ -9379,7 +8670,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    817: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    967: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
@@ -9412,118 +8703,7 @@ exports[`sass should set global sass content with source web 2`] = `
 (function() {
     "use strict";
     var __webpack_exports__ = {};
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-    function _typeof(obj) {
-        "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, _typeof(obj);
-    }
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return _typeof(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
-    }
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            "constructor": {
-                "value": subClass,
-                "writable": true,
-                "configurable": true
-            }
-        });
-        Object.defineProperty(subClass, "prototype", {
-            "writable": false
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === "function") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === "object" || typeof call === "function")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError("Derived constructors may only return object or undefined");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-    const Component = {};
+    const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
         function App() {
