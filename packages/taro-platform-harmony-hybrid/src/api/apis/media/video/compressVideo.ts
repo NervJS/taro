@@ -6,7 +6,7 @@ import native from '../../NativeApi'
 /**
  * 压缩视频接口
  *
- * @canUse compressVideo
+ * @canNotUse compressVideo
  * @null_implementation
  */
 export const compressVideo: typeof Taro.compressVideo = (options) => {

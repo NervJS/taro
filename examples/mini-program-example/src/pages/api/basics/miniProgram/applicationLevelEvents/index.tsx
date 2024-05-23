@@ -44,14 +44,15 @@ export default class Index extends React.Component {
         id: 'onPageNotFound',
         func: (apiIndex) => {
           TestConsole.consoleTest('Taro.onPageNotFound')
-          Taro.navigateTo({
-            url: 'pages/api/index/11',
-          })
           Taro.onPageNotFound((res) => {
             TestConsole.consoleOnCallback.call(this, res, 'onPageNotFound', apiIndex)
-            Taro.navigateTo({
-              url: 'pages/api/index/index',
-            })
+          })
+          Taro.navigateTo({
+            url: 'pages/api/index/11',
+          }).then((res) => {
+            TestConsole.consoleNormal.call(this, res)
+          }).catch((error) => {
+            TestConsole.consoleNormal.call(this, error)
           })
         },
       },
