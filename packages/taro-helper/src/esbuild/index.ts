@@ -11,6 +11,7 @@ export const defaultEsbuildLoader: Record<string, Loader> = {
   '.js': 'tsx',
   '.jsx': 'tsx',
   '.ts': 'tsx',
+  '.json': 'json'
 }
 
 export interface IRequireWithEsbuildOptions {
