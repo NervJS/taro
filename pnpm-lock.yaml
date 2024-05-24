@@ -614,7 +614,7 @@ importers:
         specifier: workspace:*
         version: link:../babel-preset-taro
       eslint-plugin-react:
-        specifier: ^7.33.2
+        specifier: ^7.34.1
         version: 7.34.1(eslint@8.57.0)
       eslint-plugin-react-hooks:
         specifier: ^4.4.0
@@ -844,7 +844,7 @@ importers:
   packages/taro-components-react:
     dependencies:
       '@babel/runtime':
-        specifier: ^7.14.5
+        specifier: ^7.24.4
         version: 7.24.4
       '@tarojs/components':
         specifier: workspace:*

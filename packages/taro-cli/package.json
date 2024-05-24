@@ -65,7 +65,7 @@
     "@tarojs/webpack5-runner": "workspace:*",
     "@types/babel__traverse": "^7.20.2",
     "babel-preset-taro": "workspace:*",
-    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.4.0"
   }
 }
