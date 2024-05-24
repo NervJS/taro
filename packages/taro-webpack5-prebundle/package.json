@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
-    "prod": "tsc",
+    "prod": "pnpm run build",
     "build": "pnpm run clean && pnpm run prod",
     "dev": "tsc -w",
     "clean": "rimraf --impl=move-remove dist",
