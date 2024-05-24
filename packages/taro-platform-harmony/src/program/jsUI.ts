@@ -316,7 +316,7 @@ export default class Harmony extends TaroPlatformBase {
     return packageJson
   }
 
-  getChunkEntryModule (compilation, chunk, compiler = 'webpack4') {
+  getChunkEntryModule (compilation, chunk, compiler = 'webpack5') {
     if (compiler === 'webpack5') {
       const chunkGraph = compilation.chunkGraph
       const entryModules = Array.from(chunkGraph.getChunkEntryModulesIterable(chunk))

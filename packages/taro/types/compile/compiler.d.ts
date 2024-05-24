@@ -3,7 +3,7 @@ import type Webpack from 'webpack'
 
 export type CompilerTypes = CompilerWebpackTypes | 'vite'
 
-export type CompilerWebpackTypes = 'webpack5' | 'webpack4'
+export type CompilerWebpackTypes = 'webpack5'
 
 interface IPrebundle {
   enable?: boolean

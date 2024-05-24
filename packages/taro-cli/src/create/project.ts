@@ -213,10 +213,6 @@ export default class Project extends Creator {
         value: CompilerType.Webpack5
       },
       {
-        name: 'Webpack4',
-        value: CompilerType.Webpack4
-      },
-      {
         name: 'Vite',
         value: CompilerType.Vite
       }

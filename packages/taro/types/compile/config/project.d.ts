@@ -144,7 +144,7 @@ export interface IProjectBaseConfig {
   framework?: 'react' | 'preact' | 'solid' | 'vue3'
   frameworkExts?: string[]
 
-  /** 使用的编译工具。可选值：webpack4、webpack5 */
+  /** 使用的编译工具。可选值：webpack5 */
   compiler?: Compiler
 
   /** Webpack5 持久化缓存配置。具体配置请参考 [WebpackConfig.cache](https://webpack.js.org/configuration/cache/#cache) */
@@ -305,7 +305,7 @@ export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   /** 控制 Taro 编译日志的输出方式 */
   logger?: ILogger
 
-  /** 使用的编译工具。可选值：webpack4、webpack5、vite */
+  /** 使用的编译工具。可选值：webpack5、vite */
   compiler?: Compiler<T>
 
   /** 专属于 H5 的配置 */
