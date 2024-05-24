@@ -1,15 +1,14 @@
 {
   "name": "@tarojs/webpack5-prebundle",
-  "version": "4.0.0-beta.75",
+  "version": "4.0.0-alpha.4",
   "description": "Taro app webpack5 prebundle",
   "author": "O2Team",
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
-    "prod": "pnpm run build",
+    "prod": "tsc",
     "build": "pnpm run clean && pnpm run prod",
     "dev": "tsc -w",
-    "prod": "tsc",
     "clean": "rimraf --impl=move-remove dist",
     "test": "cross-env NODE_ENV=jest jest",
     "test:ci": "cross-env NODE_ENV=jest jest --ci -i --passWithNoTests",
