@@ -15,6 +15,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
     "test": "jest --collectCoverage",
     "test:ci": "jest --ci -i --coverage --silent",
     "build": "rollup -c",

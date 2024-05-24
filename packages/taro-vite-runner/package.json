@@ -8,6 +8,7 @@
     "dist"
   ],
   "scripts": {
+    "prod": "pnpm run build",
     "dev": "pnpm run mv:comp && tsc -w",
     "build": "tsc && pnpm run mv:comp",
     "mv:comp": "node ./mv-comp.js"

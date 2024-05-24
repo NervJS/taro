@@ -6,6 +6,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
+    "prod": "pnpm run build",
     "build": "pnpm run clean && pnpm run prod",
     "dev": "tsc -w",
     "prod": "tsc",

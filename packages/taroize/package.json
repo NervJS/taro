@@ -10,6 +10,7 @@
     "lib"
   ],
   "scripts": {
+    "prod": "pnpm run build",
     "build": "tsc",
     "dev": "tsc -w --pretty",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",

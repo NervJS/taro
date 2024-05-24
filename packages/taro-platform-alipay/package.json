@@ -15,6 +15,7 @@
     "types"
   ],
   "scripts": {
+    "prod": "pnpm run build",
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },

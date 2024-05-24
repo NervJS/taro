@@ -19,6 +19,7 @@
     "*.css"
   ],
   "scripts": {
+    "prod": "pnpm run build",
     "prebuild": "rimraf --impl=move-remove ./dist",
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",

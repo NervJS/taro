@@ -21,6 +21,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
     "build": "tsc",
     "dev": "tsc -w"
   },

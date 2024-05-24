@@ -15,6 +15,7 @@
     "*.css"
   ],
   "scripts": {
+    "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
     "build": "rollup -c",
     "clean": "rimraf --impl=move-remove ./dist",

@@ -19,6 +19,7 @@
     "url": "https://github.com/NervJS/taro/tree/master/packages/taro-with-weapp"
   },
   "scripts": {
+    "prod": "pnpm run build",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "tsc": "tsc",
