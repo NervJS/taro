@@ -7,11 +7,11 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build": "run-s clean prod",
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean && node ./scripts/fix.js",
+    "build": "rollup -c",
     "clean": "rimraf --impl=move-remove ../taro-components/lib/vue3",
-    "dev": "pnpm run prod -w",
-    "preprod": "node ./scripts/fix.js",
-    "prod": "rollup -c"
+    "dev": "pnpm run build -w"
   },
   "keywords": [],
   "engines": {

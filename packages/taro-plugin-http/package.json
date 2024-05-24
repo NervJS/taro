@@ -6,6 +6,7 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
+    "prod": "pnpm run build",
     "dev": "rollup -c -w",
     "build": "rollup -c",
     "test": "jest",

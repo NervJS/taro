@@ -11,6 +11,7 @@
     "dist"
   ],
   "scripts": {
+    "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
     "clean": "rimraf --impl=move-remove ./dist",
     "dev": "tsc -w",

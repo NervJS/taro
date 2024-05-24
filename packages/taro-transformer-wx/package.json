@@ -23,6 +23,7 @@
     "dist"
   ],
   "scripts": {
+    "prod": "pnpm run build",
     "build": "tsc",
     "dev": "tsc -w --pretty",
     "lint": "tslint",

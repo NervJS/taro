@@ -14,6 +14,7 @@
     "libList.js"
   ],
   "scripts": {
+    "prod": "pnpm run build",
     "assets": "cpy 'src/**/*.png' '!src/__tests__/*' dist",
     "prebuild": "pnpm run clean",
     "clean": "rimraf --impl=move-remove ./dist apiList.js libList.js",

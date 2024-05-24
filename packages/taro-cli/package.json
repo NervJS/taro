@@ -7,14 +7,15 @@
   "main": "index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "prod": "pnpm run build",
     "test": "cross-env NODE_ENV=test jest",
     "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=test jest --watch",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=test jest --updateSnapshot",
-    "build": "pnpm run clean && pnpm run prod",
+    "prebuild": "pnpm run clean",
+    "build": "tsc",
     "dev": "tsc -w",
-    "prod": "tsc",
     "clean": "rimraf --impl=move-remove dist"
   },
   "files": [

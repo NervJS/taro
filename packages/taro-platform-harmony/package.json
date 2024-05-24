@@ -21,6 +21,7 @@
     "url": "git+https://gitee.com/openharmony-sig/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
     "prebuild": "rimraf ./dist",
     "build": "pnpm run rollup",
     "dev": "pnpm run rollup -w",

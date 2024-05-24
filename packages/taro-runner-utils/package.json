@@ -11,6 +11,7 @@
     "types"
   ],
   "scripts": {
+    "prod": "pnpm run build",
     "build": "tsc",
     "dev": "tsc -w"
   },

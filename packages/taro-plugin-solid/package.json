@@ -19,6 +19,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
     "prebuild": "run-s clean",
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "clean": "rimraf --impl=move-remove dist",
