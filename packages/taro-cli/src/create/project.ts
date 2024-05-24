@@ -44,7 +44,7 @@ export interface IProjectConf {
 
 type CustomPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-type IProjectConfOptions = CustomPartial<IProjectConf,  'projectName' | 'projectDir' | 'template' | 'css' | 'npm' | 'framework' | 'templateSource'>
+type IProjectConfOptions = CustomPartial<IProjectConf, 'projectName' | 'projectDir' | 'template' | 'css' | 'npm' | 'framework' | 'templateSource'>
 
 interface AskMethods {
   (conf: IProjectConfOptions, prompts: Record<string, unknown>[], choices?: ITemplates[]): void

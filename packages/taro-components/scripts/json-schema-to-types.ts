@@ -4,7 +4,7 @@ import traverse from '@babel/traverse'
 import * as t from '@babel/types'
 import { fs } from '@tarojs/helper'
 import { camelCase, paramCase } from 'change-case'
-import { flattenDeep, isEmpty, isNil, toArray, xorWith } from 'lodash'
+import { flattenDeep, isEmpty, isNil, toArray, uniq, xorWith } from 'lodash'
 import { format as prettify } from 'prettier'
 
 import { MINI_APP_TYPES } from './constants'
@@ -123,7 +123,7 @@ class GenerateTypes {
             const isIgnore = value.indexOf('@ignore') !== -1
 
             // 保留内置类型
-            const inherentTypes = ['global', 'h5', 'rn', 'quickapp', 'harmony']
+            const inherentTypes = ['global', 'h5', 'rn', 'quickapp', 'harmony', 'harmony_hybrid']
             inherentTypes.forEach((type) => {
               if (preSupportedPlatforms?.includes(type)) {
                 supportedPlatforms.push(type)
@@ -132,7 +132,7 @@ class GenerateTypes {
 
             // 保留 Taro 支持或平台独有特性
             if (isUnique || isIgnore) {
-              supportedPlatforms.push(...preSupportedPlatforms)
+              supportedPlatforms.splice(0, supportedPlatforms.length, ...preSupportedPlatforms)
             }
 
             if (isEmpty(supportedPlatforms) && !(isUnique || isIgnore)) {
@@ -140,7 +140,7 @@ class GenerateTypes {
             } else {
               astPath.node.leadingComments[0].value = value.replace(
                 /@supported .*?\n/,
-                `@supported ${supportedPlatforms.join(', ')}\n`
+                `@supported ${uniq(supportedPlatforms).join(', ')}\n`
               )
             }
           },
@@ -261,7 +261,6 @@ class GenerateTypes {
         })
       },
     })
-
   }
 
   exec () {
@@ -280,7 +279,8 @@ class GenerateTypes {
     this.formatJSDoc(ast)
     const result = generator(ast)
     const code = prettify(result.code, {
-      parser: 'typescript', semi: false,
+      parser: 'typescript',
+      semi: false,
       singleQuote: true,
       printWidth: 120
     })

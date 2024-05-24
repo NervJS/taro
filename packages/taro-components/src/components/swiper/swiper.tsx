@@ -47,6 +47,11 @@ export class Swiper implements ComponentInterface {
   @Prop() current = 0
 
   /**
+   * 当前所在滑块的 item-id
+   */
+  @Prop() currentItemId = ''
+
+  /**
    * 自动切换时间间隔
    */
   @Prop() interval = 5000
@@ -101,7 +106,7 @@ export class Swiper implements ComponentInterface {
 
   @Watch('current')
   watchCurrent (newVal) {
-    if (!this.isWillLoadCalled) return
+    if (this.currentItemId || !this.isWillLoadCalled) return
 
     const n = parseInt(newVal, 10)
     if (isNaN(n)) return
@@ -112,6 +117,25 @@ export class Swiper implements ComponentInterface {
       }
     } else {
       this.swiper.slideTo(n) // 更新下标
+    }
+  }
+
+  @Watch('currentItemId')
+  watchCurrentItemId (newVal) {
+    const wrapper = this.swiper.$wrapperEl?.[0]
+    let itemIdIndex = 0
+    wrapper.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)').forEach((swiperItem, index) => {
+      // @ts-ignore
+      if (swiperItem.itemId && swiperItem.itemId === newVal) {
+        itemIdIndex = index
+      }
+    })
+    if (this.circular) {
+      if (!this.swiper.isBeginning && !this.swiper.isEnd) {
+        this.swiper.slideToLoop(itemIdIndex) // 更新下标
+      }
+    } else {
+      this.swiper.slideTo(itemIdIndex) // 更新下标
     }
   }
 
@@ -214,7 +238,9 @@ export class Swiper implements ComponentInterface {
     if (this.autoplay && !this.swiper.autoplay?.running) {
       this.swiper.autoplay?.start()
     }
-    this.swiper.update() // 更新子元素
+    if (this.swiper.$el) {
+      this.swiper.update() // 更新子元素
+    }
   }
 
   componentDidRender () {
@@ -264,7 +290,7 @@ export class Swiper implements ComponentInterface {
   handleSwiperLoopDebounce = debounce(this.handleSwiperLoop, 50)
 
   handleSwiperSizeDebounce = debounce(() => {
-    if (this.swiper && !this.circular) {
+    if (this.swiper && this.swiper.$wrapperEl && !this.circular) {
       this.swiper.updateSlides()
     }
   }, 50)
@@ -274,12 +300,23 @@ export class Swiper implements ComponentInterface {
       autoplay,
       circular,
       current,
+      currentItemId,
       displayMultipleItems,
       duration,
       interval,
       vertical
     } = this
-
+    let initialSlide = circular ? current + 1 : current
+    if (currentItemId) {
+      let itemIdIndex = 0
+      this.el.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)').forEach((swiperItem, index) => {
+        // @ts-ignore
+        if (swiperItem.itemId && swiperItem.itemId === currentItemId) {
+          itemIdIndex = index
+        }
+      })
+      initialSlide = circular ? itemIdIndex + 1 : itemIdIndex
+    }
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
 
@@ -288,7 +325,7 @@ export class Swiper implements ComponentInterface {
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
       slidesPerView: displayMultipleItems,
-      initialSlide: circular ? current + 1 : current,
+      initialSlide: initialSlide,
       speed: duration,
       observer: true,
       observeParents: true,

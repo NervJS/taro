@@ -6,8 +6,7 @@ import { resolveSync } from './resolve'
 import type { IPluginContext, TConfig } from '@tarojs/service'
 
 const compLibraryAlias = {
-  vue: 'vue2',
-  vue3: 'vue3'
+  vue3: 'vue3',
 }
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-harmony-hybrid'
@@ -20,7 +19,7 @@ export default class H5 extends TaroPlatformWeb {
     this.setupTransaction.addWrapper({
       close () {
         this.modifyWebpackConfig()
-      }
+      },
     })
   }
 
@@ -74,6 +73,9 @@ export default class H5 extends TaroPlatformWeb {
       const rules = chain.module.rules
       const script = rules.get('script')
       const babelLoader = script.uses.get('babelLoader')
+      const routerApis = new Set(['navigateTo', 'navigateBack', 'redirectTo', 'reLaunch', 'switchTab'])
+      let apis = require(resolveSync('./taroApis'))
+      apis = new Set(Array.from(apis).filter((x: string) => !routerApis.has(x)))
       babelLoader.set('options', {
         ...babelLoader.get('options'),
         plugins: [
@@ -81,11 +83,11 @@ export default class H5 extends TaroPlatformWeb {
             require('babel-plugin-transform-taroapi'),
             {
               packageName: '@tarojs/taro',
-              apis: require(resolveSync('./taroApis')),
-              definition: require(this.libraryDefinition)
-            }
-          ]
-        ]
+              apis,
+              definition: require(this.libraryDefinition),
+            },
+          ],
+        ],
       })
 
       const alias = chain.resolve.alias
@@ -97,7 +99,7 @@ export default class H5 extends TaroPlatformWeb {
       chain.plugin('mainPlugin').tap((args) => {
         args[0].loaderMeta ||= {
           extraImportForWeb: '',
-          execBeforeCreateWebApp: ''
+          execBeforeCreateWebApp: '',
         }
 
         // Note: 旧版本适配器不会自动注册 Web Components 组件，需要加载 defineCustomElements 脚本自动注册使用的组件
@@ -107,27 +109,55 @@ export default class H5 extends TaroPlatformWeb {
         }
 
         if (!this.useHtmlComponents) {
-          args[0].loaderMeta.extraImportForWeb += `import { defineCustomElementTaroPullToRefresh } from '@tarojs/components/dist/components'\n`
-          args[0].loaderMeta.execBeforeCreateWebApp += `defineCustomElementTaroPullToRefresh()\n`
+          args[0].loaderMeta.extraImportForWeb += `import { defineCustomElementTaroPullToRefreshCore } from '@tarojs/components/dist/components'\n`
+          args[0].loaderMeta.execBeforeCreateWebApp += `defineCustomElementTaroPullToRefreshCore()\n`
         }
 
         switch (this.framework) {
-          case 'vue':
-            args[0].loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components/lib/vue2/components-loader'\nimport * as list from '@tarojs/components'\n`
-            args[0].loaderMeta.execBeforeCreateWebApp += `initVue2Components(list)\n`
-            break
           case 'vue3':
             args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
             args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
             break
           default:
             if (this.useHtmlComponents) {
-              args[0].loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
+              args[0].loaderMeta.extraImportForWeb += `import '${require.resolve(
+                '@tarojs/components-react/dist/index.css'
+              )}'\nimport { PullDownRefresh } from '@tarojs/components'\n`
               args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
             }
         }
         return args
       })
+
+      // 修改htmlWebpackPlugin插件的script脚本
+      chain.plugin('htmlWebpackPlugin').tap((args) => {
+        const options = this.config?.postcss?.pxtransform?.config || {}
+        // const max = options?.maxRootSize ?? 40
+        // const min = options?.minRootSize ?? 20
+        const baseFontSize = options?.baseFontSize || 20// (min > 1 ? min : 20)
+        const designWidth = (input => typeof this.config.designWidth === 'function'
+          ? this.config.designWidth(input)
+          : this.config.designWidth)(baseFontSize)
+        const rootValue = baseFontSize / this.config.deviceRatio![designWidth!] * 2
+        let htmlScript = ''
+        if ((this.config?.targetUnit ?? 'rem') === 'rem') {
+          /**
+           * 缩放策略为：
+           * 1. 手机-竖屏，缩放策略为“自动缩放”
+           * 2. 折叠屏、Pad竖屏，缩放策略为“依据设计尺寸，大小不变”
+           * 3. Pad(模屏)、2in1(默认)，缩放策略为“依据设计尺寸，大小不变”
+           * 4. 2in1（全屏），缩放策略为“依据设计尺寸，大小不变”
+           */
+          htmlScript = `!function(n){function f(){var e=n.document.documentElement;var w=Math.floor(e.getBoundingClientRect().width);if(w<600){var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}else if(w<840){w=${designWidth}/2;var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}else if(w<1440){w=${designWidth}/2;var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}else{w=${designWidth}/2;var x=${rootValue}*w/${designWidth};e.style.fontSize=x+"px"}}n.addEventListener("resize",(function(){f()}));f()}(window);`
+        }
+        args[0].script = htmlScript
+        return args
+      })
+
+      // 修改h5平台的rule的正则表达式
+      chain.module
+        .rule('process-import-taro-h5')
+        .test(/(plugin|taro)-platform-harmony-hybrid[\\/]dist[\\/]api[\\/]apis[\\/]taro/)
 
       // Note: 本地调试 stencil 组件库时，如果启用 sourceMap 则需要相关配置
       chain.module

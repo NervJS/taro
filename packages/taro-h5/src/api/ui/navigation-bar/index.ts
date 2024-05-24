@@ -1,11 +1,19 @@
 import Taro from '@tarojs/api'
-import { setTitle } from '@tarojs/router/dist/utils/navigate'
+import { setNavigationBarLoading, setNavigationBarStyle, setTitle } from '@tarojs/router'
 
 import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
 // 导航栏
-export const showNavigationBarLoading = /* @__PURE__ */ temporarilyNotSupport('showNavigationBarLoading')
+/**
+ * 展示导航栏 loading 状态
+*/
+export function showNavigationBarLoading (options: Taro.showNavigationBarLoading.Option = {}) {
+  const { success, fail, complete } = options
+  const handle = new MethodHandler({ name: 'showNavigationBarLoading', success, fail, complete })
+  setNavigationBarLoading(true)
+  return handle.success()
+}
 
 export function setNavigationBarTitle (options?: Taro.setNavigationBarTitle.Option) {
   // options must be an Object
@@ -38,14 +46,24 @@ export function setNavigationBarTitle (options?: Taro.setNavigationBarTitle.Opti
  * 设置页面导航条颜色
  */
 export const setNavigationBarColor: typeof Taro.setNavigationBarColor = (options) => {
-  const { backgroundColor, success, fail, complete } = options
+  const { backgroundColor, frontColor, success, fail, complete } = options
   const handle = new MethodHandler({ name: 'setNavigationBarColor', success, fail, complete })
   const meta = document.createElement('meta')
   meta.setAttribute('name', 'theme-color')
   meta.setAttribute('content', backgroundColor)
   document.head.appendChild(meta)
+  setNavigationBarStyle({ frontColor, backgroundColor })
   return handle.success()
 }
 
-export const hideNavigationBarLoading = /* @__PURE__ */ temporarilyNotSupport('hideNavigationBarLoading')
+/**
+ * 隐藏导航栏 loading 状态
+*/
+export function hideNavigationBarLoading (options: Taro.hideNavigationBarLoading.Option = {}) {
+  const { success, fail, complete } = options
+  const handle = new MethodHandler({ name: 'hideNavigationBarLoading', success, fail, complete })
+  setNavigationBarLoading(false)
+  return handle.success()
+}
+
 export const hideHomeButton = /* @__PURE__ */ temporarilyNotSupport('hideHomeButton')

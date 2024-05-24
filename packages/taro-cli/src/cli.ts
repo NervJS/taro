@@ -7,6 +7,7 @@ import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
 
 const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor', 'update', 'config']
+const DEFAULT_FRAMEWORK = 'react'
 
 export default class CLI {
   appPath: string
@@ -33,7 +34,10 @@ export default class CLI {
         assetsDest: ['assets-dest'], // specially for rn, Directory name where to store assets referenced in the bundle.
         envPrefix: ['env-prefix'],
       },
-      boolean: ['version', 'help', 'disable-global-config']
+      boolean: ['version', 'help', 'disable-global-config'],
+      default: {
+        build: true,
+      },
     })
     const _ = args._
     const command = _[0]
@@ -85,7 +89,7 @@ export default class CLI {
 
       // 将自定义的 变量 添加到 config.env 中，实现 definePlugin 字段定义
       const initialConfig = kernel.config?.initialConfig
-      if(initialConfig) {
+      if (initialConfig) {
         initialConfig.env = patchEnv(initialConfig, expandEnv)
       }
       if (command === 'doctor') {
@@ -132,17 +136,16 @@ export default class CLI {
           }
 
           // 根据 framework 启用插件
-          const framework = kernel.config?.initialConfig.framework
-          switch (framework) {
-            case 'vue':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-vue2')
-              break
-            case 'vue3':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-vue3')
-              break
-            default:
-              kernel.optsPlugins.push('@tarojs/plugin-framework-react')
-              break
+          const framework = kernel.config?.initialConfig.framework || DEFAULT_FRAMEWORK
+          const frameworkMap = {
+            vue: '@tarojs/plugin-framework-vue2',
+            vue3: '@tarojs/plugin-framework-vue3',
+            react: '@tarojs/plugin-framework-react',
+            preact: '@tarojs/plugin-framework-react',
+            nerv: '@tarojs/plugin-framework-react',
+          }
+          if (frameworkMap[framework]) {
+            kernel.optsPlugins.push(frameworkMap[framework])
           }
 
           // 编译小程序插件
@@ -166,10 +169,12 @@ export default class CLI {
             platform,
             plugin,
             isWatch: Boolean(args.watch),
-            // 是否把 Taro 组件编译为原生自定义组件
+            // Note: 是否把 Taro 组件编译为原生自定义组件
             isBuildNativeComp: _[1] === 'native-components',
-            // 新的混合编译模式，支持把组件单独编译为原生组件
+            // Note: 新的混合编译模式，支持把组件单独编译为原生组件
             newBlended: Boolean(args['new-blended']),
+            // Note: 是否禁用编译
+            withoutBuild: !args.build,
             port: args.port,
             env: args.env,
             deviceType: args.platform,

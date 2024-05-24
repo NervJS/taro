@@ -7,6 +7,7 @@ import type { ICopyOptions, IOption, ISassOptions, TogglableOptions } from './ut
 import type { IH5Config } from './h5'
 import type { IMiniAppConfig } from './mini'
 import { IRNConfig } from './rn'
+import { AppConfig } from '../..'
 
 export type PluginItem<T = object> = string | [string, T] | [string, () => T | Promise<T>]
 
@@ -175,6 +176,8 @@ export interface IProjectBaseConfig {
   onCompilerMake?: (compilation: Webpack.Compilation, compiler: Webpack.Compiler, plugin: any) => Promise<any>
 
   onWebpackChainReady?: (webpackChain: Chain) => Promise<any>
+
+  modifyAppConfig?: (appConfig: AppConfig) => Promise<any>
 
   /**
    * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail#miniwebpackchain)

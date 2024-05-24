@@ -1,9 +1,9 @@
 import Taro from '@tarojs/api'
 import { isFunction, toKebabCase } from '@tarojs/shared'
+import { NodesRef } from '@tarojs/taro-h5'
 
 import { CanvasContext } from '../canvas/CanvasContext'
 import { findDOM } from '../utils'
-import { NodesRef } from './nodesRef'
 
 type TElement = Document | HTMLElement | Element
 
@@ -180,7 +180,7 @@ function queryBat (queue: ISelectorQueryQueue[], cb: (...args: any[]) => any): v
 
 /**
  * 查询节点信息
- * 
+ *
  * @canUse SelectorQuery
  * @__class [in, select, selectAll, selectViewport, exec]
  */

@@ -4,6 +4,11 @@ import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 /** 选择器通用参数 */
 interface PickerStandardProps extends StandardProps, FormItemProps {
   /**
+   * 选择器的标题，微信小程序中仅安卓可用
+   * @supported weapp
+   */
+  headerText?: string
+  /**
    * 选择器类型，默认是普通选择器
    * @default "selector"
    * @supported weapp, h5, rn, harmony_hybrid
@@ -62,7 +67,7 @@ interface PickerSelectorProps extends PickerStandardProps {
    */
   value?: number
   /** 设置 React 非受控状态下的初始取值
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, harmony_hybrid
    */
   defaultValue?: number
   /**
@@ -158,7 +163,11 @@ interface PickerTimeProps extends PickerStandardProps {
    * value 的值表示选择了 range 中的第几个（下标从 0 开始）
    * @supported weapp, h5, rn, harmony_hybrid
    */
-  value: string
+  value?: string
+  /** 设置 React 非受控状态下的初始取值
+   * @supported weapp, h5, rn
+   */
+  defaultValue?: string
   /**
    * 仅当 mode 为 "time" 或 "date" 时有效，表示有效时间范围的开始，字符串格式为"hh:mm"
    * @supported weapp, h5, rn, harmony_hybrid
@@ -191,6 +200,10 @@ interface PickerDateProps extends PickerStandardProps {
    * @default 0
    */
   value: string
+  /** 设置 React 非受控状态下的初始取值
+   * @supported weapp, h5, rn
+   */
+  defaultValue?: string
   /**
    * 仅当 mode 为 "time" 或 "date" 时有效，表示有效时间范围的开始，字符串格式为"YYYY-MM-DD"
    * @supported weapp, h5, rn, harmony_hybrid
@@ -237,6 +250,10 @@ interface PickerRegionProps extends PickerStandardProps {
    * @default []
    */
   value?: string[]
+  /** 设置 React 非受控状态下的初始取值
+   * @supported weapp, h5, rn
+   */
+  defaultValue?: string[]
   /**
    * 可为每一列的顶部添加一个自定义的项
    * @supported weapp, h5, rn, harmony_hybrid

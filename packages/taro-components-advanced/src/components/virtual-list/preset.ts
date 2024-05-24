@@ -1,4 +1,3 @@
-import { isWebPlatform } from '@tarojs/shared'
 import { type IntersectionObserver, createIntersectionObserver, createSelectorQuery, getCurrentInstance } from '@tarojs/taro'
 import * as CSS from 'csstype'
 import memoizeOne from 'memoize-one'
@@ -8,8 +7,6 @@ import ListSet from './list-set'
 import { isHorizontalFunc, isRtlFunc } from './utils'
 
 import type { VirtualListProps } from './'
-
-const isWeb = isWebPlatform()
 
 let INSTANCE_ID = 0
 
@@ -139,7 +136,7 @@ export default class Preset {
   }
 
   isShaking (diff?: number) {
-    if (isWeb || this.props.enhanced) return false
+    if (process.env.TARO_PLATFORM === 'web' || this.props.enhanced) return false
     const list = this.diffList.slice(-3)
     this.diffList.push(diff)
     return list.findIndex(e => Math.abs(e) === Math.abs(diff)) !== -1 || isCosDistributing(this.diffList.slice(-4))

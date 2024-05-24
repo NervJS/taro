@@ -4,7 +4,7 @@ import type { Component as Vue3Component } from '@vue/runtime-core'
 import type { Component, ComponentClass } from 'react'
 import type { CombinedVueInstance } from 'vue/types/vue'
 import type { TaroElement } from '../dom/element'
-import type { Func, MpEvent } from '../interface'
+import type { MpEvent, TFunc } from '../interface'
 
 export interface Instance<T = Record<string, any>> extends Component<T>, Show, PageInstance {
   tid?: string
@@ -45,7 +45,7 @@ export interface ReactAppInstance<T = AppInstance> extends Component<T>, AppInst
 export interface PageLifeCycle extends Show {
   eh?(event: MpEvent): void
   onAddToFavorites?(): void
-  onLoad?(options: Record<string, unknown>, cb?: Func): void
+  onLoad?(options: Record<string, unknown>, cb?: TFunc): void
   onOptionMenuClick?(): void
   onPageScroll?(obj: { scrollTop: number }): void
   onPullDownRefresh?(): void
@@ -71,6 +71,8 @@ export interface PageInstance extends PageLifeCycle {
   options?: Record<string, unknown>
   /** 页面渲染引擎类型 */
   renderer?: 'webview' | 'skyline'
+  /** 获得一个 EventChannel 对象，用于页面间通讯 */
+  getOpenerEventChannel?(): Record<string, any>
 }
 
 interface Show {
@@ -89,6 +91,7 @@ export interface AppInstance extends Show {
   onPageNotFound? (res: any): void
   onUnhandledRejection? (error: any): void
   onShow?(options?: Record<string, unknown>): void
+  onHide?(options?: Record<string, unknown>): void
   unmount? (id: string, cb?: () => void): void
   taroGlobalData?: Record<any, any>
   config?: Record<any, any>

@@ -34,5 +34,17 @@ export * from './style'
 export * from './url'
 
 export function isVisible (e: HTMLElement) {
-  return !!( e.offsetWidth || e.offsetHeight || e.getClientRects().length )
+  return !!(e.offsetWidth || e.offsetHeight || e.getClientRects().length)
+}
+
+export function isElement (e: HTMLElement) {
+  return typeof HTMLElement === 'object'
+    ? e instanceof HTMLElement
+    : e && typeof e === 'object' && e !== null && e.nodeType === 1 && typeof e.nodeName === 'string'
+}
+
+export function isNode (e: Node) {
+  return typeof Node === 'object'
+    ? e instanceof Node
+    : e && typeof e === 'object' && e !== null && typeof e.nodeType === 'number' && typeof e.nodeName === 'string'
 }

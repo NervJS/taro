@@ -1,7 +1,8 @@
 import {
   addLeadingSlash, CONTEXT_ACTIONS, Current, document, eventCenter,
-  eventHandler, Func, getOnHideEventKey, getOnReadyEventKey, getOnShowEventKey, getPageInstance, getPath, incrementId, injectPageInstance, Instance, MpInstance, ON_HIDE, ON_READY, ON_SHOW,
-  removePageInstance, requestAnimationFrame, safeExecute, TaroRootElement, window
+  eventHandler, getOnHideEventKey, getOnReadyEventKey, getOnShowEventKey, getPageInstance, getPath,
+  incrementId, injectPageInstance, ON_HIDE, ON_READY, ON_SHOW,
+  removePageInstance, requestAnimationFrame, safeExecute, window
 } from '@tarojs/runtime'
 import { EMPTY_OBJ, ensure, hooks, isUndefined } from '@tarojs/shared'
 
@@ -9,7 +10,9 @@ import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
 import { isClassComponent } from './utils'
 
+import type { Instance, MpInstance, TaroRootElement } from '@tarojs/runtime'
 import type { AppInstance, PageInstance } from '@tarojs/taro'
+import type { Func } from '@tarojs/taro/types/compile'
 import type * as React from 'react'
 
 declare const getCurrentPages: () => PageInstance[]
@@ -145,7 +148,7 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     // create
     const nativeApp = document.createElement('nativeComponent')
     // insert
-    app.appendChild(nativeApp)
+    app?.parentNode?.appendChild(nativeApp)
     app = nativeApp
   }
   ReactDOM.render(
@@ -191,19 +194,19 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
 
   const pageObj: Record<string, any> = {
     options: pageConfig,
-    [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: Func) {
+    [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: TaroGeneral.TFunc) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
       Current.page = this as any
       this.config = pageConfig || {}
       // this.$taroPath 是页面唯一标识
       const uniqueOptions = Object.assign({}, options, { $taroTimestamp: Date.now() })
       const $taroPath = this.$taroPath = getPath(id, uniqueOptions)
-  
+
       // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
       if (this.$taroParams == null) {
         this.$taroParams = uniqueOptions
       }
-  
+
       setCurrentRouter(this)
       window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
 
@@ -338,6 +341,19 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
   return pageObj
 }
 
+export function createH5NativeComponentConfig (
+  Component,
+  react: typeof React,
+  reactdom: typeof ReactDOM,
+) {
+  reactMeta.R = react
+  h = react.createElement
+  ReactDOM = reactdom
+  setReconciler(ReactDOM)
+
+  return Component
+}
+
 export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig) {
   reactMeta.R = react
   h = react.createElement
@@ -409,7 +425,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       }
     }
   }
-  
+
   function resetCurrent () {
     // 小程序插件页面卸载之后返回到宿主页面时，需重置Current页面和路由。否则引发插件组件二次加载异常 fix:#11991
     Current.page = null

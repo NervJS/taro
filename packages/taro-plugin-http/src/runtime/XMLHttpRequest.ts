@@ -63,27 +63,27 @@ function createXMLHttpRequestEvent (event: string, target:XMLHttpRequest, loaded
   const e = createEvent(event) as XMLHttpRequestEvent
   try {
     Object.defineProperties(e, {
-      'currentTarget': {
+      currentTarget: {
         enumerable: true,
         value: target
       },
-      'target': {
+      target: {
         enumerable: true,
         value: target
       },
-      'loaded': {
+      loaded: {
         enumerable: true,
         value: loaded || 0
       },
       // 读 Content-Range 字段，目前来说作用不大,先和 loaded 保持一致
-      'total': {
+      total: {
         enumerable: true,
         value: loaded || 0
       }
     })
   } catch (err) {
     // no handler
-  } 
+  }
   return e
 }
 
@@ -226,6 +226,7 @@ export class XMLHttpRequest extends Events {
     // 头信息
     const header = Object.assign({}, this.#header)
     // https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies
+    // @ts-ignore
     header.cookie = window.document.$$cookie
     if (!this.withCredentials) {
       // 不同源，要求 withCredentials 为 true 才携带 cookie
@@ -314,7 +315,7 @@ export class XMLHttpRequest extends Events {
    */
   #requestFail (err) {
     // 微信小程序，无论接口返回200还是其他，响应无论是否有错误，都会进入 success 回调；只有类似超时这种请求错误才会进入 fail 回调
-    // 
+    //
     /**
      * 阿里系小程序，接口返回非200状态码，会进入 fail 回调, 此时 err 对象结构如下（当错误码为 14 或 19 时，会多返回 status、data、headers。可通过这些字段获取服务端相关错误信息）：
      {
@@ -424,8 +425,7 @@ export class XMLHttpRequest extends Events {
   }
 
   getAllResponseHeaders () {
-    if (this.#readyState === XMLHttpRequest.UNSENT || this.#readyState === XMLHttpRequest.OPENED || !this.#resHeader)
-      return ''
+    if (this.#readyState === XMLHttpRequest.UNSENT || this.#readyState === XMLHttpRequest.OPENED || !this.#resHeader) { return '' }
 
     return Object.keys(this.#resHeader)
       .map((key) => `${key}: ${this.#resHeader![key]}`)
@@ -433,8 +433,7 @@ export class XMLHttpRequest extends Events {
   }
 
   getResponseHeader (name) {
-    if (this.#readyState === XMLHttpRequest.UNSENT || this.#readyState === XMLHttpRequest.OPENED || !this.#resHeader)
-      return null
+    if (this.#readyState === XMLHttpRequest.UNSENT || this.#readyState === XMLHttpRequest.OPENED || !this.#resHeader) { return null }
 
     // 处理大小写不敏感
     const key = Object.keys(this.#resHeader).find((item) => item.toLowerCase() === name.toLowerCase())

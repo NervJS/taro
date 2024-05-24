@@ -1,10 +1,14 @@
+@import '../../../styles/base/variable/weui-tab';
+@import '../../../styles/widget/weui-tab/weui-tabbar';
+@import '../../../styles/widget/weui-tips/weui-badge';
+
 html,
 body {
   height: 100%;
 }
 
 :root {
-  --taro-tabbar-height: 50px;
+  --taro-tabbar-height: #{$weuiTabBarHeight};
 }
 
 #app {

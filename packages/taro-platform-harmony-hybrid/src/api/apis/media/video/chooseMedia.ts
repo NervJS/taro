@@ -1,5 +1,7 @@
 import Taro from '@tarojs/taro'
+import { showActionSheet } from '@tarojs/taro-h5'
 
+import native from '../../NativeApi'
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
@@ -10,7 +12,7 @@ import { MethodHandler } from '../../utils/handler'
  * @__object [count, mediaType[video, image, mix], sourceType[album, camera], maxDuration, sizeType, camera[back, front]]
  * @__success [tempFiles, type]
  */
-export const chooseMedia: typeof Taro.chooseMedia = (options) => {
+export const chooseMedia: typeof Taro.chooseMedia = async (options) => {
   const name = 'chooseMedia'
 
   // options must be an Object
@@ -22,12 +24,12 @@ export const chooseMedia: typeof Taro.chooseMedia = (options) => {
   }
 
   const {
-    count,
-    mediaType = ['video', 'image', 'mix'],
+    count = 9,
+    mediaType = ['video', 'image'],
     sourceType = ['album', 'camera'],
-    maxDuration,
-    sizeType,
-    camera = ['back', 'front'],
+    maxDuration = 10,
+    sizeType = ['original', 'compressed'],
+    camera = 'back',
     success,
     fail,
   } = options as Exclude<typeof options, undefined>
@@ -35,43 +37,40 @@ export const chooseMedia: typeof Taro.chooseMedia = (options) => {
   const handle = new MethodHandler<{
     tempFiles?: Taro.chooseMedia.ChooseMedia[]
     type?: string
+    errMsg?: string
   }>({ name, success, fail })
 
+  let sourceSelected
+  if (sourceType.length === 1) {
+    sourceSelected = sourceType[0]
+  } else if (typeof sourceType !== 'object' || (sourceType.includes('album') && sourceType.includes('camera'))) {
+    const selected = await showActionSheet({ itemList: ['拍摄', '从相册选择'] }).then(
+      (res) => {
+        sourceSelected = res.tapIndex === 0 ? 'camera' : 'album'
+        return true
+      },
+      () => {
+        return false
+      }
+    )
+    if (!selected) {
+      return handle.fail({ errMsg: 'fail cancel' })
+    }
+  }
+
   return new Promise<Taro.chooseMedia.SuccessCallbackResult>((resolve, reject) => {
-    // @ts-ignore
-    native.chooseMedia({
+    native.chooseMediaAssets({
       count: count,
       mediaType: mediaType,
-      sourceType: sourceType,
+      sourceType: sourceSelected,
       maxDuration: maxDuration,
       sizeType: sizeType,
       camera: camera,
+      apiName: name,
       success: (res: any) => {
-        const tempFiles: Taro.chooseMedia.ChooseMedia[] = []
-        res.tempFiles.forEach((tempFile) => {
-          const tmpFile: Taro.chooseMedia.ChooseMedia = {
-            tempFilePath: tempFile.path,
-            size: tempFile.size,
-            duration: tempFile.duration || 0,
-            height: tempFile.height,
-            width: tempFile.width,
-            fileType: tempFile.type,
-            thumbTempFilePath: ''
-          }
-          tempFiles.push(tmpFile)
-        })
-        let retType = 'image'
-        if (mediaType.length === 1 && mediaType.includes('image')) {
-          retType = 'image'
-        } else if (mediaType.length === 1 && mediaType.includes('video')) {
-          retType = 'video'
-        } else {
-          retType = 'mix'
-        }
-
         const result: Taro.chooseMedia.SuccessCallbackResult = {
-          tempFiles: tempFiles,
-          type: retType,
+          tempFiles: res.tempFiles,
+          type: res.type,
           errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })

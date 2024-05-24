@@ -35,6 +35,7 @@ export { LivePlayer } from '@tarojs/components/lib/react'
 export { LivePusher } from '@tarojs/components/lib/react'
 export { Login } from '@tarojs/components/lib/react'
 export { Lottie } from '@tarojs/components/lib/react'
+export { default as HosMap } from '../components-react/Map/Map'
 export { Map } from '@tarojs/components/lib/react'
 export { MovableArea, MovableView } from '@tarojs/components/lib/react'
 export { NavigationBar } from '@tarojs/components/lib/react'
@@ -72,4 +73,12 @@ export { WebView } from '@tarojs/components/lib/react'
 // export { default as ListView } from './components/list/list'
 // export { MatchMedia } from './components/match-media/match-media'
 // export { default as PageContainer } from './components/page-container/page-container'
-export { StickyHeader, StickySection, RootPortal, GridView, ListView, MatchMedia, PageContainer } from '@tarojs/components/lib/react'
+export {
+  StickyHeader,
+  StickySection,
+  RootPortal,
+  GridView,
+  ListView,
+  MatchMedia,
+  PageContainer,
+} from '@tarojs/components/lib/react'

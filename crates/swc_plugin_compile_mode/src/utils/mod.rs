@@ -2,7 +2,8 @@ use swc_core::{
     ecma::{
         atoms::Atom,
         ast::*,
-        utils::quote_str,
+        utils::{quote_ident, quote_str},
+        visit::{Visit, VisitWith},
     },
     common::{
         iter::IdentifyLast,
@@ -100,7 +101,7 @@ pub fn check_is_event_attr (val: &str) -> bool {
     val.starts_with("on") && val.chars().nth(2).is_some_and(|x| x.is_uppercase())
 }
 
-pub fn identify_jsx_event_key (val: &str) -> Option<String> {
+pub fn identify_jsx_event_key (val: &str, platform: &str) -> Option<String> {
     if check_is_event_attr(val) {
         let event_name = val.get(2..).unwrap().to_lowercase();
         let event_name = if event_name == "click" {
@@ -108,13 +109,25 @@ pub fn identify_jsx_event_key (val: &str) -> Option<String> {
         } else {
             &event_name
         };
-        Some(format!("bind{}", event_name))
+        let event_binding_name = match platform {
+            "ALIPAY" => {
+                if event_name == "tap" {
+                    String::from("onTap")
+                } else {
+                    String::from(val)
+                }
+            },
+            _ => {
+                format!("bind{}", event_name)
+            }
+        };
+        Some(event_binding_name)
     } else {
         return None;
     }
 }
 
-pub fn is_inner_component (el: &mut Box<JSXElement>, config: &PluginConfig) -> bool {
+pub fn is_inner_component (el: &JSXElement, config: &PluginConfig) -> bool {
     let opening = &el.opening;
     if let JSXElementName::Ident(Ident { sym, .. }) = &opening.name {
         let name = to_kebab_case(&sym);
@@ -234,10 +247,10 @@ pub fn check_jsx_element_has_compile_ignore (el: &JSXElement) -> bool {
 /**
  * identify: `xx.map(function () {})` or `xx.map(() => {})`
  */
-pub fn is_call_expr_of_loop (callee_expr: &mut Box<Expr>, args: &mut Vec<ExprOrSpread>) -> bool {
-    if let Expr::Member(MemberExpr { prop: MemberProp::Ident(Ident { sym, ..}), .. }) = &mut **callee_expr {
+pub fn is_call_expr_of_loop (callee_expr: &Box<Expr>, args: &Vec<ExprOrSpread>) -> bool {
+    if let Expr::Member(MemberExpr { prop: MemberProp::Ident(Ident { sym, ..}), .. }) = &**callee_expr {
         if sym == "map" {
-            if let Some(ExprOrSpread { expr, .. }) = args.get_mut(0) {
+            if let Some(ExprOrSpread { expr, .. }) = args.get(0) {
                 return expr.is_arrow() || expr.is_fn_expr()
             }
         }
@@ -272,6 +285,26 @@ pub fn extract_jsx_loop <'a> (callee_expr: &mut Box<Expr>, args: &'a mut Vec<Exp
                     el.opening.attrs.push(create_jsx_bool_attr(COMPILE_FOR));
                     el.opening.attrs.push(create_jsx_lit_attr(COMPILE_FOR_KEY, Lit::Str(quote_str!("sid"))));
                     return Some(el)
+                } else if return_value.is_jsx_fragment() {
+                    let el = return_value.as_mut_jsx_fragment().unwrap();
+                    let children = el.children.take();
+                    let block_el = Box::new(JSXElement {
+                        span,
+                        opening: JSXOpeningElement {
+                            name: JSXElementName::Ident(quote_ident!("block")),
+                            span,
+                            attrs: vec![
+                                create_jsx_bool_attr(COMPILE_FOR),
+                                create_jsx_lit_attr(COMPILE_FOR_KEY, Lit::Str(quote_str!("sid")))
+                            ],
+                            self_closing: false,
+                            type_args: None
+                        },
+                        children,
+                        closing: Some(JSXClosingElement { span, name: JSXElementName::Ident(quote_ident!("block")) })
+                    });
+                    **return_value = Expr::JSXElement(block_el);
+                    return Some(return_value.as_mut_jsx_element().unwrap())
                 }
                 None
             }
@@ -316,12 +349,65 @@ pub fn check_jsx_element_children_exist_loop (el: &mut JSXElement) -> bool {
     false
 }
 
+pub fn is_static_jsx_element_child (jsx_element: &JSXElementChild) -> bool {
+    struct Visitor {
+        has_jsx_expr: bool
+    }
+    impl Visitor {
+        fn new () -> Self {
+            Visitor { has_jsx_expr: false }
+        }
+    }
+    impl Visit for Visitor {
+        fn visit_jsx_expr_container(&mut self, _n: &JSXExprContainer) {
+            self.has_jsx_expr = true;
+        }
+    }
+    let mut visitor = Visitor::new();
+    jsx_element.visit_with(&mut visitor);
+    return !visitor.has_jsx_expr;
+}
+
 pub fn create_original_node_renderer (visitor: &mut TransformVisitor) -> String {
     add_spaces_to_lines(format!("ForEach(this.{}.childNodes, item => {{\n  createNode(item)\n}}, item => item._nid)", visitor.node_name.last().unwrap().clone()).as_str())
 }
 
+pub fn gen_template (val: &str) -> String {
+    format!("{{{{{}}}}}", val)
+}
+
 pub fn gen_template_v (node_path: &str) -> String {
     format!("{{{{{}.v}}}}", node_path)
+}
+
+pub fn is_xscript (name: &str) -> bool {
+    return name == SCRIPT_TAG
+}
+
+pub fn as_xscript_expr_string (member: &MemberExpr, xs_module_names: &Vec<String>) -> Option<String> {
+    if !member.prop.is_ident() {
+        return None;
+    }
+    let prop = member.prop.as_ident().unwrap().sym.to_string();
+
+    match &*member.obj {
+        Expr::Member(lhs) => {
+            let res = as_xscript_expr_string(lhs, xs_module_names);
+            if res.is_some() {
+                let obj = res.unwrap();
+                return Some(format!("{}.{}", obj, prop));
+            }
+        },
+        Expr::Ident(ident) => {
+            let obj = ident.sym.to_string();
+            if xs_module_names.contains(&obj) {
+                return Some(format!("{}.{}", obj, prop));
+            }
+        },
+        _ => ()
+    }
+
+    return None
 }
 
 #[test]

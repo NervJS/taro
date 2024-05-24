@@ -5,13 +5,13 @@ exports[`vue should build vue app 1`] = `5`;
 exports[`vue should build vue app 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], [ , , , , , , , , , , , , , function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], [ , , , , , , function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
-    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
     var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
-    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
     var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -32,8 +32,8 @@ exports[`vue should build vue app 2`] = `
         }
     };
     var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
-    var indexvue_type_style_index_0_id_26c853a8_prod_lang_scss_ = __webpack_require__(15);
-    var indexvue_type_style_index_1_id_26c853a8_prod_lang_sass_ = __webpack_require__(16);
+    var indexvue_type_style_index_0_id_26c853a8_prod_lang_scss_ = __webpack_require__(8);
+    var indexvue_type_style_index_1_id_26c853a8_prod_lang_sass_ = __webpack_require__(9);
     function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
         var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
         if (render) {
@@ -290,7 +290,7 @@ exports[`vue should build vue app 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 8);
+    return __webpack_require__(__webpack_require__.s = 2);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
@@ -311,21 +311,224 @@ exports[`vue should build vue app 2`] = `
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
-}, function(module, exports) {
+}, function(module, exports, __webpack_require__) {
+    var _require = __webpack_require__(0), hooks = _require.hooks;
+    var taro = __webpack_require__(4).default;
+    if (hooks.isExist("initNativeApi")) {
+        hooks.call("initNativeApi", taro);
+    }
+    module.exports = taro;
+    module.exports.default = module.exports;
+}, function(module, exports, __webpack_require__) {
+    module.exports = __webpack_require__(5);
+}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_require__.d(__webpack_exports__, "default", (function() {
+        return Taro;
+    }));
+    var interceptors_namespaceObject = {};
+    __webpack_require__.r(interceptors_namespaceObject);
+    __webpack_require__.d(interceptors_namespaceObject, "logInterceptor", (function() {
+        return logInterceptor;
+    }));
+    __webpack_require__.d(interceptors_namespaceObject, "timeoutInterceptor", (function() {
+        return timeoutInterceptor;
+    }));
+    var taro_runtime = __webpack_require__(0);
+    var ENV_TYPE = {
+        "WEAPP": "WEAPP",
+        "SWAN": "SWAN",
+        "ALIPAY": "ALIPAY",
+        "TT": "TT",
+        "QQ": "QQ",
+        "JD": "JD",
+        "WEB": "WEB",
+        "RN": "RN",
+        "HARMONY": "HARMONY",
+        "QUICKAPP": "QUICKAPP",
+        "HARMONYHYBRID": "HARMONYHYBRID"
+    };
+    function getEnv() {
+        if (undefined === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (undefined === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (undefined === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (undefined === "tt") {
+            return ENV_TYPE.TT;
+        } else if (undefined === "jd") {
+            return ENV_TYPE.JD;
+        } else if (undefined === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (undefined === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (undefined === "h5" || "web" === "web") {
+            return ENV_TYPE.WEB;
+        } else if (undefined === "rn") {
+            return ENV_TYPE.RN;
+        } else if (undefined === "harmony" || "web" === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (undefined === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return undefined || "Unknown";
+        }
+    }
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
     function _typeof(obj) {
         "@babel/helpers - typeof";
-        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
             return typeof obj;
         } : function(obj) {
             return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, module.exports.__esModule = true, module.exports["default"] = module.exports, 
-        _typeof(obj);
+        }, _typeof(obj);
     }
-    module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(5);
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return _typeof(key) === "symbol" ? key : String(key);
+    }
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            "writable": false
+        });
+        return Constructor;
+    }
+    var taro_shared = "taro-shared-mock";
+    var chain_Chain = function() {
+        function Chain(requestParams, interceptors, index) {
+            _classCallCheck(this, Chain);
+            this.index = index || 0;
+            this.requestParams = requestParams || {};
+            this.interceptors = interceptors || [];
+        }
+        _createClass(Chain, [ {
+            "key": "proceed",
+            "value": function proceed() {
+                var requestParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                this.requestParams = requestParams;
+                if (this.index >= this.interceptors.length) {
+                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
+                }
+                var nextInterceptor = this._getNextInterceptor();
+                var nextChain = this._getNextChain();
+                var p = nextInterceptor(nextChain);
+                var res = p.catch((function(err) {
+                    return Promise.reject(err);
+                }));
+                Object.keys(p).forEach((function(k) {
+                    return undefined(p[k]) && (res[k] = p[k]);
+                }));
+                return res;
+            }
+        }, {
+            "key": "_getNextInterceptor",
+            "value": function _getNextInterceptor() {
+                return this.interceptors[this.index];
+            }
+        }, {
+            "key": "_getNextChain",
+            "value": function _getNextChain() {
+                return new Chain(this.requestParams, this.interceptors, this.index + 1);
+            }
+        } ]);
+        return Chain;
+    }();
+    var interceptor_Link = function() {
+        function Link(interceptor) {
+            _classCallCheck(this, Link);
+            this.taroInterceptor = interceptor;
+            this.chain = new chain_Chain;
+        }
+        _createClass(Link, [ {
+            "key": "request",
+            "value": function request(requestParams) {
+                var chain = this.chain;
+                var taroInterceptor = this.taroInterceptor;
+                chain.interceptors = chain.interceptors.filter((function(interceptor) {
+                    return interceptor !== taroInterceptor;
+                })).concat(taroInterceptor);
+                return chain.proceed(Object.assign({}, requestParams));
+            }
+        }, {
+            "key": "addInterceptor",
+            "value": function addInterceptor(interceptor) {
+                this.chain.interceptors.push(interceptor);
+            }
+        }, {
+            "key": "cleanInterceptors",
+            "value": function cleanInterceptors() {
+                this.chain = new chain_Chain;
+            }
+        } ]);
+        return Link;
+    }();
+    function interceptorify(promiseifyApi) {
+        return new interceptor_Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
+    function timeoutInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var p;
+        var res = new Promise((function(resolve, reject) {
+            var timeout = setTimeout((function() {
+                clearTimeout(timeout);
+                reject(new Error("网络链接超时,请稍后再试！"));
+            }), requestParams && requestParams.timeout || 6e4);
+            p = chain.proceed(requestParams);
+            p.then((function(res) {
+                if (!timeout) return;
+                clearTimeout(timeout);
+                resolve(res);
+            })).catch((function(err) {
+                timeout && clearTimeout(timeout);
+                reject(err);
+            }));
+        }));
+        if (!undefined(p) && undefined(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    function logInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
+        var p = chain.proceed(requestParams);
+        var res = p.then((function(res) {
+            console.log("http <-- ".concat(url, " result:"), res);
+            return res;
+        }));
+        if (undefined(p.abort)) res.abort = p.abort;
+        return res;
+    }
     function _defineProperty(obj, key, value) {
-        key = toPropertyKey(key);
+        key = _toPropertyKey(key);
         if (key in obj) {
             Object.defineProperty(obj, key, {
                 "value": value,
@@ -338,97 +541,92 @@ exports[`vue should build vue app 2`] = `
         }
         return obj;
     }
-    module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
+    function Behavior(options) {
+        return options;
     }
-    module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(5);
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
-        }
+    function getPreload(current) {
+        return function(key, val) {
+            current.preloadData = undefined(key) ? key : _defineProperty({}, key, val);
+        };
     }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
+    var defaultDesignWidth = 750;
+    var defaultDesignRatio = {
+        "640": 2.34 / 2,
+        "750": 1,
+        "828": 1.81 / 2
+    };
+    var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
+    function getInitPxTransform(taro) {
+        return function(config) {
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
+            taro.config = taro.config || {};
+            taro.config.designWidth = designWidth;
+            taro.config.deviceRatio = deviceRatio;
+            taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
+        };
     }
-    module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(1)["default"];
-    var toPrimitive = __webpack_require__(9);
-    function _toPropertyKey(arg) {
-        var key = toPrimitive(arg, "string");
-        return _typeof(key) === "symbol" ? key : String(key);
+    function getPxTransform(taro) {
+        return function(size) {
+            var config = taro.config || {};
+            var baseFontSize = config.baseFontSize;
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var designWidth = function() {
+                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                return undefined(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
+            }(size);
+            if (!(designWidth in deviceRatio)) {
+                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
+            }
+            var targetUnit = config.targetUnit || defaultTargetUnit;
+            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
+            var formatSize = ~~size;
+            var rootValue = 1 / deviceRatio[designWidth];
+            switch (targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (unitPrecision >= 0 && unitPrecision <= 100) {
+                val = Number(val.toFixed(unitPrecision));
+            }
+            return val + targetUnit;
+        };
     }
-    module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var _require = __webpack_require__(0), hooks = _require.hooks;
-    var taro = __webpack_require__(12).default;
-    if (hooks.isExist("initNativeApi")) {
-        hooks.call("initNativeApi", taro);
-    }
-    module.exports = taro;
-    module.exports.default = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var defineProperty = __webpack_require__(2);
-    function ownKeys(object, enumerableOnly) {
-        var keys = Object.keys(object);
-        if (Object.getOwnPropertySymbols) {
-            var symbols = Object.getOwnPropertySymbols(object);
-            enumerableOnly && (symbols = symbols.filter((function(sym) {
-                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-            }))), keys.push.apply(keys, symbols);
-        }
-        return keys;
-    }
-    function _objectSpread2(target) {
-        for (var i = 1; i < arguments.length; i++) {
-            var source = null != arguments[i] ? arguments[i] : {};
-            i % 2 ? ownKeys(Object(source), !0).forEach((function(key) {
-                defineProperty(target, key, source[key]);
-            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach((function(key) {
-                Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-            }));
-        }
-        return target;
-    }
-    module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(11);
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(1)["default"];
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
+    var Taro = {
+        "Behavior": Behavior,
+        "getEnv": getEnv,
+        "ENV_TYPE": ENV_TYPE,
+        "Link": interceptor_Link,
+        "interceptors": interceptors_namespaceObject,
+        "Current": taro_runtime["Current"],
+        "getCurrentInstance": taro_runtime["getCurrentInstance"],
+        "options": taro_runtime["options"],
+        "nextTick": taro_runtime["nextTick"],
+        "eventCenter": taro_runtime["eventCenter"],
+        "Events": taro_runtime["Events"],
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
+    };
+    Taro.initPxTransform = getInitPxTransform(Taro);
+    Taro.preload = getPreload(taro_runtime["Current"]);
+    Taro.pxTransform = getPxTransform(Taro);
+}, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(6);
+    var taro = __webpack_require__(1);
     function createMultiRouter() {}
     function createRouter() {}
     var vue = "vue-mock";
-    var app = __webpack_require__(10);
+    var app = __webpack_require__(3);
     var App = new vue({
         "onShow": function onShow() {},
         "render": function render(h) {
@@ -470,14 +668,18 @@ exports[`vue should build vue app 2`] = `
     config.routes = [ Object.assign({
         "path": "pages/index/index",
         "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 17));
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 10));
             return [ page, context, params ];
         }
     }, {
         "navigationBarTitleText": "首页"
     }) ];
     var inst = createVueApp(src_app, vue, config);
-    createRouter(inst, config, vue);
+    var app_config_history = undefined({
+        "window": taro_runtime["window"]
+    });
+    undefined(config, app_config_history);
+    createRouter(app_config_history, inst, config, vue);
     Object(taro["initPxTransform"])({
         "designWidth": 750,
         "deviceRatio": {
@@ -489,315 +691,6 @@ exports[`vue should build vue app 2`] = `
         "unitPrecision": undefined,
         "targetUnit": undefined
     });
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, "default", (function() {
-        return Taro;
-    }));
-    var helpers_typeof = __webpack_require__(1);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    var taro_runtime = __webpack_require__(0);
-    var taro_shared = "taro-shared-mock";
-    var objectSpread2 = __webpack_require__(7);
-    var objectSpread2_default = __webpack_require__.n(objectSpread2);
-    var classCallCheck = __webpack_require__(3);
-    var classCallCheck_default = __webpack_require__.n(classCallCheck);
-    var createClass = __webpack_require__(4);
-    var createClass_default = __webpack_require__.n(createClass);
-    var defineProperty = __webpack_require__(2);
-    var defineProperty_default = __webpack_require__.n(defineProperty);
-    function isFunction(x) {
-        return typeof x === "function";
-    }
-    function isUndefined(x) {
-        return typeof x === "undefined";
-    }
-    function isObject(x) {
-        return x && typeof_default()(x) === "object";
-    }
-    var isBadObj = function isBadObj(x) {
-        return !isObject(x);
-    };
-    function throwTypeError(s) {
-        throw new TypeError(s);
-    }
-    if (!isFunction(Object.assign)) {
-        Object.assign = function(target) {
-            if (target == null) {
-                throwTypeError("Cannot convert undefined or null to object");
-            }
-            var to = Object(target);
-            for (var index = 1; index < arguments.length; index++) {
-                var nextSource = arguments[index];
-                if (nextSource != null) {
-                    for (var nextKey in nextSource) {
-                        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                            to[nextKey] = nextSource[nextKey];
-                        }
-                    }
-                }
-            }
-            return to;
-        };
-    }
-    if (!isFunction(Object.defineProperties)) {
-        Object.defineProperties = function(obj, properties) {
-            function convertToDescriptor(desc) {
-                function hasProperty(obj, prop) {
-                    return Object.prototype.hasOwnProperty.call(obj, prop);
-                }
-                if (isBadObj(desc)) {
-                    throwTypeError("bad desc");
-                }
-                var d = {};
-                if (hasProperty(desc, "enumerable")) d.enumerable = !!desc.enumerable;
-                if (hasProperty(desc, "configurable")) {
-                    d.configurable = !!desc.configurable;
-                }
-                if (hasProperty(desc, "value")) d.value = desc.value;
-                if (hasProperty(desc, "writable")) d.writable = !!desc.writable;
-                if (hasProperty(desc, "get")) {
-                    var g = desc.get;
-                    if (!isFunction(g) && !isUndefined(g)) {
-                        throwTypeError("bad get");
-                    }
-                    d.get = g;
-                }
-                if (hasProperty(desc, "set")) {
-                    var s = desc.set;
-                    if (!isFunction(s) && !isUndefined(s)) {
-                        throwTypeError("bad set");
-                    }
-                    d.set = s;
-                }
-                if (("get" in d || "set" in d) && ("value" in d || "writable" in d)) {
-                    throwTypeError("identity-confused descriptor");
-                }
-                return d;
-            }
-            if (isBadObj(obj)) throwTypeError("bad obj");
-            properties = Object(properties);
-            var keys = Object.keys(properties);
-            var descs = [];
-            for (var i = 0; i < keys.length; i++) {
-                descs.push([ keys[i], convertToDescriptor(properties[keys[i]]) ]);
-            }
-            for (var _i = 0; _i < descs.length; _i++) {
-                Object.defineProperty(obj, descs[_i][0], descs[_i][1]);
-            }
-            return obj;
-        };
-    }
-    var ENV_TYPE = {
-        "WEAPP": "WEAPP",
-        "SWAN": "SWAN",
-        "ALIPAY": "ALIPAY",
-        "TT": "TT",
-        "QQ": "QQ",
-        "JD": "JD",
-        "WEB": "WEB",
-        "RN": "RN",
-        "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP",
-        "HARMONYHYBRID": "HARMONYHYBRID"
-    };
-    var isWeb = undefined();
-    function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
-            return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
-        }
-    }
-    var index_esm_Chain = function() {
-        function Chain(requestParams, interceptors, index) {
-            classCallCheck_default()(this, Chain);
-            this.index = index || 0;
-            this.requestParams = requestParams;
-            this.interceptors = interceptors || [];
-        }
-        createClass_default()(Chain, [ {
-            "key": "proceed",
-            "value": function proceed(requestParams) {
-                this.requestParams = requestParams;
-                if (this.index >= this.interceptors.length) {
-                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
-                }
-                var nextInterceptor = this._getNextInterceptor();
-                var nextChain = this._getNextChain();
-                var p = nextInterceptor(nextChain);
-                var res = p.catch((function(err) {
-                    return Promise.reject(err);
-                }));
-                Object.keys(p).forEach((function(k) {
-                    return isFunction(p[k]) && (res[k] = p[k]);
-                }));
-                return res;
-            }
-        }, {
-            "key": "_getNextInterceptor",
-            "value": function _getNextInterceptor() {
-                return this.interceptors[this.index];
-            }
-        }, {
-            "key": "_getNextChain",
-            "value": function _getNextChain() {
-                return new Chain(this.requestParams, this.interceptors, this.index + 1);
-            }
-        } ]);
-        return Chain;
-    }();
-    var index_esm_Link = function() {
-        function Link(interceptor) {
-            classCallCheck_default()(this, Link);
-            this.taroInterceptor = interceptor;
-            this.chain = new index_esm_Chain;
-        }
-        createClass_default()(Link, [ {
-            "key": "request",
-            "value": function request(requestParams) {
-                var chain = this.chain;
-                var taroInterceptor = this.taroInterceptor;
-                chain.interceptors = chain.interceptors.filter((function(interceptor) {
-                    return interceptor !== taroInterceptor;
-                })).concat(taroInterceptor);
-                return chain.proceed(objectSpread2_default()({}, requestParams));
-            }
-        }, {
-            "key": "addInterceptor",
-            "value": function addInterceptor(interceptor) {
-                this.chain.interceptors.push(interceptor);
-            }
-        }, {
-            "key": "cleanInterceptors",
-            "value": function cleanInterceptors() {
-                this.chain = new index_esm_Chain;
-            }
-        } ]);
-        return Link;
-    }();
-    function interceptorify(promiseifyApi) {
-        return new index_esm_Link((function(chain) {
-            return promiseifyApi(chain.requestParams);
-        }));
-    }
-    function timeoutInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var p;
-        var res = new Promise((function(resolve, reject) {
-            var timeout = setTimeout((function() {
-                timeout = null;
-                reject(new Error("网络链接超时,请稍后再试！"));
-            }), requestParams && requestParams.timeout || 6e4);
-            p = chain.proceed(requestParams);
-            p.then((function(res) {
-                if (!timeout) return;
-                clearTimeout(timeout);
-                resolve(res);
-            })).catch((function(err) {
-                timeout && clearTimeout(timeout);
-                reject(err);
-            }));
-        }));
-        if (!isUndefined(p) && isFunction(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    function logInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
-        var p = chain.proceed(requestParams);
-        var res = p.then((function(res) {
-            console.log("http <-- ".concat(url, " result:"), res);
-            return res;
-        }));
-        if (isFunction(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    var index_esm_interceptors = Object.freeze({
-        "__proto__": null,
-        "timeoutInterceptor": timeoutInterceptor,
-        "logInterceptor": logInterceptor
-    });
-    function Behavior(options) {
-        return options;
-    }
-    function getPreload(current) {
-        return function(key, val) {
-            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
-        };
-    }
-    var defaultDesignWidth = 750;
-    var defaultDesignRatio = {
-        "640": 2.34 / 2,
-        "750": 1,
-        "828": 1.81 / 2
-    };
-    var defaultBaseFontSize = 20;
-    var defaultUnitPrecision = 5;
-    var defaultTargetUnit = "rpx";
-    function getInitPxTransform(taro) {
-        return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
-            taro.config = taro.config || {};
-            taro.config.designWidth = designWidth;
-            taro.config.deviceRatio = deviceRatio;
-            taro.config.baseFontSize = baseFontSize;
-            taro.config.targetUnit = targetUnit;
-            taro.config.unitPrecision = unitPrecision;
-        };
-    }
-    function getPxTransform(taro) {
-        return function(size) {
-            var config = taro.config || {};
-            var baseFontSize = config.baseFontSize;
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
-            var designWidth = function() {
-                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-                return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
-            }(size);
-            if (!(designWidth in deviceRatio)) {
-                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
-            }
-            var targetUnit = config.targetUnit || defaultTargetUnit;
-            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
-            var formatSize = ~~size;
-            var rootValue = 1 / deviceRatio[designWidth];
-            switch (targetUnit) {
-              case "rem":
-                rootValue *= baseFontSize * 2;
-                break;
-
-              case "px":
-                rootValue *= 2;
-                break;
-            }
-            var val = formatSize / rootValue;
-            if (unitPrecision >= 0 && unitPrecision <= 100) {
-                val = Number(val.toFixed(unitPrecision));
-            }
-            return val + targetUnit;
-        };
-    }
-    var Taro = {
-        "Behavior": Behavior,
-        "getEnv": getEnv,
-        "ENV_TYPE": ENV_TYPE,
-        "Link": index_esm_Link,
-        "interceptors": index_esm_interceptors,
-        "Current": taro_runtime["Current"],
-        "getCurrentInstance": taro_runtime["getCurrentInstance"],
-        "options": taro_runtime["options"],
-        "nextTick": taro_runtime["nextTick"],
-        "eventCenter": taro_runtime["eventCenter"],
-        "Events": taro_runtime["Events"],
-        "getInitPxTransform": getInitPxTransform,
-        "interceptorify": interceptorify
-    };
-    Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(taro_runtime["Current"]);
-    Taro.pxTransform = getPxTransform(Taro);
 } ]);
 "
 `;

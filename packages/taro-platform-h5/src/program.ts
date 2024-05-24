@@ -6,8 +6,8 @@ import { resolveSync } from './utils'
 import type { IPluginContext, TConfig } from '@tarojs/service'
 
 const compLibraryAlias = {
-  'vue': 'vue2',
-  'vue3': 'vue3'
+  vue: 'vue2',
+  vue3: 'vue3'
 }
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-h5'
@@ -119,7 +119,7 @@ export default class H5 extends TaroPlatformWeb {
               break
             default:
               if (this.useHtmlComponents) {
-                args[0].loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
+                args[0].loaderMeta.extraImportForWeb += `import '${require.resolve('@tarojs/components-react/dist/index.css')}'\nimport { PullDownRefresh } from '@tarojs/components'\n`
                 args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
               }
           }

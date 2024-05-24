@@ -2,23 +2,25 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "declaration": true,
-    "module": "ESNext",
-    "sourceMap": true,
+    "jsx": "react-jsx",
     "esModuleInterop": true,
-    "outDir": "dist"
+    "module": "ESNext",
+    "preserveConstEnums": true,
+    "sourceMap": true
   },
-  "include": ["./src", "./types", "rollup.config.ts"],
+  "include": ["./src", "./types", "./rollup.config.ts"],
   "ts-node": {
     "compilerOptions": {
-      "module": "UMD",
-      "moduleResolution": "Node",
+      "forceConsistentCasingInFileNames": true,
+      "lib": ["ES2023"],
+      "module": "Node16",
+      "moduleResolution": "Node16",
       "noEmit": true,
       "resolveJsonModule": false,
-      "rootDir": ".",
-      "target": "ESNext"
+      "skipLibCheck": true,
+      "strict": true,
+      "target": "ES2022"
     },
-    "esm": true,
     "experimentalSpecifierResolution": "node",
     "require": ["tsconfig-paths/register"]
   }

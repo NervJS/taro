@@ -3,6 +3,7 @@ import { defaults } from 'lodash'
 import path from 'path'
 
 import AppHelper from '../utils/app'
+import { componentConfig } from '../utils/component'
 import TaroComponentsExportsPlugin from './TaroComponentsExportsPlugin'
 
 import type { Func } from '@tarojs/taro/types/compile'
@@ -149,7 +150,9 @@ export default class TaroH5Plugin {
       })
     })
 
-    new TaroComponentsExportsPlugin(this.options).apply(compiler)
+    if (!componentConfig.includeAll) {
+      new TaroComponentsExportsPlugin(this.options).apply(compiler)
+    }
   }
 
   run () {

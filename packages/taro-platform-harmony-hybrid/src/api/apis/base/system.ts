@@ -1,6 +1,47 @@
 import Taro from '@tarojs/api'
 
+import native from '../NativeApi'
+import { shouldBeObject } from '../utils'
 import { MethodHandler } from '../utils/handler'
+import { getAppAuthorizeSetting } from './getAppAuthorizeSetting'
+import { getSystemSetting } from './getSystemSetting'
+
+/**
+ * 跳转系统蓝牙设置页
+ *
+ * @canNotUse openSystemBluetoothSetting
+ */
+export { openSystemBluetoothSetting } from '@tarojs/taro-h5'
+
+/**
+ * 跳转系统授权管理页
+ *
+ * @canUse openAppAuthorizeSetting
+ */
+export const openAppAuthorizeSetting: typeof Taro.openAppAuthorizeSetting = (options) => {
+  const name = 'openAppAuthorizeSetting'
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `${name}:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+  const { success, fail, complete } = options as Exclude<typeof options, undefined>
+
+  const handle = new MethodHandler({ name, success, fail, complete })
+
+  return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
+    // @ts-ignore
+    native.openAppAuthorizeSetting({
+      success: (res: any) => {
+        return handle.success(res, { resolve, reject })
+      },
+      fail: (err: any) => {
+        return handle.fail(err, { resolve, reject })
+      },
+    })
+  })
+}
 
 /**
  * 获取窗口信息
@@ -19,7 +60,9 @@ export const getWindowInfo: typeof Taro.getWindowInfo = () => {
     screenHeight: info.screenHeight,
     windowWidth: info.screenWidth,
     // @ts-ignore
-    windowHeight: info.screenHeight - (window.currentNavigationStyle === 'default' ? (window.navigationHeight || 0) : 0),
+    windowHeight:
+      // @ts-ignore
+      info.screenHeight - (window?.currentNavigation?.style === 'default' ? window.navigationHeight || 0 : 0),
     statusBarHeight: info.statusBarHeight,
     safeArea: info.safeArea || {
       /** 安全区域右下角纵坐标 */
@@ -33,34 +76,35 @@ export const getWindowInfo: typeof Taro.getWindowInfo = () => {
       /** 安全区域左上角纵坐标, 状态栏高度 */
       top: info.statusBarHeight,
       /** 安全区域的宽度，单位逻辑像素 */
-      width: info.screenWidth
+      width: info.screenWidth,
     },
   }
   return windowInfo
 }
 
-const lastSystemSettingResult: Taro.getSystemSetting.Result = {}
-let lastGetSystemSettingTime = 0
-
 /**
- * 获取设备设置
+ * 获取设备基础信息
  *
- * @canUse getSystemSetting
- * @__return [bluetoothEnabled, locationEnabled, wifiEnabled, deviceOrientation[portrait, landscape]]
+ * @canUse getDeviceInfo
+ * @__return [benchmarkLevel, brand, model, system, platform]
  */
-export const getSystemSetting: typeof Taro.getSystemSetting = () => {
-  const currentTime = Date.now()
-  if (currentTime - lastGetSystemSettingTime < 500) {
-    return lastSystemSettingResult
-  }
+export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
   // @ts-ignore
-  const info = native.getSystemSetting()
-  lastSystemSettingResult.bluetoothEnabled = info.bluetoothEnabled
-  lastSystemSettingResult.locationEnabled = info.locationEnabled
-  lastSystemSettingResult.wifiEnabled = info.wifiEnabled
-  lastSystemSettingResult.deviceOrientation = info.deviceOrientation
-  lastGetSystemSettingTime = currentTime
-  return lastSystemSettingResult
+  const info = native.getDeviceInfo()
+  // @ts-ignore
+  const deviceInfo: Taro.getDeviceInfo.Result = {
+    /** 设备性能等级（仅Android支持，HOS默认返回-1）。取值为：-2 或 0（该设备无法运行小游戏），-1（性能未知），>=1（设备性能值，该值越高，设备性能越好，目前最高不到50） */
+    benchmarkLevel: -1,
+    /** 设备品牌 */
+    brand: info.brand,
+    /** 设备型号 */
+    model: info.model,
+    /** 操作系统及版本 */
+    system: info.system,
+    /** 客户端平台 */
+    platform: info.platform,
+  }
+  return deviceInfo
 }
 
 /**
@@ -80,43 +124,11 @@ export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
     host: { appId: info.appId },
     language: info.appLanguage,
     version: info.appVersion,
-    theme: info.theme
+    theme: info.theme,
   }
   return appBaseInfo
 }
 
-/**
- * 获取APP授权设置
- *
- * @canUse getAppAuthorizeSetting
- * @__return
- * [albumAuthorized, bluetoothAuthorized, cameraAuthorized, locationAuthorized, locationReducedAccuracy,\
- * microphoneAuthorized, notificationAuthorized, phoneCalendarAuthorized]
- */
-export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = () => {
-  // @ts-ignore
-  const info = native.getAppAuthorizeSetting()
-  // @ts-ignore
-  const appAuthorizeSetting: Taro.getAppAuthorizeSetting.Result = {
-    /** 允许微信使用相册的开关（仅 iOS 有效） */
-    albumAuthorized: info.albumAuthorized,
-    /** 允许微信使用蓝牙的开关（仅 iOS 有效） */
-    bluetoothAuthorized: info.bluetoothAuthorized,
-    /** 允许微信使用摄像头的开关 */
-    cameraAuthorized: info.cameraAuthorized,
-    /** 允许微信使用定位的开关 */
-    locationAuthorized: info.locationAuthorized,
-    /** 定位准确度。true 表示模糊定位，false 表示精确定位（仅 iOS 有效） */
-    locationReducedAccuracy: info.locationAccuracy === 'reduced',
-    /** 允许微信使用麦克风的开关 */
-    microphoneAuthorized: info.microphoneAuthorized,
-    /** 允许微信通知的开关 */
-    notificationAuthorized: info.notificationAuthorized,
-    /** 允许微信读写日历的开关 */
-    phoneCalendarAuthorized: info.phoneCalendarAuthorized
-  }
-  return appAuthorizeSetting
-}
 
 /**
  * 获取系统信息Taro.getSystemInfo的同步版本
@@ -201,6 +213,30 @@ export const getSystemInfoSync: typeof Taro.getSystemInfoSync = () => {
     // environment: process.env.NODE_ENV
   }
   return systemInfoSync
+}
+
+/**
+ * 异步获取系统信息
+ *
+ * @canUse getSystemInfoAsync
+ * @__success
+ * [brand, model, pixelRatio, screenWidth, screenHeight, windowWidth, windowHeight, statusBarHeight,\
+ * language, version, system, platform, fontSizeSetting, SDKVersion, benchmarkLevel, albumAuthorized,\
+ * cameraAuthorized, locationAuthorized, microphoneAuthorized, notificationAuthorized, phoneCalendarAuthorized,\
+ * bluetoothEnabled, locationEnabled, wifiEnabled, safeArea[bottom, height, left, right, top, width],\
+ * locationReducedAccuracy, theme[dark, light], host[appId], enableDebug, deviceOrientation[portrait, landscape]]
+ */
+export const getSystemInfoAsync: typeof Taro.getSystemInfoAsync = async (options = {}) => {
+  const { success, fail, complete } = options
+  const handle = new MethodHandler({ name: 'getSystemInfoAsync', success, fail, complete })
+  try {
+    const info = await getSystemInfoSync()
+    return handle.success(info)
+  } catch (error) {
+    return handle.fail({
+      errMsg: error,
+    })
+  }
 }
 
 /**

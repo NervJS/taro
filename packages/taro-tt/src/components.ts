@@ -43,7 +43,7 @@ export const components = {
     'enable-play-gesture': _false,
     'show-playback-rate-btn': _false,
     'enable-play-in-background': _false,
-    'signature': _empty,
+    signature: _empty,
     bindProgress: _empty,
     bindSeekComplete: _empty,
     bindAdLoad: _empty,

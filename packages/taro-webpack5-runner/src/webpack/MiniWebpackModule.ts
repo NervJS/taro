@@ -196,28 +196,26 @@ export class MiniWebpackModule {
   }
 
   getScriptRule () {
-    const { sourceDir } = this.combination
+    const { sourceDir, config } = this.combination
     const { compile = {} } = this.combination.config
     const rule: IRule = WebpackModule.getScriptRule()
 
-    if (compile.exclude && compile.exclude.length) {
-      rule.exclude = [
-        ...compile.exclude,
-        filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
-      ]
-    } else if (compile.include && compile.include.length) {
-      rule.include = [
-        ...compile.include,
-        sourceDir,
-        filename => /taro/.test(filename)
-      ]
-    } else {
-      rule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
+    rule.include = [
+      sourceDir,
+      filename => /(?<=node_modules[\\/]).*taro/.test(filename)
+    ]
+    if (Array.isArray(compile.include)) {
+      rule.include.unshift(...compile.include)
     }
 
-    if (this.combination.config.experimental?.compileMode === true) {
+    if (Array.isArray(compile.exclude)) {
+      rule.exclude = [...compile.exclude]
+    }
+
+    if (config.experimental?.compileMode === true) {
       rule.use.compilerLoader = WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniCompilerLoader'), {
-        template: this.combination.config.template,
+        platform: config.platform.toUpperCase(),
+        template: config.template,
         FILE_COUNTER_MAP,
       })
     }

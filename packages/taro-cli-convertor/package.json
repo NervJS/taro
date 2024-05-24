@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli-convertor",
-  "version": "3.6.22",
+  "version": "3.6.30",
   "description": "cli tool for taro-convert",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "test:clear": "jest --clearCache",
     "test:cov": "jest --coverage",
     "test:updateSnapshot": "jest --updateSnapshot",
-    "test:ci": "cross-env NODE_ENV=test jest --ci -i"
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent"
   },
   "files": [
     "bin",
@@ -84,8 +84,9 @@
     "@babel/parser": "^7.14.5",
     "@tarojs/taro": "workspace:*",
     "jest": "^29.7.0",
-    "ts-jest": "^29.0.5",
     "jest-cli": "^29.3.1",
-    "jest-environment-node": "^29.5.0"
+    "jest-environment-node": "^29.5.0",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.7.4"
   }
 }

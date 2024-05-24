@@ -1,10 +1,11 @@
 /* eslint-disable prefer-promise-reject-errors */
 import Taro from '@tarojs/api'
-import { getCurrentPage, getHomePage } from '@tarojs/router/dist/utils'
-import { Current, hooks, TaroElement } from '@tarojs/runtime'
+import { Current, getCurrentPage, getHomePage, hooks } from '@tarojs/runtime'
 import { isFunction } from '@tarojs/shared'
 
 import { MethodHandler } from './handler'
+
+import type { TaroElement } from '@tarojs/runtime'
 
 export function shouldBeObject (target: unknown) {
   if (target && typeof target === 'object') return { flag: true }
@@ -24,7 +25,7 @@ export function findDOM (inst?): TaroElement | HTMLElement | undefined {
 
   const page = Current.page
   const path = page?.path
-  const msg = '没有找到已经加载了的页面，请在页面加载完成后时候此 API。'
+  const msg = '没有找到已经加载了的页面，请在页面加载完成后使用此 API。'
   if (path == null) {
     throw new Error(msg)
   }

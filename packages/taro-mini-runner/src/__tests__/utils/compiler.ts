@@ -96,6 +96,7 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
 
   if (!customConfig.buildAdapter) {
     const program = new Weapp({ helper } as any, {})
+    program.modifyTemplate?.({})
     customConfig.globalObject = program.globalObject
     customConfig.fileType = program.fileType
     customConfig.template = program.template

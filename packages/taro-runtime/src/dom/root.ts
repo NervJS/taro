@@ -1,4 +1,4 @@
-import { hooks,isArray, isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
+import { hooks, isArray, isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
 
 import {
   CUSTOM_WRAPPER,
@@ -11,7 +11,7 @@ import { perf } from '../perf'
 import { customWrapperCache, isComment } from '../utils'
 import { TaroElement } from './element'
 
-import type { Func, HydratedData, MpInstance, UpdatePayload, UpdatePayloadValue } from '../interface'
+import type { HydratedData, MpInstance, TFunc, UpdatePayload, UpdatePayloadValue } from '../interface'
 
 function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
   // ['root', 'cn', '[0]'] remove 'root' => ['cn', '[0]']
@@ -55,7 +55,7 @@ function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
 export class TaroRootElement extends TaroElement {
   private updatePayloads: UpdatePayload[] = []
 
-  private updateCallbacks: Func[] = []
+  private updateCallbacks: TFunc[] = []
 
   public pendingUpdate = false
 
@@ -83,7 +83,7 @@ export class TaroRootElement extends TaroElement {
     }
   }
 
-  public performUpdate (initRender = false, prerender?: Func) {
+  public performUpdate (initRender = false, prerender?: TFunc) {
     this.pendingUpdate = true
 
     const ctx = hooks.call('proxyToRaw', this.ctx)!
@@ -186,7 +186,7 @@ export class TaroRootElement extends TaroElement {
     }, 0)
   }
 
-  public enqueueUpdateCallback (cb: Func, ctx?: Record<string, any>) {
+  public enqueueUpdateCallback (cb: TFunc, ctx?: Record<string, any>) {
     this.updateCallbacks.push(() => {
       ctx ? cb.call(ctx) : cb()
     })

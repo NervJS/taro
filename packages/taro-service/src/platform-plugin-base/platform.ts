@@ -1,6 +1,7 @@
 import { PLATFORM_TYPE } from '@tarojs/shared'
 
-import type { Func, IPluginContext, TConfig } from '../utils/types'
+import type { Func } from '@tarojs/taro/types/compile'
+import type { IPluginContext, TConfig } from '../utils/types'
 
 interface IWrapper {
   init? (): void
@@ -63,7 +64,7 @@ export default abstract class TaroPlatform<T extends TConfig = TConfig> {
    */
   private updateOutputPath (config: TConfig) {
     const platformPath = config.output?.path
-    if(platformPath) {
+    if (platformPath) {
       this.ctx.paths.outputPath = platformPath
     }
   }

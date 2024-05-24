@@ -7,6 +7,7 @@ export interface AddEventListenerOptions extends EventListenerOptions {
   passive?: boolean
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export interface EventHandler extends Function {
   _stop?: boolean
 }

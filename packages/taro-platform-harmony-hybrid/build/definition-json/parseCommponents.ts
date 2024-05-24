@@ -1,7 +1,7 @@
 import * as fsExtra from 'fs-extra'
 import * as pathModule from 'path'
 
-import { capitalizeFirstLetter, convertCamelToDash,removeComments } from '../utils/helper'
+import { capitalizeFirstLetter, convertCamelToDash, removeComments } from '../utils/helper'
 
 export function parseComponents () {
   const entryPath = require.resolve('@tarojs/components/types/index.d.ts')
@@ -39,9 +39,9 @@ export function parseComponents () {
      * 包括基本类型、基本类型数组、Aarry、Record、某些数组类型、对象类型或者单个对象等
      * 例如MapProps.marker[]、('push' | 'pop')[]、{ [key: string]: number | string | any }、MapProps
      */
-    if (baseType.includes(type) || baseTypeArray.includes(type) || type.includes('Array<')
-      || type.includes('Record<') || type.includes('[]') || /^\{[\s\S]*?\}$/.test(type)
-      || /^[A-Z][a-zA-Z]*?$/.test(type)) {
+    if (baseType.includes(type) || baseTypeArray.includes(type) || type.includes('Array<') ||
+      type.includes('Record<') || type.includes('[]') || /^\{[\s\S]*?\}$/.test(type) ||
+      /^[A-Z][a-zA-Z]*?$/.test(type)) {
       return false
     }
     return true
@@ -164,14 +164,14 @@ export function parseComponents () {
       .map(item => item.replace(/ +/g, ' '))
       .map(item => item.replace(/([^:]+):\s?(.*)/g, '"$1":"$2"')) // 冒号前后的内容用双引号括起来以便进行JSON字符串转换
       .join(',') // 将转换后的数组元素用逗号拼接起来
-    
+
     let propsObject: object
     try {
       propsObject = JSON.parse(`{${JSONStr}}`)
     } catch (error) {
       propsObject = {}
     }
-    
+
     const result: object = {}
     for (const [key, value] of Object.entries(propsObject)) {
       const newKey = convertCamelToDash(key)

@@ -1,7 +1,8 @@
 import { addPlatforms } from '@tarojs/helper'
 
+import type { Func } from '@tarojs/taro/types/compile'
 import type Kernel from './Kernel'
-import type { Func, ICommand, IHook, IPlatform } from './utils/types'
+import type { ICommand, IHook, IPlatform } from './utils/types'
 
 export default class Plugin {
   id: string

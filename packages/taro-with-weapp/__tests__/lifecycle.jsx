@@ -2,9 +2,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement, render } from 'nervjs'
-import withWeapp from '../src'
-import { TaroComponent, delay } from './utils'
 import * as sinon from 'sinon'
+
+import withWeapp from '../src'
+import { delay, TaroComponent } from './utils'
 
 describe('lifecycle', () => {
   /**
@@ -35,11 +36,11 @@ describe('lifecycle', () => {
     expect(spy).toBeCalled()
   })
 
-  test('onLoad', () => {
+  test('attached', () => {
     const spy = jest.fn()
 
     @withWeapp({
-      onLoad () {
+      attached () {
         spy()
       }
     })
@@ -54,69 +55,6 @@ describe('lifecycle', () => {
     expect(spy).toBeCalled()
   })
 
-  test('onLanuch', (done) => {
-    const spy = jest.fn()
-
-    @withWeapp({
-      data: {
-        a: ''
-      },
-      onLanuch () {
-        spy()
-        this.a = 'a'
-      }
-    })
-    class A extends TaroComponent {
-      render () {
-        return <div>{this.a}</div>
-      }
-    }
-
-    render(<A />, scratch)
-
-    expect(spy).toBeCalled()
-
-    delay(() => {
-      expect(scratch.textContent).toBe('a')
-      done()
-    })
-  })
-
-  test('onReady', (done) => {
-    const s1 = sinon.spy()
-    const s2 = sinon.spy()
-
-    @withWeapp({
-      data: {
-        a: ''
-      },
-      created () {
-        s1()
-        this.a = 'a'
-      },
-      onReady () {
-        s2()
-      }
-    })
-    class A extends TaroComponent {
-      render () {
-        return <div>{this.a}</div>
-      }
-    }
-
-    render(<A />, scratch)
-
-    expect(s1.called).toBeTruthy()
-    expect(s2.called).toBeTruthy()
-
-    expect(s1.calledBefore(s2))
-
-    delay(() => {
-      expect(scratch.textContent).toBe('a')
-      done()
-    })
-  })
-
   test('ready should work', (done) => {
     const s1 = sinon.spy()
     const s2 = sinon.spy()
@@ -129,7 +67,7 @@ describe('lifecycle', () => {
         s1()
         this.a = 'a'
       },
-      ready () {
+      attached () {
         s2()
       }
     })
@@ -150,30 +88,6 @@ describe('lifecycle', () => {
       expect(scratch.textContent).toBe('a')
       done()
     })
-  })
-
-  test('detached', () => {
-    const s1 = sinon.spy()
-
-    @withWeapp({
-      data: {
-        a: ''
-      },
-      detached () {
-        s1()
-      }
-    })
-    class A extends TaroComponent {
-      render () {
-        return <div>{this.a}</div>
-      }
-    }
-
-    render(<A />, scratch)
-
-    render(<div />, scratch)
-
-    expect(s1.callCount).toBe(1)
   })
 
   test('detached', () => {
@@ -233,10 +147,10 @@ describe('lifecycle', () => {
       data: {
         a: ''
       },
-      onLoad () {
+      created () {
         onLoad()
       },
-      onReady () {
+      attached () {
         onReady()
       },
       onUnload () {
@@ -273,7 +187,7 @@ describe('lifecycle', () => {
       created () {
         created()
       },
-      ready () {
+      attached () {
         ready()
       },
       detached () {
@@ -314,44 +228,6 @@ describe('lifecycle', () => {
 
     render(<A />, scratch)
 
-    expect(spy).toBeCalledWith({ a: 1 })
-  })
-
-  test('onLoad should emit this.$router.params as aruguments', () => {
-    const spy = jest.fn()
-
-    @withWeapp({
-      onLoad (options) {
-        spy(options)
-      }
-    })
-    class A extends TaroComponent {
-      render () {
-        return <div />
-      }
-    }
-
-    render(<A />, scratch)
-
-    expect(spy).toBeCalledWith({ a: 1 })
-  })
-
-  test('onLanuch should emit this.$router.params as aruguments', () => {
-    const spy = jest.fn()
-
-    @withWeapp({
-      onLanuch (options) {
-        spy(options)
-      }
-    })
-    class A extends TaroComponent {
-      render () {
-        return <div />
-      }
-    }
-
-    render(<A />, scratch)
-
-    expect(spy).toBeCalledWith({ a: 1 })
+    expect(spy).toBeCalledWith({})
   })
 })

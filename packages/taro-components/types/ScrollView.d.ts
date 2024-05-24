@@ -85,6 +85,11 @@ interface ScrollViewProps extends StandardProps {
    * @default false
    */
   enhanced?: boolean
+  /** 使 scroll-view 下的 position sticky 特性生效，否则滚动一屏后 sticky 元素会被隐藏
+   * @supported weapp
+   * @default false
+   */
+  usingSticky?: boolean
   /** iOS 下 scroll-view 边界弹性控制 (同时开启 enhanced 属性后生效)
    * @supported weapp, swan
    * @default true
@@ -134,10 +139,11 @@ interface ScrollViewProps extends StandardProps {
   /** 渲染模式
    * list - 列表模式。只会渲染在屏节点，会根据直接子节点是否在屏来按需渲染，若只有一个直接子节点则性能会退化
    * custom - 自定义模式。只会渲染在屏节点，子节点可以是 sticky-section list-view grid-view 等组件
+   * nested - 嵌套模式。用于处理父子 scroll-view 间的嵌套滚动，子节点可以是 nested-scroll-header nested-scroll-body 组件或自定义 refresher
    * @supported weapp
    * @default 'list'
    */
-  type?: 'list' | 'custom'
+  type?: 'list' | 'custom' | 'nested'
   /** 是否反向滚动。一般初始滚动位置是在顶部，反向滚动则是在底部。
    * @supported weapp
    * @default false

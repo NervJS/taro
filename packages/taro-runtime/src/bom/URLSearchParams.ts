@@ -1,5 +1,7 @@
 import { isArray } from '@tarojs/shared'
 
+import env from '../env'
+
 const findReg = /[!'()~]|%20|%00/g
 const plusReg = /\+/g
 const replaceCharMap = {
@@ -34,7 +36,7 @@ function encode (str: string) {
   return encodeURIComponent(str).replace(findReg, replacer)
 }
 
-export class URLSearchParams {
+export const URLSearchParams = process.env.TARO_PLATFORM === 'web' ? env.window.URLSearchParams : class {
   #dict = Object.create(null)
 
   constructor (query) {
@@ -93,7 +95,7 @@ export class URLSearchParams {
     return name in this.#dict
   }
 
-  keys (){
+  keys () {
     return Object.keys(this.#dict)
   }
 

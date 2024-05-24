@@ -45,6 +45,8 @@ const buildProd = async (appPath: string, config: BuildConfig, appHelper: AppHel
   }
   const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
   const webpackConfig = webpackChain.toConfig()
+  if (config.withoutBuild) return
+
   const compiler = webpack(webpackConfig)
   const onBuildFinish = config.onBuildFinish
   compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
@@ -150,29 +152,35 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
       }
       return item
     }))
+  } else {
+    proxy.push(...customProxy)
   }
 
   if (typeof config.onWebpackChainReady === 'function') {
     config.onWebpackChainReady(webpackChain)
   }
 
-  const devServerOptions = config.isBuildNativeComp
-    ? { writeToDisk: true }
-    : recursiveMerge<WebpackDevServer.Configuration>(
-      {
-        publicPath,
-        contentBase: outputPath,
-        historyApiFallback: {
-          rewrites: [{
-            from: /./,
-            to: publicPath
-          }]
-        },
-        proxy,
-      },
-      baseDevServerOption,
-      customDevServerOption
-    )
+  const devServerOptions = recursiveMerge<WebpackDevServer.Configuration>(
+    {
+      open: !config.isBuildNativeComp,
+      disableHostCheck: true,
+      publicPath,
+      contentBase: outputPath,
+      writeToDisk: config.isBuildNativeComp,
+      proxy,
+    },
+    baseDevServerOption,
+    customDevServerOption,
+    {
+      historyApiFallback: {
+        rewrites: [{
+          from: /./,
+          to: publicPath
+        }]
+      }
+    }
+  )
+
   if (devServerOptions.proxy?.length < 1) {
     // Note: proxy 不可以为空数组
     delete devServerOptions.proxy
@@ -210,6 +218,8 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
 
   const webpackConfig = webpackChain.toConfig()
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
+  if (config.withoutBuild) return
+
   const compiler = webpack(webpackConfig) as webpack.Compiler
   bindDevLogger(compiler, devUrl)
   const server = new WebpackDevServer(compiler, devServerOptions)
