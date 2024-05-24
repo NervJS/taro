@@ -8,7 +8,6 @@ import './app.{{ cssExt }}'
 
 {{#if (includes "React" "Preact" s=framework)}}
 function App({ children }{{#if typescript }}: PropsWithChildren<any>{{/if}}) {
-
   useLaunch(() => {
     console.log('App launched.')
   })
