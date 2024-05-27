@@ -1,397 +1,402 @@
 import { NativeDataChangeListener, SyncCacheProxyHandler } from './NativeApiSyncCacheProxy'
 import {timeLog} from "./NativeApiLog";
+// 同步方法，一次性调用，不支持原生异步回调，所以不用考虑释放的问题
 // @ts-ignore
-const syncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true }) || (target => target)
-// @ts-ignore
-const syncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: false }) || (target => target)
+const sync = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true }) || (target => target)
+// 异步方法，支持原生一次异步回调
 // @ts-ignore
 const asyncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true }) || (target => target)
+// 异步方法，支持原生多次异步回调
 // @ts-ignore
 const asyncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false }) || (target => target)
 
 // export let judgeUseAxios = false
 export class NativeApi {
   // @ts-ignore
-  @(syncAndNotRelease)
+  @(asyncAndNotRelease)
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   registerNativeListener (listener: NativeDataChangeListener | null): void {
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  openLocation (options: any): any {
+  @(asyncAndRelease)
+  openLocation (options: any): void {
+
+    // return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  chooseLocation (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  chooseLocation (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
+  @(sync)
   getWindowInfo (): any {
     return ''
   }
 
   // @ts-ignore
-  @(syncAndRelease)
+  @(sync)
   getDeviceInfo (): any {
     return ''
   }
 
   // @ts-ignore
-  @(syncAndRelease)
+  @(sync)
   getSystemInfoSync (): any {
     return ''
   }
 
   // @ts-ignore
-  @(syncAndRelease)
+  @(sync)
   getSystemSetting (): any {
     return ''
   }
 
   // @ts-ignore
-  @(syncAndRelease)
+  @(sync)
   getAppBaseInfo (): any {
     return ''
   }
 
   // @ts-ignore
-  @(syncAndRelease)
+  @(sync)
   getAppAuthorizeSetting (): any {
     return ''
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  navigateToMiniProgram (options: any) {
+  @(asyncAndRelease)
+  navigateToMiniProgram (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  setNavigationBarColor (options: any) {
+  @(asyncAndRelease)
+  setNavigationBarColor (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
+  @(sync)
   getMenuButtonBoundingClientRect (): any {
     return ''
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  request (options: any): any {
+  @(asyncAndRelease)
+  request (options: any): void {
+    return options
+  }
+
+  @(asyncAndRelease)
+  saveDataUrlToFile (options: any): void {
+    // 以下是原生的示例代码，实际由原生执行
+    // 原生的成功回调
+    options.success()
+    // 原生的失败回调
+    options.fail()
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  copyFileToSandboxCache (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  saveDataUrlToFile (options: any): any {
+  @(asyncAndRelease)
+  startAccelerometer (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  copyFileToSandboxCache (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  startAccelerometer (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  stopAccelerometer (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(asyncAndNotRelease)
-  onAccelerometerChange (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  offAccelerometerChange (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  startCompass (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  stopCompass (options: any): any {
+  @(asyncAndRelease)
+  stopAccelerometer (options: any): void {
     return options
   }
 
   // @ts-ignore
   @(asyncAndNotRelease)
-  onCompassChange (options: any): any {
+  onAccelerometerChange (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  offCompassChange (options: any): any {
+  @(asyncAndRelease)
+  offAccelerometerChange (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  startGyroscope (options: any): any {
+  @(asyncAndRelease)
+  startCompass (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  stopGyroscope (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(asyncAndNotRelease)
-  onGyroscopeChange (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  saveImageToPhotosAlbum (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  chooseMediaAssets (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  chooseMediumAssets (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getVideoInfo (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getImageInfo (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  compressVideo (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getLocation (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  openDocument (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  login (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setNavigationStyle (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getUserInfo (options: any): any {
+  @(asyncAndRelease)
+  stopCompass (options: any): void {
     return options
   }
 
   // @ts-ignore
   @(asyncAndNotRelease)
-  openSetting (options: any): any {
+  onCompassChange (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  offCompassChange (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  startGyroscope (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  stopGyroscope (options: any): void {
     return options
   }
 
   // @ts-ignore
   @(asyncAndNotRelease)
-  getSetting (options: any): any {
+  onGyroscopeChange (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  setKeepScreenOn (options: any): any {
+  @(asyncAndRelease)
+  saveImageToPhotosAlbum (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  chooseMediaAssets (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  chooseMediumAssets (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  getVideoInfo (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  getImageInfo (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  compressVideo (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  getLocation (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  openDocument (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  login (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  setNavigationStyle (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  getUserInfo (options: any): void {
     return options
   }
 
   // @ts-ignore
   @(asyncAndNotRelease)
-  onUserCaptureScreen (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  offUserCaptureScreen (options: any): any {
+  openSetting (options: any): void {
     return options
   }
 
   // @ts-ignore
   @(asyncAndNotRelease)
-  onLocationChange (options: any): any {
+  getSetting (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  offLocationChange (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setScreenBrightness (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getScreenBrightness (options: any): any {
+  @(asyncAndRelease)
+  setKeepScreenOn (options: any): void {
     return options
   }
 
   // @ts-ignore
   @(asyncAndNotRelease)
-  onMemoryWarning (options: any): any {
+  onUserCaptureScreen (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  offMemoryWarning (options: any): any {
+  @(asyncAndRelease)
+  offUserCaptureScreen (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  hideKeyboard (options?: any): any {
+  @(asyncAndNotRelease)
+  onLocationChange (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  onKeyboardHeightChange (options?: any): any {
+  @(asyncAndRelease)
+  offLocationChange (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  offKeyboardHeightChange (options?: any): any {
+  @(asyncAndRelease)
+  setScreenBrightness (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  makePhoneCall (options: any): any {
+  @(asyncAndRelease)
+  getScreenBrightness (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  getSavedFileList (options: any): any {
+  @(asyncAndNotRelease)
+  onMemoryWarning (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  removeSavedFile (options: any): any {
+  @(asyncAndRelease)
+  offMemoryWarning (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  getSavedFileInfo (options: any): any {
+  @(asyncAndRelease)
+  hideKeyboard (options?: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  addPhoneContact (options: any): any {
+  @(asyncAndRelease)
+  onKeyboardHeightChange (options?: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  scanCode (options: any): any {
+  @(asyncAndRelease)
+  offKeyboardHeightChange (options?: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  vibrateShort (options: any): any {
+  @(asyncAndRelease)
+  makePhoneCall (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  vibrateLong (options: any): any {
+  @(asyncAndRelease)
+  getSavedFileList (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  removeSavedFile (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  getSavedFileInfo (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  addPhoneContact (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  scanCode (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  vibrateShort (options: any): void {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  vibrateLong (options: any): void {
     return options
   }
 
   // NativeUpdateManager
   // @ts-ignore
-  @(syncAndRelease)
-  applyUpdate (): any {}
+  @(asyncAndRelease)
+  applyUpdate (): void {}
 
   // @ts-ignore
-  @(syncAndRelease)
-  onCheckForUpdate (options: any): any {
+  @(asyncAndRelease)
+  onCheckForUpdate (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  onUpdateFailed (options: any): any {
+  @(asyncAndRelease)
+  onUpdateFailed (options: any): void {
     return options
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  onUpdateReady (options: any): any {
+  @(asyncAndRelease)
+  onUpdateReady (options: any): void {
     return options
   }
 
   // NativeAContextApi
   // @ts-ignore
-  @(syncAndRelease)
+  @(sync)
   createInnerAudioContext (): any {}
 
   // @ts-ignore
@@ -984,7 +989,7 @@ class AsyncToSyncProxy {
 //   }
 // }
 
-const nativeApi = new NativeApi()
+let nativeApi = new NativeApi()
 nativeApi = timeLog(nativeApi)
 const cacheNativeApi = new Proxy(nativeApi, new SyncCacheProxyHandler(nativeApi))
 const native = new Proxy(cacheNativeApi, new CacheStorageProxy(cacheNativeApi)) // 第一个false是默认走jsb，true是走纯js， 第二个false是不走osChannel

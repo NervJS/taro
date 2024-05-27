@@ -1,4 +1,4 @@
-export function timeLog<T extends object>(obj: T): {
+export function timeLog<T extends object>(obj: T): T {
   return new Proxy(obj, {
     get(target, propKey, receiver) {
       const origMethod = Reflect.get(target, propKey, receiver)
