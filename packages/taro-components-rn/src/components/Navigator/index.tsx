@@ -1,9 +1,11 @@
 import React, {
   useCallback,
 } from 'react'
-import type { NavigatorProps } from '@tarojs/components/types/Navigator'
-import View from '../View'
+
 import { omit } from '../../utils'
+import View from '../View'
+
+import type { NavigatorProps } from '@tarojs/components/types/Navigator'
 
 let navigateTo, navigateBack, redirectTo, switchTab, reLaunch
 try {

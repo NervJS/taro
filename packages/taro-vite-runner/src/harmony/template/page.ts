@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { isFunction } from '@tarojs/shared'
-import path from 'path'
 
 import { escapePath, resolveAbsoluteRequire } from '../../utils'
 import { TARO_COMP_SUFFIX } from '../entry'

@@ -1,5 +1,5 @@
-import { NodePath } from '@babel/traverse'
-import * as t from '@babel/types'
+import type { NodePath } from '@babel/traverse'
+import type * as t from '@babel/types'
 
 interface LoopRef {
   id: string | t.Expression

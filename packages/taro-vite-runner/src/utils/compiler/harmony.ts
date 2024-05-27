@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   chalk,
   fs,
@@ -9,16 +11,7 @@ import {
   resolveSync,
 } from '@tarojs/helper'
 import { isArray, isFunction } from '@tarojs/shared'
-import {
-  ViteAppMeta,
-  ViteFileType,
-  ViteHarmonyBuildConfig,
-  ViteHarmonyCompilerContext,
-  ViteNativeCompMeta,
-  VitePageMeta,
-} from '@tarojs/taro/types/compile/viteCompilerContext'
 import JSON5 from 'json5'
-import path from 'path'
 
 import defaultConfig from '../../defaultConfig/defaultConfig.harmony'
 import { TARO_TABBAR_PAGE_PATH } from '../../harmony/page'
@@ -27,6 +20,14 @@ import { parseRelativePath } from '..'
 import { CompilerContext } from './base'
 
 import type { AppConfig, PageConfig } from '@tarojs/taro'
+import type {
+  ViteAppMeta,
+  ViteFileType,
+  ViteHarmonyBuildConfig,
+  ViteHarmonyCompilerContext,
+  ViteNativeCompMeta,
+  VitePageMeta,
+} from '@tarojs/taro/types/compile/viteCompilerContext'
 
 function readJsonSync(file: string) {
   const ext = path.extname(file)

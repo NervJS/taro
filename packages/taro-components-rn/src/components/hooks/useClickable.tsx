@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-
 import {
   GestureResponderEvent,
   GestureResponderHandlers, PanResponder, Platform
 } from 'react-native'
+
 import { omit } from '../../utils'
 
 export const clickableHandlers: Array<keyof GestureResponderHandlers> = [
@@ -88,7 +88,7 @@ const useClickable = (props: any) => {
   const [isHover, setIsHover] = useState(false)
 
   const ref = useRef<{
-    startTimestamp: number,
+    startTimestamp: number
     startTimer?: ReturnType<typeof setTimeout>
     stayTimer?: ReturnType<typeof setTimeout>
     props: any

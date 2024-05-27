@@ -1,7 +1,6 @@
 const path = require('path')
 
 module.exports = {
-  coveragePathIgnorePatterns: ['nerv.js', 'vue.js', 'utils.js'],
   globals: {
     ENABLE_INNER_HTML: true,
     ENABLE_ADJACENT_HTML: true,
@@ -12,12 +11,11 @@ module.exports = {
     ENABLE_CONTAINS: true,
   },
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
-  moduleNameMapper: {
-    '@tarojs/shared': path.resolve(__dirname, '..', '..', 'packages/shared/src/index.ts'),
-    '@tarojs/react': path.resolve(__dirname, '..', '..', 'packages/taro-react/dist/index.js'),
-    '@tarojs/plugin-framework-vue2': path.resolve(__dirname, '..', '..', 'packages/taro-plugin-vue2/dist/runtime.js')
-  },
   preset: 'ts-jest',
+  moduleNameMapper: {
+    '@tarojs/plugin-framework-vue3/dist/runtime': path.resolve(__dirname, '..', '..', 'packages/taro-plugin-vue3/dist/runtime'),
+    '@tarojs/react': path.resolve(__dirname, '..', '..', 'packages/taro-react/dist/index'),
+  },
   setupFiles: [path.resolve(__dirname, './src/__tests__/setup.js')],
   testEnvironment: 'node',
   testEnvironmentOptions: {

@@ -1,4 +1,4 @@
-import { utils } from 'stylelint'
+import stylelint from 'stylelint'
 
 import type { Problem } from 'stylelint'
 
@@ -11,11 +11,11 @@ export function nameSpace(ruleName: string) {
   return `taro/${ruleName}`
 }
 export function newMessage(ruleName: string, options) {
-  return utils.ruleMessages(ruleName, options)
+  return stylelint.utils.ruleMessages(ruleName, options)
 }
 
 export function report(problem: Problem) {
-  return utils.report(problem)
+  return stylelint.utils.report(problem)
 }
 
 export function log(text: string) {

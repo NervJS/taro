@@ -133,7 +133,7 @@ jobs:
         with:
           move_coverage_to_trash: true
           flags: taro-runner
-          files: ./packages/taro-webpack5-runner/coverage/clover.xml,./packages/taro-webpack-runner/coverage/clover.xml,./packages/taro-mini-runner/coverage/clover.xml
+          files: ./packages/taro-webpack5-runner/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload [taro-runtime] coverage to Codecov
         uses: codecov/codecov-action@v4

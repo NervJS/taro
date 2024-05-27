@@ -15,30 +15,30 @@ const handler = {
   '/tsconfig.json': createWhenTs,
   '/types/global.d.ts': createWhenTs,
   '/types/vue.d.ts' (err, { framework, typescript }) {
-    return ['Vue', 'Vue3'].includes(framework) && !!typescript
+    return ['Vue3'].includes(framework) && !!typescript
   },
   '/src/pages/index/index.jsx' (err, { pageDir = '', pageName = '', subPkg = '' }) {
-    return { 
+    return {
       setPageName: normalizePath(path.join(PAGES_ENTRY, pageDir, pageName, 'index.jsx')),
-      setSubPkgName: normalizePath(path.join(SOURCE_ENTRY, subPkg, pageDir, pageName, 'index.jsx')) 
+      setSubPkgName: normalizePath(path.join(SOURCE_ENTRY, subPkg, pageDir, pageName, 'index.jsx'))
     }
   },
   '/src/pages/index/index.css' (err, { pageDir = '', pageName = '', subPkg = '' }) {
-    return { 
+    return {
       setPageName: normalizePath(path.join(PAGES_ENTRY, pageDir, pageName, 'index.css')),
-      setSubPkgName: normalizePath(path.join(SOURCE_ENTRY, subPkg, pageDir, pageName, 'index.css')) 
+      setSubPkgName: normalizePath(path.join(SOURCE_ENTRY, subPkg, pageDir, pageName, 'index.css'))
     }
   },
   '/src/pages/index/index.vue' (err, { pageDir = '', pageName = '', subPkg = '' }) {
-    return { 
+    return {
       setPageName: normalizePath(path.join(PAGES_ENTRY, pageDir, pageName, 'index.vue')),
-      setSubPkgName: normalizePath(path.join(SOURCE_ENTRY, subPkg, pageDir, pageName, 'index.vue')) 
+      setSubPkgName: normalizePath(path.join(SOURCE_ENTRY, subPkg, pageDir, pageName, 'index.vue'))
     }
   },
   '/src/pages/index/index.config.js' (err, { pageDir = '', pageName = '', subPkg = '' }) {
-    return { 
+    return {
       setPageName: normalizePath(path.join(PAGES_ENTRY, pageDir, pageName, 'index.config.js')),
-      setSubPkgName: normalizePath(path.join(SOURCE_ENTRY, subPkg, pageDir, pageName, 'index.config.js')) 
+      setSubPkgName: normalizePath(path.join(SOURCE_ENTRY, subPkg, pageDir, pageName, 'index.config.js'))
     }
   },
   '/_editorconfig' () {

@@ -320,9 +320,9 @@ describe('wxs', () => {
         module.exports = {
           foo: "'hello world' from tools.wxs",
           /*
-            msg:'123',
-            name:'xixi'
-          */
+          * msg:'123',
+          * name:'xixi'
+          **/
         };
       </wxs>
       <view>{{wxs_test.foo}}</view>

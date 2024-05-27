@@ -1,14 +1,14 @@
 import babel from '@rollup/plugin-babel'
-import * as commonjs from '@rollup/plugin-commonjs'
-import * as json from '@rollup/plugin-json'
+import commonjs from '@rollup/plugin-commonjs'
+import json from '@rollup/plugin-json'
 import nodeResolve from '@rollup/plugin-node-resolve'
-import * as pluginReplace from '@rollup/plugin-replace'
+import pluginReplace from '@rollup/plugin-replace'
 import { recursiveMerge } from '@tarojs/helper'
 import { rollupTransform as styleTransformer } from '@tarojs/rn-style-transformer'
 import { getBabelConfig, resolveExtFile, rollupResolver as taroResolver } from '@tarojs/rn-supporter'
 import { getAppConfig } from '@tarojs/rn-transformer'
-import * as jsx from 'acorn-jsx'
-import * as path from 'path'
+import jsx from 'acorn-jsx'
+import path from 'path'
 import { rollup, RollupOptions } from 'rollup'
 import image from 'rollup-plugin-image-file'
 
@@ -108,7 +108,10 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
       }),
       // @ts-ignore
       pluginReplace({
-        'process.env.NODE_ENV': JSON.stringify('production')
+        preventAssignment: true,
+        values: {
+          'process.env.NODE_ENV': JSON.stringify('production')
+        }
       }),
       // @ts-ignore
       commonjs(),

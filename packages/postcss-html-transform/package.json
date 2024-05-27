@@ -1,10 +1,10 @@
 {
   "name": "postcss-html-transform",
-  "version": "4.0.0-beta.75",
+  "version": "4.0.0-alpha.5",
   "description": "transform html tag name selector",
-  "main": "index.js",
-  "author": "drchan",
+  "author": "O2Team",
   "license": "MIT",
+  "main": "index.js",
   "files": [
     "index.js",
     "dist"
@@ -14,16 +14,19 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./dist",
     "build": "tsc",
     "dev": "tsc -w"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "devDependencies": {
-    "postcss": "^8.4.18"
+  "engines": {
+    "node": ">= 18"
   },
   "peerDependencies": {
-    "postcss": "^8.4.18"
+    "postcss": "^8"
   }
 }

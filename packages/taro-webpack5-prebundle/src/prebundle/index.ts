@@ -1,7 +1,8 @@
+import path from 'node:path'
+import { performance } from 'node:perf_hooks'
+
 import { chalk, defaultMainFields, fs, readConfig, recursiveMerge, REG_SCRIPTS, resolveMainFilePath, terminalLink } from '@tarojs/helper'
 import { PLATFORM_TYPE } from '@tarojs/shared'
-import path from 'path'
-import { performance } from 'perf_hooks'
 import webpack from 'webpack'
 
 import { commitMeta, createResolve, getBundleHash, getCacheDir, getMeasure, Metadata, sortDeps } from '../utils'
@@ -251,7 +252,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     const skipPlugins = ['MiniSplitChunksPlugin', 'TaroMiniPlugin', 'TaroH5Plugin', 'ProvidePlugin', 'CopyPlugin', 'HtmlWebpackPlugin']
     delete inherit.devServer
     delete inherit.optimization?.splitChunks
-    inherit.plugins = inherit.plugins?.filter(p => !skipPlugins.includes(p?.constructor?.name))
+    inherit.plugins = inherit.plugins?.filter(p => !skipPlugins.includes(p?.constructor?.name || ''))
     if (inherit.module?.rules) {
       inherit.module.rules = inherit.module.rules.filter((rule: RuleSetRule) => rule.test?.toString() !== REG_SCRIPTS.toString())
     }

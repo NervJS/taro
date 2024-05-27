@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 import { addLeadingSlash, stripTrailingSlash } from '../../utils'
 import { getResolveUrl, relativeUrlMechanisms } from '../../utils/rollup'

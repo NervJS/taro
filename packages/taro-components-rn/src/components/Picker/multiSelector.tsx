@@ -1,5 +1,6 @@
-import * as React from 'react'
 import AntPicker from '@ant-design/react-native/lib/picker'
+import * as React from 'react'
+
 import { noop } from '../../utils'
 import { MultiSelectorProps, MultiSelectorState } from './PropsType'
 

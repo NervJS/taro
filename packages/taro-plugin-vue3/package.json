@@ -1,8 +1,8 @@
 {
   "name": "@tarojs/plugin-framework-vue3",
-  "version": "4.0.0-beta.75",
+  "version": "4.0.0-alpha.5",
   "description": "Vue3 框架插件",
-  "author": "drchan",
+  "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro",
   "license": "MIT",
   "main": "index.js",
@@ -18,40 +18,42 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "build": "rollup -c --bundleConfigAsCjs",
-    "dev": "rollup -c -w --bundleConfigAsCjs"
+    "prod": "pnpm run build",
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
-    "@tarojs/helper": "workspace:*",
-    "@tarojs/runner-utils": "workspace:*",
-    "@tarojs/service": "workspace:*",
-    "lodash": "^4.17.21"
+    "lodash": "4.17.21",
+    "tslib": "2.6.2"
   },
   "devDependencies": {
+    "@tarojs/helper": "workspace:*",
     "@tarojs/runtime": "workspace:*",
+    "@tarojs/runner-utils": "workspace:*",
+    "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "@vitejs/plugin-vue": "^4.0.0",
-    "@vitejs/plugin-vue-jsx": "^3.0.0",
-    "@vue/compiler-core": "3.2.47",
-    "@vue/runtime-core": "3.2.47",
-    "vite": "^4.2.0",
-    "vue": "3.2.47",
-    "rollup": "^3.8.1",
-    "rollup-plugin-node-externals": "^5.0.0",
-    "rollup-plugin-ts": "^3.0.2",
-    "typescript": "^4.7.4"
+    "vue-loader": "^17.0.0",
+    "@vue/compiler-core": "^3.4.25",
+    "vite": "^5.2.10",
+    "vue": "^3.4.25"
   },
   "peerDependencies": {
-    "@tarojs/runtime": "workspace:~",
-    "@tarojs/shared": "workspace:~",
-    "@vitejs/plugin-vue": "^4.0.0",
-    "@vitejs/plugin-vue-jsx": "^3.0.0",
-    "vite": "^4.2.0",
-    "vue": "3.2.47"
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/runner-utils": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@vitejs/plugin-vue": "^5",
+    "@vitejs/plugin-vue-jsx": "^3",
+    "vue-loader": "^17.0.0",
+    "vite": "^5",
+    "vue": "^3"
   },
   "peerDependenciesMeta": {
     "vite": {

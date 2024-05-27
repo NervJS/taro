@@ -1,22 +1,17 @@
 {
   "name": "@tarojs/service",
-  "version": "4.0.0-beta.75",
+  "version": "4.0.0-alpha.5",
   "description": "Taro Service",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "build": "run-s clean prod",
-    "dev": "tsc -w",
-    "prod": "tsc",
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
     "clean": "rimraf --impl=move-remove dist types",
-    "prepack": "pnpm run build",
-    "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent --passWithNoTests",
-    "test:dev": "cross-env NODE_ENV=jest jest --watch"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NervJS/taro.git"
+    "dev": "tsc -w",
+    "build": "tsc"
   },
   "files": [
     "index.js",
@@ -26,30 +21,30 @@
   "keywords": [
     "taro"
   ],
-  "author": "luckyadam",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "homepage": "https://github.com/NervJS/taro#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
     "@tarojs/helper": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
-    "joi": "^17.6.0",
+    "@tarojs/shared": "workspace:*",
+    "joi": "^17.12.3",
     "lodash": "^4.17.21",
-    "resolve": "^1.22.0",
-    "tapable": "^1.1.3",
-    "webpack-merge": "^4.2.2",
-    "ora": "^5.0.0"
+    "ora": "^5.4.1",
+    "resolve": "^1.22.8",
+    "tapable": "^2.2.1",
+    "webpack-merge": "^5.10.0"
   },
   "devDependencies": {
-    "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "vite": "^4.2.0",
-    "webpack": "5.78.0"
-  },
-  "peerDependencies": {
-    "@tarojs/shared": "workspace:~",
-    "@tarojs/taro": "workspace:~"
+    "webpack": "^5.91.0",
+    "webpack-chain": "^6.5.1"
   }
 }

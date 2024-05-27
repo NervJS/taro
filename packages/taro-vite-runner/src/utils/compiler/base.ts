@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   fs,
   isEmptyObject,
@@ -6,7 +8,6 @@ import {
   SCRIPT_EXT,
 } from '@tarojs/helper'
 import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
-import path from 'path'
 
 import { stripMultiPlatformExt } from '../../utils'
 import { logger } from '../logger'

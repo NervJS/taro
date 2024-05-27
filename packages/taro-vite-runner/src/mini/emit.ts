@@ -1,6 +1,7 @@
+import path from 'node:path'
+
 import { promoteRelativePath } from '@tarojs/helper'
 import { isFunction, isString, toDashed } from '@tarojs/shared'
-import path from 'path'
 
 import { getComponentName, prettyPrintJson } from '../utils'
 import { componentConfig } from '../utils/component'

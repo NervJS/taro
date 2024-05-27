@@ -65,7 +65,6 @@ function safeExecute (path: string, lifecycle: keyof Instance, ...args: unknown[
 }
 
 const globalAny: any = global
-// eslint-disable-next-line import/no-mutable-exports
 export let PageContext: Context<string> = EMPTY_OBJ
 
 // APP 前后台状态发生变化时调用对应的生命周期函数
@@ -109,7 +108,6 @@ Dimensions.addEventListener('change', ({ window }) => {
   }
 })
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function createPageConfig (Page: any, pageConfig: PageConfig): any {
   const h = createElement
   const pagePath = pageConfig.pagePath.replace(/^\//, '') || ''
@@ -121,7 +119,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
   let ScreenPage = Page
   if (!isReactComponent) {
-    // eslint-disable-next-line react/display-name
     ScreenPage = forwardRef((props, ref) => {
       return h(Page, { forwardRef: ref, ...props }, null)
     })

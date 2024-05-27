@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 // import { ProjectType } from './../../taro-plugin-mini-ci/src/BaseCi';
 import template from '@babel/template'
 import traverse, { NodePath } from '@babel/traverse'
@@ -22,7 +24,6 @@ import {
 import { isNull, isUndefined } from '@tarojs/shared'
 import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
-import * as path from 'path'
 import Processors from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 import * as prettier from 'prettier'
@@ -1458,20 +1459,9 @@ export default class Convertor {
     return filePath.replace(path.join(this.root, '/'), '').split(path.sep).join('/')
   }
 
-  private formatFile (jsCode: string, template = '') {
-    let code = jsCode
+  private formatFile (jsCode: string, _template = '') {
+    const code = jsCode
     const config = { ...prettierJSConfig }
-    if (this.framework === FrameworkType.Vue) {
-      code = `
-${template}
-<script>
-${code}
-</script>
-      `
-      config.parser = 'vue'
-      config.semi = false
-      config.htmlWhitespaceSensitivity = 'ignore'
-    }
     return prettier.format(code, config)
   }
 

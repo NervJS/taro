@@ -1,8 +1,8 @@
 {
   "name": "@tarojs/plugin-platform-h5",
-  "version": "4.0.0-beta.75",
+  "version": "4.0.0-alpha.5",
   "description": "Web 端平台插件",
-  "author": "ZakaryCode",
+  "author": "O2Team",
   "license": "MIT",
   "main": "index.js",
   "keywords": [
@@ -25,12 +25,13 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
     "prebuild": "run-s clean generate:desc",
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "clean": "rimraf --impl=move-remove dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "generate:desc": "pnpm run tsx --files ./build/definition-json",
-    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
+    "rollup": "rollup -c",
     "tsx": "ts-node --skipIgnore"
   },
   "bugs": {
@@ -41,26 +42,16 @@
     "@tarojs/components": "workspace:*",
     "@tarojs/components-react": "workspace:*",
     "@tarojs/runtime": "workspace:*",
-    "@tarojs/router": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/taro-h5": "workspace:*",
     "babel-plugin-transform-taroapi": "workspace:*",
     "change-case": "^4.1.2",
+    "tslib": "^2.6.2",
     "lodash-es": "4.17.21"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-typescript": "^11.1.0",
-    "@tarojs/taro": "workspace:*",
-    "rollup": "^3.8.1",
-    "rollup-plugin-node-externals": "^5.0.0",
-    "rollup-plugin-ts": "^3.4.5",
-    "ts-node": "^10.9.1",
-    "tsconfig-paths": "^3.14.1",
-    "typescript": "^5.3.3"
+    "@tarojs/taro": "workspace:*"
   }
 }

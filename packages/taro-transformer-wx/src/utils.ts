@@ -1,10 +1,11 @@
+import * as fs from 'node:fs'
+import * as path from 'node:path'
+
 import { codeFrameColumns } from '@babel/code-frame'
 import generate from '@babel/generator'
-import { NodePath, Scope } from '@babel/traverse'
+import template from '@babel/template'
 import * as t from '@babel/types'
-import * as fs from 'fs'
 import { cloneDeep } from 'lodash'
-import * as path from 'path'
 import * as prettier from 'prettier'
 
 import { Adapter, Adapters } from './adapter'
@@ -12,8 +13,8 @@ import { IS_TARO_READY, LOOP_STATE, TARO_PACKAGE_NAME } from './constant'
 import { globals } from './global'
 import { buildBlockElement } from './jsx'
 import { transformOptions } from './options'
-// const template = require('babel-template')
-const template = require('@babel/template')
+
+import type { NodePath, Scope } from '@babel/traverse'
 
 const prettierJSConfig: prettier.Options = {
   semi: false,
@@ -309,7 +310,7 @@ export function generateAnonymousState(
             }
             refIds.add(t.identifier(variableName))
             blockStatement.scope.rename(id.name, newId.name)
-            path.parentPath.replaceWith(template('ID = INIT;')({ ID: newId, INIT: init }))
+            path.parentPath.replaceWith(template.statement('ID = INIT;')({ ID: newId, INIT: init }))
           }
         },
       })

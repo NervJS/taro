@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   defaultEsbuildLoader,
   defaultMainFields,
@@ -10,7 +12,6 @@ import {
 } from '@tarojs/helper'
 import { init, parse } from 'es-module-lexer'
 import { defaults } from 'lodash'
-import path from 'path'
 
 import { flattenId, getDefines, getResolve } from '../utils'
 import { assetsRE, moduleRE } from '../utils/constant'

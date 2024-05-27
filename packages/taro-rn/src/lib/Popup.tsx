@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-
-import PropTypes from 'prop-types'
-import { Modal, View, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
 import { ViewPropTypes } from 'deprecated-react-native-prop-types'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import { Animated, Dimensions, Easing, Modal, StyleSheet, View } from 'react-native'
+
 import { Mask } from './Mask'
 
 const { width, height } = Dimensions.get('window')
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 })
 
 interface Props {
-  visible?: boolean;
+  visible?: boolean
 }
 
 class Popup extends Component<any, any> {
@@ -53,9 +53,11 @@ class Popup extends Component<any, any> {
       }).start(() => this.setState({ visible: false }))
     }
   }
+
   componentWillUnmount (): void {
-    this.timer && clearTimeout(this.timer);
+    this.timer && clearTimeout(this.timer)
   }
+
   handleLayout (): void {
     this.timer = setTimeout(() => {
       this.popup?.measure((_x, _y, _w, h) => {
@@ -69,7 +71,7 @@ class Popup extends Component<any, any> {
           }).start()
         })
       })
-    },); // 处理鸿蒙系统handleLayout 回调 this.popup为空的情况
+    },) // 处理鸿蒙系统handleLayout 回调 this.popup为空的情况
   }
 
   render (): JSX.Element {

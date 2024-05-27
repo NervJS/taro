@@ -1,9 +1,7 @@
-import babel from '@rollup/plugin-babel'
-import commonjs from '@rollup/plugin-commonjs'
-import { nodeResolve } from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
+import _ from 'lodash'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
-import ts from 'rollup-plugin-ts'
 
 import type { RollupOptions } from 'rollup'
 
@@ -15,23 +13,10 @@ const baseConfig: RollupOptions = {
   },
   plugins: [
     externals({
-      deps: true,
-      devDeps: false,
+      peerDeps: true,
     }),
-    nodeResolve({
-      preferBuiltins: false
-    }),
-    ts({
-      tsconfig: e => ({
-        ...e,
-        sourceMap: true
-      })
-    }),
-    commonjs({
-      extensions: ['.js', '.ts'],
-    }),
-    babel({
-      babelHelpers: 'runtime'
+    typescript({
+      include: ['src/**/*'] // 必须添加这行，否则会打包出 rollup.config.d.ts
     })
   ]
 }
@@ -60,7 +45,8 @@ const variesConfig: RollupOptions[] = [{
       '@babel/runtime/helpers/classCallCheck': '_classCallCheck',
       '@babel/runtime/helpers/createClass': '_createClass',
       '@babel/runtime/helpers/defineProperty': '_defineProperty',
-      '@tarojs/runtime': 'runtime'
+      '@tarojs/runtime': 'runtime',
+      '@tarojs/shared': 'shared',
     }
   }
 },
@@ -73,5 +59,5 @@ const variesConfig: RollupOptions[] = [{
 }]
 
 export default defineConfig(variesConfig.map(v => {
-  return Object.assign({}, baseConfig, v)
+  return _.mergeWith({}, baseConfig, v)
 }))

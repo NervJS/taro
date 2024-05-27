@@ -9,7 +9,6 @@ import type { ILoaderMeta } from '@tarojs/taro/types/compile/config/plugin'
 
 const frameworkAlias = {
   solid: 'solid',
-  vue: 'vue2',
   vue3: 'vue3',
 }
 

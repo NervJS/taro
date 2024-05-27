@@ -1,5 +1,5 @@
-import { camelCase } from 'lodash';
-import { parseUrl } from 'query-string';
-const globalAny = global;
+import { camelCase } from 'lodash'
+import queryString from 'query-string'
+const globalAny = global
 
-console.log(globalAny, camelCase, parseUrl)
+console.log(globalAny, camelCase, queryString)

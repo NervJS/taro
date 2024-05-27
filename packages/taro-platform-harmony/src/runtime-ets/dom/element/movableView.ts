@@ -1,7 +1,7 @@
 import { TaroElement } from './element'
-import type { TaroAny } from '../../utils'
 
 import type { MovableViewProps } from '@tarojs/components/types'
+import type { TaroAny } from '../../utils'
 
 type Tsize = {
   w: number
@@ -22,7 +22,7 @@ function calcPosition(postion: number, start: number, end: number) {
   }
 }
 
-export function isTaroMovableViewElement (item: TaroAny): item is TaroMovableViewElement{
+export function isTaroMovableViewElement (item: TaroAny): item is TaroMovableViewElement {
   return item instanceof TaroMovableViewElement
 }
 @Observed
@@ -153,7 +153,7 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
   }
 
   set area(val: Tsize) {
-    if(val.w === this._area?.w && val.h === this._area?.h) return
+    if (val.w === this._area?.w && val.h === this._area?.h) return
     this._area = val
     if (!this._areaInited) {
       this._areaInited = true
@@ -166,7 +166,7 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
   }
 
   set selfSize(val: Tsize) {
-    if(val.w === this._selfSize?.w && val.h === this._selfSize?.h) return
+    if (val.w === this._selfSize?.w && val.h === this._selfSize?.h) return
     this._selfSize = val
     if (!this._selfSizeInited) {
       this._selfSizeInited = true

@@ -1,7 +1,8 @@
+import path from 'node:path'
+import querystring from 'node:querystring'
+
 import { isNpmPkg, NODE_MODULES_REG, recursiveMerge, resolveSync } from '@tarojs/helper'
 import { isFunction, isString } from '@tarojs/shared'
-import path from 'path'
-import querystring from 'querystring'
 
 import { backSlashRegEx, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME, needsEscapeRegEx, quoteNewlineRegEx } from './constants'
 import createFilter from './createFilter'

@@ -3,7 +3,7 @@ import * as t from '@babel/types'
 import { errors, globals, resetGlobals, THIRD_PARTY_COMPONENTS } from './global'
 import { parseScript } from './script'
 import { getLineBreak, printToLogFile, setting, updateLogFileContent } from './utils'
-import { parseVue } from './vue'
+// import { parseVue } from './vue'
 import { parseWXML } from './wxml'
 
 interface IPluginInfo {
@@ -54,13 +54,13 @@ export function parse (option: Option) {
       }
     }
 
-    if (option.framework === 'vue') {
-      const result = parseVue(option.path, option.wxml || '', option.script)
-      return {
-        ...result,
-        errors,
-      }
-    }
+    // if (option.framework === 'vue') {
+    //   const result = parseVue(option.path, option.wxml || '', option.script)
+    //   return {
+    //     ...result,
+    //     errors,
+    //   }
+    // }
 
     globals.currentParseFile = option.templatePath || ''
     const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)

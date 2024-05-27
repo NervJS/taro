@@ -43,3 +43,4 @@ class RoutesAlias {
 export const routesAlias = new RoutesAlias()
 
 export * from './navigate'
+

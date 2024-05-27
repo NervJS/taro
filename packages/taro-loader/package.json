@@ -1,9 +1,8 @@
 {
   "name": "@tarojs/taro-loader",
-  "version": "4.0.0-beta.75",
+  "version": "4.0.0-alpha.5",
   "description": "Taro runner use webpack loader",
-  "author": "yuche <i@yuche.me>",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",
+  "author": "O2Team",
   "license": "MIT",
   "main": "lib/app.js",
   "directories": {
@@ -25,17 +24,17 @@
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
-    "@tarojs/helper": "workspace:*",
-    "@tarojs/taro": "workspace:*",
-    "loader-utils": "^1.2.3"
+    "@tarojs/helper": "workspace:*"
   },
   "devDependencies": {
-    "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
-    "jest-environment-node": "^29.5.0",
-    "ts-jest": "^29.0.5",
-    "typescript": "^4.7.4",
-    "webpack": "5.78.0"
+    "@tarojs/taro": "workspace:*",
+    "webpack": "5.91.0"
+  },
+  "peerDependencies": {
+    "webpack": "5.91.0"
   }
 }

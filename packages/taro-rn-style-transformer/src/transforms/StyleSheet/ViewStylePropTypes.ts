@@ -10,9 +10,10 @@
 
 'use strict'
 
+import * as ReactPropTypes from 'prop-types'
+
 import ColorPropType from './ColorPropType'
 import LayoutPropTypes from './LayoutPropTypes'
-import * as ReactPropTypes from 'prop-types'
 import ShadowPropTypesIOS from './ShadowPropTypesIOS'
 import TransformPropTypes from './TransformPropTypes'
 
