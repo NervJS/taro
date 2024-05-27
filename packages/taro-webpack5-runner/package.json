@@ -10,12 +10,7 @@
     "build": "pnpm run clean && pnpm run prod",
     "dev": "pnpm run mv:comp && tsc -w",
     "mv:comp": "node ./mv-comp.js",
-    "clean": "rimraf --impl=move-remove dist",
-    "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent",
-    "test:dev": "cross-env NODE_ENV=jest jest --watch",
-    "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
-    "updateSnapshot": "cross-env NODE_ENV=jest jest --ci -i -u"
+    "clean": "rimraf --impl=move-remove dist"
   },
   "repository": {
     "type": "git",
@@ -84,29 +79,15 @@
     "webpack-virtual-modules": "^0.6.1"
   },
   "devDependencies": {
-    "@tarojs/runtime": "workspace:*",
     "@babel/core": "^7.24.4",
-    "@tarojs/plugin-framework-react": "workspace:*",
-    "@tarojs/plugin-framework-vue3": "workspace:*",
-    "@tarojs/plugin-platform-alipay": "workspace:*",
-    "@tarojs/plugin-platform-jd": "workspace:*",
-    "@tarojs/plugin-platform-qq": "workspace:*",
-    "@tarojs/plugin-platform-swan": "workspace:*",
-    "@tarojs/plugin-platform-tt": "workspace:*",
-    "@tarojs/plugin-platform-weapp": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "@types/detect-port": "^1.3.5 ",
     "@types/sax": "^1.2.4",
-    "babel-preset-taro": "workspace:*",
     "less": "^4.2.0",
     "sass": "^1.75.0",
     "stylus": "^0.63.0",
-    "globby": "^12.0.2",
     "jest-transform-css": "^6.0.1",
-    "memfs": "^4.9.1",
-    "webpack": "5.91.0",
-    "webpack-merge": "^5.10.0",
-    "react": "^18.2.0"
+    "webpack": "5.91.0"
   },
   "peerDependencies": {
     "@tarojs/runtime": "workspace:*",

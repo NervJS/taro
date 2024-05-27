@@ -1,7 +1,7 @@
 {
-  "name": "@tarojs/plugin-framework-react",
+  "name": "@tarojs/plugin-framework-solid",
   "version": "4.0.0-alpha.4",
-  "description": "React/Preact/Nerv 框架插件",
+  "description": "Solid 框架插件",
   "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro",
   "license": "MIT",

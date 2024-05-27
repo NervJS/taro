@@ -2612,33 +2612,6 @@ importers:
       '@babel/core':
         specifier: ^7.24.4
         version: 7.24.4(supports-color@9.4.0)
-      '@tarojs/plugin-framework-react':
-        specifier: workspace:*
-        version: link:../taro-plugin-react
-      '@tarojs/plugin-framework-vue3':
-        specifier: workspace:*
-        version: link:../taro-plugin-vue3
-      '@tarojs/plugin-platform-alipay':
-        specifier: workspace:*
-        version: link:../taro-platform-alipay
-      '@tarojs/plugin-platform-jd':
-        specifier: workspace:*
-        version: link:../taro-platform-jd
-      '@tarojs/plugin-platform-qq':
-        specifier: workspace:*
-        version: link:../taro-platform-qq
-      '@tarojs/plugin-platform-swan':
-        specifier: workspace:*
-        version: link:../taro-platform-swan
-      '@tarojs/plugin-platform-tt':
-        specifier: workspace:*
-        version: link:../taro-platform-tt
-      '@tarojs/plugin-platform-weapp':
-        specifier: workspace:*
-        version: link:../taro-platform-weapp
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -2648,24 +2621,12 @@ importers:
       '@types/sax':
         specifier: ^1.2.4
         version: 1.2.7
-      babel-preset-taro:
-        specifier: workspace:*
-        version: link:../babel-preset-taro
-      globby:
-        specifier: ^12.0.2
-        version: 12.2.0
       jest-transform-css:
         specifier: ^6.0.1
         version: 6.0.1(postcss@8.4.38)(ts-node@10.9.2)
       less:
         specifier: ^4.2.0
         version: 4.2.0
-      memfs:
-        specifier: ^4.9.1
-        version: 4.9.2
-      react:
-        specifier: ^18.2.0
-        version: 18.2.0
       sass:
         specifier: ^1.75.0
         version: 1.75.0
@@ -2675,9 +2636,6 @@ importers:
       webpack:
         specifier: 5.91.0
         version: 5.91.0(esbuild@0.20.2)
-      webpack-merge:
-        specifier: ^5.10.0
-        version: 5.10.0
 
   packages/taro-with-weapp:
     dependencies:
@@ -2740,6 +2698,81 @@ importers:
       '@types/babel__traverse':
         specifier: ^7.20.5
         version: 7.20.5
+
+  tests:
+    devDependencies:
+      '@babel/core':
+        specifier: ^7.24.4
+        version: 7.24.4(supports-color@9.4.0)
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../packages/taro-helper
+      '@tarojs/plugin-framework-react':
+        specifier: workspace:*
+        version: link:../packages/taro-plugin-react
+      '@tarojs/plugin-framework-vue3':
+        specifier: workspace:*
+        version: link:../packages/taro-plugin-vue3
+      '@tarojs/plugin-platform-alipay':
+        specifier: workspace:*
+        version: link:../packages/taro-platform-alipay
+      '@tarojs/plugin-platform-jd':
+        specifier: workspace:*
+        version: link:../packages/taro-platform-jd
+      '@tarojs/plugin-platform-qq':
+        specifier: workspace:*
+        version: link:../packages/taro-platform-qq
+      '@tarojs/plugin-platform-swan':
+        specifier: workspace:*
+        version: link:../packages/taro-platform-swan
+      '@tarojs/plugin-platform-tt':
+        specifier: workspace:*
+        version: link:../packages/taro-platform-tt
+      '@tarojs/plugin-platform-weapp':
+        specifier: workspace:*
+        version: link:../packages/taro-platform-weapp
+      '@tarojs/runner-utils':
+        specifier: workspace:*
+        version: link:../packages/taro-runner-utils
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../packages/shared
+      '@tarojs/taro-loader':
+        specifier: workspace:*
+        version: link:../packages/taro-loader
+      '@tarojs/webpack5-runner':
+        specifier: workspace:*
+        version: link:../packages/taro-webpack5-runner
+      acorn:
+        specifier: ^8.11.3
+        version: 8.11.3
+      acorn-walk:
+        specifier: ^8.3.2
+        version: 8.3.2
+      babel-loader:
+        specifier: 8.2.1
+        version: 8.2.1(@babel/core@7.24.4)(webpack@5.91.0)
+      babel-preset-taro:
+        specifier: workspace:*
+        version: link:../packages/babel-preset-taro
+      copy-webpack-plugin:
+        specifier: ^12.0.2
+        version: 12.0.2(webpack@5.91.0)
+      globby:
+        specifier: ^12.0.2
+        version: 12.2.0
+      memfs:
+        specifier: ^4.9.1
+        version: 4.9.2
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      webpack-chain:
+        specifier: ^6.5.1
+        version: 6.5.1
+      webpack-merge:
+        specifier: ^5.10.0
+        version: 5.10.0
 
 packages:
 
@@ -7600,7 +7633,6 @@ packages:
   /@sindresorhus/merge-streams@2.3.0:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==, tarball: https://registry.npmjs.org/@sindresorhus/merge-streams/-/merge-streams-2.3.0.tgz}
     engines: {node: '>=18'}
-    dev: false
 
   /@sinonjs/commons@1.8.6:
     resolution: {integrity: sha512-Ky+XkAkqPZSm3NLBeUng77EBQl3cmeJhITaGHdYH8kjVB+aun3S4XBRti2zt17mtt0mIUDiNxYeoJm6drVvBJQ==, tarball: https://registry.npmjs.org/@sinonjs/commons/-/commons-1.8.6.tgz}
@@ -10278,7 +10310,6 @@ packages:
       pify: 4.0.1
       schema-utils: 2.7.1
       webpack: 5.91.0(esbuild@0.20.2)
-    dev: false
 
   /babel-plugin-dynamic-import-node@2.3.3:
     resolution: {integrity: sha512-jZVI+s9Zg3IqA/kdi0i6UDCybUI3aSBLnglhYbSSjKlV7yF1F/5LWv8MakQmvYpnbJDS6fcBL2KzHSxNCMtWSQ==, tarball: https://registry.npmjs.org/babel-plugin-dynamic-import-node/-/babel-plugin-dynamic-import-node-2.3.3.tgz}
@@ -10624,7 +10655,6 @@ packages:
 
   /big.js@5.2.2:
     resolution: {integrity: sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ==, tarball: https://registry.npmjs.org/big.js/-/big.js-5.2.2.tgz}
-    dev: false
 
   /binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==, tarball: https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.3.0.tgz}
@@ -11864,7 +11894,6 @@ packages:
       schema-utils: 4.2.0
       serialize-javascript: 6.0.2
       webpack: 5.91.0(esbuild@0.20.2)
-    dev: false
 
   /core-js-compat@3.37.0:
     resolution: {integrity: sha512-vYq4L+T8aS5UuFg4UwDhc7YNRWVeVZwltad9C/jV3R2LgVOpS9BDr7l/WL6BN0dbV3k1XejPTHqqEzJgsa0frA==, tarball: https://registry.npmjs.org/core-js-compat/-/core-js-compat-3.37.0.tgz}
@@ -13095,7 +13124,6 @@ packages:
   /emojis-list@3.0.0:
     resolution: {integrity: sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==, tarball: https://registry.npmjs.org/emojis-list/-/emojis-list-3.0.0.tgz}
     engines: {node: '>= 4'}
-    dev: false
 
   /empower-core@1.2.0:
     resolution: {integrity: sha512-g6+K6Geyc1o6FdXs9HwrXleCFan7d66G5xSCfSF7x1mJDCes6t0om9lFQG3zOrzh3Bkb/45N0cZ5Gqsf7YrzGQ==, tarball: https://registry.npmjs.org/empower-core/-/empower-core-1.2.0.tgz}
@@ -15168,6 +15196,7 @@ packages:
 
   /glob@6.0.4:
     resolution: {integrity: sha512-MKZeRNyYZAVVVG1oZeLaWie1uweH40m9AZwIwxyPbTSX4hHrVYSzLg0Ro5Z5R7XKkIX+Cc6oD1rqeDJnwsB8/A==, tarball: https://registry.npmjs.org/glob/-/glob-6.0.4.tgz}
+    deprecated: Glob versions prior to v9 are no longer supported
     requiresBuild: true
     dependencies:
       inflight: registry.npmjs.org/inflight@1.0.6
@@ -15321,7 +15350,6 @@ packages:
       path-type: 5.0.0
       slash: 5.1.0
       unicorn-magic: 0.1.0
-    dev: false
 
   /globjoin@0.1.4:
     resolution: {integrity: sha512-xYfnw62CKG8nLkZBfWbhWwDw02CHty86jfPcc2cr3ZfeuK9ysoVPPEUxf21bAD/rWAgk52SuBrLJlefNy8mvFg==, tarball: https://registry.npmjs.org/globjoin/-/globjoin-0.1.4.tgz}
@@ -18626,7 +18654,6 @@ packages:
       big.js: 5.2.2
       emojis-list: 3.0.0
       json5: 1.0.2
-    dev: false
 
   /loader-utils@2.0.4:
     resolution: {integrity: sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==, tarball: https://registry.npmjs.org/loader-utils/-/loader-utils-2.0.4.tgz}
@@ -20758,7 +20785,6 @@ packages:
   /path-type@5.0.0:
     resolution: {integrity: sha512-5HviZNaZcfqP95rwpv+1HDgUamezbqdSYTyzjTvwtJSnIH+3vnbmWsItli8OFEndS984VT55M3jduxZbX351gg==, tarball: https://registry.npmjs.org/path-type/-/path-type-5.0.0.tgz}
     engines: {node: '>=12'}
-    dev: false
 
   /pathe@1.1.2:
     resolution: {integrity: sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==, tarball: https://registry.npmjs.org/pathe/-/pathe-1.1.2.tgz}
@@ -23269,7 +23295,6 @@ packages:
       '@types/json-schema': 7.0.15
       ajv: 6.12.6
       ajv-keywords: 3.5.2(ajv@6.12.6)
-    dev: false
 
   /schema-utils@3.3.0:
     resolution: {integrity: sha512-pN/yOAvcC+5rQ5nERGuwrjLlYvLTbCibnZ1I7B1LaiAz9BRBlE9GMgE/eqV30P7aJQUf7Ddimy/RsbYO/GrVGg==, tarball: https://registry.npmjs.org/schema-utils/-/schema-utils-3.3.0.tgz}
@@ -25393,7 +25418,6 @@ packages:
   /unicorn-magic@0.1.0:
     resolution: {integrity: sha512-lRfVq8fE8gz6QMBuDM6a+LO3IAzTi05H6gCVaUpir2E1Rwpo4ZUog45KpNXKC/Mn3Yb9UDuHumeFTo9iV/D9FQ==, tarball: https://registry.npmjs.org/unicorn-magic/-/unicorn-magic-0.1.0.tgz}
     engines: {node: '>=18'}
-    dev: false
 
   /union-value@1.0.1:
     resolution: {integrity: sha512-tJfXmxMeWYnczCVs7XAEvIV7ieppALdyepWMkHkwciRpZraG/xwT+s2JN8+pr1+8jCRf80FFzvr+MpQeeoF4Xg==, tarball: https://registry.npmjs.org/union-value/-/union-value-1.0.1.tgz}
