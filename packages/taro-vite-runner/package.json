@@ -57,10 +57,12 @@
     "sass": "1.44.0",
     "stylus": "^0.63.0",
     "terser": "^5.30.4",
-    "vite": "^5.2.10"
+    "vite": "^5.2.10",
+    "@tarojs/runtime": "workspace:*"
   },
   "peerDependencies": {
     "postcss": "^8",
-    "vite": "^5"
+    "vite": "^5",
+    "@tarojs/runtime": "workspace:*"
   }
 }
