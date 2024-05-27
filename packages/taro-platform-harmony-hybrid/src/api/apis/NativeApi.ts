@@ -1,4 +1,5 @@
 import { NativeDataChangeListener, SyncCacheProxyHandler } from './NativeApiSyncCacheProxy'
+import {timeLog} from "./NativeApiLog";
 // @ts-ignore
 const syncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true }) || (target => target)
 // @ts-ignore
@@ -984,6 +985,7 @@ class AsyncToSyncProxy {
 // }
 
 const nativeApi = new NativeApi()
+nativeApi = timeLog(nativeApi)
 const cacheNativeApi = new Proxy(nativeApi, new SyncCacheProxyHandler(nativeApi))
 const native = new Proxy(cacheNativeApi, new CacheStorageProxy(cacheNativeApi)) // 第一个false是默认走jsb，true是走纯js， 第二个false是不走osChannel
 export default native
