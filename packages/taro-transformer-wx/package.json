@@ -12,9 +12,6 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
-  "publishConfig": {
-    "access": "public"
-  },
   "main": "index.js",
   "files": [
     "index.js",
