@@ -2330,6 +2330,9 @@ importers:
       '@tarojs/runner-utils':
         specifier: workspace:*
         version: link:../taro-runner-utils
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
@@ -2406,9 +2409,6 @@ importers:
       '@babel/types':
         specifier: ^7.24.0
         version: 7.24.0
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro

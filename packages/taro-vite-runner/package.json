@@ -19,6 +19,7 @@
     "@rollup/plugin-inject": "^5.0.5",
     "@rollup/pluginutils": "^5.1.0",
     "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
     "@tarojs/parse-css-to-stylesheet": "^0.0.69",
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/shared": "workspace:*",
@@ -50,7 +51,6 @@
   "devDependencies": {
     "@babel/types": "^7.24.0",
     "@tarojs/taro": "workspace:*",
-    "@tarojs/runtime": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/sax": "^1.2.4",
     "less": "^4.2.0",
