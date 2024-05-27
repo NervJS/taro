@@ -2406,6 +2406,9 @@ importers:
       '@babel/types':
         specifier: ^7.24.0
         version: 7.24.0
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro

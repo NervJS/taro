@@ -50,6 +50,7 @@
   "devDependencies": {
     "@babel/types": "^7.24.0",
     "@tarojs/taro": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/sax": "^1.2.4",
     "less": "^4.2.0",
