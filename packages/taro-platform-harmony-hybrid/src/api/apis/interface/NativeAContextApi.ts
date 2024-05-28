@@ -191,7 +191,9 @@ export class NativeInnerAudioContext implements Taro.InnerAudioContext {
     return option
   }
 
-  pause (): void {}
+  pause (): void {
+    native.innerAudioPause({}, this.objectId)
+  }
 
   seek (option: any): void {
     return option

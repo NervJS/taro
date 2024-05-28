@@ -3,7 +3,7 @@ export const apiName = {
   system: '系统',
   update: '更新',
   miniProgram: '小程序',
-  debug: '调试',
+  nativeDebug: '调试',
   performance: '性能',
   encryption: '加密',
   interaction: '交互',

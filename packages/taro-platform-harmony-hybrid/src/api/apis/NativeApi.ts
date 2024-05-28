@@ -1,3 +1,4 @@
+import { NativeDataChangeListener, SyncCacheProxyHandler } from './NativeApiSyncCacheProxy'
 // @ts-ignore
 const syncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true }) || (target => target)
 // @ts-ignore
@@ -8,7 +9,26 @@ const asyncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMod
 const asyncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false }) || (target => target)
 
 // export let judgeUseAxios = false
-class NativeApi {
+export class NativeApi {
+  // @ts-ignore
+  @(syncAndNotRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  registerNativeListener (listener: NativeDataChangeListener | null): void {
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  openLocation (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  chooseLocation (options: any): any {
+    return options
+  }
+
   // @ts-ignore
   @(syncAndRelease)
   getWindowInfo (): any {
@@ -156,6 +176,12 @@ class NativeApi {
   // @ts-ignore
   @(syncAndRelease)
   chooseMediaAssets (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  chooseMediumAssets (options: any): any {
     return options
   }
 
@@ -370,6 +396,12 @@ class NativeApi {
   // @ts-ignore
   @(syncAndRelease)
   innerAudioStop (option: any, _: number) {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  innerAudioPause (option: any, _: number) {
     return option
   }
 
@@ -818,24 +850,72 @@ class CacheStorageProxy {
       return (...args: any[]) => {
         const key = args[0].key
         if (this.cacheMap.has(key)) {
-          return this.cacheMap.get(key)
+          return { done: true, data: this.cacheMap.get(key), errorMsg: '' }
         } else {
           const status = this.asyncToSyncProxy.getStorageSync({ key })
-          if (status.done && status.errMsg === '') {
+          if (status.done && status.errorMsg === '') {
             this.cacheMap.set(key, status)
           }
           return status
         }
       }
     }
+    if (prop === 'getStorage') {
+      return (...args: any[]) => {
+        const key = args[0].key
+        const fail = args[0].fail
+        const success = args[0].success
+        if (this.cacheMap.has(key)) {
+          success({ errMsg: 'ok', data: this.cacheMap.get(key) })
+        } else {
+          this.nativeApi.getStorage({
+            key: key,
+            fail: fail,
+            success: (res) => {
+              this.cacheMap.set(key, res.data)
+              success(res)
+            }
+          })
+        }
+      }
+    }
     if (prop === 'setStorageSync') {
       return (...args: any[]) => {
         const { key, data } = args[0]
-        const status = this.asyncToSyncProxy.setStorageSync({ key, data })
-        if (status.done && status.errMsg === '') {
-          this.cacheMap.set(key, status)
-        }
-        return status
+        // 先更新js缓存，同异步原生，TODO 考虑失败的情况
+        this.cacheMap.set(key, data)
+        this.nativeApi.setStorage({
+          key: key,
+          data: data,
+          fail: () => {},
+          success: () => {}
+        })
+      }
+    }
+    if (prop === 'setStorage') {
+      return (...args: any[]) => {
+        const key = args[0].key
+        const data = args[0].data
+        this.cacheMap.set(key, data)
+        // @ts-ignore
+        this.nativeApi.setStorage({ key: key, data: data })
+      }
+    }
+    if (prop === 'removeStorageSync') {
+      return (...args: any[]) => {
+        const { key } = args[0]
+        // 先更新缓存，再同步原生
+        this.cacheMap.delete(key)
+        this.nativeApi.removeStorage({ key: key })
+      }
+    }
+    if (prop === 'removeStorage') {
+      return (...args: any[]) => {
+        const { key } = args[0]
+        // 先更新缓存，再同步原生
+        this.cacheMap.delete(key)
+        // @ts-ignore
+        this.nativeApi.removeStorage({ key: key })
       }
     }
     return (...args: any[]) => {
@@ -904,5 +984,6 @@ class AsyncToSyncProxy {
 // }
 
 const nativeApi = new NativeApi()
-const native = new Proxy(nativeApi, new CacheStorageProxy(nativeApi)) // 第一个false是默认走jsb，true是走纯js， 第二个false是不走osChannel
+const cacheNativeApi = new Proxy(nativeApi, new SyncCacheProxyHandler(nativeApi))
+const native = new Proxy(cacheNativeApi, new CacheStorageProxy(cacheNativeApi)) // 第一个false是默认走jsb，true是走纯js， 第二个false是不走osChannel
 export default native

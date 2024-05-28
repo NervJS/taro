@@ -76,8 +76,8 @@ export default class Index extends React.Component {
         id: 'basics',
         name: '基础',
         open: false,
-        pages: ['basics', 'system', 'update', 'miniProgram', 'debug', 'performance', 'encryption'],
-        target: ['basics', 'system', 'update', 'miniProgram', 'debug', 'performance', 'encryption'],
+        pages: ['basics', 'system', 'update', 'miniProgram', 'nativeDebug', 'performance', 'encryption'],
+        target: ['basics', 'system', 'update', 'miniProgram', 'nativeDebug', 'performance', 'encryption'],
       },
       {
         id: 'routing',
