@@ -35,7 +35,9 @@
     "react-devtools": "4.14.0"
   },
   "devDependencies": {
+    "@tarojs/helper": "workspace:*",
     "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "rollup-plugin-copy": "workspace:*",
     "@tarojs/taro": "workspace:*"
   },

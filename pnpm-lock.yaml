@@ -1543,9 +1543,15 @@ importers:
         specifier: 4.14.0
         version: 4.14.0
     devDependencies:
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../taro-helper
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -1611,9 +1617,15 @@ importers:
         specifier: ^1.5.1
         version: 1.5.1
     devDependencies:
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../taro-helper
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro

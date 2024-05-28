@@ -35,6 +35,8 @@
     "detect-port": "^1.5.1"
   },
   "devDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "@tarojs/service": "workspace:*",
     "rollup-plugin-copy": "workspace:*",
     "@tarojs/taro": "workspace:*"
