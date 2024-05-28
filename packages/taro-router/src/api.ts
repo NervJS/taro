@@ -59,6 +59,7 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
         const pathPieces = processNavigateUrl(option)
         const state = { timestamp: Date.now() }
         if (method === 'navigateTo') {
+          // Note: 由于 spa 会针对弱网情况下，短时间内多次跳转同一个页面跳转加了锁，后续如果有用户反馈返回无效，那可能是这个问题
           history.push(pathPieces, state)
         } else if (method === 'redirectTo' || method === 'switchTab') {
           history.replace(pathPieces, state)
