@@ -61,6 +61,7 @@
     "vite": "^5.2.10"
   },
   "peerDependencies": {
+    "@tarojs/runtime": "workspace:*",
     "postcss": "^8",
     "vite": "^5"
   }

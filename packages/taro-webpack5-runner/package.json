@@ -81,6 +81,7 @@
   "devDependencies": {
     "@babel/core": "^7.24.4",
     "@tarojs/taro": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
     "@types/detect-port": "^1.3.5 ",
     "@types/sax": "^1.2.4",
     "less": "^4.2.0",

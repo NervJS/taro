@@ -2615,6 +2615,9 @@ importers:
       '@babel/core':
         specifier: ^7.24.4
         version: 7.24.4(supports-color@9.4.0)
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
