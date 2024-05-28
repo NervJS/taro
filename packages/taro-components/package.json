@@ -26,6 +26,7 @@
     "prod": "pnpm run build:ci",
     "prepare": "run-p generate:*",
     "prebuild": "run-p generate:*",
+    "prebuild:ci": "run-p generate:*",
     "build:ci": "cross-env NODE_ENV=production run-s build:components",
     "build": "cross-env NODE_ENV=production run-s build:components build:library",
     "build:components": "stencil build",

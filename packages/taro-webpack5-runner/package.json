@@ -7,7 +7,9 @@
   "main": "index.js",
   "scripts": {
     "prod": "pnpm run build",
-    "build": "pnpm run clean && pnpm run prod",
+    "prebuild": "pnpm run clean",
+    "build": "tsc",
+    "postbuild": "pnpm run mv:comp",
     "dev": "pnpm run mv:comp && tsc -w",
     "mv:comp": "node ./mv-comp.js",
     "clean": "rimraf --impl=move-remove dist"
