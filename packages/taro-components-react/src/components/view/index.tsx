@@ -86,7 +86,7 @@ function View ({
       },
       className
     ))
-  }, [hover])
+  }, [hover, className])
 
   return (
     <div
