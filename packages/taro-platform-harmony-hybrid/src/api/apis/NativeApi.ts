@@ -1,6 +1,7 @@
 import { NativeDataChangeListener, SyncCacheProxyHandler } from './NativeApiSyncCacheProxy'
-import {timeLog} from "./NativeApiLog";
+// import {timeLog} from "./NativeApiLog";
 import { syncApiCache } from "./harmony-native/ApiCache"
+import {storageCacheAndSyncProxy} from "./harmony-native/StorageCacheAndSyncProxy";
 // @ts-ignore
 const syncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true }) || (target => target)
 // @ts-ignore
@@ -780,41 +781,52 @@ export class NativeApi {
   }
 
   // @ts-ignore
-  @(syncAndRelease)
-  getExecStatus (option: any): any {
-    // 获取缓存数据
-    return option
-  }
+  // @(syncAndRelease)
+  // getExecStatus (option: any): any {
+  //   // 获取缓存数据
+  //   return option
+  // }
 
-  // @ts-ignore
   @(asyncAndNotRelease)
-  setStorage (option: any): any {
-    return option
-  }
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setStorage (option: any): any {}
+
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  removeStorage (option: any): any {}
 
   // @ts-ignore
   @(asyncAndRelease)
-  removeStorage (option: any): any {
-    return option
-  }
-
   // @ts-ignore
-  @(asyncAndRelease)
-  getStorage (option: any): any {
-    return option
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getStorage (option: any): any {}
 
+  @(syncAndRelease)
   // @ts-ignore
-  @(asyncAndRelease)
-  getStorageInfo (option: any): any {
-    return option
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getStorageSync (key): any {}
 
-  // @ts-ignore
   @(asyncAndRelease)
-  clearStorage (option: any): any {
-    return option
-  }
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  batchGetHomePageStorage(options: any): any {}
+
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  updatePageShowDataKeys(options: any): any{}
+
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getStorageInfo (option: any): any {}
+
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  clearStorage (option: any): any {}
 }
 
 export interface Status {
@@ -823,128 +835,39 @@ export interface Status {
   errorMsg: string
 }
 
-class CacheStorageProxy {
-  private cacheMap: Map<any, any>
-  private readonly nativeApi: NativeApi
-  private readonly asyncToSyncProxy: any
 
-  constructor (nativeApi: NativeApi) {
-    this.nativeApi = nativeApi
-    this.cacheMap = new Map<string, any>()
-    this.asyncToSyncProxy = new Proxy(nativeApi, new AsyncToSyncProxy(this.nativeApi))
-  }
 
-  // @ts-ignore
-  get (target: { [x: string]: any }, prop: string) {
-    if (prop === 'getStorageSync') {
-      return (...args: any[]) => {
-        const key = args[0].key
-        if (this.cacheMap.has(key)) {
-          return { done: true, data: this.cacheMap.get(key), errorMsg: ''}
-        } else {
-          const status = this.asyncToSyncProxy.getStorageSync({ key })
-          if (status.done && status.errorMsg === '') {
-            this.cacheMap.set(key, status)
-          }
-          return status
-        }
-      }
-    }
-    if(prop === 'getStorage') {
-      return (...args: any[]) => {
-        const key = args[0].key
-        const fail = args[0].fail
-        const success = args[0].success
-        if (this.cacheMap.has(key)) {
-          success({errMsg:'ok', data: this.cacheMap.get(key)})
-        } else {
-          this.nativeApi['getStorage']({
-            key: key,
-            fail: fail,
-            success: (res)=> {
-              this.cacheMap.set(key, res.data)
-              success(res)
-            }
-          })
-        }
-      }
-    }
-    if (prop === 'setStorageSync') {
-      return (...args: any[]) => {
-        const { key, data } = args[0]
-        // 先更新js缓存，同异步原生，TODO 考虑失败的情况
-        this.cacheMap.set(key, data)
-        this.nativeApi['setStorage']({
-          key: key,
-          data: data,
-          fail: ()=>{},
-          success: () => {}
-        })
-      }
-    }
-    if(prop === 'setStorage') {
-      return (...args: any[]) => {
-        const key = args[0].key
-        const data = args[0].data
-        this.cacheMap.set(key, data)
-        // @ts-ignore
-        this.nativeApi['setStorage']({key: key, data: data})
-      }
-    }
-    if (prop === 'removeStorageSync') {
-      return (...args: any[]) => {
-        const { key } = args[0]
-        // 先更新缓存，再同步原生
-        this.cacheMap.delete(key)
-        this.nativeApi['removeStorage']({key: key})
-      }
-    }
-    if (prop === 'removeStorage') {
-      return (...args: any[]) => {
-        const { key } = args[0]
-        // 先更新缓存，再同步原生
-        this.cacheMap.delete(key)
-        // @ts-ignore
-        this.nativeApi['removeStorage']({key: key})
-      }
-    }
-    return (...args: any[]) => {
-      return this.asyncToSyncProxy[prop](...args)
-    }
-  }
-}
-
-class AsyncToSyncProxy {
-  private readonly nativeApi: NativeApi
-  private readonly STATUS: Status = { done: false, data: '', errorMsg: `search timeout` }
-  private methods = ['setStorageSync', 'removeStorageSync', 'getStorageSync', 'getStorageInfoSync', 'clearStorageSync']
-
-  constructor (nativeApi: NativeApi) {
-    this.nativeApi = nativeApi
-  }
-
-  get (target: { [x: string]: any }, prop: string) {
-    if (this.methods.includes(prop)) {
-      return (...args: any[]) => {
-        const asyncFunc = prop.substring(0, prop.length - 'Sync'.length)
-        this.nativeApi[asyncFunc](...args)
-
-        let count = 0
-        while (count < 20000) {
-          count++
-          if (count % 2000 === 0) {
-            const status = this.nativeApi.getExecStatus({ method: prop, key: args[0].key })
-            if (status.done || status.errorMsg) {
-              return status
-            }
-          }
-        }
-        return this.STATUS
-      }
-    }
-    return target[prop]
-  }
-}
+// class AsyncToSyncProxy {
+//   private readonly nativeApi: NativeApi
+//   private readonly STATUS: Status = { done: false, data: '', errorMsg: `search timeout` }
+//   private methods = ['setStorageSync', 'removeStorageSync', 'getStorageSync', 'getStorageInfoSync', 'clearStorageSync']
+//
+//   constructor (nativeApi: NativeApi) {
+//     this.nativeApi = nativeApi
+//   }
+//
+//   get (target: { [x: string]: any }, prop: string) {
+//     if (this.methods.includes(prop)) {
+//       return (...args: any[]) => {
+//         const asyncFunc = prop.substring(0, prop.length - 'Sync'.length)
+//         this.nativeApi[asyncFunc](...args)
+//
+//         let count = 0
+//         while (count < 20000) {
+//           count++
+//           if (count % 2000 === 0) {
+//             const status = this.nativeApi.getExecStatus({ method: prop, key: args[0].key })
+//             if (status.done || status.errorMsg) {
+//               return status
+//             }
+//           }
+//         }
+//         return this.STATUS
+//       }
+//     }
+//     return target[prop]
+//   }
+// }
 
 // class HybridProxy {
 //   // private readonly useAxios: boolean
@@ -973,8 +896,9 @@ class AsyncToSyncProxy {
 //   }
 // }
 
-let nativeApi = new NativeApi()
-nativeApi = timeLog(nativeApi)
-const cacheNativeApi = new Proxy(nativeApi, new SyncCacheProxyHandler(nativeApi))
-const native = new Proxy(cacheNativeApi, new CacheStorageProxy(cacheNativeApi)) // 第一个false是默认走jsb，true是走纯js， 第二个false是不走osChannel
+let native = new NativeApi()
+// native = timeLog(native)
+native = new Proxy(native, new SyncCacheProxyHandler(native))
+native = storageCacheAndSyncProxy(native)
+
 export default native
