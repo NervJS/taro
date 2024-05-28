@@ -1,8 +1,8 @@
 import * as path from 'path'
 import { describe, expect, test } from 'vitest'
 
-import { build } from '../src/config/build-component'
-import runner from '../src/index'
+import { build } from '../dist/config/build-component'
+import { default as runner } from '../dist/index'
 import { appPath, config } from './mock/components_testdata'
 
 const getCode = (result) => result.output.map(chunk => chunk.code)
