@@ -388,226 +388,10 @@ export class NativeApi {
     return options
   }
 
-  // NativeAContextApi
-  // @ts-ignore
-  @(syncAndRelease)
-  createInnerAudioContext (): any {}
-
-  // @ts-ignore
-  @(syncAndRelease)
-  innerAudioStop (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  innerAudioPause (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  innerAudioPlay (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndNotRelease)
-  innerAudioOnPlay (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndNotRelease)
-  innerAudioOnStop (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndNotRelease)
-  innerAudioOnError (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndNotRelease)
-  innerAudioOnEnded (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getAudioContextVolume (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setAudioContextVolume (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getAudioContextStartTime (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setAudioContextStartTime (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getAudioContextPlaybackRate (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setAudioContextPlaybackRate (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getAudioContextPaused (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setAudioContextPaused (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getAudioContextObeyMuteSwitch (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setAudioContextObeyMuteSwitch (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getAudioContextLoop (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setAudioContextLoop (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getAudioContextDuration (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setAudioContextDuration (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getAudioContextCurrentTime (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setAudioContextCurrentTime (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getAudioContextBuffered (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setAudioContextBuffered (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getAudioContextAutoplay (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setAudioContextAutoplay (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  getAudioContextSrc (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  setAudioContextSrc (option: any, _: number) {
-    return option
-  }
-
-  // NativeUploadFile
-  // @ts-ignore
-  @(asyncAndNotRelease)
-  uploadFile (options: any): any {
-    return options
-  }
-
   // @ts-ignore
   @(syncAndRelease)
   downloadFile (options: any): any {
     return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  abort (option: any, _: number): any {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  offHeadersReceived (option: any, _: number): any {
-    return option
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  offProgressUpdate (option: any, _: number): any {
-    return option
-  }
-
-  // @ts-ignore
-  @(asyncAndNotRelease)
-  onHeadersReceived (option: any, _: number): any {
-    return option
-  }
-
-  // @ts-ignore
-  @(asyncAndNotRelease)
-  onProgressUpdate (option: any, _: number): any {
-    return option
   }
 
   // NativeFileSystemManager
@@ -823,6 +607,26 @@ export class NativeApi {
   // @ts-ignore
   @(asyncAndRelease)
   clearStorage (option: any): any {
+    return option
+  }
+
+  @(syncAndRelease)
+  callInstance (option: any): any {
+    return option
+  }
+
+  @(syncAndRelease)
+  createInstance (option: any): any {
+    return option
+  }
+
+  @(syncAndRelease)
+  syncAndReleaseInstance (option: any): any {
+    return option
+  }
+
+  @(asyncAndNotRelease)
+  callInstanceAsync (option: any): any {
     return option
   }
 }
