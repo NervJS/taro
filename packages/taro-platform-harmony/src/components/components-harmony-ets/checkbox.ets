@@ -13,17 +13,20 @@ interface CheckboxOptions {
 }
 interface CheckboxAttrs {
   selectedColor?: ResourceColor
+  disabled?: boolean
 }
 
 @Extend(Checkbox)
 function checkboxAttr(attr: CheckboxAttrs) {
   .selectedColor(attr.selectedColor)
+  .enabled(!attr.disabled)
 }
 
 function getAttributes (node: TaroCheckboxElement): CheckboxAttrs {
   const _attrs = node._attrs
   const checkboxAttrs: CheckboxAttrs = {}
   checkboxAttrs.selectedColor = _attrs.color || '#1aad19'
+  checkboxAttrs.disabled = !!_attrs.disabled
   return checkboxAttrs
 }
 

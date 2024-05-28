@@ -7,6 +7,7 @@ import type { TaroAny, TaroStyleType, TaroTextStyleType, TaroTextAreaElement, Ta
 
 interface TextareaAttrs extends TaroTextStyleType {
   autoFocus?: boolean
+  disabled?: boolean
 }
 
 @Extend(TextArea)
@@ -23,11 +24,13 @@ function textAttr(attr: TextareaAttrs) {
   .textAlign(attr.textAlign)
   .maxLines(attr.WebkitLineClamp)
   .defaultFocus(attr.autoFocus)
+  .enabled(!attr.disabled)
 }
 
 function getAttributes(node: TaroTextAreaElement): TextareaAttrs {
   const attrs: TaroAny = getFontAttributes(node)
   attrs.autoFocus = node._attrs.autoFocus || node._attrs.focus || false
+  attrs.disabled = node._attrs.disabled || false
   return attrs
 }
 

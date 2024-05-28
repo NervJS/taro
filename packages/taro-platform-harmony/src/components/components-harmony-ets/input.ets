@@ -9,6 +9,7 @@ import type { TaroStyleType, TaroAny, TaroInputElement, TaroEvent } from '@taroj
 interface InputAttrs {
   textAlign?: TextAlign
   autoFocus?: boolean
+  disabled?: boolean
 }
 
 @Extend(TextInput)
@@ -24,12 +25,14 @@ function styles (style: TaroStyleType) {
 function attrs(attr: InputAttrs) {
   .textAlign(attr.textAlign)
   .defaultFocus(attr.autoFocus)
+  .enabled(!attr.disabled)
 }
 
 function getAttributes(node: TaroInputElement): InputAttrs {
   return {
     textAlign: node.hmStyle.textAlign,
     autoFocus: node._attrs.autoFocus || node._attrs.focus || false,
+    disabled: node._attrs.disabled || false,
   }
 }
 
