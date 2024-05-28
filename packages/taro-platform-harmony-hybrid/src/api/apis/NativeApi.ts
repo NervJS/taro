@@ -654,7 +654,7 @@ class CacheStorageProxy {
       return (...args: any[]) => {
         const key = args[0].key
         if (this.cacheMap.has(key)) {
-          return this.cacheMap.get(key)
+          return { done: true, data: this.cacheMap.get(key), errorMsg: '' }
         } else {
           const status = this.asyncToSyncProxy.getStorageSync({ key })
           if (status.done && status.errorMsg === '') {
@@ -664,25 +664,62 @@ class CacheStorageProxy {
         }
       }
     }
+    if (prop === 'getStorage') {
+      return (...args: any[]) => {
+        const key = args[0].key
+        const fail = args[0].fail
+        const success = args[0].success
+        if (this.cacheMap.has(key)) {
+          success({ errMsg: 'ok', data: this.cacheMap.get(key) })
+        } else {
+          this.nativeApi.getStorage({
+            key: key,
+            fail: fail,
+            success: (res) => {
+              this.cacheMap.set(key, res.data)
+              success(res)
+            }
+          })
+        }
+      }
+    }
     if (prop === 'setStorageSync') {
       return (...args: any[]) => {
         const { key, data } = args[0]
-        const status = this.asyncToSyncProxy.setStorageSync({ key, data })
-        if (status.done && status.errorMsg === '') {
-          status.data = data
-          this.cacheMap.set(key, status)
-        }
-        return status
+        // 先更新js缓存，同异步原生，TODO 考虑失败的情况
+        this.cacheMap.set(key, data)
+        this.nativeApi.setStorage({
+          key: key,
+          data: data,
+          fail: () => {},
+          success: () => {}
+        })
+      }
+    }
+    if (prop === 'setStorage') {
+      return (...args: any[]) => {
+        const key = args[0].key
+        const data = args[0].data
+        this.cacheMap.set(key, data)
+        // @ts-ignore
+        this.nativeApi.setStorage({ key: key, data: data })
       }
     }
     if (prop === 'removeStorageSync') {
       return (...args: any[]) => {
         const { key } = args[0]
-        const status = this.asyncToSyncProxy.removeStorageSync({ key })
-        if (status.done && status.errorMsg === '') {
-          this.cacheMap.delete(key)
-        }
-        return status
+        // 先更新缓存，再同步原生
+        this.cacheMap.delete(key)
+        this.nativeApi.removeStorage({ key: key })
+      }
+    }
+    if (prop === 'removeStorage') {
+      return (...args: any[]) => {
+        const { key } = args[0]
+        // 先更新缓存，再同步原生
+        this.cacheMap.delete(key)
+        // @ts-ignore
+        this.nativeApi.removeStorage({ key: key })
       }
     }
     return (...args: any[]) => {
