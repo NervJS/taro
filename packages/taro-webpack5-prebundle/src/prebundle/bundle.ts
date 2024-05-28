@@ -31,6 +31,29 @@ interface BundleConfig {
   mainFields?: string[]
 }
 
+// 先暂时解决问题 明天优化写法 https://github.com/evanw/esbuild/issues/3608 问题是新版本的 esbuild 请求不加文件后缀的文件路径会报错，应该有更加优雅的写法，比如 resolveExtensions： https://esbuild.bootcss.com/api/#resolve-extensions，我配置了一直没生效，可以看看
+// 可以看看发布记录 https://github.com/evanw/esbuild/releases， 比较 0.20.0 和 0.19.12 的区别 https://github.com/evanw/esbuild/compare/v0.19.12...v0.20.0
+// 感觉就是 internal/resolver/resolver.go 这个文件的改动导致的
+const CustomResolvePlugin = {
+  name: 'custom-resolve',
+  setup({ onResolve }) {
+    onResolve({ filter: /(?:)/ }, args => {
+      if (args.resolveDir.includes('node_modules/swiper') || args.resolveDir.includes('node_modules/ics')) {
+        const p = path.join(args.resolveDir, args.path)
+        if (!path.extname(p)) {
+          for (const ext of ['.tsx', '.ts', '.js', '.css', '/index.tsx', '/index.ts', '/index.js', '/index.css']) {
+            const full = p + ext
+            if (fs.existsSync(full)) {
+              return { path: full }
+            }
+          }
+        }
+      }
+    })
+  }
+}
+
+
 // esbuild generates nested directory output with lowest common ancestor base
 // this is unpredictable and makes it difficult to analyze entry / output
 // mapping. So what we do here is:
@@ -98,6 +121,7 @@ export async function bundle({
       }),
       ...(customEsbuildConfig.plugins || []),
       getSwcPlugin({ appPath, flatIdExports }, customSwcConfig),
+      CustomResolvePlugin
     ],
   })
 }
