@@ -96,6 +96,7 @@ export default class Parser extends BaseParser {
     stage.loadContent('${entryPath}', (err, data) => {
       const windowClass = stage.getMainWindowSync()
       Current.uiContext = windowClass.getUIContext()
+      windowClass.setWindowLayoutFullScreen(true)
 
       if (err.code) {
         return callFn(this.app?.onError, this, err)

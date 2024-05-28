@@ -7,18 +7,20 @@ import type { TaroAny, TaroSwitchElement, TaroEvent } from '@tarojs/runtime'
 
 interface SwitchAttrs {
   selectedColor?: ResourceColor
+  disabled?: boolean
 }
 
 @Extend(Toggle)
 function attrs(attr: SwitchAttrs) {
   .selectedColor(attr.selectedColor)
+  .enabled(!attr.disabled)
 }
 
 function getAttributes (node: TaroSwitchElement): SwitchAttrs {
-  const _attrs = node._attrs
-  const switchStyle: SwitchAttrs = {}
-  switchStyle.selectedColor = _attrs.color || '#04BE02'
-  return switchStyle
+  const attr: SwitchAttrs = {}
+  attr.selectedColor = node._attrs.color || '#04BE02'
+  attr.disabled = !!node._attrs.disabled
+  return attr
 }
 
 @Extend(Toggle)
