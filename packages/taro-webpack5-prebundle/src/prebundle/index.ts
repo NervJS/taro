@@ -222,6 +222,8 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
         )
       } else {
         console.log(chalk.yellowBright(...errors))
+        // 避免死循环
+        return
       }
       return this.bundle()
     }
