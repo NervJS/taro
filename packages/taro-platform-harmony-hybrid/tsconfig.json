@@ -19,7 +19,7 @@
       "resolveJsonModule": false,
       "skipLibCheck": true,
       "strict": true,
-      "target": "ES2022",
+      "target": "ES2022"
     },
     "experimentalSpecifierResolution": "node",
     "require": ["tsconfig-paths/register"]

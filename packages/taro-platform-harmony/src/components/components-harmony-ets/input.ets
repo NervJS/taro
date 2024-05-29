@@ -1,7 +1,7 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
-import { parseStyles, shouldBindEvent, getNodeThresholds } from './utils/helper'
+import { parseStyles, shouldBindEvent, getNodeThresholds, getStyleAttr } from './utils/helper'
 import { INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
 
 import type { TaroStyleType, TaroAny, TaroInputElement, TaroEvent } from '@tarojs/runtime'
@@ -9,6 +9,7 @@ import type { TaroStyleType, TaroAny, TaroInputElement, TaroEvent } from '@taroj
 interface InputAttrs {
   textAlign?: TextAlign
   autoFocus?: boolean
+  disabled?: boolean
 }
 
 @Extend(TextInput)
@@ -24,12 +25,14 @@ function styles (style: TaroStyleType) {
 function attrs(attr: InputAttrs) {
   .textAlign(attr.textAlign)
   .defaultFocus(attr.autoFocus)
+  .enabled(!attr.disabled)
 }
 
 function getAttributes(node: TaroInputElement): InputAttrs {
   return {
     textAlign: node.hmStyle.textAlign,
     autoFocus: node._attrs.autoFocus || node._attrs.focus || false,
+    disabled: node._attrs.disabled || false,
   }
 }
 
@@ -75,6 +78,7 @@ export default struct TaroInput {
     .placeholderColor(getPlaceholderColor(this.node))
     .enterKeyType(INPUT_CONFIRM_MAP.get(this.node._attrs?.confirmType) || EnterKeyType.Done)
     .padding(0) // Note: 移出 Input 默认 padding 设置
+    .backgroundColor(getStyleAttr(this.node, "backgroundColor"))// 
     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
     .styles(this.node?.hmStyle)
     .attrs(getAttributes(this.node))

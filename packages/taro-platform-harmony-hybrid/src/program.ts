@@ -1,6 +1,7 @@
-import { resolveSync } from '@tarojs/helper'
 import { TaroPlatformWeb } from '@tarojs/service'
 import path from 'path'
+
+import { resolveSync } from './resolve'
 
 import type { IPluginContext, TConfig } from '@tarojs/service'
 
@@ -61,7 +62,7 @@ export default class H5 extends TaroPlatformWeb {
   }
 
   get libraryDefinition () {
-    return resolveSync('./definition.json') || ''
+    return resolveSync('./definition.json')
   }
 
   /**
@@ -73,7 +74,7 @@ export default class H5 extends TaroPlatformWeb {
       const script = rules.get('script')
       const babelLoader = script.uses.get('babelLoader')
       const routerApis = new Set(['navigateTo', 'navigateBack', 'redirectTo', 'reLaunch', 'switchTab'])
-      let apis = require(resolveSync('./taroApis')!)
+      let apis = require(resolveSync('./taroApis'))
       apis = new Set(Array.from(apis).filter((x: string) => !routerApis.has(x)))
       babelLoader.set('options', {
         ...babelLoader.get('options'),

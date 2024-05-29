@@ -10,6 +10,7 @@ interface SliderAttrs {
   trackColor?: ResourceColor
   trackThickness?: Length
   blockColor?: ResourceColor
+  disabled?: boolean
 }
 
 @Extend(Slider)
@@ -18,6 +19,7 @@ function attrs (attr: SliderAttrs) {
   .trackColor(attr.trackColor)
   .trackThickness(attr.trackThickness)
   .blockColor(attr.blockColor)
+  .enabled(!attr.disabled)
 }
 
 function getAttributes (node: TaroSliderElement): SliderAttrs {
@@ -27,6 +29,7 @@ function getAttributes (node: TaroSliderElement): SliderAttrs {
   sliderAttrs.trackColor = _attrs.backgroundColor || _attrs.color || '#e9e9e9'
   sliderAttrs.trackThickness = _attrs.blockSize
   sliderAttrs.blockColor = _attrs.blockColor || '#ffffff'
+  sliderAttrs.disabled = !!_attrs.disabled
   return sliderAttrs
 }
 

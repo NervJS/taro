@@ -32,8 +32,8 @@ export default struct TaroMovableArea {
       }
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .clip(true)
-      .onAreaChange((oldValue: Area, newValue: Area) => {
-        areaChangeHandle(this.node, newValue)
+      .onSizeChange((oldValue: SizeOptions, newValue: SizeOptions) => {
+        sizeChangeHandle(this.node, newValue)
       })
       .gesture(
         PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {
@@ -59,8 +59,8 @@ export default struct TaroMovableArea {
       }
       .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .clip(true)
-      .onAreaChange((oldValue: Area, newValue: Area) => {
-        areaChangeHandle(this.node, newValue)
+      .onSizeChange((oldValue: SizeOptions, newValue: SizeOptions) => {
+        sizeChangeHandle(this.node, newValue)
       })
       .gesture(
         PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {
@@ -86,8 +86,8 @@ export default struct TaroMovableArea {
       }
       .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .clip(true)
-      .onAreaChange((oldValue: Area, newValue: Area) => {
-        areaChangeHandle(this.node, newValue)
+      .onSizeChange((oldValue: SizeOptions, newValue: SizeOptions) => {
+        sizeChangeHandle(this.node, newValue)
       })
       .gesture(
         PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {
@@ -110,7 +110,9 @@ export default struct TaroMovableArea {
     }
   }
 }
-function areaChangeHandle(node: TaroMovableAreaElement,newValue: Area) {
+
+
+function sizeChangeHandle(node: TaroMovableAreaElement, newValue: Area | SizeOptions) {
   node.childNodes.forEach(item => {
     if (isTaroMovableViewElement(item)) {
       if (item.area?.w !== Number(newValue.width) || item.area?.h !== Number(newValue.height)) {
