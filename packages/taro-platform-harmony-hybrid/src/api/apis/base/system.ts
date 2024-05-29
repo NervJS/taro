@@ -129,6 +129,7 @@ export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
   return appBaseInfo
 }
 
+
 /**
  * 获取系统信息Taro.getSystemInfo的同步版本
  *

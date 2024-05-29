@@ -22,8 +22,8 @@ export const createCacheManager = /* @__PURE__ */ temporarilyNotSupport('createC
  * @__object [key, data]
  */
 export const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
-  const status = native.setStorageSync({ key, data: JSON.stringify(handleData(data)) })
-  displayExecRes(status, setStorageSync.name)
+  native.setStorageSync({ key, data: JSON.stringify(handleData(data)) })
+  // displayExecRes(status, setStorageSync.name)
 }
 
 /**
@@ -71,8 +71,8 @@ export const revokeBufferURL = /* @__PURE__ */ temporarilyNotSupport('revokeBuff
  * @canUse removeStorageSync
  */
 export const removeStorageSync: typeof Taro.removeStorageSync = (key: string) => {
-  const status = native.removeStorageSync({ key })
-  displayExecRes(status, removeStorageSync.name)
+  native.removeStorageSync({ key })
+  // displayExecRes(status, removeStorageSync.name)
 }
 
 /**
