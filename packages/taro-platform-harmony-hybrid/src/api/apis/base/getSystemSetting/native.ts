@@ -2,6 +2,7 @@ import Taro from '@tarojs/api'
 
 import native from '../../NativeApi'
 
+
 const lastSystemSettingResult: Taro.getSystemSetting.Result = {}
 let lastGetSystemSettingTime = 0
 
