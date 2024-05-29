@@ -84,6 +84,9 @@ import type {
   TaroPageMetaElement,
   TaroNavigationBarElement,
 } from '@tarojs/runtime'
+import { Current } from '@tarojs/runtime'
+
+${this.generateNativeComponentNamesInit()}
 
 @Builder
 function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroElement) => void) {
@@ -170,7 +173,7 @@ function createLazyChildren (node: TaroElement, layer = 0) {
         createChildItem(item, createLazyChildren)
       }
     }
-  }, (item: TaroElement) => \`\${item._nid}-\${item._nodeInfo?.layer || 0}\`)
+  }, (item: TaroElement) => \`\${item._nid}-\${item._nativeUpdateTrigger}-\${item._nodeInfo?.layer || 0}\`)
 }
 
 export { createChildItem, createLazyChildren }
@@ -240,7 +243,7 @@ export { createChildItem, createLazyChildren }
       if (nativeMeta.isPackage) {
         result += `import ${nativeMeta.name} from '${nativeMeta.scriptPath}'\n`
       } else {
-        const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath)
+        const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath).replace(/\.ets$/, '');
         result = `${result}import ${nativeMeta.name} from './${nativePath}'\n`
       }
     })
@@ -268,10 +271,26 @@ export { createChildItem, createLazyChildren }
     this.context.nativeComponents.forEach((nativeMeta, _) => {
       const { name } = nativeMeta
       code = `${code}if (item.tagName === '${name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}') {
-    ${name}({ props: (item._attrs as TaroAny).props })
+    ${name}(item._attrs as TaroAny)
   } else `
     })
 
     return code
+  }
+
+  generateNativeComponentNamesInit () {
+    if(this.context.nativeComponents.size === 0) return ''
+    const compentsList: string[] = []
+
+    this.context.nativeComponents.forEach((nativeMeta) => {
+      const { name, isPackage } = nativeMeta
+      // 这段逻辑服务于@Buider的更新，是通过父节点把这个节点重新渲染，这里排除掉package的情况，package一般逻辑复杂会用@Component实现组件
+      if(!isPackage) {
+        compentsList.push(name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase())
+      }
+    })
+
+    return `Current.nativeComponentNames = [${compentsList.map(item => `"${item}"`).join(', ')}]`
+
   }
 }
