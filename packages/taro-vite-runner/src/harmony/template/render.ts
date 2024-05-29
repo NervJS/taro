@@ -284,6 +284,7 @@ export { createChildItem, createLazyChildren }
 
     this.context.nativeComponents.forEach((nativeMeta) => {
       const { name, isPackage } = nativeMeta
+      // 这段逻辑服务于@Buider的更新，是通过父节点把这个节点重新渲染，这里排除掉package的情况，package一般逻辑复杂会用@Component实现组件
       if(!isPackage) {
         compentsList.push(name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase())
       }
