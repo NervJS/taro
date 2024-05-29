@@ -173,7 +173,7 @@ function createLazyChildren (node: TaroElement, layer = 0) {
         createChildItem(item, createLazyChildren)
       }
     }
-  }, (item: TaroElement) => \`\${item._nid}-\${item._nodeInfo?.layer || 0}\`)
+  }, (item: TaroElement) => \`\${item._nid}-\${item._nativeUpdateTrigger}-\${item._nodeInfo?.layer || 0}\`)
 }
 
 export { createChildItem, createLazyChildren }

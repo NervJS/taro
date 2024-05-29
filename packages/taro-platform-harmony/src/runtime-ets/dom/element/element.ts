@@ -119,8 +119,11 @@ export class TaroElement<
     // Current.nativeComponentNames会在render.ets中赋值
     if(Current.nativeComponentNames?.includes(this.tagName)) {
       const idxOfRef = this.parentNode?.findIndex(this)
-      // 本来应该调 notifyDataChange 的，但是调了没用，notifyDataDelete 反而可以触发更新，先这么写着
-      idxOfRef !== undefined && this.parentNode?.notifyDataDelete(idxOfRef)
+
+      if (idxOfRef !== undefined) {
+        this._nativeUpdateTrigger++
+        this.parentNode?.notifyDataChange(idxOfRef)
+      } 
     }
 
     if (['PAGE-META', 'NAVIGATION-BAR'].includes(this.tagName)) {
