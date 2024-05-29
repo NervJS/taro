@@ -125,6 +125,7 @@ export default class Index extends React.Component {
                 tempFilePath: tempFilePaths[0],
                 success: (res) => {
                   TestConsole.consoleNormal('saveFile success ', res)
+                  Taro.getFileSystemManager()
                   Taro.getFileInfo({
                     filePath: res.savedFilePath,
                     success: (res) => {

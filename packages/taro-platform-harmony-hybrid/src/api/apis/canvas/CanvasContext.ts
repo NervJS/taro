@@ -375,6 +375,7 @@ export class CanvasContext implements Taro.CanvasContext {
     return this.enqueueActions(this.ctx.rect, ...args)
   }
 
+
   reset () {
     // @ts-ignore
     return this.ctx.reset()

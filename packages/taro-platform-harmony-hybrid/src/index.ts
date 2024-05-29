@@ -14,3 +14,5 @@ export default (ctx: IPluginContext) => {
     },
   })
 }
+
+export * from './resolve'

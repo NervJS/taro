@@ -1,8 +1,8 @@
 import { Status } from '../NativeApi'
 
 export function displayExecRes (status: Status, method: string) {
-  if (!status.done) {
-    console.error({ errMsg: `${method} execution fail: ` + status.errorMsg })
+  if (!status?.done) {
+    console.error({ errMsg: `${method} execution fail: ` + status?.errorMsg })
   } else {
     /* empty */
   }
