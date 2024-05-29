@@ -1,4 +1,32 @@
 /**
+ * 关闭当前页面，返回上一页面或多级页面。
+ *
+ * @canUse navigateBack
+ * @__object [delta]
+ */
+
+/**
+ * 关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面。
+ *
+ * @canUse redirectTo
+ * @__object [url]
+ */
+
+/**
+ * 关闭所有页面，打开到应用内的某个页面。
+ *
+ * @canUse reLaunch
+ * @__object [url]
+ */
+
+/**
+ * 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
+ *
+ * @canUse switchTab
+ * @__object [url]
+ */
+
+/**
  * 向系统日历添加事件
  *
  * @canNotUse addPhoneCalendar
