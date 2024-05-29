@@ -268,7 +268,7 @@ export { createChildItem, createLazyChildren }
     this.context.nativeComponents.forEach((nativeMeta, _) => {
       const { name } = nativeMeta
       code = `${code}if (item.tagName === '${name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}') {
-    ${name}({ props: (item._attrs as TaroAny).props })
+    ${name}(item._attrs as TaroAny)
   } else `
     })
 
