@@ -1,6 +1,6 @@
-export function timeLog<T extends object>(obj: T): T {
+export function timeLog<T extends object> (obj: T): T {
   return new Proxy(obj, {
-    get(target, propKey, receiver) {
+    get (target, propKey, receiver) {
       const origMethod = Reflect.get(target, propKey, receiver)
       if (typeof origMethod !== 'function') {
         return origMethod
@@ -9,7 +9,8 @@ export function timeLog<T extends object>(obj: T): T {
         const start = performance.now()
         const result = origMethod.apply(this, args)
         const end = performance.now()
-        console.log(`执行${String(propKey)}()耗时: ${end - start}毫秒，参数列表: ${args.map(arg => JSON.stringify(arg)).join(", ")}`)
+        // eslint-disable-next-line no-console
+        console.log(`执行${String(propKey)}()耗时: ${end - start}毫秒，参数列表: ${args.map(arg => JSON.stringify(arg)).join(', ')}`)
         return result
       }
     }

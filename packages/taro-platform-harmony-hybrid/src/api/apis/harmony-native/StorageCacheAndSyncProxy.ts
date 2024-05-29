@@ -8,8 +8,8 @@ class ProxyHandler {
 
     // 提前获取页面显示的storage
     native.batchGetPageShowDataStorage({
-      fail: ()=>{},
-      success: (res)=>{
+      fail: () => {},
+      success: (res) => {
         for (let i = 1; i < res.keys.length; i++) {
           this.cacheMap.set(res.keys[i], res.values[i])
         }
@@ -17,14 +17,14 @@ class ProxyHandler {
     })
 
     // 页面全部加载完后，更新首屏使用到的Key
-    window.addEventListener('load', ()=>{
+    window.addEventListener('load', () => {
       // 延时执行，下次的首屏会更快
-      setTimeout(()=>{
+      setTimeout(() => {
         this.pageHasShowed = true
         native.updatePageShowDataKeys({
           keys: Array.from(this.pageShowUsedKeys),
-          fail: ()=>{},
-          success: ()=>{}
+          fail: () => {},
+          success: () => {}
         })
       }, 2000)
     })
@@ -42,7 +42,7 @@ class ProxyHandler {
         }
 
         if (this.cacheMap.has(key)) {
-          return {errMsg:'ok', data: this.cacheMap.get(key)}
+          return { errMsg: 'ok', data: this.cacheMap.get(key) }
         } else {
           const res = Reflect.apply(target[propKey], target, args)
           if (res) {
@@ -61,9 +61,9 @@ class ProxyHandler {
         // 先更新js缓存，同异步原生，TODO 考虑失败的情况
         this.cacheMap.set(key, data)
 
-        args[0].fail = ()=>{}
-        args[0].success = ()=>{}
-        Reflect.apply(target['setStorage'], target, args)
+        args[0].fail = () => {}
+        args[0].success = () => {}
+        Reflect.apply(target.setStorage, target, args)
       }
     }
     if (propKey === 'removeStorageSync') {
@@ -72,14 +72,14 @@ class ProxyHandler {
         // 先更新缓存，再同步原生
         this.cacheMap.delete(key)
 
-        args[0].fail = ()=>{}
-        args[0].success = ()=>{}
-        Reflect.apply(target['removeStorage'], target, args)
+        args[0].fail = () => {}
+        args[0].success = () => {}
+        Reflect.apply(target.removeStorage, target, args)
         // this.nativeApi['removeStorage']({key: key})
       }
     }
 
-    if(propKey === 'getStorage') {
+    if (propKey === 'getStorage') {
       return (...args: any[]) => {
         const key = args[0].key
         const success = args[0].success
@@ -89,9 +89,9 @@ class ProxyHandler {
         }
 
         if (this.cacheMap.has(key)) {
-          success({errMsg:'ok', data: this.cacheMap.get(key)})
+          success({ errMsg: 'ok', data: this.cacheMap.get(key) })
         } else {
-          args[0].success = (res)=>{
+          args[0].success = (res) => {
             this.cacheMap.set(key, res.data)
             success(res)
           }
@@ -99,7 +99,7 @@ class ProxyHandler {
         }
       }
     }
-    if(propKey === 'setStorage') {
+    if (propKey === 'setStorage') {
       return (...args: any[]) => {
         const key = args[0].key
         const data = args[0].data
@@ -116,10 +116,10 @@ class ProxyHandler {
         Reflect.apply(target[propKey], target, args)
       }
     }
-    return origMethod;
+    return origMethod
   }
 }
 
-export function storageCacheAndSyncProxy(native: any): any {
+export function storageCacheAndSyncProxy (native: any): any {
   return new Proxy(native, new ProxyHandler(native))
 }

@@ -1,7 +1,7 @@
-import { NativeDataChangeListener, SyncCacheProxyHandler } from './NativeApiSyncCacheProxy'
 // import {timeLog} from "./NativeApiLog";
-import { syncApiCache } from "./harmony-native/ApiCache"
-import {storageCacheAndSyncProxy} from "./harmony-native/StorageCacheAndSyncProxy";
+import { syncApiCache } from './harmony-native/ApiCache'
+import { storageCacheAndSyncProxy } from './harmony-native/StorageCacheAndSyncProxy'
+import { NativeDataChangeListener, SyncCacheProxyHandler } from './NativeApiSyncCacheProxy'
 // @ts-ignore
 const syncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true }) || (target => target)
 // @ts-ignore
@@ -811,12 +811,12 @@ export class NativeApi {
   @(asyncAndRelease)
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  batchGetPageShowDataStorage(options: any): any {}
+  batchGetPageShowDataStorage (options: any): any {}
 
   @(asyncAndRelease)
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  updatePageShowDataKeys(options: any): any{}
+  updatePageShowDataKeys (options: any): any {}
 
   @(asyncAndRelease)
   // @ts-ignore

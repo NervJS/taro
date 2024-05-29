@@ -24,10 +24,10 @@ export const createCacheManager = /* @__PURE__ */ temporarilyNotSupport('createC
 export const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
   // @ts-ignore
   native.setStorageSync(
-      {
-        key: key,
-        data: JSON.stringify(handleData(data))
-      })
+    {
+      key: key,
+      data: JSON.stringify(handleData(data))
+    })
   // displayExecRes(status, setStorageSync.name)
 }
 
@@ -118,13 +118,13 @@ export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeSto
  */
 // @ts-ignore
 export const getStorageSync: typeof Taro.getStorageSync = (key) => {
-  const res =  native.getStorageSync({ key })
+  const res = native.getStorageSync({ key })
   // 存储数据时，会把真实的数据包裹成{data: xxx} 的json格式
   let item: any
   try {
     item = JSON.parse(res.data)
   } catch (e) {
-    item = {data: ''}
+    item = { data: '' }
   }
   return item.data
 }
@@ -161,7 +161,7 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
         try {
           item = JSON.parse(res.data)
         } catch (e) {
-          item = {data: ''}
+          item = { data: '' }
         }
         const result: Taro.getStorage.SuccessCallbackResult<T> = {
           data: item.data,
