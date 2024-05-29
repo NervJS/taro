@@ -119,11 +119,12 @@ export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeSto
 // @ts-ignore
 export const getStorageSync: typeof Taro.getStorageSync = (key) => {
   const res =  native.getStorageSync({ key })
+  // 存储数据时，会把真实的数据包裹成{data: xxx} 的json格式
   let item: any
   try {
     item = JSON.parse(res.data)
   } catch (e) {
-    item = res.data
+    item = {data: ''}
   }
   return item.data
 }
@@ -160,7 +161,7 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
         try {
           item = JSON.parse(res.data)
         } catch (e) {
-          item = res.data
+          item = {data: ''}
         }
         const result: Taro.getStorage.SuccessCallbackResult<T> = {
           data: item.data,

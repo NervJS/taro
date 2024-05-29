@@ -1,13 +1,33 @@
-
 class ProxyHandler {
   private cacheMap: Map<any, any>
-  // private readonly nativeApi: NativeApi
-  // private readonly asyncToSyncProxy: any
+  private pageHasShowed: boolean = false
+  private pageShowUsedKeys: Set<string> = new Set<string>()
 
-  constructor () {
-    // this.nativeApi = nativeApi
+  constructor (native: any) {
     this.cacheMap = new Map<string, any>()
-    // this.asyncToSyncProxy = new Proxy(nativeApi, new AsyncToSyncProxy(this.nativeApi))
+
+    // 提前获取页面显示的storage
+    native.batchGetPageShowDataStorage({
+      fail: ()=>{},
+      success: (res)=>{
+        for (let i = 1; i < res.keys.length; i++) {
+          this.cacheMap.set(res.keys[i], res.values[i])
+        }
+      }
+    })
+
+    // 页面全部加载完后，更新首屏使用到的Key
+    window.addEventListener('load', ()=>{
+      // 延时执行，下次的首屏会更快
+      setTimeout(()=>{
+        this.pageHasShowed = true
+        native.updatePageShowDataKeys({
+          keys: Array.from(this.pageShowUsedKeys),
+          fail: ()=>{},
+          success: ()=>{}
+        })
+      }, 2000)
+    })
   }
 
   get (target, propKey, receiver) {
@@ -16,6 +36,11 @@ class ProxyHandler {
     if (propKey === 'getStorageSync') {
       return (...args: any[]) => {
         const key = args[0].key
+
+        if (!this.pageHasShowed) {
+          this.pageShowUsedKeys.add(key)
+        }
+
         if (this.cacheMap.has(key)) {
           return {errMsg:'ok', data: this.cacheMap.get(key)}
         } else {
@@ -59,6 +84,10 @@ class ProxyHandler {
         const key = args[0].key
         const success = args[0].success
 
+        if (!this.pageHasShowed) {
+          this.pageShowUsedKeys.add(key)
+        }
+
         if (this.cacheMap.has(key)) {
           success({errMsg:'ok', data: this.cacheMap.get(key)})
         } else {
@@ -92,5 +121,5 @@ class ProxyHandler {
 }
 
 export function storageCacheAndSyncProxy(native: any): any {
-  return new Proxy(native, new ProxyHandler())
+  return new Proxy(native, new ProxyHandler(native))
 }

@@ -811,7 +811,7 @@ export class NativeApi {
   @(asyncAndRelease)
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  batchGetHomePageStorage(options: any): any {}
+  batchGetPageShowDataStorage(options: any): any {}
 
   @(asyncAndRelease)
   // @ts-ignore
