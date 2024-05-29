@@ -84,6 +84,9 @@ import type {
   TaroPageMetaElement,
   TaroNavigationBarElement,
 } from '@tarojs/runtime'
+import { Current } from '@tarojs/runtime'
+
+${this.generateNativeComponentNamesInit()}
 
 @Builder
 function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroElement) => void) {
@@ -273,5 +276,20 @@ export { createChildItem, createLazyChildren }
     })
 
     return code
+  }
+
+  generateNativeComponentNamesInit () {
+    if(this.context.nativeComponents.size === 0) return ''
+    const compentsList: string[] = []
+
+    this.context.nativeComponents.forEach((nativeMeta) => {
+      const { name, isPackage } = nativeMeta
+      if(!isPackage) {
+        compentsList.push(name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase())
+      }
+    })
+
+    return `Current.nativeComponentNames = [${compentsList.map(item => `"${item}"`).join(', ')}]`
+
   }
 }

@@ -115,6 +115,14 @@ export class TaroElement<
 
     this._attrs[name] = value
 
+    // 混合开发的组件没办法自动更新，需要把父级的结点删掉新建
+    // Current.nativeComponentNames会在render.ets中赋值
+    if(Current.nativeComponentNames?.includes(this.tagName)) {
+      const idxOfRef = this.parentNode?.findIndex(this)
+      // 本来应该调 notifyDataChange 的，但是调了没用，notifyDataDelete 反而可以触发更新，先这么写着
+      idxOfRef !== undefined && this.parentNode?.notifyDataDelete(idxOfRef)
+    }
+
     if (['PAGE-META', 'NAVIGATION-BAR'].includes(this.tagName)) {
       // FIXME 等 Harmony 支持更细粒度的 @Watch 方法后移出
       eventCenter.trigger('__taroComponentAttributeUpdate', {
