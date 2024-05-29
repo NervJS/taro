@@ -731,18 +731,18 @@ ${this.isTabbarPage
 if (!this.pageList[index]) {
   this.pageList[index] = createComponent[index]()
   this.page = this.pageList[index]
-  callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
+  callFn(this.page?.onLoad, this, params, (instance: TaroElement) => {
     this.node[index] = instance
   })
-  callFn(this.page.onReady, this, params)
+  callFn(this.page?.onReady, this, params)
 }
 `
     : `this.page = createComponent()
-this.onReady = bindFn(this.page.onReady, this.page)
-callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
+this.onReady = bindFn(this.page?.onReady, this.page)
+callFn(this.page?.onLoad, this, params, (instance: TaroElement) => {
   this.node = instance
 })
-callFn(this.page.onReady, this, params)`
+callFn(this.page?.onReady, this, params)`
 }`
   }
 
@@ -805,7 +805,7 @@ callFn(this.page.onReady, this, params)`
   if (!this.page) return
 
   const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
-  callFn(this.page.onPageScroll, this, {
+  callFn(this.page?.onPageScroll, this, {
     scrollTop: offset.xOffset || 0,
     scrollLeft: offset.yOffset || 0,
   })
@@ -818,7 +818,7 @@ callFn(this.page.onReady, this, params)`
   const clientHeight: number = Number(this.node${isTabPage ? '[index]' : ''}?._nodeInfo?._client?.height) || 0
   const scrollHeight: number = Number(this.node${isTabPage ? '[index]' : ''}?._nodeInfo?._scroll?.height) || 0
   if (scrollHeight - clientHeight - offset.yOffset <= distance) {
-    callFn(this.page.onReachBottom, this)
+    callFn(this.page?.onReachBottom, this)
   }
 })`
 
