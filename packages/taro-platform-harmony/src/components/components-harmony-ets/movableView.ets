@@ -41,7 +41,7 @@ export default struct TaroMovableView {
     }
     .translate({ x: this.node.position.x, y: this.node.position.y })
     .scale({ x: this.node.scaleValue, y: this.node.scaleValue })
-    .onAreaChange((oldValue: Area, newValue: Area) => {
+    .onSizeChange((oldValue: SizeOptions, newValue: SizeOptions) => {
       if (this.node.selfSize?.w !== Number(newValue.width) || this.node.selfSize?.h !== Number(newValue.height)) {
         this.node.selfSize = { w: Number(newValue.width), h: Number(newValue.height) }
       }
