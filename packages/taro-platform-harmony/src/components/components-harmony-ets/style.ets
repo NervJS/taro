@@ -4,7 +4,7 @@ import { isUndefined } from '@tarojs/shared'
 import { computeBackgroundPosition, convertVp2Px } from './utils'
 import { getNormalAttributes } from './utils/helper'
 import { isMaxWidthView } from './utils/styles'
-import { FlexManager } from './utils/flexManager.ets'
+import { FlexManager } from './utils/flexManager'
 
 class TextStyleModify implements AttributeModifier<TextAttribute> {
   initStyle?: TaroStyleType

@@ -1,6 +1,6 @@
 import type { TaroElement, HarmonyStyle } from '@tarojs/runtime'
 import { isUndefined } from '@tarojs/shared'
-import { getNormalAttributes } from './styles.ets'
+import { getNormalAttributes } from './styles'
 
 interface IFlexOptions {
   direction: FlexDirection,
