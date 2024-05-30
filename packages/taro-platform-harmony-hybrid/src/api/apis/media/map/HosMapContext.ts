@@ -124,3 +124,4 @@ export class HosMapContext implements Taro.MapContext {
 
   on = temporarilyNotSupport('on')
 }
+
