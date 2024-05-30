@@ -688,7 +688,6 @@ require("./taro");
 
 /** filePath: dist/app.qss **/
 
-
 /** filePath: dist/base.qml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
@@ -2093,10 +2092,6 @@ require("./taro");
 <template is="taro_tmpl" data="{{root:root}}" />
 
 /** filePath: dist/pages/index/index.qss **/
-
-
-/** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (qq["webpackJsonp"] = qq["webpackJsonp"] || []).push([ [ 1 ], {
@@ -2986,7 +2981,6 @@ require("./taro");
 
 /** filePath: dist/app.qss **/
 
-
 /** filePath: dist/base.qml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
@@ -4391,10 +4385,6 @@ require("./taro");
 <template is="taro_tmpl" data="{{root:root}}" />
 
 /** filePath: dist/pages/index/index.qss **/
-
-
-/** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (qq["webpackJsonp"] = qq["webpackJsonp"] || []).push([ [ 1 ], {

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/transformer-wx",
-  "version": "3.6.30",
+  "version": "4.0.0-beta.82",
   "description": "Transfrom Nerv Component to Wechat mini program.",
   "repository": {
     "type": "git",
@@ -14,52 +14,27 @@
     "dist"
   ],
   "scripts": {
-    "test:cov": "jest --coverage",
-    "test": "jest",
+    "build": "tsc",
     "dev": "tsc -w --pretty",
     "lint": "tslint",
-    "build": "tsc",
-    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent"
+    "test": "jest",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
+    "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
+    "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
   },
   "author": "O2Team",
   "license": "MIT",
-  "jest": {
-    "testEnvironment": "node",
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/taro-transformer-wx/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "testPathIgnorePatterns": [
-      "node_modules",
-      "/__tests__/utils.ts"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/__tests__/utils.ts",
-      "/src/(class-method-renamer|create-html-element|eslint|functional|jsx|lifecycle|plugins|render-props|render)\\.ts$"
-    ],
-    "collectCoverageFrom": [
-      "src/wxs.ts"
-    ]
-  },
   "dependencies": {
-    "@babel/code-frame": "^7.21.4",
-    "@babel/core": "^7.21.8",
-    "@babel/generator": "^7.21.4",
+    "@babel/code-frame": "^7.23.0",
+    "@babel/core": "^7.23.0",
+    "@babel/generator": "^7.23.0",
     "@babel/helper-plugin-utils": "^7.22.5",
     "@babel/parser": "^7.23.0",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
-    "@babel/preset-env": "^7.14.5",
-    "@babel/template": "7.21.9",
-    "@babel/traverse": "^7.21.4",
-    "@babel/types": "^7.21.4",
+    "@babel/preset-env": "^7.20.0",
+    "@babel/template": "^7.24.0",
+    "@babel/traverse": "^7.23.0",
+    "@babel/types": "^7.24.5",
     "babel-eslint": "^8.2.3",
     "babel-helper-evaluate-path": "^0.5.0",
     "babel-helper-mark-eval-scopes": "^0.4.3",
@@ -80,32 +55,21 @@
     "html": "^1.0.0",
     "lodash": "^4.17.21",
     "lodash-es": "4.17.21",
-    "prettier": "^2.7.1",
-    "typescript": "^4.7.4"
+    "prettier": "^2.7.1"
   },
   "devDependencies": {
     "@tarojs/taro": "2.2.19",
-    "@types/babel-core": "6.25.6",
-    "@types/babel-generator": "6.25.3",
-    "@types/babel-template": "6.25.2",
-    "@types/babel-traverse": "6.25.3",
-    "@types/babel-types": "7.0.8",
-    "@types/babel__core": "^7.20.1",
-    "@types/eslint": "^7.14.3",
-    "@types/jest": "^29.5.1",
-    "@types/lodash": "^4.14.105",
-    "@types/node": "^9.6.2",
-    "babel-jest": "^29.5.0",
+    "@types/babel__traverse": "^7.20.5",
+    "babel-jest": "^29.7.0",
     "eslint": "5.16.0",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
+    "jest-taro-helper": "workspace:*",
     "mocha": "^10.2.0",
+    "nervjs": "^1.5.0",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
-    "tslint": "^5.10.0",
-    "tslint-config-prettier": "^1.10.0",
-    "tslint-config-standard": "^7.0.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.3.3"
   },
   "publishConfig": {
     "access": "public"

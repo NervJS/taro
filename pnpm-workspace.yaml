@@ -2,6 +2,7 @@ packages:
   - 'packages/**'
   - '!packages/taro-cli/templates/**'
   - '!**/__tests__/**'
+  - '!**/dist/**'
   - 'npm/**'
   - 'crates/native_binding'
   - 'examples/mini-program-example'

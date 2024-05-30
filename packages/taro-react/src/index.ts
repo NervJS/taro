@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { TaroElement } from '@tarojs/runtime'
 import { ensure, isFunction } from '@tarojs/shared'
-import { ReactNode } from 'react'
 
+import { internalInstanceKey } from './constant'
 import { finishEventHandler } from './event'
 import { TaroReconciler } from './reconciler'
 import { ContainerMap, createRoot, render } from './render'
+
+import type { TaroElement } from '@tarojs/runtime'
+import type { ReactNode } from 'react'
 
 let isInsideEventHandler = false
 
@@ -76,9 +78,10 @@ export {
   createPortal,
   createRoot,
   findDOMNode,
+  internalInstanceKey,
   render,
   unmountComponentAtNode,
-  unstable_batchedUpdates
+  unstable_batchedUpdates,
 }
 
 export default {
@@ -87,5 +90,6 @@ export default {
   unstable_batchedUpdates,
   unmountComponentAtNode,
   findDOMNode,
-  createPortal
+  createPortal,
+  internalInstanceKey
 }

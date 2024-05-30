@@ -94,7 +94,6 @@ export const functionalComponent: () => {
           }
           let { id, body, params } = functionDecl.node
           let arg: null | t.LVal = null
-          // tslint:disable-next-line: strict-type-predicates
           if (id === null) {
             functionDecl.node.id = t.identifier('YourShouldGiveTheComponentAName')
             id = functionDecl.node.id
@@ -202,9 +201,9 @@ const ${id?.name} = ${generate(t.arrowFunctionExpression(params as any, body as 
       },
       JSXAttribute(path) {
         const { name, value } = path.node
-        const jsxElementPath = path.parentPath.parentPath
+        const jsxElementPath = path.parentPath.parentPath as any
         if (t.isJSXIdentifier(name) && t.isJSXElement(jsxElementPath) && transformOptions.isNormal !== true) {
-          const componentName = ((jsxElementPath.node as any).openingElement as any).name.name
+          const componentName = (((jsxElementPath as any).node).openingElement as any).name.name
           if (/^render[A-Z]/.test(name.name) && !DEFAULT_Component_SET.has(componentName)) {
             if (!t.isJSXExpressionContainer(value)) {
               throw codeFrameError(value, '以 render 开头的 props 只能传入包含一个 JSX 元素的 JSX 表达式。')

@@ -137,7 +137,7 @@ export class Template extends RecursiveTemplate {
   }`
   }
 
-  buildPageTemplate = (baseTempPath: string, page) => {
+  buildPageTemplate = (baseTempPath: string, page?) => {
     let pageMetaTemplate = ''
     const pageConfig = page?.content
 

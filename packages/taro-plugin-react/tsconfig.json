@@ -2,10 +2,9 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "esModuleInterop": true,
     "module": "ESNext",
     "sourceMap": true
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["./src", "./rollup.config.ts"]
 }

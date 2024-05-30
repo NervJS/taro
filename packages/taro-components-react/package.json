@@ -1,10 +1,10 @@
 {
   "name": "@tarojs/components-react",
-  "version": "3.6.30",
+  "version": "4.0.0-beta.82",
   "description": "",
-  "main:h5": "src/index.js",
+  "main:h5": "dist/index.js",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "types/index.d.ts",
   "sideEffects": [
     "./dist/components/**/loader.js",
@@ -40,15 +40,25 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
+    "@babel/preset-react": "^7.22.15",
     "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^24.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^4.0.0",
     "@rollup/plugin-typescript": "^11.1.0",
+    "@types/node": "^18.19.12",
+    "babel-preset-solid": "^1.8.15",
     "postcss": "^8.4.18",
+    "react": "^18.2.0",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-ts": "^3.0.2",
+    "solid-js": "^1.8.16",
     "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "solid-js": "*"
   }
 }

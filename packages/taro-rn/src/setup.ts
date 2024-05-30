@@ -1,44 +1,24 @@
-import { jest } from '@jest/globals'
 import '@testing-library/jest-native/extend-expect'
-import mockRNCNetInfo from '@react-native-community/netinfo/jest/netinfo-mock.js'
 import { NetInfoStateType } from '@react-native-community/netinfo'
-import mockRNCAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock.js'
+import mockRNCNetInfo from '@react-native-community/netinfo/jest/netinfo-mock'
+import mockRNCAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock'
 import mockRNCDeviceInfo from 'react-native-device-info/jest/react-native-device-info-mock'
-
+import mockRNCClipboard from '@react-native-clipboard/clipboard/jest/clipboard-mock'
+import mockRNCGeolocation from './__tests__/__mock__/mockRNCGeolocation'
+import mockRNCameraRoll from './__tests__/__mock__/mockRNCCameraRoll'
+jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
 jest.doMock('@react-native-community/netinfo', () => ({ ...mockRNCNetInfo, NetInfoStateType }))
 jest.doMock('@react-native-async-storage/async-storage', () => mockRNCAsyncStorage)
+jest.doMock('@react-native-community/geolocation', () => mockRNCGeolocation)
+jest.doMock('@react-native-clipboard/clipboard', () => mockRNCClipboard)
 jest.doMock('react-native-device-info', () => mockRNCDeviceInfo)
+jest.mock('@react-native-camera-roll/camera-roll', () => mockRNCameraRoll)
 
-jest.doMock('react-native', () => {
+jest.mock('react-native', () => {
   const ReactNative = jest.requireActual('react-native') as any
-
-  // Vibration readonly so you need use defineProperty rewrite this property descriptor.
-  const Vibration = (jest.requireActual('./__tests__/__mock__/mockVibrate') as any).default
-  Object.defineProperty(ReactNative, 'Vibration', {
-    enumerable: false,
-    configurable: false,
-    writable: false,
-    value: Vibration
-  })
-
-  // mockNativeModules: react-native/Libraries/BatchedBridge/NativeModules
-  const RNCCameraRoll = (jest.requireActual('./__tests__/__mock__/mockRNCCameraRoll') as any).default
-  const MockClipboard = (jest.requireActual('./__tests__/__mock__/mockClipboard') as any).default
-  const RNCGeolocation = (jest.requireActual('./__tests__/__mock__/mockRNCGeolocation') as any).default
-  ReactNative.NativeModules.RNCCameraRoll = RNCCameraRoll.RNCCameraRoll
-  ReactNative.NativeModules.RNCCameraRollPermissionModule = RNCCameraRoll.RNCCameraRollPermissionModule
-  ReactNative.NativeModules.RNCClipboard = new MockClipboard()
-  ReactNative.NativeModules.RNCGeolocation = RNCGeolocation
-  Object.defineProperty(ReactNative.NativeModules, 'ImageLoader', {
-    configurable: true,
-    enumerable: true,
-    get: () => ({
-      prefetchImage: jest.fn(),
-      getSize: jest.fn((_uri, success: any) => {
-        process.nextTick(() => success && success(320, 240))
-        return Promise.resolve([320, 240])
-      }),
-    }),
+  ReactNative.Image.getSize = jest.fn((_uri, success: any) => {
+    setTimeout(() => success && success(320, 240))
+    return Promise.resolve([320, 240])
   })
   return ReactNative
 })

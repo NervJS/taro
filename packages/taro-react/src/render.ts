@@ -1,11 +1,13 @@
-import { hooks, TaroElement, TaroEvent } from '@tarojs/runtime'
-import { ReactNode } from 'react'
-import { OpaqueRoot } from 'react-reconciler'
+import { hooks } from '@tarojs/shared'
 
 import { markContainerAsRoot } from './componentTree'
 import { getEventPriority } from './constant'
 import { enqueueStateRestore, getTargetInstForInputOrChangeEvent, RestoreType } from './event'
 import { TaroReconciler } from './reconciler'
+
+import type { TaroElement, TaroEvent } from '@tarojs/runtime'
+import type { ReactNode } from 'react'
+import type { OpaqueRoot } from 'react-reconciler'
 
 export const ContainerMap: WeakMap<TaroElement, Root> = new WeakMap()
 

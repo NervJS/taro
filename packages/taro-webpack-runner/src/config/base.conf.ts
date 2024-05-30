@@ -1,7 +1,6 @@
-import { defaultMainFields } from '@tarojs/helper'
+import { defaultMainFields, resolveSync } from '@tarojs/helper'
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
 import path from 'path'
-import { sync as resolveSync } from 'resolve'
 import * as Chain from 'webpack-chain'
 
 import type { BuildConfig } from '../utils/types'

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro",
-  "version": "3.6.30",
+  "version": "4.0.0-beta.82",
   "description": "Taro framework",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro#readme",
   "main": "index.js",
@@ -28,10 +28,12 @@
   },
   "devDependencies": {
     "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "@tarojs/runtime": "workspace:*"
   },
   "peerDependencies": {
     "@tarojs/helper": "workspace:~",
+    "@tarojs/shared": "workspace:~",
     "@tarojs/runtime": "workspace:~"
   },
   "peerDependenciesMeta": {
@@ -44,10 +46,16 @@
     "@types/webpack-dev-server": {
       "optional": true
     },
+    "@types/postcss-url": {
+      "optional": true
+    },
     "postcss": {
       "optional": true
     },
     "vue": {
+      "optional": true
+    },
+    "rollup": {
       "optional": true
     }
   }

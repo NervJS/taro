@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-vue2",
-  "version": "3.6.30",
+  "version": "4.0.0-beta.82",
   "description": "Vue2 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -34,6 +34,8 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
+    "@vitejs/plugin-vue2": "^2.2.0",
+    "vite": "^4.2.0",
     "vue": "^2.7.0",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
@@ -43,6 +45,16 @@
   "peerDependencies": {
     "@tarojs/runtime": "workspace:~",
     "@tarojs/shared": "workspace:~",
-    "vue": "^2.7.0"
+    "@vitejs/plugin-vue2": "^2.2.0",
+    "vue": "^2.7.0",
+    "vite": "^4.2.0"
+  },
+  "peerDependenciesMeta": {
+    "vitejs/plugin-vue2": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    }
   }
 }

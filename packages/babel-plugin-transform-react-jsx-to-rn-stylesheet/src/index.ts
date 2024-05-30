@@ -140,11 +140,10 @@ export default function (babel: {
 
   const getModuleClassNameFunctionStmt = template(getModuleClassNameFunction)()
 
-
   function getMap (str) {
     return str.split(/\s+/).map((className) => {
       // return template(`${STYLE_SHEET_NAME}["${className}"]`)().expression
-      const stmt = template(`${STYLE_SHEET_NAME}["${className}"]`)()
+      const stmt = template(`${STYLE_SHEET_NAME}["${className}"]`)() as Types.Node
       if (t.isExpressionStatement(stmt)) {
         return stmt.expression
       }

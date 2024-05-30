@@ -11,7 +11,7 @@ const config = {
     exports: 'named',
     preserveModules: true,
     preserveModulesRoot: 'src',
-    sourcemap: true
+    sourcemap: true,
   },
   treeshake: false,
   plugins: [
@@ -19,24 +19,24 @@ const config = {
       deps: true,
       devDeps: false,
       exclude: 'vue-fragment',
-      include: 'vue'
+      include: 'vue',
     }),
     resolve({
       preferBuiltins: false,
-      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+      mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }),
     ts({
       sourceMap: true,
     }),
     commonjs({
       transformMixedEsModules: true,
-      dynamicRequireTargets: ['./src/**/*.js']
+      dynamicRequireTargets: ['./src/**/*.js'],
     }),
     postcss({
       inject: { insertAt: 'top' },
       minimize: true,
     }),
-  ]
+  ],
 }
 
 export default config

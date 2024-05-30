@@ -1,3 +1,4 @@
+import { defaultMainFields, REG_TARO_H5, resolveSync } from '@tarojs/helper'
 import { mergeWith } from 'lodash'
 
 import { getLoaderMeta } from './loader-meta'
@@ -40,44 +41,52 @@ export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks
     module: {
       rule: {
         'process-import-taro-h5': {
-          test: /taro-h5[\\/]dist[\\/]api[\\/]taro/,
-          loader: require.resolve('./api-loader')
-        }
-      }
+          test: REG_TARO_H5,
+          loader: require.resolve('./api-loader'),
+        },
+      },
     },
   })
 }
 
-function setLoader (framework: Frameworks, chain) {
-  function customizer (object = '', sources = '') {
-    if ([object, sources].every(e => typeof e === 'string')) return object + sources
+function setLoader(framework: Frameworks, chain) {
+  function customizer(object = '', sources = '') {
+    if ([object, sources].every((e) => typeof e === 'string')) return object + sources
   }
-  chain.plugin('mainPlugin')
-    .tap(args => {
-      args[0].loaderMeta = mergeWith(
-        getLoaderMeta(framework), args[0].loaderMeta, customizer
-      )
-      return args
-    })
+  chain.plugin('mainPlugin').tap((args) => {
+    args[0].loaderMeta = mergeWith(getLoaderMeta(framework), args[0].loaderMeta, customizer)
+    return args
+  })
 }
 
-function setPlugin (ctx: IPluginContext, framework: Frameworks, chain) {
+function setPlugin(ctx: IPluginContext, framework: Frameworks, chain) {
   const config = ctx.initialConfig
   const webpackConfig = chain.toConfig()
   const isProd = webpackConfig.mode === 'production'
   if (!isProd && config.h5?.devServer?.hot !== false) {
     // 默认开启 fast-refresh
     if (framework === 'react') {
-      chain
-        .plugin('fastRefreshPlugin')
-        .use(require('@pmmmwh/react-refresh-webpack-plugin'))
+      chain.plugin('fastRefreshPlugin').use(require('@pmmmwh/react-refresh-webpack-plugin'))
     } else if (framework === 'preact') {
-      chain
-        .plugin('hotModuleReplacementPlugin')
-        .use(require('webpack').HotModuleReplacementPlugin)
-      chain
-        .plugin('fastRefreshPlugin')
-        .use(require('@prefresh/webpack'))
+      chain.plugin('hotModuleReplacementPlugin').use(require('webpack').HotModuleReplacementPlugin)
+      chain.plugin('fastRefreshPlugin').use(require('@prefresh/webpack'))
     }
+  }
+
+  const mainFields = ['unpkg', ...defaultMainFields]
+  const resolveOptions = {
+    basedir: process.cwd(),
+    mainFields,
+  }
+  if (framework === 'solid') {
+    const reconcilerName = '@tarojs/plugin-framework-react/dist/reconciler'
+    const alias = chain.resolve.alias
+    alias.set(reconcilerName, resolveSync('solid-js/web', resolveOptions))
+    // Note: 本地 link 调试时，避免 solid 重复打包
+    alias.set('solid-js$', resolveSync('solid-js', resolveOptions))
+  } else if (framework === 'react') {
+    const alias = chain.resolve.alias
+    // Note: 本地 link 调试时，避免 react 重复打包
+    alias.set('react$', resolveSync('react', resolveOptions))
   }
 }

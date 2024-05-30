@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`page页面转换 template组件名转换 1`] = `
-import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -25,11 +25,11 @@ class _C extends React.Component {
       }<AnFishTmpl></AnFishTmpl></Block>;
   }
 }
-export default _C;
+export default _C;"
 `;
 
 exports[`语法转换 使用新建的setData替换组件中this.data.xx，实现this.data.xx的转换 1`] = `
-import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -43,15 +43,15 @@ class _C extends React.Component {
     return null;
   }
 }
-export default _C;
+export default _C;"
 `;
 
-exports[`语法转换 支持export from语法，情况一：部分导入 1`] = `export { var1, func1 } from "./tools1.js";`;
+exports[`语法转换 支持export from语法，情况一：部分导入 1`] = `"export { var1, func1 } from "./tools1.js";"`;
 
-exports[`语法转换 支持export from语法，情况二：全部导入 1`] = `export * from "./tools1.js";`;
+exports[`语法转换 支持export from语法，情况二：全部导入 1`] = `"export * from "./tools1.js";"`;
 
 exports[`语法转换 模版的动态名称转换 1`] = `
-import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block, View } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -74,5 +74,5 @@ class _C extends React.Component {
     });
   }
 }
-export default _C;
+export default _C;"
 `;

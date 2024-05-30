@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/binding-darwin-x64",
   "description": "Native binding for taro",
-  "version": "3.6.30",
+  "version": "4.0.0-beta.82",
   "os": [
     "darwin"
   ],
@@ -14,7 +14,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">= 16"
+    "node": ">= 18"
   },
   "publishConfig": {
     "access": "public"

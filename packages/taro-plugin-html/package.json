@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-html",
-  "version": "3.6.30",
+  "version": "4.0.0-beta.82",
   "description": "Taro 小程序端支持使用 HTML 标签的插件",
   "main": "index.js",
   "scripts": {
@@ -30,13 +30,14 @@
     "@babel/generator": "^7.20.0",
     "@babel/parser": "^7.20.0",
     "@babel/traverse": "^7.20.0",
-    "@babel/types": "^7.20.0",
+    "@babel/types": "^7.24.5",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*"
   },
   "devDependencies": {
     "@tarojs/taro": "workspace:*",
+    "@types/babel__traverse": "^7.20.5",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",

@@ -13,7 +13,7 @@ import type { PluginArgs } from './WebpackPlugin'
 export class H5WebpackPlugin {
   combination: H5Combination
   pages?: string[]
-  pxtransformOption?: IPostcssOption['pxtransform']
+  pxtransformOption?: IPostcssOption<'h5'>['pxtransform']
 
   constructor (combination: H5Combination) {
     this.combination = combination
@@ -58,7 +58,7 @@ export class H5WebpackPlugin {
     env.FRAMEWORK = JSON.stringify(framework)
     env.TARO_ENV = JSON.stringify(buildAdapter)
     env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.WEB)
-    env.SUPPORT_TARO_POLYFILL = env.SUPPORT_TARO_POLYFILL || '"enabled"'
+    env.SUPPORT_TARO_POLYFILL = env.SUPPORT_TARO_POLYFILL || '"disabled"'
     env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
@@ -105,7 +105,7 @@ export class H5WebpackPlugin {
     const rootValue = baseFontSize / options.deviceRatio![designWidth!] * 2
     let htmlScript = ''
     if ((options?.targetUnit ?? 'rem') === 'rem') {
-      htmlScript = `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
+      htmlScript = `!function(n){function f(){var e=n.document.documentElement,r=e.getBoundingClientRect(),w=Math.min(r.width,r.height),x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
     }
     const args: Record<string, string | string []> = {
       filename: `${entry || 'index'}.html`,

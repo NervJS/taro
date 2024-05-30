@@ -75,7 +75,6 @@ export default class DingtalkCI extends BaseCI {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     const { appid, } = this.pluginOpts.dd!
 
-
     try {
       const previewUrl = await this.dingtalkSDK.previewBuild({
         project: this.projectPath,

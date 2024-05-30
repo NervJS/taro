@@ -1,20 +1,20 @@
 {
   "name": "@tarojs/cli-convertor",
-  "version": "3.6.30",
+  "version": "4.0.0-beta.82",
   "description": "cli tool for taro-convert",
   "main": "index.js",
   "scripts": {
     "build": "pnpm run clean && pnpm run prod",
     "dev": "tsc -w",
     "prod": "tsc",
-    "clean": "rimraf dist",
+    "clean": "rimraf --impl=move-remove dist",
     "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
     "format": "prettier --write \"{src, __tests__}/**/*.{ts,tsx,js,jsx}\" && eslint src  __tests__ --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
     "test": "jest",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
     "test:clear": "jest --clearCache",
-    "test:cov": "jest --coverage",
-    "test:updateSnapshot": "jest --updateSnapshot",
-    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent"
+    "test:coverage": "jest --coverage",
+    "updateSnapshot": "jest --updateSnapshot"
   },
   "files": [
     "bin",
@@ -32,43 +32,15 @@
     "weapp"
   ],
   "engines": {
-    "node": ">=12"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "testEnvironmentOptions": {},
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/taro-cli-convertor/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "testPathIgnorePatterns": [
-      "node_modules",
-      "/__tests__/util.ts",
-      "/__mocks__/",
-      "/data/"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/__tests__/*"
-    ],
-    "transformIgnorePatterns": [
-      "@taro-helper/node_modules/"
-    ]
+    "node": ">= 18"
   },
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@babel/generator": "^7.20.0",
-    "@babel/template": "^7.20.0",
-    "@babel/traverse": "^7.20.0",
-    "@babel/types": "^7.20.0",
+    "@babel/generator": "^7.23.0",
+    "@babel/template": "^7.24.0",
+    "@babel/traverse": "^7.23.0",
+    "@babel/types": "^7.24.5",
     "@tarojs/binding": "workspace:*",
     "@tarojs/cli": "workspace:*",
     "@tarojs/helper": "workspace:*",
@@ -82,6 +54,8 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.14.5",
+    "@types/babel__template": "^7.4.4",
+    "@types/babel__traverse": "^7.20.5",
     "@tarojs/taro": "workspace:*",
     "jest": "^29.7.0",
     "jest-cli": "^29.3.1",

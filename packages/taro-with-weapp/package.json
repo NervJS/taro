@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "3.6.30",
+  "version": "4.0.0-beta.82",
   "description": "taroize 之后的运行时",
   "main": "index.js",
   "files": [
@@ -23,7 +23,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
     "test": "jest",
     "test:ci": "cross-env NODE_ENV=test jest --ci -i --silent",
-    "test:cov": "jest --coverage"
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@babel/runtime": "^7.14.5",
@@ -33,13 +33,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
-    "@rollup/plugin-babel": "^5.2.1",
-    "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/sinon": "^7.5.0",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
-    "jest-environment-jsdom": "^29.5.0",
+    "jest-environment-jsdom": "^29.6.4",
     "jsdom": "^21.1.0",
     "rollup": "^2.79.0",
     "rollup-plugin-ts": "^3.0.2",

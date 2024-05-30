@@ -23,11 +23,7 @@ export const createCacheManager = /* @__PURE__ */ temporarilyNotSupport('createC
  */
 export const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
   // @ts-ignore
-  native.setStorageSync(
-    {
-      key: key,
-      data: JSON.stringify(handleData(data))
-    })
+  native.setStorageSync({ key, data: JSON.stringify(handleData(data)) })
   // displayExecRes(status, setStorageSync.name)
 }
 

@@ -1,10 +1,9 @@
-import { defaultMainFields } from '@tarojs/helper'
+import { defaultMainFields, resolveSync } from '@tarojs/helper'
 import path from 'path'
-import { sync as resolveSync } from 'resolve'
 
 import { BaseConfig } from './BaseConfig'
 
-import type { H5BuildConfig } from '../utils/types'
+import type { IH5BuildConfig } from '../utils/types'
 
 export class H5BaseConfig extends BaseConfig {
   defaultTerserOptions = {
@@ -13,12 +12,12 @@ export class H5BaseConfig extends BaseConfig {
       comments: false,
       keep_quoted_props: true,
       quote_keys: true,
-      beautify: false
+      beautify: false,
     },
-    warnings: false
+    warnings: false,
   }
 
-  constructor (appPath: string, config: Partial<H5BuildConfig>) {
+  constructor(appPath: string, config: Partial<IH5BuildConfig>) {
     super(appPath, config)
     const mainFields = [...defaultMainFields]
     if (config.mode !== 'production') {

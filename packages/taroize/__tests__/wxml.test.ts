@@ -1,7 +1,7 @@
 import * as t from '@babel/types'
 
 import { parse } from '../src'
-import { convertStyleUnit, parseContent, parseStyle, parseWXML } from '../src/wxml'
+import { convertStyleUnit, IContext, parseContent, parseStyle, parseWXML } from '../src/wxml'
 import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
 
 expect.addSnapshotSerializer(removeBackslashesSerializer)
@@ -338,7 +338,7 @@ describe('wxs', () => {
       <wxs module="wxs_test">
         module.exports = {
           foo: "'hello world' from tools.wxs",
-      
+
         };
         /*
           var = msg:'123',
@@ -439,7 +439,7 @@ describe('wxs', () => {
           //参数为数字
           date2:getDate(1500000000000),
           //参数为字符串
-          date3:getDate('2017-7-14') 
+          date3:getDate('2017-7-14')
         }
       </wxs>
     `
@@ -532,11 +532,11 @@ describe('style属性的解析', () => {
   test('style = xxx:xxx', () => {
     let contentInput = 'color: red;background-color: aqua;'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut.type).toEqual('JSXAttribute')
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult.type).toEqual('JSXAttribute')
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('(color: red;background-color: aqua;)')
     }
@@ -545,11 +545,11 @@ describe('style属性的解析', () => {
   test('style = xxx:{{ xxx }}', () => {
     let contentInput = 'color: red;background-color: aqua;font-size: {{ fontSize }};'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut.type).toEqual('JSXAttribute')
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult.type).toEqual('JSXAttribute')
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('(color: red;background-color: aqua;font-size: {{ fontSize }};)')
     }
@@ -558,11 +558,11 @@ describe('style属性的解析', () => {
   test('style = xxx:{{ xxx }}px', () => {
     let contentInput = 'height: {{ height }}px;width: 100px;background-color: red;'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut.type).toEqual('JSXAttribute')
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult.type).toEqual('JSXAttribute')
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('(height: {{ height }}px;width: 5rem;background-color: red;)')
     }
@@ -571,11 +571,11 @@ describe('style属性的解析', () => {
   test('style = xxx:{{ xxx }}, 含有三元运算符', () => {
     let contentInput = 'height: {{ list.length > 10 ? 200 : 100 }}px;width: 100px;background-color: green;'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut.type).toEqual('JSXAttribute')
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult.type).toEqual('JSXAttribute')
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('(height: {{ list.length > 10 ? 200 : 100 }}px;width: 100px;background-color: green);')
     }
@@ -584,11 +584,11 @@ describe('style属性的解析', () => {
   test('style = xxx:{{ xxx + 10 }}px', () => {
     let contentInput = 'height: {{ height + 10 }}px;width: 100px;background-color: red;'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut.type).toEqual('JSXAttribute')
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult.type).toEqual('JSXAttribute')
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('({{ height + 10 }}px;width: 5rem;background-color: red;)')
     }
@@ -604,11 +604,11 @@ describe('style属性的解析', () => {
   test('style = xxx:xxx变量与变量拼接混用', () => {
     let contentInput = 'height: {{ height }}px;width: {{ width }}px;background-color: {{ color }};'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut.type).toEqual('JSXAttribute')
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult.type).toEqual('JSXAttribute')
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('(height: {{ height }}px;width: {{ width }}px;background-color: {{ color }})')
     }
@@ -618,11 +618,11 @@ describe('style属性的解析', () => {
   test('style = xxx:xxx变量拼接与三元表达式混用', () => {
     let contentInput = 'height: {{ height }}px;width: {{ width }}px;background-color: {{ false ? color : "blue" }};'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut.type).toEqual('JSXAttribute')
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult.type).toEqual('JSXAttribute')
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe(
         '(height: {{ height }}px;width: {{ width }}px;background-color: {{ false ? color : "blue" }};)'
@@ -634,11 +634,11 @@ describe('style属性的解析', () => {
   test('style = {{ xxx }}变量形式', () => {
     let contentInput = '{{ myStyle }}'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('(myStyle)')
     }
@@ -647,11 +647,11 @@ describe('style属性的解析', () => {
   test('style = {{ xxx }}字符串形式', () => {
     let contentInput = "{{ 'height: 100px;width: 100px;background-color: red;' }}"
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe("('height: 5rem;width: 5rem;background-color: red;')")
     }
@@ -660,11 +660,11 @@ describe('style属性的解析', () => {
   test('style = {{ xxx }}含三元运算符', () => {
     let contentInput = "{{ index > 1 ? 'height: 100px;width: 100px;background-color: green;' : '' }}"
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe("(index > 1 ? 'height: 5rem;width: 5rem;background-color: green;' : '')")
     }
@@ -673,11 +673,11 @@ describe('style属性的解析', () => {
   test('style = {{ xxx }}含三元运算符和变量', () => {
     let contentInput = '{{ index ? "background-color: " + backgroundColor + ";" : "" }}'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('(index ? "background-color: " + backgroundColor + ";" : "")')
     }
@@ -688,11 +688,11 @@ describe('style属性的解析', () => {
   test('xxx:xxx和{{ xxx }}混用情况1', () => {
     let contentInput = 'background-color: aqua;{{ global_css }}'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('"background-color: aqua;"+(global_css)')
     }
@@ -702,11 +702,11 @@ describe('style属性的解析', () => {
   test('xxx:xxx和{{ xxx }}混用情况2', () => {
     let contentInput = 'background-color: aqua;{{ true ? global_css : "" }}'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('"background-color: aqua;"+(true ? global_css : "")')
     }
@@ -716,11 +716,11 @@ describe('style属性的解析', () => {
   test('xxx:xxx和{{ xxx }}混用情况3', () => {
     let contentInput = 'background-color: {{ color }};{{ global_css }}'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('"background-color: "+(color)+";"+(global_css)')
     }
@@ -730,11 +730,11 @@ describe('style属性的解析', () => {
   test('xxx:xxx和{{ xxx }}混用情况4', () => {
     let contentInput = 'background-color: {{ true ? color : "" }};{{ global_css }}'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('"background-color: "+(true ? color : "")+";"+(global_css)')
     }
@@ -744,11 +744,11 @@ describe('style属性的解析', () => {
   test('xxx:xxx和{{ xxx }}混用情况5', () => {
     let contentInput = '{{ global_css }}{{ myStyle }}'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('(global_css)+(myStyle)')
     }
@@ -758,11 +758,11 @@ describe('style属性的解析', () => {
   test('style = xxx:xxx, 但是key是变量', () => {
     let contentInput = '{{ styleName }}: red;height: 100px;width: 100px;'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('(styleName)+": red;height: 5rem;width: 5rem;"')
     }
@@ -773,11 +773,11 @@ describe('style属性的解析', () => {
   test('style为空的特殊写法1', () => {
     let contentInput = '{styleX}'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('raw')
       expect(content).toBe('{styleX}')
     }
@@ -787,11 +787,11 @@ describe('style属性的解析', () => {
   test('style为空的特殊写法2', () => {
     let contentInput = '""'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('raw')
       expect(content).toBe('""')
     }
@@ -801,11 +801,11 @@ describe('style属性的解析', () => {
   test('style为空的特殊写法3', () => {
     let contentInput = '{{}}'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('raw')
       expect(content).toBe('{{}}')
     }
@@ -815,11 +815,11 @@ describe('style属性的解析', () => {
   test('style为空的特殊写法4', () => {
     let contentInput = '{{ "" }}'
     contentInput = convertStyleUnit(contentInput)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut).toEqual(t.jSXAttribute)
+    const styleParseResult = parseStyle('style', contentInput)
+    if (t.isJSXAttribute(styleParseResult as t.Node)) {
+      expect(styleParseResult).toEqual(t.jSXAttribute)
     } else {
-      const { type, content } = styleParseReslut
+      const { type, content } = styleParseResult as IContext
       expect(type).toBe('expression')
       expect(content).toBe('("")')
     }

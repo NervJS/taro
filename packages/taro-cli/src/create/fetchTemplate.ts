@@ -12,6 +12,7 @@ export interface ITemplates {
   name: string
   platforms?: string | string[]
   desc?: string
+  compiler?: string[]
 }
 
 const TEMP_DOWNLOAD_FOLDER = 'taro-temp'
@@ -20,8 +21,6 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
   const type = getTemplateSourceType(templateSource)
   const tempPath = path.join(templateRootPath, TEMP_DOWNLOAD_FOLDER)
   let name: string
-  let isFromUrl = false
-
   // eslint-disable-next-line no-async-promise-executor
   return new Promise<void>(async (resolve) => {
     // 下载文件的缓存目录
@@ -47,15 +46,25 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
     } else if (type === 'url') {
       // url 模板源，因为不知道来源名称，临时取名方便后续开发者从列表中选择
       name = 'from-remote-url'
-      isFromUrl = true
       const zipPath = path.join(tempPath, name + '.zip')
+      const unZipPath = path.join(tempPath, name)
       request
         .get(templateSource)
         .pipe(fs.createWriteStream(zipPath))
         .on('close', () => {
           // unzip
           const zip = new AdmZip(zipPath)
-          zip.extractAllTo(path.join(tempPath, name), true)
+          zip.extractAllTo(unZipPath, true)
+          const files = readDirWithFileTypes(unZipPath).filter(
+            file => !file.name.startsWith('.') && file.isDirectory && file.name !== '__MACOSX'
+          )
+
+          if (files.length !== 1) {
+            spinner.color = 'red'
+            spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${new Error('远程模板源组织格式错误')}`))
+            return resolve()
+          }
+          name = path.join(name, files[0].name)
 
           spinner.color = 'green'
           spinner.succeed(`${chalk.grey('拉取远程模板仓库成功！')}`)
@@ -97,12 +106,12 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
         const creatorFile = path.join(templateRootPath, name, TEMPLATE_CREATOR)
 
         if (!fs.existsSync(creatorFile)) return { name }
-
-        const { platforms = '', desc = '' } = require(creatorFile)
+        const { platforms = '', desc = '', compiler } = require(creatorFile)
 
         return {
           name,
           platforms,
+          compiler,
           desc
         }
       })
@@ -112,15 +121,17 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
       await fs.move(templateFolder, path.join(templateRootPath, name), { overwrite: true })
       await fs.remove(tempPath)
 
-      let res: ITemplates = { name, desc: isFromUrl ? templateSource : '' }
+      let res: ITemplates = { name, desc: type === 'url' ? templateSource : '' }
+
       const creatorFile = path.join(templateRootPath, name, TEMPLATE_CREATOR)
 
       if (fs.existsSync(creatorFile)) {
-        const { platforms = '', desc = '' } = require(creatorFile)
+        const { platforms = '', desc = '', compiler } = require(creatorFile)
 
         res = {
           name,
           platforms,
+          compiler,
           desc: desc || templateSource
         }
       }

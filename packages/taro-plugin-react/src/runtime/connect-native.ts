@@ -13,7 +13,7 @@ import { isClassComponent } from './utils'
 import type { Instance, MpInstance, TaroRootElement } from '@tarojs/runtime'
 import type { AppInstance, PageInstance } from '@tarojs/taro'
 import type { Func } from '@tarojs/taro/types/compile'
-import type * as React from 'react'
+import type React from 'react'
 
 declare const getCurrentPages: () => PageInstance[]
 
@@ -151,16 +151,17 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     app?.parentNode?.appendChild(nativeApp)
     app = nativeApp
   }
+  // eslint-disable-next-line react/no-deprecated
   ReactDOM.render(
     h(Entry, {}),
     app
   )
 }
 
-export function createNativePageConfig (Component, pageName: string, data: Record<string, unknown>, react: typeof React, reactdom: typeof ReactDOM, pageConfig) {
+export function createNativePageConfig (Component, pageName: string, data: Record<string, unknown>, react: typeof React, reactDOM: typeof ReactDOM, pageConfig) {
   reactMeta.R = react
   h = react.createElement
-  ReactDOM = reactdom
+  ReactDOM = reactDOM
   setReconciler(ReactDOM)
   const [
     ONLOAD,
@@ -302,7 +303,6 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
     Current.page = null
     Current.router = null
   }
-
 
   LIFECYCLES.forEach((lifecycle) => {
     pageObj[lifecycle] = function () {

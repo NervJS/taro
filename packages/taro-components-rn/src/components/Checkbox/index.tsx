@@ -11,7 +11,6 @@
  */
 
 import * as React from 'react'
-import { TouchableWithoutFeedback, GestureResponderEvent } from 'react-native'
 import Icon from '../Icon'
 import View from '../View'
 import styles from './styles'
@@ -33,15 +32,12 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       : null
   }
 
-  $touchable = React.createRef<TouchableWithoutFeedback>()
-
   state: CheckboxState = {
     checked: false,
   }
 
-  _simulateNativePress = (evt: GestureResponderEvent): void => {
-    const node = this.$touchable.current
-    node && node.props.onPress && node.props.onPress(evt)
+  _simulateNativePress = (): void => {
+    this.onPress()
   }
 
   onPress = (): void => {
@@ -61,21 +57,19 @@ class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const { checked } = this.state
 
     return (
-      <TouchableWithoutFeedback onPress={this.onPress} ref={this.$touchable}>
-        <View style={styles.container}>
-          <View style={[styles.wrapper, style, checked && styles.wrapperChecked]}>
-            <Icon
-              type="success_no_circle"
-              size={18}
-              color={color}
-              style={[styles.wrapperIcon, checked && styles.wrapperCheckedIcon]}
-            />
-          </View>
-          <View style={{ flexGrow: 0 }}>
-            {this.props.children}
-          </View>
+      <View style={styles.container} onClick={this.onPress}>
+        <View style={[styles.wrapper, style, checked && styles.wrapperChecked]}>
+          <Icon
+            type="success_no_circle"
+            size={18}
+            color={color}
+            style={[styles.wrapperIcon, checked && styles.wrapperCheckedIcon]}
+          />
         </View>
-      </TouchableWithoutFeedback>
+        <View style={{ flexGrow: 0 }}>
+          {this.props.children}
+        </View>
+      </View>
     )
   }
 }

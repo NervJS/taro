@@ -361,7 +361,7 @@ declare module '../../index' {
     previewImage(option: previewImage.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取图片信息。网络图片需先配置download域名才能生效。
-     * @supported weapp, alipay, swan, tt, h5, rn, harmony_hybrid
+     * @supported weapp, alipay, swan, tt, h5, rn, harmony, harmony_hybrid
      * @example
      * ```tsx
      * Taro.getImageInfo({

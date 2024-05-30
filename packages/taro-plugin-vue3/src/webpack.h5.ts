@@ -1,15 +1,13 @@
-import { REG_VUE } from '@tarojs/helper'
-import { DEFAULT_Components } from '@tarojs/runner-utils'
+import { REG_TARO_H5, REG_VUE } from '@tarojs/helper'
 import { mergeWith } from 'lodash'
 
 import { getLoaderMeta } from './loader-meta'
-import { getVueLoaderPath } from './utils'
+import { getH5VueLoaderOptions, getVueLoaderPath } from './utils'
 
 import type { IPluginContext } from '@tarojs/service'
-import type { ElementNode, RootNode, TemplateChildNode } from '@vue/compiler-core'
 import type { IConfig } from './index'
 
-export function modifyH5WebpackChain (ctx: IPluginContext, chain, config: IConfig) {
+export function modifyH5WebpackChain(ctx: IPluginContext, chain, config: IConfig) {
   // vue3 tsx 使用原生组件
   setVueLoader(chain, config)
   setLoader(chain)
@@ -34,79 +32,38 @@ export function modifyH5WebpackChain (ctx: IPluginContext, chain, config: IConfi
   chain.merge({ externals })
 }
 
-function setVueLoader (chain, config: IConfig) {
+function setVueLoader(chain, config: IConfig) {
   const vueLoaderPath = getVueLoaderPath()
 
   // plugin
   const { VueLoaderPlugin } = require(vueLoaderPath)
-  chain
-    .plugin('vueLoaderPlugin')
-    .use(VueLoaderPlugin)
+  chain.plugin('vueLoaderPlugin').use(VueLoaderPlugin)
 
-  const compilerOptions = config.vueLoaderOption?.compilerOptions || {}
   // loader
-  const vueLoaderOption = {
-    transformAssetUrls: {
-      video: ['src', 'poster'],
-      'live-player': 'src',
-      audio: 'src',
-      source: 'src',
-      image: 'src',
-      'cover-image': 'src',
-      'taro-video': ['src', 'poster'],
-      'taro-live-player': 'src',
-      'taro-audio': 'src',
-      'taro-source': 'src',
-      'taro-image': 'src',
-      'taro-cover-image': 'src'
-    },
-    ...(config.vueLoaderOption ?? {}),
-    compilerOptions: {
-      ...compilerOptions,
-      // https://github.com/vuejs/vue-next/blob/master/packages/compiler-core/src/options.ts
-      nodeTransforms: [(node: RootNode | TemplateChildNode) => {
-        if (node.type === 1 /* ELEMENT */) {
-          node = node as ElementNode
-          const nodeName = node.tag
-          if (DEFAULT_Components.has(nodeName)) {
-            node.tag = `taro-${nodeName}`
-            node.tagType = 1 /* 0: ELEMENT, 1: COMPONENT */
-          }
-        }
-      }]
-    }
-  }
+  const vueLoaderOption = getH5VueLoaderOptions(config)
 
-  chain.module
-    .rule('vue')
-    .test(REG_VUE)
-    .use('vueLoader')
-    .loader(vueLoaderPath)
-    .options(vueLoaderOption)
+  chain.module.rule('vue').test(REG_VUE).use('vueLoader').loader(vueLoaderPath).options(vueLoaderOption)
 }
 
-function setLoader (chain) {
-  function customizer (object = '', sources = '') {
-    if ([object, sources].every(e => typeof e === 'string')) return object + sources
+function setLoader(chain) {
+  function customizer(object = '', sources = '') {
+    if ([object, sources].every((e) => typeof e === 'string')) return object + sources
   }
-  chain.plugin('mainPlugin')
-    .tap(args => {
-      args[0].loaderMeta = mergeWith(
-        getLoaderMeta(), args[0].loaderMeta, customizer
-      )
-      return args
-    })
+  chain.plugin('mainPlugin').tap((args) => {
+    args[0].loaderMeta = mergeWith(getLoaderMeta(), args[0].loaderMeta, customizer)
+    return args
+  })
 }
 
-function setTaroApiLoader (chain) {
+function setTaroApiLoader(chain) {
   chain.merge({
     module: {
       rule: {
         'process-import-taro-h5': {
-          test: /taro-h5[\\/]dist[\\/]api[\\/]taro/,
-          loader: require.resolve('./api-loader')
-        }
-      }
-    }
+          test: REG_TARO_H5,
+          loader: require.resolve('./api-loader'),
+        },
+      },
+    },
   })
 }

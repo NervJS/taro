@@ -16,7 +16,6 @@ export function createVueApp () {}
 export function createVue3App () {}
 export const setGlobalDataPlugin = {}
 
-
 export function useDidHide () {}
 export function useDidShow () {}
 export function useError () {}
@@ -39,4 +38,3 @@ export function useReady () {}
 export function useRouter () {}
 export function useTabItemTap () {}
 export function useScope () {}
-

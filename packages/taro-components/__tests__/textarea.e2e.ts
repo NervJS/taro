@@ -51,7 +51,6 @@ describe('Textarea', () => {
     const onBlur = await el.spyOnEvent('blur')
     // const onLineChange = await el.spyOnEvent('linechange')
 
-
     await textarea.focus()
     expect(onFocus).toHaveReceivedEventTimes(1)
     expect(onFocus).toHaveReceivedEventDetail({ value })

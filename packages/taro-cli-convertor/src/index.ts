@@ -454,7 +454,7 @@ export default class Convertor {
                   },
                 })
                 if (isTaroComponent) {
-                  componentClassName = node.id.name
+                  componentClassName = node.id?.name || ''
                 }
               }
             },
@@ -755,8 +755,8 @@ export default class Convertor {
                   const attrs = openingElement.get('attributes')
                   const is = attrs.find(
                     (attr) =>
-                      t.isJSXAttribute(attr) &&
-                      t.isJSXIdentifier(attr.get('name')) &&
+                      t.isJSXAttribute(attr as any) &&
+                      t.isJSXIdentifier(attr.get('name') as any) &&
                       t.isJSXAttribute(attr.node) &&
                       attr.node.name.name === 'is'
                   )
@@ -811,8 +811,8 @@ export default class Convertor {
                         const attributes: t.JSXAttribute[] = []
                         const data = attrs.find(
                           (attr) =>
-                            t.isJSXAttribute(attr) &&
-                            t.isJSXIdentifier(attr.get('name')) &&
+                            t.isJSXAttribute(attr as any) &&
+                            t.isJSXIdentifier(attr.get('name') as any) &&
                             t.isJSXAttribute(attr.node) &&
                             attr.node.name.name === 'data'
                         )

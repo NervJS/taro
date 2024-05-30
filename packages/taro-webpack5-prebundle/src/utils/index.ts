@@ -1,5 +1,4 @@
-import { chalk, fs } from '@tarojs/helper'
-import { createHash } from 'crypto'
+import { chalk, fs, getHash } from '@tarojs/helper'
 import enhancedResolve from 'enhanced-resolve'
 import path from 'path'
 import { performance } from 'perf_hooks'
@@ -33,7 +32,7 @@ export function createResolve (appPath: string, resolveOptions) {
     return new Promise((resolve, reject) => {
       resolver({}, importer, request, {}, (err, resolvedPath) => {
         if (err) return reject(err)
-        resolve(resolvedPath)
+        resolve(resolvedPath! as string)
       })
     })
   }
@@ -88,10 +87,6 @@ export function isOptimizeIncluded (path: string) {
 
 export function isScanIncluded (path: string) {
   return /\.vue/.test(path)
-}
-
-export function getHash (content: string) {
-  return createHash('sha256').update(content).digest('hex').substring(0, 8)
 }
 
 export async function getBundleHash (appPath: string, deps: CollectedDeps, chain: Chain, cacheDir: string): Promise<string> {

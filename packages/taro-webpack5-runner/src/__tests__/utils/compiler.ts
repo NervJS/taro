@@ -9,9 +9,9 @@ import buildMini from '../../../dist/index.mini'
 import baseConfig from './config'
 import { frameworkPatch } from './helper'
 
-import type { CommonBuildConfig, H5BuildConfig, MiniBuildConfig } from '../../utils/types'
+import type { CommonBuildConfig, IH5BuildConfig, IMiniBuildConfig } from '../../utils/types'
 
-export function isMiniConfig (config: Partial<CommonBuildConfig>): config is MiniBuildConfig {
+export function isMiniConfig (config: Partial<CommonBuildConfig>): config is IMiniBuildConfig {
   return config.buildAdapter === 'weapp' || config.platformType === 'mini'
 }
 
@@ -29,7 +29,7 @@ export function setEnv (config: Partial<CommonBuildConfig>) {
   process.env.TARO_ENV = config.buildAdapter
 }
 
-export async function compile<T extends MiniBuildConfig | H5BuildConfig = CommonBuildConfig> (app: string, customConfig: Partial<T> = {}) {
+export async function compile<T extends IMiniBuildConfig | IH5BuildConfig = CommonBuildConfig> (app: string, customConfig: Partial<T> = {}) {
   setEnv(customConfig)
   const isWeb = isWebPlatform()
 

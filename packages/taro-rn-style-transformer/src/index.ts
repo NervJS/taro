@@ -4,7 +4,7 @@ import StyleTransform from './transforms'
 import { Config, TransformOptions } from './types'
 
 const RN_CSS_EXT = ['.css', '.scss', '.sass', '.less', '.styl', '.stylus']
-const upstreamTransformer = require('metro-react-native-babel-transformer')
+const upstreamTransformer = require('@react-native/metro-babel-transformer')
 
 const getSingleStyleTransform = styleTransformIns()
 

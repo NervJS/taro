@@ -2,15 +2,13 @@ import { hooks } from '@tarojs/shared'
 
 import * as taroHooks from './hooks'
 
-declare const __TARO_FRAMEWORK__: string
-
 hooks.tap('initNativeApi', function (taro) {
   for (const hook in taroHooks) {
     taro[hook] = taroHooks[hook]
   }
 })
 
-if (__TARO_FRAMEWORK__ === 'preact') {
+if (process.env.FRAMEWORK === 'preact' && process.env.TARO_PLATFORM === 'mini') {
   const options = require('preact').options
   const oldVNodeHook = options.vnode
   const oldDiffedHook = options.diffed

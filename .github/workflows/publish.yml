@@ -5,6 +5,10 @@ on:
       - 'chore/**'
       - 'feat/**'
       - 'fix/**'
+      - '1.x'
+      - '2.x'
+      - '3.x'
+      - '4.x'
   # When Release Pull Request is merged
   pull_request:
     branches:
@@ -84,7 +88,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v3.0.0
         with:
-          version: 7
+          version: 8
       - name: Setup Node 16
         uses: actions/setup-node@v4
         with:

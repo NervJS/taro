@@ -1,10 +1,8 @@
 import './style/index.scss'
 
 import classNames from 'classnames'
-import React from 'react'
 
 import { omit } from '../../utils'
-
 
 interface IProps {
   type: string
@@ -25,6 +23,7 @@ const Icon = (props: IProps) => {
   const style = { 'font-size': size + 'px', color: color }
 
   return (
+    // eslint-disable-next-line react/react-in-jsx-scope
     <i {...omit(props, ['type', 'className'])} className={cls} style={style} />
   )
 }

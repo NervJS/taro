@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-vue-devtools",
-  "version": "3.6.30",
+  "version": "4.0.0-beta.82",
   "description": "Taro 小程序端支持使用 Vue DevTools 的插件",
   "main": "index.js",
   "scripts": {
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "rollup": "^3.8.1",
-    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-copy": "workspace:*",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
     "typescript": "^4.7.4"

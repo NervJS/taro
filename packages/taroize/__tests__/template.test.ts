@@ -1,4 +1,4 @@
-import * as fs from 'fs-extra'
+import { fs } from '@tarojs/helper'
 
 import { globals } from '../src/global'
 import { parse } from '../src/index'
@@ -23,12 +23,20 @@ const option: any = {
 }
 
 const logFileMap = new Map()
-jest.mock('fs', () => ({
-  ...jest.requireActual('fs'), // 保留原始的其他函数
-  appendFile: jest.fn((path, content): any => {
-    logFileMap.set(path, content)
-  }),
-}))
+jest.mock('@tarojs/helper', () => {
+  const helper = jest.requireActual('@tarojs/helper')
+  const fs = helper.fs
+  return {
+    __esModule: true,
+    ...helper,
+    fs: {
+      ...fs,
+      appendFile: jest.fn((path, content): any => {
+        logFileMap.set(path, content)
+      }),
+    },
+  }
+})
 
 describe('template.ts', () => {
   afterEach(() => {
@@ -235,7 +243,7 @@ describe('template.ts', () => {
         jest.spyOn(path, 'relative').mockReturnValue('../template/template')
         jest.spyOn(fs, 'readFileSync').mockReturnValue(template)
         jest.spyOn(fs, 'existsSync').mockReturnValue(true)
-        const dirPath = 'import_absoulte_path'
+        const dirPath = 'import_absolute_path'
         const { wxml, imports }: any = parseWXML(dirPath, wxmlStr)
         const wxmlCode = generateMinimalEscapeCode(wxml)
         const importsCode = generateMinimalEscapeCode(imports[0].ast)
@@ -313,7 +321,7 @@ describe('template.ts', () => {
         parseWXML(dirPath, wxml)
         expect(spy).toHaveBeenCalledTimes(1)
         expect(spy.mock.calls[0][0]).toMatchInlineSnapshot(
-          `标签: <include src="../../template/template"> 没有自动关闭。形如：<include src="../../template/template" /> 才是标准的 wxml 格式。`
+          `"标签: <include src="../../template/template"> 没有自动关闭。形如：<include src="../../template/template" /> 才是标准的 wxml 格式。"`
         )
       })
     })
@@ -325,7 +333,7 @@ describe('template.ts', () => {
       const wxmlStr = `
         <template is="firstTag" data='{{ tagListFirst, tagListSecond}}'>顶层</template>
 
-        <template name="firstTag">                   
+        <template name="firstTag">
           <block wx:for="{{tagListFirst}}" wx:key="index">
             <view catchtap="onClickFirstTag">{{item}}</view>
           </block>

@@ -40,7 +40,7 @@ import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { AppConfig, Config } from '@tarojs/taro'
-import type { Func } from '@tarojs/taro/types/compile'
+import type { Func, IMiniFilesConfig } from '@tarojs/taro/types/compile'
 import type { PrerenderConfig } from '../prerender/prerender'
 import type { AddPageChunks, IComponent, IFileType } from '../utils/types'
 
@@ -89,13 +89,6 @@ export interface IComponentObj {
   type?: string
 }
 
-interface FilesConfig {
-  [configName: string]: {
-    content: Config
-    path: string
-  }
-}
-
 export const createTarget = function createTarget ({ framework }) {
   return (compiler: webpack.compiler.Compiler) => {
     const { options } = compiler
@@ -126,7 +119,7 @@ export default class TaroMiniPlugin {
   /** app config 配置内容 */
   appConfig: AppConfig
   /** app、页面、组件的配置集合 */
-  filesConfig: FilesConfig = {}
+  filesConfig: IMiniFilesConfig = {}
   isWatch = false
   /** 页面列表 */
   pages = new Set<IComponent>()
@@ -1104,8 +1097,8 @@ export default class TaroMiniPlugin {
 
   generateConfigFile (compilation: webpack.compilation.Compilation, filePath: string, config: Config & { component?: boolean }) {
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
-    const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
-    unOfficalConfigs.forEach(item => {
+    const unOfficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
+    unOfficialConfigs.forEach(item => {
       delete config[item]
     })
 

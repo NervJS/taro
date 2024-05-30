@@ -74,7 +74,7 @@ describe('parseAst', () => {
             data:'茅台',
           },
           msg:'',
-          tagName:{}  
+          tagName:{}
         },
         getMsg(e){
           const detail = e.currentTarget
@@ -194,7 +194,7 @@ describe('parseAst', () => {
       <view wx:for="{{testArray[0].children}}">
         {{item}}
       </view>
-    
+
       <view wx:for="{{testUnArray[1].children}}">
         {{item}}
       </view>
@@ -244,7 +244,7 @@ describe('parseAst', () => {
       <view wx:for="{{list[0].children}}">
         {{item}}
       </view>
-  
+
       <view wx:for="{{dcopy}}">
           {{item}}
       </view>
@@ -619,7 +619,7 @@ describe('parseAst', () => {
           return '1111' + '2222'
         }
         const a = 'this is a'
-        
+
         module.exports = {
           formatTime,
           a

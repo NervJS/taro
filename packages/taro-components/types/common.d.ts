@@ -30,7 +30,12 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
    * 是否开启编译模式
    * @supported weapp, harmony
    */
-  compileMode?: boolean
+  compileMode?: boolean | string
+  /**
+   * 自定义容器组件的方向
+   * @supported harmony
+   */
+  harmonyDirection?: 'row' | 'column' | 'flex'
 }
 
 export interface FormItemProps {

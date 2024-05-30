@@ -10,8 +10,6 @@ import sassTransform from './sass'
 import { StyleSheetValidation } from './StyleSheet'
 import stylusTransform, { defaultOptions as stylusDefaultOptions } from './stylus'
 
-
-
 export function getWrapedCSS (css) {
   return `
 import { StyleSheet } from 'react-native'

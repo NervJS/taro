@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "3.6.30",
+  "version": "4.0.0-beta.82",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -21,7 +21,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
-    "build": "pnpm -r --aggregate-output --filter=./packages/* build",
+    "build": "pnpm -r --filter=./packages/* build",
     "build:binding:debug": "pnpm --filter @tarojs/binding run build:debug",
     "build:binding:release": "pnpm --filter @tarojs/binding run build",
     "format::rs": "cargo fmt --all",
@@ -60,10 +60,11 @@
     "@babel/plugin-transform-react-jsx": "^7.14.5",
     "@babel/plugin-transform-runtime": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
-    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.14.5",
     "@babel/runtime": "^7.14.5",
     "@babel/traverse": "^7.14.5",
+    "@babel/types": "^7.14.5",
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
     "@tarojs/components": "workspace:*",
@@ -74,12 +75,12 @@
     "@tarojs/plugin-framework-vue3": "workspace:*",
     "@tarojs/plugin-platform-alipay": "workspace:*",
     "@tarojs/plugin-platform-h5": "workspace:*",
+    "@tarojs/plugin-platform-harmony-hybrid": "workspace:*",
     "@tarojs/plugin-platform-jd": "workspace:*",
     "@tarojs/plugin-platform-qq": "workspace:*",
     "@tarojs/plugin-platform-swan": "workspace:*",
     "@tarojs/plugin-platform-tt": "workspace:*",
     "@tarojs/plugin-platform-weapp": "workspace:*",
-    "@tarojs/plugin-platform-harmony-hybrid": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/runtime": "workspace:*",
@@ -102,9 +103,11 @@
     "@types/less": "^3.0.2",
     "@types/lodash": "^4.14.142",
     "@types/lodash-es": "^4.17.6",
-    "@types/node": "^14.14.31",
+    "@types/node": "^18.19.12",
     "@types/postcss-import": "^14.0.0",
+    "@types/postcss-url": "^10.0.0",
     "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
     "@types/react-reconciler": "0.28.1",
     "@types/request": "^2.48.1",
     "@types/resolve": "^1.20.6",
@@ -121,6 +124,7 @@
     "core-js": "^3.6.5",
     "cpy-cli": "^4.1.0",
     "cross-env": "^7.0.2",
+    "escodegen": "^2.0.0",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^6.4.0",
     "eslint-config-standard": "^14.1.1",
@@ -130,7 +134,7 @@
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^8.0.1",
@@ -138,6 +142,7 @@
     "jest-cli": "^27.4.5",
     "jest-environment-node": "^27.4.4",
     "lint-staged": "^13.0.2",
+    "mkdirp": "^3.0.1",
     "nervjs": "^1.4.6",
     "npm-run-all": "^4.1.2",
     "postcss": "^8.4.18",
@@ -150,6 +155,7 @@
     "react-dom": "^18.2.0",
     "react-test-renderer": "^18.2.0",
     "rimraf": "^5.0.0",
+    "rollup": "^3.8.1",
     "stylelint": "^14.6.1",
     "stylelint-config-standard-scss": "^3.0.0",
     "stylelint-config-taro-rn": "workspace:*",
@@ -157,9 +163,9 @@
     "stylelint-taro-rn": "workspace:*",
     "tslib": "^2.6.2",
     "typescript": "^4.7.4",
-    "vue": "^2.6.11",
+    "vue": "~2.6.11",
     "vue-loader": "^17.0.0",
-    "vue-template-compiler": "^2.6.11",
+    "vue-template-compiler": "~2.6.11",
     "webpack": "5.78.0",
     "webpack-chain": "6.5.1",
     "webpack-dev-server": "4.11.1",
@@ -176,7 +182,7 @@
       },
       "react-native-root-siblings": {
         "peerDependencies": {
-          "react": "18.1.0"
+          "react": "18.2.0"
         },
         "peerDependenciesMeta": {
           "react": {
@@ -184,6 +190,9 @@
           }
         }
       }
+    },
+    "overrides": {
+      "browserslist": "^4.23.0"
     }
   }
 }

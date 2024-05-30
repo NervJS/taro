@@ -1,5 +1,5 @@
 import { fs, recursiveMerge, REG_FONT, REG_IMAGE, REG_LESS, REG_MEDIA, REG_SASS_SASS, REG_SASS_SCSS, REG_SCRIPTS, REG_STYLE, REG_STYLUS } from '@tarojs/helper'
-import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { FONT_LIMIT, getSassLoaderOption, IMAGE_LIMIT, MEDIA_LIMIT } from '@tarojs/runner-utils'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import * as HtmlWebpackPlugin from 'html-webpack-plugin'
@@ -47,15 +47,15 @@ const defaultCSSCompressOption = {
   minifySelectors: false
 }
 const defaultMediaUrlLoaderOption = {
-  limit: 10240,
+  limit: MEDIA_LIMIT,
   esModule: false
 }
 const defaultFontUrlLoaderOption = {
-  limit: 10240,
+  limit: FONT_LIMIT,
   esModule: false
 }
 const defaultImageUrlLoaderOption = {
-  limit: 10240,
+  limit: IMAGE_LIMIT,
   esModule: false
 }
 const defaultCssModuleOption: PostcssOption.cssModules = {
@@ -233,7 +233,7 @@ export const parseModule = (appPath: string, {
   sourceDir,
   staticDirectory
 }) => {
-  const customPostcssOption: IPostcssOption = postcss || {}
+  const customPostcssOption: IPostcssOption<'h5'> = postcss || {}
 
   const defaultStyleLoaderOption = {
     /**

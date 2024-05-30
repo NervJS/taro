@@ -46,7 +46,8 @@ export default function (this: webpack.LoaderContext<any>) {
 
   if (isBuildNativeComp) {
     const compPath = join(pathDirname, options.filename)
-    return `import component from ${stringify(compPath)}
+    return `${setReconciler}
+import component from ${stringify(compPath)}
 ${options.loaderMeta.importFrameworkStatement}
 ${options.loaderMeta.extraImportForWeb}
 import { createH5NativeComponentConfig } from '${options.loaderMeta.creatorLocation}'

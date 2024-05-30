@@ -57,7 +57,7 @@ export const buildVistor = () => {
           if (renameMap.has(name)) {
             const memberExpr = path.parentPath
             if (memberExpr.isMemberExpression() && memberExpr.parentPath.isCallExpression()) {
-              const object = memberExpr.get('object')
+              const object = memberExpr.get('object') as any
               if (t.isThisExpression(object)) {
                 path.replaceWith(t.identifier(buildMethodName(name)))
               } else if (t.isIdentifier(object) && isDerivedFromThis(path.scope, object.name)) {

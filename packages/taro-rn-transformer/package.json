@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-transformer",
-  "version": "3.6.30",
+  "version": "4.0.0-beta.82",
   "description": "Taro RN 入口文件处理",
   "main": "dist/index.js",
   "types": "./src/types/index.d.ts",
@@ -28,8 +28,8 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=12.0.0",
-    "npm": ">=6.0.0"
+    "node": ">= 18",
+    "npm": ">= 6"
   },
   "dependencies": {
     "lodash": "^4.17.21",

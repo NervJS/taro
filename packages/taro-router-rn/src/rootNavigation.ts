@@ -3,9 +3,8 @@ import { NavigationContainerRef, StackActions } from '@react-navigation/native'
 import { camelCase } from 'lodash'
 import * as React from 'react'
 
-import { getTabBarPages, handleUrl, setTabInitRoute, updateCurrentJumpUrl, updateJumpAnimate } from './utils/index'
+import { getTabBarPages, handleUrl, setTabInitRoute, updateCurrentJumpUrl } from './utils/index'
 import { BaseOption, CallbackResult } from './utils/types'
-
 
 type NavigateMethod = 'navigateTo' | 'redirectTo' | 'navigateBack' | 'switchTab' | 'reLaunch'
 
@@ -56,12 +55,10 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
     routeParam = handleUrl(path)
     updateCurrentJumpUrl(path)
   }
-  updateJumpAnimate(true)
   try {
     if (method === 'navigateTo') {
       navigationRef.current?.dispatch(StackActions.push(routeParam.pageName, routeParam.params))
     } else if (method === 'redirectTo') {
-      updateJumpAnimate(false)
       navigationRef.current?.dispatch(StackActions.replace(routeParam.pageName, routeParam.params))
     } else if (method === 'switchTab' || (method === 'reLaunch' && isTabPage(path))) {
       const states = navigationRef.current?.getRootState()

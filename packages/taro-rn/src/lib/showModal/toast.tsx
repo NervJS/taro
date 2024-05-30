@@ -118,7 +118,7 @@ function showToast (options: Taro.showToast.Option): Promise<TaroGeneral.Callbac
     return Promise.reject(res)
   }
 
-  let {title = '', icon = 'success', image, duration = 1500, mask = false, success, fail, complete} = options || {} // eslint-disable-line
+  let { title = '', icon = 'success', image, duration = 1500, mask = false, success, fail, complete } = options || {} // eslint-disable-line
 
   const isLoading = (icon === 'loading')
 
@@ -138,7 +138,7 @@ function showToast (options: Taro.showToast.Option): Promise<TaroGeneral.Callbac
       </View>
     </View>
   } else if (isLoading) {
-    ToastView = <WXLoading title={title} mask={mask}/>
+    ToastView = <WXLoading title={title} mask={mask} />
   } else if (icon === 'none') {
     ToastView = <View style={maskStyle}>
       <View style={styles.textGrayBlock}>
@@ -177,7 +177,7 @@ function showToast (options: Taro.showToast.Option): Promise<TaroGeneral.Callbac
   }
 }
 
-function showLoading (options: Taro.showLoading.Option): Promise<TaroGeneral.CallbackResult> {
+function showLoading (options: Taro.showLoading.Option = { title: "加载中" }): Promise<TaroGeneral.CallbackResult> {
   const isObject = shouldBeObject(options)
   if (!isObject.res) {
     const res = { errMsg: `showLoading${isObject.msg}` }

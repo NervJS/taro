@@ -3,18 +3,7 @@ import * as walk from 'acorn-walk'
 
 import { Frameworks } from './index'
 
-interface ILoaderMeta {
-  importFrameworkStatement: string
-  mockAppStatement: string
-  frameworkArgs: string
-  creator: string
-  creatorLocation: string
-  extraImportForWeb: string
-  execBeforeCreateWebApp: string
-  importFrameworkName: string
-  isNeedRawLoader?: boolean
-  modifyConfig?: (config: Record<string, any>, source: string) => void
-}
+import type { ILoaderMeta } from '@tarojs/taro/types/compile/config/plugin'
 
 function addConfig (source) {
   const configsMap = {
@@ -74,9 +63,9 @@ import Nerv from 'nervjs';
 `,
   mockAppStatement: `
 class App extends Nerv.Component {
-render () {
-  return this.props.children
-}
+  render () {
+    return this.props.children
+  }
 }
 `,
   frameworkArgs: 'Nerv, Nerv, config',
@@ -108,6 +97,20 @@ class App extends React.Component {
   }
   if (framework === 'nerv') {
     Object.assign(loaderMeta, nervMeta)
+  }
+
+  if (framework === 'solid') {
+    Object.assign(loaderMeta, {
+      creator: 'createSolidApp',
+      frameworkArgs: 'config',
+      importFrameworkStatement: '',
+      importFrameworkName: '',
+      mockAppStatement: `
+function App(props) {
+  return null
+}
+`,
+    })
   }
 
   if (process.env.TARO_PLATFORM === 'web') {

@@ -38,7 +38,6 @@ function setMockFiles (root, newMockFiles) {
   oriFileMap.set(root, newMockFiles)
 }
 
-
 /**
  * 获取原始的mock文件
  *
@@ -139,6 +138,7 @@ function existsSyncMock (pathParam) {
   if (oriFileMap.get(pathParam) && !parts[parts.length - 1].includes('.')) {
     return true
   }
+
   // 文件夹内默认不存在
   return false
 }

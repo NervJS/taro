@@ -32,14 +32,14 @@ class Popup extends Component<any, any> {
 
   height
   popup
-
-  constructor (props:Props) {
+  timer
+  constructor(props: Props) {
     super(props)
     this.state = { visible: props.visible ?? false, translateY: new Animated.Value(height) }
     this.handleLayout = this.handleLayout.bind(this)
   }
 
-  UNSAFE_componentWillReceiveProps (nextProp:Props):void {
+  UNSAFE_componentWillReceiveProps (nextProp: Props): void {
     if (this.props.visible !== nextProp.visible) {
       if (nextProp.visible) {
         this.setState({ visible: true })
@@ -53,21 +53,26 @@ class Popup extends Component<any, any> {
       }).start(() => this.setState({ visible: false }))
     }
   }
-
-  handleLayout ():void {
-    this.popup.measure((_x, _y, _w, h) => {
-      this.height = h
-      this.setState({ translateY: new Animated.Value(h) })
-      Animated.timing(this.state.translateY, {
-        toValue: 0,
-        duration: 300,
-        easing: (Easing as any).easeInOut,
-        useNativeDriver: true
-      }).start()
-    })
+  componentWillUnmount (): void {
+    this.timer && clearTimeout(this.timer);
+  }
+  handleLayout (): void {
+    this.timer = setTimeout(() => {
+      this.popup?.measure((_x, _y, _w, h) => {
+        this.height = h
+        this.setState({ translateY: new Animated.Value(h) }, () => {
+          Animated.timing(this.state.translateY, {
+            toValue: 0,
+            duration: 300,
+            easing: (Easing as any).easeInOut,
+            useNativeDriver: true
+          }).start()
+        })
+      })
+    },); // 处理鸿蒙系统handleLayout 回调 this.popup为空的情况
   }
 
-  render ():JSX.Element {
+  render (): JSX.Element {
     const {
       style,
       maskStyle,

@@ -1,0 +1,63 @@
+{
+  "name": "@tarojs/vite-runner",
+  "version": "4.0.0-beta.82",
+  "main": "index.js",
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "scripts": {
+    "dev": "pnpm run mv:comp && tsc -w",
+    "build": "tsc && pnpm run mv:comp",
+    "mv:comp": "node ./mv-comp.js"
+  },
+  "dependencies": {
+    "@ampproject/remapping": "^2.2.1",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-inject": "^5.0.3",
+    "@rollup/pluginutils": "^5.0.5",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/parse-css-to-stylesheet": "^0.0.69",
+    "@tarojs/runner-utils": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "@vitejs/plugin-legacy": "^4.1.1",
+    "acorn-walk": "^8.0.0",
+    "autoprefixer": "^10.4.0",
+    "babel-plugin-transform-taroapi": "workspace:*",
+    "connect-history-api-fallback": "^2.0.0",
+    "fast-glob": "^3.3.1",
+    "html-minifier": "^4.0.0",
+    "json5": "^2.2.3",
+    "less": "^4.2.0",
+    "lodash": "^4.17.21",
+    "magic-string": "^0.30.4",
+    "mrmime": "^1.0.1",
+    "picomatch": "^2.3.1",
+    "postcss-css-variables": "^0.19.0",
+    "postcss-html-transform": "workspace:*",
+    "postcss-import": "^15.1.0",
+    "postcss-load-config": "^4.0.1",
+    "postcss-modules": "^6.0.0",
+    "postcss-plugin-constparse": "workspace:*",
+    "postcss-pxtransform": "workspace:*",
+    "regenerator-runtime": "0.11",
+    "rollup": "^3.19.0",
+    "sass": "1.44.0",
+    "sax": "1.2.4",
+    "stylus": "^0.55.0",
+    "vite-plugin-static-copy": "^0.13.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "postcss": "^8.4.18",
+    "terser": "^5.4.0",
+    "vite": "^4.2.0"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.18",
+    "terser": "^5.4.0",
+    "vite": "^4.2.0"
+  }
+}

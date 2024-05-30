@@ -1,6 +1,5 @@
-import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
+import { isNpmPkg, recursiveMerge, resolveSync } from '@tarojs/helper'
 import * as path from 'path'
-import { sync as resolveSync } from 'resolve'
 
 import type { Func, IHtmlTransformOption, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 
@@ -38,9 +37,9 @@ const defaultHtmltransformOption: IHtmlTransformOption = {
 const defaultUrlOption: {
   [key: string]: any
 } = {
-  enable: false,
+  enable: true,
   config: {
-    url: 'inline'
+    url: 'rebase'
   }
 }
 
@@ -49,7 +48,7 @@ const plugins: any[] = []
 export const getDefaultPostcssConfig = function ({
   designWidth,
   deviceRatio,
-  option = {} as IPostcssOption
+  option = {} as IPostcssOption<'h5'>
 }): [string, any, Func?][] {
   const { autoprefixer, pxtransform, htmltransform, url, ...options } = option
   if (designWidth) {
@@ -91,7 +90,7 @@ export const getPostcssPlugins = function (appPath: string, option = {} as IPost
     }
 
     try {
-      const pluginPath = resolveSync(pluginName, { basedir: appPath })
+      const pluginPath = resolveSync(pluginName, { basedir: appPath }) || ''
       plugins.push(require(pluginPath)(pluginOption.config || {}))
     } catch (e) {
       const msg = e.code === 'MODULE_NOT_FOUND' ? `缺少 postcss 插件 "${pluginName}", 已忽略` : e

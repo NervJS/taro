@@ -38,6 +38,7 @@ export interface IProjectConf {
   sourceRoot?: string
   env?: string
   autoInstall?: boolean
+  hideDefaultTemplate?: boolean
   framework: FrameworkType
   compiler?: CompilerType
 }
@@ -214,6 +215,10 @@ export default class Project extends Creator {
       {
         name: 'Webpack4',
         value: CompilerType.Webpack4
+      },
+      {
+        name: 'Vite',
+        value: CompilerType.Vite
       }
     ]
 
@@ -341,16 +346,17 @@ export default class Project extends Creator {
   }
 
   askTemplate: AskMethods = function (conf, prompts, list = []) {
-    const choices = [
-      {
+    const choices = list.map(item => ({
+      name: item.desc ? `${item.name}（${item.desc}）` : item.name,
+      value: item.name
+    }))
+
+    if (!conf.hideDefaultTemplate) {
+      choices.unshift({
         name: '默认模板',
         value: 'default'
-      },
-      ...list.map(item => ({
-        name: item.desc ? `${item.name}（${item.desc}）` : item.name,
-        value: item.name
-      }))
-    ]
+      })
+    }
 
     if ((typeof conf.template as 'string' | undefined) !== 'string') {
       prompts.push({
@@ -393,7 +399,7 @@ export default class Project extends Creator {
   }
 
   async fetchTemplates (answers: IProjectConf): Promise<ITemplates[]> {
-    const { templateSource, framework } = answers
+    const { templateSource, framework, compiler } = answers
     this.conf.templateSource = this.conf.templateSource || templateSource
 
     // 使用默认模版
@@ -407,17 +413,28 @@ export default class Project extends Creator {
     const isClone = /gitee/.test(this.conf.templateSource) || this.conf.clone
     const templateChoices = await fetchTemplate(this.conf.templateSource, this.templatePath(''), isClone)
 
+    const filterFramework = (_framework) => {
+      if (typeof _framework === 'string' && _framework) {
+        return framework === _framework
+      } else if (isArray(_framework)) {
+        return _framework?.includes(framework)
+      } else {
+        return true
+      }
+    }
+
+    const filterCompiler = (_compiler) => {
+      if (_compiler && isArray(_compiler)) {
+        return _compiler?.includes(compiler)
+      }
+      return true
+    }
+
     // 根据用户选择的框架筛选模板
     const newTemplateChoices: ITemplates[] = templateChoices
       .filter(templateChoice => {
-        const { platforms } = templateChoice
-        if (typeof platforms === 'string' && platforms) {
-          return framework === templateChoice.platforms
-        } else if (isArray(platforms)) {
-          return templateChoice.platforms?.includes(framework)
-        } else {
-          return true
-        }
+        const { platforms, compiler } = templateChoice
+        return filterFramework(platforms) && filterCompiler(compiler)
       })
 
     return newTemplateChoices

@@ -301,7 +301,7 @@ export const createWxmlVistor = (
     // 把 hidden 转换为 wxif
     if (name.name === 'hidden') {
       const value = path.get('value') as NodePath<t.JSXExpressionContainer>
-      if (t.isJSXExpressionContainer(value) && !t.isJSXEmptyExpression(value.node.expression)) {
+      if (t.isJSXExpressionContainer(value as any) && !t.isJSXEmptyExpression(value.node.expression)) {
         const exclamation = t.unaryExpression('!', value.node.expression)
         path.set('value', t.jSXExpressionContainer(exclamation))
         path.set('name', t.jSXIdentifier(WX_IF))
@@ -612,7 +612,7 @@ export const createWxmlVistor = (
               },
             })
             usedTemplate.forEach((componentName) => {
-              if (componentName !== classDecl.id.name) {
+              if (componentName !== classDecl!.id!.name) {
                 ast.program.body.unshift(buildImportStatement(`./${componentName}`, [], componentName))
               }
             })
@@ -751,7 +751,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       wxml: t.nullLiteral(),
     }
   }
-  const nodes = removEmptyTextAndComment(parse(wxml.trim(), { ...parseDefaults, includePositions: true }))
+  const nodes = removeEmptyTextAndComment(parse(wxml.trim(), { ...parseDefaults, includePositions: true }))
   const ast = t.file(
     t.program([t.expressionStatement(parseNode(buildElement('block', nodes as Node[])) as t.Expression)], [])
   )
@@ -1154,7 +1154,7 @@ function transformIf (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodePat
   try {
     siblings = jsx
       .getAllNextSiblings()
-      .filter((s) => !(s.isJSXExpressionContainer() && t.isJSXEmptyExpression(s.get('expression')))) as any
+      .filter((s) => !(s.isJSXExpressionContainer() && t.isJSXEmptyExpression(s.get('expression') as any))) as any
   } catch (error) {
     updateLogFileContent(`WARN [taroize] transformIf - 节点过滤异常 ${getLineBreak()}${error} ${getLineBreak()}`)
     return
@@ -1366,20 +1366,20 @@ function parseElement (element: Element): t.JSXElement {
   // return t.jSXElement(
   //   t.jSXOpeningElement(tagName, attributes.map(parseAttribute)),
   //   t.jSXClosingElement(tagName),
-  //   removEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
+  //   removeEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
   //   false
   // )
 
   const jSXElement = t.jSXElement(
     t.jSXOpeningElement(tagName, attributes.map(parseAttribute)),
     t.jSXClosingElement(tagName),
-    removEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
+    removeEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
     false
   )
   return addLocInfo(jSXElement, element)
 }
 
-export function removEmptyTextAndComment (nodes: AllKindNode[]) {
+export function removeEmptyTextAndComment (nodes: AllKindNode[]) {
   return nodes
     .filter((node) => {
       return (
@@ -1415,7 +1415,12 @@ function singleQuote (s: string) {
   return `'${s}'`
 }
 
-export function parseContent (content: string, single = false): { type: 'raw' | 'expression', content: string } {
+export interface IContext {
+  type: 'raw' | 'expression'
+  content: string
+}
+
+export function parseContent (content: string, single = false): IContext {
   updateLogFileContent(`INFO [taroize] parseContent - 进入函数 ${getLineBreak()}`)
   content = content.trim()
   if (!handlebarsRE.test(content)) {
@@ -1519,7 +1524,7 @@ function parseAttribute (attr: Attribute) {
     // 判断属性是否为style属性
     if (key === 'style' && value) {
       try {
-        const styleParseReslut = parseStyle(key, value)
+        const styleParseReslut = parseStyle(key, value) as any
         if (t.isJSXAttribute(styleParseReslut)) {
           return styleParseReslut
         } else {

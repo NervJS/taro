@@ -51,8 +51,6 @@ export function transformMeta (api: string, options: Record<string, any>) {
   }
 }
 
-
-
 export function initNativeApi (taro) {
   processApis(taro, tt, {
     needPromiseApis,

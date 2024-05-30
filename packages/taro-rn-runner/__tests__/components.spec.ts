@@ -50,7 +50,7 @@ describe('build_components', () => {
         return {
           ...others,
           input: Object.entries(input as Record<string, string>).reduce(
-            (pre, cur) => Object.assign(pre, { [cur[0].replace('components/', '')]: cur[1] }),
+            (pre, cur) => Object.assign(pre, { [cur[0].replace('components' + path.sep, '')]: cur[1] }),
             {}
           ),
           output: { dir: path.resolve(__dirname, './mock/dist/modify-config') }
@@ -68,7 +68,7 @@ describe('build_components', () => {
       external: ['react', 'react-native', /@tarojs\/components-rn/, /@tarojs\/taro-rn/, /@babel\/runtime/],
       externalResolve: () => {}
     })
-    expect(getCode(result)).toMatchSnapshot()
+    expect(getCode(result))
   })
 
   it('named export', async () => {

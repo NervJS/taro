@@ -2,7 +2,6 @@ import * as React from 'react'
 import AntDatePicker from '@ant-design/react-native/lib/date-picker'
 import { noop } from '../../utils'
 import { TimeProps, TimeState } from './PropsType'
-import { TouchableWithoutFeedback } from 'react-native'
 
 function formatTimeStr(time = ''): Date {
   const now = new Date()
@@ -82,7 +81,7 @@ export default class TimeSelector extends React.Component<TimeProps, TimeState> 
         onDismiss={this.onDismiss}
         disabled={disabled}
       >
-        <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>
+        {children}
       </AntDatePicker>
     )
   }

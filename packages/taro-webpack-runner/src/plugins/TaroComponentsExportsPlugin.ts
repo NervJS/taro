@@ -4,6 +4,7 @@ import { toDashed } from '@tarojs/shared'
 import { componentConfig } from '../utils/component'
 
 import type { Func } from '@tarojs/taro/types/compile'
+import type acorn from 'acorn'
 import type AcornWalk from 'acorn-walk'
 import type { Compiler } from 'webpack'
 
@@ -17,7 +18,7 @@ interface IOptions {
   onParseCreateElement?: Func
 }
 
-function isRenderNode (node: acorn.Node, ancestors: any = []): boolean {
+export function isRenderNode (node: acorn.Node, ancestors: any = []): boolean {
   let renderFn
   const hasRenderMethod = ancestors.some((ancestor) => {
     if (ancestor.type === 'FunctionExpression' && ancestor?.id?.name === 'render') {
@@ -45,16 +46,19 @@ export default class TaroComponentsExportsPlugin {
       // react 的第三方组件支持
       normalModuleFactory.hooks.parser.for('javascript/auto').tap(PLUGIN_NAME, (parser) => {
         parser.hooks.program.tap(PLUGIN_NAME, (program) => {
-          walk.simple(program, {
+          walk.ancestor(program, {
             CallExpression: (node, ancestors) => {
               // @ts-ignore
               const callee = node.callee
               if (callee.type === 'MemberExpression') {
+                if (callee.property.type !== 'Identifier') {
+                  return
+                }
                 if (callee.property.name !== 'createElement') {
                   return
                 }
               } else {
-                const nameOfCallee = callee.name
+                const nameOfCallee = (callee as acorn.Identifier).name
                 if (
                   // 兼容 react17 new jsx transtrom 以及esbuild-loader的ast兼容问题
                   !/^_?jsxs?$/.test(nameOfCallee) &&
@@ -72,13 +76,14 @@ export default class TaroComponentsExportsPlugin {
               }
 
               // @ts-ignore
-              const type = node.arguments[0]
+              const type = node.arguments[0] as acorn.Literal
               if (type?.value) {
                 this.onParseCreateElement?.(type.value, componentConfig)
-                this.#componentsExports.add(type.value)
+                this.#componentsExports.add(type.value as string)
               }
             }
           }, {
+            // @ts-ignore
             ...walk.base, Import: walk.base.Import || (() => {})
           })
         })

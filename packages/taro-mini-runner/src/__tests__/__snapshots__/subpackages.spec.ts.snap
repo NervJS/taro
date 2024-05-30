@@ -616,7 +616,6 @@ require("./taro");
 
 /** filePath: dist/app.wxss **/
 
-
 /** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
@@ -1591,9 +1590,6 @@ require("../../sub-utils");
 /** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
-
-/** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/sub-utils.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 4 ], {

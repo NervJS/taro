@@ -1,86 +1,67 @@
-const TARO_TEMPLATES_f0t0 = `import { FlexManager } from './utils/FlexManager'
-import { getNodeThresholds, getNormalAttributes, getTextAttributes } from './utils/helper'
-import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../runtime'
-import type { TaroElement } from '../runtime'
-import { TOUCH_EVENT_MAP } from './utils/constant/event'
-@Extend(Flex)
-function attrs ({
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform
-}) {
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .constraintSize(constraintSize)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
-}
+const TARO_TEMPLATES_f0t0 = `import {
+  rowModify,
+  FlexManager,
+  columnModify,
+  DynamicCenter,
+  getButtonColor,
+  TOUCH_EVENT_MAP,
+  getFontAttributes,
+  commonStyleModify,
+  getNodeThresholds,
+  BUTTON_THEME_COLOR,
+  getStyleAttr,
+  getNormalAttributes,
+  shouldBindEvent,
+  textModify,
+  setNormalTextAttributeIntoInstance,
+  getImageMode
+} from '@tarojs/components'
+import {
+  NodeType,
+  convertNumber2VP,
+  TaroElement,
+  eventHandler,
+  getComponentEventCallback,
+  AREA_CHANGE_EVENT_NAME,
+  VISIBLE_CHANGE_EVENT_NAME
+} from '@tarojs/runtime'
+import { 
+  createLazyChildren, 
+  createChildItem 
+} from '../render'
+
+import type {
+  TaroTextElement,
+  HarmonyStyle,
+  TaroButtonElement,
+  TaroViewElement,
+  TaroAny,
+  TaroStyleType,
+  TaroTextStyleType
+} from '@tarojs/runtime'
+import { isString } from '@tarojs/shared'
 @Component
-struct TARO_TEMPLATES_f0t0 {
-  nodeInfoMap: any = {}
-  dynamicCenter: DynamicCenter
-  @ObjectLink node: TaroElement
+export default struct TARO_TEMPLATES_f0t0 {
+  node: TaroViewElement = new TaroElement('Ignore')
+
+  dynamicCenter: DynamicCenter = new DynamicCenter()
 
   aboutToAppear () {
-    this.dynamicCenter = new DynamicCenter()
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
   }
 
-  @State node0: TaroElement = new TaroIgnoreElement()
+  @State node0: TaroElement = new TaroElement('Ignore')
   
   build() {
-    Flex(FlexManager.flexOptions(this.node0)) {}
-    .attrs(getNormalAttributes(this.node0))
-    .onVisibleAreaChange(getNodeThresholds(this.node0) || [0.0, 1.0], getComponentEventCallback(this.node0, VISIBLE_CHANGE_EVENT_NAME))
-    .onAreaChange(getComponentEventCallback(this.node0, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-      this.nodeInfoMap[this.node0._nid].areaInfo = areaResult
+    Column() {}
+    .attributeModifier(columnModify.setNode(this.node0 as TaroElement))
+    .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
+    .onAreaChange(getComponentEventCallback(this.node0 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      (this.node0 as TaroElement)._nodeInfo.areaInfo = res[1]
     }))
   }
 }
-export default TARO_TEMPLATES_f0t0
-`
+`;
 function Index() {
-    return <View compileMode="f0t0" _dynamicID="node0"></View>
+    return <View compileMode="f0t0" _dynamicID="node0"></View>;
 }

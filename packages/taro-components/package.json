@@ -1,11 +1,11 @@
 {
   "name": "@tarojs/components",
-  "version": "3.6.30",
+  "version": "4.0.0-beta.82",
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
   "main": "dist/index.js",
-  "module": "dist/index.cjs.js",
+  "module": "dist/index.js",
   "types": "types/index.d.ts",
   "sideEffects": [
     "*.scss",
@@ -53,21 +53,19 @@
     "@tarojs/components-advanced": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
-    "hammerjs": "^2.0.8",
     "hls.js": "^1.1.5",
     "resolve-pathname": "^3.0.0",
-    "swiper": "6.8.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "swiper": "6.8.0"
   },
   "devDependencies": {
-    "@babel/generator": "^7.20.0",
-    "@babel/parser": "^7.20.0",
-    "@babel/traverse": "^7.20.0",
-    "@babel/types": "^7.20.0",
+    "@babel/generator": "^7.21.4",
+    "@babel/parser": "^7.23.0",
+    "@babel/traverse": "^7.21.4",
+    "@babel/types": "^7.23.0",
     "@stencil/react-output-target": "0.4.0",
     "@stencil/vue-output-target": "0.7.0",
     "@types/jest": "^27.4.1",
-    "@types/node": "^14.14.31",
     "change-case": "^4.1.2",
     "csstype": "^3.1.1",
     "esbuild": "~0.19.5",
@@ -75,7 +73,6 @@
     "lightningcss": "^1.22.1",
     "lodash": "^4.17.21",
     "miniapp-types": "1.6.0",
-    "mkdirp": "^1.0.4",
     "puppeteer": "^19.2.0",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
@@ -83,13 +80,11 @@
     "stencil-vue2-output-target": "0.0.4",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^3.14.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "mkdirp": "^1.0.4"
   },
   "peerDependenciesMeta": {
     "@types/react": {
-      "optional": true
-    },
-    "@types/react-native": {
       "optional": true
     },
     "vue": {

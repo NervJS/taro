@@ -5,12 +5,17 @@ import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist
 import { mergeWith } from 'lodash'
 
 import { getLoaderMeta } from './loader-meta'
+import { CUSTOM_WRAPPER } from './utils'
+import { h5VitePlugin } from './vite.h5'
+import { harmonyVitePlugin } from './vite.harmony'
+import { miniVitePlugin } from './vite.mini'
+import { modifyH5WebpackChain } from './webpack.h5'
+import { modifyHarmonyWebpackChain } from './webpack.harmony'
+import { modifyMiniWebpackChain } from './webpack.mini'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
-
-export const CUSTOM_WRAPPER = 'custom-wrapper'
-
+import type { PluginOption } from 'vite'
 
 interface OnParseCreateElementArgs {
   nodeName: string
@@ -22,21 +27,45 @@ export default (ctx: IPluginContext) => {
   if (framework !== 'vue') return
 
   ctx.modifyWebpackChain(({ chain, data }) => {
+    // 通用
     if (process.env.NODE_ENV !== 'production') {
       setAlias(chain)
     }
+
     customVueChain(chain, data)
     setLoader(chain)
 
     if (process.env.TARO_PLATFORM === 'web') {
-      const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
-      const externals: Record<string, string> = {}
-      if (isBuildNativeComp) {
-        // Note: 该模式不支持 prebundle 优化，不必再处理
-        externals.vue = 'vue'
-      }
+      // H5
+      modifyH5WebpackChain(ctx, chain)
+    } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {
+      // 鸿蒙
+      modifyHarmonyWebpackChain(ctx, data)
+    } else {
+      // 小程序
+      modifyMiniWebpackChain(chain, data)
+    }
+    const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
+    const externals: Record<string, string> = {}
+    if (isBuildNativeComp) {
+      // Note: 该模式不支持 prebundle 优化，不必再处理
+      externals.vue = 'vue'
+    }
 
-      chain.merge({ externals })
+    chain.merge({ externals })
+  })
+
+  ctx.modifyViteConfig(({ viteConfig, data }) => {
+    viteConfig.plugins.push(viteCommonPlugin())
+    if (process.env.TARO_PLATFORM === 'web') {
+      // H5
+      viteConfig.plugins.push(h5VitePlugin(ctx))
+    } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {
+      // 鸿蒙
+      viteConfig.plugins.push(harmonyVitePlugin(ctx, data?.componentConfig))
+    } else {
+      // 小程序
+      viteConfig.plugins.push(miniVitePlugin(ctx, data?.componentConfig))
     }
   })
 
@@ -200,4 +229,15 @@ function setAlias (chain) {
   // 避免 npm link 时，taro composition apis 使用的 vue 和项目使用的 vue 实例不一致。
   chain.resolve.alias
     .set('vue', require.resolve('vue'))
+}
+
+function viteCommonPlugin (): PluginOption {
+  return {
+    name: 'taro-vue2:common',
+    config: () => ({
+      resolve: {
+        dedupe: process.env.NODE_ENV !== 'production' ? ['vue'] : []
+      }
+    })
+  }
 }

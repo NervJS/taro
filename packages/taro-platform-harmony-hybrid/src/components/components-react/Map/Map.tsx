@@ -105,3 +105,4 @@ class HosMap extends React.Component<IProps> {
 }
 
 export default HosMap
+
