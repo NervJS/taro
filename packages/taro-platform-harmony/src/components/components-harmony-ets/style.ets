@@ -229,6 +229,15 @@ export function setSpecialTextAttributeIntoInstance(instance: TextAttribute, sty
   if (!isUndefined(style.lineHeight)) {
     instance.lineHeight(style.lineHeight)
   }
+  if (!isUndefined(style.wordBreak)) {
+    if (style.wordBreak == 'break-all') {
+      instance.wordBreak(WordBreak.BREAK_ALL)
+    } else if (style.wordBreak == 'break-word') {
+      instance.wordBreak(WordBreak.BREAK_WORD)
+    } else if (style.wordBreak == 'normal') {
+      instance.wordBreak(WordBreak.NORMAL)
+    }
+  }
 }
 
 export function setNormalAttributeIntoInstance(instance: CommonAttribute, style: TaroStyleType, node?: TaroElement | null) {
