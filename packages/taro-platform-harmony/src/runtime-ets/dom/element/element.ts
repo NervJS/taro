@@ -121,13 +121,13 @@ export class TaroElement<
 
     // 混合开发的组件没办法自动更新，需要把父级的结点删掉新建
     // Current.nativeComponentNames会在render.ets中赋值
-    if(Current.nativeComponentNames?.includes(this.tagName)) {
+    if (Current.nativeComponentNames?.includes(this.tagName)) {
       const idxOfRef = this.parentNode?.findIndex(this)
 
       if (idxOfRef !== undefined) {
         this._nativeUpdateTrigger++
         this.parentNode?.notifyDataChange(idxOfRef)
-      } 
+      }
     }
 
     if (['PAGE-META', 'NAVIGATION-BAR'].includes(this.tagName)) {
