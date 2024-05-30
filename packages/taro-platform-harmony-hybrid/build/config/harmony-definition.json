@@ -1038,13 +1038,7 @@
         "limitSize": true
       }
     },
-    "getStorageInfoSync": {
-      "return": {
-        "currentSize": true,
-        "keys": true,
-        "limitSize": true
-      }
-    },
+    "getStorageInfoSync": false,
     "getStorageSync": true,
     "getSystemInfo": {
       "success": {
