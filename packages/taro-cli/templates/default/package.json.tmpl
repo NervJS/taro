@@ -80,12 +80,12 @@
     "eslint-plugin-vue": "^9.17.0",{{/if}}
     "eslint-config-taro": "{{ version }}",
     "eslint": "^8.57.0",{{#if (eq framework "React") }}
-    "@babel/preset-react": "^7.24.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "react-refresh": "^0.14.0",{{/if}}{{#if (eq framework "Preact") }}
     "@prefresh/webpack": "^4",
     "@prefresh/core": "^1.5.2",
     "@prefresh/babel-plugin": "^0.5.1",{{/if}}{{#if (includes "React" "Preact" s=framework)}}
+    "@babel/preset-react": "^7.24.1",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.4.0",{{/if}}
     "stylelint": "^16.4.0"{{#if typescript }},
@@ -108,6 +108,7 @@
     "stylelint": "^16.4.0",
     "terser": "^5.30.4",
     "vite": "^5.2.10",{{#if (includes "React" "Preact" s=framework)}}
+    "@babel/preset-react": "^7.24.1",
     "@tarojs/test-utils-react": "^0.1.1",
     "@types/react": "^18.0.0",
     "@vitejs/plugin-react": "^4.3.0",
@@ -116,7 +117,6 @@
     "@preact/preset-vite": "^2.8.2",
     "@prefresh/core": "^1.5.2",
     "@prefresh/babel-plugin": "^0.5.1",{{/if}}{{#if (eq framework "React") }}
-    "@vitejs/plugin-react": "^4.3.0",
     "react-refresh": "^0.14.0",{{/if}}{{#if (eq framework "Vue3") }}
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitejs/plugin-vue-jsx": "^3.1.0",

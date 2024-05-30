@@ -1213,6 +1213,9 @@ importers:
 
   packages/taro-platform-harmony:
     dependencies:
+      '@babel/preset-react':
+        specifier: ^7.24.1
+        version: 7.24.1(@babel/core@7.24.4)
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components

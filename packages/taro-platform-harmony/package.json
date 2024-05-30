@@ -39,6 +39,7 @@
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "webpack-sources": "^3.2.3",
+    "@babel/preset-react": "^7.24.1",
     "webpack": "5.78.0"
   },
   "devDependencies": {
