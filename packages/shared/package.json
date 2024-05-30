@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/shared",
-  "version": "4.0.0-alpha.17",
+  "version": "4.0.0-alpha.18",
   "description": "Taro utils internal use.",
   "author": "O2Team",
   "license": "MIT",
