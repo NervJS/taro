@@ -270,7 +270,7 @@ export default _C
 exports[`微信小程序转换 三方库转换 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
-  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+  /wxProject/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -282,9 +282,9 @@ class App extends React.Component {
   }
 }
 export default App;,
-  /wxProject/taroConvert/src/app.config.js => export default { pages: ['pages/index/index'] }
+  /wxProject/app.config.js => export default { pages: ['pages/index/index'] }
 ,
-  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, View } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -303,20 +303,20 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+  /wxProject/pages/index/index.config.js => export default {}
 ,
   /wxProject/taroConvert/node_modules/moment => ,
   /wxProject/taroConvert/node_modules/moment/dist => ,
   /wxProject/taroConvert/node_modules/moment/dist/locale => ,
-  /wxProject/taroConvert/node_modules/moment/dist/locale/af.js => 123,
-  /wxProject/taroConvert/node_modules/moment/dist/moment.js => format(){},
+  wxProjecttaroConvertnode_modulesmomentdistlocaleaf.js => undefined,
+  wxProjecttaroConvertnode_modulesmomentdistmoment.js => undefined,
 }
 `;
 
 exports[`微信小程序转换 使用工具函数初始化page页面 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
-  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -331,9 +331,9 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+  /wxProject/pages/index/index.config.js => export default {}
 ,
-  /wxProject/taroConvert/src/utils/tools.js => const { cacheOptions } = require('@tarojs/with-weapp')
+  /wxProject/utils/tools.js => const { cacheOptions } = require('@tarojs/with-weapp')
 module.exports.createPage = function (options) {
   cacheOptions.setOptionsToCache(options)
 }
@@ -552,7 +552,7 @@ export default _C
 exports[`微信小程序转换 小程序demo转换 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
-  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+  /wxProject/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -564,9 +564,9 @@ class App extends React.Component {
   }
 }
 export default App;,
-  /wxProject/taroConvert/src/app.config.js => export default { pages: ['pages/index/index'] }
+  /wxProject/app.config.js => export default { pages: ['pages/index/index'] }
 ,
-  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, View, Text } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -590,7 +590,7 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+  /wxProject/pages/index/index.config.js => export default {}
 ,
 }
 `;
@@ -598,7 +598,7 @@ export default _C
 exports[`微信小程序转换 小程序tabber转换 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
-  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+  /wxProject/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -610,7 +610,7 @@ class App extends React.Component {
   }
 }
 export default App;,
-  /wxProject/taroConvert/src/app.config.js => export default {
+  /wxProject/app.config.js => export default {
   pages: ['pages/component/index', 'pages/api/index'],
   tabBar: {
     color: '#7A7E83',
@@ -635,11 +635,11 @@ export default App;,
 }
 ,
   undefined => ,
-  /wxProject/taroConvert/src/image/icon_component.png => ,
-  /wxProject/taroConvert/src/image/icon_component_HL.png => ,
-  /wxProject/taroConvert/src/image/icon_API.png => ,
-  /wxProject/taroConvert/src/image/icon_API_HL.png => ,
-  /wxProject/taroConvert/src/pages/component/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/image/icon_component.png => ,
+  /wxProject/image/icon_component_HL.png => ,
+  /wxProject/image/icon_API.png => ,
+  /wxProject/image/icon_API_HL.png => ,
+  /wxProject/pages/component/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, View } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -652,9 +652,9 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/component/index.config.js => export default {}
+  /wxProject/pages/component/index.config.js => export default {}
 ,
-  /wxProject/taroConvert/src/pages/api/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/api/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, View } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -667,7 +667,7 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/api/index.config.js => export default {}
+  /wxProject/pages/api/index.config.js => export default {}
 ,
 }
 `;
@@ -675,7 +675,7 @@ export default _C
 exports[`微信小程序转换 小程序分包 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
-  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+  /wxProject/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -687,7 +687,7 @@ class App extends React.Component {
   }
 }
 export default App;,
-  /wxProject/taroConvert/src/app.config.js => export default {
+  /wxProject/app.config.js => export default {
   pages: ['pages/index/index'],
   subPackages: [
     { root: 'packageA/pages/', pages: ['component/index'] },
@@ -695,7 +695,7 @@ export default App;,
   ],
 }
 ,
-  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, Text } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -708,9 +708,9 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+  /wxProject/pages/index/index.config.js => export default {}
 ,
-  /wxProject/taroConvert/src/packageA/pages/component/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/packageA/pages/component/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, Text } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -723,9 +723,9 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/packageA/pages/component/index.config.js => export default {}
+  /wxProject/packageA/pages/component/index.config.js => export default {}
 ,
-  /wxProject/taroConvert/src/packageB/pages/api/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/packageB/pages/api/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, Text } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -738,7 +738,7 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/packageB/pages/api/index.config.js => export default {}
+  /wxProject/packageB/pages/api/index.config.js => export default {}
 ,
 }
 `;
@@ -922,7 +922,7 @@ export default _C
 exports[`微信小程序转换 小程序自定义tabber转换 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
-  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+  /wxProject/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -934,7 +934,7 @@ class App extends React.Component {
   }
 }
 export default App;,
-  /wxProject/taroConvert/src/app.config.js => export default {
+  /wxProject/app.config.js => export default {
   pages: ['pages/component/index', 'pages/api/index'],
   tabBar: {
     custom: true,
@@ -960,21 +960,21 @@ export default App;,
 }
 ,
   undefined => ,
-  /wxProject/taroConvert/src/image/icon_component.png => ,
-  /wxProject/taroConvert/src/image/icon_component_HL.png => ,
-  /wxProject/taroConvert/src/image/icon_API.png => ,
-  /wxProject/taroConvert/src/image/icon_API_HL.png => ,
-  /wxProject/taroConvert/src/custom-tab-bar => {
+  /wxProject/image/icon_component.png => ,
+  /wxProject/image/icon_component_HL.png => ,
+  /wxProject/image/icon_API.png => ,
+  /wxProject/image/icon_API_HL.png => ,
+  /wxProject/custom-tab-bar => {
     /index.js: Component({}),
     /index.json: {},
     /index.wxml: ,
     /index.wxss: ,
   },
-  /wxProject/taroConvert/src/custom-tab-bar/index.js => Component({}),
-  /wxProject/taroConvert/src/custom-tab-bar/index.wxml => ,
-  /wxProject/taroConvert/src/custom-tab-bar/index.json => {},
-  /wxProject/taroConvert/src/custom-tab-bar/index.wxss => ,
-  /wxProject/taroConvert/src/pages/component/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/custom-tab-bar/index.js => Component({}),
+  /wxProject/custom-tab-bar/index.wxml => ,
+  /wxProject/custom-tab-bar/index.json => {},
+  /wxProject/custom-tab-bar/index.wxss => ,
+  /wxProject/pages/component/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, View } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -987,9 +987,9 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/component/index.config.js => export default {}
+  /wxProject/pages/component/index.config.js => export default {}
 ,
-  /wxProject/taroConvert/src/pages/api/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/api/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, View } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -1002,7 +1002,7 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/api/index.config.js => export default {}
+  /wxProject/pages/api/index.config.js => export default {}
 ,
 }
 `;
@@ -1056,7 +1056,7 @@ export default _C
 exports[`文件转换 wxss的注释中引用自身文件 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
-  /wxProject/taroConvert/src/pages/commentPage/commentPage.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/commentPage/commentPage.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, View } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -1072,7 +1072,7 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/commentPage/commentPage.config.js => export default {}
+  /wxProject/pages/commentPage/commentPage.config.js => export default {}
 ,
 }
 `;
@@ -1080,7 +1080,7 @@ export default _C
 exports[`文件转换 一个文件夹下有多个wxml页面导致显示异常 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
-  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+  /wxProject/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -1092,9 +1092,9 @@ class App extends React.Component {
   }
 }
 export default App;,
-  /wxProject/taroConvert/src/app.config.js => export default { pages: ['pages/index/index', 'pages/index/other'] }
+  /wxProject/app.config.js => export default { pages: ['pages/index/index', 'pages/index/other'] }
 ,
-  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, View, Text } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -1118,9 +1118,9 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+  /wxProject/pages/index/index.config.js => export default {}
 ,
-  /wxProject/taroConvert/src/pages/index/other.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/index/other.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, View, Text } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -1144,7 +1144,7 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/index/other.config.js => export default {}
+  /wxProject/pages/index/other.config.js => export default {}
 ,
 }
 `;
@@ -1196,12 +1196,12 @@ class TemplatecTmpl extends React.Component {
 }
 export default TemplatecTmpl
 ,
-  /wxProject/taroConvert/src/pages/templatePage_tempNameIsVar/templatePage_tempNameIsVar.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/templatePage_tempNameIsVar/templatePage_tempNameIsVar.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
-import TemplatecTmpl from '../../imports/TemplatecTmpl.js'
-import TemplatebTmpl from '../../imports/TemplatebTmpl.js'
+import TemplatecTmpl from '../../taroConvert/src/imports/TemplatecTmpl.js'
+import TemplatebTmpl from '../../taroConvert/src/imports/TemplatebTmpl.js'
 cacheOptions.setOptionsToCache({
   data: {
     name: 'hello',
@@ -1230,7 +1230,7 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/templatePage_tempNameIsVar/templatePage_tempNameIsVar.config.js => export default {}
+  /wxProject/pages/templatePage_tempNameIsVar/templatePage_tempNameIsVar.config.js => export default {}
 ,
 }
 `;
@@ -1268,12 +1268,12 @@ class TemplatecTmpl extends React.Component {
 }
 export default TemplatecTmpl
 ,
-  /wxProject/taroConvert/src/pages/templatePage_tempNameContainsVar/templatePage_tempNameContainsVar.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/templatePage_tempNameContainsVar/templatePage_tempNameContainsVar.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
-import TemplatecTmpl from '../../imports/TemplatecTmpl.js'
-import TemplatebTmpl from '../../imports/TemplatebTmpl.js'
+import TemplatecTmpl from '../../taroConvert/src/imports/TemplatecTmpl.js'
+import TemplatebTmpl from '../../taroConvert/src/imports/TemplatebTmpl.js'
 cacheOptions.setOptionsToCache({
   data: {
     name: 'hello',
@@ -1302,7 +1302,7 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/templatePage_tempNameContainsVar/templatePage_tempNameContainsVar.config.js => export default {}
+  /wxProject/pages/templatePage_tempNameContainsVar/templatePage_tempNameContainsVar.config.js => export default {}
 ,
 }
 `;
@@ -1325,11 +1325,11 @@ class HuangyeTmpl extends React.Component {
 }
 export default HuangyeTmpl
 ,
-  /wxProject/taroConvert/src/pages/simpleTemplatePage/simpleTemplatePage.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/simpleTemplatePage/simpleTemplatePage.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
-import HuangyeTmpl from '../../imports/HuangyeTmpl.js'
+import HuangyeTmpl from '../../taroConvert/src/imports/HuangyeTmpl.js'
 cacheOptions.setOptionsToCache({
   data: {
     name: 'hello',
@@ -1350,7 +1350,7 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/simpleTemplatePage/simpleTemplatePage.config.js => export default {}
+  /wxProject/pages/simpleTemplatePage/simpleTemplatePage.config.js => export default {}
 ,
 }
 `;
@@ -1373,11 +1373,11 @@ class HuangyeTmpl extends React.Component {
 }
 export default HuangyeTmpl
 ,
-  /wxProject/taroConvert/src/pages/mulVarTemplatePage/mulVarTemplatePage.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/mulVarTemplatePage/mulVarTemplatePage.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
-import HuangyeTmpl from '../../imports/HuangyeTmpl.js'
+import HuangyeTmpl from '../../taroConvert/src/imports/HuangyeTmpl.js'
 cacheOptions.setOptionsToCache({
   data: {
     name: 'hello',
@@ -1400,7 +1400,7 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/mulVarTemplatePage/mulVarTemplatePage.config.js => export default {}
+  /wxProject/pages/mulVarTemplatePage/mulVarTemplatePage.config.js => export default {}
 ,
 }
 `;

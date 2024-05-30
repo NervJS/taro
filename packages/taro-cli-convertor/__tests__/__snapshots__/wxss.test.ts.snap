@@ -14,7 +14,7 @@ Map {
 
 exports[`引入外部wxss文件 拷贝三方字体包到转换后的工程 1`] = `
 Map {
-  /wxProject/taroConvert/src/fonts/Algerian.ttf => 字体二进制,
+  wxProjecttaroConvertsrcfontsAlgerian.ttf => undefined,
   /wxProject/taroConvert/src/pages/index/index.scss => 
       @font-face {
         font-family: "font3";
