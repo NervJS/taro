@@ -973,6 +973,135 @@ importers:
 
   packages/taro-extend: {}
 
+  packages/taro-framework-react:
+    dependencies:
+      acorn:
+        specifier: ^8.11.3
+        version: 8.11.3
+      acorn-walk:
+        specifier: ^8.3.2
+        version: 8.3.2
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.2
+    devDependencies:
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../taro-helper
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
+      '@types/react':
+        specifier: ^18.2.79
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.2.25
+        version: 18.3.0
+      vite:
+        specifier: ^4.2.0
+        version: 4.5.3(@types/node@18.19.31)(less@4.2.0)(sass@1.44.0)(stylus@0.63.0)(terser@5.31.0)
+      webpack-chain:
+        specifier: ^6.5.1
+        version: 6.5.1
+
+  packages/taro-framework-solid:
+    dependencies:
+      acorn:
+        specifier: ^8.11.3
+        version: 8.11.3
+      acorn-walk:
+        specifier: ^8.3.2
+        version: 8.3.2
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.2
+    devDependencies:
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../taro-helper
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
+      '@types/react':
+        specifier: ^18.2.79
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: ^18.2.25
+        version: 18.3.0
+      solid-js:
+        specifier: ^1.8.17
+        version: 1.8.17
+      vite:
+        specifier: ^4.2.0
+        version: 4.5.3(@types/node@18.19.31)(less@4.2.0)(sass@1.44.0)(stylus@0.63.0)(terser@5.31.0)
+      webpack-chain:
+        specifier: ^6.5.1
+        version: 6.5.1
+
+  packages/taro-framework-vue3:
+    dependencies:
+      lodash:
+        specifier: 4.17.21
+        version: 4.17.21
+      tslib:
+        specifier: 2.6.2
+        version: 2.6.2
+    devDependencies:
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../taro-helper
+      '@tarojs/runner-utils':
+        specifier: workspace:*
+        version: link:../taro-runner-utils
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
+      '@vue/compiler-core':
+        specifier: ^3.4.25
+        version: 3.4.26
+      vite:
+        specifier: ^4.2.0
+        version: 4.5.3(@types/node@18.19.31)(less@4.2.0)(sass@1.44.0)(stylus@0.63.0)(terser@5.31.0)
+      vue:
+        specifier: ^3.4.25
+        version: 3.4.26(typescript@5.4.5)
+      vue-loader:
+        specifier: ^17.0.0
+        version: 17.4.2(vue@3.4.26)
+
   packages/taro-h5:
     dependencies:
       '@tarojs/api':
@@ -1497,49 +1626,6 @@ importers:
         specifier: ^0.8.15
         version: 0.8.15
 
-  packages/taro-plugin-react:
-    dependencies:
-      acorn:
-        specifier: ^8.11.3
-        version: 8.11.3
-      acorn-walk:
-        specifier: ^8.3.2
-        version: 8.3.2
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
-      tslib:
-        specifier: ^2.6.2
-        version: 2.6.2
-    devDependencies:
-      '@tarojs/helper':
-        specifier: workspace:*
-        version: link:../taro-helper
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@tarojs/taro':
-        specifier: workspace:*
-        version: link:../taro
-      '@types/react':
-        specifier: ^18.2.79
-        version: 18.3.1
-      '@types/react-dom':
-        specifier: ^18.2.25
-        version: 18.3.0
-      vite:
-        specifier: ^4.2.0
-        version: 4.5.3(@types/node@18.19.31)(less@4.2.0)(sass@1.44.0)(stylus@0.63.0)(terser@5.31.0)
-      webpack-chain:
-        specifier: ^6.5.1
-        version: 6.5.1
-
   packages/taro-plugin-react-devtools:
     dependencies:
       cross-spawn:
@@ -1568,52 +1654,6 @@ importers:
         specifier: workspace:*
         version: link:../rollup-plugin-copy
 
-  packages/taro-plugin-solid:
-    dependencies:
-      acorn:
-        specifier: ^8.11.3
-        version: 8.11.3
-      acorn-walk:
-        specifier: ^8.3.2
-        version: 8.3.2
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
-      tslib:
-        specifier: ^2.6.2
-        version: 2.6.2
-    devDependencies:
-      '@tarojs/helper':
-        specifier: workspace:*
-        version: link:../taro-helper
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@tarojs/taro':
-        specifier: workspace:*
-        version: link:../taro
-      '@types/react':
-        specifier: ^18.2.79
-        version: 18.3.1
-      '@types/react-dom':
-        specifier: ^18.2.25
-        version: 18.3.0
-      solid-js:
-        specifier: ^1.8.17
-        version: 1.8.17
-      vite:
-        specifier: ^4.2.0
-        version: 4.5.3(@types/node@18.19.31)(less@4.2.0)(sass@1.44.0)(stylus@0.63.0)(terser@5.31.0)
-      webpack-chain:
-        specifier: ^6.5.1
-        version: 6.5.1
-
   packages/taro-plugin-vue-devtools:
     dependencies:
       '@vue/devtools':
@@ -1641,46 +1681,6 @@ importers:
       rollup-plugin-copy:
         specifier: workspace:*
         version: link:../rollup-plugin-copy
-
-  packages/taro-plugin-vue3:
-    dependencies:
-      lodash:
-        specifier: 4.17.21
-        version: 4.17.21
-      tslib:
-        specifier: 2.6.2
-        version: 2.6.2
-    devDependencies:
-      '@tarojs/helper':
-        specifier: workspace:*
-        version: link:../taro-helper
-      '@tarojs/runner-utils':
-        specifier: workspace:*
-        version: link:../taro-runner-utils
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
-      '@tarojs/service':
-        specifier: workspace:*
-        version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@tarojs/taro':
-        specifier: workspace:*
-        version: link:../taro
-      '@vue/compiler-core':
-        specifier: ^3.4.25
-        version: 3.4.26
-      vite:
-        specifier: ^4.2.0
-        version: 4.5.3(@types/node@18.19.31)(less@4.2.0)(sass@1.44.0)(stylus@0.63.0)(terser@5.31.0)
-      vue:
-        specifier: ^3.4.25
-        version: 3.4.26(typescript@5.4.5)
-      vue-loader:
-        specifier: ^17.0.0
-        version: 17.4.2(vue@3.4.26)
 
   packages/taro-react:
     dependencies:
@@ -2739,10 +2739,10 @@ importers:
         version: link:../packages/taro-helper
       '@tarojs/plugin-framework-react':
         specifier: workspace:*
-        version: link:../packages/taro-plugin-react
+        version: link:../packages/taro-framework-react
       '@tarojs/plugin-framework-vue3':
         specifier: workspace:*
-        version: link:../packages/taro-plugin-vue3
+        version: link:../packages/taro-framework-vue3
       '@tarojs/plugin-platform-alipay':
         specifier: workspace:*
         version: link:../packages/taro-platform-alipay
