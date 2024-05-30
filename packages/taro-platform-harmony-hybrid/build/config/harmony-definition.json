@@ -552,7 +552,8 @@
     "chooseLicensePlate": false,
     "chooseLocation": {
       "object": {
-        "mapOpts": true
+        "latitude": true,
+        "longitude": true
       },
       "success": {
         "address": true,
@@ -657,7 +658,7 @@
         "tempFilePath": true
       }
     },
-    "compressVideo": true,
+    "compressVideo": false,
     "connectSocket": {
       "object": {
         "url": true,
@@ -1037,13 +1038,7 @@
         "limitSize": true
       }
     },
-    "getStorageInfoSync": {
-      "return": {
-        "currentSize": true,
-        "keys": true,
-        "limitSize": true
-      }
-    },
+    "getStorageInfoSync": false,
     "getStorageSync": true,
     "getSystemInfo": {
       "success": {
@@ -1323,9 +1318,18 @@
         "phoneNumber": true
       }
     },
-    "navigateBack": false,
+    "navigateBack": {
+      "object": {
+        "delta": true
+      }
+    },
     "navigateBackMiniProgram": false,
-    "navigateTo": false,
+    "navigateTo": {
+      "object": {
+        "url": true,
+        "events": true
+      }
+    },
     "navigateToBookshelf": false,
     "navigateToMiniProgram": {
       "object": {
@@ -1621,7 +1625,11 @@
       }
     },
     "queryBookshelf": false,
-    "reLaunch": false,
+    "reLaunch": {
+      "object": {
+        "url": true
+      }
+    },
     "readBLECharacteristicValue": {
       "object": {
         "characteristicId": true,
@@ -1629,7 +1637,11 @@
         "serviceId": true
       }
     },
-    "redirectTo": false,
+    "redirectTo": {
+      "object": {
+        "url": true
+      }
+    },
     "removeSavedFile": {
       "object": {
         "filePath": true
@@ -1985,7 +1997,11 @@
     "stopWifi": true,
     "subscribeService": false,
     "subscribeVoIPVideoMembers": false,
-    "switchTab": false,
+    "switchTab": {
+      "object": {
+        "url": true
+      }
+    },
     "tradePay": false,
     "unsubscribeMessage": false,
     "updateBookshelfReadTime": false,

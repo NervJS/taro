@@ -4,7 +4,8 @@
 export function loadAnimateStyle (ms = 300) {
   const css = `
 body {
-  overflow: hidden; // 防止 iOS 页面滚动
+  /* 防止 iOS 页面滚动 */
+  overflow: hidden;
 }
 .taro_router > .taro_page {
   position: absolute;
@@ -135,7 +136,7 @@ export function loadNavigationBarStyle () {
     to {
       transform: rotate(360deg);
     }
-  }  
+  }
 
   .taro-navigation-bar-no-icon > .taro-navigation-bar-home {
     display: none;

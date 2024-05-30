@@ -90,7 +90,7 @@ export default class NavigationBarHandler {
   }
 
   setCacheValue () {
-    const currentPage = this.pageContext.currentPage
+    const currentPage = this.pageContext.originPathname
     if (typeof this.cache[currentPage] !== 'object') {
       this.cache[currentPage] = {}
     }
@@ -118,7 +118,7 @@ export default class NavigationBarHandler {
 
   setNavigationLoading (show?: boolean) {
     if (!this.navigationBarElement) return
-    const currentPage = this.pageContext.currentPage
+    const currentPage = this.pageContext.originPathname
     let isShow
     if (typeof show === 'boolean') {
       isShow = show
@@ -142,7 +142,7 @@ export default class NavigationBarHandler {
   setNavigationBarBackground (backgroundColor?: string) {
     if (!this.navigationBarElement) return
 
-    const currentPage = this.pageContext.currentPage
+    const currentPage = this.pageContext.originPathname
     let color
     if (typeof backgroundColor === 'string') {
       color = backgroundColor
@@ -164,7 +164,7 @@ export default class NavigationBarHandler {
   setNavigationBarTextStyle (fontColor?: string) {
     if (!this.navigationBarElement) return
 
-    const currentPage = this.pageContext.currentPage
+    const currentPage = this.pageContext.originPathname
     let color
     if (typeof fontColor === 'string') {
       color = fontColor
@@ -184,7 +184,7 @@ export default class NavigationBarHandler {
   }
 
   setTitle (title?) {
-    const currentPage = this.pageContext.currentPage
+    const currentPage = this.pageContext.originPathname
     let proceedTitle
     if (typeof title === 'string') {
       proceedTitle = title

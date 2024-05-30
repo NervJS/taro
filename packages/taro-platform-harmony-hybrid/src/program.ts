@@ -154,6 +154,11 @@ export default class H5 extends TaroPlatformWeb {
         return args
       })
 
+      // 修改h5平台的rule的正则表达式
+      chain.module
+        .rule('process-import-taro-h5')
+        .test(/(plugin|taro)-platform-harmony-hybrid[\\/]dist[\\/]api[\\/]apis[\\/]taro/)
+
       // Note: 本地调试 stencil 组件库时，如果启用 sourceMap 则需要相关配置
       chain.module
         .rule('map')

@@ -3,7 +3,7 @@ import Taro from '@tarojs/api'
 import native from '../NativeApi'
 import { shouldBeObject, temporarilyNotSupport } from '../utils'
 import { MethodHandler } from '../utils/handler'
-import { displayExecRes, handleData } from './util'
+import { handleData } from './util'
 
 /**
  * 创建缓存管理器
@@ -22,8 +22,13 @@ export const createCacheManager = /* @__PURE__ */ temporarilyNotSupport('createC
  * @__object [key, data]
  */
 export const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
-  const status = native.setStorageSync({ key, data: JSON.stringify(handleData(data)) })
-  displayExecRes(status, setStorageSync.name)
+  // @ts-ignore
+  native.setStorageSync(
+    {
+      key: key,
+      data: JSON.stringify(handleData(data))
+    })
+  // displayExecRes(status, setStorageSync.name)
 }
 
 /**
@@ -71,8 +76,9 @@ export const revokeBufferURL = /* @__PURE__ */ temporarilyNotSupport('revokeBuff
  * @canUse removeStorageSync
  */
 export const removeStorageSync: typeof Taro.removeStorageSync = (key: string) => {
-  const status = native.removeStorageSync({ key })
-  displayExecRes(status, removeStorageSync.name)
+  // @ts-ignore
+  native.removeStorageSync({ key })
+  // displayExecRes(status, removeStorageSync.name)
 }
 
 /**
@@ -112,18 +118,15 @@ export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeSto
  */
 // @ts-ignore
 export const getStorageSync: typeof Taro.getStorageSync = (key) => {
-  const status = native.getStorageSync({ key })
-
-  if (status.done) {
-    let item: any
-    try {
-      item = JSON.parse(status.data)
-    } catch (e) {
-      item = status.data
-    }
-    return item.data
+  const res = native.getStorageSync({ key })
+  // 存储数据时，会把真实的数据包裹成{data: xxx} 的json格式
+  let item: any
+  try {
+    item = JSON.parse(res.data)
+  } catch (e) {
+    item = { data: '' }
   }
-  return ''
+  return item.data
 }
 
 /**
@@ -158,7 +161,7 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
         try {
           item = JSON.parse(res.data)
         } catch (e) {
-          item = res.data
+          item = { data: '' }
         }
         const result: Taro.getStorage.SuccessCallbackResult<T> = {
           data: item.data,
@@ -176,23 +179,10 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
 /**
  * Taro.getStorageInfo 的同步版本
  *
- * @canUse getStorageInfoSync
+ * @canNotUse getStorageInfoSync
  * @__return [currentSize, keys, limitSize]
  */
-export const getStorageInfoSync: typeof Taro.getStorageInfoSync = () => {
-  const res: Taro.getStorageInfoSync.Option = {
-    keys: [],
-    limitSize: NaN,
-    currentSize: NaN,
-  }
-  const status = native.getStorageInfoSync({ key: '' })
-
-  if (status.done) {
-    res.keys = JSON.parse(status.data)
-    return res
-  }
-  return res
-}
+export const getStorageInfoSync = temporarilyNotSupport('getStorageInfoSync')
 
 /**
  * 异步获取当前storage的相关信息
@@ -212,7 +202,7 @@ export const getStorageInfo: typeof Taro.getStorageInfo = ({ success, fail, comp
     native.getStorageInfo({
       success: (res: any) => {
         const result: Taro.getStorageInfoSync.Option = {
-          keys: JSON.parse(res.data),
+          keys: res.keys,
           limitSize: NaN,
           currentSize: NaN,
         }
@@ -238,8 +228,9 @@ export const createBufferURL = /* @__PURE__ */ temporarilyNotSupport('createBuff
  * @canUse clearStorageSync
  */
 export const clearStorageSync: typeof Taro.clearStorageSync = () => {
-  const status = native.clearStorageSync({ key: '' })
-  displayExecRes(status, clearStorageSync.name)
+  // @ts-ignore
+  native.clearStorageSync({ key: '' })
+  // displayExecRes(status, clearStorageSync.name)
 }
 
 /**
