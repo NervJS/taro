@@ -54,15 +54,15 @@
     "@types/babel__core": "^7.20.5",
     "@types/sax": "^1.2.4",
     "less": "^4.2.0",
-    "rollup": "^4.16.4",
+    "rollup": "^3.29.4",
     "sass": "1.44.0",
     "stylus": "^0.63.0",
     "terser": "^5.30.4",
-    "vite": "^5.2.10"
+    "vite": "^4.2.0"
   },
   "peerDependencies": {
     "@tarojs/runtime": "workspace:*",
     "postcss": "^8",
-    "vite": "^5"
+    "vite": "^4"
   }
 }

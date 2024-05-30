@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@tarojs/helper": "workspace:*",
+    "rollup": "^3.29.4",
     "scss-bundle": "^3.1.2"
   },
   "devDependencies": {

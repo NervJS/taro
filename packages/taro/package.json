@@ -36,7 +36,8 @@
     "postcss": "^8.4.38",
     "webpack": "5.91.0",
     "webpack-chain": "^6.5.1",
-    "webpack-dev-server": "^4.15.2"
+    "webpack-dev-server": "^4.15.2",
+    "rollup": "^3.29.4"
   },
   "peerDependencies": {
     "@tarojs/components": "workspace:*",
@@ -44,7 +45,7 @@
     "@tarojs/shared": "workspace:*",
     "@types/react": "^18",
     "html-webpack-plugin": "^5",
-    "rollup": "^4",
+    "rollup": "^3",
     "postcss": "^8",
     "vue": "^3",
     "webpack": "^5",

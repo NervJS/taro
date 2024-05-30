@@ -99,6 +99,7 @@
   }{{/if}}{{#if (eq compiler "Vite") }}
   "devDependencies": {
     "@babel/core": "^7.24.4",
+    "@babel/plugin-proposal-class-properties": "7.14.5",
     "@tarojs/cli": "{{ version }}",
     "@tarojs/vite-runner": "{{ version }}",
     "babel-preset-taro": "{{ version }}",
@@ -115,6 +116,7 @@
     "@preact/preset-vite": "^2.8.2",
     "@prefresh/core": "^1.5.2",
     "@prefresh/babel-plugin": "^0.5.1",{{/if}}{{#if (eq framework "React") }}
+    "@vitejs/plugin-react": "^4.3.0",
     "react-refresh": "^0.14.0",{{/if}}{{#if (eq framework "Vue3") }}
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitejs/plugin-vue-jsx": "^3.1.0",
