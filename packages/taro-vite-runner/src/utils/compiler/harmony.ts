@@ -160,14 +160,15 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
       }
 
       const nativeCompMeta: ViteNativeCompMeta = {
-        name: compName,
+        name: compName.replace(/(\w)-(\w)/g, (_, p1, p2) => {
+          return p1 + p2.toUpperCase()
+        }),
         scriptPath: compScriptPath,
         config: {},
         configPath: '',
         templatePath: ETSPath,
-        isNative: true
+        isNative: true,
       }
-
       this.nativeComponents.set(compScriptPath, nativeCompMeta)
       if (!componentConfig.thirdPartyComponents.has(compName) && !meta.isNative) {
         componentConfig.thirdPartyComponents.set(compName, new Set())
@@ -245,7 +246,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
       const hapConfig = readJsonSync(hapConfigPath)
       const window = {
         designWidth: (typeof designWidth === 'function' ? designWidth() : designWidth) || 750,
-        autoDesignWidth: false
+        autoDesignWidth: false,
       }
       hapConfig.module ||= {}
       if (this.useJSON5 !== false) {
@@ -360,19 +361,19 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
   }
 
   /** 工具函数 */
-  getScriptPath (filePath: string) {
+  getScriptPath(filePath: string) {
     return this.getTargetFilePath(filePath, this.fileType.script)
   }
 
-  getStylePath (filePath: string) {
+  getStylePath(filePath: string) {
     return this.getTargetFilePath(filePath, this.fileType.style)
   }
 
-  getConfigPath (filePath: string) {
+  getConfigPath(filePath: string) {
     return this.getTargetFilePath(filePath, this.fileType.config)
   }
 
-  getETSPath (filePath: string) {
+  getETSPath(filePath: string) {
     return resolveSync(filePath, { extensions: this.nativeExt })
   }
 }

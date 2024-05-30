@@ -44,6 +44,9 @@ export class TaroNode extends TaroDataSourceElement {
   // 是否为半编译模板下拥有自主更新权的节点
   public _isDynamicNode = false
 
+  // 以下属性为原生混写组件才有意义的属性
+  public _nativeUpdateTrigger = 0
+
   constructor(nodeName: string, nodeType = NodeType.ELEMENT_NODE) {
     super()
 
