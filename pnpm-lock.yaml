@@ -698,6 +698,9 @@ importers:
       classnames:
         specifier: ^2.2.5
         version: 2.5.1
+      hammerjs:
+        specifier: ^2.0.8
+        version: 2.0.8
       hls.js:
         specifier: ^1.1.5
         version: 1.5.8
@@ -15672,6 +15675,11 @@ packages:
   /graphql@15.8.0:
     resolution: {integrity: sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==, tarball: https://registry.npmjs.org/graphql/-/graphql-15.8.0.tgz}
     engines: {node: '>= 10.x'}
+
+  /hammerjs@2.0.8:
+    resolution: {integrity: sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==, tarball: https://registry.npmjs.org/hammerjs/-/hammerjs-2.0.8.tgz}
+    engines: {node: '>=0.8.0'}
+    dev: false
 
   /handle-thing@2.0.1:
     resolution: {integrity: sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg==, tarball: https://registry.npmjs.org/handle-thing/-/handle-thing-2.0.1.tgz}
