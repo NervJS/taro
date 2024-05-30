@@ -2615,7 +2615,7 @@ importers:
         specifier: ^5.3.10
         version: 5.3.10(esbuild@0.21.4)(webpack@5.91.0)
       vm2:
-        specifier: ^3.8.4
+        specifier: ^3.9.19
         version: 3.9.19
       webpack-chain:
         specifier: ^6.5.1
