@@ -2,7 +2,7 @@
 
 exports[`日志 生成日志 1`] = `
 INFO [taro-cli-convertor] parseAst - 入参 
-{"sourceFilePath":"/wxProject/app.js","outputFilePath":"/wxProject/taroConvert/src/app.js","importStylePath":null,"imports":[]} 
+{"sourceFilePath":"/wxProject/app.js","outputFilePath":"/wxProject/app.js","importStylePath":null,"imports":[]} 
 INFO [taro-cli-convertor] parseAst - 解析ImportDeclaration 
 import { Block } from "@tarojs/components"; 
 INFO [taro-cli-convertor] analyzeImportUrl - 入参 
@@ -103,7 +103,7 @@ const {
 INFO [taro-cli-convertor] traversePages - 开始转换页面 
 pages/index/index 
 INFO [taro-cli-convertor] parseAst - 入参 
-{"sourceFilePath":"/wxProject/pages/index/index.js","outputFilePath":"/wxProject/taroConvert/src/pages/index/index.js","importStylePath":null,"depComponents":{},"imports":[],"pluginComponents":{}} 
+{"sourceFilePath":"/wxProject/pages/index/index.js","outputFilePath":"/wxProject/pages/index/index.js","importStylePath":null,"depComponents":{},"imports":[],"pluginComponents":{}} 
 INFO [taro-cli-convertor] parseAst - 解析ImportDeclaration 
 import { Block, View, Text } from "@tarojs/components"; 
 INFO [taro-cli-convertor] analyzeImportUrl - 入参 
@@ -250,7 +250,7 @@ exports[`转换报告 生成转换报告文件 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
   /wxProject/taroConvert/.convert/convert.log => INFO [taro-cli-convertor] parseAst - 入参 
-{"sourceFilePath":"/wxProject/app.js","outputFilePath":"/wxProject/taroConvert/src/app.js","importStylePath":null,"imports":[]} 
+{"sourceFilePath":"/wxProject/app.js","outputFilePath":"/wxProject/app.js","importStylePath":null,"imports":[]} 
 INFO [taro-cli-convertor] parseAst - 解析ImportDeclaration 
 import { Block } from "@tarojs/components"; 
 INFO [taro-cli-convertor] analyzeImportUrl - 入参 
@@ -351,7 +351,7 @@ const {
 INFO [taro-cli-convertor] traversePages - 开始转换页面 
 pages/index/index 
 INFO [taro-cli-convertor] parseAst - 入参 
-{"sourceFilePath":"/wxProject/pages/index/index.js","outputFilePath":"/wxProject/taroConvert/src/pages/index/index.js","importStylePath":null,"depComponents":{},"imports":[],"pluginComponents":{}} 
+{"sourceFilePath":"/wxProject/pages/index/index.js","outputFilePath":"/wxProject/pages/index/index.js","importStylePath":null,"depComponents":{},"imports":[],"pluginComponents":{}} 
 INFO [taro-cli-convertor] parseAst - 解析ImportDeclaration 
 import { Block, View, Text } from "@tarojs/components"; 
 INFO [taro-cli-convertor] analyzeImportUrl - 入参 
@@ -492,7 +492,7 @@ const {
   motto
 } = this.data; 
 ,
-  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+  /wxProject/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -504,9 +504,9 @@ class App extends React.Component {
   }
 }
 export default App;,
-  /wxProject/taroConvert/src/app.config.js => export default { pages: ['pages/index/index'] }
+  /wxProject/app.config.js => export default { pages: ['pages/index/index'] }
 ,
-  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, View, Text } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
@@ -530,7 +530,7 @@ class _C extends React.Component {
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+  /wxProject/pages/index/index.config.js => export default {}
 ,
   /wxProject/taroConvert/report => ,
   /wxProject/taroConvert/report/index.html => <!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="./favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="Web site created using create-react-app"/><title>convert report</title><script defer="defer" src="./static/js/bundle.js"></script><link href="./static/css/main.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body></html>,
