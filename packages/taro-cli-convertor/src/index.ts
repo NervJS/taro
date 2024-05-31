@@ -193,9 +193,9 @@ export default class Convertor {
 
   constructor (root, isTsProject) {
     this.root = root
-    this.convertRoot = path.join(this.root, 'taroConvert')
-    this.convertDir = path.join(this.convertRoot, 'src')
-    this.importsDir = path.join(this.convertDir, 'imports')
+    this.convertRoot = normalizePath(path.join(this.root, 'taroConvert'))
+    this.convertDir = normalizePath(path.join(this.convertRoot, 'src'))
+    this.importsDir = normalizePath(path.join(this.convertDir, 'imports'))
     this.isTsProject = isTsProject
     if (isTsProject) {
       this.miniprogramRoot = path.join(this.root, 'miniprogram')
@@ -1438,7 +1438,7 @@ export default class Convertor {
     if (this.isTraversePlugin) {
       filePath = src.replace(this.pluginInfo.pluginRoot, path.join(this.convertDir, this.pluginInfo.pluginName))
     } else {
-      filePath = src.replace(this.root, this.convertDir)
+      filePath = normalizePath(src).replace(normalizePath(this.root), this.convertDir)
     }
 
     return extname ? filePath.replace(path.extname(src), extname) : filePath
