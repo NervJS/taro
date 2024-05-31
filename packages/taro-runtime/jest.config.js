@@ -13,7 +13,7 @@ module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   preset: 'ts-jest',
   moduleNameMapper: {
-    '@tarojs/plugin-framework-vue3/dist/runtime': path.resolve(__dirname, '..', '..', 'packages/taro-plugin-vue3/dist/runtime'),
+    '@tarojs/plugin-framework-vue3/dist/runtime': path.resolve(__dirname, '..', '..', 'packages/taro-framework-vue3/dist/runtime'),
     '@tarojs/react': path.resolve(__dirname, '..', '..', 'packages/taro-react/dist/react.esm.js'),
   },
   setupFiles: [path.resolve(__dirname, './src/__tests__/setup.js')],
