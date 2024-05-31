@@ -40,7 +40,7 @@
     "@tarojs/taro": "workspace:*",
     "webpack-sources": "^3.2.3",
     "@babel/preset-react": "^7.24.1",
-    "webpack": "5.78.0"
+    "webpack": "5.91.0"
   },
   "devDependencies": {
     "fast-glob": "^3.3.1",

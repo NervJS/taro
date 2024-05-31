@@ -84,6 +84,7 @@
     "tsconfig-paths": "^3.14.1",
     "mkdirp": "^1.0.4",
     "rollup-plugin-node-externals": "^5.0.0",
+    "rollup": "^3.29.4",
     "jest": "27.5.1",
     "jest-cli": "27.5.1",
     "jest-runner": "27.5.1",
