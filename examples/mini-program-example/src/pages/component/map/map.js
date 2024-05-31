@@ -44,13 +44,13 @@ export default class PageView extends React.Component {
       markers: [
         {
           id: 8888888888,
-          latitude: 39.914887,
-          longitude: 116.403694,
-          title: '北京天安门',
-          iconPath: 'https://img1.baidu.com/it/u=4261206956,1866846027&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=415',
+          latitude: 39.916348,
+          longitude: 116.404999,
+          title: '北京市第二十七中学',
+          iconPath: 'https://img.58cdn.com.cn/git/tcb/mini-img/wx/wanliqiu/map-1.png',
           rotate: 0,
-          width: 20,
-          height: 20,
+          width: 120,
+          height: 120,
           callout: {
             content: '我在天安门!',
             color: '#ffffff',
@@ -81,14 +81,14 @@ export default class PageView extends React.Component {
         },
         {
           id: 666666666,
-          latitude: 38.914887,
-          longitude: 116.403694,
-          title: '北京天安门',
+          latitude: 39.913834,
+          longitude: 116.403427,
+          title: '南池子美术馆',
           zIndex: 999,
-          iconPath: 'https://img1.baidu.com/it/u=4261206956,1866846027&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=415',
+          iconPath: 'https://img.58cdn.com.cn/git/tcb/mini-img/wx/wanliqiu/map-1.png',
           rotate: 0,
-          width: 20,
-          height: 20,
+          width: 120,
+          height: 120,
           callout: {
             content: 'hahhaa天安门!',
             color: '#ffffff',
@@ -699,6 +699,7 @@ export default class PageView extends React.Component {
             showCompass={this.state.showCompass}
             showLocation={this.state.showLocation}
             enableTraffic={this.state.enableTraffic}
+            markers={this.state.markers}
             onTap={this.handleOnTap}
             onMarkerTap={this.handleOnMarkerTap}
             onCalloutTap={this.handleOnCalloutTap}
