@@ -55,7 +55,6 @@ export function setReconciler () {
   })
 
   // TODO 使用 solid 时，暂不支持以下事件 createPullDownComponent
-
 }
 
 /**

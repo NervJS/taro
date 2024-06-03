@@ -1,4 +1,4 @@
-import { RECONCILER_NAME } from './index'
+import { RECONCILER_NAME } from './constant'
 import { getLoaderMeta } from './loader-meta'
 
 export function modifyHarmonyWebpackChain (chain) {

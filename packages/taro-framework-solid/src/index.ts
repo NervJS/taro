@@ -2,6 +2,7 @@ import { fs, REG_TARO_H5 } from '@tarojs/helper'
 import { capitalize, internalComponents, isString, toCamelCase } from '@tarojs/shared'
 import solidPlugin from 'vite-plugin-solid'
 
+import { RECONCILER_NAME } from './constant'
 import { h5iVitePlugin } from './vite.h5'
 import { harmonyVitePlugin } from './vite.harmony'
 import { miniVitePlugin } from './vite.mini'
@@ -11,8 +12,6 @@ import { modifyMiniWebpackChain } from './webpack.mini'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
-
-export const RECONCILER_NAME = '@tarojs/plugin-framework-solid/dist/reconciler'
 
 interface IParseCreateElementArgs {
   nodeName: string
@@ -25,7 +24,6 @@ export default (ctx: IPluginContext) => {
   if (framework !== 'solid') return
 
   ctx.modifyWebpackChain(({ chain }) => {
-
     chain.plugin('definePlugin').tap((args) => {
       const config = args[0]
       config.__TARO_FRAMEWORK__ = `"${framework}"`
