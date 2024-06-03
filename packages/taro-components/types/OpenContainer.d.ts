@@ -63,9 +63,9 @@ interface OpenContainerProps extends StandardProps {
 
 /**
  * 容器转场动画组件
- * 点击 <open-container> 组件，当使用 wx.navigateTo 跳转下一页面时，对其子节点和下一个页面进行过渡。
- * 下个页面从 <open-container> 所在位置大小渐显放大，同时 <open-container> 内容渐隐，过渡效果包含背景色、圆角和阴影。
- * 源页面 <open-container> 为 closed 状态，转场动画后为 open 状态。
+ * 点击 OpenContainer 组件，当使用 wx.navigateTo 跳转下一页面时，对其子节点和下一个页面进行过渡。
+ * 下个页面从 OpenContainer 所在位置大小渐显放大，同时 OpenContainer 内容渐隐，过渡效果包含背景色、圆角和阴影。
+ * 源页面 OpenContainer 为 closed 状态，转场动画后为 open 状态。
  * @classification skyline
  * @supported weapp
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/open-container.html

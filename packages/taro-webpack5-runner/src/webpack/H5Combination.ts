@@ -1,4 +1,4 @@
-import { sync as resolveSync } from 'resolve'
+import { resolveSync } from '@tarojs/helper'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
 
 import { parsePublicPath } from '../utils'

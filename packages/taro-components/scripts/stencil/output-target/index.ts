@@ -3,8 +3,6 @@ import { normalizeOutputTarget as normalizeReactOutputTarget } from '@stencil/re
 import { generateProxies as generateVue3Proxies } from '@stencil/vue-output-target/dist/output-vue'
 import { normalizeOutputTarget as normalizeVueOutputTarget } from '@stencil/vue-output-target/dist/plugin'
 
-import { generateVue2Proxies } from './output-vue2'
-
 import type { CompilerCtx, ComponentCompilerMeta, Config, OutputTargetCustom } from '@stencil/core/internal'
 import type { OutputTargetReact } from '@stencil/react-output-target'
 import type { OutputTargetVue } from '@stencil/vue-output-target'
@@ -40,21 +38,6 @@ export async function reactProxyOutput (
   // await copyResources(config, outputTarget)
 }
 
-export async function vue2ProxyOutput (
-  config: Config,
-  compilerCtx: CompilerCtx,
-  outputTarget: OutputTargetVue,
-  components: ReadonlyArray<ComponentCompilerMeta>
-) {
-  const filteredComponents = getFilteredComponents(outputTarget.excludeComponents, components) as ComponentCompilerMeta[]
-  const rootDir = config.rootDir as string
-  const pkgData = { types: 'dist/index.d.ts' }
-
-  const finalText = generateVue2Proxies(config, filteredComponents, pkgData, outputTarget, rootDir)
-  await compilerCtx.fs.writeFile(outputTarget.proxiesFile, finalText)
-  // await copyResources(config, outputTarget)
-}
-
 export async function vue3ProxyOutput (
   config: Config,
   compilerCtx: CompilerCtx,
@@ -80,21 +63,6 @@ export const reactOutputTarget = (outputTarget: OutputTargetReact): OutputTarget
     const timeSpan = buildCtx.createTimeSpan(`generate react started`, true)
     await reactProxyOutput(config, compilerCtx, outputTarget, buildCtx.components)
     timeSpan.finish(`generate react finished`)
-  },
-})
-
-export const vue2OutputTarget = (outputTarget: OutputTargetVue): OutputTargetCustom => ({
-  type: 'custom',
-  name: 'vue2-library',
-  validate (config) {
-    return normalizeVueOutputTarget(config, outputTarget)
-  },
-  async generator (config, compilerCtx, buildCtx) {
-    const timeSpan = buildCtx.createTimeSpan(`generate vue2 started`, true)
-
-    await vue2ProxyOutput(config, compilerCtx, outputTarget, buildCtx.components)
-
-    timeSpan.finish(`generate vue2 finished`)
   },
 })
 

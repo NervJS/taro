@@ -59,7 +59,6 @@ describe('info', () => {
     // Note: 环境内可能不包括 Yarn
     expect(Object.keys(info.Binaries)).toEqual(expect.arrayContaining(['Node', 'npm']))
     // expect(info.npmPackages.hasOwnProperty('@tarojs/helper')).toBeTruthy()
-    // expect(info.npmPackages.hasOwnProperty('@tarojs/mini-runner')).toBeTruthy()
     // expect(info.npmPackages.hasOwnProperty('@tarojs/service')).toBeTruthy()
     // expect(info.npmPackages.hasOwnProperty('@tarojs/taro')).toBeTruthy()
     // expect(info.npmPackages.hasOwnProperty('@tarojs/taroize')).toBeTruthy()

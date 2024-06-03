@@ -1,11 +1,12 @@
 use crate::utils::{ self, constants::*, harmony::components::* };
-use crate::PluginConfig;
+use crate::{PluginConfig, ComponentReplace};
 use std::collections::HashMap;
 use std::collections::HashSet;
 use swc_core::{
     common::{ util::take::Take, DUMMY_SP as span },
     ecma::{ self, ast::*, atoms::Atom, visit::{ swc_ecma_ast, VisitMut, VisitMutWith } },
 };
+use regex::Regex;
 pub struct PreVisitor {}
 
 pub enum EtsDirection {
@@ -191,26 +192,43 @@ impl TransformVisitor {
                         if is_node_name_created {
                             self.node_name.pop();
                         }
-                        let mut code = match name.as_str() {
-                            VIEW_TAG => {
-                                self.component_set.insert(name.clone());
 
-                                get_view_component_str(
-                                    &self.get_dynmaic_node_name(dynmaic_node_name),
-                                    &children,
-                                    element_direction
-                                )
+                        let current_node_name = self.get_dynmaic_node_name(dynmaic_node_name);
+                        // 如果config配置的替换组件里有这个，就直接拿配置项里的当组件实例化
+                        let mut code = if self.config.component_replace.contains_key(name.as_str()) {
+                            self.component_set.insert(name.clone());
+                            let ComponentReplace{current_init, ..} = self.config.component_replace.get(name.as_str()).unwrap();
+                            // 把入参的node改成对应的变量
+                            let reg = Regex::new(r"\bnode\b(:?)").unwrap();
+                            reg.replace_all(current_init, |caps: &regex::Captures| {
+                                if &caps[1] == ":" {
+                                    "node:".to_string()
+                                } else {
+                                    format!("({} as TaroElement)", current_node_name)
+                                }
+                            }).to_string()
+                        } else {
+                            match name.as_str() {
+                                VIEW_TAG => {
+                                    self.component_set.insert(name.clone());
+
+                                    get_view_component_str(
+                                        &current_node_name,
+                                        &children,
+                                        element_direction
+                                    )
+                                }
+                                TEXT_TAG => {
+                                    self.component_set.insert(name.clone());
+                                    event_string = "".to_owned();
+                                    get_text_component_str(&current_node_name)
+                                }
+                                IMAGE_TAG => {
+                                    self.component_set.insert(name.clone());
+                                    get_image_component_str(&current_node_name)
+                                }
+                                _ => String::new(),
                             }
-                            TEXT_TAG => {
-                                self.component_set.insert(name.clone());
-                                event_string = "".to_owned();
-                                get_text_component_str(&self.get_dynmaic_node_name(dynmaic_node_name))
-                            }
-                            IMAGE_TAG => {
-                                self.component_set.insert(name.clone());
-                                get_image_component_str(&self.get_dynmaic_node_name(dynmaic_node_name))
-                            }
-                            _ => String::new(),
                         };
 
                         code.push_str(event_string.as_str());
@@ -272,7 +290,6 @@ impl TransformVisitor {
 
                                     // let loop_body = self.build_ets_children(&mut vec![JSXElementChild::JSXElement(return_jsx) ], None);
 
-                                    println!("start");
                                     self.deal_loop_now = true;
                                     self.node_name.push("item".to_string());
                                     let loop_body = self.build_ets_element(return_jsx);
@@ -607,14 +624,22 @@ impl VisitMut for TransformVisitor {
             );
             let tmpl_contents =
                 HARMONY_IMPORTER.to_owned() +
+                utils::get_harmony_replace_component_dependency_define(self).as_str() +
                 format!(
-                    r#"@Component
+                    r#"
+@Reusable
+@Component
 export default struct TARO_TEMPLATES_{name} {{
   node: TaroViewElement = new TaroElement('Ignore')
 
   dynamicCenter: DynamicCenter = new DynamicCenter()
 
   aboutToAppear () {{
+    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
+  }}
+
+  aboutToReuse(params: TaroAny): void {{
+    this.node = params.node
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
   }}
 

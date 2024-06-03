@@ -1,14 +1,15 @@
+import * as child_process from 'node:child_process'
+import { createHash } from 'node:crypto'
+import * as os from 'node:os'
+import * as path from 'node:path'
+
 import * as babel from '@babel/core'
 import babelGenerator from '@babel/generator'
 import * as babelParser from '@babel/parser'
 import babelTraverse from '@babel/traverse'
 import * as t from '@babel/types'
-import * as child_process from 'child_process'
-import { createHash } from 'crypto'
 import * as fs from 'fs-extra'
 import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
-import * as os from 'os'
-import * as path from 'path'
 
 import {
   CSS_EXT,
@@ -471,52 +472,6 @@ export const applyArrayedVisitors = (obj) => {
   return obj
 }
 
-export function unzip(zipPath) {
-  const Transform = require('stream').Transform
-  const yauzl = require('yauzl')
-
-  return new Promise<void>((resolve, reject) => {
-    yauzl.open(zipPath, { lazyEntries: true }, (err, zipfile) => {
-      if (err || !zipfile) throw err
-      zipfile.on('close', () => {
-        fs.removeSync(zipPath)
-        resolve()
-      })
-      zipfile.readEntry()
-      zipfile.on('error', (err) => {
-        reject(err)
-      })
-      zipfile.on('entry', (entry) => {
-        if (/\/$/.test(entry.fileName)) {
-          const fileNameArr = entry.fileName.replace(/\\/g, '/').split('/')
-          fileNameArr.shift()
-          const fileName = fileNameArr.join('/')
-          fs.ensureDirSync(path.join(path.dirname(zipPath), fileName))
-          zipfile.readEntry()
-        } else {
-          zipfile.openReadStream(entry, (err, readStream) => {
-            if (err || !readStream) throw err
-            const filter = new Transform()
-            filter._transform = function (chunk, _encoding, cb) {
-              cb(undefined, chunk)
-            }
-            filter._flush = function (cb) {
-              cb()
-              zipfile.readEntry()
-            }
-            const fileNameArr = normalizePath(entry.fileName).split('/')
-            fileNameArr.shift()
-            const fileName = fileNameArr.join('/')
-            const writeStream = fs.createWriteStream(path.join(path.dirname(zipPath), fileName))
-            writeStream.on('close', () => {})
-            readStream.pipe(filter).pipe(writeStream)
-          })
-        }
-      })
-    })
-  })
-}
-
 export const getAllFilesInFolder = async (folder: string, filter: string[] = []): Promise<string[]> => {
   let files: string[] = []
   const list = readDirWithFileTypes(folder)
@@ -644,7 +599,6 @@ function readSFCPageConfig(configPath: string) {
       p.stop()
     }
     const configSource = matches[0]
-    const babel = require('@babel/core')
     const ast = babel.parse(configSource, { filename: '' }) as babel.ParseResult
 
     babel.traverse(ast.program, { CallExpression: callExprHandler })

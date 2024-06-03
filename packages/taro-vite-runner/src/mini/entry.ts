@@ -1,6 +1,7 @@
+import path from 'node:path'
+
 import { fs, isEmptyObject, removePathPrefix } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
-import path from 'path'
 
 import { appendVirtualModulePrefix, escapePath, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 import { baseCompName, customWrapperName } from '../utils/constants'

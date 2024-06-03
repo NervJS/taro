@@ -1,4 +1,4 @@
-import * as os from 'os'
+import * as os from 'node:os'
 
 import { chalk } from './terminal'
 
@@ -157,10 +157,8 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/rn-transformer',
   '@tarojs/helper',
   '@tarojs/taro-loader',
-  '@tarojs/mini-runner',
   '@tarojs/react',
   '@tarojs/plugin-framework-react',
-  '@tarojs/plugin-framework-vue2',
   '@tarojs/plugin-framework-vue3',
   '@tarojs/plugin-react-devtools',
   '@tarojs/plugin-vue-devtools',
@@ -170,7 +168,6 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/runtime',
   '@tarojs/runtime-rn',
   '@tarojs/service',
-  '@tarojs/webpack-runner',
   '@tarojs/with-weapp',
   '@tarojs/taroize',
   '@tarojs/plugin-platform-weapp',
@@ -220,10 +217,8 @@ export const NPM_DIR = 'npm'
 export const ENTRY = 'app'
 
 export enum FRAMEWORK_MAP {
-  VUE = 'vue',
   VUE3 = 'vue3',
   REACT = 'react',
-  NERV = 'nerv',
 }
 
 export const defaultMainFields = ['browser', 'module', 'jsnext:main', 'main']

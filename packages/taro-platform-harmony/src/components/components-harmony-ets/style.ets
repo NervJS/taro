@@ -4,7 +4,7 @@ import { isUndefined } from '@tarojs/shared'
 import { computeBackgroundPosition, convertVp2Px } from './utils'
 import { getNormalAttributes } from './utils/helper'
 import { isMaxWidthView } from './utils/styles'
-import { FlexManager } from './utils/flexManager.ets'
+import { FlexManager } from './utils/flexManager'
 
 class TextStyleModify implements AttributeModifier<TextAttribute> {
   initStyle?: TaroStyleType
@@ -228,6 +228,15 @@ export function setSpecialTextAttributeIntoInstance(instance: TextAttribute, sty
   }
   if (!isUndefined(style.lineHeight)) {
     instance.lineHeight(style.lineHeight)
+  }
+  if (!isUndefined(style.wordBreak)) {
+    if (style.wordBreak == 'break-all') {
+      instance.wordBreak(WordBreak.BREAK_ALL)
+    } else if (style.wordBreak == 'break-word') {
+      instance.wordBreak(WordBreak.BREAK_WORD)
+    } else if (style.wordBreak == 'normal') {
+      instance.wordBreak(WordBreak.NORMAL)
+    }
   }
 }
 

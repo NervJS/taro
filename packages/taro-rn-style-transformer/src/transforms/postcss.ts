@@ -3,6 +3,7 @@ import * as path from 'path'
 import postcss from 'postcss'
 import postcssImport from 'postcss-import'
 import pxtransform from 'postcss-pxtransform'
+import stylelint from 'stylelint'
 
 import stylelintConfig from '../config/rn-stylelint.json'
 import { resolveStyle } from '../utils'
@@ -54,13 +55,15 @@ export function makePostcssPlugins ({
   ]
 
   if (pxtransformOption.enable) {
+    // @ts-ignore
     plugins.push(pxtransform(pxtransformOption.config))
   }
 
   const skipRows = additionalData ? additionalData.split('\n').length : 0
 
   plugins.push(
-    require('stylelint')(stylelintConfig),
+    // @ts-ignore
+    stylelint(stylelintConfig),
     // @ts-ignore
     reporterSkip({ skipRows, filename }),
     require('postcss-reporter')({ clearReportedMessages: true })

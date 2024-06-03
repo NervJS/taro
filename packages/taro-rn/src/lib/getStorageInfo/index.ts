@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+
 import { errorHandler, successHandler } from '../../utils'
 
 async function getStorageCurrentSize() {

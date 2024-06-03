@@ -1,9 +1,8 @@
 {
   "name": "@tarojs/api",
-  "version": "4.0.0-beta.61",
+  "version": "4.0.0-alpha.19",
   "description": "Taro common API",
-  "author": "yuche <i@yuche.me>",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/api#readme",
+  "author": "O2Team",
   "license": "MIT",
   "browser": "dist/index.js",
   "main:h5": "dist/index.esm.js",
@@ -22,11 +21,12 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "clean": "rimraf ./dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
-    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
     "test": "cross-env NODE_ENV=test jest",
     "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=test jest --watch"
@@ -34,24 +34,16 @@
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "dependencies": {
-    "@babel/runtime": "^7.14.5",
-    "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "workspace:*"
+  "engines": {
+    "node": ">= 18"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5",
-    "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-typescript": "^11.1.0",
-    "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
-    "jest-environment-node": "^29.5.0",
-    "rollup": "^3.8.1",
-    "rollup-plugin-node-externals": "^5.0.0",
-    "rollup-plugin-ts": "^3.0.2",
-    "ts-jest": "^29.0.5",
-    "typescript": "^4.7.4"
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "lodash": "4.17.21"
+  },
+  "peerDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   }
 }

@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 interface Styles {
   [propName: string]: any

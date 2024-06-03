@@ -48,7 +48,7 @@ export default class TaroH5Plugin {
       sourceDir: '',
       routerConfig: {},
       entryFileName: 'app',
-      framework: FRAMEWORK_MAP.NERV,
+      framework: FRAMEWORK_MAP.REACT,
       frameworkExts: SCRIPT_EXT,
       runtimePath: [],
       pxTransformConfig: {

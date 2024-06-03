@@ -1,12 +1,13 @@
-import { initialWindowMetrics } from 'react-native-safe-area-context'
-import { Camera } from 'expo-camera'
 import { BarCodeScanner, requestPermissionsAsync } from 'expo-barcode-scanner'
-import { BackHandler, Image, TouchableOpacity, StyleSheet, View, Dimensions, Platform, StatusBar } from 'react-native'
+import { BarcodeType, CameraView } from 'expo-camera'
+import React from 'react'
+import { BackHandler, Dimensions, Image, Platform, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native'
+import RootSiblings from 'react-native-root-siblings'
+import { initialWindowMetrics } from 'react-native-safe-area-context'
+
+import { chooseMedia, MEDIA_TYPE } from '../media'
 import iconClose from './icon_close.png'
 import iconPic from './icon_pic.png'
-import RootSiblings from 'react-native-root-siblings'
-import { chooseMedia, MEDIA_TYPE } from '../media'
-import React from 'react'
 
 export let scannerView
 
@@ -47,13 +48,15 @@ function findKey (value:string, data, compare = (a, b) => a === b):string {
 
 const { width, height } = Dimensions.get('screen')
 
-function getBarCodeTypes(types:string[]):string[] {
-  const result:string[] = []
+function getBarCodeTypes(types:string[]): BarcodeType[] {
+  const result: BarcodeType[] = []
+
   for (const t of types) {
     result.push(...typeMap[t].map(type => {
       return BarCodeType[type]
     }))
   }
+
   return result.filter(r => !!r)
 }
 
@@ -148,20 +151,20 @@ function scanFromPhoto(callback, errorCallBack) {
 
 export async function scanCode(option: Taro.scanCode.Option = {}): Promise<Taro.scanCode.SuccessCallbackResult> {
   const { success, fail, complete, onlyFromCamera, scanType = ['barCode', 'qrCode'] } = option
-  const { granted } = await requestPermissionsAsync();
+  const { granted } = await requestPermissionsAsync()
   if (!granted) {
     const res = { errMsg: 'Permissions denied!' }
     fail?.(res)
     complete?.(res)
     return Promise.reject(res)
   }
-  const barCodeTypes = getBarCodeTypes(scanType)
+  const barcodeTypes = getBarCodeTypes(scanType)
   return new Promise((resolve, reject) => {
     scannerView = new RootSiblings(
       (<View style={[styles.container]}>
         <StatusBar backgroundColor="rgba(0, 0, 0, 0)" translucent hidden={Platform.OS === 'ios'} />
-        <Camera
-          onBarCodeScanned={({ type, data }: {type: string, data: string}) => {
+        <CameraView
+          onBarcodeScanned={({ type, data }: {type: string, data: string}) => {
             const res = {
               charSet: 'UTF-8', // todo
               path: '', // todo
@@ -175,11 +178,10 @@ export async function scanCode(option: Taro.scanCode.Option = {}): Promise<Taro.
             hide(scannerView)
             resolve(res)
           }}
-          barCodeScannerSettings={{
-            barCodeTypes,
+          barcodeScannerSettings={{
+            barcodeTypes,
           }}
           style={{ width, height }}
-          ratio='16:9'
         />
         <TouchableOpacity accessibilityLabel="Close" style={styles.closeIcon} onPress={() => hide(scannerView)}>
           {safeViewWrapper(<Image source={iconClose} style={styles.closeImg}/>)}

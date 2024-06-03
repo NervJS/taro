@@ -9,6 +9,7 @@ export interface HarmonyStyle extends TaroStyleType {
   letterSpacing?: number | string
   verticalAlign?: Alignment
   lineHeight?: Length
+  wordBreak?: string
 }
 
 export interface TaroStyleType {
@@ -138,6 +139,7 @@ export interface TaroTextStyleType {
   letterSpacing?: number | string
   verticalAlign?: Alignment
   lineHeight?: string | number | Resource
+  wordBreak?: WordBreak
 }
 
 export namespace HarmonyType {

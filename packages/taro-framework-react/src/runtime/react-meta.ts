@@ -1,6 +1,6 @@
 import { EMPTY_OBJ } from '@tarojs/shared'
 
-import type * as React from 'react'
+import type React from 'react'
 
 interface ReactMeta {
   PageContext: React.Context<string>
@@ -9,5 +9,5 @@ interface ReactMeta {
 
 export const reactMeta: ReactMeta = {
   PageContext: EMPTY_OBJ,
-  R: EMPTY_OBJ
+  R: EMPTY_OBJ,
 }

@@ -143,8 +143,8 @@ export class BaseConfig {
     /** CSS */
     if (cssMinimizer === 'esbuild') {
       minimizer.esBuildCssPlugin = WebpackPlugin.getCssMinimizerPlugin(cssMinimizer, {})
-    } else if (cssMinimizer === 'parcelCss') {
-      minimizer.parcelCssPlugin = WebpackPlugin.getCssMinimizerPlugin(cssMinimizer, {})
+    } else if (cssMinimizer === 'lightningcss') {
+      minimizer.lightningcssPlugin = WebpackPlugin.getCssMinimizerPlugin(cssMinimizer, {})
     } else {
       if (csso?.enable !== false) {
         const defaultOption = {

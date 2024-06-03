@@ -1,8 +1,9 @@
+import path from 'node:path'
+
 import { defaultMainFields, PLATFORMS, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isNumber, isObject, isString, PLATFORM_TYPE } from '@tarojs/shared'
 import { get } from 'lodash'
-import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
 import { addTrailingSlash, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule } from '../utils'
@@ -168,7 +169,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       server: {
         host: serverOption.host || '0.0.0.0',
         port: serverOption.port ? Number(serverOption.port) : 10086,
-        https: serverOption.https || false,
+        https: typeof serverOption.https !== 'boolean' ? serverOption.https : undefined,
         open,
         proxy: (serverOption.proxy as any) || {},
         headers,

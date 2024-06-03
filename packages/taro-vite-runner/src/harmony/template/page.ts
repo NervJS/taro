@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { isFunction } from '@tarojs/shared'
-import path from 'path'
 
 import { escapePath, resolveAbsoluteRequire } from '../../utils'
 import { TARO_COMP_SUFFIX } from '../entry'
@@ -54,6 +55,7 @@ export default class Parser extends BaseParser {
     protected appConfig: AppConfig,
     public buildConfig: ViteHarmonyBuildConfig,
     public loaderMeta: Record<string, unknown>,
+    public isPure?: boolean
   ) {
     super()
     this.init()
@@ -349,7 +351,11 @@ return state`,
   }
 }
 .height('100%')
+.width('100%')
 .backgroundColor(this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
+.padding({
+  top: px2vp(sysInfo.safeArea?.top || 0),
+})
 .zIndex(1)`,
       })
 
@@ -726,18 +732,18 @@ ${this.isTabbarPage
 if (!this.pageList[index]) {
   this.pageList[index] = createComponent[index]()
   this.page = this.pageList[index]
-  callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
+  callFn(this.page?.onLoad, this, params, (instance: TaroElement) => {
     this.node[index] = instance
   })
-  callFn(this.page.onReady, this, params)
+  callFn(this.page?.onReady, this, params)
 }
 `
     : `this.page = createComponent()
-this.onReady = bindFn(this.page.onReady, this.page)
-callFn(this.page.onLoad, this, params, (instance: TaroElement) => {
+this.onReady = bindFn(this.page?.onReady, this.page)
+callFn(this.page?.onLoad, this, params, (instance: TaroElement) => {
   this.node = instance
 })
-callFn(this.page.onReady, this, params)`
+callFn(this.page?.onReady, this, params)`
 }`
   }
 
@@ -800,7 +806,7 @@ callFn(this.page.onReady, this, params)`
   if (!this.page) return
 
   const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
-  callFn(this.page.onPageScroll, this, {
+  callFn(this.page?.onPageScroll, this, {
     scrollTop: offset.xOffset || 0,
     scrollLeft: offset.yOffset || 0,
   })
@@ -813,7 +819,7 @@ callFn(this.page.onReady, this, params)`
   const clientHeight: number = Number(this.node${isTabPage ? '[index]' : ''}?._nodeInfo?._client?.height) || 0
   const scrollHeight: number = Number(this.node${isTabPage ? '[index]' : ''}?._nodeInfo?._scroll?.height) || 0
   if (scrollHeight - clientHeight - offset.yOffset <= distance) {
-    callFn(this.page.onReachBottom, this)
+    callFn(this.page?.onReachBottom, this)
   }
 })`
 
@@ -842,7 +848,7 @@ ${this.transArr2Str(pageStr.split('\n'), 4)}
 .backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColor || '#FFFFFF'}")
 .height('100%')
 .width('100%')
-.title(this.renderTitle)
+.title({ builder: this.renderTitle, height: 48 + px2vp(sysInfo.safeArea?.top || 0) })
 .titleMode(NavigationTitleMode.Mini)
 .hideTitleBar(${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle === 'custom'`})
 .hideBackButton(true)`
@@ -872,9 +878,10 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   this.handlePageAppear()
   callFn(this.page?.onShow, this)
 })
-.backgroundColor(this.tabBarBackgroundColor)`
-    } else {
-      pageStr += '\n.expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])'
+.backgroundColor(this.tabBarBackgroundColor)
+.padding({
+  bottom: px2vp(sysInfo.screenHeight - (sysInfo.safeArea?.bottom || 0)),
+})`
     }
     if (SHOW_TREE) {
       pageStr = this.transArr2Str([
@@ -1012,6 +1019,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
       isBlended ? this.#setReconciler : '',
       'import router from "@ohos.router"',
       'import { TaroView } from "@tarojs/components"',
+      'import { getSystemInfoSync } from "@tarojs/taro"',
       'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window, document } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       `import { createLazyChildren } from "${renderPath}"`,
@@ -1045,6 +1053,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
           isBlended && this.#setReconcilerPost ? this.#setReconcilerPost : null,
         ],
       '',
+      'const sysInfo: TaroAny = getSystemInfoSync()',
       this.getInstantiatePage(page),
     ])
 
@@ -1062,18 +1071,25 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
   parseEntry (rawId: string, page: TaroHarmonyPageMeta) {
     const { creatorLocation, importFrameworkStatement } = this.loaderMeta
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
-    const createPageFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
+    let createFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
+
     const nativeCreatePage = `createNativePageConfig(component, '${page.name}', React, ReactDOM, config)`
-    const createPage = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
+    let createPageOrComponent = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
+
+    // 如果是pure，说明不是一个页面，而是一个组件，这个时候修改import和createPage
+    if (this.isPure) {
+      createFn = 'createNativeComponentConfig'
+      createPageOrComponent = `createNativeComponentConfig(component, React, ReactDOM, config)`
+    }
 
     return this.transArr2Str([
-      `import { ${createPageFn} } from '${creatorLocation}'`,
+      `import { ${createFn} } from '${creatorLocation}'`,
       `import component from "${escapePath(rawId)}"`,
       importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(page.config)}`,
       page?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,
       page?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
-      `export default () => ${createPage}`,
+      `export default () => ${createPageOrComponent}`,
     ])
   }
 }

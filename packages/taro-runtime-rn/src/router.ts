@@ -5,7 +5,6 @@
 let routerObj: any = {}
 try {
   routerObj = require('@tarojs/router-rn')
-  // eslint-disable-next-line
 } catch (e) {}
 
 function getApi (key) {

@@ -1,6 +1,7 @@
 import { transform as parse } from '@babel/core'
 import generate from '@babel/generator'
-import traverse, { NodePath, Scope, Visitor } from '@babel/traverse'
+import template from '@babel/template'
+import traverse from '@babel/traverse'
 import * as t from '@babel/types'
 import { cloneDeep, difference, get as safeGet, snakeCase, uniq } from 'lodash'
 
@@ -62,8 +63,7 @@ import {
   toLetters,
 } from './utils'
 
-const template = require('@babel/template')
-// const template = require('babel-template')
+import type { NodePath, Scope, Visitor } from '@babel/traverse'
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
@@ -638,13 +638,13 @@ export class RenderParser {
             this.renderPath.node.body.body.unshift(
               t.variableDeclaration('let', [t.variableDeclarator(t.identifier(id.name))])
             )
-            path.parentPath.replaceWith(template('ID = INIT;')({ ID: t.identifier(id.name), INIT: init }))
+            path.parentPath.replaceWith(template.statement('ID = INIT;')({ ID: t.identifier(id.name), INIT: init }))
           } else if (id.name.startsWith('$props__')) {
             path.skip()
           } else {
             const newId = this.renderScope.generateDeclaredUidIdentifier('$' + id.name)
             blockStatement.scope.rename(id.name, newId.name)
-            path.parentPath.replaceWith(template('ID = INIT;')({ ID: newId, INIT: init || t.identifier('undefined') }))
+            path.parentPath.replaceWith(template.statement('ID = INIT;')({ ID: newId, INIT: init || t.identifier('undefined') }))
           }
         }
       },
@@ -2292,7 +2292,7 @@ export class RenderParser {
       })
     })
     if (hasLoopRef) {
-      const scopeDecl = template('const __scope = this.$scope')()
+      const scopeDecl = template.statement('const __scope = this.$scope')()
       this.renderPath.node.body.body.unshift(scopeDecl)
     }
     replaceQueue.forEach((func) => func())
@@ -2630,10 +2630,10 @@ export class RenderParser {
     })
 
     this.renderPath.node.body.body.unshift(
-      template(`this.__state = arguments[0] || this.state || {};`)(),
-      template(`this.__props = arguments[1] || this.props || {};`)(),
-      template(`const __isRunloopRef = arguments[2];`)(),
-      template(`const __prefix = this.$prefix`)(),
+      template.statement(`this.__state = arguments[0] || this.state || {};`)(),
+      template.statement(`this.__props = arguments[1] || this.props || {};`)(),
+      template.statement(`const __isRunloopRef = arguments[2];`)(),
+      template.statement(`const __prefix = this.$prefix`)(),
       this.usedThisProperties.size
         ? t.variableDeclaration('const', [
           t.variableDeclarator(

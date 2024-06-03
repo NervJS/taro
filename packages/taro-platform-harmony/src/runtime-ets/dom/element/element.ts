@@ -53,12 +53,16 @@ export class TaroElement<
   public dataset: Record<string, unknown> = EMPTY_OBJ
   public _attrs: T & TaroExtraProps = {} as T & TaroExtraProps
 
+  private _page: any
+
   constructor(tagName: string) {
     super(tagName.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase(), NodeType.ELEMENT_NODE)
     this.tagName = this.nodeName
     this._style = createCSSStyleDeclaration(this)
     initComponentNodeInfo(this)
     bindAnimation(this)
+
+    this._page = Current.page
   }
 
   public set id(value: string) {
@@ -114,6 +118,17 @@ export class TaroElement<
     }
 
     this._attrs[name] = value
+
+    // 混合开发的组件没办法自动更新，需要把父级的结点删掉新建
+    // Current.nativeComponentNames会在render.ets中赋值
+    if (Current.nativeComponentNames?.includes(this.tagName)) {
+      const idxOfRef = this.parentNode?.findIndex(this)
+
+      if (idxOfRef !== undefined) {
+        this._nativeUpdateTrigger++
+        this.parentNode?.notifyDataChange(idxOfRef)
+      }
+    }
 
     if (['PAGE-META', 'NAVIGATION-BAR'].includes(this.tagName)) {
       // FIXME 等 Harmony 支持更细粒度的 @Watch 方法后移出
@@ -270,28 +285,28 @@ export class TaroElement<
   }
 
   get currentLayerNode () {
-    if (!Current.page) return null
-    if (typeof Current.page.tabBarCurrentIndex !== 'undefined') {
-      Current.page.layerNode ||= []
-      Current.page.layerNode[Current.page.tabBarCurrentIndex] ||= Current.createHarmonyElement('VIEW')
+    if (!this._page) return null
+    if (typeof this._page.tabBarCurrentIndex !== 'undefined') {
+      this._page.layerNode ||= []
+      this._page.layerNode[this._page.tabBarCurrentIndex] ||= Current.createHarmonyElement('VIEW')
       // Tabbar
-      return Current.page.layerNode[Current.page.tabBarCurrentIndex]
+      return this._page.layerNode[this._page.tabBarCurrentIndex]
     } else {
-      Current.page.layerNode ||= Current.createHarmonyElement('VIEW')
-      return Current.page.layerNode
+      this._page.layerNode ||= Current.createHarmonyElement('VIEW')
+      return this._page.layerNode
     }
   }
 
   get currentLayerParents () {
-    if (!Current.page) return null
-    if (typeof Current.page.tabBarCurrentIndex !== 'undefined') {
-      Current.page.layerParents ||= []
-      Current.page.layerParents[Current.page.tabBarCurrentIndex] ||= []
+    if (!this._page) return null
+    if (typeof this._page.tabBarCurrentIndex !== 'undefined') {
+      this._page.layerParents ||= []
+      this._page.layerParents[this._page.tabBarCurrentIndex] ||= []
       // Tabbar
-      return Current.page.layerParents[Current.page.tabBarCurrentIndex]
+      return this._page.layerParents[this._page.tabBarCurrentIndex]
     } else {
-      Current.page.layerParents ||= []
-      return Current.page.layerParents
+      this._page.layerParents ||= []
+      return this._page.layerParents
     }
   }
 

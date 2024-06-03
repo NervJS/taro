@@ -1,6 +1,6 @@
 import type { TaroElement, HarmonyStyle } from '@tarojs/runtime'
 import { isUndefined } from '@tarojs/shared'
-import { getNormalAttributes } from './styles.ets'
+import { getNormalAttributes } from './styles'
 
 interface IFlexOptions {
   direction: FlexDirection,
@@ -39,7 +39,9 @@ class FlexManager {
 
   static useFlexLayout (node: TaroElement): boolean {
     const hmStyle: HarmonyStyle = getNormalAttributes(node) || {}
-    return !isUndefined(hmStyle.flexWrap) || [ItemAlign.Stretch, ItemAlign.Baseline].indexOf(hmStyle.alignItems!) !== -1
+    const isReverse = hmStyle.flexDirection && [FlexDirection.RowReverse, FlexDirection.ColumnReverse].indexOf(hmStyle.flexDirection) !== -1;
+    const isUnknownAlign = [ItemAlign.Stretch, ItemAlign.Baseline].indexOf(hmStyle.alignItems!) !== -1;
+    return !isUndefined(hmStyle.flexWrap) || isReverse || isUnknownAlign;
   }
 
   static flexOptions (node: TaroElement): IFlexOptions {

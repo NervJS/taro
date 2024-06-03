@@ -11,7 +11,7 @@ export class DynamicCenter {
     if (!node._isCompileMode || !node._instance) return
 
     if (node._attrs?._dynamicID) {
-      node._instance[node._attrs._dynamicID] = null
+      node._instance[node._attrs._dynamicID] = new TaroElement('Ignore')
     }
     node._instance = null
   }

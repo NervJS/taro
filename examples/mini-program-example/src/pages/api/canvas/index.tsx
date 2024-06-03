@@ -63,8 +63,7 @@ export default class Index extends React.Component {
           let args = { ...mydata }
           TestConsole.consoleTest('canvasToTempFilePath')
           if (canvas) {
-            const el = hooks.call('getDOMNode', _this)
-            const mycanvas = el.querySelector(`canvas[canvas-id="${_this.state.canvasId}"]`) as Taro.Canvas
+            const mycanvas = window.document.querySelector(`canvas[canvas-id="${_this.state.canvasId}"]`) as HTMLCanvasElement
             Object.assign(args, { canvas: mycanvas })
           }
           if (canvasId) {
@@ -87,7 +86,6 @@ export default class Index extends React.Component {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
             },
-            _this
           ).then((res) => {
             TestConsole.consoleResult.call(this, res, apiIndex)
           })

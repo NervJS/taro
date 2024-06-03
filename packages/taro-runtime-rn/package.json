@@ -1,41 +1,52 @@
 {
   "name": "@tarojs/runtime-rn",
-  "version": "4.0.0-beta.61",
+  "version": "4.0.0-alpha.19",
   "description": "taro-runtime-rn",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "dist/index.js",
-  "types": "./src/index.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "src"
   ],
   "scripts": {
-    "build": "tsc",
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./dist",
     "dev": "tsc -w",
-    "lint": "eslint ."
+    "build": "tsc",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
   },
   "keywords": [
-    "taro"
+    "taro",
+    "runtime-rn"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
-  "author": "yechunxi",
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
+  },
+  "engines": {
+    "node": ">= 18"
   },
   "dependencies": {
     "@tarojs/components-rn": "workspace:*",
     "@tarojs/router-rn": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "react-native-device-info": "~10.12.0",
-    "react-native-root-siblings": "^5.0.1"
+    "@tarojs/shared": "workspace:*"
   },
   "devDependencies": {
-    "react-native": "^0.73.1"
+    "react": "^18.2.0",
+    "react-native": "^0.72.3",
+    "react-native-device-info": "^10.12.0",
+    "react-native-root-siblings": "^5.0.1"
   },
   "peerDependencies": {
-    "@tarojs/shared": "workspace:*",
-    "react-native-device-info": "~10.12.0"
+    "react": ">= 18",
+    "react-native": ">= 0.63.0",
+    "react-native-device-info": ">= 10.0.0",
+    "react-native-root-siblings": ">= 5"
   }
 }

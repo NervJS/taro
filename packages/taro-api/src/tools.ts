@@ -5,7 +5,7 @@ export function Behavior (options) {
 }
 
 export function getPreload (current) {
-  return function (key: string | Record<string, unknown>, val: unknown) {
+  return function (key: any, val: unknown) {
     current.preloadData = isObject(key)
       ? key
       : {

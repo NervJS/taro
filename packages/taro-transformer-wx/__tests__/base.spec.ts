@@ -3,8 +3,8 @@ import { baseOptions, removeBackslashesSerializer, removeFrontBlank } from './ut
 
 expect.addSnapshotSerializer(removeBackslashesSerializer)
 
-jest.mock('fs', () => ({
-  ...jest.requireActual('fs'), // 保留原始的其他函数
+jest.mock('node:fs', () => ({
+  ...jest.requireActual('node:fs'), // 保留原始的其他函数
   appendFile: jest.fn(),
 }))
 

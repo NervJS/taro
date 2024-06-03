@@ -82,5 +82,6 @@ function setPlugin (ctx: IPluginContext, framework: Frameworks, chain) {
     const alias = chain.resolve.alias
     // Note: 本地 link 调试时，避免 react 重复打包
     alias.set('react$', resolveSync('react', resolveOptions))
+    alias.set('react-dom$', resolveSync('react-dom', resolveOptions))
   }
 }

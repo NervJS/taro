@@ -1,9 +1,10 @@
-import type { TaroAny, TaroMovableViewElement } from '@tarojs/runtime'
+import type { TaroAny, TaroMovableViewElement, TaroElement } from '@tarojs/runtime'
 
 import commonStyleModify, { rowModify, columnModify } from './style'
 
 import { FlexManager } from './utils/flexManager'
-import { isUndefined } from '@tarojs/shared'
+
+
 
 @Component
 export default struct TaroMovableView {
@@ -15,6 +16,7 @@ export default struct TaroMovableView {
   aboutToAppear(): void {
     if (this.node) {
       this.node._instance = this
+
     }
   }
 
@@ -39,27 +41,27 @@ export default struct TaroMovableView {
     }
     .translate({ x: this.node.position.x, y: this.node.position.y })
     .scale({ x: this.node.scaleValue, y: this.node.scaleValue })
-    .onAreaChange((oldValue: Area, newValue: Area) => {
-      this.node.selfSize = {w: Number(newValue.width), h: Number(newValue.height)}
+    .onSizeChange((oldValue: SizeOptions, newValue: SizeOptions) => {
+      if (this.node.selfSize?.w !== Number(newValue.width) || this.node.selfSize?.h !== Number(newValue.height)) {
+        this.node.selfSize = { w: Number(newValue.width), h: Number(newValue.height) }
+      }
     })
+    .visibility(this.node.visibility)
     .gesture(
-      GestureGroup(GestureMode.Exclusive,
-        PanGesture({fingers:1}).onActionStart((e: GestureEvent) => {
+      GestureGroup(GestureMode.Parallel,
+        PanGesture(getPanOption(this.node)).onActionStart((e: GestureEvent) => {
 
           this.node.startMove()
+          this.node.callTouchEventFnFromGesture('touchstart', e)
         }).onActionUpdate((e: GestureEvent) => {
-
+          this.node.callTouchEventFnFromGesture('touchmove', e)
           this.node.doMove({
             x: e.offsetX,
             y: e.offsetY
           })
-          // 事件处理
-          const bindchange = this.node.getAttribute('bindchange')
-          if (typeof bindchange === 'function') {
-          }
 
-        }).onActionEnd(() => {
-          // this.updatePosition()
+        }).onActionEnd((e: GestureEvent) => {
+          this.node.callTouchEventFnFromGesture('touchend', e)
           this.node.checkPositionBoundary(this.node.position, this.node.scaleValue)
         }),
         PinchGesture({ fingers: 2 }).onActionStart((event: GestureEvent) => {
@@ -70,4 +72,22 @@ export default struct TaroMovableView {
       )
     )
   }
+}
+
+
+function getPanOption(node: TaroMovableViewElement) {
+  const attrDirection = node.getAttribute('direction')
+  let panDirection = PanDirection.All
+
+  if(node.getAttribute('disabled')) {
+    panDirection = PanDirection.None
+  } else if(attrDirection === 'horizontal') {
+    panDirection = PanDirection.Horizontal
+  } else if (attrDirection === 'vertical') {
+    panDirection = PanDirection.Vertical
+  }
+  return new PanGestureOptions({
+    direction: panDirection,
+    fingers: 1
+  })
 }

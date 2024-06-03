@@ -1,10 +1,10 @@
 import { normalizePath, promoteRelativePath, readConfig, resolveMainFilePath } from '@tarojs/helper'
 import { isArray, isFunction, isString } from '@tarojs/shared'
-import { AppConfig, SubPackage } from '@tarojs/taro'
 import md5 from 'md5'
 import path from 'path'
 import SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 
+import type { AppConfig, SubPackage } from '@tarojs/taro'
 import type { Chunk, ChunkGraph, Compilation, Compiler, Module, sources } from 'webpack'
 import type { IFileType } from '../utils/types'
 import type { MiniCombination } from '../webpack/MiniCombination'
@@ -404,7 +404,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
             }
 
             const chunks: Chunk[] = Array.from(chunkGraph.getModuleChunks(module))
-            const chunkNames: string[] = chunks.map(chunk => chunk.name)
+            const chunkNames: string[] = chunks.map(chunk => chunk.name!)
             /**
              * 找出没有被主包引用，且被多个分包引用的module，并记录在subCommonDeps中
              */
@@ -423,7 +423,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
               } else {
                 const subCommonDep: DepInfo = this.subCommonDeps.get(depName) as DepInfo
 
-                chunks.map(chunk => subCommonDep.chunks.add(chunk.name))
+                chunks.map(chunk => subCommonDep.chunks.add(chunk.name!))
                 this.subCommonDeps.set(depName, subCommonDep)
               }
             }
@@ -451,7 +451,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         const existSubCommonDeps = new Map()
 
         for (const chunk of chunks) {
-          const chunkName = chunk.name
+          const chunkName = chunk.name!
 
           if (this.matchSubVendors(chunk)) {
             const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(chunkName)) as string
@@ -641,7 +641,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   }
 
   isSubChunk (chunk: Chunk): boolean {
-    const isSubChunk = this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(chunk.name))
+    const isSubChunk = this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(chunk.name!))
 
     return !!isSubChunk
   }
@@ -658,7 +658,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
    */
   matchSubVendors (chunk: Chunk): boolean {
     const subVendorsRegExps = this.subRoots.map(subRoot => new RegExp(`^${normalizePath(path.join(subRoot, SUB_VENDORS_NAME))}$`))
-    const isSubVendors = subVendorsRegExps.find(subVendorsRegExp => subVendorsRegExp.test(chunk.name))
+    const isSubVendors = subVendorsRegExps.find(subVendorsRegExp => subVendorsRegExp.test(chunk.name!))
 
     return !!isSubVendors
   }
@@ -667,7 +667,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
    * match sub-common\/*
    */
   matchSubCommon (chunk: Chunk): boolean {
-    return new RegExp(`^${SUB_COMMON_DIR}\\/`).test(chunk.name)
+    return new RegExp(`^${SUB_COMMON_DIR}\\/`).test(chunk.name!)
   }
 
   /**

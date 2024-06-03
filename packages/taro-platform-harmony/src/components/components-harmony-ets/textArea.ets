@@ -5,6 +5,11 @@ import { getNodeThresholds, getFontAttributes, shouldBindEvent, parseStyles } fr
 
 import type { TaroAny, TaroStyleType, TaroTextStyleType, TaroTextAreaElement, TaroEvent } from '@tarojs/runtime'
 
+interface TextareaAttrs extends TaroTextStyleType {
+  autoFocus?: boolean
+  disabled?: boolean
+}
+
 @Extend(TextArea)
 function textStyle (style: TaroStyleType) {
   .fontColor(style.color)
@@ -15,9 +20,18 @@ function textStyle (style: TaroStyleType) {
 }
 
 @Extend(TextArea)
-function textAttr(attr: TaroTextStyleType) {
+function textAttr(attr: TextareaAttrs) {
   .textAlign(attr.textAlign)
   .maxLines(attr.WebkitLineClamp)
+  .defaultFocus(attr.autoFocus)
+  .enabled(!attr.disabled)
+}
+
+function getAttributes(node: TaroTextAreaElement): TextareaAttrs {
+  const attrs: TaroAny = getFontAttributes(node)
+  attrs.autoFocus = node._attrs.autoFocus || node._attrs.focus || false
+  attrs.disabled = node._attrs.disabled || false
+  return attrs
 }
 
 function getPlaceholderColor (node: TaroTextAreaElement): string {
@@ -54,7 +68,7 @@ export default struct TaroTextArea {
       .placeholderColor(getPlaceholderColor(this.node))
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .textStyle(this.node?.hmStyle)
-      .textAttr(getFontAttributes(this.node))
+      .textAttr(getAttributes(this.node))
       .onChange((value: string) => {
         const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)
 

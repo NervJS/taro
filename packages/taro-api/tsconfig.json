@@ -5,8 +5,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "module": "ESNext",
-    "outDir": "dist",
-    "sourceMap": false
+    "outDir": "dist"
   },
-  "include": ["./src", "./types", "./rollup.config.ts"]
+  "include": ["./src", "./rollup.config.ts"]
 }

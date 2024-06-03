@@ -27,6 +27,14 @@ let windowRect
 
     try {
       display = _display.getDefaultDisplaySync()
+
+      setSafeArea({
+        top: statusBarHeight,
+        left: 0,
+        right: display.width,
+        bottom: navigationIndicatorRect?.top
+      })
+
       // @ts-ignore
       display.getCutoutInfo((err, { boundingRects = [], waterfallDisplayAreaRects = {} }: _display.CutoutInfo = {}) => {
         if (err?.code) {
@@ -38,20 +46,32 @@ let windowRect
         const bottom = Math.min(display.height - waterfallDisplayAreaRects.bottom?.top, navigationIndicatorRect?.top)
         const left = waterfallDisplayAreaRects.left?.left + waterfallDisplayAreaRects.left?.width
         const right = display.width - waterfallDisplayAreaRects.right?.left
-        safeArea = {
+
+        setSafeArea({
           top,
-          bottom,
           left,
           right,
-          height: bottom - top,
-          width: right - left,
-        }
+          bottom
+        })
       })
     } catch (e) {
       console.error('Failed to get display', e)
     }
   })
 })
+
+
+function setSafeArea({ top, left, right, bottom }) {
+  safeArea = {
+    top,
+    bottom,
+    left,
+    right,
+    height: bottom - top,
+    width: right - left,
+  }
+}
+
 
 /* 同步版本 */
 export const getSystemInfoSync: typeof Taro.getSystemInfoSync = function () {

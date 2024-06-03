@@ -1,24 +1,28 @@
 {
   "name": "jest-taro-helper",
-  "version": "4.0.0-beta.61",
+  "version": "4.0.0-alpha.19",
   "description": "jest helper for taro",
   "private": true,
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "files": [
     "lib"
   ],
   "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./lib",
     "build": "tsc",
     "dev": "tsc -w"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@jest/test-sequencer": "^29.5.0",
-    "jest-resolve": "^29.5.0",
-    "jest-runner": "^29.5.0",
-    "pretty-format": "^29.5.0",
-    "typescript": "^4.7.4"
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "@jest/test-sequencer": "^29.7.0",
+    "jest-resolve": "^29.7.0",
+    "jest-runner": "^29.7.0"
   }
 }

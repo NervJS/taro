@@ -4,7 +4,8 @@
 export function loadAnimateStyle (ms = 300) {
   const css = `
 body {
-  overflow: hidden; // 防止 iOS 页面滚动
+  /* 防止 iOS 页面滚动 */
+  overflow: hidden;
 }
 .taro_router > .taro_page {
   position: absolute;
@@ -64,8 +65,9 @@ ${
   }
 
 ` : ''}
-  .taro_page_shade,
-  .taro_router > .taro_page.taro_page_show.taro_page_stationed:not(.taro_page_shade):not(.taro_tabbar_page):not(:last-child) {
+  .taro_page_shade:has(+.taro_page_stationed),
+  .taro_page_shade.taro_tabbar_page,
+  .taro_router > .taro_page.taro_page_show.taro_page_stationed:not(.taro_page_shade):not(.taro_tabbar_page):not(:last-child):has(+.taro_page_stationed) {
     display: none;
   }
 `
@@ -134,7 +136,7 @@ export function loadNavigationBarStyle () {
     to {
       transform: rotate(360deg);
     }
-  }  
+  }
 
   .taro-navigation-bar-no-icon > .taro-navigation-bar-home {
     display: none;

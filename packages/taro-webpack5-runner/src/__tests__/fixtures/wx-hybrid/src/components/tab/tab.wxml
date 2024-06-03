@@ -1,3 +1,0 @@
-<view class="tab" bindtap="clickHandler">
-  {{myProperty}}
-</view>

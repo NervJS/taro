@@ -101,7 +101,7 @@ export function previewProd (opt: PreviewOption):void {
           response.end('500', 'utf-8')
         }
       } else {
-        response.writeHead(200, { 'Content-Type': contentType })
+        response.writeHead(200, { 'Content-Type': contentType as string })
         response.end(content, 'utf-8')
       }
     })

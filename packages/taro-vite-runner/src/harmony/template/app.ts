@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 import { escapePath, resolveAbsoluteRequire } from '../../utils'
 import { TARO_COMP_SUFFIX } from '../entry'
@@ -48,12 +48,12 @@ export default class Parser extends BaseParser {
       'initPxTransform({',
       this.transArr2Str([
         `designWidth: ${this.pxTransformConfig.designWidth},`,
-        `deviceRatio: (${JSON.stringify(this.pxTransformConfig.deviceRatio)}) as Record<string, number>,`,
+        `deviceRatio: ${JSON.stringify(this.pxTransformConfig.deviceRatio)},`,
         `baseFontSize: ${this.pxTransformConfig.baseFontSize},`,
         `unitPrecision: ${this.pxTransformConfig.unitPrecision},`,
         `targetUnit: ${JSON.stringify(this.pxTransformConfig.targetUnit)},`,
       ], 2),
-      '} as TaroAny)',
+      '})',
     ])
   }
 
@@ -96,6 +96,7 @@ export default class Parser extends BaseParser {
     stage.loadContent('${entryPath}', (err, data) => {
       const windowClass = stage.getMainWindowSync()
       Current.uiContext = windowClass.getUIContext()
+      windowClass.setWindowLayoutFullScreen(true)
 
       if (err.code) {
         return callFn(this.app?.onError, this, err)
@@ -153,12 +154,10 @@ export default class Parser extends BaseParser {
       'import { callFn, context, Current, ObjectAssign, TaroAny, window } from "@tarojs/runtime"',
       'import { AppInstance } from "@tarojs/runtime/dist/runtime.esm"',
       'import { initHarmonyElement, hooks } from "@tarojs/runtime"',
-      'import { initPxTransform } from "@tarojs/taro"',
       `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
       this.#setReconcilerPost,
       '',
       'window.__taroAppConfig = config',
-      this.getInitPxTransform(),
       this.instantiateApp,
     ])
 
@@ -179,10 +178,12 @@ export default class Parser extends BaseParser {
     const createApp = `${creator}(component, ${frameworkArgs})`
 
     return this.transArr2Str([
+      'import { initPxTransform } from "@tarojs/taro"',
       `import { ${creator} } from "${creatorLocation}"`,
       `import component from "${escapePath(rawId)}"`,
       importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(config)}`,
+      this.getInitPxTransform(),
       `export default () => ${createApp}`,
     ])
   }

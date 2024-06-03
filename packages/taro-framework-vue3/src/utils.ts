@@ -1,8 +1,8 @@
 import { chalk } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
-import { IPluginContext } from '@tarojs/service'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
+import type { IPluginContext } from '@tarojs/service'
 import type { AttributeNode, DirectiveNode, ElementNode, RootNode, SimpleExpressionNode, TemplateChildNode } from '@vue/compiler-core'
 import type { IConfig } from './index'
 

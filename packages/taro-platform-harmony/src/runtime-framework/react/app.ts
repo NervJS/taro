@@ -196,7 +196,7 @@ export function createReactApp (
             const keys = Object.keys(globalData)
             const descriptors = Object.getOwnPropertyDescriptors(globalData)
             keys.forEach(key => {
-              Object.defineProperty(this, key, {
+              Object.defineProperty(Current?.app || this, key, {
                 configurable: true,
                 enumerable: true,
                 get () {
@@ -207,7 +207,7 @@ export function createReactApp (
                 }
               })
             })
-            Object.defineProperties(this, descriptors)
+            Object.defineProperties(Current?.app || this, descriptors)
           }
 
           app.onCreate?.()

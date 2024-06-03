@@ -1,14 +1,14 @@
 import _ from 'lodash'
 import stylelint from 'stylelint'
-import isCustomProperty from 'stylelint/lib/utils/isCustomProperty'
-import isStandardSyntaxProperty from 'stylelint/lib/utils/isStandardSyntaxProperty'
-import matchesStringOrRegExp from 'stylelint/lib/utils/matchesStringOrRegExp'
-import validateObjectWithArrayProps from 'stylelint/lib/utils/validateObjectWithArrayProps'
-import validateOptions from 'stylelint/lib/utils/validateOptions'
-import { isBoolean, isRegExp, isString } from 'stylelint/lib/utils/validateTypes'
-import vendor from 'stylelint/lib/utils/vendor'
+import isCustomProperty from 'stylelint/lib/utils/isCustomProperty.mjs'
+import isStandardSyntaxProperty from 'stylelint/lib/utils/isStandardSyntaxProperty.mjs'
+import matchesStringOrRegExp from 'stylelint/lib/utils/matchesStringOrRegExp.mjs'
+import validateObjectWithArrayProps from 'stylelint/lib/utils/validateObjectWithArrayProps.mjs'
+import validateOptions from 'stylelint/lib/utils/validateOptions.mjs'
+import { isBoolean, isRegExp, isString } from 'stylelint/lib/utils/validateTypes.mjs'
+import vendor from 'stylelint/lib/utils/vendor.mjs'
 
-import { log, nameSpace, report, taroDocsUrl } from '../../utils'
+import { log, nameSpace, report, taroDocsUrl } from '../../utils/index.ts'
 
 import type { Rule } from 'stylelint'
 
@@ -39,7 +39,7 @@ const rule: Rule = (primary) => {
       return
     }
 
-    const _arr = []
+    const _arr: string[] = []
     Object.keys(primary).forEach(key => {
       _arr.push(...Object.keys(primary[key]))
     })
@@ -62,7 +62,7 @@ const rule: Rule = (primary) => {
         return
       }
 
-      const platform = []
+      const platform: string[] = []
       Object.keys(primary).forEach(key => {
         if (primary[key]) {
           const platformKeys = Object.keys(primary[key])

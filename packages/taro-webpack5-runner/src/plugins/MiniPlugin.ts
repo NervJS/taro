@@ -194,7 +194,7 @@ export default class TaroMiniPlugin {
       PLUGIN_NAME,
       this.tryAsync<Compiler>(async compiler => {
         const changedFiles = this.getChangedFiles(compiler)
-        if (changedFiles?.size > 0) {
+        if (changedFiles && changedFiles?.size > 0) {
           this.isWatch = true
         }
         await this.run(compiler)

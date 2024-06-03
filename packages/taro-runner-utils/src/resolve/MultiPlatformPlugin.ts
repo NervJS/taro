@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import helper from '@tarojs/helper'
-import * as path from 'path'
 
 interface IOptions {
   include?: string[]

@@ -2,7 +2,8 @@ const fs = require('@tarojs/helper').fs
 
 fs.ensureDirSync('./dist/template')
 
-const rs = fs.createReadStream('./src/template/comp.ts')
-const ws = fs.createWriteStream('./dist/template/comp.js')
+fs.createReadStream('./src/template/comp.ts')
+  .pipe(fs.createWriteStream('./dist/template/comp.js'))
 
-rs.pipe(ws)
+fs.createReadStream('./src/template/custom-wrapper.ts')
+  .pipe(fs.createWriteStream('./dist/template/custom-wrapper.js'))

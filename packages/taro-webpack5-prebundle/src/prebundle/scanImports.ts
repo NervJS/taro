@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { defaultEsbuildLoader, defaultMainFields, esbuild, externalEsbuildModule, fs } from '@tarojs/helper'
-import path from 'path'
 
 import { getDefines, getResolve, isExclude, isOptimizeIncluded, isScanIncluded } from '../utils'
 import {

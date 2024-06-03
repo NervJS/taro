@@ -1,9 +1,10 @@
+import path from 'node:path'
+
 import { babel } from '@rollup/plugin-babel'
 import inject from '@rollup/plugin-inject'
 import { defaultMainFields, fs, PLATFORMS, recursiveMerge, resolveMainFilePath } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
-import path from 'path'
 
 import increment from '../common/rollup-increment-plugin'
 import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'

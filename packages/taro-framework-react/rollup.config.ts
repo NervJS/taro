@@ -1,11 +1,14 @@
-import path from 'path'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+import typescript from '@rollup/plugin-typescript'
 import { defineConfig } from 'rollup'
-import { externals } from 'rollup-plugin-node-externals'
-import ts from 'rollup-plugin-ts'
+import externals from 'rollup-plugin-node-externals'
 
 import type { RollupOptions } from 'rollup'
 
-const cwd = __dirname
+const __filename = fileURLToPath(new URL(import.meta.url))
+const cwd = path.dirname(__filename)
 
 const base: RollupOptions = {
   plugins: [
@@ -14,7 +17,7 @@ const base: RollupOptions = {
       devDeps: false,
       include: [/@tarojs/]
     }),
-    ts(),
+    typescript(),
   ]
 }
 

@@ -2,40 +2,12 @@
 const babelPresetTaro = require('..')
 
 describe('babel-preset-taro', () => {
-  it('nerv', () => {
-    const config = babelPresetTaro({}, {
-      framework: 'nerv'
-    })
-
-    expect(config.sourceType).toBe('unambiguous')
-
-    const [override] = config.overrides
-
-    const [, [_, reactConfig]] = override.presets
-    expect(reactConfig.pragma).toBe('Nerv.createElement')
-    expect(reactConfig.pragmaFrag).toBe('Nerv.Fragment')
-  })
-
   it('react', () => {
     const config = babelPresetTaro({}, {
       framework: 'react'
     })
 
     expect(config.sourceType).toBe('unambiguous')
-  })
-
-  it('vue', () => {
-    const config = babelPresetTaro({}, {
-      framework: 'vue'
-    })
-
-    expect(config.sourceType).toBe('unambiguous')
-
-    const [override] = config.overrides
-
-    const [, [jsxPreset, jsxOptions]] = override.presets
-    expect(jsxPreset === require('@vue/babel-preset-jsx')).toBeTruthy()
-    expect(jsxOptions).toEqual({})
   })
 
   it('vue3', () => {
@@ -50,20 +22,6 @@ describe('babel-preset-taro', () => {
     const [[jsxPlugin, jsxOptions]] = override.plugins
     expect(jsxPlugin === require('@vue/babel-plugin-jsx')).toBeTruthy()
     expect(jsxOptions).toEqual({})
-  })
-
-  it('vue without jsx', () => {
-    const config = babelPresetTaro({}, {
-      framework: 'vue',
-      vueJsx: false
-    })
-
-    expect(config.sourceType).toBe('unambiguous')
-
-    const [override] = config.overrides
-
-    const [, jsxPreset] = override.presets
-    expect(jsxPreset).toBeUndefined()
   })
 
   it('vue3 without jsx', () => {
@@ -95,30 +53,19 @@ describe('babel-preset-taro', () => {
     expect(tsconfig.jsxPragma === 'React').toBeTruthy()
   })
 
-  it('typescript nerv', () => {
+  it('typescript vue3', () => {
     const config = babelPresetTaro({}, {
-      framework: 'nerv',
+      framework: 'vue3',
       ts: true
     })
 
-    const [override] = config.overrides
-
-    const [, , [ts, tsconfig]] = override.presets
-    expect(typeof ts.default === 'function').toBeTruthy()
-    expect(tsconfig.jsxPragma === 'Nerv').toBeTruthy()
-  })
-
-  it('typescript vue', () => {
-    const config = babelPresetTaro({}, {
-      framework: 'vue',
-      ts: true
-    })
-
-    const [override, vueOverride] = config.overrides
-    const [, , [ts, tsconfig]] = override.presets
+    const [, vueOverride] = config.overrides
+    const [[ts, tsConfig]] = vueOverride.presets
 
     expect(typeof ts.default === 'function').toBeTruthy()
-    expect(tsconfig.hasOwnProperty('jsxPragma') === false).toBeTruthy()
+    expect(tsConfig.hasOwnProperty('jsxPragma') === false).toBeTruthy()
+    expect(tsConfig.allExtensions).toBeTruthy()
+    expect(tsConfig.isTSX).toBeTruthy()
 
     expect(vueOverride.include.test('a.vue')).toBeTruthy()
   })

@@ -1,8 +1,9 @@
 import generate from '@babel/generator'
 import { parse } from '@babel/parser'
-import traverse, { Binding, NodePath } from '@babel/traverse'
+import template from '@babel/template'
+import traverse from '@babel/traverse'
 import * as t from '@babel/types'
-import { prettyPrint } from 'html'
+import * as prettier from 'prettier'
 import { cloneDeep, get as safeGet, isArray, snakeCase } from 'lodash'
 import * as ts from 'typescript'
 
@@ -33,7 +34,6 @@ import {
   TARO_PACKAGE_NAME,
   THIRD_PARTY_COMPONENTS,
 } from './constant'
-import { isTestEnv } from './env'
 import { resetGlobals } from './global'
 import { Options, setTransformOptions } from './options'
 import {
@@ -50,7 +50,7 @@ import {
 } from './utils'
 import { traverseWxsFile } from './wxs'
 
-const template = require('@babel/template')
+import type { Binding, NodePath } from '@babel/traverse'
 
 function getIdsFromMemberProps(member: t.MemberExpression) {
   let ids: string[] = []
@@ -130,7 +130,7 @@ function findDeclarationScope(path: NodePath<t.Node>, id: t.Identifier) {
   throw codeFrameError(path.node, '该引用从未被定义')
 }
 
-function buildFullPathThisPropsRef(id: t.Identifier, memberIds: string[], path: NodePath<t.Node>) {
+function buildFullPathThisPropsRef(id: t.Identifier, memberIds: string[], path: NodePath<t.Node>): t.MemberExpression | undefined {
   const scopePath = findDeclarationScope(path, id)
   const binding = scopePath.scope.getOwnBinding(id.name)
   if (binding) {
@@ -145,7 +145,7 @@ function buildFullPathThisPropsRef(id: t.Identifier, memberIds: string[], path: 
           memberIds.shift()
         }
         if (dclInitIds[0] === 'this' && dclInitIds[1] === 'props') {
-          return template(dclInitIds.concat(memberIds).join('.'))().expression
+          return template.expression(dclInitIds.concat(memberIds).join('.'))() as t.MemberExpression
         }
       }
     }
@@ -951,10 +951,7 @@ export default function transform(options: TransformOptions): TransformResult {
   result.ast = ast
   const lessThanSignReg = new RegExp(lessThanSignPlacehold, 'g')
   result.compressedTemplate = result.template.replace(lessThanSignReg, '<')
-  result.template = prettyPrint(result.template, {
-    max_char: 0,
-    unformatted: isTestEnv ? [] : ['text'],
-  })
+  result.template = prettier.format(result.template, { parser: 'html' })
   result.template = result.template.replace(lessThanSignReg, '<')
   result.imageSrcs = Array.from(imageSource)
   return result

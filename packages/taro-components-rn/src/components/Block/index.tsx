@@ -1,4 +1,5 @@
 import * as React from 'react'
+
 import { _ViewProps } from '../View/PropsType'
 
 // _Block.displayName = '_Block'

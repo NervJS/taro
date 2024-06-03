@@ -1,7 +1,9 @@
 {
   "name": "eslint-config-taro",
-  "version": "4.0.0-beta.61",
+  "version": "4.0.0-alpha.19",
   "description": "Taro specific linting rules for ESLint",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "files": [
     "rules",
@@ -9,10 +11,7 @@
     "html-tags.js",
     "react.js",
     "preact.js",
-    "nerv.js",
-    "vue.js",
-    "vue3.js",
-    "README.md"
+    "vue3.js"
   ],
   "repository": {
     "type": "git",
@@ -23,23 +22,30 @@
     "react",
     "jsx"
   ],
-  "dependencies": {
-    "@babel/eslint-parser": "^7.17.0",
-    "@typescript-eslint/parser": "^6.2.0"
+  "engines": {
+    "node": ">= 18"
   },
-  "devDependencies": {
-    "@babel/core": "^7.14.5",
+  "dependencies": {
+    "@babel/eslint-parser": "^7.24.1",
+    "@typescript-eslint/parser": "^6.2.0",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
-    "eslint": "^8.12.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.4.0",
-    "eslint-plugin-vue": "^9.17.0",
-    "typescript": "^4.7.4"
+    "eslint-plugin-import": "^2.29.1"
   },
   "peerDependencies": {
-    "eslint": "*"
+    "eslint": "^8",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-plugin-vue": "^9.17.0"
   },
-  "author": "O2Team",
-  "license": "MIT"
+  "peerDependenciesMeta": {
+    "eslint-plugin-react": {
+      "optional": true
+    },
+    "eslint-plugin-react-hooks": {
+      "optional": true
+    },
+    "eslint-plugin-vue": {
+      "optional": true
+    }
+  }
 }

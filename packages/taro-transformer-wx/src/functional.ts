@@ -1,5 +1,4 @@
 import generate from '@babel/generator'
-import { Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 import { cloneDeep } from 'lodash'
 
@@ -7,6 +6,8 @@ import { DEFAULT_Component_SET } from './constant'
 import { transformOptions } from './options'
 import { injectRenderPropsListener } from './render-props'
 import { buildConstVariableDeclaration, codeFrameError } from './utils'
+
+import type { Visitor } from '@babel/traverse'
 
 function initialIsCapital(word: string) {
   return word[0] !== word[0].toLowerCase()
