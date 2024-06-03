@@ -5,5 +5,5 @@
     "esModuleInterop": true,
     "module": "ESNext"
   },
-  "include": ["./src", "./rollup.config.ts", "./types"]
+  "include": ["./src", "./rollup.config.ts", "./index.d.ts"]
 }

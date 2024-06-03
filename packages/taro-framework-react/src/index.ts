@@ -16,7 +16,7 @@ import type { PluginOption } from 'vite'
 export type Frameworks = 'react' | 'preact' | 'solid' | 'vue3'
 
 export function isReactLike(framework: IProjectConfig['framework'] = 'react'): framework is Frameworks {
-  return ['react', 'preact', 'nerv'].includes(framework)
+  return ['react', 'preact'].includes(framework)
 }
 
 export default (ctx: IPluginContext) => {
@@ -97,18 +97,11 @@ export default (ctx: IPluginContext) => {
 
 function setAlias (framework: Frameworks, chain) {
   const alias = chain.resolve.alias
-
-  switch (framework) {
-    case 'preact':
-      alias.set('react', 'preact/compat')
-      alias.set('react-dom/test-utils', 'preact/test-utils')
-      alias.set('react-dom', 'preact/compat')
-      alias.set('react/jsx-runtime', 'preact/jsx-runtime')
-      break
-    case 'nerv':
-      alias.set('react$', 'nervjs')
-      alias.set('react-dom$', 'nervjs')
-      break
+  if (framework === 'preact') {
+    alias.set('react', 'preact/compat')
+    alias.set('react-dom/test-utils', 'preact/test-utils')
+    alias.set('react-dom', 'preact/compat')
+    alias.set('react/jsx-runtime', 'preact/jsx-runtime')
   }
 }
 
