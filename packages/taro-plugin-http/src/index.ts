@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import { isArray, isObject, isString } from '@tarojs/shared'
+import { isArray, isString } from '@tarojs/shared'
 
 import { name as packageName } from '../package.json'
 

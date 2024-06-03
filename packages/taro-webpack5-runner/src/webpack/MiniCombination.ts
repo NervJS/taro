@@ -1,4 +1,4 @@
-import { taroJsComponents } from '@tarojs/helper'
+import { REG_NODE_MODULES_DIR, REG_TARO_SCOPED_PACKAGE, taroJsComponents } from '@tarojs/helper'
 import path from 'path'
 
 import { componentConfig } from '../utils/component'
@@ -131,12 +131,12 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
           vendors: {
             name: 'vendors',
             minChunks: 2,
-            test: module => /[\\/]node_modules[\\/]/.test(module.resource),
+            test: module => REG_NODE_MODULES_DIR.test(module.resource),
             priority: 10
           },
           taro: {
             name: 'taro',
-            test: module => /@tarojs[\\/][a-z]+/.test(module.context),
+            test: module => REG_TARO_SCOPED_PACKAGE.test(module.context),
             priority: 100
           }
         }

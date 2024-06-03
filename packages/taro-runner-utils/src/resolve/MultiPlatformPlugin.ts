@@ -1,6 +1,6 @@
 import * as path from 'node:path'
 
-import helper from '@tarojs/helper'
+import helper, { REG_NODE_MODULES } from '@tarojs/helper'
 
 interface IOptions {
   include?: string[]
@@ -53,7 +53,7 @@ export class MultiPlatformPlugin {
             return callback()
           }
 
-          if (/node_modules/.test(srcRequest) && !this.includes(srcRequest)) {
+          if (REG_NODE_MODULES.test(srcRequest) && !this.includes(srcRequest)) {
             return callback()
           }
 

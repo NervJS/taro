@@ -83,9 +83,9 @@ export default struct TaroSwiper {
         const isVertical = this.node._attrs.vertical || false
         let event: TaroEvent
         if (isVertical) {
-          event = createTaroEvent('transition', { detail: { dx: 0, dy: currentOffset } }, this.node)
+          event = createTaroEvent('transition', { detail: { dx: 0, dy: vp2px(currentOffset) } }, this.node)
         } else {
-          event = createTaroEvent('transition', { detail: { dx: currentOffset, dy: 0 } }, this.node)
+          event = createTaroEvent('transition', { detail: { dx: vp2px(currentOffset), dy: 0 } }, this.node)
         }
         eventHandler(event, 'transition', this.node)
       }, this.node, ['transition']))

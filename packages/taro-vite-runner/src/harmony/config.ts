@@ -2,7 +2,7 @@ import path from 'node:path'
 
 import { babel } from '@rollup/plugin-babel'
 import inject from '@rollup/plugin-inject'
-import { defaultMainFields, fs, PLATFORMS, recursiveMerge, resolveMainFilePath } from '@tarojs/helper'
+import { defaultMainFields, fs, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR, resolveMainFilePath } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 
@@ -224,7 +224,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           const moduleInfo = getModuleInfo(id)
           if (taroConfig.isBuildNativeComp || taroConfig.blended) return
 
-          if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
+          if (REG_NODE_MODULES_DIR.test(id) || /commonjsHelpers\.js$/.test(id)) {
             return 'vendors'
           } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1 && !isVirtualModule(id)) {
             return 'common'
@@ -273,7 +273,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               increment({
                 force: (id) => /app\.config/.test(id),
                 comparisonId: (id = '', files) => {
-                  if (/[\\/]node_modules[\\/]/.test(id)) return false
+                  if (REG_NODE_MODULES_DIR.test(id)) return false
 
                   const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
                   const etx = path.extname(rawId)
