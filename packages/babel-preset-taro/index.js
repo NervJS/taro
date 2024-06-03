@@ -34,7 +34,7 @@ module.exports = (_, options = {}) => {
   const isSolid = options.framework === 'solid'
   // vite 不需要 vue 的 preset，在内部已经处理了
   const isVue3 = options.framework === 'vue3' && !isVite
-   // vite 不需要使用 babel 处理 ts，在 esbuild 中处理了
+  // vite 不需要使用 babel 处理 ts，在 esbuild 中处理了
   const isTs = options.ts && !isVite
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
   const presetReactConfig = options.react || {}
