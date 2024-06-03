@@ -1,6 +1,7 @@
 import generate from '@babel/generator'
 import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
+import { NODE_MODULES } from '@tarojs/helper'
 import { get as safeGet, kebabCase, set as safeSet, uniqueId } from 'lodash'
 import { extname, sep } from 'path'
 
@@ -44,8 +45,6 @@ const stopPropagationExpr = require('@babel/template').default(
 // const stopPropagationExpr = require('babel-template')(`typeof e === 'object' && e.stopPropagation && e.stopPropagation()`)
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
-
-const NODE_MODULES = 'node_modules'
 
 function buildConstructor() {
   const ctor = t.classMethod(

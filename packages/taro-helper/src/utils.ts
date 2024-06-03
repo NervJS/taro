@@ -12,12 +12,12 @@ import * as path from 'path'
 
 import {
   CSS_EXT,
-  CSS_IMPORT_REG,
-  NODE_MODULES_REG,
   PLATFORMS,
   processTypeEnum,
   processTypeMap,
+  REG_CSS_IMPORT,
   REG_JSON,
+  REG_NODE_MODULES,
   SCRIPT_EXT,
   TARO_CONFIG_FOLDER,
 } from './constants'
@@ -32,7 +32,7 @@ export function normalizePath(path: string) {
   return path.replace(/\\/g, '/').replace(/\/{2,}/g, '/')
 }
 
-export const isNodeModule = (filename: string): boolean => NODE_MODULES_REG.test(filename)
+export const isNodeModule = (filename: string): boolean => REG_NODE_MODULES.test(filename)
 
 export function isNpmPkg(name: string): boolean {
   if (/^(\.|\/)/.test(name)) {
@@ -353,7 +353,7 @@ export function cssImports(content: string): string[] {
   let match: RegExpExecArray | null
   const results: string[] = []
   content = String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
-  while ((match = CSS_IMPORT_REG.exec(content))) {
+  while ((match = REG_CSS_IMPORT.exec(content))) {
     results.push(match[2])
   }
   return results

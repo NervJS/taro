@@ -1,8 +1,9 @@
-import { defaultMainFields, PLATFORMS, recursiveMerge } from '@tarojs/helper'
+import path from 'node:path'
+
+import { defaultMainFields, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isNumber, isObject, isString, PLATFORM_TYPE } from '@tarojs/shared'
 import { get } from 'lodash'
-import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
 import { addTrailingSlash, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule } from '../utils'
@@ -136,7 +137,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
             assetFileNames: taroConfig.output!.assetFileNames,
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
-              if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
+              if (REG_NODE_MODULES_DIR.test(id) || /commonjsHelpers\.js$/.test(id)) {
                 return 'vendors'
               } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1 && !isVirtualModule(id)) {
                 return 'common'

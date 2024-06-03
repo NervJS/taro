@@ -1,6 +1,6 @@
 import { transformSync } from '@babel/core'
 import { dataToEsm } from '@rollup/pluginutils'
-import { chalk, CSS_EXT, fs, NODE_MODULES_REG, REG_JS, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
+import { chalk, CSS_EXT, fs, REG_JS, REG_NODE_MODULES, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
 import { parse as parseJSXStyle } from '@tarojs/parse-css-to-stylesheet'
 import { isEqual } from 'lodash'
 import MagicString from 'magic-string'
@@ -153,7 +153,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
         loadParseImportRE.test(id)
       ) return
       // 如果是node_modules的文件，判断是否js\jsx\tsx
-      if (NODE_MODULES_REG.test(id)) {
+      if (REG_NODE_MODULES.test(id)) {
         if (REG_JS.test(id) || REG_SCRIPTS.test(id)) {
           // 读写内容，判断raw是否含有createElement 或者 jsx-runtime
           if (!(raw.includes('createElement') || raw.includes('jsx-runtime'))) {

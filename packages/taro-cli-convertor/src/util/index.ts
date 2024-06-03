@@ -1,11 +1,12 @@
 import generate from '@babel/generator'
 import {
   chalk,
-  CSS_IMPORT_REG,
   fs,
+  NODE_MODULES,
   printLog,
   processTypeEnum,
   promoteRelativePath,
+  REG_CSS_IMPORT,
   REG_SCRIPT,
   REG_TYPESCRIPT,
   resolveScriptPath,
@@ -17,8 +18,6 @@ import * as prettier from 'prettier'
 import { globals } from './global'
 
 import type * as t from '@babel/types'
-
-const NODE_MODULES = 'node_modules'
 
 /* 代码格式化参数 */
 const prettierJSConfig: prettier.Options = {
@@ -447,7 +446,7 @@ export function getWxssImports (content: string) {
 
   let match
   const imports: string[] = []
-  const cssImportReg = new RegExp(CSS_IMPORT_REG)
+  const cssImportReg = new RegExp(REG_CSS_IMPORT)
   while ((match = cssImportReg.exec(contentWithoutComment)) !== null) {
     imports.push(match[2])
   }

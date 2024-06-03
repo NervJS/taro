@@ -3,6 +3,7 @@ import {
   recursiveMerge,
   REG_CSS,
   REG_LESS,
+  REG_NODE_MODULES,
   REG_SASS_SASS,
   REG_SASS_SCSS,
   REG_STYLUS,
@@ -81,31 +82,6 @@ export class HarmonyWebpackModule {
       },
 
       script: this.getScriptRule(),
-
-      // template: {
-      //   test: REG_TEMPLATE,
-      //   type: 'asset/resource',
-      //   generator: {
-      //     filename ({ filename }) {
-      //       const extname = path.extname(filename)
-      //       return filename.replace(sourceRoot + '/', '').replace(extname, fileType.templ).replace(/node_modules/gi, 'npm')
-      //     }
-      //   },
-      //   use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniTemplateLoader'), {
-      //     buildAdapter
-      //   })]
-      // },
-
-      // xscript: {
-      //   test: new RegExp(`\\${this.combination.fileType.xs || 'wxs'}$`),
-      //   type: 'asset/resource',
-      //   generator: {
-      //     filename ({ filename }) {
-      //       return filename.replace(sourceRoot + '/', '').replace(/node_modules/gi, 'npm')
-      //     }
-      //   },
-      //   use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniXScriptLoader'))]
-      // },
 
       media: this.getMediaRule(),
 
@@ -198,7 +174,7 @@ export class HarmonyWebpackModule {
     if (compile.exclude && compile.exclude.length) {
       rule.exclude = [
         ...compile.exclude,
-        filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
+        filename => /css-loader/.test(filename) || (REG_NODE_MODULES.test(filename) && !(/taro/.test(filename)))
       ]
     } else if (compile.include && compile.include.length) {
       rule.include = [
@@ -207,7 +183,7 @@ export class HarmonyWebpackModule {
         filename => /taro/.test(filename)
       ]
     } else {
-      rule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
+      rule.exclude = [filename => /css-loader/.test(filename) || (REG_NODE_MODULES.test(filename) && !(/taro/.test(filename)))]
     }
 
     // rule.use.compilerLoader = WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniCompilerLoader'), {

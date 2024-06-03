@@ -3,6 +3,7 @@ import {
   recursiveMerge,
   REG_CSS,
   REG_LESS,
+  REG_NODE_MODULES,
   REG_SASS_SASS,
   REG_SASS_SCSS,
   REG_STYLUS,
@@ -92,7 +93,7 @@ export class MiniWebpackModule {
         generator: {
           filename ({ filename }) {
             const extname = path.extname(filename)
-            return filename.replace(sourceRoot + '/', '').replace(extname, fileType.templ).replace(/node_modules/gi, 'npm')
+            return filename.replace(sourceRoot + '/', '').replace(extname, fileType.templ).replace(REG_NODE_MODULES, 'npm')
           }
         },
         use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniTemplateLoader'), {
@@ -105,7 +106,7 @@ export class MiniWebpackModule {
         type: 'asset/resource',
         generator: {
           filename ({ filename }) {
-            return filename.replace(sourceRoot + '/', '').replace(/node_modules/gi, 'npm')
+            return filename.replace(sourceRoot + '/', '').replace(REG_NODE_MODULES, 'npm')
           }
         },
         use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniXScriptLoader'))]
