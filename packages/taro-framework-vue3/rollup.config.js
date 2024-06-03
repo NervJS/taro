@@ -1,28 +1,21 @@
-import path from 'node:path'
+import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import ts from '@rollup/plugin-typescript'
-import { defineConfig } from 'rollup'
+import typescript from '@rollup/plugin-typescript'
 import externals from 'rollup-plugin-node-externals'
-
-import type { RollupOptions } from 'rollup'
 
 const __filename = fileURLToPath(new URL(import.meta.url))
 const cwd = path.dirname(__filename)
 
-const base: RollupOptions = {
+const base = {
   plugins: [
-    externals({
-      deps: true,
-      devDeps: false,
-      include: [/@tarojs/]
-    }),
-    ts(),
+    externals(),
+    typescript(),
   ]
 }
 
 // 供 CLI 编译时使用的 Taro 插件入口
-const compileConfig: RollupOptions = {
+const compileConfig = {
   input: path.join(cwd, 'src/index.ts'),
   output: {
     file: path.join(cwd, 'dist/index.js'),
@@ -34,7 +27,7 @@ const compileConfig: RollupOptions = {
 }
 
 // 供 Loader 使用的运行时入口
-const runtimeConfig: RollupOptions = {
+const runtimeConfig = {
   input: path.join(cwd, 'src/runtime/index.ts'),
   output: {
     file: path.join(cwd, 'dist/runtime.js'),
@@ -44,18 +37,8 @@ const runtimeConfig: RollupOptions = {
   ...base
 }
 
-const reconcilerConfig: RollupOptions = {
-  input: path.join(cwd, 'src/reconciler/index.ts'),
-  output: {
-    file: path.join(cwd, 'dist/reconciler.js'),
-    format: 'es',
-    sourcemap: true
-  },
-  ...base
-}
-
 // loader 入口
-const loaderConfig: RollupOptions = {
+const loaderConfig = {
   input: path.join(cwd, 'src/api-loader.ts'),
   output: {
     exports: 'auto',
@@ -66,9 +49,4 @@ const loaderConfig: RollupOptions = {
   ...base
 }
 
-export default defineConfig([
-  compileConfig,
-  loaderConfig,
-  reconcilerConfig,
-  runtimeConfig,
-])
+export default [compileConfig, runtimeConfig, loaderConfig]

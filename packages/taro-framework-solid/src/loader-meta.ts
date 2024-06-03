@@ -1,8 +1,6 @@
 import * as acorn from 'acorn'
 import * as walk from 'acorn-walk'
 
-import { Frameworks } from './index'
-
 import type { ILoaderMeta } from '@tarojs/taro/types/compile/config/plugin'
 
 function addConfig (source) {
@@ -57,55 +55,25 @@ function addConfig (source) {
   return additionConfig
 }
 
-export function getLoaderMeta (framework: Frameworks): ILoaderMeta {
+export function getLoaderMeta (): ILoaderMeta {
   const loaderMeta = {
-    importFrameworkStatement: `
-import * as React from 'react'
-import ReactDOM from 'react-dom'
-`,
+    importFrameworkStatement: '',
     mockAppStatement: `
-class App extends React.Component {
-  render () {
-    return this.props.children
-  }
+function App(props) {
+return null
 }
 `,
-    frameworkArgs: 'React, ReactDOM, config',
-    creator: 'createReactApp',
-    creatorLocation: '@tarojs/plugin-framework-react/dist/runtime',
-    importFrameworkName: 'React',
+    frameworkArgs: 'config',
+    creator: 'createSolidApp',
+    creatorLocation: '@tarojs/plugin-framework-solid/dist/runtime',
+    importFrameworkName: '',
     extraImportForWeb: '',
     execBeforeCreateWebApp: '',
     modifyConfig (config, source) {
       Object.assign(config, addConfig(source))
-    }
+    },
+
   }
 
-  if (framework === 'solid') {
-    Object.assign(loaderMeta, {
-      creator: 'createSolidApp',
-      frameworkArgs: 'config',
-      importFrameworkStatement: '',
-      importFrameworkName: '',
-      mockAppStatement: `
-function App(props) {
-  return null
-}
-`,
-    })
-  }
-
-  if (process.env.TARO_PLATFORM === 'web') {
-    if (framework === 'react') {
-      const react = require('react')
-      const majorVersion = Number((react.version || '18').split('.')[0])
-      if (majorVersion >= 18) {
-        // Note: In react 18 or above, should using react-dom/client
-        loaderMeta.importFrameworkStatement = loaderMeta.importFrameworkStatement.replace('\'react-dom\'', '\'react-dom/client\'')
-        loaderMeta.extraImportForWeb += `import { findDOMNode, render, unstable_batchedUpdates } from 'react-dom'\n`
-        loaderMeta.execBeforeCreateWebApp += `Object.assign(ReactDOM, { findDOMNode, render, unstable_batchedUpdates })\n`
-      }
-    }
-  }
   return loaderMeta
 }

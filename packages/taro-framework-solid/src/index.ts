@@ -1,7 +1,8 @@
 import { fs, REG_TARO_H5 } from '@tarojs/helper'
-import { isString } from '@tarojs/shared'
-import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
+import { capitalize, internalComponents, isString, toCamelCase } from '@tarojs/shared'
+import solidPlugin from 'vite-plugin-solid'
 
+import { RECONCILER_NAME } from './constant'
 import { h5iVitePlugin } from './vite.h5'
 import { harmonyVitePlugin } from './vite.harmony'
 import { miniVitePlugin } from './vite.mini'
@@ -9,41 +10,35 @@ import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyHarmonyWebpackChain } from './webpack.harmony'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
-import type { esbuild } from '@tarojs/helper'
 import type { IPluginContext } from '@tarojs/service'
-import type { IProjectConfig } from '@tarojs/taro/types/compile'
 import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
-import type { PluginOption } from 'vite'
-
-export type Frameworks = 'react' | 'preact' | 'solid' | 'vue3'
 
 interface IParseCreateElementArgs {
   nodeName: string
   componentConfig: IComponentConfig
 }
 
-export function isReactLike(framework: IProjectConfig['framework'] = 'react'): framework is Frameworks {
-  return ['react', 'preact', 'solid'].includes(framework)
-}
-
 export default (ctx: IPluginContext) => {
-  const { framework = 'react' } = ctx.initialConfig
+  const { framework } = ctx.initialConfig
 
-  if (!isReactLike(framework)) return
+  if (framework !== 'solid') return
 
   ctx.modifyWebpackChain(({ chain }) => {
-    // 通用
-    setAlias(framework, chain)
+    chain.plugin('definePlugin').tap((args) => {
+      const config = args[0]
+      config.__TARO_FRAMEWORK__ = `"${framework}"`
+      return args
+    })
 
     if (process.env.TARO_PLATFORM === 'web') {
       // H5
-      modifyH5WebpackChain(ctx, framework, chain)
+      modifyH5WebpackChain(ctx, chain)
     } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {
       // 鸿蒙
-      modifyHarmonyWebpackChain(ctx, framework, chain)
+      modifyHarmonyWebpackChain(chain)
     } else {
       // 小程序
-      modifyMiniWebpackChain(ctx, framework, chain)
+      modifyMiniWebpackChain(chain)
     }
   })
 
@@ -59,18 +54,15 @@ export default (ctx: IPluginContext) => {
     const { compiler } = opts
     if (compiler.type === 'webpack5') {
       // 提供给 webpack5 依赖预编译收集器的第三方依赖
-      const deps = ['react', 'react-dom', 'react/jsx-runtime', '@tarojs/plugin-framework-react/dist/runtime']
+      const deps = ['@tarojs/plugin-framework-solid/dist/runtime']
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
-      prebundleOptions.exclude ||= []
-      prebundleOptions.exclude.push(/mobx/) // 依赖会对 webpack 修改，默认排除
-      if (prebundleOptions.enable === false) return
 
-      const taroReactPlugin: esbuild.Plugin = {
-        name: 'taroReactPlugin',
-        setup(build) {
+      const taroSolidPlugin = {
+        name: 'taroSolidPlugin',
+        setup (build) {
           build.onLoad({ filter: REG_TARO_H5 }, ({ path }) => {
             const content = fs.readFileSync(path).toString()
             return {
@@ -89,21 +81,43 @@ export default (ctx: IPluginContext) => {
       prebundleOptions.esbuild ||= {}
       const esbuildConfig = prebundleOptions.esbuild
       esbuildConfig.plugins ||= []
-      esbuildConfig.plugins.push(taroReactPlugin)
+      esbuildConfig.plugins.push(taroSolidPlugin)
     } else if (compiler.type === 'vite') {
       compiler.vitePlugins ||= []
-      compiler.vitePlugins.push(viteCommonPlugin(framework))
-      compiler.vitePlugins.push(VitePresetPlugin(framework))
+      const solidOptions = {}
       if (process.env.TARO_PLATFORM === 'web') {
         // H5
-        compiler.vitePlugins.push(h5iVitePlugin(ctx, framework))
+        compiler.vitePlugins.push(...h5iVitePlugin(ctx))
       } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {
         // 鸿蒙
-        compiler.vitePlugins.push(harmonyVitePlugin(ctx, framework))
+        compiler.vitePlugins.push(harmonyVitePlugin(ctx))
       } else {
+        Object.assign(solidOptions, {
+          moduleName: RECONCILER_NAME,
+          generate: 'universal',
+          uniqueTransform: true,
+        })
         // 小程序
-        compiler.vitePlugins.push(miniVitePlugin(ctx, framework))
+        compiler.vitePlugins.push(miniVitePlugin(ctx))
       }
+      // @TODO vite的插件需要内部删除babel-preset-solid
+      compiler.vitePlugins.unshift(solidPlugin({
+        babel: {
+          presets: [
+            [
+              require('babel-plugin-transform-solid-jsx'),
+              solidOptions
+            ],
+          ],
+        },
+      }))
+    }
+  })
+
+  // 映射、收集使用到的小程序组件
+  ctx.onParseCreateElement(({ nodeName, componentConfig }: IParseCreateElementArgs) => {
+    if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+      componentConfig.includes.add(nodeName)
     }
   })
 
@@ -115,67 +129,3 @@ export default (ctx: IPluginContext) => {
   })
 }
 
-function setAlias(framework: Frameworks, chain) {
-  const alias = chain.resolve.alias
-
-  switch (framework) {
-    case 'preact':
-      alias.set('react', 'preact/compat')
-      alias.set('react-dom/test-utils', 'preact/test-utils')
-      alias.set('react-dom', 'preact/compat')
-      alias.set('react/jsx-runtime', 'preact/jsx-runtime')
-      break
-    case 'solid':
-      alias.set('react/jsx-runtime', 'solid-js/h/jsx-runtime')
-      break
-  }
-}
-
-function VitePresetPlugin (framework: Frameworks): PluginOption {
-  return framework === 'preact'
-    ? require('@preact/preset-vite').preact({
-      babel: {
-        plugins: [
-          ['@babel/plugin-proposal-decorators', { legacy: true }],
-          ['@babel/plugin-proposal-class-properties', { loose: true }],
-        ],
-      },
-    })
-    : require('@vitejs/plugin-react').default({
-      babel: {
-        plugins: [
-          ['@babel/plugin-proposal-decorators', { legacy: true }],
-          ['@babel/plugin-proposal-class-properties', { loose: true }],
-        ],
-      },
-    })
-}
-
-function viteCommonPlugin(framework: Frameworks): PluginOption {
-  return {
-    name: 'taro-react:common',
-    config() {
-      const alias =
-        framework === 'preact'
-          ? [
-            { find: 'react', replacement: 'preact/compat' },
-            { find: 'react-dom/test-utils', replacement: 'preact/test-utils' },
-            { find: 'react-dom', replacement: 'preact/compat' },
-            { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime' },
-          ]
-          : []
-      if (framework === 'solid') {
-        const reconcilerName = '@tarojs/plugin-framework-react/dist/reconciler'
-        alias.push(
-          { find: 'react/jsx-runtime', replacement: reconcilerName },
-        )
-      }
-
-      return {
-        resolve: {
-          alias,
-        },
-      }
-    },
-  }
-}

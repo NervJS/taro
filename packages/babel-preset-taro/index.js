@@ -58,13 +58,17 @@ module.exports = (_, options = {}) => {
       }
     }
   } else if (isSolid) {
-    presets.push([
-      require('babel-plugin-transform-solid-jsx'),
-      {
-        moduleName: '@tarojs/plugin-framework-react/dist/reconciler',
+    const solidOptions = {}
+    if (process.env.TARO_PLATFORM !== 'web') {
+      Object.assign(solidOptions, {
+        moduleName: '@tarojs/plugin-framework-solid/dist/reconciler',
         generate: 'universal',
-        uniqueTransform: process.env.TARO_PLATFORM !== 'web',
-      },
+        uniqueTransform: true,
+      })
+    }
+    presets.push([
+      require('babel-plugin-transform-solid-jsx-ad-taro-components'),
+      solidOptions,
     ])
   }
 

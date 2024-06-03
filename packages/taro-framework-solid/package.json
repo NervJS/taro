@@ -2,7 +2,7 @@
   "name": "@tarojs/plugin-framework-solid",
   "version": "4.0.0-beta.83",
   "description": "Solid 框架插件",
-  "author": "O2Team",
+  "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
   "license": "MIT",
   "main": "index.js",
@@ -19,7 +19,6 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "prod": "pnpm run build",
     "prebuild": "run-s clean",
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "clean": "rimraf --impl=move-remove dist",
@@ -29,43 +28,43 @@
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "engines": {
-    "node": ">= 18"
-  },
   "dependencies": {
-    "acorn": "^8.11.3",
-    "acorn-walk": "^8.3.2",
-    "lodash": "^4.17.21",
-    "tslib": "^2.6.2"
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "acorn": "^8.0.4",
+    "acorn-walk": "^8.0.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@tarojs/helper": "workspace:*",
+    "@babel/core": "^7.14.5",
     "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/service": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "@types/react": "^18.2.79",
-    "@types/react-dom": "^18.2.25",
-    "solid-js": "^1.8.17",
+    "@tarojs/shared": "workspace:*",
+    "webpack-chain": "^6.5.1",
+    "esbuild": "~0.19.5",
+    "solid-js": "^1.8.16",
+    "typescript": "^5.3.3",
     "vite": "^4.2.0",
-    "webpack-chain": "^6.5.1"
+    "vite-plugin-solid": "^2.10.2"
   },
   "peerDependencies": {
-    "@tarojs/helper": "workspace:*",
-    "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "solid-js": "^1.8.0",
-    "vite": "^4",
-    "webpack": "^5"
+    "@tarojs/runtime": "workspace:~",
+    "@tarojs/shared": "workspace:~",
+    "vite-plugin-solid": "^2",
+    "webpack": "^5",
+    "solid-js": ">=1"
   },
   "peerDependenciesMeta": {
+    "vite-plugin-solid": {
+      "optional": true
+    },
+    "webpack": {
+      "optional": true
+    },
     "solid-js": {
       "optional": true
     },
     "vite": {
-      "optional": true
-    },
-    "webpack": {
       "optional": true
     }
   }
