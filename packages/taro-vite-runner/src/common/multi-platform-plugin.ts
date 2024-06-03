@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import { NODE_MODULES_REG, SCRIPT_EXT } from '@tarojs/helper'
+import { REG_NODE_MODULES, SCRIPT_EXT } from '@tarojs/helper'
 
 import { isVirtualModule } from '../utils'
 
@@ -15,7 +15,7 @@ export default function (complier: ViteH5CompilerContext | ViteHarmonyCompilerCo
     enforce: 'pre',
     async resolveId (source, importer, options) {
       if (isVirtualModule(source)) return null
-      if (NODE_MODULES_REG.test(source)) return null
+      if (REG_NODE_MODULES.test(source)) return null
 
       // example: 'js|jsx|ts|tsx|vue'
       const allowedExts = Array.from(new Set(SCRIPT_EXT.concat(taroConfig.frameworkExts || [])))
@@ -56,7 +56,7 @@ export default function (complier: ViteH5CompilerContext | ViteHarmonyCompilerCo
 
       if (!resolution?.id || resolution.external) return resolution
       if (isVirtualModule(resolution.id)) return resolution
-      if (/node_modules/.test(resolution.id)) return resolution
+      if (REG_NODE_MODULES.test(resolution.id)) return resolution
       if (multiPlatformReg.test(resolution.id)) return resolution
     },
   }

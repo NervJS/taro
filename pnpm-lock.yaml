@@ -2290,6 +2290,9 @@ importers:
       '@babel/types':
         specifier: ^7.24.0
         version: 7.24.0
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../taro-helper
       babel-eslint:
         specifier: ^10.0.1
         version: 10.1.0(eslint@8.57.0)
@@ -9854,6 +9857,9 @@ packages:
 
   /ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==, tarball: https://registry.npmjs.org/ajv-formats/-/ajv-formats-2.1.1.tgz}
+    peerDependenciesMeta:
+      ajv:
+        optional: true
     dependencies:
       ajv: 8.14.0
 
