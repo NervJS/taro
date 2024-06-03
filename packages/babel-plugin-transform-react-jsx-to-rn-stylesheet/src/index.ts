@@ -182,7 +182,7 @@ export default function (babel: {
       return [t.callExpression(t.identifier(GET_STYLE_FUNC_NAME), [value])]
     }
 
-    return str === '' ? [] : getMap(str)
+    return !str ? [] : getMap(str)
   }
 
   function getMatchRule (enableMultipleClassName: boolean) {
@@ -404,8 +404,19 @@ export default function (babel: {
           t.isIdentifier(node.callee.property, { name: 'createElement' })
         ) {
           const args = node.arguments
-          if (args.length <= 1 || !t.isObjectExpression(args[1])) return
-          const attributes = args[1].properties
+          if (args.length <= 1) return
+
+          let attributes
+
+          if (t.isCallExpression(args[1]) && t.isObjectExpression(args[1].arguments[0])) {
+            // _object_spread({ className: rootClass(), style: rootStyle() }, rest)
+            attributes = args[1].arguments[0].properties
+          }
+          if (t.isObjectExpression(args[1])) {
+            // { className: ..., style: ... }
+            attributes = args[1].properties
+          }
+          if (!attributes) return
 
           processStyleAndClassName({
             attributes,
