@@ -87,26 +87,6 @@ class SpanStyleModify implements AttributeModifier<SpanAttribute> {
   }
 }
 
-function getSpanVerticalAlign (verticalAlign?: Alignment) {
-  switch (verticalAlign) {
-    case Alignment.Start:
-    case Alignment.TopStart:
-    case Alignment.Top:
-    case Alignment.TopEnd: {
-      return ImageSpanAlignment.TOP
-    }
-    case Alignment.End:
-    case Alignment.BottomStart:
-    case Alignment.Bottom:
-    case Alignment.BottomEnd: {
-      return ImageSpanAlignment.BOTTOM
-    }
-    case Alignment.Center: {
-      return ImageSpanAlignment.CENTER
-    }
-  }
-  return ImageSpanAlignment.BASELINE
-}
 
 function getButtonFontSize (node: TaroButtonElement): string | number {
   const isMini = node._attrs.size === 'mini'
@@ -148,7 +128,7 @@ function createText (node: TaroTextElement) {
       // text 下还有标签
       if (node.childNodes.length > 1 || ((node.childNodes[0] && node.childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
         ForEach(node.childNodes, (item: TaroElement) => {
-          createTextChildNode(item, getSpanVerticalAlign(node.hmStyle?.verticalAlign))
+          createTextChildNode(item)
         }, (item: TaroElement) => item._nid)
       }
     }
@@ -162,11 +142,12 @@ function createText (node: TaroTextElement) {
 }
 
 @Builder
-function createTextChildNode (item: TaroElement, align: ImageSpanAlignment) {
+function createTextChildNode (item: TaroElement) {
   if (item.tagName === 'IMAGE') {
     ImageSpan(item.getAttribute('src'))
+      // .attributeModifier(commonStyleModify.setNode(item))
       .objectFit(getImageMode(item.getAttribute('mode')))
-      .verticalAlign(align)
+      // .verticalAlign(align)
       .width(item._st.hmStyle.width)
       .height(item._st.hmStyle.height)
       .margin({
@@ -189,6 +170,12 @@ function createTextChildNode (item: TaroElement, align: ImageSpanAlignment) {
           bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
           bottomRight: item._st.hmStyle.borderBottomRightRadius,
         }
+      })
+      .borderRadius({
+        topLeft: item._st.hmStyle.borderTopLeftRadius,
+        topRight: item._st.hmStyle.borderTopRightRadius,
+        bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
+        bottomRight: item._st.hmStyle.borderBottomRightRadius
       })
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
   } else if (item.nodeType === NodeType.TEXT_NODE) {

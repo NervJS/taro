@@ -1,5 +1,4 @@
 import generate from '@babel/generator'
-import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
 import { kebabCase, snakeCase } from 'lodash'
 
@@ -18,6 +17,8 @@ import { createHTMLElement } from './create-html-element'
 import { Status } from './functional'
 import { transformOptions } from './options'
 import { codeFrameError, decodeUnicode } from './utils'
+
+import type { NodePath } from '@babel/traverse'
 
 export function isStartWithWX(str: string) {
   return str[0] === 'w' && str[1] === 'x'

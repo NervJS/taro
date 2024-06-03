@@ -9,7 +9,6 @@ import type { ILoaderMeta } from '@tarojs/taro/types/compile/config/plugin'
 
 const frameworkAlias = {
   solid: 'solid',
-  vue: 'vue2',
   vue3: 'vue3',
 }
 
@@ -348,9 +347,10 @@ declare global {
       ])
     }
 
+    const chorePkgRgx = new RegExp(`^${(chorePackagePrefix || '').replace(/[\\/]+/g, '[\\\\/]+').replace(/[-^$*?.|]/g, '\\$&')}`)
     const externals = Object.keys(ohPackage.dependencies || []).concat(Object.keys(ohPackage.devDependencies || []))
     function modifyResolveId({ source = '', name = 'modifyResolveId' }: Parameters<Exclude<ILoaderMeta['modifyResolveId'], undefined>>[0]) {
-      if (externals.includes(source)) {
+      if (externals.includes(source) || chorePkgRgx.test(source)) {
         return {
           external: true,
           id: source,

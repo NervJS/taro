@@ -1,5 +1,6 @@
-import { NODE_MODULES_REG, SCRIPT_EXT } from '@tarojs/helper'
-import path from 'path'
+import path from 'node:path'
+
+import { REG_NODE_MODULES, SCRIPT_EXT } from '@tarojs/helper'
 
 import { isVirtualModule } from '../utils'
 
@@ -14,7 +15,7 @@ export default function (complier: ViteH5CompilerContext | ViteHarmonyCompilerCo
     enforce: 'pre',
     async resolveId (source, importer, options) {
       if (isVirtualModule(source)) return null
-      if (NODE_MODULES_REG.test(source)) return null
+      if (REG_NODE_MODULES.test(source)) return null
 
       // example: 'js|jsx|ts|tsx|vue'
       const allowedExts = Array.from(new Set(SCRIPT_EXT.concat(taroConfig.frameworkExts || [])))
@@ -23,10 +24,14 @@ export default function (complier: ViteH5CompilerContext | ViteHarmonyCompilerCo
       // example: /\.(weapp|mini)\.(js|jsx|ts|tsx|vue)/
       const multiPlatformReg = new RegExp(`\\.(${process.env.TARO_ENV}|${process.env.TARO_PLATFORM})\\.(${allowedExts})`)
       if (multiPlatformReg.test(source)) return null
+      if (!importer) return null
 
       const ext = path.extname(source)
+      const dir = path.dirname(source)
+      const basename = path.basename(source, ext)
+
       let resolution = await this.resolve(
-        path.resolve(path.dirname(source), `${path.basename(source, ext)}.${process.env.TARO_ENV}${ext}`),
+        path.resolve(path.dirname(importer), `${path.join(dir, basename)}.${process.env.TARO_ENV}${ext}`),
         importer,
         {
           ...options,
@@ -34,7 +39,7 @@ export default function (complier: ViteH5CompilerContext | ViteHarmonyCompilerCo
         })
       if (!resolution) {
         resolution = await this.resolve(
-          path.resolve(path.dirname(source), `${path.basename(source, ext)}.${process.env.TARO_PLATFORM}${ext}`),
+          path.resolve(path.dirname(importer), `${path.join(dir, basename)}.${process.env.TARO_PLATFORM}${ext}`),
           importer,
           {
             ...options,
@@ -51,7 +56,7 @@ export default function (complier: ViteH5CompilerContext | ViteHarmonyCompilerCo
 
       if (!resolution?.id || resolution.external) return resolution
       if (isVirtualModule(resolution.id)) return resolution
-      if (/node_modules/.test(resolution.id)) return resolution
+      if (REG_NODE_MODULES.test(resolution.id)) return resolution
       if (multiPlatformReg.test(resolution.id)) return resolution
     },
   }

@@ -1,4 +1,5 @@
 import Geolocation from '@react-native-community/geolocation'
+
 import { createCallbackManager, errorHandler, successHandler } from '../utils'
 
 const _cbManager = createCallbackManager()
@@ -20,8 +21,8 @@ export function offLocationChange(callback: Taro.onLocationChange.Callback): voi
 
 /**
  * 开始监听位置信息
- * @param opts 
- * @returns 
+ * @param opts
+ * @returns
  */
 export function startLocationUpdate(opts: Taro.startLocationUpdate.Option): Promise<TaroGeneral.CallbackResult> {
   const { success, fail, complete } = opts
@@ -63,8 +64,8 @@ export function startLocationUpdate(opts: Taro.startLocationUpdate.Option): Prom
 
 /**
  * 停止监听位置信息
- * @param opts 
- * @returns 
+ * @param opts
+ * @returns
  */
 export function stopLocationUpdate(opts: Taro.stopLocationUpdate.Option): Promise<TaroGeneral.CallbackResult> {
   const { success, fail, complete } = opts

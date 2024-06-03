@@ -51,7 +51,6 @@ export const enum CSSType {
 export const enum FrameworkType {
   React = 'React',
   Preact = 'Preact',
-  Vue = 'Vue',
   Vue3 = 'Vue3'
 }
 

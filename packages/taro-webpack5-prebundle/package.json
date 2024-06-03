@@ -1,12 +1,15 @@
 {
   "name": "@tarojs/webpack5-prebundle",
-  "version": "4.0.0-beta.63",
+  "version": "4.0.0-beta.83",
   "description": "Taro app webpack5 prebundle",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
-    "build": "pnpm run clean && pnpm run prod",
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "build": "tsc",
     "dev": "tsc -w",
-    "prod": "tsc",
     "clean": "rimraf --impl=move-remove dist",
     "test": "cross-env NODE_ENV=jest jest",
     "test:ci": "cross-env NODE_ENV=jest jest --ci -i --passWithNoTests",
@@ -22,32 +25,28 @@
   "keywords": [
     "taro"
   ],
-  "author": "ZakaryCode",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
     "@tarojs/helper": "workspace:*",
-    "@tarojs/taro": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "enhanced-resolve": "^5.9.3",
-    "es-module-lexer": "^0.10.4",
+    "enhanced-resolve": "^5.16.0",
+    "es-module-lexer": "^0.10.5",
     "lodash": "^4.17.21",
-    "webpack-chain": "6.5.1",
-    "webpack-virtual-modules": "^0.5.0"
+    "webpack-virtual-modules": "^0.6.1"
   },
   "devDependencies": {
-    "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
-    "jest-environment-node": "^29.5.0",
-    "ts-jest": "^29.0.5",
-    "typescript": "^4.7.4",
-    "webpack": "5.78.0",
-    "webpack-dev-server": "4.11.1"
+    "@tarojs/taro": "workspace:*",
+    "webpack": "5.91.0",
+    "webpack-chain": "^6.5.1",
+    "webpack-dev-server": "^4.15.2"
   },
   "peerDependencies": {
-    "webpack": "^5.78.0"
+    "webpack": "5.91.0"
   }
 }

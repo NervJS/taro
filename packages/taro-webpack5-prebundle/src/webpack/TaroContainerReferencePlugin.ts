@@ -3,8 +3,9 @@
  * MIT License http://www.opensource.org/licenses/mit-license.php
  * Author Tobias Koppers @sokra and Zackary Jackson @ScriptedAlchemy
  */
+import path from 'node:path'
+
 import { META_TYPE } from '@tarojs/helper'
-import path from 'path'
 import ContainerReferencePlugin from 'webpack/lib/container/ContainerReferencePlugin'
 import RemoteModule from 'webpack/lib/container/RemoteModule'
 

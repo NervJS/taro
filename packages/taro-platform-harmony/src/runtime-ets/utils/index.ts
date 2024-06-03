@@ -50,6 +50,9 @@ export function convertNumber2VP (value: number, unit = 'px'): string | number {
 }
 
 export function parseClasses (classNames = ''): string[] {
+  if (typeof classNames !== 'string') {
+    return []
+  }
   return classNames.includes(' ') ? classNames.split(' ') : [classNames]
 }
 
@@ -64,6 +67,7 @@ export function calcStaticStyle (styleSheet: Record<string, CSSProperties>, clas
   const cache: Record<string, CSSProperties> = styleSheet.cache as Record<string, CSSProperties>
 
   const classes = parseClasses(classNames)
+  if (!classes.length) return {}
   if (classes.length === 1) {
     // 同一个引用
     return styleSheet[classes[0]]

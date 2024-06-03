@@ -15,14 +15,15 @@ interface IOptions {
 
 export default function handleRollupCopy ({
   targets = [],
-  hook = 'buildEnd'
+  hook = 'buildEnd',
 }: IOptions) {
-  let isWatched = false
-
+  // Note: 因为 rollup 的 watch 模式下，hook 会被多次调用，所以这里需要做一个标记
+  let hasWatched = false
+  const isWatchMode = process.argv.includes('-w') || process.argv.includes('--watch')
   return {
     name: 'rollup-plugin:taro-copy',
     async [hook] () {
-      if (isWatched) return
+      if (hasWatched) return
 
       for (const item of targets) {
         try {
@@ -42,13 +43,13 @@ export default function handleRollupCopy ({
           const stat = fs.statSync(src)
           if (stat.isDirectory()) {
             fs.copySync(src, dest, { recursive: true })
-            fs.watch(src, { recursive: true }, (_event, filename) => {
+            isWatchMode && fs.watch(src, { recursive: true }, (_event, filename) => {
               if (!filename) return
               fs.copyFileSync(path.join(src, filename), path.join(dest, filename))
             })
           } else if (stat.isFile()) {
             fs.copyFileSync(src, dest)
-            fs.watchFile(src, () => {
+            isWatchMode && fs.watchFile(src, () => {
               fs.copyFileSync(path.join(src), dest)
             })
           }
@@ -57,7 +58,7 @@ export default function handleRollupCopy ({
         }
       }
 
-      isWatched = true
+      hasWatched = true
     }
   }
 }

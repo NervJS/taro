@@ -1,6 +1,6 @@
-import stylelint, { utils } from 'stylelint'
+import stylelint from 'stylelint'
 
-import { log, nameSpace, report, taroDocsUrl } from '../../utils'
+import { log, nameSpace, report, taroDocsUrl } from '../../utils/index.ts'
 
 import type { Rule } from 'stylelint'
 
@@ -17,7 +17,7 @@ const meta = {
 
 const rule: Rule = (primary) => {
   return (root, result) => {
-    const validOptions = utils.validateOptions(result, ruleName, {
+    const validOptions = stylelint.utils.validateOptions(result, ruleName, {
       actual: primary
     })
     if (!validOptions) {

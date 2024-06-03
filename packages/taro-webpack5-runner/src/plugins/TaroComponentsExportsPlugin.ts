@@ -18,20 +18,6 @@ interface IOptions {
   onParseCreateElement?: Func
 }
 
-export function isRenderNode (node: acorn.Node, ancestors: any = []): boolean {
-  let renderFn
-  const hasRenderMethod = ancestors.some((ancestor) => {
-    if (ancestor.type === 'FunctionExpression' && ancestor?.id?.name === 'render') {
-      renderFn = ancestor.params[0]?.name
-      return true
-    } else {
-      return false
-    }
-  })
-  // @ts-ignore
-  return hasRenderMethod && node.callee.name === renderFn
-}
-
 // TODO 合并 TaroNormalModulesPlugin 逻辑
 export default class TaroComponentsExportsPlugin {
   onParseCreateElement?: Func
@@ -48,7 +34,7 @@ export default class TaroComponentsExportsPlugin {
       normalModuleFactory.hooks.parser.for('javascript/auto').tap(PLUGIN_NAME, (parser) => {
         parser.hooks.program.tap(PLUGIN_NAME, (program) => {
           walk.ancestor(program, {
-            CallExpression: (node, ancestors) => {
+            CallExpression: (node, _ancestors) => {
               // @ts-ignore
               const callee = node.callee
 
@@ -71,8 +57,6 @@ export default class TaroComponentsExportsPlugin {
                   !(nameOfCallee && nameOfCallee.includes('createElementBlock')) &&
                   !(nameOfCallee && nameOfCallee.includes('resolveComponent')) && // 收集使用解析函数的组件名称
                   !(nameOfCallee && nameOfCallee.includes('_$createElement')) && // solidjs创建元素
-                  // 兼容 Vue 2.0 渲染函数及 JSX
-                  !isRenderNode(node, ancestors)
                 ) {
                   return
                 }
@@ -107,7 +91,6 @@ export default class TaroComponentsExportsPlugin {
               if (!dependency?.name) return dependency
               const name = toDashed(dependency.name)
               const taroName = `taro-${name}`
-              // Note: Vue2 目前无法解析，需要考虑借助 componentConfig.includes 优化
               const isIncluded = componentConfig.includes.has(name) || this.#componentsExports.has(taroName)
               if (!isIncluded || componentConfig.exclude.has(name)) {
                 /** Note: 使用 Null 依赖替换不需要的依赖

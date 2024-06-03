@@ -1,4 +1,4 @@
-import * as os from 'os'
+import * as os from 'node:os'
 
 import { chalk } from './terminal'
 
@@ -107,12 +107,15 @@ export const REG_TEMPLATE = /\.(wxml|axml|ttml|qml|swan|jxml)(\?.*)?$/
 export const REG_WXML_IMPORT = /<import(.*)?src=(?:(?:'([^']*)')|(?:"([^"]*)"))/gi
 export const REG_URL =
   /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i
+
+export const REG_TARO_SCOPED_PACKAGE = /^@tarojs[\\/].+$/
 export const REG_TARO_H5 = /taro-h5[\\/]dist[\\/](api[\\/]taro|index\.esm)/
 export const REG_TARO_H5_RUNTIME_API = /@tarojs[\\/]plugin-platform-h5[\\/]dist[\\/]runtime[\\/]apis[\\/]index/
-export const CSS_IMPORT_REG = /@import (["'])(.+?)\1;/g
+export const REG_CSS_IMPORT = /@import (["'])(.+?)\1;/g
 
 export const NODE_MODULES = 'node_modules'
-export const NODE_MODULES_REG = /(.*)node_modules/
+export const REG_NODE_MODULES = /node_modules/gi
+export const REG_NODE_MODULES_DIR = /[\\/]node_modules[\\/]/gi
 
 export const PROJECT_CONFIG = 'config/index'
 
@@ -157,10 +160,8 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/rn-transformer',
   '@tarojs/helper',
   '@tarojs/taro-loader',
-  '@tarojs/mini-runner',
   '@tarojs/react',
   '@tarojs/plugin-framework-react',
-  '@tarojs/plugin-framework-vue2',
   '@tarojs/plugin-framework-vue3',
   '@tarojs/plugin-react-devtools',
   '@tarojs/plugin-vue-devtools',
@@ -170,7 +171,6 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/runtime',
   '@tarojs/runtime-rn',
   '@tarojs/service',
-  '@tarojs/webpack-runner',
   '@tarojs/with-weapp',
   '@tarojs/taroize',
   '@tarojs/plugin-platform-weapp',
@@ -220,10 +220,8 @@ export const NPM_DIR = 'npm'
 export const ENTRY = 'app'
 
 export enum FRAMEWORK_MAP {
-  VUE = 'vue',
   VUE3 = 'vue3',
   REACT = 'react',
-  NERV = 'nerv',
 }
 
 export const defaultMainFields = ['browser', 'module', 'jsnext:main', 'main']

@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 import type{ ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { OutputAsset } from 'rollup'

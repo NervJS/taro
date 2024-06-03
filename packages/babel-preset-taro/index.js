@@ -29,25 +29,15 @@ module.exports = (_, options = {}) => {
   const plugins = []
   const overrides = []
   const isVite = options.compiler === 'vite'
-  const isReact = options.framework === 'react' || (options.framework === 'preact' && !isVite)
+  // vite 不需要 react 的 preset，在内部已经处理了
+  const isReact = options.framework === 'react' || options.framework === 'preact' && !isVite
   const isSolid = options.framework === 'solid'
-  const isNerv = options.framework === 'nerv' && !isVite
-  const isVue = options.framework === 'vue' && !isVite
+  // vite 不需要 vue 的 preset，在内部已经处理了
   const isVue3 = options.framework === 'vue3' && !isVite
+  // vite 不需要使用 babel 处理 ts，在 esbuild 中处理了
   const isTs = options.ts && !isVite
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
   const presetReactConfig = options.react || {}
-
-  if (isNerv) {
-    presets.push([
-      require('@babel/preset-react'),
-      {
-        pragma: `${moduleName}.createElement`,
-        pragmaFrag: `${moduleName}.Fragment`,
-        ...presetReactConfig,
-      },
-    ])
-  }
 
   if (isReact) {
     presets.push([
@@ -78,23 +68,19 @@ module.exports = (_, options = {}) => {
     ])
   }
 
-  if (isVue || isVue3) {
+  if (isVue3) {
     if (options.vueJsx !== false) {
       const jsxOptions = typeof options.vueJsx === 'object' ? options.vueJsx : {}
-      if (isVue) {
-        presets.push([require('@vue/babel-preset-jsx'), jsxOptions])
-      } else {
-        plugins.push([require('@vue/babel-plugin-jsx'), jsxOptions])
-      }
+      plugins.push([require('@vue/babel-plugin-jsx'), jsxOptions])
     }
   }
 
   if (isTs) {
     const config = typeof options.ts === 'object' ? options.ts : {}
-    if (isNerv || isReact) {
+    if (isReact) {
       config.jsxPragma = moduleName
     }
-    if (isVue || isVue3) {
+    if (isVue3) {
       overrides.push({
         include: /\.vue$/,
         presets: [[require('@babel/preset-typescript'), { allExtensions: true, isTSX: true }]],

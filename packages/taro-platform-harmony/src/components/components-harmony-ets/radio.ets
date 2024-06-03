@@ -11,12 +11,14 @@ import { isUndefined } from '@tarojs/shared'
 interface RadioAttrs {
   radioStyle?: HarmonyType.RadioStyle
   themeStyles?: boolean
+  disabled?: boolean
 }
 
 @Extend(Radio)
 function radioAttr (attr: RadioAttrs) {
   .radioStyle(attr.radioStyle)
   .themeStyles(attr.themeStyles)
+  .enabled(!attr.disabled)
 }
 
 function getAttributes (node: TaroRadioElement): RadioAttrs {
@@ -25,6 +27,7 @@ function getAttributes (node: TaroRadioElement): RadioAttrs {
     checkedBackgroundColor: node._attrs.color || '#1aad19'
   }
   radioAttrs.themeStyles = !!node._attrs.disabled
+  radioAttrs.disabled = !!node._attrs.disabled
   return radioAttrs
 }
 

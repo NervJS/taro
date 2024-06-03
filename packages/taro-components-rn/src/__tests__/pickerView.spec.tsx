@@ -1,6 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { View } from 'react-native'
-import { render } from '@testing-library/react-native'
+
 import PickerView from '../components/PickerView'
 import PickerViewColumn from '../components/PickerViewColumn'
 

@@ -1,7 +1,6 @@
 import { parseClasses } from '../utils'
 
 import type { CSSProperties, ReactElement } from 'react'
-
 // 抽出来的嵌套查询
 // const __nesting_style__ = [
 //   {
@@ -74,7 +73,7 @@ function depthTraversal(root: ReactElement) {
     const result: Record<string, TMapping> = {}
     if (tree && tree.props) {
       // 兜底适配：如果Taro组件被原封不动的再别的地方导出使用，导致无法在编译环境添加__hmStyle
-      // import { View } from '~/components'
+      // import { View } from '../../../~/components'
       // hack：如果是taro节点，但是被赋予了__styleSheet，则走一下__styleSheet转__hmStyle
       if (tree.props.__styleSheet && typeof tree.type !== 'function') {
         tree.props.__hmStyle = Object.assign({}, tree.props.__hmStyle, tree.props.__styleSheet.value)
@@ -128,28 +127,34 @@ function depthTraversal(root: ReactElement) {
   const processLeaf = (leaf, descendant_map: TMappingNode) => {
     if (!leaf) return
 
-    // 如果是个数组
-    if (leaf instanceof Array) {
-      for (let i = 0; i < leaf.length; i++) {
-        processLeaf(leaf[i], descendant_map)
+    const queue = [leaf]
+
+    while (queue.length > 0) {
+      const current = queue.shift()
+
+      if (current instanceof Array) {
+        for (let i = 0; i < current.length; i++) {
+          queue.push(current[i])
+        }
+        continue
       }
+
+      const leaf_map = traverse(current)
+      if (!leaf_map) continue
+
+      // 直接后代
+      Object.assign(descendant_map.children, leaf_map)
+
+      // 子孙后代
+      const grandchild: (Record<string, TMapping> | TMapping)[] = [leaf_map]
+      Object.keys(leaf_map).forEach(key => {
+        const leaf_child_map = class_mapping[key]
+        if (leaf_child_map?.descendants) {
+          grandchild.push(leaf_child_map.descendants)
+        }
+      })
+      Object.assign(descendant_map.descendants, ...grandchild)
     }
-
-    const leaf_map = traverse(leaf)
-    if (!leaf_map) return
-
-    // 直接后代
-    Object.assign(descendant_map.children, leaf_map)
-
-    // 子孙后代
-    const grandchild: (Record<string, TMapping> | TMapping)[] = [leaf_map]
-    Object.keys(leaf_map).forEach(key => {
-      const leaf_child_map = class_mapping[key]
-      if (leaf_child_map?.descendants) {
-        grandchild.push(leaf_child_map.descendants)
-      }
-    })
-    Object.assign(descendant_map.descendants, ...grandchild)
   }
 
   traverse(root)
@@ -239,24 +244,29 @@ function combineStyle(nestingStyle: NestingStyle, class_mapping: TMapping, alias
     }
     return selector_nodes
   }
-  const findSelector = (selectors, current_mapping, declaration): TSelectorNode[] => {
-    const new_selectors = selectors.slice()
-    const selector_string = new_selectors.shift()
-    const combinator_type = new_selectors.shift()
-    const _elements = findElement(selector_string, combinator_type, current_mapping, new_selectors, declaration)
-    if (_elements.length) {
-      if (new_selectors.length) {
-        let elements: TSelectorNode[] = []
-        _elements.forEach(element => {
-          elements = elements.concat(findSelector(new_selectors.slice(), element.mapping, declaration))
-        })
-        return elements
-      } else {
-        return _elements
+  const findSelector = (selectors: string[], current_mapping: any, declaration: any): TSelectorNode[] => {
+    const workQueue: { selectors: string[], current_mapping: any }[] = [{ selectors, current_mapping }]
+    let resultElements: TSelectorNode[] = []
+    while (workQueue.length > 0) {
+      const { selectors: currentSelectors, current_mapping: currentMapping } = workQueue.shift()!
+      const new_selectors = currentSelectors.slice()
+      const selector_string = new_selectors.shift()
+      const combinator_type = new_selectors.shift()
+
+      const _elements = findElement(selector_string, combinator_type, currentMapping, new_selectors, declaration)
+
+      if (_elements.length) {
+        if (new_selectors.length) {
+          _elements.forEach(element => {
+            workQueue.push({ selectors: new_selectors.slice(), current_mapping: element.mapping })
+          })
+        } else {
+          resultElements = resultElements.concat(_elements)
+        }
       }
-    } else {
-      return []
     }
+
+    return resultElements
   }
   if (nestingStyle && nestingStyle instanceof Array) {
     // 合并样式

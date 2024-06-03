@@ -1,7 +1,7 @@
-import { mergeWith } from 'lodash'
+import typescript from '@rollup/plugin-typescript'
+import _ from 'lodash'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
-import ts from 'rollup-plugin-ts'
 
 import type { RollupOptions } from 'rollup'
 
@@ -12,12 +12,10 @@ const baseConfig = {
     exports: 'named'
   },
   plugins: [
-    externals({
-      deps: true,
-      devDeps: false,
-      include: [/^(react|react-dom|nervjs|vue)$/, /^inversify$/]
+    externals(),
+    typescript({
+      include: ['src/**/*', '!src/__tests__/**/*']
     }),
-    ts(),
   ]
 }
 
@@ -45,8 +43,8 @@ export default defineConfig(variesConfig.map(v => {
       return objValue.concat(srcValue)
     }
     if (typeof objValue === 'object') {
-      return mergeWith({}, objValue, srcValue, customizer)
+      return _.mergeWith({}, objValue, srcValue, customizer)
     }
   }
-  return mergeWith({}, baseConfig, v, customizer)
+  return _.mergeWith({}, baseConfig, v, customizer)
 }))

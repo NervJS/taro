@@ -1,4 +1,5 @@
 import { Keyboard } from 'react-native'
+
 import { createCallbackManager, errorHandler, successHandler } from '../utils'
 
 const hideKeyboard = (opts: Taro.hideKeyboard.Option = {}): Promise<TaroGeneral.CallbackResult> => {
@@ -27,8 +28,8 @@ const keyboardHeightListener = (e) => {
 const onKeyboardHeightChange = (callback: Taro.onKeyboardHeightChange.Callback): void => {
   _cbManager.add(callback)
   if (!_hasListener) {
-    Keyboard.addListener("keyboardDidShow", keyboardHeightListener)
-    Keyboard.addListener("keyboardDidHide", keyboardHeightListener)
+    Keyboard.addListener('keyboardDidShow', keyboardHeightListener)
+    Keyboard.addListener('keyboardDidHide', keyboardHeightListener)
     _hasListener = true
   }
 }
@@ -53,7 +54,7 @@ const offKeyboardHeightChange = (callback?: Taro.onKeyboardHeightChange.Callback
 }
 
 export {
-  onKeyboardHeightChange,
+  hideKeyboard,
   offKeyboardHeightChange,
-  hideKeyboard
+  onKeyboardHeightChange
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-harmony-ets",
-  "version": "4.0.0-beta.63",
+  "version": "4.0.0-beta.83",
   "description": "OpenHarmony & 鸿蒙系统插件",
   "author": "O2Team",
   "homepage": "https://gitee.com/openharmony-sig/taro",
@@ -21,6 +21,7 @@
     "url": "git+https://gitee.com/openharmony-sig/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
     "prebuild": "rimraf ./dist",
     "build": "pnpm run rollup",
     "dev": "pnpm run rollup -w",
@@ -37,19 +38,17 @@
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "webpack-sources": "^3.2.3"
+    "webpack-sources": "^3.2.3",
+    "@babel/preset-react": "^7.24.1",
+    "webpack": "5.91.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-typescript": "^11.1.0",
     "fast-glob": "^3.3.1",
-    "rollup": "^3.8.1",
+    "rollup": "^3.29.4",
     "rollup-plugin-copy": "workspace:*",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
     "solid-js": "^1.8.16",
-    "tslib": "^2.4.0",
-    "typescript": "^4.8.2"
+    "tslib": "^2.4.0"
   }
 }

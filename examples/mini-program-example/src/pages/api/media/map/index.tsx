@@ -1,6 +1,6 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text, Map, Button } from '@tarojs/components'
+import { View, Map, Button, HosMap } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 import { TestConsole } from '@/util/util'
@@ -73,16 +73,29 @@ export default class Index extends React.Component {
             }
           },
         },
-
         {
           id: 'moveToLocation',
           func: (apiIndex) => {
-            TestConsole.consoleTest('moveToLocation')
-            mapContext.moveToLocation()
-            TestConsole.consoleNormal('moveToLocation暂不支持')
+            if (mapContext) {
+              TestConsole.consoleTest('moveToLocation')
+              mapContext.moveToLocation({
+                latitude: 39.90374,
+                longitude: 116.397827,
+                success: (res) => {
+                  TestConsole.consoleSuccess.call(this, res, apiIndex)
+                },
+                fail: (res) => {
+                  TestConsole.consoleFail.call(this, res, apiIndex)
+                },
+                complete: (res) => {
+                  TestConsole.consoleComplete.call(this, res, apiIndex)
+                }
+              })
+            } else {
+              TestConsole.consoleTest('------mapContext未创建------')
+            }
           },
         },
-
         {
           id: 'translateMarker',
           inputData: {
@@ -123,9 +136,9 @@ export default class Index extends React.Component {
           inputData: {
             markerId: 1,
             path: [
-              { latitude: 39.916263, longitude: 116.403119},
-              { latitude: 39.951671, longitude: 116.488781},
-              { latitude: 39.968041, longitude: 116.534775},
+              { latitude: 39.916263, longitude: 116.403119 },
+              { latitude: 39.951671, longitude: 116.488781 },
+              { latitude: 39.968041, longitude: 116.534775 },
             ],
             duration: 5000,
             autoRotate: true,
@@ -663,9 +676,9 @@ export default class Index extends React.Component {
     )
   }
 
-  render() {
+  render () {
     const { list } = this.state
-    function onTaps(e) {
+    function onTaps (e) {
       console.log(e.detail)
     }
     const markers = [
@@ -712,9 +725,24 @@ export default class Index extends React.Component {
     ]
     return (
       <View className='api-page'>
+        <HosMap
+          className='taro-map-container'
+          style={{ height: '400px' }}
+          id='Map'
+          latitude={39.914889}
+          longitude={116.403696}
+          scale={16}
+          minScale={3}
+          maxScale={20}
+          enableZoom={true}
+          enableScroll={true}
+          enableRotate={true}
+          showScale={true}
+          showCompass={true}
+        ></HosMap>
         {this.state.isShow && (
           <Map
-            id='Map'
+            id='H5Map'
             latitude={this.state.latitude}
             longitude={this.state.longitude}
             scale={this.state.scale}
@@ -790,7 +818,7 @@ export default class Index extends React.Component {
             enable3D //是否开启3D
             onTap={onTaps}
             height={'400px'}
-            width={'400px'}
+            width={'400px'}
           ></Map>
         )}
         latitude:<input onBlur={this.handleInputChangeLatitude}></input>

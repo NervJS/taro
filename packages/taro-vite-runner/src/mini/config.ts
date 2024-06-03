@@ -1,9 +1,10 @@
+import path from 'node:path'
+
 import { babel } from '@rollup/plugin-babel'
 import inject, { RollupInjectOptions } from '@rollup/plugin-inject'
-import { defaultMainFields, fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
+import { defaultMainFields, fs, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
-import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.mini'
 import {
@@ -176,7 +177,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
 
-              if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
+              if (REG_NODE_MODULES_DIR.test(id) || /commonjsHelpers\.js$/.test(id)) {
                 return 'vendors'
               } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) {
                 return 'common'

@@ -6,6 +6,21 @@ import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroAny, TaroEvent, TaroButtonElement, TaroStyleType } from '@tarojs/runtime'
 
+interface ButtonAttrs {
+  disabled?: boolean
+}
+
+@Extend(Button)
+function attrs(attr: ButtonAttrs) {
+  .enabled(!attr.disabled)
+}
+
+function getAttributes(node: TaroButtonElement): ButtonAttrs {
+  return {
+    disabled: node._attrs.disabled || false,
+  }
+}
+
 @Extend(Button)
 function themeStyles(style: TaroStyleType) {
   .fontColor(style.color)
@@ -121,6 +136,7 @@ export default struct TaroButton {
     }
     .themeStyles(getThemeAttributes(this.node))
     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+    .attrs(getAttributes(this.node))
     .constraintSize({
       minWidth: this.node.hmStyle?.minWidth || getButtonMinWidth(this.node),
       minHeight: this.node.hmStyle?.minHeight || getButtonMinHeight(this.node),

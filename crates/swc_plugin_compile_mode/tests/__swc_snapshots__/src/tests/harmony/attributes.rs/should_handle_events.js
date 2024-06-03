@@ -40,6 +40,9 @@ import type {
   TaroTextStyleType
 } from '@tarojs/runtime'
 import { isString } from '@tarojs/shared'
+
+
+@Reusable
 @Component
 export default struct TARO_TEMPLATES_f0t0 {
   node: TaroViewElement = new TaroElement('Ignore')
@@ -47,6 +50,11 @@ export default struct TARO_TEMPLATES_f0t0 {
   dynamicCenter: DynamicCenter = new DynamicCenter()
 
   aboutToAppear () {
+    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
+  }
+
+  aboutToReuse(params: TaroAny): void {
+    this.node = params.node
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
   }
 
@@ -90,6 +98,12 @@ export default struct TARO_TEMPLATES_f0t0 {
       .onAreaChange(getComponentEventCallback(this.node0.childNodes[4] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         (this.node0.childNodes[4] as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
+      .borderRadius({
+        topLeft: (this.node0.childNodes[4] as TaroElement)._st.hmStyle.borderTopLeftRadius,
+        topRight: (this.node0.childNodes[4] as TaroElement)._st.hmStyle.borderTopRightRadius,
+        bottomLeft: (this.node0.childNodes[4] as TaroElement)._st.hmStyle.borderBottomLeftRadius,
+        bottomRight: (this.node0.childNodes[4] as TaroElement)._st.hmStyle.borderBottomRightRadius
+      })
       .onComplete(e => eventHandler(e, 'complete', this.node0.childNodes[4] as TaroElement))
       Column() {}
       .attributeModifier(columnModify.setNode(this.node0.childNodes[5] as TaroElement))

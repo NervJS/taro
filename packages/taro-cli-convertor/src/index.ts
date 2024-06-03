@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 // import { ProjectType } from './../../taro-plugin-mini-ci/src/BaseCi';
 import template from '@babel/template'
 import traverse, { NodePath } from '@babel/traverse'
@@ -6,7 +8,6 @@ import { CompilerType, Creator, CSSType, FrameworkType } from '@tarojs/binding'
 import { getRootPath } from '@tarojs/cli'
 import {
   chalk,
-  CSS_IMPORT_REG,
   emptyDirectory,
   fs,
   normalizePath,
@@ -14,6 +15,7 @@ import {
   printLog,
   processTypeEnum,
   promoteRelativePath,
+  REG_CSS_IMPORT,
   REG_IMAGE,
   REG_TYPESCRIPT,
   REG_URL,
@@ -22,7 +24,6 @@ import {
 import { isNull, isUndefined } from '@tarojs/shared'
 import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
-import * as path from 'path'
 import Processors from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 import * as prettier from 'prettier'
@@ -145,7 +146,7 @@ function processStyleImports (content: string, processFn: (a: string, b: string)
 
   // 将引用的样式文件路径转换为相对路径，后缀名转换为.scss
   const styleReg = new RegExp('.wxss')
-  content = content.replace(CSS_IMPORT_REG, (m, _$1, $2) => {
+  content = content.replace(REG_CSS_IMPORT, (m, _$1, $2) => {
     if (styleReg.test($2)) {
       if (processFn) {
         return processFn(m, $2)
@@ -192,9 +193,9 @@ export default class Convertor {
 
   constructor (root, isTsProject) {
     this.root = root
-    this.convertRoot = path.join(this.root, 'taroConvert')
-    this.convertDir = path.join(this.convertRoot, 'src')
-    this.importsDir = path.join(this.convertDir, 'imports')
+    this.convertRoot = normalizePath(path.join(this.root, 'taroConvert'))
+    this.convertDir = normalizePath(path.join(this.convertRoot, 'src'))
+    this.importsDir = normalizePath(path.join(this.convertDir, 'imports'))
     this.isTsProject = isTsProject
     if (isTsProject) {
       this.miniprogramRoot = path.join(this.root, 'miniprogram')
@@ -1437,7 +1438,7 @@ export default class Convertor {
     if (this.isTraversePlugin) {
       filePath = src.replace(this.pluginInfo.pluginRoot, path.join(this.convertDir, this.pluginInfo.pluginName))
     } else {
-      filePath = src.replace(this.root, this.convertDir)
+      filePath = normalizePath(src).replace(normalizePath(this.root), this.convertDir)
     }
 
     return extname ? filePath.replace(path.extname(src), extname) : filePath
@@ -1458,20 +1459,9 @@ export default class Convertor {
     return filePath.replace(path.join(this.root, '/'), '').split(path.sep).join('/')
   }
 
-  private formatFile (jsCode: string, template = '') {
-    let code = jsCode
+  private formatFile (jsCode: string, _template = '') {
+    const code = jsCode
     const config = { ...prettierJSConfig }
-    if (this.framework === FrameworkType.Vue) {
-      code = `
-${template}
-<script>
-${code}
-</script>
-      `
-      config.parser = 'vue'
-      config.semi = false
-      config.htmlWhitespaceSensitivity = 'ignore'
-    }
     return prettier.format(code, config)
   }
 

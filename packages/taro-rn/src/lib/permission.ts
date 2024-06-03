@@ -1,5 +1,4 @@
-import { Linking, AppState, NativeEventSubscription } from 'react-native';
-import { getCameraPermissionsAsync, getMicrophonePermissionsAsync, requestCameraPermissionsAsync, requestMicrophonePermissionsAsync } from 'expo-camera'
+import { Camera } from 'expo-camera'
 import { getMediaLibraryPermissionsAsync, requestMediaLibraryPermissionsAsync } from 'expo-image-picker'
 import {
   getForegroundPermissionsAsync,
@@ -7,7 +6,16 @@ import {
   requestForegroundPermissionsAsync,
   // requestBackgroundPermissionsAsync
 } from 'expo-location'
-import { errorHandler, successHandler } from '../utils';
+import { AppState, Linking, NativeEventSubscription } from 'react-native'
+
+import { errorHandler, successHandler } from '../utils'
+
+const {
+  getCameraPermissionsAsync,
+  getMicrophonePermissionsAsync,
+  requestCameraPermissionsAsync,
+  requestMicrophonePermissionsAsync
+} = Camera
 
 const scopeMap = {
   'scope.userLocation': [getForegroundPermissionsAsync, requestForegroundPermissionsAsync],
@@ -27,7 +35,7 @@ let stateListener // 缓存监听函数
 let appStateSubscription: NativeEventSubscription | undefined
 
 const getAuthSetting = async () => {
-  let auths = {}
+  const auths = {}
 
   await Promise.all(Object.keys(scopeMap).map(async key => {
     const { granted } = await scopeMap[key][0]()
@@ -47,7 +55,7 @@ const handleAppStateChange = async (_nextAppState, resolve, reject, opts) => {
       res.errMsg = 'openSetting:ok'
       success?.(res)
       complete?.(res)
-  
+
       appStateSubscription?.remove()
       resolve(res)
     } catch (error) {
@@ -59,39 +67,39 @@ const handleAppStateChange = async (_nextAppState, resolve, reject, opts) => {
     }
   }
   // AppState.currentState = nextAppState;
-};
+}
 
 export async function authorize(opts: Taro.authorize.Option): Promise<TaroGeneral.CallbackResult> {
   const { scope, success, fail, complete } = opts
   const res: any = {}
 
-    try {
-      const { granted } = await scopeMap[scope][1]()
-      if (granted) {
-        res.errMsg = 'authorize:ok'
-        return successHandler(success, complete)(res)
-      } else {
-        res.errMsg = 'authorize:denied/undetermined'
-        return errorHandler(fail, complete)(res)
-      }
-    } catch (error) {
-      res.errMsg = 'authorize:fail'
+  try {
+    const { granted } = await scopeMap[scope][1]()
+    if (granted) {
+      res.errMsg = 'authorize:ok'
+      return successHandler(success, complete)(res)
+    } else {
+      res.errMsg = 'authorize:denied/undetermined'
       return errorHandler(fail, complete)(res)
     }
+  } catch (error) {
+    res.errMsg = 'authorize:fail'
+    return errorHandler(fail, complete)(res)
+  }
 }
 
 export async function getSetting(opts: Taro.getSetting.Option = {}): Promise<Taro.getSetting.SuccessCallbackResult> {
   const { success, fail, complete } = opts
   const res: any = {}
 
-    try {
-      res.authSetting = await getAuthSetting()
-      res.errMsg = 'getSetting:ok'
-      return successHandler(success, complete)(res)
-    } catch (error) {
-      res.errMsg = 'getSetting:fail'
-      return errorHandler(fail, complete)(res)
-    }
+  try {
+    res.authSetting = await getAuthSetting()
+    res.errMsg = 'getSetting:ok'
+    return successHandler(success, complete)(res)
+  } catch (error) {
+    res.errMsg = 'getSetting:fail'
+    return errorHandler(fail, complete)(res)
+  }
 }
 
 export function openSetting(opts: Taro.openSetting.Option = {}): Promise<Taro.openSetting.SuccessCallbackResult> {

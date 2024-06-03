@@ -5,11 +5,12 @@ import {
   isEmptyObject,
   META_TYPE,
   NODE_MODULES,
-  NODE_MODULES_REG,
   printLog,
   processTypeEnum,
   promoteRelativePath,
   readConfig,
+  REG_NODE_MODULES,
+  REG_NODE_MODULES_DIR,
   REG_STYLE,
   replaceAliasPath,
   resolveMainFilePath,
@@ -194,7 +195,7 @@ export default class TaroMiniPlugin {
       PLUGIN_NAME,
       this.tryAsync<Compiler>(async compiler => {
         const changedFiles = this.getChangedFiles(compiler)
-        if (changedFiles?.size > 0) {
+        if (changedFiles && changedFiles?.size > 0) {
           this.isWatch = true
         }
         await this.run(compiler)
@@ -971,7 +972,7 @@ export default class TaroMiniPlugin {
                 name: `${name}/vendors`,
                 minChunks: 1,
                 test: module => {
-                  return (/[\\/]node_modules[\\/]/.test(module.resource) && module.resource.indexOf(compPath) < 0)
+                  return (REG_NODE_MODULES_DIR.test(module.resource) && module.resource.indexOf(compPath) < 0)
                 },
                 priority: 10
               }
@@ -1367,9 +1368,9 @@ export default class TaroMiniPlugin {
 
   getComponentName (componentPath: string) {
     let componentName: string
-    if (NODE_MODULES_REG.test(componentPath)) {
+    if (REG_NODE_MODULES.test(componentPath)) {
       componentName = componentPath.replace(this.context, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
-      componentName = componentName.replace(/node_modules/gi, 'npm')
+      componentName = componentName.replace(REG_NODE_MODULES, 'npm')
     } else {
       componentName = componentPath.replace(this.options.sourceDir, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
       if (this.options.isBuildPlugin) {

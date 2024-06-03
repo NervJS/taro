@@ -12,7 +12,7 @@ import {
   getPath,
   injectPageInstance,
   removePageInstance,
-  safeExecute
+  safeExecute,
 } from './page'
 import { EMPTY_OBJ, incrementId, isClassComponent } from './utils'
 
@@ -65,22 +65,20 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     }
 
     render () {
-      return (
-        h(
-          'view',
-          {
-            ref: this.root,
-            id: this.props.compId
-          },
-          this.props.renderComponent(this.ctx)
-        )
+      return h(
+        'view',
+        {
+          ref: this.root,
+          id: this.props.compId,
+        },
+        this.props.renderComponent(this.ctx)
       )
     }
   }
 
   class Entry extends R.Component<Record<any, any>, IEntryState> {
     state: IEntryState = {
-      components: []
+      components: [],
     }
 
     componentDidMount () {
@@ -106,10 +104,12 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     mount (Component, compId, getCtx, cb?) {
       const isReactComponent = isClassComponent(R, Component)
       const inject = (node?: any) => node && injectPageInstance(node, compId)
-      const refs = isReactComponent ? { ref: inject } : {
-        forwardedRef: inject,
-        reactReduxForwardedRef: inject
-      }
+      const refs = isReactComponent
+        ? { ref: inject }
+        : {
+          forwardedRef: inject,
+          reactReduxForwardedRef: inject,
+        }
       if (reactMeta.PageContext === EMPTY_OBJ) {
         reactMeta.PageContext = R.createContext('')
       }
@@ -123,42 +123,43 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
             return h(
               reactMeta.PageContext.Provider,
               { value: compId },
-              h(
-                Component,
-                {
-                  // TODO: 传递 Props
-                  ...(ctx.props || {}),
-                  ...refs,
-                  $scope: ctx
-                }
-              )
+              h(Component, {
+                // TODO: 传递 Props
+                ...(ctx.props || {}),
+                ...refs,
+                $scope: ctx,
+              })
             )
-          }
-        })
+          },
+        }),
       }
-      this.setState({
-        components: [...this.state.components, item]
-      }, () => cb && cb())
+      this.setState(
+        {
+          components: [...this.state.components, item],
+        },
+        () => cb && cb()
+      )
     }
 
     unmount (compId, cb?) {
       const components = this.state.components
-      const index = components.findIndex(item => item.compId === compId)
+      const index = components.findIndex((item) => item.compId === compId)
       const next = [...components.slice(0, index), ...components.slice(index + 1)]
-      this.setState({
-        components: next
-      }, () => {
-        removePageInstance(compId)
-        cb && cb()
-      })
+      this.setState(
+        {
+          components: next,
+        },
+        () => {
+          removePageInstance(compId)
+          cb && cb()
+        }
+      )
     }
 
     render () {
       const components = this.state.components
 
-      return (
-        components.map(({ element }) => element)
-      )
+      return components.map(({ element }) => element)
     }
   }
 
@@ -173,26 +174,22 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     app = nativeApp
   }
   // eslint-disable-next-line react/no-deprecated
-  ReactDOM.render(
-    h(Entry, {}),
-    app
-  )
+  ReactDOM.render(h(Entry, {}), app)
 }
 
-export function createNativePageConfig (Component, pageName: string, react: typeof React, reactDOM: typeof ReactDOM, pageConfig) {
+export function createNativePageConfig (
+  Component,
+  pageName: string,
+  react: typeof React,
+  reactDOM: typeof ReactDOM,
+  pageConfig
+) {
   reactMeta.R = react
   h = react.createElement
   ReactDOM = reactDOM
   setReconciler(ReactDOM)
-  const [
-    ONLOAD,
-    ONUNLOAD,
-    ONREADY,
-    ONSHOW,
-    ONHIDE,
-    LIFECYCLES,
-    SIDE_EFFECT_LIFECYCLES
-  ] = hooks.call('getMiniLifecycleImpl')!.page
+  const [ONLOAD, ONUNLOAD, ONREADY, ONSHOW, ONHIDE, LIFECYCLES, SIDE_EFFECT_LIFECYCLES] =
+    hooks.call('getMiniLifecycleImpl')!.page
   let unmounting = false
   let prepareMountList: (() => void)[] = []
   let pageElement: TaroElement | null = null
@@ -207,7 +204,7 @@ export function createNativePageConfig (Component, pageName: string, react: type
       $taroPath: page.$taroPath,
       onReady: getOnReadyEventKey(id),
       onShow: getOnShowEventKey(id),
-      onHide: getOnHideEventKey(id)
+      onHide: getOnHideEventKey(id),
     }
     if (!isUndefined(page.exitState)) {
       Current.router.exitState = page.exitState
@@ -217,12 +214,14 @@ export function createNativePageConfig (Component, pageName: string, react: type
   const pageObj: Record<string, any> = {
     options: pageConfig,
     [ONLOAD] (options: Readonly<Record<string, unknown>> = {}, cb?: TFunc) {
-      hasLoaded = new Promise(resolve => { loadResolver = resolve })
+      hasLoaded = new Promise((resolve) => {
+        loadResolver = resolve
+      })
       Current.page = this as any
       this.config = pageConfig || {}
       // this.$taroPath 是页面唯一标识
       const uniqueOptions = Object.assign({}, options, { $taroTimestamp: Date.now() })
-      const $taroPath = this.$taroPath = getPath(id, uniqueOptions)
+      const $taroPath = (this.$taroPath = getPath(id, uniqueOptions))
 
       // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
       if (this.$taroParams == null) {
@@ -250,7 +249,7 @@ export function createNativePageConfig (Component, pageName: string, react: type
             ReactDOM,
             cb: () => {
               Current.app!.mount!(Component, $taroPath, () => this, mountCallback)
-            }
+            },
           })
         } else {
           Current.app!.mount!(Component, $taroPath, () => this, mountCallback)
@@ -279,7 +278,7 @@ export function createNativePageConfig (Component, pageName: string, react: type
           pageElement = null
         }
         if (prepareMountList.length) {
-          prepareMountList.forEach(fn => fn())
+          prepareMountList.forEach((fn) => fn())
           prepareMountList = []
         }
       })
@@ -337,11 +336,8 @@ export function createNativePageConfig (Component, pageName: string, react: type
   })
 
   // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
-  SIDE_EFFECT_LIFECYCLES.forEach(lifecycle => {
-    if (Component[lifecycle] ||
-      Component.prototype?.[lifecycle] ||
-      Component[lifecycle.replace(/^on/, 'enable')]
-    ) {
+  SIDE_EFFECT_LIFECYCLES.forEach((lifecycle) => {
+    if (Component[lifecycle] || Component.prototype?.[lifecycle] || Component[lifecycle.replace(/^on/, 'enable')]) {
       pageObj[lifecycle] = function (...args) {
         const target = args[0]?.target
         if (target?.id) {
@@ -359,4 +355,67 @@ export function createNativePageConfig (Component, pageName: string, react: type
   hooks.call('modifyPageObject', pageObj)
 
   return pageObj
+}
+
+export function createNativeComponentConfig (
+  Component,
+  react: typeof React,
+  reactdom,
+  componentConfig
+) {
+  reactMeta.R = react
+  h = react.createElement
+  ReactDOM = reactdom
+  setReconciler(ReactDOM)
+  const { isNewBlended } = componentConfig
+
+  const componentObj: Record<string, any> = {
+    options: componentConfig,
+    onLoad (
+      options: Readonly<Record<string, unknown>> = {}, // eslint-disable-line @typescript-eslint/no-unused-vars
+      cb?: TFunc
+    ) {
+      const app = isNewBlended ? nativeComponentApp : Current.app
+
+      const mountComponent = () => {
+        const app = isNewBlended ? nativeComponentApp : Current.app
+        const compId = (this.compId = getNativeCompId())
+
+        this.config = componentConfig
+        app!.mount!(
+          Component,
+          compId,
+          () => this,
+          () => {
+            const el = document.getElementById(compId)
+
+            if (!el) {
+              throw new Error(`没有找到组件实例。`)
+            } else {
+              el.ctx = this
+              cb && cb(el)
+            }
+          }
+        )
+      }
+
+      if (!app) {
+        initNativeComponentEntry({
+          R: react,
+          ReactDOM,
+          isDefaultEntryDom: !isNewBlended,
+          cb: mountComponent,
+        })
+      } else {
+        mountComponent()
+      }
+    },
+
+    onUnload () {
+      const app = isNewBlended ? nativeComponentApp : Current.app
+      app!.unmount!(this.compId)
+    },
+  }
+
+  return componentObj
 }

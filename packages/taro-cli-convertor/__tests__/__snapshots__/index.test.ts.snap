@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parseAst require引用为空 1`] = `
-"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -13,11 +13,11 @@ class _C extends React.Component {
     return null;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 为data数据添加可选链操作符 1`] = `
-"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block, View } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -43,11 +43,11 @@ class _C extends React.Component {
       })}</Block>;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 为setData数据添加可选链操作符 1`] = `
-"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block, View } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -81,11 +81,11 @@ class _C extends React.Component {
       })}</Block>;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 使用 resolveAlias 配置项用来自定义模块路径的映射规则 1`] = `
-"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -103,11 +103,11 @@ class _C extends React.Component {
     return null;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 处理js文件中以/开头的绝对路径 1`] = `
-"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -121,11 +121,11 @@ class _C extends React.Component {
     return null;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 处理js文件中非正常路径，比如 a/b 1`] = `
-"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -139,11 +139,11 @@ class _C extends React.Component {
     return null;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 对图片路径的转换处理 1`] = `
-"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block, Image } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -154,11 +154,11 @@ class _C extends React.Component {
     return <Image src={require("../../images/tutu.jpg")} mode="scaleToFill"></Image>;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 当使用e.target.dataset时引入工具函数 getTarget 1`] = `
-"import withWeapp, { cacheOptions, getTarget } from "@tarojs/with-weapp";
+import withWeapp, { cacheOptions, getTarget } from "@tarojs/with-weapp";
 import { Block, View, Button } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -206,11 +206,11 @@ class _C extends React.Component {
     return <Block><View>测试data-xxx-xxx写法</View><Button data-tag-name="WX1314" data-tag-data={tagInfo} onClick={this.getMsg}>获取</Button><View>测试data-xxxXxxx 驼峰写法</View><Button data-tagname="WX1314" data-tagdata={tagInfo} onClick={this.getMsg02}>获取</Button></Block>;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 模板中使用function 1`] = `
-"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block, Button } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -228,11 +228,11 @@ class _C extends React.Component {
     }} onClick={this.onClick}></ItemTmpl>;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 模板按需导入 1`] = `
-"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -244,11 +244,11 @@ class _C extends React.Component {
     return <TemplateATmpl></TemplateATmpl>;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 自定义组件按需导入 1`] = `
-"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -259,15 +259,15 @@ cacheOptions.setOptionsToCache({});
 class _C extends React.Component {
   render() {
     return <Block><ComponentA name="a"></ComponentA><ComponentB name="b"></ComponentB>{
-        /*  <component-c name="c" /> */
+        /*  <component-c name="c" />  */
       }</Block>;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 转换后模块名重名时，为导入的组件模块名添加Component后缀，以示区分 1`] = `
-"import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -283,5 +283,5 @@ class _C extends React.Component {
     return <Block><JstestComponent></JstestComponent><MymoduleComponent></MymoduleComponent><MymodulesComponent></MymodulesComponent></Block>;
   }
 }
-export default _C;"
+export default _C;
 `;

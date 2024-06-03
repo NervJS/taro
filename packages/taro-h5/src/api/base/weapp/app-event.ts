@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
 import isNil from 'lodash-es/isNil'
-import { parse } from 'query-string'
+import queryString from 'query-string'
 
 import { temporarilyNotSupport } from '../../../utils'
 import { CallbackManager } from '../../../utils/handler'
@@ -38,7 +38,7 @@ const getApp = () => {
     /** 小程序切前台的路径 */
     path: path?.substring(0, path.indexOf('?')) || '',
     /** 小程序切前台的 query 参数 */
-    query: parse(location.search),
+    query: queryString.parse(location.search),
     /** 来源信息。 */
     referrerInfo: {},
     /** 小程序切前台的[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) */
@@ -74,7 +74,7 @@ export const onThemeChange: typeof Taro.onThemeChange = callback => {
     if (isNil(themeMatchMedia)) {
       themeMatchMedia = window.matchMedia('(prefers-color-scheme: light)')
     }
-    themeMatchMedia.addEventListener('change', themeChangeListener)
+    themeMatchMedia!.addEventListener('change', themeChangeListener)
   }
 }
 
@@ -124,7 +124,7 @@ export const offThemeChange: typeof Taro.offThemeChange = callback => {
     if (isNil(themeMatchMedia)) {
       themeMatchMedia = window.matchMedia('(prefers-color-scheme: light)')
     }
-    themeMatchMedia.removeEventListener('change', themeChangeListener)
+    themeMatchMedia!.removeEventListener('change', themeChangeListener)
     themeMatchMedia = null
   }
 }

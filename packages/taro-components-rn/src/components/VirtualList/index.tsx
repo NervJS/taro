@@ -1,9 +1,10 @@
 
 import * as React from 'react'
-import { FlatList, NativeSyntheticEvent, NativeScrollEvent, ListRenderItemInfo } from 'react-native'
+import { FlatList, ListRenderItemInfo, NativeScrollEvent, NativeSyntheticEvent } from 'react-native'
+
 import { noop } from '../../utils'
-import { VirtualListProps } from './PropsType'
 import { ScrollViewProps } from '../ScrollView/PropsType'
+import { VirtualListProps } from './PropsType'
 
 class _VirtualList extends React.Component<VirtualListProps & ScrollViewProps<any>, any> {
   static defaultProps = {

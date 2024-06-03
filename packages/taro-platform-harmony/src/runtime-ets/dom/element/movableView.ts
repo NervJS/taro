@@ -1,6 +1,7 @@
 import { TaroElement } from './element'
 
 import type { MovableViewProps } from '@tarojs/components/types'
+import type { TaroAny } from '../../utils'
 
 type Tsize = {
   w: number
@@ -21,6 +22,9 @@ function calcPosition(postion: number, start: number, end: number) {
   }
 }
 
+export function isTaroMovableViewElement (item: TaroAny): item is TaroMovableViewElement {
+  return item instanceof TaroMovableViewElement
+}
 @Observed
 export class TaroMovableViewElement extends TaroElement<MovableViewProps & { animation: undefined }> {
   _scaleValue = 1
@@ -30,6 +34,8 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
   _area?: Tsize
   // 自己元素的大小
   _selfSize?: Tsize
+  _areaInited: false
+  _selfSizeInited: false
 
   // 元素的位置
   _position: Tpoint = {
@@ -53,14 +59,6 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
     return 0
   }
 
-  set area(val: Tsize) {
-    this._area = val
-  }
-
-  get area(): Tsize | undefined {
-    return this._area
-  }
-
   startScale() {
     this._scalevalueTemp = this._scaleValue
   }
@@ -80,9 +78,15 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
 
       this.checkPositionBoundary(this.position, val)
 
-      const bindscale = this.getAttribute('bindscale')
-      typeof bindscale === 'function' && bindscale({ ...this.position, scale: this.scaleValue })
+      const scaleFns = this?.__listeners?.scale || []
+      scaleFns.forEach((fn) => {
+        fn({ ...this.position, scale: this.scaleValue })
+      })
     }
+  }
+
+  get visibility () {
+    return this._areaInited && this._selfSizeInited ? Visibility.Visible : Visibility.Hidden
   }
 
   get scaleValue() {
@@ -94,8 +98,12 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
   }
 
   doMove(val: Tpoint) {
-    if (!this.area || !this.selfSize) return
-    if (this.getAttribute('disabled')) return
+    if (!this.area || !this.selfSize) {
+      return
+    }
+    if (this.getAttribute('disabled')) {
+      return
+    }
     const direction = this.getAttribute('direction')
 
     // 容器的宽高终点
@@ -124,10 +132,12 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
         areaHeightEnd + incrementHeight * 0.5 + this._outOfBounds
       )
     }
-    const bindchange = this.getAttribute('bindchange')
-    if (typeof bindchange === 'function') {
-      bindchange({ x, y, source: 'touch' })
-    }
+
+    const changeFns = this?.__listeners?.change || []
+    changeFns.forEach((fn) => {
+      fn({ x, y, source: 'touch' })
+    })
+
     this.position = {
       x: x,
       y: y,
@@ -142,12 +152,39 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
     this._position = val
   }
 
+  set area(val: Tsize) {
+    if (val.w === this._area?.w && val.h === this._area?.h) return
+    this._area = val
+    if (!this._areaInited) {
+      this._areaInited = true
+      this.initPositionFromAttribute()
+    }
+  }
+
+  get area(): Tsize | undefined {
+    return this._area
+  }
+
   set selfSize(val: Tsize) {
+    if (val.w === this._selfSize?.w && val.h === this._selfSize?.h) return
     this._selfSize = val
+    if (!this._selfSizeInited) {
+      this._selfSizeInited = true
+      this.initPositionFromAttribute()
+    }
   }
 
   get selfSize(): Tsize | undefined {
     return this._selfSize
+  }
+
+  initPositionFromAttribute () {
+    if (!this.area || !this.selfSize) {
+      return
+    }
+    const x = this.getAttribute('x') ? Number(this.getAttribute('x')) : 0
+    const y = this.getAttribute('y') ? Number(this.getAttribute('y')) : 0
+    this.checkPositionBoundary({ x, y }, this.scaleValue)
   }
 
   checkPositionBoundary(position: Tpoint, scale: number) {
@@ -189,5 +226,19 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
     }
 
     super.setAttribute(name, value)
+  }
+
+  public callTouchEventFnFromGesture(eventName: string, gestureEvent: GestureEvent) {
+    const touchFns = (this?.__listeners?.[eventName] || []) as Function[]
+    touchFns.forEach(fn => {
+      fn({
+        _hmEvent: gestureEvent,
+        target: this,
+        changedTouches: gestureEvent.fingerList.map(finger => ({
+          clientX: finger.globalX,
+          clientY: finger.globalY
+        }))
+      })
+    })
   }
 }

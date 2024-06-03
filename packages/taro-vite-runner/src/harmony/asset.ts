@@ -1,9 +1,9 @@
+import path from 'node:path'
+import { parse as parseUrl } from 'node:url'
+
 import { fs, getHash } from '@tarojs/helper'
 import MagicString from 'magic-string'
 import * as mrmime from 'mrmime'
-import path from 'path'
-// eslint-disable-next-line node/no-deprecated-api
-import { parse as parseUrl } from 'url'
 import { normalizePath } from 'vite'
 
 import { addTrailingSlash, virtualModulePrefixREG } from '../utils'

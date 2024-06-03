@@ -1,8 +1,8 @@
 import { transformAsync, transformSync } from '@babel/core'
 import { SCRIPT_EXT } from '@tarojs/helper'
-import { Identifier } from 'babel-types'
 
 import type * as BabelCore from '@babel/core'
+import type { Identifier } from '@babel/types'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 

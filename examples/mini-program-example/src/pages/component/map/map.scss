@@ -16,3 +16,12 @@
 .page-section-title {
   text-align: center;
 }
+
+.taro-map-container {
+  display: inline-block;
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 100%;
+  object-position: inherit;
+}

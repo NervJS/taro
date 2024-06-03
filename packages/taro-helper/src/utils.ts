@@ -1,23 +1,24 @@
+import * as child_process from 'node:child_process'
+import { createHash } from 'node:crypto'
+import * as os from 'node:os'
+import * as path from 'node:path'
+
 import * as babel from '@babel/core'
 import babelGenerator from '@babel/generator'
 import * as babelParser from '@babel/parser'
 import babelTraverse from '@babel/traverse'
 import * as t from '@babel/types'
-import * as child_process from 'child_process'
-import { createHash } from 'crypto'
 import * as fs from 'fs-extra'
 import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
-import * as os from 'os'
-import * as path from 'path'
 
 import {
   CSS_EXT,
-  CSS_IMPORT_REG,
-  NODE_MODULES_REG,
   PLATFORMS,
   processTypeEnum,
   processTypeMap,
+  REG_CSS_IMPORT,
   REG_JSON,
+  REG_NODE_MODULES,
   SCRIPT_EXT,
   TARO_CONFIG_FOLDER,
 } from './constants'
@@ -32,7 +33,7 @@ export function normalizePath(path: string) {
   return path.replace(/\\/g, '/').replace(/\/{2,}/g, '/')
 }
 
-export const isNodeModule = (filename: string): boolean => NODE_MODULES_REG.test(filename)
+export const isNodeModule = (filename: string): boolean => REG_NODE_MODULES.test(filename)
 
 export function isNpmPkg(name: string): boolean {
   if (/^(\.|\/)/.test(name)) {
@@ -353,7 +354,7 @@ export function cssImports(content: string): string[] {
   let match: RegExpExecArray | null
   const results: string[] = []
   content = String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
-  while ((match = CSS_IMPORT_REG.exec(content))) {
+  while ((match = REG_CSS_IMPORT.exec(content))) {
     results.push(match[2])
   }
   return results
@@ -469,52 +470,6 @@ export const applyArrayedVisitors = (obj) => {
     }
   }
   return obj
-}
-
-export function unzip(zipPath) {
-  const Transform = require('stream').Transform
-  const yauzl = require('yauzl')
-
-  return new Promise<void>((resolve, reject) => {
-    yauzl.open(zipPath, { lazyEntries: true }, (err, zipfile) => {
-      if (err || !zipfile) throw err
-      zipfile.on('close', () => {
-        fs.removeSync(zipPath)
-        resolve()
-      })
-      zipfile.readEntry()
-      zipfile.on('error', (err) => {
-        reject(err)
-      })
-      zipfile.on('entry', (entry) => {
-        if (/\/$/.test(entry.fileName)) {
-          const fileNameArr = entry.fileName.replace(/\\/g, '/').split('/')
-          fileNameArr.shift()
-          const fileName = fileNameArr.join('/')
-          fs.ensureDirSync(path.join(path.dirname(zipPath), fileName))
-          zipfile.readEntry()
-        } else {
-          zipfile.openReadStream(entry, (err, readStream) => {
-            if (err || !readStream) throw err
-            const filter = new Transform()
-            filter._transform = function (chunk, _encoding, cb) {
-              cb(undefined, chunk)
-            }
-            filter._flush = function (cb) {
-              cb()
-              zipfile.readEntry()
-            }
-            const fileNameArr = normalizePath(entry.fileName).split('/')
-            fileNameArr.shift()
-            const fileName = fileNameArr.join('/')
-            const writeStream = fs.createWriteStream(path.join(path.dirname(zipPath), fileName))
-            writeStream.on('close', () => {})
-            readStream.pipe(filter).pipe(writeStream)
-          })
-        }
-      })
-    })
-  })
 }
 
 export const getAllFilesInFolder = async (folder: string, filter: string[] = []): Promise<string[]> => {
@@ -644,7 +599,6 @@ function readSFCPageConfig(configPath: string) {
       p.stop()
     }
     const configSource = matches[0]
-    const babel = require('@babel/core')
     const ast = babel.parse(configSource, { filename: '' }) as babel.ParseResult
 
     babel.traverse(ast.program, { CallExpression: callExprHandler })

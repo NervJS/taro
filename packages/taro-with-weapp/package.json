@@ -1,8 +1,13 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "4.0.0-beta.63",
+  "version": "4.0.0-beta.83",
   "description": "taroize 之后的运行时",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
+  "exports": {
+    ".": "./dist/index.esm.js"
+  },
   "files": [
     "dist",
     "src",
@@ -13,41 +18,26 @@
     "type": "git",
     "url": "https://github.com/NervJS/taro/tree/master/packages/taro-with-weapp"
   },
-  "author": "yuche",
-  "license": "MIT",
   "scripts": {
-    "build": "rollup -c rollup.config.js",
-    "dev": "rollup -c -w rollup.config.js",
+    "prod": "pnpm run build",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
     "tsc": "tsc",
-    "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
     "test": "jest",
     "test:ci": "cross-env NODE_ENV=test jest --ci -i --silent",
     "test:coverage": "jest --coverage"
   },
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
-    "@babel/runtime": "^7.14.5",
     "@tarojs/runtime": "workspace:*",
-    "@tarojs/taro": "workspace:*",
-    "lodash": "^4.17.21"
+    "@tarojs/taro": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5",
-    "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@types/sinon": "^7.5.0",
-    "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
-    "jest-environment-jsdom": "^29.6.4",
-    "jsdom": "^21.1.0",
-    "rollup": "^2.79.0",
-    "rollup-plugin-ts": "^3.0.2",
-    "sinon": "^7.5.0",
-    "ts-jest": "^29.0.5",
-    "typescript": "^4.7.4"
-  },
-  "exports": {
-    ".": "./dist/index.esm.js"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
