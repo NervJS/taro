@@ -7,7 +7,7 @@
   "scripts": {
     "prebuild": "pnpm run clean && node ./scripts/fix.js",
     "build": "rollup -c",
-    "clean": "rimraf --impl=move-remove ../taro-components/lib/react",
+    "clean": "rimraf --impl=move-remove ../taro-components/lib/solid",
     "dev": "pnpm run build -w",
     "prod": "pnpm run build"
   },

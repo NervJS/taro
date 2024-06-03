@@ -80,7 +80,7 @@ export default class TaroNormalModulesPlugin {
                   !(nameOfCallee && nameOfCallee.includes('createElementVNode')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementBlock')) &&
                   !(nameOfCallee && nameOfCallee.includes('resolveComponent')) && // 收集使用解析函数的组件名称
-                  !(nameOfCallee && nameOfCallee.includes('_$createElement')) && // solidjs创建元素
+                  !(nameOfCallee && nameOfCallee.includes('_$createElement')) // solidjs创建元素
                 ) {
                   return
                 }
