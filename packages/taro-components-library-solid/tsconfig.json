@@ -4,12 +4,12 @@
     "baseUrl": ".",
     "declaration": true,
     "jsx": "preserve",
+    "declarationDir": "../taro-components/lib/solid",
     "jsxImportSource": "solid-js",
     "module": "ESNext",
     "noUnusedLocals": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "sourceMap": false,
     "strictNullChecks": false,
     "target": "ES2017",
     "typeRoots": ["./node_modules/@types"]

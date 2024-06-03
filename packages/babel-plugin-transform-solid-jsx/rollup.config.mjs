@@ -1,9 +1,14 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 import nodeResolve from '@rollup/plugin-node-resolve'
-import path from 'path'
+
+const __filename = fileURLToPath(new URL(import.meta.url))
+const cwd = path.dirname(__filename)
 
 const plugins = [
   nodeResolve({
-    rootDir: path.join(process.cwd(), '../..'),
+    rootDir: path.join(cwd, '../..'),
     moduleDirectories: ['node_modules', 'packages'],
   }),
 ]

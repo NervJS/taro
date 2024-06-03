@@ -1,8 +1,8 @@
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
+import typescript from '@rollup/plugin-typescript'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
-import ts from 'rollup-plugin-ts'
 
 const config = {
   input: ['src/index.ts', 'src/component-lib/index.ts'],
@@ -24,9 +24,7 @@ const config = {
       preferBuiltins: false,
       mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }),
-    ts({
-      sourceMap: true,
-    }),
+    typescript(),
     commonjs({
       transformMixedEsModules: true,
       dynamicRequireTargets: ['./src/**/*.js'],

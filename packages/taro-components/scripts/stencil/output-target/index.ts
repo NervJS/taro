@@ -3,6 +3,12 @@ import { normalizeOutputTarget as normalizeReactOutputTarget } from '@stencil/re
 import { generateProxies as generateVue3Proxies } from '@stencil/vue-output-target/dist/output-vue'
 import { normalizeOutputTarget as normalizeVueOutputTarget } from '@stencil/vue-output-target/dist/plugin'
 
+import {
+  generateProxies as generateSolidProxies,
+  normalizeOutputTarget as normalizeSolidOutputTarget,
+  validateOutputTarget,
+} from './output-solid'
+
 import type { CompilerCtx, ComponentCompilerMeta, Config, OutputTargetCustom } from '@stencil/core/internal'
 import type { OutputTargetReact } from '@stencil/react-output-target'
 import type { OutputTargetVue } from '@stencil/vue-output-target'
