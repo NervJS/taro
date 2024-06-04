@@ -69,7 +69,7 @@
     "@testing-library/react-native": "^11.5.0",
     "@types/jest": "^27.4.1",
     "@types/react-native": "^0.69.8",
-    "expo": "~47.0.3",
+    "expo": "~51.0.9",
     "expo-modules-core": "~1.0.2",
     "fbjs-scripts": "^3.0.1",
     "jest": "^26.4.2",

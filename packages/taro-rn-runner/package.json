@@ -51,7 +51,7 @@
     "babel-plugin-global-define": "1.0.3",
     "babel-plugin-jsx-attributes-array-to-object": "0.3.0",
     "babel-plugin-transform-react-jsx-to-rn-stylesheet": "workspace:*",
-    "expo": "~47.0.3",
+    "expo": "~51.0.9",
     "expo-file-system": "~15.1.1",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
