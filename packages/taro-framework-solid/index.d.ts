@@ -1,1 +1,1 @@
-declare module '@tarojs/plugin-framework-react/dist/reconciler'
+declare module '@tarojs/plugin-framework-solid/dist/reconciler'

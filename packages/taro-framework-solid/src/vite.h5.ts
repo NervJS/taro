@@ -6,29 +6,27 @@ import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { PluginOption } from 'vite'
-import type { Frameworks } from './index'
 
-export function h5iVitePlugin (ctx: IPluginContext, framework: Frameworks): PluginOption {
+export function h5iVitePlugin (ctx: IPluginContext): PluginOption[] {
   return [
-    injectLoaderMeta(ctx, framework),
+    injectLoaderMeta(ctx),
     setTaroApi(),
-    esbuildExclude(framework)
   ]
 }
 
-function injectLoaderMeta (ctx: IPluginContext, framework: Frameworks): PluginOption {
+function injectLoaderMeta (ctx: IPluginContext): PluginOption {
   function customizer (object = '', sources = '') {
     if ([object, sources].every(e => typeof e === 'string')) return object + sources
   }
   const { runnerUtils } = ctx
   const { getViteH5CompilerContext } = runnerUtils
   return {
-    name: 'taro-react:loader-meta',
+    name: 'taro-solid:loader-meta',
     async buildStart () {
       const viteCompilerContext = await getViteH5CompilerContext(this)
       if (viteCompilerContext) {
         viteCompilerContext.loaderMeta = mergeWith(
-          getLoaderMeta(framework), viteCompilerContext.loaderMeta, customizer
+          getLoaderMeta(), viteCompilerContext.loaderMeta, customizer
         )
       }
     }
@@ -38,14 +36,14 @@ function injectLoaderMeta (ctx: IPluginContext, framework: Frameworks): PluginOp
 function setTaroApi (): PluginOption {
   // dev 环境通过 esbuild 来做； pro 环境通过 rollup load 钩子来做；因为生产环境不会走 esbuild
   return {
-    name: 'taro-react:process-import-taro',
+    name: 'taro-solid:process-import-taro',
     enforce: 'pre',
     config: () => ({
       optimizeDeps: {
         esbuildOptions: {
           plugins: [
             {
-              name: 'taro:react-api',
+              name: 'taro:solid-api',
               setup (build) {
                 build.onLoad({ filter: REG_TARO_H5_RUNTIME_API }, async (args) => {
                   const input = await fs.readFile(args.path, 'utf8')
@@ -72,16 +70,4 @@ function setTaroApi (): PluginOption {
   }
 }
 
-// todo 后面看看能否把 preact 改为虚拟模块
-function esbuildExclude (framework: Frameworks): PluginOption {
-  if (framework !== 'preact') return null
-  return {
-    name: 'taro-react:esvuild-exclude',
-    enforce: 'pre',
-    config: () => ({
-      optimizeDeps: {
-        exclude: ['react', 'preact', 'solid-js']
-      }
-    })
-  }
-}
+

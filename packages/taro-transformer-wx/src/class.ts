@@ -3,6 +3,7 @@ import { extname, sep } from 'node:path'
 import generate from '@babel/generator'
 import template from '@babel/template'
 import * as t from '@babel/types'
+import { NODE_MODULES } from '@tarojs/helper'
 import { get as safeGet, kebabCase, set as safeSet, uniqueId } from 'lodash'
 
 import { Adapter, Adapters, isNewPropsSystem } from './adapter'
@@ -45,8 +46,6 @@ const stopPropagationExpr = template(
 )
 
 type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
-
-const NODE_MODULES = 'node_modules'
 
 function buildConstructor() {
   const ctor = t.classMethod(

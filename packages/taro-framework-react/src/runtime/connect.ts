@@ -50,8 +50,7 @@ export function setReconciler (ReactDOM?) {
     })
   })
 
-  // TODO 使用 solid 时，暂不支持以下事件
-  if (process.env.TARO_PLATFORM === 'web' && process.env.FRAMEWORK !== 'solid') {
+  if (process.env.TARO_PLATFORM === 'web') {
     hooks.tap('createPullDownComponent', (
       el: React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>,
       _,

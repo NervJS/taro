@@ -1,3 +1,5 @@
+import { REG_NODE_MODULES_DIR, REG_TARO_SCOPED_PACKAGE } from '@tarojs/helper'
+
 import { Combination } from './Combination'
 import { HarmonyBaseConfig } from './HarmonyBaseConfig'
 import { HarmonyWebpackModule } from './HarmonyWebpackModule'
@@ -94,12 +96,12 @@ export class HarmonyCombination extends Combination<IHarmonyBuildConfig> {
           vendors: {
             name: 'vendors',
             minChunks: 2,
-            test: module => /[\\/]node_modules[\\/]/.test(module.resource),
+            test: module => REG_NODE_MODULES_DIR.test(module.resource),
             priority: 10
           },
           taro: {
             name: 'taro',
-            test: module => /@tarojs[\\/][a-z]+/.test(module.context),
+            test: module => REG_TARO_SCOPED_PACKAGE.test(module.context),
             priority: 100
           }
         }

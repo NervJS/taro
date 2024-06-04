@@ -1,22 +1,5 @@
 import { Current } from '@tarojs/runtime'
-import { isArray, isFunction } from '@tarojs/shared'
-
-import type * as React from 'react'
-
-export const HOOKS_APP_ID = 'taro-app'
-
-export function isClassComponent (R: typeof React, component): boolean {
-  const prototype = component.prototype
-
-  // For React Redux
-  if (component.displayName?.includes('Connect')) return false
-
-  return (
-    isFunction(component.render) ||
-    !!prototype?.isReactComponent ||
-    prototype instanceof R.Component // compat for some others react-like library
-  )
-}
+import { isArray } from '@tarojs/shared'
 
 export function ensureIsArray<T> (item: T | T[]): T[] {
   if (isArray(item)) {
@@ -42,6 +25,6 @@ export function setDefaultDescriptor (obj: Record<string, any>) {
 export function setRouterParams (options) {
   Current.router = {
     params: options?.query,
-    ...options
+    ...options,
   }
 }

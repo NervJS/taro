@@ -8,7 +8,6 @@ import { CompilerType, Creator, CSSType, FrameworkType } from '@tarojs/binding'
 import { getRootPath } from '@tarojs/cli'
 import {
   chalk,
-  CSS_IMPORT_REG,
   emptyDirectory,
   fs,
   normalizePath,
@@ -16,6 +15,7 @@ import {
   printLog,
   processTypeEnum,
   promoteRelativePath,
+  REG_CSS_IMPORT,
   REG_IMAGE,
   REG_TYPESCRIPT,
   REG_URL,
@@ -146,7 +146,7 @@ function processStyleImports (content: string, processFn: (a: string, b: string)
 
   // 将引用的样式文件路径转换为相对路径，后缀名转换为.scss
   const styleReg = new RegExp('.wxss')
-  content = content.replace(CSS_IMPORT_REG, (m, _$1, $2) => {
+  content = content.replace(REG_CSS_IMPORT, (m, _$1, $2) => {
     if (styleReg.test($2)) {
       if (processFn) {
         return processFn(m, $2)

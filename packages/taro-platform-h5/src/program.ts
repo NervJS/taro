@@ -9,6 +9,7 @@ import type { IPluginContext, TConfig } from '@tarojs/service'
 
 const compLibraryAlias = {
   vue3: 'vue3',
+  solid: 'solid',
 }
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-h5'

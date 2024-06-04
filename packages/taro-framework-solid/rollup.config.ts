@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import typescript from '@rollup/plugin-typescript'
+import ts from '@rollup/plugin-typescript'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 
@@ -17,7 +17,7 @@ const base: RollupOptions = {
       devDeps: false,
       include: [/@tarojs/]
     }),
-    typescript(),
+    ts(),
   ]
 }
 
@@ -45,7 +45,7 @@ const runtimeConfig: RollupOptions = {
 }
 
 const reconcilerConfig: RollupOptions = {
-  input: path.join(cwd, 'src/runtime/reconciler/index.ts'),
+  input: path.join(cwd, 'src/reconciler/index.ts'),
   output: {
     file: path.join(cwd, 'dist/reconciler.js'),
     format: 'es',

@@ -15,9 +15,7 @@ import {
 
 import { createElement, insert, spread } from './render'
 
-export * from './props'
 export * from './render'
-export * from './use'
 
 export function Portal<T extends boolean = false, S extends boolean = false> (props: {
   mount?: Node
