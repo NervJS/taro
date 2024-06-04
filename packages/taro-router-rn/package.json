@@ -33,7 +33,7 @@
     "@react-navigation/stack": "^6.1.1",
     "nanoid": "^3.1.12",
     "query-string": "^7.1.1",
-    "react-native-gesture-handler": "~2.9.0",
+    "react-native-gesture-handler": "~2.16.2",
     "react-native-safe-area-context": "~4.4.1",
     "react-native-screens": "~3.20.0"
   },
@@ -46,7 +46,7 @@
   },
   "peerDependencies": {
     "@react-native-masked-view/masked-view": "~0.2.7",
-    "react-native-gesture-handler": "~2.9.0",
+    "react-native-gesture-handler": "~2.16.2",
     "react-native-safe-area-context": "~4.4.1",
     "react-native-screens": "~3.20.0"
   }
