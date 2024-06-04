@@ -32,7 +32,7 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
+    "jest-cli": "^29.7.0",
     "jest-environment-node": "^29.5.0",
     "react": "^18.2.0",
     "rollup": "^2.79.0",

@@ -73,7 +73,7 @@
     "expo-modules-core": "~1.0.2",
     "fbjs-scripts": "^3.0.1",
     "jest": "^26.4.2",
-    "jest-cli": "^26.4.2",
+    "jest-cli": "^29.7.0",
     "jest-environment-node": "^26.0.0",
     "jest-expo": "^47.0.0",
     "metro-react-native-babel-preset": "^0.72.1",
