@@ -40,7 +40,7 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "esbuild": "~0.19.5",
+    "esbuild": "~0.21.4",
     "preact": "^10.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

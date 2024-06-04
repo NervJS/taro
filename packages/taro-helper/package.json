@@ -54,7 +54,7 @@
     "debug": "4.3.4",
     "dotenv": "^16.0.3",
     "dotenv-expand": "^9.0.0",
-    "esbuild": "~0.19.5",
+    "esbuild": "~0.21.4",
     "find-yarn-workspace-root": "2.0.0",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.21",

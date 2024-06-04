@@ -70,7 +70,7 @@
     "@types/node": "^14.14.31",
     "change-case": "^4.1.2",
     "csstype": "^3.1.1",
-    "esbuild": "~0.19.5",
+    "esbuild": "~0.21.4",
     "jquery": "^3.4.1",
     "lightningcss": "^1.22.1",
     "lodash": "^4.17.21",
