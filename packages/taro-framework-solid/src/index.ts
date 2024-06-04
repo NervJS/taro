@@ -120,12 +120,5 @@ export default (ctx: IPluginContext) => {
       componentConfig.includes.add(nodeName)
     }
   })
-
-  // 映射、收集使用到的小程序组件
-  ctx.onParseCreateElement(({ nodeName, componentConfig }: IParseCreateElementArgs) => {
-    if (capitalize(toCamelCase(nodeName)) in internalComponents) {
-      componentConfig.includes.add(nodeName)
-    }
-  })
 }
 
