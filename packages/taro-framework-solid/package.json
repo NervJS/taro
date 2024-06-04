@@ -45,8 +45,7 @@
     "esbuild": "~0.19.5",
     "solid-js": "^1.8.16",
     "typescript": "^5.3.3",
-    "vite": "^4.2.0",
-    "vite-plugin-solid": "^2.10.2"
+    "vite": "^4.2.0"
   },
   "peerDependencies": {
     "@tarojs/runtime": "workspace:~",

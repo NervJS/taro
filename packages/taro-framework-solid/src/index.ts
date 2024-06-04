@@ -1,6 +1,5 @@
 import { fs, REG_TARO_H5 } from '@tarojs/helper'
 import { capitalize, internalComponents, isString, toCamelCase } from '@tarojs/shared'
-import solidPlugin from 'vite-plugin-solid'
 
 import { RECONCILER_NAME } from './constant'
 import { h5iVitePlugin } from './vite.h5'
@@ -83,6 +82,7 @@ export default (ctx: IPluginContext) => {
       esbuildConfig.plugins ||= []
       esbuildConfig.plugins.push(taroSolidPlugin)
     } else if (compiler.type === 'vite') {
+      const solidPlugin = require('vite-plugin-solid')
       compiler.vitePlugins ||= []
       const solidOptions = {}
       if (process.env.TARO_PLATFORM === 'web') {
