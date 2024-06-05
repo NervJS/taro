@@ -955,13 +955,10 @@ importers:
         specifier: workspace:*
         version: link:../taro-router-rn
       expo-av:
-        specifier: 13.10.0
+        specifier: ~13.10.0
         version: 13.10.0(expo@51.0.9)
-      expo-barcode-scanner:
-        specifier: 13.0.1
-        version: 13.0.1(expo@51.0.9)
       expo-camera:
-        specifier: 15.0.8
+        specifier: ~15.0.8
         version: 15.0.8(expo@51.0.9)
       prop-types:
         specifier: ^15.8.1
