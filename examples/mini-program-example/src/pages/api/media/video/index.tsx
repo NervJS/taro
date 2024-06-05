@@ -221,36 +221,6 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'chooseMedium',
-        inputData: {
-          count: 9,
-          mediaType: ['image'],
-          sourceType: ['album', 'camera'],
-          maxDuration: 30,
-          sizeType: ['original', 'compressed'],
-          camera: 'back',
-          mediaId: '',
-          takingSupported: false,
-          editSupported: false,
-          searchSupported: false,
-        },
-        func: (apiIndex, data) => {
-          TestConsole.consoleTest('chooseMedium')
-          // @ts-ignore
-          Taro.chooseMedium({
-            ...data,
-            success: (res) => {
-              TestConsole.consoleSuccess.call(this, res, apiIndex)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail.call(this, res, apiIndex)
-            },
-          }).then((res) => {
-            TestConsole.consoleResult.call(this, res, apiIndex)
-          })
-        },
-      },
-      {
         id: 'createVideoContext',
         func: (apiIndex) => {
           TestConsole.consoleTest('createVideoContext')
