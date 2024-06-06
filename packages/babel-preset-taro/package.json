@@ -33,13 +33,13 @@
     "@babel/preset-typescript": "^7.24.1",
     "@babel/runtime": "^7.24.4",
     "@babel/runtime-corejs3": "^7.24.4",
+    "@rnx-kit/babel-preset-metro-react-native": "^1.1.8",
     "@tarojs/helper": "workspace:*",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-minify-dead-code-elimination": "^0.5.2",
     "babel-plugin-transform-imports-api": "1.0.0",
     "babel-plugin-transform-solid-jsx": "workspace:*",
-    "core-js": "^3.36.1",
-    "metro-react-native-babel-preset": "^0.77.0"
+    "core-js": "^3.36.1"
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
