@@ -1,6 +1,6 @@
 {
   "name": "postcss-taro-unit-transform",
-  "version": "4.0.0-alpha.21",
+  "version": "4.0.0-alpha.22",
   "description": "小程序单位转换",
   "author": "O2Team",
   "license": "MIT",
