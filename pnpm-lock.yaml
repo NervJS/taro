@@ -367,6 +367,9 @@ importers:
       '@babel/runtime-corejs3':
         specifier: ^7.24.4
         version: 7.24.6
+      '@react-native/babel-preset':
+        specifier: ^0.73.18
+        version: 0.73.21(@babel/core@7.24.4)(@babel/preset-env@7.24.6)
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
@@ -395,9 +398,6 @@ importers:
       '@prefresh/babel-plugin':
         specifier: ^0.5.1
         version: 0.5.1
-      '@react-native/babel-preset':
-        specifier: ^0.74.83
-        version: 0.74.83(@babel/core@7.24.4)(@babel/preset-env@7.24.6)
       '@tarojs/taro-rn':
         specifier: workspace:*
         version: link:../taro-rn
@@ -955,13 +955,10 @@ importers:
         specifier: workspace:*
         version: link:../taro-router-rn
       expo-av:
-        specifier: 13.10.0
+        specifier: ~13.10.0
         version: 13.10.0(expo@51.0.9)
-      expo-barcode-scanner:
-        specifier: 13.0.1
-        version: 13.0.1(expo@51.0.9)
       expo-camera:
-        specifier: 15.0.8
+        specifier: ~15.0.8
         version: 15.0.8(expo@51.0.9)
       prop-types:
         specifier: ^15.8.1
@@ -973,8 +970,8 @@ importers:
         specifier: 6.2.3
         version: 6.2.3(react-native@0.72.14)(react@18.3.1)
       react-native-webview:
-        specifier: 13.10.2
-        version: 13.10.2(react-native@0.72.14)(react@18.3.1)
+        specifier: 13.3.1
+        version: 13.3.1(react-native@0.72.14)(react@18.3.1)
     devDependencies:
       '@babel/core':
         specifier: ^7.24.4
@@ -22866,8 +22863,8 @@ packages:
       react: 18.3.1
       react-native: 0.72.14(@babel/core@7.24.4)(@babel/preset-env@7.24.6)(react@18.3.1)
 
-  /react-native-webview@13.10.2(react-native@0.72.14)(react@18.3.1):
-    resolution: {integrity: sha512-rjrTuPBtpHbI3owoyvSR+bRJqHfsdo5V3nVfU+G65CotkSLewEcGfA9cq7Qv3nzm5t0KEDIt0G/n7hQFjsXihQ==, tarball: https://registry.npmjs.org/react-native-webview/-/react-native-webview-13.10.2.tgz}
+  /react-native-webview@13.3.1(react-native@0.72.14)(react@18.3.1):
+    resolution: {integrity: sha512-jTRC7bZB1gedAbZGGzQUnsaU+avZcZrKLT8g+RR0bsGW80tUOvwezwznKvQ+m1xXOpGFTD1B3+AazUP7+jy4mg==, tarball: https://registry.npmjs.org/react-native-webview/-/react-native-webview-13.3.1.tgz}
     peerDependencies:
       react: '*'
       react-native: '*'
