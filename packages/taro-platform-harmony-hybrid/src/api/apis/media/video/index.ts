@@ -15,8 +15,7 @@ export { createVideoContext } from '@tarojs/taro-h5'
 /**
  * 拍摄视频或从手机相册中选视频。
  */
-export * from './chooseMedia'
-export * from './chooseMedium'
+export * from './chooseMedia/index'
 
 /**
  * VideoContext 实例
