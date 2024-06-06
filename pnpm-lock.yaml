@@ -385,7 +385,7 @@ importers:
       core-js:
         specifier: ^3.36.1
         version: 3.37.1
-      metro-react-native-babel-transformer:
+      metro-react-native-babel-preset:
         specifier: ^0.77.0
         version: 0.77.0(@babel/core@7.24.4)
     devDependencies:
@@ -15984,10 +15984,6 @@ packages:
   /hermes-estree@0.12.0:
     resolution: {integrity: sha512-+e8xR6SCen0wyAKrMT3UD0ZCCLymKhRgjEB5sS28rKiFir/fXgLoeRilRUssFCILmGHb+OvHDUlhxs0+IEyvQw==, tarball: https://registry.npmjs.org/hermes-estree/-/hermes-estree-0.12.0.tgz}
 
-  /hermes-estree@0.14.0:
-    resolution: {integrity: sha512-L6M67+0/eSEbt6Ha2XOBFXL++7MR34EOJMgm+j7YCaI4L/jZqrVAg6zYQKzbs1ZCFDLvEQpOgLlapTX4gpFriA==, tarball: https://registry.npmjs.org/hermes-estree/-/hermes-estree-0.14.0.tgz}
-    dev: false
-
   /hermes-estree@0.15.0:
     resolution: {integrity: sha512-lLYvAd+6BnOqWdnNbP/Q8xfl8LOGw4wVjfrNd9Gt8eoFzhNBRVD95n4l2ksfMVOoxuVyegs85g83KS9QOsxbVQ==, tarball: https://registry.npmjs.org/hermes-estree/-/hermes-estree-0.15.0.tgz}
     dev: false
@@ -16003,12 +15999,6 @@ packages:
     resolution: {integrity: sha512-d4PHnwq6SnDLhYl3LHNHvOg7nQ6rcI7QVil418REYksv0Mh3cEkHDcuhGxNQ3vgnLSLl4QSvDrFCwQNYdpWlzw==, tarball: https://registry.npmjs.org/hermes-parser/-/hermes-parser-0.12.0.tgz}
     dependencies:
       hermes-estree: 0.12.0
-
-  /hermes-parser@0.14.0:
-    resolution: {integrity: sha512-pt+8uRiJhVlErY3fiXB3gKhZ72RxM6E1xRMpvfZ5n6Z5TQKQQXKorgRCRzoe02mmvLKBJFP5nPDGv75MWAgCTw==, tarball: https://registry.npmjs.org/hermes-parser/-/hermes-parser-0.14.0.tgz}
-    dependencies:
-      hermes-estree: 0.14.0
-    dev: false
 
   /hermes-parser@0.15.0:
     resolution: {integrity: sha512-Q1uks5rjZlE9RjMMjSUCkGrEIPI5pKJILeCtK1VmTj7U4pf3wVPoo+cxfu+s4cBAPy2JzikIIdCZgBoR6x7U1Q==, tarball: https://registry.npmjs.org/hermes-parser/-/hermes-parser-0.15.0.tgz}
@@ -19824,21 +19814,6 @@ packages:
       nullthrows: 1.1.1
     transitivePeerDependencies:
       - supports-color
-
-  /metro-react-native-babel-transformer@0.77.0(@babel/core@7.24.4):
-    resolution: {integrity: sha512-uCV1Kt4ebY9/hT7ayDGMDgIsrbyxiBHNP+q0LGxscOx3D/QODv1z+WhfC4Hy0/1wDCGV3l0EQrfLqM+7qpjsWA==, tarball: https://registry.npmjs.org/metro-react-native-babel-transformer/-/metro-react-native-babel-transformer-0.77.0.tgz}
-    engines: {node: '>=18'}
-    peerDependencies:
-      '@babel/core': '*'
-    dependencies:
-      '@babel/core': 7.24.4(supports-color@9.4.0)
-      babel-preset-fbjs: 3.4.0(@babel/core@7.24.4)
-      hermes-parser: 0.14.0
-      metro-react-native-babel-preset: 0.77.0(@babel/core@7.24.4)
-      nullthrows: 1.1.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
 
   /metro-resolver@0.76.9:
     resolution: {integrity: sha512-s86ipNRas9vNR5lChzzSheF7HoaQEmzxBLzwFA6/2YcGmUCowcoyPAfs1yPh4cjMw9F1T4KlMLaiwniGE7HCyw==, tarball: https://registry.npmjs.org/metro-resolver/-/metro-resolver-0.76.9.tgz}

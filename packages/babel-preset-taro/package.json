@@ -39,7 +39,7 @@
     "babel-plugin-transform-imports-api": "1.0.0",
     "babel-plugin-transform-solid-jsx": "workspace:*",
     "core-js": "^3.36.1",
-    "metro-react-native-babel-transformer": "^0.77.0"
+    "metro-react-native-babel-preset": "^0.77.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
