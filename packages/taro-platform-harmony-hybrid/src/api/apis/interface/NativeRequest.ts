@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+import { fromByteArray } from 'base64-js'
 
 import { ClassInstanceManager } from './ClassInstanceManager'
 
@@ -7,6 +8,10 @@ export class NativeRequest implements Taro.RequestTask<any> {
   readonly [Symbol.toStringTag]: string = ''
   private objectId: number
   constructor (option: any) {
+    if (option?.data instanceof ArrayBuffer) {
+      option.bufBase64 = fromByteArray(new Uint8Array(option.data))
+      option.data = undefined
+    }
     const options = {
       ...option,
       success: (res: any) => {
