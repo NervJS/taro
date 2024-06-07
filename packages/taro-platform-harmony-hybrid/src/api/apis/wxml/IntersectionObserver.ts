@@ -61,7 +61,7 @@ export class TaroHarmonyHybridIntersectionObserver implements Taro.IntersectionO
           // 使用时间戳而不是entry.time，跟微信小程序一致
           time: Date.now(),
           id: entry.target.id,
-          dataset: entry.target.dataset
+          dataset: entry.target['dataset']
         }
         // web端会默认首次触发
         if (!this._isInited && this._options.initialRatio <= Math.min.apply(Math, this._options.thresholds)) {
