@@ -121,6 +121,7 @@ export function __env__(safeAreaType: string, fallback?: string | number) {
 
 export function getPageScrollerOrNode (scrollerOrNode: any, page: any) {
   if (!page) return scrollerOrNode
+  if (page.cacheData) return page.cacheData
 
   const isArrayData = scrollerOrNode instanceof Array
 
