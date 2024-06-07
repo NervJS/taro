@@ -6,13 +6,6 @@
  */
 
 /**
- * 保留当前页面，跳转到应用内的某个页面。
- *
- * @canUse navigateTo
- * @__object [url, events]
- */
-
-/**
  * 关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面。
  *
  * @canUse redirectTo

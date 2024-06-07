@@ -35,7 +35,10 @@ export function createRouter (
   }
   RouterConfig.config = config
   const handler = new PageHandler(config, history)
-
+  // Note: 弱网情况下，快速切换 tab，会造成同个页面实例被多次挂在到页面上，原因是资源请求是异步的，短时间内发起多个请求，
+  // 会在资源加载完成后，同时走到挂载的逻辑，造成 pageStampId 更新不及时，两个 page 的Id 相同，后面很多操作是通过 getElementById 来进行的
+  // 所以需要加一个锁来应对这个情况
+  const pageLock: Record<string, number|null> = {}
   routesAlias.set(handler.router.customRoutes)
   const basename = handler.router.basename
   const routes: Routes = handler.routes.map(route => {
@@ -60,24 +63,29 @@ export function createRouter (
   app.onError && window.addEventListener('error', e => app.onError?.(e.message))
 
   const render: LocationListener = async ({ location, action }) => {
-    handler.pathname = decodeURI(location.pathname)
-
+    // Note: 由于下面有异步加载操作 先不要在这里去设置 handler.pathname
+    const currentPathname = decodeURI(location.pathname)
     if ((window as any).__taroAppConfig?.usingWindowScroll) window.scrollTo(0, 0)
     eventCenter.trigger('__taroRouterChange', {
       toLocation: {
-        path: handler.pathname
+        path: currentPathname
       }
     })
 
-    let element, params
+    let element, context, params
+    const routerPath = handler.router.forcePath || currentPathname
+    pageLock[routerPath] = typeof pageLock[routerPath] === 'number' ? pageLock[routerPath] as number + 1 : 1
+    const currentLock = pageLock[routerPath]
+    let postLock
     try {
-      const result = await router.resolve(handler.router.forcePath || handler.pathname)
-      ;[element, , params] = await Promise.all(result)
+      const result = await router.resolve(routerPath)
+      ;[element, context, params] = await Promise.all(result)
+      postLock = pageLock[routerPath]
     } catch (error) {
       if (error.status === 404) {
         const notFoundEvent = {
           isEntryPage: stacks.length === 0,
-          path: handler.pathname,
+          path: currentPathname,
           query: handler.getQuery(createStampId()),
         }
         app.onPageNotFound?.(notFoundEvent)
@@ -89,8 +97,11 @@ export function createRouter (
         throw error
       }
     }
-    if (!element) return
-    const pageConfig = handler.pageConfig
+    if (!element || currentLock !== postLock) return
+    // Note: 异步结束后，在设置 handler.pathname
+    // context.pathname 在 universal-router 被处理过了，是发起资源请求的时候传入的 pathname，即 await router.resolve(routerPath) 这个 routerPath
+    handler.pathname = context.pathname
+    const { pathname, pageConfig } = handler
     let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
     let navigationStyle = config?.window?.navigationStyle || 'default'
     let navigationBarTextStyle = config?.window?.navigationBarTextStyle || 'white'
@@ -113,7 +124,6 @@ export function createRouter (
     eventCenter.trigger('__taroSetNavigationStyle', navigationStyle, navigationBarTextStyle, navigationBarBackgroundColor)
 
     const currentPage = Current.page
-    const pathname = handler.pathname
     const methodName = stacks.method ?? ''
     const cacheTabs = stacks.getTabs()
     let shouldLoad = false
@@ -129,7 +139,7 @@ export function createRouter (
         }
       }
       shouldLoad = true
-    } else if (currentPage && handler.isTabBar(handler.pathname)) {
+    } else if (currentPage && handler.isTabBar(pathname)) {
       if (handler.isSamePage(currentPage)) return
       if (handler.isTabBar(currentPage!.path!)) {
         // NOTE: 从 tabBar 页面切换到 tabBar 页面
@@ -145,8 +155,8 @@ export function createRouter (
         }
       }
 
-      if (cacheTabs[handler.pathname]) {
-        stacks.popTab(handler.pathname)
+      if (cacheTabs[pathname]) {
+        stacks.popTab(pathname)
         return handler.show(stacks.getItem(0), pageConfig, 0)
       }
       shouldLoad = true

@@ -1,4 +1,3 @@
-
 import { chalk } from '@tarojs/helper'
 import * as child_process from 'child_process'
 import * as fs from 'fs'
@@ -62,8 +61,20 @@ export default (ctx: IPluginContext) => {
     useConfigName: 'rn',
     async fn ({ config }) {
       const { appPath, nodeModulesPath } = ctx.paths
-      const { deviceType = 'android', port, resetCache, publicPath, bundleOutput, sourcemapOutput, sourceMapUrl, sourcemapSourcesRoot, assetsDest, qr } = ctx.runOpts.options
       const { npm } = ctx.helper
+      const {
+        deviceType = 'android',
+        port,
+        resetCache,
+        publicPath,
+        bundleOutput,
+        sourcemapOutput,
+        sourceMapUrl,
+        sourcemapSourcesRoot,
+        assetsDest,
+        qr
+      } = ctx.runOpts.options
+
       printDevelopmentTip('rn')
 
       // 准备 rnRunner 参数
@@ -81,7 +92,6 @@ export default (ctx: IPluginContext) => {
         sourcemapSourcesRoot,
         assetsDest,
         buildAdapter: config.platform,
-        globalObject: 'global' // TODO: 是否可以去掉？
       }
 
       if (!rnRunnerOpts.entry) {

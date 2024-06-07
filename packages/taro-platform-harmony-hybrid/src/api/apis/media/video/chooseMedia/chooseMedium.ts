@@ -1,8 +1,8 @@
 import { showActionSheet } from '@tarojs/taro-h5'
 
-import native from '../../NativeApi'
-import { shouldBeObject } from '../../utils'
-import { MethodHandler } from '../../utils/handler'
+import native from '../../../NativeApi'
+import { shouldBeObject } from '../../../utils'
+import { MethodHandler } from '../../../utils/handler'
 
 namespace chooseMedium {
   export interface Option {
@@ -85,12 +85,6 @@ namespace chooseMedium {
     thumbTempFilePath: string
     /** 选择的文件的类型 */
     fileType: string
-    /** 相册中是否支持拍照 */
-    takingSupported?: boolean
-    /** 相册中是否支持编辑照片 */
-    editSupported?: boolean
-    /** 相册中是否支持搜索 */
-    searchSupported?: boolean
   }
   export interface mediaType {
     /** 只能拍摄视频或从相册选择视频 */
