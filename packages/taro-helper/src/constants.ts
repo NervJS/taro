@@ -114,7 +114,7 @@ export const REG_TARO_H5_RUNTIME_API = /@tarojs[\\/]plugin-platform-h5[\\/]dist[
 export const REG_CSS_IMPORT = /@import (["'])(.+?)\1;/g
 
 export const NODE_MODULES = 'node_modules'
-export const REG_NODE_MODULES = /node_modules/gi
+export const REG_NODE_MODULES = /node_modules/
 export const REG_NODE_MODULES_DIR = /[\\/]node_modules[\\/]/gi
 
 export const PROJECT_CONFIG = 'config/index'

@@ -221,10 +221,11 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           return '[name].js'
         },
         manualChunks(id, { getModuleInfo }) {
-          const moduleInfo = getModuleInfo(id)
           if (taroConfig.isBuildNativeComp || taroConfig.blended) return
+          const moduleInfo = getModuleInfo(id)
+          const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
 
-          if (REG_NODE_MODULES_DIR.test(id) || /commonjsHelpers\.js$/.test(id)) {
+          if (nodeModulesDirRegx.test(id) || /commonjsHelpers\.js$/.test(id)) {
             return 'vendors'
           } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1 && !isVirtualModule(id)) {
             return 'common'
@@ -273,7 +274,8 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               increment({
                 force: (id) => /app\.config/.test(id),
                 comparisonId: (id = '', files) => {
-                  if (REG_NODE_MODULES_DIR.test(id)) return false
+                  const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+                  if (nodeModulesDirRegx.test(id)) return false
 
                   const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
                   const etx = path.extname(rawId)

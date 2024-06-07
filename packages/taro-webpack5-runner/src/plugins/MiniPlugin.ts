@@ -972,7 +972,8 @@ export default class TaroMiniPlugin {
                 name: `${name}/vendors`,
                 minChunks: 1,
                 test: module => {
-                  return (REG_NODE_MODULES_DIR.test(module.resource) && module.resource.indexOf(compPath) < 0)
+                  const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+                  return (nodeModulesDirRegx.test(module.resource) && module.resource.indexOf(compPath) < 0)
                 },
                 priority: 10
               }
@@ -1369,8 +1370,10 @@ export default class TaroMiniPlugin {
   getComponentName (componentPath: string) {
     let componentName: string
     if (REG_NODE_MODULES.test(componentPath)) {
+      const nodeModulesRegx = new RegExp(REG_NODE_MODULES, 'gi')
+
       componentName = componentPath.replace(this.context, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
-      componentName = componentName.replace(REG_NODE_MODULES, 'npm')
+      componentName = componentName.replace(nodeModulesRegx, 'npm')
     } else {
       componentName = componentPath.replace(this.options.sourceDir, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
       if (this.options.isBuildPlugin) {

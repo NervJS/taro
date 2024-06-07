@@ -146,7 +146,8 @@ function processStyleImports (content: string, processFn: (a: string, b: string)
 
   // 将引用的样式文件路径转换为相对路径，后缀名转换为.scss
   const styleReg = new RegExp('.wxss')
-  content = content.replace(REG_CSS_IMPORT, (m, _$1, $2) => {
+  const cssImportReg = new RegExp(REG_CSS_IMPORT)
+  content = content.replace(cssImportReg, (m, _$1, $2) => {
     if (styleReg.test($2)) {
       if (processFn) {
         return processFn(m, $2)

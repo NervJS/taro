@@ -151,7 +151,10 @@ export class H5Combination extends Combination<IH5BuildConfig> {
       vendors: {
         name: isProd ? false : 'vendors',
         minChunks: 2,
-        test: (module: any) => REG_NODE_MODULES_DIR.test(module.resource),
+        test: (module: any) => {
+          const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+          return nodeModulesDirRegx.test(module.resource)
+        },
         priority: 10
       },
       taro: {
