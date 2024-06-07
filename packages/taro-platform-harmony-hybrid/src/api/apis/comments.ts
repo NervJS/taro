@@ -72,12 +72,6 @@
  */
 
 /**
- * 创建并返回一个 IntersectionObserver 对象实例
- *
- * @canUse createIntersectionObserver
- */
-
-/**
  * 创建并返回一个 MediaQueryObserver 对象实例
  *
  * @canUse createMediaQueryObserver
