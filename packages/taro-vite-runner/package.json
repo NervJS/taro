@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/vite-runner",
-  "version": "4.0.0-alpha.23",
+  "version": "4.0.0-canary.12",
   "main": "index.js",
   "license": "MIT",
   "files": [
