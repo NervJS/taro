@@ -6,11 +6,11 @@ import {
   isEmptyObject,
   META_TYPE,
   NODE_MODULES,
-  NODE_MODULES_REG,
   printLog,
   processTypeEnum,
   promoteRelativePath,
   readConfig,
+  REG_NODE_MODULES,
   REG_STYLE,
   replaceAliasPath,
   resolveMainFilePath,
@@ -1147,7 +1147,7 @@ export default class TaroMiniPlugin {
 
   getComponentName (componentPath: string) {
     let componentName: string
-    if (NODE_MODULES_REG.test(componentPath)) {
+    if (REG_NODE_MODULES.test(componentPath)) {
       componentName = componentPath.replace(this.context, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
       componentName = componentName.replace(/node_modules/gi, 'npm')
     } else {
