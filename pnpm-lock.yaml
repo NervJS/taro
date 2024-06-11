@@ -11863,12 +11863,10 @@ packages:
       ajv: '>=5.0.0'
     dependencies:
       ajv: 6.12.6
-
-  /ajv-keywords@3.5.2(ajv@6.12.6):
-    resolution: {integrity: sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==, tarball: https://registry.npmjs.org/ajv-keywords/-/ajv-keywords-3.5.2.tgz}
-    peerDependencies:
-      ajv: ^6.9.1
-    dependencies:
+      clean-stack: 4.2.0
+      indent-string: 5.0.0
+    dev: true
+  /ajv-formats@2.1.1:
       ajv: 6.12.6
 
   /ajv-keywords@5.1.0(ajv@8.12.0):

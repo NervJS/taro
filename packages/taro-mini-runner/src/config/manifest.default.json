@@ -1,0 +1,21 @@
+{
+  "package": "com.application.demo",
+  "name": "TaroQuickApp",
+  "versionName": "1.0.0",
+  "versionCode": "1",
+  "minPlatformVersion": "101",
+  "features": [
+    { "name": "system.prompt" },
+    { "name": "system.router" },
+    { "name": "system.shortcut" },
+    { "name": "system.fetch" },
+    { "name": "system.storage" },
+    { "name": "system.barcode" }
+  ],
+  "permissions": [
+    { "origin": "*" }
+  ],
+  "config": {
+    "logLevel": "debug"
+  }
+}
