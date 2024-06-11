@@ -60,12 +60,6 @@ export class NativeApi {
 
   // @ts-ignore
   @(syncAndRelease)
-  navigateToMiniProgram (options: any) {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
   setNavigationBarColor (options: any) {
     return options
   }
