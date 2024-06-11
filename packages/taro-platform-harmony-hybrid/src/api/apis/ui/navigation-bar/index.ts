@@ -41,7 +41,6 @@ export const showNavigationBarLoading: typeof Taro.showNavigationBarLoading = (o
   const { success, fail, complete } = (options || {}) as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name: 'showNavigationBarLoading', success, fail, complete })
 
-  // @ts-ignore
   native.showNavigationBarLoading()
   return handle.success()
 }
@@ -55,7 +54,6 @@ export const hideNavigationBarLoading: typeof Taro.hideNavigationBarLoading = (o
   const { success, fail, complete } = (options || {}) as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name: 'hideNavigationBarLoading', success, fail, complete })
 
-  // @ts-ignore
   native.hideNavigationBarLoading()
   return handle.success()
 }
