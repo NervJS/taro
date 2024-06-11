@@ -1,5 +1,7 @@
 import React from 'react'
 
+import sameLayerRender, { clearJsObj } from '../SameLayerRender'
+
 interface marker {
   latitude: number
   longitude: number
@@ -45,12 +47,10 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
 
 class HosMap extends React.Component<IProps> {
   private componentId: string
+  private nativeRenderArgs: object
   constructor (props: IProps) {
     super(props)
     this.componentId = `HosMap_${Math.floor(Math.random() * 100000)}_${Date.now()}`
-  }
-
-  componentDidMount () {
     const {
       latitude,
       longitude,
@@ -77,8 +77,7 @@ class HosMap extends React.Component<IProps> {
       onError,
       onAnchorPointTap,
     } = this.props
-
-    const args = {
+    this.nativeRenderArgs = {
       componentId: this.componentId,
       latitude,
       longitude,
@@ -105,9 +104,12 @@ class HosMap extends React.Component<IProps> {
       onError: onError,
       onMyLocationButtonClick: onAnchorPointTap,
     }
+    sameLayerRender.transferSameLayerArgs(this.nativeRenderArgs)
+  }
 
-    // @ts-ignore 调用JSB方法传递原生组件数据
-    window.JSBridge && window.JSBridge.transferSameLayerArgs(args)
+  componentWillUnmount (): void {
+    // 释放JS侧存储的渲染参数
+    clearJsObj(this.nativeRenderArgs)
   }
 
   render (): React.ReactNode {
