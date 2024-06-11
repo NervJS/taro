@@ -2,6 +2,8 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/api/apis/utils'
 import { MethodHandler } from 'src/api/apis/utils/handler'
 
+import nativeWifi from './NativeWifi'
+
 /**
  * 初始化 Wi-Fi 模块
  *
@@ -19,8 +21,7 @@ export const startWifi: typeof Taro.startWifi = (options) => {
   const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
-    // @ts-ignore
-    native.startWifi({
+    nativeWifi.startWifi({
       success: (res: any) => {
         handle.success(res, { resolve, reject })
       },

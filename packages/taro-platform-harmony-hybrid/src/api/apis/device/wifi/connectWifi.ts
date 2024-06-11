@@ -2,6 +2,8 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/api/apis/utils'
 import { MethodHandler } from 'src/api/apis/utils/handler'
 
+import nativeWifi from './NativeWifi'
+
 /**
  * 连接 Wi-Fi
  *
@@ -63,8 +65,7 @@ export const connectWifi: typeof Taro.connectWifi = (options) => {
       )
     }
 
-    // @ts-ignore
-    native.connectWifi({
+    nativeWifi.connectWifi({
       SSID: SSID,
       password: password,
       BSSID: BSSID,
