@@ -351,12 +351,16 @@ export function generateConstantsList (constants: Record<string, any>): Record<s
 }
 
 export function cssImports(content: string): string[] {
-  let match: RegExpExecArray | null
   const results: string[] = []
+  const cssImportRegx = new RegExp(REG_CSS_IMPORT)
+  let match: RegExpExecArray | null
+
   content = String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
-  while ((match = REG_CSS_IMPORT.exec(content))) {
+
+  while ((match = cssImportRegx.exec(content))) {
     results.push(match[2])
   }
+
   return results
 }
 

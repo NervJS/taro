@@ -137,7 +137,9 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
             assetFileNames: taroConfig.output!.assetFileNames,
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
-              if (REG_NODE_MODULES_DIR.test(id) || /commonjsHelpers\.js$/.test(id)) {
+              const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+
+              if (nodeModulesDirRegx.test(id) || /commonjsHelpers\.js$/.test(id)) {
                 return 'vendors'
               } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1 && !isVirtualModule(id)) {
                 return 'common'
