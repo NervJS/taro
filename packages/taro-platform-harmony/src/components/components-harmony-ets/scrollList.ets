@@ -78,6 +78,15 @@ export default struct TaroScrollList {
     .align(Alignment.TopStart)
     .clip(true)
     .scrollBar(getAttributes(this.node).scrollBar)
+    .onScrollIndex((first: number, last: number) => {
+      const scrollindexfns = (this.node?.__listeners?.['scrollindex'] || []) as Function[]
+      scrollindexfns.forEach(fn => {
+        fn({
+          first,
+          last
+        })
+      })
+    })
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
