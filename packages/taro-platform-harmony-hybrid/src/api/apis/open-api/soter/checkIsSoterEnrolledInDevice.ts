@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
 
+import native from '../../NativeApi'
 import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
@@ -28,12 +29,12 @@ export const checkIsSoterEnrolledInDevice: typeof Taro.checkIsSoterEnrolledInDev
       errMsg?: string
     }>({ name, success, fail, complete })
 
-    if (typeof checkAuthMode !== 'object') {
+    if (typeof checkAuthMode !== 'string') {
       return handle.fail(
         {
           errMsg: getParameterError({
             para: 'checkAuthMode',
-            correct: 'object',
+            correct: 'string',
             wrong: checkAuthMode,
           }),
         },
@@ -41,15 +42,16 @@ export const checkIsSoterEnrolledInDevice: typeof Taro.checkIsSoterEnrolledInDev
       )
     }
 
-    // @ts-ignore
-    const ret = native.checkIsSoterEnrolledInDevice({
-      success: (res: any) => {
-        return handle.success(res)
-      },
-      fail: (err: any) => {
-        return handle.fail(err)
-      },
+    return new Promise<Taro.checkIsSoterEnrolledInDevice.SuccessCallbackResult>((resolve, reject) => {
+      native.checkIsSupportSoterAuthentication({
+        checkAuthMode: checkAuthMode,
+        success: (res: any) => {
+          handle.success(res, { resolve, reject })
+        },
+        fail: (err: any) => {
+          handle.fail(err, { resolve, reject })
+        },
+      })
     })
-    return ret
   })
 }

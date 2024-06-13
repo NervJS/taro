@@ -2,6 +2,8 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/api/apis/utils'
 import { MethodHandler } from 'src/api/apis/utils/handler'
 
+import nativeWifi from './NativeWifi'
+
 /**
  * 关闭 Wi-Fi 模块
  *
@@ -19,8 +21,7 @@ export const stopWifi: typeof Taro.stopWifi = (options) => {
   const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
-    // @ts-ignore
-    native.stopWifi({
+    nativeWifi.stopWifi({
       success: (res: any) => {
         handle.success(res, { resolve, reject })
       },
