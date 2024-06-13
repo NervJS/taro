@@ -42,16 +42,14 @@ export const checkIsSoterEnrolledInDevice: typeof Taro.checkIsSoterEnrolledInDev
       )
     }
 
-    return new Promise<Taro.checkIsSoterEnrolledInDevice.SuccessCallbackResult>((resolve, reject) => {
-      native.checkIsSupportSoterAuthentication({
-        checkAuthMode: checkAuthMode,
-        success: (res: any) => {
-          handle.success(res, { resolve, reject })
-        },
-        fail: (err: any) => {
-          handle.fail(err, { resolve, reject })
-        },
-      })
+    native.checkIsSupportSoterAuthentication({
+      checkAuthMode: checkAuthMode,
+      success: (res: any) => {
+        handle.success(res, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      },
     })
   })
 }
