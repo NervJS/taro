@@ -1,8 +1,8 @@
 import Taro from '@tarojs/taro'
 
-import native from '../NativeApi'
 import { shouldBeObject } from '../utils'
 import { MethodHandler } from '../utils/handler'
+import nativeLocation from './NativeLocation'
 
 /**
  * 获取当前的地理位置、速度
@@ -30,7 +30,7 @@ export const getLocation: typeof Taro.getLocation = (options) => {
   const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise<Taro.getLocation.SuccessCallbackResult>((resolve, reject) => {
-    native.getLocation({
+    nativeLocation.getLocation({
       isHighAccuracy: isHighAccuracy,
       highAccuracyExpireTime: highAccuracyExpireTime,
       type: type,
