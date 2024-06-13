@@ -162,13 +162,7 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
 function createLazyChildren (node: TaroElement, layer = 0) {
   LazyForEach(node, (item: TaroElement) => {
     if (!item._nodeInfo || item._nodeInfo.layer === layer) {
-      if (node.tagName === 'LIST-VIEW') {
-        ListItem() {
-          createChildItem(item, createLazyChildren)
-        }
-      } else {
-        createChildItem(item, createLazyChildren)
-      }
+      createChildItem(item, createLazyChildren)
     }
   }, (item: TaroElement) => \`\${item._nid}-\${item._nativeUpdateTrigger}-\${item._nodeInfo?.layer || 0}\`)
 }
