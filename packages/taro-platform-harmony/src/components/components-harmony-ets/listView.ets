@@ -17,7 +17,7 @@ export default struct TaroListView {
   }
 
   aboutToReuse(params: TaroAny): void {
-    this.node = params.node;
+    // this.node = params.node;
   }
 
   build() {

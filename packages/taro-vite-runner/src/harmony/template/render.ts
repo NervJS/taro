@@ -152,7 +152,7 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
   } else if (item.tagName === 'STICKY-SECTION') {
     TaroStickySection({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'LIST-VIEW') {
-    TaroListView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
+    TaroListView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren }).reuseId(item.uid)
   } else {
     TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
   }
