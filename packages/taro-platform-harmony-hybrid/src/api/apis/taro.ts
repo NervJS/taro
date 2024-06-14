@@ -5,10 +5,12 @@ import {
   getApp,
   getCurrentInstance,
   getCurrentPages,
+  loadNavigationStyle,
   navigateBack,
   navigateTo,
   nextTick,
   redirectTo,
+  registerNavigationStyleHandler,
   reLaunch,
   switchTab,
 } from './index'
@@ -21,6 +23,9 @@ const requirePlugin = () => {
     }
   }
 }
+
+loadNavigationStyle()
+registerNavigationStyleHandler()
 
 const {
   Behavior,
