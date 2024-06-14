@@ -140,7 +140,7 @@ class AttributeManager {
     }
     let resultTransform: matrix4.Matrix4Transit
 
-    const matches = transform.match(new RegExp("/(\w+)\(([^)]+)\)/g")) || [];
+    const matches: string[] = transform.match(new RegExp("/(\w+)\(([^)]+)\)/g")) || [];
 
     // 处理matrix
 
