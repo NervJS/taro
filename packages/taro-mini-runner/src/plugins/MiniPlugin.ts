@@ -910,10 +910,10 @@ export default class TaroMiniPlugin {
         if (Object.prototype.toString.call(item) !== "[object Object]") {
           throw new Error(`[ app.json 文件内容错误] app.json: tabBar.list[${index}] 字段需为 object`)
         }
-        if (!item.hasOwnProperty('pagePath') || item.pagePath === '') {
+        if (!Object.prototype.hasOwnProperty.call(item, "pagePath") || item.pagePath === '') {
             throw new Error(`[ app.json 文件内容错误] app.json: tabBar.list[${index}].pagePath 不能为空`)
         }
-        if (!item.hasOwnProperty('pagePath') || typeof item.pagePath !== 'string') {
+        if (!typeof item.pagePath !== 'string') {
             throw new Error(`[ app.json 文件内容错误] app.json: tabBar.list[${index}].pagePath 需为 string`)
         }
         // eslint-disable-next-line dot-notation
