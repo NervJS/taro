@@ -48,7 +48,7 @@
     "@types/react-native": "^0.69.8",
     "expo": "~47.0.3",
     "jest": "^26.4.2",
-    "jest-cli": "^26.4.2",
+    "jest-cli": "^29.7.0",
     "jest-environment-node": "^26.0.0",
     "jest-expo": "^47.0.0",
     "metro-babel-register": "^0.72.1",

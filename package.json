@@ -135,7 +135,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^8.0.1",
     "jest": "^27.4.5",
-    "jest-cli": "^27.4.5",
+    "jest-cli": "^29.7.0",
     "jest-environment-node": "^27.4.4",
     "lint-staged": "^13.0.2",
     "nervjs": "^1.4.6",
