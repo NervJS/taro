@@ -42,7 +42,6 @@ export const getFileInfo: typeof Taro.getFileInfo = (options) => {
 
   return new Promise<Taro.getFileInfo.FailCallbackResult | Taro.getFileInfo.SuccessCallbackResult>(
     (resolve, reject) => {
-      // @ts-ignore
       native.getFileInfo({
         filePath: filePath,
         digestAlgorithm: digestAlgorithm,

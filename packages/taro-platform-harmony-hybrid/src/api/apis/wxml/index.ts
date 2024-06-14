@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
 
+import { TaroHarmonyHybridIntersectionObserver } from './IntersectionObserver'
 import { SelectorQuery } from './selectorQuery'
 
 /**
@@ -17,7 +18,9 @@ export const createSelectorQuery: typeof Taro.createSelectorQuery = () => {
  *
  * @canUse createIntersectionObserver
  */
-export { createIntersectionObserver } from '@tarojs/taro-h5'
+export const createIntersectionObserver: typeof Taro.createIntersectionObserver = (component, options) => {
+  return new TaroHarmonyHybridIntersectionObserver(component, options)
+}
 
 /**
  * IntersectionObserver 对象，用于推断某些节点是否可以被用户看见、有多大比例可以被用户看见

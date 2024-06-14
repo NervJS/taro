@@ -1,6 +1,8 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/api/apis/utils'
 
+import nativeWifi from './NativeWifi'
+
 /**
  * 取消监听获取到 Wi-Fi 列表数据事件
  *
@@ -17,6 +19,5 @@ export const offGetWifiList: typeof Taro.offGetWifiList = (callback) => {
     return
   }
 
-  // @ts-ignore
-  native.offGetWifiList(callback)
+  nativeWifi.offGetWifiList(callback)
 }

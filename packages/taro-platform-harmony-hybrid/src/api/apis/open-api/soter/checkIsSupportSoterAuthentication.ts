@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
 
+import native from '../../NativeApi'
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
@@ -26,14 +27,14 @@ export const checkIsSupportSoterAuthentication: typeof Taro.checkIsSupportSoterA
     errMsg?: string
   }>({ name, success, fail, complete })
 
-  // @ts-ignore
-  const ret = native.checkIsSupportSoterAuthentication({
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    },
+  return new Promise<Taro.checkIsSupportSoterAuthentication.SuccessCallbackResult>((resolve, reject) => {
+    native.checkIsSupportSoterAuthentication({
+      success: (res: any) => {
+        handle.success(res, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      },
+    })
   })
-  return ret
 }
