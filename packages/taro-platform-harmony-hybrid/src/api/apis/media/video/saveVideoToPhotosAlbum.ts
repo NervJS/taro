@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
 
+import native from '../../NativeApi'
 import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
@@ -33,7 +34,6 @@ export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = (optio
   }
 
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.saveVideoToPhotosAlbum({
       filePath: filePath,
       success: (res: any) => {

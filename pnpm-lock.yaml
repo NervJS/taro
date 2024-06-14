@@ -1094,6 +1094,9 @@ importers:
       classnames:
         specifier: ^2.2.5
         version: registry.npmjs.org/classnames@2.3.2
+      hammerjs:
+        specifier: ^2.0.8
+        version: registry.npmjs.org/hammerjs@2.0.8
       hls.js:
         specifier: ^1.1.5
         version: registry.npmjs.org/hls.js@1.4.1
@@ -4338,7 +4341,7 @@ packages:
       '@babel/helper-split-export-declaration': 7.18.6
       '@babel/parser': 7.23.4
       '@babel/types': registry.npmjs.org/@babel/types@7.21.5
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -6638,7 +6641,7 @@ packages:
       '@babel/traverse': registry.npmjs.org/@babel/traverse@7.21.5
       '@babel/types': registry.npmjs.org/@babel/types@7.21.5
       convert-source-map: registry.npmjs.org/convert-source-map@1.9.0
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       gensync: registry.npmjs.org/gensync@1.0.0-beta.2
       json5: registry.npmjs.org/json5@2.2.3
       semver: registry.npmjs.org/semver@6.3.0
@@ -6818,7 +6821,7 @@ packages:
       '@babel/core': registry.npmjs.org/@babel/core@7.21.8
       '@babel/helper-compilation-targets': 7.21.5(@babel/core@7.21.8)
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils@7.22.5
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       lodash.debounce: registry.npmjs.org/lodash.debounce@4.0.8
       resolve: registry.npmjs.org/resolve@1.22.2
       semver: registry.npmjs.org/semver@6.3.0
@@ -9660,7 +9663,7 @@ packages:
       '@babel/helper-split-export-declaration': registry.npmjs.org/@babel/helper-split-export-declaration@7.18.6
       '@babel/parser': registry.npmjs.org/@babel/parser@7.21.8
       '@babel/types': registry.npmjs.org/@babel/types@7.21.5
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       globals: registry.npmjs.org/globals@11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -10247,7 +10250,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       ajv: registry.npmjs.org/ajv@6.12.6
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       espree: registry.npmjs.org/espree@9.5.2
       globals: registry.npmjs.org/globals@13.20.0
       ignore: registry.npmjs.org/ignore@5.2.4
@@ -10645,7 +10648,7 @@ packages:
     engines: {node: '>=10.10.0'}
     dependencies:
       '@humanwhocodes/object-schema': registry.npmjs.org/@humanwhocodes/object-schema@1.2.1
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       minimatch: registry.npmjs.org/minimatch@3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -12986,7 +12989,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       extract-zip: registry.npmjs.org/extract-zip@2.0.1
       https-proxy-agent: registry.npmjs.org/https-proxy-agent@5.0.1
       progress: registry.npmjs.org/progress@2.0.3
@@ -15361,7 +15364,7 @@ packages:
       '@typescript-eslint/type-utils': registry.npmjs.org/@typescript-eslint/type-utils@6.21.0(eslint@8.40.0)(typescript@4.9.5)
       '@typescript-eslint/utils': registry.npmjs.org/@typescript-eslint/utils@6.21.0(eslint@8.40.0)(typescript@4.9.5)
       '@typescript-eslint/visitor-keys': registry.npmjs.org/@typescript-eslint/visitor-keys@6.21.0
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       eslint: registry.npmjs.org/eslint@8.40.0
       graphemer: registry.npmjs.org/graphemer@1.4.0
       ignore: registry.npmjs.org/ignore@5.2.4
@@ -15413,7 +15416,7 @@ packages:
       '@typescript-eslint/types': registry.npmjs.org/@typescript-eslint/types@6.21.0
       '@typescript-eslint/typescript-estree': registry.npmjs.org/@typescript-eslint/typescript-estree@6.21.0(typescript@4.9.5)
       '@typescript-eslint/visitor-keys': registry.npmjs.org/@typescript-eslint/visitor-keys@6.21.0
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       eslint: registry.npmjs.org/eslint@8.40.0
       typescript: registry.npmjs.org/typescript@4.9.5
     transitivePeerDependencies:
@@ -15486,7 +15489,7 @@ packages:
     dependencies:
       '@typescript-eslint/typescript-estree': registry.npmjs.org/@typescript-eslint/typescript-estree@6.21.0(typescript@4.9.5)
       '@typescript-eslint/utils': registry.npmjs.org/@typescript-eslint/utils@6.21.0(eslint@8.40.0)(typescript@4.9.5)
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       eslint: registry.npmjs.org/eslint@8.40.0
       ts-api-utils: registry.npmjs.org/ts-api-utils@1.2.1(typescript@4.9.5)
       typescript: registry.npmjs.org/typescript@4.9.5
@@ -15528,7 +15531,7 @@ packages:
     dependencies:
       '@typescript-eslint/types': registry.npmjs.org/@typescript-eslint/types@5.59.2
       '@typescript-eslint/visitor-keys': registry.npmjs.org/@typescript-eslint/visitor-keys@5.59.2
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       globby: registry.npmjs.org/globby@11.1.0
       is-glob: registry.npmjs.org/is-glob@4.0.3
       semver: registry.npmjs.org/semver@7.5.4
@@ -15576,7 +15579,7 @@ packages:
     dependencies:
       '@typescript-eslint/types': registry.npmjs.org/@typescript-eslint/types@6.21.0
       '@typescript-eslint/visitor-keys': registry.npmjs.org/@typescript-eslint/visitor-keys@6.21.0
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       globby: registry.npmjs.org/globby@11.1.0
       is-glob: registry.npmjs.org/is-glob@4.0.3
       minimatch: registry.npmjs.org/minimatch@9.0.3
@@ -16576,7 +16579,7 @@ packages:
     version: 6.0.2
     engines: {node: '>= 6.0.0'}
     dependencies:
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -19065,27 +19068,6 @@ packages:
     name: bn.js
     version: 5.2.1
 
-  registry.npmjs.org/body-parser@1.20.1:
-    resolution: {integrity: sha512-jWi7abTbYwajOytWCQc37VulmWiRae5RyTpaCyDcS5/lMdtwSz5lOpDE67srw/HYe35f1z3fDQw+3txg7gNtWw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/body-parser/-/body-parser-1.20.1.tgz}
-    name: body-parser
-    version: 1.20.1
-    engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
-    dependencies:
-      bytes: registry.npmjs.org/bytes@3.1.2
-      content-type: registry.npmjs.org/content-type@1.0.5
-      debug: registry.npmjs.org/debug@2.6.9
-      depd: registry.npmjs.org/depd@2.0.0
-      destroy: registry.npmjs.org/destroy@1.2.0
-      http-errors: registry.npmjs.org/http-errors@2.0.0
-      iconv-lite: registry.npmjs.org/iconv-lite@0.4.24
-      on-finished: registry.npmjs.org/on-finished@2.4.1
-      qs: registry.npmjs.org/qs@6.11.0
-      raw-body: registry.npmjs.org/raw-body@2.5.1
-      type-is: registry.npmjs.org/type-is@1.6.18
-      unpipe: registry.npmjs.org/unpipe@1.0.0
-    transitivePeerDependencies:
-      - supports-color
-
   registry.npmjs.org/body-parser@1.20.1(supports-color@6.1.0):
     resolution: {integrity: sha512-jWi7abTbYwajOytWCQc37VulmWiRae5RyTpaCyDcS5/lMdtwSz5lOpDE67srw/HYe35f1z3fDQw+3txg7gNtWw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/body-parser/-/body-parser-1.20.1.tgz}
     id: registry.npmjs.org/body-parser/1.20.1
@@ -19107,7 +19089,6 @@ packages:
       unpipe: registry.npmjs.org/unpipe@1.0.0
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   registry.npmjs.org/body-parser@1.20.2:
     resolution: {integrity: sha512-ml9pReCu3M61kGlqoTm2umSXTlRTuGTx0bfYj+uIUKKYycG5NtSbeetV3faSU6R7ajOPw0g/J1PvK4qNy7s5bA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/body-parser/-/body-parser-1.20.2.tgz}
@@ -20528,22 +20509,6 @@ packages:
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.52.0
-
-  registry.npmjs.org/compression@1.7.4:
-    resolution: {integrity: sha512-jaSIDzP9pZVS4ZfQ+TzvtiWhdpFhE2RDHz8QJkpX9SIpLq88VueF5jJw6t+6CUQcAoA6t+x89MLrWAqpfDE8iQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/compression/-/compression-1.7.4.tgz}
-    name: compression
-    version: 1.7.4
-    engines: {node: '>= 0.8.0'}
-    dependencies:
-      accepts: registry.npmjs.org/accepts@1.3.8
-      bytes: registry.npmjs.org/bytes@3.0.0
-      compressible: registry.npmjs.org/compressible@2.0.18
-      debug: registry.npmjs.org/debug@2.6.9
-      on-headers: registry.npmjs.org/on-headers@1.0.2
-      safe-buffer: registry.npmjs.org/safe-buffer@5.1.2
-      vary: registry.npmjs.org/vary@1.1.2
-    transitivePeerDependencies:
-      - supports-color
 
   registry.npmjs.org/compression@1.7.4(supports-color@6.1.0):
     resolution: {integrity: sha512-jaSIDzP9pZVS4ZfQ+TzvtiWhdpFhE2RDHz8QJkpX9SIpLq88VueF5jJw6t+6CUQcAoA6t+x89MLrWAqpfDE8iQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/compression/-/compression-1.7.4.tgz}
@@ -22030,18 +21995,6 @@ packages:
       mimic-fn: registry.npmjs.org/mimic-fn@3.1.0
     dev: false
 
-  registry.npmjs.org/debug@2.6.9:
-    resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/debug/-/debug-2.6.9.tgz}
-    name: debug
-    version: 2.6.9
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.0.0
-
   registry.npmjs.org/debug@2.6.9(supports-color@6.1.0):
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/debug/-/debug-2.6.9.tgz}
     id: registry.npmjs.org/debug/2.6.9
@@ -22068,19 +22021,6 @@ packages:
     dependencies:
       ms: registry.npmjs.org/ms@2.0.0
     dev: false
-
-  registry.npmjs.org/debug@3.2.7:
-    resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/debug/-/debug-3.2.7.tgz}
-    name: debug
-    version: 3.2.7
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: registry.npmjs.org/ms@2.1.3
-    dev: true
 
   registry.npmjs.org/debug@3.2.7(supports-color@6.1.0):
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/debug/-/debug-3.2.7.tgz}
@@ -22109,19 +22049,6 @@ packages:
     dependencies:
       ms: 2.1.3
     dev: false
-
-  registry.npmjs.org/debug@4.3.4:
-    resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/debug/-/debug-4.3.4.tgz}
-    name: debug
-    version: 4.3.4
-    engines: {node: '>=6.0'}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: registry.npmjs.org/ms@2.1.2
 
   registry.npmjs.org/debug@4.3.4(supports-color@6.1.0):
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/debug/-/debug-4.3.4.tgz}
@@ -23817,7 +23744,7 @@ packages:
     name: eslint-import-resolver-node
     version: 0.3.7
     dependencies:
-      debug: registry.npmjs.org/debug@3.2.7
+      debug: registry.npmjs.org/debug@3.2.7(supports-color@6.1.0)
       is-core-module: registry.npmjs.org/is-core-module@2.12.0
       resolve: 1.22.2
     transitivePeerDependencies:
@@ -23881,7 +23808,7 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/parser': registry.npmjs.org/@typescript-eslint/parser@6.21.0(eslint@8.40.0)(typescript@4.9.5)
-      debug: registry.npmjs.org/debug@3.2.7
+      debug: registry.npmjs.org/debug@3.2.7(supports-color@6.1.0)
       eslint: registry.npmjs.org/eslint@8.40.0
       eslint-import-resolver-node: registry.npmjs.org/eslint-import-resolver-node@0.3.7
     transitivePeerDependencies:
@@ -23955,7 +23882,7 @@ packages:
       array-includes: registry.npmjs.org/array-includes@3.1.6
       array.prototype.flat: registry.npmjs.org/array.prototype.flat@1.3.1
       array.prototype.flatmap: registry.npmjs.org/array.prototype.flatmap@1.3.1
-      debug: registry.npmjs.org/debug@3.2.7
+      debug: registry.npmjs.org/debug@3.2.7(supports-color@6.1.0)
       doctrine: registry.npmjs.org/doctrine@2.1.0
       eslint: registry.npmjs.org/eslint@8.40.0
       eslint-import-resolver-node: registry.npmjs.org/eslint-import-resolver-node@0.3.7
@@ -24327,7 +24254,7 @@ packages:
       ajv: registry.npmjs.org/ajv@6.12.6
       chalk: registry.npmjs.org/chalk@4.1.2
       cross-spawn: registry.npmjs.org/cross-spawn@7.0.3
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       doctrine: registry.npmjs.org/doctrine@3.0.0
       escape-string-regexp: registry.npmjs.org/escape-string-regexp@4.0.0
       eslint-scope: registry.npmjs.org/eslint-scope@7.2.0
@@ -24966,46 +24893,6 @@ packages:
     version: 1.0.0
     dev: false
 
-  registry.npmjs.org/express@4.18.2:
-    resolution: {integrity: sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/express/-/express-4.18.2.tgz}
-    name: express
-    version: 4.18.2
-    engines: {node: '>= 0.10.0'}
-    dependencies:
-      accepts: registry.npmjs.org/accepts@1.3.8
-      array-flatten: registry.npmjs.org/array-flatten@1.1.1
-      body-parser: registry.npmjs.org/body-parser@1.20.1
-      content-disposition: registry.npmjs.org/content-disposition@0.5.4
-      content-type: registry.npmjs.org/content-type@1.0.5
-      cookie: registry.npmjs.org/cookie@0.5.0
-      cookie-signature: registry.npmjs.org/cookie-signature@1.0.6
-      debug: registry.npmjs.org/debug@2.6.9
-      depd: registry.npmjs.org/depd@2.0.0
-      encodeurl: registry.npmjs.org/encodeurl@1.0.2
-      escape-html: registry.npmjs.org/escape-html@1.0.3
-      etag: registry.npmjs.org/etag@1.8.1
-      finalhandler: registry.npmjs.org/finalhandler@1.2.0
-      fresh: registry.npmjs.org/fresh@0.5.2
-      http-errors: registry.npmjs.org/http-errors@2.0.0
-      merge-descriptors: registry.npmjs.org/merge-descriptors@1.0.1
-      methods: registry.npmjs.org/methods@1.1.2
-      on-finished: registry.npmjs.org/on-finished@2.4.1
-      parseurl: registry.npmjs.org/parseurl@1.3.3
-      path-to-regexp: registry.npmjs.org/path-to-regexp@0.1.7
-      proxy-addr: registry.npmjs.org/proxy-addr@2.0.7
-      qs: registry.npmjs.org/qs@6.11.0
-      range-parser: registry.npmjs.org/range-parser@1.2.1
-      safe-buffer: registry.npmjs.org/safe-buffer@5.2.1
-      send: registry.npmjs.org/send@0.18.0
-      serve-static: registry.npmjs.org/serve-static@1.15.0
-      setprototypeof: registry.npmjs.org/setprototypeof@1.2.0
-      statuses: registry.npmjs.org/statuses@2.0.1
-      type-is: registry.npmjs.org/type-is@1.6.18
-      utils-merge: registry.npmjs.org/utils-merge@1.0.1
-      vary: registry.npmjs.org/vary@1.1.2
-    transitivePeerDependencies:
-      - supports-color
-
   registry.npmjs.org/express@4.18.2(supports-color@6.1.0):
     resolution: {integrity: sha512-5/PsL6iGPdfQ/lKM1UuielYgv3BUoJfz1aUwU9vHZ+J7gyvwdQXFEBIEIaxeGf0GIcreATNyBExtalisDbuMqQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/express/-/express-4.18.2.tgz}
     id: registry.npmjs.org/express/4.18.2
@@ -25046,7 +24933,6 @@ packages:
       vary: registry.npmjs.org/vary@1.1.2
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   registry.npmjs.org/ext-list@2.2.2:
     resolution: {integrity: sha512-u+SQgsubraE6zItfVA0tBuCBhfU9ogSRnsvygI7wht9TS510oLkBRXBsqopeUG/GBOIQyKZO9wjTqIu/sf5zFA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ext-list/-/ext-list-2.2.2.tgz}
@@ -25156,7 +25042,7 @@ packages:
     engines: {node: '>= 10.17.0'}
     hasBin: true
     dependencies:
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       get-stream: registry.npmjs.org/get-stream@5.2.0
       yauzl: registry.npmjs.org/yauzl@2.10.0
     optionalDependencies:
@@ -25514,22 +25400,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  registry.npmjs.org/finalhandler@1.2.0:
-    resolution: {integrity: sha512-5uXcUVftlQMFnWC9qu/svkWv3GTd2PfUhK/3PLkYNAe7FbqJMt3515HaxE6eRL74GdsriiwujiawdaB1BpEISg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/finalhandler/-/finalhandler-1.2.0.tgz}
-    name: finalhandler
-    version: 1.2.0
-    engines: {node: '>= 0.8'}
-    dependencies:
-      debug: registry.npmjs.org/debug@2.6.9
-      encodeurl: registry.npmjs.org/encodeurl@1.0.2
-      escape-html: registry.npmjs.org/escape-html@1.0.3
-      on-finished: registry.npmjs.org/on-finished@2.4.1
-      parseurl: registry.npmjs.org/parseurl@1.3.3
-      statuses: registry.npmjs.org/statuses@2.0.1
-      unpipe: registry.npmjs.org/unpipe@1.0.0
-    transitivePeerDependencies:
-      - supports-color
-
   registry.npmjs.org/finalhandler@1.2.0(supports-color@6.1.0):
     resolution: {integrity: sha512-5uXcUVftlQMFnWC9qu/svkWv3GTd2PfUhK/3PLkYNAe7FbqJMt3515HaxE6eRL74GdsriiwujiawdaB1BpEISg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/finalhandler/-/finalhandler-1.2.0.tgz}
     id: registry.npmjs.org/finalhandler/1.2.0
@@ -25546,7 +25416,6 @@ packages:
       unpipe: registry.npmjs.org/unpipe@1.0.0
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   registry.npmjs.org/find-babel-config@1.2.0:
     resolution: {integrity: sha512-jB2CHJeqy6a820ssiqwrKMeyC6nNdmrcgkKWJWmpoxpE8RKciYJXCcXRq1h2AzCo5I5BJeN2tkGEO3hLTuePRA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/find-babel-config/-/find-babel-config-1.2.0.tgz}
@@ -25672,17 +25541,6 @@ packages:
       inherits: registry.npmjs.org/inherits@2.0.4
       readable-stream: registry.npmjs.org/readable-stream@2.3.8
 
-  registry.npmjs.org/follow-redirects@1.15.2:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.2.tgz}
-    name: follow-redirects
-    version: 1.15.2
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-
   registry.npmjs.org/follow-redirects@1.15.2(debug@4.3.4):
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.2.tgz}
     id: registry.npmjs.org/follow-redirects/1.15.2
@@ -25696,7 +25554,6 @@ packages:
         optional: true
     dependencies:
       debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
-    dev: false
 
   registry.npmjs.org/follow-redirects@1.15.6:
     resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.6.tgz}
@@ -26633,6 +26490,13 @@ packages:
     dev: true
     optional: true
 
+  registry.npmjs.org/hammerjs@2.0.8:
+    resolution: {integrity: sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/hammerjs/-/hammerjs-2.0.8.tgz}
+    name: hammerjs
+    version: 2.0.8
+    engines: {node: '>=0.8.0'}
+    dev: false
+
   registry.npmjs.org/handle-thing@2.0.1:
     resolution: {integrity: sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/handle-thing/-/handle-thing-2.0.1.tgz}
     name: handle-thing
@@ -27177,7 +27041,7 @@ packages:
     dependencies:
       '@tootallnate/once': registry.npmjs.org/@tootallnate/once@1.1.2
       agent-base: registry.npmjs.org/agent-base@6.0.2
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -27217,7 +27081,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       '@types/http-proxy': registry.npmjs.org/@types/http-proxy@1.17.11
-      http-proxy: registry.npmjs.org/http-proxy@1.18.1
+      http-proxy: registry.npmjs.org/http-proxy@1.18.1(debug@4.3.4)
       is-glob: registry.npmjs.org/is-glob@4.0.3
       is-plain-obj: registry.npmjs.org/is-plain-obj@3.0.0
       micromatch: 4.0.5
@@ -27239,22 +27103,10 @@ packages:
     dependencies:
       '@types/express': registry.npmjs.org/@types/express@4.17.17
       '@types/http-proxy': registry.npmjs.org/@types/http-proxy@1.17.11
-      http-proxy: registry.npmjs.org/http-proxy@1.18.1
+      http-proxy: registry.npmjs.org/http-proxy@1.18.1(debug@4.3.4)
       is-glob: registry.npmjs.org/is-glob@4.0.3
       is-plain-obj: registry.npmjs.org/is-plain-obj@3.0.0
       micromatch: 4.0.5
-    transitivePeerDependencies:
-      - debug
-
-  registry.npmjs.org/http-proxy@1.18.1:
-    resolution: {integrity: sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/http-proxy/-/http-proxy-1.18.1.tgz}
-    name: http-proxy
-    version: 1.18.1
-    engines: {node: '>=8.0.0'}
-    dependencies:
-      eventemitter3: registry.npmjs.org/eventemitter3@4.0.7
-      follow-redirects: registry.npmjs.org/follow-redirects@1.15.2
-      requires-port: registry.npmjs.org/requires-port@1.0.0
     transitivePeerDependencies:
       - debug
 
@@ -27270,7 +27122,6 @@ packages:
       requires-port: registry.npmjs.org/requires-port@1.0.0
     transitivePeerDependencies:
       - debug
-    dev: false
 
   registry.npmjs.org/http-signature@1.2.0:
     resolution: {integrity: sha512-CAbnr6Rz4CYQkLYUtSNXxQPUH2gK8f3iWexVlsnMeD+GjlsQ0Xsy1cOX+mN3dtxYomRy21CiOzU8Uhw6OwncEQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/http-signature/-/http-signature-1.2.0.tgz}
@@ -27295,7 +27146,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       agent-base: registry.npmjs.org/agent-base@6.0.2
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -28534,7 +28385,7 @@ packages:
     version: 4.0.1
     engines: {node: '>=10'}
     dependencies:
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       istanbul-lib-coverage: registry.npmjs.org/istanbul-lib-coverage@3.2.0
       source-map: registry.npmjs.org/source-map@0.6.1
     transitivePeerDependencies:
@@ -31792,7 +31643,7 @@ packages:
       chalk: registry.npmjs.org/chalk@5.2.0
       cli-truncate: registry.npmjs.org/cli-truncate@3.1.0
       commander: registry.npmjs.org/commander@10.0.1
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       execa: registry.npmjs.org/execa@7.1.1
       lilconfig: registry.npmjs.org/lilconfig@2.1.0
       listr2: registry.npmjs.org/listr2@5.0.8
@@ -36285,7 +36136,7 @@ packages:
       '@puppeteer/browsers': registry.npmjs.org/@puppeteer/browsers@0.5.0(typescript@5.3.3)
       chromium-bidi: registry.npmjs.org/chromium-bidi@0.4.7(devtools-protocol@0.0.1107588)
       cross-fetch: registry.npmjs.org/cross-fetch@3.1.5
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       devtools-protocol: registry.npmjs.org/devtools-protocol@0.0.1107588
       extract-zip: registry.npmjs.org/extract-zip@2.0.1
       https-proxy-agent: registry.npmjs.org/https-proxy-agent@5.0.1
@@ -38563,28 +38414,6 @@ packages:
     dependencies:
       lru-cache: registry.npmjs.org/lru-cache@6.0.0
 
-  registry.npmjs.org/send@0.18.0:
-    resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/send/-/send-0.18.0.tgz}
-    name: send
-    version: 0.18.0
-    engines: {node: '>= 0.8.0'}
-    dependencies:
-      debug: registry.npmjs.org/debug@2.6.9
-      depd: registry.npmjs.org/depd@2.0.0
-      destroy: registry.npmjs.org/destroy@1.2.0
-      encodeurl: registry.npmjs.org/encodeurl@1.0.2
-      escape-html: registry.npmjs.org/escape-html@1.0.3
-      etag: registry.npmjs.org/etag@1.8.1
-      fresh: registry.npmjs.org/fresh@0.5.2
-      http-errors: registry.npmjs.org/http-errors@2.0.0
-      mime: registry.npmjs.org/mime@1.6.0
-      ms: 2.1.3
-      on-finished: registry.npmjs.org/on-finished@2.4.1
-      range-parser: registry.npmjs.org/range-parser@1.2.1
-      statuses: registry.npmjs.org/statuses@2.0.1
-    transitivePeerDependencies:
-      - supports-color
-
   registry.npmjs.org/send@0.18.0(supports-color@6.1.0):
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/send/-/send-0.18.0.tgz}
     id: registry.npmjs.org/send/0.18.0
@@ -38662,22 +38491,6 @@ packages:
     dependencies:
       randombytes: registry.npmjs.org/randombytes@2.1.0
 
-  registry.npmjs.org/serve-index@1.9.1:
-    resolution: {integrity: sha512-pXHfKNP4qujrtteMrSBb0rc8HJ9Ms/GrXwcUtUtD5s4ewDJI8bT3Cz2zTVRMKtri49pLx2e0Ya8ziP5Ya2pZZw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/serve-index/-/serve-index-1.9.1.tgz}
-    name: serve-index
-    version: 1.9.1
-    engines: {node: '>= 0.8.0'}
-    dependencies:
-      accepts: registry.npmjs.org/accepts@1.3.8
-      batch: registry.npmjs.org/batch@0.6.1
-      debug: registry.npmjs.org/debug@2.6.9
-      escape-html: registry.npmjs.org/escape-html@1.0.3
-      http-errors: registry.npmjs.org/http-errors@1.6.3
-      mime-types: 2.1.35
-      parseurl: registry.npmjs.org/parseurl@1.3.3
-    transitivePeerDependencies:
-      - supports-color
-
   registry.npmjs.org/serve-index@1.9.1(supports-color@6.1.0):
     resolution: {integrity: sha512-pXHfKNP4qujrtteMrSBb0rc8HJ9Ms/GrXwcUtUtD5s4ewDJI8bT3Cz2zTVRMKtri49pLx2e0Ya8ziP5Ya2pZZw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/serve-index/-/serve-index-1.9.1.tgz}
     id: registry.npmjs.org/serve-index/1.9.1
@@ -38692,20 +38505,6 @@ packages:
       http-errors: registry.npmjs.org/http-errors@1.6.3
       mime-types: 2.1.35
       parseurl: registry.npmjs.org/parseurl@1.3.3
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  registry.npmjs.org/serve-static@1.15.0:
-    resolution: {integrity: sha512-XGuRDNjXUijsUL0vl6nSD7cwURuzEgglbOaFuZM9g3kwDXOWVTck0jLzjPzGD+TazWbboZYu52/9/XPdUgne9g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/serve-static/-/serve-static-1.15.0.tgz}
-    name: serve-static
-    version: 1.15.0
-    engines: {node: '>= 0.8.0'}
-    dependencies:
-      encodeurl: registry.npmjs.org/encodeurl@1.0.2
-      escape-html: registry.npmjs.org/escape-html@1.0.3
-      parseurl: registry.npmjs.org/parseurl@1.3.3
-      send: registry.npmjs.org/send@0.18.0
     transitivePeerDependencies:
       - supports-color
 
@@ -39245,20 +39044,6 @@ packages:
     name: spdx-license-ids
     version: 3.0.13
 
-  registry.npmjs.org/spdy-transport@3.0.0:
-    resolution: {integrity: sha512-hsLVFE5SjA6TCisWeJXFKniGGOpBgMLmerfO2aCyCU5s7nJ/rpAepqmFifv/GCbSbueEeAJJnmSQ2rKC/g8Fcw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/spdy-transport/-/spdy-transport-3.0.0.tgz}
-    name: spdy-transport
-    version: 3.0.0
-    dependencies:
-      debug: registry.npmjs.org/debug@4.3.4
-      detect-node: registry.npmjs.org/detect-node@2.1.0
-      hpack.js: registry.npmjs.org/hpack.js@2.1.6
-      obuf: registry.npmjs.org/obuf@1.1.2
-      readable-stream: registry.npmjs.org/readable-stream@3.6.2
-      wbuf: registry.npmjs.org/wbuf@1.7.3
-    transitivePeerDependencies:
-      - supports-color
-
   registry.npmjs.org/spdy-transport@3.0.0(supports-color@6.1.0):
     resolution: {integrity: sha512-hsLVFE5SjA6TCisWeJXFKniGGOpBgMLmerfO2aCyCU5s7nJ/rpAepqmFifv/GCbSbueEeAJJnmSQ2rKC/g8Fcw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/spdy-transport/-/spdy-transport-3.0.0.tgz}
     id: registry.npmjs.org/spdy-transport/3.0.0
@@ -39271,21 +39056,6 @@ packages:
       obuf: registry.npmjs.org/obuf@1.1.2
       readable-stream: registry.npmjs.org/readable-stream@3.6.2
       wbuf: registry.npmjs.org/wbuf@1.7.3
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  registry.npmjs.org/spdy@4.0.2:
-    resolution: {integrity: sha512-r46gZQZQV+Kl9oItvl1JZZqJKGr+oEkB08A6BzkiR7593/7IbtuncXHd2YoYeTsG4157ZssMu9KYvUHLcjcDoA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/spdy/-/spdy-4.0.2.tgz}
-    name: spdy
-    version: 4.0.2
-    engines: {node: '>=6.0.0'}
-    dependencies:
-      debug: registry.npmjs.org/debug@4.3.4
-      handle-thing: registry.npmjs.org/handle-thing@2.0.1
-      http-deceiver: registry.npmjs.org/http-deceiver@1.2.7
-      select-hose: registry.npmjs.org/select-hose@2.0.0
-      spdy-transport: registry.npmjs.org/spdy-transport@3.0.0
     transitivePeerDependencies:
       - supports-color
 
@@ -39303,7 +39073,6 @@ packages:
       spdy-transport: registry.npmjs.org/spdy-transport@3.0.0(supports-color@6.1.0)
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   registry.npmjs.org/split-on-first@1.1.0:
     resolution: {integrity: sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/split-on-first/-/split-on-first-1.1.0.tgz}
@@ -39939,7 +39708,7 @@ packages:
       colord: registry.npmjs.org/colord@2.9.3
       cosmiconfig: registry.npmjs.org/cosmiconfig@7.1.0
       css-functions-list: registry.npmjs.org/css-functions-list@3.1.0
-      debug: registry.npmjs.org/debug@4.3.4
+      debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       fast-glob: 3.3.1
       fastest-levenshtein: registry.npmjs.org/fastest-levenshtein@1.0.16
       file-entry-cache: registry.npmjs.org/file-entry-cache@6.0.1
@@ -42602,10 +42371,10 @@ packages:
       bonjour-service: registry.npmjs.org/bonjour-service@1.1.1
       chokidar: registry.npmjs.org/chokidar@3.5.3
       colorette: registry.npmjs.org/colorette@2.0.20
-      compression: registry.npmjs.org/compression@1.7.4
+      compression: registry.npmjs.org/compression@1.7.4(supports-color@6.1.0)
       connect-history-api-fallback: registry.npmjs.org/connect-history-api-fallback@2.0.0
       default-gateway: registry.npmjs.org/default-gateway@6.0.3
-      express: registry.npmjs.org/express@4.18.2
+      express: registry.npmjs.org/express@4.18.2(supports-color@6.1.0)
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       html-entities: registry.npmjs.org/html-entities@2.3.3
       http-proxy-middleware: registry.npmjs.org/http-proxy-middleware@2.0.6(@types/express@4.17.17)
@@ -42615,9 +42384,9 @@ packages:
       rimraf: registry.npmjs.org/rimraf@3.0.2
       schema-utils: registry.npmjs.org/schema-utils@4.0.1
       selfsigned: registry.npmjs.org/selfsigned@2.1.1
-      serve-index: registry.npmjs.org/serve-index@1.9.1
+      serve-index: registry.npmjs.org/serve-index@1.9.1(supports-color@6.1.0)
       sockjs: registry.npmjs.org/sockjs@0.3.24
-      spdy: registry.npmjs.org/spdy@4.0.2
+      spdy: registry.npmjs.org/spdy@4.0.2(supports-color@6.1.0)
       webpack: registry.npmjs.org/webpack@5.78.0
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware@5.3.3(webpack@5.78.0)
       ws: registry.npmjs.org/ws@8.13.0

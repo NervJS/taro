@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/api/apis/utils'
 
-import native from '../NativeApi'
+import nativeLocation from './NativeLocation'
 
 /**
  * 取消监听实时地理位置变化事件
@@ -17,7 +17,7 @@ export const offLocationChange: typeof Taro.offLocationChange = (callback) => {
     console.error(res.errMsg)
     return
   }
-  native.offLocationChange((res: any) => {
+  nativeLocation.offLocationChange((res: any) => {
     const cbResult: Taro.onLocationChange.CallbackResult = {
       /** 位置的精确度 */
       accuracy: res.accuracy,

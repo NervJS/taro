@@ -1,6 +1,6 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 import { TestConsole } from '@/util/util'
@@ -47,9 +47,6 @@ export default class Index extends React.Component {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
             })
-            .then((res) => {
-              TestConsole.consoleResult.call(this, res, apiIndex)
-            })
         },
       },
       {
@@ -71,9 +68,6 @@ export default class Index extends React.Component {
                 TestConsole.consoleNormal('startRecord callback :', res)
               },
             })
-            .then((res) => {
-              TestConsole.consoleResult.call(this, res, apiIndex)
-            })
         },
       },
       {
@@ -91,9 +85,6 @@ export default class Index extends React.Component {
               complete: (res) => {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((res) => {
-              TestConsole.consoleResult.call(this, res, apiIndex)
             })
         },
       },
@@ -113,9 +104,6 @@ export default class Index extends React.Component {
               complete: (res) => {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((res) => {
-              TestConsole.consoleResult.call(this, res, apiIndex)
             })
         },
       },
