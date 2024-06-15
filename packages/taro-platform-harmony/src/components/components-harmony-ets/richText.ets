@@ -15,7 +15,7 @@ export default struct TaroRichText {
   build () {
     RichText(generateText(this.node))
       .attributeModifier(commonStyleModify.setNode(this.node))
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         this.node._nodeInfo.areaInfo = res[1]
       }))

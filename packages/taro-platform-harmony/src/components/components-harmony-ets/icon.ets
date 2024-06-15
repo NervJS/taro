@@ -70,8 +70,8 @@ export default struct TaroIcon {
         width: Number(this.node._attrs.size) || 23,
         height: Number(this.node._attrs.size) || 23
       })
-      .onComplete(e => eventHandler(e, 'complete', this.node))
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onComplete(e => { eventHandler(e, 'complete', this.node) })
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
       .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         this.node._nodeInfo.areaInfo = res[1]

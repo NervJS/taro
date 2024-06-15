@@ -72,7 +72,7 @@ export default struct TaroSwiper {
         const event: TaroEvent = createTaroEvent('change', { detail: { current: index } }, this.node)
         eventHandler(event, 'change', this.node)
       })
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         this.node._nodeInfo.areaInfo = res[1]
       }))

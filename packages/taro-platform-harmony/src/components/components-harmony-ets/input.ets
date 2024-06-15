@@ -93,7 +93,7 @@ export default struct TaroInput {
       const event: TaroEvent = createTaroEvent('confirm', { detail: { value: this.value } }, this.node)
       eventHandler(event, 'confirm', this.node)
     })
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+    .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
     .onBlur(() => {
       const event: TaroEvent = createTaroEvent('blur', { detail: { value: this.value } }, this.node)
       eventHandler(event, 'blur', this.node)

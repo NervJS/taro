@@ -20,12 +20,12 @@ export default struct TaroNavigationBar {
     }
 
     // FIXME 在 Harmony 提供 @Watch 文档后，根据 node 实际使用更细粒度的监听
-    eventCenter.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
+    eventCenter?.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
     this.handleAttributes(this.node._attrs)
   }
 
   aboutToDisappear(): void {
-    eventCenter.off('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
+    eventCenter?.off('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
   }
 
   handleAttributeUpdate = (opt: IComponentAttributeUpdateEvents) => {
@@ -51,7 +51,7 @@ export default struct TaroNavigationBar {
     if (attrs.frontColor) {
       options.frontColor = attrs.frontColor
     }
-    eventCenter.trigger('__taroNavigationStyle', options)
+    eventCenter?.trigger('__taroNavigationStyle', options)
     // FIXME: 以下属性暂时不支持
     // attrs.colorAnimationDuration
     // attrs.colorAnimationTimingFunc

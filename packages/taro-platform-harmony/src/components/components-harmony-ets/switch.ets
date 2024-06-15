@@ -63,7 +63,7 @@ export default struct TaroSwitch {
           }
         }
       })
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         if (this.node) {
           this.node._nodeInfo.areaInfo = res[1]

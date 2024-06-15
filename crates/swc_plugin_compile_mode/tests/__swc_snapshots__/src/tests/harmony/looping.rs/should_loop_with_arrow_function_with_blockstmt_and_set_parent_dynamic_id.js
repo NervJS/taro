@@ -113,7 +113,7 @@ function createText (node: TaroTextElement) {
         }, (item: TaroElement) => item._nid)
       }
     }
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
+    .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', node) }, node, ['click']))
     .attributeModifier(textModify.setNode(node).withNormalStyle())
     .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
     .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
@@ -158,7 +158,7 @@ function createTextChildNode (item: TaroElement) {
         bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
         bottomRight: item._st.hmStyle.borderBottomRightRadius
       })
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', item) }, item, ['click']))
   } else if (item.nodeType === NodeType.TEXT_NODE) {
     Span(item.textContent)
   } else if (item.tagName === 'TEXT') {
@@ -174,7 +174,7 @@ function createTextChildNode (item: TaroElement) {
           bottomRight: item._st.hmStyle.borderBottomRightRadius,
         }
       })
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', item) }, item, ['click']))
   }
 }
 
