@@ -97,172 +97,204 @@ export default class RenderParser extends BaseParser {
     const { outputRoot = 'dist', sourceRoot = 'src' } = taroConfig
     const { modifyResolveId, modifyHarmonyRenderChild, modifyHarmonyRenderCode } = loaderMeta
 
-    const compList = [
-      ...STANDARD_COMPONENT_LIST,
-      ...this.context.extraComponents,
-    ].filter(e => typeof e === 'string')
+    const compList = [...STANDARD_COMPONENT_LIST, ...this.context.extraComponents].filter((e) => typeof e === 'string')
 
     const importList = [
-      `import { ${compList.map(e => `Taro${e}`).join(', ')} } from '@tarojs/components'`,
-      ...Object.values(this.context.nativeComponents).map((meta) => {
-        if (meta.isPackage) {
-          return `import ${meta.name} from '${meta.scriptPath}'`
-        } else {
-          const nativePath = path.relative(this.context.sourceDir, meta.scriptPath).replace(/\.ets$/, '')
-          return `import ${meta.name} from './${nativePath}'`
-        }
-      }),
-      ...Object.keys(this.template).map((key) => {
-        return `import ${key} from './static/${key}`
-      }),
+      `import { ${compList.map((e) => `Taro${e}`).join(', ')} } from '@tarojs/components'`,
+
       `import { Current, NodeType } from '@tarojs/runtime'`,
-      '',
       `import type { ${RUNTIME_TYPE_LIST.join(', ')} } from '@tarojs/runtime'`,
     ]
 
-    if (!this.componentList.length) {
-      this.componentList = [{
-        name: 'ScrollList',
-        condition: `(item.tagName === 'SCROLL-VIEW' || item._st?.hmStyle.overflow === 'scroll') && item.getAttribute('type') === 'custom'`,
-        type: 'TaroScrollViewElement',
-      }, {
-        name: 'ScrollView',
-        condition: `item.tagName === 'SCROLL-VIEW' || item._st?.hmStyle.overflow === 'scroll'`,
-        type: 'TaroScrollViewElement',
-      }, {
-        name: 'View',
-        condition: `item.tagName === 'VIEW'`,
-        type: 'TaroViewElement',
-      }, {
-        name: 'Text',
-        condition: `item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE`,
-        type: 'TaroTextElement',
-      }, {
-        name: 'Image',
-        condition: `item.tagName === 'IMAGE'`,
-        type: 'TaroImageElement',
-      }, {
-        name: 'Button',
-        condition: `item.tagName === 'BUTTON'`,
-        type: 'TaroButtonElement',
-      }, {
-        name: 'Slider',
-        condition: `item.tagName === 'SLIDER'`,
-        type: 'TaroSliderElement',
-      }, {
-        name: 'Switch',
-        condition: `item.tagName === 'SWITCH'`,
-        type: 'TaroSwitchElement',
-      }, {
-        name: 'Input',
-        condition: `item.tagName === 'INPUT'`,
-        type: 'TaroInputElement',
-      }, {
-        name: 'Swiper',
-        condition: `item.tagName === 'SWIPER'`,
-        type: 'TaroSwiperElement',
-      }, {
-        name: 'View',
-        condition: `item.tagName === 'SWIPER-ITEM'`,
-        type: 'TaroViewElement',
-      }, {
-        name: 'InnerHtml',
-        condition: `item.tagName === 'INNER-HTML'`,
-        type: 'TaroInnerHtmlElement',
-        args: ['createChildItem'],
-      }, {
-        name: 'RichText',
-        condition: `item.tagName === 'RICH-TEXT'`,
-        type: 'TaroRichTextElement',
-      }, {
-        name: 'Icon',
-        condition: `item.tagName === 'ICON'`,
-        type: 'TaroIconElement',
-      }, {
-        name: 'TextArea',
-        condition: `item.tagName === 'TEXT-AREA'`,
-        type: 'TaroTextAreaElement',
-      }, {
-        name: 'CheckboxGroup',
-        condition: `item.tagName === 'CHECKBOX-GROUP'`,
-        type: 'TaroCheckboxGroupElement',
-      }, {
-        name: 'Checkbox',
-        condition: `item.tagName === 'CHECKBOX'`,
-        type: 'TaroCheckboxElement',
-      }, {
-        name: 'RadioGroup',
-        condition: `item.tagName === 'RADIO-GROUP'`,
-        type: 'TaroRadioGroupElement',
-      }, {
-        name: 'Radio',
-        condition: `item.tagName === 'RADIO'`,
-        type: 'TaroRadioElement',
-      }, {
-        name: 'Progress',
-        condition: `item.tagName === 'PROGRESS'`,
-        type: 'TaroProgressElement',
-      }, {
-        name: 'MovableView',
-        condition: `item.tagName === 'MOVABLE-VIEW'`,
-        type: 'TaroMovableViewElement',
-      }, {
-        name: 'MovableArea',
-        condition: `item.tagName === 'MOVABLE-AREA'`,
-        type: 'TaroMovableAreaElement',
-      }, {
-        name: 'Canvas',
-        condition: `item.tagName === 'CANVAS'`,
-        type: 'TaroAny as TaroCanvasElement',
-        args: [],
-      }, {
-        name: 'Label',
-        condition: `item.tagName === 'LABEL'`,
-        type: 'TaroLabelElement',
-      }, {
-        name: 'Picker',
-        condition: `item.tagName === 'PICKER'`,
-        type: 'TaroPickerElement',
-      }, {
-        name: 'Form',
-        condition: `item.tagName === 'FORM'`,
-        type: 'TaroFormElement',
-      }, {
-        name: 'Video',
-        condition: `item.tagName === 'VIDEO'`,
-        type: 'TaroVideoElement',
-      }, {
-        name: 'WebView',
-        condition: `item.tagName === 'WEB-VIEW'`,
-        type: 'TaroWebViewElement',
-      }, {
-        name: 'PageMeta',
-        condition: `item.tagName === 'PAGE-META'`,
-        type: 'TaroPageMetaElement',
-      }, {
-        name: 'NavigationBar',
-        condition: `item.tagName === 'NAVIGATION-BAR'`,
-        type: 'TaroNavigationBarElement',
+    this.template.forEach((_, key) => {
+      importList.push(`import ${key} from './static/${key}`)
+    })
 
-      }, {
-        name: 'StickySection',
-        condition: `item.tagName === 'STICKY-SECTION'`,
-        type: 'TaroViewElement',
-      }, {
-        name: 'ListView',
-        condition: `item.tagName === 'LIST-VIEW'`,
-        type: 'TaroViewElement',
-      }, {
-        name: 'View',
-        type: 'TaroViewElement',
-      }]
+    this.context.nativeComponents.forEach((meta) => {
+      if (meta.isPackage) {
+        importList.push(`import ${meta.name} from '${meta.scriptPath}'`)
+      } else {
+        const nativePath = path.relative(this.context.sourceDir, meta.scriptPath).replace(/\.ets$/, '')
+        importList.push(`import ${meta.name} from './${nativePath}'`)
+      }
+    })
+
+    console.log('importList', importList) // eslint-disable-line
+
+    if (!this.componentList.length) {
+      this.componentList = [
+        {
+          name: 'ScrollList',
+          condition: `(item.tagName === 'SCROLL-VIEW' || item._st?.hmStyle.overflow === 'scroll') && item.getAttribute('type') === 'custom'`,
+          type: 'TaroScrollViewElement',
+        },
+        {
+          name: 'ScrollView',
+          condition: `item.tagName === 'SCROLL-VIEW' || item._st?.hmStyle.overflow === 'scroll'`,
+          type: 'TaroScrollViewElement',
+        },
+        {
+          name: 'View',
+          condition: `item.tagName === 'VIEW'`,
+          type: 'TaroViewElement',
+        },
+        {
+          name: 'Text',
+          condition: `item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE`,
+          type: 'TaroTextElement',
+        },
+        {
+          name: 'Image',
+          condition: `item.tagName === 'IMAGE'`,
+          type: 'TaroImageElement',
+        },
+        {
+          name: 'Button',
+          condition: `item.tagName === 'BUTTON'`,
+          type: 'TaroButtonElement',
+        },
+        {
+          name: 'Slider',
+          condition: `item.tagName === 'SLIDER'`,
+          type: 'TaroSliderElement',
+        },
+        {
+          name: 'Switch',
+          condition: `item.tagName === 'SWITCH'`,
+          type: 'TaroSwitchElement',
+        },
+        {
+          name: 'Input',
+          condition: `item.tagName === 'INPUT'`,
+          type: 'TaroInputElement',
+        },
+        {
+          name: 'Swiper',
+          condition: `item.tagName === 'SWIPER'`,
+          type: 'TaroSwiperElement',
+        },
+        {
+          name: 'View',
+          condition: `item.tagName === 'SWIPER-ITEM'`,
+          type: 'TaroViewElement',
+        },
+        {
+          name: 'InnerHtml',
+          condition: `item.tagName === 'INNER-HTML'`,
+          type: 'TaroInnerHtmlElement',
+          args: ['createChildItem'],
+        },
+        {
+          name: 'RichText',
+          condition: `item.tagName === 'RICH-TEXT'`,
+          type: 'TaroRichTextElement',
+        },
+        {
+          name: 'Icon',
+          condition: `item.tagName === 'ICON'`,
+          type: 'TaroIconElement',
+        },
+        {
+          name: 'TextArea',
+          condition: `item.tagName === 'TEXT-AREA'`,
+          type: 'TaroTextAreaElement',
+        },
+        {
+          name: 'CheckboxGroup',
+          condition: `item.tagName === 'CHECKBOX-GROUP'`,
+          type: 'TaroCheckboxGroupElement',
+        },
+        {
+          name: 'Checkbox',
+          condition: `item.tagName === 'CHECKBOX'`,
+          type: 'TaroCheckboxElement',
+        },
+        {
+          name: 'RadioGroup',
+          condition: `item.tagName === 'RADIO-GROUP'`,
+          type: 'TaroRadioGroupElement',
+        },
+        {
+          name: 'Radio',
+          condition: `item.tagName === 'RADIO'`,
+          type: 'TaroRadioElement',
+        },
+        {
+          name: 'Progress',
+          condition: `item.tagName === 'PROGRESS'`,
+          type: 'TaroProgressElement',
+        },
+        {
+          name: 'MovableView',
+          condition: `item.tagName === 'MOVABLE-VIEW'`,
+          type: 'TaroMovableViewElement',
+        },
+        {
+          name: 'MovableArea',
+          condition: `item.tagName === 'MOVABLE-AREA'`,
+          type: 'TaroMovableAreaElement',
+        },
+        {
+          name: 'Canvas',
+          condition: `item.tagName === 'CANVAS'`,
+          type: 'TaroAny as TaroCanvasElement',
+          args: [],
+        },
+        {
+          name: 'Label',
+          condition: `item.tagName === 'LABEL'`,
+          type: 'TaroLabelElement',
+        },
+        {
+          name: 'Picker',
+          condition: `item.tagName === 'PICKER'`,
+          type: 'TaroPickerElement',
+        },
+        {
+          name: 'Form',
+          condition: `item.tagName === 'FORM'`,
+          type: 'TaroFormElement',
+        },
+        {
+          name: 'Video',
+          condition: `item.tagName === 'VIDEO'`,
+          type: 'TaroVideoElement',
+        },
+        {
+          name: 'WebView',
+          condition: `item.tagName === 'WEB-VIEW'`,
+          type: 'TaroWebViewElement',
+        },
+        {
+          name: 'PageMeta',
+          condition: `item.tagName === 'PAGE-META'`,
+          type: 'TaroPageMetaElement',
+        },
+        {
+          name: 'NavigationBar',
+          condition: `item.tagName === 'NAVIGATION-BAR'`,
+          type: 'TaroNavigationBarElement',
+        },
+        {
+          name: 'StickySection',
+          condition: `item.tagName === 'STICKY-SECTION'`,
+          type: 'TaroViewElement',
+        },
+        {
+          name: 'ListView',
+          condition: `item.tagName === 'LIST-VIEW'`,
+          type: 'TaroViewElement',
+        },
+        {
+          name: 'View',
+          type: 'TaroViewElement',
+        },
+      ]
 
       this.context.extraComponents.forEach((component) => {
         this.componentList.unshift({
           name: component,
-          condition: `item.tagName === '${component
-            .replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1')
-            .toUpperCase()}'`,
+          condition: `item.tagName === '${component.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}'`,
           args: ['createLazyChildren', 'createChildItem'],
         })
       })
@@ -338,7 +370,13 @@ export { createChildItem, createLazyChildren }`,
     })
   }
 
-  generateComponentCreated ({ name = '', condition = '', type = 'TaroAny', args = ['createLazyChildren'], extra = '' }: IChildComponent) {
+  generateComponentCreated({
+    name = '',
+    condition = '',
+    type = 'TaroAny',
+    args = ['createLazyChildren'],
+    extra = '',
+  }: IChildComponent) {
     name = `Taro${name}`
 
     return `${condition ? `if (${condition}) ` : ''}{
