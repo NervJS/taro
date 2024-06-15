@@ -9,7 +9,7 @@ import { FlexManager } from './utils/flexManager'
 @Component
 export default struct TaroMovableView {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroMovableViewElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroMovableViewElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroMovableViewElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -24,17 +24,17 @@ export default struct TaroMovableView {
     Stack() {
       if (FlexManager.useFlexLayout(this.node)) {
         Flex(FlexManager.flexOptions(this.node)) {
-          this.createLazyChildren(this.node)
+          this.createLazyChildren(this.node, 0)
         }
         .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       } else if (FlexManager.isFlexNode(this.node) && FlexManager.direction(this.node) !== FlexDirection.Column) {
         Row() {
-          this.createLazyChildren(this.node)
+          this.createLazyChildren(this.node, 0)
         }
         .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       } else {
         Column() {
-          this.createLazyChildren(this.node)
+          this.createLazyChildren(this.node, 0)
         }
         .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       }

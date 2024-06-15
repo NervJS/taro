@@ -40,7 +40,7 @@ function getOptions (node: TaroCheckboxElement): CheckboxOptions {
 @Component
 export struct TaroCheckbox {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroCheckboxElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroCheckboxElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroCheckboxElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -101,7 +101,7 @@ interface ChangeEventDetail { value: string[] }
 @Component
 export struct TaroCheckboxGroup {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroCheckboxGroupElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroCheckboxGroupElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroCheckboxGroupElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -132,21 +132,21 @@ export struct TaroCheckboxGroup {
   build() {
     if (FlexManager.useFlexLayout(this.node)) {
       Flex(FlexManager.flexOptions(this.node)) {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .defaultEvent()
       .visibleChangeEvent()
     } else if (FlexManager.isFlexNode(this.node) && FlexManager.direction(this.node) !== FlexDirection.Column) {
       Row() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .defaultEvent()
       .visibleChangeEvent()
     } else {
       Column() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .defaultEvent()

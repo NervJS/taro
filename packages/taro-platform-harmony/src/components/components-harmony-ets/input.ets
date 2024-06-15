@@ -54,7 +54,7 @@ export default struct TaroInput {
   @State value: string = ''
 
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroInputElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroInputElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroInputElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 

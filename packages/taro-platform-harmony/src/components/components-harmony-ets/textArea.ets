@@ -45,7 +45,7 @@ export default struct TaroTextArea {
   @State value: string = ''
 
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroTextAreaElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroTextAreaElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroTextAreaElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 

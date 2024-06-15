@@ -39,7 +39,7 @@ function themeStyles(isDisabled: boolean) {
 @Component
 export struct TaroRadio {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroRadioElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroRadioElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroRadioElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -101,7 +101,7 @@ export struct TaroRadio {
 @Component
 export struct TaroRadioGroup {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroRadioGroupElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroRadioGroupElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroRadioGroupElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -134,21 +134,21 @@ export struct TaroRadioGroup {
   build() {
     if (FlexManager.useFlexLayout(this.node)) {
       Flex(FlexManager.flexOptions(this.node)) {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .defaultEvent()
       .visibleChangeEvent()
     } else if (FlexManager.isFlexNode(this.node) && FlexManager.direction(this.node) !== FlexDirection.Column) {
       Row() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .defaultEvent()
       .visibleChangeEvent()
     } else {
       Column() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .defaultEvent()

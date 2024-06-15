@@ -48,7 +48,7 @@ function getSwiperAttributes (node: TaroSwiperElement): SwiperAttrs {
 @Component
 export default struct TaroSwiper {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroSwiperElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroSwiperElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroSwiperElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -60,7 +60,7 @@ export default struct TaroSwiper {
 
   build () {
     Swiper(this.node.controller) {
-      this.createLazyChildren(this.node)
+      this.createLazyChildren(this.node, 0)
     }
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .swiperAttr(getSwiperAttributes(this.node))

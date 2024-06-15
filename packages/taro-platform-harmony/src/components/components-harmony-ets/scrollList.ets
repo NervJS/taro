@@ -52,7 +52,7 @@ function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', s
 @Component
 export default struct TaroScrollList {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroScrollViewElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroScrollViewElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroScrollViewElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -70,7 +70,7 @@ export default struct TaroScrollList {
     List({
       scroller: this.node.scroller
     }) {
-      this.createLazyChildren(this.node)
+      this.createLazyChildren(this.node, 0)
     }
     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
     .sticky(StickyStyle.Header)

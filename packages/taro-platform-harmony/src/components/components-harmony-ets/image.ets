@@ -19,7 +19,7 @@ export function getImageMode (mode: string): ImageFit {
 @Component
 export default struct TaroImage {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroImageElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroImageElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroImageElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 

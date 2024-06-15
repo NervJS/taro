@@ -43,7 +43,7 @@ function textSpecialFontStyle(attr: TaroTextStyleType) {
 @Component
 export default struct PseduoChildren {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroAny) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroAny, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroViewElement
 
   build () {
@@ -61,7 +61,7 @@ export default struct PseduoChildren {
           .flexAttrs(this.node._pseudo_before.hmStyle || {})
         }
       }
-      this.createLazyChildren(this.node)
+      this.createLazyChildren(this.node, 0)
       // 伪类::After
       if (this.node._pseudo_after) {
         if (this.node._pseudo_after?.hmStyle.content) {

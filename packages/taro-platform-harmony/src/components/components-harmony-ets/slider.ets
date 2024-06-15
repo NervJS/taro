@@ -41,7 +41,7 @@ function themeStyles(isDisabled: boolean) {
 @Component
 export default struct TaroSlider {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroSliderElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroSliderElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroSliderElement
 
   @State value: number = 0

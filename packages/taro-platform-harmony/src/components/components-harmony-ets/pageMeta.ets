@@ -15,7 +15,7 @@ export interface IComponentAttributeUpdateEvents {
 @Component
 export default struct TaroPageMeta {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroPageMetaElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroPageMetaElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroPageMetaElement
 
   page: TaroAny = {}
@@ -88,7 +88,7 @@ export default struct TaroPageMeta {
 
   build() {
     if (true) {
-      this.createLazyChildren(this.node)
+      this.createLazyChildren(this.node, 0)
     }
   }
 }

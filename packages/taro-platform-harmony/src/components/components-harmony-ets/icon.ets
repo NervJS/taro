@@ -51,7 +51,7 @@ function getIconData (node: TaroIconElement): Resource | null {
 @Component
 export default struct TaroIcon {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroIconElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroIconElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroIconElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 

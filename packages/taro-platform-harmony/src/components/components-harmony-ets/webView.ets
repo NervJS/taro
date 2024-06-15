@@ -17,7 +17,7 @@ interface IError {
 @Component
 export default struct TaroWebView {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroWebViewElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroWebViewElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroWebViewElement
 
   build () {

@@ -86,7 +86,7 @@ import { Current } from '@tarojs/runtime'
 ${this.generateNativeComponentNamesInit()}
 
 @Builder
-function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroElement) => void) {
+function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroElement, layer?: number) => void) {
   ${this.generateRenderExtraComponentsCondition()}${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'SCROLL-VIEW' || item._st?.hmStyle.overflow === 'scroll') {
     if (item.getAttribute('type') === 'custom') {
       TaroScrollList({ node: item as TaroScrollViewElement, createLazyChildren: createLazyChildren })

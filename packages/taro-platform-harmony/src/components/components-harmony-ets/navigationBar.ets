@@ -8,7 +8,7 @@ import type { IComponentAttributeUpdateEvents } from './pageMeta'
 @Component
 export default struct TaroNavigationBar {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroNavigationBarElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroNavigationBarElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroNavigationBarElement
 
   aboutToAppear(): void {
@@ -59,7 +59,7 @@ export default struct TaroNavigationBar {
 
   build() {
     if (true) {
-      this.createLazyChildren(this.node)
+      this.createLazyChildren(this.node, 0)
     }
   }
 }

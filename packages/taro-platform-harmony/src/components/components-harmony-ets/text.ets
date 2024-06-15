@@ -30,7 +30,7 @@ function getTextInViewWidth (node: TaroElement | null): TaroAny {
 @Component
 export default struct TaroText {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroTextElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroTextElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroTextElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 

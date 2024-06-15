@@ -12,7 +12,7 @@ import { isUndefined } from '@tarojs/shared'
 @Component
 export default struct TaroView {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroViewElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroViewElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroViewElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -28,7 +28,7 @@ export default struct TaroView {
         if (this.node._pseudo_before || this.node._pseudo_after) {
           PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
         } else {
-          this.createLazyChildren(this.node)
+          this.createLazyChildren(this.node, 0)
         }
       }
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
@@ -43,7 +43,7 @@ export default struct TaroView {
         if (this.node._pseudo_before || this.node._pseudo_after) {
           PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
         } else {
-          this.createLazyChildren(this.node)
+          this.createLazyChildren(this.node, 0)
         }
       }
       .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
@@ -58,7 +58,7 @@ export default struct TaroView {
         if (this.node._pseudo_before || this.node._pseudo_after) {
           PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
         } else {
-          this.createLazyChildren(this.node)
+          this.createLazyChildren(this.node, 0)
         }
       }
       .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))

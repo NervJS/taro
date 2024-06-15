@@ -60,7 +60,7 @@ function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', x
 @Component
 export default struct TaroScrollView {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroScrollViewElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroScrollViewElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroScrollViewElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -81,7 +81,7 @@ export default struct TaroScrollView {
           if (this.node._pseudo_before || this.node._pseudo_after) {
             PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
           } else {
-            this.createLazyChildren(this.node)
+            this.createLazyChildren(this.node, 0)
           }
         }
         .alignItems(FlexManager.alignItems<VerticalAlign>(this.node))
@@ -97,7 +97,7 @@ export default struct TaroScrollView {
           if (this.node._pseudo_before || this.node._pseudo_after) {
             PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
           } else {
-            this.createLazyChildren(this.node)
+            this.createLazyChildren(this.node, 0)
           }
         }
         .alignItems(FlexManager.alignItems<HorizontalAlign>(this.node))

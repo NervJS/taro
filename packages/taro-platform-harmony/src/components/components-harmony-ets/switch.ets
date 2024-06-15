@@ -31,7 +31,7 @@ function themeStyles(isDisabled: boolean) {
 @Component
 export default struct TaroSwitch {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroSwitchElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroSwitchElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroSwitchElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 

@@ -9,7 +9,7 @@ import type { TaroAny, TaroRichTextElement } from '@tarojs/runtime'
 @Component
 export default struct TaroRichText {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroRichTextElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroRichTextElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroRichTextElement
 
   build () {

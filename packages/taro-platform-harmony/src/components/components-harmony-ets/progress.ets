@@ -10,7 +10,7 @@ const PROGRESS_DEFAULTINFOFONTSIZE = 16
 @Component
 export default struct TaroProgress {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroProgressElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroProgressElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroProgressElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 

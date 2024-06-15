@@ -38,7 +38,7 @@ function handleTargetChange (id: string) {
 @Component
 export default struct TaroLabel {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroLabelElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroLabelElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroLabelElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -51,7 +51,7 @@ export default struct TaroLabel {
   build() {
     if (FlexManager.useFlexLayout(this.node)) {
       Flex(FlexManager.flexOptions(this.node)) {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .onClick((e: ClickEvent) => {
@@ -68,7 +68,7 @@ export default struct TaroLabel {
       .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
     } else if (FlexManager.isFlexNode(this.node) && FlexManager.direction(this.node) !== FlexDirection.Column) {
       Row() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .onClick((e: ClickEvent) => {
@@ -85,7 +85,7 @@ export default struct TaroLabel {
       .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
     } else {
       Column() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .onClick((e: ClickEvent) => {
