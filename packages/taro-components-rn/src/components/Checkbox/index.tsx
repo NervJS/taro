@@ -11,11 +11,12 @@
  */
 
 import * as React from 'react'
+
+import { noop } from '../../utils'
 import Icon from '../Icon'
 import View from '../View'
-import styles from './styles'
-import { noop } from '../../utils'
 import { CheckboxProps, CheckboxState } from './PropsType'
+import styles from './styles'
 
 class _Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   static displayName = '_Checkbox'

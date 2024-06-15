@@ -1,5 +1,23 @@
 import React from 'react'
 
+import sameLayerRender, { clearJsObj } from '../SameLayerRender'
+
+interface marker {
+  latitude: number
+  longitude: number
+  title?: string
+  zIndex?: number // 图标所在层级
+  iconPath?: string // 图标路径，当前仅支持base64图片
+  rotate?: number // 图标旋转角度
+  alpha?: number // 图标透明度，取值范围为0-1
+  width?: number // 图标宽度
+  height?: number // 图标高度
+  anchor?: {
+    x: number // 锚点X坐标，范围0-1
+    y: number // 锚点Y坐标，范围0-1
+  }
+}
+
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   latitude: number
   longitude: number
@@ -15,6 +33,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   showScale?: boolean // 显示比例尺
   showLocation?: boolean // 显示当前定位点
   enableTraffic?: boolean // 是否显示路况图层
+  markers?: marker[] // 标记点
   onTap?: (e: any) => void // 点击地图时触发
   onMarkerTap?: (e: any) => void // 点击marker时触发
   onCalloutTap?: (e: any) => void // 点击气泡时触发
@@ -28,12 +47,10 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
 
 class HosMap extends React.Component<IProps> {
   private componentId: string
+  private nativeRenderArgs: object
   constructor (props: IProps) {
     super(props)
     this.componentId = `HosMap_${Math.floor(Math.random() * 100000)}_${Date.now()}`
-  }
-
-  componentDidMount () {
     const {
       latitude,
       longitude,
@@ -49,6 +66,7 @@ class HosMap extends React.Component<IProps> {
       showScale,
       showLocation,
       enableTraffic,
+      markers,
       onTap,
       onMarkerTap,
       onCalloutTap,
@@ -59,8 +77,7 @@ class HosMap extends React.Component<IProps> {
       onError,
       onAnchorPointTap,
     } = this.props
-
-    const args = {
+    this.nativeRenderArgs = {
       componentId: this.componentId,
       latitude,
       longitude,
@@ -76,6 +93,7 @@ class HosMap extends React.Component<IProps> {
       scaleControlsEnabled: showScale,
       setMyLocationEnabled: showLocation,
       setTrafficEnabled: enableTraffic,
+      markers,
       onMapClick: onTap,
       onMarkerClick: onMarkerTap,
       onBubbleClick: onCalloutTap,
@@ -86,9 +104,12 @@ class HosMap extends React.Component<IProps> {
       onError: onError,
       onMyLocationButtonClick: onAnchorPointTap,
     }
+    sameLayerRender.transferSameLayerArgs(this.nativeRenderArgs)
+  }
 
-    // @ts-ignore 调用JSB方法传递原生组件数据
-    window.JSBridge && window.JSBridge.transferSameLayerArgs(args)
+  componentWillUnmount (): void {
+    // 释放JS侧存储的渲染参数
+    clearJsObj(this.nativeRenderArgs)
   }
 
   render (): React.ReactNode {

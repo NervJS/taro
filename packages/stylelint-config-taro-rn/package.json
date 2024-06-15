@@ -1,12 +1,12 @@
 {
   "name": "stylelint-config-taro-rn",
-  "version": "4.0.0-beta.89",
+  "version": "4.0.0-beta.93",
   "description": "Shareable stylelint config for React Native CSS modules",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "files": [
-    "index.js",
-    "CHANGELOG.md",
-    "README.md"
+    "index.js"
   ],
   "keywords": [
     "stylelint",
@@ -18,16 +18,21 @@
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
-  "author": "O2Team",
-  "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" jest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "stylelint-taro-rn": "workspace:*"
   },
   "devDependencies": {
-    "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
-    "jest-environment-node": "^29.5.0",
-    "ts-jest": "^29.0.5",
-    "typescript": "^4.7.4"
+    "stylelint": "^16.4.0"
+  },
+  "peerDependencies": {
+    "stylelint": "^16",
+    "stylelint-taro-rn": "workspace:*"
   }
 }

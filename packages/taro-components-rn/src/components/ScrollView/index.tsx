@@ -21,16 +21,17 @@
 
 import * as React from 'react'
 import {
-  ScrollView,
   FlatList,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
   LayoutChangeEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
   StyleSheet,
   ViewStyle
 } from 'react-native'
-import { omit, noop } from '../../utils'
-import { ScrollViewProps, ScrollViewState, ScrollMetrics } from './PropsType'
+
+import { noop, omit } from '../../utils'
+import { ScrollMetrics, ScrollViewProps, ScrollViewState } from './PropsType'
 
 // const SCROLLVIEW_CONT_STYLE = [
 //   // Source code of ScrollView, ['alignItems','justifyContent']
@@ -80,11 +81,11 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
   _hasCallScrollToLowerInRange = false
   _initialScrollIndexTimeout: ReturnType<typeof setTimeout>
 
-  _selectLength = (metrics: { height: number; width: number }): number => {
+  _selectLength = (metrics: { height: number, width: number }): number => {
     return !this.props.scrollX ? metrics.height : metrics.width
   }
 
-  _selectOffset = (metrics: { x: number; y: number }): number => {
+  _selectOffset = (metrics: { x: number, y: number }): number => {
     return !this.props.scrollX ? metrics.y : metrics.x
   }
 

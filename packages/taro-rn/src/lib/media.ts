@@ -1,14 +1,15 @@
-import { CameraRoll } from "@react-native-camera-roll/camera-roll"
-import { requestCameraPermissionsAsync } from 'expo-camera'
+import { CameraRoll } from '@react-native-camera-roll/camera-roll'
+import { Camera } from 'expo-camera'
 import {
-  requestMediaLibraryPermissionsAsync,
-  launchImageLibraryAsync,
-  launchCameraAsync,
-  MediaTypeOptions,
   ImagePickerAsset,
+  launchCameraAsync,
+  launchImageLibraryAsync,
+  MediaTypeOptions,
+  requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker'
-import { successHandler, errorHandler } from '../utils'
-import { showActionSheet } from "./showActionSheet"
+
+import { errorHandler, successHandler } from '../utils'
+import { showActionSheet } from './showActionSheet'
 
 export const MEDIA_TYPE = MediaTypeOptions
 
@@ -24,7 +25,7 @@ export async function saveMedia(opts: Taro.saveImageToPhotosAlbum.Option | Taro.
   const saveType = (type === 'video' || type === 'photo') ? type : 'auto'
   try {
     const url: string = await CameraRoll.save(filePath, { type: saveType })
-    res.path = url;
+    res.path = url
     return successHandler(success, complete)(res)
   } catch (err) {
     res.errMsg = err.message
@@ -39,15 +40,17 @@ async function showPicker(opts: Taro.chooseImage.Option | Taro.chooseVideo.Optio
       itemList: ['拍摄', '从手机相册选择'],
     })
     if (res.tapIndex === 0) {
-      return _chooseMedia({...opts, sourceType: ['camera']}, mediaTypes)
+      return _chooseMedia({ ...opts, sourceType: ['camera'] }, mediaTypes)
     }
     if (res.tapIndex === 1) {
-      return _chooseMedia({...opts, sourceType: ['album']}, mediaTypes)
+      return _chooseMedia({ ...opts, sourceType: ['album'] }, mediaTypes)
     }
   } catch (err) {
-    const res = { errMsg: `choose${
-      mediaTypes === MediaTypeOptions.Images ? 'Image' : mediaTypes === MediaTypeOptions.Videos ? 'Video' : 'Media'
-    } fail` }
+    const res = {
+      errMsg: `choose${
+        mediaTypes === MediaTypeOptions.Images ? 'Image' : mediaTypes === MediaTypeOptions.Videos ? 'Video' : 'Media'
+      } fail`
+    }
     fail?.(res)
     complete?.(res)
   }
@@ -57,12 +60,12 @@ export async function chooseMedia(opts: Taro.chooseImage.Option | Taro.chooseVid
   const {
     sourceType = ['album', 'camera'],
   } = opts
-  if(sourceType?.includes('camera') && sourceType?.includes('album')) {
+  if (sourceType?.includes('camera') && sourceType?.includes('album')) {
     return showPicker(opts, mediaTypes)
   } else if (sourceType?.includes('camera')) {
-    return _chooseMedia({...opts, sourceType: ['camera']}, mediaTypes)
+    return _chooseMedia({ ...opts, sourceType: ['camera'] }, mediaTypes)
   }
-  return _chooseMedia({...opts, sourceType: ['album']}, mediaTypes)
+  return _chooseMedia({ ...opts, sourceType: ['album'] }, mediaTypes)
 }
 
 export async function _chooseMedia(opts: Taro.chooseImage.Option | Taro.chooseVideo.Option | Taro.chooseMedia.Option = {}, mediaTypes: MediaTypeOptions): Promise<TaroGeneral.CallbackResult> {
@@ -85,13 +88,13 @@ export async function _chooseMedia(opts: Taro.chooseImage.Option | Taro.chooseVi
   }
   const messString = mediaTypes === MediaTypeOptions.Images ? 'Image' : mediaTypes === MediaTypeOptions.Videos ? 'Video' : 'Media'
   const isCamera = sourceType[0] === 'camera'
-  const { granted } = isCamera ? await requestCameraPermissionsAsync() : await requestMediaLibraryPermissionsAsync()
+  const { granted } = isCamera ? await Camera.requestCameraPermissionsAsync() : await requestMediaLibraryPermissionsAsync()
   if (!granted) {
     const res = { errMsg: 'Permissions denied!' }
     return errorHandler(fail, complete)(res)
   }
 
-  let launchMediaAsync = isCamera ? launchCameraAsync : launchImageLibraryAsync
+  const launchMediaAsync = isCamera ? launchCameraAsync : launchImageLibraryAsync
   try {
     const resp = await launchMediaAsync(options)
     let res: any = {}

@@ -1,8 +1,8 @@
 import Taro from '@tarojs/taro'
 
-import native from '../NativeApi'
 import { shouldBeObject } from '../utils'
 import { MethodHandler } from '../utils/handler'
+import nativeLocation from './NativeLocation'
 
 /**
  * 打开地图查看位置。(暂不支持scale入参)
@@ -27,7 +27,7 @@ export const openLocation: typeof Taro.openLocation = (options) => {
   } = options
   const handle = new MethodHandler({ name: 'openLocation', success, fail, complete })
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
-    native.openLocation({
+    nativeLocation.openLocation({
       latitude,
       longitude,
       address,

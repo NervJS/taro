@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import generate from '@babel/generator'
 import {
   chalk,
@@ -12,7 +14,6 @@ import {
   resolveScriptPath,
   SCRIPT_EXT,
 } from '@tarojs/helper'
-import * as path from 'path'
 import * as prettier from 'prettier'
 
 import { globals } from './global'

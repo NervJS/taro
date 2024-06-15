@@ -116,7 +116,7 @@ export interface IProjectBaseConfig {
   jsMinimizer?: 'terser' | 'esbuild'
 
   /** 配置 CSS 压缩工具 (默认 csso) */
-  cssMinimizer?: 'csso' | 'esbuild' | 'parcelCss'
+  cssMinimizer?: 'csso' | 'esbuild' | 'lightningcss'
 
   /** 配置 csso 工具以压缩 CSS 代码 */
   csso?: TogglableOptions
@@ -140,11 +140,11 @@ export interface IProjectBaseConfig {
   /** 模板循环次数 */
   baseLevel?: number
 
-  /** 使用的开发框架。可选值：react、preact、nerv、vue、vue3 */
-  framework?: 'react' | 'preact' | 'solid' | 'nerv' | 'vue' | 'vue3'
+  /** 使用的开发框架。可选值：react、preact、vue3 */
+  framework?: 'react' | 'preact' | 'solid' | 'vue3'
   frameworkExts?: string[]
 
-  /** 使用的编译工具。可选值：webpack4、webpack5 */
+  /** 使用的编译工具。可选值：webpack5 */
   compiler?: Compiler
 
   /** Webpack5 持久化缓存配置。具体配置请参考 [WebpackConfig.cache](https://webpack.js.org/configuration/cache/#cache) */
@@ -277,7 +277,7 @@ export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   jsMinimizer?: 'terser' | 'esbuild'
 
   /** 配置 CSS 压缩工具 (默认 csso) */
-  cssMinimizer?: 'csso' | 'esbuild' | 'parcelCss'
+  cssMinimizer?: 'csso' | 'esbuild' | 'lightningcss'
 
   /** 配置 csso 工具以压缩 CSS 代码 */
   csso?: TogglableOptions
@@ -296,8 +296,8 @@ export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   /** 一个 preset 是一系列 Taro 插件的集合，配置语法同 plugins */
   presets?: PluginItem[]
 
-  /** 使用的开发框架。可选值：react、preact、nerv、vue、vue3 */
-  framework?: 'react' | 'preact' | 'solid' | 'nerv' | 'vue' | 'vue3'
+  /** 使用的开发框架。可选值：react、preact、solid、vue3 */
+  framework?: 'react' | 'preact' | 'solid' | 'vue3'
 
   /** Webpack5 持久化缓存配置。具体配置请参考 [WebpackConfig.cache](https://webpack.js.org/configuration/cache/#cache) */
   cache?: ICache
@@ -305,7 +305,7 @@ export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   /** 控制 Taro 编译日志的输出方式 */
   logger?: ILogger
 
-  /** 使用的编译工具。可选值：webpack4、webpack5、vite */
+  /** 使用的编译工具。可选值：webpack5、vite */
   compiler?: Compiler<T>
 
   /** 专属于 H5 的配置 */

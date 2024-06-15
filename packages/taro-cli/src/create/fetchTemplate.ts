@@ -1,9 +1,9 @@
 import { chalk, fs } from '@tarojs/helper'
 import * as AdmZip from 'adm-zip'
+import axios from 'axios'
 import * as download from 'download-git-repo'
 import * as ora from 'ora'
 import * as path from 'path'
-import * as request from 'request'
 
 import { getTemplateSourceType, readDirWithFileTypes } from '../util'
 import { TEMPLATE_CREATOR } from './constants'
@@ -48,31 +48,34 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
       name = 'from-remote-url'
       const zipPath = path.join(tempPath, name + '.zip')
       const unZipPath = path.join(tempPath, name)
-      request
-        .get(templateSource)
-        .pipe(fs.createWriteStream(zipPath))
-        .on('close', () => {
-          // unzip
-          const zip = new AdmZip(zipPath)
-          zip.extractAllTo(unZipPath, true)
-          const files = readDirWithFileTypes(unZipPath).filter(
-            file => !file.name.startsWith('.') && file.isDirectory && file.name !== '__MACOSX'
-          )
+      axios.get<fs.ReadStream>(templateSource, { responseType: 'stream' })
+        .then(response => {
+          const ws = fs.createWriteStream(zipPath)
+          response.data.pipe(ws)
+          ws.on('finish', () => {
+            // unzip
+            const zip = new AdmZip(zipPath)
+            zip.extractAllTo(unZipPath, true)
+            const files = readDirWithFileTypes(unZipPath).filter(
+              file => !file.name.startsWith('.') && file.isDirectory && file.name !== '__MACOSX'
+            )
 
-          if (files.length !== 1) {
-            spinner.color = 'red'
-            spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${new Error('远程模板源组织格式错误')}`))
-            return resolve()
-          }
-          name = path.join(name, files[0].name)
+            if (files.length !== 1) {
+              spinner.color = 'red'
+              spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${new Error('远程模板源组织格式错误')}`))
+              return resolve()
+            }
+            name = path.join(name, files[0].name)
 
-          spinner.color = 'green'
-          spinner.succeed(`${chalk.grey('拉取远程模板仓库成功！')}`)
-          resolve()
+            spinner.color = 'green'
+            spinner.succeed(`${chalk.grey('拉取远程模板仓库成功！')}`)
+            resolve()
+          })
+          ws.on('error', error => { throw error })
         })
-        .on('error', async err => {
+        .catch(async error => {
           spinner.color = 'red'
-          spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${err}`))
+          spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${error}`))
           await fs.remove(tempPath)
           return resolve()
         })

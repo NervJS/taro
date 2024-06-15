@@ -6,15 +6,6 @@ import Taro from '@tarojs/taro'
  * @canUse onMemoryWarning
  * @null_implementation
  */
-export const onMemoryWarning: typeof Taro.onMemoryWarning = (callback) => {
-  // @ts-ignore
-  if (native[onMemoryWarning]) {
-    // @ts-ignore
-    native.onMemoryWarning((res: any) => {
-      const ret: Taro.onMemoryWarning.CallbackResult = {
-        level: res.level,
-      }
-      callback(ret)
-    })
-  }
+export const onMemoryWarning: typeof Taro.onMemoryWarning = (_callback) => {
+  // 支持使用，但实现为空实现，不用业务做兼容
 }

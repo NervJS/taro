@@ -1,5 +1,6 @@
 import { FONT_LIMIT, IMAGE_LIMIT, MEDIA_LIMIT } from '@tarojs/runner-utils'
-import { ViteMiniBuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
+
+import type { ViteMiniBuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
 
 const platform = 'mini'
 

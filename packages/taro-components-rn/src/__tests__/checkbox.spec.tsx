@@ -1,7 +1,8 @@
 /* eslint-disable jest/no-commented-out-tests, react/jsx-no-undef */
-import * as React from 'react'
 // import { View } from 'react-native'
 import { fireEvent, render } from '@testing-library/react-native'
+import * as React from 'react'
+
 // import Label from '../components/Label'
 import Checkbox from '../components/Checkbox'
 // import CheckboxGroup from '../components/CheckboxGroup'

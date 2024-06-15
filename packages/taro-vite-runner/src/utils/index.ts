@@ -55,11 +55,13 @@ export function prettyPrintJson (obj = {}) {
 export function getComponentName (viteCompilerContext: ViteH5CompilerContext | ViteHarmonyCompilerContext | ViteMiniCompilerContext, componentPath: string) {
   let componentName: string
   if (REG_NODE_MODULES.test(componentPath)) {
+    const nodeModulesRegx = new RegExp(REG_NODE_MODULES, 'gi')
+
     componentName = componentPath
       .replace(viteCompilerContext.cwd, '')
       .replace(backSlashRegEx, '/')
       .replace(path.extname(componentPath), '')
-      .replace(REG_NODE_MODULES, 'npm')
+      .replace(nodeModulesRegx, 'npm')
   } else {
     componentName = componentPath
       .replace(viteCompilerContext.sourceDir, '')

@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 import { resolveAbsoluteRequire } from '../../utils'
 import BaseParser from './base'
@@ -152,7 +152,7 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
   } else if (item.tagName === 'STICKY-SECTION') {
     TaroStickySection({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
   } else if (item.tagName === 'LIST-VIEW') {
-    TaroListView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
+    TaroListView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren }).reuseId(item.uid)
   } else {
     TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
   }
@@ -162,13 +162,7 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
 function createLazyChildren (node: TaroElement, layer = 0) {
   LazyForEach(node, (item: TaroElement) => {
     if (!item._nodeInfo || item._nodeInfo.layer === layer) {
-      if (node.tagName === 'LIST-VIEW') {
-        ListItem() {
-          createChildItem(item, createLazyChildren)
-        }
-      } else {
-        createChildItem(item, createLazyChildren)
-      }
+      createChildItem(item, createLazyChildren)
     }
   }, (item: TaroElement) => \`\${item._nid}-\${item._nativeUpdateTrigger}-\${item._nodeInfo?.layer || 0}\`)
 }
@@ -242,7 +236,7 @@ export { createChildItem, createLazyChildren }
       if (nativeMeta.isPackage) {
         result += `import ${nativeMeta.name} from '${nativeMeta.scriptPath}'\n`
       } else {
-        const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath).replace(/\.ets$/, '');
+        const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath).replace(/\.ets$/, '')
         result = `${result}import ${nativeMeta.name} from './${nativePath}'\n`
       }
     })

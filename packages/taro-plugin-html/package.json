@@ -1,46 +1,43 @@
 {
   "name": "@tarojs/plugin-html",
-  "version": "4.0.0-beta.89",
+  "version": "4.0.0-beta.93",
   "description": "Taro 小程序端支持使用 HTML 标签的插件",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "dev": "rollup -c -w --bundleConfigAsCjs",
-    "build": "rollup -c --bundleConfigAsCjs"
+    "prod": "pnpm run build",
+    "dev": "rollup -c -w",
+    "build": "rollup -c"
   },
   "files": [
     "src",
     "dist",
-    "index.js",
-    "package.json"
+    "index.js"
   ],
+  "keywords": [
+    "Taro"
+  ],
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
-  "keywords": [
-    "Taro"
-  ],
-  "author": "luckyadam",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/NervJS/taro/issues"
-  },
-  "homepage": "https://github.com/NervJS/taro#readme",
-  "dependencies": {
-    "@babel/generator": "^7.20.0",
-    "@babel/parser": "^7.20.0",
-    "@babel/traverse": "^7.20.0",
-    "@babel/types": "^7.24.5",
-    "@tarojs/runtime": "workspace:*",
-    "@tarojs/service": "workspace:*",
-    "@tarojs/shared": "workspace:*"
+  "engines": {
+    "node": ">= 18"
   },
   "devDependencies": {
-    "@tarojs/taro": "workspace:*",
-    "@types/babel__traverse": "^7.20.5",
-    "rollup": "^3.8.1",
-    "rollup-plugin-node-externals": "^5.0.0",
-    "rollup-plugin-ts": "^3.0.2",
-    "typescript": "^4.7.4"
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   }
 }

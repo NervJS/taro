@@ -1,18 +1,30 @@
 {
   "name": "stylelint-taro",
-  "version": "4.0.0-beta.89",
+  "version": "4.0.0-beta.93",
   "description": "Taro stylelint 规则集合",
-  "main": "lib/index.js",
+  "author": "O2Team",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
   "scripts": {
-    "dev": "tsc -w",
-    "build": "tsc",
-    "test": "jest"
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./dist",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings --loader ts-node/esm\" jest",
+    "lint": "eslint src --ext .js,.ts"
   },
   "files": [
-    "lib",
-    "src",
-    "README.md",
-    "!**/__tests__"
+    "dist"
   ],
   "keywords": [
     "css",
@@ -22,45 +34,13 @@
     "stylelint",
     "stylelint-plugin"
   ],
-  "author": "O2Team",
-  "license": "MIT",
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
     "lodash": "^4.17.21"
   },
-  "devDependencies": {
-    "@types/node": "^20.10.4",
-    "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
-    "jest-environment-node": "^29.5.0",
-    "jest-preset-stylelint": "^6.0.0",
-    "typescript": "^5.3.3"
-  },
-  "jest": {
-    "clearMocks": true,
-    "collectCoverage": false,
-    "collectCoverageFrom": [
-      "lib/**/*.js"
-    ],
-    "coverageDirectory": "./.coverage/",
-    "coverageReporters": [
-      "lcov",
-      "text"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 75,
-        "functions": 75,
-        "lines": 75,
-        "statements": 75
-      }
-    },
-    "setupFiles": [
-      "./jest-setup.js"
-    ],
-    "testEnvironment": "node",
-    "roots": [
-      "lib"
-    ],
-    "testRegex": ".*\\.test\\.js$|lib/.*/__tests__/.*\\.js$"
+  "peerDependencies": {
+    "stylelint": "^16"
   }
 }

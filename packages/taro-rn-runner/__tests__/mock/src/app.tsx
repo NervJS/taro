@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { View } from '@tarojs/components'
 import './app.scss'
 

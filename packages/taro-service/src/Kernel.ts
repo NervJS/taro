@@ -1,9 +1,10 @@
+import { EventEmitter } from 'node:events'
+import * as path from 'node:path'
+
 import * as helper from '@tarojs/helper'
 import * as runnerUtils from '@tarojs/runner-utils'
 import { getPlatformType } from '@tarojs/shared'
-import { EventEmitter } from 'events'
 import { merge } from 'lodash'
-import * as path from 'path'
 import { AsyncSeriesWaterfallHook } from 'tapable'
 
 import Plugin from './Plugin'

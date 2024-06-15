@@ -2,6 +2,8 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/api/apis/utils'
 import { MethodHandler } from 'src/api/apis/utils/handler'
 
+import native from '../../NativeApi'
+
 /**
  * 压缩图片接口，可选压缩质量
  *
@@ -40,7 +42,6 @@ export const compressImage: typeof Taro.compressImage = (options) => {
   }
 
   return new Promise<Taro.compressImage.SuccessCallbackResult>((resolve, reject) => {
-    // @ts-ignore
     native.compressImage({
       src: src,
       quality: quality,

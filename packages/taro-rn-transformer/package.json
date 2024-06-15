@@ -1,52 +1,48 @@
 {
   "name": "@tarojs/rn-transformer",
-  "version": "4.0.0-beta.89",
+  "version": "4.0.0-beta.93",
   "description": "Taro RN 入口文件处理",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "./src/types/index.d.ts",
+  "files": [
+    "dist",
+    "src/types"
+  ],
   "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./dist",
     "build": "tsc",
     "dev": "tsc -w",
     "test": "jest",
     "test:ci": "jest --ci -i --coverage --silent",
-    "lint": "eslint ."
+    "lint": "eslint src __tests__ --ext .js,.jsx,.ts,.tsx"
   },
-  "author": "yechunxi",
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "directories": {
-    "test": "__tests__"
-  },
-  "files": [
-    "dist/",
-    "src/types/"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
-  "license": "MIT",
   "engines": {
-    "node": ">= 18",
-    "npm": ">= 6"
+    "node": ">= 18"
   },
   "dependencies": {
+    "@babel/core": "^7.24.4",
+    "@babel/parser": "^7.24.4",
+    "@babel/traverse": "^7.24.1",
+    "@babel/types": "^7.24.0",
+    "@tarojs/helper": "workspace:*",
     "lodash": "^4.17.21",
+    "mime-types": "^2.1.35",
     "mkdirp": "^1.0.4",
-    "mime-types": "^2.1.27",
     "normalize-path": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5",
-    "@babel/parser": "^7.14.5",
-    "@babel/traverse": "^7.14.5",
-    "@babel/types": "^7.14.5",
-    "@tarojs/helper": "workspace:*",
-    "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
-    "jest-environment-node": "^29.5.0",
-    "ts-jest": "^29.0.5",
-    "typescript": "^4.7.4"
+    "@types/lodash": "^4.17.0",
+    "@types/mime-types": "^2.1.4"
   }
 }

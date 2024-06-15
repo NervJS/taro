@@ -1,0 +1,43 @@
+{
+  "name": "@tarojs/tests",
+  "private": true,
+  "version": "4.0.0-alpha.4",
+  "description": "流程测试",
+  "scripts": {
+    "test": "cross-env NODE_ENV=jest jest",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent",
+    "test:dev": "cross-env NODE_ENV=jest jest --watch",
+    "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
+    "updateSnapshot": "cross-env NODE_ENV=jest jest --ci -i -u"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tarojs/plugin-platform-weapp": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/webpack5-runner": "workspace:*",
+    "@tarojs/runner-utils": "workspace:*",
+    "@tarojs/taro-loader": "workspace:*",
+    "@tarojs/plugin-framework-vue3": "workspace:*",
+    "@tarojs/plugin-framework-react": "workspace:*",
+    "@tarojs/plugin-platform-alipay": "workspace:*",
+    "@tarojs/plugin-platform-jd": "workspace:*",
+    "@tarojs/plugin-platform-qq": "workspace:*",
+    "@tarojs/plugin-platform-swan": "workspace:*",
+    "@tarojs/plugin-platform-tt": "workspace:*",
+    "babel-preset-taro": "workspace:*",
+    "babel-loader": "8.2.1",
+    "copy-webpack-plugin": "^12.0.2",
+    "memfs": "^4.9.1",
+    "globby": "^12.0.2",
+    "@babel/core": "^7.24.4",
+    "acorn": "^8.11.3",
+    "acorn-walk": "^8.3.2",
+    "react": "^18.2.0",
+    "webpack-chain": "^6.5.1",
+    "webpack": "5.91.0",
+    "webpack-merge": "^5.10.0"
+  }
+}

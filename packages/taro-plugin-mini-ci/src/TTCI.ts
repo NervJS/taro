@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
-import * as path from 'path'
+import * as path from 'node:path'
 
 import BaseCI from './BaseCi'
-import { TTInstance } from './types'
+// import { TTInstance } from './types'
 import { getNpmPkgSync } from './utils/npm'
 import { printQrcode2Terminal } from './utils/qrcode'
 
 export default class TTCI extends BaseCI {
-  tt: TTInstance
+  tt
 
   init () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
@@ -16,7 +16,7 @@ export default class TTCI extends BaseCI {
       process.exit(1)
     }
     try {
-      // 调试使用版本是： tt-ide-cli@0.1.13
+      // 调试使用版本是： tt-ide-cli@0.1.20
       this.tt = getNpmPkgSync('tt-ide-cli', process.cwd())
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red('请安装依赖：tt-ide-cli'))
@@ -41,7 +41,7 @@ export default class TTCI extends BaseCI {
           path: this.projectPath
         }
       })
-      console.log(chalk.green(`打开IDE成功`))
+      console.log(chalk.green('打开IDE成功'))
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red('打开IDE失败', error))
     }

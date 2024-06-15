@@ -1,69 +1,71 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "4.0.0-beta.89",
+  "version": "4.0.0-beta.93",
   "description": "ReactNative build tool for taro",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NervJS/taro.git"
-  },
   "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./dist",
     "build": "tsc",
-    "dev": "tsc --watch",
-    "lint": "eslint .",
-    "test": "jest --silent",
-    "test:ci": "jest --ci -i --coverage --silent",
-    "test:coverage": "jest --coverage",
-    "test:dev": "jest --watch",
-    "updateSnapshot": "jest --updateSnapshot"
+    "dev": "tsc -w",
+    "lint": "eslint src templates __tests__ --ext .js,.ts",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage",
+    "test:dev": "vitest",
+    "test:update": "vitest --update"
   },
   "keywords": [
     "taro"
   ],
-  "author": "luckyadam",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "homepage": "https://github.com/NervJS/taro#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
   "engines": {
-    "node": ">= 18",
-    "npm": ">= 6"
+    "node": ">= 18"
   },
   "dependencies": {
-    "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.3.0",
-    "@rollup/plugin-replace": "^4.0.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.5",
     "@tarojs/helper": "workspace:*",
     "@tarojs/rn-style-transformer": "workspace:*",
     "@tarojs/rn-supporter": "workspace:*",
     "@tarojs/rn-transformer": "workspace:*",
+    "acorn": "^8.11.3",
     "acorn-jsx": "^5.3.2",
-    "fs-extra": "^8.0.1",
+    "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
-    "rollup-plugin-image-file": "^1.0.2"
+    "rollup-plugin-image-file": "^1.0.2",
+    "stylelint-config-taro-rn": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.0",
-    "@babel/preset-env": "^7.20.0",
-    "acorn": "^8.0.4",
-    "babel-plugin-global-define": "1.0.3",
-    "babel-plugin-jsx-attributes-array-to-object": "0.3.0",
+    "babel-preset-taro": "workspace:*",
+    "@rnx-kit/metro-resolver-symlinks": "^0.1.36",
+    "@tarojs/components": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "babel-plugin-transform-react-jsx-to-rn-stylesheet": "workspace:*",
-    "expo": "~50.0.2",
+    "expo": "~51.0.5",
     "expo-file-system": "~16.0.0",
-    "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
-    "jest-environment-node": "^29.5.0",
-    "react": "18.2.0",
-    "react-is": "^16.13.0",
-    "react-native": "^0.73.1",
+    "query-string": "^9.0.0",
+    "react": "^18.2.0",
+    "react-is": "^18.3.1",
+    "react-native": "^0.72.3",
     "react-native-root-siblings": "^5.0.1",
-    "react-test-renderer": "18.2.0",
-    "rollup": "^2.79.0",
-    "ts-jest": "^29.0.5",
-    "typescript": "^4.7.4"
+    "rollup": "^4.16.4"
+  },
+  "peerDependencies": {
+    "babel-preset-taro": "workspace:*",
+    "expo": ">= 51",
+    "react": ">= 18",
+    "react-native": ">= 0.63.0"
   }
 }

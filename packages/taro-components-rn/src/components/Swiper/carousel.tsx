@@ -5,11 +5,12 @@
  * 依赖 react-native-pager-view 实现
  *
  */
-import ViewPager from 'react-native-pager-view'
 import React from 'react'
-import { StyleSheet, Text, View, Platform } from 'react-native'
-import { CarouselProps } from './PropsType'
+import { Platform, StyleSheet, Text, View } from 'react-native'
+import ViewPager from 'react-native-pager-view'
+
 import defaultPagination from './pagination'
+import { CarouselProps } from './PropsType'
 
 const styles = StyleSheet.create({
   wrapperStyle: {
@@ -25,7 +26,7 @@ const exchangePos = Platform.select({
 }) as number
 
 export interface CarouselState {
-  selectedIndex: number; // ViewPager 使用的 Index
+  selectedIndex: number // ViewPager 使用的 Index
 }
 
 class Carousel extends React.Component<CarouselProps, CarouselState> {

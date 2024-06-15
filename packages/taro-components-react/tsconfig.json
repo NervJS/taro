@@ -4,8 +4,7 @@
     "baseUrl": ".",
     "jsx": "preserve",
     "module": "ESNext",
-    "sourceMap": false,
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["./src", "./types", "./rollup.config.ts"]
+  "include": ["./src", "./types"]
 }

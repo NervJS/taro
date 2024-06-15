@@ -1,6 +1,7 @@
+import path from 'node:path'
+
 import { fs, removeHeadSlash } from '@tarojs/helper'
 import history from 'connect-history-api-fallback'
-import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
 import { appendVirtualModulePrefix, generateQueryString, genRouterResource, getMode, getQueryParams } from '../utils'

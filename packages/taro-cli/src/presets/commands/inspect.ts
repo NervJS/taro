@@ -74,7 +74,7 @@ export default (ctx: IPluginContext) => {
 
               if (mode === 'console') {
                 const highlight = require('cli-highlight').default
-                console.log(highlight(res, { language: 'js' }))
+                console.info(highlight(res, { language: 'js' }))
               } else if (mode === 'output' && outputPath) {
                 fs.writeFileSync(outputPath, res)
               }

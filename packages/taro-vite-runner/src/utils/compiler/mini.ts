@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   fs,
   isAliasPath,
@@ -7,15 +9,6 @@ import {
   resolveMainFilePath
 } from '@tarojs/helper'
 import { isArray, isFunction } from '@tarojs/shared'
-import {
-  ViteAppMeta,
-  ViteFileType,
-  ViteMiniBuildConfig,
-  ViteMiniCompilerContext,
-  ViteNativeCompMeta,
-  VitePageMeta
-} from '@tarojs/taro/types/compile/viteCompilerContext'
-import path from 'path'
 
 import defaultConfig from '../../defaultConfig/defaultConfig.mini'
 import { getComponentName } from '../../utils'
@@ -23,6 +16,14 @@ import { componentConfig } from '../../utils/component'
 import { CompilerContext } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
+import type {
+  ViteAppMeta,
+  ViteFileType,
+  ViteMiniBuildConfig,
+  ViteMiniCompilerContext,
+  ViteNativeCompMeta,
+  VitePageMeta
+} from '@tarojs/taro/types/compile/viteCompilerContext'
 
 export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> implements ViteMiniCompilerContext {
   fileType: ViteFileType

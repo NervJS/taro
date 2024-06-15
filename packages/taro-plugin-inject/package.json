@@ -1,8 +1,8 @@
 {
   "name": "@tarojs/plugin-inject",
-  "version": "4.0.0-beta.89",
+  "version": "4.0.0-beta.93",
   "description": "Taro 小程序端平台中间层插件",
-  "author": "luckyadam",
+  "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro",
   "license": "MIT",
   "main": "index.js",
@@ -18,23 +18,23 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "dependencies": {
-    "@tarojs/service": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/helper": "workspace:*"
+  "engines": {
+    "node": ">= 18"
   },
   "devDependencies": {
-    "rollup": "^2.79.0",
-    "rollup-plugin-ts": "^3.0.2",
-    "typescript": "^4.7.4"
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   },
   "peerDependencies": {
-    "react": ">=17"
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/helper": "workspace:*"
   }
 }

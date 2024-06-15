@@ -100,8 +100,8 @@ export default function (ctx: IPluginContext, options: IOptions) {
 function injectRuntimePath (platform: TaroPlatformBase) {
   const injectedPath = 'post:@tarojs/plugin-react-devtools/dist/runtime'
   if (isArray(platform.runtimePath)) {
-    platform.runtimePath.push(injectedPath)
+    (platform.runtimePath as string []).push(injectedPath)
   } else if (isString(platform.runtimePath)) {
-    platform.runtimePath = [platform.runtimePath, injectedPath]
+    platform.runtimePath = [platform.runtimePath as string, injectedPath]
   }
 }
