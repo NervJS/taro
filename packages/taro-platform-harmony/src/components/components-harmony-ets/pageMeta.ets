@@ -32,12 +32,12 @@ export default struct TaroPageMeta {
     }
 
     // FIXME 在 Harmony 提供 @Watch 文档后，根据 node 实际使用更细粒度的监听
-    eventCenter.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
+    eventCenter?.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
     this.handleAttributes(this.node._attrs)
   }
 
   aboutToDisappear(): void {
-    eventCenter.off('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
+    eventCenter?.off('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
   }
 
   handleAttributeUpdate = (opt: IComponentAttributeUpdateEvents) => {
@@ -79,7 +79,7 @@ export default struct TaroPageMeta {
     // pageFontSize
     // pageOrientation
     if (triggerStyleEvent) {
-      eventCenter.trigger('__taroPageStyle', options)
+      eventCenter?.trigger('__taroPageStyle', options)
     }
     // onResize
     // onScroll
