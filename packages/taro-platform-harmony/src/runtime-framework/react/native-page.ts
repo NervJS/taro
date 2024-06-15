@@ -19,7 +19,7 @@ import { EMPTY_OBJ, incrementId, isClassComponent } from './utils'
 import type { AppInstance } from '@tarojs/taro'
 import type * as React from 'react'
 
-const getNativeCompId = incrementId()
+const getNativeCompId = incrementId(1)
 let h: typeof React.createElement
 let ReactDOM
 let nativeComponentApp: AppInstance

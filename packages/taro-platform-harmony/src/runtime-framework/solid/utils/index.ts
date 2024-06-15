@@ -9,9 +9,9 @@ export function capitalize (s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-export const incrementId = () => {
-  let n = 0
-  return () => (n++).toString()
+export const incrementId = (init = 0) => {
+  let n = init
+  return () => n++
 }
 
 export const EMPTY_OBJ: any = {}

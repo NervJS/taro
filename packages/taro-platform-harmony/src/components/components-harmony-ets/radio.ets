@@ -17,7 +17,7 @@ interface RadioAttrs {
 @Extend(Radio)
 function radioAttr (attr: RadioAttrs) {
   .radioStyle(attr.radioStyle)
-  .themeStyles(attr.themeStyles)
+  .themeStyles(attr.themeStyles || false)
   .enabled(!attr.disabled)
 }
 

@@ -21,8 +21,8 @@ export enum NodeType {
 }
 
 let _id = 0
-function genId (): string {
-  return `_n_${_id++}`
+function genId (): number {
+  return ++_id
 }
 
 export class TaroNode extends TaroDataSourceElement {
@@ -30,7 +30,7 @@ export class TaroNode extends TaroDataSourceElement {
   public readonly nodeType: NodeType
   public childNodes: TaroNode[] = []
   public parentNode: TaroNode | null = null
-  public _nid: string = genId()
+  public _nid: number = genId()
   public _doc: TaroDocument | null = null
   public _instance?: TaroAny
 

@@ -31,7 +31,7 @@ export function createSolidApp(App: SolidComponent, config: AppConfig) {
   }
 
   function renderReactRoot() {
-    const appId = 'app'
+    const appId = config?.appId || 'app'
 
     if (ReactMeta.Container === EMPTY_OBJ) {
       const Container = document.createElement('view')
