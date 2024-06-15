@@ -99,7 +99,7 @@ export function getNormalAttributes (node: TaroElement, initStyle?: HarmonyStyle
   let normalAttributes = hmStyle
 
   // 覆盖属性
-  normalAttributes.id =  _attrs.id || _nid
+  normalAttributes.id = _attrs.id || _nid.toString()
 
   let pseudoStylesheet = getPseudoClass(node)
   if (pseudoStylesheet) {

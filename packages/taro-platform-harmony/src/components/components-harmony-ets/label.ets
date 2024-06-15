@@ -56,7 +56,7 @@ export default struct TaroLabel {
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .onClick((e: ClickEvent) => {
         const firstChild: TaroElement | null = this.node.childNodes[0] as TaroElement | null
-        const id: string = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid || ''
+        const id: string = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid.toString() || ''
 
         handleTargetChange(id)
         eventHandler(e, 'click', this.node)
@@ -73,7 +73,7 @@ export default struct TaroLabel {
       .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .onClick((e: ClickEvent) => {
         const firstChild: TaroElement | null = this.node.childNodes[0] as TaroElement | null
-        const id: string = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid || ''
+        const id: string = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid.toString() || ''
 
         handleTargetChange(id)
         eventHandler(e, 'click', this.node)
@@ -90,7 +90,7 @@ export default struct TaroLabel {
       .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .onClick((e: ClickEvent) => {
         const firstChild: TaroElement | null = this.node.childNodes[0] as TaroElement | null
-        const id: string = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid || ''
+        const id: string = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid.toString() || ''
 
         handleTargetChange(id)
         eventHandler(e, 'click', this.node)

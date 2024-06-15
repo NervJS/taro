@@ -72,7 +72,7 @@ export default struct TaroInput {
 
   build () {
     TextInput({ text: this.value, placeholder: this.node._attrs?.placeholder || '', controller: this.node.controller })
-    .key(this.node._nid)
+    .key(this.node._nid.toString())
     .type(getInputType(this.node))
     .maxLength(Number(this.node._attrs?.maxlength) || null)
     .placeholderColor(getPlaceholderColor(this.node))

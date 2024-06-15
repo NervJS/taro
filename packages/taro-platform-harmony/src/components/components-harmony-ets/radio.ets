@@ -55,7 +55,7 @@ export struct TaroRadio {
     Stack() {
       Row() {
         Radio({
-          group: this.node.group || this.node.parentNode?._nid || '',
+          group: this.node.group || this.node.parentNode?._nid.toString() || '',
           value: this.node.value || '',
         })
           .checked(this.node.checked)
@@ -114,7 +114,7 @@ export struct TaroRadioGroup {
       this.node._instance = this
       const childList = this.node.getElementsByTagName<TaroRadioElement>('RADIO')
       childList.forEach(element => {
-        element.group = this.node?._attrs.name || this.node?._nid
+        element.group = this.node?._attrs.name || this.node?._nid.toString()
       })
       // 阻止事件冒泡传递上去
       this.node.addEventListener('change', (e: TaroEvent) => e.stopPropagation())

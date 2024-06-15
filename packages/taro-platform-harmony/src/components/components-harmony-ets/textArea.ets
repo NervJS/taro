@@ -63,7 +63,7 @@ export default struct TaroTextArea {
 
   build () {
     TextArea({ text: this.value, placeholder: this.node._attrs?.placeholder || '', controller: this.node.controller })
-      .key(this.node._nid)
+      .key(this.node._nid.toString())
       .maxLength(Number(this.node._attrs?.maxlength) || null)
       .placeholderColor(getPlaceholderColor(this.node))
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))

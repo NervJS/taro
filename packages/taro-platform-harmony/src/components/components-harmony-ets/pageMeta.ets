@@ -41,7 +41,7 @@ export default struct TaroPageMeta {
   }
 
   handleAttributeUpdate = (opt: IComponentAttributeUpdateEvents) => {
-    if (opt.id === this.node._nid && opt.tagName === 'PAGE-META') {
+    if (opt.id === this.node._nid.toString() && opt.tagName === 'PAGE-META') {
       const attrs: Record<string, TaroAny> = {}
       attrs[opt.attribute] = opt.value
       this.handleAttributes(attrs)

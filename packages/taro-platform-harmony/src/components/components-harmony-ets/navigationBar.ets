@@ -29,7 +29,7 @@ export default struct TaroNavigationBar {
   }
 
   handleAttributeUpdate = (opt: IComponentAttributeUpdateEvents) => {
-    if (opt.id === this.node._nid && opt.tagName === 'NAVIGATION-BAR') {
+    if (opt.id === this.node._nid.toString() && opt.tagName === 'NAVIGATION-BAR') {
       const attrs: Record<string, TaroAny> = {}
       attrs[opt.attribute] = opt.value
       this.handleAttributes(attrs)
