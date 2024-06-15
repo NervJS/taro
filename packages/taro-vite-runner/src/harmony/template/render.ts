@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 import { resolveAbsoluteRequire } from '../../utils'
 import BaseParser from './base'
@@ -236,7 +236,7 @@ export { createChildItem, createLazyChildren }
       if (nativeMeta.isPackage) {
         result += `import ${nativeMeta.name} from '${nativeMeta.scriptPath}'\n`
       } else {
-        const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath).replace(/\.ets$/, '');
+        const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath).replace(/\.ets$/, '')
         result = `${result}import ${nativeMeta.name} from './${nativePath}'\n`
       }
     })

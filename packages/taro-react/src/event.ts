@@ -1,10 +1,9 @@
-import { TaroElement, TaroEvent } from '@tarojs/runtime'
-
 import { getFiberCurrentPropsFromNode, getInstanceFromNode, getNodeFromInstance } from './componentTree'
 import { isTextInputElement, ReactDOMInputRestoreControlledState, ReactDOMTextareaRestoreControlledState, toString } from './domInput'
 import { updateValueIfChanged } from './inputValueTracking'
 import { TaroReconciler } from './reconciler'
 
+import type { TaroElement, TaroEvent } from '@tarojs/runtime'
 import type { Fiber } from 'react-reconciler'
 import type { Props } from './props'
 

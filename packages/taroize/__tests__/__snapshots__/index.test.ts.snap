@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parse template.ts 公共组件usingComponents的key加到THIRD_PARTY_COMPONENTS 1`] = `
-"import { Block } from "@tarojs/components";
+import { Block } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
 const {
@@ -15,5 +15,5 @@ class _C extends React.Component {
     return null;
   }
 }
-export default _C;"
+export default _C;
 `;

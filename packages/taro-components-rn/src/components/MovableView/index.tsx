@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { PanResponder, Animated, LayoutChangeEvent } from 'react-native'
+import { Animated, LayoutChangeEvent, PanResponder } from 'react-native'
+
 import View from '../View'
 import { AnimatedValueProps, MovableViewProps } from './PropsType'
 

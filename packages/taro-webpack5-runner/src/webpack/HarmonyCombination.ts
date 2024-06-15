@@ -96,7 +96,10 @@ export class HarmonyCombination extends Combination<IHarmonyBuildConfig> {
           vendors: {
             name: 'vendors',
             minChunks: 2,
-            test: module => REG_NODE_MODULES_DIR.test(module.resource),
+            test: module => {
+              const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+              return nodeModulesDirRegx.test(module.resource)
+            },
             priority: 10
           },
           taro: {

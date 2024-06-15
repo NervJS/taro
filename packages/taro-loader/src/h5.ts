@@ -1,15 +1,16 @@
+import { dirname, join, sep } from 'node:path'
+
 import { readConfig } from '@tarojs/helper'
-import { AppConfig } from '@tarojs/taro'
-import { IH5Config } from '@tarojs/taro/types/compile'
-import { getOptions, stringifyRequest } from 'loader-utils'
-import { dirname, join, sep } from 'path'
 
 import { REG_POST } from './constants'
+import { stringifyRequest } from './util'
 
+import type { AppConfig } from '@tarojs/taro'
+import type { IH5Config } from '@tarojs/taro/types/compile'
 import type * as webpack from 'webpack'
 
 function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
-  const options = getOptions(loaderContext)
+  const options = loaderContext.getOptions()
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
   const importDependent = syncFileName ? 'require' : 'import'
   return `Object.assign({
@@ -22,7 +23,7 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
 }
 
 export default function (this: webpack.LoaderContext<any>) {
-  const options = getOptions(this)
+  const options = this.getOptions()
   const stringify = (s: string): string => stringifyRequest(this, s)
   const config: AppConfig & IH5Config = options.config
   const routerMode = config?.router?.mode || 'hash'

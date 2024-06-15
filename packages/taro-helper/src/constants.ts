@@ -1,4 +1,4 @@
-import * as os from 'os'
+import * as os from 'node:os'
 
 import { chalk } from './terminal'
 
@@ -114,7 +114,7 @@ export const REG_TARO_H5_RUNTIME_API = /@tarojs[\\/]plugin-platform-h5[\\/]dist[
 export const REG_CSS_IMPORT = /@import (["'])(.+?)\1;/g
 
 export const NODE_MODULES = 'node_modules'
-export const REG_NODE_MODULES = /node_modules/gi
+export const REG_NODE_MODULES = /node_modules/
 export const REG_NODE_MODULES_DIR = /[\\/]node_modules[\\/]/gi
 
 export const PROJECT_CONFIG = 'config/index'
@@ -149,6 +149,7 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/cli',
   '@tarojs/api',
   '@tarojs/components',
+  '@tarojs/components-advanced',
   '@tarojs/components-react',
   '@tarojs/components-rn',
   '@tarojs/extend',
@@ -160,11 +161,10 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/rn-transformer',
   '@tarojs/helper',
   '@tarojs/taro-loader',
-  '@tarojs/mini-runner',
   '@tarojs/react',
   '@tarojs/plugin-framework-react',
-  '@tarojs/plugin-framework-vue2',
   '@tarojs/plugin-framework-vue3',
+  '@tarojs/plugin-framework-solid',
   '@tarojs/plugin-react-devtools',
   '@tarojs/plugin-vue-devtools',
   '@tarojs/router',
@@ -173,9 +173,9 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/runtime',
   '@tarojs/runtime-rn',
   '@tarojs/service',
-  '@tarojs/webpack-runner',
   '@tarojs/with-weapp',
   '@tarojs/taroize',
+  '@tarojs/plugin-inject',
   '@tarojs/plugin-platform-weapp',
   '@tarojs/plugin-platform-alipay',
   '@tarojs/plugin-platform-swan',
@@ -183,10 +183,17 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/plugin-platform-qq',
   '@tarojs/plugin-platform-jd',
   '@tarojs/plugin-platform-h5',
+  '@tarojs/plugin-platform-harmony-ets',
+  '@tarojs/plugin-platform-harmony-hybrid',
   '@tarojs/plugin-html',
   '@tarojs/plugin-mini-ci',
+  '@tarojs/plugin-http',
   '@tarojs/webpack5-runner',
   '@tarojs/webpack5-prebundle',
+  '@tarojs/vite-runner',
+  '@tarojs/create-app',
+  '@tarojs/cli-convertor',
+  '@tarojs/transformer-wx',
 ]
 
 export enum META_TYPE {
@@ -223,10 +230,8 @@ export const NPM_DIR = 'npm'
 export const ENTRY = 'app'
 
 export enum FRAMEWORK_MAP {
-  VUE = 'vue',
   VUE3 = 'vue3',
   REACT = 'react',
-  NERV = 'nerv',
 }
 
 export const defaultMainFields = ['browser', 'module', 'jsnext:main', 'main']

@@ -9,10 +9,3 @@ export * from './openLocation'
 export * from './startLocationUpdate'
 export * from './startLocationUpdateBackground'
 export * from './stopLocationUpdate'
-
-/**
- * 打开POI列表选择位置
- *
- * @canNotUse choosePoi
- */
-export { choosePoi } from '@tarojs/taro-h5'

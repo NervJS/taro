@@ -1,6 +1,6 @@
 const path = require('path')
 
-function hasBrowserslist () {
+function hasBrowserslist() {
   const fs = require('@tarojs/helper').fs
   const root = process.cwd()
   try {
@@ -29,71 +29,75 @@ module.exports = (_, options = {}) => {
   const plugins = []
   const overrides = []
   const isVite = options.compiler === 'vite'
+  // vite 不需要 react 的 preset，在内部已经处理了
   const isReact = options.framework === 'react' || options.framework === 'preact' && !isVite
-  const isSolid = options.framework === 'solid'
-  const isNerv = options.framework === 'nerv' && !isVite
-  const isVue = options.framework === 'vue' && !isVite
+  // vite 不需要 solid 的 preset，在内部已经处理了
+  const isSolid = options.framework === 'solid' && !isVite
+  // vite 不需要 vue 的 preset，在内部已经处理了
   const isVue3 = options.framework === 'vue3' && !isVite
+  // vite 不需要使用 babel 处理 ts，在 esbuild 中处理了
   const isTs = options.ts && !isVite
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
   const presetReactConfig = options.react || {}
 
-  if (isNerv) {
-    presets.push([require('@babel/preset-react'), {
-      pragma: `${moduleName}.createElement`,
-      pragmaFrag: `${moduleName}.Fragment`,
-      ...presetReactConfig
-    }])
-  }
-
   if (isReact) {
-    presets.push([require('@babel/preset-react'), {
-      runtime: options.reactJsxRuntime || 'automatic',
-      ...presetReactConfig
-    }])
+    presets.push([
+      require('@babel/preset-react'),
+      {
+        runtime: options.reactJsxRuntime || 'automatic',
+        ...presetReactConfig,
+      },
+    ])
     if (process.env.TARO_PLATFORM === 'web' && process.env.NODE_ENV !== 'production' && options.hot !== false) {
       if (options.framework === 'react') {
         plugins.push([require('react-refresh/babel'), { skipEnvCheck: true }])
       } else if (options.framework === 'preact') {
         overrides.push({
           include: /\.[jt]sx$/,
-          plugins: [require('@prefresh/babel-plugin')]
+          plugins: [require('@prefresh/babel-plugin')],
         })
       }
     }
   } else if (isSolid) {
-    presets.push([require('babel-preset-solid'), {
-      moduleName: '@tarojs/plugin-framework-react/dist/reconciler',
-      generate: 'universal',
-    }])
+    const solidOptions = {}
+    if (process.env.TARO_PLATFORM !== 'web') {
+      Object.assign(solidOptions, {
+        moduleName: '@tarojs/plugin-framework-solid/dist/reconciler',
+        generate: 'universal',
+        uniqueTransform: true,
+      })
+    }
+    presets.push([
+      require('babel-plugin-transform-solid-jsx'),
+      solidOptions,
+    ])
   }
 
-  if (isVue || isVue3) {
+  if (isVue3) {
     if (options.vueJsx !== false) {
       const jsxOptions = typeof options.vueJsx === 'object' ? options.vueJsx : {}
-      if (isVue) {
-        presets.push([require('@vue/babel-preset-jsx'), jsxOptions])
-      } else {
-        plugins.push([require('@vue/babel-plugin-jsx'), jsxOptions])
-      }
+      plugins.push([require('@vue/babel-plugin-jsx'), jsxOptions])
     }
   }
 
   if (isTs) {
     const config = typeof options.ts === 'object' ? options.ts : {}
-    if (isNerv || isReact) {
+    if (isReact) {
       config.jsxPragma = moduleName
     }
-    if (isVue || isVue3) {
+    if (isVue3) {
       overrides.push({
         include: /\.vue$/,
-        presets: [[require('@babel/preset-typescript'), { allExtensions: true, isTSX: true }]]
+        presets: [[require('@babel/preset-typescript'), { allExtensions: true, isTSX: true }]],
       })
     }
     presets.push([require('@babel/preset-typescript'), config])
   }
 
-  const runtimePath = process.env.NODE_ENV === 'jest' || process.env.NODE_ENV === 'test' ? false : path.dirname(require.resolve('@babel/runtime/package.json'))
+  const runtimePath =
+    process.env.NODE_ENV === 'jest' || process.env.NODE_ENV === 'test'
+      ? false
+      : path.dirname(require.resolve('@babel/runtime/package.json'))
   const runtimeVersion = require('@babel/runtime/package.json').version
   const {
     loose = false,
@@ -123,7 +127,7 @@ module.exports = (_, options = {}) => {
     // By default transform-runtime assumes that @babel/runtime@7.0.0-beta.0 is installed, which means helpers introduced later than 7.0.0-beta.0 will be inlined instead of imported.
     // See https://github.com/babel/babel/issues/10261
     // And https://github.com/facebook/docusaurus/pull/2111
-    version = runtimeVersion
+    version = runtimeVersion,
   } = options
 
   // resolve targets
@@ -135,7 +139,7 @@ module.exports = (_, options = {}) => {
   } else if (!hasBrowserslist()) {
     targets = {
       ios: '9',
-      android: '5'
+      android: '5',
     }
   }
 
@@ -150,7 +154,7 @@ module.exports = (_, options = {}) => {
     include,
     exclude,
     shippedProposals,
-    forceAllTransforms
+    forceAllTransforms,
   }
 
   let transformRuntimeCorejs = false
@@ -170,23 +174,33 @@ module.exports = (_, options = {}) => {
   presets.unshift([require('@babel/preset-env'), envOptions])
 
   plugins.push(
-    [require('@babel/plugin-proposal-decorators'), {
-      decoratorsBeforeExport,
-      legacy: decoratorsLegacy !== false
-    }],
+    [
+      require('@babel/plugin-proposal-decorators'),
+      {
+        decoratorsBeforeExport,
+        legacy: decoratorsLegacy !== false,
+      },
+    ],
     [require('@babel/plugin-proposal-class-properties'), { loose }]
   )
 
-  plugins.push([require('@babel/plugin-transform-runtime'), {
-    regenerator: true,
-    corejs: transformRuntimeCorejs,
-    helpers: true,
-    useESModules: process.env.NODE_ENV !== 'test',
-    absoluteRuntime,
-    version
-  }])
+  plugins.push([
+    require('@babel/plugin-transform-runtime'),
+    {
+      regenerator: true,
+      corejs: transformRuntimeCorejs,
+      helpers: true,
+      useESModules: process.env.NODE_ENV !== 'test',
+      absoluteRuntime,
+      version,
+    },
+  ])
 
-  if (typeof options['dynamic-import-node'] === 'boolean' ? options['dynamic-import-node'] : process.env.TARO_PLATFORM !== 'web') {
+  if (
+    typeof options['dynamic-import-node'] === 'boolean'
+      ? options['dynamic-import-node']
+      : process.env.TARO_PLATFORM !== 'web'
+  ) {
     plugins.push([require('babel-plugin-dynamic-import-node')])
   }
 
@@ -194,10 +208,13 @@ module.exports = (_, options = {}) => {
 
   return {
     sourceType: 'unambiguous',
-    overrides: [{
-      exclude: [/@babel[/|\\\\]runtime/, /core-js/, /\bwebpack\/buildin\b/],
-      presets,
-      plugins
-    }, ...overrides]
+    overrides: [
+      {
+        exclude: [/@babel[/|\\\\]runtime/, /core-js/, /\bwebpack\/buildin\b/],
+        presets,
+        plugins,
+      },
+      ...overrides,
+    ],
   }
 }

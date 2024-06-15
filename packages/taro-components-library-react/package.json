@@ -3,35 +3,29 @@
   "version": "4.0.0-beta.93",
   "description": "Taro 组件库 React 版本库",
   "private": true,
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build:ci": "run-s clean prod",
+    "prebuild": "pnpm run clean && node ./scripts/fix.js",
+    "build": "rollup -c",
     "clean": "rimraf --impl=move-remove ../taro-components/lib/react",
-    "dev": "pnpm run prod -w",
-    "preprod": "node ./scripts/fix.js",
-    "prod": "rollup -c"
+    "dev": "pnpm run build -w",
+    "prod": "pnpm run build"
   },
   "keywords": [],
-  "author": "ZakaryCode",
-  "license": "MIT",
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
-    "@tarojs/components": "workspace:*",
-    "react-dom": "^18.2.0",
-    "tslib": "^2.6.2"
+    "@tarojs/components": "workspace:*"
   },
   "devDependencies": {
-    "@babel/cli": "^7.14.5",
-    "@babel/core": "^7.14.5",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "babel-preset-taro": "workspace:*",
-    "postcss": "^8.4.18",
+    "@tarojs/helper": "workspace:*",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "rollup": "^2.79.0",
-    "rollup-plugin-node-externals": "^5.0.0",
-    "rollup-plugin-postcss": "^4.0.2",
-    "rollup-plugin-ts": "^3.0.2",
-    "typescript": "^4.7.4"
+    "react-dom": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@tarojs/helper": "workspace:*"
   }
 }

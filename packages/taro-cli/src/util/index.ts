@@ -120,3 +120,7 @@ export function getPkgNameByFilterVersion (pkgString: string) {
   const versionFlagIndex = pkgString.lastIndexOf('@')
   return versionFlagIndex === 0 ? pkgString : pkgString.slice(0, versionFlagIndex)
 }
+
+export function isNil (value: any): value is null | undefined {
+  return value === null || value === undefined
+}

@@ -399,6 +399,7 @@ function createTabNavigate (config: RouterConfig, options: RouterOption) {
   const screenOptions = getStackOptions(config)
 
   return <NavigationContainer
+    // @ts-expect-error navigationRef is not parametrized correctly
     ref={navigationRef}
     linking={linking}
     onUnhandledAction = {(action) => handlePageNotFound(action, options)}
@@ -439,6 +440,7 @@ function createStackNavigate (config: RouterConfig, options:RouterOption) {
   const screenOptions = getStackOptions(config)
 
   return <NavigationContainer
+    // @ts-expect-error navigationRef is not parametrized correctly
     ref={navigationRef}
     linking={linking}
     onUnhandledAction = {(action) => handlePageNotFound(action, options)}

@@ -9,11 +9,12 @@
  */
 
 import * as React from 'react'
+
+import { noop } from '../../utils'
 import Icon from '../Icon'
 import View from '../View'
-import styles from './styles'
-import { noop } from '../../utils'
 import { RadioProps, RadioState } from './PropsType'
+import styles from './styles'
 
 class _Radio extends React.Component<RadioProps, RadioState> {
   static displayName = '_Radio'

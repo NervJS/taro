@@ -1,6 +1,8 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/api/apis/utils'
 
+import nativeWifi from './NativeWifi'
+
 /**
  * 监听连接上 Wi-Fi 的事件
  *
@@ -18,8 +20,7 @@ export const onWifiConnectedWithPartialInfo: typeof Taro.onWifiConnectedWithPart
     return
   }
 
-  // @ts-ignore
-  native.onWifiConnectedWithPartialInfo((res: any) => {
+  nativeWifi.onWifiConnectedWithPartialInfo((res: any) => {
     const result: Taro.onWifiConnectedWithPartialInfo.CallbackResult = {
       /** 只包含 SSID 属性的 WifiInfo 对象 */
       wifi: { SSID: res.wifi.SSID },

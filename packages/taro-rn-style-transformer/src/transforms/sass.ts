@@ -75,6 +75,9 @@ function renderToCSS (src, filename, options, transformOptions: TransformOptions
       // this.options contains this options hash, this.callback contains the node-style callback
       let basedir = ''
       let defaultExt = ''
+      if (process.platform === 'win32') {
+        prev = decodeURIComponent(prev)
+      }
       if (path.isAbsolute(prev)) {
         ({ dir: basedir, ext: defaultExt } = path.parse(prev))
       } else {

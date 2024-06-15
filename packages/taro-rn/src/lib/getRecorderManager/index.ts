@@ -81,7 +81,7 @@ class RecorderManager {
         playsInSilentModeIOS: true,
         staysActiveInBackground: false,
         shouldDuckAndroid: true,
-        interruptionModeAndroid: 1, //InterruptionModeAndroid.DoNotMix
+        interruptionModeAndroid: 1, // InterruptionModeAndroid.DoNotMix
         playThroughEarpieceAndroid: true
       } as any)
 

@@ -40,6 +40,9 @@ import type {
   TaroTextStyleType
 } from '@tarojs/runtime'
 import { isString } from '@tarojs/shared'
+
+
+@Reusable
 @Component
 export default struct TARO_TEMPLATES_f0t0 {
   node: TaroViewElement = new TaroElement('Ignore')
@@ -47,6 +50,11 @@ export default struct TARO_TEMPLATES_f0t0 {
   dynamicCenter: DynamicCenter = new DynamicCenter()
 
   aboutToAppear () {
+    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
+  }
+
+  aboutToReuse(params: TaroAny): void {
+    this.node = params.node
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
   }
 
@@ -68,6 +76,12 @@ export default struct TARO_TEMPLATES_f0t0 {
             .onAreaChange(getComponentEventCallback(this.node3 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
               (this.node3 as TaroElement)._nodeInfo.areaInfo = res[1]
             }))
+            .borderRadius({
+              topLeft: (this.node3 as TaroElement)._st.hmStyle.borderTopLeftRadius,
+              topRight: (this.node3 as TaroElement)._st.hmStyle.borderTopRightRadius,
+              bottomLeft: (this.node3 as TaroElement)._st.hmStyle.borderBottomLeftRadius,
+              bottomRight: (this.node3 as TaroElement)._st.hmStyle.borderBottomRightRadius
+            })
             if ((this.node2.childNodes[1] as TaroElement)._attrs.compileIf) {
               Image((this.node4 as TaroElement).getAttribute('src'))
               .objectFit(getImageMode((this.node4 as TaroElement).getAttribute('mode')))
@@ -76,6 +90,12 @@ export default struct TARO_TEMPLATES_f0t0 {
               .onAreaChange(getComponentEventCallback(this.node4 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
                 (this.node4 as TaroElement)._nodeInfo.areaInfo = res[1]
               }))
+              .borderRadius({
+                topLeft: (this.node4 as TaroElement)._st.hmStyle.borderTopLeftRadius,
+                topRight: (this.node4 as TaroElement)._st.hmStyle.borderTopRightRadius,
+                bottomLeft: (this.node4 as TaroElement)._st.hmStyle.borderBottomLeftRadius,
+                bottomRight: (this.node4 as TaroElement)._st.hmStyle.borderBottomRightRadius
+              })
             }
           }
           .attributeModifier(columnModify.setNode(this.node2 as TaroElement))

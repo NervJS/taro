@@ -108,7 +108,10 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
       }),
       // @ts-ignore
       pluginReplace({
-        'process.env.NODE_ENV': JSON.stringify('production')
+        preventAssignment: true,
+        values: {
+          'process.env.NODE_ENV': JSON.stringify('production')
+        }
       }),
       // @ts-ignore
       commonjs(),
@@ -171,10 +174,20 @@ function likeDependent (str: string) {
   return !str.match(/^\.?\.\//) && !path.isAbsolute(str)
 }
 
+function getEntryPath (entry) {
+  const app = entry.app
+  if (Array.isArray(app)) {
+    return app[0]
+  } else if (Array.isArray(app.import)) {
+    return app.import[0]
+  }
+  return app
+}
+
 export default function (projectPath: string, config: any) {
   const { sourceRoot, entry, nativeComponents } = config
-  const appPath = path.join(projectPath, sourceRoot, entry)
-  const appConfig = getAppConfig(appPath)
+  const appEntryPath = getEntryPath(entry)
+  const appConfig = getAppConfig(appEntryPath)
   const { output = DEFAULT_CONFIG.output } = nativeComponents || {}
 
   const componentConfig = {

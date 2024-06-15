@@ -60,7 +60,9 @@ export class WebpackModule {
       {
         importLoaders: 1,
         modules: {
-          mode: namingPattern === 'module' ? 'local' : 'global'
+          mode: namingPattern === 'module' ? 'local' : 'global',
+          namedExport: false,
+          exportLocalsConvention: 'as-is',
         }
       },
       {
@@ -94,7 +96,6 @@ export class WebpackModule {
       implementation: require('sass'),
       sassOptions: {
         outputStyle: 'expanded',
-        fiber: false,
         importer (url, prev, done) {
           // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
           const extname = path.extname(url)

@@ -1,14 +1,15 @@
-import React from 'react'
+import { ViewPropTypes } from 'deprecated-react-native-prop-types'
 import PropTypes from 'prop-types'
+import React from 'react'
 import {
-  View,
+  Platform,
+  StyleSheet,
   Text,
   TouchableHighlight,
-  StyleSheet,
-  Platform
+  View
 } from 'react-native'
-import { ViewPropTypes } from 'deprecated-react-native-prop-types'
-import { initialWindowMetrics } from 'react-native-safe-area-context';
+import { initialWindowMetrics } from 'react-native-safe-area-context'
+
 import { Popup } from '../Popup'
 import V from '../variable'
 

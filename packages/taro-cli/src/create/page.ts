@@ -1,9 +1,8 @@
 import { CompilerType, createPage as createPageBinding, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
 import { babelKit, chalk, DEFAULT_TEMPLATE_SRC, fs, getUserHomeDir, resolveScriptPath, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
-import { isNil } from 'lodash'
 import * as path from 'path'
 
-import { getPkgVersion, getRootPath } from '../util'
+import { getPkgVersion, getRootPath, isNil } from '../util'
 import { modifyPagesOrSubPackages } from '../util/createPage'
 import { TEMPLATE_CREATOR } from './constants'
 import Creator from './creator'

@@ -58,6 +58,12 @@ export default class TaroModuleFederationPlugin extends ModuleFederationPlugin {
     if (library && !enabledLibraryTypes?.includes(library.type)) {
       enabledLibraryTypes?.push(library.type)
     }
+
+    // 关闭警告
+    if (compiler.options.output.environment) {
+      compiler.options.output.environment.asyncFunction = true
+    }
+
     compiler.hooks.afterPlugins.tap(PLUGIN_NAME, () => {
       const { exposes, filename, name, remotes = [], runtime, shared, shareScope } = options
       if (!_.isEmpty(exposes)) {

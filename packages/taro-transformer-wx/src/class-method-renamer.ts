@@ -1,7 +1,8 @@
-import { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
 import { isDerivedFromThis } from './utils'
+
+import type { NodePath, Visitor } from '@babel/traverse'
 
 function buildMethodName(n: string) {
   return `render${n.charAt(0).toUpperCase() + n.slice(1)}`

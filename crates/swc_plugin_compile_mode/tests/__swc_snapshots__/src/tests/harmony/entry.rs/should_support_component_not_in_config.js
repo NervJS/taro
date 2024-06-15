@@ -40,6 +40,9 @@ import type {
   TaroTextStyleType
 } from '@tarojs/runtime'
 import { isString } from '@tarojs/shared'
+
+
+@Reusable
 @Component
 export default struct TARO_TEMPLATES_f0t0 {
   node: TaroViewElement = new TaroElement('Ignore')
@@ -47,6 +50,11 @@ export default struct TARO_TEMPLATES_f0t0 {
   dynamicCenter: DynamicCenter = new DynamicCenter()
 
   aboutToAppear () {
+    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
+  }
+
+  aboutToReuse(params: TaroAny): void {
+    this.node = params.node
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
   }
 

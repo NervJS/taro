@@ -18,8 +18,9 @@ import * as React from 'react'
 import {
   Switch,
 } from 'react-native'
-import Checkbox from '../Checkbox'
+
 import { noop } from '../../utils'
+import Checkbox from '../Checkbox'
 import { SwitchProps, SwitchState } from './PropsType'
 
 class _Switch extends React.Component<SwitchProps, SwitchState> {

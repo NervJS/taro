@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "lib": ["ESNext"],
     "module": "ESNext",
+    "esModuleInterop": true,
     "declaration": true,
     "outDir": "dist"
   },

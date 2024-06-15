@@ -1,8 +1,9 @@
 import { Config } from '@stencil/core'
 import { OutputTarget } from '@stencil/core/internal'
+import * as path from 'path'
 import externals from 'rollup-plugin-node-externals'
 
-import { reactOutputTarget, vue2OutputTarget, vue3OutputTarget } from './output-target'
+import { reactOutputTarget, solidOutputTarget, vue3OutputTarget } from './output-target'
 import scssPlugin from './plugin/sass-plugin'
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -12,25 +13,6 @@ const outputTargets: OutputTarget[] = [
     customElementsDir: 'dist/components',
     includeImportCustomElements: true,
     proxiesFile: '../taro-components-library-react/src/components.ts',
-  }),
-  vue2OutputTarget({
-    componentCorePackage: '@tarojs/components',
-    componentModels: [{
-      elements: ['taro-input-core', 'taro-textarea-core'],
-      targetAttr: 'value',
-      event: 'update:modelValue',
-    }, {
-      elements: ['taro-picker-core', 'taro-slider-core'],
-      targetAttr: 'value',
-      event: 'update:modelValue',
-    }, {
-      elements: ['taro-switch-core'],
-      targetAttr: 'checked',
-      event: 'update:modelValue',
-    }],
-    customElementsDir: 'dist/components',
-    includeImportCustomElements: true,
-    proxiesFile: '../taro-components-library-vue2/src/components.ts',
   }),
   vue3OutputTarget({
     componentCorePackage: '@tarojs/components',
@@ -50,6 +32,12 @@ const outputTargets: OutputTarget[] = [
     customElementsDir: 'dist/components',
     includeImportCustomElements: true,
     proxiesFile: '../taro-components-library-vue3/src/components.ts',
+  }),
+  solidOutputTarget({
+    componentCorePackage: '@tarojs/components',
+    customElementsDir: 'dist/components',
+    includeImportCustomElements: true,
+    proxiesFile: '../taro-components-library-solid/src/components.ts',
   }),
   {
     type: 'dist',
@@ -118,7 +106,7 @@ export const config: Config = {
       }
     },
     moduleNameMapper: {
-      '@tarojs/taro': '@tarojs/taro-h5',
+      '@tarojs/taro': path.resolve(__dirname, '..', '..', 'packages/taro-h5/dist/index'),
       '(\\.(css|less|sass|scss))|weui': '<rootDir>/__mocks__/styleMock.js',
       '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
     },
