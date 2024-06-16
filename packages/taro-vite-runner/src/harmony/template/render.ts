@@ -15,6 +15,7 @@ export interface IChildComponent {
   type?: string
   args?: string[]
   extra?: string
+  fullArgument?: string
 }
 
 const STANDARD_COMPONENT_LIST = [
@@ -119,7 +120,6 @@ export default class RenderParser extends BaseParser {
         importList.push(`import ${meta.name} from './${nativePath}'`)
       }
     })
-
 
     if (!this.componentList.length) {
       this.componentList = [
@@ -306,6 +306,7 @@ export default class RenderParser extends BaseParser {
           name,
           condition: `item.tagName === '${name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}'`,
           args: [],
+          fullArgument: 'item._attrs as TaroAny'
         })
       })
 
@@ -379,11 +380,15 @@ export { createChildItem, createLazyChildren }`,
     type = 'TaroAny',
     args = ['createLazyChildren'],
     extra = '',
+    fullArgument = '',
   }: IChildComponent) {
+    // 调用的方法名，就前缀和name组件，普通组件需要在调用名前面加Taro
     name = `${namePrefix}${name}`
 
+    // 调用方法时的参数，分成完整参数和需要拼接的参数，如果传入了完整参数就直接用（目前用于native的个性化入参）
+    const callArguments = fullArgument || `{ node: item as ${type}${args.length > 0 ? `, ${args.join(', ')}` : ''} }`
     return `${condition ? `if (${condition}) ` : ''}{
-  ${name}({ node: item as ${type}${args.length > 0 ? `, ${args.join(', ')}` : ''} })${extra}
+  ${name}(${callArguments})${extra}
 }`
   }
 
