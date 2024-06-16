@@ -1331,13 +1331,7 @@
       }
     },
     "navigateToBookshelf": false,
-    "navigateToMiniProgram": {
-      "object": {
-        "appId": true,
-        "path": true,
-        "extraData": true
-      }
-    },
+    "navigateToMiniProgram": false,
     "nextTick": true,
     "notifyBLECharacteristicValueChange": {
       "object": {
