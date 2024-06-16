@@ -1,6 +1,6 @@
 {
   "name": "stylelint-taro-rn",
-  "version": "4.0.0-beta.98",
+  "version": "4.0.0-beta.99",
   "description": "A collection of React Native specific rules for stylelint",
   "author": "O2Team",
   "license": "MIT",
