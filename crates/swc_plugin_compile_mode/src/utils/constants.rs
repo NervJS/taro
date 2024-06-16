@@ -96,7 +96,7 @@ function getButtonFontSize (node: TaroButtonElement): string | number {
 
 function getTextInViewWidth (node: TaroElement | null): TaroAny {
   if (node) {
-    const hmStyle = node.hmStyle || {}
+    const hmStyle: TaroAny = node.hmStyle || {}
     const isFlexView = hmStyle.display === 'flex'
     const width: TaroAny = getStyleAttr(node, 'width')
     const isPercentWidth = isString(width) && width.includes('%')
@@ -129,7 +129,7 @@ function createText (node: TaroTextElement) {
       if (node.childNodes.length > 1 || ((node.childNodes[0] && node.childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
         ForEach(node.childNodes, (item: TaroElement) => {
           createTextChildNode(item)
-        }, (item: TaroElement) => item._nid)
+        }, (item: TaroElement) => item._nid.toString())
       }
     }
     .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', node) }, node, ['click']))

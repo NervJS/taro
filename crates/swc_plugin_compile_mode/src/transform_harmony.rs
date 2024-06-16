@@ -286,7 +286,7 @@ impl TransformVisitor {
                                         "ForEach(this.{}.childNodes, (item: TaroElement) => {{\n",
                                         self.node_name.last().unwrap()
                                     );
-                                    let loop_foot = "}, (item: TaroElement) => item._nid);";
+                                    let loop_foot = "}, (item: TaroElement) => item._nid.toString());";
 
                                     // let loop_body = self.build_ets_children(&mut vec![JSXElementChild::JSXElement(return_jsx) ], None);
 
