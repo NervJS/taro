@@ -49,6 +49,20 @@ function getPlaceholderColor (node: TaroInputElement): string {
   return placeholderTextColor || parseStyles(placeholderStyle)?.color
 }
 
+function getPlaceholderFont(node: TaroInputElement): Font {
+  const placeholderStyle: string = node._attrs.placeholderStyle || ''
+  const styles = parseStyles(placeholderStyle);
+  if (styles) {
+    return {
+      size: styles.fontSize,
+      weight: styles.fontWeight,
+      style: styles.fontStyle,
+    }
+  }
+
+  return {}
+}
+
 @Component
 export default struct TaroInput {
   @State value: string = ''
@@ -76,6 +90,7 @@ export default struct TaroInput {
     .type(getInputType(this.node))
     .maxLength(Number(this.node._attrs?.maxlength) || null)
     .placeholderColor(getPlaceholderColor(this.node))
+    .placeholderFont(getPlaceholderFont(this.node))
     .enterKeyType(INPUT_CONFIRM_MAP.get(this.node._attrs?.confirmType) || EnterKeyType.Done)
     .padding(0) // Note: 移出 Input 默认 padding 设置
     .backgroundColor(getStyleAttr(this.node, "backgroundColor"))// 
