@@ -10,7 +10,7 @@ export const parseStyles = (styles = ''): Record<string, string> => {
     .split(';')
     .filter((style) => style.split(':').length === 2)
     .map((style) => [
-    style.split(':')[0].trim().replace(new RegExp("/-./g"), c => c.substring(1).toUpperCase()),
+    style.split(':')[0].trim().replace(new RegExp("-([a-z])", "g"), (_, letter: string): string => letter.toUpperCase()),
     style.split(':')[1].trim()
     ])
     .forEach((style) => {
