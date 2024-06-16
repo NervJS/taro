@@ -55,8 +55,6 @@ function getPlaceholderFont(node: TaroInputElement): Font {
   if (styles) {
     return {
       size: styles.fontSize,
-      weight: styles.fontWeight,
-      style: styles.fontStyle,
     }
   }
 
