@@ -73,7 +73,7 @@ export default struct TARO_TEMPLATES_f0t0 {
           .onAreaChange(getComponentEventCallback(item as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
             (item as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
-        }, (item: TaroElement) => item._nid);
+        }, (item: TaroElement) => item._nid.toString());
       }
       .attributeModifier(columnModify.setNode(this.node1 as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node1 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node1 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -110,7 +110,7 @@ function createText (node: TaroTextElement) {
       if (node.childNodes.length > 1 || ((node.childNodes[0] && node.childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
         ForEach(node.childNodes, (item: TaroElement) => {
           createTextChildNode(item)
-        }, (item: TaroElement) => item._nid)
+        }, (item: TaroElement) => item._nid.toString())
       }
     }
     .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', node) }, node, ['click']))
@@ -122,42 +122,23 @@ function createText (node: TaroTextElement) {
   }
 }
 
+function getImageSpanAlignment (align: TaroAny): TaroAny {
+  if (align === Alignment.Top) {
+    return ImageSpanAlignment.TOP
+  } else if (align === Alignment.Bottom) {
+    return ImageSpanAlignment.BOTTOM
+  } else if (align === Alignment.Center) {
+    return ImageSpanAlignment.CENTER
+  }
+}
+
 @Builder
 function createTextChildNode (item: TaroElement) {
   if (item.tagName === 'IMAGE') {
     ImageSpan(item.getAttribute('src'))
-      // .attributeModifier(commonStyleModify.setNode(item))
+      .attributeModifier(commonStyleModify.setNode(item))
       .objectFit(getImageMode(item.getAttribute('mode')))
-      // .verticalAlign(align)
-      .width(item._st.hmStyle.width)
-      .height(item._st.hmStyle.height)
-      .margin({
-        top: item._st.hmStyle.marginTop,
-        left: item._st.hmStyle.marginLeft,
-        right: item._st.hmStyle.marginRight,
-        bottom: item._st.hmStyle.marginBottom,
-      })
-      .padding({
-        top: item._st.hmStyle.paddingTop,
-        left: item._st.hmStyle.paddingLeft,
-        right: item._st.hmStyle.paddingRight,
-        bottom: item._st.hmStyle.paddingBottom,
-      })
-      .textBackgroundStyle({
-        color: item._st.hmStyle.backgroundColor,
-        radius: {
-          topLeft: item._st.hmStyle.borderTopLeftRadius,
-          topRight: item._st.hmStyle.borderTopRightRadius,
-          bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
-          bottomRight: item._st.hmStyle.borderBottomRightRadius,
-        }
-      })
-      .borderRadius({
-        topLeft: item._st.hmStyle.borderTopLeftRadius,
-        topRight: item._st.hmStyle.borderTopRightRadius,
-        bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
-        bottomRight: item._st.hmStyle.borderBottomRightRadius
-      })
+      .verticalAlign(getImageSpanAlignment(item?.hmStyle?.verticalAlign))
       .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', item) }, item, ['click']))
   } else if (item.nodeType === NodeType.TEXT_NODE) {
     Span(item.textContent)
@@ -208,7 +189,7 @@ function getButtonFontSize (node: TaroButtonElement): string | number {
 
 function getTextInViewWidth (node: TaroElement | null): TaroAny {
   if (node) {
-    const hmStyle = node.hmStyle || {}
+    const hmStyle: TaroAny = node.hmStyle || {}
     const isFlexView = hmStyle.display === 'flex'
     const width: TaroAny = getStyleAttr(node, 'width')
     const isPercentWidth = isString(width) && width.includes('%')

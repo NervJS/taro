@@ -109,7 +109,7 @@ export default struct TARO_TEMPLATES_f0t0 {
         .onAreaChange(getComponentEventCallback(this.node1 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node1 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
-        .onClick(e => { eventHandler(e, 'click', this.node1 as TaroElement)) }
+        .onClick(e => { eventHandler(e, 'click', this.node1 as TaroElement) } )
       }
     }
     .attributeModifier(columnModify.setNode(this.node0 as TaroElement))
