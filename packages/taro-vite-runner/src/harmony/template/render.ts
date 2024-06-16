@@ -119,7 +119,6 @@ export default class RenderParser extends BaseParser {
       }
     })
 
-    console.log('importList', importList) // eslint-disable-line
 
     if (!this.componentList.length) {
       this.componentList = [
@@ -377,7 +376,9 @@ export { createChildItem, createLazyChildren }`,
     args = ['createLazyChildren'],
     extra = '',
   }: IChildComponent) {
-    name = `Taro${name}`
+    // 判断name的首字母是不是大写，如果是的话表示普通组件，加上Taro前缀，如果不是表示native组件，不修改
+    const uppercaseFirstLetterRegex = /^[A-Z]/
+    name = uppercaseFirstLetterRegex.test(name) ? `Taro${name}` : `${name}`
 
     return `${condition ? `if (${condition}) ` : ''}{
   ${name}({ node: item as ${type}${args.length > 0 ? `, ${args.join(', ')}` : ''} })${extra}
