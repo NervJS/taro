@@ -1,7 +1,7 @@
 import { isString } from '@tarojs/shared'
 import { eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, NodeType } from '@tarojs/runtime'
 
-import { textModify, setNormalTextAttributeIntoInstance } from './style'
+import commonStyleModify, { textModify, setNormalTextAttributeIntoInstance } from './style'
 import { getButtonColor } from './button'
 import { getImageMode } from './image'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
@@ -74,42 +74,23 @@ export default struct TaroText {
   }
 }
 
+function getImageSpanAlignment (align: TaroAny): TaroAny {
+  if (align === Alignment.Top) {
+    return ImageSpanAlignment.TOP
+  } else if (align === Alignment.Bottom) {
+    return ImageSpanAlignment.BOTTOM
+  } else if (align === Alignment.Center) {
+    return ImageSpanAlignment.CENTER
+  }
+}
+
 @Builder
 function createTextChildNode (item: TaroElement) {
   if (item.tagName === 'IMAGE') {
     ImageSpan(item.getAttribute('src'))
-      // .attributeModifier(commonStyleModify.setNode(item))
+      .attributeModifier(commonStyleModify.setNode(item))
       .objectFit(getImageMode(item.getAttribute('mode')))
-      // .verticalAlign(align)
-      .width(item._st.hmStyle.width)
-      .height(item._st.hmStyle.height)
-      .margin({
-        top: item._st.hmStyle.marginTop,
-        left: item._st.hmStyle.marginLeft,
-        right: item._st.hmStyle.marginRight,
-        bottom: item._st.hmStyle.marginBottom,
-      })
-      .padding({
-        top: item._st.hmStyle.paddingTop,
-        left: item._st.hmStyle.paddingLeft,
-        right: item._st.hmStyle.paddingRight,
-        bottom: item._st.hmStyle.paddingBottom,
-      })
-      .textBackgroundStyle({
-        color: item._st.hmStyle.backgroundColor,
-        radius: {
-          topLeft: item._st.hmStyle.borderTopLeftRadius,
-          topRight: item._st.hmStyle.borderTopRightRadius,
-          bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
-          bottomRight: item._st.hmStyle.borderBottomRightRadius,
-        }
-      })
-      .borderRadius({
-        topLeft: item._st.hmStyle.borderTopLeftRadius,
-        topRight: item._st.hmStyle.borderTopRightRadius,
-        bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
-        bottomRight: item._st.hmStyle.borderBottomRightRadius
-      })
+      .verticalAlign(getImageSpanAlignment(item?.hmStyle?.verticalAlign))
       .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', item) }, item, ['click']))
   } else if (item.nodeType === NodeType.TEXT_NODE) {
     Span(item.textContent)
