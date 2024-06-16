@@ -9,6 +9,7 @@ import type { TRollupResolveMethod } from '@tarojs/taro/types/compile/config/plu
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 
 export interface IChildComponent {
+  namePrefix?: string
   name: string
   condition?: string
   type?: string
@@ -301,6 +302,7 @@ export default class RenderParser extends BaseParser {
       this.context.nativeComponents.forEach((meta) => {
         const { name } = meta
         this.componentList.unshift({
+          namePrefix: '',
           name,
           condition: `item.tagName === '${name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}'`,
           args: [],
@@ -311,6 +313,7 @@ export default class RenderParser extends BaseParser {
         const keyData = key.split('_')
         const name = keyData[keyData.length - 1]
         this.componentList.unshift({
+          namePrefix: '',
           name: key,
           condition: `item._attrs?.compileMode === '${name}'`,
           type: 'TaroViewElement',
@@ -370,15 +373,14 @@ export { createChildItem, createLazyChildren }`,
   }
 
   generateComponentCreated({
+    namePrefix = 'Taro',
     name = '',
     condition = '',
     type = 'TaroAny',
     args = ['createLazyChildren'],
     extra = '',
   }: IChildComponent) {
-    // 判断name的首字母是不是大写，如果是的话表示普通组件，加上Taro前缀，如果不是表示native组件，不修改
-    const uppercaseFirstLetterRegex = /^[A-Z]/
-    name = uppercaseFirstLetterRegex.test(name) ? `Taro${name}` : `${name}`
+    name = `${namePrefix}${name}`
 
     return `${condition ? `if (${condition}) ` : ''}{
   ${name}({ node: item as ${type}${args.length > 0 ? `, ${args.join(', ')}` : ''} })${extra}
