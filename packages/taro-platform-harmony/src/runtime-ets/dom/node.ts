@@ -66,6 +66,7 @@ export class TaroNode extends TaroDataSourceElement {
   public getStrNid() {
     return `n_${this._nid}`;
   }
+
   public getNumNid(id) {
     return +id.slice(2);
   }
