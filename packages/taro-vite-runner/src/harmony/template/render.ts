@@ -107,7 +107,7 @@ export default class RenderParser extends BaseParser {
     ]
 
     this.template.forEach((_, key) => {
-      importList.push(`import ${key} from './static/${key}`)
+      importList.push(`import ${key} from './static/${key}'`)
     })
 
     this.context.nativeComponents.forEach((meta) => {
