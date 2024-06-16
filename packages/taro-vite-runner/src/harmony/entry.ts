@@ -15,6 +15,7 @@ export const TARO_COMP_SUFFIX = '_taro_comp'
 
 export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
   const name = 'taro:vite-harmony-entry'
+  let isFinished = false
 
   return {
     name,
@@ -33,8 +34,10 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
         const { taroConfig, cwd: appPath, app } = viteCompilerContext
         const appConfig = app.config
-        // Note: 监听 app 配置文件
-        this.addWatchFile(viteCompilerContext.getConfigFilePath(viteCompilerContext.getAppScriptPath()))
+        if (!isFinished) {
+          // Note: 监听 app 配置文件
+          this.addWatchFile(viteCompilerContext.getConfigFilePath(viteCompilerContext.getAppScriptPath()))
+        }
         // Note: rawfile innerHTML 模版，供 innerHtml 的 webview 加载
         const { outputRoot = 'dist' } = taroConfig
         const rawFileDir = path.join(path.resolve(outputRoot, '..'), 'resources/rawfile')
@@ -93,7 +96,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
                 fileName: removePathPrefix(iconPath),
                 source: await fs.readFile(filePath)
               })
-              this.addWatchFile(filePath)
+              if (!isFinished) {
+                this.addWatchFile(filePath)
+              }
             }
 
             if (selectedIconPath) {
@@ -103,7 +108,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
                 fileName: removePathPrefix(selectedIconPath),
                 source: await fs.readFile(filePath)
               })
-              this.addWatchFile(filePath)
+              if (!isFinished) {
+                this.addWatchFile(filePath)
+              }
             }
           })
         }
@@ -116,7 +123,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             fileName: appConfig.themeLocation,
             source: fs.readFileSync(themePath)
           })
-          this.addWatchFile(themePath)
+          if (!isFinished) {
+            this.addWatchFile(themePath)
+          }
         }
 
         this.emitFile({
@@ -127,6 +136,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         })
         return parse.parseEntry(rawId, appConfig)
       }
+    },
+    buildEnd () {
+      isFinished = true
     }
   }
 }
