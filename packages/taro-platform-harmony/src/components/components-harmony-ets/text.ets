@@ -60,7 +60,29 @@ export default struct TaroText {
         // text 下还有标签
         if (this.node.childNodes.length > 1 || ((this.node.childNodes[0] && this.node.childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
           ForEach(this.node.childNodes, (item: TaroElement) => {
-            createTextChildNode(item)
+            if (item.tagName === 'IMAGE') {
+              ImageSpan(item.getAttribute('src'))
+                .attributeModifier(commonStyleModify.setNode(item))
+                .objectFit(getImageMode(item.getAttribute('mode')))
+                .verticalAlign(getImageSpanAlignment(node?.hmStyle?.verticalAlign))
+                .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', item) }, item, ['click']))
+            } else if (item.nodeType === NodeType.TEXT_NODE) {
+              Span(item.textContent)
+            } else if (item.tagName === 'TEXT') {
+              Span(item.textContent)
+                .attributeModifier(spanModify.setNode(item))
+                .letterSpacing(item._st.hmStyle.letterSpacing)
+                .textBackgroundStyle({
+                  color: item._st.hmStyle.backgroundColor,
+                  radius: {
+                    topLeft: item._st.hmStyle.borderTopLeftRadius,
+                    topRight: item._st.hmStyle.borderTopRightRadius,
+                    bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
+                    bottomRight: item._st.hmStyle.borderBottomRightRadius,
+                  }
+                })
+                .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', item) }, item, ['click']))
+            }
           }, (item: TaroElement) => `${item._nid}${this.node._updateTrigger}`)
         }
       }
@@ -81,33 +103,6 @@ function getImageSpanAlignment (align: TaroAny): TaroAny {
     return ImageSpanAlignment.BOTTOM
   } else if (align === Alignment.Center) {
     return ImageSpanAlignment.CENTER
-  }
-}
-
-@Builder
-function createTextChildNode (item: TaroElement) {
-  if (item.tagName === 'IMAGE') {
-    ImageSpan(item.getAttribute('src'))
-      .attributeModifier(commonStyleModify.setNode(item))
-      .objectFit(getImageMode(item.getAttribute('mode')))
-      .verticalAlign(getImageSpanAlignment(item?.hmStyle?.verticalAlign))
-      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', item) }, item, ['click']))
-  } else if (item.nodeType === NodeType.TEXT_NODE) {
-    Span(item.textContent)
-  } else if (item.tagName === 'TEXT') {
-    Span(item.textContent)
-      .attributeModifier(spanModify.setNode(item))
-      .letterSpacing(item._st.hmStyle.letterSpacing)
-      .textBackgroundStyle({
-        color: item._st.hmStyle.backgroundColor,
-        radius: {
-          topLeft: item._st.hmStyle.borderTopLeftRadius,
-          topRight: item._st.hmStyle.borderTopRightRadius,
-          bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
-          bottomRight: item._st.hmStyle.borderBottomRightRadius,
-        }
-      })
-      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', item) }, item, ['click']))
   }
 }
 
