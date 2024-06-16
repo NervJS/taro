@@ -300,12 +300,12 @@ export class TaroElement<
   get currentLayerParents () {
     if (!this._page) return null
     if (typeof this._page.tabBarCurrentIndex !== 'undefined') {
-      this._page.layerParents ||= []
-      this._page.layerParents[this._page.tabBarCurrentIndex] ||= []
+      this._page.layerParents ||= {}
+      this._page.layerParents[this._page.tabBarCurrentIndex] ||= {}
       // Tabbar
       return this._page.layerParents[this._page.tabBarCurrentIndex]
     } else {
-      this._page.layerParents ||= []
+      this._page.layerParents ||= {}
       return this._page.layerParents
     }
   }
@@ -328,13 +328,13 @@ export class TaroElement<
       // 绑定祖先的节点id，建立关系，方便在祖先卸载（removeChild）的时候，能够找到该节点使其卸载
       const _parentRecord = {}
       generateLayerParentIds(_parentRecord, this)
-      currentLayerParents[this._nid] = _parentRecord
+      currentLayerParents[this.getStrNid()] = _parentRecord
     } else {
-      const idx = currentLayerNode.childNodes.findIndex(n => n._nid === this._nid)
+      const idx = currentLayerNode.childNodes.findIndex(n => n.getStrNid() === this.getStrNid())
       currentLayerNode.childNodes.splice(idx, 1)
       currentLayerNode.notifyDataDelete(idx)
 
-      delete currentLayerParents[this._nid]
+      delete currentLayerParents[this.getStrNid()]
     }
 
     if (this.parentNode) {
@@ -353,15 +353,15 @@ export class TaroElement<
       if (!currentLayerParents) return
       // 识别Current.page.layerParents里面是否有需要移除的固定元素
       if (this._nodeInfo?.layer > 0) {
-        delete currentLayerParents[this._nid]
+        delete currentLayerParents[this.getStrNid()]
         this.setLayer(0)
       } else {
         Object.keys(currentLayerParents).forEach(fixedId => {
           const parentIds = currentLayerParents[fixedId]
-          if (parentIds[this._nid]) {
+          if (parentIds[this.getStrNid()]) {
             // 需要移除fixedId
             delete currentLayerParents[fixedId]
-            const fixedNode = eventSource.get(fixedId) as unknown as TaroElement
+            const fixedNode = eventSource.get(this.getNumNid(fixedId)) as unknown as TaroElement
             if (fixedNode) {
               fixedNode.setLayer(0)
             }
@@ -448,7 +448,7 @@ export class TaroElement<
 
 function generateLayerParentIds(ids: Record<string, true>, node?: TaroElement) {
   if (node?.parentElement) {
-    ids[node.parentElement._nid] = true
+    ids[node.parentElement.getStrNid()] = true
     generateLayerParentIds(ids, node.parentElement)
   }
 }

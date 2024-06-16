@@ -63,6 +63,13 @@ export class TaroNode extends TaroDataSourceElement {
     return this.childNodes[index] as TaroElement
   }
 
+  public getStrNid() {
+    return `n_${this._nid}`;
+  }
+  public getNumNid(id) {
+    return +id.slice(2);
+  }
+
   public findIndex (refChild?: TaroNode): number {
     return this.childNodes.findIndex(node => node._nid === refChild?._nid)
   }
