@@ -64,7 +64,7 @@ export default struct TaroText {
               ImageSpan(item.getAttribute('src'))
                 .attributeModifier(commonStyleModify.setNode(item))
                 .objectFit(getImageMode(item.getAttribute('mode')))
-                .verticalAlign(getImageSpanAlignment(node?.hmStyle?.verticalAlign))
+                .verticalAlign(getImageSpanAlignment(this.node?.hmStyle?.verticalAlign))
                 .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', item) }, item, ['click']))
             } else if (item.nodeType === NodeType.TEXT_NODE) {
               Span(item.textContent)
