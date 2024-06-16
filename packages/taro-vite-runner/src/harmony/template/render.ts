@@ -284,7 +284,7 @@ export default class RenderParser extends BaseParser {
           name: 'ListView',
           condition: `item.tagName === 'LIST-VIEW'`,
           type: 'TaroViewElement',
-          extra: '.resueId(item._nid.toString())'
+          extra: '.reuseId(item._nid.toString())'
         },
         {
           name: 'View',
