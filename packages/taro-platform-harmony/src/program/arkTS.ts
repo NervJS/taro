@@ -235,7 +235,9 @@ export default class Harmony extends TaroPlatformHarmony {
       }
       if (this.extensions.includes(path.extname(lib))) {
         // Note: 查询 externals 内的依赖，并将它们添加到 externalDeps 中
-        code = code.replace(/(?:import\s|from\s|require\()['"]([^\\/.][^'"\s]+)['"]\)?/g, (src, p1) => {
+        code = code.replace(/(?:import\s|from\s|require\()['"]([^\\/.][^'"\s]+)['"]\)?/g, (src, p1 = '') => {
+          if (p1.startsWith('node:') || p1.endsWith('.so')) return src
+
           const { outputRoot } = this.ctx.runOpts.config
           const targetPath = path.join(outputRoot, NODE_MODULES, p1)
           const relativePath = parseRelativePath(path.dirname(target), targetPath)
