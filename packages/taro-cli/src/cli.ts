@@ -11,7 +11,7 @@ const DEFAULT_FRAMEWORK = 'react'
 
 export default class CLI {
   appPath: string
-  constructor (appPath) {
+  constructor(appPath) {
     this.appPath = appPath || process.cwd()
   }
 
@@ -143,6 +143,7 @@ export default class CLI {
             react: '@tarojs/plugin-framework-react',
             preact: '@tarojs/plugin-framework-react',
             nerv: '@tarojs/plugin-framework-react',
+            solid: '@tarojs/plugin-framework-solid',
           }
           if (frameworkMap[framework]) {
             kernel.optsPlugins.push(frameworkMap[framework])

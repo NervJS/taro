@@ -2,6 +2,7 @@ import commonStyleModify from './style'
 
 import type { TaroViewElement, TaroAny } from '@tarojs/runtime'
 
+@Reusable
 @Component
 export default struct TaroListView {
   @Builder customBuilder() {}
@@ -13,6 +14,10 @@ export default struct TaroListView {
     if (this.node) {
       this.node._instance = this
     }
+  }
+
+  aboutToReuse(params: TaroAny): void {
+    this.node = params.node;
   }
 
   build() {

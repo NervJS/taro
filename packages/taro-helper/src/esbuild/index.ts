@@ -8,9 +8,10 @@ import { defaultMainFields } from '../constants'
 import type { Loader } from 'esbuild'
 
 export const defaultEsbuildLoader: Record<string, Loader> = {
-  '.js': 'tsx',
+  '.js': 'js',
   '.jsx': 'tsx',
-  '.ts': 'tsx',
+  '.ts': 'ts',
+  '.json': 'json'
 }
 
 export interface IRequireWithEsbuildOptions {

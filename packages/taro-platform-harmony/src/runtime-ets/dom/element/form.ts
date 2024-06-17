@@ -167,6 +167,14 @@ class TaroInputElement<T extends FormWidgetProps = InputProps> extends TaroFormW
     }
   }
 
+  public get value () {
+    return super.value
+  }
+
+  public set value (val: TaroAny) {
+    super.value = `${val}`
+  }
+
   private onKeyboardHeightChange (height: number) {
     const event: TaroEvent = createTaroEvent('keyboardHeightChange', { detail: { height: height, duration: 0 } }, this)
 

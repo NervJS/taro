@@ -4,10 +4,11 @@ import {
   isEmptyObject,
   META_TYPE,
   NODE_MODULES,
-  NODE_MODULES_REG,
   printLog,
   processTypeEnum,
   readConfig,
+  REG_NODE_MODULES,
+  REG_NODE_MODULES_DIR,
   REG_STYLE,
   replaceAliasPath,
   resolveMainFilePath,
@@ -154,7 +155,7 @@ export default class TaroHarmonyPlugin {
       PLUGIN_NAME,
       this.tryAsync<Compiler>(async compiler => {
         const changedFiles = this.getChangedFiles(compiler)
-        if (changedFiles?.size > 0) {
+        if (changedFiles && changedFiles.size > 0) {
           this.isWatch = true
         }
         await this.run(compiler)
@@ -700,6 +701,8 @@ export default class TaroHarmonyPlugin {
         }).apply(childCompiler)
         new compiler.webpack.DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
         if (compiler.options.optimization) {
+          const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+
           new SplitChunksPlugin({
             chunks: 'all',
             maxInitialRequests: Infinity,
@@ -714,7 +717,7 @@ export default class TaroHarmonyPlugin {
                 name: `${name}/vendors`,
                 minChunks: 1,
                 test: module => {
-                  return (/[\\/]node_modules[\\/]/.test(module.resource) && module.resource.indexOf(compPath) < 0)
+                  return (nodeModulesDirRegx.test(module.resource) && module.resource.indexOf(compPath) < 0)
                 },
                 priority: 10
               }
@@ -926,9 +929,11 @@ export default class TaroHarmonyPlugin {
 
   getComponentName (componentPath: string) {
     let componentName: string
-    if (NODE_MODULES_REG.test(componentPath)) {
+    if (REG_NODE_MODULES.test(componentPath)) {
+      const nodeModulesRegx = new RegExp(REG_NODE_MODULES, 'gi')
+
       componentName = componentPath.replace(this.context, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
-      componentName = componentName.replace(/node_modules/gi, 'npm')
+      componentName = componentName.replace(nodeModulesRegx, 'npm')
     } else {
       componentName = componentPath.replace(this.options.sourceDir, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
     }

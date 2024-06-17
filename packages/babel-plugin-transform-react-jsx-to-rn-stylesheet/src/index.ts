@@ -1,9 +1,9 @@
-import { PluginObj, template as Template, types as Types } from 'babel__core'
 import camelize from 'camelize'
 import * as path from 'path'
 import { transformCSS } from 'taro-css-to-react-native'
 
-import { ConvertPluginPass as PluginPass } from './types'
+import type { PluginObj, template as Template, types as Types } from '@babel/core'
+import type { ConvertPluginPass as PluginPass } from './types'
 
 const STYLE_SHEET_NAME = '_styleSheet'
 const GET_STYLE_FUNC_NAME = '_getStyle'

@@ -1,9 +1,8 @@
 {
   "name": "@tarojs/shared",
-  "version": "4.0.0-beta.82",
+  "version": "4.0.0-canary.12",
   "description": "Taro utils internal use.",
-  "author": "yuche <i@yuche.me>",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/shared#readme",
+  "author": "O2Team",
   "license": "MIT",
   "browser": "dist/index.js",
   "main:h5": "dist/shared.esm.js",
@@ -19,22 +18,21 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./dist",
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
-    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
     "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
+  "engines": {
+    "node": ">= 18"
+  },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^11.1.0",
-    "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
-    "lodash": "^4.17.21",
-    "rollup": "^3.8.1",
-    "rollup-plugin-ts": "^3.0.2",
-    "ts-jest": "^29.0.5",
-    "typescript": "^4.7.4"
+    "lodash": "^4.17.21"
   }
 }

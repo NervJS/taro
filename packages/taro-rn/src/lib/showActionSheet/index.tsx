@@ -1,5 +1,6 @@
 import React from 'react'
 import RootSiblings from 'react-native-root-siblings'
+
 import ActionSheet from './ActionSheet'
 
 function showActionSheet (obj: Taro.showActionSheet.Option): Promise<Taro.showActionSheet.SuccessCallbackResult> {

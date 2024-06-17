@@ -1,10 +1,10 @@
-import { createPlugin } from 'stylelint'
+import stylelint from 'stylelint'
 
-import rules from './rules'
-import { nameSpace } from './utils'
+import rules from './rules/index.ts'
+import { nameSpace } from './utils/index.ts'
 
 const rulesPlugins = Object.keys(rules).map(ruleName => {
-  return createPlugin(nameSpace(ruleName), rules[ruleName])
+  return stylelint.createPlugin(nameSpace(ruleName), rules[ruleName])
 })
 
 export default rulesPlugins

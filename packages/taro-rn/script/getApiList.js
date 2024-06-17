@@ -1,15 +1,11 @@
-// eslint-disable-next-line
 const fs = require('fs')
-// eslint-disable-next-line
 const path = require('path')
-// eslint-disable-next-line
 const parser = require('@babel/parser')
-// eslint-disable-next-line
 const traverse = require('@babel/traverse').default
 
 const code = fs.readFileSync(path.resolve(__dirname, '../src/api/index.ts')).toString()
 console.log('run: generate native api list to taro-rn/apiList.js\n')
-console.log('apis is:', code)
+// console.log('apis is:', code)
 const ast = parser.parse(code, { sourceType: 'module', plugins: ['typescript'] })
 const apiList = []
 

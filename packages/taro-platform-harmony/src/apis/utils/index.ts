@@ -5,6 +5,7 @@ import { ICallbackResult, MethodHandler } from './handler'
 import type { FunctionType, IAsyncParams } from './types'
 
 export * from './validate'
+export { MethodHandler }
 export { noop } from '@tarojs/shared'
 
 export function object2String (obj) {

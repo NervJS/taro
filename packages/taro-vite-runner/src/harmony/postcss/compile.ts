@@ -1,6 +1,7 @@
+import path from 'node:path'
+
 import { chalk, getHash } from '@tarojs/helper'
 import glob from 'fast-glob'
-import path from 'path'
 import { normalizePath } from 'vite'
 
 import { checkPublicFile } from '../asset'

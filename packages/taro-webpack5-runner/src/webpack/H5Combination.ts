@@ -1,4 +1,4 @@
-import { sync as resolveSync } from 'resolve'
+import { REG_NODE_MODULES_DIR, REG_TARO_SCOPED_PACKAGE, resolveSync } from '@tarojs/helper'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
 
 import { parsePublicPath } from '../utils'
@@ -151,12 +151,15 @@ export class H5Combination extends Combination<IH5BuildConfig> {
       vendors: {
         name: isProd ? false : 'vendors',
         minChunks: 2,
-        test: (module: any) => /[\\/]node_modules[\\/]/.test(module.resource),
+        test: (module: any) => {
+          const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+          return nodeModulesDirRegx.test(module.resource)
+        },
         priority: 10
       },
       taro: {
         name: isProd ? false : 'taro',
-        test: (module: any) => /@tarojs[\\/][a-z]+/.test(module.context),
+        test: (module: any) => REG_TARO_SCOPED_PACKAGE.test(module.context),
         priority: 100
       }
     }

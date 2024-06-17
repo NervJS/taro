@@ -1,6 +1,8 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/api/apis/utils'
 
+import nativeLocation from './NativeLocation'
+
 /**
  * 监听持续定位接口返回失败时触发
  *
@@ -16,6 +18,5 @@ export const onLocationChangeError: typeof Taro.onLocationChangeError = (callbac
     console.error(res.errMsg)
     return
   }
-  // @ts-ignore
-  native.onLocationChangeError(callback)
+  nativeLocation.onLocationChangeError(callback)
 }

@@ -1,7 +1,9 @@
 {
   "name": "postcss-taro-unit-transform",
-  "version": "4.0.0-beta.82",
+  "version": "4.0.0-canary.12",
   "description": "小程序单位转换",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -28,14 +30,7 @@
       "/node_modules/"
     ]
   },
-  "author": "luckyadam",
-  "license": "MIT",
-  "dependencies": {
-    "postcss": "^6.0.21",
-    "typescript": "^4.7.4"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0",
-    "ts-jest": "^29.0.5"
+  "peerDependencies": {
+    "postcss": "^8"
   }
 }

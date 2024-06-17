@@ -1,7 +1,8 @@
+import { createRequire } from 'node:module'
+import path from 'node:path'
+
 import { fs } from '@tarojs/helper'
 import MagicString from 'magic-string'
-import { createRequire } from 'module'
-import path from 'path'
 import { type Alias, type ResolvedConfig, type ResolveFn, normalizePath } from 'vite'
 
 import { cssDataUriRE, cssUrlRE, importCssRE, PostCssDialectLang, PreprocessLang } from './constants'
@@ -10,7 +11,7 @@ import { cleanScssBugUrl, fixScssBugImportValue, isExternalUrl, requireResolveFr
 import type Less from 'less'
 import type PostCSS from 'postcss'
 import type { ExistingRawSourceMap, RollupError } from 'rollup'
-import type Sass from 'sass'
+import type Sass from 'sass' // FIXME update ^1.75.0
 import type Stylus from 'stylus'
 
 interface CSSAtImportResolvers {

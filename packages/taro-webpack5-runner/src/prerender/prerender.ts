@@ -71,8 +71,10 @@ export function validatePrerenderPages (pages: string[], config?: PrerenderConfi
   const { include = [], exclude = [], match } = config
 
   if (match) {
-    const micromatch = require('micromatch')
-    pageConfigs = micromatch(pages, match)
+    const picomatch = require('picomatch')
+    const isMatch = picomatch(match)
+    pageConfigs = pages
+      .filter(isMatch)
       .filter((p: string) => !p.includes('.config'))
       .map((p: string) => ({ path: p, params: {} }))
   }

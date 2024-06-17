@@ -1,8 +1,9 @@
-import { defaultMainFields, PLATFORMS, recursiveMerge } from '@tarojs/helper'
+import path from 'node:path'
+
+import { defaultMainFields, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isNumber, isObject, isString, PLATFORM_TYPE } from '@tarojs/shared'
 import { get } from 'lodash'
-import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
 import { addTrailingSlash, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule } from '../utils'
@@ -136,7 +137,9 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
             assetFileNames: taroConfig.output!.assetFileNames,
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
-              if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
+              const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+
+              if (nodeModulesDirRegx.test(id) || /commonjsHelpers\.js$/.test(id)) {
                 return 'vendors'
               } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1 && !isVirtualModule(id)) {
                 return 'common'
@@ -168,7 +171,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       server: {
         host: serverOption.host || '0.0.0.0',
         port: serverOption.port ? Number(serverOption.port) : 10086,
-        https: serverOption.https || false,
+        https: typeof serverOption.https !== 'boolean' ? serverOption.https : undefined,
         open,
         proxy: (serverOption.proxy as any) || {},
         headers,

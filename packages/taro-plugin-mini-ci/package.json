@@ -1,12 +1,12 @@
 {
   "name": "@tarojs/plugin-mini-ci",
-  "version": "4.0.0-beta.82",
+  "version": "4.0.0-canary.12",
   "description": "Taro 小程序端构建后支持CI（持续集成）的插件",
   "keywords": [
     "Taro",
     "CI/CD"
   ],
-  "author": "bigMeow <running@vip.163.com>",
+  "author": "O2Team",
   "homepage": "https://github.com/NervJS/taro#readme",
   "license": "MIT",
   "main": "index.js",
@@ -21,42 +21,47 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
     "build": "tsc",
     "dev": "tsc -w"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
-    "@tarojs/service": "workspace:*",
-    "jimp": "^0.22.4",
+    "jimp": "^0.22.12",
     "jsqr": "^1.4.0",
-    "minimist": "^1.2.5",
-    "miniprogram-ci": "^1.8.35",
-    "qrcode": "^1.5.1",
-    "shelljs": "^0.8.4"
+    "minimist": "^1.2.8",
+    "qrcode": "^1.5.3",
+    "resolve": "^1.22.8",
+    "shelljs": "^0.8.5"
   },
   "devDependencies": {
-    "@types/qrcode": "^1.5.0",
-    "@types/shelljs": "^0.8.11"
+    "@tarojs/service": "workspace:*",
+    "@types/qrcode": "^1.5.5",
+    "@types/shelljs": "^0.8.15"
   },
   "peerDependencies": {
-    "dingtalk-miniapp-opensdk": "^1.0.7",
-    "jd-miniprogram-ci": "^1.0.2",
-    "minidev": "^1.5.1",
-    "tt-ide-cli": "^0.1.13"
+    "dingtalk-miniapp-opensdk": "^1.0.8",
+    "jd-miniprogram-ci": "^1.0.5",
+    "minidev": "^2.1.5",
+    "miniprogram-ci": "^1.9.15",
+    "tt-ide-cli": "^0.1.25"
   },
   "peerDependenciesMeta": {
     "dingtalk-miniapp-opensdk": {
+      "optional": true
+    },
+    "jd-miniprogram-ci": {
       "optional": true
     },
     "minidev": {
       "optional": true
     },
     "tt-ide-cli": {
-      "optional": true
-    },
-    "jd-miniprogram-ci": {
       "optional": true
     }
   }

@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import {
   createSwcRegister,
   ENTRY,
@@ -11,8 +13,7 @@ import {
   TARO_GLOBAL_CONFIG_FILE
 } from '@tarojs/helper'
 import * as ora from 'ora'
-import * as path from 'path'
-import * as merge from 'webpack-merge'
+import { merge } from 'webpack-merge'
 
 import {
   CONFIG_DIR_NAME,

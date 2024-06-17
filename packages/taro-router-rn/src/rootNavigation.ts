@@ -17,6 +17,7 @@ interface NavigateBackOption extends BaseOption {
   delta?: number
 }
 
+// @ts-expect-error navigationRef is not parametrized correctly
 interface NavigateRef extends NavigationContainerRef<ReactNavigation.RootParamList> {
   setOptions: (obj: any) => void
   navigateConfig: (obj: any) => void
@@ -67,7 +68,8 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
         navigationRef.current?.dispatch(StackActions.replace('tabNav'))
         setTabInitRoute(routeParam.pageName)
       } else {
-        navigationRef.current?.navigate(routeParam.pageName as never, routeParam.params as never)
+        // @ts-expect-error navigationRef is not parametrized correctly
+        navigationRef.current?.navigate(routeParam.pageName, routeParam.params)
       }
     } else if (method === 'navigateBack') {
       const number = (option as NavigateBackOption).delta ? (option as NavigateBackOption).delta : 1

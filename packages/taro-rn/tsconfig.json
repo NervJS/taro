@@ -13,6 +13,6 @@
     },
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["./src", "./types"],
-  "exclude": ["./src/__tests__/**"]
+  "include": ["./src", "./types", "__tests__"],
+  "exclude": ["__tests__/**"]
 }

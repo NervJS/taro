@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
 
+import native from '../../NativeApi'
 import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
@@ -50,17 +51,17 @@ export const startSoterAuthentication: typeof Taro.startSoterAuthentication = (o
     })
   }
 
-  // @ts-ignore
-  const ret = native.startSoterAuthentication({
-    phoneNumber: challenge,
-    requestAuthModes: requestAuthModes,
-    authContent: authContent,
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    },
+  return new Promise<Taro.startSoterAuthentication.SuccessCallbackResult>((resolve, reject) => {
+    native.startSoterAuthentication({
+      challenge: challenge,
+      requestAuthModes: requestAuthModes,
+      authContent: authContent,
+      success: (res: any) => {
+        handle.success(res, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      },
+    })
   })
-  return ret
 }

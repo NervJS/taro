@@ -1,8 +1,8 @@
 import Taro from '@tarojs/taro'
 
-import native from '../NativeApi'
 import { shouldBeObject } from '../utils'
 import { MethodHandler } from '../utils/handler'
+import nativeLocation from './NativeLocation'
 
 /**
  * 打开地图选择位置。
@@ -27,7 +27,7 @@ export const chooseLocation: typeof Taro.chooseLocation = (options = {}) => {
   } = options
   const handle = new MethodHandler({ name, success, fail, complete })
   return new Promise<Taro.chooseLocation.SuccessCallbackResult>((resolve, reject) => {
-    native.chooseLocation({
+    nativeLocation.chooseLocation({
       latitude,
       longitude,
       success: (res: any) => {

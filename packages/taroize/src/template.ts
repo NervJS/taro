@@ -1,7 +1,7 @@
-import { NodePath } from '@babel/traverse'
+import { dirname, extname, join, relative, resolve } from 'node:path'
+
 import * as t from '@babel/types'
 import { fs } from '@tarojs/helper'
-import { dirname, extname, join, relative, resolve } from 'path'
 
 import { errors } from './global'
 import {
@@ -15,6 +15,8 @@ import {
   updateLogFileContent,
 } from './utils'
 import { createWxmlVistor, parseWXML, WXS } from './wxml'
+
+import type { NodePath } from '@babel/traverse'
 
 function isNumeric (n) {
   return !isNaN(parseFloat(n)) && isFinite(n)

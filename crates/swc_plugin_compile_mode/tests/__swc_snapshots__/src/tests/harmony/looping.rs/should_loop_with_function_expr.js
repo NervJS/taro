@@ -40,43 +40,90 @@ import type {
   TaroTextStyleType
 } from '@tarojs/runtime'
 import { isString } from '@tarojs/shared'
-@Extend(Text)
-function textNormalFontStyle (style: HarmonyStyle) {
-  .id(style.id)
-  .key(style.id)
-  .opacity(style.opacity)
-  .fontColor(style.color)
-  .fontSize(style.fontSize)
-  .fontWeight(style.fontWeight)
-  .fontStyle(style.fontStyle)
-  .fontFamily(style.fontFamily)
-  .lineHeight(style.lineHeight)
-  .decoration({
-    type: style.textDecoration?.type,
-    color: style.color
-  })
+
+
+@Reusable
+@Component
+export default struct TARO_TEMPLATES_f0t0 {
+  node: TaroViewElement = new TaroElement('Ignore')
+
+  dynamicCenter: DynamicCenter = new DynamicCenter()
+
+  aboutToAppear () {
+    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
+  }
+
+  aboutToReuse(params: TaroAny): void {
+    this.node = params.node
+    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
+  }
+
+  @State node0: TaroElement = new TaroElement('Ignore')
+  
+  build() {
+    Column() {
+      ForEach(this.node0.childNodes, (item: TaroElement) => {
+        Column() {
+          createText(item.childNodes[0] as TaroTextElement)
+          createText(item.childNodes[1] as TaroTextElement)
+          createText(item.childNodes[2] as TaroTextElement)
+          createText(item.childNodes[3] as TaroTextElement)
+        }
+        .attributeModifier(columnModify.setNode(item as TaroElement))
+        .onVisibleAreaChange(getNodeThresholds(item as TaroElement) || [0.0, 1.0], getComponentEventCallback(item as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
+        .onAreaChange(getComponentEventCallback(item as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+          (item as TaroElement)._nodeInfo.areaInfo = res[1]
+        }))
+      }, (item: TaroElement) => item._nid);
+    }
+    .attributeModifier(columnModify.setNode(this.node0 as TaroElement))
+    .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
+    .onAreaChange(getComponentEventCallback(this.node0 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      (this.node0 as TaroElement)._nodeInfo.areaInfo = res[1]
+    }))
+  }
 }
-
-@Extend(Text)
-function textSpecialFontStyle(attr: TaroTextStyleType) {
-  .textAlign(attr.textAlign)
-  .textOverflow(attr.textOverflow)
-  .maxLines(attr.WebkitLineClamp)
-  .letterSpacing(attr.letterSpacing)
-}
-
-function getButtonFontSize (node: TaroButtonElement) {
-  const isMini = node._attrs.size === 'mini'
-
-  return isMini ? convertNumber2VP(26) : convertNumber2VP(36)
+@Builder
+function createText (node: TaroTextElement) {
+  if (node.nodeType === NodeType.TEXT_NODE) {
+    if (node.parentNode) {
+      if ((node.parentNode as TaroElement).tagName === 'BUTTON') {
+        Text(node.textContent)
+          .attributeModifier(textModify.setNode(node?.parentElement as TaroElement, {
+            fontSize: getButtonFontSize(node.parentNode as TaroButtonElement),
+            color: getButtonColor(node.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((node.parentNode as TaroButtonElement)._attrs.type || '').text)
+          }))
+      } else {
+        Text(node.textContent)
+          .attributeModifier(textModify.setNode(node?.parentElement as TaroElement))
+          .width(getTextInViewWidth(node.parentElement))
+      }
+    }
+  } else {
+    Text(node.textContent) {
+      // text 下还有标签
+      if (node.childNodes.length > 1 || ((node.childNodes[0] && node.childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
+        ForEach(node.childNodes, (item: TaroElement) => {
+          createTextChildNode(item)
+        }, (item: TaroElement) => item._nid)
+      }
+    }
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
+    .attributeModifier(textModify.setNode(node).withNormalStyle())
+    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
+    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      node._nodeInfo.areaInfo = res[1]
+    }))
+  }
 }
 
 @Builder
-function createTextChildNode (item: TaroElement, align: ImageSpanAlignment) {
+function createTextChildNode (item: TaroElement) {
   if (item.tagName === 'IMAGE') {
     ImageSpan(item.getAttribute('src'))
+      // .attributeModifier(commonStyleModify.setNode(item))
       .objectFit(getImageMode(item.getAttribute('mode')))
-      .verticalAlign(align)
+      // .verticalAlign(align)
       .width(item._st.hmStyle.width)
       .height(item._st.hmStyle.height)
       .margin({
@@ -100,6 +147,12 @@ function createTextChildNode (item: TaroElement, align: ImageSpanAlignment) {
           bottomRight: item._st.hmStyle.borderBottomRightRadius,
         }
       })
+      .borderRadius({
+        topLeft: item._st.hmStyle.borderTopLeftRadius,
+        topRight: item._st.hmStyle.borderTopRightRadius,
+        bottomLeft: item._st.hmStyle.borderBottomLeftRadius,
+        bottomRight: item._st.hmStyle.borderBottomRightRadius
+      })
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item), item, ['click']))
   } else if (item.nodeType === NodeType.TEXT_NODE) {
     Span(item.textContent)
@@ -120,6 +173,8 @@ function createTextChildNode (item: TaroElement, align: ImageSpanAlignment) {
   }
 }
 
+
+
 class SpanStyleModify implements AttributeModifier<SpanAttribute> {
   node: TaroTextElement | null = null
   style: HarmonyStyle | null = null
@@ -139,25 +194,11 @@ class SpanStyleModify implements AttributeModifier<SpanAttribute> {
   }
 }
 
-function getSpanVerticalAlign (verticalAlign?: Alignment) {
-  switch (verticalAlign) {
-    case Alignment.Start:
-    case Alignment.TopStart:
-    case Alignment.Top:
-    case Alignment.TopEnd: {
-      return ImageSpanAlignment.TOP
-    }
-    case Alignment.End:
-    case Alignment.BottomStart:
-    case Alignment.Bottom:
-    case Alignment.BottomEnd: {
-      return ImageSpanAlignment.BOTTOM
-    }
-    case Alignment.Center: {
-      return ImageSpanAlignment.CENTER
-    }
-  }
-  return ImageSpanAlignment.BASELINE
+
+function getButtonFontSize (node: TaroButtonElement): string | number {
+  const isMini = node._attrs.size === 'mini'
+
+  return isMini ? convertNumber2VP(26) : convertNumber2VP(36)
 }
 
 function getTextInViewWidth (node: TaroElement | null): TaroAny {
@@ -171,157 +212,6 @@ function getTextInViewWidth (node: TaroElement | null): TaroAny {
   }
 }
 
-@Component
-export default struct TARO_TEMPLATES_f0t0 {
-  node: TaroViewElement = new TaroElement('Ignore')
-
-  dynamicCenter: DynamicCenter = new DynamicCenter()
-
-  aboutToAppear () {
-    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
-  }
-
-  @State node0: TaroElement = new TaroElement('Ignore')
-  
-  build() {
-    Column() {
-      ForEach(this.node0.childNodes, (item: TaroElement) => {
-        Column() {
-          if (item.childNodes[0].nodeType === NodeType.TEXT_NODE) {
-            if (item.childNodes[0].parentNode) {
-              if ((item.childNodes[0].parentNode as TaroElement).tagName === 'BUTTON') {
-                Text(item.childNodes[0].textContent)
-                  .attributeModifier(textModify.setNode(item.childNodes[0]?.parentElement as TaroElement, {
-                    fontSize: getButtonFontSize(item.childNodes[0].parentNode as TaroButtonElement),
-                    color: getButtonColor(item.childNodes[0].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((item.childNodes[0].parentNode as TaroButtonElement)._attrs.type || '').text)
-                  }))
-              } else {
-                Text(item.childNodes[0].textContent)
-                  .attributeModifier(textModify.setNode(item.childNodes[0]?.parentElement as TaroElement))
-                  .width(getTextInViewWidth(item.childNodes[0].parentElement))
-              }
-            }
-          } else {
-            Text(item.childNodes[0].textContent) {
-              // text 下还有标签
-              if (item.childNodes[0].childNodes.length > 1 || ((item.childNodes[0].childNodes[0] && item.childNodes[0].childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
-                ForEach(item.childNodes[0].childNodes, (item: TaroElement) => {
-                  createTextChildNode(item, getSpanVerticalAlign((item.childNodes[0] as TaroElement).hmStyle?.verticalAlign))
-                }, (item: TaroElement) => item._nid)
-              }
-            }
-            .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item.childNodes[0]  as TaroElement), item.childNodes[0]  as TaroElement, ['click']))
-            .attributeModifier(textModify.setNode(item.childNodes[0] as TaroElement).withNormalStyle())
-            .onVisibleAreaChange(getNodeThresholds((item.childNodes[0] as TaroElement)) || [0.0, 1.0], getComponentEventCallback((item.childNodes[0] as TaroElement), VISIBLE_CHANGE_EVENT_NAME))
-            .onAreaChange(getComponentEventCallback((item.childNodes[0] as TaroElement), AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-              (item.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
-            }))
-          }
-          if (item.childNodes[1].nodeType === NodeType.TEXT_NODE) {
-            if (item.childNodes[1].parentNode) {
-              if ((item.childNodes[1].parentNode as TaroElement).tagName === 'BUTTON') {
-                Text(item.childNodes[1].textContent)
-                  .attributeModifier(textModify.setNode(item.childNodes[1]?.parentElement as TaroElement, {
-                    fontSize: getButtonFontSize(item.childNodes[1].parentNode as TaroButtonElement),
-                    color: getButtonColor(item.childNodes[1].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((item.childNodes[1].parentNode as TaroButtonElement)._attrs.type || '').text)
-                  }))
-              } else {
-                Text(item.childNodes[1].textContent)
-                  .attributeModifier(textModify.setNode(item.childNodes[1]?.parentElement as TaroElement))
-                  .width(getTextInViewWidth(item.childNodes[1].parentElement))
-              }
-            }
-          } else {
-            Text(item.childNodes[1].textContent) {
-              // text 下还有标签
-              if (item.childNodes[1].childNodes.length > 1 || ((item.childNodes[1].childNodes[0] && item.childNodes[1].childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
-                ForEach(item.childNodes[1].childNodes, (item: TaroElement) => {
-                  createTextChildNode(item, getSpanVerticalAlign((item.childNodes[1] as TaroElement).hmStyle?.verticalAlign))
-                }, (item: TaroElement) => item._nid)
-              }
-            }
-            .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item.childNodes[1]  as TaroElement), item.childNodes[1]  as TaroElement, ['click']))
-            .attributeModifier(textModify.setNode(item.childNodes[1] as TaroElement).withNormalStyle())
-            .onVisibleAreaChange(getNodeThresholds((item.childNodes[1] as TaroElement)) || [0.0, 1.0], getComponentEventCallback((item.childNodes[1] as TaroElement), VISIBLE_CHANGE_EVENT_NAME))
-            .onAreaChange(getComponentEventCallback((item.childNodes[1] as TaroElement), AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-              (item.childNodes[1] as TaroElement)._nodeInfo.areaInfo = res[1]
-            }))
-          }
-          if (item.childNodes[2].nodeType === NodeType.TEXT_NODE) {
-            if (item.childNodes[2].parentNode) {
-              if ((item.childNodes[2].parentNode as TaroElement).tagName === 'BUTTON') {
-                Text(item.childNodes[2].textContent)
-                  .attributeModifier(textModify.setNode(item.childNodes[2]?.parentElement as TaroElement, {
-                    fontSize: getButtonFontSize(item.childNodes[2].parentNode as TaroButtonElement),
-                    color: getButtonColor(item.childNodes[2].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((item.childNodes[2].parentNode as TaroButtonElement)._attrs.type || '').text)
-                  }))
-              } else {
-                Text(item.childNodes[2].textContent)
-                  .attributeModifier(textModify.setNode(item.childNodes[2]?.parentElement as TaroElement))
-                  .width(getTextInViewWidth(item.childNodes[2].parentElement))
-              }
-            }
-          } else {
-            Text(item.childNodes[2].textContent) {
-              // text 下还有标签
-              if (item.childNodes[2].childNodes.length > 1 || ((item.childNodes[2].childNodes[0] && item.childNodes[2].childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
-                ForEach(item.childNodes[2].childNodes, (item: TaroElement) => {
-                  createTextChildNode(item, getSpanVerticalAlign((item.childNodes[2] as TaroElement).hmStyle?.verticalAlign))
-                }, (item: TaroElement) => item._nid)
-              }
-            }
-            .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item.childNodes[2]  as TaroElement), item.childNodes[2]  as TaroElement, ['click']))
-            .attributeModifier(textModify.setNode(item.childNodes[2] as TaroElement).withNormalStyle())
-            .onVisibleAreaChange(getNodeThresholds((item.childNodes[2] as TaroElement)) || [0.0, 1.0], getComponentEventCallback((item.childNodes[2] as TaroElement), VISIBLE_CHANGE_EVENT_NAME))
-            .onAreaChange(getComponentEventCallback((item.childNodes[2] as TaroElement), AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-              (item.childNodes[2] as TaroElement)._nodeInfo.areaInfo = res[1]
-            }))
-          }
-          if (item.childNodes[3].nodeType === NodeType.TEXT_NODE) {
-            if (item.childNodes[3].parentNode) {
-              if ((item.childNodes[3].parentNode as TaroElement).tagName === 'BUTTON') {
-                Text(item.childNodes[3].textContent)
-                  .attributeModifier(textModify.setNode(item.childNodes[3]?.parentElement as TaroElement, {
-                    fontSize: getButtonFontSize(item.childNodes[3].parentNode as TaroButtonElement),
-                    color: getButtonColor(item.childNodes[3].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((item.childNodes[3].parentNode as TaroButtonElement)._attrs.type || '').text)
-                  }))
-              } else {
-                Text(item.childNodes[3].textContent)
-                  .attributeModifier(textModify.setNode(item.childNodes[3]?.parentElement as TaroElement))
-                  .width(getTextInViewWidth(item.childNodes[3].parentElement))
-              }
-            }
-          } else {
-            Text(item.childNodes[3].textContent) {
-              // text 下还有标签
-              if (item.childNodes[3].childNodes.length > 1 || ((item.childNodes[3].childNodes[0] && item.childNodes[3].childNodes[0] as TaroElement)?.nodeType === NodeType.ELEMENT_NODE)) {
-                ForEach(item.childNodes[3].childNodes, (item: TaroElement) => {
-                  createTextChildNode(item, getSpanVerticalAlign((item.childNodes[3] as TaroElement).hmStyle?.verticalAlign))
-                }, (item: TaroElement) => item._nid)
-              }
-            }
-            .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', item.childNodes[3]  as TaroElement), item.childNodes[3]  as TaroElement, ['click']))
-            .attributeModifier(textModify.setNode(item.childNodes[3] as TaroElement).withNormalStyle())
-            .onVisibleAreaChange(getNodeThresholds((item.childNodes[3] as TaroElement)) || [0.0, 1.0], getComponentEventCallback((item.childNodes[3] as TaroElement), VISIBLE_CHANGE_EVENT_NAME))
-            .onAreaChange(getComponentEventCallback((item.childNodes[3] as TaroElement), AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-              (item.childNodes[3] as TaroElement)._nodeInfo.areaInfo = res[1]
-            }))
-          }
-        }
-        .attributeModifier(columnModify.setNode(item as TaroElement))
-        .onVisibleAreaChange(getNodeThresholds(item as TaroElement) || [0.0, 1.0], getComponentEventCallback(item as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
-        .onAreaChange(getComponentEventCallback(item as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          (item as TaroElement)._nodeInfo.areaInfo = res[1]
-        }))
-      }, (item: TaroElement) => item._nid);
-    }
-    .attributeModifier(columnModify.setNode(this.node0 as TaroElement))
-    .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
-    .onAreaChange(getComponentEventCallback(this.node0 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      (this.node0 as TaroElement)._nodeInfo.areaInfo = res[1]
-    }))
-  }
-}
 `;
 function Index() {
     return <View compileMode="f0t0" _dynamicID="node0">

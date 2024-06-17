@@ -29,7 +29,6 @@ pub static FRAMEWORK_TYPE_MAP: Lazy<HashMap<&FrameworkType, &str>> = Lazy::new(|
   let mut map = HashMap::new();
   map.insert(&FrameworkType::Preact, "preact");
   map.insert(&FrameworkType::React, "react");
-  map.insert(&FrameworkType::Vue, "vue");
   map.insert(&FrameworkType::Vue3, "vue3");
   map
 });
@@ -95,7 +94,6 @@ pub enum CSSType {
 pub enum FrameworkType {
   React,
   Preact,
-  Vue,
   Vue3,
 }
 

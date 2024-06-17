@@ -3,8 +3,9 @@
  * selector 跟 multiSelector 实现过程中有点区别，state.value 存的是索引，而 multiSelector 存的是 value 值
  */
 
-import * as React from 'react'
 import AntPicker from '@ant-design/react-native/lib/picker'
+import * as React from 'react'
+
 import { noop } from '../../utils'
 import { SelectorProps, SelectorState } from './PropsType'
 

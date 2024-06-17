@@ -1,7 +1,8 @@
-import { isNpmPkg, NODE_MODULES_REG, recursiveMerge, resolveSync } from '@tarojs/helper'
+import path from 'node:path'
+import querystring from 'node:querystring'
+
+import { isNpmPkg, recursiveMerge, REG_NODE_MODULES, resolveSync } from '@tarojs/helper'
 import { isFunction, isString } from '@tarojs/shared'
-import path from 'path'
-import querystring from 'querystring'
 
 import { backSlashRegEx, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME, needsEscapeRegEx, quoteNewlineRegEx } from './constants'
 import createFilter from './createFilter'
@@ -53,12 +54,14 @@ export function prettyPrintJson (obj = {}) {
 
 export function getComponentName (viteCompilerContext: ViteH5CompilerContext | ViteHarmonyCompilerContext | ViteMiniCompilerContext, componentPath: string) {
   let componentName: string
-  if (NODE_MODULES_REG.test(componentPath)) {
+  if (REG_NODE_MODULES.test(componentPath)) {
+    const nodeModulesRegx = new RegExp(REG_NODE_MODULES, 'gi')
+
     componentName = componentPath
       .replace(viteCompilerContext.cwd, '')
       .replace(backSlashRegEx, '/')
       .replace(path.extname(componentPath), '')
-      .replace(/node_modules/gi, 'npm')
+      .replace(nodeModulesRegx, 'npm')
   } else {
     componentName = componentPath
       .replace(viteCompilerContext.sourceDir, '')

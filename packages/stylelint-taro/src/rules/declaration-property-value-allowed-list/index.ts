@@ -1,13 +1,13 @@
 import stylelint from 'stylelint'
-import declarationValueIndex from 'stylelint/lib/utils/declarationValueIndex'
-import matchesStringOrRegExp from 'stylelint/lib/utils/matchesStringOrRegExp'
-import optionsMatches from 'stylelint/lib/utils/optionsMatches'
-import validateObjectWithArrayProps from 'stylelint/lib/utils/validateObjectWithArrayProps'
-import validateOptions from 'stylelint/lib/utils/validateOptions'
-import { isBoolean, isRegExp, isString } from 'stylelint/lib/utils/validateTypes'
-import vendor from 'stylelint/lib/utils/vendor'
+import declarationValueIndex from 'stylelint/lib/utils/declarationValueIndex.cjs'
+import matchesStringOrRegExp from 'stylelint/lib/utils/matchesStringOrRegExp.cjs'
+import optionsMatches from 'stylelint/lib/utils/optionsMatches.cjs'
+import validateObjectWithArrayProps from 'stylelint/lib/utils/validateObjectWithArrayProps.cjs'
+import validateOptions from 'stylelint/lib/utils/validateOptions.cjs'
+import { isBoolean, isRegExp, isString } from 'stylelint/lib/utils/validateTypes.cjs'
+import vendor from 'stylelint/lib/utils/vendor.cjs'
 
-import { findIntersection, log, nameSpace, report, taroDocsUrl } from '../../utils'
+import { findIntersection, log, nameSpace, report, taroDocsUrl } from '../../utils/index.ts'
 
 import type { Rule } from 'stylelint'
 
@@ -62,7 +62,7 @@ const rule: Rule = (primary) => {
         return
       }
 
-      const platforms = []
+      const platforms: string[] = []
       Object.keys(primary).forEach((platform) => {
         if (primary[platform]) {
           if (propPatterns.some((pattern) => {

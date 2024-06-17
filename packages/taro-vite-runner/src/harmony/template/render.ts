@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 import { resolveAbsoluteRequire } from '../../utils'
 import BaseParser from './base'
@@ -7,14 +7,11 @@ import type { TRollupResolveMethod } from '@tarojs/taro/types/compile/config/plu
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 
 export default class RenderParser extends BaseParser {
-  constructor (
-    protected template: Map<string, string>,
-    protected context: ViteHarmonyCompilerContext,
-  ) {
+  constructor(protected template: Map<string, string>, protected context: ViteHarmonyCompilerContext) {
     super()
   }
 
-  generate (fileName: string, name = 'TaroRender', resolve?: TRollupResolveMethod) {
+  generate(fileName: string, name = 'TaroRender', resolve?: TRollupResolveMethod) {
     const code = `import {
   TaroImage,
   TaroText,
@@ -165,13 +162,7 @@ function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroEle
 function createLazyChildren (node: TaroElement, layer = 0) {
   LazyForEach(node, (item: TaroElement) => {
     if (!item._nodeInfo || item._nodeInfo.layer === layer) {
-      if (node.tagName === 'LIST-VIEW') {
-        ListItem() {
-          createChildItem(item, createLazyChildren)
-        }
-      } else {
-        createChildItem(item, createLazyChildren)
-      }
+      createChildItem(item, createLazyChildren)
     }
   }, (item: TaroElement) => \`\${item._nid}-\${item._nativeUpdateTrigger}-\${item._nodeInfo?.layer || 0}\`)
 }
@@ -193,14 +184,14 @@ export { createChildItem, createLazyChildren }
     })
   }
 
-  generateRenderExtraComponentsImport () {
+  generateRenderExtraComponentsImport() {
     let result = ''
     const extraComponents = this.context.extraComponents
 
     if (extraComponents.length <= 0) return result
 
     result = 'import {\n'
-    extraComponents.forEach(components => {
+    extraComponents.forEach((components) => {
       const taroName = `Taro${components}`
 
       result = `${result}  ${taroName},\n`
@@ -209,16 +200,18 @@ export { createChildItem, createLazyChildren }
     return `${result}} from '@tarojs/components'\n`
   }
 
-  generateRenderExtraComponentsCondition () {
+  generateRenderExtraComponentsCondition() {
     let result = ''
     const extraComponents = this.context.extraComponents
 
     if (extraComponents.length <= 0) return result
 
-    extraComponents.forEach(components => {
+    extraComponents.forEach((components) => {
       const taroName = `Taro${components}`
 
-      result = `${result}if (item.tagName === '${components.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}') {
+      result = `${result}if (item.tagName === '${components
+        .replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1')
+        .toUpperCase()}') {
     ${taroName}({ node: item as TaroAny, createLazyChildren, createChildItem })
   } else `
     })
@@ -226,7 +219,7 @@ export { createChildItem, createLazyChildren }
     return result
   }
 
-  generateRenderCompileModeImport () {
+  generateRenderCompileModeImport() {
     let result = ''
 
     this.template.forEach((_, key) => {
@@ -236,14 +229,14 @@ export { createChildItem, createLazyChildren }
     return result
   }
 
-  generateRenderNativeImport () {
+  generateRenderNativeImport() {
     let result = ''
 
     this.context.nativeComponents.forEach((nativeMeta, _) => {
       if (nativeMeta.isPackage) {
         result += `import ${nativeMeta.name} from '${nativeMeta.scriptPath}'\n`
       } else {
-        const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath).replace(/\.ets$/, '');
+        const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath).replace(/\.ets$/, '')
         result = `${result}import ${nativeMeta.name} from './${nativePath}'\n`
       }
     })
@@ -251,7 +244,7 @@ export { createChildItem, createLazyChildren }
     return result
   }
 
-  generateRenderCompileModeCondition () {
+  generateRenderCompileModeCondition() {
     let result = ''
 
     this.template.forEach((_, key) => {
@@ -265,7 +258,7 @@ export { createChildItem, createLazyChildren }
     return result
   }
 
-  generateRenderNativeCondition () {
+  generateRenderNativeCondition() {
     let code = ''
 
     this.context.nativeComponents.forEach((nativeMeta, _) => {
@@ -278,19 +271,16 @@ export { createChildItem, createLazyChildren }
     return code
   }
 
-  generateNativeComponentNamesInit () {
-    if(this.context.nativeComponents.size === 0) return ''
+  generateNativeComponentNamesInit() {
+    if (this.context.nativeComponents.size === 0) return ''
     const compentsList: string[] = []
 
     this.context.nativeComponents.forEach((nativeMeta) => {
-      const { name, isPackage } = nativeMeta
+      const { name } = nativeMeta
       // 这段逻辑服务于@Buider的更新，是通过父节点把这个节点重新渲染，这里排除掉package的情况，package一般逻辑复杂会用@Component实现组件
-      if(!isPackage) {
-        compentsList.push(name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase())
-      }
+      compentsList.push(name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase())
     })
 
-    return `Current.nativeComponentNames = [${compentsList.map(item => `"${item}"`).join(', ')}]`
-
+    return `Current.nativeComponentNames = [${compentsList.map((item) => `"${item}"`).join(', ')}]`
   }
 }

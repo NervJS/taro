@@ -1,4 +1,4 @@
-import { createComponent, h, render } from '@tarojs/plugin-framework-react/dist/reconciler'
+import { createComponent, h, render } from '@tarojs/plugin-framework-solid/dist/reconciler'
 import { Current, document } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
 import { eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
 import { hooks } from '@tarojs/shared'
