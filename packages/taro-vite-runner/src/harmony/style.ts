@@ -3,8 +3,7 @@ import path from 'node:path'
 import { transformSync } from '@babel/core'
 import { dataToEsm } from '@rollup/pluginutils'
 import { chalk, CSS_EXT, fs, REG_JS, REG_NODE_MODULES, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
-import { parse as parseJSXStyleFunction } from '@tarojs/parse-css-to-stylesheet'
-import { isFunction } from '@tarojs/shared'
+import { parse as parseJSXStyle } from '@tarojs/parse-css-to-stylesheet'
 import { isEqual } from 'lodash'
 import MagicString from 'magic-string'
 import stylelint from 'stylelint'
@@ -149,6 +148,10 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       }
     },
     async transform(raw, id) {
+      if (viteCompilerContext.loaderMeta.enableParseJSXStyle && !viteCompilerContext.loaderMeta.parseJSXStyleMapCache) {
+        viteCompilerContext.loaderMeta.parseJSXStyleMapCache = cssMapCache
+      }
+
       if (
         commonjsProxyRE.test(id) ||
         SPECIAL_QUERY_RE.test(id) ||
@@ -165,9 +168,11 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
         }
       }
 
+      // Note: 新版本 rust 插件不需要修改 JSX 代码
+      if (!isStyleRequest(id) && viteCompilerContext.loaderMeta.enableParseJSXStyle) return
+
       if (!isStyleRequest(id)) {
         if (!REG_SCRIPTS.test(id)) return
-        const parseJSXStyle = isFunction(viteCompilerContext.loaderMeta.parseJSXStyle) ? viteCompilerContext.loaderMeta.parseJSXStyle : parseJSXStyleFunction
         try {
           const isEntry = viteCompilerContext.taroConfig.entry.app.includes(id)
           if (!isEntry && !globalCssCache) {

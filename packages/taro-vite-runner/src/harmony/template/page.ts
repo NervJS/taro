@@ -22,6 +22,7 @@ export interface IMethod {
 }
 
 export interface TaroHarmonyPageMeta extends VitePageMeta {
+  id: string
   originName: string
   entryOption?: Record<string, unknown>
 
