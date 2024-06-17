@@ -176,9 +176,10 @@ export default function (babel: {
     if (!value || value.value === '') {
       // className: ""
       return []
-    } else if (value.type === 'CallExpression' && typeof value.value !== 'string') {
+    } else if ((value.type === 'CallExpression' || value.type === 'Identifier') && typeof value.value !== 'string') {
       // className: "".concat(classPrefix, "-left")
       // className: classNames([ classPrefix, className ])
+      // className: cls
       return [t.callExpression(t.identifier(GET_STYLE_FUNC_NAME), [value])]
     }
 
@@ -236,8 +237,8 @@ export default function (babel: {
     for (const key in styleNameMapping) {
       const { hasClassName, classNameAttribute, hasStyleAttribute, styleAttribute } = styleNameMapping[key]
 
-      if (!(hasClassName && existStyleImport) && hasStyleAttribute && t.isStringLiteral(styleAttribute.value)) {
-        const cssObject = string2Object(styleAttribute.value.value)
+      if (!(hasClassName && existStyleImport) && hasStyleAttribute && t.isStringLiteral(styleAttribute?.value)) {
+        const cssObject = string2Object(styleAttribute?.value?.value)
         styleAttribute.value = isFromJSX
           ? t.jSXExpressionContainer(object2Expression(template, cssObject))
           : object2Expression(template, cssObject)
@@ -267,7 +268,7 @@ export default function (babel: {
         if (arrayExpression.length === 0) return
         if (arrayExpression.length > 1) file.set('hasMultiStyle', true)
 
-        if (hasStyleAttribute && styleAttribute.value) {
+        if (hasStyleAttribute && styleAttribute?.value) {
           file.set('hasMultiStyle', true)
           let expression
           // 支持 行内 style 转成oject：style="width:100;height:100;" => style={{width:'100',height:'100'}}
