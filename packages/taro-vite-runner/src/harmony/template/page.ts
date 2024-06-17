@@ -294,14 +294,14 @@ return state`,
       }, {
         name: 'bindPageEvent',
         body: this.transArr2Str([
-          `eventCenter.on('__taroNavigationStyle', this.handleNavigationStyle)`,
-          `eventCenter.on('__taroPageStyle', this.handlePageStyle)`,
+          `eventCenter?.on('__taroNavigationStyle', this.handleNavigationStyle)`,
+          `eventCenter?.on('__taroPageStyle', this.handlePageStyle)`,
         ]),
       }, {
         name: 'removePageEvent',
         body: this.transArr2Str([
-          `eventCenter.off('__taroNavigationStyle', this.handleNavigationStyle)`,
-          `eventCenter.off('__taroPageStyle', this.handlePageStyle)`,
+          `eventCenter?.off('__taroNavigationStyle', this.handleNavigationStyle)`,
+          `eventCenter?.off('__taroPageStyle', this.handlePageStyle)`,
         ]),
       }, {
         decorators: ['Builder'],
