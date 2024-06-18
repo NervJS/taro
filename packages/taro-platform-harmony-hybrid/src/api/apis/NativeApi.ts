@@ -378,11 +378,11 @@ export class NativeApi {
     return option
   }
 
-  // @ts-ignore
-  @(asyncAndNotRelease)
-  getFileInfo (option: any): any {
-    return option
-  }
+  @(asyncAndRelease)
+  getFileInformation (_option: any): void {}
+
+  @(asyncAndRelease)
+  getFileInfo (_option: any): void {}
 
   // @ts-ignore
   @(asyncAndNotRelease)
