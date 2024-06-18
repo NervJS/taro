@@ -391,7 +391,7 @@ export class TaroElement<
     }
 
     // 首次设置，不用实例替换
-    if (!this._nodeInfo.hasAnimation) {
+    if (!this._nodeInfo.hasAnimation && playing) {
       this._nodeInfo.hasAnimation = true
       // 下一帧播放，等节点样式首次设置上去在进行覆盖
       setTimeout(() => {
