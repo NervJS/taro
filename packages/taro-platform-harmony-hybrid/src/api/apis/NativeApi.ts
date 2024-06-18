@@ -213,10 +213,22 @@ export class NativeApi {
   }
 
   // @ts-ignore
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setNavigationStyle (options: any): void {}
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setCapsuleState (options: any): void {}
+
+  // @ts-ignore
   @(syncAndRelease)
-  setNavigationStyle (options: any): any {
-    return options
-  }
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getCapsuleState (options: any): any {}
 
   // @ts-ignore
   @(syncAndRelease)
