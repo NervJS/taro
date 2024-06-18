@@ -1,6 +1,6 @@
 {
   "name": "stylelint-config-taro-rn",
-  "version": "4.0.0-alpha.24",
+  "version": "4.0.0-alpha.25",
   "description": "Shareable stylelint config for React Native CSS modules",
   "author": "O2Team",
   "license": "MIT",
