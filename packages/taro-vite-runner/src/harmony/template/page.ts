@@ -76,6 +76,10 @@ export default class Parser extends BaseParser {
     }, '') || ''
   }
 
+  getInitPxTransform () {
+    return super.getInitPxTransform(this.buildConfig)
+  }
+
   isEnable (app?: boolean, page?: boolean) {
     if (app && page !== false) return true
     return !!page
@@ -1086,8 +1090,10 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
     return this.transArr2Str([
       `import { ${createFn} } from '${creatorLocation}'`,
       `import component from "${escapePath(rawId)}"`,
+      isBlended ? 'import { initPxTransform } from "@tarojs/taro"' : null,
       importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(page.config)}`,
+      isBlended ? this.getInitPxTransform() : null,
       page?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,
       page?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
       `export default () => ${createPageOrComponent}`,

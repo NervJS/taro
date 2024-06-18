@@ -35,26 +35,8 @@ export default class Parser extends BaseParser {
     }, '') || ''
   }
 
-  get pxTransformConfig () {
-    const pxTransformOption = this.buildConfig.postcss?.pxtransform || {}
-    const pxTransformConfig = pxTransformOption.config || {}
-    pxTransformConfig.designWidth = this.buildConfig.designWidth
-    pxTransformConfig.deviceRatio = this.buildConfig.deviceRatio
-    return pxTransformConfig
-  }
-
   getInitPxTransform () {
-    return this.transArr2Str([
-      'initPxTransform({',
-      this.transArr2Str([
-        `designWidth: ${this.pxTransformConfig.designWidth},`,
-        `deviceRatio: ${JSON.stringify(this.pxTransformConfig.deviceRatio)},`,
-        `baseFontSize: ${this.pxTransformConfig.baseFontSize},`,
-        `unitPrecision: ${this.pxTransformConfig.unitPrecision},`,
-        `targetUnit: ${JSON.stringify(this.pxTransformConfig.targetUnit)},`,
-      ], 2),
-      '})',
-    ])
+    return super.getInitPxTransform(this.buildConfig)
   }
 
   get instantiateApp () {
