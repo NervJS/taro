@@ -5,10 +5,13 @@ import {
   getApp,
   getCurrentInstance,
   getCurrentPages,
+  initLaunchOptions,
+  loadNavigationStyle,
   navigateBack,
   navigateTo,
   nextTick,
   redirectTo,
+  registerNavigationStyleHandler,
   reLaunch,
   switchTab,
 } from './index'
@@ -21,6 +24,12 @@ const requirePlugin = () => {
     }
   }
 }
+
+loadNavigationStyle()
+registerNavigationStyleHandler()
+
+// 同步小程序启动时的参数
+Taro.eventCenter.once('__taroRouterLaunch', initLaunchOptions)
 
 const {
   Behavior,

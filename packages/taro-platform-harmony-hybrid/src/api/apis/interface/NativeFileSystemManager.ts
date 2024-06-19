@@ -22,7 +22,7 @@ export class NativeFileSystemManager implements Taro.FileSystemManager {
   }
 
   getFileInfo (option: any): any {
-    native.getFileInfo(option)
+    native.getFileInformation(option)
   }
 
   readFile (option: any): any {
