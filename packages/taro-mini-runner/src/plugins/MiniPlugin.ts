@@ -907,14 +907,14 @@ export default class TaroMiniPlugin {
       // eslint-disable-next-line dot-notation
       const list = tabBar['list'] || []
       list.forEach(item => {
-        if (Object.prototype.toString.call(item) !== "[object Object]") {
+        if (Object.prototype.toString.call(item) !== '[object Object]') {
           throw new Error(`[ app.json 文件内容错误] app.json: tabBar.list[${index}] 字段需为 object`)
         }
-        if (!Object.prototype.hasOwnProperty.call(item, "pagePath") || item.pagePath === '') {
-            throw new Error(`[ app.json 文件内容错误] app.json: tabBar.list[${index}].pagePath 不能为空`)
+        if (!Object.prototype.hasOwnProperty.call(item, 'pagePath') || item.pagePath === '') {
+          throw new Error(`[ app.json 文件内容错误] app.json: tabBar.list[${index}].pagePath 不能为空`)
         }
-        if (!typeof item.pagePath !== 'string') {
-            throw new Error(`[ app.json 文件内容错误] app.json: tabBar.list[${index}].pagePath 需为 string`)
+        if (typeof item.pagePath !== 'string') {
+          throw new Error(`[ app.json 文件内容错误] app.json: tabBar.list[${index}].pagePath 需为 string`)
         }
         // eslint-disable-next-line dot-notation
         item['iconPath'] && this.tabBarIcons.add(item['iconPath'])
