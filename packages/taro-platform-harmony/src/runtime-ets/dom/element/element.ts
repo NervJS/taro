@@ -416,7 +416,7 @@ export class TaroElement<
         if (playing) {
           this.playAnimation()
         }
-      }, 0)
+      }, playing ? 0 : 100)
     }
   }
 
