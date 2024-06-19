@@ -268,7 +268,7 @@ class IntersectionObserverTest extends React.Component {
             this.observer = undefined
           }
           this.observer = this.createIntersectionObserver(data)
-          TestConsole.consoleResult.call(this, this.observer, apiIndex)
+          TestConsole.consoleResult.call(this, "createIntersectionObserver:ok", apiIndex)
         },
       },
       {
@@ -282,8 +282,8 @@ class IntersectionObserverTest extends React.Component {
             this.observer.disconnect()
           }
           this.observer = this.createIntersectionObserver()
-          this.observer.relativeTo('.scroll-view', data).observe('.ball', (res) => {
-            TestConsole.consoleOnCallback.call(this, res, 'IntersectionObserver.observe', apiIndex)
+          this.observer.relativeTo('#IntersectionObserver', data).observe('.ball', (res) => {
+            TestConsole.consoleOnCallback.call(this, res, 'IntersectionObserver.relativeTo', apiIndex)
             this.setState({
               appear: res.intersectionRatio > 0,
             })
@@ -296,13 +296,13 @@ class IntersectionObserverTest extends React.Component {
           left: 0,
         },
         func: (apiIndex, data) => {
-          TestConsole.consoleTest('IntersectionObserver.relativeTo')
+          TestConsole.consoleTest('IntersectionObserver.relativeToViewport')
           if (this.observer) {
             this.observer.disconnect()
           }
           this.observer = this.createIntersectionObserver()
           this.observer.relativeToViewport(data).observe('.ball', (res) => {
-            TestConsole.consoleOnCallback.call(this, res, 'IntersectionObserver.observe', apiIndex)
+            TestConsole.consoleOnCallback.call(this, res, 'IntersectionObserver.relativeToViewport', apiIndex)
             this.setState({
               appear: res.intersectionRatio > 0,
             })
@@ -338,7 +338,7 @@ class IntersectionObserverTest extends React.Component {
     return (
       <View>
         <View style={{ fontSize: '30px', textAlign: 'center' }}>IntersectionObserver测试</View>
-        <ScrollView className='scroll-view' scrollY>
+        <ScrollView id='IntersectionObserver' className='scroll-view' scrollY>
           <View className='scroll-area' style={{ background: appear ? '#0f0' : '' }}>
             <Text className='notice'>先创建IntersectionObserver再滚动</Text>
             <View className='filling'></View>
