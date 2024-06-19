@@ -1,5 +1,5 @@
 // @ts-ignore
-import { getPageById } from '@tarojs/plugin-framework-react'
+import { getPageById } from '@tarojs/plugin-framework-react/dist/runtime'
 import { eventCenter, eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { EMPTY_OBJ, toCamelCase } from '@tarojs/shared'
 
