@@ -1,3 +1,5 @@
+// @ts-ignore
+import { getPageById } from '@tarojs/plugin-framework-react'
 import { eventCenter, eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { EMPTY_OBJ, toCamelCase } from '@tarojs/shared'
 
@@ -316,6 +318,13 @@ export class TaroElement<
   // 3、removeChild的时候，会判断是否需要移除层级
   public setLayer (value: number) {
     if (!this.parentNode) return // 没有父节点，不需要设置层级关系
+
+
+    const currentPage = getPageById(this.getAttribute('__fixed'))
+    if (currentPage) {
+      this._page = currentPage
+    }
+
     this._nodeInfo.layer = value
 
     const currentLayerNode = this.currentLayerNode

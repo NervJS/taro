@@ -66,7 +66,7 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
 
     render () {
       return h(
-        'view',
+        'taro-page',
         {
           ref: this.root,
           id: this.props.compId,
@@ -177,6 +177,20 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
   ReactDOM.render(h(Entry, {}), app)
 }
 
+
+const pages = new Map<string, any>()
+export function setPageById (inst: any, id: string) {
+  pages.set(id, inst)
+}
+
+export function getPageById (id: string): any {
+  return pages.get(id)
+}
+
+export function removePageById (id: string) {
+  pages.delete(id)
+}
+
 export function createNativePageConfig (
   Component,
   pageName: string,
@@ -223,6 +237,8 @@ export function createNativePageConfig (
       const uniqueOptions = Object.assign({}, options, { $taroTimestamp: Date.now() })
       const $taroPath = (this.$taroPath = getPath(id, uniqueOptions))
 
+      setPageById(this, $taroPath)
+
       // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
       if (this.$taroParams == null) {
         this.$taroParams = uniqueOptions
@@ -268,6 +284,10 @@ export function createNativePageConfig (
       window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
       // 触发onUnload生命周期
       safeExecute($taroPath, ONUNLOAD)
+
+
+      removePageById($taroPath)
+
       resetCurrent.call(this)
       unmounting = true
       Current.app!.unmount!($taroPath, () => {
