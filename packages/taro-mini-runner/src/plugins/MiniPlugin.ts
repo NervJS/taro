@@ -906,7 +906,7 @@ export default class TaroMiniPlugin {
     if (tabBar && typeof tabBar === 'object' && !isEmptyObject(tabBar)) {
       // eslint-disable-next-line dot-notation
       const list = tabBar['list'] || []
-      list.forEach(（item, index) => {
+      list.forEach((item, index) => {
         if (Object.prototype.toString.call(item) !== '[object Object]') {
           throw new Error(`[ app.json 文件内容错误] app.json: tabBar.list[${index}] 字段需为 object`)
         }
