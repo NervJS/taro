@@ -116,6 +116,7 @@ export default struct TaroInput {
 
       eventHandler(event, 'focus', this.node)
     })
+    .enableKeyboardOnFocus(typeof (this.node._attrs as TaroAny)?.enableKeyboardOnFocus === 'undefined' ? true : (this.node._attrs as TaroAny).enableKeyboardOnFocus)
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       if (this.node) {
         this.node._nodeInfo.areaInfo = res[1]
