@@ -173,9 +173,10 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     app?.appendChild(nativeApp)
     app = nativeApp
   }
-
-  const root = ReactDOM.createRoot(app)
-  root.render?.(h(Entry))
+  // eslint-disable-next-line react/no-deprecated
+  ReactDOM.render(h(Entry, {}), app)
+  // const root = ReactDOM.createRoot(app)
+  // root.render?.(h(Entry))
 }
 
 
