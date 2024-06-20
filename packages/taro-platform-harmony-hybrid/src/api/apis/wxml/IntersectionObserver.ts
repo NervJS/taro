@@ -125,7 +125,7 @@ export class TaroHarmonyHybridIntersectionObserver implements Taro.IntersectionO
   }
 
   public relativeToViewport (margins?: Taro.IntersectionObserver.RelativeToViewportMargins | undefined): Taro.IntersectionObserver {
-    return this.relativeTo('.taro_page', margins)
+    return this.relativeTo('.taro_router', margins)
   }
 
   private _getCallbackByElement (element: Element) {

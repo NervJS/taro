@@ -160,6 +160,7 @@ export default class Index extends React.Component {
           password: 'lwh123456',
         },
         func: (apiIndex, data) => {
+          TestConsole.consoleTest('connectWifi')
           Taro.connectWifi({
             ...data,
             success: (res) => {
