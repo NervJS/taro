@@ -751,7 +751,7 @@ callFn(this.page?.onReady, this, params)`
     const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
     let pageStr = ''
     if (this.buildConfig.isBuildNativeComp) {
-      return `if (true) {
+      return `if (this.node) {
   TaroView({ node: this.node as TaroViewElement, createLazyChildren: createLazyChildren })
   if (${isTabPage ? 'this.layerNode[index]' : 'this.layerNode'}) {
     Stack() {
