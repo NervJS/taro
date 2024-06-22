@@ -2398,6 +2398,9 @@ importers:
       '@rollup/plugin-inject':
         specifier: ^5.0.5
         version: 5.0.5(rollup@3.29.4)
+      '@rollup/plugin-terser':
+        specifier: ^0.4.4
+        version: 0.4.4(rollup@3.29.4)
       '@rollup/pluginutils':
         specifier: ^5.1.0
         version: 5.1.0(rollup@3.29.4)
@@ -2476,6 +2479,9 @@ importers:
       regenerator-runtime:
         specifier: '0.11'
         version: 0.11.1
+      rollup-plugin-terser:
+        specifier: ^7.0.2
+        version: 7.0.2(rollup@3.29.4)
       sax:
         specifier: 1.2.4
         version: 1.2.4
@@ -7864,6 +7870,21 @@ packages:
       rollup: 4.18.0
     dev: false
 
+  /@rollup/plugin-terser@0.4.4(rollup@3.29.4):
+    resolution: {integrity: sha512-XHeJC5Bgvs8LfukDwWZp7yeqin6ns8RTl2B9avbejt6tZqsqvVoWI7ZTQrcNsfKEDWBTnTxM8nMDkO2IFFbd0A==, tarball: https://registry.npmjs.org/@rollup/plugin-terser/-/plugin-terser-0.4.4.tgz}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      rollup: 3.29.4
+      serialize-javascript: 6.0.2
+      smob: 1.5.0
+      terser: 5.31.0
+    dev: false
+
   /@rollup/plugin-typescript@11.1.6(rollup@3.29.4)(tslib@2.6.2)(typescript@5.4.5):
     resolution: {integrity: sha512-R92yOmIACgYdJ7dJ97p4K69I8gg6IEHt8M7dUBxN3W6nrO8uUxX5ixl0yU/N3aZTi8WhPuICvOHXQvF6FaykAA==, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.6.tgz}
     engines: {node: '>=14.0.0'}
@@ -10681,7 +10702,7 @@ packages:
       make-dir: 2.1.0
       pify: 4.0.1
       schema-utils: 2.7.1
-      webpack: 5.91.0
+      webpack: 5.91.0(esbuild@0.21.4)
 
   /babel-plugin-const-enum@1.2.0(@babel/core@7.24.4):
     resolution: {integrity: sha512-o1m/6iyyFnp9MRsK1dHF3bneqyf3AlM2q3A/YbgQr2pCat6B6XJVDv2TXqzfY2RYUi4mak6WAksSBPlyYGx9dg==, tarball: https://registry.npmjs.org/babel-plugin-const-enum/-/babel-plugin-const-enum-1.2.0.tgz}
@@ -12273,7 +12294,7 @@ packages:
       normalize-path: 3.0.0
       schema-utils: 4.2.0
       serialize-javascript: 6.0.2
-      webpack: 5.91.0
+      webpack: 5.91.0(esbuild@0.21.4)
 
   /core-js-compat@3.37.1:
     resolution: {integrity: sha512-9TNiImhKvQqSUkOvk/mMRZzOANTiEVC7WaBNhHcKM7x+/5E1l5NvsysR19zuDQScE8k+kfQXWRN3AtS/eOSHpg==, tarball: https://registry.npmjs.org/core-js-compat/-/core-js-compat-3.37.1.tgz}
@@ -18305,6 +18326,15 @@ packages:
       jest-util: 29.7.0
       string-length: 4.0.2
 
+  /jest-worker@26.6.2:
+    resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==, tarball: https://registry.npmjs.org/jest-worker/-/jest-worker-26.6.2.tgz}
+    engines: {node: '>= 10.13.0'}
+    dependencies:
+      '@types/node': 18.19.33
+      merge-stream: 2.0.0
+      supports-color: 7.2.0
+    dev: false
+
   /jest-worker@27.5.1:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==, tarball: https://registry.npmjs.org/jest-worker/-/jest-worker-27.5.1.tgz}
     engines: {node: '>= 10.13.0'}
@@ -23514,6 +23544,19 @@ packages:
       - ts-node
     dev: true
 
+  /rollup-plugin-terser@7.0.2(rollup@3.29.4):
+    resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==, tarball: https://registry.npmjs.org/rollup-plugin-terser/-/rollup-plugin-terser-7.0.2.tgz}
+    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser
+    peerDependencies:
+      rollup: ^2.0.0
+    dependencies:
+      '@babel/code-frame': 7.24.6
+      jest-worker: 26.6.2
+      rollup: 3.29.4
+      serialize-javascript: 4.0.0
+      terser: 5.31.0
+    dev: false
+
   /rollup-plugin-ts@3.4.5(@babel/core@7.24.4)(@babel/preset-env@7.24.6)(@babel/runtime@7.24.6)(rollup@3.29.4)(typescript@5.4.5):
     resolution: {integrity: sha512-9iCstRJpEZXSRQuXitlSZAzcGlrqTbJg1pE4CMbEi6xYldxVncdPyzA2I+j6vnh73wBymZckerS+Q/iEE/M3Ow==, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.4.5.tgz}
     engines: {node: '>=16.15.1', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
@@ -23930,6 +23973,12 @@ packages:
     dependencies:
       type-fest: 0.13.1
 
+  /serialize-javascript@4.0.0:
+    resolution: {integrity: sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==, tarball: https://registry.npmjs.org/serialize-javascript/-/serialize-javascript-4.0.0.tgz}
+    dependencies:
+      randombytes: 2.1.0
+    dev: false
+
   /serialize-javascript@6.0.2:
     resolution: {integrity: sha512-Saa1xPByTTq2gdeFZYLLo+RFE35NHZkAbqZeWNd3BpzppeVisAqpDjcp8dyf6uIvEqJRd46jemmyA4iFIeVk8g==, tarball: https://registry.npmjs.org/serialize-javascript/-/serialize-javascript-6.0.2.tgz}
     dependencies:
@@ -24140,6 +24189,10 @@ packages:
   /slugify@1.6.6:
     resolution: {integrity: sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw==, tarball: https://registry.npmjs.org/slugify/-/slugify-1.6.6.tgz}
     engines: {node: '>=8.0.0'}
+
+  /smob@1.5.0:
+    resolution: {integrity: sha512-g6T+p7QO8npa+/hNx9ohv1E5pVCmWrVCUzUXJyLdMmftX6ER0oiWY/w9knEonLpnOp6b6FenKnMfR8gqwWdwig==, tarball: https://registry.npmjs.org/smob/-/smob-1.5.0.tgz}
+    dev: false
 
   /snake-case@3.0.4:
     resolution: {integrity: sha512-LAOh4z89bGQvl9pFfNF8V146i7o7/CqFPbqzYgP+yYzDIDeS9HaNFtXABamRW+AQzEVODcvE79ljJ+8a9YSdMg==, tarball: https://registry.npmjs.org/snake-case/-/snake-case-3.0.4.tgz}
