@@ -257,7 +257,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           // TODO doc needed: sourcemapType not supported
           sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
           rollupOptions: {
-            treeshake: !!taroConfig.isWatch,
+            treeshake: !taroConfig.isWatch,
             external: HARMONY_SCOPES,
             makeAbsoluteExternalsRelative: 'ifRelativeSource',
             output: output as any,
