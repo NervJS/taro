@@ -241,6 +241,10 @@ export default class Project extends Creator {
       {
         name: 'Vue3',
         value: FrameworkType.Vue3
+      },
+      {
+        name: 'Solid',
+        value: FrameworkType.Solid
       }
     ]
 
