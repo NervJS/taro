@@ -1,5 +1,5 @@
-import { dirname, join } from 'node:path'
 import { constants, copyFile } from 'node:fs'
+import { dirname, join } from 'node:path'
 
 import { previewDev, previewProd } from '@tarojs/rn-supporter'
 import { spawn } from 'child_process'

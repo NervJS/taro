@@ -1,4 +1,5 @@
 import * as path from 'node:path'
+
 import { describe, expect, test } from 'vitest'
 
 import { build } from '../dist/config/build-component'

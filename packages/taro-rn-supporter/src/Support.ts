@@ -1,5 +1,5 @@
-import * as path from 'node:path'
 import * as os from 'node:os'
+import * as path from 'node:path'
 
 import resolveReactNativePath from '@react-native-community/cli-config/build/resolveReactNativePath'
 import { findProjectRoot } from '@react-native-community/cli-tools'

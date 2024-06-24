@@ -8,14 +8,14 @@ import type { ViteH5CompilerContext, ViteHarmonyCompilerContext, ViteMiniCompile
 import type { PluginOption } from 'vite'
 
 function isViteDepsPath(filePath: string) {
-  const normalizedPath = path.normalize(filePath);
-  
+  const normalizedPath = path.normalize(filePath)
+
   // 判断路径是否包含 node_modules/.vite/deps
   const isViteDeps = normalizedPath.includes(
     path.join('node_modules', '.vite', 'deps')
-  );
-  
-  return isViteDeps;
+  )
+
+  return isViteDeps
 }
 
 export default function (complier: ViteH5CompilerContext | ViteHarmonyCompilerContext | ViteMiniCompilerContext): PluginOption {

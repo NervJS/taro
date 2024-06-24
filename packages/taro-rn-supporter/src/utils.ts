@@ -1,6 +1,6 @@
 import * as fs from 'node:fs'
-import * as path from 'node:path'
 import { networkInterfaces } from 'node:os'
+import * as path from 'node:path'
 
 import * as helper from '@tarojs/helper'
 import { dotenvParse, patchEnv } from '@tarojs/helper'

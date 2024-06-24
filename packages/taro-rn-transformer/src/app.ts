@@ -1,8 +1,8 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
-import { camelCase } from 'lodash'
 import { isEmptyObject, readPageConfig } from '@tarojs/helper'
+import { camelCase } from 'lodash'
 
 import { AppConfig, TransformEntry } from './types/index'
 import { getConfigContent, getConfigFilePath, parseBase64Image } from './utils'

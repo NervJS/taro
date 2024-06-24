@@ -1,5 +1,6 @@
-import * as taroize from '@tarojs/taroize'
 import * as path from 'node:path'
+
+import * as taroize from '@tarojs/taroize'
 
 import Convertor from '../src/index'
 import { setMockFiles, updateMockFiles } from './__mocks__/fs-extra'

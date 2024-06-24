@@ -1,7 +1,7 @@
-import { URL } from 'node:url'
 import { readFile } from 'node:fs'
 import { createServer } from 'node:http'
 import { extname, join } from 'node:path'
+import { URL } from 'node:url'
 
 import * as mime from 'mime-types'
 import { toString } from 'qrcode'
