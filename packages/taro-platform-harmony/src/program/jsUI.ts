@@ -1,6 +1,7 @@
+import path from 'node:path'
+
 import { chalk, fs, META_TYPE } from '@tarojs/helper'
 import { TaroPlatformBase } from '@tarojs/service'
-import path from 'path'
 import { sources } from 'webpack'
 import { ConcatSource, RawSource } from 'webpack-sources'
 

@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   fs,
   recursiveMerge,
@@ -9,7 +11,6 @@ import {
 import { FONT_LIMIT, IMAGE_LIMIT, MEDIA_LIMIT, } from '@tarojs/runner-utils'
 import { isFunction } from '@tarojs/shared'
 import { isBoolean } from 'lodash'
-import path from 'path'
 
 import type { PostcssOption } from '@tarojs/taro/types/compile'
 

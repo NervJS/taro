@@ -1,6 +1,7 @@
+import path from 'node:path'
+
 import { FRAMEWORK_MAP, SCRIPT_EXT } from '@tarojs/helper'
 import { defaults } from 'lodash'
-import path from 'path'
 
 import AppHelper from '../utils/app'
 import { componentConfig } from '../utils/component'

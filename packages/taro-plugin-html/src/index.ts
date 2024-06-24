@@ -1,6 +1,7 @@
+import * as path from 'node:path'
+
 import { babelKit } from '@tarojs/helper'
 import { isArray, isString } from '@tarojs/shared'
-import * as path from 'path'
 
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'

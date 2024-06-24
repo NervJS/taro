@@ -1,5 +1,5 @@
 import * as Memoryfs from 'memory-fs'
-import * as path from 'path'
+import * as path from 'node:path'
 import * as prettier from 'prettier'
 import * as webpack from 'webpack'
 

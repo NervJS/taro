@@ -1,7 +1,6 @@
 /** @TODO createElement setProp 在solid-js/web中导出不报错 */
 import { createComponent, createElement, insert, render, setProp } from '@tarojs/plugin-framework-solid/dist/reconciler'
 import {
-  AppInstance,
   Current,
   document,
   getPageInstance,
@@ -9,16 +8,15 @@ import {
   injectPageInstance,
   Instance,
   PAGE_INIT,
-  PageLifeCycle,
-  PageProps,
-  perf,
-  TaroNode
+  perf
 } from '@tarojs/runtime'
 import { hooks } from '@tarojs/shared'
 import { batch, createSignal, For } from 'solid-js'
 
 import { PageContext } from './context'
 import { ensureIsArray, setDefaultDescriptor, setRouterParams } from './utils'
+
+import type { AppInstance, PageLifeCycle, PageProps, TaroNode } from '@tarojs/runtime'
 
 type SolidComponent = (props?: any) => TaroNode;
 

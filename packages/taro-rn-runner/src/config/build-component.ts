@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import babel from '@rollup/plugin-babel'
 import * as commonjs from '@rollup/plugin-commonjs'
 import * as json from '@rollup/plugin-json'
@@ -8,7 +10,6 @@ import { rollupTransform as styleTransformer } from '@tarojs/rn-style-transforme
 import { getBabelConfig, resolveExtFile, rollupResolver as taroResolver } from '@tarojs/rn-supporter'
 import { getAppConfig } from '@tarojs/rn-transformer'
 import * as jsx from 'acorn-jsx'
-import * as path from 'path'
 import { rollup, RollupOptions } from 'rollup'
 import image from 'rollup-plugin-image-file'
 

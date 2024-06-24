@@ -1,8 +1,9 @@
+import * as path from 'node:path'
+import * as os from 'node:os'
+
 import resolveReactNativePath from '@react-native-community/cli-config/build/resolveReactNativePath'
 import { findProjectRoot } from '@react-native-community/cli-tools'
 import { mergeConfig, MetroConfig } from 'metro'
-import * as os from 'os'
-import * as path from 'path'
 
 import { ConditionalFileStore } from './conditional-file-store'
 import { assetExts } from './defaults'

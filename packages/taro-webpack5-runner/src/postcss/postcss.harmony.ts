@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { isNpmPkg, recursiveMerge, resolveSync } from '@tarojs/helper'
-import path from 'path'
 
 import type { Func, IHtmlTransformOption, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 

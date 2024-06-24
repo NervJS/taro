@@ -1,5 +1,5 @@
-import { networkInterfaces } from 'os'
-import path from 'path'
+import path from 'node:path'
+import { networkInterfaces } from 'node:os'
 
 export const emptyTogglableObj = {
   enable: false,

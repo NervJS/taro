@@ -1,5 +1,5 @@
 import { recursiveMerge } from '@tarojs/helper'
-import path from 'path'
+import path from 'node:path'
 import { describe, expect, test } from 'vitest'
 
 import StyleTransform, { getWrapedCSS } from '../src/transforms'

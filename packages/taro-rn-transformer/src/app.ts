@@ -1,7 +1,8 @@
-import { isEmptyObject, readPageConfig } from '@tarojs/helper'
-import * as fs from 'fs'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
+
 import { camelCase } from 'lodash'
-import * as path from 'path'
+import { isEmptyObject, readPageConfig } from '@tarojs/helper'
 
 import { AppConfig, TransformEntry } from './types/index'
 import { getConfigContent, getConfigFilePath, parseBase64Image } from './utils'

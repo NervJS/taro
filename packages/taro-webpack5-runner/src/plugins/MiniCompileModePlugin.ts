@@ -25,7 +25,8 @@
   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import path from 'path'
+import path from 'node:path'
+
 import webpack, { type Compiler, Dependency, Module, } from 'webpack'
 
 import type { MiniCombination } from '../webpack/MiniCombination'

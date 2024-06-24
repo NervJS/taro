@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import { isNpmPkg, printLog, processTypeEnum, recursiveMerge, resolveSync } from '@tarojs/helper'
-import * as path from 'path'
 import postcss from 'postcss'
 import postcssImport from 'postcss-import'
 import pxtransform from 'postcss-pxtransform'

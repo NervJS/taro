@@ -4,7 +4,6 @@ import {
   getPageInstance,
   injectPageInstance,
   PageLifeCycle,
-  TFunc,
 } from '@tarojs/runtime'
 import { isArray, isFunction } from '@tarojs/shared'
 import {
@@ -15,6 +14,8 @@ import {
 } from 'solid-js'
 
 import { PageContext } from './context'
+
+import type { TFunc } from '@tarojs/runtime/dist/runtime.esm'
 
 const HOOKS_APP_ID = 'taro-app'
 

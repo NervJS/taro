@@ -1,8 +1,9 @@
+import { dirname, join } from 'node:path'
+import { constants, copyFile } from 'node:fs'
+
 import { previewDev, previewProd } from '@tarojs/rn-supporter'
 import { spawn } from 'child_process'
-import { constants, copyFile } from 'fs'
 import * as fse from 'fs-extra'
-import { dirname, join } from 'path'
 
 import buildComponent from './config/build-component'
 

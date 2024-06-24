@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import { CompilerType, createProject, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
 import {
   chalk,
@@ -13,7 +15,6 @@ import { isArray } from '@tarojs/shared'
 import axios from 'axios'
 import * as inquirer from 'inquirer'
 import * as ora from 'ora'
-import * as path from 'path'
 import * as semver from 'semver'
 
 import { clearConsole, getPkgVersion, getRootPath } from '../util'

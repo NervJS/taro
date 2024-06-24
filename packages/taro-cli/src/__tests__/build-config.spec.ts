@@ -1,5 +1,5 @@
 import { emptyDirectory } from '@tarojs/helper'
-import * as path from 'path'
+import * as path from 'node:path'
 
 import { run } from './utils'
 

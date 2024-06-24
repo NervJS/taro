@@ -1,7 +1,8 @@
+import path from 'node:path'
+
 import { META_TYPE, recursiveMerge, SCRIPT_EXT } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isFunction, isObject, isWebPlatform } from '@tarojs/shared'
-import path from 'path'
 import webpack from 'webpack'
 
 import { componentConfig } from '../utils/component'

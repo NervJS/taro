@@ -1,9 +1,10 @@
-import { readFile } from 'fs'
-import { createServer } from 'http'
+import { URL } from 'node:url'
+import { readFile } from 'node:fs'
+import { createServer } from 'node:http'
+import { extname, join } from 'node:path'
+
 import * as mime from 'mime-types'
-import { extname, join } from 'path'
 import { toString } from 'qrcode'
-import { URL } from 'url'
 
 import { getOpenHost, isWin, PLAYGROUNDINFO } from './utils'
 

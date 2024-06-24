@@ -1,5 +1,5 @@
 import { chalk } from '@tarojs/helper'
-import * as path from 'path'
+import * as path from 'node:path'
 
 import doctor from '../doctor'
 
