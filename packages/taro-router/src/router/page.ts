@@ -147,7 +147,7 @@ export default class PageHandler {
     this.pathname = history.location.pathname
     // Note: 注入页面样式
     this.animation && loadAnimateStyle(this.animationDuration)
-    loadRouterStyle(this.tabBarList.length > 1, this.usingWindowScroll)
+    loadRouterStyle(this.tabBarList.length > 1, this.usingWindowScroll, this.router.enhanceAnimation)
   }
 
   onReady (page: PageInstance, onLoad = true) {
@@ -287,6 +287,7 @@ export default class PageHandler {
           this.hideTimer = null
           this.lastHidePage?.classList?.add?.('taro_page_shade')
         }
+        page.onHide?.()
         pageEl.classList.add('taro_page_shade')
         this.lastHidePage = pageEl
       }
