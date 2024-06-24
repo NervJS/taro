@@ -1,7 +1,8 @@
+import path from 'node:path'
+
 import { fs } from '@tarojs/helper'
 import { getComponentsAlias } from '@tarojs/shared'
 import { Attributes, RecursiveTemplate, Shortcuts } from '@tarojs/shared/dist/template'
-import path from 'path'
 
 interface Component {
   nodeName: string

@@ -1,4 +1,4 @@
-import * as path from 'path'
+import * as path from 'node:path'
 
 const TEST_DIR = '__tests__'
 const SNAPSHOT_DIR = '__snapshots__'

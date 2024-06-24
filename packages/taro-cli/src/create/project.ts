@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import { CompilerType, createProject, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
 import {
   chalk,
@@ -13,7 +15,6 @@ import { isArray } from '@tarojs/shared'
 import axios from 'axios'
 import * as inquirer from 'inquirer'
 import * as ora from 'ora'
-import * as path from 'path'
 import * as semver from 'semver'
 
 import { clearConsole, getPkgVersion, getRootPath } from '../util'
@@ -241,6 +242,10 @@ export default class Project extends Creator {
       {
         name: 'Vue3',
         value: FrameworkType.Vue3
+      },
+      {
+        name: 'Solid',
+        value: FrameworkType.Solid
       }
     ]
 
@@ -336,7 +341,7 @@ export default class Project extends Creator {
   askTemplate: AskMethods = function (conf, prompts, list = []) {
     const choices = list.map(item => ({
       name: item.desc ? `${item.name}（${item.desc}）` : item.name,
-      value: item.name
+      value: item.value || item.name
     }))
 
     if (!conf.hideDefaultTemplate) {
@@ -388,6 +393,7 @@ export default class Project extends Creator {
 
   async fetchTemplates (answers: IProjectConf): Promise<ITemplates[]> {
     const { templateSource, framework, compiler } = answers
+    this.conf.framework = this.conf.framework || framework || ''
     this.conf.templateSource = this.conf.templateSource || templateSource
 
     // 使用默认模版
@@ -402,7 +408,8 @@ export default class Project extends Creator {
     const templateChoices = await fetchTemplate(this.conf.templateSource, this.templatePath(''), isClone)
 
     const filterFramework = (_framework) => {
-      const current = framework.toLowerCase()
+      const current = this.conf.framework?.toLowerCase()
+
       if (typeof _framework === 'string' && _framework) {
         return current === _framework.toLowerCase()
       } else if (isArray(_framework)) {

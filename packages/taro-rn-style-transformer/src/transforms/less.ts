@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import less from 'less'
-import * as path from 'path'
 
 import { LessConfig, RenderAdditionalResult, RenderResult } from '../types'
 import { getAdditionalData, insertBefore } from '../utils'

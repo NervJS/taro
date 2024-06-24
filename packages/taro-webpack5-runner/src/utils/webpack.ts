@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { promoteRelativePath } from '@tarojs/helper'
-import path from 'path'
 import { sources } from 'webpack'
 
 import type { Chunk, ChunkGraph, Compilation, Stats } from 'webpack'

@@ -1,7 +1,8 @@
+import path from 'node:path'
+
 import { chalk, fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
 import { PLATFORM_TYPE } from '@tarojs/shared'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import path from 'path'
 
 import H5Plugin from '../plugins/H5Plugin'
 import WebpackPlugin from './WebpackPlugin'

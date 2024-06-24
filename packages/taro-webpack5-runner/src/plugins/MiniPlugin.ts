@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   fs,
   getNpmPackageAbsolutePath,
@@ -17,7 +19,6 @@ import {
   SCRIPT_EXT
 } from '@tarojs/helper'
 import { urlToRequest } from 'loader-utils'
-import path from 'path'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'

@@ -1,7 +1,8 @@
+import path from 'node:path'
+
 import { normalizePath, promoteRelativePath, readConfig, resolveMainFilePath } from '@tarojs/helper'
 import { isArray, isFunction, isString } from '@tarojs/shared'
 import md5 from 'md5'
-import path from 'path'
 import SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 
 import type { AppConfig, SubPackage } from '@tarojs/taro'

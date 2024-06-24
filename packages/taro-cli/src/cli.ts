@@ -1,7 +1,8 @@
+import * as path from 'node:path'
+
 import { dotenvParse, fs, patchEnv } from '@tarojs/helper'
 import { Config, Kernel } from '@tarojs/service'
 import * as minimist from 'minimist'
-import * as path from 'path'
 
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'

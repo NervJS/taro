@@ -64,11 +64,11 @@ export class TaroNode extends TaroDataSourceElement {
   }
 
   public getStrNid() {
-    return `n_${this._nid}`;
+    return `n_${this._nid}`
   }
 
   public getNumNid(id) {
-    return +id.slice(2);
+    return +id.slice(2)
   }
 
   public findIndex (refChild?: TaroNode): number {

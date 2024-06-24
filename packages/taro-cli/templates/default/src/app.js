@@ -3,7 +3,11 @@
 import { useLaunch } from '@tarojs/taro'
 {{/if}}{{#if (eq framework 'Vue3') }}
 import { createApp } from 'vue'
+{{/if}}{{#if (eq framework 'Solid') }}
+{{#if typescript }}import { ParentProps } from 'solid-js'{{/if}}
+import { useLaunch } from '@tarojs/taro'
 {{/if}}
+
 import './app.{{ cssExt }}'
 
 {{#if (includes "React" "Preact" s=framework)}}
@@ -16,6 +20,18 @@ function App({ children }{{#if typescript }}: PropsWithChildren<any>{{/if}}) {
   return children
 }
 {{/if}}
+  
+{{#if (eq framework 'Solid') }}
+function App({ children }{{#if typescript }}: ParentProps{{/if}}) {
+  useLaunch(() => {
+    console.log('App launched.')
+  })
+
+  // children 是将要会渲染的页面
+  return children
+}
+{{/if}}
+
 {{#if (eq framework 'Vue3') }}
 const App = createApp({
   onShow (options) {

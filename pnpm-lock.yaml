@@ -754,6 +754,9 @@ importers:
       '@stencil/vue-output-target':
         specifier: 0.7.0
         version: 0.7.0(@stencil/core@2.22.3)
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../taro-helper
       '@types/jest':
         specifier: ^27.4.1
         version: 27.5.2
@@ -10681,7 +10684,7 @@ packages:
       make-dir: 2.1.0
       pify: 4.0.1
       schema-utils: 2.7.1
-      webpack: 5.91.0
+      webpack: 5.91.0(esbuild@0.21.4)
 
   /babel-plugin-const-enum@1.2.0(@babel/core@7.24.4):
     resolution: {integrity: sha512-o1m/6iyyFnp9MRsK1dHF3bneqyf3AlM2q3A/YbgQr2pCat6B6XJVDv2TXqzfY2RYUi4mak6WAksSBPlyYGx9dg==, tarball: https://registry.npmjs.org/babel-plugin-const-enum/-/babel-plugin-const-enum-1.2.0.tgz}
@@ -12273,7 +12276,7 @@ packages:
       normalize-path: 3.0.0
       schema-utils: 4.2.0
       serialize-javascript: 6.0.2
-      webpack: 5.91.0
+      webpack: 5.91.0(esbuild@0.21.4)
 
   /core-js-compat@3.37.1:
     resolution: {integrity: sha512-9TNiImhKvQqSUkOvk/mMRZzOANTiEVC7WaBNhHcKM7x+/5E1l5NvsysR19zuDQScE8k+kfQXWRN3AtS/eOSHpg==, tarball: https://registry.npmjs.org/core-js-compat/-/core-js-compat-3.37.1.tgz}

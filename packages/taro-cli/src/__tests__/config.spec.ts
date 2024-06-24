@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import {
   fs,
   getUserHomeDir,
@@ -8,7 +10,6 @@ import {
   CONFIG_DIR_NAME,
   DEFAULT_CONFIG_FILE
 } from '@tarojs/service/src/utils/constants'
-import * as path from 'path'
 
 import { run } from './utils'
 
