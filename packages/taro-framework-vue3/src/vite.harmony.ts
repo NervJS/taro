@@ -24,7 +24,8 @@ function injectLoaderMeta (ctx: IPluginContext): PluginOption {
       const { getViteHarmonyCompilerContext } = runnerUtils
       const viteCompilerContext = getViteHarmonyCompilerContext(this)
       if (viteCompilerContext) {
-        viteCompilerContext.loaderMeta = getLoaderMeta()
+        viteCompilerContext.loaderMeta ||= {}
+        Object.assign(viteCompilerContext.loaderMeta, getLoaderMeta())
       }
     }
   }

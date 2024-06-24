@@ -2,8 +2,7 @@ import { VIEW } from '@tarojs/runtime/dist/runtime.esm'
 
 import { getNormalAttributes, getFontAttributes, getStyleAttr } from './styles'
 
-import type { TFunc } from '@tarojs/runtime/dist/runtime.esm'
-import type { TaroElement, TaroNode } from '@tarojs/runtime'
+import type { TaroElement, TaroNode, TaroAny } from '@tarojs/runtime'
 
 export const parseStyles = (styles = ''): Record<string, string> => {
   const styleObj: Record<string, string> = {}
@@ -11,7 +10,7 @@ export const parseStyles = (styles = ''): Record<string, string> => {
     .split(';')
     .filter((style) => style.split(':').length === 2)
     .map((style) => [
-    style.split(':')[0].trim().replace(new RegExp("/-./g"), c => c.substring(1).toUpperCase()),
+    style.split(':')[0].trim().replace(new RegExp("-([a-z])", "g"), (_, letter: string): string => letter.toUpperCase()),
     style.split(':')[1].trim()
     ])
     .forEach((style) => {
@@ -22,7 +21,7 @@ export const parseStyles = (styles = ''): Record<string, string> => {
   return styleObj
 }
 
-export function shouldBindEvent (cb: TFunc, node: TaroElement | null, eventNames: string[], disabled = false) {
+export function shouldBindEvent (cb: TaroAny, node: TaroElement | null, eventNames: string[], disabled = false): TaroAny {
   if (!node || node._attrs?.disabled || disabled) return null
   if (!node.__listeners) {
     return null

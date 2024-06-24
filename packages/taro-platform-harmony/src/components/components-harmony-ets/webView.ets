@@ -17,7 +17,7 @@ interface IError {
 @Component
 export default struct TaroWebView {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroWebViewElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroWebViewElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroWebViewElement
 
   build () {
@@ -47,7 +47,7 @@ export default struct TaroWebView {
 
         eventHandler(event, 'error', this.node)
       }, this.node, ['error']))
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         this.node._nodeInfo.areaInfo = res[1]
       }))

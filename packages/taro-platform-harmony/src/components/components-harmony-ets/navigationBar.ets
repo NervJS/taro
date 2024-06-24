@@ -8,7 +8,7 @@ import type { IComponentAttributeUpdateEvents } from './pageMeta'
 @Component
 export default struct TaroNavigationBar {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroNavigationBarElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroNavigationBarElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroNavigationBarElement
 
   aboutToAppear(): void {
@@ -20,16 +20,16 @@ export default struct TaroNavigationBar {
     }
 
     // FIXME 在 Harmony 提供 @Watch 文档后，根据 node 实际使用更细粒度的监听
-    eventCenter.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
+    eventCenter?.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
     this.handleAttributes(this.node._attrs)
   }
 
   aboutToDisappear(): void {
-    eventCenter.off('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
+    eventCenter?.off('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
   }
 
   handleAttributeUpdate = (opt: IComponentAttributeUpdateEvents) => {
-    if (opt.id === this.node._nid && opt.tagName === 'NAVIGATION-BAR') {
+    if (opt.id === this.node._nid.toString() && opt.tagName === 'NAVIGATION-BAR') {
       const attrs: Record<string, TaroAny> = {}
       attrs[opt.attribute] = opt.value
       this.handleAttributes(attrs)
@@ -51,7 +51,7 @@ export default struct TaroNavigationBar {
     if (attrs.frontColor) {
       options.frontColor = attrs.frontColor
     }
-    eventCenter.trigger('__taroNavigationStyle', options)
+    eventCenter?.trigger('__taroNavigationStyle', options)
     // FIXME: 以下属性暂时不支持
     // attrs.colorAnimationDuration
     // attrs.colorAnimationTimingFunc
@@ -59,7 +59,7 @@ export default struct TaroNavigationBar {
 
   build() {
     if (true) {
-      this.createLazyChildren(this.node)
+      this.createLazyChildren(this.node, 0)
     }
   }
 }

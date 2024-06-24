@@ -82,7 +82,7 @@ pub fn create_component_event(event_name: &str, node_name: &str) -> String {
     };
 
     format!(
-        "\n.{}(e => eventHandler(e, {}, {} as TaroElement))",
+        "\n.{}(e => {{ eventHandler(e, {}, {} as TaroElement) }} )",
         event_name,
         process_event_trigger_name(
             &event_name

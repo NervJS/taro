@@ -60,7 +60,7 @@ function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', x
 @Component
 export default struct TaroScrollView {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroScrollViewElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroScrollViewElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroScrollViewElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -81,7 +81,7 @@ export default struct TaroScrollView {
           if (this.node._pseudo_before || this.node._pseudo_after) {
             PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
           } else {
-            this.createLazyChildren(this.node)
+            this.createLazyChildren(this.node, 0)
           }
         }
         .alignItems(FlexManager.alignItems<VerticalAlign>(this.node))
@@ -97,7 +97,7 @@ export default struct TaroScrollView {
           if (this.node._pseudo_before || this.node._pseudo_after) {
             PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
           } else {
-            this.createLazyChildren(this.node)
+            this.createLazyChildren(this.node, 0)
           }
         }
         .alignItems(FlexManager.alignItems<HorizontalAlign>(this.node))
@@ -117,8 +117,8 @@ export default struct TaroScrollView {
     .clip(true)
     .scrollable(getScrollable(this.node))
     .scrollBar(getAttributes(this.node).scrollBar)
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+    .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
+    .onTouch(shouldBindEvent((e: TouchEvent) => { eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node) }, this.node, TOUCH_EVENT_MAP.values()))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       this.node._nodeInfo.areaInfo = res[1]
     }))

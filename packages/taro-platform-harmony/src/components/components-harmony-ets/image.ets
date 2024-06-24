@@ -19,7 +19,7 @@ export function getImageMode (mode: string): ImageFit {
 @Component
 export default struct TaroImage {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroImageElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroImageElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroImageElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -31,13 +31,13 @@ export default struct TaroImage {
 
   build() {
     Image(this.node.getAttribute('src'))
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         this.node._nodeInfo.areaInfo = res[1]
       }))
       .objectFit(getImageMode(this.node.getAttribute('mode')))
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-      .onComplete(e => eventHandler(e, 'complete', this.node))
+      .onComplete(e => { eventHandler(e, 'complete', this.node) })
       .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
       // TODO: 临时改为申明式，后续等鸿蒙修复modify设置失败的bug后删除该申明
       .borderRadius({

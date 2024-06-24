@@ -70,21 +70,21 @@ export default struct TARO_TEMPLATES_f0t0 {
       .onAreaChange(getComponentEventCallback(this.node0.childNodes[0] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         (this.node0.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .onClick(e => eventHandler(e, 'click', this.node0.childNodes[0] as TaroElement))
+      .onClick(e => { eventHandler(e, 'click', this.node0.childNodes[0] as TaroElement) } )
       Column() {}
       .attributeModifier(columnModify.setNode(this.node0.childNodes[1] as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[1] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[1] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node0.childNodes[1] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         (this.node0.childNodes[1] as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .onClick(e => eventHandler(e, 'click', this.node0.childNodes[1] as TaroElement))
+      .onClick(e => { eventHandler(e, 'click', this.node0.childNodes[1] as TaroElement) } )
       Column() {}
       .attributeModifier(columnModify.setNode(this.node1 as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node1 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node1 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node1 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         (this.node1 as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .onClick(e => eventHandler(e, 'click', this.node1 as TaroElement))
+      .onClick(e => { eventHandler(e, 'click', this.node1 as TaroElement) } )
       Column() {}
       .attributeModifier(columnModify.setNode(this.node2 as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node2 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node2 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -104,15 +104,15 @@ export default struct TARO_TEMPLATES_f0t0 {
         bottomLeft: (this.node0.childNodes[4] as TaroElement)._st.hmStyle.borderBottomLeftRadius,
         bottomRight: (this.node0.childNodes[4] as TaroElement)._st.hmStyle.borderBottomRightRadius
       })
-      .onComplete(e => eventHandler(e, 'complete', this.node0.childNodes[4] as TaroElement))
+      .onComplete(e => { eventHandler(e, 'complete', this.node0.childNodes[4] as TaroElement) } )
       Column() {}
       .attributeModifier(columnModify.setNode(this.node0.childNodes[5] as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[5] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[5] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node0.childNodes[5] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         (this.node0.childNodes[5] as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .onClick(e => eventHandler(e, 'click', this.node0.childNodes[5] as TaroElement))
-      .onTouch(e => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node0.childNodes[5] as TaroElement))
+      .onClick(e => { eventHandler(e, 'click', this.node0.childNodes[5] as TaroElement) } )
+      .onTouch(e => { eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node0.childNodes[5] as TaroElement) } )
     }
     .attributeModifier(columnModify.setNode(this.node0 as TaroElement))
     .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))

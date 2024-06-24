@@ -121,7 +121,7 @@ function collectBatchFunction (type: string, dispatch: () => void) {
   }
 }
 
-export function eventHandler (event, type: string, node: TaroElement) {
+export function eventHandler (event, type: string, node: TaroElement): void {
   if (!node) return
 
   const isBatchUpdates = hooks.isExist('batchedEventUpdates')

@@ -9,13 +9,13 @@ import type { TaroAny, TaroRichTextElement } from '@tarojs/runtime'
 @Component
 export default struct TaroRichText {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroRichTextElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroRichTextElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroRichTextElement
 
   build () {
     RichText(generateText(this.node))
       .attributeModifier(commonStyleModify.setNode(this.node))
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         this.node._nodeInfo.areaInfo = res[1]
       }))

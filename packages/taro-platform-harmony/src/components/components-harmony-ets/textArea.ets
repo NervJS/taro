@@ -45,7 +45,7 @@ export default struct TaroTextArea {
   @State value: string = ''
 
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroTextAreaElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroTextAreaElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroTextAreaElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -63,7 +63,7 @@ export default struct TaroTextArea {
 
   build () {
     TextArea({ text: this.value, placeholder: this.node._attrs?.placeholder || '', controller: this.node.controller })
-      .key(this.node._nid)
+      .key(this.node._nid.toString())
       .maxLength(Number(this.node._attrs?.maxlength) || null)
       .placeholderColor(getPlaceholderColor(this.node))
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
@@ -76,7 +76,7 @@ export default struct TaroTextArea {
         this.node?.updateFormWidgetValue(value)
         eventHandler(event, 'input', this.node)
       })
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
       .onBlur(() => {
         const event: TaroEvent = createTaroEvent('blur', { detail: { value: this.value } }, this.node)
         eventHandler(event, 'blur', this.node)

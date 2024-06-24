@@ -49,12 +49,24 @@ function getPlaceholderColor (node: TaroInputElement): string {
   return placeholderTextColor || parseStyles(placeholderStyle)?.color
 }
 
+function getPlaceholderFont(node: TaroInputElement): Font {
+  const placeholderStyle: string = node._attrs.placeholderStyle || ''
+  const styles = parseStyles(placeholderStyle);
+  if (styles) {
+    return {
+      size: styles.fontSize,
+    }
+  }
+
+  return {}
+}
+
 @Component
 export default struct TaroInput {
   @State value: string = ''
 
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroInputElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroInputElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroInputElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -72,10 +84,11 @@ export default struct TaroInput {
 
   build () {
     TextInput({ text: this.value, placeholder: this.node._attrs?.placeholder || '', controller: this.node.controller })
-    .key(this.node._nid)
+    .key(this.node._nid.toString())
     .type(getInputType(this.node))
     .maxLength(Number(this.node._attrs?.maxlength) || null)
     .placeholderColor(getPlaceholderColor(this.node))
+    .placeholderFont(getPlaceholderFont(this.node))
     .enterKeyType(INPUT_CONFIRM_MAP.get(this.node._attrs?.confirmType) || EnterKeyType.Done)
     .padding(0) // Note: 移出 Input 默认 padding 设置
     .backgroundColor(getStyleAttr(this.node, "backgroundColor"))// 
@@ -93,7 +106,7 @@ export default struct TaroInput {
       const event: TaroEvent = createTaroEvent('confirm', { detail: { value: this.value } }, this.node)
       eventHandler(event, 'confirm', this.node)
     })
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+    .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
     .onBlur(() => {
       const event: TaroEvent = createTaroEvent('blur', { detail: { value: this.value } }, this.node)
       eventHandler(event, 'blur', this.node)
@@ -103,6 +116,7 @@ export default struct TaroInput {
 
       eventHandler(event, 'focus', this.node)
     })
+    .enableKeyboardOnFocus(typeof (this.node._attrs as TaroAny)?.enableKeyboardOnFocus === 'undefined' ? true : (this.node._attrs as TaroAny).enableKeyboardOnFocus)
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       if (this.node) {
         this.node._nodeInfo.areaInfo = res[1]

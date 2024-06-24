@@ -31,7 +31,7 @@ function themeStyles(isDisabled: boolean) {
 @Component
 export default struct TaroSwitch {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroSwitchElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroSwitchElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroSwitchElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -63,7 +63,7 @@ export default struct TaroSwitch {
           }
         }
       })
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         if (this.node) {
           this.node._nodeInfo.areaInfo = res[1]

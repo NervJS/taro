@@ -53,12 +53,18 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
 
 export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updatePayload: any[]) {
   const handlers: (() => void)[] = []
+  let fixedHandler: (() => void) | null = null
   for (let i = 0; i < updatePayload.length; i += 2) {
     // key, value 成对出现
     const key = updatePayload[i]
     const newProp = updatePayload[i + 1]
     const oldProp = oldProps[key]
     if (isHarmony) {
+      if (key === '__fixed') {
+        // hack: __fixed最先识别
+        fixedHandler = () => setProperty(dom, key, newProp, oldProp)
+        continue
+      }
       // 鸿蒙样式前置插入，防止覆盖style
       if (key === '__hmStyle') {
         handlers.splice(0, 0, () => setHarmonyStyle(dom, newProp, oldProp))
@@ -70,6 +76,7 @@ export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updateP
     }
   }
   if (isHarmony) {
+    fixedHandler && fixedHandler()
     for (let i = 0; i < handlers.length; i++) {
       handlers[i]()
     }

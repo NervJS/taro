@@ -48,7 +48,7 @@ function getSwiperAttributes (node: TaroSwiperElement): SwiperAttrs {
 @Component
 export default struct TaroSwiper {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroSwiperElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroSwiperElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroSwiperElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -60,7 +60,7 @@ export default struct TaroSwiper {
 
   build () {
     Swiper(this.node.controller) {
-      this.createLazyChildren(this.node)
+      this.createLazyChildren(this.node, 0)
     }
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .swiperAttr(getSwiperAttributes(this.node))
@@ -72,7 +72,7 @@ export default struct TaroSwiper {
         const event: TaroEvent = createTaroEvent('change', { detail: { current: index } }, this.node)
         eventHandler(event, 'change', this.node)
       })
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         this.node._nodeInfo.areaInfo = res[1]
       }))

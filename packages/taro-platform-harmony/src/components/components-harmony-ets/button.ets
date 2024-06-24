@@ -111,7 +111,7 @@ function getButtonMinHeight (node: TaroButtonElement): string | number | undefin
 @Component
 export default struct TaroButton {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroButtonElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroButtonElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroButtonElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -128,10 +128,10 @@ export default struct TaroButton {
           LoadingProgress()
             .width(20).height(20)
             .color(getThemeAttributes(this.node).color)
-          this.createLazyChildren(this.node)
+          this.createLazyChildren(this.node, 0)
         }
       } else {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
     }
     .themeStyles(getThemeAttributes(this.node))
@@ -152,7 +152,7 @@ export default struct TaroButton {
       }
       eventHandler(e, 'click', this.node)
     })
-    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+    .onTouch(shouldBindEvent((e: TouchEvent) => { eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node) }, this.node, TOUCH_EVENT_MAP.values()))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       this.node._nodeInfo.areaInfo = res[1]
     }))

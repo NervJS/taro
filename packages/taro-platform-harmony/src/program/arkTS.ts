@@ -235,7 +235,9 @@ export default class Harmony extends TaroPlatformHarmony {
       }
       if (this.extensions.includes(path.extname(lib))) {
         // Note: 查询 externals 内的依赖，并将它们添加到 externalDeps 中
-        code = code.replace(/(?:import\s|from\s|require\()['"]([^\\/.][^'"\s]+)['"]\)?/g, (src, p1) => {
+        code = code.replace(/(?:import\s|from\s|require\()['"]([^\\/.][^'"\s]+)['"]\)?/g, (src, p1 = '') => {
+          if (p1.startsWith('node:') || p1.endsWith('.so')) return src
+
           const { outputRoot } = this.ctx.runOpts.config
           const targetPath = path.join(outputRoot, NODE_MODULES, p1)
           const relativePath = parseRelativePath(path.dirname(target), targetPath)
@@ -350,7 +352,7 @@ declare global {
     const chorePkgRgx = new RegExp(`^${(chorePackagePrefix || '').replace(/[\\/]+/g, '[\\\\/]+').replace(/[-^$*?.|]/g, '\\$&')}`)
     const externals = Object.keys(ohPackage.dependencies || []).concat(Object.keys(ohPackage.devDependencies || []))
     function modifyResolveId({ source = '', name = 'modifyResolveId' }: Parameters<Exclude<ILoaderMeta['modifyResolveId'], undefined>>[0]) {
-      if (externals.includes(source) || chorePkgRgx.test(source)) {
+      if (externals.includes(source) || (chorePackagePrefix && chorePkgRgx.test(source))) {
         return {
           external: true,
           id: source,

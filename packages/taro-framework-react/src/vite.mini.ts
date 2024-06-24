@@ -21,7 +21,8 @@ function injectLoaderMeta (ctx: IPluginContext, framework: Frameworks): PluginOp
       const { getViteMiniCompilerContext } = runnerUtils
       const viteCompilerContext = getViteMiniCompilerContext(this)
       if (viteCompilerContext) {
-        viteCompilerContext.loaderMeta = getLoaderMeta(framework)
+        viteCompilerContext.loaderMeta ||= {}
+        Object.assign(viteCompilerContext.loaderMeta, getLoaderMeta(framework))
       }
     }
   }
@@ -33,7 +34,8 @@ function aliasPlugin (ctx: IPluginContext, framework: Frameworks): PluginOption 
       name: 'taro-react:alias',
       config (config) {
         const alias: ({ find: string | RegExp, replacement: string })[] = [
-          { find: /react-dom$/, replacement: '@tarojs/react' }
+          { find: /react-dom$/, replacement: '@tarojs/react' },
+          { find: /react-dom\/client$/, replacement: '@tarojs/react' },
         ]
 
         const mainFields = ['unpkg', ...defaultMainFields]
