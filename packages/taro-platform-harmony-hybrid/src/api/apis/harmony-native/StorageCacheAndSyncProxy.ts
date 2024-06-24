@@ -78,6 +78,16 @@ class ProxyHandler {
         // this.nativeApi['removeStorage']({key: key})
       }
     }
+    if (propKey === 'clearStorageSync') {
+      return (...args: any[]) => {
+        // 先更新缓存，再同步原生
+        this.cacheMap.clear()
+
+        args[0].fail = () => {}
+        args[0].success = () => {}
+        Reflect.apply(target.clearStorage, target, args)
+      }
+    }
 
     if (propKey === 'getStorage') {
       return (...args: any[]) => {
