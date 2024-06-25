@@ -222,6 +222,7 @@ export function setSpecialTextAttributeIntoInstance(instance: TextAttribute, sty
   }
   if (!isUndefined(style.WebkitLineClamp)) {
     instance.maxLines(style.WebkitLineClamp)
+    instance.textOverflow({overflow: TextOverflow.Ellipsis})
   }
   if (!isUndefined(style.letterSpacing)) {
     instance.letterSpacing(style.letterSpacing)
