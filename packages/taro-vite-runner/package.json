@@ -45,7 +45,6 @@
     "postcss-plugin-constparse": "workspace:*",
     "postcss-pxtransform": "workspace:*",
     "regenerator-runtime": "0.11",
-    "rollup-plugin-terser": "^7.0.2",
     "sax": "1.2.4",
     "stylelint": "^16.4.0",
     "vite-plugin-static-copy": "^0.17.1"
