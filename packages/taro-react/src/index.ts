@@ -74,10 +74,13 @@ function createPortal (
   }
 }
 
+const flushSync = TaroReconciler.flushSync
+
 export {
   createPortal,
   createRoot,
   findDOMNode,
+  flushSync,
   internalInstanceKey,
   render,
   unmountComponentAtNode,
@@ -86,6 +89,7 @@ export {
 
 export default {
   render,
+  flushSync,
   createRoot,
   unstable_batchedUpdates,
   unmountComponentAtNode,
