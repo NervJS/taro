@@ -181,6 +181,7 @@ export function createReactApp (
   let appWrapper: AppWrapper
   let appWrapperResolver: (value: AppWrapper) => void
   const appWrapperPromise = new Promise<AppWrapper>(resolve => (appWrapperResolver = resolve))
+  const waitAppWrapperCallbacks: Array<() => void> = []
 
   setReconciler(ReactDOM)
 
@@ -189,12 +190,17 @@ export function createReactApp (
   }
 
   function waitAppWrapper (cb: () => void) {
-    /**
-     * 当同个事件触发多次时，waitAppWrapper 会出现同步和异步任务的执行顺序问题，
-     * 导致某些场景下 onShow 会优于 onLaunch 执行
-     */
-    appWrapperPromise.then(() => cb())
-    // appWrapper ? cb() : appWrapperPromise.then(() => cb())
+    if (appWrapper) return cb()
+    waitAppWrapperCallbacks.push(cb)
+  }
+
+  function initializeAppWrapper (wrapper: AppWrapper) {
+    appWrapper = wrapper
+    appWrapperResolver(wrapper)
+    while (waitAppWrapperCallbacks.length) {
+      const callback = waitAppWrapperCallbacks.shift()
+      if (callback) callback()
+    }
   }
 
   function renderReactRoot () {
@@ -217,10 +223,8 @@ export function createReactApp (
     private pages: Array<() => PageComponent> = []
     private elements: Array<PageComponent> = []
 
-    constructor (props) {
-      super(props)
-      appWrapper = this
-      appWrapperResolver(this)
+    componentDidMount () {
+      initializeAppWrapper(this)
     }
 
     public mount (pageComponent: ReactPageComponent, id: string, cb: () => void) {
