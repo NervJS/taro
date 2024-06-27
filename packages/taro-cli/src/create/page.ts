@@ -33,7 +33,7 @@ interface ITemplateInfo {
   typescript?: boolean
   compiler?: CompilerType
   template?: string
-  templateSource?: string,
+  templateSource?: string
   clone?: boolean
 }
 
@@ -127,12 +127,10 @@ export default class Page extends Creator {
       const config = await fs.readJSON(taroConfig)
       templateSource = config && config.templateSource ? config.templateSource : DEFAULT_TEMPLATE_SRC
     } else {
-      await fs.createFile(taroConfig)
-      await fs.writeJSON(taroConfig, { 
-        templateSource: this.conf.templateSource || DEFAULT_TEMPLATE_SRC 
-      })
-
       templateSource = this.conf.templateSource || DEFAULT_TEMPLATE_SRC
+
+      await fs.createFile(taroConfig)
+      await fs.writeJSON(taroConfig, { templateSource })
     }
 
     // 从模板源下载模板
