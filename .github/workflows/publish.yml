@@ -151,7 +151,7 @@ jobs:
 
       - name: Git tag verification
         if: steps.tag_check.outputs.exists_tag == false
-        uses: andymckay/cancel-action@0.3
+        uses: andymckay/cancel-action@0.5
 
       # Bootstrap project
       - name: Install dependencies
