@@ -40,18 +40,18 @@ export class TaroElement<
 
 
   public get hm_instance(): TaroAny {
-    if (this.use_weak_hm_instance) {
+    if (this.use_weak_hm_instance && this.weak_hm_instance) {
       return this.weak_hm_instance?.deref()
     }
     return this._hm_instance
   }
 
-  public set hm_instance(v) {
-    if (this.use_weak_hm_instance) {
-      this.weak_hm_instance = new WeakRef(v);
+  public set hm_instance(instance) {
+    if (this.use_weak_hm_instance && instance) {
+      this.weak_hm_instance = new WeakRef(instance)
       return
     }
-    this._hm_instance = v
+    this._hm_instance = instance
   }
 
 
