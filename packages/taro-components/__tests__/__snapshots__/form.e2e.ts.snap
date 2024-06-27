@@ -20,7 +20,7 @@ CDPPage {
       </div>
     </taro-slider-core>
     <taro-input-core class="hydrated" name="my-input" value="">
-      <input class="weui-input" maxlength="140" name="my-input" type="text">
+      <input autocomplete="off" class="weui-input" maxlength="140" name="my-input" type="text">
     </taro-input-core>
     <taro-textarea-core class="hydrated" name="my-textarea" value=""><textarea class="taro-textarea" maxlength="140" name="my-textarea"></textarea>
     </taro-textarea-core>
@@ -87,7 +87,7 @@ CDPPage {
   </div>
 </taro-slider-core>,
     <taro-input-core class="hydrated" name="my-input" value="">
-  <input class="weui-input" maxlength="140" name="my-input" type="text">
+  <input autocomplete="off" class="weui-input" maxlength="140" name="my-input" type="text">
 </taro-input-core>,
     <taro-textarea-core class="hydrated" name="my-textarea" value=""><textarea class="taro-textarea" maxlength="140" name="my-textarea"></textarea>
 </taro-textarea-core>,

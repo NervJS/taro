@@ -150,7 +150,7 @@ export default class PageForm extends React.Component {
                 <Text>input</Text>
               </View>
               <View className='example-body'>
-                <Input name='input' type='text' placeholder='这是一个输入框' onChange={this.onHandleChange}></Input>
+                <Input name='input' type='text' placeholder='这是一个输入框' onChange={this.onHandleChange} autoComplete='on'></Input>
               </View>
             </View>
             <View className='components-page__body-example example'>
