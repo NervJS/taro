@@ -13,7 +13,8 @@ export interface IPageConf {
   projectName: string
   npm: NpmType
   template: string
-  templateSource?: string,
+  clone?: boolean
+  templateSource?: string
   description?: string
   pageName: string
   date?: string
@@ -32,7 +33,8 @@ interface ITemplateInfo {
   typescript?: boolean
   compiler?: CompilerType
   template?: string
-  templateSource?: string
+  templateSource?: string,
+  clone?: boolean
 }
 
 type TCustomTemplateInfo = Omit<ITemplateInfo & {
@@ -134,7 +136,7 @@ export default class Page extends Creator {
     }
 
     // 从模板源下载模板
-    await fetchTemplate(templateSource, this.templatePath(''))
+    await fetchTemplate(templateSource, this.templatePath(''), this.conf.clone)
   }
 
   async create () {
