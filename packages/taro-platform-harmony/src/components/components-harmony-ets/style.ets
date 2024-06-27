@@ -359,16 +359,20 @@ export function setNormalAttributeIntoInstance(instance: CommonAttribute, style:
   }
   if (style.position === 'absolute' || style.position === 'fixed') {
     instance.position({
-      x: style.left || 0,
-      y: style.top || 0,
+      left: style.left,
+      top: style.top,
+      right: style.right,
+      bottom: style.bottom,
     })
     // 绝对定位和固定定位在web上都会脱离文档流，因此需要设置zIndex让它相比正常流的元素更上层
     instance.zIndex(1)
   }
   if (style.position === 'relative') {
     instance.offset({
-      x: style.left || 0,
-      y: style.top || 0,
+      left: style.left,
+      top: style.top,
+      right: style.right,
+      bottom: style.bottom,
     })
     // 绝对定位和固定定位在web上都会脱离文档流，因此需要设置zIndex让它相比正常流的元素更上层
     instance.zIndex(1)
