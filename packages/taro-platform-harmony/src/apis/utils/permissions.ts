@@ -1,0 +1,1 @@
+export const READ_IMAGEVIDEO_PERMISSIONS = 'ohos.permission.READ_IMAGEVIDEO'
