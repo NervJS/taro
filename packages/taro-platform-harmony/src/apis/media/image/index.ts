@@ -24,6 +24,15 @@ interface IPackingOptionOHOS {
   quality: number
 }
 
+interface IChooseImageData {
+  tempFilePaths?: string[]
+
+  tempFiles?: {
+    path: string
+    size: number
+  }
+}
+
 const getImageInfoSchema = {
   src: 'String'
 }
@@ -130,7 +139,7 @@ export const compressImage: typeof Taro.compressImage = function (options) {
       }
       packer.packing(source, packingOptionsOHOS).then((value) => {
         saveImage(value, srcAfterCompress).then(result => {
-          callAsyncSuccess(resolve, result.imageUri, options)
+          callAsyncSuccess(resolve, { tempFilePath: result.imageUri }, options)
         })
       }).catch((error) => {
         callAsyncFail(reject, error, options)
@@ -156,12 +165,55 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
 
       const { count = 9 } = options
       const photoViewPicker = new picker.PhotoViewPicker()
+      let sizeType = options.sizeType
+
+      if (!sizeType || !sizeType.length) {
+        sizeType = ['compressed', 'original']
+      }
 
       photoSelectOptions.maxSelectNumber = count // 选择媒体文件的最大数目
       photoSelectOptions.MIMEType = picker.PhotoViewMIMETypes.IMAGE_TYPE // 过滤选择媒体文件类型为IMAGE
 
       photoViewPicker.select(photoSelectOptions).then((photoSelectResult) => {
-        callAsyncSuccess(resolve, { tempFilePaths: photoSelectResult.photoUris }, options)
+        const result: IChooseImageData = {}
+
+        if (sizeType.includes('original')) {
+          const tempFiles = photoSelectResult.photoUris.map(uri => {
+            const file = fs.openSync(uri, fs.OpenMode.READ_ONLY)
+            const stat = fs.statSync(file.fd)
+            const size = stat.size
+
+            return {
+              size,
+              path: uri,
+            }
+          })
+
+          result.tempFiles = tempFiles
+        }
+
+        if (sizeType.includes('compressed')) {
+          const actions: Promise<string>[] = photoSelectResult.photoUris.map(uri => {
+            return new Promise<string>(resolve => {
+              compressImage({
+                src: uri,
+                success: (compressResult) => {
+                  resolve(compressResult.tempFilePath)
+                }
+              })
+            })
+          })
+
+          Promise.all(actions).then(tempFilePaths => {
+            result.tempFilePaths = tempFilePaths
+            callAsyncSuccess(resolve, result, options)
+          }).catch(error => {
+            const res = { errMsg: error }
+            return callAsyncFail(reject, res, options)
+          })
+        } else {
+          callAsyncSuccess(resolve, result, options)
+        }
       }).catch((error) => {
         callAsyncFail(reject, error, options)
       })
