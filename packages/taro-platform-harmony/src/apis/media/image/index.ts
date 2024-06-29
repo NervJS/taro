@@ -17,7 +17,7 @@ import { isNull } from '@tarojs/shared'
 
 import { getSystemInfoSync } from '../../base'
 import { callAsyncFail, callAsyncSuccess, requestPermissions, temporarilyNotSupport, validateParams } from '../../utils'
-import { READ_IMAGEVIDEO_PERMISSIONS } from '../../utils/permissions'
+import { IMAGE_PERMISSION } from '../../utils/permissions'
 
 import type Taro from '@tarojs/taro/types'
 
@@ -113,7 +113,7 @@ async function saveImage(compressedImageData, compressedImageUri) {
 
 export const compressImage: typeof Taro.compressImage = function (options) {
   return new Promise((resolve, reject) => {
-    requestPermissions([READ_IMAGEVIDEO_PERMISSIONS]).then(() => {
+    requestPermissions(IMAGE_PERMISSION).then(() => {
       try {
         validateParams('compressImage', options, compressImageSchema)
       } catch (error) {
@@ -192,7 +192,7 @@ export const compressImage: typeof Taro.compressImage = function (options) {
 
 export const chooseImage: typeof Taro.chooseImage = function (options) {
   return new Promise((resolve, reject) => {
-    requestPermissions([READ_IMAGEVIDEO_PERMISSIONS]).then(() => {
+    requestPermissions(IMAGE_PERMISSION).then(() => {
       try {
         validateParams('chooseImage', options, chooseImageSchema)
       } catch (error) {
