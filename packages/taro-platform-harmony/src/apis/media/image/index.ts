@@ -12,8 +12,10 @@
 import fs from '@ohos.file.fs'
 import picker from '@ohos.file.picker'
 import image from '@ohos.multimedia.image'
+import { Current } from '@tarojs/runtime'
 import { isNull } from '@tarojs/shared'
 
+import { getSystemInfoSync } from '../../base'
 import { callAsyncFail, callAsyncSuccess, requestPermissions, temporarilyNotSupport, validateParams } from '../../utils'
 import { READ_IMAGEVIDEO_PERMISSIONS } from '../../utils/permissions'
 
@@ -30,7 +32,7 @@ interface IChooseImageData {
   tempFiles?: {
     path: string
     size: number
-  }
+  }[]
 }
 
 const getImageInfoSchema = {
@@ -78,12 +80,18 @@ class CompressedImageInfo {
 }
 
 async function saveImage(compressedImageData, compressedImageUri) {
-  // 定义要保存的压缩图片uri。afterCompressiona.jpeg表示压缩后的图片。
+  const tempArr = compressedImageUri.split('/')
+  const name = tempArr[tempArr.length - 1]
+  const context = getContext(Current?.page)
+  const applicationContext = context.getApplicationContext()
+  const tempDir = applicationContext.tempDir
+  const filePath = `${tempDir}/${name}`
+
   try {
-    const res = fs.accessSync(compressedImageUri)
+    const res = fs.accessSync(filePath)
     if (res) {
       // 如果图片afterCompressiona.jpeg已存在，则删除
-      fs.unlinkSync(compressedImageUri)
+      fs.unlinkSync(filePath)
     }
   } catch (err) {
     console.error(`[Taro] saveImage Error: AccessSync failed with error message: ${err.message}, error code: ${err.code}`)
@@ -91,13 +99,13 @@ async function saveImage(compressedImageData, compressedImageUri) {
 
   // 知识点：保存图片。获取最终图片压缩数据compressedImageData，保存图片。
   // 压缩图片数据写入文件
-  const file = fs.openSync(compressedImageUri, fs.OpenMode.READ_WRITE | fs.OpenMode.CREATE)
+  const file = fs.openSync(filePath, fs.OpenMode.READ_WRITE | fs.OpenMode.CREATE)
   fs.writeSync(file.fd, compressedImageData)
   fs.closeSync(file)
 
   // 获取压缩图片信息
   const compressedImageInfo = new CompressedImageInfo()
-  compressedImageInfo.imageUri = compressedImageUri
+  compressedImageInfo.imageUri = filePath
   compressedImageInfo.imageByteLength = compressedImageData.byteLength
 
   return compressedImageInfo
@@ -112,8 +120,8 @@ export const compressImage: typeof Taro.compressImage = function (options) {
         const res = { errMsg: error.message }
         return callAsyncFail(reject, res, options)
       }
-      const { src, quality = 80 } = options
-      const srcAfterCompress = src.split('.').join('_after_compress.')
+      const { src, quality = 80, compressedWidth, compressedHeight } = options
+      const srcAfterCompress = src.includes('_after_compress') ? src : src.split('.').join('_after_compress.')
       const file = fs.openSync(src, fs.OpenMode.READ_ONLY)
 
       // const stat = fs.statSync(file.fd)
@@ -126,26 +134,55 @@ export const compressImage: typeof Taro.compressImage = function (options) {
         return
       }
 
-      const packer = image.createImagePacker(file.fd)
-      if (isNull(packer)) {
-        const createImagePackerError = { errMsg: 'compressImage fail: createImagePacker has failed.' }
-        callAsyncFail(reject, createImagePackerError, options)
+      const width = source.getImageInfoSync().size.width
+      const height = source.getImageInfoSync().size.height
+      let wantWidth = compressedWidth || compressedHeight || 0
+      let wantHeight = compressedHeight || compressedWidth || 0
+
+      if (width > wantWidth || height > wantHeight) {
+        const heightRatio = height / wantHeight
+        const widthRatio = width / wantWidth
+        const finalRatio = heightRatio < widthRatio ? heightRatio : widthRatio
+
+        wantWidth = Math.round(width / finalRatio)
+        wantHeight = Math.round(height / finalRatio)
       }
 
-      const packingOptionsOHOS: IPackingOptionOHOS = {
-        // TODO：需要获取文件名后缀
-        format: 'image/jpeg',
-        quality: quality
+      const decodingOptions = {
+        editable: true,
+        desiredPixelFormat: image.PixelMapFormat.RGBA_8888,
+        desiredSize: { width: wantWidth, height: wantHeight }
       }
-      packer.packing(source, packingOptionsOHOS).then((value) => {
-        saveImage(value, srcAfterCompress).then(result => {
-          callAsyncSuccess(resolve, { tempFilePath: result.imageUri }, options)
-        })
-      }).catch((error) => {
-        callAsyncFail(reject, error, options)
+      source.createPixelMap(decodingOptions, (error, pixelMap) => {
+        if (error !== undefined) {
+          fs.closeSync(file)
+          const res = { errMsg: error }
+          callAsyncFail(reject, res, options)
+        } else {
+          const packer = image.createImagePacker(file.fd)
+          if (isNull(packer)) {
+            fs.closeSync(file)
+            const createImagePackerError = { errMsg: 'compressImage fail: createImagePacker has failed.' }
+            callAsyncFail(reject, createImagePackerError, options)
+            return
+          }
+
+          const isPNG = src.endsWith('.png')
+          const packingOptionsOHOS: IPackingOptionOHOS = {
+            format: isPNG ? 'image/png' : 'image/jpeg',
+            quality: quality
+          }
+          packer.packing(pixelMap, packingOptionsOHOS).then((value) => {
+            fs.closeSync(file)
+            saveImage(value, srcAfterCompress).then(result => {
+              callAsyncSuccess(resolve, { tempFilePath: result.imageUri }, options)
+            })
+          }).catch((error) => {
+            fs.closeSync(file)
+            callAsyncFail(reject, error, options)
+          })
+        }
       })
-
-      fs.closeSync(file)
     }, (error: string) => {
       const res = { errMsg: error }
       return callAsyncFail(reject, res, options)
@@ -176,12 +213,17 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
 
       photoViewPicker.select(photoSelectOptions).then((photoSelectResult) => {
         const result: IChooseImageData = {}
+        const isOrigin = photoSelectResult.isOriginalPhoto
 
-        if (sizeType.includes('original')) {
+        if (isOrigin) {
+          const tempFilePaths: string[] = []
           const tempFiles = photoSelectResult.photoUris.map(uri => {
             const file = fs.openSync(uri, fs.OpenMode.READ_ONLY)
             const stat = fs.statSync(file.fd)
             const size = stat.size
+
+            fs.closeSync(file)
+            tempFilePaths.push(uri)
 
             return {
               size,
@@ -190,13 +232,16 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
           })
 
           result.tempFiles = tempFiles
-        }
+          result.tempFilePaths = tempFilePaths
 
-        if (sizeType.includes('compressed')) {
+          callAsyncSuccess(resolve, result, options)
+        } else {
           const actions: Promise<string>[] = photoSelectResult.photoUris.map(uri => {
             return new Promise<string>(resolve => {
               compressImage({
                 src: uri,
+                compressedWidth: getSystemInfoSync().screenWidth / 2,
+                compressedHeight: getSystemInfoSync().screenHeight / 2,
                 success: (compressResult) => {
                   resolve(compressResult.tempFilePath)
                 }
@@ -205,14 +250,27 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
           })
 
           Promise.all(actions).then(tempFilePaths => {
+            const tempFiles = tempFilePaths.map(uri => {
+              const file = fs.openSync(uri, fs.OpenMode.READ_ONLY)
+              const stat = fs.statSync(file.fd)
+              const size: number = stat.size
+
+              fs.closeSync(file)
+
+              return {
+                size,
+                path: uri,
+              }
+            })
+
             result.tempFilePaths = tempFilePaths
+            result.tempFiles = tempFiles
+
             callAsyncSuccess(resolve, result, options)
           }).catch(error => {
             const res = { errMsg: error }
             return callAsyncFail(reject, res, options)
           })
-        } else {
-          callAsyncSuccess(resolve, result, options)
         }
       }).catch((error) => {
         callAsyncFail(reject, error, options)
