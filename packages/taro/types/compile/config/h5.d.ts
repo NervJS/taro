@@ -14,8 +14,6 @@ export interface IH5RouterConfig {
   lazyload?: boolean | ((pagename: string) => boolean)
   renamePagename?: (pagename: string) => string
   forcePath?: string
-  /** 加上这个参数，可以解决返回页面的时候白屏的问题，但是某些不支持 :has() 选择器的浏览器会有问题 */
-  enhanceAnimation?: boolean
 }
 
 export interface IH5Config {

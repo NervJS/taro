@@ -25,12 +25,6 @@ interface TextProps extends StandardProps {
    * @supported alipay
    */
   numberOfLines?: number
-  /**
-   * 文本溢出处理
-   * @supported weapp-skyline
-   * @default 'visible'
-   */
-  overflow?: keyof TextProps.Overflow
   /** 限制文本最大行数
    * @supported weapp
    */
