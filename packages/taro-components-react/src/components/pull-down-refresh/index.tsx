@@ -339,7 +339,7 @@ class PullDownRefresh extends React.Component<IProps, IState> {
     return (
       <pull-down-refresh
         ref={el => {
-          if(forwardedRef) {
+          if (forwardedRef) {
             forwardedRef.current = el
           }
           this.containerRef = el

@@ -2,7 +2,7 @@ import './style/index.scss'
 
 import classNames from 'classnames'
 
-import { omit, createForwardRefComponent } from '../../utils'
+import { createForwardRefComponent, omit } from '../../utils'
 
 interface IProps {
   type: string

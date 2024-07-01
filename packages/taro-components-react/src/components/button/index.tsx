@@ -2,7 +2,7 @@ import './style/index.scss'
 
 import classNames from 'classnames'
 
-import { omit, createForwardRefComponent } from '../../utils'
+import { createForwardRefComponent, omit } from '../../utils'
 import { useEffect, useRef, useState } from '../../utils/hooks'
 
 import type React from 'react'

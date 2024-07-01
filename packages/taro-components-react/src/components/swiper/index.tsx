@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import React from 'react'
 import Swipers from 'swiper/swiper-bundle.esm.js'
 
-import { debounce, createForwardRefComponent } from '../../utils'
+import { createForwardRefComponent, debounce } from '../../utils'
 
 import type ISwiper from 'swiper'
 
@@ -52,7 +52,7 @@ class SwiperItemInner extends React.Component<SwiperItemProps, Record<string, un
     return (
       <div
         ref={(e) => {
-          if(e && forwardedRef) {
+          if (e && forwardedRef) {
             forwardedRef.current = e
           }
         }}

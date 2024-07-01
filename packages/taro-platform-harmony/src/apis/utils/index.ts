@@ -1,6 +1,5 @@
 import abilityAccessCtrl from '@ohos.abilityAccessCtrl'
-import { Current } from '@tarojs/runtime'
-import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
+import { Current, eventCenter } from '@tarojs/runtime'
 
 import { ICallbackResult, MethodHandler } from './handler'
 

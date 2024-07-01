@@ -3,7 +3,7 @@ import './style/index.css'
 import { isFunction } from '@tarojs/shared'
 import classNames from 'classnames'
 
-import { throttle, createForwardRefComponent } from '../../utils'
+import { createForwardRefComponent, throttle } from '../../utils'
 import { useEffect, useRef } from '../../utils/hooks'
 
 import type React from 'react'
