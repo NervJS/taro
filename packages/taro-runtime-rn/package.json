@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime-rn",
-  "version": "3.6.32",
+  "version": "4.0.0-alpha.29",
   "description": "taro-runtime-rn",
   "author": "O2Team",
   "license": "MIT",

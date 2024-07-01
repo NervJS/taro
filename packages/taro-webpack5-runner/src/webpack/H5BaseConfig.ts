@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { defaultMainFields, resolveSync } from '@tarojs/helper'
-import path from 'path'
 
 import { BaseConfig } from './BaseConfig'
 

@@ -8,7 +8,7 @@ import { incrementId } from './utils'
 import type { PageConfig } from '@tarojs/taro'
 
 const instances = new Map<string, any>()
-const pageId = incrementId()
+const pageId = incrementId(1)
 
 export function injectPageInstance (inst: any, id: string) {
   hooks.call('mergePageInstance', instances.get(id), inst)

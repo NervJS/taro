@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
+import path from 'node:path'
+
 import { chalk } from '@tarojs/helper'
-import path from 'path'
 
 import HarmonyOS_ArkTS from './program/arkTS'
 import HarmonyOS_JSUI from './program/jsUI'

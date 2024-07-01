@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import { printLog, processTypeEnum, recursiveMerge } from '@tarojs/helper'
-import * as path from 'path'
 import transformCSS from 'taro-css-to-react-native'
 
 import { Config, PostcssConfig, RenderAdditionalResult, TransformOptions } from '../types'

@@ -35,7 +35,8 @@ function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
 function setLoader (chain) {
   chain.plugin('miniPlugin')
     .tap(args => {
-      args[0].loaderMeta = getLoaderMeta()
+      args[0].loaderMeta ||= {}
+      Object.assign(args[0].loaderMeta, getLoaderMeta())
       return args
     })
 }

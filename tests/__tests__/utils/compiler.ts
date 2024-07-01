@@ -1,9 +1,10 @@
+import * as path from 'node:path'
+
 import helper from '@tarojs/helper'
 import { Weapp } from '@tarojs/plugin-platform-weapp'
 import { isWebPlatform } from '@tarojs/shared'
 import buildWeb from '@tarojs/webpack5-runner/dist/index.h5'
 import buildMini from '@tarojs/webpack5-runner/dist/index.mini'
-import * as path from 'path'
 import merge from 'webpack-merge'
 
 import baseConfig from './config'

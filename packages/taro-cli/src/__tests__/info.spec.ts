@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import { chalk } from '@tarojs/helper'
-import * as path from 'path'
 
 import { getPkgVersion } from '../util'
 import { run } from './utils'

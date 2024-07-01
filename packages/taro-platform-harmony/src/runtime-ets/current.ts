@@ -1,5 +1,6 @@
 export const context: any = {
-  resolver: null
+  resolver: null,
+  value: null
 }
 
 // @ts-nocheck

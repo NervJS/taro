@@ -226,7 +226,7 @@ export struct PickerView {
 @Component
 export default struct TaroPicker {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroPickerElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroPickerElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroPickerElement
 
   aboutToAppear () {
@@ -298,7 +298,7 @@ export default struct TaroPicker {
     .onClick((e: ClickEvent) => {
       eventHandler(e, 'click', this.node)
     })
-    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+    .onTouch(shouldBindEvent((e: TouchEvent) => { eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node) }, this.node, TOUCH_EVENT_MAP.values()))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       if (this.node) {
         this.node._nodeInfo.areaInfo = res[1]
@@ -313,7 +313,7 @@ export default struct TaroPicker {
   build() {
     if (FlexManager.isFlexNode(this.node) && FlexManager.direction(this.node) !== FlexDirection.Column) {
       Row() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .defaultEvent()
       .visibleChangeEvent()
@@ -321,7 +321,7 @@ export default struct TaroPicker {
       .justifyContent(FlexManager.justifyContent(this.node))
     } else {
       Column() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .defaultEvent()
       .visibleChangeEvent()

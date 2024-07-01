@@ -1,6 +1,7 @@
+import * as path from 'node:path'
+
 import { chalk, fs, isWindows } from '@tarojs/helper'
 import { exec } from 'child_process'
-import * as path from 'path'
 
 export function getRootPath (): string {
   return path.resolve(__dirname, '../../')

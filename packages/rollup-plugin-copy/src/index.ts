@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { fs } from '@tarojs/helper'
-import path from 'path'
 
 const cwd = process.cwd()
 

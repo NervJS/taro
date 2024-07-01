@@ -6,7 +6,7 @@ import type { TaroViewElement, TaroAny } from '@tarojs/runtime'
 @Component
 export default struct TaroListView {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroViewElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroViewElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroViewElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -17,13 +17,13 @@ export default struct TaroListView {
   }
 
   aboutToReuse(params: TaroAny): void {
-    this.node = params.node;
+    // this.node = params.node;
   }
 
   build() {
     ListItem() {
       Stack() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
     }
     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))

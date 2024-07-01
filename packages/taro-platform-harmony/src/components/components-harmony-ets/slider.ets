@@ -41,7 +41,7 @@ function themeStyles(isDisabled: boolean) {
 @Component
 export default struct TaroSlider {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroSliderElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroSliderElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroSliderElement
 
   @State value: number = 0
@@ -90,7 +90,7 @@ export default struct TaroSlider {
           }
         }
       })
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         if (this.node) {
           this.node._nodeInfo.areaInfo = res[1]

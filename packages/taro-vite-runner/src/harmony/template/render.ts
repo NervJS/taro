@@ -1,164 +1,348 @@
 import path from 'node:path'
 
+import { isFunction } from '@tarojs/shared'
+
 import { resolveAbsoluteRequire } from '../../utils'
 import BaseParser from './base'
 
 import type { TRollupResolveMethod } from '@tarojs/taro/types/compile/config/plugin'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 
+export interface IChildComponent {
+  namePrefix?: string
+  name: string
+  condition?: string
+  type?: string
+  args?: string[]
+  extra?: string
+  fullArgument?: string
+}
+
+const STANDARD_COMPONENT_LIST = [
+  'Image',
+  'Text',
+  'View',
+  'Icon',
+  'Form',
+  'Label',
+  'Input',
+  'Video',
+  'Button',
+  'Picker',
+  'Slider',
+  'Switch',
+  'Swiper',
+  'WebView',
+  'TextArea',
+  'RichText',
+  'Progress',
+  'InnerHtml',
+  'ScrollView',
+  'MovableArea',
+  'MovableView',
+  'Radio',
+  'Canvas',
+  'RadioGroup',
+  'CheckboxGroup',
+  'Checkbox',
+  'PageMeta',
+  'NavigationBar',
+  'ScrollList',
+  'ListView',
+  'StickySection',
+]
+
+const RUNTIME_TYPE_LIST = [
+  'TaroAny',
+  'TaroElement',
+  'TaroOtherElement',
+  'TaroViewElement',
+  'TaroScrollViewElement',
+  'TaroImageElement',
+  'TaroButtonElement',
+  'TaroTextElement',
+  'TaroFormElement',
+  'TaroIconElement',
+  'TaroLabelElement',
+  'TaroPickerElement',
+  'TaroInputElement',
+  'TaroTextAreaElement',
+  'TaroCheckboxGroupElement',
+  'TaroCheckboxElement',
+  'TaroRadioGroupElement',
+  'TaroRadioElement',
+  'TaroRichTextElement',
+  'TaroVideoElement',
+  'TaroProgressElement',
+  'TaroMovableAreaElement',
+  'TaroMovableViewElement',
+  'TaroSwiperElement',
+  // 'TaroSwiperItemElement',
+  'TaroSwitchElement',
+  'TaroSliderElement',
+  'TaroCanvasElement',
+  'TaroWebViewElement',
+  'TaroInnerHtmlElement',
+  'TaroPageMetaElement',
+  'TaroNavigationBarElement',
+]
+
 export default class RenderParser extends BaseParser {
   constructor(protected template: Map<string, string>, protected context: ViteHarmonyCompilerContext) {
     super()
   }
 
+  componentList: IChildComponent[] = []
+
   generate(fileName: string, name = 'TaroRender', resolve?: TRollupResolveMethod) {
-    const code = `import {
-  TaroImage,
-  TaroText,
-  TaroView,
-  TaroIcon,
-  TaroForm,
-  TaroLabel,
-  TaroInput,
-  TaroVideo,
-  TaroButton,
-  TaroPicker,
-  TaroSlider,
-  TaroSwitch,
-  TaroSwiper,
-  TaroWebView,
-  TaroTextArea,
-  TaroRichText,
-  TaroProgress,
-  TaroInnerHtml,
-  TaroScrollView,
-  TaroMovableArea,
-  TaroMovableView,
-  TaroRadio,
-  TaroCanvas,
-  TaroRadioGroup,
-  TaroCheckboxGroup,
-  TaroCheckbox,
-  TaroPageMeta,
-  TaroNavigationBar,
-  TaroScrollList,
-  TaroListView,
-  TaroStickySection
-} from '@tarojs/components'
-${this.generateRenderExtraComponentsImport()}${this.generateRenderNativeImport()}${this.generateRenderCompileModeImport()}
-import { NodeType } from '@tarojs/runtime'
+    const { cwd: appPath, loaderMeta, taroConfig } = this.context
+    const { outputRoot = 'dist', sourceRoot = 'src' } = taroConfig
+    const { modifyResolveId, modifyHarmonyRenderChild, modifyHarmonyRenderCode } = loaderMeta
 
-import type {
-  TaroAny,
-  TaroViewElement,
-  TaroElement,
-  TaroImageElement,
-  TaroButtonElement,
-  TaroTextElement,
-  TaroCheckboxElement,
-  TaroFormElement,
-  TaroIconElement,
-  TaroLabelElement,
-  TaroPickerElement,
-  TaroRadioElement,
-  TaroRichTextElement,
-  TaroRadioGroupElement,
-  TaroInputElement,
-  TaroCheckboxGroupElement,
-  TaroTextAreaElement,
-  TaroVideoElement,
-  // TaroSwiperItemElement,
-  TaroProgressElement,
-  TaroMovableAreaElement,
-  TaroMovableViewElement,
-  TaroSwiperElement,
-  TaroSwitchElement,
-  TaroCanvasElement,
-  TaroSliderElement,
-  TaroScrollViewElement,
-  TaroWebViewElement,
-  TaroInnerHtmlElement,
-  TaroPageMetaElement,
-  TaroNavigationBarElement,
-} from '@tarojs/runtime'
-import { Current } from '@tarojs/runtime'
+    const compList = [...STANDARD_COMPONENT_LIST, ...this.context.extraComponents].filter((e) => typeof e === 'string')
 
-${this.generateNativeComponentNamesInit()}
+    const importList = [
+      `import { ${compList.map((e) => `Taro${e}`).join(', ')} } from '@tarojs/components'`,
 
-@Builder
-function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroElement) => void) {
-  ${this.generateRenderExtraComponentsCondition()}${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'SCROLL-VIEW' || item._st?.hmStyle.overflow === 'scroll') {
-    if (item.getAttribute('type') === 'custom') {
-      TaroScrollList({ node: item as TaroScrollViewElement, createLazyChildren: createLazyChildren })
-    } else {
-      TaroScrollView({ node: item as TaroScrollViewElement, createLazyChildren: createLazyChildren })
+      `import { Current, NodeType } from '@tarojs/runtime'`,
+      `import type { ${RUNTIME_TYPE_LIST.join(', ')} } from '@tarojs/runtime'`,
+    ]
+
+    this.template.forEach((_, key) => {
+      importList.push(`import ${key} from './static/${key}'`)
+    })
+
+    this.context.nativeComponents.forEach((meta) => {
+      if (meta.isPackage) {
+        importList.push(`import ${meta.name} from '${meta.scriptPath}'`)
+      } else {
+        const nativePath = path.relative(this.context.sourceDir, meta.scriptPath).replace(/\.ets$/, '')
+        importList.push(`import ${meta.name} from './${nativePath}'`)
+      }
+    })
+
+    if (!this.componentList.length) {
+      this.componentList = [
+        {
+          name: 'ScrollList',
+          condition: `(item.tagName === 'SCROLL-VIEW' || item._st?.hmStyle.overflow === 'scroll') && item.getAttribute('type') === 'custom'`,
+          type: 'TaroScrollViewElement',
+        },
+        {
+          name: 'ScrollView',
+          condition: `item.tagName === 'SCROLL-VIEW' || item._st?.hmStyle.overflow === 'scroll'`,
+          type: 'TaroScrollViewElement',
+        },
+        {
+          name: 'View',
+          condition: `item.tagName === 'VIEW'`,
+          type: 'TaroViewElement',
+        },
+        {
+          name: 'Text',
+          condition: `item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE`,
+          type: 'TaroTextElement',
+        },
+        {
+          name: 'Image',
+          condition: `item.tagName === 'IMAGE'`,
+          type: 'TaroImageElement',
+        },
+        {
+          name: 'Button',
+          condition: `item.tagName === 'BUTTON'`,
+          type: 'TaroButtonElement',
+        },
+        {
+          name: 'Slider',
+          condition: `item.tagName === 'SLIDER'`,
+          type: 'TaroSliderElement',
+        },
+        {
+          name: 'Switch',
+          condition: `item.tagName === 'SWITCH'`,
+          type: 'TaroSwitchElement',
+        },
+        {
+          name: 'Input',
+          condition: `item.tagName === 'INPUT'`,
+          type: 'TaroInputElement',
+        },
+        {
+          name: 'Swiper',
+          condition: `item.tagName === 'SWIPER'`,
+          type: 'TaroSwiperElement',
+        },
+        {
+          name: 'View',
+          condition: `item.tagName === 'SWIPER-ITEM'`,
+          type: 'TaroViewElement',
+        },
+        {
+          name: 'InnerHtml',
+          condition: `item.tagName === 'INNER-HTML'`,
+          type: 'TaroInnerHtmlElement',
+          args: ['createChildItem'],
+        },
+        {
+          name: 'RichText',
+          condition: `item.tagName === 'RICH-TEXT'`,
+          type: 'TaroRichTextElement',
+        },
+        {
+          name: 'Icon',
+          condition: `item.tagName === 'ICON'`,
+          type: 'TaroIconElement',
+        },
+        {
+          name: 'TextArea',
+          condition: `item.tagName === 'TEXT-AREA'`,
+          type: 'TaroTextAreaElement',
+        },
+        {
+          name: 'CheckboxGroup',
+          condition: `item.tagName === 'CHECKBOX-GROUP'`,
+          type: 'TaroCheckboxGroupElement',
+        },
+        {
+          name: 'Checkbox',
+          condition: `item.tagName === 'CHECKBOX'`,
+          type: 'TaroCheckboxElement',
+        },
+        {
+          name: 'RadioGroup',
+          condition: `item.tagName === 'RADIO-GROUP'`,
+          type: 'TaroRadioGroupElement',
+        },
+        {
+          name: 'Radio',
+          condition: `item.tagName === 'RADIO'`,
+          type: 'TaroRadioElement',
+        },
+        {
+          name: 'Progress',
+          condition: `item.tagName === 'PROGRESS'`,
+          type: 'TaroProgressElement',
+        },
+        {
+          name: 'MovableView',
+          condition: `item.tagName === 'MOVABLE-VIEW'`,
+          type: 'TaroMovableViewElement',
+        },
+        {
+          name: 'MovableArea',
+          condition: `item.tagName === 'MOVABLE-AREA'`,
+          type: 'TaroMovableAreaElement',
+        },
+        {
+          name: 'Canvas',
+          condition: `item.tagName === 'CANVAS'`,
+          type: 'TaroAny as TaroCanvasElement',
+          args: [],
+        },
+        {
+          name: 'Label',
+          condition: `item.tagName === 'LABEL'`,
+          type: 'TaroLabelElement',
+        },
+        {
+          name: 'Picker',
+          condition: `item.tagName === 'PICKER'`,
+          type: 'TaroPickerElement',
+        },
+        {
+          name: 'Form',
+          condition: `item.tagName === 'FORM'`,
+          type: 'TaroFormElement',
+        },
+        {
+          name: 'Video',
+          condition: `item.tagName === 'VIDEO'`,
+          type: 'TaroVideoElement',
+        },
+        {
+          name: 'WebView',
+          condition: `item.tagName === 'WEB-VIEW'`,
+          type: 'TaroWebViewElement',
+        },
+        {
+          name: 'PageMeta',
+          condition: `item.tagName === 'PAGE-META'`,
+          type: 'TaroPageMetaElement',
+        },
+        {
+          name: 'NavigationBar',
+          condition: `item.tagName === 'NAVIGATION-BAR'`,
+          type: 'TaroNavigationBarElement',
+        },
+        {
+          name: 'StickySection',
+          condition: `item.tagName === 'STICKY-SECTION'`,
+          type: 'TaroViewElement',
+        },
+        {
+          name: 'ListView',
+          condition: `item.tagName === 'LIST-VIEW'`,
+          type: 'TaroViewElement',
+          extra: '.reuseId(item._nid.toString())'
+        },
+        {
+          name: 'View',
+          type: 'TaroViewElement',
+        },
+      ]
+
+      this.context.extraComponents.forEach((component) => {
+        this.componentList.unshift({
+          name: component,
+          condition: `item.tagName === '${component.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}'`,
+          args: ['createLazyChildren', 'createChildItem'],
+        })
+      })
+
+      this.context.nativeComponents.forEach((meta) => {
+        const { name } = meta
+        this.componentList.unshift({
+          namePrefix: '',
+          name,
+          condition: `item.tagName === '${name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}'`,
+          args: [],
+          fullArgument: 'item._attrs as TaroAny'
+        })
+      })
+
+      this.template.forEach((_, key) => {
+        const keyData = key.split('_')
+        const name = keyData[keyData.length - 1]
+        this.componentList.unshift({
+          namePrefix: '',
+          name: key,
+          condition: `item._attrs?.compileMode === '${name}'`,
+          type: 'TaroViewElement',
+          args: [],
+        })
+      })
     }
-  } else if (item.tagName === 'VIEW') {
-    TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
-    TaroText({ node: item as TaroTextElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'IMAGE') {
-    TaroImage({ node: item as TaroImageElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'BUTTON') {
-    TaroButton({ node: item as TaroButtonElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'SLIDER') {
-    TaroSlider({ node: item as TaroSliderElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'SWITCH') {
-    TaroSwitch({ node: item as TaroSwitchElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'INPUT') {
-    TaroInput({ node: item as TaroInputElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'SWIPER') {
-    TaroSwiper({ node: item as TaroSwiperElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'SWIPER-ITEM') {
-    TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'INNER-HTML') {
-    TaroInnerHtml({ node: item as TaroInnerHtmlElement, createChildItem: createChildItem })
-  } else if (item.tagName === 'RICH-TEXT') {
-    TaroRichText({ node: item as TaroRichTextElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'ICON') {
-    TaroIcon({ node: item as TaroIconElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'TEXT-AREA') {
-    TaroTextArea({ node: item as TaroTextAreaElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'CHECKBOX-GROUP') {
-    TaroCheckboxGroup({ node: item as TaroCheckboxGroupElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'CHECKBOX') {
-    TaroCheckbox({ node: item as TaroCheckboxElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'RADIO-GROUP') {
-    TaroRadioGroup({ node: item as TaroRadioGroupElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'PROGRESS') {
-    TaroProgress({ node: item as  TaroProgressElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'MOVABLE-VIEW') {
-    TaroMovableView({ node: item as TaroMovableViewElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'MOVABLE-AREA') {
-    TaroMovableArea({ node: item as TaroMovableAreaElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'CANVAS') {
-    TaroCanvas({ node: item as TaroAny as TaroCanvasElement })
-  } else if (item.tagName === 'RADIO') {
-    TaroRadio({ node: item as TaroRadioElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'LABEL') {
-    TaroLabel({ node: item as TaroLabelElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'PICKER') {
-    TaroPicker({ node: item as TaroPickerElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'FORM') {
-    TaroForm({ node: item as TaroFormElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'VIDEO') {
-    TaroVideo({ node: item as TaroVideoElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'WEB-VIEW') {
-    TaroWebView({ node: item as TaroWebViewElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'PAGE-META') {
-    TaroPageMeta({ node: item as TaroPageMetaElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'NAVIGATION-BAR') {
-    TaroNavigationBar({ node: item as TaroNavigationBarElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'STICKY-SECTION') {
-    TaroStickySection({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
-  } else if (item.tagName === 'LIST-VIEW') {
-    TaroListView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
-  } else {
-    TaroView({ node: item as TaroViewElement, createLazyChildren: createLazyChildren })
-  }
-}
 
-@Builder
+    if (isFunction(modifyHarmonyRenderChild)) {
+      try {
+        modifyHarmonyRenderChild.call(this, this.componentList)
+      } catch (error) {
+        console.error('[Taro-Vite] modifyHarmonyRenderChild hook error', error)
+      }
+    }
+
+    let code = this.transArr2Str([
+      ...importList,
+      '',
+      this.generateNativeComponentNamesInit(),
+      '',
+      `@Builder
+function createChildItem (item: TaroElement, createLazyChildren?: (node: TaroElement, layer?: number) => void) {
+${this.transArr2Str(this.componentList.map(this.generateComponentCreated).join(' else ').split('\n'), 2)}
+}`,
+      '',
+      `@Builder
 function createLazyChildren (node: TaroElement, layer = 0) {
   LazyForEach(node, (item: TaroElement) => {
     if (!item._nodeInfo || item._nodeInfo.layer === layer) {
@@ -167,12 +351,18 @@ function createLazyChildren (node: TaroElement, layer = 0) {
   }, (item: TaroElement) => \`\${item._nid}-\${item._nativeUpdateTrigger}-\${item._nodeInfo?.layer || 0}\`)
 }
 
-export { createChildItem, createLazyChildren }
-`
+export { createChildItem, createLazyChildren }`,
+      '',
+    ])
 
-    const { cwd: appPath, loaderMeta, taroConfig } = this.context
-    const { outputRoot = 'dist', sourceRoot = 'src' } = taroConfig
-    const { modifyResolveId } = loaderMeta
+    if (isFunction(modifyHarmonyRenderCode)) {
+      try {
+        code = modifyHarmonyRenderCode.call(this, code)
+      } catch (error) {
+        console.error('[Taro-Vite] modifyHarmonyRenderCode hook error', error)
+      }
+    }
+
     return resolveAbsoluteRequire({
       name,
       importer: path.resolve(appPath, sourceRoot, fileName),
@@ -184,103 +374,35 @@ export { createChildItem, createLazyChildren }
     })
   }
 
-  generateRenderExtraComponentsImport() {
-    let result = ''
-    const extraComponents = this.context.extraComponents
+  generateComponentCreated({
+    namePrefix = 'Taro',
+    name = '',
+    condition = '',
+    type = 'TaroAny',
+    args = ['createLazyChildren'],
+    extra = '',
+    fullArgument = '',
+  }: IChildComponent) {
+    // 调用的方法名，就前缀和name组件，普通组件需要在调用名前面加Taro
+    name = `${namePrefix}${name}`
 
-    if (extraComponents.length <= 0) return result
-
-    result = 'import {\n'
-    extraComponents.forEach((components) => {
-      const taroName = `Taro${components}`
-
-      result = `${result}  ${taroName},\n`
-    })
-
-    return `${result}} from '@tarojs/components'\n`
-  }
-
-  generateRenderExtraComponentsCondition() {
-    let result = ''
-    const extraComponents = this.context.extraComponents
-
-    if (extraComponents.length <= 0) return result
-
-    extraComponents.forEach((components) => {
-      const taroName = `Taro${components}`
-
-      result = `${result}if (item.tagName === '${components
-        .replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1')
-        .toUpperCase()}') {
-    ${taroName}({ node: item as TaroAny, createLazyChildren, createChildItem })
-  } else `
-    })
-
-    return result
-  }
-
-  generateRenderCompileModeImport() {
-    let result = ''
-
-    this.template.forEach((_, key) => {
-      result = `${result}import ${key} from './static/${key}'\n`
-    })
-
-    return result
-  }
-
-  generateRenderNativeImport() {
-    let result = ''
-
-    this.context.nativeComponents.forEach((nativeMeta, _) => {
-      if (nativeMeta.isPackage) {
-        result += `import ${nativeMeta.name} from '${nativeMeta.scriptPath}'\n`
-      } else {
-        const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath).replace(/\.ets$/, '')
-        result = `${result}import ${nativeMeta.name} from './${nativePath}'\n`
-      }
-    })
-
-    return result
-  }
-
-  generateRenderCompileModeCondition() {
-    let result = ''
-
-    this.template.forEach((_, key) => {
-      const keyData = key.split('_')
-      const name = keyData[keyData.length - 1]
-      result = `${result}if (item._attrs?.compileMode === '${name}') {
-    ${key}({ node: item as TaroViewElement })
-  } else `
-    })
-
-    return result
-  }
-
-  generateRenderNativeCondition() {
-    let code = ''
-
-    this.context.nativeComponents.forEach((nativeMeta, _) => {
-      const { name } = nativeMeta
-      code = `${code}if (item.tagName === '${name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}') {
-    ${name}(item._attrs as TaroAny)
-  } else `
-    })
-
-    return code
+    // 调用方法时的参数，分成完整参数和需要拼接的参数，如果传入了完整参数就直接用（目前用于native的个性化入参）
+    const callArguments = fullArgument || `{ node: item as ${type}${args.length > 0 ? `, ${args.join(', ')}` : ''} }`
+    return `${condition ? `if (${condition}) ` : ''}{
+  ${name}(${callArguments})${extra}
+}`
   }
 
   generateNativeComponentNamesInit() {
     if (this.context.nativeComponents.size === 0) return ''
-    const compentsList: string[] = []
+    const commentsList: string[] = []
 
     this.context.nativeComponents.forEach((nativeMeta) => {
       const { name } = nativeMeta
-      // 这段逻辑服务于@Buider的更新，是通过父节点把这个节点重新渲染，这里排除掉package的情况，package一般逻辑复杂会用@Component实现组件
-      compentsList.push(name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase())
+      // 这段逻辑服务于 @Builder 的更新，是通过父节点把这个节点重新渲染，这里排除掉package的情况，package一般逻辑复杂会用 @Component 实现组件
+      commentsList.push(name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase())
     })
 
-    return `Current.nativeComponentNames = [${compentsList.map((item) => `"${item}"`).join(', ')}]`
+    return `Current.nativeComponentNames = [${commentsList.map((item) => `"${item}"`).join(', ')}]`
   }
 }

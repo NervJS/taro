@@ -1,4 +1,5 @@
-import * as path from 'path'
+import * as path from 'node:path'
+
 import { LegacyAsyncImporter, LegacyImporterResult } from 'sass'
 
 import * as d from './declarations'

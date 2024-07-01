@@ -80,6 +80,7 @@ class HosMap extends React.Component<IProps> {
       onError,
       onAnchorPointTap,
     } = this.props
+
     this.nativeRenderArgs = {
       componentId: this.componentId,
       latitude,

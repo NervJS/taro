@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "3.6.32",
+  "version": "4.0.0-alpha.29",
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
@@ -67,6 +67,7 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
+    "@tarojs/helper": "workspace:*",
     "@babel/generator": "^7.21.4",
     "@babel/parser": "^7.23.0",
     "@babel/traverse": "^7.21.4",

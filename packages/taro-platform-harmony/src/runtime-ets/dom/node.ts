@@ -21,8 +21,8 @@ export enum NodeType {
 }
 
 let _id = 0
-function genId (): string {
-  return `_n_${_id++}`
+function genId (): number {
+  return ++_id
 }
 
 export class TaroNode extends TaroDataSourceElement {
@@ -30,7 +30,7 @@ export class TaroNode extends TaroDataSourceElement {
   public readonly nodeType: NodeType
   public childNodes: TaroNode[] = []
   public parentNode: TaroNode | null = null
-  public _nid: string = genId()
+  public _nid: number = genId()
   public _doc: TaroDocument | null = null
   public _instance?: TaroAny
 
@@ -61,6 +61,14 @@ export class TaroNode extends TaroDataSourceElement {
 
   getData(index: number): TaroElement<StandardProps> {
     return this.childNodes[index] as TaroElement
+  }
+
+  public getStrNid() {
+    return `n_${this._nid}`
+  }
+
+  public getNumNid(id) {
+    return +id.slice(2)
   }
 
   public findIndex (refChild?: TaroNode): number {

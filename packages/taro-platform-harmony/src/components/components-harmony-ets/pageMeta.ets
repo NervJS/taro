@@ -15,7 +15,7 @@ export interface IComponentAttributeUpdateEvents {
 @Component
 export default struct TaroPageMeta {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroPageMetaElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroPageMetaElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroPageMetaElement
 
   page: TaroAny = {}
@@ -32,16 +32,16 @@ export default struct TaroPageMeta {
     }
 
     // FIXME 在 Harmony 提供 @Watch 文档后，根据 node 实际使用更细粒度的监听
-    eventCenter.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
+    eventCenter?.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
     this.handleAttributes(this.node._attrs)
   }
 
   aboutToDisappear(): void {
-    eventCenter.off('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
+    eventCenter?.off('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
   }
 
   handleAttributeUpdate = (opt: IComponentAttributeUpdateEvents) => {
-    if (opt.id === this.node._nid && opt.tagName === 'PAGE-META') {
+    if (opt.id === this.node._nid.toString() && opt.tagName === 'PAGE-META') {
       const attrs: Record<string, TaroAny> = {}
       attrs[opt.attribute] = opt.value
       this.handleAttributes(attrs)
@@ -79,7 +79,7 @@ export default struct TaroPageMeta {
     // pageFontSize
     // pageOrientation
     if (triggerStyleEvent) {
-      eventCenter.trigger('__taroPageStyle', options)
+      eventCenter?.trigger('__taroPageStyle', options)
     }
     // onResize
     // onScroll
@@ -88,7 +88,7 @@ export default struct TaroPageMeta {
 
   build() {
     if (true) {
-      this.createLazyChildren(this.node)
+      this.createLazyChildren(this.node, 0)
     }
   }
 }

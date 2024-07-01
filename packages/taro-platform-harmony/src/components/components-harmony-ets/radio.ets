@@ -17,7 +17,7 @@ interface RadioAttrs {
 @Extend(Radio)
 function radioAttr (attr: RadioAttrs) {
   .radioStyle(attr.radioStyle)
-  .themeStyles(attr.themeStyles)
+  .themeStyles(attr.themeStyles || false)
   .enabled(!attr.disabled)
 }
 
@@ -39,7 +39,7 @@ function themeStyles(isDisabled: boolean) {
 @Component
 export struct TaroRadio {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroRadioElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroRadioElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroRadioElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -55,7 +55,7 @@ export struct TaroRadio {
     Stack() {
       Row() {
         Radio({
-          group: this.node.group || this.node.parentNode?._nid || '',
+          group: this.node.group || this.node.parentNode?._nid.toString() || '',
           value: this.node.value || '',
         })
           .checked(this.node.checked)
@@ -75,7 +75,7 @@ export struct TaroRadio {
               }
             }
           })
-          .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+          .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
           .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
             if (this.node) {
               this.node._nodeInfo.areaInfo = res[1]
@@ -101,7 +101,7 @@ export struct TaroRadio {
 @Component
 export struct TaroRadioGroup {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroRadioGroupElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroRadioGroupElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroRadioGroupElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -114,7 +114,7 @@ export struct TaroRadioGroup {
       this.node._instance = this
       const childList = this.node.getElementsByTagName<TaroRadioElement>('RADIO')
       childList.forEach(element => {
-        element.group = this.node?._attrs.name || this.node?._nid
+        element.group = this.node?._attrs.name || this.node?._nid.toString()
       })
       // 阻止事件冒泡传递上去
       this.node.addEventListener('change', (e: TaroEvent) => e.stopPropagation())
@@ -122,8 +122,8 @@ export struct TaroRadioGroup {
   }
 
   @Styles defaultEvent () {
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+    .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
+    .onTouch(shouldBindEvent((e: TouchEvent) => { eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node) }, this.node, TOUCH_EVENT_MAP.values()))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       if (this.node) {
         this.node._nodeInfo.areaInfo = res[1]
@@ -134,21 +134,21 @@ export struct TaroRadioGroup {
   build() {
     if (FlexManager.useFlexLayout(this.node)) {
       Flex(FlexManager.flexOptions(this.node)) {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .defaultEvent()
       .visibleChangeEvent()
     } else if (FlexManager.isFlexNode(this.node) && FlexManager.direction(this.node) !== FlexDirection.Column) {
       Row() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .defaultEvent()
       .visibleChangeEvent()
     } else {
       Column() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .defaultEvent()

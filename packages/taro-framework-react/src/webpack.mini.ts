@@ -55,7 +55,8 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
 
 function setLoader (framework: Frameworks, chain) {
   chain.plugin('miniPlugin').tap((args) => {
-    args[0].loaderMeta = getLoaderMeta(framework)
+    args[0].loaderMeta ||= {}
+    Object.assign(args[0].loaderMeta, getLoaderMeta(framework))
     return args
   })
 }

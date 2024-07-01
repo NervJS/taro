@@ -52,7 +52,7 @@ function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', s
 @Component
 export default struct TaroScrollList {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroScrollViewElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroScrollViewElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroScrollViewElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -70,7 +70,7 @@ export default struct TaroScrollList {
     List({
       scroller: this.node.scroller
     }) {
-      this.createLazyChildren(this.node)
+      this.createLazyChildren(this.node, 0)
     }
     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
     .sticky(StickyStyle.Header)
@@ -87,8 +87,8 @@ export default struct TaroScrollList {
         })
       })
     })
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+    .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
+    .onTouch(shouldBindEvent((e: TouchEvent) => { eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node) }, this.node, TOUCH_EVENT_MAP.values()))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       this.node._nodeInfo.areaInfo = res[1]
     }))

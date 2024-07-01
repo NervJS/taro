@@ -12,7 +12,7 @@ import { isUndefined } from '@tarojs/shared'
 @Component
 export default struct TaroView {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroViewElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroViewElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroViewElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -28,12 +28,12 @@ export default struct TaroView {
         if (this.node._pseudo_before || this.node._pseudo_after) {
           PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
         } else {
-          this.createLazyChildren(this.node)
+          this.createLazyChildren(this.node, 0)
         }
       }
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-      .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
+      .onTouch(shouldBindEvent((e: TouchEvent) => { eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node) }, this.node, TOUCH_EVENT_MAP.values()))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         this.node._nodeInfo.areaInfo = res[1]
       }))
@@ -43,12 +43,12 @@ export default struct TaroView {
         if (this.node._pseudo_before || this.node._pseudo_after) {
           PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
         } else {
-          this.createLazyChildren(this.node)
+          this.createLazyChildren(this.node, 0)
         }
       }
       .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-      .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
+      .onTouch(shouldBindEvent((e: TouchEvent) => { eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node) }, this.node, TOUCH_EVENT_MAP.values()))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         this.node._nodeInfo.areaInfo = res[1]
       }))
@@ -58,12 +58,12 @@ export default struct TaroView {
         if (this.node._pseudo_before || this.node._pseudo_after) {
           PseduoChildren({ node: this.node, createLazyChildren: this.createLazyChildren })
         } else {
-          this.createLazyChildren(this.node)
+          this.createLazyChildren(this.node, 0)
         }
       }
       .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-      .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+      .onClick(shouldBindEvent((e: ClickEvent) => { eventHandler(e, 'click', this.node) }, this.node, ['click']))
+      .onTouch(shouldBindEvent((e: TouchEvent) => { eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node) }, this.node, TOUCH_EVENT_MAP.values()))
       .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         this.node._nodeInfo.areaInfo = res[1]
       }))

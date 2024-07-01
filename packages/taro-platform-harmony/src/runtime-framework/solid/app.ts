@@ -31,10 +31,10 @@ export function createSolidApp(App: SolidComponent, config: AppConfig) {
   }
 
   function renderReactRoot() {
-    const appId = 'app'
+    const appId = config?.appId || 'app'
 
     if (ReactMeta.Container === EMPTY_OBJ) {
-      const Container = document.createElement('view')
+      const Container = document.getElementById(appId)
 
       Container.id = appId
       ReactMeta.Container = Container
@@ -68,7 +68,11 @@ export function createSolidApp(App: SolidComponent, config: AppConfig) {
               },
             })
 
-          return h('root', { id }, children)
+          return h(
+            'taro-page',
+            { id, className: 'taro_page' },
+            children
+          )
         },
       }),
     })

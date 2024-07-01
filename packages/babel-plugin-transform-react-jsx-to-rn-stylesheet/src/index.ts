@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import camelize from 'camelize'
-import * as path from 'path'
 import { transformCSS } from 'taro-css-to-react-native'
 
 import type { PluginObj, template as Template, types as Types } from '@babel/core'

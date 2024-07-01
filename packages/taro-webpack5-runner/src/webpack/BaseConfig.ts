@@ -1,6 +1,7 @@
+import path from 'node:path'
+
 import { chalk, recursiveMerge, resolveScriptPath } from '@tarojs/helper'
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
-import path from 'path'
 import { Stats } from 'webpack'
 import Chain from 'webpack-chain'
 import formatMessages from 'webpack-format-messages'

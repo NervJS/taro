@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   isNodeModule,
   recursiveMerge,
@@ -10,7 +12,6 @@ import {
   REG_TEMPLATE
 } from '@tarojs/helper'
 import { cloneDeep } from 'lodash'
-import path from 'path'
 
 import { FILE_COUNTER_MAP } from '../plugins/MiniCompileModePlugin'
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.mini'

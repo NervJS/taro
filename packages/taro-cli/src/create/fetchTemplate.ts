@@ -1,9 +1,10 @@
+import * as path from 'node:path'
+
 import { chalk, fs } from '@tarojs/helper'
 import * as AdmZip from 'adm-zip'
 import axios from 'axios'
 import * as download from 'download-git-repo'
 import * as ora from 'ora'
-import * as path from 'path'
 
 import { getTemplateSourceType, readDirWithFileTypes } from '../util'
 import { TEMPLATE_CREATOR } from './constants'

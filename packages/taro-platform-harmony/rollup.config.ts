@@ -1,6 +1,7 @@
+import { join } from 'node:path'
+
 import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import { join } from 'path'
 import { type InputPluginOption, type RollupOptions, defineConfig } from 'rollup'
 import copy from 'rollup-plugin-copy'
 import externals from 'rollup-plugin-node-externals'

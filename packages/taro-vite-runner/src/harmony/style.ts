@@ -3,7 +3,8 @@ import path from 'node:path'
 import { transformSync } from '@babel/core'
 import { dataToEsm } from '@rollup/pluginutils'
 import { chalk, CSS_EXT, fs, REG_JS, REG_NODE_MODULES, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
-import { parse as parseJSXStyle } from '@tarojs/parse-css-to-stylesheet'
+import { parse as parseJSXStyleFunction } from '@tarojs/parse-css-to-stylesheet'
+import { isFunction } from '@tarojs/shared'
 import { isEqual } from 'lodash'
 import MagicString from 'magic-string'
 import stylelint from 'stylelint'
@@ -166,6 +167,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
 
       if (!isStyleRequest(id)) {
         if (!REG_SCRIPTS.test(id)) return
+        const parseJSXStyle = isFunction(viteCompilerContext.loaderMeta.parseJSXStyle) ? viteCompilerContext.loaderMeta.parseJSXStyle : parseJSXStyleFunction
         try {
           const isEntry = viteCompilerContext.taroConfig.entry.app.includes(id)
           if (!isEntry && !globalCssCache) {

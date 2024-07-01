@@ -11,7 +11,7 @@ export default struct TaroMovableArea {
   customBuilder() {
   }
 
-  @BuilderParam createLazyChildren: (node: TaroMovableAreaElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroMovableAreaElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroMovableAreaElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -28,7 +28,7 @@ export default struct TaroMovableArea {
   build() {
     if (FlexManager.useFlexLayout(this.node)) {
       Flex(FlexManager.flexOptions(this.node)) {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .clip(true)
@@ -55,7 +55,7 @@ export default struct TaroMovableArea {
       )
     } else if (FlexManager.isFlexNode(this.node) && FlexManager.direction(this.node) !== FlexDirection.Column) {
       Row() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(rowModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .clip(true)
@@ -82,7 +82,7 @@ export default struct TaroMovableArea {
       )
     } else {
       Column() {
-        this.createLazyChildren(this.node)
+        this.createLazyChildren(this.node, 0)
       }
       .attributeModifier(columnModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
       .clip(true)

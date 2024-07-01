@@ -81,7 +81,7 @@ function handleUpdate (node: TaroVideoElement, e: VideoUpdateEvent) {
 @Component
 export default struct TaroVideo {
   @Builder customBuilder() {}
-  @BuilderParam createLazyChildren: (node: TaroVideoElement) => void = this.customBuilder
+  @BuilderParam createLazyChildren: (node: TaroVideoElement, layer?: number) => void = this.customBuilder
   @ObjectLink node: TaroVideoElement
   @State overwriteStyle: Record<string, TaroAny> = {}
 
@@ -105,7 +105,7 @@ export default struct TaroVideo {
     .onSeeked(shouldBindEvent(() => { emitEvent(this.node, 'seeked') }, this.node, ['seeked']))
     .onFullscreenChange(shouldBindEvent((e: TaroAny) => { emitEvent(this.node, 'fullScreenChange', { fullScreen: e.fullscreen}) }, this.node, ['fullscreenchange']))
     .onClick((e: ClickEvent) => { eventHandler(e, 'click', this.node) })
-    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
+    .onTouch(shouldBindEvent((e: TouchEvent) => { eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node) }, this.node, TOUCH_EVENT_MAP.values()))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       this.node._nodeInfo.areaInfo = res[1]
     }))

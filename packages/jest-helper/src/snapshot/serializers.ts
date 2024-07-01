@@ -1,4 +1,4 @@
-import * as os from 'os'
+import * as os from 'node:os'
 // import type { Config, Refs, Printer } from 'pretty-format'
 
 export const print = (val: string) => {

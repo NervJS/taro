@@ -23,7 +23,7 @@ export const ReactMeta: IReactMeta = {
   PageContext: EMPTY_OBJ
 }
 
-const pageKeyId = incrementId()
+const pageKeyId = incrementId(1)
 
 export function connectReactPage (
   R: typeof React,
@@ -72,7 +72,7 @@ export function connectReactPage (
           }))
 
         return h(
-          'view',
+          'taro-page',
           { id, className: 'taro_page' },
           children
         )
@@ -85,7 +85,7 @@ export function createReactApp (
   App,
   react,
   dom,
-  _config?: any
+  config?: any
 ) {
   ReactMeta.R = react
   h = react.createElement
@@ -107,10 +107,10 @@ export function createReactApp (
   }
 
   function renderReactRoot () {
-    const appId = 'app'
+    const appId = config?.appId || 'app'
 
     if (ReactMeta.Container === EMPTY_OBJ) {
-      const Container = document.createElement('view')
+      const Container = document.getElementById(appId)
 
       Container.id = appId
       ReactMeta.Container = Container
@@ -132,7 +132,7 @@ export function createReactApp (
 
     public mount (pageComponent: any, id: string, getCtx: () => any, cb: () => void) {
       const pageWrapper = connectReactPage(react, id, getCtx)(pageComponent)
-      const key = id + pageKeyId()
+      const key = `${id}_${pageKeyId()}`
       const page = () => h(pageWrapper, { key, tid: id })
       this.pages.push(page)
       this.forceUpdate(cb)

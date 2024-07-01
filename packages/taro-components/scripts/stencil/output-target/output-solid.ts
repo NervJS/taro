@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import { dashToPascalCase, normalizePath, relativeImport, sortBy } from '@stencil/react-output-target/dist/utils'
-import * as path from 'path'
 
 import type {
   ComponentCompilerMeta,
