@@ -1,3 +1,5 @@
+import { forwardRef } from './hooks'
+
 export function throttle (fn, threshold = 250, scope?) {
   let lastTime = 0
   let deferTimer: ReturnType<typeof setTimeout>
@@ -37,3 +39,13 @@ export function omit (obj, fields) {
   }
   return shallowCopy
 }
+
+export const createForwardRefComponent = (ReactComponent: any) => {
+  const forwardRefComponent = (
+    props,
+    ref
+  ) => <ReactComponent {...props} forwardedRef={ref} />
+
+  return forwardRef(forwardRefComponent)
+}
+

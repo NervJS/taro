@@ -2,7 +2,7 @@ import './style/index.scss'
 
 import classNames from 'classnames'
 
-import { omit } from '../../utils'
+import { omit, createForwardRefComponent } from '../../utils'
 import { useEffect, useRef, useState } from '../../utils/hooks'
 
 import type React from 'react'
@@ -17,6 +17,7 @@ interface IProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'ty
   loading?: boolean
   type?: string
   className?: string
+  forwardedRef?: React.MutableRefObject<HTMLButtonElement>
 }
 
 interface IState {
@@ -75,7 +76,7 @@ function Button (props: IProps) {
     props.onTouchEnd && props.onTouchEnd(e)
   }
 
-  const { plain = false, children, disabled = false, className, style, onClick, hoverClass = 'button-hover', loading = false, type, ...restProps } = props
+  const { forwardedRef, plain = false, children, disabled = false, className, style, onClick, hoverClass = 'button-hover', loading = false, type, ...restProps } = props
 
   const cls = classNames(
     className,
@@ -87,8 +88,9 @@ function Button (props: IProps) {
 
   return (
     <button
-      {...omit(restProps, ['hoverClass', 'onTouchStart', 'onTouchEnd', 'type', 'loading'])}
+      {...omit(restProps, ['hoverClass', 'onTouchStart', 'onTouchEnd', 'type', 'loading', 'forwardedRef'])}
       type={type}
+      ref={forwardedRef}
       className={cls}
       style={style}
       onClick={onClick}
@@ -104,4 +106,4 @@ function Button (props: IProps) {
   )
 }
 
-export default Button
+export default createForwardRefComponent(Button)

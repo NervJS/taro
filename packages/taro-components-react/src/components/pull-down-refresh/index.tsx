@@ -4,6 +4,8 @@ import Taro from '@tarojs/taro'
 import classNames from 'classnames'
 import React from 'react'
 
+import { createForwardRefComponent } from '../../utils/index'
+
 function setTransform (nodeStyle, value) {
   nodeStyle.transform = value
   nodeStyle.webkitTransform = value
@@ -44,6 +46,7 @@ interface IProps extends React.HTMLAttributes<HTMLBaseElement> {
   distanceToRefresh: number
   damping: number
   indicator: INDICATOR
+  forwardedRef?: React.MutableRefObject<HTMLBaseElement>
   onRefresh?: () => void
 }
 
@@ -303,7 +306,7 @@ class PullDownRefresh extends React.Component<IProps, IState> {
     delete props.distanceToRefresh
     delete props.onRefresh
 
-    const { className, prefixCls, children, ...restProps } = props
+    const { className, prefixCls, children, forwardedRef, ...restProps } = props
 
     const renderRefresh = (cls: string) => {
       const { currSt, dragOnEdge } = this.state
@@ -336,6 +339,9 @@ class PullDownRefresh extends React.Component<IProps, IState> {
     return (
       <pull-down-refresh
         ref={el => {
+          if(forwardedRef) {
+            forwardedRef.current = el
+          }
           this.containerRef = el
         }}
         className={classNames(className, prefixCls, `${prefixCls}-down`)}
@@ -347,4 +353,4 @@ class PullDownRefresh extends React.Component<IProps, IState> {
   }
 }
 
-export default PullDownRefresh
+export default createForwardRefComponent(PullDownRefresh)
