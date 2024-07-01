@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-prebundle",
-  "version": "4.0.0-canary.12",
+  "version": "3.6.32",
   "description": "Taro app webpack5 prebundle",
   "author": "O2Team",
   "license": "MIT",

@@ -51,6 +51,9 @@ class HosMap extends React.Component<IProps> {
   constructor (props: IProps) {
     super(props)
     this.componentId = `HosMap_${Math.floor(Math.random() * 100000)}_${Date.now()}`
+  }
+
+  componentDidMount (): void {
     const {
       latitude,
       longitude,

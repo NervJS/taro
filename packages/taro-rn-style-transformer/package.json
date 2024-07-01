@@ -1,9 +1,7 @@
 {
   "name": "@tarojs/rn-style-transformer",
-  "version": "4.0.0-canary.12",
-  "description": "提供 Taro RN 统一处理样式文件能力",
-  "author": "O2Team",
-  "license": "MIT",
+  "version": "3.6.32",
+  "description": "提供Taro RN 统一处理样式文件能力",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [

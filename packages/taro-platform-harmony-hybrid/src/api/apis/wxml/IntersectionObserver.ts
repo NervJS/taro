@@ -40,7 +40,7 @@ export class TaroHarmonyHybridIntersectionObserver implements Taro.IntersectionO
     return container
   }
 
-  constructor (component: TaroGeneral.IAnyObject, options: Taro.createIntersectionObserver.Option = {}) {
+  constructor(component: TaroGeneral.IAnyObject, options: Taro.createIntersectionObserver.Option = {}) {
     this._component = component
     Object.assign(this._options, options)
   }
@@ -125,7 +125,7 @@ export class TaroHarmonyHybridIntersectionObserver implements Taro.IntersectionO
   }
 
   public relativeToViewport (margins?: Taro.IntersectionObserver.RelativeToViewportMargins | undefined): Taro.IntersectionObserver {
-    return this.relativeTo('.taro_page', margins)
+    return this.relativeTo('.taro_router', margins)
   }
 
   private _getCallbackByElement (element: Element) {

@@ -1,8 +1,8 @@
 {
   "name": "taro-css-to-react-native",
   "description": "Convert CSS text to a React Native stylesheet object",
-  "version": "4.0.0-canary.12",
-  "author": "O2Team",
+  "version": "3.6.32",
+  "main": "dist/index.js",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "index.d.ts",

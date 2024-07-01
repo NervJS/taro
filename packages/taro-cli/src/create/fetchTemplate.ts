@@ -10,6 +10,7 @@ import { TEMPLATE_CREATOR } from './constants'
 
 export interface ITemplates {
   name: string
+  value: string
   platforms?: string | string[]
   desc?: string
   compiler?: string[]
@@ -108,11 +109,12 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
       const res: ITemplates[] = files.map(name => {
         const creatorFile = path.join(templateRootPath, name, TEMPLATE_CREATOR)
 
-        if (!fs.existsSync(creatorFile)) return { name }
-        const { platforms = '', desc = '', compiler } = require(creatorFile)
+        if (!fs.existsSync(creatorFile)) return { name, value: name }
+        const { name: displayName, platforms = '', desc = '', compiler } = require(creatorFile)
 
         return {
-          name,
+          name: displayName || name,
+          value: name,
           platforms,
           compiler,
           desc
@@ -124,15 +126,16 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
       await fs.move(templateFolder, path.join(templateRootPath, name), { overwrite: true })
       await fs.remove(tempPath)
 
-      let res: ITemplates = { name, desc: type === 'url' ? templateSource : '' }
+      let res: ITemplates = { name, value: name, desc: type === 'url' ? templateSource : '' }
 
       const creatorFile = path.join(templateRootPath, name, TEMPLATE_CREATOR)
 
       if (fs.existsSync(creatorFile)) {
-        const { platforms = '', desc = '', compiler } = require(creatorFile)
+        const { name: displayName, platforms = '', desc = '', compiler } = require(creatorFile)
 
         res = {
-          name,
+          name: displayName || name,
+          value: name,
           platforms,
           compiler,
           desc: desc || templateSource

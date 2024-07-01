@@ -1,9 +1,7 @@
 {
   "name": "@tarojs/components-rn",
-  "version": "4.0.0-canary.12",
-  "description": "React Native 基础组件",
-  "author": "O2Team",
-  "license": "MIT",
+  "version": "3.6.32",
+  "description": "多端解决方案基础组件（RN）",
   "main": "./dist/index.js",
   "scripts": {
     "prod": "pnpm run build",
