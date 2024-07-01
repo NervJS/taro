@@ -89,6 +89,8 @@ export function isMaxWidthView (node: TaroElement) {
 }
 
 export function getNormalAttributes (node: TaroElement, initStyle?: HarmonyStyle): HarmonyStyle {
+  if (!node) return {}
+   
   const hmStyle = node.hmStyle
   
   if (!hmStyle) return {}
