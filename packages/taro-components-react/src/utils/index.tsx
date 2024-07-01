@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { forwardRef } from './hooks'
 
 export function throttle (fn, threshold = 250, scope?) {
