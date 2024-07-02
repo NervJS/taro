@@ -47,6 +47,7 @@ export class H5WebpackModule {
   getModules () {
     const {
       styleLoaderOption = {},
+      miniCssExtractLoaderOption = {},
       sassLoaderOption = {},
       lessLoaderOption = {},
       stylusLoaderOption = {},
@@ -63,7 +64,7 @@ export class H5WebpackModule {
 
     const rule: Record<string, IRule> = {
       taroStyle: this.getTaroStyleRule(styleLoaderOption),
-      customStyle: this.getCustomStyleRule(styleLoaderOption),
+      customStyle: this.getCustomStyleRule(styleLoaderOption, miniCssExtractLoaderOption),
       css: {
         test: REG_STYLE,
         oneOf: this.getCSSLoaders(cssModuleOption)
@@ -146,12 +147,12 @@ export class H5WebpackModule {
   }
 
   /** 开发者的样式在尾部注入 */
-  getCustomStyleRule (styleLoaderOption) {
+  getCustomStyleRule (styleLoaderOption, miniCssExtractLoaderOption) {
     const {
       mode,
       enableExtract = mode === 'production'
     } = this.combination.config
-    const extractCssLoader = WebpackModule.getExtractCSSLoader()
+    const extractCssLoader = WebpackModule.getExtractCSSLoader(miniCssExtractLoaderOption)
     const styleLoader = WebpackModule.getStyleLoader(styleLoaderOption)
     const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader
     return {
