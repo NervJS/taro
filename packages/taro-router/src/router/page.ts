@@ -221,6 +221,8 @@ export default class PageHandler {
         pageEl.style.zIndex = '1'
       }
 
+      eventCenter.trigger('__taroPageWillShowAfterDestroyed')
+
       this.unloadTimer = setTimeout(() => {
         this.unloadTimer = null
         this.lastUnloadPage?.onUnload?.()
@@ -236,6 +238,14 @@ export default class PageHandler {
       }, 0)
     }
     if (delta >= 1) this.unload(stacks.last, delta)
+  }
+
+  willShow (page?: PageInstance | null) {
+    if (!page) return
+    const pageEl = this.getPageContainer(page)
+    if (pageEl) {
+      pageEl.classList.remove('taro_page_shade')
+    }
   }
 
   show (page?: PageInstance | null, pageConfig: Route = {}, pageNo = 0) {
