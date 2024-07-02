@@ -1,4 +1,5 @@
-import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
+import abilityAccessCtrl from '@ohos.abilityAccessCtrl'
+import { Current, eventCenter } from '@tarojs/runtime'
 
 import { ICallbackResult, MethodHandler } from './handler'
 
@@ -7,6 +8,22 @@ import type { FunctionType, IAsyncParams } from './types'
 export * from './validate'
 export { MethodHandler }
 export { noop } from '@tarojs/shared'
+
+export function requestPermissions (permissions: string[]) {
+  return new Promise<void>((resolve, reject) => {
+    const context = getContext(Current?.page)
+    const atManager = abilityAccessCtrl.createAtManager()
+
+    atManager.requestPermissionsFromUser(context, permissions, (err, _) => {
+      if (err) {
+        // eslint-disable-next-line prefer-promise-reject-errors
+        reject(`[Taro] 请求用户授权 ${permissions.join('、')} 失败：${JSON.stringify(err)}`)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
 
 export function object2String (obj) {
   let str = ''

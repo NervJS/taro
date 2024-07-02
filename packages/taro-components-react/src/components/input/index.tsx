@@ -3,7 +3,7 @@ import './style/index.scss'
 import classNames from 'classnames'
 import React from 'react'
 
-import { omit } from '../../utils'
+import { createForwardRefComponent, omit } from '../../utils'
 
 function getTrueType (type: string | undefined, confirmType: string, password: boolean) {
   if (confirmType === 'search') type = 'search'
@@ -34,6 +34,7 @@ interface IProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'ty
   name?: string
   type?: string
   onConfirm?: (e) => void
+  forwardedRef?: React.MutableRefObject<HTMLInputElement>
 }
 
 class Input extends React.Component<IProps, null> {
@@ -221,6 +222,7 @@ class Input extends React.Component<IProps, null> {
     const cls = classNames('taro-input-core', 'weui-input', className)
 
     const otherProps = omit(this.props, [
+      'forwardedRef',
       'className',
       'placeholder',
       'disabled',
@@ -239,6 +241,9 @@ class Input extends React.Component<IProps, null> {
     return (
       <input
         ref={(input: HTMLInputElement) => {
+          if (this.props.forwardedRef) {
+            this.props.forwardedRef.current = input
+          }
           this.inputRef = input
         }}
         {...otherProps}
@@ -261,4 +266,4 @@ class Input extends React.Component<IProps, null> {
   }
 }
 
-export default Input
+export default createForwardRefComponent(Input)

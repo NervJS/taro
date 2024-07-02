@@ -38,10 +38,10 @@ export interface TaroStyleType {
 
   // position
   position?: 'relative' | 'absolute' | 'fixed'
-  top?: Length
-  left?: Length
-  bottom?: Length
-  right?: Length
+  top?: Dimension
+  left?: Dimension
+  bottom?: Dimension
+  right?: Dimension
 
   // flex
   flexBasis?: number | string

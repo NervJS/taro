@@ -594,9 +594,9 @@ function setBackgroundPosistion (hmStyle, value) {
     } else if (horizontal === 'right' && vertical === 'bottom') {
       hmStyle.backgroundPosition = Alignment.BottomEnd
     } else {
-      if (/^\d+(\.\d+)?(px|%|vw|vh)$/.test(horizontal)) {
+      if (/^-?\d+(\.\d+)?(px|%|vw|vh)$/.test(horizontal)) {
         hmStyle.backgroundPosition = { x: getUnit(horizontal) }
-        if (/^\d+(\.\d+)?(px|%|vw|vh)$/.test(vertical)) {
+        if (/^-?\d+(\.\d+)?(px|%|vw|vh)$/.test(vertical)) {
           hmStyle.backgroundPosition = { x: getUnit(horizontal), y: getUnit(vertical) }
         }
       }

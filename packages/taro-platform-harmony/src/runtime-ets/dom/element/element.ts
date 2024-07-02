@@ -34,7 +34,26 @@ export class TaroElement<
     layer: 0 // 渲染层级
   }
 
-  public hm_instance: TaroAny
+  public _hm_instance: TaroAny
+  public weak_hm_instance: WeakRef<TaroAny>
+  public use_weak_hm_instance: boolean = true
+
+
+  public get hm_instance(): TaroAny {
+    if (this.use_weak_hm_instance && this.weak_hm_instance) {
+      return this.weak_hm_instance?.deref()
+    }
+    return this._hm_instance
+  }
+
+  public set hm_instance(instance) {
+    if (this.use_weak_hm_instance && instance) {
+      this.weak_hm_instance = new WeakRef(instance)
+      return
+    }
+    this._hm_instance = instance
+  }
+
 
   public get _instance () {
     return this.hm_instance

@@ -3,6 +3,7 @@ import './style/index.css'
 import classNames from 'classnames'
 
 import { useEffect, useState } from '../../utils/hooks'
+import { createForwardRefComponent } from '../../utils/index'
 
 import type React from 'react'
 
@@ -14,11 +15,13 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   onTouchEnd?(e: React.TouchEvent<HTMLDivElement>): void
   onTouchMove?(e: React.TouchEvent<HTMLDivElement>): void
   onLongPress?(): void
+  forwardedRef?: React.MutableRefObject<HTMLDivElement>
 }
 
 function View ({
   className,
   hoverClass,
+  forwardedRef,
   onTouchStart,
   onTouchEnd,
   onTouchMove,
@@ -90,6 +93,7 @@ function View ({
 
   return (
     <div
+      ref={forwardedRef}
       className={process.env.FRAMEWORK === 'solid' ? (cls as Exclude<typeof cls, string>)() : cls as string}
       onTouchStart={_onTouchStart}
       onTouchEnd={_onTouchEnd}
@@ -101,4 +105,5 @@ function View ({
   )
 }
 
-export default View
+
+export default createForwardRefComponent(View)

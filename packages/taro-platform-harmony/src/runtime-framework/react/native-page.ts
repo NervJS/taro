@@ -133,27 +133,33 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
           },
         }),
       }
-      this.setState(
-        {
-          components: [...this.state.components, item],
-        },
-        () => cb && cb()
-      )
+
+      ReactDOM.flushSync(() => {
+        this.setState(
+          {
+            components: [...this.state.components, item],
+          },
+          () => cb && cb()
+        )
+      })
     }
 
     unmount (compId, cb?) {
       const components = this.state.components
       const index = components.findIndex((item) => item.compId === compId)
       const next = [...components.slice(0, index), ...components.slice(index + 1)]
-      this.setState(
-        {
-          components: next,
-        },
-        () => {
-          removePageInstance(compId)
-          cb && cb()
-        }
-      )
+
+      ReactDOM.flushSync(() => {
+        this.setState(
+          {
+            components: next,
+          },
+          () => {
+            removePageInstance(compId)
+            cb && cb()
+          }
+        )
+      })
     }
 
     render () {
@@ -175,7 +181,10 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
   }
 
   const root = ReactDOM.createRoot(app)
-  root.render?.(h(Entry))
+
+  ReactDOM.flushSync(() => {
+    root.render?.(h(Entry))
+  })
 }
 
 

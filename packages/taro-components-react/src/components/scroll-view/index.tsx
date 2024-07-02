@@ -3,7 +3,7 @@ import './style/index.css'
 import { isFunction } from '@tarojs/shared'
 import classNames from 'classnames'
 
-import { throttle } from '../../utils'
+import { createForwardRefComponent, throttle } from '../../utils'
 import { useEffect, useRef } from '../../utils/hooks'
 
 import type React from 'react'
@@ -73,6 +73,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   scrollIntoViewAlignment?: ScrollLogicalPosition
   scrollWithAnimation: boolean
   enableBackToTop?: boolean
+  forwardedRef?: React.MutableRefObject<HTMLDivElement>
   onScrollToUpper: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   onScrollToLower: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   onScroll: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
@@ -190,6 +191,7 @@ function ScrollView (props: IProps) {
       ref={e => {
         if (e) {
           container.current = e
+          if (props.forwardedRef) props.forwardedRef.current = e
         }
       }}
       style={style}
@@ -202,4 +204,4 @@ function ScrollView (props: IProps) {
   )
 }
 
-export default ScrollView
+export default createForwardRefComponent(ScrollView)
