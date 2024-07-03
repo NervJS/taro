@@ -3,6 +3,7 @@ import * as path from 'node:path'
 import { isNpmPkg, printLog, processTypeEnum, recursiveMerge, resolveSync } from '@tarojs/helper'
 import postcss from 'postcss'
 import postcssImport from 'postcss-import'
+import postcssCssVariables from 'postcss-css-variables'
 import pxtransform from 'postcss-pxtransform'
 import stylelint from 'stylelint'
 
@@ -27,7 +28,7 @@ export function makePostcssPlugins ({
   transformOptions,
   additionalData
 }) {
-  const optionsWithDefaults = ['pxtransform', 'postcss-import', 'postcss-reporter', 'stylelint', 'cssModules']
+  const optionsWithDefaults = ['pxtransform', 'postcss-import', 'postcss-reporter', 'stylelint', 'cssModules', 'postcss-css-variables']
 
   if (designWidth) {
     defaultPxtransformOption.config.designWidth = designWidth
@@ -67,6 +68,7 @@ export function makePostcssPlugins ({
     stylelint(stylelintConfig),
     // @ts-ignore
     reporterSkip({ skipRows, filename }),
+    postcssCssVariables(postcssConfig['postcss-css-variables']?.config || {}),
     require('postcss-reporter')({ clearReportedMessages: true })
   )
 
