@@ -4,7 +4,10 @@
     "baseUrl": ".",
     "jsx": "preserve",
     "module": "ESNext",
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "paths": {
+      "../../utils/hooks": ["../../utils/hooks.react.ts", "../../utils/hooks.hook.ts"]
+    }
   },
   "include": ["./src", "./types"]
 }

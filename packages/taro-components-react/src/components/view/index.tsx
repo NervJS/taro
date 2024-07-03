@@ -6,6 +6,7 @@ import { useEffect, useState } from '../../utils/hooks'
 import { createForwardRefComponent } from '../../utils/index'
 
 import type React from 'react'
+import { TFunc } from '@tarojs/runtime/dist/runtime.esm'
 
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverClass?: string
@@ -37,7 +38,7 @@ function View ({
   const [cls, setCls] = useState<string>(classNames(
     '',
     {
-      [`${hoverClass}`]: process.env.FRAMEWORK === 'solid' ? (hover as Exclude<typeof hover, boolean>)() : hover
+      [`${hoverClass}`]: process.env.FRAMEWORK === 'solid' ? (hover as unknown as TFunc)() : hover
     },
     className
   ))
@@ -46,7 +47,7 @@ function View ({
     if (hoverClass) {
       setTouch(true)
       setTimeout(() => {
-        if (process.env.FRAMEWORK === 'solid' ? (touch as Exclude<typeof touch, boolean>)() : touch) {
+        if (process.env.FRAMEWORK === 'solid' ? (touch as unknown as TFunc)() : touch) {
           setHover(true)
         }
       }, hoverStartTime)
@@ -73,7 +74,7 @@ function View ({
     if (hoverClass) {
       setTouch(false)
       setTimeout(() => {
-        if (process.env.FRAMEWORK === 'solid' ? (touch as Exclude<typeof touch, boolean>)() : touch) {
+        if (process.env.FRAMEWORK === 'solid' ? (touch as unknown as TFunc)() : touch) {
           setHover(false)
         }
       }, hoverStayTime)
@@ -85,7 +86,7 @@ function View ({
     setCls(classNames(
       '',
       {
-        [`${hoverClass}`]: process.env.FRAMEWORK === 'solid' ? (hover as Exclude<typeof hover, boolean>)() : hover
+        [`${hoverClass}`]: process.env.FRAMEWORK === 'solid' ? (hover as unknown as TFunc)() : hover
       },
       className
     ))
@@ -94,7 +95,7 @@ function View ({
   return (
     <div
       ref={forwardedRef}
-      className={process.env.FRAMEWORK === 'solid' ? (cls as Exclude<typeof cls, string>)() : cls as string}
+      className={process.env.FRAMEWORK === 'solid' ? (cls as unknown as TFunc)() : cls as string}
       onTouchStart={_onTouchStart}
       onTouchEnd={_onTouchEnd}
       onTouchMove={_onTouchMove}
