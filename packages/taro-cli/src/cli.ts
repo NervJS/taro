@@ -139,11 +139,9 @@ export default class CLI {
           // 根据 framework 启用插件
           const framework = kernel.config?.initialConfig.framework || DEFAULT_FRAMEWORK
           const frameworkMap = {
-            vue: '@tarojs/plugin-framework-vue2',
             vue3: '@tarojs/plugin-framework-vue3',
             react: '@tarojs/plugin-framework-react',
             preact: '@tarojs/plugin-framework-react',
-            nerv: '@tarojs/plugin-framework-react',
             solid: '@tarojs/plugin-framework-solid',
           }
           if (frameworkMap[framework]) {
