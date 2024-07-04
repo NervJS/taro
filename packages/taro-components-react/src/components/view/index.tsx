@@ -1,5 +1,3 @@
-import './style/index.css'
-
 import classNames from 'classnames'
 
 import { useEffect, useState } from '../../utils/hooks'
