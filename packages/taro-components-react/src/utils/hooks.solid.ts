@@ -7,7 +7,7 @@ export const useState = <T = any>(value: T, options?): [() => T, TFunc] => {
   return [state, setState]
 }
 
-export const useCallback = ((callback, deps) => {
+export const useCallback = (callback, deps) => {
   const [_, setSignal] = Solid.createSignal(0) // eslint-disable-line @typescript-eslint/no-unused-vars
 
   Solid.createEffect(() => {
@@ -21,7 +21,7 @@ export const useCallback = ((callback, deps) => {
       return typeof clean === 'function' && Solid.onCleanup(clean)
     })
   }
-})
+}
 
 export const useEffect = (effect, deps) => {
   Solid.createEffect(() => {
@@ -41,7 +41,7 @@ export const useRef = <T = any>(init?: T) => {
   return {
     current: state()
   }
-} 
+}
 
 export const createContext = Solid.createContext
 export const useContext = Solid.useContext

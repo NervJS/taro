@@ -2,7 +2,7 @@ import * as React from 'react'
 
 export const useState = React.useState
 
-export const useCallback = React.useCallback 
+export const useCallback = React.useCallback
 
 export const useEffect = React.useEffect
 

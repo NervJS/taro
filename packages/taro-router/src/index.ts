@@ -36,7 +36,7 @@ export function handleAppMountWithTabbar (config: SpaRouterConfig | MpaRouterCon
   }
   const appWrapper = (app?.parentNode || app?.parentElement || document.body) as HTMLElement
   appWrapper.classList.add('taro-app-wrap')
-  
+
   app.classList.add('taro_router')
 
   const container = document.createElement('div')

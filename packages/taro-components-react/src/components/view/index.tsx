@@ -3,8 +3,8 @@ import classNames from 'classnames'
 import { useEffect, useState } from '../../utils/hooks'
 import { createForwardRefComponent } from '../../utils/index'
 
+import type { TFunc } from '@tarojs/runtime/dist/runtime.esm'
 import type React from 'react'
-import { TFunc } from '@tarojs/runtime/dist/runtime.esm'
 
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverClass?: string

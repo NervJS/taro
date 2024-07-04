@@ -2,8 +2,8 @@ import * as path from 'node:path'
 
 import { isNpmPkg, printLog, processTypeEnum, recursiveMerge, resolveSync } from '@tarojs/helper'
 import postcss from 'postcss'
-import postcssImport from 'postcss-import'
 import postcssCssVariables from 'postcss-css-variables'
+import postcssImport from 'postcss-import'
 import pxtransform from 'postcss-pxtransform'
 import stylelint from 'stylelint'
 
