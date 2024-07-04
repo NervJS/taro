@@ -1,3 +1,4 @@
+//抽离全局样式，挂在到 .taro-app-wrap 下面，避免在单独打包成组件的时候造成全局样式污染
 .taro-app-wrap {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
