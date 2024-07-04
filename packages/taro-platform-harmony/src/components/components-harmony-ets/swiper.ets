@@ -3,7 +3,7 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 import commonStyleModify from './style'
 import { getNodeThresholds, shouldBindEvent } from './utils/helper'
 
-import type { TaroSwiperElement, TaroEvent, TaroAny } from '@tarojs/runtime'
+import type { TaroAny, TaroEvent, TaroSwiperElement } from '@tarojs/runtime'
 
 interface SwiperAttrs {
   index?: number

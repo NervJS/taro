@@ -4,7 +4,7 @@ import commonStyleModify, { rowModify, columnModify } from './style'
 import { FlexManager } from './utils/flexManager'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroEvent, TaroCheckboxElement, TaroCheckboxGroupElement } from '@tarojs/runtime'
+import type { TaroAny, TaroCheckboxElement, TaroCheckboxGroupElement, TaroEvent } from '@tarojs/runtime'
 import { isUndefined } from '@tarojs/shared'
 
 interface CheckboxOptions {

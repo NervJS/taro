@@ -1,5 +1,4 @@
-import { Current, document, requestAnimationFrame, TaroElement, window } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
-import { addLeadingSlash, CONTEXT_ACTIONS, env, eventCenter, TFunc } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
+import { addLeadingSlash, CONTEXT_ACTIONS, Current, document, env, eventCenter, requestAnimationFrame, TaroElement, TFunc, window } from '@tarojs/runtime'
 import { ensure, hooks, isUndefined } from '@tarojs/shared'
 
 import { ReactMeta as reactMeta } from './app'

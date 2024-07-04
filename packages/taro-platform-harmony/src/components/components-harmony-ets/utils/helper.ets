@@ -1,4 +1,4 @@
-import { VIEW } from '@tarojs/runtime/dist/runtime.esm'
+import { VIEW } from '@tarojs/runtime'
 
 import { getNormalAttributes, getFontAttributes, getStyleAttr } from './styles'
 

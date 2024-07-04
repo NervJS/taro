@@ -6,7 +6,7 @@ import { FlexManager } from './utils/flexManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNodeThresholds, getStyleAttr, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny, TaroScrollViewElement, TaroEvent } from '@tarojs/runtime'
+import type { TaroAny, TaroEvent, TaroScrollViewElement } from '@tarojs/runtime'
 
 interface ScrollViewAttrs {
   scrollBar: BarState

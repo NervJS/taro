@@ -129,12 +129,12 @@ export default class Parser extends BaseParser {
     const code = this.transArr2Str([
       'import type Want from "@ohos.app.ability.Want"',
       'import type ohWindow from "@ohos.window"',
+      'import type { AppInstance } from "@tarojs/runtime"',
       '',
       this.#setReconciler,
       'import UIAbility from "@ohos.app.ability.UIAbility"',
       'import AbilityConstant from "@ohos.app.ability.AbilityConstant"',
       'import { callFn, context, Current, ObjectAssign, TaroAny, window } from "@tarojs/runtime"',
-      'import { AppInstance } from "@tarojs/runtime/dist/runtime.esm"',
       'import { initHarmonyElement, hooks } from "@tarojs/runtime"',
       `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
       this.#setReconcilerPost,

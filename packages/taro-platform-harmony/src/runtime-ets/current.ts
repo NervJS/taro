@@ -1,9 +1,10 @@
+export type { Router } from '@tarojs/runtime/dist/current'
+
 export const context: any = {
   resolver: null,
   value: null
 }
 
-// @ts-nocheck
 export const Current: any = {
   app: null,
   uiContext: null,

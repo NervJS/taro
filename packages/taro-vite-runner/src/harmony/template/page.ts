@@ -1018,17 +1018,29 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
     }
     const importList = [
       'import type Taro from "@tarojs/taro/types"',
-      'import type { TFunc } from "@tarojs/runtime/dist/runtime.esm"',
+      'import type { PageInstance, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, TFunc } from "@tarojs/runtime"',
       'import type common from "@ohos.app.ability.common"',
       '',
       isBlended ? this.#setReconciler : '',
       'import router from "@ohos.router"',
       'import { TaroView } from "@tarojs/components"',
       'import { getSystemInfoSync } from "@tarojs/taro"',
-      'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window, document } from "@tarojs/runtime"',
-      'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
+      'import { eventCenter, bindFn, callFn, convertNumber2VP, Current, document, initHarmonyElement, ObjectAssign, window } from "@tarojs/runtime"',
       `import { createLazyChildren } from "${renderPath}"`,
     ]
+
+    if (this.isTabbarPage) {
+      importList.push(
+        ...this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`),
+      )
+    } else {
+      importList.push(
+        `import createComponent, { config } from "${path.resolve(targetRoot, (page as TaroHarmonyPageMeta).originName) + TARO_COMP_SUFFIX}"`,
+      )
+    }
+    if (isBlended && this.#setReconcilerPost) {
+      importList.push(this.#setReconcilerPost)
+    }
 
     const modifyPageImport = page instanceof Array ? page[0].modifyPageImport : page.modifyPageImport
     if (isFunction(modifyPageImport)) {
@@ -1037,26 +1049,18 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
 
     const code = this.transArr2Str([
       ...importList,
-      this.isTabbarPage
-        ? [
-          this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`),
-          isBlended ? this.#setReconcilerPost : null,
-          '',
-          `const createComponent = [${this.tabbarList.map((_, i) => `page${i}`).join(', ')}]`,
-          `const config = [${this.tabbarList.map((_, i) => `config${i}`).join(', ')}]`,
-          '',
-          'interface ITabBarItem extends Taro.TabBarItem {',
-          this.transArr2Str([
-            'key?: number',
-            'badgeText?: string',
-            'showRedDot?: boolean',
-          ], 2),
-          '}',
-        ]
-        : [
-          `import createComponent, { config } from "${path.resolve(targetRoot, (page as TaroHarmonyPageMeta).originName) + TARO_COMP_SUFFIX}"`,
-          isBlended && this.#setReconcilerPost ? this.#setReconcilerPost : null,
-        ],
+      this.isTabbarPage ? [
+        `const createComponent = [${this.tabbarList.map((_, i) => `page${i}`).join(', ')}]`,
+        `const config = [${this.tabbarList.map((_, i) => `config${i}`).join(', ')}]`,
+        '',
+        'interface ITabBarItem extends Taro.TabBarItem {',
+        this.transArr2Str([
+          'key?: number',
+          'badgeText?: string',
+          'showRedDot?: boolean',
+        ], 2),
+        '}',
+      ] : null,
       '',
       'const sysInfo: TaroAny = getSystemInfoSync()',
       this.getInstantiatePage(page),

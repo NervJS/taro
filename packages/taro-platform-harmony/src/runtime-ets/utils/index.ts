@@ -200,7 +200,6 @@ export function findChildNodeWithDFS<T extends TaroElement = TaroElement> (node:
   return null
 }
 
-export type TaroAny = any
-export type TaroFunc = (...args: TaroAny[]) => TaroAny
-export type TaroIndent = string | number | boolean | undefined | null
-export type TaroObject = Record<string | number | symbol, TaroAny>
+export * from './info'
+export * from './router'
+export * from '@tarojs/runtime/dist/utils/cache'

@@ -1,18 +1,26 @@
+/* eslint-disable simple-import-sort/exports */
 // Current必须放在前面初始化
-// eslint-disable-next-line simple-import-sort/exports
 export * from './current'
+export { hooks } from '@tarojs/shared'
+// bom
 export * from './bom/document'
 export * from './bom/getComputedStyle'
+export * from './bom/history'
+export * from './bom/location'
 export { nav as navigator } from './bom/navigator'
 export { caf as cancelAnimationFrame, now, raf as requestAnimationFrame } from './bom/raf'
+export * from './bom/URL'
 export * from './bom/window'
+// dom
 export * from './dom/element'
 export * from './dom/event'
 export * from './dom/node'
 export * from './dom/stylesheet'
 export * from './dom/cssNesting'
-export * from './interface'
+// others
+export * from './env'
+export * from './constant'
+export * from './emitter/emitter'
 export * from './utils'
-export * from './utils/info'
-export { URL, URLSearchParams, eventSource, Events } from '@tarojs/runtime/dist/runtime.esm'
-export { hooks } from '@tarojs/shared'
+// typings
+export * from './interface'
