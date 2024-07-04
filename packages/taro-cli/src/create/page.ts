@@ -14,6 +14,8 @@ export interface IPageConf {
   projectName: string
   npm: NpmType
   template: string
+  clone?: boolean
+  templateSource?: string
   description?: string
   pageName: string
   date?: string
@@ -34,6 +36,8 @@ interface ITemplateInfo {
   typescript?: boolean
   compiler?: CompilerType
   template?: string
+  templateSource?: string
+  clone?: boolean
 }
 
 type TCustomTemplateInfo = Omit<ITemplateInfo & {
@@ -161,13 +165,14 @@ export default class Page extends Creator {
       const config = await fs.readJSON(taroConfig)
       templateSource = config && config.templateSource ? config.templateSource : DEFAULT_TEMPLATE_SRC
     } else {
+      templateSource = this.conf.templateSource || DEFAULT_TEMPLATE_SRC
+
       await fs.createFile(taroConfig)
-      await fs.writeJSON(taroConfig, { templateSource: DEFAULT_TEMPLATE_SRC })
-      templateSource = DEFAULT_TEMPLATE_SRC
+      await fs.writeJSON(taroConfig, { templateSource })
     }
 
     // 从模板源下载模板
-    await fetchTemplate(templateSource, this.templatePath(''))
+    await fetchTemplate(templateSource, this.templatePath(''), this.conf.clone)
   }
 
   async create () {

@@ -27,6 +27,7 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
   return new Promise<void>(async (resolve) => {
     // 下载文件的缓存目录
     if (fs.existsSync(tempPath)) await fs.remove(tempPath)
+    await fs.mkdirp(templateRootPath)
     await fs.mkdir(tempPath)
 
     const spinner = ora(`正在从 ${templateSource} 拉取远程模板...`).start()
