@@ -19,7 +19,7 @@ export function handleAppMount (config: SpaRouterConfig | MpaRouterConfig, _: Hi
     isPosition = false
   }
   const appWrapper = (app?.parentNode || app?.parentElement || document.body) as HTMLElement
-  appWrapper.classList.add('taro-app-wrap')
+  document.body.classList.add('taro-app-wrap')
   app.classList.add('taro_router')
 
   if (!isPosition) appWrapper.appendChild(app)
@@ -35,7 +35,7 @@ export function handleAppMountWithTabbar (config: SpaRouterConfig | MpaRouterCon
     isPosition = false
   }
   const appWrapper = (app?.parentNode || app?.parentElement || document.body) as HTMLElement
-  appWrapper.classList.add('taro-app-wrap')
+  document.body.classList.add('taro-app-wrap')
 
   app.classList.add('taro_router')
 
