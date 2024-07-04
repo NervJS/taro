@@ -72,6 +72,11 @@ export class WebpackModule {
           : { localIdentName: generateScopedName }
       }
     )
+
+    // 更改 namedExport 默认值，以统一旧版本行为
+    // https://github.com/webpack-contrib/css-loader/releases/tag/v7.0.0
+    defaultOptions.modules.namedExport = false
+
     const options = recursiveMerge({}, defaultOptions, cssLoaderOption)
     return WebpackModule.getLoader('css-loader', options)
   }
