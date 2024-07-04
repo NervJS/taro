@@ -619,6 +619,9 @@ export class NativeApi {
   callInstanceAsync (option: any): any {
     return option
   }
+
+  @(asyncAndNotRelease)
+  onNativeNavigate(_options: any): void{}
 }
 
 export interface Status {
