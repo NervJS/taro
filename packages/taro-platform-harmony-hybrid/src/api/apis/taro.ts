@@ -15,7 +15,7 @@ import {
   reLaunch,
   switchTab,
 } from './index'
-import native from "./NativeApi";
+import native from './NativeApi'
 
 const requirePlugin = () => {
   return {
@@ -29,10 +29,10 @@ const requirePlugin = () => {
 
 // 监听原生的Navigate方法
 native.onNativeNavigate({
-  nativeNavigateTo: (url: string)=>{
+  nativeNavigateTo: (url: string) => {
     navigateTo({
       url: url,
-      success: function ( ) {}
+      success: function () {}
     })
   },
   nativeNavigateBack: (delta: number) => {

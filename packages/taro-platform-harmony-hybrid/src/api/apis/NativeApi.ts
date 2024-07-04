@@ -621,7 +621,7 @@ export class NativeApi {
   }
 
   @(asyncAndNotRelease)
-  onNativeNavigate(_options: any): void{}
+  onNativeNavigate (_options: any): void {}
 }
 
 export interface Status {
