@@ -61,8 +61,8 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     // React 16 uncaught error 会导致整个应用 crash，
     // 目前把错误缩小到页面
     componentDidCatch (error, info: React.ErrorInfo) {
-      console.warn(error)
-      console.error(info.componentStack)
+      console.warn(`Taro Error Page 报错信息：${error}`)
+      console.error(`Taro Error Page 报错堆栈：${info.componentStack}`)
     }
 
     render () {
