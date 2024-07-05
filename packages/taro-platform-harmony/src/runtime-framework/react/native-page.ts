@@ -288,7 +288,7 @@ export function createNativePageConfig (
       const mountCallback = () => {
         pageElement = document.getElementById($taroPath)
 
-        ensure(pageElement !== null, '没有找到页面实例。')
+        ensure(pageElement !== null, `Taro Error Page: ${$taroPath}, 该页面执行时出现了报错，导致没有找到页面实例。`)
 
         safeExecute($taroPath, ONLOAD, this.$taroParams)
         loadResolver()
