@@ -43,12 +43,12 @@ export function generateDocumentation (
 
   function visitAST (node: ts.Node, o: DocEntry[]) {
     // Only consider exported nodes
-    if (!isNodeExported(node as ts.Declaration) || node.kind === ts.SyntaxKind.EndOfFileToken || node.kind === ts.SyntaxKind.DeclareKeyword
-        || ts.isImportDeclaration(node) || ts.isImportEqualsDeclaration(node) || ts.isImportClause(node)
-        || ts.isExportAssignment(node) || ts.isExportDeclaration(node)
-        || ts.isExpressionStatement(node) || ts.isEmptyStatement(node)
-        || ts.isStringLiteral(node)
-        || node.kind === ts.SyntaxKind.ExportKeyword) {
+    if (!isNodeExported(node as ts.Declaration) || node.kind === ts.SyntaxKind.EndOfFileToken || node.kind === ts.SyntaxKind.DeclareKeyword ||
+        ts.isImportDeclaration(node) || ts.isImportEqualsDeclaration(node) || ts.isImportClause(node) ||
+        ts.isExportAssignment(node) || ts.isExportDeclaration(node) ||
+        ts.isExpressionStatement(node) || ts.isEmptyStatement(node) ||
+        ts.isStringLiteral(node) ||
+        node.kind === ts.SyntaxKind.ExportKeyword) {
       return
     }
 
@@ -136,7 +136,7 @@ export function generateDocumentation (
   }
 
   /** Serialize a types (type or interface) symbol information */
-  function serializeType (symbol: ts.Symbol, name?: string, type?:  keyof typeof ts.SyntaxKind): DocEntry {
+  function serializeType (symbol: ts.Symbol, name?: string, type?: keyof typeof ts.SyntaxKind): DocEntry {
     // console.log(type, Object.keys(symbol))
     const doc: DocEntry = serializeSymbol(symbol, name, type)
     symbol.exports && symbol.exports.forEach((value) => {

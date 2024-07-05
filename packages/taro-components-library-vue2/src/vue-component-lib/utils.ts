@@ -2,7 +2,7 @@
  * Modify from https://github.com/diondree/stencil-vue2-output-target/blob/master/vue-component-lib/utils.ts
  * MIT License https://github.com/diondree/stencil-vue2-output-target/blob/master/LICENSE.md
  */
-import Vue, { CreateElement,VNode } from 'vue'
+import Vue, { CreateElement, VNode } from 'vue'
 
 export const createCommonMethod = (methodName: string) =>
   function (...args: any[]) {

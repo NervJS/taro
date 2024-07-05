@@ -1,5 +1,5 @@
 /******************************************************************************
-Copyright (c) 2019 wechat-miniprogram. 
+Copyright (c) 2019 wechat-miniprogram.
 Reference and modify code  by miniprogram-render/src/bom/cookie.js.
 
 Permission to use, copy, modify, and/or distribute this software for any

@@ -36,9 +36,10 @@ export default (ctx: IPluginContext) => {
       'taro global-config reset',
     ],
     optionsMap: {
+      '-r --registry [url]': '指定 npm registry',
       '-h, --help': 'output usage information'
     },
-    fn ({ _ }) {
+    fn ({ _, options }) {
       const [, action, pluginName] = _
       const { getUserHomeDir, TARO_GLOBAL_CONFIG_DIR, fs, TARO_GLOBAL_CONFIG_FILE } = ctx.helper
       const homedir = getUserHomeDir()
@@ -46,8 +47,9 @@ export default (ctx: IPluginContext) => {
       if (!homedir) return console.log('找不到用户根目录')
       const rootPath = getRootPath()
       const templatePath = path.join(rootPath, 'templates', 'global-config')
+      const registry = options.registry || options.r
       function makeSureConfigExists () {
-        if(!fs.existsSync(globalPluginConfigDir)){
+        if (!fs.existsSync(globalPluginConfigDir)) {
           const spinner = ora(`目录不存在，全局配置初始化`).start()
           try {
             fs.copySync(templatePath, globalPluginConfigDir)
@@ -56,10 +58,9 @@ export default (ctx: IPluginContext) => {
             spinner.fail(`全局配置初始化失败，${e}`)
             process.exit(1)
           }
-
         }
       }
-      function addOrRemovePresetOrPlugin (actionType: TPresetOrPluginAction, pluginType: TPluginType ) {
+      function addOrRemovePresetOrPlugin (actionType: TPresetOrPluginAction, pluginType: TPluginType) {
         makeSureConfigExists()
         const presetOrPluginChineseName = PRESET_OR_PLUGIN_CHINESE_NAME_MAP[pluginType]
         const chineseCommand = PRESET_OR_PLUGIN_COMMAND_CHINESE_MAP_MAP[actionType]
@@ -70,12 +71,16 @@ export default (ctx: IPluginContext) => {
 
         const spinner = ora(`开始${chineseCommand}${presetOrPluginChineseName} ${pluginName}`).start()
         const pluginWithoutVersionName = getPkgNameByFilterVersion(pluginName)
-        if(!validatePkgName(pluginWithoutVersionName).validForNewPackages) {
+        if (!validatePkgName(pluginWithoutVersionName).validForNewPackages) {
           spinner.fail('安装的插件名不合规！')
           process.exit(1)
         }
+        let command = `cd ${globalPluginConfigDir} && npm ${actionType} ${pluginName}`
+        if (registry) {
+          command += ` --registry=${registry}`
+        }
         execCommand({
-          command: `cd ${globalPluginConfigDir} && npm ${actionType} ${pluginName}`,
+          command,
           successCallback (data) {
             console.log(data.replace(/\n$/, ''))
             spinner.start(`开始修改${presetOrPluginChineseName}配置`)
@@ -83,21 +88,21 @@ export default (ctx: IPluginContext) => {
             let globalConfig
             try {
               globalConfig = fs.readJSONSync(configFilePath)
-            } catch (e){
+            } catch (e) {
               spinner.fail('获取配置文件失败')
             }
             const configKey = PLUGIN_TYPE_TO_CONFIG_KEY[pluginType]
             const configItem = globalConfig[configKey] || []
-            const pluginIndex = configItem.findIndex((item)=>{
-              if(typeof item === 'string') return item === pluginWithoutVersionName
-              if( item instanceof Array) return item?.[0] === pluginWithoutVersionName
+            const pluginIndex = configItem.findIndex((item) => {
+              if (typeof item === 'string') return item === pluginWithoutVersionName
+              if (item instanceof Array) return item?.[0] === pluginWithoutVersionName
             })
             const shouldChangeFile = !(Number(pluginIndex !== -1) ^ Number(actionType === 'uninstall'))
-            if(shouldChangeFile){
+            if (shouldChangeFile) {
               actionType === 'install' ? configItem.push(pluginWithoutVersionName) : configItem.splice(pluginIndex, 1)
               try {
                 fs.writeJSONSync(configFilePath, {
-                  [configKey] : configItem
+                  [configKey]: configItem
                 })
               } catch (e) {
                 spinner.fail(`修改配置文件失败：${e}`)
@@ -125,7 +130,7 @@ export default (ctx: IPluginContext) => {
           addOrRemovePresetOrPlugin('uninstall', 'preset')
           break
         case 'reset':
-          if(fs.existsSync(globalPluginConfigDir)) fs.removeSync(globalPluginConfigDir)
+          if (fs.existsSync(globalPluginConfigDir)) fs.removeSync(globalPluginConfigDir)
           fs.copySync(templatePath, globalPluginConfigDir)
           break
         default:

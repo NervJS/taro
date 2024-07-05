@@ -26,7 +26,7 @@
  */
 
 import path from 'path'
-import webpack, { type Compiler,Dependency, Module,  } from 'webpack'
+import webpack, { type Compiler, Dependency, Module, } from 'webpack'
 
 import type { MiniCombination } from '../webpack/MiniCombination'
 
@@ -221,7 +221,6 @@ interface IPluginOptions {
 }
 
 export default class MiniCompileModePlugin {
-
   // eslint-disable-next-line no-useless-constructor
   constructor (private options: IPluginOptions) {}
 

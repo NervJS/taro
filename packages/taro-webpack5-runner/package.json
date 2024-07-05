@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "3.6.25",
+  "version": "3.6.32-alpha.2",
   "description": "Taro app runner",
   "main": "index.js",
   "scripts": {
@@ -90,8 +90,8 @@
     "webpack-chain": "6.5.1",
     "webpack-dev-server": "4.11.1",
     "webpack-format-messages": "^2.0.6",
-    "webpackbar": "^5.0.2",
-    "webpack-virtual-modules": "^0.5.0"
+    "webpack-virtual-modules": "^0.5.0",
+    "webpackbar": "^5.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
@@ -108,8 +108,8 @@
     "memfs": "^3.1.2",
     "memory-fs": "^0.5.0",
     "postcss": "^8.4.18",
-    "ts-node": "^10.9.1",
     "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
     "typescript": "^4.7.4",
     "webpack": "5.78.0",
     "webpack-merge": "^4.2.2"

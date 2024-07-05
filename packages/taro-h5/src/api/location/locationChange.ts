@@ -1,4 +1,4 @@
-import { processOpenApi,shouldBeObject } from '../../utils'
+import { processOpenApi, shouldBeObject } from '../../utils'
 import { CallbackManager, MethodHandler } from '../../utils/handler'
 import { isGeolocationSupported } from './utils'
 
@@ -23,7 +23,7 @@ export function offLocationChange (callback: Taro.onLocationChange.Callback): vo
 export function onLocationChangeError (callback: Taro.onLocationChange.Callback): void {
   _errorCbManager.add(callback)
 }
-  
+
 export function offLocationChangeError (callback: Taro.onLocationChange.Callback): void {
   if (callback && typeof callback === 'function') {
     _errorCbManager.remove(callback)
@@ -36,8 +36,8 @@ export function offLocationChangeError (callback: Taro.onLocationChange.Callback
 
 /**
  * 开始监听位置信息
- * @param opts 
- * @returns 
+ * @param opts
+ * @returns
  */
 function startLocationUpdateByW3CApi (opts: Taro.startLocationUpdate.Option): Promise<TaroGeneral.CallbackResult> {
 // 断言 options 必须是 Object
@@ -93,8 +93,8 @@ function startLocationUpdateByW3CApi (opts: Taro.startLocationUpdate.Option): Pr
 
 /**
  * 停止监听位置信息
- * @param opts 
- * @returns 
+ * @param opts
+ * @returns
  */
 function stopLocationUpdateByW3CApi (opts: Taro.stopLocationUpdate.Option): Promise<TaroGeneral.CallbackResult> {
   const isObject = shouldBeObject(opts)
@@ -103,7 +103,7 @@ function stopLocationUpdateByW3CApi (opts: Taro.stopLocationUpdate.Option): Prom
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  
+
   const { success, fail, complete } = opts
   const handle = new MethodHandler({ name: 'stopLocationUpdate', success, fail, complete })
 

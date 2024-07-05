@@ -1,4 +1,4 @@
-import { CompilerType, createPage as createPageBinding,CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
+import { CompilerType, createPage as createPageBinding, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
 import { chalk, DEFAULT_TEMPLATE_SRC, fs, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
 import { isNil } from 'lodash'
 import * as path from 'path'
@@ -13,6 +13,8 @@ export interface IPageConf {
   projectName: string
   npm: NpmType
   template: string
+  clone?: boolean
+  templateSource?: string
   description?: string
   pageName: string
   date?: string
@@ -31,6 +33,8 @@ interface ITemplateInfo {
   typescript?: boolean
   compiler?: CompilerType
   template?: string
+  templateSource?: string
+  clone?: boolean
 }
 
 type TCustomTemplateInfo = Omit<ITemplateInfo & {
@@ -40,7 +44,7 @@ type TCustomTemplateInfo = Omit<ITemplateInfo & {
 
 export type TSetCustomTemplateConfig = (customTemplateConfig: TCustomTemplateInfo) => void
 
-type TGetCustomTemplate = (cb: TSetCustomTemplateConfig ) => Promise<void>
+type TGetCustomTemplate = (cb: TSetCustomTemplateConfig) => Promise<void>
 
 const DEFAULT_TEMPLATE_INFO = {
   name: 'default',
@@ -123,13 +127,14 @@ export default class Page extends Creator {
       const config = await fs.readJSON(taroConfig)
       templateSource = config && config.templateSource ? config.templateSource : DEFAULT_TEMPLATE_SRC
     } else {
+      templateSource = this.conf.templateSource || DEFAULT_TEMPLATE_SRC
+
       await fs.createFile(taroConfig)
-      await fs.writeJSON(taroConfig, { templateSource: DEFAULT_TEMPLATE_SRC })
-      templateSource = DEFAULT_TEMPLATE_SRC
+      await fs.writeJSON(taroConfig, { templateSource })
     }
 
     // 从模板源下载模板
-    await fetchTemplate(templateSource, this.templatePath(''))
+    await fetchTemplate(templateSource, this.templatePath(''), this.conf.clone)
   }
 
   async create () {
@@ -137,7 +142,7 @@ export default class Page extends Creator {
     this.conf.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
     // apply 插件，由插件设置自定义模版 config
     await this.modifyCustomTemplateConfig(this.setCustomTemplateConfig.bind(this))
-    if(!this.conf.isCustomTemplate){
+    if (!this.conf.isCustomTemplate) {
       const pkgTemplateInfo = this.getPkgTemplateInfo()
       this.setTemplateConfig(pkgTemplateInfo)
       if (!fs.existsSync(this.templatePath(this.conf.template))) {

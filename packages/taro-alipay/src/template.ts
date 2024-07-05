@@ -144,7 +144,7 @@ export class Template extends RecursiveTemplate {
     if (pageConfig?.enablePageMeta) {
       const getComponentAttrs = (componentName: string, dataPath: string) => {
         return Object.entries(this.transferComponents[componentName]).reduce((sum, [key, value]) => {
-          sum +=`${key}="${value === 'eh' ? value : `{{${value.replace('i.', dataPath)}}}`}" `
+          sum += `${key}="${value === 'eh' ? value : `{{${value.replace('i.', dataPath)}}}`}" `
           return sum
         }, '')
       }

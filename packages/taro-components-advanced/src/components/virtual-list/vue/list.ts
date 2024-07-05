@@ -133,7 +133,7 @@ export default defineComponent({
           duration: 300,
         }
         if (isHorizontal) {
-          option.left	= scrollOffset
+          option.left = scrollOffset
         } else {
           option.top = scrollOffset
         }
@@ -443,7 +443,7 @@ export default defineComponent({
           visibility: 'hidden',
           height: isHorizontal ? '100%' : 100,
           width: isHorizontal ? 100 : '100%',
-          [isHorizontal ? isRtl ? 'marginRight' : 'marginLeft': 'marginTop']: -100,
+          [isHorizontal ? isRtl ? 'marginRight' : 'marginLeft' : 'marginTop']: -100,
           zIndex: -1,
         }
       }

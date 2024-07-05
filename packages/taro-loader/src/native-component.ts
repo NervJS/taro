@@ -8,7 +8,7 @@ import type * as webpack from 'webpack'
 
 export default function (this: webpack.LoaderContext<any>, source: string) {
   const options = getOptions(this)
-  const { loaderMeta = {}, config: loaderConfig, isNewBlended = false, runtimePath  } = options
+  const { loaderMeta = {}, config: loaderConfig, isNewBlended = false, runtimePath } = options
   const { importFrameworkStatement, frameworkArgs, isNeedRawLoader, creatorLocation } = loaderMeta
   const config = getPageConfig(loaderConfig, this.resourcePath)
   config.isNewBlended = isNewBlended
