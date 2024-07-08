@@ -2,7 +2,7 @@ import { VIEW } from '@tarojs/runtime'
 
 import { getNormalAttributes, getFontAttributes, getStyleAttr } from './styles'
 
-import type { TaroElement, TaroNode, TaroAny } from '@tarojs/runtime'
+import type { TaroAny, TaroElement, TaroNode } from '@tarojs/runtime'
 
 export const parseStyles = (styles = ''): Record<string, string> => {
   const styleObj: Record<string, string> = {}

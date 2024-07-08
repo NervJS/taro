@@ -3,7 +3,7 @@ import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBL
 import commonStyleModify from './style'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroWebViewElement, TaroEvent } from '@tarojs/runtime'
+import type { TaroAny, TaroEvent, TaroWebViewElement } from '@tarojs/runtime'
 
 interface IPageLoad {
   url: string

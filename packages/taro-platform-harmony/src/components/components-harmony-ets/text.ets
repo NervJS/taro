@@ -7,7 +7,7 @@ import { getImageMode } from './image'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { getNodeThresholds, getStyleAttr, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
-import type { TaroButtonElement, TaroElement, TaroTextElement, TaroAny, HarmonyStyle } from '@tarojs/runtime'
+import type { HarmonyStyle, TaroAny, TaroButtonElement, TaroElement, TaroTextElement } from '@tarojs/runtime'
 
 function getButtonFontSize (node: TaroButtonElement): string | number {
   const isMini = node._attrs.size === 'mini'

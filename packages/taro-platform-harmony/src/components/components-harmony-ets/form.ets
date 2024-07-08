@@ -7,7 +7,6 @@ import { FlexManager } from './utils/flexManager'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroAny, TaroFormElement } from '@tarojs/runtime'
-import { isUndefined } from '@tarojs/shared'
 
 @Component
 export default struct TaroForm {

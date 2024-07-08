@@ -5,7 +5,6 @@ import { FlexManager } from './utils/flexManager'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroAny, TaroCheckboxElement, TaroCheckboxGroupElement, TaroEvent } from '@tarojs/runtime'
-import { isUndefined } from '@tarojs/shared'
 
 interface CheckboxOptions {
   name?: string

@@ -1,10 +1,11 @@
-import type { TaroAny, HarmonyStyle, TaroElement, TaroStyleType, TaroTextElement }  from '@tarojs/runtime'
 import { ObjectAssign }  from '@tarojs/runtime'
 import { isUndefined } from '@tarojs/shared'
 import { computeBackgroundPosition, convertVp2Px } from './utils'
 import { getNormalAttributes } from './utils/helper'
 import { isMaxWidthView } from './utils/styles'
 import { FlexManager } from './utils/flexManager'
+
+import type { HarmonyStyle, TaroAny, TaroElement, TaroStyleType, TaroTextElement }  from '@tarojs/runtime'
 
 class TextStyleModify implements AttributeModifier<TextAttribute> {
   initStyle?: TaroStyleType
@@ -81,7 +82,7 @@ class CommonStyleModify implements AttributeModifier<CommonAttribute> {
     }
     return this
   }
-  
+
   setAnimationStyle (overwriteStyle: Record<string, TaroAny>) {
     this.overwriteStyle = overwriteStyle
     if (this.style && this.overwriteStyle && Object.keys(this.overwriteStyle).length) {
@@ -248,9 +249,9 @@ export function setNormalAttributeIntoInstance(instance: CommonAttribute, style:
     instance.key(style.id)
   }
   if (!isUndefined(style.display) || !isUndefined(style.visibility)) {
-    instance.visibility(style.display === 'none' 
-      ? Visibility.None : 
-      !isUndefined(style.visibility) 
+    instance.visibility(style.display === 'none'
+      ? Visibility.None :
+      !isUndefined(style.visibility)
         ? (style.visibility === 'hidden' ? Visibility.Hidden :  Visibility.Visible)
         : Visibility.Visible
     )

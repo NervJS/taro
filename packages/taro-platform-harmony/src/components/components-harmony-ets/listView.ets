@@ -1,6 +1,6 @@
 import commonStyleModify from './style'
 
-import type { TaroViewElement, TaroAny } from '@tarojs/runtime'
+import type { TaroAny, TaroViewElement } from '@tarojs/runtime'
 
 @Reusable
 @Component
