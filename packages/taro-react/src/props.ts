@@ -6,6 +6,7 @@ import { capitalize, internalComponents, isFunction, isNumber, isObject, isStrin
 export type Props = Record<string, unknown>
 
 const isHarmony = process.env.TARO_PLATFORM === 'harmony'
+const isHarmonyCPP = /harmony.*cpp/.test(process.env.TARO_ENV || '')
 const IS_NON_DIMENSIONAL = /max|aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
 
 function isEventName (s: string) {
@@ -227,6 +228,9 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
   ) {
     // skip
   } else if (name === 'style') {
+    if (isHarmonyCPP) {
+      return dom.setAttribute('_style4cpp', value)
+    }
     const style = dom.style
     if (isString(value)) {
       style.cssText = value
