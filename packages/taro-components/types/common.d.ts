@@ -3,7 +3,7 @@ import { CSSProperties, LegacyRef, ReactNode } from 'react'
 export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> = ITouchEvent> extends EventProps<TouchEvent> {
   /** 组件的唯一标示, 保持整个页面唯一 */
   id?: string
-  /** 同 `class`，在 React/Nerv 里一般使用 `className` 作为 `class` 的代称 */
+  /** 同 `class`，在 React/Preact 里一般使用 `className` 作为 `class` 的代称 */
   className?: string
   /** 组件的内联样式, 可以动态设置的内联样式 */
   style?: string | CSSProperties
