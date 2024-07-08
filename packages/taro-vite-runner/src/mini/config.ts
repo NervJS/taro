@@ -177,6 +177,8 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
               const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+              //Note: vite-runner 里面涉及到一些js文件的注入，比如 comp.js， 为了避免这些文件被打包进 vendors，这里做了特殊处理
+              if(/node_modules[\\/]@tarojs[\\/]vite-runner/.test(id)) return null
 
               if (nodeModulesDirRegx.test(id) || /commonjsHelpers\.js$/.test(id)) {
                 return 'vendors'
