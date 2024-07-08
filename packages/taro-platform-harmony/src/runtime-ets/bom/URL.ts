@@ -1,2 +1,2 @@
-export * from '@tarojs/runtime/dist/bom/URL'
-export * from '@tarojs/runtime/dist/bom/URLSearchParams'
+export { parseUrl, URL } from '@tarojs/runtime/dist/runtime.esm'
+export { URLSearchParams } from '@tarojs/runtime/dist/runtime.esm'

@@ -1,4 +1,5 @@
 export * from './event'
+export { PageConfig, TFunc } from '@tarojs/runtime/dist/runtime.esm'
 
 export type TaroAny = any
 export type TaroFunc = (...args: TaroAny[]) => TaroAny

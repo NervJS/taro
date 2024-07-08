@@ -1,1 +1,1 @@
-export * from '@tarojs/runtime/dist/bom/location'
+export { Location } from '@tarojs/runtime/dist/runtime.esm'

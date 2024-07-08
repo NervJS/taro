@@ -5,11 +5,9 @@ import { TaroEventTarget } from '../dom/eventTarget'
 import { getComputedStyle } from './getComputedStyle'
 import { History } from './history'
 import { Location } from './location'
-import { nav } from './navigator'
+import { navigator as nav } from './navigator'
 
 import type { TaroDocument } from '../dom/document'
-
-export type { TaroWindow } from '@tarojs/runtime/dist/bom/window'
 
 export class Window extends TaroEventTarget {
   public _doc: TaroDocument

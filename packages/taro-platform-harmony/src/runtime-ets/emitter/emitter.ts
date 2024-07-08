@@ -1,1 +1,1 @@
-export * from '@tarojs/runtime/dist/emitter/emitter'
+export { eventCenter, Events, EventsType } from '@tarojs/runtime/dist/runtime.esm'

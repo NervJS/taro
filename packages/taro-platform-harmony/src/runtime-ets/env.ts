@@ -1,1 +1,1 @@
-export { default as env } from '@tarojs/runtime/dist/env'
+export { env } from '@tarojs/runtime/dist/runtime.esm'

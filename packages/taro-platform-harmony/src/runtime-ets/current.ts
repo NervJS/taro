@@ -1,5 +1,3 @@
-export type { Router } from '@tarojs/runtime/dist/current'
-
 export const context: any = {
   resolver: null,
   value: null

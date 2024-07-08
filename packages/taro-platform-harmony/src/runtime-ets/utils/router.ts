@@ -1,1 +1,9 @@
-export * from '@tarojs/runtime/dist/utils/router'
+export {
+  addLeadingSlash,
+  getCurrentPage,
+  getHomePage,
+  hasBasename,
+  stripBasename,
+  stripSuffix,
+  stripTrailing
+} from '@tarojs/runtime/dist/runtime.esm'

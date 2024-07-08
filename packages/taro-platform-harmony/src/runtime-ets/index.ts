@@ -7,8 +7,8 @@ export * from './bom/document'
 export * from './bom/getComputedStyle'
 export * from './bom/history'
 export * from './bom/location'
-export { nav as navigator } from './bom/navigator'
-export { caf as cancelAnimationFrame, now, raf as requestAnimationFrame } from './bom/raf'
+export { navigator } from './bom/navigator'
+export { cancelAnimationFrame, now, requestAnimationFrame } from './bom/raf'
 export * from './bom/URL'
 export * from './bom/window'
 // dom
@@ -24,3 +24,9 @@ export * from './emitter/emitter'
 export * from './utils'
 // typings
 export * from './interface'
+export {
+  Instance, PageProps,
+  ReactPageComponent, ReactPageInstance, ReactAppInstance,
+  PageLifeCycle, PageInstance,
+  AppInstance,
+} from '@tarojs/runtime/dist/runtime.esm'
