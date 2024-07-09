@@ -265,7 +265,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       validateStylelint(id, raw)
 
       if (modules && !moduleCache.has(id)) {
-        moduleCache.set(id, modules)
+        moduleCache.set(id.replace(usedRE, ''), modules)
       }
 
       // track deps for build watch mode
