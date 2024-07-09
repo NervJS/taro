@@ -34,6 +34,7 @@ export const setClipboardData: typeof Taro.setClipboardData = function (options)
 
     try {
       systemPasteboard.setDataSync(pasteData)
+      // @ts-ignore
       const uiContext = Current?.page?.getUIContext?.()
 
       if (!uiContext) return

@@ -30,6 +30,7 @@ export function showToast (options) {
       return callAsyncFail(reject, res, options)
     }
 
+    // @ts-ignore
     const uiContext = Current?.page?.getUIContext?.()
 
     if (!uiContext) return
@@ -85,6 +86,7 @@ export function showModal (options) {
       buttons: buttons,
     }
 
+    // @ts-ignore
     const uiContext = Current?.page?.getUIContext?.()
 
     if (!uiContext) return
@@ -157,6 +159,7 @@ export function showActionSheet (options) {
       buttons
     }
 
+    // @ts-ignore
     const uiContext = Current?.page?.getUIContext?.()
 
     if (!uiContext) return
