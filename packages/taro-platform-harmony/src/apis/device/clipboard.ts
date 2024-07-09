@@ -1,8 +1,10 @@
 // 从 API Version 6 开始支持
 import pasteboard from '@ohos.pasteboard'
-import promptAction from '@ohos.promptAction'
+// @ts-ignore
+import { Current } from '@tarojs/runtime'
 import { isString } from '@tarojs/shared'
 
+import {} from '../'
 import { callAsyncFail, getParameterError, object2String } from '../utils'
 import { MethodHandler } from '../utils/handler'
 
@@ -32,7 +34,11 @@ export const setClipboardData: typeof Taro.setClipboardData = function (options)
 
     try {
       systemPasteboard.setDataSync(pasteData)
-      promptAction.showToast({
+      const uiContext = Current?.page?.getUIContext?.()
+
+      if (!uiContext) return
+
+      uiContext.getPromptAction().showToast({
         message: '内容已复制',
         duration: 1500,
         bottom: '50%',
