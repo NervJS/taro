@@ -135,7 +135,6 @@ export default class Parser extends BaseParser {
 
   getInstantiatePage (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
     const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
-    console.log('entryOption', entryOption) // eslint-disable-line
     const { modifyInstantiate } = this.loaderMeta
     const structCodeArray: unknown[] = [
       '@Component',
