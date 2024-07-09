@@ -175,6 +175,7 @@ export default class CLI {
             newBlended: Boolean(args['new-blended']),
             // Note: 是否禁用编译
             withoutBuild: !args.build,
+            noInjectGlobalStyle: Boolean(args['no-inject-global-style']),
             port: args.port,
             env: args.env,
             deviceType: args.platform,

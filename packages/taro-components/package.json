@@ -18,7 +18,8 @@
     "mini",
     "types",
     "virtual-list",
-    "vue3.d.ts"
+    "vue3.d.ts",
+    "global.css"
   ],
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",

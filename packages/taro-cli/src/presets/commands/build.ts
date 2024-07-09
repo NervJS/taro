@@ -30,6 +30,7 @@ export default (ctx: IPluginContext) => {
       '--new-blended': 'Blended Taro project in an original MiniApp project while supporting building components independently',
       '--plugin [typeName]': 'Build Taro plugin project, weapp',
       '--env-prefix [envPrefix]': "Provide the dotEnv varables's prefix",
+      '--no-inject-global-style': '[H5] Do not inject global style',
     },
     synopsisList: [
       'taro build --type weapp',
@@ -45,7 +46,7 @@ export default (ctx: IPluginContext) => {
     ],
     async fn(opts) {
       const { options, config, _ } = opts
-      const { platform, isWatch, blended, newBlended, withoutBuild } = options
+      const { platform, isWatch, blended, newBlended, withoutBuild, noInjectGlobalStyle } = options
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
 
@@ -114,6 +115,7 @@ export default (ctx: IPluginContext) => {
             isBuildNativeComp,
             withoutBuild,
             newBlended,
+            noInjectGlobalStyle,
             async modifyAppConfig (appConfig) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_APP_CONFIG,
