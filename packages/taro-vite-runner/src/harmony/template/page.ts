@@ -135,6 +135,7 @@ export default class Parser extends BaseParser {
 
   getInstantiatePage (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
     const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
+    console.log('entryOption', entryOption) // eslint-disable-line
     const { modifyInstantiate } = this.loaderMeta
     const structCodeArray: unknown[] = [
       '@Component',
@@ -1079,11 +1080,12 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
 
   parseEntry (rawId: string, page: TaroHarmonyPageMeta) {
     const { creatorLocation, importFrameworkStatement } = this.loaderMeta
+    const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
     let createFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
 
-    const nativeCreatePage = `createNativePageConfig(component, '${page.name}', React, ReactDOM, config)`
-    let createPageOrComponent = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
+    const nativeCreatePage = `createNativePageConfig(component, '${entryOption.routeName}', React, ReactDOM, config)`
+    let createPageOrComponent = isBlended ? nativeCreatePage : `createPageConfig(component, '${entryOption.routeName}', config)`
 
     // 如果是pure，说明不是一个页面，而是一个组件，这个时候修改import和createPage
     if (this.isPure) {
