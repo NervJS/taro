@@ -98,7 +98,7 @@ export class TaroNode extends TaroDataSourceElement {
 
   // 提供唯一标识，方便与小程序一致，能根据uid获取到对应的节点
   public get uid (): string {
-    return this._nid
+    return `${this._nid}`
   }
 
   public get firstChild (): TaroNode | null {
