@@ -1505,7 +1505,7 @@ export default class TaroMiniPlugin {
             if (pageStyle in assets) {
               const source = new ConcatSource('')
               const originSource = assets[pageStyle]
-              source.add(`@import ${JSON.stringify(urlToRequest(path.posix.relative(path.dirname(pageStyle), 'app.wxss')))};\n`)
+              source.add(`@import ${JSON.stringify(urlToRequest(path.posix.relative(path.dirname(pageStyle), 'app' + styleExt)))};\n`)
               source.add(originSource)
               assets[pageStyle] = source
             }
