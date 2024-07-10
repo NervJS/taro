@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-react",
-  "version": "4.0.0-alpha.38",
+  "version": "4.0.0-alpha.39",
   "description": "React/Preact 框架插件",
   "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro",
