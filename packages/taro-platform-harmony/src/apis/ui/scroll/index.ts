@@ -6,8 +6,8 @@
  * 文档地址 https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-framework-syntax-js-0000000000611432
  */
 import { AREA_CHANGE_EVENT_NAME, Current, findChildNodeWithDFS, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate } from '@tarojs/runtime'
-import { pxTransformHelper } from '@tarojs/taro'
 
+import { pxTransformHelper } from '../../index'
 import { MethodHandler } from '../../utils/handler'
 
 import type Taro from '@tarojs/taro/types'
