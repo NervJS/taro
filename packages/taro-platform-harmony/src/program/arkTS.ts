@@ -90,6 +90,8 @@ export default class Harmony extends TaroPlatformHarmony {
     env.forEach(([key, value]) => {
       this.#defineConstants[`process.env.${key}`] = JSON.stringify(value)
     })
+
+    return this.#defineConstants
   }
 
   extensions = ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.mts', '.vue', '.ets', '.d.ts']
