@@ -2,6 +2,8 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/api/apis/utils'
 import { MethodHandler } from 'src/api/apis/utils/handler'
 
+import nativeLocation from './NativeLocation'
+
 /**
  * 开启小程序进入前台时接收位置消息
  *
@@ -17,8 +19,7 @@ export const startLocationUpdate: typeof Taro.startLocationUpdate = (options) =>
   }
   const { success, fail, complete } = options || {}
   const handle = new MethodHandler<TaroGeneral.CallbackResult>({ name, success, fail, complete })
-  // @ts-ignore
-  native.startLocationUpdate({
+  nativeLocation.startLocationUpdate({
     success: (res: any) => {
       handle.success(res)
     },

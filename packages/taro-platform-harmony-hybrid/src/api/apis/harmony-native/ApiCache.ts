@@ -11,7 +11,8 @@ export function syncApiCache (cacheTime: number = 500) : MethodDecorator {
         lastCall = now
         return lastResult
       }
-      lastResult = origMethod.apply(this, args)
+      // dev模式下origMethod为 undefined
+      lastResult = origMethod?.apply(this, args)
       lastCall = now
       return lastResult
     }

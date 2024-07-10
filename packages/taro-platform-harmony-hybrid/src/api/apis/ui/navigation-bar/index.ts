@@ -1,36 +1,9 @@
 import Taro from '@tarojs/api'
-import { addStyle } from '@tarojs/router/dist/style'
 import { setTitle } from '@tarojs/router/dist/utils/navigate'
 
 import native from '../../NativeApi'
 import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
-
-/**
- * 导航条与Web层叠布局，导航条可见情况下Web页面顶部空出一定高度的留白
- */
-function loadNavigationSytle () {
-  if (typeof window === 'undefined') {
-    return
-  }
-  // @ts-ignore
-  const naviHeight = window.navigationHeight ? window.navigationHeight : 0
-  const css = `
-.taro_router .taro_page.taro_navigation_page {
-  padding-top: ${naviHeight}px;
-}
-
-.taro-tabbar__container .taro_page.taro_navigation_page {
-  max-height: calc(100vh - ${naviHeight}px);
-}
-
-.taro-tabbar__container .taro_page.taro_tabbar_page.taro_navigation_page {
-  max-height: calc(100vh - 50px - ${naviHeight}px);
-}`
-  addStyle(css)
-}
-
-loadNavigationSytle()
 
 /**
  * 显示页面导航条加载图标
@@ -41,7 +14,6 @@ export const showNavigationBarLoading: typeof Taro.showNavigationBarLoading = (o
   const { success, fail, complete } = (options || {}) as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name: 'showNavigationBarLoading', success, fail, complete })
 
-  // @ts-ignore
   native.showNavigationBarLoading()
   return handle.success()
 }
@@ -55,7 +27,6 @@ export const hideNavigationBarLoading: typeof Taro.hideNavigationBarLoading = (o
   const { success, fail, complete } = (options || {}) as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name: 'hideNavigationBarLoading', success, fail, complete })
 
-  // @ts-ignore
   native.hideNavigationBarLoading()
   return handle.success()
 }
@@ -151,3 +122,4 @@ export const setNavigationBarColor: typeof Taro.setNavigationBarColor = (options
  * @null_implementation
  */
 export const hideHomeButton = () => Promise.resolve()
+export { loadNavigationStyle, registerNavigationStyleHandler } from './style-event'

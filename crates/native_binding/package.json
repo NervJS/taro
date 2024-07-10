@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/binding",
-  "version": "3.6.31",
+  "version": "3.6.33",
   "description": "Node binding for taro",
   "main": "binding.js",
   "typings": "binding.d.ts",

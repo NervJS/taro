@@ -1,6 +1,6 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
@@ -14,15 +14,21 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'startSoterAuthentication 指纹',
-        func: null,
+        func: () => {
+          this.startSoterAuthentication('fingerPrint')
+        },
       },
       {
         id: 'startSoterAuthentication 人脸',
-        func: null,
+        func: () => {
+          this.startSoterAuthentication('facial')
+        },
       },
       {
         id: 'startSoterAuthentication 声纹',
-        func: null,
+        func: () => {
+          this.startSoterAuthentication('speech')
+        },
       },
       {
         id: 'checkIsSupportSoterAuthentication',

@@ -1,15 +1,8 @@
 // import {timeLog} from "./NativeApiLog";
 import { syncApiCache } from './harmony-native/ApiCache'
+import { asyncAndNotRelease, asyncAndRelease, syncAndRelease } from './harmony-native/ApiDecorator'
 import { storageCacheAndSyncProxy } from './harmony-native/StorageCacheAndSyncProxy'
 import { NativeDataChangeListener, SyncCacheProxyHandler } from './NativeApiSyncCacheProxy'
-// @ts-ignore
-const syncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true }) || (target => target)
-// @ts-ignore
-// const syncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: false }) || (target => target)
-// @ts-ignore
-const asyncAndRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: true }) || (target => target)
-// @ts-ignore
-const asyncAndNotRelease = window.MethodChannel && window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false }) || (target => target)
 
 // export let judgeUseAxios = false
 export class NativeApi {
@@ -18,18 +11,6 @@ export class NativeApi {
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   registerNativeListener (listener: NativeDataChangeListener | null): void {
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  openLocation (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  chooseLocation (options: any): any {
-    return options
   }
 
   @syncApiCache()
@@ -57,12 +38,6 @@ export class NativeApi {
   @syncApiCache()
   @(syncAndRelease)
   getAppAuthorizeSetting (): any {}
-
-  // @ts-ignore
-  @(syncAndRelease)
-  navigateToMiniProgram (options: any) {
-    return options
-  }
 
   // @ts-ignore
   @(syncAndRelease)
@@ -164,6 +139,37 @@ export class NativeApi {
     return options
   }
 
+  @(asyncAndRelease)
+  saveVideoToPhotosAlbum (options: any): any {
+    return options
+  }
+
+  @(asyncAndRelease)
+  compressImage (options: any): any {
+    return options
+  }
+
+  @(asyncAndRelease)
+  showNavigationBarLoading (): void {}
+
+  @(asyncAndRelease)
+  hideNavigationBarLoading (): void {}
+
+  @(asyncAndRelease)
+  startSoterAuthentication (options: any): any {
+    return options
+  }
+
+  @(asyncAndRelease)
+  checkIsSupportSoterAuthentication (options: any): any {
+    return options
+  }
+
+  @(asyncAndRelease)
+  checkIsSoterEnrolledInDevice (options: any): any {
+    return options
+  }
+
   // @ts-ignore
   @(syncAndRelease)
   chooseMediaAssets (options: any): any {
@@ -196,12 +202,6 @@ export class NativeApi {
 
   // @ts-ignore
   @(syncAndRelease)
-  getLocation (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
   openDocument (options: any): any {
     return options
   }
@@ -213,10 +213,22 @@ export class NativeApi {
   }
 
   // @ts-ignore
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setNavigationStyle (options: any): void {}
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setCapsuleState (options: any): void {}
+
+  // @ts-ignore
   @(syncAndRelease)
-  setNavigationStyle (options: any): any {
-    return options
-  }
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getCapsuleState (options: any): any {}
 
   // @ts-ignore
   @(syncAndRelease)
@@ -255,18 +267,6 @@ export class NativeApi {
   }
 
   // @ts-ignore
-  @(asyncAndNotRelease)
-  onLocationChange (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  offLocationChange (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
   @(syncAndRelease)
   setScreenBrightness (options: any): any {
     return options
@@ -275,18 +275,6 @@ export class NativeApi {
   // @ts-ignore
   @(syncAndRelease)
   getScreenBrightness (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(asyncAndNotRelease)
-  onMemoryWarning (options: any): any {
-    return options
-  }
-
-  // @ts-ignore
-  @(syncAndRelease)
-  offMemoryWarning (options: any): any {
     return options
   }
 
@@ -402,11 +390,11 @@ export class NativeApi {
     return option
   }
 
-  // @ts-ignore
-  @(asyncAndNotRelease)
-  getFileInfo (option: any): any {
-    return option
-  }
+  @(asyncAndRelease)
+  getFileInformation (_option: any): void {}
+
+  @(asyncAndRelease)
+  getFileInfo (_option: any): void {}
 
   // @ts-ignore
   @(asyncAndNotRelease)
@@ -631,6 +619,9 @@ export class NativeApi {
   callInstanceAsync (option: any): any {
     return option
   }
+
+  @(asyncAndNotRelease)
+  onNativeNavigate (_options: any): void {}
 }
 
 export interface Status {
