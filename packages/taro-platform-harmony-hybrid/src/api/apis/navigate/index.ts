@@ -2,6 +2,8 @@ import Taro from '@tarojs/api'
 import { navigateTo as navigateToH5 } from '@tarojs/taro-h5'
 import native from '../NativeApi'
 
+import native from '../NativeApi'
+
 const delay = 300
 let lastExecuteTime = 0
 let lastUrl
@@ -28,7 +30,6 @@ export function navigateTo (option: Taro.navigateTo.Option) {
  * 退出当前小程序。必须有点击行为才能调用成功。
  *
  * @canUse exitMiniProgram
- * @__object [url, events]
  */
 export function exitMiniProgram (option?: any) {
   native.exitMiniProgram(option)
