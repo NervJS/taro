@@ -71,7 +71,7 @@ export default (ctx: IPluginContext) => {
           const ERROR = chalk.red('[✗] ')
           const WARNING = chalk.yellow('[!] ')
           const SUCCESS = chalk.green('[✓] ')
-  
+
           const lineChalk = chalk.hex('#fff')
           const errorChalk = chalk.hex('#f00')
           console.log(errorChalk(`Taro 配置有误，请检查！ (${configPath})`))

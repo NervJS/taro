@@ -52,6 +52,7 @@ describe('inspect', () => {
         isBuildNativeComp: false,
         newBlended: false,
         noInjectGlobalStyle: false,
+        noCheck: false,
         sourceMapUrl: undefined,
         sourcemapOutput: undefined,
         sourcemapSourcesRoot: undefined,

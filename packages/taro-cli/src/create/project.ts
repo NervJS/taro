@@ -109,7 +109,7 @@ export default class Project extends Creator {
     this.askNpm(conf, prompts)
     const answers = await inquirer.prompt<IProjectConf>(prompts)
 
-    //Note: 由于 Solid 框架适配 Vite 还存在某些问题，所以在选择 Solid 框架时，不再询问编译工具
+    // Note: 由于 Solid 框架适配 Vite 还存在某些问题，所以在选择 Solid 框架时，不再询问编译工具
     prompts = []
     if (answers.framework === FrameworkType.Solid || conf.framework === FrameworkType.Solid) {
       answers.compiler = CompilerType.Webpack5

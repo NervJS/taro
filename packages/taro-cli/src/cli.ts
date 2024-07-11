@@ -6,7 +6,6 @@ import * as minimist from 'minimist'
 
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
-import { check } from 'prettier'
 
 const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor', 'update', 'config']
 const DEFAULT_FRAMEWORK = 'react'
@@ -39,6 +38,8 @@ export default class CLI {
       boolean: ['version', 'help', 'disable-global-config'],
       default: {
         build: true,
+        check: true,
+        'inject-global-style': true
       },
     })
     const _ = args._
@@ -176,12 +177,12 @@ export default class CLI {
             newBlended: Boolean(args['new-blended']),
             // Note: 是否禁用编译
             withoutBuild: !args.build,
-            noInjectGlobalStyle: Boolean(args['no-inject-global-style']),
+            noInjectGlobalStyle: !args['inject-global-style'],
+            noCheck: !args.check,
             port: args.port,
             env: args.env,
             deviceType: args.platform,
             resetCache: !!args.resetCache,
-            noCheck: Boolean(args['no-check']),
             publicPath,
             bundleOutput,
             sourcemapOutput,

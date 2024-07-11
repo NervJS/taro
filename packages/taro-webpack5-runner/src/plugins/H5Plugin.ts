@@ -34,6 +34,7 @@ interface ITaroH5PluginOptions {
   prebundle?: boolean
   isBuildNativeComp?: boolean
   loaderMeta?: Record<string, string>
+  noInjectGlobalStyle?: boolean
 
   onCompilerMake?: Func
   onParseCreateElement?: Func
@@ -140,6 +141,7 @@ export default class TaroH5Plugin {
               pxTransformConfig: this.options.pxTransformConfig,
               alias: this.options.alias,
               defineConstants: this.options.defineConstants,
+              noInjectGlobalStyle: this.options.noInjectGlobalStyle,
               /** building mode */
               bootstrap,
               isBuildNativeComp
