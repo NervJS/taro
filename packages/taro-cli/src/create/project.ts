@@ -106,11 +106,18 @@ export default class Project extends Creator {
     this.askFramework(conf, prompts)
     this.askTypescript(conf, prompts)
     this.askCSS(conf, prompts)
-    this.askCompiler(conf, prompts)
     this.askNpm(conf, prompts)
-    await this.askTemplateSource(conf, prompts)
-
     const answers = await inquirer.prompt<IProjectConf>(prompts)
+
+    //Note: 由于 Solid 框架适配 Vite 还存在某些问题，所以在选择 Solid 框架时，不再询问编译工具
+    prompts = []
+    if (answers.framework === FrameworkType.Solid || conf.framework === FrameworkType.Solid) {
+      answers.compiler = CompilerType.Webpack5
+    } else {
+      this.askCompiler(conf, prompts)
+    }
+    await this.askTemplateSource(conf, prompts)
+    const compilerAndTemplateSourceAnswer = await inquirer.prompt<IProjectConf>(prompts)
 
     prompts = []
     const templates = await this.fetchTemplates(answers)
@@ -119,6 +126,7 @@ export default class Project extends Creator {
 
     return {
       ...answers,
+      ...compilerAndTemplateSourceAnswer,
       ...templateChoiceAnswer
     }
   }
