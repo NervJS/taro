@@ -1,6 +1,5 @@
 import Taro from '@tarojs/api'
 import { navigateTo as navigateToH5 } from '@tarojs/taro-h5'
-import native from '../NativeApi'
 
 import native from '../NativeApi'
 
