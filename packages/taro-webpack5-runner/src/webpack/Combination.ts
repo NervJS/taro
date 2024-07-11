@@ -100,6 +100,8 @@ export class Combination<T extends IMiniBuildConfig | IH5BuildConfig | IHarmonyB
     } else {
       // 小程序编译 Host 时需要扫描 @tarojs/components 的 useExports，因此不能被 external
       exclude.push('@tarojs/components')
+      // 预依赖 vue 会报错，先简单处理 exclude掉
+      exclude.push('vue')
     }
 
     const defaultOptions: IPrebundle = {
