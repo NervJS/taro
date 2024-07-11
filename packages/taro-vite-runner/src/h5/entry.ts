@@ -149,6 +149,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
 
         return [
           setReconciler,
+          'import "@tarojs/components/global.css"',
           'import { initPxTransform } from "@tarojs/taro"',
           `import { ${routerCreator}, ${historyCreator}, ${appMountHandler} } from "@tarojs/router"`,
           `import component from "${app.scriptPath}"`,
