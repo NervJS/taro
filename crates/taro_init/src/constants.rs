@@ -97,6 +97,7 @@ pub enum FrameworkType {
   Preact,
   Vue3,
   Solid,
+  None,
 }
 
 #[derive(Debug, PartialEq, Eq, Hash, Serialize)]

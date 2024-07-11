@@ -52,7 +52,8 @@ export const enum FrameworkType {
   React = 'React',
   Preact = 'Preact',
   Vue3 = 'Vue3',
-  Solid = 'Solid'
+  Solid = 'Solid',
+  None = 'None'
 }
 
 export const enum NpmType {
