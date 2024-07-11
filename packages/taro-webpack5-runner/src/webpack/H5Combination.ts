@@ -24,7 +24,7 @@ export class H5Combination extends Combination<IH5BuildConfig> {
 
   isMultiRouterMode = false
   isVirtualEntry = false
-  
+
   /** special mode */
   noInjectGlobalStyle = false
 

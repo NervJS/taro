@@ -30,6 +30,7 @@ export interface IPageConf {
 }
 interface IPageArgs extends IPageConf {
   modifyCustomTemplateConfig : TGetCustomTemplate
+  afterCreate?: TAfterCreate
 }
 interface ITemplateInfo {
   css: CSSType
@@ -48,6 +49,7 @@ type TCustomTemplateInfo = Omit<ITemplateInfo & {
 export type TSetCustomTemplateConfig = (customTemplateConfig: TCustomTemplateInfo) => void
 
 type TGetCustomTemplate = (cb: TSetCustomTemplateConfig) => Promise<void>
+type TAfterCreate = (state: boolean) => void
 
 const DEFAULT_TEMPLATE_INFO = {
   name: 'default',
@@ -69,12 +71,13 @@ export default class Page extends Creator {
   public rootPath: string
   public conf: IPageConf
   private modifyCustomTemplateConfig: TGetCustomTemplate
+  private afterCreate: TAfterCreate | undefined
   private pageEntryPath: string
 
   constructor (args: IPageArgs) {
     super()
     this.rootPath = this._rootPath
-    const { modifyCustomTemplateConfig, ...otherOptions } = args
+    const { modifyCustomTemplateConfig, afterCreate, ...otherOptions } = args
     this.conf = Object.assign(
       {
         projectDir: '',
@@ -88,6 +91,7 @@ export default class Page extends Creator {
 
     this.conf.projectName = path.basename(this.conf.projectDir)
     this.modifyCustomTemplateConfig = modifyCustomTemplateConfig
+    this.afterCreate = afterCreate
     this.processPageName()
   }
 
@@ -282,7 +286,11 @@ export default class Page extends Creator {
     }, handler).then(() => {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${this.conf.pageName} 成功！`)}`)
       this.updateAppConfig()
-    }).catch(err => console.log(err))
+      this.afterCreate && this.afterCreate(true)
+    }).catch(err => {
+      console.log(err)
+      this.afterCreate && this.afterCreate(false)
+    })
   }
 }
 
