@@ -6,6 +6,7 @@ import * as minimist from 'minimist'
 
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
+import { check } from 'prettier'
 
 const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor', 'update', 'config']
 const DEFAULT_FRAMEWORK = 'react'
@@ -180,6 +181,7 @@ export default class CLI {
             env: args.env,
             deviceType: args.platform,
             resetCache: !!args.resetCache,
+            noCheck: Boolean(args['no-check']),
             publicPath,
             bundleOutput,
             sourcemapOutput,
