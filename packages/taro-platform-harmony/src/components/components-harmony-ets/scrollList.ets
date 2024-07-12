@@ -33,7 +33,12 @@ function getAttributes (node: TaroScrollViewElement): ScrollViewAttrs {
 }
 
 function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', scrollOffset?: number) {
+  if (!node || !node.scroller) return
+  
   const currentOffset = node.scroller.currentOffset() as ScrollViewCurrentOffset
+
+  if (!currentOffset) return
+
   const currentXOffset = currentOffset?.xOffset || 0
   const currentYOffset = currentOffset?.yOffset || 0
   const value: ScrollViewEvent = {

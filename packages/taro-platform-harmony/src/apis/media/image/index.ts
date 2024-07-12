@@ -16,8 +16,7 @@ import { Current } from '@tarojs/runtime'
 import { isNull } from '@tarojs/shared'
 
 import { getSystemInfoSync } from '../../base'
-import { callAsyncFail, callAsyncSuccess, requestPermissions, temporarilyNotSupport, validateParams } from '../../utils'
-import { IMAGE_PERMISSION } from '../../utils/permissions'
+import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../../utils'
 
 import type Taro from '@tarojs/taro/types'
 
@@ -113,117 +112,143 @@ async function saveImage(compressedImageData, compressedImageUri) {
 
 export const compressImage: typeof Taro.compressImage = function (options) {
   return new Promise((resolve, reject) => {
-    requestPermissions(IMAGE_PERMISSION).then(() => {
-      try {
-        validateParams('compressImage', options, compressImageSchema)
-      } catch (error) {
-        const res = { errMsg: error.message }
-        return callAsyncFail(reject, res, options)
-      }
-      const { src, quality = 80, compressedWidth, compressedHeight } = options
-      const srcAfterCompress = src.includes('_after_compress') ? src : src.split('.').join('_after_compress.')
-      const file = fs.openSync(src, fs.OpenMode.READ_ONLY)
-
-      // const stat = fs.statSync(file.fd)
-      // console.log('[Taro] 压缩前图片的大小为：', stat.size)
-
-      const source = image.createImageSource(file.fd)
-      if (isNull(source)) {
-        const createImageSourceError = { errMsg: 'compressImage fail: createImageSource has failed.' }
-        callAsyncFail(reject, createImageSourceError, options)
-        return
-      }
-
-      const width = source.getImageInfoSync().size.width
-      const height = source.getImageInfoSync().size.height
-      let wantWidth = compressedWidth || compressedHeight || 0
-      let wantHeight = compressedHeight || compressedWidth || 0
-
-      if (width > wantWidth || height > wantHeight) {
-        const heightRatio = height / wantHeight
-        const widthRatio = width / wantWidth
-        const finalRatio = heightRatio < widthRatio ? heightRatio : widthRatio
-
-        wantWidth = Math.round(width / finalRatio)
-        wantHeight = Math.round(height / finalRatio)
-      }
-
-      const decodingOptions = {
-        editable: true,
-        desiredPixelFormat: image.PixelMapFormat.RGBA_8888,
-        desiredSize: { width: wantWidth, height: wantHeight }
-      }
-      source.createPixelMap(decodingOptions, (error, pixelMap) => {
-        if (error !== undefined) {
-          fs.closeSync(file)
-          const res = { errMsg: error }
-          callAsyncFail(reject, res, options)
-        } else {
-          const packer = image.createImagePacker(file.fd)
-          if (isNull(packer)) {
-            fs.closeSync(file)
-            const createImagePackerError = { errMsg: 'compressImage fail: createImagePacker has failed.' }
-            callAsyncFail(reject, createImagePackerError, options)
-            return
-          }
-
-          const isPNG = src.endsWith('.png')
-          const packingOptionsOHOS: IPackingOptionOHOS = {
-            format: isPNG ? 'image/png' : 'image/jpeg',
-            quality: quality
-          }
-          packer.packing(pixelMap, packingOptionsOHOS).then((value) => {
-            fs.closeSync(file)
-            saveImage(value, srcAfterCompress).then(result => {
-              callAsyncSuccess(resolve, { tempFilePath: result.imageUri }, options)
-            })
-          }).catch((error) => {
-            fs.closeSync(file)
-            callAsyncFail(reject, error, options)
-          })
-        }
-      })
-    }, (error: string) => {
-      const res = { errMsg: error }
+    try {
+      validateParams('compressImage', options, compressImageSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
       return callAsyncFail(reject, res, options)
+    }
+    const { src, quality = 80, compressedWidth, compressedHeight } = options
+    const srcAfterCompress = src.includes('_after_compress') ? src : src.split('.').join('_after_compress.')
+    const file = fs.openSync(src, fs.OpenMode.READ_ONLY)
+
+    // const stat = fs.statSync(file.fd)
+    // console.log('[Taro] 压缩前图片的大小为：', stat.size)
+
+    const source = image.createImageSource(file.fd)
+    if (isNull(source)) {
+      const createImageSourceError = { errMsg: 'compressImage fail: createImageSource has failed.' }
+      callAsyncFail(reject, createImageSourceError, options)
+      return
+    }
+
+    const width = source.getImageInfoSync().size.width
+    const height = source.getImageInfoSync().size.height
+    let wantWidth = compressedWidth || compressedHeight || 0
+    let wantHeight = compressedHeight || compressedWidth || 0
+
+    if (width > wantWidth || height > wantHeight) {
+      const heightRatio = height / wantHeight
+      const widthRatio = width / wantWidth
+      const finalRatio = heightRatio < widthRatio ? heightRatio : widthRatio
+
+      wantWidth = Math.round(width / finalRatio)
+      wantHeight = Math.round(height / finalRatio)
+    }
+
+    const decodingOptions = {
+      editable: true,
+      desiredPixelFormat: image.PixelMapFormat.RGBA_8888,
+      desiredSize: { width: wantWidth, height: wantHeight }
+    }
+    source.createPixelMap(decodingOptions, (error, pixelMap) => {
+      if (error !== undefined) {
+        fs.closeSync(file)
+        const res = { errMsg: error }
+        callAsyncFail(reject, res, options)
+      } else {
+        const packer = image.createImagePacker(file.fd)
+        if (isNull(packer)) {
+          fs.closeSync(file)
+          const createImagePackerError = { errMsg: 'compressImage fail: createImagePacker has failed.' }
+          callAsyncFail(reject, createImagePackerError, options)
+          return
+        }
+
+        const isPNG = src.endsWith('.png')
+        const packingOptionsOHOS: IPackingOptionOHOS = {
+          format: isPNG ? 'image/png' : 'image/jpeg',
+          quality: quality
+        }
+        packer.packing(pixelMap, packingOptionsOHOS).then((value) => {
+          fs.closeSync(file)
+          saveImage(value, srcAfterCompress).then(result => {
+            callAsyncSuccess(resolve, { tempFilePath: result.imageUri }, options)
+          })
+        }).catch((error) => {
+          fs.closeSync(file)
+          callAsyncFail(reject, error, options)
+        })
+      }
     })
   })
 }
 
 export const chooseImage: typeof Taro.chooseImage = function (options) {
   return new Promise((resolve, reject) => {
-    requestPermissions(IMAGE_PERMISSION).then(() => {
-      try {
-        validateParams('chooseImage', options, chooseImageSchema)
-      } catch (error) {
-        const res = { errMsg: error.message }
-        return callAsyncFail(reject, res, options)
-      }
+    try {
+      validateParams('chooseImage', options, chooseImageSchema)
+    } catch (error) {
+      const res = { errMsg: error.message }
+      return callAsyncFail(reject, res, options)
+    }
 
-      const { count = 9 } = options
-      const photoViewPicker = new picker.PhotoViewPicker()
-      let sizeType = options.sizeType
+    const { count = 9 } = options
+    const photoViewPicker = new picker.PhotoViewPicker()
+    let sizeType = options.sizeType
 
-      if (!sizeType || !sizeType.length) {
-        sizeType = ['compressed', 'original']
-      }
+    if (!sizeType || !sizeType.length) {
+      sizeType = ['compressed', 'original']
+    }
 
-      photoSelectOptions.maxSelectNumber = count // 选择媒体文件的最大数目
-      photoSelectOptions.MIMEType = picker.PhotoViewMIMETypes.IMAGE_TYPE // 过滤选择媒体文件类型为IMAGE
+    photoSelectOptions.maxSelectNumber = count // 选择媒体文件的最大数目
+    photoSelectOptions.MIMEType = picker.PhotoViewMIMETypes.IMAGE_TYPE // 过滤选择媒体文件类型为IMAGE
 
-      photoViewPicker.select(photoSelectOptions).then((photoSelectResult) => {
-        const result: IChooseImageData = {}
-        const isOrigin = photoSelectResult.isOriginalPhoto
+    photoViewPicker.select(photoSelectOptions).then((photoSelectResult) => {
+      const result: IChooseImageData = {}
+      const isOrigin = photoSelectResult.isOriginalPhoto
 
-        if (isOrigin) {
-          const tempFilePaths: string[] = []
-          const tempFiles = photoSelectResult.photoUris.map(uri => {
+      if (isOrigin) {
+        const tempFilePaths: string[] = []
+        const tempFiles = photoSelectResult.photoUris.map(uri => {
+          const file = fs.openSync(uri, fs.OpenMode.READ_ONLY)
+          const stat = fs.statSync(file.fd)
+          const size = stat.size
+
+          fs.closeSync(file)
+          tempFilePaths.push(uri)
+
+          return {
+            size,
+            path: uri,
+          }
+        })
+
+        result.tempFiles = tempFiles
+        result.tempFilePaths = tempFilePaths
+
+        callAsyncSuccess(resolve, result, options)
+      } else {
+        const actions: Promise<string>[] = photoSelectResult.photoUris.map(uri => {
+          return new Promise<string>(resolve => {
+            compressImage({
+              src: uri,
+              compressedWidth: getSystemInfoSync().screenWidth / 2,
+              compressedHeight: getSystemInfoSync().screenHeight / 2,
+              success: (compressResult) => {
+                resolve(compressResult.tempFilePath)
+              }
+            })
+          })
+        })
+
+        Promise.all(actions).then(tempFilePaths => {
+          const tempFiles = tempFilePaths.map(uri => {
             const file = fs.openSync(uri, fs.OpenMode.READ_ONLY)
             const stat = fs.statSync(file.fd)
-            const size = stat.size
+            const size: number = stat.size
 
             fs.closeSync(file)
-            tempFilePaths.push(uri)
 
             return {
               size,
@@ -231,53 +256,17 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
             }
           })
 
-          result.tempFiles = tempFiles
           result.tempFilePaths = tempFilePaths
+          result.tempFiles = tempFiles
 
           callAsyncSuccess(resolve, result, options)
-        } else {
-          const actions: Promise<string>[] = photoSelectResult.photoUris.map(uri => {
-            return new Promise<string>(resolve => {
-              compressImage({
-                src: uri,
-                compressedWidth: getSystemInfoSync().screenWidth / 2,
-                compressedHeight: getSystemInfoSync().screenHeight / 2,
-                success: (compressResult) => {
-                  resolve(compressResult.tempFilePath)
-                }
-              })
-            })
-          })
-
-          Promise.all(actions).then(tempFilePaths => {
-            const tempFiles = tempFilePaths.map(uri => {
-              const file = fs.openSync(uri, fs.OpenMode.READ_ONLY)
-              const stat = fs.statSync(file.fd)
-              const size: number = stat.size
-
-              fs.closeSync(file)
-
-              return {
-                size,
-                path: uri,
-              }
-            })
-
-            result.tempFilePaths = tempFilePaths
-            result.tempFiles = tempFiles
-
-            callAsyncSuccess(resolve, result, options)
-          }).catch(error => {
-            const res = { errMsg: error }
-            return callAsyncFail(reject, res, options)
-          })
-        }
-      }).catch((error) => {
-        callAsyncFail(reject, error, options)
-      })
-    }, (error: string) => {
-      const res = { errMsg: error }
-      return callAsyncFail(reject, res, options)
+        }).catch(error => {
+          const res = { errMsg: error }
+          return callAsyncFail(reject, res, options)
+        })
+      }
+    }).catch((error) => {
+      callAsyncFail(reject, error, options)
     })
   })
 }

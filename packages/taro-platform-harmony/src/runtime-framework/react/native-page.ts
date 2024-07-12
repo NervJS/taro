@@ -29,10 +29,11 @@ interface InitNativeComponentEntryParams {
   cb?: TFunc
   // 是否使用默认的 DOM 入口 - app；默认为true，false的时候，会创建一个新的dom并且把它挂载在 app 下面
   isDefaultEntryDom?: boolean
+  isUseReact18?: boolean
 }
 
 function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
-  const { R, ReactDOM, cb, isDefaultEntryDom = true } = params
+  const { R, ReactDOM, cb, isDefaultEntryDom = true, isUseReact18 = false } = params
   interface IEntryState {
     components: {
       compId: string
@@ -60,8 +61,8 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     // React 16 uncaught error 会导致整个应用 crash，
     // 目前把错误缩小到页面
     componentDidCatch (error, info: React.ErrorInfo) {
-      console.warn(error)
-      console.error(info.componentStack)
+      console.warn(`Taro Error Page 报错信息：${error}`)
+      console.error(`Taro Error Page 报错堆栈：${info.componentStack}`)
     }
 
     render () {
@@ -134,14 +135,23 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
         }),
       }
 
-      ReactDOM.flushSync(() => {
+      if (isUseReact18) {
+        ReactDOM.flushSync(() => {
+          this.setState(
+            {
+              components: [...this.state.components, item],
+            },
+            () => cb && cb()
+          )
+        })
+      } else {
         this.setState(
           {
             components: [...this.state.components, item],
           },
           () => cb && cb()
         )
-      })
+      }
     }
 
     unmount (compId, cb?) {
@@ -149,7 +159,20 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
       const index = components.findIndex((item) => item.compId === compId)
       const next = [...components.slice(0, index), ...components.slice(index + 1)]
 
-      ReactDOM.flushSync(() => {
+
+      if (isUseReact18) {
+        ReactDOM.flushSync(() => {
+          this.setState(
+            {
+              components: next,
+            },
+            () => {
+              removePageInstance(compId)
+              cb && cb()
+            }
+          )
+        })
+      } else {
         this.setState(
           {
             components: next,
@@ -159,7 +182,7 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
             cb && cb()
           }
         )
-      })
+      }
     }
 
     render () {
@@ -180,11 +203,16 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     app = nativeApp
   }
 
-  const root = ReactDOM.createRoot(app)
+  if (isUseReact18) {
+    const root = ReactDOM.createRoot(app)
 
-  ReactDOM.flushSync(() => {
-    root.render?.(h(Entry))
-  })
+    ReactDOM.flushSync(() => {
+      root.render?.(h(Entry))
+    })
+  } else {
+    // eslint-disable-next-line react/no-deprecated
+    ReactDOM.render(h(Entry, {}), app)
+  }
 }
 
 
@@ -260,7 +288,7 @@ export function createNativePageConfig (
       const mountCallback = () => {
         pageElement = document.getElementById($taroPath)
 
-        ensure(pageElement !== null, '没有找到页面实例。')
+        ensure(pageElement !== null, `Taro Error Page: ${$taroPath}, 该页面执行时出现了报错，导致没有找到页面实例。`)
 
         safeExecute($taroPath, ONLOAD, this.$taroParams)
         loadResolver()
@@ -273,6 +301,7 @@ export function createNativePageConfig (
           initNativeComponentEntry({
             R: react,
             ReactDOM,
+            isUseReact18: pageConfig?.isUseReact18,
             cb: () => {
               Current.app!.mount!(Component, $taroPath, () => this, mountCallback)
             },
@@ -397,7 +426,7 @@ export function createNativeComponentConfig (
   h = react.createElement
   ReactDOM = reactdom
   setReconciler(ReactDOM)
-  const { isNewBlended } = componentConfig
+  const { isNewBlended, isUseReact18 } = componentConfig
 
   const componentObj: Record<string, any> = {
     options: componentConfig,
@@ -434,6 +463,7 @@ export function createNativeComponentConfig (
           R: react,
           ReactDOM,
           isDefaultEntryDom: !isNewBlended,
+          isUseReact18,
           cb: mountComponent,
         })
       } else {
