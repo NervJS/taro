@@ -174,6 +174,8 @@ describe('inspect', () => {
           _: ['convert'],
           options: {
             build: true,
+            check: true,
+            "inject-global-style": true,
           },
           isHelp: false
         }
@@ -195,6 +197,8 @@ describe('inspect', () => {
           _,
           options: {
             build: true,
+            check: true,
+            "inject-global-style": true,
             type
           },
           isHelp: true
