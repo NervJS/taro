@@ -200,9 +200,13 @@ export function createReactApp (
   }
 
   function renderReactRoot () {
-    let appId = 'app'
-    if (process.env.TARO_PLATFORM === 'web') {
-      appId = config?.appId || appId
+    const appId = config?.appId || 'app'
+    let container = document.getElementById(appId)
+    if (container == null) {
+      const appContainer = document.getElementById(CONTAINER)
+      container = document.createElement(appId)
+      container.id = appId
+      appContainer?.appendChild(container)
     }
     const container = document.getElementById(appId) as unknown as Element
     if ((react.version || '').startsWith('18')) {
