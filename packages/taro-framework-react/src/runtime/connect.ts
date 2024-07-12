@@ -1,4 +1,4 @@
-import { Current, document, getPageInstance, incrementId, injectPageInstance, PAGE_INIT, perf } from '@tarojs/runtime'
+import { CONTAINER, Current, document, getPageInstance, incrementId, injectPageInstance, PAGE_INIT, perf } from '@tarojs/runtime'
 import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
 
 import { reactMeta } from './react-meta'
@@ -208,9 +208,8 @@ export function createReactApp (
       container.id = appId
       appContainer?.appendChild(container)
     }
-    const container = document.getElementById(appId) as unknown as Element
     if ((react.version || '').startsWith('18')) {
-      const root = ReactDOM.createRoot(container)
+      const root = ReactDOM.createRoot((container as unknown as Element))
       root.render?.(h(AppWrapper))
     } else {
       // eslint-disable-next-line react/no-deprecated
