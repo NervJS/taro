@@ -175,7 +175,7 @@ describe('inspect', () => {
           options: {
             build: true,
             check: true,
-            "inject-global-style": true,
+            'inject-global-style': true,
           },
           isHelp: false
         }
@@ -198,7 +198,7 @@ describe('inspect', () => {
           options: {
             build: true,
             check: true,
-            "inject-global-style": true,
+            'inject-global-style': true,
             type
           },
           isHelp: true
