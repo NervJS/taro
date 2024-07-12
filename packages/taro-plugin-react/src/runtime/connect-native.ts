@@ -474,6 +474,21 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     }
   }
 
+  if (process.env.TARO_ENV === 'alipay') {
+    /**
+     * 支付宝需要修改生命周期 同时宿主需要开启component2
+     * 如果不开启 props对象中的函数参数会被忽略 导致无法调用
+     * @see https://opendocs.alipay.com/mini/03dbc3#compileOptions
+     * @returns
+     */
+    componentObj.onInit = componentObj.created
+    componentObj.didMount = componentObj.attached
+    componentObj.didUpdate = function () {
+      this.data.props = this.props.props
+      this?.component?.forceUpdate?.()
+    }
+    componentObj.didUnmount = componentObj.detached
+  }
   return componentObj
 }
 
