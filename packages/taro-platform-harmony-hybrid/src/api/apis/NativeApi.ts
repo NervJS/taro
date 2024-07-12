@@ -213,10 +213,22 @@ export class NativeApi {
   }
 
   // @ts-ignore
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setNavigationStyle (options: any): void {}
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setCapsuleState (options: any): void {}
+
+  // @ts-ignore
   @(syncAndRelease)
-  setNavigationStyle (options: any): any {
-    return options
-  }
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getCapsuleState (options: any): any {}
 
   // @ts-ignore
   @(syncAndRelease)
@@ -378,11 +390,11 @@ export class NativeApi {
     return option
   }
 
-  // @ts-ignore
-  @(asyncAndNotRelease)
-  getFileInfo (option: any): any {
-    return option
-  }
+  @(asyncAndRelease)
+  getFileInformation (_option: any): void {}
+
+  @(asyncAndRelease)
+  getFileInfo (_option: any): void {}
 
   // @ts-ignore
   @(asyncAndNotRelease)
@@ -607,6 +619,9 @@ export class NativeApi {
   callInstanceAsync (option: any): any {
     return option
   }
+
+  @(asyncAndNotRelease)
+  onNativeNavigate (_options: any): void {}
 }
 
 export interface Status {
