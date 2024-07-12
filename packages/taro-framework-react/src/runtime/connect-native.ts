@@ -10,7 +10,8 @@ import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
 import { isClassComponent } from './utils'
 
-import type { Instance, MpInstance, TaroRootElement } from '@tarojs/runtime'
+import type { Instance, TaroRootElement } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
+import type { MpInstance } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
 import type { AppInstance, PageInstance } from '@tarojs/taro'
 import type { Func } from '@tarojs/taro/types/compile'
 import type React from 'react'
