@@ -1,4 +1,5 @@
-import promptAction from '@ohos.promptAction'
+// @ts-ignore
+import { Current } from '@tarojs/runtime'
 
 import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../../utils'
 
@@ -29,7 +30,12 @@ export function showToast (options) {
       return callAsyncFail(reject, res, options)
     }
 
-    promptAction.showToast({
+    // @ts-ignore
+    const uiContext = Current?.page?.getUIContext?.()
+
+    if (!uiContext) return
+
+    uiContext.getPromptAction().showToast({
       message: options.title,
       duration: options.duration,
       bottom: options.bottom,
@@ -80,7 +86,12 @@ export function showModal (options) {
       buttons: buttons,
     }
 
-    promptAction.showDialog(modalOptions, (error, data) => {
+    // @ts-ignore
+    const uiContext = Current?.page?.getUIContext?.()
+
+    if (!uiContext) return
+
+    uiContext.getPromptAction().showDialog(modalOptions, (error, data) => {
       if (error) {
         const res = { errMsg: error }
         callAsyncFail(reject, res, options)
@@ -148,7 +159,12 @@ export function showActionSheet (options) {
       buttons
     }
 
-    promptAction.showActionMenu(actionSheetOptions, (error, data) => {
+    // @ts-ignore
+    const uiContext = Current?.page?.getUIContext?.()
+
+    if (!uiContext) return
+
+    uiContext.getPromptAction().showActionMenu(actionSheetOptions, (error, data) => {
       if (error) {
         callAsyncFail(
           reject,
