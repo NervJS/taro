@@ -96,11 +96,15 @@ export default struct TaroInput {
     .styles(this.node?.hmStyle)
     .attrs(getAttributes(this.node))
     .onChange((value: string) => {
-      const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)
+      const event: TaroEvent = createTaroEvent('change', { detail: { value } }, this.node)
+      eventHandler(event, 'change', this.node)
 
-      this.value = value
-      this.node?.updateFormWidgetValue(value)
-      eventHandler(event, 'input', this.node)
+      if (this.value !== value) {
+        const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)
+        this.value = value
+        this.node?.updateFormWidgetValue(value)
+        eventHandler(event, 'input', this.node)
+      }
     })
     .onSubmit(() => {
       const event: TaroEvent = createTaroEvent('confirm', { detail: { value: this.value } }, this.node)
