@@ -1,3 +1,5 @@
+import { PLATFORM_TYPE } from '@tarojs/shared'
+
 import { TaroElement } from '../dom/element'
 import { TaroNode } from '../dom/node'
 import { setInnerHTML } from '../dom-external/inner-html/html'
@@ -12,9 +14,7 @@ declare const ENABLE_CONTAINS: boolean
 declare const ENABLE_SIZE_APIS: boolean
 declare const ENABLE_TEMPLATE_CONTENT: boolean
 
-const isWeb = process.env.TARO_PLATFORM === 'web'
-const isHarmony = process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony'
-if (!isWeb && !isHarmony) {
+if (process.env.TARO_PLATFORM !== PLATFORM_TYPE.WEB && process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY) {
   if (ENABLE_INNER_HTML) {
     TaroNode.extend('innerHTML', {
       set (html: string) {
