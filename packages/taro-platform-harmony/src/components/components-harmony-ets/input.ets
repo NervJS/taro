@@ -91,16 +91,20 @@ export default struct TaroInput {
     .placeholderFont(getPlaceholderFont(this.node))
     .enterKeyType(INPUT_CONFIRM_MAP.get(this.node._attrs?.confirmType) || EnterKeyType.Done)
     .padding(0) // Note: 移出 Input 默认 padding 设置
-    .backgroundColor(getStyleAttr(this.node, "backgroundColor"))// 
+    .backgroundColor(getStyleAttr(this.node, "backgroundColor"))
     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
     .styles(this.node?.hmStyle)
     .attrs(getAttributes(this.node))
     .onChange((value: string) => {
-      const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)
+      const event: TaroEvent = createTaroEvent('change', { detail: { value } }, this.node)
+      eventHandler(event, 'change', this.node)
 
-      this.value = value
-      this.node?.updateFormWidgetValue(value)
-      eventHandler(event, 'input', this.node)
+      if (this.value !== value) {
+        const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)
+        this.value = value
+        this.node?.updateFormWidgetValue(value)
+        eventHandler(event, 'input', this.node)
+      }
     })
     .onSubmit(() => {
       const event: TaroEvent = createTaroEvent('confirm', { detail: { value: this.value } }, this.node)
