@@ -56,6 +56,12 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
     }
   }
 
+  public removeAttribute(name: string): void {
+    if (name === 'value') {
+      this.value = ''
+    }
+  }
+
   public get name () {
     return this._attrs.name || ''
   }
