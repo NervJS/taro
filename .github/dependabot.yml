@@ -67,9 +67,9 @@ updates:
     time: "21:00"
   open-pull-requests-limit: 10
 - package-ecosystem: "npm"
-    directory: "/examples"
-    schedule:
-      interval: daily
-      time: "21:00"
-    ignore:
-      - dependency-name: "*"
+  directory: "/examples"
+  schedule:
+    interval: daily
+    time: "21:00"
+  ignore:
+    - dependency-name: "*"
