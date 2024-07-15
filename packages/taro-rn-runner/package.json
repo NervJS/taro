@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "4.0.1-alpha.1",
+  "version": "4.0.1",
   "description": "ReactNative build tool for taro",
   "author": "O2Team",
   "license": "MIT",
