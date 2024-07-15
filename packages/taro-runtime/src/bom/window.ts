@@ -3,7 +3,7 @@ import { isString } from '@tarojs/shared'
 import { CONTEXT_ACTIONS } from '../constants'
 import { Events } from '../emitter/emitter'
 import env from '../env'
-import { getComputedStyle } from './getComputedStyle'
+import { taroGetComputedStyleProvider } from './getComputedStyle'
 import { History } from './history'
 import { Location } from './location'
 import { nav as navigator } from './navigator'
@@ -16,7 +16,7 @@ class TaroWindow extends Events {
   navigator = navigator
   requestAnimationFrame = raf
   cancelAnimationFrame = caf
-  getComputedStyle = getComputedStyle
+  getComputedStyle = taroGetComputedStyleProvider
   Date: DateConstructor
 
   location: TaroLocation
@@ -107,7 +107,8 @@ class TaroWindow extends Events {
 }
 
 export type { TaroWindow }
-export const window: TaroWindow = process.env.TARO_PLATFORM === 'web' ? env.window : (env.window = new TaroWindow())
 
-export const location = window.location
-export const history = window.history
+// Note: 小程序端 vite 打包成 commonjs，const window = xxx 会报错，所以把 window 改为 taroWindowProvider，location 和 history 同理
+export const taroWindowProvider: TaroWindow = process.env.TARO_PLATFORM === 'web' ? env.window : (env.window = new TaroWindow())
+export const taroLocationProvider = taroWindowProvider.location
+export const taroHistoryProvider = taroWindowProvider.history
