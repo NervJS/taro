@@ -608,12 +608,6 @@
  */
 
 /**
- * 退出当前小程序
- *
- * @canNotUse exitMiniProgram
- */
-
-/**
  * 退出（销毁）实时语音通话
  *
  * @canNotUse exitVoIPChat

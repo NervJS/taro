@@ -622,6 +622,11 @@ export class NativeApi {
 
   @(asyncAndNotRelease)
   onNativeNavigate (_options: any): void {}
+
+  @(asyncAndRelease)
+  exitMiniProgram (option?: any): any {
+    return option
+  }
 }
 
 export interface Status {
