@@ -218,7 +218,7 @@ export const isWindows = os.platform() === 'win32'
 
 export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v4.0'
 export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v4.0'
-export const TARO_CONFIG_FOLDER = '.taro3.7'
+export const TARO_CONFIG_FOLDER = '.taro4.0'
 export const TARO_BASE_CONFIG = 'index.json'
 export const TARO_GLOBAL_CONFIG_DIR = '.taro-global-config'
 export const TARO_GLOBAL_CONFIG_FILE = 'index.json'
@@ -232,6 +232,7 @@ export const ENTRY = 'app'
 export enum FRAMEWORK_MAP {
   VUE3 = 'vue3',
   REACT = 'react',
+  Solid = 'solid',
 }
 
 export const defaultMainFields = ['browser', 'module', 'jsnext:main', 'main']
