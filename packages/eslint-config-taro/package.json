@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-taro",
-  "version": "4.0.0-beta.121",
+  "version": "4.0.0-beta.122",
   "description": "Taro specific linting rules for ESLint",
   "author": "O2Team",
   "license": "MIT",
