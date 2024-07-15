@@ -2,7 +2,7 @@ import path from 'node:path'
 
 import { babel } from '@rollup/plugin-babel'
 import inject, { RollupInjectOptions } from '@rollup/plugin-inject'
-import { defaultMainFields, fs, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR } from '@tarojs/helper'
+import { defaultMainFields, fs, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR, REG_TARO_SCOPED_PACKAGE } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 
@@ -180,11 +180,11 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
               // Note: vite-runner 里面涉及到一些js文件的注入，比如 comp.js， 为了避免这些文件被打包进 vendors，这里做了特殊处理
               if (/node_modules[\\/]@tarojs[\\/]vite-runner/.test(id)) return null
 
-              if (nodeModulesDirRegx.test(id) || /commonjsHelpers\.js$/.test(id)) {
-                return 'vendors'
-              } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) {
-                return 'common'
-              }
+              if (REG_TARO_SCOPED_PACKAGE.test(id)) return 'taro'
+
+              if (nodeModulesDirRegx.test(id) || /commonjsHelpers\.js$/.test(id)) return 'vendors'
+
+              if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) return 'common'
             },
           },
           plugins: [
