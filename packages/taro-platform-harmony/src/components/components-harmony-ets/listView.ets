@@ -27,5 +27,6 @@ export default struct TaroListView {
       }
     }
     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+    .zIndex(0)
   }
 }
