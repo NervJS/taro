@@ -7,7 +7,7 @@
  */
 import { AREA_CHANGE_EVENT_NAME, Current, findChildNodeWithDFS, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate } from '@tarojs/runtime'
 
-import { pxTransformHelper } from '../../index'
+import { pxTransformHelper } from '@tarojs/taro'
 import { MethodHandler } from '../../utils/handler'
 
 import type Taro from '@tarojs/taro/types'
