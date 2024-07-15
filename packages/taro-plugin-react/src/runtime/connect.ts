@@ -1,4 +1,4 @@
-import { Current, document, getPageInstance, incrementId, injectPageInstance } from '@tarojs/runtime'
+import { CONTAINER, Current, document, getPageInstance, incrementId, injectPageInstance } from '@tarojs/runtime'
 import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
 
 import { reactMeta } from './react-meta'
@@ -204,11 +204,14 @@ export function createReactApp (
   }
 
   function renderReactRoot () {
-    let appId = 'app'
-    if (process.env.TARO_PLATFORM === 'web') {
-      appId = config?.appId || appId
+    const appId = config?.appId || 'app'
+    let container = document.getElementById(appId)
+    if (container == null) {
+      const appContainer = document.getElementById(CONTAINER)
+      container = document.createElement(appId)
+      container.id = appId
+      appContainer?.appendChild(container)
     }
-    const container = document.getElementById(appId)
     if ((react.version || '').startsWith('18')) {
       const root = ReactDOM.createRoot(container)
       root.render?.(h(AppWrapper))
