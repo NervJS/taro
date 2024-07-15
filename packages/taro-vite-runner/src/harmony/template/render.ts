@@ -279,6 +279,7 @@ export default class RenderParser extends BaseParser {
           name: 'StickySection',
           condition: `item.tagName === 'STICKY-SECTION'`,
           type: 'TaroViewElement',
+          extra: '.reuseId(item._nid.toString())'
         },
         {
           name: 'ListView',
