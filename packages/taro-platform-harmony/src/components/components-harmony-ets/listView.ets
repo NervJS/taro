@@ -22,7 +22,7 @@ export default struct TaroListView {
 
   build() {
     ListItem() {
-      Stack() {
+      Column() {
         this.createLazyChildren(this.node, 0)
       }
     }
