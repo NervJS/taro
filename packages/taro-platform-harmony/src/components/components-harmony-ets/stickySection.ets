@@ -30,12 +30,7 @@ export default struct TaroStickySection {
     ListItemGroup({
       header: this.itemHead(this.node)
     }) {
-      ForEach(this.node.children, (item: TaroElement) => {
-        if (item.tagName === 'LIST-VIEW') {
-          this.createLazyChildren(item as TaroViewElement, 0)
-        }
-      }, (item: TaroElement) => `${item._nid}-${item._nodeInfo?.layer || 0}`)
-
+      this.createLazyChildren(this.node as TaroViewElement, 0)
     }
     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
   }
