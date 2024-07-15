@@ -120,7 +120,7 @@ export default class Project extends Creator {
     const compilerAndTemplateSourceAnswer = await inquirer.prompt<IProjectConf>(prompts)
 
     prompts = []
-    const templates = await this.fetchTemplates(answers)
+    const templates = await this.fetchTemplates(Object.assign({}, answers, compilerAndTemplateSourceAnswer))
     await this.askTemplate(conf, prompts, templates)
     const templateChoiceAnswer = await inquirer.prompt<IProjectConf>(prompts)
 
