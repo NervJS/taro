@@ -131,7 +131,7 @@
     "jest-environment-jsdom": "^29.6.4",
     "jest-environment-node": "^29.7.0",
     "jest-light-runner": "^0.6.0",
-    "jest-preset-stylelint": "^7.0.0",
+    "jest-preset-stylelint": "^7.1.0",
     "jest-taro-helper": "workspace:*",
     "jsdom": "^24.0.0",
     "lint-staged": "^13.0.2",
