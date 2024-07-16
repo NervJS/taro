@@ -34,7 +34,7 @@
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.3.29",
     "@react-navigation/routers": "^6.1.9",
-    "@react-navigation/stack": "^6.3.29",
+    "@react-navigation/stack": "^6.4.0",
     "query-string": "^9.0.0",
     "react-native-gesture-handler": "^2.16.0",
     "react-native-safe-area-context": "4.5.0",
