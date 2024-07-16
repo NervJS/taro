@@ -34,7 +34,7 @@
   "dependencies": {
     "@ant-design/react-native": "5.0.0",
     "@react-native-community/slider": "4.5.2",
-    "@react-native-picker/picker": "2.7.5",
+    "@react-native-picker/picker": "2.7.7",
     "@tarojs/components": "workspace:*",
     "@tarojs/router-rn": "workspace:*",
     "expo-av": "~13.10.0",
