@@ -51,7 +51,7 @@
     "cli-highlight": "^2.1.11",
     "download-git-repo": "^3.0.2",
     "envinfo": "^7.12.0",
-    "inquirer": "^8.2.6",
+    "inquirer": "^10.0.2",
     "latest-version": "^5.1.0",
     "minimist": "^1.2.8",
     "ora": "^5.4.1",
