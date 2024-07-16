@@ -85,5 +85,4 @@ describe('cookie', () => {
     expect(cookie.getCookie(url1)).toBe('aaa=bbb; abc=cba; ggg=hhh; kkk=lll; ooo=ppp')
     expect(cookie.getCookie(url4)).toBe('aaa=bbb; abc=cba; ggg=hhh; kkk=lll; mmm=nnn')
   })
-
 })

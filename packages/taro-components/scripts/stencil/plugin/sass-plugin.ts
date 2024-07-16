@@ -31,8 +31,8 @@ export default function sassPlugin (opts: d.PluginOptions = {}): d.Plugin {
      */
     transform (sourceText: string, fileName: string, context: d.PluginCtx): Promise<d.PluginTransformResults> {
       if (
-        !usePlugin(fileName)
-        || typeof sourceText !== 'string'
+        !usePlugin(fileName) ||
+        typeof sourceText !== 'string'
       ) {
         // @ts-ignore
         return null

@@ -1,0 +1,46 @@
+.example-body{
+  text-align: center;
+}
+
+.movable-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 50px;
+  background: #1AAD19;
+  color: #fff;
+}
+
+.movable-area {
+  height: 200px;
+  width: 200px;
+  margin: 25px 0px 0 25px;
+  background-color: #ccc;
+  overflow: hidden;
+}
+.max {
+  width: 300px;
+  height: 300px;
+}
+.page-section {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.page-section-title {
+  margin-top: 25px;
+  font-size: 14px;
+  color: #999999;
+  margin-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.page-section-title.first {
+  margin-top: 0;
+}
+.btn-area {
+  margin-top: 10px;
+  padding-bottom: 50px;
+}

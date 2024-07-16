@@ -1,4 +1,4 @@
-import { Current, document, getPageInstance, incrementId, injectPageInstance } from '@tarojs/runtime'
+import { CONTAINER, Current, document, getPageInstance, incrementId, injectPageInstance } from '@tarojs/runtime'
 import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
 
 import { reactMeta } from './react-meta'
@@ -189,16 +189,24 @@ export function createReactApp (
   }
 
   function waitAppWrapper (cb: () => void) {
-    appWrapper ? cb() : appWrapperPromise.then(() => cb())
+    /**
+     * 当同个事件触发多次时，waitAppWrapper 会出现同步和异步任务的执行顺序问题，
+     * 导致某些场景下 onShow 会优于 onLaunch 执行
+     */
+    appWrapperPromise.then(() => cb())
+    // appWrapper ? cb() : appWrapperPromise.then(() => cb())
   }
 
   function renderReactRoot () {
-    let appId = 'app'
-    if (process.env.TARO_PLATFORM === 'web') {
-      appId = config?.appId || appId
+    const appId = config?.appId || 'app'
+    let container = document.getElementById(appId)
+    if (container == null) {
+      const appContainer = document.getElementById(CONTAINER)
+      container = document.createElement(appId)
+      container.id = appId
+      appContainer?.appendChild(container)
     }
-    const container = document.getElementById(appId)
-    if((react.version || '').startsWith('18')){
+    if ((react.version || '').startsWith('18')) {
       const root = ReactDOM.createRoot(container)
       root.render?.(h(AppWrapper))
     } else {
@@ -275,7 +283,11 @@ export function createReactApp (
     },
 
     unmount (id: string, cb: () => void) {
-      appWrapper.unmount(id, cb)
+      if (appWrapper) {
+        appWrapper.unmount(id, cb)
+      } else {
+        appWrapperPromise.then(appWrapper => appWrapper.unmount(id, cb))
+      }
     }
   }, {
     config: setDefaultDescriptor({

@@ -12,6 +12,8 @@ export interface Router {
   customRoutes?: Record<string, string | string[]>
   pathname: string
   forcePath?: string
+  /** 加上这个参数，可以解决返回页面的时候白屏的问题，但是某些不支持 :has() 选择器的浏览器会有问题 */
+  enhanceAnimation?: boolean
 }
 
 export interface SpaRouterConfig extends AppConfig {

@@ -25,7 +25,7 @@ export function findDOM (inst?): TaroElement | HTMLElement | undefined {
 
   const page = Current.page
   const path = page?.path
-  const msg = '没有找到已经加载了的页面，请在页面加载完成后时候此 API。'
+  const msg = '没有找到已经加载了的页面，请在页面加载完成后使用此 API。'
   if (path == null) {
     throw new Error(msg)
   }

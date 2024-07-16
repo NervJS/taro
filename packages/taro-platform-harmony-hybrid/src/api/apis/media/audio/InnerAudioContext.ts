@@ -161,25 +161,25 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
     }
   }
 
-  canPlayCallback = () => { }
+  canPlayCallback = () => {}
 
-  playCallback = () => { }
+  playCallback = () => {}
 
-  pauseCallback = () => { }
+  pauseCallback = () => {}
 
-  stopCallback = () => { }
+  stopCallback = () => {}
 
-  endedCallback = () => { }
+  endedCallback = () => {}
 
-  timeUpdateCallback = () => { }
+  timeUpdateCallback = () => {}
 
-  waitingCallback = () => { }
+  waitingCallback = () => {}
 
-  seekingCallback = () => { }
+  seekingCallback = () => {}
 
-  seekedCallback = () => { }
+  seekedCallback = () => {}
 
-  errorCallback = () => { }
+  errorCallback = () => {}
 
   onCanplay = (callback: Taro.InnerAudioContext.OnCanplayCallback = this.canPlayCallback) =>
     this.Instance?.addEventListener('canplay', callback as any)

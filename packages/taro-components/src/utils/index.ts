@@ -34,7 +34,7 @@ export * from './style'
 export * from './url'
 
 export function isVisible (e: HTMLElement) {
-  return !!( e.offsetWidth || e.offsetHeight || e.getClientRects().length )
+  return !!(e.offsetWidth || e.offsetHeight || e.getClientRects().length)
 }
 
 export function isElement (e: HTMLElement) {

@@ -1,6 +1,6 @@
 import { eventCenter } from '@tarojs/runtime'
 
-import { navigateBack,reLaunch } from '../api'
+import { navigateBack, reLaunch } from '../api'
 import { isDingTalk } from '../utils'
 import stacks from './stack'
 
@@ -20,8 +20,8 @@ export default class NavigationBarHandler {
   cache: Record<string, NavigationBarCache>
   isLoadDdEntry = false
 
-  constructor (pageContext: PageHandler){
-    this.cache ={}
+  constructor (pageContext: PageHandler) {
+    this.cache = {}
     this.pageContext = pageContext
     this.init()
 
@@ -41,7 +41,7 @@ export default class NavigationBarHandler {
   }
 
   private toHomeFn () {
-    reLaunch({ url: this.pageContext.homePage })
+    reLaunch({ url: this.pageContext.originHomePage })
   }
 
   private backFn () {
@@ -75,7 +75,7 @@ export default class NavigationBarHandler {
     this.backBtnElement?.addEventListener('click', this.backFn.bind(this))
   }
 
-  setNavigationBarElement (){
+  setNavigationBarElement () {
     this.navigationBarElement = document.getElementById('taro-navigation-bar') as HTMLElement
   }
 
@@ -89,8 +89,8 @@ export default class NavigationBarHandler {
     this.setNavigationLoading()
   }
 
-  setCacheValue (){
-    const currentPage = this.pageContext.currentPage
+  setCacheValue () {
+    const currentPage = this.pageContext.originPathname
     if (typeof this.cache[currentPage] !== 'object') {
       this.cache[currentPage] = {}
     }
@@ -118,7 +118,7 @@ export default class NavigationBarHandler {
 
   setNavigationLoading (show?: boolean) {
     if (!this.navigationBarElement) return
-    const currentPage = this.pageContext.currentPage
+    const currentPage = this.pageContext.originPathname
     let isShow
     if (typeof show === 'boolean') {
       isShow = show
@@ -142,7 +142,7 @@ export default class NavigationBarHandler {
   setNavigationBarBackground (backgroundColor?: string) {
     if (!this.navigationBarElement) return
 
-    const currentPage = this.pageContext.currentPage
+    const currentPage = this.pageContext.originPathname
     let color
     if (typeof backgroundColor === 'string') {
       color = backgroundColor
@@ -164,7 +164,7 @@ export default class NavigationBarHandler {
   setNavigationBarTextStyle (fontColor?: string) {
     if (!this.navigationBarElement) return
 
-    const currentPage = this.pageContext.currentPage
+    const currentPage = this.pageContext.originPathname
     let color
     if (typeof fontColor === 'string') {
       color = fontColor
@@ -184,7 +184,7 @@ export default class NavigationBarHandler {
   }
 
   setTitle (title?) {
-    const currentPage = this.pageContext.currentPage
+    const currentPage = this.pageContext.originPathname
     let proceedTitle
     if (typeof title === 'string') {
       proceedTitle = title
@@ -214,25 +214,25 @@ export default class NavigationBarHandler {
     this.titleElement.innerHTML = proceedTitle
   }
 
-  fnBtnToggleToHome (){
+  fnBtnToggleToHome () {
     if (!this.navigationBarElement) return
     this.navigationBarElement.classList.add('taro-navigation-bar-home-icon')
     this.navigationBarElement.classList.remove('taro-navigation-bar-back-icon')
   }
 
-  fnBtnToggleToBack (){
+  fnBtnToggleToBack () {
     if (!this.navigationBarElement) return
     this.navigationBarElement.classList.remove('taro-navigation-bar-home-icon')
     this.navigationBarElement.classList.add('taro-navigation-bar-back-icon')
   }
 
-  fnBtnToggleToNone (){
+  fnBtnToggleToNone () {
     if (!this.navigationBarElement) return
     this.navigationBarElement.classList.remove('taro-navigation-bar-home-icon')
     this.navigationBarElement.classList.remove('taro-navigation-bar-back-icon')
   }
 
-  setNavigationBarVisible (show?){
+  setNavigationBarVisible (show?) {
     if (!this.navigationBarElement) return
 
     let shouldShow
@@ -240,7 +240,7 @@ export default class NavigationBarHandler {
       shouldShow = show
     } else {
       shouldShow = this.pageContext.config.window?.navigationStyle
-      if (typeof this.pageContext.pageConfig?.navigationStyle === 'string'){
+      if (typeof this.pageContext.pageConfig?.navigationStyle === 'string') {
         shouldShow = this.pageContext.pageConfig.navigationStyle
       }
     }

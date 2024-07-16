@@ -28,7 +28,7 @@ export function initNativeApi (taro) {
       return pageCtx.getTabBar()?.$taroInstances
     }
   }
-  taro.getRenderer = function (){
+  taro.getRenderer = function () {
     return taro.getCurrentInstance()?.page?.renderer ?? 'webview'
   }
 }

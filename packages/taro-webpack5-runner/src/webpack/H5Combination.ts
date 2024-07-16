@@ -94,7 +94,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
     const plugin = this.webpackPlugin.getPlugins()
 
     if (this.isBuildNativeComp) {
-
       if (this.isVirtualEntry) {
         plugin.VirtualModule = WebpackPlugin.getPlugin(VirtualModulesPlugin, [virtualEntryMap])
       }

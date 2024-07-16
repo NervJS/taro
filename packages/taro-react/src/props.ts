@@ -11,19 +11,19 @@ const IS_NON_DIMENSIONAL = /aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine
 
 export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props) {
   const updatePayload = getUpdatePayload(dom, oldProps, newProps)
-  if(updatePayload){
+  if (updatePayload) {
     updatePropsByPayload(dom, oldProps, updatePayload)
   }
 }
 
-export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updatePayload: any[]){
-  for(let i = 0; i < updatePayload.length; i += 2){ // key, value 成对出现
-    const key = updatePayload[i]; const newProp = updatePayload[i+1]; const oldProp = oldProps[key]
+export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updatePayload: any[]) {
+  for (let i = 0; i < updatePayload.length; i += 2) { // key, value 成对出现
+    const key = updatePayload[i]; const newProp = updatePayload[i + 1]; const oldProp = oldProps[key]
     setProperty(dom, key, newProp, oldProp)
   }
 }
 
-export function getUpdatePayload (dom: TaroElement, oldProps: Props, newProps: Props){
+export function getUpdatePayload (dom: TaroElement, oldProps: Props, newProps: Props) {
   let i: string
   let updatePayload: any[] | null = null
 

@@ -63,13 +63,13 @@ export default async function build (_appPath: string, config: any): Promise<any
       spawn(npxCmd, ['react-native', 'start'].concat(cliParams), {
         stdio: 'inherit'
       })
-      if(config.qr) {
+      if (config.qr) {
         previewDev({
           port: parseInt(config.port) || 8081,
         })
       }
       onFinish(null)
-    } catch(e) {
+    } catch (e) {
       onFinish(e)
     }
   } else {
@@ -110,7 +110,7 @@ export default async function build (_appPath: string, config: any): Promise<any
       ].concat(cliParams), {
         stdio: 'inherit'
       })
-      if(config.qr) {
+      if (config.qr) {
         process.on('beforeExit', () => {
           previewProd({
             out: bundleOutput,
@@ -120,7 +120,7 @@ export default async function build (_appPath: string, config: any): Promise<any
         })
       }
       onFinish(null)
-    } catch(e) {
+    } catch (e) {
       onFinish(e)
     }
   }
