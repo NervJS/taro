@@ -20,7 +20,7 @@ import { compileCSS } from './postcss'
 import {
   commonjsProxyRE, CSS_LANGS_RE, cssModuleRE,
   htmlProxyRE, inlineCSSRE, inlineRE, loadParseImportRE,
-  SPECIAL_QUERY_RE, usedRE, usedSuffix
+  SPECIAL_QUERY_RE, usedRE
 } from './postcss/constants'
 import { finalizeCss, stripBomTag } from './postcss/utils'
 
@@ -212,7 +212,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
 
           if (cssIdSet.size) {
             const cssRawArr = Array.from(cssIdSet).map((cssId) => {
-              const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '').replace(usedSuffix, '')
+              const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '').replace(usedRE, '')
               return cssCache.get(rawId) || ''
             })
             const { code: raw_code } = parseJSXStyle(raw, cssRawArr, {
@@ -264,8 +264,9 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       // 校验css
       validateStylelint(id, raw)
 
-      if (modules && !moduleCache.has(id)) {
-        moduleCache.set(id.replace(usedRE, ''), modules)
+      const rawId= id.replace(STYLE_SUFFIX_RE, '').replace(usedRE, '');
+      if (modules && !moduleCache.has(rawId)) {
+        moduleCache.set(rawId, modules)
       }
 
       // track deps for build watch mode
@@ -342,7 +343,7 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
       const css = stripBomTag(raw)
 
       const inlined = inlineRE.test(id)
-      const rawId = stripVirtualModulePrefix(id).replace(STYLE_SUFFIX_RE, '').replace(usedSuffix, '')
+      const rawId = stripVirtualModulePrefix(id).replace(STYLE_SUFFIX_RE, '').replace(usedRE, '')
       const modules = cssModulesCache.get(viteConfig)!.get(rawId)
 
       // `foo.module.css` => modulesCode

@@ -40,7 +40,7 @@ export const htmlProxyRE = /(?:\?|&)html-proxy\b/
 export const commonjsProxyRE = /\?commonjs-proxy/
 export const inlineRE = /(?:\?|&)inline\b/
 export const inlineCSSRE = /(?:\?|&)inline-css\b/
-export const usedRE = /(?:\?|&)used\b/
+export const usedRE = /(?:\?|&)used/
 export const varRE = /^var\(/i
 export const loadParseImportRE = /(?:\?|&)load-parse-import\b/
 
