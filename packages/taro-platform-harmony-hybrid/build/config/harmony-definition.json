@@ -757,7 +757,12 @@
       "TARO_ENV": true,
       "USER_DATA_PATH": true
     },
-    "exitMiniProgram": false,
+    "exitMiniProgram": {
+      "object": {
+        "url": true,
+        "events": true
+      }
+    },
     "exitVoIPChat": false,
     "faceDetect": false,
     "faceVerifyForPay": false,
