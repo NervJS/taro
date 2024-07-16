@@ -150,7 +150,7 @@
     "stylelint": "^16.4.0",
     "stylelint-config-standard-scss": "^13.1.0",
     "stylelint-order": "^6.0.4",
-    "ts-jest": "^29.1.2",
+    "ts-jest": "^29.2.2",
     "tslib": "^2.6.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.4.5",
