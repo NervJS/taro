@@ -62,7 +62,7 @@
     "@tarojs/components-advanced": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
-    "hls.js": "^1.1.5",
+    "hls.js": "^1.5.13",
     "resolve-pathname": "^3.0.0",
     "swiper": "6.8.0",
     "tslib": "^2.6.2"
