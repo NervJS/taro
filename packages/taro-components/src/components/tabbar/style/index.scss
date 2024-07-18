@@ -41,7 +41,8 @@ body {
   &__tabbar {
     position: relative;
     width: 100%;
-    height: var(--taro-tabbar-height);
+    height: calc(var(--taro-tabbar-height) + constant(safe-area-inset-bottom));
+    height: calc(var(--taro-tabbar-height) + env(safe-area-inset-bottom));
     transition: bottom 0.2s, top 0.2s;
 
     &-top {
@@ -50,8 +51,7 @@ body {
 
     &-bottom {
       bottom: 0;
-      margin-bottom: constant(safe-area-inset-bottom);
-      margin-bottom: env(safe-area-inset-bottom);
+      margin-bottom: 0;
     }
 
     &-hide {
