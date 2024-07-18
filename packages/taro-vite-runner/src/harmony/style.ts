@@ -264,7 +264,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       // 校验css
       validateStylelint(id, raw)
 
-      const rawId= id.replace(STYLE_SUFFIX_RE, '').replace(usedRE, '');
+      const rawId = id.replace(STYLE_SUFFIX_RE, '').replace(usedRE, '')
       if (modules && !moduleCache.has(rawId)) {
         moduleCache.set(rawId, modules)
       }
