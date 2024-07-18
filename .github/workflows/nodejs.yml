@@ -9,7 +9,7 @@ on:
   pull_request:
     branches:
       - main
-
+      - '3.x'
 permissions:
   contents: read # to fetch code (actions/checkout)
 
