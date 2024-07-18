@@ -1,7 +1,7 @@
 import path from 'node:path'
 import querystring from 'node:querystring'
 
-import { isNpmPkg, recursiveMerge, REG_NODE_MODULES, resolveSync } from '@tarojs/helper'
+import { isNpmPkg, normalizePath, recursiveMerge, REG_NODE_MODULES, resolveSync } from '@tarojs/helper'
 import { isFunction, isString } from '@tarojs/shared'
 
 import { backSlashRegEx, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME, needsEscapeRegEx, quoteNewlineRegEx } from './constants'
@@ -118,7 +118,7 @@ export function genRouterResource (page: VitePageMeta) {
     'Object.assign({',
     `  path: '${page.name}',`,
     '  load: async function(context, params) {',
-    `    const page = await import("${page.scriptPath}")`,
+    `    const page = await import("${normalizePath(page.scriptPath)}")`,
     '    return [page, context, params]',
     '  }',
     `}, ${JSON.stringify(page.config)})`
