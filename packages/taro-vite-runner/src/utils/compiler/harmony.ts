@@ -96,7 +96,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     const scriptPath = resolveMainFilePath(path.join(sourceDir, pageName), frameworkExts)
     const nativePath = resolveMainFilePath(path.join(sourceDir, pageName), nativeExt)
     const configPath = this.getConfigFilePath(scriptPath)
-    const config: PageConfig = readConfig(configPath) || {}
+    const config: PageConfig = readConfig(configPath, this.taroConfig) || {}
 
     const pageMeta = {
       name: pageName,
