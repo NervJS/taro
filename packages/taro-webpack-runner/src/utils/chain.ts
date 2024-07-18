@@ -129,9 +129,10 @@ const getUrlLoader = pipe(
   mergeOption,
   partial(getLoader, 'url-loader')
 )
-const getExtractCssLoader = () => {
+const getExtractCssLoader = (miniCssExtractLoaderOption = {}) => {
   return {
-    loader: MiniCssExtractPlugin.loader
+    loader: MiniCssExtractPlugin.loader,
+    options: miniCssExtractLoaderOption
   }
 }
 const getImportMetaLoader = pipe(
@@ -217,7 +218,7 @@ export const parseModule = (appPath: string, {
   deviceRatio,
   enableExtract,
   enableSourceMap,
-
+  miniCssExtractLoaderOption,
   styleLoaderOption,
   cssLoaderOption,
   lessLoaderOption,
@@ -312,7 +313,7 @@ export const parseModule = (appPath: string, {
     }
   }, styleLoaderOption])
 
-  const extractCssLoader = getExtractCssLoader()
+  const extractCssLoader = getExtractCssLoader(miniCssExtractLoaderOption)
 
   const lastStyleLoader = enableExtract ? extractCssLoader : styleLoader
 
