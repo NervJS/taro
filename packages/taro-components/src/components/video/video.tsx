@@ -188,6 +188,7 @@ export class Video implements ComponentInterface {
 
   componentWillLoad () {
     this._enableDanmu = this.enableDanmu
+    this.isMute = this.muted
   }
 
   componentDidLoad () {
