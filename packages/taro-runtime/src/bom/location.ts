@@ -5,9 +5,9 @@ import { getCurrentInstance } from '../current'
 import { Events } from '../emitter/emitter'
 import env from '../env'
 import { RuntimeCache } from '../utils/cache'
-import { URL } from './URL'
+import { TaroURLProvider } from './URL'
 
-type PreValue = ReturnType<typeof URL.prototype._toRaw>
+type PreValue = ReturnType<typeof TaroURLProvider.prototype._toRaw>
 
 type Options = {
   window: any
@@ -21,7 +21,7 @@ const cache = new RuntimeCache<LocationContext>('location')
 
 class TaroLocation extends Events {
   /* private property */
-  #url = new URL(INIT_URL)
+  #url = new TaroURLProvider(INIT_URL)
   #noCheckUrl = false
   #window: any
 
@@ -103,7 +103,7 @@ class TaroLocation extends Events {
       const searchStr = searchArr.length > 0 ? '?' + searchArr.join('&') : ''
       const url = `${INIT_URL}${path.startsWith('/') ? path : '/' + path}${searchStr}`
 
-      this.#url = new URL(url)
+      this.#url = new TaroURLProvider(url)
 
       this.trigger('__reset_history__', this.href)
     }

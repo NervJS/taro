@@ -16,3 +16,15 @@ export function throttle (fn, threshold = 250, scope?) {
     }
   }
 }
+
+export function debounce (fn, ms = 250, scope?) {
+  let timer: ReturnType<typeof setTimeout>
+
+  return function (...args) {
+    const context = scope || this
+    clearTimeout(timer)
+    timer = setTimeout(function () {
+      fn.apply(context, args)
+    }, ms)
+  }
+}

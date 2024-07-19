@@ -414,7 +414,7 @@ export class MovableView {
     const x = touch.screenX - this.origin.x
     const y = touch.screenY - this.origin.y
 
-    this.setTransform(this.xMove ? (x + this.baseX) : 0, this.yMove ? (y + this.baseY) : 0)
+    this.setTransform(this.xMove ? (x + this.baseX) : this.baseX, this.yMove ? (y + this.baseY) : this.baseY)
 
     if (!this.firstMoveFireEvent) {
       this.firstMoveFireEvent = true
@@ -442,7 +442,7 @@ export class MovableView {
     const x = touch.screenX - this.origin.x
     const y = touch.screenY - this.origin.y
 
-    this.setTransform(this.xMove ? (x + this.baseX) : 0, this.yMove ? (y + this.baseY) : 0)
+    this.setTransform(this.xMove ? (x + this.baseX) : this.baseX, this.yMove ? (y + this.baseY) : this.baseY)
   }
 
   render () {

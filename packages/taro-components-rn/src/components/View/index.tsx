@@ -7,15 +7,16 @@
 
 import * as React from 'react'
 import {
-  View,
-  Text,
   StyleProp,
+  Text,
   TextStyle,
+  View,
 } from 'react-native'
+
 import { extracteTextStyle, omit } from '../../utils'
-import { _ViewProps } from './PropsType'
-import useClickable, { clickableHandlers } from '../hooks/useClickable'
 import { ClickableProps } from '../hooks/PropsType'
+import useClickable, { clickableHandlers } from '../hooks/useClickable'
+import { _ViewProps } from './PropsType'
 
 const stringToText = (child: any, props: any) => {
   // TODO: 实现小程序中效果

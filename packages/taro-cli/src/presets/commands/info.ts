@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import * as envinfo from 'envinfo'
-import * as path from 'path'
 
 import { getPkgVersion } from '../../util'
 

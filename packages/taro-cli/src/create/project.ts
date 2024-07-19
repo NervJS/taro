@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import { CompilerType, createProject, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
 import {
   chalk,
@@ -13,7 +15,6 @@ import { isArray } from '@tarojs/shared'
 import axios from 'axios'
 import * as inquirer from 'inquirer'
 import * as ora from 'ora'
-import * as path from 'path'
 import * as semver from 'semver'
 
 import { clearConsole, getPkgVersion, getRootPath } from '../util'
@@ -105,19 +106,27 @@ export default class Project extends Creator {
     this.askFramework(conf, prompts)
     this.askTypescript(conf, prompts)
     this.askCSS(conf, prompts)
-    this.askCompiler(conf, prompts)
     this.askNpm(conf, prompts)
-    await this.askTemplateSource(conf, prompts)
-
     const answers = await inquirer.prompt<IProjectConf>(prompts)
 
+    // Note: 由于 Solid 框架适配 Vite 还存在某些问题，所以在选择 Solid 框架时，不再询问编译工具
     prompts = []
-    const templates = await this.fetchTemplates(answers)
+    if (answers.framework === FrameworkType.Solid || conf.framework === FrameworkType.Solid) {
+      answers.compiler = CompilerType.Webpack5
+    } else {
+      this.askCompiler(conf, prompts)
+    }
+    await this.askTemplateSource(conf, prompts)
+    const compilerAndTemplateSourceAnswer = await inquirer.prompt<IProjectConf>(prompts)
+
+    prompts = []
+    const templates = await this.fetchTemplates(Object.assign({}, answers, compilerAndTemplateSourceAnswer))
     await this.askTemplate(conf, prompts, templates)
     const templateChoiceAnswer = await inquirer.prompt<IProjectConf>(prompts)
 
     return {
       ...answers,
+      ...compilerAndTemplateSourceAnswer,
       ...templateChoiceAnswer
     }
   }
@@ -213,8 +222,8 @@ export default class Project extends Creator {
         value: CompilerType.Webpack5
       },
       {
-        name: 'Webpack4',
-        value: CompilerType.Webpack4
+        name: 'Vite',
+        value: CompilerType.Vite
       }
     ]
 
@@ -238,17 +247,13 @@ export default class Project extends Creator {
         name: 'PReact',
         value: FrameworkType.Preact
       },
-      // {
-      //   name: 'Nerv',
-      //   value: 'nerv'
-      // },
-      {
-        name: 'Vue',
-        value: FrameworkType.Vue
-      },
       {
         name: 'Vue3',
         value: FrameworkType.Vue3
+      },
+      {
+        name: 'Solid',
+        value: FrameworkType.Solid
       }
     ]
 

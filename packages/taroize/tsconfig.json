@@ -8,5 +8,6 @@
     "sourceMap": true,
     "preserveConstEnums": true
   },
-  "include": ["./src"]
+  "include": ["./src"],
+  "exclude": ["./src/vue.ts"]
 }

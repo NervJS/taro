@@ -1765,9 +1765,9 @@ exports[`wxs wxs 多行注释 1`] = `
 module.exports = {
   foo: "'hello world' from tools.wxs"
   /*
-    msg:'123',
-    name:'xixi'
-  */
+   * msg:'123',
+   * name:'xixi'
+   **/
 };
 `;
 
@@ -1808,7 +1808,7 @@ export default _C;
 
 exports[`wxs 页面中使用wxs 1`] = `
 module.exports = {
-  data: 'wxs demo'
+  data: "wxs demo"
 };
 `;
 

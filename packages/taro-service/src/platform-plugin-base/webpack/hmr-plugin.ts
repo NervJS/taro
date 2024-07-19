@@ -1,5 +1,8 @@
+/* eslint-disable dot-notation */
+import type { Compiler } from 'webpack'
+
 export default class TaroMiniHMRPlugin {
-  apply (compiler) {
+  apply (compiler: Compiler) {
     compiler.hooks.thisCompilation.tap('TaroMiniHMRPlugin', compilation => {
       compilation.hooks.beforeChunkAssets.tap('TaroMiniHMRPlugin', () => {
         compilation.chunks.forEach(chunk => {
@@ -12,7 +15,7 @@ export default class TaroMiniHMRPlugin {
                   chunk.runtime,
                   'runtime'
                 )
-                runtimeSource._value += `
+                runtimeSource['_value'] += `
 var miniHMRCallback = function(parentChunkLoadingFunction, data) {
   var chunkIds = data[0];
   var moreModules = data[1];

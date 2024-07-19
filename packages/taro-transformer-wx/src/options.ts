@@ -1,10 +1,9 @@
-import { TransformOptions } from '@babel/core'
-
 import { Adapters } from './adapter'
 import { buildVistor } from './class-method-renamer'
-import { isTestEnv } from './env'
 import { eslintValidation } from './eslint'
 import { functionalComponent, Status } from './functional'
+
+import type { TransformOptions } from '@babel/core'
 
 export interface Options {
   isRoot?: boolean
@@ -31,13 +30,11 @@ export const setTransformOptions = (options: Options) => {
 export const buildBabelTransformOptions: () => TransformOptions = () => {
   Status.isSFC = false
   let plugins = [
-    require('babel-plugin-transform-do-expressions'),
-    require('babel-plugin-transform-export-extensions'),
-    require('babel-plugin-transform-flow-strip-types'),
-    [require('babel-plugin-transform-define').default, transformOptions.env],
+    "@babel/plugin-proposal-do-expressions",
+    ["transform-define", transformOptions.env],
   ]
   if (!transformOptions.isNormal) {
-    plugins.push(buildVistor())
+    plugins.push([buildVistor()])
   }
   return {
     filename: transformOptions.sourcePath,
@@ -61,11 +58,10 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
       ] as any[],
     },
     plugins: plugins
-      .concat(require('babel-plugin-preval'))
-      .concat(process.env.TARO_ENV === 'rn' ? [] : functionalComponent)
+      .concat('preval')
+      .concat(process.env.TARO_ENV === 'rn' ? [] : [functionalComponent])
       .concat(
-        process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation
+        process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : [eslintValidation]
       )
-      .concat(isTestEnv ? [] : require('babel-plugin-minify-dead-code').default),
   }
 }

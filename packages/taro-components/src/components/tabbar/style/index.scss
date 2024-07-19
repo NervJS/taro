@@ -2,11 +2,6 @@
 @import '../../../styles/widget/weui-tab/weui-tabbar';
 @import '../../../styles/widget/weui-tips/weui-badge';
 
-html,
-body {
-  height: 100%;
-}
-
 :root {
   --taro-tabbar-height: #{$weuiTabBarHeight};
 }

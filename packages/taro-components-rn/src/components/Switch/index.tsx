@@ -17,10 +17,10 @@
 import * as React from 'react'
 import {
   Switch,
-  GestureResponderEvent
 } from 'react-native'
-import Checkbox from '../Checkbox'
+
 import { noop } from '../../utils'
+import Checkbox from '../Checkbox'
 import { SwitchProps, SwitchState } from './PropsType'
 
 class _Switch extends React.Component<SwitchProps, SwitchState> {
@@ -66,11 +66,11 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
     return null
   }
 
-  _simulateNativePress = (evt: GestureResponderEvent): void => {
+  _simulateNativePress = (): void => {
     const { type } = this.props
     if (type === 'checkbox') {
       const node = this.$touchable.current as Checkbox
-      node && node._simulateNativePress(evt)
+      node && node._simulateNativePress?.()
     } else {
       // this.$touchable._onChange()
       this.setState({ checked: !this.state.checked })

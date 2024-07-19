@@ -3,11 +3,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
+    "declarationDir": "../taro-components/lib/vue3",
     "module": "ESNext",
     "noUnusedLocals": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "sourceMap": false,
     "strictNullChecks": false,
     "target": "ES2017",
     "typeRoots": ["./node_modules/@types"]

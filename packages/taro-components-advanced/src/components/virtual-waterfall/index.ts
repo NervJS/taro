@@ -242,7 +242,7 @@ declare class VirtualWaterfallComponent extends Component<VirtualWaterfallProps>
 }
 
 declare type VirtualWaterfall = VirtualWaterfallComponent
-const VirtualWaterfall: typeof VirtualWaterfallComponent = (process.env.FRAMEWORK === 'vue' || process.env.FRAMEWORK === 'vue3')
+const VirtualWaterfall: typeof VirtualWaterfallComponent = process.env.FRAMEWORK === 'vue3'
   ? require('./vue').default
   : require('./react').default
 

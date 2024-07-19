@@ -1,4 +1,4 @@
-import { callbackManager, addListener } from '../window'
+import { addListener, callbackManager } from '../window'
 
 /**
  * @typedef {Object} WindowResizeParam

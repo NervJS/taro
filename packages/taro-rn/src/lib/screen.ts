@@ -1,4 +1,5 @@
 import * as Brightness from 'expo-brightness'
+
 import { errorHandler, shouldBeObject, successHandler } from '../utils'
 
 /**
