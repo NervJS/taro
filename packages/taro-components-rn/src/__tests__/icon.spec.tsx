@@ -1,6 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Platform } from 'react-native'
-import { render } from '@testing-library/react-native'
+
 import Icon from '../components/Icon'
 
 describe('<Icon />', () => {

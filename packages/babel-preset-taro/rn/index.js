@@ -1,6 +1,9 @@
-const reactNativeBabelPreset = require('metro-react-native-babel-preset')
+const reactNativeBabelPreset = require('@rnx-kit/babel-preset-metro-react-native')
 
 module.exports = (_, options = {}) => {
+  if (!process.env.NODE_ENV) {
+    process.env.NODE_ENV = 'development'
+  }
   const {
     decoratorsBeforeExport,
     decoratorsLegacy

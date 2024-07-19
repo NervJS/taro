@@ -1,5 +1,6 @@
-import { taroJsComponents } from '@tarojs/helper'
-import path from 'path'
+import path from 'node:path'
+
+import { REG_NODE_MODULES_DIR, REG_TARO_SCOPED_PACKAGE, taroJsComponents } from '@tarojs/helper'
 
 import { componentConfig } from '../utils/component'
 import { BuildNativePlugin } from './BuildNativePlugin'
@@ -8,9 +9,9 @@ import { MiniBaseConfig } from './MiniBaseConfig'
 import { MiniWebpackModule } from './MiniWebpackModule'
 import { MiniWebpackPlugin } from './MiniWebpackPlugin'
 
-import type { IFileType, MiniBuildConfig } from '../utils/types'
+import type { IFileType, IMiniBuildConfig } from '../utils/types'
 
-export class MiniCombination extends Combination<MiniBuildConfig> {
+export class MiniCombination extends Combination<IMiniBuildConfig> {
   buildNativePlugin: BuildNativePlugin
   fileType: IFileType
   isBuildPlugin = false
@@ -18,7 +19,7 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     enable: true
   }
 
-  process (config: Partial<MiniBuildConfig>) {
+  process (config: Partial<IMiniBuildConfig>) {
     const baseConfig = new MiniBaseConfig(this.appPath, config)
     const chain = this.chain = baseConfig.chain
     const {
@@ -86,7 +87,7 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     })
   }
 
-  getEntry (entry: MiniBuildConfig['entry']) {
+  getEntry (entry: IMiniBuildConfig['entry']) {
     return this.isBuildPlugin ? this.buildNativePlugin.entry : entry
   }
 
@@ -131,12 +132,15 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
           vendors: {
             name: 'vendors',
             minChunks: 2,
-            test: module => /[\\/]node_modules[\\/]/.test(module.resource),
+            test: module => {
+              const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+              return nodeModulesDirRegx.test(module.resource)
+            },
             priority: 10
           },
           taro: {
             name: 'taro',
-            test: module => /@tarojs[\\/][a-z]+/.test(module.context),
+            test: module => REG_TARO_SCOPED_PACKAGE.test(module.context),
             priority: 100
           }
         }

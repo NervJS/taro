@@ -5,9 +5,10 @@
     "esModuleInterop": true,
     "module": "ESNext",
     "preserveConstEnums": true,
-    "sourceMap": true
+    "declaration": true,
+    "declarationDir": "dist"
   },
-  "include": ["./src", "./types", "./rollup.config.ts"],
+  "include": ["./src", "./types"],
   "ts-node": {
     "compilerOptions": {
       "forceConsistentCasingInFileNames": true,
@@ -18,7 +19,7 @@
       "resolveJsonModule": false,
       "skipLibCheck": true,
       "strict": true,
-      "target": "ES2022"
+      "target": "ES2022",
     },
     "experimentalSpecifierResolution": "node",
     "require": ["tsconfig-paths/register"]

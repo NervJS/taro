@@ -27,6 +27,9 @@ export interface CreateOptions {
   pageName?: string
   compiler?: CompilerType
   setPageName?: string
+  subPkg?: string
+  pageDir?: string
+  setSubPkgPageName?: string
   changeExt?: boolean
   isCustomTemplate?: boolean
   pluginType?: string
@@ -48,8 +51,9 @@ export const enum CSSType {
 export const enum FrameworkType {
   React = 'React',
   Preact = 'Preact',
-  Vue = 'Vue',
-  Vue3 = 'Vue3'
+  Vue3 = 'Vue3',
+  Solid = 'Solid',
+  None = 'None'
 }
 
 export const enum NpmType {
@@ -76,6 +80,8 @@ export interface Page {
   customTemplatePath?: string
   basePageFiles: Array<string>
   period: PeriodType
+  subPkg?: string
+  pageDir?: string
 }
 
 export const enum PeriodType {

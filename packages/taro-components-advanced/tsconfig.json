@@ -6,9 +6,9 @@
     "emitDeclarationOnly": true,
     "module": "ESNext",
     "outDir": "dist",
+    "declarationDir": "dist",
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "sourceMap": false,
     "strictNullChecks": false,
     "target": "ES2017",
     "typeRoots": ["./node_modules/@types"]

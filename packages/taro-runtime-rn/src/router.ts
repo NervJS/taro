@@ -5,7 +5,6 @@
 let routerObj: any = {}
 try {
   routerObj = require('@tarojs/router-rn')
-  // eslint-disable-next-line
 } catch (e) {}
 
 function getApi (key) {
@@ -44,8 +43,3 @@ export const setTabBarStyle = getApi('setTabBarStyle')
 export const showNavigationBarLoading = getApi('showNavigationBarLoading')
 export const showTabBar = getApi('showTabBar')
 export const showTabBarRedDot = getApi('showTabBarRedDot')
-
-
-
-
-

@@ -1,7 +1,7 @@
+import * as path from 'node:path'
 
 import { esbuild } from '@tarojs/helper'
 import { isArray, isFunction, isObject, isString } from '@tarojs/shared'
-import * as path from 'path'
 
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 

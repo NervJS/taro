@@ -8,7 +8,7 @@ import native from '../../NativeApi'
  * 压缩图片接口，可选压缩质量
  *
  * @canUse compressImage
- * @__object [src, quality, compressedWidth, compressHeight]
+ * @__object [src, quality, compressedWidth, compressedHeight]
  * @__success [tempFilePath]
  */
 export const compressImage: typeof Taro.compressImage = (options) => {
@@ -21,7 +21,7 @@ export const compressImage: typeof Taro.compressImage = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const { src, quality, compressedWidth, compressHeight, success, fail, complete } = options as Exclude<
+  const { src, quality, compressedWidth, compressedHeight, success, fail, complete } = options as Exclude<
     typeof options,
   undefined
   >
@@ -46,7 +46,7 @@ export const compressImage: typeof Taro.compressImage = (options) => {
       src: src,
       quality: quality,
       compressedWidth: compressedWidth,
-      compressHeight: compressHeight,
+      compressedHeight: compressedHeight,
       success: (res: any) => {
         const result: Taro.compressImage.SuccessCallbackResult = {
           tempFilePath: res.tempFilePath,

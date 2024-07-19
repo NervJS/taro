@@ -1,4 +1,5 @@
-import path from 'path'
+import path from 'node:path'
+
 import ts from 'typescript'
 
 export interface DocEntry {
@@ -17,6 +18,15 @@ export interface DocEntry {
   symbol?: DocEntry
 }
 
+export function pathsAreEqual (path1: string, path2: string) {
+  path1 = path.resolve(path1)
+  path2 = path.resolve(path2)
+  if (process.platform === 'win32') {
+    return path1.toLowerCase() === path2.toLowerCase()
+  }
+  return path1 === path2
+}
+
 export function generateDocumentation (
   filepaths: string[],
   options: ts.CompilerOptions,
@@ -31,7 +41,7 @@ export function generateDocumentation (
 
   for (const sourceFile of program.getSourceFiles()) {
     if (param.withDeclaration !== false || !sourceFile.isDeclarationFile) {
-      // 规范化路径，修复window环境无法生成definition.json文件
+      // Note: 规范化路径，修复window环境无法生成definition.json文件
       const normalSrcFile = path.normalize(sourceFile.fileName)
       if ((param.mapAll === true && filepaths.includes(normalSrcFile)) || normalSrcFile === path.normalize(filepaths[0])) {
         ts.forEachChild(sourceFile, (n) => visitAST(n, output))

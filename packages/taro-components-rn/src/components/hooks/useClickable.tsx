@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-
 import {
   GestureResponderEvent,
-  GestureResponderHandlers, PanResponder
+  GestureResponderHandlers, PanResponder, Platform
 } from 'react-native'
+
 import { omit } from '../../utils'
 
 export const clickableHandlers: Array<keyof GestureResponderHandlers> = [
@@ -88,7 +88,7 @@ const useClickable = (props: any) => {
   const [isHover, setIsHover] = useState(false)
 
   const ref = useRef<{
-    startTimestamp: number,
+    startTimestamp: number
     startTimer?: ReturnType<typeof setTimeout>
     stayTimer?: ReturnType<typeof setTimeout>
     props: any
@@ -152,10 +152,20 @@ const useClickable = (props: any) => {
         const { onClick, onLongPress, onTouchEnd } = ref.current.props
         onTouchEnd && onTouchEnd(getWxAppEvent(evt))
         const endTimestamp = evt.nativeEvent.timestamp
-        const gapTime = endTimestamp - ref.current.startTimestamp
+        let gapTime = endTimestamp - ref.current.startTimestamp
         // 1 =>3, 修复部分android机型(三星折叠屏尤为明显),单击时dx,dy为>1，而被误判为move的情况。
         const hasMove = Math.abs(gestureState.dx) >= 3 || Math.abs(gestureState.dy) >= 3
         if (!hasMove) {
+          // @ts-ignore
+          if (Platform.OS === 'harmony') {
+            const ms = Math.floor(gapTime / 1000)
+            if (ms > 0) { // 这种情况是 1000毫秒以上 || 单位小于毫秒的情况
+              const us = Math.floor(ms / 1000)
+              if (us > 0 || ms > 10) { // 防止以后系统升级改成毫秒后的容错处理
+                gapTime = ms
+              }
+            }
+          }
           if (gapTime <= 350) {
             onClick && onClick(getWxAppEvent(evt))
           } else {

@@ -1,4 +1,0 @@
-<view class="native" bindtap="viewTap">
-  <text>{{text}}{{x}}</text>
-  <tab myProperty="kkl" bindmyevent="handler" />
-</view>

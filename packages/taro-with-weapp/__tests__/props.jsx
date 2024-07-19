@@ -1,7 +1,7 @@
-/** @jsx createElement */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { createElement, render } from 'nervjs'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 
 import withWeapp from '../src'
 import { delay, TaroComponent } from './utils'
@@ -26,17 +26,18 @@ describe('lifecycle', () => {
       }
     })
     class A extends TaroComponent {
+      componentDidMount () {
+        expect(scratch.textContent).toBe('a')
+        done()
+      }
+
       render () {
         return <div>{this.data.a}</div>
       }
     }
 
-    render(<A />, scratch)
-
-    delay(() => {
-      expect(scratch.textContent).toBe('a')
-      done()
-    })
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<A />)
   })
 
   test('can access from this.data', (done) => {
@@ -56,20 +57,21 @@ describe('lifecycle', () => {
 
     @withWeapp({})
     class B extends TaroComponent {
+      componentDidMount () {
+        expect(scratch.textContent).toBe('b')
+        done()
+      }
+
       render () {
         return <A a='b' />
       }
     }
 
-    render(<B />, scratch)
-
-    delay(() => {
-      expect(scratch.textContent).toBe('b')
-      done()
-    })
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<B />)
   })
 
-  test('observer should emit in first render', () => {
+  test('observer should emit in first render', done => {
     const spy = jest.fn()
 
     @withWeapp({
@@ -91,20 +93,26 @@ describe('lifecycle', () => {
 
     @withWeapp({})
     class B extends TaroComponent {
+      componentDidMount () {
+        expect(scratch.textContent).toBe('b')
+        expect(spy).toBeCalled()
+        expect(spy).toBeCalledWith('b', 'a')
+        done()
+      }
+
       render () {
         return <A a='b' />
       }
     }
 
-    render(<B />, scratch)
-
-    expect(scratch.textContent).toBe('b')
-    expect(spy).toBeCalled()
-    expect(spy).toBeCalledWith('b', 'a')
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<B />)
   })
 
-  test('observer should work', () => {
+  test('observer should work', done => {
     const spy = jest.fn()
+
+    let inst
 
     @withWeapp({
       properties: {
@@ -118,12 +126,21 @@ describe('lifecycle', () => {
       }
     })
     class A extends TaroComponent {
+      componentDidMount () {
+        expect(scratch.textContent).toBe('b')
+        expect(spy).toBeCalled()
+        expect(spy).toBeCalledWith('b', 'a')
+
+        inst.setData({ a: 'b' })
+        inst.forceUpdate()
+        expect(spy).toBeCalledWith('b', 'a')
+        done()
+      }
+
       render () {
         return <div>{this.data.a}</div>
       }
     }
-
-    let inst
 
     @withWeapp({
       data: {
@@ -141,18 +158,11 @@ describe('lifecycle', () => {
       }
     }
 
-    render(<B />, scratch)
-
-    expect(scratch.textContent).toBe('b')
-    expect(spy).toBeCalled()
-    expect(spy).toBeCalledWith('b', 'a')
-
-    inst.setData({ a: 'b' })
-    inst.forceUpdate()
-    expect(spy).toBeCalledWith('b', 'a')
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<B />)
   })
 
-  test('trigger event should work', () => {
+  test('trigger event should work', done => {
     const spy = jest.fn()
 
     @withWeapp({
@@ -161,6 +171,18 @@ describe('lifecycle', () => {
       }
     })
     class A extends TaroComponent {
+      componentDidMount () {
+        delay(() => {
+          expect(spy).toBeCalledWith({
+            type: 'fork',
+            detail: 'a',
+            target: { id: '', dataset: {} },
+            currentTarget: { id: '', dataset: {} }
+          })
+          done()
+        })
+      }
+
       render () {
         return <div>{this.data.a}</div>
       }
@@ -177,13 +199,7 @@ describe('lifecycle', () => {
       }
     }
 
-    render(<B />, scratch)
-
-    expect(spy).toBeCalledWith({
-      type: 'fork',
-      detail: 'a',
-      target: { id: '', dataset: {} },
-      currentTarget: { id: '', dataset: {} }
-    })
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<B />)
   })
 })

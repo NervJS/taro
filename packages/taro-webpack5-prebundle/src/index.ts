@@ -1,12 +1,13 @@
+import path from 'node:path'
+
 import { getPlatformType, PLATFORM_TYPE } from '@tarojs/shared'
-import path from 'path'
-import webpackDevServer from 'webpack-dev-server'
 
 import BasePrebundle, { IPrebundle } from './prebundle'
 import { type IWebPrebundleConfig, VirtualModule } from './web'
 
 import type { Compiler, EntryObject } from 'webpack'
 import type Chain from 'webpack-chain'
+import type webpackDevServer from 'webpack-dev-server'
 import type { IMiniPrebundleConfig } from './mini'
 
 export * from './prebundle'

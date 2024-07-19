@@ -1,13 +1,11 @@
 /* eslint-disable no-console */
-import * as path from 'path'
+import * as path from 'node:path'
 
 import BaseCI from './BaseCi'
 import { AlipayInstance } from './types'
 import { compareVersion } from './utils/compareVersion'
 import { getNpmPkgSync } from './utils/npm'
 import { generateQrcodeImageFile, printQrcode2Terminal, readQrcodeImageContent } from './utils/qrcode'
-
-
 
 /** 文档地址： https://opendocs.alipay.com/mini/02q29z */
 export default class AlipayCI extends BaseCI {

@@ -1,14 +1,15 @@
 import * as FileSystem from 'expo-file-system'
 import { Platform } from 'react-native'
-import { shouldBeObject, successHandler, errorHandler } from '../utils'
+
+import { errorHandler, shouldBeObject, successHandler } from '../utils'
 
 interface Func {
   (arg: any): void
 }
 
 interface ExtPromise<T> extends Promise<T> {
-  onProgressUpdateCb?: Func,
-  onProgressUpdate?: Func,
+  onProgressUpdateCb?: Func
+  onProgressUpdate?: Func
   abort?: Func
 }
 
@@ -339,10 +340,10 @@ async function getFileInfo (opts: Taro.getFileInfo.Option): Promise<Taro.getFile
 
 export {
   downloadFile,
-  uploadFile,
-  saveFile,
-  removeSavedFile,
-  getSavedFileList,
+  getFileInfo,
   getSavedFileInfo,
-  getFileInfo
+  getSavedFileList,
+  removeSavedFile,
+  saveFile,
+  uploadFile
 }

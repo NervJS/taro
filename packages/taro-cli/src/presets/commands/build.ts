@@ -30,6 +30,8 @@ export default (ctx: IPluginContext) => {
       '--new-blended': 'Blended Taro project in an original MiniApp project while supporting building components independently',
       '--plugin [typeName]': 'Build Taro plugin project, weapp',
       '--env-prefix [envPrefix]': "Provide the dotEnv varables's prefix",
+      '--no-inject-global-style': '[H5] Do not inject global style',
+      '--no-check': 'Do not check config is valid or not',
     },
     synopsisList: [
       'taro build --type weapp',
@@ -43,9 +45,9 @@ export default (ctx: IPluginContext) => {
       'taro build --plugin weapp',
       'taro build --type weapp --mode prepare --env-prefix TARO_APP_',
     ],
-    async fn (opts) {
+    async fn(opts) {
       const { options, config, _ } = opts
-      const { platform, isWatch, blended, newBlended, withoutBuild } = options
+      const { platform, isWatch, blended, newBlended, withoutBuild, noInjectGlobalStyle, noCheck } = options
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
 
@@ -60,38 +62,40 @@ export default (ctx: IPluginContext) => {
       }
 
       // 校验 Taro 项目配置
-      const checkResult = await checkConfig({
-        projectConfig: ctx.initialConfig,
-        helper: ctx.helper
-      })
-      if (!checkResult.isValid) {
-        const ERROR = chalk.red('[✗] ')
-        const WARNING = chalk.yellow('[!] ')
-        const SUCCESS = chalk.green('[✓] ')
-
-        const lineChalk = chalk.hex('#fff')
-        const errorChalk = chalk.hex('#f00')
-        console.log(errorChalk(`Taro 配置有误，请检查！ (${configPath})`))
-        checkResult.messages.forEach(message => {
-          switch (message.kind) {
-            case MessageKind.Error:
-              console.log('  ' + ERROR + lineChalk(message.content))
-              break
-            case MessageKind.Success:
-              console.log('  ' + SUCCESS + lineChalk(message.content))
-              break
-            case MessageKind.Warning:
-              console.log('  ' + WARNING + lineChalk(message.content))
-              break
-            case MessageKind.Manual:
-              console.log('  ' + lineChalk(message.content))
-              break
-            default:
-              break
-          }
+      if (!noCheck) {
+        const checkResult = await checkConfig({
+          projectConfig: ctx.initialConfig,
+          helper: ctx.helper
         })
-        console.log('')
-        process.exit(0)
+        if (!checkResult.isValid) {
+          const ERROR = chalk.red('[✗] ')
+          const WARNING = chalk.yellow('[!] ')
+          const SUCCESS = chalk.green('[✓] ')
+
+          const lineChalk = chalk.hex('#fff')
+          const errorChalk = chalk.hex('#f00')
+          console.log(errorChalk(`Taro 配置有误，请检查！ (${configPath})`))
+          checkResult.messages.forEach((message) => {
+            switch (message.kind) {
+              case MessageKind.Error:
+                console.log('  ' + ERROR + lineChalk(message.content))
+                break
+              case MessageKind.Success:
+                console.log('  ' + SUCCESS + lineChalk(message.content))
+                break
+              case MessageKind.Warning:
+                console.log('  ' + WARNING + lineChalk(message.content))
+                break
+              case MessageKind.Manual:
+                console.log('  ' + lineChalk(message.content))
+                break
+              default:
+                break
+            }
+          })
+          console.log('')
+          process.exit(0)
+        }
       }
 
       const isProduction = process.env.NODE_ENV === 'production' || !isWatch
@@ -114,6 +118,7 @@ export default (ctx: IPluginContext) => {
             isBuildNativeComp,
             withoutBuild,
             newBlended,
+            noInjectGlobalStyle,
             async modifyAppConfig (appConfig) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_APP_CONFIG,
@@ -129,72 +134,82 @@ export default (ctx: IPluginContext) => {
                 opts: {
                   chain,
                   webpack,
-                  data
-                }
+                  data,
+                },
               })
             },
-            async modifyBuildAssets (assets, miniPlugin) {
+            async modifyViteConfig(viteConfig, data) {
+              await ctx.applyPlugins({
+                name: hooks.MODIFY_VITE_CONFIG,
+                initialVal: viteConfig,
+                opts: {
+                  viteConfig,
+                  data,
+                },
+              })
+            },
+            async modifyBuildAssets(assets, miniPlugin) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_BUILD_ASSETS,
                 initialVal: assets,
                 opts: {
                   assets,
-                  miniPlugin
-                }
+                  miniPlugin,
+                },
               })
             },
-            async modifyMiniConfigs (configMap) {
+            async modifyMiniConfigs(configMap) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_MINI_CONFIGS,
                 initialVal: configMap,
                 opts: {
-                  configMap
-                }
+                  configMap,
+                },
               })
             },
-            async modifyComponentConfig (componentConfig, config) {
+            async modifyComponentConfig(componentConfig, config) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_COMPONENT_CONFIG,
                 opts: {
                   componentConfig,
-                  config
-                }
+                  config,
+                },
               })
             },
-            async onCompilerMake (compilation, compiler, plugin) {
+            async onCompilerMake(compilation, compiler, plugin) {
               await ctx.applyPlugins({
                 name: hooks.ON_COMPILER_MAKE,
                 opts: {
                   compilation,
                   compiler,
-                  plugin
-                }
+                  plugin,
+                },
               })
             },
-            async onParseCreateElement (nodeName, componentConfig) {
+            async onParseCreateElement(nodeName, componentConfig) {
               await ctx.applyPlugins({
                 name: hooks.ON_PARSE_CREATE_ELEMENT,
                 opts: {
                   nodeName,
-                  componentConfig
-                }
+                  componentConfig,
+                },
               })
             },
-            async onBuildFinish ({ error, stats, isWatch }) {
+            async onBuildFinish({ error, stats, isWatch }) {
               await ctx.applyPlugins({
                 name: hooks.ON_BUILD_FINISH,
                 opts: {
                   error,
                   stats,
-                  isWatch
-                }
+                  isWatch,
+                },
               })
-            }
-          }
-        }
+            },
+          },
+        },
       })
       await ctx.applyPlugins(hooks.ON_BUILD_COMPLETE)
-    }
+    },
   })
 }
 

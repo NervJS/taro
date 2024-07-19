@@ -1,0 +1,11 @@
+<div class="image">
+  <image
+    id="{{id}}"
+    style="object-fit: {{objectFit}};"
+    src="{{src}}"
+    alt="{{alt}}"
+    @complete="onLoad"
+    @error="onError"
+  ></image>
+</div>
+
