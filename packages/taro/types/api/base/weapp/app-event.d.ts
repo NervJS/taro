@@ -113,7 +113,7 @@ declare module '../../../index' {
      *
      * **注意**
      *  - 所有的 unhandledRejection 都可以被这一监听捕获，但只有 Error 类型的才会在小程序后台触发报警。
-     * @supported weapp, tt, h5, harmony, harmony_hybrid
+     * @supported weapp, tt, h5, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onUnhandledRejection.html
      */
     onUnhandledRejection<T = any>(callback: onUnhandledRejection.Callback<T>): void
@@ -137,7 +137,7 @@ declare module '../../../index' {
     onPageNotFound(callback: onPageNotFound.Callback): void
 
     /** 监听小程序错误事件。如脚本错误或 API 调用报错等。该事件与 [`App.onError`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onerrorstring-error) 的回调时机与参数一致。
-     * @supported weapp, tt, h5, harmony, harmony_hybrid
+     * @supported weapp, tt, h5, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onError.html
      */
     onError(callback: onError.Callback): void
@@ -196,7 +196,7 @@ declare module '../../../index' {
     ): void
 
     /** 取消监听未处理的 Promise 拒绝事件
-     * @supported weapp, tt, h5, harmony, harmony_hybrid
+     * @supported weapp, tt, h5, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.offUnhandledRejection.html
      */
     offUnhandledRejection<T = any>(callback: onUnhandledRejection.Callback<T>): void
@@ -217,7 +217,7 @@ declare module '../../../index' {
     ): void
 
     /** 取消监听音频播放错误事件
-     * @supported weapp, tt, h5, harmony, harmony_hybrid
+     * @supported weapp, tt, h5, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/InnerAudioContext.offError.html
      */
 

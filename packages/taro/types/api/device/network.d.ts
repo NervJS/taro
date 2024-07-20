@@ -107,7 +107,7 @@ declare module '../../index' {
     ): void
 
     /** 监听网络状态变化。
-     * @supported weapp, swan, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, swan, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.onNetworkStatusChange(function (res) {
@@ -132,7 +132,7 @@ declare module '../../index' {
     ): void
 
     /** 取消监听网络状态变化事件，参数为空，则取消所有的事件监听。
-     * @supported weapp, swan, h5, rn, harmony, harmony_hybrid
+     * @supported weapp, swan, h5, rn, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.offNetworkStatusChange.html
      */
     offNetworkStatusChange(
@@ -141,7 +141,7 @@ declare module '../../index' {
     ): void
 
     /** 获取网络类型。
-     * @supported weapp, swan, qq, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, swan, qq, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.getNetworkType({

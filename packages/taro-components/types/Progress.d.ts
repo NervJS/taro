@@ -68,7 +68,7 @@ interface ProgressProps extends StandardProps {
 }
 /** 进度条。组件属性的长度单位默认为 px
  * @classification base
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

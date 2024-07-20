@@ -410,7 +410,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建一个动画实例 [animation](../Animation)。调用实例的方法来描述动画。最后通过动画实例的 export 方法导出动画数据传递给组件的 animation 属性。
-     * @supported weapp, tt, h5, harmony, harmony_hybrid
+     * @supported weapp, h5, tt, harmony_hybrid
      * @example
      * ```tsx
      * var animation = Taro.createAnimation({

@@ -546,7 +546,7 @@ declare module '../../index' {
     getSystemSetting(): getSystemSetting.Result
 
     /** [Taro.getSystemInfo](./getSystemInfo) 的同步版本
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @h5 不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
      * @weapp 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
      * @example
@@ -591,7 +591,7 @@ declare module '../../index' {
     getSystemInfoAsync(res?: getSystemInfoAsync.Option): Promise<getSystemInfo.Result>
 
     /** 获取系统信息，支持 `Promise` 化使用。
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @h5 不支持 version、statusBarHeight、fontSizeSetting、SDKVersion
      * @weapp 小程序可以在微信和企业微信中调用此接口，但是在企业微信中调用此接口时，会额外返回一个 environment 字段（微信中不返回），如此字段值为 wxwork，则表示当前小程序运行在企业微信环境中。
      * @example

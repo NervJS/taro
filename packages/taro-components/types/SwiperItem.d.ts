@@ -2,7 +2,7 @@ import { ComponentType } from 'react'
 import { StandardProps } from './common'
 interface SwiperItemProps extends StandardProps {
   /** 该 swiper-item 的标识符
-   * @supported weapp, swan, tt, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, swan, tt, jd, h5, rn, harmony_hybrid
    */
   itemId?: string
   /** 是否跳过未显示的滑块布局，设为 true 可优化复杂情况下的滑动性能，但会丢失隐藏状态滑块的布局信息

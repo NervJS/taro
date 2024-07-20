@@ -32,11 +32,6 @@ declare module './index' {
      * @default: "#ffffff"
      */
     backgroundColor?: string
-    /** 页面容器背景色， HexColor
-     * @see: https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/skyline/custom-route.html#%E8%AE%BE%E7%BD%AE%E9%A1%B5%E9%9D%A2%E9%80%8F%E6%98%8E
-     * @default: "#ffffff"
-     */
-    backgroundColorContent?: string
     /** 下拉背景字体、loading 图的样式，仅支持 dark/light
      * 当 app.json 中配置 darkmode 为 true 时可通过变量的形式配置
      * @see: https://developers.weixin.qq.com/miniprogram/dev/framework/ability/darkmode.html

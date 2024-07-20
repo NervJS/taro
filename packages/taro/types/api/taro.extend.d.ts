@@ -38,15 +38,13 @@ declare module '../index' {
   /** @ignore */
   interface TARO_ENV_TYPE {
     [TaroGeneral.ENV_TYPE.WEAPP]: TaroGeneral.ENV_TYPE.WEAPP
+    [TaroGeneral.ENV_TYPE.WEB]: TaroGeneral.ENV_TYPE.WEB
+    [TaroGeneral.ENV_TYPE.RN]: TaroGeneral.ENV_TYPE.RN
     [TaroGeneral.ENV_TYPE.SWAN]: TaroGeneral.ENV_TYPE.SWAN
     [TaroGeneral.ENV_TYPE.ALIPAY]: TaroGeneral.ENV_TYPE.ALIPAY
     [TaroGeneral.ENV_TYPE.TT]: TaroGeneral.ENV_TYPE.TT
     [TaroGeneral.ENV_TYPE.QQ]: TaroGeneral.ENV_TYPE.QQ
     [TaroGeneral.ENV_TYPE.JD]: TaroGeneral.ENV_TYPE.JD
-    [TaroGeneral.ENV_TYPE.WEB]: TaroGeneral.ENV_TYPE.WEB
-    [TaroGeneral.ENV_TYPE.RN]: TaroGeneral.ENV_TYPE.RN
-    [TaroGeneral.ENV_TYPE.HARMONY]: TaroGeneral.ENV_TYPE.HARMONY
-    [TaroGeneral.ENV_TYPE.QUICKAPP]: TaroGeneral.ENV_TYPE.QUICKAPP
     [TaroGeneral.ENV_TYPE.HARMONYHYBRID]: TaroGeneral.ENV_TYPE.HARMONYHYBRID
   }
 
@@ -100,7 +98,7 @@ declare module '../index' {
     }): void
 
     /** 小程序获取和 Taro 相关的 App 信息
-     * @supported weapp, alipay, jd, qq, swan, tt, h5, harmony, harmony_hybrid
+     * @supported weapp, alipay, jd, qq, swan, tt, h5, harmony_hybrid
      */
     getAppInfo(): getAppInfo.AppInfo
 

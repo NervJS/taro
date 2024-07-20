@@ -2,14 +2,13 @@ import { ComponentType, ImgHTMLAttributes } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 interface ImageProps extends StandardProps {
   /** 图片资源地址
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   src: string
   /** 图片裁剪、缩放的模式
    * @default "scaleToFill"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    * @rn 部分支持 scaleToFill, aspectFit, aspectFill, widthFix
-   * @harmony 部分支持 scaleToFill, aspectFit, aspectFill, widthFix, heightFix
    */
   mode?: keyof ImageProps.Mode
   /** 默认不解析 webP 格式，只支持网络资源

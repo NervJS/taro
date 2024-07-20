@@ -2,7 +2,7 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface RadioGroupProps extends StandardProps, FormItemProps {
   /** 组件名字，用于表单提交获取数据。
-   * @supported alipay, tt, harmony
+   * @supported alipay, tt
    */
   name?: string
   /** RadioGroup 中选中项发生改变时触发 change 事件，detail = {value:[选中的radio的value的数组]}

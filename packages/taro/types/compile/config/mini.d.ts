@@ -1,9 +1,6 @@
 import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
-import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
-import type { OutputOptions as RollupOutputOptions } from 'rollup'
-import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
-import type { OutputExt } from './project'
+import type { IOption, IPostcssOption } from './util'
 
 interface Runtime {
   enableInnerHTML?: boolean
@@ -15,7 +12,7 @@ interface Runtime {
   enableMutationObserver?: boolean
 }
 
-export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> {
+export interface IMiniAppConfig {
   /** 用于控制是否生成 js、css 对应的 sourceMap (默认值：watch 模式下为 true，否则为 false) */
   enableSourceMap?: boolean
 
@@ -43,15 +40,24 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
    */
   webpackChain?: (chain: Chain, webpack: typeof Webpack, PARSE_AST_TYPE: any) => void
 
-  /** webpack 编译模式下，可用于修改、拓展 Webpack 的 output 选项，配置项参考[官方文档](https://webpack.js.org/configuration/output/)
-  * vite 编译模式下，用于修改、扩展 rollup 的 output，目前仅适配 chunkFileNames 和 assetFileNames 两个配置，修改其他配置请使用 vite 插件进行修改。配置想参考[官方文档](https://rollupjs.org/configuration-options/)
-  */
-  output?: T extends 'vite'
-    ? Pick<RollupOutputOptions, 'chunkFileNames'>  & OutputExt
-    : Webpack.Configuration['output'] & OutputExt
+  /** 可用于修改、拓展 Webpack 的 [output](https://webpack.js.org/configuration/output/) 选项 */
+  output?: Webpack.Configuration['output'] & {
+    /**
+     * 编译前清空输出目录
+     * @since Taro v3.6.9
+     * @description
+     * - 默认清空输出目录，可设置 clean: false 不清空
+     * - 可设置 clean: { keep: ['project.config.json'] } 保留指定文件
+     * - 注意 clean.keep 不支持函数
+     */
+    clean?: boolean | {
+      /** 保留指定文件不删除 */
+      keep?: Array<string | RegExp> | string | RegExp
+    }
+  }
 
   /** 配置 postcss 相关插件 */
-  postcss?: IPostcssOption<'mini'>
+  postcss?: IPostcssOption
 
   /** [css-loader](https://github.com/webpack-contrib/css-loader) 的附加配置 */
   cssLoaderOption?: IOption
@@ -66,13 +72,13 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   stylusLoaderOption?: IOption
 
   /** 针对 mp4 | webm | ogg | mp3 | wav | flac | aac 文件的 [url-loader](https://github.com/webpack-contrib/url-loader) 配置 */
-  mediaUrlLoaderOption?: IUrlLoaderOption
+  mediaUrlLoaderOption?: IOption
 
   /** 针对 woff | woff2 | eot | ttf | otf 文件的 [url-loader](https://github.com/webpack-contrib/url-loader) 配置 */
-  fontUrlLoaderOption?: IUrlLoaderOption
+  fontUrlLoaderOption?: IOption
 
   /** 针对 png | jpg | jpeg | gif | bpm | svg 文件的 [url-loader](https://github.com/webpack-contrib/url-loader) 配置 */
-  imageUrlLoaderOption?: IUrlLoaderOption
+  imageUrlLoaderOption?: IOption
 
   /** [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) 的附加配置 */
   miniCssExtractPluginOption?: IOption
@@ -91,27 +97,16 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
 
   /** 小程序编译过程的相关配置 */
   compile?: {
-    exclude?: (string | RegExp)[]
-    include?: (string | RegExp)[]
-    filter?: (filename: string) => boolean
+    exclude?: any[]
+    include?: any[]
   }
 
   /** 插件内部使用 */
   runtime?: Runtime
 
-  /** 使用的编译工具。可选值：webpack5、vite */
-  compiler?: Compiler<T>
-
   /** 体验式功能 */
   experimental?: {
     /** 是否开启编译模式 */
-    compileMode?: boolean | string
-  }
-}
-
-export interface IMiniFilesConfig {
-  [configName: string]: {
-    content: any
-    path: string
+    compileMode?: boolean
   }
 }

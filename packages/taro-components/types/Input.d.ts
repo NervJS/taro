@@ -2,7 +2,7 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface InputProps extends StandardProps, FormItemProps {
   /** 输入框的初始内容
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   value?: string
   /** 设置 React 非受控输入框的初始内容
@@ -12,20 +12,20 @@ interface InputProps extends StandardProps, FormItemProps {
   defaultValue?: string
   /** input 的类型
    * @default "text"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   type?: keyof InputProps.Type
   /** 是否是密码类型
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   password?: boolean
   /** 输入框为空时占位符
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   placeholder?: string
   /** 指定 placeholder 的样式
-   * @supported weapp, alipay, swan, tt, qq, jd, rn, harmony
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   placeholderStyle?: string
   /** 指定 placeholder 的样式类
@@ -34,7 +34,7 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   placeholderClass?: string
   /** 指定 placeholder 的文本颜色
-   * @supported rn, harmony
+   * @supported rn
    */
   placeholderTextColor?: string
   /** 是否禁用
@@ -44,7 +44,7 @@ interface InputProps extends StandardProps, FormItemProps {
   disabled?: boolean
   /** 最大输入长度，设置为 -1 的时候不限制最大长度
    * @default 140
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   maxlength?: number
   /** 指定光标与键盘的距离，单位 px 。取 input 距离底部的距离和 cursor-spacing 指定的距离的最小值作为光标与键盘的距离
@@ -66,7 +66,7 @@ interface InputProps extends StandardProps, FormItemProps {
   /** 设置键盘右下角按钮的文字，仅在type='text'时生效
    * @alipay confirm-type 与 enableNative 属性冲突，若希望 confirm-type 生效，enableNative 不能设定为 false，而且不能设定 always-system
    * @default done
-   * @supported weapp, alipay, swan, tt, qq, jd, rn, harmony
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   confirmType?: keyof InputProps.ConfirmType
   /** 点击键盘右下角按钮时是否保持键盘不收起
@@ -75,7 +75,7 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   confirmHold?: boolean
   /** 指定focus时的光标位置
-   * @supported weapp, alipay, swan, tt, qq, jd, rn, harmony
+   * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   cursor?: number
   /** 光标起始位置，自动聚集时有效，需与selection-end搭配使用
@@ -90,7 +90,7 @@ interface InputProps extends StandardProps, FormItemProps {
   selectionEnd?: number
   /** 键盘弹起时，是否自动上推页面
    * @default true
-   * @supported weapp, swan, tt, qq, jd, harmony
+   * @supported weapp, swan, tt, qq, jd
    */
   adjustPosition?: boolean
   /** focus 时，点击页面的时候不收起键盘
@@ -171,23 +171,23 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   clueType?: number
   /** 当键盘输入时，触发input事件，event.detail = {value, cursor, keyCode}，处理函数可以直接 return 一个字符串，将替换输入框的内容。
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onInput?: CommonEventFunction<InputProps.inputEventDetail>
   /** 输入框聚焦时触发，event.detail = { value, height }，height 为键盘高度
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onFocus?: CommonEventFunction<InputProps.inputForceEventDetail>
   /** 输入框失去焦点时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onBlur?: CommonEventFunction<InputProps.inputValueEventDetail>
   /** 点击完成按钮时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onConfirm?: CommonEventFunction<InputProps.inputValueEventDetail>
   /** 键盘高度发生变化的时候触发此事件
-   * @supported weapp, tt, qq, harmony
+   * @supported weapp, tt, qq
    */
   onKeyboardHeightChange?: CommonEventFunction<InputProps.onKeyboardHeightChangeEventDetail>
   /** 用户昵称审核完毕后触发，仅在 type 为 "nickname" 时有效，event.detail = { pass, timeout }

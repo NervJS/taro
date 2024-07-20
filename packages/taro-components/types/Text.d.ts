@@ -25,14 +25,8 @@ interface TextProps extends StandardProps {
    * @supported alipay
    */
   numberOfLines?: number
-  /**
-   * 文本溢出处理
-   * @supported weapp-skyline
-   * @default 'visible'
-   */
-  overflow?: keyof TextProps.Overflow
   /** 限制文本最大行数
-   * @supported weapp, harmony
+   * @supported weapp
    */
   maxLines?: number
 }
@@ -59,7 +53,7 @@ declare namespace TextProps {
 }
 /** 文本
  * @classification base
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

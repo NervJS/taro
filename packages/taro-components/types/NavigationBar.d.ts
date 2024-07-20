@@ -2,19 +2,19 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 interface NavigationBarProps extends StandardProps {
   /** 导航条标题
-   * @supported weapp, harmony
+   * @supported weapp
    */
   title?: string
   /** 是否在导航条显示 loading 加载提示
-   * @supported weapp, harmony
+   * @supported weapp
    */
   loading?: boolean
   /** 导航条前景颜色值，包括按钮、标题、状态栏的颜色，仅支持 #ffffff 和 #000000
-   * @supported weapp, harmony
+   * @supported weapp
    */
   frontColor?: string
   /** 导航条背景颜色值，有效值为十六进制颜色
-   * @supported weapp, harmony
+   * @supported weapp
    */
   backgroundColor?: string
   /** 改变导航栏颜色时的动画时长，默认为 0 （即没有动画效果）

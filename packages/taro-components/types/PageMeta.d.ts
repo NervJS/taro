@@ -6,25 +6,25 @@ interface PageMetaProps extends StandardProps {
    */
   backgroundTextStyle?: string
   /** 窗口的背景色，必须为十六进制颜色值
-   * @supported weapp, alipay, harmony
+   * @supported weapp, alipay
    */
   backgroundColor?: string
   /** 顶部窗口的背景色，必须为十六进制颜色值，仅 iOS 支持
-   * @supported weapp, alipay, harmony
+   * @supported weapp, alipay
    */
   backgroundColorTop?: string
   /** 底部窗口的背景色，必须为十六进制颜色值，仅 iOS 支持
-   * @supported weapp, alipay, harmony
+   * @supported weapp, alipay
    */
   backgroundColorBottom?: string
   /** 滚动位置，可以使用 px 或者 rpx 为单位，在被设置时，页面会滚动到对应位置
    * @default ""
-   * @supported weapp, alipay, harmony
+   * @supported weapp, alipay
    */
   scrollTop?: string
   /** 滚动动画时长
    * @default 300
-   * @supported weapp, alipay, harmony
+   * @supported weapp, alipay
    */
   scrollDuration?: number
   /** 页面根节点样式，页面根节点是所有页面节点的祖先节点，相当于 HTML 中的 body 节点
@@ -38,7 +38,7 @@ interface PageMetaProps extends StandardProps {
    */
   rootFontSize?: string
   /** 页面内容的背景色，用于页面中的空白部分和页面大小变化 resize 动画期间的临时空闲区域
-   * @supported weapp, alipay, harmony
+   * @supported weapp, alipay
    */
   rootBackgroundColor?: string
   /** 页面 page 的字体大小，可以设置为 system ，表示使用当前用户设置的微信字体大小
@@ -92,7 +92,7 @@ declare namespace PageMetaProps {
  * 开发者需要在页面配置里添加：`enablePageMeta: true`
  * :::
  *
- * @supported weapp, alipay, harmony
+ * @supported weapp, alipay
  * @example_react
  * ```tsx
  * // page.config.ts

@@ -32,13 +32,13 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** Taro.getBatteryInfo 的同步版本
-     * @supported weapp, alipay, swan, jd, qq, harmony
+     * @supported weapp, alipay, swan, jd, qq
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/battery/wx.getBatteryInfoSync.html
      */
     getBatteryInfoSync(): getBatteryInfoSync.Result
 
     /** 获取设备电量。同步 API Taro.getBatteryInfoSync 在 iOS 上不可用。
-     * @supported weapp, alipay, swan, jd, qq, h5, harmony, harmony_hybrid
+     * @supported weapp, alipay, swan, jd, qq, h5, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/battery/wx.getBatteryInfo.html
      */
     getBatteryInfo(option?: getBatteryInfo.Option): Promise<getBatteryInfo.SuccessCallbackResult>

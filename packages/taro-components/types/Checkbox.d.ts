@@ -2,21 +2,21 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface CheckboxProps extends StandardProps {
   /** `<Checkbox/>`标识，选中时触发`<CheckboxGroup/>`的 change 事件，并携带 `<Checkbox/>` 的 value
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   value: string
   /** 是否禁用
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    * @default false
    */
   disabled?: boolean
   /** 当前是否选中，可用来设置默认选中
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    * @default false
    */
   checked?: boolean
   /** checkbox的颜色，同 css 的 color
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   color?: string
   /**
@@ -33,7 +33,7 @@ interface CheckboxProps extends StandardProps {
    */
   ariaLabel?: string
   /** 选中项发生变化时触发 change 事件，小程序无此 API
-   * @supported alipay, h5, rn, harmony, harmony_hybrid
+   * @supported alipay, h5, rn, harmony_hybrid
    */
   onChange?: CommonEventFunction<{
     value: string[]

@@ -2,7 +2,7 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface TextareaProps extends StandardProps, FormItemProps {
   /** 输入框的内容
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   value?: string
   /** 设置 React 非受控输入框的初始内容
@@ -11,11 +11,11 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   defaultValue?: string
   /** 输入框为空时占位符
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   placeholder?: string
   /** 指定 placeholder 的样式
-   * @supported weapp, alipay, swan, tt, qq, jd, harmony
+   * @supported weapp, alipay, swan, tt, qq, jd
    */
   placeholderStyle?: string
   /** 指定 placeholder 的样式类
@@ -129,11 +129,11 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   adjustKeyboardTo?: boolean
   /** 输入框聚焦时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onFocus?: CommonEventFunction<TextareaProps.onFocusEventDetail>
   /** 输入框失去焦点时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onBlur?: CommonEventFunction<TextareaProps.onBlurEventDetail>
   /** 输入框行数变化时调用
@@ -143,7 +143,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
   /** 当键盘输入时，触发 input 事件
    *
    * **onInput 处理函数的返回值并不会反映到 textarea 上**
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onInput?: CommonEventFunction<TextareaProps.onInputEventDetail>
   /** 点击完成时， 触发 confirm 事件
@@ -151,7 +151,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   onConfirm?: CommonEventFunction<TextareaProps.onConfirmEventDetail>
   /** 键盘高度发生变化的时候触发此事件
-   * @supported weapp, tt, harmony
+   * @supported weapp, tt
    */
   onKeyboardHeightChange?: CommonEventFunction<TextareaProps.onKeyboardHeightChangeEventDetail>
 }

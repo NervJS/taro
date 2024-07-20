@@ -187,6 +187,7 @@ export as namespace Taro
 declare const Taro: Taro.TaroStatic
 
 declare namespace Taro {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface TaroStatic {}
 }
 declare global {

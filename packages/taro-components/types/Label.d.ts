@@ -2,7 +2,7 @@ import { ComponentType } from 'react'
 import { StandardProps } from './common'
 interface LabelProps extends StandardProps {
   /** 绑定控件的 id
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
    */
   for?: string
 }

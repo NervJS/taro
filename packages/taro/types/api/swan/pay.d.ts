@@ -1,4 +1,4 @@
-import { Interface } from 'node:readline'
+import { Interface } from 'readline'
 import Taro from '../../index'
 
 declare module '../../index'  {
@@ -117,12 +117,12 @@ declare module '../../index'  {
   }
 
   interface TaroStatic {
-    /**
+    /** 
      * 1）百度收银台，聚合了主流的百度钱包、微信、支付宝、网银等多种支付渠道，方便开发者一站式快速接入多种支付渠道，让百度用户能在智能小程序场景下，直接完成支付、交易闭环，提升用户支付体验的同时，提高智能小程序的订单转化率。
      * 2）上述支付渠道在 C 端收银台有两种展示方式，开发者可以选择其中一种实现。
      * 方式一：将支付渠道内嵌在小程序提单页面中，实现方式参考文档[inline-payment-panel内嵌支付组件](https://smartprogram.baidu.com/docs/develop/component/inline_payment_panel/)。
      * 方式二：在用户确认订单后，调起收银台半屏面板承载支付渠道，实现方式参考文档调起[百度收银台](https://smartprogram.baidu.com/docs/develop/function/tune_up_2.0/#%E7%99%BE%E5%BA%A6%E6%94%B6%E9%93%B6%E5%8F%B0%E6%8E%A5%E5%8F%A32-0-%E8%AF%B4%E6%98%8E)。
-     *
+     * 
      * Web 态说明：为了保证用户交易行为全流程闭环体验，在 Web 态下调用该方法会做打开百度 App 对应小程序页面的降级处理。
      * @supported swan
      * @see https://smartprogram.baidu.com/docs/develop/api/open/payment_swan-requestPolymerPayment/

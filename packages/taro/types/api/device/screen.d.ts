@@ -179,7 +179,7 @@ declare module '../../index' {
 
     /** 取消用户录屏事件的监听函数
      * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.offScreenRecordingStateChanged.html
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.offScreenRecordingStateChanged.html 
      */
     offScreenRecordingStateChanged(
       /** 用户录屏事件的监听函数 */
@@ -207,7 +207,7 @@ declare module '../../index' {
      *
      * **说明**
      * - 若安卓系统设置中开启了自动调节亮度功能，则屏幕亮度会根据光线自动调整，该接口仅能获取自动调节亮度之前的值，而非实时的亮度值。
-     * @supported weapp, alipay, swan, jd, qq, rn, harmony
+     * @supported weapp, alipay, swan, jd, qq, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.getScreenBrightness.html
      */
     getScreenBrightness(

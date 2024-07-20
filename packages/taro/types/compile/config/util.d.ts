@@ -1,5 +1,4 @@
-import type { Input } from 'postcss'
-import type { Options as PostcssUrlOption } from 'postcss-url'
+import { type Input } from 'postcss'
 
 export type Func = (...args: any[]) => any
 
@@ -10,11 +9,6 @@ export type TogglableOptions<T = IOption> = {
   config?: T
 }
 
-export interface IUrlLoaderOption extends IOption {
-  limit?: number | boolean
-  name?: ((moduleId: string) => string) | string
-}
-
 export namespace PostcssOption {
   export type cssModules = TogglableOptions<{
     /** 转换模式，取值为 global/module */
@@ -22,7 +16,10 @@ export namespace PostcssOption {
     /** 自定义生成的class名称规则 */
     generateScopedName: string | ((localName: string, absoluteFilePath: string) => string)
   }>
-  export type url = TogglableOptions<PostcssUrlOption>
+  export type url = TogglableOptions<{
+    limit: number
+    basePath?: string | string[]
+  }>
 }
 
 export interface IHtmlTransformOption {
@@ -75,28 +72,17 @@ export interface IPxTransformOption {
   designWidth?: number | ((size?: string | number | Input) => number)
   /** 设计稿尺寸换算规则 */
   deviceRatio?: TaroGeneral.TDeviceRatio
-  /** 平台 */
-  platform?: 'weapp' | 'h5' | string
-  /** 启用的能力 Scope 默认为 ['platform', 'size'] */
-  methods?: string[]
-  /** filter 回调函数，可 exclude 不处理的文件 */
-  exclude?: (fileName: string) => boolean
 }
 
-interface IBasePostcssOption {
+export interface IPostcssOption {
   autoprefixer?: TogglableOptions
   pxtransform?: TogglableOptions<IPxTransformOption>
   cssModules?: PostcssOption.cssModules
+  url?: PostcssOption.url
   /** 插件 postcss-html-transform 相关配置, 一般启用了 @tarojs/plugin-html 插件才配置 */
   htmltransform?: IHtmlTransformOption
   [key: string]: any
 }
-
-export type IPostcssOption<T = 'h5' | 'harmony' | 'mini'> = T extends 'h5'
-  ? IBasePostcssOption & { url?: PostcssOption.url }
-  : IBasePostcssOption
-
-export type Config = ViteConfig | WebpackConfig
 
 export interface ICopyOptions {
   patterns: {
