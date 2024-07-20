@@ -1,9 +1,10 @@
+import * as fs from 'node:fs'
+import { networkInterfaces } from 'node:os'
+import * as path from 'node:path'
+
 import * as helper from '@tarojs/helper'
 import { dotenvParse, patchEnv } from '@tarojs/helper'
 import { Config } from '@tarojs/service'
-import * as fs from 'fs'
-import { networkInterfaces } from 'os'
-import * as path from 'path'
 
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
 

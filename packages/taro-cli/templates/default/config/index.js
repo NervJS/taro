@@ -4,8 +4,8 @@ import devConfig from './dev'
 import prodConfig from './prod'
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
-export default defineConfig(async (merge, { command, mode }) => {
-  const baseConfig{{#if typescript }}: UserConfigExport{{/if}} = {
+export default defineConfig{{#if typescript }}<'{{ to_lower_case compiler }}'>{{/if}}(async (merge, { command, mode }) => {
+  const baseConfig{{#if typescript }}: UserConfigExport<'{{ to_lower_case compiler }}'>{{/if}} = {
     projectName: '{{ projectName }}',
     date: '{{ date }}',
     designWidth: 750,
@@ -39,12 +39,6 @@ export default defineConfig(async (merge, { command, mode }) => {
 
           }
         },
-        url: {
-          enable: true,
-          config: {
-            limit: 1024 // 设定转换尺寸上限
-          }
-        },
         cssModules: {
           enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
           config: {
@@ -52,18 +46,19 @@ export default defineConfig(async (merge, { command, mode }) => {
             generateScopedName: '[name]__[local]___[hash:base64:5]'
           }
         }
-      }{{#if typescript }},
+      }{{#if typescript }},{{#unless (eq compiler "Vite")}}
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
-      }{{/if}}
+      }{{/unless}}{{/if}}
     },
     h5: {
       publicPath: '/',
       staticDirectory: 'static',
+      {{#unless (eq compiler "Vite")}}
       output: {
         filename: 'js/[name].[hash:8].js',
         chunkFilename: 'js/[name].[chunkhash:8].js'
-      },
+      },{{/unless}}
       miniCssExtractPluginOption: {
         ignoreOrder: true,
         filename: 'css/[name].[hash].css',
@@ -81,10 +76,10 @@ export default defineConfig(async (merge, { command, mode }) => {
             generateScopedName: '[name]__[local]___[hash:base64:5]'
           }
         }
-      }{{#if typescript }},
+      }{{#if typescript }},{{#unless (eq compiler "Vite")}}
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
-      }{{/if}}
+      }{{/unless}}{{/if}}
     },
     rn: {
       appName: 'taroDemo',

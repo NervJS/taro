@@ -1,6 +1,7 @@
+import * as path from 'node:path'
+
 import { recursiveMerge } from '@tarojs/helper'
 import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
-import * as path from 'path'
 
 import { getPkgVersion } from '../utils/package'
 import TaroPlatform from './platform'
@@ -98,20 +99,13 @@ ${exampleCommand}`))
   }
 
   /**
-   * 返回当前项目内的 @tarojs/mini-runner 包
+   * 返回当前项目内的 runner 包
    */
   protected async getRunner () {
     const { appPath } = this.ctx.paths
     const { npm } = this.helper
 
-    let runnerPkg: string
-    switch (this.compiler) {
-      case 'webpack5':
-        runnerPkg = '@tarojs/webpack5-runner'
-        break
-      default:
-        runnerPkg = '@tarojs/mini-runner'
-    }
+    const runnerPkg = this.compiler === 'vite' ? '@tarojs/vite-runner' : '@tarojs/webpack5-runner'
 
     const runner = await npm.getNpmPkg(runnerPkg, appPath)
 
@@ -119,7 +113,7 @@ ${exampleCommand}`))
   }
 
   /**
-   * 准备 mini-runner 参数
+   * 准备 runner 参数
    * @param extraOptions 需要额外合入 Options 的配置项
    */
   protected getOptions (extraOptions = {}) {
@@ -147,8 +141,8 @@ ${exampleCommand}`))
   }
 
   /**
-   * 调用 mini-runner 开始编译
-   * @param extraOptions 需要额外传入 @tarojs/mini-runner 的配置项
+   * 调用 runner 开始编译
+   * @param extraOptions 需要额外传入 runner 的配置项
    */
   private async build (extraOptions = {}) {
     this.ctx.onBuildInit?.(this)
@@ -203,7 +197,7 @@ ${exampleCommand}`))
   }
 
   /**
-   * 调用 mini-runner 开启编译
+   * 调用 runner 开启编译
    */
   public async start () {
     await this.setup()

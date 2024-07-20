@@ -1,16 +1,16 @@
 {
   "name": "@tarojs/create-app",
-  "version": "3.6.34",
+  "version": "4.0.2",
   "description": "create taro app with one command",
-  "author": "VincentW <Vincent.Mr.W@gmail.com>",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/create-app#readme",
+  "author": "O2Team",
   "license": "MIT",
   "main": "./dist/index.js",
   "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./dist",
     "dev": "tsc -w",
-    "prod": "tsc",
-    "build": "run-s clean prod",
-    "clean": "rimraf dist"
+    "build": "tsc"
   },
   "files": [
     "dist"
@@ -27,7 +27,7 @@
     "cli"
   ],
   "engines": {
-    "node": ">=12"
+    "node": ">= 18"
   },
   "dependencies": {
     "@tarojs/cli": "workspace:*",

@@ -1,13 +1,13 @@
-import { getOptions, stringifyRequest } from 'loader-utils'
-import * as path from 'path'
+import * as path from 'node:path'
 
 import { entryCache } from './entry-cache'
 import { getPageConfig } from './page'
+import { stringifyRequest } from './util'
 
 import type * as webpack from 'webpack'
 
 export default function (this: webpack.LoaderContext<any>, source: string) {
-  const options = getOptions(this)
+  const options = this.getOptions()
   const { loaderMeta = {}, config: loaderConfig, isNewBlended = false, runtimePath } = options
   const { importFrameworkStatement, frameworkArgs, isNeedRawLoader, creatorLocation } = loaderMeta
   const config = getPageConfig(loaderConfig, this.resourcePath)

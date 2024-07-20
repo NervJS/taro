@@ -2,10 +2,10 @@
   "presets": [
     ["@babel/preset-env", {
       "modules": false,
-      "targets": {
-        "ios": "9",
-        "android": "4.4"
-      }
+      "targets": [
+        "defaults and fully supports es6-module",
+        "maintained node versions"
+      ]
     }]
   ],
   "plugins": [

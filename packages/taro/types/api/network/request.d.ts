@@ -78,7 +78,7 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: Partial<SuccessCallbackResult> & TaroGeneral.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 设置是否使用 jsonp 方式获取数据
        * @default false
        * @supported h5

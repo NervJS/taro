@@ -14,12 +14,13 @@
  * @warn 宽高为 0 的时候，不触发 onLoad，跟小程序不同
  */
 import * as React from 'react'
-import { Image, StyleSheet, ImageSourcePropType, LayoutChangeEvent, ImageResolvedAssetSource } from 'react-native'
-import { omit } from '../../utils'
-import { ImageProps, ResizeModeMap, ResizeMode } from './PropsType'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import useClickable from '../hooks/useClickable'
+import { Image, ImageResolvedAssetSource, ImageSourcePropType, LayoutChangeEvent, StyleSheet } from 'react-native'
+
+import { omit } from '../../utils'
 import { ClickableProps } from '../hooks/PropsType'
+import useClickable from '../hooks/useClickable'
+import { ImageProps, ResizeMode, ResizeModeMap } from './PropsType'
 
 // fix: https://github.com/facebook/metro/issues/836
 // 保证 react-native-svg 是最后一个依赖
@@ -83,7 +84,7 @@ const _Image: React.ComponentType<ImageProps & ClickableProps> = (props: ImagePr
       )
     } else {
       const iras: ImageResolvedAssetSource = Image.resolveAssetSource(typeof src === 'string' ? { uri: src } : src)
-      const { width, height }: { width: number; height: number } = iras || { width: 0, height: 0 }
+      const { width, height }: { width: number, height: number } = iras || { width: 0, height: 0 }
       onLoad({
         detail: { width, height }
       })
@@ -114,7 +115,7 @@ const _Image: React.ComponentType<ImageProps & ClickableProps> = (props: ImagePr
       )
     } else {
       const source = typeof props.src === 'string' ? { uri: props.src } : props.src
-      const { width, height }: { width: number; height: number } = Image.resolveAssetSource(source) || {}
+      const { width, height }: { width: number, height: number } = Image.resolveAssetSource(source) || {}
       if (ref.current.hasLayout && !!ratio) return
       setRatio(height / width)
     }

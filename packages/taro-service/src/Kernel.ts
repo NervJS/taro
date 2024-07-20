@@ -1,8 +1,10 @@
+import { EventEmitter } from 'node:events'
+import * as path from 'node:path'
+
 import * as helper from '@tarojs/helper'
+import * as runnerUtils from '@tarojs/runner-utils'
 import { getPlatformType } from '@tarojs/shared'
-import { EventEmitter } from 'events'
 import { merge } from 'lodash'
-import * as path from 'path'
 import { AsyncSeriesWaterfallHook } from 'tapable'
 
 import Plugin from './Plugin'
@@ -53,6 +55,7 @@ export default class Kernel extends EventEmitter {
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
+  runnerUtils: any
   runOpts: any
   debugger: any
 
@@ -70,6 +73,7 @@ export default class Kernel extends EventEmitter {
     this.initHelper()
     this.initConfig()
     this.initPaths()
+    this.initRunnerUtils()
   }
 
   initConfig () {
@@ -96,6 +100,11 @@ export default class Kernel extends EventEmitter {
   initHelper () {
     this.helper = helper
     this.debugger('initHelper')
+  }
+
+  initRunnerUtils () {
+    this.runnerUtils = runnerUtils
+    this.debugger('initRunnerUtils')
   }
 
   initPresetsAndPlugins () {
@@ -232,6 +241,7 @@ export default class Kernel extends EventEmitter {
       'paths',
       'helper',
       'runOpts',
+      'runnerUtils',
       'initialConfig',
       'applyPlugins',
       'applyCliCommandPlugin'

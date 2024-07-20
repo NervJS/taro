@@ -1,9 +1,9 @@
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { componentConfig, componentNameSet, elementNameSet } from '../utils/component'
-import { isRenderNode } from './TaroComponentsExportsPlugin'
 import TaroNormalModule, { TaroBaseNormalModule } from './TaroNormalModule'
 
 import type { Func } from '@tarojs/taro/types/compile'
+import type acorn from 'acorn'
 import type AcornWalk from 'acorn-walk'
 import type { Compiler } from 'webpack'
 
@@ -58,16 +58,19 @@ export default class TaroNormalModulesPlugin {
           currentModule.clear()
 
           walk.ancestor(ast, {
-            CallExpression: (node, ancestors) => {
+            CallExpression: (node, _ancestors) => {
               // @ts-ignore
               const callee = node.callee
 
               if (callee.type === 'MemberExpression') {
+                if (callee.property.type !== 'Identifier') {
+                  return
+                }
                 if (callee.property.name !== 'createElement') {
                   return
                 }
               } else {
-                const nameOfCallee = callee.name
+                const nameOfCallee = (callee as acorn.Identifier).name
                 if (
                   // 兼容 react17 new jsx transtrom 以及esbuild-loader的ast兼容问题
                   !/^_?jsxs?$/.test(nameOfCallee) &&
@@ -77,23 +80,21 @@ export default class TaroNormalModulesPlugin {
                   !(nameOfCallee && nameOfCallee.includes('createElementVNode')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementBlock')) &&
                   !(nameOfCallee && nameOfCallee.includes('resolveComponent')) && // 收集使用解析函数的组件名称
-                  // 兼容 Vue 2.0 渲染函数及 JSX
-                  !isRenderNode(node, ancestors)
+                  !(nameOfCallee && nameOfCallee.includes('_$createElement')) // solidjs创建元素
                 ) {
                   return
                 }
               }
 
-              // @ts-ignore
               const [type, prop] = node.arguments
 
-              // 防止 vue2 中类似 h() 的定义报错
               if (!type) return
 
-              const componentName = type.name
+              const componentName = (type as acorn.Identifier).name
 
-              if (type.value) {
-                this.onParseCreateElement?.(type.value, componentConfig)
+              if ((type as acorn.Literal).value) {
+                this.onParseCreateElement?.((type as acorn.Literal).value, componentConfig)
+                // @ts-ignore
                 currentModule.elementNameSet.add(type.value)
               }
 
@@ -107,6 +108,7 @@ export default class TaroNormalModulesPlugin {
               if (componentConfig.thirdPartyComponents.size === 0) {
                 return
               }
+              // @ts-ignore
               const attrs = componentConfig.thirdPartyComponents.get(type.value)
 
               if (attrs == null || !prop || prop.type !== 'ObjectExpression') {
@@ -124,9 +126,11 @@ export default class TaroNormalModulesPlugin {
                   const propName = getPropName(p.key)
                   return propName && propName !== 'children' && propName !== 'id'
                 })
+              // @ts-ignore
               const res = props.map(p => getPropName(p.key)).join('|')
+              // @ts-ignore
               props.forEach(p => attrs.add(getPropName(p.key)))
-
+              // @ts-ignore
               currentModule.collectProps[type.value] = res
             },
           })

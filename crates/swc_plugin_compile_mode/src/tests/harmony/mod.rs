@@ -9,6 +9,7 @@ mod entry;
 mod attributes;
 mod condition;
 mod looping;
+mod children;
 
 pub fn tr () -> impl Fold + VisitMut {
   let config = serde_json::from_str::<PluginConfig>(

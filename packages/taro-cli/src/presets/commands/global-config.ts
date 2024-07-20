@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import * as ora from 'ora'
-import * as path from 'path'
 import * as validatePkgName from 'validate-npm-package-name'
 
 import { execCommand, getPkgNameByFilterVersion, getRootPath } from '../../util'
@@ -22,8 +23,6 @@ const PLUGIN_TYPE_TO_CONFIG_KEY = {
   plugin: 'plugins',
   preset: 'presets'
 }
-
-
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
@@ -139,4 +138,3 @@ export default (ctx: IPluginContext) => {
     }
   })
 }
-

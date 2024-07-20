@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React from 'react'
-import { View, StyleSheet, Animated, Easing, Dimensions } from 'react-native'
+import { Animated, Dimensions, Easing, StyleSheet, View } from 'react-native'
 
 import { PageContainerProps } from './PropsType'
 

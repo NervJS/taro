@@ -1,9 +1,10 @@
-import { PluginObj, template as Template, types as Types } from 'babel__core'
+import * as path from 'node:path'
+
 import camelize from 'camelize'
-import * as path from 'path'
 import { transformCSS } from 'taro-css-to-react-native'
 
-import { ConvertPluginPass as PluginPass } from './types'
+import type { PluginObj, template as Template, types as Types } from '@babel/core'
+import type { ConvertPluginPass as PluginPass } from './types'
 
 const STYLE_SHEET_NAME = '_styleSheet'
 const GET_STYLE_FUNC_NAME = '_getStyle'
@@ -140,11 +141,10 @@ export default function (babel: {
 
   const getModuleClassNameFunctionStmt = template(getModuleClassNameFunction)()
 
-
   function getMap (str) {
     return str.split(/\s+/).map((className) => {
       // return template(`${STYLE_SHEET_NAME}["${className}"]`)().expression
-      const stmt = template(`${STYLE_SHEET_NAME}["${className}"]`)()
+      const stmt = template(`${STYLE_SHEET_NAME}["${className}"]`)() as Types.Node
       if (t.isExpressionStatement(stmt)) {
         return stmt.expression
       }
@@ -171,19 +171,149 @@ export default function (babel: {
     return str === '' ? [] : getMap(str)
   }
 
+  function getArrayExpressionFromObjectProperty (value) {
+    let str
+
+    if (!value || value.value === '') {
+      // className: ""
+      return []
+    } else if ((value.type === 'CallExpression' || value.type === 'Identifier') && typeof value.value !== 'string') {
+      // className: "".concat(classPrefix, "-left")
+      // className: classNames([ classPrefix, className ])
+      // className: cls
+      return [t.callExpression(t.identifier(GET_STYLE_FUNC_NAME), [value])]
+    }
+
+    return !str ? [] : getMap(str)
+  }
+
   function getMatchRule (enableMultipleClassName: boolean) {
     if (enableMultipleClassName) {
       return {
         styleMatchRule: /[sS]tyle$/,
-        classNameMathRule: /[cC]lassName$/
+        classNameMatchRule: /[cC]lassName$/
       }
     }
 
     return {
       styleMatchRule: /^style$/,
-      classNameMathRule: /^className$/
+      classNameMatchRule: /^className$/
     }
   }
+
+  function processStyleAndClassName ({
+    attributes,
+    state,
+    existStyleImport,
+    isFromJSX,
+  }) {
+    const { file, opts = {} } = state
+    const { enableMultipleClassName = false } = opts
+    const { styleMatchRule, classNameMatchRule } = getMatchRule(enableMultipleClassName)
+    const styleNameMapping = {}
+    const DEFAULT_STYLE_KEY = 'style'
+
+    attributes.forEach(attribute => {
+      if (isFromJSX && !t.isJSXAttribute(attribute)) return
+      const attrNameString = t.isJSXAttribute(attribute) ? attribute.name?.name : attribute.key?.name
+      if (!attrNameString || typeof attrNameString !== 'string') return
+      if (attrNameString.match(styleMatchRule)) {
+        const prefix = attrNameString.replace(styleMatchRule, '') || DEFAULT_STYLE_KEY
+        styleNameMapping[prefix] = {
+          ...styleNameMapping[prefix] || {},
+          hasStyleAttribute: true,
+          styleAttribute: attribute
+        }
+      }
+      if (attrNameString.match(classNameMatchRule)) {
+        const prefix = attrNameString.replace(classNameMatchRule, '') || DEFAULT_STYLE_KEY
+        styleNameMapping[prefix] = {
+          ...styleNameMapping[prefix] || {},
+          hasClassName: true,
+          classNameAttribute: attribute
+        }
+      }
+    })
+
+    for (const key in styleNameMapping) {
+      const { hasClassName, classNameAttribute, hasStyleAttribute, styleAttribute } = styleNameMapping[key]
+
+      if (!(hasClassName && existStyleImport) && hasStyleAttribute && t.isStringLiteral(styleAttribute?.value)) {
+        const cssObject = string2Object(styleAttribute?.value?.value)
+        styleAttribute.value = isFromJSX
+          ? t.jSXExpressionContainer(object2Expression(template, cssObject))
+          : object2Expression(template, cssObject)
+      }
+
+      if (hasClassName && existStyleImport) {
+        attributes.splice(attributes.indexOf(classNameAttribute), 1)
+
+        if (isFromJSX) {
+          if (
+            classNameAttribute.value &&
+            t.isJSXExpressionContainer(classNameAttribute.value) &&
+            typeof classNameAttribute.value.expression.value !== 'string'// not like className={'container'}
+          ) {
+            file.set('injectGetStyle', true)
+          }
+        } else {
+          if (classNameAttribute.value) {
+            file.set('injectGetStyle', true)
+          }
+        }
+
+        const arrayExpression = isFromJSX
+          ? getArrayExpression(classNameAttribute.value)
+          : getArrayExpressionFromObjectProperty(classNameAttribute.value)
+
+        if (arrayExpression.length === 0) return
+        if (arrayExpression.length > 1) file.set('hasMultiStyle', true)
+
+        if (hasStyleAttribute && styleAttribute?.value) {
+          file.set('hasMultiStyle', true)
+          let expression
+          // 支持 行内 style 转成oject：style="width:100;height:100;" => style={{width:'100',height:'100'}}
+          if (t.isStringLiteral(styleAttribute.value)) {
+            const cssObject = string2Object(styleAttribute.value.value)
+            expression = object2Expression(template, cssObject)
+          } else {
+            expression = isFromJSX ? styleAttribute.value.expression : styleAttribute.value
+          }
+          const expressionType = expression.type
+
+          let _arrayExpression
+          // 非rn场景，style不支持数组，因此需要将数组转换为对象
+          // style={[styles.a, styles.b]} ArrayExpression
+          if (expressionType === 'ArrayExpression') {
+            _arrayExpression = arrayExpression.concat(expression.elements)
+            // style={styles.a} MemberExpression
+            // style={{ height: 100 }} ObjectExpression
+            // style={{ ...custom }} ObjectExpression
+            // style={custom} Identifier
+            // style={getStyle()} CallExpression
+            // style={this.props.useCustom ? custom : null} ConditionalExpression
+            // style={custom || other} LogicalExpression
+          } else {
+            _arrayExpression = arrayExpression.concat(expression)
+          }
+
+          styleAttribute.value = isFromJSX
+            ? t.jSXExpressionContainer(t.callExpression(t.identifier(MERGE_ELE_STYLES_FUNC_NAME), _arrayExpression))
+            : t.callExpression(t.identifier(MERGE_ELE_STYLES_FUNC_NAME), _arrayExpression)
+        } else {
+          const expression = arrayExpression.length > 1
+            ? t.callExpression(t.identifier(MERGE_ELE_STYLES_FUNC_NAME), arrayExpression)
+            : arrayExpression[0]
+
+          const newAttribute = isFromJSX
+            ? t.jSXAttribute(t.jSXIdentifier(key === DEFAULT_STYLE_KEY ? key : `${key}Style`), t.jSXExpressionContainer(expression))
+            : t.objectProperty(t.identifier(key === DEFAULT_STYLE_KEY ? key : (key + 'Style')), expression)
+          attributes.push(newAttribute)
+        }
+      }
+    }
+  }
+
   let existStyleImport = false
 
   return {
@@ -255,106 +385,49 @@ export default function (babel: {
       },
       JSXOpeningElement (astPath, state: PluginPass) {
         const { node } = astPath
-        const { file, opts = {} } = state
-        const { enableMultipleClassName = false } = opts
-        const { styleMatchRule, classNameMathRule } = getMatchRule(enableMultipleClassName)
-
-        const styleNameMapping: any = {}
-        const DEFAULT_STYLE_KEY = 'style'
         const attributes = node.attributes
-        for (let i = 0; i < attributes.length; i++) {
-          const attribute = attributes[i]
-          if (!t.isJSXAttribute(attribute)) continue
-          const name = attribute.name
-          if (!name || typeof name.name !== 'string') continue
-          const attrNameString = name.name
 
-          if (attrNameString.match(styleMatchRule)) {
-            const prefix = attrNameString.replace(styleMatchRule, '') || DEFAULT_STYLE_KEY
-            styleNameMapping[prefix] = Object.assign(styleNameMapping[prefix] || {}, {
-              hasStyleAttribute: true,
-              styleAttribute: attribute
-            })
-          }
+        processStyleAndClassName({
+          attributes,
+          state,
+          existStyleImport,
+          isFromJSX: true
+        })
+      },
+      CallExpression (astPath, state: PluginPass) {
+        // 支持编译后代码的 style 替换
+        // React.createElement 参数
 
-          // 以className结尾的时候
-          if (attrNameString.match(classNameMathRule)) {
-            const prefix = attrNameString.replace(classNameMathRule, '') || DEFAULT_STYLE_KEY
-            styleNameMapping[prefix] = Object.assign(styleNameMapping[prefix] || {}, {
-              hasClassName: true,
-              classNameAttribute: attribute
-            })
+        const { node } = astPath
+        // 检查是否是 React.createElement 调用
+        if (
+          t.isMemberExpression(node.callee) &&
+          t.isIdentifier(node.callee.object, { name: 'React' }) &&
+          t.isIdentifier(node.callee.property, { name: 'createElement' })
+        ) {
+          const args = node.arguments
+          if (args.length <= 1) return
+
+          let attributes
+
+          if (t.isCallExpression(args[1]) && t.isObjectExpression(args[1].arguments[0])) {
+            // _object_spread({ className: rootClass(), style: rootStyle() }, rest)
+            attributes = args[1].arguments[0].properties
           }
+          if (t.isObjectExpression(args[1])) {
+            // { className: ..., style: ... }
+            attributes = args[1].properties
+          }
+          if (!attributes) return
+
+          processStyleAndClassName({
+            attributes,
+            state,
+            existStyleImport,
+            isFromJSX: false
+          })
         }
-
-        for (const key in styleNameMapping) {
-          const { hasClassName, classNameAttribute, hasStyleAttribute, styleAttribute } = styleNameMapping[key]
-          if (!(hasClassName && existStyleImport) && hasStyleAttribute) {
-            if (t.isStringLiteral(styleAttribute.value)) {
-              const cssObject = string2Object(styleAttribute.value.value)
-              styleAttribute.value = t.jSXExpressionContainer(object2Expression(template, cssObject))
-            }
-          }
-
-          if (hasClassName && existStyleImport) {
-            // Remove origin className
-            attributes.splice(attributes.indexOf(classNameAttribute), 1)
-
-            if (
-              classNameAttribute.value &&
-              classNameAttribute.value.type === 'JSXExpressionContainer' &&
-              typeof classNameAttribute.value.expression.value !== 'string'// not like className={'container'}
-            ) {
-              file.set('injectGetStyle', true)
-            }
-
-            const arrayExpression = getArrayExpression(classNameAttribute.value)
-
-            if (arrayExpression.length === 0) {
-              return
-            }
-
-            if (arrayExpression.length > 1) {
-              file.set('hasMultiStyle', true)
-            }
-
-            if (hasStyleAttribute && styleAttribute.value) {
-              file.set('hasMultiStyle', true)
-              let expression
-              // 支持 行内 style 转成oject：style="width:100;height:100;" => style={{width:'100',height:'100'}}
-              if (t.isStringLiteral(styleAttribute.value)) {
-                const cssObject = string2Object(styleAttribute.value.value)
-                expression = object2Expression(template, cssObject)
-              } else {
-                expression = styleAttribute.value.expression
-              }
-              const expressionType = expression.type
-
-              let _arrayExpression
-              // 非rn场景，style不支持数组，因此需要将数组转换为对象
-              // style={[styles.a, styles.b]} ArrayExpression
-              if (expressionType === 'ArrayExpression') {
-                _arrayExpression = arrayExpression.concat(expression.elements)
-                // style={styles.a} MemberExpression
-                // style={{ height: 100 }} ObjectExpression
-                // style={{ ...custom }} ObjectExpression
-                // style={custom} Identifier
-                // style={getStyle()} CallExpression
-                // style={this.props.useCustom ? custom : null} ConditionalExpression
-                // style={custom || other} LogicalExpression
-              } else {
-                _arrayExpression = arrayExpression.concat(expression)
-              }
-              styleAttribute.value = t.jSXExpressionContainer(t.callExpression(t.identifier(MERGE_ELE_STYLES_FUNC_NAME), _arrayExpression))
-            } else {
-              const expression = arrayExpression.length > 1
-                ? t.callExpression(t.identifier(MERGE_ELE_STYLES_FUNC_NAME), arrayExpression)
-                : arrayExpression[0]
-              attributes.push(t.jSXAttribute(t.jSXIdentifier(key === DEFAULT_STYLE_KEY ? key : (key + 'Style')), t.jSXExpressionContainer(expression)))
-            }
-          }
-        }
-      }
+      },
     }
   }
 }

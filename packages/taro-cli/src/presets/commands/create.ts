@@ -27,6 +27,8 @@ export default (ctx: IPluginContext) => {
     name: 'create',
     optionsMap: {
       '--name [name]': '名称',
+      '--dir [dir]': '路径',
+      '--subpkg [subpkg]': '分包路径',
       '--description [description]': '介绍',
       '--type [type]': '模版类型(page(默认)|plugin-command|plugin-build|plugin-template)'
     },
@@ -39,6 +41,7 @@ export default (ctx: IPluginContext) => {
       const type = options.type || createTemplateTypeEnum.PAGE
       const name = _[1] || options.name
       const description = options.description || ''
+      const afterCreate = options.afterCreate
       const templateSource = options.templateSource
       const clone = options.clone
       const { chalk } = ctx.helper
@@ -53,10 +56,13 @@ export default (ctx: IPluginContext) => {
           const Page = require('../../create/page').default
           const page = new Page({
             clone,
+            subPkg: options.subpkg,
+            pageDir: options.dir,
             pageName: name,
             projectDir: appPath,
             description,
             templateSource,
+            afterCreate,
             async modifyCustomTemplateConfig (cb: TSetCustomTemplateConfig) {
               await ctx.applyPlugins({ name: hooks.MODIFY_CREATE_TEMPLATE, opts: cb })
             }

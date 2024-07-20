@@ -3,8 +3,8 @@
 exports[`ScrollView ScrollView render 1`] = `
 <RCTScrollView
   contentContainerStyle={
-    Array [
-      Object {},
+    [
+      {},
       undefined,
     ]
   }
@@ -15,7 +15,7 @@ exports[`ScrollView ScrollView render 1`] = `
   onScrollEndDrag={[Function]}
   scrollEventThrottle={50}
   scrollsToTop={false}
-  style={Object {}}
+  style={{}}
 >
   <View>
     scroll me

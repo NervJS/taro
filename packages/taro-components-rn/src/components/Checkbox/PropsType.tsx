@@ -1,20 +1,20 @@
-import { ViewStyle, StyleProp } from 'react-native'
+import { StyleProp, ViewStyle } from 'react-native'
 
 export type EventOnChange = {
-  value: any;
-  checked: boolean;
+  value: any
+  checked: boolean
 }
 
 export interface CheckboxState {
-  checked: boolean;
+  checked: boolean
 }
 
 export interface CheckboxProps {
-  style?: StyleProp<ViewStyle>;
-  value: any;
-  disabled?: boolean;
-  checked?: boolean;
-  color?: string;
-  onChange?: (evt: EventOnChange) => void;
-  children?: React.ReactNode;
+  style?: StyleProp<ViewStyle>
+  value: any
+  disabled?: boolean
+  checked?: boolean
+  color?: string
+  onChange?: (evt: EventOnChange) => void
+  children?: React.ReactNode
 }

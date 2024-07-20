@@ -5,11 +5,6 @@ import { Swiper } from '../src/components/swiper/swiper'
 import { SwiperItem } from '../src/components/swiper/swiper-item'
 
 describe('Swiper', () => {
-  beforeAll(() => {
-    // https://github.com/ionic-team/stencil/issues/2056#issuecomment-598086745
-    jest.useFakeTimers()
-  })
-
   let page: SpecPage
   const itemStyle = {
     height: '100%'

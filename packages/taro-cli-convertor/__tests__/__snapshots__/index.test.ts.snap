@@ -259,7 +259,7 @@ cacheOptions.setOptionsToCache({});
 class _C extends React.Component {
   render() {
     return <Block><ComponentA name="a"></ComponentA><ComponentB name="b"></ComponentB>{
-        /*  <component-c name="c" /> */
+        /*  <component-c name="c" />  */
       }</Block>;
   }
 }

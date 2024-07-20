@@ -32,6 +32,7 @@ interface WxOptions {
   observers?: Record<string, Func>
   lifetimes?: Record<string, Func>
   behaviors?: any[]
+  computed?: Record<string, Func>
 }
 
 function defineGetter (component, key: string, getter: string) {
@@ -129,6 +130,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
         this.init(weappConf)
         defineGetter(this, 'data', 'state')
         defineGetter(this, 'properties', 'props')
+        this.initComputed(weappConf)
       }
 
       private initProps (props: any) {
@@ -217,6 +219,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
               this.initProps(Object.assign(behaviorProperties, confValue))
               break
             case 'methods':
+              this.methods = confValue
               for (const key in confValue) {
                 const method = confValue[key]
                 this[key] = bind(method, this)
@@ -327,6 +330,28 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
                 break
               default:
                 break
+            }
+          }
+        }
+      }
+
+      private initComputed (weappConf) {
+        // 处理 computed
+        if (weappConf.computed) {
+          const computed = weappConf.computed
+          for (const key in computed) {
+            const getter = computed[key]
+            if (isFunction(getter)) {
+              Object.defineProperty(this.data, key, {
+                get: () => {
+                  // 每次访问 this.object.data[name] 时，都执行 computed[name]()
+                  return getter.call({ ...this.state, ...this.methods })
+                },
+                enumerable: true, // 这将确保属性是可枚举的，如果你希望它出现在 for...in 循环中
+                configurable: true // 这将确保属性是可配置的，比如可以被删除
+              })
+            } else {
+              report('computed 属性值必须是函数。')
             }
           }
         }
