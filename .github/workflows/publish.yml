@@ -9,6 +9,7 @@ on:
   pull_request:
     branches:
       - main
+      - '3.x'
     types: [closed]
 
 env:
