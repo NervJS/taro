@@ -12,6 +12,7 @@
     "prebuild": "pnpm run clean",
     "build": "tsc",
     "postbuild": "pnpm run swc:backup",
+    "predev": "pnpm run clean",
     "dev": "tsc -w",
     "prepack": "pnpm run build",
     "test": "jest --collectCoverage",

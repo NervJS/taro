@@ -631,8 +631,8 @@ export function readPageConfig(configPath: string) {
 }
 
 interface IReadConfigOptions {
-  defineConstants?: Record<string, any>
   alias?: Record<string, any>
+  defineConstants?: Record<string, any>
 }
 
 export function readConfig<T extends IReadConfigOptions> (configPath: string, options: T = {} as T) {
@@ -643,8 +643,8 @@ export function readConfig<T extends IReadConfigOptions> (configPath: string, op
     } else {
       result = requireWithEsbuild(configPath, {
         customConfig: {
-          define: options.defineConstants || {},
           alias: options.alias || {},
+          define: options.defineConstants || {},
         },
         customSwcConfig: {
           jsc: {
