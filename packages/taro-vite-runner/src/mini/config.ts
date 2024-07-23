@@ -155,25 +155,26 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
   function getManualChunks (): GetManualChunk {
     const { framework } = taroConfig
     const reactRelatedDeps: RegExp[] = [
-      /node_modules[\\/]react-reconciler/,
-      /node_modules[\\/]react/,
-      /node_modules[\\/]scheduler/
+      /node_modules[\\/]react-reconciler[\\/]/,
+      /node_modules[\\/]react[\\/]/,
+      /node_modules[\\/]scheduler[\\/]/
     ]
     const vueRelatedDeps: RegExp[] = [
-      /node_modules[\\/]@vue[\\/]reactivity/,
-      /node_modules[\\/]@vue[\\/]shared/,
-      /node_modules[\\/]@vue[\\/]runtime-core/,
-      /node_modules[\\/]vue/
+      /node_modules[\\/]@vue[\\/]reactivity[\\/]/,
+      /node_modules[\\/]@vue[\\/]shared[\\/]/,
+      /node_modules[\\/]@vue[\\/]runtime-core[\\/]/,
+      /node_modules[\\/]vue[\\/]/
     ]
     const taroDeps: RegExp[] = [REG_TARO_SCOPED_PACKAGE]
     const taroViteRunnerDeps: RegExp[] = [/node_modules[\\/]@tarojs[\\/]vite-runner/]
-    const nodeModulesDeps: RegExp[] = [new RegExp(REG_NODE_MODULES_DIR)]
+    const nodeModulesDeps: RegExp[] = [REG_NODE_MODULES_DIR]
     const commonjsHelpersDeps: RegExp[] = [/commonjsHelpers\.js$/]
-    const tslibDeps: RegExp [] = [/node_modules[\\/]tslib/]
+    const tslibDeps: RegExp [] = [/node_modules[\\/]tslib[\\/]/]
     const testByReg2DExpList = (reg2DExpList: RegExp[][]) => (id: string) => reg2DExpList.some(regExpList => regExpList.some(regExp => regExp.test(id)))
     switch (framework) {
       case 'react':
         return (id, { getModuleInfo }) => {
+          REG_NODE_MODULES_DIR.lastIndex = 0
           const moduleInfo = getModuleInfo(id)
           // Note: vite-runner 里面涉及到一些js文件的注入，比如 comp.js， 为了避免这些文件被打包进 vendors，这里做了特殊处理
           if (testByReg2DExpList([taroViteRunnerDeps])(id)) return null
@@ -183,6 +184,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
         }
       case 'vue3':
         return (id, { getModuleInfo }) => {
+          REG_NODE_MODULES_DIR.lastIndex = 0
           const moduleInfo = getModuleInfo(id)
           // Note: vite-runner 里面涉及到一些js文件的注入，比如 comp.js， 为了避免这些文件被打包进 vendors，这里做了特殊处理
           if (testByReg2DExpList([taroViteRunnerDeps])(id)) return null
@@ -193,6 +195,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
       default:
         // Note: 其他框架就先不分 chunks 了
         return (id, { getModuleInfo }) => {
+          REG_NODE_MODULES_DIR.lastIndex = 0
           const moduleInfo = getModuleInfo(id)
           // Note: vite-runner 里面涉及到一些js文件的注入，比如 comp.js， 为了避免这些文件被打包进 vendors，这里做了特殊处理
           if (testByReg2DExpList([taroViteRunnerDeps])(id)) return null
