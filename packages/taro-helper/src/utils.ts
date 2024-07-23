@@ -644,7 +644,7 @@ export function readConfig<T extends IReadConfigOptions> (configPath: string, op
       result = requireWithEsbuild(configPath, {
         customConfig: {
           alias: options.alias || {},
-          define: defaults(options.defineConstants || {}, {
+          define: defaults({}, options.defineConstants || {}, {
             define: 'define', // Note: 该场景下不支持 AMD 导出，这会导致 esbuild 替换 babel 的 define 方法
           }),
         },
