@@ -81,7 +81,7 @@ const unzip = require("unzip")
 interface ITemplateInfo {
   css: 'none' | 'sass' | 'stylus' | 'less'
   typescript?: boolean
-  compiler?: 'webpack4' | 'webpack5' | 'vite'
+  compiler?: 'webpack5' | 'vite'
   template?: string
 }
 

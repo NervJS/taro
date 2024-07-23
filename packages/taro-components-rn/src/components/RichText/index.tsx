@@ -8,8 +8,9 @@ import {
   WebView,
   WebViewMessageEvent
 } from 'react-native-webview'
-import { RichTextProps, RichTextState, Node } from './PropsType'
+
 import { omit } from '../../utils'
+import { Node, RichTextProps, RichTextState } from './PropsType'
 
 class _RichText extends React.Component<RichTextProps, RichTextState> {
   static defaultProps = {

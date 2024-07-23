@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro'
 import { DeviceMotion } from 'expo-sensors'
-import { createCallbackManager, successHandler, errorHandler } from '../utils'
+
+import { createCallbackManager, errorHandler, successHandler } from '../utils'
 
 const _cbManager = createCallbackManager()
 let _listener: any
@@ -44,7 +45,7 @@ function startDeviceMotionListening (object: Taro.startDeviceMotionListening.Opt
       _cbManager.trigger(rotation)
     })
     DeviceMotion.setUpdateInterval(intervalMap[interval] || intervalMap.normal)
-    
+
     return successHandler(success, complete)(res)
   } catch (error) {
     res.errMsg = 'startDeviceMotionListening:fail'
@@ -71,8 +72,8 @@ function stopDeviceMotionListening (object: Taro.stopDeviceMotionListening.Optio
 }
 
 export {
-  onDeviceMotionChange,
   offDeviceMotionChange,
+  onDeviceMotionChange,
   startDeviceMotionListening,
   stopDeviceMotionListening
 }

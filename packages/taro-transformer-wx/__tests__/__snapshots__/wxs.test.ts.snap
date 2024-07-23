@@ -167,7 +167,7 @@ code:
         //参数为数字
         date2:getDate(1500000000000),
         //参数为字符串
-        date3:getDate('2017-7-14') 
+        date3:getDate('2017-7-14')
       }
      
 INFO [taro-transformer-wx] traverseWxsFile - 进入函数 

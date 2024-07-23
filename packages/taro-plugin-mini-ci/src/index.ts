@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import * as minimist from 'minimist'
-import * as path from 'path'
 
 import AlipayCI from './AlipayCI'
 import BaseCI, { CIOptions } from './BaseCi'

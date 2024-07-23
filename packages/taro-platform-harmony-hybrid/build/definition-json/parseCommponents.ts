@@ -1,5 +1,6 @@
+import * as pathModule from 'node:path'
+
 import * as fsExtra from 'fs-extra'
-import * as pathModule from 'path'
 
 import { capitalizeFirstLetter, convertCamelToDash, removeComments } from '../utils/helper'
 

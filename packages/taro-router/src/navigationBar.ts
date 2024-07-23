@@ -48,4 +48,3 @@ export function initNavigationBar (config: SpaRouterConfig | MpaRouterConfig, co
   container.prepend(navigationBar)
   loadNavigationBarStyle()
 }
-

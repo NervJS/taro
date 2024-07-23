@@ -11,8 +11,9 @@
 
 import * as React from 'react'
 import { Keyboard } from 'react-native'
-import Input from '../Input'
+
 import { omit } from '../../utils'
+import Input from '../Input'
 import { TextareaProps } from './PropsType'
 
 const _Textarea: React.FC<TextareaProps> = (props) => {

@@ -20,7 +20,7 @@ H5 端路由系统。
 
 #### `type`
 
-框架类型，`react` | `vue` | `nerv` 三选一。
+框架类型，`react` | `vue` | `solid` | `preact` 四选一。
 
 #### `framework`
 

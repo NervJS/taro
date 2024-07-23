@@ -3,11 +3,11 @@
  * selector 跟 multiSelector 实现过程中有点区别，state.value 存的是索引，而 multiSelector 存的是 value 值
  */
 
-import * as React from 'react'
 import AntPicker from '@ant-design/react-native/lib/picker'
+import * as React from 'react'
+
 import { noop } from '../../utils'
 import { SelectorProps, SelectorState } from './PropsType'
-import { TouchableWithoutFeedback } from 'react-native'
 
 function convertToObj (item?: any, rangeKey = ''): any {
   if (typeof item === 'object') {
@@ -126,9 +126,7 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
         onVisibleChange={this.onVisibleChange}
         disabled={disabled}
       >
-        <TouchableWithoutFeedback>
-          {children}
-        </TouchableWithoutFeedback>
+        {children}
       </AntPicker>
     )
   }

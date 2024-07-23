@@ -1,0 +1,31 @@
+<div>
+  <input
+    type='submit'
+    if="{{formType === 'submit'}}"
+    id="{{id}}"
+    class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}} {{clsDisableType}} {{clsLoading}} {{clsHover}}"
+    disabled="{{disabled}}"
+    @touchstart="onTouchStart"
+    @touchend="onTouchEnd"
+  >{{value}}</input>
+  <input
+    type='reset'
+    elif="{{formType === 'reset'}}"
+    id="{{id}}"
+    class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}} {{clsDisableType}} {{clsLoading}} {{clsHover}}"
+    disabled="{{disabled}}"
+    @touchstart="onTouchStart"
+    @touchend="onTouchEnd"
+  >{{value}}</input>
+  <button
+    else
+    id="{{id}}"
+    class="{{cls}} {{clsType}} {{clsSize}} {{clsPlain}} {{clsDisable}} {{clsDisableType}} {{clsLoading}} {{clsHover}}"
+    type="{{harmonyType}}"
+    disabled="{{disabled}}"
+    waiting="{{loading}}"
+    @click="onClick"
+    @touchstart="onTouchStart"
+    @touchend="onTouchEnd"
+  >{{value}}</button>
+</div>

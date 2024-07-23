@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 console.log('process.env.TARO_ENV', path.resolve(__dirname, '../__mocks__/app.config.ts'))
 

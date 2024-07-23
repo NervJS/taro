@@ -1,8 +1,8 @@
-import * as FileStore from 'metro-cache/src/stores/FileStore'
+import { FileStore } from 'metro-cache'
 
 export class ConditionalFileStore<T> {
   ignoreEntryFileCache = false
-  _fileStore: FileStore<T>
+  _fileStore: any
   entryName: string
 
   constructor (options: any, entryName?: string) {

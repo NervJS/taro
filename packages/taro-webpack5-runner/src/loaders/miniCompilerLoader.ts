@@ -1,6 +1,6 @@
 import { swc } from '@tarojs/helper'
 import { getComponentsAlias } from '@tarojs/shared'
-import { getOptions, isUrlRequest, urlToRequest } from 'loader-utils'
+import { isUrlRequest, urlToRequest } from 'loader-utils'
 
 import { templatesCache, XMLDependency } from '../plugins/MiniCompileModePlugin'
 
@@ -17,7 +17,7 @@ interface IOptions {
 
 export default async function (this: LoaderContext<IOptions>, source) {
   const callback = this.async()
-  const options: IOptions = getOptions(this)
+  const options: IOptions = this.getOptions()
   const resourcePath = this.resourcePath
   // @TODO 思考非 JSX 文件应该如何处理 p3
   if (!((/\.[tj]sx$/.test(resourcePath)) && source.includes(COMPILE_MODE))) {

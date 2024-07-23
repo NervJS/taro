@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { fs } from '@tarojs/helper'
-import path from 'path'
 
 import { TYPES_DIR } from './constants'
 
@@ -21,5 +22,3 @@ export function getTypesList (type = ''): string[] {
 export function getTypeFilePath (name: string): string {
   return path.join(TYPES_DIR, `${name}.d.ts`)
 }
-
-

@@ -62,6 +62,8 @@ pub async fn create_page(
     conf.custom_template_path,
     conf.base_page_files,
     conf.period,
+    conf.sub_pkg,
+    conf.page_dir,
   );
   let mut thread_safe_functions = HashMap::new();
   for (key, callback) in handlers {

@@ -81,7 +81,7 @@ class RecorderManager {
         playsInSilentModeIOS: true,
         staysActiveInBackground: false,
         shouldDuckAndroid: true,
-        interruptionModeAndroid: 1, //InterruptionModeAndroid.DoNotMix
+        interruptionModeAndroid: 1, // InterruptionModeAndroid.DoNotMix
         playThroughEarpieceAndroid: true
       } as any)
 
@@ -151,7 +151,12 @@ class RecorderManager {
         const info = await FileSystem.getInfoAsync(uri)
         // console.log(`FILE INFO: ${JSON.stringify(info)}`)
 
-        const result = { tempFilePath: uri, duration: recordStatus.durationMillis, fileSize: info.size }
+        const result = {
+          tempFilePath: uri,
+          duration: recordStatus.durationMillis,
+          // @ts-ignore
+          fileSize: info.size
+        }
         this.onStopCallback && this.onStopCallback(result)
       }
     } catch (error) {

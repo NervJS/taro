@@ -1,4 +1,4 @@
-import { matchesStringOrRegExp } from './matchesStringOrRegExp'
+import { matchesStringOrRegExp } from './matchesStringOrRegExp.js'
 
 /**
  * Check if an options object's propertyName contains a user-defined string or

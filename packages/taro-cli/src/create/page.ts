@@ -1,9 +1,10 @@
-import { CompilerType, createPage as createPageBinding, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
-import { chalk, DEFAULT_TEMPLATE_SRC, fs, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
-import { isNil } from 'lodash'
-import * as path from 'path'
+import * as path from 'node:path'
 
-import { getPkgVersion, getRootPath } from '../util'
+import { CompilerType, createPage as createPageBinding, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
+import { babelKit, chalk, DEFAULT_TEMPLATE_SRC, fs, getUserHomeDir, resolveScriptPath, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
+
+import { getPkgVersion, getRootPath, isNil } from '../util'
+import { modifyPagesOrSubPackages } from '../util/createPage'
 import { TEMPLATE_CREATOR } from './constants'
 import Creator from './creator'
 import fetchTemplate from './fetchTemplate'
@@ -24,9 +25,12 @@ export interface IPageConf {
   compiler?: CompilerType
   isCustomTemplate?: boolean
   customTemplatePath?: string
+  pageDir?: string
+  subPkg?: string
 }
 interface IPageArgs extends IPageConf {
   modifyCustomTemplateConfig : TGetCustomTemplate
+  afterCreate?: TAfterCreate
 }
 interface ITemplateInfo {
   css: CSSType
@@ -45,6 +49,7 @@ type TCustomTemplateInfo = Omit<ITemplateInfo & {
 export type TSetCustomTemplateConfig = (customTemplateConfig: TCustomTemplateInfo) => void
 
 type TGetCustomTemplate = (cb: TSetCustomTemplateConfig) => Promise<void>
+type TAfterCreate = (state: boolean) => void
 
 const DEFAULT_TEMPLATE_INFO = {
   name: 'default',
@@ -53,26 +58,51 @@ const DEFAULT_TEMPLATE_INFO = {
   compiler: CompilerType.Webpack5,
   framework: FrameworkType.React
 }
+
+export enum ConfigModificationState {
+  Success,
+  Fail,
+  NeedLess
+}
+
+export type ModifyCallback = (state: ConfigModificationState) => void
+
 export default class Page extends Creator {
   public rootPath: string
   public conf: IPageConf
   private modifyCustomTemplateConfig: TGetCustomTemplate
+  private afterCreate: TAfterCreate | undefined
+  private pageEntryPath: string
 
   constructor (args: IPageArgs) {
     super()
     this.rootPath = this._rootPath
-    const { modifyCustomTemplateConfig, ...otherOptions } = args
+    const { modifyCustomTemplateConfig, afterCreate, ...otherOptions } = args
     this.conf = Object.assign(
       {
         projectDir: '',
         projectName: '',
         template: '',
-        description: ''
+        description: '',
+        pageDir: ''
       },
       otherOptions
     )
-    this.modifyCustomTemplateConfig = modifyCustomTemplateConfig
+
     this.conf.projectName = path.basename(this.conf.projectDir)
+    this.modifyCustomTemplateConfig = modifyCustomTemplateConfig
+    this.afterCreate = afterCreate
+    this.processPageName()
+  }
+
+  processPageName () {
+    const { pageName } = this.conf
+    // todo 目前还没有对 subPkg 和 pageName 这两个字段做 格式验证或者处理
+    const lastDirSplitSymbolIndex = pageName.lastIndexOf('/')
+    if (lastDirSplitSymbolIndex !== -1) {
+      this.conf.pageDir = pageName.substring(0, lastDirSplitSymbolIndex)
+      this.conf.pageName = pageName.substring(lastDirSplitSymbolIndex + 1)
+    }
   }
 
   getPkgPath () {
@@ -96,6 +126,18 @@ export default class Page extends Creator {
     templateInfo.template = templateInfo.name
     delete templateInfo.name
     return templateInfo
+  }
+
+  setPageEntryPath (files: string[], handler) {
+    const configFileName = files.find((filename) => /\.config\.(js|ts)$/.test(filename))
+    if (!configFileName) return
+    const getPageFn = handler[configFileName]
+    const { setPageName = '', setSubPkgName = '' } = getPageFn?.(() => {}, this.conf) || {}
+    if (this.conf.subPkg) {
+      this.pageEntryPath = setSubPkgName.replace(/\.config\.(js|ts)$/, '')
+    } else {
+      this.pageEntryPath = setPageName.replace(/\.config\.(js|ts)$/, '')
+    }
   }
 
   setCustomTemplateConfig (customTemplateConfig: TCustomTemplateInfo) {
@@ -152,8 +194,58 @@ export default class Page extends Creator {
     this.write()
   }
 
+  updateAppConfig () {
+    const { parse, generate, traverse } = babelKit
+
+    let modifyState: ConfigModificationState = ConfigModificationState.Fail
+    const { subPkg, projectDir, typescript } = this.conf
+    const [sourceString, pageString] = this.pageEntryPath.split('/src/')
+    const appConfigPath = resolveScriptPath(path.join(projectDir, sourceString, 'src', 'app.config'))
+    if (!fs.existsSync(appConfigPath)) {
+      return console.log(
+        `${chalk.red('x ')}${chalk.grey(`无法获取 ${appConfigPath} 配置文件，请手动到配置文件中补全新页面信息`)}`
+      )
+    }
+    const configFileContent = fs.readFileSync(appConfigPath, 'utf-8')
+    const ast = parse(configFileContent, {
+      sourceType: 'module',
+      plugins: typescript ? ['typescript'] : []
+    })
+
+    const callback = (state: ConfigModificationState) => {
+      modifyState = state
+    }
+
+    traverse(ast, {
+      ExportDefaultDeclaration (path) {
+        modifyPagesOrSubPackages({
+          path,
+          fullPagePath: pageString,
+          subPkgRootPath: subPkg,
+          callback
+        })
+      },
+    })
+
+    switch (modifyState as ConfigModificationState) {
+      case ConfigModificationState.Fail:
+        console.log(`${chalk.red('x ')}${chalk.grey(`自动补全新页面信息失败， 请手动到 ${appConfigPath} 文件中补全新页面信息`)}`)
+        break
+      case ConfigModificationState.Success:
+      {
+        const newCode = generate(ast, { retainLines: true })
+        fs.writeFileSync(appConfigPath, newCode.code)
+        console.log(`${chalk.green('✔ ')}${chalk.grey(`新页面信息已在 ${appConfigPath} 文件中自动补全`)}`)
+        break
+      }
+      case ConfigModificationState.NeedLess:
+        console.log(`${chalk.green('✔ ')}${chalk.grey(`新页面信息已存在在 ${appConfigPath} 文件中，不需要补全`)}`)
+        break
+    }
+  }
+
   write () {
-    const { projectName, projectDir, template, pageName, isCustomTemplate, customTemplatePath } = this.conf as IPageConf
+    const { projectName, projectDir, template, pageName, isCustomTemplate, customTemplatePath, subPkg, pageDir } = this.conf as IPageConf
     let templatePath
 
     if (isCustomTemplate) {
@@ -170,7 +262,11 @@ export default class Page extends Creator {
     const files = Array.isArray(basePageFiles) ? basePageFiles : []
     const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : {}
 
+    this.setPageEntryPath(files, handler)
+
     createPageBinding({
+      pageDir,
+      subPkg,
       projectDir,
       projectName,
       template,
@@ -189,6 +285,13 @@ export default class Page extends Creator {
       period: PeriodType.CreatePage,
     }, handler).then(() => {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${this.conf.pageName} 成功！`)}`)
+      this.updateAppConfig()
+      this.afterCreate && this.afterCreate(true)
+    }).catch(err => {
+      console.log(err)
+      this.afterCreate && this.afterCreate(false)
     })
   }
 }
+
+export type { Page as PageCreator }

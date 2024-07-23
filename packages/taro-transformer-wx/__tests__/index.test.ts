@@ -3,8 +3,8 @@ import { baseOptions , generateMinimalEscapeCode, removeBackslashesSerializer } 
 
 expect.addSnapshotSerializer(removeBackslashesSerializer)
 
-jest.mock('fs', () => ({
-  ...jest.requireActual('fs'), // 保留原始的其他函数
+jest.mock('node:fs', () => ({
+  ...jest.requireActual('node:fs'), // 保留原始的其他函数
   appendFile: jest.fn(),
 }))
 
@@ -104,8 +104,8 @@ describe('utils.ts', () => {
         ...baseOptions,
         code: code,
       })
-      const codeStr = generateMinimalEscapeCode(ast) 
-      expect(codeStr).toBe(`import * as ns from "dep";`)
+      const codeStr = generateMinimalEscapeCode(ast)
+      expect(codeStr).toBe(`import defer * as ns from "dep";`)
     })
 
     test('exportDefaultFrom插件支持使用 export default from 语法导入默认导出', () => {

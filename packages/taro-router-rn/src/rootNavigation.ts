@@ -3,9 +3,8 @@ import { NavigationContainerRef, StackActions } from '@react-navigation/native'
 import { camelCase } from 'lodash'
 import * as React from 'react'
 
-import { getTabBarPages, handleUrl, setTabInitRoute, updateCurrentJumpUrl, updateJumpAnimate } from './utils/index'
+import { getTabBarPages, handleUrl, setTabInitRoute, updateCurrentJumpUrl } from './utils/index'
 import { BaseOption, CallbackResult } from './utils/types'
-
 
 type NavigateMethod = 'navigateTo' | 'redirectTo' | 'navigateBack' | 'switchTab' | 'reLaunch'
 
@@ -18,6 +17,7 @@ interface NavigateBackOption extends BaseOption {
   delta?: number
 }
 
+// @ts-expect-error navigationRef is not parametrized correctly
 interface NavigateRef extends NavigationContainerRef<ReactNavigation.RootParamList> {
   setOptions: (obj: any) => void
   navigateConfig: (obj: any) => void
@@ -56,12 +56,10 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
     routeParam = handleUrl(path)
     updateCurrentJumpUrl(path)
   }
-  updateJumpAnimate(true)
   try {
     if (method === 'navigateTo') {
       navigationRef.current?.dispatch(StackActions.push(routeParam.pageName, routeParam.params))
     } else if (method === 'redirectTo') {
-      updateJumpAnimate(false)
       navigationRef.current?.dispatch(StackActions.replace(routeParam.pageName, routeParam.params))
     } else if (method === 'switchTab' || (method === 'reLaunch' && isTabPage(path))) {
       const states = navigationRef.current?.getRootState()
@@ -70,7 +68,8 @@ export function navigate (option: NavigateOption | NavigateBackOption, method: N
         navigationRef.current?.dispatch(StackActions.replace('tabNav'))
         setTabInitRoute(routeParam.pageName)
       } else {
-        navigationRef.current?.navigate(routeParam.pageName as never, routeParam.params as never)
+        // @ts-expect-error navigationRef is not parametrized correctly
+        navigationRef.current?.navigate(routeParam.pageName, routeParam.params)
       }
     } else if (method === 'navigateBack') {
       const number = (option as NavigateBackOption).delta ? (option as NavigateBackOption).delta : 1

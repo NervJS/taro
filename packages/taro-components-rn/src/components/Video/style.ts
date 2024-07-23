@@ -106,7 +106,10 @@ export default StyleSheet.create({
   'taro-videoControl-button': {
     width: 13,
     height: 15,
-    padding: '14.5 12.5 14.5 12.5',
+    borderTopWidth: 14.5,
+    borderRightWidth: 12.5,
+    borderBottomWidth: 14.5,
+    borderLeftWidth: 12.5,
     marginLeft: -8.5
   },
 

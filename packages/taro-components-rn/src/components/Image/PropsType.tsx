@@ -1,8 +1,9 @@
-import { StyleProp, ImageStyle, ImageResizeMode } from 'react-native'
 import { ImageProps as _ImageProps } from '@tarojs/components/types/Image'
+import { ImageResizeMode, ImageStyle, StyleProp } from 'react-native'
+
 export interface ImageState {
-  ratio: number;
-  layoutWidth: number;
+  ratio: number
+  layoutWidth: number
 }
 
 export type ResizeModeMap = Partial<Record<keyof _ImageProps.Mode, ImageResizeMode>>;
@@ -15,22 +16,22 @@ export type ResizeMode = ImageResizeMode | undefined
 
 export type EventError = {
   detail: {
-    errMsg: string;
-  };
+    errMsg: string
+  }
 }
 
 export type EventLoad = {
   detail: {
-    width: number;
-    height: number;
-  };
+    width: number
+    height: number
+  }
 }
 
 export interface ImageProps {
-  style?: StyleProp<ImageStyle>;
-  src: string;
-  mode?:keyof _ImageProps.Mode;
-  onError?: (event: EventError) => void;
-  onLoad?: (event: EventLoad) => void;
-  svg?: boolean;
+  style?: StyleProp<ImageStyle>
+  src: string
+  mode?:keyof _ImageProps.Mode
+  onError?: (event: EventError) => void
+  onLoad?: (event: EventLoad) => void
+  svg?: boolean
 }

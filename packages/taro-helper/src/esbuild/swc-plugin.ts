@@ -1,6 +1,7 @@
+import { resolve } from 'node:path'
+
 import { transformSync } from '@swc/core'
 import { defaults } from 'lodash'
-import { resolve } from 'path'
 
 import { REG_SCRIPTS } from '../constants'
 import { fs } from '../utils'

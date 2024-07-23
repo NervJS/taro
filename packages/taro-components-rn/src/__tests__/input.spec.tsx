@@ -1,5 +1,6 @@
-import * as React from 'react'
 import { fireEvent, render } from '@testing-library/react-native'
+import * as React from 'react'
+
 import Input from '../components/Input'
 
 describe('<Input /> & <Textarea>', () => {

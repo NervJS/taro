@@ -34,7 +34,6 @@ export const incrementId = () => {
   }
 }
 
-
 export function isFunction (o: unknown): o is (...args: any[]) => any {
   return typeof o === 'function'
 }

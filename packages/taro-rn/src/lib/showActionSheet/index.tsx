@@ -1,5 +1,6 @@
 import React from 'react'
 import RootSiblings from 'react-native-root-siblings'
+
 import ActionSheet from './ActionSheet'
 
 function showActionSheet (obj: Taro.showActionSheet.Option): Promise<Taro.showActionSheet.SuccessCallbackResult> {
@@ -20,9 +21,13 @@ function showActionSheet (obj: Taro.showActionSheet.Option): Promise<Taro.showAc
       sibling && sibling.destroy()
       sibling = undefined
       const res = { tapIndex, errMsg: 'showActionSheet:ok' }
-      success?.(res)
-      complete?.(res)
-      resolve(res)
+      // fix: iOS 无法打开相册
+      // https://github.com/expo/expo/issues/25705
+      setTimeout(() => {
+        success?.(res)
+        complete?.(res)
+        resolve(res)
+      }, 1)
     }
 
     function onFail () {
@@ -38,7 +43,7 @@ function showActionSheet (obj: Taro.showActionSheet.Option): Promise<Taro.showAc
       <ActionSheet
         autoDectect={autoDectect}
         type={type}
-        visible={false}
+        visible={true}
         onClose={onFail}
         menus={
           itemList.map((item, index) => {
@@ -46,7 +51,7 @@ function showActionSheet (obj: Taro.showActionSheet.Option): Promise<Taro.showAc
               type: 'default',
               label: item,
               textStyle: { color: itemColor },
-              onPress: onSuccess.bind(this, index)
+              onPress: () => onSuccess(index)
             }
           }) as any
         }
@@ -55,41 +60,11 @@ function showActionSheet (obj: Taro.showActionSheet.Option): Promise<Taro.showAc
             type: 'default',
             label: '取消',
             textStyle: { color: itemColor },
-            onPress: onFail.bind(this)
+            onPress: onFail
           }
         ] as any}
       />
     )
-
-    // hack 的做法。不推荐
-    setTimeout(() => {
-      sibling.update(
-        <ActionSheet
-          autoDectect={autoDectect}
-          type={type}
-          visible
-          onClose={onFail}
-          menus={
-            itemList.map((item, index) => {
-              return {
-                type: 'default',
-                label: item,
-                textStyle: { color: itemColor },
-                onPress: onSuccess.bind(this, index)
-              }
-            }) as any
-          }
-          actions={[
-            {
-              type: 'default',
-              label: '取消',
-              textStyle: { color: itemColor },
-              onPress: onFail.bind(this)
-            }
-          ] as any}
-        />
-      )
-    }, 100)
   })
 }
 

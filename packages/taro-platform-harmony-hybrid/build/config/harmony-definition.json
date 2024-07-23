@@ -652,7 +652,7 @@
         "src": true,
         "quality": true,
         "compressedWidth": true,
-        "compressHeight": true
+        "compressedHeight": true
       },
       "success": {
         "tempFilePath": true

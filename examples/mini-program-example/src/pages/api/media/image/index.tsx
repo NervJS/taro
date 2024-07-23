@@ -143,7 +143,7 @@ export default class Index extends React.Component {
                 quality: 1,
                 src: res.tempFilePaths[0],
                 compressedWidth: 300,
-                compressHeight: 200,
+                compressedHeight: 200,
                 success: (res1) => {
                   TestConsole.consoleNormal('compressImage success ', res1)
                   Taro.saveImageToPhotosAlbum({

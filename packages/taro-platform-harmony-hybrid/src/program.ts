@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { TaroPlatformWeb } from '@tarojs/service'
-import path from 'path'
 
 import { resolveSync } from './resolve'
 

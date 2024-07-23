@@ -6,7 +6,7 @@
 
 `object`
 
- `postcss` 相关配置，其他样式语言预处理后经过此配置。
+`postcss` 相关配置，其他样式语言预处理后经过此配置。
 
 ```js
 module.exports = {
@@ -15,19 +15,30 @@ module.exports = {
     // ...
     postcss: {
       // postcss 配置，参考 https://github.com/postcss/postcss#options
-      options: { /* ... */ },
+      options: {
+        /* ... */
+      },
       // 默认true，控制是否对 css value 进行 scalePx2dp 转换，pxtransform配置 enable 才生效
       scalable: boolean,
       pxtransform: {
         enable: boolean, // 默认true
-        config: { /* ... */ } // 插件 pxtransform 配置项，参考尺寸章节
+        config: {
+          /* ... */
+        }, // 插件 pxtransform 配置项，参考尺寸章节
       },
       // 跟其他端 css module 配置保持统一
       cssModules: {
         enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
-      }
+      },
+      // postcss-css-variables 配置，样式变量编译相关
+      'postcss-css-variables': {
+        enable: boolean, // 默认 true
+        config: {
+          /* ... */
+        }, // 插件 postcss-css-variables 配置项，参考 https://github.com/MadLittleMods/postcss-css-variables?tab=readme-ov-file#options
+      },
     },
-  }
+  },
 }
 ```
 
@@ -35,7 +46,7 @@ module.exports = {
 
 `object`
 
- `sass` 相关配置。`options` 配置项参考[官方文档](https://github.com/sass/node-sass#options)。
+`sass` 相关配置。`options` 配置项参考[官方文档](https://github.com/sass/node-sass#options)。
 
 ```js
 module.exports = {
@@ -43,11 +54,13 @@ module.exports = {
   rn: {
     // ...
     sass: {
-      options: { /* ... */ },
-    	// 加入到脚本注入的每个 sass 文件头部，在 config.sass 之前
+      options: {
+        /* ... */
+      },
+      // 加入到脚本注入的每个 sass 文件头部，在 config.sass 之前
       additionalData: '', // {String|Function}
-    }
-  }
+    },
+  },
 }
 ```
 
@@ -63,10 +76,12 @@ module.exports = {
   rn: {
     // ...
     less: {
-      options: { /* ... */ },
+      options: {
+        /* ... */
+      },
       additionalData: '', // {String|Function}
-    }
-  }
+    },
+  },
 }
 ```
 
@@ -74,7 +89,7 @@ module.exports = {
 
 `object`
 
- `stylus` 相关配置。`options` 配置项如下。
+`stylus` 相关配置。`options` 配置项如下。
 
 ```js
 module.exports = {
@@ -89,7 +104,7 @@ module.exports = {
          * @type {(string|Function)[]}
          * @default []
          */
-        use: ["nib"],
+        use: ['nib'],
 
         /**
          * Add path(s) to the import lookup paths.
@@ -97,7 +112,7 @@ module.exports = {
          * @type {string[]}
          * @default []
          */
-        include: [path.join(__dirname, "src/styl/config")],
+        include: [path.join(__dirname, 'src/styl/config')],
 
         /**
          * Import the specified Stylus files/paths.
@@ -105,7 +120,7 @@ module.exports = {
          * @type {string[]}
          * @default []
          */
-        import: ["nib", path.join(__dirname, "src/styl/mixins")],
+        import: ['nib', path.join(__dirname, 'src/styl/mixins')],
 
         /**
          * Define Stylus variables or functions.
@@ -115,8 +130,8 @@ module.exports = {
          */
         // Array is the recommended syntax: [key, value, raw]
         define: [
-          ["$development", process.env.NODE_ENV === "development"],
-          ["rawVar", 42, true],
+          ['$development', process.env.NODE_ENV === 'development'],
+          ['rawVar', 42, true],
         ],
         // Object is deprecated syntax (there is no possibility to specify "raw')
         // define: {
@@ -153,7 +168,7 @@ module.exports = {
         hoistAtrules: true,
       },
       additionalData: '', // {String|Function}
-    }
-  }
+    },
+  },
 }
 ```

@@ -1,4 +1,4 @@
-import { omit, dismemberStyle, parseStyles } from '../utils'
+import { dismemberStyle, omit, parseStyles } from '../utils'
 
 describe('Utils', () => {
   describe('omit should works well', () => {

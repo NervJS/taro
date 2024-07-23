@@ -1,5 +1,4 @@
 import generate from '@babel/generator'
-import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
 import { kebabCase, snakeCase } from 'lodash'
 
@@ -18,6 +17,8 @@ import { createHTMLElement } from './create-html-element'
 import { Status } from './functional'
 import { transformOptions } from './options'
 import { codeFrameError, decodeUnicode } from './utils'
+
+import type { NodePath } from '@babel/traverse'
 
 export function isStartWithWX(str: string) {
   return str[0] === 'w' && str[1] === 'x'
@@ -87,7 +88,6 @@ export function setJSXAttr(
     return
   }
   const element = jsx.openingElement
-  // tslint:disable-next-line: strict-type-predicates
   if (element == null || !t.isJSXIdentifier(element.name)) {
     return
   }
@@ -285,7 +285,6 @@ export function parseJSXElement(element: t.JSXElement, isFirstEmit = false): str
           if (t.isStringLiteral(attrValue.expression)) {
             value = attrValue.expression.value
           }
-          // tslint:disable-next-line: strict-type-predicates
         } else if (attrValue === null && name !== Adapter.else) {
           value = `{{true}}`
         }

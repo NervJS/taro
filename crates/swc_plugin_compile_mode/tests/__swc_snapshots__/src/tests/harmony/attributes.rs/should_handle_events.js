@@ -1,190 +1,126 @@
-const TARO_TEMPLATES_f0t0 = `import { FlexManager } from './utils/FlexManager'
-import { getNodeThresholds, getNormalAttributes, getTextAttributes } from './utils/helper'
-import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../runtime'
-import type { TaroElement } from '../runtime'
-import { TOUCH_EVENT_MAP } from './utils/constant/event'
-@Extend(Flex)
-function attrs ({
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform
-}) {
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .constraintSize(constraintSize)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
-}
-@Extend(Image)
-function attrsImage ({
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform
-}) {
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .constraintSize(constraintSize)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
-  .objectFit(ImageFit.Contain)
-}
+const TARO_TEMPLATES_f0t0 = `import {
+  rowModify,
+  FlexManager,
+  columnModify,
+  DynamicCenter,
+  getButtonColor,
+  TOUCH_EVENT_MAP,
+  getFontAttributes,
+  commonStyleModify,
+  getNodeThresholds,
+  BUTTON_THEME_COLOR,
+  getStyleAttr,
+  getNormalAttributes,
+  shouldBindEvent,
+  textModify,
+  setNormalTextAttributeIntoInstance,
+  getImageMode
+} from '@tarojs/components'
+import {
+  NodeType,
+  convertNumber2VP,
+  TaroElement,
+  eventHandler,
+  getComponentEventCallback,
+  AREA_CHANGE_EVENT_NAME,
+  VISIBLE_CHANGE_EVENT_NAME
+} from '@tarojs/runtime'
+import { 
+  createLazyChildren, 
+  createChildItem 
+} from '../render'
+
+import type {
+  TaroTextElement,
+  HarmonyStyle,
+  TaroButtonElement,
+  TaroViewElement,
+  TaroAny,
+  TaroStyleType,
+  TaroTextStyleType
+} from '@tarojs/runtime'
+import { isString } from '@tarojs/shared'
+
+
+@Reusable
 @Component
-struct TARO_TEMPLATES_f0t0 {
-  nodeInfoMap: any = {}
-  dynamicCenter: DynamicCenter
-  @ObjectLink node: TaroElement
+export default struct TARO_TEMPLATES_f0t0 {
+  node: TaroViewElement = new TaroElement('Ignore')
+
+  dynamicCenter: DynamicCenter = new DynamicCenter()
 
   aboutToAppear () {
-    this.dynamicCenter = new DynamicCenter()
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
   }
 
-  @State node0: TaroElement = new TaroIgnoreElement()
-  @State node1: TaroElement = new TaroIgnoreElement()
-  @State node2: TaroElement = new TaroIgnoreElement()
+  aboutToReuse(params: TaroAny): void {
+    this.node = params.node
+    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
+  }
+
+  @State node0: TaroElement = new TaroElement('Ignore')
+  @State node1: TaroElement = new TaroElement('Ignore')
+  @State node2: TaroElement = new TaroElement('Ignore')
   
   build() {
-    Flex(FlexManager.flexOptions(this.node0)) {
-      Flex(FlexManager.flexOptions(this.node0.childNodes[0])) {}
-      .attrs(getNormalAttributes(this.node0.childNodes[0]))
-      .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[0]) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[0], VISIBLE_CHANGE_EVENT_NAME))
-      .onAreaChange(getComponentEventCallback(this.node0.childNodes[0], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-        const [_, areaResult] = eventResult
-        this.nodeInfoMap[this.node0.childNodes[0]._nid].areaInfo = areaResult
+    Column() {
+      Column() {}
+      .attributeModifier(columnModify.setNode(this.node0.childNodes[0] as TaroElement))
+      .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
+      .onAreaChange(getComponentEventCallback(this.node0.childNodes[0] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        (this.node0.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .onClick(e => eventHandler(e, 'click', this.node0.childNodes[0]))
-      Flex(FlexManager.flexOptions(this.node0.childNodes[1])) {}
-      .attrs(getNormalAttributes(this.node0.childNodes[1]))
-      .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[1]) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[1], VISIBLE_CHANGE_EVENT_NAME))
-      .onAreaChange(getComponentEventCallback(this.node0.childNodes[1], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-        const [_, areaResult] = eventResult
-        this.nodeInfoMap[this.node0.childNodes[1]._nid].areaInfo = areaResult
+      .onClick(e => { eventHandler(e, 'click', this.node0.childNodes[0] as TaroElement) } )
+      Column() {}
+      .attributeModifier(columnModify.setNode(this.node0.childNodes[1] as TaroElement))
+      .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[1] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[1] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
+      .onAreaChange(getComponentEventCallback(this.node0.childNodes[1] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        (this.node0.childNodes[1] as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .onClick(e => eventHandler(e, 'click', this.node0.childNodes[1]))
-      Flex(FlexManager.flexOptions(this.node1)) {}
-      .attrs(getNormalAttributes(this.node1))
-      .onVisibleAreaChange(getNodeThresholds(this.node1) || [0.0, 1.0], getComponentEventCallback(this.node1, VISIBLE_CHANGE_EVENT_NAME))
-      .onAreaChange(getComponentEventCallback(this.node1, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-        const [_, areaResult] = eventResult
-        this.nodeInfoMap[this.node1._nid].areaInfo = areaResult
+      .onClick(e => { eventHandler(e, 'click', this.node0.childNodes[1] as TaroElement) } )
+      Column() {}
+      .attributeModifier(columnModify.setNode(this.node1 as TaroElement))
+      .onVisibleAreaChange(getNodeThresholds(this.node1 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node1 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
+      .onAreaChange(getComponentEventCallback(this.node1 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        (this.node1 as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .onClick(e => eventHandler(e, 'click', this.node1))
-      Flex(FlexManager.flexOptions(this.node2)) {}
-      .attrs(getNormalAttributes(this.node2))
-      .onVisibleAreaChange(getNodeThresholds(this.node2) || [0.0, 1.0], getComponentEventCallback(this.node2, VISIBLE_CHANGE_EVENT_NAME))
-      .onAreaChange(getComponentEventCallback(this.node2, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-        const [_, areaResult] = eventResult
-        this.nodeInfoMap[this.node2._nid].areaInfo = areaResult
+      .onClick(e => { eventHandler(e, 'click', this.node1 as TaroElement) } )
+      Column() {}
+      .attributeModifier(columnModify.setNode(this.node2 as TaroElement))
+      .onVisibleAreaChange(getNodeThresholds(this.node2 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node2 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
+      .onAreaChange(getComponentEventCallback(this.node2 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        (this.node2 as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      Image(this.node0.childNodes[4].getAttribute('src'))
-      .attrsImage(getNormalAttributes(this.node0.childNodes[4]))
-      .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[4]) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[4], VISIBLE_CHANGE_EVENT_NAME))
-      .onAreaChange(getComponentEventCallback(this.node0.childNodes[4], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-        const [_, areaResult] = eventResult
-        this.nodeInfoMap[this.node0.childNodes[4]._nid].areaInfo = areaResult
+      Image((this.node0.childNodes[4] as TaroElement).getAttribute('src'))
+      .objectFit(getImageMode((this.node0.childNodes[4] as TaroElement).getAttribute('mode')))
+      .attributeModifier(commonStyleModify.setNode(this.node0.childNodes[4] as TaroElement))
+      .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[4] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[4] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
+      .onAreaChange(getComponentEventCallback(this.node0.childNodes[4] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        (this.node0.childNodes[4] as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .onComplete(e => eventHandler(e, 'complete', this.node0.childNodes[4]))
-      Flex(FlexManager.flexOptions(this.node0.childNodes[5])) {}
-      .attrs(getNormalAttributes(this.node0.childNodes[5]))
-      .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[5]) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[5], VISIBLE_CHANGE_EVENT_NAME))
-      .onAreaChange(getComponentEventCallback(this.node0.childNodes[5], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-        const [_, areaResult] = eventResult
-        this.nodeInfoMap[this.node0.childNodes[5]._nid].areaInfo = areaResult
+      .borderRadius({
+        topLeft: (this.node0.childNodes[4] as TaroElement)._st.hmStyle.borderTopLeftRadius,
+        topRight: (this.node0.childNodes[4] as TaroElement)._st.hmStyle.borderTopRightRadius,
+        bottomLeft: (this.node0.childNodes[4] as TaroElement)._st.hmStyle.borderBottomLeftRadius,
+        bottomRight: (this.node0.childNodes[4] as TaroElement)._st.hmStyle.borderBottomRightRadius
+      })
+      .onComplete(e => { eventHandler(e, 'complete', this.node0.childNodes[4] as TaroElement) } )
+      Column() {}
+      .attributeModifier(columnModify.setNode(this.node0.childNodes[5] as TaroElement))
+      .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[5] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[5] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
+      .onAreaChange(getComponentEventCallback(this.node0.childNodes[5] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        (this.node0.childNodes[5] as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
-      .onClick(e => eventHandler(e, 'click', this.node0.childNodes[5]))
-      .onTouch(e => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node0.childNodes[5]))
+      .onClick(e => { eventHandler(e, 'click', this.node0.childNodes[5] as TaroElement) } )
+      .onTouch(e => { eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node0.childNodes[5] as TaroElement) } )
     }
-    .attrs(getNormalAttributes(this.node0))
-    .onVisibleAreaChange(getNodeThresholds(this.node0) || [0.0, 1.0], getComponentEventCallback(this.node0, VISIBLE_CHANGE_EVENT_NAME))
-    .onAreaChange(getComponentEventCallback(this.node0, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-      this.nodeInfoMap[this.node0._nid].areaInfo = areaResult
+    .attributeModifier(columnModify.setNode(this.node0 as TaroElement))
+    .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
+    .onAreaChange(getComponentEventCallback(this.node0 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      (this.node0 as TaroElement)._nodeInfo.areaInfo = res[1]
     }))
   }
 }
-export default TARO_TEMPLATES_f0t0
 `;
 function Index() {
     return <View compileMode="f0t0" _dynamicID="node0">

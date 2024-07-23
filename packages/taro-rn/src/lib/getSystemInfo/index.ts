@@ -1,7 +1,7 @@
+import { errorHandler, successHandler } from '../../utils'
 import { getSystemInfoSync } from '../getSystemInfoSync'
-import { successHandler, errorHandler } from '../../utils'
 
-export function getSystemInfo(opts: Taro.getSystemInfo.Option  = {}): Promise<Taro.getSystemInfo.Result> {
+export function getSystemInfo(opts: Taro.getSystemInfo.Option = {}): Promise<Taro.getSystemInfo.Result> {
   const { success, fail, complete }: any = opts
   try {
     const res = {

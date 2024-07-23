@@ -14,7 +14,7 @@
     "strictNullChecks": true,
     "sourceMap": true,
     "rootDir": ".",
-    "jsx": "{{#if (includes "Vue" "Vue3" s=framework)}}preserve{{else}}react-jsx{{/if}}",{{#if (eq framework "Preact") }}
+    "jsx": "{{#if (includes "Vue3" s=framework)}}preserve{{else}}react-jsx{{/if}}",{{#if (eq framework "Preact") }}
     "skipLibCheck": true,{{/if}}
     "allowJs": true,
     "resolveJsonModule": true,

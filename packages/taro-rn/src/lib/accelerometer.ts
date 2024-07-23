@@ -1,4 +1,5 @@
 import { Accelerometer } from 'expo-sensors'
+
 import { createCallbackManager, errorHandler, successHandler } from '../utils'
 
 const _cbManager = createCallbackManager()
@@ -68,8 +69,8 @@ function stopAccelerometer(opts: Taro.stopAccelerometer.Option = {}): Promise<Ta
 }
 
 export {
-  onAccelerometerChange,
   offAccelerometerChange,
+  onAccelerometerChange,
   startAccelerometer,
   stopAccelerometer
 }

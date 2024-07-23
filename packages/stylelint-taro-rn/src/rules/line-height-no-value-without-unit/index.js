@@ -1,12 +1,11 @@
-import { utils } from 'stylelint'
+import stylelint from 'stylelint'
+import declarationValueIndex from 'stylelint/lib/utils/declarationValueIndex.cjs'
 
-import { namespace } from '../../utils'
-
-const declarationValueIndex = require('stylelint/lib/utils/declarationValueIndex')
+import { namespace } from '../../utils/index.js'
 
 export const ruleName = namespace('line-height-no-value-without-unit')
 
-export const messages = utils.ruleMessages(ruleName, {
+export const messages = stylelint.utils.ruleMessages(ruleName, {
   rejected: (height) =>
     `Unexpected line-height "${height}", expect a value with units`
 })
@@ -16,7 +15,7 @@ const viewportUnitRe = /^([+-]?[0-9.]+)(vh|vw|vmin|vmax)$/
 
 export default function (actual) {
   return function (root, result) {
-    const validOptions = utils.validateOptions(result, ruleName, {
+    const validOptions = stylelint.utils.validateOptions(result, ruleName, {
       actual
     })
 
@@ -32,7 +31,7 @@ export default function (actual) {
       const valueOffset = decl.value.indexOf(decl.value)
       const index = declarationValueIndex(decl) + valueOffset
 
-      utils.report({
+      stylelint.utils.report({
         message: messages.rejected(decl.value),
         node: decl,
         result,

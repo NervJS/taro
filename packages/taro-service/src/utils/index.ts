@@ -1,6 +1,7 @@
+import * as path from 'node:path'
+
 import { chalk, getModuleDefaultExport } from '@tarojs/helper'
 import { merge } from 'lodash'
-import * as path from 'path'
 import * as resolve from 'resolve'
 
 import { PluginType } from './constants'

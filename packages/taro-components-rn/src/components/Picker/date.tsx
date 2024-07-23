@@ -1,9 +1,8 @@
-import * as React from 'react'
 import AntDatePicker from '@ant-design/react-native/lib/date-picker'
+import * as React from 'react'
+
 import { noop } from '../../utils'
 import { DateProps, DateState } from './PropsType'
-import { TouchableWithoutFeedback } from 'react-native'
-import View from '../View'
 
 function formatTimeStr(time = ''): Date {
   let [year, month, day]: any = time.split('-')
@@ -112,7 +111,7 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
         onDismiss={this.onDismiss}
         disabled={disabled}
       >
-        <TouchableWithoutFeedback><View>{children}</View></TouchableWithoutFeedback>
+        {children}
       </AntDatePicker>
     )
   }

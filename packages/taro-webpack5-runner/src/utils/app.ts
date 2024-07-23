@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   isEmptyObject,
   readConfig,
@@ -5,7 +7,6 @@ import {
   SCRIPT_EXT
 } from '@tarojs/helper'
 import { defaults } from 'lodash'
-import path from 'path'
 
 import type { AppConfig } from '@tarojs/taro'
 import type { EntryNormalized } from 'webpack'

@@ -63,6 +63,9 @@ impl Plugin {
       change_ext: None,
       is_custom_template: None,
       plugin_type: Some(self.plugin_type.clone()),
+      sub_pkg: None,
+      page_dir: None,
+      set_sub_pkg_page_name: None,
     };
     let all_files = all_files.iter().filter_map(|f| f.to_str()).collect::<Vec<_>>();
     println!();

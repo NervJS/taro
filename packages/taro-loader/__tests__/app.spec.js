@@ -1,16 +1,6 @@
 import app from '../src/app'
 
 describe('app-loader', () => {
-  it('nerv', () => {
-    const request = '!request'
-    const result = app.call({ query: { framework: 'nerv' }, request })
-    const method = 'createReactApp'
-    expect(result).toMatch(`import { ${method} } from '@tarojs/runtime'
-import component from '${request.slice(1)}'
-var inst = App(${method}(component))
-`)
-  })
-
   it('react', () => {
     const request = '!request'
     const result = app.call({ query: { framework: 'react' }, request })

@@ -71,7 +71,7 @@ declare module '../../index' {
     getSelectedTextRange(option?: getSelectedTextRange.Option): Promise<getSelectedTextRange.SuccessCallbackResult>
 
     /** 监听键盘高度变化
-     * @supported weapp, swan, jd, qq, rn
+     * @supported weapp, swan, jd, qq, rn, harmony
      * @example
      * ```tsx
      * Taro.onKeyboardHeightChange(res => {
@@ -86,7 +86,7 @@ declare module '../../index' {
 
     /**
      * 取消监听键盘高度变化事件。
-     * @supported weapp, swan, jd, rn
+     * @supported weapp, swan, jd, rn, harmony
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.offKeyboardHeightChange.html
      */
     offKeyboardHeightChange(

@@ -1,0 +1,40 @@
+{
+  "name": "babel-plugin-transform-solid-jsx",
+  "description": "A JSX to DOM plugin that wraps expressions for fine grained change detection",
+  "version": "4.0.2",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "readmeFilename": "README.md",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "build": "rollup -c",
+    "clean": "rimraf ./dist",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i",
+    "test": "pnpm run build && jest --no-cache",
+    "test:coverage": "pnpm run build && jest --coverage --no-cache",
+    "prepublishOnly": "pnpm run build",
+    "prepare": "pnpm run build"
+  },
+  "dependencies": {
+    "@babel/helper-module-imports": "7.18.6",
+    "@babel/plugin-syntax-jsx": "^7.18.6",
+    "html-entities": "2.3.3",
+    "validate-html-nesting": "^1.2.1"
+  },
+  "devDependencies": {
+    "babel-plugin-tester": "^11.0.4"
+  }
+}

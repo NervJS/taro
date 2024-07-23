@@ -1,4 +1,3 @@
-import React from 'react'
 import { View, Text } from '@tarojs/components'
 import taro from '@tarojs/taro'
 import './index.scss'

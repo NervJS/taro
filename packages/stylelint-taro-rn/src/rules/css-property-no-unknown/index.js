@@ -1,5 +1,5 @@
 import { allCSS2RNProps } from 'react-native-known-styling-properties'
-import { utils } from 'stylelint'
+import stylelint from 'stylelint'
 
 import {
   isCustomProperty,
@@ -10,11 +10,11 @@ import {
   kebabCase,
   namespace,
   optionsMatches
-} from '../../utils'
+} from '../../utils/index.js'
 
 export const ruleName = namespace('css-property-no-unknown')
 
-export const messages = utils.ruleMessages(ruleName, {
+export const messages = stylelint.utils.ruleMessages(ruleName, {
   rejected: (property) => `无效的 React Native 样式属性 "${property}"`
 })
 
@@ -22,7 +22,7 @@ const props = allCSS2RNProps.map(kebabCase)
 
 export default function (actual, options) {
   return function (root, result) {
-    const validOptions = utils.validateOptions(
+    const validOptions = stylelint.utils.validateOptions(
       result,
       ruleName,
       {
@@ -68,7 +68,7 @@ export default function (actual, options) {
         return
       }
 
-      utils.report({
+      stylelint.utils.report({
         message: messages.rejected(prop),
         node: decl,
         result,

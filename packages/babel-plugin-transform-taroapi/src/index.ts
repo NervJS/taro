@@ -60,7 +60,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
       this.apis = apis
     },
     visitor: {
-      ImportDeclaration (ast) {
+      ImportDeclaration (ast: BabelCore.NodePath<any>) {
         if (ast.node.source.value !== this.packageName) return
 
         ast.node.specifiers.forEach(node => {
@@ -91,7 +91,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
           }
         })
       },
-      MemberExpression (ast) {
+      MemberExpression (ast: BabelCore.NodePath<any>) {
         /* 处理Taro.xxx */
         const isTaro = t.isIdentifier(ast.node.object, { name: taroName })
         const property = ast.node.property
@@ -110,7 +110,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
 
         // 同一api使用多次, 读取变量名
         if (this.apis.has(propertyName)) {
-          const parentNode = ast.parent
+          const parentNode = ast.parent as BabelCore.types.AssignmentExpression
           const isAssignment = t.isAssignmentExpression(parentNode) && parentNode.left === ast.node
 
           if (!isAssignment) {
@@ -129,7 +129,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
           needDefault = true
         }
       },
-      CallExpression (ast) {
+      CallExpression (ast: BabelCore.NodePath<any>) {
         if (!ast.scope.hasReference(this.canIUse)) return
         const callee = ast.node.callee
         if (t.isMemberExpression(callee) && t.isIdentifier(callee.object, { name: taroName })) {
@@ -188,7 +188,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
                 ast.node.specifiers = namedImports
               }
             },
-            CallExpression (ast) {
+            CallExpression (ast: BabelCore.NodePath<any>) {
               if (!invokedApis.has(that.canIUse)) return
               const callee = ast.node.callee
               const { name } = t.identifier(invokedApis.get(that.canIUse)!)

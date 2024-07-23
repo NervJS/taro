@@ -6,7 +6,7 @@ import {
 } from '@tarojs/shared'
 
 import { raf } from '../bom/raf'
-import { window } from '../bom/window'
+import { taroWindowProvider } from '../bom/window'
 import { BEHAVIORS, CONTEXT_ACTIONS, CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW } from '../constants'
 import { Current } from '../current'
 import { eventHandler } from '../dom/event'
@@ -144,7 +144,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       // 初始化当前页面的上下文信息
       if (process.env.TARO_PLATFORM !== 'web') {
-        window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
+        taroWindowProvider.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
       }
 
       const mount = () => {
@@ -172,7 +172,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
       if (process.env.TARO_PLATFORM !== 'web') {
-        window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
+        taroWindowProvider.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
       }
       // 触发onUnload生命周期
       safeExecute($taroPath, ONUNLOAD)
@@ -206,7 +206,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         setCurrentRouter(this)
         // 恢复上下文信息
         if (process.env.TARO_PLATFORM !== 'web') {
-          window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
+          taroWindowProvider.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
         }
         // 触发生命周期
         safeExecute(this.$taroPath, ON_SHOW, options)
@@ -217,7 +217,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     [ONHIDE] () {
       // 缓存当前页面上下文信息
       if (process.env.TARO_PLATFORM !== 'web') {
-        window.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath)
+        taroWindowProvider.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath)
       }
       // 设置 Current 的 page 和 router
       if (Current.page === this) {

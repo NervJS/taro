@@ -118,8 +118,8 @@ interface SubPackage {
 }
 
 interface PageItem {
-  name: string,
-  component: any,
+  name: string
+  component: any
   pagePath: string
 }
 export interface PageConfig extends CommonConfig {
@@ -129,7 +129,7 @@ export interface PageConfig extends CommonConfig {
    * default: false
    */
   disableScroll?: boolean
-  pagePath: string,
+  pagePath: string
   rn?: any
 }
 
@@ -184,8 +184,8 @@ export interface BaseOption {
 }
 
 export interface ScrollOption extends BaseOption{
-  selector?: string,
-  scrollTop?: number,
+  selector?: string
+  scrollTop?: number
   duration?: number
 }
 

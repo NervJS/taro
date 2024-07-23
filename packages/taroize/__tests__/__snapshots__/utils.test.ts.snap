@@ -31,5 +31,5 @@ render(dropdown);
 
 exports[`utils.ts @babel/parser sourcePhaseImports插件支持导入语句放在顶部之外的地方 1`] = `
 const name = options && options.name ? options.name : "Anonymous";
-import x from "./x";
+import source x from "./x";
 `;

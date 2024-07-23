@@ -26,13 +26,14 @@
 
 import * as React from 'react'
 import {
-  TextInput,
-  Platform,
+  KeyboardTypeOptions,
   NativeSyntheticEvent,
-  TextInputKeyPressEventData,
+  Platform,
+  TextInput,
   TextInputContentSizeChangeEventData,
-  KeyboardTypeOptions
+  TextInputKeyPressEventData
 } from 'react-native'
+
 import { noop, omit, parseStyles, useUpdateEffect } from '../../utils'
 import { InputProps } from './PropsType'
 

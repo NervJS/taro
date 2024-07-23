@@ -29,6 +29,8 @@ pub struct Page {
   pub custom_template_path: Option<String>,
   pub base_page_files: Vec<String>,
   pub period: PeriodType,
+  pub sub_pkg: Option<String>,
+  pub page_dir: Option<String>,
 }
 
 impl Page {
@@ -49,6 +51,8 @@ impl Page {
     custom_template_path: Option<String>,
     base_page_files: Vec<String>,
     period: PeriodType,
+    sub_pkg: Option<String>,
+    page_dir: Option<String>,
   ) -> Self {
     Page {
       project_dir,
@@ -67,6 +71,8 @@ impl Page {
       custom_template_path,
       base_page_files,
       period,
+      sub_pkg,
+      page_dir,
     }
   }
 
@@ -101,8 +107,11 @@ impl Page {
       typescript: self.typescript.clone(),
       template: self.template.clone(),
       page_name: Some(self.page_name.clone()),
+      sub_pkg: self.sub_pkg.clone(),
+      page_dir: self.page_dir.clone(),
       compiler: self.compiler.clone(),
       set_page_name: None,
+      set_sub_pkg_page_name: None,
       change_ext: None,
       is_custom_template: self.is_custom_template.clone(),
       plugin_type: None,

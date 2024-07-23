@@ -1,13 +1,14 @@
+import * as fs from 'node:fs'
+import * as nodePath from 'node:path'
+
 import { parseSync, transformFromAstSync, types } from '@babel/core'
 import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
 import * as t from '@babel/types'
-import { readConfig, resolveMainFilePath } from '@tarojs/helper'
-import * as fs from 'fs'
+import { readConfig, REG_NODE_MODULES, resolveMainFilePath } from '@tarojs/helper'
 import * as mimeType from 'mime-types'
 import * as mkdirp from 'mkdirp'
 import * as normalize from 'normalize-path'
-import * as nodePath from 'path'
 
 import { globalAny, TransformLinariaOption } from './types/index'
 
@@ -63,7 +64,7 @@ export function getStyleCode (code: string, basePath: string) {
 }
 
 export function isPageFile (file: string, sourceDir: string) {
-  if ((/node_modules/.test(file)) || file.indexOf(sourceDir) === -1) return false
+  if ((REG_NODE_MODULES.test(file)) || file.indexOf(sourceDir) === -1) return false
   const pagesList = globalAny.__taroAppPages || []
   const dirname = nodePath.dirname(file).replace(/\\/g, '/')
   const fileObj = nodePath.parse(file)
@@ -99,7 +100,7 @@ function isJSXSource (file: string, code: string) {
 }
 
 export function isSourceComponent (file: string, code: string, sourceDir: string) {
-  if ((/node_modules/.test(file)) || file.indexOf(sourceDir) === -1) return false
+  if ((REG_NODE_MODULES.test(file)) || file.indexOf(sourceDir) === -1) return false
   return isJSXSource(file, code)
 }
 

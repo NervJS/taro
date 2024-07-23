@@ -29,8 +29,8 @@ pub static FRAMEWORK_TYPE_MAP: Lazy<HashMap<&FrameworkType, &str>> = Lazy::new(|
   let mut map = HashMap::new();
   map.insert(&FrameworkType::Preact, "preact");
   map.insert(&FrameworkType::React, "react");
-  map.insert(&FrameworkType::Vue, "vue");
   map.insert(&FrameworkType::Vue3, "vue3");
+  map.insert(&FrameworkType::Solid, "solid");
   map
 });
 
@@ -68,7 +68,7 @@ pub static PACKAGES_MANAGEMENT: Lazy<HashMap<&NpmType, PackageCommand>> = Lazy::
 });
 
 pub static MEDIA_REGEX: Lazy<regex::Regex> =
-  Lazy::new(|| regex::Regex::new(r"\.(png|jpe?g|gif|svg|webp|jar|keystore)$").unwrap());
+  Lazy::new(|| regex::Regex::new(r"\.(png|jpe?g|gif|svg|webp|jar|keystore|tgz)$").unwrap());
 
 pub static TEMPLATE_CREATOR: &str = "template_creator.js";
 
@@ -95,8 +95,9 @@ pub enum CSSType {
 pub enum FrameworkType {
   React,
   Preact,
-  Vue,
   Vue3,
+  Solid,
+  None,
 }
 
 #[derive(Debug, PartialEq, Eq, Hash, Serialize)]

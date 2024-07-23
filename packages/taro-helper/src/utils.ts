@@ -1,51 +1,60 @@
-import * as child_process from 'child_process'
+import * as child_process from 'node:child_process'
+import { createHash } from 'node:crypto'
+import * as os from 'node:os'
+import * as path from 'node:path'
+
+import * as babel from '@babel/core'
+import babelGenerator from '@babel/generator'
+import * as babelParser from '@babel/parser'
+import babelTraverse from '@babel/traverse'
+import * as t from '@babel/types'
 import * as fs from 'fs-extra'
 import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
-import * as os from 'os'
-import * as path from 'path'
 
 import {
   CSS_EXT,
-  CSS_IMPORT_REG,
-  NODE_MODULES_REG,
   PLATFORMS,
   processTypeEnum,
   processTypeMap,
+  REG_CSS_IMPORT,
   REG_JSON,
+  REG_NODE_MODULES,
   SCRIPT_EXT,
-  TARO_CONFIG_FOLDER
+  TARO_CONFIG_FOLDER,
 } from './constants'
 import { requireWithEsbuild } from './esbuild'
 import { chalk } from './terminal'
 
+import type TResolve from 'resolve'
+
 const execSync = child_process.execSync
 
-export function normalizePath (path: string) {
+export function normalizePath(path: string) {
   return path.replace(/\\/g, '/').replace(/\/{2,}/g, '/')
 }
 
-export const isNodeModule = (filename: string) => NODE_MODULES_REG.test(filename)
+export const isNodeModule = (filename: string): boolean => REG_NODE_MODULES.test(filename)
 
-export function isNpmPkg (name: string): boolean {
+export function isNpmPkg(name: string): boolean {
   if (/^(\.|\/)/.test(name)) {
     return false
   }
   return true
 }
 
-export function isQuickAppPkg (name: string): boolean {
+export function isQuickAppPkg(name: string): boolean {
   return /^@(system|service)\.[a-zA-Z]{1,}/.test(name)
 }
 
-export function isAliasPath (name: string, pathAlias: Record<string, any> = {}): boolean {
+export function isAliasPath(name: string, pathAlias: Record<string, any> = {}): boolean {
   const prefixes = Object.keys(pathAlias)
   if (prefixes.length === 0) {
     return false
   }
-  return prefixes.includes(name) || (new RegExp(`^(${prefixes.join('|')})/`).test(name))
+  return prefixes.includes(name) || new RegExp(`^(${prefixes.join('|')})/`).test(name)
 }
 
-export function replaceAliasPath (filePath: string, name: string, pathAlias: Record<string, any> = {}) {
+export function replaceAliasPath(filePath: string, name: string, pathAlias: Record<string, any> = {}) {
   // 后续的 path.join 在遇到符号链接时将会解析为真实路径，如果
   // 这里的 filePath 没有做同样的处理，可能会导致 import 指向
   // 源代码文件，导致文件被意外修改
@@ -62,10 +71,10 @@ export function replaceAliasPath (filePath: string, name: string, pathAlias: Rec
   return name
 }
 
-export function promoteRelativePath (fPath: string): string {
+export function promoteRelativePath(fPath: string): string {
   const fPathArr = fPath.split(path.sep)
   let dotCount = 0
-  fPathArr.forEach(item => {
+  fPathArr.forEach((item) => {
     if (item.indexOf('..') >= 0) {
       dotCount++
     }
@@ -81,7 +90,7 @@ export function promoteRelativePath (fPath: string): string {
   return normalizePath(fPath)
 }
 
-export function resolveStylePath (p: string): string {
+export function resolveStylePath(p: string): string {
   const realPath = p
   const removeExtPath = p.replace(path.extname(p), '')
   const taroEnv = process.env.TARO_ENV
@@ -99,7 +108,7 @@ export function resolveStylePath (p: string): string {
   return realPath
 }
 
-export function printLog (type: processTypeEnum, tag: string, filePath?: string) {
+export function printLog(type: processTypeEnum, tag: string, filePath?: string) {
   const typeShow = processTypeMap[type]
   const tagLen = tag.replace(/[\u0391-\uFFE5]/g, 'aa').length
   const tagFormatLen = 8
@@ -116,9 +125,9 @@ export function printLog (type: processTypeEnum, tag: string, filePath?: string)
   }
 }
 
-export function recursiveFindNodeModules (filePath: string, lastFindPath?: string): string {
+export function recursiveFindNodeModules(filePath: string, lastFindPath?: string): string {
   const findWorkspaceRoot = require('find-yarn-workspace-root')
-  if (lastFindPath && (normalizePath(filePath) === normalizePath(lastFindPath))) {
+  if (lastFindPath && normalizePath(filePath) === normalizePath(lastFindPath)) {
     return filePath
   }
   const dirname = path.dirname(filePath)
@@ -134,8 +143,8 @@ export function recursiveFindNodeModules (filePath: string, lastFindPath?: strin
   return recursiveFindNodeModules(dirname, filePath)
 }
 
-export function getUserHomeDir (): string {
-  function homedir (): string {
+export function getUserHomeDir(): string {
+  function homedir(): string {
     const env = process.env
     const home = env.HOME
     const user = env.LOGNAME || env.USER || env.LNAME || env.USERNAME
@@ -149,7 +158,7 @@ export function getUserHomeDir (): string {
     }
 
     if (process.platform === 'linux') {
-      return home || (process.getuid() === 0 ? '/root' : (user ? '/home/' + user : ''))
+      return home || (process.getuid?.() === 0 ? '/root' : user ? '/home/' + user : '')
     }
 
     return home || ''
@@ -157,7 +166,7 @@ export function getUserHomeDir (): string {
   return typeof (os.homedir as (() => string) | undefined) === 'function' ? os.homedir() : homedir()
 }
 
-export function getTaroPath (): string {
+export function getTaroPath(): string {
   const taroPath = path.join(getUserHomeDir(), TARO_CONFIG_FOLDER)
   if (!fs.existsSync(taroPath)) {
     fs.ensureDirSync(taroPath)
@@ -165,7 +174,7 @@ export function getTaroPath (): string {
   return taroPath
 }
 
-export function getConfig (): Record<string, any> {
+export function getConfig(): Record<string, any> {
   const configPath = path.join(getTaroPath(), 'config.json')
   if (fs.existsSync(configPath)) {
     return require(configPath)
@@ -173,13 +182,17 @@ export function getConfig (): Record<string, any> {
   return {}
 }
 
-export function getSystemUsername (): string {
+export function getHash(text: Buffer | string): string {
+  return createHash('sha256').update(text).digest('hex').substring(0, 8)
+}
+
+export function getSystemUsername(): string {
   const userHome = getUserHomeDir()
   const systemUsername = process.env.USER || path.basename(userHome)
   return systemUsername
 }
 
-export function shouldUseYarn (): boolean {
+export function shouldUseYarn(): boolean {
   try {
     execSync('yarn --version', { stdio: 'ignore' })
     return true
@@ -188,7 +201,7 @@ export function shouldUseYarn (): boolean {
   }
 }
 
-export function shouldUseCnpm (): boolean {
+export function shouldUseCnpm(): boolean {
   try {
     execSync('cnpm --version', { stdio: 'ignore' })
     return true
@@ -197,7 +210,7 @@ export function shouldUseCnpm (): boolean {
   }
 }
 
-export function isEmptyObject (obj: any): boolean {
+export function isEmptyObject(obj: any): boolean {
   if (obj == null) {
     return true
   }
@@ -207,6 +220,25 @@ export function isEmptyObject (obj: any): boolean {
     }
   }
   return true
+}
+
+export function resolveSync(id: string, opts: TResolve.SyncOpts & { mainFields?: string[] } = {}): string | null {
+  try {
+    const resolve = require('resolve').sync as (typeof TResolve)['sync']
+    return resolve(id, {
+      ...opts,
+      packageFilter(pkg, pkgfile, dir) {
+        if (opts.packageFilter) {
+          pkg = opts.packageFilter(pkg, pkgfile, dir)
+        } else if (opts.mainFields?.length) {
+          pkg.main = pkg[opts.mainFields.find((field) => pkg[field] && typeof pkg[field] === 'string') || 'main']
+        }
+        return pkg
+      },
+    })
+  } catch (error) {
+    return null
+  }
 }
 
 export function resolveMainFilePath (p: string, extArrs = SCRIPT_EXT): string {
@@ -243,7 +275,7 @@ export function resolveMainFilePath (p: string, extArrs = SCRIPT_EXT): string {
   return realPath
 }
 
-export function resolveScriptPath (p: string): string {
+export function resolveScriptPath(p: string): string {
   return resolveMainFilePath(p)
 }
 
@@ -318,21 +350,25 @@ export function generateConstantsList (constants: Record<string, any>): Record<s
   return res
 }
 
-export function cssImports (content: string): string[] {
-  let match: RegExpExecArray | null
+export function cssImports(content: string): string[] {
   const results: string[] = []
+  const cssImportRegx = new RegExp(REG_CSS_IMPORT)
+  let match: RegExpExecArray | null
+
   content = String(content).replace(/\/\*.+?\*\/|\/\/.*(?=[\n\r])/g, '')
-  while ((match = CSS_IMPORT_REG.exec(content))) {
+
+  while ((match = cssImportRegx.exec(content))) {
     results.push(match[2])
   }
+
   return results
 }
 
 /*eslint-disable*/
-const retries = (process.platform === 'win32') ? 100 : 1
-export function emptyDirectory (dirPath: string, opts: { excludes: Array<string | RegExp> | string | RegExp } = { excludes: [] }) {
+const retries = process.platform === 'win32' ? 100 : 1
+export function emptyDirectory(dirPath: string, opts: { excludes: Array<string | RegExp> | string | RegExp } = { excludes: [] }) {
   if (fs.existsSync(dirPath)) {
-    fs.readdirSync(dirPath).forEach(file => {
+    fs.readdirSync(dirPath).forEach((file) => {
       const curPath = path.join(dirPath, file)
       if (fs.lstatSync(curPath).isDirectory()) {
         let removed = false
@@ -365,19 +401,19 @@ export function emptyDirectory (dirPath: string, opts: { excludes: Array<string 
 }
 /* eslint-enable */
 
-export const pascalCase: (str: string) => string =
-  (str: string): string => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
+export const pascalCase: (str: string) => string = (str: string): string =>
+  str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
-export function getInstalledNpmPkgPath (pkgName: string, basedir: string): string | null {
-  const resolvePath = require('resolve')
+export function getInstalledNpmPkgPath(pkgName: string, basedir: string): string | null {
   try {
-    return resolvePath.sync(`${pkgName}/package.json`, { basedir })
+    const resolve = require('resolve').sync as (typeof TResolve)['sync']
+    return resolve(`${pkgName}/package.json`, { basedir })
   } catch (err) {
     return null
   }
 }
 
-export function getInstalledNpmPkgVersion (pkgName: string, basedir: string): string | null {
+export function getInstalledNpmPkgVersion(pkgName: string, basedir: string): string | null {
   const pkgPath = getInstalledNpmPkgPath(pkgName, basedir)
   if (!pkgPath) {
     return null
@@ -410,10 +446,10 @@ export const mergeVisitors = (src, ...args) => {
     if (shouldMergeToArray) {
       return flatMap([value, srcValue])
     }
-    const [newValue, newSrcValue] = [value, srcValue].map(v => {
+    const [newValue, newSrcValue] = [value, srcValue].map((v) => {
       if (typeof v === 'function') {
         return {
-          enter: v
+          enter: v,
         }
       } else {
         return v
@@ -423,13 +459,13 @@ export const mergeVisitors = (src, ...args) => {
   })
 }
 
-export const applyArrayedVisitors = obj => {
+export const applyArrayedVisitors = (obj) => {
   let key
   for (key in obj) {
     const funcs = obj[key]
     if (Array.isArray(funcs)) {
       obj[key] = (astPath, ...args) => {
-        funcs.forEach(func => {
+        funcs.forEach((func) => {
           func(astPath, ...args)
         })
       }
@@ -440,69 +476,18 @@ export const applyArrayedVisitors = obj => {
   return obj
 }
 
-export function unzip (zipPath) {
-  const Transform = require('stream').Transform
-  const yauzl = require('yauzl')
-
-  return new Promise<void>((resolve, reject) => {
-    yauzl.open(zipPath, { lazyEntries: true }, (err, zipfile) => {
-      if (err || !zipfile) throw err
-      zipfile.on('close', () => {
-        fs.removeSync(zipPath)
-        resolve()
-      })
-      zipfile.readEntry()
-      zipfile.on('error', (err) => {
-        reject(err)
-      })
-      zipfile.on('entry', entry => {
-        if (/\/$/.test(entry.fileName)) {
-          const fileNameArr = entry.fileName.replace(/\\/g, '/').split('/')
-          fileNameArr.shift()
-          const fileName = fileNameArr.join('/')
-          fs.ensureDirSync(path.join(path.dirname(zipPath), fileName))
-          zipfile.readEntry()
-        } else {
-          zipfile.openReadStream(entry, (err, readStream) => {
-            if (err || !readStream) throw err
-            const filter = new Transform()
-            filter._transform = function (chunk, _encoding, cb) {
-              cb(undefined, chunk)
-            }
-            filter._flush = function (cb) {
-              cb()
-              zipfile.readEntry()
-            }
-            const fileNameArr = normalizePath(entry.fileName).split('/')
-            fileNameArr.shift()
-            const fileName = fileNameArr.join('/')
-            const writeStream = fs.createWriteStream(path.join(path.dirname(zipPath), fileName))
-            writeStream.on('close', () => { })
-            readStream
-              .pipe(filter)
-              .pipe(writeStream)
-          })
-        }
-      })
-    })
-  })
-}
-
-export const getAllFilesInFolder = async (
-  folder: string,
-  filter: string[] = []
-): Promise<string[]> => {
+export const getAllFilesInFolder = async (folder: string, filter: string[] = []): Promise<string[]> => {
   let files: string[] = []
   const list = readDirWithFileTypes(folder)
 
   await Promise.all(
-    list.map(async item => {
+    list.map(async (item) => {
       const itemPath = path.join(folder, item.name)
       if (item.isDirectory) {
         const _files = await getAllFilesInFolder(itemPath, filter)
         files = [...files, ..._files]
       } else if (item.isFile) {
-        if (!filter.find(rule => rule === item.name)) files.push(itemPath)
+        if (!filter.find((rule) => rule === item.name)) files.push(itemPath)
       }
     })
   )
@@ -516,37 +501,37 @@ export interface FileStat {
   isFile: boolean
 }
 
-export function readDirWithFileTypes (folder: string): FileStat[] {
+export function readDirWithFileTypes(folder: string): FileStat[] {
   const list = fs.readdirSync(folder)
-  const res = list.map(name => {
+  const res = list.map((name) => {
     const stat = fs.statSync(path.join(folder, name))
     return {
       name,
       isDirectory: stat.isDirectory(),
-      isFile: stat.isFile()
+      isFile: stat.isFile(),
     }
   })
   return res
 }
 
-export function extnameExpRegOf (filePath: string): RegExp {
+export function extnameExpRegOf(filePath: string): RegExp {
   return new RegExp(`${path.extname(filePath)}$`)
 }
 
-export function addPlatforms (platform: string) {
+export function addPlatforms(platform: string) {
   const upperPlatform = platform.toLocaleUpperCase()
   if (PLATFORMS[upperPlatform]) return
   PLATFORMS[upperPlatform] = platform
 }
 
-export const getModuleDefaultExport = exports => exports.__esModule ? exports.default : exports
+export const getModuleDefaultExport = (exports) => (exports.__esModule ? exports.default : exports)
 
-export function removeHeadSlash (str: string) {
+export function removeHeadSlash(str: string) {
   return str.replace(/^(\/|\\)/, '')
 }
 
 // converts ast nodes to js object
-function exprToObject (node: any) {
+function exprToObject(node: any) {
   const types = ['BooleanLiteral', 'StringLiteral', 'NumericLiteral']
 
   if (types.includes(node.type)) {
@@ -566,31 +551,30 @@ function exprToObject (node: any) {
   }
 
   if (node.type === 'ArrayExpression') {
-    return node.elements.reduce((acc: any, el: any) => [
-      ...acc,
-      ...(
-        el!.type === 'SpreadElement'
-          ? exprToObject(el.argument)
-          : [exprToObject(el)]
-      )
-    ], [])
+    return node.elements.reduce(
+      (acc: any, el: any) => [
+        ...acc,
+        ...(el!.type === 'SpreadElement' ? exprToObject(el.argument) : [exprToObject(el)]),
+      ],
+      []
+    )
   }
 }
 
 // converts ObjectExpressions to js object
-function genProps (props: any[]) {
+function genProps(props: any[]) {
   return props.reduce((acc, prop) => {
     if (prop.type === 'SpreadElement') {
       return {
         ...acc,
-        ...exprToObject(prop.argument)
+        ...exprToObject(prop.argument),
       }
     } else if (prop.type !== 'ObjectMethod') {
       const v = exprToObject(prop.value)
       if (v !== undefined) {
         return {
           ...acc,
-          [prop.key.name || prop.key.value]: v
+          [prop.key.name || prop.key.value]: v,
         }
       }
     }
@@ -599,7 +583,7 @@ function genProps (props: any[]) {
 }
 
 // read page config from a sfc file instead of the regular config file
-function readSFCPageConfig (configPath: string) {
+function readSFCPageConfig(configPath: string) {
   if (!fs.existsSync(configPath)) return {}
 
   const sfcSource = fs.readFileSync(configPath, 'utf8')
@@ -618,10 +602,8 @@ function readSFCPageConfig (configPath: string) {
       result = exprToObject(configNode)
       p.stop()
     }
-
     const configSource = matches[0]
-    const babel = require('@babel/core')
-    const ast = babel.parse(configSource, { filename: '' })
+    const ast = babel.parse(configSource, { filename: '' }) as babel.ParseResult
 
     babel.traverse(ast.program, { CallExpression: callExprHandler })
   }
@@ -629,12 +611,12 @@ function readSFCPageConfig (configPath: string) {
   return result
 }
 
-export function readPageConfig (configPath: string) {
+export function readPageConfig(configPath: string) {
   let result: any = {}
   const extNames = ['.js', '.jsx', '.ts', '.tsx', '.vue']
 
   // check source file extension
-  extNames.some(ext => {
+  extNames.some((ext) => {
     const tempPath = configPath.replace('.config', ext)
     if (fs.existsSync(tempPath)) {
       try {
@@ -668,10 +650,10 @@ export function readConfig<T extends IReadConfigOptions> (configPath: string, op
           jsc: {
             parser: {
               syntax: 'typescript',
-              decorators: true
+              decorators: true,
             },
             transform: {
-              legacyDecorator: true
+              legacyDecorator: true,
             },
             experimental: {
               plugins: [
@@ -680,9 +662,9 @@ export function readConfig<T extends IReadConfigOptions> (configPath: string, op
             }
           },
           module: {
-            type: 'commonjs'
-          }
-        }
+            type: 'commonjs',
+          },
+        },
       })
     }
 
@@ -693,4 +675,27 @@ export function readConfig<T extends IReadConfigOptions> (configPath: string, op
   return result
 }
 
+// 去除路径前缀，比如 /, ./
+export function removePathPrefix(filePath = '') {
+  const normalizedPath = path.normalize(filePath)
+  const parsedPath = path.parse(normalizedPath)
+  const { root, dir, base } = parsedPath
+
+  let result = path.join(dir, base)
+
+  if (result.startsWith(root)) {
+    result = result.slice(root.length)
+  }
+
+  return result
+}
+
 export { fs }
+
+// 集中引入 babel 工具箱，供编译时使用
+export const babelKit = {
+  types: t,
+  parse: babelParser.parse,
+  generate: babelGenerator,
+  traverse: babelTraverse,
+}

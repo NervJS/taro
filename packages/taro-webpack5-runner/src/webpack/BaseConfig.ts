@@ -1,15 +1,16 @@
+import path from 'node:path'
+
 import { chalk, recursiveMerge, resolveScriptPath } from '@tarojs/helper'
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
-import path from 'path'
 import { Stats } from 'webpack'
 import Chain from 'webpack-chain'
 import formatMessages from 'webpack-format-messages'
 
 import WebpackPlugin from './WebpackPlugin'
 
-import type { H5BuildConfig, MiniBuildConfig } from '../utils/types'
+import type { IH5BuildConfig, IHarmonyBuildConfig, IMiniBuildConfig } from '../utils/types'
 
-type Config = Partial<MiniBuildConfig | H5BuildConfig>
+type Config = Partial<IMiniBuildConfig | IH5BuildConfig | IHarmonyBuildConfig>
 
 export class BaseConfig {
   private _chain: Chain
@@ -143,8 +144,8 @@ export class BaseConfig {
     /** CSS */
     if (cssMinimizer === 'esbuild') {
       minimizer.esBuildCssPlugin = WebpackPlugin.getCssMinimizerPlugin(cssMinimizer, {})
-    } else if (cssMinimizer === 'parcelCss') {
-      minimizer.parcelCssPlugin = WebpackPlugin.getCssMinimizerPlugin(cssMinimizer, {})
+    } else if (cssMinimizer === 'lightningcss') {
+      minimizer.lightningcssPlugin = WebpackPlugin.getCssMinimizerPlugin(cssMinimizer, {})
     } else {
       if (csso?.enable !== false) {
         const defaultOption = {

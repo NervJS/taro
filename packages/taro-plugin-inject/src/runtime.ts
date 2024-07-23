@@ -14,6 +14,5 @@ const hostConfig = {
   }
 }
 
-
 mergeReconciler(hostConfig)
 mergeInternalComponents(components)

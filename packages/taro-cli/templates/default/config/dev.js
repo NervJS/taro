@@ -7,4 +7,4 @@ export default {
   },{{/if}}
   mini: {},
   h5: {}
-}{{#if typescript }} satisfies UserConfigExport{{/if}}
+}{{#if typescript }} satisfies UserConfigExport<'{{ to_lower_case compiler }}'>{{/if}}

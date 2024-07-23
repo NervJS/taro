@@ -1,4 +1,4 @@
-import { sync as resolveSync } from 'resolve'
+import { REG_NODE_MODULES_DIR, REG_TARO_SCOPED_PACKAGE, resolveSync } from '@tarojs/helper'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
 
 import { parsePublicPath } from '../utils'
@@ -11,22 +11,29 @@ import { H5WebpackPlugin } from './H5WebpackPlugin'
 import WebpackPlugin from './WebpackPlugin'
 
 import type { Configuration, EntryNormalized, LibraryOptions } from 'webpack'
-import type { H5BuildConfig } from '../utils/types'
+import type { IH5BuildConfig } from '../utils/types'
 
 type Output = Required<Configuration>['output']
 type Optimization = Required<Configuration>['optimization']
 type OptimizationSplitChunksOptions = Required<Optimization>['splitChunks']
 
-export class H5Combination extends Combination<H5BuildConfig> {
+export class H5Combination extends Combination<IH5BuildConfig> {
   appHelper: AppHelper
   webpackPlugin = new H5WebpackPlugin(this)
   webpackModule = new H5WebpackModule(this)
 
   isMultiRouterMode = false
-
   isVirtualEntry = false
 
-  process (config: Partial<H5BuildConfig>) {
+  /** special mode */
+  noInjectGlobalStyle = false
+
+  constructor(appPath: string, config: IH5BuildConfig) {
+    super(appPath, config)
+    this.noInjectGlobalStyle = !!config.noInjectGlobalStyle
+  }
+
+  process (config: Partial<IH5BuildConfig>) {
     const baseConfig = new H5BaseConfig(this.appPath, config)
     const chain = this.chain = baseConfig.chain
     const {
@@ -41,6 +48,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
       defineConstants = {},
       router,
       frameworkExts,
+      /** special mode */
       /** hooks */
       modifyComponentConfig,
     } = config
@@ -124,7 +132,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
     publicPath = '/', chunkDirectory, customOutput = {}, entryFileName = 'app'
   }: {
     publicPath: string
-    chunkDirectory: H5BuildConfig['chunkDirectory']
+    chunkDirectory: IH5BuildConfig['chunkDirectory']
     customOutput?: Output
     entryFileName?: string
   }): Output {
@@ -152,12 +160,15 @@ export class H5Combination extends Combination<H5BuildConfig> {
       vendors: {
         name: isProd ? false : 'vendors',
         minChunks: 2,
-        test: (module: any) => /[\\/]node_modules[\\/]/.test(module.resource),
+        test: (module: any) => {
+          const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+          return nodeModulesDirRegx.test(module.resource)
+        },
         priority: 10
       },
       taro: {
         name: isProd ? false : 'taro',
-        test: (module: any) => /@tarojs[\\/][a-z]+/.test(module.context),
+        test: (module: any) => REG_TARO_SCOPED_PACKAGE.test(module.context),
         priority: 100
       }
     }

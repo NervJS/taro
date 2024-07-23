@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { View, LayoutChangeEvent } from 'react-native'
+import { LayoutChangeEvent, View } from 'react-native'
+
 import { MovableAreaProps } from './PropsType'
 
 class _MovableArea extends React.Component<MovableAreaProps, any> {

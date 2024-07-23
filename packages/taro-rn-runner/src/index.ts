@@ -1,8 +1,9 @@
+import { constants, copyFile } from 'node:fs'
+import { dirname, join } from 'node:path'
+
 import { previewDev, previewProd } from '@tarojs/rn-supporter'
 import { spawn } from 'child_process'
-import { constants, copyFile } from 'fs'
 import * as fse from 'fs-extra'
-import { dirname, join } from 'path'
 
 import buildComponent from './config/build-component'
 
@@ -60,7 +61,12 @@ export default async function build (_appPath: string, config: any): Promise<any
       cliParams.push('--port', config.port)
     }
     try {
-      spawn(npxCmd, ['react-native', 'start'].concat(cliParams), {
+      spawn(npxCmd, [
+        'react-native',
+        'start',
+        '--custom-log-reporter-path',
+        '@tarojs/rn-supporter/TerminalReporter'
+      ].concat(cliParams), {
         stdio: 'inherit'
       })
       if (config.qr) {
@@ -70,6 +76,7 @@ export default async function build (_appPath: string, config: any): Promise<any
       }
       onFinish(null)
     } catch (e) {
+      console.error(e)
       onFinish(e)
     }
   } else {
@@ -121,6 +128,7 @@ export default async function build (_appPath: string, config: any): Promise<any
       }
       onFinish(null)
     } catch (e) {
+      console.error(e)
       onFinish(e)
     }
   }

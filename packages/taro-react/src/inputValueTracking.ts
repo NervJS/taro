@@ -1,4 +1,4 @@
-import { FormElement } from '@tarojs/runtime'
+import type { FormElement } from '@tarojs/runtime'
 
 function isCheckable (elem: FormElement) {
   const type = elem.type

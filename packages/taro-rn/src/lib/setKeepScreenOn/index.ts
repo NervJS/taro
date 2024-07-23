@@ -1,5 +1,6 @@
 import { activateKeepAwake, deactivateKeepAwake } from 'expo-keep-awake'
-import { successHandler, errorHandler } from '../../utils'
+
+import { errorHandler, successHandler } from '../../utils'
 
 /**
  * keepScreenOn

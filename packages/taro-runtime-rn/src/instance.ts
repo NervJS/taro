@@ -20,7 +20,6 @@ export interface PageLifeCycle extends Show {
   onUnload?(): void
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export interface Instance<T = {}> extends Component<T>, PageLifeCycle {
 }
 

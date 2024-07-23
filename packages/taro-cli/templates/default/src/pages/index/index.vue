@@ -11,13 +11,6 @@ import { ref } from 'vue'
 import './index.{{ cssExt }}'
 
 export default {
-{{#if (eq framework 'Vue') }}
-  data () {
-    return {
-      msg: 'Hello world!'
-    }
-  }
-{{/if}}
 {{#if (eq framework 'Vue3') }}
   setup () {
     const msg = ref('Hello world')

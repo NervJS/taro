@@ -1,8 +1,9 @@
 {
   "extends": "../../../tsconfig.root.json",
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "react-jsx",
     "sourceMap": true,
-    "module": "commonjs"
+    "module": "commonjs",
+    "noUnusedLocals": false,
   }
 }

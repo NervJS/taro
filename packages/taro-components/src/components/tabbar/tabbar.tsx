@@ -7,6 +7,7 @@ import resolvePathname from 'resolve-pathname'
 import { splitUrl } from '../../utils'
 import { TabbarItem } from './tabbar-item'
 
+import type { TabBar as ITabBar, TabBarItem } from '@tarojs/taro'
 import type { IH5RouterConfig } from '@tarojs/taro/types/compile'
 
 const STATUS_SHOW = 0
@@ -17,7 +18,7 @@ const basicTabBarClassName = 'taro-tabbar__tabbar'
 const hideTabBarClassName = 'taro-tabbar__tabbar-hide'
 const hideTabBarWithAnimationClassName = 'taro-tabbar__tabbar-slideout'
 
-interface RouterHandler {
+interface IRouterHandler {
   index: string
   text: string
   url: string
@@ -26,12 +27,12 @@ interface RouterHandler {
   animation?: boolean
 }
 
-export interface Conf {
+interface ITabBarConf extends ITabBar {
   color: string
   selectedColor: string
   backgroundColor: string
   borderStyle?: 'black' | 'white'
-  list: TabbarList[]
+  list: ITabbarList[]
   position?: 'bottom' | 'top'
   custom: boolean
   customRoutes: Record<string, string | string[]>
@@ -41,7 +42,7 @@ export interface Conf {
   currentPagename: string
 }
 
-interface TabbarList {
+interface ITabbarList extends TabBarItem {
   pagePath: string
   text: string
   iconPath?: string
@@ -61,17 +62,17 @@ export class Tabbar implements ComponentInterface {
 
   private tabbarPos: 'top' | 'bottom' = 'bottom'
 
-  @Prop() conf: Conf
+  @Prop() conf: ITabBarConf
 
-  @State() list: TabbarList[]
+  @State() list: ITabbarList[]
 
-  @State() borderStyle: Conf['borderStyle']
+  @State() borderStyle: ITabBarConf['borderStyle']
 
-  @State() backgroundColor: Conf['backgroundColor']
+  @State() backgroundColor: ITabBarConf['backgroundColor']
 
-  @State() color: Conf['color']
+  @State() color: ITabBarConf['color']
 
-  @State() selectedColor: Conf['selectedColor']
+  @State() selectedColor: ITabBarConf['selectedColor']
 
   @State() selectedIndex = -1
 
@@ -151,7 +152,7 @@ export class Tabbar implements ComponentInterface {
     })
   }
 
-  switchTabHandler = ({ url, successHandler, errorHandler }: RouterHandler) => {
+  switchTabHandler = ({ url, successHandler, errorHandler }: IRouterHandler) => {
     const currentUrl = this.getOriginUrl(this.getCurrentUrl() || this.homePage)
     const nextTab = resolvePathname(url, currentUrl)
     const foundIndex = this.getSelectedIndex(nextTab)
@@ -182,7 +183,7 @@ export class Tabbar implements ComponentInterface {
     this.selectedIndex = this.getSelectedIndex(this.getOriginUrl(currentPage))
   }
 
-  setTabBarBadgeHandler = ({ index, text, successHandler, errorHandler }: RouterHandler) => {
+  setTabBarBadgeHandler = ({ index, text, successHandler, errorHandler }: IRouterHandler) => {
     const list = [...this.list]
     if (index in list) {
       list[index].showRedDot = false
@@ -199,7 +200,7 @@ export class Tabbar implements ComponentInterface {
     this.list = list
   }
 
-  removeTabBarBadgeHandler = ({ index, successHandler, errorHandler }: RouterHandler) => {
+  removeTabBarBadgeHandler = ({ index, successHandler, errorHandler }: IRouterHandler) => {
     const list = [...this.list]
     if (index in list) {
       list[index].badgeText = null
@@ -216,7 +217,7 @@ export class Tabbar implements ComponentInterface {
     this.list = list
   }
 
-  showTabBarRedDotHandler = ({ index, successHandler, errorHandler }: RouterHandler) => {
+  showTabBarRedDotHandler = ({ index, successHandler, errorHandler }: IRouterHandler) => {
     const list = [...this.list]
     if (index in list) {
       list[index].badgeText = null
@@ -233,7 +234,7 @@ export class Tabbar implements ComponentInterface {
     this.list = list
   }
 
-  hideTabBarRedDotHandler = ({ index, successHandler, errorHandler }: RouterHandler) => {
+  hideTabBarRedDotHandler = ({ index, successHandler, errorHandler }: IRouterHandler) => {
     const list = [...this.list]
     if (index in list) {
       list[index].showRedDot = false

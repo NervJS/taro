@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, ActivityIndicator, StyleSheet, Alert, Modal } from 'react-native'
-import RootSiblings from 'react-native-root-siblings'
+import { ActivityIndicator, Alert, Modal, StyleSheet, View } from 'react-native'
 import ImageViewer from 'react-native-image-zoom-viewer'
-import { saveMedia } from '../media'
+import RootSiblings from 'react-native-root-siblings'
+
 import { downloadFile } from '../file'
+import { saveMedia } from '../media'
 
 const styles = StyleSheet.create({
   mask: {

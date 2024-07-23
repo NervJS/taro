@@ -43,4 +43,5 @@ function createDocument (): TaroDocument {
   return doc
 }
 
-export const document: TaroDocument = process.env.TARO_PLATFORM === 'web' ? env.document : (env.document = createDocument())
+// Note: 小程序端 vite 打包成 commonjs，const document = xxx 会报错，所以把 document 改为 taroDocumentProvider
+export const taroDocumentProvider: TaroDocument = process.env.TARO_PLATFORM === 'web' ? env.document : (env.document = createDocument())

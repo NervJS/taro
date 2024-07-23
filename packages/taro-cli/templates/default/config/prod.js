@@ -30,4 +30,4 @@ export default {
     //     }))
     // }
   }
-}{{#if typescript }} satisfies UserConfigExport{{/if}}
+}{{#if typescript }} satisfies UserConfigExport<'{{ to_lower_case compiler }}'>{{/if}}

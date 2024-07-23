@@ -4,7 +4,8 @@
     "baseUrl": ".",
     "module": "ESNext",
     "preserveConstEnums": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "esModuleInterop": true
   },
   "include": [
     "./src"

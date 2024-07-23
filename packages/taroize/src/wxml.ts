@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+import * as path from 'node:path'
+
 import { parse as parseFile } from '@babel/parser'
 import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
@@ -7,6 +9,7 @@ import { printLog, processTypeEnum } from '@tarojs/helper'
 import { toCamelCase } from '@tarojs/shared'
 import { parse, parseDefaults } from 'himalaya-wxml'
 import { camelCase, cloneDeep } from 'lodash'
+import * as prettier from 'prettier'
 
 import { getCacheWxml, saveCacheWxml } from './cache'
 import { reserveKeyWords } from './constant'
@@ -29,9 +32,6 @@ import {
   parseCode,
   updateLogFileContent,
 } from './utils'
-
-const { prettyPrint } = require('html')
-const pathTool = require('path')
 
 const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
@@ -271,11 +271,11 @@ export const createPreWxmlVistor = (templates: Map<string, Templates>) => {
  * @returns 需要导入的wxs语句集合
  */
 export function getWxsImports (templateFileName, usedWxses, dirPath) {
-  const templatePath = pathTool.join(globals.rootPath, 'imports', `${templateFileName}.js`)
+  const templatePath = path.join(globals.rootPath, 'imports', `${templateFileName}.js`)
   const wxsImports: (t.ImportDeclaration | t.VariableDeclaration)[] = []
   for (const usedWxs of usedWxses) {
-    const wxsAbsPath = pathTool.resolve(dirPath, `${usedWxs.src}.js`)
-    const wxsRelPath = pathTool.relative(pathTool.dirname(templatePath), wxsAbsPath)
+    const wxsAbsPath = path.resolve(dirPath, `${usedWxs.src}.js`)
+    const wxsRelPath = path.relative(path.dirname(templatePath), wxsAbsPath)
     wxsImports.push(buildImportStatement(normalizePath(wxsRelPath), [], usedWxs.module))
   }
   return wxsImports
@@ -301,7 +301,7 @@ export const createWxmlVistor = (
     // 把 hidden 转换为 wxif
     if (name.name === 'hidden') {
       const value = path.get('value') as NodePath<t.JSXExpressionContainer>
-      if (t.isJSXExpressionContainer(value) && !t.isJSXEmptyExpression(value.node.expression)) {
+      if (t.isJSXExpressionContainer(value as any) && !t.isJSXEmptyExpression(value.node.expression)) {
         const exclamation = t.unaryExpression('!', value.node.expression)
         path.set('value', t.jSXExpressionContainer(exclamation))
         path.set('name', t.jSXIdentifier(WX_IF))
@@ -612,7 +612,7 @@ export const createWxmlVistor = (
               },
             })
             usedTemplate.forEach((componentName) => {
-              if (componentName !== classDecl.id.name) {
+              if (componentName !== classDecl!.id!.name) {
                 ast.program.body.unshift(buildImportStatement(`./${componentName}`, [], componentName))
               }
             })
@@ -722,11 +722,18 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   )
 
   try {
-    wxml = prettyPrint(wxml, {
-      max_char: 0,
-      indent_char: 0,
-      unformatted: ['text', 'wxs'],
-    })
+    if (wxml) {
+      const REG_WXS = /(<wxs)[^>]*>[\s\S]*?(<\/ *wxs *>)/g
+      if (REG_WXS.test(wxml)) {
+        // prettier html parser 只对 <srcipt> 标签里的 JS 脚本进行格式化，<wxs> 里的脚本会被格式化在一行中，此时脚本如果存在注释的话会报错。
+        // 因此需要把 <wxs> 转换为 <script> 后再使用 prettier 进行格式化。
+        wxml = wxml.replace(/<wxs/g, '<script').replace(/<\/ *wxs *>/g, '</script>')
+        wxml = prettier.format(wxml, { parser: 'html' })
+        wxml = wxml.replace(/<script/g, '<wxs').replace(/<\/ *script *>/g, '</wxs>')
+      } else {
+        wxml = prettier.format(wxml, { parser: 'html' })
+      }
+    }
   } catch (error) {
     updateLogFileContent(`WARN [taroize] parseWXML - wxml代码格式化异常 ${getLineBreak()}${error} ${getLineBreak()}`)
     //
@@ -751,7 +758,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       wxml: t.nullLiteral(),
     }
   }
-  const nodes = removEmptyTextAndComment(parse(wxml.trim(), { ...parseDefaults, includePositions: true }))
+  const nodes = removeEmptyTextAndComment(parse(wxml.trim(), { ...parseDefaults, includePositions: true }))
   const ast = t.file(
     t.program([t.expressionStatement(parseNode(buildElement('block', nodes as Node[])) as t.Expression)], [])
   )
@@ -1154,7 +1161,7 @@ function transformIf (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodePat
   try {
     siblings = jsx
       .getAllNextSiblings()
-      .filter((s) => !(s.isJSXExpressionContainer() && t.isJSXEmptyExpression(s.get('expression')))) as any
+      .filter((s) => !(s.isJSXExpressionContainer() && t.isJSXEmptyExpression(s.get('expression') as any))) as any
   } catch (error) {
     updateLogFileContent(`WARN [taroize] transformIf - 节点过滤异常 ${getLineBreak()}${error} ${getLineBreak()}`)
     return
@@ -1366,20 +1373,20 @@ function parseElement (element: Element): t.JSXElement {
   // return t.jSXElement(
   //   t.jSXOpeningElement(tagName, attributes.map(parseAttribute)),
   //   t.jSXClosingElement(tagName),
-  //   removEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
+  //   removeEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
   //   false
   // )
 
   const jSXElement = t.jSXElement(
     t.jSXOpeningElement(tagName, attributes.map(parseAttribute)),
     t.jSXClosingElement(tagName),
-    removEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
+    removeEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
     false
   )
   return addLocInfo(jSXElement, element)
 }
 
-export function removEmptyTextAndComment (nodes: AllKindNode[]) {
+export function removeEmptyTextAndComment (nodes: AllKindNode[]) {
   return nodes
     .filter((node) => {
       return (
@@ -1415,7 +1422,12 @@ function singleQuote (s: string) {
   return `'${s}'`
 }
 
-export function parseContent (content: string, single = false): { type: 'raw' | 'expression', content: string } {
+export interface IContext {
+  type: 'raw' | 'expression'
+  content: string
+}
+
+export function parseContent (content: string, single = false): IContext {
   updateLogFileContent(`INFO [taroize] parseContent - 进入函数 ${getLineBreak()}`)
   content = content.trim()
   if (!handlebarsRE.test(content)) {
@@ -1519,7 +1531,7 @@ function parseAttribute (attr: Attribute) {
     // 判断属性是否为style属性
     if (key === 'style' && value) {
       try {
-        const styleParseReslut = parseStyle(key, value)
+        const styleParseReslut = parseStyle(key, value) as any
         if (t.isJSXAttribute(styleParseReslut)) {
           return styleParseReslut
         } else {

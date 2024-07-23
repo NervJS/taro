@@ -1,5 +1,6 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { render, fireEvent } from '@testing-library/react-native'
+
 import ClickableImage from '../components/Image'
 
 describe('<Image />', () => {

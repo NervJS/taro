@@ -114,7 +114,7 @@ $ npm run clear-all
 
 **注意：**
 
-`@tarojs/mini-runner`、`@tarojs/webpack-runner`、`@tarojs/webpack5-runner` 使用了 `snapshot`（测试结果快照）。在修改这两个包或其它一些包时，有可能导致这些快照失效，从而通过不了测试。当你修改了这两个包、或 Github CI 提示这些包的测试用例出错时，请运行 `pnpm --filter [package-name] runupdateSnapshot` 更新 snapshot 后重新提交。
+`@tarojs/webpack5-runner` 使用了 `snapshot`（测试结果快照）。在修改这两个包或其它一些包时，有可能导致这些快照失效，从而通过不了测试。当你修改了这两个包、或 Github CI 提示这些包的测试用例出错时，请运行 `pnpm --filter [package-name] runupdateSnapshot` 更新 snapshot 后重新提交。
 
 ### 5. 代码风格
 

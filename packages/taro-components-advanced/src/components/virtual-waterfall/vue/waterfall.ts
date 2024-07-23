@@ -454,7 +454,7 @@ export default defineComponent({
 
     return render(this.preset.outerElement, outerElementProps, [
       this.getRenderExpandNodes('top'),
-      process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
+      this.$slots.top?.(),
       render(this.preset.innerElement, {
         key: `${this.preset.id}-wrapper`,
         id: `${this.preset.id}-wrapper`,
@@ -468,7 +468,7 @@ export default defineComponent({
           width: '100%',
         },
       } as any, columnNodes),
-      process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
+      this.$slots.bottom?.(),
       this.getRenderExpandNodes('bottom'),
     ])
   }

@@ -1,12 +1,20 @@
 import { chalk } from './terminal'
 import * as Util from './utils'
 
+import type TResolve from 'resolve'
+
 const PEERS = /UNMET PEER DEPENDENCY ([a-z\-0-9.]+)@(.+)/gm
 const npmCached = {}
 
 const erroneous: string[] = []
 
-type pluginFunction = (pluginName: string, content: string | null, file: string, config: Record<string, any>, root: string) => any
+type pluginFunction = (
+  pluginName: string,
+  content: string | null,
+  file: string,
+  config: Record<string, any>,
+  root: string
+) => any
 export interface IInstallOptions {
   dev: boolean
   peerDependencies?: boolean
@@ -14,13 +22,13 @@ export interface IInstallOptions {
 
 const defaultInstallOptions: IInstallOptions = {
   dev: false,
-  peerDependencies: true
+  peerDependencies: true,
 }
 
 export const taroPluginPrefix = '@tarojs/plugin-'
 
-export function resolveNpm (pluginName: string, root): Promise<string> {
-  const resolvePath = require('resolve')
+export function resolveNpm(pluginName: string, root?: string): Promise<string> {
+  const resolvePath = require('resolve') as typeof TResolve
   if (!npmCached[pluginName]) {
     return new Promise((resolve, reject) => {
       resolvePath(`${pluginName}`, { basedir: root }, (err, res) => {
@@ -35,8 +43,8 @@ export function resolveNpm (pluginName: string, root): Promise<string> {
   return Promise.resolve(npmCached[pluginName])
 }
 
-export function resolveNpmSync (pluginName: string, root): string {
-  const resolvePath = require('resolve')
+export function resolveNpmSync(pluginName: string, root?: string): string {
+  const resolvePath = require('resolve') as typeof TResolve
   try {
     if (!npmCached[pluginName]) {
       const res = resolvePath.sync(pluginName, { basedir: root })
@@ -47,7 +55,7 @@ export function resolveNpmSync (pluginName: string, root): string {
     if (err.code === 'MODULE_NOT_FOUND') {
       console.log(chalk.cyan(`缺少npm包${pluginName}，开始安装...`))
       const installOptions: IInstallOptions = {
-        dev: false
+        dev: false,
       }
       if (pluginName.indexOf(taroPluginPrefix) >= 0) {
         installOptions.dev = true
@@ -59,14 +67,14 @@ export function resolveNpmSync (pluginName: string, root): string {
   }
 }
 
-export function installNpmPkg (pkgList: string[] | string, options: IInstallOptions) {
+export function installNpmPkg(pkgList: string[] | string, options: IInstallOptions) {
   if (!pkgList) {
     return
   }
   if (!Array.isArray(pkgList)) {
     pkgList = [pkgList]
   }
-  pkgList = pkgList.filter(dep => {
+  pkgList = pkgList.filter((dep) => {
     return erroneous.indexOf(dep) === -1
   })
 
@@ -102,10 +110,10 @@ export function installNpmPkg (pkgList: string[] | string, options: IInstallOpti
   }
   const spawn = require('cross-spawn')
   const output = spawn.sync(installer, args, {
-    stdio: ['ignore', 'pipe', 'inherit']
+    stdio: ['ignore', 'pipe', 'inherit'],
   })
   if (output.status) {
-    pkgList.forEach(dep => {
+    pkgList.forEach((dep) => {
       erroneous.push(dep)
     })
   }
@@ -128,23 +136,35 @@ export function installNpmPkg (pkgList: string[] | string, options: IInstallOpti
   return output
 }
 
-export const callPlugin: pluginFunction = async (pluginName: string, content: string | null, file: string, config: Record<string, any>, root: string) => {
+export const callPlugin: pluginFunction = async (
+  pluginName: string,
+  content: string | null,
+  file: string,
+  config: Record<string, any>,
+  root: string
+) => {
   const pluginFn = await getNpmPkg(`${taroPluginPrefix}${pluginName}`, root)
   return pluginFn(content, file, config)
 }
 
-export const callPluginSync: pluginFunction = (pluginName: string, content: string | null, file: string, config: Record<string, any>, root: string) => {
+export const callPluginSync: pluginFunction = (
+  pluginName: string,
+  content: string | null,
+  file: string,
+  config: Record<string, any>,
+  root: string
+) => {
   const pluginFn = getNpmPkgSync(`${taroPluginPrefix}${pluginName}`, root)
   return pluginFn(content, file, config)
 }
 
-export function getNpmPkgSync (npmName: string, root: string) {
+export function getNpmPkgSync(npmName: string, root: string) {
   const npmPath = resolveNpmSync(npmName, root)
   const npmFn = require(npmPath)
   return npmFn
 }
 
-export async function getNpmPkg (npmName: string, root: string) {
+export async function getNpmPkg(npmName: string, root: string) {
   let npmPath
   try {
     npmPath = resolveNpmSync(npmName, root)
@@ -152,7 +172,7 @@ export async function getNpmPkg (npmName: string, root: string) {
     if (err.code === 'MODULE_NOT_FOUND') {
       console.log(chalk.cyan(`缺少npm包${npmName}，开始安装...`))
       const installOptions: IInstallOptions = {
-        dev: false
+        dev: false,
       }
       if (npmName.indexOf(taroPluginPrefix) >= 0) {
         installOptions.dev = true

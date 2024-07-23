@@ -1,6 +1,7 @@
 import React from 'react'
 import { Text } from 'react-native'
 import RootSiblings from 'react-native-root-siblings'
+
 import Dialog from './Dialog'
 
 function showModal (obj: Taro.showModal.Option): Promise<Taro.showModal.SuccessCallbackResult> {

@@ -2,8 +2,9 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "outDir": "dist",
-    "sourceMap": true,
     "rootDir": "./src",
+    "sourceMap": true,
+    "declaration": true,
     "jsx": "react",
     "lib": ["ESNEXT"],
     "paths": {

@@ -43,13 +43,7 @@ module.exports = {
 
 - `react-refresh/babel`
 
-#### 3. Vue
-
-##### presetes
-
-- `@vue/babel-preset-jsx`
-
-#### 4. Vue3
+#### 3. Vue3
 
 ##### plugins
 
@@ -80,16 +74,16 @@ module.exports = {
 ### vueJsx
 
 :::note
-只在使用 **Vue/Vue3** 时生效。
+只在使用 **Vue3** 时生效。
 :::
 
 **默认值**：`true`
 
 **类型**：`true` | `false` | `object`
 
-是否使用 `@vue/babel-preset-jsx`（Vue）或 `@vue/babel-plugin-jsx`（Vue3）来支持使用 `jsx`。
+是否使用 `@vue/babel-plugin-jsx` 来支持使用 `jsx`。
 
-当传入一个 `object` 时，等同于设置为 `true`，且该 `object` 将会作为 `@vue/babel-preset-jsx`（Vue）或 `@vue/babel-plugin-jsx`（Vue3）的参数。
+当传入一个 `object` 时，等同于设置为 `true`，且该 `object` 将会作为 `@vue/babel-plugin-jsx` 的参数。
 
 ### targets
 

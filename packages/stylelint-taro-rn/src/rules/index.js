@@ -1,7 +1,7 @@
-import cssPropertyNoUnknown from './css-property-no-unknown'
-import fontWeightNoIgnoredValues from './font-weight-no-ignored-values'
-import lineHeightNoValueWithoutUnit from './line-height-no-value-without-unit'
-import stylePropertyNoUnknown from './style-property-no-unknown'
+import cssPropertyNoUnknown from './css-property-no-unknown/index.js'
+import fontWeightNoIgnoredValues from './font-weight-no-ignored-values/index.js'
+import lineHeightNoValueWithoutUnit from './line-height-no-value-without-unit/index.js'
+import stylePropertyNoUnknown from './style-property-no-unknown/index.js'
 
 export default {
   'font-weight-no-ignored-values': fontWeightNoIgnoredValues,

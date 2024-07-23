@@ -127,6 +127,7 @@ taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.initPxTransform = initPxTransform
 taro.canIUseWebp = canIUseWebp
+taro.getAppInfo = getAppInfo
 
 export default taro
 

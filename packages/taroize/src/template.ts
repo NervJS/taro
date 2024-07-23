@@ -1,7 +1,7 @@
-import { NodePath } from '@babel/traverse'
+import { dirname, extname, join, relative, resolve } from 'node:path'
+
 import * as t from '@babel/types'
 import { fs } from '@tarojs/helper'
-import { dirname, extname, join, relative, resolve } from 'path'
 
 import { errors } from './global'
 import {
@@ -15,6 +15,8 @@ import {
   updateLogFileContent,
 } from './utils'
 import { createWxmlVistor, parseWXML, WXS } from './wxml'
+
+import type { NodePath } from '@babel/traverse'
 
 function isNumeric (n) {
   return !isNaN(parseFloat(n)) && isFinite(n)
@@ -79,8 +81,8 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
   const attrs = openingElement.get('attributes')
   const name = attrs.find(
     (attr) =>
-      t.isJSXAttribute(attr) &&
-      t.isJSXIdentifier(attr.get('name')) &&
+      t.isJSXAttribute(attr as any) &&
+      t.isJSXIdentifier(attr!.get('name') as any) &&
       t.isJSXAttribute(attr.node) &&
       attr.node.name.name === 'name'
   )
@@ -130,8 +132,8 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
       const attrs = p.get('attributes')
       const is = attrs.find(
         (attr) =>
-          t.isJSXAttribute(attr) &&
-          t.isJSXIdentifier(attr.get('name')) &&
+          t.isJSXAttribute(attr as any) &&
+          t.isJSXIdentifier(attr!.get('name') as any) &&
           t.isJSXAttribute(attr.node) &&
           attr.node.name.name === 'is'
       )
@@ -176,22 +178,22 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
   const attrs = openingElement.get('attributes')
   const is = attrs.find(
     (attr) =>
-      t.isJSXAttribute(attr) &&
-      t.isJSXIdentifier(attr.get('name')) &&
+      t.isJSXAttribute(attr as any) &&
+      t.isJSXIdentifier(attr!.get('name') as any) &&
       t.isJSXAttribute(attr.node) &&
       attr.node.name.name === 'is'
   )
   const data = attrs.find(
     (attr) =>
-      t.isJSXAttribute(attr) &&
-      t.isJSXIdentifier(attr.get('name')) &&
+      t.isJSXAttribute(attr as any) &&
+      t.isJSXIdentifier(attr!.get('name') as any) &&
       t.isJSXAttribute(attr.node) &&
       attr.node.name.name === 'data'
   )
   const name = attrs.find(
     (attr) =>
-      t.isJSXAttribute(attr) &&
-      t.isJSXIdentifier(attr.get('name')) &&
+      t.isJSXAttribute(attr as any) &&
+      t.isJSXIdentifier(attr!.get('name') as any) &&
       t.isJSXAttribute(attr.node) &&
       attr.node.name.name === 'name'
   )
@@ -385,8 +387,8 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
   // Fix
   const src = attrs.find(
     (attr) =>
-      t.isJSXAttribute(attr) &&
-      t.isJSXIdentifier(attr.get('name')) &&
+      t.isJSXAttribute(attr as any) &&
+      t.isJSXIdentifier(attr!.get('name') as any) &&
       t.isJSXAttribute(attr.node) &&
       attr.node.name.name === 'src'
   )

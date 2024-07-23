@@ -217,5 +217,3 @@ describe('parseScript', () => {
     expect(code).toMatchSnapshot()
   })
 })
-
-

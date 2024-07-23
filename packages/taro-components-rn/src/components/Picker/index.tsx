@@ -30,11 +30,11 @@
 
 import * as React from 'react'
 
-import Selector from './selector'
-import MultiSelector from './multiSelector'
-import TimeSelector from './time'
 import DateSelector from './date'
+import MultiSelector from './multiSelector'
 import RegionSelector from './region'
+import Selector from './selector'
+import TimeSelector from './time'
 
 export default class _Picker extends React.Component<any> {
   static displayName = '_Picker'

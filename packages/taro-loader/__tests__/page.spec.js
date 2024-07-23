@@ -3,17 +3,6 @@ import pageLoader from '../src/page'
 const path = require('path')
 
 describe('app-loader', () => {
-  it('nerv', () => {
-    const request = '!request'
-    const name = '/page/test'
-    const result = pageLoader.call({ query: { framework: 'nerv', name }, request })
-    const method = 'createPageConfig'
-    expect(result).toMatch(`import { ${method} } from '@tarojs/runtime'
-import component from '${request.slice(1)}'
-var inst = Page(${method}(component, '${name}'))
-`)
-  })
-
   it('react', () => {
     const request = '!request'
     const name = '/page/test'

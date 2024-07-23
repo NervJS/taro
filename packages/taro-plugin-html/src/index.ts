@@ -1,12 +1,16 @@
-import generator from '@babel/generator'
-import * as parser from '@babel/parser'
-import traverse from '@babel/traverse'
-import * as t from '@babel/types'
+import * as path from 'node:path'
+
+import { babelKit } from '@tarojs/helper'
 import { isArray, isString } from '@tarojs/shared'
-import * as path from 'path'
 
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
+
+const {
+  types: t,
+  generate,
+  traverse
+} = babelKit
 
 export interface IOptions {
   pxtransformBlackList?: any[]
@@ -112,7 +116,7 @@ function patchMappingElements (ctx: IPluginContext, options: IOptions, inlineEle
   const helper = ctx.helper
   const filePath = path.resolve(__dirname, './runtime.js')
   const content = helper.fs.readFileSync(filePath).toString()
-  const ast = parser.parse(content, { sourceType: 'unambiguous' })
+  const ast = babelKit.parse(content, { sourceType: 'unambiguous' })
 
   if (t.isNode(ast)) {
     options.modifyElements?.(inlineElements, blockElements)
@@ -132,7 +136,7 @@ function patchMappingElements (ctx: IPluginContext, options: IOptions, inlineEle
       }
     })
 
-    const str = generator(ast).code
+    const str = generate(ast).code
     helper.fs.writeFileSync(filePath, str)
   }
 }

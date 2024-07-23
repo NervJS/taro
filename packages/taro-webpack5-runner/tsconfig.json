@@ -9,6 +9,6 @@
     "esModuleInterop": true,
     "preserveConstEnums": true
   },
-  "include": ["./src", "../../types"],
-  "exclude": ["./src/__tests__", "./src/template/comp.ts"]
+  "include": ["./src", "./types"],
+  "exclude": ["./src/__tests__", "./src/template/comp.ts", "./src/template/custom-wrapper.ts"]
 }

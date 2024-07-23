@@ -1,4 +1,4 @@
-import * as path from 'path'
+import * as path from 'node:path'
 
 import appLoader, { getAppConfig as _getAppConfig, getAppPages } from './app'
 import componentLoader from './component'

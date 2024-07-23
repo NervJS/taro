@@ -865,6 +865,6 @@ describe('platform 为 harmony，适配', () => {
       }
     }
     const processed = postcss(px2rem(options)).process(rules).css
-    expect(processed).toBe('view { width: 100vp; }')
+    expect(processed).toBe('view { width: 100ch; }')
   })
 })

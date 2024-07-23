@@ -39,6 +39,7 @@ describe('inspect', () => {
         'build'
       ],
       options: {
+        args: expect.any(Object),
         platform: undefined,
         publicPath: undefined,
         isWatch: false,
@@ -50,6 +51,8 @@ describe('inspect', () => {
         plugin: undefined,
         isBuildNativeComp: false,
         newBlended: false,
+        noInjectGlobalStyle: false,
+        noCheck: false,
         sourceMapUrl: undefined,
         sourcemapOutput: undefined,
         sourcemapSourcesRoot: undefined,
@@ -171,6 +174,8 @@ describe('inspect', () => {
           _: ['convert'],
           options: {
             build: true,
+            check: true,
+            'inject-global-style': true,
           },
           isHelp: false
         }
@@ -192,6 +197,8 @@ describe('inspect', () => {
           _,
           options: {
             build: true,
+            check: true,
+            'inject-global-style': true,
             type
           },
           isHelp: true

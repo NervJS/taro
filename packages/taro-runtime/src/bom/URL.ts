@@ -174,7 +174,9 @@ class TaroURL {
 }
 
 export type { TaroURL }
-export const URL: typeof TaroURL = process.env.TARO_PLATFORM === 'web' ? env.window.URL : TaroURL
+
+// Note: 小程序端 vite 打包成 commonjs，const URL = xxx 会报错，所以把 URL 改为 TaroURLProvider
+export const TaroURLProvider: typeof TaroURL = process.env.TARO_PLATFORM === 'web' ? env.window.URL : TaroURL
 
 export function parseUrl (url = '') {
   const result = {

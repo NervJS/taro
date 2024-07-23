@@ -1,13 +1,11 @@
+import { document } from '@tarojs/runtime'
 import * as React from 'react'
 
-let document
-let render
+import { render } from '../dist/react.esm'
 
 describe('Context', () => {
   beforeAll(() => {
     process.env.FRAMEWORK = 'react'
-    render = require('../dist/index').render
-    document = require('@tarojs/runtime').document
   })
 
   afterAll(() => {

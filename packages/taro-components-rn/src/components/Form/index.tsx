@@ -8,6 +8,7 @@ import * as React from 'react'
 import {
   View
 } from 'react-native'
+
 import { noop } from '../../utils'
 import { FormProps, FormValues } from './PropsType'
 

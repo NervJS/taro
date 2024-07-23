@@ -1,7 +1,8 @@
+import * as path from 'node:path'
+
 import { parse } from 'dotenv'
 import { expand } from 'dotenv-expand'
 import * as fs from 'fs-extra'
-import * as path from 'path'
 
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
 

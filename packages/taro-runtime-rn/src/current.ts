@@ -1,9 +1,9 @@
-import * as React from 'react'
+import React from 'react'
 
 import { AppInstance, PageInstance } from './instance'
 import { rnNavigationRef } from './router'
 
-interface Router {
+export interface Router {
   params: Record<string, unknown>
   path: string
 }
@@ -22,5 +22,4 @@ export const Current: Current = {
   rnNavigationRef // RN 导航实例私有对象
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getCurrentInstance = () => Current

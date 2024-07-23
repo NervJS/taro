@@ -4,6 +4,7 @@
     "jsx": "react",
     "outDir": "./dist",
     "sourceMap": true,
+    "noUnusedLocals": false,
     "module": "commonjs"
   },
   "include": ["./src"]

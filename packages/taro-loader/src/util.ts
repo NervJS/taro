@@ -1,5 +1,8 @@
+import * as path from 'node:path'
+
 import { fs } from '@tarojs/helper'
-import * as path from 'path'
+
+import type * as webpack from 'webpack'
 
 export function getRootPath (): string {
   return path.resolve(__dirname, '../')
@@ -13,4 +16,8 @@ export function getPkgVersion (): string {
   }
 
   return 'unknown'
+}
+
+export function stringifyRequest (loaderContext: webpack.LoaderContext<any>, request: string): string {
+  return JSON.stringify(loaderContext.utils.contextify(loaderContext.context || loaderContext.rootContext, request))
 }

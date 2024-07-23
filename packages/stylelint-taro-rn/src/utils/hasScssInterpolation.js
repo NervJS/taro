@@ -1,7 +1,7 @@
 /**
  * Check whether a string has scss interpolation
  */
-module.exports = function (string /*: string */) /*: boolean */ {
+export function hasScssInterpolation (string /*: string */) /*: boolean */ {
   if (/#{.+?}/.test(string)) {
     return true
   }

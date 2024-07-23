@@ -19,6 +19,7 @@ declare module './index' {
     shareTicket: string | undefined
     scene: number | undefined
     exitState?: any
+    $taroPath?: string
   }
 
   interface Show {

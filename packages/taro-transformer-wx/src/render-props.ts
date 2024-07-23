@@ -1,9 +1,10 @@
-import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
 import { get as safeGet } from 'lodash'
 
 import { buildBlockElement } from './jsx'
 import { buildConstVariableDeclaration, codeFrameError, createRandomLetters } from './utils'
+
+import type { NodePath } from '@babel/traverse'
 
 const renderPropsMap = new Map<string, string>()
 

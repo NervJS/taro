@@ -11,8 +11,9 @@ import * as React from 'react'
 import {
   WebView
 } from 'react-native-webview'
-import { WebViewProps } from './PropsType'
+
 import { noop } from '../../utils'
+import { WebViewProps } from './PropsType'
 
 const _WebView: React.FC<WebViewProps> = ({
   style,

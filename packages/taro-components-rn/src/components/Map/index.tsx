@@ -36,12 +36,13 @@
 
 import * as React from 'react'
 import {
+  Dimensions,
   Text,
-  View,
-  Dimensions
+  View
 } from 'react-native'
 // @ts-ignore // The type definitions for MapView have not been created.
-import MapView, { Callout, Polygon, Circle, Polyline, Marker, MapEvent } from 'react-native-maps'
+import MapView, { Callout, Circle, MapEvent, Marker, Polygon, Polyline } from 'react-native-maps'
+
 import { noop } from '../../utils'
 
 const { width, height } = Dimensions.get('window')
@@ -53,44 +54,44 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
  * 标记点气泡 callout
  */
 type Callouts = {
-  content?: string;
-  color?: string;
-  fontSize?: number;
-  borderRadius?: number;
-  borderWidth?: number;
-  borderColor?: string;
-  bgColor?: string;
-  padding?: number;
-  display?: 'BYCLICK' | 'ALWAYS';
-  textAlign?: 'left' | 'right' | 'center';
+  content?: string
+  color?: string
+  fontSize?: number
+  borderRadius?: number
+  borderWidth?: number
+  borderColor?: string
+  bgColor?: string
+  padding?: number
+  display?: 'BYCLICK' | 'ALWAYS'
+  textAlign?: 'left' | 'right' | 'center'
 }
 
 /**
  * 标记点
  */
 type Marker = {
-  id?: number;
-  latitude: number;
-  longitude: number;
-  title?: string;
+  id?: number
+  latitude: number
+  longitude: number
+  title?: string
   // zIndex?: number;
-  iconPath: string;
-  rotate?: number;
-  alpha?: number;
+  iconPath: string
+  rotate?: number
+  alpha?: number
   // width?: number;
   // height?: number;
-  callout?: Callouts;
+  callout?: Callouts
   // label?: Label;
-  anchor?: { x: number; y: number };
+  anchor?: { x: number, y: number }
 }
 
 /**
  * 多段线
  */
 type Polyline = {
-  points: Array<{ latitude: number; longitude: number }>;
-  color?: string;
-  width?: number;
+  points: Array<{ latitude: number, longitude: number }>
+  color?: string
+  width?: number
   // dottedLine?: boolean;
   // arrowLine?: boolean;
   // arrowIconPath?: string;
@@ -102,10 +103,10 @@ type Polyline = {
  * 多边形
  */
 type Polygon = {
-  points: Array<{ latitude: number; longitude: number }>;
-  strokeWidth?: number;
-  strokeColor?: string;
-  fillColor?: string;
+  points: Array<{ latitude: number, longitude: number }>
+  strokeWidth?: number
+  strokeColor?: string
+  fillColor?: string
   // zIndex?: number;
 }
 
@@ -113,57 +114,57 @@ type Polygon = {
  * 圆形
  */
 type Circle = {
-  latitude: number;
-  longitude: number;
-  color?: string;
-  fillColor?: string;
-  radius: number;
-  strokeWidth?: number;
+  latitude: number
+  longitude: number
+  color?: string
+  fillColor?: string
+  radius: number
+  strokeWidth?: number
 }
 
 /**
  * 坐标
  */
 type Coordinate = {
-  latitude: number;
-  longitude: number;
+  latitude: number
+  longitude: number
 }
 
 export interface Props {
-  longitude: number;
-  latitude: number;
-  scale?: number;
-  markers?: Array<Marker>;
-  polyline?: Array<Polyline>;
-  polygons?: Array<Polygon>;
-  circles?: Array<Circle>;
-  includePoints?: Array<Coordinate>;
-  showLocation?: boolean;
-  subkey?: string;
-  enable3D?: boolean;
-  showCompass?: boolean;
-  enableOverlooking?: boolean;
-  enableZoom?: boolean;
-  enableScroll?: boolean;
-  enableRotate?: boolean;
+  longitude: number
+  latitude: number
+  scale?: number
+  markers?: Array<Marker>
+  polyline?: Array<Polyline>
+  polygons?: Array<Polygon>
+  circles?: Array<Circle>
+  includePoints?: Array<Coordinate>
+  showLocation?: boolean
+  subkey?: string
+  enable3D?: boolean
+  showCompass?: boolean
+  enableOverlooking?: boolean
+  enableZoom?: boolean
+  enableScroll?: boolean
+  enableRotate?: boolean
 
-  onMarkerClick? (markerId?: number): void;
+  onMarkerClick? (markerId?: number): void
 
-  onCalloutClick? (markerId?: number): void;
+  onCalloutClick? (markerId?: number): void
 
-  onControlClick? (controlId?: number): void;
+  onControlClick? (controlId?: number): void
 
-  onRegionChange? (event: { type: 'begin' | 'end'; timeStamp: number; causedBy?: 'scale' | 'drag' | 'update' }): void;
+  onRegionChange? (event: { type: 'begin' | 'end', timeStamp: number, causedBy?: 'scale' | 'drag' | 'update' }): void
 
-  onClick? (coordinate: Coordinate): void;
+  onClick? (coordinate: Coordinate): void
 
-  onUpdated? (): void;
+  onUpdated? (): void
 
-  onPoiClick? (): void;
+  onPoiClick? (): void
 }
 
 export interface State {
-  networkState: string;
+  networkState: string
 }
 
 class _Map extends React.Component<Props, State> {

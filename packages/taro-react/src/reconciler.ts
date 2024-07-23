@@ -138,6 +138,10 @@ const hostConfig: HostConfig<
   },
   commitMount: noop,
   commitUpdate (dom, updatePayload, _, oldProps, newProps) {
+    if (!updatePayload) return
+    // payload 只包含 children 的时候，不应该再继续触发后续的属性比较和更新的逻辑了
+    if (updatePayload.length === 2 && updatePayload.includes('children')) return
+
     updatePropsByPayload(dom, oldProps, updatePayload)
     updateFiberProps(dom, newProps)
   },

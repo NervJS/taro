@@ -1,8 +1,8 @@
-import { getOptions, stringifyRequest } from 'loader-utils'
-import * as path from 'path'
+import * as path from 'node:path'
 
 import { REG_POST } from './constants'
 import { entryCache } from './entry-cache'
+import { stringifyRequest } from './util'
 
 import type * as webpack from 'webpack'
 
@@ -12,7 +12,7 @@ interface PageConfig {
 }
 
 export default function (this: webpack.LoaderContext<any>, source: string) {
-  const options = getOptions(this)
+  const options = this.getOptions()
   const config = getPageConfig(options.config, this.resourcePath)
   const configString = JSON.stringify(config)
   const stringify = (s: string): string => stringifyRequest(this, s)

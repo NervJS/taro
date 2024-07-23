@@ -1,9 +1,10 @@
-import { readFile } from 'fs'
-import { createServer } from 'http'
+import { readFile } from 'node:fs'
+import { createServer } from 'node:http'
+import { extname, join } from 'node:path'
+import { URL } from 'node:url'
+
 import * as mime from 'mime-types'
-import { extname, join } from 'path'
 import { toString } from 'qrcode'
-import { URL } from 'url'
 
 import { getOpenHost, isWin, PLAYGROUNDINFO } from './utils'
 
@@ -101,7 +102,7 @@ export function previewProd (opt: PreviewOption):void {
           response.end('500', 'utf-8')
         }
       } else {
-        response.writeHead(200, { 'Content-Type': contentType })
+        response.writeHead(200, { 'Content-Type': contentType as string })
         response.end(content, 'utf-8')
       }
     })

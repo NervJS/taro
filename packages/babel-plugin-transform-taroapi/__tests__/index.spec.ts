@@ -1,7 +1,7 @@
 import * as babel from '@babel/core'
 import * as t from '@babel/types'
-import * as definition from '@tarojs/plugin-platform-h5/dist/definition.json'
 
+import * as definition from '../../taro-platform-h5/dist/definition.json'
 import plugin from '../src'
 
 type ImportType = babel.types.ImportSpecifier | babel.types.ImportDefaultSpecifier | babel.types.ImportNamespaceSpecifier

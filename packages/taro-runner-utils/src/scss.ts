@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import { fs } from '@tarojs/helper'
-import * as path from 'path'
 import { Bundler, BundleResult } from 'scss-bundle'
 
 interface LoaderOption {

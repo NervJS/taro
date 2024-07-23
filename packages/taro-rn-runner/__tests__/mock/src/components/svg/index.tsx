@@ -1,4 +1,3 @@
-import React from 'react'
 import Logo from "./rollup-logo.svg";
 
 export default function () {

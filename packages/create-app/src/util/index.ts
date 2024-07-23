@@ -1,4 +1,4 @@
-import * as path from 'path'
+import * as path from 'node:path'
 
 export function getRootPath (): string {
   return path.resolve(__dirname, '../../')

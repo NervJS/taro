@@ -37,11 +37,11 @@ impl VisitMut for PreVisitor {
 
             // 收集 JSX 循环表达式到 list
             children
-                .iter()
+                .iter_mut()
                 .enumerate()
                 .for_each(|(i, child)| {
                     if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = child {
-                        if let Expr::Call(CallExpr { callee: Callee::Expr(callee_expr), args, .. }) = &**expr {
+                        if let Expr::Call(CallExpr { callee: Callee::Expr(callee_expr), args, .. }) = &mut **expr {
                             if utils::is_call_expr_of_loop(callee_expr, args) {
                                 list.push(i);
                             }
@@ -212,7 +212,7 @@ impl TransformVisitor {
     }
 
     fn build_xml_element (&mut self, el: &mut JSXElement) -> String {
-        let is_inner_component = utils::is_inner_component(el, &self.config);
+        let is_inner_component = utils::is_inner_component(&el, &self.config);
         let opening_element = &mut el.opening;
 
         match &opening_element.name {

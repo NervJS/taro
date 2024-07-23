@@ -31,14 +31,13 @@
     "@tarojs/service": "^{{ version }}"{{#if (eq pluginType "plugin-build") }},
     "webpack-chain": "^6.5.1"{{/if}}{{#if (eq pluginType "plugin-template") }},
     "download": "^8.0.0",
-    "fs-extra": "^11.1.1",
-    "path": "^0.12.7",
+    "fs-extra": "^11.2.0",
     "unzip": "^0.1.11"{{/if}}
   },
   "devDependencies": {
-    "@types/node": "^18.13.0"
+    "@types/node": "^18.15.11"
   }{{#if (eq pluginType "plugin-template") }},
   "resolutions": {
-    "graceful-fs": "^4.2.10"
+    "graceful-fs": "^4.2.11"
   }{{/if}}
 }

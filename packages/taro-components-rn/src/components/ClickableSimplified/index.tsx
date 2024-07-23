@@ -16,6 +16,7 @@ import {
   GestureResponderEvent,
   GestureResponderHandlers, PanResponder
 } from 'react-native'
+
 import { omit } from '../../utils'
 import { ClickableProps } from './PropsType'
 

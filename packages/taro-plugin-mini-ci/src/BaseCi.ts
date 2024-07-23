@@ -1,5 +1,5 @@
-import * as path from 'path'
-import * as process from 'process'
+import * as path from 'node:path'
+import * as process from 'node:process'
 
 import { ON_PREVIEW_COMPLETE, ON_UPLOAD_COMPLETE } from './hooks'
 

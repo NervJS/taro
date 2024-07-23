@@ -8,6 +8,9 @@ interface IWrapper {
   close? (): void
 }
 
+const VALID_COMPILER = ['webpack5', 'vite']
+const DEFAULT_COMPILER = 'webpack5'
+
 export class Transaction<T = TaroPlatform> {
   wrappers: IWrapper[] = []
 
@@ -52,6 +55,10 @@ export default abstract class TaroPlatform<T extends TConfig = TConfig> {
     this.updateOutputPath(config)
     const _compiler = config.compiler
     this.compiler = typeof _compiler === 'object' ? _compiler.type : _compiler
+    // Note: 兼容 webpack4 和不填写 compiler 的情况，默认使用 webpack5
+    if (!VALID_COMPILER.includes(this.compiler)) {
+      this.compiler = DEFAULT_COMPILER
+    }
   }
 
   protected emptyOutputDir (excludes: Array<string | RegExp> = []) {

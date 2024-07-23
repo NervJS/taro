@@ -12,7 +12,7 @@ import type { MiniCombination } from './MiniCombination'
 
 export class MiniWebpackPlugin {
   combination: MiniCombination
-  pxtransformOption: IPostcssOption['pxtransform']
+  pxtransformOption: IPostcssOption<'mini'>['pxtransform']
 
   constructor (combination: MiniCombination) {
     this.combination = combination
@@ -76,7 +76,7 @@ export class MiniWebpackPlugin {
     env.FRAMEWORK = JSON.stringify(framework)
     env.TARO_ENV = JSON.stringify(buildAdapter)
     env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.MINI)
-    env.SUPPORT_TARO_POLYFILL = env.SUPPORT_TARO_POLYFILL || '"enabled"'
+    env.SUPPORT_TARO_POLYFILL = env.SUPPORT_TARO_POLYFILL || '"disabled"'
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
       return target

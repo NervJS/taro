@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { promoteRelativePath } from '@tarojs/helper'
-import path from 'path'
 import { sources } from 'webpack'
 
 import type { Chunk, Compilation } from 'webpack'
@@ -12,7 +13,7 @@ const { ConcatSource } = sources
 export function addRequireToSource (id: string, modules: sources.Source, commonChunks: (Chunk | { name: string })[]) {
   const source = new ConcatSource()
   commonChunks.forEach(chunkItem => {
-    source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`)
+    source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name!)))});\n`)
   })
   source.add('\n')
   source.add(modules)
@@ -32,5 +33,5 @@ export function getChunkIdOrName (chunk: Chunk) {
   if (typeof chunk.id === 'string') {
     return chunk.id
   }
-  return chunk.name
+  return chunk.name!
 }

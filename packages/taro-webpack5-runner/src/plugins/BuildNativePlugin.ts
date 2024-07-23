@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   isEmptyObject,
   printLog,
@@ -6,7 +8,6 @@ import {
   resolveMainFilePath,
 } from '@tarojs/helper'
 import { urlToRequest } from 'loader-utils'
-import path from 'path'
 
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import MiniPlugin from './MiniPlugin'

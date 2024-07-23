@@ -1,8 +1,7 @@
-import { FormElement, TaroElement } from '@tarojs/runtime'
-
 import { supportedInputTypes } from './constant'
 import { Props } from './props'
 
+import type { FormElement, TaroElement } from '@tarojs/runtime'
 import type { RestoreType } from './event'
 
 // 从 props 中，更新 input 组件的 value 值
@@ -53,10 +52,10 @@ export function setNodeValue (node: FormElement, oldValue: RestoreType, value, t
   if (value != null) {
     if (type === 'number') {
       if (
-        (value === 0 && node.value === '') ||
+        (value === 0 && node.value === '')
         // We explicitly want to coerce to number here if possible.
         // eslint-disable-next-line
-        oldValue != value
+        || oldValue != value
       ) {
         node.value = toString(value)
       }

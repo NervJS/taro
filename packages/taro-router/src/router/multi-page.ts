@@ -1,5 +1,5 @@
 /* eslint-disable dot-notation */
-import { addLeadingSlash, Current, stripBasename } from '@tarojs/runtime'
+import { addLeadingSlash, Current, eventCenter, stripBasename } from '@tarojs/runtime'
 import queryString from 'query-string'
 
 import { bindPageResize } from '../events/resize'
@@ -117,6 +117,7 @@ export default class MultiPageHandler {
       this.onReady(page, true)
       page.onShow?.()
       this.bindPageEvents(page, pageConfig)
+      this.triggerRouterChange()
     })
   }
 
@@ -143,5 +144,19 @@ export default class MultiPageHandler {
     const distance = config.onReachBottomDistance || this.config.window?.onReachBottomDistance || 50
     bindPageScroll(page, scrollEl, distance)
     bindPageResize(page)
+  }
+
+  triggerRouterChange () {
+    /**
+     * @tarojs/runtime 中生命周期跑在 promise 中，所以这里需要 setTimeout 延迟事件调用
+     * TODO 考虑将生命周期返回 Promise，用于处理相关事件调用顺序
+     */
+    setTimeout(() => {
+      eventCenter.trigger('__afterTaroRouterChange', {
+        toLocation: {
+          path: this.pathname
+        }
+      })
+    }, 0)
   }
 }

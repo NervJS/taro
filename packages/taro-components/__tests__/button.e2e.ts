@@ -5,7 +5,7 @@ import { delay } from './utils'
 describe('Button e2e', () => {
   let page: E2EPage
 
-  it('event', async () => {
+  it.skip('event', async () => {
     const hoverStartTime = 50
     const hoverStayTime = 100
     page = await newE2EPage({

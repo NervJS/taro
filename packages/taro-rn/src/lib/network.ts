@@ -1,16 +1,16 @@
-import NetInfo, { NetInfoStateType, NetInfoState } from '@react-native-community/netinfo'
+import NetInfo, { NetInfoState, NetInfoStateType } from '@react-native-community/netinfo'
 
 let _unsubscribe: any = null
 
-let _callbacks: Set<Function> = new Set()
+const _callbacks: Set<Function> = new Set()
 
 function getTypeFromState(connectionInfo:NetInfoState): keyof Taro.getNetworkType.NetworkType {
   let type: keyof Taro.getNetworkType.NetworkType
-  if(connectionInfo.type === NetInfoStateType.wifi) {
+  if (connectionInfo.type === NetInfoStateType.wifi) {
     type = NetInfoStateType.wifi
-  } else if(connectionInfo.type === NetInfoStateType.cellular && connectionInfo.details.cellularGeneration) {
+  } else if (connectionInfo.type === NetInfoStateType.cellular && connectionInfo.details.cellularGeneration) {
     type = connectionInfo.details.cellularGeneration
-  } else if(connectionInfo.type === NetInfoStateType.none) {
+  } else if (connectionInfo.type === NetInfoStateType.none) {
     type = 'none'
   } else {
     type = 'unknown'

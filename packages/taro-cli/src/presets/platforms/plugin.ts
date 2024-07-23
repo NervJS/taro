@@ -1,6 +1,7 @@
+import * as path from 'node:path'
+
 import { fs } from '@tarojs/helper'
 import { getPlatformType } from '@tarojs/shared'
-import * as path from 'path'
 
 import type { IPluginContext } from '@tarojs/service'
 

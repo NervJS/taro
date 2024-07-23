@@ -1,0 +1,3 @@
+<div id="{{id}}">
+  <slot></slot>
+</div>

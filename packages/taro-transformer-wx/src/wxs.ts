@@ -1,5 +1,5 @@
 import generate from '@babel/generator'
-import traverse, { Visitor } from '@babel/traverse'
+import traverse, { type Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
 import { TransformResult } from './index'

@@ -1,4 +1,4 @@
-import { location } from '../bom/window'
+import { taroLocationProvider as location } from '../bom/window'
 
 // export const removeLeadingSlash = (str = '') => str.replace(/^\.?\//, '')
 // export const removeTrailingSearch = (str = '') => str.replace(/\?[\s\S]*$/, '')

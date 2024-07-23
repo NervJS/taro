@@ -72,7 +72,6 @@ export function getEventPriority (domEventName) {
   }
 }
 
-
 const randomKey = Math.random()
   .toString(36)
   .slice(2)

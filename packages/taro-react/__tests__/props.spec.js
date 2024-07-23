@@ -1,16 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { createEvent, document } from '@tarojs/runtime'
 import * as React from 'react'
 
-let document
-let render
-let runtime
+import { render } from '../dist/react.esm'
 
 describe('Context', () => {
   beforeAll(() => {
     process.env.FRAMEWORK = 'react'
-    runtime = require('@tarojs/runtime')
-    render = require('../dist/index').render
-    document = runtime.document
   })
 
   afterAll(() => {
@@ -82,7 +77,6 @@ describe('Context', () => {
     })
 
     it('can dispatch event', () => {
-      const createEvent = runtime.createEvent
       const container = document.createElement('div')
       const spy = jest.fn()
       render(<view type="button" onClick={spy} id='fork' />, container)

@@ -1,18 +1,11 @@
+import { document } from '@tarojs/runtime'
 import * as React from 'react'
 
-let document
-let runtime
+import { render, unmountComponentAtNode, unstable_batchedUpdates as batchedUpdates } from '../dist/react.esm'
 
 describe('unmountComponentAtNode', () => {
-  let render, unmountComponentAtNode, batchedUpdates
   beforeAll(() => {
     process.env.FRAMEWORK = 'react'
-    runtime = require('@tarojs/runtime')
-    const TaroReact = require('../dist/index')
-    render = TaroReact.render
-    unmountComponentAtNode = TaroReact.unmountComponentAtNode
-    batchedUpdates = TaroReact.unstable_batchedUpdates
-    document = runtime.document
   })
 
   afterAll(() => {

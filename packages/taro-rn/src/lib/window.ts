@@ -1,4 +1,5 @@
-import { ScaledSize, Dimensions, EmitterSubscription } from 'react-native'
+import { Dimensions, EmitterSubscription, ScaledSize } from 'react-native'
+
 import { createCallbackManager } from '../utils'
 
 let listener: EmitterSubscription

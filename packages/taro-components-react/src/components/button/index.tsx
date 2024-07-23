@@ -1,9 +1,11 @@
 import './style/index.scss'
 
 import classNames from 'classnames'
-import React from 'react'
 
-import { omit } from '../../utils'
+import { createForwardRefComponent, omit } from '../../utils'
+import { useEffect, useRef, useState } from '../../utils/hooks'
+
+import type React from 'react'
 
 interface IProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
   size?: string
@@ -15,6 +17,7 @@ interface IProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'ty
   loading?: boolean
   type?: string
   className?: string
+  forwardedRef?: React.MutableRefObject<HTMLButtonElement>
 }
 
 interface IState {
@@ -22,96 +25,85 @@ interface IState {
   touch: boolean
 }
 
-class Button extends React.Component<IProps, IState> {
-  constructor (props) {
-    super(props)
-    this.state = {
-      hover: false,
+function Button (props: IProps) {
+  const startTimer = useRef<ReturnType<typeof setTimeout>>()
+  const endTimer = useRef<ReturnType<typeof setTimeout>>()
+  const [state, setState] = useState<IState>({
+    hover: false,
+    touch: false
+  })
+
+  useEffect(() => {
+    return () => {
+      startTimer.current && clearTimeout(startTimer.current)
+      endTimer.current && clearTimeout(endTimer.current)
+    }
+  }, [])
+
+  const _onTouchStart = (e: React.TouchEvent<HTMLButtonElement>) => {
+    setState((e) => ({
+      ...e,
+      touch: true
+    }))
+    if (props.hoverClass && props.hoverClass !== 'none' && !props.disabled) {
+      startTimer.current = setTimeout(() => {
+        if ((state as IState).touch) {
+          setState((e) => ({
+            ...e,
+            hover: true
+          }))
+        }
+      }, props.hoverStartTime || 20)
+    }
+    props.onTouchStart && props.onTouchStart(e)
+  }
+
+  const _onTouchEnd = (e: React.TouchEvent<HTMLButtonElement>) => {
+    setState((e) => ({
+      ...e,
       touch: false
+    }))
+    if (props.hoverClass && props.hoverClass !== 'none' && !props.disabled) {
+      endTimer.current = setTimeout(() => {
+        if (!(state as IState).touch) {
+          setState((e) => ({
+            ...e,
+            hover: false
+          }))
+        }
+      }, props.hoverStayTime || 70)
     }
+    props.onTouchEnd && props.onTouchEnd(e)
   }
 
-  startTimer: ReturnType<typeof setTimeout>
-  endTimer: ReturnType<typeof setTimeout>
+  const { forwardedRef, plain = false, children, disabled = false, className, style, onClick, hoverClass = 'button-hover', loading = false, type, ...restProps } = props
 
-  componentWillUnmount () {
-    this.startTimer && clearTimeout(this.startTimer)
-    this.endTimer && clearTimeout(this.endTimer)
-  }
-
-  render () {
-    const {
-      plain = false,
-      children,
-      disabled = false,
-      className,
-      style,
-      onClick,
-      onTouchStart,
-      onTouchEnd,
-      hoverClass = 'button-hover',
-      hoverStartTime = 20,
-      hoverStayTime = 70,
-      loading = false,
-      type,
-    } = this.props
-    const cls = classNames(
-      className,
-      'taro-button-core',
-      {
-        [`${hoverClass}`]: this.state.hover && !disabled
-      }
-    )
-
-    const _onTouchStart = e => {
-      this.setState(() => ({
-        touch: true
-      }))
-      if (hoverClass && hoverClass !== 'none' && !disabled) {
-        this.startTimer = setTimeout(() => {
-          if (this.state.touch) {
-            this.setState(() => ({
-              hover: true
-            }))
-          }
-        }, hoverStartTime)
-      }
-      onTouchStart && onTouchStart(e)
+  const cls = classNames(
+    className,
+    'taro-button-core',
+    {
+      [`${hoverClass}`]: (state as IState).hover && !disabled
     }
-    const _onTouchEnd = e => {
-      this.setState(() => ({
-        touch: false
-      }))
-      if (hoverClass && hoverClass !== 'none' && !disabled) {
-        this.endTimer = setTimeout(() => {
-          if (!this.state.touch) {
-            this.setState(() => ({
-              hover: false
-            }))
-          }
-        }, hoverStayTime)
-      }
-      onTouchEnd && onTouchEnd(e)
-    }
+  )
 
-    return (
-      <button
-        {...omit(this.props, ['hoverClass', 'onTouchStart', 'onTouchEnd', 'type', 'loading'])}
-        type={type}
-        className={cls}
-        style={style}
-        onClick={onClick}
-        disabled={disabled}
-        onTouchStart={_onTouchStart}
-        onTouchEnd={_onTouchEnd}
-        loading={loading.toString()}
-        plain={plain.toString()}
-      >
-        {!!loading && <i className='weui-loading' />}
-        {children}
-      </button>
-    )
-  }
+  return (
+    <button
+      {...omit(restProps, ['hoverClass', 'onTouchStart', 'onTouchEnd', 'type', 'loading', 'forwardedRef'])}
+      type={type}
+      ref={forwardedRef}
+      className={cls}
+      style={style}
+      onClick={onClick}
+      disabled={disabled}
+      onTouchStart={_onTouchStart}
+      onTouchEnd={_onTouchEnd}
+      loading={loading.toString()}
+      plain={plain.toString()}
+    >
+      {!!loading && <i className='weui-loading' />}
+      {children}
+    </button>
+  )
 }
 
-export default Button
+export default createForwardRefComponent(Button)

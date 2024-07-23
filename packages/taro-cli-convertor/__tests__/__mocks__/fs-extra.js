@@ -38,7 +38,6 @@ function setMockFiles (root, newMockFiles) {
   oriFileMap.set(root, newMockFiles)
 }
 
-
 /**
  * 获取原始的mock文件
  *
@@ -139,6 +138,7 @@ function existsSyncMock (pathParam) {
   if (oriFileMap.get(pathParam) && !parts[parts.length - 1].includes('.')) {
     return true
   }
+
   // 文件夹内默认不存在
   return false
 }
@@ -321,11 +321,13 @@ function readdirSyncMock (source) {
  * 文件复制
  */
 function copyFileSyncMock (sourcePath, destinationPath) {
-  resFileMap.set(destinationPath, oriFileMap.get(sourcePath))
+  const pathResult = oriFileMap.get(normalizePath(sourcePath))
+  resFileMap.set(normalizePath(destinationPath), pathResult)
 }
 
 function copyFileMock (sourcePath, destinationPath) {
-  resFileMap.set(destinationPath, oriFileMap.get(sourcePath))
+  const pathResult = oriFileMap.get(normalizePath(sourcePath))
+  resFileMap.set(normalizePath(destinationPath), pathResult)
 }
 
 // 自定义的 isFile 函数

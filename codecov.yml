@@ -35,8 +35,6 @@ flag_management:
     - name: taro-runner
       paths:
       - packages/taro-webpack5-runner/
-      - packages/taro-webpack-runner/
-      - packages/taro-mini-runner/
     - name: taro-runtime
       paths:
       - packages/taro-runtime/

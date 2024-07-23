@@ -1,5 +1,6 @@
-import * as React from 'react'
 import AntPickerView from '@ant-design/react-native/lib/picker-view'
+import * as React from 'react'
+
 import { noop } from '../../utils'
 import { PickerViewProps } from './PropsType'
 

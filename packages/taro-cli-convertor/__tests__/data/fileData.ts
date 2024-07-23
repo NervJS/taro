@@ -601,7 +601,6 @@ export const DEMO_PAGE_NO_JS = {
   '/pages/index/index.wxss': ``,
 }
 
-
 export const DEMO_PLUGIN_COMPLETE_DIRECTORY = {
   '/miniprogram': {
     '/app.json': `{

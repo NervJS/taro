@@ -1,6 +1,7 @@
+import * as path from 'node:path'
+
 import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
 import { get, merge } from 'lodash'
-import * as path from 'path'
 
 import { getPkgVersion } from '../utils/package'
 import TaroPlatform from './platform'
@@ -55,14 +56,7 @@ export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroP
     const { appPath } = this.ctx.paths
     const { npm } = this.helper
 
-    let runnerPkg: string
-    switch (this.compiler) {
-      case 'webpack5':
-        runnerPkg = '@tarojs/webpack5-runner'
-        break
-      default:
-        runnerPkg = '@tarojs/webpack-runner'
-    }
+    const runnerPkg = this.compiler === 'vite' ? '@tarojs/vite-runner' : '@tarojs/webpack5-runner'
 
     const runner = await npm.getNpmPkg(runnerPkg, appPath)
 
