@@ -9,7 +9,7 @@ import * as babelParser from '@babel/parser'
 import babelTraverse from '@babel/traverse'
 import * as t from '@babel/types'
 import * as fs from 'fs-extra'
-import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
+import { camelCase, defaults, flatMap, isPlainObject, mergeWith } from 'lodash'
 
 import {
   CSS_EXT,
@@ -643,8 +643,10 @@ export function readConfig<T extends IReadConfigOptions> (configPath: string, op
     } else {
       result = requireWithEsbuild(configPath, {
         customConfig: {
-          define: options.defineConstants || {},
           alias: options.alias || {},
+          define: defaults({}, options.defineConstants || {}, {
+            define: 'define', // Note: 该场景下不支持 AMD 导出，这会导致 esbuild 替换 babel 的 define 方法
+          }),
         },
         customSwcConfig: {
           jsc: {
