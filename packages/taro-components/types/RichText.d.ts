@@ -18,7 +18,7 @@ interface RichTextProps extends StandardProps {
    * @default false（基础库 3.150.1 以前版本）true（基础库 3.150.1 及以后版本）
    * @supported swan, h5, harmony_hybrid
    */
-  selectable?: string
+  selectable?: boolean;
   /** 阻止长按图片时弹起默认菜单（将该属性设置为image-menu-prevent或image-menu-prevent="true"），只在初始化时有效，不能动态变更；若不想阻止弹起默认菜单，则不需要设置此属性
    * @default false
    * @supported swan
