@@ -160,9 +160,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
       /node_modules[\\/]scheduler[\\/]/
     ]
     const vueRelatedDeps: RegExp[] = [
-      /node_modules[\\/]@vue[\\/]reactivity[\\/]/,
-      /node_modules[\\/]@vue[\\/]shared[\\/]/,
-      /node_modules[\\/]@vue[\\/]runtime-core[\\/]/,
+      /node_modules[\\/]@vue[\\/]/,
       /node_modules[\\/]vue[\\/]/
     ]
     const taroDeps: RegExp[] = [REG_TARO_SCOPED_PACKAGE]
