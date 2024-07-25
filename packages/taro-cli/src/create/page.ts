@@ -162,17 +162,19 @@ export default class Page extends Creator {
     let templateSource = DEFAULT_TEMPLATE_SRC
     if (!homedir) chalk.yellow('找不到用户根目录，使用默认模版源！')
 
-    const taroConfigPath = path.join(homedir, TARO_CONFIG_FOLDER)
-    const taroConfig = path.join(taroConfigPath, TARO_BASE_CONFIG)
-
-    if (fs.existsSync(taroConfig)) {
-      const config = await fs.readJSON(taroConfig)
-      templateSource = config && config.templateSource ? config.templateSource : DEFAULT_TEMPLATE_SRC
+    if (this.conf.templateSource) {
+      templateSource = this.conf.templateSource
     } else {
-      templateSource = this.conf.templateSource || DEFAULT_TEMPLATE_SRC
-
-      await fs.createFile(taroConfig)
-      await fs.writeJSON(taroConfig, { templateSource })
+      const taroConfigPath = path.join(homedir, TARO_CONFIG_FOLDER)
+      const taroConfig = path.join(taroConfigPath, TARO_BASE_CONFIG)
+      if (fs.existsSync(taroConfig)) {
+        const config = await fs.readJSON(taroConfig)
+        templateSource = config && config.templateSource ? config.templateSource : DEFAULT_TEMPLATE_SRC
+      } else {
+        await fs.createFile(taroConfig)
+        await fs.writeJSON(taroConfig, { templateSource })
+        templateSource = DEFAULT_TEMPLATE_SRC
+      }
     }
 
     // 从模板源下载模板
