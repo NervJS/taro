@@ -245,7 +245,7 @@ impl TransformVisitor {
                 } else {
                     // 回退到旧的渲染模式（React 组件、原生自定义组件）
                     let node_path = self.get_current_node_path();
-                    format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path)
+                    format!(r#"<template is="{{{{xs.a(c, {}.n, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.n)}}}}" />"#, node_path, node_path, node_path)
                 }
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { prop, .. }) => {
@@ -256,7 +256,7 @@ impl TransformVisitor {
                 } else {
                     // 回退到旧的渲染模式
                     let node_path = self.get_current_node_path();
-                    format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path)
+                    format!(r#"<template is="{{{{xs.a(c, {}.n, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.n)}}}}" />"#, node_path, node_path, node_path)
                 }
             }
             _ => String::new()
@@ -370,7 +370,7 @@ impl TransformVisitor {
                                     if is_event {
                                         props.insert(event_name.unwrap(), String::from(EVENT_HANDLER));
                                         if props.get(DATA_SID).is_none() {
-                                            props.insert(String::from(DATA_SID), format!("{{{{{}.sid}}}}", node_path));
+                                            props.insert(String::from(DATA_SID), format!("{{{{{}.s}}}}", node_path));
                                         }
                                         return true
                                     }
@@ -516,7 +516,7 @@ impl TransformVisitor {
                                             }
                                             // {condition1 && 'Hello'} 在预处理时会变成 {condition1 ? 'Hello' : "compileIgnore"}
                                             // 而普通文本三元则会被 block 标签包裹，因此处理后只有上述情况会存在 lit 类型的表达式
-                                            // 由于这种情况没有办法使用 wx:if 来处理，需要特殊处理成 {{i.cn[3].v==="compileIgnore"?"":i.cn[3].v}} 的形式
+                                            // 由于这种情况没有办法使用 wx:if 来处理，需要特殊处理成 {{i.c[3].v==="compileIgnore"?"":i.c[3].v}} 的形式
                                             let str = format!(r#"{{{{{}.v==="{}"?"":{}.v}}}}"#, node_path, COMPILE_IGNORE, node_path);
                                             children_string.push_str(&str);
                                         },
@@ -538,7 +538,7 @@ impl TransformVisitor {
                                     let child_string = self.build_xml_element(&mut *return_value);
                                     children_string.push_str(&child_string);
                                 } else if utils::is_render_fn(callee_expr) {
-                                    let tmpl = format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path);
+                                    let tmpl = format!(r#"<template is="{{{{xs.a(c, {}.n, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.n)}}}}" />"#, node_path, node_path, node_path);
                                     children_string.push_str(&tmpl)
                                 } else {
                                     let mut xscript_expr_string: Option<String> = None;
@@ -661,31 +661,31 @@ impl TransformVisitor {
     }
 
     fn get_current_node_path (&self) -> String {
-        // return: i.cn[0].cn[0]....
+        // return: i.c[0].c[0]....
         self.node_stack
             .iter()
             .fold(String::from("i"), |mut acc, item| {
                 if item == &LOOP_WRAPPER_ID {
                     return String::from("item")
                 }
-                acc.push_str(&format!(".cn[{}]", item));
+                acc.push_str(&format!(".c[{}]", item));
                 return acc;
             })
     }
 
     fn get_current_loop_path (&self) -> String {
-        // return: i.cn[0]...cn
+        // return: i.c[0]...c
         self.node_stack
             .iter()
             .identify_last()
             .fold(String::from("i"), |mut acc, (is_last, item)| {
                 let str = if is_last {
-                    String::from(".cn")
+                    String::from(".c")
                 } else {
                     if item == &LOOP_WRAPPER_ID {
                         return String::from("item")
                     }
-                    format!(".cn[{}]", item)
+                    format!(".c[{}]", item)
                 };
                 acc.push_str(&str);
                 return acc;

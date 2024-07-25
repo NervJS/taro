@@ -1,5 +1,6 @@
 import * as path from 'node:path'
 
+import { Shortcuts } from '../../shared/dist'
 import { entryCache } from './entry-cache'
 import { stringifyRequest } from './util'
 
@@ -43,7 +44,7 @@ if (typeof PRERENDER !== 'undefined') {
     options.loaderMeta.modifyConfig(config, source)
   }
 
-  let instantiatePage = `var inst = Page(createPageConfig(component, '${pageName}', {root:{cn:[]}}, config || {}))`
+  let instantiatePage = `var inst = Page(createPageConfig(component, '${pageName}', {root:{${Shortcuts.Childnodes}:[]}}, config || {}))`
 
   if (typeof modifyInstantiate === 'function') {
     instantiatePage = modifyInstantiate(instantiatePage, 'page')

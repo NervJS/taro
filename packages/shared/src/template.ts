@@ -230,10 +230,10 @@ export class BaseTemplate {
       ? (this.isSupportRecursive
         ? `xs.a(0, item.${Shortcuts.NodeName})`
         : `xs.a(0, item.${Shortcuts.NodeName}, '')`)
-      : "'tmpl_0_' + item.nn"
+      : `'tmpl_0_' + item.${Shortcuts.NodeName}`
     return `${this.buildXsTemplate()}
 <template name="taro_tmpl">
-  <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="sid">
+  <block ${Adapter.for}="{{root.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}">
     <template is="{{${xs}}}" data="{{${data}}}" />
   </block>
 </template>
@@ -313,8 +313,8 @@ export class BaseTemplate {
       return supportXS
         ? `<template is="{{${xs}}}" data="{{${data}}}" />`
         : isSupportRecursive
-          ? `<template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />`
-          : `<template is="{{'tmpl_' + c + '_' + item.nn}}" data="{{${data}}}" />`
+          ? `<template is="{{'tmpl_0_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" />`
+          : `<template is="{{'tmpl_' + c + '_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" />`
     }
   }
 
@@ -331,7 +331,7 @@ export class BaseTemplate {
     let children = this.voidElements.has(comp.nodeName)
       ? ''
       : `
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
+    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}">
       ${indent(child, 6)}
     </block>
   `
@@ -359,11 +359,11 @@ export class BaseTemplate {
 </template>
 
 <template name="tmpl_${level}_${nodeAlias}_focus">
-  <${nodeName} ${this.buildAttribute(comp.attributes, nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${nodeName}>
+  <${nodeName} ${this.buildAttribute(comp.attributes, nodeName)} id="{{i.uid||i.${Shortcuts.Sid}}}" data-${Shortcuts.Sid}="{{i.${Shortcuts.Sid}}}">${children}</${nodeName}>
 </template>
 
 <template name="tmpl_${level}_${nodeAlias}_blur">
-  <${nodeName} ${this.buildAttribute(attrs, nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${nodeName}>
+  <${nodeName} ${this.buildAttribute(attrs, nodeName)} id="{{i.uid||i.${Shortcuts.Sid}}}" data-${Shortcuts.Sid}="{{i.${Shortcuts.Sid}}}">${children}</${nodeName}>
 </template>
 `
     if (isFunction(this.modifyTemplateResult)) {
@@ -402,7 +402,7 @@ export class BaseTemplate {
 
     let res = `
 <template name="tmpl_${level}_${nodeAlias}">
-  <${nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${nodeName}>
+  <${nodeName} ${this.buildAttribute(comp.attributes, comp.nodeName)} id="{{i.uid||i.${Shortcuts.Sid}}}" data-${Shortcuts.Sid}="{{i.${Shortcuts.Sid}}}">${children}</${nodeName}>
 </template>
 `
 
@@ -430,7 +430,7 @@ export class BaseTemplate {
       if (compName === 'custom-wrapper') {
         template += `
 <template name="tmpl_${level}_${compName}">
-  <${compName} i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <${compName} i="{{i}}" l="{{l}}" id="{{i.uid||i.${Shortcuts.Sid}}}" data-${Shortcuts.Sid}="{{i.${Shortcuts.Sid}}}">
   </${compName}>
 </template>
   `
@@ -446,14 +446,14 @@ export class BaseTemplate {
         const children = this.voidElements.has(compName)
           ? ''
           : `
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
+    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}">
       ${child}
     </block>
   `
 
         template += `
 <template name="tmpl_${level}_${compName}">
-  <${compName} ${this.buildThirdPartyAttr(attrs, this.thirdPartyPatcher[compName] || {})} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${compName}>
+  <${compName} ${this.buildThirdPartyAttr(attrs, this.thirdPartyPatcher[compName] || {})} id="{{i.uid||i.${Shortcuts.Sid}}}" data-${Shortcuts.Sid}="{{i.${Shortcuts.Sid}}}">${children}</${compName}>
 </template>
   `
       }
@@ -464,7 +464,7 @@ export class BaseTemplate {
 
   // 最后一层的 comp 需要引用 container 进行重新的模版循环，其他情况不需要 container
   protected buildContainerTemplate (level: number) {
-    const tmpl = `<block ${this.Adapter.if}="{{i.nn === '${this.componentsAlias['#text']._num}'}}">
+    const tmpl = `<block ${this.Adapter.if}="{{i.${Shortcuts.NodeName} === '${this.componentsAlias['#text']._num}'}}">
     <template is="tmpl_0_${this.componentsAlias['#text']._num}" data="{{${this.dataKeymap('i:i')}}}" />
   </block>
   <block ${this.Adapter.else}>
@@ -511,7 +511,7 @@ export class BaseTemplate {
     // 此处需要重新引入 xs 函数，否则会出现 ws.f() 在 comp.wxml 和 custom-wrapper.wxml 中永远返回 undefined 的问题 #14599
     return `<import src="./base${ext}" />
 ${this.buildXsTemplate()}
-<template is="{{'tmpl_0_' + i.nn}}" data="{{${data}}}" />`
+<template is="{{'tmpl_0_' + i.${Shortcuts.NodeName}}}" data="{{${data}}}" />`
   }
 
   public buildCustomComponentTemplate = (ext: string) => {
@@ -525,8 +525,8 @@ ${this.buildXsTemplate()}
     // 此处需要重新引入 xs 函数，否则会出现 ws.f() 在 comp.wxml 和 custom-wrapper.wxml 中永远返回 undefined 的问题 #14599
     return `<import src="./base${ext}" />
   ${this.buildXsTemplate()}
-  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
-    <template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />
+  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}">
+    <template is="{{'tmpl_0_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" />
   </block>`
   }
 
@@ -558,10 +558,10 @@ ${this.buildXsTemplate()}
   }`
   }
 
-  protected buildXSTepFocus (nn: string) {
+  protected buildXSTepFocus (n: string) {
     return `function(i, prefix) {
     var s = i.focus !== undefined ? 'focus' : 'blur'
-    return prefix + i.${nn} + '_' + s
+    return prefix + i.${n} + '_' + s
   }`
   }
 

@@ -76,7 +76,7 @@ ${elements}
   }
 
   createMiniComponents (components: Components) {
-    components.Button.cn = ''
+    components.Button[Shortcuts.Childnodes] = ''
     components.Button.bindtap = ''
     components.Button.type = "'default'"
 
@@ -145,7 +145,7 @@ ${elements}
     const nodeAlias = comp.nodeAlias
     const children = this.voidElements.has(comp.nodeName)
       ? ''
-      : `<block for="{{i.cn}}">
+      : `<block for="{{i.${Shortcuts.Childnodes}}}">
       <container i="{{$item}}"></container>
     </block>`
     if (!nodeName) {
@@ -156,8 +156,8 @@ ${elements}
     }
 
     const res = `
-<block if="{{i.nn == '${nodeAlias}'}}">
-  <${nodeName} ${this.buildAttrs(comp.attributes, comp.nodeName)} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<block if="{{i.${Shortcuts.NodeName} == '${nodeAlias}'}}">
+  <${nodeName} ${this.buildAttrs(comp.attributes, comp.nodeName)} id="{{i.uid||i.${Shortcuts.Sid}}}" data-${Shortcuts.Sid}="{{i.${Shortcuts.Sid}}}">
     ${children}
   </${nodeName}>
 </block>
@@ -168,7 +168,7 @@ ${elements}
 
   buildPlainTextTemplate (): string {
     return `
-<block if="{{i.nn === '#text'}}">
+<block if="{{i.${Shortcuts.NodeName} === '#text'}}">
   <span>{{i.${Shortcuts.Text}}}</span>
 </block>
 `
@@ -206,11 +206,11 @@ ${elements}
   <navbar if="{{taroNavBar}}" title="{{taroNavBar.title}}" background="{{taroNavBar.background}}" text-style="{{taroNavBar.textStyle}}" st="{{taroNavBar.style}}"></navbar>
   <div class="body" style="padding-top: 44vp;padding-bottom: {{isShowTaroTabBar ? '56vp' : '0'}}">
     <refresh if="{{enablePullDownRefresh}}" type="pulldown" refreshing="{{isRefreshing}}" onrefresh="onPullDownRefresh">
-      <block for="{{root.cn}}">
+      <block for="{{root.${Shortcuts.Childnodes}}}">
         <container i="{{$item}}"></container>
       </block>
     </refresh>
-    <block else for="{{root.cn}}">
+    <block else for="{{root.${Shortcuts.Childnodes}}}">
       <container i="{{$item}}"></container>
     </block>
   </div>

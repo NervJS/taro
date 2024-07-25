@@ -295,7 +295,7 @@ pub fn extract_jsx_loop<'a>(
                 if return_value.is_jsx_element() {
                     let el = return_value.as_mut_jsx_element().unwrap();
                     el.opening.attrs.push(create_jsx_bool_attr(COMPILE_FOR));
-                    el.opening.attrs.push(create_jsx_lit_attr(COMPILE_FOR_KEY, Lit::Str(quote_str!("sid"))));
+                    el.opening.attrs.push(create_jsx_lit_attr(COMPILE_FOR_KEY, Lit::Str(quote_str!("s"))));
                     return Some(el);
                 } else if return_value.is_jsx_fragment() {
                     let el = return_value.as_mut_jsx_fragment().unwrap();
@@ -307,7 +307,7 @@ pub fn extract_jsx_loop<'a>(
                             span,
                             attrs: vec![
                                 create_jsx_bool_attr(COMPILE_FOR),
-                                create_jsx_lit_attr(COMPILE_FOR_KEY, Lit::Str(quote_str!("sid")))
+                                create_jsx_lit_attr(COMPILE_FOR_KEY, Lit::Str(quote_str!("s")))
                             ],
                             self_closing: false,
                             type_args: None

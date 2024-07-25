@@ -1,9 +1,9 @@
-import { singleQuote } from '@tarojs/shared'
+import { Shortcuts, singleQuote } from '@tarojs/shared'
 
 export const components = {
   Checkbox: {
     'group-id': '',
-    cn: ''
+    [Shortcuts.Childnodes]: ''
   },
   Span: {},
   Tabs: {
@@ -116,6 +116,6 @@ export const components = {
     lunar: 'false',
     lunarswitch: 'false',
     bindcolumnchange: '',
-    cn: ''
+    [Shortcuts.Childnodes]: ''
   }
 }

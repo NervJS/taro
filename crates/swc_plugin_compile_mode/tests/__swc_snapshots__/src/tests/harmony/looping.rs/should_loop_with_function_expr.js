@@ -193,7 +193,7 @@ function Index() {
     return <View compileMode="f0t0" _dynamicID="node0">
 
             {list.map(function(item, index) {
-        return <View hoverClass={myClass} compileFor compileForKey="sid">
+        return <View hoverClass={myClass} compileFor compileForKey="s">
 
                   <Text>index:</Text>
 

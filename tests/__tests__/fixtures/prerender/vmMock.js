@@ -1,15 +1,15 @@
 module.exports = {
   detailMock: {
-    'root.cn.[0]': {
-      nn: 'view',
+    'root.c.[0]': {
+      n: 'view',
       uid: '_n_15',
-      cn: [
+      c: [
         {
-          nn: 'view',
+          n: 'view',
           uid: '_n_10',
-          cn: [
+          c: [
             {
-              nn: 'picker',
+              n: 'picker',
               uid: '_n_9',
               mode: 'multiSelector',
               range: [
@@ -73,27 +73,27 @@ module.exports = {
                 ]
               ],
               value: [0, 0, 0],
-              cn: [
+              c: [
                 {
-                  nn: 'view',
+                  n: 'view',
                   uid: '_n_8',
-                  cn: [{ nn: 'text', uid: '_n_7', cn: [{ v: '请选择省市区', nn: '#text' }] }],
+                  c: [{ n: 'text', uid: '_n_7', c: [{ v: '请选择省市区', n: '#text' }] }],
                   st: 'width: 100%;height: 44px;'
                 }
               ]
             }
           ],
-          cl: 'taro-region-picker taro-region-picker-gray'
+          l: 'taro-region-picker taro-region-picker-gray'
         },
         {
-          nn: 'view',
+          n: 'view',
           uid: '_n_14',
           disablePrerender: true,
-          cn: [
+          c: [
             {
-              nn: 'view',
+              n: 'view',
               uid: '_n_13',
-              cn: [{ nn: 'text', uid: '_n_12', cn: [{ v: 'No need to be prerender.', nn: '#text' }] }]
+              c: [{ n: 'text', uid: '_n_12', c: [{ v: 'No need to be prerender.', n: '#text' }] }]
             }
           ]
         }
@@ -102,11 +102,11 @@ module.exports = {
     'root.uid': 'others/detail/index?'
   },
   indexMock: {
-    'root.cn.[0]': {
-      nn: 'view',
+    'root.c.[0]': {
+      n: 'view',
       uid: '_n_19',
-      cn: [{ nn: 'text', uid: '_n_18', cn: [{ v: 'Hello world!', nn: '#text' }] }],
-      cl: 'index'
+      c: [{ n: 'text', uid: '_n_18', c: [{ v: 'Hello world!', n: '#text' }] }],
+      l: 'index'
     },
     'root.uid': 'pages/index/index?'
   }

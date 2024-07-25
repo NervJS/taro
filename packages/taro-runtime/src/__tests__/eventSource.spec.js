@@ -24,7 +24,7 @@ describe('eventSource', () => {
   it('eventSource.removeNode should remove node\' sid & uid', () => {
     const node = createDiv('target')
 
-    const { sid, uid } = node
+    const { s: sid, uid } = node
 
     expect(eventSource.has(sid)).toBeTruthy()
     expect(eventSource.has(uid)).toBeTruthy()
@@ -63,9 +63,9 @@ describe('eventSource', () => {
 
     expect(eventSource.size).toBe(3)
 
-    expect(eventSource.has(list.sid)).toBeFalsy()
+    expect(eventSource.has(list.s)).toBeFalsy()
     expect(eventSource.has(list.uid)).toBeFalsy()
-    expect(eventSource.has(target.sid)).toBeFalsy()
+    expect(eventSource.has(target.s)).toBeFalsy()
     expect(eventSource.has('target')).toBeFalsy()
   })
 })

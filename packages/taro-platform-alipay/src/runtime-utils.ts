@@ -58,10 +58,10 @@ export const hostConfig = {
       const page = pages[pages.length - 1]
       data[Shortcuts.NodeName] = element.dataName
       page.setData({
-        [toCamelCase(data.nn)]: data
+        [toCamelCase(data[Shortcuts.NodeName])]: data
       })
       return {
-        sid: element.sid,
+        [Shortcuts.Sid]: element[Shortcuts.Sid],
         [Shortcuts.Text]: '',
         [Shortcuts.NodeName]: componentsAlias['#text']?._num || '8'
       }

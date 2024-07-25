@@ -154,8 +154,8 @@ export class TaroElement extends TaroNode {
         this.style.cssText = value as string
         break
       case ID:
-        if (this.uid !== this.sid) {
-          // eventSource[sid] 永远保留，直到组件卸载
+        if (this.uid !== this[Shortcuts.Sid]) {
+          // eventSource[Shortcuts.Sid] 永远保留，直到组件卸载
           // eventSource[uid] 可变
           eventSource.delete(this.uid)
         }

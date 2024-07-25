@@ -82,8 +82,8 @@ export class Template extends RecursiveTemplate {
 
   modifyLoopBody = (child: string, nodeName: string) => {
     if (nodeName === 'picker-view') {
-      return `<picker-view-column class="{{item.cl}}" style="{{item.st}}">
-        <view a:for="{{item.cn}}" a:key="sid">
+      return `<picker-view-column class="{{item.${Shortcuts.Class}}}" style="{{item.st}}">
+        <view a:for="{{item.${Shortcuts.Childnodes}}}" a:key="${Shortcuts.Sid}">
           ${child}
         </view>
       </picker-view-column>`
@@ -99,9 +99,9 @@ export class Template extends RecursiveTemplate {
     }
     if (nodeName === 'swiper') {
       return `
-    <block a:for="{{xs.f(i.cn)}}" a:key="sid">
-      <swiper-item class="{{item.cl}}" style="{{item.st}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
-        <block a:for="{{item.cn}}" a:key="sid">
+    <block a:for="{{xs.f(i.${Shortcuts.Childnodes})}}" a:key="${Shortcuts.Sid}">
+      <swiper-item class="{{item.${Shortcuts.Class}}}" style="{{item.st}}" id="{{item.uid||item.${Shortcuts.Sid}}}" data-${Shortcuts.Sid}="{{item.${Shortcuts.Sid}}}">
+        <block a:for="{{item.${Shortcuts.Childnodes}}}" a:key="${Shortcuts.Sid}">
           <template is="{{xs.a(0, item.${Shortcuts.NodeName})}}" data="{{i:item}}" />
         </block>
       </swiper-item>
@@ -122,8 +122,8 @@ export class Template extends RecursiveTemplate {
     const slotAlias = slot._num
     const slotNamePropAlias = slot.name
 
-    return `<view a:if="{{item.nn==='${slotAlias}'}}" slot="{{item.${slotNamePropAlias}}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
-        <block a:for="{{item.cn}}" a:key="sid">
+    return `<view a:if="{{item.${Shortcuts.NodeName}==='${slotAlias}'}}" slot="{{item.${slotNamePropAlias}}}" id="{{item.uid||item.${Shortcuts.Sid}}}" data-${Shortcuts.Sid}="{{item.${Shortcuts.Sid}}}">
+        <block a:for="{{item.${Shortcuts.Childnodes}}}" a:key="${Shortcuts.Sid}">
           <template is="{{xs.a(0, item.${Shortcuts.NodeName})}}" data="{{i:item}}" />
         </block>
       </view>
@@ -133,7 +133,7 @@ export class Template extends RecursiveTemplate {
   buildXSTmpExtra () {
     const swiperItemAlias = this.componentsAlias['swiper-item']._num
     return `f: function (l) {
-    return l.filter(function (i) {return i.nn === '${swiperItemAlias}'})
+    return l.filter(function (i) {return i.${Shortcuts.NodeName} === '${swiperItemAlias}'})
   }`
   }
 
@@ -152,7 +152,7 @@ export class Template extends RecursiveTemplate {
 
       pageMetaTemplate = `
 <import-sjs name="xs" from="${baseTempPath.replace('base.axml', 'utils.sjs')}" />
-<page-meta data-sid="{{pageMeta.sid}}" ${pageMetaAttrs}></page-meta>`
+<page-meta data-${Shortcuts.Sid}="{{pageMeta.${Shortcuts.Sid}}}" ${pageMetaAttrs}></page-meta>`
     }
 
     const template = `<import src="${baseTempPath}"/>${pageMetaTemplate}

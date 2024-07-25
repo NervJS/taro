@@ -205,7 +205,7 @@ export const PLUGIN_FILE_DATA = {
     </text>
     <button bindtap="goToMiniprogramPage">跳转到小程序页面</button>
     <button bindtap="goToPluginPage">跳转到插件页面</button>
-    <component1>nn</component1>
+    <component1>n</component1>
   `,
   '/plugin/pages/index/index.js': `
     Page({

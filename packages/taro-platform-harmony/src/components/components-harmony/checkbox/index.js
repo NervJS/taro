@@ -1,3 +1,5 @@
+import { Shortcuts } from '@tarojs/shared'
+
 export default {
   props: [
     'id',
@@ -6,12 +8,12 @@ export default {
     'disabled',
     'checked',
     'groupId',
-    'cn'
+    Shortcuts.Childnodes
   ],
   computed: {
     textValue () {
-      const cn = this.cn
-      return cn && cn[0] && cn[0].nn === '#text' ? cn[0].v : ''
+      const childNodes = this[Shortcuts.Childnodes]
+      return childNodes && childNodes[0] && childNodes[0][Shortcuts.NodeName] === '#text' ? childNodes[0].v : ''
     }
   },
   onAttached () {

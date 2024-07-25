@@ -38,7 +38,7 @@ pub fn tr () -> impl Fold {
                     "webp": "xs.b(i.p4,false)",
                     "show-menu-by-longpress": "xs.b(i.p2,false)",
                     "style": "i.st",
-                    "class": "i.cl",
+                    "class": "i.l",
                     "bindtap": "eh"
                 },
                 "view": {
@@ -57,7 +57,7 @@ pub fn tr () -> impl Fold {
                     "bindanimationend": "eh",
                     "bindtransitionend": "eh",
                     "style": "i.st",
-                    "class": "i.cl",
+                    "class": "i.l",
                     "bindtap": "eh"
                 },
                 "text": {
@@ -66,13 +66,13 @@ pub fn tr () -> impl Fold {
                     "decode": "xs.b(i.p0,!1)",
                     "user-select": "xs.b(i.p3,false)",
                     "style": "i.st",
-                    "class": "i.cl",
+                    "class": "i.l",
                     "bindtap": "eh"
                 },
                 "movable-area": {
                     "scale-area": "xs.b(i.p0,!1)",
                     "style": "i.st",
-                    "class": "i.cl",
+                    "class": "i.l",
                     "bindtap": "eh"
                 }
             },

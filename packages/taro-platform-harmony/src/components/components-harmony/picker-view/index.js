@@ -1,3 +1,5 @@
+import { Shortcuts } from '@tarojs/shared'
+
 import { createOption } from '../utils'
 
 const MODE_TYPE_MAP = {
@@ -24,7 +26,7 @@ export default createOption({
     'vibrate',
     'lunar',
     'lunarswitch',
-    'cn'
+    Shortcuts.Childnodes
   ],
 
   data () {
@@ -33,7 +35,7 @@ export default createOption({
     const hasModeProp = Boolean(this.mode)
     let range = isArray(this.range) ? this.range : []
     let type = hasModeProp ? MODE_TYPE_MAP[this.mode] || 'text' : null
-    const children = (this.cn || []).filter(child => child.nn === 'picker-view-column')
+    const children = (this[Shortcuts.Childnodes] || []).filter(child => child[Shortcuts.NodeName] === 'picker-view-column')
 
     // 优先读取range属性，若无则解析子节点
     if (!hasRangeProp && ['text', 'multi-text', null].includes(type)) {
@@ -128,7 +130,7 @@ function isMultiRange (range = []) {
  */
 function recursiveGetCandidates (children = []) {
   if (children.length === 0) return []
-  return children.map(child => getCandidatesDFS(child.cn || []))
+  return children.map(child => getCandidatesDFS(child[Shortcuts.Childnodes] || []))
 }
 /**
  * 以深度遍历方式收集候选词，最多遍历4层，优先查找左子树，直到读取到“#text”节点为止
@@ -141,12 +143,12 @@ function getCandidatesDFS (children = []) {
 
   const allowDepth = 4 // 最深遍历4层，避免无限制递归
   const trave = function (node, depth) {
-    if (node.nn === '#text') {
+    if (node[Shortcuts.NodeName] === '#text') {
       return node.v
     }
     if (depth > allowDepth) return ''
-    if (node.cn) {
-      return trave(node.cn[0], depth + 1) // 优先查找第一个孩子节点，这就要求开发者将候选词始终放在第一个节点中
+    if (node[Shortcuts.Childnodes]) {
+      return trave(node[Shortcuts.Childnodes][0], depth + 1) // 优先查找第一个孩子节点，这就要求开发者将候选词始终放在第一个节点中
     }
     return ''
   }

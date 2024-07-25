@@ -1,4 +1,4 @@
-import { internalComponents, isArray } from '@tarojs/shared'
+import { internalComponents, isArray, Shortcuts } from '@tarojs/shared'
 
 import { initNativeApi } from './apis'
 
@@ -155,7 +155,7 @@ export const hostConfig = {
       // 调用 OnDestroy
       originOnDestroy.call(this)
     }
-    config.data = { root: { cn: [] } }
+    config.data = { root: { [Shortcuts.Childnodes]: [] } }
   },
   isBubbleEvents (eventName) {
     return BUBBLE_EVENTS.has(eventName)

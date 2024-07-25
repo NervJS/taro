@@ -1,3 +1,5 @@
+import { Shortcuts } from '@tarojs/shared'
+
 import { appendVirtualModulePrefix, escapePath, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 
 import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
@@ -28,7 +30,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
 
         const pageConfig = prettyPrintJson(page.config)
 
-        let instantiatePage = `var inst = Page(createPageConfig(component, '${page.name}', {root:{cn:[]}}, config || {}))`
+        let instantiatePage = `var inst = Page(createPageConfig(component, '${page.name}', {root:{${Shortcuts.Childnodes}:[]}}, config || {}))`
 
         if (typeof viteCompilerContext.loaderMeta.modifyInstantiate === 'function') {
           instantiatePage = viteCompilerContext.loaderMeta.modifyInstantiate(instantiatePage, 'page')

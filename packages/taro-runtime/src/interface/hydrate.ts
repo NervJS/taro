@@ -20,7 +20,7 @@ export interface MiniElementData {
   [Shortcuts.Class]?: string
   [Shortcuts.Style]?: string
   uid?: string
-  sid: string
+  [Shortcuts.Sid]: string
   [key: string]: unknown
 }
 

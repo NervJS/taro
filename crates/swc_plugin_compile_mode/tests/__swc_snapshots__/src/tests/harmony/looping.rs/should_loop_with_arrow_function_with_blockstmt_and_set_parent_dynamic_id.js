@@ -200,7 +200,7 @@ function Index() {
           <View _dynamicID="node1">
 
             {list.map((item)=>{
-        return <View compileFor compileForKey="sid">{item}</View>;
+        return <View compileFor compileForKey="s">{item}</View>;
     })}
 
           </View>

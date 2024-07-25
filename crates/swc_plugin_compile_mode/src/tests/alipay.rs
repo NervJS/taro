@@ -35,7 +35,7 @@ fn tr () -> impl Fold {
                     "onDisappear": "eh",
                     "onFirstAppear": "eh",
                     "style": "i.st",
-                    "class": "i.cl",
+                    "class": "i.l",
                     "onTap": "eh"
                 }
             },

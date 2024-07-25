@@ -43,7 +43,7 @@ interface MiniData {
   [Shortcuts.Class]?: string
   [Shortcuts.Style]?: string
   [Shortcuts.Text]?: string
-  sid: string
+  [Shortcuts.Sid]: string
   uid?: string
 }
 
@@ -236,12 +236,12 @@ export class Prerender {
 
     const style = data[Shortcuts.Style]
     const klass = data[Shortcuts.Class]
-    const id = data.uid || data.sid
+    const id = data.uid || data[Shortcuts.Sid]
     const children = data[Shortcuts.Childnodes] ?? []
 
     const omitBy = require('lodash').omitBy
     const attrs = omitBy(data, (_, key) => {
-      const internal = [Shortcuts.NodeName, Shortcuts.Childnodes, Shortcuts.Class, Shortcuts.Style, Shortcuts.Text, 'uid', 'sid']
+      const internal = [Shortcuts.NodeName, Shortcuts.Childnodes, Shortcuts.Class, Shortcuts.Style, Shortcuts.Text, 'uid', Shortcuts.Sid]
       return internal.includes(key) || key.startsWith('data-')
     })
 
@@ -298,7 +298,7 @@ export class Prerender {
       `, this.outputPath)
 
       dataReceiver((data) => {
-        const domTree = data['root.cn.[0]'] || data['root.cn[0]'] || data['root.cn']?.[0]
+        const domTree = data[`root.${Shortcuts.Childnodes}.[0]`] || data[`root.${Shortcuts.Childnodes}[0]`] || data[`root.${Shortcuts.Childnodes}`]?.[0]
         if (domTree == null) {
           reject(new Error('初始化渲染没有任何数据。'))
         }

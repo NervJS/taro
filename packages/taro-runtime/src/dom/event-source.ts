@@ -1,3 +1,5 @@
+import { Shortcuts } from '@tarojs/shared'
+
 import type { TaroNode } from './node'
 
 interface IEventSource extends Map<string | undefined | null, TaroNode> {
@@ -7,7 +9,7 @@ interface IEventSource extends Map<string | undefined | null, TaroNode> {
 
 class EventSource extends Map {
   removeNode (child: TaroNode) {
-    const { sid, uid } = child
+    const { [Shortcuts.Sid]: sid, uid } = child
     this.delete(sid)
     if (uid !== sid && uid) this.delete(uid)
   }

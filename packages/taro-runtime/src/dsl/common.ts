@@ -341,7 +341,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
   const lifeCycles = isCustomWrapper
     ? {
       [ATTACHED] () {
-        const componentId = this.data.i?.sid || this.props.i?.sid
+        const componentId = this.data.i?.[Shortcuts.Sid] || this.props.i?.[Shortcuts.Sid]
         if (isString(componentId)) {
           customWrapperCache.set(componentId, this)
           const el = env.document.getElementById(componentId)
@@ -351,7 +351,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
         }
       },
       [DETACHED] () {
-        const componentId = this.data.i?.sid || this.props.i?.sid
+        const componentId = this.data.i?.[Shortcuts.Sid] || this.props.i?.[Shortcuts.Sid]
         if (isString(componentId)) {
           customWrapperCache.delete(componentId)
           const el = env.document.getElementById(componentId)

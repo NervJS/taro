@@ -14,7 +14,7 @@ import { TaroElement } from './element'
 import type { HydratedData, MpInstance, TFunc, UpdatePayload, UpdatePayloadValue } from '../interface'
 
 function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
-  // ['root', 'cn', '[0]'] remove 'root' => ['cn', '[0]']
+  // ['root', 'c', '[0]'] remove 'root' => ['c', '[0]']
   const list = dataPathArr.slice(1)
   let currentData: any = root
   let customWrapper: Record<string, any> | undefined
@@ -24,8 +24,8 @@ function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
     const key = item
       // '[0]' => '0'
       .replace(/^\[(.+)\]$/, '$1')
-      // 'cn' => 'childNodes'
-      .replace(/\bcn\b/g, 'childNodes')
+      // 'c' => 'Shortcuts.Childnodes'
+      .replace(/\bc\b/g, 'childNodes')
 
     currentData = currentData[key]
 
@@ -36,7 +36,7 @@ function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
     if (isUndefined(currentData)) return true
 
     if (currentData.nodeName === CUSTOM_WRAPPER) {
-      const res = customWrapperCache.get(currentData.sid)
+      const res = customWrapperCache.get(currentData[Shortcuts.Sid])
       if (res) {
         customWrapper = res
         splitedPath = dataPathArr.slice(i + 2).join('.')
@@ -94,7 +94,7 @@ export class TaroRootElement extends TaroElement {
       const data: Record<string, UpdatePayloadValue | ReturnType<HydratedData>> = Object.create(null)
       const resetPaths = new Set<string>(
         initRender
-          ? ['root.cn.[0]', 'root.cn[0]']
+          ? [`root.${Shortcuts.Childnodes}.[0]`, `root.${Shortcuts.Childnodes}[0]`]
           : []
       )
 

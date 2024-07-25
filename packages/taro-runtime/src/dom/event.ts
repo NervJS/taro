@@ -1,4 +1,4 @@
-import { EMPTY_OBJ, hooks, isUndefined } from '@tarojs/shared'
+import { EMPTY_OBJ, hooks, isUndefined, Shortcuts } from '@tarojs/shared'
 
 import {
   CONFIRM,
@@ -66,9 +66,9 @@ export class TaroEvent {
     const cacheTarget = this.cacheTarget
     if (!cacheTarget) {
       const target = Object.create(this.mpEvent?.target || null)
-      const currentEle = env.document.getElementById(target.dataset?.sid || target.id || null)
+      const currentEle = env.document.getElementById(target.dataset?.[Shortcuts.Sid] || target.id || null)
       // Note：优先判断冒泡场景alipay的targetDataset的sid, 不然冒泡场景target属性吐出不对，其余拿取当前绑定id
-      const element = env.document.getElementById(target.targetDataset?.sid || target.dataset?.sid || target.id || null)
+      const element = env.document.getElementById(target.targetDataset?.[Shortcuts.Sid] || target.dataset?.[Shortcuts.Sid] || target.id || null)
 
       target.dataset = {
         ...(currentEle !== null ? currentEle.dataset : EMPTY_OBJ),
@@ -94,8 +94,8 @@ export class TaroEvent {
 
       const currentTarget = Object.create(this.mpEvent?.currentTarget || null)
 
-      const element = doc.getElementById(currentTarget.dataset?.sid || currentTarget.id || null)
-      const targetElement = doc.getElementById(this.mpEvent?.target?.dataset?.sid as string || this.mpEvent?.target?.id as string || null)
+      const element = doc.getElementById(currentTarget.dataset?.[Shortcuts.Sid] || currentTarget.id || null)
+      const targetElement = doc.getElementById(this.mpEvent?.target?.dataset?.[Shortcuts.Sid] as string || this.mpEvent?.target?.id as string || null)
 
       if (element === null || (element && element === targetElement)) {
         this.cacheCurrentTarget = this.target
@@ -164,7 +164,7 @@ export function eventHandler (event: MpEvent) {
   hooks.call('modifyMpEventImpl', event)
 
   const currentTarget = event.currentTarget
-  const id = currentTarget.dataset?.sid as string /** sid */ || currentTarget.id /** uid */ || event.detail?.id as string || ''
+  const id = currentTarget.dataset?.[Shortcuts.Sid] as string /** sid */ || currentTarget.id /** uid */ || event.detail?.id as string || ''
 
   const node = env.document.getElementById(id)
   if (node) {

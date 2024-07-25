@@ -24,7 +24,7 @@ const nodeId = incrementId()
 
 export class TaroNode extends TaroEventTarget {
   public uid: string
-  public sid: string
+  public [Shortcuts.Sid]: string
   public nodeType: NodeType
   public nodeName: string
   public parentNode: TaroNode | null = null
@@ -33,8 +33,8 @@ export class TaroNode extends TaroEventTarget {
   public constructor () {
     super()
     this.uid = '_' + nodeId() // dom 节点 id，开发者可修改
-    this.sid = this.uid // dom 节点全局唯一 id，不可被修改
-    eventSource.set(this.sid, this)
+    this[Shortcuts.Sid] = this.uid // dom 节点全局唯一 id，不可被修改
+    eventSource.set(this[Shortcuts.Sid], this)
   }
 
   private hydrate = (node: TaroNode) => () => hydrate(node as TaroElement)
@@ -209,13 +209,13 @@ export class TaroNode extends TaroEventTarget {
         // insertBefore 有两种更新模式
         // 比方说有 A B C 三个节点，现在要在 C 前插入 D
         // 1. 插入 D，然后更新整个父节点的 childNodes 数组
-        // setData({ cn: [A, B, D, C] })
+        // setData({ c: [A, B, D, C] })
         // 2. 插入 D，然后更新 D 以及 D 之后每个节点的数据
         // setData ({
-        //   cn.[2]: D,
-        //   cn.[3]: C,
+        //   c.[2]: D,
+        //   c.[3]: C,
         // })
-        // 由于微信解析 ’cn.[2]‘ 这些路径的时候也需要消耗时间，
+        // 由于微信解析 ’c.[2]‘ 这些路径的时候也需要消耗时间，
         // 所以根据 insertBefore 插入的位置来做不同的处理
         const mark = childNodesLength * 2 / 3
         if (mark > index) {

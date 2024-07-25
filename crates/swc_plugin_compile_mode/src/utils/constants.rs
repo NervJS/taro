@@ -5,7 +5,7 @@ pub const COMPILE_IGNORE: &str = "compileIgnore";
 pub const COMPILE_FOR: &str = "compileFor";
 pub const COMPILE_FOR_KEY: &str = "compileForKey";
 pub const EVENT_HANDLER: &str = "eh";
-pub const DATA_SID: &str = "data-sid";
+pub const DATA_SID: &str = "data-s";
 pub const TMPL_DATA_ROOT: &str = "i.";
 pub const ID: &str = "id";
 pub const LOOP_WRAPPER_ID: i32 = -1;
@@ -47,9 +47,9 @@ import {
   AREA_CHANGE_EVENT_NAME,
   VISIBLE_CHANGE_EVENT_NAME
 } from '@tarojs/runtime'
-import { 
-  createLazyChildren, 
-  createChildItem 
+import {
+  createLazyChildren,
+  createChildItem
 } from '../render'
 
 import type {

@@ -1,4 +1,4 @@
-const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><view><template is="{{xs.a(c, i.cn[0].nn, l)}}" data="{{i:i.cn[0],c:c+1,l:xs.f(l,i.cn[0].nn)}}" /><template is="{{xs.a(c, i.cn[1].nn, l)}}" data="{{i:i.cn[1],c:c+1,l:xs.f(l,i.cn[1].nn)}}" /><template is="{{xs.a(c, i.cn[2].nn, l)}}" data="{{i:i.cn[2],c:c+1,l:xs.f(l,i.cn[2].nn)}}" /></view></template>'
+const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><view><template is="{{xs.a(c, i.c[0].n, l)}}" data="{{i:i.c[0],c:c+1,l:xs.f(l,i.c[0].n)}}" /><template is="{{xs.a(c, i.c[1].n, l)}}" data="{{i:i.c[1],c:c+1,l:xs.f(l,i.c[1].n)}}" /><template is="{{xs.a(c, i.c[2].n, l)}}" data="{{i:i.c[2],c:c+1,l:xs.f(l,i.c[2].n)}}" /></view></template>'
 function Index() {
     return <View compileMode="f0t0">
             <Foo/>

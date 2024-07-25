@@ -37,7 +37,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
 
   if (isText(node)) {
     return {
-      sid: node.sid,
+      [Shortcuts.Sid]: node[Shortcuts.Sid],
       [Shortcuts.Text]: node.nodeValue,
       [Shortcuts.NodeName]: componentsAlias[nodeName]?._num || '8'
     }
@@ -45,10 +45,10 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
 
   const data: MiniElementData = {
     [Shortcuts.NodeName]: nodeName,
-    sid: node.sid
+    [Shortcuts.Sid]: node[Shortcuts.Sid]
   }
 
-  if (node.uid !== node.sid) {
+  if (node.uid !== node[Shortcuts.Sid]) {
     data.uid = node.uid
   }
 
@@ -99,8 +99,8 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
 
   hooks.call('modifyHydrateData', data, node)
 
-  const nn = data[Shortcuts.NodeName]
-  const componentAlias = componentsAlias[nn]
+  const n = data[Shortcuts.NodeName]
+  const componentAlias = componentsAlias[n]
   if (componentAlias) {
     data[Shortcuts.NodeName] = componentAlias._num
     for (const prop in data) {

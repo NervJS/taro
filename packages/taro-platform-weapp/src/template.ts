@@ -54,21 +54,21 @@ export class Template extends UnRecursiveTemplate {
     return name
   }
 
-  buildXSTepFocus (nn: string) {
+  buildXSTepFocus (n: string) {
     if (this.pluginOptions.enablekeyboardAccessory) {
       const textarea = this.componentsAlias.textarea._num
       const input = this.componentsAlias.input._num
       const ka = this.componentsAlias['keyboard-accessory']._num
       return `function(i, prefix) {
       var s = i.focus !== undefined ? 'focus' : 'blur'
-      var r = prefix + i.${nn} + '_' + s
-      if ((i.nn === '${textarea}' || i.nn === '${input}') && i.cn[0] && i.cn[0].nn === '${ka}') {
+      var r = prefix + i.${n} + '_' + s
+      if ((i.${Shortcuts.NodeName} === '${textarea}' || i.${Shortcuts.NodeName} === '${input}') && i.${Shortcuts.Childnodes}[0] && i.${Shortcuts.Childnodes}[0].${Shortcuts.NodeName} === '${ka}') {
         r = r + '_ka'
       }
       return r
     }`
     } else {
-      return super.buildXSTepFocus(nn)
+      return super.buildXSTepFocus(n)
     }
   }
 
@@ -82,8 +82,8 @@ export class Template extends UnRecursiveTemplate {
       const xs = `xs.a(c, item.${Shortcuts.NodeName}, l)`
 
       const target = `
-    <keyboard-accessory style="{{i.cn[0].st}}" class="{{i.cn[0].cl}}" bindtap="eh"  id="{{i.cn[0].uid||i.cn[0].sid}}" data-sid="{{i.cn[0].sid}}">
-      <block wx:for="{{i.cn[0].cn}}" wx:key="sid">
+    <keyboard-accessory style="{{i.${Shortcuts.Childnodes}[0].st}}" class="{{i.${Shortcuts.Childnodes}[0].${Shortcuts.Class}}}" bindtap="eh"  id="{{i.${Shortcuts.Childnodes}[0].uid||i.${Shortcuts.Childnodes}[0].${Shortcuts.Sid}}}" data-${Shortcuts.Sid}="{{i.${Shortcuts.Childnodes}[0].${Shortcuts.Sid}}}">
+      <block wx:for="{{i.${Shortcuts.Childnodes}[0].${Shortcuts.Childnodes}}}" wx:key="${Shortcuts.Sid}">
         <template is="{{${xs}}}" data="{{i:item,c:c+1,l:xs.f(l,item.${Shortcuts.NodeName})}}" />
       </block>
     </keyboard-accessory>
@@ -120,7 +120,7 @@ export class Template extends UnRecursiveTemplate {
 
       pageMetaTemplate = `
 <wxs module="xs" src="${baseTempPath.replace('base.wxml', 'utils.wxs')}" />
-<page-meta data-sid="{{pageMeta.sid}}" ${pageMetaAttrs}>
+<page-meta data-${Shortcuts.Sid}="{{pageMeta.${Shortcuts.Sid}}}" ${pageMetaAttrs}>
   <navigation-bar ${navigationBarAttrs}/>
 </page-meta>`
     }

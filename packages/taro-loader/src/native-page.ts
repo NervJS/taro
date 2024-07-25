@@ -1,5 +1,6 @@
 import * as path from 'node:path'
 
+import { Shortcuts } from '../../shared/dist'
 import { entryCache } from './entry-cache'
 import { getPageConfig } from './page'
 import { stringifyRequest } from './util'
@@ -51,7 +52,7 @@ var component = require(${stringify(componentPath)}).default
 var config = ${configString};
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
-var inst = Page(createNativePageConfig(component, '${pageName}', {root:{cn:[]}}, ${frameworkArgs}))
+var inst = Page(createNativePageConfig(component, '${pageName}', {root:{${Shortcuts.Childnodes}:[]}}, ${frameworkArgs}))
 ${options.prerender ? prerender : ''}
 ${hmr}
 `

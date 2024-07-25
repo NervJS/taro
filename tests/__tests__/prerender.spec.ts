@@ -69,8 +69,8 @@ describe('prerender', () => {
         exclude: ['others/normal/index'],
         transformData (data, { path }) {
           if (path === 'others/detail/index') {
-            data.nn = 'video'
-            data.cn = []
+            data.n = 'video'
+            data.c = []
             data.src = 'https://github.com/taro'
             return data
           }

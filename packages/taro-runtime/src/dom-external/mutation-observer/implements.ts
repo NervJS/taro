@@ -1,3 +1,5 @@
+import { Shortcuts } from '@tarojs/shared'
+
 import { MutationRecordType } from './record'
 
 import type { TaroNode } from '../../dom/node'
@@ -78,12 +80,12 @@ export class MutationObserverImpl {
   }
 }
 
-/** Match two TaroNodes by sid. */
+/** Match two TaroNodes by [Shortcuts.Sid]. */
 const sidMatches = (
   observerTarget: TaroNode | null,
   target: TaroNode | null
 ): boolean => {
-  return !!observerTarget && observerTarget.sid === target?.sid
+  return !!observerTarget && observerTarget[Shortcuts.Sid] === target?.[Shortcuts.Sid]
 }
 
 const isConcerned = (record: MutationRecord, options: MutationObserverInit) => {
