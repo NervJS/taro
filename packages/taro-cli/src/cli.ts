@@ -209,6 +209,7 @@ export default class CLI {
             clone: !!args.clone,
             template: args.template,
             css: args.css,
+            autoInstall: args.autoInstall,
             h: args.h
           })
           break
