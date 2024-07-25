@@ -112,7 +112,8 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
         const creatorFile = path.join(templateRootPath, name, TEMPLATE_CREATOR)
 
         if (!fs.existsSync(creatorFile)) return { name, value: name }
-        const { name: displayName, platforms = '', desc = '', compiler } = require(creatorFile)
+        const { name: displayName, platforms = '', desc = '', isPrivate = false, compiler } = require(creatorFile)
+        if (isPrivate) return null
 
         return {
           name: displayName || name,
@@ -121,7 +122,8 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
           compiler,
           desc
         }
-      })
+      }).filter(Boolean) as ITemplates[]
+
       return Promise.resolve(res)
     } else {
       // 单模板
