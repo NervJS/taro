@@ -1,4 +1,4 @@
-import { isArray } from '@tarojs/shared'
+import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 
 import env from '../env'
 
@@ -36,7 +36,7 @@ function encode (str: string) {
   return encodeURIComponent(str).replace(findReg, replacer)
 }
 
-export const URLSearchParams = process.env.TARO_PLATFORM === 'web' ? env.window.URLSearchParams : class {
+export const URLSearchParams = process.env.TARO_PLATFORM === PLATFORM_TYPE.WEB ? env.window.URLSearchParams : class {
   #dict = Object.create(null)
 
   constructor (query) {
