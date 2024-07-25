@@ -363,7 +363,7 @@ export function setNormalAttributeIntoInstance(instance: CommonAttribute, style:
     })
   }
   if (!isUndefined(style.opacity)) {
-    instance.opacity(style.opacity)
+    instance.opacity(style.opacity === '' ? 1: style.opacity)
   }
   if (!isUndefined(style.overflow)) {
     instance.clip(style.overflow === 'hidden')
