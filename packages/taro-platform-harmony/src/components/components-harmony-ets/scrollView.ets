@@ -36,8 +36,13 @@ function getAttributes (node: TaroScrollViewElement): ScrollViewAttrs {
 
 function getScrollable (node: TaroScrollViewElement) {
   const _attrs = node._attrs
-
-  return _attrs.scrollX ? ScrollDirection.Horizontal : ScrollDirection.Vertical
+  if (_attrs.scrollX) {
+    return ScrollDirection.Horizontal
+  } else if (_attrs.scrollY) {
+    return ScrollDirection.Vertical
+  } else {
+    return ScrollDirection.None
+  }
 }
 
 function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', xOffset?: number, yOffset?: number) {
