@@ -8,9 +8,11 @@
 // ❌ DownloadTask.offHeadersReceived 此接口 ohos 不支持
 
 import request from '@ohos.request'
-import Taro, { DownloadTask } from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
+
+import type Taro from '@tarojs/taro/types'
+import type { DownloadTask } from '@tarojs/taro/types'
 
 interface IDownloadConfigOHOS {
   url: string

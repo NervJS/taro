@@ -161,9 +161,9 @@ export function findChildNodeWithDFS<T extends TaroElement = TaroElement> (node:
 export function findChildNodeWithDFS<T extends TaroElement = TaroElement> (node: TaroElement, selector: string | ((ele: T) => boolean), selectAll): T[] | T | null {
   const queue = [node]
 
-  const nodeList: TaroElement[] = []
+  const nodeList: T[] = []
   while (queue.length) {
-    const currentNode = queue.shift()
+    const currentNode = queue.shift() as T
     if (currentNode) {
       if (typeof selector === 'string') {
         if (selector.startsWith('#')) {
@@ -200,7 +200,5 @@ export function findChildNodeWithDFS<T extends TaroElement = TaroElement> (node:
   return null
 }
 
-export type TaroAny = any
-export type TaroFunc = (...args: TaroAny[]) => TaroAny
-export type TaroIndent = string | number | boolean | undefined | null
-export type TaroObject = Record<string | number | symbol, TaroAny>
+export * from './info'
+export * from './router'

@@ -91,6 +91,8 @@ export default class Harmony extends TaroPlatformHarmony {
     env.forEach(([key, value]) => {
       this.#defineConstants[`process.env.${key}`] = JSON.stringify(value)
     })
+
+    return this.#defineConstants
   }
 
   extensions = ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.mts', '.vue', '.ets', '.d.ts']
@@ -235,6 +237,8 @@ export default class Harmony extends TaroPlatformHarmony {
         code = apiLoader(code)
       }
       if (this.extensions.includes(path.extname(lib))) {
+        // Note: 移除 onpm 不能装载的类型，新版本会导致 ets-loader 抛出 resolvedFileName 异常
+        code = code.replace(/\/{3}\s*<reference\s+types=['"]([^'"\s]+)['"]\s*\/>\n*/g, '')
         // Note: 查询 externals 内的依赖，并将它们添加到 externalDeps 中
         code = code.replace(/(?:import\s|from\s|require\()['"]([^\\/.][^'"\s]+)['"]\)?/g, (src, p1 = '') => {
           if (p1.startsWith('node:') || p1.endsWith('.so')) return src

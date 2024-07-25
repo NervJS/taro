@@ -1,6 +1,5 @@
 import abilityAccessCtrl from '@ohos.abilityAccessCtrl'
-import { Current } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
-import { eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
+import { Current, eventCenter } from '@tarojs/runtime'
 
 import { ICallbackResult, MethodHandler } from './handler'
 

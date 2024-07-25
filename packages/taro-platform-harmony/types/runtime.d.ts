@@ -18,4 +18,11 @@ declare module '@tarojs/runtime' {
   export function findChildNodeWithDFS<T extends TaroElement = TaroElement> (node: TaroElement, selector: string | ((ele: T) => boolean), selectAll: boolean): T[] | T | null
 
   export const window: any
+  export type TFunc = (...args: any[]) => any
+
+  export const context: {
+    resolver: Promise.resolve
+    value: any
+  }
+  export const uiContext: typeof context
 }

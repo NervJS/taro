@@ -1,14 +1,15 @@
 import ohosWindow from '@ohos.window'
-import { History, Location } from '@tarojs/runtime/dist/runtime.esm'
 import { getSystemInfoSync } from '@tarojs/taro'
 
 import { TaroEventTarget } from '../dom/eventTarget'
 import { getComputedStyle } from './getComputedStyle'
-import { nav } from './navigator'
+import { History } from './history'
+import { Location } from './location'
+import { navigator as nav } from './navigator'
 
 import type { TaroDocument } from '../dom/document'
 
-class Window extends TaroEventTarget {
+export class Window extends TaroEventTarget {
   public _doc: TaroDocument
   public __taroAppConfig: any
   public __ohos = ohosWindow
@@ -43,8 +44,6 @@ class Window extends TaroEventTarget {
     clearTimeout(...args)
   }
 }
-
-export { Location, Window }
 
 export const window = new Window()
 export const location = window.location

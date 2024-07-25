@@ -22,6 +22,7 @@ export interface IMethod {
 }
 
 export interface TaroHarmonyPageMeta extends VitePageMeta {
+  id: string
   originName: string
   entryOption?: Record<string, unknown>
 
@@ -73,6 +74,10 @@ export default class Parser extends BaseParser {
         return res + `import '${item}'\n`
       }
     }, '') || ''
+  }
+
+  getInitPxTransform () {
+    return super.getInitPxTransform(this.buildConfig)
   }
 
   isEnable (app?: boolean, page?: boolean) {
@@ -1013,17 +1018,29 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
     }
     const importList = [
       'import type Taro from "@tarojs/taro/types"',
-      'import type { TFunc } from "@tarojs/runtime/dist/runtime.esm"',
+      'import type { PageInstance, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, TFunc } from "@tarojs/runtime"',
       'import type common from "@ohos.app.ability.common"',
       '',
       isBlended ? this.#setReconciler : '',
       'import router from "@ohos.router"',
       'import { TaroView } from "@tarojs/components"',
       'import { getSystemInfoSync } from "@tarojs/taro"',
-      'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window, document } from "@tarojs/runtime"',
-      'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
+      'import { eventCenter, bindFn, callFn, convertNumber2VP, Current, document, initHarmonyElement, ObjectAssign, window } from "@tarojs/runtime"',
       `import { createLazyChildren } from "${renderPath}"`,
     ]
+
+    if (this.isTabbarPage) {
+      importList.push(
+        ...this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`),
+      )
+    } else {
+      importList.push(
+        `import createComponent, { config } from "${path.resolve(targetRoot, (page as TaroHarmonyPageMeta).originName) + TARO_COMP_SUFFIX}"`,
+      )
+    }
+    if (isBlended && this.#setReconcilerPost) {
+      importList.push(this.#setReconcilerPost)
+    }
 
     const modifyPageImport = page instanceof Array ? page[0].modifyPageImport : page.modifyPageImport
     if (isFunction(modifyPageImport)) {
@@ -1032,26 +1049,18 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
 
     const code = this.transArr2Str([
       ...importList,
-      this.isTabbarPage
-        ? [
-          this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`),
-          isBlended ? this.#setReconcilerPost : null,
-          '',
-          `const createComponent = [${this.tabbarList.map((_, i) => `page${i}`).join(', ')}]`,
-          `const config = [${this.tabbarList.map((_, i) => `config${i}`).join(', ')}]`,
-          '',
-          'interface ITabBarItem extends Taro.TabBarItem {',
-          this.transArr2Str([
-            'key?: number',
-            'badgeText?: string',
-            'showRedDot?: boolean',
-          ], 2),
-          '}',
-        ]
-        : [
-          `import createComponent, { config } from "${path.resolve(targetRoot, (page as TaroHarmonyPageMeta).originName) + TARO_COMP_SUFFIX}"`,
-          isBlended && this.#setReconcilerPost ? this.#setReconcilerPost : null,
-        ],
+      this.isTabbarPage ? [
+        `const createComponent = [${this.tabbarList.map((_, i) => `page${i}`).join(', ')}]`,
+        `const config = [${this.tabbarList.map((_, i) => `config${i}`).join(', ')}]`,
+        '',
+        'interface ITabBarItem extends Taro.TabBarItem {',
+        this.transArr2Str([
+          'key?: number',
+          'badgeText?: string',
+          'showRedDot?: boolean',
+        ], 2),
+        '}',
+      ] : null,
       '',
       'const sysInfo: TaroAny = getSystemInfoSync()',
       this.getInstantiatePage(page),
@@ -1070,11 +1079,12 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
 
   parseEntry (rawId: string, page: TaroHarmonyPageMeta) {
     const { creatorLocation, importFrameworkStatement } = this.loaderMeta
+    const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
     let createFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
-
-    const nativeCreatePage = `createNativePageConfig(component, '${page.name}', React, ReactDOM, config)`
-    let createPageOrComponent = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
+    const pageName = entryOption?.routeName || page.name
+    const nativeCreatePage = `createNativePageConfig(component, '${pageName}', React, ReactDOM, config)`
+    let createPageOrComponent = isBlended ? nativeCreatePage : `createPageConfig(component, '${pageName}', config)`
 
     // 如果是pure，说明不是一个页面，而是一个组件，这个时候修改import和createPage
     if (this.isPure) {
@@ -1085,8 +1095,10 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
     return this.transArr2Str([
       `import { ${createFn} } from '${creatorLocation}'`,
       `import component from "${escapePath(rawId)}"`,
+      isBlended ? 'import { initPxTransform } from "@tarojs/taro"' : null,
       importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(page.config)}`,
+      isBlended ? this.getInitPxTransform() : null,
       page?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,
       page?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
       `export default () => ${createPageOrComponent}`,

@@ -4,7 +4,7 @@ import { ObjectAssign } from '@tarojs/runtime'
 import { FlexManager } from './flexManager'
 
 import type { StandardProps, TextProps } from '@tarojs/components/types'
-import type { TaroAny, TaroElement, TaroStyleType, TaroTextStyleType, HarmonyStyle } from '@tarojs/runtime'
+import type { TaroAny, TaroElement, TaroTextStyleType, HarmonyStyle } from '@tarojs/runtime'
 
 export function getFontAttributes (node: TaroElement): TaroTextStyleType {
   let hmStyle = getNormalAttributes(node)
@@ -20,7 +20,7 @@ export function getFontAttributes (node: TaroElement): TaroTextStyleType {
   let WebkitLineClamp = attrs.maxLines || hmStyle.WebkitLineClamp || Infinity
   if (hmStyle.textOverflow && !isUndefined(hmStyle.textOverflow.overflow)) {
     switch (hmStyle.textOverflow.overflow) {
-      case TextOverflow.Clip: 
+      case TextOverflow.Clip:
       case TextOverflow.Ellipsis:
       case TextOverflow.None: WebkitLineClamp = WebkitLineClamp || 1; break
       default: break
@@ -90,9 +90,8 @@ export function isMaxWidthView (node: TaroElement) {
 
 export function getNormalAttributes (node: TaroElement, initStyle?: HarmonyStyle): HarmonyStyle {
   if (!node) return {}
-   
+
   const hmStyle = node.hmStyle
-  
   if (!hmStyle) return {}
 
   const _nid = node._nid
@@ -182,7 +181,7 @@ function getPseudoClass (node: TaroElement): HarmonyStyle | null {
 function parseNthChild(selector: string): [number, number] | null {
   const regex = /nth-child\((?:(-?\d*)n\s*)?([+-]?\s*\d+)?\)/;
   const match = selector.match(regex);
-  
+
   if (match) {
       const a = match[1] ? parseInt(match[1]) : 0;
       const b = match[2] ? parseInt(match[2]) : 0;

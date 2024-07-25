@@ -1,4 +1,4 @@
-import { isNumber, isString } from '@tarojs/shared'
+import { isNumber, isString, PLATFORM_TYPE } from '@tarojs/shared'
 
 import { CONTEXT_ACTIONS } from '../constants'
 import { Events } from '../emitter/emitter'
@@ -153,4 +153,4 @@ class TaroHistory extends Events {
 }
 
 export type { TaroHistory }
-export const History: typeof TaroHistory = process.env.TARO_PLATFORM === 'web' ? env.window.History : TaroHistory
+export const History: typeof TaroHistory = process.env.TARO_PLATFORM === PLATFORM_TYPE.WEB ? env.window.History : TaroHistory

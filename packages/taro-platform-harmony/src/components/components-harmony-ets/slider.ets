@@ -3,7 +3,7 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 import commonStyleModify from './style'
 import { getNodeThresholds, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny, TaroSliderElement, TaroEvent } from '@tarojs/runtime'
+import type { TaroAny, TaroEvent, TaroSliderElement } from '@tarojs/runtime'
 
 interface SliderAttrs {
   selectedColor?: ResourceColor

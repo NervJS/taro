@@ -1,11 +1,10 @@
 import { convertNumber2PX, FormElement } from '@tarojs/runtime'
-import { capitalize, internalComponents, isFunction, isNumber, isObject, isString, toCamelCase } from '@tarojs/shared'
+import { capitalize, internalComponents, isFunction, isNumber, isObject, isString, PLATFORM_TYPE, toCamelCase } from '@tarojs/shared'
 
 import type { Style, TaroElement } from '@tarojs/runtime'
 
 export type Props = Record<string, unknown>
 
-const isHarmony = process.env.TARO_PLATFORM === 'harmony'
 const IS_NON_DIMENSIONAL = /max|aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
 
 function isEventName (s: string) {
@@ -64,16 +63,16 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 
   const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
 
-  if (eventName === 'click' && !isHarmony && compName in internalComponents) {
+  if (eventName === 'click' && process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY && compName in internalComponents) {
     eventName = 'tap'
   }
 
   if (isFunction(value)) {
     if (oldValue) {
-      dom.removeEventListener(eventName, oldValue as any, !isHarmony ? false : undefined)
-      dom.addEventListener(eventName, value, !isHarmony ? { isCapture, sideEffect: false } : undefined)
+      dom.removeEventListener(eventName, oldValue as any, process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY ? false : undefined)
+      dom.addEventListener(eventName, value, process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY ? { isCapture, sideEffect: false } : undefined)
     } else {
-      dom.addEventListener(eventName, value, !isHarmony ? isCapture : undefined)
+      dom.addEventListener(eventName, value, process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY ? isCapture : undefined)
     }
   } else {
     dom.removeEventListener(eventName, oldValue as any)
@@ -81,13 +80,13 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 }
 
 function setStyle (style: Style, key: string, value: unknown) {
-  if (key[0] === '-' && !isHarmony) {
+  if (key[0] === '-' && process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY) {
     // css variables need not further judgment
     style.setProperty(key, (value as string).toString())
     return
   }
 
-  if (isHarmony && key.startsWith('_')) {
+  if (process.env.TARO_PLATFORM === PLATFORM_TYPE.HARMONY && key.startsWith('_')) {
     // harmony样式已处理
     style[key] = value == null ? '' : value
   } else {
@@ -145,7 +144,7 @@ export function setProperty (dom: TaroElement, name: string, value: unknown, old
       for (const i in oldValue) {
         if (!(value && i in (value as StyleValue))) {
           // 鸿蒙伪类特殊处理
-          if (isHarmony && (i === '::after' || i === '::before')) {
+          if (process.env.TARO_PLATFORM === PLATFORM_TYPE.HARMONY && (i === '::after' || i === '::before')) {
             setPseudo(dom, i, null)
           } else {
             style[i] = ''
@@ -157,7 +156,7 @@ export function setProperty (dom: TaroElement, name: string, value: unknown, old
       for (const i in value) {
         if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
           // 鸿蒙伪类特殊处理
-          if (isHarmony && (i === '::after' || i === '::before')) {
+          if (process.env.TARO_PLATFORM === PLATFORM_TYPE.HARMONY && (i === '::after' || i === '::before')) {
             setPseudo(dom, i, value[i] as unknown as StyleValue)
           } else {
             style[i] = value[i]

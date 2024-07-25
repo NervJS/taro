@@ -1,6 +1,5 @@
 import { createComponent, h, render } from '@tarojs/plugin-framework-solid/dist/reconciler'
-import { Current, document } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
-import { eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
+import { Current, document, eventCenter } from '@tarojs/runtime'
 import { hooks } from '@tarojs/shared'
 import { batch, createContext, createRoot, createSignal, For } from 'solid-js'
 

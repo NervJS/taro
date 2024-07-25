@@ -6,8 +6,7 @@ import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/flexManager'
 import { getNodeThresholds, shouldBindEvent } from './utils/helper'
 
-import type { TaroViewElement, TaroAny } from '@tarojs/runtime'
-import { isUndefined } from '@tarojs/shared'
+import type { TaroAny, TaroViewElement } from '@tarojs/runtime'
 
 @Component
 export default struct TaroView {

@@ -1,3 +1,5 @@
+import { PLATFORM_TYPE } from '@tarojs/shared'
+
 import {
   APP,
   BODY,
@@ -44,4 +46,4 @@ function createDocument (): TaroDocument {
 }
 
 // Note: 小程序端 vite 打包成 commonjs，const document = xxx 会报错，所以把 document 改为 taroDocumentProvider
-export const taroDocumentProvider: TaroDocument = process.env.TARO_PLATFORM === 'web' ? env.document : (env.document = createDocument())
+export const taroDocumentProvider: TaroDocument = process.env.TARO_PLATFORM === PLATFORM_TYPE.WEB ? env.document : (env.document = createDocument())

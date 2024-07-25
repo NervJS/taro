@@ -3,8 +3,7 @@ import path from 'node:path'
 import { transformSync } from '@babel/core'
 import { dataToEsm } from '@rollup/pluginutils'
 import { chalk, CSS_EXT, fs, REG_JS, REG_NODE_MODULES, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
-import { parse as parseJSXStyleFunction } from '@tarojs/parse-css-to-stylesheet'
-import { isFunction } from '@tarojs/shared'
+import { parse as parseJSXStyle } from '@tarojs/parse-css-to-stylesheet'
 import { isEqual } from 'lodash'
 import MagicString from 'magic-string'
 import stylelint from 'stylelint'
@@ -21,7 +20,7 @@ import { compileCSS } from './postcss'
 import {
   commonjsProxyRE, CSS_LANGS_RE, cssModuleRE,
   htmlProxyRE, inlineCSSRE, inlineRE, loadParseImportRE,
-  SPECIAL_QUERY_RE, usedRE, usedSuffix
+  SPECIAL_QUERY_RE, usedRE
 } from './postcss/constants'
 import { finalizeCss, stripBomTag } from './postcss/utils'
 
@@ -149,6 +148,10 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       }
     },
     async transform(raw, id) {
+      if (viteCompilerContext.loaderMeta.enableParseJSXStyle && !viteCompilerContext.loaderMeta.parseJSXStyleMapCache) {
+        viteCompilerContext.loaderMeta.parseJSXStyleMapCache = cssMapCache
+      }
+
       if (
         commonjsProxyRE.test(id) ||
         SPECIAL_QUERY_RE.test(id) ||
@@ -165,9 +168,11 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
         }
       }
 
+      // Note: 新版本 rust 插件不需要修改 JSX 代码
+      if (!isStyleRequest(id) && viteCompilerContext.loaderMeta.enableParseJSXStyle) return
+
       if (!isStyleRequest(id)) {
         if (!REG_SCRIPTS.test(id)) return
-        const parseJSXStyle = isFunction(viteCompilerContext.loaderMeta.parseJSXStyle) ? viteCompilerContext.loaderMeta.parseJSXStyle : parseJSXStyleFunction
         try {
           const isEntry = viteCompilerContext.taroConfig.entry.app.includes(id)
           if (!isEntry && !globalCssCache) {
@@ -207,7 +212,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
 
           if (cssIdSet.size) {
             const cssRawArr = Array.from(cssIdSet).map((cssId) => {
-              const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '').replace(usedSuffix, '')
+              const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '').replace(usedRE, '')
               return cssCache.get(rawId) || ''
             })
             const { code: raw_code } = parseJSXStyle(raw, cssRawArr, {
@@ -259,8 +264,9 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       // 校验css
       validateStylelint(id, raw)
 
-      if (modules && !moduleCache.has(id)) {
-        moduleCache.set(id, modules)
+      const rawId = id.replace(STYLE_SUFFIX_RE, '').replace(usedRE, '')
+      if (modules && !moduleCache.has(rawId)) {
+        moduleCache.set(rawId, modules)
       }
 
       // track deps for build watch mode
@@ -337,7 +343,7 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
       const css = stripBomTag(raw)
 
       const inlined = inlineRE.test(id)
-      const rawId = stripVirtualModulePrefix(id).replace(STYLE_SUFFIX_RE, '').replace(usedSuffix, '')
+      const rawId = stripVirtualModulePrefix(id).replace(STYLE_SUFFIX_RE, '').replace(usedRE, '')
       const modules = cssModulesCache.get(viteConfig)!.get(rawId)
 
       // `foo.module.css` => modulesCode

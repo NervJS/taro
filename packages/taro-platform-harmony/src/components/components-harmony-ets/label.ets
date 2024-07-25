@@ -6,8 +6,7 @@ import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/flexManager'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroLabelElement, TaroElement, TaroAny, TaroRadioElement, TaroCheckboxElement } from '@tarojs/runtime'
-import { isUndefined } from '@tarojs/shared'
+import type { TaroAny, TaroElement, TaroCheckboxElement, TaroLabelElement, TaroRadioElement } from '@tarojs/runtime'
 
 function handleTargetChange (id: string) {
   const taro: TaroAny = Current.taro
