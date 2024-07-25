@@ -1,12 +1,11 @@
-import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
+import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import commonStyleModify, { rowModify, columnModify } from './style'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/flexManager'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import { TaroEvent, TaroAny, HarmonyType, TaroRadioGroupElement, TaroRadioElement } from '@tarojs/runtime'
-import { isUndefined } from '@tarojs/shared'
+import type { HarmonyType, TaroAny, TaroEvent, TaroRadioElement, TaroRadioGroupElement } from '@tarojs/runtime'
 
 interface RadioAttrs {
   radioStyle?: HarmonyType.RadioStyle

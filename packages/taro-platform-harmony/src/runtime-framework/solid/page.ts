@@ -1,5 +1,4 @@
-import { Current, document, requestAnimationFrame, window } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
-import { addLeadingSlash, CONTEXT_ACTIONS, env, eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
+import { addLeadingSlash, CONTEXT_ACTIONS, Current, document, env, eventCenter, requestAnimationFrame, window } from '@tarojs/runtime'
 import { hooks, isArray, isFunction, isUndefined } from '@tarojs/shared'
 
 import { ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, ON_UNLOAD } from './constant'

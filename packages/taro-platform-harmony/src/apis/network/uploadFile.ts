@@ -9,9 +9,11 @@
 
 import request from '@ohos.request'
 import { isUndefined } from '@tarojs/shared'
-import Taro, { UploadTask } from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
+
+import type Taro from '@tarojs/taro/types'
+import type { UploadTask } from '@tarojs/taro/types'
 
 interface IOHOSFileType {
   filename?: string

@@ -1,10 +1,10 @@
-import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { isUndefined } from '@tarojs/shared'
 
 import { Current } from '../current'
 import { findChildNodeWithDFS, getPageScrollerOrNode } from '../utils'
 import { TaroComment } from './comment'
 import { TaroElement } from './element/element'
+import { eventSource } from './event-source'
 import { NodeType, TaroNode, TaroTextNode } from './node'
 
 import type { Window } from '../bom/window'

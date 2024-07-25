@@ -1,9 +1,8 @@
-import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
-
 import TaroDataSourceElement from './dataSource'
+import { eventSource } from './event-source'
 
 import type { StandardProps } from '@tarojs/components/types'
-import type { TaroAny } from '../utils'
+import type { TaroAny } from '../interface'
 import type { TaroDocument } from './document'
 import type { TaroElement } from './element/element'
 
@@ -99,7 +98,7 @@ export class TaroNode extends TaroDataSourceElement {
 
   // 提供唯一标识，方便与小程序一致，能根据uid获取到对应的节点
   public get uid (): string {
-    return this._nid
+    return `${this._nid}`
   }
 
   public get firstChild (): TaroNode | null {

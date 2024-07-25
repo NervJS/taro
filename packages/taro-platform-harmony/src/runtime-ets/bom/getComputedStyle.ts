@@ -1,5 +1,4 @@
-// import { TaroElement } from '../dom/element/element'
-
 export function getComputedStyle (node: any) {
+  // @ts-ignore
   return node._st
 }

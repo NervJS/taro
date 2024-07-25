@@ -29,7 +29,7 @@ import type {
   VitePageMeta,
 } from '@tarojs/taro/types/compile/viteCompilerContext'
 
-function readJsonSync(file: string) {
+export function readJsonSync(file: string) {
   const ext = path.extname(file)
   if (ext === '.json5') {
     const raw = fs.readFileSync(file, 'utf-8')
