@@ -162,7 +162,7 @@ export default class Page extends Creator {
     let templateSource = DEFAULT_TEMPLATE_SRC
     if (!homedir) chalk.yellow('找不到用户根目录，使用默认模版源！')
 
-    if(this.conf.templateSource) {
+    if (this.conf.templateSource) {
       templateSource = this.conf.templateSource
     } else {
       const taroConfigPath = path.join(homedir, TARO_CONFIG_FOLDER)
