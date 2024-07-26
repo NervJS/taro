@@ -9,6 +9,7 @@ export default class JD extends TaroPlatformBase {
   platform = 'jd'
   globalObject = 'jd'
   projectConfigJson = 'project.jd.json'
+  taroComponentsPath = `${PACKAGE_NAME}/dist/components-react`
   runtimePath = `${PACKAGE_NAME}/dist/runtime`
   fileType = {
     templ: '.jxml',
