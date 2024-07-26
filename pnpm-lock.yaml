@@ -1547,6 +1547,9 @@ importers:
 
   packages/taro-platform-jd:
     devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
