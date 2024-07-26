@@ -190,6 +190,11 @@ export class TaroNode extends TaroDataSourceElement {
     this.childNodes.push(child)
     this.notifyDataAdd(this.childNodes.length - 1)
 
+    if (this.nodeName === "TEXT") {
+      // 修复beta2版本文字从undefined -> 有值时的 不更新问题
+      this.updateComponent()
+    }
+
     // @ts-ignore
     child.toggleLayer?.(true)
 
