@@ -34,6 +34,7 @@
     "@tarojs/shared": "workspace:*"
   },
   "peerDependencies": {
+    "@tarojs/components": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*"
   }
