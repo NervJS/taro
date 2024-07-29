@@ -41,6 +41,7 @@ export class Input implements ComponentInterface {
   @Prop() confirmType = 'done'
   @Prop() name: string
   @Prop() nativeProps = {}
+  @Prop() autoComplete:string = 'off'
 
   @Element() el: HTMLElement
 
@@ -249,7 +250,8 @@ export class Input implements ComponentInterface {
       maxlength,
       confirmType,
       name,
-      nativeProps
+      nativeProps,
+      autoComplete
     } = this
 
     return (
@@ -262,6 +264,7 @@ export class Input implements ComponentInterface {
         type={getTrueType(type, confirmType, password)}
         placeholder={placeholder}
         autoFocus={autoFocus}
+        autocomplete={autoComplete}
         disabled={disabled}
         maxlength={maxlength}
         name={name}
