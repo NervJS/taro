@@ -1,4 +1,4 @@
-import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
+import { isObject } from '@tarojs/shared'
 
 import { handleArrayFindPolyfill, handleArrayIncludesPolyfill } from './array'
 import { handleIntersectionObserverPolyfill } from './intersection-observer'
@@ -21,14 +21,14 @@ function handlePolyfill () {
     handleArrayIncludesPolyfill()
   }
   // Exit early if we're not running in a browser.
-  if (process.env.TARO_PLATFORM === PLATFORM_TYPE.WEB && isObject(window)) {
+  if (process.env.TARO_PLATFORM === 'web' && isObject(window)) {
     if (process.env.SUPPORT_TARO_POLYFILL === 'enabled' || process.env.SUPPORT_TARO_POLYFILL === 'IntersectionObserver') {
       handleIntersectionObserverPolyfill()
     }
   }
 }
 
-if (process.env.SUPPORT_TARO_POLYFILL !== 'disabled' && process.env.TARO_PLATFORM !== PLATFORM_TYPE.WEB) {
+if (process.env.SUPPORT_TARO_POLYFILL !== 'disabled' && process.env.TARO_PLATFORM !== 'web') {
   handlePolyfill()
 }
 

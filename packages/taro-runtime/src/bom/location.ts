@@ -1,4 +1,4 @@
-import { isNumber, isString, PLATFORM_TYPE, warn } from '@tarojs/shared'
+import { isNumber, isString, warn } from '@tarojs/shared'
 
 import { CONTEXT_ACTIONS } from '../constants'
 import { getCurrentInstance } from '../current'
@@ -312,7 +312,7 @@ class TaroLocation extends Events {
 }
 
 export type { TaroLocation }
-export const Location: typeof TaroLocation = process.env.TARO_PLATFORM === PLATFORM_TYPE.WEB ? env.window.Location : TaroLocation
+export const Location: typeof TaroLocation = process.env.TARO_PLATFORM === 'web' ? env.window.Location : TaroLocation
 
 function generateFullUrl (val = '') {
   const origin = INIT_URL
