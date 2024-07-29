@@ -256,7 +256,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
         alias: [
           // 小程序使用 regenerator-runtime@0.11
           { find: 'regenerator-runtime', replacement: require.resolve('regenerator-runtime') },
-          { find: /@tarojs\/components$/, replacement: taroConfig.taroComponentsPath || '@tarojs/components/mini' },
+          { find: /@tarojs\/components$/, replacement: taroConfig.taroComponentsPath },
           ...getAliasOption(),
         ],
         dedupe: ['@tarojs/shared', '@tarojs/runtime'],
