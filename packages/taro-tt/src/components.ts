@@ -70,7 +70,8 @@ export const components = {
     'confirm-hold': _false,
     'show-confirm-bar': _true,
     'adjust-position': _true,
-    'hold-keyboard': _false
+    'hold-keyboard': _false,
+    bindKeyboardHeightChange: _empty,
   },
   ScrollView: {
     enhanced: _false,
