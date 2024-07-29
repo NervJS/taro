@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-alipay",
-  "version": "4.0.4-alpha.0",
+  "version": "4.0.4-alpha.2",
   "description": "支付宝小程序平台插件",
   "author": "O2Team",
   "license": "MIT",
@@ -35,7 +35,6 @@
     "@tarojs/shared": "workspace:*"
   },
   "peerDependencies": {
-    "@tarojs/components": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*"
   }

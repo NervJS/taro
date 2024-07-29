@@ -2,8 +2,7 @@
 import {
   EMPTY_OBJ, ensure, EventChannel,
   getComponentsAlias, hooks, internalComponents,
-  isArray, isFunction, isString, isUndefined, PLATFORM_TYPE,
-  Shortcuts,
+  isArray, isFunction, isString, isUndefined, Shortcuts
 } from '@tarojs/shared'
 
 import { raf } from '../bom/raf'
@@ -70,7 +69,7 @@ export function stringify (obj?: Record<string, unknown>) {
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
   const idx = id.indexOf('?')
-  if (process.env.TARO_PLATFORM === PLATFORM_TYPE.WEB) {
+  if (process.env.TARO_PLATFORM === 'web') {
     return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options?.stamp ? { stamp: options.stamp } : {})}`
   } else {
     return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options)}`
@@ -106,7 +105,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   let prepareMountList: (() => void)[] = []
 
   function setCurrentRouter (page: MpInstance) {
-    const router = process.env.TARO_PLATFORM === PLATFORM_TYPE.WEB ? page.$taroPath : page.route || page.__route__ || page.$taroPath
+    const router = process.env.TARO_PLATFORM === 'web' ? page.$taroPath : page.route || page.__route__ || page.$taroPath
     Current.router = {
       params: page.$taroParams!,
       path: addLeadingSlash(router),
@@ -133,7 +132,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       // this.$taroPath 是页面唯一标识
       const uniqueOptions = Object.assign({}, options, { $taroTimestamp: Date.now() })
       const $taroPath = this.$taroPath = getPath(id, uniqueOptions)
-      if (process.env.TARO_PLATFORM === PLATFORM_TYPE.WEB) {
+      if (process.env.TARO_PLATFORM === 'web') {
         config.path = $taroPath
       }
       // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
@@ -144,7 +143,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       setCurrentRouter(this)
 
       // 初始化当前页面的上下文信息
-      if (process.env.TARO_PLATFORM !== PLATFORM_TYPE.WEB) {
+      if (process.env.TARO_PLATFORM !== 'web') {
         taroWindowProvider.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
       }
 
@@ -155,7 +154,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
           ensure(pageElement !== null, '没有找到页面实例。')
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
           loadResolver()
-          if (process.env.TARO_PLATFORM !== PLATFORM_TYPE.WEB) {
+          if (process.env.TARO_PLATFORM !== 'web') {
             pageElement.ctx = this
             pageElement.performUpdate(true, cb)
           } else {
@@ -172,7 +171,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     [ONUNLOAD] () {
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
-      if (process.env.TARO_PLATFORM !== PLATFORM_TYPE.WEB) {
+      if (process.env.TARO_PLATFORM !== 'web') {
         taroWindowProvider.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
       }
       // 触发onUnload生命周期
@@ -206,7 +205,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         Current.page = this as any
         setCurrentRouter(this)
         // 恢复上下文信息
-        if (process.env.TARO_PLATFORM !== PLATFORM_TYPE.WEB) {
+        if (process.env.TARO_PLATFORM !== 'web') {
           taroWindowProvider.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
         }
         // 触发生命周期
@@ -217,7 +216,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     },
     [ONHIDE] () {
       // 缓存当前页面上下文信息
-      if (process.env.TARO_PLATFORM !== PLATFORM_TYPE.WEB) {
+      if (process.env.TARO_PLATFORM !== 'web') {
         taroWindowProvider.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath)
       }
       // 设置 Current 的 page 和 router
@@ -232,7 +231,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     }
   }
 
-  if (process.env.TARO_PLATFORM === PLATFORM_TYPE.WEB) {
+  if (process.env.TARO_PLATFORM === 'web') {
     config.getOpenerEventChannel = () => {
       return EventChannel.pageChannel
     }
@@ -303,7 +302,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
         ensure(componentElement !== null, '没有找到组件实例。')
         this.$taroInstances = instances.get(path)
         safeExecute(path, ON_LOAD)
-        if (process.env.TARO_PLATFORM !== PLATFORM_TYPE.WEB) {
+        if (process.env.TARO_PLATFORM !== 'web') {
           componentElement.ctx = this
           componentElement.performUpdate(true)
         }

@@ -1,5 +1,3 @@
-import { PLATFORM_TYPE } from '@tarojs/shared'
-
 import { Current } from './current'
 import { TaroRootElement } from './dom/root'
 import env from './env'
@@ -31,7 +29,7 @@ export const nextTick = (cb: TFunc, ctx?: Record<string, any>) => {
   function next () {
     const pageElement: TaroRootElement | null = env.document.getElementById<TaroRootElement>(path)
     if (pageElement?.pendingUpdate) {
-      if (process.env.TARO_PLATFORM === PLATFORM_TYPE.WEB) {
+      if (process.env.TARO_PLATFORM === 'web') {
         // eslint-disable-next-line dot-notation
         pageElement.firstChild?.['componentOnReady']?.().then(() => {
           timerFunc()
