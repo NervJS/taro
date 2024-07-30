@@ -10,9 +10,8 @@
     "paths": {
       "react": ["./node_modules/@types/react", "./node_modules/react"]
     },
-    "types": ["react-native", "jest"],
-    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"]
+    "types": ["react-native", "jest"]
   },
-  "include": ["./src"],
+  "include": ["./src", "types"],
   "exclude": ["./src/__tests__/**"]
 }

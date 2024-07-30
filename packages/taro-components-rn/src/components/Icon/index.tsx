@@ -6,14 +6,15 @@
 
 import * as React from 'react'
 import {
-  View,
-  Image
+  Image,
+  View
 } from 'react-native'
+
 import * as WEUI from '../../assets/weui'
 import { IconProps } from './PropsType'
 
 interface UIType {
-  [key: string]: any;
+  [key: string]: any
 }
 
 const iconTypeMap: { [key: string]: string } = {

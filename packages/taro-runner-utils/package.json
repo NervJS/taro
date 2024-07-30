@@ -1,7 +1,9 @@
 {
   "name": "@tarojs/runner-utils",
-  "version": "3.6.31",
+  "version": "4.0.4",
   "description": "Taro runner utilities.",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "files": [
@@ -9,6 +11,7 @@
     "types"
   ],
   "scripts": {
+    "prod": "pnpm run build",
     "build": "tsc",
     "dev": "tsc -w"
   },
@@ -19,10 +22,15 @@
   "keywords": [
     "taro"
   ],
-  "author": "garfield550",
-  "license": "MIT",
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
     "@tarojs/helper": "workspace:*",
-    "scss-bundle": "^3.0.2"
+    "rollup": "^3.29.4",
+    "scss-bundle": "^3.1.2"
+  },
+  "devDependencies": {
+    "@tarojs/taro": "workspace:*"
   }
 }

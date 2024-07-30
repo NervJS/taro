@@ -51,7 +51,7 @@ describe('parse', () => {
       option.logFilePath = '/wxProject/taroConvert/.convert/convert.log'
       option.script = `app({})`
       option.json =
-      `{  
+      `{
           "pages":["pages/index/index"],
           "usingComponents":
           {

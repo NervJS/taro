@@ -1,8 +1,8 @@
 // import { ART } from 'react-native'
 
 interface IconItem {
-  defaultColor?: string;
-  image: number;
+  defaultColor?: string
+  image: number
 }
 
 /**

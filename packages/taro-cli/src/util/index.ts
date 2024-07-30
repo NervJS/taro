@@ -1,6 +1,7 @@
+import * as path from 'node:path'
+
 import { chalk, fs, isWindows } from '@tarojs/helper'
 import { exec } from 'child_process'
-import * as path from 'path'
 
 export function getRootPath (): string {
   return path.resolve(__dirname, '../../')
@@ -119,4 +120,8 @@ export function execCommand (params: {
 export function getPkgNameByFilterVersion (pkgString: string) {
   const versionFlagIndex = pkgString.lastIndexOf('@')
   return versionFlagIndex === 0 ? pkgString : pkgString.slice(0, versionFlagIndex)
+}
+
+export function isNil (value: any): value is null | undefined {
+  return value === null || value === undefined
 }

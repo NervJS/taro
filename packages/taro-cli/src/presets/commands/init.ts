@@ -12,15 +12,31 @@ export default (ctx: IPluginContext) => {
       '--clone [clone]': '拉取远程模板时使用git clone',
       '--template [template]': '项目模板',
       '--css [css]': 'CSS预处理器(sass/less/stylus/none)',
+      '--autoInstall': '自动安装依赖',
       '-h, --help': 'output usage information'
     },
     async fn (opts) {
       // init project
       const { appPath } = ctx.paths
-      const { options } = opts
-      const { projectName, templateSource, clone, template, description, typescript, css, npm, framework, compiler } = options
+      const {
+        projectName,
+        templateSource,
+        clone,
+        template,
+        description,
+        typescript,
+        css,
+        npm,
+        framework,
+        compiler,
+        hideDefaultTemplate,
+        sourceRoot,
+        autoInstall,
+      } = opts.options
+
       const Project = require('../../create/project').default
       const project = new Project({
+        sourceRoot,
         projectName,
         projectDir: appPath,
         npm,
@@ -31,6 +47,8 @@ export default (ctx: IPluginContext) => {
         typescript,
         framework,
         compiler,
+        hideDefaultTemplate,
+        autoInstall,
         css
       })
 

@@ -1,8 +1,8 @@
 const pxRegex = require('./lib/pixel-unit-regex')
-const PXRegex = require('./lib/pixel-upper-unit-regex')
 const filterPropList = require('./lib/filter-prop-list')
 
 const defaults = {
+  methods: ['platform', 'size'],
   rootValue: 16,
   unitPrecision: 5,
   selectorBlackList: [],
@@ -36,32 +36,41 @@ const DEFAULT_WEAPP_OPTIONS = {
 
 const processed = Symbol('processed')
 
-
 let targetUnit
+
+const SPECIAL_PIXEL = ['Px', 'PX', 'pX']
+let unConvertTargetUnit
+let platform
 
 module.exports = (options = {}) => {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
-
+  const exclude = options.exclude
   const transUnits = ['px']
   const baseFontSize = options.baseFontSize || (options.minRootSize >= 1 ? options.minRootSize : 20)
   const designWidth = (input) =>
     typeof options.designWidth === 'function' ? options.designWidth(input) : options.designWidth
 
+  platform = options.platform
   switch (options.platform) {
     case 'h5': {
       targetUnit = options.targetUnit ?? 'rem'
 
-      if (targetUnit === 'vw') {
-        options.rootValue = (input) => {
-          return designWidth(input) / 100
-        }
-      } else if (targetUnit === 'px') {
-        options.rootValue = (input) => (1 / options.deviceRatio[designWidth(input)]) * 2
-      } else {
-        // rem
-        options.rootValue = (input) => {
-          return (baseFontSize / options.deviceRatio[designWidth(input)]) * 2
-        }
+      switch (targetUnit) {
+        case 'vw':
+        case 'vmin':
+          options.rootValue = (input) => {
+            return designWidth(input) / 100
+          }
+          break
+        case 'px':
+          options.rootValue = (input) => (1 / options.deviceRatio[designWidth(input)]) * 2
+          break
+        default:
+          // rem
+          options.rootValue = (input) => {
+            return (baseFontSize / options.deviceRatio[designWidth(input)]) * 2
+          }
+          break
       }
 
       transUnits.push('rpx')
@@ -80,6 +89,8 @@ module.exports = (options = {}) => {
     case 'harmony': {
       options.rootValue = (input) => 1 / options.deviceRatio[designWidth(input)]
       targetUnit = 'px'
+      unConvertTargetUnit = 'ch' // harmony对于大小写的PX转换成其他单位，用于rust解析
+      transUnits.push(...SPECIAL_PIXEL)
       break
     }
     default: {
@@ -118,6 +129,10 @@ module.exports = (options = {}) => {
       /** 是否跳过当前文件不处理 */
       let skip = false
 
+      if (exclude && exclude?.(result.opts.from)) {
+        return null
+      }
+
       return {
         // 注意：钩子在节点变动时会重新执行，Once，OnceExit只执行一次，https://github.com/NervJS/taro/issues/13238
         Comment (comment) {
@@ -125,6 +140,8 @@ module.exports = (options = {}) => {
             skip = true
             return
           }
+
+          if (!opts.methods.includes('platform')) return
 
           // delete code between comment in RN
           // 有死循环的问题
@@ -183,47 +200,46 @@ module.exports = (options = {}) => {
         },
         Declaration (decl) {
           if (skip) return
+          if (!opts.methods.includes('size')) return
 
           if (decl[processed]) return
 
           // 标记当前 node 已处理
           decl[processed] = true
 
-          if (options.platform === 'harmony') {
-            if (decl.value.indexOf('PX') === -1) return
-            const value = decl.value.replace(PXRegex, function (m, _$1, $2) {
-              return m.replace($2, 'vp')
-            })
+          if (!/px/i.test(decl.value)) return
+
+          if (!satisfyPropList(decl.prop)) return
+
+          const isBlacklisted = blacklistedSelector(opts.selectorBlackList, decl.parent.selector)
+          if (isBlacklisted && platform !== 'harmony') return
+          let value
+          if (isBlacklisted) {
+            // 如果是harmony平台，黑名单的样式单位做特殊处理
+            if (platform === 'harmony') {
+              value = decl.value.replace(pxRgx, (m, $1) => $1 ? $1 + unConvertTargetUnit : m)
+            } else {
+              // 如果是其他平台，黑名单的样式单位不做处理
+              return
+            }
+          } else {
+            value = decl.value.replace(pxRgx, pxReplace)
+          }
+          // if rem unit already exists, do not add or replace
+          if (declarationExists(decl.parent, decl.prop, value)) return
+          if (opts.replace) {
             decl.value = value
           } else {
-            if (decl.value.indexOf('px') === -1) return
-
-            if (!satisfyPropList(decl.prop)) return
-
-            if (blacklistedSelector(opts.selectorBlackList, decl.parent.selector)) return
-            const value = decl.value.replace(pxRgx, pxReplace)
-            // if rem unit already exists, do not add or replace
-            if (declarationExists(decl.parent, decl.prop, value)) return
-            if (opts.replace) {
-              decl.value = value
-            } else {
-              decl.cloneAfter({ value: value })
-            }
+            decl.cloneAfter({ value: value })
           }
         },
         AtRule: {
           media: (rule) => {
             if (skip) return
-            if (options.platform === 'harmony') {
-              if (rule.params.indexOf('PX') === -1) return
-              const value = rule.params.replace(PXRegex, function (m, _$1, $2) {
-                return m.replace($2, 'vp')
-              })
-              rule.params = value
-            } else {
-              if (rule.params.indexOf('px') === -1) return
-              rule.params = rule.params.replace(pxRgx, pxReplace)
-            }
+            if (!opts.methods.includes('size')) return
+
+            if (!/px/i.test(rule.params)) return
+            rule.params = rule.params.replace(pxRgx, pxReplace)
           },
         },
       }
@@ -255,14 +271,28 @@ function convertLegacyOptions (options) {
 }
 
 function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransform) {
+  const specialPxRgx = pxRegex(SPECIAL_PIXEL)
   return function (input) {
     return function (m, $1) {
       if (!$1) return m
+
+      if (platform === 'harmony' && specialPxRgx.test(m)) {
+        // harmony对大小写的PX转换成其他单位，用于rust解析
+        return $1 + unConvertTargetUnit
+      }
+
       if (!onePxTransform && parseInt($1, 10) === 1) {
+        if (platform === 'harmony') { return $1 + unConvertTargetUnit }
         return m
       }
       const pixels = parseFloat($1)
-      if (pixels < minPixelValue) return m
+      if (pixels < minPixelValue) {
+        if (platform === 'harmony') { return $1 + unConvertTargetUnit }
+        return m
+      }
+
+      // 转换工作，如果是harmony的话不转换
+      if (platform === 'harmony') { return m }
       let val = pixels / rootValue(input, m, $1)
       if (unitPrecision >= 0 && unitPrecision <= 100) {
         val = toFixed(val, unitPrecision)

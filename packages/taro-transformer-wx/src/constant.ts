@@ -2,7 +2,6 @@ import { Adapters } from './adapter'
 
 export const THIRD_PARTY_COMPONENTS = new Set<string>()
 
-// tslint:disable-next-line:variable-name
 export const DEFAULT_Component_SET = new Set<string>([
   'View',
   'ScrollView',
@@ -50,7 +49,6 @@ export const DEFAULT_Component_SET = new Set<string>([
   'Editor',
 ])
 
-// tslint:disable-next-line:variable-name
 export const DEFAULT_Component_SET_COPY = new Set<string>([])
 DEFAULT_Component_SET.forEach((c) => DEFAULT_Component_SET_COPY.add(c))
 

@@ -1,5 +1,6 @@
+import * as pathModule from 'node:path'
+
 import * as fs from 'fs-extra'
-import * as pathModule from 'path'
 
 /**
  * 解析API注释信息

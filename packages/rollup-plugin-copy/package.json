@@ -1,0 +1,29 @@
+{
+  "name": "rollup-plugin-copy",
+  "version": "4.0.4",
+  "description": "rollup-plugin-copy for taro",
+  "private": true,
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./lib",
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "keywords": [],
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "@tarojs/helper": "workspace:*"
+  },
+  "peerDependencies": {
+    "rollup": "^4"
+  }
+}

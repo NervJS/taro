@@ -1,4 +1,4 @@
-import * as path from 'path'
+import * as path from 'node:path'
 
 import { globalAny, TransformPage } from './types/index'
 import { transformLinaria } from './utils'

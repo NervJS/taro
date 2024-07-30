@@ -1,5 +1,6 @@
-import * as React from 'react'
 import { render } from '@testing-library/react-native'
+import * as React from 'react'
+
 import MovableView from '../components/MovableView'
 
 describe('MovableView', () => {

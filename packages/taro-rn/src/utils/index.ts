@@ -1,11 +1,11 @@
 interface ShouldBeObjectResult {
-  res: boolean;
-  msg?: string;
+  res: boolean
+  msg?: string
 }
 
 interface GetParameterErrorOption {
-  correct: string;
-  wrong: any;
+  correct: string
+  wrong: any
 }
 
 function upperCaseFirstLetter (string: string): string {

@@ -1,0 +1,71 @@
+{
+  "name": "@tarojs/plugin-framework-vue3",
+  "version": "4.0.4",
+  "description": "Vue3 框架插件",
+  "author": "O2Team",
+  "homepage": "https://github.com/nervjs/taro",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "prod": "pnpm run build",
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "lodash": "4.17.21",
+    "tslib": "2.6.2"
+  },
+  "devDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/runner-utils": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "vue-loader": "^17.0.0",
+    "@vue/compiler-core": "^3.4.25",
+    "vite": "^4.2.0",
+    "webpack": "5.91.0",
+    "vue": "^3.4.25"
+  },
+  "peerDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/runner-utils": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@vitejs/plugin-vue": "^5",
+    "@vitejs/plugin-vue-jsx": "^3",
+    "vue-loader": "^17.0.0",
+    "vite": "^4",
+    "vue": "^3",
+    "webpack": "^5"
+  },
+  "peerDependenciesMeta": {
+    "vite": {
+      "optional": true
+    },
+    "@vitejs/plugin-vue": {
+      "optional": true
+    },
+    "@vitejs/plugin-vue-jsx": {
+      "optional": true
+    }
+  }
+}

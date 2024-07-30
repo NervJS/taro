@@ -51,10 +51,18 @@ export const URLSearchParams = process.env.TARO_PLATFORM === 'web' ? env.window.
       for (let pairs = query.split('&'), i = 0, length = pairs.length; i < length; i++) {
         const value = pairs[i]
         const index = value.indexOf('=')
-        if (index > -1) {
-          appendTo(dict, decode(value.slice(0, index)), decode(value.slice(index + 1)))
-        } else if (value.length) {
-          appendTo(dict, decode(value), '')
+
+        // 针对不规范的 url 参数做容错处理，如：word=你%好
+        try {
+          if (index > -1) {
+            appendTo(dict, decode(value.slice(0, index)), decode(value.slice(index + 1)))
+          } else if (value.length) {
+            appendTo(dict, decode(value), '')
+          }
+        } catch (err) {
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn(`[Taro warn] URL 参数 ${value} decode 异常`)
+          }
         }
       }
     } else {

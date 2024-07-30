@@ -1,0 +1,46 @@
+{
+  "name": "stylelint-taro",
+  "version": "4.0.4",
+  "description": "Taro stylelint 规则集合",
+  "author": "O2Team",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./dist",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules --no-warnings --loader ts-node/esm\" jest",
+    "lint": "eslint src --ext .js,.ts"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "css",
+    "csslint",
+    "lint",
+    "linter",
+    "stylelint",
+    "stylelint-plugin"
+  ],
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "peerDependencies": {
+    "stylelint": "^16"
+  }
+}

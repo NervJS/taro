@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import React from 'react'
 import Swipers from 'swiper/swiper-bundle.esm.js'
 
-import { debounce } from '../../utils'
+import { createForwardRefComponent, debounce } from '../../utils'
 
 import type ISwiper from 'swiper'
 
@@ -13,6 +13,7 @@ let INSTANCE_ID = 0
 
 interface SwiperItemProps extends React.HTMLAttributes<HTMLDivElement> {
   itemId: string
+  forwardedRef?: React.MutableRefObject<HTMLDivElement>
 }
 
 interface SwiperProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -29,6 +30,7 @@ interface SwiperProps extends React.HTMLAttributes<HTMLDivElement> {
   indicatorColor?: string
   indicatorActiveColor?: string
   indicatorDots?: boolean
+  forwardedRef?: React.MutableRefObject<HTMLDivElement>
   onAnimationFinish?: (e: TouchEvent) => void
 }
 
@@ -43,12 +45,17 @@ const createEvent = (type: string) => {
   return e
 }
 
-class SwiperItem extends React.Component<SwiperItemProps, Record<string, unknown>> {
+class SwiperItemInner extends React.Component<SwiperItemProps, Record<string, unknown>> {
   render () {
-    const { className, style, itemId, children, ...restProps } = this.props
+    const { className, style, itemId, children, forwardedRef, ...restProps } = this.props
     const cls = classNames('swiper-slide', className)
     return (
       <div
+        ref={(e) => {
+          if (e && forwardedRef) {
+            forwardedRef.current = e
+          }
+        }}
         className={cls}
         style={style}
         item-id={itemId}
@@ -60,7 +67,7 @@ class SwiperItem extends React.Component<SwiperItemProps, Record<string, unknown
   }
 }
 
-class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
+class SwiperInner extends React.Component<SwiperProps, Record<string, unknown>> {
   _id = 1 + INSTANCE_ID++
   _$current = 0
   _$width = 0
@@ -274,7 +281,8 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
       previousMargin,
       nextMargin,
       indicatorColor,
-      indicatorActiveColor
+      indicatorActiveColor,
+      forwardedRef
     } = this.props
     const defaultIndicatorColor = indicatorColor || 'rgba(0, 0, 0, .3)'
     const defaultIndicatorActiveColor = indicatorActiveColor || '#000'
@@ -294,7 +302,11 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
       }
     )
     return (
-      <div className={`swiper-container-wrapper ${cls}`} style={sty}>
+      <div className={`swiper-container-wrapper ${cls}`} style={sty} ref={(e) => {
+        if (forwardedRef && e) {
+          forwardedRef.current = e
+        }
+      }}>
         <div className='swiper-container' style={{ overflow: 'visible' }} ref={(el) => { this.$el = el }}>
           <div
             dangerouslySetInnerHTML={{
@@ -312,4 +324,5 @@ class Swiper extends React.Component<SwiperProps, Record<string, unknown>> {
   }
 }
 
-export { Swiper, SwiperItem }
+export const Swiper = createForwardRefComponent(SwiperInner)
+export const SwiperItem = createForwardRefComponent(SwiperItemInner)

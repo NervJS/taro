@@ -1,15 +1,16 @@
+import { dirname, join, sep } from 'node:path'
+
 import { readConfig } from '@tarojs/helper'
-import { AppConfig } from '@tarojs/taro'
-import { IH5Config } from '@tarojs/taro/types/compile'
-import { getOptions, stringifyRequest } from 'loader-utils'
-import { dirname, join, sep } from 'path'
 
 import { REG_POST } from './constants'
+import { stringifyRequest } from './util'
 
+import type { AppConfig } from '@tarojs/taro'
+import type { IH5Config } from '@tarojs/taro/types/compile'
 import type * as webpack from 'webpack'
 
 function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
-  const options = getOptions(loaderContext)
+  const options = loaderContext.getOptions()
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
   const importDependent = syncFileName ? 'require' : 'import'
   return `Object.assign({
@@ -22,11 +23,12 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
 }
 
 export default function (this: webpack.LoaderContext<any>) {
-  const options = getOptions(this)
+  const options = this.getOptions()
   const stringify = (s: string): string => stringifyRequest(this, s)
   const config: AppConfig & IH5Config = options.config
   const routerMode = config?.router?.mode || 'hash'
   const isBuildNativeComp = options.isBuildNativeComp
+  const noInjectGlobalStyle = options.noInjectGlobalStyle
   const isMultiRouterMode = routerMode === 'multi'
 
   const pathDirname = dirname(this.resourcePath)
@@ -45,13 +47,16 @@ export default function (this: webpack.LoaderContext<any>) {
   }, '')
 
   if (isBuildNativeComp) {
+    const globalStyleImportString = noInjectGlobalStyle ? '' : `import '@tarojs/components/global.css'\n`
     const compPath = join(pathDirname, options.filename)
-    return `import component from ${stringify(compPath)}
+    return `${setReconciler}
+import component from ${stringify(compPath)}
 ${options.loaderMeta.importFrameworkStatement}
 ${options.loaderMeta.extraImportForWeb}
 import { createH5NativeComponentConfig } from '${options.loaderMeta.creatorLocation}'
 import { initPxTransform } from '@tarojs/taro'
 ${setReconcilerPost}
+${globalStyleImportString}
 component.config = {}
 component.pxTransformConfig = {}
 Object.assign(component.config, ${JSON.stringify(readConfig(this.resourcePath))})
@@ -97,6 +102,7 @@ config.pageName = "${pageName}"` : `config.routes = [
   const code = `${setReconciler}
 import { initPxTransform } from '@tarojs/taro'
 import { ${routerCreator}, ${historyCreator}, ${appMountHandler} } from '@tarojs/router'
+import '@tarojs/components/global.css'
 import component from ${stringify(join(options.sourceDir, options.entryFileName))}
 import { window } from '@tarojs/runtime'
 import { ${options.loaderMeta.creator} } from '${options.loaderMeta.creatorLocation}'

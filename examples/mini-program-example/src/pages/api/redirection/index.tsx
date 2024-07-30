@@ -2,6 +2,7 @@ import React from 'react'
 import { View } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
+import Taro from '@tarojs/taro'
 
 /**
  * 跳转
@@ -29,7 +30,9 @@ export default class Index extends React.Component {
       },
       {
         id: 'exitMiniProgram',
-        func: null,
+        func: () => {
+          Taro.exitMiniProgram()
+        },
       },
     ],
   }

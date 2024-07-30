@@ -1,7 +1,8 @@
-import { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
 import { isDerivedFromThis } from './utils'
+
+import type { NodePath, Visitor } from '@babel/traverse'
 
 function buildMethodName(n: string) {
   return `render${n.charAt(0).toUpperCase() + n.slice(1)}`
@@ -57,7 +58,7 @@ export const buildVistor = () => {
           if (renameMap.has(name)) {
             const memberExpr = path.parentPath
             if (memberExpr.isMemberExpression() && memberExpr.parentPath.isCallExpression()) {
-              const object = memberExpr.get('object')
+              const object = memberExpr.get('object') as any
               if (t.isThisExpression(object)) {
                 path.replaceWith(t.identifier(buildMethodName(name)))
               } else if (t.isIdentifier(object) && isDerivedFromThis(path.scope, object.name)) {

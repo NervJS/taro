@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   fs,
   getNpmPackageAbsolutePath,
@@ -5,18 +7,18 @@ import {
   isEmptyObject,
   META_TYPE,
   NODE_MODULES,
-  NODE_MODULES_REG,
   printLog,
   processTypeEnum,
   promoteRelativePath,
   readConfig,
+  REG_NODE_MODULES,
+  REG_NODE_MODULES_DIR,
   REG_STYLE,
   replaceAliasPath,
   resolveMainFilePath,
   SCRIPT_EXT
 } from '@tarojs/helper'
 import { urlToRequest } from 'loader-utils'
-import path from 'path'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
@@ -29,6 +31,7 @@ import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { AppConfig, Config } from '@tarojs/taro'
+import type { IMiniFilesConfig } from '@tarojs/taro/types/compile'
 import type { Compilation, Compiler } from 'webpack'
 import type { IComponent, IFileType } from '../utils/types'
 import type { MiniCombination } from '../webpack/MiniCombination'
@@ -78,13 +81,6 @@ export interface IComponentObj {
   type?: string
 }
 
-interface FilesConfig {
-  [configName: string]: {
-    content: Config
-    path: string
-  }
-}
-
 function isLoaderExist (loaders, loaderName: string) {
   return loaders.some(item => item.loader === loaderName)
 }
@@ -98,7 +94,7 @@ export default class TaroMiniPlugin {
   /** app config 配置内容 */
   appConfig: AppConfig
   /** app、页面、组件的配置集合 */
-  filesConfig: FilesConfig = {}
+  filesConfig: IMiniFilesConfig = {}
   isWatch = false
   /** 页面列表 */
   pages = new Set<IComponent>()
@@ -200,7 +196,7 @@ export default class TaroMiniPlugin {
       PLUGIN_NAME,
       this.tryAsync<Compiler>(async compiler => {
         const changedFiles = this.getChangedFiles(compiler)
-        if (changedFiles?.size > 0) {
+        if (changedFiles && changedFiles?.size > 0) {
           this.isWatch = true
         }
         await this.run(compiler)
@@ -977,7 +973,8 @@ export default class TaroMiniPlugin {
                 name: `${name}/vendors`,
                 minChunks: 1,
                 test: module => {
-                  return (/[\\/]node_modules[\\/]/.test(module.resource) && module.resource.indexOf(compPath) < 0)
+                  const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+                  return (nodeModulesDirRegx.test(module.resource) && module.resource.indexOf(compPath) < 0)
                 },
                 priority: 10
               }
@@ -1373,9 +1370,11 @@ export default class TaroMiniPlugin {
 
   getComponentName (componentPath: string) {
     let componentName: string
-    if (NODE_MODULES_REG.test(componentPath)) {
+    if (REG_NODE_MODULES.test(componentPath)) {
+      const nodeModulesRegx = new RegExp(REG_NODE_MODULES, 'gi')
+
       componentName = componentPath.replace(this.context, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
-      componentName = componentName.replace(/node_modules/gi, 'npm')
+      componentName = componentName.replace(nodeModulesRegx, 'npm')
     } else {
       componentName = componentPath.replace(this.options.sourceDir, '').replace(/\\/g, '/').replace(path.extname(componentPath), '')
       if (this.options.isBuildPlugin) {
@@ -1505,7 +1504,7 @@ export default class TaroMiniPlugin {
             if (pageStyle in assets) {
               const source = new ConcatSource('')
               const originSource = assets[pageStyle]
-              source.add(`@import ${JSON.stringify(urlToRequest(path.posix.relative(path.dirname(pageStyle), 'app.wxss')))};\n`)
+              source.add(`@import ${JSON.stringify(urlToRequest(path.posix.relative(path.dirname(pageStyle), 'app' + styleExt)))};\n`)
               source.add(originSource)
               assets[pageStyle] = source
             }

@@ -1,6 +1,7 @@
+import * as fs from 'node:fs'
+import * as path from 'node:path'
+
 import { printLog, processTypeEnum } from '@tarojs/helper'
-import * as fs from 'fs'
-import * as path from 'path'
 import * as resolve from 'resolve'
 import nodeModulesPaths from 'resolve/lib/node-modules-paths'
 

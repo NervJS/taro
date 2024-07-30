@@ -1,14 +1,15 @@
-import React from 'react'
+import { TextPropTypes, ViewPropTypes } from 'deprecated-react-native-prop-types'
 import PropTypes from 'prop-types'
+import React from 'react'
 import {
-  View,
+  Dimensions,
+  Platform,
+  StyleSheet,
   Text,
   TouchableHighlight,
-  Dimensions,
-  StyleSheet,
-  Platform
+  View
 } from 'react-native'
-import { ViewPropTypes, TextPropTypes } from 'deprecated-react-native-prop-types'
+
 import { Mask } from '../Mask'
 import { create } from '../StyleSheet'
 import V from '../variable'
@@ -33,49 +34,42 @@ const styles = create({
     paddingRight: V.weuiDialogGapWidth
   },
   dialogTitle: {
-    fontWeight: '400'
-  },
-  iosDialogTitle: {
-    fontSize: 18,
+    fontWeight: '700',
+    fontSize: 17,
     textAlign: 'center'
   },
+
   androidDialogTitle: {
     fontSize: 21,
     textAlign: 'left'
   },
+
   dialogBody: {
     paddingLeft: V.weuiDialogGapWidth,
-    paddingRight: V.weuiDialogGapWidth
+    paddingRight: V.weuiDialogGapWidth,
+    marginBottom: 32
   },
-  iosDialogBody: {
-    paddingBottom: (0.8 * 15) + 20
-  },
-  androidDialogBody: {
-    paddingTop: 0.25 * 17,
-    paddingBottom: (17 * 2) + 20
-  },
+
   dialogBodyText: {
     color: V.weuiTextColorGray,
-    lineHeight: 15 * 1.3,
+    fontSize: 17,
+    textAlign: 'center',
+    lineHeight: 17 * 1.4,
     android: {
-      lineHeight: Math.round(15 * 1.3)
+      lineHeight: Math.round(17 * 1.4)
     }
   },
-  iosDialogBodyText: {
-    fontSize: 15,
-    textAlign: 'center'
-  },
+
   androidDialogBodyText: {
-    fontSize: 17,
     textAlign: 'left'
   },
   dialogFooter: {
-    flexDirection: 'row'
-  },
-  iosDialogFooter: {
+    flexDirection: 'row',
     height: 48,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  dialogFooterBorder: {
     borderTopWidth: StyleSheet.hairlineWidth,
     borderColor: V.weuiDialogLineColor,
     borderStyle: 'solid'
@@ -90,17 +84,16 @@ const styles = create({
   },
   dialogFooterOpr: {
     alignItems: 'center',
-    justifyContent: 'center'
-  },
-  iosDialogFooterOpr: {
+    justifyContent: 'center',
     height: 48,
-    flex: 1
+    flex: 1,
   },
   androidDialogFooterOpr: {
     height: 42,
     paddingLeft: 16 * 0.8,
     paddingRight: 16 * 0.8
   },
+
   dialogFooterOprWithNegativeMarginRight: {
     marginRight: 0 - (16 * 0.8)
   },
@@ -109,12 +102,13 @@ const styles = create({
     borderColor: V.weuiDialogLineColor,
     borderStyle: 'solid'
   },
-  iosDialogFooterOprText: {
+  dialogFooterOprText: {
     fontSize: 18
   },
   androidDialogFooterOprText: {
     fontSize: 16
   },
+
   defaultDialogFooterOprText: {
     color: '#353535'
   },
@@ -170,14 +164,15 @@ const Index: React.FC<any> = (
         style={[
           styles.dialogFooterOpr,
           styles[`${_type}DialogFooterOpr`],
-          _type === 'ios' && idx > 0 ? styles.dialogFooterOprWithBorder : {},
-          _type === 'android' && idx === buttons.length - 1 ? styles.dialogFooterOprWithNegativeMarginRight : {}
+          _type === 'android' && idx === buttons.length - 1 ? styles.dialogFooterOprWithNegativeMarginRight : (
+            idx > 0 ? styles.dialogFooterOprWithBorder : {}
+          ),
         ]}
         underlayColor={underlayColor}
         {...others}
       >
         <Text
-          style={[styles[`${_type}DialogFooterOprText`], { color: btnType }]}
+          style={[styles.dialogFooterOprText, styles[`${_type}DialogFooterOprText`], { color: btnType }]}
         >{label}</Text>
       </TouchableHighlight>
     )
@@ -200,10 +195,10 @@ const Index: React.FC<any> = (
           <View style={[styles.dialogHeader, headerStyle]}>
             <Text style={[styles.dialogTitle, styles[`${_type}DialogTitle`], titleStyle]}>{title}</Text>
           </View>
-          <View style={[styles.dialogBody, styles[`${_type}DialogBody`], bodyStyle]}>
+          <View style={[styles.dialogBody, bodyStyle]}>
             {childrenWithProps}
           </View>
-          <View style={[styles.dialogFooter, styles[`${_type}DialogFooter`], footerStyle]}>
+          <View style={[styles.dialogFooter, styles[`${_type}DialogFooter`], _type !== 'android' ? styles.dialogFooterBorder : {}, footerStyle]}>
             {_renderButtons()}
           </View>
         </View>
@@ -214,7 +209,7 @@ const Index: React.FC<any> = (
 
 Index.propTypes = {
   autoDectect: PropTypes.bool,
-  type: PropTypes.oneOf(['ios', 'android']),
+  type: PropTypes.oneOf(['ios', 'android', 'harmony']),
   title: PropTypes.string,
   buttons: PropTypes.arrayOf(PropTypes.object),
   visible: PropTypes.bool,
