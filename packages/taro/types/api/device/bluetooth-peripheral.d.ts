@@ -420,6 +420,9 @@ declare module '../../index' {
     ): void
 
     /** 建立本地作为蓝牙低功耗外围设备的服务端，可创建多个
+     *
+     * > [用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)：需要 `scope.bluetooth`
+     *
      * @supported weapp, jd
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/wx.createBLEPeripheralServer.html
      */

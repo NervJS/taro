@@ -288,6 +288,8 @@ declare module '../../index' {
 
     /** 初始化蓝牙模块
      *
+     * > [用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)：需要 `scope.bluetooth`
+     *
      * **注意**
      * - 其他蓝牙相关 API 必须在 Taro.openBluetoothAdapter 调用之后使用。否则 API 会返回错误（errCode=10000）。
      * - 在用户蓝牙开关未开启或者手机不支持蓝牙功能的情况下，调用 Taro.openBluetoothAdapter 监听手机蓝牙状态的改变，也可以调用蓝牙模块的所有API。
@@ -359,7 +361,7 @@ declare module '../../index' {
       /** 寻找到新设备的事件的回调函数 */
       callback: onBluetoothDeviceFound.Callback,
     ): void
-  
+
     /** 取消监听蓝牙适配器状态变化事件
      * @supported weapp, alipay
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.offBluetoothAdapterStateChange.html
@@ -368,15 +370,15 @@ declare module '../../index' {
       /** 蓝牙适配器状态变化事件的回调函数 */
       callback: onBluetoothAdapterStateChange.Callback,
     ): void
-  
+
     /** 蓝牙配对接口，仅安卓支持
-     * 
+     *
      * 通常情况下（需要指定 pin 码或者密码时）系统会接管配对流程，直接调用 [Taro.createBLEConnection](/docs/apis/device/bluetooth-ble/createBLEConnection) 即可。该接口只应当在开发者不想让用户手动输入 pin 码且真机验证确认可以正常生效情况下用。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.makeBluetoothPair.html
      */
     makeBluetoothPair(option: makeBluetoothPair.Option): Promise<TaroGeneral.CallbackResult>
-  
+
     /** 查询蓝牙设备是否配对，仅安卓支持
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.isBluetoothDevicePaired.html
