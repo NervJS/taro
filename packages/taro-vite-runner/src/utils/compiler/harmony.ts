@@ -29,7 +29,7 @@ import type {
   VitePageMeta,
 } from '@tarojs/taro/types/compile/viteCompilerContext'
 
-function readJsonSync(file: string) {
+export function readJsonSync(file: string) {
   const ext = path.extname(file)
   if (ext === '.json5') {
     const raw = fs.readFileSync(file, 'utf-8')
@@ -83,9 +83,9 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     const defaultCommonChunks = ['runtime', 'vendors', 'taro', 'common']
     let customCommonChunks: string[] = defaultCommonChunks
     if (isFunction(commonChunks)) {
-      customCommonChunks = commonChunks(defaultCommonChunks.concat()) || defaultCommonChunks
-    } else if (isArray(commonChunks) && commonChunks.length) {
-      customCommonChunks = commonChunks
+      customCommonChunks = (commonChunks as ((commonChunks: string[]) => string[]))(defaultCommonChunks.concat()) || defaultCommonChunks
+    } else if (isArray(commonChunks) && commonChunks!.length) {
+      customCommonChunks = commonChunks as string[]
     }
     return customCommonChunks
   }
@@ -96,7 +96,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     const scriptPath = resolveMainFilePath(path.join(sourceDir, pageName), frameworkExts)
     const nativePath = resolveMainFilePath(path.join(sourceDir, pageName), nativeExt)
     const configPath = this.getConfigFilePath(scriptPath)
-    const config: PageConfig = readConfig(configPath) || {}
+    const config: PageConfig = readConfig(configPath, this.taroConfig) || {}
 
     const pageMeta = {
       name: pageName,

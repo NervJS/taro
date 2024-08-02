@@ -62,6 +62,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             const tabbarPages = tabbarList.map(item => viteCompilerContext.pages.find((e: TaroHarmonyPageMeta) => {
               if (e.name === item.pagePath) {
                 e.originName = item.pagePath
+                e.id = appendVirtualModulePrefix(e.scriptPath + PAGE_SUFFIX)
                 return true
               }
             })!)
@@ -100,6 +101,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
                 ...page,
                 originName: page.name,
                 name: pageName,
+                id,
               } as TaroHarmonyPageMeta, name, this.resolve),
               exports: ['default'],
             })

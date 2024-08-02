@@ -83,7 +83,7 @@ export interface ViteMiniBuildConfig extends CommonBuildConfig, IMiniAppConfig<'
   globalObject: string
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath?: string | string[]
-  taroComponentsPath?: string
+  taroComponentsPath: string
   blended?: boolean
   hot?: boolean
   injectOptions?: {

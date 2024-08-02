@@ -1,20 +1,22 @@
 // @ts-ignore
 import { getPageById } from '@tarojs/plugin-framework-react/dist/runtime'
-import { eventCenter, eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { EMPTY_OBJ, toCamelCase } from '@tarojs/shared'
 
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../../constant'
 import { Current } from '../../current'
+import { eventCenter } from '../../emitter/emitter'
 import { findChildNodeWithDFS } from '../../utils'
 import { initComponentNodeInfo, triggerAttributesCallback } from '../../utils/info'
 import { bindAnimation } from '../bind'
 import { ClassList } from '../class-list'
-import { type ICSSStyleDeclaration, createCSSStyleDeclaration } from '../cssStyleDeclaration'
+import { createCSSStyleDeclaration } from '../cssStyleDeclaration'
+import { eventSource } from '../event-source'
 import { NodeType, TaroNode } from '../node'
 import StyleSheet, { HarmonyStyle, TaroStyleType } from '../stylesheet'
 
 import type { BaseTouchEvent, ITouchEvent, StandardProps } from '@tarojs/components/types'
-import type { TaroAny } from '../../utils'
+import type { TaroAny } from '../../interface'
+import type { ICSSStyleDeclaration } from '../cssStyleDeclaration'
 
 type NamedNodeMap = { name: string, value: string }[]
 
@@ -91,7 +93,7 @@ export class TaroElement<
   }
 
   public get id(): string {
-    return this.getAttribute('id') || this._nid
+    return this.getAttribute('id') || `${this._nid}`
   }
 
   public set className(value: string) {
@@ -337,7 +339,6 @@ export class TaroElement<
   // 3、removeChild的时候，会判断是否需要移除层级
   public setLayer (value: number) {
     if (!this.parentNode) return // 没有父节点，不需要设置层级关系
-
 
     const currentPage = getPageById(this.getAttribute('__fixed'))
     if (currentPage) {

@@ -206,6 +206,7 @@ export enum META_TYPE {
   EXPORTS = 'EXPORTS',
 }
 
+export const taroJsMiniComponentsPath = '@tarojs/components/mini'
 export const taroJsComponents = '@tarojs/components'
 export const taroJsQuickAppComponents = '@tarojs/components-qa'
 export const taroJsFramework = '@tarojs/taro'
