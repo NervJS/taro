@@ -27,6 +27,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
+    "@tarojs/components": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*"
   },
