@@ -111,7 +111,7 @@ declare namespace NavigatorProps {
 }
 /** 页面链接
  * @classification navig
- * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
+ * @supported weapp, alipay, swan, tt, qq, jd, harmony, h5, harmony_hybrid
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/navigator.html
  */
 declare const Navigator: ComponentType<NavigatorProps>
