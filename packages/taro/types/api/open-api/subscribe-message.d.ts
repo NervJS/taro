@@ -7,11 +7,11 @@ declare module '../../index' {
        * 需要订阅的消息模板的id的集合（注意：iOS客户端7.0.6版本、Android客户端7.0.7版本之后的一次性订阅/长期订阅才支持多个模板消息，iOS客户端7.0.5版本、Android客户端7.0.6版本之前的一次订阅只支持一个模板消息）消息模板id在[微信公众平台(mp.weixin.qq.com)-功能-订阅消息]中配置
        * @supported weapp, tt
        */
-      tmplIds: string[]
+      tmplIds?: string[]
       /** 需要订阅的消息模板 id 集合（注意：1、一次性模板 id 和长期性模板 id 不可同时使用，2、一次最多传入三个模板 id
        * @supported alipay
        */
-      entityIds: string[]
+      entityIds?: string[]
       /** 模板小程序 appId，仅在服务商代调用场景下需要传入
        * @supported alipay
        */
