@@ -1,4 +1,4 @@
-export function getHtmlScript (entryScript: string, pxtransformOption): string {
+export function getHtmlScript(entryScript: string, pxtransformOption): string {
   let htmlScript = ''
   const options = pxtransformOption?.config || {}
   const max = options?.maxRootSize ?? 40
@@ -11,6 +11,6 @@ export function getHtmlScript (entryScript: string, pxtransformOption): string {
   if ((options?.targetUnit ?? 'rem') === 'rem') {
     htmlScript = `<script>!function(n){function f(){var e=n.document.documentElement,r=e.getBoundingClientRect(),width=r.width,height=r.height,arr=[width,height].filter(function(value){return Boolean(value)}),w=Math.min.apply(Math,arr),x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}; n.addEventListener("resize",(function(){f()})),f()}(window);</script>\n`
   }
-  htmlScript += `  <script type="module" src="${entryScript}"></script>`
+  htmlScript += `  <script type="module" src="${entryScript.replace(/\\/g, '/')}"></script>`
   return htmlScript
 }
