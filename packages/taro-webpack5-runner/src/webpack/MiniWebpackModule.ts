@@ -1,12 +1,12 @@
 import {
+  getMergeLoaderTemplateReg,
   isNodeModule,
   recursiveMerge,
   REG_CSS,
   REG_LESS,
   REG_SASS_SASS,
   REG_SASS_SCSS,
-  REG_STYLUS,
-  REG_TEMPLATE
+  REG_STYLUS
 } from '@tarojs/helper'
 import { cloneDeep } from 'lodash'
 import path from 'path'
@@ -87,7 +87,7 @@ export class MiniWebpackModule {
       script: this.getScriptRule(),
 
       template: {
-        test: REG_TEMPLATE,
+        test: getMergeLoaderTemplateReg(fileType.templ),
         type: 'asset/resource',
         generator: {
           filename ({ filename }) {

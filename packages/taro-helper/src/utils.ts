@@ -7,14 +7,14 @@ import * as path from 'path'
 import {
   CSS_EXT,
   CSS_IMPORT_REG,
+  DEFAULT_SUPPORT_TEMPLATE,
   NODE_MODULES_REG,
   PLATFORMS,
   processTypeEnum,
   processTypeMap,
   REG_JSON,
   SCRIPT_EXT,
-  TARO_CONFIG_FOLDER
-} from './constants'
+  TARO_CONFIG_FOLDER } from './constants'
 import { requireWithEsbuild } from './esbuild'
 import { chalk } from './terminal'
 
@@ -692,6 +692,11 @@ export function readConfig<T extends IReadConfigOptions> (configPath: string, op
     result = readPageConfig(configPath)
   }
   return result
+}
+
+export function getMergeLoaderTemplateReg (templ: string) {
+  const tmepls = [...DEFAULT_SUPPORT_TEMPLATE, templ ? templ?.substring(1) : '']
+  return new RegExp(`\\.(${tmepls.join('|')})(\\?.*)?$`)
 }
 
 export { fs }
