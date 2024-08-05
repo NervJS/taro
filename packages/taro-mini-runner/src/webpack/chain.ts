@@ -1,6 +1,7 @@
 import {
   chalk,
   fs,
+  getMergeLoaderTemplateReg,
   isNodeModule,
   recursiveMerge,
   REG_CSS,
@@ -13,7 +14,6 @@ import {
   REG_SCRIPTS,
   REG_STYLE,
   REG_STYLUS,
-  REG_TEMPLATE,
   resolveMainFilePath,
   SCRIPT_EXT
 } from '@tarojs/helper'
@@ -430,7 +430,7 @@ export const getModule = (appPath: string, {
     },
     script: scriptRule,
     template: {
-      test: REG_TEMPLATE,
+      test: getMergeLoaderTemplateReg(fileType.templ),
       use: [getFileLoader([{
         useRelativePath: true,
         name: (resourcePath: string) => {
