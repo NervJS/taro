@@ -62,7 +62,7 @@ export default function Index() {
             taroPath: '/pages/index/index'
           })
         }}>
-        单实例（单SPA）：首页
+        多实例（单SPA）：首页
       </Button>
     </View>
   )
