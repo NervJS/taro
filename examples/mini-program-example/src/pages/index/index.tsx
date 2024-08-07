@@ -60,7 +60,7 @@ export default function Index() {
         onClick={()=>{
           nativeApi.harmonyNavigateTo({
             indexHtmlPath: '/spa/new/index.html',
-            taroPath: 'pages/api/index/index'
+            taroPath: '/pages/api/index/index'
           })
         }}>
         单实例（单SPA）：接口列表页
