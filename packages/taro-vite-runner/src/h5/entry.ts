@@ -56,9 +56,9 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         }, '')
 
         const getTabbarIconPath = (iconPath) => {
-          return isProd
+          return normalizePath(isProd
             ? path.join('/', taroConfig.staticDirectory as string, 'images', path.basename(iconPath))
-            : iconPath.replace(/^./, '')
+            : iconPath.replace(/^./, ''))
         }
 
         const emitTabbarIcon = async (sourceDir, iconPath) => {
