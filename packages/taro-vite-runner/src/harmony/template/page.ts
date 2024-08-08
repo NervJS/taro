@@ -705,7 +705,7 @@ for (let i = 0; i < taskQueen.length; i++) {
 
     let instantiatePage = this.transArr2Str(structCodeArray)
     if (isFunction(modifyInstantiate)) {
-      instantiatePage = modifyInstantiate(instantiatePage, 'page')
+      instantiatePage = modifyInstantiate.call(this, instantiatePage, 'page')
     }
 
     return instantiatePage
@@ -947,17 +947,17 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     const modifyPageDisappear = page instanceof Array ? page[0].modifyPageDisappear : page.modifyPageDisappear
 
     // 生成 aboutToDisappear 函数内容
-    let disAppearStr = this.transArr2Str([
+    let disappearStr = this.transArr2Str([
       this.isTabbarPage ? `this.pageList?.forEach(item => {
 callFn(item?.onUnload, this)
 })
 this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
 
     if (isFunction(modifyPageDisappear)) {
-      disAppearStr = modifyPageDisappear.call(this, disAppearStr, page)
+      disappearStr = modifyPageDisappear.call(this, disappearStr, page)
     }
 
-    return disAppearStr
+    return disappearStr
   }
 
   generatePageShown () {
@@ -1078,7 +1078,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
   }
 
   parseEntry (rawId: string, page: TaroHarmonyPageMeta) {
-    const { creatorLocation, frameworkArgs, importFrameworkStatement } = this.loaderMeta
+    const { creatorLocation, frameworkArgs, importFrameworkStatement, modifyEntryFile } = this.loaderMeta
     const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
     // FIXME: pure 参数应该使用 page.entryOption 替代
@@ -1092,7 +1092,9 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
       : isBlended
         ? `'${pageName}', ${frameworkArgs}` : `'${pageName}', config`})`
 
-    return this.transArr2Str([
+    const rawCode = isFunction(modifyEntryFile) ? modifyEntryFile.call(this, 'page', rawId, page) : ''
+
+    return rawCode || this.transArr2Str([
       `import { ${createFn} } from '${creatorLocation}'`,
       `import component from "${escapePath(rawId)}"`,
       isBlended ? 'import { initPxTransform } from "@tarojs/taro"' : null,
