@@ -1078,19 +1078,19 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
   }
 
   parseEntry (rawId: string, page: TaroHarmonyPageMeta) {
-    const { creatorLocation, importFrameworkStatement } = this.loaderMeta
+    const { creatorLocation, frameworkArgs, importFrameworkStatement } = this.loaderMeta
     const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
-    let createFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
+    // FIXME: pure 参数应该使用 page.entryOption 替代
+    const createFn = this.isPure
+      ? 'createNativeComponentConfig'
+      : isBlended
+        ? 'createNativePageConfig' : 'createPageConfig'
     const pageName = entryOption?.routeName || page.name
-    const nativeCreatePage = `createNativePageConfig(component, '${pageName}', React, ReactDOM, config)`
-    let createPageOrComponent = isBlended ? nativeCreatePage : `createPageConfig(component, '${pageName}', config)`
-
-    // 如果是pure，说明不是一个页面，而是一个组件，这个时候修改import和createPage
-    if (this.isPure) {
-      createFn = 'createNativeComponentConfig'
-      createPageOrComponent = `createNativeComponentConfig(component, React, ReactDOM, config)`
-    }
+    const createPageOrComponent = `${createFn}(component, ${this.isPure
+      ? `${frameworkArgs}`
+      : isBlended
+        ? `'${pageName}', ${frameworkArgs}` : `'${pageName}', config`})`
 
     return this.transArr2Str([
       `import { ${createFn} } from '${creatorLocation}'`,
