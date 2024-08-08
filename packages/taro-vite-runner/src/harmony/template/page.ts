@@ -34,7 +34,7 @@ export interface TaroHarmonyPageMeta extends VitePageMeta {
 
   modifyPageAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
-  modifyPageDisAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
+  modifyPageDisappear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
   modifyPageBuild?: (this: Parser, buildStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
@@ -944,17 +944,17 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   }
 
   generatePageAboutToDisAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
-    const modifyPageDisAppear = page instanceof Array ? page[0].modifyPageDisAppear : page.modifyPageDisAppear
+    const modifyPageDisappear = page instanceof Array ? page[0].modifyPageDisappear : page.modifyPageDisappear
 
-    // 生成 aboutToDisAppear 函数内容
+    // 生成 aboutToDisappear 函数内容
     let disAppearStr = this.transArr2Str([
       this.isTabbarPage ? `this.pageList?.forEach(item => {
 callFn(item?.onUnload, this)
 })
 this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
 
-    if (isFunction(modifyPageDisAppear)) {
-      disAppearStr = modifyPageDisAppear.call(this, disAppearStr, page)
+    if (isFunction(modifyPageDisappear)) {
+      disAppearStr = modifyPageDisappear.call(this, disAppearStr, page)
     }
 
     return disAppearStr
