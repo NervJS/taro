@@ -112,6 +112,7 @@ export class Swiper implements ComponentInterface {
     if (this.currentItemId || !this.isWillLoadCalled || !this.swiper) return
     const n = parseInt(newVal, 10)
     if (isNaN(n) || n === this.swiper.realIndex) return
+    this.#source = ''
     if (this.circular) {
       this.swiper.slideToLoop(n) // 更新下标
       this.autoplay && this.swiper.autoplay.pause()
@@ -128,9 +129,9 @@ export class Swiper implements ComponentInterface {
     if (!this.swiperWrapper || !this.isWillLoadCalled) return
 
     let itemIdIndex = 0
-    this.swiperWrapper!.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)').forEach((swiperItem, index) => {
-      // @ts-ignore
-      if (swiperItem.itemId && swiperItem.itemId === newVal) {
+    this.getSlidersList().forEach((swiperItem, index) => {
+      const itemId = swiperItem.getAttribute('item-id')
+      if (itemId === newVal) {
         if (this.circular) {
           itemIdIndex = Number(swiperItem.getAttribute('data-swiper-slide-index'))
         } else {
@@ -138,6 +139,8 @@ export class Swiper implements ComponentInterface {
         }
       }
     })
+    if(itemIdIndex === this.swiper.realIndex) return // 无需更新
+    this.#source = ''
     if (this.circular) {
       this.swiper.slideToLoop(itemIdIndex) // 更新下标
       // @ts-ignore
@@ -306,7 +309,7 @@ export class Swiper implements ComponentInterface {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
     const options: any = {
-      pagination: { el: `.taro-swiper-${this.#id} > .swiper-container > .swiper-pagination`, clickable: true },
+      pagination: { el: `.taro-swiper-${this.#id} > .swiper-container > .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
       slidesPerView: slidesPerView,
@@ -322,9 +325,22 @@ export class Swiper implements ComponentInterface {
           if(that.#swiperResetting) return
           that.getNeedFixLoop() && e.loopFix()
           that.autoplay && e.autoplay.start()
+          const currentItemId = that.getCurrentItemId(e)
+          that.onAnimationFinish.emit({
+            current: this.realIndex,
+            source: that.#source,
+            currentItemId,
+          })
+          that.#source = 'autoplay'
+        },
+        slideChange(e) {
+          if(that.#swiperResetting || that.#lastSwiperActiveIndex === this.realIndex) return
+          that.#lastSwiperActiveIndex = this.realIndex
+          const currentItemId = that.getCurrentItemId(e)
           that.onChange.emit({
             current: this.realIndex,
             source: that.#source,
+            currentItemId,
           })
         },
         init: (e) => {
@@ -342,15 +358,6 @@ export class Swiper implements ComponentInterface {
           // Note: 修复 autoplay 时，切换到其他页面再切回来，autoplay 会停止的问题
           e.animating = false;
           that.#source = 'autoplay'
-        },
-        transitionEnd () {
-          setTimeout(() => {
-            that.#source = ''
-          })
-          that.onAnimationFinish.emit({
-            current: this.realIndex,
-            source: that.#source,
-          })
         }
       }
     }
@@ -359,7 +366,6 @@ export class Swiper implements ComponentInterface {
     if (autoplay) {
       options.autoplay = {
         delay: interval,
-        stopOnLastSlide: false,
         disableOnInteraction: false
       }
     }
@@ -408,6 +414,13 @@ export class Swiper implements ComponentInterface {
     const [, previousMargin] = /^(\d+)px/.exec(this.previousMargin) || []
     const [, nextMargin] = /^(\d+)px/.exec(this.nextMargin) || []
     return [parseInt(previousMargin) || 0, parseInt(nextMargin) || 0]
+  }
+
+  getCurrentItemId (swiper: ISwiper) {
+    const slides = swiper.slides
+    const activeIndex = swiper.activeIndex
+    const currentSlide = slides[activeIndex]
+    return currentSlide.getAttribute('item-id')
   }
 
   reset = () => {

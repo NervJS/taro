@@ -77,7 +77,7 @@ interface SwiperState {
 
 class SwiperInner extends React.Component<SwiperProps, SwiperState> {
   _id = 1 + INSTANCE_ID++
-  #source = ''
+  #source = 'autoplay'
   #swiperResetting: boolean = false
   #lastSwiperActiveIndex: number = 0
   #domChangeByOutSide: boolean = false
@@ -142,13 +142,26 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
       displayMultipleItems = 1,
       duration = 500,
       interval = 5000,
+      currentItemId,
       vertical
     } = this.props
 
     let initialSlide = parseInt(String(current), 10)
     if (reset) {
       initialSlide = this.#lastSwiperActiveIndex
+    } else {
+      if (currentItemId) {
+        let itemIdIndex = 0
+        this.getSlidersList().forEach((swiperItem, index) => {
+          // @ts-ignore
+          if (swiperItem.itemId && swiperItem.itemId === currentItemId) {
+            itemIdIndex = index
+          }
+        })
+        initialSlide = itemIdIndex
+      }
     }
+    
     const loopAdditionalSlides = this.getLoopAdditionalSlides()
     const centeredSlides = parseFloat(String(displayMultipleItems)) === 1
     const slidesPerView = parseFloat(String(displayMultipleItems)) === 1 ? 'auto' : displayMultipleItems
@@ -177,46 +190,47 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
           that.props.autoplay && _swiper.autoplay.start()
           const e = createEvent('touchend')
           try {
+            const currentId = that.getCurrentId(_swiper)
             Object.defineProperty(e, 'detail', {
               enumerable: true,
               value: {
                 source: that.#source,
-                current: this.realIndex
+                current: this.realIndex,
+                currentId: currentId
               }
             })
           } catch (err) {} // eslint-disable-line no-empty
-          console.log(e)
-          console.log(this)
-          that.handleOnChange(e)
-        },
-        touchEnd: (e) => {
-          that.#source = 'touch'
-          that.props.autoplay && e.autoplay.start()
-        },
-        touchStart: (e) => {
-          that.props.autoplay && e.autoplay.pause()
-        },
-        autoplay (e) {
-          console.log('autoplay')
-          // Note: 修复 autoplay 时，切换到其他页面再切回来，autoplay 会停止的问题
-          e.animating = false;
+          that.handleOnAnimationFinish(e)
           that.#source = 'autoplay'
         },
-        transitionEnd () {
+        touchEnd: (_swiper) => {
+          that.#source = 'touch'
+          that.props.autoplay && _swiper.autoplay.start()
+        },
+        touchStart: (_swiper) => {
+          that.props.autoplay && _swiper.autoplay.pause()
+        },
+        slideChange (_swiper){
+          if(that.#swiperResetting || that.#lastSwiperActiveIndex === _swiper.realIndex) return
+          that.#lastSwiperActiveIndex = _swiper.realIndex
           const e = createEvent('touchend')
           try {
+            const currentId = that.getCurrentId(_swiper)
             Object.defineProperty(e, 'detail', {
               enumerable: true,
               value: {
                 current: this.realIndex,
                 source: that.#source,
+                currentId,
               }
             })
           } catch (err) {} // eslint-disable-line no-empty
-          setTimeout(() => {
-            that.#source = ''
-          })
-          that.handleOnAnimationFinish(e)
+          that.handleOnChange(e)
+        },
+        autoplay (_swiper) {
+          // Note: 修复 autoplay 时，切换到其他页面再切回来，autoplay 会停止的问题
+          _swiper.animating = false;
+          that.#source = 'autoplay'
         }
       }
     }
@@ -224,7 +238,8 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
     // 自动播放
     if (autoplay) {
       opt.autoplay = {
-        delay: parseInt(String(interval), 10)
+        delay: parseInt(String(interval), 10),
+        disableOnInteraction: false
       }
     }
 
@@ -255,9 +270,7 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
   componentDidUpdate (prevProps, pervState) {
     if(!this.swiper || !this.state.swiperWrapper) return
     if(pervState.swiperWrapper !== this.state.swiperWrapper && this.state.swiperWrapper) {
-      if(this.observer) console.log('disconnect')
       this.observer && this.observer.disconnect()
-      console.log('connect')
       this.observer = new MutationObserver(this.handleSwiperSizeDebounce)
       this.observer.observe(this.state.swiperWrapper as Node, {
           childList: true
@@ -282,6 +295,7 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
     if(prevProps.current !== this.props.current && !this.props.currentItemId) {
       const n = parseInt(String(this.props.current), 10)
       if (isNaN(n) || n === this.swiper.realIndex) return
+      this.#source = ''
       if (this.props.circular) {
         this.swiper.slideToLoop(n) // 更新下标
         this.props.autoplay && this.swiper.autoplay.pause()
@@ -311,12 +325,37 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
         }
       }
     }
+
+    if(prevProps.currentItemId !== this.props.currentItemId) {
+      let itemIdIndex = 0
+      this.getSlidersList().forEach((swiperItem, index) => {
+        const itemId = swiperItem.getAttribute('item-id')
+        // @ts-ignore
+        if (itemId === this.props.currentItemId) {
+          if (this.props.circular) {
+            itemIdIndex = Number(swiperItem.getAttribute('data-swiper-slide-index'))
+          } else {
+            itemIdIndex = index
+          }
+        }
+      })
+      if (isNaN(itemIdIndex) || itemIdIndex === this.swiper.realIndex) return
+      this.#source = ''
+      if (this.props.circular) {
+        this.swiper.slideToLoop(itemIdIndex) // 更新下标
+        this.props.autoplay && this.swiper.autoplay.pause()
+        // @ts-ignore
+        this.swiper.loopFix()
+        this.props.autoplay && this.swiper.autoplay.start()
+      } else {
+        this.swiper.slideTo(itemIdIndex) // 更新下标
+      }
+    }
   }
 
   componentWillUnmount () {
     this.$el = null
     this.swiper?.destroy?.()
-    if(this.observer) console.log('disconnect')
     this.observer?.disconnect?.()
     this.setState({
       swiperWrapper: null
@@ -332,11 +371,6 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
     const func = this.props.onAnimationFinish
     typeof func === 'function' && func(e)
   }
-
-  parsePX (s = '0px') {
-    return parseFloat(s.replace(/r*px/i, ''))
-  }
-
 
   handleSwiperSizeDebounce = debounce(() => {
     if (!this.swiper) return
@@ -381,6 +415,13 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
     const [, pM] = /^(\d+)px/.exec(previousMargin) || []
     const [, nN] = /^(\d+)px/.exec(nextMargin as string) || []
     return [parseInt(pM) || 0, parseInt(nN) || 0]
+  }
+
+  getCurrentId (swiper: ISwiper) {
+    const slides = swiper.slides
+    const activeIndex = swiper.activeIndex
+    const currentSlide = slides[activeIndex]
+    return currentSlide.getAttribute('item-id')
   }
 
   render () {
@@ -438,6 +479,8 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
       </div>
     )
   }
+
+
 }
 
 export const Swiper = createForwardRefComponent(SwiperInner)
