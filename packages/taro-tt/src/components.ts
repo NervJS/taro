@@ -17,6 +17,7 @@ export const components = {
   },
   Button: {
     bindGetPhoneNumber: _empty,
+    bindGetIdentityInfo: _empty,
     'data-channel': _empty,
     'data-aweme-id': _empty,
     'group-id': _empty,
