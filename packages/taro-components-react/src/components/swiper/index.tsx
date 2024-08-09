@@ -1,15 +1,17 @@
-import 'swiper/swiper-bundle.min.css'
+import 'swiper/swiper-bundle.css'
 import './style/index.css'
 
 import classNames from 'classnames'
 import React from 'react'
-import Swipers from 'swiper/swiper-bundle.esm.js'
+import Swipers from 'swiper/bundle'
 
 import { createForwardRefComponent, debounce } from '../../utils'
 
 import type ISwiper from 'swiper'
 
 let INSTANCE_ID = 0
+const ONE_ADDITIONAL_SLIDES_THRESHOLD = 5
+const TWO_ADDITIONAL_SLIDES_THRESHOLD = 7
 
 interface SwiperItemProps extends React.HTMLAttributes<HTMLDivElement> {
   itemId: string
@@ -30,7 +32,9 @@ interface SwiperProps extends React.HTMLAttributes<HTMLDivElement> {
   indicatorColor?: string
   indicatorActiveColor?: string
   indicatorDots?: boolean
+  currentItemId?: string
   forwardedRef?: React.MutableRefObject<HTMLDivElement>
+  full?: boolean
   onAnimationFinish?: (e: TouchEvent) => void
 }
 
@@ -67,18 +71,70 @@ class SwiperItemInner extends React.Component<SwiperItemProps, Record<string, un
   }
 }
 
-class SwiperInner extends React.Component<SwiperProps, Record<string, unknown>> {
+interface SwiperState {
+  swiperWrapper: HTMLElement | null
+}
+
+class SwiperInner extends React.Component<SwiperProps, SwiperState> {
   _id = 1 + INSTANCE_ID++
-  _$current = 0
-  _$width = 0
-  _$height = 0
+  #source = ''
+  #swiperResetting: boolean = false
+  #lastSwiperActiveIndex: number = 0
+  #domChangeByOutSide: boolean = false
   $el: HTMLDivElement | null
-  mySwiper: ISwiper
+  swiper: ISwiper| null
   observer: MutationObserver
-  observerFirst: MutationObserver
-  observerLast: MutationObserver
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      swiperWrapper: null
+    }
+  }
 
   componentDidMount () {
+    this.handleInit()
+  }
+
+  hackSwiperWrapDomAction () {
+    if(!this.state.swiperWrapper || !this.swiper) return
+    const appendChild = this.state.swiperWrapper.appendChild.bind(this.state.swiperWrapper)
+    const removeChild = this.state.swiperWrapper.removeChild.bind(this.state.swiperWrapper)
+    const replaceChild = this.state.swiperWrapper.replaceChild.bind(this.state.swiperWrapper)
+    const insertBefore = this.state.swiperWrapper.insertBefore.bind(this.state.swiperWrapper)
+
+    const beforeAction = () => {
+      if(!this.state.swiperWrapper || !this.swiper) return
+      this.#swiperResetting = true
+      if(!this.#domChangeByOutSide && this.props.circular) {
+        this.#domChangeByOutSide = true
+        this.swiper.loopDestroy()
+        this.swiper.params.loop = false
+      }
+    }
+
+    this.state.swiperWrapper.appendChild = (...args) =>{
+      beforeAction()
+      return appendChild(...args)
+    }
+
+    this.state.swiperWrapper.removeChild = (...args) =>{
+      beforeAction()
+      return removeChild(...args)
+    }
+
+    this.state.swiperWrapper.replaceChild = (...args) =>{
+      beforeAction()
+      return replaceChild(...args)
+    }
+
+    this.state.swiperWrapper.insertBefore = (...args) =>{
+      beforeAction()
+      return insertBefore(...args)
+    }
+  }
+
+  handleInit = (reset=false) => {
     const {
       autoplay = false,
       circular = true,
@@ -86,10 +142,16 @@ class SwiperInner extends React.Component<SwiperProps, Record<string, unknown>> 
       displayMultipleItems = 1,
       duration = 500,
       interval = 5000,
-      spaceBetween,
       vertical
     } = this.props
 
+    let initialSlide = parseInt(String(current), 10)
+    if (reset) {
+      initialSlide = this.#lastSwiperActiveIndex
+    }
+    const loopAdditionalSlides = this.getLoopAdditionalSlides()
+    const centeredSlides = parseFloat(String(displayMultipleItems)) === 1
+    const slidesPerView = parseFloat(String(displayMultipleItems)) === 1 ? 'auto' : displayMultipleItems
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
     const opt: Record<string, any> = {
@@ -97,24 +159,48 @@ class SwiperInner extends React.Component<SwiperProps, Record<string, unknown>> 
       pagination: { el: `.taro-swiper-${this._id} > .swiper-container > .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
-      slidesPerView: parseFloat(String(displayMultipleItems)),
-      initialSlide: parseInt(String(current), 10),
+      slidesPerView: slidesPerView,
+      initialSlide,
       speed: parseInt(String(duration), 10),
       observer: true,
       observeParents: true,
+      loopAdditionalSlides,
+      centeredSlides,
       on: {
-        slideChange () {
+        init (_swiper) {
+          that.getNeedFixLoop() && _swiper.loopFix()
+          that.props.autoplay && _swiper.autoplay.start()
+        },
+        slideChangeTransitionEnd (_swiper) {
+          if(that.#swiperResetting) return
+          that.getNeedFixLoop() && _swiper.loopFix()
+          that.props.autoplay && _swiper.autoplay.start()
           const e = createEvent('touchend')
           try {
             Object.defineProperty(e, 'detail', {
               enumerable: true,
               value: {
+                source: that.#source,
                 current: this.realIndex
               }
             })
           } catch (err) {} // eslint-disable-line no-empty
-          that._$current = this.realIndex
+          console.log(e)
+          console.log(this)
           that.handleOnChange(e)
+        },
+        touchEnd: (e) => {
+          that.#source = 'touch'
+          that.props.autoplay && e.autoplay.start()
+        },
+        touchStart: (e) => {
+          that.props.autoplay && e.autoplay.pause()
+        },
+        autoplay (e) {
+          console.log('autoplay')
+          // Note: 修复 autoplay 时，切换到其他页面再切回来，autoplay 会停止的问题
+          e.animating = false;
+          that.#source = 'autoplay'
         },
         transitionEnd () {
           const e = createEvent('touchend')
@@ -122,29 +208,15 @@ class SwiperInner extends React.Component<SwiperProps, Record<string, unknown>> 
             Object.defineProperty(e, 'detail', {
               enumerable: true,
               value: {
-                current: this.mySwiper.realIndex
+                current: this.realIndex,
+                source: that.#source,
               }
             })
-            if (this.mySwiper.isBeginning) {
-              this.mySwiper.slideToLoop((this.props.children as any).length - 1, 0)
-            } else if (this.mySwiper.isEnd) {
-              this.mySwiper.slideToLoop(0, 0)
-            }
           } catch (err) {} // eslint-disable-line no-empty
+          setTimeout(() => {
+            that.#source = ''
+          })
           that.handleOnAnimationFinish(e)
-        },
-        observerUpdate (_swiper: ISwiper, e) {
-          const target = e.target
-          const className = target && typeof target.className === 'string' ? target.className : ''
-          if (className.includes('taro_page') && target.style.display !== 'none') {
-            if (that.props.autoplay && target.contains(_swiper.$el[0])) {
-              if (that.props.circular) {
-                _swiper.slideToLoop(this.realIndex, 0) // 更新下标
-              } else {
-                _swiper.slideTo(this.realIndex)
-              }
-            }
-          }
         }
       }
     }
@@ -152,84 +224,103 @@ class SwiperInner extends React.Component<SwiperProps, Record<string, unknown>> 
     // 自动播放
     if (autoplay) {
       opt.autoplay = {
-        delay: parseInt(String(interval), 10),
-        disableOnInteraction: false
+        delay: parseInt(String(interval), 10)
       }
     }
 
-    // 两端距离
-    if (spaceBetween) {
-      opt.spaceBetween = spaceBetween
+    this.swiper = new Swipers(this.$el!, opt)
+    if(this.getNeedFixLoop()) {
+      // @ts-ignore
+      const minTranslate = this.swiper.minTranslate.bind(this.swiper);
+      //@ts-ignore
+      const maxTranslate = this.swiper.maxTranslate.bind(this.swiper);
+      if(centeredSlides && this.getSlidersList().length < 4) {
+        //@ts-ignore
+        this.swiper.minTranslate = ()=> minTranslate() + this.parseMargin()[1];
+        //@ts-ignore
+        this.swiper.maxTranslate = ()=> maxTranslate() - this.parseMargin()[0];
+      } else {
+        //@ts-ignore
+        this.swiper.minTranslate = ()=> minTranslate() - this.parseMargin()[0];
+        //@ts-ignore
+        this.swiper.maxTranslate = ()=> maxTranslate() + this.parseMargin()[1];
+      }
     }
 
-    this.mySwiper = new Swipers(this.$el!, opt)
-    setTimeout(() => {
-      this.mySwiper.update()
-    }, 500)
-
-    if (!this.mySwiper || !this.props.circular) return
-
-    const wrapper = this.mySwiper.$wrapperEl[0]
-    this.observer = new MutationObserver(this.handleSwiperLoopListen)
-
-    this.observer.observe(wrapper, {
-      childList: true
+    this.setState({
+      swiperWrapper: this.swiper.wrapperEl
     })
   }
 
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    if (this.mySwiper) {
-      const nextCurrent = typeof nextProps.current === 'number' ? nextProps.current : this._$current || 0
+  componentDidUpdate (prevProps, pervState) {
+    if(!this.swiper || !this.state.swiperWrapper) return
+    if(pervState.swiperWrapper !== this.state.swiperWrapper && this.state.swiperWrapper) {
+      if(this.observer) console.log('disconnect')
+      this.observer && this.observer.disconnect()
+      console.log('connect')
+      this.observer = new MutationObserver(this.handleSwiperSizeDebounce)
+      this.observer.observe(this.state.swiperWrapper as Node, {
+          childList: true
+      })
+      this.hackSwiperWrapDomAction()
+    }
 
-      this.handleSwiperLoop()
-      // 是否衔接滚动模式
-      if (nextProps.circular) {
-        if (!this.mySwiper.isBeginning && !this.mySwiper.isEnd) {
-          this.mySwiper.slideToLoop(parseInt(nextCurrent, 10)) // 更新下标
-        }
+    if(prevProps.circular !== this.props.circular || prevProps.displayMultipleItems !== this.props.displayMultipleItems) {
+      this.reset()
+    }
+
+    if(prevProps.interval !== this.props.interval) {
+      if (typeof this.swiper.params.autoplay === 'object') {
+        this.swiper.params.autoplay.delay = this.props.interval
+      }
+    }
+
+    if(prevProps.duration !== this.props.duration) {
+      this.swiper.params.speed = this.props.duration
+    }
+
+    if(prevProps.current !== this.props.current && !this.props.currentItemId) {
+      const n = parseInt(String(this.props.current), 10)
+      if (isNaN(n) || n === this.swiper.realIndex) return
+      if (this.props.circular) {
+        this.swiper.slideToLoop(n) // 更新下标
+        this.props.autoplay && this.swiper.autoplay.pause()
+        // @ts-ignore
+        this.swiper.loopFix()
+        this.props.autoplay && this.swiper.autoplay.start()
       } else {
-        this.mySwiper.slideTo(parseInt(nextCurrent, 10) + 1) // 更新下标
+        this.swiper.slideTo(n) // 更新下标
       }
+    }
 
-      const autoplay = this.mySwiper.autoplay
-      // 判断是否需要停止或开始自动轮播
-      if (autoplay.running !== nextProps.autoplay) {
-        if (nextProps.autoplay) {
-          if (typeof this.mySwiper.params.autoplay === 'object') {
-            this.mySwiper.params.autoplay.disableOnInteraction = false
-            this.mySwiper.params.autoplay.delay = parseInt(String(this.props.interval) || '3000', 10)
+    if(prevProps.autoplay !== this.props.autoplay) {
+      const swiperAutoplay = this.swiper.autoplay
+      if (swiperAutoplay) {
+        if (swiperAutoplay.running === this.props.autoplay) return
+  
+        if (this.props.autoplay) {
+          if (this.swiper.params && typeof this.swiper.params.autoplay === 'object') {
+            if (this.swiper.params.autoplay.disableOnInteraction === true) {
+              this.swiper.params.autoplay.disableOnInteraction = false
+            }
+            this.swiper.params.autoplay.delay = this.props.interval
           }
-          autoplay.start()
+          swiperAutoplay.start()
         } else {
-          autoplay.stop()
+          swiperAutoplay.stop()
         }
       }
-
-      this.mySwiper.update() // 更新子元素
     }
-  }
-
-  componentDidUpdate (preProps) {
-    if (preProps.children.length === 0 && (this.props.children as any).length > 0) {
-      (this.mySwiper as any).loopDestroy()
-      ;(this.mySwiper as any).loopCreate()
-    }
-    if (!this.mySwiper) return
-    if (this.props.autoplay) {
-      if (this._$width !== this.mySwiper.width || this._$height !== this.mySwiper.height) {
-        this.mySwiper.autoplay.start()
-      }
-    }
-    this._$width = this.mySwiper.width
-    this._$height = this.mySwiper.height
   }
 
   componentWillUnmount () {
     this.$el = null
-    if (this.mySwiper) this.mySwiper.destroy()
+    this.swiper?.destroy?.()
+    if(this.observer) console.log('disconnect')
     this.observer?.disconnect?.()
-    this.observerFirst?.disconnect?.()
-    this.observerLast?.disconnect?.()
+    this.setState({
+      swiperWrapper: null
+    })
   }
 
   handleOnChange (e: React.FormEvent<HTMLDivElement>) {
@@ -246,40 +337,57 @@ class SwiperInner extends React.Component<SwiperProps, Record<string, unknown>> 
     return parseFloat(s.replace(/r*px/i, ''))
   }
 
-  handleSwiperLoopListen = () => {
-    this.observerFirst?.disconnect?.()
-    this.observerLast?.disconnect?.()
-    this.observerFirst = new MutationObserver(this.handleSwiperLoop)
-    this.observerLast = new MutationObserver(this.handleSwiperLoop)
-    const wrapper = this.mySwiper.$wrapperEl[0]
-    const list = wrapper.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)')
-    if (list.length >= 1) {
-      this.observerFirst.observe(list[0], {
-        characterData: true
-      })
-    } else if (list.length >= 2) {
-      this.observerLast.observe(list[list.length - 1], {
-        characterData: true
-      })
+
+  handleSwiperSizeDebounce = debounce(() => {
+    if (!this.swiper) return
+    if(this.props.circular) {
+      if(this.#domChangeByOutSide) {
+        this.reset()
+        this.#domChangeByOutSide = false
+      }
+    } else {
+      this.swiper.update()
+      this.#swiperResetting = false
     }
+  }, 50)
+
+  
+  reset = () => {
+    if(!this.swiper) return
+    this.#swiperResetting = true
+    this.#lastSwiperActiveIndex = this.swiper.realIndex
+    this.swiper.destroy()
+    this.handleInit(true)
+    this.#swiperResetting = false
   }
 
-  handleSwiperLoop = debounce(() => {
-    if (this.mySwiper && this.mySwiper.$wrapperEl && this.props.circular) {
-      // @ts-ignore
-      this.mySwiper.loopDestroy()
-      // @ts-ignore
-      this.mySwiper.loopCreate()
-    }
-  }, 500)
+  getSlidersList = () => this.$el?.querySelectorAll?.('.swiper-slide') || []
+
+  getNeedFixLoop = () => {
+    const margins = this.parseMargin()
+    const hasMargin = margins.filter(Boolean).length > 0
+    return this.props.circular && hasMargin
+  }
+
+  getLoopAdditionalSlides():number{
+    const slidersLength = (this.getSlidersList()).length
+    if(!this.$el || !this.getNeedFixLoop() || slidersLength < ONE_ADDITIONAL_SLIDES_THRESHOLD) return 0
+    if(slidersLength <= TWO_ADDITIONAL_SLIDES_THRESHOLD) return 1
+    return 2
+  }
+
+  parseMargin = () => {
+    const { previousMargin = '0px', nextMargin = '0px' } = this.props
+    const [, pM] = /^(\d+)px/.exec(previousMargin) || []
+    const [, nN] = /^(\d+)px/.exec(nextMargin as string) || []
+    return [parseInt(pM) || 0, parseInt(nN) || 0]
+  }
 
   render () {
     const {
       className,
       style,
       vertical,
-      previousMargin,
-      nextMargin,
       indicatorColor,
       indicatorActiveColor,
       forwardedRef
@@ -288,12 +396,19 @@ class SwiperInner extends React.Component<SwiperProps, Record<string, unknown>> 
     const defaultIndicatorActiveColor = indicatorActiveColor || '#000'
     const cls = classNames(`taro-swiper-${this._id}`, className)
     const sty = Object.assign({
-      paddingTop: vertical ? this.parsePX(previousMargin) : 0,
-      paddingRight: vertical ? 0 : this.parsePX(nextMargin),
-      paddingBottom: vertical ? this.parsePX(nextMargin) : 0,
-      paddingLeft: vertical ? 0 : this.parsePX(previousMargin),
       overflow: 'hidden'
     }, style)
+    if (this.props.full) {
+      sty.height = '100%'
+    }
+    const [pM, nM] = this.parseMargin()
+    const swiperContainerStyleList:string [] = [
+      'overflow: visible;',
+      vertical ? `margin-top: ${pM}px; margin-bottom: ${nM}px;` : `margin-right: ${nM}px; margin-left: ${pM}px;`,
+      this.props.full ? 'height: 100%;' : ''
+    ]
+
+
     const paginationCls = classNames(
       'swiper-pagination',
       {
@@ -313,10 +428,11 @@ class SwiperInner extends React.Component<SwiperProps, Record<string, unknown>> 
               __html: `<style type='text/css'>
               .taro-swiper-${this._id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: ${defaultIndicatorColor} }
               .taro-swiper-${this._id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} }
+              .taro-swiper-${this._id} > .swiper-container { ${swiperContainerStyleList.join('')} }
               </style>`
             }}
           />
-          <div className='swiper-wrapper'>{this.props.children}</div>
+          <div className='swiper-wrapper' >{this.props.children}</div>
           <div className={paginationCls} />
         </div>
       </div>

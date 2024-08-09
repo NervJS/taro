@@ -4,6 +4,8 @@
 
 .swiper-container {
     height: 100%;
+    position: relative;
+    overflow: visible;
 }
 
 .swiper-pagination {
@@ -13,3 +15,7 @@
 .swiper-pagination-bullet {
     opacity: 1
 }
+
+.swiper-pagination-hidden {
+    display: none;
+  }

@@ -208,13 +208,12 @@ export class Swiper implements ComponentInterface {
       return newVal.insertBefore(newChild, refChild)
     }
     this.el.replaceChild = <T extends Node>(newChild: Node, oldChild: T): T => {
-      this.#domChangeByOutSide = true
+      this.#swiperResetting = true
       if(!this.#domChangeByOutSide && this.circular) {
         this.#domChangeByOutSide = true
         this.swiper.loopDestroy()
         this.swiper.params.loop = false
       }
-      this.#swiperResetting = true
       return newVal.replaceChild(newChild, oldChild)
     }
     this.el.removeChild = <T extends Node>(oldChild: T): T => {
@@ -242,27 +241,12 @@ export class Swiper implements ComponentInterface {
     }
   }, 50)
 
+  
+
   @Watch("circular")
-  watchCircular (newVal) {
+  watchCircular () {
     if (!this.swiper || !this.isWillLoadCalled) return
-    this.#swiperResetting = true
-    if (newVal) {
-      this.swiper.params.loop = newVal;
-      this.swiper.loopCreate();
-      this.swiper.update();
-      setTimeout(()=>{
-        //@ts-ignore
-        this.swiper.loopFix()
-        this.autoplay && this.swiper.autoplay.start()
-        this.#swiperResetting = false
-      })
-    }
-    else {
-      this.swiper.loopDestroy();
-      this.swiper.params.loop = newVal;
-      this.swiper.update();
-      this.#swiperResetting = false
-    }
+    this.reset()
   }
 
   @Watch("displayMultipleItems")
@@ -317,7 +301,6 @@ export class Swiper implements ComponentInterface {
       }
     }
     const loopAdditionalSlides = this.getLoopAdditionalSlides()
-    const needFixLoop = this.getNeedFixLoop()
     const centeredSlides = displayMultipleItems === 1
     const slidesPerView = displayMultipleItems === 1 ? 'auto' : displayMultipleItems
     // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -337,7 +320,7 @@ export class Swiper implements ComponentInterface {
       on: {
         slideChangeTransitionEnd(e) {
           if(that.#swiperResetting) return
-          needFixLoop && e.loopFix()
+          that.getNeedFixLoop() && e.loopFix()
           that.autoplay && e.autoplay.start()
           that.onChange.emit({
             current: this.realIndex,
@@ -345,7 +328,8 @@ export class Swiper implements ComponentInterface {
           })
         },
         init: (e) => {
-          needFixLoop && e.loopFix();
+          that.getNeedFixLoop() && e.loopFix();
+          that.autoplay && e.autoplay.start()
         },
         touchEnd: (e) => {
           that.#source = 'touch'
@@ -382,7 +366,7 @@ export class Swiper implements ComponentInterface {
     this.swiper = new SwiperJS(`.taro-swiper-${this.#id} > .swiper-container`, options)
 
     //Note: 注释
-    if(needFixLoop) {
+    if(this.getNeedFixLoop()) {
       // @ts-ignore
       const minTranslate = this.swiper.minTranslate.bind(this.swiper);
       //@ts-ignore
@@ -401,7 +385,7 @@ export class Swiper implements ComponentInterface {
 
     }
 
-    this.swiperWrapper = this.el.querySelector(`.taro-swiper-${this.#id} > .swiper-container > .swiper-wrapper`)
+    this.swiperWrapper = this.swiper.wrapperEl
   }
 
   getSlidersList = () => this.el.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)') || []
