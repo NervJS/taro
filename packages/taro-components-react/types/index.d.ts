@@ -1,7 +1,20 @@
+
+declare module 'swiper/bundle' {
+  import Swiper from 'swiper';
+  export = Swiper
+}
+
 declare module '@tarojs/components-react' {
   export * from '@tarojs/components'
 }
 
+declare module '@tarojs/components/lib/solid' {
+  export * from '@tarojs/components'
+}
+
+declare module '@tarojs/components/lib/react' {
+  export * from '@tarojs/components'
+}
 declare module '*/hooks' {
   import * as React from 'react'
   export const useState: typeof React.useState
