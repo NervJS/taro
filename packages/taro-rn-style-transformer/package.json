@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-style-transformer",
-  "version": "4.0.0-beta.133",
+  "version": "4.0.0-beta.134",
   "description": "提供 Taro RN 统一处理样式文件能力",
   "author": "O2Team",
   "license": "MIT",
