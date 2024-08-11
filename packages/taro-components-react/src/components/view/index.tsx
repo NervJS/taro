@@ -1,9 +1,9 @@
-import './style/index.css'
-
 import classNames from 'classnames'
 
 import { useEffect, useState } from '../../utils/hooks'
+import { createForwardRefComponent } from '../../utils/index'
 
+import type { TFunc } from '@tarojs/runtime/dist/runtime.esm'
 import type React from 'react'
 
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -14,11 +14,13 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   onTouchEnd?(e: React.TouchEvent<HTMLDivElement>): void
   onTouchMove?(e: React.TouchEvent<HTMLDivElement>): void
   onLongPress?(): void
+  forwardedRef?: React.MutableRefObject<HTMLDivElement>
 }
 
 function View ({
   className,
   hoverClass,
+  forwardedRef,
   onTouchStart,
   onTouchEnd,
   onTouchMove,
@@ -34,7 +36,7 @@ function View ({
   const [cls, setCls] = useState<string>(classNames(
     '',
     {
-      [`${hoverClass}`]: process.env.FRAMEWORK === 'solid' ? (hover as Exclude<typeof hover, boolean>)() : hover
+      [`${hoverClass}`]: process.env.FRAMEWORK === 'solid' ? (hover as unknown as TFunc)() : hover
     },
     className
   ))
@@ -43,7 +45,7 @@ function View ({
     if (hoverClass) {
       setTouch(true)
       setTimeout(() => {
-        if (process.env.FRAMEWORK === 'solid' ? (touch as Exclude<typeof touch, boolean>)() : touch) {
+        if (process.env.FRAMEWORK === 'solid' ? (touch as unknown as TFunc)() : touch) {
           setHover(true)
         }
       }, hoverStartTime)
@@ -70,7 +72,7 @@ function View ({
     if (hoverClass) {
       setTouch(false)
       setTimeout(() => {
-        if (process.env.FRAMEWORK === 'solid' ? (touch as Exclude<typeof touch, boolean>)() : touch) {
+        if (process.env.FRAMEWORK === 'solid' ? (touch as unknown as TFunc)() : touch) {
           setHover(false)
         }
       }, hoverStayTime)
@@ -82,7 +84,7 @@ function View ({
     setCls(classNames(
       '',
       {
-        [`${hoverClass}`]: process.env.FRAMEWORK === 'solid' ? (hover as Exclude<typeof hover, boolean>)() : hover
+        [`${hoverClass}`]: process.env.FRAMEWORK === 'solid' ? (hover as unknown as TFunc)() : hover
       },
       className
     ))
@@ -90,7 +92,8 @@ function View ({
 
   return (
     <div
-      className={process.env.FRAMEWORK === 'solid' ? (cls as Exclude<typeof cls, string>)() : cls as string}
+      ref={forwardedRef}
+      className={process.env.FRAMEWORK === 'solid' ? (cls as unknown as TFunc)() : cls as string}
       onTouchStart={_onTouchStart}
       onTouchEnd={_onTouchEnd}
       onTouchMove={_onTouchMove}
@@ -101,4 +104,5 @@ function View ({
   )
 }
 
-export default View
+
+export default createForwardRefComponent(View)

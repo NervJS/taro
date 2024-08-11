@@ -1,3 +1,4 @@
+import alias from '@rollup/plugin-alias'
 import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
@@ -8,10 +9,9 @@ import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
 
-
-const base = {
-  input: 'src/index.ts',
-  plugins: [
+function getPlugins (pre = [], post = []) {
+  return [
+    ...pre,
     externals({
       deps: true,
       devDeps: false,
@@ -29,7 +29,20 @@ const base = {
     commonjs({
       include: '../../node_modules/**'
     }),
-  ],
+    ...post
+  ]
+}
+
+function getAliasPlugin (framework) {
+  return alias({
+    entries: [
+      { find: /.*hooks$/, replacement: (source) => source.replace(/hooks$/, `hooks.${framework}.ts`) }
+    ]
+  })
+}
+
+const base = {
+  input: 'src/index.ts',
   treeshake: false,
   output: {
     chunkFileNames: '[name].js',
@@ -48,23 +61,29 @@ const babelConfig = {
 }
 
 const react = () => {
-  const config = recursiveMerge({}, base)
-  config.plugins.push(
-    babel({
-      ...babelConfig,
-      presets: [
-        ['@babel/preset-react', {
-          pure: true,
-          runtime: 'automatic',
-          useSpread: true,
-        }],
+  const config = recursiveMerge({}, base, {
+    plugins: getPlugins(
+      [
+        getAliasPlugin('react'),
       ],
-    }),
-    replace({
-      preventAssignment: true,
-      'process.env.FRAMEWORK': JSON.stringify('react'),
-    }),
-  )
+      [
+        babel({
+          ...babelConfig,
+          presets: [
+            ['@babel/preset-react', {
+              pure: true,
+              runtime: 'automatic',
+              useSpread: true,
+            }],
+          ],
+        }),
+        replace({
+          preventAssignment: true,
+          'process.env.FRAMEWORK': JSON.stringify('react'),
+        })
+      ]
+    )
+  })
   return config
 }
 
@@ -73,19 +92,24 @@ const solid = () => {
     output: {
       dir: 'dist/solid',
     },
-  })
-  config.plugins.push(
-    babel({
-      ...babelConfig,
-      presets: [
-        'babel-preset-solid',
+    plugins: getPlugins(
+      [
+        getAliasPlugin('solid')
       ],
-    }),
-    replace({
-      preventAssignment: true,
-      'process.env.FRAMEWORK': JSON.stringify('solid'),
-    }),
-  )
+      [
+        babel({
+          ...babelConfig,
+          presets: [
+            'babel-preset-solid',
+          ],
+        }),
+        replace({
+          preventAssignment: true,
+          'process.env.FRAMEWORK': JSON.stringify('solid'),
+        }),
+      ]
+    )
+  })
   return config
 }
 

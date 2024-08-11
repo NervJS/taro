@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import { fs, isEmptyObject } from '@tarojs/helper'
+import { fs, isEmptyObject, normalizePath } from '@tarojs/helper'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
 import { appendVirtualModulePrefix, generateQueryString, getMode, getQueryParams } from '../utils'
@@ -14,7 +14,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
   const { taroConfig, app } = viteCompilerContext
   const routerConfig = taroConfig.router || {}
   const isProd = getMode(taroConfig) === 'production'
-
+  const configPath = normalizePath(app.configPath)
   return {
     name: 'taro:vite-h5-entry',
     enforce: 'pre',
@@ -22,7 +22,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     async resolveId (source, importer, options) {
       // mpa 模式关于 入口脚本文件 的处理已经解藕到 mpa.ts
       const resolved = await this.resolve(source, importer, { ...options, skipSelf: true })
-      if (resolved?.id && resolved.id === app.configPath) {
+      if (resolved?.id && resolved.id === configPath) {
         const params = {
           [ENTRY_QUERY]: 'true'
         }
@@ -149,9 +149,10 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
 
         return [
           setReconciler,
+          'import "@tarojs/components/global.css"',
           'import { initPxTransform } from "@tarojs/taro"',
           `import { ${routerCreator}, ${historyCreator}, ${appMountHandler} } from "@tarojs/router"`,
-          `import component from "${app.scriptPath}"`,
+          `import component from "${normalizePath(app.scriptPath)}"`,
           'import { window } from "@tarojs/runtime"',
           `import { ${creator} } from "${creatorLocation}"`,
           importFrameworkStatement,

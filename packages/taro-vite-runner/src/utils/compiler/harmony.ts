@@ -83,9 +83,9 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     const defaultCommonChunks = ['runtime', 'vendors', 'taro', 'common']
     let customCommonChunks: string[] = defaultCommonChunks
     if (isFunction(commonChunks)) {
-      customCommonChunks = commonChunks(defaultCommonChunks.concat()) || defaultCommonChunks
-    } else if (isArray(commonChunks) && commonChunks.length) {
-      customCommonChunks = commonChunks
+      customCommonChunks = (commonChunks as ((commonChunks: string[]) => string[]))(defaultCommonChunks.concat()) || defaultCommonChunks
+    } else if (isArray(commonChunks) && commonChunks!.length) {
+      customCommonChunks = commonChunks as string[]
     }
     return customCommonChunks
   }

@@ -1,5 +1,5 @@
 import { fs } from '@tarojs/helper'
-import * as path from 'path'
+import * as path from 'node:path'
 
 let compile
 let readDir

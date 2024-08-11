@@ -1,8 +1,9 @@
+import * as path from 'node:path'
+
 import ReactLikePlugin from '@tarojs/plugin-framework-react'
 import Vue3Plugin from '@tarojs/plugin-framework-vue3'
 import * as runnerUtils from '@tarojs/runner-utils'
 import { componentConfig } from '@tarojs/webpack5-runner/dist/utils/component'
-import * as path from 'path'
 
 import type { IFs } from 'memfs'
 import type { CommonBuildConfig, IH5BuildConfig, IMiniBuildConfig } from '../../../packages/taro-webpack5-runner/src/utils/types'

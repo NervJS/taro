@@ -25,6 +25,14 @@ export class H5Combination extends Combination<IH5BuildConfig> {
   isMultiRouterMode = false
   isVirtualEntry = false
 
+  /** special mode */
+  noInjectGlobalStyle = false
+
+  constructor(appPath: string, config: IH5BuildConfig) {
+    super(appPath, config)
+    this.noInjectGlobalStyle = !!config.noInjectGlobalStyle
+  }
+
   process (config: Partial<IH5BuildConfig>) {
     const baseConfig = new H5BaseConfig(this.appPath, config)
     const chain = this.chain = baseConfig.chain
@@ -40,6 +48,7 @@ export class H5Combination extends Combination<IH5BuildConfig> {
       defineConstants = {},
       router,
       frameworkExts,
+      /** special mode */
       /** hooks */
       modifyComponentConfig,
     } = config

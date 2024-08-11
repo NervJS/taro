@@ -27,8 +27,7 @@
     "dev:rn": "npm run build:rn -- --watch",
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
-    "dev:harmony-hybrid": "npm run build:harmony-hybrid -- --watch",
-    "test": "jest"
+    "dev:harmony-hybrid": "npm run build:harmony-hybrid -- --watch"
   },
   "browserslist": [
     "defaults and fully supports es6-module",
@@ -56,13 +55,15 @@
     "react": "^18.0.0"{{/if}}{{#if (eq framework "Preact") }}
     "preact": "^10.5.15"{{/if}}{{#if (eq framework "Vue3") }}
     "@tarojs/plugin-framework-vue3": "{{ version }}",
-    "vue": "^3.0.0"{{/if}}
+    "vue": "^3.0.0"{{/if}}{{#if (eq framework "Solid") }}
+    "@tarojs/plugin-framework-solid": "{{ version }}",
+    "solid-js": "^1.8.16"{{/if}}
   },{{#if (includes "Webpack5" s=compiler)}}
   "devDependencies": {
     "@babel/core": "^7.24.4",
     "@tarojs/cli": "{{ version }}",
+    "@babel/plugin-proposal-class-properties": "7.14.5",
     "@types/webpack-env": "^1.13.6",{{#if (includes "React" "Preact" s=framework)}}
-    "@tarojs/test-utils-react": "^0.1.1",
     "@types/react": "^18.0.0",{{/if}}{{#if (eq compiler "Webpack5") }}
     "webpack": "5.91.0",
     "@tarojs/taro-loader": "{{ version }}",
@@ -92,10 +93,7 @@
     "typescript": "^5.4.5",
     "tsconfig-paths-webpack-plugin": "^4.1.0"{{/if}},
     "postcss": "^8.4.38",
-    "@types/node": "^18",
-    "@types/jest": "^29.5.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.6.4"
+    "@types/node": "^18"
   }{{/if}}{{#if (eq compiler "Vite") }}
   "devDependencies": {
     "@babel/core": "^7.24.4",
@@ -107,9 +105,8 @@
     "eslint": "^8.57.0",
     "stylelint": "^16.4.0",
     "terser": "^5.30.4",
-    "vite": "^5.2.10",{{#if (includes "React" "Preact" s=framework)}}
+    "vite": "^4.2.0",{{#if (includes "React" "Preact" s=framework)}}
     "@babel/preset-react": "^7.24.1",
-    "@tarojs/test-utils-react": "^0.1.1",
     "@types/react": "^18.0.0",
     "@vitejs/plugin-react": "^4.3.0",
     "eslint-plugin-react": "^7.34.1",
@@ -120,13 +117,13 @@
     "react-refresh": "^0.14.0",{{/if}}{{#if (eq framework "Vue3") }}
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitejs/plugin-vue-jsx": "^3.1.0",
-    "eslint-plugin-vue": "^9.17.0",{{/if}}{{#if (eq css "Sass") }}
+    "eslint-plugin-vue": "^9.17.0",{{/if}}{{#if (eq framework "Solid") }}
+    "vite-plugin-solid": "2.10.0",{{/if}}{{#if (eq css "Sass") }}
     "sass": "^1.75.0",{{/if}}{{#if (eq css "Less") }}
     "less": "^4.2.0",{{/if}}{{#if (eq css "Stylus") }}
     "stylus": "^0.63.0",{{/if}}{{#if typescript }}
     "typescript": "^5.4.5",{{/if}}
-    "postcss": "^8.4.38",
-    "jest-environment-jsdom": "^29.6.4"
+    "postcss": "^8.4.38"
   }{{/if}}
 }
 

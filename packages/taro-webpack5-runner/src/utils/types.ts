@@ -44,6 +44,7 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
   isBuildNativeComp?: boolean
   newBlended?: boolean
   withoutBuild?: boolean
+  noInjectGlobalStyle?: boolean
   /** hooks */
   onParseCreateElement: (nodeName, componentConfig) => Promise<any>
   modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<CommonBuildConfig>) => Promise<any>
@@ -60,7 +61,7 @@ export interface IMiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   prerender?: PrerenderConfig
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath?: string | string[]
-  taroComponentsPath?: string
+  taroComponentsPath: string
   blended?: boolean
   hot?: boolean
 }
@@ -68,6 +69,9 @@ export interface IMiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
 export interface IH5BuildConfig extends CommonBuildConfig, IH5Config {
   entryFileName?: string
   runtimePath?: string | string[]
+  /** special mode */
+  // 不引入全局样式
+  noInjectGlobalStyle?: boolean
 }
 
 export interface IHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfig {

@@ -1,4 +1,4 @@
-import * as path from 'path'
+import * as path from 'node:path'
 import * as Chain from 'webpack-chain'
 
 import { compile, getOutput } from './utils/compiler'

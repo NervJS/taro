@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { chalk, fs, resolveMainFilePath } from '@tarojs/helper'
-import path from 'path'
 import { EntryObject } from 'webpack'
 
 import type { MiniCombination } from './MiniCombination'

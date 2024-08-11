@@ -1,7 +1,8 @@
+import path from 'node:path'
+
 import { transformAsync } from '@babel/core'
 import { defaultMainFields, SCRIPT_EXT } from '@tarojs/helper'
 import { TaroPlatformWeb } from '@tarojs/service'
-import path from 'path'
 
 import { resolveSync } from './utils'
 

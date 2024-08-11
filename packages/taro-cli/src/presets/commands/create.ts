@@ -41,6 +41,12 @@ export default (ctx: IPluginContext) => {
       const type = options.type || createTemplateTypeEnum.PAGE
       const name = _[1] || options.name
       const description = options.description || ''
+      const afterCreate = options.afterCreate
+      const templateSource = options.templateSource
+      const framework = options.framework
+      const css = options.css
+      const typescript = options.typescript
+      const clone = options.clone
       const { chalk } = ctx.helper
       const { appPath } = ctx.paths
 
@@ -52,11 +58,17 @@ export default (ctx: IPluginContext) => {
 
           const Page = require('../../create/page').default
           const page = new Page({
+            clone,
             subPkg: options.subpkg,
+            framework,
+            css,
+            typescript,
             pageDir: options.dir,
             pageName: name,
             projectDir: appPath,
             description,
+            templateSource,
+            afterCreate,
             async modifyCustomTemplateConfig (cb: TSetCustomTemplateConfig) {
               await ctx.applyPlugins({ name: hooks.MODIFY_CREATE_TEMPLATE, opts: cb })
             }

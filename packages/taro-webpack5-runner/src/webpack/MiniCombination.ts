@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { REG_NODE_MODULES_DIR, REG_TARO_SCOPED_PACKAGE, taroJsComponents } from '@tarojs/helper'
-import path from 'path'
 
 import { componentConfig } from '../utils/component'
 import { BuildNativePlugin } from './BuildNativePlugin'
@@ -106,7 +107,7 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
     const { alias = {}, taroComponentsPath } = this.config
     return {
       ...alias,
-      [`${taroJsComponents}$`]: taroComponentsPath || `${taroJsComponents}/mini`
+      [`${taroJsComponents}$`]: taroComponentsPath
     }
   }
 

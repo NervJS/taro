@@ -1,7 +1,8 @@
+import path from 'node:path'
+
 import { META_TYPE, recursiveMerge, SCRIPT_EXT } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isFunction, isObject, isWebPlatform } from '@tarojs/shared'
-import path from 'path'
 import webpack from 'webpack'
 
 import { componentConfig } from '../utils/component'
@@ -99,6 +100,8 @@ export class Combination<T extends IMiniBuildConfig | IH5BuildConfig | IHarmonyB
     } else {
       // 小程序编译 Host 时需要扫描 @tarojs/components 的 useExports，因此不能被 external
       exclude.push('@tarojs/components')
+      // 预依赖 vue 会报错，先简单处理 exclude掉
+      exclude.push('vue')
     }
 
     const defaultOptions: IPrebundle = {

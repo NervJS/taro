@@ -1,6 +1,8 @@
+import * as path from 'node:path'
+
 import { isNpmPkg, printLog, processTypeEnum, recursiveMerge, resolveSync } from '@tarojs/helper'
-import * as path from 'path'
 import postcss from 'postcss'
+import postcssCssVariables from 'postcss-css-variables'
 import postcssImport from 'postcss-import'
 import pxtransform from 'postcss-pxtransform'
 import stylelint from 'stylelint'
@@ -18,6 +20,13 @@ const defaultPxtransformOption: {
   }
 }
 
+const defaultPostcssCssVariablesOption: {
+  [key: string]: any
+} = {
+  enable: true,
+  config: {}
+}
+
 export function makePostcssPlugins ({
   filename,
   designWidth,
@@ -26,7 +35,7 @@ export function makePostcssPlugins ({
   transformOptions,
   additionalData
 }) {
-  const optionsWithDefaults = ['pxtransform', 'postcss-import', 'postcss-reporter', 'stylelint', 'cssModules']
+  const optionsWithDefaults = ['pxtransform', 'postcss-import', 'postcss-reporter', 'stylelint', 'cssModules', 'postcss-css-variables']
 
   if (designWidth) {
     defaultPxtransformOption.config.designWidth = designWidth
@@ -36,6 +45,7 @@ export function makePostcssPlugins ({
     defaultPxtransformOption.config.deviceRatio = deviceRatio
   }
   const pxtransformOption = recursiveMerge({}, defaultPxtransformOption, postcssConfig.pxtransform)
+  const postcssCssVariablesOption = recursiveMerge({}, defaultPostcssCssVariablesOption, postcssConfig['postcss-css-variables'])
 
   const plugins = [
     postcssImport({
@@ -57,6 +67,10 @@ export function makePostcssPlugins ({
   if (pxtransformOption.enable) {
     // @ts-ignore
     plugins.push(pxtransform(pxtransformOption.config))
+  }
+
+  if (postcssCssVariablesOption.enable) {
+    plugins.push(postcssCssVariables(postcssCssVariablesOption.config))
   }
 
   const skipRows = additionalData ? additionalData.split('\n').length : 0

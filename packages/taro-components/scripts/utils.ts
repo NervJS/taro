@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { fs } from '@tarojs/helper'
-import path from 'path'
 
 import { TYPES_DIR } from './constants'
 

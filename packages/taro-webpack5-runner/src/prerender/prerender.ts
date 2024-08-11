@@ -1,6 +1,7 @@
+import { join } from 'node:path'
+
 import { fs } from '@tarojs/helper'
 import { isFunction, isObject, isString, noop, Shortcuts } from '@tarojs/shared'
-import { join } from 'path'
 
 import { printPrerenderFail, printPrerenderSuccess } from '../utils/logHelper'
 

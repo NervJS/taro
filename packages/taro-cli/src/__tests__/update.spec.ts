@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import {
   chalk,
   fs,
@@ -6,7 +8,6 @@ import {
   shouldUseYarn
 } from '@tarojs/helper'
 import { exec } from 'child_process'
-import * as path from 'path'
 
 import { getPkgVersion } from '../util'
 import { run } from './utils'

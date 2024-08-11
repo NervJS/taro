@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import { defaultMainFields, fs, isEmptyObject, NODE_MODULES, resolveSync } from '@tarojs/helper'
-import * as path from 'path'
 
 import { apiLoader, HARMONY_SCOPES, PACKAGE_NAME, parseRelativePath, PLATFORM_NAME } from '../utils'
 import { TaroPlatformHarmony } from './harmony'

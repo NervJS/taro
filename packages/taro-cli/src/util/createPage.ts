@@ -26,7 +26,7 @@ const isValidSubPkgObject = (subPkgObject: ObjectExpression) => {
 const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: string): ConfigModificationState => {
   let subPackages = node?.properties.find(node => (node as any).key.name === 'subPackages') as ObjectProperty
   if (!subPackages) {
-  // config 文件不存在 subPackages 字段的情况，给该字段打赋予默认值
+  // config 文件不存在 subPackages 字段的情况，给该字段赋予默认值
     const subPkgObject = t.objectProperty(t.identifier('subPackages'), t.arrayExpression([]))
     subPackages = subPkgObject
     node?.properties.push(subPkgObject)

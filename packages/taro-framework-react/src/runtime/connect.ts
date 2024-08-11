@@ -1,4 +1,4 @@
-import { Current, document, getPageInstance, incrementId, injectPageInstance, PAGE_INIT, perf } from '@tarojs/runtime'
+import { CONTAINER, Current, document, getPageInstance, incrementId, injectPageInstance, PAGE_INIT, perf } from '@tarojs/runtime'
 import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
 
 import { reactMeta } from './react-meta'
@@ -171,7 +171,7 @@ export function createReactApp (
   config: AppConfig
 ) {
   if (process.env.NODE_ENV !== 'production') {
-    ensure(!!dom, '构建 React/Nerv 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'preact\'/\'nerv\' ')
+    ensure(!!dom, '构建 React/Preact 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'preact\' ')
   }
 
   reactMeta.R = react
@@ -200,13 +200,16 @@ export function createReactApp (
   }
 
   function renderReactRoot () {
-    let appId = 'app'
-    if (process.env.TARO_PLATFORM === 'web') {
-      appId = config?.appId || appId
+    const appId = config?.appId || 'app'
+    let container = document.getElementById(appId)
+    if (container == null) {
+      const appContainer = document.getElementById(CONTAINER)
+      container = document.createElement(appId)
+      container.id = appId
+      appContainer?.appendChild(container)
     }
-    const container = document.getElementById(appId) as unknown as Element
     if ((react.version || '').startsWith('18')) {
-      const root = ReactDOM.createRoot(container)
+      const root = ReactDOM.createRoot((container as unknown as Element))
       root.render?.(h(AppWrapper))
     } else {
       // eslint-disable-next-line react/no-deprecated

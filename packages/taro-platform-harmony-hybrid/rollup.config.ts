@@ -1,8 +1,9 @@
+import path from 'node:path'
+
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { merge } from 'lodash'
-import path from 'path'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import ts from 'rollup-plugin-ts'

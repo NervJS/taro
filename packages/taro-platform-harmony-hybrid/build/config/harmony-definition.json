@@ -667,13 +667,7 @@
         "tcpNoDelay": true
       }
     },
-    "connectWifi": {
-      "object": {
-        "SSID": true,
-        "password": true,
-        "BSSID": true
-      }
-    },
+    "connectWifi": false,
     "console": {
       "debug": true,
       "error": true,
@@ -763,7 +757,7 @@
       "TARO_ENV": true,
       "USER_DATA_PATH": true
     },
-    "exitMiniProgram": false,
+    "exitMiniProgram": true,
     "exitVoIPChat": false,
     "faceDetect": false,
     "faceVerifyForPay": false,
@@ -1237,7 +1231,7 @@
       }
     },
     "getWeRunData": false,
-    "getWifiList": true,
+    "getWifiList": false,
     "getWindowInfo": {
       "return": {
         "pixelRatio": true,
@@ -1973,7 +1967,7 @@
         "resultJSONSignature": true
       }
     },
-    "startWifi": true,
+    "startWifi": false,
     "stopAccelerometer": true,
     "stopBackgroundAudio": false,
     "stopBeaconDiscovery": false,
@@ -1988,7 +1982,7 @@
     "stopPullDownRefresh": true,
     "stopRecord": false,
     "stopVoice": false,
-    "stopWifi": true,
+    "stopWifi": false,
     "subscribeService": false,
     "subscribeVoIPVideoMembers": false,
     "switchTab": {

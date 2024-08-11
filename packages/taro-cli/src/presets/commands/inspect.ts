@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import {
   ENTRY,
   OUTPUT_DIR,
@@ -5,7 +7,6 @@ import {
   SOURCE_DIR
 } from '@tarojs/helper'
 import { getPlatformType } from '@tarojs/shared'
-import * as path from 'path'
 
 import * as hooks from '../constant'
 

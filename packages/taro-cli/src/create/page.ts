@@ -1,6 +1,7 @@
+import * as path from 'node:path'
+
 import { CompilerType, createPage as createPageBinding, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
 import { babelKit, chalk, DEFAULT_TEMPLATE_SRC, fs, getUserHomeDir, resolveScriptPath, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
-import * as path from 'path'
 
 import { getPkgVersion, getRootPath, isNil } from '../util'
 import { modifyPagesOrSubPackages } from '../util/createPage'
@@ -13,6 +14,8 @@ export interface IPageConf {
   projectName: string
   npm: NpmType
   template: string
+  clone?: boolean
+  templateSource?: string
   description?: string
   pageName: string
   date?: string
@@ -27,12 +30,15 @@ export interface IPageConf {
 }
 interface IPageArgs extends IPageConf {
   modifyCustomTemplateConfig : TGetCustomTemplate
+  afterCreate?: TAfterCreate
 }
 interface ITemplateInfo {
   css: CSSType
   typescript?: boolean
   compiler?: CompilerType
   template?: string
+  templateSource?: string
+  clone?: boolean
 }
 
 type TCustomTemplateInfo = Omit<ITemplateInfo & {
@@ -43,6 +49,7 @@ type TCustomTemplateInfo = Omit<ITemplateInfo & {
 export type TSetCustomTemplateConfig = (customTemplateConfig: TCustomTemplateInfo) => void
 
 type TGetCustomTemplate = (cb: TSetCustomTemplateConfig) => Promise<void>
+type TAfterCreate = (state: boolean) => void
 
 const DEFAULT_TEMPLATE_INFO = {
   name: 'default',
@@ -64,12 +71,13 @@ export default class Page extends Creator {
   public rootPath: string
   public conf: IPageConf
   private modifyCustomTemplateConfig: TGetCustomTemplate
+  private afterCreate: TAfterCreate | undefined
   private pageEntryPath: string
 
   constructor (args: IPageArgs) {
     super()
     this.rootPath = this._rootPath
-    const { modifyCustomTemplateConfig, ...otherOptions } = args
+    const { modifyCustomTemplateConfig, afterCreate, ...otherOptions } = args
     this.conf = Object.assign(
       {
         projectDir: '',
@@ -83,6 +91,7 @@ export default class Page extends Creator {
 
     this.conf.projectName = path.basename(this.conf.projectDir)
     this.modifyCustomTemplateConfig = modifyCustomTemplateConfig
+    this.afterCreate = afterCreate
     this.processPageName()
   }
 
@@ -153,20 +162,23 @@ export default class Page extends Creator {
     let templateSource = DEFAULT_TEMPLATE_SRC
     if (!homedir) chalk.yellow('找不到用户根目录，使用默认模版源！')
 
-    const taroConfigPath = path.join(homedir, TARO_CONFIG_FOLDER)
-    const taroConfig = path.join(taroConfigPath, TARO_BASE_CONFIG)
-
-    if (fs.existsSync(taroConfig)) {
-      const config = await fs.readJSON(taroConfig)
-      templateSource = config && config.templateSource ? config.templateSource : DEFAULT_TEMPLATE_SRC
+    if (this.conf.templateSource) {
+      templateSource = this.conf.templateSource
     } else {
-      await fs.createFile(taroConfig)
-      await fs.writeJSON(taroConfig, { templateSource: DEFAULT_TEMPLATE_SRC })
-      templateSource = DEFAULT_TEMPLATE_SRC
+      const taroConfigPath = path.join(homedir, TARO_CONFIG_FOLDER)
+      const taroConfig = path.join(taroConfigPath, TARO_BASE_CONFIG)
+      if (fs.existsSync(taroConfig)) {
+        const config = await fs.readJSON(taroConfig)
+        templateSource = config && config.templateSource ? config.templateSource : DEFAULT_TEMPLATE_SRC
+      } else {
+        await fs.createFile(taroConfig)
+        await fs.writeJSON(taroConfig, { templateSource })
+        templateSource = DEFAULT_TEMPLATE_SRC
+      }
     }
 
     // 从模板源下载模板
-    await fetchTemplate(templateSource, this.templatePath(''))
+    await fetchTemplate(templateSource, this.templatePath(''), this.conf.clone)
   }
 
   async create () {
@@ -276,7 +288,11 @@ export default class Page extends Creator {
     }, handler).then(() => {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${this.conf.pageName} 成功！`)}`)
       this.updateAppConfig()
-    }).catch(err => console.log(err))
+      this.afterCreate && this.afterCreate(true)
+    }).catch(err => {
+      console.log(err)
+      this.afterCreate && this.afterCreate(false)
+    })
   }
 }
 

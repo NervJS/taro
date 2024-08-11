@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 
 export * from './api-loader'
 export * from './constants'

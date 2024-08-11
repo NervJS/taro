@@ -1,7 +1,8 @@
+import * as path from 'node:path'
+
 import { dotenvParse, fs, patchEnv } from '@tarojs/helper'
 import { Config, Kernel } from '@tarojs/service'
 import * as minimist from 'minimist'
-import * as path from 'path'
 
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
@@ -37,6 +38,8 @@ export default class CLI {
       boolean: ['version', 'help', 'disable-global-config'],
       default: {
         build: true,
+        check: true,
+        'inject-global-style': true
       },
     })
     const _ = args._
@@ -138,11 +141,9 @@ export default class CLI {
           // 根据 framework 启用插件
           const framework = kernel.config?.initialConfig.framework || DEFAULT_FRAMEWORK
           const frameworkMap = {
-            vue: '@tarojs/plugin-framework-vue2',
             vue3: '@tarojs/plugin-framework-vue3',
             react: '@tarojs/plugin-framework-react',
             preact: '@tarojs/plugin-framework-react',
-            nerv: '@tarojs/plugin-framework-react',
             solid: '@tarojs/plugin-framework-solid',
           }
           if (frameworkMap[framework]) {
@@ -176,6 +177,8 @@ export default class CLI {
             newBlended: Boolean(args['new-blended']),
             // Note: 是否禁用编译
             withoutBuild: !args.build,
+            noInjectGlobalStyle: !args['inject-global-style'],
+            noCheck: !args.check,
             port: args.port,
             env: args.env,
             deviceType: args.platform,
@@ -206,6 +209,7 @@ export default class CLI {
             clone: !!args.clone,
             template: args.template,
             css: args.css,
+            autoInstall: args.autoInstall,
             h: args.h
           })
           break

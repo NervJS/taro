@@ -2,17 +2,18 @@ import './style/index.scss'
 
 import classNames from 'classnames'
 
-import { omit } from '../../utils'
+import { createForwardRefComponent, omit } from '../../utils'
 
 interface IProps {
   type: string
   color: string
   size?: number | string
   className?: string
+  forwardedRef?: React.MutableRefObject<HTMLLIElement>
 }
 
 const Icon = (props: IProps) => {
-  let { type, className = '', size = '23', color } = props
+  let { type, className = '', size = '23', color, forwardedRef } = props
   if (type) type = type.replace(/_/g, '-')
   const cls = classNames(
     {
@@ -24,7 +25,7 @@ const Icon = (props: IProps) => {
 
   return (
     // eslint-disable-next-line react/react-in-jsx-scope
-    <i {...omit(props, ['type', 'className'])} className={cls} style={style} />
+    <i ref={forwardedRef} {...omit(props, ['type', 'className', 'forwardedRef'])} className={cls} style={style} />
   )
 }
-export default Icon
+export default createForwardRefComponent(Icon)
