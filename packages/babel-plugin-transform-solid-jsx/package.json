@@ -1,7 +1,7 @@
 {
   "name": "babel-plugin-transform-solid-jsx",
   "description": "A JSX to DOM plugin that wraps expressions for fine grained change detection",
-  "version": "4.0.5-alpha.2",
+  "version": "4.0.5-alpha.3",
   "license": "MIT",
   "repository": {
     "type": "git",

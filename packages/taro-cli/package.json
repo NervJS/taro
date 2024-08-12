@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "4.0.5-alpha.2",
+  "version": "4.0.5-alpha.3",
   "description": "cli tool for taro",
   "author": "O2Team",
   "license": "MIT",
