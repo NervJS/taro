@@ -160,9 +160,7 @@ export default class Parser extends BaseParser {
   parseEntry (rawId: string, config = {}) {
     const { creator, creatorLocation, frameworkArgs, importFrameworkStatement, modifyEntryFile } = this.loaderMeta
     const createApp = `${creator}(component, ${frameworkArgs})`
-    const rawCode = isFunction(modifyEntryFile) ? modifyEntryFile.call(this, 'app', rawId, config) : ''
-
-    return rawCode || this.transArr2Str([
+    const rawCode = this.transArr2Str([
       'import { initPxTransform } from "@tarojs/taro"',
       `import { ${creator} } from "${creatorLocation}"`,
       `import component from "${escapePath(rawId)}"`,
@@ -171,5 +169,7 @@ export default class Parser extends BaseParser {
       this.getInitPxTransform(),
       `export default () => ${createApp}`,
     ])
+
+    return isFunction(modifyEntryFile) ? modifyEntryFile.call(this, 'app', rawId, rawCode, config) : rawCode
   }
 }

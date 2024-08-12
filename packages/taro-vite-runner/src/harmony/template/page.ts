@@ -705,7 +705,7 @@ for (let i = 0; i < taskQueen.length; i++) {
 
     let instantiatePage = this.transArr2Str(structCodeArray)
     if (isFunction(modifyInstantiate)) {
-      instantiatePage = modifyInstantiate.call(this, instantiatePage, 'page')
+      instantiatePage = modifyInstantiate.call(this, instantiatePage, 'page', page)
     }
 
     return instantiatePage
@@ -1092,9 +1092,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
       : isBlended
         ? `'${pageName}', ${frameworkArgs}` : `'${pageName}', config`})`
 
-    const rawCode = isFunction(modifyEntryFile) ? modifyEntryFile.call(this, 'page', rawId, page) : ''
-
-    return rawCode || this.transArr2Str([
+    const rawCode = this.transArr2Str([
       `import { ${createFn} } from '${creatorLocation}'`,
       `import component from "${escapePath(rawId)}"`,
       isBlended ? 'import { initPxTransform } from "@tarojs/taro"' : null,
@@ -1105,5 +1103,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
       page?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
       `export default () => ${createPageOrComponent}`,
     ])
+
+    return isFunction(modifyEntryFile) ? modifyEntryFile.call(this, 'page', rawId, rawCode, page) : rawCode
   }
 }
