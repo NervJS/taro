@@ -359,6 +359,7 @@ export class Swiper implements ComponentInterface {
           that.autoplay && e.autoplay.start()
         },
         touchStart: (e) => {
+          that.#source = 'touch'
           that.autoplay && e.autoplay.pause()
         },
         autoplay(e) {

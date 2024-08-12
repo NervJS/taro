@@ -215,6 +215,7 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
           that.props.autoplay && _swiper.autoplay.start()
         },
         touchStart: (_swiper) => {
+          that.#source = 'touch'
           that.props.autoplay && _swiper.autoplay.pause()
         },
         slideChange (_swiper) {
