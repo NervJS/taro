@@ -36,6 +36,7 @@ interface SwiperProps extends React.HTMLAttributes<HTMLDivElement> {
   forwardedRef?: React.MutableRefObject<HTMLDivElement>
   full?: boolean
   onAnimationFinish?: (e: TouchEvent) => void
+  effectsProps?: Record<string, any>
 }
 
 const createEvent = (type: string) => {
@@ -147,6 +148,7 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
       duration = 500,
       interval = 5000,
       currentItemId,
+      effectsProps = {},
       vertical
     } = this.props
 
@@ -183,6 +185,7 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
       observeParents: true,
       loopAdditionalSlides,
       centeredSlides,
+      ...effectsProps,
       on: {
         init (_swiper) {
           that.getNeedFixLoop() && _swiper.loopFix()

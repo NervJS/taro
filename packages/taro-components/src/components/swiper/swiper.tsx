@@ -99,6 +99,11 @@ export class Swiper implements ComponentInterface {
    */
   @Prop() zoom = false
 
+  /**
+   * swiper11 相关的动效参数，具体见文档 https://swiperjs.com/swiper-api#parameters
+  */
+  @Prop() effectsProps: Record<string, any> = {}
+
   @Event({
     eventName: 'change'
   }) onChange: EventEmitter
@@ -286,6 +291,7 @@ export class Swiper implements ComponentInterface {
       displayMultipleItems,
       duration,
       interval,
+      effectsProps,
       vertical
     } = this
     let initialSlide = current
@@ -320,6 +326,7 @@ export class Swiper implements ComponentInterface {
       observer: true,
       centeredSlides: centeredSlides,
       zoom: this.zoom,
+      ...effectsProps,
       on: {
         slideChangeTransitionEnd(e) {
           if(that.#swiperResetting) return
