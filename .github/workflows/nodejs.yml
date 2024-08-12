@@ -9,7 +9,7 @@ on:
   pull_request:
     branches:
       - main
-
+      - '3.x'
 permissions:
   contents: read # to fetch code (actions/checkout)
 
@@ -31,7 +31,7 @@ jobs:
       matrix:
         node-version: [16.x]
         settings:
-          - host: macos-11
+          - host: macos-12
             target: x86_64-apple-darwin
           - host: windows-latest
             target: x86_64-pc-windows-msvc
