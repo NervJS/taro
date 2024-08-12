@@ -443,14 +443,16 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
     } = this.props
     const defaultIndicatorColor = indicatorColor || 'rgba(0, 0, 0, .3)'
     const defaultIndicatorActiveColor = indicatorActiveColor || '#000'
+    const [pM, nM] = this.parseMargin()
     const cls = classNames(`taro-swiper-${this._id}`, className)
-    const sty = Object.assign({
-      overflow: 'hidden'
-    }, style)
+    const sty = Object.assign({}, style)
+    const hasMargin = pM || nM
+    if (hasMargin) {
+      sty.overflow = 'hidden'
+    }
     if (this.props.full) {
       sty.height = '100%'
     }
-    const [pM, nM] = this.parseMargin()
     const swiperContainerStyleList:string [] = [
       'overflow: visible;',
       vertical ? `margin-top: ${pM}px; margin-bottom: ${nM}px;` : `margin-right: ${nM}px; margin-left: ${pM}px;`,

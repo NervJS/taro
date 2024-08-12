@@ -446,11 +446,16 @@ export class Swiper implements ComponentInterface {
       indicatorActiveColor
     } = this
 
-    const hostStyle: Record<string, string> = { overflow: 'hidden' }
+    const [pM, nM] = this.parseMargin()
+    const hasMargin = pM || nM
+    const hostStyle: Record<string, string> = {}
+    if(hasMargin) {
+      hostStyle.overflow = 'visible'
+    }
     if (this.full) {
       hostStyle.height = '100%'
     }
-    const [pM, nM] = this.parseMargin()
+   
     const swiperContainerStyleList:string [] = [
       'overflow: visible;',
       vertical ? `margin-top: ${pM}px; margin-bottom: ${nM}px;` : `margin-right: ${nM}px; margin-left: ${pM}px;`,
