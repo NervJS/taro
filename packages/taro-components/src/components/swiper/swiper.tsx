@@ -4,6 +4,7 @@ import SwiperJS from 'swiper/bundle'
 
 import { debounce } from '../../utils'
 import type ISwiper from 'swiper'
+
 let INSTANCE_ID = 0
 const ONE_ADDITIONAL_SLIDES_THRESHOLD = 5
 const TWO_ADDITIONAL_SLIDES_THRESHOLD = 7
@@ -271,7 +272,7 @@ export class Swiper implements ComponentInterface {
 
   componentDidLoad () {
     this.handleInit()
-    if (!this.swiper) return
+    if (!this.swiper || !this.swiperWrapper) return
     this.observer = new MutationObserver(this.handleSwiperSizeDebounce)
     this.observer.observe(this.swiperWrapper as Node, {
       childList: true
@@ -396,7 +397,6 @@ export class Swiper implements ComponentInterface {
         //@ts-ignore
         this.swiper.maxTranslate = ()=> maxTranslate() + this.parseMargin()[1];
       }
-
     }
 
     this.swiperWrapper = this.swiper.wrapperEl
@@ -450,7 +450,7 @@ export class Swiper implements ComponentInterface {
     const hasMargin = pM || nM
     const hostStyle: Record<string, string> = {}
     if(hasMargin) {
-      hostStyle.overflow = 'visible'
+      hostStyle.overflow = 'hidden'
     }
     if (this.full) {
       hostStyle.height = '100%'
