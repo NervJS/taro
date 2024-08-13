@@ -460,13 +460,10 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
     ]
 
 
-    const paginationCls = classNames(
-      'swiper-pagination',
-      {
-        'swiper-pagination-hidden': !this.props.indicatorDots,
-        'swiper-pagination-bullets': this.props.indicatorDots
-      }
-    )
+    const swiperPaginationStyleList:string [] = [
+      this.props.indicatorDots ? 'opacity: 1;' : 'display: none;',
+      'font-size: 0;'
+    ]
     return (
       <div className={`swiper-container-wrapper ${cls}`} style={sty} ref={(e) => {
         if (forwardedRef && e) {
@@ -480,11 +477,12 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
               .taro-swiper-${this._id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: ${defaultIndicatorColor} }
               .taro-swiper-${this._id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: ${defaultIndicatorActiveColor} }
               .taro-swiper-${this._id} > .swiper-container { ${swiperContainerStyleList.join('')} }
+              .taro-swiper-${this._id} > .swiper-container > .swiper-pagination { ${swiperPaginationStyleList.join('')} }
               </style>`
             }}
           />
           <div className='swiper-wrapper' >{this.props.children}</div>
-          <div className={paginationCls} />
+          <div className='swiper-pagination' />
         </div>
       </div>
     )

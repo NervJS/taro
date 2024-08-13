@@ -1,5 +1,4 @@
 import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, Element, State, Watch } from '@stencil/core'
-import classNames from 'classnames'
 import SwiperJS from 'swiper/bundle'
 
 import { debounce } from '../../utils'
@@ -456,10 +455,15 @@ export class Swiper implements ComponentInterface {
       hostStyle.height = '100%'
     }
    
-    const swiperContainerStyleList:string [] = [
+    const swiperContainerStyleList: string [] = [
       'overflow: visible;',
       vertical ? `margin-top: ${pM}px; margin-bottom: ${nM}px;` : `margin-right: ${nM}px; margin-left: ${pM}px;`,
-      this.full ? 'height: 100%;' : ''
+      this.full ? 'height: 100%;' : '',
+    ]
+
+    const swiperPaginationStyleList: string [] = [
+      indicatorDots ? 'opacity: 1;' : 'display: none;',
+      'font-size: 0;'
     ]
 
     return (
@@ -470,17 +474,13 @@ export class Swiper implements ComponentInterface {
               .taro-swiper-${this.#id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: ${indicatorColor} }
               .taro-swiper-${this.#id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: ${indicatorActiveColor} }
               .taro-swiper-${this.#id} > .swiper-container { ${swiperContainerStyleList.join('')} }
+              .taro-swiper-${this.#id} > .swiper-container > .swiper-pagination { ${swiperPaginationStyleList.join('')} }
             `}
           </style>
           <div class='swiper-wrapper'>
             <slot />
           </div>
-          <div class={classNames('swiper-pagination',
-            {
-              'swiper-pagination-hidden': !indicatorDots,
-              'swiper-pagination-bullets': indicatorDots
-            }
-          )} />
+          <div class='swiper-pagination' />
         </div>
       </Host>
     )

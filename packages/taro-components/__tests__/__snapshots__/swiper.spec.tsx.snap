@@ -8,6 +8,7 @@ exports[`Swiper events 1`] = `
       .taro-swiper-6 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: rgba(0, 0, 0, .3) }
               .taro-swiper-6 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: #000000 }
               .taro-swiper-6 > .swiper-container { overflow: visible;margin-right: 0px; margin-left: 0px; }
+              .taro-swiper-6 > .swiper-container > .swiper-pagination { display: none;font-size: 0; }
     </style>
     <div class="swiper-wrapper">
       <taro-swiper-item-core class="swiper-slide">
@@ -23,7 +24,7 @@ exports[`Swiper events 1`] = `
         <div style="height: 100%; background: green;"></div>
       </taro-swiper-item-core>
     </div>
-    <div class="swiper-pagination swiper-pagination-hidden"></div>
+    <div class="swiper-pagination"></div>
   </div>
 </taro-swiper-core>
 `;
@@ -36,6 +37,7 @@ exports[`Swiper props 1`] = `
       .taro-swiper-0 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: rgba(0, 0, 0, .3) }
               .taro-swiper-0 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: #000000 }
               .taro-swiper-0 > .swiper-container { overflow: visible;margin-right: 0px; margin-left: 0px; }
+              .taro-swiper-0 > .swiper-container > .swiper-pagination { display: none;font-size: 0; }
     </style>
     <div class="swiper-wrapper">
       <taro-swiper-item-core class="swiper-slide">
@@ -51,7 +53,7 @@ exports[`Swiper props 1`] = `
         <div style="height: 100%;"></div>
       </taro-swiper-item-core>
     </div>
-    <div class="swiper-pagination swiper-pagination-hidden"></div>
+    <div class="swiper-pagination"></div>
   </div>
 </taro-swiper-core>
 `;
@@ -64,6 +66,7 @@ exports[`Swiper should autoplay 1`] = `
       .taro-swiper-1 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: rgba(0, 0, 0, .3) }
               .taro-swiper-1 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: #000000 }
               .taro-swiper-1 > .swiper-container { overflow: visible;margin-right: 0px; margin-left: 0px; }
+              .taro-swiper-1 > .swiper-container > .swiper-pagination { display: none;font-size: 0; }
     </style>
     <div class="swiper-wrapper">
       <taro-swiper-item-core class="swiper-slide">
@@ -79,7 +82,7 @@ exports[`Swiper should autoplay 1`] = `
         <div style="height: 100%;"></div>
       </taro-swiper-item-core>
     </div>
-    <div class="swiper-pagination swiper-pagination-hidden"></div>
+    <div class="swiper-pagination"></div>
   </div>
 </taro-swiper-core>
 `;
@@ -92,6 +95,7 @@ exports[`Swiper should be circular 1`] = `
       .taro-swiper-2 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: rgba(0, 0, 0, .3) }
               .taro-swiper-2 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: #000000 }
               .taro-swiper-2 > .swiper-container { overflow: visible;margin-right: 0px; margin-left: 0px; }
+              .taro-swiper-2 > .swiper-container > .swiper-pagination { display: none;font-size: 0; }
     </style>
     <div class="swiper-wrapper">
       <taro-swiper-item-core class="swiper-slide">
@@ -107,7 +111,7 @@ exports[`Swiper should be circular 1`] = `
         <div></div>
       </taro-swiper-item-core>
     </div>
-    <div class="swiper-pagination swiper-pagination-hidden"></div>
+    <div class="swiper-pagination"></div>
   </div>
 </taro-swiper-core>
 `;
@@ -120,6 +124,7 @@ exports[`Swiper should be vertical 1`] = `
       .taro-swiper-3 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: rgba(0, 0, 0, .3) }
               .taro-swiper-3 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: #000000 }
               .taro-swiper-3 > .swiper-container { overflow: visible;margin-top: 0px; margin-bottom: 0px; }
+              .taro-swiper-3 > .swiper-container > .swiper-pagination { display: none;font-size: 0; }
     </style>
     <div class="swiper-wrapper">
       <taro-swiper-item-core class="swiper-slide">
@@ -135,7 +140,7 @@ exports[`Swiper should be vertical 1`] = `
         <div style="height: 100%;"></div>
       </taro-swiper-item-core>
     </div>
-    <div class="swiper-pagination swiper-pagination-hidden"></div>
+    <div class="swiper-pagination"></div>
   </div>
 </taro-swiper-core>
 `;
@@ -148,6 +153,7 @@ exports[`Swiper should display multi items within screen width 1`] = `
       .taro-swiper-5 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: rgba(0, 0, 0, .3) }
               .taro-swiper-5 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: #000000 }
               .taro-swiper-5 > .swiper-container { overflow: visible;margin-right: 0px; margin-left: 0px; }
+              .taro-swiper-5 > .swiper-container > .swiper-pagination { display: none;font-size: 0; }
     </style>
     <div class="swiper-wrapper">
       <taro-swiper-item-core class="swiper-slide">
@@ -163,7 +169,7 @@ exports[`Swiper should display multi items within screen width 1`] = `
         <div style="height: 100%;"></div>
       </taro-swiper-item-core>
     </div>
-    <div class="swiper-pagination swiper-pagination-hidden"></div>
+    <div class="swiper-pagination"></div>
   </div>
 </taro-swiper-core>
 `;
@@ -176,6 +182,7 @@ exports[`Swiper should has previous margin 1`] = `
       .taro-swiper-4 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: rgba(0, 0, 0, .3) }
               .taro-swiper-4 > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: #000000 }
               .taro-swiper-4 > .swiper-container { overflow: visible;margin-right: 0px; margin-left: 10px; }
+              .taro-swiper-4 > .swiper-container > .swiper-pagination { display: none;font-size: 0; }
     </style>
     <div class="swiper-wrapper">
       <taro-swiper-item-core class="swiper-slide">
@@ -191,7 +198,7 @@ exports[`Swiper should has previous margin 1`] = `
         <div style="height: 100%;"></div>
       </taro-swiper-item-core>
     </div>
-    <div class="swiper-pagination swiper-pagination-hidden"></div>
+    <div class="swiper-pagination"></div>
   </div>
 </taro-swiper-core>
 `;
