@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { SwiperOptions } from 'swiper/types/swiper-options'
 import { A11yMethods } from 'swiper/types/modules/a11y'
 import { AutoplayMethods } from 'swiper/types/modules/autoplay'
 import { ControllerMethods } from 'swiper/types/modules/controller'
+import { CardsEffectMethods } from 'swiper/types/modules/effect-cards'
 import { CoverflowEffectMethods } from 'swiper/types/modules/effect-coverflow'
+import { CreativeEffectMethods } from 'swiper/types/modules/effect-creative'
 import { CubeEffectMethods } from 'swiper/types/modules/effect-cube'
 import { FadeEffectMethods } from 'swiper/types/modules/effect-fade'
 import { FlipEffectMethods } from 'swiper/types/modules/effect-flip'
+import { FreeModeMethods } from 'swiper/types/modules/free-mode'
 import { HashNavigationMethods } from 'swiper/types/modules/hash-navigation'
 import { HistoryMethods } from 'swiper/types/modules/history'
 import { KeyboardMethods } from 'swiper/types/modules/keyboard'
@@ -19,9 +21,7 @@ import { ThumbsMethods } from 'swiper/types/modules/thumbs'
 import { VirtualMethods } from 'swiper/types/modules/virtual'
 import { ZoomMethods } from 'swiper/types/modules/zoom'
 import { SwiperEvents } from 'swiper/types/swiper-events'
-import { CreativeEffectMethods } from 'swiper/types/modules/effect-creative'
-import { CardsEffectMethods } from 'swiper/types/modules/effect-cards'
-import { FreeModeMethods } from 'swiper/types/modules/free-mode'
+import { SwiperOptions } from 'swiper/types/swiper-options'
 
 import type ISwiper from 'swiper/types/swiper-class'
 
@@ -35,18 +35,23 @@ export default class Swiper implements ISwiper {
   slidesPerViewDynamic (): number {
     throw new Error('Method not implemented.')
   }
+
   changeLanguageDirection (direction: 'rtl' | 'ltr'): void {
     throw new Error('Method not implemented.')
   }
+
   loopCreate (): void {
     throw new Error('Method not implemented.')
   }
+
   loopDestroy (): void {
     throw new Error('Method not implemented.')
   }
+
   init (el?: HTMLElement | undefined): ISwiper {
     throw new Error('Method not implemented.')
   }
+
   creativeEffect: CreativeEffectMethods
   cardsEffect: CardsEffectMethods
   freeMode: FreeModeMethods
