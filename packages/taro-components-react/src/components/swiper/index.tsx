@@ -81,6 +81,7 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
   #source = 'autoplay'
   #swiperResetting: boolean = false
   #lastSwiperActiveIndex: number = 0
+  // dom 变化是否由外部引起，因为 swiper 的循环模式也会引起 dom 的变化。如果不是由外部引起的 dom 变化，就不需要重新初始化 swiper
   #domChangeByOutSide: boolean = false
   $el: HTMLDivElement | null
   swiper: ISwiper| null
@@ -108,6 +109,8 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
       if (!this.state.swiperWrapper || !this.swiper) return
       this.#swiperResetting = true
       if (!this.#domChangeByOutSide && this.props.circular) {
+        // 如果是由于外部子节点的变化引起的 dom 变化，需要重新初始化 swiper。
+        // 在初dom操作之前，需要调用 loopDestroy，把子节点的顺序恢复
         this.#domChangeByOutSide = true
         this.swiper.loopDestroy()
         this.swiper.params.loop = false
@@ -252,6 +255,11 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
     }
 
     this.swiper = new Swipers(this.$el!, opt)
+
+    // Note: 这里是拦截了 swiper 的 minTranslate 和 maxTranslate 方法，手动修复了 loop 模式下的 margin 问题
+    // 因为这两个属性会影响滑动到哪个位置进行 fixloop
+    // 可参考源码：https://github.com/nolimits4web/swiper/blob/v11.1.0/src/core/events/onTouchMove.mjs
+    // https://github.com/nolimits4web/swiper/blob/v11.1.0/src/core/loop/loopFix.mjs
     if (this.getNeedFixLoop()) {
       // @ts-ignore
       const minTranslate = this.swiper.minTranslate.bind(this.swiper)
@@ -403,14 +411,18 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
     this.#swiperResetting = false
   }
 
+  // 以下为方法函数
   getSlidersList = () => this.$el?.querySelectorAll?.('.swiper-slide') || []
 
+  // 获取是否需要手动修复 loop 的条件
   getNeedFixLoop = () => {
     const margins = this.parseMargin()
     const hasMargin = margins.filter(Boolean).length > 0
     return this.props.circular && hasMargin
   }
 
+  // Note: loop 的时候添加 additionalSlides 可以避免循环的时候由于 loopFix 不及时，出现空白的问题。但是并不是 additionalSlides 越多越好，因为 additionalSlides 越多，如果 swiper-item 的数量不够，会导致出现 bug。
+  // 目前的策略是 swiper-item 的数量小于等于 5 时，不添加 additionalSlides，大于 5 小于等于 7 时，添加 1 个 additionalSlides，大于 7 时，添加 2 个 additionalSlides。
   getLoopAdditionalSlides():number {
     const slidersLength = (this.getSlidersList()).length
     if (!this.$el || !this.getNeedFixLoop() || slidersLength < ONE_ADDITIONAL_SLIDES_THRESHOLD) return 0

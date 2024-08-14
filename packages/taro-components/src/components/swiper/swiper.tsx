@@ -17,6 +17,7 @@ export class Swiper implements ComponentInterface {
   #id = INSTANCE_ID++
   #source = ''
   #swiperResetting = false
+  // dom 变化是否由外部引起，因为 swiper 的循环模式也会引起 dom 的变化。如果不是由外部引起的 dom 变化，就不需要重新初始化 swiper
   #domChangeByOutSide = false
   #lastSwiperActiveIndex = 0
 
@@ -197,39 +198,38 @@ export class Swiper implements ComponentInterface {
   watchSwiperWrapper (newVal?: HTMLElement) {
     if (!this.isWillLoadCalled || !this.swiper) return
     if (!newVal) return
+    const beforeDomOperation = () => {
+      this.#domChangeByOutSide = true
+      // 如果是由于外部子节点的变化引起的 dom 变化，需要重新初始化 swiper。
+      // 在初dom操作之前，需要调用 loopDestroy，把子节点的顺序恢复
+      this.swiper.loopDestroy()
+      this.swiper.params.loop = false
+    }
     this.el.appendChild = <T extends Node>(newChild: T): T => {
       this.#swiperResetting = true
       if(!this.#domChangeByOutSide && this.circular) {
-        this.#domChangeByOutSide = true
-        this.swiper.loopDestroy()
-        this.swiper.params.loop = false
+        beforeDomOperation()
       }
       return newVal.appendChild(newChild)
     }
     this.el.insertBefore = <T extends Node>(newChild: T, refChild: Node | null): T => {
       this.#swiperResetting = true
       if(!this.#domChangeByOutSide && this.circular) {
-        this.#domChangeByOutSide = true
-        this.swiper.loopDestroy()
-        this.swiper.params.loop = false
+        beforeDomOperation()
       }
       return newVal.insertBefore(newChild, refChild)
     }
     this.el.replaceChild = <T extends Node>(newChild: Node, oldChild: T): T => {
       this.#swiperResetting = true
       if(!this.#domChangeByOutSide && this.circular) {
-        this.#domChangeByOutSide = true
-        this.swiper.loopDestroy()
-        this.swiper.params.loop = false
+        beforeDomOperation()
       }
       return newVal.replaceChild(newChild, oldChild)
     }
     this.el.removeChild = <T extends Node>(oldChild: T): T => {
       this.#swiperResetting = true
       if(!this.#domChangeByOutSide && this.circular) {
-        this.#domChangeByOutSide = true
-        this.swiper.loopDestroy()
-        this.swiper.params.loop = false
+        beforeDomOperation()
       }
       return newVal.removeChild(oldChild)
     }
@@ -248,8 +248,6 @@ export class Swiper implements ComponentInterface {
       this.#swiperResetting = false
     }
   }, 50)
-
-  
 
   @Watch("circular")
   watchCircular () {
@@ -364,6 +362,9 @@ export class Swiper implements ComponentInterface {
         },
         autoplay(e) {
           // Note: 修复 autoplay 时，切换到其他页面再切回来，autoplay 会停止的问题
+          // autoplay 会调用 slideTo 方法，里面会判断是否 animating，如果 animating 为 true，就会被 return
+          // 参考源码：https://github.com/nolimits4web/swiper/blob/v11.1.0/src/core/slide/slideTo.mjs#27 27行
+          // https://github.com/nolimits4web/swiper/blob/v11.1.0/src/modules/autoplay/autoplay.mjs
           e.animating = false;
           that.#source = 'autoplay'
         }
@@ -379,7 +380,10 @@ export class Swiper implements ComponentInterface {
     }
     this.swiper = new SwiperJS(`.taro-swiper-${this.#id} > .swiper-container`, options)
 
-    //Note: 注释
+    // Note: 这里是拦截了 swiper 的 minTranslate 和 maxTranslate 方法，手动修复了 loop 模式下的 margin 问题
+    // 因为这两个属性会影响滑动到哪个位置进行 fixloop
+    // 可参考源码：https://github.com/nolimits4web/swiper/blob/v11.1.0/src/core/events/onTouchMove.mjs
+    // https://github.com/nolimits4web/swiper/blob/v11.1.0/src/core/loop/loopFix.mjs
     if(this.getNeedFixLoop()) {
       // @ts-ignore
       const minTranslate = this.swiper.minTranslate.bind(this.swiper);
@@ -401,15 +405,27 @@ export class Swiper implements ComponentInterface {
     this.swiperWrapper = this.swiper.wrapperEl
   }
 
+  reset = () => {
+    this.#swiperResetting = true
+    this.#lastSwiperActiveIndex = this.swiper.realIndex
+    this.swiper.destroy()
+    this.handleInit(true)
+    this.#swiperResetting = false
+  }
+
+  // 下面为方法函数
+
   getSlidersList = () => this.el.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)') || []
 
+  // 获取是否需要手动修复 loop 的条件
   getNeedFixLoop = () => {
     const margins = this.parseMargin()
     const hasMargin = margins.filter(Boolean).length > 0
     return this.circular && hasMargin
   }
 
-  //Note: 注释
+  // Note: loop 的时候添加 additionalSlides 可以避免循环的时候由于 loopFix 不及时，出现空白的问题。但是并不是 additionalSlides 越多越好，因为 additionalSlides 越多，如果 swiper-item 的数量不够，会导致出现 bug。
+  // 目前的策略是 swiper-item 的数量小于等于 5 时，不添加 additionalSlides，大于 5 小于等于 7 时，添加 1 个 additionalSlides，大于 7 时，添加 2 个 additionalSlides。
   getLoopAdditionalSlides():number{
     const slidersLength = (this.getSlidersList()).length
     if(!this.el || !this.getNeedFixLoop() || slidersLength < ONE_ADDITIONAL_SLIDES_THRESHOLD) return 0
@@ -430,13 +446,6 @@ export class Swiper implements ComponentInterface {
     return currentSlide.getAttribute('item-id')
   }
 
-  reset = () => {
-    this.#swiperResetting = true
-    this.#lastSwiperActiveIndex = this.swiper.realIndex
-    this.swiper.destroy()
-    this.handleInit(true)
-    this.#swiperResetting = false
-  }
   render () {
     const {
       vertical,
