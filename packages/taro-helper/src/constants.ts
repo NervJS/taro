@@ -113,6 +113,7 @@ export const REG_TARO_H5 = /taro-h5[\\/]dist[\\/](api[\\/]taro|index\.esm)/
 export const REG_TARO_H5_RUNTIME_API = /@tarojs[\\/]plugin-platform-h5[\\/]dist[\\/]runtime[\\/]apis[\\/]index/
 export const REG_CSS_IMPORT = /@import (["'])(.+?)\1;/g
 
+export const DEFAULT_SUPPORT_TEMPLATE: string[] = ['wxml', 'axml', 'ttml', 'qml', 'swan', 'jxml']
 export const NODE_MODULES = 'node_modules'
 export const REG_NODE_MODULES = /node_modules/
 export const REG_NODE_MODULES_DIR = /[\\/]node_modules[\\/]/gi

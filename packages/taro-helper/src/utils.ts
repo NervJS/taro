@@ -21,6 +21,7 @@ import {
   REG_NODE_MODULES,
   SCRIPT_EXT,
   TARO_CONFIG_FOLDER,
+  DEFAULT_SUPPORT_TEMPLATE,
 } from './constants'
 import { requireWithEsbuild } from './esbuild'
 import { chalk } from './terminal'
@@ -690,6 +691,11 @@ export function removePathPrefix(filePath = '') {
   }
 
   return result
+}
+
+export function getMergeLoaderTemplateReg (templ: string) {
+  const tmepls = [...DEFAULT_SUPPORT_TEMPLATE, templ ? templ?.substring(1) : '']
+  return new RegExp(`\\.(${tmepls.join('|')})(\\?.*)?$`)
 }
 
 export { fs }
