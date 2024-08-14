@@ -1,4 +1,4 @@
-{{#if typescript }}import type { UserConfigExport } from "@tarojs/cli";
+{{#if typescript }}import type { UserConfigExport } from '@tarojs/cli'
 {{/if}}
 export default {
   {{#if (eq compiler "Webpack5") }} logger: {
