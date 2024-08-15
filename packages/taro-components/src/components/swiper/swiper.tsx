@@ -326,8 +326,9 @@ export class Swiper implements ComponentInterface {
       zoom: this.zoom,
       ...effectsProps,
       on: {
-        slideChangeTransitionEnd(e) {
-          if(that.#swiperResetting) return
+        changeTransitionEnd(e) {
+          if(that.#swiperResetting || that.#lastSwiperActiveIndex === this.realIndex) return
+          that.#lastSwiperActiveIndex = this.realIndex
           that.getNeedFixLoop() && e.loopFix()
           that.autoplay && e.autoplay.start()
           const currentItemId = that.getCurrentItemId(e)
@@ -338,9 +339,11 @@ export class Swiper implements ComponentInterface {
           })
           that.#source = 'autoplay'
         },
+        touchMove () {
+          that.#source = 'touch'
+        },
         slideChange(e) {
           if(that.#swiperResetting || that.#lastSwiperActiveIndex === this.realIndex) return
-          that.#lastSwiperActiveIndex = this.realIndex
           const currentItemId = that.getCurrentItemId(e)
           that.onChange.emit({
             current: this.realIndex,

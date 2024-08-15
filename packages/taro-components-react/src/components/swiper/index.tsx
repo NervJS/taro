@@ -194,8 +194,9 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
           that.getNeedFixLoop() && _swiper.loopFix()
           that.props.autoplay && _swiper.autoplay.start()
         },
-        slideChangeTransitionEnd (_swiper) {
-          if (that.#swiperResetting) return
+        transitionEnd (_swiper) {
+          if (that.#swiperResetting || that.#lastSwiperActiveIndex === _swiper.realIndex) return
+          that.#lastSwiperActiveIndex = _swiper.realIndex
           that.getNeedFixLoop() && _swiper.loopFix()
           that.props.autoplay && _swiper.autoplay.start()
           const e = createEvent('touchend')
@@ -213,6 +214,9 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
           that.handleOnAnimationFinish(e)
           that.#source = 'autoplay'
         },
+        touchMove () {
+          that.#source = 'touch'
+        },
         touchEnd: (_swiper) => {
           that.#source = 'touch'
           that.props.autoplay && _swiper.autoplay.start()
@@ -223,7 +227,6 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
         },
         slideChange (_swiper) {
           if (that.#swiperResetting || that.#lastSwiperActiveIndex === _swiper.realIndex) return
-          that.#lastSwiperActiveIndex = _swiper.realIndex
           const e = createEvent('touchend')
           try {
             const currentId = that.getCurrentId(_swiper)
