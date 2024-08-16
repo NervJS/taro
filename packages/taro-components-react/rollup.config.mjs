@@ -42,7 +42,6 @@ function getAliasPlugin (framework) {
 }
 
 const base = {
-  input: 'src/index.ts',
   treeshake: false,
   output: {
     chunkFileNames: '[name].js',
@@ -51,7 +50,7 @@ const base = {
     format: 'es',
     preserveModules: true,
     preserveModulesRoot: 'src',
-    sourcemap: true
+    sourcemap: true,
   }
 }
 
@@ -62,6 +61,9 @@ const babelConfig = {
 
 const react = () => {
   const config = recursiveMerge({}, base, {
+    input: {
+      index: 'src/index.react.ts'
+    },
     plugins: getPlugins(
       [
         getAliasPlugin('react'),
@@ -89,6 +91,9 @@ const react = () => {
 
 const solid = () => {
   const config = recursiveMerge({}, base, {
+    input: {
+      index: 'src/index.solid.ts'
+    },
     output: {
       dir: 'dist/solid',
     },
