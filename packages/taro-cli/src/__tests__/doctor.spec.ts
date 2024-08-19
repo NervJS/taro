@@ -68,8 +68,8 @@ describe('doctor', () => {
       await runDoctor('', { options: { disableGlobalConfig: true } })
     } catch (error) {} // eslint-disable-line no-empty
 
-    expect(exitSpy).toBeCalledWith(1)
-    expect(logSpy).toBeCalledWith(chalk.red('找不到项目配置文件config/index，请确定当前目录是 Taro 项目根目录!'))
+    expect(exitSpy).toHaveBeenCalledWith(1)
+    expect(logSpy).toHaveBeenCalledWith(chalk.red('找不到项目配置文件config/index，请确定当前目录是 Taro 项目根目录!'))
 
     exitSpy.mockRestore()
     logSpy.mockRestore()

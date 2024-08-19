@@ -46,9 +46,9 @@ describe('recommand validator of doctor', () => {
       await validator({ appPath: MOCK_APP_PATH })
     } catch (error) {} // eslint-disable-line no-empty
 
-    expect(exitSpy).toBeCalledWith(1)
+    expect(exitSpy).toHaveBeenCalledWith(1)
     const PROJECT_PACKAGE_PATH = path.join(MOCK_APP_PATH, 'package.json')
-    expect(logSpy).toBeCalledWith(chalk.red(`找不到${PROJECT_PACKAGE_PATH}，请确定当前目录是Taro项目根目录!`))
+    expect(logSpy).toHaveBeenCalledWith(chalk.red(`找不到${PROJECT_PACKAGE_PATH}，请确定当前目录是Taro项目根目录!`))
 
     exitSpy.mockRestore()
     logSpy.mockRestore()

@@ -61,7 +61,7 @@ describe('config', () => {
 
     await runConfig(appPath)
 
-    expect(logSpy).toBeCalledWith('找不到用户根目录')
+    expect(logSpy).toHaveBeenCalledWith('找不到用户根目录')
     logSpy.mockRestore()
   })
 
@@ -71,7 +71,7 @@ describe('config', () => {
 
     await runConfig(appPath, { args: ['get'] })
 
-    expect(logSpy).toBeCalledWith('Usage: taro config get <key>')
+    expect(logSpy).toHaveBeenCalledWith('Usage: taro config get <key>')
     logSpy.mockRestore()
   })
 
@@ -88,9 +88,9 @@ describe('config', () => {
 
     await runConfig(appPath, { args: ['get', key] })
 
-    expect(logSpy).nthCalledWith(1, `Config path: ${configPath}`)
-    expect(logSpy).nthCalledWith(2)
-    expect(logSpy).nthCalledWith(3, `key: ${key}, value: ${value}`)
+    expect(logSpy).toHaveBeenNthCalledWith(1, `Config path: ${configPath}`)
+    expect(logSpy).toHaveBeenNthCalledWith(2)
+    expect(logSpy).toHaveBeenNthCalledWith(3, `key: ${key}, value: ${value}`)
 
     logSpy.mockRestore()
     readJSONSyncMocked.mockReset()
@@ -102,7 +102,7 @@ describe('config', () => {
 
     await runConfig(appPath, { args: ['set', 'k'] })
 
-    expect(logSpy).toBeCalledWith('Usage: taro config set <key> <value>')
+    expect(logSpy).toHaveBeenCalledWith('Usage: taro config set <key> <value>')
     logSpy.mockRestore()
   })
 
@@ -117,13 +117,13 @@ describe('config', () => {
 
     await runConfig(appPath, { args: ['set', key, value] })
 
-    expect(writeJSONSyncMocked).toBeCalledWith(configPath, {
+    expect(writeJSONSyncMocked).toHaveBeenCalledWith(configPath, {
       a: 1,
       [key]: value
     })
-    expect(logSpy).nthCalledWith(1, `Config path: ${configPath}`)
-    expect(logSpy).nthCalledWith(2)
-    expect(logSpy).nthCalledWith(3, `set key: ${key}, value: ${value}`)
+    expect(logSpy).toHaveBeenNthCalledWith(1, `Config path: ${configPath}`)
+    expect(logSpy).toHaveBeenNthCalledWith(2)
+    expect(logSpy).toHaveBeenNthCalledWith(3, `set key: ${key}, value: ${value}`)
 
     logSpy.mockRestore()
     readJSONSyncMocked.mockReset()
@@ -141,9 +141,9 @@ describe('config', () => {
 
     await runConfig(appPath, { args: ['set', key, value] })
 
-    expect(ensureFileSyncMocked).toBeCalledWith(configPath)
-    expect(writeJSONSyncMocked).toBeCalledWith(configPath, { [key]: value })
-    expect(logSpy).toBeCalledWith(`set key: ${key}, value: ${value}`)
+    expect(ensureFileSyncMocked).toHaveBeenCalledWith(configPath)
+    expect(writeJSONSyncMocked).toHaveBeenCalledWith(configPath, { [key]: value })
+    expect(logSpy).toHaveBeenCalledWith(`set key: ${key}, value: ${value}`)
 
     logSpy.mockRestore()
     existsSyncMocked.mockReset()
@@ -157,7 +157,7 @@ describe('config', () => {
 
     await runConfig(appPath, { args: ['delete'] })
 
-    expect(logSpy).toBeCalledWith('Usage: taro config delete <key>')
+    expect(logSpy).toHaveBeenCalledWith('Usage: taro config delete <key>')
     logSpy.mockRestore()
   })
 
@@ -174,10 +174,10 @@ describe('config', () => {
 
     await runConfig(appPath, { args: ['delete', key] })
 
-    expect(writeJSONSyncMocked).toBeCalledWith(configPath, { a: 1 })
-    expect(logSpy).nthCalledWith(1, `Config path: ${configPath}`)
-    expect(logSpy).nthCalledWith(2)
-    expect(logSpy).nthCalledWith(3, `deleted: ${key}`)
+    expect(writeJSONSyncMocked).toHaveBeenCalledWith(configPath, { a: 1 })
+    expect(logSpy).toHaveBeenNthCalledWith(1, `Config path: ${configPath}`)
+    expect(logSpy).toHaveBeenNthCalledWith(2)
+    expect(logSpy).toHaveBeenNthCalledWith(3, `deleted: ${key}`)
 
     logSpy.mockRestore()
     readJSONSyncMocked.mockReset()
@@ -195,11 +195,11 @@ describe('config', () => {
 
     await runConfig(appPath, { args: ['list'] })
 
-    expect(logSpy).nthCalledWith(1, `Config path: ${configPath}`)
-    expect(logSpy).nthCalledWith(2)
-    expect(logSpy).nthCalledWith(3, 'Config info:')
-    expect(logSpy).nthCalledWith(4, 'a=1')
-    expect(logSpy).nthCalledWith(5, 'b=2')
+    expect(logSpy).toHaveBeenNthCalledWith(1, `Config path: ${configPath}`)
+    expect(logSpy).toHaveBeenNthCalledWith(2)
+    expect(logSpy).toHaveBeenNthCalledWith(3, 'Config info:')
+    expect(logSpy).toHaveBeenNthCalledWith(4, 'a=1')
+    expect(logSpy).toHaveBeenNthCalledWith(5, 'b=2')
 
     logSpy.mockRestore()
     readJSONSyncMocked.mockReset()
@@ -221,10 +221,10 @@ describe('config', () => {
       }
     })
 
-    expect(logSpy).nthCalledWith(1, `Config path: ${configPath}`)
-    expect(logSpy).nthCalledWith(2)
-    expect(logSpy).nthCalledWith(3, 'Config info:')
-    expect(logSpy).nthCalledWith(4, JSON.stringify({ a: 1, b: 2 }, null, 2))
+    expect(logSpy).toHaveBeenNthCalledWith(1, `Config path: ${configPath}`)
+    expect(logSpy).toHaveBeenNthCalledWith(2)
+    expect(logSpy).toHaveBeenNthCalledWith(3, 'Config info:')
+    expect(logSpy).toHaveBeenNthCalledWith(4, JSON.stringify({ a: 1, b: 2 }, null, 2))
 
     logSpy.mockRestore()
     readJSONSyncMocked.mockReset()
