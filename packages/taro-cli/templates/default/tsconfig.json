@@ -14,9 +14,10 @@
     "strictNullChecks": true,
     "sourceMap": true,
     "rootDir": ".",
-    "jsx": "{{#if (includes "Vue3" s=framework)}}preserve{{else}}react-jsx{{/if}}",{{#if (eq framework "Preact") }}
+    "jsx": "{{#if (includes "Vue3" s=framework)}}preserve{{else if (eq framework 'Solid')}}preserve{{else}}react-jsx{{/if}}",{{#if (eq framework "Preact") }}
     "skipLibCheck": true,{{/if}}
-    "allowJs": true,
+    "allowJs": true,{{#if (eq framework "Solid")}}
+    "jsxImportSource": "solid-js",{{/if}}
     "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types"

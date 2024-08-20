@@ -289,6 +289,7 @@ declare namespace PickerRegionProps {
     value: string
     code: string
     postcode?: string
+    children?: RegionData[]
   }
   interface Level {
     /** 省级选择器 */
