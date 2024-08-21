@@ -50,9 +50,15 @@ declare module '../../index' {
       success?: (result: SuccessCallbackResult) => void
       /** 提示的标题 */
       title?: string
+      /** 是否显示输入框 */
+      editable?: boolean
+      /** 显示输入框时的提示文本 */
+      placeholderText?: string
     }
 
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** editable 为 true 时，用户输入的文本 */
+      content: string
       /** 为 true 时，表示用户点击了取消（用于 Android 系统区分点击蒙层关闭还是点击取消按钮关闭） */
       cancel: boolean
       /** 为 true 时，表示用户点击了确定按钮 */
@@ -256,7 +262,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.hideLoading.html
      */
-    hideLoading(option?: hideLoading.Option): void  /** 隐藏 loading 提示框
+    hideLoading(option?: hideLoading.Option): void /** 隐藏 loading 提示框
 
     /** 开启小程序页面返回询问对话框
      * @supported weapp
