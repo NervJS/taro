@@ -9,6 +9,7 @@ import { componentConfig } from '../utils/component'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
+import type { TaroHarmonyPageMeta } from './template/page'
 
 export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
   const { taroConfig } = viteCompilerContext
@@ -104,8 +105,11 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         const comps = viteCompilerContext.getComponents() || []
 
         const lines: string[] = []
-        comps.forEach(comp => {
-          const key = Object.keys(taroConfig.router?.customRoutes || {}).find(e => [comp.name, addLeadingSlash(comp.name)].includes(e))
+        comps.forEach((comp: TaroHarmonyPageMeta) => {
+          const key = Object.keys(taroConfig.router?.customRoutes || {}).find(e => {
+            const name = comp.originName || comp.name
+            return [name, addLeadingSlash(name)].includes(e)
+          })
 
           if (key) {
             const alias = taroConfig.router?.customRoutes![key]
