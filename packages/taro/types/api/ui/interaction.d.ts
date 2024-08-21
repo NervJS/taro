@@ -58,7 +58,7 @@ declare module '../../index' {
 
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** editable 为 true 时，用户输入的文本 */
-      content: string
+      content?: string
       /** 为 true 时，表示用户点击了取消（用于 Android 系统区分点击蒙层关闭还是点击取消按钮关闭） */
       cancel: boolean
       /** 为 true 时，表示用户点击了确定按钮 */
