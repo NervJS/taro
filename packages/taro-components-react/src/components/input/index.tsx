@@ -3,7 +3,7 @@ import './style/index.scss'
 import classNames from 'classnames'
 import React from 'react'
 
-import { omit } from '../../utils'
+import { createForwardRefComponent,omit } from '../../utils'
 
 function getTrueType (type: string | undefined, confirmType: string, password: boolean) {
   if (confirmType === 'search') type = 'search'
@@ -33,6 +33,7 @@ interface IProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'ty
   confirmType?: string
   name?: string
   type?: string
+  forwardedRef?: React.MutableRefObject<HTMLInputElement>
   onConfirm?: (e) => void
 }
 
@@ -243,6 +244,9 @@ class Input extends React.Component<IProps, null> {
       <input
         ref={(input: HTMLInputElement) => {
           this.inputRef = input
+          if (this.props.forwardedRef) {
+            this.props.forwardedRef.current = input
+          }
         }}
         {...otherProps}
         className={cls}
@@ -264,4 +268,4 @@ class Input extends React.Component<IProps, null> {
   }
 }
 
-export default Input
+export default createForwardRefComponent(Input)
