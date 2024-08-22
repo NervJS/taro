@@ -52,3 +52,8 @@ export function run (name: string, presets: string[] = []): IRun {
     return kernel
   }
 }
+
+export function validateFramework(value: string) {
+  const frameworkRegex = /(nerv|react|preact|solid|vue|vue3|none)/
+  return frameworkRegex.test(value)
+}
