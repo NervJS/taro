@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-library-solid",
-  "version": "4.0.4",
+  "version": "4.0.5-alpha.9",
   "description": "Taro 组件库 Solid 版本库",
   "private": true,
   "main": "index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "4.0.4",
+  "version": "4.0.5-alpha.9",
   "description": "taroize 之后的运行时",
   "author": "O2Team",
   "license": "MIT",

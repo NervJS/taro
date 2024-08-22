@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-transformer",
-  "version": "4.0.4",
+  "version": "4.0.5-alpha.9",
   "description": "Taro RN 入口文件处理",
   "author": "O2Team",
   "license": "MIT",

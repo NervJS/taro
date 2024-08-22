@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "4.0.4",
+  "version": "4.0.5-alpha.9",
   "description": "Taro babel preset",
   "author": "O2Team",
   "license": "MIT",

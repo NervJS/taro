@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-vue3",
-  "version": "4.0.4",
+  "version": "4.0.5-alpha.9",
   "description": "Vue3 框架插件",
   "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro",

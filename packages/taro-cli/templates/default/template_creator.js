@@ -17,6 +17,9 @@ const handler = {
   '/types/vue.d.ts' (err, { framework, typescript }) {
     return ['Vue3'].includes(framework) && !!typescript
   },
+  '/types/solid.d.ts' (err, { framework, typescript }) {
+    return ['Solid'].includes(framework) && !!typescript
+  },
   '/src/pages/index/index.jsx' (err, { pageDir = '', pageName = '', subPkg = '' }) {
     return {
       setPageName: normalizePath(path.join(PAGES_ENTRY, pageDir, pageName, 'index.jsx')),

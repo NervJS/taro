@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "4.0.4",
+  "version": "4.0.5-alpha.9",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -29,7 +29,7 @@
     "lint:style": "stylelint ./packages/**/*.{css,scss}",
     "format": "prettier --write --cache .",
     "format:check": "prettier --check --cache .",
-    "test": "pnpm --if-present -r --aggregate-output --filter=./packages/* test:ci",
+    "test": "pnpm --if-present -r --aggregate-output --filter=./packages/* --filter=./tests test:ci",
     "test:binding": "pnpm --filter @tarojs/binding run test",
     "updateSnapshot": "pnpm --if-present -r --aggregate-output --filter=./tests --filter=./packages/* updateSnapshot",
     "version": "run-s version:*",

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/react",
-  "version": "4.0.4",
+  "version": "4.0.5-alpha.9",
   "description": "like react-dom, but for mini apps.",
   "author": "O2Team",
   "license": "MIT",

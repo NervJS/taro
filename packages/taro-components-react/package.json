@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-react",
-  "version": "4.0.4",
+  "version": "4.0.5-alpha.9",
   "description": "",
   "main:h5": "dist/index.js",
   "main": "dist/index.js",
@@ -37,7 +37,7 @@
     "@tarojs/components": "workspace:*",
     "@babel/runtime": "^7.24.4",
     "classnames": "^2.2.5",
-    "swiper": "6.8.0",
+    "swiper": "11.1.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

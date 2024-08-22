@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-react-devtools",
-  "version": "4.0.4",
+  "version": "4.0.5-alpha.9",
   "description": "Taro 小程序端支持使用 React DevTools 的插件",
   "author": "O2Team",
   "license": "MIT",

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-harmony-hybrid",
-  "version": "4.0.4",
+  "version": "4.0.5-alpha.9",
   "description": "Harmony 端平台插件",
   "author": "O2Team",
   "license": "MIT",
