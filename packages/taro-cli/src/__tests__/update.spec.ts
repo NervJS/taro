@@ -134,7 +134,7 @@ describe('update', () => {
         disableGlobalConfig: true
       }
     })
-    expect(spy).toBeCalledTimes(3)
+    expect(spy).toHaveBeenCalledTimes(3)
     spy.mockRestore()
   })
 
@@ -146,7 +146,7 @@ describe('update', () => {
         disableGlobalConfig: true
       }
     })
-    expect(execMocked).toBeCalledWith(`npm i -g @tarojs/cli@${lastestVersion}`)
+    expect(execMocked).toHaveBeenCalledWith(`npm i -g @tarojs/cli@${lastestVersion}`)
   })
 
   it('should update self using yarn', async () => {
@@ -158,7 +158,7 @@ describe('update', () => {
         disableGlobalConfig: true
       }
     })
-    expect(execMocked).toBeCalledWith(`yarn global add @tarojs/cli@${lastestVersion}`)
+    expect(execMocked).toHaveBeenCalledWith(`yarn global add @tarojs/cli@${lastestVersion}`)
   })
 
   it('should update self using pnpm', async () => {
@@ -170,7 +170,7 @@ describe('update', () => {
         disableGlobalConfig: true
       }
     })
-    expect(execMocked).toBeCalledWith(`pnpm add -g @tarojs/cli@${lastestVersion}`)
+    expect(execMocked).toHaveBeenCalledWith(`pnpm add -g @tarojs/cli@${lastestVersion}`)
   })
 
   it('should update self using cnpm', async () => {
@@ -182,7 +182,7 @@ describe('update', () => {
         disableGlobalConfig: true
       }
     })
-    expect(execMocked).toBeCalledWith(`cnpm i -g @tarojs/cli@${lastestVersion}`)
+    expect(execMocked).toHaveBeenCalledWith(`cnpm i -g @tarojs/cli@${lastestVersion}`)
   })
 
   it('should update self to specific version', async () => {
@@ -194,7 +194,7 @@ describe('update', () => {
         disableGlobalConfig: true
       }
     })
-    expect(execMocked).toBeCalledWith(`npm i -g @tarojs/cli@${version}`)
+    expect(execMocked).toHaveBeenCalledWith(`npm i -g @tarojs/cli@${version}`)
   })
 
   it('should throw when there isn\'t a Taro project', async () => {
@@ -214,8 +214,8 @@ describe('update', () => {
         }
       })
     } catch (error) {} // eslint-disable-line no-empty
-    expect(exitSpy).toBeCalledWith(1)
-    expect(chalkMocked).toBeCalledWith(`找不到项目配置文件 ${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`)
+    expect(exitSpy).toHaveBeenCalledWith(1)
+    expect(chalkMocked).toHaveBeenCalledWith(`找不到项目配置文件 ${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`)
     exitSpy.mockRestore()
     logSpy.mockRestore()
   })
@@ -237,7 +237,7 @@ describe('update', () => {
     })
     expect(writeJson.mock.calls[0][0]).toEqual(pkgPath)
     expect(writeJson.mock.calls[0][1]).toEqual(packageMap)
-    expect(execMocked).toBeCalledWith('npm install')
+    expect(execMocked).toHaveBeenCalledWith('npm install')
 
     logSpy.mockRestore()
   })
@@ -260,7 +260,7 @@ describe('update', () => {
     })
     expect(writeJson.mock.calls[0][0]).toEqual(pkgPath)
     expect(writeJson.mock.calls[0][1]).toEqual(packageMap)
-    expect(execMocked).toBeCalledWith('npm install')
+    expect(execMocked).toHaveBeenCalledWith('npm install')
 
     logSpy.mockRestore()
   })
@@ -279,7 +279,7 @@ describe('update', () => {
         disableGlobalConfig: true
       }
     })
-    expect(execMocked).toBeCalledWith('yarn install')
+    expect(execMocked).toHaveBeenCalledWith('yarn install')
 
     logSpy.mockRestore()
   })
@@ -298,7 +298,7 @@ describe('update', () => {
         disableGlobalConfig: true
       }
     })
-    expect(execMocked).toBeCalledWith('pnpm install')
+    expect(execMocked).toHaveBeenCalledWith('pnpm install')
 
     logSpy.mockRestore()
   })
@@ -317,7 +317,7 @@ describe('update', () => {
         disableGlobalConfig: true
       }
     })
-    expect(execMocked).toBeCalledWith('cnpm install')
+    expect(execMocked).toHaveBeenCalledWith('cnpm install')
 
     logSpy.mockRestore()
   })

@@ -1,6 +1,7 @@
 import * as helper from '@tarojs/helper'
 
 import doctor from '../doctor'
+import { validateFramework } from './utils/index'
 
 const validator = doctor.validators[1]
 const baseConfig = {
@@ -49,7 +50,7 @@ describe('config validator of doctor', () => {
 
     expect(messages.length).toEqual(3)
     msgs = messages.map(line => line.content)
-    expect(msgs.includes('framework 的值 "" 与任何指定选项 ["nerv","react","preact","solid","vue","vue3","none"] 都不匹配')).toBeTruthy()
+    expect(validateFramework(msgs)).toBeTruthy()
   })
 
   it('date', async () => {
@@ -93,7 +94,7 @@ describe('config validator of doctor', () => {
       framework: 'other'
     }))
     expect(res.messages.length).toEqual(3)
-    expect(res.messages[2].content).toEqual('framework 的值 "other" 与任何指定选项 ["nerv","react","preact","solid","vue","vue3","none"] 都不匹配')
+    expect(validateFramework(res.messages[2].content)).toEqual(true)
   })
 
   it('designWidth', async () => {

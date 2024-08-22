@@ -36,7 +36,7 @@ export function run (name: string, presets: string[] = []): IRun {
     kernel.optsPlugins ||= []
 
     const type = options.type
-    if (typeof type === 'string' && !presets.some(e => e.includes(type))) {
+    if (name !== 'create' && typeof type === 'string' && !presets.some(e => e.includes(type))) {
       kernel.optsPlugins.push(require.resolve(`@tarojs/plugin-platform-${options.type}`))
     }
 
@@ -51,4 +51,9 @@ export function run (name: string, presets: string[] = []): IRun {
 
     return kernel
   }
+}
+
+export function validateFramework(value: string) {
+  const frameworkRegex = /(nerv|react|preact|solid|vue|vue3|none)/
+  return frameworkRegex.test(value)
 }

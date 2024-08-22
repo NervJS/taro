@@ -214,7 +214,7 @@ describe('inspect', () => {
 
       setProcessArgv('taro -h')
       await cli.run()
-      expect(spy).toBeCalledTimes(16)
+      expect(spy).toHaveBeenCalledTimes(16)
 
       spy.mockRestore()
     })
@@ -225,7 +225,7 @@ describe('inspect', () => {
 
       setProcessArgv('taro -v')
       await cli.run()
-      expect(spy).toBeCalledWith(getPkgVersion())
+      expect(spy).toHaveBeenCalledWith(getPkgVersion())
 
       spy.mockRestore()
     })

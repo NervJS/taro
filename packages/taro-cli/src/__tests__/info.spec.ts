@@ -32,8 +32,8 @@ describe('info', () => {
       await runInfo('')
     } catch (error) {} // eslint-disable-line no-empty
 
-    expect(exitSpy).toBeCalledWith(1)
-    expect(logSpy).toBeCalledWith(chalk.red('找不到项目配置文件config/index，请确定当前目录是 Taro 项目根目录!'))
+    expect(exitSpy).toHaveBeenCalledWith(1)
+    expect(logSpy).toHaveBeenCalledWith(chalk.red('找不到项目配置文件config/index，请确定当前目录是 Taro 项目根目录!'))
 
     exitSpy.mockRestore()
     logSpy.mockRestore()
@@ -46,7 +46,7 @@ describe('info', () => {
     const appPath = path.resolve(__dirname, 'fixtures/default')
     await runInfo(appPath)
 
-    expect(logSpy).toBeCalledTimes(1)
+    expect(logSpy).toHaveBeenCalledTimes(1)
     const res = logSpy.mock.calls[0][0]
     const title = `Taro CLI ${getPkgVersion()} environment info`
     expect(res.hasOwnProperty(title)).toBeTruthy()

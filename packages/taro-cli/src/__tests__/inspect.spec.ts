@@ -50,8 +50,8 @@ describe('inspect', () => {
       await runInspect('')
     } catch (error) {} // eslint-disable-line no-empty
 
-    expect(exitSpy).toBeCalledWith(1)
-    expect(logSpy).toBeCalledWith(chalk.red('找不到项目配置文件config/index，请确定当前目录是 Taro 项目根目录!'))
+    expect(exitSpy).toHaveBeenCalledWith(1)
+    expect(logSpy).toHaveBeenCalledWith(chalk.red('找不到项目配置文件config/index，请确定当前目录是 Taro 项目根目录!'))
 
     exitSpy.mockRestore()
     logSpy.mockRestore()
@@ -70,8 +70,8 @@ describe('inspect', () => {
       await runInspect(path.resolve(__dirname, 'fixtures/default'))
     } catch (error) {} // eslint-disable-line no-empty
 
-    expect(exitSpy).toBeCalledWith(0)
-    expect(logSpy).toBeCalledWith(chalk.red('请传入正确的编译类型！'))
+    expect(exitSpy).toHaveBeenCalledWith(0)
+    expect(logSpy).toHaveBeenCalledWith(chalk.red('请传入正确的编译类型！'))
 
     exitSpy.mockRestore()
     logSpy.mockRestore()
@@ -95,8 +95,8 @@ describe('inspect', () => {
       })
     } catch (error) {} // eslint-disable-line no-empty
 
-    expect(exitSpy).toBeCalledWith(0)
-    expect(logSpy).toBeCalledTimes(1)
+    expect(exitSpy).toHaveBeenCalledWith(0)
+    expect(logSpy).toHaveBeenCalledTimes(1)
 
     exitSpy.mockRestore()
     logSpy.mockRestore()
@@ -123,9 +123,9 @@ describe('inspect', () => {
       })
     } catch (error) {} // eslint-disable-line no-empty
 
-    expect(exitSpy).toBeCalledWith(0)
-    expect(logSpy).toBeCalledTimes(1)
-    expect(logSpy).toBeCalledWith('\'main:h5\'')
+    expect(exitSpy).toHaveBeenCalledWith(0)
+    expect(logSpy).toHaveBeenCalledTimes(1)
+    expect(logSpy).toHaveBeenCalledWith('\'main:h5\'')
 
     exitSpy.mockRestore()
     logSpy.mockRestore()
@@ -152,8 +152,8 @@ describe('inspect', () => {
       })
     } catch (error) {} // eslint-disable-line no-empty
 
-    expect(exitSpy).toBeCalledWith(0)
-    expect(writeFileSync).toBeCalledWith(outputPath, '\'browser\'')
+    expect(exitSpy).toHaveBeenCalledWith(0)
+    expect(writeFileSync).toHaveBeenCalledWith(outputPath, '\'browser\'')
 
     exitSpy.mockRestore()
   })

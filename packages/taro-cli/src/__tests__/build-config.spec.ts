@@ -1,6 +1,6 @@
 import * as path from 'node:path'
 
-import { emptyDirectory } from '@tarojs/helper'
+import { chalk, emptyDirectory } from '@tarojs/helper'
 
 import { run } from './utils'
 
@@ -39,6 +39,46 @@ describe('构建配置测试', () => {
     emptyDirectoryMocked.mockReset()
   })
 
+  it("should exit because there isn't a Taro project", async () => {
+    const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
+    const logSpy = jest.spyOn(console, 'log')
+
+    exitSpy.mockImplementation(() => {
+      throw new Error()
+    })
+    logSpy.mockImplementation(() => {})
+
+    try {
+      await runBuild('')
+    } catch (error) {} // eslint-disable-line no-empty
+
+    expect(exitSpy).toHaveBeenCalledWith(1)
+    expect(logSpy).toHaveBeenCalledWith(chalk.red('找不到项目配置文件config/index，请确定当前目录是 Taro 项目根目录!'))
+
+    exitSpy.mockRestore()
+    logSpy.mockRestore()
+  })
+
+  it('should Please enter the correct compilation type', async () => {
+    const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
+    const logSpy = jest.spyOn(console, 'log')
+
+    exitSpy.mockImplementation(() => {
+      throw new Error()
+    })
+    logSpy.mockImplementation(() => {})
+
+    try {
+      await runBuild(path.resolve(__dirname, 'fixtures/default'))
+    } catch (error) {} // eslint-disable-line no-empty
+
+    expect(exitSpy).toHaveBeenCalledWith(0)
+    expect(logSpy).toHaveBeenCalledWith(chalk.red('请传入正确的编译类型！'))
+
+    exitSpy.mockRestore()
+    logSpy.mockRestore()
+  })
+
   describe('小程序', () => {
     it(`项目 output.clean = clean: { keep: ['project.config.json'] } ==> 清空dist文件夹但保留指定文件`, async () => {
       const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
@@ -60,7 +100,7 @@ describe('构建配置测试', () => {
       } catch (error) {
         // no handler
       }
-      expect(emptyDirectoryMocked).toBeCalledWith(OUTPUT_PATH, { excludes: ['project.config.json'] })
+      expect(emptyDirectoryMocked).toHaveBeenCalledWith(OUTPUT_PATH, { excludes: ['project.config.json'] })
 
       exitSpy.mockRestore()
       logSpy.mockRestore()
@@ -89,7 +129,7 @@ describe('构建配置测试', () => {
       } catch (error) {
         // no handler
       }
-      expect(emptyDirectoryMocked).toBeCalledTimes(0)
+      expect(emptyDirectoryMocked).not.toHaveBeenCalled()
 
       exitSpy.mockRestore()
       logSpy.mockRestore()
