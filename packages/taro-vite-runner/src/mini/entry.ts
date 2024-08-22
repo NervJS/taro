@@ -24,6 +24,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
     },
     load (id) {
       if (viteCompilerContext && id.endsWith(ENTRY_SUFFIX)) {
+        console.log('viteCompilerContext', viteCompilerContext)
         const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
         const { taroConfig, app } = viteCompilerContext
         const appConfig = app.config
@@ -38,7 +39,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           }
         }, '')
 
-        const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = viteCompilerContext.loaderMeta
+        const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = viteCompilerContext.loaderMeta || {}
         const createApp = `${creator}(component, ${frameworkArgs})`
 
         const appConfigStr = prettyPrintJson(appConfig)
