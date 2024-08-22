@@ -99,7 +99,7 @@
     "@types/postcss-url": "^10.0.0",
     "@types/resolve": "^1.20.6",
     "@types/sass": "1.43.1",
-    "@types/tapable": "^1",
+    "@types/tapable": "^2",
     "@types/webpack": "^4.41.26",
     "@types/webpack-dev-server": "^3.11.3",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
