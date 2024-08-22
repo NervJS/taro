@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import React from 'react'
 import Swipers from 'swiper/swiper-bundle.esm.js'
 
-import { createForwardRefComponent,debounce } from '../../utils'
+import { createForwardRefComponent, debounce } from '../../utils'
 
 import type ISwiper from 'swiper'
 

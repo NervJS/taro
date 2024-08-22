@@ -3,7 +3,7 @@ import './style/index.css'
 import classNames from 'classnames'
 import React from 'react'
 
-import { createForwardRefComponent,throttle } from '../../utils'
+import { createForwardRefComponent, throttle } from '../../utils'
 
 function easeOutScroll (from = 0, to = 0, callback) {
   if (from === to || typeof from !== 'number') {

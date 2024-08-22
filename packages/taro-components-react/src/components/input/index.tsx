@@ -3,7 +3,7 @@ import './style/index.scss'
 import classNames from 'classnames'
 import React from 'react'
 
-import { createForwardRefComponent,omit } from '../../utils'
+import { createForwardRefComponent, omit } from '../../utils'
 
 function getTrueType (type: string | undefined, confirmType: string, password: boolean) {
   if (confirmType === 'search') type = 'search'
