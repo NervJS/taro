@@ -17,9 +17,13 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
         info.meta = { viteCompilerContext }
         viteCompilerContext.watchConfigFile(this)
       }
-      const { template, baseLevel = 16 } = taroConfig
+      const { template, baseLevel = 16, experimental } = taroConfig
       if (template.isSupportRecursive === false && baseLevel > 0) {
         (template as UnRecursiveTemplate).baseLevel = baseLevel
+      }
+
+      if (experimental?.useXsForTemplate === false) {
+        (template as UnRecursiveTemplate).isUseXS = false
       }
     },
     load (id) {
