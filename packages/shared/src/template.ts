@@ -207,6 +207,11 @@ export class BaseTemplate {
               style: comp.style,
               class: comp.class
             }
+            result['click-view'] = {
+              style: comp.style,
+              class: comp.class,
+              bindtap: 'eh'
+            }
           }
         }
 
@@ -390,6 +395,7 @@ export class BaseTemplate {
       case 'slot':
       case 'slot-view':
       case 'catch-view':
+      case 'click-view':
       case 'static-view':
       case 'pure-view':
         nodeName = 'view'
