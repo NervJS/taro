@@ -1976,6 +1976,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_plugin_compile_mode_pre_process"
+version = "0.1.0"
+dependencies = [
+ "regex",
+ "serde",
+ "serde_json",
+ "swc_core",
+]
+
+[[package]]
 name = "swc_plugin_define_config"
 version = "0.2.0"
 dependencies = [
