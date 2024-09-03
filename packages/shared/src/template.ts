@@ -246,9 +246,7 @@ export class BaseTemplate {
         : `xs.a(0, item.${Shortcuts.NodeName}, '')`)
       : `'tmpl_0_' + item.${Shortcuts.NodeName}`
     return `${this.buildXsImportTemplate()}<template name="taro_tmpl">
-  <block ${Adapter.for}="{{root.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}">
-    <template is="{{${xs}}}" data="{{${data}}}" />
-  </block>
+  <template is="{{${xs}}}" data="{{${data}}}" ${Adapter.for}="{{root.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}" />
 </template>
 `
   }
@@ -296,10 +294,11 @@ export class BaseTemplate {
   }
 
   private getChildrenTemplate (level: number) {
-    const { isSupportRecursive, isUseXS } = this
+    const { isSupportRecursive, isUseXS, Adapter } = this
     const isLastRecursiveComp = !isSupportRecursive && level + 1 === this.baseLevel
     const isUnRecursiveXs = !this.isSupportRecursive && isUseXS
 
+    const forAttribute = `${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}"`
     if (isLastRecursiveComp) {
       const data = isUnRecursiveXs
         ? `${this.dataKeymap('i:item,c:c,l:l')}`
@@ -308,8 +307,8 @@ export class BaseTemplate {
           : this.dataKeymap('i:item,c:c')
 
       return isUseXS
-        ? `<template is="{{xs.e(${level})}}" data="{{${data}}}" />`
-        : `<template is="tmpl_${level}_${Shortcuts.Container}" data="{{${data}}}" />`
+        ? `<template is="{{xs.e(${level})}}" data="{{${data}}}" ${forAttribute} />`
+        : `<template is="tmpl_${level}_${Shortcuts.Container}" data="{{${data}}}" ${forAttribute} />`
     } else {
       const data = isUnRecursiveXs
         // TODO: 此处直接 c+1，不是最优解，变量 c 的作用是监测组件嵌套的层级是否大于 baselevel
@@ -324,15 +323,15 @@ export class BaseTemplate {
         : `xs.a(0, item.${Shortcuts.NodeName})`
 
       return isUseXS
-        ? `<template is="{{${xs}}}" data="{{${data}}}" />`
+        ? `<template is="{{${xs}}}" data="{{${data}}}" ${forAttribute} />`
         : isSupportRecursive
-          ? `<template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />`
-          : `<template is="{{'tmpl_' + c + '_' + item.nn}}" data="{{${data}}}" />`
+          ? `<template is="{{'tmpl_0_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
+          : `<template is="{{'tmpl_' + c + '_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
     }
   }
 
   private getChildren (comp: Component, level: number): string {
-    const { isSupportRecursive, Adapter } = this
+    const { isSupportRecursive } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
 
     let child = this.getChildrenTemplate(nextLevel)
@@ -344,9 +343,7 @@ export class BaseTemplate {
     let children = this.voidElements.has(comp.nodeName)
       ? ''
       : `
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
-      ${indent(child, 6)}
-    </block>
+    ${indent(child, 6)}
   `
 
     if (isFunction(this.modifyLoopContainer)) {
@@ -436,7 +433,7 @@ export class BaseTemplate {
   }
 
   protected buildThirdPartyTemplate (level: number, componentConfig: ComponentConfig) {
-    const { Adapter, isSupportRecursive, isUseXS, nestElements } = this
+    const { isSupportRecursive, isUseXS, nestElements } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
     let template = ''
 
@@ -460,9 +457,7 @@ export class BaseTemplate {
         const children = this.voidElements.has(compName)
           ? ''
           : `
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
-      ${child}
-    </block>
+    ${child}
   `
 
         template += `
@@ -541,9 +536,8 @@ ${this.buildXsImportTemplate()}<template is="{{'tmpl_0_' + i.${Shortcuts.NodeNam
 
     // 此处需要重新引入 xs 函数，否则会出现 ws.f() 在 comp.wxml 和 custom-wrapper.wxml 中永远返回 undefined 的问题 #14599
     return `<import src="./base${ext}" />
-${this.buildXsImportTemplate()}<block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}">
-  <template is="{{'tmpl_0_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" />
-</block>`
+${this.buildXsImportTemplate()}<template is="{{'tmpl_0_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}" />
+`
   }
 
   public buildXScript = () => {
