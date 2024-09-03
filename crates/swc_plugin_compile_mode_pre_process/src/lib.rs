@@ -11,8 +11,9 @@ use swc_core::{
 use serde::{Deserialize};
 use std::collections::HashMap;
 
-mod transform;
+mod visitors;
 mod tests;
+use visitors::entry::EntryVisitor;
 struct SerdeDefault;
 impl SerdeDefault {
     fn platform_default () -> String {
@@ -36,7 +37,7 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
     )
     .unwrap();
 
-    let visitor: Box<dyn VisitMut> = Box::new(transform::TransformVisitor::new(config));
+    let visitor: Box<dyn VisitMut> = Box::new(EntryVisitor::new(config));
 
     program.fold_with(&mut as_folder(visitor))
 }

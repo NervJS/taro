@@ -7,6 +7,11 @@ test!(
     |_| tr(),
     should_do_nothing,
     r#"
+    const a = () =>{
+      const b = ()=>{
+        const c = ()=>{}
+      }
+    }
     function Index () {
         return (
           <View>

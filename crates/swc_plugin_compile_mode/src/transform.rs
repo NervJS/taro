@@ -722,6 +722,7 @@ impl VisitMut for TransformVisitor {
         if self.is_compile_mode {
             self.reset_states();
             el.visit_mut_children_with(&mut PreVisitor::new());
+            
             let tmpl_contents = format!(r#"<template name="tmpl_0_{}">{}</template>"#,
                 &tmpl_name,
                 self.build_xml_element(el)

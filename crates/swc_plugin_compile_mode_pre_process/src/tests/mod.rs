@@ -4,7 +4,7 @@ use swc_core::ecma::{
 };
 use crate::{
     PluginConfig,
-    transform::*,
+    visitors::entry::EntryVisitor,
 };
 
 mod init;
@@ -16,7 +16,7 @@ pub fn tr () -> impl Fold {
         }"#
     )
     .unwrap();
-    let visitor = TransformVisitor::new(config);
+    let visitor = EntryVisitor::new(config);
     as_folder(visitor)
 }
 
