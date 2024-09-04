@@ -14,7 +14,7 @@ import {
   processTypeMap,
   REG_JSON,
   SCRIPT_EXT,
-  TARO_CONFIG_FOLDER,
+  TARO_CONFIG_FOLDER
 } from './constants'
 import { requireWithEsbuild } from './esbuild'
 import { chalk } from './terminal'

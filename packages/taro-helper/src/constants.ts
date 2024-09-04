@@ -79,6 +79,7 @@ export const processTypeMap: IProcessTypeMap = {
 }
 
 export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.stylus', '.wxss', '.acss']
+export const DEFAULT_SUPPORT_TEMPLATE: string[] = ['wxml', 'axml', 'ttml', 'qml', 'swan', 'jxml']
 export const SCSS_EXT: string[] = ['.scss']
 export const JS_EXT: string[] = ['.js', '.jsx']
 export const TS_EXT: string[] = ['.ts', '.tsx']
@@ -109,7 +110,6 @@ export const CSS_IMPORT_REG = /@import (["'])(.+?)\1;/g
 
 export const NODE_MODULES = 'node_modules'
 export const NODE_MODULES_REG = /(.*)node_modules/
-export const DEFAULT_SUPPORT_TEMPLATE: string[] = ['wxml', 'axml', 'ttml', 'qml', 'swan', 'jxml']
 
 export const PROJECT_CONFIG = 'config/index'
 
