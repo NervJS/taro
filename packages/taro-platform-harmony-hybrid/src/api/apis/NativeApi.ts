@@ -1,398 +1,704 @@
-// @proxyClassSign('')
-class NativeApi {
+// import {timeLog} from "./NativeApiLog";
+import { syncApiCache } from './harmony-native/ApiCache'
+import { asyncAndNotRelease, asyncAndRelease, syncAndRelease } from './harmony-native/ApiDecorator'
+import { storageCacheAndSyncProxy } from './harmony-native/StorageCacheAndSyncProxy'
+import { NativeDataChangeListener, SyncCacheProxyHandler } from './NativeApiSyncCacheProxy'
+
+// export let judgeUseAxios = false
+export class NativeApi {
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getWindowInfo (): any {
+  @(asyncAndNotRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  registerNativeListener (listener: NativeDataChangeListener | null): void {
+  }
+
+  @syncApiCache()
+  @(syncAndRelease)
+  getWindowInfo (): any {}
+
+  // @ts-ignore
+  @(syncAndRelease)
+  getDeviceInfo (): any {
     return ''
   }
 
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getSystemInfoSync (): any {
-    return ''
-  }
+  @syncApiCache()
+  @(syncAndRelease)
+  getSystemInfoSync (): any {}
+
+  @syncApiCache()
+  @(syncAndRelease)
+  getSystemSetting (): any {}
+
+  @syncApiCache()
+  @(syncAndRelease)
+  getAppBaseInfo (): any {}
+
+  @syncApiCache()
+  @(syncAndRelease)
+  getAppAuthorizeSetting (): any {}
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getSystemSetting (): any {
-    return ''
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAppBaseInfo (): any {
-    return ''
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAppAuthorizeSetting (): any {
-    return ''
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  navigateToMiniProgram (options: any) {
-    return options
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
   setNavigationBarColor (options: any) {
     return options
   }
 
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getMenuButtonBoundingClientRect (): any {
-    return ''
-  }
+  @syncApiCache()
+  @(syncAndRelease)
+  getMenuButtonBoundingClientRect (): any {}
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
   request (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
   saveDataUrlToFile (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
   copyFileToSandboxCache (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  saveImageToPhotosAlbum (options: any): any {
+  @(syncAndRelease)
+  startAccelerometer (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
+  stopAccelerometer (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndNotRelease)
+  onAccelerometerChange (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  offAccelerometerChange (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  startCompass (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  stopCompass (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndNotRelease)
+  onCompassChange (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  offCompassChange (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  startGyroscope (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  stopGyroscope (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(asyncAndNotRelease)
+  onGyroscopeChange (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  saveImageToPhotosAlbum (options: any): any {
+    return options
+  }
+
+  @(asyncAndRelease)
+  saveVideoToPhotosAlbum (options: any): any {
+    return options
+  }
+
+  @(asyncAndRelease)
+  compressImage (options: any): any {
+    return options
+  }
+
+  @(asyncAndRelease)
+  showNavigationBarLoading (): void {}
+
+  @(asyncAndRelease)
+  hideNavigationBarLoading (): void {}
+
+  @(asyncAndRelease)
+  startSoterAuthentication (options: any): any {
+    return options
+  }
+
+  @(asyncAndRelease)
+  checkIsSupportSoterAuthentication (options: any): any {
+    return options
+  }
+
+  @(asyncAndRelease)
+  checkIsSoterEnrolledInDevice (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
   chooseMediaAssets (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
+  chooseMediumAssets (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
   getVideoInfo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
   getImageInfo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getLocation (options: any): any {
+  @(syncAndRelease)
+  compressVideo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
+  openDocument (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
   login (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setNavigationStyle (options: any): void {}
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setCapsuleState (options: any): void {}
+
+  // @ts-ignore
+  @(syncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getCapsuleState (options: any): any {}
+
+  // @ts-ignore
+  @(syncAndRelease)
   getUserInfo (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
+  @(asyncAndNotRelease)
   openSetting (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
+  @(asyncAndNotRelease)
   getSetting (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
   setKeepScreenOn (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
+  @(asyncAndNotRelease)
   onUserCaptureScreen (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
+  offUserCaptureScreen (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  setScreenBrightness (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  getScreenBrightness (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
   hideKeyboard (options?: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
+  onKeyboardHeightChange (options?: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  offKeyboardHeightChange (options?: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
   makePhoneCall (options: any): any {
     return options
   }
 
-  // NativeAContextApi
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  createInnerAudioContext (): any {
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  innerAudioStop (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  innerAudioPlay (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: false })
-  innerAudioOnPlay (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: false })
-  innerAudioOnStop (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: false })
-  innerAudioOnError (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: false })
-  innerAudioOnEnded (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAudioContextVolume (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  setAudioContextVolume (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAudioContextStartTime (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  setAudioContextStartTime (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAudioContextPlaybackRate (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  setAudioContextPlaybackRate (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAudioContextPaused (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  setAudioContextPaused (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAudioContextObeyMuteSwitch (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  setAudioContextObeyMuteSwitch (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAudioContextLoop (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  setAudioContextLoop (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAudioContextDuration (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  setAudioContextDuration (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAudioContextCurrentTime (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  setAudioContextCurrentTime (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAudioContextBuffered (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  setAudioContextBuffered (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAudioContextAutoplay (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  setAudioContextAutoplay (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  getAudioContextSrc (option: any, _: number) {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  setAudioContextSrc (option: any, _: number) {
-    return option
-  }
-
-  // NativeUploadFile
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
-  uploadFile (options: any): any {
+  @(syncAndRelease)
+  getSavedFileList (options: any): any {
     return options
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
+  removeSavedFile (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  getSavedFileInfo (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  addPhoneContact (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  scanCode (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  vibrateShort (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  vibrateLong (options: any): any {
+    return options
+  }
+
+  // NativeUpdateManager
+  // @ts-ignore
+  @(syncAndRelease)
+  applyUpdate (): any {}
+
+  // @ts-ignore
+  @(syncAndRelease)
+  onCheckForUpdate (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  onUpdateFailed (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  onUpdateReady (options: any): any {
+    return options
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
   downloadFile (options: any): any {
     return options
   }
 
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  abort (option: any, _: number): any {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  offHeadersReceived (option: any, _: number): any {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
-  offProgressUpdate (option: any, _: number): any {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
-  onHeadersReceived (option: any, _: number): any {
-    return option
-  }
-
-  // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
-  onProgressUpdate (option: any, _: number): any {
-    return option
-  }
-
   // NativeFileSystemManager
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
   getFileManager (): any {}
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
+  @(asyncAndNotRelease)
   access (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
-  getFileInfo (option: any): any {
+  @(syncAndRelease)
+  saveFile (option: any): any {
     return option
   }
 
+  @(asyncAndRelease)
+  getFileInformation (_option: any): void {}
+
+  @(asyncAndRelease)
+  getFileInfo (_option: any): void {}
+
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: true, autoRelease: false })
+  @(asyncAndNotRelease)
   readFile (option: any): any {
     return option
   }
 
   // @ts-ignore
-  @window.MethodChannel.jsBridgeMode({ isAsync: false, autoRelease: true })
+  @(syncAndRelease)
   readFileSync (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  openAppAuthorizeSetting (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  requestSubscribeMessage (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  closeBLEConnection (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  createBLEConnection (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  getBLEDeviceCharacteristics (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  getBLEDeviceRSSI (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  getBLEDeviceServices (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  notifyBLECharacteristicValueChange (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(asyncAndNotRelease)
+  onBLECharacteristicValueChange (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(asyncAndNotRelease)
+  onBLEConnectionStateChange (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  readBLECharacteristicValue (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  setBLEMTU (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  writeBLECharacteristicValue (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  closeBluetoothAdapter (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  getBluetoothAdapterState (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  getBluetoothDevices (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  getConnectedBluetoothDevices (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  offBluetoothAdapterStateChange (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  offBluetoothDeviceFound (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(asyncAndNotRelease)
+  onBluetoothAdapterStateChange (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(asyncAndNotRelease)
+  onBluetoothDeviceFound (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  openBluetoothAdapter (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  startBluetoothDevicesDiscovery (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  @(syncAndRelease)
+  stopBluetoothDevicesDiscovery (option: any): any {
+    return option
+  }
+
+  // @ts-ignore
+  // @(syncAndRelease)
+  // getExecStatus (option: any): any {
+  //   // 获取缓存数据
+  //   return option
+  // }
+
+  @(asyncAndNotRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setStorage (option: any): any {}
+
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  removeStorage (option: any): any {}
+
+  // @ts-ignore
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getStorage (option: any): any {}
+
+  @(syncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getStorageSync (key): any {}
+
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  batchGetPageShowDataStorage (options: any): any {}
+
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  updatePageShowDataKeys (options: any): any {}
+
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getStorageInfo (option: any): any {}
+
+  @(asyncAndRelease)
+  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  clearStorage (option: any): any {}
+
+  @(syncAndRelease)
+  callInstance (option: any): any {
+    return option
+  }
+
+  @(syncAndRelease)
+  createInstance (option: any): any {
+    return option
+  }
+
+  @(syncAndRelease)
+  syncAndReleaseInstance (option: any): any {
+    return option
+  }
+
+  @(asyncAndNotRelease)
+  callInstanceAsync (option: any): any {
+    return option
+  }
+
+  @(asyncAndNotRelease)
+  onNativeNavigate (_options: any): void {}
+
+  @(asyncAndRelease)
+  exitMiniProgram (option?: any): any {
     return option
   }
 }
 
-const native = new NativeApi()
+export interface Status {
+  done: boolean
+  data: string
+  errorMsg: string
+}
+
+
+
+// class AsyncToSyncProxy {
+//   private readonly nativeApi: NativeApi
+//   private readonly STATUS: Status = { done: false, data: '', errorMsg: `search timeout` }
+//   private methods = ['setStorageSync', 'removeStorageSync', 'getStorageSync', 'getStorageInfoSync', 'clearStorageSync']
+//
+//   constructor (nativeApi: NativeApi) {
+//     this.nativeApi = nativeApi
+//   }
+//
+//   get (target: { [x: string]: any }, prop: string) {
+//     if (this.methods.includes(prop)) {
+//       return (...args: any[]) => {
+//         const asyncFunc = prop.substring(0, prop.length - 'Sync'.length)
+//         this.nativeApi[asyncFunc](...args)
+//
+//         let count = 0
+//         while (count < 20000) {
+//           count++
+//           if (count % 2000 === 0) {
+//             const status = this.nativeApi.getExecStatus({ method: prop, key: args[0].key })
+//             if (status.done || status.errorMsg) {
+//               return status
+//             }
+//           }
+//         }
+//         return this.STATUS
+//       }
+//     }
+//     return target[prop]
+//   }
+// }
+
+// class HybridProxy {
+//   // private readonly useAxios: boolean
+//   private readonly useOsChannel: boolean
+//   private readonly cacheProxy: any
+//   // private readonly requestApi = 'request'
+//
+//   constructor (useOsChannel: boolean, nativeApi: NativeApi) {
+//     // this.useAxios = useAxios
+//     this.useOsChannel = useOsChannel
+//     this.cacheProxy = new Proxy(nativeApi, new CacheStorageProxy(nativeApi))
+//   }
+//
+//   get (_target: any, prop: string) {
+//     return (...args: any) => {
+//       // if (this.useAxios && prop === this.requestApi) {
+//       //   judgeUseAxios = this.useAxios
+//       //   // @ts-ignore
+//       //   return new RequestTask(...args)
+//       // }
+//       if (this.useOsChannel && osChannelApi.hasOwnProperty(prop)) {
+//         return osChannelApi[prop](...args)
+//       }
+//       return this.cacheProxy[prop](...args)
+//     }
+//   }
+// }
+
+let native = new NativeApi()
+// native = timeLog(native)
+native = new Proxy(native, new SyncCacheProxyHandler(native))
+native = storageCacheAndSyncProxy(native)
 
 export default native
-
-

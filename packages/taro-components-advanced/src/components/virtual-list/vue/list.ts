@@ -133,7 +133,7 @@ export default defineComponent({
           duration: 300,
         }
         if (isHorizontal) {
-          option.left	= scrollOffset
+          option.left = scrollOffset
         } else {
           option.top = scrollOffset
         }
@@ -443,7 +443,7 @@ export default defineComponent({
           visibility: 'hidden',
           height: isHorizontal ? '100%' : 100,
           width: isHorizontal ? 100 : '100%',
-          [isHorizontal ? isRtl ? 'marginRight' : 'marginLeft': 'marginTop']: -100,
+          [isHorizontal ? isRtl ? 'marginRight' : 'marginLeft' : 'marginTop']: -100,
           zIndex: -1,
         }
       }
@@ -565,9 +565,9 @@ export default defineComponent({
 
     return render(this.preset.outerElement, outerElementProps, [
       this.getRenderExpandNodes(isHorizontal ? isRtl ? 'right' : 'left' : 'top'),
-      process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
+      this.$slots.top?.(),
       this.getRenderColumnNode(),
-      process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
+      this.$slots.bottom?.(),
       this.getRenderExpandNodes(isHorizontal ? isRtl ? 'left' : 'right' : 'bottom'),
     ])
   }

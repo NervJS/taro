@@ -1,0 +1,71 @@
+{
+  "name": "@tarojs/plugin-framework-solid",
+  "version": "4.0.5",
+  "description": "Solid 框架插件",
+  "author": "drchan",
+  "homepage": "https://github.com/nervjs/taro",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "sideEffects": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "run-s clean",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf --impl=move-remove dist",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "acorn": "^8.0.4",
+    "acorn-walk": "^8.0.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "webpack-chain": "^6.5.1",
+    "esbuild": "~0.19.5",
+    "solid-js": "^1.8.16",
+    "typescript": "^5.3.3",
+    "vite": "^4.2.0"
+  },
+  "peerDependencies": {
+    "@tarojs/runtime": "workspace:~",
+    "@tarojs/shared": "workspace:~",
+    "vite-plugin-solid": "^2",
+    "webpack": "^5",
+    "solid-js": ">=1"
+  },
+  "peerDependenciesMeta": {
+    "vite-plugin-solid": {
+      "optional": true
+    },
+    "webpack": {
+      "optional": true
+    },
+    "solid-js": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    }
+  }
+}

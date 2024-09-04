@@ -25,10 +25,12 @@ export default class PageHandler {
   protected navigationBarHandler: NavigationBarHandler
 
   public homePage: string
+  public originHomePage: string
 
   constructor (config: SpaRouterConfig, public history: History) {
     this.config = config
     this.homePage = getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath)
+    this.originHomePage = this.config.entryPagePath || this.routes[0].path || this.basename
     this.mount()
     this.navigationBarHandler = new NavigationBarHandler(this)
   }
@@ -38,7 +40,7 @@ export default class PageHandler {
     return routePath === '/' ? this.homePage : routePath
   }
 
-  get appId () { return this.config.appId ||'app' }
+  get appId () { return this.config.appId || 'app' }
   get router () { return this.config.router || {} }
   get routerMode () { return this.router.mode || 'hash' }
   get customRoutes () { return this.router.customRoutes || {} }
@@ -64,14 +66,15 @@ export default class PageHandler {
 
   set pathname (p) { this.router.pathname = p }
   get pathname () { return this.router.pathname }
+  // Note: 把 pathname 转换为原始路径，主要是处理 customRoutes 和 basename
+  get originPathname () { return routesAlias.getOrigin(addLeadingSlash(stripBasename(this.pathname, this.basename))) }
   get basename () { return this.router.basename || '' }
 
   get pageConfig () {
-    const routePath = addLeadingSlash(stripBasename(this.pathname, this.basename))
     const homePage = addLeadingSlash(this.homePage)
     return this.routes.find(r => {
       const pagePath = addLeadingSlash(r.path)
-      return [pagePath, homePage].includes(routePath) || routesAlias.getConfig(pagePath)?.includes(routePath)
+      return [pagePath, homePage].includes(this.originPathname)
     })
   }
 
@@ -144,7 +147,7 @@ export default class PageHandler {
     this.pathname = history.location.pathname
     // Note: 注入页面样式
     this.animation && loadAnimateStyle(this.animationDuration)
-    loadRouterStyle(this.tabBarList.length > 1, this.usingWindowScroll)
+    loadRouterStyle(this.tabBarList.length > 1, this.usingWindowScroll, this.router.enhanceAnimation)
   }
 
   onReady (page: PageInstance, onLoad = true) {
@@ -260,23 +263,34 @@ export default class PageHandler {
     }
   }
 
-  hide (page?: PageInstance | null) {
+  hide (page?: PageInstance | null, animation = false) {
     if (!page) return
 
     // NOTE: 修复多页并发问题，此处可能因为路由跳转过快，执行时页面可能还没有创建成功
     const pageEl = this.getPageContainer(page)
     if (pageEl) {
-      if (this.hideTimer) {
-        clearTimeout(this.hideTimer)
-        this.hideTimer = null
+      if (animation) {
+        if (this.hideTimer) {
+          clearTimeout(this.hideTimer)
+          this.hideTimer = null
+          this.lastHidePage?.classList?.add?.('taro_page_shade')
+        }
+        this.lastHidePage = pageEl
+        this.hideTimer = setTimeout(() => {
+          this.hideTimer = null
+          pageEl.classList.add('taro_page_shade')
+        }, this.animationDuration + this.animationDelay)
+        page.onHide?.()
+      } else {
+        if (this.hideTimer) {
+          clearTimeout(this.hideTimer)
+          this.hideTimer = null
+          this.lastHidePage?.classList?.add?.('taro_page_shade')
+        }
+        page.onHide?.()
         pageEl.classList.add('taro_page_shade')
+        this.lastHidePage = pageEl
       }
-      this.lastHidePage = pageEl
-      this.hideTimer = setTimeout(() => {
-        this.hideTimer = null
-        pageEl.classList.add('taro_page_shade')
-      }, this.animationDuration + this.animationDelay)
-      page.onHide?.()
     } else {
       setTimeout(() => this.hide(page), 0)
     }

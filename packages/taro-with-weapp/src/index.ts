@@ -1,5 +1,5 @@
 import { getCurrentInstance } from '@tarojs/runtime'
-import { ComponentLifecycle, createIntersectionObserver, createMediaQueryObserver,createSelectorQuery, eventCenter, nextTick } from '@tarojs/taro'
+import { ComponentLifecycle, createIntersectionObserver, createMediaQueryObserver, createSelectorQuery, eventCenter, nextTick } from '@tarojs/taro'
 
 import { clone } from './clone'
 import { diff } from './diff'
@@ -32,6 +32,7 @@ interface WxOptions {
   observers?: Record<string, Func>
   lifetimes?: Record<string, Func>
   behaviors?: any[]
+  computed?: Record<string, Func>
 }
 
 function defineGetter (component, key: string, getter: string) {
@@ -129,6 +130,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
         this.init(weappConf)
         defineGetter(this, 'data', 'state')
         defineGetter(this, 'properties', 'props')
+        this.initComputed(weappConf)
       }
 
       private initProps (props: any) {
@@ -138,29 +140,26 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
             const propValue = props[propKey]
             // propValue 可能是 null, 构造函数, 对象
             const observers = [propToState]
-            if(propValue === null || propValue === undefined){ // propValue为null、undefined情况
+            if (propValue === null || propValue === undefined) { // propValue为null、undefined情况
               properties[propKey] = null
-            }
-            else if(isFunction(propValue)) { // propValue为Function，即Array、String、Boolean等情况时
+            } else if (isFunction(propValue)) { // propValue为Function，即Array、String、Boolean等情况时
               if (propValue.name === 'Array') {
                 properties[propKey] = []
-              } else if(propValue.name === 'String'){
+              } else if (propValue.name === 'String') {
                 properties[propKey] = ''
-              } else if(propValue.name === 'Boolean'){
+              } else if (propValue.name === 'Boolean') {
                 properties[propKey] = false
-              } else if(propValue.name === 'Number') {
+              } else if (propValue.name === 'Number') {
                 properties[propKey] = 0
               } else {
                 properties[propKey] = null
               }
-            }
-            else if(typeof propValue === 'object') { // propValue为对象时
+            } else if (typeof propValue === 'object') { // propValue为对象时
               properties[propKey] = propValue.value
               if (propValue.observer) {
                 observers.push(propValue.observer)
               }
-            }
-            else {
+            } else {
               properties[propKey] = null
             }
             this._observeProps.push({
@@ -220,6 +219,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
               this.initProps(Object.assign(behaviorProperties, confValue))
               break
             case 'methods':
+              this.methods = confValue
               for (const key in confValue) {
                 const method = confValue[key]
                 this[key] = bind(method, this)
@@ -335,6 +335,28 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
         }
       }
 
+      private initComputed (weappConf) {
+        // 处理 computed
+        if (weappConf.computed) {
+          const computed = weappConf.computed
+          for (const key in computed) {
+            const getter = computed[key]
+            if (isFunction(getter)) {
+              Object.defineProperty(this.data, key, {
+                get: () => {
+                  // 每次访问 this.object.data[name] 时，都执行 computed[name]()
+                  return getter.call({ ...this.state, ...this.methods })
+                },
+                enumerable: true, // 这将确保属性是可枚举的，如果你希望它出现在 for...in 循环中
+                configurable: true // 这将确保属性是可配置的，比如可以被删除
+              })
+            } else {
+              report('computed 属性值必须是函数。')
+            }
+          }
+        }
+      }
+
       private initLifeCycles (lifecycleName: string, lifecycle: Func) {
         // 不支持的生命周期
         if (nonsupport.has(lifecycleName)) {
@@ -415,7 +437,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
           const nextProp = nextProps[key]
           // 小程序是深比较不同之后才 trigger observer
           if (!isEqual(prop, nextProp)) {
-            observers.forEach((observer)=>{
+            observers.forEach((observer) => {
               if (typeof observer === 'string') {
                 const ob = this[observer]
                 if (isFunction(ob)) {

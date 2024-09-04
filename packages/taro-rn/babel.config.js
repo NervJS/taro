@@ -1,7 +1,1 @@
-module.exports = {
-  presets: [
-    'module:metro-react-native-babel-preset',
-    'babel-preset-expo'
-  ],
-  plugins: ['jest-hoist'],
-}
+module.exports = { presets: ['module:@react-native/babel-preset'] }

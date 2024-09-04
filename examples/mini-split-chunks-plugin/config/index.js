@@ -1,4 +1,4 @@
-import  path from 'path'
+import  path from 'node:path'
 
 const config = {
   // 使用 Webpack5 进行编译

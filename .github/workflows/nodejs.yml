@@ -5,6 +5,13 @@ env:
 on:
   push:
     branches:
+      - 'chore/**'
+      - 'feat/**'
+      - 'fix/**'
+      - '1.x'
+      - '2.x'
+      - '3.x'
+      - '4.x'
       - main
   pull_request:
     branches:
@@ -22,16 +29,17 @@ jobs:
     uses: ./.github/workflows/build-rust-wasm.yml
 
   nodejs-tesing:
-    name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.settings.host }})
+    name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.host }})
     needs:
       - build-rust-binding
       - build-rust-wasm
     strategy:
       fail-fast: false
       matrix:
-        node-version: [16.x]
-        settings:
-          - host: macos-11
+        node-version: [18.x, 20.x]
+        host: [macos-12, windows-latest, ubuntu-latest]
+        include:
+          - host: macos-12
             target: x86_64-apple-darwin
           - host: windows-latest
             target: x86_64-pc-windows-msvc
@@ -39,14 +47,24 @@ jobs:
             target: x86_64-unknown-linux-gnu
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
-    runs-on: ${{ matrix.settings.host }}
+        exclude:
+          - node-version: 18.x
+            host: macos-12
+          - node-version: 18.x
+            host: windows-latest
+          - node-version: 20.x
+            host: macos-12
+          - node-version: 20.x
+            host: windows-latest
+
+    runs-on: ${{ matrix.host }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2.4.0
+        uses: pnpm/action-setup@v3.0.0
         with:
-          version: 7
+          version: 8
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -67,22 +85,21 @@ jobs:
         run: pnpm -r install --frozen-lockfile
       - name: Lint
         run: pnpm lint
-      - name: Download artifact bindings-${{ matrix.settings.target }}
+      - name: Download artifact bindings-${{ matrix.target }}
         uses: actions/download-artifact@v4
         with:
-          name: bindings-${{ matrix.settings.target }}
+          name: bindings-${{ matrix.target }}
           path: crates/native_binding
       - name: Test bindings
         run: pnpm test:binding
-        if: ${{ matrix.settings.target != 'x86_64-unknown-linux-gnu' && matrix.settings.target != 'x86_64-unknown-linux-musl'}}
+        if: ${{ matrix.host != 'ubuntu-latest' }}
       - name: Test bindings with docker
-        if: ${{ matrix.settings.target == 'x86_64-unknown-linux-gnu' || matrix.settings.target == 'x86_64-unknown-linux-musl'}}
+        if: ${{ matrix.host == 'ubuntu-latest' }}
         # 暂时使用了一个第三方的 docker 镜像
         run: docker run --rm -v $(pwd):/build -w /build chf007/pnpm pnpm test:binding
       # 以下的测试流程应该在所有平台都执行，但 windows 好像还有些问题，因此目前只在 ubuntu-latest 执行
       - name: Download all artifacts
         uses: actions/download-artifact@v4
-        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
         with:
           path: crates/native_binding/artifacts
       - name: List Package crates/native_binding
@@ -90,52 +107,48 @@ jobs:
         shell: bash
       - name: Move artifacts
         run: pnpm artifacts
-        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
       - name: build
         run: pnpm build
-        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
       - name: test
         run: pnpm test
-        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
         env:
           CI: true
-
       # 以下 coverage 流程通过 artifact 拆分文件作为单独 job 上传时间损耗过长，因此在在 node test 后直接继续执行
       - name: Upload [taro-cli] coverage to Codecov
-        uses: codecov/codecov-action@v3
-        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
+        uses: codecov/codecov-action@v4
+        if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
           move_coverage_to_trash: true
           flags: taro-cli
           files: ./packages/taro-cli/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload runner coverage to Codecov
-        uses: codecov/codecov-action@v3
-        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
+        uses: codecov/codecov-action@v4
+        if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
           move_coverage_to_trash: true
           flags: taro-runner
-          files: ./packages/taro-webpack5-runner/coverage/clover.xml,./packages/taro-webpack-runner/coverage/clover.xml,./packages/taro-mini-runner/coverage/clover.xml
+          files: ./packages/taro-webpack5-runner/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload [taro-runtime] coverage to Codecov
-        uses: codecov/codecov-action@v3
-        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
+        uses: codecov/codecov-action@v4
+        if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
           move_coverage_to_trash: true
           flags: taro-runtime
           files: ./packages/taro-runtime/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload [taro-web] coverage to Codecov
-        uses: codecov/codecov-action@v3
-        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
+        uses: codecov/codecov-action@v4
+        if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
           move_coverage_to_trash: true
           flags: taro-web
           files: ./packages/taro-components/coverage/clover.xml,./packages/taro-h5/coverage/clover.xml,./packages/taro-router/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload rest coverage to Codecov
-        uses: codecov/codecov-action@v3
-        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
+        uses: codecov/codecov-action@v4
+        if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 

@@ -1,5 +1,8 @@
+import { AppConfig } from '@tarojs/taro'
+
 import type helper from '@tarojs/helper'
-import type { Func, IProjectConfig } from '@tarojs/taro/types/compile'
+import type runnerUtils from '@tarojs/runner-utils'
+import type { Func, IMiniFilesConfig, IProjectConfig } from '@tarojs/taro/types/compile'
 import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
 import type joi from 'joi'
 import type Webpack from 'webpack'
@@ -90,6 +93,10 @@ export declare interface IPluginContext {
    */
   helper: typeof helper
   /**
+   * 为包 @tarojs/runner-utils 的快捷使用方式，包含其所有 API
+   */
+  runnerUtils: typeof runnerUtils
+  /**
    * 项目配置
    */
   initialConfig: IProjectConfig
@@ -134,9 +141,17 @@ export declare interface IPluginContext {
    */
   onCompilerMake: (fn: (args: { compilation: Webpack.Compilation, compiler: Webpack.Compiler, plugin: any }) => void) => void
   /**
+   * 编译前，修改 App 配置
+   */
+  modifyAppConfig: (fn: (args: { appConfig: AppConfig }) => void) => void
+  /**
    * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
    */
   modifyWebpackChain: (fn: (args: { chain: Chain, webpack: typeof Webpack, data?: IModifyChainData }) => void) => void
+  /**
+   * 编译中修改 vite 配置
+   */
+  modifyViteConfig: (fn: (args: { viteConfig: any, data?: IModifyChainData }) => void) => void
   /**
    * 修改编译后的结果
    */
@@ -144,7 +159,11 @@ export declare interface IPluginContext {
   /**
    * 修改编译过程中的页面组件配置
    */
-  modifyMiniConfigs: (fn: (args: { configMap: any }) => void) => void
+  modifyMiniConfigs: (fn: (args: { configMap: IMiniFilesConfig }) => void) => void
+  /**
+   * 修改 Taro 编译配置
+   */
+  modifyRunnerOpts: (fn: (args: { opts: any }) => void) => void
 
   [key: string]: any
 }

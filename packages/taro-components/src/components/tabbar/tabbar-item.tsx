@@ -1,10 +1,12 @@
-import classNames from 'classnames'
-import { FunctionalComponent, h } from '@stencil/core'
+import { h } from '@stencil/core'
 import Taro from '@tarojs/taro'
+import classNames from 'classnames'
 
 import { isVisible } from '../../utils'
 
-type TabbarItemProps = {
+import type { FunctionalComponent } from '@stencil/core'
+
+interface ITabbarItemProps {
   index: number
   isSelected?: boolean
   textColor?: string
@@ -16,7 +18,7 @@ type TabbarItemProps = {
   onSelect: (index: number) => void
 }
 
-export const TabbarItem: FunctionalComponent<TabbarItemProps> = ({
+export const TabbarItem: FunctionalComponent<ITabbarItemProps> = ({
   index,
   isSelected = false,
   textColor,

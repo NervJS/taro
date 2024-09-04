@@ -22,10 +22,9 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type      | Default     |
-| -------- | --------- | ----------- | --------- | ----------- |
-| `deep`   | `deep`    |             | `boolean` | `false`     |
-| `itemId` | `item-id` |             | `string`  | `undefined` |
+| Property | Attribute | Description | Type     | Default     |
+| -------- | --------- | ----------- | -------- | ----------- |
+| `itemId` | `item-id` |             | `string` | `undefined` |
 
 
 ----------------------------------------------

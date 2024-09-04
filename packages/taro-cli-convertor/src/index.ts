@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 // import { ProjectType } from './../../taro-plugin-mini-ci/src/BaseCi';
 import template from '@babel/template'
 import traverse, { NodePath } from '@babel/traverse'
@@ -6,7 +8,6 @@ import { CompilerType, Creator, CSSType, FrameworkType } from '@tarojs/binding'
 import { getRootPath } from '@tarojs/cli'
 import {
   chalk,
-  CSS_IMPORT_REG,
   emptyDirectory,
   fs,
   normalizePath,
@@ -14,6 +15,7 @@ import {
   printLog,
   processTypeEnum,
   promoteRelativePath,
+  REG_CSS_IMPORT,
   REG_IMAGE,
   REG_TYPESCRIPT,
   REG_URL,
@@ -22,7 +24,6 @@ import {
 import { isNull, isUndefined } from '@tarojs/shared'
 import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
-import * as path from 'path'
 import Processors from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 import * as prettier from 'prettier'
@@ -145,7 +146,8 @@ function processStyleImports (content: string, processFn: (a: string, b: string)
 
   // 将引用的样式文件路径转换为相对路径，后缀名转换为.scss
   const styleReg = new RegExp('.wxss')
-  content = content.replace(CSS_IMPORT_REG, (m, _$1, $2) => {
+  const cssImportReg = new RegExp(REG_CSS_IMPORT)
+  content = content.replace(cssImportReg, (m, _$1, $2) => {
     if (styleReg.test($2)) {
       if (processFn) {
         return processFn(m, $2)
@@ -192,9 +194,9 @@ export default class Convertor {
 
   constructor (root, isTsProject) {
     this.root = root
-    this.convertRoot = path.join(this.root, 'taroConvert')
-    this.convertDir = path.join(this.convertRoot, 'src')
-    this.importsDir = path.join(this.convertDir, 'imports')
+    this.convertRoot = normalizePath(path.join(this.root, 'taroConvert'))
+    this.convertDir = normalizePath(path.join(this.convertRoot, 'src'))
+    this.importsDir = normalizePath(path.join(this.convertDir, 'imports'))
     this.isTsProject = isTsProject
     if (isTsProject) {
       this.miniprogramRoot = path.join(this.root, 'miniprogram')
@@ -454,7 +456,7 @@ export default class Convertor {
                   },
                 })
                 if (isTaroComponent) {
-                  componentClassName = node.id.name
+                  componentClassName = node.id?.name || ''
                 }
               }
             },
@@ -755,8 +757,8 @@ export default class Convertor {
                   const attrs = openingElement.get('attributes')
                   const is = attrs.find(
                     (attr) =>
-                      t.isJSXAttribute(attr) &&
-                      t.isJSXIdentifier(attr.get('name')) &&
+                      t.isJSXAttribute(attr as any) &&
+                      t.isJSXIdentifier(attr.get('name') as any) &&
                       t.isJSXAttribute(attr.node) &&
                       attr.node.name.name === 'is'
                   )
@@ -811,8 +813,8 @@ export default class Convertor {
                         const attributes: t.JSXAttribute[] = []
                         const data = attrs.find(
                           (attr) =>
-                            t.isJSXAttribute(attr) &&
-                            t.isJSXIdentifier(attr.get('name')) &&
+                            t.isJSXAttribute(attr as any) &&
+                            t.isJSXIdentifier(attr.get('name') as any) &&
                             t.isJSXAttribute(attr.node) &&
                             attr.node.name.name === 'data'
                         )
@@ -901,9 +903,9 @@ export default class Convertor {
                   copyFileToTaro(sourceImagePath, outputImagePath)
                   printLog(processTypeEnum.COPY, '图片', self.generateShowPath(outputImagePath))
                 } else if (!t.isBinaryExpression(astPath.parent) || astPath.parent.operator !== '+') {
-                  const position = { 
+                  const position = {
                     row: astPath.node.loc?.start?.line || 0,
-                    col: astPath.node.loc?.start?.column || 0
+                    col: astPath.node.loc?.start?.column || 0,
                   }
                   createErrorCodeMsg(
                     'ImageNotFound',
@@ -1223,8 +1225,8 @@ export default class Convertor {
           } 文件解析异常 ${getLineBreak()}${err} ${getLineBreak()}`
         )
         throw new IReportError(
-          `project.config${this.fileTypes.CONFIG} 解析失败，请检查！`, 
-          'ProjectConfigParsingError', 
+          `project.config${this.fileTypes.CONFIG} 解析失败，请检查！`,
+          'ProjectConfigParsingError',
           projectConfigFilePath,
           ''
         )
@@ -1272,12 +1274,7 @@ export default class Convertor {
       }
     } catch (err) {
       this.entryJSON = {}
-      createErrorCodeMsg(
-        'AppConfigReadError',
-        `app${this.fileTypes.CONFIG} 读取失败，请检查！`,
-        '',
-        this.entryJSONPath
-      )
+      createErrorCodeMsg('AppConfigReadError', `app${this.fileTypes.CONFIG} 读取失败，请检查！`, '', this.entryJSONPath)
       console.log(chalk.red(`app${this.fileTypes.CONFIG} 读取失败，请检查！`))
       updateLogFileContent(
         `ERROR [taro-cli-convertor] getApp - app${
@@ -1442,7 +1439,7 @@ export default class Convertor {
     if (this.isTraversePlugin) {
       filePath = src.replace(this.pluginInfo.pluginRoot, path.join(this.convertDir, this.pluginInfo.pluginName))
     } else {
-      filePath = src.replace(this.root, this.convertDir)
+      filePath = normalizePath(src).replace(normalizePath(this.root), this.convertDir)
     }
 
     return extname ? filePath.replace(path.extname(src), extname) : filePath
@@ -1463,20 +1460,9 @@ export default class Convertor {
     return filePath.replace(path.join(this.root, '/'), '').split(path.sep).join('/')
   }
 
-  private formatFile (jsCode: string, template = '') {
-    let code = jsCode
+  private formatFile (jsCode: string, _template = '') {
+    const code = jsCode
     const config = { ...prettierJSConfig }
-    if (this.framework === FrameworkType.Vue) {
-      code = `
-${template}
-<script>
-${code}
-</script>
-      `
-      config.parser = 'vue'
-      config.semi = false
-      config.htmlWhitespaceSensitivity = 'ignore'
-    }
     return prettier.format(code, config)
   }
 
@@ -1655,21 +1641,16 @@ ${code}
         return
       }
 
-      const pageJSPath = pagePath + this.fileTypes.SCRIPT   // .js文件
+      const pageJSPath = pagePath + this.fileTypes.SCRIPT // .js文件
       const pageDistJSPath = this.getDistFilePath(pageJSPath)
-      const pageConfigPath = pagePath + this.fileTypes.CONFIG   // .json文件
-      const pageStylePath = pagePath + this.fileTypes.STYLE     // .wxss文件
-      const pageTemplPath = pagePath + this.fileTypes.TEMPL     // .wxml文件
+      const pageConfigPath = pagePath + this.fileTypes.CONFIG // .json文件
+      const pageStylePath = pagePath + this.fileTypes.STYLE // .wxss文件
+      const pageTemplPath = pagePath + this.fileTypes.TEMPL // .wxml文件
 
       try {
         if (!fs.existsSync(pageJSPath)) {
           updateLogFileContent(`ERROR [taro-cli-convertor] traversePages - 页面 ${page} 没有 JS 文件 ${getLineBreak()}`)
-          throw new IReportError(
-            `页面 ${page} 没有 JS 文件！`,
-            'MissingJSFileError',
-            pagePath,
-            ''
-          )
+          throw new IReportError(`页面 ${page} 没有 JS 文件！`, 'MissingJSFileError', pagePath, '')
         }
         const param: ITaroizeOptions = {}
         printLog(processTypeEnum.CONVERT, '页面文件', this.generateShowPath(pageJSPath))
@@ -1818,12 +1799,7 @@ ${code}
           updateLogFileContent(
             `ERROR [taro-cli-convertor] traverseComponents - 自定义组件 ${component} 没有 JS 文件 ${getLineBreak()}`
           )
-          throw new IReportError(
-            `自定义组件 ${component} 没有 JS 文件！`,
-            'MissingJSFileError',
-            componentJSPath,
-            ''
-          )
+          throw new IReportError(`自定义组件 ${component} 没有 JS 文件！`, 'MissingJSFileError', componentJSPath, '')
         }
         printLog(processTypeEnum.CONVERT, '组件文件', this.generateShowPath(componentJSPath))
         let componentConfig
@@ -2049,12 +2025,7 @@ ${code}
       try {
         const pluginConfigJson = JSON.parse(String(fs.readFileSync(pluginConfigPath)))
         if (!pluginConfigJson) {
-          createErrorCodeMsg(
-            'emptyPluginConfig',
-            '插件配置信息为空，请检查！',
-            '',
-            pluginConfigPath
-          )
+          createErrorCodeMsg('emptyPluginConfig', '插件配置信息为空，请检查！', '', pluginConfigPath)
           console.log('插件配置信息为空，请检查！')
           updateLogFileContent(`WARN [taro-cli-convertor] parsePluginConfig - 插件配置信息为空 ${getLineBreak()}`)
           return
@@ -2087,12 +2058,7 @@ ${code}
           pluginInfo.entryFilePath = path.join(pluginInfo.pluginRoot, entryFilePath)
         }
       } catch (err) {
-        createErrorCodeMsg(
-          'PluginJsonParsingError',
-          '解析plugin.json失败，请检查！',
-          '',
-          pluginConfigPath
-        )
+        createErrorCodeMsg('PluginJsonParsingError', '解析plugin.json失败，请检查！', '', pluginConfigPath)
         updateLogFileContent(
           `ERROR [taro-cli-convertor] parsePluginConfig - plugin.json 解析异常 ${getLineBreak()}${err} ${getLineBreak()}`
         )
@@ -2138,7 +2104,7 @@ ${code}
       pkgObj.dependencies['@tarojs/with-weapp'] = `^${version}`
       fs.writeJSONSync(path.join(this.convertRoot, 'package.json'), pkgObj, {
         spaces: 2,
-        EOL: '\n'
+        EOL: '\n',
       })
       printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, 'package.json')))
       printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, 'config/index.js')))
@@ -2173,18 +2139,20 @@ ${code}
       projectName: parseProjectName(this.root),
       projectPath: this.root,
       pagesNum: this.pages.size,
-      filesNum: computeProjectFileNums(this.root),  
-      errMsgList: errMsgList
+      filesNum: computeProjectFileNums(this.root),
+      errMsgList: errMsgList,
     }
 
     try {
       generateReportFile(iconFilePath, reportDir, 'favicon.ico')
       generateReportFile(reportIndexFilePath, reportDir, 'index.html')
-      generateReportFile(reportBundleFilePath,path.join(reportDir, '/static/js'), 'bundle.js', reportData)
+      generateReportFile(reportBundleFilePath, path.join(reportDir, '/static/js'), 'bundle.js', reportData)
       generateReportFile(reportStyleFilePath, path.join(reportDir, '/static/css'), 'main.css')
-      generateReportFile(fontBlodFilePath, path.join(reportDir,'/static/media'), 'HarmonyOS_Sans_SC_Bold.ttf')
-      generateReportFile(fontMediumFilePath,path.join( reportDir,'/static/media'), 'HarmonyOS_Sans_SC_Medium.ttf')
-      console.log(`转换报告已生成，请在浏览器中打开 ${path.join(this.convertRoot, 'report', 'report.html')} 查看转换报告`)
+      generateReportFile(fontBlodFilePath, path.join(reportDir, '/static/media'), 'HarmonyOS_Sans_SC_Bold.ttf')
+      generateReportFile(fontMediumFilePath, path.join(reportDir, '/static/media'), 'HarmonyOS_Sans_SC_Medium.ttf')
+      console.log(
+        `转换报告已生成，请在浏览器中打开 ${path.join(this.convertRoot, 'report', 'report.html')} 查看转换报告`
+      )
     } catch (error) {
       console.log(`报告生成失败 ${error.message}`)
     }

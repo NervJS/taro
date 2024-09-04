@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { join } from 'path'
+import { join } from 'node:path'
 
 import BaseCI from './BaseCi'
 import { getNpmPkgSync } from './utils/npm'
@@ -53,7 +53,7 @@ export default class JdCI extends BaseCI {
           qrCodeLocalPath: previewQrcodePath
         },
       })
-    } catch(error) {
+    } catch (error) {
       console.log(chalk.red(`预览失败 ${new Date().toLocaleString()} \n${error.message}`))
       this.triggerPreviewHooks({
         success: false,
@@ -97,7 +97,7 @@ export default class JdCI extends BaseCI {
           qrCodeLocalPath: uploadQrcodePath
         },
       })
-    } catch(error) {
+    } catch (error) {
       console.log(chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
       this.triggerUploadHooks({
         success: false,

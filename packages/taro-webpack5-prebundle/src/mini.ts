@@ -22,9 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import path from 'node:path'
+import { performance } from 'node:perf_hooks'
+
 import { fs } from '@tarojs/helper'
-import path from 'path'
-import { performance } from 'perf_hooks'
 import { ProvidePlugin } from 'webpack'
 
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
@@ -221,7 +222,7 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
      * TODO:
      *   - 目前只处理了 Page entry，例如原生小程序组件 js entry 等并没有处理
      */
-    const entries: string[] = this.getEntries(this.entryPath)
+    const entries: string[] = await this.getEntries(this.entryPath)
     // plugin-platform 等插件的 runtime 文件入口
     const runtimePath = typeof this.config.runtimePath === 'string' ? [this.config.runtimePath] : this.config.runtimePath || []
     const { include = [], exclude = [] } = this.option

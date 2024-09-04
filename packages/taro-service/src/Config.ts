@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import {
   createSwcRegister,
   ENTRY,
@@ -11,8 +13,7 @@ import {
   TARO_GLOBAL_CONFIG_FILE
 } from '@tarojs/helper'
 import * as ora from 'ora'
-import * as path from 'path'
-import * as merge from 'webpack-merge'
+import { merge } from 'webpack-merge'
 
 import {
   CONFIG_DIR_NAME,
@@ -48,7 +49,7 @@ export default class Config {
     this.isInitSuccess = false
     this.configPath = resolveScriptPath(path.join(this.appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE))
     if (!fs.existsSync(this.configPath)) {
-      if(this.disableGlobalConfig) return
+      if (this.disableGlobalConfig) return
       this.initGlobalConfig()
     } else {
       createSwcRegister({
@@ -68,14 +69,14 @@ export default class Config {
 
   initGlobalConfig () {
     const homedir = getUserHomeDir()
-    if(!homedir) return  console.error('获取不到用户 home 路径')
+    if (!homedir) return console.error('获取不到用户 home 路径')
     const globalPluginConfigPath = path.join(getUserHomeDir(), TARO_GLOBAL_CONFIG_DIR, TARO_GLOBAL_CONFIG_FILE)
+    if (!fs.existsSync(globalPluginConfigPath)) return
     const spinner = ora(`开始获取 taro 全局配置文件： ${globalPluginConfigPath}`).start()
-    if (!fs.existsSync(globalPluginConfigPath)) return spinner.warn(`获取 taro 全局配置文件失败，不存在全局配置文件：${globalPluginConfigPath}`)
     try {
       this.initialGlobalConfig = fs.readJSONSync(globalPluginConfigPath) || {}
       spinner.succeed('获取 taro 全局配置成功')
-    }catch(e){
+    } catch (e) {
       spinner.stop()
       console.warn(`获取全局配置失败，如果需要启用全局插件请查看配置文件: ${globalPluginConfigPath} `)
     }

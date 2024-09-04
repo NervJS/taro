@@ -42,7 +42,7 @@ export { Navigator } from '@tarojs/components/lib/vue3'
 export { OfficialAccount } from '@tarojs/components/lib/vue3'
 export { OpenData } from '@tarojs/components/lib/vue3'
 export { PageMeta } from '@tarojs/components/lib/vue3'
-export { Picker, PickerGroup } from '@tarojs/components/lib/vue3'
+export { Picker } from '@tarojs/components/lib/vue3'
 export { PickerView, PickerViewColumn } from '@tarojs/components/lib/vue3'
 export { Progress } from '@tarojs/components/lib/vue3'
 export { PullToRefresh } from '@tarojs/components/lib/vue3'
@@ -55,11 +55,11 @@ export { Slider } from '@tarojs/components/lib/vue3'
 export { NativeSlot, Slot } from '@tarojs/components/lib/vue3'
 export { Swiper, SwiperItem } from '@tarojs/components/lib/vue3'
 export { Switch } from '@tarojs/components/lib/vue3'
-export { Tabbar, TabItem } from '@tarojs/components/lib/vue3'
+// export { Tabbar, TabItem } from '@tarojs/components/lib/vue3'
 export { Tabs } from '@tarojs/components/lib/vue3'
 export { Text } from '@tarojs/components/lib/vue3'
 export { Textarea } from '@tarojs/components/lib/vue3'
-export { Video, VideoControl, VideoDanmu } from '@tarojs/components/lib/vue3'
+export { Video } from '@tarojs/components/lib/vue3'
 export { View } from '@tarojs/components/lib/vue3'
 export { VoipRoom } from '@tarojs/components/lib/vue3'
 export { WebView } from '@tarojs/components/lib/vue3'
@@ -72,4 +72,12 @@ export { WebView } from '@tarojs/components/lib/vue3'
 // export { default as ListView } from './components/list/list'
 // export { MatchMedia } from './components/match-media/match-media'
 // export { default as PageContainer } from './components/page-container/page-container'
-export { StickyHeader, StickySection, RootPortal, GridView, ListView, MatchMedia, PageContainer } from '@tarojs/components/lib/vue3'
+export {
+  StickyHeader,
+  StickySection,
+  RootPortal,
+  GridView,
+  ListView,
+  MatchMedia,
+  PageContainer,
+} from '@tarojs/components/lib/vue3'

@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { REG_STYLE } from '@tarojs/helper'
-import path from 'path'
 import webpack from 'webpack'
 
 import { TaroWebpackBarPlugin } from '../plugins/WebpackBarPlugin'
@@ -58,17 +59,17 @@ export default class WebpackPlugin {
   }
 
   static getESBuildMinifyPlugin (esbuildMinifyOptions) {
-    const ESBuildMinifyPlugin = require('esbuild-loader').ESBuildMinifyPlugin
+    const ESBuildMinifyPlugin = require('esbuild-loader').EsbuildPlugin
     return WebpackPlugin.getPlugin(ESBuildMinifyPlugin, [esbuildMinifyOptions])
   }
 
-  static getCssMinimizerPlugin (minimizer: 'esbuild' | 'parcelCss' | 'csso', minimizerOptions: Record<string, any>) {
+  static getCssMinimizerPlugin (minimizer: 'esbuild' | 'lightningcss' | 'csso', minimizerOptions: Record<string, any>) {
     const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
     let minify = CssMinimizerPlugin.cssnanoMinify
     if (minimizer === 'esbuild') {
       minify = CssMinimizerPlugin.esbuildMinify
-    } else if (minimizer === 'parcelCss') {
-      minify = CssMinimizerPlugin.parcelCssMinify
+    } else if (minimizer === 'lightningcss') {
+      minify = CssMinimizerPlugin.lightningCssMinify
     }
     const options = {
       test: REG_STYLE,

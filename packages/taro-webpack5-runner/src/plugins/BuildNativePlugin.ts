@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   isEmptyObject,
   printLog,
@@ -6,7 +8,6 @@ import {
   resolveMainFilePath,
 } from '@tarojs/helper'
 import { urlToRequest } from 'loader-utils'
-import path from 'path'
 
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import MiniPlugin from './MiniPlugin'
@@ -25,8 +26,8 @@ export default class BuildNativePlugin extends MiniPlugin {
     this.addLoadChunksPlugin(compiler)
   }
 
-  run (compiler: Compiler) {
-    this.appConfig = this.getAppConfig()
+  async run (compiler: Compiler) {
+    this.appConfig = await this.getAppConfig()
     this.getPages()
     this.getPagesConfig()
     this.getConfigFiles(compiler)

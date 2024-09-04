@@ -1,4 +1,6 @@
+export const MODIFY_APP_CONFIG = 'modifyAppConfig'
 export const MODIFY_WEBPACK_CHAIN = 'modifyWebpackChain'
+export const MODIFY_VITE_CONFIG = 'modifyViteConfig'
 export const MODIFY_BUILD_ASSETS = 'modifyBuildAssets'
 export const MODIFY_MINI_CONFIGS = 'modifyMiniConfigs'
 export const MODIFY_COMPONENT_CONFIG = 'modifyComponentConfig'

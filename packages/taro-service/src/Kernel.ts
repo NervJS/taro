@@ -1,8 +1,10 @@
+import { EventEmitter } from 'node:events'
+import * as path from 'node:path'
+
 import * as helper from '@tarojs/helper'
+import * as runnerUtils from '@tarojs/runner-utils'
 import { getPlatformType } from '@tarojs/shared'
-import { EventEmitter } from 'events'
 import { merge } from 'lodash'
-import * as path from 'path'
 import { AsyncSeriesWaterfallHook } from 'tapable'
 
 import Plugin from './Plugin'
@@ -53,6 +55,7 @@ export default class Kernel extends EventEmitter {
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
+  runnerUtils: any
   runOpts: any
   debugger: any
 
@@ -70,6 +73,7 @@ export default class Kernel extends EventEmitter {
     this.initHelper()
     this.initConfig()
     this.initPaths()
+    this.initRunnerUtils()
   }
 
   initConfig () {
@@ -96,6 +100,11 @@ export default class Kernel extends EventEmitter {
   initHelper () {
     this.helper = helper
     this.debugger('initHelper')
+  }
+
+  initRunnerUtils () {
+    this.runnerUtils = runnerUtils
+    this.debugger('initRunnerUtils')
   }
 
   initPresetsAndPlugins () {
@@ -130,7 +139,7 @@ export default class Kernel extends EventEmitter {
     }
 
     const globalConfigRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GLOBAL_CONFIG_DIR)
-    const resolvedGlobalPresets = resolvePresetsOrPlugins(globalConfigRootPath , globalPresets, PluginType.Plugin, true)
+    const resolvedGlobalPresets = resolvePresetsOrPlugins(globalConfigRootPath, globalPresets, PluginType.Plugin, true)
     while (resolvedGlobalPresets.length) {
       this.initPreset(resolvedGlobalPresets.shift()!, true)
     }
@@ -142,7 +151,7 @@ export default class Kernel extends EventEmitter {
 
     globalPlugins = merge(this.globalExtraPlugins, globalPlugins)
     const globalConfigRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GLOBAL_CONFIG_DIR)
-    const resolvedGlobalPlugins = resolvePresetsOrPlugins(globalConfigRootPath , globalPlugins, PluginType.Plugin, true)
+    const resolvedGlobalPlugins = resolvePresetsOrPlugins(globalConfigRootPath, globalPlugins, PluginType.Plugin, true)
 
     const resolvedPlugins = resolvedCliAndProjectPlugins.concat(resolvedGlobalPlugins)
 
@@ -184,14 +193,14 @@ export default class Kernel extends EventEmitter {
 
   applyCliCommandPlugin (commandNames: string[] = []) {
     const existsCliCommand: string[] = []
-    for( let i = 0; i < commandNames.length; i++ ) {
+    for (let i = 0; i < commandNames.length; i++) {
       const commandName = commandNames[i]
       const commandFilePath = path.resolve(this.cliCommandsPath, `${commandName}.js`)
-      if(this.cliCommands.includes(commandName)) existsCliCommand.push(commandFilePath)
+      if (this.cliCommands.includes(commandName)) existsCliCommand.push(commandFilePath)
     }
     const commandPlugins = convertPluginsToObject(existsCliCommand || [])()
-    helper.createSwcRegister({ only: [ ...Object.keys(commandPlugins) ] })
-    const resolvedCommandPlugins = resolvePresetsOrPlugins(this.appPath , commandPlugins, PluginType.Plugin)
+    helper.createSwcRegister({ only: [...Object.keys(commandPlugins)] })
+    const resolvedCommandPlugins = resolvePresetsOrPlugins(this.appPath, commandPlugins, PluginType.Plugin)
     while (resolvedCommandPlugins.length) {
       this.initPlugin(resolvedCommandPlugins.shift()!)
     }
@@ -232,6 +241,7 @@ export default class Kernel extends EventEmitter {
       'paths',
       'helper',
       'runOpts',
+      'runnerUtils',
       'initialConfig',
       'applyPlugins',
       'applyCliCommandPlugin'

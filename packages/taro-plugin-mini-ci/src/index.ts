@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import * as minimist from 'minimist'
-import * as path from 'path'
 
 import AlipayCI from './AlipayCI'
 import BaseCI, { CIOptions } from './BaseCi'
@@ -11,13 +12,13 @@ import WeappCI from './WeappCI'
 
 import type { IPluginContext } from '@tarojs/service'
 
-const enum EnumAction  {
+const enum EnumAction {
   /** 自动打开预览工具 */
-  'open' = 'open' ,
+  'open' = 'open',
   /** 预览小程序（上传代码，作为“开发版”小程序） */
   'preview' = 'preview',
   /** 上传小程序（上传代码，可设置为“体验版”小程序） */
-  'upload' = 'upload' ,
+  'upload' = 'upload',
 }
 
 interface MinimistArgs {
@@ -34,7 +35,7 @@ interface MinimistArgs {
 export { CIOptions } from './BaseCi'
 export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions)) => {
   const args = minimist<MinimistArgs>(process.argv.slice(2), {
-    boolean: [EnumAction.open,EnumAction.preview, EnumAction.upload],
+    boolean: [EnumAction.open, EnumAction.preview, EnumAction.upload],
     string: ['projectPath'],
     default: {
       projectPath: ''
@@ -63,7 +64,7 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
             password: joi.string().required()
           }),
           /** 阿里小程序上传配置 */
-          alipay:joi.alternatives().try(
+          alipay: joi.alternatives().try(
             joi.object({
               appid: joi.string().required(),
               toolId: joi.string().required(),
@@ -211,5 +212,4 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
       }
     })
   })
-
 }

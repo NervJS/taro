@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import babel from '@rollup/plugin-babel'
 import * as commonjs from '@rollup/plugin-commonjs'
 import * as json from '@rollup/plugin-json'
@@ -8,7 +10,6 @@ import { rollupTransform as styleTransformer } from '@tarojs/rn-style-transforme
 import { getBabelConfig, resolveExtFile, rollupResolver as taroResolver } from '@tarojs/rn-supporter'
 import { getAppConfig } from '@tarojs/rn-transformer'
 import * as jsx from 'acorn-jsx'
-import * as path from 'path'
 import { rollup, RollupOptions } from 'rollup'
 import image from 'rollup-plugin-image-file'
 
@@ -108,7 +109,10 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
       }),
       // @ts-ignore
       pluginReplace({
-        'process.env.NODE_ENV': JSON.stringify('production')
+        preventAssignment: true,
+        values: {
+          'process.env.NODE_ENV': JSON.stringify('production')
+        }
       }),
       // @ts-ignore
       commonjs(),
@@ -171,10 +175,20 @@ function likeDependent (str: string) {
   return !str.match(/^\.?\.\//) && !path.isAbsolute(str)
 }
 
+function getEntryPath (entry) {
+  const app = entry.app
+  if (Array.isArray(app)) {
+    return app[0]
+  } else if (Array.isArray(app.import)) {
+    return app.import[0]
+  }
+  return app
+}
+
 export default function (projectPath: string, config: any) {
   const { sourceRoot, entry, nativeComponents } = config
-  const appPath = path.join(projectPath, sourceRoot, entry)
-  const appConfig = getAppConfig(appPath)
+  const appEntryPath = getEntryPath(entry)
+  const appConfig = getAppConfig(appEntryPath)
   const { output = DEFAULT_CONFIG.output } = nativeComponents || {}
 
   const componentConfig = {

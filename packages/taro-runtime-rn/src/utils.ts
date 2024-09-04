@@ -34,7 +34,6 @@ export const incrementId = () => {
   }
 }
 
-
 export function isFunction (o: unknown): o is (...args: any[]) => any {
   return typeof o === 'function'
 }
@@ -61,6 +60,6 @@ export function errorHandler (fail: OptionsFunc | undefined, complete: OptionsFu
   }
 }
 
-export function getPageStr (path: string):string{
-  return path.replace(/\//g,'')
+export function getPageStr (path: string):string {
+  return path.replace(/\//g, '')
 }

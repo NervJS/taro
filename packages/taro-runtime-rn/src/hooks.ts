@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 import { Current } from './current'
 import { AppInstance, PageLifeCycle } from './instance'
@@ -6,7 +6,6 @@ import { getPageInstance, injectPageInstance, PageContext } from './page'
 import { HOOKS_APP_ID, isArray, isFunction } from './utils'
 
 const taroHooks = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
-  // eslint-disable-next-line @typescript-eslint/ban-types
   return (fn: Function) => {
     const id = React.useContext(PageContext) || HOOKS_APP_ID
 
@@ -72,12 +71,10 @@ export const useTabItemTap = taroHooks('onTabItemTap')
 
 export const useLaunch = taroHooks('onLaunch')
 
-export const usePageNotFound= taroHooks('onPageNotFound')
+export const usePageNotFound = taroHooks('onPageNotFound')
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useRouter = (dynamic = false) => {
   return dynamic ? Current.router : React.useMemo(() => Current.router, [])
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useScope = () => undefined

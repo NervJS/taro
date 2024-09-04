@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
-import * as path from 'path'
+import * as path from 'node:path'
+
 import * as shell from 'shelljs'
 
 import BaseCI from './BaseCi'
-import {  resolveNpmSync } from './utils/npm'
+import { resolveNpmSync } from './utils/npm'
 import { generateQrcodeImageFile, printQrcode2Terminal } from './utils/qrcode'
 
 export default class SwanCI extends BaseCI {
@@ -15,7 +16,7 @@ export default class SwanCI extends BaseCI {
     }
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     try {
-      this.swanBin = resolveNpmSync('swan-toolkit/bin/swan',process.cwd())
+      this.swanBin = resolveNpmSync('swan-toolkit/bin/swan', process.cwd())
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red('请安装依赖：swan-toolkit'))
       process.exit(1)
@@ -50,7 +51,7 @@ export default class SwanCI extends BaseCI {
         await generateQrcodeImageFile(previewQrcodePath, qrContent)
         printLog(
           processTypeEnum.REMIND,
-          `预览二维码已生成，存储在:"${ previewQrcodePath }",二维码内容是：${ qrContent }`
+          `预览二维码已生成，存储在:"${previewQrcodePath}",二维码内容是：${qrContent}`
         )
 
         this.triggerPreviewHooks({
@@ -61,7 +62,6 @@ export default class SwanCI extends BaseCI {
             qrCodeLocalPath: previewQrcodePath
           }
         })
-
       } else {
         this.triggerPreviewHooks({
           success: false,
@@ -83,7 +83,7 @@ export default class SwanCI extends BaseCI {
     shell.exec(`${this.swanBin} upload --project-path ${this.projectPath} --token ${this.pluginOpts.swan!.token} --release-version ${this.version} --min-swan-version ${this.pluginOpts.swan!.minSwanVersion || '3.350.6'} --desc ${this.desc} --json`, async (_code, stdout, stderr) => {
       if (!stderr) {
         console.log(chalk.green(`上传成功 ${new Date().toLocaleString()}`))
-        
+
         const stdoutRes = JSON.parse(stdout) as UploadResponse
         const qrContent = stdoutRes.schemeUrl
         const uploadQrcodePath = path.join(this.projectPath, 'upload.png')
@@ -92,9 +92,9 @@ export default class SwanCI extends BaseCI {
         await generateQrcodeImageFile(uploadQrcodePath, qrContent)
         printLog(
           processTypeEnum.REMIND,
-          `体验版二维码已生成，存储在:"${ uploadQrcodePath }",二维码内容是：${ qrContent }`
+          `体验版二维码已生成，存储在:"${uploadQrcodePath}",二维码内容是：${qrContent}`
         )
-        
+
         this.triggerUploadHooks({
           success: true,
           data: {
@@ -116,7 +116,6 @@ export default class SwanCI extends BaseCI {
       }
     })
   }
-  
 }
 
 interface UploadResponse {

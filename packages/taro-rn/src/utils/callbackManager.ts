@@ -1,9 +1,9 @@
 interface CallbackManager {
-  add: (opt: any) => void;
-  remove: (opt: any) => void;
-  clear: () => void;
-  count: () => number;
-  trigger: (...args: any[]) => void;
+  add: (opt: any) => void
+  remove: (opt: any) => void
+  clear: () => void
+  count: () => number
+  trigger: (...args: any[]) => void
 }
 
 export function createCallbackManager(): CallbackManager {

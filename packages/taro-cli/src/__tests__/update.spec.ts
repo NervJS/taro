@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import {
   chalk,
   fs,
@@ -6,7 +8,6 @@ import {
   shouldUseYarn
 } from '@tarojs/helper'
 import { exec } from 'child_process'
-import * as path from 'path'
 
 import { getPkgVersion } from '../util'
 import { run } from './utils'
@@ -37,7 +38,7 @@ jest.mock('ora', () => {
       return {
         stop () {},
         warn () {},
-        succeed (){}
+        succeed () {}
       }
     }
   })
@@ -79,13 +80,11 @@ function updatePkg (pkgPath: string, version: string) {
       '@tarojs/taro-h5': version,
       '@tarojs/helper': version,
       '@tarojs/taro-loader': version,
-      '@tarojs/mini-runner': version,
       '@tarojs/react': version,
       '@tarojs/router': version,
       '@tarojs/runner-utils': version,
       '@tarojs/runtime': version,
       '@tarojs/service': version,
-      '@tarojs/webpack-runner': version,
       '@tarojs/with-weapp': version,
       '@tarojs/taroize': version,
       '@tarojs/plugin-platform-weapp': version,

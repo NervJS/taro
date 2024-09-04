@@ -4,7 +4,9 @@ import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   [
+    hooks.MODIFY_APP_CONFIG,
     hooks.MODIFY_WEBPACK_CHAIN,
+    hooks.MODIFY_VITE_CONFIG,
     hooks.MODIFY_BUILD_ASSETS,
     hooks.MODIFY_MINI_CONFIGS,
     hooks.MODIFY_COMPONENT_CONFIG,

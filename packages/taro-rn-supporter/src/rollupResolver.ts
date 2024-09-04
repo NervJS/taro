@@ -1,4 +1,4 @@
-import * as path from 'path'
+import * as path from 'node:path'
 
 import { includes, isRelativePath, resolveExtFile, resolvePathFromAlias } from './utils'
 
@@ -16,7 +16,7 @@ const DEFAULT_ALIAS = {
   '@tarojs/components': '@tarojs/components-rn'
 }
 
-const isInclude = (_moduleName, originModulePath, config: IProjectConfig ) => {
+const isInclude = (_moduleName, originModulePath, config: IProjectConfig) => {
   return originModulePath.indexOf('node_modules') < 0 || includes(originModulePath, config)
 }
 

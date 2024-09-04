@@ -1,7 +1,8 @@
+import * as path from 'node:path'
+
 import * as inquirer from 'inquirer'
 import * as getLatestVersion from 'latest-version'
 import * as ora from 'ora'
-import * as path from 'path'
 import * as semver from 'semver'
 
 import packagesManagement from '../../config/packagesManagement'
@@ -63,7 +64,7 @@ export default (ctx: IPluginContext) => {
         const updateTarget = isSelf ? ' CLI ' : ' Taro 项目依赖'
         const spinString = `正在更新${updateTarget}到 v${version} ...`
         const spinner = ora(spinString).start()
-        execCommand({ 
+        execCommand({
           command,
           successCallback (data) {
             spinner.stop()

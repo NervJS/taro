@@ -51,9 +51,10 @@ import * as React from 'react'
 import {
   StyleSheet,
 } from 'react-native'
+
 import { noop } from '../../utils'
-import { SwiperProps } from './PropsType'
 import Carousel from './carousel'
+import { SwiperProps } from './PropsType'
 
 class _Swiper extends React.Component<SwiperProps> {
   static defaultProps = {

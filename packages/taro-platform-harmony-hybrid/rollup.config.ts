@@ -1,8 +1,9 @@
+import path from 'node:path'
+
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { merge } from 'lodash'
-import path from 'path'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import ts from 'rollup-plugin-ts'
@@ -61,7 +62,6 @@ const variesConfig: RollupOptions[] = [{
     'src/api/apis/taro.ts', // APIS
     'src/api/index.ts', // APIS
     'src/components/react/index.ts', // React 组件
-    'src/components/vue2/index.ts', // vue2 组件
     'src/components/vue3/index.ts', // vue3 组件
     'src/runtime/index.ts', // 供 Loader 使用的运行时入口
     'src/runtime/apis/index.ts', // API 入口

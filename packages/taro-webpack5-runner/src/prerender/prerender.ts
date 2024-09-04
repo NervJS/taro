@@ -1,13 +1,14 @@
+import { join } from 'node:path'
+
 import { fs } from '@tarojs/helper'
 import { isFunction, isObject, isString, noop, Shortcuts } from '@tarojs/shared'
-import { join } from 'path'
 
 import { printPrerenderFail, printPrerenderSuccess } from '../utils/logHelper'
 
 import type { IAdapter, RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { NodeVM } from 'vm2'
 import type { Configuration, Stats, StatsCompilation } from 'webpack'
-import type { MiniBuildConfig } from '../utils/types'
+import type { IMiniBuildConfig } from '../utils/types'
 
 type Attributes = Record<string, string>
 
@@ -71,8 +72,10 @@ export function validatePrerenderPages (pages: string[], config?: PrerenderConfi
   const { include = [], exclude = [], match } = config
 
   if (match) {
-    const micromatch = require('micromatch')
-    pageConfigs = micromatch(pages, match)
+    const picomatch = require('picomatch')
+    const isMatch = picomatch(match)
+    pageConfigs = pages
+      .filter((page) => isMatch(page)) // Note: 这里不能写成 .filter(isMatch)，因为 filter 会传入三个参数，会影响 picomatch 的匹配
       .filter((p: string) => !p.includes('.config'))
       .map((p: string) => ({ path: p, params: {} }))
   }
@@ -103,7 +106,7 @@ export function validatePrerenderPages (pages: string[], config?: PrerenderConfi
 }
 
 export class Prerender {
-  private buildConfig: MiniBuildConfig
+  private buildConfig: IMiniBuildConfig
   private globalObject: string
   private outputPath: string
   private prerenderConfig: PrerenderConfig
@@ -113,7 +116,7 @@ export class Prerender {
   private template: RecursiveTemplate | UnRecursiveTemplate
   private adapter: IAdapter
 
-  public constructor (buildConfig: MiniBuildConfig, webpackConfig: Configuration, stat: Stats, template: RecursiveTemplate | UnRecursiveTemplate) {
+  public constructor (buildConfig: IMiniBuildConfig, webpackConfig: Configuration, stat: Stats, template: RecursiveTemplate | UnRecursiveTemplate) {
     const VM = require('vm2').NodeVM
     this.buildConfig = buildConfig
     this.outputPath = webpackConfig.output!.path!

@@ -1,13 +1,11 @@
 /* eslint-disable no-console */
-import * as path from 'path'
+import * as path from 'node:path'
 
 import BaseCI from './BaseCi'
 import { AlipayInstance } from './types'
 import { compareVersion } from './utils/compareVersion'
 import { getNpmPkgSync } from './utils/npm'
 import { generateQrcodeImageFile, printQrcode2Terminal, readQrcodeImageContent } from './utils/qrcode'
-
-
 
 /** 文档地址： https://opendocs.alipay.com/mini/02q29z */
 export default class AlipayCI extends BaseCI {
@@ -19,7 +17,7 @@ export default class AlipayCI extends BaseCI {
     }
     const { fs, printLog, processTypeEnum, chalk } = this.ctx.helper
     try {
-      this.minidev = getNpmPkgSync('minidev',process.cwd())
+      this.minidev = getNpmPkgSync('minidev', process.cwd())
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red('请安装依赖：minidev'))
       process.exit(1)
@@ -32,7 +30,7 @@ export default class AlipayCI extends BaseCI {
     if (!privateKey) {
       const privateKeyPath = path.isAbsolute(_privateKeyPath) ? _privateKeyPath : path.join(appPath, _privateKeyPath)
       if (!fs.pathExistsSync(privateKeyPath)) {
-        printLog(processTypeEnum.ERROR, chalk.red(`"alipay.privateKeyPath"选项配置的路径"${ privateKeyPath }"不存在,本次上传终止`))
+        printLog(processTypeEnum.ERROR, chalk.red(`"alipay.privateKeyPath"选项配置的路径"${privateKeyPath}"不存在,本次上传终止`))
         process.exit(1)
       } else {
         privateKey = fs.readFileSync(privateKeyPath, 'utf-8')
@@ -47,7 +45,6 @@ export default class AlipayCI extends BaseCI {
         }
       }
     })
-
   }
 
   async open () {
@@ -87,7 +84,7 @@ export default class AlipayCI extends BaseCI {
       const qrcodeContent = await readQrcodeImageContent(qrcodeUrl)
       // console.log('qrcodeContent', qrcodeContent)
       await generateQrcodeImageFile(previewQrcodePath, qrcodeContent)
-      printLog(processTypeEnum.REMIND, `预览版二维码已生成，存储在:"${ previewQrcodePath }",二维码内容是："${ qrcodeContent }"`)
+      printLog(processTypeEnum.REMIND, `预览版二维码已生成，存储在:"${previewQrcodePath}",二维码内容是："${qrcodeContent}"`)
 
       this.triggerPreviewHooks({
         success: true,
@@ -98,7 +95,7 @@ export default class AlipayCI extends BaseCI {
         }
       })
     } catch (error) {
-      printLog(processTypeEnum.ERROR, chalk.red(`预览上传失败 ${ new Date().toLocaleString() } \n${ error.message }`))
+      printLog(processTypeEnum.ERROR, chalk.red(`预览上传失败 ${new Date().toLocaleString()} \n${error.message}`))
 
       this.triggerPreviewHooks({
         success: false,
@@ -119,12 +116,12 @@ export default class AlipayCI extends BaseCI {
 
     //  SDK上传不支持设置描述信息; 版本号必须大于现有版本号
     try {
-      const lasterVersion  = await this.minidev.minidev.app.getUploadedVersion({
+      const lasterVersion = await this.minidev.minidev.app.getUploadedVersion({
         appId,
         clientType
       })
-      if (this.version && compareVersion(this.version, lasterVersion) <=0) {
-        printLog(processTypeEnum.ERROR, chalk.red(`上传版本号 "${ this.version }" 必须大于最新上传版本 "${ lasterVersion }"`))
+      if (this.version && compareVersion(this.version, lasterVersion) <= 0) {
+        printLog(processTypeEnum.ERROR, chalk.red(`上传版本号 "${this.version}" 必须大于最新上传版本 "${lasterVersion}"`))
       }
       const result = await this.minidev.minidev.upload({
         project: this.projectPath,
@@ -152,7 +149,7 @@ export default class AlipayCI extends BaseCI {
         },
       })
     } catch (error) {
-      printLog(processTypeEnum.ERROR, chalk.red(`体验版上传失败 ${ new Date().toLocaleString() } \n${ error }`))
+      printLog(processTypeEnum.ERROR, chalk.red(`体验版上传失败 ${new Date().toLocaleString()} \n${error}`))
 
       this.triggerUploadHooks({
         success: false,
@@ -165,5 +162,4 @@ export default class AlipayCI extends BaseCI {
       })
     }
   }
-
 }

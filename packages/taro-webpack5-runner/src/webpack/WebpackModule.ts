@@ -1,3 +1,5 @@
+import path from 'node:path'
+
 import {
   fs,
   recursiveMerge,
@@ -6,8 +8,10 @@ import {
   REG_MEDIA,
   REG_SCRIPTS
 } from '@tarojs/helper'
+import { FONT_LIMIT, IMAGE_LIMIT, MEDIA_LIMIT, } from '@tarojs/runner-utils'
 import { isFunction } from '@tarojs/shared'
-import path from 'path'
+
+import { getAssetsMaxSize } from '../utils/webpack'
 
 import type { PostcssOption } from '@tarojs/taro/types/compile'
 
@@ -58,7 +62,9 @@ export class WebpackModule {
       {
         importLoaders: 1,
         modules: {
-          mode: namingPattern === 'module' ? 'local' : 'global'
+          mode: namingPattern === 'module' ? 'local' : 'global',
+          namedExport: false,
+          exportLocalsConvention: 'as-is',
         }
       },
       {
@@ -67,6 +73,12 @@ export class WebpackModule {
           : { localIdentName: generateScopedName }
       }
     )
+
+    // 更改 namedExport 默认值，以统一旧版本行为
+    // https://github.com/webpack-contrib/css-loader/releases/tag/v7.0.0
+    defaultOptions.modules.namedExport = false
+    defaultOptions.modules.exportLocalsConvention = 'as-is'
+
     const options = recursiveMerge({}, defaultOptions, cssLoaderOption)
     return WebpackModule.getLoader('css-loader', options)
   }
@@ -92,7 +104,6 @@ export class WebpackModule {
       implementation: require('sass'),
       sassOptions: {
         outputStyle: 'expanded',
-        fiber: false,
         importer (url, prev, done) {
           // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
           const extname = path.extname(url)
@@ -160,12 +171,13 @@ export class WebpackModule {
   }
 
   static getMediaRule (sourceRoot: string, options) {
+    const maxSize = getAssetsMaxSize(options, MEDIA_LIMIT)
     return {
       test: REG_MEDIA,
       type: 'asset',
       parser: {
         dataUrlCondition: {
-          maxSize: options.limit || 10 * 1024 // 10kb
+          maxSize,
         }
       },
       generator: {
@@ -181,12 +193,13 @@ export class WebpackModule {
   }
 
   static getFontRule (sourceRoot: string, options) {
+    const maxSize = getAssetsMaxSize(options, FONT_LIMIT)
     return {
       test: REG_FONT,
       type: 'asset',
       parser: {
         dataUrlCondition: {
-          maxSize: options.limit || 10 * 1024 // 10kb
+          maxSize,
         }
       },
       generator: {
@@ -202,12 +215,13 @@ export class WebpackModule {
   }
 
   static getImageRule (sourceRoot: string, options) {
+    const maxSize = getAssetsMaxSize(options, IMAGE_LIMIT)
     return {
       test: REG_IMAGE,
       type: 'asset',
       parser: {
         dataUrlCondition: {
-          maxSize: options.limit || 2 * 1024 // 2kb
+          maxSize,
         }
       },
       generator: {

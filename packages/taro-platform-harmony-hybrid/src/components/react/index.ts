@@ -35,6 +35,7 @@ export { LivePlayer } from '@tarojs/components/lib/react'
 export { LivePusher } from '@tarojs/components/lib/react'
 export { Login } from '@tarojs/components/lib/react'
 export { Lottie } from '@tarojs/components/lib/react'
+export { default as HosMap } from '../components-react/Map/Map'
 export { Map } from '@tarojs/components/lib/react'
 export { MovableArea, MovableView } from '@tarojs/components/lib/react'
 export { NavigationBar } from '@tarojs/components/lib/react'
@@ -42,7 +43,7 @@ export { Navigator } from '@tarojs/components/lib/react'
 export { OfficialAccount } from '@tarojs/components/lib/react'
 export { OpenData } from '@tarojs/components/lib/react'
 export { PageMeta } from '@tarojs/components/lib/react'
-export { Picker, PickerGroup } from '@tarojs/components/lib/react'
+export { Picker } from '@tarojs/components/lib/react'
 export { PickerView, PickerViewColumn } from '@tarojs/components/lib/react'
 export { Progress } from '@tarojs/components/lib/react'
 export { PullToRefresh } from '@tarojs/components/lib/react'
@@ -55,11 +56,10 @@ export { Slider } from '@tarojs/components/lib/react'
 export { NativeSlot, Slot } from '@tarojs/components/lib/react'
 export { Swiper, SwiperItem } from '@tarojs/components/lib/react'
 export { Switch } from '@tarojs/components/lib/react'
-export { Tabbar, TabItem } from '@tarojs/components/lib/react'
 export { Tabs } from '@tarojs/components/lib/react'
 export { Text } from '@tarojs/components/lib/react'
 export { Textarea } from '@tarojs/components/lib/react'
-export { Video, VideoControl, VideoDanmu } from '@tarojs/components/lib/react'
+export { Video } from '@tarojs/components/lib/react'
 export { View } from '@tarojs/components/lib/react'
 export { VoipRoom } from '@tarojs/components/lib/react'
 export { WebView } from '@tarojs/components/lib/react'
@@ -72,4 +72,12 @@ export { WebView } from '@tarojs/components/lib/react'
 // export { default as ListView } from './components/list/list'
 // export { MatchMedia } from './components/match-media/match-media'
 // export { default as PageContainer } from './components/page-container/page-container'
-export { StickyHeader, StickySection, RootPortal, GridView, ListView, MatchMedia, PageContainer } from '@tarojs/components/lib/react'
+export {
+  StickyHeader,
+  StickySection,
+  RootPortal,
+  GridView,
+  ListView,
+  MatchMedia,
+  PageContainer,
+} from '@tarojs/components/lib/react'

@@ -8,27 +8,27 @@ interface ButtonProps extends StandardProps {
    */
   size?: keyof ButtonProps.Size
   /** 按钮的样式类型
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
    * @default default
    */
   type?: keyof ButtonProps.Type
   /** 按钮是否镂空，背景色透明
-   * @supported weapp, alipay, swan, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, qq, jd, h5, rn, harmony, harmony_hybrid
    * @default false
    */
   plain?: boolean
   /** 是否禁用
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
    * @default false
    */
   disabled?: boolean
   /** 名称前是否带 loading 图标
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
    * @default false
    */
   loading?: boolean
   /** 用于 `<form/>` 组件，点击分别会触发 `<form/>` 组件的 submit/reset 事件
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, harmony
    */
   formType?: keyof ButtonProps.FormType
   /** 微信开放能力

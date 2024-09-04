@@ -1,12 +1,13 @@
+import * as os from 'node:os'
+import * as path from 'node:path'
+
 import resolveReactNativePath from '@react-native-community/cli-config/build/resolveReactNativePath'
 import { findProjectRoot } from '@react-native-community/cli-tools'
-import * as os from 'os'
-import * as path from 'path'
+import { mergeConfig, MetroConfig } from 'metro'
 
 import { ConditionalFileStore } from './conditional-file-store'
 import { assetExts } from './defaults'
 import { getReactNativeVersion, handleFile, handleTaroFile, searchReactNativeModule } from './taroResolver'
-import { TerminalReporter } from './terminal-reporter'
 import { getBlockList, getProjectConfig } from './utils'
 
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
@@ -37,19 +38,19 @@ export function getTransformer (opt: Options = {}) {
       }
     })
   }
-  if(process.env.PUBLIC_PATH) {
+  if (process.env.PUBLIC_PATH) {
     transform.publicPath = process.env.PUBLIC_PATH
   }
   return transform
 }
 
-export function getResolver (opt: Options = {}, config: IProjectConfig) {
+export function getResolver (opt: Options = {}, config: IProjectConfig, resolveRequest?: any) {
   const blockList = getBlockList(config)
   const handleEntryFile = (opt.fromRunner ?? true) ? handleTaroFile : handleFile
   const resolver: any = {
     sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs', 'svgx'],
     resolveRequest: (context, moduleName, platform) => {
-      return handleEntryFile(context, moduleName, platform, config)
+      return handleEntryFile(context, moduleName, platform, config, resolveRequest)
     },
     resolverMainFields: ['react-native', 'browser', 'main'],
   }
@@ -57,7 +58,7 @@ export function getResolver (opt: Options = {}, config: IProjectConfig) {
     resolver.assetExts = assetExts.filter(ext => ext !== 'svg')
     resolver.sourceExts.push('svg')
   }
-  if(blockList.length > 0){
+  if (blockList.length > 0) {
     resolver.blockList = blockList
   }
   // 兼容0.60
@@ -82,17 +83,36 @@ export function getResolver (opt: Options = {}, config: IProjectConfig) {
   return resolver
 }
 
-export async function getMetroConfig (opt: Options = {}) {
+interface ShareObject {
+  sourceRoot: string
+  qr: boolean
+  entry: string
+  cacheStore: any
+  metroServerInstance: any
+  port?: number
+}
+export const shareObject:ShareObject = {
+  sourceRoot: 'src',
+  qr: false,
+  entry: 'app',
+  cacheStore: null,
+  metroServerInstance: null
+}
+
+export async function getMetroConfig (opt: Options = {}, toMergeConfig?: MetroConfig): Promise<MetroConfig> {
   const config = await getProjectConfig()
   const rnConfig = config.rn || {}
   const entry = rnConfig?.entry || 'app'
   const cacheStore = new ConditionalFileStore<any>({
     root: path.join(os.tmpdir(), 'metro-cache')
   }, entry)
-  const reporter = new TerminalReporter(config.sourceRoot || 'src', cacheStore, opt.qr, entry)
-  return {
+  shareObject.sourceRoot = config.sourceRoot || 'src'
+  shareObject.qr = opt.qr ?? false
+  shareObject.entry = entry
+  shareObject.cacheStore = cacheStore
+  const taroMetroConfig = {
     transformer: getTransformer(opt),
-    resolver: getResolver(opt, config),
+    resolver: getResolver(opt, config, toMergeConfig?.resolver?.resolveRequest),
     serializer: {
       // We can include multiple copies of InitializeCore here because metro will
       // only add ones that are already part of the bundle
@@ -105,12 +125,28 @@ export async function getMetroConfig (opt: Options = {}) {
         require(path.join(reactNativePath, 'rn-get-polyfills'))()
     },
     cacheStores: [cacheStore],
-    reporter,
     server: {
       enhanceMiddleware: (Middleware, Server) => {
-        reporter.metroServerInstance = Server
+        shareObject.metroServerInstance = Server
+        // @ts-ignore
+        shareObject.port = Server._config.server.port
         return Middleware
       }
-    }
+    },
   }
+  if (!toMergeConfig) return taroMetroConfig
+
+  const blockListTaro = taroMetroConfig.resolver?.blockList
+  const blockListMerge = toMergeConfig.resolver?.blockList
+
+  const finalConfig = mergeConfig(taroMetroConfig, toMergeConfig, {
+    resolver: {
+      blockList: [
+        ...(blockListTaro instanceof RegExp ? [blockListTaro] : blockListTaro || []),
+        ...(blockListMerge instanceof RegExp ? [blockListMerge] : blockListMerge || []),
+      ],
+      resolveRequest: taroMetroConfig.resolver?.resolveRequest,
+    }
+  })
+  return finalConfig
 }

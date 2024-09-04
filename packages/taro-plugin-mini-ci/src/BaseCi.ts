@@ -1,5 +1,5 @@
-import * as path from 'path'
-import * as process from 'process'
+import * as path from 'node:path'
+import * as process from 'node:process'
 
 import { ON_PREVIEW_COMPLETE, ON_UPLOAD_COMPLETE } from './hooks'
 
@@ -176,7 +176,6 @@ export default abstract class BaseCI {
     )
     this.version = pluginOpts.version || packageInfo.taroConfig?.version
     this.desc = pluginOpts.desc || packageInfo.taroConfig?.desc || `CI构建自动构建于${new Date().toLocaleTimeString()}`
-
   }
 
   setProjectPath (path: string) {
@@ -204,7 +203,7 @@ export default abstract class BaseCI {
       },
     })
 
-    if(!success) {
+    if (!success) {
       process.exit(1)
     }
   }
@@ -230,7 +229,7 @@ export default abstract class BaseCI {
       },
     })
 
-    if(!success) {
+    if (!success) {
       process.exit(1)
     }
   }

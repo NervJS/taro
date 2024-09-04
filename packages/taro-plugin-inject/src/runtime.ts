@@ -1,6 +1,6 @@
 import { mergeInternalComponents, mergeReconciler, processApis } from '@tarojs/shared'
 
-import { needPromiseApis,noPromiseApis } from './apis-list'
+import { needPromiseApis, noPromiseApis } from './apis-list'
 import { components } from './components'
 
 const hostConfig = {
@@ -13,7 +13,6 @@ const hostConfig = {
     })
   }
 }
-
 
 mergeReconciler(hostConfig)
 mergeInternalComponents(components)

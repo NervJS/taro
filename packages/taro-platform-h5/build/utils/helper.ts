@@ -47,8 +47,8 @@ export function isNotAPI (flags?: ts.SymbolFlags): flags is ts.SymbolFlags.Signa
 }
 
 export function isFunction (flags?: ts.SymbolFlags): flags is ts.SymbolFlags.Function | ts.SymbolFlags.Method {
-  return SymbolFlags.includes((flags || -1) - ts.SymbolFlags.Function)
-    || SymbolFlags.includes((flags || -1) - ts.SymbolFlags.Method)
+  return SymbolFlags.includes((flags || -1) - ts.SymbolFlags.Function) ||
+    SymbolFlags.includes((flags || -1) - ts.SymbolFlags.Method)
 }
 
 export function isOptional (flags?: ts.SymbolFlags): flags is ts.SymbolFlags.Optional {

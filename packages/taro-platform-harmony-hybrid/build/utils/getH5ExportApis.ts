@@ -1,11 +1,12 @@
+import * as pathModule from 'node:path'
+
 import * as fsExtra from 'fs-extra'
-import * as pathModule from 'path'
 
 import { removeComments } from './helper'
 
 /**
  * 匹配API定义文件，提取H5导出的API名字
- * 
+ *
  * @param h5ApiFiles 传入API定义文件列表
  * @returns 返回api列表
  */

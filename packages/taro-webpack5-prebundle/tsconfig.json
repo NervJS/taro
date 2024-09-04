@@ -4,12 +4,14 @@
     "baseUrl": ".",
     "declaration": true,
     "esModuleInterop": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "module": "commonjs",
     "outDir": "dist",
     "preserveConstEnums": true,
     "rootDir": "./src",
     "sourceMap": true
   },
-  "include": ["./src", "../../types"],
+  "include": ["./src", "../taro-webpack5-runner/types"],
   "exclude": ["./src/__tests__"]
 }

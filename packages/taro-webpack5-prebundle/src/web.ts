@@ -22,9 +22,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import path from 'node:path'
+import { performance } from 'node:perf_hooks'
+
 import { chalk, fs } from '@tarojs/helper'
-import path from 'path'
-import { performance } from 'perf_hooks'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
 
 import BasePrebundle, { IPrebundleConfig } from './prebundle'
@@ -69,6 +70,9 @@ export class WebPrebundle extends BasePrebundle<IWebPrebundleConfig> {
       chunkLoadingGlobal: mainBuildOutput.chunkLoadingGlobal,
       globalObject: mainBuildOutput.globalObject,
       path: this.remoteCacheDir,
+      environment: {
+        asyncFunction: true,
+      }
     }
 
     this.metadata.mfHash = getMfHash({
@@ -161,7 +165,7 @@ export class WebPrebundle extends BasePrebundle<IWebPrebundleConfig> {
     this.isUseCache = true
 
     /** 扫描出所有的 node_modules 依赖 */
-    const entries: string[] = this.getEntries(this.entryPath)
+    const entries: string[] = await this.getEntries(this.entryPath)
     const { include = [], exclude = [] } = this.option
     const idx = exclude.findIndex(e => e === '@tarojs/runtime')
     if (idx >= 0) {

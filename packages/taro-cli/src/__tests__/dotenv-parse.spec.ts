@@ -1,6 +1,7 @@
+import * as path from 'node:path'
+
 import { dotenvParse } from '@tarojs/helper'
 import { Kernel } from '@tarojs/service'
-import * as path from 'path'
 
 import CLI from '../cli'
 
@@ -45,7 +46,6 @@ describe('inspect', () => {
   })
 
   describe('cli mode env', () => {
-
     it('dotenvParse .env .env.dev should success', async () => {
       expect(process.env.TARO_test).toBeUndefined()
       dotenvParse(path.resolve(__dirname, 'env'), 'TARO_', 'dev')

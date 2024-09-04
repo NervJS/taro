@@ -20,7 +20,6 @@ function generateMediaQueryStr (descriptor: Taro.MediaQueryObserver.descriptor) 
   return mediaQueryArr.join(' and ')
 }
 
-
 export class MediaQueryObserver implements Taro.MediaQueryObserver {
   private _mediaQueryObserver: MediaQueryList
   private _listener: (ev: MediaQueryListEvent) => void
@@ -57,5 +56,4 @@ export class MediaQueryObserver implements Taro.MediaQueryObserver {
       }
     }
   }
-
 }

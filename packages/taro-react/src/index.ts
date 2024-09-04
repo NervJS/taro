@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { TaroElement } from '@tarojs/runtime'
 import { ensure, isFunction } from '@tarojs/shared'
-import { ReactNode } from 'react'
 
+import { internalInstanceKey } from './constant'
 import { finishEventHandler } from './event'
 import { TaroReconciler } from './reconciler'
 import { ContainerMap, createRoot, render } from './render'
+
+import type { TaroElement } from '@tarojs/runtime'
+import type { ReactNode } from 'react'
 
 let isInsideEventHandler = false
 
@@ -16,7 +18,7 @@ const unstable_batchedUpdates = (fn, a) => {
   }
 
   isInsideEventHandler = true
-  
+
   try {
     return TaroReconciler.batchedUpdates(fn, a)
   } finally {
@@ -72,20 +74,26 @@ function createPortal (
   }
 }
 
+const flushSync = TaroReconciler.flushSync
+
 export {
   createPortal,
   createRoot,
   findDOMNode,
+  flushSync,
+  internalInstanceKey,
   render,
   unmountComponentAtNode,
-  unstable_batchedUpdates
+  unstable_batchedUpdates,
 }
 
 export default {
   render,
+  flushSync,
   createRoot,
   unstable_batchedUpdates,
   unmountComponentAtNode,
   findDOMNode,
-  createPortal
+  createPortal,
+  internalInstanceKey
 }

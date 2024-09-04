@@ -316,7 +316,6 @@ export class BaseTemplate {
           ? `<template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />`
           : `<template is="{{'tmpl_' + c + '_' + item.nn}}" data="{{${data}}}" />`
     }
-
   }
 
   private getChildren (comp: Component, level: number): string {
@@ -495,7 +494,7 @@ export class BaseTemplate {
     return ''
   }
 
-  public buildPageTemplate = (baseTempPath: string, _page: { content: Record<string, any>, path: string }) => {
+  public buildPageTemplate = (baseTempPath: string, _page?: { content: Record<string, any>, path: string }) => {
     const template = `<import src="${baseTempPath}"/>
 <template is="taro_tmpl" data="{{${this.dataKeymap('root:root')}}}" />`
 

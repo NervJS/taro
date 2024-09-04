@@ -1,16 +1,18 @@
+import * as path from 'node:path'
+
 import { dotenvParse, fs, patchEnv } from '@tarojs/helper'
 import { Config, Kernel } from '@tarojs/service'
 import * as minimist from 'minimist'
-import * as path from 'path'
 
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
 
 const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor', 'update', 'config']
+const DEFAULT_FRAMEWORK = 'react'
 
 export default class CLI {
   appPath: string
-  constructor (appPath) {
+  constructor(appPath) {
     this.appPath = appPath || process.cwd()
   }
 
@@ -36,6 +38,8 @@ export default class CLI {
       boolean: ['version', 'help', 'disable-global-config'],
       default: {
         build: true,
+        check: true,
+        'inject-global-style': true
       },
     })
     const _ = args._
@@ -88,7 +92,7 @@ export default class CLI {
 
       // 将自定义的 变量 添加到 config.env 中，实现 definePlugin 字段定义
       const initialConfig = kernel.config?.initialConfig
-      if(initialConfig) {
+      if (initialConfig) {
         initialConfig.env = patchEnv(initialConfig, expandEnv)
       }
       if (command === 'doctor') {
@@ -135,17 +139,15 @@ export default class CLI {
           }
 
           // 根据 framework 启用插件
-          const framework = kernel.config?.initialConfig.framework
-          switch (framework) {
-            case 'vue':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-vue2')
-              break
-            case 'vue3':
-              kernel.optsPlugins.push('@tarojs/plugin-framework-vue3')
-              break
-            default:
-              kernel.optsPlugins.push('@tarojs/plugin-framework-react')
-              break
+          const framework = kernel.config?.initialConfig.framework || DEFAULT_FRAMEWORK
+          const frameworkMap = {
+            vue3: '@tarojs/plugin-framework-vue3',
+            react: '@tarojs/plugin-framework-react',
+            preact: '@tarojs/plugin-framework-react',
+            solid: '@tarojs/plugin-framework-solid',
+          }
+          if (frameworkMap[framework]) {
+            kernel.optsPlugins.push(frameworkMap[framework])
           }
 
           // 编译小程序插件
@@ -163,8 +165,8 @@ export default class CLI {
             customCommand(command, kernel, args)
             break
           }
-
           customCommand(command, kernel, {
+            args,
             _,
             platform,
             plugin,
@@ -175,6 +177,8 @@ export default class CLI {
             newBlended: Boolean(args['new-blended']),
             // Note: 是否禁用编译
             withoutBuild: !args.build,
+            noInjectGlobalStyle: !args['inject-global-style'],
+            noCheck: !args.check,
             port: args.port,
             env: args.env,
             deviceType: args.platform,
@@ -205,6 +209,7 @@ export default class CLI {
             clone: !!args.clone,
             template: args.template,
             css: args.css,
+            autoInstall: args.autoInstall,
             h: args.h
           })
           break

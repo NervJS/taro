@@ -1,7 +1,8 @@
+import * as fs from 'node:fs'
+import * as path from 'node:path'
+
 import { isEmptyObject, readPageConfig } from '@tarojs/helper'
-import * as fs from 'fs'
 import { camelCase } from 'lodash'
-import * as path from 'path'
 
 import { AppConfig, TransformEntry } from './types/index'
 import { getConfigContent, getConfigFilePath, parseBase64Image } from './utils'
@@ -37,7 +38,7 @@ function getPagesResource (appPath: string, basePath: string, pathPrefix: string
   }
 }
 
-function getPageComponent (pagePath: string){
+function getPageComponent (pagePath: string) {
   const screen = camelCase(pagePath)
   const screenConfigName = `${screen}Config`
   return `createPageConfig(${screen},{...${screenConfigName},pagePath:'${pagePath}'})`

@@ -2,14 +2,12 @@
  * 给 TaroElement 绑定 react fiber、react props 等属性
  * 提供 fiber -> element、element -> fiber、element -> props 的方法
 */
-
 import { internalContainerInstanceKey, internalInstanceKey, internalPropsKey } from './constant'
 import { HostComponent, HostRoot, HostText, SuspenseComponent } from './workTags'
 
 import type { TaroElement, TaroText } from '@tarojs/runtime'
 import type { Fiber } from 'react-reconciler'
 import type { Props } from './props'
-
 
 export function precacheFiberNode (hostInst: Fiber, node: TaroElement | TaroText): void {
   node[internalInstanceKey] = hostInst
@@ -70,4 +68,9 @@ export function updateFiberProps (
   props: Props,
 ): void {
   node[internalPropsKey] = props
+
+  if (process.env.TARO_PLATFORM === 'harmony') {
+    // @ts-ignore
+    node.updateTextNode()
+  }
 }

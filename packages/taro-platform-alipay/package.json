@@ -1,0 +1,41 @@
+{
+  "name": "@tarojs/plugin-platform-alipay",
+  "version": "4.0.5",
+  "description": "支付宝小程序平台插件",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "types": "dist/types/index.d.ts",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "index.js",
+    "dist",
+    "types"
+  ],
+  "scripts": {
+    "prod": "pnpm run build",
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "devDependencies": {
+    "@tarojs/components": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
+  }
+}

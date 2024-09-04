@@ -1,5 +1,5 @@
 import { camelCase } from 'lodash'
-import { parseUrl } from 'query-string'
+import queryString from 'query-string'
 
 import { CallbackResult, OptionsFunc, TaroTabBarConfig } from './types'
 
@@ -115,28 +115,17 @@ export function getTabBarPages (): string[] {
 export function handleUrl (url: string): Record<string, any> {
   const path = url.split('?')[0]
   const pageName = camelCase(path.startsWith('/') ? path : `/${path}`)
-  const params = parseUrl(url.startsWith('/') ? url.substr(1) : url).query || {}
+  const params = queryString.parseUrl(url.startsWith('/') ? url.substr(1) : url).query || {}
   return {
     pageName,
     params
   }
 }
 
-export function hasJumpAnimate () :boolean{
-  if(globalAny.__taroJumpAnimate === false){
-    return false
-  }
-  return true
-}
-
-export function updateJumpAnimate (needAnimate: boolean){
-  globalAny.__taroJumpAnimate = needAnimate
-}
-
-export function updateCurrentJumpUrl (path: string){
+export function updateCurrentJumpUrl (path: string) {
   globalAny.__taroJumpUrl = path
 }
 
-export function getCurrentJumpUrl (): string{
-  return globalAny?.__taroJumpUrl  ?? ''
+export function getCurrentJumpUrl (): string {
+  return globalAny?.__taroJumpUrl ?? ''
 }

@@ -6,8 +6,8 @@ expect.addSnapshotSerializer(removeBackslashesSerializer)
 const logFileMap = new Map()
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数
-  appendFile: jest.fn((path,content):any => {
-    logFileMap.set(path,content)
+  appendFile: jest.fn((path, content):any => {
+    logFileMap.set(path, content)
   })
 }))
 
@@ -18,7 +18,7 @@ describe('parse', () => {
 
   describe('template.ts', () => {
     let option: any
-    
+
     beforeAll(() => {
       option = {
         script: '',
@@ -35,7 +35,7 @@ describe('parse', () => {
 
     test('公共组件usingComponents的key加到THIRD_PARTY_COMPONENTS', () => {
       // app.json的目录结构以及内容
-      /* 
+      /*
       ** /app.json:
       **   "{
       **     "pages": [
@@ -50,8 +50,8 @@ describe('parse', () => {
       option.rootPath = '/wxProject/miniprogram'
       option.logFilePath = '/wxProject/taroConvert/.convert/convert.log'
       option.script = `app({})`
-      option.json = 
-      `{  
+      option.json =
+      `{
           "pages":["pages/index/index"],
           "usingComponents":
           {
@@ -66,5 +66,4 @@ describe('parse', () => {
       expect(code).toMatchSnapshot()
     })
   })
-
 })

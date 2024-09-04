@@ -1,16 +1,5 @@
 {
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    {
-      "language": "typescript",
-      "autoFix": true
-    },
-    {
-      "language": "typescriptreact",
-      "autoFix": true
-    }
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "search.exclude": {
     "**/.git": true,
     "**/node_modules": true,
@@ -22,7 +11,8 @@
   "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
   "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
   "files.associations": {
-    "*.json": "jsonc"
+    "*.json": "jsonc",
+    "*.ets": "typescript"
   },
   "rust-analyzer.linkedProjects": [
     "./crates/taro_init/Cargo.toml",

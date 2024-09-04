@@ -1,24 +1,31 @@
 /* eslint-disable no-console */
-import * as crypto from 'crypto'
-import * as ci from 'miniprogram-ci'
-import  { Project }from 'miniprogram-ci'
-import * as os from 'os'
-import * as path from 'path'
+import * as crypto from 'node:crypto'
+import * as os from 'node:os'
+import * as path from 'node:path'
+
 import * as shell from 'shelljs'
 
 import BaseCI, { ProjectType } from './BaseCi'
+import { getNpmPkgSync } from './utils/npm'
 import { generateQrcodeImageFile, printQrcode2Terminal, readQrcodeImageContent } from './utils/qrcode'
 
 export default class WeappCI extends BaseCI {
-  private instance: Project
+  private instance
   /** 微信开发者安装路径 */
   private devToolsInstallPath: string
+  ci
 
   init () {
     const { appPath } = this.ctx.paths
-    const { fs } = this.ctx.helper
+    const { fs, chalk, processTypeEnum, printLog } = this.ctx.helper
     if (this.pluginOpts.weapp == null) {
       throw new Error('请为"@tarojs/plugin-mini-ci"插件配置 "weapp" 选项')
+    }
+    try {
+      this.ci = getNpmPkgSync('miniprogram-ci', process.cwd())
+    } catch (error) {
+      printLog(processTypeEnum.ERROR, chalk.red('请安装依赖：miniprogram-ci'))
+      process.exit(1)
     }
     this.devToolsInstallPath = this.pluginOpts.weapp.devToolsInstallPath || (process.platform === 'darwin' ? '/Applications/wechatwebdevtools.app' : 'C:\\Program Files (x86)\\Tencent\\微信web开发者工具')
     delete this.pluginOpts.weapp.devToolsInstallPath
@@ -34,7 +41,7 @@ export default class WeappCI extends BaseCI {
     if (!fs.pathExistsSync(privateKeyPath)) {
       throw new Error(`"weapp.privateKeyPath"选项配置的路径不存在,本次上传终止:${privateKeyPath}`)
     }
-    this.instance = new ci.Project(weappConfig)
+    this.instance = new this.ci.Project(weappConfig)
   }
 
   async open () {
@@ -81,7 +88,7 @@ export default class WeappCI extends BaseCI {
     try {
       printLog(processTypeEnum.START, '上传开发版代码到微信后台并预览')
       const previewQrcodePath = path.join(this.projectPath, 'preview.jpg')
-      const uploadResult = await ci.preview({
+      const uploadResult = await this.ci.preview({
         project: this.instance,
         version: this.version,
         desc: this.desc,
@@ -134,7 +141,7 @@ export default class WeappCI extends BaseCI {
     try {
       printLog(processTypeEnum.START, '上传体验版代码到微信后台')
       printLog(processTypeEnum.REMIND, `本次上传版本号为："${this.version}"，上传描述为：“${this.desc}”`)
-      const uploadResult = await ci.upload({
+      const uploadResult = await this.ci.upload({
         project: this.instance,
         version: this.version,
         desc: this.desc,

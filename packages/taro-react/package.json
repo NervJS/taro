@@ -1,12 +1,12 @@
 {
   "name": "@tarojs/react",
-  "version": "3.6.24",
+  "version": "4.0.5",
   "description": "like react-dom, but for mini apps.",
-  "author": "yuche <i@yuche.me>",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-react#readme",
+  "author": "O2Team",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/react.esm.js",
   "module": "dist/react.esm.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -15,6 +15,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
     "test": "jest --collectCoverage",
     "test:ci": "jest --ci -i --coverage --silent",
     "build": "rollup -c",
@@ -23,24 +24,20 @@
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
-    "react-reconciler": "0.27.0"
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "react-reconciler": "0.29.0"
   },
   "devDependencies": {
-    "@rollup/plugin-buble": "^0.21.3",
-    "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "jest": "^29.3.1",
-    "jest-cli": "^29.3.1",
-    "jest-environment-node": "^29.5.0",
-    "react": "^18.2.0",
-    "rollup": "^2.79.0",
-    "rollup-plugin-ts": "^3.0.2",
-    "ts-jest": "^29.0.5",
-    "typescript": "^4.7.4"
+    "@types/react": "^18.2.79",
+    "@types/react-reconciler": "^0.28.8",
+    "react": "^18.2.0"
   },
   "peerDependencies": {
-    "@tarojs/runtime": "workspace:~",
-    "@tarojs/shared": "workspace:~"
+    "react": "^18"
   }
 }

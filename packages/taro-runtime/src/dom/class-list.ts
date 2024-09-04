@@ -53,7 +53,7 @@ export class ClassList {
       const token = tokens[i] + ''
 
       if (!this.checkTokenIsValid(token)) continue
-    
+
       const index = tokenList.indexOf(token)
 
       if (~tokenList.indexOf(token)) {
@@ -92,22 +92,22 @@ export class ClassList {
 
   replace (token: string, replacement_token: string) {
     if (!this.checkTokenIsValid(token) || !this.checkTokenIsValid(replacement_token)) return
-  
+
     const index = this.tokenList.indexOf(token)
 
     if (~index) {
       this.tokenList.splice(index, 1, replacement_token)
-		  this._update()
+      this._update()
     }
   }
 
   toString () {
-	  return this.tokenList.filter(v => v !== '').join(' ')
+    return this.tokenList.filter(v => v !== '').join(' ')
   }
 
   private checkTokenIsValid (token: string) {
     if (token === '' || /\s/.test(token)) return false
-  
+
     return true
   }
 

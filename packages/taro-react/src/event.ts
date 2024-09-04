@@ -1,14 +1,13 @@
-import { TaroElement, TaroEvent } from '@tarojs/runtime'
-import { Fiber } from 'react-reconciler'
-
 import { getFiberCurrentPropsFromNode, getInstanceFromNode, getNodeFromInstance } from './componentTree'
 import { isTextInputElement, ReactDOMInputRestoreControlledState, ReactDOMTextareaRestoreControlledState, toString } from './domInput'
 import { updateValueIfChanged } from './inputValueTracking'
-import { Props } from './props'
-import { TaroReconciler } from './reconciler' 
+import { TaroReconciler } from './reconciler'
 
+import type { TaroElement, TaroEvent } from '@tarojs/runtime'
+import type { Fiber } from 'react-reconciler'
+import type { Props } from './props'
 
-export type RestoreType =  string | number | boolean | any[]
+export type RestoreType = string | number | boolean | any[]
 
 interface RestoreItem {
   target: TaroElement
@@ -30,7 +29,6 @@ export function getTargetInstForInputOrChangeEvent (e: TaroEvent, node: TaroElem
     return getInstIfValueChanged(targetInst, nextValue)
   }
 }
-
 
 function getInstIfValueChanged (targetInst: Fiber, nextValue: string) {
   const targetNode = getNodeFromInstance(targetInst)
@@ -94,7 +92,6 @@ function restoreImpl (
       break
   }
 }
-
 
 function restoreStateOfTarget (item: RestoreItem) {
   const internalInstance = getInstanceFromNode(item.target)

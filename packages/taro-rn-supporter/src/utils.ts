@@ -1,9 +1,10 @@
+import * as fs from 'node:fs'
+import { networkInterfaces } from 'node:os'
+import * as path from 'node:path'
+
 import * as helper from '@tarojs/helper'
 import { dotenvParse, patchEnv } from '@tarojs/helper'
 import { Config } from '@tarojs/service'
-import * as fs from 'fs'
-import { networkInterfaces } from 'os'
-import * as path from 'path'
 
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
 
@@ -180,7 +181,7 @@ function getBlockList (config: IProjectConfig) {
   const path = `${process.cwd()}/${srcDir}/app.config`
   const configPath = helper.resolveMainFilePath(path)
   const appConfig = helper.readConfig(configPath, config)
-  if( appConfig?.pages?.length === 1 && !!appConfig?.rn?.singleMode){
+  if (appConfig?.pages?.length === 1 && !!appConfig?.rn?.singleMode) {
     regExp.push(/@tarojs\/router-rn/)
   }
   return regExp
@@ -194,7 +195,8 @@ export {
   isTaroRunner,
   resolveExtFile,
   resolvePathFromAlias,
-  setFromRunner }
+  setFromRunner
+}
 
 export function getOpenHost () {
   let result

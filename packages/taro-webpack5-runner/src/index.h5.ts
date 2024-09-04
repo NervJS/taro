@@ -1,9 +1,10 @@
+import path from 'node:path'
+import { format as formatUrl } from 'node:url'
+
 import { chalk, recursiveMerge, SOURCE_DIR } from '@tarojs/helper'
 import { isFunction } from '@tarojs/shared'
 import Prebundle from '@tarojs/webpack5-prebundle'
 import detectPort from 'detect-port'
-import path from 'path'
-import { format as formatUrl } from 'url'
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
@@ -14,9 +15,9 @@ import { errorHandling } from './utils/webpack'
 import { H5Combination } from './webpack/H5Combination'
 
 import type { EntryNormalized, Stats } from 'webpack'
-import type { H5BuildConfig } from './utils/types'
+import type { IH5BuildConfig } from './utils/types'
 
-export default async function build (appPath: string, rawConfig: H5BuildConfig): Promise<Stats | void> {
+export default async function build (appPath: string, rawConfig: IH5BuildConfig): Promise<Stats | void> {
   const combination = new H5Combination(appPath, rawConfig)
   await combination.make()
 
@@ -36,6 +37,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
       publicPath,
       alias: combination.config.alias,
       defineConstants: combination.config.defineConstants,
+      modifyAppConfig: combination.config.modifyAppConfig
     })
     try {
       await prebundle.run(combination.getPrebundleOptions())
@@ -151,7 +153,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
   }
 }
 
-async function getDevServerOptions (appPath: string, config: H5BuildConfig): Promise<WebpackDevServer.Configuration> {
+async function getDevServerOptions (appPath: string, config: IH5BuildConfig): Promise<WebpackDevServer.Configuration> {
   const publicPath = parsePublicPath(config.publicPath)
   const outputPath = path.join(appPath, config.outputRoot || 'dist')
   const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}

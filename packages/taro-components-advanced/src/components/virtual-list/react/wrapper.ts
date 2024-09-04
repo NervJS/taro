@@ -29,7 +29,7 @@ function getRenderExpandNodes ({
       visibility: 'hidden',
       height: isHorizontal ? '100%' : 100,
       width: isHorizontal ? 100 : '100%',
-      [isHorizontal ? isRtl ? 'marginRight' : 'marginLeft': 'marginTop']: -100,
+      [isHorizontal ? isRtl ? 'marginRight' : 'marginLeft' : 'marginTop']: -100,
       zIndex: -1,
     }
   }
@@ -81,7 +81,7 @@ const outerWrapper = React.forwardRef(
       ...rest
     }, [
       getRenderExpandNodes({
-        direction: isHorizontal ? isRtl ? 'right' : 'left': 'top',
+        direction: isHorizontal ? isRtl ? 'right' : 'left' : 'top',
         isHorizontal,
         isRtl,
         id,

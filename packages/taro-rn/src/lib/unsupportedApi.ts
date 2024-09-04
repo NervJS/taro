@@ -1,14 +1,12 @@
-function temporarilyNotSupport(apiName: String, recommended?: String, isSync = true) {
+function temporarilyNotSupport(apiName: string, recommended?: string, isSync = true) {
   return () => {
     let errMsg = `RN 端暂不支持 API ${apiName}`
-    if (!!recommended) {
+    if (recommended) {
       errMsg += `, 请使用 ${recommended}`
     }
     console.error(errMsg)
     if (!isSync) {
-      return Promise.reject({
-        errMsg
-      })
+      return Promise.reject(new Error(errMsg))
     } else {
       return new Error(errMsg)
     }

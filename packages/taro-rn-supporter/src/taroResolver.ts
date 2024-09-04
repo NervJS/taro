@@ -1,13 +1,10 @@
-import * as MetroSymlinksResolver from '@rnx-kit/metro-resolver-symlinks'
-import * as fs from 'fs'
-import * as path from 'path'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
 
 import { entryFilePath } from './defaults'
 import { resolveExtFile, resolvePathFromAlias } from './utils'
 
-import type { ResolutionContext } from 'metro-resolver'
-
-const symlinksResolver = MetroSymlinksResolver()
+import type { CustomResolutionContext } from 'metro-resolver'
 
 interface VersionInfo {
   major: number
@@ -67,22 +64,30 @@ function searchReactNativeModule (moduleName: string, platform: string): string 
  * resolveRequest 文件处理，alias，文件后缀加载等
  * metro 0.70 type ResolveRequestFunc = (context, moduleName, platform) => any
  */
-function handleFile (context: ResolutionContext, moduleName, platform, config) {
+function handleFile (context: CustomResolutionContext, moduleName, platform, config, resolveRequest?) {
   // 处理 alias
   moduleName = resolvePathFromAlias(moduleName, config)
 
   // 处理后缀 .rn.ts
   moduleName = resolveExtFile(context, moduleName, platform, config)
-  return symlinksResolver(context, moduleName, platform)
+  return (resolveRequest || context.resolveRequest)(context, moduleName, platform)
 }
 
 // rn runner调用
-function handleTaroFile (context: ResolutionContext, moduleName, platform, config) {
+function handleTaroFile (context: CustomResolutionContext, moduleName, platform, config, resolveRequest?) {
   const newContext = { ...context }
-  if(context.originModulePath === require.resolve(entryFilePath)) {
-    newContext.originModulePath = path.join(context.projectRoot, './index.js')
+  if (context.originModulePath === require.resolve(entryFilePath)) {
+    // node_modules/@tarojs/rn-supporter/entry-file.js
+    // index.js
+    newContext.originModulePath = path.resolve(path.join(
+      entryFilePath,
+      '..',
+      '..',
+      '..',
+      './index.js'
+    ))
   }
-  return handleFile(newContext, moduleName, platform, config)
+  return handleFile(newContext, moduleName, platform, config, resolveRequest)
 }
 
 export {
