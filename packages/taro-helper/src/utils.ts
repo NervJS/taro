@@ -7,6 +7,7 @@ import * as path from 'path'
 import {
   CSS_EXT,
   CSS_IMPORT_REG,
+  DEFAULT_SUPPORT_TEMPLATE,
   NODE_MODULES_REG,
   PLATFORMS,
   processTypeEnum,
@@ -14,7 +15,6 @@ import {
   REG_JSON,
   SCRIPT_EXT,
   TARO_CONFIG_FOLDER,
-  DEFAULT_SUPPORT_TEMPLATE
 } from './constants'
 import { requireWithEsbuild } from './esbuild'
 import { chalk } from './terminal'

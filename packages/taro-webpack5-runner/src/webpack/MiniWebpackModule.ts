@@ -1,7 +1,7 @@
 import {
+  getMergeLoaderTemplateReg,
   isNodeModule,
   recursiveMerge,
-  getMergeLoaderTemplateReg,
   REG_CSS,
   REG_LESS,
   REG_SASS_SASS,

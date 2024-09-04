@@ -1,9 +1,9 @@
 import {
   chalk,
   fs,
+  getMergeLoaderTemplateReg,
   isNodeModule,
   recursiveMerge,
-  getMergeLoaderTemplateReg,
   REG_CSS,
   REG_FONT,
   REG_IMAGE,
