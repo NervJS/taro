@@ -10,7 +10,8 @@ import {
 } from '@tarojs/helper'
 import { FONT_LIMIT, IMAGE_LIMIT, MEDIA_LIMIT, } from '@tarojs/runner-utils'
 import { isFunction } from '@tarojs/shared'
-import { isBoolean } from 'lodash'
+
+import { getAssetsMaxSize } from '../utils/webpack'
 
 import type { PostcssOption } from '@tarojs/taro/types/compile'
 
@@ -170,13 +171,13 @@ export class WebpackModule {
   }
 
   static getMediaRule (sourceRoot: string, options) {
+    const maxSize = getAssetsMaxSize(options, MEDIA_LIMIT)
     return {
       test: REG_MEDIA,
       type: 'asset',
       parser: {
-        dataUrlCondition: (asset): boolean => {
-          if (isBoolean(options.limit)) return options.limit
-          return asset.size <= (options.limit || MEDIA_LIMIT)
+        dataUrlCondition: {
+          maxSize,
         }
       },
       generator: {
@@ -192,13 +193,13 @@ export class WebpackModule {
   }
 
   static getFontRule (sourceRoot: string, options) {
+    const maxSize = getAssetsMaxSize(options, FONT_LIMIT)
     return {
       test: REG_FONT,
       type: 'asset',
       parser: {
-        dataUrlCondition: (asset): boolean => {
-          if (isBoolean(options.limit)) return options.limit
-          return asset.size <= (options.limit || FONT_LIMIT)
+        dataUrlCondition: {
+          maxSize,
         }
       },
       generator: {
@@ -214,13 +215,13 @@ export class WebpackModule {
   }
 
   static getImageRule (sourceRoot: string, options) {
+    const maxSize = getAssetsMaxSize(options, IMAGE_LIMIT)
     return {
       test: REG_IMAGE,
       type: 'asset',
       parser: {
-        dataUrlCondition: (asset): boolean => {
-          if (isBoolean(options.limit)) return options.limit
-          return asset.size <= (options.limit || IMAGE_LIMIT)
+        dataUrlCondition: {
+          maxSize,
         }
       },
       generator: {
