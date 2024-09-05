@@ -428,30 +428,26 @@ export const parseModule = (appPath: string, {
     }
   }
 
-  if (compile.exclude && compile.exclude.length) {
-    scriptRule.exclude = [
-      ...compile.exclude,
-      filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))
-    ]
-  } else if (compile.include && compile.include.length) {
-    scriptRule.include = [
-      ...compile.include,
-      sourceDir,
-      filename => /taro/.test(filename)
-    ]
-  } else {
-    /**
-     * 要优先处理 css-loader 问题
-     *
-     * https://github.com/webpack-contrib/mini-css-extract-plugin/issues/471#issuecomment-750266195
-     *
-     * 若包含 @tarojs/components，则跳过 babel-loader 处理
-     * 除了包含 taro 和 inversify 的第三方依赖均不经过 babel-loader 处理
-     */
-    scriptRule.exclude = [filename =>
-      /css-loader/.test(filename) ||
-      // || /@tarojs[\\/]components/.test(filename) Note: stencil 2.14 开始使用了 import.meta.url 需要额外处理
-      (/node_modules/.test(filename) && !(/taro/.test(filename) || /inversify/.test(filename)))]
+  // Note: 和 webpack5 的 include 和 exclude 的逻辑保持一致：
+  // 什么都不配置时，默认只处理 sourceDir 和 taro 和 inversify 的第三方依赖
+
+
+  scriptRule.include = [
+    sourceDir,
+    filename => /(?<=node_modules[\\/]).*taro/.test(filename) || /inversify/.test(filename)
+  ]
+  /**
+    * Note: 要优先处理 css-loader 问题 所以这里不管如何配置include和exclude，都要进行排除，这是不同于 webpack5 的地方
+    *
+    * https://github.com/webpack-contrib/mini-css-extract-plugin/issues/471#issuecomment-750266195
+    *
+    */
+  scriptRule.exclude = [filename => /css-loader/.test(filename)]
+  if (Array.isArray(compile.include)) {
+    scriptRule.include.unshift(...compile.include)
+  }
+  if(Array.isArray(compile.exclude)) {
+    scriptRule.exclude.unshift(...compile.exclude)
   }
 
   const rule: {
