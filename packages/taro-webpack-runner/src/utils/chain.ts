@@ -428,10 +428,11 @@ export const parseModule = (appPath: string, {
     }
   }
 
-  // Note: 和 webpack5 的 include 和 exclude 的逻辑保持一致：
-  // 什么都不配置时，默认只处理 sourceDir 和 taro 和 inversify 的第三方依赖
-
-
+  /** Note: 和 webpack5 的 include 和 exclude 的逻辑保持基本一致：
+    * 什么都不配置时，默认只处理 sourceDir 和 taro 和 inversify 的第三方依赖
+    * 如果配置了 include，则把配置的 include 内容 unshift 到默认的 include
+    * 如果配置了 exclude，则把配置的 exclude 内容 unshift 到默认的 exclude （webpack5 会直用配置的 exclude 进行覆盖）
+    */
   scriptRule.include = [
     sourceDir,
     filename => /(?<=node_modules[\\/]).*taro/.test(filename) || /inversify/.test(filename)
