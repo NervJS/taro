@@ -446,7 +446,7 @@ export const parseModule = (appPath: string, {
   if (Array.isArray(compile.include)) {
     scriptRule.include.unshift(...compile.include)
   }
-  if(Array.isArray(compile.exclude)) {
+  if (Array.isArray(compile.exclude)) {
     scriptRule.exclude.unshift(...compile.exclude)
   }
 
