@@ -435,7 +435,7 @@ export const parseModule = (appPath: string, {
     */
   scriptRule.include = [
     sourceDir,
-    filename => /(?<=node_modules[\\/]).*taro/.test(filename) || /inversify/.test(filename)
+    filename => /taro/.test(filename) || /inversify/.test(filename)
   ]
   /**
     * Note: 要优先处理 css-loader 问题 所以这里不管如何配置include和exclude，都要进行排除，这是不同于 webpack5 的地方
