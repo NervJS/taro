@@ -3,7 +3,6 @@ import {
   recursiveMerge,
   REG_CSS,
   REG_LESS,
-  REG_NODE_MODULES,
   REG_SASS_SASS,
   REG_SASS_SCSS,
   REG_STYLUS,
