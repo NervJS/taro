@@ -268,7 +268,6 @@ export class H5WebpackModule {
       rule.include.unshift(...compile.include)
     }
 
-    
     if (Array.isArray(compile.exclude)) {
       rule.exclude = [...compile.exclude]
     } else {

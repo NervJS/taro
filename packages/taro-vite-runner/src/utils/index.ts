@@ -212,7 +212,7 @@ export function getBabelOption (
     opts.filter = filter
   } else {
     let exclude: (string | RegExp)[] = [...defaultExclude]
-    let include: (string | RegExp)[] = [...defaultInclude]
+    const include: (string | RegExp)[] = [...defaultInclude]
 
     if (Array.isArray(compile.include)) {
       include.unshift(...compile.include)
