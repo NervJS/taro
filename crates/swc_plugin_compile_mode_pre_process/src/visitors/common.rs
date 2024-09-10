@@ -31,7 +31,7 @@ impl Clone for RenderFn {
 
 pub struct ReactComponent {
     pub name: String,
-    pub block_stmt: BlockStmt,
+    pub block_stmt: Option<BlockStmt>,
 }
 
 impl Clone for ReactComponent {
@@ -44,7 +44,7 @@ impl Clone for ReactComponent {
 }
 
 impl ReactComponent {
-    pub fn new(name: String, block_stmt: BlockStmt) -> Self {
+    pub fn new(name: String, block_stmt: Option<BlockStmt>) -> Self {
         ReactComponent {
             name,
             block_stmt,

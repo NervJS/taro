@@ -27,11 +27,19 @@ impl<'a> CollectRenderFnVisitor<'a> {
 
 impl VisitMut for CollectRenderFnVisitor<'_> {
     // 先找到入口，首先函数名必须是大写的，然后返回值必须是 jsx 这样才是一个 react 组件
-    fn visit_mut_arrow_expr(&mut self,n: &mut ArrowExpr) {
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
         print!("visit_mut_arrow_expr");
     }
     
-    fn visit_mut_fn_decl(&mut self,n: &mut FnDecl) {
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
         print!("visit_mut_fn_decl");
+    }
+
+    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        print!("visit_mut_return_stmt");
+    }
+
+    fn visit_mut_jsx_element(&mut self, n: &mut JSXElement) {
+        print!("visit_mut_jsx_element");
     }
 }
