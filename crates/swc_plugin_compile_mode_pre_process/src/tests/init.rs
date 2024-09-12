@@ -7,20 +7,15 @@ test!(
     |_| tr(),
     should_do_nothing,
     r#"
-    const a = () =>{
-      const b = ()=>{
-        const c = ()=>{}
-      }
-    }
-    function Index () {
-        return (
-          <View>
-            <Image src={mySrc} />
-            <View>
-              <Text>{myText}</Text>
-            </View>
-          </View>
-        )
-      }
+    function ComponentA () {}
+    const ComponentB = function (){}
+    const ComponentC = () => {}
+    export const ComponentD = () => {}
+    export const ComponentE = () => {}
+    export default function ComponentF () {}
+    // export default function () {}
+    // export default () => {}
+    function normal () {}
+    const normal2 = function () {}
     "#
 );

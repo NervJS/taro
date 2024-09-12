@@ -13,7 +13,7 @@ use swc_core::{
 };
 
 
-
+pub const DEFAULT_COMPONENT: &str = "Default_Component";
 pub struct RenderFn {
     pub params: Vec<Param>,
     pub jsx_element: JSXElement,
@@ -56,7 +56,9 @@ impl ReactComponent {
     }
 
     pub fn is_valid (&self) -> bool {
-        // todo 还要判断返回的JSX里面有没有 compilerMode
-        self.name.chars().next().unwrap().is_uppercase()
+        // 1. 名称是否是大写字母开头
+        let is_first_char_uppercase =  self.get_name().chars().next().unwrap().is_uppercase();
+        is_first_char_uppercase
+        //todo 2. 返回的 JSX 里面有没有 compilerMode
     }
 }

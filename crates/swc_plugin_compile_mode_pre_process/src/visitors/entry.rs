@@ -12,9 +12,10 @@ use swc_core::{
 };
 use crate::{visitors::find_react_component, PluginConfig};
 
-use super::common::*;
+use super::{common::*, transform};
 use super::collect_render_fn::CollectRenderFnVisitor;
 use super::find_react_component::FindReactComponentVisitor;
+use super::transform::component_entry::ComponentEntryVisitor;
 pub struct EntryVisitor {
     visitor_context: VisitorContext,
 }
@@ -22,6 +23,7 @@ pub struct EntryVisitor {
 struct VisitorContext {
     react_component_list: Vec<ReactComponent>,
     raw_render_fn_map: HashMap<String, HashMap< String, RenderFn>>,
+    formatted_render_fn_map: HashMap<String, HashMap< String, RenderFn>>,
 }
 
 impl EntryVisitor {
@@ -29,6 +31,7 @@ impl EntryVisitor {
         EntryVisitor {
             visitor_context: VisitorContext {
                 raw_render_fn_map: HashMap::new(),
+                formatted_render_fn_map: HashMap::new(),
                 react_component_list: vec![],
             }
         }
@@ -38,24 +41,12 @@ impl EntryVisitor {
 
 impl VisitMut for EntryVisitor {
     fn visit_mut_module(&mut self, n: &mut Module) {
-        print!("visit_mut_module start");
         //这个只是入口，这里面按顺序调用各种visitor，然后把处理的内容都挂在visitorContext上
-
         self.find_react_component(n);
         // 这里处理收集到的 react_component 数据结构 hashMap：{name: react_component}
-
         self.collect_each_component_render_fn();
-        // 这里处理收集到的 raw_render_fn_map 数据结构 hashMap：{name: raw_fn}
-        // let render_fn_deps_map = generate_render_fn_dep_map(self.visitorContext.raw_render_fn_map);
-        // 1. 可能存在互相引用，得梳理一下他们之间的依赖关系 数据结构 hashMap：{name:[dep1, dep2,...]}
-
-        // 2. 根据依赖表，生成解析的列表 sort queue 先进先出
-        // let sort_queue = generate_sort_queue(&render_fn_deps_map);
-        // 3. 根据 sort queue 生成 formatted_fn_map 数据结构 hashMap：{name: formatted_fn}
-        
-        // 4. 交给下一个 visitor 处理
-        print!("visit_mut_module done");
-        n.visit_mut_children_with(self);
+        self.transform_render_fn();
+        self.transform(n);
     }
 }
 
@@ -76,6 +67,25 @@ impl EntryVisitor {
             let mut collect_render_fn_visitor = CollectRenderFnVisitor::new(&mut self.visitor_context.raw_render_fn_map, react_component.get_name());
             react_component.block_stmt.visit_mut_children_with(&mut collect_render_fn_visitor);
         });
+    }
+
+    fn transform_render_fn (&mut self) {
+        let mut formatted_render_fn_map: HashMap<String, HashMap< String, RenderFn>> = HashMap::new();
+        self.visitor_context.raw_render_fn_map.clone().into_iter().for_each(|(name, raw_fn_map)| {
+            // 1. 可能存在互相引用，得梳理一下他们之间的依赖关系 数据结构 hashMap：{name:[dep1, dep2,...]}
+            let render_fn_deps_map = generate_render_fn_dep_map(&raw_fn_map);
+            // 2. 根据依赖表，生成解析的列表 sort queue 先进先出
+            let sort_queue = generate_sort_queue(&render_fn_deps_map);
+            // 3. 根据 sort queue 生成 formatted_fn_map 数据结构 hashMap：{name: formatted_fn}
+            let formatted_fn_map = generate_formatted_fn_map(sort_queue, &raw_fn_map);
+            formatted_render_fn_map.insert(name, formatted_fn_map);
+        });
+        self.visitor_context.formatted_render_fn_map = formatted_render_fn_map;
+    }
+
+    fn transform (&mut self, n: &mut Module) {
+        let mut transform_visitor = ComponentEntryVisitor::new(&self.visitor_context.formatted_render_fn_map);
+        n.visit_mut_children_with(&mut transform_visitor);
     }
 }
 
