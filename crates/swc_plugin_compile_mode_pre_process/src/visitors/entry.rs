@@ -22,16 +22,16 @@ pub struct EntryVisitor {
 
 struct VisitorContext {
     react_component_list: Vec<ReactComponent>,
-    raw_render_fn_map: HashMap<String, HashMap< String, RenderFn>>,
-    formatted_render_fn_map: HashMap<String, HashMap< String, RenderFn>>,
+    react_component_raw_render_fn_map: HashMap<String, HashMap< String, RenderFn>>,
+    react_component_formatted_render_fn_map: HashMap<String, HashMap< String, RenderFn>>,
 }
 
 impl EntryVisitor {
     pub fn new(config: PluginConfig) -> Self {
         EntryVisitor {
             visitor_context: VisitorContext {
-                raw_render_fn_map: HashMap::new(),
-                formatted_render_fn_map: HashMap::new(),
+                react_component_raw_render_fn_map: HashMap::new(),
+                react_component_formatted_render_fn_map: HashMap::new(),
                 react_component_list: vec![],
             }
         }
@@ -57,21 +57,31 @@ impl EntryVisitor {
         let mut find_react_component_visitor = FindReactComponentVisitor::new(&mut self.visitor_context.react_component_list);
         n.visit_mut_children_with(&mut find_react_component_visitor);
         // 必须要合法的 react 组件才能继续往下走
-        let valid_react_component_list = self.visitor_context.react_component_list.clone().into_iter().filter(|react_component| react_component.is_valid()).collect();
+        let mut valid_react_component_list = vec![];
+        self.visitor_context.react_component_list.clone().into_iter().for_each(| mut react_component| {
+            if react_component.is_valid() {
+                valid_react_component_list.push(react_component);
+            }
+        });
         self.visitor_context.react_component_list = valid_react_component_list;
     }
 
     fn collect_each_component_render_fn (&mut self) {
         // 遍历每一个 react 组件，找到他们的 render 函数并收集起来
         self.visitor_context.react_component_list.clone().into_iter().for_each(|mut react_component| {
-            let mut collect_render_fn_visitor = CollectRenderFnVisitor::new(&mut self.visitor_context.raw_render_fn_map, react_component.get_name());
-            react_component.block_stmt.visit_mut_children_with(&mut collect_render_fn_visitor);
+            let mut collect_render_fn_visitor = CollectRenderFnVisitor::new();
+            react_component.block_stmt.visit_mut_with(&mut collect_render_fn_visitor);
+            
+            collect_render_fn_visitor.raw_render_fn_map.clone().into_iter().for_each(|(name, render_fn)| {
+                println!("fuck name: {}", name);
+            });
+            self.visitor_context.react_component_raw_render_fn_map.insert(react_component.get_name(), collect_render_fn_visitor.raw_render_fn_map.clone());
         });
     }
 
     fn transform_render_fn (&mut self) {
         let mut formatted_render_fn_map: HashMap<String, HashMap< String, RenderFn>> = HashMap::new();
-        self.visitor_context.raw_render_fn_map.clone().into_iter().for_each(|(name, raw_fn_map)| {
+        self.visitor_context.react_component_raw_render_fn_map.clone().into_iter().for_each(|(name, raw_fn_map)| {
             // 1. 可能存在互相引用，得梳理一下他们之间的依赖关系 数据结构 hashMap：{name:[dep1, dep2,...]}
             let render_fn_deps_map = generate_render_fn_dep_map(&raw_fn_map);
             // 2. 根据依赖表，生成解析的列表 sort queue 先进先出
@@ -80,11 +90,11 @@ impl EntryVisitor {
             let formatted_fn_map = generate_formatted_fn_map(sort_queue, &raw_fn_map);
             formatted_render_fn_map.insert(name, formatted_fn_map);
         });
-        self.visitor_context.formatted_render_fn_map = formatted_render_fn_map;
+        self.visitor_context.react_component_formatted_render_fn_map = formatted_render_fn_map;
     }
 
     fn transform (&mut self, n: &mut Module) {
-        let mut transform_visitor = ComponentEntryVisitor::new(&self.visitor_context.formatted_render_fn_map);
+        let mut transform_visitor = ComponentEntryVisitor::new(&self.visitor_context.react_component_formatted_render_fn_map);
         n.visit_mut_children_with(&mut transform_visitor);
     }
 }

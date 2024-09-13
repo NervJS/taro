@@ -9,23 +9,118 @@ use swc_core::{
         proxies::TransformPluginProgramMetadata
     }
 };
+use crate::visitors::common::{ COMPILE_MODE_SUB_COMPONENT, ArrowAndFnParams };
+
 use super::common::RenderFn;
 
-pub struct CollectRenderFnVisitor<'a> {
-    pub raw_render_fn_map: &'a mut HashMap<String, HashMap<String, RenderFn>>,
-    pub component_name:String,
+pub struct CollectRenderFnVisitor {
+    pub raw_render_fn_map: HashMap<String, RenderFn>,
+    sub_component_name: Option<String>,
+    sub_component_params: Option<ArrowAndFnParams>,
+    in_outmost_block_scope: bool,
 }
 
-impl<'a> CollectRenderFnVisitor<'a> {
-    pub fn new(raw_render_fn_map: &'a mut HashMap<String, HashMap<String, RenderFn>>, component_name: String) -> Self {
-        raw_render_fn_map.insert(component_name.clone(), HashMap::new());
+impl CollectRenderFnVisitor {
+    pub fn new() -> Self {
         CollectRenderFnVisitor {
-            raw_render_fn_map,
-            component_name
+            raw_render_fn_map: HashMap::new(),
+            sub_component_name: None,
+            sub_component_params: None,
+            in_outmost_block_scope: true
         }
     }
 }
+//只在最外层找就可以了，因为这个函数是一个 react 组件的入口
+impl VisitMut for CollectRenderFnVisitor {
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        if !self.in_outmost_block_scope {
+            return;
+        }
+        for stmt in &mut n.stmts {
+            match stmt {
+                Stmt::Decl(Decl::Fn(fn_decl)) => {
+                    // 适配 function xxx() {}
+                    let component_name = fn_decl.ident.sym.to_string();
+                    // todo 需要调整
+                    let is_valid_sub_component = component_name.starts_with("render");
+                    match ((*fn_decl).function.body.as_mut(), is_valid_sub_component) {
+                        (Some(block_stmt), true) => {
+                            for stmt in &mut block_stmt.stmts {
+                                match stmt {
+                                    Stmt::Return(return_stmt) => {
+                                        self.in_outmost_block_scope = true;
+                                        self.sub_component_name = Some(component_name.clone());
+                                        self.sub_component_params = Some(ArrowAndFnParams::Fn(fn_decl.function.params.clone()));
+                                        return_stmt.visit_mut_with(self);
+                                        self.in_outmost_block_scope = false;
+                                        self.sub_component_name = None;
+                                        self.sub_component_params = None;
+                                    },
+                                    _ => {}
+                                }
+                            }
+                        },
+                        _ => {}
+                    }
+                },
+                Stmt::Decl(Decl::Var(var_dec))=>{
+                    for decl in &mut var_dec.decls {
+                        let sub_component_name = &decl.name;
+                        match (&mut decl.init, sub_component_name) {
+                            (Some(expr), Pat::Ident(sub_component_name)) => {
+                                if let Expr::Arrow(arrow)  = &mut **expr {
+                                    if let BlockStmtOrExpr::BlockStmt(block_stmt) = &mut *arrow.body {
+                                        for stmt in &mut block_stmt.stmts {
+                                            match stmt {
+                                                Stmt::Return(return_stmt) => {
+                                                    self.in_outmost_block_scope = true;
+                                                    self.sub_component_name = Some(sub_component_name.sym.to_string());
+                                                    self.sub_component_params = Some(ArrowAndFnParams::Arrow(arrow.params.clone()));
+                                                    return_stmt.visit_mut_with(self);
+                                                    self.in_outmost_block_scope = false;
+                                                    self.sub_component_name = None;
+                                                    self.sub_component_params = None;
+                                                },
+                                                _ => {}
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            _ =>{}
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+        self.in_outmost_block_scope = false
+    }
 
-impl VisitMut for CollectRenderFnVisitor<'_> {
-    // 先找到入口，首先函数名必须是大写的，然后返回值必须是 jsx 这样才是一个 react 组件
+    fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        match (self.in_outmost_block_scope, &n.arg) {
+            (true, Some(arg))=>{
+                match &**arg {
+                    Expr::Paren(paren_expr)=>{
+                        if let Expr::JSXElement(jsx_element) = &*paren_expr.expr {
+                            for attr in &jsx_element.opening.attrs {
+                                if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
+                                    if let JSXAttrName::Ident(jsx_attr_name) = &jsx_attr.name {
+                                        match (jsx_attr_name.sym == COMPILE_MODE_SUB_COMPONENT, &self.sub_component_name, &self.sub_component_params) {
+                                            (true, Some(sub_component_name), Some(sub_component_params)) => {
+                                                self.raw_render_fn_map.insert(sub_component_name.clone(), RenderFn::new(sub_component_params.clone(), *jsx_element.clone()));
+                                            },
+                                            _ => {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    _ => {}
+                }
+            },
+            _ => {}
+        }
+    }
 }

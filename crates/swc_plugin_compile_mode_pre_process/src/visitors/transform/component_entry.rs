@@ -101,7 +101,7 @@ impl<'a> VisitMut for ComponentEntryVisitor<'a> {
         match &mut *n.expr {
             // 适配 export default () => {}
             Expr::Arrow(arrow_expr) => {
-                if let BlockStmtOrExpr::BlockStmt(_block_stmt) = *arrow_expr.body.clone() {
+                if let BlockStmtOrExpr::BlockStmt(_block_stmt) = &*arrow_expr.body {
                     let render_fn_map = self.get_format_render_fn_map_by_component_name(&DEFAULT_COMPONENT.to_string());
                     if let Some(render_fn_map) = render_fn_map {
                         let mut process_visitor = TransformProcessVisitor::new(DEFAULT_COMPONENT.to_string(), &render_fn_map);

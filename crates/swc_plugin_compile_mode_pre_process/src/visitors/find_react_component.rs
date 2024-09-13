@@ -1,14 +1,5 @@
-use std::collections::HashMap;
-
-use serde_json::de;
-use swc_core::{
-    ecma::{
-        ast::*, utils::function, visit::{VisitMut, VisitMutWith}
-    },
-    plugin::{
-        plugin_transform,
-        proxies::TransformPluginProgramMetadata
-    }
+use swc_core::ecma::{
+        ast::*, visit::VisitMut
 };
 
 use super::common::{ReactComponent, DEFAULT_COMPONENT};
