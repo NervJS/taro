@@ -1171,6 +1171,12 @@
  */
 
 /**
+ * 通过小程序打开任意公众号文章
+ *
+ * @canNotUse openOfficialAccountArticle
+ */
+
+/**
  * 打开半屏小程序
  *
  * @canNotUse openEmbeddedMiniProgram

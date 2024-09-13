@@ -1547,6 +1547,7 @@
     "openChannelsUserProfile": true,
     "openCustomerServiceChat": false,
     "openDocument": true,
+    "openOfficialAccountArticle": false,
     "openEmbeddedMiniProgram": false,
     "openLocation": {
       "object": {
