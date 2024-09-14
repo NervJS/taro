@@ -253,7 +253,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigate/wx.openOfficialAccountArticle.html
      */
-    openOfficialAccountArticle(option: openOfficialAccountArticle.Option): Promise<openOfficialAccountArticle.SuccessCallbackResult>
+    openOfficialAccountArticle(option: openOfficialAccountArticle.Option): Promise<openOfficialAccountArticle.SuccessCallbackResult | openOfficialAccountArticle.FailCallbackResult>
 
     /** 打开半屏小程序。接入指引请参考 [半屏小程序能力](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/openEmbeddedMiniProgram.html)。
      * @supported weapp
