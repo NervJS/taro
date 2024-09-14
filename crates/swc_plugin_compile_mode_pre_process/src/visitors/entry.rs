@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet, VecDeque};
 
 use swc_core::{
     ecma::{
@@ -12,7 +12,7 @@ use swc_core::{
 };
 use crate::{visitors::find_react_component, PluginConfig};
 
-use super::{common::*, transform};
+use super::{common::*, generate_deps::{self, GenerateDepsVisitor}, transform};
 use super::collect_render_fn::CollectRenderFnVisitor;
 use super::find_react_component::FindReactComponentVisitor;
 use super::transform::component_entry::ComponentEntryVisitor;
@@ -72,8 +72,9 @@ impl EntryVisitor {
             let mut collect_render_fn_visitor = CollectRenderFnVisitor::new();
             react_component.block_stmt.visit_mut_with(&mut collect_render_fn_visitor);
             
-            collect_render_fn_visitor.raw_render_fn_map.clone().into_iter().for_each(|(name, render_fn)| {
-                println!("fuck name: {}", name);
+            // debug
+            collect_render_fn_visitor.raw_render_fn_map.clone().into_iter().for_each(|(name, _render_fn)| {
+                println!("component name: {}, renderFnName{}\n", react_component.get_name(), name);
             });
             self.visitor_context.react_component_raw_render_fn_map.insert(react_component.get_name(), collect_render_fn_visitor.raw_render_fn_map.clone());
         });
@@ -84,8 +85,14 @@ impl EntryVisitor {
         self.visitor_context.react_component_raw_render_fn_map.clone().into_iter().for_each(|(name, raw_fn_map)| {
             // 1. 可能存在互相引用，得梳理一下他们之间的依赖关系 数据结构 hashMap：{name:[dep1, dep2,...]}
             let render_fn_deps_map = generate_render_fn_dep_map(&raw_fn_map);
+            
+            for (fn_name, deps) in &render_fn_deps_map {
+                println!("component_name: {}, fn_name: {} deps: {:?}", name, fn_name, deps);
+            }
+
             // 2. 根据依赖表，生成解析的列表 sort queue 先进先出
             let sort_queue = generate_sort_queue(&render_fn_deps_map);
+            println!("component_name: {}, sort_queue: {:?}", name, sort_queue);
             // 3. 根据 sort queue 生成 formatted_fn_map 数据结构 hashMap：{name: formatted_fn}
             let formatted_fn_map = generate_formatted_fn_map(sort_queue, &raw_fn_map);
             formatted_render_fn_map.insert(name, formatted_fn_map);
@@ -102,21 +109,38 @@ impl EntryVisitor {
 fn generate_render_fn_dep_map (raw_fn_map: &HashMap<String, RenderFn>)-> HashMap<String, Vec<String>> {
     let mut render_fn_deps_map = HashMap::new();
     for (name, render_fn) in raw_fn_map {
-        let mut deps: Vec<String> = vec![];
-        let cloned_jsx_element = render_fn.jsx_element.clone();
-        // @todo use visitor to collect deps
-        render_fn_deps_map.insert(name.clone(), deps);
+        let mut cloned_jsx_element = render_fn.jsx_element.clone();
+        let mut generate_deps_visitor = GenerateDepsVisitor::new(raw_fn_map, name.clone());
+        cloned_jsx_element.visit_mut_with(&mut generate_deps_visitor);
+        let deps = generate_deps_visitor.deps_list.clone();
+        if generate_deps_visitor.self_loop {
+            println!("self loop found in render function: {}", name);
+        } else {
+            render_fn_deps_map.insert(name.clone(), deps);
+        }
+
     }
     // todo：通过 visitor 收集依赖，只能收集到最表层的依赖，如果有嵌套的依赖，需要递归处理，可能会出现循环，如果出现循环的话，按么循环的那两个组件都要去掉 也是数据结构算法
     render_fn_deps_map
 }
 
 fn generate_sort_queue (render_fn_deps_map: &HashMap<String, Vec<String>>) -> Vec<String> {
-    let mut sort_queue = vec![];
-    for (name, deps) in render_fn_deps_map {
-        // todo 完全的数据结构算法
+    let mut visited = HashSet::new();
+    let mut result = VecDeque::new();
+    let mut cycles = Vec::new();
+
+    for key in render_fn_deps_map.keys() {
+        let mut path = Vec::new();
+        if dfs(key, render_fn_deps_map, &mut visited, &mut path, &mut result, &mut cycles) {
+            cycles.push(path);
+        }
     }
-    sort_queue
+
+    for cycle in cycles {
+        println!("Detected cycle: {:?}", cycle);
+    }
+
+    result.into_iter().collect()
 }
 
 fn generate_formatted_fn_map (sort_queue: Vec<String>, raw_fn_map: &HashMap<String, RenderFn>) -> HashMap<String, RenderFn> {
@@ -131,4 +155,26 @@ fn generate_formatted_fn_map (sort_queue: Vec<String>, raw_fn_map: &HashMap<Stri
     }
   
     formatted_fn_map
+}
+
+fn dfs(node: &String, map: &HashMap<String, Vec<String>>, visited: &mut HashSet<String>, path: &mut Vec<String>, result: &mut VecDeque<String>, cycles: &mut Vec<Vec<String>>) -> bool {
+    if path.contains(node) {
+        return true;
+    } else if !visited.contains(node) {
+        visited.insert(node.clone());
+        path.push(node.clone());
+
+        if let Some(neighbors) = map.get(node) {
+            for neighbor in neighbors {
+                if dfs(neighbor, map, visited, path, result, cycles) {
+                    return true;
+                }
+            }
+        }
+
+        path.pop();
+        result.push_back(node.clone());
+    }
+
+    false
 }

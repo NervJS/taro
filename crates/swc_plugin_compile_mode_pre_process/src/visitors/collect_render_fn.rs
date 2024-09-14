@@ -117,6 +117,20 @@ impl VisitMut for CollectRenderFnVisitor {
                             }
                         }
                     },
+                    Expr::JSXElement(jsx_element)=>{
+                        for attr in &jsx_element.opening.attrs {
+                            if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
+                                if let JSXAttrName::Ident(jsx_attr_name) = &jsx_attr.name {
+                                    match (jsx_attr_name.sym == COMPILE_MODE_SUB_COMPONENT, &self.sub_component_name, &self.sub_component_params) {
+                                        (true, Some(sub_component_name), Some(sub_component_params)) => {
+                                            self.raw_render_fn_map.insert(sub_component_name.clone(), RenderFn::new(sub_component_params.clone(), *jsx_element.clone()));
+                                        },
+                                        _ => {}
+                                    }
+                                }
+                            }
+                        }
+                    },
                     _ => {}
                 }
             },
