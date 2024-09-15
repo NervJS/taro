@@ -1,6 +1,7 @@
 import { temporarilyNotSupport } from '../utils'
 
 // 跳转
+export const openOfficialAccountArticle = /* @__PURE__ */ temporarilyNotSupport('openOfficialAccountArticle')
 export const openEmbeddedMiniProgram = /* @__PURE__ */ temporarilyNotSupport('openEmbeddedMiniProgram')
 export const navigateToMiniProgram = /* @__PURE__ */ temporarilyNotSupport('navigateToMiniProgram')
 export const navigateBackMiniProgram = /* @__PURE__ */ temporarilyNotSupport('navigateBackMiniProgram')

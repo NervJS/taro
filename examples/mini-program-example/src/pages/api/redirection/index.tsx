@@ -17,6 +17,10 @@ export default class Index extends React.Component {
         func: null,
       },
       {
+        id: 'openOfficialAccountArticle',
+        func: null
+      },
+      {
         id: 'openEmbeddedMiniProgram',
         func: null,
       },

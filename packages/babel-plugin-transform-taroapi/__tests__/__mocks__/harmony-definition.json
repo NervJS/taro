@@ -1287,6 +1287,11 @@
       "success": "void",
       "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
     },
+    "openOfficialAccountArticle": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
     "openEmbeddedMiniProgram": {
       "object": "*",
       "success": "void",

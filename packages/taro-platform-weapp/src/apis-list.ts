@@ -23,11 +23,12 @@ export const needPromiseApis = new Set([
   'openChannelsLive',
   'openChannelsUserProfile',
   'openCustomerServiceChat',
+  'openOfficialAccountArticle',
   'openVideoEditor',
   'saveFileToDisk',
   'scanItem',
   'setEnable1v1Chat',
   'setWindowSize',
   'sendBizRedPacket',
-  'startFacialRecognitionVerify',
+  'startFacialRecognitionVerify'
 ])
