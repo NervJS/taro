@@ -10,7 +10,7 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: FailCallbackResult) => void
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
+      complete?: (res: CompleteCallbackResult) => void
     }
 
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
@@ -21,10 +21,17 @@ declare module '../../index' {
     }
 
     interface FailCallbackResult extends TaroGeneral.CallbackResult {
-      /** 错误信息 */
-      errMsg: string
       /** 错误码 */
       errCode: number
+    }
+
+    interface CompleteCallbackResult extends TaroGeneral.CallbackResult {
+      /** 为 true 时，表示用户点击了取消（用于 Android 系统区分点击蒙层关闭还是点击取消按钮关闭） */
+      cancel: boolean
+      /** 为 true 时，表示用户点击了确定按钮 */
+      confirm: boolean
+      /** 用户点击了确定按钮后返回内容 */
+      content?: null
     }
   }
 
@@ -253,7 +260,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigate/wx.openOfficialAccountArticle.html
      */
-    openOfficialAccountArticle(option: openOfficialAccountArticle.Option): Promise<openOfficialAccountArticle.SuccessCallbackResult | openOfficialAccountArticle.FailCallbackResult>
+    openOfficialAccountArticle(option: openOfficialAccountArticle.Option): Promise<openOfficialAccountArticle.SuccessCallbackResult>
 
     /** 打开半屏小程序。接入指引请参考 [半屏小程序能力](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/openEmbeddedMiniProgram.html)。
      * @supported weapp
