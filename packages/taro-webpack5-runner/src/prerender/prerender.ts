@@ -75,7 +75,7 @@ export function validatePrerenderPages (pages: string[], config?: PrerenderConfi
     const picomatch = require('picomatch')
     const isMatch = picomatch(match)
     pageConfigs = pages
-      .filter(isMatch)
+      .filter((page) => isMatch(page)) // Note: 这里不能写成 .filter(isMatch)，因为 filter 会传入三个参数，会影响 picomatch 的匹配
       .filter((p: string) => !p.includes('.config'))
       .map((p: string) => ({ path: p, params: {} }))
   }
