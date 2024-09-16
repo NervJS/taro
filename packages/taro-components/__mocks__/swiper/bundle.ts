@@ -1,33 +1,62 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { SwiperOptions } from 'swiper'
-import { A11yMethods } from 'swiper/types/components/a11y'
-import { AutoplayMethods } from 'swiper/types/components/autoplay'
-import { ControllerMethods } from 'swiper/types/components/controller'
-import { CoverflowEffectMethods } from 'swiper/types/components/effect-coverflow'
-import { CubeEffectMethods } from 'swiper/types/components/effect-cube'
-import { FadeEffectMethods } from 'swiper/types/components/effect-fade'
-import { FlipEffectMethods } from 'swiper/types/components/effect-flip'
-import { HashNavigationMethods } from 'swiper/types/components/hash-navigation'
-import { HistoryMethods } from 'swiper/types/components/history'
-import { KeyboardMethods } from 'swiper/types/components/keyboard'
-import { LazyMethods } from 'swiper/types/components/lazy'
-import { MousewheelMethods } from 'swiper/types/components/mousewheel'
-import { NavigationMethods } from 'swiper/types/components/navigation'
-import { PaginationMethods } from 'swiper/types/components/pagination'
-import { ParallaxMethods } from 'swiper/types/components/parallax'
-import { ScrollbarMethods } from 'swiper/types/components/scrollbar'
-import { ThumbsMethods } from 'swiper/types/components/thumbs'
-import { VirtualMethods } from 'swiper/types/components/virtual'
-import { ZoomMethods } from 'swiper/types/components/zoom'
+import { A11yMethods } from 'swiper/types/modules/a11y'
+import { AutoplayMethods } from 'swiper/types/modules/autoplay'
+import { ControllerMethods } from 'swiper/types/modules/controller'
+import { CardsEffectMethods } from 'swiper/types/modules/effect-cards'
+import { CoverflowEffectMethods } from 'swiper/types/modules/effect-coverflow'
+import { CreativeEffectMethods } from 'swiper/types/modules/effect-creative'
+import { CubeEffectMethods } from 'swiper/types/modules/effect-cube'
+import { FadeEffectMethods } from 'swiper/types/modules/effect-fade'
+import { FlipEffectMethods } from 'swiper/types/modules/effect-flip'
+import { FreeModeMethods } from 'swiper/types/modules/free-mode'
+import { HashNavigationMethods } from 'swiper/types/modules/hash-navigation'
+import { HistoryMethods } from 'swiper/types/modules/history'
+import { KeyboardMethods } from 'swiper/types/modules/keyboard'
+import { MousewheelMethods } from 'swiper/types/modules/mousewheel'
+import { NavigationMethods } from 'swiper/types/modules/navigation'
+import { PaginationMethods } from 'swiper/types/modules/pagination'
+import { ParallaxMethods } from 'swiper/types/modules/parallax'
+import { ScrollbarMethods } from 'swiper/types/modules/scrollbar'
+import { ThumbsMethods } from 'swiper/types/modules/thumbs'
+import { VirtualMethods } from 'swiper/types/modules/virtual'
+import { ZoomMethods } from 'swiper/types/modules/zoom'
 import { SwiperEvents } from 'swiper/types/swiper-events'
+import { SwiperOptions } from 'swiper/types/swiper-options'
 
-import type ISwiper from 'swiper'
+import type ISwiper from 'swiper/types/swiper-class'
 
 export default class Swiper implements ISwiper {
+  originalParams: SwiperOptions
+  loopedSlides: number | null
+  snapIndex: number
+  snapGrid: number[]
+  isLocked: boolean
+  swipeDirection: 'next' | 'prev'
+  slidesPerViewDynamic (): number {
+    throw new Error('Method not implemented.')
+  }
+
+  changeLanguageDirection (direction: 'rtl' | 'ltr'): void {
+    throw new Error('Method not implemented.')
+  }
+
+  loopCreate (): void {
+    throw new Error('Method not implemented.')
+  }
+
+  loopDestroy (): void {
+    throw new Error('Method not implemented.')
+  }
+
+  init (el?: HTMLElement | undefined): ISwiper {
+    throw new Error('Method not implemented.')
+  }
+
+  creativeEffect: CreativeEffectMethods
+  cardsEffect: CardsEffectMethods
+  freeMode: FreeModeMethods
   params: SwiperOptions
-  $el
   el: HTMLElement
-  $wrapperEl
   wrapperEl: HTMLElement
   slides
   width: number
@@ -83,8 +112,6 @@ export default class Swiper implements ISwiper {
 
   attachEvents (): void {}
 
-  init (): void {}
-
   destroy (deleteInstance?: boolean | undefined, cleanStyles?: boolean | undefined): void {}
 
   appendSlide (slides: string | HTMLElement | string[] | HTMLElement[]): void {}
@@ -134,7 +161,6 @@ export default class Swiper implements ISwiper {
   hashNavigation: HashNavigationMethods
   history: HistoryMethods
   keyboard: KeyboardMethods
-  lazy: LazyMethods
   mousewheel: MousewheelMethods
   navigation: NavigationMethods
   pagination: PaginationMethods

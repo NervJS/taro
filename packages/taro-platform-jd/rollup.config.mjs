@@ -1,6 +1,7 @@
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
 import externals from 'rollup-plugin-node-externals'
 
@@ -9,6 +10,7 @@ const cwd = path.dirname(__filename)
 
 const base = {
   plugins: [
+    nodeResolve(),
     externals({
       peerDeps: true,
     }),

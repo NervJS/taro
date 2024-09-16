@@ -667,9 +667,6 @@ require("./runtime");
       if (typeof PRERENDER !== 'undefined') {
         module.exports = wx._prerender
       }
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
 
 /** filePath: dist/app.json **/
 {"pages":["pages/index/index","others/detail/index","others/normal/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
@@ -1479,9 +1476,6 @@ require("./runtime");
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
 
 /** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
@@ -1490,14 +1484,6 @@ require("./runtime");
 <import src="./base.wxml" />
 <wxs module="xs" src="./utils.wxs" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
-
-/** filePath: dist/custom-wrapper.js **/
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
 
 /** filePath: dist/others/detail/index.js **/
 "use strict";
@@ -2907,9 +2893,6 @@ require("./runtime");
       if (typeof PRERENDER !== 'undefined') {
         module.exports = wx._prerender
       }
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
 
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
@@ -2917,7 +2900,7 @@ require("./runtime");
 /** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <block wx:if="{{root.uid}}">
-  <block wx:if="{{root.uid}}">
+  <template is="taro_tmpl" data="{{root:root}}" />
 </block>
 <block wx:else>
 <view class="index" id="_n_19" ><text id="_n_18" >Hello world!</text></view>
@@ -3781,9 +3764,6 @@ require("./runtime");
       if (typeof PRERENDER !== 'undefined') {
         module.exports = wx._prerender
       }
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
 
 /** filePath: dist/app.json **/
 {"pages":["pages/index/index","others/detail/index","others/normal/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
@@ -4593,9 +4573,6 @@ require("./runtime");
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
 
 /** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
@@ -4604,11 +4581,6 @@ require("./runtime");
 <import src="./base.wxml" />
 <wxs module="xs" src="./utils.wxs" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
-
-/** filePath: dist/custom-wrapper.js **/
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
 
 /** filePath: dist/others/detail/index.js **/
 "use strict";
@@ -6018,9 +5990,6 @@ require("./runtime");
       if (typeof PRERENDER !== 'undefined') {
         module.exports = wx._prerender
       }
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
 
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
@@ -6028,7 +5997,7 @@ require("./runtime");
 /** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <block wx:if="{{root.uid}}">
-  <block wx:if="{{root.uid}}">
+  <template is="taro_tmpl" data="{{root:root}}" />
 </block>
 <block wx:else>
 <view class="index" id="_n_19" ><text id="_n_18" >Hello world!</text></view>
@@ -6892,9 +6861,6 @@ require("./runtime");
       if (typeof PRERENDER !== 'undefined') {
         module.exports = wx._prerender
       }
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
 
 /** filePath: dist/app.json **/
 {"pages":["pages/index/index","others/detail/index","others/normal/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
@@ -7704,9 +7670,6 @@ require("./runtime");
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
 
 /** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
@@ -7715,11 +7678,6 @@ require("./runtime");
 <import src="./base.wxml" />
 <wxs module="xs" src="./utils.wxs" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
-
-/** filePath: dist/custom-wrapper.js **/
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
 
 /** filePath: dist/others/detail/index.js **/
 "use strict";
@@ -9129,9 +9087,6 @@ require("./runtime");
       if (typeof PRERENDER !== 'undefined') {
         module.exports = wx._prerender
       }
-      if (typeof PRERENDER !== 'undefined') {
-        module.exports = wx._prerender
-      }
 
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
@@ -9139,7 +9094,7 @@ require("./runtime");
 /** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <block wx:if="{{root.uid}}">
-  <block wx:if="{{root.uid}}">
+  <template is="taro_tmpl" data="{{root:root}}" />
 </block>
 <block wx:else>
 <view class="index" id="_n_19" ><text id="_n_18" >Hello world!</text></view>
