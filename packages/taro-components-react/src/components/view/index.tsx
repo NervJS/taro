@@ -3,10 +3,13 @@ import './style/index.css'
 import classNames from 'classnames'
 import React from 'react'
 
+import { createForwardRefComponent } from '../../utils/index'
+
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverClass?: string
   hoverStartTime?: number
   hoverStayTime?: number
+  forwardedRef?: React.MutableRefObject<HTMLDivElement>
   onTouchStart?(e: React.TouchEvent<HTMLDivElement>): void
   onTouchEnd?(e: React.TouchEvent<HTMLDivElement>): void
   onTouchMove?(e: React.TouchEvent<HTMLDivElement>): void
@@ -36,6 +39,7 @@ class View extends React.Component<IProps, IState> {
       onTouchMove,
       hoverStartTime = 50,
       hoverStayTime = 400,
+      forwardedRef,
       ...other
     } = this.props
 
@@ -96,6 +100,7 @@ class View extends React.Component<IProps, IState> {
 
     return (
       <div
+        ref={forwardedRef}
         className={cls}
         onTouchStart={_onTouchStart}
         onTouchEnd={_onTouchEnd}
@@ -108,4 +113,4 @@ class View extends React.Component<IProps, IState> {
   }
 }
 
-export default View
+export default createForwardRefComponent(View)

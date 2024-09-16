@@ -3,7 +3,7 @@ import './style/index.css'
 import classNames from 'classnames'
 import React from 'react'
 
-import { throttle } from '../../utils'
+import { createForwardRefComponent, throttle } from '../../utils'
 
 function easeOutScroll (from = 0, to = 0, callback) {
   if (from === to || typeof from !== 'number') {
@@ -70,6 +70,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   scrollIntoViewAlignment?: ScrollLogicalPosition
   scrollWithAnimation: boolean
   enableBackToTop?: boolean
+  forwardedRef?: React.MutableRefObject<HTMLDivElement>
   onScrollToUpper: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   onScrollToLower: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   onScroll: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
@@ -193,6 +194,7 @@ class ScrollView extends React.Component<IProps> {
       <div
         ref={container => {
           this.container = container
+          this.props.forwardedRef && (this.props.forwardedRef.current = container as HTMLDivElement)
         }}
         style={style}
         className={cls}
@@ -205,4 +207,4 @@ class ScrollView extends React.Component<IProps> {
   }
 }
 
-export default ScrollView
+export default createForwardRefComponent(ScrollView)

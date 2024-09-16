@@ -3,6 +3,8 @@ import './style/index.css'
 import classNames from 'classnames'
 import React from 'react'
 
+import { createForwardRefComponent } from '../../utils/index'
+
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   src: string
   mode: string
@@ -10,6 +12,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   onLoad: (e) => void
   lazyLoad?: boolean
   imgProps?: Record<string, any>
+  forwardedRef?: React.MutableRefObject<HTMLDivElement>
 }
 
 class Image extends React.Component<IProps> {
@@ -72,6 +75,7 @@ class Image extends React.Component<IProps> {
       onError,
       lazyLoad,
       imgProps,
+      forwardedRef,
       ...reset
     } = this.props
     const cls = classNames(
@@ -87,7 +91,7 @@ class Image extends React.Component<IProps> {
     )
 
     return (
-      <div className={cls} style={style} {...reset}>
+      <div className={cls} style={style} ref={forwardedRef} {...reset}>
         {lazyLoad ? (
           <img
             ref={img => (this.imgRef = img)}
@@ -112,4 +116,4 @@ class Image extends React.Component<IProps> {
   }
 }
 
-export default Image
+export default createForwardRefComponent(Image)
