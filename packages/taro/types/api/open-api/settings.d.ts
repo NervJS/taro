@@ -76,6 +76,8 @@ declare module '../../index' {
     'scope.camera'?: boolean
     /** 是否授权小程序在后台运行蓝牙，对应接口 [Taro.openBluetoothAdapterBackground](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/setting/(wx.openBluetoothAdapterBackground).html) */
     'scope.bluetoothBackground'?: boolean
+    /** 是否授权蓝牙功能，对应接口 [Taro.openBluetoothAdapter](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.openBluetoothAdapter.html), [Taro.createBLEPeripheralServer](https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-peripheral/wx.createBLEPeripheralServer.html) */
+    'scope.bluetooth'?: boolean
   }
 
   /** 订阅消息设置
