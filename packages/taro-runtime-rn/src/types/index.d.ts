@@ -118,8 +118,8 @@ interface SubPackage {
 }
 
 interface PageItem {
-  name: string,
-  component: any,
+  name: string
+  component: any
   pagePath: string
 }
 export interface PageConfig extends CommonConfig {
@@ -129,7 +129,7 @@ export interface PageConfig extends CommonConfig {
    * default: false
    */
   disableScroll?: boolean
-  pagePath: string,
+  pagePath: string
   rn?: any
 }
 
@@ -154,16 +154,16 @@ export interface WindowConfig extends CommonConfig {
   allowsBounceVertical?: 'YES' | 'NO'
 }
 export interface AppConfig {
-  pages: string[],
-  window?: WindowConfig,
-  tabBar?: TabBar,
+  pages: string[]
+  window?: WindowConfig
+  tabBar?: TabBar
   subPackages?: SubPackage[]
-  subpackages?: SubPackage[],
-  designWidth: number,
-  deviceRatio: Record<number, number>,
-  linkPrefix: string[],
-  rn?: any,
-  entryPagePath?: string,
+  subpackages?: SubPackage[]
+  designWidth: number | ((size?: string | number) => number)
+  deviceRatio: Record<string, number>
+  linkPrefix: string[]
+  rn?: any
+  entryPagePath?: string
 }
 
 export interface RNAppConfig {
@@ -184,8 +184,8 @@ export interface BaseOption {
 }
 
 export interface ScrollOption extends BaseOption{
-  selector?: string,
-  scrollTop?: number,
+  selector?: string
+  scrollTop?: number
   duration?: number
 }
 

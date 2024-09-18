@@ -1,4 +1,4 @@
-import * as path from 'path'
+import * as path from 'node:path'
 
 import { globalAny, TransformPage } from './types/index'
 import { transformLinaria } from './utils'
@@ -34,7 +34,7 @@ export default function componentLoader ({ sourceCode, filename, projectRoot, so
   let linaria
   try {
     linaria = require('linaria')
-  } catch (e) { }
+  } catch (e) {} // eslint-disable-line no-empty
 
   if (linaria) {
     let transformResult

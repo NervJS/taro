@@ -1,18 +1,12 @@
-import MobileDetect from 'mobile-detect'
+import { eventCenter } from '@tarojs/runtime'
 
-let md: MobileDetect
+export const isWeixin = () => !!navigator.userAgent.match(/\bMicroMessenger\b/ig)
+export const isDingTalk = () => !!navigator.userAgent.match(/\bDingTalk\b/ig)
 let preTitle = document.title
 let isLoadDdEntry = false
 
-export function getMobileDetect (): MobileDetect {
-  if (!md) {
-    md = new MobileDetect(navigator.userAgent)
-  }
-  return md
-}
-
-export async function setTitle (title: string): Promise<string> {
-  if (preTitle === title) return title
+export function setMpaTitle (title: string): void {
+  if (preTitle === title) return
   document.title = title
   preTitle = title
   if (process.env.SUPPORT_DINGTALK_NAVIGATE !== 'disabled' && isDingTalk()) {
@@ -23,15 +17,16 @@ export async function setTitle (title: string): Promise<string> {
     const setDingTitle = require('dingtalk-jsapi/api/biz/navigation/setTitle').default
     setDingTitle({ title })
   }
-  return title
 }
 
-export function isWeixin (): boolean {
-  const md = getMobileDetect()
-  return md.match(/MicroMessenger/ig)
+export function setTitle (title: string): void {
+  eventCenter.trigger('__taroH5SetNavigationBarTitle', title)
 }
 
-export function isDingTalk (): boolean {
-  const md = getMobileDetect()
-  return md.match(/DingTalk/ig)
+export function setNavigationBarStyle (option: { backgroundColor: string, frontColor: string }):void {
+  eventCenter.trigger('__taroH5setNavigationBarColor', option)
+}
+
+export function setNavigationBarLoading (loading: boolean): void {
+  eventCenter.trigger('__taroH5setNavigationBarLoading', loading)
 }

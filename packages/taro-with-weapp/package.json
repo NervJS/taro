@@ -1,13 +1,12 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "3.5.3",
+  "version": "4.0.5",
   "description": "taroize 之后的运行时",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
-  "scripts": {
-    "test": "jest",
-    "build": "rollup -c rollup.config.js",
-    "dev": "rollup -c -w rollup.config.js",
-    "tsc": "tsc"
+  "exports": {
+    ".": "./dist/index.esm.js"
   },
   "files": [
     "dist",
@@ -19,12 +18,26 @@
     "type": "git",
     "url": "https://github.com/NervJS/taro/tree/master/packages/taro-with-weapp"
   },
-  "author": "yuche",
-  "license": "MIT",
+  "scripts": {
+    "prod": "pnpm run build",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "tsc": "tsc",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
+    "test": "jest",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --silent",
+    "test:coverage": "jest --coverage"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
-    "@babel/runtime": "^7.14.5",
     "@tarojs/runtime": "workspace:*",
-    "@tarojs/taro": "workspace:*",
-    "lodash": "^4.17.21"
+    "@tarojs/taro": "workspace:*"
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import * as Memoryfs from 'memory-fs'
-import * as path from 'path'
 import * as prettier from 'prettier'
 import * as webpack from 'webpack'
 
@@ -28,7 +29,7 @@ export async function compile (fixture, { type, framework }) {
       path: path.resolve(__dirname, './fixtures'),
       filename: 'bundle.txt'
     },
-    externals: ['@tarojs/runtime', 'vue', 'react-dom', 'react', 'vue', './app'],
+    externals: ['@tarojs/runtime', 'vue', 'react-dom', 'react', './app'],
     module: {
       rules: [{
         test: /\.txt$/,

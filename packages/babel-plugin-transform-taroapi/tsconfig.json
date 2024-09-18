@@ -4,9 +4,7 @@
     "baseUrl": ".",
     "outDir": "dist",
     "rootDir": "./src",
-    "module": "commonjs",
+    "module": "commonjs"
   },
-  "include": [
-    "./src"
-  ]
+  "include": ["./src"]
 }

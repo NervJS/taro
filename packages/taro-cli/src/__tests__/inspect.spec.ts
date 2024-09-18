@@ -1,5 +1,6 @@
+import * as path from 'node:path'
+
 import { chalk, fs } from '@tarojs/helper'
-import * as path from 'path'
 
 import { run } from './utils'
 
@@ -14,7 +15,7 @@ jest.mock('cli-highlight', () => {
 
 jest.mock('@tarojs/helper', () => {
   const helper = jest.requireActual('@tarojs/helper')
-  const fs = jest.requireActual('fs-extra')
+  const fs = helper.fs
   return {
     __esModule: true,
     ...helper,
@@ -28,11 +29,14 @@ jest.mock('@tarojs/helper', () => {
 const runInspect = run('inspect', [
   'commands/build',
   'commands/inspect',
-  require.resolve('@tarojs/plugin-platform-weapp'),
-  'platforms/h5'
+  require.resolve('@tarojs/plugin-platform-weapp')
 ])
 
 describe('inspect', () => {
+  beforeEach(() => {
+    jest.resetModules()
+  })
+
   it('should exit because there isn\'t a Taro project', async () => {
     const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
     const logSpy = jest.spyOn(console, 'log')
@@ -75,7 +79,7 @@ describe('inspect', () => {
 
   it('should log config', async () => {
     const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
-    const logSpy = jest.spyOn(console, 'log')
+    const logSpy = jest.spyOn(console, 'info')
 
     exitSpy.mockImplementation(() => {
       throw new Error()
@@ -100,7 +104,7 @@ describe('inspect', () => {
 
   it('should log specific config', async () => {
     const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
-    const logSpy = jest.spyOn(console, 'log')
+    const logSpy = jest.spyOn(console, 'info')
     const errorSpy = jest.spyOn(console, 'error')
 
     exitSpy.mockImplementation(() => {

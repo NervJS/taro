@@ -1,6 +1,9 @@
+import Config from './Config'
 import Kernel from './Kernel'
-import { TaroPlatformBase } from './platform-plugin-base'
+import { TaroPlatform, TaroPlatformBase, TaroPlatformWeb } from './platform-plugin-base'
 
-export { Kernel }
-export { TaroPlatformBase }
-export default { Kernel, TaroPlatformBase }
+export * from './utils/types'
+export { Config, Kernel, TaroPlatform, TaroPlatformBase, TaroPlatformWeb }
+export default { Config, Kernel, TaroPlatform, TaroPlatformBase, TaroPlatformWeb }
+
+export type { IPluginContext } from './utils/types'

@@ -1,3 +1,5 @@
+import * as path from 'node:path'
+
 import babel from '@rollup/plugin-babel'
 import * as commonjs from '@rollup/plugin-commonjs'
 import * as json from '@rollup/plugin-json'
@@ -5,10 +7,9 @@ import nodeResolve from '@rollup/plugin-node-resolve'
 import * as pluginReplace from '@rollup/plugin-replace'
 import { recursiveMerge } from '@tarojs/helper'
 import { rollupTransform as styleTransformer } from '@tarojs/rn-style-transformer'
-import { resolveExtFile, rollupResolver as taroResolver } from '@tarojs/rn-supporter'
+import { getBabelConfig, resolveExtFile, rollupResolver as taroResolver } from '@tarojs/rn-supporter'
 import { getAppConfig } from '@tarojs/rn-transformer'
 import * as jsx from 'acorn-jsx'
-import * as path from 'path'
 import { rollup, RollupOptions } from 'rollup'
 import image from 'rollup-plugin-image-file'
 
@@ -49,7 +50,7 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
       if (!path.isAbsolute(cur)) {
         absolutePath = path.resolve(sourceRootPath, cur)
       }
-      const realPath = resolveExtFile({ originModulePath: absolutePath }, absolutePath)
+      const realPath = resolveExtFile({ originModulePath: absolutePath }, absolutePath, undefined, projectConfig)
       const relativePath = path
         .relative(sourceRootPath, realPath)
         .replace(/\.(js|ts|jsx|tsx)$/, '')
@@ -80,6 +81,8 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
     })
   }
 
+  const { plugins } = getBabelConfig(projectConfig, true)
+
   const rollupOptions: RollupOptions = {
     input: getInputOption(),
     output: {
@@ -100,13 +103,16 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
       taroResolver({
         externalResolve,
         platform: projectConfig.deviceType // ios|android
-      }),
+      }, projectConfig),
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx']
       }),
       // @ts-ignore
       pluginReplace({
-        'process.env.NODE_ENV': JSON.stringify('production')
+        preventAssignment: true,
+        values: {
+          'process.env.NODE_ENV': JSON.stringify('production')
+        }
       }),
       // @ts-ignore
       commonjs(),
@@ -123,6 +129,7 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
             }
           ]
         ],
+        plugins,
         extensions: ['js', 'ts', 'jsx', 'tsx']
       }),
       styleTransformer({
@@ -168,10 +175,20 @@ function likeDependent (str: string) {
   return !str.match(/^\.?\.\//) && !path.isAbsolute(str)
 }
 
+function getEntryPath (entry) {
+  const app = entry.app
+  if (Array.isArray(app)) {
+    return app[0]
+  } else if (Array.isArray(app.import)) {
+    return app.import[0]
+  }
+  return app
+}
+
 export default function (projectPath: string, config: any) {
   const { sourceRoot, entry, nativeComponents } = config
-  const appPath = path.join(projectPath, sourceRoot, entry)
-  const appConfig = getAppConfig(appPath)
+  const appEntryPath = getEntryPath(entry)
+  const appConfig = getAppConfig(appEntryPath)
   const { output = DEFAULT_CONFIG.output } = nativeComponents || {}
 
   const componentConfig = {

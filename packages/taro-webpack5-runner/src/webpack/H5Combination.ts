@@ -1,25 +1,39 @@
-import { resolveMainFilePath } from '@tarojs/helper'
-import path from 'path'
-import { Configuration, EntryNormalized } from 'webpack'
+import { REG_NODE_MODULES_DIR, REG_TARO_SCOPED_PACKAGE, resolveSync } from '@tarojs/helper'
+import VirtualModulesPlugin from 'webpack-virtual-modules'
 
 import { parsePublicPath } from '../utils'
-import H5AppInstance from '../utils/H5AppInstance'
-import type { H5BuildConfig } from '../utils/types'
+import AppHelper from '../utils/app'
+import { componentConfig } from '../utils/component'
 import { Combination } from './Combination'
 import { H5BaseConfig } from './H5BaseConfig'
 import { H5WebpackModule } from './H5WebpackModule'
 import { H5WebpackPlugin } from './H5WebpackPlugin'
+import WebpackPlugin from './WebpackPlugin'
+
+import type { Configuration, EntryNormalized, LibraryOptions } from 'webpack'
+import type { IH5BuildConfig } from '../utils/types'
 
 type Output = Required<Configuration>['output']
 type Optimization = Required<Configuration>['optimization']
 type OptimizationSplitChunksOptions = Required<Optimization>['splitChunks']
 
-export class H5Combination extends Combination<H5BuildConfig> {
-  inst: H5AppInstance
+export class H5Combination extends Combination<IH5BuildConfig> {
+  appHelper: AppHelper
   webpackPlugin = new H5WebpackPlugin(this)
   webpackModule = new H5WebpackModule(this)
 
-  process (config: Partial<H5BuildConfig>) {
+  isMultiRouterMode = false
+  isVirtualEntry = false
+
+  /** special mode */
+  noInjectGlobalStyle = false
+
+  constructor(appPath: string, config: IH5BuildConfig) {
+    super(appPath, config)
+    this.noInjectGlobalStyle = !!config.noInjectGlobalStyle
+  }
+
+  process (config: Partial<IH5BuildConfig>) {
     const baseConfig = new H5BaseConfig(this.appPath, config)
     const chain = this.chain = baseConfig.chain
     const {
@@ -31,21 +45,49 @@ export class H5Combination extends Combination<H5BuildConfig> {
       publicPath = '/',
       chunkDirectory = 'chunk',
       alias = {},
+      defineConstants = {},
       router,
-      frameworkExts
+      frameworkExts,
+      /** special mode */
+      /** hooks */
+      modifyComponentConfig,
     } = config
+    const externals: Configuration['externals'] = []
     const routerMode = router?.mode || 'hash'
-    const isMultiRouterMode = routerMode === 'multi'
-    this.inst = new H5AppInstance(entry as EntryNormalized, {
+    this.isMultiRouterMode = routerMode === 'multi'
+    this.appHelper = new AppHelper(entry as EntryNormalized, {
       sourceDir: this.sourceDir,
       frameworkExts,
-      entryFileName
+      entryFileName,
+      alias,
+      defineConstants,
     })
-    if (isMultiRouterMode) {
+
+    modifyComponentConfig?.(componentConfig, config)
+
+    const virtualEntryMap: { [entryPath: string]: string } = {}
+    if (this.isBuildNativeComp) {
       delete entry[entryFileName]
-      this.inst.pagesConfigList.forEach((page, index) => {
+      this.appHelper.compsConfigList.forEach((comp, index) => {
+        try {
+          resolveSync(comp, { extensions: ['.js', '.ts'] })
+        } catch (e) {
+          // 报错证明没有入口文件，通过虚拟模块补全入口文件
+          this.isVirtualEntry = true
+          // 添加后缀，否则 module.resource 解析出来的 name 是不带后缀的，导致 h5-loader 无法加入编译流程
+          comp += '.js'
+          virtualEntryMap[comp] = 'export default {}'
+        }
+
+        entry[index] = [comp]
+      })
+      this.webpackPlugin.pages = this.appHelper.appConfig?.components
+    } else if (this.isMultiRouterMode) {
+      delete entry[entryFileName]
+      this.appHelper.pagesConfigList.forEach((page, index) => {
         entry[index] = [page]
       })
+      this.webpackPlugin.pages = this.appHelper.appConfig?.pages
     }
 
     const webpackOutput = this.getOutput({
@@ -56,11 +98,22 @@ export class H5Combination extends Combination<H5BuildConfig> {
     })
     const module = this.webpackModule.getModules()
     const [, pxtransformOption] = this.webpackModule.__postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
-    if (isMultiRouterMode) {
-      this.webpackPlugin.pages = this.inst.appConfig?.pages
-    }
     this.webpackPlugin.pxtransformOption = pxtransformOption as any
     const plugin = this.webpackPlugin.getPlugins()
+
+    if (this.isBuildNativeComp) {
+      if (this.isVirtualEntry) {
+        plugin.VirtualModule = WebpackPlugin.getPlugin(VirtualModulesPlugin, [virtualEntryMap])
+      }
+
+      // Note: 当开发者没有配置时，优先使用 module 导出组件
+      if (!webpackOutput.libraryTarget && !(webpackOutput.library as LibraryOptions)?.type) {
+        webpackOutput.library = {
+          name: webpackOutput.library as (Exclude<typeof webpackOutput.library, LibraryOptions>),
+          type: 'umd',
+        }
+      }
+    }
 
     chain.merge({
       entry,
@@ -70,7 +123,8 @@ export class H5Combination extends Combination<H5BuildConfig> {
       resolve: { alias },
       plugin,
       module,
-      optimization: this.getOptimization(mode)
+      optimization: this.getOptimization(mode),
+      externals,
     })
   }
 
@@ -78,7 +132,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
     publicPath = '/', chunkDirectory, customOutput = {}, entryFileName = 'app'
   }: {
     publicPath: string
-    chunkDirectory: H5BuildConfig['chunkDirectory']
+    chunkDirectory: IH5BuildConfig['chunkDirectory']
     customOutput?: Output
     entryFileName?: string
   }): Output {
@@ -100,27 +154,27 @@ export class H5Combination extends Combination<H5BuildConfig> {
       defaultVendors: false,
       common: {
         name: isProd ? false : 'common',
-        filename: 'js/[name].js',
         minChunks: 2,
         priority: 1
       },
       vendors: {
         name: isProd ? false : 'vendors',
-        filename: 'js/[name].js',
         minChunks: 2,
-        test: (module: any) => /[\\/]node_modules[\\/]/.test(module.resource),
+        test: (module: any) => {
+          const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+          return nodeModulesDirRegx.test(module.resource)
+        },
         priority: 10
       },
       taro: {
         name: isProd ? false : 'taro',
-        filename: 'js/[name].js',
-        test: (module: any) => /@tarojs[\\/][a-z]+/.test(module.context),
+        test: (module: any) => REG_TARO_SCOPED_PACKAGE.test(module.context),
         priority: 100
       }
     }
     const optimization: Optimization = {
       nodeEnv,
-      chunkIds: isProd ? 'natural' : 'named',
+      chunkIds: isProd ? 'deterministic' : 'named', // false 或导致编译错误，natural、size、total-size 与 prebundle 特性不兼容
       removeEmptyChunks: true,
       splitChunks: {
         chunks: 'initial',
@@ -133,16 +187,10 @@ export class H5Combination extends Combination<H5BuildConfig> {
       cacheGroups.name = false
       optimization.runtimeChunk = 'single'
     }
+    // 组件编译模式下不做代码分割
+    if (this.isBuildNativeComp) {
+      optimization.splitChunks = false
+    }
     return optimization
-  }
-
-  getConfigFilePath (filePath = '') {
-    return resolveMainFilePath(`${filePath.replace(path.extname(filePath), '')}.config`)
-  }
-
-  getPagesConfigList (pages: string[] = []) {
-    const pageMap = new Map()
-    pages.forEach((page) => pageMap.set(page, this.getConfigFilePath(path.join(this.sourceDir, page))))
-    return pageMap
   }
 }

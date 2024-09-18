@@ -1,5 +1,6 @@
-import * as React from 'react'
 import { render } from '@testing-library/react-native'
+import * as React from 'react'
+
 import RichText from '../components/RichText'
 
 describe('RichText', () => {
@@ -10,11 +11,7 @@ describe('RichText', () => {
         type: 'node',
         attrs: {
           class: 'div_class',
-          style: `
-            line-height: 60px;
-            color: white;
-            font-size: 60px;
-          `
+          style: 'line-height:60px;color:white;font-size:60px;'
         },
         children: [
           {

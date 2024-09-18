@@ -1,7 +1,7 @@
 import React from 'react'
 import Vue from 'vue'
 
-import Taro, { Config } from './index'
+import Taro from './index'
 
 declare module './index' {
   // ref: packages/taro-runtime/src/current.ts
@@ -19,6 +19,7 @@ declare module './index' {
     shareTicket: string | undefined
     scene: number | undefined
     exitState?: any
+    $taroPath?: string
   }
 
   interface Show {
@@ -28,7 +29,7 @@ declare module './index' {
     onHide?(): void
   }
   interface AppInstance extends Show {
-    mount(component: React.Component | Vue.ComponentOptions<Vue>, id: string, cb: (...args: any[]) => void): void
+    mount(component: React.Component | Vue.ComponentOptions<typeof Vue>, id: string, cb: (...args: any[]) => void): void
     componentDidShow?(options?: Record<string, unknown>): void
     onShow?(options?: Record<string, unknown>): void
     unmount(id: string, cb?: () => void): void
@@ -51,6 +52,7 @@ declare module './index' {
     onReachBottom?(): void
     onResize?(opt: PageResizeObject): void
     onShareAppMessage?(opt: ShareAppMessageObject): ShareAppMessageReturn
+    onShareTimeline?(): ShareTimelineReturnObject
     onTabItemTap?(opt: TabItemTapObject): void
     onTitleClick?(): void
     onUnload(): void
@@ -89,7 +91,7 @@ declare module './index' {
     /** 创建一个 SelectorQuery 对象，选择器选取范围为这个组件实例内 */
     createSelectorQuery?(): SelectorQuery
     /** 创建一个 IntersectionObserver 对象，选择器选取范围为这个组件实例内 */
-    createIntersectionObserver?(): IntersectionObserver
+    createIntersectionObserver?(options?: createIntersectionObserver.Option): IntersectionObserver
     /** 创建一个 MediaQueryObserver 对象 */
     createMediaQueryObserver?(): MediaQueryObserver
     /** 使用选择器选择组件实例节点，返回匹配到的第一个组件实例对象（会被 wx://component-export 影响） */
@@ -138,5 +140,7 @@ declare module './index' {
     path?: string
     /** 页面的组件选项 */
     options?: Record<string, unknown>
+    /** 获得一个 EventChannel 对象，用于页面间通讯 */
+    getOpenerEventChannel?(): Record<string, any>
   }
 }

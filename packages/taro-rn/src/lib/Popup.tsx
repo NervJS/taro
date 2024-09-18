@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-
-import PropTypes from 'prop-types'
-import { Modal, View, StyleSheet, Dimensions, Animated, Easing } from 'react-native'
 import { ViewPropTypes } from 'deprecated-react-native-prop-types'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import { Animated, Dimensions, Easing, Modal, StyleSheet, View } from 'react-native'
+
 import { Mask } from './Mask'
 
 const { width, height } = Dimensions.get('window')
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 })
 
 interface Props {
-  visible?: boolean;
+  visible?: boolean
 }
 
 class Popup extends Component<any, any> {
@@ -32,14 +32,14 @@ class Popup extends Component<any, any> {
 
   height
   popup
-
-  constructor (props:Props) {
+  timer
+  constructor(props: Props) {
     super(props)
     this.state = { visible: props.visible ?? false, translateY: new Animated.Value(height) }
     this.handleLayout = this.handleLayout.bind(this)
   }
 
-  UNSAFE_componentWillReceiveProps (nextProp:Props):void {
+  UNSAFE_componentWillReceiveProps (nextProp: Props): void {
     if (this.props.visible !== nextProp.visible) {
       if (nextProp.visible) {
         this.setState({ visible: true })
@@ -54,20 +54,27 @@ class Popup extends Component<any, any> {
     }
   }
 
-  handleLayout ():void {
-    this.popup.measure((_x, _y, _w, h) => {
-      this.height = h
-      this.setState({ translateY: new Animated.Value(h) })
-      Animated.timing(this.state.translateY, {
-        toValue: 0,
-        duration: 300,
-        easing: (Easing as any).easeInOut,
-        useNativeDriver: true
-      }).start()
-    })
+  componentWillUnmount (): void {
+    this.timer && clearTimeout(this.timer)
   }
 
-  render ():JSX.Element {
+  handleLayout (): void {
+    this.timer = setTimeout(() => {
+      this.popup?.measure((_x, _y, _w, h) => {
+        this.height = h
+        this.setState({ translateY: new Animated.Value(h) }, () => {
+          Animated.timing(this.state.translateY, {
+            toValue: 0,
+            duration: 300,
+            easing: (Easing as any).easeInOut,
+            useNativeDriver: true
+          }).start()
+        })
+      })
+    },) // 处理鸿蒙系统handleLayout 回调 this.popup为空的情况
+  }
+
+  render (): JSX.Element {
     const {
       style,
       maskStyle,

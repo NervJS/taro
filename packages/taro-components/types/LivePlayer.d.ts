@@ -1,115 +1,147 @@
 import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, NetStatus } from './common'
-
 interface LivePlayerProps extends StandardProps {
   /** 音视频地址。目前仅支持 flv, rtmp 格式
-   * @supported weapp, tt
+   * @supported weapp, swan, tt, qq, jd
    */
   src?: string
-
   /** 模式
    * @default "live"
-   * @supported weapp
+   * @supported weapp, qq, jd
    */
   mode?: keyof LivePlayerProps.Mode
-
   /** 自动播放
    * @default false
-   * @supported weapp, tt
+   * @supported weapp, swan, tt, qq, jd
    */
   autoplay?: boolean
-
   /** 是否静音
    * @default false
-   * @supported weapp, tt
+   * @supported weapp, swan, tt, qq, jd
    */
   muted?: boolean
-
   /** 画面方向
    * @default "vertical"
-   * @supported weapp, tt
+   * @supported weapp, swan, tt, qq, jd
    */
   orientation?: keyof LivePlayerProps.Orientation
-
   /** 填充模式
    * @default "contain"
-   * @supported weapp, tt
+   * @supported weapp, swan, tt, qq, jd
    */
   objectFit?: keyof LivePlayerProps.objectFit
-
   /** 进入后台时是否静音（已废弃，默认退台静音）
    * @default false
-   * @supported weapp
+   * @supported weapp, swan
    * @deprecated
    */
   backgroundMute?: boolean
-
   /** 最小缓冲区，单位s
    * @default 1
-   * @supported weapp
+   * @supported weapp, swan, qq
    */
   minCache?: number
-
   /** 最大缓冲区，单位s
    * @default 3
-   * @supported weapp
+   * @supported weapp, swan, qq
    */
   maxCache?: number
-
   /** 声音输出方式
    * @default "speaker"
-   * @supported weapp
+   * @supported weapp, qq, jd
    */
   soundMode?: keyof LivePlayerProps.soundMode
-
   /** 当跳转到本小程序的其他页面时，是否自动暂停本页面的实时音视频播放
    * @default true
-   * @supported weapp
+   * @supported weapp, qq
    */
   autoPauseIfNavigate?: boolean
-
-  /** 当跳转到其它微信原生页面时，是否自动暂停本页面的实时音视频播放
-   * @default true
-   * @supported weapp
-   */
-  autoPauseIfOpenNavigate?: boolean
-
   /** 设置小窗模式： push, pop，空字符串或通过数组形式设置多种模式（如： ["push", "pop"]）
    * @supported weapp
    */
   pictureInPictureMode?: ('push' | 'pop')[] | 'push' | 'pop' | ''
-
-  /** 播放状态变化事件，detail = {code}
-   * @supported weapp, tt
+  /** 当跳转到其它微信原生页面时，是否自动暂停本页面的实时音视频播放
+   * @default true
+   * @supported weapp, qq
    */
-  onStateChange?: CommonEventFunction<LivePlayerProps.onStateChangeEventDetail>
-
-  /** 全屏变化事件，detail = {direction, fullScreen}
-   * @supported weapp, tt
-   */
-  onFullScreenChange?: CommonEventFunction<LivePlayerProps.onFullScreenChangeEventDetail>
-
-  /** 网络状态通知，detail = {info}
+  autoPauseIfOpenNative?: boolean
+  /** 格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html ，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；
+   * @default 'no-referrer'
    * @supported weapp
    */
+  referrerPolicy?: 'origin' | 'no-referrer'
+  /** 设置署名水印
+   * @supported tt
+   */
+  signature?: string
+  /** 是否回调metadata
+   * @supported qq
+   */
+  enableMetadata?: string
+  /** live-player 属性的唯一标志符
+   * @supported swan
+   */
+  id?: string
+  /** 是否开启手机横屏时自动全屏，当系统设置开启自动旋转时生效
+   * @supported weapp
+   * @default false
+   */
+  enableAutoRotation?: boolean
+  /** 是否支持投屏。开启后，可以通过 LivePlayerContext 上相关方法进行操作。
+   * @supported weapp
+   * @default false
+   */
+  enableCasting?: boolean
+  /** 播放状态变化事件，detail = {code}
+   * @supported weapp, swan, tt, qq, jd
+   */
+  onStateChange?: CommonEventFunction<LivePlayerProps.onStateChangeEventDetail>
+  /** 全屏变化事件，detail = {direction, fullScreen}
+   * @supported weapp, swan, tt, qq, jd
+   */
+  onFullScreenChange?: CommonEventFunction<LivePlayerProps.onFullScreenChangeEventDetail>
+  /** 网络状态通知，detail = {info}
+   * @supported weapp, swan, qq
+   */
   onNetStatus?: CommonEventFunction<LivePlayerProps.onNetStatusEventDetail>
-
   /** 播放音量大小通知，detail = {}
    * @supported weapp
    */
   onAudioVolumeNotify?: CommonEventFunction<{}>
-
   /** 播放器进入小窗
    * @supported weapp
    */
   onEnterPictureInPicture?: CommonEventFunction
-
   /** 播放器退出小窗
    * @supported weapp
    */
   onLeavePictureInPicture?: CommonEventFunction
+  /** 播放错误事件
+   * @supported tt
+   */
+  onError?: CommonEventFunction
+  /** metadata通知，detail = {info}
+   * @supported qq
+   */
+  onMetaDataChange?: CommonEventFunction
+  /** 用户选择投屏设备时触发 detail = { state: "success"/"fail" }
+   * @supported weapp
+   */
+  onCastingUserSelect?: CommonEventFunction<{
+    state: 'success' | 'fail'
+  }>
+  /** 投屏成功/失败时触发 detail = { type, state: "success"/"fail" }
+   * @supported weapp
+   */
+  onCastingStateChange?: CommonEventFunction<{
+    type: any
+    state: 'success' | 'fail'
+  }>
+  /** 投屏被中断时触发
+   * @supported weapp
+   */
+  onCastingInterrupt?: CommonEventFunction
 }
-
 declare namespace LivePlayerProps {
   /** mode 的合法值 */
   interface Mode {
@@ -139,7 +171,6 @@ declare namespace LivePlayerProps {
     /** 听筒 */
     ear
   }
-
   interface onStateChangeEventDetail {
     /** 状态码 */
     code: number
@@ -203,12 +234,11 @@ declare namespace LivePlayerProps {
     3005
   }
 }
-
 /** 实时音视频播放。相关api：Taro.createLivePlayerContext
  *
  * 需要先通过类目审核，再在小程序管理后台，“设置”-“接口设置”中自助开通该组件权限。
  * @classification media
- * @supported weapp, tt
+ * @supported weapp, swan, tt, qq, jd
  * @example_react
  * ```tsx
  * class App extends Components {
@@ -228,5 +258,4 @@ declare namespace LivePlayerProps {
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/live-player.html
  */
 declare const LivePlayer: ComponentType<LivePlayerProps>
-
 export { LivePlayer, LivePlayerProps }

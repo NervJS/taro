@@ -1,8 +1,8 @@
-import * as React from 'react'
 import AntPicker from '@ant-design/react-native/lib/picker'
+import * as React from 'react'
+
 import { noop } from '../../utils'
 import { MultiSelectorProps, MultiSelectorState } from './PropsType'
-import { TouchableWithoutFeedback } from 'react-native'
 
 /**
  * 比较数组内每个数值
@@ -58,6 +58,7 @@ function getIndexByValues(range: any[] = [], value: any[] = []): number[] {
   })
 }
 
+// Todo: 支持 defaultValue
 export default class MultiSelector extends React.Component<MultiSelectorProps, MultiSelectorState> {
   static defaultProps = {
     range: [],
@@ -137,21 +138,24 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, M
   }
 
   render(): JSX.Element {
-    const { children, disabled } = this.props
+    const { children, disabled, itemStyle, indicatorStyle } = this.props
     const { cols, range, value } = this.state
 
     return (
+      // @ts-ignore
       <AntPicker
         data={range}
         value={value}
         cols={cols}
+        itemStyle={itemStyle}
+        indicatorStyle={indicatorStyle}
         onChange={this.onChange}
         onPickerChange={this.onPickerChange}
         onOk={this.onOk}
         onVisibleChange={this.onVisibleChange}
         disabled={disabled}
       >
-        <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>
+        {children}
       </AntPicker>
     )
   }

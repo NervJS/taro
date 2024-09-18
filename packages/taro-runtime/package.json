@@ -1,30 +1,44 @@
 {
   "name": "@tarojs/runtime",
-  "version": "3.5.3",
+  "version": "4.0.5",
   "description": "taro runtime for mini apps.",
+  "author": "O2Team",
+  "license": "MIT",
+  "browser": "dist/index.js",
+  "main:h5": "dist/runtime.esm.js",
   "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
+  "sideEffects": [],
   "scripts": {
-    "build": "rimraf ./dist && tsc -emitDeclarationOnly && rollup -c",
-    "dev": "rollup -c -w",
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf --impl=move-remove ./dist",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
     "test": "jest",
-    "test:ci": "jest --ci -i --coverage false"
+    "test:ci": "jest --ci -i --coverage --silent"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/NervJS/taro/tree/master/packages/taro-runtime"
   },
-  "author": "yuche",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
+  "engines": {
+    "node": ">= 18"
   },
   "dependencies": {
-    "@tarojs/shared": "workspace:*",
-    "lodash-es": "4.17.21"
+    "tslib": "^2.6.2",
+    "@tarojs/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.79",
+    "@vue/runtime-core": "^3.4.23",
+    "lodash": "^4.17.21",
+    "react": "^18.2.0",
+    "rollup-plugin-ts": "^3.0.2"
   }
 }

@@ -5,7 +5,8 @@ export type Type = 'success' | 'success_no_circle' | 'info'| 'warn'| 'waiting'| 
 type IconType = Exclude<Type, 'success_no_circle'> | 'success-no-circle'
 
 @Component({
-  tag: 'taro-icon-core'
+  tag: 'taro-icon-core',
+  styleUrl: './style/index.scss'
 })
 export class Icon implements ComponentInterface {
   @Prop() type: Type

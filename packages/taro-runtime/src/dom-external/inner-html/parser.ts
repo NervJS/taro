@@ -1,12 +1,13 @@
 import { isFunction } from '@tarojs/shared'
 
-import type { TaroDocument } from '../../dom/document'
-import type { TaroElement } from '../../dom/element'
 import { options } from '../../options'
 import { Scaner, Token } from './scaner'
 import StyleTagParser from './style'
 import { isBlockElements, isInlineElements, isMiniElements, specialMiniElements } from './tags'
 import { unquote } from './utils'
+
+import type { TaroDocument } from '../../dom/document'
+import type { TaroElement } from '../../dom/element'
 
 interface State {
   tokens: Token[]

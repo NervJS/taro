@@ -1,0 +1,73 @@
+{
+  "name": "@tarojs/plugin-platform-harmony-hybrid",
+  "version": "4.0.5",
+  "description": "Harmony 端平台插件",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "dist",
+    "index.js",
+    "types"
+  ],
+  "sideEffects": [
+    "./dist/runtime/index.js",
+    "*.scss",
+    "*.css"
+  ],
+  "types": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "run-s clean generate:desc",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf dist",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "generate:desc": "pnpm run tsx --files ./build",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
+    "tsx": "ts-node --skipIgnore"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "@tarojs/api": "workspace:*",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/components": "workspace:*",
+    "@tarojs/components-react": "workspace:*",
+    "@tarojs/router": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro-h5": "workspace:*",
+    "@tarojs/plugin-platform-h5": "workspace:*",
+    "babel-plugin-transform-taroapi": "workspace:*",
+    "lodash-es": "4.17.21",
+    "query-string": "^9.0.0",
+    "jsonp-retry": "^1.0.3",
+    "whatwg-fetch": "^3.6.20",
+    "change-case": "^4.1.2",
+    "base64-js": "^1.5.1",
+    "axios": "^1.6.8"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "@tarojs/taro": "workspace:*",
+    "@types/node": "^14.14.31",
+    "fast-glob": "^3.3.1",
+    "lodash": "^4.17.21",
+    "rollup": "^3.29.4",
+    "rollup-plugin-node-externals": "^5.0.0",
+    "rollup-plugin-ts": "^3.4.5",
+    "tsconfig-paths": "^3.14.1"
+  }
+}

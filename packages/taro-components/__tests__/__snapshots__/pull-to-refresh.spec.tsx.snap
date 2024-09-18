@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PullToRefresh base 1`] = `
+<taro-pull-to-refresh-core>
+  <!---->
+  <div class="rmc-pull-to-refresh-content-wrapper">
+    <div class="rmc-pull-to-refresh-content rmc-pull-to-refresh-down rmc-pull-to-refresh-transition"></div>
+  </div>
+</taro-pull-to-refresh-core>
+`;

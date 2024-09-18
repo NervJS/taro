@@ -1,10 +1,12 @@
-/** @jsx createElement */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { createElement, render } from 'nervjs'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
 import withWeapp from '../src'
-import { TaroComponent, delay } from './utils'
-import * as sinon from 'sinon'
+import { delay, TaroComponent, wasCalledBefore } from './utils'
+
+const noop = () => {}
 
 describe('lifecycle', () => {
   /**
@@ -16,7 +18,7 @@ describe('lifecycle', () => {
     scratch = document.createElement('div')
   })
 
-  test('created', () => {
+  test('created', done => {
     const spy = jest.fn()
 
     @withWeapp({
@@ -25,66 +27,48 @@ describe('lifecycle', () => {
       }
     })
     class A extends TaroComponent {
+      componentDidMount () {
+        expect(spy).toBeCalled()
+        done()
+      }
+
       render () {
         return <div />
       }
     }
 
-    render(<A />, scratch)
-
-    expect(spy).toBeCalled()
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<A />)
   })
 
-  test('onLoad', () => {
+  test('attached', done => {
     const spy = jest.fn()
 
     @withWeapp({
-      onLoad () {
+      attached () {
         spy()
       }
     })
     class A extends TaroComponent {
+      componentDidMount () {
+        delay(() => {
+          expect(spy).toBeCalled()
+          done()
+        })
+      }
+
       render () {
         return <div />
       }
     }
 
-    render(<A />, scratch)
-
-    expect(spy).toBeCalled()
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<A />)
   })
 
-  test('onLanuch', (done) => {
-    const spy = jest.fn()
-
-    @withWeapp({
-      data: {
-        a: ''
-      },
-      onLanuch () {
-        spy()
-        this.a = 'a'
-      }
-    })
-    class A extends TaroComponent {
-      render () {
-        return <div>{this.a}</div>
-      }
-    }
-
-    render(<A />, scratch)
-
-    expect(spy).toBeCalled()
-
-    delay(() => {
-      expect(scratch.textContent).toBe('a')
-      done()
-    })
-  })
-
-  test('onReady', (done) => {
-    const s1 = sinon.spy()
-    const s2 = sinon.spy()
+  test('ready should work', done => {
+    const s1 = jest.fn()
+    const s2 = jest.fn()
 
     @withWeapp({
       data: {
@@ -94,66 +78,33 @@ describe('lifecycle', () => {
         s1()
         this.a = 'a'
       },
-      onReady () {
+      attached () {
         s2()
       }
     })
     class A extends TaroComponent {
+      componentDidMount () {
+        delay(() => {
+          expect(s1).toBeCalled()
+          expect(s2).toBeCalled()
+          wasCalledBefore(s1, s2)
+          expect(scratch.textContent).toBe('a')
+          done()
+        })
+      }
+
       render () {
         return <div>{this.a}</div>
       }
     }
 
-    render(<A />, scratch)
-
-    expect(s1.called).toBeTruthy()
-    expect(s2.called).toBeTruthy()
-
-    expect(s1.calledBefore(s2))
-
-    delay(() => {
-      expect(scratch.textContent).toBe('a')
-      done()
-    })
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<A />)
   })
 
-  test('ready should work', (done) => {
-    const s1 = sinon.spy()
-    const s2 = sinon.spy()
-
-    @withWeapp({
-      data: {
-        a: ''
-      },
-      created () {
-        s1()
-        this.a = 'a'
-      },
-      ready () {
-        s2()
-      }
-    })
-    class A extends TaroComponent {
-      render () {
-        return <div>{this.a}</div>
-      }
-    }
-
-    render(<A />, scratch)
-
-    expect(s1.called).toBeTruthy()
-    expect(s2.called).toBeTruthy()
-
-    expect(s1.calledBefore(s2))
-
-    delay(() => {
-      expect(scratch.textContent).toBe('a')
-      done()
-    })
-  })
-
-  test('detached', () => {
-    const s1 = sinon.spy()
+  test('detached', done => {
+    const s1 = jest.fn()
+    const root = ReactDOM.createRoot(scratch)
 
     @withWeapp({
       data: {
@@ -164,44 +115,28 @@ describe('lifecycle', () => {
       }
     })
     class A extends TaroComponent {
+      componentDidMount () {
+        delay(() => root.unmount())
+      }
+
+      componentWillUnmount () {
+        delay(() => {
+          expect(s1).toBeCalledTimes(1)
+          done()
+        })
+      }
+
       render () {
         return <div>{this.a}</div>
       }
     }
 
-    render(<A />, scratch)
-
-    render(<div />, scratch)
-
-    expect(s1.callCount).toBe(1)
+    root.render(<A />)
   })
 
-  test('detached', () => {
-    const s1 = sinon.spy()
-
-    @withWeapp({
-      data: {
-        a: ''
-      },
-      detached () {
-        s1()
-      }
-    })
-    class A extends TaroComponent {
-      render () {
-        return <div>{this.a}</div>
-      }
-    }
-
-    render(<A />, scratch)
-
-    render(<div />, scratch)
-
-    expect(s1.callCount).toBe(1)
-  })
-
-  test('onUnload', () => {
-    const s1 = sinon.spy()
+  test('onUnload', done => {
+    const s1 = jest.fn()
+    const root = ReactDOM.createRoot(scratch)
 
     @withWeapp({
       data: {
@@ -212,31 +147,39 @@ describe('lifecycle', () => {
       }
     })
     class A extends TaroComponent {
+      componentDidMount () {
+        delay(() => root.unmount())
+      }
+
+      componentWillUnmount () {
+        delay(() => {
+          expect(s1).toBeCalledTimes(1)
+          done()
+        })
+      }
+
       render () {
         return <div>{this.a}</div>
       }
     }
 
-    render(<A />, scratch)
-
-    render(<div />, scratch)
-
-    expect(s1.callCount).toBe(1)
+    root.render(<A />)
   })
 
-  test('page lifecycle', () => {
-    const onLoad = sinon.spy()
-    const onReady = sinon.spy()
-    const onUnload = sinon.spy()
+  test('page lifecycle', done => {
+    const onLoad = jest.fn()
+    const onReady = jest.fn()
+    const onUnload = jest.fn()
+    const root = ReactDOM.createRoot(scratch)
 
     @withWeapp({
       data: {
         a: ''
       },
-      onLoad () {
+      created () {
         onLoad()
       },
-      onReady () {
+      attached () {
         onReady()
       },
       onUnload () {
@@ -244,27 +187,35 @@ describe('lifecycle', () => {
       }
     })
     class A extends TaroComponent {
+      componentDidMount () {
+        delay(() => root.unmount())
+      }
+
+      componentWillUnmount () {
+        delay(() => {
+          expect(onLoad).toBeCalledTimes(1)
+          expect(onReady).toBeCalledTimes(1)
+          expect(onUnload).toBeCalledTimes(1)
+
+          wasCalledBefore(onLoad, onReady)
+          wasCalledBefore(onReady, onUnload)
+          done()
+        })
+      }
+
       render () {
         return <div>{this.a}</div>
       }
     }
 
-    render(<A />, scratch)
-
-    render(<div />, scratch)
-
-    expect(onLoad.callCount).toBe(1)
-    expect(onReady.callCount).toBe(1)
-    expect(onUnload.callCount).toBe(1)
-
-    expect(onLoad.calledBefore(onReady)).toBeTruthy()
-    expect(onReady.calledBefore(onUnload)).toBeTruthy()
+    root.render(<A />)
   })
 
-  test('component lifecycle', () => {
-    const created = sinon.spy()
-    const ready = sinon.spy()
-    const detached = sinon.spy()
+  test('component lifecycle', done => {
+    const created = jest.fn()
+    const ready = jest.fn()
+    const detached = jest.fn()
+    const root = ReactDOM.createRoot(scratch)
 
     @withWeapp({
       data: {
@@ -273,7 +224,7 @@ describe('lifecycle', () => {
       created () {
         created()
       },
-      ready () {
+      attached () {
         ready()
       },
       detached () {
@@ -281,24 +232,31 @@ describe('lifecycle', () => {
       }
     })
     class A extends TaroComponent {
+      componentDidMount () {
+        delay(() => root.unmount())
+      }
+
+      componentWillUnmount () {
+        delay(() => {
+          expect(created).toBeCalledTimes(1)
+          expect(ready).toBeCalledTimes(1)
+          expect(detached).toBeCalledTimes(1)
+
+          wasCalledBefore(created, ready)
+          wasCalledBefore(ready, detached)
+          done()
+        })
+      }
+
       render () {
         return <div>{this.a}</div>
       }
     }
 
-    render(<A />, scratch)
-
-    render(<div />, scratch)
-
-    expect(created.callCount).toBe(1)
-    expect(ready.callCount).toBe(1)
-    expect(detached.callCount).toBe(1)
-
-    expect(created.calledBefore(ready)).toBeTruthy()
-    expect(ready.calledBefore(detached)).toBeTruthy()
+    root.render(<A />)
   })
 
-  test('created should emit this.$router.params as aruguments', () => {
+  test('created should emit this.$router.params as aruguments', done => {
     const spy = jest.fn()
 
     @withWeapp({
@@ -307,51 +265,19 @@ describe('lifecycle', () => {
       }
     })
     class A extends TaroComponent {
+      componentDidMount () {
+        delay(() => {
+          expect(spy).toBeCalledWith({})
+          done()
+        })
+      }
+
       render () {
         return <div />
       }
     }
 
-    render(<A />, scratch)
-
-    expect(spy).toBeCalledWith({ a: 1 })
-  })
-
-  test('onLoad should emit this.$router.params as aruguments', () => {
-    const spy = jest.fn()
-
-    @withWeapp({
-      onLoad (options) {
-        spy(options)
-      }
-    })
-    class A extends TaroComponent {
-      render () {
-        return <div />
-      }
-    }
-
-    render(<A />, scratch)
-
-    expect(spy).toBeCalledWith({ a: 1 })
-  })
-
-  test('onLanuch should emit this.$router.params as aruguments', () => {
-    const spy = jest.fn()
-
-    @withWeapp({
-      onLanuch (options) {
-        spy(options)
-      }
-    })
-    class A extends TaroComponent {
-      render () {
-        return <div />
-      }
-    }
-
-    render(<A />, scratch)
-
-    expect(spy).toBeCalledWith({ a: 1 })
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<A />)
   })
 })

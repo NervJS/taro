@@ -1,18 +1,19 @@
 import * as FileSystem from 'expo-file-system'
 import { Platform } from 'react-native'
-import { shouldBeObject, successHandler, errorHandler } from '../utils'
 
-interface Func{
+import { errorHandler, shouldBeObject, successHandler } from '../utils'
+
+interface Func {
   (arg: any): void
 }
 
 interface ExtPromise<T> extends Promise<T> {
-  onProgressUpdateCb?: Func,
-  onProgressUpdate?: Func,
+  onProgressUpdateCb?: Func
+  onProgressUpdate?: Func
   abort?: Func
 }
 
-let timer: any
+let timer: ReturnType<typeof setTimeout>
 
 const _fetch = (requestPromise, timeout) => {
   let timeoutAction
@@ -58,7 +59,7 @@ const createFormData = (filePath, body, name) => {
  * @return UploadTask - 一个可以监听上传进度进度变化的事件和取消上传的对象
  */
 function uploadFile (opts: Taro.uploadFile.Option): Promise<Taro.uploadFile.SuccessCallbackResult & Taro.UploadTask> {
-  const { url, timeout = 2000, filePath, name, header, formData, success, fail, complete } = opts
+  const { url, timeout = 2000, filePath, name, header, formData = {}, success, fail, complete } = opts
 
   const execFetch = fetch(url, {
     method: 'POST',
@@ -67,12 +68,7 @@ function uploadFile (opts: Taro.uploadFile.Option): Promise<Taro.uploadFile.Succ
   })
 
   return _fetch(execFetch, timeout).then((res: any) => {
-    if (res.ok) {
-      return successHandler(success, complete)(res)
-    } else {
-      const errMsg = `uploadFile fail: ${res.status} ${res.statusText}`
-      return errorHandler(fail, complete)({ errMsg })
-    }
+    return successHandler(success, complete)(res)
   }).catch(e => {
     const errMsg = `uploadFile fail: ${e}`
     return errorHandler(fail, complete)({ errMsg })
@@ -344,10 +340,10 @@ async function getFileInfo (opts: Taro.getFileInfo.Option): Promise<Taro.getFile
 
 export {
   downloadFile,
-  uploadFile,
-  saveFile,
-  removeSavedFile,
-  getSavedFileList,
+  getFileInfo,
   getSavedFileInfo,
-  getFileInfo
+  getSavedFileList,
+  removeSavedFile,
+  saveFile,
+  uploadFile
 }

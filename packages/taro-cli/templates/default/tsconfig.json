@@ -13,18 +13,20 @@
     "noUnusedParameters": true,
     "strictNullChecks": true,
     "sourceMap": true,
-    "baseUrl": ".",
     "rootDir": ".",
-    "jsx": "<%= ['vue', 'vue3'].includes(framework) ? 'preserve' : 'react-jsx' %>",<% if (framework === 'preact') {%>
-    "skipLibCheck": true,<%}%><% if (framework === 'nerv') {%>
-    "jsx": "react",
-    "jsxFactory": "Nerv.createElement",<%}%>
-    "allowJs": true,
+    "jsx": "{{#if (includes "Vue3" s=framework)}}preserve{{else if (eq framework 'Solid')}}preserve{{else}}react-jsx{{/if}}",{{#if (eq framework "Preact") }}
+    "skipLibCheck": true,{{/if}}
+    "allowJs": true,{{#if (eq framework "Solid")}}
+    "jsxImportSource": "solid-js",{{/if}}
     "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types"
-    ]
+    ],
+    "paths": {
+      // TS5090 leading './'
+      "@/*": ["./src/*"]
+    }
   },
-  "include": ["./src", "./types"],
+  "include": ["./src", "./types", "./config"],
   "compileOnSave": false
 }

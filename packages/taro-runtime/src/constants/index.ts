@@ -35,6 +35,7 @@ export const KEY_CODE = 'keyCode'
 export const TOUCHMOVE = 'touchmove'
 export const DATE = 'Date'
 export const SET_TIMEOUT = 'setTimeout'
+export const COMPILE_MODE = 'compileMode'
 export const CATCHMOVE = 'catchMove'
 export const CATCH_VIEW = 'catch-view'
 export const COMMENT = 'comment'
@@ -44,4 +45,16 @@ export const ON_SHOW = 'onShow'
 export const ON_HIDE = 'onHide'
 export const OPTIONS = 'options'
 export const EXTERNAL_CLASSES = 'externalClasses'
+export const EVENT_CALLBACK_RESULT = 'e_result'
 export const BEHAVIORS = 'behaviors'
+export const A = 'a'
+
+/**
+ * 页面上下文切换时的行为
+ */
+export enum CONTEXT_ACTIONS {
+  INIT = '0',
+  RESTORE = '1',
+  RECOVER = '2',
+  DESTORY = '3'
+}

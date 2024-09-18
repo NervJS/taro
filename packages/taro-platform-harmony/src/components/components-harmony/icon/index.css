@@ -1,0 +1,27 @@
+@font-face {
+  font-family: taroicon;
+  src: url('https://storage.360buyimg.com/datapool/iconfont.ttf');
+}
+.taro-icon {
+  font-family: taroicon;
+  font-size: 23vp;
+  font-style: normal;
+}
+.icon-success,
+.icon-success_no_circle,
+.icon-download,
+.icon-info_circle {
+  color: #09bb07;
+}
+.icon-info,
+.icon-waiting {
+  color: #10aeff;
+}
+.icon-warn,
+.icon-cancel {
+  color: #f76260;
+}
+.icon-clear,
+.icon-search {
+  color: #b2b2b2;
+}

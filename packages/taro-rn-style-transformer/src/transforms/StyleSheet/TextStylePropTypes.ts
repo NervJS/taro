@@ -10,8 +10,9 @@
 
 'use strict'
 
-import ColorPropType from './ColorPropType'
 import * as ReactPropTypes from 'prop-types'
+
+import ColorPropType from './ColorPropType'
 import ViewStylePropTypes from './ViewStylePropTypes'
 
 const TextStylePropTypes = {
@@ -37,8 +38,46 @@ const TextStylePropTypes = {
     '600',
     '700',
     '800',
-    '900'
+    '900',
+    'ultralight',
+    'thin',
+    'light',
+    'medium',
+    'regular',
+    'semibold',
+    'condensedBold',
+    'condensed',
+    'heavy',
+    'black'
   ]),
+  textShadowOffset: ReactPropTypes.shape({
+    width: ReactPropTypes.number,
+    height: ReactPropTypes.number
+  }),
+  textShadowRadius: ReactPropTypes.number,
+  textShadowColor: ColorPropType,
+  letterSpacing: ReactPropTypes.number,
+  lineHeight: ReactPropTypes.number,
+  /**
+   * Specifies text alignment. The value 'justify' is only supported on iOS and
+   * fallbacks to `left` on Android.
+   */
+  textAlign: ReactPropTypes.oneOf([
+    'auto',
+    'left',
+    'right',
+    'center',
+    'justify'
+  ]),
+  textDecorationLine: ReactPropTypes.oneOf([
+    'none',
+    'underline',
+    'line-through',
+    'underline line-through'
+  ]),
+  textTransform: ReactPropTypes.oneOf(['none', 'capitalize', 'uppercase', 'lowercase']),
+  userSelect: ReactPropTypes.oneOf(['auto', 'none', 'text', 'contain', 'all']),
+
   /**
    * @platform ios
    */
@@ -51,37 +90,20 @@ const TextStylePropTypes = {
       'proportional-nums'
     ])
   ),
-  textShadowOffset: ReactPropTypes.shape({
-    width: ReactPropTypes.number,
-    height: ReactPropTypes.number
-  }),
-  textShadowRadius: ReactPropTypes.number,
-  textShadowColor: ColorPropType,
-  /**
-   * @platform ios
-   */
-  letterSpacing: ReactPropTypes.number,
-  lineHeight: ReactPropTypes.number,
-  /**
-   * Specifies text alignment. The value 'justify' is only supported on iOS and
-   * fallbacks to `left` on Android.
-   */
-  textAlign: ReactPropTypes.oneOf([
-    'auto' /* default */,
-    'left',
-    'right',
-    'center',
-    'justify'
+  textDecorationColor: ColorPropType,
+  textDecorationStyle: ReactPropTypes.oneOf([
+    'solid' /* default */,
+    'double',
+    'dotted',
+    'dashed'
   ]),
+  writingDirection: ReactPropTypes.oneOf(['auto' /* default */, 'ltr', 'rtl']),
+
   /**
    * @platform android
    */
-  textAlignVertical: ReactPropTypes.oneOf([
-    'auto' /* default */,
-    'top',
-    'bottom',
-    'center'
-  ]),
+  textAlignVertical: ReactPropTypes.oneOf(['auto', 'top', 'bottom', 'center']),
+  verticalAlign: ReactPropTypes.oneOf(['auto', 'top', 'bottom', 'middle']),
   /**
    * Set to `false` to remove extra font padding intended to make space for certain ascenders / descenders.
    * With some fonts, this padding can make text look slightly misaligned when centered vertically.
@@ -89,35 +111,6 @@ const TextStylePropTypes = {
    * @platform android
    */
   includeFontPadding: ReactPropTypes.bool,
-  textDecorationLine: ReactPropTypes.oneOf([
-    'none' /* default */,
-    'underline',
-    'line-through',
-    'underline line-through'
-  ]),
-  /**
-   * @platform ios
-   */
-  textDecorationStyle: ReactPropTypes.oneOf([
-    'solid' /* default */,
-    'double',
-    'dotted',
-    'dashed'
-  ]),
-  /**
-   * @platform ios
-   */
-  textDecorationColor: ColorPropType,
-  textTransform: ReactPropTypes.oneOf([
-    'none' /* default */,
-    'capitalize',
-    'uppercase',
-    'lowercase'
-  ]),
-  /**
-   * @platform ios
-   */
-  writingDirection: ReactPropTypes.oneOf(['auto' /* default */, 'ltr', 'rtl'])
 }
 
 export default TextStylePropTypes

@@ -1,12 +1,13 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, Host } from '@stencil/core'
+import { Component, ComponentInterface, h, Host } from '@stencil/core'
+
+import { notSupport } from '../../utils'
 
 @Component({
   tag: 'taro-camera-core'
 })
-export class Camera {
+export class Camera implements ComponentInterface {
   componentDidLoad () {
-    console.error('H5 暂不支持 Camera 组件！')
+    notSupport('Camera', this)
   }
 
   render () {

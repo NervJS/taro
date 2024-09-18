@@ -1,11 +1,9 @@
-import { Config } from '@swc/core'
-import { chalk, fs, readConfig, recursiveMerge, resolveMainFilePath, terminalLink } from '@tarojs/helper'
-import { IProjectBaseConfig } from '@tarojs/taro/types/compile'
-import { Message } from 'esbuild'
-import path from 'path'
-import { performance } from 'perf_hooks'
-import webpack, { EntryObject } from 'webpack'
-import Chain from 'webpack-chain'
+import path from 'node:path'
+import { performance } from 'node:perf_hooks'
+
+import { chalk, defaultMainFields, fs, readConfig, recursiveMerge, REG_SCRIPTS, resolveMainFilePath, terminalLink } from '@tarojs/helper'
+import { PLATFORM_TYPE } from '@tarojs/shared'
+import webpack from 'webpack'
 
 import { commitMeta, createResolve, getBundleHash, getCacheDir, getMeasure, Metadata, sortDeps } from '../utils'
 import { CollectedDeps, MF_NAME } from '../utils/constant'
@@ -13,7 +11,12 @@ import TaroModuleFederationPlugin from '../webpack/TaroModuleFederationPlugin'
 import { bundle } from './bundle'
 import { scanImports } from './scanImports'
 
-export type IPrebundle = Exclude<IProjectBaseConfig['compiler'], string | undefined>['prebundle']
+import type { esbuild, swc } from '@tarojs/helper'
+import type { IProjectBaseConfig } from '@tarojs/taro/types/compile'
+import type { Configuration, EntryObject, RuleSetRule } from 'webpack'
+import type Chain from 'webpack-chain'
+
+export type IPrebundle = Exclude<Exclude<IProjectBaseConfig['compiler'], string | undefined>['prebundle'], undefined>
 
 export interface IPrebundleConfig {
   appPath: string
@@ -23,8 +26,16 @@ export interface IPrebundleConfig {
   entry: EntryObject
   entryFileName?: string
   env: string
+  isWatch?: boolean
+  platformType: PLATFORM_TYPE
   sourceRoot: string
+  isBuildPlugin?: boolean
+  alias?: Record<string, any>
+  defineConstants?: Record<string, any>
+  modifyAppConfig?: (appConfig: any) => Promise<any>
 }
+
+type TMode = 'production' | 'development' | 'none'
 
 export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig> {
   sourceRoot: string
@@ -32,8 +43,11 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   cacheDir: string
   chain: Chain
   customEsbuildConfig: IPrebundle['esbuild']
-  customSwcConfig?: Config
+  customSwcConfig?: swc.Config
   env: string
+  mode: TMode
+  platformType: PLATFORM_TYPE
+  mainFields: string[]
   prebundleCacheDir: string
   remoteCacheDir: string
   metadataPath: string
@@ -43,12 +57,12 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
 
   deps: CollectedDeps = new Map()
   measure: ReturnType<typeof getMeasure>
-  webpackConfig: webpack.Configuration
+  webpackConfig: Configuration
 
   constructor (protected config: T, protected option: IPrebundle) {
     if (!option.enable) return
 
-    const { appPath, env, chain, sourceRoot } = this.config
+    const { appPath, env, chain, platformType, sourceRoot, isWatch } = this.config
     const { cacheDir = getCacheDir(appPath, env), esbuild = {}, force, swc } = this.option
 
     this.chain = chain
@@ -58,11 +72,15 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     this.customEsbuildConfig = esbuild
     this.customSwcConfig = swc
     this.env = env
+    this.platformType = platformType
+    this.mode = ['production', 'development', 'none'].find(e => e === env) as TMode ||
+      (!isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
     this.prebundleCacheDir = path.resolve(cacheDir, './prebundle')
     this.remoteCacheDir = path.resolve(cacheDir, './remote')
     this.metadataPath = path.join(cacheDir, 'metadata.json')
     this.metadata = {}
     this.preMetadata = {}
+    this.mainFields = [...defaultMainFields]
 
     this.measure = getMeasure(this.option.timings)
 
@@ -70,7 +88,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
       if (force !== true) {
         Object.assign(this.preMetadata, fs.readJSONSync(this.metadataPath))
       }
-    } catch (e) {}
+    } catch (e) {} // eslint-disable-line no-empty
 
     this.webpackConfig = this.chain.toConfig()
     createResolve(this.appPath, this.webpackConfig.resolve)
@@ -116,14 +134,16 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   }
 
   /** 找出所有 webpack entry */
-  getEntries (appJsPath: string) {
+  async getEntries (appJsPath: string) {
     const { appPath, sourceRoot } = this.config
     const entries: string[] = this.parseEntries(this.config.entry)
 
     const appConfigPath = resolveMainFilePath(`${appJsPath.replace(path.extname(appJsPath), '')}.config`)
     if (fs.existsSync(appConfigPath)) {
-      const appConfig = readConfig(appConfigPath)
-
+      const appConfig = readConfig(appConfigPath, this.config)
+      if (typeof this.config.modifyAppConfig === 'function') {
+        await this.config.modifyAppConfig(appConfig)
+      }
       appConfig.pages.forEach((page: string) => {
         const pageJsPath = resolveMainFilePath(path.join(appPath, sourceRoot, page))
         entries.push(pageJsPath)
@@ -137,10 +157,12 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
 
     await scanImports({
       appPath: this.appPath,
+      chain: this.chain,
       customEsbuildConfig: this.customEsbuildConfig,
       entries,
       include,
       exclude,
+      mainFields: this.mainFields,
     }, this.deps)
 
     this.deps.size &&
@@ -169,6 +191,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
           prebundleOutputDir: this.prebundleCacheDir,
           customEsbuildConfig: this.customEsbuildConfig,
           customSwcConfig: this.customSwcConfig,
+          mainFields: this.mainFields,
         })
       } catch (result) {
         return this.handleBundleError(result?.errors)
@@ -178,7 +201,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     this.measure('Prebundle duration', PREBUNDLE_START)
   }
 
-  handleBundleError (errors: Message[] = []) {
+  handleBundleError (errors: esbuild.Message[] = []) {
     const keys = Array.from(this.deps.keys())
     if (errors.length > 0) {
       const deps = errors.reduce((p, e) => {
@@ -191,7 +214,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
       if (deps.length > 0) {
         console.log(
           chalk.yellowBright(
-            `检测到依赖编译错误，已跳过`, deps.sort(sortDeps).map(e => chalk.bold(e)).join('、'),`依赖预编译。`,
+            `检测到依赖编译错误，已跳过`, deps.sort(sortDeps).map(e => chalk.bold(e)).join('、'), `依赖预编译。`,
             `\n    > 可以通过手动配置 ${
               terminalLink('compiler.prebundle.exclude', 'https://nervjs.github.io/taro-docs/docs/next/config-detail#compilerprebundleexclude')
             } 忽略该提示`
@@ -199,6 +222,8 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
         )
       } else {
         console.log(chalk.yellowBright(...errors))
+        // 避免死循环
+        return
       }
       return this.bundle()
     }
@@ -216,17 +241,23 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
       {
         deps: this.deps,
         env: this.env,
+        isBuildPlugin: this.config.isBuildPlugin,
+        platformType: this.platformType,
         remoteAssets: this.metadata.remoteAssets,
         runtimeRequirements: this.metadata.runtimeRequirements || new Set()
       }])
   }
 
-  getRemoteWebpackCompiler (standard: webpack.Configuration, custom: webpack.Configuration = {}) {
+  getRemoteWebpackCompiler (standard: Configuration, custom: Configuration = {}) {
     /** NOTE: 删除 Host 应用影响打包 Remote 应用的配置 */
     const inherit = { ...this.webpackConfig }
+    const skipPlugins = ['MiniSplitChunksPlugin', 'TaroMiniPlugin', 'TaroH5Plugin', 'ProvidePlugin', 'CopyPlugin', 'HtmlWebpackPlugin']
     delete inherit.devServer
-    delete inherit.module
-    delete inherit.plugins
+    delete inherit.optimization?.splitChunks
+    inherit.plugins = inherit.plugins?.filter(p => !skipPlugins.includes(p?.constructor?.name || ''))
+    if (inherit.module?.rules) {
+      inherit.module.rules = inherit.module.rules.filter((rule: RuleSetRule) => rule.test?.toString() !== REG_SCRIPTS.toString())
+    }
 
     return webpack(recursiveMerge(inherit, standard, custom))
   }

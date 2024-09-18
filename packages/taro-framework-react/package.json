@@ -1,0 +1,91 @@
+{
+  "name": "@tarojs/plugin-framework-react",
+  "version": "4.0.5",
+  "description": "React/Preact 框架插件",
+  "author": "O2Team",
+  "homepage": "https://github.com/nervjs/taro",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "sideEffects": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "run-s clean",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf --impl=move-remove dist",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "acorn": "^8.11.3",
+    "acorn-walk": "^8.3.2",
+    "lodash": "^4.17.21",
+    "tslib": "^2.6.2"
+  },
+  "devDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "webpack-chain": "^6.5.1",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
+    "vite": "^4.2.0"
+  },
+  "peerDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@pmmmwh/react-refresh-webpack-plugin": "*",
+    "@preact/preset-vite": "^2",
+    "@prefresh/webpack": "^4",
+    "@vitejs/plugin-react": "^4",
+    "preact": "^10",
+    "react": "^18",
+    "vite": "^4",
+    "webpack": "^5"
+  },
+  "peerDependenciesMeta": {
+    "@pmmmwh/react-refresh-webpack-plugin": {
+      "optional": true
+    },
+    "@preact/preset-vite": {
+      "optional": true
+    },
+    "@prefresh/webpack": {
+      "optional": true
+    },
+    "@vitejs/plugin-react": {
+      "optional": true
+    },
+    "preact": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    },
+    "webpack": {
+      "optional": true
+    }
+  }
+}

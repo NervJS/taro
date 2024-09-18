@@ -1,14 +1,16 @@
+import * as path from 'node:path'
+
 import {
   ENTRY,
   OUTPUT_DIR,
   resolveScriptPath,
   SOURCE_DIR
 } from '@tarojs/helper'
-import { IPluginContext } from '@tarojs/service'
-import highlight from 'cli-highlight'
-import * as path from 'path'
+import { getPlatformType } from '@tarojs/shared'
 
 import * as hooks from '../constant'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
@@ -30,20 +32,22 @@ export default (ctx: IPluginContext) => {
       verifyIsTaroProject(ctx)
       verifyPlatform(platform, chalk)
 
+      const configName = ctx.platforms.get(platform)?.useConfigName || ''
       process.env.TARO_ENV = platform
+      process.env.TARO_PLATFORM = getPlatformType(platform, configName)
 
       let config = getConfig(ctx, platform)
+      config = {
+        ...config,
+        ...config[configName]
+      }
+      delete config.mini
+      delete config.h5
+
       const isProduction = process.env.NODE_ENV === 'production'
       const outputPath = options.output || options.o
       const mode = outputPath ? 'output' : 'console'
       const extractPath = _[1]
-
-      config = {
-        ...config,
-        ...config[ctx.platforms.get(platform)?.useConfigName || '']
-      }
-      delete config.mini
-      delete config.h5
 
       await ctx.applyPlugins({
         name: platform,
@@ -70,7 +74,8 @@ export default (ctx: IPluginContext) => {
               const res = toString(config)
 
               if (mode === 'console') {
-                console.log(highlight(res, { language: 'js' }))
+                const highlight = require('cli-highlight').default
+                console.info(highlight(res, { language: 'js' }))
               } else if (mode === 'output' && outputPath) {
                 fs.writeFileSync(outputPath, res)
               }

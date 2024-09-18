@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigator base 1`] = `<taro-navigator-core></taro-navigator-core>`;

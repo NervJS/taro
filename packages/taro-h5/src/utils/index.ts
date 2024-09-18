@@ -1,5 +1,11 @@
 /* eslint-disable prefer-promise-reject-errors */
-import { Current, hooks, TaroElement } from '@tarojs/runtime'
+import Taro from '@tarojs/api'
+import { Current, getCurrentPage, getHomePage, hooks } from '@tarojs/runtime'
+import { isFunction } from '@tarojs/shared'
+
+import { MethodHandler } from './handler'
+
+import type { TaroElement } from '@tarojs/runtime'
 
 export function shouldBeObject (target: unknown) {
   if (target && typeof target === 'object') return { flag: true }
@@ -19,7 +25,7 @@ export function findDOM (inst?): TaroElement | HTMLElement | undefined {
 
   const page = Current.page
   const path = page?.path
-  const msg = '没有找到已经加载了的页面，请在页面加载完成后时候此 API。'
+  const msg = '没有找到已经加载了的页面，请在页面加载完成后使用此 API。'
   if (path == null) {
     throw new Error(msg)
   }
@@ -37,18 +43,15 @@ interface IParameterErrorParam {
   para?: string
   correct?: string
   wrong?: unknown
+  level?: 'warn' | 'error' | 'log' | 'info' | 'debug'
 }
-export function getParameterError ({ name = '', para, correct, wrong }: IParameterErrorParam) {
+export function getParameterError ({ name = '', para, correct, wrong, level = 'error' }: IParameterErrorParam) {
   const parameter = para ? `parameter.${para}` : 'parameter'
   const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
-  if (name) {
-    return `${name}:fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
-  } else {
-    return `parameter error: ${parameter} should be ${correct} instead of ${errorType}`
-  }
+  return `${name ? `${name}:fail ` : ''}parameter ${level}: ${parameter} should be ${correct} instead of ${errorType}`
 }
 
-function upperCaseFirstLetter (string) {
+export function upperCaseFirstLetter (string) {
   if (typeof string !== 'string') return string
   string = string.replace(/^./, match => match.toUpperCase())
   return string
@@ -80,53 +83,62 @@ export function serializeParams (params) {
     .join('&')
 }
 
-export function temporarilyNotSupport (apiName) {
-  return () => {
-    const errMsg = `暂时不支持 API ${apiName}`
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(errMsg)
-      return Promise.reject({
-        errMsg
-      })
-    } else {
+export function temporarilyNotSupport (name = '') {
+  return (option = {}, ...args) => {
+    const { success, fail, complete } = option as any
+    const handle = new MethodHandler({ name, success, fail, complete })
+    const errMsg = '暂时不支持 API'
+    Taro.eventCenter.trigger('__taroNotSupport', {
+      name,
+      args: [option, ...args],
+      type: 'method',
+      category: 'temporarily',
+    })
+    if (process.env.NODE_ENV === 'production') {
       console.warn(errMsg)
-      return Promise.resolve({
-        errMsg
-      })
+      return handle.success({ errMsg })
+    } else {
+      return handle.fail({ errMsg })
     }
   }
 }
 
-export function weixinCorpSupport (apiName) {
-  return () => {
-    const errMsg = `h5端当前仅在微信公众号JS-SDK环境下支持此 API ${apiName}`
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(errMsg)
-      return Promise.reject({
-        errMsg
-      })
-    } else {
+export function weixinCorpSupport (name: string) {
+  return (option = {}, ...args) => {
+    const { success, fail, complete } = option as any
+    const handle = new MethodHandler({ name, success, fail, complete })
+    const errMsg = 'h5 端当前仅在微信公众号 JS-SDK 环境下支持此 API'
+    Taro.eventCenter.trigger('__taroNotSupport', {
+      name,
+      args: [option, ...args],
+      type: 'method',
+      category: 'weixin_corp',
+    })
+    if (process.env.NODE_ENV === 'production') {
       console.warn(errMsg)
-      return Promise.resolve({
-        errMsg
-      })
+      return handle.success({ errMsg })
+    } else {
+      return handle.fail({ errMsg })
     }
   }
 }
 
-export function permanentlyNotSupport (apiName) {
-  return () => {
-    const errMsg = `不支持 API ${apiName}`
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(errMsg)
-      return Promise.reject({
-        errMsg
-      })
-    } else {
+export function permanentlyNotSupport (name = '') {
+  return (option = {}, ...args: any[]) => {
+    const { success, fail, complete } = option as any
+    const handle = new MethodHandler({ name, success, fail, complete })
+    const errMsg = '不支持 API'
+    Taro.eventCenter.trigger('__taroNotSupport', {
+      name,
+      args: [option, ...args],
+      type: 'method',
+      category: 'permanently',
+    })
+    if (process.env.NODE_ENV === 'production') {
       console.warn(errMsg)
-      return Promise.resolve({
-        errMsg
-      })
+      return handle.success({ errMsg })
+    } else {
+      return handle.fail({ errMsg })
     }
   }
 }
@@ -147,11 +159,11 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
   formatResult = res => res
 }: IProcessOpenApi<TOptions, TResult>) {
   const notSupported = weixinCorpSupport(name)
-  return (options: Partial<TOptions> = {}): Promise<TResult> => {
+  return (options: Partial<TOptions> = {}, ...args: any[]): Promise<TResult> => {
     // @ts-ignore
     const targetApi = window?.wx?.[name]
     const opts = formatOptions(Object.assign({}, defaultOptions, options))
-    if (typeof targetApi === 'function') {
+    if (isFunction(targetApi)) {
       return new Promise<TResult>((resolve, reject) => {
         ['fail', 'success', 'complete'].forEach(k => {
           opts[k] = preRef => {
@@ -166,14 +178,30 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
           return targetApi(opts)
         })
       })
-    } else if (typeof standardMethod === 'function') {
+    } else if (isFunction(standardMethod)) {
       return standardMethod(opts)
     } else {
-      return notSupported() as Promise<TResult>
+      return notSupported(options, ...args) as Promise<TResult>
     }
   }
 }
 
+/**
+ * 获取当前页面路径
+ * @returns
+ */
+export function getCurrentPath (): string {
+  const appConfig = (window as any).__taroAppConfig || {}
+  const routePath = getCurrentPage(appConfig.router?.mode, appConfig.router?.basename)
+  const homePath = getHomePage(appConfig.routes?.[0]?.path, appConfig.router?.basename, appConfig.router?.customRoutes, appConfig.entryPagePath)
+
+  /**
+   * createPageConfig 时根据 stack 的长度来设置 stamp 以保证页面 path 的唯一，此函数是在 createPageConfig 之前调用，预先设置 stamp=1
+   * url 上没有指定应用的启动页面时使用 homePath
+   */
+  return `${routePath === '/' ? homePath : routePath}?stamp=1`
+}
+
 export * from './animation'
-export * from './lodash'
+export * from './helper'
 export * from './valid'

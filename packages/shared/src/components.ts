@@ -75,7 +75,8 @@ const RichText = {
 const Text = {
   selectable: DEFAULT_FALSE,
   space: NO_DEFAULT_VALUE,
-  decode: DEFAULT_FALSE
+  decode: DEFAULT_FALSE,
+  ...touchEvents
 }
 
 const Button = {
@@ -91,6 +92,7 @@ const Button = {
   'hover-start-time': '20',
   'hover-stay-time': '70',
   name: NO_DEFAULT_VALUE,
+  bindagreeprivacyauthorization: NO_DEFAULT_VALUE,
   ...touchEvents
 }
 
@@ -127,7 +129,7 @@ const Input = {
   focus: DEFAULT_FALSE,
   'confirm-type': singleQuote('done'),
   'confirm-hold': DEFAULT_FALSE,
-  cursor: 'i.value.length',
+  cursor: '-1',
   'selection-start': '-1',
   'selection-end': '-1',
   bindInput: NO_DEFAULT_VALUE,
@@ -139,7 +141,8 @@ const Input = {
 
 const Label = {
   for: NO_DEFAULT_VALUE,
-  name: NO_DEFAULT_VALUE
+  name: NO_DEFAULT_VALUE,
+  ...touchEvents
 }
 
 const Picker = {
@@ -438,6 +441,12 @@ const Slot = {
   name: NO_DEFAULT_VALUE
 }
 
+const NativeSlot = {
+  name: NO_DEFAULT_VALUE
+}
+
+const Script = {}
+
 export const internalComponents: Record<string, Record<string, string>> = {
   View,
   Icon,
@@ -477,7 +486,9 @@ export const internalComponents: Record<string, Record<string, string>> = {
   Block,
   Map: MapComp,
   Slot,
-  SlotView
+  SlotView,
+  NativeSlot,
+  Script,
 }
 
 export const controlledComponent = new Set([
@@ -526,5 +537,5 @@ export const nestElements = new Map([
   ['form', 4],
   ['scroll-view', 4],
   ['swiper', 4],
-  ['swiper-item', 4]
+  ['swiper-item', 4],
 ])

@@ -1,29 +1,100 @@
 name: publish
 on:
-  # When Release Pull Request is merged
   push:
     branches:
+      - 'chore/**'
       - 'feat/**'
+      - 'fix/**'
+      - '1.x'
+      - '2.x'
+      - '3.x'
+      - '4.x'
+  # When Release Pull Request is merged
   pull_request:
     branches:
-      - next
+      - main
     types: [closed]
 
 env:
   CI: true
+permissions: {}
 jobs:
-  publish:
-    name: Publish
-    runs-on: ubuntu-18.04
+  need-publish:
+    permissions:
+      actions: write # to cancel running workflow (andymckay/cancel-action)
+    name: Need Publish
+    runs-on: ubuntu-latest
+    outputs:
+      ABORT: ${{ env.ABORT }}
+    env:
+      ABORT: false
+      COMMIT_MESSAGE: ''
     steps:
       # Setup
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node ${{ matrix.node_version }}
-        uses: actions/setup-node@v1
+        uses: actions/checkout@v4
+
+      # Log meta
+      - name : GITHUB CONTEXT
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      # Get commit message
+      - name: Get commit message
+        run: |
+          COMMIT_MESSAGE=$(git log --format=%s -n 1)
+          echo "COMMIT_MESSAGE=${COMMIT_MESSAGE}" >> $GITHUB_ENV
+      - name: Show commit message
+        run : echo "$COMMIT_MESSAGE"
+
+      - name: Commit message compliance verification
+        if: startsWith( env.COMMIT_MESSAGE , 'chore(release):' ) != true
+        run: echo "ABORT=true" >> $GITHUB_ENV
+
+      - name: Publish push tag verification
+        if: github.event_name == 'push' && contains( env.COMMIT_MESSAGE , '--tag=' ) != true
+        run: echo "ABORT=true" >> $GITHUB_ENV
+
+  build-rust-binding:
+    name: Build Rust Binding
+    needs: [need-publish]
+    if: needs.need-publish.outputs.ABORT != 'true'
+    uses: ./.github/workflows/build-rust-binding.yml
+
+  build-rust-wasm:
+    name: Build Rust WASM
+    needs: [need-publish]
+    if: needs.need-publish.outputs.ABORT != 'true'
+    uses: ./.github/workflows/build-rust-wasm.yml
+
+  publish:
+    permissions:
+      contents: write # to create tags and refs
+      actions: write # to cancel running workflow (andymckay/cancel-action)
+      issues: write # to create comment
+      pull-requests: write # to create comment and so on
+    name: Publish
+    runs-on: ubuntu-latest
+    needs: [need-publish, build-rust-binding, build-rust-wasm]
+    if: needs.need-publish.outputs.ABORT != 'true'
+    env:
+      CURRENT_VERSION: ''
+      PUBLISH_PARAMS: ''
+    steps:
+      # Setup
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3.0.0
         with:
-          node-version: 16
-          registry-url: 'https://registry.npmjs.org'
+          version: 8
+      - name: Setup Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org' # Don't touch!
       - name: Git Identity
         run: |
           git config --global user.name 'github-actions[bot]'
@@ -43,16 +114,6 @@ jobs:
         run: |
           COMMIT_MESSAGE=$(git log --format=%s -n 1)
           echo "COMMIT_MESSAGE=${COMMIT_MESSAGE}" >> $GITHUB_ENV
-      - name: Show commit message
-        run : echo "$COMMIT_MESSAGE"
-
-      - name: Commit message compliance verification
-        if: startsWith( env.COMMIT_MESSAGE , 'chore(release):' ) != true
-        uses: andymckay/cancel-action@0.2
-
-      - name: Publish push tag verification
-        if: github.event_name == 'push' && contains( env.COMMIT_MESSAGE , '--tag=' ) != true
-        uses: andymckay/cancel-action@0.2
 
       # ------------------ If event is push -------------
 
@@ -94,25 +155,28 @@ jobs:
 
       - name: Git tag verification
         if: steps.tag_check.outputs.exists_tag == false
-        uses: andymckay/cancel-action@0.2
+        uses: andymckay/cancel-action@0.3
 
       # Bootstrap project
-      - name: Cache pnpm modules
-        uses: actions/cache@v2
+      - name: Install dependencies
+        run: pnpm -r install --frozen-lockfile
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
         with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-      - name: install
-        uses: pnpm/action-setup@v2.2.2
-        with:
-          version: 7
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile]
+          path: crates/native_binding/artifacts
+      - name: Move artifacts
+        run: pnpm artifacts
       - name: build
-        run: pnpm run build
+        run: pnpm build
+      - name: List Packages
+        run: |-
+          echo "[Debug] Listing ./crates/native_binding/artifacts"
+          ls -R ./crates/native_binding/artifacts
+          echo "[Debug] Listing ./npm"
+          ls -R ./npm
+          echo "[Debug] Listing ./packages/taro-helper/swc"
+          ls -R ./packages/taro-helper/swc
+        shell: bash
 
       # Git stash
       - name: Drop current changes
@@ -122,7 +186,7 @@ jobs:
 
       # Create git tag
       - name: Create Git Tag
-        uses: azu/action-package-version-to-git-tag@v1
+        uses: azu/action-package-version-to-git-tag@v2
         with:
           version: ${{ env.CURRENT_VERSION }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -135,7 +199,7 @@ jobs:
       - name: Publish
         run: |
           if [ '${{ github.event_name }}' == 'pull_request' ] ; then
-            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref }} -r
+            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r
           elif [ '${{ github.event_name }}' == 'push' ] ; then
             pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r ${{ env.PUBLISH_PARAMS }}
           fi
@@ -162,12 +226,12 @@ jobs:
           prerelease: false
 
       # Create PR page comment when event is PR
-      - uses: actions/github-script@0.8.0
+      - uses: actions/github-script@v6
         if: github.event.pull_request.merged == true
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            github.issues.createComment({
+            github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,

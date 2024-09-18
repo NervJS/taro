@@ -1,0 +1,46 @@
+{
+  "name": "@tarojs/plugin-http",
+  "version": "4.0.5",
+  "description": "Taro 小程序端支持使用 web 请求 的插件",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "prod": "pnpm run build",
+    "dev": "rollup -c -w",
+    "build": "rollup -c",
+    "test": "jest",
+    "test:ci": "jest --ci -i --coverage --silent"
+  },
+  "files": [
+    "src",
+    "dist",
+    "index.js",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "Taro"
+  ],
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "engines": {
+    "node": ">= 18"
+  },
+  "devDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*"
+  }
+}

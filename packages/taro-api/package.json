@@ -1,11 +1,12 @@
 {
   "name": "@tarojs/api",
-  "version": "3.5.3",
+  "version": "4.0.5",
   "description": "Taro common API",
-  "author": "yuche <i@yuche.me>",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/api#readme",
+  "author": "O2Team",
   "license": "MIT",
-  "main": "dist/index.js",
+  "browser": "dist/index.js",
+  "main:h5": "dist/index.esm.js",
+  "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "directories": {
     "lib": "lib",
@@ -14,22 +15,35 @@
   "files": [
     "dist"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
+  "sideEffects": [],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
-    "build": "rollup -c rollup.config.js"
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf ./dist",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
+    "test:dev": "cross-env NODE_ENV=test jest --watch"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "dependencies": {
-    "@babel/runtime": "^7.14.5",
-    "@tarojs/runtime": "workspace:*"
+  "engines": {
+    "node": ">= 18"
+  },
+  "devDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "lodash": "4.17.21"
+  },
+  "peerDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   }
 }

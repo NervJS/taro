@@ -5,8 +5,10 @@
     "module": "commonjs",
     "outDir": "dist",
     "esModuleInterop": true,
+    "declaration": true,
     "sourceMap": true,
+    "noUnusedLocals": false,
     "rootDir": "./src"
   },
-  "include": ["./src"],
+  "include": ["./src"]
 }

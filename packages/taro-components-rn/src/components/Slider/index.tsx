@@ -17,12 +17,13 @@
  * ✔ onChanging(bindchanging)
  */
 
-import * as React from 'react'
-import { View, Text } from 'react-native'
 import Slider from '@react-native-community/slider'
+import * as React from 'react'
+import { Text, View } from 'react-native'
+
 import { noop } from '../../utils'
-import styles from './styles'
 import { SliderProps, SliderState } from './PropsType'
+import styles from './styles'
 
 class _Slider extends React.Component<SliderProps, SliderState> {
   static displayName = '_Slider'
@@ -30,22 +31,40 @@ class _Slider extends React.Component<SliderProps, SliderState> {
     min: 0,
     max: 100,
     step: 1,
-    value: 0,
     activeColor: '#1aad19',
     backgroundColor: '#e9e9e9',
     blockColor: '#fff'
   }
 
+  private _timer: any = null
+  // eslint-disable-next-line eqeqeq
+  private _isControlled = this.props.value != undefined
   state: SliderState = {
-    currentValue: this.props.value
+    currentValue: this.props.defaultValue ?? (this.props.value || 0)
   }
 
   componentDidUpdate(prevProps: SliderProps): void {
-    if (prevProps.value !== this.props.value) {
+    const controlledValue = this.props.value
+    if (prevProps.value !== controlledValue) {
       this.setState({
-        currentValue: this.props.value
+        currentValue: controlledValue || 0
       })
     }
+    this.ensureControlledValue()
+  }
+
+  ensureControlledValue = () => {
+    if (!this._isControlled) return
+
+    this._timer && clearTimeout(this._timer)
+    this._timer = setTimeout(() => {
+      const controlledValue = this.props.value
+      if (controlledValue !== this.state.currentValue) {
+        this.setState({
+          currentValue: controlledValue || 0
+        })
+      }
+    }, 50)
   }
 
   onSlidingComplete = (value: number): void => {

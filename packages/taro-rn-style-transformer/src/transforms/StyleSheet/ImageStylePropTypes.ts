@@ -9,10 +9,11 @@
  */
 'use strict'
 
+import * as ReactPropTypes from 'prop-types'
+
 import ColorPropType from './ColorPropType'
 import ImageResizeMode from './ImageResizeMode'
 import LayoutPropTypes from './LayoutPropTypes'
-import * as ReactPropTypes from 'prop-types'
 import ShadowPropTypesIOS from './ShadowPropTypesIOS'
 import TransformPropTypes from './TransformPropTypes'
 
@@ -26,7 +27,9 @@ const ImageStylePropTypes = {
   borderColor: ColorPropType,
   borderWidth: ReactPropTypes.number,
   borderRadius: ReactPropTypes.number,
+  cursor: ReactPropTypes.oneOf(['auto', 'pointer']),
   overflow: ReactPropTypes.oneOf(['visible', 'hidden']),
+  objectFit: ReactPropTypes.oneOf(['cover', 'contain', 'fill', 'scale-down']),
 
   /**
    * Changes the color of all the non-transparent pixels to the tintColor.

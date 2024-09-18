@@ -1,27 +1,14 @@
 import type { Component as Vue3Component } from '@vue/runtime-core'
 import type { Component, ComponentClass } from 'react'
-import VueCtor, { ComponentOptions, VNode } from 'vue'
-import type { CombinedVueInstance } from 'vue/types/vue'
-
 import type { TaroElement } from '../dom/element'
-import type { Func, MpEvent } from '../interface'
+import type { MpEvent, TFunc } from '../interface'
 
 export interface Instance<T = Record<string, any>> extends Component<T>, Show, PageInstance {
   tid?: string
+  node?: TaroElement
   $forceUpdate?(): void
   $nextTick?(cb: () => void): void
   $options: Instance
-}
-
-export interface VueAppInstance extends ComponentOptions<VueCtor> {
-  $options: AppInstance
-}
-
-export type VueInstance<M = Record<string, any>, P = Record<string, any>> = CombinedVueInstance<VueCtor, Record<string, any>, M, P, Record<never, any>> & VueInternal
-
-interface VueInternal {
-  _render(): VNode
-  _update(vnode: VNode, hyrate: boolean): void
 }
 
 export interface PageProps {
@@ -44,7 +31,7 @@ export interface ReactAppInstance<T = AppInstance> extends Component<T>, AppInst
 export interface PageLifeCycle extends Show {
   eh?(event: MpEvent): void
   onAddToFavorites?(): void
-  onLoad?(options: Record<string, unknown>, cb?: Func): void
+  onLoad?(options: Record<string, unknown>, cb?: TFunc): void
   onOptionMenuClick?(): void
   onPageScroll?(obj: { scrollTop: number }): void
   onPullDownRefresh?(): void
@@ -68,6 +55,10 @@ export interface PageInstance extends PageLifeCycle {
   path?: string
   /** 页面的组件选项 */
   options?: Record<string, unknown>
+  /** 页面渲染引擎类型 */
+  renderer?: 'webview' | 'skyline'
+  /** 获得一个 EventChannel 对象，用于页面间通讯 */
+  getOpenerEventChannel?(): Record<string, any>
 }
 
 interface Show {
@@ -79,11 +70,15 @@ interface Show {
 
 export interface AppInstance extends Show {
   componentDidShow?(options?: Record<string, unknown>): void
-  mount? (component: React.ComponentClass | ComponentOptions<VueCtor> | Vue3Component, id: string, cb: (...args: any[]) => void): void
+  mount? (component: React.ComponentClass | Vue3Component, id: string, cb: (...args: any[]) => void): void
+  mount? (component: React.ComponentClass | Vue3Component, id: string, getCtx:(...args: any[]) => void, cb: (...args: any[]) => void): void
   onError? (error: string): void
   onLaunch? (options?: Record<string, unknown>): void
   onPageNotFound? (res: any): void
+  onUnhandledRejection? (error: any): void
   onShow?(options?: Record<string, unknown>): void
+  onHide?(options?: Record<string, unknown>): void
   unmount? (id: string, cb?: () => void): void
   taroGlobalData?: Record<any, any>
+  config?: Record<any, any>
 }

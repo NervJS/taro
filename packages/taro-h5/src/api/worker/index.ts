@@ -1,4 +1,4 @@
 import { temporarilyNotSupport } from '../../utils'
 
 // Worker
-export const createWorker = temporarilyNotSupport('createWorker')
+export const createWorker = /* @__PURE__ */ temporarilyNotSupport('createWorker')

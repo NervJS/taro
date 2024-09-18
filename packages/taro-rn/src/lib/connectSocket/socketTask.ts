@@ -1,13 +1,11 @@
-interface SocketTask {
-  ws: WebSocket;
-  _destroyWhenClose: () => void;
-  closeDetail: {
-    code: number;
-    reason: string;
-  };
-}
-
 class SocketTask {
+  ws: WebSocket
+  _destroyWhenClose: () => void
+  closeDetail: {
+    code: number
+    reason: string
+  }
+
   constructor (url: string, protocols: string[] | undefined) {
     if (protocols) {
       // eslint-disable-next-line no-undef
@@ -16,6 +14,22 @@ class SocketTask {
       // eslint-disable-next-line no-undef
       this.ws = new WebSocket(url)
     }
+  }
+
+  get CONNECTING () {
+    return 0
+  }
+
+  get OPEN () {
+    return 1
+  }
+
+  get CLOSING () {
+    return 2
+  }
+
+  get CLOSED () {
+    return 3
   }
 
   get readyState (): number {
@@ -89,7 +103,7 @@ class SocketTask {
   onError (func?: Taro.SocketTask.OnErrorCallback): void {
     this.ws.onerror = () => {
       func && func({
-        errMsg: "There was an error with your websocket.",
+        errMsg: 'There was an error with your websocket.',
       })
     }
   }

@@ -6,9 +6,11 @@
  */
 
 import Taro from '@tarojs/api'
+import { isFunction } from '@tarojs/shared'
 
 import { MethodHandler } from '../../utils/handler'
 import { getStorageSync, setStorage, setStorageSync } from '../storage/index'
+import { showToast } from '../ui/interaction'
 
 const CLIPBOARD_STORAGE_NAME = 'taro_clipboard'
 
@@ -33,7 +35,7 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, suc
      * iOS < 10 的系统可能无法使用编程方式访问剪贴板，参考：
      * https://stackoverflow.com/questions/34045777/copy-to-clipboard-using-javascript-in-ios/34046084
      */
-    if (typeof document.execCommand === 'function') {
+    if (isFunction(document.execCommand)) {
       const textarea = document.createElement('textarea')
       textarea.readOnly = true
       textarea.value = data
@@ -48,6 +50,11 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, suc
     } else {
       throw new Error('Unsupported Function: \'document.execCommand\'.')
     }
+    showToast({
+      title: '内容已复制',
+      icon: 'none',
+      duration: 1500
+    })
     return handle.success()
   } catch (e) {
     return handle.fail({ errMsg: e.message })

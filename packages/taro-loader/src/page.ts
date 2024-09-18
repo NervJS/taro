@@ -1,6 +1,8 @@
-import { normalizePath } from '@tarojs/helper'
-import { getOptions, stringifyRequest } from 'loader-utils'
-import * as path from 'path'
+import * as path from 'node:path'
+
+import { entryCache } from './entry-cache'
+import { stringifyRequest } from './util'
+
 import type * as webpack from 'webpack'
 
 interface PageConfig {
@@ -9,19 +11,20 @@ interface PageConfig {
 }
 
 export default function (this: webpack.LoaderContext<any>, source: string) {
-  const options = getOptions(this)
+  const options = this.getOptions()
   const { config: loaderConfig } = options
   const config = getPageConfig(loaderConfig, this.resourcePath)
   const configString = JSON.stringify(config)
   const stringify = (s: string): string => stringifyRequest(this, s)
+  const pageName = options.name
   const { isNeedRawLoader, modifyInstantiate } = options.loaderMeta
   // raw is a placeholder loader to locate changed .vue resource
+  const entryCacheLoader = path.join(__dirname, 'entry-cache.js') + `?name=${pageName}`
+  entryCache.set(pageName, source)
   const raw = path.join(__dirname, 'raw.js')
-  const loaders = this.loaders
-  const thisLoaderIndex = loaders.findIndex(item => normalizePath(item.path).indexOf('@tarojs/taro-loader/lib/page') >= 0)
   const componentPath = isNeedRawLoader
-    ? `${raw}!${this.resourcePath}`
-    : this.request.split('!').slice(thisLoaderIndex + 1).join('!')
+    ? ['!', raw, entryCacheLoader, this.resourcePath].join('!')
+    : ['!', entryCacheLoader, this.resourcePath].join('!')
   const { globalObject } = this._compilation?.outputOptions || { globalObject: 'wx' }
 
   const prerender = `
@@ -32,7 +35,7 @@ if (typeof PRERENDER !== 'undefined') {
   const hmr = !options.hot ? '' : `if (process.env.NODE_ENV !== 'production') {
   const cache = __webpack_require__.c || {}
   Object.keys(cache).forEach(item => {
-    if (item.indexOf('${options.name}') !== -1) delete cache[item]
+    if (item.indexOf('${pageName}') !== -1) delete cache[item]
   })
 }`
 
@@ -40,7 +43,7 @@ if (typeof PRERENDER !== 'undefined') {
     options.loaderMeta.modifyConfig(config, source)
   }
 
-  let instantiatePage = `var inst = Page(createPageConfig(component, '${options.name}', {root:{cn:[]}}, config || {}))`
+  let instantiatePage = `var inst = Page(createPageConfig(component, '${pageName}', {root:{cn:[]}}, config || {}))`
 
   if (typeof modifyInstantiate === 'function') {
     instantiatePage = modifyInstantiate(instantiatePage, 'page')
@@ -54,6 +57,7 @@ ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 ${instantiatePage}
 ${options.prerender ? prerender : ''}
 ${hmr}
+export default component
 `
 }
 

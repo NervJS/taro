@@ -1,9 +1,10 @@
-/** @jsx createElement */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { createElement, render } from 'nervjs'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+
 import withWeapp from '../src'
-import { TaroComponent, delay } from './utils'
+import { TaroComponent } from './utils'
 
 describe('lifecycle', () => {
   /**
@@ -22,17 +23,18 @@ describe('lifecycle', () => {
       }
     })
     class A extends TaroComponent {
+      componentDidMount () {
+        expect(scratch.textContent).toBe('a')
+        done()
+      }
+
       render () {
-        return <div>{this.a}</div>
+        return <div>{this.data.a}</div>
       }
     }
 
-    render(<A />, scratch)
-
-    delay(() => {
-      expect(scratch.textContent).toBe('a')
-      done()
-    })
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<A />)
   })
 
   test('state can be changed by this.setData', (done) => {
@@ -40,24 +42,25 @@ describe('lifecycle', () => {
       data: {
         a: ''
       },
-      ready () {
+      attached () {
         this.setData({
           a: 'b'
         })
       }
     })
     class A extends TaroComponent {
+      componentDidUpdate () {
+        expect(scratch.textContent).toBe('b')
+        done()
+      }
+
       render () {
-        return <div>{this.a}</div>
+        return <div>{this.data.a}</div>
       }
     }
 
-    render(<A />, scratch)
-
-    delay(() => {
-      expect(scratch.textContent).toBe('b')
-      done()
-    })
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<A />)
   })
 
   test('state can be changed by this.setData path', (done) => {
@@ -67,47 +70,49 @@ describe('lifecycle', () => {
           b: ''
         }
       },
-      ready () {
+      attached () {
         this.setData({
           'a.b': 'b'
         })
       }
     })
     class A extends TaroComponent {
+      componentDidUpdate () {
+        expect(scratch.textContent).toBe('b')
+        done()
+      }
+
       render () {
-        return <div>{this.a.b}</div>
+        return <div>{this.data.a.b}</div>
       }
     }
 
-    render(<A />, scratch)
-
-    delay(() => {
-      expect(scratch.textContent).toBe('b')
-      done()
-    })
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<A />)
   })
 
   test('state can be changed even not init data is provided', (done) => {
     @withWeapp({
       data: {
       },
-      ready () {
+      attached () {
         this.setData({
           a: 'b'
         })
       }
     })
     class A extends TaroComponent {
+      componentDidUpdate () {
+        expect(scratch.textContent).toBe('b')
+        done()
+      }
+
       render () {
         return <div>{this.data.a}</div>
       }
     }
 
-    render(<A />, scratch)
-
-    delay(() => {
-      expect(scratch.textContent).toBe('b')
-      done()
-    })
+    const root = ReactDOM.createRoot(scratch)
+    root.render(<A />)
   })
 })

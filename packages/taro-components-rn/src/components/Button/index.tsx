@@ -31,21 +31,22 @@
 
 import * as React from 'react'
 import {
-  TouchableWithoutFeedback,
-  Text,
-  View,
-  Image,
   Animated,
   Easing,
+  GestureResponderEvent,
+  Image,
   StyleProp,
-  ViewStyle,
-  GestureResponderEvent
+  Text,
+  TouchableWithoutFeedback,
+  View,
+  ViewStyle
 } from 'react-native'
-import styles from './styles'
+
+import ladingPng from '../../assets/loading.png'
+import loadingWarnPng from '../../assets/loading-warn.png'
 import { extracteTextStyle, noop } from '../../utils'
 import { ButtonProps, ButtonState } from './PropsType'
-import loadingWarnPng from '../../assets/loading-warn.png'
-import ladingPng from '../../assets/loading.png'
+import styles from './styles'
 
 const Loading = (props: { type: ButtonProps['type'], hasSibling: boolean }) => {
   const { type = 'primary', hasSibling } = props
@@ -68,7 +69,7 @@ const Loading = (props: { type: ButtonProps['type'], hasSibling: boolean }) => {
     }
   }, [])
 
-  const rotateDeg: Animated.AnimatedInterpolation = rotate.interpolate({
+  const rotateDeg: Animated.AnimatedInterpolation<string | number> = rotate.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg']
   })
@@ -108,8 +109,8 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
   $touchable = React.createRef<TouchableWithoutFeedback>()
 
   isTouchEnd = false
-  pressInTimer: number
-  pressOutTimer: number
+  pressInTimer: ReturnType<typeof setTimeout>
+  pressOutTimer: ReturnType<typeof setTimeout>
 
   state: ButtonState = {
     isHover: false
@@ -178,7 +179,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
 
     const isDefaultSize: boolean = size === 'default'
     const isDefaultType: boolean = type === 'default'
-    const themeColorMap: { default: string[]; primary: string[]; warn: string[] } = {
+    const themeColorMap: { default: string[], primary: string[], warn: string[] } = {
       default: ['#F8F8F8', '#f7f7f7'],
       primary: ['#1AAD19', '#9ED99D'],
       warn: ['#E64340', '#EC8B89']
@@ -203,6 +204,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
         onPressIn={this.onPressIn}
         onPressOut={this.onPressOut}
         ref={this.$touchable}
+        accessibilityRole="button"
         disabled={disabled}
       >
         <View

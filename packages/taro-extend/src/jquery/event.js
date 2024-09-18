@@ -146,7 +146,7 @@ export function initEvent ($) {
 
       try {
         event.timeStamp || (event.timeStamp = Date.now())
-      } catch (ignored) { }
+      } catch (ignored) {} // eslint-disable-line no-empty
 
       if (source.defaultPrevented !== undefined ? source.defaultPrevented
         : 'returnValue' in source ? source.returnValue === false

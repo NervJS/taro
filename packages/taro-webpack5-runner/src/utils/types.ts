@@ -1,10 +1,9 @@
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import { IH5Config, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
+import type { AppConfig } from '@tarojs/taro'
+import type { IH5Config, IHarmonyConfig, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 import type Webpack from 'webpack'
-import type Chain from 'webpack-chain'
-
-import { PrerenderConfig } from '../prerender/prerender'
-import type { IComponentConfig } from '../template/component'
+import type { PrerenderConfig } from '../prerender/prerender'
 
 export interface IOption {
   [key: string]: any
@@ -36,40 +35,54 @@ export interface IFileType {
   xs?: string
 }
 
-export type Func = (...args: any[]) => any
-
-export interface HookModifyWebpackChain {
-  (chain: Chain, webpack: typeof Webpack, data: { componentConfig: IComponentConfig }): Promise<any>
-}
-
 export interface CommonBuildConfig extends IProjectBaseConfig {
   entry?: Webpack.EntryObject
-  mode: 'production' | 'development'
+  mode: 'production' | 'development' | 'none'
+  buildAdapter: string // weapp | swan | alipay | tt | qq | jd | h5
+  platformType: string // mini | web
+  /** special mode */
+  isBuildNativeComp?: boolean
+  newBlended?: boolean
+  withoutBuild?: boolean
+  noInjectGlobalStyle?: boolean
+  /** hooks */
+  onParseCreateElement: (nodeName, componentConfig) => Promise<any>
+  modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<CommonBuildConfig>) => Promise<any>
 }
 
-export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
+export interface IMiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   isBuildPlugin: boolean
-  isBuildNativeComp?: boolean
   isSupportRecursive: boolean
   isSupportXS: boolean
-  buildAdapter: string
   nodeModulesPath: string
   fileType: IFileType
   globalObject: string
+  platform: string
   prerender?: PrerenderConfig
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath?: string | string[]
-  taroComponentsPath?: string
+  taroComponentsPath: string
   blended?: boolean
   hot?: boolean
-  /** hooks */
-  modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<MiniBuildConfig>) => Promise<any>
-  onCompilerMake: (compilation) => Promise<any>
-  onParseCreateElement: (nodeName, componentConfig) => Promise<any>
 }
 
-export interface H5BuildConfig extends CommonBuildConfig, IH5Config {
+export interface IH5BuildConfig extends CommonBuildConfig, IH5Config {
   entryFileName?: string
+  runtimePath?: string | string[]
+  /** special mode */
+  // 不引入全局样式
+  noInjectGlobalStyle?: boolean
 }
 
-export type AddPageChunks = ((pages: Map<string, string[]>, pagesNames?: string[]) => void)
+export interface IHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfig {
+  fileType: IFileType
+  useETS?: boolean
+  useJSON5?: boolean
+  runtimePath?: string | string[]
+  taroComponentsPath: string
+  /** hooks */
+  modifyHarmonyConfig: (config: Partial<AppConfig>) => void
+  modifyHostPackage: (deps?: Record<string, string>, devDeps?: Record<string, string>) => Exclude<IHarmonyConfig['ohPackage'], void>
+}
+
+export type AddPageChunks = (pages: Map<string, string[]>, pagesNames?: string[]) => void

@@ -1,28 +1,38 @@
 {
   "name": "@tarojs/shared",
-  "version": "3.5.3",
+  "version": "4.0.5",
   "description": "Taro utils internal use.",
-  "author": "yuche <i@yuche.me>",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/shared#readme",
+  "author": "O2Team",
   "license": "MIT",
-  "main": "dist/index.js",
+  "browser": "dist/index.js",
+  "main:h5": "dist/shared.esm.js",
+  "main": "dist/index.cjs.js",
   "module": "dist/shared.esm.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
+  "sideEffects": [],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf --impl=move-remove ./dist",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
+    "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "publishConfig": {
-    "access": "public"
+  "engines": {
+    "node": ">= 18"
+  },
+  "devDependencies": {
+    "lodash": "^4.17.21"
   }
 }

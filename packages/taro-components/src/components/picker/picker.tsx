@@ -1,4 +1,4 @@
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, State, Watch, Element } from '@stencil/core'
+import { Component, ComponentInterface, Element, Event, EventEmitter, Host, h, Prop, State, Watch } from '@stencil/core'
 import classNames from 'classnames'
 import {
   hoursRange,
@@ -20,6 +20,11 @@ import {
 export type Mode = 'selector' | 'multiSelector' | 'time' | 'date'
 export type Fields = 'day' | 'month' | 'year'
 export type PickerValue = number | number[] | string
+
+export interface PickerText {
+  okText?: string
+  cancelText?: string
+}
 
 export interface PickerDate {
   _value: Date
@@ -43,11 +48,12 @@ export class Picker implements ComponentInterface {
   @Prop() disabled = false
   @Prop() range: any[] = []
   @Prop() rangeKey: string
-  @Prop() value: number | number[] | string
+  @Prop({ mutable: true }) value: PickerValue
   @Prop() start = ''
   @Prop() end = ''
   @Prop() fields: Fields = 'day'
   @Prop() name = ''
+  @Prop() textProps: PickerText = {}
 
   @State() pickerValue: PickerValue = []
   @State() height: number[] = []
@@ -73,12 +79,6 @@ export class Picker implements ComponentInterface {
   }
 
   componentDidLoad () {
-    Object.defineProperty(this.el, 'value', {
-      get: () => this.pickerValue,
-      set: val => (this.value = val),
-      configurable: true
-    })
-
     if (this.overlay) {
       document.body.appendChild(this.overlay)
     }
@@ -127,44 +127,48 @@ export class Picker implements ComponentInterface {
     } else if (mode === 'date') {
       const value = this.value as string
 
-      const _value = verifyDate(value) || new Date(new Date().setHours(0, 0, 0, 0)) // 没传值或值的合法性错误默认今天时间
+      let _value = verifyDate(value) || new Date(new Date().setHours(0, 0, 0, 0)) // 没传值或值的合法性错误默认今天时间
       const _start = verifyDate(start) || new Date('1970/01/01')
       const _end = verifyDate(end) || new Date('2999/01/01')
 
       // 时间区间有效性
-      if (_value >= _start && _value <= _end) {
-        const currentYear = _value.getFullYear()
-        const currentMonth = _value.getMonth() + 1
-        const currentDay = _value.getDate()
-        const yearRange = getYearRange(_start.getFullYear(), _end.getFullYear())
-        const monthRange = getMonthRange(_start, _end, currentYear)
-        const dayRange = getDayRange(_start, _end, currentYear, currentMonth)
-
-        this.index = [
-          yearRange.indexOf(currentYear),
-          monthRange.indexOf(currentMonth),
-          dayRange.indexOf(currentDay)
-        ]
-        if (
-          !this.pickerDate ||
-          this.pickerDate._value.getTime() !== _value.getTime() ||
-          this.pickerDate._start.getTime() !== _start.getTime() ||
-          this.pickerDate._end.getTime() !== _end.getTime()
-        ) {
-          this.pickerDate = {
-            _value,
-            _start,
-            _end,
-            _updateValue: [
-              currentYear,
-              currentMonth,
-              currentDay
-            ]
-          }
-        }
-      } else {
-        throw new Error('Date Interval Error')
+      if (!(_start <= _end)) {
+        throw new Error(`Picker start time must be less than end time.`)
       }
+      if (!(_value >= _start && _value <= _end)) {
+        _value = _start
+      }
+      const currentYear = _value.getFullYear()
+      const currentMonth = _value.getMonth() + 1
+      const currentDay = _value.getDate()
+      const yearRange = getYearRange(_start.getFullYear(), _end.getFullYear())
+      const monthRange = getMonthRange(_start, _end, currentYear)
+      const dayRange = getDayRange(_start, _end, currentYear, currentMonth)
+
+      this.index = [
+        yearRange.indexOf(currentYear),
+        monthRange.indexOf(currentMonth),
+        dayRange.indexOf(currentDay)
+      ]
+      if (
+        !this.pickerDate ||
+        this.pickerDate._value.getTime() !== _value.getTime() ||
+        this.pickerDate._start.getTime() !== _start.getTime() ||
+        this.pickerDate._end.getTime() !== _end.getTime()
+      ) {
+        this.pickerDate = {
+          _value,
+          _start,
+          _end,
+          _updateValue: [
+            currentYear,
+            currentMonth,
+            currentDay
+          ]
+        }
+      }
+    } else {
+      throw new Error(`Picker not support "${mode}" mode.`)
     }
 
     // Prop 变化时，无论是否正在显示弹层，都更新 height 值
@@ -255,10 +259,19 @@ export class Picker implements ComponentInterface {
         .join('-')
     }
 
-    this.pickerValue = value
+    this.value = value
+    this.pickerValue = this.value
 
     this.onChange.emit({
       value
+    })
+  }
+
+  handleColumnChange = (e: CustomEvent) => {
+    const { columnId, height } = e.detail
+    this.onColumnChange.emit({
+      column: Number(columnId),
+      value: (TOP - height) / LINE_HEIGHT
     })
   }
 
@@ -300,13 +313,6 @@ export class Picker implements ComponentInterface {
         requestAnimationFrame(() => (this.height = height))
       }
     }
-  }
-
-  handleColumnChange = (height: number, columnId: string) => {
-    this.onColumnChange.emit({
-      column: Number(columnId),
-      value: (TOP - height) / LINE_HEIGHT
-    })
   }
 
   updateDay = (value: number, fields: number) => {
@@ -497,10 +503,10 @@ export class Picker implements ComponentInterface {
           <div class={clsSlider}>
             <div class='weui-picker__hd'>
               <div class='weui-picker__action' onClick={this.handleCancel}>
-                取消
+                {this.textProps.cancelText ?? '取消'}
               </div>
               <div class='weui-picker__action' onClick={this.handleChange}>
-                确定
+                {this.textProps.okText ?? '确定'}
               </div>
             </div>
             <div class='weui-picker__bd'>{pickerGroup}</div>

@@ -1,30 +1,31 @@
-import { PickerDateProps, PickerMultiSelectorProps, PickerSelectorProps, PickerTimeProps, PickerRegionProps } from '@tarojs/components/types/Picker'
+import { PickerDateProps, PickerMultiSelectorProps, PickerRegionProps, PickerSelectorProps, PickerTimeProps } from '@tarojs/components/types/Picker'
 
 export interface BaseState<T> {
   /** 表示当前选中的值 */
-  value: T;
+  value: T
   /** 表示上一次选中的值 */
-  pValue: T;
+  pValue: T | undefined
 }
 
 export type SelectorProps = Partial<PickerSelectorProps>
 
 export interface SelectorState extends BaseState<number | string> {
-  pRange: any[] | undefined;
-  range: any[];
+  pRange: any[] | undefined
+  range: any[]
+  isInOnChangeUpdate: boolean
 }
 
 export type TimeProps = Partial<PickerTimeProps>
-export type TimeState = BaseState<string|Date>
+export type TimeState = BaseState<string> & { isInOnChangeUpdate: boolean }
 
 export type DateProps = Partial<PickerDateProps>
-export type DateState = BaseState<string | Date>
+export type DateState = BaseState<string> & { isInOnChangeUpdate: boolean }
 
 export interface RegionProps extends Partial<PickerRegionProps> {
-  customItem?: string;
-  regionData?: RegionObj[];
+  customItem?: string
+  regionData?: RegionObj[]
 }
-export type RegionState = BaseState<string[]>
+export type RegionState = BaseState<string[]> & { isInOnChangeUpdate: boolean }
 export interface RegionObj {
   value: string
   code: string
@@ -36,7 +37,7 @@ export interface MultiSelectorProps extends Partial<PickerMultiSelectorProps> {
   value: number[]
 }
 export interface MultiSelectorState extends BaseState<any[]> {
-  cols: number;
-  pRange: any[];
-  range: any[];
+  cols: number
+  pRange: any[]
+  range: any[]
 }

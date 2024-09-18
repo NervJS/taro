@@ -1,25 +1,31 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "3.5.3",
+  "version": "4.0.5",
   "description": "Taro h5 framework",
-  "browser": "dist/index.esm.js",
-  "main:h5": "dist/index.js",
+  "browser": "dist/index.js",
+  "main:h5": "dist/index.esm.js",
   "main": "dist/index.js",
-  "module": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
     "types",
     "index.js"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "*.scss.js",
+    "*.scss",
+    "*.css.js",
+    "*.css"
+  ],
   "scripts": {
-    "assets": "cpy 'src/**/*.css' dist",
-    "build": "rimraf ./dist && tsc && pnpm run assets && rollup -c",
-    "predev": "pnpm run assets",
-    "dev": "tsc -w",
-    "test": "jest",
-    "test:ci": "jest -i --coverage false",
+    "prod": "pnpm run build",
+    "prebuild": "rimraf --impl=move-remove ./dist",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.mts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
+    "test": "node_modules/jest/bin/jest.js",
+    "test:ci": "jest --ci -i --coverage --silent",
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage"
   },
@@ -36,9 +42,38 @@
     "@tarojs/api": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/runtime": "workspace:*",
-    "base64-js": "^1.3.0",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/components": "workspace:*",
+    "abortcontroller-polyfill": "^1.7.5",
+    "base64-js": "^1.5.1",
+    "ics": "^3.7.2",
+    "is-mobile": "^4.0.0",
     "jsonp-retry": "^1.0.3",
-    "query-string": "^7.1.1",
-    "whatwg-fetch": "^3.4.0"
+    "lodash-es": "4.17.21",
+    "platform": "^1.3.6",
+    "query-string": "^9.0.0",
+    "tslib": "^2.6.2",
+    "whatwg-fetch": "^3.6.20"
+  },
+  "devDependencies": {
+    "@tarojs/taro": "workspace:*",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@types/platform": "^1.3.6",
+    "@types/testing-library__jest-dom": "^5.14.3",
+    "babel-jest": "^29.7.0",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-mock-console": "^1.0.0",
+    "jest-transform-css": "^6.0.1",
+    "mock-socket": "^7.1.0",
+    "react": "^18.2.0",
+    "swiper": "11.1.0",
+    "react-test-renderer": "^18.2.0",
+    "rollup": "^3.29.4",
+    "rollup-plugin-node-externals": "^5.0.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "@rollup/plugin-node-resolve": "^15.2.3"
+  },
+  "peerDependencies": {
+    "@tarojs/components": "workspace:~"
   }
 }

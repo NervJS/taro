@@ -1,14 +1,16 @@
-import { PluginObj, template as Template, types as Types } from 'babel__core'
+import * as path from 'node:path'
+
 import camelize from 'camelize'
-import * as path from 'path'
 import { transformCSS } from 'taro-css-to-react-native'
 
-import { ConvertPluginPass as PluginPass } from './types'
+import type { PluginObj, template as Template, types as Types } from '@babel/core'
+import type { ConvertPluginPass as PluginPass } from './types'
 
 const STYLE_SHEET_NAME = '_styleSheet'
 const GET_STYLE_FUNC_NAME = '_getStyle'
 const MERGE_STYLES_FUNC_NAME = '_mergeStyles'
 const MERGE_ELE_STYLES_FUNC_NAME = '_mergeEleStyles'
+const GET_MODULE_CLS_NAME_FUNC_NAME = '_getModuleClassName'
 
 const GET_CLS_NAME_FUNC_NAME = '_getClassName'
 const NAME_SUFFIX = 'styleSheet'
@@ -60,14 +62,14 @@ function findLastImportIndex (body) {
 }
 
 const MergeStylesFunction = `
-function _mergeStyles() {
+function ${MERGE_STYLES_FUNC_NAME}() {
   var newTarget = {};
-
   for (var index = 0; index < arguments.length; index++) {
-    var target = arguments[index];
+    var [styleSheet, rawStyleName] = arguments[index];
 
-    for (var key in target) {
-      newTarget[key] = Object.assign(newTarget[key] || {}, target[key]);
+    for (var key in styleSheet) {
+      const _key = rawStyleName ? rawStyleName + '-' + key : key
+      newTarget[_key] = Object.assign(newTarget[_key] || {}, styleSheet[key]);
     }
   }
 
@@ -115,6 +117,15 @@ function ${GET_STYLE_FUNC_NAME}(classNameExpression) {
   return style;
 }
 `
+const getModuleClassNameFunction = `
+function ${GET_MODULE_CLS_NAME_FUNC_NAME}(moduleStyle, styleId) {
+  return Object.keys(moduleStyle).reduce((pre, cur) => (
+    Object.assign(pre, {
+      [cur]: styleId + '-' + cur
+    })
+  ), {})
+}
+`
 
 export default function (babel: {
   types: typeof Types
@@ -128,98 +139,19 @@ export default function (babel: {
 
   const getMergeEleStyleFunctionStmt = template(getMergeEleStyleFunction)()
 
+  const getModuleClassNameFunctionStmt = template(getModuleClassNameFunction)()
+
   function getMap (str) {
     return str.split(/\s+/).map((className) => {
       // return template(`${STYLE_SHEET_NAME}["${className}"]`)().expression
-      const stmt = template(`${STYLE_SHEET_NAME}["${className}"]`)()
+      const stmt = template(`${STYLE_SHEET_NAME}["${className}"]`)() as Types.Node
       if (t.isExpressionStatement(stmt)) {
         return stmt.expression
       }
     })
   }
 
-  function isCSSMemberOrBindings (expression, cssModuleStylesheets, astPath) {
-    if (t.isIdentifier(expression)) {
-      if (cssModuleStylesheets.includes(expression.name)) {
-        return true
-      } else {
-        const binding = astPath.scope.getBinding(expression.name)
-        if (binding) {
-          const { node } = binding.path
-          if (isCSSMemberOrBindings(node.init, cssModuleStylesheets, astPath)) {
-            return true
-          }
-        }
-      }
-    }
-
-    // assign 属性引用
-    if (t.isMemberExpression(expression) && t.isIdentifier(expression.object)) {
-      if (cssModuleStylesheets.includes(expression.object.name)) {
-        return true
-      } else {
-        const binding = astPath.scope.getBinding(expression.object.name)
-        if (binding) {
-          const { node } = binding.path
-          if (isCSSMemberOrBindings(node.init, cssModuleStylesheets, astPath)) {
-            return true
-          }
-        }
-      }
-    }
-
-    // Conditional_Operator 条件（三元）运算符
-    if (t.isConditionalExpression(expression)) {
-      const { consequent, alternate } = expression
-      if (
-        isCSSMemberOrBindings(consequent, cssModuleStylesheets, astPath) ||
-        isCSSMemberOrBindings(alternate, cssModuleStylesheets, astPath)
-      ) {
-        return true
-      }
-    }
-
-    // spread 解构
-    if (t.isObjectExpression(expression)) {
-      for (const prop of expression.properties) {
-        if (t.isSpreadElement(prop)) {
-          if (isCSSMemberOrBindings(prop.argument, cssModuleStylesheets, astPath)) {
-            return true
-          }
-        }
-      }
-    }
-
-    // 函数调用
-    // some call expression args references like Object.assign or @babel/runtime/helpers/extends
-    if (t.isCallExpression(expression)) {
-      const { arguments: args } = expression
-      for (const arg of args) {
-        if (isCSSMemberOrBindings(arg, cssModuleStylesheets, astPath)) {
-          return true
-        }
-      }
-    }
-  }
-
-  function isJSXCSSModuleExpression (value, cssModuleStylesheets, astPath) {
-    if (t.isJSXExpressionContainer(value)) {
-      // 1. memberExpression a. 导入. b. 赋值. like `className="{style.red}"` or `const a = style; className="{a.red}"`
-      // 2. spread like `className="{{ ...style.red }}"`
-      // 3. memberExpression and spread. like `const a = { ...style }; className="{a.red}"
-
-      if (isCSSMemberOrBindings(value.expression, cssModuleStylesheets, astPath)) {
-        return true
-      }
-    }
-  }
-
-  function getArrayExpression (value, cssModuleStylesheets, astPath) {
-    // css module 时 className 处理成 style 属性，所以直接取值跟 style 合并
-    if (isJSXCSSModuleExpression(value, cssModuleStylesheets, astPath)) {
-      return [value.expression]
-    }
-
+  function getArrayExpression (value) {
     let str
 
     if (!value || value.value === '') {
@@ -239,19 +171,149 @@ export default function (babel: {
     return str === '' ? [] : getMap(str)
   }
 
+  function getArrayExpressionFromObjectProperty (value) {
+    let str
+
+    if (!value || value.value === '') {
+      // className: ""
+      return []
+    } else if ((value.type === 'CallExpression' || value.type === 'Identifier') && typeof value.value !== 'string') {
+      // className: "".concat(classPrefix, "-left")
+      // className: classNames([ classPrefix, className ])
+      // className: cls
+      return [t.callExpression(t.identifier(GET_STYLE_FUNC_NAME), [value])]
+    }
+
+    return !str ? [] : getMap(str)
+  }
+
   function getMatchRule (enableMultipleClassName: boolean) {
     if (enableMultipleClassName) {
       return {
         styleMatchRule: /[sS]tyle$/,
-        classNameMathRule: /[cC]lassName$/
+        classNameMatchRule: /[cC]lassName$/
       }
     }
 
     return {
       styleMatchRule: /^style$/,
-      classNameMathRule: /^className$/
+      classNameMatchRule: /^className$/
     }
   }
+
+  function processStyleAndClassName ({
+    attributes,
+    state,
+    existStyleImport,
+    isFromJSX,
+  }) {
+    const { file, opts = {} } = state
+    const { enableMultipleClassName = false } = opts
+    const { styleMatchRule, classNameMatchRule } = getMatchRule(enableMultipleClassName)
+    const styleNameMapping = {}
+    const DEFAULT_STYLE_KEY = 'style'
+
+    attributes.forEach(attribute => {
+      if (isFromJSX && !t.isJSXAttribute(attribute)) return
+      const attrNameString = t.isJSXAttribute(attribute) ? attribute.name?.name : attribute.key?.name
+      if (!attrNameString || typeof attrNameString !== 'string') return
+      if (attrNameString.match(styleMatchRule)) {
+        const prefix = attrNameString.replace(styleMatchRule, '') || DEFAULT_STYLE_KEY
+        styleNameMapping[prefix] = {
+          ...styleNameMapping[prefix] || {},
+          hasStyleAttribute: true,
+          styleAttribute: attribute
+        }
+      }
+      if (attrNameString.match(classNameMatchRule)) {
+        const prefix = attrNameString.replace(classNameMatchRule, '') || DEFAULT_STYLE_KEY
+        styleNameMapping[prefix] = {
+          ...styleNameMapping[prefix] || {},
+          hasClassName: true,
+          classNameAttribute: attribute
+        }
+      }
+    })
+
+    for (const key in styleNameMapping) {
+      const { hasClassName, classNameAttribute, hasStyleAttribute, styleAttribute } = styleNameMapping[key]
+
+      if (!(hasClassName && existStyleImport) && hasStyleAttribute && t.isStringLiteral(styleAttribute?.value)) {
+        const cssObject = string2Object(styleAttribute?.value?.value)
+        styleAttribute.value = isFromJSX
+          ? t.jSXExpressionContainer(object2Expression(template, cssObject))
+          : object2Expression(template, cssObject)
+      }
+
+      if (hasClassName && existStyleImport) {
+        attributes.splice(attributes.indexOf(classNameAttribute), 1)
+
+        if (isFromJSX) {
+          if (
+            classNameAttribute.value &&
+            t.isJSXExpressionContainer(classNameAttribute.value) &&
+            typeof classNameAttribute.value.expression.value !== 'string'// not like className={'container'}
+          ) {
+            file.set('injectGetStyle', true)
+          }
+        } else {
+          if (classNameAttribute.value) {
+            file.set('injectGetStyle', true)
+          }
+        }
+
+        const arrayExpression = isFromJSX
+          ? getArrayExpression(classNameAttribute.value)
+          : getArrayExpressionFromObjectProperty(classNameAttribute.value)
+
+        if (arrayExpression.length === 0) return
+        if (arrayExpression.length > 1) file.set('hasMultiStyle', true)
+
+        if (hasStyleAttribute && styleAttribute?.value) {
+          file.set('hasMultiStyle', true)
+          let expression
+          // 支持 行内 style 转成oject：style="width:100;height:100;" => style={{width:'100',height:'100'}}
+          if (t.isStringLiteral(styleAttribute.value)) {
+            const cssObject = string2Object(styleAttribute.value.value)
+            expression = object2Expression(template, cssObject)
+          } else {
+            expression = isFromJSX ? styleAttribute.value.expression : styleAttribute.value
+          }
+          const expressionType = expression.type
+
+          let _arrayExpression
+          // 非rn场景，style不支持数组，因此需要将数组转换为对象
+          // style={[styles.a, styles.b]} ArrayExpression
+          if (expressionType === 'ArrayExpression') {
+            _arrayExpression = arrayExpression.concat(expression.elements)
+            // style={styles.a} MemberExpression
+            // style={{ height: 100 }} ObjectExpression
+            // style={{ ...custom }} ObjectExpression
+            // style={custom} Identifier
+            // style={getStyle()} CallExpression
+            // style={this.props.useCustom ? custom : null} ConditionalExpression
+            // style={custom || other} LogicalExpression
+          } else {
+            _arrayExpression = arrayExpression.concat(expression)
+          }
+
+          styleAttribute.value = isFromJSX
+            ? t.jSXExpressionContainer(t.callExpression(t.identifier(MERGE_ELE_STYLES_FUNC_NAME), _arrayExpression))
+            : t.callExpression(t.identifier(MERGE_ELE_STYLES_FUNC_NAME), _arrayExpression)
+        } else {
+          const expression = arrayExpression.length > 1
+            ? t.callExpression(t.identifier(MERGE_ELE_STYLES_FUNC_NAME), arrayExpression)
+            : arrayExpression[0]
+
+          const newAttribute = isFromJSX
+            ? t.jSXAttribute(t.jSXIdentifier(key === DEFAULT_STYLE_KEY ? key : `${key}Style`), t.jSXExpressionContainer(expression))
+            : t.objectProperty(t.identifier(key === DEFAULT_STYLE_KEY ? key : (key + 'Style')), expression)
+          attributes.push(newAttribute)
+        }
+      }
+    }
+  }
+
   let existStyleImport = false
 
   return {
@@ -274,12 +336,14 @@ export default function (babel: {
           if (existStyleImport) {
             const { file } = state
             const styleSheetIdentifiers = file.get('styleSheetIdentifiers') || []
+            const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
+            const allStyleSheetIdentifiers = [...styleSheetIdentifiers, ...cssModuleStylesheets]
             let expression
             // only one css file，由于样式文件合并，永远只有一个
-            if (styleSheetIdentifiers.length === 1) {
-              expression = `var ${STYLE_SHEET_NAME} = ${styleSheetIdentifiers[0].name};\n`
-            } else if (styleSheetIdentifiers.length > 1) {
-              const params = styleSheetIdentifiers.reduce((current, next) => `${current},${next.name}`, '').slice(1)
+            if (allStyleSheetIdentifiers.length === 1 && styleSheetIdentifiers.length === 1) {
+              expression = `var ${STYLE_SHEET_NAME} = ${allStyleSheetIdentifiers[0].styleSheetName};\n`
+            } else if (allStyleSheetIdentifiers.length >= 1) {
+              const params = allStyleSheetIdentifiers.reduce((current, next) => `${current},[${next.styleSheetName}, "${next.rawStyleSheetName || ''}"]`, '').slice(1)
               expression = `${MergeStylesFunction}\n
               var ${STYLE_SHEET_NAME} = ${MERGE_STYLES_FUNC_NAME}(${params});\n`
             } else {
@@ -293,6 +357,7 @@ export default function (babel: {
           const { file } = state
           const node = astPath.node
           const injectGetStyle = file.get('injectGetStyle')
+          const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
           // 从最后一个import 开始插入表达式，后续插入的表达式追加在后面
           let lastImportIndex = findLastImportIndex(node.body)
           if (injectGetStyle) {
@@ -305,110 +370,64 @@ export default function (babel: {
             // @ts-ignore
             node.body.splice(++lastImportIndex, 0, getMergeEleStyleFunctionStmt)
           }
+          // 将 styleSheet 转为 {[classname]: classname}
+          if (cssModuleStylesheets.length) {
+            // @ts-ignore
+            node.body.splice(++lastImportIndex, 0, getModuleClassNameFunctionStmt)
+            cssModuleStylesheets.forEach(({ styleSheetName, rawStyleSheetName }) => {
+              const functionTempalte = `var ${rawStyleSheetName} = ${GET_MODULE_CLS_NAME_FUNC_NAME}(${styleSheetName}, '${rawStyleSheetName}')`
+              // @ts-ignore
+              node.body.splice(++lastImportIndex, 0, template(functionTempalte)())
+            })
+          }
           existStyleImport = false
         }
       },
       JSXOpeningElement (astPath, state: PluginPass) {
         const { node } = astPath
-        const { file, opts = {} } = state
-        const { enableMultipleClassName = false } = opts
-        const { styleMatchRule, classNameMathRule } = getMatchRule(enableMultipleClassName)
-        const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
-
-        const styleNameMapping: any = {}
-        const DEFAULT_STYLE_KEY = 'style'
         const attributes = node.attributes
-        for (let i = 0; i < attributes.length; i++) {
-          const attribute = attributes[i]
-          if (!t.isJSXAttribute(attribute)) continue
-          const name = attribute.name
-          if (!name || typeof name.name !== 'string') continue
-          const attrNameString = name.name
 
-          if (attrNameString.match(styleMatchRule)) {
-            const prefix = attrNameString.replace(styleMatchRule, '') || DEFAULT_STYLE_KEY
-            styleNameMapping[prefix] = Object.assign(styleNameMapping[prefix] || {}, {
-              hasStyleAttribute: true,
-              styleAttribute: attribute
-            })
-          }
+        processStyleAndClassName({
+          attributes,
+          state,
+          existStyleImport,
+          isFromJSX: true
+        })
+      },
+      CallExpression (astPath, state: PluginPass) {
+        // 支持编译后代码的 style 替换
+        // React.createElement 参数
 
-          // 以className结尾的时候
-          if (attrNameString.match(classNameMathRule)) {
-            const prefix = attrNameString.replace(classNameMathRule, '') || DEFAULT_STYLE_KEY
-            styleNameMapping[prefix] = Object.assign(styleNameMapping[prefix] || {}, {
-              hasClassName: true,
-              classNameAttribute: attribute
-            })
+        const { node } = astPath
+        // 检查是否是 React.createElement 调用
+        if (
+          t.isMemberExpression(node.callee) &&
+          t.isIdentifier(node.callee.object, { name: 'React' }) &&
+          t.isIdentifier(node.callee.property, { name: 'createElement' })
+        ) {
+          const args = node.arguments
+          if (args.length <= 1) return
+
+          let attributes
+
+          if (t.isCallExpression(args[1]) && t.isObjectExpression(args[1].arguments[0])) {
+            // _object_spread({ className: rootClass(), style: rootStyle() }, rest)
+            attributes = args[1].arguments[0].properties
           }
+          if (t.isObjectExpression(args[1])) {
+            // { className: ..., style: ... }
+            attributes = args[1].properties
+          }
+          if (!attributes) return
+
+          processStyleAndClassName({
+            attributes,
+            state,
+            existStyleImport,
+            isFromJSX: false
+          })
         }
-        for (const key in styleNameMapping) {
-          const { hasClassName, classNameAttribute, hasStyleAttribute, styleAttribute } = styleNameMapping[key]
-          if (hasClassName && existStyleImport) {
-            // Remove origin className
-            attributes.splice(attributes.indexOf(classNameAttribute), 1)
-
-            if (
-              classNameAttribute.value &&
-              classNameAttribute.value.type === 'JSXExpressionContainer' &&
-              typeof classNameAttribute.value.expression.value !== 'string' && // not like className={'container'}
-              !isJSXCSSModuleExpression(classNameAttribute.value, cssModuleStylesheets, astPath) // 不含有 css module 变量的表达式
-            ) {
-              file.set('injectGetStyle', true)
-            }
-
-            const arrayExpression = getArrayExpression(classNameAttribute.value, cssModuleStylesheets, astPath)
-
-            if (arrayExpression.length === 0) {
-              return
-            }
-
-            if (arrayExpression.length > 1) {
-              file.set('hasMultiStyle', true)
-            }
-
-            if (hasStyleAttribute && styleAttribute.value) {
-              file.set('hasMultiStyle', true)
-              let expression
-              // 支持 行内 style 转成oject：style="width:100;height:100;" => style={{width:'100',height:'100'}}
-              if (t.isStringLiteral(styleAttribute.value)) {
-                const cssObject = string2Object(styleAttribute.value.value)
-                expression = object2Expression(template, cssObject)
-              } else {
-                expression = styleAttribute.value.expression
-              }
-              const expressionType = expression.type
-
-              let _arrayExpression
-              // 非rn场景，style不支持数组，因此需要将数组转换为对象
-              // style={[styles.a, styles.b]} ArrayExpression
-              if (expressionType === 'ArrayExpression') {
-                _arrayExpression = arrayExpression.concat(expression.elements)
-                // style={styles.a} MemberExpression
-                // style={{ height: 100 }} ObjectExpression
-                // style={{ ...custom }} ObjectExpression
-                // style={custom} Identifier
-                // style={getStyle()} CallExpression
-                // style={this.props.useCustom ? custom : null} ConditionalExpression
-                // style={custom || other} LogicalExpression
-              } else {
-                _arrayExpression = arrayExpression.concat(expression)
-              }
-              styleAttribute.value = t.jSXExpressionContainer(t.callExpression(t.identifier(MERGE_ELE_STYLES_FUNC_NAME), _arrayExpression))
-            } else {
-              const expression = arrayExpression.length > 1
-                ? t.callExpression(t.identifier(MERGE_ELE_STYLES_FUNC_NAME), arrayExpression)
-                : arrayExpression[0]
-              attributes.push(t.jSXAttribute(t.jSXIdentifier(key === DEFAULT_STYLE_KEY ? key : (key + 'Style')), t.jSXExpressionContainer(expression)))
-            }
-          } else if (hasStyleAttribute) {
-            if (t.isStringLiteral(styleAttribute.value)) {
-              const cssObject = string2Object(styleAttribute.value.value)
-              styleAttribute.value = t.jSXExpressionContainer(object2Expression(template, cssObject))
-            }
-          }
-        }
-      }
+      },
     }
   }
 }
@@ -435,7 +454,13 @@ function importDeclaration (astPath, state, t) {
 
     if (enableCSSModule && isModuleSource(sourceValue)) {
       if (styleSheetName) {
-        cssModuleStylesheets.push(styleSheetName)
+        const moduleStyleSheetName = astPath.scope.generateUid(`${styleSheetName}ModuleStyle`)
+        specifiers[0].local.name = moduleStyleSheetName
+        // 保留原始引用的 name
+        cssModuleStylesheets.push({
+          styleSheetName: moduleStyleSheetName,
+          rawStyleSheetName: styleSheetName
+        })
       }
     } else {
       const cssFileName = path.basename(sourceValue)
@@ -447,15 +472,16 @@ function importDeclaration (astPath, state, t) {
         styleSheetIdentifierName = styleSheetName
       } else {
         styleSheetName = camelize(`${cssFileBaseName}${ext}_${NAME_SUFFIX}`)
-        const repeatName = styleSheetIdentifiers.find(identifier => identifier.name === styleSheetName)
-        styleSheetIdentifierName = repeatName ? styleSheetName + '1' : styleSheetName // fix repeat name
+        styleSheetIdentifierName = astPath.scope.generateUid(styleSheetName)
         // styleSheetIdentifierName = camelize(`${cssFileBaseName}${ext}_${NAME_SUFFIX}`)
       }
       const styleSheetIdentifier = t.identifier(styleSheetIdentifierName)
 
       node.specifiers = [t.importDefaultSpecifier(styleSheetIdentifier)]
       node.source = t.stringLiteral(styleSheetSource)
-      styleSheetIdentifiers.push(styleSheetIdentifier)
+      styleSheetIdentifiers.push({
+        styleSheetName: styleSheetIdentifier.name
+      })
     }
   }
 

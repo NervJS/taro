@@ -1,9 +1,14 @@
 import { Dimensions } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 
 // 一般app 只有竖屏模式，所以可以只获取一次 width
 const deviceWidthDp = Dimensions.get('window').width
 const deviceHeightDp = Dimensions.get('window').height
-const uiWidthPx = 375
+let uiWidthPx = 375
+
+if (DeviceInfo.isTablet()) {
+  uiWidthPx = 750
+}
 
 export function scalePx2dp (uiElementPx) {
   return uiElementPx * deviceWidthDp / uiWidthPx

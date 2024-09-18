@@ -1,20 +1,25 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Component, Prop, h, ComponentInterface, Host } from '@stencil/core'
-import classNames from 'classnames'
+
+import type { TextProps } from 'types'
 
 @Component({
   tag: 'taro-text-core',
   styleUrl: './style/index.scss'
 })
 export class Text implements ComponentInterface {
-  @Prop() selectable = false
+  @Prop({ mutable: true }) selectable = false
+  @Prop({ mutable: true }) userSelect = false
+  @Prop({ mutable: true }) space?: keyof TextProps.TSpace
+  @Prop() numberOfLines?: number
 
   render () {
-    const cls = classNames({
-      'taro-text__selectable': this.selectable
-    })
+    const style: Record<string, any> = {}
+    if (typeof this.numberOfLines === 'number') {
+      style['--line-clamp'] = this.numberOfLines
+    }
+
     return (
-      <Host class={cls}>
+      <Host style={style}>
         <slot></slot>
       </Host>
     )

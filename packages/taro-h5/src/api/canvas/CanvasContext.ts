@@ -1,4 +1,4 @@
-import { CanvasGradient } from '@tarojs/api'
+import Taro, { CanvasGradient } from '@tarojs/api'
 
 interface IAction {
   func: (...arr: any[]) => void
@@ -9,7 +9,10 @@ const TextBaseLineMap: Record<keyof Taro.CanvasContext.TextBaseline, CanvasTextB
   top: 'top',
   bottom: 'bottom',
   middle: 'middle',
-  normal: 'alphabetic'
+  normal: 'alphabetic',
+  hanging: 'hanging',
+  alphabetic: 'alphabetic',
+  ideographic: 'ideographic'
 }
 
 export class CanvasContext implements Taro.CanvasContext {
@@ -93,8 +96,20 @@ export class CanvasContext implements Taro.CanvasContext {
   clip (...args) { return this.enqueueActions(this.ctx.clip, ...args) }
   closePath (...args) { return this.enqueueActions(this.ctx.closePath, ...args) }
 
-  createPattern (image: string, repetition: keyof Taro.CanvasContext.Repetition): void {
-    return this.createPattern(image, repetition)
+  createPattern (imageResource: string, repetition: keyof Taro.CanvasContext.Repetition): CanvasPattern | null | Promise<CanvasPattern | null> {
+    // 需要转换为 Image
+    if (typeof imageResource === 'string') {
+      const img = new Image()
+      img.src = imageResource
+      return new Promise<CanvasPattern | null>((resolve, reject) => {
+        img.onload = () => {
+          resolve(this.ctx.createPattern(img, repetition))
+        }
+        img.onerror = reject
+      })
+    }
+
+    return this.ctx.createPattern(imageResource, repetition)
   }
 
   /**
@@ -149,9 +164,11 @@ export class CanvasContext implements Taro.CanvasContext {
   moveTo (...args) { return this.enqueueActions(this.ctx.moveTo, ...args) }
   quadraticCurveTo (...args) { return this.enqueueActions(this.ctx.quadraticCurveTo, ...args) }
   rect (...args) { return this.enqueueActions(this.ctx.rect, ...args) }
-  restore (...args) { return this.enqueueActions(this.ctx.restore, ...args) }
+  // @ts-ignore
+  reset () { return this.ctx.reset() }
+  restore () { return this.ctx.restore() }
   rotate (...args) { return this.enqueueActions(this.ctx.rotate, ...args) }
-  save (...args) { return this.enqueueActions(this.ctx.save, ...args) }
+  save () { return this.ctx.save() }
   scale (...args) { return this.enqueueActions(this.ctx.scale, ...args) }
 
   setFillStyle (color: string | CanvasGradient): void {
@@ -159,7 +176,12 @@ export class CanvasContext implements Taro.CanvasContext {
   }
 
   setFontSize (fontSize: number): void {
-    this.font = `${fontSize}px`
+    const arr = this.font.split(/\s/)
+    const idx = arr.findIndex(e => /^\d+px$/.test(e))
+    if (idx !== -1) {
+      arr[idx] = `${fontSize}px`
+      this.font = arr.join(' ')
+    }
   }
 
   setGlobalAlpha (alpha: number): void {
@@ -228,6 +250,6 @@ export class CanvasContext implements Taro.CanvasContext {
   }
 
   createLinearGradient (x0: number, y0: number, x1: number, y1: number): CanvasGradient {
-    return this.createLinearGradient(x0, y0, x1, y1)
+    return this.ctx.createLinearGradient(x0, y0, x1, y1)
   }
 }

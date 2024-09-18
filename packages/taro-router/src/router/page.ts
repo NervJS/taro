@@ -1,40 +1,46 @@
 /* eslint-disable dot-notation */
-import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
-import type { PageConfig, RouterAnimate } from '@tarojs/taro'
+import { addLeadingSlash, Current, eventCenter, getCurrentPage, getHomePage, requestAnimationFrame, stripBasename, stripTrailing } from '@tarojs/runtime'
 import queryString from 'query-string'
 
-import type { Route, SpaRouterConfig } from '../../types/router'
-import { loadAnimateStyle } from '../animation'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
-import { setHistoryMode } from '../history'
-import { initTabbar } from '../tabbar'
-import { addLeadingSlash, routesAlias, stripBasename, stripTrailing } from '../utils'
+import { history, setHistory } from '../history'
+import { loadAnimateStyle, loadRouterStyle } from '../style'
+import { routesAlias } from '../utils'
+import NavigationBarHandler from './navigation-bar'
 import stacks from './stack'
 
-function setDisplay (el?: HTMLElement | null, type = '') {
-  if (el) {
-    el.style.display = type
-  }
-}
+import type { PageInstance } from '@tarojs/runtime'
+import type { PageConfig, RouterAnimate } from '@tarojs/taro'
+import type { History } from 'history'
+import type { Route, SpaRouterConfig } from '../../types/router'
 
 export default class PageHandler {
-  protected config: SpaRouterConfig
+  public config: SpaRouterConfig
   protected readonly defaultAnimation: RouterAnimate = { duration: 300, delay: 50 }
   protected unloadTimer: ReturnType<typeof setTimeout> | null
   protected hideTimer: ReturnType<typeof setTimeout> | null
   protected lastHidePage: HTMLElement | null
   protected lastUnloadPage: PageInstance | null
+  protected navigationBarHandler: NavigationBarHandler
 
   public homePage: string
+  public originHomePage: string
 
-  constructor (config: SpaRouterConfig) {
+  constructor (config: SpaRouterConfig, public history: History) {
     this.config = config
-    this.homePage = this.getHomePage()
+    this.homePage = getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath)
+    this.originHomePage = this.config.entryPagePath || this.routes[0].path || this.basename
     this.mount()
+    this.navigationBarHandler = new NavigationBarHandler(this)
   }
 
-  get appId () { return 'app' }
+  get currentPage () {
+    const routePath = getCurrentPage(this.routerMode, this.basename)
+    return routePath === '/' ? this.homePage : routePath
+  }
+
+  get appId () { return this.config.appId || 'app' }
   get router () { return this.config.router || {} }
   get routerMode () { return this.router.mode || 'hash' }
   get customRoutes () { return this.router.customRoutes || {} }
@@ -60,19 +66,20 @@ export default class PageHandler {
 
   set pathname (p) { this.router.pathname = p }
   get pathname () { return this.router.pathname }
+  // Note: 把 pathname 转换为原始路径，主要是处理 customRoutes 和 basename
+  get originPathname () { return routesAlias.getOrigin(addLeadingSlash(stripBasename(this.pathname, this.basename))) }
   get basename () { return this.router.basename || '' }
 
   get pageConfig () {
-    const routePath = addLeadingSlash(stripBasename(this.pathname, this.basename))
     const homePage = addLeadingSlash(this.homePage)
     return this.routes.find(r => {
       const pagePath = addLeadingSlash(r.path)
-      return [pagePath, homePage].includes(routePath) || routesAlias.getConfig(pagePath)?.includes(routePath)
+      return [pagePath, homePage].includes(this.originPathname)
     })
   }
 
-  get isTabBar () {
-    const routePath = addLeadingSlash(stripBasename(this.pathname, this.basename))
+  isTabBar (pathname: string) {
+    const routePath = addLeadingSlash(stripBasename(pathname, this.basename)).split('?')[0]
     const pagePath = Object.entries(this.customRoutes).find(
       ([, target]) => {
         if (typeof target === 'string') {
@@ -87,12 +94,12 @@ export default class PageHandler {
     return !!pagePath && this.tabBarList.some(t => stripTrailing(t.pagePath) === pagePath)
   }
 
-  getHomePage () {
-    const routePath = addLeadingSlash(stripBasename(this.routes[0].path, this.basename))
-    const alias = Object.entries(this.customRoutes).find(
-      ([key]) => key === routePath
-    )?.[1] || routePath
-    return this.config.entryPagePath || (typeof alias === 'string' ? alias : alias[0]) || this.basename
+  isDefaultNavigationStyle () {
+    let style = this.config.window?.navigationStyle
+    if (typeof this.pageConfig?.navigationStyle === 'string') {
+      style = this.pageConfig.navigationStyle
+    }
+    return style !== 'custom'
   }
 
   isSamePage (page?: PageInstance | null) {
@@ -111,83 +118,86 @@ export default class PageHandler {
     } else {
       search = location.search
     }
-    return search.substr(1)
+    return search.substring(1)
   }
 
-  getQuery (stamp = 0, search = '', options: Record<string, unknown> = {}) {
+  get usingWindowScroll () {
+    let usingWindowScroll = false
+    if (typeof this.pageConfig?.usingWindowScroll === 'boolean') {
+      usingWindowScroll = this.pageConfig.usingWindowScroll
+    }
+    const win = window as any
+    win.__taroAppConfig ||= {}
+    win.__taroAppConfig.usingWindowScroll = usingWindowScroll
+    return usingWindowScroll
+  }
+
+  getQuery (stamp = '', search = '', options: Record<string, unknown> = {}) {
     search = search ? `${search}&${this.search}` : this.search
     const query = search
       ? queryString.parse(search, { decode: false })
       : {}
 
-    query.stamp = stamp.toString()
+    query.stamp = stamp
     return { ...query, ...options }
   }
 
   mount () {
-    setHistoryMode(this.routerMode, this.router.basename)
-    document.getElementById('app')?.remove()
-
+    setHistory(this.history, this.basename)
+    this.pathname = history.location.pathname
+    // Note: 注入页面样式
     this.animation && loadAnimateStyle(this.animationDuration)
-
-    const app = document.createElement('div')
-    app.id = this.appId
-    app.classList.add('taro_router')
-
-    if (this.tabBarList.length > 1) {
-      const container = document.createElement('div')
-      container.classList.add('taro-tabbar__container')
-      container.id = 'container'
-
-      const panel = document.createElement('div')
-      panel.classList.add('taro-tabbar__panel')
-
-      panel.appendChild(app)
-      container.appendChild(panel)
-
-      document.body.appendChild(container)
-
-      initTabbar(this.config)
-    } else {
-      document.body.appendChild(app)
-    }
+    loadRouterStyle(this.tabBarList.length > 1, this.usingWindowScroll, this.router.enhanceAnimation)
   }
 
   onReady (page: PageInstance, onLoad = true) {
     const pageEl = this.getPageContainer(page)
     if (pageEl && !pageEl?.['__isReady']) {
       const el = pageEl.firstElementChild
-      el?.['componentOnReady']?.()?.then(() => {
-        requestAnimationFrame(() => {
-          page.onReady?.()
-          pageEl!['__isReady'] = true
+      const componentOnReady = el?.['componentOnReady']
+      if (componentOnReady) {
+        componentOnReady?.().then(() => {
+          requestAnimationFrame(() => {
+            page.onReady?.()
+            pageEl!['__isReady'] = true
+          })
         })
-      })
+      } else {
+        page.onReady?.()
+        pageEl!['__isReady'] = true
+      }
       onLoad && (pageEl['__page'] = page)
     }
   }
 
-  load (page: PageInstance, pageConfig: Route = {}, stacksIndex = 0) {
+  load (page: PageInstance, pageConfig: Route = {}, stampId: string, pageNo = 0) {
     if (!page) return
 
     // NOTE: 页面栈推入太晚可能导致 getCurrentPages 无法获取到当前页面实例
     stacks.push(page)
-    const param = this.getQuery(stacks.length, '', page.options)
+    const param = this.getQuery(stampId, '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
-      setDisplay(pageEl)
-      this.isTabBar && pageEl.classList.add('taro_tabbar_page')
-      this.addAnimation(pageEl, stacksIndex === 0)
+      pageEl.classList.remove('taro_page_shade')
+      this.isTabBar(this.pathname) && pageEl.classList.add('taro_tabbar_page')
+      this.isDefaultNavigationStyle() && pageEl.classList.add('taro_navigation_page')
+      this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
-      this.bindPageEvents(page, pageEl, pageConfig)
+      this.navigationBarHandler.load()
+      this.bindPageEvents(page, pageConfig)
+      this.triggerRouterChange()
     } else {
+      // FIXME 在 iOS 端快速切换页面时，可能不会执行回调注入对应类名导致 TabBar 白屏
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
-        this.isTabBar && pageEl?.classList.add('taro_tabbar_page')
-        this.addAnimation(pageEl, stacksIndex === 0)
-        this.onReady(page, true)
+        this.isTabBar(this.pathname) && pageEl?.classList.add('taro_tabbar_page')
+        this.isDefaultNavigationStyle() && pageEl?.classList.add('taro_navigation_page')
+        this.addAnimation(pageEl, pageNo === 0)
         page.onShow?.()
-        this.bindPageEvents(page, pageEl, pageConfig)
+        this.navigationBarHandler.load()
+        this.onReady(page, true)
+        this.bindPageEvents(page, pageConfig)
+        this.triggerRouterChange()
       })
     }
   }
@@ -207,58 +217,80 @@ export default class PageHandler {
       const pageEl = this.getPageContainer(page)
       pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
+      if (pageEl) {
+        pageEl.style.zIndex = '1'
+      }
 
       this.unloadTimer = setTimeout(() => {
         this.unloadTimer = null
         this.lastUnloadPage?.onUnload?.()
+        eventCenter.trigger('__taroPageOnShowAfterDestroyed')
       }, this.animationDuration)
     } else {
       const pageEl = this.getPageContainer(page)
       pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
       page?.onUnload?.()
+      setTimeout(() => {
+        eventCenter.trigger('__taroPageOnShowAfterDestroyed')
+      }, 0)
     }
     if (delta >= 1) this.unload(stacks.last, delta)
   }
 
-  show (page?: PageInstance | null, pageConfig: Route = {}, stacksIndex = 0) {
+  show (page?: PageInstance | null, pageConfig: Route = {}, pageNo = 0) {
     if (!page) return
 
-    const param = this.getQuery(stacks.length, '', page.options)
+    const param = this.getQuery(page['$taroParams']['stamp'], '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
-      setDisplay(pageEl)
-      this.addAnimation(pageEl, stacksIndex === 0)
+      pageEl.classList.remove('taro_page_shade')
+      this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
-      this.bindPageEvents(page, pageEl, pageConfig)
+      this.navigationBarHandler.load()
+      this.bindPageEvents(page, pageConfig)
+      this.triggerRouterChange()
     } else {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
-        this.addAnimation(pageEl, stacksIndex === 0)
-        this.onReady(page, false)
+        this.addAnimation(pageEl, pageNo === 0)
         page.onShow?.()
-        this.bindPageEvents(page, pageEl, pageConfig)
+        this.navigationBarHandler.load()
+        this.onReady(page, false)
+        this.bindPageEvents(page, pageConfig)
+        this.triggerRouterChange()
       })
     }
   }
 
-  hide (page?: PageInstance | null) {
+  hide (page?: PageInstance | null, animation = false) {
     if (!page) return
 
     // NOTE: 修复多页并发问题，此处可能因为路由跳转过快，执行时页面可能还没有创建成功
     const pageEl = this.getPageContainer(page)
     if (pageEl) {
-      if (this.hideTimer) {
-        clearTimeout(this.hideTimer)
-        this.hideTimer = null
-        setDisplay(this.lastHidePage, 'none')
+      if (animation) {
+        if (this.hideTimer) {
+          clearTimeout(this.hideTimer)
+          this.hideTimer = null
+          this.lastHidePage?.classList?.add?.('taro_page_shade')
+        }
+        this.lastHidePage = pageEl
+        this.hideTimer = setTimeout(() => {
+          this.hideTimer = null
+          pageEl.classList.add('taro_page_shade')
+        }, this.animationDuration + this.animationDelay)
+        page.onHide?.()
+      } else {
+        if (this.hideTimer) {
+          clearTimeout(this.hideTimer)
+          this.hideTimer = null
+          this.lastHidePage?.classList?.add?.('taro_page_shade')
+        }
+        page.onHide?.()
+        pageEl.classList.add('taro_page_shade')
+        this.lastHidePage = pageEl
       }
-      this.lastHidePage = pageEl
-      this.hideTimer = setTimeout(() => {
-        this.hideTimer = null
-        setDisplay(this.lastHidePage, 'none')
-      }, this.animationDuration + this.animationDelay)
-      page.onHide?.()
     } else {
       setTimeout(() => this.hide(page), 0)
     }
@@ -290,15 +322,32 @@ export default class PageHandler {
       ? document.querySelector(`.taro_page#${id}`)
       : document.querySelector('.taro_page') ||
     document.querySelector('.taro_router')) as HTMLDivElement
-    return el || window
+    return el
   }
 
-  bindPageEvents (page: PageInstance, pageEl?: HTMLElement | null, config: Partial<PageConfig> = {}) {
-    if (!pageEl) {
-      pageEl = this.getPageContainer() as HTMLElement
-    }
+  getScrollingElement (page?: PageInstance | null) {
+    if (this.usingWindowScroll) return window
+    return this.getPageContainer(page) || window
+  }
+
+  bindPageEvents (page: PageInstance, config: Partial<PageConfig> = {}) {
+    const scrollEl = this.getScrollingElement(page)
     const distance = config.onReachBottomDistance || this.config.window?.onReachBottomDistance || 50
-    bindPageScroll(page, pageEl, distance)
+    bindPageScroll(page, scrollEl, distance)
     bindPageResize(page)
+  }
+
+  triggerRouterChange () {
+    /**
+     * @tarojs/runtime 中生命周期跑在 promise 中，所以这里需要 setTimeout 延迟事件调用
+     * TODO 考虑将生命周期返回 Promise，用于处理相关事件调用顺序
+     */
+    setTimeout(() => {
+      eventCenter.trigger('__afterTaroRouterChange', {
+        toLocation: {
+          path: this.pathname
+        }
+      })
+    }, 0)
   }
 }

@@ -1,4 +1,8 @@
 packages:
   - 'packages/**'
+  - 'tests'
   - '!packages/taro-cli/templates/**'
   - '!**/__tests__/**'
+  - '!**/dist/**'
+  - 'npm/**'
+  - 'crates/native_binding'

@@ -3,12 +3,20 @@ import Taro from '../../index'
 declare module '../../index' {
   namespace createRewardedVideoAd {
     interface Option {
-      /** 广告单元 id */
+      /** 小程序广告位 ID
+       * @supported weapp, tt, swan
+       */
       adUnitId: string
       /** 是否启用多例模式
        * @default false
+       * @supported weapp
        */
       multiton?: boolean
+      /** 小程序应用 ID
+       * @supported swan
+       * @swan 必填
+       */
+      appSid?: string
     }
   }
 
@@ -33,17 +41,17 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.offClose.html
      */
-    offClose(callback: InterstitialAd.OffCloseCallback): void
+    offClose(callback: InterstitialAd.OnCloseCallback): void
     /** 取消监听插屏错误事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.offError.html
      */
-    offError(callback: InterstitialAd.OffErrorCallback): void
+    offError(callback: InterstitialAd.OnErrorCallback): void
     /** 取消监听插屏广告加载事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.offLoad.html
      */
-    offLoad(callback: InterstitialAd.OffLoadCallback): void
+    offLoad(callback: InterstitialAd.OnLoadCallback): void
     /** 监听插屏广告关闭事件。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/InterstitialAd.onClose.html
@@ -84,12 +92,6 @@ declare module '../../index' {
   }
   namespace InterstitialAd {
     /** 插屏广告关闭事件的回调函数 */
-    type OffCloseCallback = (res: TaroGeneral.CallbackResult) => void
-    /** 插屏错误事件的回调函数 */
-    type OffErrorCallback = (res: TaroGeneral.CallbackResult) => void
-    /** 插屏广告加载事件的回调函数 */
-    type OffLoadCallback = (res: TaroGeneral.CallbackResult) => void
-    /** 插屏广告关闭事件的回调函数 */
     type OnCloseCallback = (res: TaroGeneral.CallbackResult) => void
     /** 插屏错误事件的回调函数 */
     type OnErrorCallback = (result: OnErrorCallbackResult) => void
@@ -129,17 +131,17 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.offClose.html
      */
-    offClose(callback: RewardedVideoAd.OffCloseCallback): void
+    offClose(callback: RewardedVideoAd.OnCloseCallback): void
     /** 取消监听激励视频错误事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.offError.html
      */
-    offError(callback: RewardedVideoAd.OffErrorCallback): void
+    offError(callback: RewardedVideoAd.OnErrorCallback): void
     /** 取消监听激励视频广告加载事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.offLoad.html
      */
-    offLoad(callback: RewardedVideoAd.OffLoadCallback): void
+    offLoad(callback: RewardedVideoAd.OnLoadCallback): void
     /** 监听用户点击 `关闭广告` 按钮的事件。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/RewardedVideoAd.onClose.html
@@ -171,12 +173,6 @@ declare module '../../index' {
       isEnded: boolean
     }
     /** 用户点击 `关闭广告` 按钮的事件的回调函数 */
-    type OffCloseCallback = (res: TaroGeneral.CallbackResult) => void
-    /** 激励视频错误事件的回调函数 */
-    type OffErrorCallback = (res: TaroGeneral.CallbackResult) => void
-    /** 激励视频广告加载事件的回调函数 */
-    type OffLoadCallback = (res: TaroGeneral.CallbackResult) => void
-    /** 用户点击 `关闭广告` 按钮的事件的回调函数 */
     type OnCloseCallback = (result: OnCloseCallbackResult) => void
     /** 激励视频错误事件的回调函数 */
     type OnErrorCallback = (result: OnErrorCallbackResult) => void
@@ -186,7 +182,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建激励视频广告组件。
-     * @supported weapp
+     * @supported weapp, tt, swan
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ad/wx.createRewardedVideoAd.html
      */
     createRewardedVideoAd (option: createRewardedVideoAd.Option): RewardedVideoAd

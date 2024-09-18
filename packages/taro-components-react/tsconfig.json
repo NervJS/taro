@@ -2,10 +2,12 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "jsx": "react",
+    "jsx": "preserve",
     "module": "ESNext",
-    "sourceMap": false,
     "typeRoots": ["./node_modules/@types"],
+    "paths": {
+      "../../utils/hooks": ["../../utils/hooks.react.ts", "../../utils/hooks.hook.ts"]
+    }
   },
-  "include": ["./src", "./types"],
+  "include": ["./src", "./types"]
 }

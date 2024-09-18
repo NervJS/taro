@@ -1,22 +1,27 @@
 {
   "name": "@tarojs/router",
-  "version": "3.5.3",
+  "version": "4.0.5",
   "description": "Taro-router",
-  "browser": "dist/index.esm.js",
-  "main:h5": "dist/index.js",
+  "author": "O2Team",
+  "license": "MIT",
+  "browser": "dist/index.js",
+  "main:h5": "dist/index.esm.js",
   "main": "dist/index.js",
   "module": "dist/index.cjs.js",
-  "typings": "dist/index.d.ts",
+  "typings": "dist/index.esm.d.ts",
   "files": [
     "dist",
     "types",
     "index.js"
   ],
+  "sideEffects": [],
   "scripts": {
-    "build": "rimraf ./dist && tsc && rollup -c",
-    "dev": "tsc -w",
-    "test": "jest",
-    "test:dev": "jest --watch"
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf --impl=move-remove ./dist",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.mts --configPlugin typescript"
   },
   "repository": {
     "type": "git",
@@ -25,15 +30,26 @@
   "keywords": [
     "router"
   ],
-  "author": "O2Team",
-  "license": "MIT",
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
+    "dingtalk-jsapi": "~2.15.2",
+    "history": "^5.3.0",
+    "mobile-detect": "^1.4.2",
+    "query-string": "^9.0.0",
+    "tslib": "^2.6.2",
+    "universal-router": "^9.2.0"
+  },
+  "devDependencies": {
+    "@tarojs/components": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "dingtalk-jsapi": "~2.15.2",
-    "history": "^5.1.0",
-    "mobile-detect": "^1.4.2",
-    "query-string": "^7.1.1",
-    "universal-router": "^8.3.0"
+    "@tarojs/shared": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   }
 }

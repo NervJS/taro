@@ -1,0 +1,3009 @@
+{
+  "apis": {
+    "Animation": {
+      "export": true,
+      "step": true,
+      "matrix": true,
+      "matrix3d": true,
+      "rotate": true,
+      "rotate3d": true,
+      "rotateX": true,
+      "rotateY": true,
+      "rotateZ": true,
+      "scale": true,
+      "scale3d": true,
+      "scaleX": true,
+      "scaleY": true,
+      "scaleZ": true,
+      "skew": true,
+      "skewX": true,
+      "skewY": true,
+      "translate": true,
+      "translate3d": true,
+      "translateX": true,
+      "translateY": true,
+      "translateZ": true,
+      "opacity": true,
+      "backgroundColor": true,
+      "width": true,
+      "height": true,
+      "left": true,
+      "right": true,
+      "top": true,
+      "bottom": true
+    },
+    "AudioBuffer": false,
+    "AudioContext": {
+      "pause": true,
+      "play": true,
+      "seek": true,
+      "setSrc": true
+    },
+    "AuthSetting": {
+      "scope": {
+        "userInfo": true,
+        "userLocation": true,
+        "address": true,
+        "invoiceTitle": true,
+        "invoice": true,
+        "werun": true,
+        "record": true,
+        "writePhotosAlbum": true,
+        "camera": true,
+        "bluetoothBackground": true
+      }
+    },
+    "BLEPeripheralServer": false,
+    "BackgroundAudioManager": {
+      "play": true,
+      "pause": true,
+      "seek": true,
+      "stop": true,
+      "onCanplay": true,
+      "onWaiting": true,
+      "onError": true,
+      "onPlay": true,
+      "onPause": true,
+      "onSeeking": true,
+      "onSeeked": true,
+      "onEnded": true,
+      "onStop": true,
+      "onTimeUpdate": true
+    },
+    "CacheManager": false,
+    "CameraContext": {
+      "startRecord": true,
+      "stopRecord": true,
+      "takePhoto": true
+    },
+    "CameraFrameListener": false,
+    "Canvas": {
+      "cancelAnimationFrame": true,
+      "createImageData": true,
+      "createImage": true,
+      "createPath2D": true,
+      "getContext": true,
+      "requestAnimationFrame": true,
+      "toDataURL": true
+    },
+    "CanvasContext": {
+      "arc": true,
+      "arcTo": true,
+      "beginPath": true,
+      "bezierCurveTo": true,
+      "clearRect": true,
+      "clip": true,
+      "closePath": true,
+      "createCircularGradient": true,
+      "createLinearGradient": true,
+      "createPattern": true,
+      "draw": true,
+      "drawImage": true,
+      "fill": true,
+      "fillRect": true,
+      "fillText": true,
+      "lineTo": true,
+      "measureText": true,
+      "moveTo": true,
+      "quadraticCurveTo": true,
+      "rect": true,
+      "restore": true,
+      "rotate": true,
+      "save": true,
+      "scale": true,
+      "setFillStyle": true,
+      "setFontSize": true,
+      "setGlobalAlpha": true,
+      "setLineCap": true,
+      "setLineDash": true,
+      "setLineJoin": true,
+      "setLineWidth": true,
+      "setMiterLimit": true,
+      "setShadow": true,
+      "setStrokeStyle": true,
+      "setTextAlign": true,
+      "setTextBaseline": true,
+      "setTransform": true,
+      "stroke": true,
+      "strokeRect": true,
+      "strokeText": true,
+      "transform": true,
+      "translate": true
+    },
+    "CanvasGradient": {
+      "addColorStop": true
+    },
+    "Color": false,
+    "DB": false,
+    "EditorContext": {
+      "blur": true,
+      "clear": true,
+      "format": true,
+      "getContents": true,
+      "getSelectionText": true,
+      "insertDivider": true,
+      "insertImage": true,
+      "insertText": true,
+      "redo": true,
+      "removeFormat": true,
+      "scrollIntoView": true,
+      "setContents": true,
+      "undo": true
+    },
+    "EntryList": false,
+    "EventChannel": false,
+    "FileSystemManager": {
+      "access": true,
+      "accessSync": true,
+      "appendFile": true,
+      "appendFileSync": true,
+      "close": true,
+      "closeSync": true,
+      "copyFile": true,
+      "copyFileSync": true,
+      "fstat": true,
+      "ftruncate": true,
+      "ftruncateSync": true,
+      "getFileInfo": true,
+      "mkdir": true,
+      "mkdirSync": true,
+      "open": true,
+      "openSync": true,
+      "read": true,
+      "readdir": true,
+      "readdirSync": true,
+      "readFile": true,
+      "readFileSync": true,
+      "readSync": true,
+      "rename": true,
+      "renameSync": true,
+      "rmdir": true,
+      "rmdirSync": true,
+      "truncate": true,
+      "truncateSync": true
+    },
+    "IBeaconInfo": false,
+    "Image": {
+      "src": true,
+      "height": true,
+      "width": true,
+      "referrerPolicy": true,
+      "onerror": true,
+      "onload": true
+    },
+    "ImageData": {
+      "width": true,
+      "height": true,
+      "data": true
+    },
+    "InferenceSession": false,
+    "InnerAudioContext": {
+      "play": true,
+      "pause": true,
+      "stop": true,
+      "seek": true,
+      "destroy": true,
+      "onCanplay": true,
+      "onPlay": true,
+      "onPause": true,
+      "onStop": true,
+      "onEnded": true,
+      "onTimeUpdate": true,
+      "onError": true,
+      "onWaiting": true,
+      "onSeeking": true,
+      "onSeeked": true,
+      "offCanplay": true,
+      "offPlay": true,
+      "offPause": true,
+      "offStop": true,
+      "offEnded": true,
+      "offTimeUpdate": true,
+      "offError": true,
+      "offWaiting": true,
+      "offSeeking": true,
+      "offSeeked": true
+    },
+    "IntersectionObserver": {
+      "disconnect": true,
+      "observe": true,
+      "relativeTo": true,
+      "relativeToViewport": true
+    },
+    "InterstitialAd": false,
+    "IsoDep": false,
+    "LivePlayerContext": {
+      "exitFullScreen": true,
+      "exitPictureInPicture": true,
+      "mute": true,
+      "pause": true,
+      "play": true,
+      "requestFullScreen": true,
+      "requestPictureInPicture": true,
+      "resume": true,
+      "snapshot": true,
+      "stop": true
+    },
+    "LivePusherContext": false,
+    "LogManager": false,
+    "MapContext": {
+      "getCenterLocation": true,
+      "setLocMarkerIcon": true,
+      "translateMarker": true,
+      "moveAlong": true,
+      "includePoints": true,
+      "getRegion": true,
+      "getRotate": true,
+      "getSkew": true,
+      "getScale": true,
+      "setCenterOffset": true,
+      "addGroundOverlay": true,
+      "setBoundary": true,
+      "updateGroundOverlay": true,
+      "removeGroundOverlay": true,
+      "addMarkers": true,
+      "removeMarkers": true
+    },
+    "MediaAudioPlayer": false,
+    "MediaContainer": false,
+    "MediaQueryObserver": {
+      "observe": true,
+      "disconnect": true
+    },
+    "MediaRecorder": false,
+    "MediaTrack": false,
+    "MifareClassic": false,
+    "MifareUltralight": false,
+    "NFCAdapter": false,
+    "Ndef": false,
+    "NfcA": false,
+    "NfcB": false,
+    "NfcF": false,
+    "NfcV": false,
+    "NodesRef": {
+      "context": true,
+      "node": true,
+      "boundingClientRect": true,
+      "scrollOffset": true,
+      "fields": true
+    },
+    "OffscreenCanvas": false,
+    "Path2D": true,
+    "Performance": false,
+    "PerformanceEntry": false,
+    "PerformanceObserver": false,
+    "ReadResult": {
+      "bytesRead": true,
+      "arrayBuffer": true
+    },
+    "RealtimeLogManager": false,
+    "RealtimeTagLogManager": false,
+    "RecorderManager": {
+      "onError": true,
+      "onFrameRecorded": true,
+      "onInterruptionBegin": true,
+      "onInterruptionEnd": true,
+      "onPause": true,
+      "onResume": true,
+      "onStart": true,
+      "onStop": true,
+      "pause": true,
+      "resume": true,
+      "start": true,
+      "stop": true
+    },
+    "RenderingContext": true,
+    "RequestTask": {
+      "abort": true,
+      "onHeadersReceived": true,
+      "offHeadersReceived": true
+    },
+    "RewardedVideoAd": false,
+    "ScrollViewContext": {
+      "scrollTo": true,
+      "scrollIntoView": true
+    },
+    "SelectorQuery": {
+      "in": true,
+      "select": true,
+      "selectAll": true,
+      "selectViewport": true,
+      "exec": true
+    },
+    "Snapshot": false,
+    "SocketTask": {
+      "send": true,
+      "close": true,
+      "onOpen": true,
+      "onClose": true,
+      "onError": true,
+      "onMessage": true
+    },
+    "Stats": false,
+    "SubscriptionsSetting": {
+      "mainSwitch": true,
+      "itemSettings": true
+    },
+    "TCPSocket": false,
+    "UDPSocket": false,
+    "UpdateManager": false,
+    "UploadTask": {
+      "abort": true,
+      "onProgressUpdate": true,
+      "offProgressUpdate": true,
+      "onHeadersReceived": true,
+      "offHeadersReceived": true
+    },
+    "UserCryptoManager": false,
+    "UserInfo": {
+      "nickName": true,
+      "avatarUrl": true
+    },
+    "VKBodyAnchor": false,
+    "VKCamera": false,
+    "VKDepthAnchor": false,
+    "VKFaceAnchor": false,
+    "VKFrame": false,
+    "VKHandAnchor": false,
+    "VKMarkerAnchor": false,
+    "VKOCRAnchor": false,
+    "VKOSDAnchor": false,
+    "VKPlaneAnchor": false,
+    "VKSession": false,
+    "VideoContext": {
+      "pause": true,
+      "play": true,
+      "requestFullScreen": true,
+      "seek": true,
+      "stop": true
+    },
+    "VideoDecoder": false,
+    "WebAudioContext": false,
+    "WebAudioContextNode": false,
+    "WifiInfo": {
+      "SSID": true,
+      "BSSID": true,
+      "secure": true,
+      "signalStrength": true,
+      "frequency": true
+    },
+    "Worker": false,
+    "WriteResult": false,
+    "addCard": false,
+    "addFileToFavorites": false,
+    "addInterceptor": true,
+    "addPhoneCalendar": {
+      "object": {
+        "title": true,
+        "startTime": true,
+        "allDay": true,
+        "description": true,
+        "location": true,
+        "endTime": true,
+        "alarm": true,
+        "alarmOffset": true
+      }
+    },
+    "addPhoneContact": {
+      "object": {
+        "firstName": true,
+        "photoFilePath": true,
+        "nickName": true,
+        "middleName": true,
+        "lastName": true,
+        "remark": true,
+        "mobilePhoneNumber": true,
+        "weChatNumber": true,
+        "addressCountry": true,
+        "addressState": true,
+        "addressCity": true,
+        "addressStreet": true,
+        "addressPostalCode": true,
+        "organization": true,
+        "title": true,
+        "workFaxNumber": true,
+        "workPhoneNumber": true,
+        "hostNumber": true,
+        "email": true,
+        "url": true,
+        "workAddressCountry": true,
+        "workAddressState": true,
+        "workAddressCity": true,
+        "workAddressStreet": true,
+        "workAddressPostalCode": true,
+        "homeFaxNumber": true,
+        "homePhoneNumber": true,
+        "homeAddressCountry": true,
+        "homeAddressState": true,
+        "homeAddressCity": true,
+        "homeAddressStreet": true,
+        "homeAddressPostalCode": true
+      }
+    },
+    "addPhoneRepeatCalendar": {
+      "object": {
+        "title": true,
+        "startTime": true,
+        "allDay": true,
+        "description": true,
+        "location": true,
+        "endTime": true,
+        "alarm": true,
+        "alarmOffset": true,
+        "repeatInterval": true,
+        "repeatEndTime": true
+      }
+    },
+    "addRecentColorSign": false,
+    "addVideoToFavorites": false,
+    "applyAddToMyApps": false,
+    "arrayBufferToBase64": true,
+    "authPrivateMessage": false,
+    "authorize": false,
+    "authorizeForMiniProgram": true,
+    "base64ToArrayBuffer": true,
+    "batchGetStorage": false,
+    "batchGetStorageSync": false,
+    "batchSetStorage": false,
+    "batchSetStorageSync": false,
+    "canIUseWebp": true,
+    "canvasGetImageData": {
+      "object": {
+        "canvasId": true,
+        "x": true,
+        "y": true,
+        "height": true,
+        "width": true
+      },
+      "success": {
+        "data": true,
+        "height": true,
+        "width": true
+      }
+    },
+    "canvasPutImageData": {
+      "object": {
+        "canvasId": true,
+        "data": true,
+        "x": true,
+        "y": true
+      }
+    },
+    "canvasToTempFilePath": {
+      "object": {
+        "canvas": true,
+        "canvasId": true,
+        "quality": true,
+        "destHeight": true,
+        "destWidth": true,
+        "fileType": {
+          "jpg": true,
+          "png": true
+        },
+        "height": true,
+        "width": true,
+        "x": true,
+        "y": true
+      },
+      "success": {
+        "tempFilePath": true
+      }
+    },
+    "checkIsAddedToMyMiniProgram": false,
+    "checkIsOpenAccessibility": false,
+    "checkIsPictureInPictureActive": false,
+    "checkIsSoterEnrolledInDevice": {
+      "object": {
+        "checkAuthMode": true
+      },
+      "success": {
+        "isEnrolled": true,
+        "errMsg": true
+      }
+    },
+    "checkIsSupportFacialRecognition": false,
+    "checkIsSupportSoterAuthentication": {
+      "success": {
+        "supportMode": true
+      }
+    },
+    "checkSession": false,
+    "chooseAddress": false,
+    "chooseContact": false,
+    "chooseImage": {
+      "object": {
+        "count": true,
+        "sizeType": {
+          "original": true,
+          "compressed": true
+        },
+        "sourceType": {
+          "album": true,
+          "camera": true
+        }
+      },
+      "success": {
+        "tempFilePaths": true,
+        "tempFiles": true
+      }
+    },
+    "chooseInvoice": false,
+    "chooseInvoiceTitle": false,
+    "chooseLicensePlate": false,
+    "chooseLocation": {
+      "object": {
+        "latitude": true,
+        "longitude": true
+      },
+      "success": {
+        "address": true,
+        "latitude": true,
+        "longitude": true,
+        "name": true
+      }
+    },
+    "chooseMedia": {
+      "object": {
+        "count": true,
+        "mediaType": {
+          "video": true,
+          "image": true,
+          "mix": true
+        },
+        "sourceType": {
+          "album": true,
+          "camera": true
+        },
+        "maxDuration": true,
+        "sizeType": true,
+        "camera": {
+          "back": true,
+          "front": true
+        }
+      },
+      "success": {
+        "tempFiles": true,
+        "type": true
+      }
+    },
+    "chooseMedium": {
+      "object": {
+        "count": true,
+        "mediaType": {
+          "video": true,
+          "image": true,
+          "mix": true
+        },
+        "sourceType": {
+          "album": true,
+          "camera": true
+        },
+        "maxDuration": true,
+        "sizeType": true,
+        "camera": {
+          "back": true,
+          "front": true
+        },
+        "takingSupported": true,
+        "editSupported": true,
+        "searchSupported": true
+      },
+      "success": {
+        "tempFiles": true,
+        "type": true
+      }
+    },
+    "chooseMessageFile": false,
+    "choosePoi": false,
+    "chooseVideo": {
+      "object": {
+        "camera": {
+          "back": true,
+          "front": true
+        },
+        "compressed": true,
+        "maxDuration": true,
+        "sourceType": {
+          "album": true,
+          "camera": true
+        }
+      },
+      "success": {
+        "tempFilePath": true,
+        "duration": true,
+        "size": true,
+        "height": true,
+        "width": true
+      }
+    },
+    "cleanInterceptors": true,
+    "clearStorage": true,
+    "clearStorageSync": true,
+    "closeBLEConnection": {
+      "object": {
+        "deviceId": true
+      }
+    },
+    "closeBluetoothAdapter": true,
+    "closeSocket": false,
+    "cloud": true,
+    "compressImage": {
+      "object": {
+        "src": true,
+        "quality": true,
+        "compressedWidth": true,
+        "compressedHeight": true
+      },
+      "success": {
+        "tempFilePath": true
+      }
+    },
+    "compressVideo": false,
+    "connectSocket": {
+      "object": {
+        "url": true,
+        "header": true,
+        "protocols": true,
+        "tcpNoDelay": true
+      }
+    },
+    "connectWifi": false,
+    "console": {
+      "debug": true,
+      "error": true,
+      "group": true,
+      "groupEnd": true,
+      "info": true,
+      "log": true,
+      "warn": true
+    },
+    "createAnimation": {
+      "object": {
+        "duration": true,
+        "timingFunction": {
+          "linear": true,
+          "ease": true,
+          "ease-in": true,
+          "ease-in-out": true,
+          "ease-out": true,
+          "step-start": true,
+          "step-end": true
+        },
+        "delay": true,
+        "transformOrigin": true,
+        "unit": true
+      }
+    },
+    "createAudioContext": true,
+    "createBLEConnection": {
+      "object": {
+        "deviceId": true,
+        "timeout": true
+      }
+    },
+    "createBLEPeripheralServer": false,
+    "createBufferURL": false,
+    "createCacheManager": false,
+    "createCameraContext": true,
+    "createCanvasContext": true,
+    "createInferenceSession": false,
+    "createInnerAudioContext": true,
+    "createIntersectionObserver": true,
+    "createInterstitialAd": true,
+    "createLivePlayerContext": true,
+    "createLivePusherContext": false,
+    "createMapContext": true,
+    "createMediaAudioPlayer": false,
+    "createMediaContainer": false,
+    "createMediaQueryObserver": true,
+    "createMediaRecorder": false,
+    "createOffscreenCanvas": false,
+    "createRewardedVideoAd": false,
+    "createSelectorQuery": true,
+    "createTCPSocket": false,
+    "createUDPSocket": false,
+    "createVKSession": false,
+    "createVideoContext": true,
+    "createVideoDecoder": false,
+    "createWebAudioContext": false,
+    "createWorker": false,
+    "cropImage": false,
+    "deleteBookshelf": false,
+    "disableAlertBeforeUnload": true,
+    "downloadFile": {
+      "object": {
+        "url": true,
+        "filePath": true,
+        "header": true,
+        "timeout": true,
+        "withCredentials": true
+      },
+      "success": {
+        "filePath": true,
+        "statusCode": true,
+        "tempFilePath": true,
+        "header": true,
+        "dataLength": true,
+        "cookies": true,
+        "profile": true
+      }
+    },
+    "downloadPackage": false,
+    "downloadPackages": false,
+    "editImage": false,
+    "enableAlertBeforeUnload": true,
+    "env": {
+      "FRAMEWORK": true,
+      "TARO_ENV": true,
+      "USER_DATA_PATH": true
+    },
+    "exitMiniProgram": true,
+    "exitVoIPChat": false,
+    "faceDetect": false,
+    "faceVerifyForPay": false,
+    "getAccountInfoSync": true,
+    "getAppAuthorizeSetting": {
+      "return": {
+        "albumAuthorized": true,
+        "bluetoothAuthorized": true,
+        "cameraAuthorized": true,
+        "locationAuthorized": true,
+        "locationReducedAccuracy": true,
+        "microphoneAuthorized": true,
+        "notificationAuthorized": true,
+        "phoneCalendarAuthorized": true
+      }
+    },
+    "getAppBaseInfo": {
+      "return": {
+        "SDKVersion": true,
+        "enableDebug": true,
+        "host": {
+          "appId": true
+        },
+        "language": true,
+        "version": true,
+        "theme": {
+          "dark": true,
+          "light": true
+        }
+      }
+    },
+    "getAvailableAudioSources": false,
+    "getBLEDeviceCharacteristics": {
+      "object": {
+        "deviceId": true,
+        "serviceId": true
+      },
+      "success": {
+        "characteristics": true
+      }
+    },
+    "getBLEDeviceRSSI": {
+      "object": {
+        "deviceId": true
+      },
+      "success": {
+        "RSSI": true
+      }
+    },
+    "getBLEDeviceServices": {
+      "object": {
+        "deviceId": true
+      },
+      "success": {
+        "services": true
+      }
+    },
+    "getBLEMTU": false,
+    "getBackgroundAudioManager": true,
+    "getBackgroundAudioPlayerState": false,
+    "getBackgroundFetchData": true,
+    "getBackgroundFetchToken": false,
+    "getBatteryInfo": {
+      "success": {
+        "isCharging": true,
+        "level": true
+      }
+    },
+    "getBatteryInfoSync": false,
+    "getBeacons": false,
+    "getBluetoothAdapterState": {
+      "success": {
+        "available": true,
+        "discovering": true
+      }
+    },
+    "getBluetoothDevices": {
+      "success": {
+        "devices": true
+      }
+    },
+    "getChannelsLiveInfo": false,
+    "getChannelsLiveNoticeInfo": false,
+    "getChannelsShareKey": false,
+    "getClipboardData": {
+      "success": {
+        "data": true
+      }
+    },
+    "getCommonConfig": false,
+    "getConnectedBluetoothDevices": {
+      "object": {
+        "services": true
+      },
+      "success": {
+        "devices": true
+      }
+    },
+    "getConnectedWifi": {
+      "success": {
+        "wifi": true
+      }
+    },
+    "getDeviceInfo": {
+      "return": {
+        "benchmarkLevel": true,
+        "brand": true,
+        "model": true,
+        "system": true,
+        "platform": true
+      }
+    },
+    "getDeviceVoIPList": false,
+    "getEnterOptionsSync": false,
+    "getExptInfoSync": true,
+    "getExtConfig": false,
+    "getExtConfigSync": false,
+    "getFavorStatus": false,
+    "getFileInfo": {
+      "object": {
+        "filePath": true,
+        "digestAlgorithm": true
+      },
+      "success": {
+        "size": true,
+        "digest": true
+      }
+    },
+    "getFileSystemManager": true,
+    "getFuzzyLocation": {
+      "object": {
+        "type": true
+      },
+      "success": {
+        "latitude": true,
+        "longitude": true
+      }
+    },
+    "getGroupEnterInfo": false,
+    "getGuildInfo": false,
+    "getHCEState": false,
+    "getImageInfo": {
+      "object": {
+        "src": true
+      },
+      "success": {
+        "height": true,
+        "orientation": {
+          "up": true,
+          "up-mirrored": true,
+          "down": true,
+          "down-mirrored": true,
+          "left-mirrored": true,
+          "right": true,
+          "right-mirrored": true,
+          "left": true
+        },
+        "path": true,
+        "type": true,
+        "width": true
+      }
+    },
+    "getInferenceEnvInfo": false,
+    "getLaunchOptionsSync": {
+      "return": {
+        "path": true,
+        "query": true,
+        "scene": true,
+        "shareTicket": true,
+        "referrerInfo": true,
+        "apiCategory": true
+      }
+    },
+    "getLocalIPAddress": false,
+    "getLocation": {
+      "object": {
+        "altitude": true,
+        "highAccuracyExpireTime": true,
+        "isHighAccuracy": true,
+        "type": true
+      },
+      "success": {
+        "accuracy": true,
+        "altitude": true,
+        "horizontalAccuracy": true,
+        "latitude": true,
+        "longitude": true,
+        "speed": true,
+        "verticalAccuracy": true
+      }
+    },
+    "getLogManager": true,
+    "getMenuButtonBoundingClientRect": {
+      "return": {
+        "left": true,
+        "top": true,
+        "right": true,
+        "bottom": true,
+        "height": true,
+        "width": true
+      }
+    },
+    "getNFCAdapter": false,
+    "getNetworkType": {
+      "success": {
+        "networkType": {
+          "wifi": true,
+          "2g": true,
+          "3g": true,
+          "4g": true,
+          "5g": true,
+          "unknown": true,
+          "none": true
+        }
+      }
+    },
+    "getOpenUserInfo": false,
+    "getOptimalPriceInfo": false,
+    "getPerformance": false,
+    "getPrivacySetting": false,
+    "getQQRunData": false,
+    "getRandomValues": false,
+    "getRealtimeLogManager": true,
+    "getRecorderManager": true,
+    "getRendererUserAgent": false,
+    "getSavedFileInfo": {
+      "object": {
+        "filePath": true
+      },
+      "success": {
+        "createTime": true,
+        "size": true
+      }
+    },
+    "getSavedFileList": {
+      "success": {
+        "fileList": true
+      }
+    },
+    "getScreenBrightness": {
+      "success": {
+        "value": true
+      }
+    },
+    "getScreenRecordingState": false,
+    "getSelectedTextRange": false,
+    "getSetting": {
+      "object": {
+        "withSubscriptions": true
+      },
+      "success": {
+        "authSetting": true,
+        "subscriptionsSetting": true,
+        "miniprogramAuthSetting": true
+      }
+    },
+    "getShareInfo": true,
+    "getSkylineInfo": false,
+    "getSkylineInfoSync": false,
+    "getStorage": {
+      "object": {
+        "key": true
+      },
+      "success": {
+        "data": true
+      }
+    },
+    "getStorageInfo": {
+      "success": {
+        "currentSize": true,
+        "keys": true,
+        "limitSize": true
+      }
+    },
+    "getStorageInfoSync": false,
+    "getStorageSync": true,
+    "getSystemInfo": {
+      "success": {
+        "brand": true,
+        "model": true,
+        "pixelRatio": true,
+        "screenWidth": true,
+        "screenHeight": true,
+        "windowWidth": true,
+        "windowHeight": true,
+        "statusBarHeight": true,
+        "language": true,
+        "version": true,
+        "system": true,
+        "platform": true,
+        "fontSizeSetting": true,
+        "SDKVersion": true,
+        "benchmarkLevel": true,
+        "albumAuthorized": true,
+        "cameraAuthorized": true,
+        "locationAuthorized": true,
+        "microphoneAuthorized": true,
+        "notificationAuthorized": true,
+        "phoneCalendarAuthorized": true,
+        "bluetoothEnabled": true,
+        "locationEnabled": true,
+        "wifiEnabled": true,
+        "safeArea": {
+          "bottom": true,
+          "height": true,
+          "left": true,
+          "right": true,
+          "top": true,
+          "width": true
+        },
+        "locationReducedAccuracy": true,
+        "theme": {
+          "dark": true,
+          "light": true
+        },
+        "host": {
+          "appId": true
+        },
+        "enableDebug": true,
+        "deviceOrientation": {
+          "portrait": true,
+          "landscape": true
+        }
+      }
+    },
+    "getSystemInfoAsync": {
+      "success": {
+        "brand": true,
+        "model": true,
+        "pixelRatio": true,
+        "screenWidth": true,
+        "screenHeight": true,
+        "windowWidth": true,
+        "windowHeight": true,
+        "statusBarHeight": true,
+        "language": true,
+        "version": true,
+        "system": true,
+        "platform": true,
+        "fontSizeSetting": true,
+        "SDKVersion": true,
+        "benchmarkLevel": true,
+        "albumAuthorized": true,
+        "cameraAuthorized": true,
+        "locationAuthorized": true,
+        "microphoneAuthorized": true,
+        "notificationAuthorized": true,
+        "phoneCalendarAuthorized": true,
+        "bluetoothEnabled": true,
+        "locationEnabled": true,
+        "wifiEnabled": true,
+        "safeArea": {
+          "bottom": true,
+          "height": true,
+          "left": true,
+          "right": true,
+          "top": true,
+          "width": true
+        },
+        "locationReducedAccuracy": true,
+        "theme": {
+          "dark": true,
+          "light": true
+        },
+        "host": {
+          "appId": true
+        },
+        "enableDebug": true,
+        "deviceOrientation": {
+          "portrait": true,
+          "landscape": true
+        }
+      }
+    },
+    "getSystemInfoSync": {
+      "return": {
+        "brand": true,
+        "model": true,
+        "pixelRatio": true,
+        "screenWidth": true,
+        "screenHeight": true,
+        "windowWidth": true,
+        "windowHeight": true,
+        "statusBarHeight": true,
+        "language": true,
+        "version": true,
+        "system": true,
+        "platform": true,
+        "fontSizeSetting": true,
+        "SDKVersion": true,
+        "benchmarkLevel": true,
+        "albumAuthorized": true,
+        "cameraAuthorized": true,
+        "locationAuthorized": true,
+        "microphoneAuthorized": true,
+        "notificationAuthorized": true,
+        "phoneCalendarAuthorized": true,
+        "bluetoothEnabled": true,
+        "locationEnabled": true,
+        "wifiEnabled": true,
+        "safeArea": {
+          "bottom": true,
+          "height": true,
+          "left": true,
+          "right": true,
+          "top": true,
+          "width": true
+        },
+        "locationReducedAccuracy": true,
+        "theme": {
+          "dark": true,
+          "light": true
+        },
+        "host": {
+          "appId": true
+        },
+        "enableDebug": true,
+        "deviceOrientation": {
+          "portrait": true,
+          "landscape": true
+        }
+      }
+    },
+    "getSystemRiskInfo": false,
+    "getSystemSetting": {
+      "return": {
+        "bluetoothEnabled": true,
+        "locationEnabled": true,
+        "wifiEnabled": true,
+        "deviceOrientation": {
+          "portrait": true,
+          "landscape": true
+        }
+      }
+    },
+    "getTopStatus": false,
+    "getUpdateManager": true,
+    "getUserCryptoManager": false,
+    "getUserInfo": {
+      "object": {
+        "lang": true,
+        "withCredentials": true
+      },
+      "success": {
+        "userInfo": true
+      }
+    },
+    "getUserProfile": false,
+    "getVideoInfo": {
+      "object": {
+        "src": true
+      },
+      "success": {
+        "orientation": {
+          "up": true,
+          "down": true,
+          "left": true,
+          "right": true,
+          "up-mirrored": true,
+          "down-mirrored": true,
+          "left-mirrored": true,
+          "right-mirrored": true
+        },
+        "type": true,
+        "duration": true,
+        "size": true,
+        "height": true,
+        "width": true,
+        "fps": true,
+        "bitrate": true
+      }
+    },
+    "getWeRunData": false,
+    "getWifiList": false,
+    "getWindowInfo": {
+      "return": {
+        "pixelRatio": true,
+        "screenWidth": true,
+        "screenHeight": true,
+        "windowWidth": true,
+        "windowHeight": true,
+        "statusBarHeight": true,
+        "safeArea": {
+          "bottom": true,
+          "height": true,
+          "left": true,
+          "right": true,
+          "top": true,
+          "width": true
+        }
+      }
+    },
+    "hideHomeButton": true,
+    "hideKeyboard": true,
+    "hideLoading": {
+      "object": {
+        "noConflict": true
+      }
+    },
+    "hideNavigationBarLoading": true,
+    "hideShareMenu": true,
+    "hideTabBar": {
+      "object": {
+        "animation": true
+      }
+    },
+    "hideTabBarRedDot": {
+      "object": {
+        "index": true
+      }
+    },
+    "hideToast": {
+      "object": {
+        "noConflict": true
+      }
+    },
+    "initFaceDetect": false,
+    "initTabBarApis": false,
+    "insertBookshelf": false,
+    "isAddedToMyApps": false,
+    "isBluetoothDevicePaired": false,
+    "isVKSupport": false,
+    "join1v1Chat": false,
+    "joinVoIPChat": false,
+    "loadFontFace": {
+      "object": {
+        "global": true,
+        "family": true,
+        "source": true,
+        "desc": {
+          "style": true,
+          "variant": true,
+          "weight": true
+        }
+      },
+      "success": {
+        "status": true
+      }
+    },
+    "loadSubPackage": false,
+    "login": {
+      "object": {
+        "timeout": true
+      },
+      "success": {
+        "code": true
+      }
+    },
+    "makeBluetoothPair": false,
+    "makePhoneCall": {
+      "object": {
+        "phoneNumber": true
+      }
+    },
+    "navigateBack": {
+      "object": {
+        "delta": true
+      }
+    },
+    "navigateBackMiniProgram": false,
+    "navigateTo": {
+      "object": {
+        "url": true,
+        "events": true
+      }
+    },
+    "navigateToBookshelf": false,
+    "navigateToMiniProgram": false,
+    "nextTick": true,
+    "notifyBLECharacteristicValueChange": {
+      "object": {
+        "characteristicId": true,
+        "deviceId": true,
+        "serviceId": true,
+        "state": true
+      }
+    },
+    "offAccelerometerChange": true,
+    "offAppHide": true,
+    "offAppShow": true,
+    "offAudioInterruptionBegin": false,
+    "offAudioInterruptionEnd": false,
+    "offBLECharacteristicValueChange": false,
+    "offBLEConnectionStateChange": false,
+    "offBLEMTUChange": false,
+    "offBLEPeripheralConnectionStateChanged": false,
+    "offBeaconServiceChange": false,
+    "offBeaconUpdate": false,
+    "offBluetoothAdapterStateChange": true,
+    "offBluetoothDeviceFound": true,
+    "offCompassChange": true,
+    "offCopyUrl": false,
+    "offDeviceMotionChange": true,
+    "offError": true,
+    "offGetWifiList": true,
+    "offGyroscopeChange": false,
+    "offHCEMessage": false,
+    "offKeyboardHeightChange": true,
+    "offLocalServiceDiscoveryStop": false,
+    "offLocalServiceFound": false,
+    "offLocalServiceLost": false,
+    "offLocalServiceResolveFail": false,
+    "offLocationChange": true,
+    "offLocationChangeError": true,
+    "offMemoryWarning": true,
+    "offNetworkStatusChange": true,
+    "offNetworkWeakChange": false,
+    "offPageNotFound": true,
+    "offScreenRecordingStateChanged": false,
+    "offThemeChange": false,
+    "offUnhandledRejection": true,
+    "offUserCaptureScreen": true,
+    "offVoIPChatInterrupted": false,
+    "offVoIPChatMembersChanged": false,
+    "offVoIPChatSpeakersChanged": false,
+    "offVoIPChatStateChanged": false,
+    "offVoIPVideoMembersChanged": false,
+    "offWifiConnected": true,
+    "offWifiConnectedWithPartialInfo": true,
+    "offWindowResize": true,
+    "onAccelerometerChange": {
+      "callback": {
+        "x": true,
+        "y": true,
+        "z": true
+      }
+    },
+    "onAppHide": true,
+    "onAppShow": {
+      "callback": {
+        "path": true,
+        "query": true,
+        "scene": true,
+        "shareTicket": true,
+        "referrerInfo": true
+      }
+    },
+    "onAudioInterruptionBegin": false,
+    "onAudioInterruptionEnd": false,
+    "onBLECharacteristicValueChange": {
+      "callback": {
+        "characteristicId": true,
+        "deviceId": true,
+        "serviceId": true,
+        "value": true
+      }
+    },
+    "onBLEConnectionStateChange": {
+      "callback": {
+        "connected": true,
+        "deviceId": true
+      }
+    },
+    "onBLEMTUChange": false,
+    "onBLEPeripheralConnectionStateChanged": false,
+    "onBackgroundAudioPause": false,
+    "onBackgroundAudioPlay": false,
+    "onBackgroundAudioStop": false,
+    "onBackgroundFetchData": false,
+    "onBeaconServiceChange": false,
+    "onBeaconUpdate": false,
+    "onBluetoothAdapterStateChange": {
+      "callback": {
+        "available": true,
+        "discovering": true
+      }
+    },
+    "onBluetoothDeviceFound": {
+      "callback": {
+        "devices": true
+      }
+    },
+    "onCompassChange": {
+      "callback": {
+        "accuracy": true,
+        "direction": true
+      }
+    },
+    "onCopyUrl": false,
+    "onDeviceMotionChange": {
+      "callback": {
+        "alpha": true,
+        "beta": true,
+        "gamma": true
+      }
+    },
+    "onError": true,
+    "onGetWifiList": {
+      "callback": {
+        "wifiList": true
+      }
+    },
+    "onGyroscopeChange": {
+      "callback": {
+        "x": true,
+        "y": true,
+        "z": true
+      }
+    },
+    "onHCEMessage": false,
+    "onKeyboardHeightChange": {
+      "callback": {
+        "height": true
+      }
+    },
+    "onLocalServiceDiscoveryStop": false,
+    "onLocalServiceFound": false,
+    "onLocalServiceLost": false,
+    "onLocalServiceResolveFail": false,
+    "onLocationChange": {
+      "callback": {
+        "accuracy": true,
+        "altitude": true,
+        "horizontalAccuracy": true,
+        "atitude": true,
+        "longitude": true,
+        "speed": true,
+        "verticalAccuracy": true
+      }
+    },
+    "onLocationChangeError": {
+      "callback": {
+        "errCode": true
+      }
+    },
+    "onMemoryWarning": true,
+    "onNeedPrivacyAuthorization": false,
+    "onNetworkStatusChange": {
+      "success": {
+        "isConnected": true,
+        "networkType": {
+          "wifi": true,
+          "2g": true,
+          "3g": true,
+          "4g": true,
+          "5g": true,
+          "unknown": true,
+          "none": true
+        }
+      }
+    },
+    "onNetworkWeakChange": false,
+    "onPageNotFound": {
+      "callback": {
+        "isEntryPage": true,
+        "path": true,
+        "query": true
+      }
+    },
+    "onScreenRecordingStateChanged": false,
+    "onSocketClose": false,
+    "onSocketError": false,
+    "onSocketMessage": false,
+    "onSocketOpen": false,
+    "onThemeChange": false,
+    "onUnhandledRejection": {
+      "callback": {
+        "reason": true,
+        "promise": true
+      }
+    },
+    "onUserCaptureScreen": true,
+    "onVoIPChatInterrupted": false,
+    "onVoIPChatMembersChanged": false,
+    "onVoIPChatSpeakersChanged": false,
+    "onVoIPChatStateChanged": false,
+    "onVoIPVideoMembersChanged": false,
+    "onWifiConnected": {
+      "callback": {
+        "wifi": true
+      }
+    },
+    "onWifiConnectedWithPartialInfo": {
+      "callback": {
+        "wifi": true
+      }
+    },
+    "onWindowResize": true,
+    "openAppAuthorizeSetting": true,
+    "openBdboxWebview": false,
+    "openBluetoothAdapter": true,
+    "openBusinessView": false,
+    "openCard": false,
+    "openChannelsActivity": false,
+    "openChannelsEvent": false,
+    "openChannelsLive": false,
+    "openChannelsUserProfile": true,
+    "openCustomerServiceChat": false,
+    "openDocument": true,
+    "openEmbeddedMiniProgram": false,
+    "openLocation": {
+      "object": {
+        "latitude": true,
+        "longitude": true,
+        "address": true,
+        "name": true
+      }
+    },
+    "openPrivacyContract": false,
+    "openQzonePublish": false,
+    "openSetting": {
+      "object": {
+        "withSubscriptions": true
+      },
+      "success": {
+        "authSetting": true,
+        "subscriptionsSetting": true
+      }
+    },
+    "openSingleStickerView": false,
+    "openStickerIPView": false,
+    "openStickerSetView": false,
+    "openSystemBluetoothSetting": false,
+    "openVideoEditor": {
+      "object": {
+        "filePath": true
+      },
+      "success": {
+        "duration": true,
+        "size": true,
+        "tempFilePath": true,
+        "tempThumbPath": true
+      }
+    },
+    "pageScrollTo": {
+      "object": {
+        "duration": true,
+        "scrollTop": true,
+        "selector": true,
+        "offsetTop": true
+      }
+    },
+    "pauseBackgroundAudio": false,
+    "pauseVoice": false,
+    "playBackgroundAudio": false,
+    "playVoice": false,
+    "pluginLogin": false,
+    "preload": true,
+    "preloadAssets": false,
+    "preloadSkylineView": false,
+    "preloadWebview": false,
+    "previewImage": {
+      "object": {
+        "urls": true,
+        "current": true,
+        "showmenu": true
+      }
+    },
+    "previewMedia": {
+      "object": {
+        "sources": true,
+        "current": true
+      }
+    },
+    "queryBookshelf": false,
+    "reLaunch": {
+      "object": {
+        "url": true
+      }
+    },
+    "readBLECharacteristicValue": {
+      "object": {
+        "characteristicId": true,
+        "deviceId": true,
+        "serviceId": true
+      }
+    },
+    "redirectTo": {
+      "object": {
+        "url": true
+      }
+    },
+    "removeSavedFile": {
+      "object": {
+        "filePath": true
+      }
+    },
+    "removeStorage": {
+      "object": {
+        "key": true
+      }
+    },
+    "removeStorageSync": true,
+    "removeTabBarBadge": {
+      "object": {
+        "index": true
+      }
+    },
+    "reportAnalytics": true,
+    "reportEvent": false,
+    "reportMonitor": false,
+    "reportPerformance": false,
+    "request": {
+      "object": {
+        "url": true,
+        "data": true,
+        "header": true,
+        "timeout": true,
+        "method": {
+          "OPTIONS": true,
+          "GET": true,
+          "HEAD": true,
+          "POST": true,
+          "PUT": true,
+          "PATCH": true,
+          "DELETE": true,
+          "TRACE": true,
+          "CONNECT": true
+        },
+        "dataType": {
+          "json": true,
+          "text": true,
+          "base64": true,
+          "arraybuffer": true
+        },
+        "responseType": {
+          "text": true,
+          "arraybuffer": true
+        },
+        "enableCache": true
+      },
+      "success": {
+        "data": true,
+        "header": true,
+        "statusCode": true,
+        "cookies": true
+      }
+    },
+    "requestDeviceVoIP": false,
+    "requestOrderPayment": false,
+    "requestPayment": true,
+    "requestPolymerPayment": false,
+    "requestSubscribeDeviceMessage": false,
+    "requestSubscribeMessage": {
+      "object": {
+        "tmplIds": true
+      },
+      "success": {
+        "errMsg": true,
+        "TEMPLATE_ID": true
+      }
+    },
+    "requirePrivacyAuthorize": false,
+    "reserveChannelsLive": false,
+    "revokeBufferURL": false,
+    "saveFile": {
+      "object": {
+        "tempFilePath": true,
+        "filePath": true
+      },
+      "success": {
+        "savedFilePath": true
+      }
+    },
+    "saveFileToDisk": false,
+    "saveImageToPhotosAlbum": {
+      "object": {
+        "filePath": true
+      }
+    },
+    "saveVideoToPhotosAlbum": {
+      "object": {
+        "filePath": true
+      }
+    },
+    "scanCode": {
+      "object": {
+        "onlyFromCamera": true,
+        "scanType": {
+          "barCode": true,
+          "qrCode": true,
+          "datamatrix": true,
+          "pdf417": true
+        }
+      },
+      "success": {
+        "charSet": true,
+        "rawData": true,
+        "result": true,
+        "scanType": {
+          "QR_CODE": true,
+          "AZTEC": true,
+          "CODABAR": true,
+          "CODE_39": true,
+          "CODE_93": true,
+          "CODE_128": true,
+          "DATA_MATRIX": true,
+          "EAN_8": true,
+          "EAN_13": true,
+          "ITF": true,
+          "PDF_417": true,
+          "UPC_A": true,
+          "UPC_E": true
+        }
+      }
+    },
+    "seekBackgroundAudio": false,
+    "sendHCEMessage": false,
+    "sendSms": false,
+    "sendSocketMessage": false,
+    "setBLEMTU": {
+      "object": {
+        "deviceId": true,
+        "mtu": true
+      },
+      "success": {
+        "mtu": true
+      }
+    },
+    "setBackgroundColor": false,
+    "setBackgroundFetchToken": {
+      "object": {
+        "token": true
+      }
+    },
+    "setBackgroundTextStyle": false,
+    "setClipboardData": {
+      "object": {
+        "data": true
+      }
+    },
+    "setCustomDress": false,
+    "setDocumentTitle": false,
+    "setEnable1v1Chat": false,
+    "setEnableDebug": true,
+    "setInnerAudioOption": false,
+    "setKeepScreenOn": {
+      "object": {
+        "keepScreenOn": true
+      }
+    },
+    "setMetaDescription": false,
+    "setMetaKeywords": false,
+    "setNavigationBarColor": {
+      "object": {
+        "backgroundColor": true,
+        "frontColor": true,
+        "animation": true
+      }
+    },
+    "setNavigationBarTitle": {
+      "object": {
+        "title": true
+      }
+    },
+    "setOfficialDress": false,
+    "setPageInfo": false,
+    "setScreenBrightness": {
+      "object": {
+        "value": true
+      }
+    },
+    "setStorage": {
+      "object": {
+        "data": true,
+        "key": true
+      }
+    },
+    "setStorageSync": {
+      "object": {
+        "key": true,
+        "data": true
+      }
+    },
+    "setTabBarBadge": {
+      "object": {
+        "index": true,
+        "text": true
+      }
+    },
+    "setTabBarItem": {
+      "object": {
+        "index": true,
+        "iconPath": true,
+        "selectedIconPath": true,
+        "text": true
+      }
+    },
+    "setTabBarStyle": {
+      "object": {
+        "backgroundColor": true,
+        "borderStyle": true,
+        "color": true,
+        "selectedColor": true
+      }
+    },
+    "setTopBarText": true,
+    "setVisualEffectOnCapture": false,
+    "setWifiList": false,
+    "setWindowSize": false,
+    "shareFileMessage": false,
+    "shareToWeRun": false,
+    "shareVideoMessage": false,
+    "showActionSheet": {
+      "object": {
+        "alertText": true,
+        "itemList": true,
+        "itemColor": true
+      },
+      "success": {
+        "tapIndex": true
+      }
+    },
+    "showLoading": {
+      "object": {
+        "title": true,
+        "mask": true
+      }
+    },
+    "showModal": {
+      "object": {
+        "cancelColor": true,
+        "cancelText": true,
+        "confirmColor": true,
+        "confirmText": true,
+        "content": true,
+        "showCancel": true,
+        "title": true
+      },
+      "success": {
+        "cancel": true,
+        "confirm": true
+      }
+    },
+    "showNavigationBarLoading": true,
+    "showRedPackage": false,
+    "showShareImageMenu": false,
+    "showShareMenu": true,
+    "showTabBar": {
+      "object": {
+        "animation": true
+      }
+    },
+    "showTabBarRedDot": {
+      "object": {
+        "index": true
+      }
+    },
+    "showToast": {
+      "object": {
+        "title": true,
+        "duration": true,
+        "icon": {
+          "success": true,
+          "error": true,
+          "loading": true,
+          "none": true
+        },
+        "image": true,
+        "mask": true
+      }
+    },
+    "startAccelerometer": {
+      "object": {
+        "interval": {
+          "game": true,
+          "ui": true,
+          "normal": true
+        }
+      }
+    },
+    "startBeaconDiscovery": false,
+    "startBluetoothDevicesDiscovery": {
+      "object": {
+        "allowDuplicatesKey": true,
+        "interval": true,
+        "services": true
+      }
+    },
+    "startCompass": true,
+    "startDeviceMotionListening": {
+      "object": {
+        "interval": {
+          "game": true,
+          "ui": true,
+          "normal": true
+        }
+      }
+    },
+    "startFacialRecognitionVerify": false,
+    "startFacialRecognitionVerifyAndUploadVideo": false,
+    "startGyroscope": {
+      "object": {
+        "interval": {
+          "game": true,
+          "ui": true,
+          "normal": true
+        }
+      }
+    },
+    "startHCE": false,
+    "startLocalServiceDiscovery": false,
+    "startLocationUpdate": true,
+    "startLocationUpdateBackground": true,
+    "startPullDownRefresh": true,
+    "startRecord": false,
+    "startSoterAuthentication": {
+      "object": {
+        "challenge": true,
+        "requestAuthModes": true,
+        "authContent": true
+      },
+      "success": {
+        "authMode": true,
+        "errCode": true,
+        "resultJSON": true,
+        "resultJSONSignature": true
+      }
+    },
+    "startWifi": false,
+    "stopAccelerometer": true,
+    "stopBackgroundAudio": false,
+    "stopBeaconDiscovery": false,
+    "stopBluetoothDevicesDiscovery": true,
+    "stopCompass": true,
+    "stopDeviceMotionListening": true,
+    "stopFaceDetect": false,
+    "stopGyroscope": true,
+    "stopHCE": false,
+    "stopLocalServiceDiscovery": false,
+    "stopLocationUpdate": true,
+    "stopPullDownRefresh": true,
+    "stopRecord": false,
+    "stopVoice": false,
+    "stopWifi": false,
+    "subscribeService": false,
+    "subscribeVoIPVideoMembers": false,
+    "switchTab": {
+      "object": {
+        "url": true
+      }
+    },
+    "tradePay": false,
+    "unsubscribeMessage": false,
+    "updateBookshelfReadTime": false,
+    "updateQQApp": false,
+    "updateShareMenu": false,
+    "updateVoIPChatMuteConfig": false,
+    "updateWeChatApp": false,
+    "uploadFile": {
+      "object": {
+        "url": true,
+        "filePath": true,
+        "name": true,
+        "header": true,
+        "formData": true,
+        "timeout": true,
+        "fileName": true,
+        "withCredentials": true
+      },
+      "success": {
+        "data": true,
+        "statusCode": true,
+        "header": true,
+        "cookies": true
+      }
+    },
+    "vibrateLong": true,
+    "vibrateShort": true,
+    "writeBLECharacteristicValue": {
+      "object": {
+        "characteristicId": true,
+        "deviceId": true,
+        "serviceId": true,
+        "value": true
+      }
+    }
+  },
+  "components": {
+    "ad": {
+      "unit-id": false,
+      "ad-intervals": false,
+      "ad-theme": {
+        "white": false,
+        "black": false
+      },
+      "ad-type": {
+        "banner": false,
+        "video": false,
+        "grid": false
+      }
+    },
+    "ad-custom": {
+      "unit-id": false,
+      "ad-intervals": false
+    },
+    "animation-video": false,
+    "animation-view": false,
+    "ar-camera": false,
+    "audio": {
+      "id": false,
+      "src": true,
+      "loop": true,
+      "controls": true,
+      "poster": false,
+      "name": false,
+      "author": false
+    },
+    "aweme-data": false,
+    "block": true,
+    "button": {
+      "size": {
+        "default": true,
+        "mini": true
+      },
+      "type": {
+        "primary": true,
+        "default": true,
+        "warn": true
+      },
+      "plain": true,
+      "disabled": true,
+      "loading": true,
+      "form-type": {
+        "submit": true,
+        "reset": true
+      },
+      "open-type": {
+        "contact": false,
+        "share": false,
+        "getPhoneNumber": false,
+        "getRealtimePhoneNumber": false,
+        "getUserInfo": false,
+        "launchApp": false,
+        "openSetting": false,
+        "feedback": false,
+        "chooseAvatar": false,
+        "agreePrivacyAuthorization": false,
+        "['getPhoneNumber|agreePrivacyAuthorization']": false,
+        "['getRealtimePhoneNumber|agreePrivacyAuthorization']": false,
+        "['getUserInfo|agreePrivacyAuthorization']": false
+      },
+      "hover-class": true,
+      "hover-stop-propagation": false,
+      "hover-start-time": true,
+      "hover-stay-time": true,
+      "lang": {
+        "en": false,
+        "zh_CN": false,
+        "zh_TW": false
+      },
+      "session-from": false,
+      "send-message-title": false,
+      "send-message-path": false,
+      "send-message-img": false,
+      "app-parameter": false,
+      "show-message-card": false
+    },
+    "camera": {
+      "mode": {
+        "normal": false,
+        "scanCode": false
+      },
+      "resolution": {
+        "low": false,
+        "medium": false,
+        "high": false
+      },
+      "device-position": {
+        "front": false,
+        "back": false
+      },
+      "flash": {
+        "auto": false,
+        "on": false,
+        "off": false,
+        "torch": false
+      },
+      "frame-size": {
+        "small": false,
+        "medium": false,
+        "large": false
+      }
+    },
+    "canvas": {
+      "type": false,
+      "canvas-id": true,
+      "disable-scroll": false
+    },
+    "channel-live": {
+      "feed-id": false,
+      "finder-user-name": false
+    },
+    "channel-video": {
+      "feed-id": false,
+      "finder-user-name": false,
+      "loop": false,
+      "muted": false,
+      "object-fit": {
+        "fill": false,
+        "contain": false,
+        "cover": false
+      },
+      "autoplay": false,
+      "feed-token": false
+    },
+    "checkbox": {
+      "value": true,
+      "disabled": true,
+      "checked": true,
+      "color": true
+    },
+    "checkbox-group": true,
+    "comment-detail": false,
+    "comment-list": false,
+    "contact-button": false,
+    "cover-image": {
+      "src": true,
+      "referrer-policy": {
+        "origin": false,
+        "no-referrer": false
+      }
+    },
+    "cover-view": {
+      "scroll-top": false
+    },
+    "custom-wrapper": true,
+    "draggable-sheet": {
+      "initial-child-size": false,
+      "min-child-size": false,
+      "max-child-size": false,
+      "snap": false,
+      "snap-sizes": false
+    },
+    "editor": {
+      "read-only": false,
+      "placeholder": false,
+      "show-img-size": false,
+      "show-img-toolbar": false,
+      "show-img-resize": false
+    },
+    "follow-swan": false,
+    "form": {
+      "report-submit": false,
+      "report-submit-timeout": false
+    },
+    "functional-page-navigator": {
+      "version": {
+        "develop": false,
+        "trial": false,
+        "release": false
+      },
+      "name": {
+        "loginAndGetUserInfo": false,
+        "requestPayment": false,
+        "chooseAddress": false
+      },
+      "args": false
+    },
+    "grid-builder": {
+      "type": {
+        "aligned": false,
+        "masonry": false
+      },
+      "list": false,
+      "child-count": false,
+      "cross-axis-count": false,
+      "max-cross-axis-extent": false,
+      "main-axis-gap": false,
+      "cross-axis-gap": false,
+      "padding": false
+    },
+    "grid-view": {
+      "cross-axis-count": false,
+      "main-axis-gap": false,
+      "cross-axis-gap": false,
+      "max-cross-axis-extent": false,
+      "type": {
+        "aligned": false,
+        "masonry": false
+      },
+      "padding": false
+    },
+    "icon": {
+      "type": {
+        "success": true,
+        "success_no_circle": true,
+        "info": true,
+        "warn": true,
+        "waiting": true,
+        "cancel": true,
+        "download": true,
+        "search": true,
+        "clear": true,
+        "circle": false,
+        "info_circle": false
+      },
+      "size": true,
+      "color": true
+    },
+    "image": {
+      "src": true,
+      "mode": {
+        "scaleToFill": true,
+        "aspectFit": true,
+        "aspectFill": true,
+        "widthFix": true,
+        "heightFix": true,
+        "top": true,
+        "bottom": true,
+        "center": true,
+        "left": true,
+        "right": true
+      },
+      "webp": false,
+      "lazy-load": true,
+      "show-menu-by-longpress": false,
+      "fade-in": false
+    },
+    "inline-payment-panel": false,
+    "input": {
+      "value": true,
+      "type": {
+        "text": true,
+        "number": true,
+        "idcard": false,
+        "digit": true,
+        "safe-password": false,
+        "nickname": false,
+        "numberpad": false,
+        "digitpad": false,
+        "idcardpad": false
+      },
+      "password": true,
+      "placeholder": true,
+      "placeholder-style": false,
+      "placeholder-class": false,
+      "disabled": true,
+      "maxlength": true,
+      "cursor-spacing": false,
+      "auto-focus": true,
+      "focus": true,
+      "confirm-type": {
+        "send": false,
+        "search": true,
+        "next": false,
+        "go": false,
+        "done": true
+      },
+      "confirm-hold": false,
+      "cursor": false,
+      "selection-start": false,
+      "selection-end": false,
+      "adjust-position": false,
+      "hold-keyboard": false,
+      "always-embed": false,
+      "safe-password-cert-path": false,
+      "safe-password-length": false,
+      "safe-password-time-stamp": false,
+      "safe-password-nonce": false,
+      "safe-password-salt": false,
+      "safe-password-custom-hash": false,
+      "default-value": false
+    },
+    "keyboard-accessory": false,
+    "label": {
+      "for": true
+    },
+    "lifestyle": false,
+    "like": false,
+    "list-builder": {
+      "type": {
+        "static": false,
+        "dynamic": false
+      },
+      "list": false,
+      "child-count": false,
+      "child-height": false,
+      "padding": false
+    },
+    "list-view": {
+      "padding": false
+    },
+    "live-player": {
+      "src": true,
+      "mode": {
+        "live": true,
+        "RTC": true
+      },
+      "autoplay": true,
+      "muted": true,
+      "orientation": {
+        "vertical": true,
+        "horizontal": true
+      },
+      "object-fit": {
+        "contain": true,
+        "fillCrop": true
+      },
+      "background-mute": false,
+      "min-cache": true,
+      "max-cache": true,
+      "sound-mode": {
+        "speaker": true,
+        "ear": true
+      },
+      "auto-pause-if-navigate": true,
+      "picture-in-picture-mode": {
+        "push": false,
+        "pop": false
+      },
+      "auto-pause-if-open-native": false,
+      "referrer-policy": {
+        "origin": false,
+        "no-referrer": false
+      },
+      "enable-auto-rotation": false,
+      "enable-casting": false
+    },
+    "live-pusher": {
+      "url": false,
+      "mode": {
+        "SD": false,
+        "HD": false,
+        "FHD": false,
+        "RTC": false
+      },
+      "autopush": false,
+      "enable-video-custom-render": false,
+      "muted": false,
+      "enable-camera": false,
+      "auto-focus": false,
+      "orientation": {
+        "vertical": false,
+        "horizontal": false
+      },
+      "beauty": false,
+      "whiteness": false,
+      "aspect": {
+        "9:16": false,
+        "3:4": false
+      },
+      "min-bitrate": false,
+      "max-bitrate": false,
+      "audio-quality": false,
+      "waiting-image": false,
+      "waiting-image-hash": false,
+      "zoom": false,
+      "device-position": false,
+      "background-mute": false,
+      "mirror": false,
+      "remote-mirror": false,
+      "local-mirror": {
+        "auto": false,
+        "enable": false,
+        "disable": false
+      },
+      "audio-reverb-type": {
+        "0": false,
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false,
+        "6": false,
+        "7": false
+      },
+      "enable-mic": false,
+      "enable-agc": false,
+      "enable-ans": false,
+      "audio-volume-type": {
+        "auto": false,
+        "media": false,
+        "voicecall": false
+      },
+      "video-width": false,
+      "video-height": false,
+      "beauty-style": {
+        "smooth": false,
+        "nature": false
+      },
+      "filter": {
+        "standard": false,
+        "pink": false,
+        "nostalgia": false,
+        "blues": false,
+        "romantic": false,
+        "cool": false,
+        "fresher": false,
+        "solor": false,
+        "aestheticism": false,
+        "whitening": false,
+        "cerisered": false
+      },
+      "picture-in-picture-mode": false,
+      "custom-effect": false,
+      "skin-whiteness": false,
+      "skin-smoothness": false,
+      "face-thinness": false,
+      "eye-bigness": false,
+      "voice-changer-type": false,
+      "fps": false
+    },
+    "login": false,
+    "lottie": false,
+    "map": {
+      "longitude": true,
+      "latitude": true,
+      "scale": true,
+      "min-scale": true,
+      "max-scale": true,
+      "markers": true,
+      "covers": false,
+      "polyline": true,
+      "circles": true,
+      "controls": false,
+      "include-points": false,
+      "show-location": false,
+      "polygons": true,
+      "subkey": true,
+      "layer-style": true,
+      "rotate": true,
+      "skew": true,
+      "show-compass": true,
+      "show-scale": true,
+      "enable-overlooking": true,
+      "enable-zoom": true,
+      "enable-scroll": true,
+      "enable-rotate": false,
+      "enable-satellite": true,
+      "enable-traffic": true,
+      "enable-poi": false,
+      "enable-building": true,
+      "enable-auto-max-overlooking": true,
+      "enable3d": true,
+      "setting": false
+    },
+    "match-media": {
+      "min-width": false,
+      "max-width": false,
+      "width": false,
+      "min-height": false,
+      "max-height": false,
+      "height": false,
+      "orientation": false
+    },
+    "movable-area": {
+      "scale-area": true
+    },
+    "movable-view": {
+      "direction": {
+        "all": true,
+        "vertical": true,
+        "horizontal": true,
+        "none": true
+      },
+      "inertia": true,
+      "out-of-bounds": true,
+      "x": true,
+      "y": true,
+      "damping": false,
+      "friction": true,
+      "disabled": true,
+      "scale": true,
+      "scale-min": true,
+      "scale-max": true,
+      "scale-value": true,
+      "animation": true
+    },
+    "native-slot": {
+      "name": false
+    },
+    "navigation-bar": {
+      "title": false,
+      "loading": false,
+      "front-color": false,
+      "background-color": false,
+      "color-animation-duration": false,
+      "color-animation-timing-func": {
+        "linear": false,
+        "easeIn": false,
+        "easeOut": false,
+        "easeInOut": false
+      }
+    },
+    "navigator": {
+      "target": {
+        "self": false,
+        "miniProgram": false
+      },
+      "url": true,
+      "open-type": {
+        "navigate": true,
+        "redirect": true,
+        "switchTab": true,
+        "reLaunch": true,
+        "navigateBack": true,
+        "exit": true
+      },
+      "delta": true,
+      "app-id": false,
+      "path": false,
+      "extra-data": false,
+      "version": {
+        "develop": false,
+        "trial": false,
+        "release": false
+      },
+      "hover-class": true,
+      "hover-stop-propagation": false,
+      "hover-start-time": false,
+      "hover-stay-time": false,
+      "short-link": false
+    },
+    "nested-scroll-body": false,
+    "nested-scroll-header": false,
+    "official-account": false,
+    "open-container": {
+      "transition-type": {
+        "fade": false,
+        "fadeThrough": false
+      },
+      "transition-duration": false,
+      "closed-color": false,
+      "closed-elevation": false,
+      "close-border-radius": false,
+      "middle-color": false,
+      "open-color": false,
+      "open-elevation": false,
+      "open-border-radius": false
+    },
+    "open-data": {
+      "type": {
+        "groupName": false,
+        "userNickName": false,
+        "userAvatarUrl": false,
+        "userGender": false,
+        "userCity": false,
+        "userProvince": false,
+        "userCountry": false,
+        "userLanguage": false
+      },
+      "open-gid": false,
+      "lang": {
+        "en": false,
+        "zh_CN": false,
+        "zh_TW": false
+      },
+      "default-text": false,
+      "default-avatar": false
+    },
+    "page-container": {
+      "show": false,
+      "duration": false,
+      "z-index": false,
+      "overlay": false,
+      "position": {
+        "top": false,
+        "bottom": false,
+        "right": false,
+        "center": false
+      },
+      "round": false,
+      "overlay-style": false,
+      "custom-style": false,
+      "close-on-slide-down": false
+    },
+    "page-meta": {
+      "background-text-style": false,
+      "background-color": false,
+      "background-color-top": false,
+      "background-color-bottom": false,
+      "scroll-top": false,
+      "scroll-duration": false,
+      "page-style": false,
+      "root-font-size": false,
+      "root-background-color": false,
+      "page-font-size": false,
+      "page-orientation": false
+    },
+    "picker": {
+      "mode": {
+        "selector": {
+          "range": true,
+          "range-key": true,
+          "value": true,
+          "default-value": false
+        },
+        "multiSelector": {
+          "range": true,
+          "range-key": true,
+          "value": true
+        },
+        "time": {
+          "value": true,
+          "start": true,
+          "end": true,
+          "default-value": false
+        },
+        "date": {
+          "value": true,
+          "start": true,
+          "end": true,
+          "fields": {
+            "year": true,
+            "month": true,
+            "day": true
+          },
+          "default-value": false
+        },
+        "region": {
+          "value": false,
+          "custom-item": false,
+          "level": {
+            "province": false,
+            "city": false,
+            "region": false,
+            "sub-district": false
+          },
+          "default-value": false
+        }
+      },
+      "disabled": true,
+      "header-text": false
+    },
+    "picker-view": {
+      "value": true,
+      "indicator-style": true,
+      "indicator-class": true,
+      "mask-style": true,
+      "mask-class": true,
+      "immediate-change": false,
+      "default-value": false
+    },
+    "picker-view-column": false,
+    "progress": {
+      "percent": true,
+      "show-info": true,
+      "border-radius": true,
+      "font-size": true,
+      "stroke-width": true,
+      "color": false,
+      "active-color": true,
+      "background-color": true,
+      "active": true,
+      "active-mode": {
+        "backwards": false,
+        "forwards": false
+      },
+      "duration": false
+    },
+    "radio": {
+      "value": true,
+      "checked": true,
+      "disabled": true,
+      "color": false
+    },
+    "radio-group": true,
+    "rich-text": {
+      "user-select": true,
+      "nodes": true,
+      "space": {
+        "ensp": false,
+        "emsp": false,
+        "nbsp": false
+      }
+    },
+    "root-portal": {
+      "enable": false
+    },
+    "rtc-room": false,
+    "rtc-room-item": false,
+    "script": {
+      "src": false,
+      "module": false
+    },
+    "scroll-view": {
+      "scroll-x": true,
+      "scroll-y": true,
+      "upper-threshold": true,
+      "lower-threshold": true,
+      "scroll-top": true,
+      "scroll-left": true,
+      "scroll-into-view": true,
+      "scroll-with-animation": true,
+      "enable-back-to-top": false,
+      "enable-flex": false,
+      "scroll-anchoring": false,
+      "refresher-enabled": false,
+      "refresher-threshold": false,
+      "refresher-default-style": false,
+      "refresher-background": false,
+      "refresher-triggered": false,
+      "enhanced": false,
+      "bounces": false,
+      "show-scrollbar": false,
+      "paging-enabled": false,
+      "fast-deceleration": false,
+      "enable-passive": false,
+      "type": {
+        "list": false,
+        "custom": false,
+        "nested": false
+      },
+      "reverse": false,
+      "cache-extent": false,
+      "scroll-into-view-within-extent": false,
+      "scroll-into-view-alignment": {
+        "start": true,
+        "center": true,
+        "end": true,
+        "nearest": true
+      },
+      "using-sticky": false,
+      "clip": false,
+      "min-drag-distance": false,
+      "padding": false,
+      "refresher-two-level-enabled": false,
+      "refresher-two-level-triggered": false,
+      "refresher-two-level-threshold": false,
+      "refresher-two-level-close-threshold": false,
+      "refresher-two-level-scroll-enabled": false,
+      "refresher-ballistic-refresh-enabled": false,
+      "refresher-two-level-pinned": false
+    },
+    "share-element": {
+      "key": false,
+      "mapkey": false,
+      "transform": false,
+      "duration": false,
+      "easing-function": false,
+      "transition-on-gesture": false,
+      "shuttle-on-push": {
+        "from": false,
+        "to": false
+      },
+      "shuttle-on-pop": false,
+      "rect-tween-type": {
+        "materialRectArc": false,
+        "materialRectCenterArc": false,
+        "linear": false,
+        "elasticIn": false,
+        "elasticOut": false,
+        "elasticInOut": false,
+        "bounceIn": false,
+        "bounceOut": false,
+        "bounceInOut": false,
+        "cubic-bezier(x1,": false
+      }
+    },
+    "slider": {
+      "min": true,
+      "max": true,
+      "step": true,
+      "disabled": true,
+      "value": true,
+      "color": false,
+      "selected-color": false,
+      "active-color": true,
+      "background-color": true,
+      "block-size": true,
+      "block-color": true,
+      "show-value": true,
+      "default-value": false
+    },
+    "slot": {
+      "name": false
+    },
+    "snapshot": {
+      "mode": {
+        "view": false,
+        "picture": false
+      }
+    },
+    "span": false,
+    "sticky-header": {
+      "offset-top": false,
+      "padding": false
+    },
+    "sticky-section": {
+      "push-pinned-header": false,
+      "padding": false
+    },
+    "swiper": {
+      "indicator-dots": true,
+      "indicator-color": true,
+      "indicator-active-color": true,
+      "autoplay": true,
+      "current": true,
+      "interval": true,
+      "duration": true,
+      "circular": true,
+      "vertical": true,
+      "previous-margin": true,
+      "next-margin": true,
+      "snap-to-edge": false,
+      "display-multiple-items": true,
+      "easing-function": {
+        "default": false,
+        "linear": false,
+        "easeInCubic": false,
+        "easeOutCubic": false,
+        "easeInOutCubic": false
+      },
+      "scroll-with-animation": false,
+      "cache-extent": false
+    },
+    "swiper-item": {
+      "item-id": true,
+      "skip-hidden-item-layout": false
+    },
+    "switch": {
+      "checked": true,
+      "disabled": true,
+      "type": {
+        "switch": true,
+        "checkbox": true
+      },
+      "color": true,
+      "default-checked": false
+    },
+    "tab-item": false,
+    "tabs": false,
+    "text": {
+      "selectable": false,
+      "user-select": false,
+      "space": {
+        "ensp": false,
+        "emsp": false,
+        "nbsp": false
+      },
+      "decode": false,
+      "max-lines": false,
+      "overflow": {
+        "clip": false,
+        "fade": false,
+        "ellipsis": false,
+        "visible": false
+      }
+    },
+    "textarea": {
+      "value": true,
+      "placeholder": true,
+      "placeholder-style": false,
+      "placeholder-class": false,
+      "disabled": true,
+      "maxlength": true,
+      "auto-focus": true,
+      "focus": true,
+      "auto-height": true,
+      "fixed": false,
+      "cursor-spacing": false,
+      "cursor": false,
+      "show-confirm-bar": false,
+      "selection-start": false,
+      "selection-end": false,
+      "adjust-position": false,
+      "hold-keyboard": false,
+      "disable-default-padding": false,
+      "confirm-type": {
+        "send": false,
+        "search": false,
+        "next": false,
+        "go": false,
+        "done": false,
+        "return": false
+      },
+      "confirm-hold": false,
+      "adjust-keyboard-to": false,
+      "default-value": false
+    },
+    "video": {
+      "src": true,
+      "duration": true,
+      "controls": true,
+      "danmu-list": true,
+      "danmu-btn": true,
+      "enable-danmu": true,
+      "autoplay": true,
+      "loop": true,
+      "muted": true,
+      "initial-time": true,
+      "page-gesture": false,
+      "direction": false,
+      "show-progress": true,
+      "show-fullscreen-btn": true,
+      "show-play-btn": true,
+      "show-center-play-btn": true,
+      "enable-progress-gesture": true,
+      "object-fit": {
+        "contain": true,
+        "fill": true,
+        "cover": true
+      },
+      "poster": true,
+      "show-mute-btn": true,
+      "title": false,
+      "play-btn-position": {
+        "bottom": false,
+        "center": false
+      },
+      "enable-play-gesture": true,
+      "auto-pause-if-navigate": false,
+      "auto-pause-if-open-native": false,
+      "vslide-gesture": true,
+      "vslide-gesture-in-fullscreen": true,
+      "ad-unit-id": false,
+      "poster-for-crawler": false,
+      "show-casting-button": false,
+      "picture-in-picture-mode": {
+        "push": false,
+        "pop": false
+      },
+      "enable-auto-rotation": false,
+      "show-screen-lock-button": false,
+      "show-snapshot-button": false,
+      "show-background-playback-button": false,
+      "background-poster": false,
+      "show-bottom-progress": false,
+      "picture-in-picture-show-progress": false,
+      "referrer-policy": {
+        "origin": false,
+        "no-referrer": false
+      },
+      "is-drm": false,
+      "provision-url": false,
+      "certificate-url": false,
+      "license-url": false,
+      "preferred-peak-bit-rate": false,
+      "is-live": false
+    },
+    "view": {
+      "hover-class": true,
+      "hover-stop-propagation": false,
+      "hover-start-time": true,
+      "hover-stay-time": true,
+      "catch-move": false
+    },
+    "voip-room": {
+      "mode": {
+        "camera": false,
+        "video": false
+      },
+      "device-position": {
+        "front": false,
+        "back": false
+      },
+      "open-id": false,
+      "object-fit": {
+        "fill": false,
+        "contain": false,
+        "cover": false
+      }
+    },
+    "web-view": {
+      "src": true
+    }
+  }
+}

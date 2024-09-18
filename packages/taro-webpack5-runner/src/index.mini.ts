@@ -1,12 +1,16 @@
+import { chalk } from '@tarojs/helper'
 import Prebundle from '@tarojs/webpack5-prebundle'
 import { isEmpty } from 'lodash'
-import webpack, { Stats } from 'webpack'
+import webpack from 'webpack'
 
 import { Prerender } from './prerender/prerender'
-import type { MiniBuildConfig } from './utils/types'
+import { errorHandling } from './utils/webpack'
 import { MiniCombination } from './webpack/MiniCombination'
 
-export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<Stats> {
+import type { Stats } from 'webpack'
+import type { IMiniBuildConfig } from './utils/types'
+
+export default async function build (appPath: string, rawConfig: IMiniBuildConfig): Promise<Stats | void> {
   const combination = new MiniCombination(appPath, rawConfig)
   await combination.make()
 
@@ -17,14 +21,26 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     chain: combination.chain,
     enableSourceMap,
     entry,
-    runtimePath
+    isWatch: combination.config.isWatch,
+    runtimePath,
+    isBuildPlugin: combination.isBuildPlugin,
+    alias: combination.config.alias,
+    defineConstants: combination.config.defineConstants,
+    modifyAppConfig: combination.config.modifyAppConfig
   })
-  await prebundle.run(combination.getPrebundleOptions())
+  try {
+    await prebundle.run(combination.getPrebundleOptions())
+  } catch (error) {
+    console.error(error)
+    console.warn(chalk.yellow('依赖预编译失败，已经为您跳过预编译步骤，但是编译速度可能会受到影响。'))
+  }
 
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
 
-  return new Promise<Stats>((resolve, reject) => {
+  return new Promise<Stats | void>((resolve, reject) => {
+    if (config.withoutBuild) return
+
     const compiler = webpack(webpackConfig)
     const onBuildFinish = config.onBuildFinish
     let prerender: Prerender
@@ -40,14 +56,17 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     }
 
     const callback = async (err: Error, stats: Stats) => {
+      const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
       if (err || stats.hasErrors()) {
         const error = err ?? stats.toJson().errors
         onFinish(error, null)
-        return reject(error)
+        reject(error)
+        errorHandling(errorLevel, stats)
+        return
       }
 
       if (!isEmpty(config.prerender)) {
-        prerender = prerender ?? new Prerender(config, webpackConfig, stats, config.template.Adapter)
+        prerender = prerender ?? new Prerender(config, webpackConfig, stats, config.template)
         await prerender.render()
       }
 

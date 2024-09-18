@@ -1,5 +1,6 @@
-import type { TaroElement } from './element'
 import { NodeType } from './node_types'
+
+import type { TaroElement } from './element'
 
 type Filter = (element: TaroElement) => boolean
 
@@ -26,8 +27,10 @@ export function treeToArray (root: TaroElement, predict?: Filter): TaroElement[]
 
 function following (el: TaroElement, root: TaroElement): TaroElement | null {
   const firstChild = el.firstChild
+  const isElmentTypeValid = el.nodeType === NodeType.ELEMENT_NODE || el.nodeType === NodeType.DOCUMENT_NODE
 
-  if (firstChild) {
+  // 如果当前 el 不是 element 或 document 元素，则可以直接不递归他的子元素了
+  if (firstChild && isElmentTypeValid) {
     return firstChild as TaroElement
   }
 

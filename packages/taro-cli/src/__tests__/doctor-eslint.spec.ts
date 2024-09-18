@@ -1,6 +1,10 @@
-import * as path from 'path'
+import * as path from 'node:path'
 
-import validator from '../doctor/eslintValidator'
+import { chalk } from '@tarojs/helper'
+
+import doctor from '../doctor'
+
+const validator = doctor.validators[4]
 
 describe('eslint validator of doctor', () => {
   let cwd = ''
@@ -14,37 +18,14 @@ describe('eslint validator of doctor', () => {
 
   it('should lint for react', async () => {
     process.chdir(path.join(__dirname, 'fixtures/default'))
-    const raw = await validator({
+    const { isValid, messages } = await validator({
       projectConfig: {
         framework: 'react',
         sourceRoot: 'src'
-      }
-    }).then(e => e.raw)
-
-    expect(raw).toBe('')
-  })
-
-  it('should lint for nerv', async () => {
-    process.chdir(path.join(__dirname, 'fixtures/nerv'))
-    const raw = await validator({
-      projectConfig: {
-        framework: 'nerv',
-        sourceRoot: 'src'
-      }
-    }).then(e => e.raw)
-
-    expect(raw.includes('\'a\' is assigned a value but never used'))
-  })
-
-  it('should lint for vue', async () => {
-    process.chdir(path.join(__dirname, 'fixtures/vue'))
-    const raw = await validator({
-      projectConfig: {
-        framework: 'vue',
-        sourceRoot: 'src'
-      }
-    }).then(e => e.raw)
-
-    expect(raw).toBe('')
+      },
+      chalk
+    })
+    expect(isValid).toBe(true)
+    expect(messages.length).toBe(2)
   })
 })

@@ -1,14 +1,22 @@
-import { getCurrentRoute, PageProvider } from '@tarojs/router-rn'
-import * as React from 'react'
-import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView, View } from 'react-native'
+import { EventChannel } from '@tarojs/shared'
+import { Component, Context, createContext, createElement, createRef, forwardRef, RefObject } from 'react'
+import { AppState, Dimensions, EmitterSubscription, RefreshControl, ScrollView } from 'react-native'
 
 import { isClassComponent } from './app'
 import { Current } from './current'
 import { eventCenter } from './emmiter'
-import EventChannel from './EventChannel'
 import { Instance, PageInstance } from './instance'
-import { BackgroundOption, BaseOption, CallbackResult, HooksMethods, PageConfig, ScrollOption, TextStyleOption } from './types/index'
-import { EMPTY_OBJ, errorHandler, incrementId, isArray, isFunction, successHandler } from './utils'
+import { getCurrentRoute, isTabPage, PageProvider } from './router'
+import {
+  BackgroundOption,
+  BaseOption,
+  CallbackResult,
+  HooksMethods,
+  PageConfig,
+  ScrollOption,
+  TextStyleOption
+} from './types/index'
+import { EMPTY_OBJ, errorHandler, getPageStr, incrementId, isArray, isFunction, successHandler } from './utils'
 
 const compId = incrementId()
 
@@ -40,14 +48,13 @@ function getLifecyle (instance, lifecyle) {
 
 function safeExecute (path: string, lifecycle: keyof Instance, ...args: unknown[]) {
   const instance = instances.get(path)
-
   if (instance == null) {
     return
   }
   const func = getLifecyle(instance, lifecycle)
 
   if (isArray(func)) {
-    const res = func.map(fn => fn.apply(instance, args))
+    const res = func.map((fn) => fn.apply(instance, args))
     return res[0]
   }
   if (!isFunction(func)) {
@@ -58,16 +65,20 @@ function safeExecute (path: string, lifecycle: keyof Instance, ...args: unknown[
 }
 
 const globalAny: any = global
-// eslint-disable-next-line import/no-mutable-exports
-export let PageContext: React.Context<string> = EMPTY_OBJ
+export let PageContext: Context<string> = EMPTY_OBJ
 
 // APP 前后台状态发生变化时调用对应的生命周期函数
 let appState = AppState.currentState
 
 AppState.addEventListener('change', (nextAppState) => {
-  const { page } = Current
+  const { page, app, router } = Current
   if (!page) return
   if (appState.match(/inactive|background/) && nextAppState === 'active') {
+    app?.onShow &&
+      app.onShow({
+        path: router?.path,
+        query: router?.params
+      })
     if (!page.__isReactComponent && page.__safeExecute) {
       page.__safeExecute('componentDidShow')
     } else if (page.onShow) {
@@ -80,6 +91,7 @@ AppState.addEventListener('change', (nextAppState) => {
     } else if (page.onHide) {
       page.onHide()
     }
+    app?.onHide && app.onHide()
   }
   appState = nextAppState
 })
@@ -96,56 +108,46 @@ Dimensions.addEventListener('change', ({ window }) => {
   }
 })
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function createPageConfig (Page: any, pageConfig: PageConfig): any {
-  const h = React.createElement
+  const h = createElement
   const pagePath = pageConfig.pagePath.replace(/^\//, '') || ''
 
   const isReactComponent = isClassComponent(Page)
   if (PageContext === EMPTY_OBJ) {
-    PageContext = React.createContext('')
+    PageContext = createContext('')
   }
 
   let ScreenPage = Page
   if (!isReactComponent) {
-    // eslint-disable-next-line react/display-name
-    ScreenPage = React.forwardRef((props, ref) => {
-      const newProps: React.Props<any> = { ...props }
-      newProps.ref = ref
-      return h(View, {
-        style: {
-          minHeight: '100%'
-        },
-        ...newProps
-      }, h(Page, { ...props }, null))
+    ScreenPage = forwardRef((props, ref) => {
+      return h(Page, { forwardRef: ref, ...props }, null)
     })
   }
 
   const WrapScreen = (Screen: any) => {
-    return class PageScreen extends React.Component<any, any> {
-      // eslint-disable-next-line react/sort-comp
-      screenRef: React.RefObject<any>
-      pageScrollView: React.RefObject<any>
+    return class PageScreen extends Component<any, any> {
+      screenRef: RefObject<any>
+      pageScrollView: RefObject<any>
       unSubscribleBlur: any
       unSubscribleFocus: any
       unSubscribleTabPress: any
       pageId: string
-      appStateSubscription: NativeEventSubscription | undefined
       dimensionsSubscription: EmitterSubscription | undefined
       isPageReady: boolean
 
-      constructor (props: any) {
+      constructor(props: any) {
         super(props)
         const refreshStyle = globalAny?.__taroRefreshStyle ?? {}
-        const backgroundTextStyle = pageConfig.backgroundTextStyle || globalAny.__taroAppConfig?.appConfig?.window?.backgroundTextStyle || 'dark'
+        const backgroundTextStyle =
+          pageConfig.backgroundTextStyle || globalAny.__taroAppConfig?.appConfig?.window?.backgroundTextStyle || 'dark'
         this.state = {
           refreshing: false, // 刷新指示器
-          appState: AppState.currentState,
           textColor: refreshStyle.textColor || (backgroundTextStyle === 'dark' ? '#000000' : '#ffffff'),
           backgroundColor: refreshStyle.backgroundColor || '#ffffff'
         }
-        this.screenRef = React.createRef<Instance>()
-        this.pageScrollView = React.createRef()
+        appState = AppState.currentState
+        this.screenRef = createRef<Instance>()
+        this.pageScrollView = createRef()
         this.setPageInstance()
         this.pageId = `taro_page_${compId()}`
       }
@@ -159,6 +161,11 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
           this.unSubscribleTabPress = navigation.addListener('tabPress', () => this.onTabItemTap())
           this.unSubscribleFocus = navigation.addListener('focus', () => this.onFocusChange())
           this.unSubscribleBlur = navigation.addListener('blur', () => this.onBlurChange())
+          // 如果是tabbar页面，因为tabbar是懒加载的，第一次点击事件还未监听，不会触发，初始化触发一下
+          const lazy = globalAny.__taroAppConfig?.appConfig?.rn?.tabOptions?.lazy ?? true
+          if (isTabPage() && lazy) {
+            this.onTabItemTap()
+          }
         }
         eventCenter.on('__taroPullDownRefresh', this.pullDownRefresh, this)
         eventCenter.on('__taroPageScrollTo', this.pageToScroll, this)
@@ -185,7 +192,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       setPageInstance () {
         const pageRef = this.screenRef
         const pageId = this.pageId
-        const { params = {}, key = '' } = this.props.route
+        const { params = {}, key = '' } = this.props.route ?? {}
         // 和小程序的page实例保持一致
         const inst: PageInstance = {
           config: pageConfig,
@@ -281,8 +288,8 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         Current.page = inst
       }
 
-      pullDownRefresh = (path, refresh) => {
-        if (path === pagePath) {
+      pullDownRefresh = ({ path, refresh }) => {
+        if (getPageStr(path) === getPageStr(pagePath)) {
           this.setState({ refreshing: refresh })
         }
       }
@@ -296,7 +303,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       pageToScroll = ({ path = '', scrollTop = 0 }) => {
-        if (path === pagePath) {
+        if (getPageStr(path) === getPageStr(pagePath)) {
           this.pageScrollView?.current?.scrollTo({ x: 0, y: scrollTop, animated: true })
         }
       }
@@ -307,7 +314,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         try {
           this.handleHooksEvent('componentDidShow')
           // 实现 useReady hook，遵循小程序事件机制，在useDidShow之后触发
-          if(!this.isPageReady){
+          if (!this.isPageReady) {
             this.handleHooksEvent('onReady')
             this.isPageReady = true
           }
@@ -320,19 +327,24 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       onBlurChange () {
         try {
           this.handleHooksEvent('componentDidHide')
-          if (this.screenRef?.current?.componentDidHide) { this.screenRef?.current?.componentDidHide() }
+          if (this.screenRef?.current?.componentDidHide) {
+            this.screenRef?.current?.componentDidHide()
+          }
         } catch (err) {
           throw new Error(err)
         }
       }
 
       onPageScroll (e) {
+        if (!e?.nativeEvent) return
         const { contentOffset } = e.nativeEvent
         const scrollTop = contentOffset.y
         if (scrollTop < 0) return
         try {
           this.handleHooksEvent('onPageScroll', { scrollTop })
-          if (this.screenRef?.current?.onPageScroll) { this.screenRef?.current?.onPageScroll({ scrollTop }) }
+          if (this.screenRef?.current?.onPageScroll) {
+            this.screenRef?.current?.onPageScroll({ scrollTop })
+          }
         } catch (err) {
           throw new Error(err)
         }
@@ -340,12 +352,15 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       // 监听的onMomentumScrollEnd
       onReachBottom (e) {
+        if (!e?.nativeEvent) return
         const { onReachBottomDistance = 50 } = pageConfig
         const { layoutMeasurement, contentSize, contentOffset } = e.nativeEvent
         if (contentOffset?.y + layoutMeasurement?.height + onReachBottomDistance >= contentSize.height) {
           try {
             this.handleHooksEvent('onReachBottom')
-            if (this.screenRef?.current?.onReachBottom) { this.screenRef?.current?.onReachBottom() }
+            if (this.screenRef?.current?.onReachBottom) {
+              this.screenRef?.current?.onReachBottom()
+            }
           } catch (err) {
             throw new Error(err)
           }
@@ -357,7 +372,9 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         this.setState({ refreshing: true })
         try {
           this.handleHooksEvent('onPullDownRefresh')
-          if (this.screenRef?.current?.onPullDownRefresh) { this.screenRef?.current?.onPullDownRefresh() }
+          if (this.screenRef?.current?.onPullDownRefresh) {
+            this.screenRef?.current?.onPullDownRefresh()
+          }
         } catch (e) {
           throw new Error(e)
         } finally {
@@ -369,16 +386,16 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         try {
           const item = this.getTabItem(pagePath)
           this.handleHooksEvent('onTabItemTap', { ...item })
-          if (this.screenRef?.current?.onTabItemTap) { this.screenRef?.current?.onTabItemTap(item) }
+          if (this.screenRef?.current?.onTabItemTap) {
+            this.screenRef?.current?.onTabItemTap(item)
+          }
         } catch (error) {
           throw new Error(error)
         }
       }
 
       handleHooksEvent (method: HooksMethods, options: Record<string, unknown> = {}) {
-        if (!isReactComponent) {
-          return safeExecute(this.pageId, method, options)
-        }
+        return safeExecute(this.pageId, method, options)
       }
 
       getTabItem (itemPath: string) {
@@ -387,8 +404,8 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         let result: Record<string, unknown> = {}
         for (let i = 0; i < tabBar.list.length; i++) {
           const item = tabBar.list[i]
-          const path = item.pagePath.startsWith('/') ? item.pagePath : `/${item.pagePath}`
-          if (path === itemPath) {
+          const path = item.pagePath.replace(/^\//, '') || ''
+          if (getPageStr(path) === getPageStr(itemPath)) {
             result = {
               index: i,
               pagePath: path,
@@ -407,46 +424,58 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       refreshPullDown () {
         const { refreshing, textColor, backgroundColor } = this.state
-        return React.createElement(RefreshControl, {
-          refreshing: refreshing,
-          enabled: true,
-          titleColor: textColor,
-          tintColor: textColor,
-          colors: [backgroundColor],
-          onRefresh: () => this.onPullDownRefresh()
-        }, null)
+        return createElement(
+          RefreshControl,
+          {
+            refreshing: refreshing,
+            enabled: true,
+            titleColor: textColor,
+            tintColor: textColor,
+            colors: [backgroundColor],
+            onRefresh: () => this.onPullDownRefresh()
+          },
+          null
+        )
       }
 
       createPage () {
-        return h(PageProvider, { currentPath: pagePath, pageConfig, ...this.props },
-          h(PageContext.Provider, { value: this.pageId }, h(Screen,
-            { ...this.props, ref: this.screenRef })
+        if (PageProvider) {
+          return h(
+            PageProvider,
+            { currentPath: pagePath, pageConfig, ...this.props },
+            h(PageContext.Provider, { value: this.pageId }, h(Screen, { ...this.props, ref: this.screenRef }))
           )
-        )
+        }
+        return h(PageContext.Provider, { value: this.pageId }, h(Screen, { ...this.props, ref: this.screenRef }))
       }
 
       createScrollPage () {
         let bgColor = pageConfig.backgroundColor ? pageConfig.backgroundColor : ''
         const windowOptions = globalAny.__taroAppConfig?.appConfig?.window || {}
-        const useNativeStack =  globalAny.__taroAppConfig?.appConfig?.rn?.useNativeStack
+        const useNativeStack = globalAny.__taroAppConfig?.appConfig?.rn?.useNativeStack
         if (!bgColor && windowOptions?.backgroundColor) {
           bgColor = windowOptions?.backgroundColor
         }
         const refresh = this.isEnablePullDown() ? { refreshControl: this.refreshPullDown() } : {}
-        return h(ScrollView, {
-          style: [{ flex: 1 }, (bgColor ? { backgroundColor: bgColor } : {})],
-          contentContainerStyle: useNativeStack ? {} : { minHeight: '100%' },
-          ref: this.pageScrollView,
-          scrollEventThrottle: 8,
-          ...refresh,
-          onScroll: (e) => this.onPageScroll(e),
-          onMomentumScrollEnd: (e) => this.onReachBottom(e)
-        }, this.createPage())
+        return h(
+          ScrollView,
+          {
+            style: [{ flex: 1 }, bgColor ? { backgroundColor: bgColor } : {}],
+            contentContainerStyle: useNativeStack ? {} : { minHeight: '100%' },
+            ref: this.pageScrollView,
+            scrollEventThrottle: 8,
+            ...refresh,
+            onScroll: (e) => this.onPageScroll(e),
+            onMomentumScrollEnd: (e) => this.onReachBottom(e),
+            nestedScrollEnabled: true
+          },
+          this.createPage()
+        )
       }
 
       render () {
         const { disableScroll = false } = pageConfig
-        return (!disableScroll ? this.createScrollPage() : this.createPage())
+        return !disableScroll ? this.createScrollPage() : this.createPage()
       }
     }
   }
@@ -547,11 +576,12 @@ export function getCurrentPages () {
   const pages: PageInstance[] = []
   const routes = getCurrentRoute()
   if (routes && routes.length > 0) {
-    routes.forEach(item => {
+    routes.forEach((item) => {
       const inst = getPageObject(item)
       inst && pages.push(inst)
     })
-  } else { // 第一次初始化时，getCurrentRoute会为空
+  } else {
+    // 第一次初始化时，getCurrentRoute会为空
     const inst = Current.page
     inst && pages.push(inst)
   }

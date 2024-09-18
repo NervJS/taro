@@ -18,11 +18,23 @@ declare module '../../index' {
     interface Option {
       /** 需要预览的图片链接列表。 */
       urls: string[]
-      /** 当前显示图片的链接 */
-      current?: string
-      /** @support weapp 最低版本：2.13.0。是否显示长按菜单，默认值：true */
+      /**
+       * 当前显示图片的http链接
+       */
+      current?: string | number
+      /**
+       * 是否支持长按下载图片
+       * @supported alipay 基础库: 1.13.0
+       */
+      enablesavephoto?: boolean
+      /**
+       * 是否在右下角显示下载入口
+       * @supported alipay 基础库: 1.13.0
+       */
+      enableShowPhotoDownload?: boolean
+      /** @supported weapp 最低版本：2.13.0。是否显示长按菜单，默认值：true */
       showmenu?: boolean
-      /** @support weapp 最低版本：2.13.0。origin: 发送完整的referrer; no-referrer: 不发送。格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；默认值：no-referrer */
+      /** @supported weapp 最低版本：2.13.0。origin: 发送完整的referrer; no-referrer: 不发送。格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；默认值：no-referrer */
       referrerPolicy?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
@@ -46,7 +58,7 @@ declare module '../../index' {
       /** 需要预览的资源列表 */
       sources: Sources[]
       /** 当前显示的资源序号，默认值：0 */
-      current?:	number
+      current?: number
       /** 是否显示长按菜单	2.13.0，默认值：true */
       showmenu?: boolean
       /** origin: 发送完整的referrer; no-referrer: 不发送。格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；默认值：no-referrer */
@@ -127,19 +139,30 @@ declare module '../../index' {
 
   namespace chooseImage {
     interface Option {
+      /** 最多可以选择的图片张数
+       * @default 9
+       * @supported weapp, alipay, swan, tt, h5, rn
+       */
+      count?: number
+      /** 所选的图片的尺寸
+       * @default ['original', 'compressed']
+       * @supported weapp, alipay, swan, tt, rn
+       */
+      sizeType?: Array<keyof sizeType>
+      /** 选择图片的来源
+       * @default ['album', 'camera']
+       * @supported weapp, alipay, swan, tt, h5, rn
+       */
+      sourceType?: Array<keyof sourceType>
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
-      /** 最多可以选择的图片张数 */
-      count?: number
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
-      /** 所选的图片的尺寸 */
-      sizeType?: Array<keyof sizeType>
-      /** 选择图片的来源 */
-      sourceType?: Array<keyof sourceType>
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
-      /** 用来上传的input元素ID（仅h5端）@supported h5 */
+      /** 用来上传的input元素ID（仅h5端
+       * @supported h5
+       */
       imageId?: string
     }
     /** 图片的尺寸 */
@@ -195,6 +218,10 @@ declare module '../../index' {
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 压缩质量，范围0～100，数值越小，质量越低，压缩率越高（仅对jpg有效）。 */
       quality?: number
+      /** 压缩后图片的宽度，单位为px，若不填写则默认以 compressedHeight 为准等比缩放。 */
+      compressedWidth?: number
+      /** 压缩后图片的高度，单位为px，若不填写则默认以 compressedWidth 为准等比缩放。 */
+      compressedHeight?: number
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
@@ -260,9 +287,44 @@ declare module '../../index' {
     }
   }
 
+  namespace cropImage {
+    interface Option {
+      /** 图片路径，图片的路径，支持本地路径、代码包路径 */
+      src: string
+      /** 裁剪比例 */
+      cropScale: keyof CropScale
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 剪裁后图片的临时文件路径 (本地路径) */
+      tempFilePath: string
+    }
+    interface CropScale {
+      /** 宽高比为1比1 */
+      '1:1'
+      /** 宽高比为3比4 */
+      '3:4'
+      /** 宽高比为4比3 */
+      '4:3'
+      /** 宽高比为4比5 */
+      '4:5'
+      /** 宽高比为5比4 */
+      '5:4'
+      /** 宽高比为9比16 */
+      '9:16'
+      /** 宽高比为16比9 */
+      '16:9'
+    }
+  }
+
   interface TaroStatic {
     /** 保存图片到系统相册。需要[用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.writePhotosAlbum
-     * @supported weapp, rn, alipay, swan, tt
+     * @supported weapp, alipay, swan, tt, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * Taro.saveImageToPhotosAlbum({
@@ -286,7 +348,7 @@ declare module '../../index' {
     previewMedia(option: previewMedia.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
-     * @supported weapp, h5, rn, alipay, swan, tt
+     * @supported weapp, alipay, swan, tt, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * Taro.previewImage({
@@ -299,7 +361,7 @@ declare module '../../index' {
     previewImage(option: previewImage.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取图片信息。网络图片需先配置download域名才能生效。
-     * @supported weapp, h5, rn, alipay, swan, tt
+     * @supported weapp, alipay, swan, tt, h5, rn, harmony, harmony_hybrid
      * @example
      * ```tsx
      * Taro.getImageInfo({
@@ -338,7 +400,7 @@ declare module '../../index' {
     editImage(option: editImage.Option): Promise<editImage.SuccessCallbackResult>
 
     /** 压缩图片接口，可选压缩质量
-     * @supported weapp, rn, tt
+     * @supported weapp, tt, rn
      * @example
      * ```tsx
      * Taro.compressImage({
@@ -359,7 +421,7 @@ declare module '../../index' {
      *   type: 'image',
      *   success: function (res) {
      *     // tempFilePath可以作为img标签的src属性显示图片
-     *     const tempFilePaths = res.tempFilePaths
+     *     const tempFilePaths = res.tempFiles
      *   }
      * })
      * ```
@@ -369,7 +431,7 @@ declare module '../../index' {
 
     /**
      * 从本地相册选择图片或使用相机拍照。
-     * @supported weapp, h5, rn, alipay, swan, tt
+     * @supported weapp, alipay, swan, tt, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * Taro.chooseImage({
@@ -385,5 +447,23 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.chooseImage.html
      */
     chooseImage(option: chooseImage.Option): Promise<chooseImage.SuccessCallbackResult>
+
+    /**
+     * 裁剪图片接口
+     * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.cropImage({
+     *   src: '', // 图片路径
+     *   cropScale: '1:1', // 裁剪比例
+     *   success: function (res) {
+     *     // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+     *     var tempFilePaths = res.tempFilePaths
+     *   }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.cropImage.html
+     */
+    cropImage(option: cropImage.Option): Promise<cropImage.SuccessCallbackResult>
   }
 }

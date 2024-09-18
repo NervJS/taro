@@ -1,8 +1,9 @@
+import * as React from 'react'
 import {
-  StyleSheet,
   StyleProp,
-  ViewStyle,
-  TextStyle
+  StyleSheet,
+  TextStyle,
+  ViewStyle
 } from 'react-native'
 
 // @see https://facebook.github.io/react-native/docs/layout-props.html
@@ -35,7 +36,7 @@ export const omit = (obj: any = {}, fields: string[] = []): { [key: string]: any
   return shallowCopy
 }
 
-export const dismemberStyle = (style?: StyleProp<ViewStyle>): { wrapperStyle: ViewStyle; innerStyle: ViewStyle } => {
+export const dismemberStyle = (style?: StyleProp<ViewStyle>): { wrapperStyle: ViewStyle, innerStyle: ViewStyle } => {
   const flattenStyle: ViewStyle & { [key: string]: any } = StyleSheet.flatten(style)
   const wrapperStyle: ViewStyle & { [key: string]: any } = {}
   const innerStyle: ViewStyle & { [key: string]: any } = {}
@@ -80,9 +81,21 @@ export const parseStyles = (styles = ''): { [key: string]: string } => {
 // eslint-disable-next-line
 export const noop = (..._args: any[]): void => {}
 
-export default {
-  omit,
-  dismemberStyle,
-  parseStyles,
-  noop,
+export const useUpdateEffect = (effect, deps) => {
+  const isMounted = React.useRef(false)
+
+  // for react-refresh
+  React.useEffect(() => {
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true
+    } else {
+      return effect()
+    }
+  }, deps)
 }

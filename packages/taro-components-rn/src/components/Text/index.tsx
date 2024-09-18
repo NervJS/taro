@@ -8,6 +8,7 @@ import * as React from 'react'
 import {
   Text
 } from 'react-native'
+
 import { TextProps } from './PropsType'
 
 const _Text: React.FC<TextProps> = ({
@@ -16,7 +17,7 @@ const _Text: React.FC<TextProps> = ({
   selectable,
   onClick,
   ...otherProps
-}: TextProps) => {
+}) => {
   return (
     <Text
       selectable={!!selectable}

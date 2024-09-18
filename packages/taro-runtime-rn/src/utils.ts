@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 import { CallbackResult, OptionsFunc } from './types/index'
 
 export const incrementId = () => {
@@ -35,12 +34,13 @@ export const incrementId = () => {
   }
 }
 
-
-export function isFunction (o: unknown): boolean {
+export function isFunction (o: unknown): o is (...args: any[]) => any {
   return typeof o === 'function'
 }
 
 export const EMPTY_OBJ: any = {}
+
+export const HOOKS_APP_ID = 'taro-app'
 
 export const isArray = Array.isArray
 
@@ -58,4 +58,8 @@ export function errorHandler (fail: OptionsFunc | undefined, complete: OptionsFu
     complete && isFunction(complete) && complete(res)
     return Promise.reject(res)
   }
+}
+
+export function getPageStr (path: string):string {
+  return path.replace(/\//g, '')
 }

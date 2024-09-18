@@ -1,40 +1,75 @@
 {
   "name": "@tarojs/taroize",
-  "version": "3.5.3",
+  "version": "4.0.5",
   "description": "转换原生微信小程序代码为 Taro 代码",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "files": [
     "index.js",
     "lib"
   ],
   "scripts": {
-    "test": "jest",
+    "prod": "pnpm run build",
     "build": "tsc",
-    "dev": "tsc -w --pretty"
+    "dev": "tsc -w --pretty",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write \"{src, __tests__}/**/*.{ts,tsx,js,jsx}\" && eslint src __tests__ --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
+    "test": "jest",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
+    "test:clear": "jest --clearCache",
+    "test:coverage": "jest --coverage",
+    "updateSnapshot": "jest --updateSnapshot"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/NervJS/taro/tree/master/packages/taroize"
   },
-  "author": "yuche",
-  "license": "MIT",
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/taroize/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/util.ts"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/__tests__/*",
+      "/src/vue.ts"
+    ],
+    "transformIgnorePatterns": [
+      "@taro-helper/node_modules/"
+    ]
+  },
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
-    "@babel/code-frame": "^7.14.5",
-    "babel-core": "^6.26.3",
-    "babel-generator": "^6.26.1",
-    "babel-template": "^6.26.0",
-    "babel-traverse": "^6.26.0",
-    "babel-types": "^6.26.0",
-    "babylon": "^6.18.0",
-    "better-babel-generator": "6.26.1",
+    "@babel/code-frame": "^7.24.2",
+    "@babel/generator": "^7.24.4",
+    "@babel/parser": "^7.24.4",
+    "@babel/template": "^7.24.0",
+    "@babel/traverse": "^7.24.1",
+    "@babel/types": "^7.24.0",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "himalaya-wxml": "^1.1.0",
-    "html": "^1.0.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "prettier": "^2.8.8"
   },
   "devDependencies": {
-    "@types/babel-traverse": "6.25.6"
-  },
-  "publishConfig": {
-    "access": "public"
+    "@types/babel__generator": "^7.6.8",
+    "@types/babel__template": "^7.4.4",
+    "@types/babel__traverse": "^7.20.5"
   }
 }

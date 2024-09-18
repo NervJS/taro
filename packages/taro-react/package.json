@@ -1,12 +1,12 @@
 {
   "name": "@tarojs/react",
-  "version": "3.5.3",
+  "version": "4.0.5",
   "description": "like react-dom, but for mini apps.",
-  "author": "yuche <i@yuche.me>",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-react#readme",
+  "author": "O2Team",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/react.esm.js",
   "module": "dist/react.esm.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -15,21 +15,29 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
+    "prod": "pnpm run build",
     "test": "jest --collectCoverage",
-    "test:ci": "jest --ci -i --coverage false",
+    "test:ci": "jest --ci -i --coverage --silent",
     "build": "rollup -c",
     "dev": "rollup -c -w"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
-  "dependencies": {
-    "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "react-reconciler": "0.27.0",
-    "scheduler": "^0.20.1"
+  "engines": {
+    "node": ">= 18"
   },
-  "publishConfig": {
-    "access": "public"
+  "dependencies": {
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "react-reconciler": "0.29.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.79",
+    "@types/react-reconciler": "^0.28.8",
+    "react": "^18.2.0"
+  },
+  "peerDependencies": {
+    "react": "^18"
   }
 }

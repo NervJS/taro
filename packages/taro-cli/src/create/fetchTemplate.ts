@@ -1,18 +1,20 @@
-import { chalk } from '@tarojs/helper'
+import * as path from 'node:path'
+
+import { chalk, fs } from '@tarojs/helper'
 import * as AdmZip from 'adm-zip'
+import axios from 'axios'
 import * as download from 'download-git-repo'
-import * as fs from 'fs-extra'
 import * as ora from 'ora'
-import * as path from 'path'
-import * as request from 'request'
 
 import { getTemplateSourceType, readDirWithFileTypes } from '../util'
-import { TEMPLATE_CREATOR } from './init'
+import { TEMPLATE_CREATOR } from './constants'
 
 export interface ITemplates {
   name: string
+  value: string
   platforms?: string | string[]
   desc?: string
+  compiler?: string[]
 }
 
 const TEMP_DOWNLOAD_FOLDER = 'taro-temp'
@@ -21,11 +23,11 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
   const type = getTemplateSourceType(templateSource)
   const tempPath = path.join(templateRootPath, TEMP_DOWNLOAD_FOLDER)
   let name: string
-
   // eslint-disable-next-line no-async-promise-executor
   return new Promise<void>(async (resolve) => {
     // 下载文件的缓存目录
     if (fs.existsSync(tempPath)) await fs.remove(tempPath)
+    await fs.mkdirp(templateRootPath)
     await fs.mkdir(tempPath)
 
     const spinner = ora(`正在从 ${templateSource} 拉取远程模板...`).start()
@@ -45,34 +47,41 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
         resolve()
       })
     } else if (type === 'url') {
-      const zipPath = path.join(tempPath, 'temp.zip')
-      request
-        .get(templateSource)
-        .on('close', () => {
-          // unzip
-          const zip = new AdmZip(zipPath)
-          zip.extractAllTo(tempPath, true)
-          const files = readDirWithFileTypes(tempPath).filter(
-            file => !file.name.startsWith('.') && file.isDirectory && file.name !== '__MACOSX'
-          )
-          if (files.length !== 1) {
-            spinner.color = 'red'
-            spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${new Error('远程模板源组织格式错误')}`))
-            return resolve()
-          }
+      // url 模板源，因为不知道来源名称，临时取名方便后续开发者从列表中选择
+      name = 'from-remote-url'
+      const zipPath = path.join(tempPath, name + '.zip')
+      const unZipPath = path.join(tempPath, name)
+      axios.get<fs.ReadStream>(templateSource, { responseType: 'stream' })
+        .then(response => {
+          const ws = fs.createWriteStream(zipPath)
+          response.data.pipe(ws)
+          ws.on('finish', () => {
+            // unzip
+            const zip = new AdmZip(zipPath)
+            zip.extractAllTo(unZipPath, true)
+            const files = readDirWithFileTypes(unZipPath).filter(
+              file => !file.name.startsWith('.') && file.isDirectory && file.name !== '__MACOSX'
+            )
 
-          name = files[0].name
-          spinner.color = 'green'
-          spinner.succeed(`${chalk.grey('拉取远程模板仓库成功！')}`)
-          resolve()
+            if (files.length !== 1) {
+              spinner.color = 'red'
+              spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${new Error('远程模板源组织格式错误')}`))
+              return resolve()
+            }
+            name = path.join(name, files[0].name)
+
+            spinner.color = 'green'
+            spinner.succeed(`${chalk.grey('拉取远程模板仓库成功！')}`)
+            resolve()
+          })
+          ws.on('error', error => { throw error })
         })
-        .on('error', async err => {
+        .catch(async error => {
           spinner.color = 'red'
-          spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${err}`))
+          spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${error}`))
           await fs.remove(tempPath)
           return resolve()
         })
-        .pipe(fs.createWriteStream(zipPath))
     }
   }).then(async () => {
     const templateFolder = name ? path.join(tempPath, name) : ''
@@ -80,7 +89,10 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
     // 下载失败，只显示默认模板
     if (!fs.existsSync(templateFolder)) return Promise.resolve([])
 
-    const isTemplateGroup = !fs.existsSync(path.join(templateFolder, 'package.json'))
+    const isTemplateGroup = !(
+      fs.existsSync(path.join(templateFolder, 'package.json')) ||
+      fs.existsSync(path.join(templateFolder, 'package.json.tmpl'))
+    )
 
     if (isTemplateGroup) {
       // 模板组
@@ -99,32 +111,38 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
       const res: ITemplates[] = files.map(name => {
         const creatorFile = path.join(templateRootPath, name, TEMPLATE_CREATOR)
 
-        if (!fs.existsSync(creatorFile)) return { name }
-
-        const { platforms = '', desc = '' } = require(creatorFile)
+        if (!fs.existsSync(creatorFile)) return { name, value: name }
+        const { name: displayName, platforms = '', desc = '', isPrivate = false, compiler } = require(creatorFile)
+        if (isPrivate) return null
 
         return {
-          name,
+          name: displayName || name,
+          value: name,
           platforms,
+          compiler,
           desc
         }
-      })
+      }).filter(Boolean) as ITemplates[]
+
       return Promise.resolve(res)
     } else {
       // 单模板
       await fs.move(templateFolder, path.join(templateRootPath, name), { overwrite: true })
       await fs.remove(tempPath)
 
-      let res: ITemplates = { name }
+      let res: ITemplates = { name, value: name, desc: type === 'url' ? templateSource : '' }
+
       const creatorFile = path.join(templateRootPath, name, TEMPLATE_CREATOR)
 
       if (fs.existsSync(creatorFile)) {
-        const { platforms = '', desc = '' } = require(creatorFile)
+        const { name: displayName, platforms = '', desc = '', compiler } = require(creatorFile)
 
         res = {
-          name,
+          name: displayName || name,
+          value: name,
           platforms,
-          desc
+          compiler,
+          desc: desc || templateSource
         }
       }
 

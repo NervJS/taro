@@ -2,10 +2,6 @@
  * Video组件的样式参考了[uni-app](https://github.com/dcloudio/uni-app/tree/master/packages/uni-h5)的实现
  */
 
-import React, { Component } from 'react'
-// import Danmu from './danmu'
-// import Controls from './controls'
-import { formatTime } from './utils'
 import { VideoProps } from '@tarojs/components/types/Video'
 import {
   AVPlaybackStatus,
@@ -14,11 +10,17 @@ import {
   VideoFullscreenUpdateEvent,
   VideoReadyForDisplayEvent,
 } from 'expo-av'
-import Styles from './style'
-import View from '../View'
-import Text from '../Text'
+import React, { Component } from 'react'
+import { DimensionValue, ImageStyle } from 'react-native'
+
 import Image from '../Image'
+import Text from '../Text'
+import View from '../View'
 import { onFullscreenChangeEventDetail } from './PropsType'
+import Styles from './style'
+// import Danmu from './danmu'
+// import Controls from './controls'
+import { formatTime } from './utils'
 /**
  * @typedef {Object} Danmu
  * @property {string} text 弹幕文字
@@ -73,10 +75,12 @@ const ObjectFit = {
 
 declare const global: any
 
-global._taroVideoMap = {}
+global._taroVideoMap = global._taroVideoMap || {}
 
 interface Props extends VideoProps {
-  onLoad: () => void;
+  onLoad: () => void
+  // 兼容旧版本，可传入 style 对象
+  style?: any
 }
 
 class _Video extends Component<Props, any> {
@@ -136,9 +140,10 @@ class _Video extends Component<Props, any> {
   getToastVolumeBarRef: (ref: any) => void
   unbindTouchEvents: () => void
 
-  constructor({ props, context }: { props: Props; context: any }) {
-    super(props, context)
+  constructor(props: Props) {
+    super(props)
     const stateObj = this.props
+    const id = props.id
     this.videoRef = (React.createRef() as unknown) as Video
     this.state = Object.assign(
       {
@@ -151,6 +156,11 @@ class _Video extends Component<Props, any> {
       },
       stateObj
     )
+    this.getVideoRef = (ref: any) => {
+      if (!ref) return
+      this.videoRef = ref
+      id && (global._taroVideoMap[id] = ref)
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -258,18 +268,6 @@ class _Video extends Component<Props, any> {
     this.videoRef.dismissFullscreenPlayer()
   }
 
-  componentDidMount(): void {
-    const getRef = (refName: string) => {
-      const { id } = this.props
-      return (ref: any) => {
-        if (!ref) return
-        this[refName] = ref
-        id && (global._taroVideoMap[id] = ref)
-      }
-    }
-    this.getVideoRef = getRef('videoRef')
-  }
-
   static getDerivedStateFromProps(nProps: VideoProps): VideoProps {
     return nProps
   }
@@ -290,7 +288,7 @@ class _Video extends Component<Props, any> {
     const detail: onFullscreenChangeEventDetail = {
       fullScreen: fullscreenUpdate === PLAYER_WILL_PRESENT || fullscreenUpdate === PLAYER_DID_PRESENT,
       fullscreenUpdate,
-      direction: 1,
+      direction: 'vertical',
       ...status,
     }
     if (this.state.isFullScreen !== fullScreen) {
@@ -351,7 +349,7 @@ class _Video extends Component<Props, any> {
       isLooping: loop,
       isMuted: muted,
       positionMillis: initialTime,
-      style: Object.assign({ width: '100%', height: '100%' }, style as Record<string, unknown>),
+      style: Object.assign({ width: '100%', height: '100%' }, style) as Record<string, DimensionValue>,
       ref: this.getVideoRef,
       resizeMode: ObjectFit[objectFit],
       useNativeControls: controls,
@@ -377,7 +375,7 @@ class _Video extends Component<Props, any> {
           <View style={Styles['taro-video-cover']}>
             <Image
               src={require('../../assets/video/play.png')}
-              style={Styles['taro-video-cover-play-button']}
+              style={Styles['taro-video-cover-play-button'] as ImageStyle}
               onClick={this.clickPlayBtn}
             />
             <Text style={Styles['taro-video-cover-duration']}>{duration}</Text>

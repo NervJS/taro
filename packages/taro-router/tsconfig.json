@@ -3,10 +3,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
+    "esModuleInterop": true,
     "module": "ESNext",
     "outDir": "dist",
-    "sourceMap": false,
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["./src", "./types"]
+  "include": ["./src", "./types", "rollup.config.mts"]
 }

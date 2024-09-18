@@ -5,11 +5,12 @@
  * 依赖 react-native-pager-view 实现
  *
  */
-import ViewPager from 'react-native-pager-view'
 import React from 'react'
-import { StyleSheet, Text, View, Platform } from 'react-native'
-import { CarouselProps } from './PropsType'
+import { Platform, StyleSheet, Text, View } from 'react-native'
+import ViewPager from 'react-native-pager-view'
+
 import defaultPagination from './pagination'
+import { CarouselProps } from './PropsType'
 
 const styles = StyleSheet.create({
   wrapperStyle: {
@@ -25,7 +26,7 @@ const exchangePos = Platform.select({
 }) as number
 
 export interface CarouselState {
-  selectedIndex: number; // ViewPager 使用的 Index
+  selectedIndex: number // ViewPager 使用的 Index
 }
 
 class Carousel extends React.Component<CarouselProps, CarouselState> {
@@ -43,7 +44,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   viewPager = React.createRef<ViewPager>()
 
-  private autoplayTimer: number
+  private autoplayTimer: ReturnType<typeof setTimeout>
   private isScrolling: boolean
   private count: number
 
@@ -122,7 +123,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
 
     const count = this.count
-    let pages: React.ReactFragment
+    let pages: React.ReactNode
 
     if (count > 1) {
       const childrenArray = React.Children.toArray(children)
@@ -198,8 +199,6 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
           style={this.props.style}
           // Lib does not support dynamically orientation change
           orientation={vertical ? 'vertical' : 'horizontal'}
-          // Lib does not support dynamically transitionStyle change
-          transitionStyle="scroll"
           ref={this.viewPager as any}
         >
           {pages}

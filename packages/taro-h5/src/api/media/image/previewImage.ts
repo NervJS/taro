@@ -1,4 +1,11 @@
 import Taro from '@tarojs/api'
+import { SwiperProps } from '@tarojs/components'
+import {
+  defineCustomElementTaroSwiperCore,
+  defineCustomElementTaroSwiperItemCore,
+} from '@tarojs/components/dist/components'
+import { eventCenter } from '@tarojs/runtime'
+import { isFunction } from '@tarojs/shared'
 
 import { shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
@@ -11,6 +18,10 @@ import { MethodHandler } from '../../../utils/handler'
  * 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
  */
 export const previewImage: typeof Taro.previewImage = async (options) => {
+  // TODO 改为通过 window.__taroAppConfig 获取配置的 Swiper 插件创建节点
+  defineCustomElementTaroSwiperCore()
+  defineCustomElementTaroSwiperItemCore()
+
   function loadImage (url: string, loadFail: typeof fail): Promise<Node> {
     return new Promise((resolve) => {
       const item = document.createElement('taro-swiper-item-core')
@@ -19,12 +30,13 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
       image.style.maxWidth = '100%'
       image.src = url
       const div = document.createElement('div')
+      div.classList.add('swiper-zoom-container')
       div.style.cssText = 'display:flex;align-items:center;justify-content:center;max-width:100%;min-height:100%;'
       div.appendChild(image)
       item.appendChild(div)
       // Note: 等待图片加载完后返回，会导致轮播被卡住
       resolve(item)
-      if (typeof loadFail === 'function') {
+      if (isFunction(loadFail)) {
         image.addEventListener('error', (err) => {
           loadFail({ errMsg: err.message })
         })
@@ -43,24 +55,30 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
   const { urls = [], current = '', success, fail, complete } = options
   const handle = new MethodHandler({ name: 'previewImage', success, fail, complete })
   const container = document.createElement('div')
-  container.classList.add('preview-image')
-  container.style.cssText = 'position:fixed;top:0;left:0;z-index:1050;width:100%;height:100%;overflow:hidden;outline:0;background-color:#111;'
-  container.addEventListener('click', () => {
+  const removeHandler = () => {
+    eventCenter.off('__taroRouterChange', removeHandler)
     container.remove()
-  })
+  }
+  // 路由改变后应该关闭预览框
+  eventCenter.on('__taroRouterChange', removeHandler)
 
-  const swiper = document.createElement('taro-swiper-core')
+  container.classList.add('preview-image')
+  container.style.cssText =
+    'position:fixed;top:0;left:0;z-index:1050;width:100%;height:100%;overflow:hidden;outline:0;background-color:#111;'
+  container.addEventListener('click', removeHandler)
+
+  const swiper: HTMLElement & Omit<SwiperProps, 'style' | 'children'> = document.createElement('taro-swiper-core')
   // @ts-ignore
   swiper.full = true
+  // @ts-ignore
+  swiper.zoom = true
 
   let children: Node[] = []
   try {
-    children = await Promise.all(
-      urls.map(e => loadImage(e, fail))
-    )
+    children = await Promise.all(urls.map((e) => loadImage(e, fail)))
   } catch (error) {
     return handle.fail({
-      errMsg: error
+      errMsg: error,
     })
   }
 
@@ -69,8 +87,8 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
     swiper.appendChild(child)
   }
 
-  const currentIndex = urls.indexOf(current)
-  // @ts-ignore
+  const currentIndex = typeof current === 'number' ? current : urls.indexOf(current)
+
   swiper.current = currentIndex
 
   container.appendChild(swiper)

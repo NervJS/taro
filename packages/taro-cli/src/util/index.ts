@@ -1,6 +1,7 @@
-import { chalk, isWindows } from '@tarojs/helper'
-import * as fs from 'fs-extra'
-import * as path from 'path'
+import * as path from 'node:path'
+
+import { chalk, fs, isWindows } from '@tarojs/helper'
+import { exec } from 'child_process'
 
 export function getRootPath (): string {
   return path.resolve(__dirname, '../../')
@@ -99,4 +100,28 @@ export function clearConsole () {
     readline.cursorTo(process.stdout, 0, 0)
     readline.clearScreenDown(process.stdout)
   }
+}
+
+export function execCommand (params: {
+  command: string
+  successCallback?: (data: string) => void
+  failCallback?: (data: string) => void
+}) {
+  const { command, successCallback, failCallback } = params
+  const child = exec(command)
+  child.stdout!.on('data', function (data) {
+    successCallback?.(data)
+  })
+  child.stderr!.on('data', function (data) {
+    failCallback?.(data)
+  })
+}
+
+export function getPkgNameByFilterVersion (pkgString: string) {
+  const versionFlagIndex = pkgString.lastIndexOf('@')
+  return versionFlagIndex === 0 ? pkgString : pkgString.slice(0, versionFlagIndex)
+}
+
+export function isNil (value: any): value is null | undefined {
+  return value === null || value === undefined
 }

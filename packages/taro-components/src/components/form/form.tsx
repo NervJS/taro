@@ -1,62 +1,30 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Component, h, ComponentInterface, Event, EventEmitter, Element, Listen, State, Watch } from '@stencil/core'
+import { Component, h, ComponentInterface, Event, EventEmitter, Element, Listen } from '@stencil/core'
 
 @Component({
   tag: 'taro-form-core'
 })
 export class Form implements ComponentInterface {
   private form: HTMLFormElement
-  private value: {[propName: string]: any} = {}
-  private orginalAppendChild: <T extends Node>(newChild: T) => T
-  private orginalInsertBefore: <T extends Node>(newChild: T, refChild: Node | null) => T
-  private orginalReplaceChild: <T extends Node>(newChild: Node, oldChild: T) => T
-  private orginalRemoveChild: <T extends Node>(oldChild: T) => T
+  private originalAppendChild: <T extends Node>(newChild: T) => T
+  private originalInsertBefore: <T extends Node>(newChild: T, refChild: Node | null) => T
+  private originalReplaceChild: <T extends Node>(newChild: Node, oldChild: T) => T
+  private originalRemoveChild: <T extends Node>(oldChild: T) => T
+  #value: {[propName: string]: any} = {}
 
   @Element() el: HTMLElement
-
-  @State() slotParent: HTMLElement | null
 
   @Event({
     eventName: 'submit'
   }) onSubmit: EventEmitter
 
-  @Watch('slotParent')
-  watchSlotParent (newParent: HTMLElement | null) {
-    if (!this.orginalAppendChild) {
-      this.orginalAppendChild = this.el.appendChild
-      this.orginalInsertBefore = this.el.insertBefore
-      this.orginalReplaceChild = this.el.replaceChild
-      this.orginalRemoveChild = this.el.removeChild
-    }
-    if (!newParent) {
-      this.el.appendChild = this.orginalAppendChild
-      this.el.insertBefore = this.orginalInsertBefore
-      this.el.replaceChild = this.orginalReplaceChild
-      this.el.removeChild = this.orginalRemoveChild
-      return
-    }
-    this.el.appendChild = <T extends Node>(newChild: T): T => {
-      return newParent.appendChild(newChild)
-    }
-    this.el.insertBefore = <T extends Node>(newChild: T, refChild: Node | null): T => {
-      return newParent.insertBefore(newChild, refChild)
-    }
-    this.el.replaceChild = <T extends Node>(newChild: Node, oldChild: T): T => {
-      return newParent.replaceChild(newChild, oldChild)
-    }
-    this.el.removeChild = <T extends Node>(oldChild: T): T => {
-      return newParent.removeChild(oldChild)
-    }
-  }
-
   @Listen('tarobuttonsubmit')
   onButtonSubmit (e: Event) {
     e.stopPropagation()
 
-    this.value = this.getFormValue()
+    this.#value = this.getFormValue()
 
     this.onSubmit.emit({
-      value: this.value
+      value: this.#value
     })
   }
 
@@ -67,16 +35,40 @@ export class Form implements ComponentInterface {
   }
 
   componentDidLoad () {
-    this.value = this.getFormValue()
+    this.#value = this.getFormValue()
 
     Object.defineProperty(this.el, 'value', {
-      get: () => this.value,
+      get: () => this.#value,
       configurable: true
     })
   }
 
   componentDidRender () {
-    this.setSlotParent(this.form)
+    if (!this.originalAppendChild) {
+      this.originalAppendChild = this.el.appendChild
+      this.originalInsertBefore = this.el.insertBefore
+      this.originalReplaceChild = this.el.replaceChild
+      this.originalRemoveChild = this.el.removeChild
+    }
+    if (!this.form) {
+      this.el.appendChild = this.originalAppendChild
+      this.el.insertBefore = this.originalInsertBefore
+      this.el.replaceChild = this.originalReplaceChild
+      this.el.removeChild = this.originalRemoveChild
+      return
+    }
+    this.el.appendChild = <T extends Node>(newChild: T): T => {
+      return this.form.appendChild(newChild)
+    }
+    this.el.insertBefore = <T extends Node>(newChild: T, refChild: Node | null): T => {
+      return this.form.insertBefore(newChild, refChild)
+    }
+    this.el.replaceChild = <T extends Node>(newChild: Node, oldChild: T): T => {
+      return this.form.replaceChild(newChild, oldChild)
+    }
+    this.el.removeChild = <T extends Node>(oldChild: T): T => {
+      return this.form.removeChild(oldChild)
+    }
   }
 
   getFormValue () {
@@ -89,6 +81,7 @@ export class Form implements ComponentInterface {
     const formItem = {}
     const hash = {}
     elements.forEach(item => {
+      if (typeof item.name !== 'string') return
       if (item.className.indexOf('weui-switch') !== -1) {
         formItem[item.name] = item.checked
         return
@@ -130,22 +123,17 @@ export class Form implements ComponentInterface {
       textareaEleArr.push(textareaElements[i])
     }
     textareaEleArr.forEach(v => {
+      if (typeof v.name !== 'string') return
       formItem[v.name] = v.value
     })
     return formItem
-  }
-
-  setSlotParent (el: HTMLElement | null) {
-    this.slotParent = el
   }
 
   render () {
     return (
       <form
         ref={dom => {
-          if (dom) {
-            this.form = dom
-          }
+          this.form = dom!
         }}
       >
         <slot />

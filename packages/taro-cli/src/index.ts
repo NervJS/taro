@@ -1,15 +1,24 @@
-import Convertor from './convertor'
+import Creator from './create/creator'
 import Project from './create/project'
 import doctor from './doctor'
+import { getRootPath } from './util'
+import { type ConfigEnv, type UserConfigExport, type UserConfigFn, defineConfig } from './util/defineConfig'
 
 export default {
-  Convertor,
   doctor,
-  Project
+  Project,
+  Creator,
+  defineConfig,
+  getRootPath
 }
 
 export {
-  Convertor,
+  type ConfigEnv,
+  type UserConfigExport,
+  type UserConfigFn,
+  Creator,
+  defineConfig,
   doctor,
+  getRootPath,
   Project
 }

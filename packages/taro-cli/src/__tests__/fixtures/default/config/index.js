@@ -19,7 +19,18 @@ const config = {
     }
   },
   framework: 'react',
+  compiler: {
+    type: 'webpack5',
+    prebundle: {
+      enable: false
+    }
+  },
   mini: {
+    output: {
+      clean: {
+        keep: ['project.config.json']
+      }
+    },
     postcss: {
       pxtransform: {
         enable: true,
@@ -43,6 +54,9 @@ const config = {
     }
   },
   h5: {
+    output: {
+      clean: false
+    },
     publicPath: '/',
     staticDirectory: 'static',
     postcss: {

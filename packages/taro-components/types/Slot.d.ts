@@ -1,11 +1,13 @@
-import { ComponentType } from 'react'
+import { StandardProps } from './common'
 
-interface SlotProps {
+import type { ComponentType, ReactNode } from 'react'
+
+interface SlotProps extends StandardProps {
   /** 指定插入的 slot 位置
    * @default none
    * @supported weapp, swan, alipay, tt, jd, qq
    */
-  name?: string,
+  name?: string
   /** scoped slot 传入数据源
    * @default none
    * @supported swan
@@ -14,7 +16,8 @@ interface SlotProps {
 }
 
 /** slot 插槽
- * @supported weapp, swan, alipay, tt, jd, qq
+ * @classification viewContainer
+ * @supported weapp, swan, alipay, tt, jd, qq, h5, harmony_hybrid
  * @example
  * ```tsx
  * import { Slot, View, Text } from '@tarojs/components'

@@ -1,31 +1,26 @@
-import React from 'react'
+import { ViewPropTypes } from 'deprecated-react-native-prop-types'
 import PropTypes from 'prop-types'
+import React from 'react'
 import {
-  View,
+  Platform,
+  StyleSheet,
   Text,
   TouchableHighlight,
-  StyleSheet,
-  Platform
+  View
 } from 'react-native'
-import { ViewPropTypes } from 'deprecated-react-native-prop-types'
-import { initialWindowMetrics } from 'react-native-safe-area-context';
-import { Mask } from '../Mask'
+import { initialWindowMetrics } from 'react-native-safe-area-context'
+
 import { Popup } from '../Popup'
 import V from '../variable'
 
 const styles = StyleSheet.create({
-  iosActionsheet: {
+  actionsheet: {
     backgroundColor: V.weuiBgColorDefault
   },
   androidActionsheetWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  androidActionsheet: {
-    width: 274,
-    backgroundColor: V.weuiBgColorDefault,
-    borderRadius: V.weuiActionSheetAndroidBorderRadius
   },
   actionsheetMenu: {
     backgroundColor: '#fff'
@@ -37,29 +32,23 @@ const styles = StyleSheet.create({
   actionsheetCell: {
     borderTopWidth: StyleSheet.hairlineWidth,
     borderColor: V.weuiCellBorderColor,
-    borderStyle: 'solid'
-  },
-  iosActionsheetCell: {
+    borderStyle: 'solid',
     paddingTop: 10,
-    paddingBottom: 10
-  },
-  androidActionsheetCell: {
-    paddingTop: 13,
-    paddingBottom: 13,
+    paddingBottom: 10,
     paddingLeft: 24,
     paddingRight: 24
   },
+
   firstActionsheetCell: {
     borderTopWidth: 0
   },
-  iosActionsheetCellText: {
+  actionSheetCellText: {
     textAlign: 'center',
     fontSize: 18,
     marginTop: ((18 * V.baseLineHeight) - 18) / 2,
     marginBottom: ((18 * V.baseLineHeight) - 18) / 2
   },
   androidActionsheetCellText: {
-    textAlign: 'left',
     fontSize: 16,
     marginTop: ((16 * 1.4) - 16) / 2,
     marginBottom: ((16 * 1.4) - 16) / 2
@@ -106,7 +95,6 @@ const Index: React.FC<any> = ({
         underlayColor={underlayColor}
         style={[
           styles.actionsheetCell,
-          styles[`${_type}ActionsheetCell`],
           idx === 0 ? styles.firstActionsheetCell : {},
           btnStyle
         ]}
@@ -114,6 +102,8 @@ const Index: React.FC<any> = ({
       >
         <Text
           style={[
+
+            styles.actionSheetCellText,
             styles[`${_type}ActionsheetCellText`],
             styles[`${btnType}ActionsheetCellText`],
             textStyle
@@ -129,7 +119,6 @@ const Index: React.FC<any> = ({
         underlayColor={underlayColor}
         style={[
           styles.actionsheetCell,
-          styles[`${_type}ActionsheetCell`],
           idx === 0 ? styles.firstActionsheetCell : {},
           btnStyle
         ]}
@@ -137,6 +126,7 @@ const Index: React.FC<any> = ({
       >
         <Text
           style={[
+            styles.actionSheetCellText,
             styles[`${_type}ActionsheetCellText`],
             styles[`${btnType}ActionsheetCellText`],
             textStyle
@@ -145,49 +135,30 @@ const Index: React.FC<any> = ({
       </TouchableHighlight>
     )
 
-  return _type === 'ios'
-    ? <Popup
-      visible={visible}
-      style={[styles.iosActionsheet, style]}
-      maskStyle={maskStyle}
-      onShow={onShow}
-      onClose={onClose}
-    >
-      {menus.length
-        ? <View style={[styles.actionsheetMenu]}>
-          {_renderMenuItems()}
-        </View>
-        : false}
-      {actions.length
-        ? <View style={[styles.actionsheetAction]}>
-          {_renderActions()}
-        </View>
-        : false}
-      <View style={{paddingBottom: Math.max(initialWindowMetrics?.insets.bottom || 0, 16), backgroundColor: '#fff'}}></View>
-    </Popup>
-    : <View
-      style={styles.Modal}
-    >
-      <Mask style={[styles.androidActionsheetWrapper, maskStyle]} onPress={onClose}>
-        <View style={[styles.androidActionsheet, style]}>
-          {menus.length
-            ? <View style={[styles.actionsheetMenu]}>
-              {_renderMenuItems()}
-            </View>
-            : false}
-          {actions.length
-            ? <View style={[styles.actionsheetAction]}>
-              {_renderActions()}
-            </View>
-            : false}
-        </View>
-      </Mask>
-    </View>
+  return <Popup
+    visible={visible}
+    style={[styles.actionsheet, style]}
+    maskStyle={maskStyle}
+    onShow={onShow}
+    onClose={onClose}
+  >
+    {menus.length
+      ? <View style={[styles.actionsheetMenu]}>
+        {_renderMenuItems()}
+      </View>
+      : false}
+    {actions.length
+      ? <View style={[styles.actionsheetAction]}>
+        {_renderActions()}
+      </View>
+      : false}
+    <View style={{ paddingBottom: Math.max(initialWindowMetrics?.insets.bottom || 0, 16), backgroundColor: '#fff' }}></View>
+  </Popup>
 }
 
 Index.propTypes = {
   autoDectect: PropTypes.bool,
-  type: PropTypes.oneOf(['ios', 'android']),
+  type: PropTypes.oneOf(['ios', 'android', 'harmony']),
   menus: PropTypes.any,
   actions: PropTypes.any,
   visible: PropTypes.bool,

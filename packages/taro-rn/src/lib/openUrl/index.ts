@@ -1,5 +1,6 @@
 import { Linking } from 'react-native'
-import { successHandler, errorHandler } from '../../utils'
+
+import { errorHandler, successHandler } from '../../utils'
 
 export async function openUrl <T>(opts: Taro.OpenUrl.Option): Promise<T> {
   const { url, success, fail, complete } = opts || {} as Taro.OpenUrl.Option

@@ -10,9 +10,10 @@
 
 'use strict'
 
+import * as ReactPropTypes from 'prop-types'
+
 import ColorPropType from './ColorPropType'
 import LayoutPropTypes from './LayoutPropTypes'
-import * as ReactPropTypes from 'prop-types'
 import ShadowPropTypesIOS from './ShadowPropTypesIOS'
 import TransformPropTypes from './TransformPropTypes'
 
@@ -26,6 +27,9 @@ const ViewStylePropTypes = {
   backfaceVisibility: ReactPropTypes.oneOf(['visible', 'hidden']),
   backgroundColor: ColorPropType,
   borderColor: ColorPropType,
+  borderBlockColor: ColorPropType,
+  borderBlockStartColor: ColorPropType,
+  borderBlockEndColor: ColorPropType,
   borderTopColor: ColorPropType,
   borderRightColor: ColorPropType,
   borderBottomColor: ColorPropType,
@@ -41,6 +45,10 @@ const ViewStylePropTypes = {
   borderBottomRightRadius: ReactPropTypes.number,
   borderBottomStartRadius: ReactPropTypes.number,
   borderBottomEndRadius: ReactPropTypes.number,
+  borderStartStartRadius: ReactPropTypes.number,
+  borderStartEndRadius: ReactPropTypes.number,
+  borderEndStartRadius: ReactPropTypes.number,
+  borderEndEndRadius: ReactPropTypes.number,
   borderStyle: ReactPropTypes.oneOf(['solid', 'dotted', 'dashed']),
   borderWidth: ReactPropTypes.number,
   borderTopWidth: ReactPropTypes.number,
@@ -48,6 +56,9 @@ const ViewStylePropTypes = {
   borderBottomWidth: ReactPropTypes.number,
   borderLeftWidth: ReactPropTypes.number,
   opacity: ReactPropTypes.number,
+  pointerEvents: ReactPropTypes.oneOf(['box-none', 'none', 'box-only', 'auto']),
+  cursor: ReactPropTypes.oneOf(['auto', 'pointer']),
+
   /**
    * (Android-only) Sets the elevation of a view, using Android's underlying
    * [elevation API](https://developer.android.com/training/material/shadows-clipping.html#Elevation).
@@ -55,7 +66,13 @@ const ViewStylePropTypes = {
    * Only supported on Android 5.0+, has no effect on earlier versions.
    * @platform android
    */
-  elevation: ReactPropTypes.number
+  elevation: ReactPropTypes.number,
+
+  /**
+   * On iOS 13+, it is possible to change the corner curve of borders.
+   * @platform ios
+   */
+  borderCurve: ReactPropTypes.oneOf(['circular', 'continuous'])
 }
 
 export default ViewStylePropTypes

@@ -1,37 +1,43 @@
 {
   "name": "@tarojs/plugin-html",
-  "version": "3.5.3",
+  "version": "4.0.5",
   "description": "Taro 小程序端支持使用 HTML 标签的插件",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
+    "prod": "pnpm run build",
     "dev": "rollup -c -w",
-    "build": "rollup -c",
-    "test": "jest",
-    "test:dev": "jest --watch"
+    "build": "rollup -c"
   },
   "files": [
     "src",
     "dist",
-    "index.js",
-    "package.json"
+    "index.js"
   ],
+  "keywords": [
+    "Taro"
+  ],
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
   },
-  "keywords": [
-    "Taro"
-  ],
-  "author": "luckyadam",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/NervJS/taro/issues"
+  "engines": {
+    "node": ">= 18"
   },
-  "homepage": "https://github.com/NervJS/taro#readme",
-  "dependencies": {
-    "@babel/parser": "^7.14.5",
+  "devDependencies": {
+    "@tarojs/helper": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*"
   }
 }

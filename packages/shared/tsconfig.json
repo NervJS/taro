@@ -4,8 +4,7 @@
     "baseUrl": ".",
     "outDir": "dist",
     "module": "ESNext",
-    "declaration": true,
-    "sourceMap": true
+    "declaration": true
   },
-  "include": ["src"]
+  "include": ["./src", "rollup.config.ts"]
 }

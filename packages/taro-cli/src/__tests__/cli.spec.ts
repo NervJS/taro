@@ -39,18 +39,31 @@ describe('inspect', () => {
         'build'
       ],
       options: {
+        args: expect.any(Object),
         platform: undefined,
+        publicPath: undefined,
         isWatch: false,
+        withoutBuild: false,
         env: undefined,
-        blended: false
+        blended: false,
+        assetsDest: undefined,
+        bundleOutput: undefined,
+        plugin: undefined,
+        isBuildNativeComp: false,
+        newBlended: false,
+        noInjectGlobalStyle: false,
+        noCheck: false,
+        sourceMapUrl: undefined,
+        sourcemapOutput: undefined,
+        sourcemapSourcesRoot: undefined,
       },
       isHelp: false
     }
 
-    it('should make configs', () => {
+    it('should make configs', async () => {
       const platform = 'weapp'
       setProcessArgv('taro build --type weapp --watch --port 8080')
-      cli.run()
+      await cli.run()
       const ins = MockedKernel.mock.instances[0]
 
       const opts = Object.assign({}, baseOpts)
@@ -69,16 +82,16 @@ describe('inspect', () => {
       })
     })
 
-    it('should not set node env again', () => {
+    it('should not set node env again', async () => {
       process.env.NODE_ENV = 'development'
       setProcessArgv('taro build --type weapp')
-      cli.run()
+      await cli.run()
       expect(process.env.NODE_ENV).toEqual('development')
     })
 
-    it.skip('should make plugin config', () => {
+    it.skip('should make plugin config', async () => {
       setProcessArgv('taro build --plugin')
-      cli.run()
+      await cli.run()
       const ins = MockedKernel.mock.instances[0]
       expect(ins.run).toHaveBeenCalledWith({
         name: 'build',
@@ -93,13 +106,13 @@ describe('inspect', () => {
   })
 
   describe('init', () => {
-    it('should make configs', () => {
+    it('should make configs', async () => {
       const projectName = 'temp'
       const templateSource = 'https://url'
       const template = 'mobx'
       const css = 'sass'
       setProcessArgv('taro init temp --typescript --template-source=https://url --clone --template mobx --css sass')
-      cli.run()
+      await cli.run()
       const ins = MockedKernel.mock.instances[0]
       expect(ins.run).toHaveBeenCalledWith({
         name: 'init',
@@ -123,10 +136,10 @@ describe('inspect', () => {
       })
     })
 
-    it('should set project name', () => {
+    it('should set project name', async () => {
       const projectName = 'demo'
       setProcessArgv('taro init --name demo')
-      cli.run()
+      await cli.run()
       const ins = MockedKernel.mock.instances[0]
       expect(ins.run).toHaveBeenCalledWith({
         name: 'init',
@@ -151,15 +164,19 @@ describe('inspect', () => {
   })
 
   describe('convert', () => {
-    it('should make configs', () => {
+    it('should make configs', async () => {
       setProcessArgv('taro convert')
-      cli.run()
+      await cli.run()
       const ins = MockedKernel.mock.instances[0]
       expect(ins.run).toHaveBeenCalledWith({
         name: 'convert',
         opts: {
           _: ['convert'],
-          options: {},
+          options: {
+            build: true,
+            check: true,
+            'inject-global-style': true,
+          },
           isHelp: false
         }
       })
@@ -167,18 +184,21 @@ describe('inspect', () => {
   })
 
   describe('customCommand', () => {
-    it('should make configs', () => {
+    it('should make configs', async () => {
       const cmd = 'inspect'
       const _ = [cmd, 'entry']
       const type = 'weapp'
       setProcessArgv('taro inspect entry --type weapp -h --version')
-      cli.run()
+      await cli.run()
       const ins = MockedKernel.mock.instances[0]
       expect(ins.run).toHaveBeenCalledWith({
         name: cmd,
         opts: {
           _,
           options: {
+            build: true,
+            check: true,
+            'inject-global-style': true,
             type
           },
           isHelp: true
@@ -188,23 +208,23 @@ describe('inspect', () => {
   })
 
   describe('others', () => {
-    it('should log helps', () => {
+    it('should log helps', async () => {
       const spy = jest.spyOn(console, 'log')
       spy.mockImplementation(() => {})
 
       setProcessArgv('taro -h')
-      cli.run()
-      expect(spy).toBeCalledTimes(17)
+      await cli.run()
+      expect(spy).toBeCalledTimes(16)
 
       spy.mockRestore()
     })
 
-    it('should log version', () => {
+    it('should log version', async () => {
       const spy = jest.spyOn(console, 'log')
       spy.mockImplementation(() => {})
 
       setProcessArgv('taro -v')
-      cli.run()
+      await cli.run()
       expect(spy).toBeCalledWith(getPkgVersion())
 
       spy.mockRestore()

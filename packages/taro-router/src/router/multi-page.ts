@@ -1,24 +1,26 @@
 /* eslint-disable dot-notation */
-import { Current, PageInstance } from '@tarojs/runtime'
-import type { PageConfig } from '@tarojs/taro'
+import { addLeadingSlash, Current, eventCenter, stripBasename } from '@tarojs/runtime'
 import queryString from 'query-string'
 
-import type { MpaRouterConfig, Route } from '../../types/router'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
-import { setHistoryMode } from '../history'
-import { initTabbar } from '../tabbar'
-import { addLeadingSlash, stripBasename } from '../utils'
+import { setHistory } from '../history'
+import { loadRouterStyle } from '../style'
+
+import type { PageInstance } from '@tarojs/runtime'
+import type { PageConfig } from '@tarojs/taro'
+import type { History } from 'history'
+import type { MpaRouterConfig, Route } from '../../types/router'
 
 export default class MultiPageHandler {
   protected config: MpaRouterConfig
 
-  constructor (config: MpaRouterConfig) {
+  constructor (config: MpaRouterConfig, public history: History) {
     this.config = config
     this.mount()
   }
 
-  get appId () { return 'app' }
+  get appId () { return this.config.appId || 'app' }
   get router () { return this.config.router || {} }
   get routerMode () { return this.router.mode || 'hash' }
   get customRoutes () { return this.router.customRoutes || {} }
@@ -48,6 +50,17 @@ export default class MultiPageHandler {
 
   get search () { return location.search.substr(1) }
 
+  get usingWindowScroll () {
+    let usingWindowScroll = true
+    if (typeof this.pageConfig?.usingWindowScroll === 'boolean') {
+      usingWindowScroll = this.pageConfig.usingWindowScroll
+    }
+    const win = window as any
+    win.__taroAppConfig ||= {}
+    win.__taroAppConfig.usingWindowScroll = usingWindowScroll
+    return usingWindowScroll
+  }
+
   getQuery (search = '', options: Record<string, unknown> = {}) {
     search = search ? `${search}&${this.search}` : this.search
     const query = search
@@ -56,38 +69,36 @@ export default class MultiPageHandler {
     return { ...query, ...options }
   }
 
-  mount () {
-    setHistoryMode(this.routerMode, this.router.basename)
-    document.getElementById('app')?.remove()
-
-    const app = document.createElement('div')
-    app.id = this.appId
-    app.classList.add('taro_router')
-
-    if (this.tabBarList.length > 1) {
-      const container = document.createElement('div')
-      container.classList.add('taro-tabbar__container')
-      container.id = 'container'
-
-      const panel = document.createElement('div')
-      panel.classList.add('taro-tabbar__panel')
-
-      panel.appendChild(app)
-      container.appendChild(panel)
-
-      document.body.appendChild(container)
-
-      initTabbar(this.config)
-    } else {
-      document.body.appendChild(app)
+  isDefaultNavigationStyle () {
+    let style = this.config.window?.navigationStyle
+    if (typeof this.pageConfig?.navigationStyle === 'string') {
+      style = this.pageConfig.navigationStyle
     }
+    return style !== 'custom'
+  }
+
+  mount () {
+    setHistory(this.history, this.basename)
+    // Note: 注入页面样式
+    loadRouterStyle(this.tabBarList.length > 1, this.usingWindowScroll)
   }
 
   onReady (page: PageInstance, onLoad = true) {
     const pageEl = this.getPageContainer(page)
     if (pageEl && !pageEl?.['__isReady']) {
       const el = pageEl.firstElementChild
-      el?.['componentOnReady']?.()
+      const componentOnReady = el?.['componentOnReady']
+      if (componentOnReady) {
+        componentOnReady?.().then(() => {
+          requestAnimationFrame(() => {
+            page.onReady?.()
+            pageEl!['__isReady'] = true
+          })
+        })
+      } else {
+        page.onReady?.()
+        pageEl!['__isReady'] = true
+      }
       onLoad && (pageEl['__page'] = page)
     }
   }
@@ -97,10 +108,16 @@ export default class MultiPageHandler {
 
     page.onLoad?.(this.getQuery('', page.options), () => {
       const pageEl = this.getPageContainer(page)
-      this.isTabBar && pageEl?.classList.add('taro_tabbar_page')
+      if (this.isTabBar) {
+        pageEl?.classList.add('taro_tabbar_page')
+      }
+      if (this.isDefaultNavigationStyle()) {
+        pageEl?.classList.add('taro_navigation_page')
+      }
       this.onReady(page, true)
       page.onShow?.()
-      this.bindPageEvents(page, pageEl, pageConfig)
+      this.bindPageEvents(page, pageConfig)
+      this.triggerRouterChange()
     })
   }
 
@@ -114,15 +131,32 @@ export default class MultiPageHandler {
       ? document.querySelector(`.taro_page#${id}`)
       : document.querySelector('.taro_page') ||
     document.querySelector('.taro_router')) as HTMLDivElement
-    return el || window
+    return el
   }
 
-  bindPageEvents (page: PageInstance, pageEl?: HTMLElement | null, config: Partial<PageConfig> = {}) {
-    if (!pageEl) {
-      pageEl = this.getPageContainer() as HTMLElement
-    }
+  getScrollingElement (page?: PageInstance | null) {
+    if (this.usingWindowScroll) return window
+    return this.getPageContainer(page) || window
+  }
+
+  bindPageEvents (page: PageInstance, config: Partial<PageConfig> = {}) {
+    const scrollEl = this.getScrollingElement(page)
     const distance = config.onReachBottomDistance || this.config.window?.onReachBottomDistance || 50
-    bindPageScroll(page, pageEl, distance)
+    bindPageScroll(page, scrollEl, distance)
     bindPageResize(page)
+  }
+
+  triggerRouterChange () {
+    /**
+     * @tarojs/runtime 中生命周期跑在 promise 中，所以这里需要 setTimeout 延迟事件调用
+     * TODO 考虑将生命周期返回 Promise，用于处理相关事件调用顺序
+     */
+    setTimeout(() => {
+      eventCenter.trigger('__afterTaroRouterChange', {
+        toLocation: {
+          path: this.pathname
+        }
+      })
+    }, 0)
   }
 }

@@ -18,9 +18,10 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
       if (scrollTop === undefined && !selector) {
         return handle.fail({
           errMsg: 'scrollTop" 或 "selector" 需要其之一'
-        }, reject)
+        }, { resolve, reject })
       }
 
+      const usingWindowScroll = (window as any).__taroAppConfig?.usingWindowScroll
       const id = Current.page?.path?.replace(/([^a-z0-9\u00a0-\uffff_-])/ig, '\\$1')
       const el: HTMLDivElement | null = (id
         ? document.querySelector(`.taro_page#${id}`)
@@ -28,7 +29,7 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
       document.querySelector('.taro_router')) as HTMLDivElement
 
       if (!scrollFunc) {
-        if (!el) {
+        if (usingWindowScroll) {
           scrollFunc = pos => {
             if (pos === undefined) {
               return window.pageYOffset
@@ -72,14 +73,14 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
             scroll(frame + 1)
           }, FRAME_DURATION)
         } else {
-          return handle.success({}, resolve)
+          return handle.success({}, { resolve, reject })
         }
       }
       scroll()
     } catch (e) {
       return handle.fail({
         errMsg: e.message
-      }, reject)
+      }, { resolve, reject })
     }
   })
 }

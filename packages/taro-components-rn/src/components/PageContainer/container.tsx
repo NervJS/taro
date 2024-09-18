@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React from 'react'
-import { View, StyleSheet, Animated, Easing, Dimensions } from 'react-native'
+import { Animated, Dimensions, Easing, StyleSheet, View } from 'react-native'
 
 import { PageContainerProps } from './PropsType'
 
@@ -10,8 +10,8 @@ const ScreenWidth = Dimensions.get('window').width
 class _Container extends React.Component<PageContainerProps, any> {
   y = 0
   x = 0
-  enterTimer: any
-  leaveTimer: any
+  enterTimer: ReturnType<typeof setTimeout>
+  leaveTimer: ReturnType<typeof setTimeout>
   constructor(props: PageContainerProps) {
     super(props)
     this.state = {

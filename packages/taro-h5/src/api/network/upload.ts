@@ -8,7 +8,7 @@ import {
   XHR_STATS
 } from './utils'
 
-const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout, fileName, success, error }): Taro.UploadTask => {
+const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout, fileName, withCredentials = true, success, error }): Taro.UploadTask => {
   let timeoutInter: ReturnType<typeof setTimeout>
   let formKey
   const apiName = 'uploadFile'
@@ -20,7 +20,7 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
   }
 
   xhr.open('POST', url)
-  xhr.withCredentials = true
+  xhr.withCredentials = !!withCredentials
   setHeader(xhr, header)
 
   for (formKey in formData) {
@@ -95,7 +95,7 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
       if (!fileName) {
         fileName = typeof fileObj !== 'string' && fileObj.name
       }
-      form.append(name, fileObj, fileName || `file-${Date.now()}`)
+      form.append(name, fileObj as Blob, fileName || `file-${Date.now()}`)
       send()
     })
     .catch(e => {
@@ -138,7 +138,7 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
 /**
  * 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 content-type 为 multipart/form-data。使用前请注意阅读相关说明。
  */
-export const uploadFile: typeof Taro.uploadFile = ({ url, filePath, name, header, formData, timeout, fileName, success, fail, complete }) => {
+export const uploadFile: typeof Taro.uploadFile = ({ url, filePath, name, header, formData, timeout, fileName, withCredentials, success, fail, complete }) => {
   let task!: Taro.UploadTask
   const result: ReturnType<typeof Taro.uploadFile> = new Promise((resolve, reject) => {
     task = createUploadTask({
@@ -149,6 +149,7 @@ export const uploadFile: typeof Taro.uploadFile = ({ url, filePath, name, header
       formData,
       timeout,
       fileName,
+      withCredentials,
       success: res => {
         success && success(res)
         complete && complete(res)
@@ -162,9 +163,16 @@ export const uploadFile: typeof Taro.uploadFile = ({ url, filePath, name, header
     })
   }) as any
 
-  result.headersReceive = task.onHeadersReceived
-  result.progress = task.onProgressUpdate
-  result.abort = task.abort
+  result.headersReceive = task.onHeadersReceived.bind(task)
+  result.progress = task.onProgressUpdate.bind(task)
 
-  return result
+  const properties = {}
+  Object.keys(task).forEach(key => {
+    properties[key] = {
+      get () {
+        return typeof task[key] === 'function' ? task[key].bind(task) : task[key]
+      }
+    }
+  })
+  return Object.defineProperties(result, properties)
 }

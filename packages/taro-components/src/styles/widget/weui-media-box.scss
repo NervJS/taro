@@ -1,0 +1,95 @@
+.weui-media-box {
+  padding: 15px; // 16px;
+  position: relative;
+  &::before {
+    @include setTopLine($weuiLineColorLight);
+
+    left: 15px; // 16px;
+  }
+  &:first-child {
+    &::before {
+      display: none;
+    }
+  }
+  &:active {
+    background-color:#ECECEC; // $weuiBgColorActive;
+  }
+}
+
+a.weui-media-box {
+  color: #000;
+  @include setTapColor();
+}
+
+.weui-media-box__title {
+  // display: block;
+  font-weight: 400;
+  font-size: 17px;
+  // line-height: 1.4;
+  word-wrap: break-word;
+  word-break: break-all;
+  // color: $weuiTextColorTitle;
+  @include ellipsis();
+  // @include hyphens;
+}
+.weui-media-box__desc {
+    color: $weuiTextColorGray; // $weuiTextColorTips;
+    font-size: 13px; //14px;
+    line-height: 1.2; //1.4;
+    // padding-top: 4px;
+    @include ellipsisLn(2);
+    // @include hyphens;
+}
+.weui-media-box__info {
+  // display: block;
+  margin-top: 15px; // 16px;
+  padding-bottom: 5px; // 4px;
+  font-size: 13px;
+  color: #CECECE; // $weuiTextColorTips;
+  line-height: 1em;
+  list-style: none;
+  overflow: hidden;
+}
+.weui-media-box__info__meta {
+  float: left;
+  padding-right: 1em;
+}
+.weui-media-box__info__meta_extra {
+  padding-left: 1em;
+  border-left: 1px solid #CECECE; // 1px solid $weuiTextColorTips;
+}
+
+.weui-media-box_text {
+  .weui-media-box__title {
+    margin-bottom: 8px;
+  }
+}
+.weui-media-box_appmsg {
+  display: flex;
+  align-items: center;
+  .weui-media-box__hd {
+    margin-right: .8em; // 16px;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+  }
+  .weui-media-box__thumb {
+    width: 100%;
+    max-height: 100%;
+    vertical-align: top;
+  }
+  .weui-media-box__bd {
+    flex: 1;
+    min-width: 0;
+  }
+}
+.weui-media-box_small-appmsg {
+  padding: 0;
+  .weui-cells {
+    margin-top: 0;
+    &::before {
+      display: none;
+    }
+  }
+}

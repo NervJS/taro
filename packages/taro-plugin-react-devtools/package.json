@@ -1,13 +1,14 @@
 {
   "name": "@tarojs/plugin-react-devtools",
-  "version": "3.5.3",
+  "version": "4.0.5",
   "description": "Taro 小程序端支持使用 React DevTools 的插件",
+  "author": "O2Team",
+  "license": "MIT",
   "main": "index.js",
   "scripts": {
+    "prod": "pnpm run build",
     "dev": "rollup -c -w",
-    "build": "rollup -c",
-    "test": "jest",
-    "test:dev": "jest --watch"
+    "build": "rollup -c"
   },
   "files": [
     "dist",
@@ -21,19 +22,28 @@
   "keywords": [
     "Taro"
   ],
-  "author": "luckyadam",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
+    "cross-spawn": "^7.0.3",
+    "detect-port": "^1.5.1",
+    "react-devtools": "4.14.0"
+  },
+  "devDependencies": {
     "@tarojs/helper": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@tarojs/taro": "workspace:*",
-    "cross-spawn": "^7.0.3",
-    "detect-port": "^1.3.0",
-    "react-devtools": "4.14.0"
+    "rollup-plugin-copy": "workspace:*",
+    "@tarojs/taro": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*"
   }
 }

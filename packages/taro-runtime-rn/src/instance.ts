@@ -1,6 +1,6 @@
-import type { Component } from 'react'
-
 import { PageConfig } from './types/index'
+
+import type { Component } from 'react'
 
 interface Show {
   onShow?(options?: unknown): void
@@ -20,7 +20,6 @@ export interface PageLifeCycle extends Show {
   onUnload?(): void
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export interface Instance<T = {}> extends Component<T>, PageLifeCycle {
 }
 
@@ -35,4 +34,5 @@ export interface PageInstance extends PageLifeCycle {
 
 export interface AppInstance extends Show {
   onLaunch?(options?: string): void
+  onPageNotFound?(options?: string): void
 }

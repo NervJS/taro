@@ -2,6 +2,7 @@ import Taro from '@tarojs/api'
 
 import { processOpenApi, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
+import { isGeolocationSupported } from './utils'
 
 const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.getLocation.SuccessCallbackResult> = (options: Taro.getLocation.Option): Promise<Taro.getLocation.SuccessCallbackResult> => {
   // 断言 options 必须是 Object
@@ -33,9 +34,7 @@ const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.ge
   }
 
   // 判断当前浏览器是否支持位置API
-  const geolocationSupported = navigator.geolocation
-
-  if (!geolocationSupported) {
+  if (!isGeolocationSupported()) {
     return handle.fail({
       errMsg: 'The current browser does not support this feature'
     })
@@ -64,10 +63,10 @@ const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.ge
             /** 调用结果,自动补充 */
             errMsg: ''
           }
-          handle.success(result, resolve)
+          handle.success(result, { resolve, reject })
         },
         (error) => {
-          handle.fail({ errMsg: error.message }, reject)
+          handle.fail({ errMsg: error.message }, { resolve, reject })
         },
         positionOptions
       )
@@ -75,7 +74,7 @@ const getLocationByW3CApi: (options: Taro.getLocation.Option) => Promise<Taro.ge
   )
 }
 
-export const getLocation = processOpenApi({
+export const getLocation = /* @__PURE__ */ processOpenApi({
   name: 'getLocation',
   standardMethod: getLocationByW3CApi
 })

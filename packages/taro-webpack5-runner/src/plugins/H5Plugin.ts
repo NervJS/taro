@@ -1,35 +1,48 @@
+import path from 'node:path'
+
 import { FRAMEWORK_MAP, SCRIPT_EXT } from '@tarojs/helper'
-import { AppConfig } from '@tarojs/taro'
-import { VirtualModule } from '@tarojs/webpack5-prebundle/dist/h5'
 import { defaults } from 'lodash'
-import path from 'path'
-import webpack, { Compiler, LoaderContext } from 'webpack'
 
-import H5AppInstance from '../utils/H5AppInstance'
+import AppHelper from '../utils/app'
+import { componentConfig } from '../utils/component'
+import TaroComponentsExportsPlugin from './TaroComponentsExportsPlugin'
 
-const PLUGIN_NAME = 'H5Plugin'
+import type { Func } from '@tarojs/taro/types/compile'
+import type { Compilation, Compiler, LoaderContext, NormalModule } from 'webpack'
 
-interface IH5PluginOptions {
+const PLUGIN_NAME = 'TaroH5Plugin'
+
+interface ITaroH5PluginOptions {
   appPath: string
   sourceDir: string
   routerConfig: any
   entryFileName: string
   framework: FRAMEWORK_MAP
   frameworkExts: string[]
-  useHtmlComponents: boolean
-  deviceRatio: any
-  designWidth: number
+  runtimePath: string[]
+  alias: Record<string, any>
+  defineConstants: Record<string, any>
+  pxTransformConfig: {
+    baseFontSize: number
+    deviceRatio: any
+    designWidth: number
+    minRootSize: number
+    unitPrecision: number
+    targetUnit: string
+  }
+
   prebundle?: boolean
+  isBuildNativeComp?: boolean
   loaderMeta?: Record<string, string>
+  noInjectGlobalStyle?: boolean
+
+  onCompilerMake?: Func
+  onParseCreateElement?: Func
 }
 
-export default class H5Plugin {
-  options: IH5PluginOptions
-  appEntry: string
-  appConfig: AppConfig
-  pagesConfigList = new Map<string, string>()
-  pages = new Set<{name: string, path: string}>()
-  inst: H5AppInstance
+export default class TaroH5Plugin {
+  options: ITaroH5PluginOptions
+  appHelper: AppHelper
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
@@ -37,27 +50,37 @@ export default class H5Plugin {
       sourceDir: '',
       routerConfig: {},
       entryFileName: 'app',
-      framework: FRAMEWORK_MAP.NERV,
+      framework: FRAMEWORK_MAP.REACT,
       frameworkExts: SCRIPT_EXT,
-      useHtmlComponents: false,
-      deviceRatio: {},
-      designWidth: 750,
-      prebundle: false
+      runtimePath: [],
+      pxTransformConfig: {
+        baseFontSize: 20,
+        deviceRatio: {},
+        designWidth: 750,
+        minRootSize: 20,
+        unitPrecision: 5,
+        targetUnit: 'rem'
+      },
+      prebundle: false,
+      alias: {},
+      defineConstants: {},
     })
   }
 
-  tryAsync = fn => async (arg, callback) => {
-    try {
-      await fn(arg)
-      callback()
-    } catch (err) {
-      callback(err)
+  tryAsync<T extends Compiler | Compilation | void> (fn: (target?: T) => Promise<void> | void) {
+    return async (arg: T, callback: any) => {
+      try {
+        await fn(arg)
+        typeof callback === 'function' && callback()
+      } catch (err) {
+        typeof callback === 'function' && callback()
+      }
     }
   }
 
   apply (compiler: Compiler) {
     const { entry } = compiler.options
-    this.inst = new H5AppInstance(entry, this.options)
+    this.appHelper = new AppHelper(entry, this.options)
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
       this.tryAsync(() => {
@@ -71,9 +94,13 @@ export default class H5Plugin {
       })
     )
 
+    compiler.hooks.make.tapAsync(PLUGIN_NAME, this.tryAsync<Compilation>(async compilation => {
+      await this.options.onCompilerMake?.(compilation, compiler, this)
+    }))
+
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-      webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: LoaderContext<any>, module: webpack.NormalModule) => {
-        const { framework, entryFileName, appPath, sourceDir, designWidth, deviceRatio, loaderMeta, prebundle, routerConfig } = this.options
+      compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: LoaderContext<any>, module: NormalModule) => {
+        const { entryFileName, sourceDir, prebundle, routerConfig, isBuildNativeComp } = this.options
         const { dir, name } = path.parse(module.resource)
         const suffixRgx = /\.(boot|config)/
         if (!suffixRgx.test(name)) return
@@ -84,31 +111,40 @@ export default class H5Plugin {
         const isMultiRouterMode = routerMode === 'multi'
         const isApp = !isMultiRouterMode && pageName === entryFileName
         const bootstrap = prebundle && !/\.boot$/.test(name)
-        if (isApp || this.inst.pagesConfigList.has(pageName)) {
-          if (bootstrap) {
-            const bootPath = path.relative(appPath, path.join(sourceDir, `${isMultiRouterMode ? pageName : entryFileName}.boot.js`))
-            VirtualModule.writeModule(bootPath, '/** bootstrap application code */')
+        if (
+          isBuildNativeComp
+            ? this.appHelper.compsConfigList.has(pageName)
+            : (isApp || this.appHelper.pagesConfigList.has(pageName.split(path.sep).join('/')))
+        ) {
+          // 把 Map 转换为数组后传递，避免 thread-loader 传递 Map 时变为空对象的问题，fix #13430
+          const pagesConfigList: [string, string][] = []
+          for (const item of this.appHelper.pagesConfigList.entries()) {
+            pagesConfigList.push(item)
           }
 
           module.loaders.push({
-            loader: '@tarojs/taro-loader/lib/h5',
+            loader: require.resolve('@tarojs/taro-loader/lib/h5'),
             options: {
-              bootstrap,
-              config: {
-                router: this.options.routerConfig,
-                ...this.inst.appConfig
-              },
+              /** paths */
               entryFileName,
               filename: name.replace(suffixRgx, ''),
-              framework,
-              loaderMeta,
-              pages: this.inst.pagesConfigList,
-              pxTransformConfig: {
-                designWidth,
-                deviceRatio
-              },
+              runtimePath: this.options.runtimePath,
               sourceDir,
-              useHtmlComponents: this.options.useHtmlComponents
+              /** config & message */
+              config: {
+                router: routerConfig,
+                ...this.appHelper.appConfig
+              },
+              framework: this.options.framework,
+              loaderMeta: this.options.loaderMeta,
+              pages: pagesConfigList,
+              pxTransformConfig: this.options.pxTransformConfig,
+              alias: this.options.alias,
+              defineConstants: this.options.defineConstants,
+              noInjectGlobalStyle: this.options.noInjectGlobalStyle,
+              /** building mode */
+              bootstrap,
+              isBuildNativeComp
             },
             ident: null,
             type: null
@@ -116,11 +152,13 @@ export default class H5Plugin {
         }
       })
     })
+
+    if (!componentConfig.includeAll) {
+      new TaroComponentsExportsPlugin(this.options).apply(compiler)
+    }
   }
 
   run () {
-    delete this.inst.__appConfig
-    delete this.inst.__pages
-    delete this.inst.__pagesConfigList
+    this.appHelper.clear()
   }
 }

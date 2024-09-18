@@ -1,0 +1,104 @@
+// .weui-label {
+//   display: block;
+//   width: $weuiCellLabelWidth;
+//   @include text_wrap();
+// }
+
+.weui-input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  -webkit-appearance: none;
+  background-color: transparent;
+  // font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  height: em($weuiCellLineHeight);
+  line-height: $weuiCellLineHeight;
+
+  // hides the spin-button
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  // &:focus {
+  //   &:not(:placeholder-shown) {
+  //     & + .weui-btn_input-clear {
+  //       display: inline;
+  //     }
+  //   }
+  // }
+}
+
+// .weui-textarea {
+//   display: block;
+//   border: 0;
+//   resize: none;
+//   background: transparent;
+//   width: 100%;
+//   color: inherit;
+//   font-size: 1em;
+//   font-family: inherit;
+//   line-height: inherit;
+//   height: 80px;
+//   outline: 0;
+// }
+
+// .weui-textarea-counter {
+//   color: $weuiTextColorTips;
+//   text-align: right;
+//   font-size: 14px;
+//   .weui-cell_warn & {
+//     color: $weuiTextColorWarn;
+//   }
+// }
+
+// .weui-cell_warn {
+//   color: $weuiTextColorWarn;
+//   .weui-icon-warn { display: inline-block; }
+// }
+// .weui-cell_readonly,
+// .weui-cell_disabled {
+//   .weui-input,
+//   .weui-textarea {
+//     &:disabled {
+//       opacity: 1;
+//       -webkit-text-fill-color: $weuiTextColorDesc;
+//     }
+//     &[disabled],
+//     &[readonly] {
+//       color: $weuiTextColorDesc;
+//     }
+//   }
+// }
+// .weui-btn_input-clear {
+//   display: none;
+//   padding-left: 8px;
+//   [class*="weui-icon-"] {
+//     width: 18px;
+//   }
+// }
+
+// todo: 以下为兼容最开始版本的表单，新表单、反色表单均不需要
+// .weui-cells_form {
+//   .weui-cell_switch,
+//   .weui-cell_vcode,
+//   .weui-cell_readonly,
+//   .weui-cell_disabled {
+//     &:active {
+//       background-color: transparent;
+//     }
+//   }
+//   .weui-cell__ft {
+//     font-size: 0;
+//   }
+//   .weui-icon-warn {
+//     display: none;
+//   }
+//   input,
+//   textarea,
+//   label[for] {
+//     @include setTapColor();
+//   }
+// }

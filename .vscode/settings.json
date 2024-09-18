@@ -1,27 +1,24 @@
 {
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    {
-      "language": "typescript",
-      "autoFix": true
-    },
-    {
-      "language": "typescriptreact",
-      "autoFix": true
-    }
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "search.exclude": {
     "**/.git": true,
     "**/node_modules": true,
     "**/yarn.lock": true,
     "**/__snapshots__": true
- },
+  },
   "jest.autoEnable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
   "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
   "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
   "files.associations": {
-    "*.json": "jsonc"
-  }
+    "*.json": "jsonc",
+    "*.ets": "typescript"
+  },
+  "rust-analyzer.linkedProjects": [
+    "./crates/taro_init/Cargo.toml",
+    "./crates/native_binding/Cargo.toml",
+    "./crates/swc_plugin_compile_mode/Cargo.toml",
+    "./crates/swc_plugin_define_config/Cargo.toml"
+  ],
+  "rust-analyzer.showUnlinkedFileNotification": false
 }

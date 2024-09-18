@@ -1,0 +1,23 @@
+{
+  "name": "@tarojs/binding-darwin-arm64",
+  "description": "Native binding for taro",
+  "version": "4.0.5",
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "taro.darwin-arm64.node",
+  "files": [
+    "taro.darwin-arm64.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/NervJS/taro"
+}

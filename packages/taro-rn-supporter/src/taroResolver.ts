@@ -1,9 +1,10 @@
-import * as fs from 'fs'
-import * as MetroResolver from 'metro-resolver'
-import * as path from 'path'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
 
-import { emptyModulePath } from './defaults'
+import { entryFilePath } from './defaults'
 import { resolveExtFile, resolvePathFromAlias } from './utils'
+
+import type { CustomResolutionContext } from 'metro-resolver'
 
 interface VersionInfo {
   major: number
@@ -61,76 +62,32 @@ function searchReactNativeModule (moduleName: string, platform: string): string 
 
 /**
  * resolveRequest 文件处理，alias，文件后缀加载等
+ * metro 0.70 type ResolveRequestFunc = (context, moduleName, platform) => any
  */
-function handleFile (context, _realModuleName, platform, moduleName) {
-  const savedOriginModulePath = context.originModulePath
-  const savedAllowHaste = context.allowHaste
-  if (moduleName.startsWith('@tarojs/')) {
-    // 通过Haste去查找软链接模块
-    context.allowHaste = true
-  }
-
+function handleFile (context: CustomResolutionContext, moduleName, platform, config, resolveRequest?) {
   // 处理 alias
-  moduleName = resolvePathFromAlias(moduleName)
+  moduleName = resolvePathFromAlias(moduleName, config)
 
   // 处理后缀 .rn.ts
-  moduleName = resolveExtFile(context, moduleName, platform)
-
-  let res = null
-  const savedResolveRequest = context.resolveRequest
-  context.resolveRequest = null
-
-  try {
-    res = MetroResolver.resolve(context, moduleName, platform)
-  } catch (ex) {
-    // console.log(ex)
-    // nothing to do
-  } finally {
-    context.originModulePath = savedOriginModulePath
-    context.allowHaste = savedAllowHaste
-    context.resolveRequest = savedResolveRequest
-  }
-  return res
+  moduleName = resolveExtFile(context, moduleName, platform, config)
+  return (resolveRequest || context.resolveRequest)(context, moduleName, platform)
 }
 
 // rn runner调用
-function handleTaroFile (context, realModuleName, platform, moduleName) {
-  if (moduleName === './index') {
-    return {
-      filePath: realModuleName,
-      type: 'empty'
-    }
+function handleTaroFile (context: CustomResolutionContext, moduleName, platform, config, resolveRequest?) {
+  const newContext = { ...context }
+  if (context.originModulePath === require.resolve(entryFilePath)) {
+    // node_modules/@tarojs/rn-supporter/entry-file.js
+    // index.js
+    newContext.originModulePath = path.resolve(path.join(
+      entryFilePath,
+      '..',
+      '..',
+      '..',
+      './index.js'
+    ))
   }
-  const savedOriginModulePath = context.originModulePath
-  if ((savedOriginModulePath === require.resolve(emptyModulePath)) && moduleName.startsWith('./')) {
-    context.originModulePath = path.join(context.projectRoot, './index')
-  }
-  const savedAllowHaste = context.allowHaste
-  if (moduleName.startsWith('@tarojs/')) {
-    // 通过Haste去查找软链接模块
-    context.allowHaste = true
-  }
-
-  // 处理 alias
-  moduleName = resolvePathFromAlias(moduleName)
-
-  // 处理后缀 .rn.ts
-  moduleName = resolveExtFile(context, moduleName, platform)
-
-  let res = null
-  const savedResolveRequest = context.resolveRequest
-  context.resolveRequest = null
-
-  try {
-    res = MetroResolver.resolve(context, moduleName, platform)
-  } catch (ex) {
-    // nothing to do
-  } finally {
-    context.originModulePath = savedOriginModulePath
-    context.allowHaste = savedAllowHaste
-    context.resolveRequest = savedResolveRequest
-  }
-  return res
+  return handleFile(newContext, moduleName, platform, config, resolveRequest)
 }
 
 export {

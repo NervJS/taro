@@ -1,10 +1,10 @@
 {
   "name": "babel-preset-taro",
-  "version": "3.5.3",
+  "version": "4.0.5",
   "description": "Taro babel preset",
-  "author": "yuche <i@yuche.me>",
-  "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
+  "author": "O2Team",
   "license": "MIT",
+  "homepage": "https://github.com/nervjs/taro/tree/main/packages/babel-preset-taro#readme",
   "main": "index.js",
   "files": [
     "rn/",
@@ -16,38 +16,67 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "jest --collectCoverage",
-    "test:ci": "jest --ci --i --coverage false"
+    "test": "jest",
+    "test:ci": "jest --ci -i --coverage --silent"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
+  "engines": {
+    "node": ">= 18"
+  },
   "dependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.14.5",
-    "@babel/plugin-proposal-decorators": "^7.14.5",
-    "@babel/plugin-syntax-jsx": "^7.14.5",
-    "@babel/plugin-transform-runtime": "^7.14.5",
-    "@babel/preset-env": "^7.14.5",
-    "@babel/preset-react": "^7.14.5",
-    "@babel/preset-typescript": "^7.14.5",
-    "@babel/runtime": "^7.14.5",
-    "@babel/runtime-corejs3": "^7.14.5",
+    "@babel/plugin-proposal-decorators": "^7.24.1",
+    "@babel/plugin-transform-class-properties": "^7.24.1",
+    "@babel/plugin-transform-runtime": "^7.24.3",
+    "@babel/preset-env": "^7.24.4",
+    "@babel/preset-typescript": "^7.24.1",
+    "@babel/runtime": "^7.24.4",
+    "@babel/runtime-corejs3": "^7.24.4",
+    "@rnx-kit/babel-preset-metro-react-native": "^1.1.8",
     "@tarojs/helper": "workspace:*",
-    "@tarojs/taro-h5": "workspace:*",
-    "babel-plugin-dynamic-import-node": "2.3.3",
-    "babel-plugin-global-define": "1.0.3",
-    "babel-plugin-jsx-attributes-array-to-object": "0.3.0",
+    "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-minify-dead-code-elimination": "^0.5.2",
     "babel-plugin-transform-imports-api": "1.0.0",
-    "babel-plugin-transform-react-jsx-to-rn-stylesheet": "workspace:*",
-    "babel-plugin-transform-taroapi": "workspace:*",
-    "core-js": "^3.6.5",
-    "metro-react-native-babel-preset": "^0.67.0"
+    "babel-plugin-transform-solid-jsx": "workspace:*",
+    "core-js": "^3.36.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5"
+    "@babel/core": "^7.24.4",
+    "@babel/preset-react": "^7.24.1",
+    "@prefresh/babel-plugin": "^0.5.1",
+    "@tarojs/taro-rn": "workspace:*",
+    "@vue/babel-plugin-jsx": "^1.2.2",
+    "babel-preset-solid": "^1.8.16",
+    "react-refresh": "^0.14.0"
   },
   "peerDependencies": {
-    "@babel/core": "*"
+    "@babel/core": "^7.0.0",
+    "@babel/preset-react": "^7.24.1",
+    "@prefresh/babel-plugin": "^0.5.1",
+    "@tarojs/taro-rn": "workspace:*",
+    "@vue/babel-plugin-jsx": "^1.2.2",
+    "babel-preset-solid": "^1.8.16",
+    "react-refresh": "^0.14.0"
+  },
+  "peerDependenciesMeta": {
+    "@babel/preset-react": {
+      "optional": true
+    },
+    "react-refresh": {
+      "optional": true
+    },
+    "@prefresh/babel-plugin": {
+      "optional": true
+    },
+    "babel-preset-solid": {
+      "optional": true
+    },
+    "@vue/babel-plugin-jsx": {
+      "optional": true
+    },
+    "@tarojs/taro-rn": {
+      "optional": true
+    }
   }
 }

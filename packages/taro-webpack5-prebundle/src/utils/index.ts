@@ -1,11 +1,10 @@
-import { chalk } from '@tarojs/helper'
-import { createHash } from 'crypto'
-import enhancedResolve from 'enhanced-resolve'
-import fs from 'fs-extra'
-import path from 'path'
-import { performance } from 'perf_hooks'
-import Chain from 'webpack-chain'
+import path from 'node:path'
+import { performance } from 'node:perf_hooks'
 
+import { chalk, fs, getHash } from '@tarojs/helper'
+import enhancedResolve from 'enhanced-resolve'
+
+import type Chain from 'webpack-chain'
 import type { CollectedDeps } from './constant'
 
 export interface Metadata {
@@ -34,20 +33,13 @@ export function createResolve (appPath: string, resolveOptions) {
     return new Promise((resolve, reject) => {
       resolver({}, importer, request, {}, (err, resolvedPath) => {
         if (err) return reject(err)
-        resolve(resolvedPath)
+        resolve(resolvedPath! as string)
       })
     })
   }
 }
 export function getResolve () {
   return resolve
-}
-
-export function externalModule ({ path }: { path: string }) {
-  return {
-    path,
-    external: true
-  }
 }
 
 export function flattenId (id: string) {
@@ -62,7 +54,12 @@ export function getDefines (chain: Chain) {
   let defines
   if (chain.plugins.has('definePlugin')) {
     chain.plugin('definePlugin').tap(args => {
-      defines = args[0]
+      defines = { ...args[0] }
+      Object.keys(defines).forEach(name => {
+        if (typeof defines[name] !== 'string') {
+          delete defines[name]
+        }
+      })
       return args
     })
   }
@@ -86,15 +83,11 @@ export function isExclude (id: string, excludes: (string | RegExp)[]) {
 }
 
 export function isOptimizeIncluded (path: string) {
-  return /\.[jt]sx?$/.test(path)
+  return /\.m?[jt]sx?$/.test(path)
 }
 
 export function isScanIncluded (path: string) {
   return /\.vue/.test(path)
-}
-
-export function getHash (content: string) {
-  return createHash('sha256').update(content).digest('hex').substring(0, 8)
 }
 
 export async function getBundleHash (appPath: string, deps: CollectedDeps, chain: Chain, cacheDir: string): Promise<string> {

@@ -1,7 +1,6 @@
-import { networkInterfaces } from 'os'
-import path from 'path'
+import { networkInterfaces } from 'node:os'
+import path from 'node:path'
 
-export const emptyObj = {}
 export const emptyTogglableObj = {
   enable: false,
   config: {}
@@ -44,5 +43,5 @@ export const formatOpenHost = (host?: string) => {
 }
 
 export function parsePublicPath (publicPath = '/') {
-  return ['', 'auto'].includes(publicPath) ? publicPath :  addTrailingSlash(publicPath)
+  return ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath)
 }
