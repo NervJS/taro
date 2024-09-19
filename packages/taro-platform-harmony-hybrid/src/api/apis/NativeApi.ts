@@ -1,6 +1,6 @@
 // import {timeLog} from "./NativeApiLog";
 import { syncApiCache } from './harmony-native/ApiCache'
-import { asyncAndNotRelease, asyncAndRelease, syncAndRelease } from './harmony-native/ApiDecorator'
+import { asyncAndNotRelease, asyncAndRelease, syncAndNotRelease, syncAndRelease } from './harmony-native/ApiDecorator'
 import { storageCacheAndSyncProxy } from './harmony-native/StorageCacheAndSyncProxy'
 import { NativeDataChangeListener, SyncCacheProxyHandler } from './NativeApiSyncCacheProxy'
 
@@ -627,6 +627,12 @@ export class NativeApi {
   exitMiniProgram (option?: any): any {
     return option
   }
+
+  @(syncAndNotRelease)
+  onStorageStatusChange (_options: any): void {}
+
+  @(syncAndNotRelease)
+  offStorageStatusChange (_options: any): void {}
 }
 
 export interface Status {
