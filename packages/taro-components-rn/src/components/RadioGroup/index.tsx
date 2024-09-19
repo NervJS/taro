@@ -14,8 +14,13 @@ import { RadioGroupProps, RadioGroupState, EventOnChange } from './PropsType'
 
 class _RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
   static displayName = '_RadioGroup'
-  state: RadioGroupState = {
-    checkedValue: undefined
+
+  constructor(props: RadioGroupProps) {
+    super(props);
+    const {checkedValue} = props;
+    this.state = {
+      checkedValue
+    };
   }
 
   // eslint-disable-next-line default-param-last
@@ -28,6 +33,14 @@ class _RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
         value: e.value
       }
     })
+  }
+
+  componentDidUpdate (prevProps) {
+    // 检测 props 是否发生变化
+    if (this.props.checkedValue !== prevProps.checkedValue) {
+      // 执行相应的操作，比如更新组件状态
+      this.setState({ checkedValue: this.props.checkedValue });
+    }
   }
 
   findAndAttachCb = (children: React.ReactNode): React.ReactNode => {
