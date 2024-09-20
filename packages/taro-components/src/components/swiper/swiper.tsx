@@ -324,6 +324,7 @@ export class Swiper implements ComponentInterface {
       observer: true,
       centeredSlides: centeredSlides,
       zoom: this.zoom,
+      nested: true,
       ...effectsProps,
       on: {
         changeTransitionEnd(e) {
