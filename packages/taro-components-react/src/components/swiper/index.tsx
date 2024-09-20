@@ -186,6 +186,7 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
       speed: parseInt(String(duration), 10),
       observer: true,
       observeParents: true,
+      nested: true,
       loopAdditionalSlides,
       centeredSlides,
       ...effectsProps,
