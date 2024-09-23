@@ -1,15 +1,8 @@
 use std::collections::HashMap;
-use swc_core::{
-    ecma::{
+use swc_core::ecma::{
         ast::*,
         visit::{VisitMutWith, VisitMut},
-    },
-    plugin::{
-        plugin_transform,
-        proxies::TransformPluginProgramMetadata
-    }
-};
-use crate::visitors::common::{ COMPILE_MODE_SUB_COMPONENT, ArrowAndFnParams };
+    };
 
 use super::common::RenderFn;
 

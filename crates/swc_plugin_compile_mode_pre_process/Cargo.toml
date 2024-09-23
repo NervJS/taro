@@ -11,6 +11,7 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 swc_core = { workspace = true }
 regex = "1.10.2"
+rustc-hash = "1.1.0"
 
 [dev-dependencies]
 swc_core = { workspace = true, features = ["ecma_parser", "ecma_codegen"] }

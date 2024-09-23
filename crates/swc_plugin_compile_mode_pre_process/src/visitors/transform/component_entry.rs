@@ -1,14 +1,7 @@
 use std::collections::HashMap;
 
-use serde_json::de;
-use swc_core::{
-    ecma::{
-        ast::*, utils::function, visit::{VisitMut, VisitMutWith}
-    },
-    plugin::{
-        plugin_transform,
-        proxies::TransformPluginProgramMetadata
-    }
+use swc_core::ecma::{
+    ast::*, visit::{VisitMut, VisitMutWith}
 };
 
 use crate::visitors::common::{RenderFn, DEFAULT_COMPONENT};
@@ -44,12 +37,12 @@ impl<'a> VisitMut for ComponentEntryVisitor<'a> {
                             let component_name = ident.sym.to_string();
                             let render_fn_map = self.get_format_render_fn_map_by_component_name(&component_name);
                             if let Some(render_fn_map) = render_fn_map {
-                                let mut process_visitor = TransformProcessVisitor::new(component_name, &render_fn_map);
+                                let mut process_visitor = TransformProcessVisitor::new(&render_fn_map);
                                 decl.init.visit_mut_children_with(&mut process_visitor);
                             }
                         },
                         _ => {}
-                }
+                    }
                 },
                 Expr::Fn(FnExpr { ident: _, function })=> {
                     // 适配 const xxx = function () {}
@@ -58,7 +51,7 @@ impl<'a> VisitMut for ComponentEntryVisitor<'a> {
                             let component_name = ident.sym.to_string();
                             let render_fn_map = self.get_format_render_fn_map_by_component_name(&component_name);
                             if let Some(render_fn_map) = render_fn_map {
-                                let mut process_visitor = TransformProcessVisitor::new(component_name, &render_fn_map);
+                                let mut process_visitor = TransformProcessVisitor::new(&render_fn_map);
                                 decl.init.visit_mut_children_with(&mut process_visitor);
                             }
                         },
@@ -75,7 +68,7 @@ impl<'a> VisitMut for ComponentEntryVisitor<'a> {
         let component_name = n.ident.sym.to_string();
         let render_fn_map = self.get_format_render_fn_map_by_component_name(&component_name);
         if let Some(render_fn_map) = render_fn_map {
-            let mut process_visitor = TransformProcessVisitor::new(component_name, &render_fn_map);
+            let mut process_visitor = TransformProcessVisitor::new(&render_fn_map);
             n.function.body.visit_mut_children_with(&mut process_visitor);
         }
     }
@@ -88,7 +81,7 @@ impl<'a> VisitMut for ComponentEntryVisitor<'a> {
             DefaultDecl::Fn(fn_decl) => {
                 let render_fn_map = self.get_format_render_fn_map_by_component_name(&DEFAULT_COMPONENT.to_string());
                 if let Some(render_fn_map) = render_fn_map {
-                    let mut process_visitor = TransformProcessVisitor::new(DEFAULT_COMPONENT.to_string(), &render_fn_map);
+                    let mut process_visitor = TransformProcessVisitor::new(&render_fn_map);
                     fn_decl.function.body.visit_mut_children_with(&mut process_visitor);
                 }
             },
@@ -104,7 +97,7 @@ impl<'a> VisitMut for ComponentEntryVisitor<'a> {
                 if let BlockStmtOrExpr::BlockStmt(_block_stmt) = &*arrow_expr.body {
                     let render_fn_map = self.get_format_render_fn_map_by_component_name(&DEFAULT_COMPONENT.to_string());
                     if let Some(render_fn_map) = render_fn_map {
-                        let mut process_visitor = TransformProcessVisitor::new(DEFAULT_COMPONENT.to_string(), &render_fn_map);
+                        let mut process_visitor = TransformProcessVisitor::new(&render_fn_map);
                         n.expr.visit_mut_children_with(&mut process_visitor);
                     }
                 }

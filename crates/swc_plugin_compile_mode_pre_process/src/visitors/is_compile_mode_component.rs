@@ -1,15 +1,6 @@
-use std::collections::HashMap;
-
-use serde_json::de;
-use swc_core::{
-    ecma::{
-        ast::*, utils::function, visit::{VisitMut, VisitMutWith}
-    },
-    plugin::{
-        plugin_transform,
-        proxies::TransformPluginProgramMetadata
-    }
-};
+use swc_core::ecma::{
+        ast::*, visit::{VisitMut, VisitMutWith}
+    };
 
 use super::common::COMPILE_MODE;
 
@@ -62,6 +53,5 @@ impl VisitMut for IsCompileModeVisitor {
             }
             el.visit_mut_children_with(self);
         }
-        
     }
 }

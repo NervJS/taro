@@ -1,22 +1,16 @@
 use std::collections::HashMap;
-use swc_core::{
-    ecma::{
+use swc_core::ecma::{
         ast::*,
         visit::{VisitMutWith, VisitMut},
-    },
-    plugin::{
-        plugin_transform,
-        proxies::TransformPluginProgramMetadata
-    }
-};
-use crate::visitors::common::{ COMPILE_MODE_SUB_COMPONENT, ArrowAndFnParams };
+    };
+use crate::visitors::common::COMPILE_MODE_SUB_COMPONENT;
 
 use super::common::RenderFn;
 
 pub struct CollectRenderFnVisitor {
     pub raw_render_fn_map: HashMap<String, RenderFn>,
     sub_component_name: Option<String>,
-    sub_component_params: Option<ArrowAndFnParams>,
+    sub_component_params: Option<Vec<Pat>>,
     in_outmost_block_scope: bool,
 }
 
@@ -50,7 +44,7 @@ impl VisitMut for CollectRenderFnVisitor {
                                     Stmt::Return(return_stmt) => {
                                         self.in_outmost_block_scope = true;
                                         self.sub_component_name = Some(component_name.clone());
-                                        self.sub_component_params = Some(ArrowAndFnParams::Fn(fn_decl.function.params.clone()));
+                                        self.sub_component_params = Some(fn_decl.function.params.clone().into_iter().map(|fn_param |fn_param.pat).collect());
                                         return_stmt.visit_mut_with(self);
                                         self.in_outmost_block_scope = false;
                                         self.sub_component_name = None;
@@ -75,7 +69,7 @@ impl VisitMut for CollectRenderFnVisitor {
                                                 Stmt::Return(return_stmt) => {
                                                     self.in_outmost_block_scope = true;
                                                     self.sub_component_name = Some(sub_component_name.sym.to_string());
-                                                    self.sub_component_params = Some(ArrowAndFnParams::Arrow(arrow.params.clone()));
+                                                    self.sub_component_params = Some(arrow.params.clone());
                                                     return_stmt.visit_mut_with(self);
                                                     self.in_outmost_block_scope = false;
                                                     self.sub_component_name = None;

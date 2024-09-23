@@ -1,18 +1,12 @@
-use std::collections::{HashMap, HashSet, VecDeque};
+use std::{collections::{HashMap, HashSet, VecDeque}, ops::Index};
 
-use swc_core::{
-    ecma::{
+use swc_core::ecma::{
         ast::*,
         visit::{VisitMutWith, VisitMut},
-    },
-    plugin::{
-        plugin_transform,
-        proxies::TransformPluginProgramMetadata
-    }
-};
-use crate::{visitors::find_react_component, PluginConfig};
+    };
+use crate::PluginConfig;
 
-use super::{common::*, generate_deps::{self, GenerateDepsVisitor}, transform};
+use super::{common::*, generate_deps::GenerateDepsVisitor};
 use super::collect_render_fn::CollectRenderFnVisitor;
 use super::find_react_component::FindReactComponentVisitor;
 use super::transform::component_entry::ComponentEntryVisitor;
@@ -91,12 +85,18 @@ impl EntryVisitor {
             }
 
             // 2. 根据依赖表，生成解析的列表 sort queue 先进先出
+            get_deps_circular(&render_fn_deps_map);
             let sort_queue = generate_sort_queue(&render_fn_deps_map);
             println!("component_name: {}, sort_queue: {:?}", name, sort_queue);
             // 3. 根据 sort queue 生成 formatted_fn_map 数据结构 hashMap：{name: formatted_fn}
-            let formatted_fn_map = generate_formatted_fn_map(sort_queue, &raw_fn_map);
+            let formatted_fn_map = generate_formatted_fn_map(sort_queue, &raw_fn_map, &render_fn_deps_map);
             formatted_render_fn_map.insert(name, formatted_fn_map);
         });
+        for (component_name, formatted_fn_map) in &formatted_render_fn_map {
+            for (fn_name, formatted_fn) in formatted_fn_map {
+                println!("component_name: {}, fn_name: {}, formatted_fn: {:?}", component_name, fn_name, formatted_fn.jsx_element);
+            }
+        }
         self.visitor_context.react_component_formatted_render_fn_map = formatted_render_fn_map;
     }
 
@@ -125,10 +125,11 @@ fn generate_render_fn_dep_map (raw_fn_map: &HashMap<String, RenderFn>)-> HashMap
 }
 
 fn generate_sort_queue (render_fn_deps_map: &HashMap<String, Vec<String>>) -> Vec<String> {
+    //已经遍历过的节点 剪纸用的
     let mut visited = HashSet::new();
     let mut result = VecDeque::new();
     let mut cycles = Vec::new();
-
+    
     for key in render_fn_deps_map.keys() {
         let mut path = Vec::new();
         if dfs(key, render_fn_deps_map, &mut visited, &mut path, &mut result, &mut cycles) {
@@ -143,24 +144,35 @@ fn generate_sort_queue (render_fn_deps_map: &HashMap<String, Vec<String>>) -> Ve
     result.into_iter().collect()
 }
 
-fn generate_formatted_fn_map (sort_queue: Vec<String>, raw_fn_map: &HashMap<String, RenderFn>) -> HashMap<String, RenderFn> {
+fn generate_formatted_fn_map (sort_queue: Vec<String>, raw_fn_map: &HashMap<String, RenderFn>, render_fn_deps_map: &HashMap<String, Vec<String>>) -> HashMap<String, RenderFn> {
     let mut formatted_fn_map = HashMap::new();
-    for name in sort_queue {
-        if let Some(raw_fn) = raw_fn_map.get(&name) {
-            let mut formatted_fn = raw_fn.clone();
-            // todo 格式化 raw_fn 为 formatted_fn 
-            // 涉及模版拼接和参数转化，和下面的 transform 要做的事情一样，等抽象出来
-            formatted_fn_map.insert(name, formatted_fn);
+    for name in &sort_queue {
+        match (raw_fn_map.get(name), render_fn_deps_map.get(name)) {
+            (Some(raw_fn), Some(deps)) => {
+                let mut dep_map = HashMap::new();
+                for dep in deps {
+                    let formatted_dep = formatted_fn_map.get(dep);
+                    if formatted_dep.is_some() {
+                        dep_map.insert(dep.clone(), formatted_dep.unwrap());
+                    }
+                }
+                formatted_fn_map.insert(name.clone(), raw_fn.clone());
+            },
+            _ => {}
         }
     }
   
     formatted_fn_map
 }
 
+
 fn dfs(node: &String, map: &HashMap<String, Vec<String>>, visited: &mut HashSet<String>, path: &mut Vec<String>, result: &mut VecDeque<String>, cycles: &mut Vec<Vec<String>>) -> bool {
     if path.contains(node) {
+        //这里就是发现循环了
+
         return true;
     } else if !visited.contains(node) {
+        // 已经遍历过就不需要再处理了，要么已经被 push 到 result 里面了，要么存在循环链，已经被摘除了
         visited.insert(node.clone());
         path.push(node.clone());
 
@@ -177,4 +189,36 @@ fn dfs(node: &String, map: &HashMap<String, Vec<String>>, visited: &mut HashSet<
     }
 
     false
+}
+
+fn get_deps_circular(map: &HashMap<String, Vec<String>>)-> Vec<Vec<String>> {
+    let mut result: Vec<Vec<String>> = vec![];
+    let mut visited: HashSet<String> = HashSet::new();
+    for key in map.keys() {
+        let mut path: Vec<String> = vec![];
+        dfs1(key, map, &mut visited, &mut path, &mut result);
+    }
+    println!("result: {:?}", result);
+    result
+}
+
+fn dfs1(node: &String, map: &HashMap<String, Vec<String>>, visited: &mut HashSet<String>, path: &mut Vec<String>, res: &mut Vec<Vec<String>>){
+    println!("node: {:?}", node);
+    println!("path: {:?}", path);
+    if let Some(index) = path.iter().position(|s| s == node) {
+        println!("Found at index {}", index);
+        print!("cycle found: ");
+        res.push(path[index..].to_vec());
+    } else {
+        if !visited.contains(node) {
+            visited.insert(node.clone());
+            if let Some(neighbors) = map.get(node) {
+                for neighbor in neighbors {
+                    path.push(node.clone());
+                    dfs1(neighbor, map, visited, path, res);
+                    path.pop();
+                }
+            }
+        }
+    }
 }

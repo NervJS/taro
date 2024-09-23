@@ -1,31 +1,20 @@
-
-use std::{clone, collections::HashMap};
-
-use swc_core::{
-    ecma::{
+use swc_core::ecma::{
         ast::*,
-        visit::{VisitMutWith, VisitMut},
-    },
-    plugin::{
-        plugin_transform,
-        proxies::TransformPluginProgramMetadata
-    }
-};
+        visit::VisitMutWith,
+    };
 
 use super::is_compile_mode_component::IsCompileModeVisitor;
-
-
 
 pub const COMPILE_MODE: &str = "compileMode";
 pub const DEFAULT_COMPONENT: &str = "Default_Component";
 pub const COMPILE_MODE_SUB_COMPONENT: &str = "compileModeSubComponent";
 pub struct RenderFn {
-    pub params: ArrowAndFnParams,
+    pub params: Vec<Pat>,
     pub jsx_element: JSXElement,
 }
 
 impl RenderFn {
-    pub fn new(params: ArrowAndFnParams, jsx_element: JSXElement) -> Self {
+    pub fn new(params: Vec<Pat>, jsx_element: JSXElement) -> Self {
         RenderFn {
             params,
             jsx_element,
@@ -38,20 +27,6 @@ impl Clone for RenderFn {
         RenderFn {
             params: self.params.clone(),
             jsx_element: self.jsx_element.clone(),
-        }
-    }
-}
-
-pub enum ArrowAndFnParams {
-    Arrow(Vec<Pat>),
-    Fn(Vec<Param>),
-}
-
-impl clone::Clone for ArrowAndFnParams {
-    fn clone(&self) -> Self {
-        match self {
-            ArrowAndFnParams::Arrow(params) => ArrowAndFnParams::Arrow(params.clone()),
-            ArrowAndFnParams::Fn(params) => ArrowAndFnParams::Fn(params.clone()),
         }
     }
 }

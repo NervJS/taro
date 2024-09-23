@@ -7,7 +7,8 @@ use crate::{
     visitors::entry::EntryVisitor,
 };
 
-mod init;
+mod entry;
+mod render;
 
 pub fn tr () -> impl Fold {
     let config = serde_json::from_str::<PluginConfig>(

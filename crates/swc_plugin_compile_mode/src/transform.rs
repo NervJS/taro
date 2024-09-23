@@ -597,6 +597,10 @@ impl TransformVisitor {
                                     children_string.push_str(&code);
                                 }
                             },
+                            Expr::JSXElement(el) => {
+                                let child_string = self.build_xml_element(el);
+                                children_string.push_str(&child_string);
+                            },
                             _ => {
                                 let mut xscript_expr_string: Option<String> = None;
 
