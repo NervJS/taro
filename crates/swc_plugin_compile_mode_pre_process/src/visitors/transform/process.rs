@@ -27,14 +27,12 @@ impl<'a> VisitMut for TransformProcessVisitor<'a> {
                     if let JSXAttrName::Ident(jsx_attr_name) = &jsx_attr.name {
                         if jsx_attr_name.sym == COMPILE_MODE {
                             self.in_compile_mode_jsx = true;
-                            print!("in_compile_mode_jsx\n,{:?}", el.children);
                             break;
                         }
                     }
                 }
             }
         }
-
 
             el.opening.attrs.retain(|attr| match &attr {
                 JSXAttrOrSpread::JSXAttr(JSXAttr {name, ..}) => {

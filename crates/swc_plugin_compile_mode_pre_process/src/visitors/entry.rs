@@ -79,17 +79,16 @@ impl EntryVisitor {
         self.visitor_context.react_component_raw_render_fn_map.clone().into_iter().for_each(|(name, raw_fn_map)| {
             // 1. 可能存在互相引用，得梳理一下他们之间的依赖关系 数据结构 hashMap：{name:[dep1, dep2,...]}
             let render_fn_deps_map = generate_render_fn_dep_map(&raw_fn_map);
-            
-            for (fn_name, deps) in &render_fn_deps_map {
-                println!("component_name: {}, fn_name: {} deps: {:?}", name, fn_name, deps);
-            }
 
-            // 2. 根据依赖表，生成解析的列表 sort queue 先进先出
-            get_deps_circular(&render_fn_deps_map);
-            let sort_queue = generate_sort_queue(&render_fn_deps_map);
-            println!("component_name: {}, sort_queue: {:?}", name, sort_queue);
-            // 3. 根据 sort queue 生成 formatted_fn_map 数据结构 hashMap：{name: formatted_fn}
-            let formatted_fn_map = generate_formatted_fn_map(sort_queue, &raw_fn_map, &render_fn_deps_map);
+            // 2. 根据依赖表，检查里面有没有循环引用，如果有循环引用，需要把循环引用的那些函数都去掉
+            let deps_circular_list = get_deps_circular(&render_fn_deps_map);
+            // 3. 根据 deps_circular_list 生成 formatted_fn_map 数据结构 hashMap：{name: formatted_fn}
+            let mut formatted_fn_map: HashMap<String, RenderFn> = HashMap::new();
+            raw_fn_map.clone().into_iter().for_each(|(fn_name, raw_fn)| {
+                if !deps_circular_list.iter().any(|circular| circular.contains(&fn_name)) {
+                    formatted_fn_map.insert(fn_name, raw_fn);
+                }
+            });
             formatted_render_fn_map.insert(name, formatted_fn_map);
         });
         for (component_name, formatted_fn_map) in &formatted_render_fn_map {
@@ -122,73 +121,6 @@ fn generate_render_fn_dep_map (raw_fn_map: &HashMap<String, RenderFn>)-> HashMap
     }
     // todo：通过 visitor 收集依赖，只能收集到最表层的依赖，如果有嵌套的依赖，需要递归处理，可能会出现循环，如果出现循环的话，按么循环的那两个组件都要去掉 也是数据结构算法
     render_fn_deps_map
-}
-
-fn generate_sort_queue (render_fn_deps_map: &HashMap<String, Vec<String>>) -> Vec<String> {
-    //已经遍历过的节点 剪纸用的
-    let mut visited = HashSet::new();
-    let mut result = VecDeque::new();
-    let mut cycles = Vec::new();
-    
-    for key in render_fn_deps_map.keys() {
-        let mut path = Vec::new();
-        if dfs(key, render_fn_deps_map, &mut visited, &mut path, &mut result, &mut cycles) {
-            cycles.push(path);
-        }
-    }
-
-    for cycle in cycles {
-        println!("Detected cycle: {:?}", cycle);
-    }
-
-    result.into_iter().collect()
-}
-
-fn generate_formatted_fn_map (sort_queue: Vec<String>, raw_fn_map: &HashMap<String, RenderFn>, render_fn_deps_map: &HashMap<String, Vec<String>>) -> HashMap<String, RenderFn> {
-    let mut formatted_fn_map = HashMap::new();
-    for name in &sort_queue {
-        match (raw_fn_map.get(name), render_fn_deps_map.get(name)) {
-            (Some(raw_fn), Some(deps)) => {
-                let mut dep_map = HashMap::new();
-                for dep in deps {
-                    let formatted_dep = formatted_fn_map.get(dep);
-                    if formatted_dep.is_some() {
-                        dep_map.insert(dep.clone(), formatted_dep.unwrap());
-                    }
-                }
-                formatted_fn_map.insert(name.clone(), raw_fn.clone());
-            },
-            _ => {}
-        }
-    }
-  
-    formatted_fn_map
-}
-
-
-fn dfs(node: &String, map: &HashMap<String, Vec<String>>, visited: &mut HashSet<String>, path: &mut Vec<String>, result: &mut VecDeque<String>, cycles: &mut Vec<Vec<String>>) -> bool {
-    if path.contains(node) {
-        //这里就是发现循环了
-
-        return true;
-    } else if !visited.contains(node) {
-        // 已经遍历过就不需要再处理了，要么已经被 push 到 result 里面了，要么存在循环链，已经被摘除了
-        visited.insert(node.clone());
-        path.push(node.clone());
-
-        if let Some(neighbors) = map.get(node) {
-            for neighbor in neighbors {
-                if dfs(neighbor, map, visited, path, result, cycles) {
-                    return true;
-                }
-            }
-        }
-
-        path.pop();
-        result.push_back(node.clone());
-    }
-
-    false
 }
 
 fn get_deps_circular(map: &HashMap<String, Vec<String>>)-> Vec<Vec<String>> {

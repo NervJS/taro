@@ -9,6 +9,7 @@ use crate::{
 
 mod entry;
 mod render;
+mod props;
 
 pub fn tr () -> impl Fold {
     let config = serde_json::from_str::<PluginConfig>(

@@ -94,7 +94,6 @@ test!(
         return <View compileModeSubComponent>
           <View>ComponentC</View>
           {renderA()}
-          {renderD()}
         </View>
       }
 
