@@ -73,7 +73,7 @@
     "@testing-library/react-native": "^12.4.1",
     "cpy-cli": "^5.0.0",
     "dpdm": "^3.14.0",
-    "expo": "~51.0.5",
+    "expo": "~51.0.32",
     "jest-expo": "^51.0.1",
     "mock-socket": "^7.1.0",
     "react": "^18.2.0",
