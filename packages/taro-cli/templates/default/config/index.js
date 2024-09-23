@@ -1,5 +1,5 @@
 import { defineConfig{{#if typescript }}, type UserConfigExport{{/if}} } from '@tarojs/cli'
-{{#if typescript }}import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'{{/if}}
+{{#if eq compiler "Webpack5" }}{{#if typescript }}import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'{{/if}}{{/if}}
 import devConfig from './dev'
 import prodConfig from './prod'
 
