@@ -53,7 +53,7 @@
     "expo-brightness": "~12.0.1",
     "expo-camera": "~15.0.8",
     "expo-file-system": "~17.0.1",
-    "expo-image-picker": "~15.0.4",
+    "expo-image-picker": "~15.0.7",
     "expo-keep-awake": "~13.0.1",
     "expo-location": "~17.0.1",
     "expo-sensors": "~13.0.6",
