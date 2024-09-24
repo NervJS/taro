@@ -1,5 +1,5 @@
 export default function Index() {
-    function renderB() {
+    function renderA() {
         return <View> ComponentA </View>;
     }
     return <View compileMode>

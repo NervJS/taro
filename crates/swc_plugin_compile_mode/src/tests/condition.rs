@@ -34,35 +34,42 @@ test!(
     }
     "#
 );
+
 test!(
   get_syntax_config(),
   |_| tr(),
   should_support_conditional_expr,
   r#"
-    function Index () {
-        const [list, setList] = useState([
-            1,
-            2,
-            3,
-            4,
-            5
-        ]);
-        return <View compileMode>
-        <View>
-         {
-          <View>
-            {
-              list.map((item) => {
-                return <View>
-                  <Text>hello world{item}</Text>
-                </View>
-              })
-            }
-            <Text>hello world</Text>
-          </View>
-        }
-          </View>
-          </View>;
-    }
-    "#
+  function Index () {
+      return (
+        <View compileMode>
+          {condition ? <View hoverClass={myClass}>{content}</View> : <Text selectable>hello</Text>}
+          {condition1 ? condition2 ? <View>{a}</View> : <Text>{b}</Text> : <View>{c}</View>}
+          {condition1 ? <View>{a}</View> : condition2 ? <View>{b}</View> : <Text>{c}</Text>}
+          {condition1 ? <View>{a}</View> : (condition2 ? <View>{b}</View> : <Text>{c}</Text>)}
+          {condition1 ? condition2 && <View>{a}</View> : <View>{b}</View>}
+          {condition1 ? <View>{a}</View> : condition2 && <View>{b}</View>}
+          {condition1 ? "someText" : 789}
+          {condition1 ? <View className={condition2 ? '' : ''} /> : <View/>}
+          {condition1 ? <View>{condition2 ? <View/> : <View/>}</View> : <View/>}
+          <View hoverClass={myClass}></View>
+        </View>
+      )
+  }
+  "#
+);
+
+test!(
+  get_syntax_config(),
+  |_| tr(),
+  should_support_jsx_container_expr,
+  r#"
+  function Index () {
+      return (
+        <View compileMode>
+          {<View hoverClass={myClass}></View>}
+        </View>
+      )
+  }
+  "#
 );
