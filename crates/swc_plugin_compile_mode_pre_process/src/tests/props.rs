@@ -10,7 +10,7 @@ test!(
     export default function Index () {
       const list = [1, 2, 3];
       function renderA (listA) {
-        return <View compileModeSubComponent> {
+        return <View compileMode="subRenderFn"> {
             listA.map((item, index) => {
                 return <View key={index}> {item} </View>
             })
@@ -34,7 +34,7 @@ test!(
     export default function Index () {
       const list = [1, 2, 3];
       function renderA (listA) {
-        return <View compileModeSubComponent> {
+        return <View compileMode="subRenderFn"> {
             listA.map((item, index) => {
                 return <View key={index}> {item} </View>
             })

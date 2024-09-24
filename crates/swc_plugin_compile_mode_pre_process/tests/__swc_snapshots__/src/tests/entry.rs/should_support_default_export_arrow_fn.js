@@ -4,7 +4,7 @@ export default (()=>{
     }
     return <View compileMode>
 
-            {<View> ComponentA </View>}
+          {<View> ComponentA </View>}
 
-        </View>;
+      </View>;
 });

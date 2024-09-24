@@ -4,7 +4,10 @@ use swc_core::ecma::{
   visit::{VisitMut, VisitMutWith},
 };
 
-use crate::utils::{constant::COMPILE_MODE_SUB_COMPONENT, render_fn::RenderFn};
+use crate::utils::{
+  constant::{COMPILE_MODE, COMPILE_MODE_SUB_RENDER_FN_VAL},
+  render_fn::RenderFn,
+};
 
 pub struct CollectRenderFnVisitor {
   pub raw_render_fn_map: HashMap<String, RenderFn>,
@@ -105,20 +108,27 @@ impl VisitMut for CollectRenderFnVisitor {
           if let Expr::JSXElement(jsx_element) = &*paren_expr.expr {
             for attr in &jsx_element.opening.attrs {
               if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
-                if let JSXAttrName::Ident(jsx_attr_name) = &jsx_attr.name {
-                  match (
-                    jsx_attr_name.sym == COMPILE_MODE_SUB_COMPONENT,
-                    &self.sub_component_name,
-                    &self.sub_component_params,
-                  ) {
-                    (true, Some(sub_component_name), Some(sub_component_params)) => {
+                match (
+                  &jsx_attr.name,
+                  &jsx_attr.value,
+                  &self.sub_component_name,
+                  &self.sub_component_params,
+                ) {
+                  (
+                    JSXAttrName::Ident(jsx_attr_name),
+                    Some(JSXAttrValue::Lit(Lit::Str(Str { value, .. }))),
+                    Some(sub_component_name),
+                    Some(sub_component_params),
+                  ) => {
+                    if jsx_attr_name.sym == COMPILE_MODE && value == COMPILE_MODE_SUB_RENDER_FN_VAL
+                    {
                       self.raw_render_fn_map.insert(
                         sub_component_name.clone(),
                         RenderFn::new(sub_component_params.clone(), *jsx_element.clone()),
                       );
                     }
-                    _ => {}
                   }
+                  _ => {}
                 }
               }
             }
@@ -127,20 +137,26 @@ impl VisitMut for CollectRenderFnVisitor {
         Expr::JSXElement(jsx_element) => {
           for attr in &jsx_element.opening.attrs {
             if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
-              if let JSXAttrName::Ident(jsx_attr_name) = &jsx_attr.name {
-                match (
-                  jsx_attr_name.sym == COMPILE_MODE_SUB_COMPONENT,
-                  &self.sub_component_name,
-                  &self.sub_component_params,
-                ) {
-                  (true, Some(sub_component_name), Some(sub_component_params)) => {
+              match (
+                &jsx_attr.name,
+                &jsx_attr.value,
+                &self.sub_component_name,
+                &self.sub_component_params,
+              ) {
+                (
+                  JSXAttrName::Ident(jsx_attr_name),
+                  Some(JSXAttrValue::Lit(Lit::Str(Str { value, .. }))),
+                  Some(sub_component_name),
+                  Some(sub_component_params),
+                ) => {
+                  if jsx_attr_name.sym == COMPILE_MODE && value == COMPILE_MODE_SUB_RENDER_FN_VAL {
                     self.raw_render_fn_map.insert(
                       sub_component_name.clone(),
                       RenderFn::new(sub_component_params.clone(), *jsx_element.clone()),
                     );
                   }
-                  _ => {}
                 }
+                _ => {}
               }
             }
           }

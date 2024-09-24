@@ -7,6 +7,7 @@ use swc_core::{
   plugin::{plugin_transform, proxies::TransformPluginProgramMetadata},
 };
 
+#[cfg(test)]
 mod tests;
 mod utils;
 mod visitors;

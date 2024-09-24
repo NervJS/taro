@@ -13,7 +13,7 @@ test!(
       }
     
      function renderA () {
-       return <View compileModeSubComponent>
+       return <View compileMode="subRenderFn">
         <View>ComponentA</View>
         {renderB()}
        </View>
@@ -38,11 +38,11 @@ test!(
   r#"
     export default function Index () {
       function renderB () {
-        return <View compileModeSubComponent> ComponentB </View>
+        return <View compileMode="subRenderFn"> ComponentB </View>
       }
     
       function renderC () {
-        return <View compileModeSubComponent>
+        return <View compileMode="subRenderFn">
           <View>ComponentC</View>
           {renderB()}
           {renderA()}
@@ -50,14 +50,14 @@ test!(
       }
 
       function renderD () {
-        return <View compileModeSubComponent>
+        return <View compileMode="subRenderFn">
           <View>ComponentD</View>
           {renderB()}
         </View>
       }
 
      function renderA () {
-       return <View compileModeSubComponent>
+       return <View compileMode="subRenderFn">
         <View>ComponentA</View>
         {renderB()}
        </View>
@@ -84,28 +84,28 @@ test!(
   r#"
     export default function Index () {
       function renderB () {
-        return <View compileModeSubComponent> 
+        return <View compileMode="subRenderFn"> 
         <View>ComponentB </View>
         {renderA()}
         </View>
       }
     
       function renderC () {
-        return <View compileModeSubComponent>
+        return <View compileMode="subRenderFn">
           <View>ComponentC</View>
           {renderA()}
         </View>
       }
 
       function renderD () {
-        return <View compileModeSubComponent>
+        return <View compileMode="subRenderFn">
           <View>ComponentD</View>
           {renderC()}
         </View>
       }
 
      function renderA () {
-       return <View compileModeSubComponent>
+       return <View compileMode="subRenderFn">
         <View>ComponentA</View>
         {renderB()}
        </View>

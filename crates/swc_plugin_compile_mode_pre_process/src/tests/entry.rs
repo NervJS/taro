@@ -9,7 +9,7 @@ test!(
   r#"
     export default function Index () {
       function renderA () {
-        return <View compileModeSubComponent> ComponentA </View>
+        return <View compileMode="subRenderFn"> ComponentA </View>
       }
         
       return (
@@ -26,17 +26,17 @@ test!(
   |_| tr(),
   should_support_default_export_arrow_fn,
   r#"
-    export default () => {
-      function renderA () {
-        return <View compileModeSubComponent> ComponentA </View>
-      }
-        
-      return (
-        <View compileMode>
-            {renderA()}
-        </View>
-      )
+  export default () => {
+    function renderA () {
+      return <View compileMode="subRenderFn"> ComponentA </View>
     }
+      
+    return (
+      <View compileMode>
+          {renderA()}
+      </View>
+    )
+  }
     "#
 );
 
@@ -47,7 +47,7 @@ test!(
   r#"
     export const ComponentA = () => {
       function renderA () {
-        return <View compileModeSubComponent> ComponentA </View>
+        return <View compileMode="subRenderFn"> ComponentA </View>
       }
         
       return (
@@ -66,7 +66,7 @@ test!(
   r#"
     export function ComponentA () {
       function renderA () {
-        return <View compileModeSubComponent> ComponentA </View>
+        return <View compileMode="subRenderFn"> ComponentA </View>
       }
         
       return (
@@ -85,7 +85,7 @@ test!(
   r#"
     function ComponentA () {
       function renderA () {
-        return <View compileModeSubComponent> ComponentA </View>
+        return <View compileMode="subRenderFn"> ComponentA </View>
       }
         
       return (
@@ -104,7 +104,7 @@ test!(
   r#"
     const ComponentA = () => {
       function renderA () {
-        return <View compileModeSubComponent> ComponentA </View>
+        return <View compileMode="subRenderFn"> ComponentA </View>
       }
         
       return (

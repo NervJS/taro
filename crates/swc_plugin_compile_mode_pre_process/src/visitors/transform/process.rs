@@ -7,7 +7,7 @@ use swc_core::ecma::{
 };
 
 use crate::utils::{
-  constant::{COMPILE_MODE, COMPILE_MODE_SUB_COMPONENT},
+  constant::{COMPILE_MODE, COMPILE_MODE_SUB_RENDER_FN_VAL},
   render_fn::RenderFn,
 };
 
@@ -30,19 +30,28 @@ impl<'a> VisitMut for TransformProcessVisitor<'a> {
     if !self.in_compile_mode_jsx {
       for attr in &mut el.opening.attrs {
         if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
-          if let JSXAttrName::Ident(jsx_attr_name) = &jsx_attr.name {
-            if jsx_attr_name.sym == COMPILE_MODE {
-              self.in_compile_mode_jsx = true;
-              break;
+          match (&jsx_attr.name, &jsx_attr.value) {
+            (
+              JSXAttrName::Ident(jsx_attr_name),
+              None
+            ) => {
+              if jsx_attr_name.sym == COMPILE_MODE {
+                self.in_compile_mode_jsx = true;
+                break;
+              }
             }
+            _ => {}
           }
         }
       }
     }
 
     el.opening.attrs.retain(|attr| match &attr {
-      JSXAttrOrSpread::JSXAttr(JSXAttr { name, .. }) => match name {
-        JSXAttrName::Ident(jsx_attr_name) => jsx_attr_name.sym != COMPILE_MODE_SUB_COMPONENT,
+      JSXAttrOrSpread::JSXAttr(JSXAttr { name, value, .. }) => match (name, value) {
+        (
+          JSXAttrName::Ident(jsx_attr_name),
+          Some(JSXAttrValue::Lit(Lit::Str(Str { value, .. }))),
+        ) => !(jsx_attr_name.sym == COMPILE_MODE && value == COMPILE_MODE_SUB_RENDER_FN_VAL),
         _ => true,
       },
       _ => true,
