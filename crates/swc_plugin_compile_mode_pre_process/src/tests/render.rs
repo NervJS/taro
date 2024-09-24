@@ -3,10 +3,10 @@ use swc_core::ecma::transforms::testing::test;
 use super::{get_syntax_config, tr};
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_render_with_sub_component_attr,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_render_with_sub_component_attr,
+  r#"
     export default function Index () {
       function renderB () {
         return <View> ComponentB </View>
@@ -32,10 +32,10 @@ test!(
 );
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_render_with_recursion,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_render_with_recursion,
+  r#"
     export default function Index () {
       function renderB () {
         return <View compileModeSubComponent> ComponentB </View>
@@ -78,10 +78,10 @@ test!(
 );
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_not_render_with_circle_recursion,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_not_render_with_circle_recursion,
+  r#"
     export default function Index () {
       function renderB () {
         return <View compileModeSubComponent> 

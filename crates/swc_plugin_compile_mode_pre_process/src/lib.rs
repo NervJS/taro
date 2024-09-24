@@ -1,26 +1,22 @@
+use serde::Deserialize;
+use std::collections::HashMap;
 use swc_core::{
   ecma::{
-      ast::Program,
-      visit::{as_folder, FoldWith, VisitMut},
+    ast::Program,
+    visit::{as_folder, FoldWith, VisitMut},
   },
-  plugin::{
-      plugin_transform,
-      proxies::TransformPluginProgramMetadata
-  }
+  plugin::{plugin_transform, proxies::TransformPluginProgramMetadata},
 };
-use serde::{Deserialize};
-use std::collections::HashMap;
 
-mod visitors;
 mod tests;
+mod visitors;
 use visitors::entry::EntryVisitor;
 struct SerdeDefault;
 impl SerdeDefault {
-    fn platform_default () -> String {
-        String::from("WEAPP")
-    }
+  fn platform_default() -> String {
+    String::from("WEAPP")
+  }
 }
-
 
 #[derive(Deserialize, Debug)]
 pub struct PluginConfig {
@@ -30,14 +26,10 @@ pub struct PluginConfig {
 
 #[plugin_transform]
 pub fn process_transform(program: Program, metadata: TransformPluginProgramMetadata) -> Program {
-    let config = serde_json::from_str::<PluginConfig>(
-        &metadata
-            .get_transform_plugin_config()
-            .unwrap()
-    )
-    .unwrap();
+  let config =
+    serde_json::from_str::<PluginConfig>(&metadata.get_transform_plugin_config().unwrap()).unwrap();
 
-    let visitor: Box<dyn VisitMut> = Box::new(EntryVisitor::new(config));
+  let visitor: Box<dyn VisitMut> = Box::new(EntryVisitor::new(config));
 
-    program.fold_with(&mut as_folder(visitor))
+  program.fold_with(&mut as_folder(visitor))
 }
