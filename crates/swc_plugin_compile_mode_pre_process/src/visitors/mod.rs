@@ -1,5 +1,4 @@
 pub mod collect_render_fn;
-pub mod common;
 pub mod entry;
 pub mod find_react_component;
 pub mod generate_deps;

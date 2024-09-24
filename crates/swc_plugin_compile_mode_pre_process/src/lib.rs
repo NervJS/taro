@@ -1,5 +1,4 @@
 use serde::Deserialize;
-use std::collections::HashMap;
 use swc_core::{
   ecma::{
     ast::Program,
@@ -9,6 +8,7 @@ use swc_core::{
 };
 
 mod tests;
+mod utils;
 mod visitors;
 use visitors::entry::EntryVisitor;
 struct SerdeDefault;

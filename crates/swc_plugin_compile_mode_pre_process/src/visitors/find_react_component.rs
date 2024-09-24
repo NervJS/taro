@@ -1,6 +1,6 @@
 use swc_core::ecma::{ast::*, visit::VisitMut};
 
-use super::common::{ReactComponent, DEFAULT_COMPONENT};
+use crate::utils::{constant::DEFAULT_COMPONENT, react_component::ReactComponent};
 
 pub struct FindReactComponentVisitor<'a> {
   react_component_list: &'a mut Vec<ReactComponent>,

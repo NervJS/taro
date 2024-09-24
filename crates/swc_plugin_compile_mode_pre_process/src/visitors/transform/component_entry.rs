@@ -5,7 +5,7 @@ use swc_core::ecma::{
   visit::{VisitMut, VisitMutWith},
 };
 
-use crate::visitors::common::{RenderFn, DEFAULT_COMPONENT};
+use crate::utils::{constant::DEFAULT_COMPONENT, render_fn::RenderFn};
 
 use super::process::TransformProcessVisitor;
 

@@ -3,7 +3,7 @@ use swc_core::ecma::{
   visit::{VisitMut, VisitMutWith},
 };
 
-use super::common::COMPILE_MODE;
+use crate::utils::constant::COMPILE_MODE;
 
 pub struct IsCompileModeVisitor {
   pub valid: bool,
@@ -46,7 +46,6 @@ impl VisitMut for IsCompileModeVisitor {
           if let JSXAttrName::Ident(jsx_attr_name) = &jsx_attr.name {
             if jsx_attr_name.sym == COMPILE_MODE {
               self.valid = true;
-              println!("valid component!\n");
               break;
             }
           }

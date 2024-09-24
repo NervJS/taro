@@ -4,7 +4,7 @@ use swc_core::ecma::{
   visit::{VisitMut, VisitMutWith},
 };
 
-use super::common::RenderFn;
+use crate::utils::render_fn::RenderFn;
 
 pub struct GenerateDepsVisitor<'a> {
   raw_fn_map: &'a HashMap<String, RenderFn>,

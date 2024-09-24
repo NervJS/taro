@@ -1,6 +1,9 @@
 use std::collections::{HashMap, HashSet};
 
-use crate::PluginConfig;
+use crate::{
+  utils::{react_component::ReactComponent, render_fn::RenderFn},
+  PluginConfig,
+};
 use swc_core::ecma::{
   ast::*,
   visit::{VisitMut, VisitMutWith},
@@ -8,8 +11,8 @@ use swc_core::ecma::{
 
 use super::collect_render_fn::CollectRenderFnVisitor;
 use super::find_react_component::FindReactComponentVisitor;
+use super::generate_deps::GenerateDepsVisitor;
 use super::transform::component_entry::ComponentEntryVisitor;
-use super::{common::*, generate_deps::GenerateDepsVisitor};
 pub struct EntryVisitor {
   visitor_context: VisitorContext,
 }

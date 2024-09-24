@@ -1,11 +1,10 @@
-use crate::visitors::common::COMPILE_MODE_SUB_COMPONENT;
 use std::collections::HashMap;
 use swc_core::ecma::{
   ast::*,
   visit::{VisitMut, VisitMutWith},
 };
 
-use super::common::RenderFn;
+use crate::utils::{constant::COMPILE_MODE_SUB_COMPONENT, render_fn::RenderFn};
 
 pub struct CollectRenderFnVisitor {
   pub raw_render_fn_map: HashMap<String, RenderFn>,

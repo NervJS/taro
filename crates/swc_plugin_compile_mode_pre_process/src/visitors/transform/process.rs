@@ -6,7 +6,11 @@ use swc_core::ecma::{
   visit::{VisitMut, VisitMutWith},
 };
 
-use crate::visitors::common::{RenderFn, COMPILE_MODE, COMPILE_MODE_SUB_COMPONENT};
+use crate::utils::{
+  constant::{COMPILE_MODE, COMPILE_MODE_SUB_COMPONENT},
+  render_fn::RenderFn,
+};
+
 pub struct TransformProcessVisitor<'a> {
   render_fn_map: &'a HashMap<String, RenderFn>,
   in_compile_mode_jsx: bool,
