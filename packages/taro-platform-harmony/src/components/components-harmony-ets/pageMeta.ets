@@ -1,4 +1,4 @@
-import { APP, eventCenter } from '@tarojs/runtime/dist/runtime.esm'
+import { APP, eventCenter } from '@tarojs/runtime'
 import { getCurrentInstance, pageScrollTo } from '@tarojs/taro'
 
 import { isTagFirstChild } from './utils/helper'

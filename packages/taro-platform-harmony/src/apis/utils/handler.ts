@@ -1,10 +1,11 @@
 import { isFunction } from '@tarojs/shared'
 
+import type { TFunc } from '@tarojs/runtime'
+
 export interface ICallbackResult {
   /** 错误信息 */
   errMsg: string
 }
-type TFunc = (...args: any[]) => any
 
 type TCallback<T = Partial<ICallbackResult>> = (res: T) => Promise<void> | void
 interface IMethodParam<T = Partial<ICallbackResult>> {

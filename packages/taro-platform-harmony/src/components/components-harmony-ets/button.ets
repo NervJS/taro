@@ -4,7 +4,7 @@ import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroEvent, TaroButtonElement, TaroStyleType } from '@tarojs/runtime'
+import type { TaroAny, TaroButtonElement, TaroEvent, TaroStyleType } from '@tarojs/runtime'
 
 interface ButtonAttrs {
   disabled?: boolean

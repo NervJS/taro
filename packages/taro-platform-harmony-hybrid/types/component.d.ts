@@ -4,3 +4,11 @@ declare module '@tarojs/components/dist/components' {
 
   export * from '@tarojs/components/dist/components'
 }
+
+declare module '@tarojs/components/lib/vue3' {
+  export * from '@tarojs/components'
+}
+
+declare module '@tarojs/components/lib/react' {
+  export * from '@tarojs/components'
+}

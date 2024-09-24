@@ -1,6 +1,6 @@
-import { Events } from '@tarojs/runtime/dist/runtime.esm'
 import { isArray } from '@tarojs/shared'
 
+import { Events } from '../emitter/emitter'
 import { TaroEvent } from './event'
 
 import type { EventHandler } from '../interface'

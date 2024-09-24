@@ -65,7 +65,7 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConf
   getApp (): ViteAppMeta {
     const scriptPath = this.getAppScriptPath()
     const configPath = this.getConfigFilePath(scriptPath)
-    const config: AppConfig = readConfig(configPath)
+    const config: AppConfig = readConfig(configPath, this.taroConfig)
 
     if (isEmptyObject(config)) {
       this.logger.error('缺少 app 全局配置文件，请检查！')

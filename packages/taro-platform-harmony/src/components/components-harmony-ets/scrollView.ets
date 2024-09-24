@@ -6,7 +6,7 @@ import { FlexManager } from './utils/flexManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNodeThresholds, getStyleAttr, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny, TaroScrollViewElement, TaroEvent } from '@tarojs/runtime'
+import type { TaroAny, TaroEvent, TaroScrollViewElement } from '@tarojs/runtime'
 
 interface ScrollViewAttrs {
   scrollBar: BarState
@@ -36,8 +36,13 @@ function getAttributes (node: TaroScrollViewElement): ScrollViewAttrs {
 
 function getScrollable (node: TaroScrollViewElement) {
   const _attrs = node._attrs
-
-  return _attrs.scrollX ? ScrollDirection.Horizontal : ScrollDirection.Vertical
+  if (_attrs.scrollX) {
+    return ScrollDirection.Horizontal
+  } else if (_attrs.scrollY) {
+    return ScrollDirection.Vertical
+  } else {
+    return ScrollDirection.None
+  }
 }
 
 function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', xOffset?: number, yOffset?: number) {

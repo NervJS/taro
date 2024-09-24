@@ -1,3 +1,9 @@
+
+declare module 'swiper/bundle' {
+  import Swiper from 'swiper';
+  export = Swiper
+}
+
 declare module '@tarojs/components-react' {
   export * from '@tarojs/components'
 }

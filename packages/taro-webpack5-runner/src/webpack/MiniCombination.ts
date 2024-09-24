@@ -107,7 +107,7 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
     const { alias = {}, taroComponentsPath } = this.config
     return {
       ...alias,
-      [`${taroJsComponents}$`]: taroComponentsPath || `${taroJsComponents}/mini`
+      [`${taroJsComponents}$`]: taroComponentsPath
     }
   }
 

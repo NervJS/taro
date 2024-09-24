@@ -43,6 +43,9 @@ export default (ctx: IPluginContext) => {
       const description = options.description || ''
       const afterCreate = options.afterCreate
       const templateSource = options.templateSource
+      const framework = options.framework
+      const css = options.css
+      const typescript = options.typescript
       const clone = options.clone
       const { chalk } = ctx.helper
       const { appPath } = ctx.paths
@@ -57,6 +60,9 @@ export default (ctx: IPluginContext) => {
           const page = new Page({
             clone,
             subPkg: options.subpkg,
+            framework,
+            css,
+            typescript,
             pageDir: options.dir,
             pageName: name,
             projectDir: appPath,

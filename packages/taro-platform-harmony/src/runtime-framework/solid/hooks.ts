@@ -14,7 +14,7 @@ import type {
   AppInstance,
   PageLifeCycle,
   TFunc
-} from '@tarojs/runtime/dist/runtime.esm'
+} from '@tarojs/runtime'
 
 const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
   return (fn: TFunc) => {

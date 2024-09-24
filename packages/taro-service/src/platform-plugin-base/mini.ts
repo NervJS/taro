@@ -1,6 +1,6 @@
 import * as path from 'node:path'
 
-import { recursiveMerge } from '@tarojs/helper'
+import { recursiveMerge, taroJsMiniComponentsPath } from '@tarojs/helper'
 import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
 
 import { getPkgVersion } from '../utils/package'
@@ -23,8 +23,9 @@ export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends Taro
   abstract globalObject: string
   abstract fileType: IFileType
   abstract template: RecursiveTemplate | UnRecursiveTemplate
+  // Note: 给所有的小程序平台一个默认的 taroComponentsPath
+  taroComponentsPath: string = taroJsMiniComponentsPath
   projectConfigJson?: string
-  taroComponentsPath?: string
 
   private projectConfigJsonOutputPath: string
 

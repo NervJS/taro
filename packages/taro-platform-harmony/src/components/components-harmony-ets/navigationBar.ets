@@ -1,4 +1,4 @@
-import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
+import { eventCenter } from '@tarojs/runtime'
 
 import { isTagFirstChild } from './utils/helper'
 

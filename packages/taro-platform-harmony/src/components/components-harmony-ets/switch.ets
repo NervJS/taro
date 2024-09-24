@@ -3,7 +3,7 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 import commonStyleModify from './style'
 import { getNodeThresholds, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny, TaroSwitchElement, TaroEvent } from '@tarojs/runtime'
+import type { TaroAny, TaroEvent, TaroSwitchElement } from '@tarojs/runtime'
 
 interface SwitchAttrs {
   selectedColor?: ResourceColor

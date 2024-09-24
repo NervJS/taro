@@ -18,9 +18,9 @@ packages/taro-components-library-react/components.ts
 packages/taro-components-library-vue3/components.ts
 packages/taro-components-library-solid/components.ts
 
-packages/taro-webpack5-runner/src/__tests__/__snapshots__
-packages/taro-webpack5-runner/src/__tests__/fixtures
-packages/taro-webpack5-runner/src/__tests__/bundled
+tests/__tests__/__snapshots__
+tests/__tests__/fixtures
+tests/__tests__/bundled
 
 packages/taro/types
 
