@@ -441,7 +441,7 @@ export class BaseTemplate {
       if (compName === 'custom-wrapper') {
         template += `
 <template name="tmpl_${level}_${compName}">
-  <${compName} i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <${compName} i="{{i}}" ${!isSupportRecursive && isUseXS ? 'l="{{l}}"' : ''} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
   </${compName}>
 </template>
   `
