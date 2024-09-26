@@ -1,11 +1,11 @@
+use super::{get_syntax_config, tr};
 use swc_core::ecma::transforms::testing::test;
-use super::{tr, get_syntax_config};
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_support_render_fn,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_support_render_fn,
+  r#"
     function Index () {
         return (
           <View compileMode>
@@ -19,10 +19,10 @@ test!(
 );
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_support_fragment,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_support_fragment,
+  r#"
     function Index () {
         return (
           <View compileMode>
@@ -54,10 +54,10 @@ test!(
 );
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_support_context_api,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_support_context_api,
+  r#"
     function Index () {
         return (
           <View compileMode>
@@ -77,10 +77,10 @@ test!(
 );
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_render_react_component,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_render_react_component,
+  r#"
     function Index () {
         return (
           <View compileMode>
@@ -94,10 +94,10 @@ test!(
 );
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_render_native_component,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_render_native_component,
+  r#"
     function Index () {
         return (
           <View compileMode>

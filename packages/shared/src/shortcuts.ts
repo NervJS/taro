@@ -7,6 +7,7 @@ export const enum Shortcuts {
   NodeName = 'nn',
 
   // Attrtibutes
+  Sid = 'sid',
   Style = 'st',
   Class = 'cl',
   Src = 'src'

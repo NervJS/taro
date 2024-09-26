@@ -1,11 +1,11 @@
+use super::{get_syntax_config, tr};
 use swc_core::ecma::transforms::testing::test;
-use super::{tr, get_syntax_config};
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_loop_with_function_expr,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_loop_with_function_expr,
+  r#"
     function Index () {
         return (
           <View compileMode>
@@ -26,10 +26,10 @@ test!(
 );
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_loop_with_arrow_function_with_blockstmt,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_loop_with_arrow_function_with_blockstmt,
+  r#"
     function Index () {
         return (
           <View compileMode>

@@ -54,6 +54,10 @@ export default async function (this: LoaderContext<IOptions>, source) {
           experimental: {
             plugins: [
               [
+                '@tarojs/helper/swc/swc_plugin_compile_mode_pre_process.wasm',
+                {}
+              ],
+              [
                 '@tarojs/helper/swc/swc_plugin_compile_mode.wasm',
                 {
                   platform,
