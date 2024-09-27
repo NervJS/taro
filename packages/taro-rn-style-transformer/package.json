@@ -30,7 +30,7 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@react-native/metro-babel-transformer": "^0.73.2",
+    "@react-native/metro-babel-transformer": "^0.75.3",
     "@tarojs/helper": "workspace:*",
     "fbjs": "^3.0.5",
     "less": "^4.2.0",
