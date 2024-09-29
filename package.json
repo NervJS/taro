@@ -153,7 +153,7 @@
     "ts-jest": "^29.1.2",
     "tslib": "^2.6.2",
     "ts-node": "^10.9.1",
-    "typescript": "^5.4.5",
+    "typescript": "~5.4.5",
     "vitest": "^1.6.0"
   },
   "pnpm": {
