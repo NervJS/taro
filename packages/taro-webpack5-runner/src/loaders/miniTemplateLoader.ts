@@ -1,5 +1,6 @@
 import { isUrlRequest, urlToRequest } from 'loader-utils'
 import sax from 'sax'
+import { isSpecialFormat } from '../utils/index'
 
 export default function miniTemplateLoader (source) {
   this.cacheable && this.cacheable()
@@ -20,6 +21,8 @@ export default function miniTemplateLoader (source) {
 
   parser.onattribute = ({ name, value }) => {
     if (value && (name === 'src' || name === 'from') && isUrlRequest(value)) {
+      if (isSpecialFormat(name, value)) return
+
       const request = urlToRequest(value)
       requests.add(request)
     }
