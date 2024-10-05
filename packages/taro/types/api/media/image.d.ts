@@ -19,7 +19,7 @@ declare module '../../index' {
       /** 需要预览的图片链接列表。 */
       urls: string[]
       /**
-       * 当前显示图片的http链接
+       * 微信端为当前显示图片的链接，支付宝端为当前显示图片的索引值
        */
       current?: string | number
       /**
@@ -221,7 +221,7 @@ declare module '../../index' {
       /** 压缩后图片的宽度，单位为px，若不填写则默认以 compressedHeight 为准等比缩放。 */
       compressedWidth?: number
       /** 压缩后图片的高度，单位为px，若不填写则默认以 compressedWidth 为准等比缩放。 */
-      compressedHeight?: number
+      compressHeight?: number
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
@@ -361,7 +361,7 @@ declare module '../../index' {
     previewImage(option: previewImage.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 获取图片信息。网络图片需先配置download域名才能生效。
-     * @supported weapp, alipay, swan, tt, h5, rn, harmony, harmony_hybrid
+     * @supported weapp, alipay, swan, tt, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * Taro.getImageInfo({

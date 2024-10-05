@@ -25,7 +25,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 停止当前页面下拉刷新。
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * onPullDownRefresh: function (){
@@ -37,7 +37,7 @@ declare module '../../index' {
     stopPullDownRefresh(option?: stopPullDownRefresh.Option): void
 
     /** 开始下拉刷新。调用后触发下拉刷新动画，效果与用户手动下拉刷新一致。
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @rn 无动画效果
      * @example
      * ```tsx
