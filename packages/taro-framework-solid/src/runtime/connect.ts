@@ -22,7 +22,6 @@ type SolidComponent = (props?: any) => TaroNode;
 
 export function setReconciler () {
   hooks.tap('getLifecycle', function (instance, lifecycle: string) {
-    lifecycle = lifecycle.replace(/^on(Show|Hide)$/, 'componentDid$1')
     return instance[lifecycle]
   })
 
