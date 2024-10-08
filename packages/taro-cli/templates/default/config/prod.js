@@ -1,5 +1,5 @@
-{{#if typescript }}import type { UserConfigExport } from "@tarojs/cli";
-{{/if}}
+{{#if typescript }}import type { UserConfigExport } from "@tarojs/cli"{{/if}}
+
 export default {
   mini: {},
   h5: {
