@@ -3235,7 +3235,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.removeDuplicateSlashes = exports.matchAny = exports.convertPatternsToRe = exports.makeRe = exports.getPatternParts = exports.expandBraceExpansion = exports.expandPatternsWithBraceExpansion = exports.isAffectDepthOfReadingPattern = exports.endsWithSlashGlobStar = exports.hasGlobStar = exports.getBaseDirectory = exports.isPatternRelatedToParentDirectory = exports.getPatternsOutsideCurrentDirectory = exports.getPatternsInsideCurrentDirectory = exports.getPositivePatterns = exports.getNegativePatterns = exports.isPositivePattern = exports.isNegativePattern = exports.convertToNegativePattern = exports.convertToPositivePattern = exports.isDynamicPattern = exports.isStaticPattern = void 0;
 const path = __webpack_require__(/*! path */ "path");
 const globParent = __webpack_require__(/*! glob-parent */ "../node_modules/.pnpm/glob-parent@5.1.2/node_modules/glob-parent/index.js");
-const micromatch = __webpack_require__(/*! micromatch */ "../node_modules/.pnpm/micromatch@4.0.7/node_modules/micromatch/index.js");
+const micromatch = __webpack_require__(/*! micromatch */ "../node_modules/.pnpm/micromatch@4.0.8/node_modules/micromatch/index.js");
 const GLOBSTAR = '**';
 const ESCAPE_SYMBOL = '\\';
 const COMMON_GLOB_SYMBOLS_RE = /[*?]|^!/;
@@ -4106,9 +4106,9 @@ module.exports = function globParent(str, opts) {
 
 /***/ }),
 
-/***/ "../node_modules/.pnpm/ignore@5.3.1/node_modules/ignore/index.js":
+/***/ "../node_modules/.pnpm/ignore@5.3.2/node_modules/ignore/index.js":
 /*!***********************************************************************!*\
-  !*** ../node_modules/.pnpm/ignore@5.3.1/node_modules/ignore/index.js ***!
+  !*** ../node_modules/.pnpm/ignore@5.3.2/node_modules/ignore/index.js ***!
   \***********************************************************************/
 /***/ ((module) => {
 
@@ -4193,17 +4193,26 @@ const REPLACERS = [
   [
     // (a\ ) -> (a )
     // (a  ) -> (a)
+    // (a ) -> (a)
     // (a \ ) -> (a  )
-    /\\?\s+$/,
-    match => match.indexOf('\\') === 0
-      ? SPACE
-      : EMPTY
+    /((?:\\\\)*?)(\\?\s+)$/,
+    (_, m1, m2) => m1 + (
+      m2.indexOf('\\') === 0
+        ? SPACE
+        : EMPTY
+    )
   ],
 
   // replace (\ ) with ' '
+  // (\ ) -> ' '
+  // (\\ ) -> '\\ '
+  // (\\\ ) -> '\\ '
   [
-    /\\\s/g,
-    () => SPACE
+    /(\\+?)\s/g,
+    (_, m1) => {
+      const {length} = m1
+      return m1.slice(0, length - length % 2) + SPACE
+    }
   ],
 
   // Escape metacharacters
@@ -4431,7 +4440,8 @@ const makeRegex = (pattern, ignoreCase) => {
 
   if (!source) {
     source = REPLACERS.reduce(
-      (prev, current) => prev.replace(current[0], current[1].bind(pattern)),
+      (prev, [matcher, replacer]) =>
+        prev.replace(matcher, replacer.bind(pattern)),
       pattern
     )
     regexCache[pattern] = source
@@ -5116,9 +5126,9 @@ function pauseStreams (streams, options) {
 
 /***/ }),
 
-/***/ "../node_modules/.pnpm/micromatch@4.0.7/node_modules/micromatch/index.js":
+/***/ "../node_modules/.pnpm/micromatch@4.0.8/node_modules/micromatch/index.js":
 /*!*******************************************************************************!*\
-  !*** ../node_modules/.pnpm/micromatch@4.0.7/node_modules/micromatch/index.js ***!
+  !*** ../node_modules/.pnpm/micromatch@4.0.8/node_modules/micromatch/index.js ***!
   \*******************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -5129,7 +5139,12 @@ const util = __webpack_require__(/*! util */ "util");
 const braces = __webpack_require__(/*! braces */ "../node_modules/.pnpm/braces@3.0.3/node_modules/braces/index.js");
 const picomatch = __webpack_require__(/*! picomatch */ "../node_modules/.pnpm/picomatch@2.3.1/node_modules/picomatch/index.js");
 const utils = __webpack_require__(/*! picomatch/lib/utils */ "../node_modules/.pnpm/picomatch@2.3.1/node_modules/picomatch/lib/utils.js");
-const isEmptyString = val => val === '' || val === './';
+
+const isEmptyString = v => v === '' || v === './';
+const hasBraces = v => {
+  const index = v.indexOf('{');
+  return index > -1 && v.indexOf('}', index) > -1;
+};
 
 /**
  * Returns an array of strings that match one or more glob patterns.
@@ -5570,7 +5585,7 @@ micromatch.parse = (patterns, options) => {
 
 micromatch.braces = (pattern, options) => {
   if (typeof pattern !== 'string') throw new TypeError('Expected a string');
-  if ((options && options.nobrace === true) || !/\{.*\}/.test(pattern)) {
+  if ((options && options.nobrace === true) || !hasBraces(pattern)) {
     return [pattern];
   }
   return braces(pattern, options);
@@ -5589,6 +5604,8 @@ micromatch.braceExpand = (pattern, options) => {
  * Expose micromatch
  */
 
+// exposed for tests
+micromatch.hasBraces = hasBraces;
 module.exports = micromatch;
 
 
@@ -8362,7 +8379,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var node_fs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! node:fs */ "node:fs");
 /* harmony import */ var node_path__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! node:path */ "node:path");
 /* harmony import */ var fast_glob__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! fast-glob */ "../node_modules/.pnpm/fast-glob@3.3.2/node_modules/fast-glob/out/index.js");
-/* harmony import */ var ignore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ignore */ "../node_modules/.pnpm/ignore@5.3.1/node_modules/ignore/index.js");
+/* harmony import */ var ignore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ignore */ "../node_modules/.pnpm/ignore@5.3.2/node_modules/ignore/index.js");
 /* harmony import */ var slash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! slash */ "../node_modules/.pnpm/slash@4.0.0/node_modules/slash/index.js");
 /* harmony import */ var _to_path_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./to-path.js */ "../node_modules/.pnpm/globby@12.2.0/node_modules/globby/to-path.js");
 

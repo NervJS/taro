@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "description": "taro runtime for mini apps.",
   "author": "O2Team",
   "license": "MIT",
@@ -39,6 +39,6 @@
     "@vue/runtime-core": "^3.4.23",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
-    "rollup-plugin-ts": "^3.0.2"
+    "rollup-plugin-ts": "^3.4.5"
   }
 }

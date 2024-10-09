@@ -19,7 +19,7 @@ import {
   singleQuote,
   voidElements
 } from './components'
-import { isBooleanStringLiteral, isFunction, isNumber, isString } from './is'
+import { isBooleanStringLiteral, isFunction, isNumber, isObjectStringLiteral, isString } from './is'
 import { Shortcuts } from './shortcuts'
 import { capitalize, getComponentsAlias, hasOwn, indent, toCamelCase, toDashed, toKebabCase } from './utils'
 
@@ -134,17 +134,15 @@ export class BaseTemplate {
 
         for (let prop in component) {
           if (hasOwn(component, prop)) {
+            const propInCamelCase = toCamelCase(prop)
+            const propAlias = componentAlias[propInCamelCase] || propInCamelCase
             let propValue = component[prop]
+
             if (prop.startsWith('bind') || propValue === 'eh') {
               propValue = 'eh'
             } else if (propValue === '') {
-              const propInCamelCase = toCamelCase(prop)
-              const propAlias = componentAlias[propInCamelCase] || propInCamelCase
               propValue = `i.${propAlias}`
             } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
-              const propInCamelCase = toCamelCase(prop)
-              const propAlias = componentAlias[propInCamelCase] || propInCamelCase
-
               // cursor 默认取最后输入框最后一位 fix #13809
               if (prop === 'cursor') {
                 propValue = `i.${componentAlias.value}?i.${componentAlias.value}.length:-1`
@@ -153,9 +151,11 @@ export class BaseTemplate {
               propValue = this.supportXS
                 ? `xs.b(i.${propAlias},${propValue})`
                 : `i.${propAlias}===undefined?${propValue}:i.${propAlias}`
+            } else if (isObjectStringLiteral(propValue)) {
+              propValue = this.supportXS
+                ? `xs.d(i.${propAlias})`
+                : `i.${propAlias}===undefined?${propValue}:i.${propAlias}`
             } else {
-              const propInCamelCase = toCamelCase(prop)
-              const propAlias = componentAlias[propInCamelCase] || propInCamelCase
               propValue = `i.${propAlias}||${propValue || singleQuote('')}`
             }
 
@@ -267,9 +267,17 @@ export class BaseTemplate {
 
       const patchValue = patcher[attr]
       if (isBooleanStringLiteral(patchValue) || isNumber(patchValue) || isString(patchValue)) {
-        const propValue = this.supportXS
-          ? `xs.b(i.${toCamelCase(attr)},${patchValue})`
-          : `i.${toCamelCase(attr)}===undefined?${patchValue}:i.${toCamelCase(attr)}`
+        let propValue = ''
+
+        if (this.supportXS) {
+          if (isObjectStringLiteral(patchValue)) {
+            propValue = `xs.d(i.${toCamelCase(attr)})`
+          }
+          propValue = `xs.b(i.${toCamelCase(attr)},${patchValue})`
+        } else {
+          propValue = `i.${toCamelCase(attr)}===undefined?${patchValue}:i.${toCamelCase(attr)}`
+        }
+
         return str + ` ${attr}="{{${propValue}}}"`
       }
       return str + ` ${attr}="{{i.${toCamelCase(attr)}}}"`
@@ -537,6 +545,9 @@ ${this.buildXsTemplate()}
     return a === undefined ? b : a
   },
   c: ${this.buildXSTepFocus(Shortcuts.NodeName)},
+  d: function (a) {
+    return a === undefined ? {} : a
+  },
   e: function (n) {
     return 'tmpl_' + n + '_${Shortcuts.Container}'
   },

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-solid",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "description": "Solid 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -44,7 +44,7 @@
     "webpack-chain": "^6.5.1",
     "esbuild": "~0.19.5",
     "solid-js": "^1.8.16",
-    "typescript": "^5.3.3",
+    "typescript": "~5.4.5",
     "vite": "^4.2.0"
   },
   "peerDependencies": {
