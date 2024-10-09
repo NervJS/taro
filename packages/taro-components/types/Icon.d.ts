@@ -2,16 +2,16 @@ import { ComponentType } from 'react'
 import { StandardProps } from './common'
 interface IconProps extends StandardProps {
   /** icon 的类型
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   type: keyof IconProps.TIconType
   /** icon 的大小，单位px
    * @default 23
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
-  size?: number
+  size?: string
   /** icon 的颜色，同 css 的 color
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   color?: string
   /** 无障碍访问，（属性）元素的额外描述
