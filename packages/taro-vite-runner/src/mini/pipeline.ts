@@ -25,6 +25,10 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
       if (experimental?.useXsForTemplate === false) {
         (template as UnRecursiveTemplate).isUseXS = false
       }
+
+      if(experimental?.compileMode === true) {
+        template.isUseCompileMode = true
+      }
     },
     load (id) {
       if (id === VITE_COMPILER_LABEL) return ''

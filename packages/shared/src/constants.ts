@@ -6,6 +6,8 @@ export enum PLATFORM_TYPE {
   QUICK = 'quickapp',
 }
 
+export const COMPILE_MODE_IDENTIFIER_PREFIX = 'f'
+
 export const PLATFORM_CONFIG_MAP = {
   h5: {
     type: PLATFORM_TYPE.WEB

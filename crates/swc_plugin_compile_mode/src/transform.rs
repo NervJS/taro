@@ -296,10 +296,7 @@ impl TransformVisitor {
         } else {
           // 回退到旧的渲染模式（React 组件、原生自定义组件）
           let node_path = self.get_current_node_path();
-          format!(
-            r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#,
-            node_path, node_path, node_path
-          )
+          self.generate_template(node_path)
         }
       }
       JSXElementName::JSXMemberExpr(JSXMemberExpr { prop, .. }) => {
@@ -310,10 +307,7 @@ impl TransformVisitor {
         } else {
           // 回退到旧的渲染模式
           let node_path = self.get_current_node_path();
-          format!(
-            r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#,
-            node_path, node_path, node_path
-          )
+          self.generate_template(node_path)
         }
       }
       _ => String::new(),
@@ -577,179 +571,189 @@ impl TransformVisitor {
     let mut retain_child_counter = start;
     let mut jsx_exprs_wait_for_inserting: HashMap<u32, Box<Expr>> = HashMap::new();
 
-    children
-            .retain_mut(|child| {
-                let mut is_retain = true;
-                self.node_stack.push(retain_child_counter as i32);
-                match child {
-                    JSXElementChild::JSXElement(child_el) => {
-                        let child_string = self.build_xml_element(&mut **child_el);
-                        children_string.push_str(&child_string);
+    children.retain_mut(|child| {
+      let mut is_retain = true;
+      self.node_stack.push(retain_child_counter as i32);
+      match child {
+        JSXElementChild::JSXElement(child_el) => {
+          let child_string = self.build_xml_element(&mut **child_el);
+          children_string.push_str(&child_string);
 
-                        if utils::is_static_jsx(child_el) && utils::is_inner_component(child_el, &self.config) {
-                            is_retain = false
-                        } else {
-                            retain_child_counter += 1;
-                        }
-                    },
-                    JSXElementChild::JSXExprContainer(JSXExprContainer {
-                        expr: JSXExpr::Expr(jsx_expr),
-                        ..
-                    }) => {
-                        if let Expr::Paren(ParenExpr { expr, .. }) = &mut **jsx_expr {
-                            *jsx_expr = expr.take();
-                        }
-                        let node_path = self.get_current_node_path();
-                        match &mut **jsx_expr {
-                            Expr::Cond(CondExpr { cons, alt, ..}) => {
-                                let mut process_condition_expr = |arm: &mut Box<Expr>| {
-                                    match &mut **arm {
-                                        Expr::JSXElement(el) => {
-                                            let child_string = self.build_xml_element(el);
-                                            children_string.push_str(&child_string);
-                                        },
-                                        Expr::Lit(lit) => {
-                                            if let Lit::Str(Str { value, .. }) = lit {
-                                                if value == COMPILE_IGNORE {
-                                                    return ();
-                                                }
-                                            }
-                                            // {condition1 && 'Hello'} 在预处理时会变成 {condition1 ? 'Hello' : "compileIgnore"}
-                                            // 而普通文本三元则会被 block 标签包裹，因此处理后只有上述情况会存在 lit 类型的表达式
-                                            // 由于这种情况没有办法使用 wx:if 来处理，需要特殊处理成 {{i.cn[3].v==="compileIgnore"?"":i.cn[3].v}} 的形式
-                                            let str = format!(r#"{{{{{}.v==="{}"?"":{}.v}}}}"#, node_path, COMPILE_IGNORE, node_path);
-                                            children_string.push_str(&str);
-                                        },
-                                        _ => ()
-                                    }
-                                };
-                                process_condition_expr(cons);
-                                process_condition_expr(alt);
-                            },
-                            Expr::Call(CallExpr {
-                                callee: Callee::Expr(callee_expr),
-                                args,
-                                ..
-                            }) => {
-                                // 处理循环
-                                if let Some(return_value) =  utils::extract_jsx_loop(callee_expr, args) {
-                                    self.node_stack.pop();
-                                    self.node_stack.push(LOOP_WRAPPER_ID);
-                                    let child_string = self.build_xml_element(&mut *return_value);
-                                    children_string.push_str(&child_string);
-                                } else if utils::is_render_fn(callee_expr) {
-                                    let tmpl = format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path);
-                                    children_string.push_str(&tmpl)
-                                } else {
-                                    let mut xscript_expr_string: Option<String> = None;
-
-                                    if self.is_xscript_used() && callee_expr.is_member() {
-                                        // 判断 callee 是否 wxs 表达式
-                                        xscript_expr_string = utils::as_xscript_expr_string(callee_expr.as_member().unwrap(), &self.xs_module_names);
-                                    }
-
-                                    let code: String = if xscript_expr_string.is_some() {
-                                        // wxs 调用表达式
-                                        // 1. 处理参数
-                                        //   1.1 将每个参数生成对应的 <template> 中的字符串，静态参数和动态参数分开处理
-                                        //   1.2 把动态参数记录下来，稍后插入回去 JSX 中
-                                        let args_string: String = args.iter_mut()
-                                            .map(|arg| {
-                                                match &mut*arg.expr {
-                                                    Expr::Lit(lit) => {
-                                                        match lit {
-                                                            Lit::Str(Str { value, .. }) => { format!(r#""{}""#, value) },
-                                                            Lit::Num(Number { value, .. }) => { value.to_string() },
-                                                            Lit::Bool(Bool { value, .. }) => { value.to_string() },
-                                                            Lit::Null(_) => { String::from("null") },
-                                                            _ => {
-                                                                HANDLER.with(|handler| {
-                                                                    handler
-                                                                        .struct_span_err(lit.span(), "Taro CompileMode 语法错误")
-                                                                        .span_label(lit.span(), "暂不支持传递此种类型的参数")
-                                                                        .emit();
-                                                                    panic!()
-                                                                })
-                                                            },
-                                                        }
-                                                    }
-                                                    _ => {
-                                                        let expr = arg.expr.take();
-                                                        jsx_exprs_wait_for_inserting.insert(retain_child_counter, expr);
-                                                        self.node_stack.pop();
-                                                        self.node_stack.push(retain_child_counter as i32);
-                                                        let node_path = self.get_current_node_path();
-                                                        retain_child_counter = retain_child_counter + 1;
-                                                        format!("{}.v", node_path)
-                                                    }
-                                                }
-                                            })
-                                            .collect::<Vec<String>>()
-                                            .join(",");
-                                        // 2. 在 JSX 中删除此 JSX 表达式
-                                        is_retain = false;
-                                        // 3. 将结果直接输出到 <template>
-                                        utils::gen_template(&format!("{}({})", xscript_expr_string.unwrap(), args_string))
-                                    } else {
-                                        // 正常的调用表达式，当作文本节点渲染
-                                        utils::gen_template_v(&node_path)
-                                    };
-                                    children_string.push_str(&code);
-                                }
-                            },
-                            Expr::JSXElement(el) => {
-                                let child_string = self.build_xml_element(el);
-                                children_string.push_str(&child_string);
-                            },
-                            _ => {
-                                let mut xscript_expr_string: Option<String> = None;
-
-                                if self.is_xscript_used() && jsx_expr.is_member() {
-                                    // 判断是否 wxs 表达式
-                                    xscript_expr_string = utils::as_xscript_expr_string(jsx_expr.as_member().unwrap(), &self.xs_module_names);
-                                }
-
-                                let code: String = if xscript_expr_string.is_some() {
-                                    // wxs 表达式，可以从 JSX 中删除，将结果直接输出到 <template>
-                                    is_retain = false;
-                                    utils::gen_template(&xscript_expr_string.unwrap())
-                                } else {
-                                    // 正常的表达式，当作文本节点渲染
-                                    utils::gen_template_v(&node_path)
-                                };
-
-                                children_string.push_str(&code);
-                            }
-                        }
-                        if is_retain {
-                            retain_child_counter = retain_child_counter + 1
-                        }
-                    },
-                    JSXElementChild::JSXText(JSXText { value, .. }) => {
-                        let content = utils::jsx_text_to_string(value);
-                        if !content.is_empty() {
-                            children_string.push_str(&content);
-                            // JSX 过滤掉静态文本节点，只在模板中保留。同时保留用于换行、空格的静态文本节点
-                            is_retain = false
-                        }
-                    },
-                    JSXElementChild::JSXFragment(child_el) => {
-                        self.node_stack.pop();
-                        let (child_string, inner_retain) = self.build_xml_children(&mut child_el.children, Some(retain_child_counter));
-                        children_string.push_str(&child_string);
-                        if inner_retain == 0 {
-                            // 静态 fragment，在 JSX 中删除
-                            is_retain = false
-                        } else {
-                            retain_child_counter += inner_retain;
-                        }
-                        self.node_stack.push(retain_child_counter as i32);
-                    },
-                    _ => ()
+          if utils::is_static_jsx(child_el) && utils::is_inner_component(child_el, &self.config) {
+            is_retain = false
+          } else {
+            retain_child_counter += 1;
+          }
+        }
+        JSXElementChild::JSXExprContainer(JSXExprContainer {
+          expr: JSXExpr::Expr(jsx_expr),
+          ..
+        }) => {
+          if let Expr::Paren(ParenExpr { expr, .. }) = &mut **jsx_expr {
+            *jsx_expr = expr.take();
+          }
+          let node_path = self.get_current_node_path();
+          match &mut **jsx_expr {
+            Expr::Cond(CondExpr { cons, alt, .. }) => {
+              let mut process_condition_expr = |arm: &mut Box<Expr>| {
+                match &mut **arm {
+                  Expr::JSXElement(el) => {
+                    let child_string = self.build_xml_element(el);
+                    children_string.push_str(&child_string);
+                  }
+                  Expr::Lit(lit) => {
+                    if let Lit::Str(Str { value, .. }) = lit {
+                      if value == COMPILE_IGNORE {
+                        return ();
+                      }
+                    }
+                    // {condition1 && 'Hello'} 在预处理时会变成 {condition1 ? 'Hello' : "compileIgnore"}
+                    // 而普通文本三元则会被 block 标签包裹，因此处理后只有上述情况会存在 lit 类型的表达式
+                    // 由于这种情况没有办法使用 wx:if 来处理，需要特殊处理成 {{i.cn[3].v==="compileIgnore"?"":i.cn[3].v}} 的形式
+                    let str = format!(
+                      r#"{{{{{}.v==="{}"?"":{}.v}}}}"#,
+                      node_path, COMPILE_IGNORE, node_path
+                    );
+                    children_string.push_str(&str);
+                  }
+                  _ => (),
                 }
+              };
+              process_condition_expr(cons);
+              process_condition_expr(alt);
+            }
+            Expr::Call(CallExpr {
+              callee: Callee::Expr(callee_expr),
+              args,
+              ..
+            }) => {
+              // 处理循环
+              if let Some(return_value) = utils::extract_jsx_loop(callee_expr, args) {
                 self.node_stack.pop();
-                return is_retain
-            });
+                self.node_stack.push(LOOP_WRAPPER_ID);
+                let child_string = self.build_xml_element(&mut *return_value);
+                children_string.push_str(&child_string);
+              } else if utils::is_render_fn(callee_expr) {
+                let tmpl = self.generate_template(node_path);
+                children_string.push_str(&tmpl)
+              } else {
+                let mut xscript_expr_string: Option<String> = None;
+
+                if self.is_xscript_used() && callee_expr.is_member() {
+                  // 判断 callee 是否 wxs 表达式
+                  xscript_expr_string = utils::as_xscript_expr_string(
+                    callee_expr.as_member().unwrap(),
+                    &self.xs_module_names,
+                  );
+                }
+
+                let code: String = if xscript_expr_string.is_some() {
+                  // wxs 调用表达式
+                  // 1. 处理参数
+                  //   1.1 将每个参数生成对应的 <template> 中的字符串，静态参数和动态参数分开处理
+                  //   1.2 把动态参数记录下来，稍后插入回去 JSX 中
+                  let args_string: String = args
+                    .iter_mut()
+                    .map(|arg| match &mut *arg.expr {
+                      Expr::Lit(lit) => match lit {
+                        Lit::Str(Str { value, .. }) => {
+                          format!(r#""{}""#, value)
+                        }
+                        Lit::Num(Number { value, .. }) => value.to_string(),
+                        Lit::Bool(Bool { value, .. }) => value.to_string(),
+                        Lit::Null(_) => String::from("null"),
+                        _ => HANDLER.with(|handler| {
+                          handler
+                            .struct_span_err(lit.span(), "Taro CompileMode 语法错误")
+                            .span_label(lit.span(), "暂不支持传递此种类型的参数")
+                            .emit();
+                          panic!()
+                        }),
+                      },
+                      _ => {
+                        let expr = arg.expr.take();
+                        jsx_exprs_wait_for_inserting.insert(retain_child_counter, expr);
+                        self.node_stack.pop();
+                        self.node_stack.push(retain_child_counter as i32);
+                        let node_path = self.get_current_node_path();
+                        retain_child_counter = retain_child_counter + 1;
+                        format!("{}.v", node_path)
+                      }
+                    })
+                    .collect::<Vec<String>>()
+                    .join(",");
+                  // 2. 在 JSX 中删除此 JSX 表达式
+                  is_retain = false;
+                  // 3. 将结果直接输出到 <template>
+                  utils::gen_template(&format!(
+                    "{}({})",
+                    xscript_expr_string.unwrap(),
+                    args_string
+                  ))
+                } else {
+                  // 正常的调用表达式，当作文本节点渲染
+                  utils::gen_template_v(&node_path)
+                };
+                children_string.push_str(&code);
+              }
+            }
+            Expr::JSXElement(el) => {
+              let child_string = self.build_xml_element(el);
+              children_string.push_str(&child_string);
+            }
+            _ => {
+              let mut xscript_expr_string: Option<String> = None;
+
+              if self.is_xscript_used() && jsx_expr.is_member() {
+                // 判断是否 wxs 表达式
+                xscript_expr_string = utils::as_xscript_expr_string(
+                  jsx_expr.as_member().unwrap(),
+                  &self.xs_module_names,
+                );
+              }
+
+              let code: String = if xscript_expr_string.is_some() {
+                // wxs 表达式，可以从 JSX 中删除，将结果直接输出到 <template>
+                is_retain = false;
+                utils::gen_template(&xscript_expr_string.unwrap())
+              } else {
+                // 正常的表达式，当作文本节点渲染
+                utils::gen_template_v(&node_path)
+              };
+
+              children_string.push_str(&code);
+            }
+          }
+          if is_retain {
+            retain_child_counter = retain_child_counter + 1
+          }
+        }
+        JSXElementChild::JSXText(JSXText { value, .. }) => {
+          let content = utils::jsx_text_to_string(value);
+          if !content.is_empty() {
+            children_string.push_str(&content);
+            // JSX 过滤掉静态文本节点，只在模板中保留。同时保留用于换行、空格的静态文本节点
+            is_retain = false
+          }
+        }
+        JSXElementChild::JSXFragment(child_el) => {
+          self.node_stack.pop();
+          let (child_string, inner_retain) =
+            self.build_xml_children(&mut child_el.children, Some(retain_child_counter));
+          children_string.push_str(&child_string);
+          if inner_retain == 0 {
+            // 静态 fragment，在 JSX 中删除
+            is_retain = false
+          } else {
+            retain_child_counter += inner_retain;
+          }
+          self.node_stack.push(retain_child_counter as i32);
+        }
+        _ => (),
+      }
+      self.node_stack.pop();
+      return is_retain;
+    });
 
     // children 里使用了 wxs 函数，需要把该 wxs 函数用到的动态参数插回到 children 里。
     if jsx_exprs_wait_for_inserting.len() > 0 {
@@ -771,6 +775,23 @@ impl TransformVisitor {
     }
 
     (children_string, retain_child_counter - start)
+  }
+
+  fn generate_template(&mut self, node_path: String) -> String {
+    if self.config.is_use_xs {
+      format!(
+        r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#,
+        node_path, node_path, node_path
+      )
+    } else {
+      format!(
+        r#"<template is="{{{{'tmpl_' + ({}.nn[0] === '{}' ? 0 : c) + '_' + {}.nn }}}}" data="{{{{i:{},c:c+1}}}}" />"#,
+        node_path,
+        self.config.tmpl_prefix.chars().next().unwrap(),
+        node_path,
+        node_path
+      )
+    }
   }
 
   fn get_current_node_path(&self) -> String {
@@ -839,9 +860,11 @@ impl VisitMut for TransformVisitor {
       el.visit_mut_children_with(&mut PreVisitor::new());
 
       let tmpl_contents = format!(
-        r#"<template name="tmpl_0_{}">{}</template>"#,
+        r#"{}<template name="tmpl_0_{}">{}</template>{}"#,
+        self.config.template_tag.clone(),
         &tmpl_name,
-        self.build_xml_element(el)
+        self.build_xml_element(el),
+        self.config.template_tag.clone()
       );
       self.templates.insert(tmpl_name, tmpl_contents);
       self.is_compile_mode = false;

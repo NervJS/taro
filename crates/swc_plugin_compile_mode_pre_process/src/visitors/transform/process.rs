@@ -31,10 +31,7 @@ impl<'a> VisitMut for TransformProcessVisitor<'a> {
       for attr in &mut el.opening.attrs {
         if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
           match (&jsx_attr.name, &jsx_attr.value) {
-            (
-              JSXAttrName::Ident(jsx_attr_name),
-              None
-            ) => {
+            (JSXAttrName::Ident(jsx_attr_name), None) => {
               if jsx_attr_name.sym == COMPILE_MODE {
                 self.in_compile_mode_jsx = true;
                 break;

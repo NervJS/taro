@@ -19,6 +19,12 @@ impl SerdeDefault {
   fn platform_default() -> String {
     String::from("WEAPP")
   }
+  fn is_use_xs_default() -> bool {
+    true
+  }
+  fn template_tag_default() -> String {
+    String::from("")
+  }
 }
 
 #[derive(Deserialize, Debug)]
@@ -45,6 +51,10 @@ pub struct PluginConfig {
   pub event_adapter: HashMap<String, String>,
   #[serde(default)]
   pub component_replace: HashMap<String, ComponentReplace>,
+  #[serde(default = "SerdeDefault::is_use_xs_default")]
+  pub is_use_xs: bool,
+  #[serde(default = "SerdeDefault::template_tag_default")]
+  pub template_tag: String,
 }
 
 /// An example plugin function with macro support.

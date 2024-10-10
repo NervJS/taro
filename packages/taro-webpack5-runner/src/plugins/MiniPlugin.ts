@@ -142,6 +142,10 @@ export default class TaroMiniPlugin {
     if (experimental?.useXsForTemplate === false) {
       (template as UnRecursiveTemplate).isUseXS = false
     }
+
+    if (experimental?.compileMode === true) {
+      template.isUseCompileMode = true
+    }
   }
 
   /**
