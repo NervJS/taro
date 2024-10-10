@@ -1,5 +1,5 @@
 import { swc } from '@tarojs/helper'
-import { getComponentsAlias, COMPILE_MODE_IDENTIFIER_PREFIX } from '@tarojs/shared'
+import { COMPILE_MODE_IDENTIFIER_PREFIX, getComponentsAlias } from '@tarojs/shared'
 import { isUrlRequest, urlToRequest } from 'loader-utils'
 
 import { templatesCache, XMLDependency } from '../plugins/MiniCompileModePlugin'
@@ -75,7 +75,7 @@ export default async function (this: LoaderContext<IOptions>, source) {
       })
 
     const templatesList: string[] = []
-    const RE_TEMPLATES = new RegExp(`var\\s+TARO_TEMPLATES_(\\w+)\\s*=\\s*('|")${templatesSourceTag}\\s*(.*?)\\s*${templatesSourceTag}\\2`, 'g');
+    const RE_TEMPLATES = new RegExp(`var\\s+TARO_TEMPLATES_(\\w+)\\s*=\\s*('|")${templatesSourceTag}\\s*(.*?)\\s*${templatesSourceTag}\\2`, 'g')
 
     // 抓取模板内容
     let res

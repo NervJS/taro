@@ -26,7 +26,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
         (template as UnRecursiveTemplate).isUseXS = false
       }
 
-      if(experimental?.compileMode === true) {
+      if (experimental?.compileMode === true) {
         template.isUseCompileMode = true
       }
     },

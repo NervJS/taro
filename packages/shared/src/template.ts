@@ -19,10 +19,10 @@ import {
   singleQuote,
   voidElements
 } from './components'
+import { COMPILE_MODE_IDENTIFIER_PREFIX } from './constants'
 import { isBooleanStringLiteral, isFunction, isNumber, isString } from './is'
 import { Shortcuts } from './shortcuts'
 import { capitalize, getComponentsAlias, hasOwn, indent, toCamelCase, toDashed, toKebabCase } from './utils'
-import { COMPILE_MODE_IDENTIFIER_PREFIX }  from './constants'
 
 interface Component {
   nodeName: string
@@ -336,9 +336,9 @@ export class BaseTemplate {
         ? `<template is="{{${xs}}}" data="{{${data}}}" ${forAttribute} />`
         : isSupportRecursive
           ? `<template is="{{'tmpl_0_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
-          : isUseCompileMode 
-          ? `<template is="{{'tmpl_' + (item.${Shortcuts.NodeName}[0]==='${COMPILE_MODE_IDENTIFIER_PREFIX}' ? 0 : c) + '_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
-          : `<template is="{{'tmpl_' + c + '_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
+          : isUseCompileMode
+            ? `<template is="{{'tmpl_' + (item.${Shortcuts.NodeName}[0]==='${COMPILE_MODE_IDENTIFIER_PREFIX}' ? 0 : c) + '_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
+            : `<template is="{{'tmpl_' + c + '_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
     }
   }
 
