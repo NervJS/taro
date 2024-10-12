@@ -17,7 +17,7 @@ interface SlotProps extends StandardProps {
 
 /** slot 插槽
  * @classification viewContainer
- * @supported weapp, swan, alipay, tt, jd, qq, h5, harmony_hybrid
+ * @supported weapp, swan, alipay, tt, jd, qq, harmony, h5, harmony_hybrid
  * @example
  * ```tsx
  * import { Slot, View, Text } from '@tarojs/components'

@@ -3,27 +3,27 @@ import { StandardProps, CommonEventFunction } from './common'
 interface SwiperProps extends StandardProps {
   /** 是否显示面板指示点
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   indicatorDots?: boolean
   /** 指示点颜色
    * @default "rgba(0, 0, 0, .3)"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   indicatorColor?: string
   /** 当前选中的指示点颜色
    * @default "#000000"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   indicatorActiveColor?: string
   /** 是否自动切换
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   autoplay?: boolean
   /** 当前所在滑块的 index
    * @default 0
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   current?: number
   /** 当前所在滑块的 item-id ，不能与 current 被同时指定
@@ -34,12 +34,12 @@ interface SwiperProps extends StandardProps {
   currentItemId?: string
   /** 自动切换时间间隔
    * @default 5000
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   interval?: number
   /** 滑动动画时长
    * @default 500
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
    */
   duration?: number
   /** 是否采用衔接滑动
@@ -49,7 +49,7 @@ interface SwiperProps extends StandardProps {
   circular?: boolean
   /** 滑动方向是否为纵向
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   vertical?: boolean
   /** 前边距，可用于露出前一项的一小部分，接受 px 和 rpx 值
@@ -151,12 +151,8 @@ interface SwiperProps extends StandardProps {
    * @default 0
    */
   cacheExtent?: number
-  /** swiper11 相关的动效参数，具体见文档 https://swiperjs.com/swiper-api#parameters
-   * @supported h5
-  */
-  effectsProps?: Record<string, any>
   /** current 改变时会触发 change 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onChange?: CommonEventFunction<SwiperProps.onChangeEventDetail>
   /** swiper-item 的位置发生改变时会触发 transition 事件
