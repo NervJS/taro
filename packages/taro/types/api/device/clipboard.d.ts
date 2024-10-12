@@ -43,7 +43,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 设置系统剪贴板的内容。调用成功后，会弹出 toast 提示"内容已复制"，持续 1.5s
-     * @supported weapp, swan, jd, qq, tt, h5, rn, harmony, harmony_hybrid
+     * @supported weapp, swan, jd, qq, h5, rn, tt, harmony_hybrid
      * @h5 部分实现
      * @example
      * ```tsx
@@ -63,19 +63,19 @@ declare module '../../index' {
     setClipboardData(option: setClipboardData.Option): Promise<setClipboardData.Promised>
 
     /**
-     * 获取系统剪贴板内容
-     * @supported weapp, swan, jd, qq, tt, h5, rn, harmony, harmony_hybrid
-     * @h5 部分实现
-     * @example
-     * ```tsx
-     * Taro.getClipboardData({
-     *   success: function (res){
-     *     console.log(res.data)
-     *   }
-     * })
-     * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.getClipboardData.html
-     */
+      * 获取系统剪贴板内容
+      * @supported weapp, swan, jd, qq, h5, rn, tt, harmony_hybrid
+      * @h5 部分实现
+      * @example
+      * ```tsx
+      * Taro.getClipboardData({
+      *   success: function (res){
+      *     console.log(res.data)
+      *   }
+      * })
+      * ```
+      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.getClipboardData.html
+      */
     getClipboardData(res?: getClipboardData.Option): Promise<getClipboardData.Promised>
   }
 }

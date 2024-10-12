@@ -160,7 +160,7 @@ declare module '../../index' {
      * **注意**
      * - Taro.showLoading 和 Taro.showToast 同时只能显示一个
      * - Taro.showToast 应与 Taro.hideToast 配对使用
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.showToast({
@@ -177,7 +177,7 @@ declare module '../../index' {
      * **注意**
      * - Android 6.7.2 以下版本，点击取消或蒙层时，回调 fail, errMsg 为 "fail cancel"；
      * - Android 6.7.2 及以上版本 和 iOS 点击蒙层不会关闭模态弹窗，所以尽量避免使用「取消」分支中实现业务逻辑
-     * @supported weapp, swan, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, swan, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.showModal({
@@ -220,7 +220,7 @@ declare module '../../index' {
      * **注意**
      * - Android 6.7.2 以下版本，点击取消或蒙层时，回调 fail, errMsg 为 "fail cancel"；
      * - Android 6.7.2 及以上版本 和 iOS 点击蒙层不会关闭模态弹窗，所以尽量避免使用「取消」分支中实现业务逻辑
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.showActionSheet({
