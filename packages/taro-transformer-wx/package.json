@@ -33,7 +33,7 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@babel/code-frame": "^7.24.2",
+    "@babel/code-frame": "^7.25.7",
     "@babel/core": "^7.24.4",
     "@babel/generator": "^7.24.4",
     "@babel/parser": "^7.24.4",
