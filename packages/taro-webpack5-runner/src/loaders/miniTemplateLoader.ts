@@ -1,5 +1,6 @@
 import { isUrlRequest, urlToRequest } from 'loader-utils'
 import sax from 'sax'
+
 import { isSpecialFormat } from '../utils/index'
 
 export default function miniTemplateLoader (source) {
