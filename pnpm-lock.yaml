@@ -636,7 +636,7 @@ importers:
         specifier: workspace:*
         version: link:../taro-webpack5-runner
       '@types/babel__traverse':
-        specifier: ^7.20.2
+        specifier: ^7.20.6
         version: 7.20.6
       babel-preset-taro:
         specifier: workspace:*
@@ -1021,7 +1021,14 @@ importers:
 
   packages/taro-components/loader: {}
 
-  packages/taro-extend: {}
+  packages/taro-extend:
+    devDependencies:
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
 
   packages/taro-framework-react:
     dependencies:
@@ -1586,6 +1593,10 @@ importers:
         version: link:../shared
 
   packages/taro-platform-tt:
+    dependencies:
+      webpack-sources:
+        specifier: ^3.2.3
+        version: 3.2.3
     devDependencies:
       '@tarojs/components':
         specifier: workspace:*
@@ -2197,6 +2208,9 @@ importers:
       '@react-navigation/stack':
         specifier: ^6.3.29
         version: 6.4.1(@react-navigation/native@6.1.18)(react-native-gesture-handler@2.20.0)(react-native-safe-area-context@4.5.0)(react-native-screens@3.34.0)(react-native@0.72.17)(react@18.3.1)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       query-string:
         specifier: ^9.0.0
         version: 9.1.0
@@ -2355,6 +2369,15 @@ importers:
       babel-eslint:
         specifier: ^10.0.1
         version: 10.1.0(eslint@8.57.1)
+      babel-helper-evaluate-path:
+        specifier: ^0.5.0
+        version: 0.5.0
+      babel-helper-mark-eval-scopes:
+        specifier: ^0.4.3
+        version: 0.4.3
+      babel-helper-remove-or-void:
+        specifier: ^0.4.3
+        version: 0.4.3
       babel-plugin-preval:
         specifier: ^5.1.0
         version: 5.1.0
@@ -2786,6 +2809,9 @@ importers:
       himalaya-wxml:
         specifier: ^1.1.0
         version: 1.1.0
+      html:
+        specifier: ^1.0.0
+        version: 1.0.0
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -16352,6 +16378,13 @@ packages:
       pretty-error: 4.0.0
       tapable: 2.2.1
       webpack: 5.91.0
+
+  /html@1.0.0:
+    resolution: {integrity: sha512-lw/7YsdKiP3kk5PnR1INY17iJuzdAtJewxr14ozKJWbbR97znovZ0mh+WEMZ8rjc3lgTK+ID/htTjuyGKB52Kw==, tarball: https://registry.npmjs.org/html/-/html-1.0.0.tgz}
+    hasBin: true
+    dependencies:
+      concat-stream: 1.6.2
+    dev: false
 
   /htmlparser2@6.1.0:
     resolution: {integrity: sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==, tarball: https://registry.npmjs.org/htmlparser2/-/htmlparser2-6.1.0.tgz}

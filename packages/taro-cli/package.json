@@ -43,9 +43,9 @@
   "dependencies": {
     "@tarojs/binding": "workspace:*",
     "@tarojs/helper": "workspace:*",
+    "@tarojs/plugin-doctor": "^0.0.13",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@tarojs/plugin-doctor": "^0.0.13",
     "adm-zip": "^0.5.12",
     "axios": "^1.6.8",
     "cli-highlight": "^2.1.11",
@@ -60,11 +60,11 @@
   },
   "devDependencies": {
     "@babel/types": "^7.24.0",
-    "@tarojs/taro": "workspace:*",
-    "@tarojs/plugin-platform-weapp": "workspace:*",
     "@tarojs/plugin-platform-h5": "workspace:*",
+    "@tarojs/plugin-platform-weapp": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "@tarojs/webpack5-runner": "workspace:*",
-    "@types/babel__traverse": "^7.20.2",
+    "@types/babel__traverse": "^7.20.6",
     "babel-preset-taro": "workspace:*",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.4.0"
