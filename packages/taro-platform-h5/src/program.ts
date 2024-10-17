@@ -139,7 +139,9 @@ export default class H5 extends TaroPlatformWeb {
             break
           default:
             if (this.useHtmlComponents) {
-              args[0].loaderMeta.extraImportForWeb += `import '${require.resolve('@tarojs/components-react/dist/index.css')}'\nimport { PullDownRefresh } from '@tarojs/components'\n`
+              args[0].loaderMeta.extraImportForWeb += `import '${require.resolve(
+                '@tarojs/components-react/dist/index.css'
+              )}'\nimport { PullDownRefresh } from '@tarojs/components'\n`
               args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
             }
         }
@@ -180,7 +182,7 @@ export default class H5 extends TaroPlatformWeb {
       function injectLoaderMeta() {
         return {
           name: 'taro:vite-h5-loader-meta',
-          async buildStart () {
+          async buildStart() {
             const viteCompilerContext = await getViteH5CompilerContext(this)
             if (viteCompilerContext) {
               viteCompilerContext.loaderMeta ||= {
@@ -222,7 +224,10 @@ export default class H5 extends TaroPlatformWeb {
             const viteCompilerContext = await getViteH5CompilerContext(this)
             if (viteCompilerContext) {
               const exts = Array.from(new Set(viteCompilerContext.frameworkExts.concat(SCRIPT_EXT)))
-              if (id.startsWith(viteCompilerContext.sourceDir) && exts.some((ext) => id.includes(ext))) {
+              if (
+                path.normalize(id).startsWith(viteCompilerContext.sourceDir) &&
+                exts.some((ext) => id.includes(ext))
+              ) {
                 // @TODO 后续考虑使用 SWC 插件的方式实现
                 const result = await transformAsync(code, {
                   filename: id,
@@ -231,7 +236,7 @@ export default class H5 extends TaroPlatformWeb {
                       require('babel-plugin-transform-taroapi'),
                       {
                         packageName: '@tarojs/taro',
-                        definition: require(that.libraryDefinition)
+                        definition: require(that.libraryDefinition),
                       },
                     ],
                   ],
