@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-tt",
-  "version": "4.0.6",
+  "version": "4.0.7-alpha.3",
   "description": "头条小程序平台插件",
   "author": "O2Team",
   "license": "MIT",

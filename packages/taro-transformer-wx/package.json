@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/transformer-wx",
-  "version": "4.0.6",
+  "version": "4.0.7-alpha.3",
   "description": "Transfrom Nerv Component to Wechat mini program.",
   "author": "O2Team",
   "license": "MIT",
