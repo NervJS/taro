@@ -99,7 +99,7 @@ declare module '../../index' {
      *  - 后代选择器：.the-ancestor .the-descendant
      *  - 跨自定义组件的后代选择器：.the-ancestor >>> .the-descendant
      *  - 多选择器的并集：#a-node, .some-other-nodes
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.pageScrollTo({

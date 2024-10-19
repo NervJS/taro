@@ -15,7 +15,6 @@ export { ScrollView } from './ScrollView'
 export { Swiper } from './Swiper'
 export { SwiperItem } from './SwiperItem'
 export { View } from './View'
-export { AnimationView } from './AnimationView'
 
 /** 基础内容 */
 export { Icon } from './Icon'
@@ -60,25 +59,20 @@ export { NestedScrollBody } from './NestedScrollBody'
 export { FunctionalPageNavigator } from './FunctionalPageNavigator'
 export { Navigator } from './Navigator'
 export { NavigationBar } from './NavigationBar'
-export { Tabs } from './Tabs'
 // export { Tabbar } from './Tabbar'
 // export { TabbarItem } from './TabbarItem'
 
 /** 媒体组件 */
 export { Audio } from './Audio'
 export { Camera } from './Camera'
-export { ArCamera } from './ArCamera'
 export { ChannelLive } from './ChannelLive'
 export { ChannelVideo } from './ChannelVideo'
 export { Image } from './Image'
 export { LivePlayer } from './LivePlayer'
 export { LivePusher } from './LivePusher'
 export { Video } from './Video'
-export { AnimationVideo } from './AnimationVideo'
 export { VoipRoom } from './VoipRoom'
 export { Lottie } from './Lottie'
-export { RtcRoom } from './RtcRoom'
-export { RtcRoomItem } from './RtcRoomItem'
 
 /** 地图 */
 export { Map } from './Map'
@@ -88,29 +82,15 @@ export { Canvas } from './Canvas'
 
 /** 开放能力 */
 export { Ad } from './Ad'
-export { AwemeData } from './AwemeData'
 export { AdCustom } from './AdCustom'
 export { OfficialAccount } from './OfficialAccount'
 export { OpenData } from './OpenData'
 export { WebView } from './WebView'
-export { FollowSwan } from './FollowSwan'
-export { InlinePaymentPanel } from './InlinePaymentPanel'
-export { Lifestyle } from './Lifestyle'
-export { Login } from './Login'
 
 /** 配置节点 */
 export { PageMeta } from './PageMeta'
-
-/** 内容服务组件 **/
-export { CommentDetail } from './CommentDetail'
-export { CommentList } from './CommentList'
-export { Like } from './Like'
-
-/** 客服能力 **/
-export { ContactButton } from './ContactButton'
 
 export { CustomWrapper } from './CustomWrapper'
 export { Slot } from './Slot'
 export { NativeSlot } from './NativeSlot'
 export { Script } from './Script'
-export { PullToRefresh } from './PullToRefresh'

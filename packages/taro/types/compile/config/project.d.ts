@@ -1,14 +1,13 @@
 import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
-import type { Input } from 'postcss'
-import type { AppConfig } from '../../index'
-import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
+import { type Input } from 'postcss'
+import type { Compiler } from '../compiler'
 import type { IModifyChainData } from '../hooks'
 import type { ICopyOptions, IOption, ISassOptions, TogglableOptions } from './util'
 import type { IH5Config } from './h5'
-import type { IHarmonyConfig } from './harmony'
-import type { IMiniAppConfig, IMiniFilesConfig } from './mini'
-import type { IRNConfig } from './rn'
+import type { IMiniAppConfig } from './mini'
+import { IRNConfig } from './rn'
+import { AppConfig } from '../..'
 
 export type PluginItem<T = object> = string | [string, T] | [string, () => T | Promise<T>]
 
@@ -116,7 +115,7 @@ export interface IProjectBaseConfig {
   jsMinimizer?: 'terser' | 'esbuild'
 
   /** 配置 CSS 压缩工具 (默认 csso) */
-  cssMinimizer?: 'csso' | 'esbuild' | 'lightningcss'
+  cssMinimizer?: 'csso' | 'esbuild' | 'parcelCss'
 
   /** 配置 csso 工具以压缩 CSS 代码 */
   csso?: TogglableOptions
@@ -140,11 +139,11 @@ export interface IProjectBaseConfig {
   /** 模板循环次数 */
   baseLevel?: number
 
-  /** 使用的开发框架。可选值：react、preact、vue3 */
-  framework?: 'react' | 'preact' | 'solid' | 'vue3'
+  /** 使用的开发框架。可选值：react、preact、nerv、vue、vue3 */
+  framework?: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
   frameworkExts?: string[]
 
-  /** 使用的编译工具。可选值：webpack5 */
+  /** 使用的编译工具。可选值：webpack4、webpack5 */
   compiler?: Compiler
 
   /** Webpack5 持久化缓存配置。具体配置请参考 [WebpackConfig.cache](https://webpack.js.org/configuration/cache/#cache) */
@@ -186,28 +185,18 @@ export interface IProjectBaseConfig {
   modifyWebpackChain?: (chain: Chain, webpack: typeof Webpack, data: IModifyChainData) => Promise<any>
 
   /**
-   * 编译中修改 vite 配置
+   * 修改编译过程中的页面组件配置
    */
-  modifyViteConfig?: (viteConfig: any, data: IModifyChainData) => void
+  modifyMiniConfigs?: (configMap: any) => Promise<any>
 
   /**
    * 修改编译后的结果
    */
   modifyBuildAssets?: (assets: any, miniPlugin?: any) => Promise<any>
-
-  /**
-   * 修改编译过程中的页面组件配置
-   */
-  modifyMiniConfigs?: (configMap: IMiniFilesConfig) => Promise<any>
-
-  /**
-   * 修改 Taro 编译配置
-   */
-  modifyRunnerOpts?: (opts: any) => Promise<any>
 }
 
 /** 暴露出来给 config/index 使用的配置类型，参考 https://github.com/NervJS/taro-doctor/blob/main/assets/config_schema.json */
-export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> {
+export interface IProjectConfig {
   /** 项目名称 */
   projectName?: string
 
@@ -277,7 +266,7 @@ export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   jsMinimizer?: 'terser' | 'esbuild'
 
   /** 配置 CSS 压缩工具 (默认 csso) */
-  cssMinimizer?: 'csso' | 'esbuild' | 'lightningcss'
+  cssMinimizer?: 'csso' | 'esbuild' | 'parcelCss'
 
   /** 配置 csso 工具以压缩 CSS 代码 */
   csso?: TogglableOptions
@@ -296,8 +285,11 @@ export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   /** 一个 preset 是一系列 Taro 插件的集合，配置语法同 plugins */
   presets?: PluginItem[]
 
-  /** 使用的开发框架。可选值：react、preact、solid、vue3、 none */
-  framework?: 'react' | 'preact' | 'solid' | 'vue3' | 'none'
+  /** 使用的开发框架。可选值：react、preact、nerv、vue、vue3 */
+  framework?: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
+
+  /** 使用的编译工具。可选值：webpack4、webpack5 */
+  compiler?: Compiler
 
   /** Webpack5 持久化缓存配置。具体配置请参考 [WebpackConfig.cache](https://webpack.js.org/configuration/cache/#cache) */
   cache?: ICache
@@ -305,34 +297,14 @@ export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   /** 控制 Taro 编译日志的输出方式 */
   logger?: ILogger
 
-  /** 使用的编译工具。可选值：webpack5、vite */
-  compiler?: Compiler<T>
+  /** 专属于小程序的配置 */
+  mini?: IMiniAppConfig
 
   /** 专属于 H5 的配置 */
-  h5?: IH5Config<T>
-
-  /** 专属于小程序的配置 */
-  mini?: IMiniAppConfig<T>
+  h5?: IH5Config
 
   /** 专属于 RN 的配置 */
   rn?: IRNConfig
 
-  harmony?: IHarmonyConfig<T>
-
   [key: string]: any
-}
-
-export interface OutputExt {
-  /**
-   * 编译前清空输出目录
-   * @since Taro v3.6.9
-   * @description
-   * - 默认清空输出目录，可设置 clean: false 不清空
-   * - 可设置 clean: { keep: ['project.config.json'] } 保留指定文件
-   * - 注意 clean.keep 不支持函数
-   */
-  clean?: boolean | {
-    /** 保留指定文件不删除 */
-    keep?: Array<string | RegExp> | string | RegExp
-  }
 }
