@@ -78,7 +78,7 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: Partial<SuccessCallbackResult> & TaroGeneral.CallbackResult) => void
+      complete?: (res: TaroGeneral.CallbackResult) => void
       /** 设置是否使用 jsonp 方式获取数据
        * @default false
        * @supported h5
@@ -400,7 +400,7 @@ declare module '../../index' {
      * - 对于 `GET` 方法的数据，会将数据转换成 query string（`encodeURIComponent(k)=encodeURIComponent(v)&encodeURIComponent(k)=encodeURIComponent(v)...`）
      * - 对于 `POST` 方法且 `header['content-type']` 为 `application/json` 的数据，会对数据进行 JSON 序列化
      * - 对于 `POST` 方法且 `header['content-type']` 为 `application/x-www-form-urlencoded` 的数据，会将数据转换成 query string `（encodeURIComponent(k)=encodeURIComponent(v)&encodeURIComponent(k)=encodeURIComponent(v)...）`
-     * @supported weapp, h5, rn, alipay, swan, tt, qq, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, alipay, swan, tt, qq, harmony_hybrid
      * @example
      * ```tsx
      * Taro.request({
