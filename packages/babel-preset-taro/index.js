@@ -183,7 +183,7 @@ module.exports = (_, options = {}) => {
         legacy: decoratorsLegacy !== false,
       },
     ],
-    [require('@babel/plugin-transform-class-properties'), { loose }]
+    [require('@babel/plugin-transform-class-properties'), { loose }],
   )
 
   plugins.push([
