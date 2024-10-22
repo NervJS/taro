@@ -29,13 +29,16 @@
   "engines": {
     "node": ">= 18"
   },
+  "dependencies": {
+    "webpack-sources": "^3.2.3"
+  },
   "devDependencies": {
     "@tarojs/components": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*"
   },
   "peerDependencies": {
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/service": "workspace:*"
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   }
 }
