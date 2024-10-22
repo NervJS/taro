@@ -19,6 +19,7 @@ import {
   singleQuote,
   voidElements
 } from './components'
+import { COMPILE_MODE_IDENTIFIER_PREFIX } from './constants'
 import { isBooleanStringLiteral, isFunction, isNumber, isObjectStringLiteral, isString } from './is'
 import { Shortcuts } from './shortcuts'
 import { capitalize, getComponentsAlias, hasOwn, indent, toCamelCase, toDashed, toKebabCase } from './utils'
@@ -170,7 +171,7 @@ export class BaseTemplate {
                 ? `xs.b(i.${propAlias},${propValue})`
                 : `i.${propAlias}===undefined?${propValue}:i.${propAlias}`
             } else if (isObjectStringLiteral(propValue)) {
-              propValue = this.supportXS
+              propValue = this.isUseXS
                 ? `xs.d(i.${propAlias})`
                 : `i.${propAlias}===undefined?${propValue}:i.${propAlias}`
             } else {
@@ -289,7 +290,7 @@ export class BaseTemplate {
       if (isBooleanStringLiteral(patchValue) || isNumber(patchValue) || isString(patchValue)) {
         let propValue = ''
 
-        if (this.supportXS) {
+        if (this.isUseXS) {
           if (isObjectStringLiteral(patchValue)) {
             propValue = `xs.d(i.${toCamelCase(attr)})`
           }

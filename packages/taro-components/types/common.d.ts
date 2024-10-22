@@ -1,5 +1,6 @@
 import { CSSProperties, LegacyRef, ReactNode } from 'react'
 
+type COMPILE_MODE_SUB_RENDER_FN = 'subRenderFn'
 export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> = ITouchEvent> extends EventProps<TouchEvent> {
   /** 组件的唯一标示, 保持整个页面唯一 */
   id?: string
@@ -30,7 +31,7 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
    * 是否开启编译模式
    * @supported weapp, harmony
    */
-  compileMode?: boolean | string
+  compileMode?: boolean | string | COMPILE_MODE_SUB_RENDER_FN
   /**
    * 自定义容器组件的方向
    * @supported harmony
