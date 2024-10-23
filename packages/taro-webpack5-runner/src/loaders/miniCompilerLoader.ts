@@ -1,5 +1,5 @@
 import { swc } from '@tarojs/helper'
-import { COMPILE_MODE_IDENTIFIER_PREFIX, getComponentsAlias } from '@tarojs/shared'
+import { COMPILE_MODE_IDENTIFIER_PREFIX, COMPILE_MODE_SUB_RENDER_FN, getComponentsAlias } from '@tarojs/shared'
 import { isUrlRequest, urlToRequest } from 'loader-utils'
 
 import { templatesCache, XMLDependency } from '../plugins/MiniCompileModePlugin'
@@ -56,7 +56,9 @@ export default async function (this: LoaderContext<IOptions>, source) {
             plugins: [
               [
                 '@tarojs/helper/swc/swc_plugin_compile_mode_pre_process.wasm',
-                {}
+                {
+                  sub_render_fn: COMPILE_MODE_SUB_RENDER_FN,
+                }
               ],
               [
                 '@tarojs/helper/swc/swc_plugin_compile_mode.wasm',

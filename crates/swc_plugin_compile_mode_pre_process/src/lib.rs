@@ -12,17 +12,11 @@ mod tests;
 mod utils;
 mod visitors;
 use visitors::entry::EntryVisitor;
-struct SerdeDefault;
-impl SerdeDefault {
-  fn platform_default() -> String {
-    String::from("WEAPP")
-  }
-}
 
 #[derive(Deserialize, Debug)]
 pub struct PluginConfig {
-  #[serde(default = "SerdeDefault::platform_default")]
-  pub platform: String,
+  #[serde(default)]
+  sub_render_fn: String,
 }
 
 #[plugin_transform]

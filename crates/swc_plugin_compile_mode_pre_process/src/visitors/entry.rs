@@ -15,6 +15,7 @@ use super::generate_deps::GenerateDepsVisitor;
 use super::transform::component_entry::ComponentEntryVisitor;
 pub struct EntryVisitor {
   visitor_context: VisitorContext,
+  config: PluginConfig,
 }
 
 struct VisitorContext {
@@ -31,6 +32,7 @@ impl EntryVisitor {
         react_component_formatted_render_fn_map: HashMap::new(),
         react_component_list: vec![],
       },
+      config,
     }
   }
 }
@@ -75,7 +77,7 @@ impl EntryVisitor {
       .clone()
       .into_iter()
       .for_each(|mut react_component| {
-        let mut collect_render_fn_visitor = CollectRenderFnVisitor::new();
+        let mut collect_render_fn_visitor = CollectRenderFnVisitor::new(&self.config);
         react_component
           .block_stmt
           .visit_mut_with(&mut collect_render_fn_visitor);
@@ -121,8 +123,10 @@ impl EntryVisitor {
   }
 
   fn transform(&mut self, n: &mut Module) {
-    let mut transform_visitor =
-      ComponentEntryVisitor::new(&self.visitor_context.react_component_formatted_render_fn_map);
+    let mut transform_visitor = ComponentEntryVisitor::new(
+      &self.visitor_context.react_component_formatted_render_fn_map,
+      &self.config,
+    );
     n.visit_mut_children_with(&mut transform_visitor);
   }
 }

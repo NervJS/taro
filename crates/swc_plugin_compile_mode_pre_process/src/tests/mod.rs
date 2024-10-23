@@ -12,6 +12,7 @@ pub fn tr() -> impl Fold {
   let config = serde_json::from_str::<PluginConfig>(
     r#"
         {
+          "sub_render_fn": "subRenderFn"
         }"#,
   )
   .unwrap();

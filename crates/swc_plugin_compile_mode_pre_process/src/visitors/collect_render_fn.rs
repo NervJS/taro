@@ -4,30 +4,32 @@ use swc_core::ecma::{
   visit::{VisitMut, VisitMutWith},
 };
 
-use crate::utils::{
-  constant::{COMPILE_MODE, COMPILE_MODE_SUB_RENDER_FN_VAL},
-  render_fn::RenderFn,
+use crate::{
+  utils::{constant::COMPILE_MODE, render_fn::RenderFn},
+  PluginConfig,
 };
 
-pub struct CollectRenderFnVisitor {
+pub struct CollectRenderFnVisitor<'a> {
   pub raw_render_fn_map: HashMap<String, RenderFn>,
   sub_component_name: Option<String>,
   sub_component_params: Option<Vec<Pat>>,
   in_outmost_block_scope: bool,
+  config: &'a PluginConfig,
 }
 
-impl CollectRenderFnVisitor {
-  pub fn new() -> Self {
+impl<'a> CollectRenderFnVisitor<'a> {
+  pub fn new(config: &'a PluginConfig) -> Self {
     CollectRenderFnVisitor {
       raw_render_fn_map: HashMap::new(),
       sub_component_name: None,
       sub_component_params: None,
       in_outmost_block_scope: true,
+      config,
     }
   }
 }
 //只在最外层找就可以了，因为这个函数是一个 react 组件的入口
-impl VisitMut for CollectRenderFnVisitor {
+impl<'a> VisitMut for CollectRenderFnVisitor<'a> {
   fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
     if !self.in_outmost_block_scope {
       return;
@@ -120,8 +122,7 @@ impl VisitMut for CollectRenderFnVisitor {
                     Some(sub_component_name),
                     Some(sub_component_params),
                   ) => {
-                    if jsx_attr_name.sym == COMPILE_MODE && value == COMPILE_MODE_SUB_RENDER_FN_VAL
-                    {
+                    if jsx_attr_name.sym == COMPILE_MODE && *value == self.config.sub_render_fn {
                       self.raw_render_fn_map.insert(
                         sub_component_name.clone(),
                         RenderFn::new(sub_component_params.clone(), *jsx_element.clone()),
@@ -149,7 +150,7 @@ impl VisitMut for CollectRenderFnVisitor {
                   Some(sub_component_name),
                   Some(sub_component_params),
                 ) => {
-                  if jsx_attr_name.sym == COMPILE_MODE && value == COMPILE_MODE_SUB_RENDER_FN_VAL {
+                  if jsx_attr_name.sym == COMPILE_MODE && *value == self.config.sub_render_fn {
                     self.raw_render_fn_map.insert(
                       sub_component_name.clone(),
                       RenderFn::new(sub_component_params.clone(), *jsx_element.clone()),

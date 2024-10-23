@@ -6,21 +6,23 @@ use swc_core::ecma::{
   visit::{VisitMut, VisitMutWith},
 };
 
-use crate::utils::{
-  constant::{COMPILE_MODE, COMPILE_MODE_SUB_RENDER_FN_VAL},
-  render_fn::RenderFn,
+use crate::{
+  utils::{constant::COMPILE_MODE, render_fn::RenderFn},
+  PluginConfig,
 };
 
 pub struct TransformProcessVisitor<'a> {
   render_fn_map: &'a HashMap<String, RenderFn>,
   in_compile_mode_jsx: bool,
+  config: &'a PluginConfig,
 }
 
 impl<'a> TransformProcessVisitor<'a> {
-  pub fn new(render_fn_map: &'a HashMap<String, RenderFn>) -> Self {
+  pub fn new(render_fn_map: &'a HashMap<String, RenderFn>, config: &'a PluginConfig) -> Self {
     TransformProcessVisitor {
       render_fn_map,
       in_compile_mode_jsx: false,
+      config,
     }
   }
 }
@@ -48,7 +50,7 @@ impl<'a> VisitMut for TransformProcessVisitor<'a> {
         (
           JSXAttrName::Ident(jsx_attr_name),
           Some(JSXAttrValue::Lit(Lit::Str(Str { value, .. }))),
-        ) => !(jsx_attr_name.sym == COMPILE_MODE && value == COMPILE_MODE_SUB_RENDER_FN_VAL),
+        ) => !(jsx_attr_name.sym == COMPILE_MODE && *value == self.config.sub_render_fn),
         _ => true,
       },
       _ => true,
