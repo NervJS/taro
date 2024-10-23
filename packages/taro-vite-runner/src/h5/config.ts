@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import { defaultMainFields, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR } from '@tarojs/helper'
+import { defaultMainFields, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR, normalizePath } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isNumber, isObject, isString, PLATFORM_TYPE } from '@tarojs/shared'
 import { get } from 'lodash'
@@ -198,7 +198,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         // mpa 模式关于 html 的处理已经解藕到 mpa.ts
         if (isMultiRouterMode) return html
         const { configPath } = app
-        const scriptSource = configPath.replace(sourceDir, '')
+        const scriptSource = normalizePath(configPath.replace(sourceDir, ''))
         const htmlScript = getHtmlScript(scriptSource, pxtransformOption)
         return html.replace(/<script><%= htmlWebpackPlugin.options.script %><\/script>/, htmlScript)
       },
