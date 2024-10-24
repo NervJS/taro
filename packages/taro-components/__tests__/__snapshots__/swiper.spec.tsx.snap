@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Swiper events 1`] = `
-<taro-swiper-core class="taro-swiper-6">
+<taro-swiper-core class="taro-swiper-6" style="overflow: hidden;">
   <!---->
   <div class="swiper-container">
     <style type="text/css">
@@ -30,7 +30,7 @@ exports[`Swiper events 1`] = `
 `;
 
 exports[`Swiper props 1`] = `
-<taro-swiper-core class="taro-swiper-0">
+<taro-swiper-core class="taro-swiper-0" style="overflow: hidden;">
   <!---->
   <div class="swiper-container">
     <style type="text/css">
@@ -59,7 +59,7 @@ exports[`Swiper props 1`] = `
 `;
 
 exports[`Swiper should autoplay 1`] = `
-<taro-swiper-core class="taro-swiper-1">
+<taro-swiper-core class="taro-swiper-1" style="overflow: hidden;">
   <!---->
   <div class="swiper-container">
     <style type="text/css">
@@ -88,7 +88,7 @@ exports[`Swiper should autoplay 1`] = `
 `;
 
 exports[`Swiper should be circular 1`] = `
-<taro-swiper-core class="taro-swiper-2">
+<taro-swiper-core class="taro-swiper-2" style="overflow: hidden;">
   <!---->
   <div class="swiper-container">
     <style type="text/css">
@@ -117,7 +117,7 @@ exports[`Swiper should be circular 1`] = `
 `;
 
 exports[`Swiper should be vertical 1`] = `
-<taro-swiper-core class="taro-swiper-3">
+<taro-swiper-core class="taro-swiper-3" style="overflow: hidden;">
   <!---->
   <div class="swiper-container">
     <style type="text/css">
@@ -146,7 +146,7 @@ exports[`Swiper should be vertical 1`] = `
 `;
 
 exports[`Swiper should display multi items within screen width 1`] = `
-<taro-swiper-core class="taro-swiper-5">
+<taro-swiper-core class="taro-swiper-5" style="overflow: hidden;">
   <!---->
   <div class="swiper-container">
     <style type="text/css">
