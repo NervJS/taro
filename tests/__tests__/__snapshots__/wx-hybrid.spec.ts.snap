@@ -14,7 +14,7 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 524 ], {
-    835: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    443: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -630,7 +630,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(835);
+        return __webpack_exec__(443);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1473,7 +1473,7 @@ require("./runtime");
 
 /** filePath: dist/components/tab/tab.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 771 ], {
-    878: function() {
+    345: function() {
         Component({
             behaviors: [],
             properties: {
@@ -1511,7 +1511,7 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    var __webpack_exports__ = __webpack_exec__(878);
+    var __webpack_exports__ = __webpack_exec__(345);
 } ]);
 
 /** filePath: dist/components/tab/tab.json **/
@@ -1527,7 +1527,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 421 ], {
-    787: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    419: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var taro_components_namespaceObject = {};
         __webpack_require__.r(taro_components_namespaceObject);
         __webpack_require__.d(taro_components_namespaceObject, {
@@ -1627,7 +1627,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(787);
+        return __webpack_exec__(419);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1644,8 +1644,8 @@ require("./runtime");
 
 /** filePath: dist/pages/native/native.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 885 ], {
-    16: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-        var _require = __webpack_require__(320), add = _require.add;
+    392: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+        var _require = __webpack_require__(528), add = _require.add;
         Page({
             data: {
                 text: "This is page data.",
@@ -1668,7 +1668,7 @@ require("./runtime");
             }
         });
     },
-    320: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    528: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
@@ -1684,7 +1684,7 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    var __webpack_exports__ = __webpack_exec__(16);
+    var __webpack_exports__ = __webpack_exec__(392);
 } ]);
 
 /** filePath: dist/pages/native/native.json **/
