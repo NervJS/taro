@@ -114,12 +114,12 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           if (key) {
             const alias = taroConfig.router?.customRoutes![key]
             if (alias instanceof Array) {
-              alias.forEach(item => lines.push(`export * from './${path.join('src/main', 'ets', item)}'`))
+              alias.forEach(item => lines.push(`export * from './${path.posix.join('src/main', 'ets', item)}'`))
             } else if (typeof alias === 'string') {
-              lines.push(`export * from './${path.join('src/main', 'ets', alias)}'`)
+              lines.push(`export * from './${path.posix.join('src/main', 'ets', alias)}'`)
             }
           } else {
-            lines.push(`export * from './${path.join('src/main', 'ets', comp.name)}'`)
+            lines.push(`export * from './${path.posix.join('src/main', 'ets', comp.name)}'`)
           }
         })
         lines.push('')
