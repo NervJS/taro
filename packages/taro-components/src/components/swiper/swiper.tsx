@@ -308,7 +308,7 @@ export class Swiper implements ComponentInterface {
       }
     }
     const loopAdditionalSlides = this.getLoopAdditionalSlides()
-    const centeredSlides = displayMultipleItems === 1
+    const centeredSlides = displayMultipleItems === 1 && this.getNeedFixLoop()
     const slidesPerView = displayMultipleItems === 1 ? 'auto' : displayMultipleItems
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
@@ -458,26 +458,22 @@ export class Swiper implements ComponentInterface {
       indicatorActiveColor
     } = this
 
-    const [pM, nM] = this.parseMargin()
-    const hasMargin = pM || nM
-    const hostStyle: Record<string, string> = {}
-    if(hasMargin) {
-      hostStyle.overflow = 'hidden'
-    }
-    if (this.full) {
-      hostStyle.height = '100%'
-    }
-   
+    const [pM, nM] = this.parseMargin()  
     const swiperContainerStyleList: string [] = [
       'overflow: visible;',
       vertical ? `margin-top: ${pM}px; margin-bottom: ${nM}px;` : `margin-right: ${nM}px; margin-left: ${pM}px;`,
       this.full ? 'height: 100%;' : '',
     ]
-
     const swiperPaginationStyleList: string [] = [
       indicatorDots ? 'opacity: 1;' : 'display: none;',
       'font-size: 0;'
     ]
+    const hostStyle: Record<string, string> = { overflow: 'hidden' }
+    
+    if (this.full) {
+      hostStyle.height = '100%'
+    }
+
 
     return (
       <Host class={`taro-swiper-${this.#id}`} style={hostStyle}>
