@@ -395,7 +395,7 @@ const LayoutPropTypes = {
    *  for more details on how `position` differs between React Native
    *  and CSS.
    */
-  position: ReactPropTypes.oneOf(['absolute', 'relative']),
+  position: ReactPropTypes.oneOf(['absolute', 'relative', 'static']),
 
   /** `flexDirection` controls which directions children of a container go.
    *  `row` goes left to right, `column` goes top to bottom, and you may
@@ -476,7 +476,8 @@ const LayoutPropTypes = {
     'center',
     'stretch',
     'space-between',
-    'space-around'
+    'space-around',
+    'space-evenly'
   ]),
 
   /** `overflow` controls how children are measured and displayed.
@@ -553,7 +554,29 @@ const LayoutPropTypes = {
    *  for more details.
    *  @platform ios
    */
-  direction: ReactPropTypes.oneOf(['inherit', 'ltr', 'rtl'])
+  direction: ReactPropTypes.oneOf(['inherit', 'ltr', 'rtl']),
+
+  /**
+   * In React Native, gap works the same way it does in CSS.
+   * If there are two or more children in a container, they will be separated from each other
+   * by the value of the gap - but the children will not be separated from the edges of their parent container.
+   * For horizontal gaps, use columnGap, for vertical gaps, use rowGap, and to apply both at the same time, it's gap.
+   * When align-content or justify-content are set to space-between or space-around, the separation
+   * between children may be larger than the gap value.
+   * See https://developer.mozilla.org/en-US/docs/Web/CSS/gap for more details.
+   */
+  rowGap: ReactPropTypes.oneOfType([
+    ReactPropTypes.number,
+    ReactPropTypes.string
+  ]),
+  columnGap: ReactPropTypes.oneOfType([
+    ReactPropTypes.number,
+    ReactPropTypes.string
+  ]),
+  gap: ReactPropTypes.oneOfType([
+    ReactPropTypes.number,
+    ReactPropTypes.string
+  ]),
 }
 
 export default LayoutPropTypes

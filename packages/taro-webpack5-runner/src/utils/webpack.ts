@@ -1,6 +1,7 @@
 import path from 'node:path'
 
 import { promoteRelativePath } from '@tarojs/helper'
+import { isBoolean } from '@tarojs/shared'
 import { sources } from 'webpack'
 
 import type { Chunk, ChunkGraph, Compilation, Stats } from 'webpack'
@@ -47,4 +48,16 @@ export function errorHandling (errorLevel?: number, stats?: Stats) {
   if (errorLevel === 1 && stats?.hasErrors()) {
     process.exit(1)
   }
+}
+
+export function getAssetsMaxSize (options, defaultValue): number {
+  // Note:limit 为 false 时，不限制大小 全部转为 base64
+  const { limit } = options
+  let maxSize: number
+  if (isBoolean(limit)) {
+    maxSize = limit ? 0 : Number.MAX_SAFE_INTEGER
+  } else {
+    maxSize = limit || defaultValue
+  }
+  return maxSize
 }

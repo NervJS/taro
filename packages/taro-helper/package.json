@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/helper",
-  "version": "4.0.0-beta.138",
+  "version": "4.0.7-alpha.2",
   "description": "Taro Helper",
   "author": "O2Team",
   "license": "MIT",
@@ -12,7 +12,6 @@
     "prebuild": "pnpm run clean",
     "build": "tsc",
     "postbuild": "pnpm run swc:backup",
-    "predev": "pnpm run clean",
     "dev": "tsc -w",
     "prepack": "pnpm run build",
     "test": "jest --collectCoverage",

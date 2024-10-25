@@ -73,6 +73,15 @@ const TransformPropTypes = {
       ReactPropTypes.shape({ skewY: ReactPropTypes.string })
     ])
   ),
+  transformOrigin: ReactPropTypes.oneOfType([
+    ReactPropTypes.arrayOf(
+      ReactPropTypes.oneOfType([
+        ReactPropTypes.number,
+        ReactPropTypes.string
+      ])
+    ),
+    ReactPropTypes.string
+  ]),
 
   /**
    * Deprecated. Use the transform prop instead.

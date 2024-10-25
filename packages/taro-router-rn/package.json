@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router-rn",
-  "version": "4.0.0-beta.138",
+  "version": "4.0.7-alpha.2",
   "description": "Taro-router-rn",
   "author": "O2Team",
   "license": "MIT",
@@ -35,6 +35,7 @@
     "@react-navigation/native-stack": "^6.3.29",
     "@react-navigation/routers": "^6.1.9",
     "@react-navigation/stack": "^6.3.29",
+    "lodash": "^4.17.21",
     "query-string": "^9.0.0",
     "react-native-gesture-handler": "^2.16.0",
     "react-native-safe-area-context": "4.5.0",

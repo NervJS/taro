@@ -2,6 +2,7 @@ const _true = 'true'
 const _false = 'false'
 const _empty = ''
 const _zero = '0'
+const _object = '{}'
 
 export const components = {
   // ======== 调整属性 ========
@@ -39,7 +40,7 @@ export const components = {
     'enable-traffic': _false,
     'enable-poi': _true,
     'enable-building': _true,
-    setting: '[]',
+    setting: _object,
     bindLabelTap: _empty,
     bindRegionChange: _empty,
     bindPoiTap: _empty,

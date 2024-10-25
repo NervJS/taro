@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "4.0.0-beta.138",
+  "version": "4.0.7-alpha.2",
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
@@ -59,12 +59,13 @@
     "@stencil/core": "2.22.3",
     "hammerjs": "^2.0.8",
     "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "@tarojs/components-advanced": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
     "hls.js": "^1.1.5",
     "resolve-pathname": "^3.0.0",
-    "swiper": "6.8.0",
+    "swiper": "11.1.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
