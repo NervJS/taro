@@ -187,12 +187,17 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
   const filename = nodePath.relative(process.cwd(), sourcePath)
 
   // linaria代码转换
-  const result = require('linaria/lib/node').transform(sourceCode, {
-    filename,
-    // inputSourceMap: inputSourceMap ?? undefined,
-    outputFilename,
-    preprocessor
-  })
+	const pluginOptions = {
+		babelOptions: {
+			babelrc: false,
+		},
+	};
+
+	const services = {
+		options: { root, filename, pluginOptions },
+	}
+
+	const result = require('@wyw-in-js/transform/lib/transform').transformSync(services, sourceCode); 
 
   // 生成样式文件
   if (result.cssText) {
