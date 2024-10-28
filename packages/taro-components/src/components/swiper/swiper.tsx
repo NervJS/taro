@@ -15,7 +15,7 @@ const TWO_ADDITIONAL_SLIDES_THRESHOLD = 7
 })
 export class Swiper implements ComponentInterface {
   #id = INSTANCE_ID++
-  #source = ''
+  #source = 'autoplay'
   #swiperResetting = false
   // dom 变化是否由外部引起，因为 swiper 的循环模式也会引起 dom 的变化。如果不是由外部引起的 dom 变化，就不需要重新初始化 swiper
   #domChangeByOutSide = false
@@ -327,7 +327,7 @@ export class Swiper implements ComponentInterface {
       nested: true,
       ...effectsProps,
       on: {
-        changeTransitionEnd(e) {
+        transitionEnd(e) {
           if(that.#swiperResetting || that.#lastSwiperActiveIndex === this.realIndex) return
           that.#lastSwiperActiveIndex = this.realIndex
           that.getNeedFixLoop() && e.loopFix()
