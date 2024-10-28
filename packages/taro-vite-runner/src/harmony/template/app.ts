@@ -1,5 +1,7 @@
 import path from 'node:path'
 
+import { isFunction } from '@tarojs/shared'
+
 import { escapePath, resolveAbsoluteRequire } from '../../utils'
 import { TARO_COMP_SUFFIX } from '../entry'
 import { TARO_TABBAR_PAGE_PATH } from '../page'
@@ -116,8 +118,8 @@ export default class Parser extends BaseParser {
 }
 `
 
-    if (typeof modifyInstantiate === 'function') {
-      instantiateApp = modifyInstantiate(instantiateApp, 'app')
+    if (isFunction(modifyInstantiate)) {
+      instantiateApp = modifyInstantiate.call(this, instantiateApp, 'app')
     }
 
     return instantiateApp
@@ -156,10 +158,9 @@ export default class Parser extends BaseParser {
   }
 
   parseEntry (rawId: string, config = {}) {
-    const { creator, creatorLocation, frameworkArgs, importFrameworkStatement } = this.loaderMeta
+    const { creator, creatorLocation, frameworkArgs, importFrameworkStatement, modifyEntryFile } = this.loaderMeta
     const createApp = `${creator}(component, ${frameworkArgs})`
-
-    return this.transArr2Str([
+    const rawCode = this.transArr2Str([
       'import { initPxTransform } from "@tarojs/taro"',
       `import { ${creator} } from "${creatorLocation}"`,
       `import component from "${escapePath(rawId)}"`,
@@ -168,5 +169,7 @@ export default class Parser extends BaseParser {
       this.getInitPxTransform(),
       `export default () => ${createApp}`,
     ])
+
+    return isFunction(modifyEntryFile) ? modifyEntryFile.call(this, 'app', rawId, rawCode, config) : rawCode
   }
 }

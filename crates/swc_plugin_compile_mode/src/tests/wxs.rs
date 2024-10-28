@@ -1,11 +1,11 @@
+use super::{get_syntax_config, tr};
 use swc_core::ecma::transforms::testing::test;
-use super::{tr, get_syntax_config};
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_support_wxs_children,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_support_wxs_children,
+  r#"
     function Index () {
         return (
           <View compileMode>
@@ -20,10 +20,10 @@ test!(
 );
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_support_wxs_attributes,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_support_wxs_attributes,
+  r#"
     function Index () {
         return (
           <View compileMode>
@@ -38,10 +38,10 @@ test!(
 );
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_wxs_work_in_multi_compile_mode,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_wxs_work_in_multi_compile_mode,
+  r#"
     function Index () {
         return (
           <View>
@@ -62,10 +62,10 @@ test!(
 );
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_support_wxs_events,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_support_wxs_events,
+  r#"
     function Index () {
         return (
             <View compileMode>

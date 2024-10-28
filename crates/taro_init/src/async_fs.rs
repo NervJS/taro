@@ -1,4 +1,4 @@
-use std::{path::Path, io::Result};
+use std::{io::Result, path::Path};
 
 use futures::future::BoxFuture;
 

@@ -114,7 +114,10 @@ impl Project {
       is_custom_template: None,
       plugin_type: None,
     };
-    let all_files = all_files.iter().filter_map(|f| f.to_str()).collect::<Vec<_>>();
+    let all_files = all_files
+      .iter()
+      .filter_map(|f| f.to_str())
+      .collect::<Vec<_>>();
     println!();
     println!(
       "{} {}",

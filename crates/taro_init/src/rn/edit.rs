@@ -116,7 +116,7 @@ pub async fn change_default_name_in_template(
   let mut project_files = get_all_files_in_folder(
     project_path.to_string(),
     &["yarn.lock", "package-lock.json"],
-    Some(true)
+    Some(true),
   )?;
   project_files.reverse();
   for file_path in project_files.iter() {

@@ -631,8 +631,8 @@ export function readPageConfig(configPath: string) {
 }
 
 interface IReadConfigOptions {
-  defineConstants?: Record<string, any>
   alias?: Record<string, any>
+  defineConstants?: Record<string, any>
 }
 
 export function readConfig<T extends IReadConfigOptions> (configPath: string, options: T = {} as T) {

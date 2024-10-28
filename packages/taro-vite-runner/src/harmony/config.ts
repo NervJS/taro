@@ -20,6 +20,7 @@ import type { RollupInjectOptions } from '@rollup/plugin-inject'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { InputPluginOption, OutputOptions } from 'rollup'
 import type { Plugin, PluginOption } from 'vite'
+import type { TaroHarmonyPageMeta } from './template/page'
 
 export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
   const { taroConfig, cwd: appPath } = viteCompilerContext
@@ -200,7 +201,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           name = name.replace(/[\\/]+/g, '/')
 
           const appId = viteCompilerContext.app.config.appId || 'app'
-          const isTaroComp = appId === name || viteCompilerContext.pages.some(page => page.name === name) || viteCompilerContext.components?.some(comp => comp.name === name)
+          const isTaroComp = appId === name ||
+            viteCompilerContext.pages.some((page: TaroHarmonyPageMeta) => [page.name, page.originName].includes(name)) ||
+            viteCompilerContext.components?.some((comp: TaroHarmonyPageMeta) => [comp.name, comp.originName].includes(name))
           // 如果同时存在app.ets和app.js，因为鸿蒙IDE编译会把app.ets编译成app.ts，会跟app.js冲突，识别都是/app，导致app.js被app.ts覆盖了，所以需要名字
           const suffix = isTaroComp ? virtualModulePrefixREG.test(chunkInfo.facadeModuleId || '') ? TARO_COMP_SUFFIX : '_comp' : ''
           name = stripMultiPlatformExt(`${name}${suffix}`) + taroConfig.fileType.script

@@ -167,12 +167,13 @@ export function getComponentsAlias (origin: typeof internalComponents) {
     StaticImage: origin.Image,
     StaticText: origin.Text,
     PureView: viewAttrs,
-    CatchView: viewAttrs
+    CatchView: viewAttrs,
+    ClickView: viewAttrs,
   }
   origin = { ...origin, ...extraList }
   Object.keys(origin)
     .sort((a, b) => {
-      const reg = /^(Static|Pure|Catch)*(View|Image|Text)$/
+      const reg = /^(Static|Pure|Catch|Click)*(View|Image|Text)$/
       const isACommonly = reg.test(a)
       const isBCommonly = reg.test(b)
       if (isACommonly && isBCommonly) {

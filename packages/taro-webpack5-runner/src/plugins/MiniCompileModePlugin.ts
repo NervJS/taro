@@ -297,7 +297,7 @@ export default class MiniCompileModePlugin {
                 const source = new ConcatSource()
                 source.add(`<import src="${path.relative(path.dirname(key), `./${baseTemplName}`)}"/>\n`)
                 if (fileType.xs) {
-                  const content = template.buildXsTemplate(path.relative(path.dirname(key), `./utils`)) + '\n'
+                  const content = template.buildXsImportTemplate(path.relative(path.dirname(key), `./utils`))
                   source.add(content)
                 }
                 source.add(assets[key])

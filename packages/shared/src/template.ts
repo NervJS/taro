@@ -19,6 +19,7 @@ import {
   singleQuote,
   voidElements
 } from './components'
+import { COMPILE_MODE_IDENTIFIER_PREFIX } from './constants'
 import { isBooleanStringLiteral, isFunction, isNumber, isObjectStringLiteral, isString } from './is'
 import { Shortcuts } from './shortcuts'
 import { capitalize, getComponentsAlias, hasOwn, indent, toCamelCase, toDashed, toKebabCase } from './utils'
@@ -77,6 +78,8 @@ const weixinAdapter: IAdapter = {
 
 export class BaseTemplate {
   protected _baseLevel = 0
+  protected _isUseXS = true
+  protected _isUseCompileMode = false
   protected exportExpr = 'module.exports ='
   protected isSupportRecursive: boolean
   protected miniComponents: Components
@@ -105,6 +108,22 @@ export class BaseTemplate {
 
   get baseLevel () {
     return this._baseLevel
+  }
+
+  set isUseCompileMode (isUse) {
+    this._isUseCompileMode = isUse
+  }
+
+  get isUseCompileMode () {
+    return this._isUseCompileMode
+  }
+
+  set isUseXS (isUse) {
+    this._isUseXS = this.supportXS && isUse
+  }
+
+  get isUseXS () {
+    return this._isUseXS
   }
 
   private buildAttribute (attrs: Attributes, nodeName: string): string {
@@ -148,11 +167,11 @@ export class BaseTemplate {
                 propValue = `i.${componentAlias.value}?i.${componentAlias.value}.length:-1`
               }
 
-              propValue = this.supportXS
+              propValue = this.isUseXS
                 ? `xs.b(i.${propAlias},${propValue})`
                 : `i.${propAlias}===undefined?${propValue}:i.${propAlias}`
             } else if (isObjectStringLiteral(propValue)) {
-              propValue = this.supportXS
+              propValue = this.isUseXS
                 ? `xs.d(i.${propAlias})`
                 : `i.${propAlias}===undefined?${propValue}:i.${propAlias}`
             } else {
@@ -198,6 +217,11 @@ export class BaseTemplate {
               style: comp.style,
               class: comp.class
             }
+            result['click-view'] = {
+              style: comp.style,
+              class: comp.class,
+              bindtap: 'eh'
+            }
           }
         }
 
@@ -221,21 +245,18 @@ export class BaseTemplate {
 
   protected buildBaseTemplate () {
     const Adapter = this.Adapter
-    const data = !this.isSupportRecursive && this.supportXS
+    const data = !this.isSupportRecursive && this.isUseXS
       ? `${this.dataKeymap(`i:item,c:1,l:xs.f('',item.${Shortcuts.NodeName})`)}`
       : this.isSupportRecursive
         ? this.dataKeymap('i:item')
         : this.dataKeymap('i:item,c:1')
-    const xs = this.supportXS
+    const xs = this.isUseXS
       ? (this.isSupportRecursive
         ? `xs.a(0, item.${Shortcuts.NodeName})`
         : `xs.a(0, item.${Shortcuts.NodeName}, '')`)
-      : "'tmpl_0_' + item.nn"
-    return `${this.buildXsTemplate()}
-<template name="taro_tmpl">
-  <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="sid">
-    <template is="{{${xs}}}" data="{{${data}}}" />
-  </block>
+      : `'tmpl_0_' + item.${Shortcuts.NodeName}`
+    return `${this.buildXsImportTemplate()}<template name="taro_tmpl">
+  <template is="{{${xs}}}" data="{{${data}}}" ${Adapter.for}="{{root.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}" />
 </template>
 `
   }
@@ -269,7 +290,7 @@ export class BaseTemplate {
       if (isBooleanStringLiteral(patchValue) || isNumber(patchValue) || isString(patchValue)) {
         let propValue = ''
 
-        if (this.supportXS) {
+        if (this.isUseXS) {
           if (isObjectStringLiteral(patchValue)) {
             propValue = `xs.d(i.${toCamelCase(attr)})`
           }
@@ -291,22 +312,23 @@ export class BaseTemplate {
   }
 
   private getChildrenTemplate (level: number) {
-    const { isSupportRecursive, supportXS } = this
+    const { isSupportRecursive, isUseXS, Adapter, isUseCompileMode = true } = this
     const isLastRecursiveComp = !isSupportRecursive && level + 1 === this.baseLevel
-    const isUseXs = !this.isSupportRecursive && this.supportXS
+    const isUnRecursiveXs = !this.isSupportRecursive && isUseXS
 
+    const forAttribute = `${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}"`
     if (isLastRecursiveComp) {
-      const data = isUseXs
+      const data = isUnRecursiveXs
         ? `${this.dataKeymap('i:item,c:c,l:l')}`
         : this.isSupportRecursive
           ? this.dataKeymap('i:item')
           : this.dataKeymap('i:item,c:c')
 
-      return supportXS
-        ? `<template is="{{xs.e(${level})}}" data="{{${data}}}" />`
-        : `<template is="tmpl_${level}_${Shortcuts.Container}" data="{{${data}}}" />`
+      return isUseXS
+        ? `<template is="{{xs.e(${level})}}" data="{{${data}}}" ${forAttribute} />`
+        : `<template is="tmpl_${level}_${Shortcuts.Container}" data="{{${data}}}" ${forAttribute} />`
     } else {
-      const data = isUseXs
+      const data = isUnRecursiveXs
         // TODO: 此处直接 c+1，不是最优解，变量 c 的作用是监测组件嵌套的层级是否大于 baselevel
         // 但目前的监测方法用于所有组件嵌套的总和，应该分开组件计算，单个组件嵌套层级大于 baselevel 时，再进入 comp 组件中进行新的嵌套
         ? `${this.dataKeymap(`i:item,c:c+1,l:xs.f(l,item.${Shortcuts.NodeName})`)}`
@@ -318,16 +340,18 @@ export class BaseTemplate {
         ? `xs.a(c, item.${Shortcuts.NodeName}, l)`
         : `xs.a(0, item.${Shortcuts.NodeName})`
 
-      return supportXS
-        ? `<template is="{{${xs}}}" data="{{${data}}}" />`
+      return isUseXS
+        ? `<template is="{{${xs}}}" data="{{${data}}}" ${forAttribute} />`
         : isSupportRecursive
-          ? `<template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />`
-          : `<template is="{{'tmpl_' + c + '_' + item.nn}}" data="{{${data}}}" />`
+          ? `<template is="{{'tmpl_0_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
+          : isUseCompileMode
+            ? `<template is="{{'tmpl_' + (item.${Shortcuts.NodeName}[0]==='${COMPILE_MODE_IDENTIFIER_PREFIX}' ? 0 : c) + '_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
+            : `<template is="{{'tmpl_' + c + '_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
     }
   }
 
   private getChildren (comp: Component, level: number): string {
-    const { isSupportRecursive, Adapter } = this
+    const { isSupportRecursive } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
 
     let child = this.getChildrenTemplate(nextLevel)
@@ -339,9 +363,7 @@ export class BaseTemplate {
     let children = this.voidElements.has(comp.nodeName)
       ? ''
       : `
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
-      ${indent(child, 6)}
-    </block>
+    ${indent(child, 6)}
   `
 
     if (isFunction(this.modifyLoopContainer)) {
@@ -356,7 +378,7 @@ export class BaseTemplate {
     const nodeName = comp.nodeName
     const nodeAlias = comp.nodeAlias
     const attrs = { ...comp.attributes }
-    const templateName = this.supportXS
+    const templateName = this.isUseXS
       ? `xs.c(i, 'tmpl_${level}_')`
       : `i.focus ? 'tmpl_${level}_${nodeAlias}_focus' : 'tmpl_${level}_${nodeAlias}_blur'`
     delete attrs.focus
@@ -390,6 +412,7 @@ export class BaseTemplate {
       case 'slot':
       case 'slot-view':
       case 'catch-view':
+      case 'click-view':
       case 'static-view':
       case 'pure-view':
         nodeName = 'view'
@@ -430,7 +453,7 @@ export class BaseTemplate {
   }
 
   protected buildThirdPartyTemplate (level: number, componentConfig: ComponentConfig) {
-    const { Adapter, isSupportRecursive, supportXS, nestElements } = this
+    const { isSupportRecursive, isUseXS, nestElements } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
     let template = ''
 
@@ -438,12 +461,12 @@ export class BaseTemplate {
       if (compName === 'custom-wrapper') {
         template += `
 <template name="tmpl_${level}_${compName}">
-  <${compName} i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <${compName} i="{{i}}" ${!isSupportRecursive && isUseXS ? 'l="{{l}}"' : ''} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
   </${compName}>
 </template>
   `
       } else {
-        if (!isSupportRecursive && supportXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)!) return
+        if (!isSupportRecursive && isUseXS && nestElements.has(compName) && level + 1 > nestElements.get(compName)!) return
 
         let child = this.getChildrenTemplate(nextLevel)
 
@@ -454,9 +477,7 @@ export class BaseTemplate {
         const children = this.voidElements.has(compName)
           ? ''
           : `
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
-      ${child}
-    </block>
+    ${child}
   `
 
         template += `
@@ -476,7 +497,7 @@ export class BaseTemplate {
     <template is="tmpl_0_${this.componentsAlias['#text']._num}" data="{{${this.dataKeymap('i:i')}}}" />
   </block>
   <block ${this.Adapter.else}>
-    ${!this.isSupportRecursive && this.supportXS ? '<comp i="{{i}}" l="{{l}}" />' : '<comp i="{{i}}" />'}
+    ${!this.isSupportRecursive && this.isUseXS ? '<comp i="{{i}}" l="{{l}}" />' : '<comp i="{{i}}" />'}
   </block>`
 
     return `
@@ -502,6 +523,10 @@ export class BaseTemplate {
     return ''
   }
 
+  public buildXsImportTemplate (_filePath?: string) {
+    return this.isUseXS ? this.buildXsTemplate(_filePath) + '\n' : ''
+  }
+
   public buildPageTemplate = (baseTempPath: string, _page?: { content: Record<string, any>, path: string }) => {
     const template = `<import src="${baseTempPath}"/>
 <template is="taro_tmpl" data="{{${this.dataKeymap('root:root')}}}" />`
@@ -510,7 +535,7 @@ export class BaseTemplate {
   }
 
   public buildBaseComponentTemplate = (ext: string) => {
-    const data = !this.isSupportRecursive && this.supportXS
+    const data = !this.isSupportRecursive && this.isUseXS
       ? this.dataKeymap(`i:i,c:1,l:xs.f('',i.${Shortcuts.NodeName})`)
       : this.isSupportRecursive
         ? this.dataKeymap('i:i')
@@ -518,13 +543,12 @@ export class BaseTemplate {
 
     // 此处需要重新引入 xs 函数，否则会出现 ws.f() 在 comp.wxml 和 custom-wrapper.wxml 中永远返回 undefined 的问题 #14599
     return `<import src="./base${ext}" />
-${this.buildXsTemplate()}
-<template is="{{'tmpl_0_' + i.nn}}" data="{{${data}}}" />`
+${this.buildXsImportTemplate()}<template is="{{'tmpl_0_' + i.${Shortcuts.NodeName}}}" data="{{${data}}}" />`
   }
 
   public buildCustomComponentTemplate = (ext: string) => {
     const Adapter = this.Adapter
-    const data = !this.isSupportRecursive && this.supportXS
+    const data = !this.isSupportRecursive && this.isUseXS
       ? `${this.dataKeymap(`i:item,c:1,l:xs.f('',item.${Shortcuts.NodeName})`)}`
       : this.isSupportRecursive
         ? this.dataKeymap('i:item')
@@ -532,10 +556,8 @@ ${this.buildXsTemplate()}
 
     // 此处需要重新引入 xs 函数，否则会出现 ws.f() 在 comp.wxml 和 custom-wrapper.wxml 中永远返回 undefined 的问题 #14599
     return `<import src="./base${ext}" />
-  ${this.buildXsTemplate()}
-  <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
-    <template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />
-  </block>`
+${this.buildXsImportTemplate()}<template is="{{'tmpl_0_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}" />
+`
   }
 
   public buildXScript = () => {
@@ -623,7 +645,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
 
     let template = this.buildBaseTemplate()
     for (let i = 0; i < this.baseLevel; i++) {
-      template += this.supportXS
+      template += this.isUseXS
         ? this.buildOptimizeFloor(i, components, this.baseLevel === i + 1)
         : this.buildFloor(i, components, this.baseLevel === i + 1)
     }

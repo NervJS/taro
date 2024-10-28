@@ -34,7 +34,7 @@ export interface TaroHarmonyPageMeta extends VitePageMeta {
 
   modifyPageAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
-  modifyPageDisAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
+  modifyPageDisappear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
   modifyPageBuild?: (this: Parser, buildStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
@@ -705,7 +705,7 @@ for (let i = 0; i < taskQueen.length; i++) {
 
     let instantiatePage = this.transArr2Str(structCodeArray)
     if (isFunction(modifyInstantiate)) {
-      instantiatePage = modifyInstantiate(instantiatePage, 'page')
+      instantiatePage = modifyInstantiate.call(this, instantiatePage, 'page', page)
     }
 
     return instantiatePage
@@ -944,20 +944,20 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   }
 
   generatePageAboutToDisAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
-    const modifyPageDisAppear = page instanceof Array ? page[0].modifyPageDisAppear : page.modifyPageDisAppear
+    const modifyPageDisappear = page instanceof Array ? page[0].modifyPageDisappear : page.modifyPageDisappear
 
-    // 生成 aboutToDisAppear 函数内容
-    let disAppearStr = this.transArr2Str([
+    // 生成 aboutToDisappear 函数内容
+    let disappearStr = this.transArr2Str([
       this.isTabbarPage ? `this.pageList?.forEach(item => {
 callFn(item?.onUnload, this)
 })
 this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
 
-    if (isFunction(modifyPageDisAppear)) {
-      disAppearStr = modifyPageDisAppear.call(this, disAppearStr, page)
+    if (isFunction(modifyPageDisappear)) {
+      disappearStr = modifyPageDisappear.call(this, disappearStr, page)
     }
 
-    return disAppearStr
+    return disappearStr
   }
 
   generatePageShown () {
@@ -1078,21 +1078,21 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
   }
 
   parseEntry (rawId: string, page: TaroHarmonyPageMeta) {
-    const { creatorLocation, importFrameworkStatement } = this.loaderMeta
+    const { creatorLocation, frameworkArgs, importFrameworkStatement, modifyEntryFile } = this.loaderMeta
     const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
-    let createFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
+    // FIXME: pure 参数应该使用 page.entryOption 替代
+    const createFn = this.isPure
+      ? 'createNativeComponentConfig'
+      : isBlended
+        ? 'createNativePageConfig' : 'createPageConfig'
     const pageName = entryOption?.routeName || page.name
-    const nativeCreatePage = `createNativePageConfig(component, '${pageName}', React, ReactDOM, config)`
-    let createPageOrComponent = isBlended ? nativeCreatePage : `createPageConfig(component, '${pageName}', config)`
+    const createPageOrComponent = `${createFn}(component, ${this.isPure
+      ? `${frameworkArgs}`
+      : isBlended
+        ? `'${pageName}', ${frameworkArgs}` : `'${pageName}', config`})`
 
-    // 如果是pure，说明不是一个页面，而是一个组件，这个时候修改import和createPage
-    if (this.isPure) {
-      createFn = 'createNativeComponentConfig'
-      createPageOrComponent = `createNativeComponentConfig(component, React, ReactDOM, config)`
-    }
-
-    return this.transArr2Str([
+    const rawCode = this.transArr2Str([
       `import { ${createFn} } from '${creatorLocation}'`,
       `import component from "${escapePath(rawId)}"`,
       isBlended ? 'import { initPxTransform } from "@tarojs/taro"' : null,
@@ -1103,5 +1103,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
       page?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
       `export default () => ${createPageOrComponent}`,
     ])
+
+    return isFunction(modifyEntryFile) ? modifyEntryFile.call(this, 'page', rawId, rawCode, page) : rawCode
   }
 }

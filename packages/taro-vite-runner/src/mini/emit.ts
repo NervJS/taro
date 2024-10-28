@@ -102,11 +102,14 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           filePath: baseTemplateName,
           content: template.buildTemplate(componentConfig)
         })
-        // emit: utils.xs
-        generateXSFile(this, viteCompilerContext, {
-          filePath: 'utils',
-          content: viteCompilerContext.taroConfig.template.buildXScript()
-        })
+
+        if (template.isUseXS) {
+          // emit: utils.xs
+          generateXSFile(this, viteCompilerContext, {
+            filePath: 'utils',
+            content: viteCompilerContext.taroConfig.template.buildXScript()
+          })
+        }
 
         // emit: comp.json, comp.xml
         if (!template.isSupportRecursive) {

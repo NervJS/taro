@@ -1,4 +1,5 @@
 import { CSSProperties, LegacyRef, ReactNode } from 'react'
+import { COMPILE_MODE_SUB_RENDER_FN } from '@tarojs/shared'
 
 export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> = ITouchEvent> extends EventProps<TouchEvent> {
   /** 组件的唯一标示, 保持整个页面唯一 */
@@ -27,10 +28,10 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
     __html: string
   }
   /**
-   * 是否开启编译模式
+   * 是否开启编译模式 或者 是否是编译模式的子渲染函数
    * @supported weapp, harmony
    */
-  compileMode?: boolean | string
+  compileMode?: boolean | string | typeof COMPILE_MODE_SUB_RENDER_FN
   /**
    * 自定义容器组件的方向
    * @supported harmony

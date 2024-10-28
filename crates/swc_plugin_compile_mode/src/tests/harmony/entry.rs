@@ -1,5 +1,5 @@
+use super::{get_syntax_config, tr};
 use swc_core::ecma::transforms::testing::test;
-use super::{tr, get_syntax_config};
 
 test!(
   get_syntax_config(),

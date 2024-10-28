@@ -36,6 +36,9 @@ function getAttributes (node: TaroScrollViewElement): ScrollViewAttrs {
 
 function getScrollable (node: TaroScrollViewElement) {
   const _attrs = node._attrs
+  if (node?.hmStyle?.overflow === "scroll" || node?.hmStyle?.overflow === "auto") {
+    return ScrollDirection.Vertical
+  }
   if (_attrs.scrollX) {
     return ScrollDirection.Horizontal
   } else if (_attrs.scrollY) {
@@ -47,11 +50,11 @@ function getScrollable (node: TaroScrollViewElement) {
 
 function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', xOffset?: number, yOffset?: number) {
   if (!node || !node.scroller) return
-  
+
   const currentOffset = node.scroller.currentOffset() as ScrollViewCurrentOffset
-  
+
   if (!currentOffset) return
-  
+
   const currentXOffset = currentOffset.xOffset
   const currentYOffset = currentOffset.yOffset
   const value: ScrollViewEvent = {

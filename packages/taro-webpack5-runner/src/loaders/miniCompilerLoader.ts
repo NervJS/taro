@@ -1,5 +1,5 @@
 import { swc } from '@tarojs/helper'
-import { getComponentsAlias } from '@tarojs/shared'
+import { COMPILE_MODE_IDENTIFIER_PREFIX, COMPILE_MODE_SUB_RENDER_FN, getComponentsAlias } from '@tarojs/shared'
 import { isUrlRequest, urlToRequest } from 'loader-utils'
 
 import { templatesCache, XMLDependency } from '../plugins/MiniCompileModePlugin'
@@ -8,6 +8,7 @@ import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist
 import type { LoaderContext } from 'webpack'
 
 const COMPILE_MODE = 'compileMode'
+const templatesSourceTag = 'TARO_TEMP'
 
 interface IOptions {
   platform: string
@@ -34,7 +35,7 @@ export default async function (this: LoaderContext<IOptions>, source) {
   }
   const fileCount = FILE_COUNTER_MAP.get(resourcePath)
   try {
-    const identifier = `f${fileCount}`
+    const identifier = `${COMPILE_MODE_IDENTIFIER_PREFIX}${fileCount}`
     const { code } = await swc
       .transform(source, {
         filename: resourcePath,
@@ -54,12 +55,20 @@ export default async function (this: LoaderContext<IOptions>, source) {
           experimental: {
             plugins: [
               [
+                '@tarojs/helper/swc/swc_plugin_compile_mode_pre_process.wasm',
+                {
+                  sub_render_fn: COMPILE_MODE_SUB_RENDER_FN,
+                }
+              ],
+              [
                 '@tarojs/helper/swc/swc_plugin_compile_mode.wasm',
                 {
                   platform,
                   tmpl_prefix: identifier,
                   components,
                   adapter: template.Adapter,
+                  template_tag: templatesSourceTag,
+                  is_use_xs: template.isUseXS,
                 }
               ]
             ]
@@ -68,12 +77,12 @@ export default async function (this: LoaderContext<IOptions>, source) {
       })
 
     const templatesList: string[] = []
-    const RE_TEMPLATES = /var\s+TARO_TEMPLATES_(\w+)\s*=\s*'(.+)';/g
+    const RE_TEMPLATES = new RegExp(`var\\s+TARO_TEMPLATES_(\\w+)\\s*=\\s*('|")${templatesSourceTag}\\s*(.*?)\\s*${templatesSourceTag}\\2`, 'g')
 
     // 抓取模板内容
     let res
     while ((res = RE_TEMPLATES.exec(code)) !== null) {
-      const [, , raw] = res
+      const [, , , raw] = res
       // 小程序 xml 不支持 unescape，在此处对被 SWC 转义后的字符作还原
       const content: string = unescape(raw)
       templatesList.push(content)
@@ -123,5 +132,6 @@ function unescape (raw: string): string {
     return String.fromCharCode(charCode) + (!isUnicode ? $2.substring(2) : '')
   })
   temp = temp.replace(/\\'/g, "'")
+  temp = temp.replace(/\\"/g, '"')
   return temp
 }

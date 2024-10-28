@@ -1,11 +1,11 @@
+use super::{get_syntax_config, tr};
 use swc_core::ecma::transforms::testing::test;
-use super::{tr, get_syntax_config};
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_turn_dynamic_attrs,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_turn_dynamic_attrs,
+  r#"
     function Index () {
         return (
           <View compileMode>
@@ -25,10 +25,10 @@ test!(
 );
 
 test!(
-    get_syntax_config(),
-    |_| tr(),
-    should_handle_events,
-    r#"
+  get_syntax_config(),
+  |_| tr(),
+  should_handle_events,
+  r#"
     function Index () {
         return (
           <View compileMode>

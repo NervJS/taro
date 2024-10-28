@@ -173,4 +173,3 @@ function getImageSpanAlignment (align: TaroAny): TaroAny {
   }
 }
 "#;
-

@@ -94,15 +94,15 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               pageName = 'index'
             }
 
+            const page_ = page as TaroHarmonyPageMeta
+            page_.id = id
+            page_.originName = page.name
+            page_.name = pageName
+
             this.emitFile({
               type: 'prebuilt-chunk',
               fileName: viteCompilerContext.getTargetFilePath(pageName, '.ets'),
-              code: parse.parse(path.resolve(appRoot, pageName), {
-                ...page,
-                originName: page.name,
-                name: pageName,
-                id,
-              } as TaroHarmonyPageMeta, name, this.resolve),
+              code: parse.parse(path.resolve(appRoot, pageName), page_, name, this.resolve),
               exports: ['default'],
             })
           })
