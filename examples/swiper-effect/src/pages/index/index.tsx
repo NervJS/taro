@@ -10,7 +10,6 @@ export default function Index() {
   const [displayMultipleItems, setDisplayMultipleItems] = useState(1)
   const [autoplay, setAutoplay] = useState(true)
   const [current, setCurrent] = useState(0)
-  const [current2, setCurrent2] = useState(0)
   const [arr, setArr] = useState([
     {url: 'https://swiperjs.com/demos/images/nature-1.jpg'},
     {url: 'https://swiperjs.com/demos/images/nature-2.jpg'},
@@ -42,34 +41,32 @@ export default function Index() {
     setArr([...arr ])
   }
 
-  // const deleteCurrent = (current) => { 
-  //   arr.splice(current, 1)
-  //   setArr([...arr])
-  // }
-
-  console.log('render???')
+  const deleteCurrent = (current) => { 
+    arr.splice(current, 1)
+    setArr([...arr])
+  }
 
   return (
     <View className='index'>
-      {/* <ScrollView scrollY style={{height: 500}}> */}
+      <ScrollView scrollY style={{height: 500}}>
         <Swiper
         indicatorDots
         className='swiper-wrap1'
-        // current={current}
+        current={current}
         circular = {circular}
         effectsProps={{nested: true}}
-        // previousMargin='50px'
-        // nextMargin='20px'
-        // autoplay={autoplay}
+        previousMargin='50px'
+        nextMargin='20px'
+        autoplay={autoplay}
         onAnimationFinish={(e) => {
-          // const {current, source } = e.detail
-          // console.log('animation finish', current, source)
+          const {current, source } = e.detail
+          console.log('animation finish', current, source)
 
         }}
         onChange={(e) => {
           const {current, source} = e.detail
           console.log('change', current, source)
-          setCurrent2(current)
+          setCurrent(current)
 
         }}
 
@@ -82,7 +79,7 @@ export default function Index() {
               <SwiperItem key={index} className='item' data-source='xxxxxx' itemId={String(index)} >
                 <View className='wrap'>
                 <Image className='img1' src={item.url}/>
-                {/* <Button onClick={()=>deleteCurrent(index)} className='deleteCurrent'>delete</Button> */}
+                <Button onClick={()=>deleteCurrent(index)} className='deleteCurrent'>delete</Button>
                 <Button onClick={()=>copyOne(index)} className='deleteCurrent'>copy</Button>
                 </View>
               </SwiperItem>
@@ -99,7 +96,7 @@ export default function Index() {
         <Button onClick={()=>{setCurrent(0)}}>回到第一个</Button>
         <Button onClick={()=>{setAutoplay(!autoplay)}}>autoplay {String(autoplay)}</Button>
         <Button onClick={()=>setShow(!show)}>setShow {String(show)}</Button>
-      {/* </ScrollView> */}
+      </ScrollView>
     </View>
   )
 }
