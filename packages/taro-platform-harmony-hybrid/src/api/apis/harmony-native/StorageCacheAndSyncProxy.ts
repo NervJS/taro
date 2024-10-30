@@ -1,3 +1,4 @@
+const TYPE_STORAGE_UPDATE_EVENT_CLEAR = 'TYPE_STORAGE_UPDATE_EVENT_CLEAR'
 class ProxyHandler {
   private cacheMap: Map<any, any>
   private pageHasShowed: boolean = false
@@ -27,6 +28,14 @@ class ProxyHandler {
           success: () => {}
         })
       }, 2000)
+    })
+
+    native.onStorageStatusChange((type: string, key: string) => {
+      if (type === TYPE_STORAGE_UPDATE_EVENT_CLEAR) {
+        this.cacheMap.clear()
+      } else {
+        this.cacheMap.delete(key)
+      }
     })
   }
 

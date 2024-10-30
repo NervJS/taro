@@ -116,7 +116,8 @@ export default class RenderParser extends BaseParser {
       if (meta.isPackage) {
         importList.push(`import ${meta.name} from '${meta.scriptPath}'`)
       } else {
-        const nativePath = path.relative(this.context.sourceDir, meta.scriptPath).replace(/\.ets$/, '')
+        const nativePath = path.posix.relative(this.context.sourceDir, meta.scriptPath)
+          .replace(/[\\/]+/g, '/').replace(/\.ets$/, '')
         importList.push(`import ${meta.name} from './${nativePath}'`)
       }
     })

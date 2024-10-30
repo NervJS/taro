@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/extend",
-  "version": "4.0.5",
+  "version": "4.0.7",
   "description": "Taro extend functionality",
   "author": "O2Team",
   "license": "MIT",
@@ -22,5 +22,13 @@
   },
   "engines": {
     "node": ">= 18"
+  },
+  "devDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/taro": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/taro": "workspace:*"
   }
 }

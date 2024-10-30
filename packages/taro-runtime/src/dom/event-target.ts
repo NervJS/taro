@@ -89,4 +89,10 @@ export class TaroEventTarget {
     const isAnyEventBinded = Object.keys(handlers).find(key => handlers[key].length)
     return Boolean(isAnyEventBinded)
   }
+
+  public isOnlyClickBinded (): boolean {
+    const handlers = this.__handlers
+    const isOnlyClickBinded = handlers.tap && Object.keys(handlers).length === 1
+    return Boolean(isOnlyClickBinded)
+  }
 }
