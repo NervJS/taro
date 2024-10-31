@@ -8,7 +8,7 @@
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove ./dist",
+    "clean": "rimraf ./dist",
     "build": "tsc",
     "dev": "tsc -w",
     "lint": "eslint src templates __tests__ --ext .js,.ts",

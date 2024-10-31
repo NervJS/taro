@@ -17,7 +17,7 @@
     "prod": "pnpm run build",
     "assets": "cpy 'src/**/*.png' '!src/__tests__/*' dist",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove ./dist apiList.js libList.js",
+    "clean": "rimraf ./dist apiList.js libList.js",
     "build": "tsc && pnpm run assets && pnpm run script",
     "dev": "pnpm run assets && tsc --watch",
     "lint": "eslint src script __tests__ --ext .js,.jsx.ts,.tsx",
