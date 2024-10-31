@@ -10,7 +10,7 @@
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean && node ./scripts/fix.js",
     "build": "rollup -c",
-    "clean": "rimraf --impl=move-remove ../taro-components/lib/vue3",
+    "clean": "rimraf ../taro-components/lib/vue3",
     "dev": "pnpm run build -w"
   },
   "keywords": [],

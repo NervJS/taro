@@ -9,7 +9,7 @@
     "prod": "pnpm run build",
     "assets": "cpy 'src/**/*.png' '!src/__tests__/*' dist",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove ./dist",
+    "clean": "rimraf ./dist",
     "build": "tsc && pnpm run assets",
     "dev": "pnpm run assets && tsc --watch",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",

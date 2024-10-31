@@ -10,7 +10,7 @@
     "prebuild": "pnpm run clean",
     "build": "tsc",
     "dev": "tsc -w",
-    "clean": "rimraf --impl=move-remove dist",
+    "clean": "rimraf dist",
     "test": "cross-env NODE_ENV=jest jest",
     "test:ci": "cross-env NODE_ENV=jest jest --ci -i --passWithNoTests",
     "test:coverage": "cross-env NODE_ENV=jest jest --coverage"
