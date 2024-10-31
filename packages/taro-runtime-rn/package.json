@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "react": "^18.2.0",
-    "react-native": "^0.72.3",
+    "react-native": "^0.73.1",
     "react-native-device-info": "^10.12.0",
     "react-native-root-siblings": "^5.0.1"
   },
