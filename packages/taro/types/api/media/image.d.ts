@@ -19,7 +19,7 @@ declare module '../../index' {
       /** 需要预览的图片链接列表。 */
       urls: string[]
       /**
-       * 微信端为当前显示图片的链接，支付宝端为当前显示图片的索引值
+       * 当前显示图片的http链接
        */
       current?: string | number
       /**

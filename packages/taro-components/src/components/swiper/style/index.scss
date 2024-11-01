@@ -1,4 +1,3 @@
-@import "~swiper/swiper.min.css";
 @import "~swiper/swiper-bundle.min.css";
 
 taro-swiper-core {
@@ -8,18 +7,8 @@ taro-swiper-core {
   .swiper {
     &-container {
       height: 100%;
-    }
-
-    &-pagination {
-      font-size: 0;
-
-      &.swiper-pagination-bullet {
-        opacity: 1;
-      }
-
-      &.swiper-pagination-hidden {
-        display: none;
-      }
+      position: relative;
+      overflow: visible;
     }
   }
 }

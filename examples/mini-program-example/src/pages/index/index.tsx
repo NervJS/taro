@@ -49,21 +49,20 @@ export default function Index() {
       </Button>
       <Button
         onClick={()=>{
-          nativeApi.harmonyNavigateTo({
-            indexHtmlPath: '/spa/new/index.html',
-            taroPath: 'pages/performance/index/index'
+          Taro.navigateTo({
+            url: 'pages/harmony-hybrid/mix-router/home/index'
           })
         }}>
-        多实例（多SPA跳转）：性能列表页
+        多实例及混合路由测试页
       </Button>
       <Button
         onClick={()=>{
-          nativeApi.harmonyNavigateTo({
+          nativeApi.navigateToTaroHybrid({
             indexHtmlPath: '/spa/new/index.html',
-            taroPath: 'pages/api/index/index'
+            taroPath: '/pages/index/index'
           })
         }}>
-        单实例（单SPA）：接口列表页
+        单实例（单SPA）：首页
       </Button>
     </View>
   )

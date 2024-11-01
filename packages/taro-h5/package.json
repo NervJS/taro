@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "4.0.4",
+  "version": "4.0.7",
   "description": "Taro h5 framework",
   "browser": "dist/index.js",
   "main:h5": "dist/index.esm.js",
@@ -66,10 +66,11 @@
     "jest-transform-css": "^6.0.1",
     "mock-socket": "^7.1.0",
     "react": "^18.2.0",
+    "swiper": "11.1.0",
     "react-test-renderer": "^18.2.0",
     "rollup": "^3.29.4",
     "rollup-plugin-node-externals": "^5.0.0",
-    "rollup-plugin-ts": "^3.0.2",
+    "rollup-plugin-ts": "^3.4.5",
     "@rollup/plugin-node-resolve": "^15.2.3"
   },
   "peerDependencies": {

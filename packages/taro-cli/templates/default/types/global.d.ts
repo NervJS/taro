@@ -29,4 +29,7 @@ declare namespace NodeJS {
 {{#if (includes "Vue3" s=framework)}}
 declare module '@tarojs/components' {
   export * from '@tarojs/components/types/index.vue3'
+}{{else if (includes "Solid" s=framework)}}
+declare module '@tarojs/components' {
+  export * from '@tarojs/components/types/index.solid'
 }{{/if}}
