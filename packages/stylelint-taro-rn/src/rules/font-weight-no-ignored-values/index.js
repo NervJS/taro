@@ -1,5 +1,5 @@
 import stylelint from 'stylelint'
-import declarationValueIndex from 'stylelint/lib/utils/declarationValueIndex.cjs'
+import declarationValueIndex from 'stylelint/lib/utils/declarationValueIndex'
 
 import { namespace } from '../../utils/index.js'
 

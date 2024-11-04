@@ -390,9 +390,6 @@ importers:
       babel-plugin-dynamic-import-node:
         specifier: ^2.3.3
         version: 2.3.3
-      babel-plugin-minify-dead-code-elimination:
-        specifier: ^0.5.2
-        version: 0.5.2
       babel-plugin-transform-imports-api:
         specifier: 1.0.0
         version: 1.0.0
@@ -6996,9 +6993,6 @@ packages:
   babel-plugin-macros@3.1.0:
     resolution: {integrity: sha512-Cg7TFGpIr01vOQNODXOOaGz2NpCU5gl8x1qJFbb6hbZxR7XrcE2vtbAsTAbJ7/xwJtUuJEw8K8Zr/AE0LHlesg==, tarball: https://registry.npmjs.org/babel-plugin-macros/-/babel-plugin-macros-3.1.0.tgz}
     engines: {node: '>=10', npm: '>=6'}
-
-  babel-plugin-minify-dead-code-elimination@0.5.2:
-    resolution: {integrity: sha512-krq9Lwi0QIzyAlcNBXTL4usqUvevB4BzktdEsb8srcXC1AaYqRJiAQw6vdKdJSaXbz6snBvziGr6ch/aoRCfpA==, tarball: https://registry.npmjs.org/babel-plugin-minify-dead-code-elimination/-/babel-plugin-minify-dead-code-elimination-0.5.2.tgz}
 
   babel-plugin-polyfill-corejs2@0.4.11:
     resolution: {integrity: sha512-sMEJ27L0gRHShOh5G54uAAPaiCOygY/5ratXuiyb2G46FmlSpc9eFCzYVyDiPxfNbwzA7mYahmjQc5q+CZQ09Q==, tarball: https://registry.npmjs.org/babel-plugin-polyfill-corejs2/-/babel-plugin-polyfill-corejs2-0.4.11.tgz}
@@ -21003,13 +20997,6 @@ snapshots:
       '@babel/runtime': 7.24.6
       cosmiconfig: 7.1.0
       resolve: 1.22.8
-
-  babel-plugin-minify-dead-code-elimination@0.5.2:
-    dependencies:
-      babel-helper-evaluate-path: 0.5.0
-      babel-helper-mark-eval-scopes: 0.4.3
-      babel-helper-remove-or-void: 0.4.3
-      lodash: 4.17.21
 
   babel-plugin-polyfill-corejs2@0.4.11(@babel/core@7.24.4):
     dependencies:
