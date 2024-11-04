@@ -289,12 +289,7 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
             attribute = null as any
           }
 
-			attributes.push(
-				types.jsxAttribute(
-					types.jsxIdentifier('className'),
-					types.jsxExpressionContainer(linariaExpression)
-				)
-			)
+		attributes.push(types.jsxAttribute(types.jsxIdentifier('className'), types.jsxExpressionContainer(linariaExpression)))
         }
       }
     })
