@@ -1,6 +1,6 @@
 {
   "name": "postcss-taro-unit-transform",
-  "version": "4.0.7",
+  "version": "4.0.7-canary.3",
   "description": "小程序单位转换",
   "author": "O2Team",
   "license": "MIT",

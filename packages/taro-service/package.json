@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "4.0.7",
+  "version": "4.0.7-canary.3",
   "description": "Taro Service",
   "author": "O2Team",
   "license": "MIT",
