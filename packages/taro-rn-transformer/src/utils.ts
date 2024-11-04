@@ -289,32 +289,12 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
             attribute = null as any
           }
 
-          if (attribute) {
-            if (types.isJSXAttribute(attribute) && types.isJSXExpressionContainer(attribute.value)) {
-              const expression = attribute.value.expression
-              let elements
-              if (types.isArrayExpression(expression)) {
-                elements = expression.elements
-              } else {
-                elements = expression
-              }
-              // 合并 style 对象
-              // style = Object.assign({}, linariaStyle, { color: 'red' })
-              const mergeStyleExpression = types.callExpression(
-                types.identifier('Object.assign'),
-                // @ts-ignore
-                [types.objectExpression([])].concat(linariaExpression, elements)
-              )
-              attribute.value = types.jSXExpressionContainer(mergeStyleExpression)
-            }
-          } else {
-            attributes.push(
-              types.jsxAttribute(
-                types.jsxIdentifier('style'),
-                types.jsxExpressionContainer(linariaExpression)
-              )
-            )
-          }
+			attributes.push(
+				types.jsxAttribute(
+					types.jsxIdentifier('className'),
+					types.jsxExpressionContainer(linariaExpression)
+				)
+			)
         }
       }
     })
