@@ -45,7 +45,8 @@
     "react-native-known-styling-properties": "^1.3.0"
   },
   "devDependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "stylelint": "^16.4.0"
   },
   "peerDependencies": {
     "stylelint": "^16"
