@@ -188,7 +188,7 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
   // linaria代码转换
   const pluginOptions = {
     babelOptions: {
-      babelrc: false,
+      babelrc: false
     }
   }
 
