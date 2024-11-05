@@ -168,7 +168,6 @@ export function parseBase64Image (iconPath: string, baseRoot: string) {
 export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOption) {
   // TODO：配置 option, 小程序和 h5 可配置 webpack loader 更改配置，RN没有loader，所以默认不可配置，后续可考虑加配置
   const cacheDirectory = '.linaria-cache'
-  const preprocessor = undefined
   const extension = '.linaria.css'
   const root = process.cwd()
 
@@ -187,17 +186,17 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
   const filename = nodePath.relative(process.cwd(), sourcePath)
 
   // linaria代码转换
-	const pluginOptions = {
-		babelOptions: {
-			babelrc: false,
-		},
-	};
+  const pluginOptions = {
+    babelOptions: {
+      babelrc: false,
+    },
+  }
 
-	const services = {
-		options: { root, filename, pluginOptions },
-	}
+  const services = {
+    options: { root, filename, pluginOptions },
+  }
 
-	const result = require('@wyw-in-js/transform/lib/transform').transformSync(services, sourceCode); 
+  const result = require('@wyw-in-js/transform/lib/transform').transformSync(services, sourceCode)
 
   // 生成样式文件
   if (result.cssText) {
@@ -289,7 +288,7 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
             attribute = null as any
           }
 
-		attributes.push(types.jsxAttribute(types.jsxIdentifier('className'), types.jsxExpressionContainer(linariaExpression)))
+          attributes.push(types.jsxAttribute(types.jsxIdentifier('className'), types.jsxExpressionContainer(linariaExpression)))
         }
       }
     })
