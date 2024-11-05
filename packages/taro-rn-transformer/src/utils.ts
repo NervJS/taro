@@ -189,7 +189,7 @@ export function transformLinaria ({ sourcePath, sourceCode }: TransformLinariaOp
   const pluginOptions = {
     babelOptions: {
       babelrc: false,
-    },
+    }
   }
 
   const services = {
