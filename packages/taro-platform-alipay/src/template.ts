@@ -41,6 +41,12 @@ export class Template extends RecursiveTemplate {
     return name
   }
 
+  getClickEvent () {
+    return {
+      onTap: 'eh'
+    }
+  }
+
   getEvents () {
     return {
       onTap: 'eh',
