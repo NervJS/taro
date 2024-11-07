@@ -12,7 +12,7 @@ import { HOOKS_APP_ID, isFunction } from './utils'
 
 export function isClassComponent (component): boolean {
   return (
-    isFunction(component?.render) || !!component.prototype?.isReactComponent || component.prototype instanceof Component
+    isFunction(component?.render) || !!component?.prototype?.isReactComponent || component?.prototype instanceof Component
   )
 }
 
