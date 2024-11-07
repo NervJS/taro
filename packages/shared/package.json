@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/shared",
-  "version": "4.0.6",
+  "version": "4.0.8-beta.0",
   "description": "Taro utils internal use.",
   "author": "O2Team",
   "license": "MIT",
@@ -20,7 +20,7 @@
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove ./dist",
+    "clean": "rimraf ./dist",
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
