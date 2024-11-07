@@ -106,6 +106,8 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   experimental?: {
     /** 是否开启编译模式 */
     compileMode?: boolean | string
+    /** 模版渲染时是否使用wxs等小程序脚本语言 */
+    useXsForTemplate?: boolean
   }
 }
 

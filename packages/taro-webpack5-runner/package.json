@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "4.0.6",
+  "version": "4.0.8-beta.0",
   "description": "Taro app runner",
   "author": "O2Team",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "postbuild": "pnpm run mv:comp",
     "dev": "pnpm run mv:comp && tsc -w",
     "mv:comp": "node ./mv-comp.js",
-    "clean": "rimraf --impl=move-remove dist"
+    "clean": "rimraf dist"
   },
   "repository": {
     "type": "git",

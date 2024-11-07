@@ -75,6 +75,20 @@ export class TaroRootElement extends TaroElement {
     return this
   }
 
+  public scheduleTask(fn: TFunc) {
+    if (isFunction(Promise)) {
+      Promise.resolve()
+        .then(fn)
+        .catch((error) => {
+          setTimeout(() => {
+            throw error
+          })
+        })
+    } else {
+      setTimeout(fn)
+    }
+  }
+
   public enqueueUpdate (payload: UpdatePayload): void {
     this.updatePayloads.push(payload)
 
@@ -88,7 +102,7 @@ export class TaroRootElement extends TaroElement {
 
     const ctx = hooks.call('proxyToRaw', this.ctx)!
 
-    setTimeout(() => {
+    this.scheduleTask(() => {
       const setDataMark = `${SET_DATA} 开始时间戳 ${Date.now()}`
       perf.start(setDataMark)
       const data: Record<string, UpdatePayloadValue | ReturnType<HydratedData>> = Object.create(null)
@@ -183,7 +197,7 @@ export class TaroRootElement extends TaroElement {
         }
         ctx.setData(normalUpdate, cb)
       }
-    }, 0)
+    })
   }
 
   public enqueueUpdateCallback (cb: TFunc, ctx?: Record<string, any>) {
