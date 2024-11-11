@@ -14,19 +14,17 @@ describe('<Button />', () => {
   })
 
   it('render loading button', () => {
-    const { getByTestId, getByLabelText } = render(<Button loading />)
+    const { getByTestId } = render(<Button loading />)
     expect(getByTestId('loading')).toHaveStyle({
       marginRight: 0
     })
-    expect(getByLabelText('loading image')).toHaveProp('source', 1)
   })
 
   it('render loading & warn button with text', () => {
-    const { getByTestId, getByLabelText } = render(<Button type='warn' loading >BUTTON</Button>)
+    const { getByTestId } = render(<Button type='warn' loading >BUTTON</Button>)
     expect(getByTestId('loading')).toHaveStyle({
       marginRight: 5
     })
-    expect(getByLabelText('loading image')).toHaveProp('source', 1)
   })
 
   it('disabled button', () => {

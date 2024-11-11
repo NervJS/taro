@@ -8,13 +8,7 @@ import { errorHandler, successHandler } from '../../utils'
  * @param opts
  */
 export async function compressImage(opt: Taro.compressImage.Option): Promise<Taro.compressImage.SuccessCallbackResult> {
-  const {
-    src,
-    quality = 80,
-    success,
-    fail,
-    complete
-  } = opt
+  const { src, quality = 80, success, fail, complete } = opt
 
   const res = { errMsg: 'compressImage:ok', tempFilePath: '' }
 
@@ -29,10 +23,25 @@ export async function compressImage(opt: Taro.compressImage.Option): Promise<Tar
       return errorHandler(fail, complete)(res)
     }
   }
-
-  return Image.getSize(src, async (width, height) => {
-    return await _createResizedImage(width, height)
-  }, async () => {
-    return await _createResizedImage()
+  return new Promise((resolve, reject) => {
+    Image.getSize(
+      src,
+      async (width, height) => {
+        try {
+          const resizedImage = await _createResizedImage(width, height)
+          resolve(resizedImage)
+        } catch (error) {
+          reject(error)
+        }
+      },
+      async () => {
+        try {
+          const resizedImage = await _createResizedImage()
+          resolve(resizedImage)
+        } catch (error) {
+          reject(error)
+        }
+      }
+    )
   })
 }

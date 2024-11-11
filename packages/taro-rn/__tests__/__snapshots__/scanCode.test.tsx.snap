@@ -16,17 +16,21 @@ exports[`scanCode should render scanCode success 1`] = `
   }
 >
   <ViewManagerAdapter_ExpoCamera
-    barCodeScannerEnabled={true}
-    barCodeScannerSettings={
+    autoFocus="off"
+    barcodeScannerEnabled={true}
+    barcodeScannerSettings={
       {
-        "barCodeTypes": [],
+        "barcodeTypes": [],
       }
     }
-    faceDetectorSettings={{}}
-    focusDepth={0}
-    onBarCodeScanned={[Function]}
+    enableTorch={false}
+    facing="back"
+    flash="off"
+    flashMode="off"
+    mode="picture"
+    mute={false}
+    onBarcodeScanned={[Function]}
     onCameraReady={[Function]}
-    onFacesDetected={[Function]}
     onMountError={[Function]}
     onPictureSaved={[Function]}
     onResponsiveOrientationChanged={[Function]}
@@ -84,7 +88,11 @@ exports[`scanCode should render scanCode success 1`] = `
       }
     >
       <Image
-        source={1}
+        source={
+          {
+            "testUri": "../../../../../../packages/taro-rn/src/lib/scanCode/icon_close.png",
+          }
+        }
         style={
           {
             "height": 25,
@@ -140,7 +148,11 @@ exports[`scanCode should render scanCode success 1`] = `
       }
     >
       <Image
-        source={1}
+        source={
+          {
+            "testUri": "../../../../../../packages/taro-rn/src/lib/scanCode/icon_pic.png",
+          }
+        }
         style={
           {
             "height": 20,
