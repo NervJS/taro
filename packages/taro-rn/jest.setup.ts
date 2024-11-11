@@ -59,9 +59,3 @@ jest.doMock('expo-location', () => {
   expoLocation.requestForegroundPermissionsAsync = grantedPromise
   return expoLocation
 })
-
-jest.doMock('expo-barcode-scanner', () => {
-  const expoBarcodeSacnner = jest.requireActual('expo-barcode-scanner') as any
-  expoBarcodeSacnner.requestPermissionsAsync = grantedPromise
-  return expoBarcodeSacnner
-})

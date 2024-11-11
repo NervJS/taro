@@ -181,7 +181,8 @@
       }
     },
     "overrides": {
-      "browserslist": "^4.23.0"
+      "browserslist": "^4.23.0",
+      "@babel/helper-compilation-targets": "~7.24.6"
     }
   }
 }

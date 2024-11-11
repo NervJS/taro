@@ -1,4 +1,4 @@
-import { BarCodeScanningResult, Camera, CameraMountError, CameraType, PermissionStatus } from 'expo-camera'
+import { BarcodeScanningResult, Camera, CameraMountError, CameraView, PermissionStatus } from 'expo-camera'
 import React, { Component } from 'react'
 
 import Text from '../Text'
@@ -14,7 +14,7 @@ export class _Camera extends Component<CameraProps, CameraState> {
     }
   }
 
-  expoCameraRef = React.createRef<Camera>()
+  expoCameraRef = React.createRef<CameraView>()
 
   async componentDidMount(): Promise<void> {
     const permission = await Camera.requestCameraPermissionsAsync()
@@ -33,7 +33,7 @@ export class _Camera extends Component<CameraProps, CameraState> {
     this.props.onInitDone && this.props.onInitDone(event)
   }
 
-  onScanCode = (event: BarCodeScanningResult): void => {
+  onScanCode = (event: BarcodeScanningResult): void => {
     const { data } = event
     this.props.onScanCode &&
       this.props.onScanCode({
@@ -46,9 +46,7 @@ export class _Camera extends Component<CameraProps, CameraState> {
 
   render(): JSX.Element {
     const { hasPermission } = this.state
-    const { devicePosition, style, mode, flash } = this.props
-    const type = !devicePosition ? CameraType.front : CameraType[devicePosition]
-
+    const { devicePosition = 'front', style, mode, flash } = this.props
     if (hasPermission === null) {
       return <View />
     }
@@ -65,10 +63,10 @@ export class _Camera extends Component<CameraProps, CameraState> {
         }
         : {}
     return (
-      <Camera
+      <CameraView
         ref={this.expoCameraRef}
-        type={type}
-        flashMode={flash}
+        facing={devicePosition}
+        flash={flash}
         onMountError={this.onError}
         onCameraReady={this.onInitDone}
         {...barCodeScannerSettings}

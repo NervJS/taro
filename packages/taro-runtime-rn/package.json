@@ -38,15 +38,15 @@
     "@tarojs/shared": "workspace:*"
   },
   "devDependencies": {
-    "react": "^18.2.0",
-    "react-native": "^0.73.1",
-    "react-native-device-info": "^10.12.0",
+    "react": "^18.3.0",
+    "react-native": "^0.76.1",
+    "react-native-device-info": "^14.0.0",
     "react-native-root-siblings": "^5.0.1"
   },
   "peerDependencies": {
-    "react": ">= 18",
-    "react-native": ">= 0.63.0",
-    "react-native-device-info": ">= 10.0.0",
-    "react-native-root-siblings": ">= 5"
+    "react": "^18.3.0",
+    "react-native": "^0.76.1",
+    "react-native-device-info": "^14.0.0",
+    "react-native-root-siblings": "^5.0.1"
   }
 }

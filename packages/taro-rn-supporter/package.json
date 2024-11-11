@@ -29,9 +29,9 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@react-native-community/cli-config": "^12.3.6",
-    "@react-native-community/cli-tools": "^12.3.6",
-    "@react-native/metro-babel-transformer": "^0.73.2",
+    "@react-native-community/cli-config": "15.0.0",
+    "@react-native-community/cli-tools": "15.0.0",
+    "@react-native/metro-babel-transformer": "^0.76.1",
     "@tarojs/helper": "workspace:*",
     "@tarojs/rn-style-transformer": "workspace:*",
     "@tarojs/rn-transformer": "workspace:*",
@@ -42,10 +42,10 @@
     "babel-plugin-jsx-attributes-array-to-object": "0.3.0",
     "babel-plugin-transform-react-jsx-to-rn-stylesheet": "workspace:*",
     "lodash": "^4.17.21",
-    "metro": "^0.80.0",
-    "metro-cache": "^0.80.0",
-    "metro-core": "^0.80.0",
-    "metro-resolver": "^0.80.0",
+    "metro": "^0.81.0",
+    "metro-cache": "^0.81.0",
+    "metro-core": "^0.81.0",
+    "metro-resolver": "^0.81.0",
     "mime-types": "^2.1.35",
     "qrcode": "^1.5.3",
     "react-native-svg-transformer": "^1.4.0"
@@ -54,12 +54,12 @@
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
     "@types/lodash": "^4.17.0",
-    "react": "^18.2.0",
-    "react-native": "^0.73.1",
-    "react-native-svg": "~14.1.0"
+    "react": "^18.3.0",
+    "react-native": "^0.76.1",
+    "react-native-svg": "15.8.0"
   },
   "peerDependencies": {
-    "react": ">= 18",
-    "react-native": ">= 0.63.0"
+    "react": "^18.3.0",
+    "react-native": "^0.76.1"
   }
 }

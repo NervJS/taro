@@ -152,7 +152,11 @@ exports[`Video render Video 1`] = `
         onStartShouldSetResponder={[Function]}
         onStartShouldSetResponderCapture={[Function]}
         resizeMode="stretch"
-        source={1}
+        source={
+          {
+            "testUri": "../../../../../../packages/taro-components-rn/src/assets/video/play.png",
+          }
+        }
         style={
           [
             {

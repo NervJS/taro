@@ -39,17 +39,17 @@
     "query-string": "^9.0.0"
   },
   "devDependencies": {
-    "react": "^18.2.0",
-    "react-native": "^0.73.1",
-    "react-native-gesture-handler": "~2.14.0",
-    "react-native-safe-area-context": "4.8.2",
-    "react-native-screens": "~3.29.0"
+    "react": "^18.3.0",
+    "react-native": "^0.76.1",
+    "react-native-gesture-handler": "~2.20.2",
+    "react-native-safe-area-context": "4.12.0",
+    "react-native-screens": "~4.0.0"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-native": "^0.73.1",
-    "react-native-gesture-handler": "~2.14.0",
-    "react-native-safe-area-context": "4.8.2",
-    "react-native-screens": "~3.29.0"
+    "react": "^18.3.0",
+    "react-native": "^0.76.1",
+    "react-native-gesture-handler": "~2.20.2",
+    "react-native-safe-area-context": "4.12.0",
+    "react-native-screens": "~4.0.0"
   }
 }
