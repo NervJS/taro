@@ -127,6 +127,24 @@ function format (
         parent?.appendChild(text)
         return text
       }
+      // img标签,把width和height写入style,删除原有的width、height和style属性
+      if (child.tagName === 'img') {
+        let styleText = ''
+        const toBeRemovedIndexs: number[] = []
+        for (let i = 0; i < child.attributes.length; i++) {
+          const attr = child.attributes[i]
+          const [key, value] = splitEqual(attr)
+          if (key === 'width' || key === 'height') {
+            styleText += `${key}:${value};`
+            toBeRemovedIndexs.push(i)
+          } else if (key === 'style') {
+            styleText = `${styleText}${value};`
+            toBeRemovedIndexs.push(i)
+          }
+        }
+        child.attributes = child.attributes.filter((_, index) => !toBeRemovedIndexs.includes(index))
+        child.attributes.push(`style=${styleText.replace(/['"]/g, '')}`)
+      }
 
       const el: ParsedTaroElement = document.createElement(getTagName(child.tagName))
       el.h5tagName = child.tagName
