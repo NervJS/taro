@@ -3,7 +3,7 @@ import { isFunction } from '@tarojs/shared'
 import { options } from '../../options'
 import { Scaner, Token } from './scaner'
 import StyleTagParser from './style'
-import { isBlockElements, isInlineElements, isMiniElements, specialMiniElements } from './tags'
+import { getSpecialElementMapping, isBlockElements, isInlineElements, isMiniElements, isSpecialElements, specialMiniElements } from './tags'
 import { unquote } from './utils'
 
 import type { TaroDocument } from '../../dom/document'
@@ -47,7 +47,7 @@ export interface Element extends Node {
   attributes: string[]
 }
 
-export interface ParsedTaroElement extends TaroElement{
+export interface ParsedTaroElement extends TaroElement {
   h5tagName?: string
 }
 
@@ -71,7 +71,23 @@ function hasTerminalParent (tagName: string, stack: Element[]) {
   return false
 }
 
-function getTagName (tag: string) {
+/**
+ * 将属性数组转换为属性对象
+ * @param attributes 字符串数组，包含属性信息
+ * @returns 属性对象，键为属性名，值为属性值或true
+ */
+function attributesArray2Props (attributes: string[]): Record<string, string | true> {
+  const props: Record<string, string | true> = {}
+  for (let i = 0; i < attributes.length; i++) {
+    const attr = attributes[i]
+    const [key, value] = splitEqual(attr)
+    props[key] = value == null ? true : unquote(value)
+  }
+
+  return props
+}
+
+function getTagName (tag: string, attributes: string[]) {
   if (options.html!.renderHTMLTag) {
     return tag
   }
@@ -84,6 +100,14 @@ function getTagName (tag: string) {
     return 'view'
   } else if (isInlineElements(tag)) {
     return 'text'
+  } else if (isSpecialElements(tag)) {
+    // if it's special tag, the real tag is determined by the config mapping
+    const mapping = getSpecialElementMapping(tag)
+    const props = attributesArray2Props(attributes)
+
+    if (mapping) {
+      return mapping.mapName(props)
+    }
   }
 
   return 'view'
@@ -127,8 +151,26 @@ function format (
         parent?.appendChild(text)
         return text
       }
+      // img标签,把width和height写入style,删除原有的width、height和style属性
+      if (child.tagName === 'img') {
+        let styleText = ''
+        const toBeRemovedIndexs: number[] = []
+        for (let i = 0; i < child.attributes.length; i++) {
+          const attr = child.attributes[i]
+          const [key, value] = splitEqual(attr)
+          if (key === 'width' || key === 'height') {
+            styleText += `${key}:${value};`
+            toBeRemovedIndexs.push(i)
+          } else if (key === 'style') {
+            styleText = `${styleText}${value};`
+            toBeRemovedIndexs.push(i)
+          }
+        }
+        child.attributes = child.attributes.filter((_, index) => !toBeRemovedIndexs.includes(index))
+        child.attributes.push(`style=${styleText.replace(/['"]/g, '')}`)
+      }
 
-      const el: ParsedTaroElement = document.createElement(getTagName(child.tagName))
+      const el: ParsedTaroElement = document.createElement(getTagName(child.tagName, child.attributes))
       el.h5tagName = child.tagName
 
       parent?.appendChild(el)
