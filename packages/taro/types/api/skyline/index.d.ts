@@ -56,4 +56,45 @@ declare module '../../index' {
       }
     }
   }
+
+  /**
+   * DraggableSheet 实例，可通过 Taro.createSelectorQuery 的 NodesRef.node 方法获取。
+   *
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/skyline/DraggableSheetContext.html
+   */
+  interface DraggableSheetContext {
+    /**
+     * 滚动到指定位置。size 取值 [0, 1]，size = 1 时表示撑满 draggable-sheet 组件。size 和 pixels 同时传入时，仅 size 生效。
+     * @param option
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/skyline/DraggableSheetContext.scrollTo.html
+     */
+    scrollTo(option: DraggableSheetContext.scrollTo.Option): void
+  }
+
+  namespace DraggableSheetContext {
+    namespace scrollTo {
+      interface Option {
+        /** 相对目标位置 */
+        size?: number
+        /** 绝对目标位置 */
+        pixels?: number
+        /**
+         * 是否启用滚动动画
+         * @default true
+         */
+        animated?: boolean
+        /**
+         * 滚动动画时长（ms)
+         * @default 300
+         */
+        duration?: number
+        /**
+         * 缓动函数
+         * @default ease
+         */
+        easingFunction?: string
+      }
+    }
+  }
 }

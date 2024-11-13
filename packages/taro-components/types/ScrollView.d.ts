@@ -144,6 +144,14 @@ interface ScrollViewProps extends StandardProps {
    * @default 'list'
    */
   type?: 'list' | 'custom' | 'nested'
+  /** 关联的滚动容器
+   * draggable-sheet	  - 关联 draggable-sheet 组件	3.2.0
+   * nested-scroll-view	- 关联 type=nested 嵌套模式	3.2.0
+   * pop-gesture	      - 关联 页面手势返回 3.4.0
+   * @supported weapp
+   * @default ''
+   */
+  associativeContainer?: 'draggable-sheet' | 'nested-scroll-view' | 'pop-gesture'
   /** 是否反向滚动。一般初始滚动位置是在顶部，反向滚动则是在底部。
    * @supported weapp
    * @default false

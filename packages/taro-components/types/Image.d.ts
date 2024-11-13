@@ -62,7 +62,7 @@ interface ImageProps extends StandardProps {
    */
   ariaLabel?: string
   /** 是否渐显
-   * @supported weapp
+   * @supported weapp-skyline
    * @default false
    */
   fadeIn?: boolean

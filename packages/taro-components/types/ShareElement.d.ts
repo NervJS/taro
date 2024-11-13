@@ -59,7 +59,7 @@ interface ShareElementProps extends StandardProps {
     | 'bounceIn'
     | 'bounceOut'
     | 'bounceInOut'
-    | 'cubic-bezier(x1,'
+    | 'cubic-bezier(x1, y1, x2, y2)'
   /** 动画帧回调
    * @supported weapp
    */

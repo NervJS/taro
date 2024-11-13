@@ -1128,6 +1128,7 @@ export default class TaroMiniPlugin {
         // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
         this.generateConfigFile(compilation, compiler, `${name}/${baseCompName}`, {
           component: true,
+          styleIsolation: 'apply-shared',
           usingComponents: {
             [baseCompName]: `./${baseCompName}`,
             [customWrapperName]: `./${customWrapperName}`
@@ -1137,6 +1138,7 @@ export default class TaroMiniPlugin {
       }
       this.generateConfigFile(compilation, compiler, `${name}/${customWrapperName}`, {
         component: true,
+        styleIsolation: 'apply-shared',
         usingComponents: {
           [customWrapperName]: `./${customWrapperName}`
         }
@@ -1220,6 +1222,7 @@ export default class TaroMiniPlugin {
 
       const baseCompConfig = {
         component: true,
+        styleIsolation: 'apply-shared',
         usingComponents: {
           [baseCompName]: `./${baseCompName}`
         }
@@ -1242,6 +1245,7 @@ export default class TaroMiniPlugin {
       if (isUsingCustomWrapper) {
         this.generateConfigFile(compilation, compiler, customWrapperName, {
           component: true,
+          styleIsolation: 'apply-shared',
           usingComponents: {
             [customWrapperName]: `./${customWrapperName}`
           }

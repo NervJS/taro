@@ -116,6 +116,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
           const baseCompConfig = {
             component: true,
+            styleIsolation: 'apply-shared',
             usingComponents: {
               [baseCompName]: `./${baseCompName}`
             }
@@ -139,6 +140,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             filePath: customWrapperName,
             config: {
               component: true,
+              styleIsolation: 'apply-shared',
               usingComponents: {
                 [customWrapperName]: `./${customWrapperName}`
               }
@@ -151,6 +153,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             filePath: customWrapperName,
             config: {
               component: true,
+              styleIsolation: 'apply-shared',
               usingComponents: {
                 [customWrapperName]: `./${customWrapperName}`
               }
