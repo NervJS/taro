@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "4.0.4",
+  "version": "4.0.8-beta.0",
   "description": "Taro Service",
   "author": "O2Team",
   "license": "MIT",
@@ -9,7 +9,7 @@
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove dist types",
+    "clean": "rimraf dist types",
     "dev": "tsc -w",
     "build": "tsc"
   },

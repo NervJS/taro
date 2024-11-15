@@ -25,6 +25,11 @@ interface PickerStandardProps extends StandardProps, FormItemProps {
    * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   onCancel?: CommonEventFunction
+  /**
+   * 用于替换组件内部文本
+   * @supported h5, harmony, harmony_hybrid
+   */
+  textProps?: PickerStandardProps.PickerText
 }
 declare namespace PickerStandardProps {
   /** 选择器类型 */
@@ -87,11 +92,6 @@ interface PickerSelectorProps extends PickerStandardProps {
    * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   onChange?: CommonEventFunction<PickerSelectorProps.ChangeEventDetail>
-  /**
-   * 用于替换组件内部文本
-   * @supported h5, harmony, harmony_hybrid
-   */
-  textProps?: PickerStandardProps.PickerText
 }
 declare namespace PickerSelectorProps {
   interface ChangeEventDetail {
@@ -289,6 +289,7 @@ declare namespace PickerRegionProps {
     value: string
     code: string
     postcode?: string
+    children?: RegionData[]
   }
   interface Level {
     /** 省级选择器 */
