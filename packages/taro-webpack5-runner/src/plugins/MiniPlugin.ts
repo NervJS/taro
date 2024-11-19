@@ -63,6 +63,7 @@ interface IOptions extends ITaroMiniPluginOptions {
   frameworkExts: string[]
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath: string | string[]
+  behaviorsName: string
   isBuildPlugin: boolean
   blended: boolean
   newBlended: boolean
@@ -121,6 +122,7 @@ export default class TaroMiniPlugin {
       frameworkExts: miniBuildConfig.frameworkExts || [],
       template,
       runtimePath: miniBuildConfig.runtimePath || '',
+      behaviorsName: miniBuildConfig.behaviorsName || 'behaviors',
       isBuildPlugin: miniBuildConfig.isBuildPlugin || false,
       blended: miniBuildConfig.blended || false,
       newBlended: miniBuildConfig.newBlended || false,
@@ -264,6 +266,7 @@ export default class TaroMiniPlugin {
                 prerender: this.prerenderPages.size > 0,
                 config: this.appConfig,
                 runtimePath: this.options.runtimePath,
+                behaviorsName: this.options.behaviorsName,
                 blended: this.options.blended,
                 newBlended: this.options.newBlended,
                 pxTransformConfig
@@ -296,6 +299,7 @@ export default class TaroMiniPlugin {
                 config: this.filesConfig,
                 appConfig: this.appConfig,
                 runtimePath: this.options.runtimePath,
+                behaviorsName: this.options.behaviorsName,
                 hot: this.options.hot
               }
             })
@@ -310,7 +314,8 @@ export default class TaroMiniPlugin {
                 loaderMeta,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
-                runtimePath: this.options.runtimePath
+                runtimePath: this.options.runtimePath,
+                behaviorsName: this.options.behaviorsName,
               }
             })
           }
@@ -1226,7 +1231,7 @@ export default class TaroMiniPlugin {
         usingComponents: {
           [baseCompName]: `./${baseCompName}`
         }
-      }
+      } as Config & { component?: boolean, usingComponents: Record<string, string> }
 
       if (isUsingCustomWrapper) {
         baseCompConfig.usingComponents[customWrapperName] = `./${customWrapperName}`

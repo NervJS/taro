@@ -45,6 +45,8 @@ export default abstract class TaroPlatform<T extends TConfig = TConfig> {
   abstract platform: string
   abstract runtimePath: string | string[]
 
+  behaviorsName?: string
+
   protected setupTransaction = new Transaction<this>()
   protected buildTransaction = new Transaction<this>()
 

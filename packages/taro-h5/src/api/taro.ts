@@ -2,7 +2,7 @@ import Taro from '@tarojs/api'
 import { history } from '@tarojs/router'
 import { isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 
-import { getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, router, switchTab } from '../api'
+import { getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, router, switchTab, worklet } from '../api'
 import { permanentlyNotSupport } from '../utils'
 
 const {
@@ -44,6 +44,7 @@ const taro: ModifiedTaro = {
   getCurrentPages,
   switchTab,
   router,
+  worklet,
 }
 
 const requirePlugin = /* @__PURE__ */ permanentlyNotSupport('requirePlugin')
