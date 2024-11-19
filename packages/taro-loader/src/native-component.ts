@@ -15,6 +15,7 @@ export default function (this: webpack.LoaderContext<any>, source: string) {
   const configString = JSON.stringify(config)
   const stringify = (s: string): string => stringifyRequest(this, s)
   const pageName = options.name
+  const behaviorsName = options.behaviorsName
   // raw is a placeholder loader to locate changed .vue resource
   const entryCacheLoader = path.join(__dirname, 'entry-cache.js') + `?name=${pageName}`
   entryCache.set(pageName, source)
@@ -39,7 +40,11 @@ import { createNativeComponentConfig } from '${creatorLocation}'
 ${importFrameworkStatement}
 var component = require(${stringify(componentPath)}).default
 var config = ${configString};
-var inst = Component(createNativeComponentConfig(component, ${frameworkArgs}))
+var taroOption = createNativeComponentConfig(component, ${frameworkArgs})
+if (component?.behaviors) {
+  taroOption.${behaviorsName} = [...(taroOption.${behaviorsName} || []), ...component.behaviors]
+}
+var inst = Component(taroOption)
 ${options.prerender ? prerender : ''}
 export default component
 `

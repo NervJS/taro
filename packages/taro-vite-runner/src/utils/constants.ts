@@ -36,6 +36,7 @@ export const DEFAULT_TERSER_OPTIONS = {
     unused: true,
     conditionals: true,
     dead_code: true,
+    directives: false,
     evaluate: true,
   },
   output: {

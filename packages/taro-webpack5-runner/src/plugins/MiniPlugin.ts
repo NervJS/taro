@@ -63,6 +63,7 @@ interface IOptions extends ITaroMiniPluginOptions {
   frameworkExts: string[]
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath: string | string[]
+  behaviorsName: string
   isBuildPlugin: boolean
   blended: boolean
   newBlended: boolean
@@ -121,6 +122,7 @@ export default class TaroMiniPlugin {
       frameworkExts: miniBuildConfig.frameworkExts || [],
       template,
       runtimePath: miniBuildConfig.runtimePath || '',
+      behaviorsName: miniBuildConfig.behaviorsName || 'behaviors',
       isBuildPlugin: miniBuildConfig.isBuildPlugin || false,
       blended: miniBuildConfig.blended || false,
       newBlended: miniBuildConfig.newBlended || false,
@@ -264,6 +266,7 @@ export default class TaroMiniPlugin {
                 prerender: this.prerenderPages.size > 0,
                 config: this.appConfig,
                 runtimePath: this.options.runtimePath,
+                behaviorsName: this.options.behaviorsName,
                 blended: this.options.blended,
                 newBlended: this.options.newBlended,
                 pxTransformConfig
@@ -296,6 +299,7 @@ export default class TaroMiniPlugin {
                 config: this.filesConfig,
                 appConfig: this.appConfig,
                 runtimePath: this.options.runtimePath,
+                behaviorsName: this.options.behaviorsName,
                 hot: this.options.hot
               }
             })
@@ -310,7 +314,8 @@ export default class TaroMiniPlugin {
                 loaderMeta,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
-                runtimePath: this.options.runtimePath
+                runtimePath: this.options.runtimePath,
+                behaviorsName: this.options.behaviorsName,
               }
             })
           }
@@ -1128,6 +1133,7 @@ export default class TaroMiniPlugin {
         // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
         this.generateConfigFile(compilation, compiler, `${name}/${baseCompName}`, {
           component: true,
+          styleIsolation: 'apply-shared',
           usingComponents: {
             [baseCompName]: `./${baseCompName}`,
             [customWrapperName]: `./${customWrapperName}`
@@ -1137,6 +1143,7 @@ export default class TaroMiniPlugin {
       }
       this.generateConfigFile(compilation, compiler, `${name}/${customWrapperName}`, {
         component: true,
+        styleIsolation: 'apply-shared',
         usingComponents: {
           [customWrapperName]: `./${customWrapperName}`
         }
@@ -1220,10 +1227,11 @@ export default class TaroMiniPlugin {
 
       const baseCompConfig = {
         component: true,
+        styleIsolation: 'apply-shared',
         usingComponents: {
           [baseCompName]: `./${baseCompName}`
         }
-      }
+      } as Config & { component?: boolean, usingComponents: Record<string, string> }
 
       if (isUsingCustomWrapper) {
         baseCompConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
@@ -1242,6 +1250,7 @@ export default class TaroMiniPlugin {
       if (isUsingCustomWrapper) {
         this.generateConfigFile(compilation, compiler, customWrapperName, {
           component: true,
+          styleIsolation: 'apply-shared',
           usingComponents: {
             [customWrapperName]: `./${customWrapperName}`
           }

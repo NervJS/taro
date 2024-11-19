@@ -29,7 +29,8 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@tarojs/helper": "workspace:*"
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   },
   "devDependencies": {
     "@tarojs/taro": "workspace:*",

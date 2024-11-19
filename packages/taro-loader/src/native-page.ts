@@ -14,6 +14,7 @@ export default function (this: webpack.LoaderContext<any>, source: string) {
   const configString = JSON.stringify(config)
   const stringify = (s: string): string => stringifyRequest(this, s)
   const pageName = options.name
+  const behaviorsName = options.behaviorsName
   // raw is a placeholder loader to locate changed .vue resource
   const entryCacheLoader = path.join(__dirname, 'entry-cache.js') + `?name=${pageName}`
   entryCache.set(pageName, source)
@@ -51,7 +52,11 @@ var component = require(${stringify(componentPath)}).default
 var config = ${configString};
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
-var inst = Page(createNativePageConfig(component, '${pageName}', {root:{cn:[]}}, ${frameworkArgs}))
+var taroOption = createNativePageConfig(component, '${pageName}', {root:{cn:[]}}, ${frameworkArgs})
+if (component?.behaviors) {
+  taroOption.${behaviorsName} = [...(taroOption.${behaviorsName} || []), ...component.behaviors]
+}
+var inst = Page(taroOption)
 ${options.prerender ? prerender : ''}
 ${hmr}
 `

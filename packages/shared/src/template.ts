@@ -217,10 +217,11 @@ export class BaseTemplate {
               style: comp.style,
               class: comp.class
             }
+
             result['click-view'] = {
               style: comp.style,
               class: comp.class,
-              bindtap: 'eh'
+              ...this.getClickEvent()
             }
           }
         }
@@ -412,9 +413,9 @@ export class BaseTemplate {
       case 'slot':
       case 'slot-view':
       case 'catch-view':
-      case 'click-view':
       case 'static-view':
       case 'pure-view':
+      case 'click-view':
         nodeName = 'view'
         break
       case 'static-text':
@@ -513,6 +514,10 @@ export class BaseTemplate {
 
   protected getEvents (): any {
     return events
+  }
+
+  protected getClickEvent (): any {
+    return { bindtap: 'eh' }
   }
 
   protected getAttrValue (value: string, _key: string, _nodeName: string) {
