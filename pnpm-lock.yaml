@@ -1357,6 +1357,9 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
     devDependencies:
       '@tarojs/taro':
         specifier: workspace:*

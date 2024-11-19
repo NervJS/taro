@@ -53,7 +53,7 @@ interface RichTextProps extends StandardProps {
    */
   onLongtap?: CommonEventFunction
   /** 布局兼容模式
-   * @supported weapp-skyline
+   * @supported weapp
    * @default default
    */
   mode?: 'default' | 'compat' | 'aggressive' | 'inline-block' | 'web'

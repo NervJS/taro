@@ -199,21 +199,25 @@ interface InputProps extends StandardProps, FormItemProps {
    */
   onNickNameReview?: CommonEventFunction
   /** 选区改变事件, {selectionStart, selectionEnd}
-   * @supported weapp-skyline
+   * @supported weapp
    */
   onSelectionChange?: CommonEventFunction
   /** 输入法开始新的输入时触发 （仅当输入法支持时触发）
-   * @supported weapp-skyline
+   * @supported weapp
    */
   onKeyboardCompositionStart?: CommonEventFunction
   /** 输入法输入字符时触发（仅当输入法支持时触发）
-   * @supported weapp-skyline
+   * @supported weapp
    */
   onKeyboardCompositionUpdate?: CommonEventFunction
   /** 输入法输入结束时触发（仅当输入法支持时触发）
-   * @supported weapp-skyline
+   * @supported weapp
    */
   onKeyboardCompositionEnd?: CommonEventFunction
+  /** 键盘高度变化时触发。event.detail = {height: height, pageBottomPadding: pageBottomPadding}； height: 键盘高度，pageBottomPadding: 页面上推高度
+   * @supported weapp
+   */
+  onKeyoardHeightChangeWorklet?: string
 }
 declare namespace InputProps {
   /** Input 类型 */

@@ -342,6 +342,15 @@ impl TransformVisitor {
             Some(jsx_attr_value) => {
               match jsx_attr_value {
                 JSXAttrValue::Lit(Lit::Str(Str { value, .. })) => {
+                  // 处理worklet事件
+                  if is_event {
+                    let event_name_str = event_name.unwrap();
+                    if event_name_str.starts_with("worklet:") {
+                      props.insert(event_name_str, value.to_string());
+                      return false;
+                    }
+                  }
+
                   // 静态属性在 xml 中保留即可，jsx 中可以删除
                   if jsx_attr_name != COMPILE_MODE {
                     props.insert(miniapp_attr_name, value.to_string());
