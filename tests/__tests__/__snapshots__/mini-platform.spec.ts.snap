@@ -922,7 +922,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_1">
-  <view style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <view style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" a:for="{{i.cn}}" a:key="sid" />
   </view>
 </template>
@@ -1469,11 +1469,15 @@ require("./runtime");
         var config = {
             navigationBarTitleText: "\\u9996\\u9875"
         };
-        var inst = Page((0, taro_runtime.eU)(Index, "pages/index/index", {
+        var taroOption = (0, taro_runtime.eU)(Index, "pages/index/index", {
             root: {
                 cn: []
             }
-        }, config || {}));
+        }, config || {});
+        if (Index?.behaviors) {
+            taroOption.behaviors = [ ...taroOption.behaviors || [], ...Index.behaviors ];
+        }
+        var inst = Page(taroOption);
         var index = null && component;
     }
 }, function(__webpack_require__) {
@@ -2577,11 +2581,15 @@ require("./runtime");
         var config = {
             navigationBarTitleText: "\\u9996\\u9875"
         };
-        var inst = Page((0, taro_runtime.eU)(Index, "pages/index/index", {
+        var taroOption = (0, taro_runtime.eU)(Index, "pages/index/index", {
             root: {
                 cn: []
             }
-        }, config || {}));
+        }, config || {});
+        if (Index?.behaviors) {
+            taroOption.behaviors = [ ...taroOption.behaviors || [], ...Index.behaviors ];
+        }
+        var inst = Page(taroOption);
         var index = null && component;
     }
 }, function(__webpack_require__) {
@@ -3847,7 +3855,7 @@ require("./runtime");
 } ]);
 
 /** filePath: dist/comp.json **/
-{"component":true,"usingComponents":{"comp":"./comp"}}
+{"component":true,"styleIsolation":"apply-shared","usingComponents":{"comp":"./comp"}}
 
 /** filePath: dist/comp.jxml **/
 <import src="./base.jxml" />
@@ -4254,11 +4262,15 @@ require("./runtime");
         var config = {
             navigationBarTitleText: "\\u9996\\u9875"
         };
-        var inst = Page((0, taro_runtime.eU)(Index, "pages/index/index", {
+        var taroOption = (0, taro_runtime.eU)(Index, "pages/index/index", {
             root: {
                 cn: []
             }
-        }, config || {}));
+        }, config || {});
+        if (Index?.behaviors) {
+            taroOption.behaviors = [ ...taroOption.behaviors || [], ...Index.behaviors ];
+        }
+        var inst = Page(taroOption);
         var index = null && component;
     }
 }, function(__webpack_require__) {
@@ -4287,7 +4299,7 @@ require("./runtime");
 /** filePath: dist/utils.jds **/
 module.exports = {
   a: function (l, n, s) {
-    var a = ["8","0","1","19","6","3","12","7","5","40","41","23","20","38","42","43","root-portal"]
+    var a = ["8","0","19","6","3","1","12","7","5","40","41","23","20","38","42","43","root-portal"]
     var b = ["5","40","41","23","20","38","42","43","root-portal"]
     if (a.indexOf(n) === -1) {
       l = 0

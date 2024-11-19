@@ -83,7 +83,8 @@ require("./runtime");
             },
             RichText: {
                 space: _empty,
-                "user-select": _false
+                "user-select": _false,
+                mode: "'default'"
             },
             Text: {
                 "user-select": _false,
@@ -154,8 +155,13 @@ require("./runtime");
                 "safe-password-salt": "",
                 "safe-password-custom-hash": "",
                 "auto-fill": _empty,
+                "cursor-color": "",
                 bindKeyboardHeightChange: _empty,
-                bindNicknameReview: _empty
+                bindNicknameReview: _empty,
+                bindSelectionChange: _empty,
+                bindKeyboardCompositionStart: _empty,
+                bindKeyboardCompositionUpdate: _empty,
+                bindKeyboardCompositionEnd: _empty
             },
             Picker: {
                 "header-text": _empty,
@@ -177,7 +183,12 @@ require("./runtime");
                 "disable-default-padding": _false,
                 "confirm-type": "'return'",
                 "confirm-hold": _false,
-                bindKeyboardHeightChange: _empty
+                "adjust-keyboard-to": "'cursor'",
+                bindKeyboardHeightChange: _empty,
+                bindSelectionChange: _empty,
+                bindKeyboardCompositionStart: _empty,
+                bindKeyboardCompositionUpdate: _empty,
+                bindKeyboardCompositionEnd: _empty
             },
             ScrollView: {
                 "enable-flex": _false,
@@ -195,6 +206,7 @@ require("./runtime");
                 "show-scrollbar": _true,
                 "fast-deceleration": _false,
                 type: "'list'",
+                "associative-container": "''",
                 reverse: _false,
                 clip: _true,
                 "enable-back-to-top": _false,
@@ -263,7 +275,19 @@ require("./runtime");
             },
             Swiper: {
                 "snap-to-edge": _false,
-                "easing-function": "'default'"
+                "easing-function": "'default'",
+                "layout-type": "'normal'",
+                "transformer-type": "'scaleAndFade'",
+                "indicator-type": "'normal'",
+                "indicator-margin": "10",
+                "indicator-spacing": "4",
+                "indicator-radius": "4",
+                "indicator-width": "8",
+                "indicator-height": "8",
+                "indicator-alignment": "'auto'",
+                "indicator-offset": "[0, 0]",
+                "scroll-with-animation": _true,
+                "cache-extent": "0"
             },
             SwiperItem: {
                 "skip-hidden-item-layout": _false
@@ -284,7 +308,8 @@ require("./runtime");
             },
             Image: {
                 webp: _false,
-                "show-menu-by-longpress": _false
+                "show-menu-by-longpress": _false,
+                "fade-in": _false
             },
             LivePlayer: {
                 mode: "'live'",
@@ -495,7 +520,11 @@ require("./runtime");
                 mapkey: _empty,
                 transform: _false,
                 duration: "300",
-                "easing-function": "'ease-out'"
+                "easing-function": "'ease-out'",
+                "transition-on-gesture": _false,
+                "shuttle-on-push": "'to'",
+                "shuttle-on-pop": "'to'",
+                "rect-tween-type": "'materialRectArc'"
             },
             KeyboardAccessory: {},
             RootPortal: {
@@ -538,7 +567,15 @@ require("./runtime");
                 snapSizes: "[]"
             },
             NestedScrollHeader: {},
-            NestedScrollBody: {}
+            NestedScrollBody: {},
+            DoubleTapGestureHandler: {},
+            ForcePressGestureHandler: {},
+            HorizontalDragGestureHandler: {},
+            LongPressGestureHandler: {},
+            PanGestureHandler: {},
+            ScaleGestureHandler: {},
+            TapGestureHandler: {},
+            VerticalDragGestureHandler: {}
         };
         const hostConfig = {
             initNativeApi: initNativeApi,
@@ -751,20 +788,20 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
   </cover-view>
 </template>
 
-<template name="tmpl_0_60">
-  <scroll-view scroll-x="{{i.p33||!1}}" scroll-y="{{i.p34||!1}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{i.p32||!1}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{i.p15||'black'}}" refresher-background="{{i.p13||'#FFF'}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{i.p36||'list'}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{i.p28||'start'}}" padding="{{i.p11||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_0_66">
+  <scroll-view scroll-x="{{i.p34||!1}}" scroll-y="{{i.p35||!1}}" upper-threshold="{{xs.b(i.p38,50)}}" lower-threshold="{{xs.b(i.p10,50)}}" scroll-top="{{i.p32}}" scroll-left="{{i.p31}}" scroll-into-view="{{i.p28}}" scroll-with-animation="{{i.p33||!1}}" enable-back-to-top="{{xs.b(i.p5,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p6,false)}}" scroll-anchoring="{{xs.b(i.p27,false)}}" enhanced="{{xs.b(i.p8,false)}}" using-sticky="{{xs.b(i.p39,false)}}" paging-enabled="{{xs.b(i.p13,false)}}" enable-passive="{{xs.b(i.p7,false)}}" refresher-enabled="{{xs.b(i.p17,false)}}" refresher-threshold="{{xs.b(i.p18,45)}}" refresher-default-style="{{i.p16||'black'}}" refresher-background="{{i.p14||'#FFF'}}" refresher-triggered="{{xs.b(i.p19,false)}}" bounces="{{xs.b(i.p2,true)}}" show-scrollbar="{{xs.b(i.p36,true)}}" fast-deceleration="{{xs.b(i.p9,false)}}" type="{{i.p37||'list'}}" associative-container="{{i.p1||''}}" reverse="{{xs.b(i.p26,false)}}" clip="{{xs.b(i.p4,true)}}" cache-extent="{{i.p3}}" min-drag-distance="{{xs.b(i.p11,18)}}" scroll-into-view-within-extent="{{xs.b(i.p30,false)}}" scroll-into-view-alignment="{{i.p29||'start'}}" padding="{{i.p12||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p21,false)}}" refresher-two-level-triggered="{{xs.b(i.p25,false)}}" refresher-two-level-threshold="{{xs.b(i.p24,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p20,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p23,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p15,false)}}" refresher-two-level-pinned="{{xs.b(i.p22,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </scroll-view>
 </template>
 
 <template name="tmpl_0_4">
-  <image src="{{i.p3}}" mode="{{i.p1||'scaleToFill'}}" lazy-load="{{i.p0||!1}}" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p4}}" mode="{{i.p2||'scaleToFill'}}" lazy-load="{{i.p1||!1}}" webp="{{xs.b(i.p5,false)}}" show-menu-by-longpress="{{xs.b(i.p3,false)}}" fade-in="{{xs.b(i.p0,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </image>
 </template>
 
 <template name="tmpl_0_2">
-  <image src="{{i.p3}}" mode="{{i.p1||'scaleToFill'}}" lazy-load="{{i.p0||!1}}" binderror="eh" bindload="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p4}}" mode="{{i.p2||'scaleToFill'}}" lazy-load="{{i.p1||!1}}" binderror="eh" bindload="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" webp="{{xs.b(i.p5,false)}}" show-menu-by-longpress="{{xs.b(i.p3,false)}}" fade-in="{{xs.b(i.p0,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </image>
 </template>
@@ -821,8 +858,8 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
   </cover-view>
 </template>
 
-<template name="tmpl_1_60">
-  <scroll-view scroll-x="{{i.p33||!1}}" scroll-y="{{i.p34||!1}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{i.p32||!1}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{i.p15||'black'}}" refresher-background="{{i.p13||'#FFF'}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{i.p36||'list'}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{i.p28||'start'}}" padding="{{i.p11||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_1_66">
+  <scroll-view scroll-x="{{i.p34||!1}}" scroll-y="{{i.p35||!1}}" upper-threshold="{{xs.b(i.p38,50)}}" lower-threshold="{{xs.b(i.p10,50)}}" scroll-top="{{i.p32}}" scroll-left="{{i.p31}}" scroll-into-view="{{i.p28}}" scroll-with-animation="{{i.p33||!1}}" enable-back-to-top="{{xs.b(i.p5,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p6,false)}}" scroll-anchoring="{{xs.b(i.p27,false)}}" enhanced="{{xs.b(i.p8,false)}}" using-sticky="{{xs.b(i.p39,false)}}" paging-enabled="{{xs.b(i.p13,false)}}" enable-passive="{{xs.b(i.p7,false)}}" refresher-enabled="{{xs.b(i.p17,false)}}" refresher-threshold="{{xs.b(i.p18,45)}}" refresher-default-style="{{i.p16||'black'}}" refresher-background="{{i.p14||'#FFF'}}" refresher-triggered="{{xs.b(i.p19,false)}}" bounces="{{xs.b(i.p2,true)}}" show-scrollbar="{{xs.b(i.p36,true)}}" fast-deceleration="{{xs.b(i.p9,false)}}" type="{{i.p37||'list'}}" associative-container="{{i.p1||''}}" reverse="{{xs.b(i.p26,false)}}" clip="{{xs.b(i.p4,true)}}" cache-extent="{{i.p3}}" min-drag-distance="{{xs.b(i.p11,18)}}" scroll-into-view-within-extent="{{xs.b(i.p30,false)}}" scroll-into-view-alignment="{{i.p29||'start'}}" padding="{{i.p12||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p21,false)}}" refresher-two-level-triggered="{{xs.b(i.p25,false)}}" refresher-two-level-threshold="{{xs.b(i.p24,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p20,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p23,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p15,false)}}" refresher-two-level-pinned="{{xs.b(i.p22,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </scroll-view>
 </template>
@@ -875,8 +912,8 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
   </cover-view>
 </template>
 
-<template name="tmpl_2_60">
-  <scroll-view scroll-x="{{i.p33||!1}}" scroll-y="{{i.p34||!1}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{i.p32||!1}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{i.p15||'black'}}" refresher-background="{{i.p13||'#FFF'}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{i.p36||'list'}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{i.p28||'start'}}" padding="{{i.p11||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_2_66">
+  <scroll-view scroll-x="{{i.p34||!1}}" scroll-y="{{i.p35||!1}}" upper-threshold="{{xs.b(i.p38,50)}}" lower-threshold="{{xs.b(i.p10,50)}}" scroll-top="{{i.p32}}" scroll-left="{{i.p31}}" scroll-into-view="{{i.p28}}" scroll-with-animation="{{i.p33||!1}}" enable-back-to-top="{{xs.b(i.p5,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p6,false)}}" scroll-anchoring="{{xs.b(i.p27,false)}}" enhanced="{{xs.b(i.p8,false)}}" using-sticky="{{xs.b(i.p39,false)}}" paging-enabled="{{xs.b(i.p13,false)}}" enable-passive="{{xs.b(i.p7,false)}}" refresher-enabled="{{xs.b(i.p17,false)}}" refresher-threshold="{{xs.b(i.p18,45)}}" refresher-default-style="{{i.p16||'black'}}" refresher-background="{{i.p14||'#FFF'}}" refresher-triggered="{{xs.b(i.p19,false)}}" bounces="{{xs.b(i.p2,true)}}" show-scrollbar="{{xs.b(i.p36,true)}}" fast-deceleration="{{xs.b(i.p9,false)}}" type="{{i.p37||'list'}}" associative-container="{{i.p1||''}}" reverse="{{xs.b(i.p26,false)}}" clip="{{xs.b(i.p4,true)}}" cache-extent="{{i.p3}}" min-drag-distance="{{xs.b(i.p11,18)}}" scroll-into-view-within-extent="{{xs.b(i.p30,false)}}" scroll-into-view-alignment="{{i.p29||'start'}}" padding="{{i.p12||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p21,false)}}" refresher-two-level-triggered="{{xs.b(i.p25,false)}}" refresher-two-level-threshold="{{xs.b(i.p24,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p20,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p23,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p15,false)}}" refresher-two-level-pinned="{{xs.b(i.p22,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </scroll-view>
 </template>
@@ -929,8 +966,8 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
   </cover-view>
 </template>
 
-<template name="tmpl_3_60">
-  <scroll-view scroll-x="{{i.p33||!1}}" scroll-y="{{i.p34||!1}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{i.p32||!1}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{i.p15||'black'}}" refresher-background="{{i.p13||'#FFF'}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{i.p36||'list'}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{i.p28||'start'}}" padding="{{i.p11||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_3_66">
+  <scroll-view scroll-x="{{i.p34||!1}}" scroll-y="{{i.p35||!1}}" upper-threshold="{{xs.b(i.p38,50)}}" lower-threshold="{{xs.b(i.p10,50)}}" scroll-top="{{i.p32}}" scroll-left="{{i.p31}}" scroll-into-view="{{i.p28}}" scroll-with-animation="{{i.p33||!1}}" enable-back-to-top="{{xs.b(i.p5,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p6,false)}}" scroll-anchoring="{{xs.b(i.p27,false)}}" enhanced="{{xs.b(i.p8,false)}}" using-sticky="{{xs.b(i.p39,false)}}" paging-enabled="{{xs.b(i.p13,false)}}" enable-passive="{{xs.b(i.p7,false)}}" refresher-enabled="{{xs.b(i.p17,false)}}" refresher-threshold="{{xs.b(i.p18,45)}}" refresher-default-style="{{i.p16||'black'}}" refresher-background="{{i.p14||'#FFF'}}" refresher-triggered="{{xs.b(i.p19,false)}}" bounces="{{xs.b(i.p2,true)}}" show-scrollbar="{{xs.b(i.p36,true)}}" fast-deceleration="{{xs.b(i.p9,false)}}" type="{{i.p37||'list'}}" associative-container="{{i.p1||''}}" reverse="{{xs.b(i.p26,false)}}" clip="{{xs.b(i.p4,true)}}" cache-extent="{{i.p3}}" min-drag-distance="{{xs.b(i.p11,18)}}" scroll-into-view-within-extent="{{xs.b(i.p30,false)}}" scroll-into-view-alignment="{{i.p29||'start'}}" padding="{{i.p12||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p21,false)}}" refresher-two-level-triggered="{{xs.b(i.p25,false)}}" refresher-two-level-threshold="{{xs.b(i.p24,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p20,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p23,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p15,false)}}" refresher-two-level-pinned="{{xs.b(i.p22,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </scroll-view>
 </template>
@@ -1541,7 +1578,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 } ]);
 
 /** filePath: dist/comp.json **/
-{"component":true,"usingComponents":{"comp":"./comp"}}
+{"component":true,"styleIsolation":"apply-shared","usingComponents":{"comp":"./comp"}}
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
@@ -1645,11 +1682,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
         var config = {
             navigationBarTitleText: "\\u8be6\\u60c5\\u9875"
         };
-        var inst = Page((0, taro_runtime.eU)(Index, "pages/detail/index", {
+        var taroOption = (0, taro_runtime.eU)(Index, "pages/detail/index", {
             root: {
                 cn: []
             }
-        }, config || {}));
+        }, config || {});
+        if (Index?.behaviors) {
+            taroOption.behaviors = [ ...taroOption.behaviors || [], ...Index.behaviors ];
+        }
+        var inst = Page(taroOption);
         var detail = null && component;
     }
 }, function(__webpack_require__) {
@@ -1699,11 +1740,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
         var config = {
             navigationBarTitleText: "\\u9996\\u9875"
         };
-        var inst = Page((0, taro_runtime.eU)(Index, "pages/index/index", {
+        var taroOption = (0, taro_runtime.eU)(Index, "pages/index/index", {
             root: {
                 cn: []
             }
-        }, config || {}));
+        }, config || {});
+        if (Index?.behaviors) {
+            taroOption.behaviors = [ ...taroOption.behaviors || [], ...Index.behaviors ];
+        }
+        var inst = Page(taroOption);
         var index = null && component;
     }
 }, function(__webpack_require__) {
@@ -1726,8 +1771,8 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
-    var a = ["8","0","1","22","6","3","13","7","5","63","64","32","25","60","69","70","58"]
-    var b = ["5","63","64","32","25","60","69","70","58"]
+    var a = ["8","0","22","6","3","1","13","7","5","69","70","35","27","66","75","76","63"]
+    var b = ["5","69","70","35","27","66","75","76","63"]
     if (a.indexOf(n) === -1) {
       l = 0
     }
@@ -1758,7 +1803,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l, n) {
-    var b = ["5","63","64","32","25","60","69","70","58"]
+    var b = ["5","69","70","35","27","66","75","76","63"]
     if (b.indexOf(n) > -1) {
       if (l) l += ','
       l += n
@@ -2862,7 +2907,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 </template>
 
 <template name="tmpl_0_1">
-  <view style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <view style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" a:for="{{i.cn}}" a:key="sid" />
   </view>
 </template>
@@ -2885,20 +2930,20 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
   </text>
 </template>
 
-<template name="tmpl_0_60">
-  <scroll-view scroll-x="{{i.p33||!1}}" scroll-y="{{i.p34||!1}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{i.p32||!1}}" enable-back-to-top="{{xs.b(i.p4,false)}}" onScrollToUpper="eh" onScrollToLower="eh" onScroll="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{i.p15||'black'}}" refresher-background="{{i.p13||'#FFF'}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{i.p36||'list'}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{i.p28||'start'}}" padding="{{i.p11||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" onDragStart="eh" onDragging="eh" onDragEnd="eh" onRefresherPulling="eh" onRefresherRefresh="eh" onRefresherRestore="eh" onRefresherAbort="eh" onScrollStart="eh" onScrollEnd="eh" onRefresherWillRefresh="eh" onRefresherStatusChange="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_0_66">
+  <scroll-view scroll-x="{{i.p34||!1}}" scroll-y="{{i.p35||!1}}" upper-threshold="{{xs.b(i.p38,50)}}" lower-threshold="{{xs.b(i.p10,50)}}" scroll-top="{{i.p32}}" scroll-left="{{i.p31}}" scroll-into-view="{{i.p28}}" scroll-with-animation="{{i.p33||!1}}" enable-back-to-top="{{xs.b(i.p5,false)}}" onScrollToUpper="eh" onScrollToLower="eh" onScroll="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" enable-flex="{{xs.b(i.p6,false)}}" scroll-anchoring="{{xs.b(i.p27,false)}}" enhanced="{{xs.b(i.p8,false)}}" using-sticky="{{xs.b(i.p39,false)}}" paging-enabled="{{xs.b(i.p13,false)}}" enable-passive="{{xs.b(i.p7,false)}}" refresher-enabled="{{xs.b(i.p17,false)}}" refresher-threshold="{{xs.b(i.p18,45)}}" refresher-default-style="{{i.p16||'black'}}" refresher-background="{{i.p14||'#FFF'}}" refresher-triggered="{{xs.b(i.p19,false)}}" bounces="{{xs.b(i.p2,true)}}" show-scrollbar="{{xs.b(i.p36,true)}}" fast-deceleration="{{xs.b(i.p9,false)}}" type="{{i.p37||'list'}}" associative-container="{{i.p1||''}}" reverse="{{xs.b(i.p26,false)}}" clip="{{xs.b(i.p4,true)}}" cache-extent="{{i.p3}}" min-drag-distance="{{xs.b(i.p11,18)}}" scroll-into-view-within-extent="{{xs.b(i.p30,false)}}" scroll-into-view-alignment="{{i.p29||'start'}}" padding="{{i.p12||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p21,false)}}" refresher-two-level-triggered="{{xs.b(i.p25,false)}}" refresher-two-level-threshold="{{xs.b(i.p24,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p20,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p23,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p15,false)}}" refresher-two-level-pinned="{{xs.b(i.p22,false)}}" onDragStart="eh" onDragging="eh" onDragEnd="eh" onRefresherPulling="eh" onRefresherRefresh="eh" onRefresherRestore="eh" onRefresherAbort="eh" onScrollStart="eh" onScrollEnd="eh" onRefresherWillRefresh="eh" onRefresherStatusChange="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" a:for="{{i.cn}}" a:key="sid" />
   </scroll-view>
 </template>
 
 <template name="tmpl_0_4">
-  <image src="{{i.p3}}" mode="{{i.p1||'scaleToFill'}}" lazy-load="{{i.p0||!1}}" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p4}}" mode="{{i.p2||'scaleToFill'}}" lazy-load="{{i.p1||!1}}" webp="{{xs.b(i.p5,false)}}" show-menu-by-longpress="{{xs.b(i.p3,false)}}" fade-in="{{xs.b(i.p0,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" a:for="{{i.cn}}" a:key="sid" />
   </image>
 </template>
 
 <template name="tmpl_0_2">
-  <image src="{{i.p3}}" mode="{{i.p1||'scaleToFill'}}" lazy-load="{{i.p0||!1}}" onError="eh" onLoad="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p4}}" mode="{{i.p2||'scaleToFill'}}" lazy-load="{{i.p1||!1}}" onError="eh" onLoad="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" webp="{{xs.b(i.p5,false)}}" show-menu-by-longpress="{{xs.b(i.p3,false)}}" fade-in="{{xs.b(i.p0,false)}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" a:for="{{i.cn}}" a:key="sid" />
   </image>
 </template>
@@ -2999,11 +3044,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
         var config = {
             navigationBarTitleText: "\\u5173\\u4e8e"
         };
-        var inst = Page((0, taro_runtime.eU)(Index, "pages/about/index", {
+        var taroOption = (0, taro_runtime.eU)(Index, "pages/about/index", {
             root: {
                 cn: []
             }
-        }, config || {}));
+        }, config || {});
+        if (Index?.behaviors) {
+            taroOption.behaviors = [ ...taroOption.behaviors || [], ...Index.behaviors ];
+        }
+        var inst = Page(taroOption);
         var about = null && component;
     }
 }, function(__webpack_require__) {
@@ -3053,11 +3102,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
         var config = {
             navigationBarTitleText: "\\u9996\\u9875"
         };
-        var inst = Page((0, taro_runtime.eU)(Index, "pages/index/index", {
+        var taroOption = (0, taro_runtime.eU)(Index, "pages/index/index", {
             root: {
                 cn: []
             }
-        }, config || {}));
+        }, config || {});
+        if (Index?.behaviors) {
+            taroOption.behaviors = [ ...taroOption.behaviors || [], ...Index.behaviors ];
+        }
+        var inst = Page(taroOption);
         var index = null && component;
     }
 }, function(__webpack_require__) {
@@ -3092,7 +3145,7 @@ export default {
     return 'tmpl_' + n + '_container'
   },
   f: function (l) {
-    return l.filter(function (i) {return i.nn === '70'})
+    return l.filter(function (i) {return i.nn === '76'})
   }
 }
 
@@ -3303,7 +3356,8 @@ require("./runtime");
             },
             RichText: {
                 space: _empty,
-                "user-select": _false
+                "user-select": _false,
+                mode: "'default'"
             },
             Text: {
                 "user-select": _false,
@@ -3374,8 +3428,13 @@ require("./runtime");
                 "safe-password-salt": "",
                 "safe-password-custom-hash": "",
                 "auto-fill": _empty,
+                "cursor-color": "",
                 bindKeyboardHeightChange: _empty,
-                bindNicknameReview: _empty
+                bindNicknameReview: _empty,
+                bindSelectionChange: _empty,
+                bindKeyboardCompositionStart: _empty,
+                bindKeyboardCompositionUpdate: _empty,
+                bindKeyboardCompositionEnd: _empty
             },
             Picker: {
                 "header-text": _empty,
@@ -3397,7 +3456,12 @@ require("./runtime");
                 "disable-default-padding": _false,
                 "confirm-type": "'return'",
                 "confirm-hold": _false,
-                bindKeyboardHeightChange: _empty
+                "adjust-keyboard-to": "'cursor'",
+                bindKeyboardHeightChange: _empty,
+                bindSelectionChange: _empty,
+                bindKeyboardCompositionStart: _empty,
+                bindKeyboardCompositionUpdate: _empty,
+                bindKeyboardCompositionEnd: _empty
             },
             ScrollView: {
                 "enable-flex": _false,
@@ -3415,6 +3479,7 @@ require("./runtime");
                 "show-scrollbar": _true,
                 "fast-deceleration": _false,
                 type: "'list'",
+                "associative-container": "''",
                 reverse: _false,
                 clip: _true,
                 "enable-back-to-top": _false,
@@ -3483,7 +3548,19 @@ require("./runtime");
             },
             Swiper: {
                 "snap-to-edge": _false,
-                "easing-function": "'default'"
+                "easing-function": "'default'",
+                "layout-type": "'normal'",
+                "transformer-type": "'scaleAndFade'",
+                "indicator-type": "'normal'",
+                "indicator-margin": "10",
+                "indicator-spacing": "4",
+                "indicator-radius": "4",
+                "indicator-width": "8",
+                "indicator-height": "8",
+                "indicator-alignment": "'auto'",
+                "indicator-offset": "[0, 0]",
+                "scroll-with-animation": _true,
+                "cache-extent": "0"
             },
             SwiperItem: {
                 "skip-hidden-item-layout": _false
@@ -3504,7 +3581,8 @@ require("./runtime");
             },
             Image: {
                 webp: _false,
-                "show-menu-by-longpress": _false
+                "show-menu-by-longpress": _false,
+                "fade-in": _false
             },
             LivePlayer: {
                 mode: "'live'",
@@ -3715,7 +3793,11 @@ require("./runtime");
                 mapkey: _empty,
                 transform: _false,
                 duration: "300",
-                "easing-function": "'ease-out'"
+                "easing-function": "'ease-out'",
+                "transition-on-gesture": _false,
+                "shuttle-on-push": "'to'",
+                "shuttle-on-pop": "'to'",
+                "rect-tween-type": "'materialRectArc'"
             },
             KeyboardAccessory: {},
             RootPortal: {
@@ -3758,7 +3840,15 @@ require("./runtime");
                 snapSizes: "[]"
             },
             NestedScrollHeader: {},
-            NestedScrollBody: {}
+            NestedScrollBody: {},
+            DoubleTapGestureHandler: {},
+            ForcePressGestureHandler: {},
+            HorizontalDragGestureHandler: {},
+            LongPressGestureHandler: {},
+            PanGestureHandler: {},
+            ScaleGestureHandler: {},
+            TapGestureHandler: {},
+            VerticalDragGestureHandler: {}
         };
         const hostConfig = {
             initNativeApi: initNativeApi,
@@ -3985,20 +4075,20 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
   </text>
 </template>
 
-<template name="tmpl_0_60">
-  <scroll-view scroll-x="{{i.p33||!1}}" scroll-y="{{i.p34||!1}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{i.p32||!1}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{i.p15||'black'}}" refresher-background="{{i.p13||'#FFF'}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{i.p36||'list'}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{i.p28||'start'}}" padding="{{i.p11||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_0_66">
+  <scroll-view scroll-x="{{i.p34||!1}}" scroll-y="{{i.p35||!1}}" upper-threshold="{{xs.b(i.p38,50)}}" lower-threshold="{{xs.b(i.p10,50)}}" scroll-top="{{i.p32}}" scroll-left="{{i.p31}}" scroll-into-view="{{i.p28}}" scroll-with-animation="{{i.p33||!1}}" enable-back-to-top="{{xs.b(i.p5,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p6,false)}}" scroll-anchoring="{{xs.b(i.p27,false)}}" enhanced="{{xs.b(i.p8,false)}}" using-sticky="{{xs.b(i.p39,false)}}" paging-enabled="{{xs.b(i.p13,false)}}" enable-passive="{{xs.b(i.p7,false)}}" refresher-enabled="{{xs.b(i.p17,false)}}" refresher-threshold="{{xs.b(i.p18,45)}}" refresher-default-style="{{i.p16||'black'}}" refresher-background="{{i.p14||'#FFF'}}" refresher-triggered="{{xs.b(i.p19,false)}}" bounces="{{xs.b(i.p2,true)}}" show-scrollbar="{{xs.b(i.p36,true)}}" fast-deceleration="{{xs.b(i.p9,false)}}" type="{{i.p37||'list'}}" associative-container="{{i.p1||''}}" reverse="{{xs.b(i.p26,false)}}" clip="{{xs.b(i.p4,true)}}" cache-extent="{{i.p3}}" min-drag-distance="{{xs.b(i.p11,18)}}" scroll-into-view-within-extent="{{xs.b(i.p30,false)}}" scroll-into-view-alignment="{{i.p29||'start'}}" padding="{{i.p12||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p21,false)}}" refresher-two-level-triggered="{{xs.b(i.p25,false)}}" refresher-two-level-threshold="{{xs.b(i.p24,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p20,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p23,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p15,false)}}" refresher-two-level-pinned="{{xs.b(i.p22,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </scroll-view>
 </template>
 
 <template name="tmpl_0_4">
-  <image src="{{i.p3}}" mode="{{i.p1||'scaleToFill'}}" lazy-load="{{i.p0||!1}}" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p4}}" mode="{{i.p2||'scaleToFill'}}" lazy-load="{{i.p1||!1}}" webp="{{xs.b(i.p5,false)}}" show-menu-by-longpress="{{xs.b(i.p3,false)}}" fade-in="{{xs.b(i.p0,false)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </image>
 </template>
 
 <template name="tmpl_0_2">
-  <image src="{{i.p3}}" mode="{{i.p1||'scaleToFill'}}" lazy-load="{{i.p0||!1}}" binderror="eh" bindload="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" webp="{{xs.b(i.p4,false)}}" show-menu-by-longpress="{{xs.b(i.p2,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <image src="{{i.p4}}" mode="{{i.p2||'scaleToFill'}}" lazy-load="{{i.p1||!1}}" binderror="eh" bindload="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" webp="{{xs.b(i.p5,false)}}" show-menu-by-longpress="{{xs.b(i.p3,false)}}" fade-in="{{xs.b(i.p0,false)}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </image>
 </template>
@@ -4049,8 +4139,8 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
   </text>
 </template>
 
-<template name="tmpl_1_60">
-  <scroll-view scroll-x="{{i.p33||!1}}" scroll-y="{{i.p34||!1}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{i.p32||!1}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{i.p15||'black'}}" refresher-background="{{i.p13||'#FFF'}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{i.p36||'list'}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{i.p28||'start'}}" padding="{{i.p11||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_1_66">
+  <scroll-view scroll-x="{{i.p34||!1}}" scroll-y="{{i.p35||!1}}" upper-threshold="{{xs.b(i.p38,50)}}" lower-threshold="{{xs.b(i.p10,50)}}" scroll-top="{{i.p32}}" scroll-left="{{i.p31}}" scroll-into-view="{{i.p28}}" scroll-with-animation="{{i.p33||!1}}" enable-back-to-top="{{xs.b(i.p5,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p6,false)}}" scroll-anchoring="{{xs.b(i.p27,false)}}" enhanced="{{xs.b(i.p8,false)}}" using-sticky="{{xs.b(i.p39,false)}}" paging-enabled="{{xs.b(i.p13,false)}}" enable-passive="{{xs.b(i.p7,false)}}" refresher-enabled="{{xs.b(i.p17,false)}}" refresher-threshold="{{xs.b(i.p18,45)}}" refresher-default-style="{{i.p16||'black'}}" refresher-background="{{i.p14||'#FFF'}}" refresher-triggered="{{xs.b(i.p19,false)}}" bounces="{{xs.b(i.p2,true)}}" show-scrollbar="{{xs.b(i.p36,true)}}" fast-deceleration="{{xs.b(i.p9,false)}}" type="{{i.p37||'list'}}" associative-container="{{i.p1||''}}" reverse="{{xs.b(i.p26,false)}}" clip="{{xs.b(i.p4,true)}}" cache-extent="{{i.p3}}" min-drag-distance="{{xs.b(i.p11,18)}}" scroll-into-view-within-extent="{{xs.b(i.p30,false)}}" scroll-into-view-alignment="{{i.p29||'start'}}" padding="{{i.p12||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p21,false)}}" refresher-two-level-triggered="{{xs.b(i.p25,false)}}" refresher-two-level-threshold="{{xs.b(i.p24,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p20,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p23,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p15,false)}}" refresher-two-level-pinned="{{xs.b(i.p22,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </scroll-view>
 </template>
@@ -4097,8 +4187,8 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
   </text>
 </template>
 
-<template name="tmpl_2_60">
-  <scroll-view scroll-x="{{i.p33||!1}}" scroll-y="{{i.p34||!1}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{i.p32||!1}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{i.p15||'black'}}" refresher-background="{{i.p13||'#FFF'}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{i.p36||'list'}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{i.p28||'start'}}" padding="{{i.p11||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_2_66">
+  <scroll-view scroll-x="{{i.p34||!1}}" scroll-y="{{i.p35||!1}}" upper-threshold="{{xs.b(i.p38,50)}}" lower-threshold="{{xs.b(i.p10,50)}}" scroll-top="{{i.p32}}" scroll-left="{{i.p31}}" scroll-into-view="{{i.p28}}" scroll-with-animation="{{i.p33||!1}}" enable-back-to-top="{{xs.b(i.p5,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p6,false)}}" scroll-anchoring="{{xs.b(i.p27,false)}}" enhanced="{{xs.b(i.p8,false)}}" using-sticky="{{xs.b(i.p39,false)}}" paging-enabled="{{xs.b(i.p13,false)}}" enable-passive="{{xs.b(i.p7,false)}}" refresher-enabled="{{xs.b(i.p17,false)}}" refresher-threshold="{{xs.b(i.p18,45)}}" refresher-default-style="{{i.p16||'black'}}" refresher-background="{{i.p14||'#FFF'}}" refresher-triggered="{{xs.b(i.p19,false)}}" bounces="{{xs.b(i.p2,true)}}" show-scrollbar="{{xs.b(i.p36,true)}}" fast-deceleration="{{xs.b(i.p9,false)}}" type="{{i.p37||'list'}}" associative-container="{{i.p1||''}}" reverse="{{xs.b(i.p26,false)}}" clip="{{xs.b(i.p4,true)}}" cache-extent="{{i.p3}}" min-drag-distance="{{xs.b(i.p11,18)}}" scroll-into-view-within-extent="{{xs.b(i.p30,false)}}" scroll-into-view-alignment="{{i.p29||'start'}}" padding="{{i.p12||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p21,false)}}" refresher-two-level-triggered="{{xs.b(i.p25,false)}}" refresher-two-level-threshold="{{xs.b(i.p24,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p20,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p23,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p15,false)}}" refresher-two-level-pinned="{{xs.b(i.p22,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </scroll-view>
 </template>
@@ -4145,8 +4235,8 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
   </text>
 </template>
 
-<template name="tmpl_3_60">
-  <scroll-view scroll-x="{{i.p33||!1}}" scroll-y="{{i.p34||!1}}" upper-threshold="{{xs.b(i.p37,50)}}" lower-threshold="{{xs.b(i.p9,50)}}" scroll-top="{{i.p31}}" scroll-left="{{i.p30}}" scroll-into-view="{{i.p27}}" scroll-with-animation="{{i.p32||!1}}" enable-back-to-top="{{xs.b(i.p4,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p5,false)}}" scroll-anchoring="{{xs.b(i.p26,false)}}" enhanced="{{xs.b(i.p7,false)}}" using-sticky="{{xs.b(i.p38,false)}}" paging-enabled="{{xs.b(i.p12,false)}}" enable-passive="{{xs.b(i.p6,false)}}" refresher-enabled="{{xs.b(i.p16,false)}}" refresher-threshold="{{xs.b(i.p17,45)}}" refresher-default-style="{{i.p15||'black'}}" refresher-background="{{i.p13||'#FFF'}}" refresher-triggered="{{xs.b(i.p18,false)}}" bounces="{{xs.b(i.p1,true)}}" show-scrollbar="{{xs.b(i.p35,true)}}" fast-deceleration="{{xs.b(i.p8,false)}}" type="{{i.p36||'list'}}" reverse="{{xs.b(i.p25,false)}}" clip="{{xs.b(i.p3,true)}}" cache-extent="{{i.p2}}" min-drag-distance="{{xs.b(i.p10,18)}}" scroll-into-view-within-extent="{{xs.b(i.p29,false)}}" scroll-into-view-alignment="{{i.p28||'start'}}" padding="{{i.p11||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p20,false)}}" refresher-two-level-triggered="{{xs.b(i.p24,false)}}" refresher-two-level-threshold="{{xs.b(i.p23,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p19,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p22,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p14,false)}}" refresher-two-level-pinned="{{xs.b(i.p21,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+<template name="tmpl_3_66">
+  <scroll-view scroll-x="{{i.p34||!1}}" scroll-y="{{i.p35||!1}}" upper-threshold="{{xs.b(i.p38,50)}}" lower-threshold="{{xs.b(i.p10,50)}}" scroll-top="{{i.p32}}" scroll-left="{{i.p31}}" scroll-into-view="{{i.p28}}" scroll-with-animation="{{i.p33||!1}}" enable-back-to-top="{{xs.b(i.p5,false)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" enable-flex="{{xs.b(i.p6,false)}}" scroll-anchoring="{{xs.b(i.p27,false)}}" enhanced="{{xs.b(i.p8,false)}}" using-sticky="{{xs.b(i.p39,false)}}" paging-enabled="{{xs.b(i.p13,false)}}" enable-passive="{{xs.b(i.p7,false)}}" refresher-enabled="{{xs.b(i.p17,false)}}" refresher-threshold="{{xs.b(i.p18,45)}}" refresher-default-style="{{i.p16||'black'}}" refresher-background="{{i.p14||'#FFF'}}" refresher-triggered="{{xs.b(i.p19,false)}}" bounces="{{xs.b(i.p2,true)}}" show-scrollbar="{{xs.b(i.p36,true)}}" fast-deceleration="{{xs.b(i.p9,false)}}" type="{{i.p37||'list'}}" associative-container="{{i.p1||''}}" reverse="{{xs.b(i.p26,false)}}" clip="{{xs.b(i.p4,true)}}" cache-extent="{{i.p3}}" min-drag-distance="{{xs.b(i.p11,18)}}" scroll-into-view-within-extent="{{xs.b(i.p30,false)}}" scroll-into-view-alignment="{{i.p29||'start'}}" padding="{{i.p12||[0,0,0,0]}}" refresher-two-level-enabled="{{xs.b(i.p21,false)}}" refresher-two-level-triggered="{{xs.b(i.p25,false)}}" refresher-two-level-threshold="{{xs.b(i.p24,150)}}" refresher-two-level-close-threshold="{{xs.b(i.p20,80)}}" refresher-two-level-scroll-enabled="{{xs.b(i.p23,false)}}" refresher-ballistic-refresh-enabled="{{xs.b(i.p15,false)}}" refresher-two-level-pinned="{{xs.b(i.p22,false)}}" binddragstart="eh" binddragging="eh" binddragend="eh" bindrefresherpulling="eh" bindrefresherrefresh="eh" bindrefresherrestore="eh" bindrefresherabort="eh" bindscrollstart="eh" bindscrollend="eh" bindrefresherwillrefresh="eh" bindrefresherstatuschange="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </scroll-view>
 </template>
@@ -4645,7 +4735,7 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 } ]);
 
 /** filePath: dist/comp.json **/
-{"component":true,"usingComponents":{"comp":"./comp"}}
+{"component":true,"styleIsolation":"apply-shared","usingComponents":{"comp":"./comp"}}
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
@@ -4682,11 +4772,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
         var config = {
             navigationBarTitleText: "\\u5173\\u4e8e"
         };
-        var inst = Page((0, taro_runtime.eU)(Index, "pages/about/index", {
+        var taroOption = (0, taro_runtime.eU)(Index, "pages/about/index", {
             root: {
                 cn: []
             }
-        }, config || {}));
+        }, config || {});
+        if (Index?.behaviors) {
+            taroOption.behaviors = [ ...taroOption.behaviors || [], ...Index.behaviors ];
+        }
+        var inst = Page(taroOption);
         var about = null && component;
     }
 }, function(__webpack_require__) {
@@ -4736,11 +4830,15 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
         var config = {
             navigationBarTitleText: "\\u9996\\u9875"
         };
-        var inst = Page((0, taro_runtime.eU)(Index, "pages/index/index", {
+        var taroOption = (0, taro_runtime.eU)(Index, "pages/index/index", {
             root: {
                 cn: []
             }
-        }, config || {}));
+        }, config || {});
+        if (Index?.behaviors) {
+            taroOption.behaviors = [ ...taroOption.behaviors || [], ...Index.behaviors ];
+        }
+        var inst = Page(taroOption);
         var index = null && component;
     }
 }, function(__webpack_require__) {
@@ -4763,8 +4861,8 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
-    var a = ["8","0","1","22","6","3","13","7","5","63","64","32","25","60","69","70","58"]
-    var b = ["5","63","64","32","25","60","69","70","58"]
+    var a = ["8","0","22","6","3","1","13","7","5","69","70","35","27","66","75","76","63"]
+    var b = ["5","69","70","35","27","66","75","76","63"]
     if (a.indexOf(n) === -1) {
       l = 0
     }
@@ -4795,7 +4893,7 @@ module.exports = {
     return 'tmpl_' + n + '_container'
   },
   f: function (l, n) {
-    var b = ["5","63","64","32","25","60","69","70","58"]
+    var b = ["5","69","70","35","27","66","75","76","63"]
     if (b.indexOf(n) > -1) {
       if (l) l += ','
       l += n
