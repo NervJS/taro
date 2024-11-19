@@ -505,4 +505,13 @@ export const components = {
   },
   NestedScrollHeader: {},
   NestedScrollBody: {},
+  // skyline手势组件
+  DoubleTapGestureHandler: {},
+  ForcePressGestureHandler: {},
+  HorizontalDragGestureHandler: {},
+  LongPressGestureHandler: {},
+  PanGestureHandler: {},
+  ScaleGestureHandler: {},
+  TapGestureHandler: {},
+  VerticalDragGestureHandler: {},
 }

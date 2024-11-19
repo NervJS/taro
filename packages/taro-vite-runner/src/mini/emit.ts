@@ -120,7 +120,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             usingComponents: {
               [baseCompName]: `./${baseCompName}`
             }
-          }
+          } as Config & { component?: boolean, usingComponents: Record<string, string> }
           if (isUsingCustomWrapper) {
             baseCompConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
           }
