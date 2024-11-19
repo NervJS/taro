@@ -16,5 +16,11 @@ export const hostConfig = {
         return returnVal
       }
     }
+    if(node.nodeName === 'payment-channel-select'){
+      if(event.type === 'requestorder'||event.type ==='getpaymentresult'){
+        return returnVal
+      }
+    }
   }
 }
+

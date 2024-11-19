@@ -168,5 +168,15 @@ export const components = {
     fixed: _false,
     'left-right-padding': _empty,
     bindError: _empty
+  },
+  PaymentChannelSelect:{
+    scene:'cash',
+    "sku-list":_empty,
+    "merchant-uid":_empty,
+    "limit-pay-way-list ":_empty,
+    "custom-style":_empty,
+    bindRequestOrder: _empty,
+    bindError: _empty,
+    bindGetpaymentresult: _empty
   }
 }
