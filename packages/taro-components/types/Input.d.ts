@@ -217,7 +217,7 @@ interface InputProps extends StandardProps, FormItemProps {
   /** 键盘高度变化时触发。event.detail = {height: height, pageBottomPadding: pageBottomPadding}； height: 键盘高度，pageBottomPadding: 页面上推高度
    * @supported weapp-skyline
    */
-  onKeyoardHeightChangeWorklet?: CommonEventFunction
+  onKeyoardHeightChangeWorklet?: string
 }
 declare namespace InputProps {
   /** Input 类型 */

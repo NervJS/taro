@@ -36,7 +36,7 @@ interface DraggableSheetProps extends StandardProps {
    * 尺寸发生变化时触发，仅支持 worklet 作为回调。event = {pixels, size}
    * @supported weapp-skyline
    */
-  onSizeUpdateWorklet?: CommonEventFunction
+  onSizeUpdateWorklet?: string
 }
 
 /**

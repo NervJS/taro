@@ -300,19 +300,19 @@ interface ScrollViewProps extends StandardProps {
   /** 同 bindscrollstart，但仅支持 worklet 作为回调
    * @supported weapp-skyline
    */
-  onScrollStartWorklet?: CommonEventFunction
-  /** bindscroll ，但仅支持 worklet 作为回调
+  onScrollStartWorklet?: string
+  /** 同 bindscroll ，但仅支持 worklet 作为回调
    * @supported weapp-skyline
    */
-  onScrollUpdateWorklet?: CommonEventFunction
+  onScrollUpdateWorklet?: string
   /** 同 bindscrollend，但仅支持 worklet 作为回调
    * @supported weapp-skyline
    */
-  onScrollEndWorklet?: CommonEventFunction
+  onScrollEndWorklet?: string
   /** 指定手指抬起时做惯性滚动的初速度。(velocity: number) => number
    * @supported weapp-skyline
    */
-  adjustDecelerationVelocityWorklet?: TaroGeneral.TFunc
+  adjustDecelerationVelocityWorklet?: string
 }
 declare namespace ScrollViewProps {
   interface onScrollDetail {

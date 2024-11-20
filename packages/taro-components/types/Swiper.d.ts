@@ -224,15 +224,15 @@ interface SwiperProps extends StandardProps {
   /** 滑动开始时触发，仅支持 worklet 作为回调。event.detail = {dx: dx, dy: dy}
    * @supported weapp-skyline
    */
-  onScrollStartWorklet?: CommonEventFunction
+  onScrollStartWorklet?: string
   /** 滑动位置更新时触发，仅支持 worklet 作为回调。event.detail = {dx: dx, dy: dy}
    * @supported weapp-skyline
    */
-  onScrollUpdateWorklet?: CommonEventFunction
+  onScrollUpdateWorklet?: string
   /** 滑动结束时触发，仅支持 worklet 作为回调。event.detail = {dx: dx, dy: dy}
    * @supported weapp-skyline
    */
-  onScrollEndWorklet?: CommonEventFunction
+  onScrollEndWorklet?: string
 }
 declare namespace SwiperProps {
   /** 导致变更的原因 */
