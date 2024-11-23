@@ -20,6 +20,7 @@ export interface RadioGroupState {
 export interface RadioGroupProps extends FormItemProps, _RadioGroupProps {
   children?: React.ReactNode;
   style?: StyleProp<ViewStyle> | any;
+  checkedValue?: string;
   onChange?: (evt: EventGroupOnChange) => void;
   _onGroupDataInitial?: (value: any) => void;
 }
