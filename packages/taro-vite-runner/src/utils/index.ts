@@ -211,19 +211,18 @@ export function getBabelOption (
   if (isFunction(filter)) {
     opts.filter = filter
   } else {
-    let exclude: (string | RegExp)[] = []
-    let include: (string | RegExp)[] = []
+    let exclude: (string | RegExp)[] = [...defaultExclude]
+    const include: (string | RegExp)[] = [...defaultInclude]
 
-    if (compile.exclude?.length) {
-      const list = compile.exclude
-      const isNodeModuleReseted = list.find((reg) => reg.toString().includes('node_modules'))
-      if (!isNodeModuleReseted) list.push(...defaultExclude)
-      exclude = list
-    } else if (compile.include?.length) {
-      include = [...compile.include, ...defaultInclude]
-    } else {
-      exclude = [...defaultExclude]
+    if (Array.isArray(compile.include)) {
+      include.unshift(...compile.include)
     }
+
+    // Note：如果 compile 有 传递exclude，那么就进行覆盖，与 webpack5 逻辑保持一致
+    if (Array.isArray(compile.exclude)) {
+      exclude = [...compile.exclude]
+    }
+
     const filter = createFilter(include, exclude)
     opts.filter = filter
   }
