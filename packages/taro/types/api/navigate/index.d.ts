@@ -1,6 +1,32 @@
 import Taro from '../../index'
 
 declare module '../../index' {
+  namespace openOfficialAccountArticle {
+    interface Option {
+      url: string
+      success?: (res: SuccessCallbackResult) => void
+      fail?: (res: FailCallbackResult) => void
+      complete?: (res: CompleteCallbackResult) => void
+    }
+
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 为 true 时，表示用户点击了取消（用于 Android 系统区分点击蒙层关闭还是点击取消按钮关闭） */
+      cancel: boolean
+      /** 为 true 时，表示用户点击了确定按钮 */
+      confirm: boolean
+    }
+
+    interface FailCallbackResult extends TaroGeneral.CallbackResult {
+      /** 错误码 */
+      errCode: number
+    }
+
+    interface CompleteCallbackResult extends SuccessCallbackResult {
+      /** 用户点击了确定按钮后返回内容 */
+      content?: string | null
+    }
+  }
+
   namespace openEmbeddedMiniProgram {
     interface Option {
       /** 要打开的小程序 appId */
@@ -222,6 +248,14 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
+    /** 通过小程序打开任意公众号文章（不包括临时链接等异常状态下的公众号文章）
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigate/wx.openOfficialAccountArticle.html
+     */
+    openOfficialAccountArticle(
+      option: openOfficialAccountArticle.Option
+    ): Promise<openOfficialAccountArticle.SuccessCallbackResult>
+
     /** 打开半屏小程序。接入指引请参考 [半屏小程序能力](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/openEmbeddedMiniProgram.html)。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/navigate/wx.openEmbeddedMiniProgram.html

@@ -23,6 +23,7 @@ export const needPromiseApis = new Set([
   'openChannelsLive',
   'openChannelsUserProfile',
   'openCustomerServiceChat',
+  'openOfficialAccountArticle',
   'openVideoEditor',
   'saveFileToDisk',
   'scanItem',
