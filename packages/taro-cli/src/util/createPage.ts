@@ -2,8 +2,8 @@ import { babelKit } from '@tarojs/helper'
 
 import { ConfigModificationState, ModifyCallback } from '../create/page'
 
-import type { NodePath } from '@babel/traverse'
 import type { ArrayExpression, ExportDefaultDeclaration, ObjectExpression, ObjectProperty } from '@babel/types'
+import type { NodePath } from 'babel__traverse'
 
 const t = babelKit.types
 

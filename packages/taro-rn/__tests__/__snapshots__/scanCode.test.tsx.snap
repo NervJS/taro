@@ -16,21 +16,17 @@ exports[`scanCode should render scanCode success 1`] = `
   }
 >
   <ViewManagerAdapter_ExpoCamera
-    autoFocus="off"
-    barcodeScannerEnabled={true}
-    barcodeScannerSettings={
+    barCodeScannerEnabled={true}
+    barCodeScannerSettings={
       {
-        "barcodeTypes": [],
+        "barCodeTypes": [],
       }
     }
-    enableTorch={false}
-    facing="back"
-    flash="off"
-    flashMode="off"
-    mode="picture"
-    mute={false}
-    onBarcodeScanned={[Function]}
+    faceDetectorSettings={{}}
+    focusDepth={0}
+    onBarCodeScanned={[Function]}
     onCameraReady={[Function]}
+    onFacesDetected={[Function]}
     onMountError={[Function]}
     onPictureSaved={[Function]}
     onResponsiveOrientationChanged={[Function]}

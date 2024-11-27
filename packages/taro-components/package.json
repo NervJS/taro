@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "4.0.5",
+  "version": "4.0.8-beta.0",
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
@@ -59,6 +59,7 @@
     "@stencil/core": "2.22.3",
     "hammerjs": "^2.0.8",
     "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "@tarojs/components-advanced": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",

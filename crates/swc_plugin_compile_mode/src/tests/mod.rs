@@ -1,24 +1,21 @@
+use crate::{transform::*, PluginConfig};
 use swc_core::ecma::{
-    parser,
-    visit::{as_folder, Fold},
-};
-use crate::{
-    PluginConfig,
-    transform::*,
+  parser,
+  visit::{as_folder, Fold},
 };
 
-mod entry;
 mod attributes;
-mod shake;
-mod condition;
-mod looping;
 mod children;
+mod condition;
+mod entry;
 mod harmony;
+mod looping;
+mod shake;
 mod wxs;
 
-pub fn tr () -> impl Fold {
-    let config = serde_json::from_str::<PluginConfig>(
-        r#"
+pub fn tr() -> impl Fold {
+  let config = serde_json::from_str::<PluginConfig>(
+    r#"
         {
             "tmpl_prefix": "f0",
             "components": {
@@ -87,16 +84,16 @@ pub fn tr () -> impl Fold {
                 "xs": "wxs",
                 "type": "weapp"
             }
-        }"#
-    )
-    .unwrap();
-    let visitor = TransformVisitor::new(config);
-    as_folder(visitor)
+        }"#,
+  )
+  .unwrap();
+  let visitor = TransformVisitor::new(config);
+  as_folder(visitor)
 }
 
-pub fn get_syntax_config () -> parser::Syntax {
-    parser::Syntax::Es(parser::EsConfig {
-        jsx: true,
-        ..Default::default()
-    })
+pub fn get_syntax_config() -> parser::Syntax {
+  parser::Syntax::Es(parser::EsConfig {
+    jsx: true,
+    ..Default::default()
+  })
 }
