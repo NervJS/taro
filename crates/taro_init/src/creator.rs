@@ -30,6 +30,7 @@ pub struct CreateOptions {
   pub version: Option<String>,
   pub date: Option<String>,
   pub typescript: Option<bool>,
+  pub build_es5: Option<bool>,
   pub template: String,
   pub page_name: Option<String>,
   pub compiler: Option<CompilerType>,
