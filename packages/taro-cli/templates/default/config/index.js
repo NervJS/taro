@@ -27,7 +27,12 @@ export default defineConfig{{#if typescript }}<'{{ to_lower_case compiler }}'>{{
       }
     },
     framework: '{{ to_lower_case framework }}',
-    compiler: '{{ to_lower_case compiler }}',{{#if (eq compiler "Webpack5") }}
+    compiler: {
+			type: '{{ to_lower_case compiler }}',
+		{{#if (eq compiler "Vite") }}
+			vitePlugins: [],
+		{{/if}}
+		},{{#if (eq compiler "Webpack5") }}
     cache: {
       enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
     },{{/if}}

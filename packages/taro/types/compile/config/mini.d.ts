@@ -4,6 +4,7 @@ import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
 import type { OutputOptions as RollupOutputOptions } from 'rollup'
 import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
 import type { OutputExt } from './project'
+import type { Shortcuts } from '@tarojs/shared'
 
 interface Runtime {
   enableInnerHTML?: boolean
@@ -13,6 +14,24 @@ interface Runtime {
   enableCloneNode?: boolean
   enableContains?: boolean
   enableMutationObserver?: boolean
+}
+
+interface PrerenderPageConfig {
+  /** 页面路径 */
+  path: string
+  /** 页面的路由参数，对应 `getCurrentInstance().router.params` */
+  params: Record<string, unknown>
+}
+
+/** DOM 树数据，Taro 通过遍历它动态渲染数据 */
+interface MiniData {
+  [Shortcuts.Childnodes]?: MiniData[]
+  [Shortcuts.NodeName]: string
+  [Shortcuts.Class]?: string
+  [Shortcuts.Style]?: string
+  [Shortcuts.Text]?: string
+  sid: string
+  uid?: string
 }
 
 export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> {
@@ -44,14 +63,27 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   webpackChain?: (chain: Chain, webpack: typeof Webpack, PARSE_AST_TYPE: any) => void
 
   /** webpack 编译模式下，可用于修改、拓展 Webpack 的 output 选项，配置项参考[官方文档](https://webpack.js.org/configuration/output/)
-  * vite 编译模式下，用于修改、扩展 rollup 的 output，目前仅适配 chunkFileNames 和 assetFileNames 两个配置，修改其他配置请使用 vite 插件进行修改。配置想参考[官方文档](https://rollupjs.org/configuration-options/)
-  */
+   * vite 编译模式下，用于修改、扩展 rollup 的 output，目前仅适配 chunkFileNames 和 assetFileNames 两个配置，修改其他配置请使用 vite 插件进行修改。配置想参考[官方文档](https://rollupjs.org/configuration-options/)
+   */
   output?: T extends 'vite'
-    ? Pick<RollupOutputOptions, 'chunkFileNames'>  & OutputExt
+    ? Pick<RollupOutputOptions, 'chunkFileNames'> & OutputExt
     : Webpack.Configuration['output'] & OutputExt
 
   /** 配置 postcss 相关插件 */
   postcss?: IPostcssOption<'mini'>
+
+  /**预渲染
+   * https://docs.taro.zone/docs/prerender
+   */
+  prerender?: {
+    match?: string | string[]
+    include?: Array<string | PrerenderPageConfig>
+    exclude?: string[]
+    mock?: Record<string, unknown>
+    console?: boolean
+    transformData?: (data: MiniData, config: PrerenderPageConfig) => MiniData
+    transformXML?: (data: MiniData, config: PrerenderPageConfig, xml: string) => MiniData
+  }
 
   /** [css-loader](https://github.com/webpack-contrib/css-loader) 的附加配置 */
   cssLoaderOption?: IOption

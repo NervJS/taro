@@ -1,6 +1,21 @@
 import Taro from '../../../index'
 
 declare module '../../../index' {
+  namespace onApiCategoryChange {
+    type Listener = (res: { apiCategory: keyof onApiCategoryChange.ApiCategory }) => void
+
+    /** API 类别合法值 */
+    interface ApiCategory {
+      /** 默认类别 */
+      default
+      /** 原生功能化，视频号直播商品、商品橱窗等场景打开的小程序 */
+      nativeFunctionalized
+      /** 仅浏览，朋友圈快照页等场景打开的小程序 */
+      browseOnly
+      /** 内嵌，通过打开半屏小程序能力打开的小程序 */
+      embedded
+    }
+  }
   namespace getLaunchOptionsSync {
     /** 启动参数 */
     interface LaunchOptions {
@@ -133,6 +148,20 @@ declare module '../../../index' {
 
   interface TaroStatic {
     /**
+     * 监听 API 类别变化事件
+     * @param listener API 类别变化事件的监听函数
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.onApiCategoryChange.html
+     */
+    onApiCategoryChange(listener: onApiCategoryChange.Listener): void
+    /**
+     * 移除 API 类别变化事件的监听函数
+     * @param listener onApiCategoryChange 传入的监听函数。不传此参数则移除所有监听函数。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.offApiCategoryChange.html
+     */
+    offApiCategoryChange(listener?: onApiCategoryChange.Listener): void
+    /**
      * 获取小程序启动时的参数。与 [`App.onLaunch`](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html#onlaunchobject-object) 的回调参数一致。
      *
      * **注意**
@@ -151,5 +180,11 @@ declare module '../../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getEnterOptionsSync.html
      */
     getEnterOptionsSync(): getEnterOptionsSync.EnterOptions
+    /**
+     * 获取当前 API 类别
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getApiCategory.html
+     */
+    getApiCategory(): keyof onApiCategoryChange.ApiCategory
   }
 }
