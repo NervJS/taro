@@ -7,6 +7,7 @@ import * as path from 'path'
 import {
   CSS_EXT,
   CSS_IMPORT_REG,
+  DEFAULT_SUPPORT_TEMPLATE,
   NODE_MODULES_REG,
   PLATFORMS,
   processTypeEnum,
@@ -691,6 +692,11 @@ export function readConfig<T extends IReadConfigOptions> (configPath: string, op
     result = readPageConfig(configPath)
   }
   return result
+}
+
+export function getMergeLoaderTemplateReg (templ: string) {
+  const tmepls = [...DEFAULT_SUPPORT_TEMPLATE, templ ? templ?.substring(1) : '']
+  return new RegExp(`\\.(${tmepls.join('|')})(\\?.*)?$`)
 }
 
 export { fs }
