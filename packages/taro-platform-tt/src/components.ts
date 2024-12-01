@@ -7,13 +7,13 @@ const _empty = ''
 export const components = {
   // ======== 调整属性 ========
   Icon: {
-    size: '24',
+    size: '24'
   },
   Input: {
     'adjust-position': _true,
     'hold-keyboard': _false,
     'clue-type': '0',
-    bindKeyboardHeightChange: _empty,
+    bindKeyboardHeightChange: _empty
   },
   Button: {
     bindGetPhoneNumber: _empty,
@@ -22,17 +22,17 @@ export const components = {
     'group-id': _empty,
     'data-is-half-page': _empty,
     bindOpenAwemeUserProfile: _empty,
-    bindJoinGroup: _empty,
+    bindJoinGroup: _empty
   },
   Form: {
-    'report-submit-timeout': '0',
+    'report-submit-timeout': '0'
   },
   Slider: {
     color: singleQuote('#e9e9e9'),
-    'selected-color': singleQuote('#1aad19'),
+    'selected-color': singleQuote('#1aad19')
   },
   WebView: {
-    'progressbar-color': singleQuote('#51a0d8'),
+    'progressbar-color': singleQuote('#51a0d8')
   },
   Video: {
     'play-btn-position': singleQuote('center'),
@@ -57,12 +57,12 @@ export const components = {
     bindControlTap: _empty,
     bindEnterBackground: _empty,
     bindCloseBackground: _empty,
-    bindLeaveBackground: _empty,
+    bindLeaveBackground: _empty
   },
   Ad: {
     fixed: _empty,
     type: singleQuote('banner'),
-    scale: '100',
+    scale: '100'
   },
   Textarea: {
     'disable-default-padding': _false,
@@ -70,7 +70,7 @@ export const components = {
     'confirm-hold': _false,
     'show-confirm-bar': _true,
     'adjust-position': _true,
-    'hold-keyboard': _false,
+    'hold-keyboard': _false
   },
   ScrollView: {
     enhanced: _false,
@@ -83,10 +83,10 @@ export const components = {
     bindRefresherPulling: _empty,
     bindRefresherRefresh: _empty,
     bindRefresherRestore: _empty,
-    bindRefresherAbort: _empty,
+    bindRefresherAbort: _empty
   },
   Canvas: {
-    type: _empty,
+    type: _empty
   },
   Map: {
     polygons: '[]',
@@ -107,14 +107,14 @@ export const components = {
     'enable-building': _true,
     bindLabelTap: _empty,
     bindRegionChange: _empty,
-    bindAnchorPointTap: _empty,
+    bindAnchorPointTap: _empty
   },
   // ======== 额外组件 ========
   RtcRoom: {
     'user-id': _empty,
     mode: 'camera',
     'device-position': 'front',
-    bindError: _empty,
+    bindError: _empty
   },
   PayButton: {
     mode: '1',
@@ -131,14 +131,14 @@ export const components = {
     bindError: _empty,
     bindApplyRefund: _empty,
     bindRefund: _empty,
-    bindPay: _empty,
+    bindPay: _empty
   },
   ConsumeCard: {
     'order-id': _empty,
     bindConsume: _empty,
     bindRefund: _empty,
     bindApplyRefund: _empty,
-    bindError: _empty,
+    bindError: _empty
   },
   AwemeData: {
     'aweme-id': _empty,
@@ -146,20 +146,20 @@ export const components = {
     'disable-default': _empty,
     'default-avatar': _empty,
     'default-text': _empty,
-    bindError: _empty,
+    bindError: _empty
   },
   RateButton: {
     'order-id': _empty,
     bindInit: _empty,
     bindSuccess: _empty,
-    bindError: _empty,
+    bindError: _empty
   },
   OpenData: {
     type: _empty,
     'default-text': _empty,
     'default-avatar': _empty,
     'use-empty-value': _false,
-    bindError: _empty,
+    bindError: _empty
   },
   AwemeUserCard: {
     'aweme-id': _empty,
@@ -167,7 +167,7 @@ export const components = {
     height: '144',
     fixed: _false,
     'left-right-padding': _empty,
-    bindError: _empty,
+    bindError: _empty
   },
   PaymentChannelSelect: {
     scene: 'cash',
@@ -177,6 +177,6 @@ export const components = {
     'custom-style': _empty,
     bindRequestOrder: _empty,
     bindError: _empty,
-    bindGetpaymentresult: _empty,
-  },
+    bindGetpaymentresult: _empty
+  }
 }
