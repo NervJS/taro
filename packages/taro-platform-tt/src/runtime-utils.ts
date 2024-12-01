@@ -5,22 +5,21 @@ export * from './apis-list'
 export * from './components'
 export const hostConfig = {
   initNativeApi,
-  modifyMpEventImpl (event) {
+  modifyMpEventImpl(event) {
     if (event.type === 'regionchange') {
       event.type = event.detail.type
     }
   },
-  modifyTaroEventReturn (node, event, returnVal) {
+  modifyTaroEventReturn(node, event, returnVal) {
     if (node.nodeName === 'pay-button') {
       if (event.type === 'applyrefund' || event.type === 'getgoodsinfo') {
         return returnVal
       }
     }
-    if(node.nodeName === 'payment-channel-select'){
-      if(event.type === 'requestorder'||event.type ==='getpaymentresult'){
+    if (node.nodeName === 'payment-channel-select') {
+      if (event.type === 'requestorder' || event.type === 'getpaymentresult') {
         return returnVal
       }
     }
-  }
+  },
 }
-
