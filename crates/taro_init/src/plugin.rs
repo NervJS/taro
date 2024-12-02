@@ -67,7 +67,10 @@ impl Plugin {
       page_dir: None,
       set_sub_pkg_page_name: None,
     };
-    let all_files = all_files.iter().filter_map(|f| f.to_str()).collect::<Vec<_>>();
+    let all_files = all_files
+      .iter()
+      .filter_map(|f| f.to_str())
+      .collect::<Vec<_>>();
     println!();
     println!(
       "{} {}",

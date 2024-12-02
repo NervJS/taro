@@ -113,7 +113,7 @@ export default class TaroMiniPlugin {
   constructor (options: ITaroMiniPluginOptions) {
     const { combination } = options
     const miniBuildConfig = combination.config
-    const { template, baseLevel = 16 } = miniBuildConfig
+    const { template, baseLevel = 16, experimental } = miniBuildConfig
 
     this.options = {
       sourceDir: combination.sourceDir,
@@ -137,6 +137,14 @@ export default class TaroMiniPlugin {
 
     if (template.isSupportRecursive === false && baseLevel > 0) {
       (template as UnRecursiveTemplate).baseLevel = baseLevel
+    }
+
+    if (experimental?.useXsForTemplate === false) {
+      (template as UnRecursiveTemplate).isUseXS = false
+    }
+
+    if (experimental?.compileMode === true) {
+      template.isUseCompileMode = true
     }
   }
 
@@ -1270,8 +1278,8 @@ export default class TaroMiniPlugin {
       }
 
       if (config) {
-        const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(baseCompName, ''))))
-        const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(customWrapperName, ''))))
+        const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTargetFilePath(baseCompName, ''))))
+        const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTargetFilePath(customWrapperName, ''))))
         config.content.usingComponents = {
           ...config.content.usingComponents
         }
@@ -1356,9 +1364,9 @@ export default class TaroMiniPlugin {
   generateXSFile (compilation: Compilation, compiler: Compiler, xsPath) {
     const { RawSource } = compiler.webpack.sources
     const ext = this.options.fileType.xs
-    const isSupportXS = this.options.template.supportXS
+    const isUseXS = this.options.template.isUseXS
 
-    if (ext == null || !isSupportXS) {
+    if (ext == null || !isUseXS) {
       return
     }
 
