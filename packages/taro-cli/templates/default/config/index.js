@@ -90,6 +90,11 @@ export default defineConfig{{#if typescript }}<'{{ to_lower_case compiler }}'>{{
       }
     }
   }
+
+  {{#if buildEs5 }}
+  process.env.BROWSERSLIST_ENV = process.env.NODE_ENV
+  {{/if}}
+
   if (process.env.NODE_ENV === 'development') {
     // 本地开发构建配置（不混淆压缩）
     return merge({}, baseConfig, devConfig)
