@@ -4,6 +4,7 @@ import {
   CATCH_VIEW,
   CATCHMOVE,
   CLASS,
+  CLICK_VIEW,
   EVENT_CALLBACK_RESULT,
   FOCUS,
   ID,
@@ -181,6 +182,7 @@ export class TaroElement extends TaroNode {
     const componentsAlias = getComponentsAlias()
     const _alias = componentsAlias[this.nodeName]
     const viewAlias = componentsAlias[VIEW]._num
+    const clickViewAlias = componentsAlias[CLICK_VIEW]._num
     const staticViewAlias = componentsAlias[STATIC_VIEW]._num
     const catchViewAlias = componentsAlias[CATCH_VIEW]._num
     const _path = this._path
@@ -205,11 +207,11 @@ export class TaroElement extends TaroNode {
     if (this.nodeName === VIEW) {
       if (qualifiedNameInCamelCase === CATCHMOVE) {
         // catchMove = true: catch-view
-        // catchMove = false: view or static-view
+        // catchMove = false: view or click-view or static-view
         this.enqueueUpdate({
           path: `${_path}.${Shortcuts.NodeName}`,
           value: value ? catchViewAlias : (
-            this.isAnyEventBinded() ? viewAlias : staticViewAlias
+            this.isOnlyClickBinded() ? clickViewAlias : (this.isAnyEventBinded() ? viewAlias : staticViewAlias)
           )
         })
       } else if (isPureView && isHasExtractProp(this)) {
@@ -254,6 +256,7 @@ export class TaroElement extends TaroNode {
     const viewAlias = componentsAlias[VIEW]._num
     const staticViewAlias = componentsAlias[STATIC_VIEW]._num
     const pureViewAlias = componentsAlias[PURE_VIEW]._num
+    const clickViewAlias = componentsAlias[CLICK_VIEW]._num
     const _path = this._path
 
     qualifiedName = shortcutAttr(qualifiedName)
@@ -275,10 +278,10 @@ export class TaroElement extends TaroNode {
 
     if (this.nodeName === VIEW) {
       if (qualifiedNameInCamelCase === CATCHMOVE) {
-        // catch-view => view or static-view or pure-view
+        // catch-view => view or click-view or static-view or pure-view
         this.enqueueUpdate({
           path: `${_path}.${Shortcuts.NodeName}`,
-          value: this.isAnyEventBinded() ? viewAlias : (isHasExtractProp(this) ? staticViewAlias : pureViewAlias)
+          value: this.isOnlyClickBinded() ? clickViewAlias : (this.isAnyEventBinded() ? viewAlias : (isHasExtractProp(this) ? staticViewAlias : pureViewAlias))
         })
       } else if (isStaticView && !isHasExtractProp(this)) {
         // static-view => pure-view

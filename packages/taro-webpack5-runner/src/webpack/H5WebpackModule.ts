@@ -271,7 +271,7 @@ export class H5WebpackModule {
     if (Array.isArray(compile.exclude)) {
       rule.exclude = [...compile.exclude]
     } else {
-      rule.exclude = [filename => /@tarojs[\\/]components/.test(filename)]
+      rule.exclude = []
     }
 
     return rule

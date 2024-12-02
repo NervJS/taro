@@ -29,10 +29,24 @@
     "dev:jd": "npm run build:jd -- --watch",
     "dev:harmony-hybrid": "npm run build:harmony-hybrid -- --watch"
   },
+  {{#if buildEs5 }}
+  "browserslist": {
+    "development": [
+      "defaults and fully supports es6-module",
+      "maintained node versions"
+    ],
+    "production": [
+      "last 3 versions",
+      "Android >= 4.1",
+      "ios >= 8"
+    ]
+  },
+  {{else}}
   "browserslist": [
     "defaults and fully supports es6-module",
     "maintained node versions"
   ],
+  {{/if}}
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.24.4",

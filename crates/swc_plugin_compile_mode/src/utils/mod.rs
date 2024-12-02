@@ -88,6 +88,19 @@ pub fn check_is_event_attr(val: &str) -> bool {
 }
 
 pub fn identify_jsx_event_key(val: &str, platform: &str) -> Option<String> {
+
+  // 处理worklet事件及callback
+  // 事件：     onScrollUpdateWorklet         ->  worklet:onscrollupdate
+  // callback：shouldResponseOnMoveWorklet   ->  worklet:should-response-on-move
+  if val.ends_with("Worklet") {
+    let worklet_name = val.trim_end_matches("Worklet");
+    if worklet_name.starts_with("on") {
+      return Some(format!("worklet:{}", worklet_name.to_lowercase()));
+    } else {
+      return Some(format!("worklet:{}", to_kebab_case(worklet_name)));
+    }
+  }
+
   if check_is_event_attr(val) {
     let event_name = val.get(2..).unwrap().to_lowercase();
     let event_name = if event_name == "click" {

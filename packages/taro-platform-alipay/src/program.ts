@@ -18,6 +18,8 @@ export default class Alipay extends TaroPlatformBase {
     xs: '.sjs'
   }
 
+  behaviorsName = 'mixins'
+
   template = new Template()
 
   /**
