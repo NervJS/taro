@@ -49,7 +49,8 @@
     "jd-miniprogram-ci": "^1.0.5",
     "minidev": "^2.1.5",
     "miniprogram-ci": "^1.9.15",
-    "tt-ide-cli": "^0.1.25"
+    "tt-ide-cli": "^0.1.25",
+    "xhs-mp-cli": ">=1.9.6"
   },
   "peerDependenciesMeta": {
     "dingtalk-miniapp-opensdk": {
@@ -62,6 +63,9 @@
       "optional": true
     },
     "tt-ide-cli": {
+      "optional": true
+    },
+    "xhs-mp-cli": {
       "optional": true
     }
   }
