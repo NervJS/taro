@@ -1,5 +1,4 @@
-import { BarcodeScanningResult, BarcodeType, Camera, CameraMountError, CameraView, PermissionStatus } from 'expo-camera'
-import { CameraType } from 'expo-camera/build/legacy/Camera.types'
+import { BarCodeScanningResult, Camera, CameraMountError, CameraType, PermissionStatus } from 'expo-camera'
 import React, { Component } from 'react'
 
 import Text from '../Text'
@@ -15,12 +14,12 @@ export class _Camera extends Component<CameraProps, CameraState> {
     }
   }
 
-  expoCameraRef = React.createRef<CameraView>()
+  expoCameraRef = React.createRef<Camera>()
 
   async componentDidMount(): Promise<void> {
     const permission = await Camera.requestCameraPermissionsAsync()
     this.setState({
-      hasPermission: permission?.status === PermissionStatus.GRANTED
+      hasPermission: permission?.status === PermissionStatus.GRANTED,
     })
   }
 
@@ -34,14 +33,15 @@ export class _Camera extends Component<CameraProps, CameraState> {
     this.props.onInitDone && this.props.onInitDone(event)
   }
 
-  onScanCode = (event: BarcodeScanningResult): void => {
+  onScanCode = (event: BarCodeScanningResult): void => {
     const { data } = event
-    this.props.onScanCode && this.props.onScanCode({
-      detail: {
-        result: data
-      },
-      ...event
-    } as any)
+    this.props.onScanCode &&
+      this.props.onScanCode({
+        detail: {
+          result: data,
+        },
+        ...event,
+      } as any)
   }
 
   render(): JSX.Element {
@@ -59,16 +59,16 @@ export class _Camera extends Component<CameraProps, CameraState> {
       mode === 'scanCode'
         ? {
           barCodeScannerSettings: {
-            barCodeTypes: ['qr'] as BarcodeType[]
+            barCodeTypes: ['qr'],
           },
-          onBarCodeScanned: this.onScanCode
+          onBarCodeScanned: this.onScanCode,
         }
         : {}
     return (
-      <CameraView
+      <Camera
         ref={this.expoCameraRef}
-        facing={type}
-        flash={flash}
+        type={type}
+        flashMode={flash}
         onMountError={this.onError}
         onCameraReady={this.onInitDone}
         {...barCodeScannerSettings}

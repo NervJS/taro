@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-style-transformer",
-  "version": "4.0.5",
+  "version": "4.0.8",
   "description": "提供 Taro RN 统一处理样式文件能力",
   "author": "O2Team",
   "license": "MIT",
@@ -12,7 +12,7 @@
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove ./dist",
+    "clean": "rimraf ./dist",
     "build": "tsc",
     "dev": "tsc -w",
     "lint": "eslint src __tests__ --ext .js,.ts",

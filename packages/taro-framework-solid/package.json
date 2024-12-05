@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-solid",
-  "version": "4.0.5",
+  "version": "4.0.8",
   "description": "Solid 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -22,7 +22,7 @@
     "prod": "pnpm run build",
     "prebuild": "run-s clean",
     "build": "pnpm run rollup --environment NODE_ENV:production",
-    "clean": "rimraf --impl=move-remove dist",
+    "clean": "rimraf dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin typescript"
   },
@@ -44,7 +44,7 @@
     "webpack-chain": "^6.5.1",
     "esbuild": "~0.19.5",
     "solid-js": "^1.8.16",
-    "typescript": "^5.3.3",
+    "typescript": "~5.4.5",
     "vite": "^4.2.0"
   },
   "peerDependencies": {

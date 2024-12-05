@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-tt",
-  "version": "4.0.5",
+  "version": "4.0.8",
   "description": "头条小程序平台插件",
   "author": "O2Team",
   "license": "MIT",
@@ -29,13 +29,16 @@
   "engines": {
     "node": ">= 18"
   },
+  "dependencies": {
+    "webpack-sources": "^3.2.3"
+  },
   "devDependencies": {
     "@tarojs/components": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*"
   },
   "peerDependencies": {
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/service": "workspace:*"
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   }
 }

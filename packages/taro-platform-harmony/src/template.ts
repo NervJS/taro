@@ -83,6 +83,7 @@ ${elements}
     const result: Components = super.createMiniComponents(components)
 
     delete result['pure-view']
+    delete result['click-view']
     delete result['static-view']
     delete result['static-text']
     delete result['static-image']

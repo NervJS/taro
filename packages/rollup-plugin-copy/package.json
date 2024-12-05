@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-copy",
-  "version": "4.0.5",
+  "version": "4.0.8",
   "description": "rollup-plugin-copy for taro",
   "private": true,
   "author": "O2Team",
@@ -12,7 +12,7 @@
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove ./lib",
+    "clean": "rimraf ./lib",
     "build": "tsc",
     "dev": "tsc -w"
   },

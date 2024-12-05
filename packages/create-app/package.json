@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/create-app",
-  "version": "4.0.5",
+  "version": "4.0.8",
   "description": "create taro app with one command",
   "author": "O2Team",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove ./dist",
+    "clean": "rimraf ./dist",
     "dev": "tsc -w",
     "build": "tsc"
   },

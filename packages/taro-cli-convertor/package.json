@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli-convertor",
-  "version": "4.0.5",
+  "version": "4.0.8",
   "description": "cli tool for taro-convert",
   "author": "O2Team",
   "license": "MIT",
@@ -10,7 +10,7 @@
     "prebuild": "pnpm run clean",
     "build": "tsc",
     "dev": "tsc -w",
-    "clean": "rimraf --impl=move-remove dist",
+    "clean": "rimraf dist",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write \"{src, __tests__}/**/*.{ts,tsx,js,jsx}\" && eslint src  __tests__ --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
     "test": "jest",

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-react",
-  "version": "4.0.5",
+  "version": "4.0.8",
   "description": "React/Preact 框架插件",
   "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro",
@@ -22,7 +22,7 @@
     "prod": "pnpm run build",
     "prebuild": "run-s clean",
     "build": "pnpm run rollup --environment NODE_ENV:production",
-    "clean": "rimraf --impl=move-remove dist",
+    "clean": "rimraf dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin typescript"
   },

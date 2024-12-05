@@ -154,6 +154,27 @@ interface TextareaProps extends StandardProps, FormItemProps {
    * @supported weapp, tt, harmony
    */
   onKeyboardHeightChange?: CommonEventFunction<TextareaProps.onKeyboardHeightChangeEventDetail>
+
+  /** 需传入对象，格式为 { fontSize: number, fontWeight: string, color: string }
+   * @supported weapp
+   */
+  placeholderStyle?: string
+  /** 选区改变事件, {selectionStart, selectionEnd}
+   * @supported weapp
+   */
+  onSelectionChange?: CommonEventFunction
+  /** 输入法开始新的输入时触发 （仅当输入法支持时触发）
+   * @supported weapp
+   */
+  onKeyboardCompositionStart?: CommonEventFunction
+  /** 输入法输入字符时触发（仅当输入法支持时触发）
+   * @supported weapp
+   */
+  onKeyboardCompositionUpdate?: CommonEventFunction
+  /** 输入法输入结束时触发（仅当输入法支持时触发）
+   * @supported weapp
+   */
+  onKeyboardCompositionEnd?: CommonEventFunction
 }
 declare namespace TextareaProps {
   interface onFocusEventDetail {

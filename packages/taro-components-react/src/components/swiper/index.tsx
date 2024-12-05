@@ -172,7 +172,7 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
     }
 
     const loopAdditionalSlides = this.getLoopAdditionalSlides()
-    const centeredSlides = parseFloat(String(displayMultipleItems)) === 1
+    const centeredSlides = displayMultipleItems === 1 && this.getNeedFixLoop()
     const slidesPerView = parseFloat(String(displayMultipleItems)) === 1 ? 'auto' : displayMultipleItems
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
@@ -186,6 +186,7 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
       speed: parseInt(String(duration), 10),
       observer: true,
       observeParents: true,
+      nested: true,
       loopAdditionalSlides,
       centeredSlides,
       ...effectsProps,
@@ -460,11 +461,7 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
     const defaultIndicatorActiveColor = indicatorActiveColor || '#000'
     const [pM, nM] = this.parseMargin()
     const cls = classNames(`taro-swiper-${this._id}`, className)
-    const sty = Object.assign({}, style)
-    const hasMargin = pM || nM
-    if (hasMargin) {
-      sty.overflow = 'hidden'
-    }
+    const sty = Object.assign({ overflow: 'hidden' }, style)
     if (this.props.full) {
       sty.height = '100%'
     }
