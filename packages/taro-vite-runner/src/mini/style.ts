@@ -9,6 +9,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
     name: 'taro:vite-style',
     generateBundle (_opts, bundle) {
       if (viteCompilerContext) {
+        const sourceDir = viteCompilerContext.sourceDir
         const nativeStyleExt = viteCompilerContext.fileType.style
         const appStyleFileName = `app${nativeStyleExt}`
         const commonStyleChunks = viteCompilerContext.commonChunks.map(item => `${item}${nativeStyleExt}`)
@@ -37,7 +38,6 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
         // 小程序全局样式文件中引入 common chunks 中的公共样式文件
         if (appStyleChunk) {
           const APP_STYLE_NAME = 'app-origin' + nativeStyleExt
-          const sourceDir = viteCompilerContext.sourceDir
           this.emitFile({
             type: 'asset',
             fileName: APP_STYLE_NAME,
@@ -46,6 +46,16 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           appStyleChunk.source = commonStyleFileNames.reduce((prev, current) => {
             return prev + `@import "${path.relative(sourceDir, path.join(sourceDir, current))}";\n`
           }, `@import "${APP_STYLE_NAME}";\n`)
+        } else {
+          // 处理全局样式文件样式不存在时 引入common chunks 中的公共样式文件
+          const source = commonStyleFileNames.reduce((prev, current) => {
+            return prev + `@import "${path.relative(sourceDir, path.join(sourceDir, current))}";\n`;
+          }, '');
+          this.emitFile({
+            type: 'asset',
+            fileName: appStyleFileName,
+            source
+          });
         }
       }
     }
