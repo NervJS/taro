@@ -91,9 +91,8 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
 
   /** 小程序编译过程的相关配置 */
   compile?: {
-    exclude?: any[]
-    include?: any[]
-    /** 对应 @rollup/plugin-babel 插件的 filter 配置。只在 vite 编译模式下有效 */
+    exclude?: (string | RegExp)[]
+    include?: (string | RegExp)[]
     filter?: (filename: string) => boolean
   }
 
