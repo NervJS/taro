@@ -291,8 +291,6 @@ function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransfor
         return m
       }
 
-      // 转换工作，如果是harmony的话不转换
-      if (platform === 'harmony') { return m }
       let val = pixels / rootValue(input, m, $1)
       if (unitPrecision >= 0 && unitPrecision <= 100) {
         val = toFixed(val, unitPrecision)

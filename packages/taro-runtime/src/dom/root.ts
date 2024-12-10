@@ -75,6 +75,11 @@ export class TaroRootElement extends TaroElement {
     return this
   }
 
+  public scheduleTask(fn: TFunc) {
+    // 这里若使用微任务可略微提前setData的执行时机，但在部分场景下可能会出现连续setData两次，造成更大的性能问题
+    setTimeout(fn)
+  }
+
   public enqueueUpdate (payload: UpdatePayload): void {
     this.updatePayloads.push(payload)
 
@@ -88,7 +93,7 @@ export class TaroRootElement extends TaroElement {
 
     const ctx = hooks.call('proxyToRaw', this.ctx)!
 
-    setTimeout(() => {
+    this.scheduleTask(() => {
       const setDataMark = `${SET_DATA} 开始时间戳 ${Date.now()}`
       perf.start(setDataMark)
       const data: Record<string, UpdatePayloadValue | ReturnType<HydratedData>> = Object.create(null)
@@ -183,7 +188,7 @@ export class TaroRootElement extends TaroElement {
         }
         ctx.setData(normalUpdate, cb)
       }
-    }, 0)
+    })
   }
 
   public enqueueUpdateCallback (cb: TFunc, ctx?: Record<string, any>) {

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/helper",
-  "version": "4.0.0-beta.139",
+  "version": "4.0.8",
   "description": "Taro Helper",
   "author": "O2Team",
   "license": "MIT",
@@ -8,11 +8,10 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "prod": "pnpm run build",
-    "clean": "rimraf --impl=move-remove dist",
+    "clean": "rimraf dist",
     "prebuild": "pnpm run clean",
     "build": "tsc",
     "postbuild": "pnpm run swc:backup",
-    "predev": "pnpm run clean",
     "dev": "tsc -w",
     "prepack": "pnpm run build",
     "test": "jest --collectCoverage",

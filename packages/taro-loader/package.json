@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-loader",
-  "version": "4.0.0-beta.139",
+  "version": "4.0.8",
   "description": "Taro runner use webpack loader",
   "author": "O2Team",
   "license": "MIT",
@@ -29,7 +29,8 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "@tarojs/helper": "workspace:*"
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*"
   },
   "devDependencies": {
     "@tarojs/taro": "workspace:*",

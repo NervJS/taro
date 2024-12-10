@@ -102,21 +102,25 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           filePath: baseTemplateName,
           content: template.buildTemplate(componentConfig)
         })
-        // emit: utils.xs
-        generateXSFile(this, viteCompilerContext, {
-          filePath: 'utils',
-          content: viteCompilerContext.taroConfig.template.buildXScript()
-        })
+
+        if (template.isUseXS) {
+          // emit: utils.xs
+          generateXSFile(this, viteCompilerContext, {
+            filePath: 'utils',
+            content: viteCompilerContext.taroConfig.template.buildXScript()
+          })
+        }
 
         // emit: comp.json, comp.xml
         if (!template.isSupportRecursive) {
           // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
           const baseCompConfig = {
             component: true,
+            styleIsolation: 'apply-shared',
             usingComponents: {
               [baseCompName]: `./${baseCompName}`
             }
-          }
+          } as Config & { component?: boolean, usingComponents: Record<string, string> }
           if (isUsingCustomWrapper) {
             baseCompConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
           }
@@ -136,6 +140,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             filePath: customWrapperName,
             config: {
               component: true,
+              styleIsolation: 'apply-shared',
               usingComponents: {
                 [customWrapperName]: `./${customWrapperName}`
               }
@@ -148,6 +153,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             filePath: customWrapperName,
             config: {
               component: true,
+              styleIsolation: 'apply-shared',
               usingComponents: {
                 [customWrapperName]: `./${customWrapperName}`
               }

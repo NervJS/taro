@@ -1,5 +1,5 @@
 import { defineConfig{{#if typescript }}, type UserConfigExport{{/if}} } from '@tarojs/cli'
-{{#if typescript }}import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'{{/if}}
+{{#if typescript }}{{#unless (eq compiler "Vite")}}import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'{{/unless}}{{/if}}
 import devConfig from './dev'
 import prodConfig from './prod'
 
@@ -46,7 +46,7 @@ export default defineConfig{{#if typescript }}<'{{ to_lower_case compiler }}'>{{
             generateScopedName: '[name]__[local]___[hash:base64:5]'
           }
         }
-      }{{#if typescript }},{{#unless (eq compiler "Vite")}}
+      },{{#if typescript }}{{#unless (eq compiler "Vite")}}
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
       }{{/unless}}{{/if}}
@@ -90,6 +90,11 @@ export default defineConfig{{#if typescript }}<'{{ to_lower_case compiler }}'>{{
       }
     }
   }
+
+  {{#if buildEs5 }}
+  process.env.BROWSERSLIST_ENV = process.env.NODE_ENV
+  {{/if}}
+
   if (process.env.NODE_ENV === 'development') {
     // 本地开发构建配置（不混淆压缩）
     return merge({}, baseConfig, devConfig)

@@ -119,9 +119,9 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
     font-size: $weuiBtnMiniFontSize;
   }
 
-  &[plain],
-  &[plain][type="default"],
-  &[plain][type="primary"] {
+  &[plain="true"],
+  &[plain="true"][type="default"],
+  &[plain="true"][type="primary"] {
     border-width: 1px;
     background-color: transparent;
   }
@@ -162,7 +162,7 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
     }
   }
 
-  &[plain][type="primary"] {
+  &[plain="true"][type="primary"] {
     border: 1px solid $weuiBtnPlainPrimaryBorderColor;
     color: $weuiBtnPlainPrimaryColor;
 
@@ -177,7 +177,7 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
     }
   }
 
-  &[plain][type="warn"] {
+  &[plain="true"][type="warn"] {
     border: 1px solid $weuiBtnPlainWarnBorderColor;
     color: $weuiBtnPlainWarnColor;
 
@@ -192,8 +192,8 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
     }
   }
 
-  &[plain],
-  &[plain][type="default"] {
+  &[plain="true"],
+  &[plain="true"][type="default"] {
     border: 1px solid $weuiBtnPlainDefaultBorderColor;
     color: $weuiBtnPlainDefaultColor;
 
@@ -236,13 +236,13 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
     }
   }
 
-  &[plain][disabled] {
+  &[plain="true"][disabled] {
     border: 1px solid rgb(0 0 0 / 20%);
     background-color: #f7f7f7;
     color: rgb(0 0 0 / 30%);
   }
 
-  &[plain][disabled][type="primary"] {
+  &[plain="true"][disabled][type="primary"] {
     border: 1px solid rgb(0 0 0 / 20%);
     background-color: #f7f7f7;
     color: rgb(0 0 0 / 30%);

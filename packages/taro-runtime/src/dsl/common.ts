@@ -378,7 +378,6 @@ export function createRecursiveComponentConfig (componentName?: string) {
         }
       },
       options: {
-        addGlobalClass: true,
         virtualHost: !isCustomWrapper
       },
       methods: {

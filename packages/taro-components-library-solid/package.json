@@ -1,13 +1,13 @@
 {
   "name": "@tarojs/components-library-solid",
-  "version": "4.0.0-beta.139",
+  "version": "4.0.8",
   "description": "Taro 组件库 Solid 版本库",
   "private": true,
   "main": "index.js",
   "scripts": {
     "prebuild": "pnpm run clean && node ./scripts/fix.js",
     "build": "rollup -c",
-    "clean": "rimraf --impl=move-remove ../taro-components/lib/solid",
+    "clean": "rimraf ../taro-components/lib/solid",
     "dev": "pnpm run build -w",
     "prod": "pnpm run build"
   },

@@ -113,11 +113,6 @@ jobs:
         run: pnpm test
         env:
           CI: true
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
       # 以下 coverage 流程通过 artifact 拆分文件作为单独 job 上传时间损耗过长，因此在在 node test 后直接继续执行
       - name: Upload [taro-cli] coverage to Codecov
         uses: codecov/codecov-action@v4
