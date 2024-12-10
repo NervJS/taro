@@ -33,13 +33,12 @@ export class TaroElement<
 > extends TaroNode {
   public _innerHTML = ''
   public _nodeInfo: TaroAny = {
-    layer: 0 // 渲染层级
+    layer: 0, // 渲染层级
   }
 
   public _hm_instance: TaroAny
   public weak_hm_instance: WeakRef<TaroAny>
   public use_weak_hm_instance: boolean = true
-
 
   public get hm_instance(): TaroAny {
     if (this.use_weak_hm_instance && this.weak_hm_instance) {
@@ -56,17 +55,16 @@ export class TaroElement<
     this._hm_instance = instance
   }
 
-
-  public get _instance () {
+  public get _instance() {
     return this.hm_instance
   }
 
-  public set _instance (value) {
+  public set _instance(value) {
     this.hm_instance = value
     if (this._nodeInfo.aboutToAppear) {
       let task
       // eslint-disable-next-line no-cond-assign
-      while (task = this._nodeInfo.aboutToAppear.shift()) {
+      while ((task = this._nodeInfo.aboutToAppear.shift())) {
         task()
       }
     }
@@ -144,6 +142,10 @@ export class TaroElement<
 
     // 混合开发的组件没办法自动更新，需要把父级的结点删掉新建
     // Current.nativeComponentNames会在render.ets中赋值
+    /**
+     * @deprecated
+     *  这个逻辑分支在多线程中需要要去掉
+     */
     if (Current.nativeComponentNames?.includes(this.tagName)) {
       const idxOfRef = this.parentNode?.findIndex(this)
 
@@ -159,7 +161,7 @@ export class TaroElement<
         id: this._nid,
         tagName: this.tagName,
         attribute: name,
-        value
+        value,
       })
     } else {
       const attributeTriggerValue: TaroAny = ATTRIBUTES_CALLBACK_TRIGGER_MAP[name]
@@ -266,7 +268,7 @@ export class TaroElement<
       if (!this._pseudo_before) {
         this._pseudo_before = new StyleSheet()
       }
-      Object.keys(value).forEach(key => {
+      Object.keys(value).forEach((key) => {
         this._pseudo_before!.hmStyle[key] = value[key]
       })
     } else {
@@ -281,7 +283,7 @@ export class TaroElement<
       if (!this._pseudo_after) {
         this._pseudo_after = new StyleSheet()
       }
-      Object.keys(value).forEach(key => {
+      Object.keys(value).forEach((key) => {
         this._pseudo_after!.hmStyle[key] = value[key]
       })
     } else {
@@ -299,7 +301,7 @@ export class TaroElement<
       if (!this._pseudo_class[name]) {
         this._pseudo_class[name] = new StyleSheet()
       }
-      Object.keys(value).forEach(key => {
+      Object.keys(value).forEach((key) => {
         this._pseudo_class[name]!.hmStyle[key] = value[key]
       })
     } else {
@@ -307,7 +309,7 @@ export class TaroElement<
     }
   }
 
-  get currentLayerNode () {
+  get currentLayerNode() {
     if (!this._page) return null
     if (typeof this._page.tabBarCurrentIndex !== 'undefined') {
       this._page.layerNode ||= []
@@ -320,7 +322,7 @@ export class TaroElement<
     }
   }
 
-  get currentLayerParents () {
+  get currentLayerParents() {
     if (!this._page) return null
     if (typeof this._page.tabBarCurrentIndex !== 'undefined') {
       this._page.layerParents ||= {}
@@ -337,7 +339,7 @@ export class TaroElement<
   // 1、appendChild的时候会判断是否需要设置层级
   // 2、taro-react的setProperty，在处理属性变化的时候，会判断是否需要设置层级
   // 3、removeChild的时候，会判断是否需要移除层级
-  public setLayer (value: number) {
+  public setLayer(value: number) {
     if (!this.parentNode) return // 没有父节点，不需要设置层级关系
 
     const currentPage = getPageById(this.getAttribute('__fixed'))
@@ -359,7 +361,7 @@ export class TaroElement<
       generateLayerParentIds(_parentRecord, this)
       currentLayerParents[this.getStrNid()] = _parentRecord
     } else {
-      const idx = currentLayerNode.childNodes.findIndex(n => n.getStrNid() === this.getStrNid())
+      const idx = currentLayerNode.childNodes.findIndex((n) => n.getStrNid() === this.getStrNid())
       currentLayerNode.childNodes.splice(idx, 1)
       currentLayerNode.notifyDataDelete(idx)
 
@@ -385,7 +387,7 @@ export class TaroElement<
         delete currentLayerParents[this.getStrNid()]
         this.setLayer(0)
       } else {
-        Object.keys(currentLayerParents).forEach(fixedId => {
+        Object.keys(currentLayerParents).forEach((fixedId) => {
           const parentIds = currentLayerParents[fixedId]
           if (parentIds[this.getStrNid()]) {
             // 需要移除fixedId
@@ -401,7 +403,7 @@ export class TaroElement<
   }
 
   // 设置动画
-  public setAnimation (playing) {
+  public setAnimation(playing) {
     if (!this._instance) {
       if (!this._nodeInfo.aboutToAppear) {
         this._nodeInfo.aboutToAppear = []
@@ -436,41 +438,50 @@ export class TaroElement<
       this.parentNode.notifyDataDelete(idx)
 
       // 下一帧播放，等实例被移除掉，再重新插入
-      setTimeout(() => {
-        // insert
-        this.parentNode?.childNodes.splice(idx, 0, this)
-        this.parentNode?.notifyDataAdd(idx)
+      setTimeout(
+        () => {
+          // insert
+          this.parentNode?.childNodes.splice(idx, 0, this)
+          this.parentNode?.notifyDataAdd(idx)
 
-        // 执行动画
-        if (playing) {
-          this.playAnimation()
-        }
-      }, playing ? 0 : 100)
+          // 执行动画
+          if (playing) {
+            this.playAnimation()
+          }
+        },
+        playing ? 0 : 100
+      )
     }
   }
 
-  private playAnimation () {
+  private playAnimation() {
     const {
-      animationDuration = 0, animationDelay = 0, animationIterationCount = 1, animationName: keyframes,
-      animationTimingFunction
+      animationDuration = 0,
+      animationDelay = 0,
+      animationIterationCount = 1,
+      animationName: keyframes,
+      animationTimingFunction,
     } = this._st.hmStyle
 
     if (keyframes) {
       let cur_percentage = 0
-      this._instance.getUIContext()?.keyframeAnimateTo({
-        delay: animationDelay,
-        iterations: animationIterationCount,
-      }, keyframes.map(item => {
-        const duration = (item.percentage - cur_percentage) * animationDuration
-        cur_percentage = item.percentage
-        return {
-          duration: duration,
-          curve: item.event.animationTimingFunction || animationTimingFunction,
-          event: () => {
-            this._instance.overwriteStyle = item.event
+      this._instance.getUIContext()?.keyframeAnimateTo(
+        {
+          delay: animationDelay,
+          iterations: animationIterationCount,
+        },
+        keyframes.map((item) => {
+          const duration = (item.percentage - cur_percentage) * animationDuration
+          cur_percentage = item.percentage
+          return {
+            duration: duration,
+            curve: item.event.animationTimingFunction || animationTimingFunction,
+            event: () => {
+              this._instance.overwriteStyle = item.event
+            },
           }
-        }
-      }))
+        })
+      )
     }
   }
 }

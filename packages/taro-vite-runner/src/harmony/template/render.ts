@@ -116,8 +116,10 @@ export default class RenderParser extends BaseParser {
       if (meta.isPackage) {
         importList.push(`import ${meta.name} from '${meta.scriptPath}'`)
       } else {
-        const nativePath = path.posix.relative(this.context.sourceDir, meta.scriptPath)
-          .replace(/[\\/]+/g, '/').replace(/\.ets$/, '')
+        const nativePath = path.posix
+          .relative(this.context.sourceDir, meta.scriptPath)
+          .replace(/[\\/]+/g, '/')
+          .replace(/\.ets$/, '')
         importList.push(`import ${meta.name} from './${nativePath}'`)
       }
     })
@@ -280,13 +282,13 @@ export default class RenderParser extends BaseParser {
           name: 'StickySection',
           condition: `item.tagName === 'STICKY-SECTION'`,
           type: 'TaroViewElement',
-          extra: '.reuseId(item._nid.toString())'
+          extra: '.reuseId(item._nid.toString())',
         },
         {
           name: 'ListView',
           condition: `item.tagName === 'LIST-VIEW'`,
           type: 'TaroViewElement',
-          extra: '.reuseId(item._nid.toString())'
+          extra: '.reuseId(item._nid.toString())',
         },
         {
           name: 'View',
@@ -309,7 +311,7 @@ export default class RenderParser extends BaseParser {
           name,
           condition: `item.tagName === '${name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}'`,
           args: [],
-          fullArgument: 'item._attrs as TaroAny'
+          fullArgument: 'item._attrs as TaroAny',
         })
       })
 
@@ -395,6 +397,10 @@ export { createChildItem, createLazyChildren }`,
 }`
   }
 
+  /**
+   * @deprecated
+   *  这个方法在多线程中需要要去掉
+   */
   generateNativeComponentNamesInit() {
     if (this.context.nativeComponents.size === 0) return ''
     const commentsList: string[] = []
