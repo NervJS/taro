@@ -16,7 +16,7 @@ jobs:
       matrix:
         node-version: [18.x]
         settings:
-          - host: macos-12
+          - host: macos-13
             target: x86_64-apple-darwin
             build: |
               pnpm build:binding:release
@@ -35,7 +35,7 @@ jobs:
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: set -e && pnpm build:binding:release && strip crates/native_binding/*.node
-          - host: macos-12
+          - host: macos-13
             target: aarch64-apple-darwin
             build: |
               pnpm build:binding:release --target aarch64-apple-darwin
