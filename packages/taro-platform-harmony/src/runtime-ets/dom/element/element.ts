@@ -142,10 +142,6 @@ export class TaroElement<
 
     // 混合开发的组件没办法自动更新，需要把父级的结点删掉新建
     // Current.nativeComponentNames会在render.ets中赋值
-    /**
-     * @deprecated
-     *  这个逻辑分支在多线程中需要要去掉
-     */
     if (Current.nativeComponentNames?.includes(this.tagName)) {
       const idxOfRef = this.parentNode?.findIndex(this)
 

@@ -113,14 +113,15 @@ export default class RenderParser extends BaseParser {
     })
 
     this.context.nativeComponents.forEach((meta) => {
+      const name = meta.exportName === 'default' ? meta.name : `{ ${meta.exportName} as ${meta.name} }`
       if (meta.isPackage) {
-        importList.push(`import ${meta.name} from '${meta.scriptPath}'`)
+        importList.push(`import ${name} from '${meta.scriptPath}'`)
       } else {
         const nativePath = path.posix
           .relative(this.context.sourceDir, meta.scriptPath)
           .replace(/[\\/]+/g, '/')
           .replace(/\.ets$/, '')
-        importList.push(`import ${meta.name} from './${nativePath}'`)
+        importList.push(`import ${name} from './${nativePath}'`)
       }
     })
 
@@ -397,10 +398,6 @@ export { createChildItem, createLazyChildren }`,
 }`
   }
 
-  /**
-   * @deprecated
-   *  这个方法在多线程中需要要去掉
-   */
   generateNativeComponentNamesInit() {
     if (this.context.nativeComponents.size === 0) return ''
     const commentsList: string[] = []

@@ -193,7 +193,7 @@ declare module './index' {
     /** 页面自定义组件配置
      * @see https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/
      */
-    usingComponents?: Record<string, string>
+    usingComponents?: Record<string, string | [string, string]>
     /** 指定使用升级后的 weui 样式
      * - v2: 可表明启用新版的组件样式
      * @default default

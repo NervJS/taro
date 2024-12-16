@@ -29,7 +29,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       }
       return null
     },
-    load (id) {
+    async load (id) {
       if (viteCompilerContext && id.endsWith(ENTRY_SUFFIX)) {
         const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
         const { taroConfig, cwd: appPath, app } = viteCompilerContext
@@ -49,7 +49,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         const tabbar = appConfig.tabBar
         const parse = new AppParser(appPath, appConfig, taroConfig, viteCompilerContext.loaderMeta)
         // emit pages
-        viteCompilerContext.pages.forEach(page => {
+        await Promise.all(viteCompilerContext.pages.map(async page => {
           if (page.isNative) {
             const { sourceDir, nativeExt } = viteCompilerContext as ViteHarmonyCompilerContext
             const nativePath = resolveMainFilePath(path.join(sourceDir, page.name), nativeExt)
@@ -67,19 +67,22 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               fileName: viteCompilerContext.getScriptPath(page.name + TARO_COMP_SUFFIX),
               implicitlyLoadedAfterOneOf: [rawId]
             })
+            await this.load({
+              id: page.scriptPath,
+              resolveDependencies: true
+            })
           }
-        })
+        }))
 
         // native components
         for (const comp of viteCompilerContext.nativeComponents.values()) {
-          if (!comp.isPackage) {
-            this.emitFile({
-              type: 'chunk',
-              id: comp.templatePath + QUERY_IS_NATIVE_SCRIPT,
-              fileName: path.relative(viteCompilerContext.sourceDir, comp.templatePath) + QUERY_IS_NATIVE_SCRIPT,
-              implicitlyLoadedAfterOneOf: [rawId]
-            })
-          }
+          if (comp.isPackage) continue
+          this.emitFile({
+            type: 'chunk',
+            id: comp.templatePath + QUERY_IS_NATIVE_SCRIPT,
+            fileName: path.relative(viteCompilerContext.sourceDir, comp.templatePath) + QUERY_IS_NATIVE_SCRIPT,
+            implicitlyLoadedAfterOneOf: [rawId]
+          })
         }
 
         // emit tabbar
@@ -133,6 +136,10 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           fileName: viteCompilerContext.getTargetFilePath(app.name, '.ets'),
           code: parse.parse(rawId, name, this.resolve),
           exports: ['default'],
+        })
+        await this.load({
+          id: rawId,
+          resolveDependencies: true
         })
         return parse.parseEntry(rawId, appConfig)
       }

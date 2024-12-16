@@ -5,7 +5,7 @@ import { isNpmPkg, normalizePath, recursiveMerge, REG_NODE_MODULES, resolveSync 
 import { isFunction, isString } from '@tarojs/shared'
 
 import { backSlashRegEx, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME, needsEscapeRegEx, quoteNewlineRegEx } from './constants'
-import createFilter from './createFilter'
+import { createFilterWithCompileOptions } from './createFilter'
 import { logger } from './logger'
 
 import type { RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
@@ -207,25 +207,7 @@ export function getBabelOption (
     compact: false,
     ...babelOption,
   }
-  const filter = compile.filter
-  if (isFunction(filter)) {
-    opts.filter = filter
-  } else {
-    let exclude: (string | RegExp)[] = [...defaultExclude]
-    const include: (string | RegExp)[] = [...defaultInclude]
-
-    if (Array.isArray(compile.include)) {
-      include.unshift(...compile.include)
-    }
-
-    // Note：如果 compile 有 传递exclude，那么就进行覆盖，与 webpack5 逻辑保持一致
-    if (Array.isArray(compile.exclude)) {
-      exclude = [...compile.exclude]
-    }
-
-    const filter = createFilter(include, exclude)
-    opts.filter = filter
-  }
+  opts.filter = createFilterWithCompileOptions(compile, defaultInclude, defaultExclude)
 
   return opts
 }
