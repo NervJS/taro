@@ -17,6 +17,7 @@ export interface ViteNativeCompMeta {
   templatePath: string
   cssPath?: string
   isPackage?: boolean
+  isGenerated?: boolean
 }
 
 export interface ViteFileType {
@@ -143,7 +144,8 @@ export interface ViteHarmonyCompilerContext extends ViteCompilerContext<ViteHarm
   modifyHarmonyConfig: (config: Partial<AppConfig>) => void
   modifyHostPackage: (deps?: Record<string, string>, devDeps?: Record<string, string>) => Exclude<IHarmonyConfig['ohPackage'], void>
   resolvePageImportPath: (scriptPath: string, pageName: string) => string
-  collectNativeComponents: (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) => void
+  collectNativeComponents: (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) => ViteNativeCompMeta[]
+  generateNativeComponent: (rollupCtx: PluginContext, meta: ViteNativeCompMeta, implicitlyLoadedAfterOneOf: string[] = []) => void
   getScriptPath: (filePath: string) => string
   getStylePath: (filePath: string) => string
   getConfigPath: (filePath: string) => string
@@ -155,7 +157,8 @@ export interface ViteMiniCompilerContext extends ViteCompilerContext<ViteMiniBui
   nativeComponents : Map<string, ViteNativeCompMeta>
   getCommonChunks: () => string[]
   resolvePageImportPath: (scriptPath: string, pageName: string) => string
-  collectNativeComponents: (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) => void
+  collectNativeComponents: (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) => ViteNativeCompMeta[]
+  generateNativeComponent: (rollupCtx: PluginContext, meta: ViteNativeCompMeta, implicitlyLoadedAfterOneOf: string[] = []) => void
   getScriptPath: (filePath: string) => string
   getTemplatePath: (filePath: string) => string
   getStylePath: (filePath: string) => string

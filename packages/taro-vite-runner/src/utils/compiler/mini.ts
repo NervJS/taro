@@ -11,6 +11,7 @@ import {
 import { isArray, isFunction } from '@tarojs/shared'
 
 import defaultConfig from '../../defaultConfig/defaultConfig.mini'
+import { miniTemplateLoader, QUERY_IS_NATIVE_COMP } from '../../mini/native-support'
 import { getComponentName } from '../../utils'
 import { componentConfig } from '../../utils/component'
 import { CompilerContext } from './base'
@@ -24,6 +25,7 @@ import type {
   ViteNativeCompMeta,
   VitePageMeta
 } from '@tarojs/taro/types/compile/viteCompilerContext'
+import type { PluginContext } from 'rollup'
 
 export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> implements ViteMiniCompilerContext {
   fileType: ViteFileType
@@ -95,10 +97,12 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
     return importPath
   }
 
-  collectNativeComponents (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) {
+  collectNativeComponents (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta): ViteNativeCompMeta[] {
     const { name, scriptPath, config } = meta
     const { usingComponents } = config
-    if (!usingComponents) return
+
+    const list: ViteNativeCompMeta[] = []
+    if (!usingComponents) return list
 
     Object.entries(usingComponents).forEach(([compName, value]) => {
       const compPath = value instanceof Array ? value[0] : value
@@ -135,8 +139,28 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
         componentConfig.thirdPartyComponents.set(compName, new Set())
       }
 
-      this.collectNativeComponents(nativeCompMeta)
+      list.push(...this.collectNativeComponents(nativeCompMeta), nativeCompMeta)
     })
+    return list
+  }
+
+  generateNativeComponent (rollupCtx: PluginContext, meta: ViteNativeCompMeta, implicitlyLoadedAfterOneOf: string[] = []) {
+    if (meta.isGenerated) return
+
+    rollupCtx.emitFile({
+      type: 'chunk',
+      id: meta.scriptPath + QUERY_IS_NATIVE_COMP,
+      fileName: this.getScriptPath(meta.name),
+      implicitlyLoadedAfterOneOf,
+    })
+    const source = miniTemplateLoader(rollupCtx, meta.templatePath, this.sourceDir)
+    rollupCtx.emitFile({
+      type: 'asset',
+      fileName: this.getTemplatePath(meta.name),
+      source
+    })
+    meta.cssPath && rollupCtx.addWatchFile(meta.cssPath)
+    meta.isGenerated = true
   }
 
   /** 工具函数 */

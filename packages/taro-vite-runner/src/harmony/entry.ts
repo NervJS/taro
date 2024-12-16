@@ -76,13 +76,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
         // native components
         for (const comp of viteCompilerContext.nativeComponents.values()) {
-          if (comp.isPackage) continue
-          this.emitFile({
-            type: 'chunk',
-            id: comp.templatePath + QUERY_IS_NATIVE_SCRIPT,
-            fileName: path.relative(viteCompilerContext.sourceDir, comp.templatePath) + QUERY_IS_NATIVE_SCRIPT,
-            implicitlyLoadedAfterOneOf: [rawId]
-          })
+          viteCompilerContext.generateNativeComponent(this, comp, [rawId])
         }
 
         // emit tabbar
@@ -97,7 +91,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               this.emitFile({
                 type: 'asset',
                 fileName: removePathPrefix(iconPath),
-                source: await fs.readFile(filePath)
+                source: Uint8Array.from(fs.readFileSync(filePath))
               })
               if (!isFinished) {
                 this.addWatchFile(filePath)
@@ -109,7 +103,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               this.emitFile({
                 type: 'asset',
                 fileName: removePathPrefix(selectedIconPath),
-                source: await fs.readFile(filePath)
+                source: Uint8Array.from(fs.readFileSync(filePath))
               })
               if (!isFinished) {
                 this.addWatchFile(filePath)
@@ -124,7 +118,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           this.emitFile({
             type: 'asset',
             fileName: appConfig.themeLocation,
-            source: fs.readFileSync(themePath)
+            source: Uint8Array.from(fs.readFileSync(themePath))
           })
           if (!isFinished) {
             this.addWatchFile(themePath)
