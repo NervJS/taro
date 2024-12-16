@@ -5,7 +5,7 @@
  */
 import path from 'node:path'
 
-import { isArray } from '@tarojs/shared'
+import { isArray, isFunction } from '@tarojs/shared'
 import pm from 'picomatch'
 
 function ensureArray(thing) {
@@ -73,5 +73,27 @@ export default function createFilter(include, exclude, options?) {
       }
     }
     return !includeMatchers.length
+  }
+}
+
+export function createFilterWithCompileOptions(compile: {
+  exclude?: any[]
+  include?: any[]
+  /** 对应 @rollup/plugin-babel 插件的 filter 配置。只在 vite 编译模式下有效 */
+  filter?: (filename: string) => boolean
+} = {}, defaultInclude: any[] = [], defaultExclude: any[] = []) {
+  if (isFunction(compile.filter)) {
+    return compile.filter
+  } else {
+    let exclude: (string | RegExp)[] = [...defaultInclude]
+    const include: (string | RegExp)[] = [...defaultExclude]
+    if (Array.isArray(compile.include)) {
+      include.unshift(...compile.include)
+    }
+    // Note：如果 compile 有 传递exclude，那么就进行覆盖，与 webpack5 逻辑保持一致
+    if (Array.isArray(compile.exclude)) {
+      exclude = [...compile.exclude]
+    }
+    return createFilter(include, exclude)
   }
 }

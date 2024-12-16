@@ -120,24 +120,30 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     return pageMeta
   }
 
+  resolvePageImportPath (scriptPath: string, importPath: string) {
+    const alias = this.taroConfig.alias
+    if (isAliasPath(importPath, alias)) {
+      importPath = replaceAliasPath(scriptPath, importPath, alias)
+    }
+    return importPath
+  }
+
   collectNativeComponents(meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) {
     const { name, scriptPath, config } = meta
     const { usingComponents } = config
 
     if (!usingComponents) return
 
-    Object.entries(usingComponents).forEach(([compName, compPath]) => {
-      const alias = this.taroConfig.alias
-
-      if (isAliasPath(compPath, alias)) {
-        compPath = replaceAliasPath(scriptPath, compPath, alias)
-        usingComponents[compName] = compPath
-      }
+    Object.entries(usingComponents).forEach(([compName, value]) => {
+      const compPath = value instanceof Array ? value[0] : value
+      const exportName = value instanceof Array ? value[1] : 'default'
+      usingComponents[compName] = this.resolvePageImportPath(scriptPath, compPath)
 
       // 如果是鸿蒙的包
       if (this.ohpmPackageList?.length && new RegExp(`^(${this.ohpmPackageList.join('|')})`).test(compPath)) {
         const nativeCompMeta: ViteNativeCompMeta = {
           name: compName,
+          exportName,
           scriptPath: compPath,
           config: {},
           configPath: '',
@@ -163,6 +169,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
         name: compName.replace(/(\w)-(\w)/g, (_, p1, p2) => {
           return p1 + p2.toUpperCase()
         }),
+        exportName,
         scriptPath: compScriptPath,
         config: {},
         configPath: '',

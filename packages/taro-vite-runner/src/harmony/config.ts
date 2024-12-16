@@ -7,7 +7,7 @@ import { defaultMainFields, fs, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR,
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 
-import increment from '../common/rollup-increment-plugin'
+import increment from '../common/rollup-plugin-increment'
 import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
 import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule, stripMultiPlatformExt, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
 import { DEFAULT_TERSER_OPTIONS, HARMONY_SCOPES } from '../utils/constants'
@@ -251,7 +251,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           taroConfig,
           {
             babelOption: {
-              extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.es6', '.es', '.ets'],
+              extensions: ['.js', '.jsx', '.ts', '.tsx', '.es6', '.es', '.mjs', '.mts', '.ets'],
             },
           }
         )),
