@@ -42,7 +42,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext | ViteMiniCo
         return cachedValue
       }
 
-      const source = await fs.readFile(id)
+      const source = fs.readFileSync(id)
 
       const {
         imageUrlLoaderOption = {},
@@ -78,7 +78,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext | ViteMiniCo
         const referenceId = this.emitFile({
           type: 'asset',
           fileName,
-          source
+          source: Uint8Array.from(source)
         })
         url = `__VITE_ASSET__${referenceId}__`
       }
