@@ -22,6 +22,7 @@ export default function miniTemplateLoader (source) {
 
   parser.onattribute = ({ name, value }) => {
     if (value && (name === 'src' || name === 'from') && isUrlRequest(value)) {
+      // image、webview等组件的src属性不需要加入依赖
       if (isSpecialFormat(name, value)) return
 
       const request = urlToRequest(value)
