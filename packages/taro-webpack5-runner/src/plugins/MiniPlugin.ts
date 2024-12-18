@@ -1109,10 +1109,11 @@ export default class TaroMiniPlugin {
     if (!usingComponents || this.options.skipProcessUsingComponents) return
 
     for (const [key, value] of Object.entries(usingComponents)) {
-      if (!value.includes(NODE_MODULES)) return
+      const compPath = value instanceof Array ? value[0] : value
+      if (!compPath.includes(NODE_MODULES)) return
 
-      const match = value.replace(NODE_MODULES, 'npm').match(/npm.*/)
-      usingComponents[key] = match ? `${path.sep}${match[0]}` : value
+      const match = compPath.replace(NODE_MODULES, 'npm').match(/npm.*/)
+      usingComponents[key] = match ? `${path.sep}${match[0]}` : compPath
     }
   }
 

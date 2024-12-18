@@ -5,7 +5,7 @@ import { isString } from '@tarojs/shared'
 
 import { appendVirtualModulePrefix, escapePath, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 import { baseCompName, customWrapperName } from '../utils/constants'
-import { miniTemplateLoader, QUERY_IS_NATIVE_COMP, QUERY_IS_NATIVE_PAGE } from './native-support'
+import { miniTemplateLoader, QUERY_IS_NATIVE_PAGE } from './native-support'
 
 import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
@@ -22,7 +22,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
       }
       return null
     },
-    load (id) {
+    async load (id) {
       if (viteCompilerContext && id.endsWith(ENTRY_SUFFIX)) {
         const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
         const { taroConfig, app } = viteCompilerContext
@@ -56,7 +56,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
         }
 
         // pages
-        viteCompilerContext.pages.forEach(page => {
+        viteCompilerContext.pages.forEach(async page => {
           // 小程序原生页面
           if (page.isNative) {
             if (page.templatePath) {
@@ -79,19 +79,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
 
         // native components
         for (const comp of viteCompilerContext.nativeComponents.values()) {
-          this.emitFile({
-            type: 'chunk',
-            id: comp.scriptPath + QUERY_IS_NATIVE_COMP,
-            fileName: viteCompilerContext.getScriptPath(comp.name),
-            implicitlyLoadedAfterOneOf: [rawId]
-          })
-          const source = miniTemplateLoader(this, comp.templatePath, viteCompilerContext.sourceDir)
-          this.emitFile({
-            type: 'asset',
-            fileName: viteCompilerContext.getTemplatePath(comp.name),
-            source
-          })
-          comp.cssPath && this.addWatchFile(comp.cssPath)
+          viteCompilerContext.generateNativeComponent(this, comp, [rawId])
         }
 
         // comp' script
@@ -123,7 +111,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
               this.emitFile({
                 type: 'asset',
                 fileName: removePathPrefix(iconPath),
-                source: await fs.readFile(filePath)
+                source: Uint8Array.from(fs.readFileSync(filePath))
               })
               this.addWatchFile(filePath)
             }
@@ -133,7 +121,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
               this.emitFile({
                 type: 'asset',
                 fileName: removePathPrefix(selectedIconPath),
-                source: await fs.readFile(filePath)
+                source: Uint8Array.from(fs.readFileSync(filePath))
               })
               this.addWatchFile(filePath)
             }
@@ -146,7 +134,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           this.emitFile({
             type: 'asset',
             fileName: appConfig.themeLocation,
-            source: fs.readFileSync(themePath)
+            source: Uint8Array.from(fs.readFileSync(themePath))
           })
           this.addWatchFile(themePath)
         }

@@ -69,7 +69,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
             this.emitFile({
               type: 'asset',
               fileName,
-              source: await fs.readFile(filePath)
+              source: Uint8Array.from(fs.readFileSync(filePath))
             })
             this.addWatchFile(filePath)
           }
