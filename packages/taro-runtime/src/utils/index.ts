@@ -20,6 +20,9 @@ import type { TaroNode } from '../dom/node'
 import type { TaroText } from '../dom/text'
 import type { TFunc } from '../interface'
 
+// eslint-disable-next-line no-var
+declare var jd: any
+
 export const incrementId = () => {
   const chatCodes: number[] = []
   // A-Z
@@ -126,6 +129,8 @@ let componentsAlias
 export function getComponentsAlias () {
   if (!componentsAlias) {
     componentsAlias = _getComponentsAlias(internalComponents)
+    // 把mapping传入基础库
+    jd && jd.setMapping && jd.setMapping(componentsAlias)
   }
   return componentsAlias
 }
