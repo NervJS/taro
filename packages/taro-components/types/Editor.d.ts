@@ -3,48 +3,48 @@ import { StandardProps, CommonEventFunction } from './common'
 interface EditorProps extends StandardProps {
   /** 设置编辑器为只读
    * @default false
-   * @supported weapp, jd
+   * @supported weapp
    */
   readOnly?: boolean
   /** 提示信息
-   * @supported weapp, jd
+   * @supported weapp
    */
   placeholder?: string
   /** 点击图片时显示图片大小控件
    * @default false
-   * @supported weapp, jd
+   * @supported weapp
    */
   showImgSize?: boolean
   /** 点击图片时显示工具栏控件
    * @default false
-   * @supported weapp, jd
+   * @supported weapp
    */
   showImgToolbar?: boolean
   /** 点击图片时显示修改尺寸控件
    * @default false
-   * @supported weapp, jd
+   * @supported weapp
    */
   showImgResize?: boolean
   /** 编辑器初始化完成时触发
-   * @supported weapp, jd
+   * @supported weapp
    */
   onReady?: CommonEventFunction
   /** 编辑器聚焦时触发
-   * @supported weapp, jd
+   * @supported weapp
    */
   onFocus?: CommonEventFunction<EditorProps.editorEventDetail>
   /** 编辑器失去焦点时触发
    * detail = { html, text, delta }
-   * @supported weapp, jd
+   * @supported weapp
    */
   onBlur?: CommonEventFunction<EditorProps.editorEventDetail>
   /** 编辑器内容改变时触发
    * detail = { html, text, delta }
-   * @supported weapp, jd
+   * @supported weapp
    */
   onInput?: CommonEventFunction<EditorProps.editorEventDetail>
   /** 通过 Context 方法改变编辑器内样式时触发，返回选区已设置的样式
-   * @supported weapp, jd
+   * @supported weapp
    */
   onStatusChange?: CommonEventFunction
 }
