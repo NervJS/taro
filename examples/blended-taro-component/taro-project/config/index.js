@@ -56,6 +56,20 @@ const config = {
           library: 'NativeComponent',
           chunkLoadingGlobal: 'NativeComponentJsonp',
         },
+        optimization: {
+          splitChunks: {
+            cacheGroups: {
+              default: false,
+              vendors: false,
+              // 强制将动态导入的模块打包到主包中
+              main: {
+                chunks: 'all',
+                name: 'components/picker/index',
+                enforce: true,
+              },
+            },
+          },
+        },
       })
     },
     postcss: {
