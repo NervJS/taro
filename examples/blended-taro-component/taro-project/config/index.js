@@ -64,7 +64,7 @@ const config = {
               // 强制将动态导入的模块打包到主包中
               main: {
                 chunks: 'all',
-                name: 'components/picker/index',
+                name: 'components/multiLanDemo/index',
                 enforce: true,
               },
             },
