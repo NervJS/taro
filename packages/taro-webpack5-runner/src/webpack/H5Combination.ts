@@ -50,6 +50,7 @@ export class H5Combination extends Combination<IH5BuildConfig> {
       frameworkExts,
       /** special mode */
       /** hooks */
+      modifyAppConfig,
       modifyComponentConfig,
     } = config
     const externals: Configuration['externals'] = []
@@ -61,6 +62,7 @@ export class H5Combination extends Combination<IH5BuildConfig> {
       entryFileName,
       alias,
       defineConstants,
+      modifyAppConfig,
     })
 
     modifyComponentConfig?.(componentConfig, config)
