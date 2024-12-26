@@ -105,6 +105,7 @@ export default (ctx: IPluginContext) => {
 
       // is build native components mode?
       const isBuildNativeComp = _[1] === 'native-components'
+      const isOnlyBundle = isBuildNativeComp && options.args.onlyBundle
 
       await ctx.applyPlugins(hooks.ON_BUILD_START)
       await ctx.applyPlugins({
@@ -116,6 +117,7 @@ export default (ctx: IPluginContext) => {
             mode: isProduction ? 'production' : 'development',
             blended,
             isBuildNativeComp,
+            isOnlyBundle,
             withoutBuild,
             newBlended,
             noInjectGlobalStyle,

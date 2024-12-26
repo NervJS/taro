@@ -42,6 +42,7 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
   platformType: string // mini | web
   /** special mode */
   isBuildNativeComp?: boolean
+  isOnlyBundle?: boolean
   newBlended?: boolean
   withoutBuild?: boolean
   noInjectGlobalStyle?: boolean

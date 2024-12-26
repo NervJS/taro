@@ -153,6 +153,7 @@ export class H5WebpackPlugin {
       /** building mode */
       prebundle: prebundleOptions.enable,
       isBuildNativeComp: this.combination.isBuildNativeComp,
+      isOnlyBundle: config.isOnlyBundle,
       noInjectGlobalStyle: this.combination.noInjectGlobalStyle,
       /** hooks & methods */
       onCompilerMake: config.onCompilerMake,

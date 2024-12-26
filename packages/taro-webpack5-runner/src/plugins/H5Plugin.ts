@@ -100,7 +100,7 @@ export default class TaroH5Plugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: LoaderContext<any>, module: NormalModule) => {
-        const { entryFileName, sourceDir, prebundle, routerConfig, isBuildNativeComp } = this.options
+        const { entryFileName, sourceDir, prebundle, routerConfig, isBuildNativeComp, isOnlyBundle } = this.options
         const { dir, name } = path.parse(module.resource)
         const suffixRgx = /\.(boot|config)/
         if (!suffixRgx.test(name)) return
@@ -144,7 +144,8 @@ export default class TaroH5Plugin {
               noInjectGlobalStyle: this.options.noInjectGlobalStyle,
               /** building mode */
               bootstrap,
-              isBuildNativeComp
+              isBuildNativeComp,
+              isOnlyBundle,
             },
             ident: null,
             type: null

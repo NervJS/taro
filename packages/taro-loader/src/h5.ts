@@ -1,3 +1,4 @@
+import { existsSync, readdirSync } from 'node:fs'
 import { dirname, join, sep } from 'node:path'
 
 import { readConfig } from '@tarojs/helper'
@@ -49,10 +50,26 @@ export default function (this: webpack.LoaderContext<any>) {
   if (isBuildNativeComp) {
     const globalStyleImportString = noInjectGlobalStyle ? '' : `import '@tarojs/components/global.css'\n`
     const compPath = join(pathDirname, options.filename)
+    const isOnlyBundle = options.isOnlyBundle
+    let locales: string[] = []
+    let localesImportString: string = ''
+    let extraLocalesParam: string = ''
+    if (isOnlyBundle) {
+      const localesPath = join(pathDirname, 'locales')
+      locales = (existsSync(localesPath) ? readdirSync(localesPath) : [])
+        .map(locale => {
+          return locale.replace(/\.json$/, '')
+        })
+      localesImportString = locales.map((locale) => {
+        return `import ${locale} from '${join(localesPath, locale + '.json')}'`
+      }).join('\n')
+      extraLocalesParam = `, ${locales.map(locale => `'${locale}'`).concat(locales.map(locale => locale)).join(', ')}`
+    }
     return `${setReconciler}
 import component from ${stringify(compPath)}
 ${options.loaderMeta.importFrameworkStatement}
 ${options.loaderMeta.extraImportForWeb}
+${isOnlyBundle ? localesImportString : ''}
 import { createH5NativeComponentConfig } from '${options.loaderMeta.creatorLocation}'
 import { initPxTransform } from '@tarojs/taro'
 ${setReconcilerPost}
@@ -68,7 +85,7 @@ initPxTransform.call(component, {
   targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
 })
 const config = component.config
-export default createH5NativeComponentConfig(component, ${options.loaderMeta.frameworkArgs})`
+export default createH5NativeComponentConfig(component, ${options.loaderMeta.frameworkArgs} ${isOnlyBundle ? extraLocalesParam : ''})`
   }
   if (options.bootstrap) return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
 
