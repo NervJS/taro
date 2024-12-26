@@ -83,7 +83,7 @@ Taro 1/2 迁移至 Taro 3，请阅读[《Taro 版本升级权威指南》](https
 | -------------------------------------------------- | ----------------------------------------------- | -------------------------------------------------------- | ---------- | ----------------------------------------- |
 | [taro-ui](https://github.com/NervJS/taro-ui)       | https://taro-ui.jd.com/#/                       | 一套基于 Taro 框架开发的多端 UI 组件库                   | React      | Taro 1/2/3 |
 | [NutUI](https://github.com/jdf2e/nutui)            | https://nutui.jd.com/#/                         | 京东风格的轻量级移动端 Vue 组件库                        | Vue3       | Taro 3                                    |
-| [taroify](https://github.com/mallfoundry/taroify)  | https://taroify.gitee.io/taroify.com/introduce/ | 轻量、可靠的小程序端 Taro 组件库（Vant 的 Taro 版本）    | React      | Taro 3                                    |
+| [taroify](https://github.com/mallfoundry/taroify)  | https://taroify.github.io/taroify.com/introduce/ | 轻量、可靠的小程序端 Taro 组件库（Vant 的 Taro 版本）    | React      | Taro 3                                    |
 | [@antmjs/vantui](https://github.com/AntmJS/vantui) | https://antmjs.github.io/vantui/#/home          | 基于有赞 VantWeapp 开发的同时支持 Taro 和 React 的 UI 库 | React      | Taro 3                                    |
 | [Tard](https://github.com/jd-antelope/tard)        | https://tard-ui.selling.cn/                     | 一套基于 Taro 框架开发的多端 React UI 组件库             | React      | Taro 3                                    |
 | [duxui](https://github.com/duxapp/duxui)           | https://duxapp.cn/docs/duxui/start/             | 一套能同时兼容小程序、React Native、鸿蒙、H5的移动端ui组件库| React      | Taro 4                                    |
