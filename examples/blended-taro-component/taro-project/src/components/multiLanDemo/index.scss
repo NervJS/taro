@@ -2,3 +2,14 @@
   display: flex;
   flex-direction: column;
 }
+
+.title{
+  font-size: 60px;
+
+  &-light{
+    color: black;
+  }
+  &-dark{
+    color: orange;
+  }
+}

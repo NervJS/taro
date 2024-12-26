@@ -11,7 +11,7 @@
   "scripts": {
     "build": "taro build native-components --type weapp",
     "dev": "taro build --type weapp --watch",
-    "build:h5": "taro build native-components --type h5",
+    "build:h5": "taro build native-components --type h5 --onlyBundle",
     "dev:h5": "taro build --type h5 --watch"
   },
   "browserslist": [
@@ -33,8 +33,8 @@
     "@tarojs/shared": "4.0.8",
     "@tarojs/taro": "4.0.8",
     "@tarojs/webpack5-runner": "^4.0.8",
-    "react-dom": "^18.0.0",
     "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "webpack-bundle-analyzer": "^4.10.2"
   },
   "devDependencies": {
@@ -51,8 +51,8 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.4.0",
     "fs-extra": "^9.0.1",
+    "react-refresh": "^0.14.0",
     "stylelint": "^14.4.0",
-    "webpack": "5.78.0",
-    "react-refresh": "^0.14.0"
+    "webpack": "5.78.0"
   }
 }

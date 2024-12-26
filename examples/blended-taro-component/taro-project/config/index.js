@@ -11,7 +11,9 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: [path.join(process.cwd(), '/plugin-mv/index.js')],
+  plugins: [ 
+    ['@tarojs/plugin-intl'],
+    path.join(process.cwd(), '/plugin-mv/index.js')],
   framework: 'react',
   compiler: {
     type: 'webpack5',
@@ -47,6 +49,7 @@ const config = {
     }
   },
   h5: {
+    enableExtract: false,
     publicPath: '/',
     staticDirectory: 'static',
     webpackChain(chain) {

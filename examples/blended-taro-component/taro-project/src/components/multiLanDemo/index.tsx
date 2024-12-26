@@ -1,32 +1,43 @@
-import { View, Text, Button } from '@tarojs/components'
-import Title from './../Title'
-import { FormattedMessage, IntlProvider, useIntl, getLocale, setLocale } from '@tarojs/plugin-intl/dist/api.h5'
 import React from 'react';
+import { View, Text, Button } from '@tarojs/components'
+import { FormattedMessage, useIntl, getLocale, setLocale } from '@tarojs/plugin-intl/dist/api.h5'
+import Title from './../Title'
 import './index.scss'
 
+interface Props {
+  env: {   
+    theme: string;   //主题
+    lang: string;    //语言
+  }; // 必选项，其他组件自己的props,往后添加即可
+}
 
-export default function Content(){
-  // const intl = useIntl();
-  // const title = intl.formatMessage({ id: 'title' });
+export default function Index(props: Props) {
+  const intl = useIntl();
+  const title = intl.formatMessage({ id: 'title' });
+  const {theme, lang} = props.env;
 
+  console.log("env:", props.env);
 
-  const locale = getLocale();
+  // const locale = getLocale();
+  // const switchLang = () => {
+  //   setLocale(locale === 'en' ? 'zh' : 'en');
+  // }
 
   return (
     <View className='root'>
-      <Button >
+      {/* <Button onClick={switchLang}>
         { getLocale() === 'en' ? 'Switch to Chinese' : '切换到英文'}
-      </Button>
-      <Text>
-        <FormattedMessage id="welcome" />
+      </Button> */}
+      <Text className={`title title-${theme}`}>
+        <FormattedMessage id='welcome' />
       </Text>
       <Text>
-        <FormattedMessage id="description" />
+        <FormattedMessage id='description' />
       </Text>
       <Text>
-        <FormattedMessage id='fjdaskfdjs' defaultMessage={'默认值'} />
+        <FormattedMessage id='fjdaskfdjs' defaultMessage='默认值1' />
       </Text>
-      <Title title='title' />
+      <Title title={title} />
     </View>
   );
 };
