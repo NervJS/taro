@@ -33,6 +33,7 @@ interface ITaroH5PluginOptions {
 
   prebundle?: boolean
   isBuildNativeComp?: boolean
+  isOnlyBundle?: boolean
   loaderMeta?: Record<string, string>
   noInjectGlobalStyle?: boolean
 
