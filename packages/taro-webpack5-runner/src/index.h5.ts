@@ -49,6 +49,17 @@ export default async function build (appPath: string, rawConfig: IH5BuildConfig)
 
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
+  // isBuildNativeComp && isOnlyBundle 为 true 时，强制把chunk的path设置为entry的key，确保产物只有一个js
+  if (config.isBuildNativeComp && config.isOnlyBundle) {
+    let entryKey:string = ''
+    for (const key in webpackConfig.entry as webpack.EntryObject) {
+      entryKey = key
+      break
+    }
+    if (entryKey && webpackConfig.optimization?.splitChunks?.cacheGroups?.main) {
+      webpackConfig.optimization.splitChunks.cacheGroups.main.name = entryKey
+    }
+  }
   const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
 
   try {
