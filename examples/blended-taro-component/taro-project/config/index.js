@@ -1,5 +1,16 @@
 const path = require('path')
 
+
+let componentPath = ''
+function tryGetComponentPath() {
+  const args = process.argv;
+  const keyIndex = args.indexOf('--components');
+  if(keyIndex > -1) { 
+    componentPath = args[keyIndex + 1];
+  }
+}
+tryGetComponentPath()
+
 const config = {
   projectName: 'test',
   date: '2021-1-18',
@@ -67,7 +78,7 @@ const config = {
               // 强制将动态导入的模块打包到主包中
               main: {
                 chunks: 'all',
-                name: 'components/multiLanDemo/index',
+                name: componentPath || 'components/multiLanDemo/index2',
                 enforce: true,
               },
             },
