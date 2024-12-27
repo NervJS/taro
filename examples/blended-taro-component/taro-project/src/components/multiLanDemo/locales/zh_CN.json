@@ -1,5 +1,7 @@
 {
   "welcome": "欢迎使用 Taro",
   "description": "这是一个 taro-intl 的简单示例",
-  "title": "Taro Intl 示例"
+  "title": "Taro Intl 示例",
+  "name": "姓名",
+  "hobby": "爱好"
 }

@@ -9,14 +9,19 @@ interface Props {
     theme: string;   //主题
     lang: string;    //语言
   }; // 必选项，其他组件自己的props,往后添加即可
+  info: {
+    name: string;
+    hobby: string;
+  }
 }
 
 export default function Index(props: Props) {
+  const {env, info} = props;
+  console.log("props:", props);
+
   const intl = useIntl();
   const title = intl.formatMessage({ id: 'title' });
-  const {theme, lang} = props.env;
-
-  console.log("env:", props.env);
+  const {theme, lang} = env;
 
   // const locale = getLocale();
   // const switchLang = () => {
@@ -35,9 +40,17 @@ export default function Index(props: Props) {
         <FormattedMessage id='description' />
       </Text>
       <Text>
-        <FormattedMessage id='fjdaskfdjs' defaultMessage='默认值1' />
+        <FormattedMessage id='fjdaskfdjs' defaultMessage='默认值' />
       </Text>
       <Title title={title} />
+      <View className='info'>
+        <Text>
+          <FormattedMessage id='name' />:{info?.name || ''}
+        </Text>
+        <Text>
+          <FormattedMessage id='hobby' />:{info?.hobby || ''}
+        </Text>
+      </View>
     </View>
   );
 };
