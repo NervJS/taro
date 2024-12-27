@@ -78,7 +78,7 @@ const config = {
               // 强制将动态导入的模块打包到主包中
               main: {
                 chunks: 'all',
-                name: componentPath || 'components/multiLanDemo/index2',
+                name: componentPath || 'components/multiLanDemo/index',
                 enforce: true,
               },
             },
