@@ -51,25 +51,35 @@ export default function (this: webpack.LoaderContext<any>) {
     const globalStyleImportString = noInjectGlobalStyle ? '' : `import '@tarojs/components/global.css'\n`
     const compPath = join(pathDirname, options.filename)
     const isOnlyBundle = options.isOnlyBundle
-    let locales: string[] = []
-    let localesImportString: string = ''
-    let extraLocalesParam: string = ''
+    let extraImportsStr: string = ''
+    let extraParamsList: string = ''
     if (isOnlyBundle) {
+      // 多语言相关
       const localesPath = join(pathDirname, 'locales')
-      locales = (existsSync(localesPath) ? readdirSync(localesPath) : [])
+      const locales = (existsSync(localesPath) ? readdirSync(localesPath) : [])
         .map(locale => {
           return locale.replace(/\.json$/, '')
         })
-      localesImportString = locales.map((locale) => {
+      extraImportsStr = locales.map((locale) => {
         return `import ${locale} from '${join(localesPath, locale + '.json')}'`
       }).join('\n')
-      extraLocalesParam = `, ${locales.map(locale => `'${locale}'`).concat(locales.map(locale => locale)).join(', ')}`
+      extraParamsList = `, ${locales.map(locale => `'${locale}'`).concat(locales.map(locale => locale)).join(', ')}`
+      // mock数据相关
+      const mockPath = join(pathDirname, 'mock')
+      const mockKeys = (existsSync(mockPath) ? readdirSync(mockPath) : [])
+        .map(mock => {
+          return mock.replace(/\.json$/, '')
+        })
+      extraImportsStr += '\n' + mockKeys.map((mock) => {
+        return `import ${mock.replace(/-/g, '_')} from '${join(mockPath, mock + '.json')}'`
+      }).join('\n')
+      extraParamsList += `,'#', ${mockKeys.map(mock => `'${mock}'`).concat(mockKeys.map(mock => mock.replace(/-/g, '_'))).join(', ')}`
     }
     return `${setReconciler}
 import component from ${stringify(compPath)}
 ${options.loaderMeta.importFrameworkStatement}
 ${options.loaderMeta.extraImportForWeb}
-${isOnlyBundle ? localesImportString : ''}
+${isOnlyBundle ? extraImportsStr : ''}
 import { createH5NativeComponentConfig } from '${options.loaderMeta.creatorLocation}'
 import { initPxTransform } from '@tarojs/taro'
 ${setReconcilerPost}
@@ -85,7 +95,7 @@ initPxTransform.call(component, {
   targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
 })
 const config = component.config
-export default createH5NativeComponentConfig(component, ${options.loaderMeta.frameworkArgs} ${isOnlyBundle ? extraLocalesParam : ''})`
+export default createH5NativeComponentConfig(component, ${options.loaderMeta.frameworkArgs} ${isOnlyBundle ? extraParamsList : ''})`
   }
   if (options.bootstrap) return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
 
