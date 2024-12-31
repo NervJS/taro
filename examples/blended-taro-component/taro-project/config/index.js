@@ -67,7 +67,7 @@ const config = {
       chain.merge({
         output: {
           libraryTarget: 'umd',
-          library: 'NativeComponent',
+          library: ['taroComponents', 'NativeComponent'],
           chunkLoadingGlobal: 'NativeComponentJsonp',
         },
         optimization: {
