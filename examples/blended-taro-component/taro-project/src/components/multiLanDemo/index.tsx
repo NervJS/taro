@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text, Button } from '@tarojs/components'
 import { FormattedMessage, useIntl, getLocale, setLocale } from '@tarojs/plugin-intl/dist/api.h5'
 import Title from './../Title'
-import './index.scss'
+import styles from './index.scss'
+
 
 interface Props {
   env: {   
@@ -29,11 +30,11 @@ export default function Index(props: Props) {
   // }
 
   return (
-    <View className='root'>
+    <View className={styles.root}>
       {/* <Button onClick={switchLang}>
         { getLocale() === 'en' ? 'Switch to Chinese' : '切换到英文'}
       </Button> */}
-      <Text className={`title title-${theme}`}>
+      <Text className={`${styles.title} ${styles[`title-${theme}`]}`}>
         <FormattedMessage id='welcome' />
       </Text>
       <Text>
@@ -43,7 +44,7 @@ export default function Index(props: Props) {
         <FormattedMessage id='fjdaskfdjs' defaultMessage='默认值' />
       </Text>
       <Title title={title} />
-      <View className='info'>
+      <View className={styles.info}>
         <Text>
           <FormattedMessage id='name' />:{info?.name || ''}
         </Text>
