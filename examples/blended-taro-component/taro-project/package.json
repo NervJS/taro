@@ -11,7 +11,7 @@
   "scripts": {
     "build": "taro build native-components --type weapp",
     "dev": "taro build --type weapp --watch",
-    "build:h5": "taro build native-components --type h5 --onlyBundle",
+    "build:h5": "taro build native-components --type h5 --onlyBundle --no-inject-global-style",
     "dev:h5": "taro build --type h5 --watch"
   },
   "browserslist": [
