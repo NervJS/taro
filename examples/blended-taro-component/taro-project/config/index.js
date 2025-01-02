@@ -92,6 +92,17 @@ const config = {
         config: {
         }
       },
+      pxtransform: {
+        enable: false,
+        config: {
+        }
+      },
+      './postcss-plugin-build':{
+        enable: true,
+        config: {
+          designWidth: 375,
+        }
+      },
       cssModules: {
         enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
       }

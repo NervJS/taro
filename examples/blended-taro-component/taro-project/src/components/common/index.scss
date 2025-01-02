@@ -1,6 +1,14 @@
+.wrapper{
+  width: 50vw;
+  height: 200px;
+
+  background-color: red;
+}
+
 .common {
-  height: 30px;
+  height: 10vw;
   line-height: 30px;
-  color: cyan;
+  color: yellow;
   border: 1px solid cyan;
+  font-size: 20px;
 }

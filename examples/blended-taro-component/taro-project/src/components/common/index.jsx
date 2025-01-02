@@ -1,8 +1,10 @@
 import { View } from '@tarojs/components'
-import './index.scss'
+import styles from './index.scss'
 
 export default function Index () {
   return (
-    <View className='common'>Common Style Example</View>
+    <View className={styles.wrapper}>
+      <View className={styles.common}>Common Style Example</View>
+    </View>
   )
 }
