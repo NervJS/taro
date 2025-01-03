@@ -47,7 +47,7 @@ export interface Element extends Node {
   attributes: string[]
 }
 
-export interface ParsedTaroElement extends TaroElement{
+export interface ParsedTaroElement extends TaroElement {
   h5tagName?: string
 }
 
@@ -126,6 +126,20 @@ function format (
         }
         parent?.appendChild(text)
         return text
+      }
+      // img标签,把width和height写入style
+      if (child.tagName === 'img') {
+        let styleText = ''
+        for (let i = 0; i < child.attributes.length; i++) {
+          const attr = child.attributes[i]
+          const [key, value] = splitEqual(attr)
+          if (key === 'width' || key === 'height') {
+            styleText += `${key}:${value};`
+          } else if (key === 'style') {
+            styleText = `${styleText}${value};`
+          }
+        }
+        child.attributes.push(`style=${styleText.replace(/['"]/g, '')}`)
       }
 
       const el: ParsedTaroElement = document.createElement(getTagName(child.tagName))
