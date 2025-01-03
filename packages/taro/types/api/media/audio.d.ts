@@ -740,7 +740,11 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.decodeAudioData.html
      */
-    decodeAudioData(): AudioBuffer
+    decodeAudioData(
+      audioData: ArrayBuffer,
+      successCallback: (buffer: AudioBuffer) => void,
+      errorCallback: (error: any) => void
+    ): Promise<AudioBuffer>
   }
 
   namespace WebAudioContext {
