@@ -41,6 +41,7 @@
     "@babel/core": "^7.8.0",
     "@babel/plugin-proposal-class-properties": "7.14.5",
     "@babel/preset-react": "^7.24.1",
+    "@jdtaro/plugin-intl": "^0.0.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@types/react": "^18.0.0",
     "@types/react-intl": "^3.0.0",
@@ -54,7 +55,6 @@
     "fs-extra": "^9.0.1",
     "react-refresh": "^0.14.0",
     "stylelint": "^14.4.0",
-    "@jdtaro/plugin-intl": "latest",
     "webpack": "5.78.0"
   }
 }
