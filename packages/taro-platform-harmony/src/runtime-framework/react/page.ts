@@ -88,6 +88,7 @@ export function createPageConfig (component: any, pageName?: string, pageConfig?
   let pageElement: any = null
   let unmounting = false
   let prepareMountList: (() => void)[] = []
+  let prepareLoadList: (() => void)[] = []
 
   function setCurrentRouter (page) {
     const router = page.route || page.__route__ || page.$taroPath
@@ -111,7 +112,12 @@ export function createPageConfig (component: any, pageName?: string, pageConfig?
   const page = {
     [ONLOAD] (options: Readonly<Record<string, unknown>> = {}, cb?: (...args: any[]) => any) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
-
+      hasLoaded.then(() => {
+        if (prepareLoadList.length) {
+          prepareLoadList.forEach(fn => fn())
+          prepareLoadList = []
+        }
+      })
       Current.page = this as any
 
       // this.$taroPath 是页面唯一标识
@@ -218,7 +224,11 @@ export function createPageConfig (component: any, pageName?: string, pageConfig?
     page[lifecycle] = function () {
       const exec = () => safeExecute(this.$taroPath, lifecycle, ...arguments)
       if (isDefer) {
-        hasLoaded.then(exec)
+        if (hasLoaded) {
+          hasLoaded.then(exec)
+        } else {
+          prepareLoadList.push(exec)
+        }
       } else {
         return exec()
       }
