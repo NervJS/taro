@@ -61,7 +61,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
       }
     }
 
-    if (nodeName === VIEW && node.isOnlyClickBinded()) {
+    if (nodeName === VIEW && node.isOnlyClickBinded() && !isHasExtractProp(node)) {
       data[Shortcuts.NodeName] = CLICK_VIEW
     }
   }

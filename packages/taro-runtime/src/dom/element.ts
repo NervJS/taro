@@ -211,7 +211,7 @@ export class TaroElement extends TaroNode {
         this.enqueueUpdate({
           path: `${_path}.${Shortcuts.NodeName}`,
           value: value ? catchViewAlias : (
-            this.isOnlyClickBinded() ? clickViewAlias : (this.isAnyEventBinded() ? viewAlias : staticViewAlias)
+            this.isOnlyClickBinded() && !isHasExtractProp(this) ? clickViewAlias : (this.isAnyEventBinded() ? viewAlias : staticViewAlias)
           )
         })
       } else if (isPureView && isHasExtractProp(this)) {
@@ -281,7 +281,7 @@ export class TaroElement extends TaroNode {
         // catch-view => view or click-view or static-view or pure-view
         this.enqueueUpdate({
           path: `${_path}.${Shortcuts.NodeName}`,
-          value: this.isOnlyClickBinded() ? clickViewAlias : (this.isAnyEventBinded() ? viewAlias : (isHasExtractProp(this) ? staticViewAlias : pureViewAlias))
+          value: this.isOnlyClickBinded() && !isHasExtractProp(this) ? clickViewAlias : (this.isAnyEventBinded() ? viewAlias : (isHasExtractProp(this) ? staticViewAlias : pureViewAlias))
         })
       } else if (isStaticView && !isHasExtractProp(this)) {
         // static-view => pure-view

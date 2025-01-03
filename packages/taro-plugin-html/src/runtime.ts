@@ -88,7 +88,7 @@ hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias) => {
       element.enqueueUpdate({
         path: dataPath,
         value: payload.value ? catchViewAlias : (
-          element.isOnlyClickBinded() ? clickViewAlias : (element.isAnyEventBinded() ? viewAlias : staticViewAlias)
+          element.isOnlyClickBinded() && !isHasExtractProp(element) ? clickViewAlias : (element.isAnyEventBinded() ? viewAlias : staticViewAlias)
         )
       })
     } else if (isHasExtractProp(element) && !element.isAnyEventBinded()) {
@@ -140,7 +140,7 @@ hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias) => {
       // catch-view => view or click-view or static-view or pure-view
       element.enqueueUpdate({
         path: dataPath,
-        value: element.isOnlyClickBinded() ? clickViewAlias : (element.isAnyEventBinded() ? viewAlias : (isHasExtractProp(element) ? staticViewAlias : pureViewAlias))
+        value: element.isOnlyClickBinded() && !isHasExtractProp(element) ? clickViewAlias : (element.isAnyEventBinded() ? viewAlias : (isHasExtractProp(element) ? staticViewAlias : pureViewAlias))
       })
     } else if (!isHasExtractProp(element)) {
       // static-view => pure-view

@@ -88,6 +88,11 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConf
       process.exit(1)
     }
 
+    const { modifyAppConfig } = this.taroConfig
+    if (typeof modifyAppConfig === 'function') {
+      modifyAppConfig(config)
+    }
+
     const appMeta: ViteAppMeta = {
       name: path.basename(scriptPath).replace(path.extname(scriptPath), ''),
       scriptPath,

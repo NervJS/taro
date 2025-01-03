@@ -173,7 +173,7 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
 
     const loopAdditionalSlides = this.getLoopAdditionalSlides()
     const centeredSlides = displayMultipleItems === 1 && this.getNeedFixLoop()
-    const slidesPerView = parseFloat(String(displayMultipleItems)) === 1 ? 'auto' : displayMultipleItems
+    const slidesPerView = displayMultipleItems
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
     const opt: Record<string, any> = {
