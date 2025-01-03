@@ -192,6 +192,7 @@ export class H5Combination extends Combination<IH5BuildConfig> {
     // 组件编译模式下不做代码分割
     if (this.isBuildNativeComp) {
       optimization.splitChunks = false
+      optimization.runtimeChunk = false
     }
     return optimization
   }
