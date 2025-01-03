@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Button } from '@tarojs/components'
-import { FormattedMessage, useIntl, getLocale, setLocale } from '@tarojs/plugin-intl/dist/api.h5'
+import { FormattedMessage, useIntl, getLocale, setLocale } from '@jdtaro/plugin-intl/dist/api.h5'
 import Title from './../Title'
 import styles from './index.scss'
 

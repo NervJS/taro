@@ -23,8 +23,9 @@ const config = {
   sourceRoot: 'src',
   outputRoot: 'dist',
   plugins: [ 
-    ['@tarojs/plugin-intl'],
-    path.join(process.cwd(), '/plugin-mv/index.js')],
+    ['@jdtaro/plugin-intl', { default: 'zh-CN'}],
+    path.join(process.cwd(), '/plugin-mv/index.js')
+  ],
   framework: 'react',
   compiler: {
     type: 'webpack5',
@@ -93,7 +94,7 @@ const config = {
         }
       },
       pxtransform: {
-        enable: false,
+        enable: true,
         config: {
         }
       },
