@@ -99,7 +99,7 @@ const config = {
         config: {
         }
       },
-      './postcss-plugin-build':{
+      './config/plugins/postcss/postcss-plugin-build':{
         enable: true,
         config: {
           designWidth: 375,

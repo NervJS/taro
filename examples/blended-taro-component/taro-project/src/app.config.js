@@ -1,7 +1,7 @@
 const isH5 = process.env.TARO_PLATFORM === 'web'
 const components = isH5 ? [
   'components/multiLanDemo/index',
-  // 'components/picker/index'
+  // 'components/common/index'
 ] : [
   'pages/detail/index',
   'components/picker/index',
