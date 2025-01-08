@@ -1519,10 +1519,15 @@
     wrap-ansi "^8.1.0"
     wrap-ansi-cjs "npm:wrap-ansi@^7.0.0"
 
-"@jdtaro/plugin-intl@^0.0.2":
-  version "0.0.2"
-  resolved "http://registry.m.jd.com/@jdtaro/plugin-intl/download/@jdtaro/plugin-intl-0.0.2.tgz#7dd1a5ebb6c1e3583ef2aad4adede1bacc698821"
-  integrity sha1-fdGl67bB41g+8qrUre3husxpiCE=
+"@jdtaro/plugin-component-mock@latest":
+  version "0.0.3"
+  resolved "http://registry.m.jd.com/@jdtaro/plugin-component-mock/download/@jdtaro/plugin-component-mock-0.0.3.tgz#9e0506f69536e7e3aac969e67d79f152e40b5745"
+  integrity sha1-ngUG9pU25+OqyWnmfXnxUuQLV0U=
+
+"@jdtaro/plugin-intl@latest":
+  version "0.0.4"
+  resolved "http://registry.m.jd.com/@jdtaro/plugin-intl/download/@jdtaro/plugin-intl-0.0.4.tgz#a2ecb34410589c8f09eaa3db792e9eb1c00e6e98"
+  integrity sha1-ouyzRBBYnI8J6qPbeS6escAObpg=
   dependencies:
     "@formatjs/intl-datetimeformat" "^6.16.1"
     "@formatjs/intl-listformat" "^7.7.5"

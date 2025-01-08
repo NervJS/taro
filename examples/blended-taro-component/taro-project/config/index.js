@@ -25,6 +25,7 @@ const config = {
   outputRoot: 'dist',
   plugins: [ 
     ['@jdtaro/plugin-intl', { default: 'zh-CN'}],
+    ['@jdtaro/plugin-component-mock', { default: 'zh-CN'}],
     path.join(process.cwd(), '/plugin-mv/index.js')
   ],
   framework: 'react',
