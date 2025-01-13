@@ -123,9 +123,14 @@ export function extend (ctor: Ctor, methodName: string, options: TFunc | Record<
 }
 
 let componentsAlias
+declare let jd: any
 export function getComponentsAlias () {
   if (!componentsAlias) {
     componentsAlias = _getComponentsAlias(internalComponents)
+    // 京东小程序transform模式, 把mapping传入基础库
+    if (process.env.JD_RENDER_TYPE === 'transform') {
+      jd && jd.setMapping && jd.setMapping(componentsAlias)
+    }
   }
   return componentsAlias
 }
