@@ -43,4 +43,14 @@ export default class JD extends TaroPlatformBase {
   modifyTemplate () {
     this.template.mergeComponents(this.ctx, components)
   }
+
+  /**
+   * 获取jd平台特殊的需要注入env的配置
+   * @returns
+   */
+  getTargetPlatformOptions() {
+    return {
+      JD_RENDER_TYPE: JSON.stringify(process.env.JD_RENDER_TYPE || ''),
+    }
+  }
 }
