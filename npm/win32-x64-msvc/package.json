@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/binding-win32-x64-msvc",
   "description": "Native binding for taro",
-  "version": "4.0.9-beta.7",
+  "version": "4.0.9-beta.8",
   "os": [
     "win32"
   ],
