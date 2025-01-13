@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "4.0.9-beta.2",
+  "version": "4.0.9-beta.8",
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
@@ -65,7 +65,7 @@
     "classnames": "^2.2.5",
     "hls.js": "^1.1.5",
     "resolve-pathname": "^3.0.0",
-    "swiper": "11.1.0",
+    "swiper": "11.1.15",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
