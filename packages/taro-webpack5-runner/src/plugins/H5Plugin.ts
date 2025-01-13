@@ -36,6 +36,7 @@ interface ITaroH5PluginOptions {
   loaderMeta?: Record<string, string>
   noInjectGlobalStyle?: boolean
 
+  modifyAppConfig?: Func
   onCompilerMake?: Func
   onParseCreateElement?: Func
 }
