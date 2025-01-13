@@ -113,19 +113,27 @@ ${exampleCommand}`))
     return runner.bind(null, appPath)
   }
 
+  // 获取该平台特殊的需要注入env的配置,对应平台需覆盖本方法
+  protected getTargetPlatformOptions() {
+    return {}
+  }
+
   /**
    * 准备 runner 参数
    * @param extraOptions 需要额外合入 Options 的配置项
    */
   protected getOptions (extraOptions = {}) {
     const { ctx, globalObject, fileType, template } = this
+    // 平台特性注入
+    const platformOptions = this.getTargetPlatformOptions()
 
     const config = recursiveMerge(Object.assign({}, this.config), {
       env: {
         FRAMEWORK: JSON.stringify(this.config.framework),
         TARO_ENV: JSON.stringify(this.platform),
         TARO_PLATFORM: JSON.stringify(this.platformType),
-        TARO_VERSION: JSON.stringify(getPkgVersion())
+        TARO_VERSION: JSON.stringify(getPkgVersion()),
+        ...platformOptions
       }
     })
 
