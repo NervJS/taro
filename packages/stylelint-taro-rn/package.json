@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "lodash": "^4.17.21",
-    "stylelint": "^16.4.0"
+    "stylelint": ">=16.4.0 <=16.10.0"
   },
   "peerDependencies": {
     "stylelint": "^16"
