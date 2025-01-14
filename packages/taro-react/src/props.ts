@@ -131,6 +131,10 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
       dom.addEventListener(eventName, value, process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY ? { isCapture, sideEffect: false } : undefined)
     } else {
       dom.addEventListener(eventName, value, process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY ? isCapture : undefined)
+      // 京东小程序transform模式: 把事件绑定写到data里
+      if (process.env.JD_RENDER_TYPE === 'transform') {
+        dom.setAttribute(`bind${eventName}`, 'eh')
+      }
     }
   } else {
     dom.removeEventListener(eventName, oldValue as any)

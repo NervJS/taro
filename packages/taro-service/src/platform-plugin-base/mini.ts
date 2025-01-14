@@ -113,19 +113,29 @@ ${exampleCommand}`))
     return runner.bind(null, appPath)
   }
 
+  // 获取平台相关的其他需要注入env全局的变量（例如运行时变量）
+  private getOtherOptions() {
+    return {
+      JD_RENDER_TYPE: JSON.stringify(process.env.JD_RENDER_TYPE || ''), // 京东小程序的渲染类型，运行时变量
+    }
+  }
+
   /**
    * 准备 runner 参数
    * @param extraOptions 需要额外合入 Options 的配置项
    */
   protected getOptions (extraOptions = {}) {
     const { ctx, globalObject, fileType, template } = this
+    // 其他特性注入
+    const otherOptions = this.getOtherOptions()
 
     const config = recursiveMerge(Object.assign({}, this.config), {
       env: {
         FRAMEWORK: JSON.stringify(this.config.framework),
         TARO_ENV: JSON.stringify(this.platform),
         TARO_PLATFORM: JSON.stringify(this.platformType),
-        TARO_VERSION: JSON.stringify(getPkgVersion())
+        TARO_VERSION: JSON.stringify(getPkgVersion()),
+        ...otherOptions
       }
     })
 

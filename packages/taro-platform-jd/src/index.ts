@@ -13,6 +13,9 @@ export default (ctx: IPluginContext) => {
     useConfigName: 'mini',
     async fn ({ config }) {
       const program = new JD(ctx, config)
+      if (config.useTransformRender) {
+        process.env.JD_RENDER_TYPE = 'transform'
+      }
       await program.start()
     }
   })
