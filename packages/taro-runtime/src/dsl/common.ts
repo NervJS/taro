@@ -103,6 +103,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   let pageElement: TaroRootElement | null = null
   let unmounting = false
   let prepareMountList: (() => void)[] = []
+  let prepareLoadList: (() => void)[] = []
 
   function setCurrentRouter (page: MpInstance) {
     const router = process.env.TARO_PLATFORM === 'web' ? page.$taroPath : page.route || page.__route__ || page.$taroPath
@@ -123,7 +124,12 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   const config: PageInstance = {
     [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: TFunc) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
-
+      hasLoaded.then(() => {
+        if (prepareLoadList.length) {
+          prepareLoadList.forEach(fn => fn())
+          prepareLoadList = []
+        }
+      })
       perf.start(PAGE_INIT)
 
       Current.page = this as any
@@ -246,7 +252,11 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     config[lifecycle] = function () {
       const exec = () => safeExecute(this.$taroPath, lifecycle, ...arguments)
       if (isDefer) {
-        hasLoaded.then(exec)
+        if (hasLoaded) {
+          hasLoaded.then(exec)
+        } else {
+          prepareLoadList.push(exec)
+        }
       } else {
         return exec()
       }
