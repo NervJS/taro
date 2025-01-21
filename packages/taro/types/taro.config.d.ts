@@ -581,7 +581,7 @@ declare module './index' {
       desc: string
       /** 在该场景下打开小程序时跳转页面 */
       path: string
-    }
+    }[]
     /** 定制化型服务商票据 */
     serviceProviderTicket?: string
     /** 半屏小程序 appId */
