@@ -315,7 +315,7 @@ interface VideoProps extends StandardProps {
   onTimeUpdate?: CommonEventFunction<VideoProps.onTimeUpdateEventDetail>
   /** 当视频进入和退出全屏时触发
    *
-   * @supported alipay, h5, rn, harmony, harmony_hybrid
+   * @supported h5, rn, harmony, harmony_hybrid
    */
   onFullscreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
   /** 视频出现缓冲时触发
