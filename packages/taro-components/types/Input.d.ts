@@ -78,10 +78,6 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp, alipay, swan, tt, qq, jd, rn, harmony
    */
   cursor?: number
-  /** 光标颜色。iOS 下的格式为十六进制颜色值 #000000，安卓下的只支持 default 和 green，Skyline 下无限制
-   * @supported weapp
-   */
-  cursorColor?: string
   /** 光标起始位置，自动聚集时有效，需与selection-end搭配使用
    * @default -1
    * @supported weapp, alipay, swan, tt, qq, jd, rn
@@ -198,26 +194,6 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp
    */
   onNickNameReview?: CommonEventFunction
-  /** 选区改变事件, {selectionStart, selectionEnd}
-   * @supported weapp
-   */
-  onSelectionChange?: CommonEventFunction
-  /** 输入法开始新的输入时触发 （仅当输入法支持时触发）
-   * @supported weapp
-   */
-  onKeyboardCompositionStart?: CommonEventFunction
-  /** 输入法输入字符时触发（仅当输入法支持时触发）
-   * @supported weapp
-   */
-  onKeyboardCompositionUpdate?: CommonEventFunction
-  /** 输入法输入结束时触发（仅当输入法支持时触发）
-   * @supported weapp
-   */
-  onKeyboardCompositionEnd?: CommonEventFunction
-  /** 键盘高度变化时触发。event.detail = {height: height, pageBottomPadding: pageBottomPadding}； height: 键盘高度，pageBottomPadding: 页面上推高度
-   * @supported weapp
-   */
-  onKeyoardHeightChangeWorklet?: string
 }
 declare namespace InputProps {
   /** Input 类型 */
