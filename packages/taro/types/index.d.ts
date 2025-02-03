@@ -192,4 +192,5 @@ declare namespace Taro {
 declare global {
   const defineAppConfig: (config: Taro.AppConfig) => Taro.AppConfig
   const definePageConfig: (config: Taro.PageConfig) => Taro.Config
+  const importNativeComponent: <T> (path: string, name = '', exportName = 'default') => Awaited<T>
 }

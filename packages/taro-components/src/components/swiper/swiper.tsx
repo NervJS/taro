@@ -309,7 +309,7 @@ export class Swiper implements ComponentInterface {
     }
     const loopAdditionalSlides = this.getLoopAdditionalSlides()
     const centeredSlides = displayMultipleItems === 1 && this.getNeedFixLoop()
-    const slidesPerView = displayMultipleItems === 1 ? 'auto' : displayMultipleItems
+    const slidesPerView = displayMultipleItems
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
     const options: any = {
@@ -458,7 +458,7 @@ export class Swiper implements ComponentInterface {
       indicatorActiveColor
     } = this
 
-    const [pM, nM] = this.parseMargin()  
+    const [pM, nM] = this.parseMargin()
     const swiperContainerStyleList: string [] = [
       'overflow: visible;',
       vertical ? `margin-top: ${pM}px; margin-bottom: ${nM}px;` : `margin-right: ${nM}px; margin-left: ${pM}px;`,
@@ -469,7 +469,7 @@ export class Swiper implements ComponentInterface {
       'font-size: 0;'
     ]
     const hostStyle: Record<string, string> = { overflow: 'hidden' }
-    
+
     if (this.full) {
       hostStyle.height = '100%'
     }

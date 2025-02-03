@@ -522,7 +522,7 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       stylelint:
-        specifier: ^16.4.0
+        specifier: '>=16.4.0 <=16.10.0'
         version: 16.6.1(typescript@5.4.5)
 
   packages/taro:
@@ -747,8 +747,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       swiper:
-        specifier: 11.1.0
-        version: 11.1.0
+        specifier: 11.1.15
+        version: 11.1.15
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
@@ -932,8 +932,8 @@ importers:
         specifier: ^2.2.5
         version: 2.5.1
       swiper:
-        specifier: 11.1.0
-        version: 11.1.0
+        specifier: 11.1.15
+        version: 11.1.15
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
@@ -1270,8 +1270,8 @@ importers:
         specifier: ^3.4.5
         version: 3.4.5(@babel/core@7.24.4)(@babel/plugin-transform-runtime@7.24.6(@babel/core@7.24.4))(@babel/preset-env@7.24.6(@babel/core@7.24.4))(@babel/preset-typescript@7.24.6(@babel/core@7.24.4))(@babel/runtime@7.24.6)(@swc/core@1.3.96)(rollup@3.29.4)(typescript@5.4.5)
       swiper:
-        specifier: 11.1.0
-        version: 11.1.0
+        specifier: 11.1.15
+        version: 11.1.15
 
   packages/taro-helper:
     dependencies:
@@ -14501,8 +14501,8 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
-  swiper@11.1.0:
-    resolution: {integrity: sha512-Pm78CgU7Wvg+w/MgIL/1NwMSLgx0XqFof25EnVyX8iZFCYJv5CppH7LHkBj43qW2k5Cp3Iz7FcdBxrox7XX2AQ==, tarball: https://registry.npmjs.org/swiper/-/swiper-11.1.0.tgz}
+  swiper@11.1.15:
+    resolution: {integrity: sha512-IzWeU34WwC7gbhjKsjkImTuCRf+lRbO6cnxMGs88iVNKDwV+xQpBCJxZ4bNH6gSrIbbyVJ1kuGzo3JTtz//CBw==, tarball: https://registry.npmjs.org/swiper/-/swiper-11.1.15.tgz}
     engines: {node: '>= 4.7.0'}
 
   symbol-tree@3.2.4:
@@ -30501,7 +30501,7 @@ snapshots:
       csso: 5.0.5
       picocolors: 1.0.1
 
-  swiper@11.1.0: {}
+  swiper@11.1.15: {}
 
   symbol-tree@3.2.4: {}
 

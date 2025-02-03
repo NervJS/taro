@@ -14,6 +14,7 @@ import { isArray, isFunction } from '@tarojs/shared'
 import JSON5 from 'json5'
 
 import defaultConfig from '../../defaultConfig/defaultConfig.harmony'
+import { QUERY_IS_NATIVE_SCRIPT } from '../../harmony/ets'
 import { TARO_TABBAR_PAGE_PATH } from '../../harmony/page'
 import { componentConfig } from '../../utils/component'
 import { parseRelativePath } from '..'
@@ -28,6 +29,7 @@ import type {
   ViteNativeCompMeta,
   VitePageMeta,
 } from '@tarojs/taro/types/compile/viteCompilerContext'
+import type { PluginContext } from 'rollup'
 
 export function readJsonSync(file: string) {
   const ext = path.extname(file)
@@ -120,24 +122,31 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     return pageMeta
   }
 
-  collectNativeComponents(meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) {
+  resolvePageImportPath (scriptPath: string, importPath: string) {
+    const alias = this.taroConfig.alias
+    if (isAliasPath(importPath, alias)) {
+      importPath = replaceAliasPath(scriptPath, importPath, alias)
+    }
+    return importPath
+  }
+
+  collectNativeComponents(meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta): ViteNativeCompMeta[] {
     const { name, scriptPath, config } = meta
     const { usingComponents } = config
 
-    if (!usingComponents) return
+    const list: ViteNativeCompMeta[] = []
+    if (!usingComponents) return list
 
-    Object.entries(usingComponents).forEach(([compName, compPath]) => {
-      const alias = this.taroConfig.alias
-
-      if (isAliasPath(compPath, alias)) {
-        compPath = replaceAliasPath(scriptPath, compPath, alias)
-        usingComponents[compName] = compPath
-      }
+    Object.entries(usingComponents).forEach(([compName, value]) => {
+      const compPath = value instanceof Array ? value[0] : value
+      const exportName = value instanceof Array ? value[1] : 'default'
+      usingComponents[compName] = this.resolvePageImportPath(scriptPath, compPath)
 
       // 如果是鸿蒙的包
       if (this.ohpmPackageList?.length && new RegExp(`^(${this.ohpmPackageList.join('|')})`).test(compPath)) {
         const nativeCompMeta: ViteNativeCompMeta = {
           name: compName,
+          exportName,
           scriptPath: compPath,
           config: {},
           configPath: '',
@@ -163,6 +172,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
         name: compName.replace(/(\w)-(\w)/g, (_, p1, p2) => {
           return p1 + p2.toUpperCase()
         }),
+        exportName,
         scriptPath: compScriptPath,
         config: {},
         configPath: '',
@@ -174,8 +184,21 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
         componentConfig.thirdPartyComponents.set(compName, new Set())
       }
 
-      this.collectNativeComponents(nativeCompMeta)
+      list.push(...this.collectNativeComponents(nativeCompMeta), nativeCompMeta)
     })
+    return list
+  }
+
+  generateNativeComponent (rollupCtx: PluginContext, meta: ViteNativeCompMeta, implicitlyLoadedAfterOneOf: string[] = []) {
+    if (meta.isGenerated || meta.isPackage) return
+
+    rollupCtx.emitFile({
+      type: 'chunk',
+      id: meta.templatePath + QUERY_IS_NATIVE_SCRIPT,
+      fileName: path.relative(this.sourceDir, meta.templatePath) + QUERY_IS_NATIVE_SCRIPT,
+      implicitlyLoadedAfterOneOf
+    })
+    meta.isGenerated = true
   }
 
   modifyHarmonyResources(id = '', data: any = {}) {

@@ -202,6 +202,7 @@ export default class CLI {
             projectName: _[1] || args.name,
             description: args.description,
             typescript: args.typescript,
+            buildEs5: args['build-es5'],
             framework: args.framework,
             compiler: args.compiler,
             npm: args.npm,
