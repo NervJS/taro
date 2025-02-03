@@ -74,7 +74,7 @@ interface ButtonProps extends StandardProps {
    */
   sessionFrom?: string
   /** 一次性订阅消息的模板 notify_type
-   *  可参考: https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/subscribe-message-2.html
+   *  @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/subscribe-message-2.html
    * 生效时机：`open-type="liveActivity"`
    * @supported weapp
    */
@@ -295,7 +295,7 @@ interface ButtonProps extends StandardProps {
    * 生效时机：`open-type="liveActivity"`
    * @supported weapp
    */
-  onCreateLiveActivity?: CommonEventFunction
+  onCreateLiveActivity?: CommonEventFunction<ButtonProps.onCreateLiveActivityEventDetail>
 }
 declare namespace ButtonProps {
   /** size 的合法值 */
@@ -540,6 +540,10 @@ declare namespace ButtonProps {
     errMsg: string
     /* 用户授权结果 */
     authSetting: Record<string, boolean>
+  }
+
+  interface onCreateLiveActivityEventDetail {
+    code: string
   }
 }
 /** 按钮

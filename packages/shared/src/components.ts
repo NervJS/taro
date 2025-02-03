@@ -93,7 +93,6 @@ const Button = {
   'hover-stay-time': '70',
   name: NO_DEFAULT_VALUE,
   bindagreeprivacyauthorization: NO_DEFAULT_VALUE,
-  bindcreateliveactivity: NO_DEFAULT_VALUE,
   ...touchEvents
 }
 
