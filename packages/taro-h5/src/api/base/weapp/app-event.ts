@@ -19,7 +19,7 @@ const unhandledRejectionListener = (res: PromiseRejectionEvent) => {
 let themeMatchMedia: MediaQueryList | null = null
 const themeChangeListener = (res: MediaQueryListEvent) => {
   themeChangeCallbackManager.trigger({
-    theme: res.matches ? 'dark' : 'light'
+    theme: res.matches ? 'light' : 'dark'
   })
 }
 
