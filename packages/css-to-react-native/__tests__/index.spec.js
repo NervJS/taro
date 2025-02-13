@@ -1,8 +1,50 @@
-import transform from '../src/index'
+import transform from '../src'
 
 describe('misc', () => {
   it('returns empty object when input is empty', () => {
     expect(transform('')).toEqual({})
+  })
+
+  it('transform percent', () => {
+    expect(
+      transform(`
+        .test {
+          transform: translateY(100%) translateX(100%);
+        }
+      `)
+    ).toEqual({
+      test: {
+        transform: [{ translateX: '100%' }, { translateY: '100%' }]
+      }
+    })
+  })
+
+  it('transform percent translateY', () => {
+    expect(
+      transform(`
+        .test {
+          transform: translateY(100%);
+        }
+      `)
+    ).toEqual({
+      test: {
+        transform: [{ translateY: '100%' }]
+      }
+    })
+  })
+
+  it('transform percent translateX', () => {
+    expect(
+      transform(`
+        .test {
+          transform: translateX(100%);
+        }
+      `)
+    ).toEqual({
+      test: {
+        transform: [{ translateX: '100%' }]
+      }
+    })
   })
 
   it('transforms flex', () => {
@@ -1052,7 +1094,8 @@ describe('border', () => {
 
     it('should transform border-color with rgb(a) property', () => {
       expect(
-        transform(`
+        transform(
+          `
         .top {
           border-color: rgba(65, 131, 196, 0.2);
         }
@@ -1065,7 +1108,9 @@ describe('border', () => {
         .left {
           border-color: rgb(65, 131, 196);
         }
-      `, { scalable: false })
+      `,
+          { scalable: false }
+        )
       ).toEqual({
         top: {
           borderColor: 'rgba(65, 131, 196, 0.2)'
@@ -1384,7 +1429,12 @@ describe('margin', () => {
       }
     `)
     ).toEqual({
-      test: { marginTop: 'scalePx2dp(1)', marginRight: 'scalePx2dp(1)', marginBottom: 'scalePx2dp(1)', marginLeft: 'scalePx2dp(1)' }
+      test: {
+        marginTop: 'scalePx2dp(1)',
+        marginRight: 'scalePx2dp(1)',
+        marginBottom: 'scalePx2dp(1)',
+        marginLeft: 'scalePx2dp(1)'
+      }
     })
   })
 
@@ -1646,9 +1696,7 @@ describe('text-decoration', () => {
         text-decoration: underline red yellow;
       }
       `)
-    ).toThrow(
-      'Failed to parse declaration "textDecoration: underline red yellow"'
-    )
+    ).toThrow('Failed to parse declaration "textDecoration: underline red yellow"')
   })
 })
 
@@ -2174,9 +2222,7 @@ describe('font', () => {
         font-family: Goudy Bookletter 1911;
       }
     `)
-    }).toThrowError(
-      'Failed to parse declaration "fontFamily: Goudy Bookletter 1911"'
-    )
+    }).toThrowError('Failed to parse declaration "fontFamily: Goudy Bookletter 1911"')
   })
 })
 
@@ -2424,9 +2470,7 @@ describe('box-shadow', () => {
         box-shadow: 0 0 0 red yellow green blue;
       }
     `)
-    }).toThrowError(
-      'Failed to parse declaration "boxShadow: 0 0 0 red yellow green blue"'
-    )
+    }).toThrowError('Failed to parse declaration "boxShadow: 0 0 0 red yellow green blue"')
   })
 
   it('transforms box-shadow and enforces offset-y if offset-x present', () => {
@@ -2446,9 +2490,7 @@ describe('box-shadow', () => {
         box-shadow: 10 20px 30px #f00;
       }
     `)
-    }).toThrowError(
-      'Failed to parse declaration "boxShadow: 10 20px 30px #f00"'
-    )
+    }).toThrowError('Failed to parse declaration "boxShadow: 10 20px 30px #f00"')
     expect(() => {
       transform(`
       .test {
@@ -3491,11 +3533,14 @@ describe('ICSS :export pseudo-selector', () => {
 
   it('does not transform value to scalePx2dp when option scalable false', () => {
     expect(
-      transform(`
+      transform(
+        `
       .foo {
         padding: 10px 20px;
       }
-    `, { scalable: false })
+    `,
+        { scalable: false }
+      )
     ).toEqual({
       foo: {
         paddingTop: 10,
@@ -3508,7 +3553,8 @@ describe('ICSS :export pseudo-selector', () => {
 
   it('should transform border-[direction] property', () => {
     expect(
-      transform(`
+      transform(
+        `
       .left {
         border-left: red 1px solid;
       }
@@ -3521,7 +3567,9 @@ describe('ICSS :export pseudo-selector', () => {
       .top {
         border-top: 1px red solid;
       }
-    `, { scalable: false })
+    `,
+        { scalable: false }
+      )
     ).toEqual({
       top: {
         borderTopWidth: 1,
@@ -3548,11 +3596,14 @@ describe('ICSS :export pseudo-selector', () => {
 
   it('should transform propertyValue remove !import key', () => {
     expect(
-      transform(`
+      transform(
+        `
       .foo {
         color: red !import;
       }
-    `, { scalable: false })
+    `,
+        { scalable: false }
+      )
     ).toEqual({
       foo: {
         color: 'red'
@@ -3572,9 +3623,7 @@ describe('ICSS :export pseudo-selector', () => {
         color: blue;
       }
     `)
-    ).toThrow(
-      'Failed to parse :export block because a CSS class in the same file is already using the name "bar"'
-    )
+    ).toThrow('Failed to parse :export block because a CSS class in the same file is already using the name "bar"')
   })
 
   it('should throw an error if exportedKey has the same name as a class', () => {
@@ -3588,9 +3637,7 @@ describe('ICSS :export pseudo-selector', () => {
         foo: 1;
       }
     `)
-    ).toThrow(
-      'Failed to parse :export block because a CSS class in the same file is already using the name "foo"'
-    )
+    ).toThrow('Failed to parse :export block because a CSS class in the same file is already using the name "foo"')
     expect(() =>
       transform(`
       :export {
@@ -3601,9 +3648,7 @@ describe('ICSS :export pseudo-selector', () => {
         color: red;
       }
     `)
-    ).toThrow(
-      'Failed to parse :export block because a CSS class in the same file is already using the name "foo"'
-    )
+    ).toThrow('Failed to parse :export block because a CSS class in the same file is already using the name "foo"')
     expect(() =>
       transform(`
       .foo {
@@ -3618,9 +3663,7 @@ describe('ICSS :export pseudo-selector', () => {
         color: red;
       }
     `)
-    ).toThrow(
-      'Failed to parse :export block because a CSS class in the same file is already using the name "foo"'
-    )
+    ).toThrow('Failed to parse :export block because a CSS class in the same file is already using the name "foo"')
   })
 
   it('should throw for :export that is not top level', () => {
