@@ -13,9 +13,11 @@ import type { IPluginContext } from '@tarojs/service'
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
 import type { PluginOption } from 'vite'
 
-export type Frameworks = 'react' | 'preact'
+export type Frameworks = 'react' | 'preact';
 
-export function isReactLike(framework: IProjectConfig['framework'] = 'react'): framework is Frameworks {
+export function isReactLike(
+  framework: IProjectConfig['framework'] = 'react',
+): framework is Frameworks {
   return ['react', 'preact'].includes(framework)
 }
 
@@ -52,7 +54,12 @@ export default (ctx: IPluginContext) => {
     const { compiler } = opts
     if (compiler.type === 'webpack5') {
       // 提供给 webpack5 依赖预编译收集器的第三方依赖
-      const deps = ['react', 'react-dom', 'react/jsx-runtime', '@tarojs/plugin-framework-react/dist/runtime']
+      const deps = [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        '@tarojs/plugin-framework-react/dist/runtime',
+      ]
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
@@ -63,14 +70,14 @@ export default (ctx: IPluginContext) => {
 
       const taroReactPlugin: esbuild.Plugin = {
         name: 'taroReactPlugin',
-        setup (build) {
+        setup(build) {
           build.onLoad({ filter: REG_TARO_H5 }, ({ path }) => {
             const content = fs.readFileSync(path).toString()
             return {
               contents: require('./api-loader')(content),
             }
           })
-        }
+        },
       }
 
       prebundleOptions.esbuild ||= {}
@@ -95,7 +102,7 @@ export default (ctx: IPluginContext) => {
   })
 }
 
-function setAlias (framework: Frameworks, chain) {
+function setAlias(framework: Frameworks, chain) {
   const alias = chain.resolve.alias
   if (framework === 'preact') {
     alias.set('react', 'preact/compat')
@@ -105,13 +112,13 @@ function setAlias (framework: Frameworks, chain) {
   }
 }
 
-function VitePresetPlugin (framework: Frameworks): PluginOption {
+function VitePresetPlugin(framework: Frameworks): PluginOption {
   return framework === 'preact'
     ? require('@preact/preset-vite').preact({
       babel: {
         plugins: [
           ['@babel/plugin-proposal-decorators', { legacy: true }],
-          ['@babel/plugin-proposal-class-properties', { loose: true }],
+          ['@babel/plugin-transform-class-properties', { loose: true }],
         ],
       },
     })
@@ -119,16 +126,16 @@ function VitePresetPlugin (framework: Frameworks): PluginOption {
       babel: {
         plugins: [
           ['@babel/plugin-proposal-decorators', { legacy: true }],
-          ['@babel/plugin-proposal-class-properties', { loose: true }],
+          ['@babel/plugin-transform-class-properties', { loose: true }],
         ],
       },
     })
 }
 
-function viteCommonPlugin (framework: Frameworks): PluginOption {
+function viteCommonPlugin(framework: Frameworks): PluginOption {
   return {
     name: 'taro-react:common',
-    config () {
+    config() {
       const alias =
         framework === 'preact'
           ? [
