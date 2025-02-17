@@ -6,9 +6,7 @@
   "author": "O2Team",
   "private": true,
   "license": "MIT",
-  "keywords": [
-    "taro"
-  ],
+  "keywords": ["taro"],
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
@@ -19,7 +17,7 @@
   "main": "index.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "prepare": "husky install",
+    "prepare": "node -e \"try { require('child_process').execSync('git config --unset core.hookspath', {stdio: 'ignore'}); } catch (e) {}\" && lefthook install",
     "build": "pnpm -r --filter=./packages/* prod",
     "build:binding:debug": "pnpm --filter @tarojs/binding run build:debug",
     "build:binding:release": "pnpm --filter @tarojs/binding run build",
@@ -37,15 +35,8 @@
     "version:release": "pnpm --parallel -r --aggregate-output --filter=./{npm/**,crates/native_binding,packages/*} exec npm version ${npm_package_version}",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_package_version}\"",
     "version:changelog": "conventional-changelog -p angular",
-    "artifacts": "pnpm --filter @tarojs/helper --filter @tarojs/binding run artifacts"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
-    ],
-    "*.json": [
-      "prettier --write"
-    ]
+    "artifacts": "pnpm --filter @tarojs/helper --filter @tarojs/binding run artifacts",
+    "commit": "git commit -a --no-edit"
   },
   "taroTemp": [
     "@types/babel__core",
@@ -79,6 +70,7 @@
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
     "@babel/runtime": "^7.24.4",
+    "@biomejs/biome": "^1.9.4",
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
     "@rollup/plugin-alias": "^5.1.0",
@@ -128,7 +120,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-standard": "^4.0.1",
-    "husky": "^8.0.1",
+    "git-cz": "^4.9.0",
     "jest": "^29.7.0",
     "jest-cli": "^29.7.0",
     "jest-environment-jsdom": "^29.6.4",
@@ -137,7 +129,7 @@
     "jest-preset-stylelint": "^7.0.0",
     "jest-taro-helper": "workspace:*",
     "jsdom": "^24.0.0",
-    "lint-staged": "^13.0.2",
+    "lefthook": "^1.10.10",
     "minimist": "^1.2.8",
     "mkdirp": "^3.0.1",
     "npm-run-all": "^4.1.2",
@@ -156,8 +148,8 @@
     "stylelint-order": "^6.0.4",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.1",
-    "typescript": "~5.4.5",
     "tslib": "^2.6.2",
+    "typescript": "~5.4.5",
     "vitest": "^1.6.0"
   },
   "pnpm": {

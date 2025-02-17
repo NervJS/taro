@@ -1,0 +1,41 @@
+# yaml-language-server:$schema=./node_modules/lefthook/schema.json
+# https://evilmartians.github.io/lefthook/configuration/
+
+pre-commit:
+  piped: true
+  jobs:
+    - name: Linting & Formatting
+      glob: "*.{ts,tsx,js,jsx,mjs,mts,json,jsonc,css}"
+      run: pnpm biome check --fix {staged_files} --reporter summary
+      stage_fixed: true
+
+    # - name: QA
+    #   group:
+    #     parallel: true
+    #     jobs:
+    #       - name: typecheck
+    #         glob: "*.{ts,tsx}"
+    #         run: pnpm tsc
+    #       - name: test
+    #         glob: "*.{ts,tsx}"
+    #         run: pnpm run test
+
+prepare-commit-msg:
+  commands:
+    commit:
+      skip:
+        - run: node -e "require('fs').readFileSync('.git/COMMIT_EDITMSG','utf8').trim()||process.exit(1)"
+      interactive: true
+      run: pnpm git-cz --hook
+      env:
+        LEFTHOOK: "0"
+
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm commitlint --edit {1} --config commitlint.config.js
+
+post-merge:
+  commands:
+    dependencies:
+      run: git diff --quiet HEAD@{$(echo 1)} -- pnpm-lock.yaml || pnpm install
