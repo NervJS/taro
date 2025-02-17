@@ -17858,6 +17858,10 @@ snapshots:
       pretty-format: 29.7.0
       slash: 3.0.0
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> a2aada6 (chore: 🤖 逐步采用 biome lefthook git-cz)
       strip-ansi: 6.0.1
     transitivePeerDependencies:
       - babel-plugin-macros
@@ -17893,8 +17897,12 @@ snapshots:
       micromatch: 4.0.7
       pretty-format: 29.7.0
       slash: 3.0.0
+<<<<<<< HEAD
 =======
 >>>>>>> e1aeeff (fix(ci): 修复部分云环境下原生fetch无法获取图片问题)
+=======
+>>>>>>> f81a72a (chore: 🤖 逐步采用 biome lefthook git-cz)
+>>>>>>> a2aada6 (chore: 🤖 逐步采用 biome lefthook git-cz)
       strip-ansi: 6.0.1
     transitivePeerDependencies:
       - babel-plugin-macros
