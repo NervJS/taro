@@ -1687,6 +1687,9 @@ importers:
 
   packages/taro-plugin-mini-ci:
     dependencies:
+      axios:
+        specifier: ^1.6.8
+        version: 1.7.2
       jimp:
         specifier: ^0.22.12
         version: 0.22.12
@@ -5793,66 +5796,66 @@ packages:
     engines: {node: '>=6'}
 
   '@tarojs/parse-css-to-stylesheet-android-arm-eabi@0.0.69':
-    resolution: {integrity: sha512-xfn55ehFWjbIzDTu+0QwMkCf8icC7jwAiDm2S7Cv5Og83gSzMUCb76KzEAwgTSTe0wiLrDai2HAhBftpE4V1Qw==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm-eabi/-/parse-css-to-stylesheet-android-arm-eabi-0.0.69.tgz}
+    resolution: {integrity: sha512-xfn55ehFWjbIzDTu+0QwMkCf8icC7jwAiDm2S7Cv5Og83gSzMUCb76KzEAwgTSTe0wiLrDai2HAhBftpE4V1Qw==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [android]
 
   '@tarojs/parse-css-to-stylesheet-android-arm64@0.0.69':
-    resolution: {integrity: sha512-ojVo41qGp+/NUaGGXuuT2/bc0K4H1vzvindeYpUj6LkGL0gQSitdXnviYEnUFqfrMvn7bx1wKTy3uLtADqxgPQ==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-android-arm64/-/parse-css-to-stylesheet-android-arm64-0.0.69.tgz}
+    resolution: {integrity: sha512-ojVo41qGp+/NUaGGXuuT2/bc0K4H1vzvindeYpUj6LkGL0gQSitdXnviYEnUFqfrMvn7bx1wKTy3uLtADqxgPQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [android]
 
   '@tarojs/parse-css-to-stylesheet-darwin-arm64@0.0.69':
-    resolution: {integrity: sha512-xtk3WmfYKvlTxGgxjz6DSqcKmRxXRPG+1bINvvOmcQYbOZtl9cw6X4fC/B204SEv06uC8MYaUZ0z0AbjGzZFrA==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-arm64/-/parse-css-to-stylesheet-darwin-arm64-0.0.69.tgz}
+    resolution: {integrity: sha512-xtk3WmfYKvlTxGgxjz6DSqcKmRxXRPG+1bINvvOmcQYbOZtl9cw6X4fC/B204SEv06uC8MYaUZ0z0AbjGzZFrA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
   '@tarojs/parse-css-to-stylesheet-darwin-universal@0.0.69':
-    resolution: {integrity: sha512-AkXvr4bVy1a8d0xOXxhc05352ubTU2G6h4t1RFuzYJLzMBbQWAI60iHcSaCWhkuV9HUl+3UXv0NoW0NkXq19cw==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-universal/-/parse-css-to-stylesheet-darwin-universal-0.0.69.tgz}
+    resolution: {integrity: sha512-AkXvr4bVy1a8d0xOXxhc05352ubTU2G6h4t1RFuzYJLzMBbQWAI60iHcSaCWhkuV9HUl+3UXv0NoW0NkXq19cw==}
     engines: {node: '>= 10'}
     os: [darwin]
 
   '@tarojs/parse-css-to-stylesheet-darwin-x64@0.0.69':
-    resolution: {integrity: sha512-3CTu0tXFZ7aLONaIdrZibKqYUD5IyivF6wfE9CYNEbkkxZoJU29dJ2o9kfVpcxFwKq/4BuH1TKWGYCiCOSyo4g==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-darwin-x64/-/parse-css-to-stylesheet-darwin-x64-0.0.69.tgz}
+    resolution: {integrity: sha512-3CTu0tXFZ7aLONaIdrZibKqYUD5IyivF6wfE9CYNEbkkxZoJU29dJ2o9kfVpcxFwKq/4BuH1TKWGYCiCOSyo4g==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
   '@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf@0.0.69':
-    resolution: {integrity: sha512-LFx3R8X/JXrBeNnlJOgvOxPTaWF7kUl6NMbOUWQbIfx/opqducTVAqrRF9ev1pYlbkRoQpabls8Z21LXDuYaaw==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm-gnueabihf/-/parse-css-to-stylesheet-linux-arm-gnueabihf-0.0.69.tgz}
+    resolution: {integrity: sha512-LFx3R8X/JXrBeNnlJOgvOxPTaWF7kUl6NMbOUWQbIfx/opqducTVAqrRF9ev1pYlbkRoQpabls8Z21LXDuYaaw==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
 
   '@tarojs/parse-css-to-stylesheet-linux-arm64-gnu@0.0.69':
-    resolution: {integrity: sha512-nKlCyYz8NUVI7P8qS3j3tq49ZesGKgoXt3WH5iNPT1PEflxuSgA9T6UcPtUy0X/RolOF6p5Gd/UyhxcY2dUg+A==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-gnu/-/parse-css-to-stylesheet-linux-arm64-gnu-0.0.69.tgz}
+    resolution: {integrity: sha512-nKlCyYz8NUVI7P8qS3j3tq49ZesGKgoXt3WH5iNPT1PEflxuSgA9T6UcPtUy0X/RolOF6p5Gd/UyhxcY2dUg+A==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
   '@tarojs/parse-css-to-stylesheet-linux-arm64-musl@0.0.69':
-    resolution: {integrity: sha512-bYODGCEx1Ni4EMNuZU95IUPqVZAXsY9gIc5CPSfKQ2j167Vbeo/gskQk/uNVjmnYJ69PplgJ9npylINgLIPIrA==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-arm64-musl/-/parse-css-to-stylesheet-linux-arm64-musl-0.0.69.tgz}
+    resolution: {integrity: sha512-bYODGCEx1Ni4EMNuZU95IUPqVZAXsY9gIc5CPSfKQ2j167Vbeo/gskQk/uNVjmnYJ69PplgJ9npylINgLIPIrA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
   '@tarojs/parse-css-to-stylesheet-linux-x64-gnu@0.0.69':
-    resolution: {integrity: sha512-89f03s+txGJ1c8Zc6Ib4qTAP4YhfFbVFq29XExqbC7eGvpQl5DeOtwonO5DBwMc7lA+LG4b1Q4CMXE3qodn2eA==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-gnu/-/parse-css-to-stylesheet-linux-x64-gnu-0.0.69.tgz}
+    resolution: {integrity: sha512-89f03s+txGJ1c8Zc6Ib4qTAP4YhfFbVFq29XExqbC7eGvpQl5DeOtwonO5DBwMc7lA+LG4b1Q4CMXE3qodn2eA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
   '@tarojs/parse-css-to-stylesheet-linux-x64-musl@0.0.69':
-    resolution: {integrity: sha512-vyewIf1KysXYNIJdkzc9JSPguTG9zD65Belk3H186mLR18KtsvrqNqlWnP8kKfduF4ixh6qt0F2PkKbeI9PZvg==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-linux-x64-musl/-/parse-css-to-stylesheet-linux-x64-musl-0.0.69.tgz}
+    resolution: {integrity: sha512-vyewIf1KysXYNIJdkzc9JSPguTG9zD65Belk3H186mLR18KtsvrqNqlWnP8kKfduF4ixh6qt0F2PkKbeI9PZvg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
   '@tarojs/parse-css-to-stylesheet-win32-x64-msvc@0.0.69':
-    resolution: {integrity: sha512-CHKlVjAiSAZTFNV8GkfXV88Jy9yyFSvKBAO3++l2KSQUBUWmPX775FbH+god2BOLf5SfAXRPd0HVAEK9qNeHXQ==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet-win32-x64-msvc/-/parse-css-to-stylesheet-win32-x64-msvc-0.0.69.tgz}
+    resolution: {integrity: sha512-CHKlVjAiSAZTFNV8GkfXV88Jy9yyFSvKBAO3++l2KSQUBUWmPX775FbH+god2BOLf5SfAXRPd0HVAEK9qNeHXQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -5862,60 +5865,60 @@ packages:
     engines: {node: '>= 10'}
 
   '@tarojs/plugin-doctor-darwin-arm64@0.0.13':
-    resolution: {integrity: sha512-BRqMB6jOflPIVdQEJ5vJ7j1OcEcgg65IPPY9YVNx5MnYE/SoZj6/yWvmDNc507ZEkWd4H1sJ4Jfk7eKUxm44PQ==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64/-/plugin-doctor-darwin-arm64-0.0.13.tgz}
+    resolution: {integrity: sha512-BRqMB6jOflPIVdQEJ5vJ7j1OcEcgg65IPPY9YVNx5MnYE/SoZj6/yWvmDNc507ZEkWd4H1sJ4Jfk7eKUxm44PQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
   '@tarojs/plugin-doctor-darwin-universal@0.0.13':
-    resolution: {integrity: sha512-qIv94zgybce+Wq6/Bgy+Np+3BM2SYipuuKTg4LU3ALfJ+YxJetYDcbat9GPxulZqyvxKshYaYtusfwzCu+QWEw==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-universal/-/plugin-doctor-darwin-universal-0.0.13.tgz}
+    resolution: {integrity: sha512-qIv94zgybce+Wq6/Bgy+Np+3BM2SYipuuKTg4LU3ALfJ+YxJetYDcbat9GPxulZqyvxKshYaYtusfwzCu+QWEw==}
     engines: {node: '>= 10'}
     os: [darwin]
 
   '@tarojs/plugin-doctor-darwin-x64@0.0.13':
-    resolution: {integrity: sha512-zjx3OGlcyOTr+VoRcFmQQcsXscwNucpynlhEYS3ZlofVe9qI0LeTMb/jbMriT/W0c1b4nlVaM8sv+HKz4NKUeA==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-x64/-/plugin-doctor-darwin-x64-0.0.13.tgz}
+    resolution: {integrity: sha512-zjx3OGlcyOTr+VoRcFmQQcsXscwNucpynlhEYS3ZlofVe9qI0LeTMb/jbMriT/W0c1b4nlVaM8sv+HKz4NKUeA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
   '@tarojs/plugin-doctor-linux-arm-gnueabihf@0.0.13':
-    resolution: {integrity: sha512-WkViXfZNrB7HRoDySNhm6JG1IaIBmYGWZDwz0BuhkDQPZLfCCy6v01rSo5wfHGdyLnDg6CkENBS1IrdIU9zK+A==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm-gnueabihf/-/plugin-doctor-linux-arm-gnueabihf-0.0.13.tgz}
+    resolution: {integrity: sha512-WkViXfZNrB7HRoDySNhm6JG1IaIBmYGWZDwz0BuhkDQPZLfCCy6v01rSo5wfHGdyLnDg6CkENBS1IrdIU9zK+A==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
 
   '@tarojs/plugin-doctor-linux-arm64-gnu@0.0.13':
-    resolution: {integrity: sha512-C6ZjqhyOqBcI4y+BFXYjBHBZY6441fO5YIoMv3Sc+nAV+LR1vvyGJ95JcC+Vma+sEjxRMP0IO9lvcLRIcrbrsA==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-gnu/-/plugin-doctor-linux-arm64-gnu-0.0.13.tgz}
+    resolution: {integrity: sha512-C6ZjqhyOqBcI4y+BFXYjBHBZY6441fO5YIoMv3Sc+nAV+LR1vvyGJ95JcC+Vma+sEjxRMP0IO9lvcLRIcrbrsA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
   '@tarojs/plugin-doctor-linux-arm64-musl@0.0.13':
-    resolution: {integrity: sha512-V1HnFITOLgHVyQ+OCa1oPFKOtGFRtP91vlbUGfOwMA4GeOVw9g28W/hfTyucTCkfZWlrssLehgW6L2AGAMXh2w==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-musl/-/plugin-doctor-linux-arm64-musl-0.0.13.tgz}
+    resolution: {integrity: sha512-V1HnFITOLgHVyQ+OCa1oPFKOtGFRtP91vlbUGfOwMA4GeOVw9g28W/hfTyucTCkfZWlrssLehgW6L2AGAMXh2w==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
   '@tarojs/plugin-doctor-linux-x64-gnu@0.0.13':
-    resolution: {integrity: sha512-oetfzBW60uenPBBF4/NE6Mf0Iwkw1YGqIIBiN++aVQynbWrmMzWBsW8kleZ5vN1npxI9aud9EfRU1uM37DrG2A==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-gnu/-/plugin-doctor-linux-x64-gnu-0.0.13.tgz}
+    resolution: {integrity: sha512-oetfzBW60uenPBBF4/NE6Mf0Iwkw1YGqIIBiN++aVQynbWrmMzWBsW8kleZ5vN1npxI9aud9EfRU1uM37DrG2A==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
   '@tarojs/plugin-doctor-linux-x64-musl@0.0.13':
-    resolution: {integrity: sha512-OdIF/kFwwM0kQPDnpkanhvfWRaAI6EtDmpM9rQA/Lu2QcJq86w5d7X/WSN0U2xF1nialAUrfl79NyIaEzp4Fcw==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-musl/-/plugin-doctor-linux-x64-musl-0.0.13.tgz}
+    resolution: {integrity: sha512-OdIF/kFwwM0kQPDnpkanhvfWRaAI6EtDmpM9rQA/Lu2QcJq86w5d7X/WSN0U2xF1nialAUrfl79NyIaEzp4Fcw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
   '@tarojs/plugin-doctor-win32-ia32-msvc@0.0.13':
-    resolution: {integrity: sha512-nIbG2SliRhRwACLa1kNMskcfjsihp+3tZQMAxl+LoYUq6JRaWgP3vH2nHkDyZHTCheBTDtAaupqXWrYF3w+U6g==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-win32-ia32-msvc/-/plugin-doctor-win32-ia32-msvc-0.0.13.tgz}
+    resolution: {integrity: sha512-nIbG2SliRhRwACLa1kNMskcfjsihp+3tZQMAxl+LoYUq6JRaWgP3vH2nHkDyZHTCheBTDtAaupqXWrYF3w+U6g==}
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
 
   '@tarojs/plugin-doctor-win32-x64-msvc@0.0.13':
-    resolution: {integrity: sha512-G1mjsGzyeb4TPw7RoqOl4xPPhf5Lfp4BH9hjfBYbGM0RL5UFHmhfzvn2Icrriyk68v2GoQeHroZ2p6qAtbXdBw==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-win32-x64-msvc/-/plugin-doctor-win32-x64-msvc-0.0.13.tgz}
+    resolution: {integrity: sha512-G1mjsGzyeb4TPw7RoqOl4xPPhf5Lfp4BH9hjfBYbGM0RL5UFHmhfzvn2Icrriyk68v2GoQeHroZ2p6qAtbXdBw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -17854,6 +17857,7 @@ snapshots:
       micromatch: 4.0.7
       pretty-format: 29.7.0
       slash: 3.0.0
+<<<<<<< HEAD
       strip-ansi: 6.0.1
     transitivePeerDependencies:
       - babel-plugin-macros
@@ -17889,6 +17893,8 @@ snapshots:
       micromatch: 4.0.7
       pretty-format: 29.7.0
       slash: 3.0.0
+=======
+>>>>>>> e1aeeff (fix(ci): 修复部分云环境下原生fetch无法获取图片问题)
       strip-ansi: 6.0.1
     transitivePeerDependencies:
       - babel-plugin-macros
