@@ -29,7 +29,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: |-
               set -e &&
-              corepack prepare pnpm@9.15.4 --activate &&
+              npm install -g corepack@0.31.0 &&
               pnpm build:binding:release --target x86_64-unknown-linux-gnu &&
               strip crates/native_binding/*.node
           - host: ubuntu-20.04
