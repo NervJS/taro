@@ -32,6 +32,7 @@
     "node": ">= 18"
   },
   "dependencies": {
+    "axios": "^1.6.8",
     "jimp": "^0.22.12",
     "jsqr": "^1.4.0",
     "minimist": "^1.2.8",
