@@ -19,6 +19,9 @@ function setAlias (chain) {
   alias.set('solid-js/web$', resolveSync(RECONCILER_NAME, resolveOptions))
   alias.set('solid-js$', resolveSync('solid-js', resolveOptions))
   alias.set('solid-js/store$', resolveSync('solid-js/store', resolveOptions))
+  alias.set('solid-js/universal$', resolveSync('solid-js/universal', resolveOptions))
+  alias.set('solid-js/html$', resolveSync('solid-js/html', resolveOptions))
+  alias.set('solid-js/h$', resolveSync('solid-js/h', resolveOptions))
 }
 
 function setLoader (chain) {
