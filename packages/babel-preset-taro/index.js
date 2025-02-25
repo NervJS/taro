@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 
 function hasBrowserslist() {
   const fs = require('@tarojs/helper').fs
@@ -30,7 +30,7 @@ module.exports = (_, options = {}) => {
   const overrides = []
   const isVite = options.compiler === 'vite'
   // vite 不需要 react 的 preset，在内部已经处理了
-  const isReact = options.framework === 'react' || options.framework === 'preact' && !isVite
+  const isReact = options.framework === 'react' || (options.framework === 'preact' && !isVite)
   // vite 不需要 solid 的 preset，在内部已经处理了
   const isSolid = options.framework === 'solid' && !isVite
   // vite 不需要 vue 的 preset，在内部已经处理了
@@ -50,7 +50,11 @@ module.exports = (_, options = {}) => {
         ...presetReactConfig,
       },
     ])
-    if (process.env.TARO_PLATFORM === 'web' && process.env.NODE_ENV !== 'production' && options.hot !== false) {
+    if (
+      process.env.TARO_PLATFORM === 'web' &&
+      process.env.NODE_ENV !== 'production' &&
+      options.hot !== false
+    ) {
       if (options.framework === 'react') {
         plugins.push([require('react-refresh/babel'), { skipEnvCheck: true }])
       } else if (options.framework === 'preact') {
@@ -69,10 +73,7 @@ module.exports = (_, options = {}) => {
         uniqueTransform: true,
       })
     }
-    presets.push([
-      require('babel-plugin-transform-solid-jsx'),
-      solidOptions,
-    ])
+    presets.push([require('babel-plugin-transform-solid-jsx'), solidOptions])
   }
 
   if (isVue3) {
@@ -159,9 +160,9 @@ module.exports = (_, options = {}) => {
     forceAllTransforms,
   }
 
-  let transformRuntimeCorejs = false
+  let transformRuntimeCoreJs = false
   if (useBuiltIns === 'usage') {
-    transformRuntimeCorejs = 3
+    transformRuntimeCoreJs = true
   } else {
     envOptions.useBuiltIns = useBuiltIns
     if (useBuiltIns === 'entry') {
@@ -183,14 +184,14 @@ module.exports = (_, options = {}) => {
         legacy: decoratorsLegacy !== false,
       },
     ],
-    [require('@babel/plugin-proposal-class-properties'), { loose }]
+    [require('@babel/plugin-transform-class-properties'), { loose }],
   )
 
   plugins.push([
     require('@babel/plugin-transform-runtime'),
     {
       regenerator: true,
-      corejs: transformRuntimeCorejs,
+      corejs: transformRuntimeCoreJs,
       helpers: true,
       useESModules: process.env.NODE_ENV !== 'test',
       absoluteRuntime,

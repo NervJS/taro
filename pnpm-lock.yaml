@@ -7,9 +7,9 @@ settings:
 overrides:
   browserslist: ^4.23.0
 
-packageExtensionsChecksum: ffdb8f7be1e672e0c076ce17ace599e8
+packageExtensionsChecksum: sha256-iKU0hkhWK/NG/KIaaCQKpLJizIsxCs1Ckrqk+8GTYMM=
 
-pnpmfileChecksum: veqnxkzp44tooqnzzbrnqoluee
+pnpmfileChecksum: sha256-mYI6bRZewNyF23ild9F+kBHOlbRFqubVkmPGMgBlHj8=
 
 importers:
 
@@ -273,6 +273,13 @@ importers:
       '@napi-rs/triples':
         specifier: 1.2.0
         version: 1.2.0
+    devDependencies:
+      '@napi-rs/cli':
+        specifier: 3.0.0-alpha.5
+        version: 3.0.0-alpha.5
+      ava:
+        specifier: 5.3.1
+        version: 5.3.1
     optionalDependencies:
       '@tarojs/binding-darwin-arm64':
         specifier: workspace:*
@@ -286,13 +293,6 @@ importers:
       '@tarojs/binding-win32-x64-msvc':
         specifier: workspace:*
         version: link:../../npm/win32-x64-msvc
-    devDependencies:
-      '@napi-rs/cli':
-        specifier: 3.0.0-alpha.5
-        version: 3.0.0-alpha.5
-      ava:
-        specifier: 5.3.1
-        version: 5.3.1
 
   npm/darwin-arm64: {}
 
@@ -1032,8 +1032,6 @@ importers:
       react-native-webview:
         specifier: 13.6.4
         version: 13.6.4(react-native@0.73.10(@babel/core@7.24.4)(@babel/preset-env@7.24.6(@babel/core@7.24.4))(react@18.3.1))(react@18.3.1)
-
-  packages/taro-components/loader: {}
 
   packages/taro-extend:
     devDependencies:
@@ -2276,6 +2274,9 @@ importers:
         specifier: ^2.6.2
         version: 2.6.2
     devDependencies:
+      '@rollup/plugin-typescript':
+        specifier: ^12.1.2
+        version: 12.1.2(tslib@2.6.2)
       '@types/react':
         specifier: ^18.2.79
         version: 18.3.3
@@ -2288,9 +2289,6 @@ importers:
       react:
         specifier: ^18.2.0
         version: 18.3.1
-      rollup-plugin-ts:
-        specifier: ^3.4.5
-        version: 3.4.5(@babel/core@7.24.4)(@babel/plugin-transform-runtime@7.24.6(@babel/core@7.24.4))(@babel/preset-env@7.24.6(@babel/core@7.24.4))(@babel/preset-typescript@7.24.6(@babel/core@7.24.4))(@babel/runtime@7.24.6)(@swc/core@1.3.96)(rollup@4.18.0)(typescript@5.4.5)
 
   packages/taro-runtime-rn:
     dependencies:
@@ -5424,6 +5422,19 @@ packages:
       tslib:
         optional: true
 
+  '@rollup/plugin-typescript@12.1.2':
+    resolution: {integrity: sha512-cdtSp154H5sv637uMr1a8OTWB0L1SWDSm1rDGiyfcGcvQ6cuTs4MDk2BVEBGysUWago4OJN4EQZqOTl/QY3Jgg==, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-12.1.2.tgz}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0||^3.0.0||^4.0.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      tslib:
+        optional: true
+
   '@rollup/pluginutils@3.1.0':
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==, tarball: https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-3.1.0.tgz}
     engines: {node: '>= 8.0.0'}
@@ -5805,7 +5816,7 @@ packages:
     os: [win32]
 
   '@tarojs/parse-css-to-stylesheet@0.0.69':
-    resolution: {integrity: sha512-v9P3vEhAcbBqfv1d/tTLn8fYQzxjqHo4MckbrBksN2MNIaKxaeTWOsFudzOVcFrkPuqBatsCoPXevePDwKLXrw==}
+    resolution: {integrity: sha512-v9P3vEhAcbBqfv1d/tTLn8fYQzxjqHo4MckbrBksN2MNIaKxaeTWOsFudzOVcFrkPuqBatsCoPXevePDwKLXrw==, tarball: https://registry.npmjs.org/@tarojs/parse-css-to-stylesheet/-/parse-css-to-stylesheet-0.0.69.tgz}
     engines: {node: '>= 10'}
 
   '@tarojs/plugin-doctor-darwin-arm64@0.0.13':
@@ -5868,7 +5879,7 @@ packages:
     os: [win32]
 
   '@tarojs/plugin-doctor@0.0.13':
-    resolution: {integrity: sha512-X4aq/VS9Xr5UYkiZv5T0vSx1OycuzjYgbJDFs4YPWwJDaY1LOzn8Nlzb/rQchkBlxDPHmqUQQvejL0o6+REgbw==}
+    resolution: {integrity: sha512-X4aq/VS9Xr5UYkiZv5T0vSx1OycuzjYgbJDFs4YPWwJDaY1LOzn8Nlzb/rQchkBlxDPHmqUQQvejL0o6+REgbw==, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor/-/plugin-doctor-0.0.13.tgz}
     engines: {node: '>= 10'}
 
   '@testing-library/jest-dom@5.17.0':
@@ -5877,6 +5888,11 @@ packages:
 
   '@testing-library/jest-native@5.4.3':
     resolution: {integrity: sha512-/sSDGaOuE+PJ1Z9Kp4u7PQScSVVXGud59I/qsBFFJvIbcn4P6yYw6cBnBmbPF+X9aRIsTJRDl6gzw5ZkJNm66w==, tarball: https://registry.npmjs.org/@testing-library/jest-native/-/jest-native-5.4.3.tgz}
+    deprecated: |-
+      DEPRECATED: This package is no longer maintained.
+      Please use the built-in Jest matchers available in @testing-library/react-native v12.4+.
+
+      See migration guide: https://callstack.github.io/react-native-testing-library/docs/migration/jest-matchers
     peerDependencies:
       react: '>=16.0.0'
       react-native: '>=0.59'
@@ -14385,12 +14401,15 @@ packages:
 
   sudo-prompt@8.2.5:
     resolution: {integrity: sha512-rlBo3HU/1zAJUrkY6jNxDOC9eVYliG6nS4JA8u8KAshITd07tafMc/Br7xQwCSseXwJ2iCcHCE8SNWX3q8Z+kw==, tarball: https://registry.npmjs.org/sudo-prompt/-/sudo-prompt-8.2.5.tgz}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   sudo-prompt@9.1.1:
     resolution: {integrity: sha512-es33J1g2HjMpyAhz8lOR+ICmXXAqTuKbuXuUWLhOLew20oN9oUCgCJx615U/v7aioZg7IX5lIh9x34vwneu4pA==, tarball: https://registry.npmjs.org/sudo-prompt/-/sudo-prompt-9.1.1.tgz}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   sudo-prompt@9.2.1:
     resolution: {integrity: sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw==, tarball: https://registry.npmjs.org/sudo-prompt/-/sudo-prompt-9.2.1.tgz}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   sumchecker@3.0.1:
     resolution: {integrity: sha512-MvjXzkz/BOfyVDkG0oFOtBxHX2u3gKbMHIF/dXblZsgD3BWOFLmHovIpZY7BykJdAjcqRCBi1WYBNdEC9yI7vg==, tarball: https://registry.npmjs.org/sumchecker/-/sumchecker-3.0.1.tgz}
@@ -19118,12 +19137,25 @@ snapshots:
       rollup: 4.18.0
       tslib: 2.6.2
 
+  '@rollup/plugin-typescript@12.1.2(tslib@2.6.2)':
+    dependencies:
+      '@rollup/pluginutils': 5.1.0
+      resolve: 1.22.8
+    optionalDependencies:
+      tslib: 2.6.2
+
   '@rollup/pluginutils@3.1.0(rollup@4.18.0)':
     dependencies:
       '@types/estree': 0.0.39
       estree-walker: 1.0.1
       picomatch: 2.3.1
       rollup: 4.18.0
+
+  '@rollup/pluginutils@5.1.0':
+    dependencies:
+      '@types/estree': 1.0.5
+      estree-walker: 2.0.2
+      picomatch: 2.3.1
 
   '@rollup/pluginutils@5.1.0(rollup@3.29.4)':
     dependencies:
@@ -29397,28 +29429,6 @@ snapshots:
       crosspath: 2.0.0
       magic-string: 0.30.10
       rollup: 3.29.4
-      ts-clone-node: 3.0.0(typescript@5.4.5)
-      tslib: 2.6.2
-      typescript: 5.4.5
-    optionalDependencies:
-      '@babel/core': 7.24.4(supports-color@9.4.0)
-      '@babel/plugin-transform-runtime': 7.24.6(@babel/core@7.24.4)
-      '@babel/preset-env': 7.24.6(@babel/core@7.24.4)
-      '@babel/preset-typescript': 7.24.6(@babel/core@7.24.4)
-      '@babel/runtime': 7.24.6
-      '@swc/core': 1.3.96
-
-  rollup-plugin-ts@3.4.5(@babel/core@7.24.4)(@babel/plugin-transform-runtime@7.24.6(@babel/core@7.24.4))(@babel/preset-env@7.24.6(@babel/core@7.24.4))(@babel/preset-typescript@7.24.6(@babel/core@7.24.4))(@babel/runtime@7.24.6)(@swc/core@1.3.96)(rollup@4.18.0)(typescript@5.4.5):
-    dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.18.0)
-      '@wessberg/stringutil': 1.0.19
-      ansi-colors: 4.1.3
-      browserslist: 4.23.0
-      browserslist-generator: 2.1.0
-      compatfactory: 3.0.0(typescript@5.4.5)
-      crosspath: 2.0.0
-      magic-string: 0.30.10
-      rollup: 4.18.0
       ts-clone-node: 3.0.0(typescript@5.4.5)
       tslib: 2.6.2
       typescript: 5.4.5
