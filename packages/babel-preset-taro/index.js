@@ -162,7 +162,7 @@ module.exports = (_, options = {}) => {
 
   let transformRuntimeCoreJs = false
   if (useBuiltIns === 'usage') {
-    transformRuntimeCoreJs = true
+    transformRuntimeCoreJs = 3
   } else {
     envOptions.useBuiltIns = useBuiltIns
     if (useBuiltIns === 'entry') {
