@@ -30,7 +30,7 @@ module.exports = {
 
 - `@babel/plugin-transform-runtime`
 - `@babel/plugin-proposal-decorators`
-- `@babel/plugin-proposal-class-properties`
+- `@babel/plugin-transform-class-properties`
 - `babel-plugin-dynamic-import-node`（小程序环境）
 
 #### 2. React
@@ -150,7 +150,7 @@ import "core-js/modules/es.string.pad-end";
 
 **默认值**：`false`
 
-同时是 `@babel/preset-env`、`@babel/plugin-proposal-class-properties` 的 `loose` 配置项。
+同时是 `@babel/preset-env`、`@babel/plugin-transform-class-properties` 的 `loose` 配置项。
 
 ### debug
 
@@ -167,23 +167,23 @@ import "core-js/modules/es.string.pad-end";
 ### spec
 
 `@babel/preset-env` 的 [spec](https://babeljs.io/docs/en/babel-preset-env#spec) 配置项。
-  
+
 ### configPath
 
 `@babel/preset-env` 的 [configPath](https://babeljs.io/docs/en/babel-preset-env#configpath) 配置项。
-  
+
 ### include
 
 `@babel/preset-env` 的 [include](https://babeljs.io/docs/en/babel-preset-env#include) 配置项。
-  
+
 ### exclude
 
 `@babel/preset-env` 的 [exclude](https://babeljs.io/docs/en/babel-preset-env#exclude) 配置项。
-  
+
 ### shippedProposals
 
 `@babel/preset-env` 的 [shippedProposals](https://babeljs.io/docs/en/babel-preset-env#shippedproposals) 配置项。
-  
+
 ### forceAllTransforms
 
 `@babel/preset-env` 的 [forceAllTransforms](https://babeljs.io/docs/en/babel-preset-env#forcealltransforms) 配置项。
@@ -203,7 +203,7 @@ import "core-js/modules/es.string.pad-end";
 
 **默认值**：开发者根目录 `node_modules` 中的 `@babel/plugin-transform-runtime` 的路径。
 
-**类型**：`string` 
+**类型**：`string`
 
 `@babel/plugin-transform-runtime` 的 [absoluteRuntime](https://babeljs.io/docs/en/babel-plugin-transform-runtime#absoluteruntime) 配置项。
 
@@ -211,6 +211,6 @@ import "core-js/modules/es.string.pad-end";
 
 **默认值**：开发者根目录 `node_modules` 中的 `@babel/plugin-transform-runtime` 的版本号。
 
-**类型**：`string` 
+**类型**：`string`
 
 `@babel/plugin-transform-runtime` 的 [version](https://babeljs.io/docs/en/babel-plugin-transform-runtime#version) 配置项。
