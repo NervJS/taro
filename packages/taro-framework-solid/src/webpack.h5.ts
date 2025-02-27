@@ -55,12 +55,16 @@ function setLoader (chain) {
 }
 
 function setPlugin (chain) {
-  const mainFields = ['unpkg', ...defaultMainFields]
+  const alias = chain.resolve.alias
   const resolveOptions = {
     basedir: process.cwd(),
-    mainFields,
+    mainFields: ['unpkg', ...defaultMainFields],
   }
-  const alias = chain.resolve.alias
-  // Note: 本地 link 调试时，避免 solid 重复打包
+  // 第三方库使用了RECONCILER_NAME的包，需要指定到业务测的reconciler包 统一依赖版本
+
   alias.set('solid-js$', resolveSync('solid-js', resolveOptions))
+  alias.set('solid-js/store$', resolveSync('solid-js/store', resolveOptions))
+  alias.set('solid-js/universal$', resolveSync('solid-js/universal', resolveOptions))
+  alias.set('solid-js/html$', resolveSync('solid-js/html', resolveOptions))
+  alias.set('solid-js/h$', resolveSync('solid-js/h', resolveOptions))
 }
