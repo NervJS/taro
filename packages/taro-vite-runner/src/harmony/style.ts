@@ -254,7 +254,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
         modules,
         deps,
         map,
-      } = await compileCSS(id, raw, viteConfig, urlReplacer, isGlobalModule)
+      } = await compileCSS(id, raw, viteConfig, urlReplacer, isGlobalModule, taroConfig.cssVariables)
 
       // if (!cssCache.has(id)) {
 
