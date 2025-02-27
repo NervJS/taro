@@ -155,6 +155,7 @@ export class H5WebpackPlugin {
       isBuildNativeComp: this.combination.isBuildNativeComp,
       noInjectGlobalStyle: this.combination.noInjectGlobalStyle,
       /** hooks & methods */
+      modifyAppConfig: config.modifyAppConfig,
       onCompilerMake: config.onCompilerMake,
       onParseCreateElement: config.onParseCreateElement,
     }

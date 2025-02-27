@@ -59,6 +59,7 @@ export interface ViteHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfi
   runtimePath?: string | string[]
   isPure?: boolean
   taroComponentsPath: string
+  cssVariables?: boolean  // 是否动态解析css变量
 }
 
 export interface CommonBuildConfig extends IProjectConfig<'vite'> {

@@ -185,7 +185,7 @@ $ pnpm --filter @tarojs/binding run test
 
 #### SWC 插件
 
-首先在项目根目录执行 `rustup target add wasm32-wasi` 命令安装 `wasm32-wasi` 的 `target`。
+首先在项目根目录执行 `rustup target add wasm32-wasip1` 命令安装 `wasm32-wasip1` 的 `target`。
 
 开发过程中可以使用 SWC 测试套件进行单元测试：
 
@@ -207,7 +207,7 @@ $ cargo build -p [package-name]
 
 Cargo workspace 会把编译产物输出到根目录的 `target` 文件夹中。进行集成测试时，需要手动把 `.wasm` 产物软链到目标文件夹，而 Github CI 在正式发布时会自动拷贝产物到正确的文件夹中。
 
-如对 `@taorjs/helper` 进行集成测试时，会把 `target/wasm32-wasi/release/swc_plugin_xxx.wasm` 文件的软链到 `packages/taro-helper/swc/swc_plugin_xxx.wasm`。
+如对 `@taorjs/helper` 进行集成测试时，会把 `target/wasm32-wasip1/release/swc_plugin_xxx.wasm` 文件的软链到 `packages/taro-helper/swc/swc_plugin_xxx.wasm`。
 
 #### 
 
