@@ -8,6 +8,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "prod": "pnpm run build",
+    "postinstall": "node ./dist/scripts/postinstall.js",
     "test": "cross-env NODE_ENV=test jest",
     "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=test jest --watch",
