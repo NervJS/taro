@@ -55,7 +55,7 @@
     "@babel/core",
     "@babel/helper-plugin-utils",
     "@babel/parser",
-    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-transform-class-properties",
     "@babel/plugin-proposal-decorators",
     "@babel/plugin-proposal-do-expressions",
     "@babel/plugin-proposal-object-rest-spread",
