@@ -223,6 +223,7 @@ export const TARO_CONFIG_FOLDER = '.taro4.0'
 export const TARO_BASE_CONFIG = 'index.json'
 export const TARO_GLOBAL_CONFIG_DIR = '.taro-global-config'
 export const TARO_GLOBAL_CONFIG_FILE = 'index.json'
+export const TARO_GLOBAL_CACHE_FILE = 'cache.json'
 
 export const OUTPUT_DIR = 'dist'
 export const SOURCE_DIR = 'src'
