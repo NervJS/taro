@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "default": [
+      "{projectRoot}/**/*",
+      "!{projectRoot}/**/*.spec.ts", // 忽略测试文件
+      "!{projectRoot}/**/*.mock.ts" // 忽略模拟文件
+    ]
+  },
+  "targetDefaults": {
+    "prod": {
+      "dependsOn": ["^prod"],
+      "outputs": ["{projectRoot}/dist"],
+      "cache": true
+    }
+  }
+}

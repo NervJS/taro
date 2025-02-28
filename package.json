@@ -20,7 +20,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
-    "build": "pnpm -r --filter=./packages/* prod",
+    "build": "nx run-many -t prod",
     "build:binding:debug": "pnpm --filter @tarojs/binding run build:debug",
     "build:binding:release": "pnpm --filter @tarojs/binding run build",
     "debug": "node scripts/debug.js",
@@ -158,7 +158,8 @@
     "ts-node": "^10.9.1",
     "typescript": "~5.4.5",
     "tslib": "^2.6.2",
-    "vitest": "^1.6.0"
+    "vitest": "^1.6.0",
+    "nx": "20.4.6"
   },
   "pnpm": {
     "packageExtensions": {

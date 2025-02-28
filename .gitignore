@@ -83,3 +83,6 @@ artifacts
 
 # Node Addons
 *.node
+
+.nx/cache
+.nx/workspace-data
