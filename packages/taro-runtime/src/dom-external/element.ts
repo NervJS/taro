@@ -7,6 +7,14 @@ export function getBoundingClientRectImpl (this: TaroElement): Promise<null> {
   if (!options.miniGlobal) return Promise.resolve(null)
   return new Promise(resolve => {
     const query = options.miniGlobal.createSelectorQuery()
+    // ref: https://opendocs.alipay.com/mini/api/na4yun
+    if (process.env.TARO_ENV === 'alipay') {
+      query.select(`#${this.uid}`).boundingClientRect().exec(res => {
+        resolve(res)
+      })
+      return
+    }
+
     query.select(`#${this.uid}`).boundingClientRect(res => {
       resolve(res)
     }).exec()
