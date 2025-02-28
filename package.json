@@ -38,10 +38,6 @@
     "artifacts": "pnpm --filter @tarojs/helper --filter @tarojs/binding run artifacts",
     "commit": "git add -A && git commit -a --no-edit"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": ["eslint --fix"],
-    "*.json": ["prettier --write"]
-  },
   "taroTemp": [
     "@types/babel__core",
     "@types/babel-types",
