@@ -50,7 +50,7 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@vitejs/plugin-vue": "^5",
+    "@vitejs/plugin-vue": "^4",
     "@vitejs/plugin-vue-jsx": "^3",
     "vue-loader": "^17.0.0",
     "vite": "^4",
