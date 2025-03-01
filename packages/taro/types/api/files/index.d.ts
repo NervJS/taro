@@ -1464,7 +1464,7 @@ declare module '../../index' {
     getFileInfo(option: getFileInfo.Option): Promise<getFileInfo.SuccessCallbackResult | getFileInfo.FailCallbackResult>
 
     /** 获取全局唯一的文件管理器
-     * @supported weapp, alipay, swan, jd, qq, tt, harmony_hybrid, harmony
+     * @supported weapp, alipay, swan, jd, qq, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html
      */
     getFileSystemManager(): FileSystemManager
