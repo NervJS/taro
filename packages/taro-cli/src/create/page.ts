@@ -218,6 +218,7 @@ export default class Page extends Creator {
       modifyState = state
     }
 
+    // @ts-ignore
     traverse(ast, {
       ExportDefaultDeclaration (path) {
         modifyPagesOrSubPackages({
@@ -235,6 +236,7 @@ export default class Page extends Creator {
         break
       case ConfigModificationState.Success:
       {
+        // @ts-ignore
         const newCode = generate(ast, { retainLines: true })
         fs.writeFileSync(appConfigPath, newCode.code)
         console.log(`${chalk.green('✔ ')}${chalk.grey(`新页面信息已在 ${appConfigPath} 文件中自动补全`)}`)

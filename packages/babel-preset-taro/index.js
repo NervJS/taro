@@ -159,9 +159,9 @@ module.exports = (_, options = {}) => {
     forceAllTransforms,
   }
 
-  let transformRuntimeCorejs = false
+  let transformRuntimeCoreJs = false
   if (useBuiltIns === 'usage') {
-    transformRuntimeCorejs = 3
+    transformRuntimeCoreJs = 3
   } else {
     envOptions.useBuiltIns = useBuiltIns
     if (useBuiltIns === 'entry') {
@@ -183,14 +183,14 @@ module.exports = (_, options = {}) => {
         legacy: decoratorsLegacy !== false,
       },
     ],
-    [require('@babel/plugin-proposal-class-properties'), { loose }]
+    [require('@babel/plugin-transform-class-properties'), { loose }]
   )
 
   plugins.push([
     require('@babel/plugin-transform-runtime'),
     {
       regenerator: true,
-      corejs: transformRuntimeCorejs,
+      corejs: transformRuntimeCoreJs,
       helpers: true,
       useESModules: process.env.NODE_ENV !== 'test',
       absoluteRuntime,
