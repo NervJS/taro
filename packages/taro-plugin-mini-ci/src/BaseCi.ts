@@ -126,6 +126,13 @@ export interface JdConfig {
   ignores?: string[]
 }
 
+export interface XhsConfig {
+  /** 小红书小程序appid */
+  appid: string
+  /** 秘钥信息 */
+  token?: string
+}
+
 export interface CIOptions {
   /** 发布版本号，默认取 package.json 文件的 taroConfig.version 字段 */
   version?: string
@@ -145,6 +152,8 @@ export interface CIOptions {
   swan?: SwanConfig
   /** 京东小程序配置, 官方文档地址：https://mp-docs.jd.com/doc/dev/devtools/1597 */
   jd?: JdConfig
+  /** 小程序配置, 官方文档地址：https://miniapp.xiaohongshu.com/docs?path=/docs/ide/xhs-mp-cli */
+  xhs?: XhsConfig
 }
 
 export default abstract class BaseCI {
