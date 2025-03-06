@@ -51,7 +51,7 @@ export function resolveNpmSync(pluginName: string, root?: string): string {
       return res
     }
     return npmCached[pluginName]
-  } catch (err) {
+  } catch (err: any) {
     if (err.code === 'MODULE_NOT_FOUND') {
       console.log(chalk.cyan(`缺少npm包${pluginName}，开始安装...`))
       const installOptions: IInstallOptions = {
@@ -168,7 +168,7 @@ export async function getNpmPkg(npmName: string, root: string) {
   let npmPath
   try {
     npmPath = resolveNpmSync(npmName, root)
-  } catch (err) {
+  } catch (err: any) {
     if (err.code === 'MODULE_NOT_FOUND') {
       console.log(chalk.cyan(`缺少npm包${npmName}，开始安装...`))
       const installOptions: IInstallOptions = {
