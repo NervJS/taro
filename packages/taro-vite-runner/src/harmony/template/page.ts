@@ -1000,7 +1000,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
     const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
     this.isTabbarPage = page instanceof Array
     const pageRefresh: boolean[] = page instanceof Array
-      ? page.map(e => this.isEnable(this.appConfig.window?.enablePullDownRefresh, e.config.enablePullDownRefresh))
+      ? page.filter(e => !!e).map(e => this.isEnable(this.appConfig.window?.enablePullDownRefresh, e.config.enablePullDownRefresh))
       : [this.isEnable(this.appConfig.window?.enablePullDownRefresh, (page as TaroHarmonyPageMeta)?.config.enablePullDownRefresh)]
     if (pageRefresh.every(e => !!e)) {
       this.enableRefresh = 1

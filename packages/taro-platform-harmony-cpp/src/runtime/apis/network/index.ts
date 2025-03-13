@@ -1,0 +1,7 @@
+export * from './downloadFile'
+export * from './request'
+export * from './uploadFile'
+export * from '@tarojs/plugin-platform-harmony-ets/dist/apis/network/mdns'
+export * from '@tarojs/plugin-platform-harmony-ets/dist/apis/network/tcp'
+export * from '@tarojs/plugin-platform-harmony-ets/dist/apis/network/udp'
+export * from '@tarojs/plugin-platform-harmony-ets/dist/apis/network/webSocket'

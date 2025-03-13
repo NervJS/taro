@@ -1,0 +1,38 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "declaration": false,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "ES2015"
+  },
+  "include": ["./scripts", "./src", "./types", "./cpp/types", "./rollup.config.mts"],
+  "ts-node": {
+    "compilerOptions": {
+      "forceConsistentCasingInFileNames": true,
+      "lib": ["ES2023"],
+      "module": "Node16",
+      "moduleResolution": "Node16",
+      "noEmit": true,
+      "resolveJsonModule": true,
+      "skipLibCheck": true,
+      "strict": true,
+      "target": "ES2022"
+    },
+    "experimentalSpecifierResolution": "node",
+    "require": ["tsconfig-paths/register"],
+    "transpileOnly": true
+  }
+}
