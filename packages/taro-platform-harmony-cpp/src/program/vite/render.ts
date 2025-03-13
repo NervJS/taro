@@ -2,7 +2,7 @@ import path from 'node:path'
 
 import { isFunction } from '@tarojs/shared'
 
-import { PKG_NAME } from '../../utils/constant'
+import { PACKAGE_NAME } from '../../utils'
 
 import type { TaroHarmonyPageMeta } from '@tarojs/vite-runner/dist/harmony/template/page'
 import type Parser from '@tarojs/vite-runner/dist/harmony/template/page'
@@ -62,7 +62,7 @@ export default function (this: Harmony): PluginOption {
         compiler.loaderMeta.modifyHarmonyRenderCode = function (code: string) {
           const importStr = [
             `import { ComponentContent, FrameNode, NodeController, UIContext } from '@kit.ArkUI'`,
-            `import { Current } from '${PKG_NAME}/dist/runtime/runtime-harmony'`,
+            `import { Current } from '${PACKAGE_NAME}/dist/runtime/runtime-harmony'`,
             `import { TaroXComponent } from '@tarojs/components'`,
           ]
           const codeArr = code.split('\n')

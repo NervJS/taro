@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import path from 'node:path'
 
-import { chalk } from '@tarojs/helper'
+import { chalk, NODE_MODULES } from '@tarojs/helper'
 import { DEFAULT_TERSER_OPTIONS } from '@tarojs/vite-runner/dist/utils/constants'
 
 import initCommands from './commands'
@@ -71,7 +71,13 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
       await program.start()
 
       if (options.useChoreLibrary === false) {
+        const { appPath } = ctx.paths
+        const { outputRoot } = ctx.runOpts.config
+        const npmDir = path.join(outputRoot, NODE_MODULES)
         // Note: 注入 C-API 库
+        program.externalDeps.forEach(([libName, _, target]) => {
+          program.moveLibraries(target || libName, path.resolve(npmDir, libName), appPath, !target)
+        })
       }
     }
   })
