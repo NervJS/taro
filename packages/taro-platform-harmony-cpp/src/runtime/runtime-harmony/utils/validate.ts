@@ -1,4 +1,4 @@
-import { isArray, isNull, isObject, isString } from '../../utils/is'
+import { isArray, isNull, isObject, isString } from './is'
 
 type JSTypes = 'string' | 'number' | 'boolean' | 'undefined' | 'null' | 'bigint' | 'symbol' | 'array' | 'object' | 'function'
 

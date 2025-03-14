@@ -1,4 +1,4 @@
-import { isString } from '../../utils/is'
+import { isString } from './is'
 
 import type { TaroAny } from '@tarojs/runtime'
 
