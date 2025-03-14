@@ -79,7 +79,7 @@ export class MultiPlatformPlugin {
   private includes (filePath: string): boolean {
     if (!this.options.include || !this.options.include.length) return false
 
-    filePath = filePath.replace(path.sep, '/')
+    filePath = filePath.replace(/[\\/]/g, '/');
 
     const res = this.options.include.find(item => filePath.includes(item))
     return Boolean(res)
