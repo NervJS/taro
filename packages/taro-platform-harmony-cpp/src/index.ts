@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 import path from 'node:path'
 
-import { chalk, NODE_MODULES } from '@tarojs/helper'
+import { chalk, fs, NODE_MODULES, NPM_DIR } from '@tarojs/helper'
 import { DEFAULT_TERSER_OPTIONS } from '@tarojs/vite-runner/dist/utils/constants'
 
 import initCommands from './commands'
 import HarmonyCPP from './program'
-import { CPP_LIBRARY_NAME, CPP_LIBRARY_PATH, getProcessArg, PLATFORM_NAME } from './utils'
+import { CPP_LIBRARY_NAME, CPP_LIBRARY_PATH, getProcessArg, PLATFORM_NAME, SEP_RGX } from './utils'
 import { PKG_DEPENDENCIES, PKG_NAME, PKG_VERSION, PROJECT_DEPENDENCIES_NAME } from './utils/constant'
 
 import type { IPluginContext } from '@tarojs/service'
@@ -29,7 +29,7 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
     opts.ohPackage.dependencies ||= {}
 
     if (options.useChoreLibrary) {
-      opts.chorePackagePrefix ||= `${PKG_NAME}/src/main/ets/npm`
+      opts.chorePackagePrefix ||= `${PKG_NAME}/src/main/ets/${NPM_DIR}`
       opts.ohPackage.dependencies[PKG_NAME] ||= `^${PKG_VERSION}`
       PROJECT_DEPENDENCIES_NAME.forEach(key => {
         opts.ohPackage.dependencies[key] ||= PKG_DEPENDENCIES[key]
@@ -72,12 +72,17 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
 
       if (options.useChoreLibrary === false) {
         const { appPath } = ctx.paths
-        const { outputRoot } = ctx.runOpts.config
+        const { outputRoot } = config
         const npmDir = path.join(outputRoot, NODE_MODULES)
         // Note: 注入 C-API 库
         program.externalDeps.forEach(([libName, _, target]) => {
           program.moveLibraries(target || libName, path.resolve(npmDir, libName), appPath, !target)
         })
+        program.handleResourceEmit(outputRoot, appPath)
+        program.generateInitialEntry()
+        if (config.hapName !== 'entry') { // Note: 如果是 entry 不需要重写 BuildProfile 路径
+          fixBuildProfile(outputRoot, path.join(outputRoot, '../../..'))
+        }
       }
     }
   })
@@ -100,5 +105,22 @@ function assertHarmonyConfig (ctx: IPluginContext, config): asserts config is IH
 
   if (!config.projectPath) {
     throwError('请设置 harmony.projectPath')
+  }
+}
+
+export function fixBuildProfile(lib = '', outputRoot = '') {
+  const stats = fs.statSync(lib)
+  if (stats.isDirectory()) {
+    fs.readdirSync(lib).forEach((item) => fixBuildProfile(path.join(lib, item), outputRoot))
+  } else if (stats.isFile() && lib.endsWith('.ets')) {
+    let data = fs.readFileSync(lib, 'utf-8')
+    const buildProfilePath = path.resolve(outputRoot, 'BuildProfile')
+    const rgx = /import\s+(\S+)\s+from\s*['"]BuildProfile['"]/
+    if (rgx.test(data)) {
+      data = data.replace(rgx, (_, p1) => {
+        return `import ${p1} from '${path.relative(path.dirname(lib), buildProfilePath).replace(SEP_RGX, '/')}'`
+      })
+      fs.writeFileSync(lib, data, 'utf-8')
+    }
   }
 }

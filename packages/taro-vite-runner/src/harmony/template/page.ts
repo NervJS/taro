@@ -198,10 +198,10 @@ export default class Parser extends BaseParser {
         decorator: 'StorageProp("__TARO_ENTRY_PAGE_PATH")', name: 'entryPagePath', type: 'string', foreach: () => '""', disabled: this.buildConfig.isBuildNativeComp
       }, false),
       this.renderState({
-        decorator: 'State', name: 'appConfig', type: 'Taro.AppConfig', foreach: () => 'window.__taroAppConfig || {}', disabled: this.buildConfig.isBuildNativeComp
+        decorator: 'State', name: 'appConfig', type: 'Taro.AppConfig', foreach: () => 'window.__taroAppConfig || {}', disabled: this.buildConfig.isBuildNativeComp || !this.isTabbarPage
       }, false),
       this.renderState({
-        decorator: 'State', name: 'tabBarList', type: `${this.isTabbarPage ? 'ITabBarItem' : 'Taro.TabBarItem'}[]`, foreach: () => 'this.appConfig.tabBar?.list || []', disabled: this.buildConfig.isBuildNativeComp
+        decorator: 'State', name: 'tabBarList', type: `${this.isTabbarPage ? 'ITabBarItem' : 'Taro.TabBarItem'}[]`, foreach: () => 'this.appConfig.tabBar?.list || []', disabled: this.buildConfig.isBuildNativeComp || !this.isTabbarPage
       }, false),
     ].filter(item => item !== '').flat()
 
@@ -719,7 +719,8 @@ for (let i = 0; i < taskQueen.length; i++) {
       paramsString = modifyPageParams.call(this, paramsString, page)
     }
 
-    return `${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
+    // FIXME window.__ohos.getLastWindow
+    return `${(this.buildConfig.isBuildNativeComp || !0) ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
       ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
       : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
   Current.contextPromise
@@ -918,7 +919,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     // 生成 aboutToAppear 函数内容
     let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as unknown[]).concat(
       this.buildConfig.isBuildNativeComp ? [] : [
-        'const state = this.getPageState()',
+        'const state: TaroAny = this.getPageState()',
         'if (this.pageStack.length >= state.index) {',
         '  this.pageStack.length = state.index - 1',
         '}',

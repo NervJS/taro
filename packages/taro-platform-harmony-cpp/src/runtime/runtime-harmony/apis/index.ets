@@ -3,7 +3,7 @@ import { startAccelerometer, stopAccelerometer } from './accelerometer'
 import { handleSetClipboardData, handleGetClipboardData } from './clipboard'
 import { handleShowModal, handleShowToast, handleShowActionSheet } from './interactions'
 
-import type { IEtsMethodsOptions } from "../../index"
+import type { IEtsMethodsOptions } from "../index"
 
 export function handleTaroApis(option: IEtsMethodsOptions) {
   switch (option.name) {

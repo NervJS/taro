@@ -2,6 +2,7 @@ import path from 'node:path'
 
 import { chalk, fs, NODE_MODULES } from '@tarojs/helper'
 import { isObject } from '@tarojs/shared'
+import fg from 'fast-glob'
 
 import { genRawFileName, getProjectId, RAWFILE_FOLDER, RAWFILE_NAME_PREFIX } from '../../utils'
 
@@ -48,18 +49,20 @@ export default function (this: Harmony): PluginOption {
       }
 
       if (needCleanResources) {
-        fs.copySync(finalOutDir, tmpDir, {
-          filter: (src) => {
-            const copyPath = path.relative(finalOutDir, src)
-            return (
-              !copyPath ||
-              (!copyPath.startsWith('.') &&
-                !copyPath.startsWith('ets') &&
-                !copyPath.includes(`${RAWFILE_FOLDER}/${RAWFILE_NAME_PREFIX}`))
-            )
-          },
+        const files = fg.sync(['!cpp/**/*', '!ets/**/*', `!${RAWFILE_FOLDER}/${RAWFILE_NAME_PREFIX}/**/*`], {
+          cwd: finalOutDir,
+          dot: true,
         })
-        fs.emptyDirSync(finalOutDir)
+        files.forEach(file => {
+          const src = path.join(finalOutDir, file)
+          if (!file.startsWith('ets') && !file.startsWith(`${RAWFILE_FOLDER}/${RAWFILE_NAME_PREFIX}`)) {
+            const dest = path.join(tmpDir, file)
+            fs.ensureDirSync(path.dirname(dest))
+            fs.moveSync(src, dest)
+          } else {
+            fs.removeSync(src)
+          }
+        })
         ;['uncaughtException', 'unhandledRejection', 'uncaughtExceptionMonitor'].forEach((event) => {
           process.on(event, (reason) => {
             console.error('捕获到未处理的错误:', reason)

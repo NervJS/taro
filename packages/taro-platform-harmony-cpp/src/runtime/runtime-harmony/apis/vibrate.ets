@@ -1,7 +1,7 @@
 import vibrator from '@ohos.vibrator'
 
 import type { TaroAny } from '@tarojs/runtime'
-import type { IEtsMethodsOptions } from '../../index'
+import type { IEtsMethodsOptions } from '../index'
 
 const VIBRATOR_LONG_TIME = 400
 const VIBRATOR_SHORT_TIME = 15

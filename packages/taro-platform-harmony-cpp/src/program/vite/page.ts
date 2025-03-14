@@ -4,7 +4,7 @@ import { isObject, isString } from '@tarojs/shared'
 import { TARO_COMP_SUFFIX } from '@tarojs/vite-runner/dist/harmony/entry'
 import { escapePath, prettyPrintJson } from '@tarojs/vite-runner/dist/utils'
 
-import { genRawFileName, getProjectId, PKG_NAME, SEP_RGX } from '../../utils'
+import { genRawFileName, getProjectId, NPM_DIR, PACKAGE_NAME, SEP_RGX } from '../../utils'
 import { fixImportCode } from '../rollup/global-plugin'
 import { loadLibraryFunctionName } from '../template/entry'
 import { STYLE_SUFFIX } from './style'
@@ -63,7 +63,7 @@ export default function (this: Harmony): PluginOption {
       const compiler = getViteHarmonyCompilerContext(pluginContext)!
       const taroConfig = compiler.taroConfig
 
-      if (compiler?.components instanceof Array) {
+      if (compiler?.pages instanceof Array || compiler?.components instanceof Array) {
         compiler.loaderMeta ||= {}
         compiler.loaderMeta.modifyEntryFile = function (
           this: PageParser,
@@ -190,11 +190,11 @@ function ComponentWrapper ({ Component }) {
           return code
         }
 
-        compiler.components.forEach((config: TPageMeta) => {
+        const parsePageOrComp = (config: TPageMeta) => {
           if (!isPureComp(config)) {
             config.entryOption = {}
           }
-
+          const chorePackagePrefix = runOpts.config.chorePackagePrefix ?? path.relative(path.dirname(config.name), NPM_DIR)
           config.modifyPageImport = function (this: PageParser, importStr: string[], page: TPageMeta) {
             if (!isPureComp(page)) {
               Object.assign(config.entryOption, {
@@ -224,13 +224,13 @@ function ComponentWrapper ({ Component }) {
 
             importStr.unshift('import { TaroXComponent } from "@tarojs/components"')
             importStr.unshift(
-              `import type { TaroLogger, TaroCoreContext, TaroInstance } from "${PKG_NAME}/dist/runtime/runtime-harmony"`
+              `import type { TaroLogger, TaroCoreContext, TaroInstance } from "${PACKAGE_NAME}/dist/runtime/runtime-harmony"`
             )
             importStr.unshift(
-              `import { initStyleSheetConfig, initPxTransform, navigateBack, getWindowInfo as getSystemInfoSync, Current, eventCenter, ObjectAssign, StandardTaroLogger, TraceJSBundleProviderDecorator,  BundleInfo, bundleInfos2JSBundleProviderWithVersion, AnyJSBundleProvider, ResourceJSBundleProvider, StringJSBundleProvider, systemContext, injectGlobalVariable, TaroWindowUtil } from "${PKG_NAME}/dist/runtime/runtime-harmony"`
+              `import { initStyleSheetConfig, initPxTransform, navigateBack, getWindowInfo as getSystemInfoSync, Current, eventCenter, ObjectAssign, StandardTaroLogger, TraceJSBundleProviderDecorator,  BundleInfo, bundleInfos2JSBundleProviderWithVersion, AnyJSBundleProvider, ResourceJSBundleProvider, StringJSBundleProvider, injectGlobalVariable } from "${PACKAGE_NAME}/dist/runtime/runtime-harmony"`
             )
             importStr.unshift(
-              `import { TaroNativeModule } from "${runOpts.config.chorePackagePrefix}/${PKG_NAME}/dist/runtime/runtime-harmony/harmony-library"`
+              `import { TaroNativeModule } from "${PACKAGE_NAME}/dist/runtime/runtime-harmony/harmony-library"`
             )
             importStr.unshift('import hilog from "@ohos.hilog"')
             importStr.unshift('import { NodeContent } from "@ohos.arkui.node"')
@@ -250,7 +250,7 @@ function ComponentWrapper ({ Component }) {
                   name: 'params',
                   type: 'TaroObject',
                   foreach: () => '{}',
-                  disabled: !this.buildConfig.isBuildNativeComp,
+                  disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
                 this.isTabbarPage
               ),
@@ -259,8 +259,8 @@ function ComponentWrapper ({ Component }) {
                   decorator: isPure ? 'Local' : 'State',
                   name: 'statusBarHeight',
                   type: 'number',
-                  foreach: () => 'px2vp(TaroWindowUtil.getStatusBarHeight())',
-                  disabled: !this.buildConfig.isBuildNativeComp,
+                  foreach: () => '0', // FIXME
+                  disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
                 this.isTabbarPage
               ),
@@ -273,7 +273,7 @@ function ComponentWrapper ({ Component }) {
                     this.appConfig.window?.navigationStyle === 'custom'
                       ? `config.navigationStyle !== 'default'`
                       : `config.navigationStyle === 'custom'`,
-                  disabled: !this.buildConfig.isBuildNativeComp,
+                  disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
                 this.isTabbarPage
               ),
@@ -283,7 +283,7 @@ function ComponentWrapper ({ Component }) {
                   name: 'nodeContent',
                   type: 'Content',
                   foreach: () => 'new NodeContent()',
-                  disabled: !this.buildConfig.isBuildNativeComp,
+                  disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
                 this.isTabbarPage
               ),
@@ -293,7 +293,7 @@ function ComponentWrapper ({ Component }) {
                   name: 'isReady',
                   type: 'boolean',
                   foreach: () => 'false',
-                  disabled: !this.buildConfig.isBuildNativeComp,
+                  disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
                 this.isTabbarPage
               ),
@@ -361,7 +361,7 @@ function ComponentWrapper ({ Component }) {
                     name: '__layoutSize',
                     type: 'TaroAny',
                     foreach: () => 'null',
-                    disabled: !this.buildConfig.isBuildNativeComp,
+                    disabled: !this.buildConfig.isBuildNativeComp && isPure,
                   },
                   this.isTabbarPage
                 ),
@@ -388,7 +388,7 @@ function ComponentWrapper ({ Component }) {
                     name: '__pageName',
                     type: 'TaroAny',
                     foreach: () => 'null',
-                    disabled: !this.buildConfig.isBuildNativeComp,
+                    disabled: !this.buildConfig.isBuildNativeComp && isPure,
                   },
                   this.isTabbarPage
                 ),
@@ -467,8 +467,8 @@ function ComponentWrapper ({ Component }) {
                 `initEtsBuilder('${genUniPageId(page)}')`,
                 'this.__layoutSize = this.params._layout_',
                 `this.__pageName = '${page.name}'`,
-                'systemContext.windowWidth = this.params._layout_?.width',
-                'systemContext.windowHeight = this.params._layout_?.height',
+                // 'systemContext.windowWidth = this.params._layout_?.width',
+                // 'systemContext.windowHeight = this.params._layout_?.height',
                 'injectGlobalVariable(this.params._layout_.width, this.params._layout_.height, this.taroInstance?.getId())',
               ]
 
@@ -620,8 +620,9 @@ function ComponentWrapper ({ Component }) {
               ])
             }
 
-            const disabledMethods = ['getPageState', 'onPageShow', 'onPageHide']
+            const disabledMethods = ['onPageShow', 'onPageHide']
             if (isPure) {
+              disabledMethods.unshift('getPageState')
               disabledMethods.push('handleRefreshStatus')
             }
             disabledMethods.forEach((name) => {
@@ -665,24 +666,79 @@ function ComponentWrapper ({ Component }) {
                 name: 'renderTitle',
                 decorators: ['Builder'],
                 body: this.transArr2Str([
-                  'NavBar({',
-                  // '  isAdaptStatusBar: true,', 由于内置 windowStage 为 undefined 实际无效
-                  '  isAutoDark: true,',
-                  `  statusBarHeight: this.statusBarHeight,`,
-                  `  bgColor: this.navigationBarBackgroundColor || '${
-                    this.appConfig.window?.navigationBarBackgroundColor || '#000000'
-                  }',`,
-                  `  mainTitleText: new TextParam(this.navigationBarTitleText || '${
-                    this.appConfig.window?.navigationBarTitleText || ''
-                  }', null, this.navigationBarTextStyle || '${
-                    this.appConfig.window?.navigationBarTextStyle || 'white'
-                  }', null),`,
-                  '  useBackIcon: true,',
-                  '  onBackClick: () => {',
-                  '    navigateBack()', // 需要拦截适配返回，组件提供的返回与 NavDestination 不兼容
-                  '    return true',
-                  '  },',
-                  '})',
+                  `Flex({`,
+                  `  direction: FlexDirection.Row,`,
+                  `  justifyContent: FlexAlign.Start,`,
+                  `  alignItems: ItemAlign.Center,`,
+                  `}) {`,
+                  `${
+                    this.transArr2Str(!this.isTabbarPage && !this.buildConfig.isBuildNativeComp
+                    // FIXME 这里 pageStack 更新问题，需要第二次才能显示 Home 按钮
+                      ? [
+                        `if (this.pageStack[0].path !== this.entryPagePath && this.navigationBarHomeBtn && this.pageStack.length === 1) {`,
+                        `    Image($r('app.media.taro_home'))`,
+                        // FIXME `      .height(convertNumber2VP(40 / 7.5, 'vw'))`,
+                        // FIXME `      .width(convertNumber2VP(40 / 7.5, 'vw'))`,
+                        // FIXME `      .margin({ left: convertNumber2VP(40 / 7.5, 'vw'), right: convertNumber2VP(-20 / 7.5, 'vw') })`,
+                        `      .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)`,
+                        `      .objectFit(ImageFit.Contain)`,
+                        `      .onClick(() => {`,
+                        // FIXME `        router.replaceUrl({`,
+                        // FIXME `          url: this.tabBarList.find(e => e.pagePath === this.entryPagePath) ? '${TARO_TABBAR_PAGE_PATH}' : this.entryPagePath,`,
+                        // FIXME `          params: {`,
+                        // FIXME `            '$page': this.entryPagePath,`,
+                        // FIXME `          },`,
+                        // FIXME `        })`,
+                        `      })`,
+                        `  } else if (this.pageStack.length > 1) {`,
+                        `    Image($r('app.media.taro_arrow_left'))`,
+                        // FIXME `      .height(convertNumber2VP(40 / 7.5, 'vw'))`,
+                        // FIXME `      .width(convertNumber2VP(40 / 7.5, 'vw'))`,
+                        // FIXME `      .margin({ left: convertNumber2VP(40 / 7.5, 'vw'), right: convertNumber2VP(-20 / 7.5, 'vw') })`,
+                        `      .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)`,
+                        `      .objectFit(ImageFit.Contain)`,
+                        `      .onClick(() => {`,
+                        `        router.back()`,
+                        `      })`,
+                        `  }`,
+                      ] : [], 2)}`,
+                  `  Text(this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTitleText || ''}')`,
+                  // FIXME `    .margin({ left: convertNumber2VP(40 / 7.5, 'vw') })`,
+                  // FIXME `    .fontSize(convertNumber2VP(32 / 7.5, 'vw'))`,
+                  `    .fontColor((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)`,
+                  `  if (this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}) {`,
+                  `    LoadingProgress()`,
+                  // FIXME `      .margin({ left: convertNumber2VP(10 / 7.5, 'vw') })`,
+                  // FIXME `      .height(convertNumber2VP(40 / 7.5, 'vw'))`,
+                  // FIXME `      .width(convertNumber2VP(40 / 7.5, 'vw'))`,
+                  `      .color((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)`,
+                  `  }`,
+                  `}`,
+                  `.height('100%')`,
+                  `.width('100%')`,
+                  `.backgroundColor(this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')`,
+                  `.padding({`,
+                  `  top: px2vp(sysInfo.safeArea?.top || 0),`,
+                  `})`,
+                  `.zIndex(1)`,
+                  // 'NavBar({',
+                  // // '  isAdaptStatusBar: true,', 由于内置 windowStage 为 undefined 实际无效
+                  // '  isAutoDark: true,',
+                  // `  statusBarHeight: this.statusBarHeight,`,
+                  // `  bgColor: this.navigationBarBackgroundColor || '${
+                  //   this.appConfig.window?.navigationBarBackgroundColor || '#000000'
+                  // }',`,
+                  // `  mainTitleText: new TextParam(this.navigationBarTitleText || '${
+                  //   this.appConfig.window?.navigationBarTitleText || ''
+                  // }', null, this.navigationBarTextStyle || '${
+                  //   this.appConfig.window?.navigationBarTextStyle || 'white'
+                  // }', null),`,
+                  // '  useBackIcon: true,',
+                  // '  onBackClick: () => {',
+                  // '    navigateBack()', // 需要拦截适配返回，组件提供的返回与 NavDestination 不兼容
+                  // '    return true',
+                  // '  },',
+                  // '})',
                 ]),
               })
 
@@ -776,7 +832,7 @@ function ComponentWrapper ({ Component }) {
                 `      new StringJSBundleProvider(\`(() => {`,
                 this.transArr2Str(
                   fixImportCode(['import { Current, eventCenter, window, CONTEXT_ACTIONS } from "@tarojs/runtime"'], {
-                    chorePackagePrefix: runOpts.config.chorePackagePrefix,
+                    chorePackagePrefix,
                     projectId,
                     sourcePath: compPath,
                     fileName: page.originName,
@@ -856,7 +912,7 @@ function ComponentWrapper ({ Component }) {
                     '  new StringJSBundleProvider(`(() => {',
                     this.transArr2Str(
                       fixImportCode(['import { eventCenter } from "@tarojs/runtime"'], {
-                        chorePackagePrefix: runOpts.config.chorePackagePrefix,
+                        chorePackagePrefix,
                         projectId,
                         sourcePath: compPath,
                         fileName: page.originName,
@@ -884,7 +940,9 @@ function ComponentWrapper ({ Component }) {
               )
             }
           }
-        })
+        }
+        compiler?.pages?.forEach(parsePageOrComp)
+        compiler?.components?.forEach(parsePageOrComp)
       }
     },
     generateBundle(_, bundle) {

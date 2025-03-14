@@ -1531,6 +1531,9 @@ importers:
       '@types/react-reconciler':
         specifier: ^0.28.8
         version: 0.28.8
+      fast-glob:
+        specifier: ^3.3.2
+        version: 3.3.2
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -1589,9 +1592,6 @@ importers:
       '@types/node':
         specifier: ^18.19.34
         version: 18.19.80
-      fast-glob:
-        specifier: ^3.3.2
-        version: 3.3.2
       postcss:
         specifier: ^8.4.38
         version: 8.4.38

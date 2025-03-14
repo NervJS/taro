@@ -98,21 +98,21 @@ export function initEtsBuilder (router = '') {
         }
       }
 
-      if (compiler?.components instanceof Array) {
-        compiler.components.forEach((config: TaroHarmonyPageMeta) => {
-          const oddModifyPageImport = config.modifyPageImport
-          config.modifyPageImport = function (this: PageParser, importStr: string[], page: TaroHarmonyPageMeta) {
-            if (isFunction(oddModifyPageImport)) {
-              oddModifyPageImport.call(this, importStr, page)
-            }
-
-            const { sourceRoot = 'src' } = this.buildConfig
-            const targetRoot = path.resolve(this.appPath, sourceRoot)
-            const renderPath = path.resolve(targetRoot, 'render')
-            importStr.push(`import { initEtsBuilder } from "${renderPath}"`)
+      const modifyPageOrComp = (config: TaroHarmonyPageMeta) => {
+        const oddModifyPageImport = config.modifyPageImport
+        config.modifyPageImport = function (this: PageParser, importStr: string[], page: TaroHarmonyPageMeta) {
+          if (isFunction(oddModifyPageImport)) {
+            oddModifyPageImport.call(this, importStr, page)
           }
-        })
+
+          const { sourceRoot = 'src' } = this.buildConfig
+          const targetRoot = path.resolve(this.appPath, sourceRoot)
+          const renderPath = path.resolve(targetRoot, 'render')
+          importStr.push(`import { initEtsBuilder } from "${renderPath}"`)
+        }
       }
+      compiler?.pages?.forEach?.(modifyPageOrComp)
+      compiler?.components?.forEach?.(modifyPageOrComp)
     },
   }
 }

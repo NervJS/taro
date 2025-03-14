@@ -2,13 +2,13 @@ import fs from '@ohos.file.fs'
 import image from '@ohos.multimedia.image'
 import photoAccessHelper from '@ohos.file.photoAccessHelper'
 
-import { Current } from '../current'
-import { getWindowInfo } from '../page'
+import { Current } from './current'
+import { getWindowInfo } from './page'
 import { validateParams } from '../utils'
+import { handleTaskPoolCompressImage, handleTaskPoolGetImageSize } from './taskpool'
 
 import type { TaroAny } from '@tarojs/runtime'
-import type { IEtsMethodsOptions } from '../../index'
-import { handleTaskPoolCompressImage, handleTaskPoolGetImageSize } from './taskpool'
+import type { IEtsMethodsOptions } from '../index'
 
 function isNull(o: TaroAny) {
   return o === null;

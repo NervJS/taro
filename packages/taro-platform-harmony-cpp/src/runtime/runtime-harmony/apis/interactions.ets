@@ -1,8 +1,8 @@
-import { validateParams } from '../utils'
-import { Current, ObjectAssign } from '../../index'
+import { validateParams } from '../utils/utils'
+import { Current, ObjectAssign } from '../index'
 
-import type { IEtsMethodsOptions } from '../../index'
 import type { TaroAny } from '@tarojs/runtime'
+import type { IEtsMethodsOptions } from '../index'
 
 const resCallback = (res: string): TaroAny => {
   const result: TaroAny =  { errMsg: `${res}:ok` }

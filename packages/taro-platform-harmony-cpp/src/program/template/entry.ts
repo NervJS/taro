@@ -337,7 +337,7 @@ export default class Parser extends BaseParser {
       `  nativeUIManager.initSystemInfo({`,
       `    deviceInfo: globalThis.loadLibrary('@tarojs/taro', 'getDeviceInfo')(),`,
       `  })`,
-      `})();\`, 'npm/${entryFileName}?generated'),`,
+      `})();\`, '${NPM_DIR}/${entryFileName}?generated'),`,
       `      ),`,
       `      new StandardTaroLogger((error: TaroAny) => hilog.error(0xBEEF, "TaroJS ERROR", error.getDetails())),`,
       `    )).catch((err: Error) => {`,

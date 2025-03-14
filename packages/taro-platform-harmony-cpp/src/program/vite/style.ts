@@ -51,25 +51,25 @@ export default function (this: Harmony): PluginOption {
         compiler.loaderMeta.enableParseJSXStyle = true
       }
 
-      if (compiler?.components instanceof Array) {
-        compiler.components.forEach((config: TaroHarmonyPageMeta) => {
-          const oddModifyPageImport = config.modifyPageImport
-          config.modifyPageImport = function (this: PageParser, importStr: string[], page: TaroHarmonyPageMeta) {
-            if (isFunction(oddModifyPageImport)) {
-              oddModifyPageImport.call(this, importStr, page)
-            }
-
-            const { outputRoot = 'dist' } = this.buildConfig
-
-            const styleName = `${page.originName}_style.json`
-
-            const moduleInfo = pluginContext.getModuleInfo(page.id) as NewModuleInfo
-            moduleInfo.originName = page.originName
-            moduleInfo.outputRoot = outputRoot
-            PageMap.set(path.resolve(outputRoot, styleName), moduleInfo)
+      const modifyPageOrComp = (config: TaroHarmonyPageMeta) => {
+        const oddModifyPageImport = config.modifyPageImport
+        config.modifyPageImport = function (this: PageParser, importStr: string[], page: TaroHarmonyPageMeta) {
+          if (isFunction(oddModifyPageImport)) {
+            oddModifyPageImport.call(this, importStr, page)
           }
-        })
+
+          const { outputRoot = 'dist' } = this.buildConfig
+
+          const styleName = `${page.originName}_style.json`
+
+          const moduleInfo = pluginContext.getModuleInfo(page.id) as NewModuleInfo
+          moduleInfo.originName = page.originName
+          moduleInfo.outputRoot = outputRoot
+          PageMap.set(path.resolve(outputRoot, styleName), moduleInfo)
+        }
       }
+      compiler?.pages?.forEach?.(modifyPageOrComp)
+      compiler?.components?.forEach?.(modifyPageOrComp)
     },
     buildEnd() {
       const pluginContext = this

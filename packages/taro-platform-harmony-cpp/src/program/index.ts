@@ -37,7 +37,7 @@ export default class Harmony extends HarmonyOS {
     // @ts-ignore
     super(ctx, config) // Note: link 时，ctx 类型可能无法对齐，此处忽略类型检查
     const that = this
-    this.externalDeps.push([this.runtimePath, new RegExp(`^${this.runtimePath.replace(/([-\\/$])/g, '\\$1')}$`)])
+    this.externalDeps.push([this.runtimePath, new RegExp(`^${this.runtimePath.replace(/([-\\/$])/g, '\\$1')}`)])
     this.externalDeps.forEach(e => {
       if (e[0] === '@tarojs/react') {
         e[2] = this.runtimeFrameworkReconciler
@@ -208,9 +208,10 @@ export default class Harmony extends HarmonyOS {
     const outputFile = isFile ? outputPath + '.js' : path.join(outputPath, 'index.js')
     const needDeclaration = /@tarojs[\\/](runtime|taro)/.test(outputPath)
     if (!fs.existsSync(inputPath)) {
-      await sleep(100)
+      await sleep(150)
     }
     try {
+      fs.ensureDirSync(path.dirname(outputFile))
       await generatePackage.call(this, {
         input: inputPath,
         output: outputFile,
@@ -228,6 +229,9 @@ export default class Harmony extends HarmonyOS {
       this.initialDependencies.push(getPkgFile(outputFile, NPM_DIR))
     } catch (error) {
       console.error(`移动 ${chalk.yellow(inputPath)} 到 ${outputPath} 失败：${error.message}\n`, error.stack) // eslint-disable-line no-console
+    }
+    if (!fs.existsSync(outputFile)) {
+      await sleep(150)
     }
     // Note: 非 ETS 依赖需要能注入到 JSVM 中
     const resourcesFile = outputFile.replace(/[\\/]ets[\\/]/g, '/resources/rawfile/')

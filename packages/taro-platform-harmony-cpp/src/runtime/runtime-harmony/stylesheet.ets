@@ -1,7 +1,6 @@
 import _display from '@ohos.display'
-import { TaroAny } from '@tarojs/runtime';
-import { systemContext } from './system'
 
+import type { TaroAny } from '@tarojs/runtime'
 
 interface ILayout {
   width: number;
@@ -40,7 +39,7 @@ export function initStyleSheetConfig(layout: ILayout = { width: 0, height: 0 }, 
     // 窗口高度:单位vp
     viewportHeight: (layout.height || (display.height / display.densityPixels)) - navHeight,
     // 安全区域:单位vp
-    safeArea: systemContext.safeArea,
+    safeArea: null, // FIXME
     // 显示设备的显示字体的缩放因子。该参数为浮点数，通常与densityPixels相同
     scaledDensity: display.scaledDensity,
     // 表示屏幕当前显示的方向

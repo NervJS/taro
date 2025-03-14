@@ -1,10 +1,10 @@
 import pasteboard from '@ohos.pasteboard'
 
-import { Current } from '../../index'
-import { isString } from '../../utils/is'
-import { getParameterError, object2String } from '../utils'
+import { Current } from '../index'
+import { isString } from '../utils/is'
+import { getParameterError, object2String } from '../utils/utils'
 
-import type { IEtsMethodsOptions } from '../../index'
+import type { IEtsMethodsOptions } from '../index'
 import type { TaroAny } from '@tarojs/runtime'
 
 export function handleSetClipboardData(option: IEtsMethodsOptions): TaroAny {

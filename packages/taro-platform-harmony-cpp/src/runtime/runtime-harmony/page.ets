@@ -1,6 +1,7 @@
 import _display from '@ohos.display'
+
 import { TaroNativeModule } from './harmony-library'
-import { systemContext, displayContext } from './system'
+
 import type { TaroAny } from '@tarojs/runtime'
 
 export function getWindowInfo (): TaroAny {
@@ -9,13 +10,13 @@ export function getWindowInfo (): TaroAny {
 
   const info: TaroAny = {
     /** 设备像素比 */
-    pixelRatio: systemContext.densityPixels, // 设备像素比,number
+    pixelRatio: 1, // FIXME 设备像素比,number
     screenWidth: px2vp(display?.width), // 屏幕宽度，单位vp
     screenHeight: px2vp(display?.height), // 屏幕高度，单位vp
-    windowWidth: systemContext.windowWidth || px2vp(display?.width), // 可使用窗口高度，单位px
-    windowHeight: systemContext.windowHeight || px2vp(display?.height), // 可使用窗口宽度，单位px
-    statusBarHeight: systemContext.statusBarHeight, // 状态栏的高度，单位vp
-    safeArea: systemContext.safeArea, // 在竖屏正方向下的安全区域 General.SafeAreaResult 单位为vp
+    windowWidth: px2vp(display?.width), // FIXME 可使用窗口高度，单位px
+    windowHeight: px2vp(display?.height), // FIXME 可使用窗口宽度，单位px
+    statusBarHeight: 0, // FIXME 状态栏的高度，单位vp
+    safeArea: null, // FIXME 在竖屏正方向下的安全区域 General.SafeAreaResult 单位为vp
   }
   // Note: Harmony 端特定属性
   info.foldDisplayMode = canIUse('SystemCapability.Window.SessionManager') ? _display.getFoldDisplayMode() : 0 // 折叠屏显示模式
@@ -75,7 +76,7 @@ export function injectGlobalVariable(windowWidth: number, windowHeight: number, 
         width: right - left
       }, instanceId)
       TaroNativeModule.runNextTickTask(() => {
-        displayContext.resolve()
+        // displayContext.resolve() FIXME
       })
       resolve()
     })

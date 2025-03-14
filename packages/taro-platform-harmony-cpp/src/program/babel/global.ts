@@ -1,4 +1,4 @@
-import { isLocalPath, parseLocalPath } from '../../utils'
+import { isLocalPath, NPM_DIR, parseLocalPath } from '../../utils'
 import { PKG_NAME } from '../../utils/constant'
 import { globalVarName, loadLibraryFunctionName, setLibraryFunctionName } from '../template/entry'
 
@@ -24,7 +24,7 @@ export default function transformGlobalModePlugin ({
   const importFunc = isGlobal ? `${globalVarName}.${loadLibraryFunctionName}` : loadLibraryFunctionName
   const exportFunc = isGlobal ? `${globalVarName}.${setLibraryFunctionName}` : setLibraryFunctionName
   const exportPaths: [boolean, ...string[]] = [isGlobal, projectId, fileName]
-  chorePackagePrefix = chorePackagePrefix || `${PKG_NAME}/src/main/ets/npm`
+  chorePackagePrefix = chorePackagePrefix || `${PKG_NAME}/src/main/ets/${NPM_DIR}`
 
   return ({ types: t }: typeof BabelCore): BabelCore.PluginObj<BabelCore.PluginPass> => ({
     visitor: {

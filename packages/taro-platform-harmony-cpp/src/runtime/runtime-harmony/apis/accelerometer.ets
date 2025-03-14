@@ -1,10 +1,10 @@
 import sensor from '@ohos.sensor'
 
-import { eventCenter } from '../../emitter/emitter'
-import { CallbackManager } from '../../utils/handler'
+import { eventCenter } from '../emitter/emitter'
+import { CallbackManager } from '../utils/handler'
 
 import type { TaroAny } from '@tarojs/runtime'
-import type { IEtsMethodsOptions } from '../../index'
+import type { IEtsMethodsOptions } from '../index'
 
 const callbackManager = new CallbackManager()
 let devicemotionListener: TaroAny

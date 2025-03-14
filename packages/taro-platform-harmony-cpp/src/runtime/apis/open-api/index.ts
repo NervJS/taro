@@ -1,5 +1,4 @@
 export * from './login'
-export * from './mobile'
 export * from '@tarojs/plugin-platform-harmony-ets/dist/apis/open-api/account'
 export * from '@tarojs/plugin-platform-harmony-ets/dist/apis/open-api/address'
 export * from '@tarojs/plugin-platform-harmony-ets/dist/apis/open-api/authorize'

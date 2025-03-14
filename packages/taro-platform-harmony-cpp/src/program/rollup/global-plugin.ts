@@ -4,7 +4,7 @@ import { transformSync } from '@babel/core'
 import { isFunction } from '@tarojs/shared'
 import { TARO_COMP_SUFFIX } from '@tarojs/vite-runner/dist/harmony/entry'
 
-import { getProjectId, isLocalPath, parseLocalPath, PKG_NAME, PKG_VERSION, SEP_RGX } from '../../utils'
+import { getProjectId, isLocalPath, NPM_DIR, PACKAGE_NAME, parseLocalPath, PKG_VERSION, SEP_RGX } from '../../utils'
 import transformGlobalModePlugin from '../babel/global'
 import { babelPresets } from '../babel/presets'
 import { entryFileName, loadLibraryFunctionName, setLibraryFunctionName } from '../template/entry'
@@ -47,7 +47,7 @@ export function fixImportCode(
         if (source.endsWith('.json')) return true
         if (source.endsWith(TARO_COMP_SUFFIX)) return true
       } else {
-        if (sourceValue.includes(`${PKG_NAME}/dist/runtime/runtime-harmony`)) return true
+        if (sourceValue.includes(`${PACKAGE_NAME}/dist/runtime/runtime-harmony`)) return true
       }
     }
   })
@@ -99,7 +99,6 @@ export default function (this: Harmony | void, opt: IPluginOption = {}): PluginO
       const { taroConfig, cwd: appPath } = compiler
       const { sourceRoot = 'src' } = taroConfig
       const projectId = moduleId || getProjectId(taroConfig?.projectName)
-      const chorePackagePrefix = runOpts?.config.chorePackagePrefix
       const sourcePath = path.posix.join(appPath, sourceRoot)
 
       if (compiler) {
@@ -107,8 +106,8 @@ export default function (this: Harmony | void, opt: IPluginOption = {}): PluginO
         compiler.loaderMeta.enableParseJSXStyle = true
       }
 
-      if (!isPureComp && compiler?.components instanceof Array) {
-        compiler.components.forEach((config: TaroHarmonyPageMeta) => {
+      if (!isPureComp) {
+        const modifyPageOrComp = (config: TaroHarmonyPageMeta) => {
           const oddModifyPageImport = config.modifyPageImport
           config.modifyPageImport = function (this: PageParser, importStr: string[], page: TaroHarmonyPageMeta) {
             if (isFunction(oddModifyPageImport)) {
@@ -120,13 +119,15 @@ export default function (this: Harmony | void, opt: IPluginOption = {}): PluginO
             }
 
             fixImportCode(importStr, {
-              chorePackagePrefix,
+              chorePackagePrefix: runOpts?.config.chorePackagePrefix ?? path.relative(path.dirname(page.name), NPM_DIR),
               projectId,
               sourcePath,
               fileName: page.name,
             })
           }
-        })
+        }
+        compiler?.pages?.forEach?.(modifyPageOrComp)
+        compiler?.components?.forEach?.(modifyPageOrComp)
       }
     },
     renderChunk (code, chunk) {

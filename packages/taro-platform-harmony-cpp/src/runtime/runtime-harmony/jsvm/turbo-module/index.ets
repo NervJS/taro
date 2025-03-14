@@ -4,11 +4,8 @@ import { HiTraceManagerTurboModule } from './turbo-modules/hi-trace'
 import { NativePackageManagerTurboModule } from './turbo-modules/native-package'
 import { UnitManagerTurboModule } from './turbo-modules/unit'
 import { StorageManagerTurboModule } from './turbo-modules/storage'
-import { WindowManagerTurboModule } from './turbo-modules/window'
 import { NetworkManagerTurboModule } from './turbo-modules/network'
 import { CurrentManagerTurboModule } from './turbo-modules/current'
-import { RouteManagerTurboModule } from './turbo-modules/router'
-import { LocationManagerTurboModule } from './turbo-modules/location'
 
 import type { TaroAny } from '@tarojs/runtime'
 import type { TurboModule, TurboModuleType, TurboModuleContext } from './TurboModule'
@@ -26,14 +23,11 @@ export class TaroCorePackage extends TaroPackage {
 const TURBO_MODULE_CLASS_BY_NAME: Map<string, TurboModuleType> = new Map()
 TURBO_MODULE_CLASS_BY_NAME.set(AlertManagerTurboModule.NAME, AlertManagerTurboModule)
 TURBO_MODULE_CLASS_BY_NAME.set(NativePackageManagerTurboModule.NAME, NativePackageManagerTurboModule)
-TURBO_MODULE_CLASS_BY_NAME.set(WindowManagerTurboModule.NAME, WindowManagerTurboModule)
 TURBO_MODULE_CLASS_BY_NAME.set(HiTraceManagerTurboModule.NAME, HiTraceManagerTurboModule)
 TURBO_MODULE_CLASS_BY_NAME.set(UnitManagerTurboModule.NAME, UnitManagerTurboModule)
 TURBO_MODULE_CLASS_BY_NAME.set(StorageManagerTurboModule.NAME, StorageManagerTurboModule)
 TURBO_MODULE_CLASS_BY_NAME.set(NetworkManagerTurboModule.NAME, NetworkManagerTurboModule)
 TURBO_MODULE_CLASS_BY_NAME.set(CurrentManagerTurboModule.NAME, CurrentManagerTurboModule)
-TURBO_MODULE_CLASS_BY_NAME.set(RouteManagerTurboModule.NAME, RouteManagerTurboModule)
-TURBO_MODULE_CLASS_BY_NAME.set(LocationManagerTurboModule.NAME, LocationManagerTurboModule)
 
 const EAGER_TURBO_MODULE_CLASS_BY_NAME: Map<string, TurboModule> = new Map()
 // EAGER_TURBO_MODULE_CLASS_BY_NAME.set(DeviceInfoTurboModule.NAME, DeviceInfoTurboModule)
