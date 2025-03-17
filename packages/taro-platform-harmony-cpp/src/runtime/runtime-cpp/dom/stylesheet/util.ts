@@ -1,5 +1,4 @@
-import { BorderStyle, FlexAlign, FlexDirection, FlexWrap, ItemAlign } from '../../constant'
-
+// @ts-nocheck
 export class FlexManager {
   static flexAlign (value: string | number | undefined): FlexAlign {
     switch (value) {

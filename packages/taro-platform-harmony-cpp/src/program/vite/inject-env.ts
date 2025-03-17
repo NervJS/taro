@@ -1,9 +1,7 @@
 import { transformSync } from '@babel/core'
-import inject from '@rollup/plugin-inject'
 import { SCRIPT_EXT } from '@tarojs/helper'
 
 import type * as BabelCore from '@babel/core'
-import type { RollupInjectOptions } from '@rollup/plugin-inject'
 import type { PluginOption } from 'vite'
 import type Harmony from '..'
 
@@ -12,51 +10,9 @@ export default function (this: Harmony): PluginOption {
   const packageName = '@tarojs/taro'
   const bindingName = 'Taro'
   const businessId = this.config.defineConstants?.LOCATION_APIKEY?.replace(/^['"]|['"]$/g, '')
-  function getInjectOption(taroConfig): RollupInjectOptions {
-    const options: RollupInjectOptions = {
-      window: ['@tarojs/runtime', 'window'],
-      document: ['@tarojs/runtime', 'document'],
-      navigator: ['@tarojs/runtime', 'navigator'],
-      requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
-      cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
-      Element: ['@tarojs/runtime', 'TaroElement'],
-      SVGElement: ['@tarojs/runtime', 'SVGElement'],
-      MutationObserver: ['@tarojs/runtime', 'MutationObserver'],
-      history: ['@tarojs/runtime', 'history'],
-      location: ['@tarojs/runtime', 'location'],
-      URLSearchParams: ['@tarojs/runtime', 'URLSearchParams'],
-      getComputedStyle: ['@tarojs/runtime', 'getComputedStyle'],
-      URL: ['@tarojs/runtime', 'URL'],
-      wx: ['@tarojs/taro', '*'],
-      getCurrentPages: ['@tarojs/taro', 'getCurrentPages'],
-      IntersectionObserver: ['@tarojs/taro', 'IntersectionObserver'],
-      Intl: ['intl', '*']
-    }
 
-    const injectOptions = taroConfig.injectOptions
-
-    if (injectOptions?.include) {
-      for (const key in injectOptions.include) {
-        options[key] = injectOptions.include[key]
-      }
-    }
-
-    if (injectOptions?.exclude?.length) {
-      injectOptions.exclude.forEach((item) => {
-        delete options[item]
-      })
-    }
-
-    return options
-  }
   return {
     name: 'taro:vite-add-method-env',
-    config: (config) => {
-      if (Array.isArray(config.build?.rollupOptions?.plugins)) {
-        const idx = config.build.rollupOptions.plugins.findIndex(e => e && (e as Plugin).name === 'inject')
-        if (idx >= 0) config.build.rollupOptions.plugins.splice(idx, 1, inject(getInjectOption(this.ctx.initialConfig)))
-      }
-    },
     transform (code, id) {
       const pluginContext = this
       const { runnerUtils } = that.context
@@ -153,6 +109,7 @@ export default function (this: Harmony): PluginOption {
             }
           }
         ],
+        sourceType: 'module'
       })
 
       return {

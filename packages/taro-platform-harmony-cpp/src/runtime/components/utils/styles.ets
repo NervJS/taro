@@ -1,9 +1,10 @@
-import { ObjectAssign } from '@tarojs/plugin-platform-harmony-cpp/dist/runtime/runtime-harmony'
+import { isUndefined } from '@tarojs/shared'
+import { ObjectAssign } from '@tarojs/runtime'
 
 import { FlexManager } from './flexManager'
 
-import type { StandardProps } from '@tarojs/components/types'
-import type { TaroAny, TaroElement, HarmonyStyle } from '@tarojs/runtime'
+import type { StandardProps, TextProps } from '@tarojs/components/types'
+import type { TaroAny, TaroElement, TaroTextStyleType, HarmonyStyle } from '@tarojs/runtime'
 
 export function getFontAttributes (node: TaroElement): TaroAny {
 }

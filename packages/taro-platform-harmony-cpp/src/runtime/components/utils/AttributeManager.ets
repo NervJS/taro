@@ -1,4 +1,5 @@
 import matrix4 from '@ohos.matrix4'
+import { convertNumber2VP } from '@tarojs/runtime'
 
 import type { TaroAny } from '@tarojs/runtime'
 
@@ -59,6 +60,26 @@ class AttributeManager {
   static getNodeAnimationData (style: TaroAny = {}): TaroAny {
     let res: TaroAny = {}
     const dataValue: string = AttributeManager.getNodeStyle(style, 'animation')
+
+    if (dataValue) {
+      let values: string[] = dataValue.toString().trim().split(new RegExp("/\s+/"))
+      switch (values.length) {
+        case 4:
+          res = { duration: values[0], curve: values[1], delay: values[2] }
+          break
+        case 8:
+          res = { duration: values[0], curve: values[1], delay: values[2], iterations: values[3], playMode: values[4] }
+          break
+        default:
+          break
+      }
+
+      Object.keys(res).forEach(key => {
+        if (!isNaN(res[key]) && values.length > 1) {
+          res[key] = convertNumber2VP(res[key])
+        }
+      })
+    }
 
     let playMode: PlayMode
     switch (AttributeManager.getNodeStyle(style, 'animationDirection') || res.playMode) {

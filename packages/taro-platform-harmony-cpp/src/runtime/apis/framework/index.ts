@@ -30,7 +30,11 @@ export const requirePlugin = temporarilyNotSupport('requirePlugin')
 
 /** 鸿蒙专属 */
 export function updatePageSync () {
-  nativeUIManager.updatePageSync()
+  const node = (getCurrentInstance()?.page as TaroAny)?.node
+
+  if (!node) return
+
+  Current.nativeModule.updatePageSync(node)
 }
 
 export function unstable_SetPageIsTextNeedLayout(isNeed: boolean) {
@@ -38,7 +42,7 @@ export function unstable_SetPageIsTextNeedLayout(isNeed: boolean) {
 
   if (!node) return
 
-  nativeUIManager.unstable_SetPageIsTextNeedLayout(node, isNeed)
+  Current.nativeModule.unstable_SetPageIsTextNeedLayout(node, isNeed)
 }
 
 export { eventCenter, Events, History } from '@tarojs/runtime'

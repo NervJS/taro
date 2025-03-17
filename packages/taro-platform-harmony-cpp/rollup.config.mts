@@ -23,20 +23,10 @@ const base: RollupOptions & { plugins: InputPluginOption[] } = {
     nodeResolve({
       preferBuiltins: false,
     }),
-    ts({
-      tsconfig: e => ({
-        ...e,
-        sourceMap: false,
-      })
-    }),
-    common({
-      sourceMap: false,
-      exclude: ['src/runtime/**'],
-    }),
+    ts(),
+    common(),
     json(),
-  ],
-  shimMissingExports: true,
-  treeshake: true,
+  ]
 }
 
 // 供 CLI 编译时使用的 Taro 插件入口
@@ -46,7 +36,7 @@ const compileConfig: RollupOptions = {
   output: {
     file: join(cwd, 'dist/index.js'),
     format: 'cjs',
-    sourcemap: false,
+    sourcemap: true,
     exports: 'named'
   },
   plugins: [
@@ -68,4 +58,35 @@ const compileConfig: RollupOptions = {
   ]
 }
 
-export default defineConfig(compileConfig)
+const apiConfig: RollupOptions = {
+  input: join(cwd, 'src/runtime/apis/index.ts'),
+  output: {
+    file: join(cwd, 'dist/runtime/apischunk/index.js'),
+    format: 'esm',
+    sourcemap: false,
+    exports: 'named'
+  },
+  external: d => {
+    return /^@(system\.|ohos\.|hmscore\/|jd-oh\/)/.test(d)
+  },
+  plugins: [
+    externals({
+      devDeps: false,
+      exclude: [/@tarojs\/plugin-platform-harmony-ets/]
+    }),
+    nodeResolve({
+      preferBuiltins: false
+    }),
+    ts({
+      transpileOnly: true,
+      tsconfig: e => ({
+        ...e,
+        declaration: true
+      })
+    }),
+    common(),
+    json(),
+  ]
+}
+
+export default defineConfig([compileConfig, apiConfig])

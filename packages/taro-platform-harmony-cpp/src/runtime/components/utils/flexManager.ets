@@ -1,6 +1,6 @@
-import { getNormalAttributes } from './styles'
+import { isUndefined } from '@tarojs/shared'
 
-import { isUndefined } from './index'
+import { getNormalAttributes } from './styles'
 
 import type { TaroAny, TaroElement, HarmonyStyle } from '@tarojs/runtime'
 
@@ -9,7 +9,7 @@ class FlexManager {
     return !!node.hmStyle?.display?.includes('flex')
   }
 
-  static convertFlexAlignItemsToColumnOrRow (direction: FlexDirection, alignItems?: number): 	VerticalAlign | HorizontalAlign {
+  static convertFlexAlignItemsToColumnOrRow (direction: FlexDirection, alignItems?: ItemAlign): 	VerticalAlign | HorizontalAlign {
     if (direction === FlexDirection.Column) {
       switch (alignItems) {
         case ItemAlign.Center:

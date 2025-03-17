@@ -1,4 +1,4 @@
-import { addLeadingSlash, CONTEXT_ACTIONS, Current, document, env, eventCenter, requestAnimationFrame, window } from '@tarojs/runtime'
+import { addLeadingSlash, CONTEXT_ACTIONS, Current, document, env, eventCenter, getPageById, initStyleSheetConfig, removePageById, requestAnimationFrame, setPageById, window } from '@tarojs/runtime'
 import { EMPTY_OBJ, hooks, isUndefined } from '@tarojs/shared'
 
 import { ReactMeta as reactMeta } from './app'
@@ -6,12 +6,9 @@ import { setReconciler } from './connect'
 import { ON_HIDE, ON_READY, ON_SHOW } from './constant'
 import {
   getOnHideEventKey,
-  getOnLoadEventKey,
-  getOnPageLifeCycleEventKey,
   getOnReadyEventKey,
   getOnShowEventKey,
   getPath,
-  handlePageLifeCycleCallback,
   injectPageInstance,
   removePageInstance,
   safeExecute,
@@ -51,16 +48,10 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
   class NativeComponentWrapper extends R.Component<IWrapperProps, Record<any, any>> {
     root = R.createRef<TaroElement>()
     ctx = this.props.getCtx()
-    type = this.ctx.type ?? 'page'
 
-    state: {
-      hasError: boolean
-      error?: Error
-      props?: Record<string, any>
-    } = {
-        hasError: false,
-        props: {},
-      }
+    state = {
+      hasError: false,
+    }
 
     componentDidMount () {
       this.ctx.component = this
@@ -68,21 +59,12 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
         // @ts-ignore
         this.root.current = this.ctx
       }
-
-      this.setState({
-        props: this.ctx.props,
-      })
-      eventCenter.on(getOnPageLifeCycleEventKey(this.props.compId), this.handleComponentUpdate)
-    }
-
-    componentWillUnmount () {
-      eventCenter.off(getOnPageLifeCycleEventKey(this.props.compId), this.handleComponentUpdate)
     }
 
     // React 16 uncaught error 会导致整个应用 crash，
     // 目前把错误缩小到页面，否则任何页面的错误都会导致所有页面的白屏
     componentDidCatch (error, info: React.ErrorInfo) {
-      if (process.env.NODE_ENV !== 'production') {
+      if (Current.isDebug) {
         setTimeout(() => {
           throw Error(`[TARO_LOG] ErrorPage(${this.props.compId}) 报错信息：${error}\n${info.componentStack}`)
         }, 20)
@@ -91,37 +73,21 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
       }
     }
 
-    static getDerivedStateFromError (error?: Error) {
+    static getDerivedStateFromError (error) {
       return {
-        hasError: !!error,
-        error,
-      }
-    }
-
-    handleComponentUpdate = (eventName = '', _nextState = {}, nextProps = {}) => {
-      if (eventName === 'shouldComponentUpdate' && nextProps.props !== this.state.props) {
-        this.setState({
-          props: nextProps.props,
-        })
+        hasError: !!error
       }
     }
 
     render () {
-      return h(
-        this.type === 'page' ? 'taro-page' : 'taro-component',
+      return !this.state.hasError ? h(
+        'taro-page',
         {
           ref: this.root,
           id: this.props.compId,
         },
-        this.state.hasError
-          ? process.env.NODE_ENV !== 'production'
-            ? `[TARO_LOG] ErrorPage(${this.props.compId}) 报错信息：${this.state.error?.message}\n${this.state.error?.stack}`
-            : null
-          : this.props.renderComponent({
-            ...this.ctx,
-            props: this.state.props,
-          })
-      )
+        this.props.renderComponent(this.ctx)
+      ) : null
     }
   }
 
@@ -170,9 +136,12 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
             return h(
               reactMeta.PageContext.Provider,
               { value: compId },
-              h(Component, Object.assign({}, ctx.props || {}, refs, {
+              h(Component, {
+                // TODO: 传递 Props
+                ...(ctx.props || {}),
+                ...refs,
                 $scope: ctx,
-              }))
+              })
             )
           },
         }),
@@ -240,6 +209,7 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
 
   // @ts-ignore
   const app = isUseReact18 ? document.entryAsync : document.app
+  // eslint-disable-next-line react/no-deprecated
   if (isUseReact18) {
     const root = ReactDOM.createRoot(app)
 
@@ -252,18 +222,7 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
   }
 }
 
-const pages = new Map<string, any>()
-export function setPageById (inst: any, id: string) {
-  pages.set(id, inst)
-}
-
-export function getPageById (id: string): any {
-  return pages.get(id)
-}
-
-export function removePageById (id: string) {
-  pages.delete(id)
-}
+export { getPageById, removePageById, setPageById }
 
 export function createNativePageConfig (
   Component,
@@ -304,9 +263,7 @@ export function createNativePageConfig (
     }
   }
 
-  let pageLifeCycleFunc
   const pageObj: Record<string, any> = {
-    type: 'page',
     options: pageConfig,
     [ONLOAD] (options: Readonly<Record<string, unknown>> = {}, cb?: TFunc) {
       hasLoaded = new Promise((resolve) => {
@@ -328,13 +285,10 @@ export function createNativePageConfig (
       }
 
       setCurrentRouter(this)
-      pageLifeCycleFunc = handlePageLifeCycleCallback.bind(pageObj)
-      eventCenter.on(getOnPageLifeCycleEventKey($taroPath), pageLifeCycleFunc)
       window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
 
-      let app = isUseReact18 ? Current.entryAsync : Current.app
       const mountCallback = () => {
-        pageElement = (document as any).container.getElementById($taroPath)
+        pageElement = document.getElementById($taroPath)
 
         if (!pageElement) {
           console.error(`[TARO_LOG] Page Error: ${$taroPath}, 该页面执行时出现了报错，导致没有找到页面实例。`)
@@ -345,9 +299,9 @@ export function createNativePageConfig (
         loadResolver()
         cb && cb(pageElement)
         pageElement.ctx = this
-        eventCenter.trigger(getOnLoadEventKey(this.$taroPath))
       }
 
+      let app = isUseReact18 ? Current.entryAsync : Current.app
       const mount = () => {
         if (!app) {
           initNativeComponentEntry({
@@ -395,7 +349,6 @@ export function createNativePageConfig (
           prepareMountList = []
         }
       })
-      eventCenter.off(getOnPageLifeCycleEventKey($taroPath), pageLifeCycleFunc)
     },
     [ONREADY] () {
       hasLoaded.then(() => {
@@ -413,6 +366,9 @@ export function createNativePageConfig (
         Current.page = this as any
         setCurrentRouter(this)
 
+        if (this.__layoutSize && this.getNavHeight) {
+          Current.nativeModule.updateDimensionContext(initStyleSheetConfig(this.__layoutSize, this.getNavHeight()))
+        }
         // 恢复上下文信息
         window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
         // 触发生命周期
@@ -434,9 +390,6 @@ export function createNativePageConfig (
       // 通过事件触发子组件的生命周期
       eventCenter.trigger(getOnHideEventKey(this.$taroPath))
     },
-    getPageElement() {
-      return pageElement
-    }
   }
 
   function resetCurrent () {
@@ -473,7 +426,7 @@ export function createNativePageConfig (
         const target = args[0]?.target
         if (target?.id) {
           const id = target.id
-          const element = (env.document as any).container.getElementById(id)
+          const element = env.document.getElementById(id)
           if (element) {
             target.dataset = element.dataset
           }
@@ -493,22 +446,19 @@ export function createNativeComponentConfig (
   Component,
   compName: string,
   react: typeof React,
-  reactDOM,
+  reactdom,
   componentConfig: any = {}
 ) {
   reactMeta.R = react
   h = react.createElement
-  ReactDOM = reactDOM
+  ReactDOM = reactdom
   setReconciler(ReactDOM)
   const { isUseReact18 = true } = componentConfig
 
-  let componentElement: TaroElement | null = null
-  let componentLifeCycleFunc
   const componentObj: Record<string, any> = {
     options: componentConfig,
-    type: 'component',
     onLoad (
-      options: Readonly<Record<string, unknown>> = {},
+      options: Readonly<Record<string, unknown>> = {}, // eslint-disable-line @typescript-eslint/no-unused-vars
       cb?: TFunc
     ) {
       let app = isUseReact18 ? Current.entryAsync : Current.app
@@ -519,21 +469,19 @@ export function createNativeComponentConfig (
 
         this.config = componentConfig
         app = isUseReact18 ? Current.entryAsync : Current.app
-        componentLifeCycleFunc = handlePageLifeCycleCallback.bind(componentObj)
-        eventCenter.on(getOnPageLifeCycleEventKey(compId), componentLifeCycleFunc)
 
         app!.mount!(
           Component,
           compId,
           () => this,
           () => {
-            componentElement = (document as any).container.getElementById(compId)
+            const el = document.getElementById(compId)
 
-            if (!componentElement) {
+            if (!el) {
               throw new Error(`没有找到组件实例。`)
             } else {
-              componentElement.ctx = this
-              cb && cb(componentElement)
+              el.ctx = this
+              cb && cb(el)
               safeExecute(compId, 'onLoad', options)
             }
           }
@@ -556,11 +504,6 @@ export function createNativeComponentConfig (
       const app = isUseReact18 ? Current.entryAsync : Current.app
       app!.unmount!(this.compId)
       safeExecute(this.compId, 'onUnload')
-      eventCenter.off(getOnPageLifeCycleEventKey(this.compId), componentLifeCycleFunc)
-    },
-
-    getComponentElement() {
-      return componentElement
     },
   }
 

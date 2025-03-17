@@ -49,7 +49,6 @@ export const TaroListTagName = 'list'
 export const TaroListItemTagName = 'list-item'
 export const TaroOpenDataTagName = 'open-data'
 export const TaroIgnoreTagName = 'ignore'
-export const TaroRefreshTagName = 'refresh'
 
 export const TaroStickySectionTagName = 'sticky-section'
 export const TaroStickyHeaderTagName = 'sticky-header'

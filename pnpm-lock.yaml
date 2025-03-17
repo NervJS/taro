@@ -1483,24 +1483,15 @@ importers:
       '@babel/core':
         specifier: ^7.24.7
         version: 7.26.10
-      '@babel/plugin-syntax-typescript':
-        specifier: ^7.25.9
-        version: 7.25.9(@babel/core@7.26.10)
       '@babel/preset-env':
         specifier: ^7.24.4
         version: 7.24.6(@babel/core@7.26.10)
-      '@babel/preset-typescript':
-        specifier: ^7.26.0
-        version: 7.26.0(@babel/core@7.26.10)
       '@rollup/plugin-alias':
         specifier: ^5.1.0
         version: 5.1.0(rollup@3.29.4)
       '@rollup/plugin-commonjs':
         specifier: ^25.0.8
         version: 25.0.8(rollup@3.29.4)
-      '@rollup/plugin-inject':
-        specifier: ^5.0.5
-        version: 5.0.5(rollup@3.29.4)
       '@rollup/plugin-json':
         specifier: ^6.1.0
         version: 6.1.0(rollup@3.29.4)
@@ -1510,11 +1501,8 @@ importers:
       '@rollup/plugin-replace':
         specifier: ^5.0.7
         version: 5.0.7(rollup@3.29.4)
-      '@rollup/plugin-terser':
-        specifier: ^0.4.4
-        version: 0.4.4(rollup@3.29.4)
       '@tarojs/parse-css-to-stylesheet':
-        specifier: ^1.0.22
+        specifier: '^1.1.5 '
         version: 1.1.7
       '@tarojs/react':
         specifier: workspace:*
@@ -1531,9 +1519,6 @@ importers:
       '@types/react-reconciler':
         specifier: ^0.28.8
         version: 0.28.8
-      fast-glob:
-        specifier: ^3.3.2
-        version: 3.3.2
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -1592,6 +1577,9 @@ importers:
       '@types/node':
         specifier: ^18.19.34
         version: 18.19.80
+      fast-glob:
+        specifier: ^3.3.2
+        version: 3.3.2
       postcss:
         specifier: ^8.4.38
         version: 8.4.38

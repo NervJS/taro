@@ -1,5 +1,6 @@
 import { isString } from '@tarojs/shared'
 
+import { TaroNativeModule } from '../harmony-library'
 import { printInfo, runInDebug } from '../utils/info'
 import { TaroEventTarget } from './eventTarget'
 
@@ -71,31 +72,31 @@ export class TaroNode extends TaroEventTarget {
   }
 
   public get firstChild (): TaroNode | null {
-    return nativeUIManager.getTaroNodeProperty(this, 'firstChild') || null
+    return TaroNativeModule.getTaroNodeProperty(this, 'firstChild') || null
   }
 
   public get firstElementChild (): TaroElement | null {
-    return nativeUIManager.getTaroNodeProperty(this, 'firstElementChild') || null
+    return TaroNativeModule.getTaroNodeProperty(this, 'firstElementChild') || null
   }
 
   public get lastChild (): TaroNode | null {
-    return nativeUIManager.getTaroNodeProperty(this, 'lastChild') || null
+    return TaroNativeModule.getTaroNodeProperty(this, 'lastChild') || null
   }
 
   public get lastElementChild (): TaroElement | null {
-    return nativeUIManager.getTaroNodeProperty(this, 'lastElementChild') || null
+    return TaroNativeModule.getTaroNodeProperty(this, 'lastElementChild') || null
   }
 
   public get nextSibling (): TaroNode | null {
-    return nativeUIManager.getTaroNodeProperty(this, 'nextSibling') || null
+    return TaroNativeModule.getTaroNodeProperty(this, 'nextSibling') || null
   }
 
   public get previousSibling (): TaroNode | null {
-    return nativeUIManager.getTaroNodeProperty(this, 'previousSibling') || null
+    return TaroNativeModule.getTaroNodeProperty(this, 'previousSibling') || null
   }
 
   public get parentElement (): TaroElement | null {
-    return nativeUIManager.getTaroNodeProperty(this, 'parentElement') || null
+    return TaroNativeModule.getTaroNodeProperty(this, 'parentElement') || null
   }
 
   public get textContent (): string {
@@ -111,14 +112,14 @@ export class TaroNode extends TaroEventTarget {
       runInDebug(() => {
         printInfo('setAttribute', 'textContent', this._nid, this.parentNode?.nodeName, this.nodeName, this._textContent)
       })
-      nativeUIManager.setTaroNodeAttribute(this, 'textContent', this._textContent)
+      TaroNativeModule.setTaroNodeAttribute(this, 'textContent', this._textContent)
     } else if (this.nodeType === NodeType.ELEMENT_NODE) {
       const node = new TaroTextNode(value)
       node._doc = this.ownerDocument
       runInDebug(() => {
         printInfo('appendChild', 'textContent', this._nid, node._nid, this.parentNode?.nodeName, this.nodeName, value)
       })
-      nativeUIManager.appendTaroNode(this, node)
+      TaroNativeModule.appendTaroNode(this, node)
     }
   }
 
@@ -127,7 +128,7 @@ export class TaroNode extends TaroEventTarget {
       return this._childNodes!
     }
 
-    this._childNodes = nativeUIManager.getTaroNodeProperty(this, 'childNodes')
+    this._childNodes = TaroNativeModule.getTaroNodeProperty(this, 'childNodes')
 
     return this._childNodes! || []
   }
@@ -137,7 +138,7 @@ export class TaroNode extends TaroEventTarget {
       return this._parentNode
     }
 
-    this._parentNode = nativeUIManager.getTaroNodeProperty(this, 'parentNode')
+    this._parentNode = TaroNativeModule.getTaroNodeProperty(this, 'parentNode')
 
     return this._parentNode
   }
@@ -178,7 +179,7 @@ export class TaroNode extends TaroEventTarget {
     runInDebug(() => {
       printInfo('appendChild', this._nid, child._nid, this.parentNode?.nodeName, this.nodeName, child.nodeName)
     })
-    nativeUIManager.appendTaroNode(this, child)
+    TaroNativeModule.appendTaroNode(this, child)
 
     child._parentNode = this
     this._childNodes = null
@@ -197,7 +198,7 @@ export class TaroNode extends TaroEventTarget {
       runInDebug(() => {
         printInfo('insertBefore', this.parentNode?.nodeName, this._nid, referenceNode._nid, this.nodeName)
       })
-      nativeUIManager.insertBeforeTaroNode(this, newNode, referenceNode)
+      TaroNativeModule.insertBeforeTaroNode(this, newNode, referenceNode)
     }
 
     newNode._parentNode = this
@@ -214,7 +215,7 @@ export class TaroNode extends TaroEventTarget {
     runInDebug(() => {
       printInfo('replaceChild', this.parentNode?.nodeName, this._nid, newChild._nid, this.nodeName)
     })
-    nativeUIManager.replaceTaroNode(this, newChild, oldChild)
+    TaroNativeModule.replaceTaroNode(this, newChild, oldChild)
     newChild._parentNode = this
     oldChild._parentNode = null
     this._childNodes = null
@@ -231,7 +232,7 @@ export class TaroNode extends TaroEventTarget {
       // @ts-ignore
       printInfo('removeChild', this.parentNode?.nodeName, this._nid, child._nid, this.nodeName, '-', this.className, '-', child.className)
     })
-    nativeUIManager.removeTaroNode(this, child)
+    TaroNativeModule.removeTaroNode(this, child)
     child._parentNode = this
     this._childNodes = null
     return child
@@ -241,28 +242,28 @@ export class TaroNode extends TaroEventTarget {
     runInDebug(() => {
       printInfo('getElementById', this._nid, this.nodeName, 'id:', id)
     })
-    return isString(id) ? nativeUIManager.getTaroNodeById(this, id) : null
+    return isString(id) ? TaroNativeModule.getTaroNodeById(this, id) : null
   }
 
   public getElementsByTagName<T extends TaroNode = TaroElement>(tagName: string): T[] {
     runInDebug(() => {
       printInfo('getElementsByTagName', this._nid, this.nodeName, 'tagName:', tagName)
     })
-    return (isString(tagName) ? nativeUIManager.getTaroNodesByTagName(this, tagName) : null) || []
+    return (isString(tagName) ? TaroNativeModule.getTaroNodesByTagName(this, tagName) : null) || []
   }
 
   public getElementsByClassName<T extends TaroNode = TaroElement>(className: string): T[] {
     runInDebug(() => {
       printInfo('getElementsByClassName', this._nid, this.nodeName, 'className:', className)
     })
-    return (isString(className) ? nativeUIManager.getTaroNodesByClassName(this, className) : null) || []
+    return (isString(className) ? TaroNativeModule.getTaroNodesByClassName(this, className) : null) || []
   }
 
   public querySelector (selectors: string): TaroElement | null {
     runInDebug(() => {
       printInfo('querySelector', this._nid, this.nodeName, 'selectors:', selectors)
     })
-    const result = isString(selectors) ? nativeUIManager.querySelectDOMSync(this, selectors, false) : null
+    const result = isString(selectors) ? TaroNativeModule.querySelectDOMSync(this, selectors, false) : null
 
     return !result || !result.length ? null : result[0]
   }
@@ -271,7 +272,7 @@ export class TaroNode extends TaroEventTarget {
     runInDebug(() => {
       printInfo('querySelectorAll', this._nid, this.nodeName, 'selectors:', selectors)
     })
-    const result = isString(selectors) ? nativeUIManager.querySelectDOMSync(this, selectors, true) : null
+    const result = isString(selectors) ? TaroNativeModule.querySelectDOMSync(this, selectors, true) : null
 
     return !result || !result.length ? [] : result
   }
@@ -283,14 +284,8 @@ export class TaroNode extends TaroEventTarget {
         runInDebug(() => {
           printInfo('getComputedStyle', this._nid, this.nodeName, 'name:', name)
         })
-        return isString(name) ? nativeOtherManager.getComputedStyle(this, name) : null
+        return isString(name) ? TaroNativeModule.getComputedStyle(this, name) : null
       }
-    })
-  }
-
-  public getComputedStyleAsync () {
-    return new Promise((resolve, reject) => {
-      nativeOtherManager.getAllComputedStyleAsync(this, resolve, reject)
     })
   }
 }
@@ -298,7 +293,7 @@ export class TaroNode extends TaroEventTarget {
 export class TaroTextNode extends TaroNode {
   constructor(value = '', nodeName = '#text', nodeType: NodeType = NodeType.TEXT_NODE) {
     super(nodeName, nodeType)
-    nativeUIManager.createTaroNode(this)
+    TaroNativeModule.createTaroNode(this)
     this.textContent = value
   }
 

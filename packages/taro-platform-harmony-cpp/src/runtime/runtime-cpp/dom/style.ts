@@ -7,8 +7,8 @@ export class Style {
 
   public _value: TaroAny
 
-  public constructor (element: TaroAny) {
-    this._value = element
+  public constructor () {
+    this._value = {}
   }
 
   public get cssText () {
@@ -20,21 +20,20 @@ export class Style {
   }
 
   public setProperty (propertyName: string, value?: string | null) {
-    // if (propertyName[0] === '-') {
-    //   // Note: 暂不支持 webkit 属性或 css 变量
-    //   return
-    // }
+    if (propertyName[0] === '-') {
+      // Note: 暂不支持 webkit 属性或 css 变量
+      return
+    }
+
     if (isNull(value) || isUndefined(value)) {
       this.removeProperty(propertyName)
     } else {
-      nativeStylesheetManager.setProperty(this._value._nid, {
-        [propertyName]: value
-      })
+      // TODO setProperty
     }
   }
 
   public removeProperty (_propertyName: string): string {
-    nativeStylesheetManager.removeProperty(this._value._nid, _propertyName)
+    // TODO: removeProperty
     return ''
   }
 

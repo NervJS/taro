@@ -1,7 +1,12 @@
+import window from '@ohos.window'
+import { isNumber } from '@tarojs/shared'
+
+import { Current } from '../../current'
+import { TaroNativeModule } from '../../harmony-library'
 import { createTaroEvent, eventHandler, TaroEvent } from '../event'
 import { TaroElement } from './element'
 
-import type window from '@ohos.window'
+import type { common } from '@kit.AbilityKit'
 import type {
   CheckboxGroupProps,
   CheckboxProps,
@@ -93,11 +98,11 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
   }
 
   public focus () {
-    return nativeUIManager.executeNodeFunc(this, 'focus', [])
+    return TaroNativeModule.executeNodeFunc(this, 'focus', [])
   }
 
   public blur () {
-    return nativeUIManager.executeNodeFunc(this, 'blur', [])
+    return TaroNativeModule.executeNodeFunc(this, 'blur', [])
   }
 }
 
@@ -147,29 +152,28 @@ export class TaroInputElement<T extends FormWidgetProps = InputProps> extends Ta
     super(tagName)
 
     try {
-      // Current.contextPromise
-      // .then((_context: common.BaseContext) => {
-      // FIXME 暂不支持
-      // return window.getLastWindow(context, (err, windowClass: window.Window) => {
-      //   const errCode: number = err.code
+      Current.contextPromise
+        .then((context: common.BaseContext) => {
+          return window.getLastWindow(context, (err, windowClass: window.Window) => {
+            const errCode: number = err.code
 
-      //   if (errCode) {
-      //     console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
-      //     return
-      //   }
+            if (errCode) {
+              console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
+              return
+            }
 
-      //   this.windowClass = windowClass
-      //   const heightChange = (height: number) => {
-      //     if (isNumber(height)) {
-      //       if (this._height !== height) {
-      //         this.onKeyboardHeightChange(height)
-      //         this._height = height
-      //       }
-      //     }
-      //   }
-      //   windowClass.on('keyboardHeightChange', heightChange)
-      // })
-      // })
+            this.windowClass = windowClass
+            const heightChange = (height: number) => {
+              if (isNumber(height)) {
+                if (this._height !== height) {
+                  this.onKeyboardHeightChange(height)
+                  this._height = height
+                }
+              }
+            }
+            windowClass.on('keyboardHeightChange', heightChange)
+          })
+        })
     } catch (exception) {
       console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(exception))
     }
@@ -278,6 +282,7 @@ export class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps
   }
 }
 
+@Observed
 export class TaroSwitchElement extends TaroCheckedElement<SwitchProps> {
   constructor() {
     super('Switch')
@@ -340,6 +345,7 @@ export class TaroLabelElement extends TaroElement<LabelProps> {
   }
 }
 
+@Observed
 export class TaroRichTextElement extends TaroElement<RichTextProps> {
   isETS = true
 

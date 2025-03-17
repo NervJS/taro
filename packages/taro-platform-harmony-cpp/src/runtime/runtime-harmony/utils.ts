@@ -1,6 +1,6 @@
-import type { TaroAny, TaroObject } from '@tarojs/runtime'
+import type { TaroAny } from '@tarojs/runtime'
 
-export function setParamFromObj (obj: Record<string, string | number>, params: TaroAny): TaroAny {
+export function setParamFromObj (obj: Record<string, string | number>, params: TaroAny) {
   if (!obj) return params
 
   Object.keys(obj).forEach(key => {
@@ -10,7 +10,11 @@ export function setParamFromObj (obj: Record<string, string | number>, params: T
   return params
 }
 
-function safeDecode (str: string) {
+export function assignObject (target: TaroAny, source: TaroAny) {
+  return Object.assign(target, source)
+}
+
+function safeDecode (str) {
   try {
     return decodeURIComponent(str)
   } catch (e) {
@@ -18,15 +22,15 @@ function safeDecode (str: string) {
   }
 }
 
-export function queryToJson(str: string) {
+export function queryToJson(str) {
   const qp = str.split('&')
-  const ret: TaroObject = {}
-  let name: string
-  let val: string
-  for (let i = 0, l = qp.length, item: string; i < l; ++i) {
+  const ret = {}
+  let name
+  let val
+  for (let i = 0, l = qp.length, item; i < l; ++i) {
     item = qp[i]
     if (item.length) {
-      const s: number = item.indexOf('=')
+      const s = item.indexOf('=')
       if (s < 0) {
         name = safeDecode(item)
         val = ''
@@ -47,6 +51,3 @@ export function queryToJson(str: string) {
   }
   return ret // Object
 }
-
-export * from './info'
-export * from './object'

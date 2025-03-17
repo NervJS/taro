@@ -1,4 +1,4 @@
-import { Current } from '@tarojs/runtime'
+import { Current, getPageScrollerOrNode } from '@tarojs/runtime'
 
 import { NodesRef } from './nodesRef'
 
@@ -15,7 +15,7 @@ interface ISelectorQueryQueue {
 type TSelectorQueryQueueCallback = (res: ISelectorQueryQueue) => void
 
 // 从 TaroNode 里找到对应的 fields 内容
-async function filter (fields, dom) {
+function filter (fields, dom) {
   if (!dom) return null
   const {
     id,
@@ -77,7 +77,7 @@ async function filter (fields, dom) {
   if (dataset) res.dataset = Object.assign({}, dom.dataset)
 
   if (rect || size) {
-    const computedStyle = await dom.getComputedStyleAsync()
+    const computedStyle = dom.getComputedStyle()
     if (rect) {
       res.top = computedStyle.globalY
       res.left = computedStyle.globalX
@@ -92,7 +92,7 @@ async function filter (fields, dom) {
   }
   if (scrollOffset) {
     // FIXME 更新为新的获取方式获取组件参数
-    const result = nativeOtherManager.getCurrentOffset(dom)
+    const result = Current.nativeModule.getCurrentOffset(dom)
 
     if (result) {
       const { xOffset, yOffset } = result
@@ -117,30 +117,26 @@ async function filter (fields, dom) {
   return res
 }
 
-async function queryBat(queue, cb) {
+function queryBat(queue, cb) {
   const result: TaroAny = []
   const taro = Current.taro
   const page = taro.getCurrentInstance().page
-  if (!page) return null
-
-  const element = page.getPageElement()
+  const element = getPageScrollerOrNode(page?.node, page)
 
   if (!element) return null
 
   const actions = queue.map((item) => {
     const { component, selector, single, fields } = item
-    return new Promise<void>((resolve) => {
-      nativeUIManager.querySelectDOM(component || element, selector, !single, async (res) => {
+    return new Promise<void>(resolve => {
+      Current.nativeModule.querySelectDOM(component || page.node, selector, !single, (res) => {
         if (res && res.length > 0) {
           if (single) {
             const dom = res[0]
-            result.push(await filter(fields, dom))
+            result.push(filter(fields, dom))
           } else {
-            result.push(
-              await Promise.all(res.map((dom) => {
-                return filter(fields, dom)
-              }))
-            )
+            result.push(res.map(dom => {
+              return filter(fields, dom)
+            }))
           }
         }
         resolve()

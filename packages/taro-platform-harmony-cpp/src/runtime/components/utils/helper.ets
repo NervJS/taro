@@ -1,6 +1,8 @@
-import { getFontAttributes, getNormalAttributes, getStyleAttr } from './styles'
+import { VIEW } from '@tarojs/runtime'
 
-import type { TaroElement, TaroNode, TaroAny } from '@tarojs/runtime'
+import { getNormalAttributes, getFontAttributes } from './styles'
+
+import type { TaroAny, TaroElement, TaroNode } from '@tarojs/runtime'
 
 export const parseStyles = (styles = ''): Record<string, string> => {
   const styleObj: Record<string, string> = {}
@@ -19,7 +21,6 @@ export const parseStyles = (styles = ''): Record<string, string> => {
   return styleObj
 }
 
-/** FIXME 暂不支持 */
 export function shouldBindEvent (cb: TaroAny, node: TaroElement | null, eventNames: string[], disabled = false): TaroAny {
   if (!node || node._attrs?.disabled || disabled) return null
   if (!node.__listeners) {
@@ -34,7 +35,7 @@ export function getNodeThresholds (node: TaroElement): number[] | null {
   return node?._nodeInfo?.thresholds || null
 }
 
-export function isTagFirstChild (node: TaroElement, tagName = 'VIEW', level = 0): boolean {
+export function isTagFirstChild (node: TaroElement, tagName = VIEW, level = 0): boolean {
   const parent: TaroElement | null = node.parentElement
   const list: TaroNode[] = node.parentNode?.childNodes || []
   if (list.length < 1 || level < 0) return false

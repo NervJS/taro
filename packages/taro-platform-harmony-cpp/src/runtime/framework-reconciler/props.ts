@@ -1,9 +1,13 @@
-import { FormElement } from '@tarojs/runtime'
-import { isObject } from '@tarojs/shared'
+import { FormElement, TaroNativeModule } from '@tarojs/runtime'
+import { isFunction, isObject } from '@tarojs/shared'
 
 import type { TaroElement } from '@tarojs/runtime'
 
 export type Props = Record<string, unknown>
+
+function isEventName (s: string) {
+  return s[0] === 'o' && s[1] === 'n'
+}
 
 function isEqual (obj1, obj2) {
   // 首先检查引用是否相同
@@ -44,8 +48,45 @@ export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props)
   }
 }
 
+interface DangerouslySetInnerHTML {
+  __html?: string
+}
+
 export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updatePayload: any[]) {
-  return nativeUIManager.updatePropsByPayload(dom, oldProps, updatePayload)
+  if (!(dom as any).isETS) {
+    return TaroNativeModule.updatePropsByPayload(dom, oldProps, updatePayload)
+  }
+
+  for (let i = 0; i < updatePayload.length; i += 2) {
+    let name = updatePayload[i]
+
+    if (['key', 'children', 'ref'].includes(name)) {
+      // skip
+      return
+    }
+
+    const value = updatePayload[i + 1]
+    const oldValue = oldProps[name]
+
+    name = name === 'className' ? 'class' : name
+    if (isEventName(name)) {
+      setEvent(dom, name, value, oldValue)
+    } else if (name === 'dangerouslySetInnerHTML') {
+      const newHtml = (value as DangerouslySetInnerHTML)?.__html ?? ''
+      const oldHtml = (oldValue as DangerouslySetInnerHTML)?.__html ?? ''
+      if (newHtml || oldHtml) {
+        if (oldHtml !== newHtml) {
+          dom.innerHTML = newHtml
+        }
+      }
+    } else if (!isFunction(value)) {
+      if (value == null) {
+        dom.removeAttribute(name)
+      } else {
+        dom.setAttribute(name, value as string)
+      }
+    }
+  }
 }
 
 export function getUpdatePayload (dom: TaroElement, oldProps: Props, newProps: Props) {
@@ -69,4 +110,23 @@ export function getUpdatePayload (dom: TaroElement, oldProps: Props, newProps: P
   }
 
   return updatePayload
+}
+
+function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
+  const isCapture = name.endsWith('Capture')
+  let eventName = name.toLowerCase().slice(2)
+  if (isCapture) {
+    eventName = eventName.slice(0, -7)
+  }
+
+  if (isFunction(value)) {
+    if (oldValue) {
+      dom.removeEventListener(eventName, oldValue, false)
+      dom.addEventListener(eventName, value, { isCapture, sideEffect: false })
+    } else {
+      dom.addEventListener(eventName, value, isCapture)
+    }
+  } else {
+    dom.removeEventListener(eventName, oldValue)
+  }
 }

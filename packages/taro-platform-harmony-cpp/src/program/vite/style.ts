@@ -6,8 +6,6 @@ import { isFunction } from '@tarojs/shared'
 import { usedRE } from '@tarojs/vite-runner/dist/harmony/postcss/constants'
 import { stripVirtualModulePrefix } from '@tarojs/vite-runner/dist/utils'
 
-import { genRawFileName, getProjectId, RAWFILE_FOLDER } from '../../utils'
-
 import type { TaroHarmonyPageMeta } from '@tarojs/vite-runner/dist/harmony/template/page'
 import type Parser from '@tarojs/vite-runner/dist/harmony/template/page'
 import type { ModuleInfo, PluginContext } from 'rollup'
@@ -18,20 +16,14 @@ export const STYLE_SUFFIX = '.xss'
 export const STYLE_SUFFIX_RE = new RegExp(`\\${STYLE_SUFFIX}(\\?\\S+)?$`)
 
 export declare class PageParser extends Parser {
-  public appPath: (typeof Parser.prototype)['appPath']
-  public appConfig: (typeof Parser.prototype)['appConfig']
-}
-interface NewModuleInfo extends ModuleInfo {
-  originName?: string
-  outputRoot?: string
+  public appPath: typeof Parser.prototype['appPath']
+  public appConfig: typeof Parser.prototype['appConfig']
 }
 
 export default function (this: Harmony): PluginOption {
   const that = this
   let viteConfigResolved: ResolvedConfig
-  const PageMap = new Map<string, NewModuleInfo | null>()
-  const projectId = getProjectId()
-  const onlyBundle = this.ctx.runOpts?.options?.args?.onlyBundle
+  const PageMap = new Map<string, ModuleInfo | null>()
 
   return {
     name: 'taro:vite-harmony-style',
@@ -58,14 +50,12 @@ export default function (this: Harmony): PluginOption {
             oddModifyPageImport.call(this, importStr, page)
           }
 
-          const { outputRoot = 'dist' } = this.buildConfig
-
+          const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
+          const targetRoot = path.resolve(this.appPath, sourceRoot)
           const styleName = `${page.originName}_style.json`
-
-          const moduleInfo = pluginContext.getModuleInfo(page.id) as NewModuleInfo
-          moduleInfo.originName = page.originName
-          moduleInfo.outputRoot = outputRoot
-          PageMap.set(path.resolve(outputRoot, styleName), moduleInfo)
+          const styleJsonPath = path.resolve(targetRoot, styleName)
+          importStr.push(`import styleJson from "${styleJsonPath}"`)
+          PageMap.set(path.resolve(outputRoot, styleName), pluginContext.getModuleInfo(page.id))
         }
       }
       compiler?.pages?.forEach?.(modifyPageOrComp)
@@ -80,27 +70,14 @@ export default function (this: Harmony): PluginOption {
       const compiler = getViteHarmonyCompilerContext(pluginContext)
       const cssModuleId = new Set<string>()
       if (compiler) {
-        PageMap.forEach((moduleInfo) => {
+        PageMap.forEach((moduleInfo, styleJsonPath) => {
           const list = findStyleInModuleInfo(moduleInfo)
           const { code } = parseJSXStyle(Array.from(list), {
             platformString: 'Harmony',
           })
           if (code) {
-            let cssPath
-            if (onlyBundle) {
-              cssPath = path.resolve(moduleInfo?.outputRoot || '', `index_style.json`)
-            } else {
-              cssPath = path.resolve(
-                moduleInfo?.outputRoot || '',
-                '../',
-                RAWFILE_FOLDER,
-                genRawFileName(projectId),
-                `${moduleInfo?.originName || ''}_style.json`
-              )
-            }
-
-            fs.ensureDirSync(path.dirname(cssPath))
-            fs.writeFileSync(cssPath, `${code}\n`)
+            fs.ensureDirSync(path.dirname(styleJsonPath))
+            fs.writeFileSync(styleJsonPath, code)
           }
         })
       }
@@ -120,8 +97,7 @@ export default function (this: Harmony): PluginOption {
         } else {
           cssModuleId.add(moduleInfo.id)
         }
-        const styleMap: Map<string, string> | undefined =
-          compiler.loaderMeta.parseJSXStyleMapCache?.get(viteConfigResolved)
+        const styleMap: Map<string, string> | undefined = compiler.loaderMeta.parseJSXStyleMapCache?.get(viteConfigResolved)
         for (const oid of moduleInfo.importedIds) {
           const id = stripVirtualModulePrefix(oid).replace(STYLE_SUFFIX_RE, '').replace(usedRE, '')
           if (REG_STYLE.test(id) && styleMap) {

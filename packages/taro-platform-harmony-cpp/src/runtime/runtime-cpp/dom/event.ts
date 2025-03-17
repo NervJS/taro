@@ -81,6 +81,24 @@ export function createEvent (event: TaroEvent | string, type?: string, node?: Ta
   return domEv
 }
 
+// function stopOrTriggerPropagation (event: TaroEvent, node: TaroElement) {
+//   let target = node
+
+//   // eslint-disable-next-line no-unmodified-loop-condition
+//   while ((target = target.parentNode as TaroElement)) {
+//     const listeners = target.__listeners[event.type]
+
+//     if (!Array.isArray(listeners) || target._attrs?.disabled) {
+//       continue
+//     }
+
+//     const _target = target
+//     collectBatchFunction(event.type, () => {
+//       hooks.call('dispatchTaroEvent', event, _target)
+//     })
+//   }
+// }
+
 // const eventsBatch = {}
 // const BUBBLE_EVENTS = new Set([
 //   // 'touchstart', // Note: CAPI 目前没有事件捕获，暂时禁用
@@ -96,10 +114,53 @@ export function createEvent (event: TaroEvent | string, type?: string, node?: Ta
 //   'reset-btn'
 // ])
 
+// function collectBatchFunction (type: string, dispatch: () => void) {
+//   if (hooks.isExist('batchedEventUpdates')) {
+//     (eventsBatch[type] ||= []).push(dispatch)
+//   } else {
+//     dispatch()
+//   }
+// }
+
 export function eventHandler (event, _type: string, node: TaroElement): void {
   if (!node) return
 
   hooks.call('dispatchTaroEvent', event, node)
+  // const isBatchUpdates = hooks.isExist('batchedEventUpdates')
+  // const e = createEvent(event, type, node)
+
+  // if (!e) return
+
+  // const dispatch = () => {
+  //   e.target = e.currentTarget = node
+
+  //   // hooks.call('modifyTaroEvent', e, node)
+  //   hooks.call('dispatchTaroEvent', e, node)
+
+  //   // BatchUpdates 时冒泡环节需要提前，因为需要收集父节点事件
+  //   if (!isBatchUpdates) {
+  //     stopOrTriggerPropagation(e, node)
+  //   }
+
+  //   // hooks.call('dispatchTaroEventFinish', e, node)
+  // }
+
+  // dispatch()
+  // if (isBatchUpdates) {
+  //   // collectBatchFunction(type, dispatch)
+
+  //   // 如果需要触发冒泡，则执行 stopOrTriggerPropagation
+  //   if (BUBBLE_EVENTS.has(type)) {
+  //     stopOrTriggerPropagation(e, node)
+  //   }
+
+  //   hooks.call('batchedEventUpdates', () => {
+  //     if (eventsBatch[type]) {
+  //       eventsBatch[type].forEach(fn => fn())
+  //       delete eventsBatch[type]
+  //     }
+  //   })
+  // }
 }
 
 export function createTaroEvent(type: string, opts: Partial<EventOptions> = {}, node?: TaroElement) {

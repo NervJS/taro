@@ -1,1 +1,1 @@
-export * from '@tarojs/runtime/dist/dom/event-source'
+export { eventSource } from '@tarojs/runtime/dist/runtime.esm'

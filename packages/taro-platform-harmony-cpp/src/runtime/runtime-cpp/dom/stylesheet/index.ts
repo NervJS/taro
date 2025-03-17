@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BORDER_STYLE_MAP, FlexManager } from './util'
 
 import type { HarmonyStyle, HarmonyType, TaroStyleType, TaroTextStyleType } from './type'

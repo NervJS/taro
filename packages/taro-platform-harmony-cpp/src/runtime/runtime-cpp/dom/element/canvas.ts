@@ -1,7 +1,72 @@
+import { TaroNativeModule } from '../../harmony-library'
 import { TaroElement } from './element'
 
 import type { CanvasProps, CanvasTouchEvent } from '@tarojs/components/types'
 import type Taro from '@tarojs/taro/types'
+
+export class CanvasRenderingContext2DWXAdapter extends CanvasRenderingContext2D {
+  // constructor(settings?: RenderingContextSetting) {
+  //   super(settings)
+  // }
+
+  createCircularGradient() {
+    // Not supported now
+  }
+
+  draw(cb?: (...args: any[]) => any) {
+    typeof cb === 'function' && cb()
+    // Not supported now
+  }
+
+  setFillStyle(fillStyle: typeof this.fillStyle) {
+    this.fillStyle = fillStyle
+  }
+
+  setFontSize(fontSize: number) {
+    const font = this.font.split(' ')
+    font[2] = `${fontSize}`
+    this.font = font.join(' ')
+  }
+
+  setGlobalAlpha(globalAlpha: typeof this.globalAlpha) {
+    this.globalAlpha = globalAlpha
+  }
+
+  setLineCap(lineCap: typeof this.lineCap) {
+    this.lineCap = lineCap
+  }
+
+  setLineJoin(lineJoin: typeof this.lineJoin) {
+    this.lineJoin = lineJoin
+  }
+
+  setLineWidth(lineWidth: typeof this.lineWidth) {
+    this.lineWidth = lineWidth
+  }
+
+  setMiterLimit(miterLimit: typeof this.miterLimit) {
+    this.miterLimit = miterLimit
+  }
+
+  setShadow(offsetX: number, offsetY: number, blur: number, color: string) {
+    this.shadowOffsetX = offsetX
+    this.shadowOffsetY = offsetY
+    this.shadowBlur = blur
+    this.shadowColor = color
+  }
+
+  setStrokeStyle(strokeStyle: typeof this.strokeStyle) {
+    this.strokeStyle = strokeStyle
+  }
+
+  setTextAlign(textAlign: typeof this.textAlign) {
+    this.textAlign = textAlign
+  }
+
+  setTextBaseline(textBaseline: typeof this.textBaseline) {
+    this.textBaseline = textBaseline
+  }
+}
 
 class TaroCanvasContext {
   type = '2d'
@@ -10,85 +75,88 @@ class TaroCanvasContext {
   private font_ = ''
 
   setStrokeStyle(color: string): void {
-    nativeUIManager.executeNodeFunc(this.element, 'setStrokeStyle', color)
+    TaroNativeModule.executeNodeFunc(this.element, 'setStrokeStyle', color)
   }
 
   setLineWidth(lineWidth: number): void {
-    nativeUIManager.executeNodeFunc(this.element, 'setLineWidth', lineWidth)
+    TaroNativeModule.executeNodeFunc(this.element, 'setLineWidth', lineWidth)
   }
 
   rect(x: number, y: number, width: number, height: number): void {
-    nativeUIManager.executeNodeFunc(this.element, 'rect', [x, y, width, height])
+    TaroNativeModule.executeNodeFunc(this.element, 'rect', [x, y, width, height])
   }
 
   draw(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      nativeUIManager.executeNodeFunc(this.element, 'draw', [resolve, reject])
+    return new Promise(resolve => {
+      TaroNativeModule.executeNodeFunc(this.element, 'drawAble', () => {
+        TaroNativeModule.executeNodeFunc(this.element, 'draw')
+        resolve()
+      })
     })
   }
 
   stroke(): void {
-    nativeUIManager.executeNodeFunc(this.element, 'stroke', null)
+    TaroNativeModule.executeNodeFunc(this.element, 'stroke')
   }
 
   moveTo(x: number, y: number): void {
-    nativeUIManager.executeNodeFunc(this.element, 'moveTo', [x, y])
+    TaroNativeModule.executeNodeFunc(this.element, 'moveTo', [x, y])
   }
 
   arc(x: number, y: number, r: number, sAngle: number, eAngle: number, counterclockwise = false): void {
-    nativeUIManager.executeNodeFunc(this.element, 'arc', [x, y, r, sAngle, eAngle, counterclockwise])
+    TaroNativeModule.executeNodeFunc(this.element, 'arc', [x, y, r, sAngle, eAngle, counterclockwise])
   }
 
   lineTo(x: number, y: number): void {
-    nativeUIManager.executeNodeFunc(this.element, 'lineTo', [x, y])
+    TaroNativeModule.executeNodeFunc(this.element, 'lineTo', [x, y])
   }
 
   setFontSize(fontSize: number): void {
-    nativeUIManager.executeNodeFunc(this.element, 'setFontSize', fontSize)
+    TaroNativeModule.executeNodeFunc(this.element, 'setFontSize', fontSize)
   }
 
   setTextAlign(textAlign: string): void {
-    nativeUIManager.executeNodeFunc(this.element, 'setTextAlign', textAlign)
+    TaroNativeModule.executeNodeFunc(this.element, 'setTextAlign', textAlign)
   }
 
   fillText(text: string, x: number, y: number): void {
-    nativeUIManager.executeNodeFunc(this.element, 'fillText', [text, x, y])
+    TaroNativeModule.executeNodeFunc(this.element, 'fillText', [text, x, y])
   }
 
   fillRect(x: number, y: number, width: number, height: number): void {
-    nativeUIManager.executeNodeFunc(this.element, 'fillRect', [x, y, width, height])
+    TaroNativeModule.executeNodeFunc(this.element, 'fillRect', [x, y, width, height])
   }
 
   strokeRect(x: number, y: number, width: number, height: number): void {
-    nativeUIManager.executeNodeFunc(this.element, 'strokeRect', [x, y, width, height])
+    TaroNativeModule.executeNodeFunc(this.element, 'strokeRect', [x, y, width, height])
   }
 
   fill(): void {
-    nativeUIManager.executeNodeFunc(this.element, 'fill', null)
+    TaroNativeModule.executeNodeFunc(this.element, 'fill')
   }
 
   setFillStyle(color: string): void {
-    nativeUIManager.executeNodeFunc(this.element, 'setFillStyle', color)
+    TaroNativeModule.executeNodeFunc(this.element, 'setFillStyle', color)
   }
 
   beginPath(): void {
-    nativeUIManager.executeNodeFunc(this.element, 'beginPath', null)
+    TaroNativeModule.executeNodeFunc(this.element, 'beginPath')
   }
 
   closePath(): void {
-    nativeUIManager.executeNodeFunc(this.element, 'closePath', null)
+    TaroNativeModule.executeNodeFunc(this.element, 'closePath')
   }
 
   translate(x: number, y: number): void {
-    nativeUIManager.executeNodeFunc(this.element, 'translate', [x, y])
+    TaroNativeModule.executeNodeFunc(this.element, 'translate', [x, y])
   }
 
   rotate(rotate: number): void {
-    nativeUIManager.executeNodeFunc(this.element, 'rotate', rotate)
+    TaroNativeModule.executeNodeFunc(this.element, 'rotate', rotate)
   }
 
   scale(scaleWidth: number, scaleHeight: number): void {
-    nativeUIManager.executeNodeFunc(this.element, 'scale', [scaleWidth, scaleHeight])
+    TaroNativeModule.executeNodeFunc(this.element, 'scale', [scaleWidth, scaleHeight])
   }
 
   get font () {
@@ -97,13 +165,12 @@ class TaroCanvasContext {
 
   set font(value: string) {
     this.font_ = value
-    nativeUIManager.executeNodeFunc(this.element, 'font', this.font_)
+    TaroNativeModule.executeNodeFunc(this.element, 'font', this.font_)
   }
 
-  // @ts-ignore
   measureText(text: string): { width: number } {
     return {
-      width: nativeUIManager.executeNodeFunc(this.element, 'measure', text)
+      width: TaroNativeModule.executeNodeFunc(this.element, 'measure', text)
     }
   }
 
@@ -135,7 +202,7 @@ class TaroCanvasContext {
 
   private drawSimple(src, dx, dy) {
     return {
-      width: nativeUIManager.executeNodeFunc(this.element, 'drawImage', {
+      width: TaroNativeModule.executeNodeFunc(this.element, 'drawImage', {
         src, dx, dy
       })
     }
@@ -143,7 +210,7 @@ class TaroCanvasContext {
 
   private drawWithSize(src, dx, dy, dWidth, dHeight) {
     return {
-      width: nativeUIManager.executeNodeFunc(this.element, 'drawImage', {
+      width: TaroNativeModule.executeNodeFunc(this.element, 'drawImage', {
         src, dx, dy, dWidth, dHeight
       })
     }
@@ -151,23 +218,18 @@ class TaroCanvasContext {
 
   private drawWithCrop(src, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) {
     return {
-      width: nativeUIManager.executeNodeFunc(this.element, 'drawImage', {
+      width: TaroNativeModule.executeNodeFunc(this.element, 'drawImage', {
         src, dx, dy, dWidth, dHeight, sx, sy, sWidth, sHeight
       })
     }
   }
 
   reset(): void {
-    nativeUIManager.executeNodeFunc(this.element, 'reset', null)
+    TaroNativeModule.executeNodeFunc(this.element, 'reset')
   }
 }
 
 class TaroCanvasImage {
-  constructor(id: number) {
-    this._nid = id
-  }
-
-  _nid: number
   width: number
   height: number
   onload: () => void
@@ -182,7 +244,7 @@ class TaroCanvasImage {
   set src (val: string) {
     this._src = val
 
-    nativeOtherManager.loadImage(this._nid, val, (width, height) => {
+    TaroNativeModule.loadImage(val, (width, height) => {
       this.width = width
       this.height = height
       if (typeof this.onload === 'function') {
@@ -208,7 +270,7 @@ export class TaroCanvasElement extends TaroElement<CanvasProps, CanvasTouchEvent
   }
 
   createImage() {
-    return new TaroCanvasImage(this._nid)
+    return new TaroCanvasImage()
   }
 
   toDataURL(type: string): string {
@@ -218,10 +280,6 @@ export class TaroCanvasElement extends TaroElement<CanvasProps, CanvasTouchEvent
   }
 
   exportDataUrl(opts: Taro.canvasToTempFilePath.Option): string {
-    return nativeUIManager.executeNodeFunc(this, 'toDataUrl', opts)
-  }
-
-  exportDataUrlAsync(opts: Taro.canvasToTempFilePath.Option): Promise<string> {
-    return nativeUIManager.executeNodeFunc(this, 'toDataUrlAsync', opts)
+    return TaroNativeModule.executeNodeFunc(this, 'toDataUrl', opts)
   }
 }

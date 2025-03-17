@@ -1,27 +1,81 @@
-import { MethodHandler, temporarilyNotSupport } from '../utils'
+import connection from '@ohos.net.connection'
+
+import { CallbackManager, MethodHandler, temporarilyNotSupport } from '../utils'
 
 import type Taro from '@tarojs/taro/types'
+
+const netCon = connection.createNetConnection()
+
+function getNetworkValue () {
+  let networkType = 'unknown'
+  let metered = false
+  const netHandle = connection.getDefaultNetSync()
+  const getNetCapabilitiesSync = connection.getNetCapabilitiesSync(netHandle)
+  if (getNetCapabilitiesSync) {
+    const { networkCap = [], bearerTypes = [] } = getNetCapabilitiesSync
+
+    switch (bearerTypes[0]) {
+      case connection.NetBearType.BEARER_CELLULAR:
+        networkType = '4g'
+        break
+      case connection.NetBearType.BEARER_WIFI:
+        networkType = 'WiFi'
+        break
+      case connection.NetBearType.BEARER_ETHERNET:
+        networkType = '4g'
+        break
+      case connection.NetBearType.BEARER_VPN:
+        networkType = 'VPN'
+        break
+      default:
+        networkType = 'unknown'
+        break
+    }
+    metered = !networkCap.find(item => item === connection.NetCap.NET_CAPABILITY_NOT_METERED)
+  }
+
+  return { networkType, metered }
+}
 
 export const getNetworkType: typeof Taro.getNetworkType = (options = {}) => {
   const { success, fail, complete } = options
   const handle = new MethodHandler<Taro.getNetworkType.SuccessCallbackResult & { code: unknown, metered: boolean }>({ name: 'getNetworkType', success, fail, complete })
 
-  // eslint-disable-next-line no-async-promise-executor
-  return new Promise(async (resolve, reject) => {
-    try {
-      const data = await get('NetworkManager').getNetworkType()
+  return new Promise((resolve, reject) => {
+    connection.getDefaultNet().then((netHandle) => {
+      let networkType: any = 'none'
+      let metered = false
+      if (netHandle.netId !== 0) {
+        const res = getNetworkValue()
+        networkType = res.networkType
+        metered = res.metered
+      }
 
-      return handle.success(data, {
-        resolve,
-        reject
-      })
-    } catch (error) {
-      handle.fail({
+      return handle.success({
+        networkType: networkType || 'unknown',
+        metered: metered
+      }, { resolve, reject })
+    }).catch((error) => {
+      return handle.fail({
         errMsg: error || '',
         code: -1
       }, { resolve, reject })
-    }
+    })
   })
+}
+
+const networkStatusManager = new CallbackManager()
+
+const networkStatusListener = (error: any) => {
+  if (error) {
+    return networkStatusManager.trigger({ isConnected: false, networkType: 'none' })
+  }
+  const res = getNetworkValue()
+  const networkType = res.networkType || 'unknown'
+  const isConnected = networkType !== 'none'
+  const metered = res.metered
+  const obj = { isConnected, networkType, metered }
+  networkStatusManager.trigger(obj)
 }
 
 /**
@@ -37,7 +91,10 @@ export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = callback
   const name = 'onNetworkStatusChange'
   const handle = new MethodHandler<Partial<Taro.onNetworkStatusChange.CallbackResult>>({ name, complete: callback })
   try {
-    get('NetworkManager').onNetworkStatusChange(callback)
+    networkStatusManager.add(callback)
+    if (networkStatusManager.count() === 1) {
+      netCon.register(networkStatusListener)
+    }
   } catch (error) {
     handle.fail({
       errMsg: error
@@ -51,7 +108,10 @@ export const offNetworkStatusChange: typeof Taro.offNetworkStatusChange = callba
   const name = 'offNetworkStatusChange'
   const handle = new MethodHandler<Partial<Taro.onNetworkStatusChange.CallbackResult>>({ name, complete: callback })
   try {
-    get('NetworkManager').offNetworkStatusChange(callback)
+    networkStatusManager.remove(callback)
+    if (networkStatusManager.count() === 0) {
+      netCon.unregister(networkStatusListener)
+    }
   } catch (error) {
     handle.fail({
       errMsg: error

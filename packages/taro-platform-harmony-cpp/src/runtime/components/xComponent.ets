@@ -1,8 +1,16 @@
-import { Current, eventCenter } from '@tarojs/plugin-platform-harmony-cpp/dist/runtime/runtime-harmony'
+import { Current, createEvent, createTaroEvent, eventCenter, eventHandler } from '@tarojs/runtime'
+import { getDeviceInfo } from '@tarojs/taro'
 
 import type { TaroAny } from '@tarojs/runtime'
 
 const X_COMPONENT_ID_PREFIX = 'taro_x_'
+
+Current.nativeModule.initJSCAPIBridge("js_capi_bridge", {
+  createEvent,
+  createTaroEvent,
+  eventHandler,
+  deviceInfo: getDeviceInfo(),
+})
 
 interface ILocation {
   path: string

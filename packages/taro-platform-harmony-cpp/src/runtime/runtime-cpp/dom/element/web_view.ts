@@ -1,9 +1,11 @@
+import business_error from '@ohos.base'
+import web_webview from '@ohos.web.webview'
+
 import { TaroElement } from './element'
 
-import type business_error from '@ohos.base'
-import type web_webview from '@ohos.web.webview'
 import type { WebViewProps } from '@tarojs/components/types'
 
+@Observed
 export class TaroInnerHtmlElement extends TaroElement {
   isETS = true
 
@@ -12,14 +14,15 @@ export class TaroInnerHtmlElement extends TaroElement {
   }
 }
 
+@Observed
 export class TaroWebViewElement extends TaroElement<WebViewProps> {
   ports: web_webview.WebMessagePort[] = []
 
   nativePort: web_webview.WebMessagePort | null = null
 
-  message: web_webview.WebMessageExt
+  message: web_webview.WebMessageExt = new web_webview.WebMessageExt()
 
-  controller: web_webview.WebviewController
+  controller: web_webview.WebviewController = new web_webview.WebviewController()
 
   isETS = true
 

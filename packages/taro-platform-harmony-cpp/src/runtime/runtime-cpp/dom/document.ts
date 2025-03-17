@@ -1,4 +1,6 @@
 import { Current } from '../current'
+import { TaroNativeModule } from '../harmony-library'
+import { getPageScrollerOrNode } from '../utils'
 import { TaroComment } from './comment'
 import { TaroElement } from './element/element'
 import { NodeType, TaroNode, TaroTextNode } from './node'
@@ -19,7 +21,7 @@ class TaroDocument extends TaroNode {
     super('#document', NodeType.DOCUMENT_NODE)
     this._win = window
     window._doc = this
-    nativeUIManager.createTaroNode(this)
+    TaroNativeModule.createTaroNode(this)
   }
 
   get defaultView (): Window {
@@ -29,7 +31,7 @@ class TaroDocument extends TaroNode {
   get currentPageNode (): TaroElement {
     const taro = Current.taro
     const page = taro.getCurrentInstance().page
-    return page?.getPageElement()
+    return getPageScrollerOrNode(page?.node, page)
   }
 
   public createElement (tagName: string): TaroElement {

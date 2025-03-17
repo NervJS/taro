@@ -1,6 +1,8 @@
+import inputMethodEngine from '@ohos.inputMethodEngine'
+import { CallbackManager, MethodHandler } from '@tarojs/plugin-platform-harmony-ets/dist/apis/utils/handler'
 import { Current, window } from '@tarojs/runtime'
 
-import { CallbackManager, temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../utils'
 
 import type Taro from '@tarojs/taro/types'
 
@@ -8,7 +10,7 @@ const callbackManager = new CallbackManager()
 
 const resizeListener = (height) => {
   callbackManager.trigger({
-    height: px2vp(height),
+    height: px2vp(height)
   })
 }
 
@@ -31,27 +33,26 @@ export const offKeyboardHeightChange: typeof Taro.offKeyboardHeightChange = call
 }
 
 // @ts-ignore
-// let keyboardController: inputMethodEngine.KeyboardController
-// inputMethodEngine.getInputMethodAbility()
-//   // FIXME 当前事件无效，等待鸿蒙方面沟通
-//   .on('inputStart', (kbController) => {
-//     keyboardController = kbController
-//   })
+let keyboardController: inputMethodEngine.KeyboardController
+inputMethodEngine.getInputMethodAbility()
+  // FIXME 当前事件无效，等待鸿蒙方面沟通
+  .on('inputStart', (kbController) => {
+    keyboardController = kbController
+  })
 
-export const hideKeyboard: typeof Taro.hideKeyboard = function (_options) {
-  // FIXME @ohos.inputMethodEngine
-  // const { success, fail, complete } = options || {}
-  // const handle = new MethodHandler({ name: 'hideKeyboard', success, fail, complete })
-  // return new Promise((resolve, reject) => {
-  //   keyboardController?.hide((err) => {
-  //     if (err) {
-  //       return handle.fail({
-  //         errMsg: err,
-  //       }, { resolve, reject })
-  //     }
-  //     return handle.success({}, { resolve, reject })
-  //   })
-  // })
+export const hideKeyboard: typeof Taro.hideKeyboard = function (options) {
+  const { success, fail, complete } = options || {}
+  const handle = new MethodHandler({ name: 'hideKeyboard', success, fail, complete })
+  return new Promise((resolve, reject) => {
+    keyboardController?.hide((err) => {
+      if (err) {
+        return handle.fail({
+          errMsg: err,
+        }, { resolve, reject })
+      }
+      return handle.success({}, { resolve, reject })
+    })
+  })
 }
 
 export const getSelectedTextRange = /* @__PURE__ */ temporarilyNotSupport('getSelectedTextRange')

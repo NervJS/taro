@@ -1,3 +1,5 @@
+import { document } from '@tarojs/runtime'
+
 import parseHTML, { TTreeNode } from './HarmonyHTMLParser'
 
 import type { TaroElement } from '@tarojs/runtime'
@@ -16,8 +18,7 @@ function buildDomTree(dom: TTreeNode) {
   }
   if (!tagName) return null
 
-  // FIXME
-  const ele = globalThis.loadLibrary('@tarojs/runtime', 'document').createElement(tagName)
+  const ele = document.createElement(tagName)
   attributes && Object.keys(attributes).forEach(key => {
     if (key === 'style') {
       ele.style.cssText = attributes[key]

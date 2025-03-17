@@ -1,4 +1,4 @@
-import { Current, document, TaroElement } from '@tarojs/runtime'
+import { Current, document, getPageScrollerOrNode, TaroElement } from '@tarojs/runtime'
 
 import { temporarilyNotSupport } from '../utils'
 
@@ -31,7 +31,7 @@ export class IntersectionObserver {
     if (component && component.page === page && component.node) {
       this._component = component.node
     } else {
-      this._component = component || page?.getPageElement()
+      this._component = component || getPageScrollerOrNode(page?.node, page)
     }
 
     Object.assign(this._options, options)
@@ -41,10 +41,10 @@ export class IntersectionObserver {
     if (this._observerNodes && this._component) {
       if (this._observerNodes instanceof Array) {
         this._observerNodes.forEach((n) => {
-          nativeUIManager.disconnectObserve(n)
+          Current.nativeModule.disconnectObserve(n)
         })
       } else {
-        nativeUIManager.disconnectObserve(this._observerNodes)
+        Current.nativeModule.disconnectObserve(this._observerNodes)
       }
 
       if (this._timer) {
@@ -74,7 +74,7 @@ export class IntersectionObserver {
 
     const list = node instanceof Array ? node : [node]
     list.forEach((item) => {
-      nativeUIManager.createObserve(item, this._viewportMargins, thresholds, initialRatio, (data) => {
+      Current.nativeModule.createObserve(item, this._viewportMargins, thresholds, initialRatio, (data) => {
         this._timer = setTimeout(() => {
           callback({
             id: item.id,

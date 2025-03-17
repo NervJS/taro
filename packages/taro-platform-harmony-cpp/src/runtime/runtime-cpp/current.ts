@@ -1,3 +1,5 @@
+import { TaroNativeModule } from './harmony-library'
+
 export const context: any = {
   resolver: null,
   value: null
@@ -38,13 +40,8 @@ export const Current: any = {
 
     return e
   }),
-  createHarmonyElement: null,
-  getSyncValue: (key) => {
-    return get('CurrentManager').getCurrentSyncValue(key)
-  },
-  getAsyncValue: (key) => {
-    return get('CurrentManager').getCurrentAsyncValue(key)
-  }
+  nativeModule: TaroNativeModule,
+  createHarmonyElement: null
 }
 
 export const getCurrentInstance = () => Current

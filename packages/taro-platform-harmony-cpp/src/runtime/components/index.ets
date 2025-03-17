@@ -22,18 +22,18 @@ export {
   TaroDeprecated as TaroRadio,
   TaroDeprecated as TaroCheckboxGroup,
   TaroDeprecated as TaroCheckbox,
-  TaroDeprecated as TaroSlider,
-  TaroDeprecated as TaroSwitch,
   TaroDeprecated as TaroLabel,
   TaroDeprecated as TaroCanvas,
   TaroDeprecated as TaroForm,
-  TaroDeprecated as TaroVideo,
   getButtonColor, getImageMode
 } from './deprecated'
 
 export { TaroXComponent } from './xComponent'
 export { default as TaroNavigationBar } from './navigationBar'
 
+export { default as TaroVideo } from './video'
+export { default as TaroSlider } from './slider'
+export { default as TaroSwitch } from './switch'
 export { default as TaroWebView } from './webView'
 export { default as TaroRichText } from './richText'
 export { default as TaroInnerHtml } from './innerHtml'

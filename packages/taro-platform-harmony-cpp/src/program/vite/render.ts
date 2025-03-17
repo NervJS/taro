@@ -2,25 +2,18 @@ import path from 'node:path'
 
 import { isFunction } from '@tarojs/shared'
 
-import { PACKAGE_NAME } from '../../utils'
-
+import type { PageParser } from '@tarojs/vite-runner/dist/harmony/template'
 import type { TaroHarmonyPageMeta } from '@tarojs/vite-runner/dist/harmony/template/page'
-import type Parser from '@tarojs/vite-runner/dist/harmony/template/page'
 import type { IChildComponent } from '@tarojs/vite-runner/dist/harmony/template/render'
 import type { PluginContext } from 'rollup'
 import type { PluginOption } from 'vite'
 import type Harmony from '..'
 
-declare class PageParser extends Parser {
-  public appPath: typeof Parser.prototype['appPath']
-  public appConfig: typeof Parser.prototype['appConfig']
-}
-
 export default function (this: Harmony): PluginOption {
   const that = this
 
   return {
-    name: 'taro:vite-harmony-render',
+    name: 'taro:vite-harmony-template-render',
     enforce: 'pre',
     buildStart (this: PluginContext) {
       const pluginContext = this
@@ -39,21 +32,19 @@ export default function (this: Harmony): PluginOption {
           const comps = list.filter(item => ![
             'View', 'Button', 'Text', 'Image', 'Icon', 'Input', 'TextArea', 'Swiper', 'ScrollView', 'ScrollList', 'StickySection',
             'ListView', 'MovableArea', 'MovableView', 'Picker', 'WaterFlow', 'WaterFlowView', 'List', 'Canvas', 'Process',
-            'Label', 'CheckboxGroup', 'Checkbox', 'RadioGroup', 'Radio', 'Form', 'Video'
+            'Label', 'CheckboxGroup', 'Checkbox', 'RadioGroup', 'Radio', 'Form',
           ].includes(item.name) && item.type !== 'TaroViewElement')
-          list.splice(0, list.length, ...comps)
-          // FIXME 这里的调整只能作用于 taro 打包的原生组件，对于第三方组件无效 Note: 主仓调整后移除
-          list.forEach(e => {
-            if (e.fullArgument === 'item._attrs as TaroAny') {
-              e.fullArgument = '{ _updateTrigger: item._updateTrigger, _nid: item._nid, props: item._attrs.props }'
-            }
+          list.splice(0, list.length, ...comps, {
+            name: 'XComponent',
+            type: 'TaroElement',
+            fullArgument: '{ pageId: item?._nid }',
           })
           // list.forEach(e => {
           //   e.extra = [
           //     `${e.extra || ''}`,
           //     `.onSizeChange((pre, post) => {`,
           //     `    if (pre.width === 0 && pre.height === 0) {`,
-          //     `      Current.nativeModule.setTaroNodeAttribute(item, '_style4cpp', \`height:\${post.height}px;width:\${post.width}px;\`)`,
+          //     `      TaroNativeModule.setTaroNodeAttribute(item, '_style4cpp', \`height:\${post.height}px;width:\${post.width}px;\`)`,
           //     `    }`,
           //     `  })`,
           //   ].filter(e => !!e).join('\n')
@@ -62,17 +53,12 @@ export default function (this: Harmony): PluginOption {
         compiler.loaderMeta.modifyHarmonyRenderCode = function (code: string) {
           const importStr = [
             `import { ComponentContent, FrameNode, NodeController, UIContext } from '@kit.ArkUI'`,
-            `import { Current } from '${PACKAGE_NAME}/dist/runtime/runtime-harmony'`,
+            `import { TaroNativeModule } from '@tarojs/runtime'`,
             `import { TaroXComponent } from '@tarojs/components'`,
           ]
           const codeArr = code.split('\n')
-          let idx = codeArr.findIndex(item => !/^(\s*|import\s.+)$/.test(item))
-          importStr.push(...codeArr.splice(0, idx).filter(e => !/\bCurrent\b/.test(e)))
-
-          idx = codeArr.findIndex(item => /function\s+createChildItem/.test(item))
-          codeArr.splice(idx, 1, `function createChildItem (item: TaroElement) {`)
-          idx = codeArr.findIndex(item => /createChildItem\(item,\screateLazyChildren\)/.test(item))
-          codeArr.splice(idx, 1, codeArr[idx].replace('createChildItem(item, createLazyChildren)', 'createChildItem(item)'))
+          const idx = codeArr.findIndex(item => !/^(\s*|import\s.+)$/.test(item))
+          importStr.push(...codeArr.splice(0, idx))
 
           return this.transArr2Str([
             ...importStr,
@@ -82,12 +68,12 @@ export default function (this: Harmony): PluginOption {
             `@Builder
 function createEtsComponent (item: TaroElement) {
   Stack () {
-    createChildItem(item)
+    createChildItem(item, createLazyChildren)
   }
 }`,
             `
 export function initEtsBuilder (router = '') {
-  Current.nativeModule.registerEtsBuilder((data: TaroElement): ComponentContent<TaroElement> => {
+  TaroNativeModule.registerEtsBuilder((data: TaroElement): ComponentContent<TaroElement> => {
     console.info("registerEtsBuilder app storage has value: " + Current.uiContext?.instanceId_)
     console.info("registerEtsBuilder: " + data._nid)
     return new ComponentContent<TaroElement>(Current.uiContext, wrapBuilder(createEtsComponent), data)

@@ -3,54 +3,30 @@ import { TaroElement } from './element'
 import type { VideoProps } from '@tarojs/components/types'
 import type { TaroAny } from '../../interface'
 
-export class TaroVideoController {
-  private _element: TaroAny
-
-  constructor(element: TaroAny) {
-    this._element = element
-  }
-
-  setCurrentTime(val: number) {
-    this._element.currentTime = val
-  }
-
-  requestFullscreen() {
-    this._element.requestFullscreen()
-  }
-
-  exitFullscreen() {
-    this._element.exitFullscreen()
-  }
-
-  start() {
-    this._element.play()
-  }
-
-  pause() {
-    this._element.pause()
-  }
-
-  stop() {
-    this._element.stop()
-  }
-
-  reset() {
-    this._element.reset()
-  }
-}
-
 export class TaroVideoElement extends TaroElement<VideoProps> {
-  controller: TaroVideoController
+  controller: VideoController
+
+  isETS = true
 
   constructor() {
     super('Video')
+
+    this._nodeInfo._currentTime = 0
   }
 
-  controller = new TaroVideoController(this)
+  public setAttribute(name: string, value: TaroAny): void {
+    super.setAttribute(name, value)
+
+    // Note: 使用 @ComponentV2 时，需要在 struct 将参数声明为 @Local 并在此更新
+    if (this._instance) {
+      const attrName = `attr${name.charAt(0).toUpperCase()}${name.slice(1)}`
+      this._instance[attrName] = value
+    }
+  }
 
   async play() {
     try {
-      nativeVideoController.exec(this._nid, 'play')
+      this.controller.start()
       return Promise.resolve()
     } catch (e) {
       return Promise.reject(e)
@@ -59,7 +35,7 @@ export class TaroVideoElement extends TaroElement<VideoProps> {
 
   pause() {
     try {
-      nativeVideoController.exec(this._nid, 'pause')
+      this.controller.pause()
       return Promise.resolve()
     } catch (e) {
       return Promise.reject(e)
@@ -68,34 +44,7 @@ export class TaroVideoElement extends TaroElement<VideoProps> {
 
   stop() {
     try {
-      nativeVideoController.exec(this._nid, 'stop')
-      return Promise.resolve()
-    } catch (e) {
-      return Promise.reject(e)
-    }
-  }
-
-  reset() {
-    try {
-      nativeVideoController.exec(this._nid, 'reset')
-      return Promise.resolve()
-    } catch (e) {
-      return Promise.reject(e)
-    }
-  }
-
-  requestFullscreen() {
-    try {
-      nativeVideoController.exec(this._nid, 'requestFullscreen')
-      return Promise.resolve()
-    } catch (e) {
-      return Promise.reject(e)
-    }
-  }
-
-  exitFullscreen() {
-    try {
-      nativeVideoController.exec(this._nid, 'exitFullscreen')
+      this.controller.stop()
       return Promise.resolve()
     } catch (e) {
       return Promise.reject(e)
@@ -103,11 +52,12 @@ export class TaroVideoElement extends TaroElement<VideoProps> {
   }
 
   get currentTime() {
-    return nativeVideoController.getCurrentTime(this._nid)
+    return this._nodeInfo._currentTime
   }
 
   set currentTime(val: number) {
-    nativeVideoController.setCurrentTime(this._nid, val)
+    this._nodeInfo._currentTime = val
+    this.controller.setCurrentTime(val)
   }
 
   dispose () {

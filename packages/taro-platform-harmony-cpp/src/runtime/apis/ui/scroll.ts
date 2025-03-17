@@ -1,4 +1,4 @@
-import { Current, document } from '@tarojs/runtime'
+import { Current, document, getPageScrollerOrNode } from '@tarojs/runtime'
 
 import { MethodHandler, pxTransformHelper } from '../utils'
 
@@ -25,7 +25,7 @@ export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
     let scrollTopValue = -1
     let scrollLeftValue = -1
     let scrollNode: TaroAny = null
-    const currentPageNode = page?.getPageElement()
+    const currentPageNode = getPageScrollerOrNode(page?.node, page)
 
     if (scrollTop || typeof scrollTop === 'number') {
       scrollTopValue = scrollTop
@@ -48,7 +48,7 @@ export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
       if (!scrollNode) return
 
       // FIXME 更新为新的获取方式获取组件参数
-      const result = nativeOtherManager.getCurrentOffset(scrollNode)
+      const result = Current.nativeModule.getCurrentOffset(scrollNode)
 
       if (!result) return
 
@@ -64,7 +64,7 @@ export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
     }
 
     try {
-      nativeOtherManager.scrollTo(currentPageNode, {
+      Current.nativeModule.scrollTo(currentPageNode, {
         xOffset: scrollLeftValue,
         yOffset: scrollTopValue,
         duration,

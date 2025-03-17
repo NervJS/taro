@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
 import path from 'node:path'
 
-import { chalk, fs, NODE_MODULES, NPM_DIR } from '@tarojs/helper'
+import { chalk, fs, NPM_DIR } from '@tarojs/helper'
 import { DEFAULT_TERSER_OPTIONS } from '@tarojs/vite-runner/dist/utils/constants'
 
-import initCommands from './commands'
 import HarmonyCPP from './program'
 import { CPP_LIBRARY_NAME, CPP_LIBRARY_PATH, getProcessArg, PLATFORM_NAME, SEP_RGX } from './utils'
 import { PKG_DEPENDENCIES, PKG_NAME, PKG_VERSION, PROJECT_DEPENDENCIES_NAME } from './utils/constant'
@@ -52,17 +51,12 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
     harmonyConfig.hapName ||= 'entry'
     const { projectPath, hapName } = harmonyConfig
 
-    if (ctx.runOpts?.options?.args?.onlyBundle) {
-      opts.outputRoot = path.join(argProjectPath || projectPath)
-    } else {
-      opts.outputRoot = path.join(argProjectPath || projectPath, hapName, 'src/main', 'ets')
-    }
+    opts.outputRoot = path.join(argProjectPath || projectPath, hapName, 'src/main', 'ets')
     opts.harmony = harmonyConfig
 
     ctx.paths.outputPath = opts.outputRoot
   })
 
-  initCommands(ctx, options)
   ctx.registerPlatform({
     name: PLATFORM_NAME,
     useConfigName: options.useConfigName || 'harmony',
@@ -71,16 +65,8 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
       await program.start()
 
       if (options.useChoreLibrary === false) {
-        const { appPath } = ctx.paths
-        const { outputRoot } = config
-        const npmDir = path.join(outputRoot, NODE_MODULES)
-        // Note: 注入 C-API 库
-        program.externalDeps.forEach(([libName, _, target]) => {
-          program.moveLibraries(target || libName, path.resolve(npmDir, libName), appPath, !target)
-        })
-        program.handleResourceEmit(outputRoot, appPath)
-        program.generateInitialEntry()
-        if (config.hapName !== 'entry') { // Note: 如果是 entry 不需要重写 BuildProfile 路径
+        const { hapName = 'entry', outputRoot } = config
+        if (hapName !== 'entry') { // Note: 如果是 entry 不需要重写 BuildProfile 路径
           fixBuildProfile(outputRoot, path.join(outputRoot, '../../..'))
         }
       }

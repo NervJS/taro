@@ -1,8 +1,7 @@
-import { TaroNativeModule } from '@tarojs/plugin-platform-harmony-cpp/dist/runtime/runtime-harmony'
-import web_webview from '@ohos.web.webview'
+import { AREA_CHANGE_EVENT_NAME, createTaroEvent, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
-// import commonStyleModify from './style'
-// import { getComponentEventCallback } from './utils/info'
+import commonStyleModify from './style'
+import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroAny, TaroWebViewElement, TaroEvent } from '@tarojs/runtime'
 
@@ -19,21 +18,11 @@ interface IError {
 export default struct TaroWebView {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroWebViewElement, layer?: number) => void = this.customBuilder
-  @Prop node: TaroWebViewElement
-
-  aboutToAppear(): void {
-    this.node._attrs ||= {}
-    this.node._attrs.src = TaroNativeModule.getTaroNodeAttribute(this.node._nid, 'src')
-
-    this.node.controller = new web_webview.WebviewController() as TaroAny
-    this.node.message = new web_webview.WebMessageExt() as TaroAny
-
-    this.node._nodeInfo ||= {}
-  }
+  @ObjectLink node: TaroWebViewElement
 
   build () {
     Web({ src: this.node._attrs.src, controller: this.node.controller })
-      // .attributeModifier(commonStyleModify.setNode(this.node))
+      .attributeModifier(commonStyleModify.setNode(this.node))
       .onPageEnd((e: IPageLoad) => {
         // 1. 创建消息端口
         this.node.ports = this.node.controller.createWebMessagePorts(true)
@@ -44,17 +33,23 @@ export default struct TaroWebView {
         // 4. 设置回调函数
         this.node.nativePort.onMessageEventExt((result) => {
           const message: TaroAny = this.node.handleMessageFromWeb(result)
-          TaroNativeModule.triggerEvent(this.node._nid, 'message', { detail: { data: message } })
+          const messageEvent: TaroEvent = createTaroEvent('message', { detail: { data: message } }, this.node)
+
+          eventHandler(messageEvent, 'message', this.node)
         })
 
-        TaroNativeModule.triggerEvent(this.node._nid, 'load', { detail: { src: this.node._attrs.src } })
+        const onLoadEvent: TaroEvent = createTaroEvent('load', { detail: { src: this.node._attrs.src } }, this.node)
+
+        eventHandler(onLoadEvent, 'load', this.node)
       })
-      .onErrorReceive((e: IError) => {
-        TaroNativeModule.triggerEvent(this.node._nid, 'error', { detail: { url: this.node._attrs.src, fullUrl: e.request.getRequestUrl() } })
-      })
-      // .onAreaChange(getComponentEventCallback(this.node, 'areaChange', (res: TaroAny) => {
-      //   this.node._nodeInfo.areaInfo = res[1]
-      // }))
-      // .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, 'visibleChange'))
+      .onErrorReceive(shouldBindEvent((e: IError) => {
+        const event: TaroEvent = createTaroEvent('error', { detail: { url: this.node._attrs.src, fullUrl: e.request.getRequestUrl() } }, this.node)
+
+        eventHandler(event, 'error', this.node)
+      }, this.node, ['error']))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        this.node._nodeInfo.areaInfo = res[1]
+      }))
+      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 }

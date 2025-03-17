@@ -1,4 +1,5 @@
 import { Events } from '../emitter/emitter'
+import { TaroNativeModule } from '../harmony-library'
 import { TaroEvent } from './event'
 
 import type { EventHandler } from '../interface'
@@ -31,7 +32,7 @@ class TaroEventTarget extends Events {
     } else {
       this.__listeners[type] = [listener]
     }
-    // FIXME nativeUIManager.registerNodeEvent(this, type, listener)
+    TaroNativeModule.registerNodeEvent(this, type, listener)
   }
 
   public removeEventListener (type: string, listener: fn) {
@@ -43,7 +44,7 @@ class TaroEventTarget extends Events {
         delete this.__listeners[type]
       }
     }
-    // FIXME nativeUIManager.unRegisterNodeEvent(this, type, listener)
+    TaroNativeModule.unRegisterNodeEvent(this, type, listener)
   }
 
   // TODO 转成 C++ 实现

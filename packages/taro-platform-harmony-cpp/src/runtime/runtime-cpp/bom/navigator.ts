@@ -1,1 +1,1 @@
-export * from '@tarojs/runtime/dist/bom/navigator'
+export { navigator } from '@tarojs/runtime/dist/runtime.esm'

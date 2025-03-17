@@ -1,3 +1,4 @@
+import { TaroNativeModule } from '../../harmony-library'
 import { TaroElement } from './element'
 
 import type { ScrollViewProps } from '@tarojs/components/types'
@@ -8,22 +9,22 @@ export class TaroScrollViewElement extends TaroElement<ScrollViewProps> {
   }
 
   get scrollTop() {
-    return nativeOtherManager.getCurrentOffset(this)?.yOffset
+    return TaroNativeModule.getCurrentOffset(this)?.yOffset
   }
 
   set scrollTop(value: number) {
-    nativeOtherManager.scrollTo(this, {
+    TaroNativeModule.scrollTo(this, {
       yOffset: value,
       duration: 0
     })
   }
 
   get scrollLeft() {
-    return nativeOtherManager.getCurrentOffset(this)?.xOffset
+    return TaroNativeModule.getCurrentOffset(this)?.xOffset
   }
 
   set scrollLeft(value: number) {
-    nativeOtherManager.scrollTo(this, {
+    TaroNativeModule.scrollTo(this, {
       xOffset: value,
       duration: 0
     })

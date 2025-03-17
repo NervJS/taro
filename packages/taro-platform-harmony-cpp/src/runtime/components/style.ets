@@ -1,6 +1,7 @@
-import { ObjectAssign } from '@tarojs/plugin-platform-harmony-cpp/dist/runtime/runtime-harmony'
+import { isUndefined } from '@tarojs/shared'
+import { ObjectAssign } from '@tarojs/runtime'
 
-import { computeBackgroundPosition, convertVp2Px, isUndefined } from './utils'
+import { computeBackgroundPosition, convertVp2Px } from './utils'
 import { getNormalAttributes } from './utils/helper'
 import { isMaxWidthView } from './utils/styles'
 
@@ -128,9 +129,9 @@ export function setNormalAttributeIntoInstance(instance: CommonAttribute, style:
     instance.key(style.id)
   }
   if (!isUndefined(style.display) || !isUndefined(style.visibility)) {
-    instance.visibility(style.display === 'none'
-      ? Visibility.None :
-      !isUndefined(style.visibility)
+    instance.visibility(style.display === 'none' 
+      ? Visibility.None : 
+      !isUndefined(style.visibility) 
         ? (style.visibility === 'hidden' ? Visibility.Hidden :  Visibility.Visible)
         : Visibility.Visible
     )

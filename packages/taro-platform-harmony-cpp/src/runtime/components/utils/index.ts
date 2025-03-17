@@ -1,9 +1,7 @@
+import { isUndefined } from '@tarojs/shared'
+
 import type { RichTextProps } from '@tarojs/components/types/RichText'
 import type { TaroRichTextElement } from '@tarojs/runtime'
-
-export function isUndefined (o: unknown): o is undefined {
-  return typeof o === 'undefined'
-}
 
 export function getSingleSelector(range, rangeKey): any[] {
   return range.map((data) => data[rangeKey])

@@ -1,46 +1,29 @@
-import { Events } from '@tarojs/shared'
+import { hooks } from '@tarojs/runtime/dist/runtime.esm'
 
-import type { TaroAny } from '../interface'
+import { TaroNativeModule } from '../harmony-library'
 
-class TaroNativeEvents {
-  on = (...args: TaroAny[]) => {
-    if (!args[0]) {
-      console.error(`TaroEvent: event type is not correct\n${new Error().stack}`)
-      return this
-    }
-    nativeEvent.onEventCenter(...args)
+class Events {
+  on = (...args) => {
+    TaroNativeModule.onEventCenter(...args)
     return this
   }
 
-  once = (...args: TaroAny[]) => {
-    if (!args[0]) {
-      console.error(`TaroEvent: event type is not correct\n${new Error().stack}`)
-      return this
-    }
-    nativeEvent.onEventCenterOnce(...args)
+  once = (...args) => {
+    TaroNativeModule.onEventCenterOnce(...args)
     return this
   }
 
-  off = (...args: TaroAny[]) => {
-    if (!args[0]) {
-      console.error(`TaroEvent: event type is not correct\n${new Error().stack}`)
-      return this
-    }
-    nativeEvent.offEventCenter(...args)
+  off = (...args) => {
+    TaroNativeModule.offEventCenter(...args)
     return this
   }
 
-  trigger = (type: string, ...args: TaroAny[]) => {
-    if (!type) {
-      console.error(`TaroEvent: trigger event type is not correct\n${new Error().stack}`)
-      return this
-    }
-    nativeEvent.triggerEventCenter(type, args)
+  trigger = (type, ...args) => {
+    TaroNativeModule.triggerEventCenter(type, args)
     return this
   }
 }
 
-const eventCenter = new TaroNativeEvents()
+export const eventCenter = hooks.call('getEventCenter', Events as any) as Events
 
-export type EventsType = typeof Events
-export { eventCenter, Events }
+export { Events, EventsType } from '@tarojs/runtime/dist/runtime.esm'

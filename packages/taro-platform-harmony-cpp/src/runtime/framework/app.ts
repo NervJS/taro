@@ -28,8 +28,10 @@ const pageKeyId = incrementId(1)
 export function connectReactPage (
   R: typeof React,
   id: string,
-  _getCtx: () => any
+  getCtx: () => any
 ) {
+  const ctx = getCtx?.()
+
   return (Page): React.ComponentClass<any> => {
     // eslint-disable-next-line dot-notation
     const isReactComponent = isClassComponent(R, Page)
@@ -65,7 +67,7 @@ export function connectReactPage (
         const children = this.state.hasError
           ? []
           : h(ReactMeta.PageContext.Provider, { value: id }, h(Page, {
-            ...this.props,
+            ...Object.assign({}, ctx?.props, this.props),
             ...refs
           }))
 
@@ -108,7 +110,7 @@ export function createReactApp (
     const appId = config?.appId || 'app'
 
     if (ReactMeta.Container === EMPTY_OBJ) {
-      const Container = document.container.getElementById(appId)!
+      const Container = document.getElementById(appId)!
 
       Container.id = appId
       ReactMeta.Container = Container

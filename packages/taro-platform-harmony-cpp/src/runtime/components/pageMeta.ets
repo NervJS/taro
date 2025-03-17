@@ -1,4 +1,5 @@
-import { getCurrentInstance, eventCenter } from '@tarojs/plugin-platform-harmony-cpp/dist/runtime/runtime-harmony'
+import { APP, eventCenter, getCurrentInstance } from '@tarojs/runtime'
+import { pageScrollTo } from '@tarojs/taro'
 
 import { isTagFirstChild } from './utils/helper'
 
@@ -15,12 +16,12 @@ export interface IComponentAttributeUpdateEvents {
 export default struct TaroPageMeta {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroPageMetaElement, layer?: number) => void = this.customBuilder
-  @Prop node: TaroPageMetaElement
+  @ObjectLink node: TaroPageMetaElement
 
   page: TaroAny = {}
 
   aboutToAppear(): void {
-    if (!isTagFirstChild(this.node, 'app', 2)) {
+    if (!isTagFirstChild(this.node, APP, 2)) {
       // PageMeta 只能是页面内的第一个元素
       console.error('PageMeta 只能是页面内的第一个元素。')
     }
@@ -31,12 +32,12 @@ export default struct TaroPageMeta {
     }
 
     // FIXME 在 Harmony 提供 @Watch 文档后，根据 node 实际使用更细粒度的监听
-    eventCenter.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
+    eventCenter?.on('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
     this.handleAttributes(this.node._attrs)
   }
 
   aboutToDisappear(): void {
-    eventCenter.off('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
+    eventCenter?.off('__taroComponentAttributeUpdate', this.handleAttributeUpdate)
   }
 
   handleAttributeUpdate = (opt: IComponentAttributeUpdateEvents) => {
@@ -67,8 +68,7 @@ export default struct TaroPageMeta {
 
     if (this.page === getCurrentInstance().page) {
       if (attrs.scrollTop || attrs.scrollDuration) {
-        // FIXME
-        globalThis.loadLibrary('@tarojs/taro', 'pageScrollTo')({
+        pageScrollTo({
           scrollTop: attrs.scrollTop || this.node._attrs.scrollTop,
           duration: attrs.scrollDuration || this.node._attrs.scrollDuration,
         } as TaroAny)
@@ -79,7 +79,7 @@ export default struct TaroPageMeta {
     // pageFontSize
     // pageOrientation
     if (triggerStyleEvent) {
-      eventCenter.trigger('__taroPageStyle', options)
+      eventCenter?.trigger('__taroPageStyle', options)
     }
     // onResize
     // onScroll

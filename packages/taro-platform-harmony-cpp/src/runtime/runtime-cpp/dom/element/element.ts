@@ -1,5 +1,7 @@
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP } from '../../constant'
+import { Current } from '../../current'
 import { eventCenter } from '../../emitter/emitter'
+import { TaroNativeModule } from '../../harmony-library'
 import { initComponentNodeInfo, printInfo, runInDebug, triggerAttributesCallback } from '../../utils/info'
 import { ClassList } from '../class-list'
 import { TaroDataSourceElement } from '../dataSource'
@@ -50,13 +52,12 @@ export class TaroElement<
   public _attrs: T & TaroExtraProps = {} as T
 
   constructor(tagName: string) {
-    // FIXME 移除正则和字符串转换
     super(tagName.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase(), NodeType.ELEMENT_NODE)
     this.tagName = this.nodeName
     this.style = new Style(this)
     initComponentNodeInfo(this)
 
-    nativeUIManager.createTaroNode(this)
+    TaroNativeModule.createTaroNode(this)
   }
 
   public set id(value: string) {
@@ -93,15 +94,28 @@ export class TaroElement<
   }
 
   public get children(): TaroElement[] {
-    return nativeUIManager.getTaroNodeProperty(this, 'children')
+    return TaroNativeModule.getTaroNodeProperty(this, 'children')
   }
 
   public get dataset(): Record<string, unknown> {
-    return nativeUIManager.getTaroNodeProperty(this, 'dataset')
+    return TaroNativeModule.getTaroNodeProperty(this, 'dataset') || {}
   }
 
   public setAttribute(name: string, value: TaroAny): void {
     this._attrs[name] = value
+
+    // 混合开发的组件没办法自动更新，需要把父级的结点删掉新建
+    // Current.nativeComponentNames会在render.ets中赋值
+    if (Current.nativeComponentNames?.includes(this.tagName)) {
+      const idxOfRef = this.parentNode?.findIndex(this)
+
+      if (idxOfRef !== undefined) {
+        this._nativeUpdateTrigger++
+        if (this.isETS) {
+          this.parentNode?.notifyDataChange?.(idxOfRef)
+        }
+      }
+    }
 
     if (['PAGE-META', 'NAVIGATION-BAR'].includes(this.tagName)) {
       // FIXME 等 Harmony 支持更细粒度的 @Watch 方法后移出
@@ -122,32 +136,32 @@ export class TaroElement<
         runInDebug(() => {
           printInfo('setAttribute', this._nid, this.parentNode?.nodeName, this.nodeName, triggerName, this._attrs[triggerName])
         })
-        nativeUIManager.setTaroNodeAttribute(this, triggerName, this._attrs[triggerName])
+        TaroNativeModule.setTaroNodeAttribute(this, triggerName, this._attrs[triggerName])
         triggerAttributesCallback(this, triggerName)
       } else {
         runInDebug(() => {
           printInfo('setAttribute', this._nid, this.parentNode?.nodeName, this.nodeName, name, value ?? null)
         })
-        nativeUIManager.setTaroNodeAttribute(this, name, value ?? null)
+        TaroNativeModule.setTaroNodeAttribute(this, name, value ?? null)
       }
     }
   }
 
   public getAttribute(name: string): any {
-    return nativeUIManager.getTaroNodeAttribute(this, name)
+    return TaroNativeModule.getTaroNodeAttribute(this, name)
   }
 
   public removeAttribute(name: string): void {
     this._attrs[name] = null
-    nativeUIManager.removeTaroNodeAttribute(this, name)
+    TaroNativeModule.removeTaroNodeAttribute(this, name)
   }
 
   public hasAttribute(name: string): boolean {
-    return nativeUIManager.hasTaroNodeAttribute(this, name)
+    return TaroNativeModule.hasTaroNodeAttribute(this, name)
   }
 
   public hasAttributes(): boolean {
-    return nativeUIManager.hasTaroNodeAttributes(this)
+    return TaroNativeModule.hasTaroNodeAttributes(this)
   }
 
   public set innerHTML(value: string) {
@@ -163,7 +177,7 @@ export class TaroElement<
   }
 
   // 存放的样式，获取其实跟获取style是一样的，只不过这里取的更快捷，不需要走style的get方法进到cssStyleDeclaration
-  public _st: TaroAny = new StyleSheet() // FIXME 为 CAPI 组件移除该属性
+  public _st: TaroAny = new StyleSheet()
 
   // 经转换后的鸿蒙样式
   public get hmStyle(): TaroAny {

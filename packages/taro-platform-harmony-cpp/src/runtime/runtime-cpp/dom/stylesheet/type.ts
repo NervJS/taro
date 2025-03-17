@@ -1,3 +1,4 @@
+// @ts-nocheck
 export interface HarmonyStyle extends TaroStyleType {
   textAlign?: TextAlign
   textOverflow?: HarmonyType.Overflow
@@ -44,9 +45,9 @@ export interface TaroStyleType {
   flexBasis?: number | string
   flexGrow?: number
   flexShrink?: number
-  alignSelf?: number
+  alignSelf?: ItemAlign
   flexDirection?: FlexDirection
-  justifyContent?: number
+  justifyContent?: FlexAlign
   alignItems?: ItemAlign
   flexWrap?: FlexWrap
   alignContent?: FlexAlign
@@ -81,10 +82,10 @@ export interface TaroStyleType {
   borderTopColor?: ResourceColor
   borderBottomColor?: ResourceColor
   borderStyle?: BorderStyle | EdgeStyles
-  borderLeftStyle?: number
-  borderRightStyle?: number
-  borderTopStyle?: number
-  borderBottomStyle?: number
+  borderLeftStyle?: BorderStyle
+  borderRightStyle?: BorderStyle
+  borderTopStyle?: BorderStyle
+  borderBottomStyle?: BorderStyle
   borderRadius?: Length | BorderRadiuses
   borderTopLeftRadius?: Length
   borderTopRightRadius?: Length
@@ -142,7 +143,7 @@ export interface TaroTextStyleType {
 export namespace HarmonyType {
   export interface FlexOptions {
     direction?: FlexDirection
-    justifyContent?: number
+    justifyContent?: FlexAlign
     alignItems?: ItemAlign
   }
   export interface LinearGradient {

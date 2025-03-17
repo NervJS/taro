@@ -9,7 +9,11 @@ import BaseParser from './base'
 
 import type { AppConfig } from '@tarojs/taro'
 import type { TRollupResolveMethod } from '@tarojs/taro/types/compile/config/plugin'
-import type { ViteHarmonyBuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
+import type { ViteAppMeta, ViteHarmonyBuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
+
+export interface TaroHarmonyAppMeta extends ViteAppMeta {
+  modifyAppImport?: (this: Parser, importStr: string[], config: TaroHarmonyAppMeta) => void
+}
 
 export default class Parser extends BaseParser {
   #setReconciler = ''
@@ -125,21 +129,28 @@ export default class Parser extends BaseParser {
     return instantiateApp
   }
 
-  parse (rawId: string, name = 'TaroPage', resolve?: TRollupResolveMethod) {
+  parse (rawId: string, app: TaroHarmonyAppMeta, resolve?: TRollupResolveMethod) {
     const { modifyResolveId } = this.loaderMeta
 
-    const code = this.transArr2Str([
+    const importList = [
       'import type Want from "@ohos.app.ability.Want"',
       'import type ohWindow from "@ohos.window"',
-      'import type { AppInstance } from "@tarojs/runtime"',
+      'import type { AppInstance, TaroAny } from "@tarojs/runtime"',
       '',
       this.#setReconciler,
       'import UIAbility from "@ohos.app.ability.UIAbility"',
       'import AbilityConstant from "@ohos.app.ability.AbilityConstant"',
-      'import { callFn, context, Current, ObjectAssign, TaroAny, window } from "@tarojs/runtime"',
+      'import { callFn, context, Current, ObjectAssign, window } from "@tarojs/runtime"',
       'import { initHarmonyElement, hooks } from "@tarojs/runtime"',
       `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
       this.#setReconcilerPost,
+    ]
+    if (isFunction(app.modifyAppImport)) {
+      app.modifyAppImport.call(this, importList, app)
+    }
+
+    const code = this.transArr2Str([
+      ...importList,
       '',
       'window.__taroAppConfig = config',
       this.instantiateApp,
@@ -147,7 +158,7 @@ export default class Parser extends BaseParser {
 
     const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
     return resolveAbsoluteRequire({
-      name,
+      name: app.name || 'TaroPage',
       importer: rawId,
       code,
       outputRoot,
@@ -157,7 +168,8 @@ export default class Parser extends BaseParser {
     })
   }
 
-  parseEntry (rawId: string, config = {}) {
+  parseEntry (rawId: string, app: TaroHarmonyAppMeta) {
+    const { config } = app
     const { creator, creatorLocation, frameworkArgs, importFrameworkStatement, modifyEntryFile } = this.loaderMeta
     const createApp = `${creator}(component, ${frameworkArgs})`
     const rawCode = this.transArr2Str([
@@ -170,6 +182,6 @@ export default class Parser extends BaseParser {
       `export default () => ${createApp}`,
     ])
 
-    return isFunction(modifyEntryFile) ? modifyEntryFile.call(this, 'app', rawId, rawCode, config) : rawCode
+    return isFunction(modifyEntryFile) ? modifyEntryFile.call(this, 'app', rawId, rawCode, app) : rawCode
   }
 }

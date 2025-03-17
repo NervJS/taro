@@ -9,14 +9,6 @@ import type { PageConfig } from '@tarojs/taro'
 const instances = new Map<string, any>()
 const pageId = incrementId(1)
 
-export function handlePageLifeCycleCallback (eventName = '', ...args: any[]) {
-  const cb = this?.[eventName]
-  if (isFunction(cb)) {
-    cb.call(this, ...args)
-  } else {
-    safeExecute(this.$taroPath || this.compId, eventName, ...args)
-  }
-}
 export function injectPageInstance (inst: any, id: string) {
   hooks.call('mergePageInstance', instances.get(id), inst)
   instances.set(id, inst)
@@ -65,15 +57,7 @@ export function stringify (obj?: Record<string, unknown>) {
 export function getPath (id: string, options?: Record<string, unknown>): string {
   const idx = id.indexOf('?')
 
-  return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options)}`.replace(/,/g, '\\,')
-}
-
-export function getOnPageLifeCycleEventKey (path: string) {
-  return path + '.lifecycle'
-}
-
-export function getOnLoadEventKey (path: string) {
-  return path + '.' + ON_LOAD
+  return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options)}`
 }
 
 export function getOnReadyEventKey (path: string) {
@@ -125,7 +109,6 @@ export function createPageConfig (component: any, pageName?: string, pageConfig?
     }
   }
 
-  let pageLifeCycleFunc
   let loadResolver: (...args: any[]) => void
   let hasLoaded: Promise<void>
   const page = {
@@ -144,14 +127,12 @@ export function createPageConfig (component: any, pageName?: string, pageConfig?
       }
 
       setCurrentRouter(this)
-      pageLifeCycleFunc = handlePageLifeCycleCallback.bind(page)
-      eventCenter.on(getOnPageLifeCycleEventKey($taroPath), pageLifeCycleFunc)
 
       window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
 
       const mount = () => {
         Current.app!.mount!(component, $taroPath, null as any, () => {
-          pageElement = (document as any).container.getElementById($taroPath)
+          pageElement = document.getElementById($taroPath)
 
           if (!pageElement) {
             throw new Error(`没有找到页面实例。`)
@@ -190,7 +171,6 @@ export function createPageConfig (component: any, pageName?: string, pageConfig?
           prepareMountList = []
         }
       })
-      eventCenter.off(getOnPageLifeCycleEventKey($taroPath), pageLifeCycleFunc)
     },
     [ONREADY] () {
       hasLoaded.then(() => {

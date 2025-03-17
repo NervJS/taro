@@ -30,25 +30,19 @@ export const canvasToTempFilePath = (
   const canvas = component || document.querySelector(`canvas[canvasId=${canvasId}]`) as TaroCanvasElement
   if (canvas) {
     try {
-      return canvas?.exportDataUrlAsync({
-        fileType: 'image/' + (fileType === 'jpg' ? 'jpeg' : (fileType || 'png')),
+      const dataURL = canvas?.exportDataUrl({
+        fileType: 'image/' + (fileType === 'jpg' ? 'jpeg' : fileType) || 'png',
         quality,
         x,
         y,
         width,
         height,
         destWidth,
-        destHeight,
-        success: (...args) => {
-          handle.success(...args)
-        },
-        fail: (...args) => {
-          handle.fail(...args)
-        }
+        destHeight
       })
-      // return handle.success({
-      //   tempFilePath: dataURL
-      // })
+      return handle.success({
+        tempFilePath: dataURL
+      })
     } catch (e) {
       return handle.fail({
         errMsg: e.message

@@ -2,7 +2,7 @@ import { document } from '@tarojs/runtime'
 
 import { temporarilyNotSupport } from '../../utils'
 
-import type { TaroVideoController, TaroVideoElement } from '@tarojs/runtime'
+import type { TaroVideoElement } from '@tarojs/runtime'
 import type Taro from '@tarojs/taro/types'
 
 export class VideoContext implements Taro.VideoContext {
@@ -10,11 +10,11 @@ export class VideoContext implements Taro.VideoContext {
 
   video: TaroVideoElement
 
-  controller: TaroVideoController
+  controller: VideoController
 
   constructor (id: string) {
     this.id = id
-    this.video = document.container.getElementById(id)
+    this.video = document.getElementById(id)
 
     if (this.video) {
       this.controller = this.video.controller

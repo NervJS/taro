@@ -6,7 +6,7 @@ import type { TaroElement, TaroInnerHtmlElement } from '@tarojs/runtime'
 export default struct TaroInnerHtml {
   @Builder customBuilder() {}
   @BuilderParam createChildItem: (node: TaroElement, callback?: (node: TaroElement) => void) => void = this.customBuilder
-  @Prop node: TaroInnerHtmlElement
+  @ObjectLink node: TaroInnerHtmlElement
 
   build() {
     if (this.node?.hmStyle?.display !== 'none' && this.node.innerHTML) {

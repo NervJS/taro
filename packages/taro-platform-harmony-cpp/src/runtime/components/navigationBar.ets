@@ -1,4 +1,4 @@
-import { eventCenter } from '@tarojs/plugin-platform-harmony-cpp/dist/runtime/runtime-harmony'
+import { eventCenter } from '@tarojs/runtime'
 
 import { isTagFirstChild } from './utils/helper'
 
@@ -9,7 +9,7 @@ import type { TaroAny, TaroNavigationBarElement } from '@tarojs/runtime'
 export default struct TaroNavigationBar {
   @Builder customBuilder() {}
   @BuilderParam createLazyChildren: (node: TaroNavigationBarElement, layer?: number) => void = this.customBuilder
-  @Prop node: TaroNavigationBarElement
+  @ObjectLink node: TaroNavigationBarElement
 
   aboutToAppear(): void {
     if (!isTagFirstChild(this.node, 'page-meta')) {
@@ -51,7 +51,7 @@ export default struct TaroNavigationBar {
     if (attrs.frontColor) {
       options.frontColor = attrs.frontColor
     }
-    eventCenter.trigger('__taroNavigationStyle', options)
+    eventCenter?.trigger('__taroNavigationStyle', options)
     // FIXME: 以下属性暂时不支持
     // attrs.colorAnimationDuration
     // attrs.colorAnimationTimingFunc

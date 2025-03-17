@@ -12,6 +12,11 @@ declare module '@tarojs/taro' {
     isUseReact18?: boolean
     /** 页面导出组件名 */
     componentName?: string
+    /** 固定窗口尺寸 */
+    windowArea?: {
+      width?: number
+      height?: number
+    }
   }
   interface PageResizeObject {
     /** 屏幕旋转状态 */
@@ -52,6 +57,9 @@ declare module '@tarojs/runtime' {
     resolver: Promise.resolve
     value: any
   }
+  const TaroWindowUtil: {
+    resolver: Promise.resolve
+  }
 
   const uiContext: typeof context
   declare const Current: {
@@ -68,6 +76,25 @@ declare module '@tarojs/runtime' {
     page: PageInstance | null
     preloadData?: any
   }
+
+  function getPageById(pageId: string): any
+  function setPageById(inst: any, id: string): any
+  function removePageById(pageId: string): any
+
+  // cpp/types/taro-native-node/index.d.ts
+  const TaroNativeModule: any
+  const systemContext: {
+    resolve: Promise.resolve
+    reject: Promise.reject
+    densityPixels: number
+    safeArea: any
+    statusBarHeight: number
+    windowWidth: number
+    windowHeight: number
+  }
+  const systemPromise: typeof context
+  const TaroWindowUtil: typeof TaroWindowUtil
+
 }
 
 declare module '@tarojs/taro' {
@@ -83,8 +110,4 @@ declare global {
   function $r(resourcePath: string): any
   function getUIContext(): any
   function canIUse(name: string): boolean
-  const Current = {
-    getSyncValue: (key: string) => any,
-    getAsyncValue: (key: string) => Promise<any>
-  }
 }

@@ -1,59 +1,90 @@
-import { eventCenter } from '@tarojs/runtime'
+import { Current } from '@tarojs/runtime'
 
-import { ETS_METHODS_TRIGGER_EVENTNAME, MethodHandler, temporarilyNotSupport } from '../../utils'
+import { callAsyncFail, callAsyncSuccess } from '../../utils'
 
-export function showModal (options: any = {}) {
-  const name = 'showModal'
-  const { success, fail, complete } = options
-  const handle = new MethodHandler({ name, success, fail, complete })
+export * from '@tarojs/plugin-platform-harmony-ets/dist/apis/ui/interaction'
+
+const resCallback = (res) => {
+  return { errMsg: `${res}:ok` }
+}
+
+// 覆盖showModal
+export function showModal (options) {
+  const _default = {
+    title: '',
+    content: '',
+    showCancel: true,
+    cancelText: '取消',
+    cancelColor: '#000000',
+    confirmText: '确定',
+    confirmColor: '#3CC51F',
+    backgroundColor: '#ffffff'
+  }
+
+  options = { ..._default, ...options }
+
+  const {
+    title, content, cancelText, confirmText,
+    cancelColor, confirmColor, showCancel, backgroundColor
+  } = options
+
+  const buttons: any = []
+
+  if (cancelText !== '' && showCancel) {
+    buttons.push({
+      text: cancelText,
+      color: cancelColor
+    })
+  }
+
+  if (confirmText !== '') {
+    buttons.push({
+      text: confirmText,
+      color: confirmColor
+    })
+  }
+
   return new Promise((resolve, reject) => {
-    eventCenter.trigger(ETS_METHODS_TRIGGER_EVENTNAME, {
-      name,
-      args: [options],
-      scope: 'apis',
-      type: 'method',
-      successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
+    const modalOptions = {
+      title,
+      message: content,
+      buttons: buttons,
+      backgroundColor
+    }
+
+    // @ts-ignore
+    const uiContext = Current?.page?.getUIContext?.()
+
+    if (!uiContext) return
+
+    uiContext.getPromptAction().showDialog(modalOptions, (error, data) => {
+      if (error) {
+        const res = { errMsg: error }
+        callAsyncFail(reject, res, options)
+      }
+
+      if (data.index === 0 && showCancel) {
+        callAsyncSuccess(
+          resolve,
+          {
+            ...resCallback('showModal'),
+            confirm: false,
+            cancel: true
+          },
+          options
+        )
+      } else {
+        callAsyncSuccess(
+          resolve,
+          {
+            ...resCallback('showModal'),
+            confirm: true,
+            cancel: false,
+            content: null
+          },
+          options
+        )
+      }
     })
   })
 }
-
-export function showToast (options: any = {}) {
-  const name = 'showToast'
-  const { success, fail, complete } = options
-  const handle = new MethodHandler({ name, success, fail, complete })
-  return new Promise((resolve, reject) => {
-    eventCenter.trigger(ETS_METHODS_TRIGGER_EVENTNAME, {
-      name,
-      args: [options],
-      scope: 'apis',
-      type: 'method',
-      successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
-    })
-  })
-}
-
-export function showActionSheet (options: any = {}) {
-  const name = 'showActionSheet'
-  const { success, fail, complete } = options
-  const handle = new MethodHandler({ name, success, fail, complete })
-  return new Promise((resolve, reject) => {
-    eventCenter.trigger(ETS_METHODS_TRIGGER_EVENTNAME, {
-      name,
-      args: [options],
-      scope: 'apis',
-      type: 'method',
-      successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
-    })
-  })
-}
-
-export const hideToast = /* @__PURE__ */ temporarilyNotSupport('hideToast')
-
-export const showLoading = temporarilyNotSupport('showLoading')
-export const hideLoading = temporarilyNotSupport('hideLoading')
-
-export const enableAlertBeforeUnload = /* @__PURE__ */ temporarilyNotSupport('enableAlertBeforeUnload')
-export const disableAlertBeforeUnload = /* @__PURE__ */ temporarilyNotSupport('disableAlertBeforeUnload')
