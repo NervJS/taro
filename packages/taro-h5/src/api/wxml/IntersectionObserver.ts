@@ -61,7 +61,6 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
           // 使用时间戳而不是entry.time，跟微信小程序一致
           time: Date.now(),
         }
-
         // web端会默认首次触发
         if (!this._isInited) {
           // 初始的相交比例，如果调用时检测到的相交比例与这个值不相等且达到阈值，则会触发一次监听器的回调函数。
