@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { execSync } from 'node:child_process'
 import path from 'node:path'
 
 import { chalk, fs, NPM_DIR } from '@tarojs/helper'
@@ -122,6 +123,21 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
                 './src/main/cpp/types/taro-native-node/obfuscation-rules.txt',
               )
             })
+
+            const C_API_TXT = chalk.yellow('C-API')
+            try {
+              const cppOutPath = path.join(projectPath, hapName, 'src/main', 'cpp')
+              if (!fs.existsSync(cppOutPath)) {
+                console.log(`开始拉取 ${C_API_TXT} 模块...`)
+                execSync(`git clone git@github.com:NervJS/taro-harmony-capi-library.git ${cppOutPath}`, {
+                  cwd: path.resolve(__dirname, '..', '..', '..'),
+                  stdio: 'inherit',
+                  env: process.env,
+                })
+              }
+            } catch (error) {
+              console.log(`${C_API_TXT} 获取失败...`) // eslint-disable-line no-console
+            }
           }
           fs.writeJSONSync(buildProfilePath, profile, { spaces: 2 })
         } catch (error) {
