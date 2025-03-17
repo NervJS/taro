@@ -2,6 +2,7 @@
 import path from 'node:path'
 
 import { chalk, fs, NPM_DIR } from '@tarojs/helper'
+import { readJsonSync } from '@tarojs/vite-runner/dist/utils/compiler/harmony'
 import { DEFAULT_TERSER_OPTIONS } from '@tarojs/vite-runner/dist/utils/constants'
 
 import HarmonyCPP from './program'
@@ -12,6 +13,7 @@ import type { IPluginContext } from '@tarojs/service'
 import type { IHarmonyConfig } from '@tarojs/taro/types/compile'
 
 const argProjectPath = getProcessArg('lib')
+const argHapName = getProcessArg('hap')
 
 export interface IOptions {
   useConfigName?: string
@@ -48,7 +50,7 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
     terserOptions.config.output.comments ||= /^!/ // Note: 避免删除第一行注释影响 rawfile 代码缓存
 
     harmonyConfig.name ||= 'default'
-    harmonyConfig.hapName ||= 'entry'
+    harmonyConfig.hapName ||= argHapName || 'entry'
     const { projectPath, hapName } = harmonyConfig
 
     opts.outputRoot = path.join(argProjectPath || projectPath, hapName, 'src/main', 'ets')
@@ -65,9 +67,65 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
       await program.start()
 
       if (options.useChoreLibrary === false) {
-        const { hapName = 'entry', outputRoot } = config
+        const { projectPath, hapName = 'entry', outputRoot } = config
         if (hapName !== 'entry') { // Note: 如果是 entry 不需要重写 BuildProfile 路径
           fixBuildProfile(outputRoot, path.join(outputRoot, '../../..'))
+        }
+
+        const buildProfilePath = path.join(projectPath, hapName, `build-profile.${program.useJSON5 !== false ? 'json5' : 'json'}`)
+        if (!fs.existsSync(buildProfilePath)) {
+          console.log(
+            chalk.yellow(
+              `目标路径配置文件缺失，可能是非法的 Harmony 模块: ${buildProfilePath}`
+            )
+          )
+        }
+        try {
+          const profile = readJsonSync(buildProfilePath)
+          profile.buildOption.externalNativeOptions = {
+            ...profile.externalNativeOptions,
+            path: './src/main/cpp/CMakeLists.txt',
+            arguments: '-DCMAKE_JOB_POOL_COMPILE:STRING=compile -DCMAKE_JOB_POOL_LINK:STRING=link -DCMAKE_JOB_POOLS:STRING=compile=8;link=8',
+            cppFlags: '',
+            abiFilters: [
+              'arm64-v8a'
+            ]
+          }
+          if (profile.buildOptionSet instanceof Array) {
+            fs.writeFileSync(
+              path.join(buildProfilePath, '..', 'consumer-rules.txt'),
+              [
+                '-keep-property-name',
+                '# pages',
+                'toLocation',
+                '# @tarojs/runtime',
+                'designRatio',
+                'densityDPI',
+                'densityPixels',
+                'deviceWidth',
+                'deviceHeight',
+                'viewportWidth',
+                'viewportHeight',
+                'safeArea',
+                'scaledDensity',
+                'orientation',
+                'content',
+                'selectorList',
+              ].join('\n')
+            )
+            profile.buildOptionSet.forEach((option) => {
+              option.arkOptions ||= {}
+              option.arkOptions.obfuscation ||= {}
+              option.arkOptions.obfuscation.consumerFiles ||= []
+              option.arkOptions.obfuscation.consumerFiles.push(
+                './consumer-rules.txt',
+                './src/main/cpp/types/taro-native-node/obfuscation-rules.txt',
+              )
+            })
+          }
+          fs.writeJSONSync(buildProfilePath, profile, { spaces: 2 })
+        } catch (error) {
+          console.warn(chalk.red('更新鸿蒙配置失败：', error))
         }
       }
     }

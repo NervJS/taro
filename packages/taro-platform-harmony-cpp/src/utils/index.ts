@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import { fs } from '@tarojs/helper'
+import { readJsonSync } from '@tarojs/vite-runner/dist/utils/compiler/harmony'
 
 export const PLATFORM_NAME = 'harmony_cpp'
 export const PACKAGE_NAME = '@tarojs/plugin-platform-harmony-cpp'
@@ -35,7 +35,7 @@ export function getProcessArg (name: string, defaultValue = '') {
 export const isDebug = checkDebug()
 
 export function getProjectId (name = '') {
-  const pkg = fs.readJsonSync(path.posix.join(process.cwd(), 'package.json'))
+  const pkg = readJsonSync(path.posix.join(process.cwd(), 'package.json'))
   return `${pkg.name || name}@${pkg.version || '0.0.1'}`
 }
 

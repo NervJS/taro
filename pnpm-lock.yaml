@@ -7,9 +7,9 @@ settings:
 overrides:
   browserslist: ^4.24.4
 
-packageExtensionsChecksum: sha256-iKU0hkhWK/NG/KIaaCQKpLJizIsxCs1Ckrqk+8GTYMM=
+packageExtensionsChecksum: ffdb8f7be1e672e0c076ce17ace599e8
 
-pnpmfileChecksum: sha256-mYI6bRZewNyF23ild9F+kBHOlbRFqubVkmPGMgBlHj8=
+pnpmfileChecksum: veqnxkzp44tooqnzzbrnqoluee
 
 importers:
 
@@ -273,13 +273,6 @@ importers:
       '@napi-rs/triples':
         specifier: 1.2.0
         version: 1.2.0
-    devDependencies:
-      '@napi-rs/cli':
-        specifier: 3.0.0-alpha.5
-        version: 3.0.0-alpha.5
-      ava:
-        specifier: 5.3.1
-        version: 5.3.1
     optionalDependencies:
       '@tarojs/binding-darwin-arm64':
         specifier: workspace:*
@@ -293,6 +286,13 @@ importers:
       '@tarojs/binding-win32-x64-msvc':
         specifier: workspace:*
         version: link:../../npm/win32-x64-msvc
+    devDependencies:
+      '@napi-rs/cli':
+        specifier: 3.0.0-alpha.5
+        version: 3.0.0-alpha.5
+      ava:
+        specifier: 5.3.1
+        version: 5.3.1
 
   npm/darwin-arm64: {}
 
@@ -1519,9 +1519,6 @@ importers:
       '@types/react-reconciler':
         specifier: ^0.28.8
         version: 0.28.8
-      json5:
-        specifier: ^2.2.3
-        version: 2.2.3
       react:
         specifier: ^18.3.1
         version: 18.3.1

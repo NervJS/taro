@@ -1,17 +1,6 @@
-import path from 'node:path'
 import vm from 'node:vm'
 
 import { fs } from '@tarojs/helper'
-import JSON5 from 'json5'
-
-export function readJsonSync (file: string) {
-  const ext = path.extname(file)
-  if (ext === '.json5') {
-    const raw = fs.readFileSync(file, 'utf-8')
-    return JSON5.parse(raw)
-  }
-  return fs.readJSONSync(file)
-}
 
 export async function generateV8Cache (filename: string, code?: string) {
   if (!code) {

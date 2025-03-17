@@ -3,8 +3,9 @@ import path from 'node:path'
 
 import { chalk, fs, recursiveMerge, resolveSync } from '@tarojs/helper'
 import { HarmonyOS_ArkTS as HarmonyOS } from '@tarojs/plugin-platform-harmony-ets/dist'
+import { readJsonSync } from '@tarojs/vite-runner/dist/utils/compiler/harmony'
 
-import { NPM_DIR, PACKAGE_NAME, PLATFORM_NAME, readJsonSync } from '../utils'
+import { NPM_DIR, PACKAGE_NAME, PLATFORM_NAME } from '../utils'
 import appPlugin from './vite/app'
 import injectEnv from './vite/inject-env'
 import pagePlugin from './vite/page'
