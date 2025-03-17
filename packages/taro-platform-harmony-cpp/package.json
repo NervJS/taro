@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-harmony-cpp",
-  "version": "4.0.10-beta.1",
+  "version": "4.1.0-alpha.0",
   "description": "鸿蒙系统插件 C-API 版本",
   "author": "O2Team",
   "homepage": "https://gitee.com/openharmony-sig/taro",
@@ -26,8 +26,7 @@
     "dev": "pnpm run rollup -w",
     "remove:reference": "pnpm run tsx --files ./scripts/reference",
     "rollup": "rollup --config rollup.config.mts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
-    "tsx": "ts-node --skipIgnore",
-    "version": "pnpm run build && pnpm run build:library && git add ."
+    "tsx": "ts-node --skipIgnore"
   },
   "dependencies": {
     "@babel/core": "^7.24.7",
