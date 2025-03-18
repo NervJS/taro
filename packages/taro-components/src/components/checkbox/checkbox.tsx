@@ -49,7 +49,7 @@ export class Checkbox implements ComponentInterface {
 
     return (
       <Host
-        className='weui-cells_checkbox'
+        class='weui-cells_checkbox'
       >
         <input
           ref={dom => {
