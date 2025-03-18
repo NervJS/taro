@@ -1,4 +1,5 @@
 import { isFunction, isObject, isString } from '@tarojs/shared'
+import { TARO_TABBAR_PAGE_PATH } from '@tarojs/vite-runner/dist/harmony/page'
 import { escapePath } from '@tarojs/vite-runner/dist/utils'
 
 import { getProjectId } from '../../utils'
@@ -481,24 +482,24 @@ export default function (this: Harmony): PluginOption {
                       ? [
                         `if (this.pageStack[0].path !== this.entryPagePath && this.navigationBarHomeBtn && this.pageStack.length === 1) {`,
                         `    Image($r('app.media.taro_home'))`,
-                        // FIXME `      .height(convertNumber2VP(40 / 7.5, 'vw'))`,
-                        // FIXME `      .width(convertNumber2VP(40 / 7.5, 'vw'))`,
-                        // FIXME `      .margin({ left: convertNumber2VP(40 / 7.5, 'vw'), right: convertNumber2VP(-20 / 7.5, 'vw') })`,
+                        `      .height(convertNumber2VP(40 / 7.5, 'vw'))`,
+                        `      .width(convertNumber2VP(40 / 7.5, 'vw'))`,
+                        `      .margin({ left: convertNumber2VP(40 / 7.5, 'vw'), right: convertNumber2VP(-20 / 7.5, 'vw') })`,
                         `      .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)`,
                         `      .objectFit(ImageFit.Contain)`,
                         `      .onClick(() => {`,
-                        // FIXME `        router.replaceUrl({`,
-                        // FIXME `          url: this.tabBarList.find(e => e.pagePath === this.entryPagePath) ? '${TARO_TABBAR_PAGE_PATH}' : this.entryPagePath,`,
-                        // FIXME `          params: {`,
-                        // FIXME `            '$page': this.entryPagePath,`,
-                        // FIXME `          },`,
-                        // FIXME `        })`,
+                        `        router.replaceUrl({`,
+                        `          url: this.tabBarList.find(e => e.pagePath === this.entryPagePath) ? '${TARO_TABBAR_PAGE_PATH}' : this.entryPagePath,`,
+                        `          params: {`,
+                        `            '$page': this.entryPagePath,`,
+                        `          },`,
+                        `        })`,
                         `      })`,
                         `  } else if (this.pageStack.length > 1) {`,
                         `    Image($r('app.media.taro_arrow_left'))`,
-                        // FIXME `      .height(convertNumber2VP(40 / 7.5, 'vw'))`,
-                        // FIXME `      .width(convertNumber2VP(40 / 7.5, 'vw'))`,
-                        // FIXME `      .margin({ left: convertNumber2VP(40 / 7.5, 'vw'), right: convertNumber2VP(-20 / 7.5, 'vw') })`,
+                        `      .height(convertNumber2VP(40 / 7.5, 'vw'))`,
+                        `      .width(convertNumber2VP(40 / 7.5, 'vw'))`,
+                        `      .margin({ left: convertNumber2VP(40 / 7.5, 'vw'), right: convertNumber2VP(-20 / 7.5, 'vw') })`,
                         `      .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)`,
                         `      .objectFit(ImageFit.Contain)`,
                         `      .onClick(() => {`,
@@ -507,14 +508,14 @@ export default function (this: Harmony): PluginOption {
                         `  }`,
                       ] : [], 2)}`,
                   `  Text(this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTitleText || ''}')`,
-                  // FIXME `    .margin({ left: convertNumber2VP(40 / 7.5, 'vw') })`,
-                  // FIXME `    .fontSize(convertNumber2VP(32 / 7.5, 'vw'))`,
+                  `    .margin({ left: convertNumber2VP(40 / 7.5, 'vw') })`,
+                  `    .fontSize(convertNumber2VP(32 / 7.5, 'vw'))`,
                   `    .fontColor((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)`,
                   `  if (this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}) {`,
                   `    LoadingProgress()`,
-                  // FIXME `      .margin({ left: convertNumber2VP(10 / 7.5, 'vw') })`,
-                  // FIXME `      .height(convertNumber2VP(40 / 7.5, 'vw'))`,
-                  // FIXME `      .width(convertNumber2VP(40 / 7.5, 'vw'))`,
+                  `      .margin({ left: convertNumber2VP(10 / 7.5, 'vw') })`,
+                  `      .height(convertNumber2VP(40 / 7.5, 'vw'))`,
+                  `      .width(convertNumber2VP(40 / 7.5, 'vw'))`,
                   `      .color((this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)`,
                   `  }`,
                   `}`,
@@ -525,24 +526,6 @@ export default function (this: Harmony): PluginOption {
                   `  top: px2vp(sysInfo.safeArea?.top || 0),`,
                   `})`,
                   `.zIndex(1)`,
-                  // 'NavBar({',
-                  // // '  isAdaptStatusBar: true,', 由于内置 windowStage 为 undefined 实际无效
-                  // '  isAutoDark: true,',
-                  // `  statusBarHeight: this.statusBarHeight,`,
-                  // `  bgColor: this.navigationBarBackgroundColor || '${
-                  //   this.appConfig.window?.navigationBarBackgroundColor || '#000000'
-                  // }',`,
-                  // `  mainTitleText: new TextParam(this.navigationBarTitleText || '${
-                  //   this.appConfig.window?.navigationBarTitleText || ''
-                  // }', null, this.navigationBarTextStyle || '${
-                  //   this.appConfig.window?.navigationBarTextStyle || 'white'
-                  // }', null),`,
-                  // '  useBackIcon: true,',
-                  // '  onBackClick: () => {',
-                  // '    navigateBack()', // 需要拦截适配返回，组件提供的返回与 NavDestination 不兼容
-                  // '    return true',
-                  // '  },',
-                  // '})',
                 ]),
               })
 

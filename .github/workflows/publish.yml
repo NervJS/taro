@@ -196,6 +196,13 @@ jobs:
 
       # ------------------ publish -------------
 
+      - name: Setup open-harmony configuration
+        run: |
+          mkdir -p ./.ssh
+          echo "${{ secrets.OHPM_PRIVATE_KEY }}" > ./.ssh/id_taro_harmony
+          # ohpm config set key_path ./.ssh/id_taro_harmony
+          # ohpm config set publish_id ${{ secrets.OHPM_PUBLISH_CODE }}
+
       - name: Publish
         run: |
           if [ '${{ github.event_name }}' == 'pull_request' ] ; then

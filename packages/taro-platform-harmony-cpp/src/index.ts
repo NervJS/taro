@@ -117,11 +117,25 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
             profile.buildOptionSet.forEach((option) => {
               option.arkOptions ||= {}
               option.arkOptions.obfuscation ||= {}
-              option.arkOptions.obfuscation.consumerFiles ||= []
-              option.arkOptions.obfuscation.consumerFiles.push(
+              option.arkOptions.obfuscation.ruleOptions ||= {}
+              option.arkOptions.obfuscation.ruleOptions.files ||= []
+              const obfuscations = [
                 './consumer-rules.txt',
                 './src/main/cpp/types/taro-native-node/obfuscation-rules.txt',
-              )
+              ]
+              if (hapName !== 'entry') {
+                option.arkOptions.obfuscation.ruleOptions.enable = true
+                option.arkOptions.obfuscation.consumerFiles ||= []
+                const files: string[] = option.arkOptions.obfuscation.consumerFiles
+                if (!files.includes(obfuscations[0])) {
+                  files.push(...obfuscations)
+                }
+              } else {
+                const files: string[] = option.arkOptions.obfuscation.ruleOptions.files
+                if (!files.includes(obfuscations[0])) {
+                  files.push(...obfuscations)
+                }
+              }
             })
 
             const C_API_TXT = chalk.yellow('C-API')
