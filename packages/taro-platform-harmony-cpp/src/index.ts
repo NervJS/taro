@@ -3,11 +3,10 @@ import { execSync } from 'node:child_process'
 import path from 'node:path'
 
 import { chalk, fs, NPM_DIR } from '@tarojs/helper'
-import { readJsonSync } from '@tarojs/vite-runner/dist/utils/compiler/harmony'
 import { DEFAULT_TERSER_OPTIONS } from '@tarojs/vite-runner/dist/utils/constants'
 
 import HarmonyCPP from './program'
-import { CPP_LIBRARY_NAME, CPP_LIBRARY_PATH, getProcessArg, PLATFORM_NAME, SEP_RGX } from './utils'
+import { CPP_LIBRARY_NAME, CPP_LIBRARY_PATH, fixBuildProfile, getProcessArg, PLATFORM_NAME, updateBuildProfile } from './utils'
 import { PKG_DEPENDENCIES, PKG_NAME, PKG_VERSION, PROJECT_DEPENDENCIES_NAME } from './utils/constant'
 
 import type { IPluginContext } from '@tarojs/service'
@@ -67,95 +66,28 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
       const program = new HarmonyCPP(ctx, config, options)
       await program.start()
 
+      const { projectPath, hapName = 'entry', outputRoot } = config
       if (options.useChoreLibrary === false) {
-        const { projectPath, hapName = 'entry', outputRoot } = config
         if (hapName !== 'entry') { // Note: 如果是 entry 不需要重写 BuildProfile 路径
           fixBuildProfile(outputRoot, path.join(outputRoot, '../../..'))
         }
 
         const buildProfilePath = path.join(projectPath, hapName, `build-profile.${program.useJSON5 !== false ? 'json5' : 'json'}`)
-        if (!fs.existsSync(buildProfilePath)) {
-          console.log(
-            chalk.yellow(
-              `目标路径配置文件缺失，可能是非法的 Harmony 模块: ${buildProfilePath}`
-            )
-          )
-        }
-        try {
-          const profile = readJsonSync(buildProfilePath)
-          profile.buildOption.externalNativeOptions = {
-            ...profile.externalNativeOptions,
-            path: './src/main/cpp/CMakeLists.txt',
-            arguments: '-DCMAKE_JOB_POOL_COMPILE:STRING=compile -DCMAKE_JOB_POOL_LINK:STRING=link -DCMAKE_JOB_POOLS:STRING=compile=8;link=8',
-            cppFlags: '',
-            abiFilters: [
-              'arm64-v8a'
-            ]
-          }
-          if (profile.buildOptionSet instanceof Array) {
-            fs.writeFileSync(
-              path.join(buildProfilePath, '..', 'consumer-rules.txt'),
-              [
-                '-keep-property-name',
-                '# pages',
-                'toLocation',
-                '# @tarojs/runtime',
-                'designRatio',
-                'densityDPI',
-                'densityPixels',
-                'deviceWidth',
-                'deviceHeight',
-                'viewportWidth',
-                'viewportHeight',
-                'safeArea',
-                'scaledDensity',
-                'orientation',
-                'content',
-                'selectorList',
-              ].join('\n')
-            )
-            profile.buildOptionSet.forEach((option) => {
-              option.arkOptions ||= {}
-              option.arkOptions.obfuscation ||= {}
-              option.arkOptions.obfuscation.ruleOptions ||= {}
-              option.arkOptions.obfuscation.ruleOptions.files ||= []
-              const obfuscations = [
-                './consumer-rules.txt',
-                './src/main/cpp/types/taro-native-node/obfuscation-rules.txt',
-              ]
-              if (hapName !== 'entry') {
-                option.arkOptions.obfuscation.ruleOptions.enable = true
-                option.arkOptions.obfuscation.consumerFiles ||= []
-                const files: string[] = option.arkOptions.obfuscation.consumerFiles
-                if (!files.includes(obfuscations[0])) {
-                  files.push(...obfuscations)
-                }
-              } else {
-                const files: string[] = option.arkOptions.obfuscation.ruleOptions.files
-                if (!files.includes(obfuscations[0])) {
-                  files.push(...obfuscations)
-                }
-              }
-            })
+        updateBuildProfile(buildProfilePath, hapName)
 
-            const C_API_TXT = chalk.yellow('C-API')
-            try {
-              const cppOutPath = path.join(projectPath, hapName, 'src/main', 'cpp')
-              if (!fs.existsSync(cppOutPath)) {
-                console.log(`开始拉取 ${C_API_TXT} 模块...`)
-                execSync(`git clone git@github.com:NervJS/taro-harmony-capi-library.git ${cppOutPath}`, {
-                  cwd: path.resolve(__dirname, '..', '..', '..'),
-                  stdio: 'inherit',
-                  env: process.env,
-                })
-              }
-            } catch (error) {
-              console.log(`${C_API_TXT} 获取失败...`) // eslint-disable-line no-console
-            }
+        const C_API_TXT = chalk.yellow('C-API')
+        try {
+          const cppOutPath = path.join(projectPath, hapName, 'src/main', 'cpp')
+          if (!fs.existsSync(cppOutPath)) {
+            console.log(`开始拉取 ${C_API_TXT} 模块...`)
+            execSync(`git clone git@github.com:NervJS/taro-harmony-capi-library.git ${cppOutPath}`, {
+              cwd: path.resolve(__dirname, '..', '..', '..'),
+              stdio: 'inherit',
+              env: process.env,
+            })
           }
-          fs.writeJSONSync(buildProfilePath, profile, { spaces: 2 })
         } catch (error) {
-          console.warn(chalk.red('更新鸿蒙配置失败：', error))
+          console.log(`${C_API_TXT} 获取失败...`) // eslint-disable-line no-console
         }
       }
     }
@@ -179,22 +111,5 @@ function assertHarmonyConfig (ctx: IPluginContext, config): asserts config is IH
 
   if (!config.projectPath) {
     throwError('请设置 harmony.projectPath')
-  }
-}
-
-export function fixBuildProfile(lib = '', outputRoot = '') {
-  const stats = fs.statSync(lib)
-  if (stats.isDirectory()) {
-    fs.readdirSync(lib).forEach((item) => fixBuildProfile(path.join(lib, item), outputRoot))
-  } else if (stats.isFile() && lib.endsWith('.ets')) {
-    let data = fs.readFileSync(lib, 'utf-8')
-    const buildProfilePath = path.resolve(outputRoot, 'BuildProfile')
-    const rgx = /import\s+(\S+)\s+from\s*['"]BuildProfile['"]/
-    if (rgx.test(data)) {
-      data = data.replace(rgx, (_, p1) => {
-        return `import ${p1} from '${path.relative(path.dirname(lib), buildProfilePath).replace(SEP_RGX, '/')}'`
-      })
-      fs.writeFileSync(lib, data, 'utf-8')
-    }
   }
 }

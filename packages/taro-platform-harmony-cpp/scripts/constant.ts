@@ -5,13 +5,13 @@ import { PLATFORM_TYPE } from '@tarojs/shared'
 
 import { getProcessArg, PKG_VERSION, PLATFORM_NAME } from '../src/utils'
 
-export const libName = getProcessArg('lib', 'harmony_library')
+export const libName = getProcessArg('lib', 'harmony_project')
 export const hapName = getProcessArg('hap', 'library')
 
 /** Note: 默认编译到 harmony_library/library 目录下 */
 
 export const appPath = path.dirname(__dirname)
-export const workspaceRoot = path.resolve(__dirname, '..', '..', '..')
+export const workspaceRoot = appPath
 export const outputRoot = path.resolve(workspaceRoot, libName, hapName)
 export const etsOutDir = path.resolve(outputRoot, 'src/main', 'ets')
 export const cppOutPath = path.join(libName, hapName, 'src/main', 'cpp')

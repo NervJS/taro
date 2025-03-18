@@ -23,6 +23,8 @@
   "scripts": {
     "prebuild": "rimraf --impl=move-remove dist",
     "build": "pnpm run rollup",
+    "build:library": "pnpm run tsx --files ./scripts/build",
+    "build:library-har": "cd ./harmony_project && hvigorw assembleHar --mode module -p module=library@default -p product=default -p buildMode=release --no-daemon --no-incremental",
     "dev": "pnpm run rollup -w",
     "remove:reference": "pnpm run tsx --files ./scripts/reference",
     "rollup": "rollup --config rollup.config.mts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",

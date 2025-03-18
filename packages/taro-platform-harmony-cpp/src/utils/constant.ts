@@ -1,6 +1,6 @@
 import { version } from '../../package.json'
 
-export const PKG_NAME = '@jd-oh/taro_cpp_library'
+export const PKG_NAME = '@taro-oh/library'
 
 export const PKG_VERSION = version
 
