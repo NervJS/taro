@@ -121,21 +121,6 @@ const apiDiff: IApiDiff = {
       }]
     }
   },
-  openLocation: {
-    options: {
-      set: [{
-        key: 'latitude',
-        value (options) {
-          return String(options.latitude)
-        }
-      }, {
-        key: 'longitude',
-        value (options) {
-          return String(options.longitude)
-        }
-      }]
-    }
-  },
   uploadFile: {
     options: {
       change: [{

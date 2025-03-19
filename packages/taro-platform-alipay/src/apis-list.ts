@@ -41,5 +41,6 @@ export const needPromiseApis = new Set([
   'startBluetoothDevicesDiscovery',
   'stopBluetoothDevicesDiscovery',
   'getBluetoothDevices',
-  'getConnectedBluetoothDevices'
+  'getConnectedBluetoothDevices',
+  'openLocation'
 ])
