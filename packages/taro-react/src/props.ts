@@ -8,6 +8,7 @@ import type { Style, TaroElement } from '@tarojs/runtime'
 export type Props = Record<string, unknown>
 
 const IS_NON_DIMENSIONAL = /aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
+
 function isEventName (s: string) {
   return s[0] === 'o' && s[1] === 'n'
 }
