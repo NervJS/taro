@@ -80,7 +80,7 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
           const cppOutPath = path.join(projectPath, hapName, 'src/main', 'cpp')
           if (!fs.existsSync(cppOutPath)) {
             console.log(`开始拉取 ${C_API_TXT} 模块...`)
-            execSync(`git clone git@github.com:NervJS/taro-harmony-capi-library.git ${cppOutPath}`, {
+            execSync(`git clone https://github.com/NervJS/taro-harmony-capi-library.git  ${cppOutPath}`, {
               cwd: path.resolve(__dirname, '..', '..', '..'),
               stdio: 'inherit',
               env: process.env,
