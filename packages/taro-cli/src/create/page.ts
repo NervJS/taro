@@ -72,7 +72,7 @@ export default class Page extends Creator {
   public conf: IPageConf
   private modifyCustomTemplateConfig: TGetCustomTemplate
   private afterCreate: TAfterCreate | undefined
-  private pageEntryPath: string
+  private pageEntryPath: string = ''
 
   constructor (args: IPageArgs) {
     super()
@@ -214,17 +214,13 @@ export default class Page extends Creator {
       plugins: typescript ? ['typescript'] : []
     })
 
-    const callback = (state: ConfigModificationState) => {
-      modifyState = state
-    }
-
     traverse(ast, {
       ExportDefaultDeclaration (path) {
         modifyPagesOrSubPackages({
           path,
           fullPagePath: pageString,
           subPkgRootPath: subPkg,
-          callback
+          callback: (state: ConfigModificationState) => { modifyState = state }
         })
       },
     })

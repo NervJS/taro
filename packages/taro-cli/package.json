@@ -46,27 +46,27 @@
     "@tarojs/plugin-doctor": "^0.0.13",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "adm-zip": "^0.5.12",
-    "axios": "^1.6.8",
+    "adm-zip": "^0.5.16",
+    "axios": "^1.8.1",
     "cli-highlight": "^2.1.11",
     "download-git-repo": "^3.0.2",
-    "envinfo": "^7.12.0",
+    "envinfo": "^7.14.0",
     "inquirer": "^8.2.6",
     "latest-version": "^5.1.0",
     "minimist": "^1.2.8",
     "ora": "^5.4.1",
-    "semver": "^7.6.0",
-    "validate-npm-package-name": "^5.0.0"
+    "semver": "^7.7.1",
+    "validate-npm-package-name": "^5.0.1"
   },
   "devDependencies": {
-    "@babel/types": "^7.24.0",
+    "@babel/types": "^7.26.9",
     "@tarojs/plugin-platform-h5": "workspace:*",
     "@tarojs/plugin-platform-weapp": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "@tarojs/webpack5-runner": "workspace:*",
     "@types/babel__traverse": "^7.20.6",
     "babel-preset-taro": "workspace:*",
-    "eslint-plugin-react": "^7.34.1",
-    "eslint-plugin-react-hooks": "^4.4.0"
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^4.6.2"
   }
 }

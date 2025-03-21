@@ -603,9 +603,10 @@ function readSFCPageConfig(configPath: string) {
       p.stop()
     }
     const configSource = matches[0]
-    const ast = babel.parse(configSource, { filename: '' }) as babel.ParseResult
-
-    babel.traverse(ast.program, { CallExpression: callExprHandler })
+    const ast = babel.parseSync(configSource, { filename: '' })
+    if (ast) {
+      babel.traverse(ast.program, { CallExpression: callExprHandler })
+    }
   }
 
   return result
