@@ -71,21 +71,21 @@ initPxTransform.call(component, {
 const config = component.config
 const nativeComponent = createH5NativeComponentConfig(component, ${options.loaderMeta.frameworkArgs})`
 
-    if (isProd) {
-      return code + `
-export default nativeComponent`
+    if (!isProd && process.env.TARO_ENV === 'h5') {
+      const mockDataRelativePath = './mock/mock.json'
+      const mockDataPath = join(this.context, mockDataRelativePath)
+      const hasMock = fs.existsSync(mockDataPath)
+      code += `
+  const mockData = ${hasMock ? `require('${mockDataRelativePath}')` : '{}'};
+  const reactElement = React.createElement(nativeComponent, mockData);
+  ReactDOM.createRoot(document.getElementById("app")).render(reactElement);
+  document.title = config.navigationBarTitleText || ''`
+
+      return code
     }
 
-    const mockDataRelativePath = './mock/mock.json'
-    const mockDataPath = join(this.context, mockDataRelativePath)
-    const hasMock = fs.existsSync(mockDataPath)
-    code += `
-const mockData = ${hasMock ? `require('${mockDataRelativePath}')` : '{}'};
-const reactElement = React.createElement(nativeComponent, mockData);
-ReactDOM.createRoot(document.getElementById("app")).render(reactElement);
-document.title = config.navigationBarTitleText || ''`
-
-    return code
+    return code + `
+export default nativeComponent`
   }
 
   if (options.bootstrap) return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
