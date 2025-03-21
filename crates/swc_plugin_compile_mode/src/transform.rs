@@ -17,13 +17,26 @@ use swc_core::{
 };
 use std::collections::HashMap;
 use crate::{PluginConfig, utils::as_xscript_expr_string};
-use crate::utils::{self, constants::*};
+use crate::utils::{self, constants::*, transform_taro_component};
+use std::vec;
 
-struct PreVisitor;
+struct PreVisitor {
+  // HashMap<导出名, 模块标识符>
+  pub import_specifiers: HashMap<String, String>,
+  // HashMap<导出名, 别名>
+  // import { x as y } from 'pkg'; import_aliases: [[x -> y]]
+  pub import_aliases: HashMap<String, String>,
+}
 impl PreVisitor {
-    fn new () -> Self {
-        Self {}
+  fn new(
+    import_specifiers: HashMap<String, String>,
+    import_aliases: HashMap<String, String>,
+  ) -> Self {
+    Self {
+      import_specifiers,
+      import_aliases,
     }
+  }
 }
 impl VisitMut for PreVisitor {
     fn visit_mut_jsx_element_children(&mut self, children: &mut Vec<JSXElementChild>) {
@@ -183,6 +196,11 @@ impl VisitMut for PreVisitor {
             child.visit_mut_children_with(self);
         }
     }
+    fn visit_mut_jsx_element(&mut self, el: &mut JSXElement) {
+      // 处理 @tarojs/components 的 List,ListItem 组件
+      transform_taro_component(el, &self.import_specifiers, &self.import_aliases);
+      el.visit_mut_children_with(self);
+    }
 }
 
 pub struct TransformVisitor {
@@ -193,6 +211,11 @@ pub struct TransformVisitor {
     pub get_tmpl_name: Box<dyn FnMut() -> String>,
     pub xs_module_names: Vec<String>,
     pub xs_sources: Vec<String>,
+    // HashMap<导出名, 模块标识符>
+    pub import_specifiers: HashMap<String, String>,
+    // HashMap<导出名, 别名>
+    // import { x as y } from 'pkg'; import_aliases: [[x -> y]]
+    pub import_aliases: HashMap<String, String>,
 }
 
 impl TransformVisitor {
@@ -208,15 +231,70 @@ impl TransformVisitor {
             get_tmpl_name,
             xs_module_names: vec![],
             xs_sources: vec![],
+            import_specifiers: HashMap::new(),
+            import_aliases: HashMap::new(),
         }
+    }
+
+    fn collect_import_info(&mut self, body_stmts: &mut Vec<ModuleItem>) {
+      body_stmts.iter().for_each(|item| match item {
+        ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
+          import_decl.specifiers.iter().for_each(|import_specifier| {
+            let src = import_decl.src.value.to_string();
+            match import_specifier {
+              ImportSpecifier::Named(import_named_specifier) => {
+                let specifier = import_named_specifier.local.sym.to_string();
+                // origin: 原始导出名
+                // import { X as Y } from 'pkg', origin = X;
+                // import { X } from 'pkg', origin = X;
+                let mut origin = specifier.clone();
+                self.import_specifiers.insert(specifier.clone(), src);
+
+                if let Some(ModuleExportName::Ident(imported)) =
+                  import_named_specifier.clone().imported
+                {
+                  origin = imported.sym.to_string();
+                }
+                self
+                  .import_aliases
+                  .insert(origin.clone(), specifier.clone());
+              }
+              ImportSpecifier::Default(import_default_specifier) => {
+                let specifier = import_default_specifier.local.sym.to_string();
+                self.import_specifiers.insert(specifier, src);
+              }
+              ImportSpecifier::Namespace(import_star_as_specifier) => {
+                let specifier = import_star_as_specifier.local.sym.to_string();
+                self.import_specifiers.insert(specifier, src);
+              }
+            }
+          });
+        }
+        _ => (),
+      });
     }
 
     fn build_xml_element (&mut self, el: &mut JSXElement) -> String {
         let is_inner_component = utils::is_inner_component(el, &self.config);
         let opening_element = &mut el.opening;
-
+        let has_slot_item_attr = opening_element.clone().attrs.iter().any(|attr| {
+          if let JSXAttrOrSpread::JSXAttr(attr) = attr {
+            if let JSXAttrName::Ident(Ident { sym: name, .. }) = &attr.name {
+              return name.to_string() == SLOT_ITEM;
+            }
+          }
+          false
+        });
         match &opening_element.name {
             JSXElementName::Ident(ident) => {
+                // 先特殊处理有 slotItem 属性的组件，避免进入回退逻辑添加 wx:for 造成干扰
+                if has_slot_item_attr {
+                  let node_path = self.get_current_node_path();
+                  return format!(
+                    r#"<block slot:item slot:index><template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" /></block>"#,
+                    node_path, node_path, node_path
+                  );
+                }
                 if is_inner_component {
                     // 内置组件
                     let mut name = utils::to_kebab_case(ident.as_ref());
@@ -244,8 +322,23 @@ impl TransformVisitor {
                     format!("<{}{}>{}</{}>", name, attrs.unwrap_or_default(), children, name)
                 } else {
                     // 回退到旧的渲染模式（React 组件、原生自定义组件）
+                    // 如果是 map React组件，那么组件经过 extract_jsx_loop 的处理后会有 compileFor 属性，可以检测这个属性判断当前组件是否是循环里的组件
+                    let is_loop = el.opening.attrs.iter().any(|attr| {
+                      if let JSXAttrOrSpread::JSXAttr(attr) = attr {
+                        if let JSXAttrName::Ident(attr) = &attr.name {
+                          return attr.sym == COMPILE_FOR;
+                        }
+                      }
+                      false
+                    });
                     let node_path = self.get_current_node_path();
-                    format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path)
+                    // 循环的组件需要添加 wx:for 指令，否则生成的 template 里的 item 找不到
+                    let attrs = if is_loop {
+                      "wx:for=\"{{i.cn}}\" wx:key=\"{{sid}}\""
+                    } else {
+                      ""
+                    };
+                    format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" {} />"#, node_path, node_path, node_path, attrs.to_string())
                 }
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { prop, .. }) => {
@@ -377,7 +470,16 @@ impl TransformVisitor {
 
                                     // 小程序组件标准属性 -> 取 @tarojs/shared 传递过来的属性值；非标准属性 -> 取属性名
                                     let value: &str = attrs_map.get(&miniapp_attr_name)
-                                        .map(|res| res.as_str())
+                                        .map(|res| {
+                                          // list-builder这种场景下需要把原 list 换成 taro vdom 的 list
+                                          if utils::to_kebab_case(element_name) == "list-builder"
+                                            && miniapp_attr_name == "list"
+                                          {
+                                            "cn"
+                                          } else {
+                                            res.as_str()
+                                          }
+                                        })
                                         .unwrap_or(if miniapp_attr_name == "id" { "uid" } else { &jsx_attr_name });
                                     // 按当前节点在节点树中的位置换算路径
                                     node_path.push('.');
@@ -401,6 +503,7 @@ impl TransformVisitor {
                             {
                                 props.insert(miniapp_attr_name, String::from(jsx_attr_name));
                             } else if jsx_attr_name == COMPILE_FOR {
+                                // 构造 wx:for 表达式
                                 let current_path = self.get_current_loop_path();
                                 let miniapp_attr_value = format!("{{{{{}}}}}", current_path);
                                 props.insert(miniapp_attr_name, miniapp_attr_value);
@@ -721,7 +824,11 @@ impl VisitMut for TransformVisitor {
         }
         if self.is_compile_mode {
             self.reset_states();
-            el.visit_mut_children_with(&mut PreVisitor::new());
+            transform_taro_component(el, &self.import_specifiers, &self.import_aliases);
+            el.visit_mut_children_with(&mut PreVisitor::new(
+              self.import_specifiers.clone(),
+              self.import_aliases.clone(),
+            ));
             let tmpl_contents = format!(r#"<template name="tmpl_0_{}">{}</template>"#,
                 &tmpl_name,
                 self.build_xml_element(el)
@@ -734,6 +841,8 @@ impl VisitMut for TransformVisitor {
     }
 
     fn visit_mut_module_items (&mut self, body_stmts: &mut Vec<ModuleItem>) {
+        // 收集模块导入信息
+        self.collect_import_info(body_stmts);
         body_stmts.visit_mut_children_with(self);
 
         let mut keys: Vec<&String> = self.templates.keys().collect();

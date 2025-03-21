@@ -16,7 +16,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
-          targets: wasm32-wasi
+          targets: wasm32-wasip1
       - name: Cache cargo
         uses: actions/cache@v3
         with:
@@ -33,5 +33,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: wasm-wasi-swc_plugins
-          path: target/wasm32-wasi/release/*.wasm
+          path: target/wasm32-wasip1/release/*.wasm
           if-no-files-found: error

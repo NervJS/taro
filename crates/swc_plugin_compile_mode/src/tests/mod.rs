@@ -6,6 +6,7 @@ use crate::{
     PluginConfig,
     transform::*,
 };
+use std::env;
 
 mod entry;
 mod attributes;
@@ -15,6 +16,7 @@ mod looping;
 mod children;
 mod harmony;
 mod wxs;
+mod skyline;
 
 pub fn tr () -> impl Fold {
     let config = serde_json::from_str::<PluginConfig>(
@@ -94,9 +96,13 @@ pub fn tr () -> impl Fold {
     as_folder(visitor)
 }
 
-pub fn get_syntax_config () -> parser::Syntax {
-    parser::Syntax::Es(parser::EsConfig {
-        jsx: true,
-        ..Default::default()
-    })
+pub fn get_syntax_config() -> parser::Syntax {
+  // 获取当前工作目录
+  let manifest_dir = env::current_dir().expect("Failed to get current directory");
+  // 设置 CARGO_MANIFEST_DIR 环境变量
+  env::set_var("CARGO_MANIFEST_DIR", manifest_dir.to_str().unwrap());
+  parser::Syntax::Es(parser::EsConfig {
+    jsx: true,
+    ..Default::default()
+  })
 }
