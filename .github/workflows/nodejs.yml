@@ -151,7 +151,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
-          targets: wasm32-wasi
+          targets: wasm32-wasip1
       - name: Cache cargo
         uses: actions/cache@v3
         with:
