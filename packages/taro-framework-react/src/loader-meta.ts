@@ -82,8 +82,8 @@ class App extends React.Component {
   }
 
   if (process.env.TARO_PLATFORM === 'web') {
-    if (framework === 'react') {
-      const react = require('react')
+    if (framework === 'react' || framework === 'preact') {
+      const react = framework === 'preact' ? require('preact/compat') : require('react')
       const majorVersion = Number((react.version || '18').split('.')[0])
       if (majorVersion >= 18) {
         // Note: In react 18 or above, should using react-dom/client
