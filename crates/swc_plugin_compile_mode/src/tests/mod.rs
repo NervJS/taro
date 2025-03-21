@@ -13,6 +13,7 @@ mod harmony;
 mod looping;
 mod shake;
 mod wxs;
+mod skyline;
 
 pub fn tr() -> impl Fold {
   let config = serde_json::from_str::<PluginConfig>(
