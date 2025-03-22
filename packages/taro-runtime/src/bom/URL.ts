@@ -244,5 +244,18 @@ function parseUrlBase (url: string, base?: string) {
     throw new TypeError(`Failed to construct 'URL': Invalid URL`)
   }
 
-  return parseUrl(fullUrl)
+  return parseUrl(collapseUrl(fullUrl))
+}
+
+function collapseUrl (url: string) {
+  url = url.replace(/\/\.\/|\/\.$/g, '/')
+  let { origin, pathname, search, hash } = parseUrl(url)
+
+  for (let simplified = ''; ; pathname = simplified) {
+    simplified = pathname.replace(/\/.+?\/\.\./g, '')
+    if (simplified === pathname) break
+  }
+  pathname = pathname.replace(/^\/\.\./, '')
+
+  return `${origin}${pathname}${search}${hash}`
 }
