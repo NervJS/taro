@@ -229,15 +229,17 @@ function parseUrlBase (url: string, base?: string) {
   if (VALID_URL.test(url)) {
     fullUrl = url
   } else if (parsedBase) {
-    if (url) {
-      if (url.startsWith('//')) {
-        fullUrl = parsedBase.protocol + url
-      } else {
-        fullUrl = parsedBase.origin + (url.startsWith('/') ? url : `/${url}`)
-      }
-    } else {
-      fullUrl = parsedBase.href
-    }
+    const { protocol, origin, pathname, href } = parsedBase
+
+    fullUrl = url
+      ? url.startsWith('//')
+        ? protocol + url
+        : url.startsWith('/')
+          ? `${origin}${url}`
+          : pathname.endsWith('/')
+            ? `${origin}${pathname}${url}`
+            : `${origin}${pathname.replace(/[^/]+$/, url)}`
+      : href
   } else {
     throw new TypeError(`Failed to construct 'URL': Invalid URL`)
   }
