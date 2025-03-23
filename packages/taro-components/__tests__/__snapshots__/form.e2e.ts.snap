@@ -50,7 +50,7 @@ CDPPage {
         checkbox2
       </taro-checkbox-core>
     </taro-checkbox-group-core>
-    <taro-picker-core 'æ©™å­',="" 'æœ¨ç“œ']}="" 'è‹¹æžœ',="" class="hydrated" name="my-picker" range="{['è‘¡è„'," value="0">
+    <taro-picker-core '姗欏瓙',="" '鏈ㄧ摐']}="" '鑻规灉',="" class="hydrated" name="my-picker" range="{['钁¤悇'," value="0">
       <!---->
       <div>
         <input name="my-picker" type="hidden" value="1">
@@ -117,7 +117,7 @@ CDPPage {
     checkbox2
   </taro-checkbox-core>
 </taro-checkbox-group-core>,
-    <taro-picker-core 'æ©™å­',="" 'æœ¨ç“œ']}="" 'è‹¹æžœ',="" class="hydrated" name="my-picker" range="{['è‘¡è„'," value="0">
+    <taro-picker-core '姗欏瓙',="" '鏈ㄧ摐']}="" '鑻规灉',="" class="hydrated" name="my-picker" range="{['钁¤悇'," value="0">
   <!---->
   <div>
     <input name="my-picker" type="hidden" value="1">

@@ -27,7 +27,7 @@
     "router-rn"
   ],
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.20",

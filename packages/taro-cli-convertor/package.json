@@ -35,7 +35,7 @@
     "weapp"
   ],
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "dependencies": {
     "@babel/generator": "^7.24.4",

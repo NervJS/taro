@@ -3,9 +3,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "declaration": true,
+    "declarationDir": "./dist",
     "outDir": "dist",
     "module": "ESNext",
     "sourceMap": false
   },
-  "include": ["./src", "./types", "rollup.config.mts"]
+  "include": ["./src", "./types", "rollup.config.ts"]
 }

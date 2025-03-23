@@ -11,7 +11,7 @@ describe('WebView e2e', () => {
   })
 
   it('screenshot', async () => {
-    await page.waitForChanges()
+    // await page.waitForChanges()
     await page.compareScreenshot()
   })
 })

@@ -1,44 +1,69 @@
 {
-  "name": "@tarojs/runtime",
+  "name": "@tarojs/plugin-mini-ci",
   "version": "4.0.10-beta.2",
-  "description": "taro runtime for mini apps.",
-  "author": "O2Team",
-  "license": "MIT",
-  "browser": "dist/index.js",
-  "main:h5": "dist/runtime.esm.js",
-  "main": "dist/runtime.esm.js",
-  "module": "dist/runtime.esm.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
+  "description": "Taro 小程序端构建后支持 CI（持续集成）的插件",
+  "keywords": [
+    "Taro",
+    "CI/CD"
   ],
-  "sideEffects": [],
-  "scripts": {
-    "prod": "pnpm run build",
-    "prebuild": "pnpm run clean",
-    "build": "pnpm run rollup --environment NODE_ENV:production",
-    "clean": "rimraf ./dist",
-    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
-    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
-    "test": "jest",
-    "test:ci": "jest --ci -i --coverage --silent"
-  },
+  "author": "O2Team",
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "license": "MIT",
+  "main": "index.js",
+  "typings": "types/index.d.ts",
+  "files": [
+    "dist",
+    "index.js",
+    "types"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/NervJS/taro/tree/master/packages/taro-runtime"
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "prod": "pnpm run build",
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "dependencies": {
-    "tslib": "^2.6.2",
-    "@tarojs/shared": "workspace:*"
+    "axios": "^1.6.8",
+    "jimp": "^0.22.12",
+    "jsqr": "^1.4.0",
+    "minimist": "^1.2.8",
+    "qrcode": "^1.5.3",
+    "resolve": "^1.22.8",
+    "shelljs": "^0.8.5"
   },
   "devDependencies": {
-    "@types/react": "^18.2.79",
-    "@vue/runtime-core": "^3.4.23",
-    "lodash": "^4.17.21",
-    "react": "^18.2.0",
-    "rollup-plugin-ts": "^3.4.5"
+    "@tarojs/service": "workspace:*",
+    "@types/qrcode": "^1.5.5",
+    "@types/shelljs": "^0.8.15"
+  },
+  "peerDependencies": {
+    "dingtalk-miniapp-opensdk": "^1.0.8",
+    "jd-miniprogram-ci": "^1.0.5",
+    "minidev": "^2.1.5",
+    "miniprogram-ci": "^1.9.15",
+    "tt-ide-cli": "^0.1.25"
+  },
+  "peerDependenciesMeta": {
+    "dingtalk-miniapp-opensdk": {
+      "optional": true
+    },
+    "jd-miniprogram-ci": {
+      "optional": true
+    },
+    "minidev": {
+      "optional": true
+    },
+    "tt-ide-cli": {
+      "optional": true
+    }
   }
 }

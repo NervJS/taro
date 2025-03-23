@@ -8,7 +8,7 @@
   "main:h5": "dist/index.esm.js",
   "main": "dist/index.js",
   "module": "dist/index.cjs.js",
-  "typings": "dist/index.esm.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "types",
@@ -31,7 +31,7 @@
     "router"
   ],
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "dependencies": {
     "dingtalk-jsapi": "~2.15.2",
