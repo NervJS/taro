@@ -669,7 +669,7 @@ pub fn transform_list_item_component(el: &mut JSXElement) -> () {
   *el = create_jsx_element("view", attrs, children)
 }
 
-pub fn transform_taro_component(
+pub fn transform_taro_components(
   el: &mut JSXElement,
   // 导出名和模块标识符映射关系
   import_specifiers: &HashMap<String, String>,
