@@ -18,7 +18,7 @@ describe('Progress', () => {
     expect(barStyle.backgroundColor).toEqual('rgb(235, 235, 235)')
     let innerBarStyle = await innerBar.getComputedStyle()
     // expect(innerBarStyle.width).toEqual('0%')
-    expect(innerBarStyle.transition).toEqual('none')
+    expect(innerBarStyle.transition).toEqual('none 0s ease 0s')
     expect(innerBarStyle.backgroundColor).toEqual('rgb(9, 187, 7)')
     expect(innerBarStyle.borderRadius).toEqual('0px')
     expect(opr).toBeNull()
