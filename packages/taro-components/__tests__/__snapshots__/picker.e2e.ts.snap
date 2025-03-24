@@ -3121,7 +3121,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -204px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -204px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       01月
     </div>
@@ -6435,7 +6435,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -204px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -204px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       01月
     </div>
@@ -6653,7 +6653,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -1496px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -1496px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       1970年
     </div>
@@ -9868,7 +9868,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -1496px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -1496px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       1970年
     </div>
@@ -13083,7 +13083,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -1496px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -1496px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       1970年
     </div>
@@ -16256,7 +16256,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -1496px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -1496px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       1970年
     </div>
@@ -19438,7 +19438,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -170px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -170px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       01月
     </div>
@@ -19653,7 +19653,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -170px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -170px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       01月
     </div>
@@ -19859,7 +19859,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, 68px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, 68px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       饭
     </div>
@@ -19967,7 +19967,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, 34px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, 34px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       葡萄
     </div>
@@ -20062,7 +20062,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, 34px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, 34px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       葡萄
     </div>
@@ -20262,7 +20262,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -476px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -476px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       20
     </div>
@@ -20651,7 +20651,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -476px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -476px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       20
     </div>
@@ -21040,7 +21040,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -442px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -442px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       20
     </div>
@@ -21429,7 +21429,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -442px, 0px); transition: transform 0.3s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -442px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       20
     </div>

@@ -49,7 +49,7 @@ describe('Progress', () => {
     expect(barStyle.backgroundColor).toEqual(backgroundColor)
     innerBarStyle = await innerBar.getComputedStyle()
     // expect(innerBarStyle.width).toEqual(`${percent}%`)
-    expect(innerBarStyle.transition).toEqual('width 1s ease-in-out')
+    expect(innerBarStyle.transition).toEqual('width 1s ease-in-out 0s')
     expect(innerBarStyle.backgroundColor).toEqual(activeColor)
     expect(innerBarStyle.borderRadius).toEqual(`${borderRadius}px`)
     const oprStyle = await opr.getComputedStyle()
