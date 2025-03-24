@@ -34,6 +34,18 @@ module.exports = declare((api) => {
   api.assertVersion(7)
   const componentImports = new Map()
 
+  function hasTargetTaroComponent (target) {
+    return componentImports.has(target) && componentImports.get(target).source === TARO_COMPONENTS
+  }
+
+  function pickAttrs (attrs, props) {
+    const propSet = new Set(props)
+    return attrs.filter((attr) => {
+      const prop = attr.name.name
+      return propSet.has(prop)
+    })
+  }
+
   return {
     name: 'plugin:transform-taro-components',
     visitor: {
@@ -138,7 +150,7 @@ module.exports = declare((api) => {
           const props = openingElement.attributes
           const children = path.node.children
           if (
-            componentImports.has(COMPONENT_LIST) &&
+            hasTargetTaroComponent(COMPONENT_LIST) &&
             openingElement.name.name === componentImports.get(COMPONENT_LIST).localName
           ) {
             // 创建 ScrollView 开始标签
@@ -177,7 +189,7 @@ module.exports = declare((api) => {
           }
 
           if (
-            componentImports.has(COMPONENT_LIST_ITEM) &&
+            hasTargetTaroComponent(COMPONENT_LIST_ITEM) &&
             openingElement.name.name === componentImports.get(COMPONENT_LIST_ITEM).localName
           ) {
             const viewOpening = api.types.jsxOpeningElement(api.types.jsxIdentifier(COMPONENT_VIEW), props, false)
@@ -194,10 +206,4 @@ module.exports = declare((api) => {
   }
 })
 
-function pickAttrs (attrs, props) {
-  const propSet = new Set(props)
-  return attrs.filter((attr) => {
-    const prop = attr.name.name
-    return propSet.has(prop)
-  })
-}
+
