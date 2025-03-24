@@ -14,9 +14,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
         settings:
-          - host: macos-12
+          - host: macos-13
             target: x86_64-apple-darwin
             build: |
               pnpm build:binding:release
@@ -35,7 +35,7 @@ jobs:
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: set -e && pnpm build:binding:release && strip crates/native_binding/*.node
-          - host: macos-12
+          - host: macos-13
             target: aarch64-apple-darwin
             build: |
               pnpm build:binding:release --target aarch64-apple-darwin
@@ -48,7 +48,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v3.0.0
         with:
-          version: 7
+          version: 9
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
