@@ -9,6 +9,7 @@
   "files": [
     "rn/",
     "remove-define-config.js",
+    "transform-taro-components.js",
     "index.js"
   ],
   "repository": {

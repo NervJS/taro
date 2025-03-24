@@ -35,7 +35,7 @@ module.exports = declare((api) => {
   const componentImports = new Map()
 
   return {
-    name: 'plugin:transform-taro-component',
+    name: 'plugin:transform-taro-components',
     visitor: {
       Program: {
         exit (path) {
