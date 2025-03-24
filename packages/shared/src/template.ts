@@ -317,12 +317,14 @@ export class BaseTemplate {
       : this.buildStandardComponentTemplate(comp, level)
   }
 
-  private getChildrenTemplate (level: number) {
+  private getChildrenTemplate (level: number, hasLoopWrapper = false) {
     const { isSupportRecursive, isUseXS, Adapter, isUseCompileMode = true } = this
     const isLastRecursiveComp = !isSupportRecursive && level + 1 === this.baseLevel
     const isUnRecursiveXs = !this.isSupportRecursive && isUseXS
 
-    const forAttribute = `${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}"`
+    const forAttribute = hasLoopWrapper
+      ? ''
+      : `${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}"`
     if (isLastRecursiveComp) {
       const data = isUnRecursiveXs
         ? `${this.dataKeymap('i:item,c:c,l:l')}`
@@ -357,10 +359,10 @@ export class BaseTemplate {
   }
 
   private getChildren (comp: Component, level: number): string {
-    const { isSupportRecursive } = this
+    const { isSupportRecursive, Adapter } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
 
-    let child = this.getChildrenTemplate(nextLevel)
+    let child = this.getChildrenTemplate(nextLevel, true)
 
     if (isFunction(this.modifyLoopBody)) {
       child = this.modifyLoopBody(child, comp.nodeName)
