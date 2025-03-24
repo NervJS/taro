@@ -1,4 +1,4 @@
-use crate::utils::{self, constants::*, transform_taro_component};
+use crate::utils::{self, constants::*, transform_taro_components};
 use crate::{utils::as_xscript_expr_string, PluginConfig};
 use std::collections::HashMap;
 use std::vec;
@@ -249,7 +249,7 @@ impl VisitMut for PreVisitor {
 
   fn visit_mut_jsx_element(&mut self, el: &mut JSXElement) {
     // 处理 @tarojs/components 的 List,ListItem 组件
-    transform_taro_component(el, &self.import_specifiers, &self.import_aliases);
+    transform_taro_components(el, &self.import_specifiers, &self.import_aliases);
     el.visit_mut_children_with(self);
   }
 }
@@ -974,7 +974,7 @@ impl VisitMut for TransformVisitor {
 
     if self.is_compile_mode {
       self.reset_states();
-      transform_taro_component(el, &self.import_specifiers, &self.import_aliases);
+      transform_taro_components(el, &self.import_specifiers, &self.import_aliases);
       el.visit_mut_children_with(&mut PreVisitor::new(
         self.import_specifiers.clone(),
         self.import_aliases.clone(),
