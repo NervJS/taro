@@ -31,6 +31,7 @@
     "url": "https://gitee.com/openharmony-sig/taro/issues"
   },
   "dependencies": {
+    "@babel/preset-react": "^7.24.1",
     "@tarojs/components": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
@@ -38,16 +39,15 @@
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "webpack-sources": "^3.2.3",
-    "@babel/preset-react": "^7.24.1",
-    "webpack": "5.91.0"
+    "webpack": "5.91.0",
+    "webpack-sources": "^3.2.3"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^12.1.2",
     "fast-glob": "^3.3.1",
     "rollup": "^3.29.4",
     "rollup-plugin-copy": "workspace:*",
     "rollup-plugin-node-externals": "^5.0.0",
-    "rollup-plugin-ts": "^3.4.5",
     "solid-js": "^1.8.16",
     "tslib": "^2.4.0"
   }
