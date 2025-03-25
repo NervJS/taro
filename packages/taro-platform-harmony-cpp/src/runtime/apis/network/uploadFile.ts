@@ -28,15 +28,12 @@ export const uploadFile: typeof Taro.uploadFile = function (options) {
       return handle.fail(res, { resolve, reject })
     }
 
-    const file = {
-      url: filePath,
-      name
-    }
-    const files = [file]
 
     const param: Record<string, TaroAny> = {
       url,
-      files,
+      filePath,
+      formData,
+      name,
       method: 'POST',
       context: getContext(this),
       header,
@@ -59,14 +56,6 @@ export const uploadFile: typeof Taro.uploadFile = function (options) {
       }
     }
 
-    if (formData) {
-      param.data = Object.keys(formData).map<Record<string, any>>((key: string) => {
-        return {
-          name: key,
-          value: formData[key],
-        }
-      })
-    }
 
     eventCenter.trigger(ETS_METHODS_TRIGGER_EVENTNAME, {
       name: 'uploadFile',

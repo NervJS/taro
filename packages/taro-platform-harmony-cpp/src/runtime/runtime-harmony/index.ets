@@ -4,7 +4,7 @@ import BuildProfile from 'BuildProfile'
 import type { TaroAny } from '@tarojs/runtime'
 
 import { handleTaskPool } from './apis/taskpool'
-import { handleNetwork } from './apis/network'
+import { handleNetwork } from './apis/network/index'
 
 export interface IEtsMethodsOptions {
   methodName?: string

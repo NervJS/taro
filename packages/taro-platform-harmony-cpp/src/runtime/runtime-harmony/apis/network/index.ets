@@ -1,9 +1,16 @@
-import { baseMethodHandle } from './helper'
 
-import type { IEtsMethodsOptions } from '../index'
-import type { TaroAny } from '../../../../../runtime'
+import type { IEtsMethodsOptions } from '../../index'
+import type { TaroAny } from '../../../../../../runtime'
+
+import handleUploadFile from './uploadFile'
 
 import http from '@ohos.net.http'
+import request from '@ohos.request'
+
+interface IFileInfo {
+  name: string,
+  url: string
+}
 
 interface IRequestArgs {
   url: string;
@@ -13,6 +20,8 @@ interface IRequestArgs {
   dataType?: 'json' | 'text' | 'html';
   timeout?: number;
   responseType?: 'text' | 'arraybuffer';
+  files: IFileInfo[]
+  filePath: string
   success?: (res: TaroAny) => void;
   fail?: (err: TaroAny) => void;
   complete?: () => void;
@@ -21,7 +30,9 @@ interface IRequestArgs {
 export function handleNetwork(option: IEtsMethodsOptions) {
   const name = option.name
 
-  if (!name) return
+  if (!name) {
+    return
+  }
 
   try {
     switch (option.name) {
@@ -43,7 +54,7 @@ export function handleNetwork(option: IEtsMethodsOptions) {
 }
 
 function handleRequest(option: IEtsMethodsOptions) {
-  const args = ( option?.args?.[0] || {} ) as IRequestArgs
+  const args = (option?.args?.[0] || {}) as IRequestArgs
   const url = args.url;
   const data = args.data;
   const header = args.header;
@@ -67,8 +78,8 @@ function handleRequest(option: IEtsMethodsOptions) {
   }
 
   httpRequestOhos.request(url, requestParamsOHOS).then((requestData) => {
-    let resultData : TaroAny = requestData.result
-    if(dataType === 'json' &&  typeof requestData?.result === 'string') {
+    let resultData: TaroAny = requestData.result
+    if (dataType === 'json' && typeof requestData?.result === 'string') {
       try {
         resultData = JSON.parse(requestData.result)
       } catch (e) {
@@ -81,17 +92,41 @@ function handleRequest(option: IEtsMethodsOptions) {
       statusCode: requestData.responseCode,
       header: requestData.header
     })
-  }).catch(( error: TaroAny ) => {
+    typeof complete === 'function' && complete()
+  }).catch((error: TaroAny) => {
     typeof fail === 'function' && fail(error)
+    typeof complete === 'function' && complete()
   })
 }
 
 
-function handleUploadFile(option: IEtsMethodsOptions) {
-
-}
-
 function handleDownloadFile(option: IEtsMethodsOptions) {
+  const args = (option?.args?.[0] || {}) as IRequestArgs
+  const url = args.url;
+  const header = args.header as Object;
+  const filePath = args.filePath
+  const success = args.success;
+  const fail = args.fail;
+  const complete = args.complete;
+  try {
+    request.downloadFile(getContext(), { url, filePath, header  }).then((data: request.DownloadTask) => {
+      let downloadTask: request.DownloadTask = data;
+      downloadTask.on('complete', () => {
+        typeof success === 'function' && success({})
+        typeof complete === 'function' && complete()
+      })
+      downloadTask.on('fail', (e) => {
+        typeof fail === 'function' && fail(e)
+        typeof complete === 'function' && complete()
+      })
+    }).catch((err: TaroAny) => {
+      typeof fail === 'function' && fail(err)
+      typeof complete === 'function' && complete()
+    })
+  } catch (err) {
+    typeof fail === 'function' && fail(err)
+    typeof complete === 'function' && complete()
+  }
 
 }
 
