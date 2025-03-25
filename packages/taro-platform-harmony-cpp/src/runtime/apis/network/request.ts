@@ -48,7 +48,6 @@ export const request: TRequest = (options) => {
     const handle = new MethodHandler<any>({ name: 'request', success, fail, complete })
 
     // ** 校验入参 **
-    // -> 0.基建侧建议在 GET 请求时，不要设置 Content-Type，否则可能会导致请求失败
     const isGetRequest = method.toUpperCase() === 'GET'
     if (!isGetRequest) {
       // -> 1.没有 content-type 的加上默认 application/json

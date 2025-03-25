@@ -60,15 +60,12 @@ export const uploadFile: typeof Taro.uploadFile = function (options) {
     }
 
     if (formData) {
-      const rData: Record<string, any>[] = []
-      Object.keys(formData).forEach((key: string) => {
-        const rDataEle = {
+      param.data = Object.keys(formData).map<Record<string, any>>((key: string) => {
+        return {
           name: key,
           value: formData[key],
         }
-        rData.push(rDataEle)
       })
-      param.data = rData
     }
 
     eventCenter.trigger(ETS_METHODS_TRIGGER_EVENTNAME, {
