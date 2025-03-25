@@ -16,7 +16,9 @@ const base: RollupOptions & { plugins: InputPluginOption[] } = {
     nodeResolve({
       preferBuiltins: false
     }) as InputPluginOption,
-    ts({ exclude: ['rollup.config.ts'] }),
+    ts({
+      exclude: ['rollup.config.ts']
+    }),
     commonjs() as InputPluginOption
   ]
 }
@@ -78,7 +80,10 @@ const otherConfig: RollupOptions = {
     sourcemap: true
   },
   plugins: [
-    ts({ declaration: false, exclude: ['rollup.config.ts'] })
+    ts({
+      declaration: false,
+      exclude: ['rollup.config.ts']
+    })
   ]
 }
 

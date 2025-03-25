@@ -23,7 +23,10 @@ const baseConfig: RollupOptions = {
       preferBuiltins: false,
       mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }) as InputPluginOption,
-    ts({ sourceMap: true, exclude: ['rollup.config.ts'] }),
+    ts({
+      exclude: ['rollup.config.ts'],
+      sourceMap: true,
+    }),
     commonjs() as InputPluginOption,
     postcss({
       // extract: true, Note: 开启需要在 @tarojs/plugin-platform-h5 中的 API 引入样式

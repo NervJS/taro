@@ -40,10 +40,10 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/api": "workspace:*",
-    "@tarojs/components": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
+    "@tarojs/components": "workspace:*",
     "abortcontroller-polyfill": "^1.7.5",
     "base64-js": "^1.5.1",
     "ics": "^3.7.2",
@@ -56,8 +56,6 @@
     "whatwg-fetch": "^3.6.20"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-typescript": "^12.1.2",
     "@tarojs/taro": "workspace:*",
     "@testing-library/jest-dom": "^5.16.4",
     "@types/platform": "^1.3.6",
@@ -68,10 +66,12 @@
     "jest-transform-css": "^6.0.1",
     "mock-socket": "^7.1.0",
     "react": "^18.2.0",
+    "swiper": "11.1.15",
     "react-test-renderer": "^18.2.0",
     "rollup": "^3.29.4",
     "rollup-plugin-node-externals": "^5.0.0",
-    "swiper": "11.1.15"
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@rollup/plugin-node-resolve": "^15.2.3"
   },
   "peerDependencies": {
     "@tarojs/components": "workspace:~"

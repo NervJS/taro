@@ -30,7 +30,9 @@ function getPlugins<T = InputPluginOption> (pre: T[] = [], post: T[] = []) {
       compact: true,
       preferConst: true,
     }),
-    ts({ exclude: ['rollup.config.ts'] }),
+    ts({
+      exclude: ['rollup.config.ts']
+    }),
     commonjs(),
     ...post
   ]

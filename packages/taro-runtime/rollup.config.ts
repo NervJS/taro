@@ -13,7 +13,9 @@ const baseConfig = {
   },
   plugins: [
     externals(),
-    ts({ exclude: ['rollup.config.ts'] }),
+    ts({
+      exclude: ['rollup.config.ts']
+    }),
   ]
 }
 
