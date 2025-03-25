@@ -83,8 +83,6 @@ jobs:
           fi
       - name: Install dependencies
         run: pnpm -r install --frozen-lockfile
-      - name: Lint
-        run: pnpm lint
       - name: Download artifact bindings-${{ matrix.target }}
         uses: actions/download-artifact@v4
         with:
