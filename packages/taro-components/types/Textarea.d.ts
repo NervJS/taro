@@ -125,9 +125,9 @@ interface TextareaProps extends StandardProps, FormItemProps {
   ariaLabel?: string
   /** 键盘对齐位置
    * @supported weapp
-   * @default false
+   * @default 'cursor'
    */
-  adjustKeyboardTo?: boolean
+  adjustKeyboardTo?: 'cursor' | 'bottom'
   /** 输入框聚焦时触发
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
    */
