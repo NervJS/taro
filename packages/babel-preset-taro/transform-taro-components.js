@@ -23,6 +23,7 @@ const SCROLL_VIEW_PROPS = [
   'onScrollToLower',
   'compileMode',
   'className',
+  'cacheExtent',
   'style',
   'id',
   'key',
