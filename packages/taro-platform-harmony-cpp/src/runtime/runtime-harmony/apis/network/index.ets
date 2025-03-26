@@ -3,9 +3,9 @@ import type { IEtsMethodsOptions } from '../../index'
 import type { TaroAny } from '../../../../../../runtime'
 
 import handleUploadFile from './uploadFile'
+import handleDownloadFile from './downloadFile'
 
 import http from '@ohos.net.http'
-import request from '@ohos.request'
 
 interface IFileInfo {
   name: string,
@@ -97,37 +97,6 @@ function handleRequest(option: IEtsMethodsOptions) {
     typeof fail === 'function' && fail(error)
     typeof complete === 'function' && complete()
   })
-}
-
-
-function handleDownloadFile(option: IEtsMethodsOptions) {
-  const args = (option?.args?.[0] || {}) as IRequestArgs
-  const url = args.url;
-  const header = args.header as Object;
-  const filePath = args.filePath
-  const success = args.success;
-  const fail = args.fail;
-  const complete = args.complete;
-  try {
-    request.downloadFile(getContext(), { url, filePath, header  }).then((data: request.DownloadTask) => {
-      let downloadTask: request.DownloadTask = data;
-      downloadTask.on('complete', () => {
-        typeof success === 'function' && success({})
-        typeof complete === 'function' && complete()
-      })
-      downloadTask.on('fail', (e) => {
-        typeof fail === 'function' && fail(e)
-        typeof complete === 'function' && complete()
-      })
-    }).catch((err: TaroAny) => {
-      typeof fail === 'function' && fail(err)
-      typeof complete === 'function' && complete()
-    })
-  } catch (err) {
-    typeof fail === 'function' && fail(err)
-    typeof complete === 'function' && complete()
-  }
-
 }
 
 
