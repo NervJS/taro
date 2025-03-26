@@ -42,3 +42,25 @@ commit-msg:
   commands:
     commitlint:
       run: pnpm commitlint --edit {1} --config commitlint.config.js
+
+post-merge:
+  follow: true
+  commands:
+    check-pnpm-lock:
+      run: |
+        if git diff --quiet HEAD^ HEAD -- pnpm-lock.yaml; then
+          echo pnpm-lock.yaml 已更新，运行 pnpm install ...
+          pnpm install
+        fi
+
+post-checkout:
+  follow: true
+  commands:
+    check-pnpm-lock:
+      run: |
+        if [ {3} -eq 1 ]; then
+          if git diff --quiet {1} {2} -- pnpm-lock.yaml; then
+            echo pnpm-lock.yaml 已更新，运行 pnpm install ...
+            pnpm install
+          fi
+        fi
