@@ -29,8 +29,16 @@ interface FailResponseType extends Error {
   errorType?: string
 }
 
+interface IRequestTask {
+  abort: () => void
+  onHeadersReceived: (callback: (res: TaroAny) => void) => void
+  offHeadersReceived: (callback?: (res: TaroAny) => void) => void
+  onChunkReceived: (callback: (res: TaroAny) => void) => void
+  offChunkReceived: (callback?: (res: TaroAny) => void) => void
+}
+
 export const request: TRequest = (options) => {
-  let task
+  let task: IRequestTask
   const requestTask: any = new Promise((resolve, reject) => {
     let { method = 'GET' } = options
     const {
@@ -109,7 +117,23 @@ export const request: TRequest = (options) => {
   })
 
   requestTask.abort = function () {
-    task?.doCancel?.()
+    task?.abort?.()
+  }
+
+  requestTask.onHeadersReceived = (fn: (args: { header: object }) => any) => {
+    task?.onHeadersReceived?.(fn)
+  }
+
+  requestTask.offHeadersReceived = (fn: (args: { header: object }) => any) => {
+    task?.offHeadersReceived?.(fn)
+  }
+
+  requestTask.onChunkReceived = (fn: (args: { chunk: object }) => any) => {
+    task?.onChunkReceived?.(fn)
+  }
+
+  requestTask.offChunkReceived = (fn: (args: { chunk: object }) => any) => {
+    task?.offChunkReceived?.(fn)
   }
 
   return requestTask
