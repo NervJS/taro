@@ -48,8 +48,9 @@ post-merge:
   commands:
     check-pnpm-lock:
       run: |
-        if git diff --quiet HEAD^ HEAD -- pnpm-lock.yaml; then
-          echo pnpm-lock.yaml 已更新，运行 pnpm install ...
+        PRE=1
+        if git diff --quiet HEAD@{$PRE} -- pnpm-lock.yaml; then
+          echo pnpm-lock.yaml 已变更，运行 pnpm install ...
           pnpm install
         fi
 
@@ -60,7 +61,7 @@ post-checkout:
       run: |
         if [ {3} -eq 1 ]; then
           if git diff --quiet {1} {2} -- pnpm-lock.yaml; then
-            echo pnpm-lock.yaml 已更新，运行 pnpm install ...
+            echo pnpm-lock.yaml 已变更，运行 pnpm install ...
             pnpm install
           fi
         fi
