@@ -615,6 +615,7 @@ fn extract_scroll_view_props(el: &mut JSXElement) -> Vec<JSXAttrOrSpread> {
     "onScrollToLower",
     "compileMode",
     "className",
+    "cacheExtent",
     "style",
     "id",
     "key",
