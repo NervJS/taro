@@ -19,7 +19,7 @@
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "clean": "rimraf ./dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
-    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "test": "jest",
     "test:ci": "jest --ci -i --coverage --silent"
   },
@@ -31,14 +31,15 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "tslib": "^2.6.2",
-    "@tarojs/shared": "workspace:*"
+    "@tarojs/shared": "workspace:*",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.79",
     "@vue/runtime-core": "^3.4.23",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
-    "rollup-plugin-ts": "^3.4.5"
+    "rollup": "^4.37.0",
+    "@rollup/plugin-typescript": "^12.1.2"
   }
 }
