@@ -24,8 +24,7 @@ const baseConfig: RollupOptions = {
       mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }) as InputPluginOption,
     ts({
-      exclude: ['rollup.config.ts'],
-      sourceMap: true,
+      exclude: ['rollup.config.ts']
     }),
     commonjs() as InputPluginOption,
     postcss({
