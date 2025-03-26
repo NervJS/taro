@@ -4,15 +4,19 @@ import type { TaroAny } from '../../../../../../runtime'
 
 import { rcp } from '@kit.RemoteCommunicationKit';
 import fs from '@ohos.file.fs';
-import { util } from '@kit.ArkTS';
 
-interface ICallbackArgs {
+interface IProgressCallbackArgs {
   progress: number
 }
 
+interface IHeaderCallBackArgs { header: Record<string, string> }
+
 interface IDownloadTask {
   abort: () => void;
-  onProgressUpdate: (callback: (res: ICallbackArgs) => void) => void;
+  onProgressUpdate: (callback: (res: IProgressCallbackArgs) => void) => void;
+  offProgressUpdate: (callback?: (res: IProgressCallbackArgs) => void) => void;
+  onHeadersReceived: (callback: (res: IHeaderCallBackArgs) => void) => void;
+  offHeadersReceived: (callback?: (res:IHeaderCallBackArgs) => void) => void;
 }
 
 interface IDownloadSuccessCallbackResult {
@@ -23,7 +27,7 @@ interface IDownloadSuccessCallbackResult {
   errMsg: string;
 }
 
-interface WxGeneralCallbackResult {
+interface IGeneralCallbackResult {
   errMsg: string;
 }
 
@@ -33,8 +37,8 @@ interface IDownloadOptions {
   filePath?: string; // 指定文件下载后存储的路径
   timeout?: number;
   success?: (res: IDownloadSuccessCallbackResult) => void;
-  fail?: (res: WxGeneralCallbackResult) => void;
-  complete?: (res: WxGeneralCallbackResult) => void;
+  fail?: (res: IGeneralCallbackResult) => void;
+  complete?: (res: IGeneralCallbackResult) => void;
 }
 
 function convertHeaders(headers: rcp.ResponseHeaders): Record<string, string> {
@@ -67,6 +71,17 @@ function getDefaultTempFilePath(): string {
   const applicationContext = context.getApplicationContext();
   const tempDir = applicationContext.tempDir;
   const filePath = `${tempDir}/${fileName}`;
+  // try {
+  //   const res = fs.accessSync(filePath);
+  //   if (res) {
+  //     // 如果图片afterCompressiona.jpeg已存在，则删除
+  //     fs.unlinkSync(filePath);
+  //   }
+  // }catch (e){
+  //
+  // } finally {
+  //   fs.mkdirSync(filePath)
+  // }
 
   return filePath;
 }
@@ -96,36 +111,29 @@ export default function handleDownloadFileRcp(optionss: IEtsMethodsOptions): IDo
     request.headers = option.header;
   }
 
-  // 用于保存进度回调
-  let progressCallback: ((res: ICallbackArgs) => void) | null = null;
+  let progressCallbacks: Array<(res: IProgressCallbackArgs) => void> = [];
+  let headersCallbacks: Array<(res: IHeaderCallBackArgs) => void> = [];
 
-  // 设置下载进度监听
+  // 设置事件处理器
   if (request.configuration) {
-    if (request.configuration && request.configuration.tracing) {
-      request.configuration.tracing.httpEventsHandler = {
-        onDownloadProgress: (totalSize, transferredSize) => {
-          if (progressCallback) {
-            const progress = Math.floor((transferredSize / totalSize) * 100);
-            progressCallback({
-              progress
-            });
-          }
-        }
-      };
-    } else {
-      request.configuration.tracing = {
-        httpEventsHandler: {
-          onDownloadProgress: (totalSize, transferredSize) => {
-            if (progressCallback) {
-              const progress = Math.floor((transferredSize / totalSize) * 100);
-              progressCallback({
-                progress
-              });
-            }
-          }
-        }
-      }
-    }
+    const tracingConfig = request.configuration.tracing ??= {};
+    const httpEvents = tracingConfig.httpEventsHandler ??= {};
+
+    httpEvents.onDownloadProgress = (totalSize, transferredSize) => {
+      const progress = Math.floor((transferredSize / totalSize) * 100);
+      // 触发所有进度回调
+      progressCallbacks.forEach(callback => {
+        callback({ progress });
+      });
+    };
+
+    httpEvents.onHeaderReceive = (headers: rcp.ResponseHeaders) => {
+      const converted: IHeaderCallBackArgs = { header: convertHeaders(headers) };
+      // 触发所有头部回调
+      headersCallbacks.forEach(callback => {
+        callback(converted);
+      });
+    };
   }
 
   // 设置文件下载路径
@@ -198,13 +206,30 @@ export default function handleDownloadFileRcp(optionss: IEtsMethodsOptions): IDo
 
     });
 
-  // 返回一个类似wx.downloadFile返回的任务对象
+  // 返回任务对象
   const downloadTask: IDownloadTask = {
     abort: () => {
       session.cancel(request);
     },
     onProgressUpdate: (callback) => {
-      progressCallback = callback;
+      progressCallbacks.push(callback);
+    },
+    offProgressUpdate: (callback?) => {
+      if (callback) {
+        progressCallbacks = progressCallbacks.filter(cb => cb !== callback);
+      } else {
+        progressCallbacks = [];
+      }
+    },
+    onHeadersReceived: (callback) => {
+      headersCallbacks.push(callback);
+    },
+    offHeadersReceived: (callback?) => {
+      if (callback) {
+        headersCallbacks = headersCallbacks.filter(cb => cb !== callback);
+      } else {
+        headersCallbacks = [];
+      }
     }
   };
 
