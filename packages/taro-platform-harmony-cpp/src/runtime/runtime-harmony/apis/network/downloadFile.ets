@@ -5,11 +5,14 @@ import type { TaroAny } from '../../../../../../runtime'
 import { rcp } from '@kit.RemoteCommunicationKit';
 import fs from '@ohos.file.fs';
 
-interface IProgressCallbackArgs {
-  progress: number
-}
+// 新增公共模块引用
+import {
+  IGeneralCallbackResult,
+  IHeaderCallBackArgs,
+  IProgressCallbackArgs,
+  convertHeaders
+} from './common';
 
-interface IHeaderCallBackArgs { header: Record<string, string> }
 
 interface IDownloadTask {
   abort: () => void;
@@ -27,9 +30,6 @@ interface IDownloadSuccessCallbackResult {
   errMsg: string;
 }
 
-interface IGeneralCallbackResult {
-  errMsg: string;
-}
 
 interface IDownloadOptions {
   url: string;
@@ -39,25 +39,6 @@ interface IDownloadOptions {
   success?: (res: IDownloadSuccessCallbackResult) => void;
   fail?: (res: IGeneralCallbackResult) => void;
   complete?: (res: IGeneralCallbackResult) => void;
-}
-
-function convertHeaders(headers: rcp.ResponseHeaders): Record<string, string> {
-  const result: Record<string, string> = {};
-
-  if (!headers) {
-    return result;
-  }
-
-  Object.keys(headers).forEach(key => {
-    const value = headers[key];
-    if (Array.isArray(value)) {
-      result[key] = value.join(', ');
-    } else if (value !== undefined) {
-      result[key] = String(value);
-    }
-  });
-
-  return result;
 }
 
 /**
@@ -149,7 +130,7 @@ export default function handleDownloadFileRcp(optionss: IEtsMethodsOptions): IDo
   request.destination = downloadTo;
 
   // 发起请求并处理响应
-  const fetchPromise = session.fetch(request)
+  session.fetch(request)
     .then(response => {
       let filePath = downloadPath;
       let originalFileName = '';

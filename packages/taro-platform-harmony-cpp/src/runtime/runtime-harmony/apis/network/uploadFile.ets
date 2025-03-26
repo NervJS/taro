@@ -4,9 +4,12 @@ import type { TaroAny } from '../../../../../../runtime'
 import { rcp } from '@kit.RemoteCommunicationKit';
 import { util } from '@kit.ArkTS';
 
-interface IProgressCallbackArgs { progress: number }
-
-interface IHeaderCallBackArgs { header: Record<string, string> }
+import {
+  IGeneralCallbackResult,
+  IHeaderCallBackArgs,
+  IProgressCallbackArgs,
+  convertHeaders
+} from './common';
 
 interface IUploadTask {
   abort: () => void;
@@ -23,9 +26,7 @@ interface ISuccessCallbackResult {
   errMsg: string;
 }
 
-interface IGeneralCallbackResult {
-  errMsg: string;
-}
+
 
 
 interface IOptions {
@@ -40,24 +41,7 @@ interface IOptions {
   complete?: (res: IGeneralCallbackResult) => void;
 }
 
-function convertHeaders(headers: rcp.ResponseHeaders): Record<string, string> {
-  const result: Record<string, string> = {};
 
-  if (!headers) {
-    return result;
-  }
-
-  Object.keys(headers).forEach(key => {
-    const value = headers[key];
-    if (Array.isArray(value)) {
-      result[key] = value.join(', ');
-    } else if (value !== undefined) {
-      result[key] = value;
-    }
-  });
-
-  return result;
-}
 
 export default function handleUploadFileRcp(optionss: IEtsMethodsOptions): IUploadTask {
   const option = (optionss?.args?.[0] || {}) as IOptions
@@ -139,7 +123,7 @@ export default function handleUploadFileRcp(optionss: IEtsMethodsOptions): IUplo
 
 
   // 发起请求并处理响应
-  const fetchPromise = session.fetch(request)
+  session.fetch(request)
     .then(response => {
       const result: ISuccessCallbackResult = {
         data: response.body ? new util.TextDecoder().decode(new Uint8Array(response.body)) : '',

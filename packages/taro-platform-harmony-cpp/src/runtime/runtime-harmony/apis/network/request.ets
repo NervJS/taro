@@ -4,7 +4,12 @@ import type { TaroAny } from '../../../../../../runtime'
 import { rcp } from '@kit.RemoteCommunicationKit';
 import { url, util } from '@kit.ArkTS';
 
-interface IHeaderCallBackArgs { header: Record<string, string> }
+import {
+  IGeneralCallbackResult,
+  IHeaderCallBackArgs,
+  convertHeaders
+} from './common';
+
 
 interface IChunkCallBackArgs { data: ArrayBuffer }
 
@@ -16,14 +21,10 @@ interface IRequestTask {
   offChunkReceived: (callback?: (res: IChunkCallBackArgs) => void) => void;
 }
 
-interface ISuccessResult {
+interface ISuccessCallbackResult {
   data: TaroAny;
   statusCode: number;
   header: Record<string, string>;
-  errMsg: string;
-}
-
-interface IGeneralCallbackResult {
   errMsg: string;
 }
 
@@ -34,28 +35,9 @@ interface IRequestOptions {
   header?: Record<string, string>;
   timeout?: number;
   dataType?: 'json' | 'text';
-  success?: (res: ISuccessResult) => void;
+  success?: (res: ISuccessCallbackResult) => void;
   fail?: (res: IGeneralCallbackResult) => void;
   complete?: (res: IGeneralCallbackResult) => void;
-}
-
-function convertHeaders(headers: rcp.ResponseHeaders): Record<string, string> {
-  const result: Record<string, string> = {};
-
-  if (!headers) {
-    return result;
-  }
-
-  Object.keys(headers).forEach(key => {
-    const value = headers[key];
-    if (Array.isArray(value)) {
-      result[key] = value.join(', ');
-    } else if (value !== undefined) {
-      result[key] = String(value);
-    }
-  });
-
-  return result;
 }
 
 export default function handleRequestRcp(optionss: IEtsMethodsOptions): IRequestTask {
@@ -131,7 +113,7 @@ export default function handleRequestRcp(optionss: IEtsMethodsOptions): IRequest
     httpEvents.onDataReceive = (incomingData: ArrayBuffer) => {
       // 新增分块数据缓冲
       responseBuffer.push(incomingData);
-      
+
       chunkCallbacks.forEach(callback => {
         const res: IChunkCallBackArgs = { data: incomingData }
         callback(res);
@@ -150,7 +132,7 @@ export default function handleRequestRcp(optionss: IEtsMethodsOptions): IRequest
         const totalLength = responseBuffer.reduce((sum, buf) => sum + buf.byteLength, 0);
         const mergedBuffer = new Uint8Array(totalLength);
         let offset = 0;
-        
+
         responseBuffer.forEach(buf => {
           mergedBuffer.set(new Uint8Array(buf), offset);
           offset += buf.byteLength;
@@ -172,7 +154,7 @@ export default function handleRequestRcp(optionss: IEtsMethodsOptions): IRequest
         }
       }
 
-      const result: ISuccessResult = {
+      const result: ISuccessCallbackResult = {
         data: responseData,
         statusCode: response.statusCode,
         header: convertHeaders(response.headers),
