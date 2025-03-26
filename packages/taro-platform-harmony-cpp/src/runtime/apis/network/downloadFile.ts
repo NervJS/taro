@@ -10,7 +10,7 @@ const downloadFileSchema = {
 export const downloadFile: typeof Taro.uploadFile = function (options) {
   let task
   let isComplete = false
-  let progressHandles: ((args: { progress: number }) => any)[] = []
+  const progressHandles: ((args: { progress: number }) => any)[] = []
   const requestTask: any = new Promise((resolve, reject) => {
     const { url, header, filePath, success, fail, complete } = options
     const handle = new MethodHandler<any>({ name: 'downloadFile', success, fail, complete })
@@ -58,19 +58,28 @@ export const downloadFile: typeof Taro.uploadFile = function (options) {
   })
 
   requestTask.abort = function () {
-    task?.delete?.()
+    task?.abort?.()
   }
 
-  requestTask.onProgressUpdate = (fn: (args: { progress: number }) => any) => {
+  requestTask.onProgressUpdate = (fn:(args: { progress: number }) => any) => {
     if (isComplete) {
       fn({ progress: 1 })
     } else {
-      progressHandles.push(fn)
+      task?.onProgressUpdate(fn)
     }
   }
 
   requestTask.offProgressUpdate = (fn:(args: { progress: number }) => any) => {
-    progressHandles = progressHandles.filter(handle => handle !== fn)
+    task?.offProgressUpdate?.(fn)
   }
+
+  requestTask.onHeadersReceived = (fn:(args: { header: object }) => any) => {
+    task?.onHeadersReceived?.(fn)
+  }
+
+  requestTask.offHeadersReceived = (fn:(args: { header: object }) => any) => {
+    task?.offHeadersReceived?.(fn)
+  }
+
   return requestTask
 }

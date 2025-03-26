@@ -4,11 +4,16 @@ import type { TaroAny } from '../../../../../../runtime'
 import { rcp } from '@kit.RemoteCommunicationKit';
 import { util } from '@kit.ArkTS';
 
-interface ICallbackArgs { progress: number }
+interface IProgressCallbackArgs { progress: number }
+
+interface IHeaderCallBackArgs { header: Record<string, string> }
 
 interface IUploadTask {
   abort: () => void;
-  onProgressUpdate: (callback: (res: ICallbackArgs) => void) => void;
+  onProgressUpdate: (callback: (res: IProgressCallbackArgs) => void) => void;
+  offProgressUpdate: (callback?: (res: IProgressCallbackArgs) => void) => void;
+  onHeadersReceived: (callback: (res: IHeaderCallBackArgs) => void) => void;
+  offHeadersReceived: (callback?: (res: IHeaderCallBackArgs) => void) => void;
 }
 
 interface ISuccessCallbackResult {
@@ -18,7 +23,7 @@ interface ISuccessCallbackResult {
   errMsg: string;
 }
 
-interface WxGeneralCallbackResult {
+interface IGeneralCallbackResult {
   errMsg: string;
 }
 
@@ -31,8 +36,8 @@ interface IOptions {
   formData?: Record<string, TaroAny>;
   timeout?: number;
   success?: (res: ISuccessCallbackResult) => void;
-  fail?: (res: WxGeneralCallbackResult) => void;
-  complete?: (res: WxGeneralCallbackResult) => void;
+  fail?: (res: IGeneralCallbackResult) => void;
+  complete?: (res: IGeneralCallbackResult) => void;
 }
 
 function convertHeaders(headers: rcp.ResponseHeaders): Record<string, string> {
@@ -100,7 +105,7 @@ export default function handleUploadFileRcp(optionss: IEtsMethodsOptions): IUplo
   request.content = new rcp.MultipartForm(formFields);
 
   // 用于保存进度回调
-  let progressCallback: ((res: ICallbackArgs) => void) | null = null;
+  let progressCallback: ((res: IProgressCallbackArgs) => void) | null = null;
 
   // 设置上传进度监听
   if (request.configuration) {
@@ -173,12 +178,58 @@ export default function handleUploadFileRcp(optionss: IEtsMethodsOptions): IUplo
       // throw error;
     });
 
+  // 改为使用数组存储回调
+  let progressCallbacks: Array<(res: IProgressCallbackArgs) => void> = [];
+  let headersCallbacks: Array<(res: IHeaderCallBackArgs) => void> = [];
+
+  // 设置事件处理器
+  if (request.configuration) {
+    const tracingConfig = request.configuration.tracing ??= {};
+    const httpEvents = tracingConfig.httpEventsHandler ??= {};
+
+    httpEvents.onUploadProgress = (totalSize, transferredSize) => {
+      const progress = Math.floor((transferredSize / totalSize) * 100);
+      progressCallbacks.forEach(callback => {
+        callback({
+          progress
+        });
+      });
+    };
+
+    httpEvents.onHeaderReceive = (headers: rcp.ResponseHeaders) => {
+      const converted: IHeaderCallBackArgs = {
+        header: convertHeaders(headers)
+      };
+      headersCallbacks.forEach(callback => {
+        callback(converted);
+      });
+    };
+  }
+
+  // 返回任务对象
   const uploadTask: IUploadTask = {
     abort: () => {
       session.cancel(request);
     },
     onProgressUpdate: (callback) => {
-      progressCallback = callback;
+      progressCallbacks.push(callback);
+    },
+    offProgressUpdate: (callback?) => {
+      if (callback) {
+        progressCallbacks = progressCallbacks.filter(cb => cb !== callback);
+      } else {
+        progressCallbacks = [];
+      }
+    },
+    onHeadersReceived: (callback) => {
+      headersCallbacks.push(callback);
+    },
+    offHeadersReceived: (callback?) => {
+      if (callback) {
+        headersCallbacks = headersCallbacks.filter(cb => cb !== callback);
+      } else {
+        headersCallbacks = [];
+      }
     }
   };
 

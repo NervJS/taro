@@ -10,10 +10,19 @@ const uploadSchema = {
   // filePath: 'String',
   // name: 'String'
 }
+
+interface IUploadTask {
+  abort: () => void
+  onProgressUpdate: (callback: (res: TaroAny) => void) => void
+  offProgressUpdate: (callback?: (res: TaroAny) => void) => void
+  onHeadersReceived: (callback: (res: TaroAny) => void) => void
+  offHeadersReceived: (callback?: (res: TaroAny) => void) => void
+}
+
 export const uploadFile: typeof Taro.uploadFile = function (options) {
-  let task
+  let task: IUploadTask
   let isComplete = false
-  let progressHandles: ((args: { progress: number }) => any)[] = []
+  const progressHandles: ((args: { progress: number }) => any)[] = []
   const requestTask: any = new Promise((resolve, reject) => {
     // let timer
     const { url, filePath, name, formData, header = {}, success, fail, complete } = options
@@ -69,19 +78,27 @@ export const uploadFile: typeof Taro.uploadFile = function (options) {
   })
 
   requestTask.abort = function () {
-    task?.delete?.()
+    task?.abort?.()
   }
 
   requestTask.onProgressUpdate = (fn:(args: { progress: number }) => any) => {
     if (isComplete) {
       fn({ progress: 1 })
     } else {
-      progressHandles.push(fn)
+      task?.onProgressUpdate(fn)
     }
   }
 
   requestTask.offProgressUpdate = (fn:(args: { progress: number }) => any) => {
-    progressHandles = progressHandles.filter(handle => handle !== fn)
+    task?.offProgressUpdate?.(fn)
+  }
+
+  requestTask.onHeadersReceived = (fn:(args: { header: object }) => any) => {
+    task?.onHeadersReceived?.(fn)
+  }
+
+  requestTask.offHeadersReceived = (fn:(args: { header: object }) => any) => {
+    task?.offHeadersReceived?.(fn)
   }
 
   return requestTask
