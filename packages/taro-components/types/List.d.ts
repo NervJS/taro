@@ -17,6 +17,7 @@ interface ListProps
       | 'onScrollEnd'
       | 'onScrollToUpper'
       | 'onScrollToLower'
+      | 'cacheExtent'
     >,
     Omit<ListBuilderProps, keyof StandardProps>,
     Pick<StandardProps, 'id' | 'className' | 'style' | 'compileMode' | 'key'> {
