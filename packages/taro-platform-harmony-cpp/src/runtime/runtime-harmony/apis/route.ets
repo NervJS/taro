@@ -48,9 +48,6 @@ export function handleRoute (option: IEtsMethodsOptions) {
         })
         break
       case 'navigateBack':
-        const delta = ( arg.delta || 1 ) as number
-
-
         if (!url) {
           router.back()
         } else {
