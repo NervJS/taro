@@ -895,12 +895,12 @@ impl TransformVisitor {
   fn generate_template(&mut self, node_path: String, attrs: String) -> String {
     if self.config.is_use_xs {
       format!(
-        r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" {} />"#,
+        r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" {}/>"#,
         node_path, node_path, node_path, attrs
       )
     } else {
       format!(
-        r#"<template is="{{{{'tmpl_' + ({}.nn[0] === '{}' ? 0 : c) + '_' + {}.nn }}}}" data="{{{{i:{},c:c+1}}}}" {} />"#,
+        r#"<template is="{{{{'tmpl_' + ({}.nn[0] === '{}' ? 0 : c) + '_' + {}.nn }}}}" data="{{{{i:{},c:c+1}}}}" {}/>"#,
         node_path,
         self.config.tmpl_prefix.chars().next().unwrap(),
         node_path,

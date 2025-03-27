@@ -208,7 +208,7 @@ module.exports = (_, options = {}) => {
 
   plugins.push(require('./remove-define-config'))
   if (isReact) {
-    plugins.push(require('./transform-taro-components'))
+    plugins.unshift(require('./transform-taro-components'))
   }
 
   return {
