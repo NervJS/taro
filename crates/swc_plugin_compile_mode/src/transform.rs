@@ -338,7 +338,7 @@ impl TransformVisitor {
                     } else {
                       ""
                     };
-                    format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" {} />"#, node_path, node_path, node_path, attrs.to_string())
+                    format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" {}/>"#, node_path, node_path, node_path, attrs.to_string())
                 }
             }
             JSXElementName::JSXMemberExpr(JSXMemberExpr { prop, .. }) => {
