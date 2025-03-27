@@ -5,6 +5,7 @@ import type { TaroAny } from '@tarojs/runtime'
 
 import { handleTaskPool } from './apis/taskpool'
 import { handleNetwork } from './apis/network/index'
+import { handleRoute } from './apis/route'
 
 export interface IEtsMethodsOptions {
   methodName?: string
@@ -20,6 +21,9 @@ export interface IEtsMethodsOptions {
 // Note: 监听 API 事件
 eventCenter?.on('__taroPluginEtsMethodsTrigger', (option: IEtsMethodsOptions) => {
   switch (option.scope) {
+    case 'route':
+      handleRoute(option)
+      break
     case 'network':
       handleNetwork(option)
       break
