@@ -121,7 +121,7 @@ export default function handleUploadFileRcp(optionss: IEtsMethodsOptions): IUplo
   session.fetch(request)
     .then(response => {
       const result: ISuccessCallbackResult = {
-        data: response.body ? new util.TextDecoder().decode(new Uint8Array(response.body)) : '',
+        data: response.body ? new util.TextDecoder().decodeToString(new Uint8Array(response.body)) : '',
         statusCode: response.statusCode,
         header: convertHeaders(response.headers),
         errMsg: 'uploadFile:ok'
