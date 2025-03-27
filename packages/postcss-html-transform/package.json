@@ -1,6 +1,6 @@
 {
   "name": "postcss-html-transform",
-  "version": "4.0.10-alpha.6",
+  "version": "4.0.10-alpha.7",
   "description": "transform html tag name selector",
   "author": "O2Team",
   "license": "MIT",

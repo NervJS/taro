@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-copy",
-  "version": "4.0.10-alpha.6",
+  "version": "4.0.10-alpha.7",
   "description": "rollup-plugin-copy for taro",
   "private": true,
   "author": "O2Team",
