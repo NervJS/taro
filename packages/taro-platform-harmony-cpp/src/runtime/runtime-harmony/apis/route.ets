@@ -1,8 +1,8 @@
 
-import type { TaroAny } from '@tarojs/runtime'
+import type { TaroAny } from '../../../../../runtime'
 import type { IEtsMethodsOptions } from '../index'
 import router from '@ohos.router'
-import { queryToJson } from '@tarojs/shared'
+import { queryToJson } from '../../../../../shared'
 
 
 export function handleRoute (option: IEtsMethodsOptions) {
@@ -16,7 +16,7 @@ export function handleRoute (option: IEtsMethodsOptions) {
   try {
     switch (option.name) {
       case 'navigateTo':
-        router.push({
+        router.pushUrl({
           url: url,
           params: params
         }, (err) => {
@@ -27,12 +27,12 @@ export function handleRoute (option: IEtsMethodsOptions) {
               data: err.data
             })
           } else {
-            option.successHandler?.({ data: {} })
+            option.successHandler?.()
           }
         })
         break
       case 'redirectTo':
-        router.replace({
+        router.replaceUrl({
           url: url,
           params: params
         }, (err) => {
@@ -43,28 +43,23 @@ export function handleRoute (option: IEtsMethodsOptions) {
               data: err.data
             })
           } else {
-            option.successHandler?.({ data: {} })
+            option.successHandler?.()
           }
         })
         break
       case 'navigateBack':
-        const delta = arg.delta || 1
-        router.back({
-          index: delta
-        }, (err) => {
-          if (err) {
-            option.errorHandler?.({
-              errCode: err.code,
-              errMsg: err.message,
-              data: err.data
-            })
-          } else {
-            option.successHandler?.({ data: {} })
-          }
-        })
+        const delta = ( arg.delta || 1 ) as number
+
+
+        if (!url) {
+          router.back()
+        } else {
+          router.back({ url })
+        }
+        option.successHandler?.()
         break
       case 'switchTab':
-        router.replace({
+        router.replaceUrl({
           url: url,
           params: params
         }, (err) => {
@@ -75,17 +70,17 @@ export function handleRoute (option: IEtsMethodsOptions) {
               data: err.data
             })
           } else {
-            option.successHandler?.({ data: {} })
+            option.successHandler?.()
           }
         })
         break
       default:
-        if (process.env.NODE_ENV !== 'production') {
+        if (("development" as string) !== 'production') {
           console.warn(`Unhandled route method: ${option.name}`)
         }
     }
   } catch (e) {
-    if (process.env.NODE_ENV !== 'production') console.error('Error(TaroETS):', e.message, e)
+    if (("development" as string) !== 'production') console.error('Error(TaroETS):', e.message, e)
     if (option.errorHandler) option.errorHandler({
       errCode: e.code,
       errMsg: e.message,
@@ -95,8 +90,11 @@ export function handleRoute (option: IEtsMethodsOptions) {
 }
 
 // 新增 URL 解析函数
-function parseURL(raw = ''): [string, Record<string, unknown>] {
-  const [urlStr, queryStr = ''] = raw.split('?')
+function parseURL(raw = ''): [string, Record<string, TaroAny>] {
+  // const [urlStr, queryStr = ''] = raw.split('?')
+  const splitRaw = raw.split('?')
+  const urlStr = splitRaw[0] || ''
+  const queryStr = splitRaw[1] || ''
   const query = queryToJson(queryStr)
   let url = urlStr.replace(/^\//, '')
 
