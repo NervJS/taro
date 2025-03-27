@@ -88,37 +88,32 @@ export default function handleUploadFileRcp(optionss: IEtsMethodsOptions): IUplo
   // 设置请求内容为MultipartForm
   request.content = new rcp.MultipartForm(formFields);
 
-  // 用于保存进度回调
-  let progressCallback: ((res: IProgressCallbackArgs) => void) | null = null;
+  // 改为使用数组存储回调
+  let progressCallbacks: Array<(res: IProgressCallbackArgs) => void> = [];
+  let headersCallbacks: Array<(res: IHeaderCallBackArgs) => void> = [];
 
-  // 设置上传进度监听
+  // 设置事件处理器
   if (request.configuration) {
-    if (request.configuration && request.configuration.tracing) {
-      request.configuration.tracing.httpEventsHandler = {
-        onUploadProgress: (totalSize, transferredSize) => {
-          if (progressCallback) {
-            const progress = Math.floor((transferredSize / totalSize) * 100);
-            progressCallback({
-              progress
-            });
-          }
-        }
-      };
-    } else {
-      request.configuration.tracing = {
-        httpEventsHandler: {
-          onUploadProgress: (totalSize, transferredSize) => {
-            if (progressCallback) {
-              const progress = Math.floor((transferredSize / totalSize) * 100);
-              progressCallback({
-                progress
-              });
-            }
-          }
-        }
-      }
+    const tracingConfig = request.configuration.tracing ??= {};
+    const httpEvents = tracingConfig.httpEventsHandler ??= {};
 
-    }
+    httpEvents.onUploadProgress = (totalSize, transferredSize) => {
+      const progress = Math.floor((transferredSize / totalSize) * 100);
+      progressCallbacks.forEach(callback => {
+        callback({
+          progress
+        });
+      });
+    };
+
+    httpEvents.onHeaderReceive = (headers: rcp.ResponseHeaders) => {
+      const converted: IHeaderCallBackArgs = {
+        header: convertHeaders(headers)
+      };
+      headersCallbacks.forEach(callback => {
+        callback(converted);
+      });
+    };
   }
 
 
@@ -162,33 +157,7 @@ export default function handleUploadFileRcp(optionss: IEtsMethodsOptions): IUplo
       // throw error;
     });
 
-  // 改为使用数组存储回调
-  let progressCallbacks: Array<(res: IProgressCallbackArgs) => void> = [];
-  let headersCallbacks: Array<(res: IHeaderCallBackArgs) => void> = [];
 
-  // 设置事件处理器
-  if (request.configuration) {
-    const tracingConfig = request.configuration.tracing ??= {};
-    const httpEvents = tracingConfig.httpEventsHandler ??= {};
-
-    httpEvents.onUploadProgress = (totalSize, transferredSize) => {
-      const progress = Math.floor((transferredSize / totalSize) * 100);
-      progressCallbacks.forEach(callback => {
-        callback({
-          progress
-        });
-      });
-    };
-
-    httpEvents.onHeaderReceive = (headers: rcp.ResponseHeaders) => {
-      const converted: IHeaderCallBackArgs = {
-        header: convertHeaders(headers)
-      };
-      headersCallbacks.forEach(callback => {
-        callback(converted);
-      });
-    };
-  }
 
   // 返回任务对象
   const uploadTask: IUploadTask = {
