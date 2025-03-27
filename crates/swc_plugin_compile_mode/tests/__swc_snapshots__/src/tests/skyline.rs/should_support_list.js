@@ -1,4 +1,4 @@
-const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><template is="{{xs.a(c, i.nn, l)}}" data="{{i:i,c:c+1,l:xs.f(l,i.nn)}}"  /></template>';
+const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><template is="{{xs.a(c, i.nn, l)}}" data="{{i:i,c:c+1,l:xs.f(l,i.nn)}}" /></template>';
 import { List as TaroList, ListItem as TaroListItem } from '@tarojs/components';
 const list = [
     1,
