@@ -52,6 +52,7 @@ export default class Config {
       if (this.disableGlobalConfig) return
       this.initGlobalConfig()
     } else {
+      this.initGlobalConfig()
       createSwcRegister({
         only: [
           filePath => filePath.indexOf(path.join(this.appPath, CONFIG_DIR_NAME)) >= 0
