@@ -183,6 +183,9 @@ module.exports = (_, options = {}) => {
   }
 
   plugins.push(require('./remove-define-config'))
+  if (isReact) {
+    plugins.unshift(require('./transform-taro-components'))
+  }
 
   return {
     sourceType: 'unambiguous',

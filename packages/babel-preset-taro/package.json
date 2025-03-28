@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "3.6.35",
+  "version": "3.6.36-alpha.4",
   "description": "Taro babel preset",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
@@ -9,6 +9,7 @@
   "files": [
     "rn/",
     "remove-define-config.js",
+    "transform-taro-components.js",
     "index.js"
   ],
   "repository": {

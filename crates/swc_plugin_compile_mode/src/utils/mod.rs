@@ -11,7 +11,7 @@ use swc_core::{
         DUMMY_SP as span
     },
 };
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use self::constants::*;
 use crate::PluginConfig;
@@ -408,6 +408,182 @@ pub fn as_xscript_expr_string (member: &MemberExpr, xs_module_names: &Vec<String
     }
 
     return None
+}
+
+fn create_jsx_ident_opening_element(name: &str, attrs: Vec<JSXAttrOrSpread>) -> JSXOpeningElement {
+  JSXOpeningElement {
+    name: JSXElementName::Ident(quote_ident!(name)),
+    span,
+    attrs,
+    self_closing: false,
+    type_args: None,
+  }
+}
+
+fn create_jsx_ident_closing_element(name: &str) -> JSXClosingElement {
+  JSXClosingElement {
+    span,
+    name: JSXElementName::Ident(quote_ident!(name)),
+  }
+}
+
+fn create_jsx_element(
+  name: &str,
+  attrs: Vec<JSXAttrOrSpread>,
+  children: Vec<JSXElementChild>,
+) -> JSXElement {
+  JSXElement {
+    span,
+    opening: create_jsx_ident_opening_element(name, attrs),
+    children,
+    closing: Some(create_jsx_ident_closing_element(name)),
+  }
+}
+
+fn extract_list_props(
+  el: &mut JSXElement,
+  // 需要提取的属性字段
+  target_attrs: HashSet<&str>,
+  // 属性别名
+  attrs_alias: HashMap<&str, &str>,
+) -> Vec<JSXAttrOrSpread> {
+  let mut attrs = el.opening.attrs.clone();
+  attrs.retain(|attr| {
+    if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
+      if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
+        let attr_name = name.to_string();
+        return target_attrs.contains(attr_name.as_str());
+      }
+    }
+    false
+  });
+
+  // 根据 attrs_alias 原地修改属性名
+  attrs.iter_mut().for_each(|attr| {
+    if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
+      if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
+        let attr_name = name.as_str();
+        if let Some(alias) = attrs_alias.get(attr_name) {
+          // 如果在别名映射中找到了对应的别名，修改属性名
+          jsx_attr.name = JSXAttrName::Ident(quote_ident!(*alias));
+        }
+      }
+    }
+  });
+
+  attrs
+}
+
+fn extract_scroll_view_props(el: &mut JSXElement) -> Vec<JSXAttrOrSpread> {
+  let props_alias = HashMap::from([
+    ("upperThresholdCount", "upperThreshold"),
+    ("lowerThresholdCount", "lowerThreshold"),
+  ]);
+  let target_attrs = HashSet::from([
+    "scrollX",
+    "scrollY",
+    "scrollTop",
+    "upperThresholdCount",
+    "lowerThresholdCount",
+    "scrollIntoView",
+    "enableBackToTop",
+    "showScrollbar",
+    "onScroll",
+    "onScrollStart",
+    "onScrollEnd",
+    "onScrollToUpper",
+    "onScrollToLower",
+    "compileMode",
+    "className",
+    "style",
+    "id",
+    "key",
+  ]);
+  let mut attrs = extract_list_props(el, target_attrs, props_alias);
+  attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
+    span,
+    name: JSXAttrName::Ident(quote_ident!("type")),
+    value: Some(JSXAttrValue::Lit(Lit::Str(quote_str!("custom")))),
+  }));
+  attrs
+}
+
+fn extract_list_builder_props(el: &mut JSXElement) -> Vec<JSXAttrOrSpread> {
+  let props_alias: HashMap<&str, &str> = HashMap::from([]);
+  let target_attrs = HashSet::from([
+    "padding",
+    "type",
+    "list",
+    "childCount",
+    "childHeight",
+    "onItemBuild",
+    "onItemDispose",
+  ]);
+  let mut attrs = extract_list_props(el, target_attrs, props_alias);
+  attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
+    span,
+    name: JSXAttrName::Ident(quote_ident!("className")),
+    value: Some(JSXAttrValue::Lit(Lit::Str(quote_str!("list-builder")))),
+  }));
+  attrs
+}
+
+pub fn transform_list_component(el: &mut JSXElement) -> () {
+  let children = el.children.clone();
+  *el = create_jsx_element(
+    "scroll-view",
+    extract_scroll_view_props(el),
+    vec![JSXElementChild::JSXElement(Box::new(create_jsx_element(
+      "list-builder",
+      extract_list_builder_props(el),
+      children,
+    )))],
+  )
+}
+
+pub fn transform_list_item_component(el: &mut JSXElement) -> () {
+  let children = el.children.clone();
+  let mut attrs = el.opening.attrs.clone();
+  attrs.push(create_jsx_lit_attr(SLOT_ITEM, "item".into()));
+  attrs.push(create_jsx_lit_attr("className", "list-item".into()));
+  *el = create_jsx_element("view", attrs, children)
+}
+
+pub fn transform_taro_component(
+  el: &mut JSXElement,
+  // 导出名和模块标识符映射关系
+  import_specifiers: &HashMap<String, String>,
+  // 导出名和别名映射关系
+  import_aliases: &HashMap<String, String>,
+) {
+  match &el.clone().opening.name {
+    JSXElementName::Ident(ident) => {
+      if let Some(import) = import_aliases.get("List") {
+        if ident.sym.as_str() == import {
+          // 检查导出模块来源
+          if let Some(src) = import_specifiers.get(import) {
+            // 如果是 @tarojs/components 导出的 List 组件，需要特殊处理
+            if src == "@tarojs/components" {
+              transform_list_component(el);
+            }
+          }
+        }
+      }
+
+      if let Some(import) = import_aliases.get("ListItem") {
+        if ident.sym.as_str() == import {
+          // 检查导出模块来源
+          if let Some(src) = import_specifiers.get(import) {
+            // 如果是 @tarojs/components 导出的 ListItem 组件，需要特殊处理
+            if src == "@tarojs/components" {
+              transform_list_item_component(el);
+            }
+          }
+        }
+      }
+    }
+    _ => (),
+  };
 }
 
 #[test]

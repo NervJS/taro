@@ -31,7 +31,7 @@ jobs:
       matrix:
         node-version: [16.x]
         settings:
-          - host: macos-12
+          - host: macos-13
             target: x86_64-apple-darwin
           - host: windows-latest
             target: x86_64-pc-windows-msvc
@@ -151,7 +151,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
-          targets: wasm32-wasi
+          targets: wasm32-wasip1
       - name: Cache cargo
         uses: actions/cache@v3
         with:
