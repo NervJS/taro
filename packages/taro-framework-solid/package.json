@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-solid",
-  "version": "4.0.10-beta.2",
+  "version": "4.0.10-beta.3",
   "description": "Solid 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
