@@ -1,6 +1,7 @@
 const { exec } = require('child_process')
+const axios = require('axios')
 
-fetch('https://taro.jd.com/')
+axios.get('https://taro.jd.com/')
   .then(() => {
     // JD内网
     console.log('*******JD内网:*******', process.cwd())
