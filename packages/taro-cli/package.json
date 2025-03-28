@@ -5,6 +5,7 @@
   "main": "index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "postinstall": "node postinstall.js",
     "test": "cross-env NODE_ENV=test jest",
     "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=test jest --watch",
@@ -22,6 +23,7 @@
     "src",
     "dist",
     "templates",
+    "postinstall.js",
     "index.js",
     "global.d.ts"
   ],
