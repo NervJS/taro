@@ -18,7 +18,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "node -e \"try { require('child_process').execSync('git config --unset core.hookspath', {stdio: 'ignore'}); } catch (e) {}\" && lefthook install",
-    "build": "pnpm -r --filter=./packages/* prod",
+    "build": "nx run-many -t prod",
     "build:binding:debug": "pnpm --filter @tarojs/binding run build:debug",
     "build:binding:release": "pnpm --filter @tarojs/binding run build",
     "debug": "node scripts/debug.js",
@@ -117,6 +117,7 @@
     "minimist": "^1.2.8",
     "mkdirp": "^3.0.1",
     "npm-run-all": "^4.1.2",
+    "nx": "^20.6.4",
     "postcss": "^8.4.38",
     "postcss-less": "^6.0.0",
     "postcss-scss": "^4.0.3",

@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "targetDefaults": {
+    "prod": {
+      "dependsOn": ["^prod"],
+      "cache": true
+    }
+  }
+}
