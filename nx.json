@@ -1,8 +1,27 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "sharedGlobals": [{ "runtime": "node --version" }],
+    "default": ["{projectRoot}/**/*", "sharedGlobals", "!{projectRoot}/**/*.md"],
+    "production": [
+      "default",
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/**/*.{spec,test,e2e}.[jt]s?(x)"
+    ]
+  },
   "targetDefaults": {
     "prod": {
+      "inputs": ["production"],
       "dependsOn": ["^prod"],
+      "cache": true
+    },
+    "test:ci": {
+      "inputs": ["default", "^production"],
+      "dependsOn": ["^test:ci"],
+      "cache": true
+    },
+    "updateSnapshot": {
+      "inputs": ["default", "^production"],
       "cache": true
     }
   }

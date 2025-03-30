@@ -21,12 +21,12 @@ pre-commit:
     #   group:
     #     parallel: true
     #     jobs:
-    #       - name: typecheck
-    #         glob: "*.{ts,tsx}"
-    #         run: pnpm tsc
-    #       - name: test
-    #         glob: "*.{ts,tsx}"
-    #         run: pnpm run test
+          # - name: typecheck
+          #   glob: "*.{ts,tsx}"
+          #   run: pnpm tsc
+          # - name: test
+          #   glob: "*.{ts,tsx,js,jsx,mjs,mts,json,css,scss}"
+          #   run: pnpm nx affected -t prod test:ci --files={staged_files}
 
 prepare-commit-msg:
   commands:
