@@ -683,9 +683,6 @@ importers:
       '@stencil/core':
         specifier: 2.22.3
         version: 2.22.3
-      '@tarojs/components-advanced':
-        specifier: workspace:*
-        version: link:../taro-components-advanced
       '@tarojs/runtime':
         specifier: workspace:*
         version: link:../taro-runtime
