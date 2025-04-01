@@ -43,21 +43,37 @@ interface VirtualWaterfallProps<T = any> extends Omit<StandardProps, 'children'>
   initialScrollOffset?: number
   /** 在可视区域之外预渲染的距离，值设置得越高，快速滚动时出现白屏的概率就越小，相应地，每次滚动的性能会变得越差。
    * > 建议至少大于等于 itemSize 的最大值，但不要设置超过虚拟瀑布流高度。
+   * @deprecated 使用 cacheCount
    * @default 50
    */
   overscanDistance?: number
+  /** 在可视区域之外预渲染的距离，值设置得越高，快速滚动时出现白屏的概率就越小，相应地，每次滚动的性能会变得越差。
+   * > 建议至少大于等于 itemSize 的最大值，但不要设置超过虚拟瀑布流高度。
+   * @default 50
+   */
+  cacheCount?: number
   /** 上下滚动预占位节点
    * @default 0
    */
   placeholderCount?: number
   /** 触顶事件触发时距页面顶部距离
+   * @deprecated 请使用 upperThresholdCount
    * @default 50
    */
   upperThreshold?: number
+  /** 触顶事件触发时距页面顶部距离
+   * @default 50
+   */
+  upperThresholdCount?: number
   /** 触底事件触发时距页面底部距离
+   * @deprecated 请使用 lowerThresholdCount
    * @default 50
    */
   lowerThreshold?: number
+  /** 触底事件触发时距页面底部距离
+   * @default 50
+   */
+  lowerThresholdCount?: number
   /** 是否注入 isScrolling 属性到 item 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
   useIsScrolling?: boolean
   /** 通过 ScrollViewContext 优化组件滚动性能
@@ -88,7 +104,9 @@ interface VirtualWaterfallProps<T = any> extends Omit<StandardProps, 'children'>
     id: string
   }>
   /** 滚动时调用函数 */
-  onScroll?: (event: VirtualWaterfallProps.IVirtualWaterfallEvent<VirtualWaterfallProps.IVirtualWaterfallEventDetail>) => void
+  onScroll?: (
+    event: VirtualWaterfallProps.IVirtualWaterfallEvent<VirtualWaterfallProps.IVirtualWaterfallEventDetail>
+  ) => void
   /** 调用平台原生的滚动监听函数。 */
   onScrollNative?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
   /** 触顶事件 */
