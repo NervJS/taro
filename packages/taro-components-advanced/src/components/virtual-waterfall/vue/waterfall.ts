@@ -57,6 +57,10 @@ export default defineComponent({
       type: Number,
       default: 50
     },
+    cacheCount: {
+      type: Number,
+      default: 50
+    },
     placeholderCount: {
       type: Number,
       default: 0
@@ -413,7 +417,7 @@ export default defineComponent({
       'item', 'itemCount', 'itemData', 'itemKey', 'useIsScrolling',
       'innerElementType', 'innerTagName', 'itemElementType', 'itemTagName',
       'outerElementType', 'outerTagName', 'onScrollToLower', 'onScrollToUpper',
-      'upperThreshold', 'lowerThreshold',
+      'upperThreshold', 'upperThresholdCount', 'lowerThreshold', 'lowerThresholdCount',
       'position'
     ])
     const {

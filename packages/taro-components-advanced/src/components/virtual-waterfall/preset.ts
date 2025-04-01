@@ -1,3 +1,4 @@
+import { isNumber } from '@tarojs/shared'
 import { createIntersectionObserver, createSelectorQuery, getCurrentInstance } from '@tarojs/taro'
 import * as CSS from 'csstype'
 import memoizeOne from 'memoize-one'
@@ -206,8 +207,16 @@ export default class Preset {
 
     observer
       .relativeTo(`#${this.id}`, {
-        top: typeof this.props.lowerThreshold === 'number' ? this.props.lowerThreshold : 50,
-        bottom: typeof this.props.upperThreshold === 'number' ? this.props.upperThreshold : 50,
+        top: isNumber(this.props.lowerThresholdCount)
+          ? this.props.lowerThresholdCount
+          : isNumber(this.props.lowerThreshold)
+            ? this.props.lowerThreshold
+            : 50,
+        bottom: isNumber(this.props.upperThresholdCount)
+          ? this.props.upperThresholdCount
+          : isNumber(this.props.upperThreshold)
+            ? this.props.upperThreshold
+            : 50,
       })
       .observe(`#${id}`, eventFunc)
 

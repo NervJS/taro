@@ -5,7 +5,7 @@ import { getOffsetForIndexAndAlignment } from '../../utils'
 
 import type { IProps } from './preset'
 
-type TProps = Pick<IProps, 'column' | 'columnWidth' | 'width' | 'height' | 'itemCount' | 'itemData' | 'itemSize' | 'overscanDistance' | 'unlimitedSize'>
+type TProps = Pick<IProps, 'column' | 'columnWidth' | 'width' | 'height' | 'itemCount' | 'itemData' | 'itemSize' | 'overscanDistance' | 'cacheCount' | 'unlimitedSize'>
 
 export default class ListMap {
   _columns: number
@@ -56,7 +56,7 @@ export default class ListMap {
   }
 
   get overscan () {
-    return this.props.overscanDistance || 50
+    return this.props.cacheCount || this.props.overscanDistance || 50
   }
 
   get columnsSize () {

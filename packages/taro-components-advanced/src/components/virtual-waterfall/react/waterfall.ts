@@ -21,6 +21,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
   static defaultProps: IProps = {
     itemData: undefined,
     overscanDistance: 50,
+    cacheCount: 50,
     useIsScrolling: false,
     shouldResetStyleCacheOnItemSizeChange: true
   }
@@ -365,7 +366,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       'item', 'itemCount', 'itemData', 'itemKey', 'useIsScrolling',
       'innerElementType', 'innerTagName', 'itemElementType', 'itemTagName',
       'outerElementType', 'outerTagName', 'onScrollToLower', 'onScrollToUpper',
-      'upperThreshold', 'lowerThreshold',
+      'upperThreshold', 'upperThresholdCount', 'lowerThreshold', 'lowerThresholdCount',
       'position',
     ])
     const {
