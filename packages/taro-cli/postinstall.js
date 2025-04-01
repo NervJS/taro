@@ -1,7 +1,7 @@
 const { exec } = require('child_process')
 const axios = require('axios')
 
-axios.get('https://taro.jd.com/')
+axios.get('https://taro.jd.com/', { timeout: 5000 })
   .then(() => {
     // JD内网
     console.log('*******JD内网:*******', process.cwd())
