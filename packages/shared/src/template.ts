@@ -210,6 +210,11 @@ export class BaseTemplate {
           result[compName] = {
             name: newComp?.name,
           }
+        } else if (compName === 'list-builder') {
+          result[compName] = {
+            ...newComp,
+            list: 'i.cn',
+          }
         } else {
           result[compName] = newComp
         }
@@ -327,11 +332,14 @@ export class BaseTemplate {
     if (isFunction(this.modifyLoopBody)) {
       child = this.modifyLoopBody(child, comp.nodeName)
     }
-
+    const isListBuilder = comp.nodeName === 'list-builder'
+    const expr = isListBuilder
+      ? 'slot:item slot:index'
+      : `${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid"`
     let children = this.voidElements.has(comp.nodeName)
       ? ''
       : `
-    <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
+    <block ${expr}>
       ${indent(child, 6)}
     </block>
   `
