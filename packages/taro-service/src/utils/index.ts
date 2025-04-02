@@ -118,14 +118,12 @@ export function printHelpLog (command, optionsList: Map<string, string>, synopsi
   }
 }
 
-// 对于全局配置，如果command为空，则返回全部。否则只返回command相关的插件和presets
 export function filterGlobalConfig (globalConfig: IProjectConfig, command: string) {
   if (!command) {
     return globalConfig
   }
   const config = globalConfig
 
-  // 如果有command，则只留下command相关的plugin
   const RelatedPluginTag = `@jdtaro/plugin-${command}`
   if (config.plugins) {
     config.plugins = config.plugins.filter(pluginName => {
@@ -133,6 +131,5 @@ export function filterGlobalConfig (globalConfig: IProjectConfig, command: strin
     })
   }
 
-  // TODO:如果有presets，则只留下command相关的presets.当前无这样的需求
   return config
 }
