@@ -1,4 +1,5 @@
 import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
+import { isFunction } from '@tarojs/shared'
 
 import { getMode } from '../utils'
 
@@ -6,11 +7,11 @@ import type{ ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompil
 import type { PluginOption } from 'vite'
 
 export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
+  const { taroConfig } = viteCompilerContext
   return {
     name: 'taro:vite-h5-pipeline',
     enforce: 'pre',
     async buildStart () {
-      const { taroConfig } = viteCompilerContext
       const isProd = getMode(taroConfig) === 'production'
       // 下面这么写 是因为生产环境不需要异步，开发环境需要异步。是因为插件的执行顺序正确而这么写的
       isProd
@@ -25,6 +26,16 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     },
     load (id) {
       if (id === VITE_COMPILER_LABEL) return ''
+    },
+    closeBundle () {
+      const onBuildFinish = taroConfig.onBuildFinish
+      if (isFunction(onBuildFinish)) {
+        onBuildFinish({
+          error: null,
+          stats: {},
+          isWatch: taroConfig.isWatch
+        })
+      }
     }
   }
 }

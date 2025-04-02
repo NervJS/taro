@@ -7,7 +7,7 @@ import * as minimist from 'minimist'
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
 
-const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor', 'update', 'config']
+const DISABLE_GLOBAL_CONFIG_COMMANDS = ['global-config', 'doctor', 'update', 'config']
 const DEFAULT_FRAMEWORK = 'react'
 
 export default class CLI {

@@ -145,13 +145,14 @@ export default (ctx: IPluginContext) => {
                 },
               })
             },
-            async modifyViteConfig(viteConfig, data) {
+            async modifyViteConfig(viteConfig, data, viteCompilerContext) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_VITE_CONFIG,
                 initialVal: viteConfig,
                 opts: {
                   viteConfig,
                   data,
+                  viteCompilerContext
                 },
               })
             },
