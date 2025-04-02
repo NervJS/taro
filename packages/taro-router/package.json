@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "3.6.36-alpha.4",
+  "version": "3.6.37-alpha.2",
   "description": "Taro-router",
   "browser": "dist/index.js",
   "main:h5": "dist/index.esm.js",
