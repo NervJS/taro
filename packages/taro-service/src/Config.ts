@@ -35,7 +35,7 @@ export default class Config {
   isInitSuccess: boolean
   disableGlobalConfig: boolean
 
-  constructor(opts: IConfigOptions) {
+  constructor (opts: IConfigOptions) {
     this.appPath = opts.appPath
     this.disableGlobalConfig = !!opts?.disableGlobalConfig
   }
