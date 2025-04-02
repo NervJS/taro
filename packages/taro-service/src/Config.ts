@@ -50,10 +50,8 @@ export default class Config {
     this.configPath = resolveScriptPath(path.join(this.appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE))
     if (!fs.existsSync(this.configPath)) {
       if (this.disableGlobalConfig) return
-      // 没有项目config，说明是全局命令，加载所有全局插件
       this.initGlobalConfig()
     } else {
-      // 有项目config，说明是Taro项目内命令，加载该命令相关的全局插件`@jdtaro/plugin-${command}...`
       this.initGlobalConfig(configEnv.command)
       createSwcRegister({
         only: [
