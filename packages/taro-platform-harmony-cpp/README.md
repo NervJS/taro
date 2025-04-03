@@ -6,12 +6,12 @@
 
 - 安装 harmony 插件
 
-  ```shell
-  # 使用 npm 安装
-  $ npm i @tarojs/plugin-platform-harmony-cpp
-  # 使用 pnpm 安装
-  $ pnpm i @tarojs/plugin-platform-harmony-cpp
-  ```
+```shell
+# 使用 npm 安装
+$ npm i @tarojs/plugin-platform-harmony-cpp
+# 使用 pnpm 安装
+$ pnpm i @tarojs/plugin-platform-harmony-cpp
+```
 
 - 添加插件配置
 
@@ -33,14 +33,15 @@
 
 ### 使用公共依赖库
 
-插件默认使用对应版本的公共依赖库，可以通过 useChoreLibrary 配置禁用。
+插件默认使用内置版本的公共依赖库，可以通过 useChoreLibrary 配置禁用或者配置指定版本依赖。
 
 ```ts
 const config = {
   // ...
   plugin: [
-    '@tarojs/plugin-platform-harmony-cpp',
+    '@tarojs/plugin-platform-harmony-cpp', // useChoreLibrary: 'local'
     // ['@tarojs/plugin-platform-harmony-cpp', { useChoreLibrary: false }],
+    // ['@tarojs/plugin-platform-harmony-cpp', { useChoreLibrary: '4.1.0-alpha.0' }],
   ],
   harmony: {
     ohPackage: {

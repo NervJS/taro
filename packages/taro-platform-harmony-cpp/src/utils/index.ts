@@ -12,7 +12,7 @@ export const NPM_DIR = 'npm'
 export const CPP_LIBRARY_NAME = 'libTaroHarmonyLibrary.so'
 export const CPP_LIBRARY_PATH = 'file:./src/main/cpp/types/taro-native-node'
 
-export const HARMONY_SCOPES = [/^@system\./, /^@ohos\./, /^@hmscore\//, /^@jd-oh\//]
+export const HARMONY_SCOPES = [/^@system\./, /^@ohos\./, /^@hmscore\//, /^@(jd|taro)-oh\//]
 
 export * from './constant'
 export * from './file'

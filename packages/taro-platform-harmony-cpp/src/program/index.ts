@@ -38,7 +38,7 @@ export default class Harmony extends HarmonyOS {
         e[2] = this.runtimeFrameworkReconciler
       }
     })
-    this.harmonyScope.push(/@jd-oh\//, /@kit\./, /^BuildProfile$/)
+    this.harmonyScope.push(/@(jd|taro)-oh\//, /@kit\./, /^BuildProfile$/)
     this.setupTransaction.addWrapper({
       init() {
         that.modifyPageConfig()
@@ -48,6 +48,11 @@ export default class Harmony extends HarmonyOS {
     this.apiEntryList = [
       /(@tarojs[\\/]plugin-platform-harmony-cpp|plugin-platform-harmony-cpp)[\\/]dist[\\/]runtime[\\/]apischunk[\\/]index\.js/,
     ]
+    this.externalDeps.push(['@tarojs/shared', /^@tarojs[\\/]shared$/])
+    this.externalDeps.push(['react-reconciler', /^react-reconciler$/])
+    this.externalDeps.push(['react-reconciler/constants', /^react-reconciler[\\/]constants/])
+    this.externalDeps.push(['scheduler', /^scheduler$/])
+    this.externalDeps.push(['tslib', /^tslib$/])
   }
 
   get harmonyPluginPath () {

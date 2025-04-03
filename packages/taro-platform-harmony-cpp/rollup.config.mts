@@ -13,7 +13,7 @@ const cwd = __dirname
 
 const base: RollupOptions & { plugins: InputPluginOption[] } = {
   external: [
-    /^@(system\.|ohos\.|hmscore\/|jd-oh\/)/,
+    /^@(system\.|ohos\.|hmscore\/|jd-oh|taro-oh\/)/,
   ],
   plugins: [
     externals({
@@ -67,7 +67,7 @@ const apiConfig: RollupOptions = {
     exports: 'named'
   },
   external: d => {
-    return /^@(system\.|ohos\.|hmscore\/|jd-oh\/)/.test(d)
+    return /^@(system\.|ohos\.|hmscore\/|jd-oh|taro-oh\/)/.test(d)
   },
   plugins: [
     externals({

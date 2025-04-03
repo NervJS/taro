@@ -1,5 +1,6 @@
 /// <reference types="@tarojs/plugin-platform-harmony-ets/types/harmony" />
 declare module '@jd-oh/*'
+declare module '@taro-oh/*'
 declare module '@hmscore/*'
 declare module '@ohos.*'
 declare module '@system.*'

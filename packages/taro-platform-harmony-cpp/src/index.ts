@@ -17,11 +17,14 @@ const argHapName = getProcessArg('hap')
 
 export interface IOptions {
   useConfigName?: string
-  /** @default false */
-  useChoreLibrary?: boolean
+  /** @default "local" */
+  useChoreLibrary?: 'local' | 'remote' | false | string
 }
 
+const harName = `${PKG_NAME}-${PKG_VERSION}.har`
 export default (ctx: IPluginContext, options: IOptions = {}) => {
+  options.useChoreLibrary = options.useChoreLibrary ?? 'local'
+
   // 合并 harmony 编译配置到 opts
   ctx.modifyRunnerOpts(({ opts }) => {
     if (opts.platform !== PLATFORM_NAME) return
@@ -31,7 +34,13 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
 
     if (options.useChoreLibrary) {
       opts.chorePackagePrefix ||= `${PKG_NAME}/src/main/ets/${NPM_DIR}`
-      opts.ohPackage.dependencies[PKG_NAME] ||= `^${PKG_VERSION}`
+      if (options.useChoreLibrary === 'local') {
+        opts.ohPackage.dependencies[PKG_NAME] ||= `file:../static/${harName}`
+      } else if (options.useChoreLibrary === 'remote') {
+        opts.ohPackage.dependencies[PKG_NAME] ||= `^${PKG_VERSION}`
+      } else {
+        opts.ohPackage.dependencies[PKG_NAME] ||= options.useChoreLibrary
+      }
       PROJECT_DEPENDENCIES_NAME.forEach(key => {
         opts.ohPackage.dependencies[key] ||= PKG_DEPENDENCIES[key]
       })
@@ -67,7 +76,7 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
       await program.start()
 
       const { projectPath, hapName = 'entry', outputRoot } = config
-      if (options.useChoreLibrary === false) {
+      if (!options.useChoreLibrary) {
         if (hapName !== 'entry') { // Note: 如果是 entry 不需要重写 BuildProfile 路径
           fixBuildProfile(outputRoot, path.join(outputRoot, '../../..'))
         }
@@ -89,6 +98,15 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
         } catch (error) {
           console.log(`${C_API_TXT} 获取失败...`) // eslint-disable-line no-console
         }
+      } else if (options.useChoreLibrary === 'local') {
+        const harPath = path.join(argProjectPath || projectPath, 'static', harName)
+        const harDir = path.dirname(harPath)
+        fs.ensureDirSync(harDir)
+        fs.emptyDir(harDir)
+        fs.copyFileSync(
+          path.join(program.harmonyCppPluginPath, 'static', harName),
+          harPath
+        )
       }
     }
   })
