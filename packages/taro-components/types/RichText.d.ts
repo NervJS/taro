@@ -52,6 +52,11 @@ interface RichTextProps extends StandardProps {
    * @supported alipay
    */
   onLongtap?: CommonEventFunction
+  /** 布局兼容模式
+   * @supported weapp
+   * @default default
+   */
+  mode?: 'default' | 'compat' | 'aggressive' | 'inline-block' | 'web'
 }
 /** 节点类型
  * > 现支持两种节点，通过type来区分，分别是元素节点和文本节点，默认是元素节点，在富文本区域里显示的HTML节点 元素节点：type = node*

@@ -18,7 +18,6 @@ const apiDiff: IApiDiff = {
       ]
     }
   },
-
   showActionSheet: {
     options: {
       change: [{
@@ -69,15 +68,6 @@ const apiDiff: IApiDiff = {
   },
   setNavigationBarColor: {
     alias: 'setNavigationBar'
-  },
-  saveImageToPhotosAlbum: {
-    alias: 'saveImage',
-    options: {
-      change: [{
-        old: 'filePath',
-        new: 'url'
-      }]
-    }
   },
   previewImage: {
     options: {

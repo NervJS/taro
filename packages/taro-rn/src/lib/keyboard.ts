@@ -17,8 +17,8 @@ const hideKeyboard = (opts: Taro.hideKeyboard.Option = {}): Promise<TaroGeneral.
 const _cbManager = createCallbackManager()
 let _hasListener = false
 
-const keyboardHeightListener = (e) => {
-  _cbManager.trigger({ height: e.endCoordinates.height })
+const keyboardHeightListener = (height: number) => {
+  _cbManager.trigger({ height })
 }
 
 /**
@@ -28,8 +28,12 @@ const keyboardHeightListener = (e) => {
 const onKeyboardHeightChange = (callback: Taro.onKeyboardHeightChange.Callback): void => {
   _cbManager.add(callback)
   if (!_hasListener) {
-    Keyboard.addListener('keyboardDidShow', keyboardHeightListener)
-    Keyboard.addListener('keyboardDidHide', keyboardHeightListener)
+    Keyboard.addListener('keyboardDidShow', (e) => {
+      keyboardHeightListener(e.endCoordinates.height)
+    })
+    Keyboard.addListener('keyboardDidHide', () => {
+      keyboardHeightListener(0)
+    })
     _hasListener = true
   }
 }
@@ -53,8 +57,4 @@ const offKeyboardHeightChange = (callback?: Taro.onKeyboardHeightChange.Callback
   }
 }
 
-export {
-  hideKeyboard,
-  offKeyboardHeightChange,
-  onKeyboardHeightChange
-}
+export { hideKeyboard, offKeyboardHeightChange, onKeyboardHeightChange }

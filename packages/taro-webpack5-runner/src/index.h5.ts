@@ -14,7 +14,7 @@ import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelpe
 import { errorHandling } from './utils/webpack'
 import { H5Combination } from './webpack/H5Combination'
 
-import type { EntryNormalized, Stats } from 'webpack'
+import type { EntryNormalized, EntryObject, Stats } from 'webpack'
 import type { IH5BuildConfig } from './utils/types'
 
 export default async function build (appPath: string, rawConfig: IH5BuildConfig): Promise<Stats | void> {
@@ -92,11 +92,13 @@ export default async function build (appPath: string, rawConfig: IH5BuildConfig)
       const routerBasename = routerConfig.basename || '/'
       webpackConfig.devServer = await getDevServerOptions(appPath, config)
 
+      const firstEntry = Object.keys(entry as EntryObject)[0]
+      const pathname = combination.isBuildNativeComp ? `/${firstEntry}.html` : '/'
       const devUrl = formatUrl({
         protocol: webpackConfig.devServer?.https ? 'https' : 'http',
         hostname: formatOpenHost(webpackConfig.devServer?.host),
         port: webpackConfig.devServer?.port,
-        pathname: routerMode === 'browser' ? routerBasename : '/'
+        pathname: routerMode === 'browser' ? routerBasename : pathname
       })
       if (typeof webpackConfig.devServer.open === 'undefined' || webpackConfig.devServer.open === true) {
         webpackConfig.devServer.open = devUrl
@@ -232,11 +234,9 @@ async function getDevServerOptions (appPath: string, config: IH5BuildConfig): Pr
   const chunkFilename = config.output?.chunkFilename as string ?? `${config.chunkDirectory || 'chunk'}/[name].js`
   const devServerOptions: WebpackDevServer.Configuration = recursiveMerge<any>(
     {
-      open: !config.isBuildNativeComp,
       allowedHosts: 'all',
       devMiddleware: {
         publicPath,
-        writeToDisk: config.isBuildNativeComp
       },
       static: [{
         directory: outputPath, // webpack4: devServerOptions.contentBase
@@ -247,7 +247,7 @@ async function getDevServerOptions (appPath: string, config: IH5BuildConfig): Pr
       // disableHostCheck: true, // the disableHostCheck and allowedHosts options were removed in favor of the firewall option
       host: '0.0.0.0',
       // useLocalIp: true, @breaking: move in favor { host: 'local-ip' } (https://github.com/webpack/webpack-dev-server/releases?page=2)
-      hot: 'only',
+      hot: config.isBuildNativeComp ? true : 'only',
       https: false,
       // inline: true, // the inline option (iframe live mode) was removed
       client: {

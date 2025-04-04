@@ -11,6 +11,7 @@ use swc_core::{
 
 struct DefineConfigVisitor {
   fn_name: Option<Ident>,
+  imp_name: Option<Ident>,
 }
 
 impl VisitMut for DefineConfigVisitor {
@@ -20,6 +21,8 @@ impl VisitMut for DefineConfigVisitor {
       if let Expr::Ident(ident) = &**expr {
         if ident.sym == "defineAppConfig" || ident.sym == "definePageConfig" {
           self.fn_name = Some(ident.clone());
+        } else if ident.sym == "importNativeComponent" {
+          self.imp_name = Some(ident.clone());
         }
       }
     }
@@ -30,9 +33,12 @@ pub struct TransformVisitor;
 
 impl VisitMut for TransformVisitor {
   fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-    let mut folder = DefineConfigVisitor { fn_name: None };
+    let mut folder = DefineConfigVisitor {
+      fn_name: None,
+      imp_name: None,
+    };
 
-    let is_found = items.iter_mut().any(|item| {
+    let mut is_found = items.iter_mut().any(|item| {
       item.visit_mut_with(&mut folder);
       folder.fn_name.is_some()
     });
@@ -62,6 +68,66 @@ impl VisitMut for TransformVisitor {
       prepend_stmt(
         items,
         ModuleItem::Stmt(Stmt::Decl(Decl::Fn(func.into_fn_decl(fn_name)))),
+      );
+    }
+
+    is_found = items.iter_mut().any(|item| {
+      item.visit_mut_with(&mut folder);
+      folder.imp_name.is_some()
+    });
+
+    if is_found {
+      let imp_name = folder.imp_name.take().unwrap();
+      let func = Function {
+        span,
+        decorators: Default::default(),
+        params: vec![
+          // path 参数,默认值为空字符串
+          Param {
+            span,
+            decorators: Default::default(),
+            pat: Pat::Assign(AssignPat {
+              span,
+              left: Box::new(Pat::Ident(quote_ident!("path").into())),
+              right: Box::new(Expr::Lit(Lit::Str("".into()))),
+            }),
+          },
+          // name 参数,默认值为空字符串
+          Param {
+            span,
+            decorators: Default::default(),
+            pat: Pat::Assign(AssignPat {
+              span,
+              left: Box::new(Pat::Ident(quote_ident!("name").into())),
+              right: Box::new(Expr::Lit(Lit::Str("".into()))),
+            }),
+          },
+          // exportName 参数,默认值为 'default'
+          Param {
+            span,
+            decorators: Default::default(),
+            pat: Pat::Assign(AssignPat {
+              span,
+              left: Box::new(Pat::Ident(quote_ident!("exportName").into())),
+              right: Box::new(Expr::Lit(Lit::Str("default".into()))),
+            }),
+          },
+        ],
+        body: Some(BlockStmt {
+          span,
+          stmts: vec![Stmt::Return(ReturnStmt {
+            span,
+            arg: Some(Box::new(quote_ident!("name").into())),
+          })],
+        }),
+        is_async: false,
+        is_generator: false,
+        type_params: None,
+        return_type: None,
+      };
+      prepend_stmt(
+        items,
+        ModuleItem::Stmt(Stmt::Decl(Decl::Fn(func.into_fn_decl(imp_name)))),
       );
     }
   }

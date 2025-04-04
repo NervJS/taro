@@ -64,6 +64,9 @@ export const components = {
     bindAfterLeave: _empty,
     bindClickOverlay: _empty
   },
+  PickerView: {
+    'immediate-change': _false,
+  },
   MatchMedia: {
     'min-width': _empty,
     'max-width': _empty,

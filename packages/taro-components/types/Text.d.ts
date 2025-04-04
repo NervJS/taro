@@ -27,7 +27,7 @@ interface TextProps extends StandardProps {
   numberOfLines?: number
   /**
    * 文本溢出处理
-   * @supported weapp-skyline
+   * @supported weapp
    * @default 'visible'
    */
   overflow?: keyof TextProps.Overflow

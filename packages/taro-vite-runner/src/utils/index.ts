@@ -5,7 +5,7 @@ import { isNpmPkg, normalizePath, recursiveMerge, REG_NODE_MODULES, resolveSync 
 import { isFunction, isString } from '@tarojs/shared'
 
 import { backSlashRegEx, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME, needsEscapeRegEx, quoteNewlineRegEx } from './constants'
-import createFilter from './createFilter'
+import { createFilterWithCompileOptions } from './createFilter'
 import { logger } from './logger'
 
 import type { RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
@@ -207,26 +207,7 @@ export function getBabelOption (
     compact: false,
     ...babelOption,
   }
-  const filter = compile.filter
-  if (isFunction(filter)) {
-    opts.filter = filter
-  } else {
-    let exclude: (string | RegExp)[] = []
-    let include: (string | RegExp)[] = []
-
-    if (compile.exclude?.length) {
-      const list = compile.exclude
-      const isNodeModuleReseted = list.find((reg) => reg.toString().includes('node_modules'))
-      if (!isNodeModuleReseted) list.push(...defaultExclude)
-      exclude = list
-    } else if (compile.include?.length) {
-      include = [...compile.include, ...defaultInclude]
-    } else {
-      exclude = [...defaultExclude]
-    }
-    const filter = createFilter(include, exclude)
-    opts.filter = filter
-  }
+  opts.filter = createFilterWithCompileOptions(compile, defaultInclude, defaultExclude)
 
   return opts
 }
