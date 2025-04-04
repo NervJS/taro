@@ -1,0 +1,22 @@
+name: 功能请求 🚀
+description: >-
+  创建一个新的功能请求。对于一般性问题，请在 GitHub Discussion 中发布。
+title: "[Feat]: "
+labels:
+  - 待分类
+  - feature
+body:
+  - type: textarea
+    id: feature
+    attributes:
+      label: 功能描述
+      description: 这个功能解决了什么问题？
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: 实现细节
+      description: 你希望如何实现这个功能？
+    validations:
+      required: true
