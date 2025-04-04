@@ -9,6 +9,7 @@ import type { NodePath, parse, PluginItem } from '@babel/core'
 export function injectDefineConfigHeader (babel: { parse: typeof parse }): PluginItem {
   const appConfig = 'function defineAppConfig(config) { return config }'
   const pageConfig = 'function definePageConfig(config) { return config }'
+  const importNative = "function importNativeComponent(path = '', name = '', exportName = '') { return name }"
 
   const prependHeader = (nodePath: NodePath<any>, header: string) => {
     const parsedHeader = babel.parse(header, { filename: '' })?.program.body[0]
@@ -27,6 +28,9 @@ export function injectDefineConfigHeader (babel: { parse: typeof parse }): Plugi
             return prependHeader(nodePath, appConfig)
           case 'definePageConfig':
             return prependHeader(nodePath, pageConfig)
+          case 'importNativeComponent':
+            return prependHeader(nodePath, importNative)
+          default:
         }
       }
     })

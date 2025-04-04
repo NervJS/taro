@@ -19,8 +19,8 @@ function isViteDepsPath(filePath: string) {
   return isViteDeps
 }
 
-export default function (complier: ViteH5CompilerContext | ViteHarmonyCompilerContext | ViteMiniCompilerContext): PluginOption {
-  const { taroConfig } = complier
+export default function (compiler: ViteH5CompilerContext | ViteHarmonyCompilerContext | ViteMiniCompilerContext): PluginOption {
+  const { taroConfig } = compiler
 
   return {
     name: 'taro:vite-multi-platform-plugin',

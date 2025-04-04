@@ -37,6 +37,7 @@ export default function (this: webpack.LoaderContext<any>, source: string) {
     ? ['!', raw, entryCacheLoader, this.resourcePath].join('!')
     : ['!', entryCacheLoader, this.resourcePath].join('!')
   const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
+  const behaviorsName = options.behaviorsName
   let setReconcilerPost = ''
   const setReconciler = runtimePath.reduce((res, item) => {
     if (REG_POST.test(item)) {
@@ -65,7 +66,11 @@ ${creator}(App, ${frameworkArgsCopy})
 var component = require(${stringify(componentPath)}).default
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
-var inst = Page(createPageConfig(component, '${pageName}', {}, config || {}))
+var taroOption = createPageConfig(component, '${pageName}', {}, config || {})
+if (component && component.behaviors) {
+  taroOption.${behaviorsName} = (taroOption.${behaviorsName} || []).concat(component.behaviors)
+}
+var inst = Page(taroOption)
 ${options.prerender ? prerender : ''}
 export default component
 `

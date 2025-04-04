@@ -233,8 +233,8 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             babel(getBabelOption(
               taroConfig,
               {
-                defaultExclude: [/node_modules[/\\](?!@tarojs)/],
-                defaultInclude: [sourceDir, /taro/]
+                defaultExclude: [],
+                defaultInclude: [sourceDir, /(?<=node_modules[\\/]).*taro/]
               }
             )) as InputPluginOption,
           ],

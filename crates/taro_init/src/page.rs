@@ -113,6 +113,7 @@ impl Page {
       set_page_name: None,
       set_sub_pkg_page_name: None,
       change_ext: None,
+      build_es5: None,
       is_custom_template: self.is_custom_template.clone(),
       plugin_type: None,
     };

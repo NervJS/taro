@@ -58,9 +58,9 @@ export class Template extends RecursiveTemplate {
     this.legacyMiniComponents = { ...result }
 
     delete result['pure-view']
+    delete result['click-view']
     delete result['static-view']
     delete result['catch-view']
-    delete result['click-view']
 
     return result
   }
