@@ -235,11 +235,13 @@ module.exports = (options = {}) => {
         },
         AtRule: {
           media: (rule) => {
-            if (skip) return
-            if (!opts.methods.includes('size')) return
+            if (opts.mediaQuery) {
+              if (skip) return
+              if (!opts.methods.includes('size')) return
 
-            if (!/px/i.test(rule.params)) return
-            rule.params = rule.params.replace(pxRgx, pxReplace)
+              if (!/px/i.test(rule.params)) return
+              rule.params = rule.params.replace(pxRgx, pxReplace)
+            }
           },
         },
       }
