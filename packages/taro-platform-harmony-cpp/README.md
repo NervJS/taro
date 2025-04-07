@@ -238,7 +238,7 @@ eventCenter?.on('__taroPluginEtsMethodsTrigger', (option: IEtsMethodsOptions) =>
 
 ## 常见问题
 
-### **ERROR: Failed to get ModuleInfo properties**
+### **ERROR: Failed to get ModuleInfo properties 'meta.pkgPath'**
 
 本地可能存在部分混淆导致 IDE 无法正确解析依赖，需要检查 `build-profile.json5`、`obfuscation-rules.txt` 等文件中是否开启混淆配置，需要关闭后清理 IDE 缓存重新编译。
 

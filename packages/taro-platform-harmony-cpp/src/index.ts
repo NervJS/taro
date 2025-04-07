@@ -102,7 +102,7 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
         const harPath = path.join(argProjectPath || projectPath, 'static', harName)
         const harDir = path.dirname(harPath)
         fs.ensureDirSync(harDir)
-        fs.emptyDir(harDir)
+        fs.emptyDirSync(harDir)
         fs.copyFileSync(
           path.join(program.harmonyCppPluginPath, 'static', harName),
           harPath

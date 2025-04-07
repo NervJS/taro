@@ -40,6 +40,8 @@ export default function (this: Harmony): PluginOption {
             }
           }
 
+          compiler.modifyHarmonyConfig(this.appConfig)
+
           return isFunction(oddModifyInstantiate) ? oddModifyInstantiate.call(this, code, type, app) : code
         }
       }
