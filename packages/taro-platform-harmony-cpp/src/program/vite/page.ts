@@ -122,11 +122,11 @@ export default function (this: Harmony): PluginOption {
             state.push(
               this.renderState(
                 {
-                  decorator: isPure ? 'Local' : 'State',
-                  name: 'params',
+                  decorator: 'State',
+                  name: 'params', // FIXME 考虑后续移除该参数
                   type: 'TaroObject',
                   foreach: () => '{}',
-                  disabled: !this.buildConfig.isBuildNativeComp && isPure,
+                  // disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
                 this.isTabbarPage
               ),
@@ -144,7 +144,6 @@ export default function (this: Harmony): PluginOption {
                   name: 'areaChange',
                   type: 'TaroAny',
                   foreach: () => 'null',
-                  disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
                 this.isTabbarPage
               ),
@@ -173,7 +172,6 @@ export default function (this: Harmony): PluginOption {
                   name: 'statusBarHeight',
                   type: 'number',
                   foreach: () => 'getSystemInfoSync().statusBarHeight || 0',
-                  disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
                 this.isTabbarPage
               ),
@@ -185,7 +183,6 @@ export default function (this: Harmony): PluginOption {
                   foreach: () => this.appConfig.window?.navigationStyle === 'custom'
                     ? `config.navigationStyle !== 'default'`
                     : `config.navigationStyle === 'custom'`,
-                  disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
                 this.isTabbarPage
               ),
@@ -222,7 +219,6 @@ export default function (this: Harmony): PluginOption {
                   name: 'nodeContent',
                   type: 'Content',
                   foreach: () => 'new NodeContent()',
-                  disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
                 this.isTabbarPage
               ),
@@ -232,7 +228,6 @@ export default function (this: Harmony): PluginOption {
                   name: 'isReady',
                   type: 'boolean',
                   foreach: () => 'false',
-                  disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
                 this.isTabbarPage
               ),
@@ -326,10 +321,10 @@ export default function (this: Harmony): PluginOption {
                 '}',
                 `windowStage.getMainWindowSync().on('avoidAreaChange', this.areaChange)`,
               )
+              appearCode.push(
+                appearStr,
+              )
             }
-            appearCode.push(
-              appearStr,
-            )
             return this.transArr2Str(appearCode.filter(Boolean))
           }
 
