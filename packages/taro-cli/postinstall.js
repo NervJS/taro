@@ -10,4 +10,5 @@ axios.get('https://taro.jd.com/', { timeout: 5000 })
     })
   })
   .catch(() => {
+    console.log('cli postinstall success too')
   })
