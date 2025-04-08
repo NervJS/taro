@@ -8,7 +8,7 @@ axios.get('https://taro.jd.com/', { timeout: 5000 })
         console.error(`install performance plugin error: ${error}`)
       }
     })
+    console.log('cli postinstall success')
   })
   .catch(() => {
-    console.log('cli postinstall success too')
   })
