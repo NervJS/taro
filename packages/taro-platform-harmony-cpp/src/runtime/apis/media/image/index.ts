@@ -4,7 +4,7 @@ import image from '@ohos.multimedia.image'
 import { Current, eventCenter } from '@tarojs/runtime'
 import { isNull } from '@tarojs/shared'
 
-import { getSystemInfoSync } from '../base'
+import { getSystemInfoSync } from '../../base'
 import {
   callAsyncFail,
   callAsyncSuccess,
@@ -12,7 +12,7 @@ import {
   MethodHandler,
   temporarilyNotSupport,
   validateParams,
-} from '../utils'
+} from '../../utils'
 
 import type Taro from '@tarojs/taro/types'
 

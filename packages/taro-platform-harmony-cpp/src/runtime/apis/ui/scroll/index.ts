@@ -1,9 +1,9 @@
 import { Current, document, getPageScrollerOrNode } from '@tarojs/runtime'
 
-import { MethodHandler, pxTransformHelper } from '../utils'
+import { MethodHandler, pxTransformHelper } from '../../utils'
 
 import type { TaroAny } from '@tarojs/runtime'
-import type Taro from '@tarojs/taro'
+import type Taro from '@tarojs/taro/types'
 
 export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
   const { scrollTop, selector = '', duration = 300, offsetTop = 0, success, fail, complete } = options || {}

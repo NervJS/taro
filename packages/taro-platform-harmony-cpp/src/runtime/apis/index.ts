@@ -1,8 +1,8 @@
-import { permanentlyNotSupport } from '@tarojs/plugin-platform-harmony-ets/dist/apis/utils'
 import { Current, hooks } from '@tarojs/runtime'
 import { PLATFORM_TYPE } from '@tarojs/shared'
 
 import * as apis from './apis'
+import { permanentlyNotSupport } from './utils'
 import { initPxTransform, pxTransform } from './utils/unit'
 
 const taro = Object.assign({}, apis)

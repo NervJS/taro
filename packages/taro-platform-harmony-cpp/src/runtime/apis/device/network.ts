@@ -1,6 +1,7 @@
 import connection from '@ohos.net.connection'
 
-import { CallbackManager, MethodHandler, temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../utils'
+import { CallbackManager, MethodHandler } from '../utils/handler'
 
 import type Taro from '@tarojs/taro/types'
 

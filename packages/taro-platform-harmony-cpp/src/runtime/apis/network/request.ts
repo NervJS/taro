@@ -6,7 +6,7 @@ import type { TaroAny } from '@tarojs/runtime'
 import type Taro from '@tarojs/taro/types'
 
 type TRequest = typeof Taro.request
-const METHOD = ['OPTIONS', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'CONNECT']
+const METHOD: string [] = ['OPTIONS', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'CONNECT']
 
 const scope = 'network'
 const type = 'method'

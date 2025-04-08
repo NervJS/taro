@@ -1,8 +1,8 @@
 import inputMethodEngine from '@ohos.inputMethodEngine'
-import { CallbackManager, MethodHandler } from '@tarojs/plugin-platform-harmony-ets/dist/apis/utils/handler'
 import { Current, window } from '@tarojs/runtime'
 
 import { temporarilyNotSupport } from '../utils'
+import { CallbackManager, MethodHandler } from '../utils/handler'
 
 import type Taro from '@tarojs/taro/types'
 
@@ -16,20 +16,25 @@ const resizeListener = (height) => {
 
 let topWindow: ReturnType<typeof window.__ohos.getLastWindow>
 
-(Current as any).contextPromise.then(context => {
-  const win = window.__ohos.getLastWindow(context)
-  win.then(mainWindow => {
-    topWindow = mainWindow
-    topWindow.on('keyboardHeightChange', resizeListener)
-  })
-})
-
 export const onKeyboardHeightChange: typeof Taro.onKeyboardHeightChange = callback => {
   callbackManager.add(callback)
+  if (callbackManager.count() === 1) {
+    Current.contextPromise
+      .then(context => {
+        const win = window.__ohos.getLastWindow(context)
+        win.then(mainWindow => {
+          topWindow = mainWindow
+          topWindow.on('keyboardHeightChange', resizeListener)
+        })
+      })
+  }
 }
 
 export const offKeyboardHeightChange: typeof Taro.offKeyboardHeightChange = callback => {
   callbackManager.remove(callback)
+  if (callbackManager.count() === 0) {
+    topWindow?.off('keyboardHeightChange', resizeListener)
+  }
 }
 
 // @ts-ignore

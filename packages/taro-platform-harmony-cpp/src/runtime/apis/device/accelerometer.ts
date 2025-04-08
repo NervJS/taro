@@ -1,6 +1,6 @@
 import sensor from '@ohos.sensor'
 
-import { CallbackManager, MethodHandler } from '../utils'
+import { CallbackManager, MethodHandler } from '../utils/handler'
 
 import type Taro from '@tarojs/taro/types'
 
