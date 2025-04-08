@@ -198,7 +198,7 @@ export default class MyTaro extends HarmonyCPP {
     super()
     // ...
     if (typeof this.runtimePath === 'string') {
-      this.runtimePath = [this.runtimePath, path.resolve(__dirname, 'my-runtime')]
+      this.runtimePath = [this.runtimePath, path.resolve(__dirname, 'my-runtime')] // Note: 如果有需要可以覆盖 runtime 禁用 taro 默认 API 行为
     }
   }
 }
@@ -235,6 +235,8 @@ eventCenter?.on('__taroPluginEtsMethodsTrigger', (option: IEtsMethodsOptions) =>
   }
 })
 ```
+
+> 未实现的 API 可以通过监听 `__taroNotSupport` 事件自定义实现。
 
 ## 常见问题
 
