@@ -11,10 +11,18 @@ import ts from 'rollup-plugin-ts'
 
 const cwd = __dirname
 
-const base: RollupOptions & { plugins: InputPluginOption[] } = {
+// 供 CLI 编译时使用的 Taro 插件入口
+const compileConfig: RollupOptions = {
   external: [
     /^@(system\.|ohos\.|hmscore\/|jd-oh|taro-oh\/)/,
   ],
+  input: join(cwd, 'src/index.ts'),
+  output: {
+    file: join(cwd, 'dist/index.js'),
+    format: 'cjs',
+    sourcemap: false,
+    exports: 'named'
+  },
   plugins: [
     externals({
       deps: true,
@@ -26,27 +34,12 @@ const base: RollupOptions & { plugins: InputPluginOption[] } = {
     ts(),
     common(),
     json(),
-  ]
-}
-
-// 供 CLI 编译时使用的 Taro 插件入口
-const compileConfig: RollupOptions = {
-  ...base,
-  input: join(cwd, 'src/index.ts'),
-  output: {
-    file: join(cwd, 'dist/index.js'),
-    format: 'cjs',
-    sourcemap: true,
-    exports: 'named'
-  },
-  plugins: [
-    ...base.plugins,
     copy({
       targets: [
         { src: 'src/runtime', dest: 'dist' },
       ]
     }) as InputPluginOption,
-    {
+    process.env.ROLLUP_WATCH ? {
       name: 'copy-runtime-watch',
       async buildStart () {
         const files = await fg('src/**/*')
@@ -54,7 +47,7 @@ const compileConfig: RollupOptions = {
           this.addWatchFile(file)
         }
       }
-    }
+    } : null
   ]
 }
 
@@ -81,7 +74,7 @@ const apiConfig: RollupOptions = {
       transpileOnly: true,
       tsconfig: e => ({
         ...e,
-        declaration: true
+        declaration: true,
       })
     }),
     common(),

@@ -59,7 +59,7 @@ export class TaroIconElement extends TaroElement<IconProps> {
 }
 
 export class TaroSwiperElement extends TaroElement<SwiperProps> {
-  controller: SwiperController = new SwiperController()
+  controller: typeof SwiperController = new SwiperController()
 
   constructor() {
     super('Swiper')

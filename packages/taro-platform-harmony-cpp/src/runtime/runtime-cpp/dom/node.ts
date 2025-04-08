@@ -172,8 +172,8 @@ export class TaroNode extends TaroEventTarget {
 
   public appendChild (child: TaroElement): TaroNode {
     // FIXME: 后续移除
-    if (this.isETS) {
-      this.notifyDataAdd?.(this.childNodes.length - 1)
+    if ((this as any).isETS) {
+      (this as any).notifyDataAdd?.(this.childNodes.length - 1)
     }
 
     runInDebug(() => {
@@ -191,8 +191,8 @@ export class TaroNode extends TaroEventTarget {
       this.appendChild(newNode)
     } else {
       // FIXME: 后续移除
-      if (this.isETS) {
-        this.notifyDataReload?.()
+      if ((this as any).isETS) {
+        (this as any).notifyDataReload?.()
       }
 
       runInDebug(() => {
@@ -208,8 +208,8 @@ export class TaroNode extends TaroEventTarget {
 
   public replaceChild (newChild: TaroNode, oldChild: TaroNode): TaroNode {
     // FIXME: 后续移除
-    if (this.isETS) {
-      this.notifyDataChange?.(this.findIndex(oldChild))
+    if ((this as any).isETS) {
+      (this as any).notifyDataChange?.((this as any).findIndex(oldChild))
     }
 
     runInDebug(() => {
@@ -224,8 +224,8 @@ export class TaroNode extends TaroEventTarget {
 
   public removeChild (child: TaroNode): TaroNode {
     // FIXME: 后续移除
-    if (this.isETS) {
-      this.notifyDataChange?.(this.findIndex(child))
+    if ((this as any).isETS) {
+      (this as any).notifyDataChange?.((this as any).findIndex(child))
     }
 
     runInDebug(() => {

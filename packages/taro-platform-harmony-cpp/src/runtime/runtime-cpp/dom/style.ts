@@ -7,7 +7,7 @@ export class Style {
 
   public _value: TaroAny
 
-  public constructor () {
+  public constructor (_) {
     this._value = {}
   }
 

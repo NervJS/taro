@@ -1,4 +1,6 @@
-import type { TaroAny, TaroElement } from '@tarojs/runtime'
+import { TaroElement } from '@tarojs/runtime'
+
+import type { TaroAny } from '@tarojs/runtime'
 
 export class DynamicCenter {
   install (node: TaroElement, parentNode: TaroElement) {

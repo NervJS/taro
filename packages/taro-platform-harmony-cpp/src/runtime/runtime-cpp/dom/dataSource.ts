@@ -26,7 +26,7 @@ export class TaroDataSourceElement extends TaroNode implements IDataSource {
     if (this._isDynamicNode || (!this._isCompileMode && this._instance)) {
       this._updateTrigger++
     } else {
-      this.parentNode?.updateComponent?.()
+      (this.parentNode as TaroDataSourceElement)?.updateComponent?.()
     }
   }
 

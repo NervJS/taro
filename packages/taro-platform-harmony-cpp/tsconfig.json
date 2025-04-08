@@ -16,7 +16,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strictNullChecks": true,
-    "target": "ES2015"
+    "target": "ES2021"
   },
   "include": ["./scripts", "./src", "./types", "./cpp/types", "./rollup.config.mts"],
   "ts-node": {

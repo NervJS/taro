@@ -21,13 +21,21 @@ import { MethodHandler } from '../utils/handler'
 
 import type Taro from '@tarojs/taro/types'
 
+interface ILocation {
+  latitude: number
+  longitude: number
+  altitude: number
+  accuracy: number
+  speed: number
+}
+
 // 位置
 export const stopLocationUpdate = /* @__PURE__ */ temporarilyNotSupport('stopLocationUpdate')
 export const startLocationUpdateBackground = /* @__PURE__ */ temporarilyNotSupport('startLocationUpdateBackground')
 export const startLocationUpdate = /* @__PURE__ */ temporarilyNotSupport('startLocationUpdate')
 export const openLocation = /* @__PURE__ */ temporarilyNotSupport('openLocation')
 
-function formatLocation (location: Location) {
+function formatLocation (location: ILocation) {
   const wxLocate = {
     latitude: location.latitude,
     longitude: location.longitude,
@@ -61,7 +69,7 @@ export const getLocation: typeof Taro.getLocation = function (options = {}) {
         altitude,
         isHighAccuracy,
         highAccuracyExpireTime
-      }).then((location: Location) => {
+      }).then((location: any) => {
         if (location.code !== 0) {
           callAsyncFail(reject, location, options)
         } else {
@@ -82,7 +90,7 @@ export const onLocationChange: typeof Taro.onLocationChange = function (callback
   const handle = new MethodHandler<Partial<Taro.onLocationChange.CallbackResult>>({ name, complete: callback })
   try {
     validateParams(name, [callback], ['Function'])
-    geoLocationManager.on('locationChange', {}, (location: Location) => {
+    geoLocationManager.on('locationChange', {}, (location: any) => {
       if (location) {
         const wxLocate = formatLocation(location)
         callback(wxLocate)
@@ -100,14 +108,14 @@ export const offLocationChange: typeof Taro.offLocationChange = function (callba
   const handle = new MethodHandler<Partial<Taro.onLocationChange.CallbackResult>>({ name, complete: callback })
   try {
     validateParams(name, [callback], ['Function'])
-    geoLocationManager.off('locationChange', (location: Location) => {
+    geoLocationManager.off('locationChange', (location: any) => {
       const status = {
         errCode: 200,
         errMsg: location ? 'offLocationChange is off' : 'offLocationChange err'
       }
 
       if (callback) {
-        callback(status)
+        callback(status as any)
       }
     })
   } catch (error) {

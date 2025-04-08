@@ -107,12 +107,12 @@ export class TaroElement<
     // 混合开发的组件没办法自动更新，需要把父级的结点删掉新建
     // Current.nativeComponentNames会在render.ets中赋值
     if (Current.nativeComponentNames?.includes(this.tagName)) {
-      const idxOfRef = this.parentNode?.findIndex(this)
+      const idxOfRef = (this.parentNode as TaroDataSourceElement)?.findIndex(this)
 
       if (idxOfRef !== undefined) {
         this._nativeUpdateTrigger++
         if (this.isETS) {
-          this.parentNode?.notifyDataChange?.(idxOfRef)
+          (this.parentNode as TaroDataSourceElement)?.notifyDataChange?.(idxOfRef)
         }
       }
     }
@@ -215,13 +215,13 @@ export class TaroElement<
         }
       }, 0)
     } else if (this.parentNode) {
-      const idx = this.parentNode.findIndex(this)
-      this.parentNode.notifyDataDelete(idx)
+      const idx = (this.parentNode as TaroDataSourceElement).findIndex(this)
+      ;(this.parentNode as TaroDataSourceElement).notifyDataDelete(idx)
 
       // 下一帧播放，等实例被移除掉，再重新插入
       setTimeout(() => {
         // insert
-        this.parentNode?.notifyDataAdd(idx)
+        (this.parentNode as TaroDataSourceElement)?.notifyDataAdd(idx)
 
         // 执行动画
         if (playing) {

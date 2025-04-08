@@ -34,8 +34,8 @@ export class TaroMovableViewElement extends TaroElement<MovableViewProps & { ani
   _area?: Tsize
   // 自己元素的大小
   _selfSize?: Tsize
-  _areaInited: false
-  _selfSizeInited: false
+  _areaInited: boolean
+  _selfSizeInited: boolean
 
   // 元素的位置
   _position: Tpoint = {
