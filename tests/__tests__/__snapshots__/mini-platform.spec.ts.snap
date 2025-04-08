@@ -104,15 +104,6 @@ require("./runtime");
             setNavigationBarColor: {
                 alias: "setNavigationBar"
             },
-            saveImageToPhotosAlbum: {
-                alias: "saveImage",
-                options: {
-                    change: [ {
-                        old: "filePath",
-                        new: "url"
-                    } ]
-                }
-            },
             previewImage: {
                 options: {
                     set: [ {
@@ -950,11 +941,11 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_22_focus">
-  <input value="{{i.p14}}" type="{{i.p13||''}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'input-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{i.p1||'done'}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onInput="eh" onFocus="eh" onBlur="eh" onConfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
+  <input value="{{i.p14}}" type="{{i.p13||''}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'input-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{i.p1||'done'}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onInput="eh" onFocus="eh" onBlur="eh" onConfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
 <template name="tmpl_0_22_blur">
-  <input value="{{i.p14}}" type="{{i.p13||''}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'input-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" confirm-type="{{i.p1||'done'}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onInput="eh" onFocus="eh" onBlur="eh" onConfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
+  <input value="{{i.p14}}" type="{{i.p13||''}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'input-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" confirm-type="{{i.p1||'done'}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onInput="eh" onFocus="eh" onBlur="eh" onConfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
 <template name="tmpl_0_18">
@@ -968,11 +959,11 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_45_focus">
-  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'textarea-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onFocus="eh" onBlur="eh" onLineChange="eh" onInput="eh" onConfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
+  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'textarea-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onFocus="eh" onBlur="eh" onLineChange="eh" onInput="eh" onConfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
 <template name="tmpl_0_45_blur">
-  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'textarea-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onFocus="eh" onBlur="eh" onLineChange="eh" onInput="eh" onConfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
+  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'textarea-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onFocus="eh" onBlur="eh" onLineChange="eh" onInput="eh" onConfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
 <template name="tmpl_0_19">
@@ -2068,11 +2059,11 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_22_focus">
-  <input value="{{i.p14}}" type="{{i.p13||''}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'input-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{i.p1||'done'}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
+  <input value="{{i.p14}}" type="{{i.p13||''}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'input-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{i.p1||'done'}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
 <template name="tmpl_0_22_blur">
-  <input value="{{i.p14}}" type="{{i.p13||''}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'input-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" confirm-type="{{i.p1||'done'}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
+  <input value="{{i.p14}}" type="{{i.p13||''}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'input-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" confirm-type="{{i.p1||'done'}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
 <template name="tmpl_0_18">
@@ -2086,11 +2077,11 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_45_focus">
-  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'textarea-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
+  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'textarea-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
 <template name="tmpl_0_45_blur">
-  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'textarea-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
+  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'textarea-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
 <template name="tmpl_0_19">
@@ -3045,11 +3036,11 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_22_focus">
-  <input value="{{i.p14}}" type="{{i.p13||''}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'input-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{i.p1||'done'}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
+  <input value="{{i.p14}}" type="{{i.p13||''}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'input-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{i.p1||'done'}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
 <template name="tmpl_0_22_blur">
-  <input value="{{i.p14}}" type="{{i.p13||''}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'input-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" confirm-type="{{i.p1||'done'}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
+  <input value="{{i.p14}}" type="{{i.p13||''}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'input-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" confirm-type="{{i.p1||'done'}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
 <template name="tmpl_0_18">
@@ -3063,11 +3054,11 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_45_focus">
-  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'textarea-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
+  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'textarea-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
 <template name="tmpl_0_45_blur">
-  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'textarea-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
+  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{i.p9||'textarea-placeholder'}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
 <template name="tmpl_0_19">

@@ -1,4 +1,4 @@
-img[src=""] {
+img[src=''] {
   opacity: 0;
 }
 
@@ -6,12 +6,16 @@ img[src=""] {
   display: inline-block;
   overflow: hidden;
   position: relative;
-  font-size: 0;
   width: 320px;
   height: 240px;
+  font-size: 0;
 }
 
 .taro-img.taro-img__widthfix {
+  height: 100%;
+}
+
+.taro-img__mode-heightfix {
   height: 100%;
 }
 
@@ -21,15 +25,15 @@ img[src=""] {
 }
 
 .taro-img__mode-aspectfit {
-  object-fit: contain;
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 .taro-img__mode-aspectfill {
-  object-fit: cover;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .taro-img__mode-widthfix {
@@ -37,23 +41,36 @@ img[src=""] {
 }
 
 .taro-img__mode-top {
-  width: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
 .taro-img__mode-bottom {
-  width: 100%;
   position: absolute;
+  left: 50%;
   bottom: 0;
+  transform: translate(-50%, 0);
+}
+
+.taro-img__mode-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .taro-img__mode-left {
-  height: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
 }
 
 .taro-img__mode-right {
   position: absolute;
-  height: 100%;
   right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
 }
 
 .taro-img__mode-topright {

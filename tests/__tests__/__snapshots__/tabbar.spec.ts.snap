@@ -2040,15 +2040,6 @@ require("./runtime");
             setNavigationBarColor: {
                 alias: "setNavigationBar"
             },
-            saveImageToPhotosAlbum: {
-                alias: "saveImage",
-                options: {
-                    change: [ {
-                        old: "filePath",
-                        new: "url"
-                    } ]
-                }
-            },
             previewImage: {
                 options: {
                     set: [ {
