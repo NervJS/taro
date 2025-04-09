@@ -32,8 +32,12 @@ export default async function (appPath: string, rawTaroConfig: ViteHarmonyBuildC
     plugins,
   }
 
-  taroConfig.modifyViteConfig?.(commonConfig, {
-    componentConfig
-  })
+  taroConfig.modifyViteConfig?.(
+    commonConfig,
+    {
+      componentConfig
+    },
+    viteCompilerContext
+  )
   await build(commonConfig)
 }
