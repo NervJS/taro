@@ -5,7 +5,7 @@ import * as resolve from 'resolve'
 
 import { PluginType } from './constants'
 
-import type { PluginItem } from '@tarojs/taro/types/compile'
+import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 import type { IPlugin, IPluginsObject } from './types'
 
 export const isNpmPkg: (name: string) => boolean = name => !(/^(\.|\/)/.test(name))
@@ -115,4 +115,20 @@ export function printHelpLog (command, optionsList: Map<string, string>, synopsi
       console.log(`  $ ${item}`)
     })
   }
+}
+
+export function filterGlobalConfig (globalConfig: IProjectConfig, command: string) {
+  if (!command) {
+    return globalConfig
+  }
+  const config = globalConfig
+
+  const RelatedPluginTag = `@jdtaro/plugin-${command}-`
+  if (config.plugins?.length) {
+    config.plugins = config.plugins.filter(pluginName => {
+      return pluginName.includes(RelatedPluginTag)
+    })
+  }
+
+  return config
 }

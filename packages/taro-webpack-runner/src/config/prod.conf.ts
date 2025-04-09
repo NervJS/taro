@@ -112,6 +112,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
     /** hooks & methods */
     onCompilerMake: config.onCompilerMake,
     onParseCreateElement: config.onParseCreateElement,
+    modifyAppConfig: config.modifyAppConfig
   })
 
   if (enableExtract) {
