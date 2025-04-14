@@ -1,10 +1,10 @@
 import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import ts from '@rollup/plugin-typescript'
 import { mergeWith } from 'lodash'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
+import ts from 'rollup-plugin-ts'
 
 import type { InputPluginOption, RollupOptions } from 'rollup'
 
@@ -24,7 +24,10 @@ const baseConfig: RollupOptions = {
       mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }) as InputPluginOption,
     ts({
-      exclude: ['rollup.config.ts']
+      tsconfig: (e) => ({
+        ...e,
+        sourceMap: true,
+      }),
     }),
     commonjs() as InputPluginOption,
     postcss({

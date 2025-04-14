@@ -47,7 +47,7 @@
     "rollup": "^3.29.4",
     "rollup-plugin-copy": "workspace:*",
     "rollup-plugin-node-externals": "^5.0.0",
-    "@rollup/plugin-typescript": "^12.1.2",
+    "rollup-plugin-ts": "^3.4.5",
     "solid-js": "^1.8.16",
     "tslib": "^2.4.0"
   }
