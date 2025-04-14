@@ -1883,7 +1883,7 @@ module.exports = {
         function _defineProperties(e, r) {
             for (var t = 0; t < r.length; t++) {
                 var o = r[t];
-                o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0),
+                o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), 
                 Object.defineProperty(e, toPropertyKey(o.key), o);
             }
         }
@@ -2079,21 +2079,6 @@ require("./runtime");
                     change: [ {
                         old: "tempFilePath",
                         new: "apFilePath"
-                    } ]
-                }
-            },
-            openLocation: {
-                options: {
-                    set: [ {
-                        key: "latitude",
-                        value(options) {
-                            return String(options.latitude);
-                        }
-                    }, {
-                        key: "longitude",
-                        value(options) {
-                            return String(options.longitude);
-                        }
                     } ]
                 }
             },
@@ -3211,7 +3196,7 @@ export default {
         function _defineProperties(e, r) {
             for (var t = 0; t < r.length; t++) {
                 var o = r[t];
-                o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0),
+                o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), 
                 Object.defineProperty(e, toPropertyKey(o.key), o);
             }
         }
@@ -4964,7 +4949,7 @@ module.exports = {
         function _defineProperties(e, r) {
             for (var t = 0; t < r.length; t++) {
                 var o = r[t];
-                o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0),
+                o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), 
                 Object.defineProperty(e, toPropertyKey(o.key), o);
             }
         }
