@@ -3,6 +3,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import ts from '@rollup/plugin-typescript'
 import { mergeWith } from 'lodash'
 import { defineConfig } from 'rollup'
+import { dts } from 'rollup-plugin-dts'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
 
@@ -46,6 +47,20 @@ const variesConfig: RollupOptions[] = [
   },
 ]
 
+variesConfig.push({
+  input: 'src/index.ts',
+  output: {
+    file: 'dist/index.esm.js',
+    inlineDynamicImports: true
+  }
+},
+{
+  // 需要该配置才能生成打包的 .d.ts 文件供 taro-platform-h5\build\definition-json\parser.ts 生成 apis 配置
+  input: 'src/index.ts',
+  output: { file: 'dist/index.esm.d.ts' },
+  plugins: [dts()]
+})
+
 if (process.env.NODE_ENV === 'production') {
   variesConfig.push(
     {
@@ -55,24 +70,9 @@ if (process.env.NODE_ENV === 'production') {
         file: 'dist/index.cjs.js',
         inlineDynamicImports: true,
       },
-    },
-    {
-      input: 'src/index.ts',
-      output: {
-        file: 'dist/index.esm.js',
-        inlineDynamicImports: true,
-      },
     }
   )
 }
-
-variesConfig.push({
-  input: 'src/index.ts',
-  output: {
-    file: 'dist/index.esm.js',
-    inlineDynamicImports: true
-  }
-})
 
 export default defineConfig(
   variesConfig.map((v) => {
