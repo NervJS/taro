@@ -1227,9 +1227,6 @@ importers:
       '@rollup/plugin-node-resolve':
         specifier: ^15.2.3
         version: 15.2.3(rollup@3.29.4)
-      '@rollup/plugin-typescript':
-        specifier: ^12.1.2
-        version: 12.1.2(rollup@3.29.4)(tslib@2.6.2)(typescript@5.4.5)
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -1269,6 +1266,9 @@ importers:
       rollup-plugin-node-externals:
         specifier: ^5.0.0
         version: 5.1.3(rollup@3.29.4)
+      rollup-plugin-ts:
+        specifier: ^3.4.5
+        version: 3.4.5(@babel/core@7.24.4)(@babel/plugin-transform-runtime@7.24.6(@babel/core@7.24.4))(@babel/preset-env@7.24.6(@babel/core@7.24.4))(@babel/preset-typescript@7.24.6(@babel/core@7.24.4))(@babel/runtime@7.24.6)(@swc/core@1.3.96)(rollup@3.29.4)(typescript@5.4.5)
       swiper:
         specifier: 11.1.15
         version: 11.1.15
@@ -1456,9 +1456,6 @@ importers:
         specifier: ^3.2.3
         version: 3.2.3
     devDependencies:
-      '@rollup/plugin-typescript':
-        specifier: ^12.1.2
-        version: 12.1.2(rollup@3.29.4)(tslib@2.6.2)(typescript@5.4.5)
       fast-glob:
         specifier: ^3.3.1
         version: 3.3.2
@@ -1471,6 +1468,9 @@ importers:
       rollup-plugin-node-externals:
         specifier: ^5.0.0
         version: 5.1.3(rollup@3.29.4)
+      rollup-plugin-ts:
+        specifier: ^3.4.5
+        version: 3.4.5(@babel/core@7.24.4)(@babel/plugin-transform-runtime@7.24.6(@babel/core@7.24.4))(@babel/preset-env@7.24.6(@babel/core@7.24.4))(@babel/preset-typescript@7.24.6(@babel/core@7.24.4))(@babel/runtime@7.24.6)(@swc/core@1.3.96)(rollup@3.29.4)(typescript@5.4.5)
       solid-js:
         specifier: ^1.8.16
         version: 1.8.17
@@ -1545,7 +1545,7 @@ importers:
         specifier: ^15.2.3
         version: 15.2.3(rollup@3.29.4)
       '@rollup/plugin-typescript':
-        specifier: ^11.1.6
+        specifier: ^11.1.0
         version: 11.1.6(rollup@3.29.4)(tslib@2.6.2)(typescript@5.4.5)
       '@tarojs/taro':
         specifier: workspace:*
@@ -1565,6 +1565,9 @@ importers:
       rollup-plugin-node-externals:
         specifier: ^5.0.0
         version: 5.1.3(rollup@3.29.4)
+      rollup-plugin-ts:
+        specifier: ^3.4.5
+        version: 3.4.5(@babel/core@7.24.4)(@babel/plugin-transform-runtime@7.24.6(@babel/core@7.24.4))(@babel/preset-env@7.24.6(@babel/core@7.24.4))(@babel/preset-typescript@7.24.6(@babel/core@7.24.4))(@babel/runtime@7.24.6)(@swc/core@1.3.96)(rollup@3.29.4)(typescript@5.4.5)
       tsconfig-paths:
         specifier: ^3.14.1
         version: 3.15.0
@@ -2273,9 +2276,6 @@ importers:
         specifier: ^2.6.2
         version: 2.6.2
     devDependencies:
-      '@rollup/plugin-typescript':
-        specifier: ^12.1.2
-        version: 12.1.2(rollup@4.37.0)(tslib@2.6.2)
       '@types/react':
         specifier: ^18.2.79
         version: 18.3.3
@@ -2291,6 +2291,9 @@ importers:
       rollup:
         specifier: ^4.37.0
         version: 4.37.0
+      rollup-plugin-ts:
+        specifier: ^3.4.5
+        version: 3.4.5(@babel/core@7.24.4)(@babel/plugin-transform-runtime@7.24.6(@babel/core@7.24.4))(@babel/preset-env@7.24.6(@babel/core@7.24.4))(@babel/preset-typescript@7.24.6(@babel/core@7.24.4))(@babel/runtime@7.24.6)(@swc/core@1.3.96)(rollup@4.37.0)(typescript@5.4.5)
 
   packages/taro-runtime-rn:
     dependencies:
@@ -4979,6 +4982,9 @@ packages:
     resolution: {integrity: sha512-/gKJun8NNiWGZJkGzI/Ragc53cOdcLNdzjLaIa+GEjguQs0ulsurx8WN0jijdK9yPqDvziX995sMRLyLt1uZMQ==}
     engines: {node: '>= 0.4'}
 
+  '@mdn/browser-compat-data@5.5.30':
+    resolution: {integrity: sha512-ahKPOhFXDDDKJnhcScp6h/QnRS0L0GK3tnqV+8HgMRJ9K4IXsQOsyC9AwRKbcM+WK896o+yyliU7OdASyIYERw==}
+
   '@napi-rs/cli@3.0.0-alpha.5':
     resolution: {integrity: sha512-zT5yAMSsBM2LDwiVKCTCI4+mUnuhSShvVV963u0wu7JTuCy2HERRyOai3QtZ/anEVusPIjEhd9nXj35qwBWlOA==}
     engines: {node: '>= 16'}
@@ -5410,19 +5416,6 @@ packages:
 
   '@rollup/plugin-typescript@11.1.6':
     resolution: {integrity: sha512-R92yOmIACgYdJ7dJ97p4K69I8gg6IEHt8M7dUBxN3W6nrO8uUxX5ixl0yU/N3aZTi8WhPuICvOHXQvF6FaykAA==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^2.14.0||^3.0.0||^4.0.0
-      tslib: '*'
-      typescript: '>=3.7.0'
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-      tslib:
-        optional: true
-
-  '@rollup/plugin-typescript@12.1.2':
-    resolution: {integrity: sha512-cdtSp154H5sv637uMr1a8OTWB0L1SWDSm1rDGiyfcGcvQ6cuTs4MDk2BVEBGysUWago4OJN4EQZqOTl/QY3Jgg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.14.0||^3.0.0||^4.0.0
@@ -6230,6 +6223,9 @@ packages:
   '@types/node@16.9.1':
     resolution: {integrity: sha512-QpLcX9ZSsq3YYUUnD3nFDY8H7wctAhQj/TFKL8Ya8v5fMm3CFXxo8zStsLAl780ltoYoo1WvKUVGBQK+1ifr7g==}
 
+  '@types/node@17.0.45':
+    resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
+
   '@types/node@18.19.33':
     resolution: {integrity: sha512-NR9+KrpSajr2qBVp/Yt5TU/rp+b5Mayi3+OlMlcg2cVCfRmcG5PWZ7S4+MG9PZ5gWBoc9Pd0BKSRViuBCRPu0A==}
 
@@ -6238,6 +6234,9 @@ packages:
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
+
+  '@types/object-path@0.11.4':
+    resolution: {integrity: sha512-4tgJ1Z3elF/tOMpA8JLVuR9spt9Ynsf7+JjqsQ2IqtiPJtcLoHoXcT6qU4E10cPFqyXX5HDm9QwIzZhBSkLxsw==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -6334,6 +6333,9 @@ packages:
 
   '@types/tough-cookie@4.0.5':
     resolution: {integrity: sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==}
+
+  '@types/ua-parser-js@0.7.39':
+    resolution: {integrity: sha512-P/oDfpofrdtF5xw433SPALpdSchtJmY7nsJItf8h3KXqOslkbySh8zq4dSWXH2oTjRvJ5PczVEoCZPow6GicLg==}
 
   '@types/uglify-js@3.17.5':
     resolution: {integrity: sha512-TU+fZFBTBcXj/GpDpDaBmgWk/gn96kMZ+uocaFUlV2f8a6WdMzzI44QBCmGcCiYR0Y6ZlNRiyUyKKt5nl/lbzQ==}
@@ -6674,6 +6676,10 @@ packages:
   '@webassemblyjs/wast-printer@1.12.1':
     resolution: {integrity: sha512-+X4WAlOisVWQMikjbcvY2e0rwPsKQ9F688lksZhBcPycBBuii3O7m8FACbDMWDojpAqvjIncrG8J0XHKyQfVeA==}
 
+  '@wessberg/stringutil@1.0.19':
+    resolution: {integrity: sha512-9AZHVXWlpN8Cn9k5BC/O0Dzb9E9xfEMXzYrNunwvkUTvuK7xgQPVRZpLo+jWCOZ5r8oBa8NIrHuPEu1hzbb6bg==}
+    engines: {node: '>=8.0.0'}
+
   '@xmldom/xmldom@0.7.13':
     resolution: {integrity: sha512-lm2GW5PkosIzccsaZIz7tp8cPADSIlIHWDFTR1N0SzfinhhYgeIQjFMz4rYzanCScr3DqQLeomUDArp6MWKm+g==}
     engines: {node: '>=10.0.0'}
@@ -6809,6 +6815,10 @@ packages:
 
   ansi-align@2.0.0:
     resolution: {integrity: sha512-TdlOggdA/zURfMYa7ABC66j+oqfMew58KpJMbUlH3bcZP1b+cBHIHDDn5uH9INsxrHBPjsqM0tDB4jPTF/vgJA==}
+
+  ansi-colors@4.1.3:
+    resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
+    engines: {node: '>=6'}
 
   ansi-escapes@4.3.2:
     resolution: {integrity: sha512-gKXj5ALrKWQLsYG9jlTRmR/xKluxHV+Z9QEwNIgCfM1/uwPMCuzVVnh5mwTd+OuBZcwSIMbqssNWRm1lE51QaQ==}
@@ -7330,6 +7340,10 @@ packages:
   browser-process-hrtime@1.0.0:
     resolution: {integrity: sha512-9o5UecI3GhkpM6DrXr69PblIuWxPKk9Y0jHBRhdocZ2y7YECBFCsHm79Pr3OyR2AvjhDkabFJaDJMYRazHgsow==}
 
+  browserslist-generator@2.1.0:
+    resolution: {integrity: sha512-ZFz4mAOgqm0cbwKaZsfJbYDbTXGoPANlte7qRsRJOfjB9KmmISQrXJxAVrnXG8C8v/QHNzXyeJt0Cfcks6zZvQ==}
+    engines: {node: '>=16.15.1', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
+
   browserslist@4.23.0:
     resolution: {integrity: sha512-QW8HiM1shhT2GuzkvklfjcKDiWFXHOeFCIA/huJPwHsslwcydgk7X+z2zXpEijP98UCY7HbubZt5J2Zgvf0CaQ==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
@@ -7760,6 +7774,12 @@ packages:
   compare-func@2.0.0:
     resolution: {integrity: sha512-zHig5N+tPWARooBnb0Zx1MFcdfpyJrfTJ3Y5L+IFvUm8rM74hHz66z0gw0x4tijh5CorKkKUCnW82R2vmpeCRA==}
 
+  compatfactory@3.0.0:
+    resolution: {integrity: sha512-WD5kF7koPwVoyKL8p0LlrmIZtilrD46sQStyzzxzTFinMKN2Dxk1hN+sddLSQU1mGIZvQfU8c+ONSghvvM40jg==}
+    engines: {node: '>=14.9.0'}
+    peerDependencies:
+      typescript: '>=3.x || >= 4.x || >= 5.x'
+
   component-bind@1.0.0:
     resolution: {integrity: sha512-WZveuKPeKAG9qY+FkYDeADzdHyTYdIboXS59ixDeRJL5ZhxpqUnxSOwop4FQjMsiYm3/Or8cegVbpAHNA7pHxw==}
 
@@ -8049,6 +8069,10 @@ packages:
   cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
+
+  crosspath@2.0.0:
+    resolution: {integrity: sha512-ju88BYCQ2uvjO2bR+SsgLSTwTSctU+6Vp2ePbKPgSCZyy4MWZxYsT738DlKVRE5utUjobjPRm1MkTYKJxCmpTA==}
+    engines: {node: '>=14.9.0'}
 
   crypt@0.0.2:
     resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
@@ -9830,6 +9854,10 @@ packages:
   header-case@2.0.4:
     resolution: {integrity: sha512-H/vuk5TEEVZwrR0lp2zed9OCo1uAILMlx0JEMgC26rzyJJ3N1v6XkwHHXJQdR2doSjcGPM6OKPYoJgf0plJ11Q==}
 
+  helpertypes@0.0.19:
+    resolution: {integrity: sha512-J00e55zffgi3yVnUp0UdbMztNkr2PnizEkOe9URNohnrNhW5X0QpegkuLpOmFQInpi93Nb8MCjQRHAiCDF42NQ==}
+    engines: {node: '>=10.0.0'}
+
   hermes-estree@0.15.0:
     resolution: {integrity: sha512-lLYvAd+6BnOqWdnNbP/Q8xfl8LOGw4wVjfrNd9Gt8eoFzhNBRVD95n4l2ksfMVOoxuVyegs85g83KS9QOsxbVQ==}
 
@@ -10493,6 +10521,10 @@ packages:
 
   isarray@2.0.5:
     resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
+
+  isbot@3.8.0:
+    resolution: {integrity: sha512-vne1mzQUTR+qsMLeCBL9+/tgnDXRyc2pygLGl/WsgA+EZKIiB5Ehu0CiVTHIIk30zhJ24uGz4M5Ppse37aR0Hg==}
+    engines: {node: '>=12'}
 
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
@@ -12066,6 +12098,10 @@ packages:
   object-keys@1.1.1:
     resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==}
     engines: {node: '>= 0.4'}
+
+  object-path@0.11.8:
+    resolution: {integrity: sha512-YJjNZrlXJFM42wTBn6zgOJVar9KFJvzx6sTWDte8sWZF//cnjl0BxHNpfZx+ZffXX63A9q0b1zsFiBX4g4X5KA==}
+    engines: {node: '>= 10.12.0'}
 
   object-visit@1.0.1:
     resolution: {integrity: sha512-GBaMwwAVK9qbQN3Scdo0OyvgPW7l3lnaVMj84uTOZlswkX0KpF6fyDBJhtTthf7pymztoN36/KEr1DyhF96zEA==}
@@ -13718,6 +13754,36 @@ packages:
     peerDependencies:
       postcss: 8.x
 
+  rollup-plugin-ts@3.4.5:
+    resolution: {integrity: sha512-9iCstRJpEZXSRQuXitlSZAzcGlrqTbJg1pE4CMbEi6xYldxVncdPyzA2I+j6vnh73wBymZckerS+Q/iEE/M3Ow==}
+    engines: {node: '>=16.15.1', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
+    deprecated: please use @rollup/plugin-typescript and rollup-plugin-dts instead
+    peerDependencies:
+      '@babel/core': '>=7.x'
+      '@babel/plugin-transform-runtime': '>=7.x'
+      '@babel/preset-env': '>=7.x'
+      '@babel/preset-typescript': '>=7.x'
+      '@babel/runtime': '>=7.x'
+      '@swc/core': '>=1.x'
+      '@swc/helpers': '>=0.2'
+      rollup: '>=1.x || >=2.x || >=3.x'
+      typescript: '>=3.2.x || >= 4.x || >= 5.x'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/plugin-transform-runtime':
+        optional: true
+      '@babel/preset-env':
+        optional: true
+      '@babel/preset-typescript':
+        optional: true
+      '@babel/runtime':
+        optional: true
+      '@swc/core':
+        optional: true
+      '@swc/helpers':
+        optional: true
+
   rollup-pluginutils@2.8.2:
     resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
 
@@ -14805,6 +14871,12 @@ packages:
     engines: {node: '>=16'}
     peerDependencies:
       typescript: '>=4.2.0'
+
+  ts-clone-node@3.0.0:
+    resolution: {integrity: sha512-egavvyHbIoelkgh1IC2agNB1uMNjB8VJgh0g/cn0bg2XXTcrtjrGMzEk4OD3Fi2hocICjP3vMa56nkzIzq0FRg==}
+    engines: {node: '>=14.9.0'}
+    peerDependencies:
+      typescript: ^3.x || ^4.x || ^5.x
 
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
@@ -18455,6 +18527,8 @@ snapshots:
     dependencies:
       call-bind: 1.0.7
 
+  '@mdn/browser-compat-data@5.5.30': {}
+
   '@napi-rs/cli@3.0.0-alpha.5':
     dependencies:
       '@octokit/rest': 20.1.1
@@ -19203,23 +19277,6 @@ snapshots:
       rollup: 4.18.0
       tslib: 2.6.2
 
-  '@rollup/plugin-typescript@12.1.2(rollup@3.29.4)(tslib@2.6.2)(typescript@5.4.5)':
-    dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@3.29.4)
-      resolve: 1.22.8
-      typescript: 5.4.5
-    optionalDependencies:
-      rollup: 3.29.4
-      tslib: 2.6.2
-
-  '@rollup/plugin-typescript@12.1.2(rollup@4.37.0)(tslib@2.6.2)':
-    dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.37.0)
-      resolve: 1.22.8
-    optionalDependencies:
-      rollup: 4.37.0
-      tslib: 2.6.2
-
   '@rollup/pluginutils@3.1.0(rollup@4.18.0)':
     dependencies:
       '@types/estree': 0.0.39
@@ -19892,6 +19949,8 @@ snapshots:
 
   '@types/node@16.9.1': {}
 
+  '@types/node@17.0.45': {}
+
   '@types/node@18.19.33':
     dependencies:
       undici-types: 5.26.5
@@ -19899,6 +19958,8 @@ snapshots:
   '@types/node@20.5.1': {}
 
   '@types/normalize-package-data@2.4.4': {}
+
+  '@types/object-path@0.11.4': {}
 
   '@types/parse-json@4.0.2': {}
 
@@ -20003,6 +20064,8 @@ snapshots:
       '@types/node': 18.19.33
 
   '@types/tough-cookie@4.0.5': {}
+
+  '@types/ua-parser-js@0.7.39': {}
 
   '@types/uglify-js@3.17.5':
     dependencies:
@@ -20571,6 +20634,8 @@ snapshots:
       '@webassemblyjs/ast': 1.12.1
       '@xtuc/long': 4.2.2
 
+  '@wessberg/stringutil@1.0.19': {}
+
   '@xmldom/xmldom@0.7.13': {}
 
   '@xmldom/xmldom@0.8.10': {}
@@ -20694,6 +20759,8 @@ snapshots:
   ansi-align@2.0.0:
     dependencies:
       string-width: 2.1.1
+
+  ansi-colors@4.1.3: {}
 
   ansi-escapes@4.3.2:
     dependencies:
@@ -21408,6 +21475,19 @@ snapshots:
 
   browser-process-hrtime@1.0.0: {}
 
+  browserslist-generator@2.1.0:
+    dependencies:
+      '@mdn/browser-compat-data': 5.5.30
+      '@types/object-path': 0.11.4
+      '@types/semver': 7.5.8
+      '@types/ua-parser-js': 0.7.39
+      browserslist: 4.23.0
+      caniuse-lite: 1.0.30001625
+      isbot: 3.8.0
+      object-path: 0.11.8
+      semver: 7.6.2
+      ua-parser-js: 1.0.38
+
   browserslist@4.23.0:
     dependencies:
       caniuse-lite: 1.0.30001625
@@ -21878,6 +21958,11 @@ snapshots:
       array-ify: 1.0.0
       dot-prop: 5.3.0
 
+  compatfactory@3.0.0(typescript@5.4.5):
+    dependencies:
+      helpertypes: 0.0.19
+      typescript: 5.4.5
+
   component-bind@1.0.0: {}
 
   component-emitter@1.2.1: {}
@@ -22293,6 +22378,10 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  crosspath@2.0.0:
+    dependencies:
+      '@types/node': 17.0.45
 
   crypt@0.0.2: {}
 
@@ -24718,6 +24807,8 @@ snapshots:
       capital-case: 1.0.4
       tslib: 2.6.2
 
+  helpertypes@0.0.19: {}
+
   hermes-estree@0.15.0: {}
 
   hermes-estree@0.19.1: {}
@@ -25352,6 +25443,8 @@ snapshots:
   isarray@2.0.1: {}
 
   isarray@2.0.5: {}
+
+  isbot@3.8.0: {}
 
   isexe@2.0.0: {}
 
@@ -27805,6 +27898,8 @@ snapshots:
 
   object-keys@1.1.1: {}
 
+  object-path@0.11.8: {}
+
   object-visit@1.0.1:
     dependencies:
       isobject: 3.0.1
@@ -29520,6 +29615,50 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
+  rollup-plugin-ts@3.4.5(@babel/core@7.24.4)(@babel/plugin-transform-runtime@7.24.6(@babel/core@7.24.4))(@babel/preset-env@7.24.6(@babel/core@7.24.4))(@babel/preset-typescript@7.24.6(@babel/core@7.24.4))(@babel/runtime@7.24.6)(@swc/core@1.3.96)(rollup@3.29.4)(typescript@5.4.5):
+    dependencies:
+      '@rollup/pluginutils': 5.1.0(rollup@3.29.4)
+      '@wessberg/stringutil': 1.0.19
+      ansi-colors: 4.1.3
+      browserslist: 4.23.0
+      browserslist-generator: 2.1.0
+      compatfactory: 3.0.0(typescript@5.4.5)
+      crosspath: 2.0.0
+      magic-string: 0.30.10
+      rollup: 3.29.4
+      ts-clone-node: 3.0.0(typescript@5.4.5)
+      tslib: 2.6.2
+      typescript: 5.4.5
+    optionalDependencies:
+      '@babel/core': 7.24.4(supports-color@9.4.0)
+      '@babel/plugin-transform-runtime': 7.24.6(@babel/core@7.24.4)
+      '@babel/preset-env': 7.24.6(@babel/core@7.24.4)
+      '@babel/preset-typescript': 7.24.6(@babel/core@7.24.4)
+      '@babel/runtime': 7.24.6
+      '@swc/core': 1.3.96
+
+  rollup-plugin-ts@3.4.5(@babel/core@7.24.4)(@babel/plugin-transform-runtime@7.24.6(@babel/core@7.24.4))(@babel/preset-env@7.24.6(@babel/core@7.24.4))(@babel/preset-typescript@7.24.6(@babel/core@7.24.4))(@babel/runtime@7.24.6)(@swc/core@1.3.96)(rollup@4.37.0)(typescript@5.4.5):
+    dependencies:
+      '@rollup/pluginutils': 5.1.0(rollup@4.37.0)
+      '@wessberg/stringutil': 1.0.19
+      ansi-colors: 4.1.3
+      browserslist: 4.23.0
+      browserslist-generator: 2.1.0
+      compatfactory: 3.0.0(typescript@5.4.5)
+      crosspath: 2.0.0
+      magic-string: 0.30.10
+      rollup: 4.37.0
+      ts-clone-node: 3.0.0(typescript@5.4.5)
+      tslib: 2.6.2
+      typescript: 5.4.5
+    optionalDependencies:
+      '@babel/core': 7.24.4(supports-color@9.4.0)
+      '@babel/plugin-transform-runtime': 7.24.6(@babel/core@7.24.4)
+      '@babel/preset-env': 7.24.6(@babel/core@7.24.4)
+      '@babel/preset-typescript': 7.24.6(@babel/core@7.24.4)
+      '@babel/runtime': 7.24.6
+      '@swc/core': 1.3.96
+
   rollup-pluginutils@2.8.2:
     dependencies:
       estree-walker: 0.6.1
@@ -30778,6 +30917,11 @@ snapshots:
 
   ts-api-utils@1.3.0(typescript@5.4.5):
     dependencies:
+      typescript: 5.4.5
+
+  ts-clone-node@3.0.0(typescript@5.4.5):
+    dependencies:
+      compatfactory: 3.0.0(typescript@5.4.5)
       typescript: 5.4.5
 
   ts-interface-checker@0.1.13: {}

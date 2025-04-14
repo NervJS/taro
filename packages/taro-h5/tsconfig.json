@@ -5,7 +5,7 @@
     "declaration": true,
     "outDir": "dist",
     "module": "ESNext",
-    "sourceMap": true
+    "sourceMap": false
   },
-  "include": ["./src", "./types", "rollup.config.ts"]
+  "include": ["./src", "./types", "rollup.config.mts"]
 }
