@@ -70,9 +70,9 @@ function updateClassList (dom: TaroElement, newValue: ClassList) {
   for (const key in newValue) {
     if (newValue[key]) {
       // 处理classList中包含空格分隔的类名
-      key.split(' ').forEach(className => className && addList.push(key))
+      key.split(' ').forEach(className => className && addList.push(className))
     } else {
-      key.split(' ').forEach(className => className && removeList.push(key))
+      key.split(' ').forEach(className => className && removeList.push(className))
     }
   }
   (dom.classList as any).add(...addList);
