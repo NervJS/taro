@@ -61,9 +61,9 @@ export default class Project extends Creator {
 
   constructor (options: IProjectConfOptions) {
     super(options.sourceRoot)
-    const unSupportedVer = semver.lt(process.version, 'v18.0.0')
+    const unSupportedVer = semver.lt(process.version, 'v20.0.0')
     if (unSupportedVer) {
-      throw new Error('Node.js 版本过低，推荐升级 Node.js 至 v18.0.0+')
+      throw new Error('Node.js 版本过低，推荐升级 Node.js 至 v20.0.0+')
     }
     this.rootPath = this._rootPath
 
@@ -81,7 +81,7 @@ export default class Project extends Creator {
 
   init () {
     clearConsole()
-    console.log(chalk.green('Taro 即将创建一个新项目!'))
+    console.log(chalk.green('Taro 即将创建一个新项目！'))
     console.log(`Need help? Go and open issue: ${chalk.blueBright('https://tls.jd.com/taro-issue-helper')}`)
     console.log()
   }
@@ -94,7 +94,7 @@ export default class Project extends Creator {
       this.conf.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
       this.write()
     } catch (error) {
-      console.log(chalk.red('创建项目失败: ', error))
+      console.log(chalk.red('创建项目失败：', error))
     }
   }
 
@@ -182,7 +182,7 @@ export default class Project extends Creator {
       prompts.push({
         type: 'confirm',
         name: 'typescript',
-        message: '是否需要使用 TypeScript ？'
+        message: '是否需要使用 TypeScript？'
       })
     }
   }
@@ -192,7 +192,7 @@ export default class Project extends Creator {
       prompts.push({
         type: 'confirm',
         name: 'buildEs5',
-        message: '是否需要编译为 ES5 ？',
+        message: '是否需要编译为 ES5？',
         default: false
       })
     }

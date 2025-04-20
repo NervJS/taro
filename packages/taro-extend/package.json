@@ -21,7 +21,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">=20"
   },
   "devDependencies": {
     "@tarojs/runtime": "workspace:*",

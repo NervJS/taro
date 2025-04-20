@@ -16,7 +16,7 @@
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">=20"
   },
   "dependencies": {
     "lodash": "^4.17.21"

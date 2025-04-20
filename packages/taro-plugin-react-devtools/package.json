@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "engines": {
-    "node": ">= 20"
+    "node": ">=20"
   },
   "dependencies": {
     "cross-spawn": "^7.0.3",

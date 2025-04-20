@@ -23,7 +23,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">=20"
   },
   "dependencies": {
     "stylelint-taro-rn": "workspace:*"

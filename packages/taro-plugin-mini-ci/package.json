@@ -29,7 +29,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">=20"
   },
   "dependencies": {
     "axios": "^1.6.8",

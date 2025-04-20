@@ -28,7 +28,7 @@
     "url": "https://github.com/NervJS/taro/tree/master/packages/taro-runtime"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">=20"
   },
   "dependencies": {
     "@tarojs/shared": "workspace:*",
