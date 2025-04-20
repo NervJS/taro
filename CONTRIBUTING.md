@@ -10,7 +10,7 @@
 
 ### 1. 环境准备
 
-> 需要安装 [Node.js 16](https://nodejs.org/en/)（建议安装 `16.20.0` 及以上版本）及 [pnpm 7](https://pnpm.io/zh/installation)
+> 需要安装 [Node.js 22](https://nodejs.org/en/)（建议安装 `v22.14.0` 及以上版本）及 [pnpm 10](https://pnpm.io/zh/installation)
 
 首先把 Taro 仓库 fork 一份到自己的 Github，然后从个人仓库把项目 clone 到本地，项目默认是 `main` 分支。
 
@@ -209,7 +209,7 @@ Cargo workspace 会把编译产物输出到根目录的 `target` 文件夹中。
 
 如对 `@taorjs/helper` 进行集成测试时，会把 `target/wasm32-wasip1/release/swc_plugin_xxx.wasm` 文件的软链到 `packages/taro-helper/swc/swc_plugin_xxx.wasm`。
 
-#### 
+####
 
 ## Credits
 

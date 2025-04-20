@@ -6,7 +6,10 @@
     "rootDir": "./src",
     "module": "commonjs",
     "sourceMap": true,
-    "declaration": true
+    "declaration": true,
+    "paths": {
+      "@babel/types": ["./node_modules/@babel/types"]
+    }
   },
   "include": ["./src"],
   "exclude": ["./src/__tests__"]

@@ -789,13 +789,13 @@ export class RenderParser {
       }
       if (t.isIdentifier(parentNode.left)) {
         const assignmentName = parentNode.left.name
-        const renderScope: Scope = isIfStemInLoop
+        const renderScope: Scope | undefined = isIfStemInLoop
           ? jsxElementPath
             .findParent((p) => isArrayMapCallExpression(p as any))
             ?.get('arguments')[0]
             .get('body').scope
           : this.renderScope
-        const bindingNode = renderScope.getOwnBinding(assignmentName)!.path.node as any
+        const bindingNode = renderScope?.getOwnBinding(assignmentName)!.path.node as any
         const parallelIfStems = this.findParallelIfStem(ifStatement as any)
         const parentIfStatement = ifStatement?.findParent(
           (p) => p.isIfStatement() && !parallelIfStems.has(p as any)
@@ -924,7 +924,7 @@ export class RenderParser {
             // setTemplate(name, path, templates)
             assignmentName && this.templates.set(assignmentName, block)
             if (isIfStemInLoop) {
-              this.replaceIdWithTemplate()(renderScope.path as any)
+              this.replaceIdWithTemplate()(renderScope?.path as any)
               this.returnedPaths.push(parentPath)
             }
           }

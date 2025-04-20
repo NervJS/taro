@@ -9,7 +9,10 @@
     "rootDir": "./src",
     "module": "commonjs",
     "preserveConstEnums": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "paths": {
+      "@babel/types": ["./node_modules/@babel/types"]
+    }
   },
   "include": ["./src"],
   "exclude": ["./src/__tests__"]
