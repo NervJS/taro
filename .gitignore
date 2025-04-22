@@ -83,3 +83,6 @@ artifacts
 
 # Node Addons
 *.node
+
+# publish
+publish.sh
