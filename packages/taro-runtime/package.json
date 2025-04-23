@@ -12,7 +12,9 @@
   "files": [
     "dist"
   ],
-  "sideEffects": [],
+  "sideEffects": [
+    "./dist/dom-external/index.js"
+  ],
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
