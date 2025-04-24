@@ -356,6 +356,12 @@ export class Swiper implements ComponentInterface {
           that.getNeedFixLoop() && e.loopFix();
           that.autoplay && e.autoplay.start()
         },
+        resize: (e) => {
+            // 如果size有值且autoplay未运行，尝试启动
+            if (e.size && that.autoplay && !e.autoplay.running) {
+              e.autoplay.start();
+            }
+        },
         touchEnd: (e) => {
           that.#source = 'touch'
           that.autoplay && e.autoplay.start()
@@ -444,10 +450,17 @@ export class Swiper implements ComponentInterface {
   }
 
   getCurrentItemId (swiper: ISwiper) {
-    const slides = swiper.slides
-    const activeIndex = swiper.activeIndex
-    const currentSlide = slides[activeIndex]
-    return currentSlide.getAttribute('item-id')
+    // if (!swiper?.slides?.length) return '';
+    if (this.circular) {
+      // 循环模式下使用realIndex获取真实索引
+      const realSlides = this.getSlidersList();
+      const currentSlide = realSlides[swiper.realIndex];
+      return currentSlide?.getAttribute('item-id') || '';
+    } else {
+      // 非循环模式直接使用activeIndex获取索引
+      const currentSlide = swiper.slides[swiper.activeIndex];
+      return currentSlide?.getAttribute('item-id') || '';
+    }
   }
 
   render () {

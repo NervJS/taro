@@ -195,6 +195,12 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
           that.getNeedFixLoop() && _swiper.loopFix()
           that.props.autoplay && _swiper.autoplay.start()
         },
+        resize: (e) => {
+          // 如果size有值且autoplay未运行，尝试启动
+          if (e.size && that.props.autoplay && !e.autoplay.running) {
+            e.autoplay.start()
+          }
+        },
         transitionEnd (_swiper) {
           if (that.#swiperResetting || that.#lastSwiperActiveIndex === _swiper.realIndex) return
           that.#lastSwiperActiveIndex = _swiper.realIndex
@@ -442,10 +448,17 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
   }
 
   getCurrentId (swiper: ISwiper) {
-    const slides = swiper.slides
-    const activeIndex = swiper.activeIndex
-    const currentSlide = slides[activeIndex]
-    return currentSlide.getAttribute('item-id')
+    // if (!swiper?.slides?.length) return '';
+    if (this.props.circular) {
+      // 循环模式下使用realIndex获取真实索引
+      const realSlides = this.getSlidersList()
+      const currentSlide = realSlides[swiper.realIndex]
+      return currentSlide?.getAttribute('item-id') || ''
+    } else {
+      // 非循环模式直接使用activeIndex获取索引
+      const currentSlide = swiper.slides[swiper.activeIndex]
+      return currentSlide?.getAttribute('item-id') || ''
+    }
   }
 
   render () {
