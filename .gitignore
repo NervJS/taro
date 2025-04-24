@@ -86,3 +86,6 @@ artifacts
 
 # publish
 publish.sh
+
+# 构建脚本
+build-helpr.sh
