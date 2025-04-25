@@ -21,7 +21,12 @@ export interface IOptions {
   useChoreLibrary?: 'local' | 'remote' | false | string
 }
 
-const harName = `${PKG_NAME}-${PKG_VERSION}.har`
+const staticDirname = 'static'
+let harName = `${PKG_NAME}-${PKG_VERSION}.har`
+if (!fs.existsSync(path.join(__dirname, '..', staticDirname, harName))) {
+  harName = require('fast-glob').sync('**/*.har', { cwd: path.join(__dirname, '..', staticDirname) })[0] || ''
+  console.log('使用 har', harName)
+}
 export default (ctx: IPluginContext, options: IOptions = {}) => {
   options.useChoreLibrary = options.useChoreLibrary ?? 'local'
 
@@ -35,6 +40,9 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
     if (options.useChoreLibrary) {
       opts.chorePackagePrefix ||= `${PKG_NAME}/src/main/ets/${NPM_DIR}`
       if (options.useChoreLibrary === 'local') {
+        if (!harName) {
+          console.warn(chalk.yellow('未找到 .har 文件。'))
+        }
         opts.ohPackage.dependencies[PKG_NAME] ||= `file:../static/${harName}`
       } else if (options.useChoreLibrary === 'remote') {
         opts.ohPackage.dependencies[PKG_NAME] ||= `^${PKG_VERSION}`
@@ -98,13 +106,13 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
         } catch (error) {
           console.log(`${C_API_TXT} 获取失败...`) // eslint-disable-line no-console
         }
-      } else if (options.useChoreLibrary === 'local') {
-        const harPath = path.join(argProjectPath || projectPath, 'static', harName)
+      } else if (options.useChoreLibrary === 'local' && harName) {
+        const harPath = path.join(argProjectPath || projectPath, staticDirname, harName)
         const harDir = path.dirname(harPath)
         fs.ensureDirSync(harDir)
         fs.emptyDirSync(harDir)
         fs.copyFileSync(
-          path.join(program.harmonyCppPluginPath, 'static', harName),
+          path.join(program.harmonyCppPluginPath, staticDirname, harName),
           harPath
         )
       }

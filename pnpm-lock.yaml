@@ -1519,6 +1519,9 @@ importers:
       '@types/react-reconciler':
         specifier: ^0.28.8
         version: 0.28.9(@types/react@18.3.20)
+      fast-glob:
+        specifier: ^3.3.2
+        version: 3.3.3
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -1574,9 +1577,6 @@ importers:
       '@types/node':
         specifier: ^18.19.34
         version: 18.19.86
-      fast-glob:
-        specifier: ^3.3.2
-        version: 3.3.3
       postcss:
         specifier: ^8.4.38
         version: 8.5.3
@@ -1607,42 +1607,6 @@ importers:
       vite:
         specifier: ^4.2.0
         version: 4.5.12(@types/node@18.19.86)(less@4.2.2)(lightningcss@1.29.3)(sass@1.86.2)(stylus@0.63.0)(terser@5.39.0)
-
-  packages/taro-platform-harmony-cpp/harmony_project/library/build/default/cache/default/default@PackageHar/npm/react:
-    dependencies:
-      loose-envify:
-        specifier: ^1.1.0
-        version: 1.4.0
-
-  packages/taro-platform-harmony-cpp/harmony_project/library/build/default/cache/default/default@PackageHar/npm/scheduler:
-    dependencies:
-      loose-envify:
-        specifier: ^1.1.0
-        version: 1.4.0
-
-  packages/taro-platform-harmony-cpp/harmony_project/library/build/default/intermediates/loader_out/default/npm/react:
-    dependencies:
-      loose-envify:
-        specifier: ^1.1.0
-        version: 1.4.0
-
-  packages/taro-platform-harmony-cpp/harmony_project/library/build/default/intermediates/loader_out/default/npm/scheduler:
-    dependencies:
-      loose-envify:
-        specifier: ^1.1.0
-        version: 1.4.0
-
-  packages/taro-platform-harmony-cpp/harmony_project/library/src/main/ets/npm/react:
-    dependencies:
-      loose-envify:
-        specifier: ^1.1.0
-        version: 1.4.0
-
-  packages/taro-platform-harmony-cpp/harmony_project/library/src/main/ets/npm/scheduler:
-    dependencies:
-      loose-envify:
-        specifier: ^1.1.0
-        version: 1.4.0
 
   packages/taro-platform-harmony-hybrid:
     dependencies:
