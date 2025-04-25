@@ -296,8 +296,8 @@ export function generateEnvList (env: Record<string, any>): Record<string, any> 
 /**
  * 获取 npm 文件或者依赖的绝对路径
  *
- * @param {string} 参数1 - 组件路径
- * @param {string} 参数2 - 文件扩展名
+ * @param {string} 参数 1 - 组件路径
+ * @param {string} 参数 2 - 文件扩展名
  * @returns {string} npm 文件绝对路径
  */
 export function getNpmPackageAbsolutePath (npmPath: string, defaultFile = 'index'): string | null {
@@ -603,9 +603,9 @@ function readSFCPageConfig(configPath: string) {
       p.stop()
     }
     const configSource = matches[0]
-    const ast = babel.parse(configSource, { filename: '' }) as babel.ParseResult
+    const program = (babel.parse(configSource, { filename: '' }))?.program
 
-    babel.traverse(ast.program, { CallExpression: callExprHandler })
+    program && babel.traverse(program, { CallExpression: callExprHandler })
   }
 
   return result

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "4.0.8",
+  "version": "4.0.13-alpha.0",
   "description": "cli tool for taro",
   "author": "O2Team",
   "license": "MIT",
@@ -8,6 +8,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "prod": "pnpm run build",
+    "postinstall": "node postinstall.js",
     "test": "cross-env NODE_ENV=test jest",
     "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=test jest --watch",
@@ -23,6 +24,7 @@
     "src",
     "dist",
     "templates",
+    "postinstall.js",
     "index.js",
     "global.d.ts"
   ],

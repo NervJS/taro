@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "4.0.8",
+  "version": "4.0.13-alpha.0",
   "description": "taro runtime for mini apps.",
   "author": "O2Team",
   "license": "MIT",
@@ -12,7 +12,9 @@
   "files": [
     "dist"
   ],
-  "sideEffects": [],
+  "sideEffects": [
+    "./dist/dom-external/index.js"
+  ],
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
@@ -31,14 +33,15 @@
     "node": ">= 18"
   },
   "dependencies": {
-    "tslib": "^2.6.2",
-    "@tarojs/shared": "workspace:*"
+    "@tarojs/shared": "workspace:*",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.79",
     "@vue/runtime-core": "^3.4.23",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
+    "rollup": "^4.37.0",
     "rollup-plugin-ts": "^3.4.5"
   }
 }

@@ -2176,7 +2176,7 @@
     },
     "custom-wrapper": true,
     "double-tap-gesture-handler": {
-      "should-response-on-move-worklet": false
+      "tag": false
     },
     "draggable-sheet": {
       "initial-child-size": false,
@@ -2193,7 +2193,9 @@
       "show-img-resize": false
     },
     "follow-swan": false,
-    "force-press-gesture-handler": false,
+    "force-press-gesture-handler": {
+      "tag": false
+    },
     "form": {
       "report-submit": false,
       "report-submit-timeout": false
@@ -2236,7 +2238,7 @@
       "padding": false
     },
     "horizontal-drag-gesture-handler": {
-      "should-response-on-move-worklet": false
+      "tag": false
     },
     "icon": {
       "type": {
@@ -2461,7 +2463,7 @@
     },
     "login": false,
     "long-press-gesture-handler": {
-      "should-response-on-move-worklet": false
+      "tag": false
     },
     "lottie": false,
     "map": {
@@ -2640,7 +2642,7 @@
       "page-orientation": false
     },
     "pan-gesture-handler": {
-      "should-response-on-move-worklet": false
+      "tag": false
     },
     "picker": {
       "mode": {
@@ -2742,7 +2744,7 @@
     "rtc-room": false,
     "rtc-room-item": false,
     "scale-gesture-handler": {
-      "should-response-on-move-worklet": false
+      "tag": false
     },
     "script": {
       "src": false,
@@ -2899,7 +2901,7 @@
     "tab-item": false,
     "tabs": false,
     "tap-gesture-handler": {
-      "should-response-on-move-worklet": false
+      "tag": false
     },
     "text": {
       "selectable": false,
@@ -2950,7 +2952,7 @@
       "default-value": false
     },
     "vertical-drag-gesture-handler": {
-      "should-response-on-move-worklet": false
+      "tag": false
     },
     "video": {
       "src": true,

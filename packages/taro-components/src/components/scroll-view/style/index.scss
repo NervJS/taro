@@ -1,7 +1,7 @@
 taro-scroll-view-core {
   display: block;
   width: 100%;
-  -webkit-overflow-scrolling: auto;
+  -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
     display: none;
