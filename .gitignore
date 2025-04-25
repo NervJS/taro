@@ -1,6 +1,7 @@
 dist/
 _book
 .idea
+.ssh
 
 # Logs & Lock
 *.log
