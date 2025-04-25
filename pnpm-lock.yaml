@@ -1527,7 +1527,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       react-reconciler:
         specifier: 0.29.0
-        version: link:harmony_project/library/src/main/ets/npm/react-reconciler
+        version: 0.29.0(react@18.3.1)
       rollup:
         specifier: ^3.29.4
         version: 3.29.5
@@ -1614,15 +1614,6 @@ importers:
         specifier: ^1.1.0
         version: 1.4.0
 
-  packages/taro-platform-harmony-cpp/harmony_project/library/build/default/cache/default/default@PackageHar/npm/react-reconciler:
-    dependencies:
-      loose-envify:
-        specifier: ^1.1.0
-        version: 1.4.0
-      scheduler:
-        specifier: ^0.23.0
-        version: link:../../../../../../../src/main/ets/npm/scheduler
-
   packages/taro-platform-harmony-cpp/harmony_project/library/build/default/cache/default/default@PackageHar/npm/scheduler:
     dependencies:
       loose-envify:
@@ -1635,15 +1626,6 @@ importers:
         specifier: ^1.1.0
         version: 1.4.0
 
-  packages/taro-platform-harmony-cpp/harmony_project/library/build/default/intermediates/loader_out/default/npm/react-reconciler:
-    dependencies:
-      loose-envify:
-        specifier: ^1.1.0
-        version: 1.4.0
-      scheduler:
-        specifier: ^0.23.0
-        version: link:../../../../../../../src/main/ets/npm/scheduler
-
   packages/taro-platform-harmony-cpp/harmony_project/library/build/default/intermediates/loader_out/default/npm/scheduler:
     dependencies:
       loose-envify:
@@ -1655,15 +1637,6 @@ importers:
       loose-envify:
         specifier: ^1.1.0
         version: 1.4.0
-
-  packages/taro-platform-harmony-cpp/harmony_project/library/src/main/ets/npm/react-reconciler:
-    dependencies:
-      loose-envify:
-        specifier: ^1.1.0
-        version: 1.4.0
-      scheduler:
-        specifier: ^0.23.0
-        version: link:../scheduler
 
   packages/taro-platform-harmony-cpp/harmony_project/library/src/main/ets/npm/scheduler:
     dependencies:
@@ -1975,7 +1948,7 @@ importers:
         version: link:../shared
       react-reconciler:
         specifier: 0.29.0
-        version: link:../taro-platform-harmony-cpp/harmony_project/library/src/main/ets/npm/react-reconciler
+        version: 0.29.0(react@18.3.1)
     devDependencies:
       '@types/react':
         specifier: ^18.2.79
@@ -13936,6 +13909,12 @@ packages:
     hasBin: true
     peerDependencies:
       react: 18.2.0
+
+  react-reconciler@0.29.0:
+    resolution: {integrity: sha512-wa0fGj7Zht1EYMRhKWwoo1H9GApxYLBuhoAuXN0TlltESAjDssB+Apf0T/DngVqaMyPypDmabL37vw/2aRM98Q==}
+    engines: {node: '>=0.10.0'}
+    peerDependencies:
+      react: ^18.2.0
 
   react-refresh@0.14.0:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}
@@ -30262,6 +30241,12 @@ snapshots:
       - encoding
       - supports-color
       - utf-8-validate
+
+  react-reconciler@0.29.0(react@18.3.1):
+    dependencies:
+      loose-envify: 1.4.0
+      react: 18.3.1
+      scheduler: 0.23.2
 
   react-refresh@0.14.0: {}
 
