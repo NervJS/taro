@@ -183,7 +183,7 @@ module.exports = (_, options = {}) => {
         legacy: decoratorsLegacy !== false,
       },
     ],
-    [require('@babel/plugin-proposal-class-properties'), { loose }]
+    [require('@babel/plugin-transform-class-properties'), { loose }]
   )
 
   plugins.push([
@@ -207,6 +207,9 @@ module.exports = (_, options = {}) => {
   }
 
   plugins.push(require('./remove-define-config'))
+  if (isReact) {
+    plugins.unshift(require('./transform-taro-components'))
+  }
 
   return {
     sourceType: 'unambiguous',

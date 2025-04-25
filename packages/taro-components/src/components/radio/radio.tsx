@@ -52,7 +52,7 @@ export class Radio implements ComponentInterface {
 
     return (
       <Host
-        className='weui-cells_checkbox'
+        class='weui-cells_checkbox'
         onClick={this.handleClick}
       >
         <input

@@ -25,6 +25,9 @@ taro-image-core {
     &-aspectfit {
       max-width: 100%;
       max-height: 100%;
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
     }
 
     &-aspectfill {
@@ -53,23 +56,34 @@ taro-image-core {
     }
 
     &-top {
-      width: 100%;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
     }
 
     &-bottom {
       position: absolute;
       bottom: 0;
-      width: 100%;
+      left: 50%;
+      transform: translate(-50%, 0);
     }
-
+    &-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
     &-left {
-      height: 100%;
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
     }
 
     &-right {
       position: absolute;
       right: 0;
-      height: 100%;
+      top: 50%;
+      transform: translate(0, -50%);
     }
 
     // &-topleft {
