@@ -494,17 +494,6 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
                 const chunkName = `${entryName}${ext}`
                 const chunkAbsolutePath = path.resolve(this.distPath, chunkName)
                 const subVendorsPath = path.join(subRoot, `${SUB_VENDORS_NAME}${ext}`)
-                // 将子包 vendors 插入到 entry 中
-                if (assets[normalizePath(subVendorsPath)]) {
-                  const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsPath)
-                  const vendorsRelativePath = this.getRealRelativePath(chunkAbsolutePath, subVendorsAbsolutePath)
-                  if (ext === FileExtsMap.STYLE) {
-                    source.add(`@import ${JSON.stringify(`${vendorsRelativePath}`)};`)
-                  }
-                  if (ext === FileExtsMap.JS) {
-                    source.add(`require(${JSON.stringify(`${vendorsRelativePath}`)});`)
-                  }
-                }
                 // 将子包下的 common 模块替换为父包下的 common 模块
                 subCommon.forEach(moduleName => {
                   const moduleFileName = `${moduleName}${ext}`
@@ -544,6 +533,17 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
                     }
                   }
                 })
+                // 将子包 vendors 插入到 entry 中
+                if (assets[normalizePath(subVendorsPath)]) {
+                  const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsPath)
+                  const vendorsRelativePath = this.getRealRelativePath(chunkAbsolutePath, subVendorsAbsolutePath)
+                  if (ext === FileExtsMap.STYLE) {
+                    source.add(`@import ${JSON.stringify(`${vendorsRelativePath}`)};`)
+                  }
+                  if (ext === FileExtsMap.JS) {
+                    source.add(`require(${JSON.stringify(`${vendorsRelativePath}`)});`)
+                  }
+                }
                 if (assets[chunkName]) {
                   const originSource = assets[chunkName].source()
                   if (ext === FileExtsMap.STYLE && typeof originSource === 'string') {
