@@ -2489,6 +2489,7 @@ require("./runtime");
             Button: {
                 scope: "",
                 "public-id": "",
+                "app-parameter": "",
                 bindGetAuthorize: "",
                 bindError: "",
                 bindGetUserInfo: "",
