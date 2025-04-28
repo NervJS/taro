@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-rn",
-  "version": "4.0.12",
+  "version": "4.0.13-alpha.0",
   "description": "Taro RN framework",
   "author": "O2Team",
   "license": "MIT",

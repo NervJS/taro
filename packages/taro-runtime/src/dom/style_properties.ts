@@ -8,6 +8,7 @@ const WEBKIT = 'webkit'
 const styleProperties = [
   'all',
   'appearance',
+  'backdropFilter',
   'blockOverflow',
   'blockSize',
   'bottom',
