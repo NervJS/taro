@@ -3637,7 +3637,7 @@ describe('ICSS :export pseudo-selector', () => {
   })
 })
 
-describe('performance', () => {
+describe('ReDos', () => {
   jest.setTimeout(1000);
   it('should finish transform of 100k zeros + "p" in under 1s', () => {
 
