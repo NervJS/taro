@@ -118,11 +118,18 @@ export function printHelpLog (command, optionsList: Map<string, string>, synopsi
   }
 }
 
+const ExcludePluginTagsForNullCommand = ['@jdtaro/plugin-build-']
 export function filterGlobalConfig (globalConfig: IProjectConfig, command: string) {
-  if (!command) {
-    return globalConfig
-  }
   const config = globalConfig
+
+  if (!command) {
+    if (config.plugins?.length) {
+      config.plugins = config.plugins.filter(pluginName => {
+        return !ExcludePluginTagsForNullCommand.some(tag => pluginName.includes(tag))
+      })
+    }
+    return config
+  }
 
   const RelatedPluginTag = `@jdtaro/plugin-${command}-`
   if (config.plugins?.length) {

@@ -94,7 +94,7 @@ export function parseAnyOrVoid (str = '', obj: unknown = str) {
 }
 
 export function parseDefinitionJSON ({
-  apisPath = require.resolve('@tarojs/taro-h5/dist/index.d.ts'),
+  apisPath = require.resolve('@tarojs/taro-h5/dist/index.esm.d.ts'),
   componentsPath = require.resolve('@tarojs/components/dist/types/components.d.ts'),
 } = {},
 config: ts.CompilerOptions = tsconfig,
