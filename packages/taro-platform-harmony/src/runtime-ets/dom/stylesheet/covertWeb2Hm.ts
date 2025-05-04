@@ -98,13 +98,13 @@ export default function convertWebStyle2HmStyle(webStyle: CSSProperties, node?: 
             res[index] = index < 2 ? Number(item) : item
           })
         }
-        hmStyle.flexGrow = getUnit(res[0])
+        hmStyle.flexGrow = Number(res[0])
         hmStyle.flexShrink = Number(res[1])
         hmStyle.flexBasis = Number(res[2])
         break
       }
       case 'flexGrow': {
-        hmStyle.flexGrow = getUnit(value)
+        hmStyle.flexGrow = Number(value)
         break
       }
       case 'flexShrink': {
