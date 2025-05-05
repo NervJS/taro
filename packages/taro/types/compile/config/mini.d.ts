@@ -71,6 +71,10 @@ export interface IMiniAppConfig {
   /** [stylus-loader](https://github.com/shama/stylus-loader) 的附加配置 */
   stylusLoaderOption?: IOption
 
+  /** [MiniCssExtractPlugin.loader](https://github.com/webpack-contrib/mini-css-extract-plugin) 的附加配置 */
+  miniCssExtractLoaderOption?: IOption
+
+
   /** 针对 mp4 | webm | ogg | mp3 | wav | flac | aac 文件的 [url-loader](https://github.com/webpack-contrib/url-loader) 配置 */
   mediaUrlLoaderOption?: IOption
 
