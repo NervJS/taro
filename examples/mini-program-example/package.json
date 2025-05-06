@@ -2,7 +2,7 @@
   "name": "mini-program-example",
   "version": "1.0.0",
   "private": true,
-  "description": "小程序demo",
+  "description": "小程序 demo",
   "templateInfo": {
     "name": "default",
     "typescript": true,
@@ -81,6 +81,6 @@
     "typescript": "^4.1.0",
     "postcss": "^8.4.38",
     "ts-node": "^10.9.1",
-    "@types/node": "^18.15.11"
+    "@types/node": "^20"
   }
 }

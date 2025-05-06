@@ -20,7 +20,7 @@
     "taro"
   ],
   "engines": {
-    "node": ">= 18"
+    "node": ">=20"
   },
   "dependencies": {
     "@tarojs/api": "workspace:*",
