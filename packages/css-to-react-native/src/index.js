@@ -57,9 +57,9 @@ const transformDecls = (styles, declarations, result, options = {}) => {
     if (
       typeof options.scalable === 'boolean' &&
       !options.scalable &&
-      /(\d+)px/.test(value)
+      /(?<!\d)(\d+)px/.test(value)
     ) {
-      value = value.replace(/(\d+)px/g, '$1PX')
+      value = value.replace(/(?<!\d)(\d+)px/g, '$1PX')
     }
     // expect value is legal so that remove !import
     if (/!import/i.test(value)) {
