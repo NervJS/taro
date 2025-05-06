@@ -9,3 +9,6 @@ contact_links:
   - name: 社区支持
     url: https://github.com/NervJS/taro/discussions/categories/q-a
     about: 发布一般性问题
+  - name: 生态建设
+    url: https://github.com/NervJS/taro/discussions/categories/%E7%94%9F%E6%80%81
+    about: 工具库？组件库？快来丰富 Taro 生态
