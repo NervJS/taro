@@ -1,5 +1,11 @@
 blank_issues_enabled: false
 contact_links:
+  - name: 创建提案
+    url: https://github.com/NervJS/taro/discussions/categories/rfc
+    about: 制定 Taro 下一步的更新计划
+  - name: 发起投票
+    url: https://github.com/NervJS/taro/discussions/categories/polls
+    about: 投票决定 Taro 的未来
   - name: 社区支持
-    url: https://github.com/orgs/community/discussions
-    about: 其他问题请在 GitHub Discussion 中发布。
+    url: https://github.com/NervJS/taro/discussions/categories/q-a
+    about: 发布一般性问题
