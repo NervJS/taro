@@ -139,7 +139,7 @@ export class RenderParser {
   private isDefaultRender = false
   // private renderArg: t.Identifier | t.ObjectPattern | null = null
   private renderMethodName = ''
-  private deferedHandleClosureJSXFunc: Function[] = []
+  private deferredHandleClosureJSXFunc: Function[] = []
   private ancestorConditions: Set<t.Node> = new Set()
 
   private renderPath: NodePath<t.ClassMethod>
@@ -148,7 +148,7 @@ export class RenderParser {
   private referencedIdentifiers: Set<t.Identifier>
   private renderScope: Scope
   private usedState: Set<string>
-  private componentProperies: Set<string>
+  private componentProperties: Set<string>
   private loopRefs: Map<t.JSXElement, LoopRef>
   private refObjExpr: t.ObjectExpression[]
   private upperCaseComponentProps: Set<string>
@@ -364,12 +364,12 @@ export class RenderParser {
     }
   }
 
-  setProperies() {
+  setProperties() {
     if (!this.isDefaultRender) {
       return
     }
     const properties: t.ObjectProperty[] = []
-    this.componentProperies.forEach((propName) => {
+    this.componentProperties.forEach((propName) => {
       const p =
         Adapters.quickapp === Adapters.quickapp &&
         this.upperCaseComponentProps.has(propName) &&
@@ -455,7 +455,7 @@ export class RenderParser {
     }
   }
 
-  private returnedifStemJSX = new Set<Scope>()
+  private returnedIfStemJSX = new Set<Scope>()
 
   private loopComponentVisitor: Visitor = {
     VariableDeclarator: (path) => {
@@ -476,12 +476,12 @@ export class RenderParser {
             this.handleJSXInIfStatement(jsxElementPath, options)
             this.removeJSXStatement()
           }
-          if (options.parentPath.isReturnStatement() && this.returnedifStemJSX.has(options.parentPath.scope)) {
+          if (options.parentPath.isReturnStatement() && this.returnedIfStemJSX.has(options.parentPath.scope)) {
             const block = buildBlockElement()
             setJSXAttr(block, Adapter.else)
             block.children = [jsxElementPath.node]
             jsxElementPath.replaceWith(block)
-            this.returnedifStemJSX.delete(options.parentPath.scope)
+            this.returnedIfStemJSX.delete(options.parentPath.scope)
           }
         })
       },
@@ -625,7 +625,7 @@ export class RenderParser {
     },
   }
 
-  private renameIfScopeVaribale = (blockStatement: NodePath<t.BlockStatement>): Visitor => {
+  private renameIfScopeVariable = (blockStatement: NodePath<t.BlockStatement>): Visitor => {
     return {
       VariableDeclarator: (path) => {
         const { id, init } = path.node
@@ -687,7 +687,7 @@ export class RenderParser {
           )
         }
         if (blockStatement && blockStatement.isBlockStatement()) {
-          blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
+          blockStatement.traverse(this.renameIfScopeVariable(blockStatement))
         }
 
         const blockAttrs: t.JSXAttribute[] = []
@@ -754,7 +754,7 @@ export class RenderParser {
                   //
                 }
                 if (scope) {
-                  this.returnedifStemJSX.add(scope)
+                  this.returnedIfStemJSX.add(scope)
                 }
               } else {
                 if (this.topLevelIfStatement.size > 0) {
@@ -785,17 +785,17 @@ export class RenderParser {
         (p) => p.isBlockStatement() && p.parentPath === ifStatement
       ) as NodePath<t.BlockStatement>
       if (blockStatement && blockStatement.isBlockStatement()) {
-        blockStatement.traverse(this.renameIfScopeVaribale(blockStatement))
+        blockStatement.traverse(this.renameIfScopeVariable(blockStatement))
       }
       if (t.isIdentifier(parentNode.left)) {
         const assignmentName = parentNode.left.name
-        const renderScope: Scope = isIfStemInLoop
+        const renderScope: Scope | undefined = isIfStemInLoop
           ? jsxElementPath
             .findParent((p) => isArrayMapCallExpression(p as any))
             ?.get('arguments')[0]
             .get('body').scope
           : this.renderScope
-        const bindingNode = renderScope.getOwnBinding(assignmentName)!.path.node as any
+        const bindingNode = renderScope?.getOwnBinding(assignmentName)?.path.node as any
         const parallelIfStems = this.findParallelIfStem(ifStatement as any)
         const parentIfStatement = ifStatement?.findParent(
           (p) => p.isIfStatement() && !parallelIfStems.has(p as any)
@@ -818,7 +818,7 @@ export class RenderParser {
               let isAssignedBefore = false
               // @TODO: 重构这两种循环为通用模块
 
-              // 如果这个 JSX assigmnent 的作用域中有其他的 if block 曾经赋值过，它应该是 else-if
+              // 如果这个 JSX assignment 的作用域中有其他的 if block 曾经赋值过，它应该是 else-if
               if (blockStatement && blockStatement.isBlockStatement()) {
                 for (const parentStatement of blockStatement.node.body) {
                   if (t.isIfStatement(parentStatement) && t.isBlockStatement(parentStatement.consequent)) {
@@ -836,7 +836,7 @@ export class RenderParser {
                 }
               }
 
-              // 如果这个 JSX assigmnent 的的父级作用域中的 prev sibling 有相同的赋值，它应该是 else-if
+              // 如果这个 JSX assignment 的的父级作用域中的 prev sibling 有相同的赋值，它应该是 else-if
               if (parentIfStatement) {
                 const { consequent } = parentIfStatement.node
                 if (t.isBlockStatement(consequent)) {
@@ -924,7 +924,7 @@ export class RenderParser {
             // setTemplate(name, path, templates)
             assignmentName && this.templates.set(assignmentName, block)
             if (isIfStemInLoop) {
-              this.replaceIdWithTemplate()(renderScope.path as any)
+              this.replaceIdWithTemplate()(renderScope?.path as any)
               this.returnedPaths.push(parentPath)
             }
           }
@@ -1492,7 +1492,7 @@ export class RenderParser {
         if (parentPath.isVariableDeclarator()) {
           const id = parentPath.node.id
           if (t.isIdentifier(id) && id.name.startsWith('renderClosure')) {
-            this.deferedHandleClosureJSXFunc.push(() => {
+            this.deferredHandleClosureJSXFunc.push(() => {
               const classMethod = this.methods.get(id.name)
               if (classMethod && classMethod.isClassMethod()) {
                 path.replaceWith(
@@ -1662,7 +1662,7 @@ export class RenderParser {
     referencedIdentifiers: Set<t.Identifier>,
     usedState: Set<string>,
     customComponentNames: Set<string>,
-    componentProperies: Set<string>,
+    componentProperties: Set<string>,
     loopRefs: Map<t.JSXElement, LoopRef>,
     refObjExpr: t.ObjectExpression[],
     methodName: string
@@ -1673,14 +1673,14 @@ export class RenderParser {
     this.referencedIdentifiers = referencedIdentifiers
     this.usedState = usedState
     this.customComponentNames = customComponentNames
-    this.componentProperies = componentProperies
+    this.componentProperties = componentProperties
     this.loopRefs = loopRefs
     this.refObjExpr = refObjExpr
     const renderBody = renderPath.get('body')
     this.renderScope = renderBody.scope
     this.isDefaultRender = methodName === 'render'
     this.upperCaseComponentProps = new Set(
-      Array.from(this.componentProperies).filter((p) => /[A-Z]/.test(p) && !p.startsWith('on'))
+      Array.from(this.componentProperties).filter((p) => /[A-Z]/.test(p) && !p.startsWith('on'))
     )
 
     const [, error] = renderPath.node.body.body.filter((s) => t.isReturnStatement(s))
@@ -1708,7 +1708,7 @@ export class RenderParser {
     }
     renderBody.traverse(this.visitors)
     if (Adapter.type === Adapters.quickapp) {
-      renderBody.traverse(this.quickappVistor)
+      renderBody.traverse(this.quickappVisitor)
     }
 
     if (t.isIdentifier(this.renderPath.node.key)) {
@@ -1723,17 +1723,17 @@ export class RenderParser {
     this.setCustomEvent()
     this.createData()
     if (Adapter.type === Adapters.quickapp) {
-      this.setProperies()
+      this.setProperties()
     }
     this.setLoopRefFlag()
     this.handleClosureComp()
   }
 
   private handleClosureComp() {
-    this.deferedHandleClosureJSXFunc.forEach((func) => func())
+    this.deferredHandleClosureJSXFunc.forEach((func) => func())
   }
 
-  private quickappVistor: Visitor = {
+  private quickappVisitor: Visitor = {
     JSXExpressionContainer(path) {
       if (path.parentPath.isJSXAttribute() || isContainJSXElement(path as any)) {
         return
@@ -1752,8 +1752,8 @@ export class RenderParser {
       }
     })
 
-    this.componentProperies.forEach((componentName) => {
-      if (this.componentProperies.has(componentName)) {
+    this.componentProperties.forEach((componentName) => {
+      if (this.componentProperties.has(componentName)) {
         throw codeFrameError(
           this.renderPath.node,
           `state: \`${componentName}\` 和已有 this.props.${componentName} 重复。请使用另一个变量名。`
@@ -2419,21 +2419,21 @@ export class RenderParser {
       }
     }
 
-    let componentProperies = cloneDeep(this.componentProperies)
+    let componentProperties = cloneDeep(this.componentProperties)
 
-    componentProperies.forEach((s) => {
+    componentProperties.forEach((s) => {
       if (s.startsWith(FN_PREFIX)) {
         const eventName = s.slice(5)
-        if (componentProperies.has(eventName)) {
-          componentProperies.delete(s)
-          componentProperies.delete(eventName)
+        if (componentProperties.has(eventName)) {
+          componentProperties.delete(s)
+          componentProperties.delete(eventName)
         }
       }
     })
 
     if (Adapter.type === Adapters.quickapp) {
-      componentProperies = new Set(
-        Array.from(componentProperies).map((p) =>
+      componentProperties = new Set(
+        Array.from(componentProperties).map((p) =>
           this.upperCaseComponentProps.has(p) && !p.startsWith('on') && !p.startsWith('prv-fn') ? snakeCase(p) : p
         )
       )
@@ -2444,7 +2444,7 @@ export class RenderParser {
       new Set(
         Array.from(this.referencedIdentifiers)
           .map((i) => i.name)
-          .concat([...this.initState, ...this.usedThisState, ...componentProperies, ...this.classComputedState])
+          .concat([...this.initState, ...this.usedThisState, ...componentProperties, ...this.classComputedState])
       )
     )
       .concat(...this.usedState)
