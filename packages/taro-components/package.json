@@ -43,7 +43,8 @@
     "test:ci": "pnpm test -- --ci -i --coverage --silent --no-build",
     "test:coverage": "pnpm test -- --ci --screenshot --coverage",
     "test:watch": "pnpm test -- --screenshot --watch",
-    "tsx": "ts-node --skipIgnore"
+    "tsx": "ts-node --skipIgnore",
+    "postinstall": "node node_modules/puppeteer/install.js"
   },
   "repository": {
     "type": "git",
