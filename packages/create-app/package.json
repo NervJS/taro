@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/create-app",
-  "version": "4.0.13-alpha.0",
+  "version": "4.0.13-alpha.1",
   "description": "create taro app with one command",
   "author": "O2Team",
   "license": "MIT",
