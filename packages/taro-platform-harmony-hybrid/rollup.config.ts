@@ -1,18 +1,14 @@
-import path from 'node:path'
-
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
+import ts from '@rollup/plugin-typescript'
 import { merge } from 'lodash'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
-import ts from 'rollup-plugin-ts'
 
 import exportNameOnly from './build/rollup-plugin-export-name-only'
 
 import type { InputPluginOption, RollupOptions } from 'rollup'
-
-const cwd = __dirname
 
 const baseConfig: RollupOptions = {
   output: {
@@ -35,11 +31,7 @@ function getPlugins<T = InputPluginOption> (pre: T[] = [], post: T[] = []) {
       preferConst: true,
     }),
     ts({
-      tsconfig: e => ({
-        ...e,
-        declaration: true,
-        sourceMap: true,
-      })
+      exclude: ['rollup.config.ts']
     }),
     commonjs(),
     ...post
@@ -77,7 +69,7 @@ const variesConfig: RollupOptions[] = [{
     devDeps: false,
   })])
 }, {
-  input: path.join(cwd, 'src/runtime/apis/index.ts'), // 供 babel-plugin-transform-taroapi 使用，为了能 tree-shaking
+  input: 'src/runtime/apis/index.ts', // 供 babel-plugin-transform-taroapi 使用，为了能 tree-shaking
   output: {
     file: 'dist/taroApis.js',
     format: 'cjs',
@@ -91,7 +83,7 @@ const variesConfig: RollupOptions[] = [{
 
 if (process.env.NODE_ENV === 'production') {
   variesConfig.push({
-    input: path.join(cwd, 'build/rollup-plugin-export-name-only.js'),
+    input: 'build/rollup-plugin-export-name-only.js',
     output: {
       file: 'dist/rollup-plugin-export-name-only.js',
       format: 'cjs',

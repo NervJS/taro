@@ -23,8 +23,8 @@
     "prebuild": "rimraf ./dist",
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
-    "rollup": "rollup --config rollup.config.mts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
-    "test": "node_modules/jest/bin/jest.js",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
+    "test": "jest",
     "test:ci": "jest --ci -i --coverage --silent",
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage"
@@ -40,10 +40,10 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/api": "workspace:*",
+    "@tarojs/components": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@tarojs/components": "workspace:*",
     "abortcontroller-polyfill": "^1.7.5",
     "base64-js": "^1.5.1",
     "ics": "^3.7.2",
@@ -70,8 +70,9 @@
     "react-test-renderer": "^18.2.0",
     "rollup": "^3.29.4",
     "rollup-plugin-node-externals": "^5.0.0",
-    "rollup-plugin-ts": "^3.4.5",
-    "@rollup/plugin-node-resolve": "^15.2.3"
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup-plugin-dts": "^6.2.1"
   },
   "peerDependencies": {
     "@tarojs/components": "workspace:~"

@@ -1227,6 +1227,9 @@ importers:
       '@rollup/plugin-node-resolve':
         specifier: ^15.2.3
         version: 15.3.1(rollup@3.29.5)
+      '@rollup/plugin-typescript':
+        specifier: ^12.1.2
+        version: 12.1.2(rollup@3.29.5)(tslib@2.8.1)(typescript@5.4.5)
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -1263,12 +1266,12 @@ importers:
       rollup:
         specifier: ^3.29.4
         version: 3.29.5
+      rollup-plugin-dts:
+        specifier: ^6.2.1
+        version: 6.2.1(rollup@3.29.5)(typescript@5.4.5)
       rollup-plugin-node-externals:
         specifier: ^5.0.0
         version: 5.1.3(rollup@3.29.5)
-      rollup-plugin-ts:
-        specifier: ^3.4.5
-        version: 3.4.5(@babel/core@7.26.10)(@babel/plugin-transform-runtime@7.26.10(@babel/core@7.26.10))(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@babel/preset-typescript@7.27.0(@babel/core@7.26.10))(@babel/runtime@7.27.0)(@swc/core@1.3.96)(rollup@3.29.5)(typescript@5.4.5)
       swiper:
         specifier: 11.1.15
         version: 11.1.15
@@ -1456,6 +1459,9 @@ importers:
         specifier: ^3.2.3
         version: 3.2.3
     devDependencies:
+      '@rollup/plugin-typescript':
+        specifier: ^12.1.2
+        version: 12.1.2(rollup@3.29.5)(tslib@2.8.1)(typescript@5.4.5)
       fast-glob:
         specifier: ^3.3.1
         version: 3.3.3
@@ -1468,9 +1474,6 @@ importers:
       rollup-plugin-node-externals:
         specifier: ^5.0.0
         version: 5.1.3(rollup@3.29.5)
-      rollup-plugin-ts:
-        specifier: ^3.4.5
-        version: 3.4.5(@babel/core@7.26.10)(@babel/plugin-transform-runtime@7.26.10(@babel/core@7.26.10))(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@babel/preset-typescript@7.27.0(@babel/core@7.26.10))(@babel/runtime@7.27.0)(@swc/core@1.3.96)(rollup@3.29.5)(typescript@5.4.5)
       solid-js:
         specifier: ^1.8.16
         version: 1.9.5
@@ -1675,7 +1678,7 @@ importers:
         specifier: ^15.2.3
         version: 15.3.1(rollup@3.29.5)
       '@rollup/plugin-typescript':
-        specifier: ^11.1.0
+        specifier: ^11.1.6
         version: 11.1.6(rollup@3.29.5)(tslib@2.8.1)(typescript@5.4.5)
       '@tarojs/taro':
         specifier: workspace:*
@@ -1695,9 +1698,6 @@ importers:
       rollup-plugin-node-externals:
         specifier: ^5.0.0
         version: 5.1.3(rollup@3.29.5)
-      rollup-plugin-ts:
-        specifier: ^3.4.5
-        version: 3.4.5(@babel/core@7.26.10)(@babel/plugin-transform-runtime@7.26.10(@babel/core@7.26.10))(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@babel/preset-typescript@7.27.0(@babel/core@7.26.10))(@babel/runtime@7.27.0)(@swc/core@1.3.96)(rollup@3.29.5)(typescript@5.4.5)
       tsconfig-paths:
         specifier: ^3.14.1
         version: 3.15.0
@@ -2406,6 +2406,9 @@ importers:
         specifier: ^2.6.2
         version: 2.8.1
     devDependencies:
+      '@rollup/plugin-typescript':
+        specifier: ^12.1.2
+        version: 12.1.2(rollup@4.37.0)(tslib@2.8.1)(typescript@5.4.5)
       '@types/react':
         specifier: ^18.2.79
         version: 18.3.20
@@ -2421,9 +2424,6 @@ importers:
       rollup:
         specifier: ^4.37.0
         version: 4.37.0
-      rollup-plugin-ts:
-        specifier: ^3.4.5
-        version: 3.4.5(@babel/core@7.26.10)(@babel/plugin-transform-runtime@7.26.10(@babel/core@7.26.10))(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@babel/preset-typescript@7.27.0(@babel/core@7.26.10))(@babel/runtime@7.27.0)(@swc/core@1.3.96)(rollup@4.37.0)(typescript@5.4.5)
 
   packages/taro-runtime-rn:
     dependencies:
@@ -5657,6 +5657,19 @@ packages:
 
   '@rollup/plugin-typescript@11.1.6':
     resolution: {integrity: sha512-R92yOmIACgYdJ7dJ97p4K69I8gg6IEHt8M7dUBxN3W6nrO8uUxX5ixl0yU/N3aZTi8WhPuICvOHXQvF6FaykAA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0||^3.0.0||^4.0.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      tslib:
+        optional: true
+
+  '@rollup/plugin-typescript@12.1.2':
+    resolution: {integrity: sha512-cdtSp154H5sv637uMr1a8OTWB0L1SWDSm1rDGiyfcGcvQ6cuTs4MDk2BVEBGysUWago4OJN4EQZqOTl/QY3Jgg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.14.0||^3.0.0||^4.0.0
@@ -19944,6 +19957,24 @@ snapshots:
       rollup: 4.39.0
       tslib: 2.8.1
 
+  '@rollup/plugin-typescript@12.1.2(rollup@3.29.5)(tslib@2.8.1)(typescript@5.4.5)':
+    dependencies:
+      '@rollup/pluginutils': 5.1.4(rollup@3.29.5)
+      resolve: 1.22.10
+      typescript: 5.4.5
+    optionalDependencies:
+      rollup: 3.29.5
+      tslib: 2.8.1
+
+  '@rollup/plugin-typescript@12.1.2(rollup@4.37.0)(tslib@2.8.1)(typescript@5.4.5)':
+    dependencies:
+      '@rollup/pluginutils': 5.1.4(rollup@4.37.0)
+      resolve: 1.22.10
+      typescript: 5.4.5
+    optionalDependencies:
+      rollup: 4.37.0
+      tslib: 2.8.1
+
   '@rollup/pluginutils@3.1.0(rollup@4.39.0)':
     dependencies:
       '@types/estree': 0.0.39
@@ -30584,28 +30615,6 @@ snapshots:
       crosspath: 2.0.0
       magic-string: 0.30.17
       rollup: 3.29.5
-      ts-clone-node: 3.0.0(typescript@5.4.5)
-      tslib: 2.8.1
-      typescript: 5.4.5
-    optionalDependencies:
-      '@babel/core': 7.26.10
-      '@babel/plugin-transform-runtime': 7.26.10(@babel/core@7.26.10)
-      '@babel/preset-env': 7.26.9(@babel/core@7.26.10)
-      '@babel/preset-typescript': 7.27.0(@babel/core@7.26.10)
-      '@babel/runtime': 7.27.0
-      '@swc/core': 1.3.96
-
-  rollup-plugin-ts@3.4.5(@babel/core@7.26.10)(@babel/plugin-transform-runtime@7.26.10(@babel/core@7.26.10))(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@babel/preset-typescript@7.27.0(@babel/core@7.26.10))(@babel/runtime@7.27.0)(@swc/core@1.3.96)(rollup@4.37.0)(typescript@5.4.5):
-    dependencies:
-      '@rollup/pluginutils': 5.1.4(rollup@4.37.0)
-      '@wessberg/stringutil': 1.0.19
-      ansi-colors: 4.1.3
-      browserslist: 4.24.4
-      browserslist-generator: 2.3.0
-      compatfactory: 3.0.0(typescript@5.4.5)
-      crosspath: 2.0.0
-      magic-string: 0.30.17
-      rollup: 4.37.0
       ts-clone-node: 3.0.0(typescript@5.4.5)
       tslib: 2.8.1
       typescript: 5.4.5
