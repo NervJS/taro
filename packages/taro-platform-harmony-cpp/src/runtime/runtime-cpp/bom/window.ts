@@ -7,6 +7,7 @@ import { Location } from './location'
 import { navigator as nav } from './navigator'
 
 import type { TaroDocument } from '../dom/document'
+import type { TaroElement } from '../dom/element/element'
 
 export class Window extends TaroEventTarget {
   public _doc: TaroDocument
@@ -45,6 +46,10 @@ export class Window extends TaroEventTarget {
   clearTimeout (...args: Parameters<typeof clearTimeout>) {
     clearTimeout(...args)
   }
+}
+
+export const getComputedStyle = (element: TaroElement) => {
+  return element.getComputedStyle()
 }
 
 export const window = new Window()

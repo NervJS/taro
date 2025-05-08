@@ -37,7 +37,7 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.7",
-    "@tarojs/parse-css-to-stylesheet": "^1.1.5 ",
+    "@tarojs/parse-css-to-stylesheet": "^1.1.8",
     "@tarojs/react": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/service": "workspace:*",
