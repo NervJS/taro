@@ -364,7 +364,14 @@ export class Swiper implements ComponentInterface {
         },
         touchEnd: (e) => {
           that.#source = 'touch'
-          that.autoplay && e.autoplay.start()
+          if (that.autoplay) {
+            /** 适配8.4.7版本的swiper。先 stop 再 start，确保 autoplay 能恢复。
+             * 不这么处理的话，在8.4.7版本下：swiper滑动过程中点击，能正常恢复autoplay;滑动到某一帧短暂停留时点击，无法恢复autoplay。需要再滑动一下才能恢复。
+             *  */
+            e.autoplay.stop && e.autoplay.stop();
+            e.autoplay.start && e.autoplay.start();
+          }
+
         },
         touchStart: (e) => {
           that.#source = 'touch'
