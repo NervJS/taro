@@ -14,22 +14,22 @@ export default function Index() {
       _el$5 = _$createElement('view'),
       _el$6 = _$createElement('text'),
       _el$8 = _$createElement('button'),
-      _el$10 = _$createElement('view'),
-      _el$11 = _$createElement('icon')
+      _el$0 = _$createElement('view'),
+      _el$1 = _$createElement('icon')
     _$insertNode(_el$, _el$2)
     _$insertNode(_el$, _el$5)
     _$insertNode(_el$, _el$8)
-    _$insertNode(_el$, _el$10)
-    _$insertNode(_el$, _el$11)
+    _$insertNode(_el$, _el$0)
+    _$insertNode(_el$, _el$1)
     _$setProp(_el$, 'class', 'index')
     _$insertNode(_el$2, _el$3)
     _$insertNode(_el$3, _$createTextNode(`Hello world! `))
     _$insertNode(_el$5, _el$6)
     _$insertNode(_el$6, _$createTextNode(`Hello world2! `))
     _$insertNode(_el$8, _$createTextNode(`set class`))
-    _$insert(_el$, _$createComponent(Input, {}), _el$10)
-    _$insert(_el$10, () => Math.random())
-    _$setProp(_el$11, 'type', 'success')
+    _$insert(_el$, _$createComponent(Input, {}), _el$0)
+    _$insert(_el$0, () => Math.random())
+    _$setProp(_el$1, 'type', 'success')
     _$insert(
       _el$,
       _$createComponent(RenderWithSlot, {
@@ -44,9 +44,9 @@ export default function Index() {
       _$createComponent(RenderWithSlot, {
         get header() {
           return (() => {
-            var _el$24 = _$createElement('button')
-            _$insertNode(_el$24, _$createTextNode(`button`))
-            return _el$24
+            var _el$22 = _$createElement('button')
+            _$insertNode(_el$22, _$createTextNode(`button`))
+            return _el$22
           })()
         },
       }),
@@ -65,8 +65,19 @@ export default function Index() {
       _el$,
       _$createComponent(RenderWithChildren, {
         get children() {
-          var _el$12 = _$createElement('button')
-          _$insertNode(_el$12, _$createTextNode(`RenderWithChildren1`))
+          var _el$10 = _$createElement('button')
+          _$insertNode(_el$10, _$createTextNode(`RenderWithChildren1`))
+          return _el$10
+        },
+      }),
+      null
+    )
+    _$insert(
+      _el$,
+      _$createComponent(RenderWithChildren, {
+        get children() {
+          var _el$12 = _$createElement('view')
+          _$insertNode(_el$12, _$createTextNode(`RenderWithChildren2`))
           return _el$12
         },
       }),
@@ -76,8 +87,10 @@ export default function Index() {
       _el$,
       _$createComponent(RenderWithChildren, {
         get children() {
-          var _el$14 = _$createElement('view')
-          _$insertNode(_el$14, _$createTextNode(`RenderWithChildren2`))
+          var _el$14 = _$createElement('button'),
+            _el$15 = _$createElement('view')
+          _$insertNode(_el$14, _el$15)
+          _$insertNode(_el$15, _$createTextNode(`variant1`))
           return _el$14
         },
       }),
@@ -87,11 +100,11 @@ export default function Index() {
       _el$,
       _$createComponent(RenderWithChildren, {
         get children() {
-          var _el$16 = _$createElement('button'),
-            _el$17 = _$createElement('view')
-          _$insertNode(_el$16, _el$17)
-          _$insertNode(_el$17, _$createTextNode(`variant1`))
-          return _el$16
+          var _el$17 = _$createElement('view'),
+            _el$18 = _$createElement('button')
+          _$insertNode(_el$17, _el$18)
+          _$insertNode(_el$18, _$createTextNode(`variant2`))
+          return _el$17
         },
       }),
       null
@@ -100,22 +113,9 @@ export default function Index() {
       _el$,
       _$createComponent(RenderWithChildren, {
         get children() {
-          var _el$19 = _$createElement('view'),
-            _el$20 = _$createElement('button')
-          _$insertNode(_el$19, _el$20)
-          _$insertNode(_el$20, _$createTextNode(`variant2`))
-          return _el$19
-        },
-      }),
-      null
-    )
-    _$insert(
-      _el$,
-      _$createComponent(RenderWithChildren, {
-        get children() {
-          var _el$22 = _$createElement('view')
-          _$insert(_el$22, _$createComponent(Input, {}))
-          return _el$22
+          var _el$20 = _$createElement('view')
+          _$insert(_el$20, _$createComponent(Input, {}))
+          return _el$20
         },
       }),
       null

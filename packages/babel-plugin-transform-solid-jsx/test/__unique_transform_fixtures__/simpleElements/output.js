@@ -12,21 +12,21 @@ export default function Index() {
       _el$5 = _$createElement('view'),
       _el$6 = _$createElement('text'),
       _el$8 = _$createElement('button'),
-      _el$10 = _$createElement('view'),
-      _el$11 = _$createElement('icon')
+      _el$0 = _$createElement('view'),
+      _el$1 = _$createElement('icon')
     _$insertNode(_el$, _el$2)
     _$insertNode(_el$, _el$5)
     _$insertNode(_el$, _el$8)
-    _$insertNode(_el$, _el$10)
-    _$insertNode(_el$, _el$11)
+    _$insertNode(_el$, _el$0)
+    _$insertNode(_el$, _el$1)
     _$setProp(_el$, 'class', 'index')
     _$insertNode(_el$2, _el$3)
     _$insertNode(_el$3, _$createTextNode(`Hello world! `))
     _$insertNode(_el$5, _el$6)
     _$insertNode(_el$6, _$createTextNode(`Hello world2! `))
     _$insertNode(_el$8, _$createTextNode(`set class`))
-    _$insert(_el$10, () => Math.random())
-    _$setProp(_el$11, 'type', 'success')
+    _$insert(_el$0, () => Math.random())
+    _$setProp(_el$1, 'type', 'success')
     return _el$
   })()
 }

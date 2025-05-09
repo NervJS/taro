@@ -29,7 +29,7 @@
     "taro"
   ],
   "engines": {
-    "node": ">= 18"
+    "node": ">=20"
   },
   "dependencies": {
     "@ant-design/react-native": "5.0.0",

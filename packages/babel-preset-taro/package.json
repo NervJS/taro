@@ -24,7 +24,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">=20"
   },
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.24.1",

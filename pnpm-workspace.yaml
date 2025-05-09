@@ -6,3 +6,6 @@ packages:
   - '!**/dist/**'
   - 'npm/**'
   - 'crates/native_binding'
+
+overrides:
+  "@tarojs/helper>@babel/types": "^7.27.1"
