@@ -9,7 +9,10 @@ export function initStyleSheetConfig (layout: { width: number, height: number} =
   const display = _display.getDefaultDisplaySync()
 
   let logicWidth = layout.width ? layout.width * display.densityPixels : display.width
-  logicWidth = logicWidth > FOLD_SPLIT_MAX_WIDTH ? logicWidth / 2 : logicWidth
+  // 断点区间
+  if (layout.width >= FOLD_SPLIT_MAX_WIDTH && layout.height <= (FOLD_SPLIT_MAX_WIDTH * 10.8)) {
+    logicWidth = logicWidth / 2
+  }
   const designWidth = typeof Current.taro.config.designWidth === 'function' ? Current.taro.config.designWidth(0) : Current.taro.config.designWidth
   const deviceRatio = Current.taro.config.deviceRatio ? Current.taro.config.deviceRatio[designWidth] || 1 : 1
 

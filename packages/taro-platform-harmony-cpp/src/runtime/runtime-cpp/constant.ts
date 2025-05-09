@@ -26,4 +26,4 @@ export const ATTRIBUTES_CALLBACK_TRIGGER_MAP = {
 }
 
 // 折叠屏分割临界宽度， 大于1500视为折叠屏
-export const FOLD_SPLIT_MAX_WIDTH = 1500
+export const FOLD_SPLIT_MAX_WIDTH = 600

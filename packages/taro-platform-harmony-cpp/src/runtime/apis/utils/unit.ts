@@ -34,13 +34,14 @@ export function initPxTransform ({
 
 const display = _display.getDefaultDisplaySync()
 
-let displayWidth = display.width
+const displayWidth = display.width
+const displayHeight = display.height
 let ratioCache: number | false = false
 let designWidthFunc: (input: number) => number
 let designWidth = defaultDesignWidth
 function getRatio (value: number, customDesignWidth?: number) {
   // Note: 提前调用 display 可能无法获取正确值
-  if (ratioCache === false || displayWidth !== display.width || typeof customDesignWidth !== 'undefined') {
+  if (ratioCache === false || typeof customDesignWidth !== 'undefined') {
     const config = Current.taro?.config || {}
     if (!isFunction(designWidthFunc)) {
       designWidthFunc = isFunction(config.designWidth)
@@ -48,10 +49,12 @@ function getRatio (value: number, customDesignWidth?: number) {
         : () => config.designWidth
       designWidth = designWidthFunc(value) || defaultDesignWidth
     }
-    displayWidth = display.width
-    // 如果大于1500，视为折叠屏，取一半作为基准值
-    displayWidth = displayWidth > 1500 ? displayWidth / 2 : displayWidth
-    ratioCache = displayWidth / (customDesignWidth || designWidth)
+    let displayWidth_ = displayWidth
+    if (px2vp(displayWidth) >= 600 && px2vp(displayHeight) <= (600 * 10.8)) {
+      displayWidth_ = displayWidth_ / 2
+    }
+
+    ratioCache = displayWidth_ / (customDesignWidth || designWidth)
   }
 
   return ratioCache
