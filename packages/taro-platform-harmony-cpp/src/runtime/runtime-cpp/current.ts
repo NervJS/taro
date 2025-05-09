@@ -41,7 +41,8 @@ export const Current: any = {
     return e
   }),
   nativeModule: TaroNativeModule,
-  createHarmonyElement: null
+  createHarmonyElement: null,
+  audioSessionManager: null
 }
 
 export const getCurrentInstance = () => Current

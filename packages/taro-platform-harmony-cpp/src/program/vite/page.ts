@@ -115,21 +115,12 @@ export default function (this: Harmony): PluginOption {
             importStr.unshift('import { TaroNativeModule, initStyleSheetConfig, systemContext, WINDOW_STATE } from "@tarojs/runtime"')
             importStr.unshift('import { NodeContent } from "@ohos.arkui.node"')
             importStr.unshift('import display from "@ohos.display"')
+            importStr.unshift('import { audio } from "@kit.AudioKit"')
           }
 
           config.modifyRenderState = function (this: PageParser, state: (string | null)[], page: TPageMeta) {
             const isPure = isPureComp(page)
             state.push(
-              this.renderState(
-                {
-                  decorator: 'State',
-                  name: 'params', // FIXME 考虑后续移除该参数
-                  type: 'TaroObject',
-                  foreach: () => '{}',
-                  // disabled: !this.buildConfig.isBuildNativeComp && isPure,
-                },
-                this.isTabbarPage
-              ),
               this.renderState(
                 {
                   name: '__layoutSize',
@@ -159,10 +150,10 @@ export default function (this: Harmony): PluginOption {
               this.renderState(
                 {
                   decorator: 'State',
-                  name: 'params',
+                  name: 'params', // FIXME 考虑后续移除该参数
                   type: 'TaroObject',
                   foreach: () => '{}',
-                  disabled: !this.buildConfig.isBuildNativeComp,
+                  disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
                 this.isTabbarPage
               ),
@@ -267,6 +258,11 @@ export default function (this: Harmony): PluginOption {
                 `TaroNativeModule.initStylesheet('${genUniPageId(page)}', styleJson, initStyleSheetConfig(this.params._layout_, this.getNavHeight()))`,
               ]
               : [
+                `if (!Current.audioSessionManager) {`,
+                `  const audioManager = audio.getAudioManager()`,
+                `  Current.audioSessionManager = audioManager.getSessionManager()`,
+                `}`,
+                `this.activeAudioSession()`,
                 `initEtsBuilder('${genUniPageId(page)}')`,
                 'this.__layoutSize = this.params._layout_',
                 `this.__pageName = '${page.name}'`,
@@ -318,10 +314,8 @@ export default function (this: Harmony): PluginOption {
                 '}',
                 `windowStage.getMainWindowSync().on('avoidAreaChange', this.areaChange)`,
               )
-              appearCode.push(
-                appearStr,
-              )
             }
+            appearCode.push(appearStr)
             return this.transArr2Str(appearCode.filter(Boolean))
           }
 
@@ -329,6 +323,7 @@ export default function (this: Harmony): PluginOption {
             return this.transArr2Str(
               [
                 `this.handlePageDetach()`,
+                'this.deactivateAudioSession()',
                 'if (this.areaChange) {',
                 '  const windowStage: TaroAny = AppStorage.get(WINDOW_STATE);',
                 `  windowStage.getMainWindowSync().off('avoidAreaChange', this.areaChange)`,
@@ -454,6 +449,33 @@ export default function (this: Harmony): PluginOption {
                   ? `eventCenter.off(this.currentRouter?.getEventName('onResize'), this.handlePageResizeEvent)`
                   : null,
                 `callFn(this.page?.onUnload, this)`,
+              ]),
+            })
+            methods.push({
+              name: 'activeAudioSession',
+              type: 'arrow',
+              body: this.transArr2Str([
+                `if (Current.audioSessionManager) {`,
+                `  const manager: audio.AudioSessionManager = Current.audioSessionManager`,
+                `  if (!manager.isAudioSessionActivated()) {`,
+                `    let strategy: audio.AudioSessionStrategy = {`,
+                `      concurrencyMode: audio.AudioConcurrencyMode.CONCURRENCY_PAUSE_OTHERS`,
+                `    }`,
+                `    manager.activateAudioSession(strategy)`,
+                `  }`,
+                `}`,
+              ]),
+            })
+            methods.push({
+              name: 'deactivateAudioSession',
+              type: 'arrow',
+              body: this.transArr2Str([
+                `if (Current.audioSessionManager) {`,
+                `  const manager: audio.AudioSessionManager = Current.audioSessionManager`,
+                `  if (manager.isAudioSessionActivated()) {`,
+                `    manager.deactivateAudioSession()`,
+                `  }`,
+                `}`,
               ]),
             })
 

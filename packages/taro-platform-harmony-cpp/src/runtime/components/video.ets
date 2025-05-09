@@ -1,5 +1,5 @@
 import { audio } from '@kit.AudioKit'
-import { AREA_CHANGE_EVENT_NAME, createTaroEvent, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { AREA_CHANGE_EVENT_NAME, Current, createTaroEvent, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
@@ -29,7 +29,6 @@ export default struct TaroVideo {
   @BuilderParam createLazyChildren: (node: TaroVideoElement) => void = this.customBuilder
   @Param @Require node: TaroVideoElement
   controller: VideoController = new VideoController()
-  audioSessionManager: audio.AudioSessionManager | null = null
 
   @Local attrSrc: string = ''
   @Local attrPoster: string = ''
@@ -49,10 +48,6 @@ export default struct TaroVideo {
   }
 
   aboutToAppear(): void {
-    let audioManager = audio.getAudioManager()
-    this.audioSessionManager = audioManager.getSessionManager()
-    this.audioSessionManager?.activateAudioSession({ concurrencyMode: audio.AudioConcurrencyMode.CONCURRENCY_PAUSE_OTHERS })
-
     if (this.node) {
       this.node._instance = this
       this.node.controller = this.controller
@@ -66,14 +61,24 @@ export default struct TaroVideo {
     }
   }
 
-  aboutToDisappear(): void {
-    this.audioSessionManager?.deactivateAudioSession()
+  refreshAudioSession() {
+    if (Current.audioSessionManager) {
+      const manager: audio.AudioSessionManager = Current.audioSessionManager
+      if (manager.isAudioSessionActivated()) {
+        manager.deactivateAudioSession().then(() => {
+          let strategy: audio.AudioSessionStrategy = {
+            concurrencyMode: audio.AudioConcurrencyMode.CONCURRENCY_PAUSE_OTHERS
+          }
+          manager.activateAudioSession(strategy)
+        })
+      }
+    }
   }
 
-  refreshAudioSession() {
-    this.audioSessionManager?.deactivateAudioSession().then(() => {
-      this.audioSessionManager?.activateAudioSession({ concurrencyMode: audio.AudioConcurrencyMode.CONCURRENCY_PAUSE_OTHERS })
-    })
+  aboutToDisappear(): void {
+    setTimeout(() => {
+      this.refreshAudioSession()
+    }, 200)
   }
 
   build () {
@@ -88,17 +93,17 @@ export default struct TaroVideo {
       .controls(this.attrControls || false)
       .objectFit(this.computedObjectFit)
       .loop(this.attrLoop || false)
-      .onStart(() => {
-        this.refreshAudioSession()
-        return shouldBindEvent(() => { emitEvent(this.node, 'play') }, this.node, ['play'])
-      })
+      .onStart(shouldBindEvent(() => { emitEvent(this.node, 'play') }, this.node, ['play']))
       .onPause(() => {
+        shouldBindEvent(() => { emitEvent(this.node, 'pause') }, this.node, ['pause'])?.()
         this.refreshAudioSession()
-        return shouldBindEvent(() => { emitEvent(this.node, 'pause') }, this.node, ['pause'])
+      })
+      .onStop(() => {
+        this.refreshAudioSession()
       })
       .onFinish(() => {
+        shouldBindEvent(() => { emitEvent(this.node, 'ended') }, this.node, ['ended'])?.()
         this.refreshAudioSession()
-        return shouldBindEvent(() => { emitEvent(this.node, 'ended') }, this.node, ['ended'])
       })
       .onError(shouldBindEvent(() => { emitEvent(this.node, 'error') }, this.node, ['error']))
       .onUpdate((e) => { handleUpdate(this.node, e) })
