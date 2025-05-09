@@ -29,25 +29,31 @@ export class TaroWindowUtil {
 
   // 需要在 entryAbility 绑定 onWindowStageCreate 生命周期
   static setWindowStage(b49) {
-    TaroWindowUtil.resolver = new Promise((resolve, reject) => {
-      TaroWindowUtil.resolve = resolve
-      TaroWindowUtil.reject = reject
+    try {
+      TaroWindowUtil.resolver = new Promise((resolve, reject) => {
+        TaroWindowUtil.resolve = resolve
+        TaroWindowUtil.reject = reject
 
-      return resolve
-    })
-    AppStorage.setOrCreate(WINDOW_STATE, b49)
-    const topHeight = b49.getMainWindowSync()?.getWindowAvoidArea(_window.AvoidAreaType.TYPE_SYSTEM)?.topRect?.height
-    if (typeof topHeight !== 'undefined') {
-      TaroWindowUtil.avoidAreaTopHeight = topHeight
-      TaroWindowUtil.resolve()
+        return resolve
+      })
+      AppStorage.setOrCreate(WINDOW_STATE, b49)
+      const topHeight = b49.getMainWindowSync()?.getWindowAvoidArea(_window.AvoidAreaType.TYPE_SYSTEM)?.topRect?.height
+      if (typeof topHeight !== 'undefined') {
+        TaroWindowUtil.avoidAreaTopHeight = topHeight
+        TaroWindowUtil.resolve()
+      }
+      b49?.getMainWindow().then((d49) => {
+        d49?.on('avoidAreaChange', TaroWindowUtil.updateTopHeight)
+      }).catch((error) => {
+        console.error('Taro Failed to set window stage', error)
+      })
+      b49.getMainWindowSync().on('avoidAreaChange', (res) => {
+        if (res.type !== _window.AvoidAreaType.TYPE_SYSTEM) return
+        updateSystemInfo()
+      })
+    } catch (error) {
+      console.error('Taro Failed to set window stage', error)
     }
-    b49?.getMainWindow().then((d49) => {
-      d49?.on('avoidAreaChange', TaroWindowUtil.updateTopHeight)
-    })
-    b49.getMainWindowSync().on('avoidAreaChange', (res) => {
-      if (res.type !== _window.AvoidAreaType.TYPE_SYSTEM) return
-      updateSystemInfo()
-    })
   }
 
   static getNavigationBarHeight() {
