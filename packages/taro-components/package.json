@@ -7,20 +7,8 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "types/index.d.ts",
-  "sideEffects": [
-    "*.scss",
-    "*.css"
-  ],
-  "files": [
-    "dist",
-    "lib",
-    "loader",
-    "mini",
-    "types",
-    "virtual-list",
-    "vue3.d.ts",
-    "global.css"
-  ],
+  "sideEffects": ["*.scss", "*.css"],
+  "files": ["dist", "lib", "loader", "mini", "types", "virtual-list", "vue3.d.ts", "global.css"],
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "scripts": {
@@ -60,7 +48,6 @@
     "hammerjs": "^2.0.8",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@tarojs/components-advanced": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
     "hls.js": "^1.1.5",
