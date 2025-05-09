@@ -1,3 +1,4 @@
+import { audio } from '@kit.AudioKit'
 import { AREA_CHANGE_EVENT_NAME, createTaroEvent, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import commonStyleModify from './style'
@@ -28,6 +29,7 @@ export default struct TaroVideo {
   @BuilderParam createLazyChildren: (node: TaroVideoElement) => void = this.customBuilder
   @Param @Require node: TaroVideoElement
   controller: VideoController = new VideoController()
+  audioSessionManager: audio.AudioSessionManager | null = null
 
   @Local attrSrc: string = ''
   @Local attrPoster: string = ''
@@ -47,6 +49,10 @@ export default struct TaroVideo {
   }
 
   aboutToAppear(): void {
+    let audioManager = audio.getAudioManager()
+    this.audioSessionManager = audioManager.getSessionManager()
+    this.audioSessionManager?.activateAudioSession({ concurrencyMode: audio.AudioConcurrencyMode.CONCURRENCY_PAUSE_OTHERS })
+
     if (this.node) {
       this.node._instance = this
       this.node.controller = this.controller
@@ -58,6 +64,16 @@ export default struct TaroVideo {
       this.attrMuted = this.node._attrs.muted ?? this.attrMuted
       this.attrObjectFit = this.node._attrs.objectFit ?? this.attrObjectFit
     }
+  }
+
+  aboutToDisappear(): void {
+    this.audioSessionManager?.deactivateAudioSession()
+  }
+
+  refreshAudioSession() {
+    this.audioSessionManager?.deactivateAudioSession().then(() => {
+      this.audioSessionManager?.activateAudioSession({ concurrencyMode: audio.AudioConcurrencyMode.CONCURRENCY_PAUSE_OTHERS })
+    })
   }
 
   build () {
@@ -72,9 +88,18 @@ export default struct TaroVideo {
       .controls(this.attrControls || false)
       .objectFit(this.computedObjectFit)
       .loop(this.attrLoop || false)
-      .onStart(shouldBindEvent(() => { emitEvent(this.node, 'play') }, this.node, ['play']))
-      .onPause(shouldBindEvent(() => { emitEvent(this.node, 'pause') }, this.node, ['pause']))
-      .onFinish(shouldBindEvent(() => { emitEvent(this.node, 'ended') }, this.node, ['ended']))
+      .onStart(() => {
+        this.refreshAudioSession()
+        return shouldBindEvent(() => { emitEvent(this.node, 'play') }, this.node, ['play'])
+      })
+      .onPause(() => {
+        this.refreshAudioSession()
+        return shouldBindEvent(() => { emitEvent(this.node, 'pause') }, this.node, ['pause'])
+      })
+      .onFinish(() => {
+        this.refreshAudioSession()
+        return shouldBindEvent(() => { emitEvent(this.node, 'ended') }, this.node, ['ended'])
+      })
       .onError(shouldBindEvent(() => { emitEvent(this.node, 'error') }, this.node, ['error']))
       .onUpdate((e) => { handleUpdate(this.node, e) })
       .onPrepared(shouldBindEvent((e: TaroAny) => { emitEvent(this.node, 'loadedMetaData', { duration: e.duration }) }, this.node, ['loadedmetadata']))

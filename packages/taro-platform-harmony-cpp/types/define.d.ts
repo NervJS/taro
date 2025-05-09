@@ -39,6 +39,8 @@ declare module '@tarojs/taro' {
      * @supported global
      */
     pxTransform(size: number, designWidth?: number): number | string
+    /** Harmony 专属，刷新 Audio 状态 */
+    refreshAudioSession(): void
   }
 }
 

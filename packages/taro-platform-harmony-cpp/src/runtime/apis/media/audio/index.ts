@@ -1,3 +1,5 @@
+import audio from '@ohos.multimedia.audio'
+
 import { temporarilyNotSupport } from '../../utils'
 
 // 音频
@@ -16,3 +18,19 @@ export const createMediaAudioPlayer = /* @__PURE__ */ temporarilyNotSupport('cre
 export const createInnerAudioContext = /* @__PURE__ */ temporarilyNotSupport('createInnerAudioContext')
 
 export const createAudioContext = /* @__PURE__ */ temporarilyNotSupport('createAudioContext')
+
+/** Harmony 专属，更新 audio 状态 */
+export const refreshAudioSession = () => {
+  const audioManager = audio.getAudioManager()
+  const audioSessionManager = audioManager.getSessionManager()
+  if (audioSessionManager) {
+    audioSessionManager.deactivateAudioSession().then(() => {
+      setTimeout(() => {
+        const strategy = {
+          concurrencyMode: audio.AudioConcurrencyMode.CONCURRENCY_PAUSE_OTHERS
+        }
+        audioSessionManager.activateAudioSession(strategy)
+      }, 100)
+    })
+  }
+}
