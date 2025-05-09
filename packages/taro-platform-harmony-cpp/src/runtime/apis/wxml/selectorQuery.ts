@@ -30,29 +30,32 @@ function filter (fields, dom) {
     context
   } = fields
   const res: any = {}
-
-  if (nodeCanvasType && node) { // Node节点获取处理
-    const typeName = dom.nodeName
-    res.node = {
-      id: dom.id,
-      $taroElement: dom
-    }
-    if (/^canvas/i.test(typeName)) {
-      // harmony todo canvas attr type
-      const canvasType = dom._attrs.type || ''
-      res.nodeCanvasType = canvasType
-      if (/^(2d|webgl)/i.test(canvasType) && dom) {
-        res.node = dom
-      } else {
-        res.node = null
+  if (node) {
+    if (nodeCanvasType) { // Node节点获取处理
+      const typeName = dom.nodeName
+      res.node = {
+        id: dom.id,
+        $taroElement: dom
       }
+      if (/^canvas/i.test(typeName)) {
+        // harmony todo canvas attr type
+        const canvasType = dom._attrs.type || ''
+        res.nodeCanvasType = canvasType
+        if (/^(2d|webgl)/i.test(canvasType) && dom) {
+          res.node = dom
+        } else {
+          res.node = null
+        }
+      } else {
+        // TODO https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html
+        // if (/^taro-scroll-view-core/i.test(tagName))
+        res.nodeCanvasType = ''
+        res.node = dom
+      }
+      return res
     } else {
-      // TODO https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html
-      // if (/^taro-scroll-view-core/i.test(tagName))
-      res.nodeCanvasType = ''
       res.node = dom
     }
-    return res
   }
   if (context) {
     // TODO: 暂未实现获取  context
