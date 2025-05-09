@@ -68,6 +68,10 @@ export class TaroElement<
     return this.getAttribute('id')
   }
 
+  public get uid(): string {
+    return this.getAttribute('uid')
+  }
+
   public set className(value: string) {
     this.setAttribute('class', value)
   }
