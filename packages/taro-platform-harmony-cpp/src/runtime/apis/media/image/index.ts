@@ -138,7 +138,7 @@ export const compressImage: typeof Taro.compressImage = function (options) {
       return callAsyncFail(reject, res, options)
     }
     const { src, quality = 80, compressedWidth, compressedHeight } = options
-    const srcAfterCompress = src.includes('_after_compress') ? src : src.split('.').join('_after_compress.')
+    let srcAfterCompress = src.includes('_after_compress') ? src : src.split('.').join('_after_compress.')
     eventCenter.trigger(ETS_METHODS_TRIGGER_EVENTNAME, {
       name: 'compressImage',
       args: [src, quality, compressedWidth, compressedHeight],
@@ -152,10 +152,14 @@ export const compressImage: typeof Taro.compressImage = function (options) {
           return
         }
         const isPNG = src.endsWith('.png')
+        const suffix = isPNG ? 'png' : 'jpeg'
         const packingOptionsOHOS: IPackingOptionOHOS = {
           format: isPNG ? 'image/png' : 'image/jpeg',
           quality: quality,
         }
+        const temp = srcAfterCompress.split('.')
+        temp[temp.length - 1] = suffix
+        srcAfterCompress = temp.join('.')
         packer
           .packing(pixelMap, packingOptionsOHOS)
           .then((value) => {
