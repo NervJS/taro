@@ -1505,7 +1505,7 @@ importers:
         specifier: ^5.0.7
         version: 5.0.7(rollup@3.29.5)
       '@tarojs/parse-css-to-stylesheet':
-        specifier: '^1.1.5 '
+        specifier: ^1.1.8
         version: 1.1.12
       '@tarojs/react':
         specifier: workspace:*
