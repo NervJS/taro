@@ -3,15 +3,15 @@ import { CommonEventFunction, StandardProps } from './common'
 interface RichTextProps extends StandardProps {
   /** 文本是否可选，该属性会使节点显示为 block
    * @default false
-   * @supported weapp, jd, h5, harmony_hybrid
+   * @supported weapp, h5, harmony_hybrid
    */
   userSelect?: boolean
   /** 节点列表/ HTML String
-   * @supported weapp, jd, alipay, swan, tt, qq, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony, harmony_hybrid
    */
   nodes?: Nodes
   /** 显示连续空格
-   * @supported weapp, jd, alipay, tt, qq, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, tt, qq, h5, rn, harmony_hybrid
    */
   space?: keyof RichTextProps.TSpace
   /** 富文本是否可以长按选中，可用于复制，粘贴，长按搜索等场景
@@ -52,11 +52,6 @@ interface RichTextProps extends StandardProps {
    * @supported alipay
    */
   onLongtap?: CommonEventFunction
-  /** 布局兼容模式
-   * @supported weapp
-   * @default default
-   */
-  mode?: 'default' | 'compat' | 'aggressive' | 'inline-block' | 'web'
 }
 /** 节点类型
  * > 现支持两种节点，通过type来区分，分别是元素节点和文本节点，默认是元素节点，在富文本区域里显示的HTML节点 元素节点：type = node*

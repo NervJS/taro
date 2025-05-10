@@ -143,8 +143,18 @@ interface SwiperProps extends StandardProps {
   disableTouchmove?: string
   /** swiper11 相关的动效参数，具体见文档 https://swiperjs.com/swiper-api#parameters
    * @supported h5
-  */
+   */
   effectsProps?: Record<string, any>
+  /** 改变 current 时使用动画过渡
+   * @supported weapp
+   * @default true
+   */
+  scrollWithAnimation?: boolean
+  /** 缓存区域大小，值为 1 表示提前渲染上下各一屏区域（swiper 容器大小）
+   * @supported weapp
+   * @default 0
+   */
+  cacheExtent?: number
   /** current 改变时会触发 change 事件
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
    */
@@ -161,78 +171,6 @@ interface SwiperProps extends StandardProps {
    * @supported alipay
    */
   onAnimationEnd?: CommonEventFunction<SwiperProps.onCommonEventDetail>
-  /** 渲染模式
-   * @supported weapp
-   * @default normal
-   */
-  layoutType?: 'normal' | 'stackLeft' | 'stackRight' | 'tinder' | 'transformer'
-  /** layout-type 为 transformer 时指定动画类型
-   * @supported weapp
-   * @default scaleAndFade
-   */
-  transformerType?: 'scaleAndFade' | 'accordion' | 'threeD' | 'zoomIn' | 'zoomOut' | 'deepthPage'
-  /** 指示点动画类型
-   * @supported weapp
-   * @default normal
-   */
-  indicatorType?: 'normal' | 'worm' | 'wormThin' | 'wormUnderground' | 'wormThinUnderground' | 'expand' | 'jump' | 'jumpWithOffset' | 'scroll' | 'scrollFixedCenter' | 'slide' | 'slideUnderground' | 'scale' | 'swap' | 'swapYRotation' | 'color'
-  /** 指示点四周边距
-   * @supported weapp
-   * @default 10
-   */
-  indicatorMargin?: number
-  /** 指示点间距
-   * @supported weapp
-   * @default 4
-   */
-  indicatorSpacing?: number
-  /** 指示点圆角大小
-   * @supported weapp
-   * @default 4
-   */
-  indicatorRadius?: number
-  /** 指示点宽度
-   * @supported weapp
-   * @default 8
-   */
-  indicatorWidth?: number
-  /** 指示点高度
-   * @supported weapp
-   * @default 8
-   */
-  indicatorHeight?: number
-  /** 指示点的相对位置
-   * @supported weapp
-   * @default auto
-   */
-  indicatorAlignment?: [number, number] | string
-  /** 指示点位置的偏移量
-   * @supported weapp
-   * @default [0, 0]
-   */
-  indicatorOffset?: [number, number]
-  /** 改变 current 时使用动画过渡
-   * @supported weapp
-   * @default true
-   */
-  scrollWithAnimation?: boolean
-  /** 缓存区域大小，值为 1 表示提前渲染上下各一屏区域（swiper 容器大小）
-   * @supported weapp
-   * @default 0
-   */
-  cacheExtent?: number
-  /** 滑动开始时触发，仅支持 worklet 作为回调。event.detail = {dx: dx, dy: dy}
-   * @supported weapp
-   */
-  onScrollStartWorklet?: string
-  /** 滑动位置更新时触发，仅支持 worklet 作为回调。event.detail = {dx: dx, dy: dy}
-   * @supported weapp
-   */
-  onScrollUpdateWorklet?: string
-  /** 滑动结束时触发，仅支持 worklet 作为回调。event.detail = {dx: dx, dy: dy}
-   * @supported weapp
-   */
-  onScrollEndWorklet?: string
 }
 declare namespace SwiperProps {
   /** 导致变更的原因 */

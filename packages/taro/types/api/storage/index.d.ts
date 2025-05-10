@@ -327,7 +327,7 @@ declare module '../../index' {
     clearStorageSync(): void
 
     /** 清理本地数据缓存
-     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn, harmony_hybrid
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn, harmony, harmony_hybrid
      * @example
      * ```tsx
      * Taro.clearStorage()

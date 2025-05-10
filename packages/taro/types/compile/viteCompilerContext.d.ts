@@ -9,7 +9,6 @@ import type { AppConfig, PageConfig } from '../index'
 
 export interface ViteNativeCompMeta {
   name: string
-  exportName: string
   scriptPath: string
   configPath: string
   config: PageConfig
@@ -17,7 +16,6 @@ export interface ViteNativeCompMeta {
   templatePath: string
   cssPath?: string
   isPackage?: boolean
-  isGenerated?: boolean
 }
 
 export interface ViteFileType {
@@ -59,7 +57,6 @@ export interface ViteHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfi
   runtimePath?: string | string[]
   isPure?: boolean
   taroComponentsPath: string
-  cssVariables?: boolean  // 是否动态解析css变量
 }
 
 export interface CommonBuildConfig extends IProjectConfig<'vite'> {
@@ -112,7 +109,6 @@ export interface ViteCompilerContext<T> {
   configFileList: string[]
   compilePage: (pageName: string) => VitePageMeta
   watchConfigFile: (rollupCtx: PluginContext) => void
-  collectedDeps: (rollupCtx: PluginContext, id: string, filter, cache: Set<string> = new Set()) => Promise<Set<string>>
   getAppScriptPath: () => string
   getApp: () => ViteAppMeta
   getPages: () => VitePageMeta[]
@@ -144,9 +140,7 @@ export interface ViteHarmonyCompilerContext extends ViteCompilerContext<ViteHarm
   getCommonChunks: () => string[]
   modifyHarmonyConfig: (config: Partial<AppConfig>) => void
   modifyHostPackage: (deps?: Record<string, string>, devDeps?: Record<string, string>) => Exclude<IHarmonyConfig['ohPackage'], void>
-  resolvePageImportPath: (scriptPath: string, pageName: string) => string
-  collectNativeComponents: (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) => ViteNativeCompMeta[]
-  generateNativeComponent: (rollupCtx: PluginContext, meta: ViteNativeCompMeta, implicitlyLoadedAfterOneOf: string[] = []) => void
+  collectNativeComponents: (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) => void
   getScriptPath: (filePath: string) => string
   getStylePath: (filePath: string) => string
   getConfigPath: (filePath: string) => string
@@ -157,9 +151,7 @@ export interface ViteMiniCompilerContext extends ViteCompilerContext<ViteMiniBui
   commonChunks: string[]
   nativeComponents : Map<string, ViteNativeCompMeta>
   getCommonChunks: () => string[]
-  resolvePageImportPath: (scriptPath: string, pageName: string) => string
-  collectNativeComponents: (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) => ViteNativeCompMeta[]
-  generateNativeComponent: (rollupCtx: PluginContext, meta: ViteNativeCompMeta, implicitlyLoadedAfterOneOf: string[] = []) => void
+  collectNativeComponents: (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) => void
   getScriptPath: (filePath: string) => string
   getTemplatePath: (filePath: string) => string
   getStylePath: (filePath: string) => string

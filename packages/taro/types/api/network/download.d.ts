@@ -151,7 +151,7 @@ declare module '../../index' {
     /** 下载文件资源到本地。客户端直接发起一个 HTTPS GET 请求，返回文件的本地临时路径，单次下载允许的最大文件为 50MB。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
      *
      * 注意：请在服务端响应的 header 中指定合理的 `Content-Type` 字段，以保证客户端正确处理文件类型。
-     * @supported weapp, h5, alipay, swan, rn, tt, harmony_hybrid, harmony
+     * @supported weapp, h5, alipay, swan, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.downloadFile({

@@ -63,7 +63,7 @@ interface ShareElementProps extends StandardProps {
   /** 动画帧回调
    * @supported weapp
    */
-  onFrameWorklet?: string
+  onFrame?: string
 }
 /** 共享元素
  *
