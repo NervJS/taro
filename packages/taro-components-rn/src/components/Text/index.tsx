@@ -10,15 +10,18 @@ import {
 } from 'react-native'
 import { TextProps } from './PropsType'
 
-const _Text: React.FC<TextProps> = ({
-  style,
-  children,
-  selectable,
-  onClick,
-  ...otherProps
-}) => {
+const _Text: React.FC<TextProps> = React.forwardRef((props: TextProps, ref: React.ForwardedRef<any>) => {
+  const {
+    style,
+    children,
+    selectable,
+    onClick,
+    ...otherProps
+  } = props
+
   return (
     <Text
+      ref={ref}
       selectable={!!selectable}
       style={style}
       onPress={onClick}
@@ -27,7 +30,7 @@ const _Text: React.FC<TextProps> = ({
       {children}
     </Text>
   )
-}
+})
 
 _Text.displayName = '_Text'
 
