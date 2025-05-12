@@ -1,5 +1,6 @@
 import { fs, REG_TARO_H5 } from '@tarojs/helper'
-import { capitalize, internalComponents, isString, toCamelCase } from '@tarojs/shared'
+import { isString } from '@tarojs/shared'
+import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
 import { RECONCILER_NAME } from './constant'
 import { h5iVitePlugin } from './vite.h5'
