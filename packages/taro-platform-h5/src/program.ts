@@ -96,9 +96,11 @@ export default class H5 extends TaroPlatformWeb {
       const rules = chain.module.rules
       const script = rules.get('script')
       const babelLoader = script.uses.get('babelLoader')
+      const options = babelLoader.get('options')
       babelLoader.set('options', {
-        ...babelLoader.get('options'),
+        ...options,
         plugins: [
+          ...(options.plugins || []),
           [
             require('babel-plugin-transform-taroapi'),
             {
@@ -139,7 +141,7 @@ export default class H5 extends TaroPlatformWeb {
             break
           default:
             if (this.useHtmlComponents) {
-              args[0].loaderMeta.extraImportForWeb += `import '${require.resolve('@tarojs/components-react/dist/index.css')}'\nimport { PullDownRefresh } from '@tarojs/components'\n`
+              args[0].loaderMeta.extraImportForWeb += `import '@tarojs/components-react/dist/index.css'\nimport { PullDownRefresh } from '@tarojs/components'\n`
               args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
             }
         }

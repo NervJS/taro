@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "4.0.9",
+  "version": "4.0.13",
   "description": "Taro-router",
   "author": "O2Team",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "main:h5": "dist/index.esm.js",
   "main": "dist/index.js",
   "module": "dist/index.cjs.js",
-  "typings": "dist/index.esm.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "types",

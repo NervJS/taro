@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "4.0.9",
+  "version": "4.0.13",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -55,7 +55,7 @@
     "@babel/core",
     "@babel/helper-plugin-utils",
     "@babel/parser",
-    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-transform-class-properties",
     "@babel/plugin-proposal-decorators",
     "@babel/plugin-proposal-do-expressions",
     "@babel/plugin-proposal-object-rest-spread",
