@@ -39,6 +39,7 @@
     "generate:lib": "mkdirp lib",
     "generate:stencil-config": "esbuild ./scripts/stencil/stencil.config.ts --external:lightningcss --bundle --platform=node --outfile=stencil.config.js",
     "sync:types": "pnpm run tsx --files scripts/json-schema-to-types.ts",
+    "pretest:ci": "node ./node_modules/puppeteer/install.js",
     "test": "cross-env NODE_ENV=test stencil test --spec --e2e",
     "test:ci": "pnpm test -- --ci -i --coverage --silent --no-build",
     "test:coverage": "pnpm test -- --ci --screenshot --coverage",
