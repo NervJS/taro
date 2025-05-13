@@ -220,7 +220,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
-     * @supported weapp, h5, rn, tt, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
      * @example
      * ```json
      * {

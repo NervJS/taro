@@ -218,30 +218,6 @@ interface MapProps extends StandardProps {
    * @supported weapp, swan, qq
    */
   onPoiTap?: CommonEventFunction<MapProps.onPoiTapEventDetail>
-  /** 点击地图路线时触发，e.detail = {longitude, latitude}
-   * @supported weapp, swan, qq
-   */
-  onPolylineTap?: CommonEventFunction<MapProps.onPolylineTapEventDetail>
-  /** 地图能力生效时触发，e.detail = {ability, errCode, errMsg}
-   * @supported weapp
-   */
-  onAbilitySuccess?: CommonEventFunction<MapProps.onAbilityEventDetail>
-  /** 地图能力失败时触发，e.detail = {ability, errCode, errMsg}
-   * @supported weapp
-   */
-  onAbilityFailed?: CommonEventFunction<MapProps.onAbilityEventDetail>
-  /** 地图鉴权结果成功时触发，e.detail = {errCode, errMsg}
-   * @supported weapp
-   */
-  onAuthSuccess?: CommonEventFunction<{ errCode: number; errMsg: string }>
-  /** MapContext.moveAlong 插值动画时触发。e.detail = {markerId, longitude, latitude, animationStatus: "interpolating" | "complete"}
-   * @supported weapp
-   */
-  onInterpolatePoint?: CommonEventFunction<MapProps.onInterpolatePointEventDetail>
-  /** 组件错误时触发，例如创建或鉴权失败，e.detail = {longitude, latitude}
-   * @supported weapp
-   */
-  onError: CommonEventFunction<MapProps.point>
   /** 点击标记点对应的气泡时触发e.detail = {markerId}
    * @supported weapp, swan, tt, jd
    */

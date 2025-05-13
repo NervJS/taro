@@ -442,7 +442,7 @@ declare module '../../index' {
     getVideoInfo(option: getVideoInfo.Option): Promise<getVideoInfo.SuccessCallbackResult>
 
     /** 创建 video 上下文 VideoContext 对象。
-     * @supported weapp, h5, rn, harmony_hybrid, harmony
+     * @supported weapp, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * videoContext = Taro.createVideoContext('myVideo')
@@ -505,7 +505,7 @@ declare module '../../index' {
     chooseVideo(option: chooseVideo.Option): Promise<chooseVideo.SuccessCallbackResult>
 
     /** 拍摄或从手机相册中选择图片或视频。
-     * @supported weapp, h5, harmony_hybrid, harmony
+     * @supported weapp, h5, harmony_hybrid
      * @example
      * ```tsx
      * Taro.chooseMedia({

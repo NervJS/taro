@@ -2048,7 +2048,7 @@ declare module '../../index' {
     /** 创建 canvas 的绘图上下文 [CanvasContext](/docs/apis/canvas/CanvasContext) 对象
      *
      * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`；另外，Web 端需要在 `useReady` 回调中执行它，否则会因为底层 canvas 渲染出来之前而去获取 CanvasContext，导致其底层的 context 为 `undefined`，从而不能正常绘图。
-     * @supported weapp, alipay, swan, jd, qq, tt, h5, harmony_hybrid, harmony
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, harmony_hybrid
      * @example
      * ```tsx
      * import { useReady } from '@tarojs/taro'

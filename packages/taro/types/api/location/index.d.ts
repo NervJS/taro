@@ -455,7 +455,7 @@ declare module '../../index' {
      * **注意**
      * - 工具中定位模拟使用IP定位，可能会有一定误差。且工具目前仅支持 gcj02 坐标。
      * - 使用第三方服务进行逆地址解析时，请确认第三方服务默认的坐标系，正确进行坐标转换。
-     * @supported weapp, swan, jd, qq, tt, rn, harmony_hybrid, harmony
+     * @supported weapp, swan, jd, qq, tt, rn, harmony_hybrid
      * @example
      *  ```tsx
      * Taro.getLocation({

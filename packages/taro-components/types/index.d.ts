@@ -63,8 +63,6 @@ export { OpenContainer } from './OpenContainer'
 export { DraggableSheet } from './DraggableSheet'
 export { NestedScrollHeader } from './NestedScrollHeader'
 export { NestedScrollBody } from './NestedScrollBody'
-export { List } from './List'
-export { ListItem } from './ListItem'
 
 /** 导航 */
 export { FunctionalPageNavigator } from './FunctionalPageNavigator'
