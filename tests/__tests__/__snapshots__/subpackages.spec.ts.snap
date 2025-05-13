@@ -14,7 +14,7 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 524 ], {
-    443: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    31: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -607,10 +607,10 @@ require("./runtime");
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(103);
         var taro = __webpack_require__(622);
-        var classCallCheck = __webpack_require__(246);
-        var createClass = __webpack_require__(697);
-        var callSuper = __webpack_require__(170);
-        var inherits = __webpack_require__(912);
+        var classCallCheck = __webpack_require__(167);
+        var createClass = __webpack_require__(848);
+        var callSuper = __webpack_require__(491);
+        var inherits = __webpack_require__(271);
         var react = __webpack_require__(831);
         var app_App = function(_Component) {
             function App() {
@@ -668,7 +668,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(443);
+        return __webpack_exec__(31);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1441,15 +1441,15 @@ require("./runtime");
 require("../../sub-utils");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 223 ], {
-    672: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    980: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var taro_runtime = __webpack_require__(103);
-        var classCallCheck = __webpack_require__(246);
-        var createClass = __webpack_require__(697);
-        var callSuper = __webpack_require__(170);
-        var inherits = __webpack_require__(912);
+        var classCallCheck = __webpack_require__(167);
+        var createClass = __webpack_require__(848);
+        var callSuper = __webpack_require__(491);
+        var inherits = __webpack_require__(271);
         var react = __webpack_require__(831);
         var taro_components = __webpack_require__(467);
-        var common = __webpack_require__(729);
+        var common = __webpack_require__(757);
         var Detail = function(_Component) {
             function Detail() {
                 (0, classCallCheck.A)(this, Detail);
@@ -1489,7 +1489,7 @@ require("../../sub-utils");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 95, 96, 76 ], (function() {
-        return __webpack_exec__(672);
+        return __webpack_exec__(980);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1512,15 +1512,15 @@ require("../../sub-utils");
 require("../../sub-utils");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 498 ], {
-    866: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    777: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var taro_runtime = __webpack_require__(103);
-        var classCallCheck = __webpack_require__(246);
-        var createClass = __webpack_require__(697);
-        var callSuper = __webpack_require__(170);
-        var inherits = __webpack_require__(912);
+        var classCallCheck = __webpack_require__(167);
+        var createClass = __webpack_require__(848);
+        var callSuper = __webpack_require__(491);
+        var inherits = __webpack_require__(271);
         var react = __webpack_require__(831);
         var taro_components = __webpack_require__(467);
-        var common = __webpack_require__(729);
+        var common = __webpack_require__(757);
         var My = function(_Component) {
             function My() {
                 (0, classCallCheck.A)(this, My);
@@ -1558,7 +1558,7 @@ require("../../sub-utils");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 95, 96, 76 ], (function() {
-        return __webpack_exec__(866);
+        return __webpack_exec__(777);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1578,7 +1578,7 @@ require("../../sub-utils");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 95 ], {
-    729: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             o: function() {
                 return someCommon;
@@ -1594,12 +1594,12 @@ require("../../sub-utils");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 421 ], {
-    576: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    161: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var taro_runtime = __webpack_require__(103);
-        var classCallCheck = __webpack_require__(246);
-        var createClass = __webpack_require__(697);
-        var callSuper = __webpack_require__(170);
-        var inherits = __webpack_require__(912);
+        var classCallCheck = __webpack_require__(167);
+        var createClass = __webpack_require__(848);
+        var callSuper = __webpack_require__(491);
+        var inherits = __webpack_require__(271);
         var react = __webpack_require__(831);
         var taro_components = __webpack_require__(467);
         var taro = __webpack_require__(622);
@@ -1649,7 +1649,7 @@ require("../../sub-utils");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(576);
+        return __webpack_exec__(161);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1709,7 +1709,7 @@ module.exports = {
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 96 ], {
-    170: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    491: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -1728,7 +1728,7 @@ module.exports = {
                 return !!t;
             })();
         }
-        var esm_typeof = __webpack_require__(27);
+        var esm_typeof = __webpack_require__(498);
         function _assertThisInitialized(e) {
             if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
             return e;
@@ -1742,7 +1742,7 @@ module.exports = {
             return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
         }
     },
-    246: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    167: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _classCallCheck;
@@ -1752,13 +1752,13 @@ module.exports = {
             if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
         }
     },
-    697: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    848: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(27);
+        var esm_typeof = __webpack_require__(498);
         function toPrimitive(t, r) {
             if ("object" != (0, esm_typeof.A)(t) || !t) return t;
             var e = t[Symbol.toPrimitive];
@@ -1786,7 +1786,7 @@ module.exports = {
             }), e;
         }
     },
-    912: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    271: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _inherits;
@@ -1810,7 +1810,7 @@ module.exports = {
             }), e && _setPrototypeOf(t, e);
         }
     },
-    27: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    498: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
