@@ -2953,8 +2953,11 @@
         "return": false
       },
       "confirm-hold": false,
-      "adjust-keyboard-to": false,
-      "default-value": false
+      "default-value": false,
+      "adjust-keyboard-to": {
+        "cursor": false,
+        "bottom": false
+      }
     },
     "vertical-drag-gesture-handler": {
       "tag": false
