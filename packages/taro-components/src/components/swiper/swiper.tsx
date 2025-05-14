@@ -235,6 +235,31 @@ export class Swiper implements ComponentInterface {
     }
   }
 
+  handleSwiperLoopListen = () => {
+    this.observerFirst?.disconnect && this.observerFirst.disconnect()
+    this.observerLast?.disconnect && this.observerLast.disconnect()
+    this.observerFirst = new MutationObserver(this.handleSwiperLoop)
+    this.observerLast = new MutationObserver(this.handleSwiperLoop)
+    const wrapper = this.swiper.$wrapperEl[0]
+    const list = wrapper.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)')
+    if (list.length >= 1) {
+      this.observerFirst.observe(list[0], {
+        characterData: true
+      })
+    } else if (list.length >= 2) {
+      this.observerLast.observe(list[list.length - 1], {
+        characterData: true
+      })
+    }
+  }
+
+  handleSwiperLoop = debounce(() => {
+    if (this.swiper && this.circular) {
+      this.swiper.loopDestroy()
+      this.swiper.loopCreate()
+    }
+  }, 1000)
+
   handleSwiperSizeDebounce = debounce(() => {
     if (!this.swiper || !this.isWillLoadCalled) return
     if(this.circular) {
@@ -262,6 +287,9 @@ export class Swiper implements ComponentInterface {
   }
 
   @State() observer: MutationObserver
+  @State() observerForLoop: MutationObserver
+  @State() observerFirst: MutationObserver
+  @State() observerLast: MutationObserver
 
   componentWillLoad () {
     this.isWillLoadCalled = true
@@ -274,10 +302,22 @@ export class Swiper implements ComponentInterface {
     this.observer.observe(this.swiperWrapper as Node, {
       childList: true
     })
+
+    this.observerForLoop = new MutationObserver(this.handleSwiperLoopListen)
+    this.observerForLoop.observe(this.swiperWrapper as Node, {
+      childList: true
+    })
+  }
+
+  componentDidRender (): void {
+    this.handleSwiperLoop()
   }
 
   disconnectedCallback () {
     this.observer?.disconnect()
+    this.observerForLoop?.disconnect()
+    this.observerFirst?.disconnect()
+    this.observerLast?.disconnect()
   }
 
   handleInit (reset = false) {
@@ -338,6 +378,9 @@ export class Swiper implements ComponentInterface {
             source: that.#source,
             currentItemId,
           })
+          if(that.circular) {
+            that.swiper.slideToLoop(this.realIndex, 0)
+          }
           that.#source = 'autoplay'
         },
         touchMove () {
