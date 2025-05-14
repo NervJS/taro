@@ -50,7 +50,7 @@ jobs:
         run: echo "ABORT=true" >> $GITHUB_ENV
 
       - name: Publish push tag verification
-        if: github.event_name == 'push' && ( contains( env.COMMIT_MESSAGE , '--tag=' ) != true || contains( env.COMMIT_MESSAGE , '--tag=v3-latest' ) == true )
+        if: github.event_name == 'push' && contains( env.COMMIT_MESSAGE , '--tag=v3-latest' ) != true
         run: echo "ABORT=true" >> $GITHUB_ENV
 
   build-rust-binding:
