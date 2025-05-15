@@ -3781,7 +3781,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "pages/index/index" ], {
-    "../../../../node_modules/.pnpm/vue-loader@17.4.2_vue@3.5.13_typescript@5.4.5__webpack@5.91.0_@swc+core@1.3.96_/node_modules/vue-loader/dist/exportHelper.js": function(__unused_webpack_module, exports) {
+    "../../../../node_modules/.pnpm/vue-loader@17.4.2_webpack@5.91.0_@swc+core@1.3.96_/node_modules/vue-loader/dist/exportHelper.js": function(__unused_webpack_module, exports) {
         var __webpack_unused_export__;
         __webpack_unused_export__ = {
             value: true
@@ -3812,7 +3812,7 @@ require("./runtime");
                 };
             }
         };
-        var exportHelper = __webpack_require__("../../../../node_modules/.pnpm/vue-loader@17.4.2_vue@3.5.13_typescript@5.4.5__webpack@5.91.0_@swc+core@1.3.96_/node_modules/vue-loader/dist/exportHelper.js");
+        var exportHelper = __webpack_require__("../../../../node_modules/.pnpm/vue-loader@17.4.2_webpack@5.91.0_@swc+core@1.3.96_/node_modules/vue-loader/dist/exportHelper.js");
         const __exports__ = (0, exportHelper.A)(indexvue_type_script_lang_js, [ [ "render", render ] ]);
         var index = __exports__;
         var config = {

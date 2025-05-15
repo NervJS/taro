@@ -1169,9 +1169,6 @@ importers:
       vue:
         specifier: ^3.4.25
         version: 3.5.13(typescript@5.4.5)
-      vue-loader:
-        specifier: ^17.0.0
-        version: 17.4.2(vue@3.5.13(typescript@5.4.5))(webpack@5.91.0(@swc/core@1.3.96))
       webpack:
         specifier: 5.91.0
         version: 5.91.0(@swc/core@1.3.96)
@@ -3050,6 +3047,9 @@ importers:
       react:
         specifier: ^18.2.0
         version: 18.3.1
+      vue-loader:
+        specifier: ^17.0.0
+        version: 17.4.2(webpack@5.91.0(@swc/core@1.3.96))
       webpack:
         specifier: 5.91.0
         version: 5.91.0(@swc/core@1.3.96)
@@ -32493,14 +32493,12 @@ snapshots:
       acorn: 8.14.1
       acorn-walk: 8.3.4
 
-  vue-loader@17.4.2(vue@3.5.13(typescript@5.4.5))(webpack@5.91.0(@swc/core@1.3.96)):
+  vue-loader@17.4.2(webpack@5.91.0(@swc/core@1.3.96)):
     dependencies:
       chalk: 4.1.2
       hash-sum: 2.0.0
       watchpack: 2.4.2
       webpack: 5.91.0(@swc/core@1.3.96)
-    optionalDependencies:
-      vue: 3.5.13(typescript@5.4.5)
 
   vue@3.2.47:
     dependencies:
