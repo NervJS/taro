@@ -307,11 +307,13 @@ export class Swiper implements ComponentInterface {
       childList: true
     })
 
-    this.observerForLoop = new MutationObserver(this.handleSwiperLoopListen)
-    this.observerForLoop.observe(this.swiperWrapper as Node, {
-      childList: true
-    })
-    this.handleSwiperLoopListen()
+    if (!this.isUsingEffects()) {
+      this.observerForLoop = new MutationObserver(this.handleSwiperLoopListen)
+      this.observerForLoop.observe(this.swiperWrapper as Node, {
+        childList: true
+      })
+      this.handleSwiperLoopListen()
+    }
   }
 
   disconnectedCallback () {
@@ -319,6 +321,11 @@ export class Swiper implements ComponentInterface {
     this.observerForLoop?.disconnect()
     this.observerFirst?.disconnect()
     this.observerLast?.disconnect()
+  }
+
+  isUsingEffects = () => {
+    // 是否使用了 特效
+    return this.effectsProps?.effect
   }
 
   handleInit (reset = false) {
