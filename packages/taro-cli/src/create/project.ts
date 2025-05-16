@@ -43,6 +43,7 @@ export interface IProjectConf {
   hideDefaultTemplate?: boolean
   framework: FrameworkType
   compiler?: CompilerType
+  ask?: Function
 }
 
 type CustomPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -125,6 +126,14 @@ export default class Project extends Creator {
     const templates = await this.fetchTemplates(Object.assign({}, answers, compilerAndTemplateSourceAnswer))
     await this.askTemplate(conf, prompts, templates)
     const templateChoiceAnswer = await inquirer.prompt<IProjectConf>(prompts)
+
+    // 导航步骤扩展
+    try {
+      if (typeof conf.ask === 'function') {
+        const { ask, ...other } = conf
+        await conf.ask({ ...other, templatePath: this.templatePath(templateChoiceAnswer.template) })
+      }
+    } catch (e) { }
 
     return {
       ...answers,
