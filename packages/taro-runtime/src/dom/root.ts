@@ -174,7 +174,8 @@ export class TaroRootElement extends TaroElement {
         customWrapperMap.forEach((data, ctx) => {
           if (process.env.NODE_ENV !== 'production' && options.debug) {
             // eslint-disable-next-line no-console
-            console.log('custom wrapper setData: ', data)
+            console.log('[Taro] custom wrapper setData: ', data)
+            perf.checkSetData(ctx, data)
           }
           ctx.setData(data, cb)
         })
@@ -184,7 +185,8 @@ export class TaroRootElement extends TaroElement {
       if (isNeedNormalUpdate) {
         if (process.env.NODE_ENV !== 'production' && options.debug) {
           // eslint-disable-next-line no-console
-          console.log('page setData:', normalUpdate)
+          console.log('[Taro] page setData:', normalUpdate)
+          perf.checkSetData(ctx, data)
         }
         ctx.setData(normalUpdate, cb)
       }
