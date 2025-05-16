@@ -13,8 +13,8 @@ require("./vendors");
 
 require("./runtime");
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 524 ], {
-    443: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "app" ], {
+    "./src/app.js": function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -605,13 +605,13 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(103);
-        var taro = __webpack_require__(622);
-        var classCallCheck = __webpack_require__(246);
-        var createClass = __webpack_require__(697);
-        var callSuper = __webpack_require__(170);
-        var inherits = __webpack_require__(912);
-        var react = __webpack_require__(831);
+        var taro_runtime = __webpack_require__("../../mocks/taro-runtime.ts");
+        var taro = __webpack_require__("../../mocks/taro.ts");
+        var classCallCheck = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+        var createClass = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/createClass.js");
+        var callSuper = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/callSuper.js");
+        var inherits = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/inherits.js");
+        var react = __webpack_require__("../../mocks/react.ts");
         var app_App = function(_React$Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -666,8 +666,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(443);
+    __webpack_require__.O(0, [ "vendors", "common" ], (function() {
+        return __webpack_exec__("./src/app.js");
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1410,8 +1410,8 @@ require("./runtime");
 /** filePath: dist/common.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 76 ], {
-    831: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "common" ], {
+    "../../mocks/react.ts": function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -1421,7 +1421,7 @@ require("./runtime");
         const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    103: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    "../../mocks/taro-runtime.ts": function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -1440,7 +1440,7 @@ require("./runtime");
         function createRecursiveComponentConfig() {}
         function createPageConfig() {}
     },
-    622: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    "../../mocks/taro.ts": function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             ND: function() {
                 return createReactApp;
@@ -1485,17 +1485,17 @@ require("./runtime");
 /** filePath: dist/comp.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 862 ], {
-    972: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(103);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "comp" ], {
+    "../../../../packages/taro-webpack5-runner/dist/template/comp.js": function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../mocks/taro-runtime.ts");
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 76 ], (function() {
-        return __webpack_exec__(972);
+    __webpack_require__.O(0, [ "common" ], (function() {
+        return __webpack_exec__("../../../../packages/taro-webpack5-runner/dist/template/comp.js");
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1509,8 +1509,8 @@ require("./runtime");
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/components/tab/tab.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 771 ], {
-    345: function() {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "components/tab/tab" ], {
+    "./src/components/tab/tab.js": function() {
         Component({
             behaviors: [],
             properties: {
@@ -1548,7 +1548,7 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    var __webpack_exports__ = __webpack_exec__(345);
+    var __webpack_exports__ = __webpack_exec__("./src/components/tab/tab.js");
 } ]);
 
 /** filePath: dist/components/tab/tab.json **/
@@ -1563,8 +1563,8 @@ require("./runtime");
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 421 ], {
-    419: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "pages/index/index" ], {
+    "./src/pages/index/index.js": function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var taro_components_namespaceObject = {};
         __webpack_require__.r(taro_components_namespaceObject);
         __webpack_require__.d(taro_components_namespaceObject, {
@@ -1572,13 +1572,13 @@ require("./runtime");
                 return View;
             }
         });
-        var taro_runtime = __webpack_require__(103);
-        var classCallCheck = __webpack_require__(246);
-        var createClass = __webpack_require__(697);
-        var callSuper = __webpack_require__(170);
-        var inherits = __webpack_require__(912);
-        var taro = __webpack_require__(622);
-        var react = __webpack_require__(831);
+        var taro_runtime = __webpack_require__("../../mocks/taro-runtime.ts");
+        var classCallCheck = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+        var createClass = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/createClass.js");
+        var callSuper = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/callSuper.js");
+        var inherits = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/inherits.js");
+        var taro = __webpack_require__("../../mocks/taro.ts");
+        var react = __webpack_require__("../../mocks/react.ts");
         const Canvas = {};
         const CoverView = {};
         const CoverImage = {};
@@ -1667,8 +1667,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(419);
+    __webpack_require__.O(0, [ "vendors", "common" ], (function() {
+        return __webpack_exec__("./src/pages/index/index.js");
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1684,9 +1684,9 @@ require("./runtime");
 .title{font-size:36rpx;line-height:80rpx;text-align:center}.main{padding:0 50rpx}.wrapper{margin-bottom:24rpx}
 
 /** filePath: dist/pages/native/native.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 885 ], {
-    392: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-        var _require = __webpack_require__(528), add = _require.add;
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "pages/native/native" ], {
+    "./src/pages/native/native.js": function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+        var _require = __webpack_require__("./src/utils/util.js"), add = _require.add;
         Page({
             data: {
                 text: "This is page data.",
@@ -1709,7 +1709,7 @@ require("./runtime");
             }
         });
     },
-    528: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    "./src/utils/util.js": function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
@@ -1725,7 +1725,7 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    var __webpack_exports__ = __webpack_exec__(392);
+    var __webpack_exports__ = __webpack_exec__("./src/pages/native/native.js");
 } ]);
 
 /** filePath: dist/pages/native/native.json **/
@@ -1788,8 +1788,8 @@ module.exports = {
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 96 ], {
-    170: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "vendors" ], {
+    "../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/callSuper.js": function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -1808,7 +1808,7 @@ module.exports = {
                 return !!t;
             })();
         }
-        var esm_typeof = __webpack_require__(27);
+        var esm_typeof = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/typeof.js");
         function _assertThisInitialized(e) {
             if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
             return e;
@@ -1822,7 +1822,7 @@ module.exports = {
             return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
         }
     },
-    246: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    "../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/classCallCheck.js": function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _classCallCheck;
@@ -1832,13 +1832,13 @@ module.exports = {
             if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
         }
     },
-    697: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    "../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/createClass.js": function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(27);
+        var esm_typeof = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/typeof.js");
         function toPrimitive(t, r) {
             if ("object" != (0, esm_typeof.A)(t) || !t) return t;
             var e = t[Symbol.toPrimitive];
@@ -1866,7 +1866,7 @@ module.exports = {
             }), e;
         }
     },
-    912: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    "../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/inherits.js": function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _inherits;
@@ -1890,7 +1890,7 @@ module.exports = {
             }), e && _setPrototypeOf(t, e);
         }
     },
-    27: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    "../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/typeof.js": function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
