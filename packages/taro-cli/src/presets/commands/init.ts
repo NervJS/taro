@@ -14,6 +14,7 @@ export default (ctx: IPluginContext) => {
       '--template [template]': '项目模板',
       '--css [css]': 'CSS预处理器(sass/less/stylus/none)',
       '--autoInstall': '自动安装依赖',
+      '--ask [ask]': '扩展脚手架的导航步骤',
       '-h, --help': 'output usage information'
     },
     async fn (opts) {
@@ -34,6 +35,7 @@ export default (ctx: IPluginContext) => {
         hideDefaultTemplate,
         sourceRoot,
         autoInstall,
+        ask
       } = opts.options
 
       const Project = require('../../create/project').default
@@ -52,7 +54,8 @@ export default (ctx: IPluginContext) => {
         compiler,
         hideDefaultTemplate,
         autoInstall,
-        css
+        css,
+        ask
       })
 
       project.create()
