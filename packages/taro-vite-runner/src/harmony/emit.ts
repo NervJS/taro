@@ -38,12 +38,6 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           }
         }
       }
-
-      // Note: 组件编译模式不修改 Harmony 配置
-      if (!taroConfig.isBuildNativeComp) {
-        // Note: 修改 harmony Hap 的配置文件，注入路由配置
-        viteCompilerContext.modifyHarmonyConfig(viteCompilerContext.app.config)
-      }
     }
   }, {
     name: 'taro:vite-harmony-emit-post',

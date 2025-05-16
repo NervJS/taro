@@ -793,7 +793,7 @@ export class RenderParser {
           ? jsxElementPath
             .findParent((p) => isArrayMapCallExpression(p as any))
             ?.get('arguments')[0]
-            .get('body').scope
+            .get('body').scope || this.renderScope
           : this.renderScope
         const bindingNode = renderScope.getOwnBinding(assignmentName)!.path.node as any
         const parallelIfStems = this.findParallelIfStem(ifStatement as any)
