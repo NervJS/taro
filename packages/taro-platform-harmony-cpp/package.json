@@ -23,6 +23,7 @@
   "scripts": {
     "prebuild": "rimraf --impl=move-remove dist",
     "build": "pnpm run rollup",
+    "prod": "pnpm run build",
     "build:library": "pnpm run tsx --files ./scripts/build",
     "dev": "pnpm run rollup -w",
     "remove:reference": "pnpm run tsx --files ./scripts/reference",
