@@ -64,7 +64,6 @@
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "@tarojs/vite-runner": "workspace:*",
-    "@types/node": "^18.19.34",
     "postcss": "^8.4.38",
     "prettier": "^2.8.8",
     "rollup-plugin-copy": "workspace:*",

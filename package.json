@@ -95,7 +95,7 @@
     "@types/inquirer": "^8.2.1",
     "@types/jest": "^29.5.0",
     "@types/less": "^3.0.2",
-    "@types/node": "^18",
+    "@types/node": "^20.5.1",
     "@types/postcss-import": "^14.0.0",
     "@types/postcss-url": "^10.0.0",
     "@types/resolve": "^1.20.6",
@@ -156,8 +156,8 @@
     "stylelint-order": "^6.0.4",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.1",
-    "typescript": "~5.4.5",
     "tslib": "^2.6.2",
+    "typescript": "~5.4.5",
     "vitest": "^1.6.0"
   },
   "pnpm": {

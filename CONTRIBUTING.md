@@ -10,7 +10,7 @@
 
 ### 1. 环境准备
 
-> 需要安装 [Node.js 16](https://nodejs.org/en/)（建议安装 `16.20.0` 及以上版本）及 [pnpm 7](https://pnpm.io/zh/installation)
+> 需要安装 [Node.js 20](https://nodejs.org/en/)（建议安装 `v20.19.1` 及以上版本）及 [pnpm 10](https://pnpm.io/zh/installation)
 
 首先把 Taro 仓库 fork 一份到自己的 Github，然后从个人仓库把项目 clone 到本地，项目默认是 `main` 分支。
 
@@ -36,7 +36,7 @@ Taro 由一系列子 npm 包组成，整体项目组织基于 **pnpm workspace**
 $ pnpm --filter [package-name] run dev
 ```
 
-开发过程中，一般会使用 **link** 的方式把需要调试的包软链到一个测试项目中，然后便可进行断点调试。开发者可以根据测试项目的包管理器以及自己的喜好选择使用 [npm link](https://docs.npmjs.com/cli/v7/commands/npm-link) 或 [yarn link](https://yarnpkg.com/cli/link)（推荐）或 [pnpm link](https://pnpm.io/zh/cli/link) 。
+开发过程中，一般会使用 **link** 的方式把需要调试的包软链到一个测试项目中，然后便可进行断点调试。开发者可以根据测试项目的包管理器以及自己的喜好选择使用 [npm link](https://docs.npmjs.com/cli/v11/commands/npm-link) 或 [yarn link](https://yarnpkg.com/cli/link)（推荐）或 [pnpm link](https://pnpm.io/zh/cli/link) 。
 
 **使用 `yarn link` 的具体示例如下：**
 
@@ -209,7 +209,7 @@ Cargo workspace 会把编译产物输出到根目录的 `target` 文件夹中。
 
 如对 `@taorjs/helper` 进行集成测试时，会把 `target/wasm32-wasip1/release/swc_plugin_xxx.wasm` 文件的软链到 `packages/taro-helper/swc/swc_plugin_xxx.wasm`。
 
-#### 
+####
 
 ## Credits
 
