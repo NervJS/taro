@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "engines": {
-    "node": ">= 18"
+    "node": ">=20"
   },
   "devDependencies": {
     "@tarojs/runtime": "workspace:*",
