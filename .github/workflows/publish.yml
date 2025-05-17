@@ -88,7 +88,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v3.0.0
         with:
-          version: 9
+          version: 10
       - name: Setup Node 18
         uses: actions/setup-node@v4
         with:
@@ -195,6 +195,13 @@ jobs:
           git_tag_prefix: "v"
 
       # ------------------ publish -------------
+
+      - name: Setup open-harmony configuration
+        run: |
+          mkdir -p ./.ssh
+          echo "${{ secrets.OHPM_PRIVATE_KEY }}" > ./.ssh/id_taro_harmony
+          # ohpm config set key_path ./.ssh/id_taro_harmony
+          # ohpm config set publish_id ${{ secrets.OHPM_PUBLISH_CODE }}
 
       - name: Publish
         run: |

@@ -17,7 +17,7 @@ const base: RollupOptions & { plugins: InputPluginOption[] } = {
       preferBuiltins: false
     }) as InputPluginOption,
     ts({
-      exclude: ['rollup.config.ts']
+      exclude: ['rollup.config.mts']
     }),
     commonjs() as InputPluginOption
   ]
@@ -82,7 +82,7 @@ const otherConfig: RollupOptions = {
   plugins: [
     ts({
       declaration: false,
-      exclude: ['rollup.config.ts']
+      exclude: ['rollup.config.mts']
     })
   ]
 }

@@ -75,7 +75,10 @@ const variesConfig: RollupOptions[] = [{
     format: 'cjs',
     inlineDynamicImports: true
   },
-  plugins: getPlugins([exportNameOnly()])
+  plugins: getPlugins([exportNameOnly(), externals({
+    deps: true,
+    devDeps: false,
+  })])
 }]
 
 if (process.env.NODE_ENV === 'production') {
