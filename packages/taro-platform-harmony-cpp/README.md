@@ -67,13 +67,6 @@ const config = {
     // ['@tarojs/plugin-platform-harmony-cpp', { useChoreLibrary: false }],
     // ['@tarojs/plugin-platform-harmony-cpp', { useChoreLibrary: '4.1.0-alpha.0' }],
   ],
-  harmony: {
-    ohPackage: {
-      dependencies: {
-        'library': 'file:../library',
-      },
-    },
-  },
   // ...
 }
 ```
