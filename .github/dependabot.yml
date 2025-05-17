@@ -9,7 +9,7 @@ updates:
   ignore:
   - dependency-name: "@types/node"
     versions:
-    - ">= 20, < 21"
+    - ">= 13, < 20"
   - dependency-name: mini-css-extract-plugin
     versions:
     - 1.3.5

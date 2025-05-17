@@ -183,5 +183,15 @@
     "overrides": {
       "browserslist": "^4.24.4"
     }
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">= 20.19.2"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": ">= 10.11.0"
+    }
   }
 }
