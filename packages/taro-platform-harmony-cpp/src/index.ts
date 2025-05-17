@@ -25,7 +25,6 @@ const staticDirname = 'static'
 let harName = `${PKG_NAME}-${PKG_VERSION}.har`
 if (!fs.existsSync(path.join(__dirname, '..', staticDirname, harName))) {
   harName = require('fast-glob').sync('**/*.har', { cwd: path.join(__dirname, '..', staticDirname) })[0] || ''
-  console.log('使用 har', harName)
 }
 export default (ctx: IPluginContext, options: IOptions = {}) => {
   options.useChoreLibrary = options.useChoreLibrary ?? 'local'
