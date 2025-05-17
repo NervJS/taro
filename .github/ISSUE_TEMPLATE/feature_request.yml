@@ -5,6 +5,14 @@ labels:
   - triage
   - feat
 body:
+  - type: checkboxes
+    id: duplication
+    attributes:
+      label: 请先搜索是否存在类似提交
+      options:
+        - label: 我确定这个提交不是重复的
+    validations:
+      required: true
   - type: textarea
     id: feature
     attributes:

@@ -6,6 +6,14 @@ labels:
   - bug
 body:
   - type: checkboxes
+    id: duplication
+    attributes:
+      label: 请先搜索是否存在类似提交
+      options:
+        - label: 我确定这个提交不是重复的
+    validations:
+      required: true
+  - type: checkboxes
     id: platform
     attributes:
       label: 相关平台
@@ -21,8 +29,6 @@ body:
         - label: Web 平台（H5）
         - label: 移动端（React-Native）
         - label: 鸿蒙（harmony）
-    validations:
-      required: true
   - type: input
     id: library
     attributes:
