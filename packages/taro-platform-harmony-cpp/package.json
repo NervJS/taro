@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-harmony-cpp",
-  "version": "4.1.0",
+  "version": "4.1.1-alpha.1",
   "description": "鸿蒙系统插件 C-API 版本",
   "author": "O2Team",
   "homepage": "https://gitee.com/openharmony-sig/taro",
@@ -13,6 +13,7 @@
   "files": [
     "index.js",
     "dist",
+    "static",
     "types"
   ],
   "types": "types/index.d.ts",
@@ -23,6 +24,7 @@
   "scripts": {
     "prebuild": "rimraf --impl=move-remove dist",
     "build": "pnpm run rollup",
+    "prod": "pnpm run build",
     "build:library": "pnpm run tsx --files ./scripts/build",
     "dev": "pnpm run rollup -w",
     "remove:reference": "pnpm run tsx --files ./scripts/reference",
