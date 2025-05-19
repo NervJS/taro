@@ -21,7 +21,7 @@
 
   const config = {
     // ...
-    plugin: ['@tarojs/plugin-platform-harmony-cpp'],
+    plugins: ['@tarojs/plugin-platform-harmony-cpp'],
     harmony: {
       // 当前仅支持使用 Vite 编译鸿蒙应用
       compiler: 'vite',
@@ -62,7 +62,7 @@ export default {
 ```ts
 const config = {
   // ...
-  plugin: [
+  plugins: [
     '@tarojs/plugin-platform-harmony-cpp', // useChoreLibrary: 'local'
     // ['@tarojs/plugin-platform-harmony-cpp', { useChoreLibrary: false }],
     // ['@tarojs/plugin-platform-harmony-cpp', { useChoreLibrary: '4.1.0-alpha.0' }],
