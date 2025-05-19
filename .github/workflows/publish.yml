@@ -17,6 +17,7 @@ on:
 
 env:
   CI: true
+  MOCK_PUBLISH: true
 permissions: {}
 jobs:
   need-publish:
@@ -50,11 +51,11 @@ jobs:
 
       - name: Commit message compliance verification
         if: startsWith( env.COMMIT_MESSAGE , 'chore(release):' ) != true
-        run: echo "ABORT=true" >> $GITHUB_ENV
+        run: echo "ABORT=${{ !env.MOCK_PUBLISH }}" >> $GITHUB_ENV
 
       - name: Publish push tag verification
         if: github.event_name == 'push' && contains( env.COMMIT_MESSAGE , '--tag=' ) != true
-        run: echo "ABORT=true" >> $GITHUB_ENV
+        run: echo "ABORT=${{ !env.MOCK_PUBLISH }}" >> $GITHUB_ENV
 
   build-rust-binding:
     name: Build Rust Binding
@@ -168,6 +169,110 @@ jobs:
         run: pnpm artifacts
       - name: build
         run: pnpm build
+      - name: Harmony Dependencies
+        env: # Harmony 每日构建 SDK https://ci.openharmony.cn/workbench/cicd/dailybuild/dailylist
+          HARMONY_SDK_URL: https://cidownload.openharmony.cn/version/Master_Version/OpenHarmony_5.1.0.63/20250507_021256/version-Master_Version-OpenHarmony_5.1.0.63-20250507_021256-ohos-sdk-public.tar.gz
+          HARMONY_CORRECT_SHA256: fa4deaba2813104d791d903637e9d4487c5c2e0898e04f7e1205eb9121480b01
+        run: |-
+          git clone https://gitee.com/jarayard/rnoh_prebuild.git --depth 1
+          if [ $? -ne 0 ]; then
+            echo "[Error]: 下载失败!!!"
+          fi
+
+          mkdir ohos_sdk
+          git clone https://gitee.com/jarayard/command-line-tools_sdk-01234.git --depth 1
+          if [ $? -ne 0 ]; then
+            echo "[Error]: 下载失败!!!"
+          fi
+          git clone https://gitee.com/jarayard/command-line-tools_sdk-567.git --depth 1
+          if [ $? -ne 0 ]; then
+            echo "[Error]: 下载失败!!!"
+          fi
+          cp ./command-line-tools_sdk-*/sdk_part_00* ./ohos_sdk/
+          echo "[Success]: command-line-tools SDK 下载完成!!!"
+
+          echo "[Info]: 开始解压 command-line-tools SDK"
+          echo "$ ./ohos_sdk/cat sdk_part_00* > ./rnoh_prebuild/command-line-tools/sdk.tar.xz"
+          cat ./ohos_sdk/sdk_part_00* > ./rnoh_prebuild/command-line-tools/sdk.tar.xz
+          cd ./rnoh_prebuild/command-line-tools
+          for file in $(ls ./*.tar.xz); do
+            tar -xJf "$file"
+            if [ $? -ne 0 -a $? -ne 1 ]; then
+              echo "Failed to extract file $file!!!"
+              return 1
+            fi
+            echo "Unzipped $file successfully!!!"
+            rm -f "$file"
+          done
+          cd ../../
+          echo "[Success]: command-line-tools SDK 解压完成!!!"
+
+          echo "[Info]: 开始下载 Harmony 每日构建 SDK ${{ env.HARMONY_SDK_URL }}"
+          curl -f -L -- "${{ env.HARMONY_SDK_URL }}" > sdk_openharmony.tar.gz
+          if [ $? -ne 0 ]; then
+            echo "[Error]: 下载失败!!!"
+            exit 1
+          fi
+          echo "[Success]: Harmony 每日构建 SDK 下载完成!!!"
+
+          echo "[Info]: 开始校验 Harmony 每日构建 SDK"
+          local_sdk_sum=$(sha256sum sdk_openharmony.tar.gz | awk '{print $1}')
+          if [ "x$local_sdk_sum" != "x${{ env.HARMONY_CORRECT_SHA256 }}" ]; then
+            echo "tools_sum(no x) is : x$local_sdk_sum"
+            echo "SHA-256_command-line-tools(no x) is : x${{ env.HARMONY_CORRECT_SHA256 }}"
+            echo "[Error]: SDK 校验失败，请检查 sdk_openharmony.tar.gz!!!"
+            exit 1
+          fi
+          echo "[Success]: Harmony 每日构建 SDK 校验正确!!!"
+
+          echo "[Info]: 开始解压 Harmony 每日构建 SDK"
+          tar -zxvf ./sdk_openharmony.tar.gz
+          if [ $? -ne 0 ]; then
+            echo "[Error]: 解压 SDK 失败!!!"
+            exit 1
+          fi
+
+          cd ./linux
+          if [ $? -ne 0 ]; then
+            echo "[Error]: 未找到 linux 目录!!!"
+            exit 1
+          fi
+
+          echo "[Info]: 开始解压 linux 目录中的文件"
+          for file in $(ls ./); do
+            unzip -qo "$file"
+            if [ $? -ne 0 ]; then
+              echo "[Error]: $file 解压失败!!!"
+              exit 1
+            fi
+            rm -f "$file"
+            echo "[Success]: $file 解压完成!!!"
+          done
+          echo "[Success]: Harmony 每日构建 SDK 解压完成!!!"
+
+          mkdir -p "../rnoh_prebuild/command-line-tools/sdk/default/openharmony/"
+          mv ./ets/ ./js/ ./native/ ./previewer/ ./toolchains/ "../rnoh_prebuild/command-line-tools/sdk/default/openharmony/"
+          cd ../
+
+          ls $GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/bin
+          ls $GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/sdk/default/openharmony/native/llvm/bin
+          ls $GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/sdk/default/hms/native/BiSheng/bin
+          echo "$GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/bin" >> $GITHUB_PATH
+          echo "$GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/sdk/default/openharmony/native/llvm/bin" >> $GITHUB_PATH
+          echo "$GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/sdk/default/hms/native/BiSheng/bin" >> $GITHUB_PATH
+        shell: bash
+      - name: Checkout Harmony Project
+        uses: actions/checkout@v4
+        with:
+          repository: NervJS/taro-harmony-project
+          path: packages/taro-platform-harmony-cpp/harmony_project
+          submodules: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Harmony Package
+        run: |-
+          pnpm --filter=@tarojs/plugin-platform-harmony-cpp build
+          pnpm --filter=@tarojs/plugin-platform-harmony-cpp build:library --har
+        shell: bash
       - name: List Packages
         run: |-
           echo "[Debug] Listing ./crates/native_binding/artifacts"
@@ -176,16 +281,20 @@ jobs:
           ls -R ./npm
           echo "[Debug] Listing ./packages/taro-helper/swc"
           ls -R ./packages/taro-helper/swc
+          echo "[Debug] Listing ./packages/taro-platform-harmony-cpp/static"
+          ls -R ./packages/taro-platform-harmony-cpp/static
         shell: bash
 
       # Git stash
       - name: Drop current changes
+        if: env.MOCK_PUBLISH != true
         run: |
           git add .
           git stash
 
       # Create git tag
       - name: Create Git Tag
+        if: env.MOCK_PUBLISH != true
         uses: azu/action-package-version-to-git-tag@v2
         with:
           version: ${{ env.CURRENT_VERSION }}
@@ -204,6 +313,7 @@ jobs:
           # ohpm config set publish_id ${{ secrets.OHPM_PUBLISH_CODE }}
 
       - name: Publish
+        if: env.MOCK_PUBLISH != true
         run: |
           if [ '${{ github.event_name }}' == 'pull_request' ] ; then
             pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r
@@ -219,7 +329,7 @@ jobs:
       # Create release when event is PR
       - name: Create Release
         id: create_release
-        if: github.event.pull_request.merged == true
+        if: github.event.pull_request.merged == true && env.MOCK_PUBLISH != true
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -234,7 +344,7 @@ jobs:
 
       # Create PR page comment when event is PR
       - uses: actions/github-script@v6
-        if: github.event.pull_request.merged == true
+        if: github.event.pull_request.merged == true && env.MOCK_PUBLISH != true
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
