@@ -1,5 +1,5 @@
 name: 错误报告 🐞
-description: 报告新 Bug
+description: 报告新 Bug。一般性问题请在 GitHub Discussion 中发布。
 title: "[Bug]: "
 labels:
   - triage
