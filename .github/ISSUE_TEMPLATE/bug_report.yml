@@ -1,17 +1,34 @@
 name: 错误报告 🐞
-description: >-
-  创建一个新的错误报告。对于一般性问题，请在 GitHub Discussion 中发布。
+description: 报告新 Bug。一般性问题请在 GitHub Discussion 中发布。
 title: "[Bug]: "
 labels:
-  - 待分类
+  - triage
   - bug
 body:
-  - type: input
+  - type: checkboxes
+    id: duplication
+    attributes:
+      label: 请先搜索是否存在类似提交
+      options:
+        - label: 我确定这个提交不是重复的
+    validations:
+      required: true
+  - type: checkboxes
     id: platform
     attributes:
       label: 相关平台
-    validations:
-      required: true
+      options:
+        - label: 所有小程序
+        - label: 微信小程序
+        - label: 支付宝小程序
+        - label: 百度小程序
+        - label: 字节跳动小程序
+        - label: QQ 轻应用
+        - label: 京东小程序
+        - label: 快应用平台（QuickApp）
+        - label: Web 平台（H5）
+        - label: 移动端（React-Native）
+        - label: 鸿蒙（harmony）
   - type: input
     id: library
     attributes:
@@ -50,7 +67,9 @@ body:
       description: 请提供复现问题的步骤。
       placeholder: >-
         1. Go to above link
+
         2. Click on '....'
+
         3. ...
   - type: textarea
     id: system
@@ -60,3 +79,9 @@ body:
       render: bash
     validations:
       required: true
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: 贡献代码
+      options:
+        - label: 我愿意修复这个错误
