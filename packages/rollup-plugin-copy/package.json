@@ -18,7 +18,7 @@
   },
   "keywords": [],
   "engines": {
-    "node": ">=20"
+    "node": ">= 20"
   },
   "dependencies": {
     "@tarojs/helper": "workspace:*"
