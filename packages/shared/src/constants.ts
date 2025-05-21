@@ -1,5 +1,6 @@
 export enum PLATFORM_TYPE {
   MINI = 'mini',
+  ASCF = 'ascf',
   WEB = 'web',
   RN = 'rn',
   HARMONY = 'harmony',
@@ -16,6 +17,9 @@ export const PLATFORM_CONFIG_MAP = {
   },
   harmony: {
     type: PLATFORM_TYPE.HARMONY
+  },
+  ascf: {
+    type: PLATFORM_TYPE.ASCF
   },
   mini: {
     type: PLATFORM_TYPE.MINI
