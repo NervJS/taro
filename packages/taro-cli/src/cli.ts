@@ -118,6 +118,7 @@ export default class CLI {
           // 针对不同的内置平台注册对应的端平台插件
           switch (platform) {
             case 'weapp':
+            case 'ascf':
             case 'alipay':
             case 'swan':
             case 'tt':
@@ -155,7 +156,7 @@ export default class CLI {
             plugin = args.plugin
             platform = 'plugin'
             kernel.optsPlugins.push(path.resolve(platformsPath, 'plugin.js'))
-            if (plugin === 'weapp' || plugin === 'alipay' || plugin === 'jd') {
+            if (plugin === 'ascf' || plugin === 'weapp' || plugin === 'alipay' || plugin === 'jd') {
               kernel.optsPlugins.push(`@tarojs/plugin-platform-${plugin}`)
             }
           }
