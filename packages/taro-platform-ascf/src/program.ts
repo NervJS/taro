@@ -11,7 +11,7 @@ export default class AscfApp extends TaroPlatformBase {
   template: Template
   platform = 'ascf'
   globalObject = 'has'
-  projectConfigJson: string = this.config.projectConfigName || 'project.config.json'
+  projectConfigJson: string = this.config.projectConfigName || 'ascf.config.json'
   runtimePath = `${PACKAGE_NAME}/dist/runtime`
   taroComponentsPath = `${PACKAGE_NAME}/dist/components-react`
   fileType = {
