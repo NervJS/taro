@@ -21,19 +21,18 @@ function getRenderExpandNodes ({
   const props: any = {
     key: id,
     id,
-  }
-  if (!renderExpand) {
-    props.style = {
+    style: {
       visibility: 'hidden',
       height: 100,
       marginTop: -100,
       zIndex: -1,
     }
   }
-  return React.createElement(
-    renderExpand || innerElement,
-    props,
-  )
+  const expands = [renderExpand && React.createElement(renderExpand), React.createElement(innerElement!, props)]
+  if (direction === 'top') {
+    expands.reverse()
+  }
+  return expands
 }
 
 const outerWrapper = React.forwardRef(
