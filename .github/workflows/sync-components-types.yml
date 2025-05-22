@@ -41,10 +41,11 @@ jobs:
             - recursive: true
               args: [--frozen-lockfile, --strict-peer-dependencies]
             - args: [--filter @tarojs/components, -D, miniapp-types@latest]
+      # Note: 当前同步脚本使用 ts-node 与 node20 存在兼容问题，修复后解除版本限制
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
           cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org' # Don't touch!
 
