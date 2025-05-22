@@ -1,6 +1,9 @@
-const path = require('path')
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-module.exports = {
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+export default {
   globals: {
     ENABLE_INNER_HTML: true,
     ENABLE_ADJACENT_HTML: true,

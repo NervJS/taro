@@ -7,6 +7,6 @@
     "outDir": "./dist",
     "target": "ES2017"
   },
-  "include": ["./src", "./rollup.config.ts"],
+  "include": ["./src"],
   "exclude": ["./src/__tests__"]
 }
