@@ -1,5 +1,6 @@
+import path from 'node:path'
+
 import { resolveMainFilePath } from '@tarojs/helper'
-import path from 'path'
 
 import type * as BabelCore from '@babel/core'
 import type { ViteHarmonyCompilerContext, ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'

@@ -24,7 +24,7 @@ export interface IMethod {
 export interface TaroHarmonyPageMeta extends VitePageMeta {
   id: string
   originName: string
-  entryOption?: Record<string, unknown>
+  entryOption?: Record<string, unknown> | false
 
   modifyRenderState?: (this: Parser, state: (string | null)[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => void
 
@@ -142,7 +142,7 @@ export default class Parser extends BaseParser {
     ]
 
     // 如果是编译成原生组件，则不需要加 @Entry 头部，否则都加上 @Entry，当成 Page 入口
-    if (!this.buildConfig.isBuildNativeComp) {
+    if (!this.buildConfig.isBuildNativeComp && !this.isPure && entryOption) {
       structCodeArray.unshift('@Entry')
     } else if (entryOption) {
       structCodeArray.unshift(`@Entry(${this.prettyPrintJson(page instanceof Array ? TARO_TABBAR_PAGE_PATH : entryOption)})`)
@@ -719,7 +719,8 @@ for (let i = 0; i < taskQueen.length; i++) {
       paramsString = modifyPageParams.call(this, paramsString, page)
     }
 
-    return `${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
+    // FIXME window.__ohos.getLastWindow
+    return `${(this.buildConfig.isBuildNativeComp || !0) ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
       ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
       : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
   Current.contextPromise
@@ -913,12 +914,13 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   generatePageAboutToAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
     const modifyPageAppear = page instanceof Array ? page[0].modifyPageAppear : page.modifyPageAppear
 
-    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
+    const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
+    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp || this.isPure || !entryOption
 
     // 生成 aboutToAppear 函数内容
     let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as unknown[]).concat(
-      this.buildConfig.isBuildNativeComp ? [] : [
-        'const state = this.getPageState()',
+      this.buildConfig.isBuildNativeComp || this.isPure || !entryOption ? [] : [
+        'const state: TaroAny = this.getPageState()',
         'if (this.pageStack.length >= state.index) {',
         '  this.pageStack.length = state.index - 1',
         '}',
@@ -997,10 +999,11 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
     const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
     const targetRoot = path.resolve(this.appPath, sourceRoot)
 
-    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
+    const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
+    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp || this.isPure || !entryOption
     this.isTabbarPage = page instanceof Array
     const pageRefresh: boolean[] = page instanceof Array
-      ? page.map(e => this.isEnable(this.appConfig.window?.enablePullDownRefresh, e.config.enablePullDownRefresh))
+      ? page.filter(e => !!e).map(e => this.isEnable(this.appConfig.window?.enablePullDownRefresh, e.config.enablePullDownRefresh))
       : [this.isEnable(this.appConfig.window?.enablePullDownRefresh, (page as TaroHarmonyPageMeta)?.config.enablePullDownRefresh)]
     if (pageRefresh.every(e => !!e)) {
       this.enableRefresh = 1
@@ -1080,7 +1083,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
   parseEntry (rawId: string, page: TaroHarmonyPageMeta) {
     const { creatorLocation, frameworkArgs, importFrameworkStatement, modifyEntryFile } = this.loaderMeta
     const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
-    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
+    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp || this.isPure || !entryOption
     // FIXME: pure 参数应该使用 page.entryOption 替代
     const createFn = this.isPure
       ? 'createNativeComponentConfig'

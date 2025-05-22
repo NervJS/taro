@@ -605,7 +605,7 @@ function readSFCPageConfig(configPath: string) {
     const configSource = matches[0]
     const program = (babel.parse(configSource, { filename: '' }))?.program
 
-    program && babel.traverse(program, { CallExpression: callExprHandler })
+    program && babel.traverse(program as any, { CallExpression: callExprHandler })
   }
 
   return result
