@@ -12,7 +12,7 @@ export interface IOptions {
 export default (ctx: IPluginContext, options: IOptions) => {
   ctx.registerPlatform({
     name: 'ascf',
-    useConfigName: 'ascf',
+    useConfigName: 'mini',
     async fn ({ config }) {
       const program = new AscfApp(ctx, config, options || {})
       await program.start()
