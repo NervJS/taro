@@ -1,4 +1,4 @@
-name: 错误报告 🐞
+name: 🐞 错误报告 Bug Report
 description: 报告新 Bug。一般性问题请在 GitHub Discussion 中发布。
 title: "[Bug]: "
 labels:
@@ -8,11 +8,10 @@ body:
   - type: checkboxes
     id: duplication
     attributes:
-      label: 请先搜索是否存在类似提交
+      label: 请先确认
       options:
-        - label: 我确定这个提交不是重复的
-    validations:
-      required: true
+        - label: 我已搜索并确定这个提交不是重复的
+          required: true
   - type: checkboxes
     id: platform
     attributes:
@@ -71,6 +70,8 @@ body:
         2. Click on '....'
 
         3. ...
+    validations:
+      required: true
   - type: textarea
     id: system
     attributes:
