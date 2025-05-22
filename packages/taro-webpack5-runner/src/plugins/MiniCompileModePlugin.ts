@@ -27,6 +27,7 @@
 
 import path from 'node:path'
 
+import { normalizePath } from '@tarojs/helper'
 import webpack, { type Compiler, Dependency, Module, } from 'webpack'
 
 import type { MiniCombination } from '../webpack/MiniCombination'
@@ -295,9 +296,9 @@ export default class MiniCompileModePlugin {
               .filter(key => (new RegExp(`-templates${fileType.templ}$`)).test(key))
               .map(key => {
                 const source = new ConcatSource()
-                source.add(`<import src="${path.relative(path.dirname(key), `./${baseTemplName}`)}"/>\n`)
+                source.add(`<import src="${normalizePath(path.relative(path.dirname(key), `./${baseTemplName}`))}"/>\n`)
                 if (fileType.xs) {
-                  const content = template.buildXsImportTemplate(path.relative(path.dirname(key), `./utils`))
+                  const content = template.buildXsImportTemplate(normalizePath(path.relative(path.dirname(key), `./utils`)))
                   source.add(content)
                 }
                 source.add(assets[key])
