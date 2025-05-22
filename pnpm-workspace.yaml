@@ -6,3 +6,4 @@ packages:
   - '!**/dist/**'
   - 'npm/**'
   - 'crates/native_binding'
+  - '../../a/taro/packages/taro-platform-ascf'
