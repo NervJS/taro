@@ -7,4 +7,3 @@ packages:
   - '!**/harmony_project/**'
   - 'npm/**'
   - 'crates/native_binding'
-  - '../../a/taro/packages/taro-platform-ascf'
