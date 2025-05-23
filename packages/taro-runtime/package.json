@@ -1,5 +1,6 @@
 {
   "name": "@tarojs/runtime",
+  "type": "module",
   "version": "4.1.1",
   "description": "taro runtime for mini apps.",
   "author": "O2Team",
@@ -16,12 +17,9 @@
     "./dist/dom-external/index.js"
   ],
   "scripts": {
-    "prod": "pnpm run build",
-    "prebuild": "pnpm run clean",
-    "build": "pnpm run rollup --environment NODE_ENV:production",
-    "clean": "rimraf ./dist",
-    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
-    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "prod": "tsdown",
+    "build": "tsdown",
+    "dev": "tsdown -w",
     "test": "jest",
     "test:ci": "jest --ci -i --coverage --silent"
   },
@@ -37,12 +35,9 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@rollup/plugin-typescript": "^12.1.2",
     "@types/react": "^18.2.79",
     "@vue/runtime-core": "^3.4.23",
     "lodash": "^4.17.21",
-    "react": "^18.2.0",
-    "rollup": "^4.37.0",
-    "rollup-plugin-ts": "^3.4.5"
+    "react": "^18.2.0"
   }
 }
