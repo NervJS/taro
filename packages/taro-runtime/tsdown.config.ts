@@ -2,10 +2,11 @@ import { defineConfig } from 'tsdown'
 
 export default [
   defineConfig({
-    entry: 'src/**/*.ts',
+    entry: 'src/index.ts',
     noExternal: ['@tarojs/shared'],
     treeshake: false,
     sourcemap: true,
+    unbundle: true,
   }),
   defineConfig({
     entry: {
