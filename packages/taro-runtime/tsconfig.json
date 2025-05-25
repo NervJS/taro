@@ -4,6 +4,7 @@
     "baseUrl": "./src",
     "declaration": true,
     "module": "ESNext",
+    "moduleResolution": "bundler",
     "outDir": "./dist",
     "target": "ES2017"
   },
