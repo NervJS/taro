@@ -3,6 +3,7 @@ import { defineConfig } from 'tsdown'
 export default [
   defineConfig({
     entry: 'src/index.ts',
+    noExternal: ['@tarojs/shared'],
     treeshake: false,
     sourcemap: true,
     unbundle: true,
@@ -11,6 +12,7 @@ export default [
     entry: {
       'runtime.esm': 'src/index.ts',
     },
+    noExternal: ['@tarojs/shared'],
     treeshake: false,
     sourcemap: true,
   }),
@@ -18,6 +20,7 @@ export default [
     entry: {
       'index.cjs': 'src/index.ts',
     },
+    noExternal: ['@tarojs/shared'],
     format: 'cjs',
     outExtensions: () => ({ js: '.js' }),
     treeshake: false,
