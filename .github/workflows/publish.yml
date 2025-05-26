@@ -171,8 +171,8 @@ jobs:
         run: pnpm build
       - name: Harmony Dependencies
         env: # Harmony 每日构建 SDK https://ci.openharmony.cn/workbench/cicd/dailybuild/dailylist
-          HARMONY_SDK_URL: https://cidownload.openharmony.cn/version/Master_Version/OpenHarmony_5.1.0.63/20250507_021256/version-Master_Version-OpenHarmony_5.1.0.63-20250507_021256-ohos-sdk-public.tar.gz
-          HARMONY_CORRECT_SHA256: fa4deaba2813104d791d903637e9d4487c5c2e0898e04f7e1205eb9121480b01
+          HARMONY_SDK_URL: https://cidownload.openharmony.cn/version/Master_Version/ohos-sdk-full_5.0.2-Release/20250520_113609/version-Master_Version-ohos-sdk-full_5.0.2-Release-20250520_113609-ohos-sdk-full_5.0.2-Release.tar.gz
+          HARMONY_CORRECT_SHA256: 0dc0eba6a5891e46b85f0e14f860ce1c2460b74c4d1900278bd2db165e57c1db
         run: |-
           git clone https://gitee.com/jarayard/rnoh_prebuild.git --depth 1
           if [ $? -ne 0 ]; then
@@ -232,7 +232,7 @@ jobs:
             exit 1
           fi
 
-          cd ./linux
+          cd ./ohos-sdk/linux
           if [ $? -ne 0 ]; then
             echo "[Error]: 未找到 linux 目录!!!"
             exit 1
@@ -250,9 +250,9 @@ jobs:
           done
           echo "[Success]: Harmony 每日构建 SDK 解压完成!!!"
 
-          mkdir -p "../rnoh_prebuild/command-line-tools/sdk/default/openharmony/"
-          mv ./ets/ ./js/ ./native/ ./previewer/ ./toolchains/ "../rnoh_prebuild/command-line-tools/sdk/default/openharmony/"
-          cd ../
+          mkdir -p "../../rnoh_prebuild/command-line-tools/sdk/default/openharmony/"
+          mv ./ets/ ./js/ ./native/ ./previewer/ ./toolchains/ "../../rnoh_prebuild/command-line-tools/sdk/default/openharmony/"
+          cd ../../
 
           ls $GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/bin
           ls $GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/sdk/default/openharmony/native/llvm/bin
