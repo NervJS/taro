@@ -1,5 +1,6 @@
-import { IH5BuildConfig, IMiniBuildConfig } from '../utils/types'
 import { compile, getOutput } from './utils/compiler'
+
+import type { IH5BuildConfig, IMiniBuildConfig } from '../../packages/taro-webpack5-runner/src/utils/types'
 
 describe('framework', () => {
   describe('should build react app', () => {
