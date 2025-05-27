@@ -28,7 +28,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "dependencies": {
     "@babel/core": "^7.24.4",
