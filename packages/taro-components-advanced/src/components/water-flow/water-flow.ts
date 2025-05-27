@@ -4,7 +4,7 @@ import {
   ScrollViewProps,
   View,
 } from '@tarojs/components'
-import Taro from '@tarojs/taro'
+import { nextTick } from '@tarojs/taro'
 import {
   Children,
   cloneElement,
@@ -169,7 +169,7 @@ export function WaterFlow({
           if (!targetSection.getState().layouted) {
             const order = targetSection.order
             root.setStateIn('renderRange', [renderRange$[0], order])
-            Taro.nextTick(async () => {
+            nextTick(async () => {
               await targetNode.section.layoutedSignal.promise
               scrollTo(targetNode.getState().scrollTop)
             })
