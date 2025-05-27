@@ -269,7 +269,23 @@ jobs:
           submodules: true
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Harmony Package
+        env:
+          DEVECO_SDK_HOME: $GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools
         run: |-
+          which node
+          node -v
+          mkdir -p $HOME/.hvigor
+          cat > $HOME/.hvigor/.npmrc << 'EOF'
+          registry="https://repo.huaweicloud.com/repository/npm/"
+          @ohos:registry="https://repo.harmonyos.com/npm/"
+          EOF
+          cat > $HOME/.hvigor/pnpm-workspace.yaml << 'EOF'
+          packages:
+            - './project_caches/**'
+          EOF
+          ls $HOME/.hvigor/
+          cat $HOME/.hvigor/.npmrc
+          cat $HOME/.hvigor/pnpm-workspace.yaml
           pnpm --filter=@tarojs/plugin-platform-harmony-cpp build
           pnpm --filter=@tarojs/plugin-platform-harmony-cpp build:library --har
         shell: bash
