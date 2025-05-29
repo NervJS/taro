@@ -169,44 +169,18 @@ jobs:
         run: pnpm artifacts
       - name: build
         run: pnpm build
+      - name: Checkout Harmony Commond Line Tools
+        uses: actions/checkout@v4
+        with:
+          repository: NervJS/command-line-tools-for-harmony
+          path: command-line-tools
+          lfs: true
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Harmony Dependencies
         env: # Harmony 每日构建 SDK https://ci.openharmony.cn/workbench/cicd/dailybuild/dailylist
           HARMONY_SDK_URL: https://cidownload.openharmony.cn/version/Master_Version/ohos-sdk-full_5.0.2-Release/20250520_113609/version-Master_Version-ohos-sdk-full_5.0.2-Release-20250520_113609-ohos-sdk-full_5.0.2-Release.tar.gz
           HARMONY_CORRECT_SHA256: 0dc0eba6a5891e46b85f0e14f860ce1c2460b74c4d1900278bd2db165e57c1db
         run: |-
-          git clone https://gitee.com/jarayard/rnoh_prebuild.git --depth 1
-          if [ $? -ne 0 ]; then
-            echo "[Error]: 下载失败!!!"
-          fi
-
-          mkdir ohos_sdk
-          git clone https://gitee.com/jarayard/command-line-tools_sdk-01234.git --depth 1
-          if [ $? -ne 0 ]; then
-            echo "[Error]: 下载失败!!!"
-          fi
-          git clone https://gitee.com/jarayard/command-line-tools_sdk-567.git --depth 1
-          if [ $? -ne 0 ]; then
-            echo "[Error]: 下载失败!!!"
-          fi
-          cp ./command-line-tools_sdk-*/sdk_part_00* ./ohos_sdk/
-          echo "[Success]: command-line-tools SDK 下载完成!!!"
-
-          echo "[Info]: 开始解压 command-line-tools SDK"
-          echo "$ ./ohos_sdk/cat sdk_part_00* > ./rnoh_prebuild/command-line-tools/sdk.tar.xz"
-          cat ./ohos_sdk/sdk_part_00* > ./rnoh_prebuild/command-line-tools/sdk.tar.xz
-          cd ./rnoh_prebuild/command-line-tools
-          for file in $(ls ./*.tar.xz); do
-            tar -xJf "$file"
-            if [ $? -ne 0 -a $? -ne 1 ]; then
-              echo "Failed to extract file $file!!!"
-              return 1
-            fi
-            echo "Unzipped $file successfully!!!"
-            rm -f "$file"
-          done
-          cd ../../
-          echo "[Success]: command-line-tools SDK 解压完成!!!"
-
           echo "[Info]: 开始下载 Harmony 每日构建 SDK ${{ env.HARMONY_SDK_URL }}"
           curl -f -L -- "${{ env.HARMONY_SDK_URL }}" > sdk_openharmony.tar.gz
           if [ $? -ne 0 ]; then
@@ -250,16 +224,16 @@ jobs:
           done
           echo "[Success]: Harmony 每日构建 SDK 解压完成!!!"
 
-          mkdir -p "../../rnoh_prebuild/command-line-tools/sdk/default/openharmony/"
-          mv ./ets/ ./js/ ./native/ ./previewer/ ./toolchains/ "../../rnoh_prebuild/command-line-tools/sdk/default/openharmony/"
+          mkdir -p "../../command-line-tools/sdk/default/openharmony/"
+          mv ./ets/ ./js/ ./native/ ./previewer/ ./toolchains/ "../../command-line-tools/sdk/default/openharmony/"
           cd ../../
 
-          ls $GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/bin
-          ls $GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/sdk/default/openharmony/native/llvm/bin
-          ls $GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/sdk/default/hms/native/BiSheng/bin
-          echo "$GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/bin" >> $GITHUB_PATH
-          echo "$GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/sdk/default/openharmony/native/llvm/bin" >> $GITHUB_PATH
-          echo "$GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools/sdk/default/hms/native/BiSheng/bin" >> $GITHUB_PATH
+          ls $GITHUB_WORKSPACE/command-line-tools/bin
+          ls $GITHUB_WORKSPACE/command-line-tools/sdk/default/openharmony/native/llvm/bin
+          ls $GITHUB_WORKSPACE/command-line-tools/sdk/default/hms/native/BiSheng/bin
+          echo "$GITHUB_WORKSPACE/command-line-tools/bin" >> $GITHUB_PATH
+          echo "$GITHUB_WORKSPACE/command-line-tools/sdk/default/openharmony/native/llvm/bin" >> $GITHUB_PATH
+          echo "$GITHUB_WORKSPACE/command-line-tools/sdk/default/hms/native/BiSheng/bin" >> $GITHUB_PATH
         shell: bash
       - name: Checkout Harmony Project
         uses: actions/checkout@v4
@@ -273,12 +247,13 @@ jobs:
         run: | # 为 hvigorw 设置 node 使用目录，需要移除 bin/node
           # echo "NODE_HOME=$( which node )" | sed 's|/bin/node||' >> $GITHUB_ENV
           echo "DEVECO_NODE_HOME=$( which node )" | sed 's|/bin/node||' >> $GITHUB_ENV
-          echo "DEVECO_SDK_HOME=$GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools" >> $GITHUB_ENV
+          echo "DEVECO_SDK_HOME=$GITHUB_WORKSPACE/command-line-tools" >> $GITHUB_ENV
       - name: Build Harmony Package
         run: |-
           which node
           node -v
           echo NODE_HOME: $NODE_HOME
+          echo DEVECO_NODE_HOME: $DEVECO_NODE_HOME
           echo DEVECO_SDK_HOME: $DEVECO_SDK_HOME
           if ! command -v tree &> /dev/null; then
             echo "Installing tree..."
