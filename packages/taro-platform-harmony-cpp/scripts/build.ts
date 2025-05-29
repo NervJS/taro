@@ -66,6 +66,10 @@ process.on('exit', () => {
 
   if (isBuildHar) {
     try {
+      execSync(`which node & node -v`, {
+        cwd: path.resolve(workspaceRoot, libName),
+        stdio: 'inherit'
+      })
       console.log(`开始构建 ${chalk.yellow('har')} 包...`) // eslint-disable-line no-console
       execSync(`hvigorw assembleHar --mode module -p module=library@default -p product=default -p buildMode=${isDebug ? 'debug' : 'release'} --no-daemon --no-incremental`, {
         cwd: path.resolve(workspaceRoot, libName),

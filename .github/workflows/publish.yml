@@ -268,12 +268,23 @@ jobs:
           path: packages/taro-platform-harmony-cpp/harmony_project
           submodules: true
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set Dev-Eco Env
+        run: | # 为 hvigorw 设置 node 使用目录，需要移除 bin/node
+          # echo "NODE_HOME=$( which node )" | sed 's|/bin/node||' >> $GITHUB_ENV
+          echo "DEVECO_NODE_HOME=$( which node )" | sed 's|/bin/node||' >> $GITHUB_ENV
+          echo "DEVECO_SDK_HOME=$GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools" >> $GITHUB_ENV
       - name: Build Harmony Package
-        env:
-          DEVECO_SDK_HOME: $GITHUB_WORKSPACE/rnoh_prebuild/command-line-tools
         run: |-
           which node
           node -v
+          echo NODE_HOME: $NODE_HOME
+          echo DEVECO_SDK_HOME: $DEVECO_SDK_HOME
+          if ! command -v tree &> /dev/null; then
+            echo "Installing tree..."
+            sudo apt-get update && sudo apt-get install -y tree
+          fi
+          tree -L 3 $( echo $DEVECO_SDK_HOME )
           mkdir -p $HOME/.hvigor
           cat > $HOME/.hvigor/.npmrc << 'EOF'
           registry="https://repo.huaweicloud.com/repository/npm/"
