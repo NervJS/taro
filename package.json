@@ -156,9 +156,14 @@
     "stylelint-order": "^6.0.4",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.1",
-    "typescript": "~5.4.5",
     "tslib": "^2.6.2",
+    "typescript": "~5.4.5",
     "vitest": "^1.6.0"
+  },
+  "resolutions": {
+    "@babel/types": "7.24.0",
+    "@babel/parser": "7.24.4",
+    "@babel/traverse": "7.24.1"
   },
   "pnpm": {
     "packageExtensions": {

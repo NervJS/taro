@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "outDir": "dist",
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "sourceMap": true,
+    "declaration": true,
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules", "**/__tests__", "**/*.test.ts"]
+}
