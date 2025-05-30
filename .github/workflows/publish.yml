@@ -181,52 +181,52 @@ jobs:
           HARMONY_SDK_URL: https://cidownload.openharmony.cn/version/Master_Version/ohos-sdk-full_5.0.2-Release/20250520_113609/version-Master_Version-ohos-sdk-full_5.0.2-Release-20250520_113609-ohos-sdk-full_5.0.2-Release.tar.gz
           HARMONY_CORRECT_SHA256: 0dc0eba6a5891e46b85f0e14f860ce1c2460b74c4d1900278bd2db165e57c1db
         run: |-
-          echo "[Info]: 开始下载 Harmony 每日构建 SDK ${{ env.HARMONY_SDK_URL }}"
-          curl -f -L -- "${{ env.HARMONY_SDK_URL }}" > sdk_openharmony.tar.gz
-          if [ $? -ne 0 ]; then
-            echo "[Error]: 下载失败!!!"
-            exit 1
-          fi
-          echo "[Success]: Harmony 每日构建 SDK 下载完成!!!"
+          # echo "[Info]: 开始下载 Harmony 每日构建 SDK ${{ env.HARMONY_SDK_URL }}"
+          # curl -f -L -- "${{ env.HARMONY_SDK_URL }}" > sdk_openharmony.tar.gz
+          # if [ $? -ne 0 ]; then
+          #   echo "[Error]: 下载失败!!!"
+          #   exit 1
+          # fi
+          # echo "[Success]: Harmony 每日构建 SDK 下载完成!!!"
 
-          echo "[Info]: 开始校验 Harmony 每日构建 SDK"
-          local_sdk_sum=$(sha256sum sdk_openharmony.tar.gz | awk '{print $1}')
-          if [ "x$local_sdk_sum" != "x${{ env.HARMONY_CORRECT_SHA256 }}" ]; then
-            echo "tools_sum(no x) is : x$local_sdk_sum"
-            echo "SHA-256_command-line-tools(no x) is : x${{ env.HARMONY_CORRECT_SHA256 }}"
-            echo "[Error]: SDK 校验失败，请检查 sdk_openharmony.tar.gz!!!"
-            exit 1
-          fi
-          echo "[Success]: Harmony 每日构建 SDK 校验正确!!!"
+          # echo "[Info]: 开始校验 Harmony 每日构建 SDK"
+          # local_sdk_sum=$(sha256sum sdk_openharmony.tar.gz | awk '{print $1}')
+          # if [ "x$local_sdk_sum" != "x${{ env.HARMONY_CORRECT_SHA256 }}" ]; then
+          #   echo "tools_sum(no x) is : x$local_sdk_sum"
+          #   echo "SHA-256_command-line-tools(no x) is : x${{ env.HARMONY_CORRECT_SHA256 }}"
+          #   echo "[Error]: SDK 校验失败，请检查 sdk_openharmony.tar.gz!!!"
+          #   exit 1
+          # fi
+          # echo "[Success]: Harmony 每日构建 SDK 校验正确!!!"
 
-          echo "[Info]: 开始解压 Harmony 每日构建 SDK"
-          tar -zxvf ./sdk_openharmony.tar.gz
-          if [ $? -ne 0 ]; then
-            echo "[Error]: 解压 SDK 失败!!!"
-            exit 1
-          fi
+          # echo "[Info]: 开始解压 Harmony 每日构建 SDK"
+          # tar -zxvf ./sdk_openharmony.tar.gz
+          # if [ $? -ne 0 ]; then
+          #   echo "[Error]: 解压 SDK 失败!!!"
+          #   exit 1
+          # fi
 
-          cd ./ohos-sdk/linux
-          if [ $? -ne 0 ]; then
-            echo "[Error]: 未找到 linux 目录!!!"
-            exit 1
-          fi
+          # cd ./ohos-sdk/linux
+          # if [ $? -ne 0 ]; then
+          #   echo "[Error]: 未找到 linux 目录!!!"
+          #   exit 1
+          # fi
 
-          echo "[Info]: 开始解压 linux 目录中的文件"
-          for file in $(ls ./); do
-            unzip -qo "$file"
-            if [ $? -ne 0 ]; then
-              echo "[Error]: $file 解压失败!!!"
-              exit 1
-            fi
-            rm -f "$file"
-            echo "[Success]: $file 解压完成!!!"
-          done
-          echo "[Success]: Harmony 每日构建 SDK 解压完成!!!"
+          # echo "[Info]: 开始解压 linux 目录中的文件"
+          # for file in $(ls ./); do
+          #   unzip -qo "$file"
+          #   if [ $? -ne 0 ]; then
+          #     echo "[Error]: $file 解压失败!!!"
+          #     exit 1
+          #   fi
+          #   rm -f "$file"
+          #   echo "[Success]: $file 解压完成!!!"
+          # done
+          # echo "[Success]: Harmony 每日构建 SDK 解压完成!!!"
 
-          mkdir -p "../../command-line-tools/sdk/default/openharmony/"
-          mv ./ets/ ./js/ ./native/ ./previewer/ ./toolchains/ "../../command-line-tools/sdk/default/openharmony/"
-          cd ../../
+          # mkdir -p "../../command-line-tools/sdk/default/openharmony/"
+          # mv ./ets/ ./js/ ./native/ ./previewer/ ./toolchains/ "../../command-line-tools/sdk/default/openharmony/"
+          # cd ../../
 
           ls $GITHUB_WORKSPACE/command-line-tools/bin
           ls $GITHUB_WORKSPACE/command-line-tools/sdk/default/openharmony/native/llvm/bin
