@@ -189,6 +189,8 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
       nested: true,
       loopAdditionalSlides,
       centeredSlides,
+      touchReleaseOnEdges: true,
+      threshold: 0,
       ...effectsProps,
       on: {
         init (_swiper) {
