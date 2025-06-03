@@ -41,6 +41,7 @@
     "@vue/runtime-core": "^3.4.23",
     "lodash": "^4.17.21",
     "rollup": "^4.37.0",
-    "rollup-plugin-ts": "^3.4.5"
+    "rollup-plugin-ts": "^3.4.5",
+    "rollup-plugin-dts": "^6.2.1"
   }
 }
