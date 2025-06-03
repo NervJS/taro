@@ -1,10 +1,10 @@
-import Taro from '@tarojs/taro'
+import { getEnv, getSystemInfoSync } from '@tarojs/taro'
 
-let sysInfo: ReturnType<typeof Taro.getSystemInfoSync>
+let sysInfo: ReturnType<typeof getSystemInfoSync>
 
 export const getSysInfo = () => {
   if (sysInfo) return sysInfo
-  sysInfo = Taro.getSystemInfoSync()
+  sysInfo = getSystemInfoSync()
   return sysInfo
 }
 
@@ -51,4 +51,4 @@ export const createImperativePromise = () => {
   }
 }
 
-export const isWeb = () => Taro.getEnv().toLowerCase() === 'web'
+export const isWeb = () => getEnv().toLowerCase() === 'web'
