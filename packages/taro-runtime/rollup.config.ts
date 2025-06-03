@@ -1,48 +1,68 @@
-import _ from 'lodash'
+import ts from '@rollup/plugin-typescript'
 import { defineConfig } from 'rollup'
+import dts from 'rollup-plugin-dts'
 import externals from 'rollup-plugin-node-externals'
-import ts from 'rollup-plugin-ts'
 
 import type { RollupOptions } from 'rollup'
 
-const baseConfig = {
-  input: 'src/index.ts',
-  output: {
-    sourcemap: true,
-    exports: 'named'
-  },
-  plugins: [
-    externals(),
-    ts(),
-  ]
-}
-
-const variesConfig: RollupOptions[] = [{
-  output: {
-    dir: 'dist',
+// 定义输出格式
+const formats = [
+  // 保留模块结构的输出
+  {
+    format: 'esm' as const,
     preserveModules: true,
     preserveModulesRoot: 'src',
+    dir: 'dist',
+    entryFileNames: '[name].js',
   },
-}, {
-  output: {
+  // CJS 格式输出
+  {
+    format: 'cjs' as const,
     file: 'dist/index.cjs.js',
-    format: 'cjs',
   },
-}, {
-  output: {
+  // ESM 格式输出
+  {
+    format: 'es' as const,
     file: 'dist/runtime.esm.js',
-    format: 'es',
   },
-}]
+]
 
-export default defineConfig(variesConfig.map(v => {
-  const customizer = function (objValue, srcValue) {
-    if (Array.isArray(objValue)) {
-      return objValue.concat(srcValue)
-    }
-    if (typeof objValue === 'object') {
-      return _.mergeWith({}, objValue, srcValue, customizer)
-    }
+const configs: RollupOptions[] = []
+
+// 为每种格式创建 JS 和 DTS 配置
+formats.forEach((format) => {
+  // JS 配置
+  configs.push({
+    input: 'src/index.ts',
+    output: {
+      ...format,
+      sourcemap: true,
+      exports: 'named',
+    },
+    plugins: [
+      externals(),
+      ts({
+        // 不生成类型定义文件，由 dts 插件负责
+        declaration: false,
+      }),
+    ],
+  })
+
+  // DTS 配置
+  const dtsOutput = { ...format }
+
+  // 修改输出文件名，将 .js 替换为 .d.ts
+  if (dtsOutput.file) {
+    dtsOutput.file = dtsOutput.file.replace(/\.js$/, '.d.ts')
+  } else if (dtsOutput.entryFileNames) {
+    dtsOutput.entryFileNames = dtsOutput.entryFileNames.replace(/\.js$/, '.d.ts')
   }
-  return _.mergeWith({}, baseConfig, v, customizer)
-}))
+
+  configs.push({
+    input: 'src/index.ts',
+    output: dtsOutput,
+    plugins: [dts()],
+  })
+})
+
+export default defineConfig(configs)
