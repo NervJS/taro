@@ -352,7 +352,7 @@ export default function (this: Harmony): PluginOption {
           config.modifyPageBuild = function (this: PageParser, _: string, page: TPageMeta) {
             const coreBuildCodeArray = [
               'Stack() {',
-              this.isTabbarPage ? 'if (this.isReady[index]) {' : '  if (this.isReady) {',
+              this.isTabbarPage ? '  if (this.isReady[index]) {' : '  if (this.isReady) {',
               this.isTabbarPage
                 ? '    TaroXComponent({ pageId: (this.node[index] as TaroAny)?._nid, data: this.nodeContent[index] })'
                 : '    TaroXComponent({ pageId: (this.node as TaroAny)?._nid, data: this.nodeContent })',
@@ -502,7 +502,7 @@ export default function (this: Harmony): PluginOption {
               {
                 name: 'getNavHeight',
                 body: this.isTabbarPage
-                  ? 'return this.isHideTitleBar ? 0 : 48 + this.statusBarHeight[this.tabBarCurrentIndex]'
+                  ? 'return this.isHideTitleBar[this.tabBarCurrentIndex] ? 0 : 48 + this.statusBarHeight[this.tabBarCurrentIndex]'
                   : 'return this.isHideTitleBar ? 0 : 48 + this.statusBarHeight',
               },
             )
