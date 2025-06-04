@@ -128,7 +128,7 @@ export default function (this: Harmony): PluginOption {
                   foreach: () => 'null',
                   disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
-                this.isTabbarPage
+                false
               ),
               this.renderState(
                 {
@@ -136,7 +136,7 @@ export default function (this: Harmony): PluginOption {
                   type: 'TaroAny',
                   foreach: () => 'null',
                 },
-                this.isTabbarPage
+                false
               ),
               this.renderState(
                 {
@@ -145,7 +145,7 @@ export default function (this: Harmony): PluginOption {
                   foreach: () => 'null',
                   disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
-                this.isTabbarPage
+                false
               ),
               this.renderState(
                 {
@@ -155,7 +155,7 @@ export default function (this: Harmony): PluginOption {
                   foreach: () => '{}',
                   disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
-                this.isTabbarPage
+                false
               ),
               this.renderState(
                 {
@@ -171,9 +171,17 @@ export default function (this: Harmony): PluginOption {
                   decorator: 'State',
                   name: 'isHideTitleBar',
                   type: 'boolean',
-                  foreach: () => this.appConfig.window?.navigationStyle === 'custom'
-                    ? `config.navigationStyle !== 'default'`
-                    : `config.navigationStyle === 'custom'`,
+                  foreach: (_, index) => {
+                    if (this.isTabbarPage) {
+                      return this.appConfig.window?.navigationStyle === 'custom'
+                        ? `config${index}.navigationStyle !== 'default'`
+                        : `config${index}.navigationStyle === 'custom'`
+                    } else {
+                      return this.appConfig.window?.navigationStyle === 'custom'
+                        ? `config.navigationStyle !== 'default'`
+                        : `config.navigationStyle === 'custom'`
+                    }
+                  },
                 },
                 this.isTabbarPage
               ),
@@ -299,8 +307,18 @@ export default function (this: Harmony): PluginOption {
                 `}`,
                 `const avoidAreaChange = (res: TaroAny) => {`,
                 `  const statusHeight: number = px2vp(res.area.topRect.height);`,
-                `  this.statusBarHeight = statusHeight;`,
-                `  TaroNativeModule.UpdateEnvRule('${genUniPageId(page)}', initStyleSheetConfig({ width: this.__layoutSize.width, height: this.__layoutSize.height}, this.getNavHeight()), this.node?._nid)`,
+                this.isTabbarPage
+                  ? `  this.statusBarHeight = this.statusBarHeight.map(() => statusHeight);`
+                  : `  this.statusBarHeight = statusHeight;`,
+                this.isTabbarPage
+                  ? [
+                    `  this.node.forEach((item: TaroAny) => {`,
+                    `    if (item?._nid) {`,
+                    `      TaroNativeModule.UpdateEnvRule('harmony-test@1.0.0:undefined', initStyleSheetConfig({ width: this.__layoutSize.width, height: this.__layoutSize.height}, this.getNavHeight()), item._nid)`,
+                    `    }`,
+                    `  })`
+                  ].join('\n')
+                  : `  TaroNativeModule.UpdateEnvRule('${genUniPageId(page)}', initStyleSheetConfig({ width: this.__layoutSize.width, height: this.__layoutSize.height}, this.getNavHeight()), this.node?._nid)`,
                 `  resizeFn(currentSplit, this.__layoutSize, false)`,
                 `}`,
                 `const windowStage: TaroAny = AppStorage.get(WINDOW_STATE);`,
@@ -334,8 +352,10 @@ export default function (this: Harmony): PluginOption {
           config.modifyPageBuild = function (this: PageParser, _: string, page: TPageMeta) {
             const coreBuildCodeArray = [
               'Stack() {',
-              '  if (this.isReady) {',
-              '    TaroXComponent({ pageId: (this.node as TaroAny)?._nid, data: this.nodeContent })',
+              this.isTabbarPage ? 'if (this.isReady[index]) {' : '  if (this.isReady) {',
+              this.isTabbarPage
+                ? '    TaroXComponent({ pageId: (this.node[index] as TaroAny)?._nid, data: this.nodeContent[index] })'
+                : '    TaroXComponent({ pageId: (this.node as TaroAny)?._nid, data: this.nodeContent })',
               '  }',
               '}',
               '.align(Alignment.TopStart)',
@@ -348,7 +368,9 @@ export default function (this: Harmony): PluginOption {
 
             if (!isPureComp(page)) {
               coreBuildCodeArray.push(
-                '.backgroundColor(this.pageBackgroundContentColor || this.pageBackgroundColor || "#FFFFFF")'
+                this.isTabbarPage
+                  ? '.backgroundColor(this.pageBackgroundContentColor[index] || this.pageBackgroundColor[index] || "#FFFFFF")'
+                  : '.backgroundColor(this.pageBackgroundContentColor || this.pageBackgroundColor || "#FFFFFF")'
               )
 
               if (this.enableRefresh === 1) {
@@ -370,17 +392,55 @@ export default function (this: Harmony): PluginOption {
               coreBuildCodeArray.unshift('Navigation() {')
               coreBuildCodeArray.push(
                 '}',
-                `.backgroundColor(this.pageBackgroundColor || '${
-                  this.appConfig?.window?.backgroundColor || '#FFFFFF'
-                }')`,
+                this.isTabbarPage
+                  ? `.backgroundColor(this.pageBackgroundColor[index] || '${
+                    this.appConfig?.window?.backgroundColor || '#FFFFFF'
+                  }')`
+                  : `.backgroundColor(this.pageBackgroundColor || '${
+                    this.appConfig?.window?.backgroundColor || '#FFFFFF'
+                  }')`,
                 `.height('100%')`,
                 `.width('100%')`,
                 `.title({ builder: this.renderTitle, height: this.getNavHeight() })`,
                 `.titleMode(NavigationTitleMode.Mini)`,
-                `.hideTitleBar(this.isHideTitleBar)`,
+                this.isTabbarPage ? `.hideTitleBar(this.isHideTitleBar[index])` : `.hideTitleBar(this.isHideTitleBar)`,
                 `.hideBackButton(true)`,
                 // `.expandSafeArea([SafeAreaType.SYSTEM])`,
                 `.mode(NavigationMode.Stack)`
+              )
+            }
+
+            if (this.isTabbarPage) {
+              coreBuildCodeArray.forEach((code, idx) => coreBuildCodeArray.splice(idx, 1, `${' '.repeat(6)}${code}`))
+              coreBuildCodeArray.unshift(
+                'Tabs({',
+                `  barPosition: this.tabBarPosition !== 'top' ? BarPosition.End : BarPosition.Start,`,
+                '  controller: this.tabBarController,',
+                '  index: this.tabBarCurrentIndex,',
+                '}) {',
+                '  ForEach(this.tabBarList, (item: ITabBarItem, index) => {',
+                '    TabContent() {',
+              )
+              coreBuildCodeArray.push(
+                `    }.tabBar(this.renderTabItemBuilder(index, item))`,
+                `  }, (item: ITabBarItem, index) => \`\${item.key || index}\`)`,
+                `}`,
+                `.vertical(false)`,
+                `.barMode(BarMode.Fixed)`,
+                `.barHeight(this.isTabBarShow ? 56 : 0)`,
+                `.animationDuration(this.tabBarAnimationDuration)`,
+                `.onChange((index: number) => {`,
+                `  if (this.tabBarCurrentIndex !== index) {`,
+                `    callFn(this.page?.onHide, this)`,
+                `    this.setTabBarCurrentIndex(index)`,
+                `  }`,
+                `  this.handlePageAppear()`,
+                `  callFn(this.page?.onShow, this)`,
+                `})`,
+                `.backgroundColor(this.tabBarBackgroundColor)`,
+                `.padding({`,
+                `  bottom: px2vp(sysInfo.screenHeight - (sysInfo.safeArea?.bottom || 0)),`,
+                `})`,
               )
             }
 
@@ -393,14 +453,20 @@ export default function (this: Harmony): PluginOption {
             if (handlePageAppearMethods) {
               const methodsBodyList = handlePageAppearMethods.body?.split('\n') || []
               let insertIndex = methodsBodyList.findIndex((item) => item.startsWith('const params'))
-              insertIndex = methodsBodyList.findIndex((item) => item.includes('this.node = instance'))
+              if (this.isTabbarPage) {
+                insertIndex = methodsBodyList.findIndex((item) => item.includes('this.node[index] = instance'))
+              } else {
+                insertIndex = methodsBodyList.findIndex((item) => item.includes('this.node = instance'))
+              }
               if (insertIndex >= 0) {
                 methodsBodyList?.splice(
                   insertIndex + 1,
                   0,
                   ...[
-                    '  TaroNativeModule.buildTaroNode(this.nodeContent, instance._nid)',
-                    '  this.isReady = true',
+                    this.isTabbarPage
+                      ? '    TaroNativeModule.buildTaroNode(this.nodeContent[index], instance._nid)'
+                      : '  TaroNativeModule.buildTaroNode(this.nodeContent, instance._nid)',
+                    this.isTabbarPage ? '    this.isReady[index] = true' : '  this.isReady = true',
                     isPure ? `  this.currentRouter = Current.router` : null,
                     isPure ? `  eventCenter.on(this.currentRouter?.getEventName('onResize') || '', this.handlePageResizeEvent)` : null,
                   ].filter(isString),
@@ -435,16 +501,18 @@ export default function (this: Harmony): PluginOption {
             methods.unshift(
               {
                 name: 'getNavHeight',
-                body: 'return this.isHideTitleBar ? 0 : 48 + this.statusBarHeight',
+                body: this.isTabbarPage
+                  ? 'return this.isHideTitleBar ? 0 : 48 + this.statusBarHeight[this.tabBarCurrentIndex]'
+                  : 'return this.isHideTitleBar ? 0 : 48 + this.statusBarHeight',
               },
             )
             methods.push({
               name: 'handlePageDetach',
               type: 'arrow',
               body: this.transArr2Str([
-                `if (!this.isReady) return`,
+                this.isTabbarPage ? `if (!this.isReady[this.tabBarCurrentIndex]) return` : `if (!this.isReady) return`,
                 '',
-                `this.isReady = false`,
+                this.isTabbarPage ? `this.isReady[this.tabBarCurrentIndex] = false` : `this.isReady = false`,
                 isPure
                   ? `eventCenter.off(this.currentRouter?.getEventName('onResize'), this.handlePageResizeEvent)`
                   : null,
