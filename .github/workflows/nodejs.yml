@@ -1,7 +1,4 @@
-name: Node CI
-env:
-  DEBUG: napi:*
-  MACOSX_DEPLOYMENT_TARGET: '10.13'
+name: publish
 on:
   push:
     branches:
@@ -12,164 +9,141 @@ on:
       - '2.x'
       - '3.x'
       - '4.x'
-      - main
+  # When Release Pull Request is merged
   pull_request:
     branches:
       - main
+    types: [closed]
 
-permissions:
-  contents: read # to fetch code (actions/checkout)
-
+env:
+  CI: true
+permissions: {}
 jobs:
-  build-rust-binding:
-    name: Build Rust Binding
-    uses: ./.github/workflows/build-rust-binding.yml
-  build-rust-wasm:
-    name: Build Rust WASM
-    uses: ./.github/workflows/build-rust-wasm.yml
-
-  nodejs-testing:
-    name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.host }})
-    needs:
-      - build-rust-binding
-      - build-rust-wasm
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [18.x, 20.x]
-        host: [macos-13, windows-latest, ubuntu-latest]
-        include:
-          - host: macos-13
-            target: x86_64-apple-darwin
-          - host: windows-latest
-            target: x86_64-pc-windows-msvc
-          - host: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
-          - host: ubuntu-latest
-            target: x86_64-unknown-linux-musl
-        exclude:
-          - node-version: 18.x
-            host: macos-13
-          - node-version: 18.x
-            host: windows-latest
-          - node-version: 20.x
-            host: macos-13
-          - node-version: 20.x
-            host: windows-latest
-
-    runs-on: ${{ matrix.host }}
+  publish:
+    permissions:
+      contents: write # to create tags and refs
+      actions: write # to cancel running workflow (andymckay/cancel-action)
+      issues: write # to create comment
+      pull-requests: write # to create comment and so on
+    name: Publish
+    runs-on: ubuntu-latest
+    env:
+      CURRENT_VERSION: ''
+      PUBLISH_PARAMS: ''
     steps:
+      # Setup
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup pnpm
         uses: pnpm/action-setup@v3.0.0
         with:
           version: 10
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node 18
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
           cache: 'pnpm'
-      - name: Prune store
-        shell: bash
+          registry-url: 'https://registry.npmjs.org' # Don't touch!
+      - name: Git Identity
         run: |
-          PNPM_STORE_PATH=$(pnpm store path)
-          echo "[Debug] Store path: $PNPM_STORE_PATH"
-          if [ -d ${PNPM_STORE_PATH} ]; then
-            echo "[Debug] pnpm store exists"
-            pnpm store prune
-          else
-            echo "[Debug] pnpm store does not exist"
-          fi
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Log meta
+      - name : GITHUB CONTEXT
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      # Get commit message
+      - name: Get commit message
+        run: |
+          COMMIT_MESSAGE=$(git log --format=%s -n 1)
+          echo "COMMIT_MESSAGE=${COMMIT_MESSAGE}" >> $GITHUB_ENV
+
+      # ------------------ If event is push -------------
+
+      # Get & check npm publish
+      - name: Get publish params
+        if: github.event_name == 'push'
+        run: |
+          PUBLISH_PARAMS=`echo $COMMIT_MESSAGE | grep -oE "^chore\(release\): publish \S*\s(.*)" | cut -d " " -f 4-`
+          echo "PUBLISH_PARAMS=${PUBLISH_PARAMS}" >> $GITHUB_ENV
+
+      - name: Show publish params
+        if: github.event_name == 'push'
+        run: echo "Publish pushing provide parameter [$PUBLISH_PARAMS]."
+
+      # Bootstrap project
       - name: Install dependencies
         run: pnpm -r install --frozen-lockfile
-      - name: Lint
-        run: pnpm lint
-      - name: Download artifact bindings-${{ matrix.target }}
-        uses: actions/download-artifact@v4
-        with:
-          name: bindings-${{ matrix.target }}
-          path: crates/native_binding
-      - name: Test bindings
-        run: pnpm test:binding
-        if: ${{ matrix.host != 'ubuntu-latest' }}
-      - name: Test bindings with docker
-        if: ${{ matrix.host == 'ubuntu-latest' }}
-        # 暂时使用了一个第三方的 docker 镜像
-        run: docker run --rm -v $(pwd):/build -w /build chf007/pnpm pnpm test:binding
-      # 以下的测试流程应该在所有平台都执行，但 windows 好像还有些问题，因此目前只在 ubuntu-latest 执行
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: crates/native_binding/artifacts
-      - name: List Package crates/native_binding
-        run: ls -R ./crates/native_binding
-        shell: bash
       - name: Move artifacts
         run: pnpm artifacts
       - name: build
         run: pnpm build
-      - name: test
-        run: pnpm test
-        env:
-          CI: true
-      # 以下 coverage 流程通过 artifact 拆分文件作为单独 job 上传时间损耗过长，因此在在 node test 后直接继续执行
-      - name: Upload [taro-cli] coverage to Codecov
-        uses: codecov/codecov-action@v4
-        if: ${{ matrix.host == 'ubuntu-latest' }}
-        with:
-          flags: taro-cli
-          files: ./packages/taro-cli/coverage/clover.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Upload runner coverage to Codecov
-        uses: codecov/codecov-action@v4
-        if: ${{ matrix.host == 'ubuntu-latest' }}
-        with:
-          flags: taro-runner
-          files: ./packages/taro-webpack5-runner/coverage/clover.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Upload [taro-runtime] coverage to Codecov
-        uses: codecov/codecov-action@v4
-        if: ${{ matrix.host == 'ubuntu-latest' }}
-        with:
-          flags: taro-runtime
-          files: ./packages/taro-runtime/coverage/clover.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Upload [taro-web] coverage to Codecov
-        uses: codecov/codecov-action@v4
-        if: ${{ matrix.host == 'ubuntu-latest' }}
-        with:
-          flags: taro-web
-          files: ./packages/taro-components/coverage/clover.xml,./packages/taro-h5/coverage/clover.xml,./packages/taro-router/coverage/clover.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Upload rest coverage to Codecov
-        uses: codecov/codecov-action@v4
-        if: ${{ matrix.host == 'ubuntu-latest' }}
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: List Packages
+        run: |-
+          echo "[Debug] Listing ./crates/native_binding/artifacts"
+          ls -R ./crates/native_binding/artifacts
+          echo "[Debug] Listing ./npm"
+          ls -R ./npm
+          echo "[Debug] Listing ./packages/taro-helper/swc"
+          ls -R ./packages/taro-helper/swc
+        shell: bash
 
-  rust-testing:
-    strategy:
-      fail-fast: false
-    name: Testing on Rust
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
+      # ------------------ publish -------------
+
+      - name: Setup open-harmony configuration
+        run: |
+          mkdir -p ./.ssh
+          echo "${{ secrets.OHPM_PRIVATE_KEY }}" > ./.ssh/id_taro_harmony
+          # ohpm config set key_path ./.ssh/id_taro_harmony
+          # ohpm config set publish_id ${{ secrets.OHPM_PUBLISH_CODE }}
+
+      - name: Publish
+        run: |
+          pkgs=("@tarojs/binding" "@tarojs/binding-darwin-arm64" "@tarojs/binding-darwin-x64" "@tarojs/binding-linux-x64-gnu" "@tarojs/binding-linux-x64-musl" "@tarojs/binding-win32-x64-msvc" "babel-plugin-transform-react-jsx-to-rn-stylesheet" "babel-plugin-transform-solid-jsx" "babel-plugin-transform-taroapi" "babel-preset-taro" "@tarojs/create-app" "taro-css-to-react-native" "eslint-config-taro" "postcss-html-transform" "postcss-plugin-constparse" "postcss-pxtransform" "postcss-taro-unit-transform" "rollup-plugin-copy" "stylelint-config-taro-rn" "stylelint-taro-rn" "stylelint-taro" "@tarojs/api" "@tarojs/cli-convertor" "@tarojs/cli" "@tarojs/components-advanced" "@tarojs/components-react" "@tarojs/components-rn" "@tarojs/components" "@tarojs/extend" "@tarojs/plugin-framework-react" "@tarojs/plugin-framework-vue3" "@tarojs/taro-h5" "@tarojs/taro-loader" "@tarojs/plugin-platform-alipay" "@tarojs/plugin-platform-h5" "@tarojs/plugin-platform-harmony-cpp" "@tarojs/plugin-platform-harmony-hybrid" "@tarojs/plugin-platform-harmony-ets" "@tarojs/plugin-platform-jd" "@tarojs/plugin-platform-qq" "@tarojs/plugin-platform-swan" "@tarojs/plugin-platform-tt" "@tarojs/plugin-platform-weapp" "@tarojs/plugin-html" "@tarojs/plugin-http" "@tarojs/plugin-inject" "@tarojs/plugin-mini-ci" "@tarojs/plugin-react-devtools" "@tarojs/plugin-vue-devtools" "@tarojs/react" "@tarojs/rn-runner" "@tarojs/rn-style-transformer" "@tarojs/rn-supporter" "@tarojs/rn-transformer" "@tarojs/taro-rn" "@tarojs/router-rn" "@tarojs/router" "@tarojs/runtime-rn" "@tarojs/runtime" "@tarojs/transformer-wx" "@tarojs/vite-runner" "@tarojs/webpack5-prebundle" "@tarojs/webpack5-runner" "@tarojs/with-weapp" "@tarojs/taro" "@tarojs/taroize")
+          for pkg in "${pkgs[@]}";do
+            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }}
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # ------------------ After publish -------------
+
+      # Create release when event is PR
+      - name: Create Release
+        id: create_release
+        if: github.event.pull_request.merged == true
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          toolchain: stable
-          targets: wasm32-wasip1
-      - name: Cache cargo
-        uses: actions/cache@v3
+          tag_name: v${{ env.CURRENT_VERSION }}
+          # Copy Pull Request's tile and body to Release Note
+          release_name: ${{ github.event.pull_request.title }}
+          body: |
+            ${{ github.event.pull_request.body }}
+          draft: false
+          prerelease: false
+
+      # Create PR page comment when event is PR
+      - uses: actions/github-script@v6
+        if: github.event.pull_request.merged == true
         with:
-          path: |
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            .cargo-cache
-            target/
-          key: wasm32-wasi-cargo-ubantu-latest
-      - name: Test
-        run: cargo test-swc-plugins
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'https://github.com/${{ github.repository }}/releases/tag/v${{ env.CURRENT_VERSION }} is released 🎉'
+            })
