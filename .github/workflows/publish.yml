@@ -122,28 +122,26 @@ jobs:
       # Create release when event is PR
       - name: Create Release
         id: create_release
-        if: github.event.pull_request.merged == true
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ env.CURRENT_VERSION }}
+          tag_name: v4.1.2
           # Copy Pull Request's tile and body to Release Note
-          release_name: ${{ github.event.pull_request.title }}
+          release_name: "chore(release): publish 4.1.2"
           body: |
-            ${{ github.event.pull_request.body }}
+            # 特性\r\n\r\n## ascf\r\n- #17748 @userW1021\r\n\r\n# 修复\r\n\r\n## 小程序\r\n- #17752 @Single-Dancer\r\n- #17697 @ttlive12 \r\n- #17755 @Single-Dancer \r\n- #17274 @voidman2017\r\n- #17583 @zhang0ZGC\r\n\r\n## h5\r\n- #17794 @zhengyanan1\n\n
           draft: false
           prerelease: false
 
       # Create PR page comment when event is PR
       - uses: actions/github-script@v6
-        if: github.event.pull_request.merged == true
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             github.rest.issues.createComment({
-              issue_number: context.issue.number,
+              issue_number: 17801,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'https://github.com/${{ github.repository }}/releases/tag/v${{ env.CURRENT_VERSION }} is released 🎉'
+              body: 'https://github.com/NervJS/taro/releases/tag/v4.1.2 is released 🎉'
             })
