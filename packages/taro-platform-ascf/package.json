@@ -2,7 +2,7 @@
   "name": "@tarojs/plugin-platform-ascf",
   "version": "4.1.2",
   "description": "ascf平台插件",
-  "author": "ascf",
+  "author": "O2Team",
   "license": "MIT",
   "main": "index.js",
   "types": "dist/types/index.d.ts",
@@ -36,5 +36,8 @@
   "peerDependencies": {
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
