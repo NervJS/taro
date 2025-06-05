@@ -1036,8 +1036,6 @@ importers:
         specifier: 13.6.4
         version: 13.6.4(react-native@0.73.11(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(react@18.3.1))(react@18.3.1)
 
-  packages/taro-components/loader: {}
-
   packages/taro-extend:
     devDependencies:
       '@tarojs/runtime':
@@ -1372,6 +1370,18 @@ importers:
         version: 5.91.0(@swc/core@1.3.96)
 
   packages/taro-platform-alipay:
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
+      '@tarojs/service':
+        specifier: workspace:*
+        version: link:../taro-service
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/taro-platform-ascf:
     devDependencies:
       '@tarojs/components':
         specifier: workspace:*
@@ -5803,6 +5813,15 @@ packages:
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
+
+  '@rollup/pluginutils@5.1.0':
+    resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
 
   '@rollup/pluginutils@5.1.4':
     resolution: {integrity: sha512-USm05zrsFxYLPdWWq+K3STlWiT/3ELn3RcV5hJMghpeAIhxfsUIg6mt12CBJBInWMV4VneoV7SfGv8xIwo2qNQ==}
@@ -20076,7 +20095,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.26.10
       '@babel/helper-module-imports': 7.18.6
-      '@rollup/pluginutils': 5.1.4(rollup@3.29.5)
+      '@rollup/pluginutils': 5.1.0(rollup@3.29.5)
     optionalDependencies:
       '@types/babel__core': 7.20.5
       rollup: 3.29.5
@@ -20085,7 +20104,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.26.10
       '@babel/helper-module-imports': 7.18.6
-      '@rollup/pluginutils': 5.1.4(rollup@4.39.0)
+      '@rollup/pluginutils': 5.1.0(rollup@4.39.0)
     optionalDependencies:
       '@types/babel__core': 7.20.5
       rollup: 4.39.0
@@ -20212,6 +20231,22 @@ snapshots:
       '@types/estree': 0.0.39
       estree-walker: 1.0.1
       picomatch: 2.3.1
+      rollup: 4.39.0
+
+  '@rollup/pluginutils@5.1.0(rollup@3.29.5)':
+    dependencies:
+      '@types/estree': 1.0.7
+      estree-walker: 2.0.2
+      picomatch: 2.3.1
+    optionalDependencies:
+      rollup: 3.29.5
+
+  '@rollup/pluginutils@5.1.0(rollup@4.39.0)':
+    dependencies:
+      '@types/estree': 1.0.7
+      estree-walker: 2.0.2
+      picomatch: 2.3.1
+    optionalDependencies:
       rollup: 4.39.0
 
   '@rollup/pluginutils@5.1.4(rollup@3.29.5)':
