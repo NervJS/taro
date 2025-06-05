@@ -88,15 +88,7 @@ jobs:
         run: pnpm artifacts
       - name: build
         run: pnpm build
-      - name: List Packages
-        run: |-
-          echo "[Debug] Listing ./crates/native_binding/artifacts"
-          ls -R ./crates/native_binding/artifacts
-          echo "[Debug] Listing ./npm"
-          ls -R ./npm
-          echo "[Debug] Listing ./packages/taro-helper/swc"
-          ls -R ./packages/taro-helper/swc
-        shell: bash
+
 
       # ------------------ publish -------------
 
