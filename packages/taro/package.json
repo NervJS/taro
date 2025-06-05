@@ -6,9 +6,6 @@
   "license": "MIT",
   "main": "index.js",
   "typings": "types/index.d.ts",
-  "scripts": {
-    "build": "tsc"
-  },
   "files": [
     "index.js",
     "types",

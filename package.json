@@ -89,7 +89,6 @@
     "@rollup/plugin-replace": "^4.0.0",
     "@rollup/plugin-typescript": "^11.1.6",
     "@tarojs/taro-loader": "workspace:*",
-    "@tarojs/plugin-platform-ascf": "workspace:*",
     "@types/debug": "^4.1.5",
     "@types/fs-extra": "^8.0.1",
     "@types/history": "^4.7.5",
