@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import dedent from 'dedent'
 
 export const GeneratorErrorType = {
   modifyConfig: 'modifyConfig',
@@ -56,7 +55,7 @@ export async function safely<T>(
           break
         }
       }
-      console.log(dedent(error.message))
+      console.log(error.message)
     } else {
       console.log(error)
     }
