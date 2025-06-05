@@ -1,0 +1,87 @@
+name: 错误报告 🐞
+description: 报告新 Bug。一般性问题请在 GitHub Discussion 中发布。
+title: "[Bug]: "
+labels:
+  - triage
+  - bug
+body:
+  - type: checkboxes
+    id: duplication
+    attributes:
+      label: 请先搜索是否存在类似提交
+      options:
+        - label: 我确定这个提交不是重复的
+    validations:
+      required: true
+  - type: checkboxes
+    id: platform
+    attributes:
+      label: 相关平台
+      options:
+        - label: 所有小程序
+        - label: 微信小程序
+        - label: 支付宝小程序
+        - label: 百度小程序
+        - label: 字节跳动小程序
+        - label: QQ 轻应用
+        - label: 京东小程序
+        - label: 快应用平台（QuickApp）
+        - label: Web 平台（H5）
+        - label: 移动端（React-Native）
+        - label: 鸿蒙（harmony）
+  - type: input
+    id: library
+    attributes:
+      label: 小程序基础库版本
+      description: 你可以在小程序开发者工具的「详情」中找到小程序基础库版本。
+    validations:
+      required: true
+  - type: dropdown
+    id: framework
+    attributes:
+      label: 使用框架
+      options:
+        - React
+        - Preact
+        - Vue 3
+        - Vue 2
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+    validations:
+      required: true
+  - type: input
+    id: repro-link
+    attributes:
+      label: 复现链接
+      description: 请提供一个 GitHub 或其它代码托管平台仓库的链接。
+    validations:
+      required: true
+  - type: textarea
+    id: repro-steps
+    attributes:
+      label: 复现步骤
+      description: 请提供复现问题的步骤。
+      placeholder: >-
+        1. Go to above link
+
+        2. Click on '....'
+
+        3. ...
+  - type: textarea
+    id: system
+    attributes:
+      label: 环境信息
+      description: 运行 `npx taro info` 并将输出粘贴在下面。
+      render: bash
+    validations:
+      required: true
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: 贡献代码
+      options:
+        - label: 我愿意修复这个错误

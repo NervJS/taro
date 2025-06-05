@@ -363,6 +363,12 @@ export function createRecursiveComponentConfig (componentName?: string) {
     }
     : EMPTY_OBJ
 
+  // 不同平台的个性化配置
+  const extraOptions: { [key: string]: any } = {}
+  if (process.env.TARO_ENV === 'jd') {
+    extraOptions.addGlobalClass = true
+  }
+
   return hooks.call('modifyRecursiveComponentConfig',
     {
       properties: {
@@ -378,6 +384,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
         }
       },
       options: {
+        ...extraOptions,
         virtualHost: !isCustomWrapper
       },
       methods: {

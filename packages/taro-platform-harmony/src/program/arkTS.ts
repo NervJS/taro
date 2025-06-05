@@ -266,7 +266,7 @@ export default class Harmony extends TaroPlatformHarmony {
           define.global = 'globalThis'
         }
         const ext = path.extname(target)
-        if (![/d\.e?tsx?$/, /\.(json|map|md)$/].some(e => e.test(target))) {
+        if (![/\.d\.e?tsx?$/, /\.(json|map|md)$/].some(e => e.test(target))) {
           code = this.replaceDefineValue(code, define, ext)
         }
         if (['.ts'].includes(ext)) {
@@ -283,12 +283,12 @@ export default class Harmony extends TaroPlatformHarmony {
       // Note: 传入 chorePackagePrefix 时，不生成核心依赖库
       if (!chorePackagePrefix) {
         if (/tarojs[\\/]taro[\\/]types[\\/]index.d.ts/.test(target)) {
-          code = `/// <reference path="global.d.ts" />
+          code = `import './global.d.ts'
 
-/// <reference path="taro.api.d.ts" />
-/// <reference path="taro.component.d.ts" />
-/// <reference path="taro.config.d.ts" />
-/// <reference path="taro.lifecycle.d.ts" />
+import './taro.api.d.ts'
+import './taro.component.d.ts'
+import './taro.config.d.ts'
+import './taro.lifecycle.d.ts'
 
 export = Taro
 export as namespace Taro

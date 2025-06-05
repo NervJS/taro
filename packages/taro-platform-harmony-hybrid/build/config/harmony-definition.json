@@ -2328,6 +2328,10 @@
     },
     "lifestyle": false,
     "like": false,
+    "list": {
+      "upper-threshold-count": false,
+      "lower-threshold-count": false
+    },
     "list-builder": {
       "type": {
         "static": false,
@@ -2338,6 +2342,7 @@
       "child-height": false,
       "padding": false
     },
+    "list-item": false,
     "list-view": {
       "padding": false
     },
@@ -2948,8 +2953,11 @@
         "return": false
       },
       "confirm-hold": false,
-      "adjust-keyboard-to": false,
-      "default-value": false
+      "default-value": false,
+      "adjust-keyboard-to": {
+        "cursor": false,
+        "bottom": false
+      }
     },
     "vertical-drag-gesture-handler": {
       "tag": false

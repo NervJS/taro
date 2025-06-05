@@ -44,9 +44,13 @@ export default async function (appPath: string, rawTaroConfig: ViteH5BuildConfig
     plugins
   }
 
-  taroConfig.modifyViteConfig?.(commonConfig, {
-    componentConfig
-  })
+  taroConfig.modifyViteConfig?.(
+    commonConfig,
+    {
+      componentConfig
+    },
+    viteCompilerContext
+  )
 
   if (isProd) {
     await build(commonConfig)

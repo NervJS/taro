@@ -1,13 +1,14 @@
 {
   "name": "@tarojs/plugin-platform-harmony-ets",
-  "version": "4.0.9",
+  "version": "4.1.1",
   "description": "OpenHarmony & 鸿蒙系统插件",
   "author": "O2Team",
   "homepage": "https://gitee.com/openharmony-sig/taro",
   "license": "MIT",
   "main": "index.js",
   "keywords": [
-    "taro"
+    "taro",
+    "harmony"
   ],
   "files": [
     "index.js",
@@ -25,7 +26,7 @@
     "prebuild": "rimraf ./dist",
     "build": "pnpm run rollup",
     "dev": "pnpm run rollup -w",
-    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs"
+    "rollup": "rollup --config rollup.config.mts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs"
   },
   "bugs": {
     "url": "https://gitee.com/openharmony-sig/taro/issues"
@@ -47,7 +48,7 @@
     "rollup": "^3.29.4",
     "rollup-plugin-copy": "workspace:*",
     "rollup-plugin-node-externals": "^5.0.0",
-    "rollup-plugin-ts": "^3.4.5",
+    "@rollup/plugin-typescript": "^12.1.2",
     "solid-js": "^1.8.16",
     "tslib": "^2.4.0"
   }

@@ -13,9 +13,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name : GITHUB CONTEXT
-        env: 
-          GITHUB_CONTEXT: ${{ toJson(github) }} 
-        run: echo "$GITHUB_CONTEXT" 
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Get commit message
         run: |
           COMMIT_MESSAGE=$(git log --format=%B -n 1)

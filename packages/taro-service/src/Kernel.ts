@@ -305,7 +305,7 @@ export default class Kernel extends EventEmitter {
           before: hook.before
         }, async arg => {
           const res = await hook.fn(opts, arg)
-          if (IS_MODIFY_HOOK.test(name) && IS_EVENT_HOOK.test(name)) {
+          if (IS_MODIFY_HOOK.test(name) || IS_EVENT_HOOK.test(name)) {
             return res
           }
           if (IS_ADD_HOOK.test(name)) {
