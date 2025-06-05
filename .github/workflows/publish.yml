@@ -19,55 +19,6 @@ env:
   CI: true
 permissions: {}
 jobs:
-  need-publish:
-    permissions:
-      actions: write # to cancel running workflow (andymckay/cancel-action)
-    name: Need Publish
-    runs-on: ubuntu-latest
-    outputs:
-      ABORT: ${{ env.ABORT }}
-    env:
-      ABORT: false
-      COMMIT_MESSAGE: ''
-    steps:
-      # Setup
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      # Log meta
-      - name : GITHUB CONTEXT
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
-      # Get commit message
-      - name: Get commit message
-        run: |
-          COMMIT_MESSAGE=$(git log --format=%s -n 1)
-          echo "COMMIT_MESSAGE=${COMMIT_MESSAGE}" >> $GITHUB_ENV
-      - name: Show commit message
-        run : echo "$COMMIT_MESSAGE"
-
-      - name: Commit message compliance verification
-        if: startsWith( env.COMMIT_MESSAGE , 'chore(release):' ) != true
-        run: echo "ABORT=true" >> $GITHUB_ENV
-
-      - name: Publish push tag verification
-        if: github.event_name == 'push' && contains( env.COMMIT_MESSAGE , '--tag=' ) != true
-        run: echo "ABORT=true" >> $GITHUB_ENV
-
-  build-rust-binding:
-    name: Build Rust Binding
-    needs: [need-publish]
-    if: needs.need-publish.outputs.ABORT != 'true'
-    uses: ./.github/workflows/build-rust-binding.yml
-
-  build-rust-wasm:
-    name: Build Rust WASM
-    needs: [need-publish]
-    if: needs.need-publish.outputs.ABORT != 'true'
-    uses: ./.github/workflows/build-rust-wasm.yml
-
   publish:
     permissions:
       contents: write # to create tags and refs
@@ -76,8 +27,6 @@ jobs:
       pull-requests: write # to create comment and so on
     name: Publish
     runs-on: ubuntu-latest
-    needs: [need-publish, build-rust-binding, build-rust-wasm]
-    if: needs.need-publish.outputs.ABORT != 'true'
     env:
       CURRENT_VERSION: ''
       PUBLISH_PARAMS: ''
@@ -128,35 +77,6 @@ jobs:
         if: github.event_name == 'push'
         run: echo "Publish pushing provide parameter [$PUBLISH_PARAMS]."
 
-      # Define ${CURRENT_VERSION}
-      - name: Set Current Version
-        shell: bash -ex {0}
-        run: |
-          CURRENT_VERSION=$(node -p 'require("./package.json").version')
-          echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_ENV
-
-      # Check git tag
-      - name: Tag Check
-        id: tag_check
-        shell: bash -ex {0}
-        run: |
-          GET_API_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/git/ref/tags/v${CURRENT_VERSION}"
-          http_status_code=$(curl -LI $GET_API_URL -o /dev/null -w '%{http_code}\n' -s \
-            -H "Authorization: token ${GITHUB_TOKEN}")
-          if [ "$http_status_code" -ne "404" ] ; then
-            echo "::set-output name=exists_tag::true"
-          else
-            echo "::set-output name=exists_tag::false"
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # ------------------ If git tag already exists, skip -------------
-
-      - name: Git tag verification
-        if: steps.tag_check.outputs.exists_tag == false
-        uses: andymckay/cancel-action@0.3
-
       # Bootstrap project
       - name: Install dependencies
         run: pnpm -r install --frozen-lockfile
@@ -178,22 +98,6 @@ jobs:
           ls -R ./packages/taro-helper/swc
         shell: bash
 
-      # Git stash
-      - name: Drop current changes
-        run: |
-          git add .
-          git stash
-
-      # Create git tag
-      - name: Create Git Tag
-        uses: azu/action-package-version-to-git-tag@v2
-        with:
-          version: ${{ env.CURRENT_VERSION }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_repo: ${{ github.repository }}
-          git_commit_sha: ${{ github.sha }}
-          git_tag_prefix: "v"
-
       # ------------------ publish -------------
 
       - name: Setup open-harmony configuration
@@ -205,11 +109,10 @@ jobs:
 
       - name: Publish
         run: |
-          if [ '${{ github.event_name }}' == 'pull_request' ] ; then
-            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r
-          elif [ '${{ github.event_name }}' == 'push' ] ; then
-            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r ${{ env.PUBLISH_PARAMS }}
-          fi
+          pkgs=("@tarojs/binding" "@tarojs/binding-darwin-arm64" "@tarojs/binding-darwin-x64" "@tarojs/binding-linux-x64-gnu" "@tarojs/binding-linux-x64-musl" "@tarojs/binding-win32-x64-msvc" "babel-plugin-transform-react-jsx-to-rn-stylesheet" "babel-plugin-transform-solid-jsx" "babel-plugin-transform-taroapi" "babel-preset-taro" "@tarojs/create-app" "taro-css-to-react-native" "eslint-config-taro" "postcss-html-transform" "postcss-plugin-constparse" "postcss-pxtransform" "postcss-taro-unit-transform" "rollup-plugin-copy" "stylelint-config-taro-rn" "stylelint-taro-rn" "stylelint-taro" "@tarojs/api" "@tarojs/cli-convertor" "@tarojs/cli" "@tarojs/components-advanced" "@tarojs/components-react" "@tarojs/components-rn" "@tarojs/components" "@tarojs/extend" "@tarojs/plugin-framework-react" "@tarojs/plugin-framework-vue3" "@tarojs/taro-h5" "@tarojs/taro-loader" "@tarojs/plugin-platform-alipay" "@tarojs/plugin-platform-h5" "@tarojs/plugin-platform-harmony-cpp" "@tarojs/plugin-platform-harmony-hybrid" "@tarojs/plugin-platform-harmony-ets" "@tarojs/plugin-platform-jd" "@tarojs/plugin-platform-qq" "@tarojs/plugin-platform-swan" "@tarojs/plugin-platform-tt" "@tarojs/plugin-platform-weapp" "@tarojs/plugin-html" "@tarojs/plugin-http" "@tarojs/plugin-inject" "@tarojs/plugin-mini-ci" "@tarojs/plugin-react-devtools" "@tarojs/plugin-vue-devtools" "@tarojs/react" "@tarojs/rn-runner" "@tarojs/rn-style-transformer" "@tarojs/rn-supporter" "@tarojs/rn-transformer" "@tarojs/taro-rn" "@tarojs/router-rn" "@tarojs/router" "@tarojs/runtime-rn" "@tarojs/runtime" "@tarojs/transformer-wx" "@tarojs/vite-runner" "@tarojs/webpack5-prebundle" "@tarojs/webpack5-runner" "@tarojs/with-weapp" "@tarojs/taro" "@tarojs/taroize")
+          for pkg in "${pkgs[@]}";do
+            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }}
+          done
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

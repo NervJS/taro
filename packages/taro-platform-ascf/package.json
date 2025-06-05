@@ -36,5 +36,8 @@
   "peerDependencies": {
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
