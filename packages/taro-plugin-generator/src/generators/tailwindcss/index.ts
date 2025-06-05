@@ -27,5 +27,5 @@ export async function tailwindcssGenerator(ctx: IPluginContext) {
   await updateConfig({ ctx, compilerType })
   await emit(ctx)
   await updateDeps({ ctx, tailwindcssVersion })
-  console.log('✅ 启用「Tailwind CSS」支持成功')
+  console.log('✅ 启用「Tailwind CSS」成功')
 }
