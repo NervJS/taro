@@ -505,7 +505,7 @@ declare module '../../index' {
     chooseVideo(option: chooseVideo.Option): Promise<chooseVideo.SuccessCallbackResult>
 
     /** 拍摄或从手机相册中选择图片或视频。
-     * @supported weapp, h5, harmony_hybrid
+     * @supported weapp, h5, harmony_hybrid, tt,
      * @example
      * ```tsx
      * Taro.chooseMedia({
