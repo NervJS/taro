@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@types/webpack-env": "^1.13.6",
-    "@types/react": "^17.0.2",
+    "@types/react": "^18",
     "@tarojs/mini-runner": "3.5.10",
     "@tarojs/cli": "3.5.10",
     "@babel/core": "^7.8.0",

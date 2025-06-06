@@ -54,7 +54,7 @@
     "@tarojs/cli": "../../packages/taro-cli",
     "@tarojs/webpack5-runner": "../../packages/taro-webpack5-runner",
     "@tarojs/service": "../../packages/taro-service",
-    "@types/react": "^17.0.2",
+    "@types/react": "^18",
     "@types/webpack-env": "^1.13.6",
     "babel-preset-taro": "../../packages/babel-preset-taro",
     "eslint": "^6.8.0",
