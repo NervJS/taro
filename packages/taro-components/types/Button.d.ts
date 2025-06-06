@@ -73,6 +73,12 @@ interface ButtonProps extends StandardProps {
    * @supported weapp, swan
    */
   sessionFrom?: string
+  /** 一次性订阅消息的模板 notify_type
+   *  @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/subscribe-message-2.html
+   * 生效时机：`open-type="liveActivity"`
+   * @supported weapp
+   */
+  activityType?: string
   /** 会话内消息卡片标题
    *
    * 生效时机：`open-type="contact"`
@@ -283,6 +289,13 @@ interface ButtonProps extends StandardProps {
    * @supported tt
    */
   onJoinGroup?: CommonEventFunction<{ errMsg: string; errNo: number }>
+  /**
+   * 监听用户一次性订阅消息事件
+   *
+   * 生效时机：`open-type="liveActivity"`
+   * @supported weapp
+   */
+  onCreateLiveActivity?: CommonEventFunction<ButtonProps.onCreateLiveActivityEventDetail>
 }
 declare namespace ButtonProps {
   /** size 的合法值 */
@@ -350,6 +363,10 @@ declare namespace ButtonProps {
        * 用户同意隐私协议按钮。可通过 bindagreeprivacyauthorization 监听用户同意隐私协议事件
        */
       agreePrivacyAuthorization
+      /**
+       * 新版一次性订阅消息按钮。可通过 bindcreateliveactivity 监听用户一次性订阅消息事件
+       */
+      liveActivity
       /**
        * 从基础库 2.32.3 版本起，隐私同意按钮支持与手机号快速验证组件耦合使用，调用方式为：
        * <button open-type="getPhoneNumber|agreePrivacyAuthorization">
@@ -523,6 +540,10 @@ declare namespace ButtonProps {
     errMsg: string
     /* 用户授权结果 */
     authSetting: Record<string, boolean>
+  }
+
+  interface onCreateLiveActivityEventDetail {
+    code: string
   }
 }
 /** 按钮
