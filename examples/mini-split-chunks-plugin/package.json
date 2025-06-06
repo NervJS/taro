@@ -44,9 +44,9 @@
     "@tarojs/taro": "../../packages/taro",
     "lottie-miniprogram": "^1.0.12",
     "miniprogram-sm-crypto": "^0.3.7",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
-    "taro-ui": "^3.1.0-beta.2",
+    "react": "^18",
+    "react-dom": "^18",
+    "taro-ui": "^3.3.0",
     "threejs-miniprogram": "^0.0.8"
   },
   "devDependencies": {
