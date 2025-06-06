@@ -118,6 +118,7 @@ export default class CLI {
           // 针对不同的内置平台注册对应的端平台插件
           switch (platform) {
             case 'weapp':
+            case 'ascf':
             case 'alipay':
             case 'swan':
             case 'tt':
