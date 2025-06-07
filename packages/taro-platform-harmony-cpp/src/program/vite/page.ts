@@ -9,6 +9,10 @@ import type { PluginContext } from 'rollup'
 import type { Plugin, PluginOption } from 'vite'
 import type Harmony from '..'
 
+type TCPageMeta = TPageMeta & {
+  isPure?: boolean
+}
+
 export default function (this: Harmony): PluginOption {
   const that = this
   const projectId = getProjectId()
@@ -35,8 +39,14 @@ export default function (this: Harmony): PluginOption {
     buildStart(this: PluginContext) {
       const pluginContext = this
       const { runnerUtils, runOpts } = that.context
-      const isPureComp = (page: TPageMeta) => {
-        return runOpts?.options?.args.pure || page.config?.entryOption === false
+      const isPureComp = (page: TCPageMeta | TCPageMeta[]): page is TCPageMeta => {
+        if (page instanceof Array) return false
+        if (runOpts?.options?.args.pure || page.config?.entryOption === false) {
+          page.isPure = true
+        } else {
+          page.isPure = false
+        }
+        return page.isPure
       }
 
       const { getViteHarmonyCompilerContext } = runnerUtils
@@ -85,8 +95,8 @@ export default function (this: Harmony): PluginOption {
         }
 
         const oddModifyInstantiate = compiler.loaderMeta.modifyInstantiate
-        compiler.loaderMeta.modifyInstantiate = function (this: PageParser, code = '', type = '', page: TPageMeta) {
-          if (type === 'page') {
+        compiler.loaderMeta.modifyInstantiate = function (this: PageParser, code = '', type = '', page: TPageMeta | TPageMeta[]) {
+          if (type === 'page' && !(page instanceof Array)) {
             const componentName = (page.config as any)?.componentName
             if (isString(componentName)) {
               code = code.replace(/export\sdefault\sstruct\sIndex/, `export struct ${componentName}`)
@@ -100,15 +110,24 @@ export default function (this: Harmony): PluginOption {
           if (!isPureComp(config)) {
             config.entryOption = {}
           }
-          config.modifyPageImport = function (this: PageParser, importStr: string[], page: TPageMeta) {
-            if (!isPureComp(page)) {
+          config.modifyPageImport = function (this: PageParser, importStr: string[], page: TPageMeta | TPageMeta[]) {
+            function fixPageEntry (meta: TPageMeta) {
               Object.assign(config.entryOption, {
-                routeName: page.name,
+                routeName: meta.name,
               })
-              if (isObject(page.config?.entryOption)) {
-                Object.assign(config.entryOption, page.config.entryOption)
+              if (isObject(meta.config?.entryOption)) {
+                Object.assign(config.entryOption, meta.config.entryOption)
               }
             }
+
+            if (!isPureComp(page)) {
+              if (page instanceof Array) {
+                page.forEach(fixPageEntry)
+              } else {
+                fixPageEntry(page)
+              }
+            }
+
             importStr.unshift('import { navigateBack } from "@tarojs/taro"')
             importStr.unshift('import oh_window from "@ohos.window"')
             importStr.unshift('import { TaroXComponent } from "@tarojs/components"')
@@ -118,7 +137,7 @@ export default function (this: Harmony): PluginOption {
             importStr.unshift('import { audio } from "@kit.AudioKit"')
           }
 
-          config.modifyRenderState = function (this: PageParser, state: (string | null)[], page: TPageMeta) {
+          config.modifyRenderState = function (this: PageParser, state: (string | null)[], page: TPageMeta | TPageMeta[]) {
             const isPure = isPureComp(page)
             state.push(
               this.renderState(
@@ -145,7 +164,7 @@ export default function (this: Harmony): PluginOption {
                   foreach: () => 'null',
                   disabled: !this.buildConfig.isBuildNativeComp && isPure,
                 },
-                false
+                this.isTabbarPage
               ),
               this.renderState(
                 {
@@ -258,7 +277,7 @@ export default function (this: Harmony): PluginOption {
             return 'this.params'
           }
 
-          config.modifyPageAppear = function (appearStr: string, page: TPageMeta) {
+          config.modifyPageAppear = function (appearStr: string, page: TPageMeta | TPageMeta[]) {
             const isPure = isPureComp(page)
             const appearCode: (string | null)[] = isPure
               ? [
@@ -271,12 +290,21 @@ export default function (this: Harmony): PluginOption {
                 `  Current.audioSessionManager = audioManager.getSessionManager()`,
                 `}`,
                 `this.activeAudioSession()`,
-                `initEtsBuilder('${genUniPageId(page)}')`,
+                ...(page instanceof Array ? [
+                  ...page.map(p => `initEtsBuilder('${genUniPageId(p)}')`),
+                  ...page.map((p, i) => `this.__pageName[${i}] = '${p.name}'`),
+                ] : [
+                  `initEtsBuilder('${genUniPageId(page)}')`,
+                  `this.__pageName = '${page.name}'`,
+                ]),
                 'this.__layoutSize = this.params._layout_',
-                `this.__pageName = '${page.name}'`,
                 `systemContext.windowWidth = ${config.config.windowArea?.width || 'this.params._layout_?.width'}`,
                 `systemContext.windowHeight = ${config.config.windowArea?.height || 'this.params._layout_?.height'}`,
-                `TaroNativeModule.initStylesheet('${genUniPageId(page)}', styleJson, initStyleSheetConfig({ width: systemContext.windowWidth, height: systemContext.windowHeight}, this.getNavHeight()))`,
+                ...(page instanceof Array ? [
+                  ...page.map((p, i) => `TaroNativeModule.initStylesheet('${genUniPageId(p)}', styleJson${i}, initStyleSheetConfig({ width: systemContext.windowWidth, height: systemContext.windowHeight}, this.getNavHeight()))`),
+                ] : [
+                  `TaroNativeModule.initStylesheet('${genUniPageId(page)}', styleJson, initStyleSheetConfig({ width: systemContext.windowWidth, height: systemContext.windowHeight}, this.getNavHeight()))`,
+                ]),
               ]
             if (!isPure) {
               appearCode.push(
@@ -306,24 +334,25 @@ export default function (this: Harmony): PluginOption {
                 `  })`,
                 `}`,
                 `const avoidAreaChange = (res: TaroAny) => {`,
-                `  const statusHeight: number = px2vp(res.area.topRect.height);`,
-                this.isTabbarPage
-                  ? `  this.statusBarHeight = this.statusBarHeight.map(() => statusHeight);`
-                  : `  this.statusBarHeight = statusHeight;`,
-                this.isTabbarPage
+                `  const statusHeight: number = px2vp(res.area.topRect.height)`,
+                ...(page instanceof Array
                   ? [
-                    `  this.node.forEach((item: TaroAny) => {`,
+                    `  this.statusBarHeight = this.statusBarHeight.map(() => statusHeight)`,
+                    `  this.node.forEach((item: TaroAny, i) => {`,
                     `    if (item?._nid) {`,
-                    `      TaroNativeModule.UpdateEnvRule('harmony-test@1.0.0:undefined', initStyleSheetConfig({ width: this.__layoutSize.width, height: this.__layoutSize.height}, this.getNavHeight()), item._nid)`,
+                    `      TaroNativeModule.UpdateEnvRule('${getProjectId()}:' + this.__pageName[i], initStyleSheetConfig({ width: this.__layoutSize.width, height: this.__layoutSize.height}, this.getNavHeight()), item._nid)`,
                     `    }`,
                     `  })`
-                  ].join('\n')
-                  : `  TaroNativeModule.UpdateEnvRule('${genUniPageId(page)}', initStyleSheetConfig({ width: this.__layoutSize.width, height: this.__layoutSize.height}, this.getNavHeight()), this.node?._nid)`,
+                  ]
+                  : [
+                    `  this.statusBarHeight = statusHeight`,
+                    `  TaroNativeModule.UpdateEnvRule('${genUniPageId(page)}', initStyleSheetConfig({ width: this.__layoutSize.width, height: this.__layoutSize.height}, this.getNavHeight()), this.node?._nid)`,
+                  ]),
                 `  resizeFn(currentSplit, this.__layoutSize, false)`,
                 `}`,
-                `const windowStage: TaroAny = AppStorage.get(WINDOW_STATE);`,
+                `const windowStage: TaroAny = AppStorage.get(WINDOW_STATE)`,
                 'this.areaChange = (res: TaroAny) => {',
-                '  if (res.type !== oh_window.AvoidAreaType.TYPE_SYSTEM)  return;',
+                '  if (res.type !== oh_window.AvoidAreaType.TYPE_SYSTEM)  return',
                 '  if (!this.isShown) {',
                 '    pendingAreaChange = () => { avoidAreaChange(res) }',
                 '  } else {',
@@ -343,19 +372,24 @@ export default function (this: Harmony): PluginOption {
                 `this.handlePageDetach()`,
                 'this.deactivateAudioSession()',
                 'if (this.areaChange) {',
-                '  const windowStage: TaroAny = AppStorage.get(WINDOW_STATE);',
+                '  const windowStage: TaroAny = AppStorage.get(WINDOW_STATE)',
                 `  windowStage.getMainWindowSync().off('avoidAreaChange', this.areaChange)`,
                 '}'
               ]
             )
           }
-          config.modifyPageBuild = function (this: PageParser, _: string, page: TPageMeta) {
+          config.modifyPageBuild = function (this: PageParser, _: string, page: TPageMeta | TPageMeta[]) {
             const coreBuildCodeArray = [
               'Stack() {',
-              this.isTabbarPage ? '  if (this.isReady[index]) {' : '  if (this.isReady) {',
-              this.isTabbarPage
-                ? '    TaroXComponent({ pageId: (this.node[index] as TaroAny)?._nid, data: this.nodeContent[index] })'
-                : '    TaroXComponent({ pageId: (this.node as TaroAny)?._nid, data: this.nodeContent })',
+              ...(this.isTabbarPage
+                ? [
+                  '  if (this.isReady[index]) {',
+                  '    TaroXComponent({ pageId: (this.node[index] as TaroAny)?._nid, data: this.nodeContent[index] })',
+                ]
+                : [
+                  '  if (this.isReady) {',
+                  '    TaroXComponent({ pageId: (this.node as TaroAny)?._nid, data: this.nodeContent })',
+                ]),
               '  }',
               '}',
               '.align(Alignment.TopStart)',
@@ -447,7 +481,7 @@ export default function (this: Harmony): PluginOption {
             return this.transArr2Str(coreBuildCodeArray)
           }
 
-          config.modifyPageMethods = function (this: PageParser, methods, page: TPageMeta) {
+          config.modifyPageMethods = function (this: PageParser, methods, page: TPageMeta | TPageMeta[]) {
             const isPure = isPureComp(page)
             const handlePageAppearMethods = methods.find((item) => item.name === 'handlePageAppear')
             if (handlePageAppearMethods) {

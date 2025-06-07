@@ -86,7 +86,7 @@ export function initEtsBuilder (router = '') {
 
       const modifyPageOrComp = (config: TaroHarmonyPageMeta) => {
         const oddModifyPageImport = config.modifyPageImport
-        config.modifyPageImport = function (this: PageParser, importStr: string[], page: TaroHarmonyPageMeta) {
+        config.modifyPageImport = function (this: PageParser, importStr: string[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
           if (isFunction(oddModifyPageImport)) {
             oddModifyPageImport.call(this, importStr, page)
           }
