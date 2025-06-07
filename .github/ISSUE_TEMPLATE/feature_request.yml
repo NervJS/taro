@@ -1,22 +1,39 @@
-name: 功能请求 🚀
-description: >-
-  创建一个新的功能请求。对于一般性问题，请在 GitHub Discussion 中发布。
+name: 🚀 功能请求 Feature Request
+description: 提出新的功能特性
 title: "[Feat]: "
 labels:
-  - 待分类
-  - feature
+  - triage
+  - feat
 body:
+  - type: checkboxes
+    id: duplication
+    attributes:
+      label: 请先确认
+      options:
+        - label: 我已搜索并确定这个提交不是重复的
+          required: true
   - type: textarea
     id: feature
     attributes:
       label: 功能描述
-      description: 这个功能解决了什么问题？
+      description: 这个功能增加了什么特性？解决了什么问题？
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: 功能设计
+      description: 这个功能如何使用？(API / CLI ...)
     validations:
       required: true
   - type: textarea
     id: details
     attributes:
       label: 实现细节
-      description: 你希望如何实现这个功能？
-    validations:
-      required: true
+      description: 这个功能该如何实现？(具体的实现思路)
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: 贡献代码
+      options:
+        - label: 我愿意实现这个功能

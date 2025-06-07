@@ -1,5 +1,17 @@
 blank_issues_enabled: false
 contact_links:
-  - name: 社区支持
-    url: https://github.com/orgs/community/discussions
-    about: 其他问题请在 GitHub Discussion 中发布。
+  - name: 📖 文档问题 Docs Issue
+    url: https://github.com/NervJS/taro-docs/issues
+    about: 文档相关问题请在这里提交
+  - name: 📑 创建提案 Proposal
+    url: https://github.com/NervJS/taro/discussions/categories/rfc
+    about: 制定 Taro 下一步的更新计划
+  - name: 🙋🏻‍♂️ 发起投票 Vote
+    url: https://github.com/NervJS/taro/discussions/categories/polls
+    about: 投票决定 Taro 的未来
+  - name: 🙌🏼 社区支持 General Question
+    url: https://github.com/NervJS/taro/discussions/categories/q-a
+    about: 发布一般性问题
+  - name: 🏗 生态建设 Ecosystem
+    url: https://github.com/NervJS/taro/discussions/categories/%E7%94%9F%E6%80%81
+    about: 工具库？组件库？快来丰富 Taro 生态
