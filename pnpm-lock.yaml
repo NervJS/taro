@@ -1033,6 +1033,8 @@ importers:
         specifier: 13.6.4
         version: 13.6.4(react-native@0.73.11(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(react@18.3.1))(react@18.3.1)
 
+  packages/taro-components/loader: {}
+
   packages/taro-extend:
     devDependencies:
       '@tarojs/runtime':
@@ -1584,9 +1586,15 @@ importers:
       '@tarojs/vite-runner':
         specifier: workspace:*
         version: link:../taro-vite-runner
+      '@types/conventional-commits-parser':
+        specifier: ^3.0.0
+        version: 3.0.6
       '@types/node':
         specifier: ^18.19.34
         version: 18.19.86
+      conventional-commits-parser:
+        specifier: ^3.0.0
+        version: 3.2.4
       postcss:
         specifier: ^8.4.38
         version: 8.5.3
@@ -6437,6 +6445,9 @@ packages:
 
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
+
+  '@types/conventional-commits-parser@3.0.6':
+    resolution: {integrity: sha512-z4crlplLzL9uA5kbE4ZghAf5RbrEr1UL/uNGGgxYbJjI0jRBjuYKuasbo13ANZsSapLTM2DLZk6LDcjemow4qQ==}
 
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
@@ -20613,6 +20624,10 @@ snapshots:
       '@types/node': 18.19.86
 
   '@types/connect@3.4.38':
+    dependencies:
+      '@types/node': 18.19.86
+
+  '@types/conventional-commits-parser@3.0.6':
     dependencies:
       '@types/node': 18.19.86
 
