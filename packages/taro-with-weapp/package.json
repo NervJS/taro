@@ -35,9 +35,5 @@
   "dependencies": {
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*"
-  },
-  "devDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
   }
 }

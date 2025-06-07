@@ -63,7 +63,7 @@
     "@tarojs/cli": "3.6.23",
     "@types/webpack-env": "^1.13.6",
     "@tarojs/test-utils-react": "^0.1.1",
-    "@types/react": "^18.0.0",
+    "@types/react": "^18",
     "webpack": "5.78.0",
     "@tarojs/taro-loader": "3.6.23",
     "@tarojs/webpack5-runner": "3.6.23",

@@ -21,9 +21,7 @@
     "@tarojs/components": "workspace:*"
   },
   "devDependencies": {
-    "@tarojs/helper": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@tarojs/helper": "workspace:*"
   },
   "peerDependencies": {
     "@tarojs/helper": "workspace:*"
