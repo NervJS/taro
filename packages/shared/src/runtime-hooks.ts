@@ -2,6 +2,7 @@ import { Events } from './event-emitter'
 import { isFunction } from './is'
 
 import type { Shortcuts } from './template'
+import type { ValueOf } from './types'
 
 // Note: @tarojs/runtime 不依赖 @tarojs/taro, 所以不能改为从 @tarojs/taro 引入 (可能导致循环依赖)
 type TFunc = (...args: any[]) => any
@@ -12,7 +13,7 @@ export const HOOK_TYPE = {
   WATERFALL: 'WATERFALL'
 } as const
 
-export type HOOK_TYPE = keyof typeof HOOK_TYPE
+export type HOOK_TYPE = ValueOf<typeof HOOK_TYPE>
 
 interface Hook {
   type: HOOK_TYPE

@@ -1,3 +1,5 @@
+import type { ValueOf } from './types'
+
 export const PLATFORM_TYPE = {
   MINI: 'mini',
   ASCF: 'ascf',
@@ -6,8 +8,6 @@ export const PLATFORM_TYPE = {
   HARMONY: 'harmony',
   QUICK: 'quick',
 } as const
-
-type ValueOf<T> = T[keyof T];
 
 export type PLATFORM_TYPE = ValueOf<typeof PLATFORM_TYPE>
 
