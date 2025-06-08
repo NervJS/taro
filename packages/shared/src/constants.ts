@@ -5,8 +5,9 @@ export const PLATFORM_TYPE = {
   RN: 'rn',
   HARMONY: 'harmony',
   QUICK: 'quickapp',
-}
-export type PLATFORM_TYPE = typeof PLATFORM_TYPE[keyof typeof PLATFORM_TYPE]
+} as const
+
+export type PLATFORM_TYPE = keyof typeof PLATFORM_TYPE
 
 export const COMPILE_MODE_IDENTIFIER_PREFIX = 'f'
 
