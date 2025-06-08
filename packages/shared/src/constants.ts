@@ -7,7 +7,9 @@ export const PLATFORM_TYPE = {
   QUICK: 'quick',
 } as const
 
-export type PLATFORM_TYPE = keyof typeof PLATFORM_TYPE
+type ValueOf<T> = T[keyof T];
+
+export type PLATFORM_TYPE = ValueOf<typeof PLATFORM_TYPE>
 
 export const COMPILE_MODE_IDENTIFIER_PREFIX = 'f'
 

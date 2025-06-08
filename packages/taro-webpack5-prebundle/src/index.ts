@@ -111,7 +111,7 @@ export default class TaroPrebundle {
     let prebundleRunner: BasePrebundle
 
     switch (this.platformType) {
-      case 'WEB':
+      case 'web':
         prebundleRunner = new (await import('./web')).WebPrebundle(this.config, options)
         break
       default:
@@ -124,7 +124,7 @@ export default class TaroPrebundle {
   async postCompilerStart (compiler: Compiler) {
     if (!this.options.enable) return
 
-    if (this.platformType === 'WEB') {
+    if (this.platformType === 'web') {
       VirtualModule.apply(compiler)
 
       Object.values(this.entry).forEach((item) => {

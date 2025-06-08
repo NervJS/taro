@@ -30,7 +30,7 @@ class TaroContainerPlugin extends ContainerPlugin {
 
   apply (compiler: Compiler) {
     switch (this.params.platformType) {
-      case 'WEB':
+      case 'web':
         super.apply(compiler)
         break
       default:

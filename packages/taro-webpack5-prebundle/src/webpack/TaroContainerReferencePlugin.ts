@@ -63,7 +63,7 @@ export default class TaroContainerReferencePlugin extends ContainerReferencePlug
 
   apply (compiler: Compiler) {
     switch (this.params.platformType) {
-      case 'WEB':
+      case 'web':
         this.applyWebApp(compiler)
         break
       default:
