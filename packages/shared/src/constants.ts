@@ -1,10 +1,10 @@
 export const PLATFORM_TYPE = {
-  MINI: 'mini',
-  ASCF: 'ascf',
-  WEB: 'web',
-  RN: 'rn',
-  HARMONY: 'harmony',
-  QUICK: 'quickapp',
+  MINI: 'MINI',
+  ASCF: 'ASCF',
+  WEB: 'WEB',
+  RN: 'RN',
+  HARMONY: 'HARMONY',
+  QUICK: 'QUICK',
 } as const
 
 export type PLATFORM_TYPE = keyof typeof PLATFORM_TYPE
