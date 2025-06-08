@@ -45,17 +45,26 @@ export default function (this: Harmony): PluginOption {
 
       const modifyPageOrComp = (config: TaroHarmonyPageMeta) => {
         const oddModifyPageImport = config.modifyPageImport
-        config.modifyPageImport = function (this: PageParser, importStr: string[], page: TaroHarmonyPageMeta) {
+        config.modifyPageImport = function (this: PageParser, importStr: string[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
           if (isFunction(oddModifyPageImport)) {
             oddModifyPageImport.call(this, importStr, page)
           }
 
           const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
           const targetRoot = path.resolve(this.appPath, sourceRoot)
-          const styleName = `${page.originName}_style.json`
-          const styleJsonPath = path.resolve(targetRoot, styleName)
-          importStr.push(`import styleJson from "${styleJsonPath}"`)
-          PageMap.set(path.resolve(outputRoot, styleName), pluginContext.getModuleInfo(page.id))
+          if (page instanceof Array) {
+            page.forEach((p, i) => {
+              const styleName = `${p.originName}_style.json`
+              const styleJsonPath = path.resolve(targetRoot, styleName)
+              importStr.push(`import styleJson${i} from "${styleJsonPath}"`)
+              PageMap.set(path.resolve(outputRoot, styleName), pluginContext.getModuleInfo(p.id))
+            })
+          } else {
+            const styleName = `${page.originName}_style.json`
+            const styleJsonPath = path.resolve(targetRoot, styleName)
+            importStr.push(`import styleJson from "${styleJsonPath}"`)
+            PageMap.set(path.resolve(outputRoot, styleName), pluginContext.getModuleInfo(page.id))
+          }
         }
       }
       compiler?.pages?.forEach?.(modifyPageOrComp)
