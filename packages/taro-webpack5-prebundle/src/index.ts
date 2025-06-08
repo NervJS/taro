@@ -97,7 +97,7 @@ export default class TaroPrebundle {
   }
 
   get entry () {
-    // NOTE: 如果传入 entry 为字符串， webpack-chain 会识别为 EntryObject，导致报错
+    // NOTE: 如果传入 entry 为字符串，webpack-chain 会识别为 EntryObject，导致报错
     return Object.entries(this.params.chain.entryPoints.entries()).reduce((entry, [key, value]) => {
       entry[key] = value.values()
       return entry
@@ -111,7 +111,7 @@ export default class TaroPrebundle {
     let prebundleRunner: BasePrebundle
 
     switch (this.platformType) {
-      case 'web':
+      case 'WEB':
         prebundleRunner = new (await import('./web')).WebPrebundle(this.config, options)
         break
       default:
@@ -124,7 +124,7 @@ export default class TaroPrebundle {
   async postCompilerStart (compiler: Compiler) {
     if (!this.options.enable) return
 
-    if (this.platformType === 'web') {
+    if (this.platformType === 'WEB') {
       VirtualModule.apply(compiler)
 
       Object.values(this.entry).forEach((item) => {
