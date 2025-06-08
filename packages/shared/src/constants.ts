@@ -1,11 +1,12 @@
-export enum PLATFORM_TYPE {
-  MINI = 'mini',
-  ASCF = 'ascf',
-  WEB = 'web',
-  RN = 'rn',
-  HARMONY = 'harmony',
-  QUICK = 'quickapp',
+export const PLATFORM_TYPE = {
+  MINI: 'mini',
+  ASCF: 'ascf',
+  WEB: 'web',
+  RN: 'rn',
+  HARMONY: 'harmony',
+  QUICK: 'quickapp',
 }
+export type PLATFORM_TYPE = typeof PLATFORM_TYPE[keyof typeof PLATFORM_TYPE]
 
 export const COMPILE_MODE_IDENTIFIER_PREFIX = 'f'
 
