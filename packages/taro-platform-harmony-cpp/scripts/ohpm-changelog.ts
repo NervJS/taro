@@ -16,17 +16,36 @@ interface Category {
 
 export default class ChangelogGenerator {
   packagePath: string
+  lastTag?: string
+  exclude: (string | RegExp)[] = [
+    /\b(init|publish|log|docs)\b/,
+    /\bupdate\b.*\b(hash|library|linense|runtime|version)\b/,
+    /\breadme\b/i
+  ]
 
   constructor(packagePath: string) {
     this.packagePath = packagePath
+
+    // 获取上一个版本的标签
+    try {
+      const output = execSync('git describe --tags --abbrev=0', {
+        cwd: this.packagePath,
+        encoding: 'utf8',
+        env: process.env,
+        stdio: 'inherit',
+      })
+      this.lastTag = (output || '').trim()
+    } catch (error) {
+      console.log('No previous tags found, generating full changelog') // eslint-disable-line no-console
+    }
   }
 
-  getGitLogs(since: string | null = null): string[] {
+  getGitLogs(since?: string, pkgPath = this.packagePath): string[] {
     const sinceFlag = since ? `--since="${since}"` : ''
 
     try {
-      const output = execSync(`git log ${sinceFlag} --oneline --no-merges -- ${this.packagePath}`, {
-        cwd: this.packagePath,
+      const output = execSync(`git log ${sinceFlag} --oneline --no-merges -- ${pkgPath}`, {
+        cwd: pkgPath,
         encoding: 'utf8',
         env: process.env,
         stdio: 'pipe',
@@ -38,37 +57,46 @@ export default class ChangelogGenerator {
     }
   }
 
-  getTitle (type: string) {
-    const titles: Record<string, string> = {
-      feat: '✨ Features',
-      fix: '🐛 Bug Fixes',
-      docs: '📚 Documentation',
-      style: '💎 Styles',
-      refactor: '📦 Code Refactoring',
-      perf: '🚀 Performance Improvements',
-      test: '🚨 Tests',
-      chore: '🔧 Chores'
-    }
-    return titles[type] || '📝 Other Changes'
+  titles: Record<string, string> = {
+    feat: '✨ Features',
+    fix: '🐛 Bug Fixes',
+    docs: '📚 Documentation',
+    style: '💎 Styles',
+    refactor: '📦 Code Refactoring',
+    perf: '🚀 Performance Improvements',
+    test: '🚨 Tests',
+    chore: '🔧 Chores'
   }
 
-  parseCommits(commits: string[]) {
+  getTitle (type: string) {
+    return this.titles[type] || '📝 Other Changes'
+  }
+
+  parseCommits(commits: string[], categories: Record<string, Category> = {}, defaultScope) {
     return commits.reduce((acc, commitLine) => {
       const [, ...messageParts] = commitLine.split(' ')
       const message = messageParts.join(' ')
 
       // 简单的 conventional commit 解析
       const match = message.match(/^(\w+)(?:\(([^)]+)\))?: (.+)$/)
-      const type = match ? match[1] : 'other'
+      const type = match && Object.keys(this.titles).includes(match[1]) ? match[1] : 'other'
 
       if (!acc[type]) {
         acc[type] = { title: this.getTitle(type), commits: [] }
       }
       const category = acc[type] || acc.other
-      category.commits.push(parser.sync(message))
+      if (!this.exclude.some(e => typeof e === 'string' ? message.includes(e) : e.test(message))) {
+        const commit = parser.sync(message)
+        if (category.commits.every(e => (commit.subject || commit.header) && (commit.subject || commit.header) !== (e.subject || e.header))) {
+          commit.scope = typeof commit.scope !== 'string' || commit.scope === 'harmony'
+            ? defaultScope
+            : `${defaultScope}(${commit.scope})`
+          category.commits.push(commit)
+        }
+      }
 
       return acc
-    }, {} as Record<string, Category>)
+    }, categories)
   }
 
   generateMarkdown(version: string, date: string, categories: Record<string, Category>): string {
@@ -90,26 +118,12 @@ export default class ChangelogGenerator {
     return markdown
   }
 
-  async generate(version = null) {
+  async generate(version?: string, categories: Record<string, Category> = {}) {
     const currentVersion = version || PKG_VERSION
     const currentDate = new Date().toISOString().split('T')[0]
 
-    // 获取上一个版本的标签
-    let lastTag: string | null = null
-    try {
-      const output = execSync('git describe --tags --abbrev=0', {
-        cwd: this.packagePath,
-        encoding: 'utf8',
-        env: process.env,
-        stdio: 'inherit',
-      })
-      lastTag = (output || '').trim()
-    } catch (error) {
-      console.log('No previous tags found, generating full changelog') // eslint-disable-line no-console
-    }
-
-    const commits = this.getGitLogs(lastTag ? `${lastTag}..HEAD` : null)
-    const categories = this.parseCommits(commits)
+    const commits = this.getGitLogs(this.lastTag ? `${this.lastTag}..HEAD` : undefined)
+    this.parseCommits(commits, categories, 'HAR')
 
     const newChangelog = this.generateMarkdown(currentVersion, currentDate, categories)
 
@@ -131,11 +145,13 @@ export default class ChangelogGenerator {
     const finalChangelog = header + newChangelog + oldContent
 
     fs.writeFileSync(changelogPath, finalChangelog)
-    console.log(`✅ Changelog generated for ${PKG_NAME}`) // eslint-disable-line no-console
+    console.log(`✅ Changelog generated for ${PKG_NAME}:`, newChangelog) // eslint-disable-line no-console
 
     return finalChangelog
   }
 }
 
-const generator = new ChangelogGenerator(path.join(__dirname, '..', 'harmony_project/library'))
-generator.generate()
+const generator = new ChangelogGenerator(path.join(process.cwd(), 'harmony_project/library'))
+const categories = generator.parseCommits(generator.getGitLogs(generator.lastTag, process.cwd()), {}, 'Plugin')
+generator.parseCommits(generator.getGitLogs(generator.lastTag, path.join(process.cwd(), 'harmony_project/library/src/main/cpp')), categories, 'C-API')
+generator.generate(PKG_VERSION, categories)

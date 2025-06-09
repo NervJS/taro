@@ -167,66 +167,87 @@ jobs:
           path: crates/native_binding/artifacts
       - name: Move artifacts
         run: pnpm artifacts
-      - name: build
-        run: pnpm build
       - name: Checkout Harmony Commond Line Tools
-        uses: actions/checkout@v4
-        with:
-          repository: NervJS/command-line-tools-for-harmony
-          path: command-line-tools
-          lfs: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Harmony Dependencies
-        env: # Harmony 每日构建 SDK https://ci.openharmony.cn/workbench/cicd/dailybuild/dailylist
-          HARMONY_SDK_URL: https://cidownload.openharmony.cn/version/Master_Version/ohos-sdk-full_5.0.2-Release/20250520_113609/version-Master_Version-ohos-sdk-full_5.0.2-Release-20250520_113609-ohos-sdk-full_5.0.2-Release.tar.gz
-          HARMONY_CORRECT_SHA256: 0dc0eba6a5891e46b85f0e14f860ce1c2460b74c4d1900278bd2db165e57c1db
+        env:
+          COMMANDLINE_TOOLS_URL: https://storage.360buyimg.com/taro-patch/command-line-tools-for-harmony/5.0.13.200/linux_x64
         run: |-
-          # echo "[Info]: 开始下载 Harmony 每日构建 SDK ${{ env.HARMONY_SDK_URL }}"
-          # curl -f -L -- "${{ env.HARMONY_SDK_URL }}" > sdk_openharmony.tar.gz
-          # if [ $? -ne 0 ]; then
-          #   echo "[Error]: 下载失败!!!"
-          #   exit 1
-          # fi
-          # echo "[Success]: Harmony 每日构建 SDK 下载完成!!!"
+          download_file() {
+            local url=$1
+            local filename=$2
+            local max_retries=3
+            local retry=0
 
-          # echo "[Info]: 开始校验 Harmony 每日构建 SDK"
-          # local_sdk_sum=$(sha256sum sdk_openharmony.tar.gz | awk '{print $1}')
-          # if [ "x$local_sdk_sum" != "x${{ env.HARMONY_CORRECT_SHA256 }}" ]; then
-          #   echo "tools_sum(no x) is : x$local_sdk_sum"
-          #   echo "SHA-256_command-line-tools(no x) is : x${{ env.HARMONY_CORRECT_SHA256 }}"
-          #   echo "[Error]: SDK 校验失败，请检查 sdk_openharmony.tar.gz!!!"
-          #   exit 1
-          # fi
-          # echo "[Success]: Harmony 每日构建 SDK 校验正确!!!"
+            while [ $retry -lt $max_retries ]; do
 
-          # echo "[Info]: 开始解压 Harmony 每日构建 SDK"
-          # tar -zxvf ./sdk_openharmony.tar.gz
-          # if [ $? -ne 0 ]; then
-          #   echo "[Error]: 解压 SDK 失败!!!"
-          #   exit 1
-          # fi
+              if curl -f -L --http1.1 --connect-timeout 30 --max-time 300 "$url" -o "$filename"; then
+                echo "✓ Downloaded $filename"
+                return 0
+              else
+                echo "✗ Failed to download $filename"
+                retry=$((retry + 1))
+                echo "Downloading $filename (attempt $((retry + 1))/$max_retries)..."
+                [ $retry -lt $max_retries ] && sleep 3
+              fi
+            done
 
-          # cd ./ohos-sdk/linux
-          # if [ $? -ne 0 ]; then
-          #   echo "[Error]: 未找到 linux 目录!!!"
-          #   exit 1
-          # fi
+            echo "[Error]: Failed to download $filename after $max_retries attempts"
+            return 1
+          }
 
-          # echo "[Info]: 开始解压 linux 目录中的文件"
-          # for file in $(ls ./); do
-          #   unzip -qo "$file"
-          #   if [ $? -ne 0 ]; then
-          #     echo "[Error]: $file 解压失败!!!"
-          #     exit 1
-          #   fi
-          #   rm -f "$file"
-          #   echo "[Success]: $file 解压完成!!!"
-          # done
-          # echo "[Success]: Harmony 每日构建 SDK 解压完成!!!"
+          concurrent_download() {
+            local max_concurrent=5
+            files=("z01" "z02" "z03" "z04" "z05" "z06" "z07" "z08" "z09" "z10" "zip")
+            local pids=()
+            local failed=0
+            local completed=0
+            local total=${#files[@]}
 
-          # mkdir -p "../../command-line-tools/sdk/default/openharmony/"
-          # mv ./ets/ ./js/ ./native/ ./previewer/ ./toolchains/ "../../command-line-tools/sdk/default/openharmony/"
-          # cd ../../
+            for ext in "${files[@]}"; do
+              while [ ${#pids[@]} -ge $max_concurrent ]; do
+                new_pids=()
+                for pid in "${pids[@]}"; do
+                  if kill -0 "$pid" 2>/dev/null; then
+                    new_pids+=("$pid")
+                  else
+                    wait "$pid"
+                    exit_code=$?
+                    completed=$((completed + 1))
+                    if [ $exit_code -ne 0 ]; then
+                      failed=1
+                      echo "Process $pid failed with exit code $exit_code"
+                    fi
+                    echo "Progress: $completed/$total completed"
+                  fi
+                done
+                pids=("${new_pids[@]}")
+
+                [ ${#pids[@]} -ge $max_concurrent ] && sleep 1
+              done
+
+              echo "Starting download for linux_x64.${ext}..."
+              download_file "${{ env.COMMANDLINE_TOOLS_URL }}.${ext}" "linux_x64.${ext}" &
+              pids+=($!)
+            done
+
+            for pid in "${pids[@]}"; do
+              if wait "$pid"; then
+                completed=$((completed + 1))
+                echo "Progress: $completed/$total completed"
+              else
+                echo "[Error]: Some downloads failed!"
+              return 1
+              fi
+            done
+
+            return 0
+          }
+
+          if ! command -v 7z &> /dev/null; then
+            echo "Installing 7z..."
+            sudo apt-get update && sudo apt-get install -y p7zip-full
+          fi
+          concurrent_download
+          7z x ./linux_x64.zip -y -sdel
 
           ls $GITHUB_WORKSPACE/command-line-tools/bin
           ls $GITHUB_WORKSPACE/command-line-tools/sdk/default/openharmony/native/llvm/bin
@@ -234,7 +255,14 @@ jobs:
           echo "$GITHUB_WORKSPACE/command-line-tools/bin" >> $GITHUB_PATH
           echo "$GITHUB_WORKSPACE/command-line-tools/sdk/default/openharmony/native/llvm/bin" >> $GITHUB_PATH
           echo "$GITHUB_WORKSPACE/command-line-tools/sdk/default/hms/native/BiSheng/bin" >> $GITHUB_PATH
-        shell: bash
+
+          # 为 hvigorw 设置 node 使用目录，需要移除 bin/node
+          echo "DEVECO_NODE_HOME=$( which node )" | sed 's|/bin/node||' >> $GITHUB_ENV
+          echo "DEVECO_SDK_HOME=$GITHUB_WORKSPACE/command-line-tools" >> $GITHUB_ENV
+
+      - name: build
+        run: pnpm build
+
       - name: Checkout Harmony Project
         uses: actions/checkout@v4
         with:
@@ -242,12 +270,9 @@ jobs:
           path: packages/taro-platform-harmony-cpp/harmony_project
           submodules: true
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set Dev-Eco Env
-        run: | # 为 hvigorw 设置 node 使用目录，需要移除 bin/node
-          # echo "NODE_HOME=$( which node )" | sed 's|/bin/node||' >> $GITHUB_ENV
-          echo "DEVECO_NODE_HOME=$( which node )" | sed 's|/bin/node||' >> $GITHUB_ENV
-          echo "DEVECO_SDK_HOME=$GITHUB_WORKSPACE/command-line-tools" >> $GITHUB_ENV
+      - name: Setup GitHub CLI
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
       - name: Build Harmony Package
         run: |-
           which node
@@ -272,7 +297,7 @@ jobs:
           ls $HOME/.hvigor/
           cat $HOME/.hvigor/.npmrc
           cat $HOME/.hvigor/pnpm-workspace.yaml
-          pnpm --filter=@tarojs/plugin-platform-harmony-cpp build
+          pnpm --filter=@tarojs/plugin-platform-harmony-cpp changelog
           pnpm --filter=@tarojs/plugin-platform-harmony-cpp build:library --har
         shell: bash
       - name: List Packages
