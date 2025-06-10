@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import path from 'node:path'
 
 import { isFunction } from '@tarojs/shared'

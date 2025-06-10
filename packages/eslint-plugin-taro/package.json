@@ -1,0 +1,38 @@
+{
+  "name": "eslint-plugin-taro",
+  "version": "4.1.2",
+  "description": "Taro specific linting plugin for ESLint",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro",
+    "react",
+    "jsx"
+  ],
+  "engines": {
+    "node": ">= 18"
+  },
+  "files": [
+    "rules",
+    "utils",
+    "constant",
+    "index.js",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "jest",
+    "test:ci": "jest --ci -i --coverage --silent"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "dependencies": {
+    "has": "^1.0.1"
+  },
+  "peerDependencies": {
+    "@babel/eslint-parser": "^7.24.1",
+    "eslint": "^8"
+  }
+}
