@@ -1,12 +1,31 @@
+const { allRules, activeRules, transformerRules } = require('./rules')
+
 module.exports = {
-  rules: {
-    'max-ternary-depth': require('./rules/max-ternary-depth')
-  },
+  rules: allRules,
   configs: {
-    recommended: {
-      rules: {
-        'custom/max-ternary-depth': ['error', 2]
-      }
+    all: {
+      plugins: [
+        'taro'
+      ],
+      parserOptions: {
+        ecmaVersion: 2018,
+        ecmaFeatures: {
+          jsx: true
+        }
+      },
+      rules: activeRules
+    },
+    transformer: {
+      plugins: [
+        'taro'
+      ],
+      parserOptions: {
+        ecmaVersion: 2018,
+        ecmaFeatures: {
+          jsx: true
+        }
+      },
+      rules: transformerRules
     }
   }
 }
