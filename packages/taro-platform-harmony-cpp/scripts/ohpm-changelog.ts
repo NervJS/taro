@@ -101,8 +101,11 @@ export default class ChangelogGenerator {
 
   generateMarkdown(version: string, date: string, categories: Record<string, Category>): string {
     let markdown = `## [${version}] - ${date}\n\n`
+    let count = 0
 
     Object.values(categories).forEach((category: Category) => {
+      count += category.commits.length
+
       if (category.commits.length > 0) {
         markdown += `### ${category.title}\n\n`
         category.commits.forEach((commit: Commit) => {
@@ -114,6 +117,10 @@ export default class ChangelogGenerator {
         markdown += '\n'
       }
     })
+
+    if (count === 0) {
+      markdown += `更新内置运行时等若干特性，对齐主包版本。\n\n`
+    }
 
     return markdown
   }

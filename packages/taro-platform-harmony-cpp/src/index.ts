@@ -6,7 +6,7 @@ import { chalk, fs, NPM_DIR } from '@tarojs/helper'
 import { DEFAULT_TERSER_OPTIONS } from '@tarojs/vite-runner/dist/utils/constants'
 
 import HarmonyCPP from './program'
-import { CPP_LIBRARY_NAME, CPP_LIBRARY_PATH, fixBuildProfile, getProcessArg, PLATFORM_NAME, updateBuildProfile } from './utils'
+import { CPP_LIBRARY_NAME, CPP_LIBRARY_PATH, fixBuildProfile, getProcessArg, PLATFORM_NAME, STATIC_FOLDER_NAME, updateBuildProfile } from './utils'
 import { PKG_DEPENDENCIES, PKG_NAME, PKG_VERSION, PROJECT_DEPENDENCIES_NAME } from './utils/constant'
 
 import type { IPluginContext } from '@tarojs/service'
@@ -21,10 +21,9 @@ export interface IOptions {
   useChoreLibrary?: 'local' | 'remote' | false | string
 }
 
-const staticDirname = 'static'
 let harName = `${PKG_NAME}-${PKG_VERSION}.har`
-if (!fs.existsSync(path.join(__dirname, '..', staticDirname, harName))) {
-  harName = require('fast-glob').sync('**/*.har', { cwd: path.join(__dirname, '..', staticDirname) })[0] || ''
+if (!fs.existsSync(path.join(__dirname, '..', STATIC_FOLDER_NAME, harName))) {
+  harName = require('fast-glob').sync('**/*.har', { cwd: path.join(__dirname, '..', STATIC_FOLDER_NAME) })[0] || ''
 }
 export default (ctx: IPluginContext, options: IOptions = {}) => {
   options.useChoreLibrary = options.useChoreLibrary ?? 'local'
@@ -106,12 +105,12 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
           console.log(`${C_API_TXT} 获取失败...`) // eslint-disable-line no-console
         }
       } else if (options.useChoreLibrary === 'local' && harName) {
-        const harPath = path.join(argProjectPath || projectPath, staticDirname, harName)
+        const harPath = path.join(argProjectPath || projectPath, STATIC_FOLDER_NAME, harName)
         const harDir = path.dirname(harPath)
         fs.ensureDirSync(harDir)
         fs.emptyDirSync(harDir)
         fs.copyFileSync(
-          path.join(program.harmonyCppPluginPath, staticDirname, harName),
+          path.join(program.harmonyCppPluginPath, STATIC_FOLDER_NAME, harName),
           harPath
         )
       }

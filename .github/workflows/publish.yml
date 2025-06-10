@@ -13,7 +13,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [closed]
+    types: [closed, opened, synchronize]
 
 env:
   CI: true
@@ -49,13 +49,26 @@ jobs:
       - name: Show commit message
         run : echo "$COMMIT_MESSAGE"
 
-      - name: Commit message compliance verification
-        if: startsWith( env.COMMIT_MESSAGE , 'chore(release):' ) != true
-        run: echo "ABORT=${{ !env.MOCK_PUBLISH }}" >> $GITHUB_ENV
+      - name: Determine if should abort publish
+        run: |
+          ABORT=false
 
-      - name: Publish push tag verification
-        if: github.event_name == 'push' && contains( env.COMMIT_MESSAGE , '--tag=' ) != true
-        run: echo "ABORT=${{ !env.MOCK_PUBLISH }}" >> $GITHUB_ENV
+          if [[ "${{ env.COMMIT_MESSAGE }}" == *"--skip"* ]]; then
+            echo "Found --skip flag, aborting publish"
+            ABORT=true
+          elif [[ "${{ env.COMMIT_MESSAGE }}" != "chore(release):"* ]]; then
+            echo "Not a release commit"
+            ABORT=${{ !env.MOCK_PUBLISH }}
+          elif [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event.action }}" != "closed" ]]; then
+            echo "Mock publish build harmony har package"
+            echo "MOCK_PUBLISH=true" >> $GITHUB_ENV
+          elif [[ "${{ github.event_name }}" == "push" && "${{ env.COMMIT_MESSAGE }}" != *"--tag="* ]]; then
+            echo "Push event without tag"
+            ABORT=${{ !env.MOCK_PUBLISH }}
+          fi
+
+          echo "ABORT=$ABORT" >> $GITHUB_ENV
+          echo "Final ABORT value: $ABORT"
 
   build-rust-binding:
     name: Build Rust Binding
@@ -86,6 +99,9 @@ jobs:
       # Setup
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.ref_name }}
       - name: Setup pnpm
         uses: pnpm/action-setup@v3.0.0
         with:
@@ -264,6 +280,7 @@ jobs:
         run: pnpm build
 
       - name: Checkout Harmony Project
+        if: github.event.pull_request.merged != true || env.MOCK_PUBLISH == 'true'
         uses: actions/checkout@v4
         with:
           repository: NervJS/taro-harmony-project
@@ -271,9 +288,12 @@ jobs:
           submodules: true
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup GitHub CLI
+        if: github.event.pull_request.merged != true || env.MOCK_PUBLISH == 'true'
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
       - name: Build Harmony Package
+        id: commitHar
+        if: github.event.pull_request.merged != true || env.MOCK_PUBLISH == 'true'
         run: |-
           which node
           node -v
@@ -297,8 +317,37 @@ jobs:
           ls $HOME/.hvigor/
           cat $HOME/.hvigor/.npmrc
           cat $HOME/.hvigor/pnpm-workspace.yaml
+
+          cd packages/taro-platform-harmony-cpp
+          cd harmony_project/library/src/main/cpp
+          git fetch origin --unshallow main
+          git reset --hard origin/main
+          git tag v${{ env.CURRENT_VERSION }} -m '${{ env.COMMIT_MESSAGE }}'
+          git push origin v${{ env.CURRENT_VERSION }}
+          cd ../../../..
+          git fetch origin --unshallow main
+          git reset --hard origin/main
+          git add library/src/main/cpp
+          cd ..
+
           pnpm --filter=@tarojs/plugin-platform-harmony-cpp changelog
           pnpm --filter=@tarojs/plugin-platform-harmony-cpp build:library --har
+          git fetch --unshallow origin ${{ github.ref_name }}
+          git add ./static/
+          git commit --amend -m '${{ env.COMMIT_MESSAGE }} --skip'
+          git push -f
+
+          cd harmony_project
+          git add library/src/CHANGELOG.md
+          git commit -m '${{ env.COMMIT_MESSAGE }}'
+          git tag v${{ env.CURRENT_VERSION }} -m '${{ env.COMMIT_MESSAGE }}'
+          git push origin v${{ env.CURRENT_VERSION }}
+          cd ..
+          cd ../..
+
+          NEW_COMMIT_SHA=$(git rev-parse HEAD)
+          echo "sha=$NEW_COMMIT_SHA" >> $GITHUB_OUTPUT
+          echo "New commit SHA: $NEW_COMMIT_SHA"
         shell: bash
       - name: List Packages
         run: |-
@@ -314,20 +363,20 @@ jobs:
 
       # Git stash
       - name: Drop current changes
-        if: env.MOCK_PUBLISH != true
+        if: env.MOCK_PUBLISH != 'true'
         run: |
           git add .
           git stash
 
       # Create git tag
       - name: Create Git Tag
-        if: env.MOCK_PUBLISH != true
+        if: env.MOCK_PUBLISH != 'true'
         uses: azu/action-package-version-to-git-tag@v2
         with:
           version: ${{ env.CURRENT_VERSION }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           github_repo: ${{ github.repository }}
-          git_commit_sha: ${{ github.sha }}
+          git_commit_sha: ${{ steps.commitHar.outputs.sha || github.sha }}
           git_tag_prefix: "v"
 
       # ------------------ publish -------------
@@ -340,7 +389,7 @@ jobs:
           # ohpm config set publish_id ${{ secrets.OHPM_PUBLISH_CODE }}
 
       - name: Publish
-        if: env.MOCK_PUBLISH != true
+        if: env.MOCK_PUBLISH != 'true'
         run: |
           if [ '${{ github.event_name }}' == 'pull_request' ] ; then
             pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r
@@ -356,7 +405,7 @@ jobs:
       # Create release when event is PR
       - name: Create Release
         id: create_release
-        if: github.event.pull_request.merged == true && env.MOCK_PUBLISH != true
+        if: github.event.pull_request.merged == true && env.MOCK_PUBLISH != 'true'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -371,7 +420,7 @@ jobs:
 
       # Create PR page comment when event is PR
       - uses: actions/github-script@v6
-        if: github.event.pull_request.merged == true && env.MOCK_PUBLISH != true
+        if: github.event.pull_request.merged == true && env.MOCK_PUBLISH != 'true'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
