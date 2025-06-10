@@ -279,6 +279,11 @@ jobs:
       - name: build
         run: pnpm build
 
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: unnecessary
       - name: Checkout Harmony Project
         if: github.event.pull_request.merged != true || env.MOCK_PUBLISH == 'true'
         uses: actions/checkout@v4
@@ -287,10 +292,6 @@ jobs:
           path: packages/taro-platform-harmony-cpp/harmony_project
           submodules: true
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Setup GitHub CLI
-        if: github.event.pull_request.merged != true || env.MOCK_PUBLISH == 'true'
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
       - name: Build Harmony Package
         id: commitHar
         if: github.event.pull_request.merged != true || env.MOCK_PUBLISH == 'true'
@@ -323,6 +324,7 @@ jobs:
           git fetch origin --unshallow main
           git reset --hard origin/main
           git tag v${{ env.CURRENT_VERSION }} -m '${{ env.COMMIT_MESSAGE }}'
+          git remote set-url origin https://${{ secrets.CLASSIC_PAT_TOKEN }}@github.com/NervJS/taro-harmony-capi-library.git
           git push origin v${{ env.CURRENT_VERSION }}
           cd ../../../..
           git fetch origin --unshallow main
@@ -341,6 +343,7 @@ jobs:
           git add library/src/CHANGELOG.md
           git commit -m '${{ env.COMMIT_MESSAGE }}'
           git tag v${{ env.CURRENT_VERSION }} -m '${{ env.COMMIT_MESSAGE }}'
+          git remote set-url origin https://${{ secrets.CLASSIC_PAT_TOKEN }}@github.com/NervJS/taro-harmony-project.git
           git push origin v${{ env.CURRENT_VERSION }}
           cd ..
           cd ../..
