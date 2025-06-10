@@ -1,0 +1,44 @@
+@import '../../../styles/base/variable/weui-button';
+@import '../../../styles/widget/weui-cell/weui-cells__group';
+
+.taro-checkbox {
+  display: inline-block;
+  position: relative;
+
+  &_checked {
+    display: inline-block;
+    position: relative;
+    top: 5px;
+    border: 1px solid #d1d1d1;
+    border-radius: 3px;
+    width: 23px;
+    height: 23px;
+    min-height: 0;
+    appearance: none;
+    outline: 0;
+    background-color: #fff;
+    vertical-align: 0;
+    font-size: 23px;
+    color: #1aad19;
+
+    &:checked::before {
+      display: inline-block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      vertical-align: middle;
+      text-decoration: inherit;
+      text-align: center;
+      text-transform: none;
+      font-family: weui;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      font-size: inherit;
+      color: inherit;
+      content: '\EA08';
+      transform: translate(-50%, -48%) scale(0.73);
+      speak: none;
+    }
+  }
+}

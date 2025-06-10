@@ -1,0 +1,1 @@
+export { offDeviceMotionChange } from '../deviceMotion'

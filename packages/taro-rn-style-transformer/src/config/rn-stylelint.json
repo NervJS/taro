@@ -1,0 +1,5 @@
+{
+  "extends": "stylelint-config-taro-rn",
+  "rules": {
+  }
+}

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse template.ts 公共组件usingComponents的key加到THIRD_PARTY_COMPONENTS 1`] = `
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+app({});
+Component({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class _C extends React.Component {
+  render() {
+    return null;
+  }
+}
+export default _C;
+`;

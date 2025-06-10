@@ -1,0 +1,40 @@
+{
+  "name": "@tarojs/plugin-inject",
+  "version": "4.1.3-alpha.0",
+  "description": "Taro 小程序端平台中间层插件",
+  "author": "O2Team",
+  "homepage": "https://github.com/nervjs/taro",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "prod": "pnpm run build",
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "devDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/helper": "workspace:*"
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "name": "@tarojs/components",
+  "version": "4.1.3-alpha.0",
+  "description": "Taro 组件库",
+  "browser": "dist/index.js",
+  "main:h5": "dist/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "types/index.d.ts",
+  "sideEffects": [
+    "*.scss",
+    "*.css"
+  ],
+  "files": [
+    "dist",
+    "lib",
+    "loader",
+    "mini",
+    "types",
+    "virtual-list",
+    "vue3.d.ts",
+    "global.css"
+  ],
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "scripts": {
+    "prod": "pnpm run build:ci",
+    "prepare": "run-p generate:*",
+    "prebuild": "run-p generate:*",
+    "prebuild:ci": "run-p generate:*",
+    "build:ci": "cross-env NODE_ENV=production run-s build:components",
+    "build": "cross-env NODE_ENV=production run-s build:components build:library",
+    "build:components": "stencil build",
+    "build:library": "pnpm --filter @tarojs/components-library-react --filter @tarojs/components-library-vue3 --filter @tarojs/components-library-solid run build",
+    "dev:components": "cross-env NODE_ENV=development pnpm run build:components --watch",
+    "dev:library-react": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-react run dev",
+    "dev:library-vue3": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-vue3 run dev",
+    "dev:library-solid": "cross-env NODE_ENV=development pnpm --filter @tarojs/components-library-solid run dev",
+    "generate:lib": "mkdirp lib",
+    "generate:stencil-config": "esbuild ./scripts/stencil/stencil.config.ts --external:lightningcss --bundle --platform=node --outfile=stencil.config.js",
+    "sync:types": "pnpm run tsx --files scripts/json-schema-to-types.ts",
+    "pretest:ci": "node ./node_modules/puppeteer/install.js",
+    "test": "cross-env NODE_ENV=test stencil test --spec --e2e",
+    "test:ci": "pnpm test -- --ci -i --coverage --silent --no-build",
+    "test:coverage": "pnpm test -- --ci --screenshot --coverage",
+    "test:watch": "pnpm test -- --screenshot --watch",
+    "tsx": "ts-node --skipIgnore"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "@stencil/core": "2.22.3",
+    "hammerjs": "^2.0.8",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/components-advanced": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "classnames": "^2.2.5",
+    "hls.js": "^1.1.5",
+    "resolve-pathname": "^3.0.0",
+    "swiper": "11.1.15",
+    "tslib": "^2.6.2"
+  },
+  "devDependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@babel/generator": "^7.21.4",
+    "@babel/parser": "^7.23.0",
+    "@babel/traverse": "^7.21.4",
+    "@babel/types": "^7.23.0",
+    "@stencil/react-output-target": "0.4.0",
+    "@stencil/vue-output-target": "0.7.0",
+    "@types/jest": "^27.4.1",
+    "change-case": "^4.1.2",
+    "csstype": "^3.1.1",
+    "esbuild": "~0.21.0",
+    "lightningcss": "^1.22.1",
+    "lodash": "^4.17.21",
+    "miniapp-types": "1.6.0",
+    "mkdirp": "^1.0.4",
+    "puppeteer": "^19.2.0",
+    "sass": "^1.58.3",
+    "tsconfig-paths": "^3.14.1",
+    "rollup-plugin-node-externals": "^5.0.0",
+    "rollup": "^3.29.4",
+    "jest": "27.5.1",
+    "jest-cli": "27.5.1",
+    "jest-runner": "27.5.1",
+    "jest-environment-node": "27.5.1"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  }
+}

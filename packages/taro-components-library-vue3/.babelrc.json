@@ -1,0 +1,14 @@
+{
+  "presets": [
+    [
+      "taro",
+      {
+        "absoluteRuntime": false,
+        "framework": "vue3",
+        "hot": false,
+        "modules": false,
+        "ts": true
+      }
+    ]
+  ]
+}

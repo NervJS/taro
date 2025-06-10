@@ -1,0 +1,54 @@
+{
+  "name": "blend-taro-component",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "templateInfo": {
+    "name": "default",
+    "typescript": false,
+    "css": "sass"
+  },
+  "scripts": {
+    "build": "taro build native-components --type weapp",
+    "dev": "taro build --type weapp --watch",
+    "build:h5": "taro build native-components --type h5",
+    "dev:h5": "taro build --type h5 --watch"
+  },
+  "browserslist": [
+    "last 3 versions",
+    "Android >= 4.1",
+    "ios >= 8"
+  ],
+  "author": "",
+  "dependencies": {
+    "@babel/runtime": "^7.7.7",
+    "@tarojs/cli": "3.6.24",
+    "@tarojs/components": "3.6.24",
+    "@tarojs/helper": "3.6.24",
+    "@tarojs/plugin-framework-react": "3.6.24",
+    "@tarojs/plugin-platform-h5": "^3.6.24",
+    "@tarojs/plugin-platform-weapp": "3.6.24",
+    "@tarojs/react": "3.6.24",
+    "@tarojs/runtime": "3.6.24",
+    "@tarojs/shared": "3.6.24",
+    "@tarojs/taro": "3.6.24",
+    "@tarojs/webpack5-runner": "^3.6.24",
+    "react": "^16.10.0",
+    "react-dom": "^16.10.0"
+  },
+  "devDependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
+    "@babel/core": "^7.8.0",
+    "@types/react": "^16.0.0",
+    "@types/webpack-env": "^1.13.6",
+    "babel-preset-taro": "3.6.24",
+    "eslint": "^8.12.0",
+    "eslint-config-taro": "3.6.24",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-react": "^7.8.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "fs-extra": "^9.0.1",
+    "stylelint": "^14.4.0",
+    "webpack": "5.78.0"
+  }
+}

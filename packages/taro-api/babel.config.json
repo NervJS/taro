@@ -1,0 +1,16 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "modules": false,
+      "targets": [
+        "defaults and fully supports es6-module",
+        "maintained node versions"
+      ]
+    }]
+  ],
+  "plugins": [
+    ["@babel/plugin-transform-runtime", {
+      "version": "^7.14.5"
+    }]
+  ]
+}

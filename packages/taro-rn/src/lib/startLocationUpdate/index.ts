@@ -1,0 +1,1 @@
+export { startLocationUpdate } from '../location'

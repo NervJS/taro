@@ -1,0 +1,9 @@
+const a: string = ''
+
+class A extends Component {
+  render () {
+    return <div className={a} />
+  }
+}
+
+export default A

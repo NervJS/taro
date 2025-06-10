@@ -1,0 +1,42 @@
+{
+  "name": "@tarojs/taro-loader",
+  "version": "4.1.3-alpha.0",
+  "description": "Taro runner use webpack loader",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "lib/app.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "prod": "pnpm run build",
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@tarojs/taro": "workspace:*",
+    "webpack": "5.91.0"
+  },
+  "peerDependencies": {
+    "webpack": "5.91.0"
+  }
+}

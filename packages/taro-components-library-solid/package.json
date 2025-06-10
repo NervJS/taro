@@ -1,0 +1,30 @@
+{
+  "name": "@tarojs/components-library-solid",
+  "version": "4.1.3-alpha.0",
+  "description": "Taro 组件库 Solid 版本库",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "pnpm run clean && node ./scripts/fix.js",
+    "build": "rollup -c",
+    "clean": "rimraf ../taro-components/lib/solid",
+    "dev": "pnpm run build -w",
+    "prod": "pnpm run build"
+  },
+  "keywords": [],
+  "author": "phy-lei",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/components": "workspace:*",
+    "tslib": "^2.6.2"
+  },
+  "devDependencies": {
+    "babel-preset-taro": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/helper": "workspace:*",
+    "solid-js": "^1.8.16"
+  },
+  "peerDependencies": {
+    "@tarojs/helper": "workspace:*"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "@tarojs/create-app",
+  "version": "4.1.3-alpha.0",
+  "description": "create taro app with one command",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf ./dist",
+    "dev": "tsc -w",
+    "build": "tsc"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "bin": {
+    "create-app": "./dist/index.js"
+  },
+  "keywords": [
+    "taro",
+    "cli"
+  ],
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "@tarojs/cli": "workspace:*",
+    "minimist": "^1.2.8"
+  }
+}

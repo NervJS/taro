@@ -1,0 +1,49 @@
+{
+  "name": "@tarojs/api",
+  "version": "4.1.3-alpha.0",
+  "description": "Taro common API",
+  "author": "O2Team",
+  "license": "MIT",
+  "browser": "dist/index.js",
+  "main:h5": "dist/index.esm.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf ./dist",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
+    "test:dev": "cross-env NODE_ENV=test jest --watch"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "devDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "lodash": "4.17.21"
+  },
+  "peerDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*"
+  }
+}

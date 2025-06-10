@@ -1,0 +1,74 @@
+{
+  "name": "@tarojs/cli",
+  "version": "4.1.3-alpha.0",
+  "description": "cli tool for taro",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prod": "pnpm run build",
+    "postinstall": "node postinstall.js",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
+    "test:dev": "cross-env NODE_ENV=test jest --watch",
+    "test:coverage": "cross-env NODE_ENV=test jest --coverage",
+    "updateSnapshot": "cross-env NODE_ENV=test jest --updateSnapshot",
+    "prebuild": "pnpm run clean",
+    "build": "tsc",
+    "dev": "tsc -w",
+    "clean": "rimraf dist"
+  },
+  "files": [
+    "bin",
+    "src",
+    "dist",
+    "templates",
+    "postinstall.js",
+    "index.js",
+    "global.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "bin": {
+    "taro": "bin/taro"
+  },
+  "keywords": [
+    "taro",
+    "weapp"
+  ],
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "@tarojs/binding": "workspace:*",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/plugin-doctor": "^0.0.13",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "adm-zip": "^0.5.12",
+    "axios": "^1.6.8",
+    "cli-highlight": "^2.1.11",
+    "download-git-repo": "^3.0.2",
+    "envinfo": "^7.12.0",
+    "inquirer": "^8.2.6",
+    "latest-version": "^5.1.0",
+    "minimist": "^1.2.8",
+    "ora": "^5.4.1",
+    "semver": "^7.6.0",
+    "validate-npm-package-name": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.24.0",
+    "@tarojs/plugin-platform-h5": "workspace:*",
+    "@tarojs/plugin-platform-weapp": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "@tarojs/webpack5-runner": "workspace:*",
+    "@types/babel__traverse": "^7.20.6",
+    "babel-preset-taro": "workspace:*",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.4.0"
+  }
+}

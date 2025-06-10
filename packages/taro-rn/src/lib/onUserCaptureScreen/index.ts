@@ -1,0 +1,1 @@
+export { onUserCaptureScreen } from '../unsupportedApi'

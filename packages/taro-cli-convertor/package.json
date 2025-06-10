@@ -1,0 +1,62 @@
+{
+  "name": "@tarojs/cli-convertor",
+  "version": "4.1.3-alpha.0",
+  "description": "cli tool for taro-convert",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "build": "tsc",
+    "dev": "tsc -w",
+    "clean": "rimraf dist",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write \"{src, __tests__}/**/*.{ts,tsx,js,jsx}\" && eslint src  __tests__ --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
+    "test": "jest",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
+    "test:clear": "jest --clearCache",
+    "test:coverage": "jest --coverage",
+    "updateSnapshot": "jest --updateSnapshot"
+  },
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "bin": {
+    "taro-convert": "bin/taro-convert"
+  },
+  "keywords": [
+    "taro",
+    "weapp"
+  ],
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "@babel/generator": "^7.24.4",
+    "@babel/template": "^7.24.0",
+    "@babel/traverse": "^7.24.1",
+    "@tarojs/binding": "workspace:*",
+    "@babel/types": "^7.24.0",
+    "@tarojs/cli": "workspace:*",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taroize": "workspace:*",
+    "@tarojs/transformer-wx": "workspace:*",
+    "postcss": "^8.4.38",
+    "postcss-taro-unit-transform": "workspace:*",
+    "prettier": "^2.8.8"
+  },
+  "devDependencies": {
+    "@babel/parser": "^7.24.4",
+    "@types/babel__generator": "^7.6.8",
+    "@types/babel__template": "^7.4.4",
+    "@types/babel__traverse": "^7.20.5",
+    "@tarojs/taro": "workspace:*"
+  }
+}

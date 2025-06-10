@@ -1,0 +1,51 @@
+{
+  "name": "eslint-config-taro",
+  "version": "4.1.3-alpha.0",
+  "description": "Taro specific linting rules for ESLint",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "files": [
+    "rules",
+    "index.js",
+    "html-tags.js",
+    "react.js",
+    "preact.js",
+    "vue3.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro",
+    "react",
+    "jsx"
+  ],
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "@babel/eslint-parser": "^7.24.1",
+    "@typescript-eslint/parser": "^6.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "eslint-plugin-import": "^2.29.1"
+  },
+  "peerDependencies": {
+    "eslint": "^8",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-plugin-vue": "^8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint-plugin-react": {
+      "optional": true
+    },
+    "eslint-plugin-react-hooks": {
+      "optional": true
+    },
+    "eslint-plugin-vue": {
+      "optional": true
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "postcss-taro-unit-transform",
+  "version": "4.1.3-alpha.0",
+  "description": "小程序单位转换",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:clear": "jest --clearCache",
+    "test:cov": "jest --coverage",
+    "test:updateSnapshot": "jest --updateSnapshot",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/postcss-unit-transform/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "peerDependencies": {
+    "postcss": "^8"
+  }
+}

@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Textarea events 1`] = `
+CDPPage {
+  "_e2eClose": [Function],
+  "_e2eElements": Array [
+    <taro-textarea-core class="hydrated" value="taro"><textarea class="taro-textarea" maxlength="140"></textarea>
+</taro-textarea-core>,
+    <textarea class="taro-textarea" maxlength="140"></textarea>,
+  ],
+  "_e2eEventIds": 3,
+  "_e2eEvents": Map {
+    0 => Object {
+      "callback": [Function],
+      "eventName": "input",
+    },
+    1 => Object {
+      "callback": [Function],
+      "eventName": "focus",
+    },
+    2 => Object {
+      "callback": [Function],
+      "eventName": "blur",
+    },
+  },
+  "_e2eGoto": [Function],
+  "close": [Function],
+  "compareScreenshot": [Function],
+  "debugger": [Function],
+  "emitter": Object {
+    "all": Map {
+      "console" => Array [
+        [Function],
+      ],
+      "pageerror" => Array [
+        [Function],
+      ],
+      "requestfailed" => Array [
+        [Function],
+      ],
+      "request" => Array [
+        [Function],
+      ],
+    },
+    "emit": [Function],
+    "off": [Function],
+    "on": [Function],
+  },
+  "eventsMap": Map {
+    "console" => Array [
+      [Function],
+    ],
+    "pageerror" => Array [
+      [Function],
+    ],
+    "requestfailed" => Array [
+      [Function],
+    ],
+    "request" => Array [
+      [Function],
+    ],
+  },
+  "find": [Function],
+  "findAll": [Function],
+  "getDiagnostics": [Function],
+  "spyOnEvent": [Function],
+  "waitForChanges": [Function],
+  "waitForEvent": [Function],
+}
+`;
+
+exports[`Textarea props 1`] = `
+CDPPage {
+  "_e2eClose": [Function],
+  "_e2eElements": Array [
+    <taro-textarea-core class="hydrated"><textarea class="auto-height taro-textarea" maxlength="10" placeholder="type sth..." rows="1"></textarea>
+</taro-textarea-core>,
+    <textarea class="auto-height taro-textarea" maxlength="10" placeholder="type sth..." rows="1"></textarea>,
+  ],
+  "_e2eEventIds": 1,
+  "_e2eEvents": Map {
+    0 => Object {
+      "callback": [Function],
+      "eventName": "focus",
+    },
+  },
+  "_e2eGoto": [Function],
+  "close": [Function],
+  "compareScreenshot": [Function],
+  "debugger": [Function],
+  "emitter": Object {
+    "all": Map {
+      "console" => Array [
+        [Function],
+      ],
+      "pageerror" => Array [
+        [Function],
+      ],
+      "requestfailed" => Array [
+        [Function],
+      ],
+      "request" => Array [
+        [Function],
+      ],
+    },
+    "emit": [Function],
+    "off": [Function],
+    "on": [Function],
+  },
+  "eventsMap": Map {
+    "console" => Array [
+      [Function],
+    ],
+    "pageerror" => Array [
+      [Function],
+    ],
+    "requestfailed" => Array [
+      [Function],
+    ],
+    "request" => Array [
+      [Function],
+    ],
+  },
+  "find": [Function],
+  "findAll": [Function],
+  "getDiagnostics": [Function],
+  "spyOnEvent": [Function],
+  "waitForChanges": [Function],
+  "waitForEvent": [Function],
+}
+`;

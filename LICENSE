@@ -1,0 +1,174 @@
+MIT License
+
+Copyright (c) 2018 O2Team
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+========================================================================
+
+MIT (react-devtools):
+The following files embed [react-devtools](https://github.com/facebook/react) MIT:
+`/packages/taro-plugin-react-devtools/src/backend/index.js`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (vue-devtools):
+The following files embed [vue-devtools](https://github.com/vuejs/devtools) MIT:
+`/packages/taro-plugin-vue-devtools/src/backend/*`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (vite):
+The following files embed [vite](https://github.com/vitejs/vite) MIT:
+`/packages/taro-webpack5-prebundle/src/prebundle/scanImport.ts`,
+`/packages/taro-webpack5-prebundle/src/prebundle/bundle.ts`,
+`/packages/taro-webpack5-prebundle/src/h5.ts`,
+`/packages/taro-webpack5-prebundle/src/min.ts`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (webpack):
+The following files embed [webpack](https://github.com/webpack/webpack) MIT:
+`/packages/taro-webpack5-prebundle/src/webpack/TaroContainerEntryModule.ts`,
+`/packages/taro-webpack5-prebundle/src/webpack/TaroContainerPlugin.ts`,
+`/packages/taro-webpack5-prebundle/src/webpack/TaroContainerReferencePlugin.ts`,
+`/packages/taro-webpack5-prebundle/src/webpack/TaroModuleFederationPlugin.ts`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (sizzle):
+The following files embed [sizzle](https://github.com/jquery/sizzle) MIT:
+`/packages/taro-extends/src/jquery/sizzle.js`
+See `/LICENSE.txt` for details of the license.
+
+==================
+
+MIT (zepto):
+The following files embed [zepto](https://github.com/madrobby/zepto) MIT:
+`/packages/taro-extends/src/jquery/zepto.js`,
+`/packages/taro-extends/src/jquery/event.js`
+See `/MIT-LICENSE` for details of the license.
+
+==================
+
+MIT (css-to-react-native):
+The following files embed [css-to-react-native](https://github.com/styled-components/css-to-react-native) MIT:
+`/packages/css-to-react-native/src/css-to-react-native/*`
+See `/LICENSE.md` for details of the license.
+
+==================
+
+MIT (reactify-wc):
+The following files embed [reactify-wc](https://github.com/BBKolton/reactify-wc) MIT:
+`/packages/taro-components-library-react/src/component-lib/reactify-wc.ts`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (ant-design-mobile-rn):
+The following files embed [ant-design-mobile-rn](https://github.com/ant-design/ant-design-mobile-rn) MIT:
+`/packages/taro-components-rn/src/components/Swiper/carousel.tsx`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (react-wx-images-viewer):
+The following files embed [react-wx-images-viewer](https://github.com/react-ld/react-wx-images-viewer) MIT:
+`/packages/taro-h5/src/api/media/image/previewImage.ts`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (webpack-contrib/css-loader):
+The following files embed [webpack-contrib/css-loader](https://github.com/webpack-contrib/css-loader) MIT:
+`/packages/taro-rn-style-transformer/src/utils/index.ts`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (react-native):
+The following files embed [react-native](https://github.com/facebook/react-native) MIT:
+`/packages/taro-rn-style-transformer/src/transforms/StyleSheet/*`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (myrne/performance-now):
+The following files embed [myrne/performance-now](https://github.com/myrne/performance-now) MIT:
+`/packages/taro-runtime/src/bom/raf.ts`
+See `/LICENSE` for details of the license.
+
+==================
+
+Apache (chameleon-api):
+The following files embed [chameleon-api](https://github.com/chameleon-team/chameleon-api) Apache:
+`/packages/taro-h5/src/api/device/clipboard.ts`
+
+==================
+
+MIT (uni-app):
+The following files embed [uni-app](https://github.com/dcloudio/uni-app) MIT:
+`/packages/taro-components-rn/src/components/Video/index.tsx`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (miniprogram-render):
+The following files embed [miniprogram-render](https://github.com/Tencent/kbone) MIT:
+`/packages/taro-plugin-http/src/runtime/Cookie.ts`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (stencil-ds-output-targets):
+The following files embed [stencil-ds-output-targets](https://github.com/ionic-team/stencil-ds-output-targets/) MIT:
+`/packages/taro-components-library-react/src/react-component-lib/utils/attachProps.ts`
+`/packages/taro-components-library-react/src/react-component-lib/utils/case.ts`
+`/packages/taro-components-library-react/src/react-component-lib/utils/dev.ts`
+`/packages/taro-components-library-react/src/react-component-lib/utils/index.tsx`
+`/packages/taro-components-library-react/src/react-component-lib/createComponent.tsx`
+`/packages/taro-components-library-react/src/react-component-lib/createOverlayComponent.tsx`
+`/packages/taro-components-library-react/src/react-component-lib/interfaces.ts`
+`/packages/taro-components-library-vue3/src/vue-component-lib/utils.ts`
+See `/LICENSE` for details of the license.
+
+==================
+
+MIT (weui):
+The following files embed [weui](https://github.com/Tencent/weui) MIT:
+`/packages/taro-components/src/components/*.scss`
+See `/LICENSE.txt` for details of the license.
+
+==================
+
+Apache-2.0 (intersection-observer):
+The following files embed [intersection-observer](https://github.com/GoogleChromeLabs/intersection-observer) Apache-2.0:
+`/packages/taro-api/src/polyfill/intersection-observer.ts`
+See `/LICENSE.txt` for details of the license.
+
+==================
+
+MIT (babel-plugin-jsx-dom-expressions):
+The following files embed [babel-plugin-jsx-dom-expressions](https://github.com/ryansolid/dom-expressions/blob/main/packages/babel-plugin-jsx-dom-expressions) MIT:
+`/packages/babel-plugin-transform-solid-jsx/src/*`
+See `/LICENSE` for details of the license.

@@ -1,0 +1,7 @@
+#! /usr/bin/env node
+
+require('../dist/util').printPkgVersion()
+
+const CLI = require('../dist/cli').default
+
+new CLI().run()

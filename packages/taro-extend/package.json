@@ -1,0 +1,34 @@
+{
+  "name": "@tarojs/extend",
+  "version": "4.1.3-alpha.0",
+  "description": "Taro extend functionality",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "test": "TARO_ENV=weapp jest --coverage false",
+    "test:dev": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "devDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/taro": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/taro": "workspace:*"
+  }
+}

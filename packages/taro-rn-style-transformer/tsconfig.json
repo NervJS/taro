@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "declaration": true,
+    "sourceMap": true,
+    "noUnusedLocals": false,
+    "rootDir": "./src"
+  },
+  "include": ["./src"]
+}

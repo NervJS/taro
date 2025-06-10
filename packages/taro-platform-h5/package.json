@@ -1,0 +1,57 @@
+{
+  "name": "@tarojs/plugin-platform-h5",
+  "version": "4.1.3-alpha.0",
+  "description": "Web 端平台插件",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "build",
+    "dist",
+    "index.js",
+    "types"
+  ],
+  "sideEffects": [
+    "./dist/runtime/index.js",
+    "*.scss",
+    "*.css"
+  ],
+  "types": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "run-s clean generate:desc",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf dist",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "generate:desc": "pnpm run tsx --files ./build/definition-json",
+    "rollup": "rollup -c",
+    "tsx": "ts-node --skipIgnore"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "@babel/core": "^7.14.5",
+    "@tarojs/components": "workspace:*",
+    "@tarojs/components-react": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/taro-h5": "workspace:*",
+    "babel-plugin-transform-taroapi": "workspace:*",
+    "change-case": "^4.1.2",
+    "tslib": "^2.6.2",
+    "lodash-es": "4.17.21"
+  },
+  "devDependencies": {
+    "@tarojs/taro": "workspace:*"
+  }
+}

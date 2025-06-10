@@ -1,0 +1,17 @@
+.taro-picker-view {
+  &-column {
+    &-container {
+      display: flex;
+      overflow: scroll;
+      overflow-x: hidden;
+      position: relative;
+      flex-direction: column;
+      flex: 1;
+      text-align: center;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+}

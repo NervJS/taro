@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "ES2017",
+    "module": "commonjs",
+    "preserveConstEnums": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "baseUrl": ".",
+    "rootDir": "."
+  },
+  "include": ["./src"],
+  "compileOnSave": false
+}

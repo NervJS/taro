@@ -1,0 +1,80 @@
+{
+  "name": "@tarojs/taro-h5",
+  "version": "4.1.3-alpha.0",
+  "description": "Taro h5 framework",
+  "browser": "dist/index.js",
+  "main:h5": "dist/index.esm.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "types",
+    "index.js"
+  ],
+  "sideEffects": [
+    "*.scss.js",
+    "*.scss",
+    "*.css.js",
+    "*.css"
+  ],
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "rimraf ./dist",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
+    "test": "jest",
+    "test:ci": "jest --ci -i --coverage --silent",
+    "test:dev": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "author": "O2Team",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/api": "workspace:*",
+    "@tarojs/components": "workspace:*",
+    "@tarojs/router": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "abortcontroller-polyfill": "^1.7.5",
+    "base64-js": "^1.5.1",
+    "ics": "^3.7.2",
+    "is-mobile": "^4.0.0",
+    "jsonp-retry": "^1.0.3",
+    "lodash-es": "4.17.21",
+    "platform": "^1.3.6",
+    "query-string": "^9.0.0",
+    "tslib": "^2.6.2",
+    "whatwg-fetch": "^3.6.20"
+  },
+  "devDependencies": {
+    "@tarojs/taro": "workspace:*",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@types/platform": "^1.3.6",
+    "@types/testing-library__jest-dom": "^5.14.3",
+    "babel-jest": "^29.7.0",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-mock-console": "^1.0.0",
+    "jest-transform-css": "^6.0.1",
+    "mock-socket": "^7.1.0",
+    "react": "^18.2.0",
+    "swiper": "11.1.15",
+    "react-test-renderer": "^18.2.0",
+    "rollup": "^3.29.4",
+    "rollup-plugin-node-externals": "^5.0.0",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup-plugin-dts": "^6.2.1"
+  },
+  "peerDependencies": {
+    "@tarojs/components": "workspace:~"
+  }
+}
