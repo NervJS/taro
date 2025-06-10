@@ -5,14 +5,15 @@ module.exports = {
     'import',
     'jest',
     'react',
-    'simple-import-sort'
+    'simple-import-sort',
+    'taro',
   ],
   extends: [
     'eslint:recommended',
     'standard',
     'plugin:@typescript-eslint/recommended',
     'plugin:react/jsx-runtime',
-    'plugin:react/recommended',
+    'plugin:react/recommended'
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 0,
@@ -87,6 +88,7 @@ module.exports = {
     'simple-import-sort/exports': 2,
     'space-before-function-paren': 0,
     'standard/no-callback-literal': 0,
+    'taro/max-ternary-depth': [2, 3],
   },
   env: {
     'jest/globals': true,
