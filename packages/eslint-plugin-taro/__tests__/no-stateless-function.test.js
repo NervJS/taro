@@ -1,17 +1,10 @@
 const rule = require('../rules/no-stateless-component')
 const { RuleTester } = require('eslint')
-const { parserOptions, testComponent } = require('../utils/utils')
+const { parserOptions, testComponent, testInvalid } = require('./utils/utils')
 
 const ruleTester = new RuleTester({ parserOptions })
 
 const ERROR_MESSAGE = '暂不支持无状态组件（stateless component）'
-
-function testInvalid (message, tests) {
-  return tests.map(code => ({
-    code,
-    errors: [{ message }]
-  }))
-}
 
 ruleTester.run('no-stateless-component', rule, {
   valid: [{
@@ -71,5 +64,5 @@ ruleTester.run('no-stateless-component', rule, {
     `function Test () { return this.state.ary.map(() => <View />) }`,
     `const Test = () => {  return <View /> }`,
     `const Test = function () { return <View /> }`
-  ])
+  ], false)
 })

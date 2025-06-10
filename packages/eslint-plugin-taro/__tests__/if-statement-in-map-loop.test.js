@@ -1,6 +1,6 @@
 const rule = require('../rules/if-statement-in-map-loop')
 const { RuleTester } = require('eslint')
-const { parserOptions, testValid, testInvalid } = require('../utils/utils')
+const { parserOptions, testValid, testInvalid } = require('./utils/utils')
 
 const ruleTester = new RuleTester({ parserOptions })
 

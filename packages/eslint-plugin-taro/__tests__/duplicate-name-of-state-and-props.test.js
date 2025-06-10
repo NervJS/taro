@@ -1,8 +1,8 @@
 const rule = require('../rules/duplicate-name-of-state-and-props')
 const { RuleTester } = require('eslint')
-const { parserOptions } = require('../utils/utils')
+const { parserOptions } = require('./utils/utils')
 
-const ruleTester = new RuleTester({ parserOptions, parser: 'babel-eslint' })
+const ruleTester = new RuleTester({ parserOptions, parser: require.resolve('@babel/eslint-parser') })
 
 function testConstructor (code) {
   return `class A extends Component {

@@ -19,7 +19,7 @@ module.exports = {
 
     return {
       ObjectExpression (node) {
-        if (node.parent.type !== 'ClassProperty') {
+        if (node.parent.type !== 'ClassProperty' && node.parent.type !== 'PropertyDefinition') {
           return
         }
         if (!node.parent.key) {

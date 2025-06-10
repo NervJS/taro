@@ -20,6 +20,10 @@
     "index.js",
     "README.md"
   ],
+  "scripts": {
+    "test": "jest",
+    "test:ci": "jest --ci -i --coverage --silent"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
@@ -28,7 +32,7 @@
     "has": "^1.0.1"
   },
   "peerDependencies": {
-    "babel-eslint": "*",
+    "@babel/eslint-parser": "^7.24.1",
     "eslint": "^8"
   }
 }

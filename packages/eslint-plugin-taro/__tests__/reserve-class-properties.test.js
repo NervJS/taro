@@ -1,17 +1,8 @@
 const rule = require('../rules/reserve-class-properties')
 const { RuleTester } = require('eslint')
-const { parserOptions, testComponent } = require('../utils/utils')
+const { parserOptions, testComponent, testInvalids } = require('./utils/utils')
 
-const ruleTester = new RuleTester({ parserOptions, parser: 'babel-eslint' })
-
-const ERROR_MESSAGE = ''
-
-function testInvalid (message, tests) {
-  return tests.map(code => ({
-    code,
-    errors: [{ message }]
-  }))
-}
+const ruleTester = new RuleTester({ parserOptions, parser: require.resolve('@babel/eslint-parser') })
 
 ruleTester.run('no-stateless-component', rule, {
   valid: [{
@@ -53,8 +44,8 @@ ruleTester.run('no-stateless-component', rule, {
     })
     `
   }],
-  invalid: testInvalid(ERROR_MESSAGE, [
-    `class A extends Component { _initData () {} }`,
-    `class A extends Component { $data = []; initData () {} }`
-  ])
+  invalid: testInvalids([
+    [`class A extends Component { _initData () {} }`, '_initData 是 Taro 的内部保留方法，请改变变量名'],
+    [`class A extends Component { $data = []; initData () {} }`, '$data 是 Taro 的内部保留属性，请改变变量名'],
+  ], false)
 })

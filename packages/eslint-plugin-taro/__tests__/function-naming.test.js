@@ -1,8 +1,8 @@
 const rule = require('../rules/function-naming')
 const { RuleTester } = require('eslint')
-const { parserOptions } = require('../utils/utils')
+const { parserOptions } = require('./utils/utils')
 
-const ruleTester = new RuleTester({ parserOptions, parser: 'babel-eslint' })
+const ruleTester = new RuleTester({ parserOptions, parser: require.resolve('@babel/eslint-parser') })
 
 const NUMBER_ERROR = '方法名包含数字可能会在小程序中无法使用'
 const UNDERSCOPE_ERROR = '方法名以下划线 `_` 开头或结尾可能在小程序无法使用'

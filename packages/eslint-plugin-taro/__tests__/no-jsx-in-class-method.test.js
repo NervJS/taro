@@ -1,16 +1,8 @@
 const rule = require('../rules/no-jsx-in-class-method')
 const { RuleTester } = require('eslint')
-const { parserOptions, testValid } = require('../utils/utils')
-require('babel-eslint')
+const { parserOptions, testValid, testInvalid } = require('./utils/utils')
 
-const ruleTester = new RuleTester({ parserOptions, parser: 'babel-eslint' })
-
-function testInvalid (message, tests) {
-  return tests.map(code => ({
-    code,
-    errors: [{ message }]
-  }))
-}
+const ruleTester = new RuleTester({ parserOptions, parser: require.resolve('@babel/eslint-parser') })
 
 const ERROR_MESSAGE = '暂不支持在 render() 之外的方法定义 JSX'
 
@@ -36,7 +28,7 @@ ruleTester.run('no-jsx-in-class-method', rule, {
       }
       return <View />
     })`
-  ]),
+  ], false),
   invalid: testInvalid(ERROR_MESSAGE, [
     `
     class App extends Component {
@@ -59,5 +51,5 @@ ruleTester.run('no-jsx-in-class-method', rule, {
       }
     }
     `
-  ])
+  ], false)
 })

@@ -1,8 +1,8 @@
 const rule = require('../rules/class-naming')
 const { RuleTester } = require('eslint')
-const { parserOptions } = require('../utils/utils')
+const { parserOptions } = require('./utils/utils')
 
-const ruleTester = new RuleTester({ parserOptions, parser: 'babel-eslint' })
+const ruleTester = new RuleTester({ parserOptions, parser: require.resolve('@babel/eslint-parser') })
 
 const ERROR_MESSAGE = '组件名不得与小程序内置组件名重复'
 
@@ -31,6 +31,6 @@ ruleTester.run('class-naming', rule, {
     {
       code: testClassMethod(`Text`),
       errors: [{ message: ERROR_MESSAGE }]
-    }
+    },
   ]
 })

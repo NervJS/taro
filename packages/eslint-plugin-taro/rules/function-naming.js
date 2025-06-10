@@ -43,6 +43,20 @@ module.exports = {
         })
       }
     }
+    function checkClassProperty(node) {
+      if (!isTaroComponent(context, node)) {
+        return
+      }
+      const key = node.key
+      const value = node.value
+      if (
+        key.type === 'Identifier' &&
+        value &&
+        (value.type === 'ArrowFunctionExpression' || value.type === 'FunctionExpression')
+      ) {
+        examine(key)
+      }
+    }
 
     return {
       MethodDefinition (node) {
@@ -54,20 +68,8 @@ module.exports = {
           examine(key)
         }
       },
-      ClassProperty (node) {
-        if (!isTaroComponent(context, node)) {
-          return
-        }
-        const key = node.key
-        const value = node.value
-        if (
-          key.type === 'Identifier' &&
-          value &&
-          (value.type === 'ArrowFunctionExpression' || value.type === 'FunctionExpression')
-        ) {
-          examine(key)
-        }
-      }
+      ClassProperty: checkClassProperty,
+      PropertyDefinition: checkClassProperty,
     }
   }
 }

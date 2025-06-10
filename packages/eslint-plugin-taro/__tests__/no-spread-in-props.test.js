@@ -1,7 +1,6 @@
 const rule = require('../rules/no-spread-in-props')
 const { RuleTester } = require('eslint')
-const { parserOptions, testValid, testInvalid } = require('../utils/utils')
-require('babel-eslint')
+const { parserOptions, testValid, testInvalid } = require('./utils/utils')
 
 const ruleTester = new RuleTester({ parserOptions })
 

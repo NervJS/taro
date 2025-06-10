@@ -1,6 +1,6 @@
 const rule = require('../rules/jsx-handler-names')
 const { RuleTester } = require('eslint')
-const { parserOptions, testComponent } = require('../utils/utils')
+const { parserOptions, testComponent } = require('./utils/utils')
 
 const ruleTester = new RuleTester({ parserOptions })
 

@@ -8,9 +8,11 @@ module.exports = {
   },
 
   create (context) {
+    const sourceCode = context.getSourceCode()
+
     return {
       JSXElement (node) {
-        const parents = context.getAncestors(node)
+        const parents = sourceCode.getAncestors(node)
         const funcDecl = parents.find(p => p.type === 'FunctionDeclaration')
         if (parents.some(p => p.type === 'JSXElement')) {
           return
@@ -25,7 +27,7 @@ module.exports = {
         const funcExpression = parents.find(p => p.type === 'ArrowFunctionExpression' || p.type === 'FunctionExpression')
 
         if (funcExpression && funcExpression.parent.type !== 'MethodDefinition') {
-          const arrowFuncParents = context.getAncestors(funcExpression)
+          const arrowFuncParents = sourceCode.getAncestors(funcExpression)
           const isMapCallExpr = arrowFuncParents.some(p =>
             p.type === 'CallExpression' &&
             p.callee.type === 'MemberExpression' &&

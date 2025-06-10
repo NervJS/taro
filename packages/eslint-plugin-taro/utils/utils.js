@@ -11,15 +11,6 @@ function buildDocsMeta (description, rule) {
   }
 }
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-    experimentalObjectRestSpread: true
-  }
-}
-
 function isTaroComponent (context, node) {
   let classDcl
   if (node.type === 'ClassDeclaration') {
@@ -42,37 +33,8 @@ function isTaroComponent (context, node) {
   return false
 }
 
-function testComponent (code) {
-  return `
-class App extends Component {
-  render () {
-      ${code}
-  }
-}
-`
-}
-
-function testValid (tests) {
-  return tests.map(code => ({
-    code: testComponent(code),
-    parser: 'babel-eslint'
-  }))
-}
-
-function testInvalid (message, tests) {
-  return tests.map(code => ({
-    code: testComponent(code),
-    errors: [{ message }],
-    parser: 'babel-eslint'
-  }))
-}
-
 module.exports = {
   docsUrl,
   buildDocsMeta,
-  parserOptions,
-  testComponent,
-  testValid,
-  testInvalid,
   isTaroComponent
 }

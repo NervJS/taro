@@ -34,6 +34,19 @@ module.exports = {
   },
 
   create (context) {
+    function checkClassProperty(node) {
+      if (!isTaroComponent(context, node)) {
+        return
+      }
+      const name = node.key.name
+      if (RESERVE_PROPERIES.has(name)) {
+        context.report({
+          message: createErrorMsg(name, '属性'),
+          node
+        })
+      }
+    }
+
     return {
       MethodDefinition (node) {
         if (!isTaroComponent(context, node)) {
@@ -47,18 +60,8 @@ module.exports = {
           })
         }
       },
-      ClassProperty (node) {
-        if (!isTaroComponent(context, node)) {
-          return
-        }
-        const name = node.key.name
-        if (RESERVE_PROPERIES.has(name)) {
-          context.report({
-            message: createErrorMsg(name, '属性'),
-            node
-          })
-        }
-      }
+      ClassProperty: checkClassProperty,
+      PropertyDefinition: checkClassProperty,
     }
   }
 }
