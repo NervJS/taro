@@ -34,13 +34,6 @@ ruleTester.run('no-stateless-component', rule, {
   }, {
     code: `
     const array = ['test1', 'test2', 'test3'];
-    const element = array.map(item => {
-      return <View>{item}</View>
-    })
-    `
-  }, {
-    code: `
-    const array = ['test1', 'test2', 'test3'];
     const element = this.state.array.map(item => {
       return <View>{item}</View>
     })

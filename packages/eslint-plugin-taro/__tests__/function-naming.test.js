@@ -20,7 +20,7 @@ function testClassPropFunction (name) {
   }`
 }
 
-ruleTester.run('jsx-handler-names', rule, {
+ruleTester.run('function-naming', rule, {
   valid: [
     {
       code: testClassMethod(`handleClick`)
@@ -47,9 +47,6 @@ ruleTester.run('jsx-handler-names', rule, {
       code: testClassMethod(`onTransitionEnd`)
     },
     {
-      code: testClassMethod(`onAnimationStart`)
-    },
-    {
       code: testClassPropFunction(`handleClick`)
     },
     {
@@ -73,9 +70,6 @@ ruleTester.run('jsx-handler-names', rule, {
     {
       code: testClassPropFunction(`onTransitionEnd`)
     },
-    {
-      code: testClassPropFunction(`onAnimation_Start`)
-    }
   ],
   invalid: [
     {

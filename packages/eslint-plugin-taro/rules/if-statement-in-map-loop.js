@@ -16,6 +16,8 @@ module.exports = {
   },
 
   create (context) {
+    const sourceCode = context.getSourceCode()
+
     function isArrayMapCall (s) {
       return s && s.type === 'CallExpression' &&
         s.callee.type === 'MemberExpression' &&
@@ -24,9 +26,10 @@ module.exports = {
         s.arguments[0].body &&
         s.arguments[0].body.type === 'BlockStatement'
     }
+
     return {
       JSXElement (node) {
-        const parents = context.getAncestors(node)
+        const parents = sourceCode.getAncestors(node)
         const callExpr = parents.find(isArrayMapCall)
         if (!callExpr) {
           return

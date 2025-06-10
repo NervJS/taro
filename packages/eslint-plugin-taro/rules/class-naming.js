@@ -1,49 +1,5 @@
+const { DEFAULT_Components_SET } = require('../constant')
 const { buildDocsMeta, isTaroComponent } = require('../utils/utils')
-// eslint-disable-next-line
-const DEFAULT_Components_SET = new Set([
-  'View',
-  'ScrollView',
-  'Swiper',
-  'CoverView',
-  'CoverImage',
-  'Icon',
-  'Text',
-  'RichText',
-  'Progress',
-  'Button',
-  'Checkbox',
-  'Form',
-  'Input',
-  'Label',
-  'Picker',
-  'PickerView',
-  'PickerViewColumn',
-  'Radio',
-  'RadioGroup',
-  'CheckboxGroup',
-  'Slider',
-  'Switch',
-  'Textarea',
-  'Navigator',
-  'Audio',
-  'Image',
-  'Video',
-  'Camera',
-  'LivePlayer',
-  'LivePusher',
-  'Map',
-  'Canvas',
-  'OpenData',
-  'WebView',
-  'SwiperItem',
-  'MovableArea',
-  'MovableView',
-  'FunctionalPageNavigator',
-  'Ad',
-  'Block',
-  'Import',
-  'OfficialAccount'
-])
 
 const ERROR_MESSAGE = '组件名不得与小程序内置组件名重复'
 

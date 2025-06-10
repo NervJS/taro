@@ -8,9 +8,11 @@ module.exports = {
   },
 
   create (context) {
+    const sourceCode = context.getSourceCode()
+
     return {
       JSXElement (node) {
-        const parents = context.getAncestors(node)
+        const parents = sourceCode.getAncestors(node)
         const jsxAttr = parents.find(p => p.type === 'SwitchCase' || p.type === 'SwitchStatement')
         if (jsxAttr) {
           context.report({

@@ -10,9 +10,11 @@ module.exports = {
   },
 
   create (context) {
+    const sourceCode = context.getSourceCode()
+
     return {
       JSXSpreadAttribute (node) {
-        const parents = context.getAncestors(node)
+        const parents = sourceCode.getAncestors(node)
         const jsx = parents.find(p => p.type === 'JSXOpeningElement')
         if (jsx && jsx.name && jsx.name.name) {
           const componentName = jsx.name.name

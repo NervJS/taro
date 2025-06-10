@@ -4,7 +4,7 @@ const { parserOptions, testComponent, testInvalids } = require('./utils/utils')
 
 const ruleTester = new RuleTester({ parserOptions, parser: require.resolve('@babel/eslint-parser') })
 
-ruleTester.run('no-stateless-component', rule, {
+ruleTester.run('reserve-class-properties', rule, {
   valid: [{
     code: testComponent(`<View />`)
   }, {

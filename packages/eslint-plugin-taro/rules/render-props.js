@@ -10,9 +10,11 @@ module.exports = {
   },
 
   create (context) {
+    const sourceCode = context.getSourceCode()
+
     return {
       JSXElement (node) {
-        const parents = context.getAncestors(node)
+        const parents = sourceCode.getAncestors(node)
         if (parents.some(p => p.type === 'JSXElement')) {
           return
         }

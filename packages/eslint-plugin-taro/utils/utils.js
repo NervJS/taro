@@ -16,7 +16,7 @@ function isTaroComponent (context, node) {
   if (node.type === 'ClassDeclaration') {
     classDcl = node
   } else {
-    const parents = context.getAncestors(node)
+    const parents = context.getSourceCode().getAncestors(node)
     classDcl = parents.find(p => p.type === 'ClassDeclaration')
   }
   if (

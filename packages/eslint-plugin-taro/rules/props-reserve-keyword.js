@@ -1,3 +1,4 @@
+const { DEFAULT_Components_SET } = require('../constant')
 const { buildDocsMeta } = require('../utils/utils')
 
 const ERROR_MESSAGE = '在小程序是保留关键字，请使用其他 props 名'
@@ -5,47 +6,6 @@ const ERROR_MESSAGE = '在小程序是保留关键字，请使用其他 props �
 const reserveKeyWords = new Set([
   'class',
   'id'
-])
-
-// eslint-disable-next-line
-const DEFAULT_Components_SET = new Set([
-  'View',
-  'ScrollView',
-  'Swiper',
-  'CoverImage',
-  'CoverView',
-  'Icon',
-  'Text',
-  'RichText',
-  'Progress',
-  'Button',
-  'Checkbox',
-  'Form',
-  'Input',
-  'Label',
-  'Picker',
-  'PickerView',
-  'Radio',
-  'RadioGroup',
-  'CheckboxGroup',
-  'Slider',
-  'Switch',
-  'Textarea',
-  'Navigator',
-  'Audio',
-  'Image',
-  'Video',
-  'Camera',
-  'LivePlayer',
-  'LivePusher',
-  'Map',
-  'Canvas',
-  'OpenData',
-  'WebView',
-  'SwiperItem',
-  'Provider',
-  'MovableArea',
-  'MovableView'
 ])
 
 module.exports = {

@@ -83,7 +83,7 @@ module.exports = {
         stateNameFields.forEach(node => {
           const key = node.key
           if (propsNameFields.has(key.name)) {
-            context.report(node, `this.state.${key.name} 与 this.props.${key.name} 重复可能会导致渲染结不如意料之中的结果。`)
+            context.report(node, `this.state.${key.name} 与 this.props.${key.name} 重复可能会导致渲染结果不如意料之中。`)
           }
         })
       }

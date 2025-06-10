@@ -35,7 +35,7 @@ function testClassProperty (code) {
 }
 
 function buildErrMsg (name) {
-  return `this.state.${name} 与 this.props.${name} 重复可能会导致渲染结不如意料之中的结果。`
+  return `this.state.${name} 与 this.props.${name} 重复可能会导致渲染结果不如意料之中。`
 }
 
 ruleTester.run('duplicate-name-of-state-and-props', rule, {

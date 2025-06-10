@@ -16,6 +16,7 @@ const DEFAULT_Components_SET = new Set([
   'Label',
   'Picker',
   'PickerView',
+  'PickerViewColumn',
   'Radio',
   'RadioGroup',
   'CheckboxGroup',
@@ -36,7 +37,12 @@ const DEFAULT_Components_SET = new Set([
   'SwiperItem',
   'Provider',
   'MovableArea',
-  'MovableView'
+  'MovableView',
+  'FunctionalPageNavigator',
+  'Ad',
+  'Block',
+  'Import',
+  'OfficialAccount',
 ])
 
 module.exports = {

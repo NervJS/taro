@@ -7,6 +7,7 @@ function isArrayMapCall (s) {
     s.callee.type === 'MemberExpression' &&
     s.callee.property.name === 'map' &&
     Array.isArray(s.arguments) &&
+    s.arguments.length > 0 &&
     s.arguments[0].body &&
     s.arguments[0].body.type === 'BlockStatement'
 }
@@ -17,8 +18,9 @@ module.exports = {
   },
 
   create (context) {
+    const sourceCode = context.getSourceCode()
     const parentIsJSXAttribute = (node) => {
-      const parents = context.getAncestors(node)
+      const parents = sourceCode.getAncestors(node)
       const jsxAttr = parents.find(p => p.type === 'JSXAttribute')
       if (jsxAttr && jsxAttr.name.name !== 'ref' && !isArrayMapCall(node.parent)) {
         context.report({
