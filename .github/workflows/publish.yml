@@ -69,6 +69,15 @@ jobs:
 
           echo "ABORT=$ABORT" >> $GITHUB_ENV
           echo "Final ABORT value: $ABORT"
+      - name: Install open-harmony SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          name: taro_harmony
+          key: ${{ secrets.OHPM_PRIVATE_KEY }}
+          known_hosts: unnecessary
+      - name: TEST
+        run: |
+          ls /home/runner/.ssh/taro_harmony | wc -m
 
   build-rust-binding:
     name: Build Rust Binding
@@ -100,7 +109,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
           ref: ${{ github.ref_name }}
       - name: Setup pnpm
         uses: pnpm/action-setup@v3.0.0
@@ -279,11 +287,6 @@ jobs:
       - name: build
         run: pnpm build
 
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_KEY }}
-          known_hosts: unnecessary
       - name: Checkout Harmony Project
         if: github.event.pull_request.merged != true || env.MOCK_PUBLISH == 'true'
         uses: actions/checkout@v4
@@ -291,7 +294,7 @@ jobs:
           repository: NervJS/taro-harmony-project
           path: packages/taro-platform-harmony-cpp/harmony_project
           submodules: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CLASSIC_PAT_TOKEN }}
       - name: Build Harmony Package
         id: commitHar
         if: github.event.pull_request.merged != true || env.MOCK_PUBLISH == 'true'
@@ -324,7 +327,6 @@ jobs:
           git fetch origin --unshallow main
           git reset --hard origin/main
           git tag v${{ env.CURRENT_VERSION }} -m '${{ env.COMMIT_MESSAGE }}'
-          git remote set-url origin https://${{ secrets.CLASSIC_PAT_TOKEN }}@github.com/NervJS/taro-harmony-capi-library.git
           git push origin v${{ env.CURRENT_VERSION }}
           cd ../../../..
           git fetch origin --unshallow main
@@ -340,10 +342,10 @@ jobs:
           git push -f
 
           cd harmony_project
-          git add library/src/CHANGELOG.md
+          git add library
           git commit -m '${{ env.COMMIT_MESSAGE }}'
+          git push origin main
           git tag v${{ env.CURRENT_VERSION }} -m '${{ env.COMMIT_MESSAGE }}'
-          git remote set-url origin https://${{ secrets.CLASSIC_PAT_TOKEN }}@github.com/NervJS/taro-harmony-project.git
           git push origin v${{ env.CURRENT_VERSION }}
           cd ..
           cd ../..
@@ -384,12 +386,19 @@ jobs:
 
       # ------------------ publish -------------
 
-      - name: Setup open-harmony configuration
+      - name: Install open-harmony SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          name: taro_harmony
+          key: ${{ secrets.OHPM_PRIVATE_KEY }}
+          known_hosts: unnecessary
+      - name: Publish ohpm registry
         run: |
-          mkdir -p ./.ssh
-          echo "${{ secrets.OHPM_PRIVATE_KEY }}" > ./.ssh/id_taro_harmony
-          # ohpm config set key_path ./.ssh/id_taro_harmony
-          # ohpm config set publish_id ${{ secrets.OHPM_PUBLISH_CODE }}
+          if ! command -v expect &> /dev/null; then
+            echo "Installing expect..."
+            sudo apt-get update && sudo apt-get install -y expect
+          fi
+          pnpm --filter=@tarojs/plugin-platform-harmony-cpp ohpm-publish -- ${{ secrets.OHPM_PUBLISH_CODE }}
 
       - name: Publish
         if: env.MOCK_PUBLISH != 'true'
