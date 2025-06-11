@@ -44,5 +44,19 @@ describe('BOM', () => {
       const parentPath4 = new URL('../../parent/path', 'https://example.com/exist/path') + ''
       expect(parentPath4).toBe('https://example.com/parent/path')
     })
+
+    it('URL path 边界情况', () => {
+      const consecutiveSlashes = new URL('///path', 'https://example.com/') + ''
+      expect(consecutiveSlashes).toBe('https://path/')
+
+      const emptySegment = new URL('/foo//../bar', 'https://example.com/') + ''
+      expect(emptySegment).toBe('https://example.com/foo/bar')
+
+      const multipleDots = new URL('./././path', 'https://example.com/base/') + ''
+      expect(multipleDots).toBe('https://example.com/base/path')
+
+      const beyondRoot = new URL('../../../path', 'https://example.com/only/one/') + ''
+      expect(beyondRoot).toBe('https://example.com/path')
+    })
   })
 })

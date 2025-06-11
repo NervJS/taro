@@ -232,9 +232,9 @@ function parseUrlBase (url: string, base?: string) {
     const { protocol, origin, pathname, href } = parsedBase
 
     fullUrl = url
-      ? url.startsWith('//')
+      ? url.match(/^\/\/[^/]*/)
         ? protocol + url
-        : url.startsWith('/')
+        : url.match(/^\/[^/]*/)
           ? `${origin}${url}`
           : pathname.endsWith('/')
             ? `${origin}${pathname}${url}`
@@ -252,7 +252,7 @@ function collapseUrl (url: string) {
   let { origin, pathname, search, hash } = parseUrl(url)
 
   for (let simplified = ''; ; pathname = simplified) {
-    simplified = pathname.replace(/\/.+?\/\.\./g, '')
+    simplified = pathname.replace(/\/.*?\/\.\./g, '')
     if (simplified === pathname) break
   }
   pathname = pathname.replace(/^\/\.\./, '')
