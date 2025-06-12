@@ -1661,6 +1661,9 @@ importers:
       query-string:
         specifier: ^9.0.0
         version: 9.1.1
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
       whatwg-fetch:
         specifier: ^3.6.20
         version: 3.6.20
