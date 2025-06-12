@@ -174,6 +174,9 @@ importers:
       eslint-plugin-standard:
         specifier: ^4.0.1
         version: 4.1.0(eslint@8.57.1)
+      eslint-plugin-taro:
+        specifier: workspace:*
+        version: link:packages/eslint-plugin-taro
       husky:
         specifier: ^8.0.1
         version: 8.0.3
@@ -463,6 +466,12 @@ importers:
       eslint-plugin-import:
         specifier: ^2.29.1
         version: 2.31.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.4.5))(eslint@8.57.1)
+
+  packages/eslint-plugin-taro:
+    dependencies:
+      has:
+        specifier: ^1.0.1
+        version: 1.0.4
 
   packages/jest-helper:
     dependencies:
@@ -2562,8 +2571,8 @@ importers:
         specifier: ^7.34.1
         version: 7.37.4(eslint@8.57.1)
       eslint-plugin-taro:
-        specifier: ^2.2.19
-        version: 2.2.22(babel-eslint@10.1.0(eslint@8.57.1))(eslint@8.57.1)
+        specifier: workspace:*
+        version: link:../eslint-plugin-taro
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -9399,12 +9408,6 @@ packages:
     resolution: {integrity: sha512-ZL7+QRixjTR6/528YNGyDotyffm5OQst/sGxKDwGb9Uqs4In5Egi4+jbobhqJoyoCM6/7v/1A5fhQ7ScMtDjaQ==}
     peerDependencies:
       eslint: '>=5.0.0'
-
-  eslint-plugin-taro@2.2.22:
-    resolution: {integrity: sha512-1tc6iXXkBnHMydXKhHGO2WqeNGyZ4E8vc4sl+N8371M6iS4qdPUNottDpwfSDvAQo5DmEo/nJ0QD2ls0mIdZaQ==}
-    peerDependencies:
-      babel-eslint: '*'
-      eslint: '*'
 
   eslint-scope@5.1.1:
     resolution: {integrity: sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==}
@@ -24460,12 +24463,6 @@ snapshots:
   eslint-plugin-standard@4.1.0(eslint@8.57.1):
     dependencies:
       eslint: 8.57.1
-
-  eslint-plugin-taro@2.2.22(babel-eslint@10.1.0(eslint@8.57.1))(eslint@8.57.1):
-    dependencies:
-      babel-eslint: 10.1.0(eslint@8.57.1)
-      eslint: 8.57.1
-      has: 1.0.4
 
   eslint-scope@5.1.1:
     dependencies:
