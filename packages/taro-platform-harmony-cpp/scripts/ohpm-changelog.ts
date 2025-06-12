@@ -16,7 +16,7 @@ interface Category {
 
 export default class ChangelogGenerator {
   packagePath: string
-  lastTag?: string
+  sinceFlag?: string
   exclude: (string | RegExp)[] = [
     /\b(init|publish|log|docs)\b/,
     /\bupdate\b.*\b(hash|library|linense|runtime|version)\b/,
@@ -32,19 +32,18 @@ export default class ChangelogGenerator {
         cwd: this.packagePath,
         encoding: 'utf8',
         env: process.env,
-        stdio: 'inherit',
+        stdio: 'pipe',
       })
-      this.lastTag = (output || '').trim()
+      const tag = (output || '').trim()
+      this.sinceFlag = tag ? `${tag}..HEAD` : ''
     } catch (error) {
-      console.log('No previous tags found, generating full changelog') // eslint-disable-line no-console
+      console.log('No previous tags found, generating full changelog', error) // eslint-disable-line no-console
     }
   }
 
   getGitLogs(since?: string, pkgPath = this.packagePath): string[] {
-    const sinceFlag = since ? `--since="${since}"` : ''
-
     try {
-      const output = execSync(`git log ${sinceFlag} --oneline --no-merges -- ${pkgPath}`, {
+      const output = execSync(`git log ${since || ''} --oneline --no-merges -- ${pkgPath}`, {
         cwd: pkgPath,
         encoding: 'utf8',
         env: process.env,
@@ -129,7 +128,7 @@ export default class ChangelogGenerator {
     const currentVersion = version || PKG_VERSION
     const currentDate = new Date().toISOString().split('T')[0]
 
-    const commits = this.getGitLogs(this.lastTag ? `${this.lastTag}..HEAD` : undefined)
+    const commits = this.getGitLogs(this.sinceFlag)
     this.parseCommits(commits, categories, 'HAR')
 
     const newChangelog = this.generateMarkdown(currentVersion, currentDate, categories)
@@ -159,6 +158,6 @@ export default class ChangelogGenerator {
 }
 
 const generator = new ChangelogGenerator(path.join(process.cwd(), 'harmony_project/library'))
-const categories = generator.parseCommits(generator.getGitLogs(generator.lastTag, process.cwd()), {}, 'Plugin')
-generator.parseCommits(generator.getGitLogs(generator.lastTag, path.join(process.cwd(), 'harmony_project/library/src/main/cpp')), categories, 'C-API')
+const categories = generator.parseCommits(generator.getGitLogs(generator.sinceFlag, process.cwd()), {}, 'Plugin')
+generator.parseCommits(generator.getGitLogs(generator.sinceFlag, path.join(process.cwd(), 'harmony_project/library/src/main/cpp')), categories, 'C-API')
 generator.generate(PKG_VERSION, categories)

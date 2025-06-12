@@ -13,7 +13,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [closed, opened, synchronize]
+    types: [closed]
 
 env:
   CI: true
@@ -59,9 +59,6 @@ jobs:
           elif [[ "${{ env.COMMIT_MESSAGE }}" != "chore(release):"* ]]; then
             echo "Not a release commit"
             ABORT=${{ !env.MOCK_PUBLISH }}
-          elif [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event.action }}" != "closed" ]]; then
-            echo "Mock publish build harmony har package"
-            echo "MOCK_PUBLISH=true" >> $GITHUB_ENV
           elif [[ "${{ github.event_name }}" == "push" && "${{ env.COMMIT_MESSAGE }}" != *"--tag="* ]]; then
             echo "Push event without tag"
             ABORT=${{ !env.MOCK_PUBLISH }}
@@ -185,6 +182,7 @@ jobs:
       - name: Checkout Harmony Commond Line Tools
         env:
           COMMANDLINE_TOOLS_URL: https://storage.360buyimg.com/taro-patch/command-line-tools-for-harmony/5.0.13.200/linux_x64
+          TOOLS_HOME: ${{ runner.os == 'macOS' && '~/harmony-tools' || '$HOME/harmony-tools' }}
         run: |-
           download_file() {
             local url=$1
@@ -257,6 +255,9 @@ jobs:
             return 0
           }
 
+          mkdir -p ${{ env.TOOLS_HOME }}
+          cd ${{ env.TOOLS_HOME }}
+
           if ! command -v 7z &> /dev/null; then
             echo "Installing 7z..."
             sudo apt-get update && sudo apt-get install -y p7zip-full
@@ -264,22 +265,21 @@ jobs:
           concurrent_download
           7z x ./linux_x64.zip -y -sdel
 
-          ls $GITHUB_WORKSPACE/command-line-tools/bin
-          ls $GITHUB_WORKSPACE/command-line-tools/sdk/default/openharmony/native/llvm/bin
-          ls $GITHUB_WORKSPACE/command-line-tools/sdk/default/hms/native/BiSheng/bin
-          echo "$GITHUB_WORKSPACE/command-line-tools/bin" >> $GITHUB_PATH
-          echo "$GITHUB_WORKSPACE/command-line-tools/sdk/default/openharmony/native/llvm/bin" >> $GITHUB_PATH
-          echo "$GITHUB_WORKSPACE/command-line-tools/sdk/default/hms/native/BiSheng/bin" >> $GITHUB_PATH
+          ls ${{ env.TOOLS_HOME }}/command-line-tools/bin
+          ls ${{ env.TOOLS_HOME }}/command-line-tools/sdk/default/openharmony/native/llvm/bin
+          ls ${{ env.TOOLS_HOME }}/command-line-tools/sdk/default/hms/native/BiSheng/bin
+          echo "${{ env.TOOLS_HOME }}/command-line-tools/bin" >> $GITHUB_PATH
+          echo "${{ env.TOOLS_HOME }}/command-line-tools/sdk/default/openharmony/native/llvm/bin" >> $GITHUB_PATH
+          echo "${{ env.TOOLS_HOME }}/command-line-tools/sdk/default/hms/native/BiSheng/bin" >> $GITHUB_PATH
 
           # 为 hvigorw 设置 node 使用目录，需要移除 bin/node
           echo "DEVECO_NODE_HOME=$( which node )" | sed 's|/bin/node||' >> $GITHUB_ENV
-          echo "DEVECO_SDK_HOME=$GITHUB_WORKSPACE/command-line-tools" >> $GITHUB_ENV
+          echo "DEVECO_SDK_HOME=${{ env.TOOLS_HOME }}/command-line-tools" >> $GITHUB_ENV
 
       - name: build
         run: pnpm build
 
       - name: Checkout Harmony Project
-        if: github.event.pull_request.merged != true || env.MOCK_PUBLISH == 'true'
         uses: actions/checkout@v4
         with:
           repository: NervJS/taro-harmony-project
@@ -288,7 +288,6 @@ jobs:
           token: ${{ secrets.CLASSIC_PAT_TOKEN }}
       - name: Build Harmony Package
         id: commitHar
-        if: github.event.pull_request.merged != true || env.MOCK_PUBLISH == 'true'
         run: |-
           which node
           node -v
@@ -327,17 +326,12 @@ jobs:
 
           pnpm --filter=@tarojs/plugin-platform-harmony-cpp changelog
           pnpm --filter=@tarojs/plugin-platform-harmony-cpp build:library --har
-          git fetch --unshallow origin ${{ github.ref_name }}
-          git add ./static/
-          git commit --amend -m '${{ env.COMMIT_MESSAGE }} --skip'
-          git push -f
 
           cd harmony_project
           git add library
           git commit -m '${{ env.COMMIT_MESSAGE }}'
-          git push origin main
           git tag v${{ env.CURRENT_VERSION }} -m '${{ env.COMMIT_MESSAGE }}'
-          git push origin v${{ env.CURRENT_VERSION }}
+          git push origin main v${{ env.CURRENT_VERSION }}
           cd ..
           cd ../..
 
