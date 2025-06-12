@@ -17,7 +17,7 @@ on:
 
 env:
   CI: true
-  MOCK_PUBLISH: true
+  # MOCK_PUBLISH: true
 permissions: {}
 jobs:
   need-publish:
@@ -69,15 +69,6 @@ jobs:
 
           echo "ABORT=$ABORT" >> $GITHUB_ENV
           echo "Final ABORT value: $ABORT"
-      - name: Install open-harmony SSH key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          name: taro_harmony
-          key: ${{ secrets.OHPM_PRIVATE_KEY }}
-          known_hosts: unnecessary
-      - name: TEST
-        run: |
-          ls /home/runner/.ssh/taro_harmony | wc -m
 
   build-rust-binding:
     name: Build Rust Binding
@@ -387,12 +378,14 @@ jobs:
       # ------------------ publish -------------
 
       - name: Install open-harmony SSH key
+        if: env.MOCK_PUBLISH != 'true'
         uses: shimataro/ssh-key-action@v2
         with:
           name: taro_harmony
           key: ${{ secrets.OHPM_PRIVATE_KEY }}
           known_hosts: unnecessary
       - name: Publish ohpm registry
+        if: env.MOCK_PUBLISH != 'true'
         run: |
           if ! command -v expect &> /dev/null; then
             echo "Installing expect..."
