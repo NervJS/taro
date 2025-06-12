@@ -39,3 +39,7 @@ packages/taro-helper/swc
 crates
 
 tests/__tests__/bundled
+
+harmony_project
+node_modules
+oh_modules
