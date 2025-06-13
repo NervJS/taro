@@ -16,11 +16,12 @@
     },
     "test:ci": {
       "inputs": ["default", "^production"],
-      "dependsOn": ["prod"],
+      "dependsOn": ["prod", "^prod"],
       "cache": true
     },
     "updateSnapshot": {
       "inputs": ["default", "^production"],
+      "dependsOn": ["prod", "^prod"],
       "cache": true
     }
   }
