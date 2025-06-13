@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "nx-mcp": {
+      "type": "http",
+      "url": "http://localhost:9600/mcp"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  // https://nx.dev/reference/nx-json
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  // https://nx.dev/reference/inputs#named-input-conventions
+  "namedInputs": {
+    "sharedGlobals": [{ "runtime": "node --version" }, { "runtime": "pnpm --version" }],
+    "default": ["{projectRoot}/**/*", "sharedGlobals", "!{projectRoot}/**/*.md"],
+    "production": ["default", "!{projectRoot}/jest.config.[jt]s", "!{projectRoot}/**/*.{spec,test,e2e}.[jt]s?(x)"]
+  },
+  "targetDefaults": {
+    "prod": {
+      "inputs": ["production", "^production"],
+      "dependsOn": ["^prod"],
+      "cache": true,
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "test:ci": {
+      "inputs": ["default", "^production"],
+      "dependsOn": ["prod", "^prod"],
+      "cache": true
+    },
+    "updateSnapshot": {
+      "inputs": ["default", "^production"],
+      "dependsOn": ["prod", "^prod"],
+      "cache": true
+    }
+  }
+}

@@ -6,7 +6,7 @@ describe('vue3', () => {
   global.navigator = runtime.navigator
   global.Element = runtime.TaroElement
   global.SVGElement = runtime.SVGElement
-  const vue3Plugin = require('@tarojs/plugin-framework-vue3/dist/runtime')
+  const vue3Plugin = require('@tarojs/plugin-framework-vue3')
   const Vue = require('vue')
 
   // Vue.config.devtools = false

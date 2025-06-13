@@ -1,4 +1,5 @@
 import * as path from 'node:path'
+
 import * as Chain from 'webpack-chain'
 
 import { compile, getOutput } from './utils/compiler'
@@ -101,7 +102,7 @@ describe('config', () => {
         webpackChain: chain => fn(chain instanceof Chain)
       })
 
-      expect(fn).toBeCalledWith(true)
+      expect(fn).toHaveBeenCalledWith(true)
     })
 
     test('mini', async () => {
@@ -115,7 +116,7 @@ describe('config', () => {
         webpackChain: chain => fn(chain instanceof Chain)
       })
 
-      expect(fn).toBeCalledWith(true)
+      expect(fn).toHaveBeenCalledWith(true)
     })
   })
 
@@ -171,7 +172,7 @@ describe('config', () => {
         }
       })
 
-      expect(include).toBeCalled()
+      expect(include).toHaveBeenCalled()
     })
 
     test('mini', async () => {
@@ -188,7 +189,7 @@ describe('config', () => {
         }
       })
 
-      expect(include).toBeCalled()
+      expect(include).toHaveBeenCalled()
     })
   })
 
@@ -204,7 +205,7 @@ describe('config', () => {
         }
       })
 
-      expect(exclude).toBeCalled()
+      expect(exclude).toHaveBeenCalled()
     })
 
     test('mini', async () => {
@@ -221,7 +222,7 @@ describe('config', () => {
         }
       })
 
-      expect(exclude).toBeCalled()
+      expect(exclude).toHaveBeenCalled()
     })
   })
 

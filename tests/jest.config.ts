@@ -9,7 +9,6 @@ const config: Config = {
   },
   preset: 'ts-jest',
   setupFilesAfterEnv: ['<rootDir>/__tests__/setup/index.ts'],
-  snapshotSerializers: ['jest-taro-helper/lib/snapshot/serializers.js'],
   testEnvironment: 'node',
   testEnvironmentOptions: {},
   testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)'],
