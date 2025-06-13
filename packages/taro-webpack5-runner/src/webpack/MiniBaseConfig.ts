@@ -58,7 +58,7 @@ export class MiniBaseConfig extends BaseConfig {
           // 小程序使用 regenerator-runtime@0.11
           'regenerator-runtime': require.resolve('regenerator-runtime'),
           // 开发组件库时 link 到本地调试，runtime 包需要指向本地 node_modules 顶层的 runtime，保证闭包值 Current 一致，shared 也一样
-          '@tarojs/runtime': resolveSync('@tarojs/runtime', resolveOptions),
+          '@tarojs/runtime': require.resolve('@tarojs/runtime'),
           '@tarojs/shared': resolveSync('@tarojs/shared', resolveOptions),
         },
         // [Webpack 4] config.node: { fs: false, path: false }
