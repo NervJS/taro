@@ -62,7 +62,7 @@ class PullDownRefresh extends React.Component<IProps, IState> {
     prefixCls: 'rmc-pull-to-refresh',
     distanceToRefresh: 50,
     damping: 100,
-    indicator: INDICATOR
+    indicator: typeof INDICATOR
   }
 
   // https://github.com/yiminghe/zscroller/blob/2d97973287135745818a0537712235a39a6a62a1/src/Scroller.js#L355
