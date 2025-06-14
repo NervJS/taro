@@ -1,3 +1,5 @@
+import type { ValueOf } from '@tarojs/shared'
+
 export const CONFIG_DIR_NAME = 'config'
 export const DEFAULT_CONFIG_FILE = 'index'
 
@@ -10,10 +12,11 @@ export const IS_MODIFY_HOOK = /^modify/
 
 export const presetOrPluginPrefixReg = new RegExp(`^${PRESET_PREFIX}|${PLUGIN_PREFIX}`)
 
-export enum PluginType {
-  Preset = 'Preset',
-  Plugin = 'Plugin'
-}
+export const PluginType = {
+  Preset: 'Preset',
+  Plugin: 'Plugin'
+} as const
+export type PluginType = ValueOf<typeof PluginType>
 
 export const PluginNamePrefix = {
   [PluginType.Preset]: PLUGIN_PREFIX,

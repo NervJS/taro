@@ -76,10 +76,10 @@ class TaroWindow extends Events {
       _history.trigger(CONTEXT_ACTIONS.RESTORE, pageId)
     }, null)
 
-    this.on(CONTEXT_ACTIONS.DESTORY, (pageId: string) => {
+    this.on(CONTEXT_ACTIONS.DESTROY, (pageId: string) => {
       // 页面onunload，清除当前页面的上下文信息
-      _location.trigger(CONTEXT_ACTIONS.DESTORY, pageId)
-      _history.trigger(CONTEXT_ACTIONS.DESTORY, pageId)
+      _location.trigger(CONTEXT_ACTIONS.DESTROY, pageId)
+      _history.trigger(CONTEXT_ACTIONS.DESTROY, pageId)
     }, null)
   }
 
