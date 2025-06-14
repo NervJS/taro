@@ -5,7 +5,7 @@
   "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro",
   "license": "MIT",
-  "main": "index.js",
+  "exports": "./dist/index.js",
   "keywords": [
     "taro"
   ],
@@ -20,7 +20,9 @@
   "scripts": {
     "prod": "pnpm run build",
     "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+    "test": "vitest",
+    "test:ci": "vitest --coverage"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
