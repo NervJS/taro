@@ -1,3 +1,5 @@
+import { type ValueOf } from '@tarojs/shared'
+
 import TaroDataSourceElement from './dataSource'
 import { eventSource } from './event-source'
 
@@ -6,17 +8,19 @@ import type { TaroAny } from '../interface'
 import type { TaroDocument } from './document'
 import type { TaroElement } from './element/element'
 
-export enum NodeType {
-  ELEMENT_NODE = 1,
-  ATTRIBUTE_NODE = 2,
-  TEXT_NODE = 3,
-  CDATA_SECTION_NODE = 4,
-  PROCESSING_INSTRUCTION_NODE = 7,
-  COMMENT_NODE = 8,
-  DOCUMENT_NODE = 9,
-  DOCUMENT_TYPE_NODE = 10,
-  DOCUMENT_FRAGMENT_NODE = 11
-}
+// https://developer.mozilla.org/zh-CN/docs/Web/API/Node/nodeType
+export const NodeType = {
+  ELEMENT_NODE: 1,
+  ATTRIBUTE_NODE: 2,
+  TEXT_NODE: 3,
+  CDATA_SECTION_NODE: 4,
+  PROCESSING_INSTRUCTION_NODE: 7,
+  COMMENT_NODE: 8,
+  DOCUMENT_NODE: 9,
+  DOCUMENT_TYPE_NODE: 10,
+  DOCUMENT_FRAGMENT_NODE: 11,
+} as const
+export type NodeType = ValueOf<typeof NodeType>;
 
 let _id = 0
 function genId (): number {
@@ -45,7 +49,7 @@ export class TaroNode extends TaroDataSourceElement {
   // 以下属性为原生混写组件才有意义的属性
   public _nativeUpdateTrigger = 0
 
-  constructor(nodeName: string, nodeType = NodeType.ELEMENT_NODE) {
+  constructor(nodeName: string, nodeType: NodeType = NodeType.ELEMENT_NODE) {
     super()
 
     this.nodeType = nodeType
