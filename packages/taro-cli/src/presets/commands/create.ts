@@ -3,23 +3,23 @@ import * as hooks from '../constant'
 import type { IPluginContext } from '@tarojs/service'
 import type { TSetCustomTemplateConfig } from '../../create/page'
 
-declare const enum createTemplateTypeEnum {
+const createTemplateTypeEnum = {
   /**
-   * taro页面，taro使用者使用
+   * taro 页面，taro 使用者使用
    */
-  PAGE = 'page',
+  PAGE: 'page',
   /**
-   * taro插件，用于扩展命令行
+   * taro 插件，用于扩展命令行
    */
-  PLUGIN_COMMAND = 'plugin-command',
+  PLUGIN_COMMAND: 'plugin-command',
   /**
-   * taro插件，用于扩展编译过程
+   * taro 插件，用于扩展编译过程
    */
-  PLUGIN_BUILD = 'plugin-build',
+  PLUGIN_BUILD: 'plugin-build',
   /**
-   * taro插件，用于扩展 taro create 自定义模版
+   * taro 插件，用于扩展 taro create 自定义模版
   */
-  PLUGIN_TEMPLATE = 'plugin-template'
+  PLUGIN_TEMPLATE: 'plugin-template'
 }
 
 export default (ctx: IPluginContext) => {
@@ -30,7 +30,7 @@ export default (ctx: IPluginContext) => {
       '--dir [dir]': '路径',
       '--subpkg [subpkg]': '分包路径',
       '--description [description]': '介绍',
-      '--type [type]': '模版类型(page(默认)|plugin-command|plugin-build|plugin-template)'
+      '--type [type]': '模版类型 (page(默认)|plugin-command|plugin-build|plugin-template)'
     },
     synopsisList: [
       'taro create page',

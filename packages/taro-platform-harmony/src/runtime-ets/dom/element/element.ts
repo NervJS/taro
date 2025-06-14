@@ -141,7 +141,7 @@ export class TaroElement<
     this._attrs[name] = value
 
     // 混合开发的组件没办法自动更新，需要把父级的结点删掉新建
-    // Current.nativeComponentNames会在render.ets中赋值
+    // Current.nativeComponentNames 会在 render.ets 中赋值
     if (Current.nativeComponentNames?.includes(this.tagName)) {
       const idxOfRef = this.parentNode?.findIndex(this)
 
@@ -241,7 +241,7 @@ export class TaroElement<
     return this._innerHTML
   }
 
-  // 存放的样式，获取其实跟获取style是一样的，只不过这里取的更快捷，不需要走style的get方法进到cssStyleDeclaration
+  // 存放的样式，获取其实跟获取 style 是一样的，只不过这里取的更快捷，不需要走 style 的 get 方法进到 cssStyleDeclaration
   public _st = new StyleSheet()
 
   // 经转换后的鸿蒙样式
@@ -255,8 +255,8 @@ export class TaroElement<
     return this._style
   }
 
-  // 伪元素，不存在style动态设置，均已被转换为鸿蒙样式
-  // 可根据实际情况，迁移到具体的组件中，如View、ScrollView中，Text\Image其实是不需要的
+  // 伪元素，不存在 style 动态设置，均已被转换为鸿蒙样式
+  // 可根据实际情况，迁移到具体的组件中，如 View、ScrollView 中，Text\Image 其实是不需要的
   public _pseudo_before: StyleSheet | null = null
 
   public set_pseudo_before(value: HarmonyStyle | null) {
@@ -287,7 +287,7 @@ export class TaroElement<
     }
   }
 
-  // 伪类，在获取的时候根据dom和parent的关系，动态设置
+  // 伪类，在获取的时候根据 dom 和 parent 的关系，动态设置
   public _pseudo_class: Record<string, StyleSheet | null> = {
     // ["::first-child"]: new StyleSheet(),
   }
@@ -331,10 +331,10 @@ export class TaroElement<
     }
   }
 
-  // 设置渲染层级，0为正常层级，大于0为固定层级
-  // 1、appendChild的时候会判断是否需要设置层级
-  // 2、taro-react的setProperty，在处理属性变化的时候，会判断是否需要设置层级
-  // 3、removeChild的时候，会判断是否需要移除层级
+  // 设置渲染层级，0 为正常层级，大于 0 为固定层级
+  // 1、appendChild 的时候会判断是否需要设置层级
+  // 2、taro-react 的 setProperty，在处理属性变化的时候，会判断是否需要设置层级
+  // 3、removeChild 的时候，会判断是否需要移除层级
   public setLayer(value: number) {
     if (!this.parentNode) return // 没有父节点，不需要设置层级关系
 
@@ -352,7 +352,7 @@ export class TaroElement<
       // 插入到固定浮层
       currentLayerNode.childNodes.push(this)
       currentLayerNode.notifyDataAdd(currentLayerNode.childNodes.length - 1)
-      // 绑定祖先的节点id，建立关系，方便在祖先卸载（removeChild）的时候，能够找到该节点使其卸载
+      // 绑定祖先的节点 id，建立关系，方便在祖先卸载（removeChild）的时候，能够找到该节点使其卸载
       const _parentRecord = {}
       generateLayerParentIds(_parentRecord, this)
       currentLayerParents[this.getStrNid()] = _parentRecord
@@ -378,7 +378,7 @@ export class TaroElement<
     } else {
       const currentLayerParents = this.currentLayerParents
       if (!currentLayerParents) return
-      // 识别Current.page.layerParents里面是否有需要移除的固定元素
+      // 识别 Current.page.layerParents 里面是否有需要移除的固定元素
       if (this._nodeInfo?.layer > 0) {
         delete currentLayerParents[this.getStrNid()]
         this.setLayer(0)
@@ -386,9 +386,9 @@ export class TaroElement<
         Object.keys(currentLayerParents).forEach((fixedId) => {
           const parentIds = currentLayerParents[fixedId]
           if (parentIds[this.getStrNid()]) {
-            // 需要移除fixedId
+            // 需要移除 fixedId
             delete currentLayerParents[fixedId]
-            const fixedNode = eventSource.get(this.getNumNid(fixedId)) as unknown as TaroElement
+            const fixedNode = eventSource.get(this.getNumNid(fixedId).toString()) as unknown as TaroElement
             if (fixedNode) {
               fixedNode.setLayer(0)
             }
@@ -428,7 +428,7 @@ export class TaroElement<
       }, 0)
     } else if (this.parentNode) {
       const idx = this.parentNode.findIndex(this)
-      // Note: 因为keyframeAnimateTo无法暂停，华为没有支持，只能临时先换掉实例，重新创建ark节点，使得原本的keyframeAnimateTo失效
+      // Note: 因为 keyframeAnimateTo 无法暂停，华为没有支持，只能临时先换掉实例，重新创建 ark 节点，使得原本的 keyframeAnimateTo 失效
       // remove
       this.parentNode.childNodes.splice(idx, 1)
       this.parentNode.notifyDataDelete(idx)
