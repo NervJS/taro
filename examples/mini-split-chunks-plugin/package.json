@@ -44,9 +44,9 @@
     "@tarojs/taro": "../../packages/taro",
     "lottie-miniprogram": "^1.0.12",
     "miniprogram-sm-crypto": "^0.3.7",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
-    "taro-ui": "^3.1.0-beta.2",
+    "react": "^18",
+    "react-dom": "^18",
+    "taro-ui": "^3.3.0",
     "threejs-miniprogram": "^0.0.8"
   },
   "devDependencies": {
@@ -54,7 +54,7 @@
     "@tarojs/cli": "../../packages/taro-cli",
     "@tarojs/webpack5-runner": "../../packages/taro-webpack5-runner",
     "@tarojs/service": "../../packages/taro-service",
-    "@types/react": "^17.0.2",
+    "@types/react": "^18",
     "@types/webpack-env": "^1.13.6",
     "babel-preset-taro": "../../packages/babel-preset-taro",
     "eslint": "^6.8.0",
