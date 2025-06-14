@@ -217,10 +217,11 @@ export interface TransformOptions {
 }
 
 // resolve
-export const enum ResolveLogLevelEnum {
-  ERROR = 'error',
-  WARNING = 'warning',
-}
+export const ResolveLogLevelEnum = {
+  ERROR: 'error',
+  WARNING: 'warning',
+} as const
+export type ResolveLogLevelEnum = typeof ResolveLogLevelEnum[keyof typeof ResolveLogLevelEnum]
 
 export interface ResolveStyleOptions {
   basedir: string
