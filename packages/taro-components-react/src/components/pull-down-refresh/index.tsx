@@ -6,6 +6,8 @@ import React from 'react'
 
 import { createForwardRefComponent } from '../../utils/index'
 
+import type { ValueOf } from '@tarojs/shared'
+
 function setTransform (nodeStyle, value) {
   nodeStyle.transform = value
   nodeStyle.webkitTransform = value
@@ -15,18 +17,18 @@ function setTransform (nodeStyle, value) {
 const isWebView =
   typeof navigator !== 'undefined' && /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent)
 
-enum PullDownState {
-  activate = 'activate',
-  deactivate = 'deactivate',
-  release = 'release',
-  finish = 'finish'
+const PullDownState = {
+  activate: 'activate',
+  deactivate: 'deactivate',
+  release: 'release',
+  finish: 'finish'
 }
 
-enum INDICATOR {
-  activate = 'release',
-  deactivate = 'pull',
-  release = 'loading',
-  finish = 'finish'
+const INDICATOR = {
+  activate: 'release',
+  deactivate: 'pull',
+  release: 'loading',
+  finish: 'finish'
 }
 
 let supportsPassive = false
@@ -45,13 +47,13 @@ interface IProps extends React.HTMLAttributes<HTMLBaseElement> {
   prefixCls: string
   distanceToRefresh: number
   damping: number
-  indicator: INDICATOR
+  indicator: ValueOf<typeof INDICATOR>
   forwardedRef?: React.MutableRefObject<HTMLBaseElement>
   onRefresh?: () => void
 }
 
 interface IState {
-  currSt: PullDownState
+  currSt: ValueOf<typeof PullDownState>
   dragOnEdge: boolean
 }
 
@@ -153,7 +155,7 @@ class PullDownRefresh extends React.Component<IProps, IState> {
 
   triggerPullDownRefresh = (flag: boolean) => {
     // 在初始化时、用代码 自动 触发 pullDownRefresh
-    // 添加this._isMounted的判断，否则组建一实例化，currSt就会是finish
+    // 添加 this._isMounted 的判断，否则组建一实例化，currSt 就会是 finish
     if (!this.state.dragOnEdge && this._isMounted) {
       if (flag) {
         this._lastScreenY = this.props.distanceToRefresh + 1
@@ -225,7 +227,7 @@ class PullDownRefresh extends React.Component<IProps, IState> {
 
     if (this.isEdge(ele)) {
       if (!this.state.dragOnEdge) {
-        // 当用户开始往上滑的时候isEdge还是false的话，会导致this._ScreenY不是想要的，只有当isEdge为true时，再上滑，才有意义
+        // 当用户开始往上滑的时候 isEdge 还是 false 的话，会导致 this._ScreenY 不是想要的，只有当 isEdge 为 true 时，再上滑，才有意义
         // 下面这行代码解决了上面这个问题
         this._ScreenY = this._startScreenY = e.touches[0].screenY
         this.setState({ dragOnEdge: true })

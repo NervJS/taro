@@ -136,15 +136,15 @@ Record<PreprocessLang | PostCssDialectLang, any>
 // TODO: use dynamic import
 const _require = createRequire(__filename)
 
-export function loadPreprocessor(lang: PreprocessLang.scss, root: string): typeof Sass
-export function loadPreprocessor(lang: PreprocessLang.sass, root: string): typeof Sass
-export function loadPreprocessor(lang: PreprocessLang.less, root: string): typeof Less
+export function loadPreprocessor(lang: typeof PreprocessLang.scss, root: string): typeof Sass
+export function loadPreprocessor(lang: typeof PreprocessLang.sass, root: string): typeof Sass
+export function loadPreprocessor(lang: typeof PreprocessLang.less, root: string): typeof Less
 export function loadPreprocessor(
-  lang: PreprocessLang.stylus,
+  lang: typeof PreprocessLang.stylus,
   root: string,
 ): typeof Stylus
 export function loadPreprocessor(
-  lang: PostCssDialectLang.sss,
+  lang: typeof PostCssDialectLang.sss,
   root: string,
 ): PostCSS.Parser
 export function loadPreprocessor(

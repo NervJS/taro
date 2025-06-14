@@ -9,6 +9,8 @@ import { TEMPLATE_CREATOR } from './constants'
 import Creator from './creator'
 import fetchTemplate from './fetchTemplate'
 
+import type { ValueOf } from '@tarojs/shared'
+
 export interface IPageConf {
   projectDir: string
   projectName: string
@@ -59,11 +61,12 @@ const DEFAULT_TEMPLATE_INFO = {
   framework: FrameworkType.React
 }
 
-export enum ConfigModificationState {
-  Success,
-  Fail,
-  NeedLess
-}
+export const ConfigModificationState = {
+  Success: 'Success',
+  Fail: 'Fail',
+  NeedLess: 'NeedLess'
+} as const
+export type ConfigModificationState = ValueOf<typeof ConfigModificationState>
 
 export type ModifyCallback = (state: ConfigModificationState) => void
 
@@ -112,7 +115,7 @@ export default class Page extends Creator {
       // 适配 云开发 项目
       pkgPath = path.join(projectDir, 'client', 'package.json')
       if (!fs.existsSync(pkgPath)) {
-        console.log(chalk.yellow('请在项目根目录下执行 taro create 命令!'))
+        console.log(chalk.yellow('请在项目根目录下执行 taro create 命令！'))
         process.exit(0)
       }
     }

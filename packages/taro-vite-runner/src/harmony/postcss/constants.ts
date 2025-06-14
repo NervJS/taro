@@ -1,20 +1,28 @@
+import type { ValueOf } from '@tarojs/shared'
+
 export const CSS_LANGS_RE = /\.(css|less|sass|scss|styl|stylus|pcss|postcss|sss)(?:$|\?)/
 export const JSX_TSX_LANGS_RE = /\.(jsx|tsx)(?:$|\?)/
 export const SPECIAL_QUERY_RE = /[?&](?:worker|sharedworker|raw|url)\b/
 
-export const enum PreprocessLang {
-  less = 'less',
-  sass = 'sass',
-  scss = 'scss',
-  styl = 'styl',
-  stylus = 'stylus',
-}
-export const enum PureCssLang {
-  css = 'css',
-}
-export const enum PostCssDialectLang {
-  sss = 'sugarss',
-}
+export const PreprocessLang = {
+  less: 'less',
+  sass: 'sass',
+  scss: 'scss',
+  styl: 'styl',
+  stylus: 'stylus',
+} as const
+export type PreprocessLang = ValueOf<typeof PreprocessLang>
+
+export const PureCssLang = {
+  css: 'css',
+} as const
+export type PureCssLang = ValueOf<typeof PureCssLang>
+
+export const PostCssDialectLang = {
+  sss: 'sugarss',
+} as const
+export type PostCssDialectLang = ValueOf<typeof PostCssDialectLang>
+
 export type CssLang =
   | keyof typeof PureCssLang
   | keyof typeof PreprocessLang
