@@ -11,7 +11,6 @@ export enum NodeType {
   ATTRIBUTE_NODE = 2,
   TEXT_NODE = 3,
   CDATA_SECTION_NODE = 4,
-  ENTITY_REFERENCE_NODE = 5,
   PROCESSING_INSTRUCTION_NODE = 7,
   COMMENT_NODE = 8,
   DOCUMENT_NODE = 9,
@@ -51,7 +50,7 @@ export class TaroNode extends TaroDataSourceElement {
 
     this.nodeType = nodeType
     this.nodeName = nodeName
-    eventSource.set(this._nid, this as TaroAny)
+    eventSource.set(this._nid.toString(), this as TaroAny)
   }
 
   totalCount(): number {
@@ -96,7 +95,7 @@ export class TaroNode extends TaroDataSourceElement {
     }
   }
 
-  // 提供唯一标识，方便与小程序一致，能根据uid获取到对应的节点
+  // 提供唯一标识，方便与小程序一致，能根据 uid 获取到对应的节点
   public get uid (): string {
     return `${this._nid}`
   }
@@ -191,7 +190,7 @@ export class TaroNode extends TaroDataSourceElement {
     this.notifyDataAdd(this.childNodes.length - 1)
 
     if (this.nodeName === 'TEXT') {
-      // 修复beta2版本文字从undefined -> 有值时的 不更新问题
+      // 修复 beta2 版本文字从 undefined -> 有值时的 不更新问题
       this.updateComponent()
     }
 
@@ -256,7 +255,7 @@ export class TaroNode extends TaroDataSourceElement {
   }
 
   public dispose () {
-    // 渲染，层级大于0的节点需要让其回到正常层级，然后删掉
+    // 渲染，层级大于 0 的节点需要让其回到正常层级，然后删掉
     // @ts-ignore
     this.toggleLayer?.(false)
 

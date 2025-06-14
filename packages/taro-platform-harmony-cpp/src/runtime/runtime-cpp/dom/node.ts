@@ -19,7 +19,6 @@ export enum NodeType {
   ATTRIBUTE_NODE = 2,
   TEXT_NODE = 3,
   CDATA_SECTION_NODE = 4,
-  ENTITY_REFERENCE_NODE = 5,
   PROCESSING_INSTRUCTION_NODE = 7,
   COMMENT_NODE = 8,
   DOCUMENT_NODE = 9,
@@ -66,7 +65,7 @@ export class TaroNode extends TaroEventTarget {
     return +id.slice(2)
   }
 
-  // 提供唯一标识，方便与小程序一致，能根据uid获取到对应的节点
+  // 提供唯一标识，方便与小程序一致，能根据 uid 获取到对应的节点
   public get uid (): string {
     return `${this._nid}`
   }
