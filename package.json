@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "4.1.2",
+  "version": "4.1.3-alpha.1",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -120,6 +120,7 @@
     "eslint-config-prettier": "^6.4.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-config-taro": "workspace:*",
+    "eslint-plugin-taro": "workspace:*",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^26.1.3",
     "eslint-plugin-node": "^10.0.0",
