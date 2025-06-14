@@ -2,13 +2,15 @@ interface LifecycleMap {
   [key: string]: string[]
 }
 
-export enum TaroLifeCycles {
-  WillMount = 'componentWillMount',
-  DidMount = 'componentDidMount',
-  DidShow = 'componentDidShow',
-  DidHide = 'componentDidHide',
-  WillUnmount = 'componentWillUnmount'
-}
+export const TaroLifeCycles = {
+  WillMount: 'componentWillMount',
+  DidMount: 'componentDidMount',
+  DidShow: 'componentDidShow',
+  DidHide: 'componentDidHide',
+  WillUnmount: 'componentWillUnmount'
+} as const
+type ValueOf<T> = T[keyof T];
+export type TaroLifeCycles = ValueOf<typeof TaroLifeCycles>
 
 export const lifecycleMap: LifecycleMap = {
   [TaroLifeCycles.WillMount]: ['created'],
