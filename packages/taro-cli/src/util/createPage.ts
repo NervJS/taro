@@ -73,7 +73,7 @@ const addNewPage = (node: ObjectExpression, page: string): ConfigModificationSta
 }
 
 const modifyPages = (path: NodePath<ExportDefaultDeclaration>, newPageConfig, callback: ModifyCallback) => {
-  let state = ConfigModificationState.Fail
+  let state: ConfigModificationState = ConfigModificationState.Fail
   const node = path.node.declaration as any
   // Case 1. `export default defineAppConfig({})` 这种情况
   if (node.type === 'CallExpression' && node.callee.name === 'defineAppConfig') {
@@ -88,7 +88,7 @@ const modifyPages = (path: NodePath<ExportDefaultDeclaration>, newPageConfig, ca
 }
 
 const modifySubPackages = (path: NodePath<ExportDefaultDeclaration>, newPageConfig, callback: ModifyCallback) => {
-  let state = ConfigModificationState.Fail
+  let state: ConfigModificationState = ConfigModificationState.Fail
   const node = path.node.declaration as any
   // `export default defineAppConfig({})` 这种情况
   if (node.type === 'CallExpression' && node.callee.name === 'defineAppConfig') {
