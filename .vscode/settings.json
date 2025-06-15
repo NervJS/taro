@@ -21,5 +21,6 @@
     "./crates/swc_plugin_define_config/Cargo.toml",
     "./crates/swc_plugin_compile_mode_pre_process/Cargo.toml"
   ],
-  "rust-analyzer.showUnlinkedFileNotification": false
+  "rust-analyzer.showUnlinkedFileNotification": false,
+  "nxConsole.generateAiAgentRules": true
 }
