@@ -45,7 +45,6 @@
     "@tarojs/runtime": "workspace:*",
     "@babel/preset-react": "^7.24.1",
     "babel-preset-solid": "^1.8.15",
-    "react": "^18.2.0",
     "solid-js": "^1.8.16"
   },
   "peerDependencies": {

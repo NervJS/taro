@@ -7,9 +7,6 @@
     "esModuleInterop": true,
     "jsx": "react",
     "lib": ["ESNEXT"],
-    "paths": {
-      "react": ["./node_modules/@types/react", "./node_modules/react"]
-    },
     "types": ["react-native", "jest"]
   },
   "include": ["./src", "types"],
