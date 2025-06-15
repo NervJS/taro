@@ -1,11 +1,15 @@
-export enum PLATFORM_TYPE {
-  MINI = 'mini',
-  ASCF = 'ascf',
-  WEB = 'web',
-  RN = 'rn',
-  HARMONY = 'harmony',
-  QUICK = 'quickapp',
-}
+import type { ValueOf } from './types'
+
+export const PLATFORM_TYPE = {
+  MINI: 'mini',
+  ASCF: 'ascf',
+  WEB: 'web',
+  RN: 'rn',
+  HARMONY: 'harmony',
+  QUICK: 'quick',
+} as const
+
+export type PLATFORM_TYPE = ValueOf<typeof PLATFORM_TYPE>
 
 export const COMPILE_MODE_IDENTIFIER_PREFIX = 'f'
 

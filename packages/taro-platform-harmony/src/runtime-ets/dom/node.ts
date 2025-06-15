@@ -1,3 +1,5 @@
+import { type ValueOf } from '@tarojs/shared'
+
 import TaroDataSourceElement from './dataSource'
 import { eventSource } from './event-source'
 
@@ -6,18 +8,19 @@ import type { TaroAny } from '../interface'
 import type { TaroDocument } from './document'
 import type { TaroElement } from './element/element'
 
-export enum NodeType {
-  ELEMENT_NODE = 1,
-  ATTRIBUTE_NODE = 2,
-  TEXT_NODE = 3,
-  CDATA_SECTION_NODE = 4,
-  ENTITY_REFERENCE_NODE = 5,
-  PROCESSING_INSTRUCTION_NODE = 7,
-  COMMENT_NODE = 8,
-  DOCUMENT_NODE = 9,
-  DOCUMENT_TYPE_NODE = 10,
-  DOCUMENT_FRAGMENT_NODE = 11
-}
+// https://developer.mozilla.org/zh-CN/docs/Web/API/Node/nodeType
+export const NodeType = {
+  ELEMENT_NODE: 1,
+  ATTRIBUTE_NODE: 2,
+  TEXT_NODE: 3,
+  CDATA_SECTION_NODE: 4,
+  PROCESSING_INSTRUCTION_NODE: 7,
+  COMMENT_NODE: 8,
+  DOCUMENT_NODE: 9,
+  DOCUMENT_TYPE_NODE: 10,
+  DOCUMENT_FRAGMENT_NODE: 11,
+} as const
+export type NodeType = ValueOf<typeof NodeType>;
 
 let _id = 0
 function genId (): number {
@@ -46,12 +49,12 @@ export class TaroNode extends TaroDataSourceElement {
   // 以下属性为原生混写组件才有意义的属性
   public _nativeUpdateTrigger = 0
 
-  constructor(nodeName: string, nodeType = NodeType.ELEMENT_NODE) {
+  constructor(nodeName: string, nodeType: NodeType = NodeType.ELEMENT_NODE) {
     super()
 
     this.nodeType = nodeType
     this.nodeName = nodeName
-    eventSource.set(this._nid, this as TaroAny)
+    eventSource.set(this._nid.toString(), this as TaroAny)
   }
 
   totalCount(): number {
@@ -96,7 +99,7 @@ export class TaroNode extends TaroDataSourceElement {
     }
   }
 
-  // 提供唯一标识，方便与小程序一致，能根据uid获取到对应的节点
+  // 提供唯一标识，方便与小程序一致，能根据 uid 获取到对应的节点
   public get uid (): string {
     return `${this._nid}`
   }
@@ -191,7 +194,7 @@ export class TaroNode extends TaroDataSourceElement {
     this.notifyDataAdd(this.childNodes.length - 1)
 
     if (this.nodeName === 'TEXT') {
-      // 修复beta2版本文字从undefined -> 有值时的 不更新问题
+      // 修复 beta2 版本文字从 undefined -> 有值时的 不更新问题
       this.updateComponent()
     }
 
@@ -256,7 +259,7 @@ export class TaroNode extends TaroDataSourceElement {
   }
 
   public dispose () {
-    // 渲染，层级大于0的节点需要让其回到正常层级，然后删掉
+    // 渲染，层级大于 0 的节点需要让其回到正常层级，然后删掉
     // @ts-ignore
     this.toggleLayer?.(false)
 

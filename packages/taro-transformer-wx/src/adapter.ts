@@ -1,12 +1,15 @@
-export const enum Adapters {
-  weapp = 'weapp',
-  swan = 'swan',
-  alipay = 'alipay',
-  quickapp = 'quickapp',
-  tt = 'tt',
-  qq = 'qq',
-  jd = 'jd',
-}
+import type { ValueOf } from './types';
+
+export const Adapters = {
+  weapp: 'weapp',
+  swan: 'swan',
+  alipay: 'alipay',
+  quickapp: 'quickapp',
+  tt: 'tt',
+  qq: 'qq',
+  jd: 'jd',
+} as const
+export type Adapters = ValueOf<typeof Adapters>
 
 interface Adapter {
   if: string

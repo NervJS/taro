@@ -4,6 +4,8 @@ import { chalk, fs } from '@tarojs/helper'
 
 import { run } from './utils'
 
+const appPath = path.resolve(__dirname, 'fixtures/default')
+
 jest.mock('cli-highlight', () => {
   return {
     __esModule: true,
@@ -37,8 +39,8 @@ describe('inspect', () => {
     jest.resetModules()
   })
 
-  it('should exit because there isn\'t a Taro project', async () => {
-    const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
+  it('反例：检测项目根目录', async () => {
+    const exitSpy = jest.spyOn(process, 'exit')
     const logSpy = jest.spyOn(console, 'log')
 
     exitSpy.mockImplementation(() => {
@@ -50,15 +52,15 @@ describe('inspect', () => {
       await runInspect('')
     } catch (error) {} // eslint-disable-line no-empty
 
-    expect(exitSpy).toBeCalledWith(1)
-    expect(logSpy).toBeCalledWith(chalk.red('找不到项目配置文件config/index，请确定当前目录是 Taro 项目根目录!'))
+    expect(exitSpy).toHaveBeenCalledWith(1)
+    expect(logSpy).toHaveBeenCalledWith(chalk.red('找不到项目配置文件 config/index，请确定当前目录是 Taro 项目根目录！'))
 
     exitSpy.mockRestore()
     logSpy.mockRestore()
   })
 
-  it('should exit when user haven\'t pass correct type', async () => {
-    const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
+  it('反例：检查编译类型', async () => {
+    const exitSpy = jest.spyOn(process, 'exit')
     const logSpy = jest.spyOn(console, 'log')
 
     exitSpy.mockImplementation(() => {
@@ -67,18 +69,18 @@ describe('inspect', () => {
     logSpy.mockImplementation(() => {})
 
     try {
-      await runInspect(path.resolve(__dirname, 'fixtures/default'))
+      await runInspect(appPath)
     } catch (error) {} // eslint-disable-line no-empty
 
-    expect(exitSpy).toBeCalledWith(0)
-    expect(logSpy).toBeCalledWith(chalk.red('请传入正确的编译类型！'))
+    expect(exitSpy).toHaveBeenCalledWith(0)
+    expect(logSpy).toHaveBeenCalledWith(chalk.red('请传入正确的编译类型！'))
 
     exitSpy.mockRestore()
     logSpy.mockRestore()
   })
 
   it('should log config', async () => {
-    const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
+    const exitSpy = jest.spyOn(process, 'exit')
     const logSpy = jest.spyOn(console, 'info')
 
     exitSpy.mockImplementation(() => {
@@ -87,7 +89,6 @@ describe('inspect', () => {
     logSpy.mockImplementation(() => {})
 
     try {
-      const appPath = path.resolve(__dirname, 'fixtures/default')
       await runInspect(appPath, {
         options: {
           type: 'weapp'
@@ -95,15 +96,15 @@ describe('inspect', () => {
       })
     } catch (error) {} // eslint-disable-line no-empty
 
-    expect(exitSpy).toBeCalledWith(0)
-    expect(logSpy).toBeCalledTimes(1)
+    expect(exitSpy).toHaveBeenCalledWith(0)
+    expect(logSpy).toHaveBeenCalledTimes(1)
 
     exitSpy.mockRestore()
     logSpy.mockRestore()
   })
 
   it('should log specific config', async () => {
-    const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
+    const exitSpy = jest.spyOn(process, 'exit')
     const logSpy = jest.spyOn(console, 'info')
     const errorSpy = jest.spyOn(console, 'error')
 
@@ -114,18 +115,19 @@ describe('inspect', () => {
     errorSpy.mockImplementation(() => {})
 
     try {
-      const appPath = path.resolve(__dirname, 'fixtures/default')
       await runInspect(appPath, {
         options: {
           type: 'h5'
         },
         args: ['resolve.mainFields.0']
       })
-    } catch (error) {} // eslint-disable-line no-empty
+    } catch (error) {
+      console.error(error)
+    }
 
-    expect(exitSpy).toBeCalledWith(0)
-    expect(logSpy).toBeCalledTimes(1)
-    expect(logSpy).toBeCalledWith('\'main:h5\'')
+    expect(exitSpy).toHaveBeenCalledWith(0)
+    expect(logSpy).toHaveBeenCalledTimes(1)
+    expect(logSpy).toHaveBeenCalledWith('\'main:h5\'')
 
     exitSpy.mockRestore()
     logSpy.mockRestore()
@@ -133,8 +135,8 @@ describe('inspect', () => {
   })
 
   it('should output config', async () => {
-    const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
-    const writeFileSync = fs.writeFileSync as jest.Mock<any>
+    const exitSpy = jest.spyOn(process, 'exit')
+    const writeFileSync = fs.writeFileSync
     const outputPath = 'project-config.js'
 
     exitSpy.mockImplementation(() => {
@@ -142,7 +144,6 @@ describe('inspect', () => {
     })
 
     try {
-      const appPath = path.resolve(__dirname, 'fixtures/default')
       await runInspect(appPath, {
         options: {
           type: 'weapp',
@@ -152,8 +153,8 @@ describe('inspect', () => {
       })
     } catch (error) {} // eslint-disable-line no-empty
 
-    expect(exitSpy).toBeCalledWith(0)
-    expect(writeFileSync).toBeCalledWith(outputPath, '\'browser\'')
+    expect(exitSpy).toHaveBeenCalledWith(0)
+    expect(writeFileSync).toHaveBeenCalledWith(outputPath, '\'browser\'')
 
     exitSpy.mockRestore()
   })

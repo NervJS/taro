@@ -1,5 +1,7 @@
-export const enum Constants {
-  PLUGIN = 'plugin',
+import type { ValueOf } from '@tarojs/shared'
 
-  PLUGIN_JSON = 'plugin.json',
-}
+export const Constants = {
+  PLUGIN: 'plugin',
+  PLUGIN_JSON: 'plugin.json',
+} as const
+export type Constants = ValueOf<typeof Constants>;

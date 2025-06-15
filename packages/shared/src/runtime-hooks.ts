@@ -2,15 +2,18 @@ import { Events } from './event-emitter'
 import { isFunction } from './is'
 
 import type { Shortcuts } from './template'
+import type { ValueOf } from './types'
 
 // Note: @tarojs/runtime 不依赖 @tarojs/taro, 所以不能改为从 @tarojs/taro 引入 (可能导致循环依赖)
 type TFunc = (...args: any[]) => any
 
-export enum HOOK_TYPE {
-  SINGLE,
-  MULTI,
-  WATERFALL
-}
+export const HOOK_TYPE = {
+  SINGLE: 'SINGLE',
+  MULTI: 'MULTI',
+  WATERFALL: 'WATERFALL'
+} as const
+
+export type HOOK_TYPE = ValueOf<typeof HOOK_TYPE>
 
 interface Hook {
   type: HOOK_TYPE
@@ -188,7 +191,7 @@ type ITaroHooks = {
   getMiniLifecycleImpl: () => MiniLifecycle
   /** 解决 React 生命周期名称的兼容问题 */
   getLifecycle: (instance, lifecyle) => TFunc | Array<TFunc> | undefined
-  /** 提供Hook，为不同平台提供修改生命周期配置 */
+  /** 提供 Hook，为不同平台提供修改生命周期配置 */
   modifyRecursiveComponentConfig: (defaultConfig:MiniLifecycle, options:any) => any
   /** 解决百度小程序的模版语法问题 */
   getPathIndex: (indexOfNode: number) => string
@@ -273,7 +276,7 @@ export const hooks = new TaroHooks<ITaroHooks>({
 
   isBubbleEvents: TaroHook(HOOK_TYPE.SINGLE, eventName => {
     /**
-     * 支持冒泡的事件, 除 支付宝小程序外，其余的可冒泡事件都和微信保持一致
+     * 支持冒泡的事件，除 支付宝小程序外，其余的可冒泡事件都和微信保持一致
      * 详见 见 https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html
      */
     const BUBBLE_EVENTS = new Set([
