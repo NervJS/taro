@@ -7,7 +7,7 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "files": [
-    "lib"
+    "dist"
   ],
   "scripts": {
     "prod": "pnpm run build",
