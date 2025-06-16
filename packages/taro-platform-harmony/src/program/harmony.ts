@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { type IFileType, type TConfig, TaroPlatform } from '@tarojs/service'
+import { type IFileType, type IPluginContext, type TConfig, TaroPlatform } from '@tarojs/service'
 import { getPkgVersion } from '@tarojs/service/dist/utils/package'
 import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
 
@@ -11,6 +11,11 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
   abstract useETS: boolean
   abstract useJSON5: boolean
   taroComponentsPath: string
+
+  /* eslint-disable no-useless-constructor */
+  constructor(ctx: IPluginContext, config: T) {
+    super(ctx, config)
+  }
 
   /**
    * 1. 清空 dist 文件夹
