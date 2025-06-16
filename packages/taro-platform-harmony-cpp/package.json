@@ -30,7 +30,7 @@
     "dev": "pnpm run rollup -w",
     "ohpm-publish": "pnpm run tsx --files ./scripts/ohpm-publish",
     "remove:reference": "pnpm run tsx --files ./scripts/reference",
-    "rollup": "rollup --config rollup.config.mts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "tsx": "ts-node --skipIgnore"
   },
   "dependencies": {

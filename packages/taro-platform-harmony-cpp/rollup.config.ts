@@ -1,4 +1,5 @@
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import common from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
@@ -9,7 +10,7 @@ import copy from 'rollup-plugin-copy'
 import externals from 'rollup-plugin-node-externals'
 import ts from 'rollup-plugin-ts'
 
-const cwd = __dirname
+const cwd = dirname(fileURLToPath(import.meta.url))
 
 // 供 CLI 编译时使用的 Taro 插件入口
 const compileConfig: RollupOptions = {
