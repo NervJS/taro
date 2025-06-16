@@ -249,3 +249,147 @@ export function indent (str: string, size: number): string {
     })
     .join('\n')
 }
+
+export enum RenderTypeT {
+  V1 = 1,
+  V2 = 2,
+}
+/* global-tt */
+declare const tt: object & {getRenderMode: () => RenderTypeT} & {__$config$__: {enableTTDom: boolean}} & { __mode__: boolean} | undefined
+let mode
+function getMode() {
+  if (mode) return mode
+  mode = tt?.getRenderMode ? tt?.getRenderMode() : RenderTypeT.V1
+  return mode
+}
+
+let v2EnableTTDom
+export function isV2EnableTTDom(): boolean {
+  // 1. 如果有缓存状态读取缓存
+  if (v2EnableTTDom !== undefined) return v2EnableTTDom
+  // 2. 如果非 tt 平台返回 false
+  if (typeof tt === 'undefined') return false
+  // 3. 是 tt 平台，判断走 V1 还是 V2
+  getMode() !== RenderTypeT.V1 && tt.__$config$__.enableTTDom
+    ? (v2EnableTTDom = true)
+    : (v2EnableTTDom = false)
+  return v2EnableTTDom
+}
+
+export function executeLogicByRenderType(
+  noV2EnableTTDom: () => void,
+  v2EnableTTDom: () => void,
+) {
+  isV2EnableTTDom() ? v2EnableTTDom() : noV2EnableTTDom()
+}
+
+export function injectV2EnableTTDom(cb: () => void) {
+  if (isV2EnableTTDom()) {
+    cb()
+  }
+}
+
+export function setModeToApp(mode: boolean) {
+  if (typeof tt === 'undefined') return false
+  tt.__mode__ = mode
+}
+
+export const DEFAULT_Components = new Set<string>([
+  'view',
+  'scroll-view',
+  'swiper',
+  'cover-view',
+  'cover-image',
+  'icon',
+  'text',
+  'rich-text',
+  'progress',
+  'button',
+  'checkbox',
+  'form',
+  'input',
+  'label',
+  'picker',
+  'picker-view',
+  'picker-view-column',
+  'radio',
+  'radio-group',
+  'checkbox-group',
+  'slider',
+  'switch',
+  'textarea',
+  'navigator',
+  'audio',
+  'image',
+  'video',
+  'camera',
+  'live-player',
+  'live-pusher',
+  'map',
+  'canvas',
+  'open-data',
+  'web-view',
+  'swiper-item',
+  'movable-area',
+  'movable-view',
+  'functional-page-navigator',
+  'ad',
+  'block',
+  'import',
+  'official-account',
+  'editor',
+  'slot',
+  'custom-wrapper',
+])
+
+
+// Helper function to check if the property is unitless
+export function isUnitlessProperty(property) {
+  const unitlessProperties = new Set([
+    'animation-iteration-count',
+    'border-image-outset',
+    'border-image-slice',
+    'border-image-width',
+    'box-flex',
+    'box-flex-group',
+    'box-ordinal-group',
+    'column-count',
+    'columns',
+    'flex',
+    'flex-grow',
+    'flex-positive',
+    'flex-shrink',
+    'flex-negative',
+    'flex-order',
+    'grid-area',
+    'grid-row',
+    'grid-row-end',
+    'grid-row-span',
+    'grid-row-start',
+    'grid-column',
+    'grid-column-end',
+    'grid-column-span',
+    'grid-column-start',
+    'font-weight',
+    'line-clamp',
+    'line-height',
+    'opacity',
+    'order',
+    'orphans',
+    'tab-size',
+    'widows',
+    'z-index',
+    'zoom',
+    // SVG-related properties
+    'fill-opacity',
+    'flood-opacity',
+    'stop-opacity',
+    'stroke-dasharray',
+    'stroke-dashoffset',
+    'stroke-miterlimit',
+    'stroke-opacity',
+    'stroke-width',
+  ])
+
+  return unitlessProperties.has(property)
+}

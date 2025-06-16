@@ -1,5 +1,6 @@
 packages:
   - 'packages/**'
+  - 'tt-dom-examples/**'
   - 'tests'
   - '!packages/taro-cli/templates/**'
   - '!**/__tests__/**'

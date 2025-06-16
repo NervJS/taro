@@ -17,7 +17,7 @@ export { URLSearchParams } from './bom/URLSearchParams'
 export { taroHistoryProvider as history, taroLocationProvider as location, taroWindowProvider as window } from './bom/window'
 // dom
 export { TaroElement } from './dom/element'
-export { createEvent, eventHandler, TaroEvent } from './dom/event'
+export { createEvent, eventHandler, eventHandlerTTDom, TaroEvent } from './dom/event'
 export { FormElement } from './dom/form'
 export { TaroNode } from './dom/node'
 export { TaroRootElement } from './dom/root'

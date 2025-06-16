@@ -1,0 +1,53 @@
+.grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100vw;
+  }
+  
+.grid-box {
+    width: 60px;
+    height: 60px;
+    margin: 3px;
+    padding: 0;
+}
+
+.font {
+    font-size: 24px;
+}
+
+.controls {
+    text-align: center;
+}
+
+
+.button {
+    display: inline-block;
+    width: 150px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+
+
+.start {
+    background-color: #28a745; /* 绿色 */
+}
+
+.start:hover {
+    background-color: #218838;
+}
+
+.clear {
+    background-color: #dc3545; /* 红色 */
+}
+
+.clear:hover {
+    background-color: #c82333;
+}

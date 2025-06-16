@@ -1,5 +1,5 @@
 import { CONTAINER, Current, document, getPageInstance, incrementId, injectPageInstance, PAGE_INIT, perf } from '@tarojs/runtime'
-import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
+import { EMPTY_OBJ, ensure, hooks, isV2EnableTTDom, setModeToApp } from '@tarojs/shared'
 
 import { reactMeta } from './react-meta'
 import { ensureIsArray, HOOKS_APP_ID, isClassComponent, setDefaultDescriptor, setRouterParams } from './utils'
@@ -173,6 +173,7 @@ export function createReactApp (
   if (process.env.NODE_ENV !== 'production') {
     ensure(!!dom, '构建 React/Preact 项目请把 process.env.FRAMEWORK 设置为 \'react\'/\'preact\' ')
   }
+  setModeToApp(isV2EnableTTDom())
 
   reactMeta.R = react
   h = react.createElement

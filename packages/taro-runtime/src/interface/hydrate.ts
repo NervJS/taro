@@ -4,6 +4,7 @@ import type { PageConfig } from './utils'
 export interface MpInstance {
   config: PageConfig
   setData: (data: unknown, cb: () => void) => void
+  __webviewId__: number
   route?: string
   __route__: string
   $taroParams?: Record<string, unknown>

@@ -683,6 +683,10 @@ declare module './index' {
      * @supported alipay
      */
     behavior?: Behavior
+    /**
+     * 用于头条小程序开启 tt dom 接口
+     */
+    enableTTDom?: boolean
   }
 
   interface Config extends PageConfig, AppConfig {
