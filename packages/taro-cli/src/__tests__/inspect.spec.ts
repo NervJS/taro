@@ -1,8 +1,10 @@
-import * as path from 'node:path'
+import { resolve } from 'node:path'
 
 import { chalk, fs } from '@tarojs/helper'
 
 import { run } from './utils'
+
+const appPath = resolve(__dirname, 'fixtures/default')
 
 jest.mock('cli-highlight', () => {
   return {
@@ -67,7 +69,7 @@ describe('inspect', () => {
     logSpy.mockImplementation(() => {})
 
     try {
-      await runInspect(path.resolve(__dirname, 'fixtures/default'))
+      await runInspect(appPath)
     } catch (error) {} // eslint-disable-line no-empty
 
     expect(exitSpy).toHaveBeenCalledWith(0)
@@ -87,7 +89,6 @@ describe('inspect', () => {
     logSpy.mockImplementation(() => {})
 
     try {
-      const appPath = path.resolve(__dirname, 'fixtures/default')
       await runInspect(appPath, {
         options: {
           type: 'weapp'
@@ -114,14 +115,13 @@ describe('inspect', () => {
     errorSpy.mockImplementation(() => {})
 
     try {
-      const appPath = path.resolve(__dirname, 'fixtures/default')
       await runInspect(appPath, {
         options: {
           type: 'h5'
         },
         args: ['resolve.mainFields.0']
       })
-    } catch (error) {} // eslint-disable-line no-empty
+    } catch (error) { console.log(error) }
 
     expect(exitSpy).toHaveBeenCalledWith(0)
     expect(logSpy).toHaveBeenCalledTimes(1)
@@ -134,7 +134,7 @@ describe('inspect', () => {
 
   it('正例：输出日志', async () => {
     const exitSpy = jest.spyOn(process, 'exit')
-    const writeFileSync = fs.writeFileSync as jest.Mock<any>
+    const writeFileSync = fs.writeFileSync
     const outputPath = 'project-config.js'
 
     exitSpy.mockImplementation(() => {
@@ -142,7 +142,6 @@ describe('inspect', () => {
     })
 
     try {
-      const appPath = path.resolve(__dirname, 'fixtures/default')
       await runInspect(appPath, {
         options: {
           type: 'weapp',
