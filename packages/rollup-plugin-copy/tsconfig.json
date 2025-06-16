@@ -4,8 +4,7 @@
     "baseUrl": ".",
     "esModuleInterop": true,
     "outDir": "dist",
-    "rootDir": "./src",
-    "module": "commonjs"
+    "rootDir": "./src"
   },
   "include": ["./src"],
   "exclude": ["./src/__tests__"]
