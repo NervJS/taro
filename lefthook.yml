@@ -38,7 +38,7 @@ prepare-commit-msg:
       skip:
         - run: node -e "require('fs').readFileSync('.git/COMMIT_EDITMSG','utf8').trim()||process.exit(1)"
       interactive: true
-      run: pnpm git-cz --hook
+      run: pnpm czg --hook
       env:
         LEFTHOOK: "0"
 

@@ -37,7 +37,8 @@
     "version:release": "pnpm --parallel -r --aggregate-output --filter=./{npm/**,crates/native_binding,packages/*} exec npm version ${npm_package_version}",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_package_version}\"",
     "version:changelog": "conventional-changelog -p angular",
-    "artifacts": "pnpm --filter @tarojs/helper --filter @tarojs/binding run artifacts"
+    "artifacts": "pnpm --filter @tarojs/helper --filter @tarojs/binding run artifacts",
+    "commit": "git add -A && git commit --no-edit"
   },
   "taroTemp": [
     "@types/babel__core",
@@ -110,6 +111,7 @@
     "conventional-changelog-cli": "^2.0.1",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
+    "czg": "^1.11.1",
     "escodegen": "^2.0.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^6.4.0",
