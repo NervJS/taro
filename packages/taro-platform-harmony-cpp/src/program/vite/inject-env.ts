@@ -5,11 +5,11 @@ import type * as BabelCore from '@babel/core'
 import type { PluginOption } from 'vite'
 import type Harmony from '..'
 
-export default function (this: Harmony): PluginOption {
-  const that = this
+export default function (platform: Harmony): PluginOption {
+  const that = platform
   const packageName = '@tarojs/taro'
   const bindingName = 'Taro'
-  const businessId = this?.config?.defineConstants?.LOCATION_APIKEY?.replace(/^['"]|['"]$/g, '')
+  const businessId = platform.getConfig().defineConstants?.LOCATION_APIKEY?.replace(/^['"]|['"]$/g, '')
 
   return {
     name: 'taro:vite-add-method-env',
