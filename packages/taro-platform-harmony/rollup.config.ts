@@ -2,7 +2,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import ts from '@rollup/plugin-typescript'
 import { type InputPluginOption, type RollupOptions, defineConfig } from 'rollup'
-import copy from 'rollup-plugin-copy/dist'
+import copy from 'rollup-plugin-copy'
 import externals from 'rollup-plugin-node-externals'
 
 const base: RollupOptions & { plugins: InputPluginOption[] } = {
@@ -17,7 +17,7 @@ const base: RollupOptions & { plugins: InputPluginOption[] } = {
       preferBuiltins: false
     }) as InputPluginOption,
     ts({
-      exclude: ['rollup.config.mts']
+      exclude: ['rollup.config.ts']
     }),
     commonjs() as InputPluginOption
   ]
@@ -82,7 +82,7 @@ const otherConfig: RollupOptions = {
   plugins: [
     ts({
       declaration: false,
-      exclude: ['rollup.config.mts']
+      exclude: ['rollup.config.ts']
     })
   ]
 }

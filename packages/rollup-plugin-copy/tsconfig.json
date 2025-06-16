@@ -4,7 +4,8 @@
     "baseUrl": ".",
     "esModuleInterop": true,
     "outDir": "dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "declaration": true
   },
   "include": ["./src"],
   "exclude": ["./src/__tests__"]

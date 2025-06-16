@@ -26,7 +26,7 @@
     "prebuild": "rimraf ./dist",
     "build": "pnpm run rollup",
     "dev": "pnpm run rollup -w",
-    "rollup": "rollup --config rollup.config.mts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs"
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
   },
   "bugs": {
     "url": "https://gitee.com/openharmony-sig/taro/issues"

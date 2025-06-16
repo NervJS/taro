@@ -2,11 +2,12 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "moduleResolution": "bundler",
     "declaration": true,
     "esModuleInterop": true,
     "module": "ESNext",
     "outDir": "dist",
     "sourceMap": true
   },
-  "include": ["./src", "./types", "rollup.config.mts"]
+  "include": ["./src", "./types", "rollup.config.ts"]
 }
