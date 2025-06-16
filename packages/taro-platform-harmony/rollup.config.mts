@@ -2,7 +2,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import ts from '@rollup/plugin-typescript'
 import { type InputPluginOption, type RollupOptions, defineConfig } from 'rollup'
-import copy from 'rollup-plugin-copy'
+import copy from 'rollup-plugin-copy/dist'
 import externals from 'rollup-plugin-node-externals'
 
 const base: RollupOptions & { plugins: InputPluginOption[] } = {
