@@ -43,7 +43,7 @@ describe('inspect', () => {
     const errorSpy = jest.spyOn(console, 'error')
 
     exitSpy.mockImplementation(() => {
-      throw new Error()
+      throw new Error('EXIT')
     })
     logSpy.mockImplementation(() => {})
     errorSpy.mockImplementation(() => {})
@@ -55,7 +55,11 @@ describe('inspect', () => {
         },
         args: ['resolve.mainFields.0']
       })
-    } catch (error) { }
+    } catch (error) {
+      if (!(error instanceof Error && error.message === 'EXIT')) {
+        throw error
+      }
+    }
 
     expect(exitSpy).toHaveBeenCalledWith(0)
     expect(logSpy).toHaveBeenCalledTimes(1)

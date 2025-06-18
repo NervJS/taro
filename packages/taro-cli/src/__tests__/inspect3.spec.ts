@@ -42,7 +42,7 @@ describe('inspect', () => {
     const logSpy = jest.spyOn(console, 'info')
 
     exitSpy.mockImplementation(() => {
-      throw new Error()
+      throw new Error('EXIT')
     })
     logSpy.mockImplementation(() => {})
 
@@ -52,7 +52,11 @@ describe('inspect', () => {
           type: 'weapp'
         }
       })
-    } catch (error) {} // eslint-disable-line no-empty
+    } catch (error) {
+      if (!(error instanceof Error && error.message === 'EXIT')) {
+        throw error
+      }
+    }
 
     expect(exitSpy).toHaveBeenCalledWith(0)
     expect(logSpy).toHaveBeenCalledTimes(1)
