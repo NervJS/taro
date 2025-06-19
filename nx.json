@@ -17,7 +17,8 @@
     "test:ci": {
       "inputs": ["default", "^production"],
       "dependsOn": ["prod", "^prod"],
-      "cache": true
+      "cache": true,
+      "outputs": ["{projectRoot}/coverage"]
     },
     "updateSnapshot": {
       "inputs": ["default", "^production"],

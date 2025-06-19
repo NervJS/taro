@@ -20,8 +20,8 @@
     "prod": "pnpm run build",
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "vitest",
-    "test:ci": "vitest --coverage"
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"

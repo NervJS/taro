@@ -56,9 +56,9 @@ export default class H5 extends TaroPlatformWeb {
       }
       return require.resolve('./runtime/components')
     } else if (this.useDeprecatedAdapterComponent) {
-      return require.resolve(`@tarojs/components/lib/${this.aliasFramework}/component-lib`)
+      return require.resolve(`@tarojs/components/lib/${this.aliasFramework}/component-lib/index.js`)
     } else {
-      return require.resolve(`@tarojs/components/lib/${this.aliasFramework}`)
+      return require.resolve(`@tarojs/components/lib/${this.aliasFramework}/index.js`)
     }
   }
 
