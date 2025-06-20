@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "targets": {
     "prod": {
-      "outputs": ["./dist", "./lib", "./loader"]
+      "outputs": ["{projectRoot}/dist", "{projectRoot}/lib", "{projectRoot}/loader"]
     }
   }
 }
