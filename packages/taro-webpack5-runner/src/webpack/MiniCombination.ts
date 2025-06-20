@@ -92,11 +92,6 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
   }
 
   getOutput ({ publicPath, globalObject, isBuildPlugin, output }) {
-    // 过滤掉 clean 选项，因为小程序平台通过 emptyOutputDir 方法处理目录清理
-    // 参考：packages/taro-service/src/platform-plugin-base/mini.ts 中的注释
-
-    const { clean, ...filteredOutput } = output || {} // eslint-disable-line @typescript-eslint/no-unused-vars
-
     return {
       path: this.outputDir,
       publicPath,
@@ -104,7 +99,7 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
       chunkFilename: '[name].js',
       globalObject,
       enabledLibraryTypes: isBuildPlugin ? ['commonjs'] : [],
-      ...filteredOutput
+      ...output
     }
   }
 
