@@ -61,6 +61,7 @@
     "validate-npm-package-name": "^5.0.0"
   },
   "devDependencies": {
+    "@tarojs/components": "workspace:*",
     "@babel/types": "^7.24.0",
     "@tarojs/plugin-platform-h5": "workspace:*",
     "@tarojs/plugin-platform-weapp": "workspace:*",
