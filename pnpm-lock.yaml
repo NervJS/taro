@@ -658,6 +658,9 @@ importers:
       '@babel/types':
         specifier: ^7.24.0
         version: 7.24.0
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
       '@tarojs/plugin-platform-h5':
         specifier: workspace:*
         version: link:../taro-platform-h5
