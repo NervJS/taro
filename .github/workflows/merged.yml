@@ -28,7 +28,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .nx
-          key: NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.ref_name }}-${{ github.sha }}
+          key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.sha }}
 
       - name: 更新 NX 缓存
         uses: actions/cache/save@v4

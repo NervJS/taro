@@ -78,15 +78,21 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: 获取上一次提交的 SHA
-        run: echo "PREV_SHA=$(git rev-parse HEAD^)" >> $GITHUB_ENV
+      - name: 获取上次提交 SHA
+        uses: actions/cache/restore@v4
+        with:
+          path: previous_sha.txt
+          key: ${{ github.ref_name }}-previous_sha
+      - name: 读取 SHA 文件
+        id: read_previous
+        run: echo "previous_sha=$(cat previous_sha.txt)" >> $GITHUB_OUTPUT
       - name: 使用 NX 缓存
         uses: actions/cache/restore@v4
         with:
           path: .nx
-          key: NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.ref_name }}-${{ env.PREV_SHA }}
+          key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-${{ steps.read_previous.outputs.previous_sha }}
           restore-keys: |
-            NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.ref_name }}-
+            ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-
             NX-${{ runner.os }}-${{ matrix.node-version }}
 
       - name: Prune store
@@ -130,14 +136,14 @@ jobs:
       # 部分测试依赖使用 moduleNameMapper 映射，破坏了 NX 的依赖视图，但若加入 package.json 又会造成循环依赖
       # actions/checkout 需要设置 fetch-depth: 0 获取所有的 commit 历史才能正确计算 affected，非常耗时
       - name: 构建、测试
-        run: pnpm nx run-many -t prod test:ci --exclude @tarojs/cli @tarojs/tests --parallel=3 && pnpm --filter=@tarojs/cli prod && pnpm --filter=@tarojs/cli --filter=@tarojs/tests test:ci
+        run: pnpm nx run-many -t prod test:ci --exclude @tarojs/tests --parallel=3 && pnpm --filter=@tarojs/tests test:ci
 
       - name: 更新 NX 缓存
-        if: ${{ always() }}
+        if: always()
         uses: actions/cache/save@v4
         with:
           path: .nx
-          key: NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.ref_name }}-${{ github.sha }}
+          key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.sha }}
 
       # 以下 coverage 流程通过 artifact 拆分文件作为单独 job 上传时间损耗过长，因此在 node test 后直接继续执行
       - name: Upload [taro-cli] coverage to Codecov
