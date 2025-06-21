@@ -87,6 +87,7 @@ jobs:
           key: NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.ref_name }}-${{ env.PREV_SHA }}
           restore-keys: |
             NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.ref_name }}-
+            NX-${{ runner.os }}-${{ matrix.node-version }}
 
       - name: Prune store
         shell: bash
