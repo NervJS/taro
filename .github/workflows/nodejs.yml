@@ -124,8 +124,10 @@ jobs:
       # 为何不用 nx affected -t prod test:ci
       # 部分测试依赖使用 moduleNameMapper 映射，破坏了 NX 的依赖视图，但若加入 package.json 又会造成循环依赖
       # actions/checkout 需要设置 fetch-depth: 0 获取所有的 commit 历史才能正确计算 affected，非常耗时
-      - name: 构建、测试
-        run: pnpm nx run-many -t prod test:ci --exclude @tarojs/tests --parallel=3 && pnpm --filter=@tarojs/tests test:ci
+      - name: 构建
+        run: pnpm nx run-many -t prod --parallel=3
+      - name: 测试
+        run: pnpm nx run-many -t test:ci --parallel=3 --exclude @tarojs/cli @tarojs/tests && pnpm --filter=@tarojs/cli --filter=@tarojs/tests test:ci
 
       # - name: 更新 NX 缓存
       #   if: ${{ always() }}
