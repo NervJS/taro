@@ -54,8 +54,8 @@ export default (ctx: IPluginContext) => {
           }
         }
         if (!semver.valid(targetTaroVersion)) {
-          console.log(chalk.red('命令错误：无效的 version ~'))
-          throw Error('无效的 version!')
+          console.log(chalk.red('命令错误：无效的 version！'))
+          throw Error('无效的 version！')
         }
         return targetTaroVersion
       }

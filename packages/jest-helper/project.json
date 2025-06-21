@@ -1,5 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "jest-taro-helper",
   "targets": {
     "prod": {
       "outputs": ["{projectRoot}/lib"]

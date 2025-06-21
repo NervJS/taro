@@ -321,4 +321,55 @@ describe('update', () => {
 
     logSpy.mockRestore()
   })
+
+  it('should log error message when version is invalid for self update', async () => {
+    const chalkMocked = (chalk.red as unknown) as jest.Mock<any>
+    const logSpy = jest.spyOn(console, 'log')
+
+    chalkMocked.mockReturnValue('命令错误：无效的 version！')
+    logSpy.mockImplementation(() => {})
+
+    try {
+      await runUpdate('', {
+        args: ['self', 'invalid-version'],
+        options: {
+          npm: 'npm',
+          disableGlobalConfig: true
+        }
+      })
+    } catch (error) {
+      // 期望抛出错误
+    }
+
+    expect(chalkMocked).toBeCalledWith('命令错误：无效的 version！')
+    expect(logSpy).toBeCalledWith('命令错误：无效的 version！')
+
+    logSpy.mockRestore()
+  })
+
+  it('should log error message when version is invalid for project update', async () => {
+    const appPath = path.resolve(__dirname, 'fixtures/default')
+    const chalkMocked = (chalk.red as unknown) as jest.Mock<any>
+    const logSpy = jest.spyOn(console, 'log')
+
+    chalkMocked.mockReturnValue('命令错误：无效的 version！')
+    logSpy.mockImplementation(() => {})
+
+    try {
+      await runUpdate(appPath, {
+        args: ['project', 'invalid-version'],
+        options: {
+          npm: 'npm',
+          disableGlobalConfig: true
+        }
+      })
+    } catch (error) {
+      // 期望抛出错误
+    }
+
+    expect(chalkMocked).toBeCalledWith('命令错误：无效的 version！')
+    expect(logSpy).toBeCalledWith('命令错误：无效的 version！')
+
+    logSpy.mockRestore()
+  })
 })
