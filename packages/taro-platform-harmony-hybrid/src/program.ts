@@ -48,7 +48,7 @@ export default class H5 extends TaroPlatformWeb {
     if (this.useHtmlComponents && this.aliasFramework === 'react') {
       return require.resolve('./runtime/components')
     } else if (this.useDeprecatedAdapterComponent) {
-      return require.resolve(`@tarojs/components/lib/${this.aliasFramework}/component-lib`)
+      return require.resolve(`@tarojs/components-library-${this.aliasFramework}/component-lib`)
     } else {
       return require.resolve(`@tarojs/plugin-platform-harmony-hybrid/dist/components/${this.aliasFramework}`)
     }
@@ -116,7 +116,7 @@ export default class H5 extends TaroPlatformWeb {
 
         switch (this.framework) {
           case 'vue3':
-            args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
+            args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components-library-vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
             args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
             break
           default:
@@ -130,7 +130,7 @@ export default class H5 extends TaroPlatformWeb {
         return args
       })
 
-      // 修改htmlWebpackPlugin插件的script脚本
+      // 修改 htmlWebpackPlugin 插件的 script 脚本
       chain.plugin('htmlWebpackPlugin').tap((args) => {
         const options = this.config?.postcss?.pxtransform?.config || {}
         // const max = options?.maxRootSize ?? 40
@@ -144,8 +144,8 @@ export default class H5 extends TaroPlatformWeb {
         if ((this.config?.targetUnit ?? 'rem') === 'rem') {
           /**
            * 缩放策略为：
-           * 1. 手机-竖屏，缩放策略为“自动缩放”
-           * 2. 折叠屏、Pad竖屏，缩放策略为“依据设计尺寸，大小不变”
+           * 1. 手机 - 竖屏，缩放策略为“自动缩放”
+           * 2. 折叠屏、Pad 竖屏，缩放策略为“依据设计尺寸，大小不变”
            * 3. Pad(模屏)、2in1(默认)，缩放策略为“依据设计尺寸，大小不变”
            * 4. 2in1（全屏），缩放策略为“依据设计尺寸，大小不变”
            */
@@ -155,7 +155,7 @@ export default class H5 extends TaroPlatformWeb {
         return args
       })
 
-      // 修改h5平台的rule的正则表达式
+      // 修改 h5 平台的 rule 的正则表达式
       chain.module
         .rule('process-import-taro-h5')
         .test(/(plugin|taro)-platform-harmony-hybrid[\\/]dist[\\/]api[\\/]apis[\\/]taro/)

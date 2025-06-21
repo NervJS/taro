@@ -56,9 +56,9 @@ export default class H5 extends TaroPlatformWeb {
       }
       return require.resolve('./runtime/components')
     } else if (this.useDeprecatedAdapterComponent) {
-      return require.resolve(`@tarojs/components/lib/${this.aliasFramework}/component-lib`)
+      return require.resolve(`@tarojs/components-library-${this.aliasFramework}/component-lib`)
     } else {
-      return require.resolve(`@tarojs/components/lib/${this.aliasFramework}`)
+      return require.resolve(`@tarojs/components-library-${this.aliasFramework}`)
     }
   }
 
@@ -114,7 +114,7 @@ export default class H5 extends TaroPlatformWeb {
       const alias = chain.resolve.alias
       // TODO 考虑集成到 taroComponentsPath 中，与小程序端对齐
       alias.set('@tarojs/components$', this.componentLibrary)
-      alias.set('@tarojs/components/lib', this.componentAdapter)
+      alias.set('@tarojs/components-library-', this.componentAdapter)
       alias.set('@tarojs/router$', this.routerLibrary)
       alias.set('@tarojs/taro', this.apiLibrary)
       chain.plugin('mainPlugin').tap((args) => {
@@ -136,7 +136,7 @@ export default class H5 extends TaroPlatformWeb {
 
         switch (this.framework) {
           case 'vue3':
-            args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
+            args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components-library-vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
             args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
             break
           default:
@@ -171,7 +171,7 @@ export default class H5 extends TaroPlatformWeb {
             resolve: {
               alias: [
                 { find: /@tarojs\/components$/, replacement: that.componentLibrary },
-                { find: '@tarojs/components/lib', replacement: that.componentAdapter },
+                { find: '@tarojs/components-library-', replacement: that.componentAdapter },
                 { find: /@tarojs\/router$/, replacement: that.routerLibrary },
                 { find: '@tarojs/taro', replacement: that.apiLibrary },
               ],
@@ -203,7 +203,7 @@ export default class H5 extends TaroPlatformWeb {
 
               switch (that.framework) {
                 case 'vue3':
-                  viteCompilerContext.loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
+                  viteCompilerContext.loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components-library-vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
                   viteCompilerContext.loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
                   break
                 default:

@@ -3,7 +3,7 @@
   "name": "@tarojs/components",
   "targets": {
     "prod": {
-      "outputs": ["{projectRoot}/dist", "{projectRoot}/lib", "{projectRoot}/loader"]
+      "outputs": ["{projectRoot}/dist", "{projectRoot}/loader"]
     }
   }
 }
