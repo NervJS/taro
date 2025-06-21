@@ -84,10 +84,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .nx
-          key: NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.ref }}-${{ env.PREV_SHA }}
+          key: NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.ref_name }}-${{ env.PREV_SHA }}
           restore-keys: |
-            NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.ref }}-
-            NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.event.pull_request.base.sha }}
+            NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.ref_name }}-
 
       - name: Prune store
         shell: bash
@@ -130,14 +129,14 @@ jobs:
       # 部分测试依赖使用 moduleNameMapper 映射，破坏了 NX 的依赖视图，但若加入 package.json 又会造成循环依赖
       # actions/checkout 需要设置 fetch-depth: 0 获取所有的 commit 历史才能正确计算 affected，非常耗时
       - name: 构建、测试
-        run: pnpm nx run-many -t prod test:ci --exclude @tarojs/tests --parallel=3 && pnpm --filter=@tarojs/tests test:ci
+        run: pnpm nx run-many -t prod test:ci --exclude @tarojs/cli @tarojs/tests --parallel=3 && pnpm --filter=@tarojs/cli prod && pnpm --filter=@tarojs/cli --filter=@tarojs/tests test:ci
 
       - name: 更新 NX 缓存
         if: ${{ always() }}
         uses: actions/cache/save@v4
         with:
           path: .nx
-          key: NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.ref }}-${{ github.sha }}
+          key: NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.ref_name }}-${{ github.sha }}
 
       # 以下 coverage 流程通过 artifact 拆分文件作为单独 job 上传时间损耗过长，因此在 node test 后直接继续执行
       - name: Upload [taro-cli] coverage to Codecov
