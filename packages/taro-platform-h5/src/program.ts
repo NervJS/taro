@@ -58,10 +58,6 @@ export default class H5 extends TaroPlatformWeb {
     } else if (this.useDeprecatedAdapterComponent) {
       return require.resolve(`@tarojs/components/lib/${this.aliasFramework}/component-lib`)
     } else {
-      // eslint-disable-next-line no-console
-      console.warn('Require paths:', require.resolve.paths('@tarojs/components/lib/react'))
-      // eslint-disable-next-line no-console
-      console.warn('Current working directory:', process.cwd())
       return require.resolve(`@tarojs/components/lib/${this.aliasFramework}`)
     }
   }
