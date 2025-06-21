@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "prebuild": "pnpm run clean && node ./scripts/fix.js",
+    "prebuild": "pnpm run clean && node ./scripts/fix.cjs",
     "build": "rollup -c",
     "clean": "rimraf dist",
     "dev": "pnpm run build -w",
