@@ -24,14 +24,16 @@ jobs:
 
     runs-on: ${{ matrix.host }}
     steps:
-      - name: 使用 NX 缓存
+      - name: 获取最新 NX 缓存
         uses: actions/cache/restore@v4
         with:
           path: .nx
           key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.sha }}
 
-      - name: 更新 NX 缓存
-        uses: actions/cache/save@v4
+      - name: 更新公共 NX 缓存
+        uses: actions/upload-artifact@v4
         with:
           path: .nx
-          key: NX-${{ runner.os }}-${{ matrix.node-version }}
+          name: NX-${{ runner.os }}-${{ matrix.node-version }}
+          overwrite: true
+          include-hidden-files: true

@@ -66,8 +66,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2  # 拉取最近两次提交
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -81,19 +79,26 @@ jobs:
       - name: 获取上次提交 SHA
         uses: actions/cache/restore@v4
         with:
+          enableCrossOsArchive: true
           path: previous_sha.txt
           key: ${{ github.ref_name }}-previous_sha
       - name: 读取 SHA 文件
         id: read_previous
         run: echo "previous_sha=$(cat previous_sha.txt)" >> $GITHUB_OUTPUT
-      - name: 使用 NX 缓存
+      - name: 读取 NX 缓存
+        id: get_nx_cache
         uses: actions/cache/restore@v4
         with:
           path: .nx
           key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-${{ steps.read_previous.outputs.previous_sha }}
           restore-keys: |
             ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-
-            NX-${{ runner.os }}-${{ matrix.node-version }}
+      - name: 读取公共 NX 缓存
+        uses: actions/download-artifact@v4
+        if: steps.get_nx_cache.outputs.cache-primary-key == ''
+        with:
+          name: NX-${{ runner.os }}-${{ matrix.node-version }}
+          path: .nx
 
       - name: Prune store
         shell: bash
@@ -151,6 +156,7 @@ jobs:
         if: always()
         uses: actions/cache/save@v4
         with:
+          enableCrossOsArchive: true
           path: previous_sha.txt
           key: ${{ github.ref_name }}-previous_sha
 
