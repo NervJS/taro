@@ -79,9 +79,8 @@ jobs:
       - name: 获取上次提交 SHA
         uses: actions/cache/restore@v4
         with:
-          enableCrossOsArchive: true
           path: previous_sha.txt
-          key: ${{ github.ref_name }}-previous_sha
+          key: ${{ github.ref_name }}-previous_sha-${{ runner.os }}-${{ matrix.node-version }}
       - name: 读取 SHA 文件
         id: read_previous
         run: echo "previous_sha=$(cat previous_sha.txt)" >> $GITHUB_OUTPUT
@@ -138,7 +137,7 @@ jobs:
         run: pnpm artifacts
 
       - name: 构建、测试
-        run: pnpm nx run-many -t prod test:ci --parallel=4
+        run: pnpm nx run-many -t prod test:ci --parallel=3
 
       - name: 更新 NX 缓存
         if: always()
@@ -153,9 +152,8 @@ jobs:
         if: always()
         uses: actions/cache/save@v4
         with:
-          enableCrossOsArchive: true
           path: previous_sha.txt
-          key: ${{ github.ref_name }}-previous_sha
+          key: ${{ github.ref_name }}-previous_sha-${{ runner.os }}-${{ matrix.node-version }}
 
       # 以下 coverage 流程通过 artifact 拆分文件作为单独 job 上传时间损耗过长，因此在 node test 后直接继续执行
       - name: Upload [taro-cli] coverage to Codecov
