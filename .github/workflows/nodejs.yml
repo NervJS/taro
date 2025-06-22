@@ -76,21 +76,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: 获取上次提交 SHA
-        uses: actions/cache/restore@v4
-        with:
-          path: previous_sha.txt
-          key: ${{ github.ref_name }}-previous_sha-${{ runner.os }}-${{ matrix.node-version }}
-      - name: 读取 SHA 文件
-        id: read_previous
-        run: echo "previous_sha=$(cat previous_sha.txt)" >> $GITHUB_OUTPUT
-        continue-on-error: true
       - name: 读取 NX 缓存
         id: get_nx_cache
         uses: actions/cache/restore@v4
         with:
           path: .nx
-          key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-${{ steps.read_previous.outputs.previous_sha }}
+          key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-previous-sha
           restore-keys: |
             ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-
       - name: 读取公共 NX 缓存
@@ -146,15 +137,6 @@ jobs:
         with:
           path: .nx
           key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.sha }}
-      - name: 保存当前 SHA
-        if: always()
-        run: echo "${{ github.sha }}" > previous_sha.txt
-      - name: 更新 previous_sha.txt 缓存
-        if: always()
-        uses: actions/cache/save@v4
-        with:
-          path: previous_sha.txt
-          key: ${{ github.ref_name }}-previous_sha-${{ runner.os }}-${{ matrix.node-version }}
 
       # 以下 coverage 流程通过 artifact 拆分文件作为单独 job 上传时间损耗过长，因此在 node test 后直接继续执行
       - name: Upload [taro-cli] coverage to Codecov
