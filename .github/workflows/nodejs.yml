@@ -144,6 +144,15 @@ jobs:
         with:
           path: .nx
           key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.sha }}
+      - name: 保存当前 SHA
+        if: always()
+        run: echo "${{ github.sha }}" > previous_sha.txt
+      - name: 更新 previous_sha.txt 缓存
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: previous_sha.txt
+          key: ${{ github.ref_name }}-previous_sha
 
       # 以下 coverage 流程通过 artifact 拆分文件作为单独 job 上传时间损耗过长，因此在 node test 后直接继续执行
       - name: Upload [taro-cli] coverage to Codecov
