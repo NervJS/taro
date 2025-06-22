@@ -91,17 +91,6 @@ jobs:
           name: NX-${{ runner.os }}-${{ matrix.node-version }}
           path: .nx
 
-      - name: Prune store
-        shell: bash
-        run: |
-          PNPM_STORE_PATH=$(pnpm store path)
-          echo "[Debug] Store path: $PNPM_STORE_PATH"
-          if [ -d ${PNPM_STORE_PATH} ]; then
-            echo "[Debug] pnpm store exists"
-            pnpm store prune
-          else
-            echo "[Debug] pnpm store does not exist"
-          fi
       - name: Install dependencies
         run: pnpm -r install --frozen-lockfile
 
