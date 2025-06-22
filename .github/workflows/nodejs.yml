@@ -84,6 +84,7 @@ jobs:
       - name: 读取 SHA 文件
         id: read_previous
         run: echo "previous_sha=$(cat previous_sha.txt)" >> $GITHUB_OUTPUT
+        continue-on-error: true
       - name: 读取 NX 缓存
         id: get_nx_cache
         uses: actions/cache/restore@v4
