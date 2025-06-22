@@ -117,6 +117,9 @@ jobs:
       - name: Move artifacts
         run: pnpm artifacts
 
+      - name: 修复缓存文件
+        run: node ./scripts/fix-nx-cache.mjs
+
       - name: 构建、测试
         run: pnpm nx run-many -t prod test:ci --parallel=3
 
