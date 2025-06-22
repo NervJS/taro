@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-transformer",
-  "version": "4.0.5",
+  "version": "4.1.3-alpha.1",
   "description": "Taro RN 入口文件处理",
   "author": "O2Team",
   "license": "MIT",
@@ -13,7 +13,7 @@
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove ./dist",
+    "clean": "rimraf ./dist",
     "build": "tsc",
     "dev": "tsc -w",
     "test": "jest",

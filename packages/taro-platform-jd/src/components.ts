@@ -1,63 +1,83 @@
 import { singleQuote } from '@tarojs/shared'
 
+const _true = 'true'
+const _false = 'false'
+const _empty = ''
+
 export const components = {
   // ======== 调整属性 ========
   Swiper: {
     'easing-function': singleQuote('default')
   },
   Canvas: {
-    type: ''
+    type: _empty
   },
   Button: {
-    bindGetPhoneNumber: ''
+    bindGetPhoneNumber: _empty
   },
   Map: {
-    bindRegionChange: ''
+    bindRegionChange: _empty
   },
   WebView: {
-    height: ''
+    height: _empty
   },
   Input: {
-    'adjust-position': 'true',
+    'adjust-position': _true,
   },
   Textarea: {
-    'show-confirm-bar': 'true',
-    'adjust-position': 'true',
-    'disable-default-padding': 'false',
+    'show-confirm-bar': _true,
+    'adjust-position': _true,
+    'disable-default-padding': _false,
   },
   RootPortal: {
-    enable: 'true'
+    enable: _true
   },
   Editor: {
-    'read-only': 'false',
-    placeholder: '',
-    'show-img-size': 'false',
-    'show-img-toolbar': 'false',
-    'show-img-resize': 'false',
-    focus: 'false',
-    bindReady: '',
-    bindFocus: '',
-    bindBlur: '',
-    bindInput: '',
-    bindStatusChange: '',
-    name: ''
+    'read-only': _false,
+    placeholder: _empty,
+    'show-img-size': _false,
+    'show-img-toolbar': _false,
+    'show-img-resize': _false,
+    focus: _false,
+    bindReady: _empty,
+    bindFocus: _empty,
+    bindBlur: _empty,
+    bindInput: _empty,
+    bindStatusChange: _empty,
+    name: _empty
   },
   PageContainer: {
-    show: 'false',
+    show: _false,
     duration: '300',
     'z-index': '100',
-    overlay: 'true',
+    overlay: _true,
     position: "'bottom'",
-    round: 'false',
-    'close-on-slide-down': 'false',
-    'overlay-style': '',
-    'custom-style': '',
-    bindBeforeEnter: '',
-    bindEnter: '',
-    bindAfterEnter: '',
-    bindBeforeLeave: '',
-    bindLeave: '',
-    bindAfterLeave: '',
-    bindClickOverlay: ''
+    round: _false,
+    'close-on-slide-down': _false,
+    'overlay-style': _empty,
+    'custom-style': _empty,
+    bindBeforeEnter: _empty,
+    bindEnter: _empty,
+    bindAfterEnter: _empty,
+    bindBeforeLeave: _empty,
+    bindLeave: _empty,
+    bindAfterLeave: _empty,
+    bindClickOverlay: _empty
+  },
+  PickerView: {
+    'immediate-change': _false,
+  },
+  MatchMedia: {
+    'min-width': _empty,
+    'max-width': _empty,
+    width: _empty,
+    'min-height': _empty,
+    'max-height': _empty,
+    height: _empty,
+    orientation: _empty
+  },
+  RichText: {
+    space: _empty,
+    'user-select': _false
   },
 }

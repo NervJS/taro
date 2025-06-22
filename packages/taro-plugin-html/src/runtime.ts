@@ -79,15 +79,16 @@ hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias) => {
     const viewAlias = componentsAlias.view._num
     const staticViewAlias = componentsAlias['static-view']._num
     const catchViewAlias = componentsAlias['catch-view']._num
+    const clickViewAlias = componentsAlias['click-view']._num
     const qualifiedNameInCamelCase = toCamelCase(key)
     const dataPath = `${_path}.${Shortcuts.NodeName}`
     if (qualifiedNameInCamelCase === 'catchMove') {
       // catchMove = true: catch-view
-      // catchMove = false: view or static-view
+      // catchMove = false: view or click-view or static-view
       element.enqueueUpdate({
         path: dataPath,
         value: payload.value ? catchViewAlias : (
-          element.isAnyEventBinded() ? viewAlias : staticViewAlias
+          element.isOnlyClickBinded() && !isHasExtractProp(element) ? clickViewAlias : (element.isAnyEventBinded() ? viewAlias : staticViewAlias)
         )
       })
     } else if (isHasExtractProp(element) && !element.isAnyEventBinded()) {
@@ -132,13 +133,14 @@ hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias) => {
     const viewAlias = componentsAlias.view._num
     const staticViewAlias = componentsAlias['static-view']._num
     const pureViewAlias = componentsAlias['pure-view']._num
+    const clickViewAlias = componentsAlias['click-view']._num
     const qualifiedNameInCamelCase = toCamelCase(key)
     const dataPath = `${_path}.${Shortcuts.NodeName}`
     if (qualifiedNameInCamelCase === 'catchMove') {
-      // catch-view => view or static-view or pure-view
+      // catch-view => view or click-view or static-view or pure-view
       element.enqueueUpdate({
         path: dataPath,
-        value: element.isAnyEventBinded() ? viewAlias : (isHasExtractProp(element) ? staticViewAlias : pureViewAlias)
+        value: element.isOnlyClickBinded() && !isHasExtractProp(element) ? clickViewAlias : (element.isAnyEventBinded() ? viewAlias : (isHasExtractProp(element) ? staticViewAlias : pureViewAlias))
       })
     } else if (!isHasExtractProp(element)) {
       // static-view => pure-view

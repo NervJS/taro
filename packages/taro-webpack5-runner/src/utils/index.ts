@@ -45,3 +45,12 @@ export const formatOpenHost = (host?: string) => {
 export function parsePublicPath (publicPath = '/') {
   return ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath)
 }
+
+export function isSpecialFormat(key: string, value: string) {
+  if (key === 'src' && /{{.*?}}/.test(value)) {
+    // in .wxml, the value url in <web-view src="{{url}}"/> should not be requested, it is a state value in page data
+    return true
+  }
+
+  return false
+}

@@ -4,6 +4,7 @@ pub const COMPILE_ELSE: &str = "compileElse";
 pub const COMPILE_IGNORE: &str = "compileIgnore";
 pub const COMPILE_FOR: &str = "compileFor";
 pub const COMPILE_FOR_KEY: &str = "compileForKey";
+pub const SLOT_ITEM: &str = "slotItem";
 pub const EVENT_HANDLER: &str = "eh";
 pub const DATA_SID: &str = "data-sid";
 pub const TMPL_DATA_ROOT: &str = "i.";
@@ -173,4 +174,3 @@ function getImageSpanAlignment (align: TaroAny): TaroAny {
   }
 }
 "#;
-

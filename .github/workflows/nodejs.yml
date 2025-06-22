@@ -28,7 +28,7 @@ jobs:
     name: Build Rust WASM
     uses: ./.github/workflows/build-rust-wasm.yml
 
-  nodejs-tesing:
+  nodejs-testing:
     name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.host }})
     needs:
       - build-rust-binding
@@ -37,9 +37,9 @@ jobs:
       fail-fast: false
       matrix:
         node-version: [18.x, 20.x]
-        host: [macos-12, windows-latest, ubuntu-latest]
+        host: [macos-13, windows-latest, ubuntu-latest]
         include:
-          - host: macos-12
+          - host: macos-13
             target: x86_64-apple-darwin
           - host: windows-latest
             target: x86_64-pc-windows-msvc
@@ -49,11 +49,11 @@ jobs:
             target: x86_64-unknown-linux-musl
         exclude:
           - node-version: 18.x
-            host: macos-12
+            host: macos-13
           - node-version: 18.x
             host: windows-latest
           - node-version: 20.x
-            host: macos-12
+            host: macos-13
           - node-version: 20.x
             host: windows-latest
 
@@ -64,7 +64,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v3.0.0
         with:
-          version: 8
+          version: 10
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -118,7 +118,6 @@ jobs:
         uses: codecov/codecov-action@v4
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
-          move_coverage_to_trash: true
           flags: taro-cli
           files: ./packages/taro-cli/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -126,7 +125,6 @@ jobs:
         uses: codecov/codecov-action@v4
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
-          move_coverage_to_trash: true
           flags: taro-runner
           files: ./packages/taro-webpack5-runner/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -134,7 +132,6 @@ jobs:
         uses: codecov/codecov-action@v4
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
-          move_coverage_to_trash: true
           flags: taro-runtime
           files: ./packages/taro-runtime/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -142,7 +139,6 @@ jobs:
         uses: codecov/codecov-action@v4
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
-          move_coverage_to_trash: true
           flags: taro-web
           files: ./packages/taro-components/coverage/clover.xml,./packages/taro-h5/coverage/clover.xml,./packages/taro-router/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -164,7 +160,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
-          targets: wasm32-wasi
+          targets: wasm32-wasip1
       - name: Cache cargo
         uses: actions/cache@v3
         with:

@@ -3636,3 +3636,19 @@ describe('ICSS :export pseudo-selector', () => {
     ).toThrow()
   })
 })
+describe('ReDos', () => {
+  jest.setTimeout(1000)
+  it('should finish transform of 100k zeros + "p" in under 1s', () => {
+    const bigValue = '0'.repeat(100000) + 'p'
+    const cssString = `
+      .foo { some-prop: "${bigValue}"; }
+    `
+    const start = performance.now()
+    transform(cssString, {
+      scalable: false,
+      parseMediaQueries: false
+    })
+    const duration = performance.now() - start
+    expect(duration).toBeLessThan(1000)
+  })
+})

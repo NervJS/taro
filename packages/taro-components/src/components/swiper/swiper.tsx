@@ -15,7 +15,7 @@ const TWO_ADDITIONAL_SLIDES_THRESHOLD = 7
 })
 export class Swiper implements ComponentInterface {
   #id = INSTANCE_ID++
-  #source = ''
+  #source = 'autoplay'
   #swiperResetting = false
   // dom 变化是否由外部引起，因为 swiper 的循环模式也会引起 dom 的变化。如果不是由外部引起的 dom 变化，就不需要重新初始化 swiper
   #domChangeByOutSide = false
@@ -308,8 +308,8 @@ export class Swiper implements ComponentInterface {
       }
     }
     const loopAdditionalSlides = this.getLoopAdditionalSlides()
-    const centeredSlides = displayMultipleItems === 1
-    const slidesPerView = displayMultipleItems === 1 ? 'auto' : displayMultipleItems
+    const centeredSlides = displayMultipleItems === 1 && this.getNeedFixLoop()
+    const slidesPerView = displayMultipleItems
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
     const options: any = {
@@ -324,9 +324,12 @@ export class Swiper implements ComponentInterface {
       observer: true,
       centeredSlides: centeredSlides,
       zoom: this.zoom,
+      nested: true,
+      touchReleaseOnEdges: true,
+      threshold: 0,
       ...effectsProps,
       on: {
-        changeTransitionEnd(e) {
+        transitionEnd(e) {
           if(that.#swiperResetting || that.#lastSwiperActiveIndex === this.realIndex) return
           that.#lastSwiperActiveIndex = this.realIndex
           that.getNeedFixLoop() && e.loopFix()
@@ -458,25 +461,21 @@ export class Swiper implements ComponentInterface {
     } = this
 
     const [pM, nM] = this.parseMargin()
-    const hasMargin = pM || nM
-    const hostStyle: Record<string, string> = {}
-    if(hasMargin) {
-      hostStyle.overflow = 'hidden'
-    }
-    if (this.full) {
-      hostStyle.height = '100%'
-    }
-   
     const swiperContainerStyleList: string [] = [
       'overflow: visible;',
       vertical ? `margin-top: ${pM}px; margin-bottom: ${nM}px;` : `margin-right: ${nM}px; margin-left: ${pM}px;`,
       this.full ? 'height: 100%;' : '',
     ]
-
     const swiperPaginationStyleList: string [] = [
       indicatorDots ? 'opacity: 1;' : 'display: none;',
       'font-size: 0;'
     ]
+    const hostStyle: Record<string, string> = { overflow: 'hidden' }
+
+    if (this.full) {
+      hostStyle.height = '100%'
+    }
+
 
     return (
       <Host class={`taro-swiper-${this.#id}`} style={hostStyle}>

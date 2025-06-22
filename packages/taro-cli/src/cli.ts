@@ -7,7 +7,7 @@ import * as minimist from 'minimist'
 import customCommand from './commands/customCommand'
 import { getPkgVersion } from './util'
 
-const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor', 'update', 'config']
+const DISABLE_GLOBAL_CONFIG_COMMANDS = ['global-config', 'doctor', 'update', 'config']
 const DEFAULT_FRAMEWORK = 'react'
 
 export default class CLI {
@@ -118,6 +118,7 @@ export default class CLI {
           // 针对不同的内置平台注册对应的端平台插件
           switch (platform) {
             case 'weapp':
+            case 'ascf':
             case 'alipay':
             case 'swan':
             case 'tt':
@@ -202,6 +203,7 @@ export default class CLI {
             projectName: _[1] || args.name,
             description: args.description,
             typescript: args.typescript,
+            buildEs5: args['build-es5'],
             framework: args.framework,
             compiler: args.compiler,
             npm: args.npm,

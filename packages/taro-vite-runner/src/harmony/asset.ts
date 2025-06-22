@@ -5,7 +5,7 @@ import MagicString from 'magic-string'
 import * as mrmime from 'mrmime'
 import { normalizePath } from 'vite'
 
-import { addTrailingSlash, virtualModulePrefixREG } from '../utils'
+import { addTrailingSlash, escapePath, virtualModulePrefixREG } from '../utils'
 import {
   createToImportMetaURLBasedRelativeRuntime,
   toOutputFilePathInJS,
@@ -280,7 +280,7 @@ export function fileToUrl(
   // const url = `__TARO_VITE_ASSET__${referenceId}__${postfix ? `$_${postfix}__` : ``}` // TODO_BASE
 
   const resourceName = path.relative(appRoot, file).replace(/^[\\/]+/, '').replace(/[\\/-]+/g, '_')
-  const resourcePath = path.join(process.cwd(), outputRoot, '..', 'resources/base/media', resourceName)
+  const resourcePath = path.join(escapePath(outputRoot), '..', 'resources/base/media', resourceName)
   fs.ensureDirSync(path.dirname(resourcePath))
   fs.writeFileSync(resourcePath, content, {
     encoding: 'utf-8',

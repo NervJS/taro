@@ -1,6 +1,7 @@
 dist/
 _book
 .idea
+.ssh
 
 # Logs & Lock
 *.log
@@ -83,3 +84,4 @@ artifacts
 
 # Node Addons
 *.node
+chrome

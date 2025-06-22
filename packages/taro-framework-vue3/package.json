@@ -1,16 +1,15 @@
 {
   "name": "@tarojs/plugin-framework-vue3",
-  "version": "4.0.5",
+  "version": "4.1.3-alpha.1",
   "description": "Vue3 框架插件",
   "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro",
   "license": "MIT",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "keywords": [
     "taro"
   ],
   "files": [
-    "index.js",
     "dist"
   ],
   "repository": {
@@ -20,7 +19,9 @@
   "scripts": {
     "prod": "pnpm run build",
     "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+    "test": "vitest",
+    "test:ci": "vitest --coverage"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
@@ -39,7 +40,6 @@
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "vue-loader": "^17.0.0",
     "@vue/compiler-core": "^3.4.25",
     "vite": "^4.2.0",
     "webpack": "5.91.0",
@@ -50,7 +50,7 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@vitejs/plugin-vue": "^5",
+    "@vitejs/plugin-vue": "^4",
     "@vitejs/plugin-vue-jsx": "^3",
     "vue-loader": "^17.0.0",
     "vite": "^4",

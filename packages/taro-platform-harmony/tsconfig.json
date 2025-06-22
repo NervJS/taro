@@ -8,5 +8,5 @@
     "outDir": "dist",
     "sourceMap": true
   },
-  "include": ["./src", "./types", "rollup.config.ts"]
+  "include": ["./src", "./types", "rollup.config.mts"]
 }

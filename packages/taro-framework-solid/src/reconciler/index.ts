@@ -13,7 +13,7 @@ import {
   ValidComponent
 } from 'solid-js'
 
-import { createElement, insert, spread } from './render'
+import { createElement, createTextNode, insert, spread } from './render'
 
 export * from './render'
 
@@ -26,7 +26,7 @@ export function Portal<T extends boolean = false, S extends boolean = false> (pr
   ) => void)
   children: JSX.Element
 }) {
-  const marker = document.createTextNode('')
+  const marker = createTextNode('')
   const mount = () => props.mount || document.body
   const owner = getOwner()
   let content: undefined | (() => JSX.Element)

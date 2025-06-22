@@ -15,7 +15,7 @@ use serde::Serialize;
 use crate::{
   async_fs,
   constants::{CSSType, CompilerType, FrameworkType, MEDIA_REGEX, STYLE_EXT_MAP},
-  utils::{normalize_path_str, generate_with_template},
+  utils::{generate_with_template, normalize_path_str},
 };
 
 #[derive(Debug, Clone, Serialize)]
@@ -30,6 +30,7 @@ pub struct CreateOptions {
   pub version: Option<String>,
   pub date: Option<String>,
   pub typescript: Option<bool>,
+  pub build_es5: Option<bool>,
   pub template: String,
   pub page_name: Option<String>,
   pub compiler: Option<CompilerType>,
@@ -64,7 +65,8 @@ impl FromNapiValue for JSReturnObject {
       js_return_object.set_page_name = Some(obj.get_named_property::<String>("setPageName")?);
     }
     if has_set_sub_pkg_page_name {
-      js_return_object.set_sub_pkg_page_name = Some(obj.get_named_property::<String>("setSubPkgName")?);
+      js_return_object.set_sub_pkg_page_name =
+        Some(obj.get_named_property::<String>("setSubPkgName")?);
     }
     if has_change_ext {
       js_return_object.change_ext = Some(obj.get_named_property::<bool>("changeExt")?);

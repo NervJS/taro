@@ -113,11 +113,16 @@ export default class RenderParser extends BaseParser {
     })
 
     this.context.nativeComponents.forEach((meta) => {
+      const name = meta.exportName === 'default' ? meta.name : `{ ${meta.exportName} as ${meta.name} }`
       if (meta.isPackage) {
-        importList.push(`import ${meta.name} from '${meta.scriptPath}'`)
+        importList.push(`import ${name} from '${meta.scriptPath}'`)
       } else {
-        const nativePath = path.relative(this.context.sourceDir, meta.scriptPath).replace(/\.ets$/, '')
-        importList.push(`import ${meta.name} from './${nativePath}'`)
+        const etx = path.extname(meta.scriptPath)
+        const nativePath = path
+          .relative(this.context.sourceDir, meta.scriptPath)
+          .replace(/[\\/]+/g, '/')
+          .replace(new RegExp(`\\${etx}$`), '')
+        importList.push(`import ${name} from './${nativePath}'`)
       }
     })
 
@@ -279,13 +284,13 @@ export default class RenderParser extends BaseParser {
           name: 'StickySection',
           condition: `item.tagName === 'STICKY-SECTION'`,
           type: 'TaroViewElement',
-          extra: '.reuseId(item._nid.toString())'
+          extra: '.reuseId(item._nid.toString())',
         },
         {
           name: 'ListView',
           condition: `item.tagName === 'LIST-VIEW'`,
           type: 'TaroViewElement',
-          extra: '.reuseId(item._nid.toString())'
+          extra: '.reuseId(item._nid.toString())',
         },
         {
           name: 'View',
@@ -308,7 +313,7 @@ export default class RenderParser extends BaseParser {
           name,
           condition: `item.tagName === '${name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}'`,
           args: [],
-          fullArgument: 'item._attrs as TaroAny'
+          fullArgument: 'item._attrs as TaroAny',
         })
       })
 

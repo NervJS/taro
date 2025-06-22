@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import path from 'node:path'
 
 import { isFunction } from '@tarojs/shared'
@@ -24,7 +25,7 @@ export interface IMethod {
 export interface TaroHarmonyPageMeta extends VitePageMeta {
   id: string
   originName: string
-  entryOption?: Record<string, unknown>
+  entryOption?: Record<string, unknown> | false
 
   modifyRenderState?: (this: Parser, state: (string | null)[], page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => void
 
@@ -34,7 +35,7 @@ export interface TaroHarmonyPageMeta extends VitePageMeta {
 
   modifyPageAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
-  modifyPageDisAppear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
+  modifyPageDisappear?: (this: Parser, appearStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
   modifyPageBuild?: (this: Parser, buildStr: string, page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) => string
 
@@ -142,7 +143,7 @@ export default class Parser extends BaseParser {
     ]
 
     // 如果是编译成原生组件，则不需要加 @Entry 头部，否则都加上 @Entry，当成 Page 入口
-    if (!this.buildConfig.isBuildNativeComp) {
+    if (!this.buildConfig.isBuildNativeComp && !this.isPure && entryOption) {
       structCodeArray.unshift('@Entry')
     } else if (entryOption) {
       structCodeArray.unshift(`@Entry(${this.prettyPrintJson(page instanceof Array ? TARO_TABBAR_PAGE_PATH : entryOption)})`)
@@ -705,7 +706,7 @@ for (let i = 0; i < taskQueen.length; i++) {
 
     let instantiatePage = this.transArr2Str(structCodeArray)
     if (isFunction(modifyInstantiate)) {
-      instantiatePage = modifyInstantiate(instantiatePage, 'page')
+      instantiatePage = modifyInstantiate.call(this, instantiatePage, 'page', page)
     }
 
     return instantiatePage
@@ -719,7 +720,8 @@ for (let i = 0; i < taskQueen.length; i++) {
       paramsString = modifyPageParams.call(this, paramsString, page)
     }
 
-    return `${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
+    // FIXME window.__ohos.getLastWindow
+    return `${(this.buildConfig.isBuildNativeComp || !0) ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
       ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
       : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
   Current.contextPromise
@@ -913,12 +915,13 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   generatePageAboutToAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
     const modifyPageAppear = page instanceof Array ? page[0].modifyPageAppear : page.modifyPageAppear
 
-    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
+    const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
+    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp || this.isPure || !entryOption
 
     // 生成 aboutToAppear 函数内容
     let appearStr = `${isBlended ? 'initHarmonyElement()\n' : ''}${this.transArr2Str(([] as unknown[]).concat(
-      this.buildConfig.isBuildNativeComp ? [] : [
-        'const state = this.getPageState()',
+      this.buildConfig.isBuildNativeComp || this.isPure || !entryOption ? [] : [
+        'const state: TaroAny = this.getPageState()',
         'if (this.pageStack.length >= state.index) {',
         '  this.pageStack.length = state.index - 1',
         '}',
@@ -944,20 +947,20 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   }
 
   generatePageAboutToDisAppear (page: TaroHarmonyPageMeta | TaroHarmonyPageMeta[]) {
-    const modifyPageDisAppear = page instanceof Array ? page[0].modifyPageDisAppear : page.modifyPageDisAppear
+    const modifyPageDisappear = page instanceof Array ? page[0].modifyPageDisappear : page.modifyPageDisappear
 
-    // 生成 aboutToDisAppear 函数内容
-    let disAppearStr = this.transArr2Str([
+    // 生成 aboutToDisappear 函数内容
+    let disappearStr = this.transArr2Str([
       this.isTabbarPage ? `this.pageList?.forEach(item => {
 callFn(item?.onUnload, this)
 })
 this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
 
-    if (isFunction(modifyPageDisAppear)) {
-      disAppearStr = modifyPageDisAppear.call(this, disAppearStr, page)
+    if (isFunction(modifyPageDisappear)) {
+      disappearStr = modifyPageDisappear.call(this, disappearStr, page)
     }
 
-    return disAppearStr
+    return disappearStr
   }
 
   generatePageShown () {
@@ -997,10 +1000,11 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
     const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
     const targetRoot = path.resolve(this.appPath, sourceRoot)
 
-    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
+    const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
+    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp || this.isPure || !entryOption
     this.isTabbarPage = page instanceof Array
     const pageRefresh: boolean[] = page instanceof Array
-      ? page.map(e => this.isEnable(this.appConfig.window?.enablePullDownRefresh, e.config.enablePullDownRefresh))
+      ? page.filter(e => !!e).map(e => this.isEnable(this.appConfig.window?.enablePullDownRefresh, e.config.enablePullDownRefresh))
       : [this.isEnable(this.appConfig.window?.enablePullDownRefresh, (page as TaroHarmonyPageMeta)?.config.enablePullDownRefresh)]
     if (pageRefresh.every(e => !!e)) {
       this.enableRefresh = 1
@@ -1078,21 +1082,21 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
   }
 
   parseEntry (rawId: string, page: TaroHarmonyPageMeta) {
-    const { creatorLocation, importFrameworkStatement } = this.loaderMeta
+    const { creatorLocation, frameworkArgs, importFrameworkStatement, modifyEntryFile } = this.loaderMeta
     const entryOption = page instanceof Array ? page[0].entryOption : page.entryOption
-    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
-    let createFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
+    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp || this.isPure || !entryOption
+    // FIXME: pure 参数应该使用 page.entryOption 替代
+    const createFn = this.isPure
+      ? 'createNativeComponentConfig'
+      : isBlended
+        ? 'createNativePageConfig' : 'createPageConfig'
     const pageName = entryOption?.routeName || page.name
-    const nativeCreatePage = `createNativePageConfig(component, '${pageName}', React, ReactDOM, config)`
-    let createPageOrComponent = isBlended ? nativeCreatePage : `createPageConfig(component, '${pageName}', config)`
+    const createPageOrComponent = `${createFn}(component, ${this.isPure
+      ? `${frameworkArgs}`
+      : isBlended
+        ? `'${pageName}', ${frameworkArgs}` : `'${pageName}', config`})`
 
-    // 如果是pure，说明不是一个页面，而是一个组件，这个时候修改import和createPage
-    if (this.isPure) {
-      createFn = 'createNativeComponentConfig'
-      createPageOrComponent = `createNativeComponentConfig(component, React, ReactDOM, config)`
-    }
-
-    return this.transArr2Str([
+    const rawCode = this.transArr2Str([
       `import { ${createFn} } from '${creatorLocation}'`,
       `import component from "${escapePath(rawId)}"`,
       isBlended ? 'import { initPxTransform } from "@tarojs/taro"' : null,
@@ -1103,5 +1107,7 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
       page?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
       `export default () => ${createPageOrComponent}`,
     ])
+
+    return isFunction(modifyEntryFile) ? modifyEntryFile.call(this, 'page', rawId, rawCode, page) : rawCode
   }
 }

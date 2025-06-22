@@ -18,6 +18,8 @@ export default class Alipay extends TaroPlatformBase {
     xs: '.sjs'
   }
 
+  behaviorsName = 'mixins'
+
   template = new Template()
 
   /**
@@ -36,6 +38,7 @@ export default class Alipay extends TaroPlatformBase {
         this.modifyMiniConfigs()
         this.modifyComponents()
         this.modifyWebpackConfig()
+        this.generateBrowserslistConfig()
         this.generateProjectConfig('project.alipay.json', 'mini.project.json')
       }
     })
@@ -104,6 +107,21 @@ export default class Alipay extends TaroPlatformBase {
           delete newArgs.navigator
           return [newArgs]
         })
+    })
+  }
+
+  /**
+   * 生成 .browserslistrc 文件以解决支付宝小程序开发工具报错问题。
+   * 详情请参阅：https://github.com/NervJS/taro/issues/16560
+   */
+  generateBrowserslistConfig () {
+    this.ctx.modifyBuildAssets(({ assets }) => {
+      const browserslistStr = 'defaults and fully supports es6-module'
+
+      assets['.browserslistrc'] = {
+        size: () => browserslistStr.length,
+        source: () => browserslistStr
+      }
     })
   }
 }

@@ -1,0 +1,25 @@
+.creative-swiper-wrap{
+    width: 600px;
+    height: 300px;
+    // background-color: pink;
+}
+.creative-img {
+    width: 100%;
+    height: 100%;
+  
+}
+.creative-wrap {
+    position: relative;
+    transform: translate(-50%, 0);
+    left: 50%;
+    display: flex;
+    width: 600px;
+    overflow: hidden;
+    height: 300px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+.creative-item {
+    background-color: yellow;
+}
