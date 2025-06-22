@@ -30,7 +30,7 @@
     "lint:style": "stylelint ./packages/**/*.{css,scss}",
     "format": "prettier --write --cache .",
     "format:check": "prettier --check --cache .",
-    "test": "nx run-many -t test:ci --exclude @tarojs/tests --parallel 80%",
+    "test": "nx run-many -t test:ci --parallel 80%",
     "test:binding": "pnpm --filter @tarojs/binding run test",
     "updateSnapshot": "nx run-many -t updateSnapshot --parallel 80%",
     "version": "run-s version:*",
