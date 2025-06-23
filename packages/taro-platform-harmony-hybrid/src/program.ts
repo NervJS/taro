@@ -1,5 +1,3 @@
-import path from 'node:path'
-
 import { TaroPlatformWeb } from '@tarojs/service'
 
 import { resolveSync } from './resolve'
@@ -54,8 +52,16 @@ export default class H5 extends TaroPlatformWeb {
     }
   }
 
-  get componentAdapter () {
-    return path.join(path.dirname(require.resolve('@tarojs/components')), '..', 'lib')
+  get componentAdapterReact () {
+    return require.resolve(`@tarojs/components-library-react`)
+  }
+
+  get componentAdapterSolid () {
+    return require.resolve(`@tarojs/components-library-solid`)
+  }
+
+  get componentAdapterVue3 () {
+    return require.resolve(`@tarojs/components-library-vue3`)
   }
 
   get routerLibrary () {
@@ -94,7 +100,9 @@ export default class H5 extends TaroPlatformWeb {
       const alias = chain.resolve.alias
       // TODO 考虑集成到 taroComponentsPath 中，与小程序端对齐
       alias.set('@tarojs/components$', this.componentLibrary)
-      alias.set('@tarojs/components/lib', this.componentAdapter)
+      alias.set('@tarojs/components-library-react$', this.componentAdapterReact)
+      alias.set('@tarojs/components-library-solid$', this.componentAdapterSolid)
+      alias.set('@tarojs/components-library-vue3$', this.componentAdapterVue3)
       alias.set('@tarojs/router$', this.routerLibrary)
       alias.set('@tarojs/taro', this.apiLibrary)
       chain.plugin('mainPlugin').tap((args) => {
