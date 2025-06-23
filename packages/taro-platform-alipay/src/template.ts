@@ -86,7 +86,7 @@ export class Template extends RecursiveTemplate {
     return result
   }
 
-  modifyLoopBody = (child: string, nodeName: string) => {
+  modifyLoopBody = (child: string) => {
     return child
   }
 
