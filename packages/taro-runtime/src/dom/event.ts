@@ -151,6 +151,15 @@ function getEventCBResult (event: MpEvent) {
   return result
 }
 
+export function eventHandlerTTDom(ele: TaroElement, cb: (event: MpEvent, el: TaroElement) => void, event: MpEvent) {
+  Object.assign(event, {
+    mpEvent: event,
+    bubbles: true,
+    cancelable: true,
+  })
+  cb(event, ele)
+}
+
 // 小程序的事件代理回调函数
 export function eventHandler (event: MpEvent) {
   // Note: ohos 上事件没有设置 type、detail 类型 setter 方法，且部分事件（例如 load 等）缺失 target 导致事件错误

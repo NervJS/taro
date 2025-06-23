@@ -1,6 +1,7 @@
 /* eslint-disable dot-notation */
 import {
   EMPTY_OBJ, ensure, EventChannel,
+  executeLogicByRenderType,
   getComponentsAlias, hooks, internalComponents,
   isArray, isFunction, isString, isUndefined, Shortcuts
 } from '@tarojs/shared'
@@ -149,14 +150,24 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       const mount = () => {
         Current.app!.mount!(component, $taroPath, () => {
-          pageElement = env.document.getElementById<TaroRootElement>($taroPath)
-
+          executeLogicByRenderType(() => {
+            pageElement = env.document.getElementById<TaroRootElement>($taroPath)
+          }, () => {
+            // tt 小程序 tt-dom
+            pageElement = (env.document as any).getPageDocumentById(
+              this.__webviewId__,
+            )
+          })
           ensure(pageElement !== null, '没有找到页面实例。')
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
           loadResolver()
           if (process.env.TARO_PLATFORM !== 'web') {
             pageElement.ctx = this
-            pageElement.performUpdate(true, cb)
+            executeLogicByRenderType(() => {
+              pageElement!.performUpdate(true, cb)
+            }, () => {
+              pageElement!.sync()
+            })
           } else {
             isFunction(cb) && cb()
           }
@@ -298,13 +309,24 @@ export function createComponentConfig (component: React.ComponentClass, componen
       const path = getPath(id, { id: this.pageIdCache })
 
       Current.app!.mount!(component, path, () => {
+        executeLogicByRenderType(() => {
+          componentElement =
+          env.document.getElementById<TaroRootElement>(path)
+        }, () => {
+          // tt 小程序使用 tt-dom
+          componentElement = env.document.getElementById(path)
+        })
         componentElement = env.document.getElementById<TaroRootElement>(path)
         ensure(componentElement !== null, '没有找到组件实例。')
         this.$taroInstances = instances.get(path)
         safeExecute(path, ON_LOAD)
         if (process.env.TARO_PLATFORM !== 'web') {
           componentElement.ctx = this
-          componentElement.performUpdate(true)
+          executeLogicByRenderType(() => {
+            componentElement!.performUpdate(true)
+          }, () => {
+            // noop
+          })
         }
       })
     },
@@ -341,24 +363,32 @@ export function createRecursiveComponentConfig (componentName?: string) {
   const lifeCycles = isCustomWrapper
     ? {
       [ATTACHED] () {
-        const componentId = this.data.i?.sid || this.props.i?.sid
-        if (isString(componentId)) {
-          customWrapperCache.set(componentId, this)
-          const el = env.document.getElementById(componentId)
-          if (el) {
-            el.ctx = this
+        executeLogicByRenderType(() => {
+          const componentId = this.data.i?.sid || this.props.i?.sid
+          if (isString(componentId)) {
+            customWrapperCache.set(componentId, this)
+            const el = env.document.getElementById(componentId)
+            if (el) {
+              el.ctx = this
+            }
           }
-        }
+        }, () => {
+          // noop
+        })
       },
       [DETACHED] () {
-        const componentId = this.data.i?.sid || this.props.i?.sid
-        if (isString(componentId)) {
-          customWrapperCache.delete(componentId)
-          const el = env.document.getElementById(componentId)
-          if (el) {
-            el.ctx = null
+        executeLogicByRenderType(() => {
+          const componentId = this.data.i?.sid || this.props.i?.sid
+          if (isString(componentId)) {
+            customWrapperCache.delete(componentId)
+            const el = env.document.getElementById(componentId)
+            if (el) {
+              el.ctx = null
+            }
           }
-        }
+        }, () => {
+        // noop
+        })
       }
     }
     : EMPTY_OBJ

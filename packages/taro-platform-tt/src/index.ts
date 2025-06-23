@@ -14,6 +14,7 @@ export default (ctx: IPluginContext) => {
     async fn ({ config }) {
       const extPages: string[] = []
       await ctx.modifyAppConfig(({ appConfig }) => {
+        appConfig.enableTTDom = true
         if (appConfig.pages) {
           appConfig.pages = appConfig.pages.map(page => {
             if (!page.startsWith('ext://')) {

@@ -61,6 +61,9 @@ export class TaroRootElement extends TaroElement {
 
   public ctx: null | MpInstance = null
 
+  // 强制发送指令接口
+  public sync = () => {}
+
   public constructor () {
     super()
     this.nodeName = ROOT_STR

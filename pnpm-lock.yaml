@@ -1036,6 +1036,8 @@ importers:
         specifier: 13.6.4
         version: 13.6.4(react-native@0.73.11(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(react@18.3.1))(react@18.3.1)
 
+  packages/taro-components/loader: {}
+
   packages/taro-extend:
     devDependencies:
       '@tarojs/runtime':
@@ -3029,6 +3031,121 @@ importers:
         specifier: ^5.10.0
         version: 5.10.0
 
+  tt-dom-examples/tt-dom-simple:
+    dependencies:
+      '@babel/runtime':
+        specifier: ^7.24.4
+        version: 7.27.0
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../../packages/taro-components
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../../packages/taro-helper
+      '@tarojs/plugin-framework-react':
+        specifier: workspace:*
+        version: link:../../packages/taro-framework-react
+      '@tarojs/plugin-platform-alipay':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-alipay
+      '@tarojs/plugin-platform-h5':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-h5
+      '@tarojs/plugin-platform-harmony-hybrid':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-harmony-hybrid
+      '@tarojs/plugin-platform-jd':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-jd
+      '@tarojs/plugin-platform-qq':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-qq
+      '@tarojs/plugin-platform-swan':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-swan
+      '@tarojs/plugin-platform-tt':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-tt
+      '@tarojs/plugin-platform-weapp':
+        specifier: workspace:*
+        version: link:../../packages/taro-platform-weapp
+      '@tarojs/react':
+        specifier: workspace:*
+        version: link:../../packages/taro-react
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../../packages/taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../../packages/taro
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@babel/core':
+        specifier: ^7.24.4
+        version: 7.26.10
+      '@babel/plugin-proposal-class-properties':
+        specifier: 7.14.5
+        version: 7.14.5(@babel/core@7.26.10)
+      '@babel/preset-react':
+        specifier: ^7.24.1
+        version: 7.26.3(@babel/core@7.26.10)
+      '@pmmmwh/react-refresh-webpack-plugin':
+        specifier: ^0.5.5
+        version: 0.5.16(@types/webpack@4.41.40)(react-refresh@0.14.2)(type-fest@4.39.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96)))(webpack@5.91.0(@swc/core@1.3.96))
+      '@tarojs/cli':
+        specifier: workspace:*
+        version: link:../../packages/taro-cli
+      '@tarojs/taro-loader':
+        specifier: workspace:*
+        version: link:../../packages/taro-loader
+      '@tarojs/webpack5-runner':
+        specifier: workspace:*
+        version: link:../../packages/taro-webpack5-runner
+      '@types/node':
+        specifier: ^18
+        version: 18.19.86
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.3.20
+      '@types/webpack-env':
+        specifier: ^1.13.6
+        version: 1.18.8
+      babel-preset-taro:
+        specifier: workspace:*
+        version: link:../../packages/babel-preset-taro
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.1
+      eslint-config-taro:
+        specifier: workspace:*
+        version: link:../../packages/eslint-config-taro
+      eslint-plugin-react:
+        specifier: ^7.34.1
+        version: 7.37.4(eslint@8.57.1)
+      eslint-plugin-react-hooks:
+        specifier: ^4.4.0
+        version: 4.6.2(eslint@8.57.1)
+      postcss:
+        specifier: ^8.4.38
+        version: 8.5.3
+      react-refresh:
+        specifier: ^0.14.0
+        version: 0.14.2
+      stylelint:
+        specifier: ^16.4.0
+        version: 16.10.0(typescript@5.4.5)
+      webpack:
+        specifier: 5.91.0
+        version: 5.91.0(@swc/core@1.3.96)
+
 packages:
 
   '@adobe/css-tools@4.3.3':
@@ -3235,6 +3352,13 @@ packages:
     resolution: {integrity: sha512-xMbiLsn/8RK7Wq7VeVytytS2L6qE69bXPB10YCmMdDZbKF4okCqY74pI/jJQ/8U0b/F6NrT2+14b8/P9/3AMGA==}
     engines: {node: '>=6.9.0'}
     deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+
+  '@babel/plugin-proposal-class-properties@7.14.5':
+    resolution: {integrity: sha512-q/PLpv5Ko4dVc1LYMpCY7RVAAO4uk55qPwrIuJ5QJ8c6cVuAmhu7I/49JOppXL6gXf7ZHzpRVEUZdYoPLM04Gg==}
+    engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -5301,6 +5425,32 @@ packages:
     resolution: {integrity: sha512-vsJDAkYR6qCPu+ioGScGiMYR7LvZYIXh/dlQeviqoTWNCVfKTLYD/LkNWH4Mxsv2a5vpIRc77FN5DnmK1eBggQ==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
+  '@pmmmwh/react-refresh-webpack-plugin@0.5.16':
+    resolution: {integrity: sha512-kLQc9xz6QIqd2oIYyXRUiAp79kGpFBm3fEM9ahfG1HI0WI5gdZ2OVHWdmZYnwODt7ISck+QuQ6sBPrtvUBML7Q==}
+    engines: {node: '>= 10.13'}
+    peerDependencies:
+      '@types/webpack': 4.x || 5.x
+      react-refresh: '>=0.10.0 <1.0.0'
+      sockjs-client: ^1.4.0
+      type-fest: '>=0.17.0 <5.0.0'
+      webpack: '>=4.43.0 <6.0.0'
+      webpack-dev-server: 3.x || 4.x || 5.x
+      webpack-hot-middleware: 2.x
+      webpack-plugin-serve: 0.x || 1.x
+    peerDependenciesMeta:
+      '@types/webpack':
+        optional: true
+      sockjs-client:
+        optional: true
+      type-fest:
+        optional: true
+      webpack-dev-server:
+        optional: true
+      webpack-hot-middleware:
+        optional: true
+      webpack-plugin-serve:
+        optional: true
+
   '@prefresh/babel-plugin@0.5.1':
     resolution: {integrity: sha512-uG3jGEAysxWoyG3XkYfjYHgaySFrSsaEb4GagLzYaxlydbuREtaX+FTxuIidp241RaLl85XoHg9Ej6E4+V1pcg==}
 
@@ -6701,6 +6851,9 @@ packages:
   '@types/webpack-dev-server@3.11.6':
     resolution: {integrity: sha512-XCph0RiiqFGetukCTC3KVnY1jwLcZ84illFRMbyFzCcWl90B/76ew0tSqF46oBhnLC4obNDG7dMO0JfTN0MgMQ==}
 
+  '@types/webpack-env@1.18.8':
+    resolution: {integrity: sha512-G9eAoJRMLjcvN4I08wB5I7YofOb/kaJNd5uoCMX+LbKXTPCF+ZIHuqTnFaK9Jz1rgs035f9JUPUhNFtqgucy/A==}
+
   '@types/webpack-sources@3.2.3':
     resolution: {integrity: sha512-4nZOdMwSPHZ4pTEZzSp0AsTM4K7Qmu40UKW4tJDiOVs20UzYF9l+qUe4s0ftfN0pin06n+5cWWDJXH+sbhAiDw==}
 
@@ -7212,6 +7365,11 @@ packages:
 
   ansi-html-community@0.0.8:
     resolution: {integrity: sha512-1APHAyr3+PCamwNw3bXCPp4HFLONZt/yIH0sZp0/469KWNTEy+qN5jQ3GVX6DMZ1UXAi34yVwtTeaG/HpBuuzw==}
+    engines: {'0': node >= 0.8.0}
+    hasBin: true
+
+  ansi-html@0.0.9:
+    resolution: {integrity: sha512-ozbS3LuenHVxNRh/wdnN16QapUHzauqSomAl1jwwJRRsGwFwtj644lIhxfWu0Fy0acCij2+AEgHvjscq3dlVXg==}
     engines: {'0': node >= 0.8.0}
     hasBin: true
 
@@ -16755,6 +16913,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@babel/plugin-proposal-class-properties@7.14.5(@babel/core@7.26.10)':
+    dependencies:
+      '@babel/core': 7.26.10
+      '@babel/helper-create-class-features-plugin': 7.27.0(@babel/core@7.26.10)
+      '@babel/helper-plugin-utils': 7.26.5
+    transitivePeerDependencies:
+      - supports-color
+
   '@babel/plugin-proposal-class-properties@7.18.6(@babel/core@7.26.10)':
     dependencies:
       '@babel/core': 7.26.10
@@ -19399,6 +19565,22 @@ snapshots:
 
   '@pkgr/core@0.2.0': {}
 
+  '@pmmmwh/react-refresh-webpack-plugin@0.5.16(@types/webpack@4.41.40)(react-refresh@0.14.2)(type-fest@4.39.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96)))(webpack@5.91.0(@swc/core@1.3.96))':
+    dependencies:
+      ansi-html: 0.0.9
+      core-js-pure: 3.41.0
+      error-stack-parser: 2.1.4
+      html-entities: 2.3.3
+      loader-utils: 2.0.4
+      react-refresh: 0.14.2
+      schema-utils: 4.3.0
+      source-map: 0.7.4
+      webpack: 5.91.0(@swc/core@1.3.96)
+    optionalDependencies:
+      '@types/webpack': 4.41.40
+      type-fest: 4.39.1
+      webpack-dev-server: 4.15.2(webpack@5.91.0(@swc/core@1.3.96))
+
   '@prefresh/babel-plugin@0.5.1': {}
 
   '@puppeteer/browsers@0.5.0(typescript@5.4.5)':
@@ -20943,6 +21125,8 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@types/webpack-env@1.18.8': {}
+
   '@types/webpack-sources@3.2.3':
     dependencies:
       '@types/node': 18.19.86
@@ -21655,6 +21839,8 @@ snapshots:
 
   ansi-html-community@0.0.8: {}
 
+  ansi-html@0.0.9: {}
+
   ansi-regex@3.0.1: {}
 
   ansi-regex@4.1.1: {}
@@ -22180,7 +22366,7 @@ snapshots:
   babel-preset-fbjs@3.4.0(@babel/core@7.26.10):
     dependencies:
       '@babel/core': 7.26.10
-      '@babel/plugin-proposal-class-properties': 7.18.6(@babel/core@7.26.10)
+      '@babel/plugin-proposal-class-properties': 7.14.5(@babel/core@7.26.10)
       '@babel/plugin-proposal-object-rest-spread': 7.20.7(@babel/core@7.26.10)
       '@babel/plugin-syntax-class-properties': 7.12.13(@babel/core@7.26.10)
       '@babel/plugin-syntax-flow': 7.26.0(@babel/core@7.26.10)
@@ -27633,7 +27819,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.26.10
       '@babel/parser': 7.27.0
-      '@babel/plugin-proposal-class-properties': 7.18.6(@babel/core@7.26.10)
+      '@babel/plugin-proposal-class-properties': 7.14.5(@babel/core@7.26.10)
       '@babel/plugin-proposal-nullish-coalescing-operator': 7.18.6(@babel/core@7.26.10)
       '@babel/plugin-proposal-optional-chaining': 7.21.0(@babel/core@7.26.10)
       '@babel/plugin-transform-modules-commonjs': 7.26.3(@babel/core@7.26.10)
@@ -27658,7 +27844,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.26.10
       '@babel/parser': 7.27.0
-      '@babel/plugin-proposal-class-properties': 7.18.6(@babel/core@7.26.10)
+      '@babel/plugin-proposal-class-properties': 7.14.5(@babel/core@7.26.10)
       '@babel/plugin-proposal-nullish-coalescing-operator': 7.18.6(@babel/core@7.26.10)
       '@babel/plugin-proposal-optional-chaining': 7.21.0(@babel/core@7.26.10)
       '@babel/plugin-transform-modules-commonjs': 7.26.3(@babel/core@7.26.10)
