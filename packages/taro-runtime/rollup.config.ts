@@ -30,7 +30,7 @@ const formats = [
 const configs: RollupOptions[] = []
 
 // 为每种格式创建 JS 和 DTS 配置
-formats.forEach((format) => {
+for (const format of formats) {
   // JS 配置
   configs.push({
     input: 'src/index.ts',
@@ -63,6 +63,6 @@ formats.forEach((format) => {
     output: dtsOutput,
     plugins: [dts()],
   })
-})
+}
 
 export default defineConfig(configs)
