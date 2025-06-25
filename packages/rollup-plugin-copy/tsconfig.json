@@ -5,8 +5,8 @@
     "esModuleInterop": true,
     "outDir": "dist",
     "rootDir": "./src",
-    "declaration": true
+    "declaration": true,
+    "module": "commonjs"
   },
-  "include": ["./src"],
-  "exclude": ["./src/__tests__"]
+  "include": ["./src"]
 }

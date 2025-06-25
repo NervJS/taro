@@ -1,6 +1,5 @@
 {
   "name": "@tarojs/components-library-react",
-  "type": "module",
   "version": "4.1.4-beta.0",
   "description": "Taro 组件库 React 版本库",
   "author": "O2Team",

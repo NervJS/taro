@@ -1,6 +1,5 @@
 {
   "name": "@tarojs/components-library-solid",
-  "type": "module",
   "version": "4.1.4-beta.0",
   "description": "Taro 组件库 Solid 版本库",
   "exports": {
