@@ -88,3 +88,5 @@ chrome
 
 .nx/cache
 .nx/workspace-data
+
+.github/instructions
