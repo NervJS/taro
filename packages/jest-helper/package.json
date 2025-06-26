@@ -5,7 +5,6 @@
   "private": true,
   "author": "O2Team",
   "license": "MIT",
-  "main": "index.js",
   "files": [
     "dist"
   ],

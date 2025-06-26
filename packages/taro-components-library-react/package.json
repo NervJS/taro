@@ -4,6 +4,7 @@
   "description": "Taro 组件库 React 版本库",
   "author": "O2Team",
   "license": "MIT",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
       "default": "./dist/index.js",
