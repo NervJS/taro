@@ -40,7 +40,7 @@ export async function updateConfig(ctx: IPluginContext) {
   const sourceCode = await fs.readFile(ctx.paths.configPath, { encoding: 'utf-8' })
 
   const ast = parser.parse(sourceCode, { sourceType: 'module', plugins: ['typescript'] })
-  insertBrowerlistEnv(ast)
+  insertBrowserlistEnv(ast)
   let miniUpdated = false
   let h5Updated = false
   traverse(ast, {
@@ -103,7 +103,7 @@ function modifyCompileConfig(config: t.ObjectExpression) {
  * 往配置文件中插入：
  * process.env.BROWSERSLIST_ENV = process.env.NODE_ENV
  */
-function insertBrowerlistEnv(ast: t.Node) {
+function insertBrowserlistEnv(ast: t.Node) {
   let hasEnv = false
   traverse(ast, {
     AssignmentExpression(path) {
