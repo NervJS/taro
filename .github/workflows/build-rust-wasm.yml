@@ -5,8 +5,6 @@ on:
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
     name: stable - wasm32-wasi
     runs-on: ubuntu-latest
     steps:
@@ -18,7 +16,7 @@ jobs:
           toolchain: stable
           targets: wasm32-wasip1
       - name: Cache cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry/index/
