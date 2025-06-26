@@ -1,16 +1,15 @@
 {
   "name": "@tarojs/plugin-framework-vue3",
-  "version": "4.1.1",
+  "version": "4.1.4-beta.0",
   "description": "Vue3 框架插件",
   "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro",
   "license": "MIT",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "keywords": [
     "taro"
   ],
   "files": [
-    "index.js",
     "dist"
   ],
   "repository": {
@@ -20,7 +19,9 @@
   "scripts": {
     "prod": "pnpm run build",
     "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+    "test": "vitest",
+    "test:ci": "vitest --coverage"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"

@@ -1,5 +1,5 @@
 /* eslint-disable no-labels */
-import Taro from '@tarojs/taro'
+import { nextTick } from '@tarojs/taro'
 
 import { getRectSizeSync } from '../../utils'
 import { Node } from './node'
@@ -167,7 +167,7 @@ export class Root extends StatefulEventBus<RootState, Events> {
    *
    */
   renderInitialLayout(i = 0) {
-    Taro.nextTick(() => {
+    nextTick(() => {
       const sectionSize = this.sections.length
 
       if (i >= sectionSize || i < 0) {

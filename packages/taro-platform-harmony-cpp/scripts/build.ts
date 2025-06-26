@@ -4,7 +4,7 @@ import path from 'node:path'
 import { chalk, fs } from '@tarojs/helper'
 
 import JDHarmony from '../src/program'
-import { CPP_LIBRARY_NAME, CPP_LIBRARY_PATH, fixBuildProfile, isDebug, PACKAGE_NAME, updateBuildProfile } from '../src/utils'
+import { CPP_LIBRARY_NAME, CPP_LIBRARY_PATH, fixBuildProfile, isDebug, PACKAGE_NAME, STATIC_FOLDER_NAME, updateBuildProfile } from '../src/utils'
 import { PKG_DEPENDENCIES, PKG_NAME, PKG_VERSION } from '../src/utils/constant'
 import { appPath, buildProfilePath, config, etsOutDir, hapName, libName, npmDir, outputRoot, workspaceRoot } from './constant'
 
@@ -66,6 +66,10 @@ process.on('exit', () => {
 
   if (isBuildHar) {
     try {
+      execSync(`which node & node -v`, {
+        cwd: path.resolve(workspaceRoot, libName),
+        stdio: 'inherit'
+      })
       console.log(`开始构建 ${chalk.yellow('har')} 包...`) // eslint-disable-line no-console
       execSync(`hvigorw assembleHar --mode module -p module=library@default -p product=default -p buildMode=${isDebug ? 'debug' : 'release'} --no-daemon --no-incremental`, {
         cwd: path.resolve(workspaceRoot, libName),
@@ -73,7 +77,7 @@ process.on('exit', () => {
       })
       console.log(`构建 ${chalk.yellow('har')} 包完成。`) // eslint-disable-line no-console
 
-      const harPath = path.resolve(workspaceRoot, 'static', `${PKG_NAME}-${PKG_VERSION}.har`)
+      const harPath = path.resolve(workspaceRoot, STATIC_FOLDER_NAME, `${PKG_NAME}-${PKG_VERSION}.har`)
       fs.emptyDirSync(path.dirname(harPath))
       fs.copyFileSync(
         path.resolve(outputRoot, 'build/default/outputs/default/library.har'),

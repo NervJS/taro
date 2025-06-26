@@ -1,5 +1,5 @@
-name: 功能请求 🚀
-description: 提出新特性
+name: 🚀 功能请求 Feature Request
+description: 提出新的功能特性
 title: "[Feat]: "
 labels:
   - triage
@@ -8,11 +8,10 @@ body:
   - type: checkboxes
     id: duplication
     attributes:
-      label: 请先搜索是否存在类似提交
+      label: 请先确认
       options:
-        - label: 我确定这个提交不是重复的
-    validations:
-      required: true
+        - label: 我已搜索并确定这个提交不是重复的
+          required: true
   - type: textarea
     id: feature
     attributes:

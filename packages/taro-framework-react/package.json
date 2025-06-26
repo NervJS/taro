@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-react",
-  "version": "4.1.1",
+  "version": "4.1.4-beta.0",
   "description": "React/Preact 框架插件",
   "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro",
@@ -45,8 +45,6 @@
     "@tarojs/service": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "webpack-chain": "^6.5.1",
-    "@types/react": "^18.2.79",
-    "@types/react-dom": "^18.2.25",
     "vite": "^4.2.0"
   },
   "peerDependencies": {
