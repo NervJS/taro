@@ -1,6 +1,7 @@
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import typescript from '@rollup/plugin-typescript'
 import externals from 'rollup-plugin-node-externals'
 
@@ -9,8 +10,11 @@ const cwd = path.dirname(__filename)
 
 const base = {
   plugins: [
-    externals(),
-    typescript(),
+    nodeResolve(),
+    externals({
+      peerDeps: true,
+    }),
+    typescript()
   ]
 }
 
@@ -28,7 +32,7 @@ const compileConfig = {
 
 // 供 Loader 使用的运行时入口
 const runtimeConfig = {
-  input: path.join(cwd, 'src/runtime/index.ts'),
+  input: path.join(cwd, 'src/runtime.ts'),
   output: {
     file: path.join(cwd, 'dist/runtime.js'),
     format: 'es',
@@ -37,16 +41,26 @@ const runtimeConfig = {
   ...base
 }
 
-// loader 入口
-const loaderConfig = {
-  input: path.join(cwd, 'src/api-loader.ts'),
+// 供继承的包使用，为了能 tree-shaking
+const runtimeUtilsConfig = {
+  input: path.join(cwd, 'src/runtime-utils.ts'),
   output: {
-    exports: 'auto',
-    file: path.join(cwd, 'dist/api-loader.js'),
-    format: 'cjs',
+    file: path.join(cwd, 'dist/runtime-utils.js'),
+    format: 'es',
     sourcemap: true
   },
   ...base
 }
 
-export default [compileConfig, runtimeConfig, loaderConfig]
+// React 下 webpack 会 alias @tarojs/components 为此文件
+const otherConfig = {
+  input: path.join(cwd, 'src/components-react.ts'),
+  output: {
+    file: path.join(cwd, 'dist/components-react.js'),
+    format: 'es',
+    sourcemap: true
+  },
+  ...base
+}
+
+export default [compileConfig, runtimeConfig, runtimeUtilsConfig, otherConfig]

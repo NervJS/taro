@@ -2,15 +2,11 @@
 
 我们非常欢迎社区的开发者向 Taro 做出贡献。在提交贡献之前，请花一些时间阅读以下内容，保证贡献是符合规范并且能帮助到社区。
 
-## 一、Issue 报告指南
-
-请遵循 [`Taro Issue Template`](https://taro-issue-pro.pf.jd.com/) 的指引创建 Bug Report 或 Feature Request 类 Issues。
-
-## 二、Pull Request 贡献指南
+## Pull Request 贡献指南
 
 ### 1. 环境准备
 
-> 需要安装 [Node.js 16](https://nodejs.org/en/)（建议安装 `16.20.0` 及以上版本）及 [pnpm 7](https://pnpm.io/zh/installation)
+> 需要安装 [Node.js 20](https://nodejs.org/en/)（建议安装 `20.19.2` 及以上版本）及 [pnpm 10](https://pnpm.io/zh/installation)
 
 首先把 Taro 仓库 fork 一份到自己的 Github，然后从个人仓库把项目 clone 到本地，项目默认是 `main` 分支。
 
@@ -36,7 +32,7 @@ Taro 由一系列子 npm 包组成，整体项目组织基于 **pnpm workspace**
 $ pnpm --filter [package-name] run dev
 ```
 
-开发过程中，一般会使用 **link** 的方式把需要调试的包软链到一个测试项目中，然后便可进行断点调试。开发者可以根据测试项目的包管理器以及自己的喜好选择使用 [npm link](https://docs.npmjs.com/cli/v7/commands/npm-link) 或 [yarn link](https://yarnpkg.com/cli/link)（推荐）或 [pnpm link](https://pnpm.io/zh/cli/link) 。
+开发过程中，一般会使用 **link** 的方式把需要调试的包软链到一个测试项目中，然后便可进行断点调试。开发者可以根据测试项目的包管理器以及自己的喜好选择使用 [npm link](https://docs.npmjs.com/cli/v11/commands/npm-link) 或 [yarn link](https://yarnpkg.com/cli/link)（推荐）或 [pnpm link](https://pnpm.io/zh/cli/link) 。
 
 **使用 `yarn link` 的具体示例如下：**
 
@@ -114,7 +110,7 @@ $ npm run clear-all
 
 **注意：**
 
-`@tarojs/webpack5-runner` 使用了 `snapshot`（测试结果快照）。在修改这两个包或其它一些包时，有可能导致这些快照失效，从而通过不了测试。当你修改了这两个包、或 Github CI 提示这些包的测试用例出错时，请运行 `pnpm --filter [package-name] runupdateSnapshot` 更新 snapshot 后重新提交。
+`@tarojs/webpack5-runner` 使用了 `snapshot`（测试结果快照）。在修改这两个包或其它一些包时，有可能导致这些快照失效，从而通过不了测试。当你修改了这两个包、或 Github CI 提示这些包的测试用例出错时，请运行 `pnpm --filter [package-name] run updateSnapshot` 更新 snapshot 后重新提交。
 
 ### 5. 代码风格
 
@@ -128,7 +124,7 @@ $ npm run clear-all
 
 ### 7. 提交 Pull Request
 
-> 如果对 PR（Pull Request）不了解，请阅读 [《About Pull Requests》](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
+> 如果对 PR（Pull Request）不了解，请阅读 [《关于拉取请求》](https://docs.github.com/zh/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
 
 完成开发后，推送到自己的 Taro 仓库，就可以准备提交 Pull Request 了。
 
@@ -208,8 +204,6 @@ $ cargo build -p [package-name]
 Cargo workspace 会把编译产物输出到根目录的 `target` 文件夹中。进行集成测试时，需要手动把 `.wasm` 产物软链到目标文件夹，而 Github CI 在正式发布时会自动拷贝产物到正确的文件夹中。
 
 如对 `@taorjs/helper` 进行集成测试时，会把 `target/wasm32-wasip1/release/swc_plugin_xxx.wasm` 文件的软链到 `packages/taro-helper/swc/swc_plugin_xxx.wasm`。
-
-#### 
 
 ## Credits
 
