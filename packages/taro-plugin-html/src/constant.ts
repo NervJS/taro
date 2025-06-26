@@ -115,9 +115,9 @@ export const specialElements = new Map<string, string | SpecialMaps>([
   }],
   ['button', {
     mapName: 'button',
-    mapAttr (key, value) {
+    mapAttr (key, value, props) {
       if (key === 'type' && (value === 'submit' || value === 'reset')) {
-        key = 'formType'
+        props.formType = value
       }
       return [key, value]
     }
