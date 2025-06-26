@@ -1,0 +1,9 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "@tarojs/components",
+  "targets": {
+    "prod": {
+      "outputs": ["{projectRoot}/dist", "{projectRoot}/loader"]
+    }
+  }
+}

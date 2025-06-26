@@ -7,7 +7,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noImplicitAny": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -18,7 +18,7 @@
     "strictNullChecks": true,
     "target": "ES2021"
   },
-  "include": ["./scripts", "./src", "./types", "./cpp/types", "./rollup.config.mts"],
+  "include": ["./scripts", "./src", "./types", "./cpp/types", "./rollup.config.ts"],
   "ts-node": {
     "compilerOptions": {
       "forceConsistentCasingInFileNames": true,

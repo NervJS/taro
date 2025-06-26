@@ -54,8 +54,8 @@ export default (ctx: IPluginContext) => {
           }
         }
         if (!semver.valid(targetTaroVersion)) {
-          console.log(chalk.red('命令错误:无效的 version ~'))
-          throw Error('无效的 version!')
+          console.log(chalk.red('命令错误：无效的 version！'))
+          throw Error('无效的 version！')
         }
         return targetTaroVersion
       }
@@ -94,7 +94,7 @@ export default (ctx: IPluginContext) => {
       /** 更新当前项目中的 Taro 相关依赖 */
       async function updateProject () {
         if (!configPath || !fs.existsSync(configPath)) {
-          console.log(chalk.red(`找不到项目配置文件 ${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
+          console.log(chalk.red(`找不到项目配置文件 ${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录！`))
           process.exit(1)
         }
         const packageMap = require(pkgPath)
@@ -118,7 +118,7 @@ export default (ctx: IPluginContext) => {
           }
         })
 
-        // 写入package.json
+        // 写入 package.json
         try {
           await fs.writeJson(pkgPath, packageMap, { spaces: '\t' })
           console.log(chalk.green(`项目当前 Taro 版本：${oldVersion}，Taro 最新版本：${version}，更新项目 package.json 成功！`))
@@ -169,7 +169,7 @@ export default (ctx: IPluginContext) => {
 
       if (updateType === 'project') return updateProject()
 
-      console.log(chalk.red('命令错误:'))
+      console.log(chalk.red('命令错误：'))
       console.log(`${chalk.green(
         'taro update self [version]')} 更新 Taro 开发工具 taro-cli 到指定版本或 Taro3 的最新版本`)
       console.log(`${chalk.green(

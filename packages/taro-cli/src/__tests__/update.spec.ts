@@ -215,7 +215,7 @@ describe('update', () => {
       })
     } catch (error) {} // eslint-disable-line no-empty
     expect(exitSpy).toBeCalledWith(1)
-    expect(chalkMocked).toBeCalledWith(`找不到项目配置文件 ${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`)
+    expect(chalkMocked).toBeCalledWith(`找不到项目配置文件 ${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录！`)
     exitSpy.mockRestore()
     logSpy.mockRestore()
   })
@@ -318,6 +318,57 @@ describe('update', () => {
       }
     })
     expect(execMocked).toBeCalledWith('cnpm install')
+
+    logSpy.mockRestore()
+  })
+
+  it('should log error message when version is invalid for self update', async () => {
+    const chalkMocked = (chalk.red as unknown) as jest.Mock<any>
+    const logSpy = jest.spyOn(console, 'log')
+
+    chalkMocked.mockReturnValue('命令错误：无效的 version！')
+    logSpy.mockImplementation(() => {})
+
+    try {
+      await runUpdate('', {
+        args: ['self', 'invalid-version'],
+        options: {
+          npm: 'npm',
+          disableGlobalConfig: true
+        }
+      })
+    } catch (error) {
+      // 期望抛出错误
+    }
+
+    expect(chalkMocked).toBeCalledWith('命令错误：无效的 version！')
+    expect(logSpy).toBeCalledWith('命令错误：无效的 version！')
+
+    logSpy.mockRestore()
+  })
+
+  it('should log error message when version is invalid for project update', async () => {
+    const appPath = path.resolve(__dirname, 'fixtures/default')
+    const chalkMocked = (chalk.red as unknown) as jest.Mock<any>
+    const logSpy = jest.spyOn(console, 'log')
+
+    chalkMocked.mockReturnValue('命令错误：无效的 version！')
+    logSpy.mockImplementation(() => {})
+
+    try {
+      await runUpdate(appPath, {
+        args: ['project', 'invalid-version'],
+        options: {
+          npm: 'npm',
+          disableGlobalConfig: true
+        }
+      })
+    } catch (error) {
+      // 期望抛出错误
+    }
+
+    expect(chalkMocked).toBeCalledWith('命令错误：无效的 version！')
+    expect(logSpy).toBeCalledWith('命令错误：无效的 version！')
 
     logSpy.mockRestore()
   })

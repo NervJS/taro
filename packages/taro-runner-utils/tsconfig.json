@@ -5,8 +5,7 @@
     "outDir": "dist",
     "rootDir": "./src",
     "module": "commonjs",
-    "declaration": true,
-    "declarationDir": "types"
+    "declaration": true
   },
   "include": ["./src"]
 }

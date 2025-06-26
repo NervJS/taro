@@ -30,7 +30,7 @@
     "dev": "pnpm run rollup -w",
     "ohpm-publish": "pnpm run tsx --files ./scripts/ohpm-publish",
     "remove:reference": "pnpm run tsx --files ./scripts/reference",
-    "rollup": "rollup --config rollup.config.mts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "tsx": "ts-node --skipIgnore"
   },
   "dependencies": {
@@ -49,10 +49,6 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-reconciler": "0.29.0",
-    "rollup": "^3.29.4",
-    "rollup-plugin-dts": "^6.1.1",
-    "rollup-plugin-node-externals": "^5.1.3",
-    "rollup-plugin-ts": "^3.4.5",
     "scheduler": "^0.23.2"
   },
   "devDependencies": {
@@ -66,12 +62,15 @@
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "@tarojs/vite-runner": "workspace:*",
-    "@types/node": "^18.19.34",
     "@types/conventional-commits-parser": "^3.0.0",
+    "@types/node": "^18.19.34",
     "conventional-commits-parser": "^3.0.0",
     "postcss": "^8.4.38",
     "prettier": "^2.8.8",
+    "rollup": "^3.29.4",
+    "rollup-plugin-node-externals": "^5.1.3",
     "rollup-plugin-copy": "workspace:*",
+    "rollup-plugin-dts": "^6.2.1",
     "solid-js": "^1.8.17",
     "terser": "^5.31.1",
     "ts-node": "^10.9.2",

@@ -35,6 +35,8 @@
     "@tarojs/taro": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/components": "workspace:*",
+    "@tarojs/components-library-react": "workspace:*",
+    "@tarojs/components-library-solid": "workspace:*",
     "@babel/runtime": "^7.24.4",
     "classnames": "^2.2.5",
     "swiper": "11.1.15",
