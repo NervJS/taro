@@ -24,7 +24,7 @@ jobs:
             ~/.cargo/git/db/
             .cargo-cache
             target/
-          key: wasm32-wasi-cargo-ubantu-latest
+          key: wasm32-wasi-cargo-ubuntu-latest
       - name: Build
         run: cargo build-swc-plugins
       - name: Upload artifact
