@@ -30,7 +30,7 @@
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@babel/code-frame": "^7.24.2",

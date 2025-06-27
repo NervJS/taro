@@ -40,7 +40,7 @@
     "weapp"
   ],
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@tarojs/binding": "workspace:*",

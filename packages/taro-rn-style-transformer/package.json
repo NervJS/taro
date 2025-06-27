@@ -27,7 +27,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@react-native/metro-babel-transformer": "^0.73.2",
