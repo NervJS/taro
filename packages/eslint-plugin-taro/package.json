@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-taro",
-  "version": "4.1.4-beta.4",
+  "version": "4.1.4-beta.5",
   "description": "Taro specific linting plugin for ESLint",
   "author": "O2Team",
   "license": "MIT",
