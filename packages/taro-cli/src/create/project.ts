@@ -43,7 +43,7 @@ export interface IProjectConf {
   hideDefaultTemplate?: boolean
   framework: FrameworkType
   compiler?: CompilerType
-  ask?: Function
+  ask?: (config: {}) => Promise<void> | void
 }
 
 type CustomPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
