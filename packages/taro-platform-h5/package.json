@@ -28,6 +28,7 @@
     "prod": "pnpm run build",
     "prebuild": "run-s clean generate:desc",
     "build": "pnpm run rollup --environment NODE_ENV:production",
+    "postbuild": "node scripts/post-build.mjs",
     "clean": "rimraf dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "generate:desc": "pnpm run tsx --files ./build/definition-json",
