@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "index.js",
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "peerDependencies": {
     "postcss": "^8"
