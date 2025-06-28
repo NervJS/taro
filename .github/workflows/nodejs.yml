@@ -52,10 +52,6 @@ jobs:
             host: macos-13
           - node-version: 20
             host: windows-latest
-          - node-version: 22
-            host: macos-13
-          - node-version: 22
-            host: windows-latest
 
     runs-on: ${{ matrix.host }}
     steps:
