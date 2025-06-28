@@ -55,7 +55,7 @@ export * from './open-data';
 export * from './page-container';
 export * from './page-meta';
 export * from './pan-gesture-handler';
-// export * from './picker';
+export * from './picker';
 export * from './picker-view';
 export * from './progress';
 export * from './pull-to-refresh';

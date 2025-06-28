@@ -1,2 +1,2 @@
 export * from './picker-group'
-export * from './picker'
+export { Picker, PickerDate, PickerText, PickerValue } from './picker'
