@@ -9,7 +9,7 @@ overrides:
 
 packageExtensionsChecksum: sha256-AuIa6PR4p5Z0pJEqWMMCCX2ocSg0i8x99nCU3C02q4M=
 
-pnpmfileChecksum: sha256-mYI6bRZewNyF23ild9F+kBHOlbRFqubVkmPGMgBlHj8=
+pnpmfileChecksum: sha256-1DOFWPxjuE6OZBagIpCC+G/pb5Y870aU0i7jkVV05NA=
 
 importers:
 
@@ -739,7 +739,7 @@ importers:
     dependencies:
       '@stencil/core':
         specifier: 2.22.3
-        version: 2.22.3
+        version: 2.22.3(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.5.1)(typescript@5.4.5))
       '@tarojs/components-advanced':
         specifier: workspace:*
         version: link:../taro-components-advanced
@@ -785,10 +785,10 @@ importers:
         version: 7.24.0
       '@stencil/react-output-target':
         specifier: 0.4.0
-        version: 0.4.0(@stencil/core@2.22.3)
+        version: 0.4.0(@stencil/core@2.22.3(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.5.1)(typescript@5.4.5)))
       '@stencil/vue-output-target':
         specifier: 0.7.0
-        version: 0.7.0(@stencil/core@2.22.3)
+        version: 0.7.0(@stencil/core@2.22.3(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.5.1)(typescript@5.4.5)))
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
@@ -20068,23 +20068,27 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 1.8.6
 
-  '@stencil/core@2.22.3':
+  '@stencil/core@2.22.3(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.5.1)(typescript@5.4.5))':
     dependencies:
+      jest: 27.5.1(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.5.1)(typescript@5.4.5))
+      jest-cli: 27.5.1(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.5.1)(typescript@5.4.5))
       jest-environment-node: 27.5.1
       jest-runner: 27.5.1
     transitivePeerDependencies:
       - bufferutil
       - canvas
+      - node-notifier
       - supports-color
+      - ts-node
       - utf-8-validate
 
-  '@stencil/react-output-target@0.4.0(@stencil/core@2.22.3)':
+  '@stencil/react-output-target@0.4.0(@stencil/core@2.22.3(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.5.1)(typescript@5.4.5)))':
     dependencies:
-      '@stencil/core': 2.22.3
+      '@stencil/core': 2.22.3(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.5.1)(typescript@5.4.5))
 
-  '@stencil/vue-output-target@0.7.0(@stencil/core@2.22.3)':
+  '@stencil/vue-output-target@0.7.0(@stencil/core@2.22.3(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.5.1)(typescript@5.4.5)))':
     dependencies:
-      '@stencil/core': 2.22.3
+      '@stencil/core': 2.22.3(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.5.1)(typescript@5.4.5))
 
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0(@babel/core@7.26.10)':
     dependencies:
