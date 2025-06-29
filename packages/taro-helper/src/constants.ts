@@ -2,23 +2,26 @@ import * as os from 'node:os'
 
 import { chalk } from './terminal'
 
+type ValueOf<T> = T[keyof T];
+
 // eslint-disable-next-line dot-notation
 export const PLATFORMS = (global['PLATFORMS'] = global['PLATFORMS'] || {})
 
-export const enum processTypeEnum {
-  START = 'start',
-  CREATE = 'create',
-  COMPILE = 'compile',
-  CONVERT = 'convert',
-  COPY = 'copy',
-  GENERATE = 'generate',
-  MODIFY = 'modify',
-  ERROR = 'error',
-  WARNING = 'warning',
-  UNLINK = 'unlink',
-  REFERENCE = 'reference',
-  REMIND = 'remind',
-}
+export const processTypeEnum = {
+  START: 'start',
+  CREATE: 'create',
+  COMPILE: 'compile',
+  CONVERT: 'convert',
+  COPY: 'copy',
+  GENERATE: 'generate',
+  MODIFY: 'modify',
+  ERROR: 'error',
+  WARNING: 'warning',
+  UNLINK: 'unlink',
+  REFERENCE: 'reference',
+  REMIND: 'remind',
+} as const
+export type processTypeEnum = ValueOf<typeof processTypeEnum>
 
 export interface IProcessTypeMap {
   [key: string]: {
@@ -197,15 +200,16 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/transformer-wx',
 ]
 
-export enum META_TYPE {
-  ENTRY = 'ENTRY',
-  PAGE = 'PAGE',
-  COMPONENT = 'COMPONENT',
-  NORMAL = 'NORMAL',
-  STATIC = 'STATIC',
-  CONFIG = 'CONFIG',
-  EXPORTS = 'EXPORTS',
-}
+export const META_TYPE = {
+  ENTRY: 'ENTRY',
+  PAGE: 'PAGE',
+  COMPONENT: 'COMPONENT',
+  NORMAL: 'NORMAL',
+  STATIC: 'STATIC',
+  CONFIG: 'CONFIG',
+  EXPORTS: 'EXPORTS',
+} as const
+export type META_TYPE = ValueOf<typeof META_TYPE>
 
 export const taroJsMiniComponentsPath = '@tarojs/components/mini'
 export const taroJsComponents = '@tarojs/components'
@@ -231,10 +235,11 @@ export const TEMP_DIR = '.temp'
 export const NPM_DIR = 'npm'
 export const ENTRY = 'app'
 
-export enum FRAMEWORK_MAP {
-  VUE3 = 'vue3',
-  REACT = 'react',
-  Solid = 'solid',
-}
+export const FRAMEWORK_MAP = {
+  VUE3: 'vue3',
+  REACT: 'react',
+  Solid: 'solid',
+} as const
+export type FRAMEWORK_MAP = ValueOf<typeof FRAMEWORK_MAP>
 
 export const defaultMainFields = ['browser', 'module', 'jsnext:main', 'main']

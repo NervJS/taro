@@ -321,7 +321,7 @@ describe('template.ts', () => {
         parseWXML(dirPath, wxml)
         expect(spy).toHaveBeenCalledTimes(1)
         expect(spy.mock.calls[0][0]).toMatchInlineSnapshot(
-          `标签: <include src="../../template/template"> 没有自动关闭。形如：<include src="../../template/template" /> 才是标准的 wxml 格式。`
+          `标签：<include src="../../template/template"> 没有自动关闭。形如：<include src="../../template/template" /> 才是标准的 wxml 格式。`
         )
       })
     })

@@ -1,16 +1,19 @@
 import { parseUrl } from '../bom/URL'
 import { TaroElement } from './element'
 
-const enum AnchorElementAttrs {
-  HREF = 'href',
-  PROTOCOL = 'protocol',
-  HOST = 'host',
-  SEARCH = 'search',
-  HASH = 'hash',
-  HOSTNAME = 'hostname',
-  PORT = 'port',
-  PATHNAME = 'pathname'
-}
+import type { ValueOf } from '@tarojs/shared'
+
+const AnchorElementAttrs = {
+  HREF: 'href',
+  PROTOCOL: 'protocol',
+  HOST: 'host',
+  SEARCH: 'search',
+  HASH: 'hash',
+  HOSTNAME: 'hostname',
+  PORT: 'port',
+  PATHNAME: 'pathname'
+} as const
+export type AnchorElementAttrs = ValueOf<typeof AnchorElementAttrs>
 
 export class AnchorElement extends TaroElement {
   public get href () {

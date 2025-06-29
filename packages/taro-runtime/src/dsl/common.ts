@@ -172,7 +172,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
       if (process.env.TARO_PLATFORM !== 'web') {
-        taroWindowProvider.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
+        taroWindowProvider.trigger(CONTEXT_ACTIONS.DESTROY, $taroPath)
       }
       // 触发onUnload生命周期
       safeExecute($taroPath, ONUNLOAD)

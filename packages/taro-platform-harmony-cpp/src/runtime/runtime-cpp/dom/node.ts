@@ -1,4 +1,4 @@
-import { isString } from '@tarojs/shared'
+import { type ValueOf, isString } from '@tarojs/shared'
 
 import { TaroNativeModule } from '../harmony-library'
 import { printInfo, runInDebug } from '../utils/info'
@@ -14,18 +14,19 @@ const registry = new FinalizationRegistry((val) => {
   })
 })
 
-export enum NodeType {
-  ELEMENT_NODE = 1,
-  ATTRIBUTE_NODE = 2,
-  TEXT_NODE = 3,
-  CDATA_SECTION_NODE = 4,
-  ENTITY_REFERENCE_NODE = 5,
-  PROCESSING_INSTRUCTION_NODE = 7,
-  COMMENT_NODE = 8,
-  DOCUMENT_NODE = 9,
-  DOCUMENT_TYPE_NODE = 10,
-  DOCUMENT_FRAGMENT_NODE = 11
-}
+// https://developer.mozilla.org/zh-CN/docs/Web/API/Node/nodeType
+export const NodeType = {
+  ELEMENT_NODE: 1,
+  ATTRIBUTE_NODE: 2,
+  TEXT_NODE: 3,
+  CDATA_SECTION_NODE: 4,
+  PROCESSING_INSTRUCTION_NODE: 7,
+  COMMENT_NODE: 8,
+  DOCUMENT_NODE: 9,
+  DOCUMENT_TYPE_NODE: 10,
+  DOCUMENT_FRAGMENT_NODE: 11,
+} as const
+export type NodeType = ValueOf<typeof NodeType>;
 
 let _id = 0
 function genId (): number {
@@ -50,7 +51,7 @@ export class TaroNode extends TaroEventTarget {
   // 以下属性为原生混写组件才有意义的属性
   public _nativeUpdateTrigger = 0
 
-  constructor(nodeName: string, nodeType = NodeType.ELEMENT_NODE) {
+  constructor(nodeName: string, nodeType: NodeType = NodeType.ELEMENT_NODE) {
     super()
 
     this.nodeType = nodeType
@@ -66,7 +67,7 @@ export class TaroNode extends TaroEventTarget {
     return +id.slice(2)
   }
 
-  // 提供唯一标识，方便与小程序一致，能根据uid获取到对应的节点
+  // 提供唯一标识，方便与小程序一致，能根据 uid 获取到对应的节点
   public get uid (): string {
     return `${this._nid}`
   }

@@ -54,12 +54,13 @@ const deviceRatio = {
   828: 1.81 / 2
 }
 
-const enum ProcessTypes {
-  POSTCSS = 'postcss',
-  SASS = 'sass',
-  LESS = 'less',
-  STYLUS = 'stylus',
-}
+const ProcessTypes = {
+  POSTCSS: 'postcss',
+  SASS: 'sass',
+  LESS: 'less',
+  STYLUS: 'stylus',
+} as const
+type ProcessTypes = typeof ProcessTypes[keyof typeof ProcessTypes]
 
 const DEFAULT_RN_CONFIG = {
   [ProcessTypes.POSTCSS]: {
@@ -154,7 +155,7 @@ export default class StyleTransform {
   }
 
   /**
-   * postcss处理
+   * postcss 处理
    * @param param0 PostcssParam
    * @returns {Promise | any}
    */
