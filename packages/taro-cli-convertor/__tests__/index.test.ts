@@ -1,6 +1,6 @@
 import * as path from 'node:path'
 
-import * as taroize from '@tarojs/taroize'
+import taroize from '@tarojs/taroize'
 
 import Convertor from '../src/index'
 import { setMockFiles, updateMockFiles } from './__mocks__/fs-extra'
@@ -30,13 +30,13 @@ describe('parseAst', () => {
   beforeEach(() => {
     const entryJSON = { pages: ['pages/index/index'] }
     /**
-     * json：index.json的内容
-     * path：index的根目录（文件路径)
+     * json：index.json 的内容
+     * path：index 的根目录（文件路径)
      * rootPath：小程序的根目录（文件路径）
-     * script：index.js的内容
-     * scriptPath：index.js的绝对路径
-     * wxml：index.html的内容
-     * logFilePath：convert.log的文件路径
+     * script：index.js 的内容
+     * scriptPath：index.js 的绝对路径
+     * wxml：index.html 的内容
+     * logFilePath：convert.log 的文件路径
      */
     param = {
       json: '{}',
@@ -50,7 +50,7 @@ describe('parseAst', () => {
 
     jest.spyOn(Convertor.prototype, 'init').mockImplementation(() => {})
 
-    // new Convertot后会直接执行 init()，为确保 init() 在测试中通过采用 spyOn 去模拟
+    // new Convertot 后会直接执行 init()，为确保 init() 在测试中通过采用 spyOn 去模拟
     jest.spyOn(Convertor.prototype, 'getApp').mockImplementation(() => {
       Convertor.prototype.entryJSON = entryJSON
     })
@@ -66,7 +66,7 @@ describe('parseAst', () => {
     jest.restoreAllMocks()
   })
 
-  test('当使用e.target.dataset时引入工具函数 getTarget', () => {
+  test('当使用 e.target.dataset 时引入工具函数 getTarget', () => {
     param.script = `
       app.createPage({
         data:{
@@ -97,13 +97,13 @@ describe('parseAst', () => {
     `
 
     param.wxml = `
-      <view>测试data-xxx-xxx写法</view>
+      <view>测试 data-xxx-xxx 写法</view>
       <button data-tag-name="WX1314" data-tag-data="{{ tagInfo }}" bindtap="getMsg">获取</button>
-      <view>测试data-xxxXxxx 驼峰写法</view>
+      <view>测试 data-xxxXxxx 驼峰写法</view>
       <button data-tagName="WX1314" data-tagData="{{ tagInfo }}" bindtap="getMsg02">获取</button>
       `
 
-    // 解析wxml的时候有缓存，需保证test的path唯一
+    // 解析 wxml 的时候有缓存，需保证 test 的 path 唯一
     param.path = 'e_target_dataset'
     const taroizeResult = taroize({
       ...param,
@@ -119,21 +119,21 @@ describe('parseAst', () => {
       imports: [],
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })
 
-  // 测试require
-  // 场景1：require引用为空
-  test('require引用为空', () => {
+  // 测试 require
+  // 场景 1：require 引用为空
+  test('require 引用为空', () => {
     param.script = `const aa = require()`
     param.wxml = ''
 
-    // 解析wxml的时候有缓存，需保证test的path唯一
+    // 解析 wxml 的时候有缓存，需保证 test 的 path 唯一
     param.path = 'require'
 
-    // 转换页面js脚本
+    // 转换页面 js 脚本
     const taroizeResult = taroize({
       ...param,
       framework: 'react',
@@ -148,17 +148,17 @@ describe('parseAst', () => {
       imports: [],
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })
 
-  // 场景1：require引用包含变量
-  test('require引用包含变量', () => {
+  // 场景 1：require 引用包含变量
+  test('require 引用包含变量', () => {
     param.script = `const aa = require('aa' + aa)`
     param.wxml = ''
 
-    // 转换页面js脚本
+    // 转换页面 js 脚本
     const taroizeResult = taroize({
       ...param,
       framework: 'react',
@@ -177,7 +177,7 @@ describe('parseAst', () => {
   })
 
   // 测试数据添加可选链操作符
-  test('为data数据添加可选链操作符', () => {
+  test('为 data 数据添加可选链操作符', () => {
     param.script = `
       Page({
         data: {
@@ -202,7 +202,7 @@ describe('parseAst', () => {
     `
     param.path = 'data_optional'
 
-    // 转换页面js脚本
+    // 转换页面 js 脚本
     const taroizeResult = taroize({
       ...param,
       framework: 'react',
@@ -217,12 +217,12 @@ describe('parseAst', () => {
       imports: [],
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })
 
-  test('为setData数据添加可选链操作符', () => {
+  test('为 setData 数据添加可选链操作符', () => {
     param.script = `
       Page({
         onLoad() {
@@ -252,7 +252,7 @@ describe('parseAst', () => {
     `
     param.path = 'setdata_optional'
 
-    // 转换页面js脚本
+    // 转换页面 js 脚本
     const taroizeResult = taroize({
       ...param,
       framework: 'react',
@@ -267,14 +267,14 @@ describe('parseAst', () => {
       imports: [],
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })
 
   // 按需导入
   test('自定义组件按需导入', () => {
-    // 构造导入的组件集合depComponents
+    // 构造导入的组件集合 depComponents
     const depComponents = new Set([
       {
         name: 'component-a',
@@ -311,13 +311,13 @@ describe('parseAst', () => {
       imports: [],
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })
 
   test('模板按需导入', () => {
-    // index使用模板A，imports传回模板A、B、C
+    // index 使用模板 A，imports 传回模板 A、B、C
     param.script = ``
     param.wxml = `
       <template is="template-a" />
@@ -328,7 +328,7 @@ describe('parseAst', () => {
       ...param,
       framework: 'react',
     })
-    // 按照实际情况，构造imports
+    // 按照实际情况，构造 imports
     const imports = [
       {
         ast: { type: 'File', program: [Object], comments: null, tokens: null },
@@ -353,12 +353,12 @@ describe('parseAst', () => {
       imports,
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })
 
-  test('转换后模块名重名时，为导入的组件模块名添加Component后缀，以示区分', () => {
+  test('转换后模块名重名时，为导入的组件模块名添加 Component 后缀，以示区分', () => {
     const COMPONENT_IMPORT = {
       '/pages/index/index.js': `
         import Jstest from '../../components/test.js'
@@ -396,7 +396,7 @@ describe('parseAst', () => {
       <Mymodule></Mymodule>
       <Mymodules></Mymodules>
     `
-    // 转换页面js脚本
+    // 转换页面 js 脚本
     const taroizeResult = taroize({
       ...param,
       framework: 'react',
@@ -425,7 +425,7 @@ describe('parseAst', () => {
       imports: [],
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })
@@ -458,12 +458,12 @@ describe('parseAst', () => {
       imports: [],
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })
 
-  test('模板中使用function', () => {
+  test('模板中使用 function', () => {
     const TEMPLATE_FUNCTION = {
       '/pages/index/index.wxml': `
         <import src="/template/item"/>
@@ -517,7 +517,7 @@ describe('parseAst', () => {
     expect(jsCode).toMatchSnapshot()
   })
 
-  test('处理js文件中以/开头的绝对路径', () => {
+  test('处理 js 文件中以/开头的绝对路径', () => {
     const DEMO_ABSOLUTE = {
       '/pages/index/index.js': `
         const { add } = require('/add')
@@ -553,12 +553,12 @@ describe('parseAst', () => {
       imports: [],
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })
 
-  test('处理js文件中非正常路径，比如 a/b', () => {
+  test('处理 js 文件中非正常路径，比如 a/b', () => {
     const DEMO_ABSOLUTE = {
       '/pages/index/index.js': `
         const { add } = require('add')
@@ -594,7 +594,7 @@ describe('parseAst', () => {
       imports: [],
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })
@@ -633,7 +633,7 @@ describe('parseAst', () => {
         }
       `,
     }
-    // 为app.json配置resolveAlias配置项
+    // 为 app.json 配置 resolveAlias 配置项
     convert.entryJSON = {
       pages: ['pages/index/index'],
       resolveAlias: {
@@ -669,7 +669,7 @@ describe('parseAst', () => {
       imports: [],
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })

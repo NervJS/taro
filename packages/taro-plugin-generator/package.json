@@ -1,0 +1,50 @@
+{
+  "name": "@tarojs/plugin-generator",
+  "version": "4.1.4-beta.4",
+  "description": "Taro 生成器插件",
+  "keywords": [
+    "Taro",
+    "Plugin"
+  ],
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "homepage": "",
+  "files": [
+    "dist"
+  ],
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "prod": "pnpm run build",
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "dependencies": {
+    "@babel/generator": "7.24.4",
+    "@babel/parser": "7.24.4",
+    "@babel/traverse": "7.24.1",
+    "@babel/types": "7.24.0",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "dedent": "^1.6.0",
+    "inquirer": "^8.2.6",
+    "ts-morph": "^26.0.0"
+  },
+  "devDependencies": {
+    "@types/babel__generator": "^7.6.8",
+    "@types/babel__traverse": "^7.20.5",
+    "@types/inquirer": "^8.2.1",
+    "typescript": "~5.4.5"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/transformer-wx",
-  "version": "4.1.3-alpha.1",
-  "description": "Transfrom Nerv Component to Wechat mini program.",
+  "version": "4.1.4-beta.4",
+  "description": "Transform Nerv Component to Wechat mini program.",
   "author": "O2Team",
   "license": "MIT",
   "repository": {
@@ -12,11 +12,8 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "files": [
-    "index.js",
-    "lib",
-    "cli.js",
     "dist"
   ],
   "scripts": {
@@ -30,7 +27,7 @@
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@babel/code-frame": "^7.24.2",

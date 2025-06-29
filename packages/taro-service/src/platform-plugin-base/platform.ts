@@ -63,6 +63,10 @@ export default abstract class TaroPlatform<T extends TConfig = TConfig> {
     }
   }
 
+  public getConfig() {
+    return this.config
+  }
+
   protected emptyOutputDir (excludes: Array<string | RegExp> = []) {
     const { outputPath } = this.ctx.paths
     this.helper.emptyDirectory(outputPath, { excludes })

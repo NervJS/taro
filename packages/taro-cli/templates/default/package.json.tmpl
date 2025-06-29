@@ -10,6 +10,7 @@
     "framework": "{{ framework }}"
   },
   "scripts": {
+    "new": "taro new",
     "build:weapp": "taro build --type weapp",
     "build:swan": "taro build --type swan",
     "build:alipay": "taro build --type alipay",
@@ -81,6 +82,7 @@
     "@types/react": "^18.0.0",{{/if}}{{#if (eq compiler "Webpack5") }}
     "webpack": "5.91.0",
     "@tarojs/taro-loader": "{{ version }}",
+    "@tarojs/plugin-generator": "{{ version }}",
     "@tarojs/webpack5-runner": "{{ version }}",{{/if}}{{#if (eq css "Sass") }}
     "sass": "^1.75.0",{{/if}}{{#if (eq css "Less") }}
     "less": "^4.2.0",{{/if}}{{#if (eq css "Stylus") }}
@@ -107,7 +109,7 @@
     "typescript": "^5.4.5",
     "tsconfig-paths-webpack-plugin": "^4.1.0"{{/if}},
     "postcss": "^8.4.38",
-    "@types/node": "^18"
+    "@types/node": "^20"
   }{{/if}}{{#if (eq compiler "Vite") }}
   "devDependencies": {
     "@babel/core": "^7.24.4",

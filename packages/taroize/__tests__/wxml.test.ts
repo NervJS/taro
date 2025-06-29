@@ -1,6 +1,6 @@
 import * as t from '@babel/types'
 
-import { parse } from '../src'
+import parse from '../src'
 import { convertStyleUnit, IContext, parseContent, parseStyle, parseWXML } from '../src/wxml'
 import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
 
@@ -26,10 +26,10 @@ const option: any = {
   isApp: false,
 }
 
-describe('wxml语法', () => {
-  test('当wxml 是 undefined', () => {
+describe('wxml 语法', () => {
+  test('当 wxml 是 undefined', () => {
     option.wxml = undefined
-    //  parseWXML会先获取缓存，所有每个用例的path需要保持其唯一性
+    //  parseWXML 会先获取缓存，所有每个用例的 path 需要保持其唯一性
     option.path = 'wxml_undefined'
     const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)
     expect(wxml?.type).toBe('NullLiteral')
@@ -40,15 +40,15 @@ describe('wxml语法', () => {
 
   test('wxml 简单应用', () => {
     option.wxml = `<view>Hello Word!</view>`
-    //  parseWXML会先获取缓存，所有每个用例的path需要保持其唯一性
+    //  parseWXML 会先获取缓存，所有每个用例的 path 需要保持其唯一性
     option.path = 'wxml__'
     const { wxml } = parseWXML(option.path, option.wxml)
-    // wxml转为ast
+    // wxml 转为 ast
     expect(wxml).toBeTruthy()
     expect(wxml?.type).toBe('JSXElement')
   })
 
-  test('wxml数据绑定', () => {
+  test('wxml 数据绑定', () => {
     option.wxml = `<view>{{data}}</view>`
     option.path = 'wxml_message'
     const { wxml }: any = parseWXML(option.path, option.wxml)
@@ -72,8 +72,8 @@ describe('wxml语法', () => {
     expect(wxmlCode).toBe(`<View id={"item-" + id}></View>`)
   })
 
-  test('属性值为关键字(需要在双引号之内)', () => {
-    // false关键字为 boolean
+  test('属性值为关键字 (需要在双引号之内)', () => {
+    // false 关键字为 boolean
     option.wxml = `<checkbox checked="{{false}}"></checkbox>`
     option.path = 'wxml_keywords'
     const { wxml }: any = parseWXML(option.path, option.wxml)
@@ -109,7 +109,7 @@ describe('wxml语法', () => {
     expect(wxmlCode).toMatchSnapshot()
   })
 
-  test('wx:key="index"会转换成key="index"', () => {
+  test('wx:key="index"会转换成 key="index"', () => {
     option.wxml = `<view wx:key="index" wx:for="{{data}}">
                     <text>{{item.name}}</text>
                   </view>`
@@ -131,9 +131,9 @@ describe('wxml语法', () => {
     expect(wxmlCode).toBe(`length > 5 ? <View>1</View> : length > 2 ? <View>2</View> : <View>3</View>`)
   })
 
-  test('使用wx:if替换wx:show属性', () => {
+  test('使用 wx:if 替换 wx:show 属性', () => {
     option.wxml = `<view wx:show="{{isShow}}">
-                    测试使用wx:if替换wx:show属性
+                    测试使用 wx:if 替换 wx:show 属性
                   </view>`
     option.path = 'wxml_show'
     const { wxml }: any = parseWXML(option.path, option.wxml)
@@ -141,7 +141,7 @@ describe('wxml语法', () => {
     expect(wxmlCode).toMatchSnapshot()
   })
 
-  test('wxml中class不支持数组写法', () => {
+  test('wxml 中 class 不支持数组写法', () => {
     option.wxml = `<view class="[1,2,3]"></view>`
     option.path = 'wxml_unsupported_classArray'
     const { wxml }: any = parseWXML(option.path, option.wxml)
@@ -150,7 +150,7 @@ describe('wxml语法', () => {
   })
 })
 
-describe('slot插槽', () => {
+describe('slot 插槽', () => {
   test('匿名插槽', () => {
     /**
      * 插槽模板
@@ -167,20 +167,20 @@ describe('slot插槽', () => {
     expect(slotWxmlCode).toBe(`<View className="wrapper"><View>这里是组件的内部节点</View>{this.props.children}</View>`)
 
     /**
-     * wxml页面内容
+     * wxml 页面内容
      * 检测插槽组件是否引入需在 taro-cli-convertor 中
      */
     option.wxml = `
       <view>
         <slot-component>
-          <view>插入slot的内容</view>
+          <view>插入 slot 的内容</view>
         </slot-component>
       </view>
     `
     option.path = 'anonymity_wxml_slot'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toBe('<View><SlotComponent><View>插入slot的内容</View></SlotComponent></View>')
+    expect(wxmlCode).toBe('<View><SlotComponent><View>插入 slot 的内容</View></SlotComponent></View>')
   })
 
   test('具名插槽', () => {
@@ -202,14 +202,14 @@ describe('slot插槽', () => {
     )
 
     /**
-     * wxml页面内容
+     * wxml 页面内容
      * 检测插槽组件是否引入需在 taro-cli-convertor 中
      */
     option.wxml = `
       <view>
         <slot-component>
-          <view slot="before">这里是插入到组件slot name="before"中的内容</view>
-          <view slot="after">这里是插入到组件slot name="after"中的内容</view>
+          <view slot="before">这里是插入到组件 slot name="before"中的内容</view>
+          <view slot="after">这里是插入到组件 slot name="after"中的内容</view>
         </slot-component>
       </view>
     `
@@ -217,16 +217,16 @@ describe('slot插槽', () => {
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
     expect(wxmlCode).toBe(
-      `<View><SlotComponent renderBefore={<Block><View>这里是插入到组件slot name="before"中的内容</View></Block>} renderAfter={<Block><View>这里是插入到组件slot name="after"中的内容</View></Block>}></SlotComponent></View>`
+      `<View><SlotComponent renderBefore={<Block><View>这里是插入到组件 slot name="before"中的内容</View></Block>} renderAfter={<Block><View>这里是插入到组件 slot name="after"中的内容</View></Block>}></SlotComponent></View>`
     )
   })
 
-  test('当元素设置slot属性且值为空串时，移除slot属性', () => {
+  test('当元素设置 slot 属性且值为空串时，移除 slot 属性', () => {
     option.wxml = `
       <view>
         <slot-component>
-          <view slot="">这里是插入到组件slot name="before"中的内容</view>
-          <view slot="after">这里是插入到组件slot name="after"中的内容</view>
+          <view slot="">这里是插入到组件 slot name="before"中的内容</view>
+          <view slot="after">这里是插入到组件 slot name="after"中的内容</view>
         </slot-component>
       </view>
     `
@@ -236,7 +236,7 @@ describe('slot插槽', () => {
     expect(slotWxmlCode).toMatchSnapshot()
   })
 
-  test('slot的值为非字符串', () => {
+  test('slot 的值为非字符串', () => {
     option.wxml = `
       <view class="wrapper">
         <slot name="{{123}}"></slot>
@@ -251,9 +251,9 @@ describe('slot插槽', () => {
 
 describe('wxs', () => {
   /**
-   *  关于外部wxs文件的转换在taro-cli-convertor包中
+   *  关于外部 wxs 文件的转换在 taro-cli-convertor 包中
    */
-  test('在页面中引入外部wxs，转换情况', () => {
+  test('在页面中引入外部 wxs，转换情况', () => {
     /**
      const wxs = `
         var foo = "'hello world' from comm.wxs";
@@ -278,7 +278,7 @@ describe('wxs', () => {
     expect(code).toMatchSnapshot()
   })
 
-  test('页面中使用wxs', () => {
+  test('页面中使用 wxs', () => {
     option.wxml = `
       <wxs module="wxs_demo">
         module.exports = {
@@ -288,7 +288,7 @@ describe('wxs', () => {
       <view>Hello Word!</view>
       <view>{{wxs_demo.data}}</view>
     `
-    //  parseWXML会先获取缓存，所有每个用例的path需要保持其唯一性
+    //  parseWXML 会先获取缓存，所有每个用例的 path 需要保持其唯一性
     option.path = 'wxml_wxs'
     const { wxml, wxses, imports }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
@@ -298,7 +298,7 @@ describe('wxs', () => {
     expect(importsCode).toMatchSnapshot()
   })
 
-  test('wxs中 单行注释', () => {
+  test('wxs 中 单行注释', () => {
     option.wxml = `
       <wxs module="wxs_test">
         module.exports = {
@@ -356,13 +356,13 @@ describe('wxs', () => {
     expect(() => parseWXML(option.path, option.wxml)).toThrowError('wxs 标签的属性值不得为空')
   })
 
-  test('wxs 没有src属性且内部无代码', () => {
+  test('wxs 没有 src 属性且内部无代码', () => {
     option.wxml = `<wxs module="wxs_no_code"></wxs>`
     option.path = 'wxs_no_code'
     expect(() => parseWXML(option.path, option.wxml)).toThrowError('wxs 如果没有 src 属性，标签内部必须有 wxs 代码。')
   })
 
-  test('wxs模块中的var regexp = getRegExp()转换为var regexp = new RegExp()', () => {
+  test('wxs 模块中的 var regexp = getRegExp() 转换为 var regexp = new RegExp()', () => {
     option.wxml = `
       <wxs module="wxs_regexp">
         var regexp = getRegExp()
@@ -375,7 +375,7 @@ describe('wxs', () => {
     expect(importsCode).toBe('var regexp = new RegExp();')
   })
 
-  test('getRegExp()只有一个参数', () => {
+  test('getRegExp() 只有一个参数', () => {
     // 参数为变量
     option.wxml = `
       <wxs module="wxs_getRegExp">
@@ -403,7 +403,7 @@ describe('wxs', () => {
     expect(() => parseWXML(option.path, option.wxml)).toThrowError('getRegExp 函数暂不支持传入非字符串类型的参数')
   })
 
-  test('getRegExp()有两个参数', () => {
+  test('getRegExp() 有两个参数', () => {
     // 参数为变量
     option.wxml = `
       <wxs module="wxs_getRegExp">
@@ -431,7 +431,7 @@ describe('wxs', () => {
     expect(() => parseWXML(option.path, option.wxml)).toThrowError('getRegExp 函数暂不支持传入非字符串类型的参数')
   })
 
-  test('wxs标签中的getDate()转换为new Date()', () => {
+  test('wxs 标签中的 getDate() 转换为 new Date()', () => {
     option.wxml = `
       <wxs module="wxs_getDate">
         module.exports = {
@@ -451,8 +451,8 @@ describe('wxs', () => {
   })
 })
 
-describe('解析wxs中创建正则表达式方法的转换', () => {
-  test('定义了正则表达式的修饰符,则使用自定义修饰符', () => {
+describe('解析 wxs 中创建正则表达式方法的转换', () => {
+  test('定义了正则表达式的修饰符，则使用自定义修饰符', () => {
     option.wxml = `
     <wxs module="xxxfile">
       var a = getRegExp('jzy123','img')
@@ -468,7 +468,7 @@ describe('解析wxs中创建正则表达式方法的转换', () => {
     expect(importsCode).toMatchSnapshot()
   })
 
-  test('没有定义了正则表达式的修饰符,就不添加修饰符使用默认', () => {
+  test('没有定义了正则表达式的修饰符，就不添加修饰符使用默认', () => {
     option.wxml = `
     <wxs module="xxxfile">
       var a = getRegExp('jzy123')
@@ -486,7 +486,7 @@ describe('解析wxs中创建正则表达式方法的转换', () => {
 })
 
 describe('组件', () => {
-  test('wxml中image的mode=""会转换成mode', () => {
+  test('wxml 中 image 的 mode=""会转换成 mode', () => {
     option.wxml = `<image class="img" src="{{imgSrc}}" mode=""></image>`
     option.path = 'wxml_mode'
     const { wxml }: any = parseWXML(option.path, option.wxml)
@@ -494,17 +494,17 @@ describe('组件', () => {
     expect(wxmlCode).toBe(`<Image className="img" src={imgSrc} mode="scaleToFill"></Image>`)
   })
 
-  test('组件属性 data-XXX，XXX转为小写', () => {
-    option.wxml = `<view data-ID="123">组件属性data标识</view>`
+  test('组件属性 data-XXX，XXX 转为小写', () => {
+    option.wxml = `<view data-ID="123">组件属性 data 标识</view>`
     option.path = 'data_id'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toBe(`<View data-id="123">组件属性data标识</View>`)
+    expect(wxmlCode).toBe(`<View data-id="123">组件属性 data 标识</View>`)
   })
 })
 
 describe('parseContent', () => {
-  test('节点key的值解析', () => {
+  test('节点 key 的值解析', () => {
     const contentInput = '{{list}}'
     const { type, content } = parseContent(contentInput)
     expect(type).toBe('expression')
@@ -512,23 +512,23 @@ describe('parseContent', () => {
   })
 })
 
-describe('style属性的解析', () => {
-  // 判断是否为style属性
-  test('判断是否为style属性', () => {
+describe('style 属性的解析', () => {
+  // 判断是否为 style 属性
+  test('判断是否为 style 属性', () => {
     option.wxml = '<view style="width:;">123</view>'
     option.path = 'style_isorno'
     expect(() => parseWXML(option.path, option.wxml)).toThrow()
     expect(logFileMap).toMatchSnapshot()
   })
-  // style属性的解析
-  test('style属性值为变量', () => {
+  // style 属性的解析
+  test('style 属性值为变量', () => {
     option.wxml = '<view style="{{value}}"></view>'
     option.path = 'style_is_experssion'
     const { wxml }:any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
     expect(wxmlCode).toMatchSnapshot()
   })
-  // 第一种以style="xxx:xxx"的用法
+  // 第一种以 style="xxx:xxx"的用法
   test('style = xxx:xxx', () => {
     let contentInput = 'color: red;background-color: aqua;'
     contentInput = convertStyleUnit(contentInput)
@@ -595,13 +595,13 @@ describe('style属性的解析', () => {
   })
 
   test('style = xxx:{{ xxx + 10 }}rpx', () => {
-    const contentInput = '<view style="font-size: {{height + 10}}rpx;">style参数为变量</view>'
+    const contentInput = '<view style="font-size: {{height + 10}}rpx;">style 参数为变量</view>'
     const contentOut = convertStyleUnit(contentInput)
-    expect(contentOut).toBe(`<view style="font-size: {{(height + 10)/40}}rem;">style参数为变量</view>`)
+    expect(contentOut).toBe(`<view style="font-size: {{(height + 10)/40}}rem;">style 参数为变量</view>`)
   })
 
-  // style=xxx:xxx情况中属性值中的value既有变量也有变量拼字符串
-  test('style = xxx:xxx变量与变量拼接混用', () => {
+  // style=xxx:xxx 情况中属性值中的 value 既有变量也有变量拼字符串
+  test('style = xxx:xxx 变量与变量拼接混用', () => {
     let contentInput = 'height: {{ height }}px;width: {{ width }}px;background-color: {{ color }};'
     contentInput = convertStyleUnit(contentInput)
     const styleParseResult = parseStyle('style', contentInput)
@@ -614,8 +614,8 @@ describe('style属性的解析', () => {
     }
   })
 
-  // style=xxx:xxx情况中属性值中的value既有变量拼接也有三元表达式
-  test('style = xxx:xxx变量拼接与三元表达式混用', () => {
+  // style=xxx:xxx 情况中属性值中的 value 既有变量拼接也有三元表达式
+  test('style = xxx:xxx 变量拼接与三元表达式混用', () => {
     let contentInput = 'height: {{ height }}px;width: {{ width }}px;background-color: {{ false ? color : "blue" }};'
     contentInput = convertStyleUnit(contentInput)
     const styleParseResult = parseStyle('style', contentInput)
@@ -683,9 +683,9 @@ describe('style属性的解析', () => {
     }
   })
 
-  // 第三种xxx:xxx和{{ xxx }}混用情况
-  // style属性值是xxx:xxx与{{ xxx }}混用
-  test('xxx:xxx和{{ xxx }}混用情况1', () => {
+  // 第三种 xxx:xxx 和{{ xxx }}混用情况
+  // style 属性值是 xxx:xxx 与{{ xxx }}混用
+  test('xxx:xxx 和{{ xxx }}混用情况 1', () => {
     let contentInput = 'background-color: aqua;{{ global_css }}'
     contentInput = convertStyleUnit(contentInput)
     const styleParseResult = parseStyle('style', contentInput)
@@ -698,8 +698,8 @@ describe('style属性的解析', () => {
     }
   })
 
-  // style属性值是xxx:xxx与{{ 三元表达式 }}混用
-  test('xxx:xxx和{{ xxx }}混用情况2', () => {
+  // style 属性值是 xxx:xxx 与{{ 三元表达式 }}混用
+  test('xxx:xxx 和{{ xxx }}混用情况 2', () => {
     let contentInput = 'background-color: aqua;{{ true ? global_css : "" }}'
     contentInput = convertStyleUnit(contentInput)
     const styleParseResult = parseStyle('style', contentInput)
@@ -712,8 +712,8 @@ describe('style属性的解析', () => {
     }
   })
 
-  // style属性值是变量拼接字符串和{{ xxx }}混用
-  test('xxx:xxx和{{ xxx }}混用情况3', () => {
+  // style 属性值是变量拼接字符串和{{ xxx }}混用
+  test('xxx:xxx 和{{ xxx }}混用情况 3', () => {
     let contentInput = 'background-color: {{ color }};{{ global_css }}'
     contentInput = convertStyleUnit(contentInput)
     const styleParseResult = parseStyle('style', contentInput)
@@ -726,8 +726,8 @@ describe('style属性的解析', () => {
     }
   })
 
-  // style属性值是三元表达式拼接字符串和{{ xxx }}混用
-  test('xxx:xxx和{{ xxx }}混用情况4', () => {
+  // style 属性值是三元表达式拼接字符串和{{ xxx }}混用
+  test('xxx:xxx 和{{ xxx }}混用情况 4', () => {
     let contentInput = 'background-color: {{ true ? color : "" }};{{ global_css }}'
     contentInput = convertStyleUnit(contentInput)
     const styleParseResult = parseStyle('style', contentInput)
@@ -740,8 +740,8 @@ describe('style属性的解析', () => {
     }
   })
 
-  // style属性值是多个{{ xxx }}
-  test('xxx:xxx和{{ xxx }}混用情况5', () => {
+  // style 属性值是多个{{ xxx }}
+  test('xxx:xxx 和{{ xxx }}混用情况 5', () => {
     let contentInput = '{{ global_css }}{{ myStyle }}'
     contentInput = convertStyleUnit(contentInput)
     const styleParseResult = parseStyle('style', contentInput)
@@ -754,8 +754,8 @@ describe('style属性的解析', () => {
     }
   })
 
-  // 第四种情况, 虽然也是xxx:xxx形式但是key是一个变量
-  test('style = xxx:xxx, 但是key是变量', () => {
+  // 第四种情况，虽然也是 xxx:xxx 形式但是 key 是一个变量
+  test('style = xxx:xxx, 但是 key 是变量', () => {
     let contentInput = '{{ styleName }}: red;height: 100px;width: 100px;'
     contentInput = convertStyleUnit(contentInput)
     const styleParseResult = parseStyle('style', contentInput)
@@ -768,9 +768,9 @@ describe('style属性的解析', () => {
     }
   })
 
-  // style为空的特殊写法
+  // style 为空的特殊写法
   // style = { xxx }微信不规范写法
-  test('style为空的特殊写法1', () => {
+  test('style 为空的特殊写法 1', () => {
     let contentInput = '{styleX}'
     contentInput = convertStyleUnit(contentInput)
     const styleParseResult = parseStyle('style', contentInput)
@@ -784,7 +784,7 @@ describe('style属性的解析', () => {
   })
 
   // style = "", 属性值为空
-  test('style为空的特殊写法2', () => {
+  test('style 为空的特殊写法 2', () => {
     let contentInput = '""'
     contentInput = convertStyleUnit(contentInput)
     const styleParseResult = parseStyle('style', contentInput)
@@ -798,7 +798,7 @@ describe('style属性的解析', () => {
   })
 
   // style = {{  }}, 属性值为空
-  test('style为空的特殊写法3', () => {
+  test('style 为空的特殊写法 3', () => {
     let contentInput = '{{}}'
     contentInput = convertStyleUnit(contentInput)
     const styleParseResult = parseStyle('style', contentInput)
@@ -812,7 +812,7 @@ describe('style属性的解析', () => {
   })
 
   // style = {{ '' }}, 属性值为空
-  test('style为空的特殊写法4', () => {
+  test('style 为空的特殊写法 4', () => {
     let contentInput = '{{ "" }}'
     contentInput = convertStyleUnit(contentInput)
     const styleParseResult = parseStyle('style', contentInput)
@@ -825,41 +825,41 @@ describe('style属性的解析', () => {
     }
   })
 
-  test('px/rpx单位转换为rem', () => {
+  test('px/rpx 单位转换为 rem', () => {
     let contentInput = 'width: 100px;height: 200rpx;padding: {{padCount}}px;margin: {{marCount}}rpx;'
     contentInput = convertStyleUnit(contentInput)
     expect(contentInput).toBe('width: 5rem;height: 5rem;padding: {{padCount/20}}rem;margin: {{marCount/40}}rem;')
   })
 
-  test('0px/rpx转换为0rempx/rpx', () => {
+  test('0px/rpx 转换为 0rempx/rpx', () => {
     let contentInput = `<swiper-item style="transform: translate(0%, 0px) translateZ(0rpx);"></swiper-item>`
     contentInput = convertStyleUnit(contentInput)
     expect(contentInput).toBe(`<swiper-item style="transform: translate(0%, 0rem) translateZ(0rem);"></swiper-item>`)
   })
 
-  test('绝对值小于1的px/rpx转换成rem', () => {
+  test('绝对值小于 1 的 px/rpx 转换成 rem', () => {
     let contentInput = `<swiper-item style="margin-left: 0.5px;margin-right: -0.5rpx;"></swiper-item>`
     contentInput = convertStyleUnit(contentInput)
     expect(contentInput).toBe(`<swiper-item style="margin-left: 0.025rem;margin-right: -0.0125rem;"></swiper-item>`)
   })
 
-  test('style="height: calc(100vh - {{xxx}}rem)"，内联样式使用calc计算，包含变量，变量前有空格，转换后空格保留', () => {
+  test('style="height: calc(100vh - {{xxx}}rem)"，内联样式使用 calc 计算，包含变量，变量前有空格，转换后空格保留', () => {
     let contentInput = `<swiper-item style="height: calc(100vh - {{num}}rem);"></swiper-item>`
     contentInput = convertStyleUnit(contentInput)
     expect(contentInput).toBe('<swiper-item style="height: calc(100vh - {{num}}rem);"></swiper-item>')
   })
 
   test('当设置 style 属性但未赋值则删除该属性', () => {
-    option.wxml = `<view style="">style为空</view>`
+    option.wxml = `<view style="">style 为空</view>`
     option.path = 'component_style_empty'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toBe(`<View>style为空</View>`)
+    expect(wxmlCode).toBe(`<View>style 为空</View>`)
   })
 })
 
-describe('wx作用域属性解析', () => {
-  test('wx不支持的属性scope-data', () => {
+describe('wx 作用域属性解析', () => {
+  test('wx 不支持的属性 scope-data', () => {
     option.wxml = `
       <view wx:scope-data="{{...myData}}">
         {{id}}
@@ -932,8 +932,8 @@ describe('wx作用域属性解析', () => {
   })
 })
 
-describe('hidden属性解析', () => {
-  test('一般组件的hidden属性解析', () => {
+describe('hidden 属性解析', () => {
+  test('一般组件的 hidden 属性解析', () => {
     option.wxml = `<view hidden="{{xx}}">{{xxx}}</view>`
     option.path = 'hidden'
     const { wxml }: any = parseWXML(option.path, option.wxml)
@@ -941,7 +941,7 @@ describe('hidden属性解析', () => {
     expect(wxmlCode).toEqual(`!xx && <View>{xxx}</View>`)
   })
 
-  test('template的hidden属性解析', () => {
+  test('template 的 hidden 属性解析', () => {
     option.wxml = `<template is="{{name}}" hidden="{{xx}}" />`
     option.path = 'hidden_template'
     const { wxml }: any = parseWXML(option.path, option.wxml)
