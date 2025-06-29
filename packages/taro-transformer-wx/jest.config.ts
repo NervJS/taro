@@ -10,7 +10,6 @@ const config: Config = {
   ],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   preset: 'ts-jest',
-  snapshotSerializers: ['jest-taro-helper/lib/snapshot/serializers.js'],
   testEnvironment: 'node',
   testEnvironmentOptions: {},
   testMatch: ['**/__tests__/?(*.)+(spec|test).[jt]s?(x)'],

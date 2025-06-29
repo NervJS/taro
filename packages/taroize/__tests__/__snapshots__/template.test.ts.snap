@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`template.ts template套用 同界面template套用 1`] = `
+exports[`template.ts template 套用 同界面 template 套用 1`] = `
 <FirstTagTmpl data={{
   tagListFirst: tagListFirst,
   tagListSecond: tagListSecond
 }}></FirstTagTmpl>
 `;
 
-exports[`template.ts template套用 同界面template套用 2`] = `
+exports[`template.ts template 套用 同界面 template 套用 2`] = `
 import SecondTagTmpl from "./SecondTagTmpl";
 import { Block, View } from "@tarojs/components";
 import React from "react";
@@ -36,7 +36,7 @@ class FirstTagTmpl extends React.Component {
 export default FirstTagTmpl;
 `;
 
-exports[`template.ts template套用 同界面template套用 3`] = `
+exports[`template.ts template 套用 同界面 template 套用 3`] = `
 import { Block, View } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -60,14 +60,14 @@ class SecondTagTmpl extends React.Component {
 export default SecondTagTmpl;
 `;
 
-exports[`template.ts template套用 通过import的套用 1`] = `
+exports[`template.ts template 套用 通过 import 的套用 1`] = `
 <TmplATmpl data={{
   motto: motto,
   mott: mott
 }}></TmplATmpl>
 `;
 
-exports[`template.ts template套用 通过import的套用 2`] = `
+exports[`template.ts template 套用 通过 import 的套用 2`] = `
 import { Block, View, Button } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -78,13 +78,13 @@ class TmplBTmpl extends React.Component {
     const {
       onClickC
     } = this.props;
-    return <Block><View>this is template B</View><Button onClick={onClickC}>模板C的按钮</Button></Block>;
+    return <Block><View>this is template B</View><Button onClick={onClickC}>模板 C 的按钮</Button></Block>;
   }
 }
 export default TmplBTmpl;
 `;
 
-exports[`template.ts template套用 通过import的套用 3`] = `
+exports[`template.ts template 套用 通过 import 的套用 3`] = `
 import TmplBTmpl from "./TmplBTmpl";
 import { Block, View, Button } from "@tarojs/components";
 import React from "react";
@@ -114,13 +114,13 @@ import withWeapp from "@tarojs/with-weapp";
 @withWeapp({})
 class TemplateDemoTmpl extends React.Component {
   render() {
-    return <Block><View>模版DEMO</View></Block>;
+    return <Block><View>模版 DEMO</View></Block>;
   }
 }
 export default TemplateDemoTmpl;
 `;
 
-exports[`template.ts 引入 import 正常情况 import 引入template 1`] = `
+exports[`template.ts 引入 import 正常情况 import 引入 template 1`] = `
 import { Block, View } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -128,13 +128,13 @@ import withWeapp from "@tarojs/with-weapp";
 @withWeapp({})
 class TemplateDemoTmpl extends React.Component {
   render() {
-    return <Block><View>模版DEMO</View></Block>;
+    return <Block><View>模版 DEMO</View></Block>;
   }
 }
 export default TemplateDemoTmpl;
 `;
 
-exports[`template.ts 引入 include 正常情况 include 引入 header文件 1`] = `
+exports[`template.ts 引入 include 正常情况 include 引入 header 文件 1`] = `
 import { Block, Text } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -151,6 +151,19 @@ class _C extends React.Component {
 export default _C;
 `;
 
+exports[`template.ts 模板 template 传递 data 的语法 {{...xxx,xxx}} 1`] = `
+<MsgItemTmpl data={{
+  ...item,
+  text
+}}></MsgItemTmpl>
+`;
+
+exports[`template.ts 模板 template 传递 data 的语法 {{key:xxx}} 1`] = `
+<MsgItemTmpl data={{
+  text: 'abc'
+}}></MsgItemTmpl>
+`;
+
 exports[`template.ts 模板 template 的 is 属性是表达式情况 1`] = `
 <Block>{true ? <MsgItemTmpl data={{
     data: 'xixi'
@@ -159,20 +172,7 @@ exports[`template.ts 模板 template 的 is 属性是表达式情况 1`] = `
   }}></bccdTmpl>}</Block>
 `;
 
-exports[`template.ts 模板 template传递data的语法 {{...xxx,xxx}} 1`] = `
-<MsgItemTmpl data={{
-  ...item,
-  text
-}}></MsgItemTmpl>
-`;
-
-exports[`template.ts 模板 template传递data的语法 {{key:xxx}} 1`] = `
-<MsgItemTmpl data={{
-  text: 'abc'
-}}></MsgItemTmpl>
-`;
-
-exports[`template.ts 模板 当template同时使用外部工具类和data传递数据 1`] = `
+exports[`template.ts 模板 当 template 同时使用外部工具类和 data 传递数据 1`] = `
 import { Block, Text, View } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";

@@ -5,10 +5,9 @@
   "author": "O2Team",
   "license": "MIT",
   "main": "dist/index.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "types"
+    "dist"
   ],
   "scripts": {
     "prod": "pnpm run build",
