@@ -166,6 +166,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
     const taroDeps: RegExp[] = [REG_TARO_SCOPED_PACKAGE]
     const taroViteRunnerDeps: RegExp[] = [/node_modules[\\/]@tarojs[\\/]vite-runner/]
     const nodeModulesDeps: RegExp[] = [REG_NODE_MODULES_DIR]
+    const babelDeps: RegExp[] = [/node_modules[\\/]@babel[\\/]/]
     const commonjsHelpersDeps: RegExp[] = [/commonjsHelpers\.js$/]
     const tslibDeps: RegExp [] = [/node_modules[\\/]tslib[\\/]/]
     const testByReg2DExpList = (reg2DExpList: RegExp[][]) => (id: string) => reg2DExpList.some(regExpList => regExpList.some(regExp => regExp.test(id)))
@@ -176,6 +177,8 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           const moduleInfo = getModuleInfo(id)
           // Note: vite-runner 里面涉及到一些js文件的注入，比如 comp.js， 为了避免这些文件被打包进 vendors，这里做了特殊处理
           if (testByReg2DExpList([taroViteRunnerDeps])(id)) return null
+          // Note: react 中用到了 for of等新的语法，babel相关依赖会被打包到 vendors 中，但taro中会打包react相关依赖，从而会引入 vendors 中的 babel 相关依赖，导致循环引用
+          if (testByReg2DExpList([babelDeps])(id)) return 'babelHelpers'
           if (testByReg2DExpList([taroDeps, reactRelatedDeps, tslibDeps, commonjsHelpersDeps])(id)) return 'taro'
           if (testByReg2DExpList([nodeModulesDeps])(id)) return 'vendors'
           if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) return 'common'
@@ -186,6 +189,8 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           const moduleInfo = getModuleInfo(id)
           // Note: vite-runner 里面涉及到一些js文件的注入，比如 comp.js， 为了避免这些文件被打包进 vendors，这里做了特殊处理
           if (testByReg2DExpList([taroViteRunnerDeps])(id)) return null
+          // Note: vue3 中用到了 for of等新的语法，babel相关依赖会被打包到 vendors 中，但taro中会打包vue3相关依赖，从而会引入 vendors 中的 babel 相关依赖，导致循环引用
+          if (testByReg2DExpList([babelDeps])(id)) return 'babelHelpers'
           if (testByReg2DExpList([taroDeps, vueRelatedDeps, tslibDeps, commonjsHelpersDeps])(id)) return 'taro'
           if (testByReg2DExpList([nodeModulesDeps])(id)) return 'vendors'
           if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) return 'common'

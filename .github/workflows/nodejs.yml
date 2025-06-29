@@ -28,7 +28,7 @@ jobs:
     name: Build Rust WASM
     uses: ./.github/workflows/build-rust-wasm.yml
 
-  nodejs-tesing:
+  nodejs-testing:
     name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.host }})
     needs:
       - build-rust-binding
@@ -62,9 +62,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3.0.0
+        uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -118,7 +118,6 @@ jobs:
         uses: codecov/codecov-action@v4
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
-          move_coverage_to_trash: true
           flags: taro-cli
           files: ./packages/taro-cli/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -126,7 +125,6 @@ jobs:
         uses: codecov/codecov-action@v4
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
-          move_coverage_to_trash: true
           flags: taro-runner
           files: ./packages/taro-webpack5-runner/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -134,7 +132,6 @@ jobs:
         uses: codecov/codecov-action@v4
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
-          move_coverage_to_trash: true
           flags: taro-runtime
           files: ./packages/taro-runtime/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -142,7 +139,6 @@ jobs:
         uses: codecov/codecov-action@v4
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
-          move_coverage_to_trash: true
           flags: taro-web
           files: ./packages/taro-components/coverage/clover.xml,./packages/taro-h5/coverage/clover.xml,./packages/taro-router/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -153,8 +149,6 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   rust-testing:
-    strategy:
-      fail-fast: false
     name: Testing on Rust
     runs-on: ubuntu-latest
     steps:
@@ -166,7 +160,7 @@ jobs:
           toolchain: stable
           targets: wasm32-wasip1
       - name: Cache cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry/index/
@@ -174,6 +168,6 @@ jobs:
             ~/.cargo/git/db/
             .cargo-cache
             target/
-          key: wasm32-wasi-cargo-ubantu-latest
+          key: wasm32-wasi-cargo-ubuntu-latest
       - name: Test
         run: cargo test-swc-plugins

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/transformer-wx",
-  "version": "4.0.10-beta.2",
+  "version": "4.1.4-beta.4",
   "description": "Transfrom Nerv Component to Wechat mini program.",
   "author": "O2Team",
   "license": "MIT",
@@ -30,7 +30,7 @@
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@babel/code-frame": "^7.24.2",
@@ -50,7 +50,7 @@
     "babel-plugin-transform-define": "^2.1.4",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
-    "eslint-plugin-taro": "^2.2.19",
+    "eslint-plugin-taro": "workspace:*",
     "lodash": "^4.17.21",
     "prettier": "^2.8.8",
     "typescript": "~5.4.5"

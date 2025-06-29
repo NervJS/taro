@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "4.0.10-beta.2",
+  "version": "4.1.4-beta.4",
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
@@ -39,6 +39,7 @@
     "generate:lib": "mkdirp lib",
     "generate:stencil-config": "esbuild ./scripts/stencil/stencil.config.ts --external:lightningcss --bundle --platform=node --outfile=stencil.config.js",
     "sync:types": "pnpm run tsx --files scripts/json-schema-to-types.ts",
+    "pretest:ci": "node ./node_modules/puppeteer/install.js",
     "test": "cross-env NODE_ENV=test stencil test --spec --e2e",
     "test:ci": "pnpm test -- --ci -i --coverage --silent --no-build",
     "test:coverage": "pnpm test -- --ci --screenshot --coverage",
@@ -53,7 +54,7 @@
   "author": "",
   "license": "MIT",
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@stencil/core": "2.22.3",

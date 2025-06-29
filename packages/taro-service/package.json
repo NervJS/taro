@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "4.0.10-beta.2",
+  "version": "4.1.4-beta.4",
   "description": "Taro Service",
   "author": "O2Team",
   "license": "MIT",
@@ -29,7 +29,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@tarojs/helper": "workspace:*",

@@ -67,11 +67,13 @@ export function setProperty (
 
 function updateClassList (dom: TaroElement, newValue: ClassList) {
   const [addList, removeList]: [string[], string[]] = [[], []]
+  const regexp = /\s+/
   for (const key in newValue) {
     if (newValue[key]) {
-      addList.push(key)
+      // 处理classList中包含空格分隔的类名
+      key.trim().split(regexp).forEach(className => addList.push(className))
     } else {
-      removeList.push(key)
+      key.trim().split(regexp).forEach(className => removeList.push(className))
     }
   }
   (dom.classList as any).add(...addList);

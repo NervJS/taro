@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "4.0.10-beta.2",
+  "version": "4.1.4-beta.4",
   "description": "taroize 之后的运行时",
   "author": "O2Team",
   "license": "MIT",
@@ -30,14 +30,10 @@
     "test:coverage": "jest --coverage"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*"
-  },
-  "devDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
   }
 }

@@ -1493,6 +1493,28 @@ export default class TaroMiniPlugin {
       }
     })
 
+    // 处理独立分包的 common 样式文件
+    if (independentPackageNames.length) {
+      const commonCssFileName = `common${styleExt}`
+      independentPackageNames.map(rootPath => {
+        const isExistCommonCss = !!assets[`${rootPath}/${commonCssFileName}`]
+        if (!isExistCommonCss) return
+
+        const regex = new RegExp(`.*(?<!common)\\${styleExt}$`)
+        const independentPagesCssAssets = Object.keys(assets).filter(asset => asset.startsWith(`${rootPath}/`) && regex.test(asset))
+        independentPagesCssAssets.forEach(assetPath => {
+          const relativePath = path.posix.relative(path.dirname(assetPath), rootPath) || '.'
+          const importStatement = `@import ${JSON.stringify(urlToRequest(`${relativePath}/${commonCssFileName}`))};`
+
+          const source = new ConcatSource('')
+          const originSource = assets[assetPath]
+          source.add(importStatement)
+          source.add(originSource)
+          assets[assetPath] = source
+        })
+      })
+    }
+
     if (commons.size() > 0) {
       const APP_STYLE_NAME = 'app-origin' + styleExt
       assets[APP_STYLE_NAME] = new ConcatSource(originSource)

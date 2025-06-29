@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "4.0.10-beta.2",
+  "version": "4.1.4-beta.4",
   "description": "Taro babel preset",
   "author": "O2Team",
   "license": "MIT",
@@ -9,6 +9,7 @@
   "files": [
     "rn/",
     "remove-define-config.js",
+    "transform-taro-components.js",
     "index.js"
   ],
   "repository": {
@@ -23,7 +24,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.24.1",

@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-copy",
-  "version": "4.0.10-beta.2",
+  "version": "4.1.4-beta.4",
   "description": "rollup-plugin-copy for taro",
   "private": true,
   "author": "O2Team",
@@ -18,7 +18,7 @@
   },
   "keywords": [],
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@tarojs/helper": "workspace:*"

@@ -13,8 +13,8 @@ require("./vendors");
 
 require("./runtime");
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 524 ], {
-    639: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "app" ], {
+    "./src/app.js": function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -605,7 +605,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(103);
+        var taro_runtime = __webpack_require__("../../mocks/taro-runtime.ts");
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -636,11 +636,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(246);
-        var createClass = __webpack_require__(697);
-        var callSuper = __webpack_require__(170);
-        var inherits = __webpack_require__(912);
-        var react = __webpack_require__(831);
+        var classCallCheck = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+        var createClass = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/createClass.js");
+        var callSuper = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/callSuper.js");
+        var inherits = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/inherits.js");
+        var react = __webpack_require__("../../mocks/react.ts");
         var app_App = function(_Component) {
             function App() {
                 (0, classCallCheck.A)(this, App);
@@ -692,8 +692,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(639);
+    __webpack_require__.O(0, [ "vendors", "common" ], (function() {
+        return __webpack_exec__("./src/app.js");
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -758,11 +758,11 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_33_focus">
-  <input value="{{i.p25}}" type="{{i.p24||''}}" password="{{xs.b(i.p12,!1)}}" placeholder="{{i.p13}}" placeholder-style="{{i.p15}}" placeholder-class="{{i.p14||'input-placeholder'}}" disabled="{{i.p8}}" maxlength="{{xs.b(i.p10,140)}}" cursor-spacing="{{xs.b(i.p7,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{i.p4||'done'}}" confirm-hold="{{xs.b(i.p3,!1)}}" cursor="{{xs.b(i.p5,i.p25?i.p25.length:-1)}}" selection-start="{{xs.b(i.p23,-1)}}" selection-end="{{xs.b(i.p22,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p11}}" always-embed="{{xs.b(i.p1,false)}}" adjust-position="{{xs.b(i.p0,true)}}" hold-keyboard="{{xs.b(i.p9,false)}}" safe-password-cert-path="{{i.p16}}" safe-password-length="{{i.p18}}" safe-password-time-stamp="{{i.p21}}" safe-password-nonce="{{i.p19}}" safe-password-salt="{{i.p20}}" safe-password-custom-hash="{{i.p17}}" auto-fill="{{i.p2}}" cursor-color="{{i.p6}}" bindkeyboardheightchange="eh" bindnicknamereview="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
+  <input value="{{i.p25}}" type="{{i.p24||''}}" password="{{xs.b(i.p12,!1)}}" placeholder="{{i.p13}}" placeholder-style="{{i.p15}}" placeholder-class="{{i.p14||'input-placeholder'}}" disabled="{{i.p8}}" maxlength="{{xs.b(i.p10,140)}}" cursor-spacing="{{xs.b(i.p7,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{i.p4||'done'}}" confirm-hold="{{xs.b(i.p3,!1)}}" cursor="{{xs.b(i.p5,-1)}}" selection-start="{{xs.b(i.p23,-1)}}" selection-end="{{xs.b(i.p22,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p11}}" always-embed="{{xs.b(i.p1,false)}}" adjust-position="{{xs.b(i.p0,true)}}" hold-keyboard="{{xs.b(i.p9,false)}}" safe-password-cert-path="{{i.p16}}" safe-password-length="{{i.p18}}" safe-password-time-stamp="{{i.p21}}" safe-password-nonce="{{i.p19}}" safe-password-salt="{{i.p20}}" safe-password-custom-hash="{{i.p17}}" auto-fill="{{i.p2}}" cursor-color="{{i.p6}}" bindkeyboardheightchange="eh" bindnicknamereview="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
 <template name="tmpl_0_33_blur">
-  <input value="{{i.p25}}" type="{{i.p24||''}}" password="{{xs.b(i.p12,!1)}}" placeholder="{{i.p13}}" placeholder-style="{{i.p15}}" placeholder-class="{{i.p14||'input-placeholder'}}" disabled="{{i.p8}}" maxlength="{{xs.b(i.p10,140)}}" cursor-spacing="{{xs.b(i.p7,0)}}" confirm-type="{{i.p4||'done'}}" confirm-hold="{{xs.b(i.p3,!1)}}" cursor="{{xs.b(i.p5,i.p25?i.p25.length:-1)}}" selection-start="{{xs.b(i.p23,-1)}}" selection-end="{{xs.b(i.p22,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p11}}" always-embed="{{xs.b(i.p1,false)}}" adjust-position="{{xs.b(i.p0,true)}}" hold-keyboard="{{xs.b(i.p9,false)}}" safe-password-cert-path="{{i.p16}}" safe-password-length="{{i.p18}}" safe-password-time-stamp="{{i.p21}}" safe-password-nonce="{{i.p19}}" safe-password-salt="{{i.p20}}" safe-password-custom-hash="{{i.p17}}" auto-fill="{{i.p2}}" cursor-color="{{i.p6}}" bindkeyboardheightchange="eh" bindnicknamereview="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
+  <input value="{{i.p25}}" type="{{i.p24||''}}" password="{{xs.b(i.p12,!1)}}" placeholder="{{i.p13}}" placeholder-style="{{i.p15}}" placeholder-class="{{i.p14||'input-placeholder'}}" disabled="{{i.p8}}" maxlength="{{xs.b(i.p10,140)}}" cursor-spacing="{{xs.b(i.p7,0)}}" confirm-type="{{i.p4||'done'}}" confirm-hold="{{xs.b(i.p3,!1)}}" cursor="{{xs.b(i.p5,-1)}}" selection-start="{{xs.b(i.p23,-1)}}" selection-end="{{xs.b(i.p22,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p11}}" always-embed="{{xs.b(i.p1,false)}}" adjust-position="{{xs.b(i.p0,true)}}" hold-keyboard="{{xs.b(i.p9,false)}}" safe-password-cert-path="{{i.p16}}" safe-password-length="{{i.p18}}" safe-password-time-stamp="{{i.p21}}" safe-password-nonce="{{i.p19}}" safe-password-salt="{{i.p20}}" safe-password-custom-hash="{{i.p17}}" auto-fill="{{i.p2}}" cursor-color="{{i.p6}}" bindkeyboardheightchange="eh" bindnicknamereview="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
 <template name="tmpl_0_21">
@@ -776,11 +776,11 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_79_focus">
-  <textarea value="{{i.p20}}" placeholder="{{i.p14}}" placeholder-style="{{i.p16}}" placeholder-class="{{i.p15||'textarea-placeholder'}}" disabled="{{i.p9}}" maxlength="{{xs.b(i.p12,140)}}" auto-focus="{{xs.b(i.p2,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p3,!1)}}" fixed="{{xs.b(i.p10,!1)}}" cursor-spacing="{{xs.b(i.p7,0)}}" cursor="{{xs.b(i.p6,i.p20?i.p20.length:-1)}}" selection-start="{{xs.b(i.p18,-1)}}" selection-end="{{xs.b(i.p17,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p13}}" show-confirm-bar="{{xs.b(i.p19,true)}}" adjust-position="{{xs.b(i.p1,true)}}" hold-keyboard="{{xs.b(i.p11,false)}}" disable-default-padding="{{xs.b(i.p8,false)}}" confirm-type="{{i.p5||'return'}}" confirm-hold="{{xs.b(i.p4,false)}}" adjust-keyboard-to="{{i.p0||'cursor'}}" bindkeyboardheightchange="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
+  <textarea value="{{i.p20}}" placeholder="{{i.p14}}" placeholder-style="{{i.p16}}" placeholder-class="{{i.p15||'textarea-placeholder'}}" disabled="{{i.p9}}" maxlength="{{xs.b(i.p12,140)}}" auto-focus="{{xs.b(i.p2,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p3,!1)}}" fixed="{{xs.b(i.p10,!1)}}" cursor-spacing="{{xs.b(i.p7,0)}}" cursor="{{xs.b(i.p6,-1)}}" selection-start="{{xs.b(i.p18,-1)}}" selection-end="{{xs.b(i.p17,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p13}}" show-confirm-bar="{{xs.b(i.p19,true)}}" adjust-position="{{xs.b(i.p1,true)}}" hold-keyboard="{{xs.b(i.p11,false)}}" disable-default-padding="{{xs.b(i.p8,false)}}" confirm-type="{{i.p5||'return'}}" confirm-hold="{{xs.b(i.p4,false)}}" adjust-keyboard-to="{{i.p0||'cursor'}}" bindkeyboardheightchange="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
 <template name="tmpl_0_79_blur">
-  <textarea value="{{i.p20}}" placeholder="{{i.p14}}" placeholder-style="{{i.p16}}" placeholder-class="{{i.p15||'textarea-placeholder'}}" disabled="{{i.p9}}" maxlength="{{xs.b(i.p12,140)}}" auto-focus="{{xs.b(i.p2,!1)}}" auto-height="{{xs.b(i.p3,!1)}}" fixed="{{xs.b(i.p10,!1)}}" cursor-spacing="{{xs.b(i.p7,0)}}" cursor="{{xs.b(i.p6,i.p20?i.p20.length:-1)}}" selection-start="{{xs.b(i.p18,-1)}}" selection-end="{{xs.b(i.p17,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p13}}" show-confirm-bar="{{xs.b(i.p19,true)}}" adjust-position="{{xs.b(i.p1,true)}}" hold-keyboard="{{xs.b(i.p11,false)}}" disable-default-padding="{{xs.b(i.p8,false)}}" confirm-type="{{i.p5||'return'}}" confirm-hold="{{xs.b(i.p4,false)}}" adjust-keyboard-to="{{i.p0||'cursor'}}" bindkeyboardheightchange="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
+  <textarea value="{{i.p20}}" placeholder="{{i.p14}}" placeholder-style="{{i.p16}}" placeholder-class="{{i.p15||'textarea-placeholder'}}" disabled="{{i.p9}}" maxlength="{{xs.b(i.p12,140)}}" auto-focus="{{xs.b(i.p2,!1)}}" auto-height="{{xs.b(i.p3,!1)}}" fixed="{{xs.b(i.p10,!1)}}" cursor-spacing="{{xs.b(i.p7,0)}}" cursor="{{xs.b(i.p6,-1)}}" selection-start="{{xs.b(i.p18,-1)}}" selection-end="{{xs.b(i.p17,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p13}}" show-confirm-bar="{{xs.b(i.p19,true)}}" adjust-position="{{xs.b(i.p1,true)}}" hold-keyboard="{{xs.b(i.p11,false)}}" disable-default-padding="{{xs.b(i.p8,false)}}" confirm-type="{{i.p5||'return'}}" confirm-hold="{{xs.b(i.p4,false)}}" adjust-keyboard-to="{{i.p0||'cursor'}}" bindkeyboardheightchange="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
 <template name="tmpl_0_22">
@@ -1520,8 +1520,8 @@ require("./runtime");
 /** filePath: dist/common.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 76 ], {
-    831: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "common" ], {
+    "../../mocks/react.ts": function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -1531,7 +1531,7 @@ require("./runtime");
         const Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    103: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    "../../mocks/taro-runtime.ts": function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -1555,17 +1555,17 @@ require("./runtime");
 /** filePath: dist/comp.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 862 ], {
-    972: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(103);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "comp" ], {
+    "../../../../packages/taro-webpack5-runner/dist/template/comp.js": function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../mocks/taro-runtime.ts");
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 76 ], (function() {
-        return __webpack_exec__(972);
+    __webpack_require__.O(0, [ "common" ], (function() {
+        return __webpack_exec__("../../../../packages/taro-webpack5-runner/dist/template/comp.js");
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1582,10 +1582,10 @@ require("./runtime");
 /*! For license information please see index.js.LICENSE.txt */
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 421 ], {
-    956: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(103);
-        var esm_typeof = __webpack_require__(27);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "pages/index/index" ], {
+    "./src/pages/index/index.jsx": function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__("../../mocks/taro-runtime.ts");
+        var esm_typeof = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/typeof.js");
         function _regeneratorRuntime() {
             "use strict";
             _regeneratorRuntime = function _regeneratorRuntime() {
@@ -1905,11 +1905,11 @@ require("./runtime");
                 }));
             };
         }
-        var classCallCheck = __webpack_require__(246);
-        var createClass = __webpack_require__(697);
-        var callSuper = __webpack_require__(170);
-        var inherits = __webpack_require__(912);
-        var react = __webpack_require__(831);
+        var classCallCheck = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+        var createClass = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/createClass.js");
+        var callSuper = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/callSuper.js");
+        var inherits = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/inherits.js");
+        var react = __webpack_require__("../../mocks/react.ts");
         const Canvas = {};
         const CoverView = {};
         const CoverImage = {};
@@ -1993,8 +1993,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 96, 76 ], (function() {
-        return __webpack_exec__(956);
+    __webpack_require__.O(0, [ "vendors", "common" ], (function() {
+        return __webpack_exec__("./src/pages/index/index.jsx");
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -2059,8 +2059,8 @@ module.exports = {
 /** filePath: dist/vendors.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 96 ], {
-    170: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "vendors" ], {
+    "../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/callSuper.js": function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _callSuper;
@@ -2079,7 +2079,7 @@ module.exports = {
                 return !!t;
             })();
         }
-        var esm_typeof = __webpack_require__(27);
+        var esm_typeof = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/typeof.js");
         function _assertThisInitialized(e) {
             if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
             return e;
@@ -2093,7 +2093,7 @@ module.exports = {
             return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
         }
     },
-    246: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    "../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/classCallCheck.js": function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _classCallCheck;
@@ -2103,13 +2103,13 @@ module.exports = {
             if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
         }
     },
-    697: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    "../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/createClass.js": function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(27);
+        var esm_typeof = __webpack_require__("../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/typeof.js");
         function toPrimitive(t, r) {
             if ("object" != (0, esm_typeof.A)(t) || !t) return t;
             var e = t[Symbol.toPrimitive];
@@ -2137,7 +2137,7 @@ module.exports = {
             }), e;
         }
     },
-    912: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    "../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/inherits.js": function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _inherits;
@@ -2161,7 +2161,7 @@ module.exports = {
             }), e && _setPrototypeOf(t, e);
         }
     },
-    27: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    "../../../../node_modules/.pnpm/@babel+runtime@7.27.0/node_modules/@babel/runtime/helpers/esm/typeof.js": function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             A: function() {
                 return _typeof;
@@ -2233,8 +2233,8 @@ require("./common");
 
 require("./runtime");
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 524 ], {
-    369: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "app" ], {
+    "./src/app.js": function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -2825,7 +2825,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(103);
+        var taro_runtime = __webpack_require__("../../mocks/taro-runtime.ts");
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -2856,7 +2856,7 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var vue = __webpack_require__(208);
+        var vue = __webpack_require__("../../mocks/vue.ts");
         var app_App = (0, vue.E)({
             onShow: function onShow(options) {}
         });
@@ -2888,8 +2888,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 76 ], (function() {
-        return __webpack_exec__(369);
+    __webpack_require__.O(0, [ "common" ], (function() {
+        return __webpack_exec__("./src/app.js");
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -2954,11 +2954,11 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_33_focus">
-  <input value="{{i.p25}}" type="{{i.p24||''}}" password="{{xs.b(i.p12,!1)}}" placeholder="{{i.p13}}" placeholder-style="{{i.p15}}" placeholder-class="{{i.p14||'input-placeholder'}}" disabled="{{i.p8}}" maxlength="{{xs.b(i.p10,140)}}" cursor-spacing="{{xs.b(i.p7,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{i.p4||'done'}}" confirm-hold="{{xs.b(i.p3,!1)}}" cursor="{{xs.b(i.p5,i.p25?i.p25.length:-1)}}" selection-start="{{xs.b(i.p23,-1)}}" selection-end="{{xs.b(i.p22,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p11}}" always-embed="{{xs.b(i.p1,false)}}" adjust-position="{{xs.b(i.p0,true)}}" hold-keyboard="{{xs.b(i.p9,false)}}" safe-password-cert-path="{{i.p16}}" safe-password-length="{{i.p18}}" safe-password-time-stamp="{{i.p21}}" safe-password-nonce="{{i.p19}}" safe-password-salt="{{i.p20}}" safe-password-custom-hash="{{i.p17}}" auto-fill="{{i.p2}}" cursor-color="{{i.p6}}" bindkeyboardheightchange="eh" bindnicknamereview="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
+  <input value="{{i.p25}}" type="{{i.p24||''}}" password="{{xs.b(i.p12,!1)}}" placeholder="{{i.p13}}" placeholder-style="{{i.p15}}" placeholder-class="{{i.p14||'input-placeholder'}}" disabled="{{i.p8}}" maxlength="{{xs.b(i.p10,140)}}" cursor-spacing="{{xs.b(i.p7,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{i.p4||'done'}}" confirm-hold="{{xs.b(i.p3,!1)}}" cursor="{{xs.b(i.p5,-1)}}" selection-start="{{xs.b(i.p23,-1)}}" selection-end="{{xs.b(i.p22,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p11}}" always-embed="{{xs.b(i.p1,false)}}" adjust-position="{{xs.b(i.p0,true)}}" hold-keyboard="{{xs.b(i.p9,false)}}" safe-password-cert-path="{{i.p16}}" safe-password-length="{{i.p18}}" safe-password-time-stamp="{{i.p21}}" safe-password-nonce="{{i.p19}}" safe-password-salt="{{i.p20}}" safe-password-custom-hash="{{i.p17}}" auto-fill="{{i.p2}}" cursor-color="{{i.p6}}" bindkeyboardheightchange="eh" bindnicknamereview="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
 <template name="tmpl_0_33_blur">
-  <input value="{{i.p25}}" type="{{i.p24||''}}" password="{{xs.b(i.p12,!1)}}" placeholder="{{i.p13}}" placeholder-style="{{i.p15}}" placeholder-class="{{i.p14||'input-placeholder'}}" disabled="{{i.p8}}" maxlength="{{xs.b(i.p10,140)}}" cursor-spacing="{{xs.b(i.p7,0)}}" confirm-type="{{i.p4||'done'}}" confirm-hold="{{xs.b(i.p3,!1)}}" cursor="{{xs.b(i.p5,i.p25?i.p25.length:-1)}}" selection-start="{{xs.b(i.p23,-1)}}" selection-end="{{xs.b(i.p22,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p11}}" always-embed="{{xs.b(i.p1,false)}}" adjust-position="{{xs.b(i.p0,true)}}" hold-keyboard="{{xs.b(i.p9,false)}}" safe-password-cert-path="{{i.p16}}" safe-password-length="{{i.p18}}" safe-password-time-stamp="{{i.p21}}" safe-password-nonce="{{i.p19}}" safe-password-salt="{{i.p20}}" safe-password-custom-hash="{{i.p17}}" auto-fill="{{i.p2}}" cursor-color="{{i.p6}}" bindkeyboardheightchange="eh" bindnicknamereview="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
+  <input value="{{i.p25}}" type="{{i.p24||''}}" password="{{xs.b(i.p12,!1)}}" placeholder="{{i.p13}}" placeholder-style="{{i.p15}}" placeholder-class="{{i.p14||'input-placeholder'}}" disabled="{{i.p8}}" maxlength="{{xs.b(i.p10,140)}}" cursor-spacing="{{xs.b(i.p7,0)}}" confirm-type="{{i.p4||'done'}}" confirm-hold="{{xs.b(i.p3,!1)}}" cursor="{{xs.b(i.p5,-1)}}" selection-start="{{xs.b(i.p23,-1)}}" selection-end="{{xs.b(i.p22,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p11}}" always-embed="{{xs.b(i.p1,false)}}" adjust-position="{{xs.b(i.p0,true)}}" hold-keyboard="{{xs.b(i.p9,false)}}" safe-password-cert-path="{{i.p16}}" safe-password-length="{{i.p18}}" safe-password-time-stamp="{{i.p21}}" safe-password-nonce="{{i.p19}}" safe-password-salt="{{i.p20}}" safe-password-custom-hash="{{i.p17}}" auto-fill="{{i.p2}}" cursor-color="{{i.p6}}" bindkeyboardheightchange="eh" bindnicknamereview="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
 <template name="tmpl_0_21">
@@ -2972,11 +2972,11 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_79_focus">
-  <textarea value="{{i.p20}}" placeholder="{{i.p14}}" placeholder-style="{{i.p16}}" placeholder-class="{{i.p15||'textarea-placeholder'}}" disabled="{{i.p9}}" maxlength="{{xs.b(i.p12,140)}}" auto-focus="{{xs.b(i.p2,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p3,!1)}}" fixed="{{xs.b(i.p10,!1)}}" cursor-spacing="{{xs.b(i.p7,0)}}" cursor="{{xs.b(i.p6,i.p20?i.p20.length:-1)}}" selection-start="{{xs.b(i.p18,-1)}}" selection-end="{{xs.b(i.p17,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p13}}" show-confirm-bar="{{xs.b(i.p19,true)}}" adjust-position="{{xs.b(i.p1,true)}}" hold-keyboard="{{xs.b(i.p11,false)}}" disable-default-padding="{{xs.b(i.p8,false)}}" confirm-type="{{i.p5||'return'}}" confirm-hold="{{xs.b(i.p4,false)}}" adjust-keyboard-to="{{i.p0||'cursor'}}" bindkeyboardheightchange="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
+  <textarea value="{{i.p20}}" placeholder="{{i.p14}}" placeholder-style="{{i.p16}}" placeholder-class="{{i.p15||'textarea-placeholder'}}" disabled="{{i.p9}}" maxlength="{{xs.b(i.p12,140)}}" auto-focus="{{xs.b(i.p2,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p3,!1)}}" fixed="{{xs.b(i.p10,!1)}}" cursor-spacing="{{xs.b(i.p7,0)}}" cursor="{{xs.b(i.p6,-1)}}" selection-start="{{xs.b(i.p18,-1)}}" selection-end="{{xs.b(i.p17,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p13}}" show-confirm-bar="{{xs.b(i.p19,true)}}" adjust-position="{{xs.b(i.p1,true)}}" hold-keyboard="{{xs.b(i.p11,false)}}" disable-default-padding="{{xs.b(i.p8,false)}}" confirm-type="{{i.p5||'return'}}" confirm-hold="{{xs.b(i.p4,false)}}" adjust-keyboard-to="{{i.p0||'cursor'}}" bindkeyboardheightchange="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
 <template name="tmpl_0_79_blur">
-  <textarea value="{{i.p20}}" placeholder="{{i.p14}}" placeholder-style="{{i.p16}}" placeholder-class="{{i.p15||'textarea-placeholder'}}" disabled="{{i.p9}}" maxlength="{{xs.b(i.p12,140)}}" auto-focus="{{xs.b(i.p2,!1)}}" auto-height="{{xs.b(i.p3,!1)}}" fixed="{{xs.b(i.p10,!1)}}" cursor-spacing="{{xs.b(i.p7,0)}}" cursor="{{xs.b(i.p6,i.p20?i.p20.length:-1)}}" selection-start="{{xs.b(i.p18,-1)}}" selection-end="{{xs.b(i.p17,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p13}}" show-confirm-bar="{{xs.b(i.p19,true)}}" adjust-position="{{xs.b(i.p1,true)}}" hold-keyboard="{{xs.b(i.p11,false)}}" disable-default-padding="{{xs.b(i.p8,false)}}" confirm-type="{{i.p5||'return'}}" confirm-hold="{{xs.b(i.p4,false)}}" adjust-keyboard-to="{{i.p0||'cursor'}}" bindkeyboardheightchange="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
+  <textarea value="{{i.p20}}" placeholder="{{i.p14}}" placeholder-style="{{i.p16}}" placeholder-class="{{i.p15||'textarea-placeholder'}}" disabled="{{i.p9}}" maxlength="{{xs.b(i.p12,140)}}" auto-focus="{{xs.b(i.p2,!1)}}" auto-height="{{xs.b(i.p3,!1)}}" fixed="{{xs.b(i.p10,!1)}}" cursor-spacing="{{xs.b(i.p7,0)}}" cursor="{{xs.b(i.p6,-1)}}" selection-start="{{xs.b(i.p18,-1)}}" selection-end="{{xs.b(i.p17,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p13}}" show-confirm-bar="{{xs.b(i.p19,true)}}" adjust-position="{{xs.b(i.p1,true)}}" hold-keyboard="{{xs.b(i.p11,false)}}" disable-default-padding="{{xs.b(i.p8,false)}}" confirm-type="{{i.p5||'return'}}" confirm-hold="{{xs.b(i.p4,false)}}" adjust-keyboard-to="{{i.p0||'cursor'}}" bindkeyboardheightchange="eh" bindselectionchange="eh" bindkeyboardcompositionstart="eh" bindkeyboardcompositionupdate="eh" bindkeyboardcompositionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
 <template name="tmpl_0_22">
@@ -3716,8 +3716,8 @@ require("./runtime");
 /** filePath: dist/common.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 76 ], {
-    103: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "common" ], {
+    "../../mocks/taro-runtime.ts": function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             eU: function() {
                 return createPageConfig;
@@ -3736,7 +3736,7 @@ require("./runtime");
         function createRecursiveComponentConfig() {}
         function createPageConfig() {}
     },
-    208: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    "../../mocks/vue.ts": function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             E: function() {
                 return createApp;
@@ -3754,17 +3754,17 @@ require("./runtime");
 /** filePath: dist/comp.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 862 ], {
-    972: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(103);
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "comp" ], {
+    "../../../../packages/taro-webpack5-runner/dist/template/comp.js": function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../mocks/taro-runtime.ts");
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 76 ], (function() {
-        return __webpack_exec__(972);
+    __webpack_require__.O(0, [ "common" ], (function() {
+        return __webpack_exec__("../../../../packages/taro-webpack5-runner/dist/template/comp.js");
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -3780,8 +3780,8 @@ require("./runtime");
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 421 ], {
-    214: function(__unused_webpack_module, exports) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "pages/index/index" ], {
+    "../../../../node_modules/.pnpm/vue-loader@17.4.2_webpack@5.91.0_@swc+core@1.3.96_/node_modules/vue-loader/dist/exportHelper.js": function(__unused_webpack_module, exports) {
         var __webpack_unused_export__;
         __webpack_unused_export__ = {
             value: true
@@ -3794,9 +3794,9 @@ require("./runtime");
             return target;
         };
     },
-    480: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(103);
-        var vue = __webpack_require__(208);
+    "./src/pages/index/index.vue": function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__("../../mocks/taro-runtime.ts");
+        var vue = __webpack_require__("../../mocks/vue.ts");
         var _hoisted_1 = {
             class: "index"
         };
@@ -3812,7 +3812,7 @@ require("./runtime");
                 };
             }
         };
-        var exportHelper = __webpack_require__(214);
+        var exportHelper = __webpack_require__("../../../../node_modules/.pnpm/vue-loader@17.4.2_webpack@5.91.0_@swc+core@1.3.96_/node_modules/vue-loader/dist/exportHelper.js");
         const __exports__ = (0, exportHelper.A)(indexvue_type_script_lang_js, [ [ "render", render ] ]);
         var index = __exports__;
         var config = {
@@ -3833,8 +3833,8 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    __webpack_require__.O(0, [ 76 ], (function() {
-        return __webpack_exec__(480);
+    __webpack_require__.O(0, [ "common" ], (function() {
+        return __webpack_exec__("./src/pages/index/index.vue");
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);

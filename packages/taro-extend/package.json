@@ -1,12 +1,14 @@
 {
   "name": "@tarojs/extend",
-  "version": "4.0.10-beta.2",
+  "version": "4.1.4-beta.4",
   "description": "Taro extend functionality",
   "author": "O2Team",
   "license": "MIT",
   "main": "src/index.js",
+  "types": "types/index.d.ts",
   "files": [
-    "src"
+    "src",
+    "types"
   ],
   "repository": {
     "type": "git",
@@ -21,7 +23,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "devDependencies": {
     "@tarojs/runtime": "workspace:*",

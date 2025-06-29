@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router-rn",
-  "version": "4.0.10-beta.2",
+  "version": "4.1.4-beta.4",
   "description": "Taro-router-rn",
   "author": "O2Team",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "router-rn"
   ],
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^6.5.20",
@@ -39,14 +39,13 @@
     "query-string": "^9.0.0"
   },
   "devDependencies": {
-    "react": "^18.2.0",
     "react-native": "^0.73.1",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-safe-area-context": "4.8.2",
     "react-native-screens": "~3.29.0"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
+    "react": "^18",
     "react-native": "^0.73.1",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-safe-area-context": "4.8.2",
