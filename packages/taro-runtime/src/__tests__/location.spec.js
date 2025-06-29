@@ -370,7 +370,7 @@ describe('location', () => {
       location.trigger('2', pageId)
       expect(location.href).toBe('https://taro.com/?a=1')
 
-      // CONTEXT_ACTIONS.DESTORY
+      // CONTEXT_ACTIONS.DESTROY
       location.trigger('3', pageId)
       expect(cache.has(pageId)).toBe(false)
     }
@@ -468,7 +468,7 @@ describe('location', () => {
       expect(history.length).toBe(2)
       expect(location.href).toBe('https://taro.com/2')
 
-      // CONTEXT_ACTIONS.DESTORY
+      // CONTEXT_ACTIONS.DESTROY
       history.trigger('3', pageId)
       expect(cache.has(pageId)).toBe(false)
     }
