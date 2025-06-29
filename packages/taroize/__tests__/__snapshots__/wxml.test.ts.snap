@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`slot插槽 当元素设置slot属性且值为空串时，移除slot属性 1`] = `<View><SlotComponent renderAfter={<Block><View>这里是插入到组件slot name="after"中的内容</View></Block>}><View>这里是插入到组件slot name="before"中的内容</View></SlotComponent></View>`;
+exports[`slot 插槽 当元素设置 slot 属性且值为空串时，移除 slot 属性 1`] = `<View><SlotComponent renderAfter={<Block><View>这里是插入到组件 slot name="after"中的内容</View></Block>}><View>这里是插入到组件 slot name="before"中的内容</View></SlotComponent></View>`;
 
-exports[`style属性的解析 style属性值为变量 1`] = `<View style={value}></View>`;
+exports[`style 属性的解析 style 属性值为变量 1`] = `<View style={value}></View>`;
 
-exports[`style属性的解析 判断是否为style属性 1`] = `
+exports[`style 属性的解析 判断是否为 style 属性 1`] = `
 Map {
    => INFO [taroize] parseWXML - 入参 
 dirPath: wxml_undefined 
@@ -771,7 +771,7 @@ INFO [taroize] templateBfs - 进入函数
 INFO [taroize] createWxmlVistor - 入参 
 dirPath: wxml_show 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<Block><View wx:show={isShow}>测试使用wx:if替换wx:show属性</View></Block> 
+<Block><View wx:show={isShow}>测试使用 wx:if 替换 wx:show 属性</View></Block> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 Block 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
@@ -790,7 +790,7 @@ Block
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 Block 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<View wx:if={isShow}>测试使用wx:if替换wx:show属性</View> 
+<View wx:if={isShow}>测试使用 wx:if 替换 wx:show 属性</View> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXAttribute 
@@ -800,7 +800,7 @@ View
 INFO [taroize] createWxmlVistor - 解析Identifier 
 isShow 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<View>测试使用wx:if替换wx:show属性</View> 
+<View>测试使用 wx:if 替换 wx:show 属性</View> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
@@ -990,7 +990,7 @@ INFO [taroize] templateBfs - 进入函数
 INFO [taroize] createWxmlVistor - 入参 
 dirPath: anonymity_wxml_slot 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<Block><View><SlotComponent><View>插入slot的内容</View></SlotComponent></View></Block> 
+<Block><View><SlotComponent><View>插入 slot 的内容</View></SlotComponent></View></Block> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 Block 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
@@ -1010,7 +1010,7 @@ Block
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 Block 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<View><SlotComponent><View>插入slot的内容</View></SlotComponent></View> 
+<View><SlotComponent><View>插入 slot 的内容</View></SlotComponent></View> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
@@ -1026,7 +1026,7 @@ View
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<SlotComponent><View>插入slot的内容</View></SlotComponent> 
+<SlotComponent><View>插入 slot 的内容</View></SlotComponent> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 SlotComponent 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
@@ -1038,7 +1038,7 @@ SlotComponent
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 SlotComponent 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<View>插入slot的内容</View> 
+<View>插入 slot 的内容</View> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
@@ -1243,7 +1243,7 @@ INFO [taroize] templateBfs - 进入函数
 INFO [taroize] createWxmlVistor - 入参 
 dirPath: named_wxml_slot 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<Block><View><SlotComponent><View slot="before">这里是插入到组件slot name="before"中的内容</View><View slot="after">这里是插入到组件slot name="after"中的内容</View></SlotComponent></View></Block> 
+<Block><View><SlotComponent><View slot="before">这里是插入到组件 slot name="before"中的内容</View><View slot="after">这里是插入到组件 slot name="after"中的内容</View></SlotComponent></View></Block> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 Block 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
@@ -1275,7 +1275,7 @@ Block
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 Block 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<View><SlotComponent><View slot="before">这里是插入到组件slot name="before"中的内容</View><View slot="after">这里是插入到组件slot name="after"中的内容</View></SlotComponent></View> 
+<View><SlotComponent><View slot="before">这里是插入到组件 slot name="before"中的内容</View><View slot="after">这里是插入到组件 slot name="after"中的内容</View></SlotComponent></View> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
@@ -1303,7 +1303,7 @@ View
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<SlotComponent><View slot="before">这里是插入到组件slot name="before"中的内容</View><View slot="after">这里是插入到组件slot name="after"中的内容</View></SlotComponent> 
+<SlotComponent><View slot="before">这里是插入到组件 slot name="before"中的内容</View><View slot="after">这里是插入到组件 slot name="after"中的内容</View></SlotComponent> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 SlotComponent 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
@@ -1327,7 +1327,7 @@ SlotComponent
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 SlotComponent 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<View slot="before">这里是插入到组件slot name="before"中的内容</View> 
+<View slot="before">这里是插入到组件 slot name="before"中的内容</View> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXAttribute 
@@ -1337,7 +1337,7 @@ slot
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<View slot="after">这里是插入到组件slot name="after"中的内容</View> 
+<View slot="after">这里是插入到组件 slot name="after"中的内容</View> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXAttribute 
@@ -1389,7 +1389,7 @@ INFO [taroize] templateBfs - 进入函数
 INFO [taroize] createWxmlVistor - 入参 
 dirPath: component_slot_empty 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<Block><View><SlotComponent><View slot>这里是插入到组件slot name="before"中的内容</View><View slot="after">这里是插入到组件slot name="after"中的内容</View></SlotComponent></View></Block> 
+<Block><View><SlotComponent><View slot>这里是插入到组件 slot name="before"中的内容</View><View slot="after">这里是插入到组件 slot name="after"中的内容</View></SlotComponent></View></Block> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 Block 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
@@ -1421,7 +1421,7 @@ Block
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 Block 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<View><SlotComponent><View slot>这里是插入到组件slot name="before"中的内容</View><View slot="after">这里是插入到组件slot name="after"中的内容</View></SlotComponent></View> 
+<View><SlotComponent><View slot>这里是插入到组件 slot name="before"中的内容</View><View slot="after">这里是插入到组件 slot name="after"中的内容</View></SlotComponent></View> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
@@ -1449,7 +1449,7 @@ View
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<SlotComponent><View slot>这里是插入到组件slot name="before"中的内容</View><View slot="after">这里是插入到组件slot name="after"中的内容</View></SlotComponent> 
+<SlotComponent><View slot>这里是插入到组件 slot name="before"中的内容</View><View slot="after">这里是插入到组件 slot name="after"中的内容</View></SlotComponent> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 SlotComponent 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
@@ -1473,7 +1473,7 @@ SlotComponent
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 SlotComponent 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<View slot>这里是插入到组件slot name="before"中的内容</View> 
+<View slot>这里是插入到组件 slot name="before"中的内容</View> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXAttribute 
@@ -1487,7 +1487,7 @@ View
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXElement 
-<View slot="after">这里是插入到组件slot name="after"中的内容</View> 
+<View slot="after">这里是插入到组件 slot name="after"中的内容</View> 
 INFO [taroize] createWxmlVistor - 解析JSXIdentifier 
 View 
 INFO [taroize] createWxmlVistor - 解析JSXAttribute 
@@ -1745,20 +1745,45 @@ Page
 }
 `;
 
-exports[`wxml语法 wx:key="index"会转换成key="index" 1`] = `
+exports[`wx 作用域属性解析 wx:for & wx:for-xxx 1`] = `
+array.map((itemName, idx) => {
+  return <View>{idx + ": " + itemName.message}</View>;
+})
+`;
+
+exports[`wx 作用域属性解析 wx:for & wx:if 1`] = `
+modalKey.map((item, index) => {
+  return <Block>{item.key && <View>{"the value is : " + item.value}</View>}</Block>;
+})
+`;
+
+exports[`wx 作用域属性解析 wx:if & wx:for 1`] = `
+modalKey.map((item, index) => {
+  return <Block>{item.key && <View>{"the value is : " + item.value}</View>}</Block>;
+})
+`;
+
+exports[`wxml 语法 wx:key="index"会转换成 key="index" 1`] = `
 data.map((item, index) => {
   return <View key={index}><Text>{item.name}</Text></View>;
 })
 `;
 
-exports[`wxml语法 wxml中class不支持数组写法 1`] = `<View className="12,3"></View>`;
+exports[`wxml 语法 wxml 中 class 不支持数组写法 1`] = `<View className="12,3"></View>`;
 
-exports[`wxml语法 使用wx:if替换wx:show属性 1`] = `isShow && <View>测试使用wx:if替换wx:show属性</View>`;
+exports[`wxml 语法 使用 wx:if 替换 wx:show 属性 1`] = `isShow && <View>测试使用 wx:if 替换 wx:show 属性</View>`;
 
-exports[`wxml语法 列表渲染 1`] = `
+exports[`wxml 语法 列表渲染 1`] = `
 array.map((item, index) => {
   return <View>{index + ": " + item.message}</View>;
 })
+`;
+
+exports[`wxs wxs 中 单行注释 1`] = `
+module.exports = {
+  foo: "'hello world' from tools.wxs"
+  // msg:'123'
+};
 `;
 
 exports[`wxs wxs 多行注释 1`] = `
@@ -1771,14 +1796,7 @@ module.exports = {
 };
 `;
 
-exports[`wxs wxs中 单行注释 1`] = `
-module.exports = {
-  foo: "'hello world' from tools.wxs"
-  // msg:'123'
-};
-`;
-
-exports[`wxs wxs标签中的getDate()转换为new Date() 1`] = `
+exports[`wxs wxs 标签中的 getDate() 转换为 new Date() 1`] = `
 module.exports = {
   date1: new Date(),
   //参数为数字
@@ -1788,7 +1806,7 @@ module.exports = {
 };
 `;
 
-exports[`wxs 在页面中引入外部wxs，转换情况 1`] = `
+exports[`wxs 在页面中引入外部 wxs，转换情况 1`] = `
 import { Block, View } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -1806,38 +1824,20 @@ class _C extends React.Component {
 export default _C;
 `;
 
-exports[`wxs 页面中使用wxs 1`] = `
+exports[`wxs 页面中使用 wxs 1`] = `
 module.exports = {
   data: "wxs demo"
 };
 `;
 
-exports[`wx作用域属性解析 wx:for & wx:for-xxx 1`] = `
-array.map((itemName, idx) => {
-  return <View>{idx + ": " + itemName.message}</View>;
-})
-`;
-
-exports[`wx作用域属性解析 wx:for & wx:if 1`] = `
-modalKey.map((item, index) => {
-  return <Block>{item.key && <View>{"the value is : " + item.value}</View>}</Block>;
-})
-`;
-
-exports[`wx作用域属性解析 wx:if & wx:for 1`] = `
-modalKey.map((item, index) => {
-  return <Block>{item.key && <View>{"the value is : " + item.value}</View>}</Block>;
-})
-`;
-
-exports[`解析wxs中创建正则表达式方法的转换 定义了正则表达式的修饰符,则使用自定义修饰符 1`] = `
+exports[`解析 wxs 中创建正则表达式方法的转换 定义了正则表达式的修饰符，则使用自定义修饰符 1`] = `
 var a = new RegExp("jzy123", "img");
 module.exports = {
   reg: a
 };
 `;
 
-exports[`解析wxs中创建正则表达式方法的转换 没有定义了正则表达式的修饰符,就不添加修饰符使用默认 1`] = `
+exports[`解析 wxs 中创建正则表达式方法的转换 没有定义了正则表达式的修饰符，就不添加修饰符使用默认 1`] = `
 var a = new RegExp("jzy123");
 module.exports = {
   reg: a

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`utils.ts @babel/parser decorators-legacy插件支持装饰器转换 1`] = `
+exports[`utils.ts @babel/parser decorators-legacy 插件支持装饰器转换 1`] = `
 class MyClass {
   @decorator
   myMethod() {
@@ -9,7 +9,7 @@ class MyClass {
 }
 `;
 
-exports[`utils.ts @babel/parser flow插件支持flow类型转换 1`] = `
+exports[`utils.ts @babel/parser flow 插件支持 flow 类型转换 1`] = `
 // @flow
 function square(num) {
   return num * num;
@@ -17,7 +17,7 @@ function square(num) {
 const result = square(5);
 `;
 
-exports[`utils.ts @babel/parser jsx插件支持jsx转换 1`] = `
+exports[`utils.ts @babel/parser jsx 插件支持 jsx 转换 1`] = `
 var dropdown = <Dropdown>
             A dropdown list
             <Menu>
@@ -29,7 +29,7 @@ var dropdown = <Dropdown>
 render(dropdown);
 `;
 
-exports[`utils.ts @babel/parser sourcePhaseImports插件支持导入语句放在顶部之外的地方 1`] = `
+exports[`utils.ts @babel/parser sourcePhaseImports 插件支持导入语句放在顶部之外的地方 1`] = `
 const name = options && options.name ? options.name : "Anonymous";
 import source x from "./x";
 `;

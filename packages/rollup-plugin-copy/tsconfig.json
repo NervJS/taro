@@ -3,10 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "esModuleInterop": true,
-    "outDir": "lib",
+    "outDir": "dist",
     "rootDir": "./src",
     "module": "commonjs"
   },
-  "include": ["./src"],
-  "exclude": ["./src/__tests__"]
+  "include": ["./src"]
 }
