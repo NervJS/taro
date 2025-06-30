@@ -12,6 +12,16 @@
       &::-webkit-scrollbar {
         display: none;
       }
+      
+      /* 确保子元素有合适的默认样式 */
+      & > * {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        min-height: 50px;
+      }
     }
   }
 } 
