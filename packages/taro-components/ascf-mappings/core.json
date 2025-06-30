@@ -1,0 +1,32 @@
+{
+  "Button": {
+    "size": {
+      "ascfProp": "dimension",
+      "valueMap": {
+        "mini": "XS",
+        "small": "S",
+        "default": "M",
+        "large": "L"
+      },
+      "required": false,
+      "default": "M",
+      "docLink": "https://ascf.docs/components/button#dimension"
+    },
+    "loading": {
+      "ascfProp": "isLoading",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "docLink": "https://ascf.docs/components/button#isloading"
+    }
+  },
+  "Input": {
+    "password": {
+      "ascfProp": "secretInput",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "docLink": "https://ascf.docs/components/input#secretinput"
+    }
+  }
+}
