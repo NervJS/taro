@@ -18,9 +18,6 @@ export default defineConfig({
       provider: 'istanbul',
       include: ['src/**/*.ts'],
     },
-    setupFiles: [resolve(__dirname, './tests/setup.ts')],
-    alias: {
-      '@tarojs/react': resolve(__dirname, '..', '..', 'packages/taro-react/dist/react.esm.js'),
-    }
+    setupFiles: [resolve(__dirname, './tests/setup.ts')]
   }
 })
