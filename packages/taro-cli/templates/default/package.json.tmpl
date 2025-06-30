@@ -10,6 +10,7 @@
     "framework": "{{ framework }}"
   },
   "scripts": {
+    "prepare": "husky",
     "new": "taro new",
     "build:weapp": "taro build --type weapp",
     "build:swan": "taro build --type swan",
@@ -75,6 +76,12 @@
     "solid-js": "^1.8.16"{{/if}}
   },{{#if (includes "Webpack5" s=compiler)}}
   "devDependencies": {
+    "@tarojs/plugin-generator": "{{ version }}",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "lint-staged": "^16.1.2",
+    "husky": "^9.1.7",
+    "stylelint-config-standard": "^38.0.0",
     "@babel/core": "^7.24.4",
     "@tarojs/cli": "{{ version }}",
     "@babel/plugin-transform-class-properties": "7.25.9",
@@ -82,7 +89,6 @@
     "@types/react": "^18.0.0",{{/if}}{{#if (eq compiler "Webpack5") }}
     "webpack": "5.91.0",
     "@tarojs/taro-loader": "{{ version }}",
-    "@tarojs/plugin-generator": "{{ version }}",
     "@tarojs/webpack5-runner": "{{ version }}",{{/if}}{{#if (eq css "Sass") }}
     "sass": "^1.75.0",{{/if}}{{#if (eq css "Less") }}
     "less": "^4.2.0",{{/if}}{{#if (eq css "Stylus") }}
@@ -113,6 +119,11 @@
   }{{/if}}{{#if (eq compiler "Vite") }}
   "devDependencies": {
     "@tarojs/plugin-generator": "{{ version }}",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "lint-staged": "^16.1.2",
+    "husky": "^9.1.7",
+    "stylelint-config-standard": "^38.0.0",
     "@babel/core": "^7.24.4",
     "@babel/plugin-transform-class-properties": "7.25.9",
     "@tarojs/cli": "{{ version }}",
