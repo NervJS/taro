@@ -12,7 +12,7 @@ import {
   isComment,
   isElement,
   isHasExtractProp,
-  isParentBinded,
+  isParentBound,
   isText,
   shortcutAttr
 } from '../src/utils'
@@ -36,7 +36,7 @@ describe('Utils Functions', () => {
 
       commentNode = {
         nodeType: NodeType.COMMENT_NODE,
-        nodeName: 'comment' // Use the actual COMMENT constant value
+        nodeName: 'comment'
       } as any
     })
 
@@ -109,8 +109,8 @@ describe('Utils Functions', () => {
         __handlers: {}
       } as any
 
-      expect(isParentBinded(node, 'some-event')).toBe(true)
-      expect(isParentBinded(node, 'non-existent-event')).toBe(false)
+      expect(isParentBound(node, 'some-event')).toBe(true)
+      expect(isParentBound(node, 'non-existent-event')).toBe(false)
     })
 
     it('should handle node without parent', () => {
@@ -119,7 +119,7 @@ describe('Utils Functions', () => {
         __handlers: {}
       } as any
 
-      expect(isParentBinded(node, 'some-event')).toBe(false)
+      expect(isParentBound(node, 'some-event')).toBe(false)
     })
 
     it('should handle root nodes', () => {
@@ -134,7 +134,7 @@ describe('Utils Functions', () => {
         __handlers: {}
       } as any
 
-      expect(isParentBinded(node, 'some-event')).toBe(false) // Should return false for root
+      expect(isParentBound(node, 'some-event')).toBe(false) // Should return false for root
     })
   })
 
