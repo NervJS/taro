@@ -15,7 +15,7 @@ module.exports = {
     '@tarojs/taro': '<rootDir>/src/index.ts',
     '@tarojs/api': '<rootDir>/src/index.ts',
     '@tarojs/shared': path.resolve(__dirname, '..', '..', 'packages/shared/src/index.ts'),
-    '@tarojs/runtime': path.resolve(__dirname, '..', '..', 'packages/taro-runtime/dist/runtime.esm.js')
+    '@tarojs/runtime': path.resolve(__dirname, '..', '..', 'packages/taro-runtime/src/index.ts')
   },
   preset: 'ts-jest',
   testEnvironment: 'node',
