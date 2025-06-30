@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-h5",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "Web 端平台插件",
   "author": "O2Team",
   "license": "MIT",
@@ -28,6 +28,7 @@
     "prod": "pnpm run build",
     "prebuild": "run-s clean generate:desc",
     "build": "pnpm run rollup --environment NODE_ENV:production",
+    "postbuild": "node scripts/post-build.mjs",
     "clean": "rimraf dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "generate:desc": "pnpm run tsx --files ./build/definition-json",

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/react",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "like react-dom, but for mini apps.",
   "author": "O2Team",
   "license": "MIT",
@@ -25,17 +25,12 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@tarojs/shared": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "react-reconciler": "0.29.0"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.79",
-    "@types/react-reconciler": "^0.28.8",
-    "react": "^18.2.0"
   },
   "peerDependencies": {
     "react": "^18"

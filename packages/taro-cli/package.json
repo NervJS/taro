@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "cli tool for taro",
   "author": "O2Team",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "weapp"
   ],
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@tarojs/binding": "workspace:*",

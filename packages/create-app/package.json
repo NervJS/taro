@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/create-app",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "create taro app with one command",
   "author": "O2Team",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "cli"
   ],
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@tarojs/cli": "workspace:*",

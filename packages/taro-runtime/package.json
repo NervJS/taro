@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "taro runtime for mini apps.",
   "author": "O2Team",
   "license": "MIT",
@@ -30,18 +30,17 @@
     "url": "https://github.com/NervJS/taro/tree/master/packages/taro-runtime"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@tarojs/shared": "workspace:*",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@types/react": "^18.2.79",
+    "@rollup/plugin-typescript": "^12.1.2",
     "@vue/runtime-core": "^3.4.23",
     "lodash": "^4.17.21",
-    "react": "^18.2.0",
     "rollup": "^4.37.0",
-    "@rollup/plugin-typescript": "^12.1.2"
+    "rollup-plugin-dts": "^6.2.1"
   }
 }

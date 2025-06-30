@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-library-react",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "Taro 组件库 React 版本库",
   "private": true,
   "author": "O2Team",
@@ -15,15 +15,13 @@
   },
   "keywords": [],
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@tarojs/components": "workspace:*"
   },
   "devDependencies": {
-    "@tarojs/helper": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@tarojs/helper": "workspace:*"
   },
   "peerDependencies": {
     "@tarojs/helper": "workspace:*"

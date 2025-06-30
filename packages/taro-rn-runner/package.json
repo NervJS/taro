@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "ReactNative build tool for taro",
   "author": "O2Team",
   "license": "MIT",
@@ -28,7 +28,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@rollup/plugin-babel": "^6.0.4",
@@ -56,7 +56,6 @@
     "expo": "~50.0.0",
     "expo-file-system": "~16.0.9",
     "query-string": "^9.0.0",
-    "react": "^18.2.0",
     "react-is": "^18.3.1",
     "react-native": "^0.73.1",
     "react-native-root-siblings": "^5.0.1",
@@ -65,7 +64,7 @@
   "peerDependencies": {
     "babel-preset-taro": "workspace:*",
     "expo": "~50.0.0",
-    "react": "^18.2.0",
+    "react": "^18",
     "react-native": "^0.73.1"
   }
 }

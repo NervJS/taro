@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/api",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "Taro common API",
   "author": "O2Team",
   "license": "MIT",
@@ -35,7 +35,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "devDependencies": {
     "@tarojs/runtime": "workspace:*",

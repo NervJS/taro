@@ -41,7 +41,7 @@ jest.mock('fs', () => {
 
 describe('日志', () => {
   beforeAll(() => {
-    // mock报告生成
+    // mock 报告生成
     jest.spyOn(Convertor.prototype, 'generateReport').mockImplementation(() => {})
 
     // 配置文件生成
@@ -148,7 +148,7 @@ describe('生成转换报告及日志', () => {
     jest.restoreAllMocks()
   })
 
-  test('app.json不存在', () => {
+  test('app.json 不存在', () => {
     const NO_APP_JSON = {
       '/pages': {
         '/index': {
@@ -238,7 +238,7 @@ describe('生成转换报告及日志', () => {
     expect(resFileMap.has('/wxProject/taroConvert/report/static/media')).toBeTruthy()
   })
 
-  test('自定义组件没有js文件', () => {
+  test('自定义组件没有 js 文件', () => {
     const COMPONENT_NO_JS = {
       '/pages': {
         '/index': {
@@ -317,7 +317,7 @@ describe('生成转换报告及日志', () => {
     expect(resFileMap.has('/wxProject/taroConvert/report/static/media')).toBeTruthy()
   })
 
-  test('插件配置信息为空，解析plugin.json失败', () => {
+  test('插件配置信息为空，解析 plugin.json 失败', () => {
     const PLUGIN_PATH_ABNORMAL = {
       '/plugin': {
         '/components': {
@@ -349,7 +349,7 @@ describe('生成转换报告及日志', () => {
     expect(resFileMap.has('/wxProject/taroConvert/report/static/media')).toBeTruthy()
   })
 
-  test('project.config.json中pluginRoot为空或未配置', () => {
+  test('project.config.json 中 pluginRoot 为空或未配置', () => {
     const NO_PLUGINROOT = {
       '/project.config.json': `
         {
@@ -448,7 +448,7 @@ describe('生成转换报告及日志', () => {
     expect(resFileMap.has('/wxProject/taroConvert/report/static/media')).toBeTruthy()
   })
 
-  test('js文件中，引用不存在的文件（相对路径）', () => {
+  test('js 文件中，引用不存在的文件（相对路径）', () => {
     const JS_IMPORT_NOT_EXIST_FILE = {
       '/pages': {
         '/index': {
@@ -481,7 +481,7 @@ describe('生成转换报告及日志', () => {
     expect(resFileMap.has('/wxProject/taroConvert/report/static/media')).toBeTruthy()
   })
 
-  test('js文件中，引用不存在的文件（绝对路径）', () => {
+  test('js 文件中，引用不存在的文件（绝对路径）', () => {
     const JS_IMPORT_NOT_EXIST_FILE = {
       '/pages': {
         '/index': {
@@ -514,7 +514,7 @@ describe('生成转换报告及日志', () => {
     expect(resFileMap.has('/wxProject/taroConvert/report/static/media')).toBeTruthy()
   })
 
-  test('utils文件中不存在index.js文件', () => {
+  test('utils 文件中不存在 index.js 文件', () => {
     const UTILS_NO_INDEXJS_FILE = {
       '/pages': {
         '/index': {

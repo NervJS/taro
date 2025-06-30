@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "Taro app runner",
   "author": "O2Team",
   "license": "MIT",
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@tarojs/helper": "workspace:*",

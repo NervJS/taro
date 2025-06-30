@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-taro",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "Taro specific linting rules for ESLint",
   "author": "O2Team",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "jsx"
   ],
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.24.1",

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "Taro h5 framework",
   "browser": "dist/index.js",
   "main:h5": "dist/index.esm.js",
@@ -65,7 +65,6 @@
     "jest-mock-console": "^1.0.0",
     "jest-transform-css": "^6.0.1",
     "mock-socket": "^7.1.0",
-    "react": "^18.2.0",
     "swiper": "11.1.15",
     "react-test-renderer": "^18.2.0",
     "rollup": "^3.29.4",

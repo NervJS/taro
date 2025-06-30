@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-harmony-ets",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "OpenHarmony & 鸿蒙系统插件",
   "author": "O2Team",
   "homepage": "https://gitee.com/openharmony-sig/taro",
@@ -26,7 +26,7 @@
     "prebuild": "rimraf ./dist",
     "build": "pnpm run rollup",
     "dev": "pnpm run rollup -w",
-    "rollup": "rollup --config rollup.config.mts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs"
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript"
   },
   "bugs": {
     "url": "https://gitee.com/openharmony-sig/taro/issues"

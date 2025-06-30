@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-taroapi",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "author": "O2Team",
   "license": "MIT",
   "main": "dist/index.js",
@@ -16,7 +16,7 @@
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "lodash": "^4.17.21"

@@ -46,7 +46,7 @@ export default class Harmony extends HarmonyOS {
     })
     // Note: 注入 Taro Hooks 相关依赖
     this.apiEntryList = [
-      /(@tarojs[\\/]plugin-platform-harmony-cpp|plugin-platform-harmony-cpp)[\\/]dist[\\/]runtime[\\/]apischunk[\\/]index\.js/,
+      /(@tarojs[\\/]plugin-platform-harmony-cpp|platform-harmony-cpp)[\\/]dist[\\/]runtime[\\/]apischunk[\\/]index\.js/,
     ]
     this.externalDeps.push(['@tarojs/shared', /^@tarojs[\\/]shared$/])
     this.externalDeps.push(['react-reconciler', /^react-reconciler$/])

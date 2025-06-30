@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-supporter",
-  "version": "4.1.0-alpha.3",
+  "version": "4.1.4-beta.4",
   "description": "Taro rn supporter",
   "author": "O2Team",
   "license": "MIT",
@@ -26,7 +26,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "engines": {
-    "node": ">= 18"
+    "node": "^20 || ^22"
   },
   "dependencies": {
     "@react-native-community/cli-config": "^12.3.6",
@@ -54,7 +54,6 @@
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
     "@types/lodash": "^4.17.0",
-    "react": "^18.2.0",
     "react-native": "^0.73.1",
     "react-native-svg": "~14.1.0"
   },
