@@ -4,7 +4,7 @@ import '../src/dom-external/inner-html/html'
 import { describe, expect, it, test } from 'vitest'
 
 import { parser } from '../src/dom-external/inner-html/parser'
-import { Scaner } from '../src/dom-external/inner-html/scaner'
+import { Scanner } from '../src/dom-external/inner-html/scanner'
 import * as runtime from '../src/index'
 import { options } from '../src/options'
 import { isElement } from '../src/utils'
@@ -325,7 +325,7 @@ describe('html with <style>', () => {
       </style>
       <div class="parent">
         <span>测试换行\nxxxx</span>
-        <span>测试换行xxxx</span>
+        <span>测试换行 xxxx</span>
       </div>
     `
     const res = parser(html, document)
@@ -334,14 +334,14 @@ describe('html with <style>', () => {
     expect(el0.style.cssText).toBe('color: red; font-size: 10;')
     expect(el0.childNodes[0]._value).toBe('测试换行\nxxxx')
     expect(el1.style.cssText).toBe('color: red; font-size: 10;')
-    expect(el1.childNodes[0]._value).toBe('测试换行xxxx')
+    expect(el1.childNodes[0]._value).toBe('测试换行 xxxx')
   })
 })
 
 describe('html with tag should be skipped', () => {
   it('scanSkipTag should skip script', () => {
     const s = '<script type="text/javascript"> </script><div></div>'
-    const tokens = new Scaner(s).scan()
+    const tokens = new Scanner(s).scan()
     expect(tokens[1].content).toBe('script')
   })
 
