@@ -1,0 +1,51 @@
+@mixin set-top-line($c: #C7C7C7) {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  border-top: 1px solid $c;
+  height: 1px;
+  color: $c;
+  content: ' ';
+  transform: scaleY(0.5);
+  transform-origin: 0 0;
+}
+
+@mixin set-bottom-line($c: #C7C7C7) {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-bottom: 1px solid $c;
+  height: 1px;
+  color: $c;
+  content: ' ';
+  transform: scaleY(0.5);
+  transform-origin: 0 100%;
+}
+
+@mixin set-left-line($c: #C7C7C7) {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid $c;
+  width: 1px;
+  color: $c;
+  content: ' ';
+  transform: scaleX(0.5);
+  transform-origin: 0 0;
+}
+
+@mixin set-right-line($c: #C7C7C7) {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-right: 1px solid $c;
+  width: 1px;
+  color: $c;
+  content: ' ';
+  transform: scaleX(0.5);
+  transform-origin: 100% 0;
+} 
