@@ -1,13 +1,17 @@
 /* eslint-disable no-console */
-import { readPkgJson } from '../../utils'
+import { getCompilerType, readPkgJson } from '../../utils'
 import { updateBabelConfig } from './babel'
 import { updateConfig } from './config'
 
 import type { IPluginContext } from '@tarojs/service'
 
 export async function es5Generator(ctx: IPluginContext) {
+  const compilerType = getCompilerType(ctx.initialConfig.compiler)
+  if (!compilerType) {
+    throw new Error('未找到编译器类型')
+  }
   await updateBrowserList(ctx)
-  await updateConfig(ctx)
+  await updateConfig({ ctx, compilerType })
   await updateBabelConfig(ctx)
   console.log('✅ 启用「编译为 ES5」成功')
 }
@@ -20,10 +24,7 @@ async function updateBrowserList(ctx: IPluginContext) {
     return
   }
   const pkgJson = readPkgJson(ctx)
-  pkgJson.browserslist = {
-    development: ['defaults and fully supports es6-module', 'maintained node versions'],
-    production: ['last 3 versions', 'Android >= 4.1', 'ios >= 8'],
-  }
+  pkgJson.browserslist = ['last 3 versions', 'Android >= 4.1', 'ios >= 8']
   await fs.outputJson(`${ctx.paths.appPath}/package.json`, pkgJson, {
     encoding: 'utf-8',
     spaces: 2,
