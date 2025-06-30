@@ -1,5 +1,3 @@
-const path = require('path')
-
 module.exports = {
   globals: {
     ENABLE_INNER_HTML: true,
@@ -11,12 +9,6 @@ module.exports = {
     ENABLE_CONTAINS: true,
   },
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
-  moduleNameMapper: {
-    '@tarojs/taro': '<rootDir>/src/index.ts',
-    '@tarojs/api': '<rootDir>/src/index.ts',
-    '@tarojs/shared': path.resolve(__dirname, '..', '..', 'packages/shared/src/index.ts'),
-    '@tarojs/runtime': path.resolve(__dirname, '..', '..', 'packages/taro-runtime/src/index.ts')
-  },
   preset: 'ts-jest',
   testEnvironment: 'node',
   testEnvironmentOptions: {
