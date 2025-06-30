@@ -34,6 +34,7 @@ export default (ctx: IPluginContext) => {
         hideDefaultTemplate,
         sourceRoot,
         autoInstall,
+        ask
       } = opts.options
 
       const Project = require('../../create/project').default
@@ -52,7 +53,8 @@ export default (ctx: IPluginContext) => {
         compiler,
         hideDefaultTemplate,
         autoInstall,
-        css
+        css,
+        ask
       })
 
       project.create()
