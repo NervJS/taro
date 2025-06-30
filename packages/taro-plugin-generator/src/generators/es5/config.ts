@@ -10,9 +10,19 @@ import { GeneratorError, GeneratorErrorType } from '../../utils/error'
 
 import type { IPluginContext } from '@tarojs/service'
 
-const modifiedConfigError = new GeneratorError({
-  type: GeneratorErrorType.modifyConfig,
-  message: dedent(`
+const createModifiedConfigError = (compilerType: CompilerType) =>
+  new GeneratorError({
+    type: GeneratorErrorType.modifyConfig,
+    message:
+      compilerType === 'vite'
+        ? dedent(`
+      {
+        h5: {
+          legacy: true,
+        }
+      }
+    `)
+        : dedent(`
     {
       mini: {
         compile: {
@@ -30,13 +40,15 @@ const modifiedConfigError = new GeneratorError({
       }
     }
   `),
-})
+  })
 
 /**
  * 更新配置文件
  */
-export async function updateConfig(ctx: IPluginContext) {
+export async function updateConfig(options: { ctx: IPluginContext, compilerType: CompilerType }) {
+  const { ctx, compilerType } = options
   const { fs } = ctx.helper
+
   const sourceCode = await fs.readFile(ctx.paths.configPath, { encoding: 'utf-8' })
 
   const ast = parser.parse(sourceCode, { sourceType: 'module', plugins: ['typescript'] })
@@ -47,24 +59,45 @@ export async function updateConfig(ctx: IPluginContext) {
     ObjectProperty: (o) => {
       const { node } = o
       if (t.isIdentifier(node.key) && node.key.name === 'mini' && t.isObjectExpression(node.value)) {
-        modifyCompileConfig(node.value)
+        if (compilerType === 'webpack5') {
+          modifyWebpackCompileConfig(node.value)
+        } else {
+          // vite-runner 小程序看着不支持 legacy 字段
+        }
         miniUpdated = true
       }
       if (t.isIdentifier(node.key) && node.key.name === 'h5' && t.isObjectExpression(node.value)) {
-        modifyCompileConfig(node.value)
+        if (compilerType === 'webpack5') {
+          modifyWebpackCompileConfig(node.value)
+        } else {
+          modifyViteCompileConfig(node.value)
+        }
         h5Updated = true
       }
     },
   })
   if (!miniUpdated || !h5Updated) {
-    throw modifiedConfigError
+    throw createModifiedConfigError(compilerType)
   }
   const { code } = generate(ast)
   await fs.outputFile(ctx.paths.configPath, code, { encoding: 'utf-8' })
   console.log('✅ 更新配置文件成功\n')
 }
 
-function modifyCompileConfig(config: t.ObjectExpression) {
+function modifyViteCompileConfig(config: t.ObjectExpression) {
+  const legacyProp = config.properties.find(
+    (p) => t.isObjectProperty(p) && t.isIdentifier(p.key) && p.key.name === 'legacy'
+  )
+  if (!legacyProp) {
+    config.properties.push(t.objectProperty(t.identifier('legacy'), t.booleanLiteral(true)))
+  } else if (t.isObjectProperty(legacyProp)) {
+    legacyProp.value = t.booleanLiteral(true)
+  } else {
+    throw createModifiedConfigError('vite')
+  }
+}
+
+function modifyWebpackCompileConfig(config: t.ObjectExpression) {
   ensureNestedObjectProperty(config, ['compile'])
   const compileProp = config.properties.find(
     (p) => t.isObjectProperty(p) && t.isIdentifier(p.key) && p.key.name === 'compile'
@@ -94,7 +127,7 @@ function modifyCompileConfig(config: t.ObjectExpression) {
     } else if (t.isObjectProperty(includeProp) && t.isArrayExpression(includeProp.value)) {
       includeProp.value.elements.push(include)
     } else {
-      throw modifiedConfigError
+      throw createModifiedConfigError('webpack5')
     }
   }
 }
