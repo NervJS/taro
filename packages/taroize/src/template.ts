@@ -14,7 +14,7 @@ import {
   setting,
   updateLogFileContent,
 } from './utils'
-import { createWxmlVistor, parseWXML, WXS } from './wxml'
+import { createWxmlVisitor, parseWXML, WXS } from './wxml'
 
 import type { NodePath } from '@babel/traverse'
 
@@ -210,7 +210,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
     const templateName = value.value
     const className = buildTemplateName(value.value)
 
-    path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports))
+    path.traverse(createWxmlVisitor(loopIds, refIds, dirPath, [], imports))
 
     // refIds中可能包含wxs模块，应从refIds中去除并单独以模块的形式导入
     const usedWxses = new Set<WXS>()

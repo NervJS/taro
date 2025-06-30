@@ -327,7 +327,7 @@ export function createNativePageConfig (
     [ONUNLOAD] () {
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
-      window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
+      window.trigger(CONTEXT_ACTIONS.DESTROY, $taroPath)
       // 触发onUnload生命周期
       safeExecute($taroPath, ONUNLOAD)
 
@@ -446,12 +446,12 @@ export function createNativeComponentConfig (
   Component,
   compName: string,
   react: typeof React,
-  reactdom,
+  reactDOM,
   componentConfig: any = {}
 ) {
   reactMeta.R = react
   h = react.createElement
-  ReactDOM = reactdom
+  ReactDOM = reactDOM
   setReconciler(ReactDOM)
   const { isUseReact18 = true } = componentConfig
 
