@@ -265,7 +265,8 @@ export function PickerGroup(props: PickerGroupProps) {
 
   // 鼠标滚轮事件处理
   const onWheel = useCallback((e: React.WheelEvent) => {
-    e.preventDefault()
+    // 🔧 移除 preventDefault() 以消除 passive 事件监听器警告
+    // e.preventDefault()
 
     // 根据滚轮方向决定滚动距离
     const delta = e.deltaY > 0 ? -PICKER_LINE_HEIGHT : PICKER_LINE_HEIGHT
