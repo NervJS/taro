@@ -2,7 +2,7 @@ import './style/column.scss'
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
-import { createForwardRefComponent, debounce } from '../../utils'
+import { createForwardRefComponent } from '../../utils'
 
 export interface PickerViewColumnProps {
   children?: React.ReactNode
@@ -20,14 +20,10 @@ interface ColumnState {
 }
 
 function PickerViewColumnInner(props: PickerViewColumnProps) {
-  const {
-    children,
-    className,
-    style,
-    forwardedRef
-  } = props
-
+  const { children, className, style, forwardedRef } = props
   const columnRef = useRef<HTMLDivElement>(null)
+  const selectedTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
   const [columnState, setColumnState] = useState<ColumnState>({
     col: '0',
     initialPosition: '0',
@@ -36,27 +32,20 @@ function PickerViewColumnInner(props: PickerViewColumnProps) {
     isInit: false
   })
 
-  // 滚动状态管理
-  const [isAutoScrolling, setIsAutoScrolling] = useState(false)
-  const userScrollTimeoutRef = useRef<NodeJS.Timeout>()
-
-  // 获取当前元素引用
   const getElement = useCallback(() => {
     return forwardedRef?.current || columnRef.current
   }, [forwardedRef])
 
-  // 处理属性变化，参考 Stencil 版本的 componentDidLoad/componentDidUpdate
+  // 处理属性变化 - 与Stencil版本componentDidLoad/componentDidUpdate一致
   const handleChange = useCallback(() => {
     const el = getElement()
     if (!el) return
 
-    setIsAutoScrolling(true)
-
-    // 使用 childNodes 而不是 children，与 Stencil 版本保持一致
     const childList = el.childNodes
     let idx = 0
     let sum = 0
 
+    // 与Stencil版本完全一致的遍历方式
     for (const index in childList) {
       const item = childList[index] as HTMLElement
       if (columnState.initialPosition === index || !item || typeof item.offsetHeight !== 'number') {
@@ -67,9 +56,6 @@ function PickerViewColumnInner(props: PickerViewColumnProps) {
     }
 
     el.scrollTo({ top: sum })
-
-    // 延迟重置自动滚动状态
-    setTimeout(() => setIsAutoScrolling(false), 100)
 
     if (idx >= childList.length) {
       const selectEvent = new CustomEvent('onselect', {
@@ -83,29 +69,64 @@ function PickerViewColumnInner(props: PickerViewColumnProps) {
     }
   }, [columnState.initialPosition, columnState.col, getElement])
 
-  // 发送选择事件
-  const emitSelectEvent = useCallback((selectedIndex: string) => {
+  // 🔧 核心修复：自实现debounce效果
+  const handleSelected = useCallback(() => {
+    // 清除之前的定时器
+    if (selectedTimeoutRef.current) {
+      clearTimeout(selectedTimeoutRef.current)
+      selectedTimeoutRef.current = null
+    }
+
+    // 设置新的定时器，实现debounce效果
+    selectedTimeoutRef.current = setTimeout(() => {
+      const el = getElement()
+      if (!el) return
+
+      const childList = el.childNodes
+      let sum = 0
+      let selectedIndex: string = '0'
+
+      // 与Stencil版本完全一致的计算方式
+      for (const index in childList) {
+        const item = childList[index] as HTMLElement
+        const itemHeight = item.offsetHeight
+        if (sum + itemHeight / 2.0 > el.scrollTop) {
+          selectedIndex = index
+          break
+        }
+        sum += itemHeight
+      }
+
+      el.scrollTo({
+        top: sum,
+        behavior: 'smooth'
+      })
+
+      const selectEvent = new CustomEvent('onselect', {
+        detail: {
+          curIndex: columnState.col,
+          selectedIndex: selectedIndex
+        },
+        bubbles: true
+      })
+      el.dispatchEvent(selectEvent)
+
+      const selectEndEvent = new CustomEvent('onselectend', {
+        detail: {},
+        bubbles: true
+      })
+      el.dispatchEvent(selectEndEvent)
+    }, 500)
+  }, [columnState.col, getElement])
+
+  // 🔧 立即触发选择逻辑
+  const handleImmediateSelect = useCallback(() => {
     const el = getElement()
     if (!el) return
 
-    const selectEvent = new CustomEvent('onselect', {
-      detail: {
-        curIndex: columnState.col,
-        selectedIndex: selectedIndex
-      },
-      bubbles: true
-    })
-    el.dispatchEvent(selectEvent)
-  }, [columnState.col, getElement])
-
-  // 计算当前选中的索引
-  const getCurrentSelectedIndex = useCallback(() => {
-    const el = getElement()
-    if (!el) return '0'
-
     const childList = el.childNodes
     let sum = 0
-    let selectedIndex = '0'
+    let selectedIndex: string = '0'
 
     for (const index in childList) {
       const item = childList[index] as HTMLElement
@@ -117,89 +138,24 @@ function PickerViewColumnInner(props: PickerViewColumnProps) {
       sum += itemHeight
     }
 
-    return selectedIndex
-  }, [getElement])
+    const selectEvent = new CustomEvent('onselect', {
+      detail: {
+        curIndex: columnState.col,
+        selectedIndex: selectedIndex
+      },
+      bubbles: true
+    })
+    el.dispatchEvent(selectEvent)
+  }, [columnState.col, getElement])
 
-  // 立即触发 change 事件（用于 immediateChange=true）
-  const triggerImmediateChange = useCallback(() => {
-    if (isAutoScrolling) return // 忽略自动滚动
-
-    const selectedIndex = getCurrentSelectedIndex()
-    emitSelectEvent(selectedIndex)
-
-    // 发送选择结束事件
-    const el = getElement()
-    if (el) {
-      const selectEndEvent = new CustomEvent('onselectend', {
-        detail: {},
-        bubbles: true
-      })
-      el.dispatchEvent(selectEndEvent)
-    }
-  }, [isAutoScrolling, getCurrentSelectedIndex, emitSelectEvent, getElement])
-
-  // 滚动结束自动回到合适的位置，与 Stencil 版本完全一致
-  const handleSelected = useCallback(
-    debounce(() => {
-      if (isAutoScrolling) return // 忽略自动滚动
-
-      const el = getElement()
-      if (!el) return
-
-      const selectedIndex = getCurrentSelectedIndex()
-      const childList = el.childNodes
-      let sum = 0
-
-      // 计算应该滚动到的位置
-      for (let i = 0; i < Number(selectedIndex); i++) {
-        const item = childList[i] as HTMLElement
-        if (item) sum += item.offsetHeight
-      }
-
-      setIsAutoScrolling(true)
-      el.scrollTo({
-        top: sum,
-        behavior: 'smooth'
-      })
-
-      // 延迟重置状态并发送事件
-      setTimeout(() => {
-        setIsAutoScrolling(false)
-        emitSelectEvent(selectedIndex)
-
-        // 发送选择结束事件
-        const selectEndEvent = new CustomEvent('onselectend', {
-          detail: {},
-          bubbles: true
-        })
-        el.dispatchEvent(selectEndEvent)
-      }, 300) // 等待动画完成
-    }, 500),
-    [isAutoScrolling, getCurrentSelectedIndex, emitSelectEvent, getElement]
-  )
-
-  // 统一的滚动处理
-  const handleScroll = useCallback(() => {
-    if (isAutoScrolling) return // 忽略自动滚动
-
-    // 清除之前的定时器
-    if (userScrollTimeoutRef.current) {
-      clearTimeout(userScrollTimeoutRef.current)
-    }
-
-    if (columnState.immediateChange) {
-      // immediateChange=true: 短延迟后立即触发（不等待滚动完全停止）
-      userScrollTimeoutRef.current = setTimeout(() => {
-        triggerImmediateChange()
-      }, 100)
-    } else {
-      // immediateChange=false: 等待滚动完全停止后触发
-      handleSelected()
-    }
-  }, [isAutoScrolling, columnState.immediateChange, triggerImmediateChange, handleSelected])
-
-  // 触摸开始处理
+  // 🔧 关键修复：touchstart时取消debounce
   const handleTouchStart = useCallback(() => {
+    // 🔧 取消debounce定时器，防止闪回
+    if (selectedTimeoutRef.current) {
+      clearTimeout(selectedTimeoutRef.current)
+      selectedTimeoutRef.current = null
+    }
+
     const el = getElement()
     if (el) {
       const selectStartEvent = new CustomEvent('onselectstart', {
@@ -210,26 +166,44 @@ function PickerViewColumnInner(props: PickerViewColumnProps) {
     }
   }, [getElement])
 
+  // 触摸结束处理
+  const handleTouchEnd = useCallback(() => {
+    if (columnState.immediateChange) {
+      handleImmediateSelect()
+    } else {
+      handleSelected()
+    }
+  }, [columnState.immediateChange, handleImmediateSelect, handleSelected])
+
+  // 🔧 scroll事件处理：支持滚轮
+  const handleScroll = useCallback(() => {
+    if (columnState.immediateChange) {
+      handleImmediateSelect()
+    } else {
+      handleSelected()
+    }
+  }, [columnState.immediateChange, handleImmediateSelect, handleSelected])
+
   // 事件监听
   useEffect(() => {
     const el = getElement()
     if (!el) return
 
-    // 监听滚动事件（支持所有滚动方式）
-    el.addEventListener('scroll', handleScroll, { passive: true })
-    // 监听触摸开始（用于发送 selectstart 事件）
     el.addEventListener('touchstart', handleTouchStart, { passive: true })
+    el.addEventListener('touchend', handleTouchEnd, { passive: true })
+    el.addEventListener('scroll', handleScroll, { passive: true }) // 支持滚轮
 
     return () => {
-      el.removeEventListener('scroll', handleScroll)
       el.removeEventListener('touchstart', handleTouchStart)
+      el.removeEventListener('touchend', handleTouchEnd)
+      el.removeEventListener('scroll', handleScroll)
 
       // 清理定时器
-      if (userScrollTimeoutRef.current) {
-        clearTimeout(userScrollTimeoutRef.current)
+      if (selectedTimeoutRef.current) {
+        clearTimeout(selectedTimeoutRef.current)
       }
     }
-  }, [getElement, handleScroll, handleTouchStart])
+  }, [getElement, handleTouchStart, handleTouchEnd, handleScroll])
 
   // 监听父组件传递的属性更新
   useEffect(() => {
@@ -252,10 +226,7 @@ function PickerViewColumnInner(props: PickerViewColumnProps) {
       }))
     }
 
-    // 监听父组件的属性更新事件
     el.addEventListener('propsupdate', handlePropsUpdate)
-
-    // 初始读取一次属性
     handlePropsUpdate()
 
     return () => {
@@ -263,10 +234,9 @@ function PickerViewColumnInner(props: PickerViewColumnProps) {
     }
   }, [getElement])
 
-  // 当属性变化时，重新处理初始化，参考 Stencil 版本的组件生命周期
+  // 当属性变化时，重新处理初始化
   useEffect(() => {
     if (columnState.isInit) {
-      // 延迟执行，确保 DOM 已更新
       const timer = setTimeout(() => {
         handleChange()
       }, 50)

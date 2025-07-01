@@ -652,7 +652,7 @@ export function Picker(props: IProps) {
 
       // 检查是否所有需要的列都有值
       if (selectedValues.length < displayColumns) {
-        alert('请完整选择所有项目')
+        alert('Please complete all items')
         return
       }
 
