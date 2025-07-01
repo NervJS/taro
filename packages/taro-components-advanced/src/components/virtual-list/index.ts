@@ -28,7 +28,7 @@ interface VirtualListProps<T = any> extends Omit<StandardProps, 'children'> {
    * >  - 非 unlimitedSize 模式下如果传入函数，为避免性能问题，每个节点只会调用一次用于设置初始值
    */
   itemSize: number | ((index?: number, itemData?: T[]) => number)
-  /** 解开高度列表单项大小限制，默认值使用: itemSize。
+  /** 解开高度列表单项大小限制，默认值使用：itemSize。
    *
    * > Note: 通过 itemSize 设置的初始高度与子节点实际高度差异过大会导致隐患，建议将单页大小设置接近于现实高度，在该模式下可以提升用户体验。
    * @default false
@@ -56,7 +56,7 @@ interface VirtualListProps<T = any> extends Omit<StandardProps, 'children'> {
    * @default 50
    */
   lowerThreshold?: number
-  /** 是否注入 isScrolling 属性到 item 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
+  /** 是否注入 isScrolling 属性到 item 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder）时比较有用。 */
   useIsScrolling?: boolean
   /** 通过 ScrollViewContext 优化组件滚动性能
    * @default false
@@ -106,7 +106,7 @@ declare namespace VirtualListProps {
   }
 
   interface IVirtualListEvent<T extends ScrollViewProps.onScrollDetail = ScrollViewProps.onScrollDetail> extends BaseEventOrig {
-    /** 滚动方向，可能值为 forward 往前， backward 往后。 */
+    /** 滚动方向，可能值为 forward 往前，backward 往后。 */
     scrollDirection: 'forward' | 'backward'
     /** 滚动距离 */
     scrollOffset: number
@@ -117,103 +117,6 @@ declare namespace VirtualListProps {
   }
 }
 
-/** 虚拟列表
- * @classification viewContainer
- * @supported weapp, swan, alipay, tt, qq, jd, h5
- * @example_react
- * ```tsx
- * import VirtualList from `@tarojs/components/virtual-list`
- *
- * function buildData (offset = 0) {
- *   return Array(100).fill(0).map((_, i) => i + offset);
- * }
- *
- * const Row = React.memo(({ id, index, data }) => {
- *   return (
- *     <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'}>
- *       Row {index}
- *     </View>
- *   );
- * })
- *
- * export default class Index extends Component {
- *   state = {
- *     data: buildData(0),
- *   }
- *
- *   render() {
- *     const { data } = this.state
- *     const dataLen = data.length
- *     return (
- *       <VirtualList
- *         height={500} // 列表的高度
- *         width='100%' // 列表的宽度
- *         item={Row} // 列表单项组件，这里只能传入一个组件
- *         itemData={data} // 渲染列表的数据
- *         itemCount={dataLen} // 渲染列表的长度
- *         itemSize={100} // 列表单项的高度
- *       />
- *     );
- *   }
- * }
- * ```
- * @example_vue
- * ```js
- * // app.js 入口文件
- * import Vue from 'vue'
- * import VirtualList from '@tarojs/components/virtual-list'
- *
- * Vue.use(VirtualList)
- * ```
- * ```js
- * <! –– row.vue 单项组件 ––>
- * <template>
- *   <view
- *     :class="index % 2 ? 'ListItemOdd' : 'ListItemEven'"
- *   >
- *     Row {{ index }} : {{ data[index] }}
- *   </view>
- * </template>
- *
- * <script>
- * export default {
- *   props: ['index', 'data']
- * }
- * </script>
- * ```
- * ```js
- * <! –– page.vue 页面组件 ––>
- * <template>
- *   <virtual-list
- *     :height="500"
- *     :item-data="list"
- *     :item-count="list.length"
- *     :item-size="100"
- *     :item="Row"
- *     width="100%"
- *   />
- * </template>
- *
- * <script>
- * import Row from './row.vue'
- * import { markRaw } from 'vue'
- *
- * function buildData (offset = 0) {
- *   return Array(100).fill(0).map((_, i) => i + offset)
- * }
- *
- * export default {
- *   data() {
- *     return {
- *       Row: markRaw(Row),
- *       list: buildData(0)
- *     }
- *   },
- * }
- * </script>
- * ```
- * @see https://taro-docs.jd.com/docs/virtual-list
- */
 declare class VirtualListComponent extends Component<VirtualListProps> {
   /**
    * 滚动到指定的地点。
