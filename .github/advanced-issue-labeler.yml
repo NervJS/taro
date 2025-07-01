@@ -3,7 +3,7 @@
 policy:
   - template: [bug_report.yml]
     section:
-      - id: [framework]
+      - id: [version]
         label:
           - name: V-4
             keys: [v4]
