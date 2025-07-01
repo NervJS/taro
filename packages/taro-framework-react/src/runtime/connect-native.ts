@@ -26,7 +26,7 @@ interface InitNativeComponentEntryParams {
   R: typeof React
   ReactDOM: typeof ReactDOM
   cb?: Func
-  // 是否使用默认的 DOM 入口 - app；默认为true，false的时候，会创建一个新的dom并且把它挂载在 app 下面
+  // 是否使用默认的 DOM 入口 - app；默认为 true，false 的时候，会创建一个新的 dom 并且把它挂载在 app 下面
   isDefaultEntryDom?: boolean
 }
 
@@ -244,8 +244,8 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
     [ONUNLOAD] () {
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
-      window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
-      // 触发onUnload生命周期
+      window.trigger(CONTEXT_ACTIONS.DESTROY, $taroPath)
+      // 触发 onUnload 生命周期
       safeExecute($taroPath, ONUNLOAD)
       resetCurrent()
       unmounting = true
@@ -300,7 +300,7 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
   }
 
   function resetCurrent () {
-    // 小程序插件页面卸载之后返回到宿主页面时，需重置Current页面和路由。否则引发插件组件二次加载异常 fix:#11991
+    // 小程序插件页面卸载之后返回到宿主页面时，需重置 Current 页面和路由。否则引发插件组件二次加载异常 fix:#11991
     Current.page = null
     Current.router = null
   }
@@ -345,11 +345,11 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
 export function createH5NativeComponentConfig (
   Component,
   react: typeof React,
-  reactdom: typeof ReactDOM,
+  reactDOM: typeof ReactDOM,
 ) {
   reactMeta.R = react
   h = react.createElement
-  ReactDOM = reactdom
+  ReactDOM = reactDOM
   setReconciler(ReactDOM)
 
   return Component
@@ -383,7 +383,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     created () {
       if (process.env.TARO_ENV === 'swan') {
         const inst: any = document.getElementById(this.id)
-        // 百度小程序 真机上 props中的函数会被转为Object 调用报错 导致后续组件无法渲染 这里先取TaroElement上的props，在properties中会重新赋值
+        // 百度小程序 真机上 props 中的函数会被转为 Object 调用报错 导致后续组件无法渲染 这里先取 TaroElement 上的 props，在 properties 中会重新赋值
         if (this.data?.props && inst) {
           this.data.props = inst.props?.props || {}
         }
@@ -442,7 +442,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
   }
 
   function resetCurrent () {
-    // 小程序插件页面卸载之后返回到宿主页面时，需重置Current页面和路由。否则引发插件组件二次加载异常 fix:#11991
+    // 小程序插件页面卸载之后返回到宿主页面时，需重置 Current 页面和路由。否则引发插件组件二次加载异常 fix:#11991
     Current.page = null
     Current.router = null
   }
@@ -477,8 +477,8 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
 
   if (process.env.TARO_ENV === 'alipay') {
     /**
-     * 支付宝需要修改生命周期 同时宿主需要开启component2
-     * 如果不开启 props对象中的函数参数会被忽略 导致无法调用
+     * 支付宝需要修改生命周期 同时宿主需要开启 component2
+     * 如果不开启 props 对象中的函数参数会被忽略 导致无法调用
      * @see https://opendocs.alipay.com/mini/03dbc3#compileOptions
      * @returns
      */

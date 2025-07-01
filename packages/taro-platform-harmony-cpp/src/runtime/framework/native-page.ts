@@ -169,7 +169,7 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     unmount (compId, cb?) {
       const components = this.state.components
       const index = components.findIndex((item) => item.compId === compId)
-      // 如果找不到对应compound，说明已经删，不用多余处理
+      // 如果找不到对应 compound，说明已经删，不用多余处理
       if (index === -1) return
       const next = [...components.slice(0, index), ...components.slice(index + 1)]
 
@@ -327,8 +327,8 @@ export function createNativePageConfig (
     [ONUNLOAD] () {
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
-      window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
-      // 触发onUnload生命周期
+      window.trigger(CONTEXT_ACTIONS.DESTROY, $taroPath)
+      // 触发 onUnload 生命周期
       safeExecute($taroPath, ONUNLOAD)
 
       removePageById($taroPath)
@@ -394,7 +394,7 @@ export function createNativePageConfig (
 
   function resetCurrent () {
     if (Current.page === this) {
-      // 小程序插件页面卸载之后返回到宿主页面时，需重置Current页面和路由。否则引发插件组件二次加载异常 fix:#11991
+      // 小程序插件页面卸载之后返回到宿主页面时，需重置 Current 页面和路由。否则引发插件组件二次加载异常 fix:#11991
       Current.page = null
       Current.router = null
     }
@@ -446,12 +446,12 @@ export function createNativeComponentConfig (
   Component,
   compName: string,
   react: typeof React,
-  reactdom,
+  reactDOM,
   componentConfig: any = {}
 ) {
   reactMeta.R = react
   h = react.createElement
-  ReactDOM = reactdom
+  ReactDOM = reactDOM
   setReconciler(ReactDOM)
   const { isUseReact18 = true } = componentConfig
 

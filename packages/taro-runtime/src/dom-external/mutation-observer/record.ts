@@ -1,5 +1,5 @@
+import type { ValueOf } from '@tarojs/shared'
 import type { TaroNode } from '../../dom/node'
-
 /**
  * A MutationRecord represents an individual DOM mutation.
  * It is the object that is passed to MutationObserver's callback.
@@ -21,8 +21,9 @@ export interface MutationRecord {
   readonly value?: string | null
 }
 
-export const enum MutationRecordType {
-  ATTRIBUTES = 'attributes',
-  CHARACTER_DATA = 'characterData',
-  CHILD_LIST = 'childList',
-}
+export const MutationRecordType = {
+  ATTRIBUTES: 'attributes',
+  CHARACTER_DATA: 'characterData',
+  CHILD_LIST: 'childList',
+} as const
+export type MutationRecordType = ValueOf<typeof MutationRecordType>;

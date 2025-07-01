@@ -8,7 +8,6 @@ declare module '@tarojs/runtime' {
     ATTRIBUTE_NODE = 2,
     TEXT_NODE = 3,
     CDATA_SECTION_NODE = 4,
-    ENTITY_REFERENCE_NODE = 5,
     PROCESSING_INSTRUCTION_NODE = 7,
     COMMENT_NODE = 8,
     DOCUMENT_NODE = 9,

@@ -12,14 +12,15 @@ import WeappCI from './WeappCI'
 
 import type { IPluginContext } from '@tarojs/service'
 
-const enum EnumAction {
+const EnumAction = {
   /** 自动打开预览工具 */
-  'open' = 'open',
+  open: 'open',
   /** 预览小程序（上传代码，作为“开发版”小程序） */
-  'preview' = 'preview',
+  preview: 'preview',
   /** 上传小程序（上传代码，可设置为“体验版”小程序） */
-  'upload' = 'upload',
-}
+  upload: 'upload',
+} as const
+type EnumAction = typeof EnumAction[keyof typeof EnumAction]
 
 interface MinimistArgs {
   /** 自定义要处理的项目目录 */
@@ -201,7 +202,7 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
       name: action,
       optionsMap: {
         '--type [typeName]': `${action} type, 支持 weapp/swan/alipay/iot/tt/dd`,
-        '--projectPath': `${action} 目录, 不传默认为配置项 'outputRoot' 配置目录`
+        '--projectPath': `${action} 目录，不传默认为配置项 'outputRoot' 配置目录`
       },
       synopsisList: [
         `taro ${action} --type weapp`,
