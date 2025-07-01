@@ -4,7 +4,7 @@ import { useCallback, useState } from '../../utils/hooks'
 import type React from 'react'
 
 interface PickerGroupProps {
-  mode?: 'time' | 'date'
+  mode?: 'time' | 'date' | 'region'
   range: any[]
   rangeKey?: string
   height: number
@@ -12,6 +12,7 @@ interface PickerGroupProps {
   updateHeight: (height: number, columnId: string, needRevise?: boolean) => void
   updateDay?: (value: number, fields: number) => void
   onColumnChange?: (e: { columnId: string, height: number }) => void
+  customItem?: string
 }
 
 interface PickerGroupState {
@@ -31,7 +32,8 @@ export function PickerGroup(props: PickerGroupProps) {
     columnId,
     updateHeight,
     updateDay,
-    onColumnChange
+    onColumnChange,
+    customItem
   } = props
 
   const [state, setState] = useState<PickerGroupState>({
@@ -112,10 +114,27 @@ export function PickerGroup(props: PickerGroupProps) {
           newPos = PICKER_TOP - PICKER_LINE_HEIGHT * 4 + deltaY
         }
       }
+    } else {
+      // 为非时间模式添加绝对严格的边界限制
+      const maxPosition = PICKER_TOP // 最上面的选项
+      const minPosition = PICKER_TOP - PICKER_LINE_HEIGHT * (range.length - 1) // 最下面的选项
+
+      // 完全移除缓冲空间，绝对不允许超出范围
+      if (newPos > maxPosition) {
+        newPos = maxPosition
+      }
+      if (newPos < minPosition) {
+        newPos = minPosition
+      }
+
+      // 如果数据为空，直接限制在第一个位置
+      if (range.length === 0) {
+        newPos = PICKER_TOP
+      }
     }
 
     updateHeight(newPos, columnId)
-  }, [height, state.preY, state.startY, state.hadMove, mode, columnId, updateHeight])
+  }, [height, state.preY, state.startY, state.hadMove, mode, columnId, range.length, updateHeight])
 
   const handleMoveEnd = useCallback((clientY: number) => {
     const max = 0
@@ -170,26 +189,36 @@ export function PickerGroup(props: PickerGroupProps) {
 
     // 先按公式算出 index, 再用此 index 算出一个整数高度
     const index = Math.round(absoluteHeight / -PICKER_LINE_HEIGHT)
-    const relativeHeight = PICKER_TOP - PICKER_LINE_HEIGHT * index
+
+    // 确保索引在有效范围内，防止选择空项 - 添加额外的安全检查
+    const safeIndex = Math.max(0, Math.min(index, range.length - 1))
+
+    // 如果数据为空，强制选择第一项（索引0）
+    const finalIndex = range.length === 0 ? 0 : safeIndex
+
+    const relativeHeight = PICKER_TOP - PICKER_LINE_HEIGHT * finalIndex
 
     if (mode === 'date' && typeof updateDay === 'function') {
-      if (columnId === '0') {
-        updateDay(
-          +range[index].replace(/[^0-9]/gi, ''),
-          0
-        )
-      }
-      if (columnId === '1') {
-        updateDay(
-          +range[index].replace(/[^0-9]/gi, ''),
-          1
-        )
-      }
-      if (columnId === '2') {
-        updateDay(
-          +range[index].replace(/[^0-9]/gi, ''),
-          2
-        )
+      // 确保在访问 range 之前检查有效性
+      if (finalIndex < range.length && range[finalIndex]) {
+        if (columnId === '0') {
+          updateDay(
+            +range[finalIndex].replace(/[^0-9]/gi, ''),
+            0
+          )
+        }
+        if (columnId === '1') {
+          updateDay(
+            +range[finalIndex].replace(/[^0-9]/gi, ''),
+            1
+          )
+        }
+        if (columnId === '2') {
+          updateDay(
+            +range[finalIndex].replace(/[^0-9]/gi, ''),
+            2
+          )
+        }
       }
     }
 
@@ -212,6 +241,75 @@ export function PickerGroup(props: PickerGroupProps) {
     handleMoveEnd(e.changedTouches[0].clientY)
   }, [handleMoveEnd])
 
+  // 添加鼠标滚轮支持 - 参考 picker-view 的实现
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    // 防止与触摸事件冲突
+    e.preventDefault()
+    handleMoveStart(e.clientY)
+
+    const onMouseMove = (e: MouseEvent) => {
+      e.preventDefault()
+      handleMoving(e.clientY)
+    }
+
+    const onMouseUp = (e: MouseEvent) => {
+      e.preventDefault()
+      handleMoveEnd(e.clientY)
+      document.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('mouseup', onMouseUp)
+    }
+
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('mouseup', onMouseUp)
+  }, [handleMoveStart, handleMoving, handleMoveEnd])
+
+  // 鼠标滚轮事件处理
+  const onWheel = useCallback((e: React.WheelEvent) => {
+    e.preventDefault()
+
+    // 根据滚轮方向决定滚动距离
+    const delta = e.deltaY > 0 ? -PICKER_LINE_HEIGHT : PICKER_LINE_HEIGHT
+    const newHeight = height + delta
+
+    // 边界检查 - 与 handleMoving 保持一致，添加缓冲空间
+    let finalHeight = newHeight
+
+    if (mode === 'time') {
+      // time 模式的特殊处理（如果需要的话）
+      const max = PICKER_TOP
+      const min = PICKER_TOP - PICKER_LINE_HEIGHT * (range.length - 1)
+      if (finalHeight > max) finalHeight = max
+      if (finalHeight < min) finalHeight = min
+    } else {
+      // 为非时间模式添加绝对严格的边界限制
+      const maxPosition = PICKER_TOP // 最上面的选项
+      const minPosition = PICKER_TOP - PICKER_LINE_HEIGHT * (range.length - 1) // 最下面的选项
+
+      // 完全移除缓冲空间，绝对不允许超出范围
+      if (finalHeight > maxPosition) {
+        finalHeight = maxPosition
+      }
+      if (finalHeight < minPosition) {
+        finalHeight = minPosition
+      }
+
+      // 如果数据为空，直接限制在第一个位置
+      if (range.length === 0) {
+        finalHeight = PICKER_TOP
+      }
+    }
+
+    // 如果在有效范围内，执行滚动
+    if (finalHeight !== height) {
+      setState(prev => ({ ...prev, touchEnd: true }))
+      updateHeight(finalHeight, columnId, mode === 'time')
+      onColumnChange?.({
+        columnId,
+        height: finalHeight,
+      })
+    }
+  }, [height, range.length, columnId, mode, updateHeight, onColumnChange])
+
   const pickerItem = range.map((item, index) => {
     const content = rangeKey && item && typeof item === 'object' ? item[rangeKey] : item
     // 判断选中和禁用
@@ -222,17 +320,27 @@ export function PickerGroup(props: PickerGroupProps) {
     )
   })
 
+  // 处理 customItem
+  const finalPickerItems = customItem
+    ? [
+      <div key="custom" className="weui-picker__item weui-picker__item--custom">{customItem}</div>,
+      ...pickerItem
+    ]
+    : pickerItem
+
   return (
     <div
       className="weui-picker__group"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
+      onMouseDown={onMouseDown}
+      onWheel={onWheel}
     >
       <div className="weui-picker__mask" />
       <div className="weui-picker__indicator" />
       <div className="weui-picker__content" style={getPosition()}>
-        {pickerItem}
+        {finalPickerItems}
       </div>
     </div>
   )

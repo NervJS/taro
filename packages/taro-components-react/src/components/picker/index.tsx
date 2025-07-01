@@ -22,9 +22,145 @@ import { PickerGroup } from './picker-group'
 
 import type React from 'react'
 
-export type Mode = 'selector' | 'multiSelector' | 'time' | 'date'
+// 定义 RegionData 类型，与 Taro 官方保持一致
+export interface RegionData {
+  value: string
+  code: string
+  postcode?: string
+  children?: RegionData[]
+}
+
+// 稳定的空数组引用，避免每次渲染都创建新引用
+const EMPTY_ARRAY: any[] = []
+const EMPTY_OBJECT: Record<string, any> = {}
+
+// 数据层级检测函数
+function detectDataLevel(data: RegionData[]): number {
+  if (!data || data.length === 0) return 0
+
+  let maxLevel = 1
+  const traverse = (item: RegionData, level: number) => {
+    if (level > maxLevel) maxLevel = level
+    if (item.children && Array.isArray(item.children) && item.children.length > 0) {
+      item.children.forEach(child => traverse(child, level + 1))
+    }
+  }
+
+  data.forEach(item => traverse(item, 1))
+  return maxLevel
+}
+
+// 数据验证函数
+function validateRegionData(data: RegionData[], componentName = 'Picker'): { valid: boolean, error?: string } {
+  if (!data) {
+    return { valid: false, error: `${componentName}: regionData is required for region mode` }
+  }
+
+  if (!Array.isArray(data)) {
+    return { valid: false, error: `${componentName}: regionData must be an array` }
+  }
+
+  if (data.length === 0) {
+    return { valid: false, error: `${componentName}: regionData cannot be empty` }
+  }
+
+  // 检查数据结构
+  const validateItem = (item: RegionData, path: string): { valid: boolean, error?: string } => {
+    if (!item || typeof item !== 'object') {
+      return { valid: false, error: `${componentName}: Invalid item at ${path}` }
+    }
+
+    if (!item.value || typeof item.value !== 'string') {
+      return { valid: false, error: `${componentName}: Missing or invalid 'value' field at ${path}` }
+    }
+
+    if (!item.code || typeof item.code !== 'string') {
+      return { valid: false, error: `${componentName}: Missing or invalid 'code' field at ${path}` }
+    }
+
+    if (item.postcode !== undefined && typeof item.postcode !== 'string') {
+      return { valid: false, error: `${componentName}: Invalid 'postcode' field at ${path}` }
+    }
+
+    if (item.children && !Array.isArray(item.children)) {
+      return { valid: false, error: `${componentName}: 'children' must be an array at ${path}` }
+    }
+
+    if (item.children) {
+      for (let i = 0; i < item.children.length; i++) {
+        const childResult = validateItem(item.children[i], `${path}.children[${i}]`)
+        if (!childResult.valid) return childResult
+      }
+    }
+
+    return { valid: true }
+  }
+
+  for (let i = 0; i < data.length; i++) {
+    const result = validateItem(data[i], `regionData[${i}]`)
+    if (!result.valid) return result
+  }
+
+  return { valid: true }
+}
+
+// 辅助函数：获取省市区某列的数据
+function getRegionColumnData(
+  data: RegionData[],
+  columnIndex: number,
+  selectedValues: string[] = [],
+  dataLevel: number
+): RegionData[] {
+  if (!data || data.length === 0) return []
+
+  // 根据数据层级和列索引获取对应数据
+  if (dataLevel === 3) {
+    // 三级数据：省→市→区
+    if (columnIndex === 0) {
+      return data // 省份数据
+    } else if (columnIndex === 1) {
+      const selectedProvince = selectedValues[0]
+      const province = data.find(item => item.value === selectedProvince)
+      return province?.children || [] // 市数据
+    } else if (columnIndex === 2) {
+      const selectedProvince = selectedValues[0]
+      const selectedCity = selectedValues[1]
+      const province = data.find(item => item.value === selectedProvince)
+      const city = province?.children?.find(item => item.value === selectedCity)
+      return city?.children || [] // 区数据
+    }
+  } else if (dataLevel === 4) {
+    // 四级数据：国家→省→市→区
+    if (columnIndex === 0) {
+      return data // 国家数据
+    } else if (columnIndex === 1) {
+      const selectedCountry = selectedValues[0]
+      const country = data.find(item => item.value === selectedCountry)
+      return country?.children || [] // 省份数据
+    } else if (columnIndex === 2) {
+      const selectedCountry = selectedValues[0]
+      const selectedProvince = selectedValues[1]
+      const country = data.find(item => item.value === selectedCountry)
+      const province = country?.children?.find(item => item.value === selectedProvince)
+      return province?.children || [] // 市数据
+    } else if (columnIndex === 3) {
+      const selectedCountry = selectedValues[0]
+      const selectedProvince = selectedValues[1]
+      const selectedCity = selectedValues[2]
+      const country = data.find(item => item.value === selectedCountry)
+      const province = country?.children?.find(item => item.value === selectedProvince)
+      const city = province?.children?.find(item => item.value === selectedCity)
+      return city?.children || [] // 区数据
+    }
+  }
+
+  return []
+}
+
+export type Mode = 'selector' | 'multiSelector' | 'time' | 'date' | 'region'
 export type Fields = 'day' | 'month' | 'year'
-export type PickerValue = number | number[] | string
+export type RegionLevel = 'province' | 'city' | 'region' | 'sub-district' | 'country'
+export type PickerValue = number | number[] | string | string[]
 
 export interface PickerText {
   okText?: string
@@ -48,8 +184,12 @@ interface IProps {
   end?: string
   fields?: Fields
   name?: string
+  headerText?: string
+  customItem?: string
+  regionData?: RegionData[] // 省市区数据（region 模式专用，支持三级或四级数据）
+  level?: RegionLevel
   textProps?: PickerText
-  onChange?: (e: { detail: { value: PickerValue } }) => void
+  onChange?: (e: { detail: { value: PickerValue, code?: string, postcode?: string } }) => void
   onColumnChange?: (e: { detail: { column: number, value: number } }) => void
   onCancel?: () => void
   children?: React.ReactNode
@@ -71,13 +211,17 @@ export function Picker(props: IProps) {
   const {
     mode = 'selector',
     disabled = false,
-    range = [],
+    range = EMPTY_ARRAY,
     rangeKey,
     value,
     start = '',
     end = '',
     fields = 'day',
-    textProps = {},
+    headerText,
+    customItem,
+    level,
+    regionData,
+    textProps = EMPTY_OBJECT,
     onChange,
     onColumnChange,
     onCancel,
@@ -93,8 +237,8 @@ export function Picker(props: IProps) {
   const overlayRef = useRef<HTMLDivElement>(null)
 
   const [state, setState] = useState<IState>({
-    pickerValue: value || [],
-    height: [],
+    pickerValue: value || EMPTY_ARRAY,
+    height: EMPTY_ARRAY.slice(),
     hidden: true,
     fadeOut: false,
     isWillLoadCalled: false
@@ -131,7 +275,19 @@ export function Picker(props: IProps) {
         val = '0:0'
       }
       const time = val.split(':').map(n => +n)
-      indexRef.current = time
+
+      // 在 hoursRange 和 minutesRange 中找到对应的索引
+      const hourIndex = hoursRange.findIndex(item => parseInt(item) === time[0])
+      const minuteIndex = minutesRange.findIndex(item => parseInt(item) === time[1])
+
+      // 确保索引在有效范围内，并考虑补帧偏移（前4个是补帧）
+      const safeHourIndex = hourIndex >= 0 ? hourIndex + 4 : 4 // 对应 '00'
+      const safeMinuteIndex = minuteIndex >= 0 ? minuteIndex + 4 : 4 // 对应 '00'
+
+      indexRef.current = [
+        Math.max(0, Math.min(safeHourIndex, hoursRange.length + 3)), // +3 因为有前后补帧
+        Math.max(0, Math.min(safeMinuteIndex, minutesRange.length + 3))
+      ]
     } else if (mode === 'date') {
       const val = value as string
       let _value = verifyDate(val) || new Date(new Date().setHours(0, 0, 0, 0))
@@ -167,6 +323,32 @@ export function Picker(props: IProps) {
           _updateValue: [currentYear, currentMonth, currentDay]
         }
       }
+    } else if (mode === 'region') {
+      // region 模式处理 - 验证数据并自动识别层级
+      if (!regionData) {
+        console.error('Picker: regionData is required for region mode')
+        indexRef.current = [0]
+        return
+      }
+
+      const validation = validateRegionData(regionData, 'Picker')
+      if (!validation.valid) {
+        console.error(validation.error)
+        indexRef.current = [0]
+        return
+      }
+
+      const dataLevel = detectDataLevel(regionData)
+      const val = Array.isArray(value) ? (value as unknown as string[]) : []
+
+      // 根据数据层级确定索引
+      const maxColumns = dataLevel === 4 ? 4 : 3
+      indexRef.current = val.length > 0 ? val.map((item, index) => {
+        if (index >= maxColumns) return 0
+        const columnData = getRegionColumnData(regionData, index, val.slice(0, index), dataLevel)
+        const itemIndex = columnData.findIndex(dataItem => dataItem.value === item)
+        return itemIndex >= 0 ? itemIndex : 0
+      }) : new Array(maxColumns).fill(0)
     } else {
       throw new Error(`Picker not support "${mode}" mode.`)
     }
@@ -175,9 +357,9 @@ export function Picker(props: IProps) {
     setState(prev => ({
       ...prev,
       height: newHeight,
-      pickerValue: value || []
+      pickerValue: value || EMPTY_ARRAY
     }))
-  }, [mode, value, range, start, end, fields, getHeightByIndex])
+  }, [mode, range, value, start, end, fields, regionData, getHeightByIndex])
 
   // 组件初始化
   useEffect(() => {
@@ -185,19 +367,16 @@ export function Picker(props: IProps) {
     handleProps()
   }, [])
 
-  // 属性变化监听
+  // 属性变化监听 - 添加 value 依赖以支持联动选择器
   useEffect(() => {
     if (state.isWillLoadCalled) {
       handleProps()
     }
-  }, [handleProps, state.isWillLoadCalled])
+  }, [handleProps, state.isWillLoadCalled, value])
 
   // 显示 Picker
   const showPicker = useCallback(() => {
     if (disabled) return
-
-    // 确保在显示picker之前先处理props
-    handleProps()
 
     const newHeight = getHeightByIndex()
     setState(prev => ({
@@ -205,7 +384,7 @@ export function Picker(props: IProps) {
       height: newHeight,
       hidden: false
     }))
-  }, [disabled, getHeightByIndex, handleProps])
+  }, [disabled, getHeightByIndex])
 
   // 隐藏 Picker
   const hidePicker = useCallback(() => {
@@ -221,9 +400,33 @@ export function Picker(props: IProps) {
 
   // 更新高度
   const updateHeight = useCallback((height: number, columnId: string, needRevise = false) => {
-    const temp = [...state.height]
-    temp[Number(columnId)] = height
-    setState(prev => ({ ...prev, height: temp }))
+    const columnIndex = Number(columnId)
+
+    setState(prev => {
+      const temp = [...prev.height] // 使用最新的 height 状态
+      temp[columnIndex] = height
+      return { ...prev, height: temp }
+    })
+
+    // region 模式的级联更新逻辑
+    if (mode === 'region' && regionData) {
+      const dataLevel = detectDataLevel(regionData)
+      const maxColumns = dataLevel === 4 ? 4 : 3
+
+      // 当某一列发生变化时，重置后续列为第一个选项
+      setState(prev => {
+        const newHeight = [...prev.height]
+        newHeight[columnIndex] = height
+
+        // 重置后续列到第一个选项（索引0）
+        for (let i = columnIndex + 1; i < maxColumns; i++) {
+          newHeight[i] = PICKER_TOP // 重置为第一个选项的位置
+        }
+
+        return { ...prev, height: newHeight }
+      })
+      return
+    }
 
     // time picker 必须在规定时间范围内，因此需要在 touchEnd 做修正
     if (needRevise) {
@@ -236,28 +439,43 @@ export function Picker(props: IProps) {
 
       const range = [hoursRange.slice(), minutesRange.slice()]
 
-      const timeList = temp.map(h => (PICKER_TOP - h) / PICKER_LINE_HEIGHT)
-      const timeStr = timeList.map((n, i) => range[i][n]).join(':')
+      // 使用当前最新的状态计算
+      setState(prev => {
+        const temp = [...prev.height]
+        temp[Number(columnId)] = height
 
-      if (!compareTime(startTime, timeStr)) {
-        // 修正到 start
-        const height = startTime
-          .split(':')
-          .map(i => PICKER_TOP - PICKER_LINE_HEIGHT * (+i + 4))
-        requestAnimationFrame(() => {
-          setState(prev => ({ ...prev, height }))
-        })
-      } else if (!compareTime(timeStr, endTime)) {
-        // 修正到 end
-        const height = endTime
-          .split(':')
-          .map(i => PICKER_TOP - PICKER_LINE_HEIGHT * (+i + 4))
-        requestAnimationFrame(() => {
-          setState(prev => ({ ...prev, height }))
-        })
-      }
+        const timeList = temp.map(h => (PICKER_TOP - h) / PICKER_LINE_HEIGHT)
+
+        // 安全的范围访问，添加边界检查
+        const timeStr = timeList.map((n, i) => {
+          const index = Math.max(0, Math.min(Math.floor(n), range[i].length - 1))
+          return range[i][index] || '00'
+        }).join(':')
+
+        if (!compareTime(startTime, timeStr)) {
+          // 修正到 start
+          const startParts = startTime.split(':').map(part => parseInt(part))
+          const newHeight = startParts.map((time, i) => {
+            // 在 range 中找到对应时间的索引
+            const index = range[i].findIndex(item => parseInt(item) === time)
+            return PICKER_TOP - PICKER_LINE_HEIGHT * (index >= 0 ? index : 4) // 默认使用索引 4
+          })
+          return { ...prev, height: newHeight }
+        } else if (!compareTime(timeStr, endTime)) {
+          // 修正到 end
+          const endParts = endTime.split(':').map(part => parseInt(part))
+          const newHeight = endParts.map((time, i) => {
+            // 在 range 中找到对应时间的索引
+            const index = range[i].findIndex(item => parseInt(item) === time)
+            return PICKER_TOP - PICKER_LINE_HEIGHT * (index >= 0 ? index : 4) // 默认使用索引 4
+          })
+          return { ...prev, height: newHeight }
+        }
+
+        return { ...prev, height: temp }
+      })
     }
-  }, [state.height, start, end])
+  }, [start, end, mode, regionData])
 
   // 更新日期
   const updateDay = useCallback((value: number, fields: number) => {
@@ -274,35 +492,55 @@ export function Picker(props: IProps) {
     // 滚动年份
     if (fields === 0) {
       const monthRange = getMonthRange(_start, _end, currentYear)
+      if (monthRange.length === 0) return // 防止空范围
+
       const max = monthRange[monthRange.length - 1]
       const min = monthRange[0]
 
       if (currentMonth > max) _updateValue[1] = max
       if (currentMonth < min) _updateValue[1] = min
-      const index = monthRange.indexOf(_updateValue[1])
-      const height = PICKER_TOP - PICKER_LINE_HEIGHT * index
 
-      updateDay(_updateValue[1], 1)
-      updateHeight(height, '1')
+      const monthIndex = monthRange.indexOf(_updateValue[1])
+      if (monthIndex >= 0) {
+        const height = PICKER_TOP - PICKER_LINE_HEIGHT * monthIndex
+        updateHeight(height, '1')
+
+        // 检查并更新日范围
+        const dayRange = getDayRange(_start, _end, currentYear, _updateValue[1])
+        if (dayRange.length > 0) {
+          const dayMax = dayRange[dayRange.length - 1]
+          const dayMin = dayRange[0]
+
+          if (currentDay > dayMax) _updateValue[2] = dayMax
+          if (currentDay < dayMin) _updateValue[2] = dayMin
+
+          const dayIndex = dayRange.indexOf(_updateValue[2])
+          if (dayIndex >= 0) {
+            const dayHeight = PICKER_TOP - PICKER_LINE_HEIGHT * dayIndex
+            updateHeight(dayHeight, '2')
+          }
+        }
+      }
     } else if (fields === 1) {
       const dayRange = getDayRange(_start, _end, currentYear, currentMonth)
+      if (dayRange.length === 0) return // 防止空范围
+
       const max = dayRange[dayRange.length - 1]
       const min = dayRange[0]
 
       if (currentDay > max) _updateValue[2] = max
       if (currentDay < min) _updateValue[2] = min
-      const index = dayRange.indexOf(_updateValue[2])
-      const height = PICKER_TOP - PICKER_LINE_HEIGHT * index
 
-      updateDay(_updateValue[2], 2)
-      updateHeight(height, '2')
+      const dayIndex = dayRange.indexOf(_updateValue[2])
+      if (dayIndex >= 0) {
+        const height = PICKER_TOP - PICKER_LINE_HEIGHT * dayIndex
+        updateHeight(height, '2')
+      }
     }
   }, [updateHeight])
 
   // 处理确认
   const handleChange = useCallback(() => {
-    hidePicker()
-
     const newIndex = state.height.map(h => (PICKER_TOP - h) / PICKER_LINE_HEIGHT)
     indexRef.current = newIndex
 
@@ -313,10 +551,20 @@ export function Picker(props: IProps) {
     if (mode === 'time') {
       const range = [hoursRange.slice(), minutesRange.slice()]
 
-      const timeArr = newIndex.map<string>((n, i) => range[i][n])
+      // 安全的时间处理，添加边界检查
+      const timeArr = newIndex.map<string>((n, i) => {
+        const index = Math.max(0, Math.min(Math.floor(n), range[i].length - 1))
+        return range[i][index] || (i === 0 ? '00' : '00')
+      })
 
-      indexRef.current = timeArr.map(item => parseInt(item))
-      newValue = timeArr.join(':')
+      // 确保时间值有效
+      const validTimeArr = timeArr.map(time => {
+        const num = parseInt(time)
+        return isNaN(num) ? '00' : time
+      })
+
+      indexRef.current = validTimeArr.map(item => parseInt(item))
+      newValue = validTimeArr.join(':')
     }
 
     if (mode === 'date') {
@@ -329,9 +577,20 @@ export function Picker(props: IProps) {
       const monthRange = getMonthRange(_start, _end, currentYear)
       const dayRange = getDayRange(_start, _end, currentYear, currentMonth)
 
-      const year = yearRange[newIndex[0]]
-      const month = monthRange[newIndex[1]]
-      const day = dayRange[newIndex[2]]
+      // 添加边界检查，确保索引有效
+      const yearIndex = Math.min(Math.max(Math.floor(newIndex[0]), 0), yearRange.length - 1)
+      const monthIndex = Math.min(Math.max(Math.floor(newIndex[1]), 0), monthRange.length - 1)
+      const dayIndex = Math.min(Math.max(Math.floor(newIndex[2]), 0), dayRange.length - 1)
+
+      const year = yearRange[yearIndex]
+      const month = monthRange[monthIndex]
+      const day = dayRange[dayIndex]
+
+      // 确保所有值都存在
+      if (year === undefined || month === undefined || day === undefined) {
+        console.warn('Date picker: invalid date values', { year, month, day })
+        return
+      }
 
       if (fields === 'year') {
         newValue = [year]
@@ -340,13 +599,83 @@ export function Picker(props: IProps) {
       } else {
         newValue = [year, month, day]
       }
+
+      // 安全的字符串转换
       newValue = newValue
+        .filter(item => item !== undefined && item !== null) // 过滤无效值
         .map(item => {
-          return item < 10 ? `0${item}` : item
+          const num = Number(item)
+          return num < 10 ? `0${num}` : String(num)
         })
         .join('-')
     }
 
+    if (mode === 'region') {
+      if (!regionData) {
+        console.error('Picker: regionData is required for region mode')
+        return
+      }
+
+      const validation = validateRegionData(regionData, 'Picker')
+      if (!validation.valid) {
+        console.error(validation.error)
+        return
+      }
+
+      const dataLevel = detectDataLevel(regionData)
+      const selectedValues: string[] = []
+      const selectedCodes: string[] = []
+      const maxColumns = dataLevel === 4 ? 4 : 3
+
+      // 确定实际显示的列数
+      let displayColumns = maxColumns
+      if (dataLevel === 3) {
+        displayColumns = level === 'province' ? 1 : level === 'city' ? 2 : 3
+      } else if (dataLevel === 4) {
+        displayColumns = level === 'country' ? 1 : level === 'province' ? 2 : level === 'city' ? 3 : 4
+      }
+
+      // 安全获取选中值，确保级联的正确性
+      for (let i = 0; i < Math.min(newIndex.length, displayColumns); i++) {
+        const columnData = getRegionColumnData(regionData, i, selectedValues, dataLevel)
+        const selectedIndex = Math.floor(newIndex[i])
+
+        // 确保索引在有效范围内
+        if (columnData.length > 0 && selectedIndex >= 0 && selectedIndex < columnData.length) {
+          selectedValues.push(columnData[selectedIndex].value || '')
+          selectedCodes.push(columnData[selectedIndex].code || '')
+        } else {
+          // 如果索引无效，使用第一个选项，但不添加到 selectedValues
+          break
+        }
+      }
+
+      // 检查是否所有需要的列都有值
+      if (selectedValues.length < displayColumns) {
+        alert('请完整选择所有项目')
+        return
+      }
+
+      newValue = selectedValues
+
+      // 触发 onChange 事件，包含 code 信息
+      hidePicker()
+      setState(prev => ({
+        ...prev,
+        pickerValue: newValue
+      }))
+
+      onChange?.({
+        detail: {
+          value: newValue,
+          code: selectedCodes.join(','),
+          postcode: '' // 可以根据需要从最后一级获取邮政编码
+        }
+      })
+      return
+    }
+
+    hidePicker()
     setState(prev => ({
       ...prev,
       pickerValue: newValue
@@ -354,7 +683,7 @@ export function Picker(props: IProps) {
 
     // 触发 onChange 事件，格式与原始组件一致
     onChange?.({ detail: { value: newValue } })
-  }, [hidePicker, state.height, mode, fields, onChange])
+  }, [hidePicker, state.height, mode, fields, onChange, regionData, level])
 
   // 处理列变化
   const handleColumnChange = useCallback((e: { columnId: string, height: number }) => {
@@ -386,6 +715,7 @@ export function Picker(props: IProps) {
             updateHeight={updateHeight}
             onColumnChange={handleColumnChange}
             columnId={String(index)}
+            customItem={customItem}
           />
         ))
       }
@@ -400,6 +730,7 @@ export function Picker(props: IProps) {
             height={state.height[0]}
             updateHeight={updateHeight}
             columnId="0"
+            customItem={customItem}
           />,
           <PickerGroup
             key="minute"
@@ -408,6 +739,7 @@ export function Picker(props: IProps) {
             height={state.height[1]}
             updateHeight={updateHeight}
             columnId="1"
+            customItem={customItem}
           />
         ]
       }
@@ -435,6 +767,7 @@ export function Picker(props: IProps) {
             updateDay={updateDay}
             updateHeight={updateHeight}
             columnId="0"
+            customItem={customItem}
           />
         ]
         if (fields === 'month' || fields === 'day') {
@@ -447,6 +780,7 @@ export function Picker(props: IProps) {
               updateDay={updateDay}
               updateHeight={updateHeight}
               columnId="1"
+              customItem={customItem}
             />
           )
         }
@@ -460,10 +794,76 @@ export function Picker(props: IProps) {
               updateDay={updateDay}
               updateHeight={updateHeight}
               columnId="2"
+              customItem={customItem}
             />
           )
         }
         return renderView
+      }
+      case 'region': {
+        // region 模式处理 - 自动识别数据层级
+        if (!regionData) {
+          console.error('Picker: regionData is required for region mode')
+          return null
+        }
+
+        const validation = validateRegionData(regionData, 'Picker')
+        if (!validation.valid) {
+          console.error(validation.error)
+          return null
+        }
+
+        const dataLevel = detectDataLevel(regionData)
+
+        // 从当前状态获取选中值
+        const currentIndices = state.height.map(h => (PICKER_TOP - h) / PICKER_LINE_HEIGHT)
+        const selectedValues: string[] = []
+        const maxColumns = dataLevel === 4 ? 4 : 3
+
+        // 确定实际显示的列数
+        let displayColumns = maxColumns
+        if (dataLevel === 3) {
+          displayColumns = level === 'province' ? 1 : level === 'city' ? 2 : 3
+        } else if (dataLevel === 4) {
+          displayColumns = level === 'country' ? 1 : level === 'province' ? 2 : level === 'city' ? 3 : 4
+        }
+
+        // 安全获取选中值，确保级联的正确性
+        for (let i = 0; i < Math.min(currentIndices.length, displayColumns); i++) {
+          const columnData = getRegionColumnData(regionData, i, selectedValues, dataLevel)
+          const selectedIndex = Math.floor(currentIndices[i])
+
+          // 确保索引在有效范围内
+          if (columnData.length > 0 && selectedIndex >= 0 && selectedIndex < columnData.length) {
+            selectedValues.push(columnData[selectedIndex].value || '')
+          } else {
+            // 如果索引无效，使用第一个选项，但不添加到 selectedValues
+            break
+          }
+        }
+
+        const columns: JSX.Element[] = []
+
+        for (let i = 0; i < Math.min(displayColumns, maxColumns); i++) {
+          const columnData = getRegionColumnData(regionData, i, selectedValues.slice(0, i), dataLevel)
+          if (columnData.length > 0) {
+            columns.push(
+              <PickerGroup
+                key={`region-${i}`}
+                mode="region"
+                range={columnData}
+                rangeKey="value"
+                height={state.height[i]}
+                updateHeight={updateHeight}
+                onColumnChange={handleColumnChange}
+                columnId={String(i)}
+                // region 模式不使用 customItem，避免出现"全部"选项
+              />
+            )
+          }
+        }
+
+        return columns
       }
       default:
         return (
@@ -473,10 +873,11 @@ export function Picker(props: IProps) {
             height={state.height[0]}
             updateHeight={updateHeight}
             columnId="0"
+            customItem={customItem}
           />
         )
     }
-  }, [mode, range, rangeKey, state.height, fields, updateHeight, updateDay, handleColumnChange, pickerDateRef.current])
+  }, [mode, range, rangeKey, state.height, fields, updateHeight, updateDay, handleColumnChange, pickerDateRef.current, customItem, level, regionData])
 
   // 动画类名控制逻辑
   const clsMask = classNames('weui-mask', 'weui-animate-fade-in', {
@@ -508,6 +909,9 @@ export function Picker(props: IProps) {
             <div className="weui-picker__action" onClick={handleCancel}>
               {textProps.cancelText ?? '取消'}
             </div>
+            {headerText && (
+              <div className="weui-picker__title">{headerText}</div>
+            )}
             <div className="weui-picker__action" onClick={handleChange}>
               {textProps.okText ?? '确定'}
             </div>

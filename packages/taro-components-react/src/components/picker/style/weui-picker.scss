@@ -57,6 +57,22 @@ $pickerItemHeight: 34px;
   }
 }
 
+// 新增：选择器标题样式
+.weui-picker__title {
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  max-width: 50%;
+  pointer-events: none;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  font-size: 16px;
+  color: #000;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+
 .weui-picker__bd {
   display: flex;
   overflow: hidden;
@@ -134,6 +150,12 @@ $pickerItemHeight: 34px;
 
 .weui-picker__item--disabled {
   color: $weuiTextColorGray;
+}
+
+// 新增：自定义项样式
+.weui-picker__item--custom {
+  font-weight: normal;
+  color: #888;
 }
 
 .weui-mask {
