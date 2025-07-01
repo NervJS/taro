@@ -1,8 +1,6 @@
 name: 🐞 错误报告 Bug Report
 description: 报告新 Bug。一般性问题请在 GitHub Discussion 中发布。
-title: "[Bug]: "
 labels:
-  - triage
   - bug
 body:
   - type: checkboxes
@@ -85,4 +83,4 @@ body:
     attributes:
       label: 贡献代码
       options:
-        - label: 我愿意修复这个错误
+        - label: 我愿意修复这个错误。请参考 [(贡献指南)](https://github.com/NervJS/taro/blob/main/CONTRIBUTING.md)
