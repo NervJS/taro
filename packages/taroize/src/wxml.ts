@@ -281,7 +281,7 @@ export function getWxsImports (templateFileName, usedWxses, dirPath) {
   return wxsImports
 }
 
-export const createWxmlVistor = (
+export const createWxmlVisitor = (
   loopIds: Set<string>,
   refIds: Set<string>,
   dirPath: string,
@@ -289,11 +289,11 @@ export const createWxmlVistor = (
   imports: Imports[] = [],
   templates?: Map<string, Templates>
 ) => {
-  updateLogFileContent(`INFO [taroize] createWxmlVistor - 入参 ${getLineBreak()}dirPath: ${dirPath} ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] createWxmlVisitor - 入参 ${getLineBreak()}dirPath: ${dirPath} ${getLineBreak()}`)
 
   const jsxAttrVisitor = (path: NodePath<t.JSXAttribute>) => {
     updateLogFileContent(
-      `INFO [taroize] createWxmlVistor - 解析 JSXAttribute ${getLineBreak()}${path} ${getLineBreak()}`
+      `INFO [taroize] createWxmlVisitor - 解析 JSXAttribute ${getLineBreak()}${path} ${getLineBreak()}`
     )
     const name = path.node.name as t.JSXIdentifier
     const jsx = path.findParent((p) => p.isJSXElement()) as NodePath<t.JSXElement>
@@ -339,7 +339,7 @@ export const createWxmlVistor = (
 
   const renameJSXKey = (path: NodePath<t.JSXIdentifier>) => {
     updateLogFileContent(
-      `INFO [taroize] createWxmlVistor - 解析 JSXIdentifier ${getLineBreak()}${path} ${getLineBreak()}`
+      `INFO [taroize] createWxmlVisitor - 解析 JSXIdentifier ${getLineBreak()}${path} ${getLineBreak()}`
     )
     const nodeName = path.node.name
     if (path.parentPath.isJSXAttribute()) {
@@ -360,7 +360,7 @@ export const createWxmlVistor = (
         // eslint-disable-next-line no-console
         console.log(`属性  ${nodeName}不能编译，会被替换为 wx:if`)
         updateLogFileContent(
-          `WARN [taroize] createWxmlVistor - ${nodeName} 属性不能编译，会被替换为 wx:if ${getLineBreak()}`
+          `WARN [taroize] createWxmlVisitor - ${nodeName} 属性不能编译，会被替换为 wx:if ${getLineBreak()}`
         )
       } else if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
         const position = {
@@ -377,7 +377,7 @@ export const createWxmlVistor = (
         // eslint-disable-next-line no-console
         console.log(`未知 wx 作用域属性： ${nodeName}，该属性会被移除掉。`)
         updateLogFileContent(
-          `WARN [taroize] createWxmlVistor - 未知 wx 作用域属性：${nodeName}，该属性会被移除掉 ${getLineBreak()}`
+          `WARN [taroize] createWxmlVisitor - 未知 wx 作用域属性：${nodeName}，该属性会被移除掉 ${getLineBreak()}`
         )
         path.parentPath.remove()
       }
@@ -390,7 +390,7 @@ export const createWxmlVistor = (
     Identifier: {
       enter (path: NodePath<t.Identifier>) {
         updateLogFileContent(
-          `INFO [taroize] createWxmlVistor - 解析 Identifier ${getLineBreak()}${path} ${getLineBreak()}`
+          `INFO [taroize] createWxmlVisitor - 解析 Identifier ${getLineBreak()}${path} ${getLineBreak()}`
         )
         if (!path.isReferencedIdentifier()) {
           return
@@ -407,7 +407,7 @@ export const createWxmlVistor = (
     JSXElement: {
       enter (path: NodePath<t.JSXElement>) {
         updateLogFileContent(
-          `INFO [taroize] createWxmlVistor - 解析 JSXElement ${getLineBreak()}${path} ${getLineBreak()}`
+          `INFO [taroize] createWxmlVisitor - 解析 JSXElement ${getLineBreak()}${path} ${getLineBreak()}`
         )
         const openingElement = path.get('openingElement')
         const jsxName = openingElement.get('name')
@@ -450,14 +450,14 @@ export const createWxmlVistor = (
         }
         const tagName = jsxName.node.name
         if (tagName === 'Slot') {
-          updateLogFileContent(`INFO [taroize] createWxmlVistor - tagName: Slot ${getLineBreak()}`)
+          updateLogFileContent(`INFO [taroize] createWxmlVisitor - tagName: Slot ${getLineBreak()}`)
           const nameAttr = attrs.find((a) => t.isJSXAttribute(a.node) && a.node.name.name === 'name')
           let slotName = ''
           if (nameAttr && t.isJSXAttribute(nameAttr.node)) {
             if (nameAttr.node.value && t.isStringLiteral(nameAttr.node.value)) {
               slotName = nameAttr.node.value.value
             } else {
-              updateLogFileContent(`ERROR [taroize] createWxmlVistor - slot 的值不是一个字符串 ${getLineBreak()}`)
+              updateLogFileContent(`ERROR [taroize] createWxmlVisitor - slot 的值不是一个字符串 ${getLineBreak()}`)
               // const error = codeFrameError(jsxName.node, 'slot 的值必须是一个字符串')
               // @ts-ignore
               const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
@@ -479,13 +479,13 @@ export const createWxmlVistor = (
             path.replaceWith(path.parentPath.isJSXElement() ? t.jSXExpressionContainer(children) : children)
           } catch (error) {
             updateLogFileContent(
-              `WARN [taroize] createWxmlVistor - Slot 节点替换异常 ${getLineBreak()}${error} ${getLineBreak()}`
+              `WARN [taroize] createWxmlVisitor - Slot 节点替换异常 ${getLineBreak()}${error} ${getLineBreak()}`
             )
             //
           }
         }
         if (tagName === 'Wxs') {
-          updateLogFileContent(`INFO [taroize] createWxmlVistor - tagName: Wxs ${getLineBreak()}`)
+          updateLogFileContent(`INFO [taroize] createWxmlVisitor - tagName: Wxs ${getLineBreak()}`)
           wxses.push(
             getWXS(
               attrs.map((a) => a.node as t.JSXAttribute),
@@ -495,7 +495,7 @@ export const createWxmlVistor = (
           )
         }
         if (tagName === 'Template') {
-          updateLogFileContent(`INFO [taroize] createWxmlVistor - tagName: Template ${getLineBreak()}`)
+          updateLogFileContent(`INFO [taroize] createWxmlVisitor - tagName: Template ${getLineBreak()}`)
           const template = parseTemplate(path, dirPath, wxses)
           if (template) {
             let funcs = new Set<string>()
@@ -532,7 +532,7 @@ export const createWxmlVistor = (
             traverse(ast, {
               JSXIdentifier (path) {
                 updateLogFileContent(
-                  `INFO [taroize] createWxmlVistor - 解析 JSXIdentifier ${getLineBreak()}${path} ${getLineBreak()}`
+                  `INFO [taroize] createWxmlVisitor - 解析 JSXIdentifier ${getLineBreak()}${path} ${getLineBreak()}`
                 )
                 const node = path.node
                 if (node.name.endsWith('Tmpl') && node.name.length > 4 && path.parentPath.isJSXOpeningElement()) {
@@ -565,7 +565,7 @@ export const createWxmlVistor = (
               },
               JSXAttribute (path) {
                 updateLogFileContent(
-                  `INFO [taroize] createWxmlVistor - 解析 JSXAttribute ${getLineBreak()}${path} ${getLineBreak()}`
+                  `INFO [taroize] createWxmlVisitor - 解析 JSXAttribute ${getLineBreak()}${path} ${getLineBreak()}`
                 )
                 // 识别 template 使用到的处理事件的 func
                 const node = path.node
@@ -586,7 +586,7 @@ export const createWxmlVistor = (
               // 将使用到的处理事件的 func 写入到 props
               BlockStatement (path) {
                 updateLogFileContent(
-                  `INFO [taroize] createWxmlVistor - 解析 BlockStatement ${getLineBreak()}${path} ${getLineBreak()}`
+                  `INFO [taroize] createWxmlVisitor - 解析 BlockStatement ${getLineBreak()}${path} ${getLineBreak()}`
                 )
                 if (funcs.size > 0) {
                   const body = path.node.body
@@ -629,14 +629,14 @@ export const createWxmlVistor = (
           }
         }
         if (tagName === 'Import') {
-          updateLogFileContent(`INFO [taroize] createWxmlVistor - tagName: Import ${getLineBreak()}`)
+          updateLogFileContent(`INFO [taroize] createWxmlVisitor - tagName: Import ${getLineBreak()}`)
           const mods = parseModule(path, dirPath, 'import')
           if (mods) {
             imports.push(...mods)
           }
         }
         if (tagName === 'Include') {
-          updateLogFileContent(`INFO [taroize] createWxmlVistor - tagName: Include ${getLineBreak()}`)
+          updateLogFileContent(`INFO [taroize] createWxmlVisitor - tagName: Include ${getLineBreak()}`)
           parseModule(path, dirPath, 'include')
         }
       },
@@ -658,7 +658,7 @@ export const createWxmlVistor = (
               path.replaceWith(caller)
             } catch (error) {
               updateLogFileContent(
-                `WARN [taroize] createWxmlVistor - block 节点替换异常 ${getLineBreak()}${error} ${getLineBreak()}`
+                `WARN [taroize] createWxmlVisitor - block 节点替换异常 ${getLineBreak()}${error} ${getLineBreak()}`
               )
               //
             }
@@ -777,7 +777,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   // 获取 template 调用后，需要通过遍历，获取某个模板完整的调用关系
   templateBfs(templates)
 
-  traverse(ast, createWxmlVistor(loopIds, refIds, dirPath, wxses, imports, templates))
+  traverse(ast, createWxmlVisitor(loopIds, refIds, dirPath, wxses, imports, templates))
 
   refIds.forEach((id) => {
     if (
