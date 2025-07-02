@@ -161,7 +161,7 @@ declare namespace VirtualListProps {
  * ```js
  * // app.js 入口文件
  * import Vue from 'vue'
- * import VirtualList from '@tarojs/components-advanced'
+ * import { VirtualList } from '@tarojs/components-advanced'
  *
  * Vue.use(VirtualList)
  * ```
