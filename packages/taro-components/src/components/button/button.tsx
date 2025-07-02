@@ -1,5 +1,7 @@
 import { Component, h, Prop, State, ComponentInterface, Event, EventEmitter, Listen, Element, Host } from '@stencil/core'
 import classNames from 'classnames'
+import { withAscfAdapter } from 'src/common/ascf-adapter'
+
 
 @Component({
   tag: 'taro-button-core',
@@ -104,3 +106,6 @@ export class Button implements ComponentInterface {
     )
   }
 }
+
+
+

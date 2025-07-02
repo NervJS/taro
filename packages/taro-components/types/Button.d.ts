@@ -440,6 +440,33 @@ declare namespace ButtonProps {
       authorizePrivateMessage
     }
   }
+
+  declare namespace TaroGeneral {
+    interface ENV_TYPE {
+      ascf: boolean
+    }
+  }  
+
+  type ASCFAdaptedProps<Props, Mapping> = {
+    [K in keyof Props]:
+      K extends keyof Mapping
+        ? Mapping[K]['ascfProp'] extends string
+          ? Props[K]
+          : never
+        : Props[K]
+  } & {
+    [K in keyof Mapping as Mapping[K]['ascfProp']]?: any
+  };
+  interface ButtonProps {
+    size?: 'mini' | 'small' | 'default' | 'large'
+    loading?: boolean
+  }
+  
+  type TaroButtonProps = 
+    TaroGeneral.ENV_TYPE['ascf'] extends true 
+      ? ASCFAdaptedProps<ButtonProps, typeof coreMappings.Button>
+      : ButtonProps;
+
   /** lang 的合法值 */
   interface Lang {
     /** 英文 */
