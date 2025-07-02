@@ -122,7 +122,7 @@ declare namespace VirtualListProps {
  * @supported weapp, swan, alipay, tt, qq, jd, h5
  * @example_react
  * ```tsx
- * import VirtualList from `@tarojs/components-advanced`
+ * import { VirtualList } from `@tarojs/components-advanced`
  *
  * function buildData (offset = 0) {
  *   return Array(100).fill(0).map((_, i) => i + offset);
