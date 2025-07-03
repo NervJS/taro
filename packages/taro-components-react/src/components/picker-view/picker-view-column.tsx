@@ -1,8 +1,7 @@
 import './style/column.scss'
 
+import { View } from '@tarojs/components'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-
-import { createForwardRefComponent } from '../../utils'
 
 export interface PickerViewColumnProps {
   children?: React.ReactNode
@@ -245,7 +244,7 @@ function PickerViewColumnInner(props: PickerViewColumnProps) {
   }, [columnState.isInit, columnState.initialPosition, columnState.paddingVertical, children, handleChange])
 
   return (
-    <div
+    <View
       ref={forwardedRef || columnRef}
       className={`taro-picker-view-column-container ${className || ''}`}
       style={{
@@ -255,10 +254,9 @@ function PickerViewColumnInner(props: PickerViewColumnProps) {
       }}
     >
       {children}
-    </div>
+    </View>
   )
 }
 
-const WrappedPickerViewColumn = createForwardRefComponent(PickerViewColumnInner)
-export { WrappedPickerViewColumn as PickerViewColumn }
-export default WrappedPickerViewColumn
+export { PickerViewColumnInner as PickerViewColumn }
+export default PickerViewColumnInner

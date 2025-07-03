@@ -1,3 +1,5 @@
+import { View } from '@tarojs/components'
+
 import { PICKER_LINE_HEIGHT, PICKER_MASK_HEIGHT, PICKER_TOP } from '../../utils'
 import { useCallback, useState } from '../../utils/hooks'
 
@@ -229,15 +231,15 @@ export function PickerGroup(props: PickerGroupProps) {
     })
   }, [range.length, state.hadMove, height, mode, columnId, formulaUnlimitedScroll, updateDay, updateHeight, onColumnChange])
 
-  const onTouchStart = useCallback((e: React.TouchEvent) => {
+  const onTouchStart = useCallback((e: any) => {
     handleMoveStart(e.changedTouches[0].clientY)
   }, [handleMoveStart])
 
-  const onTouchMove = useCallback((e: React.TouchEvent) => {
+  const onTouchMove = useCallback((e: any) => {
     handleMoving(e.changedTouches[0].clientY)
   }, [handleMoving])
 
-  const onTouchEnd = useCallback((e: React.TouchEvent) => {
+  const onTouchEnd = useCallback((e: any) => {
     handleMoveEnd(e.changedTouches[0].clientY)
   }, [handleMoveEnd])
 
@@ -317,32 +319,35 @@ export function PickerGroup(props: PickerGroupProps) {
     const isSelected = height === PICKER_TOP - PICKER_LINE_HEIGHT * index
     // 这里假设没有禁用逻辑，如有可补充
     return (
-      <div key={index} className={`weui-picker__item${isSelected ? ' weui-picker__item--selected' : ''}`}>{content}</div>
+      <View key={index} className={`weui-picker__item${isSelected ? ' weui-picker__item--selected' : ''}`}>{content}</View>
     )
   })
 
   // 处理 customItem
   const finalPickerItems = customItem
     ? [
-      <div key="custom" className="weui-picker__item weui-picker__item--custom">{customItem}</div>,
+      <View key="custom" className="weui-picker__item weui-picker__item--custom">{customItem}</View>,
       ...pickerItem
     ]
     : pickerItem
 
+  // onMouseDown/onWheel 仅H5支持，Taro小程序端无效。主事件用onTouch系列。
   return (
-    <div
+    <View
       className="weui-picker__group"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
+      // @ts-ignore H5端支持，Taro类型无此属性
       onMouseDown={onMouseDown}
+      // @ts-ignore H5端支持，Taro类型无此属性
       onWheel={onWheel}
     >
-      <div className="weui-picker__mask" />
-      <div className="weui-picker__indicator" />
-      <div className="weui-picker__content" style={getPosition()}>
+      <View className="weui-picker__mask" />
+      <View className="weui-picker__indicator" />
+      <View className="weui-picker__content" style={getPosition()}>
         {finalPickerItems}
-      </div>
-    </div>
+      </View>
+    </View>
   )
 }

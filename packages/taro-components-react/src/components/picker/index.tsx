@@ -1,10 +1,10 @@
 import './style/index.scss'
 
+import { View } from '@tarojs/components'
 import classNames from 'classnames'
 
 import {
   compareTime,
-  createForwardRefComponent,
   getDayRange,
   getMonthRange,
   getYearRange,
@@ -377,7 +377,6 @@ export function Picker(props: IProps) {
   // 显示 Picker
   const showPicker = useCallback(() => {
     if (disabled) return
-
     const newHeight = getHeightByIndex()
     setState(prev => ({
       ...prev,
@@ -888,39 +887,40 @@ export function Picker(props: IProps) {
   })
 
   return (
-    <div
+    <View
       ref={forwardedRef}
       className={className}
       style={style}
       {...(formType ? { 'data-form-type': formType } : {})}
       {...omit(restProps, ['mode', 'disabled', 'range', 'rangeKey', 'value', 'start', 'end', 'fields', 'name', 'textProps', 'onChange', 'onColumnChange', 'onCancel', 'children', 'className', 'style', 'forwardedRef', 'formType'])}
     >
-      <div onClick={showPicker}>
-        {children}      </div>
+      <View onClick={showPicker}>
+        {children}      </View>
       {/* 全屏遮罩浮层，display:none 控制显示，结构与原版一致 */}
-      <div
-        className="weui-picker__overlay"
-        style={state.hidden ? { display: 'none' } : {}}
-        ref={overlayRef}
-      >
-        <div className={clsMask} onClick={handleCancel} />
-        <div className={clsSlider}>
-          <div className="weui-picker__hd">
-            <div className="weui-picker__action" onClick={handleCancel}>
-              {textProps.cancelText ?? '取消'}
-            </div>
-            {headerText && (
-              <div className="weui-picker__title">{headerText}</div>
-            )}
-            <div className="weui-picker__action" onClick={handleChange}>
-              {textProps.okText ?? '确定'}
-            </div>
-          </div>
-          <div className="weui-picker__bd">{renderPickerGroup}</div>
-        </div>
-      </div>
-    </div>
+      {!state.hidden && (
+        <View
+          className="weui-picker__overlay"
+          ref={overlayRef}
+        >
+          <View className={clsMask} onClick={handleCancel} />
+          <View className={clsSlider}>
+            <View className="weui-picker__hd">
+              <View className="weui-picker__action" onClick={handleCancel}>
+                {textProps.cancelText ?? '取消'}
+              </View>
+              {headerText && (
+                <View className="weui-picker__title">{headerText}</View>
+              )}
+              <View className="weui-picker__action" onClick={handleChange}>
+                {textProps.okText ?? '确定'}
+              </View>
+            </View>
+            <View className="weui-picker__bd">{renderPickerGroup}</View>
+          </View>
+        </View>
+      )}
+    </View>
   )
 }
 
-export default createForwardRefComponent(Picker)
+export default Picker

@@ -1,9 +1,8 @@
 import './style/index.scss'
 
+import { View } from '@tarojs/components'
 import classNames from 'classnames'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-
-import { createForwardRefComponent } from '../../utils'
 
 // 简单的样式转换函数，参考 Stencil 版本的 convertStyle
 const convertStyle = (style: string | React.CSSProperties): React.CSSProperties => {
@@ -162,7 +161,7 @@ function PickerView(props: PickerViewProps) {
   const maskBottomStyleObj = convertStyle(maskStyle)
 
   return (
-    <div
+    <View
       ref={forwardedRef || containerRef}
       className={classNames('taro-picker-view-container', className)}
       style={style}
@@ -172,21 +171,20 @@ function PickerView(props: PickerViewProps) {
       {children}
 
       {/* 固定的 mask 容器结构，与 Stencil 版本一致 */}
-      <div className="taro-picker-view-mask-container">
-        <div className={maskTopCls} style={maskTopStyleObj} />
-        <div
+      <View className="taro-picker-view-mask-container">
+        <View className={maskTopCls} style={maskTopStyleObj} />
+        <View
           className={indicatorCls}
           style={indicatorStyleObj}
           ref={indicatorRef}
         />
-        <div className={maskBtmCls} style={maskBottomStyleObj} />
-      </div>
-    </div>
+        <View className={maskBtmCls} style={maskBottomStyleObj} />
+      </View>
+    </View>
   )
 }
 
 export { PickerViewColumn } from './picker-view-column'
 
-const WrappedPickerView = createForwardRefComponent(PickerView)
-export { WrappedPickerView as PickerView }
-export default WrappedPickerView
+export { PickerView }
+export default PickerView
