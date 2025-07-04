@@ -1,0 +1,27 @@
+{
+  "request": {
+    "url": {
+      "ascfParam": "endpoint",
+      "type": "string",
+      "required": true,
+      "docLink": "https://ascf.docs/apis/network#endpoint"
+    },
+    "method": {
+      "ascfParam": "httpMethod",
+      "valueMap": {
+        "GET": "GET",
+        "POST": "POST",
+        "PUT": "PUT",
+        "DELETE": "DELETE"
+      },
+      "default": "GET",
+      "docLink": "https://ascf.docs/apis/network#http-method"
+    },
+    "header": {
+      "ascfParam": "headers",
+      "type": "object",
+      "transform": "normalizeHeaders",
+      "docLink": "https://ascf.docs/apis/network#headers"
+    }
+  }
+}
