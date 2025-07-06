@@ -1,8 +1,8 @@
-@import './weui-mask';
-@import './weui-animate';
-@import './weui-picker';
+@import './variable';
+@import './onepx';
+@import './taro-picker__main';
 
-.weui-picker,
-.weui-picker__hd {
+.taro-picker,
+.taro-picker__hd {
   font-size: 12px;
 } 

@@ -1,353 +1,488 @@
-import { View } from '@tarojs/components'
+import { ScrollView, View } from '@tarojs/components'
+import * as React from 'react'
 
-import { PICKER_LINE_HEIGHT, PICKER_MASK_HEIGHT, PICKER_TOP } from '../../utils'
-import { useCallback, useState } from '../../utils/hooks'
+import { getDayRange, getMonthRange, getYearRange } from '../../utils'
 
-import type React from 'react'
+// 添加类型定义
+type TaroScrollView = React.ElementRef<typeof ScrollView>;
+type TaroView = React.ElementRef<typeof View>;
 
-interface PickerGroupProps {
-  mode?: 'time' | 'date' | 'region'
+export interface PickerGroupProps {
+  mode?: 'basic' | 'time' | 'date' | 'region'
   range: any[]
   rangeKey?: string
-  height: number
+  height?: number // 改为可选参数
+  initialValue?: any // 新增：初始选中值
   columnId: string
   updateHeight: (height: number, columnId: string, needRevise?: boolean) => void
+  onColumnChange?: (e: { columnId: string, index: number }) => void // 修改为传递 index
+  customItem?: React.ReactNode
   updateDay?: (value: number, fields: number) => void
-  onColumnChange?: (e: { columnId: string, height: number }) => void
-  customItem?: string
 }
 
-interface PickerGroupState {
-  startY: number
-  preY: number
-  hadMove: boolean
-  touchEnd: boolean
-  isMove: boolean
-}
+const PICKER_LINE_HEIGHT = 34 // px
+const PICKER_VISIBLE_ITEMS = 5 // 可见行数
+const PICKER_TOP = PICKER_LINE_HEIGHT * ((PICKER_VISIBLE_ITEMS - 1) / 2) // 计算中间位置
 
-export function PickerGroup(props: PickerGroupProps) {
+export function PickerGroupBasic(props: PickerGroupProps) {
   const {
-    mode,
     range = [],
     rangeKey,
-    height,
+    height = 0, // 默认值
+    initialValue,
     columnId,
     updateHeight,
-    updateDay,
     onColumnChange,
     customItem
   } = props
 
-  const [state, setState] = useState<PickerGroupState>({
-    startY: 0,
-    preY: 0,
-    hadMove: false,
-    touchEnd: false,
-    isMove: false
-  })
+  const scrollViewRef = React.useRef<TaroScrollView>(null)
+  const itemRefs = React.useRef<Array<TaroView | null>>([])
 
-  const getPosition = useCallback(() => {
-    const transition = state.touchEnd ? 0.3 : 0
-    const transformValue = `translate3d(0, ${height}px, 0)`
-    const transitionValue = `transform ${transition}s`
-    return {
-      transform: transformValue,
-      WebkitTransform: transformValue,
-      transition: transitionValue,
-      WebkitTransition: transitionValue
+  // 计算选中项索引（改进版）
+  const getSelectedIndex = (scrollTop: number) => {
+    const index = Math.round(scrollTop / PICKER_LINE_HEIGHT)
+    return Math.max(0, Math.min(range.length - 1, index))
+  }
+
+  // 计算相对高度
+  const getRelativeHeight = (index: number) => {
+    return PICKER_TOP - index * PICKER_LINE_HEIGHT
+  }
+
+  // 滚动事件处理（添加防抖）
+  const handleScroll = React.useCallback(() => {
+    if (!scrollViewRef.current) return
+
+    const scrollTop = scrollViewRef.current.scrollTop
+    const currentIndex = getSelectedIndex(scrollTop)
+    const relativeHeight = getRelativeHeight(currentIndex)
+
+    // 只有当索引变化时才触发更新，减少不必要的回调
+    if (currentIndex !== getSelectedIndex(height)) {
+      updateHeight(relativeHeight, columnId)
+      onColumnChange?.({ columnId, index: currentIndex })
     }
-  }, [height, state.touchEnd])
+  }, [height, columnId, updateHeight, onColumnChange])
 
-  const formulaUnlimitedScroll = useCallback((range: number, absoluteHeight: number, direction: 'up' | 'down') => {
-    const factor = direction === 'up' ? 1 : -1
-
-    setState(prev => ({ ...prev, touchEnd: false }))
-
-    // 点击超过范围，点击到补帧时，先跳到另一端的补帧
-    updateHeight(-range * factor * PICKER_LINE_HEIGHT + height, columnId)
-
-    // 再做过渡动画
-    requestAnimationFrame(() => {
-      setState(prev => ({ ...prev, touchEnd: true }))
-      const index = Math.round(absoluteHeight / -PICKER_LINE_HEIGHT) + range * factor
-      const relativeHeight = PICKER_TOP - PICKER_LINE_HEIGHT * index
-      updateHeight(relativeHeight, columnId, true)
-    })
-  }, [height, columnId, updateHeight])
-
-  const handleMoveStart = useCallback((clientY: number) => {
-    // 记录第一次的点击位置
-    setState(prev => ({
-      ...prev,
-      startY: clientY,
-      preY: clientY,
-      hadMove: false
-    }))
-  }, [])
-
-  const handleMoving = useCallback((clientY: number) => {
-    const y = clientY
-    const deltaY = y - state.preY
-
-    setState(prev => ({
-      ...prev,
-      preY: y,
-      touchEnd: false,
-      hadMove: Math.abs(y - prev.startY) > 10 ? true : prev.hadMove
-    }))
-
-    let newPos = height + deltaY
-
-    // 处理时间选择器的无限滚动
-    if (mode === 'time') {
-      if (columnId === '0') {
-        // 数字 28 来自于 4 格补帧 + 0 ～ 23 的 24 格，共 28 格
-        if (newPos > PICKER_TOP - PICKER_LINE_HEIGHT * 3) {
-          newPos = PICKER_TOP - PICKER_LINE_HEIGHT * 27 + deltaY
-        }
-        if (newPos < PICKER_TOP - PICKER_LINE_HEIGHT * 28) {
-          newPos = PICKER_TOP - PICKER_LINE_HEIGHT * 4 + deltaY
-        }
-      } else if (columnId === '1') {
-        if (newPos > PICKER_TOP - PICKER_LINE_HEIGHT * 3) {
-          newPos = PICKER_TOP - PICKER_LINE_HEIGHT * 63 + deltaY
-        }
-        if (newPos < PICKER_TOP - PICKER_LINE_HEIGHT * 64) {
-          newPos = PICKER_TOP - PICKER_LINE_HEIGHT * 4 + deltaY
-        }
-      }
-    } else {
-      // 为非时间模式添加绝对严格的边界限制
-      const maxPosition = PICKER_TOP // 最上面的选项
-      const minPosition = PICKER_TOP - PICKER_LINE_HEIGHT * (range.length - 1) // 最下面的选项
-
-      // 完全移除缓冲空间，绝对不允许超出范围
-      if (newPos > maxPosition) {
-        newPos = maxPosition
-      }
-      if (newPos < minPosition) {
-        newPos = minPosition
-      }
-
-      // 如果数据为空，直接限制在第一个位置
-      if (range.length === 0) {
-        newPos = PICKER_TOP
-      }
-    }
-
-    updateHeight(newPos, columnId)
-  }, [height, state.preY, state.startY, state.hadMove, mode, columnId, range.length, updateHeight])
-
-  const handleMoveEnd = useCallback((clientY: number) => {
-    const max = 0
-    const min = -PICKER_LINE_HEIGHT * (range.length - 1)
-    const endY = clientY
-
-    setState(prev => ({ ...prev, touchEnd: true }))
-
-    // touchEnd 时的高度，可能带小数点，需要再处理
-    let absoluteHeight: number
-
-    if (!state.hadMove) {
-      /** 点击 */
-      // 屏幕高度
-      const windowHeight = window.innerHeight
-      // picker__mask 垂直方向距离屏幕顶部的高度
-      const relativeY = windowHeight - PICKER_MASK_HEIGHT / 2
-
-      absoluteHeight = height - PICKER_TOP - (endY - relativeY)
-
-      // 处理时间选择器的无限滚动
-      if (mode === 'time') {
-        if (columnId === '0') {
-          // 点击上溢出
-          // absoluteHeight 是相对模块中点来算的，所以会算多半行，这时要减去这半行，即2.5行
-          if (absoluteHeight > -PICKER_LINE_HEIGHT * 2.5) {
-            return formulaUnlimitedScroll(24, absoluteHeight, 'up')
-          }
-          // 点击下溢出
-          if (absoluteHeight < -PICKER_LINE_HEIGHT * 28.5) {
-            return formulaUnlimitedScroll(24, absoluteHeight, 'down')
-          }
-        } else if (columnId === '1') {
-          // 点击上溢出
-          if (absoluteHeight > -PICKER_LINE_HEIGHT * 2.5) {
-            return formulaUnlimitedScroll(60, absoluteHeight, 'up')
-          }
-          // 点击下溢出
-          if (absoluteHeight < -PICKER_LINE_HEIGHT * 64.5) {
-            return formulaUnlimitedScroll(60, absoluteHeight, 'down')
-          }
-        }
-      }
-    } else {
-      /** 滚动 */
-      absoluteHeight = height - PICKER_TOP
-    }
-
-    // 边界情况处理
-    if (absoluteHeight > max) absoluteHeight = 0
-    if (absoluteHeight < min) absoluteHeight = min
-
-    // 先按公式算出 index, 再用此 index 算出一个整数高度
-    const index = Math.round(absoluteHeight / -PICKER_LINE_HEIGHT)
-
-    // 确保索引在有效范围内，防止选择空项 - 添加额外的安全检查
-    const safeIndex = Math.max(0, Math.min(index, range.length - 1))
-
-    // 如果数据为空，强制选择第一项（索引0）
-    const finalIndex = range.length === 0 ? 0 : safeIndex
-
-    const relativeHeight = PICKER_TOP - PICKER_LINE_HEIGHT * finalIndex
-
-    if (mode === 'date' && typeof updateDay === 'function') {
-      // 确保在访问 range 之前检查有效性
-      if (finalIndex < range.length && range[finalIndex]) {
-        if (columnId === '0') {
-          updateDay(
-            +range[finalIndex].replace(/[^0-9]/gi, ''),
-            0
-          )
-        }
-        if (columnId === '1') {
-          updateDay(
-            +range[finalIndex].replace(/[^0-9]/gi, ''),
-            1
-          )
-        }
-        if (columnId === '2') {
-          updateDay(
-            +range[finalIndex].replace(/[^0-9]/gi, ''),
-            2
-          )
-        }
-      }
-    }
-
-    updateHeight(relativeHeight, columnId, mode === 'time')
-    onColumnChange?.({
-      columnId,
-      height: relativeHeight,
-    })
-  }, [range.length, state.hadMove, height, mode, columnId, formulaUnlimitedScroll, updateDay, updateHeight, onColumnChange])
-
-  const onTouchStart = useCallback((e: any) => {
-    handleMoveStart(e.changedTouches[0].clientY)
-  }, [handleMoveStart])
-
-  const onTouchMove = useCallback((e: any) => {
-    handleMoving(e.changedTouches[0].clientY)
-  }, [handleMoving])
-
-  const onTouchEnd = useCallback((e: any) => {
-    handleMoveEnd(e.changedTouches[0].clientY)
-  }, [handleMoveEnd])
-
-  // 添加鼠标滚轮支持 - 参考 picker-view 的实现
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
-    // 防止与触摸事件冲突
-    e.preventDefault()
-    handleMoveStart(e.clientY)
-
-    const onMouseMove = (e: MouseEvent) => {
-      e.preventDefault()
-      handleMoving(e.clientY)
-    }
-
-    const onMouseUp = (e: MouseEvent) => {
-      e.preventDefault()
-      handleMoveEnd(e.clientY)
-      document.removeEventListener('mousemove', onMouseMove)
-      document.removeEventListener('mouseup', onMouseUp)
-    }
-
-    document.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('mouseup', onMouseUp)
-  }, [handleMoveStart, handleMoving, handleMoveEnd])
-
-  // 鼠标滚轮事件处理
-  const onWheel = useCallback((e: React.WheelEvent) => {
-    // 🔧 移除 preventDefault() 以消除 passive 事件监听器警告
-    // e.preventDefault()
-
-    // 根据滚轮方向决定滚动距离
-    const delta = e.deltaY > 0 ? -PICKER_LINE_HEIGHT : PICKER_LINE_HEIGHT
-    const newHeight = height + delta
-
-    // 边界检查 - 与 handleMoving 保持一致，添加缓冲空间
-    let finalHeight = newHeight
-
-    if (mode === 'time') {
-      // time 模式的特殊处理（如果需要的话）
-      const max = PICKER_TOP
-      const min = PICKER_TOP - PICKER_LINE_HEIGHT * (range.length - 1)
-      if (finalHeight > max) finalHeight = max
-      if (finalHeight < min) finalHeight = min
-    } else {
-      // 为非时间模式添加绝对严格的边界限制
-      const maxPosition = PICKER_TOP // 最上面的选项
-      const minPosition = PICKER_TOP - PICKER_LINE_HEIGHT * (range.length - 1) // 最下面的选项
-
-      // 完全移除缓冲空间，绝对不允许超出范围
-      if (finalHeight > maxPosition) {
-        finalHeight = maxPosition
-      }
-      if (finalHeight < minPosition) {
-        finalHeight = minPosition
-      }
-
-      // 如果数据为空，直接限制在第一个位置
-      if (range.length === 0) {
-        finalHeight = PICKER_TOP
-      }
-    }
-
-    // 如果在有效范围内，执行滚动
-    if (finalHeight !== height) {
-      setState(prev => ({ ...prev, touchEnd: true }))
-      updateHeight(finalHeight, columnId, mode === 'time')
-      onColumnChange?.({
-        columnId,
-        height: finalHeight,
+  // 处理初始值
+  React.useEffect(() => {
+    if (initialValue !== undefined && scrollViewRef.current && range.length > 0) {
+      // 查找初始值对应的索引
+      const initialIndex = range.findIndex(item => {
+        const value = rangeKey ? item[rangeKey] : item
+        return value === initialValue
       })
-    }
-  }, [height, range.length, columnId, mode, updateHeight, onColumnChange])
 
+      if (initialIndex >= 0) {
+        // 滚动到初始位置
+        scrollViewRef.current.scrollTo({
+          scrollTop: initialIndex * PICKER_LINE_HEIGHT,
+          duration: 0
+        })
+
+        // 更新高度
+        const relativeHeight = getRelativeHeight(initialIndex)
+        updateHeight(relativeHeight, columnId, true) // 标记为初始更新
+      }
+    }
+  }, [initialValue, range, rangeKey, columnId, updateHeight])
+
+  // 计算当前选中项
+  const selectedIndex = getSelectedIndex(height)
+
+  // 渲染选项
   const pickerItem = range.map((item, index) => {
     const content = rangeKey && item && typeof item === 'object' ? item[rangeKey] : item
-    // 判断选中和禁用
-    const isSelected = height === PICKER_TOP - PICKER_LINE_HEIGHT * index
-    // 这里假设没有禁用逻辑，如有可补充
+    const isSelected = index === selectedIndex
+
     return (
-      <View key={index} className={`weui-picker__item${isSelected ? ' weui-picker__item--selected' : ''}`}>{content}</View>
+      <View
+        key={index}
+        ref={(el) => (itemRefs.current[index] = el)}
+        className={`taro-picker__item${isSelected ? ' taro-picker__item--selected' : ''}`}
+        style={{ height: PICKER_LINE_HEIGHT }}
+      >
+        {content}
+      </View>
     )
   })
 
-  // 处理 customItem
+  // 添加自定义项
   const finalPickerItems = customItem
     ? [
-      <View key="custom" className="weui-picker__item weui-picker__item--custom">{customItem}</View>,
-      ...pickerItem
+      <View
+        key="custom"
+        className="taro-picker__item taro-picker__item--custom"
+        style={{ height: PICKER_LINE_HEIGHT }}
+      >
+        {customItem}
+      </View>,
+      ...pickerItem,
     ]
     : pickerItem
 
-  // onMouseDown/onWheel 仅H5支持，Taro小程序端无效。主事件用onTouch系列。
   return (
-    <View
-      className="weui-picker__group"
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-      // @ts-ignore H5端支持，Taro类型无此属性
-      onMouseDown={onMouseDown}
-      // @ts-ignore H5端支持，Taro类型无此属性
-      onWheel={onWheel}
-    >
-      <View className="weui-picker__mask" />
-      <View className="weui-picker__indicator" />
-      <View className="weui-picker__content" style={getPosition()}>
+    <View className="taro-picker__group">
+      <View className="taro-picker__mask" />
+      <View className="taro-picker__indicator" />
+      <ScrollView
+        ref={scrollViewRef}
+        scrollY
+        className="taro-picker__content"
+        style={{
+          height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS,
+        }}
+        onScroll={handleScroll}
+        scrollWithAnimation
+      >
         {finalPickerItems}
+      </ScrollView>
+    </View>
+  )
+}
+
+// 时间选择器骨架
+export function PickerGroupTime(props: PickerGroupProps) {
+  const { range = [], rangeKey, height = 0, columnId, updateHeight, onColumnChange, customItem } = props
+  const PICKER_LINE_HEIGHT = 34
+  const PICKER_TOP = 102
+  // 无限滚动：补帧4行，拼接数据
+  const loopCount = range.length
+  const displayRange = [...range.slice(-4), ...range, ...range.slice(0, 4)]
+  // 选中项 index（需偏移4行）
+  const selectedIndex = Math.max(0, Math.round((PICKER_TOP - height) / PICKER_LINE_HEIGHT)) + 4
+  const scrollViewRef = React.useRef<any>(null)
+  const itemRefs = React.useRef<any[]>([])
+
+  // 初始化滚动位置
+  React.useEffect(() => {
+    if (scrollViewRef.current && range.length > 0) {
+      // 默认滚动到中间位置
+      const initialScrollTop = 4 * PICKER_LINE_HEIGHT // 补帧区后的第一项
+      scrollViewRef.current.scrollTop = initialScrollTop
+
+      // 更新高度
+      const relativeHeight = PICKER_TOP - PICKER_LINE_HEIGHT * 0 // 选中第一项
+      updateHeight(relativeHeight, columnId, true) // 标记为初始更新
+    }
+  }, [range, columnId, updateHeight])
+
+  // 滚动到选中项
+  const handleScroll = () => {
+    if (!scrollViewRef.current) return
+    const scrollTop = scrollViewRef.current.scrollTop
+    const idx = Math.round(scrollTop / PICKER_LINE_HEIGHT)
+    // 边界：如果滚动到补帧区，立刻跳到真实区
+    if (idx < 4) {
+      // 跳到真实区末尾
+      const realIdx = idx + loopCount
+      const realTop = realIdx * PICKER_LINE_HEIGHT
+      scrollViewRef.current.scrollTop = realTop
+      return
+    }
+    if (idx >= loopCount + 4) {
+      // 跳到真实区开头
+      const realIdx = idx - loopCount
+      const realTop = realIdx * PICKER_LINE_HEIGHT
+      scrollViewRef.current.scrollTop = realTop
+      return
+    }
+    // 选中项回调
+    const relativeHeight = PICKER_TOP - PICKER_LINE_HEIGHT * (idx - 4)
+    updateHeight(relativeHeight, columnId)
+    onColumnChange?.({ columnId, index: idx - 4 }) // 修改为传递 index
+  }
+  // 渲染选项
+  const pickerItem = displayRange.map((item, index) => {
+    const content = rangeKey && item && typeof item === 'object' ? item[rangeKey] : item
+    const isSelected = index === selectedIndex
+    return (
+      <View
+        key={index}
+        ref={(el) => (itemRefs.current[index] = el)}
+        className={`taro-picker__item${isSelected ? ' taro-picker__item--selected' : ''}`}
+        style={{ height: PICKER_LINE_HEIGHT }}
+      >
+        {content}
+      </View>
+    )
+  })
+  const finalPickerItems = customItem
+    ? [
+      <View key="custom" className="taro-picker__item taro-picker__item--custom">
+        {customItem}
+      </View>,
+      ...pickerItem,
+    ]
+    : pickerItem
+  return (
+    <View className="taro-picker__group">
+      <View className="taro-picker__mask" />
+      <View className="taro-picker__indicator" />
+      <ScrollView
+        ref={scrollViewRef}
+        scrollY
+        className="taro-picker__content"
+        style={{ height: PICKER_LINE_HEIGHT * 5 }}
+        onScroll={handleScroll}
+        scrollWithAnimation
+      >
+        {finalPickerItems}
+      </ScrollView>
+    </View>
+  )
+}
+
+// 日期选择器实现
+export function PickerGroupDate(
+  props: PickerGroupProps & {
+    start?: string
+    end?: string
+    fields?: 'year' | 'month' | 'day'
+    value?: [number, number, number]
+    updateDay?: (value: number, fields: number) => void
+  }
+) {
+  const {
+    updateHeight,
+    onColumnChange,
+    start = '1970-01-01',
+    end = '2999-12-31',
+    fields = 'day',
+    value = [1970, 1, 1],
+    updateDay,
+  } = props
+  const PICKER_LINE_HEIGHT = 34
+  const PICKER_TOP = 102
+
+  // 解析起止日期
+  const startDate = new Date(start)
+  const endDate = new Date(end)
+  // 当前选中年、月、日
+  const [selectedYear, setSelectedYear] = React.useState(value[0] || startDate.getFullYear())
+  const [selectedMonth, setSelectedMonth] = React.useState(value[1] || 1)
+  const [selectedDay, setSelectedDay] = React.useState(value[2] || 1)
+
+  // 年、月、日范围
+  const yearRange = getYearRange(startDate.getFullYear(), endDate.getFullYear())
+  const monthRange = getMonthRange(startDate, endDate, selectedYear)
+  const dayRange = getDayRange(startDate, endDate, selectedYear, selectedMonth)
+
+  // 选中项 index
+  const yearIndex = yearRange.indexOf(selectedYear)
+  const monthIndex = monthRange.indexOf(selectedMonth)
+  const dayIndex = dayRange.indexOf(selectedDay)
+
+  // 滚动到选中项
+  const yearScrollRef = React.useRef<any>(null)
+  const monthScrollRef = React.useRef<any>(null)
+  const dayScrollRef = React.useRef<any>(null)
+  const yearItemRefs = React.useRef<any[]>([])
+  const monthItemRefs = React.useRef<any[]>([])
+  const dayItemRefs = React.useRef<any[]>([])
+
+  // 滚动处理
+  const handleYearScroll = () => {
+    if (!yearScrollRef.current) return
+    const scrollTop = yearScrollRef.current.scrollTop
+    const idx = Math.round(scrollTop / PICKER_LINE_HEIGHT)
+    const newYear = yearRange[idx] || yearRange[0]
+    setSelectedYear(newYear)
+    // 联动刷新月、日
+    if (fields !== 'year') {
+      setSelectedMonth(1)
+      setSelectedDay(1)
+    }
+    updateDay?.(newYear, 0)
+    updateHeight(PICKER_TOP - PICKER_LINE_HEIGHT * idx, '0')
+    onColumnChange?.({ columnId: '0', index: idx }) // 修改为传递 index
+  }
+  const handleMonthScroll = () => {
+    if (!monthScrollRef.current) return
+    const scrollTop = monthScrollRef.current.scrollTop
+    const idx = Math.round(scrollTop / PICKER_LINE_HEIGHT)
+    const newMonth = monthRange[idx] || monthRange[0]
+    setSelectedMonth(newMonth)
+    // 联动刷新日
+    if (fields === 'day') {
+      setSelectedDay(1)
+    }
+    updateDay?.(newMonth, 1)
+    updateHeight(PICKER_TOP - PICKER_LINE_HEIGHT * idx, '1')
+    onColumnChange?.({ columnId: '1', index: idx }) // 修改为传递 index
+  }
+  const handleDayScroll = () => {
+    if (!dayScrollRef.current) return
+    const scrollTop = dayScrollRef.current.scrollTop
+    const idx = Math.round(scrollTop / PICKER_LINE_HEIGHT)
+    const newDay = dayRange[idx] || dayRange[0]
+    setSelectedDay(newDay)
+    updateDay?.(newDay, 2)
+    updateHeight(PICKER_TOP - PICKER_LINE_HEIGHT * idx, '2')
+    onColumnChange?.({ columnId: '2', index: idx }) // 修改为传递 index
+  }
+
+  // 渲染列
+  const renderYear = (
+    <ScrollView
+      ref={yearScrollRef}
+      scrollY
+      className="taro-picker__content"
+      style={{ height: PICKER_LINE_HEIGHT * 5 }}
+      onScroll={handleYearScroll}
+      scrollWithAnimation
+    >
+      {yearRange.map((item, idx) => (
+        <View
+          key={item}
+          ref={(el) => (yearItemRefs.current[idx] = el)}
+          className={`taro-picker__item${idx === yearIndex ? ' taro-picker__item--selected' : ''}`}
+          style={{ height: PICKER_LINE_HEIGHT }}
+        >
+          {item}年
+        </View>
+      ))}
+    </ScrollView>
+  )
+  const renderMonth = fields !== 'year' && (
+    <ScrollView
+      ref={monthScrollRef}
+      scrollY
+      className="taro-picker__content"
+      style={{ height: PICKER_LINE_HEIGHT * 5 }}
+      onScroll={handleMonthScroll}
+      scrollWithAnimation
+    >
+      {monthRange.map((item, idx) => (
+        <View
+          key={item}
+          ref={(el) => (monthItemRefs.current[idx] = el)}
+          className={`taro-picker__item${idx === monthIndex ? ' taro-picker__item--selected' : ''}`}
+          style={{ height: PICKER_LINE_HEIGHT }}
+        >
+          {item < 10 ? `0${item}` : item}月
+        </View>
+      ))}
+    </ScrollView>
+  )
+  const renderDay = fields === 'day' && (
+    <ScrollView
+      ref={dayScrollRef}
+      scrollY
+      className="taro-picker__content"
+      style={{ height: PICKER_LINE_HEIGHT * 5 }}
+      onScroll={handleDayScroll}
+      scrollWithAnimation
+    >
+      {dayRange.map((item, idx) => (
+        <View
+          key={item}
+          ref={(el) => (dayItemRefs.current[idx] = el)}
+          className={`taro-picker__item${idx === dayIndex ? ' taro-picker__item--selected' : ''}`}
+          style={{ height: PICKER_LINE_HEIGHT }}
+        >
+          {item < 10 ? `0${item}` : item}日
+        </View>
+      ))}
+    </ScrollView>
+  )
+  return (
+    <View className="taro-picker__group taro-picker__group--date">
+      <View className="taro-picker__mask" />
+      <View className="taro-picker__indicator" />
+      <View className="taro-picker__columns">
+        {renderYear}
+        {renderMonth}
+        {renderDay}
       </View>
     </View>
   )
+}
+
+// 地区选择器骨架（后续补全）
+export function PickerGroupRegion(props: PickerGroupProps) {
+  const { range = [], rangeKey, height = 0, columnId, updateHeight, onColumnChange, customItem } = props
+  const PICKER_LINE_HEIGHT = 34
+  const PICKER_TOP = 102
+  // 选中项 index
+  const selectedIndex = Math.max(0, Math.round((PICKER_TOP - height) / PICKER_LINE_HEIGHT))
+  const scrollViewRef = React.useRef<any>(null)
+  const itemRefs = React.useRef<any[]>([])
+
+  // 初始化滚动位置
+  React.useEffect(() => {
+    if (scrollViewRef.current && range.length > 0) {
+      // 默认滚动到第一项
+      const initialIndex = 0
+      const initialScrollTop = initialIndex * PICKER_LINE_HEIGHT
+      scrollViewRef.current.scrollTop = initialScrollTop
+
+      // 更新高度
+      const relativeHeight = PICKER_TOP - PICKER_LINE_HEIGHT * initialIndex
+      updateHeight(relativeHeight, columnId, true) // 标记为初始更新
+    }
+  }, [range, columnId, updateHeight])
+
+  const handleScroll = () => {
+    if (!scrollViewRef.current) return
+    const scrollTop = scrollViewRef.current.scrollTop
+    const idx = Math.round(scrollTop / PICKER_LINE_HEIGHT)
+    const relativeHeight = PICKER_TOP - PICKER_LINE_HEIGHT * idx
+    updateHeight(relativeHeight, columnId)
+    onColumnChange?.({ columnId, index: idx }) // 修改为传递 index
+  }
+  // 渲染选项
+  const pickerItem = range.map((item, index) => {
+    const content = rangeKey && item && typeof item === 'object' ? item[rangeKey] : item
+    const isSelected = index === selectedIndex
+    return (
+      <View
+        key={index}
+        ref={(el) => (itemRefs.current[index] = el)}
+        className={`taro-picker__item${isSelected ? ' taro-picker__item--selected' : ''}`}
+        style={{ height: PICKER_LINE_HEIGHT }}
+      >
+        {content}
+      </View>
+    )
+  })
+  const finalPickerItems = customItem
+    ? [
+      <View key="custom" className="taro-picker__item taro-picker__item--custom">
+        {customItem}
+      </View>,
+      ...pickerItem,
+    ]
+    : pickerItem
+  return (
+    <View className="taro-picker__group">
+      <View className="taro-picker__mask" />
+      <View className="taro-picker__indicator" />
+      <ScrollView
+        ref={scrollViewRef}
+        scrollY
+        className="taro-picker__content"
+        style={{ height: PICKER_LINE_HEIGHT * 5 }}
+        onScroll={handleScroll}
+        scrollWithAnimation
+      >
+        {finalPickerItems}
+      </ScrollView>
+    </View>
+  )
+}
+
+// 默认导出，根据 mode 自动分发
+export function PickerGroup(props: PickerGroupProps) {
+  switch (props.mode) {
+    case 'time':
+      return <PickerGroupTime {...props} />
+    case 'date':
+      return <PickerGroupDate {...props} />
+    case 'region':
+      return <PickerGroupRegion {...props} />
+    default:
+      return <PickerGroupBasic {...props} />
+  }
 }

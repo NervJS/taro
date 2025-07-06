@@ -193,7 +193,6 @@ interface IProps {
   onColumnChange?: (e: { detail: { column: number, value: number } }) => void
   onCancel?: () => void
   children?: React.ReactNode
-  className?: string
   style?: React.CSSProperties
   forwardedRef?: React.MutableRefObject<HTMLDivElement | null>
   formType?: string
@@ -226,7 +225,6 @@ export function Picker(props: IProps) {
     onColumnChange,
     onCancel,
     children,
-    className,
     style,
     forwardedRef,
     formType,
@@ -234,7 +232,6 @@ export function Picker(props: IProps) {
   } = props
   const indexRef = useRef<number[]>([])
   const pickerDateRef = useRef<PickerDate>()
-  const overlayRef = useRef<HTMLDivElement>(null)
 
   const [state, setState] = useState<IState>({
     pickerValue: value || EMPTY_ARRAY,
@@ -856,7 +853,6 @@ export function Picker(props: IProps) {
                 updateHeight={updateHeight}
                 onColumnChange={handleColumnChange}
                 columnId={String(i)}
-                // region 模式不使用 customItem，避免出现"全部"选项
               />
             )
           }
@@ -879,43 +875,39 @@ export function Picker(props: IProps) {
   }, [mode, range, rangeKey, state.height, fields, updateHeight, updateDay, handleColumnChange, pickerDateRef.current, customItem, level, regionData])
 
   // 动画类名控制逻辑
-  const clsMask = classNames('weui-mask', 'weui-animate-fade-in', {
-    'weui-animate-fade-out': state.fadeOut
+  const clsMask = classNames('taro-picker__mask-overlay', 'taro-picker__animate-fade-in', {
+    'taro-picker__animate-fade-out': state.fadeOut
   })
-  const clsSlider = classNames('weui-picker', 'weui-animate-slide-up', {
-    'weui-animate-slide-down': state.fadeOut
+  const clsSlider = classNames('taro-picker', 'taro-picker__animate-slide-up', {
+    'taro-picker__animate-slide-down': state.fadeOut
   })
 
   return (
     <View
       ref={forwardedRef}
-      className={className}
       style={style}
       {...(formType ? { 'data-form-type': formType } : {})}
-      {...omit(restProps, ['mode', 'disabled', 'range', 'rangeKey', 'value', 'start', 'end', 'fields', 'name', 'textProps', 'onChange', 'onColumnChange', 'onCancel', 'children', 'className', 'style', 'forwardedRef', 'formType'])}
+      {...omit(restProps, ['mode', 'disabled', 'range', 'rangeKey', 'value', 'start', 'end', 'fields', 'name', 'textProps', 'onChange', 'onColumnChange', 'onCancel', 'children', 'style', 'forwardedRef', 'formType'])}
     >
       <View onClick={showPicker}>
-        {children}      </View>
-      {/* 全屏遮罩浮层，display:none 控制显示，结构与原版一致 */}
+        {children}
+      </View>
       {!state.hidden && (
-        <View
-          className="weui-picker__overlay"
-          ref={overlayRef}
-        >
+        <View className="taro-picker__overlay">
           <View className={clsMask} onClick={handleCancel} />
           <View className={clsSlider}>
-            <View className="weui-picker__hd">
-              <View className="weui-picker__action" onClick={handleCancel}>
+            <View className="taro-picker__hd">
+              <View className="taro-picker__action" onClick={handleCancel}>
                 {textProps.cancelText ?? '取消'}
               </View>
               {headerText && (
-                <View className="weui-picker__title">{headerText}</View>
+                <View className="taro-picker__title">{headerText}</View>
               )}
-              <View className="weui-picker__action" onClick={handleChange}>
+              <View className="taro-picker__action" onClick={handleChange}>
                 {textProps.okText ?? '确定'}
               </View>
             </View>
-            <View className="weui-picker__bd">{renderPickerGroup}</View>
+            <View className="taro-picker__bd">{renderPickerGroup}</View>
           </View>
         </View>
       )}
