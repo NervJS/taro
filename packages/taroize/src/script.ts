@@ -176,8 +176,6 @@ export function parseScript (
     ),
   ])
 
-  const useVirtualList = usedComponents.delete('VirtualList')
-
   if (isCommonjsModule(ast.program.body)) {
     const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents], '', true)
     const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro', true)
@@ -191,9 +189,6 @@ export function parseScript (
         .filter((wxs) => !wxs.src.startsWith('./wxs__'))
         .map((wxs) => buildImportStatement(wxs.src, [], wxs.module, true))
     )
-    if (useVirtualList) {
-      ast.program.body.unshift(buildImportStatement('@tarojs/components-advanced', ['VirtualList'], '', true))
-    }
   } else {
     const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
     const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
@@ -207,9 +202,6 @@ export function parseScript (
         .filter((wxs) => !wxs.src.startsWith('./wxs__'))
         .map((wxs) => buildImportStatement(wxs.src, [], wxs.module))
     )
-    if (useVirtualList) {
-      ast.program.body.unshift(buildImportStatement('@tarojs/components-advanced', ['VirtualList']))
-    }
   }
 
   return ast

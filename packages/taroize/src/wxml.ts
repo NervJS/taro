@@ -501,7 +501,6 @@ export const createWxmlVisitor = (
             let funcs = new Set<string>()
             const { ast: classDecl, name, tmplName, usedWxses } = template
             const wxsImports = getWxsImports(name, usedWxses, dirPath)
-            const useVirtualList = usedComponents.delete('VirtualList')
             const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
             const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
             const reactImport = buildImportStatement('react', [], 'React')
@@ -517,9 +516,6 @@ export const createWxmlVisitor = (
               classDecl,
               t.exportDefaultDeclaration(t.identifier(name))
             )
-            if (useVirtualList) {
-              ast.program.body.unshift(buildImportStatement('@tarojs/components-advanced', ['VirtualList']))
-            }
             const usedTemplate = new Set<string>()
             // funcs 的值首先来源于预解析结果
             if (templates) {
