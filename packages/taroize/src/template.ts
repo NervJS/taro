@@ -105,7 +105,7 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
   }
   const templateName = buildTemplateName(value.value)
   const templateFuncs = new Set<string>()
-  const templateApplys = new Set<string>()
+  const templateApplies = new Set<string>()
   path.traverse({
     JSXAttribute (p) {
       updateLogFileContent(`INFO [taroize] preParseTemplate - 解析 JSXAttribute ${getLineBreak()}${p} ${getLineBreak()}`)
@@ -156,14 +156,14 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
       // is 的模板调用形式为 is="xxx", xxx 为模板名或表达式
       if (t.isStringLiteral(value)) {
         const apply = buildTemplateName(value.value)
-        templateApplys.add(apply)
+        templateApplies.add(apply)
       }
     },
   })
   return {
     name: templateName,
     funcs: templateFuncs,
-    applys: templateApplys,
+    applies: templateApplies,
   }
 }
 

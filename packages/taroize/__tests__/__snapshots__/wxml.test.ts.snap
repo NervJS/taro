@@ -22,7 +22,7 @@ INFO [taroize] parseNode - 入参
 tagName: view 
 INFO [taroize] parseText - 进入函数 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -64,7 +64,7 @@ INFO [taroize] parseNode - 入参
 tagName: view 
 INFO [taroize] parseText - 进入函数 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -107,7 +107,7 @@ INFO [taroize] parseElement - 进入函数
 INFO [taroize] parseAttribute - 入参 
 attr: {"key":"id","value":"item-view1"} 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -160,7 +160,7 @@ INFO [taroize] parseElement - 进入函数
 INFO [taroize] parseAttribute - 入参 
 attr: {"key":"id","value":"item-{{id}}"} 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -215,7 +215,7 @@ INFO [taroize] parseElement - 进入函数
 INFO [taroize] parseAttribute - 入参 
 attr: {"key":"checked","value":"{{false}}"} 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -272,7 +272,7 @@ INFO [taroize] parseNode - 入参
 tagName: view 
 INFO [taroize] parseText - 进入函数 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -328,7 +328,7 @@ INFO [taroize] parseNode - 入参
 tagName: view 
 INFO [taroize] parseText - 进入函数 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -375,7 +375,7 @@ INFO [taroize] parseNode - 入参
 tagName: view 
 INFO [taroize] parseText - 进入函数 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -490,7 +490,7 @@ INFO [taroize] parseNode - 入参
 tagName: text 
 INFO [taroize] parseText - 进入函数 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -682,7 +682,7 @@ INFO [taroize] parseNode - 入参
 tagName: view 
 INFO [taroize] parseText - 进入函数 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -765,7 +765,7 @@ INFO [taroize] parseNode - 入参
 tagName: view 
 INFO [taroize] parseText - 进入函数 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -824,7 +824,7 @@ INFO [taroize] parseAttribute - 入参
 attr: {"key":"class","value":"[1,2,3]"} 
 WARN [taroize] parseAttribute - Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -887,7 +887,7 @@ INFO [taroize] parseContent - 进入函数
 INFO [taroize] parseNode - 入参 
 tagName: view 
 INFO [taroize] parseElement - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -984,7 +984,7 @@ INFO [taroize] parseNode - 入参
 tagName: view 
 INFO [taroize] parseText - 进入函数 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -1084,7 +1084,7 @@ INFO [taroize] parseElement - 进入函数
 INFO [taroize] parseAttribute - 入参 
 attr: {"key":"name","value":"after"} 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -1237,7 +1237,7 @@ INFO [taroize] parseNode - 入参
 tagName: view 
 INFO [taroize] parseText - 进入函数 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -1383,7 +1383,7 @@ INFO [taroize] parseNode - 入参
 tagName: view 
 INFO [taroize] parseText - 进入函数 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -1533,7 +1533,7 @@ INFO [taroize] parseElement - 进入函数
 INFO [taroize] parseAttribute - 入参 
 attr: {"key":"name","value":"after"} 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 
@@ -1653,7 +1653,7 @@ INFO [taroize] parseNode - 入参
 tagName: view 
 INFO [taroize] parseText - 进入函数 
 INFO [taroize] parseContent - 进入函数 
-INFO [taroize] createPreWxmlVistor - 入参 
+INFO [taroize] createPreWxmlVisitor - 入参 
 templates: [object Map] 
 INFO [taroize] templateBfs - 进入函数 
 INFO [taroize] createWxmlVisitor - 入参 

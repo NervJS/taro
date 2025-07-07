@@ -232,9 +232,9 @@ export function convertStyleUnit (value: string) {
  * @param { any[] } templates wxml 页面下的模板信息
  * @returns Visitor
  */
-export const createPreWxmlVistor = (templates: Map<string, Templates>) => {
+export const createPreWxmlVisitor = (templates: Map<string, Templates>) => {
   updateLogFileContent(
-    `INFO [taroize] createPreWxmlVistor - 入参 ${getLineBreak()}templates: ${templates} ${getLineBreak()}`
+    `INFO [taroize] createPreWxmlVisitor - 入参 ${getLineBreak()}templates: ${templates} ${getLineBreak()}`
   )
   // const Appls = new Map<string, string[]>()
   return {
@@ -253,7 +253,7 @@ export const createPreWxmlVistor = (templates: Map<string, Templates>) => {
         if (templateInfo) {
           templates.set(templateInfo.name, {
             funcs: templateInfo.funcs,
-            applyTemplates: templateInfo.applys,
+            applyTemplates: templateInfo.applies,
           })
         }
       },
@@ -672,12 +672,12 @@ export const createWxmlVisitor = (
 function templateBfs (templates: Map<string, Templates>) {
   updateLogFileContent(`INFO [taroize] templateBfs - 进入函数 ${getLineBreak()}`)
   const names: string[] = []
-  const applys = new Map<string, Set<string>>()
+  const applies = new Map<string, Set<string>>()
   for (const key of templates.keys()) {
     names.push(key)
     const templateInfo = templates.get(key)
     if (templateInfo) {
-      applys.set(key, templateInfo.applyTemplates)
+      applies.set(key, templateInfo.applyTemplates)
     }
   }
   for (const name of names) {
@@ -693,11 +693,11 @@ function templateBfs (templates: Map<string, Templates>) {
         continue
       }
       visited.add(template)
-      const templateApplys = applys.get(template)
-      if (!templateApplys || templateApplys.size === 0) {
+      const templateApplies = applies.get(template)
+      if (!templateApplies || templateApplies.size === 0) {
         continue
       }
-      templateApplys.forEach((item) => {
+      templateApplies.forEach((item) => {
         if (names.includes(item)) {
           queue.push(item)
         }
@@ -769,7 +769,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   }
   // 在解析 wxml 页面前，先进行预解析
   // 当前预解析主要为了抽取页面下的模板信息
-  traverse(ast, createPreWxmlVistor(templates))
+  traverse(ast, createPreWxmlVisitor(templates))
   // 获取 template 调用后，需要通过遍历，获取某个模板完整的调用关系
   templateBfs(templates)
 
