@@ -80,7 +80,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  max-width: 40%; // 限制最大宽度，防止挤压按钮
+  max-width: 40%; /* 限制最大宽度，防止挤压按钮 */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -206,7 +206,7 @@
 
 // 新增：自定义项样式
 .taro-picker__item--custom {
-  text-align: center; // 确保自定义项也居中
+  text-align: center; /* 确保自定义项也居中 */
   display: flex;
   justify-content: center;
   align-items: center;

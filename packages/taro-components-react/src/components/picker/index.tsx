@@ -11,8 +11,6 @@ import {
   hoursRange,
   minutesRange,
   omit,
-  PICKER_LINE_HEIGHT,
-  PICKER_TOP,
   verifyDate,
   verifyTime,
   verifyValue
@@ -200,7 +198,7 @@ interface IProps {
 
 interface IState {
   pickerValue: PickerValue
-  height: number[]
+  selectedIndices: number[] // 改为索引数组，而不是高度数组
   hidden: boolean
   fadeOut: boolean
   isWillLoadCalled: boolean
@@ -235,24 +233,18 @@ export function Picker(props: IProps) {
 
   const [state, setState] = useState<IState>({
     pickerValue: value || EMPTY_ARRAY,
-    height: EMPTY_ARRAY.slice(),
+    selectedIndices: EMPTY_ARRAY.slice(), // 改为索引数组
     hidden: true,
     fadeOut: false,
     isWillLoadCalled: false
   })
 
-  // 先定义 getHeightByIndex
-  const getHeightByIndex = useCallback(() => {
-    return indexRef.current.map(i => {
-      let factor = 0
-      if (mode === 'time') {
-        factor = PICKER_LINE_HEIGHT * 4
-      }
-      return PICKER_TOP - PICKER_LINE_HEIGHT * i - factor
-    })
-  }, [mode])
+  // 获取当前索引数组
+  const getIndices = useCallback(() => {
+    return indexRef.current
+  }, [])
 
-  // 再定义 handleProps
+  // 处理属性变化
   const handleProps = useCallback(() => {
     if (mode === 'selector') {
       const val = value as number
@@ -349,14 +341,15 @@ export function Picker(props: IProps) {
     } else {
       throw new Error(`Picker not support "${mode}" mode.`)
     }
-    // 更新高度值
-    const newHeight = getHeightByIndex()
+
+    // 更新索引值
+    const newIndices = getIndices()
     setState(prev => ({
       ...prev,
-      height: newHeight,
+      selectedIndices: newIndices,
       pickerValue: value || EMPTY_ARRAY
     }))
-  }, [mode, range, value, start, end, fields, regionData, getHeightByIndex])
+  }, [mode, range, value, start, end, fields, regionData, getIndices])
 
   // 组件初始化
   useEffect(() => {
@@ -374,13 +367,13 @@ export function Picker(props: IProps) {
   // 显示 Picker
   const showPicker = useCallback(() => {
     if (disabled) return
-    const newHeight = getHeightByIndex()
+    const newIndices = getIndices()
     setState(prev => ({
       ...prev,
-      height: newHeight,
+      selectedIndices: newIndices,
       hidden: false
     }))
-  }, [disabled, getHeightByIndex])
+  }, [disabled, getIndices])
 
   // 隐藏 Picker
   const hidePicker = useCallback(() => {
@@ -394,14 +387,14 @@ export function Picker(props: IProps) {
     }, 350)
   }, [])
 
-  // 更新高度
-  const updateHeight = useCallback((height: number, columnId: string, needRevise = false) => {
+  // 更新索引，替代原来的updateHeight
+  const updateIndex = useCallback((index: number, columnId: string, needRevise = false) => {
     const columnIndex = Number(columnId)
 
     setState(prev => {
-      const temp = [...prev.height] // 使用最新的 height 状态
-      temp[columnIndex] = height
-      return { ...prev, height: temp }
+      const newIndices = [...prev.selectedIndices]
+      newIndices[columnIndex] = index
+      return { ...prev, selectedIndices: newIndices }
     })
 
     // region 模式的级联更新逻辑
@@ -411,21 +404,21 @@ export function Picker(props: IProps) {
 
       // 当某一列发生变化时，重置后续列为第一个选项
       setState(prev => {
-        const newHeight = [...prev.height]
-        newHeight[columnIndex] = height
+        const newIndices = [...prev.selectedIndices]
+        newIndices[columnIndex] = index
 
         // 重置后续列到第一个选项（索引0）
         for (let i = columnIndex + 1; i < maxColumns; i++) {
-          newHeight[i] = PICKER_TOP // 重置为第一个选项的位置
+          newIndices[i] = 0
         }
 
-        return { ...prev, height: newHeight }
+        return { ...prev, selectedIndices: newIndices }
       })
       return
     }
 
     // time picker 必须在规定时间范围内，因此需要在 touchEnd 做修正
-    if (needRevise) {
+    if (needRevise && mode === 'time') {
       let startTime = start
       let endTime = end
 
@@ -433,42 +426,39 @@ export function Picker(props: IProps) {
       if (!verifyTime(endTime)) endTime = '23:59'
       if (!compareTime(startTime, endTime)) return
 
-      const range = [hoursRange.slice(), minutesRange.slice()]
+      const timeRanges = [hoursRange.slice(), minutesRange.slice()]
 
       // 使用当前最新的状态计算
       setState(prev => {
-        const temp = [...prev.height]
-        temp[Number(columnId)] = height
+        const currentIndices = [...prev.selectedIndices]
 
-        const timeList = temp.map(h => (PICKER_TOP - h) / PICKER_LINE_HEIGHT)
-
-        // 安全的范围访问，添加边界检查
-        const timeStr = timeList.map((n, i) => {
-          const index = Math.max(0, Math.min(Math.floor(n), range[i].length - 1))
-          return range[i][index] || '00'
+        // 根据索引获取时间
+        const timeStr = currentIndices.map((idx, i) => {
+          const rangeIdx = Math.max(0, Math.min(idx, timeRanges[i].length - 1))
+          return timeRanges[i][rangeIdx] || '00'
         }).join(':')
 
         if (!compareTime(startTime, timeStr)) {
           // 修正到 start
           const startParts = startTime.split(':').map(part => parseInt(part))
-          const newHeight = startParts.map((time, i) => {
+          const newIndices = startParts.map((time, i) => {
             // 在 range 中找到对应时间的索引
-            const index = range[i].findIndex(item => parseInt(item) === time)
-            return PICKER_TOP - PICKER_LINE_HEIGHT * (index >= 0 ? index : 4) // 默认使用索引 4
+            const idx = timeRanges[i].findIndex(item => parseInt(item) === time)
+            return idx >= 0 ? idx : 4 // 默认使用索引 4
           })
-          return { ...prev, height: newHeight }
+          return { ...prev, selectedIndices: newIndices }
         } else if (!compareTime(timeStr, endTime)) {
           // 修正到 end
           const endParts = endTime.split(':').map(part => parseInt(part))
-          const newHeight = endParts.map((time, i) => {
+          const newIndices = endParts.map((time, i) => {
             // 在 range 中找到对应时间的索引
-            const index = range[i].findIndex(item => parseInt(item) === time)
-            return PICKER_TOP - PICKER_LINE_HEIGHT * (index >= 0 ? index : 4) // 默认使用索引 4
+            const idx = timeRanges[i].findIndex(item => parseInt(item) === time)
+            return idx >= 0 ? idx : 4 // 默认使用索引 4
           })
-          return { ...prev, height: newHeight }
+          return { ...prev, selectedIndices: newIndices }
         }
 
-        return { ...prev, height: temp }
+        return { ...prev, selectedIndices: currentIndices }
       })
     }
   }, [start, end, mode, regionData])
@@ -498,8 +488,7 @@ export function Picker(props: IProps) {
 
       const monthIndex = monthRange.indexOf(_updateValue[1])
       if (monthIndex >= 0) {
-        const height = PICKER_TOP - PICKER_LINE_HEIGHT * monthIndex
-        updateHeight(height, '1')
+        updateIndex(monthIndex, '1')
 
         // 检查并更新日范围
         const dayRange = getDayRange(_start, _end, currentYear, _updateValue[1])
@@ -512,8 +501,7 @@ export function Picker(props: IProps) {
 
           const dayIndex = dayRange.indexOf(_updateValue[2])
           if (dayIndex >= 0) {
-            const dayHeight = PICKER_TOP - PICKER_LINE_HEIGHT * dayIndex
-            updateHeight(dayHeight, '2')
+            updateIndex(dayIndex, '2')
           }
         }
       }
@@ -529,27 +517,26 @@ export function Picker(props: IProps) {
 
       const dayIndex = dayRange.indexOf(_updateValue[2])
       if (dayIndex >= 0) {
-        const height = PICKER_TOP - PICKER_LINE_HEIGHT * dayIndex
-        updateHeight(height, '2')
+        updateIndex(dayIndex, '2')
       }
     }
-  }, [updateHeight])
+  }, [updateIndex])
 
   // 处理确认
   const handleChange = useCallback(() => {
-    const newIndex = state.height.map(h => (PICKER_TOP - h) / PICKER_LINE_HEIGHT)
-    indexRef.current = newIndex
+    const newIndices = [...state.selectedIndices]
+    indexRef.current = newIndices
 
-    let newValue: PickerValue = newIndex.length && mode !== 'selector'
-      ? newIndex
-      : newIndex[0]
+    let newValue: PickerValue = newIndices.length && mode !== 'selector'
+      ? newIndices
+      : newIndices[0]
 
     if (mode === 'time') {
       const range = [hoursRange.slice(), minutesRange.slice()]
 
       // 安全的时间处理，添加边界检查
-      const timeArr = newIndex.map<string>((n, i) => {
-        const index = Math.max(0, Math.min(Math.floor(n), range[i].length - 1))
+      const timeArr = newIndices.map<string>((idx, i) => {
+        const index = Math.max(0, Math.min(idx, range[i].length - 1))
         return range[i][index] || (i === 0 ? '00' : '00')
       })
 
@@ -574,9 +561,9 @@ export function Picker(props: IProps) {
       const dayRange = getDayRange(_start, _end, currentYear, currentMonth)
 
       // 添加边界检查，确保索引有效
-      const yearIndex = Math.min(Math.max(Math.floor(newIndex[0]), 0), yearRange.length - 1)
-      const monthIndex = Math.min(Math.max(Math.floor(newIndex[1]), 0), monthRange.length - 1)
-      const dayIndex = Math.min(Math.max(Math.floor(newIndex[2]), 0), dayRange.length - 1)
+      const yearIndex = Math.min(Math.max(Math.floor(newIndices[0]), 0), yearRange.length - 1)
+      const monthIndex = Math.min(Math.max(Math.floor(newIndices[1]), 0), monthRange.length - 1)
+      const dayIndex = Math.min(Math.max(Math.floor(newIndices[2]), 0), dayRange.length - 1)
 
       const year = yearRange[yearIndex]
       const month = monthRange[monthIndex]
@@ -632,9 +619,9 @@ export function Picker(props: IProps) {
       }
 
       // 安全获取选中值，确保级联的正确性
-      for (let i = 0; i < Math.min(newIndex.length, displayColumns); i++) {
+      for (let i = 0; i < Math.min(newIndices.length, displayColumns); i++) {
         const columnData = getRegionColumnData(regionData, i, selectedValues, dataLevel)
-        const selectedIndex = Math.floor(newIndex[i])
+        const selectedIndex = Math.floor(newIndices[i])
 
         // 确保索引在有效范围内
         if (columnData.length > 0 && selectedIndex >= 0 && selectedIndex < columnData.length) {
@@ -679,15 +666,15 @@ export function Picker(props: IProps) {
 
     // 触发 onChange 事件，格式与原始组件一致
     onChange?.({ detail: { value: newValue } })
-  }, [hidePicker, state.height, mode, fields, onChange, regionData, level])
+  }, [hidePicker, state.selectedIndices, mode, fields, onChange, regionData, level])
 
   // 处理列变化
-  const handleColumnChange = useCallback((e: { columnId: string, height: number }) => {
-    const { columnId, height } = e
+  const handleColumnChange = useCallback((e: { columnId: string, index: number }) => {
+    const { columnId, index } = e
     onColumnChange?.({
       detail: {
         column: Number(columnId),
-        value: (PICKER_TOP - height) / PICKER_LINE_HEIGHT
+        value: index
       }
     })
   }, [onColumnChange])
@@ -707,8 +694,8 @@ export function Picker(props: IProps) {
             key={index}
             range={rangeItem}
             rangeKey={rangeKey}
-            height={state.height[index]}
-            updateHeight={updateHeight}
+            selectedIndex={state.selectedIndices[index]}
+            updateIndex={updateIndex}
             onColumnChange={handleColumnChange}
             columnId={String(index)}
             customItem={customItem}
@@ -723,8 +710,8 @@ export function Picker(props: IProps) {
             key="hour"
             mode="time"
             range={hourRange}
-            height={state.height[0]}
-            updateHeight={updateHeight}
+            selectedIndex={state.selectedIndices[0]}
+            updateIndex={updateIndex}
             columnId="0"
             customItem={customItem}
           />,
@@ -732,15 +719,15 @@ export function Picker(props: IProps) {
             key="minute"
             mode="time"
             range={minRange}
-            height={state.height[1]}
-            updateHeight={updateHeight}
+            selectedIndex={state.selectedIndices[1]}
+            updateIndex={updateIndex}
             columnId="1"
             customItem={customItem}
           />
         ]
       }
       case 'date': {
-        const { height } = state
+        const { selectedIndices } = state
         if (!pickerDateRef.current) return null
 
         const { _start, _end, _updateValue } = pickerDateRef.current
@@ -759,9 +746,9 @@ export function Picker(props: IProps) {
             key="year"
             mode="date"
             range={yearRange}
-            height={height[0]}
+            selectedIndex={selectedIndices[0]}
             updateDay={updateDay}
-            updateHeight={updateHeight}
+            updateIndex={updateIndex}
             columnId="0"
             customItem={customItem}
           />
@@ -772,9 +759,9 @@ export function Picker(props: IProps) {
               key="month"
               mode="date"
               range={monthRange}
-              height={height[1]}
+              selectedIndex={selectedIndices[1]}
               updateDay={updateDay}
-              updateHeight={updateHeight}
+              updateIndex={updateIndex}
               columnId="1"
               customItem={customItem}
             />
@@ -786,9 +773,9 @@ export function Picker(props: IProps) {
               key="day"
               mode="date"
               range={dayRange}
-              height={height[2]}
+              selectedIndex={selectedIndices[2]}
               updateDay={updateDay}
-              updateHeight={updateHeight}
+              updateIndex={updateIndex}
               columnId="2"
               customItem={customItem}
             />
@@ -812,7 +799,7 @@ export function Picker(props: IProps) {
         const dataLevel = detectDataLevel(regionData)
 
         // 从当前状态获取选中值
-        const currentIndices = state.height.map(h => (PICKER_TOP - h) / PICKER_LINE_HEIGHT)
+        const selectedIndices = state.selectedIndices
         const selectedValues: string[] = []
         const maxColumns = dataLevel === 4 ? 4 : 3
 
@@ -825,9 +812,9 @@ export function Picker(props: IProps) {
         }
 
         // 安全获取选中值，确保级联的正确性
-        for (let i = 0; i < Math.min(currentIndices.length, displayColumns); i++) {
+        for (let i = 0; i < Math.min(selectedIndices.length, displayColumns); i++) {
           const columnData = getRegionColumnData(regionData, i, selectedValues, dataLevel)
-          const selectedIndex = Math.floor(currentIndices[i])
+          const selectedIndex = selectedIndices[i]
 
           // 确保索引在有效范围内
           if (columnData.length > 0 && selectedIndex >= 0 && selectedIndex < columnData.length) {
@@ -849,8 +836,8 @@ export function Picker(props: IProps) {
                 mode="region"
                 range={columnData}
                 rangeKey="value"
-                height={state.height[i]}
-                updateHeight={updateHeight}
+                selectedIndex={state.selectedIndices[i]}
+                updateIndex={updateIndex}
                 onColumnChange={handleColumnChange}
                 columnId={String(i)}
               />
@@ -865,14 +852,14 @@ export function Picker(props: IProps) {
           <PickerGroup
             range={range}
             rangeKey={rangeKey}
-            height={state.height[0]}
-            updateHeight={updateHeight}
+            selectedIndex={state.selectedIndices[0]}
+            updateIndex={updateIndex}
             columnId="0"
             customItem={customItem}
           />
         )
     }
-  }, [mode, range, rangeKey, state.height, fields, updateHeight, updateDay, handleColumnChange, pickerDateRef.current, customItem, level, regionData])
+  }, [mode, range, rangeKey, state.selectedIndices, fields, updateIndex, updateDay, handleColumnChange, pickerDateRef.current, customItem, level, regionData])
 
   // 动画类名控制逻辑
   const clsMask = classNames('taro-picker__mask-overlay', 'taro-picker__animate-fade-in', {
