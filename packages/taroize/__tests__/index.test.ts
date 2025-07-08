@@ -1,4 +1,4 @@
-import { parse } from '../src'
+import parse from '../src'
 import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
 
 expect.addSnapshotSerializer(removeBackslashesSerializer)
@@ -33,8 +33,8 @@ describe('parse', () => {
       }
     })
 
-    test('公共组件usingComponents的key加到THIRD_PARTY_COMPONENTS', () => {
-      // app.json的目录结构以及内容
+    test('公共组件 usingComponents 的 key 加到 THIRD_PARTY_COMPONENTS', () => {
+      // app.json 的目录结构以及内容
       /*
       ** /app.json:
       **   "{

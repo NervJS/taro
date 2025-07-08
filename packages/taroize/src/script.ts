@@ -31,7 +31,7 @@ export function replaceIdentifier (callee: NodePath<t.Node>) {
   }
 }
 
-// babel 6升级babel 7适配
+// babel 6 升级 babel 7 适配
 export function replaceMemberExpression (callee: NodePath<t.Node>) {
   if (callee.isMemberExpression()) {
     const object = callee.get('object') as NodePath<t.Identifier>
@@ -55,7 +55,7 @@ function replacePluginUrl (node, pluginInfo) {
       const urlProperty = urlNode.properties.find((property) => property.key.name === 'url')
       if (urlProperty) {
         if (!t.isStringLiteral(urlProperty.value)) {
-          // navigateFunc的url如果是动态化则不转换
+          // navigateFunc 的 url 如果是动态化则不转换
           updateLogFileContent(`WARN [taroize] replacePluginUrl - navigateFunc 的 url 是动态的 ${getLineBreak()}`)
           return
         }
@@ -71,7 +71,7 @@ function replacePluginUrl (node, pluginInfo) {
           return
         }
 
-        // 将跳转的插件页面url替换为子包的url
+        // 将跳转的插件页面 url 替换为子包的 url
         // 捕获插件名
         const pluginName = matchPluginUrl[1]
         // 捕获页面名
@@ -112,19 +112,19 @@ export function parseScript (
   let ast = parseCode(script, scriptPath as string)
   let classDecl!: t.ClassDeclaration
   let foundWXInstance = false
-  const vistor: Visitor = {
+  const visitor: Visitor = {
     BlockStatement (path) {
-      updateLogFileContent(`INFO [taroize] parseScript - 解析BlockStatement ${getLineBreak()}${path} ${getLineBreak()}`)
+      updateLogFileContent(`INFO [taroize] parseScript - 解析 BlockStatement ${getLineBreak()}${path} ${getLineBreak()}`)
       path.scope.rename('wx', 'Taro')
     },
     Identifier (path) {
-      updateLogFileContent(`INFO [taroize] parseScript - 解析Identifier ${getLineBreak()}${path} ${getLineBreak()}`)
+      updateLogFileContent(`INFO [taroize] parseScript - 解析 Identifier ${getLineBreak()}${path} ${getLineBreak()}`)
       if (path.isReferenced() && path.node.name === 'wx') {
         path.replaceWith(t.identifier('Taro'))
       }
     },
     CallExpression (path) {
-      updateLogFileContent(`INFO [taroize] parseScript - 解析CallExpression ${getLineBreak()}${path} ${getLineBreak()}`)
+      updateLogFileContent(`INFO [taroize] parseScript - 解析 CallExpression ${getLineBreak()}${path} ${getLineBreak()}`)
       const callee = path.get('callee')
       replaceIdentifier(callee as NodePath<t.Node>)
       replaceMemberExpression(callee as NodePath<t.Node>)
@@ -140,7 +140,7 @@ export function parseScript (
 
         // 将类组件进行导出
         if (isCommonjsModule(ast.program.body)) {
-          // 组件导出格式为module.exports =
+          // 组件导出格式为 module.exports =
           ast.program.body.push(
             classDecl,
             t.expressionStatement(
@@ -152,7 +152,7 @@ export function parseScript (
             )
           )
         } else {
-          // 组件导出格式为export default
+          // 组件导出格式为 export default
           ast.program.body.push(
             classDecl,
             t.exportDefaultDeclaration(t.identifier(componentType !== 'App' ? defaultClassName : 'App'))
@@ -162,19 +162,20 @@ export function parseScript (
     },
   }
 
-  traverse(ast, vistor)
+  traverse(ast, visitor)
 
   if (!foundWXInstance) {
     ast = parseCode(script + ';Component({})')
-    traverse(ast, vistor)
+    traverse(ast, visitor)
   }
 
-  const requirewithWeapp = t.variableDeclaration('const', [
+  const requireWithWeapp = t.variableDeclaration('const', [
     t.variableDeclarator(
       t.objectPattern([t.objectProperty(t.identifier('default'), t.identifier('withWeapp'), false, true)]),
       t.callExpression(t.identifier('require'), [t.stringLiteral('@tarojs/with-weapp')])
     ),
   ])
+
   if (isCommonjsModule(ast.program.body)) {
     const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents], '', true)
     const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro', true)
@@ -183,7 +184,7 @@ export function parseScript (
       taroComponentsImport,
       reactImport,
       taroImport,
-      requirewithWeapp,
+      requireWithWeapp,
       ...wxses
         .filter((wxs) => !wxs.src.startsWith('./wxs__'))
         .map((wxs) => buildImportStatement(wxs.src, [], wxs.module, true))
@@ -196,7 +197,7 @@ export function parseScript (
       taroComponentsImport,
       reactImport,
       taroImport,
-      requirewithWeapp,
+      requireWithWeapp,
       ...wxses
         .filter((wxs) => !wxs.src.startsWith('./wxs__'))
         .map((wxs) => buildImportStatement(wxs.src, [], wxs.module))
@@ -219,7 +220,7 @@ function parsePage (
   const stateKeys: string[] = []
   pagePath.traverse({
     CallExpression (path) {
-      updateLogFileContent(`INFO [taroize] parsePage - 解析CallExpression ${getLineBreak()}${path} ${getLineBreak()}`)
+      updateLogFileContent(`INFO [taroize] parsePage - 解析 CallExpression ${getLineBreak()}${path} ${getLineBreak()}`)
       const callee = path.get('callee')
       replaceIdentifier(callee as NodePath<t.Node>)
       replaceMemberExpression(callee as NodePath<t.Node>)
@@ -254,11 +255,11 @@ function parsePage (
   )
 
   // @withWeapp 通过调用 cacheOptions.getOptionsFromCache() 获取 options
-  const withWeappArgmentNode = t.callExpression(
+  const withWeappArgumentNode = t.callExpression(
     t.memberExpression(t.identifier('cacheOptions'), t.identifier('getOptionsFromCache')),
     []
   )
-  classDecl.decorators = [buildDecorator(withWeappArgmentNode, isApp)]
+  classDecl.decorators = [buildDecorator(withWeappArgumentNode, isApp)]
 
   return classDecl
 }

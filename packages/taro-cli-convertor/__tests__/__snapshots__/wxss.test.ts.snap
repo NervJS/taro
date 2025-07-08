@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`引入外部wxss文件 引入外部wxss，无后缀 1`] = `
+exports[`引入外部 wxss 文件 引入外部 wxss，无后缀 1`] = `
 Map {
   /wxProject/taroConvert/src/pages/index/index.scss => 
       @import "../common";
@@ -12,7 +12,7 @@ Map {
 }
 `;
 
-exports[`引入外部wxss文件 拷贝三方字体包到转换后的工程 1`] = `
+exports[`引入外部 wxss 文件 拷贝三方字体包到转换后的工程 1`] = `
 Map {
   /wxProject/taroConvert/src/fonts/Algerian.ttf => 字体二进制,
   /wxProject/taroConvert/src/pages/index/index.scss => 
@@ -24,7 +24,7 @@ Map {
 }
 `;
 
-exports[`引入外部wxss文件 相对路径引入外部wxss 1`] = `
+exports[`引入外部 wxss 文件 相对路径引入外部 wxss 1`] = `
 Map {
   /wxProject/taroConvert/src/pages/index/index.scss => 
       @import "../common.scss";
@@ -36,7 +36,7 @@ Map {
 }
 `;
 
-exports[`引入外部wxss文件 绝对路径引入外部wxss 1`] = `
+exports[`引入外部 wxss 文件 绝对路径引入外部 wxss 1`] = `
 Map {
   /wxProject/taroConvert/src/pages/index/index.scss => 
       @import "../common.scss";
