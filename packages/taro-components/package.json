@@ -17,7 +17,6 @@
     "loader",
     "mini",
     "types",
-    "virtual-list",
     "vue3.d.ts",
     "global.css"
   ],
@@ -54,14 +53,13 @@
   "author": "",
   "license": "MIT",
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 20"
   },
   "dependencies": {
     "@stencil/core": "2.22.3",
     "hammerjs": "^2.0.8",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@tarojs/components-advanced": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
     "hls.js": "^1.1.5",
