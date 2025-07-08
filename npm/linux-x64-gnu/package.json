@@ -14,7 +14,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 20"
   },
   "libc": [
     "glibc"

@@ -27,7 +27,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 20"
   },
   "dependencies": {
     "@tarojs/plugin-platform-weapp": "workspace:*"
