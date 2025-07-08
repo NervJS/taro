@@ -41,9 +41,6 @@
   ],
   "author": "luckyadam",
   "license": "MIT",
-  "engines": {
-    "node": ">= 10"
-  },
   "devDependencies": {
     "@napi-rs/cli": "3.0.0-alpha.5",
     "ava": "5.3.1"
