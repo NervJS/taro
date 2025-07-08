@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-library-vue3",
-  "version": "4.1.3",
+  "version": "4.1.4-beta.8",
   "description": "Taro 组件库 Vue3 版本库",
   "private": true,
   "author": "O2Team",
