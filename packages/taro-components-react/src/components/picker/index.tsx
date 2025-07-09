@@ -2,6 +2,8 @@ import './style/index.scss'
 
 import { View } from '@tarojs/components'
 import classNames from 'classnames'
+import * as React from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 import {
   compareTime,
@@ -15,10 +17,7 @@ import {
   verifyTime,
   verifyValue
 } from '../../utils'
-import { useCallback, useEffect, useMemo, useRef, useState } from '../../utils/hooks'
 import { PickerGroup } from './picker-group'
-
-import type React from 'react'
 
 // 定义 RegionData 类型，与 Taro 官方保持一致
 export interface RegionData {
@@ -183,7 +182,6 @@ interface IProps {
   fields?: Fields
   name?: string
   headerText?: string
-  customItem?: string
   regionData?: RegionData[] // 省市区数据（region 模式专用，支持三级或四级数据）
   level?: RegionLevel
   textProps?: PickerText
@@ -198,7 +196,7 @@ interface IProps {
 
 interface IState {
   pickerValue: PickerValue
-  selectedIndices: number[] // 改为索引数组，而不是高度数组
+  selectedIndices: number[] // 索引数组
   hidden: boolean
   fadeOut: boolean
   isWillLoadCalled: boolean
@@ -215,7 +213,6 @@ export function Picker(props: IProps) {
     end = '',
     fields = 'day',
     headerText,
-    customItem,
     level,
     regionData,
     textProps = EMPTY_OBJECT,
@@ -228,12 +225,12 @@ export function Picker(props: IProps) {
     formType,
     ...restProps
   } = props
-  const indexRef = useRef<number[]>([])
-  const pickerDateRef = useRef<PickerDate>()
+  const indexRef = React.useRef<number[]>([])
+  const pickerDateRef = React.useRef<PickerDate>()
 
-  const [state, setState] = useState<IState>({
+  const [state, setState] = React.useState<IState>({
     pickerValue: value || EMPTY_ARRAY,
-    selectedIndices: EMPTY_ARRAY.slice(), // 改为索引数组
+    selectedIndices: EMPTY_ARRAY.slice(), // 索引数组
     hidden: true,
     fadeOut: false,
     isWillLoadCalled: false
@@ -387,8 +384,8 @@ export function Picker(props: IProps) {
     }, 350)
   }, [])
 
-  // 更新索引，替代原来的updateHeight
-  const updateIndex = useCallback((index: number, columnId: string, needRevise = false) => {
+  // 更新索引
+  const updateIndex = React.useCallback((index: number, columnId: string, needRevise = false) => {
     const columnIndex = Number(columnId)
 
     setState(prev => {
@@ -694,11 +691,9 @@ export function Picker(props: IProps) {
             key={index}
             range={rangeItem}
             rangeKey={rangeKey}
-            selectedIndex={state.selectedIndices[index]}
             updateIndex={updateIndex}
             onColumnChange={handleColumnChange}
             columnId={String(index)}
-            customItem={customItem}
           />
         ))
       }
@@ -710,24 +705,19 @@ export function Picker(props: IProps) {
             key="hour"
             mode="time"
             range={hourRange}
-            selectedIndex={state.selectedIndices[0]}
             updateIndex={updateIndex}
             columnId="0"
-            customItem={customItem}
           />,
           <PickerGroup
             key="minute"
             mode="time"
             range={minRange}
-            selectedIndex={state.selectedIndices[1]}
             updateIndex={updateIndex}
             columnId="1"
-            customItem={customItem}
           />
         ]
       }
       case 'date': {
-        const { selectedIndices } = state
         if (!pickerDateRef.current) return null
 
         const { _start, _end, _updateValue } = pickerDateRef.current
@@ -746,11 +736,9 @@ export function Picker(props: IProps) {
             key="year"
             mode="date"
             range={yearRange}
-            selectedIndex={selectedIndices[0]}
             updateDay={updateDay}
             updateIndex={updateIndex}
             columnId="0"
-            customItem={customItem}
           />
         ]
         if (fields === 'month' || fields === 'day') {
@@ -759,11 +747,9 @@ export function Picker(props: IProps) {
               key="month"
               mode="date"
               range={monthRange}
-              selectedIndex={selectedIndices[1]}
               updateDay={updateDay}
               updateIndex={updateIndex}
               columnId="1"
-              customItem={customItem}
             />
           )
         }
@@ -773,11 +759,9 @@ export function Picker(props: IProps) {
               key="day"
               mode="date"
               range={dayRange}
-              selectedIndex={selectedIndices[2]}
               updateDay={updateDay}
               updateIndex={updateIndex}
               columnId="2"
-              customItem={customItem}
             />
           )
         }
@@ -836,7 +820,6 @@ export function Picker(props: IProps) {
                 mode="region"
                 range={columnData}
                 rangeKey="value"
-                selectedIndex={state.selectedIndices[i]}
                 updateIndex={updateIndex}
                 onColumnChange={handleColumnChange}
                 columnId={String(i)}
@@ -852,14 +835,12 @@ export function Picker(props: IProps) {
           <PickerGroup
             range={range}
             rangeKey={rangeKey}
-            selectedIndex={state.selectedIndices[0]}
             updateIndex={updateIndex}
             columnId="0"
-            customItem={customItem}
           />
         )
     }
-  }, [mode, range, rangeKey, state.selectedIndices, fields, updateIndex, updateDay, handleColumnChange, pickerDateRef.current, customItem, level, regionData])
+  }, [mode, range, rangeKey, fields, updateIndex, updateDay, handleColumnChange, pickerDateRef.current, level, regionData])
 
   // 动画类名控制逻辑
   const clsMask = classNames('taro-picker__mask-overlay', 'taro-picker__animate-fade-in', {

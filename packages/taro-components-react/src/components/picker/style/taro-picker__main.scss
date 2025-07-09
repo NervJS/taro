@@ -31,6 +31,7 @@
   bottom: 0;
   left: 0;
   z-index: $weuiPickerZIndexIndicator;
+  background-color: $weuiLineColorLight;
   width: 100%;
 }
 
@@ -68,11 +69,6 @@
   &:first-child {
     color: $weuiTextColorDesc;
   }
-  
-  // 点击状态
-  &:active {
-    background-color: rgba(0,0,0,0.06);
-  }
 }
 
 .taro-picker__title {
@@ -104,6 +100,8 @@
   position: relative;
   height: 100%;
   box-sizing: border-box;
+  justify-content: center;  /* 水平居中 */
+  align-items: center; 
   
   // 多列布局
   &--date {
@@ -124,11 +122,15 @@
   width: 100%;
   height: 100%;
   background: 
-    linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%),
-    linear-gradient(to top, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%);
-  background-repeat: no-repeat;
-  background-position: top, bottom;
-  background-size: 100% calc(50% - #{$weuiPickerItemHeight/2});
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.6) 45%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(255, 255, 255, 0.6) 55%,
+      rgba(255, 255, 255, 0.95) 100%
+    );
   pointer-events: none;
 }
 
