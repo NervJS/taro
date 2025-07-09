@@ -44,7 +44,7 @@ policy:
             keys: [支付宝小程序]
 
           - name: T-tt
-            keys: [抖音小程序]
+            keys: [头条小程序]
 
           - name: T-qq
             keys: [QQ 小程序]
