@@ -37,14 +37,14 @@ body:
         - label: 快应用（QuickApp）
         - label: 所有小程序
         - label: 微信小程序
+        - label: 企业微信小程序
         - label: 京东小程序
         - label: 百度小程序
         - label: 支付宝小程序
-        - label: 抖音小程序
+        - label: 支付宝 IOT 小程序
+        - label: 头条小程序
         - label: QQ 小程序
         - label: 钉钉小程序
-        - label: 企业微信小程序
-        - label: 支付宝 IOT 小程序
         - label: 飞书小程序
         - label: 快手小程序
   - type: input
