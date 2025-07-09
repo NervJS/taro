@@ -7,6 +7,8 @@
 //     (c) 2010-2016 Thomas Fuchs
 //     Zepto.js may be freely distributed under the MIT license.
 
+import { window } from '@tarojs/runtime'
+
 export function initEvent ($) {
   let _zid = 1; let undefined
   const slice = Array.prototype.slice

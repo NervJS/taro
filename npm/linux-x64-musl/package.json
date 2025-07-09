@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/binding-linux-x64-musl",
-  "version": "4.1.4-beta.0",
+  "version": "4.1.3",
   "os": [
     "linux"
   ],
@@ -13,7 +13,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "libc": [
     "musl"

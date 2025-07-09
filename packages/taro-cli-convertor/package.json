@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli-convertor",
-  "version": "4.1.4-beta.0",
+  "version": "4.1.3",
   "description": "cli tool for taro-convert",
   "author": "O2Team",
   "license": "MIT",
@@ -35,7 +35,7 @@
     "weapp"
   ],
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20"
   },
   "dependencies": {
     "@babel/generator": "^7.24.4",

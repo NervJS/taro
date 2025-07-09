@@ -17,7 +17,9 @@ export default defineConfig{{#if typescript }}<'{{ to_lower_case compiler }}'>{{
     },
     sourceRoot: 'src',
     outputRoot: 'dist',
-    plugins: [],
+    plugins: [
+      "@tarojs/plugin-generator"
+    ],
     defineConstants: {
     },
     copy: {
