@@ -1,7 +1,10 @@
-let Style
+import { afterAll, describe, expect, it } from 'vitest'
+
+import * as runtime from '../src/index'
+
+let Style: any
 
 describe('style', () => {
-  const runtime = require('../../dist/runtime.esm')
   Style = runtime.Style
   const document = runtime.document
 

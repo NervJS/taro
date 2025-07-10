@@ -1,6 +1,9 @@
+import { afterAll, describe, expect, it, vi } from 'vitest'
+
+import * as runtime from '../src/index'
+
 describe('react', () => {
   process.env.FRAMEWORK = 'react'
-  const runtime = require('../../dist/runtime.esm')
   const document = runtime.document
 
   afterAll(() => {
@@ -9,7 +12,7 @@ describe('react', () => {
 
   it('event should work', () => {
     const div = document.createElement('div')
-    const spy = jest.fn()
+    const spy = vi.fn()
     div.addEventListener('tap', spy)
     const event = runtime.createEvent({ type: 'tap' }, div)
     div.dispatchEvent(event)

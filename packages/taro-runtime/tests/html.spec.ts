@@ -1,13 +1,13 @@
-// import { Scaner } from '../src/html/scaner'
-// import { parser } from '../src/html/oparser'
-import '../dom-external/inner-html/html'
+// @ts-nocheck
+import '../src/dom-external/inner-html/html'
 
-import { parser } from '../dom-external/inner-html/parser'
-import { Scaner } from '../dom-external/inner-html/scaner'
-import { options } from '../options'
-import { isElement } from '../utils'
+import { describe, expect, it, test } from 'vitest'
 
-const runtime = require('../../dist/runtime.esm')
+import { parser } from '../src/dom-external/inner-html/parser'
+import { Scanner } from '../src/dom-external/inner-html/scanner'
+import * as runtime from '../src/index'
+import { options } from '../src/options'
+import { isElement } from '../src/utils'
 
 const document = runtime.document
 
@@ -15,11 +15,7 @@ const document = runtime.document
 describe.skip('html', () => {
   test('tt', () => {
     const s = '<h1 style="color:red" class="fork">This is a Heading</h1>'
-    // const tokens = new Scaner(s).scan()
-    // debugger
-    // const html = parser(tokens)
-
-    parser(s)
+    parser(s, document)
   })
 })
 
@@ -318,6 +314,7 @@ describe('html with <style>', () => {
     expect(el3.style.cssText).toBe('color: red;')
     expect(el4.style.cssText).toBe('width: 100%;')
   })
+
   it('enter', () => {
     const html = `
       <style>
@@ -328,7 +325,7 @@ describe('html with <style>', () => {
       </style>
       <div class="parent">
         <span>测试换行\nxxxx</span>
-        <span>测试换行xxxx</span>
+        <span>测试换行 xxxx</span>
       </div>
     `
     const res = parser(html, document)
@@ -337,16 +334,17 @@ describe('html with <style>', () => {
     expect(el0.style.cssText).toBe('color: red; font-size: 10;')
     expect(el0.childNodes[0]._value).toBe('测试换行\nxxxx')
     expect(el1.style.cssText).toBe('color: red; font-size: 10;')
-    expect(el1.childNodes[0]._value).toBe('测试换行xxxx')
+    expect(el1.childNodes[0]._value).toBe('测试换行 xxxx')
   })
 })
 
 describe('html with tag should be skipped', () => {
   it('scanSkipTag should skip script', () => {
     const s = '<script type="text/javascript"> </script><div></div>'
-    const tokens = new Scaner(s).scan()
+    const tokens = new Scanner(s).scan()
     expect(tokens[1].content).toBe('script')
   })
+
   it('html should be rendered successfully', () => {
     const s = '<script type="text/javascript"> </script><div>hello world</div>'
     const res = parser(s, document)
@@ -380,7 +378,7 @@ describe('sort style', () => {
 
   describe('html with transformText', () => {
     it('transformText function works', () => {
-      options.html.transformText = taroText => {
+      options.html.transformText = (taroText: any) => {
         taroText._value = 'c'
         return taroText
       }

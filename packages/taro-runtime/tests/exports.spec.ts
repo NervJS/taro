@@ -1,6 +1,8 @@
-describe('style', () => {
-  const runtime = require('../../dist/runtime.esm')
+import { afterAll, describe, expect, it } from 'vitest'
 
+import * as runtime from '../src/index'
+
+describe('style', () => {
   afterAll(() => {
     process.env.FRAMEWORK = ''
   })

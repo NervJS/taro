@@ -1,9 +1,13 @@
+import { describe, expect, it } from 'vitest'
+
+import * as runtime from '../src/index'
+
 describe('Class', () => {
-  const runtime = require('../../dist/runtime.esm')
   const document = runtime.document
+
   global.document = runtime.document
   global.window = runtime.window
-  global.navigator = runtime.navigator
+  // global.navigator = runtime.navigator
 
   describe('attribute', () => {
     it('setAttribute: class', () => {

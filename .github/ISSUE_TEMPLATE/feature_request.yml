@@ -1,9 +1,7 @@
 name: 🚀 功能请求 Feature Request
 description: 提出新的功能特性
-title: "[Feat]: "
 labels:
-  - triage
-  - feat
+  - enhancement
 body:
   - type: checkboxes
     id: duplication
@@ -23,7 +21,7 @@ body:
     id: design
     attributes:
       label: 功能设计
-      description: 这个功能如何使用？(API / CLI ...)
+      description: 这个功能该如何使用？(API / CLI ...)
     validations:
       required: true
   - type: textarea
@@ -36,4 +34,4 @@ body:
     attributes:
       label: 贡献代码
       options:
-        - label: 我愿意实现这个功能
+        - label: 我愿意实现这个功能。请参考 [(贡献指南)](https://github.com/NervJS/taro/blob/main/CONTRIBUTING.md)

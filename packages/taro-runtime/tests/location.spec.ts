@@ -1,6 +1,8 @@
-describe('location', () => {
-  const runtime = require('../../dist/runtime.esm')
+import { describe, expect, it, vi } from 'vitest'
 
+import * as runtime from '../src/index'
+
+describe('location', () => {
   it('parseUrl', () => {
     const parseUrl = runtime.parseUrl
 
@@ -116,7 +118,7 @@ describe('location', () => {
       new URL()
     } catch (error) {
       expect(error instanceof TypeError).toBe(true)
-      expect(error.message).toMatch('Invalid URL')
+      expect((error as Error).message).toMatch('Invalid URL')
     }
 
     try {
@@ -124,7 +126,7 @@ describe('location', () => {
       new URL('//taro.com')
     } catch (error) {
       expect(error instanceof TypeError).toBe(true)
-      expect(error.message).toMatch('Invalid URL')
+      expect((error as Error).message).toMatch('Invalid URL')
     }
 
     try {
@@ -132,7 +134,7 @@ describe('location', () => {
       new URL('/a/b', '/c/d')
     } catch (error) {
       expect(error instanceof TypeError).toBe(true)
-      expect(error.message).toMatch('Invalid base URL')
+      expect((error as Error).message).toMatch('Invalid base URL')
     }
 
     try {
@@ -140,7 +142,7 @@ describe('location', () => {
       new URL('http://taro.com', '')
     } catch (error) {
       expect(error instanceof TypeError).toBe(true)
-      expect(error.message).toMatch('Invalid base URL')
+      expect((error as Error).message).toMatch('Invalid base URL')
     }
 
     {
@@ -228,7 +230,7 @@ describe('location', () => {
     const Location = runtime.Location
     const Current = runtime.Current
     const raw = JSON.stringify(Current)
-    const fakerWindow = { trigger () {} }
+    const fakerWindow = { trigger() {} }
 
     {
       Current.router = {
@@ -333,7 +335,7 @@ describe('location', () => {
         path: '',
         params: {},
       }
-      const mockTrigger = jest.fn()
+      const mockTrigger = vi.fn()
       const location = new Location({ window: { trigger: mockTrigger } })
       expect(location.href).toBe('https://taro.com/')
       location.hash = '#a=1'
@@ -370,7 +372,7 @@ describe('location', () => {
       location.trigger('2', pageId)
       expect(location.href).toBe('https://taro.com/?a=1')
 
-      // CONTEXT_ACTIONS.DESTORY
+      // CONTEXT_ACTIONS.DESTROY
       location.trigger('3', pageId)
       expect(cache.has(pageId)).toBe(false)
     }
@@ -383,7 +385,7 @@ describe('location', () => {
     const History = runtime.History
     const Current = runtime.Current
     const raw = JSON.stringify(Current)
-    const fakerWindow = { trigger () {} }
+    const fakerWindow = { trigger() {} }
 
     {
       Current.router = {
@@ -443,7 +445,7 @@ describe('location', () => {
         path: '/1',
         params: {},
       }
-      const mockTrigger = jest.fn()
+      const mockTrigger = vi.fn()
       const location = new Location({ window: fakerWindow })
       const history = new History(location, { window: { trigger: mockTrigger } })
       const cache = history.cache
@@ -468,7 +470,7 @@ describe('location', () => {
       expect(history.length).toBe(2)
       expect(location.href).toBe('https://taro.com/2')
 
-      // CONTEXT_ACTIONS.DESTORY
+      // CONTEXT_ACTIONS.DESTROY
       history.trigger('3', pageId)
       expect(cache.has(pageId)).toBe(false)
     }

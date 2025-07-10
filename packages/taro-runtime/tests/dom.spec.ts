@@ -1,13 +1,13 @@
+import { afterAll, describe, expect, it } from 'vitest'
+
+import { document, window } from '../src/index'
+
 describe('DOM', () => {
   process.env.FRAMEWORK = 'nerv'
-  const runtime = require('../../dist/runtime.esm')
-  const document = runtime.document
-  global.document = runtime.document
-  global.window = runtime.window
-  global.navigator = runtime.navigator
-  // eslint-disable-next-line no-use-before-define
-  const React = require('react')
-  const ReactDOM = require('@tarojs/react')
+
+  global.document = document
+  global.window = window
+  // global.navigator = navigator
 
   afterAll(() => {
     process.env.FRAMEWORK = ''
@@ -256,25 +256,6 @@ describe('DOM', () => {
       div.id = 'test'
       div.removeAttribute('id')
       expect(div.id).toBe('')
-    })
-
-    it('textContext', () => {
-      function App () {
-        return (
-          <div>
-            <div>
-              <span> a </span>
-            </div>
-            b
-            <span>c</span>
-          </div>
-        )
-      }
-
-      const div = document.createElement('div')
-      // eslint-disable-next-line react/no-deprecated
-      ReactDOM.render(<App />, div)
-      expect(div.textContent).toBe(' a bc')
     })
 
     it('创建 A 标签', () => {

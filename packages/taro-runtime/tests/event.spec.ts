@@ -1,5 +1,8 @@
+import { afterAll, describe, expect, it, vi } from 'vitest'
+
+import * as runtime from '../src/index'
+
 describe('event', () => {
-  const runtime = require('../../dist/runtime.esm')
   const document = runtime.document
 
   afterAll(() => {
@@ -8,7 +11,7 @@ describe('event', () => {
 
   it('can addEventListener', () => {
     const div = document.createElement('div')
-    const spy = jest.fn()
+    const spy = vi.fn()
     div.addEventListener('tap', spy)
     const event = runtime.createEvent({ type: 'tap' }, div)
     // mini program event system will do this for us
@@ -17,7 +20,7 @@ describe('event', () => {
 
   it('event once should work', () => {
     const div = document.createElement('div')
-    const spy = jest.fn()
+    const spy = vi.fn()
     div.addEventListener('tap', spy, { once: true })
     const event = runtime.createEvent({ type: 'tap' }, div)
     div.dispatchEvent(event)
@@ -27,7 +30,7 @@ describe('event', () => {
 
   it('可以多次 dispatchEvent', () => {
     const div = document.createElement('div')
-    const spy = jest.fn()
+    const spy = vi.fn()
     div.addEventListener('tap', spy)
     const event = runtime.createEvent({ type: 'tap' }, div)
     div.dispatchEvent(event)
@@ -37,8 +40,8 @@ describe('event', () => {
 
   it('同一事件可以添加多个 handlers', () => {
     const div = document.createElement('div')
-    const spy = jest.fn()
-    const spy2 = jest.fn()
+    const spy = vi.fn()
+    const spy2 = vi.fn()
     div.addEventListener('tap', spy)
     div.addEventListener('tap', spy2)
     const event = runtime.createEvent({ type: 'tap' }, div)
@@ -49,8 +52,8 @@ describe('event', () => {
 
   it('remove 一个 handler 不会影响其它 handler', () => {
     const div = document.createElement('div')
-    const spy = jest.fn()
-    const spy2 = jest.fn()
+    const spy = vi.fn()
+    const spy2 = vi.fn()
     div.addEventListener('tap', spy)
     div.addEventListener('tap', spy2)
     const event = runtime.createEvent({ type: 'tap' }, div)
@@ -65,8 +68,8 @@ describe('event', () => {
 
   it('添加事件名会被小写化', () => {
     const div = document.createElement('div')
-    const spy = jest.fn()
-    const spy2 = jest.fn()
+    const spy = vi.fn()
+    const spy2 = vi.fn()
     div.addEventListener('Tap', spy)
     div.addEventListener('TAP', spy2)
     const event = runtime.createEvent({ type: 'tap' }, div)
@@ -82,7 +85,7 @@ describe('event', () => {
   it('remove 空事件也不会报错', () => {
     const div = document.createElement('div')
     expect(() => {
-      div.removeEventListener('tap', jest.fn())
+      div.removeEventListener('tap', vi.fn())
     }).not.toThrow()
   })
 
@@ -90,16 +93,16 @@ describe('event', () => {
     const container = document.createElement('container')
     const div = document.createElement('div')
     container.appendChild(div)
-    const containerSpy = jest.fn()
-    const divSpy = jest.fn()
+    const containerSpy = vi.fn()
+    const divSpy = vi.fn()
     container.addEventListener('tap', containerSpy)
-    div.addEventListener('tap', (e) => {
+    div.addEventListener('tap', (e: any) => {
       divSpy()
       e.stopPropagation()
     })
     const event = runtime.createEvent({ type: 'tap' }, div)
     div.dispatchEvent(event)
-    container.dispatchEvent(event) // buble event
+    container.dispatchEvent(event) // bubble event
     expect(divSpy).toBeCalledTimes(1)
     expect(containerSpy).toBeCalledTimes(0)
   })
@@ -109,13 +112,13 @@ describe('event', () => {
     const container = document.createElement('container')
     const div = document.createElement('div')
     container.appendChild(div)
-    const containerSpy = jest.fn()
-    const divSpy = jest.fn()
+    const containerSpy = vi.fn()
+    const divSpy = vi.fn()
     container.addEventListener(eventName, containerSpy)
     div.addEventListener(eventName, divSpy)
     const event = runtime.createEvent({ type: eventName }, div)
     div.dispatchEvent(event)
-    container.dispatchEvent(event) // buble event
+    container.dispatchEvent(event) // bubble event
     expect(divSpy).toBeCalledTimes(1)
     expect(containerSpy).toBeCalledTimes(1)
   })
@@ -124,10 +127,10 @@ describe('event', () => {
     const container = document.createElement('container')
     const div = document.createElement('div')
     container.appendChild(div)
-    const containerSpy = jest.fn()
-    const divSpy = jest.fn()
+    const containerSpy = vi.fn()
+    const divSpy = vi.fn()
     container.addEventListener('tap', containerSpy)
-    div.addEventListener('tap', (e) => {
+    div.addEventListener('tap', (e: any) => {
       divSpy()
       e.preventDefault()
     })
@@ -139,10 +142,10 @@ describe('event', () => {
 
   it('stopImmediatePropagation()', () => {
     const div = document.createElement('div')
-    const spy = jest.fn()
-    const spy2 = jest.fn()
+    const spy = vi.fn()
+    const spy2 = vi.fn()
     div.addEventListener('tap', spy2)
-    div.addEventListener('tap', (e) => {
+    div.addEventListener('tap', (e: any) => {
       spy()
       e.stopImmediatePropagation()
     })
@@ -154,10 +157,10 @@ describe('event', () => {
 
   it('dispatchEvent 也会被小写', () => {
     const div = document.createElement('div')
-    const spy = jest.fn()
-    const spy2 = jest.fn()
+    const spy = vi.fn()
+    const spy2 = vi.fn()
     div.addEventListener('tap', spy2)
-    div.addEventListener('tap', (e) => {
+    div.addEventListener('tap', (e: any) => {
       spy()
       e.stopImmediatePropagation()
     })
@@ -171,11 +174,11 @@ describe('event', () => {
     const container = document.createElement('container')
     const div = document.createElement('div')
     container.appendChild(div)
-    const containerSpy = jest.fn()
-    const divSpy = jest.fn()
+    const containerSpy = vi.fn()
+    const divSpy = vi.fn()
     const event = runtime.createEvent({ type: 'tap' }, div)
     div.dispatchEvent(event)
-    container.dispatchEvent(event) // buble event
+    container.dispatchEvent(event) // bubble event
     expect(divSpy).toBeCalledTimes(0)
     expect(containerSpy).toBeCalledTimes(0)
   })

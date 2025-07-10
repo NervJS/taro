@@ -1,7 +1,12 @@
+import { afterAll, beforeEach, describe, expect, it } from 'vitest'
+
+import * as runtime from '../src/index'
+
 describe('eventSource', () => {
   process.env.FRAMEWORK = 'react'
-  const runtime = require('../../dist/runtime.esm')
   const eventSource = runtime.eventSource
+  const document = runtime.document
+
   global.document = runtime.document
 
   beforeEach(() => {
@@ -12,7 +17,7 @@ describe('eventSource', () => {
     process.env.FRAMEWORK = ''
   })
 
-  function createDiv (id) {
+  function createDiv(id?: string): any {
     const div = document.createElement('div')
     if (id) div.id = id
     return div
