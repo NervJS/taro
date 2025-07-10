@@ -35,10 +35,12 @@ export function PickerGroupBasic(props: PickerGroupProps) {
   // 默认选中第一项
   const [currentIndex, setCurrentIndex] = React.useState(0)
 
-  const getSelectedIndex = (scrollTop: number) => {
+  const getCurrentItemHeight = () => {
     // 获取当前项的高度  实际高度与渲染高度不一定一致
-    const currentItemHeight = scrollViewRef.current?.scrollHeight / scrollViewRef.current?.childNodes.length
-    return Math.round(scrollTop / currentItemHeight)
+    return scrollViewRef.current?.scrollHeight / scrollViewRef.current?.childNodes.length || PICKER_LINE_HEIGHT
+  }
+  const getSelectedIndex = (scrollTop: number) => {
+    return Math.round(scrollTop / getCurrentItemHeight())
   }
 
   // 是否处于归中状态
@@ -55,7 +57,7 @@ export function PickerGroupBasic(props: PickerGroupProps) {
       // const scrollTop = scrollViewRef.current.scrollTop
       // const newIndex = getSelectedIndex(scrollTop)
 
-      // setTargetScrollTop(newIndex * (PICKER_LINE_HEIGHT + 1) + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
+      // setTargetScrollTop(newIndex * getCurrentItemHeight() + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
       updateIndex(currentIndex, columnId)
     }, 200)
   }
