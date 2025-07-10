@@ -29,14 +29,16 @@ export function PickerGroupBasic(props: PickerGroupProps) {
     columnId,
     updateIndex,
   } = props
-  const [targetScrollTop, setTargetScrollTop] = React.useState(0)
+  // const [targetScrollTop, setTargetScrollTop] = React.useState(0)
   const scrollViewRef = React.useRef<TaroScrollView>(null)
   const itemRefs = React.useRef<Array<TaroView | null>>([])
   // 默认选中第一项
   const [currentIndex, setCurrentIndex] = React.useState(0)
 
   const getSelectedIndex = (scrollTop: number) => {
-    return Math.round(scrollTop / PICKER_LINE_HEIGHT)
+    // 获取当前项的高度  实际高度与渲染高度不一定一致
+    const currentItemHeight = scrollViewRef.current?.scrollHeight / scrollViewRef.current?.childNodes.length
+    return Math.round(scrollTop / currentItemHeight)
   }
 
   // 是否处于归中状态
@@ -50,10 +52,10 @@ export function PickerGroupBasic(props: PickerGroupProps) {
     }
     // 做一个0.2s延时  0.2s之内没有新的滑动 则把选项归到中间 然后更新选中项
     isCenterTimerId.current = setTimeout(() => {
-      const scrollTop = scrollViewRef.current.scrollTop
-      const newIndex = getSelectedIndex(scrollTop)
+      // const scrollTop = scrollViewRef.current.scrollTop
+      // const newIndex = getSelectedIndex(scrollTop)
 
-      setTargetScrollTop(newIndex * (PICKER_LINE_HEIGHT + 1) + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
+      // setTargetScrollTop(newIndex * (PICKER_LINE_HEIGHT + 1) + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
       updateIndex(currentIndex, columnId)
     }, 200)
   }
@@ -114,7 +116,7 @@ export function PickerGroupBasic(props: PickerGroupProps) {
         style={{
           height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS,
         }}
-        scrollTop={targetScrollTop}
+        // scrollTop={targetScrollTop}
         onScroll={handleScroll}
         onScrollEnd={handleScrollEnd}
         scrollWithAnimation
