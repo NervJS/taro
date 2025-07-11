@@ -34,7 +34,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: install
-        uses: pnpm/action-setup@v3.0.0
+        uses: pnpm/action-setup@v4.1.0
         with:
           version: 10
           run_install: |
