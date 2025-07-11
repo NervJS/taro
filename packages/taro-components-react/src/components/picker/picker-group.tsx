@@ -13,7 +13,7 @@ export interface PickerGroupProps {
   rangeKey?: string
   columnId: string
   updateIndex: (index: number, columnId: string, needRevise?: boolean) => void // 替换updateHeight
-  onColumnChange?: (e: { columnId: string, index: number }) => void // 修改回调参数
+  bindcolumnchange?: (e: { columnId: string, index: number }) => void // 修改回调参数名称
   updateDay?: (value: number, fields: number) => void
   selectedIndex?: number // 添加selectedIndex参数
   _updateTrigger?: any // 仅用于强制触发更新
@@ -30,7 +30,7 @@ export function PickerGroupBasic(props: PickerGroupProps) {
     rangeKey,
     columnId,
     updateIndex,
-    onColumnChange,
+    bindcolumnchange,
     selectedIndex = 0, // 使用selectedIndex参数，默认为0
   } = props
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
@@ -77,7 +77,7 @@ export function PickerGroupBasic(props: PickerGroupProps) {
       setIsTouching(false)
       setTargetScrollTop(newIndex * itemHeightRef.current + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
       updateIndex(newIndex, columnId)
-      onColumnChange?.({ columnId, index: newIndex })
+      bindcolumnchange?.({ columnId, index: newIndex })
     }, 100)
   }
   // 滚动处理 - 在滚动时计算索引然后更新选中项样式
@@ -304,7 +304,7 @@ export function PickerGroupDate(
 ) {
   const {
     updateIndex,
-    onColumnChange,
+    bindcolumnchange,
     start = '1970-01-01',
     end = '2999-12-31',
     fields = 'day',
@@ -373,7 +373,7 @@ export function PickerGroupDate(
       }
 
       updateIndex(safeIdx, columnId)
-      onColumnChange?.({ columnId, index: safeIdx })
+      bindcolumnchange?.({ columnId, index: safeIdx })
     }
   }
 
@@ -448,7 +448,7 @@ export function PickerGroupRegion(props: PickerGroupProps) {
     rangeKey,
     columnId,
     updateIndex,
-    onColumnChange,
+    bindcolumnchange,
     selectedIndex = 0, // 使用selectedIndex参数，默认为0
   } = props
 
@@ -482,7 +482,7 @@ export function PickerGroupRegion(props: PickerGroupProps) {
     if (safeIdx !== currentIndex.current) {
       currentIndex.current = safeIdx
       updateIndex(safeIdx, columnId)
-      onColumnChange?.({ columnId, index: safeIdx })
+      bindcolumnchange?.({ columnId, index: safeIdx })
     }
   }
 

@@ -185,9 +185,9 @@ interface IProps {
   regionData?: RegionData[] // 省市区数据（region 模式专用，支持三级或四级数据）
   level?: RegionLevel
   textProps?: PickerText
-  onChange?: (e: { detail: { value: PickerValue, code?: string, postcode?: string } }) => void
-  onColumnChange?: (e: { detail: { column: number, value: number } }) => void
-  onCancel?: () => void
+  bindchange?: (e: { detail: { value: PickerValue, code?: string, postcode?: string } }) => void
+  bindcolumnchange?: (e: { detail: { column: number, value: number } }) => void
+  bindcancel?: () => void
   children?: React.ReactNode
   style?: React.CSSProperties
   forwardedRef?: React.MutableRefObject<HTMLDivElement | null>
@@ -217,9 +217,9 @@ export function Picker(props: IProps) {
     level,
     regionData,
     textProps = EMPTY_OBJECT,
-    onChange,
-    onColumnChange,
-    onCancel,
+    bindchange,
+    bindcolumnchange,
+    bindcancel,
     children,
     style,
     forwardedRef,
@@ -657,7 +657,7 @@ export function Picker(props: IProps) {
         pickerValue: newValue
       }))
 
-      onChange?.({
+      bindchange?.({
         detail: {
           value: newValue,
           code: selectedCodes.join(','),
@@ -674,25 +674,25 @@ export function Picker(props: IProps) {
     }))
 
     // 触发 onChange 事件，格式与原始组件一致
-    onChange?.({ detail: { value: newValue } })
-  }, [hidePicker, state.selectedIndices, mode, fields, onChange, regionData, level])
+    bindchange?.({ detail: { value: newValue } })
+  }, [hidePicker, state.selectedIndices, mode, fields, bindchange, regionData, level])
 
   // 处理列变化
   const handleColumnChange = useCallback((e: { columnId: string, index: number }) => {
     const { columnId, index } = e
-    onColumnChange?.({
+    bindcolumnchange?.({
       detail: {
         column: Number(columnId),
         value: index
       }
     })
-  }, [onColumnChange])
+  }, [bindcolumnchange])
 
   // 处理取消
   const handleCancel = useCallback(() => {
     hidePicker()
-    onCancel?.()
-  }, [hidePicker, onCancel])
+    bindcancel?.()
+  }, [hidePicker, bindcancel])
 
   // 渲染选择器组
   const renderPickerGroup = useMemo(() => {
@@ -704,7 +704,7 @@ export function Picker(props: IProps) {
             range={rangeItem}
             rangeKey={rangeKey}
             updateIndex={updateIndex}
-            onColumnChange={handleColumnChange}
+            bindcolumnchange={handleColumnChange}
             columnId={String(index)}
             selectedIndex={state.selectedIndices[index]} // 传递对应列的selectedIndex
           />
@@ -837,7 +837,7 @@ export function Picker(props: IProps) {
                 range={columnData}
                 rangeKey="value"
                 updateIndex={updateIndex}
-                onColumnChange={handleColumnChange}
+                bindcolumnchange={handleColumnChange}
                 columnId={String(i)}
                 selectedIndex={state.selectedIndices[i]} // 传递对应列的selectedIndex
               />
@@ -873,7 +873,7 @@ export function Picker(props: IProps) {
       ref={forwardedRef}
       style={style}
       {...(formType ? { 'data-form-type': formType } : {})}
-      {...omit(restProps, ['mode', 'disabled', 'range', 'rangeKey', 'value', 'start', 'end', 'fields', 'name', 'textProps', 'onChange', 'onColumnChange', 'onCancel', 'children', 'style', 'forwardedRef', 'formType'])}
+      {...omit(restProps, ['mode', 'disabled', 'range', 'rangeKey', 'value', 'start', 'end', 'fields', 'name', 'textProps', 'bindchange', 'bindcolumnchange', 'bindcancel', 'children', 'style', 'forwardedRef', 'formType'])}
     >
       <View onClick={showPicker}>
         {children}
