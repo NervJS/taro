@@ -64,29 +64,9 @@ function getTimeRange (begin: number, end: number) {
   return range
 }
 
-export const hoursRange = [
-  '20',
-  '21',
-  '22',
-  '23',
-  ...getTimeRange(0, 23),
-  '00',
-  '01',
-  '02',
-  '03'
-]
+export const hoursRange = getTimeRange(0, 23)
 
-export const minutesRange = [
-  '56',
-  '57',
-  '58',
-  '59',
-  ...getTimeRange(0, 59),
-  '00',
-  '01',
-  '02',
-  '03'
-]
+export const minutesRange = getTimeRange(0, 59)
 
 /**
  * 校验传入的 value 是否合法

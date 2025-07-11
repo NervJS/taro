@@ -1,9 +1,8 @@
 @import './variable';
-@import './onepx';
 
 // 覆盖层遮罩（用于全屏遮罩）
 .taro-picker__overlay {
-  position: fixed;
+  position: relative;
   top: 0;
   right: 0;
   bottom: 0;
@@ -15,7 +14,7 @@
 
 // 点击取消遮罩（用于事件处理）
 .taro-picker__mask-overlay {
-  position: fixed;
+  position: relative;
   top: 0;
   right: 0;
   bottom: 0;
@@ -27,7 +26,7 @@
 }
 
 .taro-picker {
-  position: fixed;
+  position: relative;
   bottom: 0;
   left: 0;
   z-index: $weuiPickerZIndexIndicator;
@@ -102,6 +101,8 @@
   box-sizing: border-box;
   justify-content: center;  /* 水平居中 */
   align-items: center; 
+  flex: 1; /* 确保在多列情况下平均分配空间 */
+  min-width: 0;
   
   // 多列布局
   &--date {

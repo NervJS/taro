@@ -200,6 +200,7 @@ interface IState {
   hidden: boolean
   fadeOut: boolean
   isWillLoadCalled: boolean
+  timestamp: number
 }
 
 export function Picker(props: IProps) {
@@ -233,7 +234,8 @@ export function Picker(props: IProps) {
     selectedIndices: EMPTY_ARRAY.slice(), // 索引数组
     hidden: true,
     fadeOut: false,
-    isWillLoadCalled: false
+    isWillLoadCalled: false,
+    timestamp: 0 // 用以部分模式下强制刷新组件的的时间戳，多用于反复限位
   })
 
   // 获取当前索引数组
@@ -266,13 +268,13 @@ export function Picker(props: IProps) {
       const hourIndex = hoursRange.findIndex(item => parseInt(item) === time[0])
       const minuteIndex = minutesRange.findIndex(item => parseInt(item) === time[1])
 
-      // 确保索引在有效范围内，并考虑补帧偏移（前4个是补帧）
-      const safeHourIndex = hourIndex >= 0 ? hourIndex + 4 : 4 // 对应 '00'
-      const safeMinuteIndex = minuteIndex >= 0 ? minuteIndex + 4 : 4 // 对应 '00'
+      // 确保索引在有效范围内
+      const safeHourIndex = hourIndex >= 0 ? hourIndex : 0 // 默认为第一项
+      const safeMinuteIndex = minuteIndex >= 0 ? minuteIndex : 0 // 默认为第一项
 
       indexRef.current = [
-        Math.max(0, Math.min(safeHourIndex, hoursRange.length + 3)), // +3 因为有前后补帧
-        Math.max(0, Math.min(safeMinuteIndex, minutesRange.length + 3))
+        Math.max(0, Math.min(safeHourIndex, hoursRange.length - 1)),
+        Math.max(0, Math.min(safeMinuteIndex, minutesRange.length - 1))
       ]
     } else if (mode === 'date') {
       const val = value as string
@@ -359,7 +361,7 @@ export function Picker(props: IProps) {
     if (state.isWillLoadCalled) {
       handleProps()
     }
-  }, [handleProps, state.isWillLoadCalled, value])
+  }, [handleProps, state.isWillLoadCalled, JSON.stringify(value)])
 
   // 显示 Picker
   const showPicker = useCallback(() => {
@@ -387,78 +389,88 @@ export function Picker(props: IProps) {
   // 更新索引
   const updateIndex = React.useCallback((index: number, columnId: string, needRevise = false) => {
     const columnIndex = Number(columnId)
-
-    setState(prev => {
-      const newIndices = [...prev.selectedIndices]
-      newIndices[columnIndex] = index
-      return { ...prev, selectedIndices: newIndices }
-    })
+    let finalIndices = [...state.selectedIndices]
+    finalIndices[columnIndex] = index
+    let hasLimited = false
 
     // region 模式的级联更新逻辑
     if (mode === 'region' && regionData) {
       const dataLevel = detectDataLevel(regionData)
       const maxColumns = dataLevel === 4 ? 4 : 3
 
-      // 当某一列发生变化时，重置后续列为第一个选项
-      setState(prev => {
-        const newIndices = [...prev.selectedIndices]
-        newIndices[columnIndex] = index
 
-        // 重置后续列到第一个选项（索引0）
-        for (let i = columnIndex + 1; i < maxColumns; i++) {
-          newIndices[i] = 0
-        }
+      // 重置后续列
+      for (let i = columnIndex + 1; i < maxColumns; i++) {
+        finalIndices[i] = 0
+      }
 
-        return { ...prev, selectedIndices: newIndices }
-      })
-      return
+      setState(prev => ({
+        ...prev,
+        selectedIndices: finalIndices,
+        timestamp: Date.now()
+      }))
+      return // 直接返回
     }
 
-    // time picker 必须在规定时间范围内，因此需要在 touchEnd 做修正
+    // time picker
     if (needRevise && mode === 'time') {
       let startTime = start
       let endTime = end
 
       if (!verifyTime(startTime)) startTime = '00:00'
       if (!verifyTime(endTime)) endTime = '23:59'
-      if (!compareTime(startTime, endTime)) return
+      if (!compareTime(startTime, endTime)) return false
 
       const timeRanges = [hoursRange.slice(), minutesRange.slice()]
+      // 然后基于更新后的索引数组计算时间
+      const timeStr = finalIndices.map((idx, i) => {
+        const rangeIdx = Math.max(0, Math.min(idx, timeRanges[i].length - 1))
+        return timeRanges[i][rangeIdx] || '00'
+      }).join(':')
 
-      // 使用当前最新的状态计算
-      setState(prev => {
-        const currentIndices = [...prev.selectedIndices]
+      // 检查是否需要限位
+      if (!compareTime(startTime, timeStr)) {
+        // 修正到 start
+        const startParts = startTime.split(':').map(part => parseInt(part))
+        const newIndices = startParts.map((time, i) => {
+          const idx = timeRanges[i].findIndex(item => parseInt(item) === time)
+          return idx >= 0 ? idx : 0
+        })
 
-        // 根据索引获取时间
-        const timeStr = currentIndices.map((idx, i) => {
-          const rangeIdx = Math.max(0, Math.min(idx, timeRanges[i].length - 1))
-          return timeRanges[i][rangeIdx] || '00'
-        }).join(':')
+        finalIndices = [...newIndices]
+        hasLimited = true
+      } else if (!compareTime(timeStr, endTime)) {
+        // 修正到 end
+        const endParts = endTime.split(':').map(part => parseInt(part))
+        const newIndices = endParts.map((time, i) => {
+          const idx = timeRanges[i].findIndex(item => parseInt(item) === time)
+          return idx >= 0 ? idx : 0
+        })
 
-        if (!compareTime(startTime, timeStr)) {
-          // 修正到 start
-          const startParts = startTime.split(':').map(part => parseInt(part))
-          const newIndices = startParts.map((time, i) => {
-            // 在 range 中找到对应时间的索引
-            const idx = timeRanges[i].findIndex(item => parseInt(item) === time)
-            return idx >= 0 ? idx : 4 // 默认使用索引 4
-          })
-          return { ...prev, selectedIndices: newIndices }
-        } else if (!compareTime(timeStr, endTime)) {
-          // 修正到 end
-          const endParts = endTime.split(':').map(part => parseInt(part))
-          const newIndices = endParts.map((time, i) => {
-            // 在 range 中找到对应时间的索引
-            const idx = timeRanges[i].findIndex(item => parseInt(item) === time)
-            return idx >= 0 ? idx : 4 // 默认使用索引 4
-          })
-          return { ...prev, selectedIndices: newIndices }
-        }
+        finalIndices = [...newIndices]
+        hasLimited = true
+      }
 
-        return { ...prev, selectedIndices: currentIndices }
-      })
+      // 无论是否限位，都更新状态
+      setState(prev => ({
+        ...prev,
+        selectedIndices: finalIndices,
+        timestamp: Date.now()
+      }))
+
+      return hasLimited
     }
-  }, [start, end, mode, regionData])
+
+    // 常规更新（非region非限位）
+    finalIndices[columnIndex] = index
+    setState(prev => ({
+      ...prev,
+      selectedIndices: finalIndices,
+      timestamp: Date.now()
+    }))
+
+    return false // 没有限位
+  }, [start, end, mode, regionData, state.selectedIndices])
 
   // 更新日期
   const updateDay = useCallback((value: number, fields: number) => {
@@ -694,26 +706,27 @@ export function Picker(props: IProps) {
             updateIndex={updateIndex}
             onColumnChange={handleColumnChange}
             columnId={String(index)}
+            selectedIndex={state.selectedIndices[index]} // 传递对应列的selectedIndex
           />
         ))
       }
       case 'time': {
-        const hourRange = hoursRange.slice()
-        const minRange = minutesRange.slice()
         return [
           <PickerGroup
-            key="hour"
+            key={`hour-${state.timestamp}`}
             mode="time"
-            range={hourRange}
+            range={hoursRange}
             updateIndex={updateIndex}
             columnId="0"
+            selectedIndex={state.selectedIndices[0]} // 传递小时列的selectedIndex
           />,
           <PickerGroup
-            key="minute"
+            key={`minute-${state.timestamp}`}
             mode="time"
-            range={minRange}
+            range={minutesRange}
             updateIndex={updateIndex}
             columnId="1"
+            selectedIndex={state.selectedIndices[1]} // 传递分钟列的selectedIndex
           />
         ]
       }
@@ -739,6 +752,7 @@ export function Picker(props: IProps) {
             updateDay={updateDay}
             updateIndex={updateIndex}
             columnId="0"
+            selectedIndex={state.selectedIndices[0]} // 传递年份列的selectedIndex
           />
         ]
         if (fields === 'month' || fields === 'day') {
@@ -750,6 +764,7 @@ export function Picker(props: IProps) {
               updateDay={updateDay}
               updateIndex={updateIndex}
               columnId="1"
+              selectedIndex={state.selectedIndices[1]} // 传递月份列的selectedIndex
             />
           )
         }
@@ -762,6 +777,7 @@ export function Picker(props: IProps) {
               updateDay={updateDay}
               updateIndex={updateIndex}
               columnId="2"
+              selectedIndex={state.selectedIndices[2]} // 传递日期列的selectedIndex
             />
           )
         }
@@ -823,6 +839,7 @@ export function Picker(props: IProps) {
                 updateIndex={updateIndex}
                 onColumnChange={handleColumnChange}
                 columnId={String(i)}
+                selectedIndex={state.selectedIndices[i]} // 传递对应列的selectedIndex
               />
             )
           }
@@ -837,10 +854,11 @@ export function Picker(props: IProps) {
             rangeKey={rangeKey}
             updateIndex={updateIndex}
             columnId="0"
+            selectedIndex={state.selectedIndices[0]} // 传递selector模式的selectedIndex
           />
         )
     }
-  }, [mode, range, rangeKey, fields, updateIndex, updateDay, handleColumnChange, pickerDateRef.current, level, regionData])
+  }, [mode, range, rangeKey, fields, updateIndex, updateDay, handleColumnChange, pickerDateRef.current, level, regionData, state.selectedIndices])
 
   // 动画类名控制逻辑
   const clsMask = classNames('taro-picker__mask-overlay', 'taro-picker__animate-fade-in', {
