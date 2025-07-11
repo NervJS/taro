@@ -1,21 +1,24 @@
+import { join } from 'node:path'
+
 import common from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import ts from '@rollup/plugin-typescript'
 import fg from 'fast-glob'
 import { type InputPluginOption, type RollupOptions, defineConfig } from 'rollup'
 import copy from 'rollup-plugin-copy'
-import dts from 'rollup-plugin-dts'
 import externals from 'rollup-plugin-node-externals'
+import ts from 'rollup-plugin-ts'
+
+const cwd = __dirname
 
 // 供 CLI 编译时使用的 Taro 插件入口
 const compileConfig: RollupOptions = {
   external: [
     /^@(system\.|ohos\.|hmscore\/|jd-oh|taro-oh\/)/,
   ],
-  input: 'src/index.ts',
+  input: join(cwd, 'src/index.ts'),
   output: {
-    file: 'dist/index.js',
+    file: join(cwd, 'dist/index.js'),
     format: 'cjs',
     sourcemap: false,
     exports: 'named'
@@ -49,9 +52,9 @@ const compileConfig: RollupOptions = {
 }
 
 const apiConfig: RollupOptions = {
-  input: 'src/runtime/apis/index.ts',
+  input: join(cwd, 'src/runtime/apis/index.ts'),
   output: {
-    file: 'dist/runtime/apischunk/index.js',
+    file: join(cwd, 'dist/runtime/apischunk/index.js'),
     format: 'esm',
     sourcemap: false,
     exports: 'named'
@@ -67,26 +70,16 @@ const apiConfig: RollupOptions = {
     nodeResolve({
       preferBuiltins: false
     }),
-    ts(),
+    ts({
+      transpileOnly: true,
+      tsconfig: e => ({
+        ...e,
+        declaration: true,
+      })
+    }),
     common(),
     json(),
   ]
 }
 
-const dtsConfigCjs: RollupOptions = {
-  input: 'src/index.ts',
-  output: {
-    file: 'dist/index.d.ts',
-  },
-  plugins: [dts()],
-}
-
-const dtsConfigEsm: RollupOptions = {
-  input: 'src/runtime/apis/index.ts',
-  output: {
-    file: 'dist/runtime/apischunk/index.d.ts',
-  },
-  plugins: [dts()],
-}
-
-export default defineConfig([compileConfig, apiConfig, dtsConfigCjs, dtsConfigEsm])
+export default defineConfig([compileConfig, apiConfig])

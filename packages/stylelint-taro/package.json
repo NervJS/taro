@@ -35,7 +35,7 @@
     "stylelint-plugin"
   ],
   "engines": {
-    "node": ">= 20"
+    "node": ">= 18"
   },
   "dependencies": {
     "lodash": "^4.17.21"

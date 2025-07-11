@@ -27,7 +27,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 18"
   },
   "devDependencies": {
     "@tarojs/service": "workspace:*",

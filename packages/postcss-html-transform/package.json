@@ -24,7 +24,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 18"
   },
   "peerDependencies": {
     "postcss": "^8"

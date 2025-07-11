@@ -30,7 +30,7 @@
     "test:coverage": "jest --coverage"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 18"
   },
   "dependencies": {
     "@tarojs/runtime": "workspace:*",

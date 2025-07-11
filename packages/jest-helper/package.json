@@ -18,7 +18,7 @@
   },
   "keywords": [],
   "engines": {
-    "node": ">= 20"
+    "node": ">= 18"
   },
   "dependencies": {
     "@jest/test-sequencer": "^29.7.0",

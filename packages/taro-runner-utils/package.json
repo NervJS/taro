@@ -22,7 +22,7 @@
     "taro"
   ],
   "engines": {
-    "node": ">= 20"
+    "node": ">= 18"
   },
   "dependencies": {
     "@tarojs/helper": "workspace:*",

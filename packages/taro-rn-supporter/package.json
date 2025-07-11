@@ -26,7 +26,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 18"
   },
   "dependencies": {
     "@react-native-community/cli-config": "^12.3.6",
