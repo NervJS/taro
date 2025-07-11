@@ -31,7 +31,7 @@
     "router"
   ],
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 18"
   },
   "dependencies": {
     "dingtalk-jsapi": "~2.15.2",

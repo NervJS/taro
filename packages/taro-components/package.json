@@ -53,7 +53,7 @@
   "author": "",
   "license": "MIT",
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 18"
   },
   "dependencies": {
     "@stencil/core": "2.22.3",

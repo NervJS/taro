@@ -5,6 +5,8 @@ on:
 
 jobs:
   build:
+    strategy:
+      fail-fast: false
     name: stable - wasm32-wasi
     runs-on: ubuntu-latest
     steps:
@@ -16,7 +18,7 @@ jobs:
           toolchain: stable
           targets: wasm32-wasip1
       - name: Cache cargo
-        uses: actions/cache@v4
+        uses: actions/cache@v3
         with:
           path: |
             ~/.cargo/registry/index/
@@ -24,7 +26,7 @@ jobs:
             ~/.cargo/git/db/
             .cargo-cache
             target/
-          key: wasm32-wasi-cargo-ubuntu-latest
+          key: wasm32-wasi-cargo-ubantu-latest
       - name: Build
         run: cargo build-swc-plugins
       - name: Upload artifact

@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 18"
   },
   "dependencies": {
     "@vue/devtools": "6.0.0-beta.15",
