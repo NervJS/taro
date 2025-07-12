@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "4.1.3",
+  "version": "4.1.4",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -95,7 +95,7 @@
     "@types/inquirer": "^8.2.1",
     "@types/jest": "^29.5.0",
     "@types/less": "^3.0.2",
-    "@types/node": "^20",
+    "@types/node": "^18",
     "@types/postcss-import": "^14.0.0",
     "@types/postcss-url": "^10.0.0",
     "@types/react": "^18.3.20",

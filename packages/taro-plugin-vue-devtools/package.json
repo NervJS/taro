@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-vue-devtools",
-  "version": "4.1.3",
+  "version": "4.1.4",
   "description": "Taro 小程序端支持使用 Vue DevTools 的插件",
   "author": "O2Team",
   "license": "MIT",
@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "engines": {
-    "node": ">= 20"
+    "node": ">= 18"
   },
   "dependencies": {
     "@vue/devtools": "6.0.0-beta.15",
