@@ -17,49 +17,49 @@ policy:
       - id: [platform]
         label:
           - name: T-h5
-            keys: [Web 端（H5）]
+            keys: ["所有平台", "Web 端（H5）"]
 
           - name: T-rn
-            keys: [移动端（React-Native）]
+            keys: ["所有平台", "移动端（React-Native）"]
 
           - name: T-harmony
-            keys: [鸿蒙（Harmony）]
+            keys: ["所有平台", "鸿蒙（Harmony）"]
 
           - name: T-harmony_hybrid
-            keys: [鸿蒙容器（Harmony Hybrid）]
+            keys: ["所有平台", "鸿蒙容器（Harmony Hybrid）"]
 
           - name: T-quickapp
-            keys: [快应用（QuickApp）]
+            keys: ["所有平台", "快应用（QuickApp）"]
 
           - name: T-weapp
-            keys: [微信小程序]
+            keys: ["所有平台", "微信小程序", "所有小程序"]
 
           - name: T-jd
-            keys: [京东小程序]
+            keys: ["所有平台", "京东小程序", "所有小程序"]
 
           - name: T-swan
-            keys: [百度小程序]
+            keys: ["所有平台", "百度小程序", "所有小程序"]
 
           - name: T-alipay
-            keys: [支付宝小程序]
+            keys: ["所有平台", "支付宝小程序", "所有小程序"]
 
           - name: T-tt
-            keys: [头条小程序]
+            keys: ["所有平台", "头条小程序", "所有小程序"]
 
           - name: T-qq
-            keys: [QQ 小程序]
+            keys: ["所有平台", "QQ 小程序", "所有小程序"]
 
           - name: T-dd
-            keys: [钉钉小程序]
+            keys: ["所有平台", "钉钉小程序", "所有小程序"]
 
           - name: T-qy
-            keys: [企业微信小程序]
+            keys: ["所有平台", "企业微信小程序", "所有小程序"]
 
           - name: T-feishu
-            keys: [飞书小程序]
+            keys: ["所有平台", "飞书小程序", "所有小程序"]
 
           - name: T-kwai
-            keys: [快手小程序]
+            keys: ["所有平台", "快手小程序", "所有小程序"]
 
       - id: [framework]
         label:
