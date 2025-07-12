@@ -441,61 +441,82 @@ export function PickerGroupDate(
   )
 }
 
-// 地区选择器骨架
+// 地区选择器实现
 export function PickerGroupRegion(props: PickerGroupProps) {
   const {
     range = [],
     rangeKey,
     columnId,
     updateIndex,
-    bindcolumnchange,
     selectedIndex = 0, // 使用selectedIndex参数，默认为0
   } = props
 
   const scrollViewRef = React.useRef<any>(null)
-  const itemRefs = React.useRef<any[]>([])
-  // 内部自主管理索引状态，使用selectedIndex初始化
-  const currentIndex = React.useRef(selectedIndex)
-  const [scrollIntoView, setScrollIntoView] = React.useState<string | null>(null)
+  const [targetScrollTop, setTargetScrollTop] = React.useState(0)
+  const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
+  const [isTouching, setIsTouching] = React.useState(false)
 
-  // 初始化滚动位置，使用selectedIndex
+  const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   React.useEffect(() => {
-    if (scrollViewRef.current && range.length > 0) {
-      // 默认选中selectedIndex项
-      const itemId = `picker-item-${columnId}-${selectedIndex}`
-      setScrollIntoView(itemId)
-
-      // 通知父组件初始选中
-      updateIndex(selectedIndex, columnId, true)
-      currentIndex.current = selectedIndex
+    if (scrollViewRef.current) {
+      itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
     }
-  }, [range, columnId, updateIndex, selectedIndex])
+  }, [range.length]) // 只在range长度变化时重新计算
 
-  // 滚动处理 - 简化逻辑
+  const getSelectedIndex = (scrollTop: number) => {
+    return Math.round(scrollTop / itemHeightRef.current)
+  }
+
+  // 当selectedIndex变化时，调整滚动位置
+  React.useEffect(() => {
+    if (scrollViewRef.current && range.length > 0 && !isTouching) {
+      setTargetScrollTop(selectedIndex * itemHeightRef.current)
+      setCurrentIndex(selectedIndex)
+    }
+  }, [selectedIndex, range])
+
+  // 滚动结束处理
+  const isCenterTimerId = React.useRef<NodeJS.Timeout | null>(null)
+  const handleScrollEnd = () => {
+    if (!scrollViewRef.current) return
+    if (isCenterTimerId.current) {
+      clearTimeout(isCenterTimerId.current)
+      isCenterTimerId.current = null
+    }
+    // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
+    isCenterTimerId.current = setTimeout(() => {
+      const scrollTop = scrollViewRef.current.scrollTop
+      const newIndex = getSelectedIndex(scrollTop)
+
+      setIsTouching(false)
+      setTargetScrollTop(newIndex * itemHeightRef.current + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
+      updateIndex(newIndex, columnId)
+    }, 100)
+  }
+
+  // 滚动处理 - 在滚动时计算索引
   const handleScroll = () => {
     if (!scrollViewRef.current) return
+    if (isCenterTimerId.current) {
+      clearTimeout(isCenterTimerId.current)
+      isCenterTimerId.current = null
+    }
     const scrollTop = scrollViewRef.current.scrollTop
-    const idx = Math.round(scrollTop / PICKER_LINE_HEIGHT)
-    const safeIdx = Math.max(0, Math.min(idx, range.length - 1))
-
-    // 只有索引变化时才通知父组件
-    if (safeIdx !== currentIndex.current) {
-      currentIndex.current = safeIdx
-      updateIndex(safeIdx, columnId)
-      bindcolumnchange?.({ columnId, index: safeIdx })
+    const newIndex = getSelectedIndex(scrollTop)
+    if (newIndex !== currentIndex) {
+      setCurrentIndex(newIndex)
     }
   }
 
   // 渲染选项
   const pickerItem = range.map((item, index) => {
     const content = rangeKey && item && typeof item === 'object' ? item[rangeKey] : item
-    const isSelected = index === currentIndex.current
+
     return (
       <View
-        key={index}
         id={`picker-item-${columnId}-${index}`}
-        ref={(el) => (itemRefs.current[index] = el)}
-        className={`taro-picker__item${isSelected ? ' taro-picker__item--selected' : ''}`}
+        key={index}
+        className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
         style={{ height: PICKER_LINE_HEIGHT }}
       >
         {content}
@@ -532,9 +553,11 @@ export function PickerGroupRegion(props: PickerGroupProps) {
         ref={scrollViewRef}
         scrollY
         className="taro-picker__content"
-        scrollIntoView={scrollIntoView || undefined}
         style={{ height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS }}
+        scrollTop={targetScrollTop}
         onScroll={handleScroll}
+        onTouchStart={() => setIsTouching(true)}
+        onScrollEnd={handleScrollEnd}
         scrollWithAnimation
       >
         {realPickerItems}
