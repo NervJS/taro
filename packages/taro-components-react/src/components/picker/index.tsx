@@ -421,7 +421,7 @@ export function Picker(props: IProps) {
       return hasLimited
     }
 
-    // 常规更新（非region非限位）
+    // 常规更新
     finalIndices[columnIndex] = index
     setState(prev => ({
       ...prev,
@@ -438,58 +438,92 @@ export function Picker(props: IProps) {
 
     const { _start, _end, _updateValue } = pickerDateRef.current
 
+    // 更新当前字段的值
     _updateValue[fields] = value
 
+    // 获取当前年月日
     const currentYear = _updateValue[0]
     const currentMonth = _updateValue[1]
     const currentDay = _updateValue[2]
 
-    // 滚动年份
-    if (fields === 0) {
-      const monthRange = getMonthRange(_start, _end, currentYear)
-      if (monthRange.length === 0) return // 防止空范围
+    // 保存原始值用于后面比较
+    const originalValues = [..._updateValue]
 
-      const max = monthRange[monthRange.length - 1]
-      const min = monthRange[0]
+    // 准备最终的索引数组 - 复制当前索引状态作为起点
+    const finalIndices = [...state.selectedIndices]
 
-      if (currentMonth > max) _updateValue[1] = max
-      if (currentMonth < min) _updateValue[1] = min
+    // 获取基础范围数据
+    const yearRange = getYearRange(_start.getFullYear(), _end.getFullYear())
+    const monthRange = getMonthRange(_start, _end, currentYear)
+    let dayRange = getDayRange(_start, _end, currentYear, currentMonth)
 
-      const monthIndex = monthRange.indexOf(_updateValue[1])
-      if (monthIndex >= 0) {
-        updateIndex(monthIndex, '1')
+    // 根据修改的字段进行不同处理
+    if (fields === 0) { // 年份变化
+      // 年份索引直接更新
+      finalIndices[0] = yearRange.indexOf(currentYear)
 
-        // 检查并更新日范围
-        const dayRange = getDayRange(_start, _end, currentYear, _updateValue[1])
+      // 月份限位处理
+      if (monthRange.length > 0) {
+        if (currentMonth > monthRange[monthRange.length - 1]) {
+          _updateValue[1] = monthRange[monthRange.length - 1]
+        }
+        if (currentMonth < monthRange[0]) {
+          _updateValue[1] = monthRange[0]
+        }
+
+        // 更新月份索引
+        finalIndices[1] = monthRange.indexOf(_updateValue[1])
+
+        // 重新计算日期范围
+        dayRange = getDayRange(_start, _end, currentYear, _updateValue[1])
+
+        // 日期限位处理
         if (dayRange.length > 0) {
-          const dayMax = dayRange[dayRange.length - 1]
-          const dayMin = dayRange[0]
-
-          if (currentDay > dayMax) _updateValue[2] = dayMax
-          if (currentDay < dayMin) _updateValue[2] = dayMin
-
-          const dayIndex = dayRange.indexOf(_updateValue[2])
-          if (dayIndex >= 0) {
-            updateIndex(dayIndex, '2')
+          if (currentDay > dayRange[dayRange.length - 1]) {
+            _updateValue[2] = dayRange[dayRange.length - 1]
           }
+          if (currentDay < dayRange[0]) {
+            _updateValue[2] = dayRange[0]
+          }
+
+          // 更新日期索引
+          finalIndices[2] = dayRange.indexOf(_updateValue[2])
         }
       }
-    } else if (fields === 1) {
-      const dayRange = getDayRange(_start, _end, currentYear, currentMonth)
-      if (dayRange.length === 0) return // 防止空范围
+    } else if (fields === 1) { // 月份变化
+      // 月份索引直接更新
+      finalIndices[1] = monthRange.indexOf(currentMonth)
 
-      const max = dayRange[dayRange.length - 1]
-      const min = dayRange[0]
+      // 日期限位处理
+      if (dayRange.length > 0) {
+        if (currentDay > dayRange[dayRange.length - 1]) {
+          _updateValue[2] = dayRange[dayRange.length - 1]
+        }
+        if (currentDay < dayRange[0]) {
+          _updateValue[2] = dayRange[0]
+        }
 
-      if (currentDay > max) _updateValue[2] = max
-      if (currentDay < min) _updateValue[2] = min
-
-      const dayIndex = dayRange.indexOf(_updateValue[2])
-      if (dayIndex >= 0) {
-        updateIndex(dayIndex, '2')
+        // 更新日期索引
+        finalIndices[2] = dayRange.indexOf(_updateValue[2])
       }
+    } else if (fields === 2) { // 日期变化
+      // 日期索引直接更新
+      finalIndices[2] = dayRange.indexOf(currentDay)
     }
-  }, [updateIndex])
+
+    // 只在有实际变化时更新状态
+    if (
+      JSON.stringify(originalValues) !== JSON.stringify(_updateValue) ||
+      JSON.stringify(finalIndices) !== JSON.stringify(state.selectedIndices)
+    ) {
+      // 一次性更新状态
+      setState(prev => ({
+        ...prev,
+        selectedIndices: finalIndices,
+        timestamp: Date.now()
+      }))
+    }
+  }, [state.selectedIndices])
 
   // 处理确认
   const handleChange = useCallback(() => {
@@ -545,21 +579,23 @@ export function Picker(props: IProps) {
       }
 
       if (fields === 'year') {
-        newValue = [year]
+        newValue = year.toString()
       } else if (fields === 'month') {
-        newValue = [year, month]
+        // YYYY-MM 格式
+        newValue = `${year}-${month < 10 ? `0${month}` : month}`
       } else {
-        newValue = [year, month, day]
+        // YYYY-MM-DD 格式
+        newValue = `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`
       }
 
-      // 安全的字符串转换
-      newValue = newValue
-        .filter(item => item !== undefined && item !== null) // 过滤无效值
-        .map(item => {
-          const num = Number(item)
-          return num < 10 ? `0${num}` : String(num)
-        })
-        .join('-')
+      hidePicker()
+      setState(prev => ({
+        ...prev,
+        pickerValue: newValue
+      }))
+
+      bindchange?.({ detail: { value: newValue } })
+      return
     }
 
     if (mode === 'region') {
@@ -700,7 +736,7 @@ export function Picker(props: IProps) {
 
         const renderView = [
           <PickerGroup
-            key="year"
+            key={`year`}
             mode="date"
             range={yearRange}
             updateDay={updateDay}
@@ -712,7 +748,7 @@ export function Picker(props: IProps) {
         if (fields === 'month' || fields === 'day') {
           renderView.push(
             <PickerGroup
-              key="month"
+              key={`month`}
               mode="date"
               range={monthRange}
               updateDay={updateDay}
@@ -725,7 +761,7 @@ export function Picker(props: IProps) {
         if (fields === 'day') {
           renderView.push(
             <PickerGroup
-              key="day"
+              key={`day`}
               mode="date"
               range={dayRange}
               updateDay={updateDay}

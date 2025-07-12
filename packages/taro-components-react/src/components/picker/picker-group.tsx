@@ -1,8 +1,6 @@
 import { ScrollView, View } from '@tarojs/components'
 import * as React from 'react'
 
-import { getDayRange, getMonthRange, getYearRange } from '../../utils'
-
 // 添加类型定义
 type TaroScrollView = React.ElementRef<typeof ScrollView>
 type TaroView = React.ElementRef<typeof View>
@@ -293,112 +291,94 @@ export function PickerGroupTime(props: PickerGroupProps) {
 }
 
 // 日期选择器实现
-export function PickerGroupDate(
-  props: PickerGroupProps & {
-    start?: string
-    end?: string
-    fields?: 'year' | 'month' | 'day'
-    value?: [number, number, number]
-    updateDay?: (value: number, fields: number) => void
-  }
-) {
+export function PickerGroupDate(props: PickerGroupProps) {
   const {
-    updateIndex,
-    bindcolumnchange,
-    start = '1970-01-01',
-    end = '2999-12-31',
-    fields = 'day',
-    value = [1970, 1, 1],
-    updateDay,
+    range = [],
     columnId,
-    selectedIndex = 0, // 使用selectedIndex参数，默认为0
+    updateDay,
+    selectedIndex = 0,
   } = props
 
-  // 解析起止日期
-  const startDate = new Date(start)
-  const endDate = new Date(end)
-  // 当前选中年、月、日
-  const [selectedYear, setSelectedYear] = React.useState(value[0] || startDate.getFullYear())
-  const [selectedMonth, setSelectedMonth] = React.useState(value[1] || 1)
-  // 内部管理索引
-  const currentIndex = React.useRef(selectedIndex)
+  const [targetScrollTop, setTargetScrollTop] = React.useState(0)
+  const scrollViewRef = React.useRef<TaroScrollView>(null)
+  const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
+  const [isTouching, setIsTouching] = React.useState(false)
 
-  // 年、月、日范围
-  const yearRange = getYearRange(startDate.getFullYear(), endDate.getFullYear())
-  const monthRange = getMonthRange(startDate, endDate, selectedYear)
-  const dayRange = getDayRange(startDate, endDate, selectedYear, selectedMonth)
-
-  // ScrollView引用
-  const scrollViewRef = React.useRef<any>(null)
-  const [scrollIntoView, setScrollIntoView] = React.useState<string | null>(null)
-
-  // 初始化滚动位置，使用selectedIndex
+  const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   React.useEffect(() => {
     if (scrollViewRef.current) {
-      // 默认选中selectedIndex项
-      currentIndex.current = selectedIndex
-      const itemId = `picker-item-${columnId}-${selectedIndex}`
-      setScrollIntoView(itemId)
+      itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
     }
-  }, [columnId, selectedIndex])
+  }, [range.length]) // 只在range长度变化时重新计算
 
-  // 滚动处理 - 简化逻辑
+  const getSelectedIndex = (scrollTop: number) => {
+    return Math.round(scrollTop / itemHeightRef.current)
+  }
+
+  // 当selectedIndex变化时，调整滚动位置
+  React.useEffect(() => {
+    if (scrollViewRef.current && range.length > 0 && !isTouching) {
+      setTargetScrollTop(selectedIndex * itemHeightRef.current)
+      setCurrentIndex(selectedIndex)
+    }
+  }, [selectedIndex, range])
+
+  // 是否处于归中状态
+  const isCenterTimerId = React.useRef<NodeJS.Timeout | null>(null)
+
+  // 简化为直接在滚动结束时通知父组件
+  const handleScrollEnd = () => {
+    if (!scrollViewRef.current) return
+    if (isCenterTimerId.current) {
+      clearTimeout(isCenterTimerId.current)
+      isCenterTimerId.current = null
+    }
+
+    // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
+    isCenterTimerId.current = setTimeout(() => {
+      const scrollTop = scrollViewRef.current.scrollTop
+      const newIndex = getSelectedIndex(scrollTop)
+
+      setIsTouching(false)
+      setTargetScrollTop(newIndex * itemHeightRef.current + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
+
+      // 更新日期值
+      if (updateDay) {
+        // 解析文本中的数字（移除年、月、日等后缀）
+        const valueText = range[newIndex] || ''
+        const numericValue = parseInt(valueText.replace(/[^0-9]/g, ''))
+        updateDay(isNaN(numericValue) ? 0 : numericValue, parseInt(columnId))
+      }
+    }, 100)
+  }
+
+  // 滚动处理
   const handleScroll = () => {
     if (!scrollViewRef.current) return
+    if (isCenterTimerId.current) {
+      clearTimeout(isCenterTimerId.current)
+      isCenterTimerId.current = null
+    }
     const scrollTop = scrollViewRef.current.scrollTop
-    const idx = Math.round(scrollTop / PICKER_LINE_HEIGHT)
-
-    // 确保索引在有效范围内
-    const range = columnId === '0' ? yearRange : columnId === '1' ? monthRange : dayRange
-    const safeIdx = Math.max(0, Math.min(idx, range.length - 1))
-
-    // 只有索引变化时才更新
-    if (safeIdx !== currentIndex.current) {
-      currentIndex.current = safeIdx
-
-      if (columnId === '0') {
-        const newYear = yearRange[safeIdx] || yearRange[0]
-        setSelectedYear(newYear)
-        if (fields !== 'year') {
-          setSelectedMonth(1)
-        }
-        updateDay?.(newYear, 0)
-      } else if (columnId === '1') {
-        const newMonth = monthRange[safeIdx] || monthRange[0]
-        setSelectedMonth(newMonth)
-        updateDay?.(newMonth, 1)
-      } else if (columnId === '2') {
-        const newDay = dayRange[safeIdx] || dayRange[0]
-        updateDay?.(newDay, 2)
-      }
-
-      updateIndex(safeIdx, columnId)
-      bindcolumnchange?.({ columnId, index: safeIdx })
+    const newIndex = getSelectedIndex(scrollTop)
+    if (newIndex !== currentIndex) {
+      setCurrentIndex(newIndex)
     }
   }
 
-  // 渲染列表项
-  const renderItems = () => {
-    // 根据列ID选择正确的数据源和格式化方式
-    const range = columnId === '0' ? yearRange : columnId === '1' ? monthRange : dayRange
-
-    const formatItem = (item: number) => {
-      if (columnId === '0') return `${item}年`
-      if (columnId === '1') return `${item < 10 ? `0${item}` : item}月`
-      return `${item < 10 ? `0${item}` : item}日`
-    }
-
-    return range.map((item, idx) => (
+  // 渲染选项
+  const pickerItem = range.map((item, index) => {
+    return (
       <View
-        key={idx}
-        id={`picker-item-${columnId}-${idx}`}
-        className={`taro-picker__item${idx === currentIndex.current ? ' taro-picker__item--selected' : ''}`}
+        id={`picker-item-${columnId}-${index}`}
+        key={index}
+        className="taro-picker__item"
         style={{ height: PICKER_LINE_HEIGHT }}
       >
-        {formatItem(item)}
+        {item}
       </View>
-    ))
-  }
+    )
+  })
 
   const realPickerItems = [
     ...new Array(PICKER_BLANK_ITEMS)
@@ -410,7 +390,7 @@ export function PickerGroupDate(
           style={{ height: PICKER_LINE_HEIGHT }}
         />
       )),
-    ...renderItems(),
+    ...pickerItem,
     ...new Array(PICKER_BLANK_ITEMS)
       .fill(null)
       .map((_, idx) => (
@@ -430,9 +410,11 @@ export function PickerGroupDate(
         ref={scrollViewRef}
         scrollY
         className="taro-picker__content"
-        scrollIntoView={scrollIntoView || undefined}
         style={{ height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS }}
+        scrollTop={targetScrollTop}
         onScroll={handleScroll}
+        onTouchStart={() => setIsTouching(true)}
+        onScrollEnd={handleScrollEnd}
         scrollWithAnimation
       >
         {realPickerItems}
