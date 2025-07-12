@@ -101,8 +101,7 @@ export function PickerGroupBasic(props: PickerGroupProps) {
         id={`picker-item-${columnId}-${index}`}
         key={index}
         ref={(el) => (itemRefs.current[index] = el)}
-        // className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
-        className={`taro-picker__item`}
+        className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
         style={{ height: PICKER_LINE_HEIGHT }}
       >
         {content}
@@ -237,7 +236,7 @@ export function PickerGroupTime(props: PickerGroupProps) {
         id={`picker-item-${columnId}-${index}`}
         key={index}
         ref={(el) => (itemRefs.current[index] = el)}
-        className="taro-picker__item"
+        className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
         style={{ height: PICKER_LINE_HEIGHT }}
       >
         {content}
@@ -372,7 +371,7 @@ export function PickerGroupDate(props: PickerGroupProps) {
       <View
         id={`picker-item-${columnId}-${index}`}
         key={index}
-        className="taro-picker__item"
+        className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
         style={{ height: PICKER_LINE_HEIGHT }}
       >
         {item}
