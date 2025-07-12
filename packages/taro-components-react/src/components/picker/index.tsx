@@ -3,7 +3,6 @@ import './style/index.scss'
 import { View } from '@tarojs/components'
 import classNames from 'classnames'
 import * as React from 'react'
-import { useCallback, useEffect, useMemo } from 'react'
 
 import {
   compareTime,
@@ -188,12 +187,12 @@ export function Picker(props: IProps) {
   }, [level])
 
   // 获取当前索引数组
-  const getIndices = useCallback(() => {
+  const getIndices = React.useCallback(() => {
     return indexRef.current
   }, [])
 
   // 处理属性变化
-  const handleProps = useCallback(() => {
+  const handleProps = React.useCallback(() => {
     if (mode === 'selector') {
       const val = value as number
       indexRef.current = [verifyValue(val, range) ? Math.floor(val) : 0]
@@ -316,20 +315,20 @@ export function Picker(props: IProps) {
   }, [mode, range, value, start, end, fields, regionData, level, columnsCount, getIndices])
 
   // 组件初始化
-  useEffect(() => {
+  React.useEffect(() => {
     setState(prev => ({ ...prev, isWillLoadCalled: true }))
     handleProps()
   }, [])
 
   // 属性变化监听 - 添加 value 依赖以支持联动选择器
-  useEffect(() => {
+  React.useEffect(() => {
     if (state.isWillLoadCalled) {
       handleProps()
     }
   }, [handleProps, state.isWillLoadCalled, JSON.stringify(value)])
 
   // 显示 Picker
-  const showPicker = useCallback(() => {
+  const showPicker = React.useCallback(() => {
     if (disabled) return
     const newIndices = getIndices()
     setState(prev => ({
@@ -340,7 +339,7 @@ export function Picker(props: IProps) {
   }, [disabled, getIndices])
 
   // 隐藏 Picker
-  const hidePicker = useCallback(() => {
+  const hidePicker = React.useCallback(() => {
     setState(prev => ({ ...prev, fadeOut: true }))
     setTimeout(() => {
       setState(prev => ({
@@ -433,7 +432,7 @@ export function Picker(props: IProps) {
   }, [start, end, mode, regionData, state.selectedIndices, columnsCount])
 
   // 更新日期
-  const updateDay = useCallback((value: number, fields: number) => {
+  const updateDay = React.useCallback((value: number, fields: number) => {
     if (!pickerDateRef.current) return
 
     const { _start, _end, _updateValue } = pickerDateRef.current
@@ -526,7 +525,7 @@ export function Picker(props: IProps) {
   }, [state.selectedIndices])
 
   // 处理确认
-  const handleChange = useCallback(() => {
+  const handleChange = React.useCallback(() => {
     const newIndices = [...state.selectedIndices]
     indexRef.current = newIndices
 
@@ -668,7 +667,7 @@ export function Picker(props: IProps) {
   }, [hidePicker, state.selectedIndices, mode, fields, bindchange, regionData, columnsCount])
 
   // 处理列变化
-  const handleColumnChange = useCallback((e: { columnId: string, index: number }) => {
+  const handleColumnChange = React.useCallback((e: { columnId: string, index: number }) => {
     const { columnId, index } = e
     bindcolumnchange?.({
       detail: {
@@ -679,13 +678,13 @@ export function Picker(props: IProps) {
   }, [bindcolumnchange])
 
   // 处理取消
-  const handleCancel = useCallback(() => {
+  const handleCancel = React.useCallback(() => {
     hidePicker()
     bindcancel?.()
   }, [hidePicker, bindcancel])
 
   // 渲染选择器组
-  const renderPickerGroup = useMemo(() => {
+  const renderPickerGroup = React.useMemo(() => {
     switch (mode) {
       case 'multiSelector': {
         return range.map((rangeItem, index) => (
