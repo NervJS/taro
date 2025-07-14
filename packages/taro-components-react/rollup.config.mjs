@@ -118,5 +118,33 @@ const solid = () => {
   return config
 }
 
+// 新增：样式产物配置
+const styleBundles = () => ({
+  input: {
+    'picker-styles': 'src/styles/picker-styles.js',
+    // 未来可扩展更多样式入口
+    // 'xxx-styles': 'src/styles/xxx-styles.js',
+  },
+  output: {
+    dir: 'dist/styles',
+    entryFileNames: '[name].js',
+    format: 'es',
+    sourcemap: true,
+  },
+  plugins: [
+    postcss({
+      extract: (name) => name.replace('.js', '.css'),
+      minimize: true,
+      sourceMap: true,
+      modules: false,
+      autoModules: false,
+    })
+  ]
+})
+
 // 供 Loader 使用的运行时入口
-export default defineConfig([react(), solid()])
+export default defineConfig([
+  react(),
+  solid(),
+  styleBundles() // 新增的样式产物
+])

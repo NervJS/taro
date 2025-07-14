@@ -109,3 +109,28 @@ cd taro/packages/taro-components-react
 npm run dev
 # 完成后重新刷新浏览器即可
 ```
+
+## 独立样式产物使用说明
+
+从当前版本起，组件库支持在主包打包的同时，自动生成独立的样式产物（如 picker 和 picker-view 的样式）。
+
+### 如何引入 picker 样式
+
+- **JS/TS 方式**
+  ```js
+  import '@tarojs/components-react/dist/styles/picker-styles.css';
+  ```
+- **CSS/SCSS 方式**
+  ```css
+  @import '~@tarojs/components-react/dist/styles/picker-styles.css';
+  ```
+
+### 产物位置
+
+- 所有独立样式产物均输出在 `dist/styles/` 目录下。
+- 例如：`dist/styles/picker-styles.css`
+
+### 扩展说明
+
+- 未来如需新增其它样式产物，只需在 `rollup.config.mjs` 的 `styleBundles` input 里添加入口文件即可。
+- 主包产物和类型完全不受影响。
