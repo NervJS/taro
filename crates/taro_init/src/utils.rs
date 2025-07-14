@@ -128,7 +128,7 @@ where
   }
 }
 
-pub async fn install_deps<F>(npm: &NpmType, cb: F) -> anyhow::Result<()>
+pub async fn install_deps<F>(npm: &NpmType, project_path: &str, cb: F) -> anyhow::Result<()>
 where
   F: FnOnce(),
 {
@@ -139,6 +139,10 @@ where
       "执行安装项目依赖 {}, 需要一会儿...",
       style(command.to_owned() + " install").cyan().bold()
     );
+    
+    // 确保在项目目录中执行
+    env::set_current_dir(project_path)?;
+    
     let output = execute_command(command, &["install"]).await;
     match output {
       result::Result::Ok(_) => {
