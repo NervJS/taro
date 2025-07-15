@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-vue-devtools",
-  "version": "4.1.4-beta.13",
+  "version": "4.1.4-beta.14",
   "description": "Taro 小程序端支持使用 Vue DevTools 的插件",
   "author": "O2Team",
   "license": "MIT",
