@@ -280,31 +280,27 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
       }
 
       // 获取列数
-      const val = Array.isArray(value) ? (value as unknown as string[]) : []
+      const val = Array.isArray(value) ? value : []
 
       // 根据level和当前值确定索引
       indexRef.current = []
       let currentData = regionData
 
       for (let i = 0; i < columnsCount; i++) {
-        if (i >= val.length || !currentData?.length) {
+        if (!currentData?.length) {
           indexRef.current.push(0)
           continue
         }
-
-        const currentValue = val[i]
-        const index = currentData.findIndex(item => item.value === currentValue)
-
-        if (index >= 0) {
-          indexRef.current.push(index)
-          // 为下一列准备数据
-          const selectedItem = currentData[index]
-          currentData = selectedItem.children || []
-        } else {
-          indexRef.current.push(0)
-          // 如果找不到匹配项，为下一列准备第一项的子数据
-          currentData = currentData[0]?.children || []
+        let idx = 0
+        if (typeof val[i] === 'number') {
+          const rawIdx = val[i] as number
+          idx = (rawIdx >= 0 && rawIdx < currentData.length) ? rawIdx : 0
+        } else if (typeof val[i] === 'string') {
+          const parsed = parseInt(val[i] as string, 10)
+          idx = (parsed >= 0 && parsed < currentData.length) ? parsed : 0
         }
+        indexRef.current.push(idx)
+        currentData = currentData[idx]?.children || []
       }
     } else {
       throw new Error(`Picker not support "${mode}" mode.`)
