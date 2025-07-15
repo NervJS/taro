@@ -143,7 +143,13 @@ function getRegionColumnsCount(level: RegionLevel): number {
   }
 }
 
-export function Picker(props: IProps) {
+// 暴露给外部的 ref 类型
+export interface PickerRef {
+  showPicker: () => void
+  hidePicker: () => void
+}
+
+const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   const {
     mode = 'selector',
     disabled = false,
@@ -162,7 +168,6 @@ export function Picker(props: IProps) {
     onCancel,
     children,
     style,
-    forwardedRef,
     formType,
     ...restProps
   } = props
@@ -834,12 +839,18 @@ export function Picker(props: IProps) {
     'taro-picker__animate-slide-down': state.fadeOut
   })
 
+  // 暴露方法给外部
+  React.useImperativeHandle(ref, () => ({
+    showPicker,
+    hidePicker
+  }))
+
   return (
     <View
-      ref={forwardedRef}
+      ref={ref as any} // 直接绑定 ref
       style={style}
       {...(formType ? { 'data-form-type': formType } : {})}
-      {...omit(restProps, ['mode', 'disabled', 'range', 'rangeKey', 'value', 'start', 'end', 'fields', 'name', 'textProps', 'onChange', 'onColumnChange', 'onCancel', 'children', 'style', 'forwardedRef', 'formType'])}
+      {...omit(restProps, ['mode', 'disabled', 'range', 'rangeKey', 'value', 'start', 'end', 'fields', 'name', 'textProps', 'onChange', 'onColumnChange', 'onCancel', 'children', 'style', 'formType'])}
     >
       <View onClick={showPicker}>
         {children}
@@ -865,6 +876,8 @@ export function Picker(props: IProps) {
       )}
     </View>
   )
-}
+})
+
+Picker.displayName = 'Picker'
 
 export default Picker
