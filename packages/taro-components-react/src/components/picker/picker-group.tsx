@@ -138,6 +138,7 @@ export function PickerGroupBasic(props: PickerGroupProps) {
       <ScrollView
         ref={scrollViewRef}
         scrollY
+        showScrollbar={false}
         className="taro-picker__content"
         style={{
           height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS,
@@ -273,6 +274,7 @@ export function PickerGroupTime(props: PickerGroupProps) {
       <ScrollView
         ref={scrollViewRef}
         scrollY
+        showScrollbar={false}
         className="taro-picker__content"
         style={{
           height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS,
@@ -408,6 +410,7 @@ export function PickerGroupDate(props: PickerGroupProps) {
       <ScrollView
         ref={scrollViewRef}
         scrollY
+        showScrollbar={false}
         className="taro-picker__content"
         style={{ height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS }}
         scrollTop={targetScrollTop}
@@ -438,6 +441,7 @@ export function PickerGroupRegion(props: PickerGroupProps) {
   const [isTouching, setIsTouching] = React.useState(false)
 
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
+  const isUserBeginScrollRef = React.useRef(false)
   React.useEffect(() => {
     if (scrollViewRef.current) {
       itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
@@ -471,7 +475,7 @@ export function PickerGroupRegion(props: PickerGroupProps) {
 
       setIsTouching(false)
       setTargetScrollTop(newIndex * itemHeightRef.current + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
-      updateIndex(newIndex, columnId)
+      updateIndex(newIndex, columnId, false, isUserBeginScrollRef.current)
     }, 100)
   }
 
@@ -533,11 +537,15 @@ export function PickerGroupRegion(props: PickerGroupProps) {
       <ScrollView
         ref={scrollViewRef}
         scrollY
+        showScrollbar={false}
         className="taro-picker__content"
         style={{ height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS }}
         scrollTop={targetScrollTop}
         onScroll={handleScroll}
-        onTouchStart={() => setIsTouching(true)}
+        onTouchStart={() => {
+          setIsTouching(true)
+          isUserBeginScrollRef.current = true
+        }}
         onScrollEnd={handleScrollEnd}
         scrollWithAnimation
       >

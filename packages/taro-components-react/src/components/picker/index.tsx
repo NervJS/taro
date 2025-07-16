@@ -173,6 +173,8 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   } = props
   const indexRef = React.useRef<number[]>([])
   const pickerDateRef = React.useRef<PickerDate>()
+  // 记录是否是用户滚动
+  const isInitializationCompletedRef = React.useRef(false)
 
   const [state, setState] = React.useState<IState>({
     pickerValue: value || EMPTY_ARRAY,
@@ -331,6 +333,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   // 显示 Picker
   const showPicker = React.useCallback(() => {
     if (disabled) return
+    isInitializationCompletedRef.current = false
     const newIndices = getIndices()
     setState(prev => ({
       ...prev,
@@ -341,6 +344,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
 
   // 隐藏 Picker
   const hidePicker = React.useCallback(() => {
+    isInitializationCompletedRef.current = false
     setState(prev => ({ ...prev, fadeOut: true }))
     setTimeout(() => {
       setState(prev => ({
@@ -352,7 +356,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   }, [])
 
   // 更新索引
-  const updateIndex = React.useCallback((index: number, columnId: string, needRevise = false) => {
+  const updateIndex = React.useCallback((index: number, columnId: string, needRevise: boolean = false, isUserScrollRef: boolean = false) => {
     const columnIndex = Number(columnId)
     let finalIndices = [...state.selectedIndices]
     finalIndices[columnIndex] = index
@@ -360,6 +364,12 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
 
     // region 模式的级联更新逻辑
     if (mode === 'region' && regionData) {
+      if (isUserScrollRef && !isInitializationCompletedRef.current) {
+        isInitializationCompletedRef.current = true
+      }
+      if (!isInitializationCompletedRef.current) {
+        return
+      }
       // 重置后续列
       for (let i = columnIndex + 1; i < columnsCount; i++) {
         finalIndices[i] = 0
@@ -367,7 +377,6 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
       setState(prev => ({
         ...prev,
         selectedIndices: finalIndices,
-        timestamp: Date.now()
       }))
       return // 直接返回
     }
@@ -411,12 +420,19 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
         hasLimited = true
       }
 
-      // 无论是否限位，都更新状态
-      setState(prev => ({
-        ...prev,
-        selectedIndices: finalIndices,
-        timestamp: Date.now()
-      }))
+      // 触发限位，更新状态，其它状态不用主动触发滚动
+      if (hasLimited) {
+        setState(prev => ({
+          ...prev,
+          selectedIndices: finalIndices,
+          timestamp: Date.now()
+        }))
+      } else {
+        setState(prev => ({
+          ...prev,
+          selectedIndices: finalIndices,
+        }))
+      }
 
       return hasLimited
     }
@@ -426,7 +442,6 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     setState(prev => ({
       ...prev,
       selectedIndices: finalIndices,
-      timestamp: Date.now()
     }))
 
     return false // 没有限位
@@ -520,7 +535,6 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
       setState(prev => ({
         ...prev,
         selectedIndices: finalIndices,
-        timestamp: Date.now()
       }))
     }
   }, [state.selectedIndices])
