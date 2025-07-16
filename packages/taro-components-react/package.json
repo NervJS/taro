@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-react",
-  "version": "4.1.4-beta.16",
+  "version": "4.1.4-beta.15",
   "description": "",
   "main:h5": "dist/index.js",
   "main": "dist/index.js",
@@ -32,17 +32,17 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "4.1.2",
-    "@tarojs/shared": "4.1.2",
-    "@tarojs/components": "4.1.2",
+    "@tarojs/taro": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/components": "workspace:*",
     "@babel/runtime": "^7.24.4",
     "classnames": "^2.2.5",
     "swiper": "11.1.15",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@tarojs/helper": "4.1.2",
-    "@tarojs/runtime": "4.1.2",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
     "@babel/preset-react": "^7.24.1",
     "babel-preset-solid": "^1.8.15",
     "solid-js": "^1.8.16"
