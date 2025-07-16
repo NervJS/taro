@@ -889,5 +889,4 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
 })
 
 Picker.displayName = 'Picker'
-
-export default Picker
+export { Picker }
