@@ -118,17 +118,17 @@ npm run dev
 
 - **JS/TS 方式**
   ```js
-  import '@tarojs/components-react/dist/styles/picker-styles.css';
+  import '@tarojs/components-react/dist/styles/picker.css';
   ```
 - **CSS/SCSS 方式**
   ```css
-  @import '~@tarojs/components-react/dist/styles/picker-styles.css';
+  @import '~@tarojs/components-react/dist/styles/picker.css';
   ```
 
 ### 产物位置
 
 - 所有独立样式产物均输出在 `dist/styles/` 目录下。
-- 例如：`dist/styles/picker-styles.css`
+- 例如：`dist/styles/picker.css`
 
 ### 扩展说明
 

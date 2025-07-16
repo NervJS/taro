@@ -121,9 +121,9 @@ const solid = () => {
 // 新增：样式产物配置
 const styleBundles = () => ({
   input: {
-    'picker-styles': 'src/styles/picker-styles.js',
+    picker: 'src/components/picker/style/index.scss',
     // 未来可扩展更多样式入口
-    // 'xxx-styles': 'src/styles/xxx-styles.js',
+    // 'xxx': 'src/styles/xxx.js',
   },
   output: {
     dir: 'dist/styles',
