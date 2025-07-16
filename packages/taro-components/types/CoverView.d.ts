@@ -114,6 +114,22 @@ interface CoverViewProps extends ViewProps {
    * @supported alipay
    */
   onTouchCancel?: CommonEventFunction
+  /**
+   * 标记点 ID
+   * @description 用于地图组件的标记点识别
+   * @supported weapp
+   * @example
+   * <CoverView markerId={123} />
+   */
+  markerId?: number
+  /**
+   * 插槽名称
+   * @description 用于组件间的内容分发
+   * @supported weapp
+   * @example
+   * <CoverView slot="header" />
+   */
+  slot?: string
 }
 /** 覆盖在原生组件之上的文本视图。可覆盖的原生组件包括 map、video、canvas、camera、live-player、live-pusher 只支持嵌套 cover-view、cover-image，可在 cover-view 中使用 button。
  * @classification viewContainer
