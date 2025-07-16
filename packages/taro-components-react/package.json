@@ -32,17 +32,17 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/components": "workspace:*",
+    "@tarojs/taro": "4.1.2",
+    "@tarojs/shared": "4.1.2",
+    "@tarojs/components": "4.1.2",
     "@babel/runtime": "^7.24.4",
     "classnames": "^2.2.5",
     "swiper": "11.1.15",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@tarojs/helper": "workspace:*",
-    "@tarojs/runtime": "workspace:*",
+    "@tarojs/helper": "4.1.2",
+    "@tarojs/runtime": "4.1.2",
     "@babel/preset-react": "^7.24.1",
     "babel-preset-solid": "^1.8.15",
     "solid-js": "^1.8.16"
