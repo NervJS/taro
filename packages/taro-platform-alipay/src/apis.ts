@@ -336,6 +336,18 @@ const asyncResultApiDiff = {
       ],
     },
   },
+  confirm: {
+    res: {
+      set: [
+        {
+          key: 'cancel',
+          value(res) {
+            return !res.confirm
+          },
+        },
+      ],
+    },
+  },
 }
 
 export function request(options) {
