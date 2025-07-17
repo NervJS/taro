@@ -52,10 +52,10 @@ declare module '../index' {
   }
 
   namespace interceptorify {
-    type promiseifyApi<T, R> = (requestParams: T) => Promise<R>
+    type promisifyApi<T, R> = (requestParams: T) => Promise<R>
     interface InterceptorifyChain<T, R> {
       requestParams: T
-      proceed: promiseifyApi<T, R>
+      proceed: promisifyApi<T, R>
     }
     type InterceptorifyInterceptor<T, R> = (chain: InterceptorifyChain<T, R>) => Promise<R>
     interface Interceptorify<T, R> {
@@ -176,7 +176,7 @@ declare module '../index' {
     /**
      * 包裹 promiseify api 的洋葱圈模型
      * @supported global
-     * @param promiseifyApi
+     * @param promisifyApi
      * @example
      * ```tsx
      * // 创建实例
@@ -228,6 +228,6 @@ declare module '../index' {
      * })
      * ```
      */
-    interceptorify<T, R>(promiseifyApi: interceptorify.promiseifyApi<T, R>): interceptorify.Interceptorify<T, R>
+    interceptorify<T, R>(promisifyApi: interceptorify.promisifyApi<T, R>): interceptorify.Interceptorify<T, R>
   }
 }
