@@ -112,23 +112,29 @@ npm run dev
 
 ## 独立样式产物使用说明
 
-从当前版本起，组件库支持在主包打包的同时，自动生成独立的样式产物（如 picker 和 picker-view 的样式）。
+从当前版本起，组件库支持在主包打包的同时，自动生成**每个组件独立的样式产物**，并采用新的产物结构：
 
-### 如何引入 picker 样式
+### 如何引入组件样式
 
 - **JS/TS 方式**
   ```js
-  import '@tarojs/components-react/dist/styles/picker.css';
+  import '@tarojs/components-react/dist/components/picker/react-style/style.css';
+  import '@tarojs/components-react/dist/components/button/react-style/style.css';
+  // 其它组件同理
   ```
 - **CSS/SCSS 方式**
   ```css
-  @import '~@tarojs/components-react/dist/styles/picker.css';
+  @import '~@tarojs/components-react/dist/components/picker/react-style/style.css';
+  @import '~@tarojs/components-react/dist/components/button/react-style/style.css';
+  /* 其它组件同理 */
   ```
 
 ### 产物位置
 
-- 所有独立样式产物均输出在 `dist/styles/` 目录下。
-- 例如：`dist/styles/picker.css`
+- 所有独立样式产物均输出在 `dist/components/{组件名}/react-style/style.css` 路径下。
+- 例如：
+  - `dist/components/picker/react-style/style.css`
+  - `dist/components/button/react-style/style.css`
 
 ### 扩展说明
 

@@ -50,11 +50,6 @@ export const createForwardRefComponent = (ReactComponent: any) => {
   return forwardRef(forwardRefComponent)
 }
 
-// Picker 相关常量
-export const PICKER_TOP = 102
-export const PICKER_LINE_HEIGHT = 34
-export const PICKER_MASK_HEIGHT = PICKER_LINE_HEIGHT * 7
-
 // Picker 工具函数
 function getTimeRange (begin: number, end: number) {
   const range: string[] = []
@@ -123,16 +118,6 @@ function getMaxDay (year: number, month: number) {
     else return 28
   }
   return 31
-}
-
-export function formatValue (value: number | number[] | string) {
-  let res: number | string | string[]
-  if (Array.isArray(value)) {
-    res = value.map(item => String(item))
-  } else {
-    res = value
-  }
-  return res
 }
 
 /**
