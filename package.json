@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "4.1.3",
+  "version": "4.1.4",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -95,7 +95,7 @@
     "@types/inquirer": "^8.2.1",
     "@types/jest": "^29.5.0",
     "@types/less": "^3.0.2",
-    "@types/node": "^20",
+    "@types/node": "^18",
     "@types/postcss-import": "^14.0.0",
     "@types/postcss-url": "^10.0.0",
     "@types/react": "^18.3.20",
@@ -108,7 +108,7 @@
     "@types/webpack-dev-server": "^3.11.3",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
-    "@vitest/coverage-istanbul": "^3.2.3",
+    "@vitest/coverage-istanbul": "^3.2.4",
     "babel-jest": "^29.7.0",
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-preset-power-assert": "3.0.0",
@@ -163,7 +163,7 @@
     "ts-node": "^10.9.1",
     "tslib": "^2.6.2",
     "typescript": "~5.4.5",
-    "vitest": "^3.2.3"
+    "vitest": "^3.2.4"
   },
   "pnpm": {
     "packageExtensions": {
