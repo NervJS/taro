@@ -153,7 +153,7 @@ impl Project {
     init_git(&self.project_name, project_path_str.as_str())?;
     let auto_install = self.auto_install.unwrap_or(true);
     if auto_install {
-      install_deps(&self.npm, || self.call_success()).await?;
+      install_deps(&self.npm, project_path_str.as_str(), || self.call_success()).await?;
     } else {
       self.call_success();
     }
