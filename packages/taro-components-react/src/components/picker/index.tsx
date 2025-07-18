@@ -133,7 +133,7 @@ interface IState {
   timestamp: number
 }
 
-// 普通函数，不需要useCallback
+// 普通函数
 function getRegionColumnsCount(level: RegionLevel): number {
   switch (level) {
     case 'province': return 1
@@ -473,7 +473,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     let dayRange = getDayRange(_start, _end, currentYear, currentMonth)
 
     // 根据修改的字段进行不同处理
-    if (fields === 0) { // 年份变化
+    if (fields === 0) {
       // 年份索引直接更新
       finalIndices[0] = yearRange.indexOf(currentYear)
 

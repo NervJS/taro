@@ -230,7 +230,7 @@
     transform: translate3d(0, 0, 0);
   }
 }
-
+//目前动画支持度不够  暂时屏蔽
 .taro-picker__animate-slide-up {
   // animation: taro-picker__slide-up ease #{$weuiPickerTransitionDuration} forwards;
 }
