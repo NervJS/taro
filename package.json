@@ -108,7 +108,7 @@
     "@types/webpack-dev-server": "^3.11.3",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
-    "@vitest/coverage-istanbul": "^3.2.3",
+    "@vitest/coverage-istanbul": "^3.2.4",
     "babel-jest": "^29.7.0",
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-preset-power-assert": "3.0.0",
@@ -139,7 +139,6 @@
     "jest-environment-node": "^29.7.0",
     "jest-light-runner": "^0.6.0",
     "jest-preset-stylelint": "^7.0.0",
-    "jest-taro-helper": "workspace:*",
     "jsdom": "^24.0.0",
     "lint-staged": "^13.0.2",
     "minimist": "^1.2.8",
@@ -164,7 +163,7 @@
     "ts-node": "^10.9.1",
     "tslib": "^2.6.2",
     "typescript": "~5.4.5",
-    "vitest": "^3.2.3"
+    "vitest": "^3.2.4"
   },
   "pnpm": {
     "packageExtensions": {

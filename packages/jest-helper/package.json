@@ -7,12 +7,12 @@
   "license": "MIT",
   "main": "index.js",
   "files": [
-    "lib"
+    "dist"
   ],
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf ./lib",
+    "clean": "rimraf ./dist",
     "build": "tsc",
     "dev": "tsc -w"
   },

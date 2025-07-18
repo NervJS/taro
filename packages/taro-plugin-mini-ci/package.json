@@ -9,12 +9,10 @@
   "author": "O2Team",
   "homepage": "https://github.com/NervJS/taro#readme",
   "license": "MIT",
-  "main": "index.js",
-  "typings": "types/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "index.js",
-    "types"
+    "dist"
   ],
   "repository": {
     "type": "git",

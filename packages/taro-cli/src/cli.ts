@@ -12,8 +12,12 @@ const DEFAULT_FRAMEWORK = 'react'
 
 export default class CLI {
   appPath: string
-  constructor(appPath) {
+  constructor(appPath?: string) {
     this.appPath = appPath || process.cwd()
+    const majorVersion = parseInt(process.version.substring(1).split('.')[0], 10)
+    if (majorVersion < 20) {
+      console.warn('Taro 将不再支持 Node.js 小于 20 的版本。请升级 Node.js 至 20 或更高版本。')
+    }
   }
 
   run () {

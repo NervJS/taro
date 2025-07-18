@@ -4,10 +4,9 @@
   "description": "转换原生微信小程序代码为 Taro 代码",
   "author": "O2Team",
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "files": [
-    "index.js",
-    "lib"
+    "dist"
   ],
   "scripts": {
     "prod": "pnpm run build",
