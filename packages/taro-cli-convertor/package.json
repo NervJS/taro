@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli-convertor",
-  "version": "4.1.4-beta.20",
+  "version": "4.1.4-beta.19",
   "description": "cli tool for taro-convert",
   "author": "O2Team",
   "license": "MIT",
