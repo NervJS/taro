@@ -442,10 +442,10 @@ export function createNativeComponentConfig (
         this.config = componentConfig
         app!.mount!(
           Component,
-          compId.toString(),
+          compId,
           () => this,
           () => {
-            const el = document.getElementById(compId.toString())
+            const el = document.getElementById(compId)
 
             if (!el) {
               throw new Error(`没有找到组件实例。`)
