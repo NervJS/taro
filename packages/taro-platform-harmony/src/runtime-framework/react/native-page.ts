@@ -448,7 +448,7 @@ export function createNativeComponentConfig (
             const el = document.getElementById(compId)
 
             if (!el) {
-              throw new Error(`没有找到组件实例。`)
+              throw new Error('没有找到组件实例。')
             } else {
               el.ctx = this
               cb && cb(el)
