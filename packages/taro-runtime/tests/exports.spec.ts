@@ -1,11 +1,13 @@
-describe('style', () => {
-  const runtime = require('../../dist/runtime.esm')
+import { afterAll, describe, expect, test } from 'vitest'
 
+import * as runtime from '../src/index'
+
+describe('style', () => {
   afterAll(() => {
     process.env.FRAMEWORK = ''
   })
 
-  it('bom', () => {
+  test('bom', () => {
     const window = runtime.window
     expect(window).not.toBeUndefined()
     expect(window.navigator).not.toBeUndefined()
@@ -14,18 +16,18 @@ describe('style', () => {
     expect(runtime.navigator).toBe(window.navigator)
   })
 
-  it('dom', () => {
+  test('dom', () => {
     expect(runtime.TaroElement).not.toBeUndefined()
     expect(runtime.TaroNode).not.toBeUndefined()
     expect(runtime.TaroText).not.toBeUndefined()
   })
 
-  it('event', () => {
+  test('event', () => {
     expect(runtime.createEvent).not.toBeUndefined()
     expect(runtime.TaroEvent).not.toBeUndefined()
   })
 
-  it('dsl', () => {
+  test('dsl', () => {
     expect(runtime.createComponentConfig).not.toBeUndefined()
     expect(runtime.createPageConfig).not.toBeUndefined()
   })
