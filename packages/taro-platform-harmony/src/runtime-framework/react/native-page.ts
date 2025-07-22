@@ -26,7 +26,7 @@ interface InitNativeComponentEntryParams {
   R: typeof React
   ReactDOM: typeof ReactDOM
   cb?: TFunc
-  // 是否使用默认的 DOM 入口 - app；默认为true，false的时候，会创建一个新的dom并且把它挂载在 app 下面
+  // 是否使用默认的 DOM 入口 - app；默认为 true，false 的时候，会创建一个新的 dom 并且把它挂载在 app 下面
   isDefaultEntryDom?: boolean
   isUseReact18?: boolean
 }
@@ -320,7 +320,7 @@ export function createNativePageConfig (
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
       window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
-      // 触发onUnload生命周期
+      // 触发 onUnload 生命周期
       safeExecute($taroPath, ONUNLOAD)
 
 
@@ -381,7 +381,7 @@ export function createNativePageConfig (
 
   function resetCurrent () {
     if (Current.page === this) {
-      // 小程序插件页面卸载之后返回到宿主页面时，需重置Current页面和路由。否则引发插件组件二次加载异常 fix:#11991
+      // 小程序插件页面卸载之后返回到宿主页面时，需重置 Current 页面和路由。否则引发插件组件二次加载异常 fix:#11991
       Current.page = null
       Current.router = null
     }
@@ -418,12 +418,12 @@ export function createNativePageConfig (
 export function createNativeComponentConfig (
   Component,
   react: typeof React,
-  reactdom,
+  reactDOM,
   componentConfig
 ) {
   reactMeta.R = react
   h = react.createElement
-  ReactDOM = reactdom
+  ReactDOM = reactDOM
   setReconciler(ReactDOM)
   const { isNewBlended, isUseReact18 } = componentConfig
 
@@ -448,7 +448,7 @@ export function createNativeComponentConfig (
             const el = document.getElementById(compId)
 
             if (!el) {
-              throw new Error(`没有找到组件实例。`)
+              throw new Error('没有找到组件实例。')
             } else {
               el.ctx = this
               cb && cb(el)

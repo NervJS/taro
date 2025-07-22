@@ -4,7 +4,7 @@ H5 端路由系统。
 
 ## 核心 API
 
-### createRouter(app, config, type, framework, reactdom)
+### createRouter(app, config, type, framework, reactDOM)
 
 暴露给 `@tarojs/taro-loader/h5` 调用，在应用入口文件中调用，创建一个兼容小程序路由规范的应用。
 
@@ -26,7 +26,6 @@ H5 端路由系统。
 
 框架的 default import 对象。
 
-### `reactdom`
+### `reactDOM`
 
 可选，`react-dom` 的 default import 对象。
-

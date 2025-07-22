@@ -31,8 +31,8 @@ export default class Link {
   }
 }
 
-export function interceptorify (promiseifyApi) {
+export function interceptorify (promisifyApi) {
   return new Link(function (chain) {
-    return promiseifyApi(chain.requestParams)
+    return promisifyApi(chain.requestParams)
   })
 }
