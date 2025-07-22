@@ -1,0 +1,278 @@
+@import './variable';
+
+// 覆盖层遮罩（用于全屏遮罩）
+.taro-picker__overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: $weuiPickerZIndexContainer;
+}
+
+// 点击取消遮罩（用于事件处理）
+.taro-picker__mask-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: $weuiPickerZIndexMask;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.taro-picker {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: $weuiPickerZIndexIndicator;
+  background-color: $weuiLineColorLight;
+  width: 100%;
+  font-size: 14px;
+}
+
+.taro-picker__hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: $weuiPickerHeaderHeight;
+  padding: 0;
+  background-color: #fff;
+  font-size: 17px;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: $weuiLineColorLight;
+    transform: scaleY(0.5);
+  }
+}
+
+.taro-picker__action {
+  flex: 0 0 auto; /* 不伸缩，保持内容宽度 */
+  padding: 0 10px;
+  height: $weuiPickerHeaderHeight;
+  line-height: $weuiPickerHeaderHeight;
+  color: $weuiColorPrimary;
+  font-size: 14px;
+  
+  
+  // 左侧取消按钮
+  &:first-child {
+    color: $weuiTextColorDesc;
+  }
+}
+
+.taro-picker__title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 40%; /* 限制最大宽度，防止挤压按钮 */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  font-size: 16px;
+  color: $weuiTextColorBlack;
+}
+
+.taro-picker__bd {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  height: $weuiPickerContentHeight;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+// 选择器组
+.taro-picker__group {
+  display: flex;
+  position: relative;
+  height: 100%;
+  box-sizing: border-box;
+  justify-content: center;  /* 水平居中 */
+  align-items: center; 
+  flex: 1; /* 确保在多列情况下平均分配空间 */
+  min-width: 0;
+  
+  // 多列布局
+  &--date {
+    .taro-picker__columns {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+// 遮罩层 - 上下渐变效果
+.taro-picker__mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.6) 40%,
+      rgba(255, 255, 255, 0) 45%,
+      rgba(255, 255, 255, 0) 55%,
+      rgba(255, 255, 255, 0.6) 60%,
+      rgba(255, 255, 255, 0.95) 100%
+    );
+  pointer-events: none;
+}
+
+// 选中行指示器
+.taro-picker__indicator {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  z-index: $weuiPickerZIndexIndicator;
+  width: 100%;
+  height: $weuiPickerItemHeight;
+  box-sizing: border-box;
+  transform: translateY(-50%);
+  
+  // 上下边框
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: $weuiLineColorLight;
+    transform: scaleY(0.5);
+  }
+  
+  &::before { top: 0; }
+  &::after { bottom: 0; }
+}
+
+// 滚动内容区域
+.taro-picker__content {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+// 选项样式
+.taro-picker__item {
+  width: 100%;
+  height: $weuiPickerItemHeight;
+  padding: 0 8px; /* 增加内边距使文本不贴边 */
+  box-sizing: border-box;
+  overflow: hidden; /* 隐藏溢出内容 */
+  line-height: $weuiPickerItemHeight;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 16px; /* 稍微减小字体大小 */
+  color: $weuiTextColorBlack;
+  
+  // 选中状态
+  &--selected {
+    font-weight: 500; /* 使用适中的字体粗细 */
+    color: $weuiColorPrimary;
+  }
+  
+  // 禁用状态
+  &--disabled {
+    color: $weuiTextColorGray;
+  }
+}
+
+// 列间距调整
+.taro-picker__column {
+  flex: 1;
+  margin: 0 $weuiPickerColumnGap;
+  
+  // 第一列和最后一列的间距调整
+  &:first-child { margin-left: 0; }
+  &:last-child { margin-right: 0; }
+}
+
+// 新增：自定义项样式
+.taro-picker__item--custom {
+  text-align: center; /* 确保自定义项也居中 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: normal;
+  color: #888;
+}
+
+// 动画相关
+@keyframes taro-picker__slide-up {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+//目前动画支持度不够  暂时屏蔽
+.taro-picker__animate-slide-up {
+  // animation: taro-picker__slide-up ease #{$weuiPickerTransitionDuration} forwards;
+}
+
+@keyframes taro-picker__slide-down {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+.taro-picker__animate-slide-down {
+  // animation: taro-picker__slide-down ease #{$weuiPickerTransitionDuration} forwards;
+}
+
+@keyframes taro-picker__fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.taro-picker__animate-fade-in {
+  // animation: taro-picker__fade-in ease #{$weuiPickerTransitionDuration} forwards;
+}
+
+@keyframes taro-picker__fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.taro-picker__animate-fade-out {
+  // animation: taro-picker__fade-out ease #{$weuiPickerTransitionDuration} forwards;
+}
