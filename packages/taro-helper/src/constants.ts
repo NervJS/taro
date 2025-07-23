@@ -195,6 +195,23 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/create-app',
   '@tarojs/cli-convertor',
   '@tarojs/transformer-wx',
+  '@jdtaro/components',
+  '@jdtaro/dynamic-types',
+  '@jdtaro/dev-middleware-dynamic',
+  '@jdtaro/inject-jd-platform-styles',
+  '@jdtaro/inject-ui-styles',
+  '@jdtaro/icons-react-taro',
+  '@jdtaro/plugin-command-get-locales',
+  '@jdtaro/plugin-build-report-performance',
+  '@jdtaro/plugin-intl',
+  '@jdtaro/plugin-framework-dynamic',
+  '@jdtaro/plugin-platform-dynamic',
+  '@jdtaro/plugin-vite-react',
+  '@jdtaro/plugin-vite-runner-dynamic',
+  '@jdtaro/plugin-platform-jdharmony-cpp',
+  '@jdtaro/taro-platform-jdharmony',
+  '@jdtaro/ui-themes',
+  '@jdtaro/ui',
 ]
 
 export enum META_TYPE {
