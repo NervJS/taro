@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-alipay",
-  "version": "4.1.3",
+  "version": "4.1.4",
   "description": "支付宝小程序平台插件",
   "author": "O2Team",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 18"
   },
   "devDependencies": {
     "@tarojs/components": "workspace:*",

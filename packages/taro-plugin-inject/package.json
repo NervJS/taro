@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-inject",
-  "version": "4.1.3",
+  "version": "4.1.4",
   "description": "Taro 小程序端平台中间层插件",
   "author": "O2Team",
   "homepage": "https://github.com/nervjs/taro",
@@ -26,7 +26,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 18"
   },
   "devDependencies": {
     "@tarojs/helper": "workspace:*",

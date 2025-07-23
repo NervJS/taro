@@ -345,20 +345,20 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
 export function createH5NativeComponentConfig (
   Component,
   react: typeof React,
-  reactdom: typeof ReactDOM,
+  reactDOM: typeof ReactDOM,
 ) {
   reactMeta.R = react
   h = react.createElement
-  ReactDOM = reactdom
+  ReactDOM = reactDOM
   setReconciler(ReactDOM)
 
   return Component
 }
 
-export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig) {
+export function createNativeComponentConfig (Component, react: typeof React, reactDOM, componentConfig) {
   reactMeta.R = react
   h = react.createElement
-  ReactDOM = reactdom
+  ReactDOM = reactDOM
   setReconciler(ReactDOM)
   const { isNewBlended } = componentConfig
 
