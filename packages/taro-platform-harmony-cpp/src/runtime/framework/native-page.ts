@@ -446,12 +446,12 @@ export function createNativeComponentConfig (
   Component,
   compName: string,
   react: typeof React,
-  reactdom,
+  reactDOM,
   componentConfig: any = {}
 ) {
   reactMeta.R = react
   h = react.createElement
-  ReactDOM = reactdom
+  ReactDOM = reactDOM
   setReconciler(ReactDOM)
   const { isUseReact18 = true } = componentConfig
 

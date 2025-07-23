@@ -1,6 +1,6 @@
 {
   "name": "jest-taro-helper",
-  "version": "4.1.3",
+  "version": "4.1.4",
   "description": "jest helper for taro",
   "private": true,
   "author": "O2Team",
@@ -18,7 +18,7 @@
   },
   "keywords": [],
   "engines": {
-    "node": ">= 20"
+    "node": ">= 18"
   },
   "dependencies": {
     "@jest/test-sequencer": "^29.7.0",

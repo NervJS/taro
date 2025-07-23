@@ -18,8 +18,12 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Get commit message
         run: |
-          COMMIT_MESSAGE=$(git log --format=%B -n 1)
-          echo "commit_msg=${COMMIT_MESSAGE}" >> $GITHUB_ENV
+          COMMIT_MESSAGE="$(git log --format=%B -n 1)"
+          {
+            echo "commit_msg<<EOF"
+            echo "${COMMIT_MESSAGE}"
+            echo "EOF"
+          } >> "$GITHUB_ENV"
       - name: Show commit message
         run: echo "$commit_msg"
       - name: Auto reviews branches

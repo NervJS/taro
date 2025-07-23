@@ -1,9 +1,4 @@
-import {
-  BaseEventOrig,
-  ScrollView,
-  ScrollViewProps,
-  View,
-} from '@tarojs/components'
+import { BaseEventOrig, ScrollView, ScrollViewProps, View } from '@tarojs/components'
 import { nextTick } from '@tarojs/taro'
 import {
   Children,
@@ -29,10 +24,7 @@ import type { ScrollDirection, WaterFlowProps } from './interface'
 
 getSysInfo()
 
-export function WaterFlow({
-  children,
-  ...props
-}: PropsWithChildren<WaterFlowProps>) {
+export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowProps>) {
   const {
     id,
     style = {},
@@ -57,7 +49,6 @@ export function WaterFlow({
       lowerThresholdCount,
     })
   }, [id, cacheCount, upperThresholdCount, lowerThresholdCount])
-
   const isScrolling$ = useObservedAttr(root, 'isScrolling')
   const scrollHeight$ = useObservedAttr(root, 'scrollHeight')
   const renderRange$ = useObservedAttr(root, 'renderRange')
@@ -66,43 +57,48 @@ export function WaterFlow({
   /**
    * 滚动事件
    */
-  const handleScroll = useMemoizedFn(
-    (ev: BaseEventOrig<ScrollViewProps.onScrollDetail>) => {
-      refEventOrig.current = ev
-      root.sections.forEach((section) => section.getNodeRenderRange())
-      const { scrollTop } = ev.detail
-      // 确定滚动方向
-      const scrollDirection: ScrollDirection =
-        root.getState().scrollOffset < scrollTop ? 'forward' : 'backward'
-      // 设置滚动信息，包括方向和偏移量
-      root.setStateBatch({
-        scrollDirection: scrollDirection,
-        scrollOffset: scrollTop,
-        isScrolling: true,
-      })
-    }
-  )
+  const handleScroll = useMemoizedFn((ev: BaseEventOrig<ScrollViewProps.onScrollDetail>) => {
+    refEventOrig.current = ev
+    root.sections.forEach((section) => section.getNodeRenderRange())
+    const { scrollTop } = ev.detail
+    // 确定滚动方向
+    const scrollDirection: ScrollDirection = root.getState().scrollOffset < scrollTop ? 'forward' : 'backward'
+    // 设置滚动信息，包括方向和偏移量
+    root.setStateBatch({
+      scrollDirection: scrollDirection,
+      scrollOffset: scrollTop,
+      isScrolling: true,
+    })
+  })
 
   const sections = useMemo(() => {
     const [start, end] = renderRange$
-    return Children.map(
-      children,
-      (child: ReactElement<PropsWithChildren<_FlowSectionProps>>, order) => {
-        const sectionProps = child.props
-        const sectionId = sectionProps.id || `section-${order}`
-        const section =
-          root.findSection(sectionId) ??
-          new Section(root, {
-            id: sectionId,
-            order,
-            col: sectionProps.column ?? 1,
-            rowGap: sectionProps.rowGap || 0,
-            columnGap: sectionProps.columnGap || 0,
-            count: Children.count(sectionProps.children),
-          })
-        return cloneElement(child, { section, key: `${props.id}-${order}` })
+    return Children.map(children, (child: ReactElement<PropsWithChildren<_FlowSectionProps>>, order) => {
+      if (Object.is(child, null)) {
+        return null
       }
-    )?.slice(start, end + 1)
+      const sectionProps = child.props
+      const sectionId = sectionProps.id || `section-${order}`
+      const childCount = Children.count(sectionProps.children)
+      let section = root.findSection(sectionId)
+      if (section) {
+        const originalCount = section.count
+        if (childCount > originalCount) {
+          section.pushNodes(childCount - originalCount)
+        }
+      } else {
+        section = new Section(root, {
+          id: sectionId,
+          order,
+          col: sectionProps.column ?? 1,
+          rowGap: sectionProps.rowGap || 0,
+          columnGap: sectionProps.columnGap || 0,
+          count: Children.count(sectionProps.children),
+        })
+      }
+
+      return cloneElement(child, { section, key: `${props.id}-${order}` })
+    })?.slice(start, end + 1)
   }, [renderRange$[0], renderRange$[1], children, root, props.id])
 
   const scrollTo = useMemoizedFn((scrollOffset = 0) => {
@@ -194,7 +190,7 @@ export function WaterFlow({
       className,
       scrollY: true,
       onScroll: handleScroll,
-      ...rest
+      ...rest,
     },
     createElement(
       View,
