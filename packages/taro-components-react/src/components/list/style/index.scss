@@ -1,0 +1,51 @@
+.taro-list-container {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.taro-list-sticky-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 20px;
+  overflow: hidden;
+  line-height: 1;
+}
+
+.taro-list-section-header {
+  position: absolute;
+  z-index: 2;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 20px;
+  overflow: hidden;
+  line-height: 1;
+  /* 横向模式下，header 需要 top: 0; height: 100% */
+  &.horizontal {
+    top: 0;
+    height: 100%;
+    left: unset;
+    right: unset;
+  }
+}
+
+.taro-list-section-item {
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 20px;
+  overflow: hidden;
+  line-height: 1;
+  /* 横向模式下，item 需要 top: 0; height: 100% */
+  &.horizontal {
+    top: 0;
+    height: 100%;
+    left: unset;
+    right: unset;
+  }
+} 
