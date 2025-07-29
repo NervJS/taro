@@ -13,7 +13,7 @@ export default defineConfig({
     ENABLE_CONTAINS: true,
   },
   test: {
-    include: ['tests/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+    include: ['tests/**/*.spec.ts?(x)'],
     coverage: {
       provider: 'istanbul',
       include: ['src/**/*.ts'],
