@@ -180,12 +180,16 @@ const List: React.FC<ListProps> = (props) => {
 
   // 受控滚动同步
   useEffect(() => {
-    if (typeof controlledScrollTop === 'number') setScrollOffset(controlledScrollTop)
-    if (typeof controlledScrollTop === 'number' && containerRef.current) {
-      if (isHorizontal) {
-        containerRef.current.scrollLeft = controlledScrollTop
-      } else {
-        containerRef.current.scrollTop = controlledScrollTop
+    if (typeof controlledScrollTop === 'number') {
+      setScrollOffset(controlledScrollTop)
+
+      // 直接操作 DOM，确保立即生效
+      if (containerRef.current) {
+        if (isHorizontal) {
+          containerRef.current.scrollLeft = controlledScrollTop
+        } else {
+          containerRef.current.scrollTop = controlledScrollTop
+        }
       }
     }
   }, [controlledScrollTop, isHorizontal])
@@ -310,4 +314,3 @@ const List: React.FC<ListProps> = (props) => {
 }
 
 export default List
-
