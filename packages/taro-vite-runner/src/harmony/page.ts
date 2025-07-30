@@ -63,7 +63,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       }
       return null
     },
-    load (id) {
+    async load (id) {
       if (!viteCompilerContext) return
       const { taroConfig, cwd: appPath, app, loaderMeta } = viteCompilerContext
       const appConfig = app.config
@@ -100,7 +100,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               code: parse.parse(tabbarId, tabbarPages as TaroHarmonyPageMeta[], name, this.resolve),
               exports: ['default'],
             })
-            tabbarPages.forEach(async page => {
+            await Promise.all(tabbarPages.map(async page => {
               const deps = await viteCompilerContext.collectedDeps(this, escapePath(page.scriptPath), filter)
               const ncObj: Record<string, [string, string]> = {}
               deps.forEach(dep => {
@@ -121,7 +121,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               nativeComps.forEach(comp => {
                 viteCompilerContext.generateNativeComponent(this, comp, [rawId])
               })
-            })
+            }))
           }
         } else {
           const list: string[] = []
@@ -137,7 +137,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             list.push(page.name)
           }
 
-          list.forEach(async pageName => {
+          await Promise.all(list.map(async pageName => {
             pageName = removeHeadSlash(pageName)
             if (!pageName) {
               pageName = 'index'
@@ -175,7 +175,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             nativeComps.forEach(comp => {
               viteCompilerContext.generateNativeComponent(this, comp, [rawId])
             })
-          })
+          }))
         }
         return parse.parseEntry(rawId, page as TaroHarmonyPageMeta)
       }
