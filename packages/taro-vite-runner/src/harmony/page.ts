@@ -137,7 +137,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             list.push(page.name)
           }
 
-          list.forEach(pageName => {
+          list.forEach(async pageName => {
             pageName = removeHeadSlash(pageName)
             if (!pageName) {
               pageName = 'index'
@@ -154,26 +154,26 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               code: parse.parse(path.resolve(appRoot, pageName), page_, name, this.resolve),
               exports: ['default'],
             })
-            viteCompilerContext.collectedDeps(this, escapePath(rawId), filter).then(deps => {
-              const ncObj: Record<string, [string, string]> = {}
-              deps.forEach(dep => {
-                Object.entries(nCompCache.get(dep) || {}).forEach(([key, value]) => {
-                  const absPath = value[0]
-                  const ext = path.extname(absPath)
-                  const basename = path.basename(absPath, ext)
-                  ncObj[key] = [path.join(path.dirname(path.relative(path.dirname(rawId), absPath)), basename), value[1]]
-                })
+
+            const ncObj: Record<string, [string, string]> = {}
+            const deps = await viteCompilerContext.collectedDeps(this, escapePath(rawId), filter)
+            deps.forEach(dep => {
+              Object.entries(nCompCache.get(dep) || {}).forEach(([key, value]) => {
+                const absPath = value[0]
+                const ext = path.extname(absPath)
+                const basename = path.basename(absPath, ext)
+                ncObj[key] = [path.join(path.dirname(path.relative(path.dirname(rawId), absPath)), basename), value[1]]
               })
-              if (!page.isNative) {
-                page.config.usingComponents = {
-                  ...page.config.usingComponents,
-                  ...ncObj,
-                }
+            })
+            if (!page.isNative) {
+              page.config.usingComponents = {
+                ...page.config.usingComponents,
+                ...ncObj,
               }
-              const nativeComps = viteCompilerContext.collectNativeComponents(page)
-              nativeComps.forEach(comp => {
-                viteCompilerContext.generateNativeComponent(this, comp, [rawId])
-              })
+            }
+            const nativeComps = viteCompilerContext.collectNativeComponents(page)
+            nativeComps.forEach(comp => {
+              viteCompilerContext.generateNativeComponent(this, comp, [rawId])
             })
           })
         }
