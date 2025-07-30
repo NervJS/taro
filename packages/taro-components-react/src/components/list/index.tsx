@@ -34,7 +34,7 @@ export interface ListProps {
 }
 
 // 工具：累加数组
-function accumulate(arr: number[]) {
+export function accumulate(arr: number[]) {
   const result = [0]
   for (let i = 0; i < arr.length; i++) {
     result[i + 1] = result[i] + arr[i]
@@ -43,7 +43,7 @@ function accumulate(arr: number[]) {
 }
 
 // 检测抖动
-function isShaking(diffList: number[]): boolean {
+export function isShaking(diffList: number[]): boolean {
   if (diffList.length < 3) return false
 
   // 检查是否有连续的正负交替
@@ -269,6 +269,7 @@ const List: React.FC<ListProps> = (props) => {
     ...style,
   }
 
+  // 修改ScrollView组件的props，添加data-testid属性
   // ScrollView 属性
   const scrollViewProps: any = {
     scrollY: !isHorizontal,
@@ -279,6 +280,7 @@ const List: React.FC<ListProps> = (props) => {
     onScroll: handleScroll,
     onScrollToUpper,
     onScrollToLower,
+    'data-testid': 'taro-list-container'
   }
 
   // 设置ScrollView的滚动位置
