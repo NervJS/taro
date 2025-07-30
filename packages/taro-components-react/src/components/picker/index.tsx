@@ -2,7 +2,7 @@ import './style/index.scss'
 
 import { View } from '@tarojs/components'
 import classNames from 'classnames'
-import * as React from 'react'
+import React from 'react'
 
 import {
   compareTime,

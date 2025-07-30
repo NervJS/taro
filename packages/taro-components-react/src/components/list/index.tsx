@@ -1,7 +1,7 @@
 import './style/index.scss'
 
 import { ScrollView, View } from '@tarojs/components'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React from 'react'
 
 import ListItem from './ListItem'
 import StickyHeader from './StickyHeader'
@@ -42,7 +42,25 @@ function accumulate(arr: number[]) {
   return result
 }
 
+// 检测抖动
+function isShaking(diffList: number[]): boolean {
+  if (diffList.length < 3) return false
+
+  // 检查是否有连续的正负交替
+  const signs = diffList.map(diff => Math.sign(diff))
+  let alternations = 0
+  for (let i = 1; i < signs.length; i++) {
+    if (signs[i] !== 0 && signs[i] !== signs[i - 1]) {
+      alternations++
+    }
+  }
+
+  // 如果交替次数过多，认为是抖动
+  return alternations >= 2
+}
+
 const List: React.FC<ListProps> = (props) => {
+  const isH5 = process.env.TARO_ENV === 'h5'
   const {
     stickyHeader = false,
     space = 0,
@@ -65,17 +83,26 @@ const List: React.FC<ListProps> = (props) => {
   const DEFAULT_ITEM_WIDTH = 120
   const DEFAULT_ITEM_HEIGHT = 40
 
-  // refs for dynamic measurement
-  const headerRefs = useRef<Record<string, HTMLDivElement | null>>({})
-  const itemRefs = useRef<Record<string, HTMLDivElement | null>>({})
+  // 滚动状态管理
+  const containerRef = React.useRef<HTMLDivElement>(null)
 
-  // 滚动状态
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [scrollOffset, setScrollOffset] = useState(controlledScrollTop ?? 0)
-  const [containerLength] = useState<number>(typeof (isHorizontal ? width : height) === 'number' ? (isHorizontal ? (width as number) : (height as number)) : 400)
+  // 渲染偏移量 - 用于计算应该渲染哪些元素
+  const [renderOffset, setRenderOffset] = React.useState(controlledScrollTop ?? 0)
+
+  // 滚动视图偏移量 - 只在滚动结束或明确请求时更新到ScrollView
+  const [scrollViewOffset, setScrollViewOffset] = React.useState(controlledScrollTop ?? 0)
+
+
+  const [containerLength] = React.useState<number>(typeof (isHorizontal ? width : height) === 'number' ? (isHorizontal ? (width as number) : (height as number)) : 400)
+
+  // 滚动追踪相关refs
+  const isScrollingRef = React.useRef(false)
+  const lastScrollTopRef = React.useRef(controlledScrollTop ?? 0)
+  const scrollDiffListRef = React.useRef<number[]>([0, 0, 0])
+  const scrollTimeoutRef = React.useRef<NodeJS.Timeout | null>(null)
 
   // 解析分组结构，只支持 StickySection 和 ListItem 作为直接子组件
-  const sections = useMemo(() => {
+  const sections = React.useMemo(() => {
     const result: Array<{
       header: React.ReactElement | null
       items: React.ReactElement[]
@@ -137,7 +164,7 @@ const List: React.FC<ListProps> = (props) => {
   }
 
   // 计算分组累积高度/宽度
-  const sectionOffsets = useMemo(() => {
+  const sectionOffsets = React.useMemo(() => {
     const offsets: number[] = [0]
     sections.forEach((section) => {
       const headerSize = getHeaderSize()
@@ -151,48 +178,89 @@ const List: React.FC<ListProps> = (props) => {
   }, [sections, space, isHorizontal, props.headerHeight, props.headerWidth, props.itemHeight, props.itemWidth, props.itemSize, props.itemData])
 
   // 外层虚拟滚动：可见分组
-  const [startSection, endSection] = useMemo(() => {
+  const [startSection, endSection] = React.useMemo(() => {
     let start = 0; let end = sections.length - 1
     for (let i = 0; i < sections.length; i++) {
-      if (sectionOffsets[i + 1] > scrollOffset) {
+      if (sectionOffsets[i + 1] > renderOffset) {
         start = Math.max(0, i - cacheCount)
         break
       }
     }
     for (let i = start; i < sections.length; i++) {
-      if (sectionOffsets[i] >= scrollOffset + containerLength) {
+      if (sectionOffsets[i] >= renderOffset + containerLength) {
         end = Math.min(sections.length - 1, i + cacheCount)
         break
       }
     }
     return [start, end]
-  }, [scrollOffset, containerLength, sectionOffsets, sections.length, cacheCount])
+  }, [renderOffset, containerLength, sectionOffsets, sections.length, cacheCount])
 
   // 触顶/触底事件
-  useEffect(() => {
-    if (onScrollToUpper && scrollOffset <= (upperThresholdCount > 0 ? sectionOffsets[upperThresholdCount] : 0)) {
+  React.useEffect(() => {
+    if (onScrollToUpper && renderOffset <= (upperThresholdCount > 0 ? sectionOffsets[upperThresholdCount] : 0)) {
       onScrollToUpper()
     }
-    if (onScrollToLower && scrollOffset + containerLength >= sectionOffsets[sectionOffsets.length - 1] - (lowerThresholdCount > 0 ? sectionOffsets[sectionOffsets.length - 1] - sectionOffsets[sections.length - lowerThresholdCount] : 0)) {
+    if (onScrollToLower && renderOffset + containerLength >= sectionOffsets[sectionOffsets.length - 1] - (lowerThresholdCount > 0 ? sectionOffsets[sectionOffsets.length - 1] - sectionOffsets[sections.length - lowerThresholdCount] : 0)) {
       onScrollToLower()
     }
-  }, [scrollOffset, containerLength, sectionOffsets, sections.length, upperThresholdCount, lowerThresholdCount, onScrollToUpper, onScrollToLower])
+  }, [renderOffset, containerLength, sectionOffsets, sections.length, upperThresholdCount, lowerThresholdCount, onScrollToUpper, onScrollToLower])
 
-  // 受控滚动同步
-  useEffect(() => {
+  // 处理渲染偏移量更新
+  const updateRenderOffset = React.useCallback((newOffset: number) => {
+    lastScrollTopRef.current = newOffset
+    isScrollingRef.current = true
+
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current)
+    }
+
+    setRenderOffset(newOffset) // 立即更新渲染偏移量
+
+    scrollTimeoutRef.current = setTimeout(() => {
+      isScrollingRef.current = false
+      setScrollViewOffset(newOffset) // 滚动结束后，同步滚动视图偏移量
+    }, 200)
+  }, [])
+
+
+
+  // 智能滚动处理函数
+  const handleScroll = React.useCallback((e: any) => {
+    const newOffset = isHorizontal ? e.detail.scrollLeft : e.detail.scrollTop
+
+    const diff = newOffset - lastScrollTopRef.current
+    scrollDiffListRef.current.shift()
+    scrollDiffListRef.current.push(diff)
+
+    // 只保留抖动检测，移除方向检测
+    if (isScrollingRef.current && isShaking(scrollDiffListRef.current)) {
+      return
+    }
+
+    updateRenderOffset(newOffset) // 直接更新渲染偏移量
+
+    onScroll?.({
+      scrollTop: isHorizontal ? 0 : newOffset,
+      scrollLeft: isHorizontal ? newOffset : 0
+    })
+  }, [isHorizontal, onScroll, updateRenderOffset, containerLength])
+
+  // 初始化后的延迟同步 - 确保ScrollView正确设置初始位置
+  React.useEffect(() => {
     if (typeof controlledScrollTop === 'number') {
-      setScrollOffset(controlledScrollTop)
+      setScrollViewOffset(controlledScrollTop)
+      lastScrollTopRef.current = controlledScrollTop
+    }
+  }, [controlledScrollTop])
 
-      // 直接操作 DOM，确保立即生效
-      if (containerRef.current) {
-        if (isHorizontal) {
-          containerRef.current.scrollLeft = controlledScrollTop
-        } else {
-          containerRef.current.scrollTop = controlledScrollTop
-        }
+  // 清理定时器
+  React.useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
       }
     }
-  }, [controlledScrollTop, isHorizontal])
+  }, [])
 
   // 容器样式
   const containerStyle: React.CSSProperties = {
@@ -206,27 +274,41 @@ const List: React.FC<ListProps> = (props) => {
     scrollY: !isHorizontal,
     scrollX: isHorizontal,
     style: containerStyle,
-    scrollTop: !isHorizontal ? scrollOffset : undefined,
-    scrollLeft: isHorizontal ? scrollOffset : undefined,
     enhanced: true,
     showScrollbar: showScrollbar,
-    onScroll: (e: any) => {
-      const newOffset = isHorizontal ? e.detail.scrollLeft : e.detail.scrollTop
-      setScrollOffset(newOffset)
-      onScroll?.({ scrollTop: isHorizontal ? 0 : newOffset, scrollLeft: isHorizontal ? newOffset : 0 })
-    },
+    onScroll: handleScroll,
     onScrollToUpper,
     onScrollToLower,
+  }
+
+  // 设置ScrollView的滚动位置
+  if (isHorizontal) {
+    scrollViewProps.scrollLeft = scrollViewOffset
+  } else {
+    scrollViewProps.scrollTop = scrollViewOffset
+  }
+
+  // H5上额外使用DOM直接操作确保滚动位置正确
+  if (isH5) {
+    React.useEffect(() => {
+      if (containerRef.current && typeof scrollViewOffset === 'number') {
+        if (isHorizontal) {
+          containerRef.current.scrollLeft = scrollViewOffset
+        } else {
+          containerRef.current.scrollTop = scrollViewOffset
+        }
+      }
+    }, [scrollViewOffset, isHorizontal])
   }
 
   // 总高度/宽度
   const totalLength = sectionOffsets[sectionOffsets.length - 1]
 
   // 吸顶/吸左 header
-  const stickyHeaderNode = useMemo(() => {
+  const stickyHeaderNode = React.useMemo(() => {
     if (!stickyHeader) return null
     for (let i = 0; i < sections.length; i++) {
-      if (sectionOffsets[i] <= scrollOffset && scrollOffset < sectionOffsets[i + 1]) {
+      if (sectionOffsets[i] <= renderOffset && renderOffset < sectionOffsets[i + 1]) {
         const section = sections[i]
         if (section.header) {
           const headerSize = getHeaderSize()
@@ -239,7 +321,7 @@ const List: React.FC<ListProps> = (props) => {
       }
     }
     return null
-  }, [stickyHeader, scrollOffset, sectionOffsets, sections, isHorizontal, props.headerHeight, props.headerWidth, props.itemHeight, props.itemWidth, props.itemSize, props.itemData])
+  }, [stickyHeader, renderOffset, sectionOffsets, sections, isHorizontal, props.headerHeight, props.headerWidth, props.itemHeight, props.itemWidth, props.itemSize, props.itemData])
 
   // 渲染分组+item双层虚拟滚动
   const renderSections = () => {
@@ -254,7 +336,6 @@ const List: React.FC<ListProps> = (props) => {
         nodes.push(
           React.createElement('div', {
             key: section.key + '-header' + '-' + layout,
-            ref: (el: HTMLDivElement | null) => { headerRefs.current[section.key] = el },
             className: isHorizontal ? 'taro-list-section-header horizontal' : 'taro-list-section-header',
             style: isHorizontal ? { left: offset, width: headerSize } : { top: offset, height: headerSize },
           }, section.header)
@@ -266,13 +347,13 @@ const List: React.FC<ListProps> = (props) => {
       // 内层虚拟滚动：可见item区间
       let startItem = 0; let endItem = section.items.length - 1
       for (let i = 0; i < section.items.length; i++) {
-        if (offset + itemOffsets[i + 1] > scrollOffset) {
+        if (offset + itemOffsets[i + 1] > renderOffset) {
           startItem = Math.max(0, i - cacheCount)
           break
         }
       }
       for (let i = startItem; i < section.items.length; i++) {
-        if (offset + itemOffsets[i] >= scrollOffset + containerLength) {
+        if (offset + itemOffsets[i] >= renderOffset + containerLength) {
           endItem = Math.min(section.items.length - 1, i + cacheCount)
           break
         }
@@ -282,7 +363,6 @@ const List: React.FC<ListProps> = (props) => {
         nodes.push(
           React.createElement('div', {
             key: section.key + '-item-' + i + '-' + layout,
-            ref: (el: HTMLDivElement | null) => { itemRefs.current[`${section.key}-${i}`] = el },
             className: isHorizontal ? 'taro-list-section-item horizontal' : 'taro-list-section-item',
             style: isHorizontal
               ? {
