@@ -1,9 +1,0 @@
-{
-  "miniprogramRoot": "./",
-  "projectname": "input-readonly",
-  "appid": "testAppId",
-  "setting": {
-    "es6": false,
-    "minified": false
-  }
-}

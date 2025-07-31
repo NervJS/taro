@@ -4,9 +4,9 @@ import devConfig from './dev'
 import prodConfig from './prod'
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
-export default defineConfig(async (merge, { command, mode }) => {
-  const baseConfig: UserConfigExport = {
-    projectName: 'input-readonly',
+export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
+  const baseConfig: UserConfigExport<'webpack5'> = {
+    projectName: 'input-readonly-taro4',
     date: '2025-7-31',
     designWidth: 750,
     deviceRatio: {
@@ -17,7 +17,9 @@ export default defineConfig(async (merge, { command, mode }) => {
     },
     sourceRoot: 'src',
     outputRoot: 'dist',
-    plugins: [],
+    plugins: [
+      "@tarojs/plugin-generator"
+    ],
     defineConstants: {
     },
     copy: {
@@ -37,12 +39,6 @@ export default defineConfig(async (merge, { command, mode }) => {
           enable: true,
           config: {
 
-          }
-        },
-        url: {
-          enable: true,
-          config: {
-            limit: 1024 // 设定转换尺寸上限
           }
         },
         cssModules: {
@@ -95,6 +91,8 @@ export default defineConfig(async (merge, { command, mode }) => {
       }
     }
   }
+
+
   if (process.env.NODE_ENV === 'development') {
     // 本地开发构建配置（不混淆压缩）
     return merge({}, baseConfig, devConfig)
