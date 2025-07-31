@@ -1,6 +1,7 @@
 <template>
   <view class="index">
     <text>{{ msg }}</text>
+    <input placeholder="请输入" readonly />
   </view>
 </template>
 
