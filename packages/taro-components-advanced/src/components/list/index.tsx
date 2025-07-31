@@ -1,5 +1,3 @@
-import './style/index.scss'
-
 import { ScrollView, View } from '@tarojs/components'
 import React from 'react'
 
@@ -216,17 +214,36 @@ const List: React.FC<ListProps> = (props) => {
 
     setRenderOffset(newOffset) // 立即更新渲染偏移量
 
-    scrollTimeoutRef.current = setTimeout(() => {
-      isScrollingRef.current = false
-      setScrollViewOffset(newOffset) // 滚动结束后，同步滚动视图偏移量
-    }, 200)
+    // 平台适配：微信小程序使用延时，其他平台立即更新
+    const isWeapp = process.env.TARO_ENV === 'weapp'
+    if (isWeapp) {
+      // 微信小程序：使用延时避免抖动
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false
+        setScrollViewOffset(newOffset) // 滚动结束后，同步滚动视图偏移量
+      }, 200)
+    } else {
+      // 其他平台：立即更新以获得更好的响应性
+      setScrollViewOffset(newOffset) // 立即更新滚动视图偏移量
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false
+      }, 200)
+    }
   }, [])
 
 
 
   // 智能滚动处理函数
   const handleScroll = React.useCallback((e: any) => {
-    const newOffset = isHorizontal ? e.detail.scrollLeft : e.detail.scrollTop
+    // 兼容Stencil版本和React版本的事件结构
+    let newOffset: number
+    if (e.detail) {
+      // React版本的事件结构
+      newOffset = isHorizontal ? e.detail.scrollLeft : e.detail.scrollTop
+    } else {
+      // Stencil版本的事件结构
+      newOffset = isHorizontal ? e.scrollLeft : e.scrollTop
+    }
 
     const diff = newOffset - lastScrollTopRef.current
     scrollDiffListRef.current.shift()
@@ -264,6 +281,8 @@ const List: React.FC<ListProps> = (props) => {
 
   // 容器样式
   const containerStyle: React.CSSProperties = {
+    position: 'relative',
+    boxSizing: 'border-box',
     height: isHorizontal ? width : height,
     width: isHorizontal ? height : width,
     ...style,
@@ -283,11 +302,13 @@ const List: React.FC<ListProps> = (props) => {
     'data-testid': 'taro-list-container'
   }
 
-  // 设置ScrollView的滚动位置
+  // 设置ScrollView的滚动位置 - 同时兼容React版本和Stencil版本
   if (isHorizontal) {
-    scrollViewProps.scrollLeft = scrollViewOffset
+    scrollViewProps.scrollLeft = scrollViewOffset // React版本
+    scrollViewProps.mpScrollLeft = scrollViewOffset // Stencil版本
   } else {
-    scrollViewProps.scrollTop = scrollViewOffset
+    scrollViewProps.scrollTop = scrollViewOffset // React版本
+    scrollViewProps.mpScrollTop = scrollViewOffset // Stencil版本
   }
 
   // H5上额外使用DOM直接操作确保滚动位置正确
@@ -314,8 +335,21 @@ const List: React.FC<ListProps> = (props) => {
         const section = sections[i]
         if (section.header) {
           const headerSize = getHeaderSize()
+          // 内联样式替代className
+          const stickyHeaderStyle: React.CSSProperties = {
+            position: 'sticky',
+            top: 0,
+            left: 0,
+            zIndex: 100,
+            background: '#fff',
+            boxSizing: 'border-box',
+            minHeight: '20px',
+            overflow: 'hidden',
+            lineHeight: 1,
+            ...(isHorizontal ? { width: headerSize } : { height: headerSize })
+          }
           return (
-            <View className="taro-list-sticky-header" style={isHorizontal ? { width: headerSize } : { height: headerSize }}>
+            <View style={stickyHeaderStyle}>
               {section.header}
             </View>
           )
@@ -335,11 +369,23 @@ const List: React.FC<ListProps> = (props) => {
       const itemSizes = section.items.map((_, i) => getItemSize(i))
       // header
       if (section.header) {
+        // 内联样式替代className
+        const sectionHeaderStyle: React.CSSProperties = {
+          position: 'absolute',
+          zIndex: 2,
+          boxSizing: 'border-box',
+          width: '100%',
+          minHeight: '20px',
+          overflow: 'hidden',
+          lineHeight: 1,
+          ...(isHorizontal
+            ? { top: 0, height: '100%', left: offset, width: headerSize }
+            : { top: offset, height: headerSize })
+        }
         nodes.push(
-          React.createElement('div', {
+          React.createElement(View, {
             key: section.key + '-header' + '-' + layout,
-            className: isHorizontal ? 'taro-list-section-header horizontal' : 'taro-list-section-header',
-            style: isHorizontal ? { left: offset, width: headerSize } : { top: offset, height: headerSize },
+            style: sectionHeaderStyle,
           }, section.header)
         )
         offset += headerSize
@@ -362,21 +408,33 @@ const List: React.FC<ListProps> = (props) => {
       }
       // 渲染可见item
       for (let i = startItem; i <= endItem; i++) {
+        // 内联样式替代className
+        const sectionItemStyle: React.CSSProperties = {
+          position: 'absolute',
+          zIndex: 1,
+          boxSizing: 'border-box',
+          width: '100%',
+          minHeight: '20px',
+          overflow: 'hidden',
+          lineHeight: 1,
+          ...(isHorizontal
+            ? {
+              top: 0,
+              height: '100%',
+              left: offset + itemOffsets[i],
+              width: itemSizes[i],
+              marginRight: space
+            }
+            : {
+              top: offset + itemOffsets[i],
+              height: itemSizes[i],
+              marginBottom: space
+            })
+        }
         nodes.push(
-          React.createElement('div', {
+          React.createElement(View, {
             key: section.key + '-item-' + i + '-' + layout,
-            className: isHorizontal ? 'taro-list-section-item horizontal' : 'taro-list-section-item',
-            style: isHorizontal
-              ? {
-                left: offset + itemOffsets[i],
-                width: itemSizes[i],
-                marginRight: space,
-              }
-              : {
-                top: offset + itemOffsets[i],
-                height: itemSizes[i],
-                marginBottom: space,
-              },
+            style: sectionItemStyle,
           }, section.items[i])
         )
       }
@@ -386,7 +444,7 @@ const List: React.FC<ListProps> = (props) => {
   }
 
   return (
-    <ScrollView ref={containerRef} className="taro-list-container" {...scrollViewProps}>
+    <ScrollView ref={containerRef} {...scrollViewProps}>
       <View style={isHorizontal ? { width: totalLength, position: 'relative', height: '100%' } : { height: totalLength, position: 'relative', width: '100%' }}>
         {stickyHeaderNode}
         {renderSections()}
@@ -395,4 +453,5 @@ const List: React.FC<ListProps> = (props) => {
   )
 }
 
+export { List, ListItem, StickyHeader, StickySection }
 export default List

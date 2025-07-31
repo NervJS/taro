@@ -50,6 +50,8 @@ export class ScrollView implements ComponentInterface {
   @Prop({ attribute: 'scroll-into-view', reflect: true }) mpScrollIntoView: string
   @Prop({ attribute: 'scroll-into-view-alignment' }) mpScrollIntoViewAlignment: 'start' | 'center' | 'end' | 'nearest'
   @Prop({ attribute: 'scroll-with-animation' }) animated = false
+  @Prop() enhanced = false
+  @Prop() showScrollbar = true
 
   @Event({
     eventName: 'scroll',
@@ -208,11 +210,13 @@ export class ScrollView implements ComponentInterface {
   }
 
   render () {
-    const { scrollX, scrollY } = this
+    const { scrollX, scrollY, enhanced, showScrollbar } = this
 
     const cls = classNames({
       'taro-scroll-view__scroll-x': scrollX,
-      'taro-scroll-view__scroll-y': scrollY
+      'taro-scroll-view__scroll-y': scrollY,
+      'taro-scroll--hidebar': enhanced === true && showScrollbar === false,
+      'taro-scroll--enhanced': enhanced === true
     })
     return (
       <Host class={cls}>
