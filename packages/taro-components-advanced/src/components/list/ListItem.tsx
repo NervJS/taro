@@ -1,3 +1,4 @@
+import { View } from '@tarojs/components'
 import React from 'react'
 
 export interface ListItemProps {
@@ -7,7 +8,7 @@ export interface ListItemProps {
 }
 
 const ListItem: React.FC<ListItemProps> = ({ children, className, style }) => {
-  return <div className={className} style={style}>{children}</div>
+  return <View className={className} style={style}>{children}</View>
 }
 
 export default ListItem

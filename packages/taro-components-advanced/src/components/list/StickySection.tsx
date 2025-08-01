@@ -1,3 +1,4 @@
+import { View } from '@tarojs/components'
 import React from 'react'
 
 export interface StickySectionProps {
@@ -7,7 +8,7 @@ export interface StickySectionProps {
 }
 
 const StickySection: React.FC<StickySectionProps> = ({ children, className, style }) => {
-  return <div className={className} style={style}>{children}</div>
+  return <View className={className} style={style}>{children}</View>
 }
 
 export default StickySection
