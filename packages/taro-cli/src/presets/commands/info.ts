@@ -36,7 +36,23 @@ export default (ctx: IPluginContext) => {
 }
 
 async function info (options, ctx) {
-  const npmPackages = ctx.helper.UPDATE_PACKAGE_LIST.concat(['react', 'react-native', 'expo', 'taro-ui'])
+  const { appPath } = ctx.paths
+  const fs = ctx.helper.fs
+  const packageJsonPath = path.join(appPath, 'package.json')
+  let npmPackages = ctx.helper.UPDATE_PACKAGE_LIST.concat(['react', 'react-native', 'expo', 'taro-ui'])
+  
+  // 如果package.json存在，则读取并筛选@jdtaro相关包
+  if (fs.existsSync(packageJsonPath)) {
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+    const dependencies = Object.assign({}, packageJson.dependencies || {}, packageJson.devDependencies || {})
+    
+    // 筛选出@jdtaro相关的包
+    const jdtaroPackages = Object.keys(dependencies).filter(pkg => pkg.startsWith('@jdtaro/'))
+    
+    // 将@jdtaro包添加到npmPackages列表中
+    npmPackages = npmPackages.concat(jdtaroPackages)
+  }
+  
   const info = await envinfo.run(Object.assign({}, {
     System: ['OS', 'Shell'],
     Binaries: ['Node', 'Yarn', 'npm'],
