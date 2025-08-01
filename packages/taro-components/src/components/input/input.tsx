@@ -40,6 +40,7 @@ export class Input implements ComponentInterface {
   @Prop({ attribute: 'focus' }) autoFocus = false
   @Prop() confirmType = 'done'
   @Prop() name: string
+  @Prop() readonly = false
   @Prop() nativeProps = {}
 
   @Element() el: HTMLElement
@@ -249,6 +250,7 @@ export class Input implements ComponentInterface {
       maxlength,
       confirmType,
       name,
+      readonly,
       nativeProps
     } = this
 
@@ -265,6 +267,7 @@ export class Input implements ComponentInterface {
         disabled={disabled}
         maxlength={maxlength}
         name={name}
+        readonly={readonly ? 'readonly' : undefined}
         onInput={this.handleInput}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}

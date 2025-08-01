@@ -5,6 +5,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import ts from '@rollup/plugin-typescript'
 import { recursiveMerge } from '@tarojs/helper'
+import path from 'path'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
@@ -118,5 +119,37 @@ const solid = () => {
   return config
 }
 
+// 新增：样式产物配置
+const styleBundles = () => {
+  const inputs = {
+    picker: 'src/components/picker/style/index.scss',
+  }
+
+  return Object.entries(inputs).map(([name, inputPath]) => ({
+    input: {
+      [name]: inputPath
+    },
+    output: {
+      dir: 'dist/components',
+      entryFileNames: `${name}/react-style/style.js`,
+      format: 'es',
+      sourcemap: true,
+    },
+    plugins: [
+      postcss({
+        extract: path.resolve(`dist/components/${name}/react-style/style.css`),
+        minimize: true,
+        sourceMap: true,
+        modules: false,
+        autoModules: false,
+      })
+    ]
+  }))
+}
+
 // 供 Loader 使用的运行时入口
-export default defineConfig([react(), solid()])
+export default defineConfig([
+  react(),
+  solid(),
+  ...styleBundles() // 新增的样式产物
+])
