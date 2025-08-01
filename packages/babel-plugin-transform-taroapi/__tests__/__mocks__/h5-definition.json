@@ -2205,6 +2205,7 @@
       "nativeProps": "*",
       "password": "boolean",
       "placeholder": "string",
+      "readonly": "boolean",
       "type": "string",
       "value": "string"
     },
