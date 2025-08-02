@@ -7,9 +7,9 @@ settings:
 overrides:
   browserslist: ^4.24.4
 
-packageExtensionsChecksum: sha256-AuIa6PR4p5Z0pJEqWMMCCX2ocSg0i8x99nCU3C02q4M=
+packageExtensionsChecksum: 903791304bb129d34fb3eca8015caf01
 
-pnpmfileChecksum: sha256-1DOFWPxjuE6OZBagIpCC+G/pb5Y870aU0i7jkVV05NA=
+pnpmfileChecksum: tqmumloagu3dojjzas3sjl6wii
 
 importers:
 
@@ -288,13 +288,6 @@ importers:
       '@napi-rs/triples':
         specifier: 1.2.0
         version: 1.2.0
-    devDependencies:
-      '@napi-rs/cli':
-        specifier: 3.0.0-alpha.5
-        version: 3.0.0-alpha.5
-      ava:
-        specifier: 5.3.1
-        version: 5.3.1
     optionalDependencies:
       '@tarojs/binding-darwin-arm64':
         specifier: workspace:*
@@ -308,6 +301,13 @@ importers:
       '@tarojs/binding-win32-x64-msvc':
         specifier: workspace:*
         version: link:../../npm/win32-x64-msvc
+    devDependencies:
+      '@napi-rs/cli':
+        specifier: 3.0.0-alpha.5
+        version: 3.0.0-alpha.5
+      ava:
+        specifier: 5.3.1
+        version: 5.3.1
 
   npm/darwin-arm64: {}
 
@@ -1062,8 +1062,6 @@ importers:
       react-native-webview:
         specifier: 13.6.4
         version: 13.6.4(react-native@0.73.11(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(react@18.3.1))(react@18.3.1)
-
-  packages/taro-components/loader: {}
 
   packages/taro-extend:
     devDependencies:
@@ -2057,8 +2055,8 @@ importers:
         specifier: ~16.0.9
         version: 16.0.9(expo@50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))))
       expo-image-picker:
-        specifier: ~14.7.1
-        version: 14.7.1(expo@50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))))
+        specifier: ~16.1.4
+        version: 16.1.4(expo@50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))))
       expo-keep-awake:
         specifier: ~12.8.2
         version: 12.8.2(expo@50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))))
@@ -4658,7 +4656,7 @@ packages:
 
   '@expo/bunyan@4.0.1':
     resolution: {integrity: sha512-+Lla7nYSiHZirgK+U/uYzsLv/X+HaJienbD5AKX1UQZHYfWaP+9uuQluRB4GrEVWF0GZ7vEVp/jzaOT9k/SQlg==}
-    engines: {'0': node >=0.10.0}
+    engines: {node: '>=0.10.0'}
 
   '@expo/cli@0.17.13':
     resolution: {integrity: sha512-n13yxOmI3I0JidzMdFCH68tYKGDtK4XlDFk1vysZX7AIRKeDVRsSbHhma5jCla2bDt25RKmJBHA9KtzielwzAA==}
@@ -9613,8 +9611,13 @@ packages:
     peerDependencies:
       expo: '*'
 
-  expo-image-picker@14.7.1:
-    resolution: {integrity: sha512-ILQVOJgI3aEzrDmCFGDPtpAepYkn8mot8G7vfQ51BfFdQbzL6N3Wm1fS/ofdWlAZJl/qT2DwaIh5xYmf3SyGZA==}
+  expo-image-loader@5.1.0:
+    resolution: {integrity: sha512-sEBx3zDQIODWbB5JwzE7ZL5FJD+DK3LVLWBVJy6VzsqIA6nDEnSFnsnWyCfCTSvbGigMATs1lgkC2nz3Jpve1Q==}
+    peerDependencies:
+      expo: '*'
+
+  expo-image-picker@16.1.4:
+    resolution: {integrity: sha512-bTmmxtw1AohUT+HxEBn2vYwdeOrj1CLpMXKjvi9FKSoSbpcarT4xxI0z7YyGwDGHbrJqyyic3I9TTdP2J2b4YA==}
     peerDependencies:
       expo: '*'
 
@@ -24915,10 +24918,14 @@ snapshots:
     dependencies:
       expo: 50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10)))
 
-  expo-image-picker@14.7.1(expo@50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10)))):
+  expo-image-loader@5.1.0(expo@50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10)))):
     dependencies:
       expo: 50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10)))
-      expo-image-loader: 4.6.0(expo@50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))))
+
+  expo-image-picker@16.1.4(expo@50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10)))):
+    dependencies:
+      expo: 50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10)))
+      expo-image-loader: 5.1.0(expo@50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))))
 
   expo-keep-awake@12.8.2(expo@50.0.21(@babel/core@7.26.10)(@react-native/babel-preset@0.73.21(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10)))):
     dependencies:
