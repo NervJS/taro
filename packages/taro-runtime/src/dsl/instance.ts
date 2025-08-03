@@ -1,7 +1,7 @@
 import type { Component as Vue3Component } from '@vue/runtime-core'
 import type { Component, ComponentClass } from 'react'
 import type { TaroElement } from '../dom/element'
-import type { MpEvent, TFunc } from '../interface'
+import type { KeyFrame, MpEvent, ScrollTimelineOption, TFunc } from '../interface'
 
 export interface Instance<T = Record<string, any>> extends Component<T>, Show, PageInstance {
   tid?: string
@@ -59,6 +59,10 @@ export interface PageInstance extends PageLifeCycle {
   renderer?: 'webview' | 'skyline'
   /** 获得一个 EventChannel 对象，用于页面间通讯 */
   getOpenerEventChannel?(): Record<string, any>
+  /** 执行关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
+  animate?(selector: string, keyFrames: KeyFrame[], duration: number, callback: () => void): void
+  /** 滚动驱动的动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */
+  animate?(selector: string, keyFrames: KeyFrame[], duration: number, scrollTimeline: ScrollTimelineOption): void
 }
 
 interface Show {

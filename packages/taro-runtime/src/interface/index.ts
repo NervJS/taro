@@ -1,3 +1,4 @@
+export * from './animate'
 export * from './element'
 export * from './event'
 export * from './event-target'

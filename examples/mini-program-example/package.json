@@ -81,6 +81,6 @@
     "typescript": "^4.1.0",
     "postcss": "^8.4.38",
     "ts-node": "^10.9.1",
-    "@types/node": "^20"
+    "@types/node": "^18"
   }
 }

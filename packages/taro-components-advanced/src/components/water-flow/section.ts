@@ -3,11 +3,7 @@ import { Size } from './interface'
 import { Node } from './node'
 import { Root, RootEvents } from './root'
 import { StatefulEventBus } from './stateful-event-bus'
-import {
-  createImperativePromise,
-  getMatrixPosition,
-  isSameRenderRange,
-} from './utils'
+import { createImperativePromise, getMatrixPosition, isSameRenderRange } from './utils'
 
 export interface SectionProps {
   /** 分组的唯一标识 */
@@ -45,7 +41,7 @@ type SectionState = {
    * 每个元素为一个二元组，第一个元素为起始索引，第二个元素为结束索引
    */
   renderRange: [number, number][]
-};
+}
 
 export const SectionEvents = {
   AllNodesLayouted: Symbol.for('AllNodesLayouted'),
@@ -137,8 +133,8 @@ export class Section extends StatefulEventBus<SectionState> {
    */
   get maxColumnHeight() {
     return Math.max(
-      ...this.columnMap.map((column) =>
-        column.reduce((buf, node) => buf + node.getState().height, 0) + (column.length - 1) * this.rowGap
+      ...this.columnMap.map(
+        (column) => column.reduce((buf, node) => buf + node.getState().height, 0) + (column.length - 1) * this.rowGap
       )
     )
   }
@@ -154,12 +150,8 @@ export class Section extends StatefulEventBus<SectionState> {
    */
   get isInRange() {
     const { scrollBoundaryStart, scrollBoundaryEnd } = this.root
-    const { height: sectionHeight, scrollTop: sectionScrollTop } =
-      this.getState()
-    return (
-      sectionScrollTop < scrollBoundaryEnd &&
-      sectionScrollTop + sectionHeight > scrollBoundaryStart
-    )
+    const { height: sectionHeight, scrollTop: sectionScrollTop } = this.getState()
+    return sectionScrollTop <= scrollBoundaryEnd && sectionScrollTop + sectionHeight >= scrollBoundaryStart
   }
 
   /**
@@ -177,15 +169,7 @@ export class Section extends StatefulEventBus<SectionState> {
   private initializeColumnMap() {
     const { count, col } = this
     for (let i = 0; i < count; i++) {
-      const { row: rowIndex, col: columnIndex } = getMatrixPosition(i, col)
-      const node = new Node(this.root, this, {
-        childIndex: i,
-        order: rowIndex,
-        col: columnIndex,
-        height: this.defaultSize,
-      })
-      this.register(node)
-      this.root.registerNode(node)
+      this.pushNode(i, col)
     }
   }
 
@@ -224,11 +208,7 @@ export class Section extends StatefulEventBus<SectionState> {
         })
       } else {
         const prevNode = column[i - 1]
-        const {
-          scrollTop: prevNodeScrollTop,
-          height: prevNodeHeight,
-          top: prevNodeTop,
-        } = prevNode.getState()
+        const { scrollTop: prevNodeScrollTop, height: prevNodeHeight, top: prevNodeTop } = prevNode.getState()
         node.setStateBatch({
           scrollTop: prevNodeScrollTop + prevNodeHeight + this.rowGap,
           top: prevNodeHeight + prevNodeTop + this.rowGap,
@@ -250,9 +230,7 @@ export class Section extends StatefulEventBus<SectionState> {
    * 计算当前分组的 scrollTop，即该分组之前的所有分组的最大列高度之和
    */
   private calcScrollTop() {
-    return this.root.sections
-      .slice(0, this.order)
-      .reduce((acc, section) => acc + section.maxColumnHeight, 0)
+    return this.root.sections.slice(0, this.order).reduce((acc, section) => acc + section.maxColumnHeight, 0)
   }
 
   /**
@@ -260,16 +238,10 @@ export class Section extends StatefulEventBus<SectionState> {
    */
   public getNodeRenderRange() {
     if (!this.isInRange) {
-      return Array.from(
-        { length: this.col },
-        () => [0, -1] as [number, number]
-      )
+      return Array.from({ length: this.col }, () => [0, -1] as [number, number])
     }
 
-    const result = Array.from(
-      { length: this.col },
-      () => [Infinity, -Infinity] as unknown as [number, number]
-    )
+    const result = Array.from({ length: this.col }, () => [Infinity, -Infinity] as unknown as [number, number])
     for (let i = 0; i < this.columnMap.length; i++) {
       const column = this.columnMap[i]
       for (let j = 0; j < column.length; j++) {
@@ -295,12 +267,32 @@ export class Section extends StatefulEventBus<SectionState> {
       const overscanBackward = result[i][0] - backwardDistance
       const overscanForward = result[i][1] + forwardDistance
       result[i][0] = overscanBackward < 0 ? 0 : overscanBackward
-      result[i][1] =
-        overscanForward > column.length ? column.length - 1 : overscanForward
+      result[i][1] = overscanForward > column.length ? column.length - 1 : overscanForward
     }
 
-    return isSameRenderRange(result, this.getState().renderRange)
-      ? this.getState().renderRange
-      : result
+    return isSameRenderRange(result, this.getState().renderRange) ? this.getState().renderRange : result
+  }
+
+  public pushNode(nodeIndex: number, col: number) {
+    const { row: rowIndex, col: columnIndex } = getMatrixPosition(nodeIndex, col)
+    const node = new Node(this.root, this, {
+      childIndex: nodeIndex,
+      order: rowIndex,
+      col: columnIndex,
+      height: this.defaultSize,
+    })
+    this.register(node)
+    this.root.registerNode(node)
+  }
+
+  public pushNodes(count: number) {
+    const { count: originalCount, col } = this
+    for (let i = originalCount; i < originalCount + count; i++) {
+      this.pushNode(i, col)
+    }
+    this.count += count
+    this.root.lowerThresholdScrollTop = Infinity
+    this.updateNodes()
+    this.updateBehindSectionsPosition()
   }
 }

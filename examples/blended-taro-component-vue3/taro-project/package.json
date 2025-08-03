@@ -48,7 +48,7 @@
     "@tarojs/test-utils-vue3": "^0.1.1",
     "@tarojs/webpack5-runner": "3.6.24",
     "@types/jest": "^29.3.1",
-    "@types/node": "^20",
+    "@types/node": "^18",
     "@types/webpack-env": "^1.13.6",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "@typescript-eslint/parser": "^6.2.0",

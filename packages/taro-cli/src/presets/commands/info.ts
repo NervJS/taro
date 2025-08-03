@@ -35,8 +35,36 @@ export default (ctx: IPluginContext) => {
   })
 }
 
+// 单独function获取@jdtaro相关的包
+function getJdtaroPackages(ctx) {
+  try {
+    const { appPath } = ctx.paths
+    const fs = ctx.helper.fs
+    const packageJsonPath = path.join(appPath, 'package.json')
+
+    if (fs.existsSync(packageJsonPath)) {
+      const packageJsonContent = fs.readFileSync(packageJsonPath, 'utf8')
+      const packageJson = JSON.parse(packageJsonContent)
+      const dependencies = Object.assign({}, packageJson.dependencies || {}, packageJson.devDependencies || {})
+
+      // 筛选出@jdtaro相关的包
+      return Object.keys(dependencies).filter(pkg => pkg.startsWith('@jdtaro/'))
+    }
+  } catch (error) {
+    // 记录错误但不中断程序执行（添加trycatch）
+    console.error('读取或解析package.json时发生错误:', error.message)
+  }
+
+  return []
+}
+
 async function info (options, ctx) {
-  const npmPackages = ctx.helper.UPDATE_PACKAGE_LIST.concat(['react', 'react-native', 'expo', 'taro-ui'])
+  let npmPackages = ctx.helper.UPDATE_PACKAGE_LIST.concat(['react', 'react-native', 'expo', 'taro-ui'])
+
+  // 调用新函数获取@jdtaro相关包
+  const jdtaroPackages = getJdtaroPackages(ctx)
+  npmPackages = npmPackages.concat(jdtaroPackages)
+
   const info = await envinfo.run(Object.assign({}, {
     System: ['OS', 'Shell'],
     Binaries: ['Node', 'Yarn', 'npm'],

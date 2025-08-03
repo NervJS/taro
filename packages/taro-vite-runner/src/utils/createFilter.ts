@@ -85,8 +85,8 @@ export function createFilterWithCompileOptions(compile: {
   if (isFunction(compile.filter)) {
     return compile.filter
   } else {
-    let exclude: (string | RegExp)[] = [...defaultInclude]
-    const include: (string | RegExp)[] = [...defaultExclude]
+    let exclude: (string | RegExp)[] = [...defaultExclude]
+    const include: (string | RegExp)[] = [...defaultInclude]
     if (Array.isArray(compile.include)) {
       include.unshift(...compile.include)
     }

@@ -61,7 +61,7 @@ $ pnpm --filter [package-name] run dev
 
 在测试项目中创建好链接后，接下来就可以启动项目编译。注意如果是编译 H5 或小程序时，请提前关闭依赖预编译配置：
 
-```json
+```js
 // /demo/config/dev.js
 compiler: {
   type: "webpack5",

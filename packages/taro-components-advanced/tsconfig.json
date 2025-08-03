@@ -11,7 +11,8 @@
     "skipDefaultLibCheck": true,
     "strictNullChecks": false,
     "target": "ES2017",
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"],
+    "jsx": "react-jsx"
   },
   "include": ["src", "typings"]
 }

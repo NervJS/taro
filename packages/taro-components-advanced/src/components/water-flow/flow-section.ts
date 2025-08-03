@@ -84,7 +84,7 @@ export function FlowSection({
               const childNode = childNodes[node.childIndex]
               const columnProps: any = {
                 node,
-                key: `${id}-item-${node.childIndex}`,
+                key: node.id,
               }
               return createElement(FlowItemContainer, columnProps, childNode)
             })
@@ -101,7 +101,7 @@ export function FlowSection({
           const childNode = childNodes[node.childIndex]
           const columnProps: any = {
             node,
-            key: `${id}-item-${node.childIndex}`,
+            key: node.id,
           }
           return createElement(FlowItemContainer, columnProps, childNode)
         })

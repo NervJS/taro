@@ -63,7 +63,7 @@
     "@tarojs/cli": "4.0.7",
     "@tarojs/taro-loader": "4.0.7",
     "@tarojs/webpack5-runner": "4.0.7",
-    "@types/node": "^20",
+    "@types/node": "^18",
     "@types/react": "^18",
     "@types/webpack-env": "^1.13.6",
     "babel-preset-taro": "4.0.7",

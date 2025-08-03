@@ -2,7 +2,8 @@
   -webkit-overflow-scrolling: auto;
 }
 
-.taro-scroll::-webkit-scrollbar {
+/* 默认不隐藏滚动条，只有加上 .taro-scroll--hidebar 时才隐藏 */
+.taro-scroll--hidebar::-webkit-scrollbar {
   display: none;
 }
 
