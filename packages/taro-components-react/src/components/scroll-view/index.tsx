@@ -78,6 +78,8 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   onScrollToLower: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   onScroll: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   onTouchMove: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
+  showScrollbar?: boolean // 新增参数，默认true
+  enhanced?: boolean // 新增参数，默认false
 }
 
 function ScrollView (props: IProps) {
@@ -135,14 +137,18 @@ function ScrollView (props: IProps) {
     onScrollToUpper,
     onScrollToLower,
     scrollX,
-    scrollY
+    scrollY,
+    showScrollbar = true, // 默认显示滚动条
+    enhanced = false // 默认不增强
   } = props
   let { upperThreshold = 50, lowerThreshold = 50 } = props
   const cls = classNames(
     'taro-scroll',
     {
       'taro-scroll-view__scroll-x': scrollX,
-      'taro-scroll-view__scroll-y': scrollY
+      'taro-scroll-view__scroll-y': scrollY,
+      'taro-scroll--hidebar': enhanced === true && showScrollbar === false,
+      'taro-scroll--enhanced': enhanced === true
     },
     className
   )
