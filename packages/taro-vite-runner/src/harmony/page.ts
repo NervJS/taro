@@ -145,7 +145,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
             const page_ = page as TaroHarmonyPageMeta
             page_.id = id
-            page_.originName = page.name
+            page_.originName ||= page.name // Note: originName 仅更新一次, watch 模式下这里可能反复进入
             page_.name = pageName
 
             this.emitFile({
