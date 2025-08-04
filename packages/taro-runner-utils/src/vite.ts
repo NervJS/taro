@@ -11,8 +11,10 @@ export async function getViteH5CompilerContext (rollupPluginContext: PluginConte
   return compiler
 }
 
-export function getViteHarmonyCompilerContext (rollupPluginContext: PluginContext): ViteHarmonyCompilerContext | void {
-  const info = rollupPluginContext.getModuleInfo(VITE_COMPILER_LABEL)
+export async function getViteHarmonyCompilerContext (rollupPluginContext: PluginContext): Promise<ViteHarmonyCompilerContext | void> {
+  const info = process.env.NODE_ENV === 'production'
+    ? rollupPluginContext.getModuleInfo(VITE_COMPILER_LABEL)
+    : await rollupPluginContext.load({ id: VITE_COMPILER_LABEL })
   const compiler = info?.meta.viteCompilerContext
   return compiler
 }

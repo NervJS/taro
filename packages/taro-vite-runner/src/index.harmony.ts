@@ -1,8 +1,8 @@
 import { isString } from '@tarojs/shared'
-import { type UserConfig, build } from 'vite'
+import { type UserConfig, build, createServer } from 'vite'
 
 import harmonyPreset from './harmony'
-import { convertCopyOptions } from './utils'
+import { convertCopyOptions, getMode } from './utils'
 import { TaroCompilerContext } from './utils/compiler/harmony'
 import { componentConfig } from './utils/component'
 
@@ -11,6 +11,7 @@ import type { ViteHarmonyBuildConfig } from '@tarojs/taro/types/compile/viteComp
 export default async function (appPath: string, rawTaroConfig: ViteHarmonyBuildConfig) {
   const viteCompilerContext = new TaroCompilerContext(appPath, rawTaroConfig)
   const { taroConfig } = viteCompilerContext
+  const isProd = getMode(taroConfig) === 'production'
 
   const plugins: UserConfig['plugins'] = [
     harmonyPreset(viteCompilerContext)
@@ -39,5 +40,13 @@ export default async function (appPath: string, rawTaroConfig: ViteHarmonyBuildC
     },
     viteCompilerContext
   )
-  await build(commonConfig)
+
+  if (isProd) {
+    await build(commonConfig)
+  } else {
+    // @TODO pretty print
+    const server = await createServer(commonConfig)
+    await server.listen()
+    server.printUrls()
+  }
 }

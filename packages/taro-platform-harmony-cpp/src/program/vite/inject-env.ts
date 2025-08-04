@@ -12,11 +12,11 @@ export default function (platform: Harmony): PluginOption {
 
   return {
     name: 'taro:vite-add-method-env',
-    transform (code, id) {
+    async transform (code, id) {
       const pluginContext = this
       const { runnerUtils } = platform.context
       const { getViteHarmonyCompilerContext } = runnerUtils
-      const compiler = getViteHarmonyCompilerContext(pluginContext)
+      const compiler = await getViteHarmonyCompilerContext(pluginContext)
       const exts = Array.from(new Set(compiler?.frameworkExts.concat(SCRIPT_EXT)))
       if (!exts.some(ext => id?.split('?')[0].endsWith(ext))) {
         return

@@ -16,10 +16,11 @@ export function harmonyVitePlugin (ctx: IPluginContext, framework: Frameworks): 
 function injectLoaderMeta (ctx: IPluginContext, framework: Frameworks): PluginOption {
   return {
     name: 'taro-react:loader-meta',
-    buildStart () {
+    enforce: 'pre',
+    async buildStart () {
       const { runnerUtils } = ctx
       const { getViteHarmonyCompilerContext } = runnerUtils
-      const viteCompilerContext = getViteHarmonyCompilerContext(this)
+      const viteCompilerContext = await getViteHarmonyCompilerContext(this)
       if (viteCompilerContext) {
         viteCompilerContext.loaderMeta ||= {}
         Object.assign(viteCompilerContext.loaderMeta, getLoaderMeta(framework))

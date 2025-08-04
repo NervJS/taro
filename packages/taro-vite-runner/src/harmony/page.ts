@@ -2,10 +2,11 @@ import path from 'node:path'
 
 import { transformSync } from '@babel/core'
 import { removeHeadSlash } from '@tarojs/helper'
+import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 
 import pluginImportNativeComponent from '../common/babel-plugin-import-native-component'
 import pluginRemovePageConfig from '../common/babel-plugin-remove-config'
-import { addLeadingSlash, appendVirtualModulePrefix, escapePath, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
+import { addLeadingSlash, appendVirtualModulePrefix, escapePath, getMode, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
 import { createFilterWithCompileOptions } from '../utils/createFilter'
 import { UniqueKeyMap } from '../utils/map'
 import { PageParser } from './template'
@@ -43,9 +44,19 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         nativeComponentMapCache.set(viteConfig, nCompCache)
         nCompUniqueKeyMap = new UniqueKeyMap<string>()
         nativeUniqueKeyMap.set(viteConfig, nCompUniqueKeyMap)
+        const isProd = getMode(taroConfig) === 'production'
+        if (!isProd) {
+          [...viteCompilerContext.pages, ...(viteCompilerContext.components || [])].forEach(page => {
+            this.load({
+              id: appendVirtualModulePrefix(page.scriptPath + PAGE_SUFFIX),
+              resolveDependencies: true,
+            })
+          })
+        }
       }
     },
     resolveId (source, importer, options) {
+      // console.log('resolveId', source, (viteCompilerContext?.isPage(source) || viteCompilerContext?.isComponent(source)), options)
       if ((viteCompilerContext?.isPage(source) || viteCompilerContext?.isComponent(source)) && options.isEntry) {
         if (viteCompilerContext.getPageById(source)?.isNative) return null
         return appendVirtualModulePrefix(source + PAGE_SUFFIX)
@@ -65,6 +76,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     },
     async load (id) {
       if (!viteCompilerContext) return
+      await this.load({ id: VITE_COMPILER_LABEL })
+
+      viteCompilerContext.loaderMeta ||= {}
       const { taroConfig, cwd: appPath, app, loaderMeta } = viteCompilerContext
       const appConfig = app.config
       const { sourceRoot = 'src' } = taroConfig

@@ -1,6 +1,7 @@
 import path from 'node:path'
 
 import { REG_NODE_MODULES, SCRIPT_EXT } from '@tarojs/helper'
+import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 
 import { isVirtualModule } from '../utils'
 
@@ -26,6 +27,7 @@ export default function (compiler: ViteH5CompilerContext | ViteHarmonyCompilerCo
     name: 'taro:vite-multi-platform-plugin',
     enforce: 'pre',
     async resolveId (source, importer, options) {
+      if (source === VITE_COMPILER_LABEL) return null
       if (isVirtualModule(source)) return null
       if (REG_NODE_MODULES.test(source)) return null
 

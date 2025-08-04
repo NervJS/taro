@@ -36,7 +36,7 @@ export default function (this: Harmony): PluginOption {
         }
       }
     },
-    buildStart(this: PluginContext) {
+    async buildStart(this: PluginContext) {
       const pluginContext = this
       const { runnerUtils, runOpts } = that.context
       const isPureComp = (page: TCPageMeta | TCPageMeta[]): page is TCPageMeta => {
@@ -50,7 +50,7 @@ export default function (this: Harmony): PluginOption {
       }
 
       const { getViteHarmonyCompilerContext } = runnerUtils
-      const compiler = getViteHarmonyCompilerContext(pluginContext)!
+      const compiler = (await getViteHarmonyCompilerContext(pluginContext))!
       const taroConfig = compiler.taroConfig
 
       if (compiler?.pages instanceof Array || compiler?.components instanceof Array) {

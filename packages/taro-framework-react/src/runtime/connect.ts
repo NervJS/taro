@@ -212,8 +212,8 @@ export function createReactApp (
       const root = ReactDOM.createRoot((container as unknown as Element))
       root.render?.(h(AppWrapper))
     } else {
-      // eslint-disable-next-line react/no-deprecated
-      ReactDOM.render?.(h(AppWrapper), container)
+      // @ts-ignore
+      ReactDOM.render?.(h(AppWrapper), container) // eslint-disable-line react/no-deprecated
     }
   }
 

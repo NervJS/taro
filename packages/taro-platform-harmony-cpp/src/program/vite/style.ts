@@ -31,12 +31,12 @@ export default function (this: Harmony): PluginOption {
     configResolved(config) {
       viteConfigResolved = config
     },
-    buildStart(this: PluginContext) {
+    async buildStart(this: PluginContext) {
       const pluginContext = this
       const { runnerUtils } = that.context
 
       const { getViteHarmonyCompilerContext } = runnerUtils
-      const compiler = getViteHarmonyCompilerContext(pluginContext)
+      const compiler = await getViteHarmonyCompilerContext(pluginContext)
 
       if (compiler) {
         compiler.loaderMeta ||= {}
@@ -70,13 +70,13 @@ export default function (this: Harmony): PluginOption {
       compiler?.pages?.forEach?.(modifyPageOrComp)
       compiler?.components?.forEach?.(modifyPageOrComp)
     },
-    buildEnd() {
+    async buildEnd() {
       const pluginContext = this
       const { runnerUtils } = that.context
       const cacheStyleMap = new Map<string, Set<string>>()
 
       const { getViteHarmonyCompilerContext } = runnerUtils
-      const compiler = getViteHarmonyCompilerContext(pluginContext)
+      const compiler = await getViteHarmonyCompilerContext(pluginContext)
       const cssModuleId = new Set<string>()
       if (compiler) {
         PageMap.forEach((moduleInfo, styleJsonPath) => {

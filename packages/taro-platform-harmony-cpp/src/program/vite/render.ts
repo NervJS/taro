@@ -15,12 +15,12 @@ export default function (this: Harmony): PluginOption {
   return {
     name: 'taro:vite-harmony-template-render',
     enforce: 'pre',
-    buildStart (this: PluginContext) {
+    async buildStart (this: PluginContext) {
       const pluginContext = this
       const { runnerUtils } = that.context
 
       const { getViteHarmonyCompilerContext } = runnerUtils
-      const compiler = getViteHarmonyCompilerContext(pluginContext)
+      const compiler = await getViteHarmonyCompilerContext(pluginContext)
 
       if (compiler) {
         compiler.extraComponents?.push('WaterFlowView')

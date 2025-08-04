@@ -5,7 +5,7 @@ import inject from '@rollup/plugin-inject'
 import terser from '@rollup/plugin-terser'
 import { defaultMainFields, fs, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR, resolveMainFilePath } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
-import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
+import { isArray, isBoolean, isObject, PLATFORM_TYPE } from '@tarojs/shared'
 
 import increment from '../common/rollup-plugin-increment'
 import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
@@ -181,6 +181,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         // Note: 移除冗余的 babel 插件，改用 runner 提供的版本
         const idx = opt.plugins.findIndex(e => e && (e as Plugin).name === 'vite:react-babel')
         if (idx >= 0) opt.plugins.splice(idx, 1)
+        // console.log('opt.plugins', opt.plugins.map(e => e && (e as Plugin).name))
       }
     },
     config: async () => {
@@ -272,11 +273,22 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         }),
       ]
 
+      const serverOption = taroConfig.devServer || {}
+      let headers = {}
+      if (isObject<Record<string, any>>(serverOption.headers)) {
+        headers = serverOption.headers
+      }
+      let hmr = true
+      if (isBoolean(serverOption.hot)) {
+        hmr = serverOption.hot
+      }
+
       // Note: Vite 官方插件禁用了 es 输出模式下的 terser 插件，这里需要手动添加
       if (!taroConfig.isWatch && getMinify(taroConfig) === 'terser') {
         rollupPlugins.push(terser(recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})))
       }
 
+      // console.log('getEntryOption()', getEntryOption())
       return {
         mode: getMode(taroConfig),
         build: {
@@ -289,6 +301,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             formats: ['es'],
           },
           watch: taroConfig.isWatch ? {} : null,
+          write: true,
           // TODO doc needed: sourcemapType not supported
           sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
           rollupOptions: {
@@ -320,6 +333,15 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         },
         esbuild: {
           jsxDev: false,
+        },
+        server: {
+          host: serverOption.host || '0.0.0.0',
+          port: serverOption.port ? Number(serverOption.port) : 10086,
+          https: typeof serverOption.https !== 'boolean' ? serverOption.https : undefined,
+          open: false,
+          proxy: (serverOption.proxy as any) || {},
+          headers,
+          hmr,
         },
         css: {
           postcss: {
