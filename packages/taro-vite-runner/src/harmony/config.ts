@@ -206,7 +206,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             viteCompilerContext.components?.some((comp: TaroHarmonyPageMeta) => [comp.name, comp.originName].includes(name))
           // 如果同时存在app.ets和app.js，因为鸿蒙IDE编译会把app.ets编译成app.ts，会跟app.js冲突，识别都是/app，导致app.js被app.ts覆盖了，所以需要名字
           const suffix = isTaroComp ? virtualModulePrefixREG.test(chunkInfo.facadeModuleId || '') ? TARO_COMP_SUFFIX : '_comp' : ''
-          name = stripMultiPlatformExt(`${name}${suffix}`) + taroConfig.fileType.script
+          name = stripMultiPlatformExt(`${name}/index${suffix}`) + taroConfig.fileType.script
 
           if (chunkInfo.facadeModuleId && chunkInfo.facadeModuleId.includes(QUERY_IS_NATIVE_SCRIPT)) {
             name += QUERY_IS_NATIVE_SCRIPT
