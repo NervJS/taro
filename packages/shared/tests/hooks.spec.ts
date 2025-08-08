@@ -1,3 +1,5 @@
+import { beforeAll, describe, expect, test, vi } from 'vitest'
+
 import { HOOK_TYPE, TaroHook, TaroHooks } from '../src/runtime-hooks'
 import { mergeReconciler } from '../src/utils'
 
@@ -13,7 +15,7 @@ describe('taro hooks', () => {
     })
   })
 
-  it('single', () => {
+  test('single', () => {
     hook.tap('hookA', () => {
       return 'first'
     })
@@ -24,7 +26,7 @@ describe('taro hooks', () => {
     expect(res).toBe('second')
   })
 
-  it('single with default', () => {
+  test('single with default', () => {
     let res = hook.call('hookAWithDefault', 'Ben')
     expect(res).toBe('name: Ben')
     hook.tap('hookAWithDefault', (name) => {
@@ -34,9 +36,9 @@ describe('taro hooks', () => {
     expect(res).toBe('JoJo')
   })
 
-  it('multi', () => {
-    const fnA = jest.fn()
-    const fnB = jest.fn()
+  test('multi', () => {
+    const fnA = vi.fn()
+    const fnB = vi.fn()
     hook.tap('hookB', fnA)
     hook.tap('hookB', fnB)
     hook.call('hookB')
@@ -44,10 +46,10 @@ describe('taro hooks', () => {
     expect(fnB).toBeCalled()
   })
 
-  it('multi default', () => {
-    const fnA = jest.fn()
-    const fnB = jest.fn()
-    const fnC = jest.fn()
+  test('multi default', () => {
+    const fnA = vi.fn()
+    const fnB = vi.fn()
+    const fnC = vi.fn()
     const hook = new TaroHooks({
       hookBWithDefault: TaroHook(HOOK_TYPE.MULTI, fnA)
     })
@@ -59,7 +61,7 @@ describe('taro hooks', () => {
     expect(fnC).toBeCalled()
   })
 
-  it('waterfall', () => {
+  test('waterfall', () => {
     hook.tap('hookC', (obj) => {
       obj.num += 1
       return obj
@@ -76,7 +78,7 @@ describe('taro hooks', () => {
     expect(res).toEqual({ num: 16 })
   })
 
-  it('plugin', () => {
+  test('plugin', () => {
     // shared
     const hooks = new TaroHooks({
       hookA: TaroHook(HOOK_TYPE.SINGLE, () => 'default'),
@@ -85,7 +87,7 @@ describe('taro hooks', () => {
     })
 
     // pluginA
-    const fnA = jest.fn()
+    const fnA = vi.fn()
     const reconcilerA = {
       hookA: () => 'pluginA',
       hookB: fnA,
@@ -94,7 +96,7 @@ describe('taro hooks', () => {
     mergeReconciler(reconcilerA, hooks)
 
     // pluginB
-    const fnB = jest.fn()
+    const fnB = vi.fn()
     const reconcilerB = {
       hookA: () => 'pluginB',
       hookB: fnB,
