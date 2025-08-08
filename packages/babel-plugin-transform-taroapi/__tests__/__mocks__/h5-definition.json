@@ -2353,6 +2353,7 @@
     "script": {},
     "scroll-view": {
       "animated": "boolean",
+      "enhanced": "boolean",
       "lowerThreshold": "string | number",
       "mpScrollIntoView": "string",
       "mpScrollIntoViewAlignment": "\"center\" | \"start\" | \"end\" | \"nearest\"",
@@ -2362,6 +2363,7 @@
       "mpScrollTop": "string | number",
       "scrollX": "boolean",
       "scrollY": "boolean",
+      "showScrollbar": "boolean",
       "upperThreshold": "string | number"
     },
     "share-element": {},
