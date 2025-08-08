@@ -2,12 +2,21 @@
   "name": "@tarojs/components-library-solid",
   "version": "4.1.5",
   "description": "Taro 组件库 Solid 版本库",
-  "private": true,
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./component-lib": {
+      "default": "./dist/component-lib/index.js",
+      "types": "./dist/component-lib/index.d.ts"
+    }
+  },
   "scripts": {
-    "prebuild": "pnpm run clean && node ./scripts/fix.js",
+    "prebuild": "pnpm run clean && node ./scripts/fix.cjs",
     "build": "rollup -c",
-    "clean": "rimraf ../taro-components/lib/solid",
+    "clean": "rimraf dist",
     "dev": "pnpm run build -w",
     "prod": "pnpm run build"
   },

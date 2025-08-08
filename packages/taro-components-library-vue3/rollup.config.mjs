@@ -7,7 +7,7 @@ import postcss from 'rollup-plugin-postcss'
 const config = {
   input: ['src/index.ts', 'src/components-loader.ts', 'src/component-lib/index.ts'],
   output: {
-    dir: '../taro-components/lib/vue3',
+    dir: 'dist',
     exports: 'named',
     preserveModules: true,
     sourcemap: true,
