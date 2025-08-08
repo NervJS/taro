@@ -176,6 +176,19 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         proxy: (serverOption.proxy as any) || {},
         headers,
         hmr,
+        watch: serverOption.watch ?? {},
+        fs: {
+          strict: serverOption.strict ?? true,
+          allow: serverOption.allow ?? [],
+          deny: serverOption.deny ?? ['.env', '.env.*', '*.{crt,pem}', '**/.git/**'],
+        },
+        allowedHosts: serverOption.allowedHosts || [],
+        middlewareMode: serverOption.middlewareMode ?? false,
+        strictPort: serverOption.strictPort ?? false,
+        sourcemapIgnoreList: serverOption.sourcemapIgnoreList ?? ((sourcePath) => sourcePath.includes('node_modules')),
+        origin: serverOption.origin,
+        cors: serverOption.cors ?? true,
+        warmup: serverOption.warmup ?? {},
       },
       css: {
         postcss: {
