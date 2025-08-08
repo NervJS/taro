@@ -1,0 +1,39 @@
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    strategy:
+      matrix:
+        node-version: [18, 20]
+        host: [macos-13, windows-latest, ubuntu-latest]
+        exclude:
+          - node-version: 18
+            host: macos-13
+          - node-version: 18
+            host: windows-latest
+          - node-version: 20
+            host: macos-13
+          - node-version: 20
+            host: windows-latest
+
+    runs-on: ${{ matrix.host }}
+    steps:
+      - name: 获取最新 NX 缓存
+        uses: actions/cache/restore@v4
+        with:
+          path: .nx
+          key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.sha }}
+
+      - name: 更新公共 NX 缓存
+        uses: actions/upload-artifact@v4
+        with:
+          path: .nx
+          name: NX-${{ runner.os }}-${{ matrix.node-version }}
+          overwrite: true
+          include-hidden-files: true

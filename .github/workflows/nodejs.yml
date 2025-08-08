@@ -20,6 +20,10 @@ on:
 permissions:
   contents: read # to fetch code (actions/checkout)
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-rust-binding:
     name: Build Rust Binding
@@ -36,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [18, 20]
         host: [macos-13, windows-latest, ubuntu-latest]
         include:
           - host: macos-13
@@ -48,16 +52,17 @@ jobs:
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
         exclude:
-          - node-version: 18.x
+          - node-version: 18
             host: macos-13
-          - node-version: 18.x
+          - node-version: 18
             host: windows-latest
-          - node-version: 20.x
+          - node-version: 20
             host: macos-13
-          - node-version: 20.x
+          - node-version: 20
             host: windows-latest
 
     runs-on: ${{ matrix.host }}
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -70,21 +75,25 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      - name: Prune store
-        shell: bash
-        run: |
-          PNPM_STORE_PATH=$(pnpm store path)
-          echo "[Debug] Store path: $PNPM_STORE_PATH"
-          if [ -d ${PNPM_STORE_PATH} ]; then
-            echo "[Debug] pnpm store exists"
-            pnpm store prune
-          else
-            echo "[Debug] pnpm store does not exist"
-          fi
+
+      - name: 读取 NX 缓存
+        id: get_nx_cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .nx
+          key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-previous-sha
+          restore-keys: |
+            ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-
+      - name: 读取公共 NX 缓存
+        uses: actions/download-artifact@v4
+        if: steps.get_nx_cache.outputs.cache-primary-key == ''
+        with:
+          name: NX-${{ runner.os }}-${{ matrix.node-version }}
+          path: .nx
+
       - name: Install dependencies
         run: pnpm -r install --frozen-lockfile
-      - name: Lint
-        run: pnpm lint
+
       - name: Download artifact bindings-${{ matrix.target }}
         uses: actions/download-artifact@v4
         with:
@@ -107,12 +116,20 @@ jobs:
         shell: bash
       - name: Move artifacts
         run: pnpm artifacts
-      - name: build
-        run: pnpm build
-      - name: test
-        run: pnpm test
-        env:
-          CI: true
+
+      - name: 修复缓存文件
+        run: node ./scripts/fix-nx-cache.mjs
+
+      - name: 构建、测试
+        run: pnpm nx run-many -t prod test:ci --parallel=3
+
+      - name: 更新 NX 缓存
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .nx
+          key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.sha }}
+
       # 以下 coverage 流程通过 artifact 拆分文件作为单独 job 上传时间损耗过长，因此在在 node test 后直接继续执行
       - name: Upload [taro-cli] coverage to Codecov
         uses: codecov/codecov-action@v5
