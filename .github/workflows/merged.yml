@@ -25,12 +25,14 @@ jobs:
     runs-on: ${{ matrix.host }}
     steps:
       - name: 获取最新 NX 缓存
+        id: latest-nx-cache
         uses: actions/cache/restore@v4
         with:
           path: .nx
-          key: ${{ github.ref_name }}-NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.sha }}
+          key: ${{ github.event.pull_request.head.ref }}-NX-${{ runner.os }}-${{ matrix.node-version }}-${{ github.event.pull_request.head.sha }}
 
-      - name: 更新公共 NX 缓存
+      - if: ${{ steps.latest-nx-cache.outputs.cache-hit == 'true' }}
+        name: 更新公共 NX 缓存
         uses: actions/upload-artifact@v4
         with:
           path: .nx
