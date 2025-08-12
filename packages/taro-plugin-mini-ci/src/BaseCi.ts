@@ -74,9 +74,9 @@ export interface AlipayConfig {
   /** 工具id */
   toolId: string
   /** 私钥文件路径，在获取项目属性和上传时用于鉴权使用(privateKeyPath和privateKey之间必须要填写其中一个) */
-  privateKeyPath: string
+  privateKeyPath?: string
   /** 私钥文本内容，在获取项目属性和上传时用于鉴权使用(privateKeyPath和privateKey之间必须要填写其中一个) */
-  privateKey: string
+  privateKey?: string
   /** 小程序开发者工具安装路径 */
   devToolsInstallPath?: string
   /** 上传的终端, 默认alipay */
