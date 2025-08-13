@@ -36,6 +36,15 @@ hooks.tap('modifyHydrateData', (data, node) => {
     }
   }
 
+  // input[type=submit|reset] 时，额外添加 formType 属性
+  if (nodeName === 'input' && (data.type === 'submit' || data.type === 'reset')) {
+    data.formType = data.type
+  }
+  // button[type=submit|reset] 时，额外添加 formType 属性
+  if (nodeName === 'button' && (data.type === 'submit' || data.type === 'reset')) {
+    data.formType = data.type
+  }
+
   if (nodeName === 'br') {
     data[Shortcuts.Childnodes] = [{
       [Shortcuts.NodeName]: '#text',
