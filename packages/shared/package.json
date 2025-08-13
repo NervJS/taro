@@ -24,7 +24,7 @@
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
-    "test": "jest"
+    "test": "vitest run"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
