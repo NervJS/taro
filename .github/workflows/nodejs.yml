@@ -60,7 +60,7 @@ jobs:
     runs-on: ${{ matrix.host }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -153,7 +153,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
         with:
