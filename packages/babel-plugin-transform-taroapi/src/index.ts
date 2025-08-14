@@ -180,12 +180,12 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
               if (needDefault) {
                 const defaultImport = t.importDefaultSpecifier(t.identifier(taroName))
                 ast.node.specifiers = [
-                  defaultImport as any,
-                  ...namedImports as any
+                  defaultImport,
+                  ...namedImports
                 ]
                 needDefault = false
               } else {
-                ast.node.specifiers = namedImports as any
+                ast.node.specifiers = namedImports
               }
             },
             CallExpression (ast: BabelCore.NodePath<any>) {
