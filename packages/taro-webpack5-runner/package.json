@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "4.1.5-beta.1",
+  "version": "4.1.5-beta.2",
   "description": "Taro app runner",
   "author": "O2Team",
   "license": "MIT",
