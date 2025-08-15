@@ -30,6 +30,18 @@ export interface RegionData {
 const EMPTY_ARRAY: any[] = []
 const EMPTY_OBJECT: Record<string, any> = {}
 
+// 语言映射函数
+function getLanguageText(lang?: string) {
+  const isEnglish = lang === 'en-US' || lang === 'en-GB'
+  return {
+    confirm: isEnglish ? 'Confirm' : '确定',
+    cancel: isEnglish ? 'Cancel' : '取消',
+    year: isEnglish ? 'Year ' : '年',
+    month: isEnglish ? 'Month ' : '月',
+    day: isEnglish ? 'Day ' : '日'
+  }
+}
+
 // 数据验证函数
 function validateRegionData(data: RegionData[], componentName = 'Picker'): { valid: boolean, error?: string } {
   if (!data) {
@@ -122,6 +134,7 @@ interface IProps {
   style?: React.CSSProperties
   forwardedRef?: React.MutableRefObject<HTMLDivElement | null>
   formType?: string
+  lang?: string // 语言参数，支持 'zh-CN'、'en-US'、'en-GB'
 }
 
 interface IState {
@@ -169,6 +182,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     children,
     style,
     formType,
+    lang,
     ...restProps
   } = props
   const indexRef = React.useRef<number[]>([])
@@ -345,14 +359,16 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   // 隐藏 Picker
   const hidePicker = React.useCallback(() => {
     isInitializationCompletedRef.current = false
-    setState(prev => ({ ...prev, fadeOut: true }))
-    setTimeout(() => {
-      setState(prev => ({
-        ...prev,
-        hidden: true,
-        fadeOut: false
-      }))
-    }, 350)
+    // 动画暂时不支持，暂时屏蔽相关样式挂载逻辑
+    // setState(prev => ({ ...prev, fadeOut: true }))
+    // setTimeout(() => {
+    //   setState(prev => ({
+    //     ...prev,
+    //     hidden: true,
+    //     fadeOut: false
+    //   }))
+    // }, 350)
+    setState(prev => ({ ...prev, hidden: true }))
   }, [])
 
   // 更新索引
@@ -741,12 +757,14 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
         const currentYear = _updateValue[0]
         const currentMonth = _updateValue[1]
 
+        const langText = getLanguageText(lang)
+        const isEnglish = lang === 'en-US' || lang === 'en-GB'
         const yearRange = getYearRange(_start.getFullYear(), _end.getFullYear())
-          .map(item => `${item}年`)
+          .map(item => isEnglish ? `${langText.year}${item}` : `${item}${langText.year}`)
         const monthRange = getMonthRange(_start, _end, currentYear)
-          .map(item => `${item < 10 ? `0${item}` : item}月`)
+          .map(item => isEnglish ? `${langText.month}${item < 10 ? `0${item}` : item}` : `${item < 10 ? `0${item}` : item}${langText.month}`)
         const dayRange = getDayRange(_start, _end, currentYear, currentMonth)
-          .map(item => `${item < 10 ? `0${item}` : item}日`)
+          .map(item => isEnglish ? `${langText.day}${item < 10 ? `0${item}` : item}` : `${item < 10 ? `0${item}` : item}${langText.day}`)
 
         const renderView = [
           <PickerGroup
@@ -839,7 +857,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
           />
         )
     }
-  }, [mode, range, rangeKey, fields, updateIndex, updateDay, handleColumnChange, pickerDateRef.current, level, regionData, state.selectedIndices, columnsCount])
+  }, [mode, range, rangeKey, fields, updateIndex, updateDay, handleColumnChange, pickerDateRef.current, level, regionData, state.selectedIndices, columnsCount, lang])
 
   // 动画类名控制逻辑
   const clsMask = classNames('taro-picker__mask-overlay', 'taro-picker__animate-fade-in', {
@@ -854,6 +872,9 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     showPicker,
     hidePicker
   }))
+
+  // 获取语言文本
+  const langText = getLanguageText(lang)
 
   return (
     <View
@@ -871,13 +892,13 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
           <View className={clsSlider}>
             <View className="taro-picker__hd">
               <View className="taro-picker__action" onClick={handleCancel}>
-                {textProps.cancelText ?? '取消'}
+                {textProps.cancelText ?? langText.cancel}
               </View>
               {headerText && (
                 <View className="taro-picker__title">{headerText}</View>
               )}
               <View className="taro-picker__action" onClick={handleChange}>
-                {textProps.okText ?? '确定'}
+                {textProps.okText ?? langText.confirm}
               </View>
             </View>
             <View className="taro-picker__bd">{renderPickerGroup}</View>
