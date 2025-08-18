@@ -9,6 +9,7 @@ import JdCI from './JdCI'
 import SwanCI from './SwanCI'
 import TTCI from './TTCI'
 import WeappCI from './WeappCI'
+import XhsCI from './XhsCI'
 
 import type { IPluginContext } from '@tarojs/service'
 
@@ -140,6 +141,9 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
         break
       case 'jd':
         ci = new JdCI(ctx, pluginOpts)
+        break
+      case 'xhs':
+        ci = new XhsCI(ctx, pluginOpts)
         break
       default:
         break
