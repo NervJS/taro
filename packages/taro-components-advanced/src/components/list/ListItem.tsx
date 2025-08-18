@@ -11,4 +11,5 @@ const ListItem: React.FC<ListItemProps> = ({ children, className, style }) => {
   return <View className={className} style={style}>{children}</View>
 }
 
+export { ListItem }
 export default ListItem
