@@ -5,12 +5,17 @@ import { describe, expect, test } from 'vitest'
 import jSXStylePlugin from '../src/index'
 
 describe('jsx style plugin', () => {
-  function getTransformCode (source, debug = false, options = {}) {
+  function getTransformCode (
+    source: string,
+    debug = false,
+    options: { enableCSSModule?: boolean, enableMultipleClassName?: boolean } = {}
+  ) {
     const { enableCSSModule, enableMultipleClassName = false } = options
-    const code = transform(source, {
+    const result = transform(source, {
       plugins: [[jSXStylePlugin, { enableCSSModule, enableMultipleClassName }], syntaxJSX],
       configFile: false
-    }).code
+    })
+    const code = result?.code ?? ''
     if (debug) {
       // eslint-disable-next-line
       console.log(source + '\n')
