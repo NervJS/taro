@@ -1,11 +1,13 @@
+import { describe, expect, test } from 'vitest'
+
 import transform from '../src/index'
 
 describe('misc', () => {
-  it('returns empty object when input is empty', () => {
+  test('returns empty object when input is empty', () => {
     expect(transform('')).toEqual({})
   })
 
-  it('transforms flex', () => {
+  test('transforms flex', () => {
     expect(
       transform(`
       .test {
@@ -21,7 +23,7 @@ describe('misc', () => {
     })
   })
 
-  it('transforms numbers', () => {
+  test('transforms numbers', () => {
     expect(
       transform(`
       .test {
@@ -36,7 +38,7 @@ describe('misc', () => {
     })
   })
 
-  it('ignores unsupported at-rules', () => {
+  test('ignores unsupported at-rules', () => {
     expect(transform('@charset "utf-8";')).toEqual({})
     expect(
       transform(`
@@ -49,7 +51,7 @@ describe('misc', () => {
     ).toEqual({})
   })
 
-  it('allows pixels in unspecialized transform', () => {
+  test('allows pixels in unspecialized transform', () => {
     expect(
       transform(`
       .test {
@@ -61,7 +63,7 @@ describe('misc', () => {
     })
   })
 
-  it('allows percent in unspecialized transform', () => {
+  test('allows percent in unspecialized transform', () => {
     expect(
       transform(`
       .test {
@@ -73,7 +75,7 @@ describe('misc', () => {
     })
   })
 
-  it('allows decimal values', () => {
+  test('allows decimal values', () => {
     expect(
       transform(`
       .test {
@@ -130,7 +132,7 @@ describe('misc', () => {
     })
   })
 
-  it('allows PX or PX values', () => {
+  test('allows PX or PX values', () => {
     expect(
       transform(`
       .test {
@@ -149,7 +151,7 @@ describe('misc', () => {
     })
   })
 
-  it('allows PX or PX values scalePx2dp', () => {
+  test('allows PX or PX values scalePx2dp', () => {
     expect(
       transform(`
       .test {
@@ -170,7 +172,7 @@ describe('misc', () => {
     })
   })
 
-  it('allows decimal values in transformed values', () => {
+  test('allows decimal values in transformed values', () => {
     expect(
       transform(`
       .test {
@@ -184,7 +186,7 @@ describe('misc', () => {
     })
   })
 
-  it('allows negative values in transformed values', () => {
+  test('allows negative values in transformed values', () => {
     expect(
       transform(`
       .test {
@@ -198,7 +200,7 @@ describe('misc', () => {
     })
   })
 
-  it('allows percent values in transformed values', () => {
+  test('allows percent values in transformed values', () => {
     expect(
       transform(`
       .test {
@@ -215,7 +217,7 @@ describe('misc', () => {
     })
   })
 
-  it('allows color values in transformed border-color values', () => {
+  test('allows color values in transformed border-color values', () => {
     expect(
       transform(`
       .test {
@@ -229,7 +231,7 @@ describe('misc', () => {
     })
   })
 
-  it('allows omitting units for 0', () => {
+  test('allows omitting units for 0', () => {
     expect(
       transform(`
       .test {
@@ -246,7 +248,7 @@ describe('misc', () => {
     })
   })
 
-  it('converts to camel-case', () => {
+  test('converts to camel-case', () => {
     expect(
       transform(`
       .test {
@@ -260,7 +262,7 @@ describe('misc', () => {
     })
   })
 
-  it('transforms shadow offsets', () => {
+  test('transforms shadow offsets', () => {
     expect(
       transform(`
       .test {
@@ -277,7 +279,7 @@ describe('misc', () => {
     })
   })
 
-  it('transforms text shadow offsets', () => {
+  test('transforms text shadow offsets', () => {
     expect(
       transform(`
       .test {
@@ -294,7 +296,7 @@ describe('misc', () => {
     })
   })
 
-  it('transforms a block of css', () => {
+  test('transforms a block of css', () => {
     expect(
       transform(`
     .description {
@@ -340,7 +342,7 @@ describe('misc', () => {
     })
   })
 
-  it('throws useful errors', () => {
+  test('throws useful errors', () => {
     expect(() => {
       transform(`
       .test {
@@ -350,7 +352,7 @@ describe('misc', () => {
     }).toThrowError('Failed to parse declaration "margin: 10"')
   })
 
-  it('when there are selectors with the same name, merges the common props', () => {
+  test('when there are selectors with the same name, merges the common props', () => {
     expect(
       transform(`
       .test {
@@ -379,7 +381,7 @@ describe('misc', () => {
     })
   })
 
-  it('supports group of selectors', () => {
+  test('supports group of selectors', () => {
     expect(
       transform(`
       .test1, .test2 {
@@ -398,7 +400,7 @@ describe('misc', () => {
 })
 
 describe('selectors', () => {
-  it('supports dash in class names', () => {
+  test('supports dash in class names', () => {
     expect(
       transform(`
       .test-1-2 {
@@ -412,7 +414,7 @@ describe('selectors', () => {
     })
   })
 
-  it('supports underscore in class names', () => {
+  test('supports underscore in class names', () => {
     expect(
       transform(`
       .test_1 {
@@ -426,7 +428,7 @@ describe('selectors', () => {
     })
   })
 
-  it('supports grouping selectors', () => {
+  test('supports grouping selectors', () => {
     expect(
       transform(`
       .test, .test2, .test3 {
@@ -446,7 +448,7 @@ describe('selectors', () => {
     })
   })
 
-  it('ignores grouping of ID selectors', () => {
+  test('ignores grouping of ID selectors', () => {
     expect(
       transform(`
       .test {
@@ -463,7 +465,7 @@ describe('selectors', () => {
     })
   })
 
-  it('ignores grouping of element selectors', () => {
+  test('ignores grouping of element selectors', () => {
     expect(
       transform(`
       .test {
@@ -480,7 +482,7 @@ describe('selectors', () => {
     })
   })
 
-  it('ignores ID selectors', () => {
+  test('ignores ID selectors', () => {
     expect(
       transform(`
       .test {
@@ -497,7 +499,7 @@ describe('selectors', () => {
     })
   })
 
-  it('ignores type selectors', () => {
+  test('ignores type selectors', () => {
     expect(
       transform(`
       .test {
@@ -542,7 +544,7 @@ describe('selectors', () => {
     })
   })
 
-  it('ignores universal selectors', () => {
+  test('ignores universal selectors', () => {
     expect(
       transform(`
       .test {
@@ -559,7 +561,7 @@ describe('selectors', () => {
     })
   })
 
-  it('ignores descendant selectors', () => {
+  test('ignores descendant selectors', () => {
     expect(
       transform(`
       .test {
@@ -576,7 +578,7 @@ describe('selectors', () => {
     })
   })
 
-  it('ignores direct child selectors', () => {
+  test('ignores direct child selectors', () => {
     expect(
       transform(`
       .test {
@@ -593,7 +595,7 @@ describe('selectors', () => {
     })
   })
 
-  it('ignores adjancent sibling selectors', () => {
+  test('ignores adjancent sibling selectors', () => {
     expect(
       transform(`
       .test {
@@ -610,7 +612,7 @@ describe('selectors', () => {
     })
   })
 
-  it('ignores general sibling selectors', () => {
+  test('ignores general sibling selectors', () => {
     expect(
       transform(`
       .test {
@@ -627,7 +629,7 @@ describe('selectors', () => {
     })
   })
 
-  it('ignores qualified selectors', () => {
+  test('ignores qualified selectors', () => {
     expect(
       transform(`
       .test {
@@ -644,7 +646,7 @@ describe('selectors', () => {
     })
   })
 
-  it('ignores element selectors', () => {
+  test('ignores element selectors', () => {
     expect(
       transform(`
       .test {
@@ -661,7 +663,7 @@ describe('selectors', () => {
     })
   })
 
-  it('ignores pseudo selectors', () => {
+  test('ignores pseudo selectors', () => {
     expect(
       transform(`
       .test {
@@ -683,7 +685,7 @@ describe('selectors', () => {
 })
 
 describe('colors', () => {
-  it('transforms named colors', () => {
+  test('transforms named colors', () => {
     expect(
       transform(`
       .test {
@@ -697,7 +699,7 @@ describe('colors', () => {
     })
   })
 
-  it('transforms hex colors', () => {
+  test('transforms hex colors', () => {
     expect(
       transform(`
       .test {
@@ -711,7 +713,7 @@ describe('colors', () => {
     })
   })
 
-  it('transforms rgb colors', () => {
+  test('transforms rgb colors', () => {
     expect(
       transform(`
       .test {
@@ -725,7 +727,7 @@ describe('colors', () => {
     })
   })
 
-  it('transforms rgba colors', () => {
+  test('transforms rgba colors', () => {
     expect(
       transform(`
       .test {
@@ -741,7 +743,7 @@ describe('colors', () => {
 })
 
 describe('transform', () => {
-  it('transforms a single transform value with number', () => {
+  test('transforms a single transform value with number', () => {
     expect(
       transform(`
       .test {
@@ -753,7 +755,7 @@ describe('transform', () => {
     })
   })
 
-  it('transforms a single transform value with string', () => {
+  test('transforms a single transform value with string', () => {
     expect(
       transform(`
       .test {
@@ -765,7 +767,7 @@ describe('transform', () => {
     })
   })
 
-  it('transforms multiple transform values', () => {
+  test('transforms multiple transform values', () => {
     expect(
       transform(`
       .test {
@@ -777,7 +779,7 @@ describe('transform', () => {
     })
   })
 
-  it('transforms scale(number, number) to scaleX and scaleY', () => {
+  test('transforms scale(number, number) to scaleX and scaleY', () => {
     expect(
       transform(`
       .test {
@@ -789,7 +791,7 @@ describe('transform', () => {
     })
   })
 
-  it('transforms translate(length, length) to translateX and translateY', () => {
+  test('transforms translate(length, length) to translateX and translateY', () => {
     expect(
       transform(`
       .test {
@@ -801,7 +803,7 @@ describe('transform', () => {
     })
   })
 
-  it('transforms translate(length) to translateX and translateY', () => {
+  test('transforms translate(length) to translateX and translateY', () => {
     expect(
       transform(`
       .test {
@@ -813,7 +815,7 @@ describe('transform', () => {
     })
   })
 
-  it('transforms skew(angle, angle) to skewX and skewY', () => {
+  test('transforms skew(angle, angle) to skewX and skewY', () => {
     expect(
       transform(`
       .test {
@@ -825,7 +827,7 @@ describe('transform', () => {
     })
   })
 
-  it('transforms skew(angle) to skewX and skewY', () => {
+  test('transforms skew(angle) to skewX and skewY', () => {
     expect(
       transform(`
       .test {
@@ -839,7 +841,7 @@ describe('transform', () => {
 })
 
 describe('border', () => {
-  it('transforms border shorthand', () => {
+  test('transforms border shorthand', () => {
     expect(
       transform(`
       .test {
@@ -851,7 +853,7 @@ describe('border', () => {
     })
   })
 
-  it('transforms border shorthand in other order', () => {
+  test('transforms border shorthand in other order', () => {
     expect(
       transform(`
       .test {
@@ -863,7 +865,7 @@ describe('border', () => {
     })
   })
 
-  it('transforms border shorthand missing color', () => {
+  test('transforms border shorthand missing color', () => {
     expect(
       transform(`
       .test {
@@ -875,7 +877,7 @@ describe('border', () => {
     })
   })
 
-  it('transforms border shorthand missing style', () => {
+  test('transforms border shorthand missing style', () => {
     expect(
       transform(`
       .test {
@@ -887,7 +889,7 @@ describe('border', () => {
     })
   })
 
-  it('transforms border shorthand missing width', () => {
+  test('transforms border shorthand missing width', () => {
     expect(
       transform(`
       .test {
@@ -899,7 +901,7 @@ describe('border', () => {
     })
   })
 
-  it('transforms border shorthand missing color & width', () => {
+  test('transforms border shorthand missing color & width', () => {
     expect(
       transform(`
       .test {
@@ -911,7 +913,7 @@ describe('border', () => {
     })
   })
 
-  it('transforms border shorthand missing style & width', () => {
+  test('transforms border shorthand missing style & width', () => {
     expect(
       transform(`
       .test {
@@ -923,7 +925,7 @@ describe('border', () => {
     })
   })
 
-  it('transforms border shorthand missing color & style', () => {
+  test('transforms border shorthand missing color & style', () => {
     expect(
       transform(`
       .test {
@@ -936,7 +938,7 @@ describe('border', () => {
   })
 
   describe('shorthand border properties related to Image elements', () => {
-    it('transforms border-radius', () => {
+    test('transforms border-radius', () => {
       expect(
         transform(`
         .test {
@@ -948,7 +950,7 @@ describe('border', () => {
       })
     })
 
-    it('transforms border-radius with multiple values', () => {
+    test('transforms border-radius with multiple values', () => {
       expect(
         transform(`
         .test {
@@ -993,7 +995,7 @@ describe('border', () => {
       })
     })
 
-    it('transforms border-color', () => {
+    test('transforms border-color', () => {
       expect(
         transform(`
         .test {
@@ -1005,7 +1007,7 @@ describe('border', () => {
       })
     })
 
-    it('transforms border-color with multiple values', () => {
+    test('transforms border-color with multiple values', () => {
       expect(
         transform(`
         .test {
@@ -1050,7 +1052,7 @@ describe('border', () => {
       })
     })
 
-    it('should transform border-color with rgb(a) property', () => {
+    test('should transform border-color with rgb(a) property', () => {
       expect(
         transform(`
         .top {
@@ -1085,7 +1087,7 @@ describe('border', () => {
       })
     })
 
-    it('transforms border-width', () => {
+    test('transforms border-width', () => {
       expect(
         transform(`
         .test {
@@ -1097,7 +1099,7 @@ describe('border', () => {
       })
     })
 
-    it('transforms border-width with multiple values', () => {
+    test('transforms border-width with multiple values', () => {
       expect(
         transform(`
         .test {
@@ -1142,7 +1144,7 @@ describe('border', () => {
       })
     })
 
-    it('transforms border-style', () => {
+    test('transforms border-style', () => {
       expect(
         transform(`
         .test {
@@ -1157,7 +1159,7 @@ describe('border', () => {
 })
 
 describe('font', () => {
-  it('transforms font weights as strings', () => {
+  test('transforms font weights as strings', () => {
     expect(
       transform(`
       .test {
@@ -1169,7 +1171,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font variant as an array', () => {
+  test('transforms font variant as an array', () => {
     expect(
       transform(`
       .test {
@@ -1183,7 +1185,7 @@ describe('font', () => {
 })
 
 describe('background', () => {
-  it('transforms background to backgroundColor', () => {
+  test('transforms background to backgroundColor', () => {
     expect(
       transform(`
       .test {
@@ -1197,7 +1199,7 @@ describe('background', () => {
     })
   })
 
-  it('transforms background to backgroundColor with rgb', () => {
+  test('transforms background to backgroundColor with rgb', () => {
     expect(
       transform(`
       .test {
@@ -1211,7 +1213,7 @@ describe('background', () => {
     })
   })
 
-  it('transforms background to backgroundColor with named colour', () => {
+  test('transforms background to backgroundColor with named colour', () => {
     expect(
       transform(`
       .test {
@@ -1227,7 +1229,7 @@ describe('background', () => {
 })
 
 describe('line-height', () => {
-  it('transforms line-height with value and unit', () => {
+  test('transforms line-height with value and unit', () => {
     expect(
       transform(`
       .test {
@@ -1240,7 +1242,7 @@ describe('line-height', () => {
       }
     })
   })
-  it('transforms line-height with rem unit', () => {
+  test('transforms line-height with rem unit', () => {
     expect(
       transform(`
       .test {
@@ -1253,7 +1255,7 @@ describe('line-height', () => {
       }
     })
   })
-  it('transforms line-height with %', () => {
+  test('transforms line-height with %', () => {
     expect(
       transform(`
       .test {
@@ -1266,7 +1268,7 @@ describe('line-height', () => {
       }
     })
   })
-  it('transforms line-height with pt unit', () => {
+  test('transforms line-height with pt unit', () => {
     expect(
       transform(`
       .test {
@@ -1279,7 +1281,7 @@ describe('line-height', () => {
       }
     })
   })
-  it('transforms line-height with viewport unit', () => {
+  test('transforms line-height with viewport unit', () => {
     expect(
       transform(`
       .test {
@@ -1293,7 +1295,7 @@ describe('line-height', () => {
       }
     })
   })
-  it('ignore line-height value with a multiplier', () => {
+  test('ignore line-height value with a multiplier', () => {
     expect(
       transform(`
       .test {
@@ -1307,7 +1309,7 @@ describe('line-height', () => {
 })
 
 describe('margin', () => {
-  it('transforms margin shorthands using 4 values', () => {
+  test('transforms margin shorthands using 4 values', () => {
     expect(
       transform(`
       .test {
@@ -1324,7 +1326,7 @@ describe('margin', () => {
     })
   })
 
-  it('transforms margin shorthands using 3 values', () => {
+  test('transforms margin shorthands using 3 values', () => {
     expect(
       transform(`
       .test {
@@ -1341,7 +1343,7 @@ describe('margin', () => {
     })
   })
 
-  it('transforms margin shorthands using 2 values', () => {
+  test('transforms margin shorthands using 2 values', () => {
     expect(
       transform(`
       .test {
@@ -1358,7 +1360,7 @@ describe('margin', () => {
     })
   })
 
-  it('transforms margin shorthands using 1 value', () => {
+  test('transforms margin shorthands using 1 value', () => {
     expect(
       transform(`
       .test {
@@ -1375,7 +1377,7 @@ describe('margin', () => {
     })
   })
 
-  it('shorthand with 1 value should override previous values', () => {
+  test('shorthand with 1 value should override previous values', () => {
     expect(
       transform(`
       .test {
@@ -1388,7 +1390,7 @@ describe('margin', () => {
     })
   })
 
-  it('transforms margin shorthand with auto', () => {
+  test('transforms margin shorthand with auto', () => {
     expect(
       transform(`
       .test {
@@ -1463,7 +1465,7 @@ describe('margin', () => {
 })
 
 describe('text-decoration', () => {
-  it('transforms text-decoration into text-decoration- properties', () => {
+  test('transforms text-decoration into text-decoration- properties', () => {
     expect(
       transform(`
       .test {
@@ -1479,7 +1481,7 @@ describe('text-decoration', () => {
     })
   })
 
-  it('transforms text-decoration without color', () => {
+  test('transforms text-decoration without color', () => {
     expect(
       transform(`
       .test {
@@ -1495,7 +1497,7 @@ describe('text-decoration', () => {
     })
   })
 
-  it('transforms text-decoration without style', () => {
+  test('transforms text-decoration without style', () => {
     expect(
       transform(`
       .test {
@@ -1511,7 +1513,7 @@ describe('text-decoration', () => {
     })
   })
 
-  it('transforms text-decoration without style and color', () => {
+  test('transforms text-decoration without style and color', () => {
     expect(
       transform(`
       .test {
@@ -1527,7 +1529,7 @@ describe('text-decoration', () => {
     })
   })
 
-  it('transforms text-decoration with two line properties', () => {
+  test('transforms text-decoration with two line properties', () => {
     expect(
       transform(`
       .test {
@@ -1543,7 +1545,7 @@ describe('text-decoration', () => {
     })
   })
 
-  it('transforms text-decoration in different order', () => {
+  test('transforms text-decoration in different order', () => {
     expect(
       transform(`
       .test {
@@ -1559,7 +1561,7 @@ describe('text-decoration', () => {
     })
   })
 
-  it('transforms text-decoration with ine in different order', () => {
+  test('transforms text-decoration with ine in different order', () => {
     expect(
       transform(`
       .test {
@@ -1575,7 +1577,7 @@ describe('text-decoration', () => {
     })
   })
 
-  it('transforms text-decoration with none', () => {
+  test('transforms text-decoration with none', () => {
     expect(
       transform(`
       .test {
@@ -1591,7 +1593,7 @@ describe('text-decoration', () => {
     })
   })
 
-  it('transforms text-decoration with none as part of multiple terms', () => {
+  test('transforms text-decoration with none as part of multiple terms', () => {
     expect(
       transform(`
       .test {
@@ -1607,7 +1609,7 @@ describe('text-decoration', () => {
     })
   })
 
-  it('transforms text-decoration with none in capitals', () => {
+  test('transforms text-decoration with none in capitals', () => {
     expect(
       transform(`
       .test {
@@ -1623,7 +1625,7 @@ describe('text-decoration', () => {
     })
   })
 
-  it('transforms text-decoration with style in capitals', () => {
+  test('transforms text-decoration with style in capitals', () => {
     expect(
       transform(`
       .test {
@@ -1639,7 +1641,7 @@ describe('text-decoration', () => {
     })
   })
 
-  it('does not transform text-decoration if multiple colors are used', () => {
+  test('does not transform text-decoration if multiple colors are used', () => {
     expect(() =>
       transform(`
       .test {
@@ -1653,7 +1655,7 @@ describe('text-decoration', () => {
 })
 
 describe('text-decoration-line', () => {
-  it('transforms text-decoration-line with underline line-through', () => {
+  test('transforms text-decoration-line with underline line-through', () => {
     expect(
       transform(`
       .test {
@@ -1667,7 +1669,7 @@ describe('text-decoration-line', () => {
     })
   })
 
-  it('transforms text-decoration-line with line-through underline', () => {
+  test('transforms text-decoration-line with line-through underline', () => {
     expect(
       transform(`
       .test {
@@ -1681,7 +1683,7 @@ describe('text-decoration-line', () => {
     })
   })
 
-  it('transforms text-decoration-line with none', () => {
+  test('transforms text-decoration-line with none', () => {
     expect(
       transform(`
       .test {
@@ -1697,7 +1699,7 @@ describe('text-decoration-line', () => {
 })
 
 describe('flex-box', () => {
-  it('transforms flex shorthand with 3 values', () => {
+  test('transforms flex shorthand with 3 values', () => {
     expect(
       transform(`
       .test {
@@ -1709,7 +1711,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flex shorthand with 3 values in reverse order', () => {
+  test('transforms flex shorthand with 3 values in reverse order', () => {
     expect(
       transform(`
       .test {
@@ -1721,7 +1723,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flex shorthand with 2 values of flex-grow and flex-shrink', () => {
+  test('transforms flex shorthand with 2 values of flex-grow and flex-shrink', () => {
     expect(
       transform(`
       .test {
@@ -1733,7 +1735,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flex shorthand with 2 values of flex-grow and flex-basis', () => {
+  test('transforms flex shorthand with 2 values of flex-grow and flex-basis', () => {
     expect(
       transform(`
       .test {
@@ -1745,7 +1747,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flex shorthand with 2 values of flex-grow and flex-basis (reversed)', () => {
+  test('transforms flex shorthand with 2 values of flex-grow and flex-basis (reversed)', () => {
     expect(
       transform(`
       .test {
@@ -1757,7 +1759,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flex shorthand with 1 value of flex-grow', () => {
+  test('transforms flex shorthand with 1 value of flex-grow', () => {
     expect(
       transform(`
       .test {
@@ -1769,7 +1771,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flex shorthand with 1 value of flex-basis', () => {
+  test('transforms flex shorthand with 1 value of flex-basis', () => {
     expect(
       transform(`
       .test {
@@ -1786,7 +1788,7 @@ describe('flex-box', () => {
     factor. To avoid misinterpretation or invalid declarations, authors must specify a zero
     <‘flex-basis’> component with a unit or precede it by two flex factors.
   */
-  it('transforms flex shorthand with flex-grow/shrink taking priority over basis', () => {
+  test('transforms flex shorthand with flex-grow/shrink taking priority over basis', () => {
     expect(
       transform(`
       .test {
@@ -1798,7 +1800,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flex shorthand with flex-basis set to auto', () => {
+  test('transforms flex shorthand with flex-basis set to auto', () => {
     expect(
       transform(`
       .test {
@@ -1810,7 +1812,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flex shorthand with flex-basis set to auto appearing first', () => {
+  test('transforms flex shorthand with flex-basis set to auto appearing first', () => {
     expect(
       transform(`
       .test {
@@ -1822,7 +1824,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flex auto keyword', () => {
+  test('transforms flex auto keyword', () => {
     expect(
       transform(`
       .test {
@@ -1834,7 +1836,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flex none keyword', () => {
+  test('transforms flex none keyword', () => {
     expect(
       transform(`
       .test {
@@ -1846,7 +1848,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flexFlow shorthand with two values', () => {
+  test('transforms flexFlow shorthand with two values', () => {
     expect(
       transform(`
       .test {
@@ -1858,7 +1860,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flexFlow shorthand missing flexDirection', () => {
+  test('transforms flexFlow shorthand missing flexDirection', () => {
     expect(
       transform(`
       .test {
@@ -1870,7 +1872,7 @@ describe('flex-box', () => {
     })
   })
 
-  it('transforms flexFlow shorthand missing flexWrap', () => {
+  test('transforms flexFlow shorthand missing flexWrap', () => {
     expect(
       transform(`
       .test {
@@ -1882,7 +1884,7 @@ describe('flex-box', () => {
     })
   })
 
-  it("does not transform invalid flex'", () => {
+  test("does not transform invalid flex'", () => {
     expect(() => {
       transform(`
       .test {
@@ -1894,7 +1896,7 @@ describe('flex-box', () => {
 })
 
 describe('font', () => {
-  it('transforms font', () => {
+  test('transforms font', () => {
     expect(
       transform(`
       .test {
@@ -1913,7 +1915,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font missing font-variant', () => {
+  test('transforms font missing font-variant', () => {
     expect(
       transform(`
       .test {
@@ -1932,7 +1934,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font missing font-style', () => {
+  test('transforms font missing font-style', () => {
     expect(
       transform(`
       .test {
@@ -1951,7 +1953,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font missing font-weight', () => {
+  test('transforms font missing font-weight', () => {
     expect(
       transform(`
       .test {
@@ -1970,7 +1972,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font with font-weight normal', () => {
+  test('transforms font with font-weight normal', () => {
     expect(
       transform(`
       .test {
@@ -1989,7 +1991,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font with font-weight and font-style normal', () => {
+  test('transforms font with font-weight and font-style normal', () => {
     expect(
       transform(`
       .test {
@@ -2008,7 +2010,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font with no font-weight, font-style, and font-variant', () => {
+  test('transforms font with no font-weight, font-style, and font-variant', () => {
     expect(
       transform(`
       .test {
@@ -2027,7 +2029,7 @@ describe('font', () => {
     })
   })
 
-  it('omits line height if not specified', () => {
+  test('omits line height if not specified', () => {
     expect(
       transform(`
       .test {
@@ -2045,7 +2047,7 @@ describe('font', () => {
     })
   })
 
-  it('allows line height as multiple', () => {
+  test('allows line height as multiple', () => {
     expect(
       transform(`
       .test {
@@ -2064,7 +2066,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font without quotes', () => {
+  test('transforms font without quotes', () => {
     expect(
       transform(`
       .test {
@@ -2083,7 +2085,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font-family with double quotes', () => {
+  test('transforms font-family with double quotes', () => {
     expect(
       transform(`
       .test {
@@ -2097,7 +2099,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font-family with single quotes', () => {
+  test('transforms font-family with single quotes', () => {
     expect(
       transform(`
       .test {
@@ -2111,7 +2113,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font-family without quotes', () => {
+  test('transforms font-family without quotes', () => {
     expect(
       transform(`
       .test {
@@ -2125,7 +2127,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font-family with quotes with otherwise invalid values', () => {
+  test('transforms font-family with quotes with otherwise invalid values', () => {
     expect(
       transform(`
       .test {
@@ -2139,7 +2141,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font-family with quotes with escaped values', () => {
+  test('transforms font-family with quotes with escaped values', () => {
     expect(
       transform(`
       .test {
@@ -2153,7 +2155,7 @@ describe('font', () => {
     })
   })
 
-  it('transforms font-family with quotes with escaped quote', () => {
+  test('transforms font-family with quotes with escaped quote', () => {
     expect(
       transform(`
       .test {
@@ -2167,7 +2169,7 @@ describe('font', () => {
     })
   })
 
-  it('does not transform invalid unquoted font-family', () => {
+  test('does not transform invalid unquoted font-family', () => {
     expect(() => {
       transform(`
       .test {
@@ -2181,7 +2183,7 @@ describe('font', () => {
 })
 
 describe('box-shadow', () => {
-  it('transforms box-shadow into shadow- properties', () => {
+  test('transforms box-shadow into shadow- properties', () => {
     expect(
       transform(`
       .test {
@@ -2226,7 +2228,7 @@ describe('box-shadow', () => {
     })
   })
 
-  it('supports rgb values', () => {
+  test('supports rgb values', () => {
     expect(
       transform(`
       .test {
@@ -2243,7 +2245,7 @@ describe('box-shadow', () => {
     })
   })
 
-  it('supports rgba values', () => {
+  test('supports rgba values', () => {
     expect(
       transform(`
       .test {
@@ -2260,7 +2262,7 @@ describe('box-shadow', () => {
     })
   })
 
-  it('supports box-shadow with hsl color', () => {
+  test('supports box-shadow with hsl color', () => {
     expect(
       transform(`
       .test {
@@ -2277,7 +2279,7 @@ describe('box-shadow', () => {
     })
   })
 
-  it('supports box-shadow with hsla color', () => {
+  test('supports box-shadow with hsla color', () => {
     expect(
       transform(`
       .test {
@@ -2294,7 +2296,7 @@ describe('box-shadow', () => {
     })
   })
 
-  it('trims values', () => {
+  test('trims values', () => {
     expect(
       transform(`
       .test {
@@ -2311,7 +2313,7 @@ describe('box-shadow', () => {
     })
   })
 
-  it('transforms box-shadow with 0 values', () => {
+  test('transforms box-shadow with 0 values', () => {
     expect(
       transform(`
       .test {
@@ -2356,7 +2358,7 @@ describe('box-shadow', () => {
     })
   })
 
-  it('transforms box-shadow without blur-radius', () => {
+  test('transforms box-shadow without blur-radius', () => {
     expect(
       transform(`
       .test {
@@ -2373,7 +2375,7 @@ describe('box-shadow', () => {
     })
   })
 
-  it('transforms box-shadow without color', () => {
+  test('transforms box-shadow without color', () => {
     expect(
       transform(`
       .test {
@@ -2390,7 +2392,7 @@ describe('box-shadow', () => {
     })
   })
 
-  it('transforms box-shadow without blur-radius, color', () => {
+  test('transforms box-shadow without blur-radius, color', () => {
     expect(
       transform(`
       .test {
@@ -2407,7 +2409,7 @@ describe('box-shadow', () => {
     })
   })
 
-  it('transforms box-shadow enforces offset to be present', () => {
+  test('transforms box-shadow enforces offset to be present', () => {
     expect(() => {
       transform(`
       .test {
@@ -2417,7 +2419,7 @@ describe('box-shadow', () => {
     }).toThrowError('Failed to parse declaration "boxShadow: red"')
   })
 
-  it('transforms box-shadow and throws if multiple colors are used', () => {
+  test('transforms box-shadow and throws if multiple colors are used', () => {
     expect(() => {
       transform(`
       .test {
@@ -2429,7 +2431,7 @@ describe('box-shadow', () => {
     )
   })
 
-  it('transforms box-shadow and enforces offset-y if offset-x present', () => {
+  test('transforms box-shadow and enforces offset-y if offset-x present', () => {
     expect(() => {
       transform(`
       .test {
@@ -2439,7 +2441,7 @@ describe('box-shadow', () => {
     }).toThrowError('Failed to parse declaration "boxShadow: 10px"')
   })
 
-  it('transforms box-shadow and enforces units for non 0 values', () => {
+  test('transforms box-shadow and enforces units for non 0 values', () => {
     expect(() => {
       transform(`
       .test {
@@ -2467,7 +2469,7 @@ describe('box-shadow', () => {
 })
 
 describe('text-shadow', () => {
-  it('textShadow with all values', () => {
+  test('textShadow with all values', () => {
     expect(
       transform(`
       .test {
@@ -2483,7 +2485,7 @@ describe('text-shadow', () => {
     })
   })
 
-  it('textShadow omitting blur', () => {
+  test('textShadow omitting blur', () => {
     expect(
       transform(`
       .test {
@@ -2499,7 +2501,7 @@ describe('text-shadow', () => {
     })
   })
 
-  it('textShadow omitting color', () => {
+  test('textShadow omitting color', () => {
     expect(
       transform(`
       .test {
@@ -2515,7 +2517,7 @@ describe('text-shadow', () => {
     })
   })
 
-  it('textShadow enforces offset-x and offset-y', () => {
+  test('textShadow enforces offset-x and offset-y', () => {
     expect(() =>
       transform(`
       .test {
@@ -2534,7 +2536,7 @@ describe('text-shadow', () => {
 })
 
 describe('rem unit', () => {
-  it('should transform a single rem value', () => {
+  test('should transform a single rem value', () => {
     expect(
       transform(`
       .test1 {
@@ -2557,7 +2559,7 @@ describe('rem unit', () => {
     })
   })
 
-  it('should transform multiple rem values', () => {
+  test('should transform multiple rem values', () => {
     expect(
       transform(`
       .test1 {
@@ -2580,7 +2582,7 @@ describe('rem unit', () => {
     })
   })
 
-  it('should support decimal values', () => {
+  test('should support decimal values', () => {
     expect(
       transform(`
       .test1 {
@@ -2616,7 +2618,7 @@ describe('rem unit', () => {
 })
 
 describe('viewport units', () => {
-  it('should transform viewport units', () => {
+  test('should transform viewport units', () => {
     expect(
       transform(`
       .test {
@@ -2645,7 +2647,7 @@ describe('viewport units', () => {
 })
 
 describe('media queries', () => {
-  it('transforms media queries', () => {
+  test('transforms media queries', () => {
     expect(
       transform(
         `
@@ -2690,7 +2692,7 @@ describe('media queries', () => {
     })
   })
 
-  it('merges media queries', () => {
+  test('merges media queries', () => {
     expect(
       transform(
         `
@@ -2749,7 +2751,7 @@ describe('media queries', () => {
     })
   })
 
-  it('does not transform media queries without option enabled', () => {
+  test('does not transform media queries without option enabled', () => {
     expect(
       transform(`
       .container {
@@ -2792,7 +2794,7 @@ describe('media queries', () => {
     })
   })
 
-  it('should support screen type', () => {
+  test('should support screen type', () => {
     expect(
       transform(
         `
@@ -2847,7 +2849,7 @@ describe('media queries', () => {
     })
   })
 
-  it('should support all type', () => {
+  test('should support all type', () => {
     expect(
       transform(
         `
@@ -2902,7 +2904,7 @@ describe('media queries', () => {
     })
   })
 
-  it('should support platform types', () => {
+  test('should support platform types', () => {
     expect(
       transform(
         `
@@ -3043,7 +3045,7 @@ describe('media queries', () => {
     })
   })
 
-  it('should support NOT operator', () => {
+  test('should support NOT operator', () => {
     expect(
       transform(
         `
@@ -3088,7 +3090,7 @@ describe('media queries', () => {
     })
   })
 
-  it('should support OR queries', () => {
+  test('should support OR queries', () => {
     expect(
       transform(
         `
@@ -3140,7 +3142,7 @@ describe('media queries', () => {
     })
   })
 
-  it('should throw for invalid types', () => {
+  test('should throw for invalid types', () => {
     expect(() =>
       transform(
         `
@@ -3195,7 +3197,7 @@ describe('media queries', () => {
     ).toThrow('Failed to parse media query type "linux"')
   })
 
-  it('should throw for invalid features', () => {
+  test('should throw for invalid features', () => {
     expect(() =>
       transform(
         `
@@ -3232,7 +3234,7 @@ describe('media queries', () => {
     ).toThrow('Failed to parse media query feature "orientations"')
   })
 
-  it('should throw for values without units', () => {
+  test('should throw for values without units', () => {
     expect(() =>
       transform(
         `
@@ -3290,7 +3292,7 @@ describe('media queries', () => {
 describe('ICSS :export pseudo-selector', () => {
   // https://github.com/css-modules/icss#export
 
-  it('should parse ICSS :export pseudo-selectors', () => {
+  test('should parse ICSS :export pseudo-selectors', () => {
     expect(
       transform(`
       :export {
@@ -3304,7 +3306,7 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
-  it('if there is more than :export one in a file, the keys and values are combined and exported together', () => {
+  test('if there is more than :export one in a file, the keys and values are combined and exported together', () => {
     expect(
       transform(`
 
@@ -3331,7 +3333,7 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
-  it('should support exportedKey value with spaces', () => {
+  test('should support exportedKey value with spaces', () => {
     expect(
       transform(`
       :export {
@@ -3350,7 +3352,7 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
-  it('an exportedValue does not need to be quoted, it is already treated as a literal string', () => {
+  test('an exportedValue does not need to be quoted, it is already treated as a literal string', () => {
     expect(
       transform(`
       :export {
@@ -3371,7 +3373,7 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
-  it('should parse :export and support the same exportedKey with different case', () => {
+  test('should parse :export and support the same exportedKey with different case', () => {
     expect(
       transform(`
       :export {
@@ -3385,7 +3387,7 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
-  it('should parse a selector and :export', () => {
+  test('should parse a selector and :export', () => {
     expect(
       transform(`
       .foo {
@@ -3408,7 +3410,7 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
-  it('should do nothing with an empty :export block', () => {
+  test('should do nothing with an empty :export block', () => {
     expect(
       transform(`
       .foo {
@@ -3425,7 +3427,7 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
-  it('if a particular exportedKey is duplicated, the last (in source order) takes precedence.', () => {
+  test('if a particular exportedKey is duplicated, the last (in source order) takes precedence.', () => {
     expect(
       transform(`
       .foo {
@@ -3489,7 +3491,7 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
-  it('does not transform value to scalePx2dp when option scalable false', () => {
+  test('does not transform value to scalePx2dp when option scalable false', () => {
     expect(
       transform(`
       .foo {
@@ -3506,7 +3508,7 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
-  it('should transform border-[direction] property', () => {
+  test('should transform border-[direction] property', () => {
     expect(
       transform(`
       .left {
@@ -3546,7 +3548,7 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
-  it('should transform propertyValue remove !import key', () => {
+  test('should transform propertyValue remove !import key', () => {
     expect(
       transform(`
       .foo {
@@ -3560,7 +3562,7 @@ describe('ICSS :export pseudo-selector', () => {
     })
   })
 
-  it('should throw an error if exportedKey has the same name as a class and is defined twice', () => {
+  test('should throw an error if exportedKey has the same name as a class and is defined twice', () => {
     expect(() =>
       transform(`
       :export {
@@ -3577,7 +3579,7 @@ describe('ICSS :export pseudo-selector', () => {
     )
   })
 
-  it('should throw an error if exportedKey has the same name as a class', () => {
+  test('should throw an error if exportedKey has the same name as a class', () => {
     expect(() =>
       transform(`
       .foo {
@@ -3623,7 +3625,7 @@ describe('ICSS :export pseudo-selector', () => {
     )
   })
 
-  it('should throw for :export that is not top level', () => {
+  test('should throw for :export that is not top level', () => {
     expect(() =>
       transform(`
       .foo {
@@ -3637,8 +3639,7 @@ describe('ICSS :export pseudo-selector', () => {
   })
 })
 describe('ReDos', () => {
-  jest.setTimeout(1000)
-  it('should finish transform of 100k zeros + "p" in under 1s', () => {
+  test('should finish transform of 100k zeros + "p" in under 1s', () => {
     const bigValue = '0'.repeat(100000) + 'p'
     const cssString = `
       .foo { some-prop: "${bigValue}"; }

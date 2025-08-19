@@ -1,7 +1,9 @@
+import { describe, expect, test } from 'vitest'
+
 import { indent } from '../src/utils'
 
 describe('shared utils', () => {
-  it('#indent', async () => {
+  test('#indent', async () => {
     const inner =
 `<text>
   hello, world

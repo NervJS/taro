@@ -1,4 +1,5 @@
 import { document, options } from '@tarojs/runtime'
+import { describe, expect, test } from 'vitest'
 
 import { Sizzle } from '../src/jquery/sizzle'
 
@@ -13,30 +14,29 @@ describe('selector', () => {
   dom.setAttribute('class', 'test')
   document.body.appendChild(dom)
 
-  it('should work with ID', () => {
+  test('should work with ID', () => {
     const $dom = Sizzle('#test')
     expect($dom[0]).toBe(dom)
   })
 
-  it('should work with tagName', () => {
+  test('should work with tagName', () => {
     const $dom = Sizzle('main')
     expect($dom[0]).toBe(dom)
   })
 
-  it('should work with className', () => {
+  test('should work with className', () => {
     const $dom = Sizzle('.test')
     expect($dom[0]).toBe(dom)
   })
 
   // TODO: 待修复
-  it.skip('should work with >', () => {
+  test.skip('should work with >', () => {
     dom.innerHTML = '<view class="t1" id="t1"></view>'
     const $dom = Sizzle('main > .t1')
     expect($dom[0]).toBe(dom.firstChild)
   })
 
-  describe('css3', () => {
-    dom.innerHTML = `
+  dom.innerHTML = `
     <h1 id="header">jQuery Test Suite</h1>
     <h2 id="banner"></h2>
     <h2 id="userAgent"></h2>
@@ -109,9 +109,9 @@ describe('selector', () => {
           <param name="p2" value="x2" />
         </object>
 
-        <span id="台北Táiběi"></span>
+        <span id="台北 Táiběi"></span>
         <span id="台北" lang="中文"></span>
-        <span id="utf8class1" class="台北Táiběi 台北"></span>
+        <span id="utf8class1" class="台北 Táiběi 台北"></span>
         <span id="utf8class2" class="台北"></span>
         <span id="foo:bar" class="foo:bar"></span>
         <span id="test.foo[5]bar" class="test.foo[5]bar"></span>
@@ -236,10 +236,9 @@ describe('selector', () => {
 
     <ol id="tests"></ol>
 `
-  })
 
   function testById (selector, ids) {
-    it(selector, () => {
+    test(selector, () => {
       const $target = Sizzle(selector)
       expect($target.length).toBeGreaterThan(0)
       expect($target.map(t => t.id)).toEqual(ids)

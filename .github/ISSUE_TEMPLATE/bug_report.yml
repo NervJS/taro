@@ -21,6 +21,37 @@ body:
         - v1
     validations:
       required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: 相关领域
+      options:
+        - H5 API
+        - Babel
+        - CLI
+        - H5 组件库
+        - 高阶组件
+        - H5 路由
+        - Webpack loader
+        - Webpack runner
+        - 插件化机制
+        - 依赖预编译
+        - 运行时
+        - Taro 化
+        - TypeScript 类型
+        - 性能问题
+  - type: dropdown
+    id: framework
+    attributes:
+      label: 使用框架
+      options:
+        - React
+        - Preact
+        - Solid
+        - Vue3
+        - Vue2
+    validations:
+      required: true
   - type: checkboxes
     id: platform
     attributes:
@@ -50,18 +81,6 @@ body:
     attributes:
       label: 小程序基础库版本
       description: 你可以在小程序开发者工具的「详情」中找到小程序基础库版本。
-  - type: dropdown
-    id: framework
-    attributes:
-      label: 使用框架
-      options:
-        - React
-        - Preact
-        - Solid
-        - Vue3
-        - Vue2
-    validations:
-      required: true
   - type: textarea
     id: description
     attributes:
@@ -99,6 +118,6 @@ body:
   - type: checkboxes
     id: contribute
     attributes:
-      label: 贡献代码
+      label: 开源贡献
       options:
         - label: 我愿意修复这个错误。请参考 [(贡献指南)](https://github.com/NervJS/taro/blob/main/CONTRIBUTING.md)

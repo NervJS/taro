@@ -16,7 +16,7 @@
     "prebuild": "pnpm run clean",
     "clean": "rimraf ./dist",
     "build": "babel src --ignore *.spec.js --out-dir ./dist",
-    "test": "jest"
+    "test": "vitest run"
   },
   "repository": {
     "type": "git",
@@ -28,28 +28,6 @@
     "styles",
     "CSS"
   ],
-  "jest": {
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "coverageDirectory": "./.coverage/",
-    "coverageReporters": [
-      "lcov",
-      "text"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 75,
-        "functions": 75,
-        "lines": 75,
-        "statements": 75
-      }
-    },
-    "testPathIgnorePatterns": [
-      "<rootDir>/dist",
-      "<rootDir>/node_modules"
-    ]
-  },
   "engines": {
     "node": ">= 18"
   },
