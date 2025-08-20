@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runner-utils",
-  "version": "4.1.5",
+  "version": "4.1.5-beta.5",
   "description": "Taro runner utilities.",
   "author": "O2Team",
   "license": "MIT",
