@@ -15,7 +15,10 @@ describe('jsx style plugin', () => {
       plugins: [[jSXStylePlugin, { enableCSSModule, enableMultipleClassName }], syntaxJSX],
       configFile: false
     })
-    const code = result?.code ?? ''
+    if (!result || !result.code) {
+      throw new Error('Babel transform returned no code')
+    }
+    const code = result.code
     if (debug) {
       // eslint-disable-next-line
       console.log(source + '\n')
