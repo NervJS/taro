@@ -69,6 +69,8 @@ export function PickerGroupBasic(props: PickerGroupProps) {
     }
     // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
     isCenterTimerId.current = setTimeout(() => {
+      if (!scrollViewRef.current) return
+
       const scrollTop = scrollViewRef.current.scrollTop
       const newIndex = getSelectedIndex(scrollTop)
 
@@ -202,6 +204,8 @@ export function PickerGroupTime(props: PickerGroupProps) {
     }
     // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
     isCenterTimerId.current = setTimeout(() => {
+      if (!scrollViewRef.current) return
+
       const scrollTop = scrollViewRef.current.scrollTop
       const newIndex = getSelectedIndex(scrollTop)
       setIsTouching(false)
@@ -337,6 +341,8 @@ export function PickerGroupDate(props: PickerGroupProps) {
 
     // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
     isCenterTimerId.current = setTimeout(() => {
+      if (!scrollViewRef.current) return
+
       const scrollTop = scrollViewRef.current.scrollTop
       const newIndex = getSelectedIndex(scrollTop)
 
@@ -470,6 +476,8 @@ export function PickerGroupRegion(props: PickerGroupProps) {
     }
     // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
     isCenterTimerId.current = setTimeout(() => {
+      if (!scrollViewRef.current) return
+
       const scrollTop = scrollViewRef.current.scrollTop
       const newIndex = getSelectedIndex(scrollTop)
 
