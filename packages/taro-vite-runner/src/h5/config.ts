@@ -105,10 +105,68 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
   if (isBoolean(serverOption.open) || isString(serverOption.open)) {
     open = serverOption.open
   }
+  let cors: boolean | Record<string, any> = true // 明确声明为联合类型
+  const corsOption = (serverOption as any).cors
+  if (isBoolean(corsOption) || isObject<Record<string, any>>(corsOption)) {
+    cors = corsOption
+  }
+  let watch: Record<string, any> = {} // 默认值为空对象
+  const watchOption = (serverOption as any).watch
+  if (isObject<Record<string, any>>(watchOption)) {
+    watch = watchOption
+  }
+  let strictPort = false // 默认值为false
+  const strictPortOption = (serverOption as any).strictPort
+  if (isBoolean(strictPortOption)) {
+    strictPort = strictPortOption
+  }
+  let middlewareMode: 'ssr' | 'html' | false = false // 默认值为false（禁用中间件模式）
+  const middlewareModeOption = (serverOption as any).middlewareMode
+  if (middlewareModeOption === 'ssr' || middlewareModeOption === 'html') {
+    middlewareMode = middlewareModeOption
+  }
+  let base: string | undefined // 默认值为undefined
+  const baseOption = (serverOption as any).base
+  if (isString(baseOption)) {
+    let formattedBase = baseOption
+    if (!formattedBase.startsWith('/')) {
+      formattedBase = '/' + formattedBase
+    }
+    if (!formattedBase.endsWith('/')) {
+      formattedBase += '/'
+    }
+    base = formattedBase
+  }
+  let origin = '' // 默认值为空字符串
+  const originOption = (serverOption as any).origin
+  if (isString(originOption)) {
+    origin = originOption
+  }
+  let fsStrict = true // 默认值为true（自Vite 2.7起默认启用）
+  const fsStrictOption = (serverOption as any).strict
+  if (isBoolean(fsStrictOption)) {
+    fsStrict = fsStrictOption
+  }
+  let fsAllow: string[] = [] // 默认值为空数组
+  const fsAllowOption = (serverOption as any).allow
+  if (Array.isArray(fsAllowOption)) {
+    fsAllow = fsAllowOption
+  }
+  let fsDeny: string[] = ['.env', '.env.*', '*.{crt,pem}', '**/.git/**'] // 默认值为安全的黑名单
+  const fsDenyOption = (serverOption as any).deny
+  if (Array.isArray(fsDenyOption)) {
+    fsDeny = fsDenyOption
+  }
   const mode = getMode(taroConfig)
   const mainFields = [...defaultMainFields]
   if (!isProd) {
     mainFields.unshift('main:h5')
+  }
+  let allowedHosts: true | string[] | undefined
+  if ((serverOption as any).allowedHosts === true || Array.isArray((serverOption as any).allowedHosts)) {
+    allowedHosts = (serverOption as any).allowedHosts
+  } else if (isString((serverOption as any).allowedHosts) && (serverOption as any).allowedHosts) {
+    allowedHosts = [(serverOption as any).allowedHosts]
   }
 
   return {
@@ -176,19 +234,18 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         proxy: (serverOption.proxy as any) || {},
         headers,
         hmr,
-        watch: serverOption.watch ?? {},
+        watch,
         fs: {
-          strict: serverOption.strict ?? true,
-          allow: serverOption.allow ?? [],
-          deny: serverOption.deny ?? ['.env', '.env.*', '*.{crt,pem}', '**/.git/**'],
+          strict: fsStrict,
+          allow: fsAllow,
+          deny: fsDeny,
         },
-        allowedHosts: serverOption.allowedHosts || [],
-        middlewareMode: serverOption.middlewareMode ?? false,
-        strictPort: serverOption.strictPort ?? false,
-        sourcemapIgnoreList: serverOption.sourcemapIgnoreList ?? ((sourcePath) => sourcePath.includes('node_modules')),
-        origin: serverOption.origin,
-        cors: serverOption.cors ?? true,
-        warmup: serverOption.warmup ?? {},
+        allowedHosts,
+        middlewareMode,
+        strictPort,
+        base,
+        origin,
+        cors,
       },
       css: {
         postcss: {
