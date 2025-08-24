@@ -85,3 +85,8 @@ artifacts
 # Node Addons
 *.node
 chrome
+
+.nx/cache
+.nx/workspace-data
+
+.github/instructions
