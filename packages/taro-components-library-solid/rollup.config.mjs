@@ -7,7 +7,7 @@ import postcss from 'rollup-plugin-postcss'
 const config = {
   input: ['src/index.ts', 'src/component-lib/index.ts'],
   output: {
-    dir: '../taro-components/lib/solid',
+    dir: 'dist',
     exports: 'named',
     preserveModules: true,
     preserveModulesRoot: 'src',
