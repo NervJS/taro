@@ -283,6 +283,11 @@ interface ButtonProps extends StandardProps {
    * @supported tt
    */
   onJoinGroup?: CommonEventFunction<{ errMsg: string; errNo: number }>
+    /** 多端框架新增组件 本机号码一键登录
+   * 一键登录回调，open-type=phoneOneClickLogin 时有效
+   * @supported weapp
+   */
+  onPhoneOneClickLogin?: CommonEventFunction
 }
 declare namespace ButtonProps {
   /** size 的合法值 */
