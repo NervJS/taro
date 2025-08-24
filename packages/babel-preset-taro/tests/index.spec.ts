@@ -1,8 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-const babelPresetTaro = require('..')
+import din from 'babel-plugin-dynamic-import-node'
+import { describe, expect, test } from 'vitest'
+
+import babelPresetTaro from '../index.js'
+
+const vp = require('@vue/babel-plugin-jsx')
 
 describe('babel-preset-taro', () => {
-  it('react', () => {
+  test('react', () => {
     const config = babelPresetTaro({}, {
       framework: 'react'
     })
@@ -10,7 +14,7 @@ describe('babel-preset-taro', () => {
     expect(config.sourceType).toBe('unambiguous')
   })
 
-  it('vue3', () => {
+  test('vue3', () => {
     const config = babelPresetTaro({}, {
       framework: 'vue3'
     })
@@ -20,11 +24,11 @@ describe('babel-preset-taro', () => {
     const [override] = config.overrides
 
     const [[jsxPlugin, jsxOptions]] = override.plugins
-    expect(jsxPlugin === require('@vue/babel-plugin-jsx')).toBeTruthy()
+    expect(jsxPlugin === vp).toBeTruthy()
     expect(jsxOptions).toEqual({})
   })
 
-  it('vue3 without jsx', () => {
+  test('vue3 without jsx', () => {
     const config = babelPresetTaro({}, {
       framework: 'vue3',
       vueJsx: false
@@ -34,11 +38,11 @@ describe('babel-preset-taro', () => {
 
     const [override] = config.overrides
 
-    const [[jsxPlugin, jsxOptions]] = override.plugins
-    expect(jsxPlugin === require('@vue/babel-plugin-jsx')).toBeFalsy()
+    const [[jsxPlugin,]] = override.plugins
+    expect(jsxPlugin === vp).toBeFalsy()
   })
 
-  it('typescript react', () => {
+  test('typescript react', () => {
     const config = babelPresetTaro({}, {
       framework: 'react',
       ts: true
@@ -53,7 +57,7 @@ describe('babel-preset-taro', () => {
     expect(tsconfig.jsxPragma === 'React').toBeTruthy()
   })
 
-  it('typescript vue3', () => {
+  test('typescript vue3', () => {
     const config = babelPresetTaro({}, {
       framework: 'vue3',
       ts: true
@@ -70,7 +74,7 @@ describe('babel-preset-taro', () => {
     expect(vueOverride.include.test('a.vue')).toBeTruthy()
   })
 
-  it('can change env options', () => {
+  test('can change env options', () => {
     const config = babelPresetTaro({}, {
       framework: 'react',
       ts: true,
@@ -87,7 +91,7 @@ describe('babel-preset-taro', () => {
     expect(env.loose).toBeFalsy()
   })
 
-  it('default env options', () => {
+  test('default env options', () => {
     const config = babelPresetTaro({}, {
       framework: 'react',
       ts: true,
@@ -111,7 +115,7 @@ describe('babel-preset-taro', () => {
     })
   })
 
-  it('has dynamic-import-node', () => {
+  test('has dynamic-import-node', () => {
     const config = babelPresetTaro({}, {
       framework: 'react',
       ts: true
@@ -122,10 +126,10 @@ describe('babel-preset-taro', () => {
     const [override] = config.overrides
 
     const [dynamicImportNode] = override.plugins[override.plugins.length - 2]
-    expect(dynamicImportNode === require('babel-plugin-dynamic-import-node')).toBeTruthy()
+    expect(dynamicImportNode === din).toBeTruthy()
   })
 
-  it('disable dynamic-import-node', () => {
+  test('disable dynamic-import-node', () => {
     const config = babelPresetTaro({}, {
       framework: 'react',
       ts: true,
@@ -137,10 +141,10 @@ describe('babel-preset-taro', () => {
     const [override] = config.overrides
 
     const [dynamicImportNode] = override.plugins[override.plugins.length - 2]
-    expect(dynamicImportNode === require('babel-plugin-dynamic-import-node')).toBeFalsy()
+    expect(dynamicImportNode === din).toBeFalsy()
   })
 
-  it('can react preset change', () => {
+  test('can react preset change', () => {
     const config = babelPresetTaro({}, {
       framework: 'react',
       ts: true,
