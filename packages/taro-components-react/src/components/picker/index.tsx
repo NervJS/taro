@@ -234,8 +234,8 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     } else if (mode === 'date') {
       const val = value as string
       let _value = verifyDate(val) || new Date(new Date().setHours(0, 0, 0, 0))
-      const _start = verifyDate(start) || new Date('1970/01/01')
-      const _end = verifyDate(end) || new Date('2999/01/01')
+      const _start = verifyDate(start) || new Date('1875/01/01')
+      const _end = verifyDate(end) || new Date('2100/01/01')
       if (!(_start <= _end)) {
         throw new Error(`Picker start time must be less than end time.`)
       }
