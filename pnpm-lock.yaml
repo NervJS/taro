@@ -375,6 +375,9 @@ importers:
 
   packages/babel-preset-taro:
     dependencies:
+      '@babel/helper-plugin-utils':
+        specifier: ^7.24.8
+        version: 7.26.5
       '@babel/plugin-proposal-decorators':
         specifier: ^7.24.1
         version: 7.25.9(@babel/core@7.26.10)
@@ -13792,7 +13795,7 @@ packages:
 
   puppeteer@19.11.1:
     resolution: {integrity: sha512-39olGaX2djYUdhaQQHDZ0T0GwEp+5f9UB9HmEP0qHfdQHIq0xGQZuAZ5TLnJIc/88SrPLpEflPC+xUqOTv3c5g==}
-    deprecated: < 22.8.2 is no longer supported
+    deprecated: < 24.9.0 is no longer supported
 
   pure-rand@6.1.0:
     resolution: {integrity: sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA==}
