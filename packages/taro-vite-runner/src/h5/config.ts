@@ -12,7 +12,7 @@ import { getHtmlScript } from '../utils/html'
 
 import type { PostcssOption } from '@tarojs/taro/types/compile'
 import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
-import type { PluginOption, ServerOptions } from 'vite'
+import type { PluginOption } from 'vite'
 
 
 export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
@@ -93,9 +93,9 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     esnextModules: taroConfig.esnextModules || []
   })
   const [, pxtransformOption] = __postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
-  const serverOption: ServerOptions = (taroConfig.devServer || {}) as ServerOptions
-  let headers: Record<string, string | string[]> = {}
-  if (isObject<Record<string, string | string[]>>(serverOption.headers)) {
+  const serverOption = taroConfig.devServer || {}
+  let headers = {}
+  if (isObject<Record<string, any>>(serverOption.headers)) {
     headers = serverOption.headers
   }
 
@@ -162,6 +162,11 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     allowedHosts = serverOption.allowedHosts
   } else if (isString(serverOption.allowedHosts) && serverOption.allowedHosts) {
     allowedHosts = [serverOption.allowedHosts]
+  }
+
+  let sourcemapIgnoreList: false | ((sourcePath: string, sourcemapPath: string) => boolean) = (sourcePath) => sourcePath.includes('node_modules')
+  if (typeof serverOption.sourcemapIgnoreList === 'boolean' || typeof serverOption.sourcemapIgnoreList === 'function') {
+    sourcemapIgnoreList = serverOption.sourcemapIgnoreList
   }
 
   return {
@@ -238,7 +243,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         allowedHosts,
         middlewareMode,
         strictPort,
-
+        sourcemapIgnoreList,
         origin,
         cors,
       },
