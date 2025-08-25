@@ -37,6 +37,7 @@ export default class AscfApp extends TaroPlatformBase {
       close () {
         this.modifyTemplate(pluginOptions)
         this.modifyWebpackConfig()
+        this.generateProjectConfig('ascf.config.json', 'ascf.config.json')
       }
     })
   }
