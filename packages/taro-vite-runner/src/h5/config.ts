@@ -14,6 +14,7 @@ import type { PostcssOption } from '@tarojs/taro/types/compile'
 import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 
+
 export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
   const { taroConfig, cwd: appPath, app, sourceDir } = viteCompilerContext
   const routerMode = taroConfig.router?.mode || 'hash'
@@ -97,18 +98,75 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
   if (isObject<Record<string, any>>(serverOption.headers)) {
     headers = serverOption.headers
   }
+
   let hmr = true
-  if (isBoolean(serverOption.hot)) {
-    hmr = serverOption.hot
+  if (isBoolean(serverOption.hmr)) {
+    hmr = serverOption.hmr
   }
+
   let open: string | boolean = true
   if (isBoolean(serverOption.open) || isString(serverOption.open)) {
     open = serverOption.open
   }
+
+
+  let cors: boolean | Record<string, any> = true
+  if (isBoolean(serverOption.cors) || isObject<Record<string, any>>(serverOption.cors)) {
+    cors = serverOption.cors
+  }
+
+
+  let watch: Record<string, any> = {}
+  if (isObject<Record<string, any>>(serverOption.watch)) {
+    watch = serverOption.watch
+  }
+
+  let strictPort = false
+  if (isBoolean(serverOption.strictPort)) {
+    strictPort = serverOption.strictPort
+  }
+
+  let middlewareMode: 'ssr' | 'html' | false = false
+  if (serverOption.middlewareMode === 'ssr' || serverOption.middlewareMode === 'html') {
+    middlewareMode = serverOption.middlewareMode
+  }
+
+  let origin = ''
+  if (isString(serverOption.origin)) {
+    origin = serverOption.origin
+  }
+
+  let fsStrict = true
+  if (serverOption.fs && isBoolean(serverOption.fs.strict)) {
+    fsStrict = serverOption.fs.strict
+  }
+
+  let fsAllow: string[] = []
+  if (serverOption.fs && Array.isArray(serverOption.fs.allow)) {
+    fsAllow = serverOption.fs.allow
+  }
+
+  let fsDeny: string[] = ['.env', '.env.*', '*.{crt,pem}', '**/.git/**']
+  if (serverOption.fs && Array.isArray(serverOption.fs.deny)) {
+    fsDeny = serverOption.fs.deny
+  }
+
   const mode = getMode(taroConfig)
   const mainFields = [...defaultMainFields]
   if (!isProd) {
     mainFields.unshift('main:h5')
+  }
+
+  let allowedHosts: true | string[] | undefined
+  if (serverOption.allowedHosts === true || Array.isArray(serverOption.allowedHosts)) {
+    allowedHosts = serverOption.allowedHosts
+  } else if (isString(serverOption.allowedHosts) && serverOption.allowedHosts) {
+    allowedHosts = [serverOption.allowedHosts]
+  }
+
+  let sourcemapIgnoreList: false | ((sourcePath: string, sourcemapPath: string) => boolean) = (sourcePath) => sourcePath.includes('node_modules')
+  if (typeof serverOption.sourcemapIgnoreList === 'boolean' || typeof serverOption.sourcemapIgnoreList === 'function') {
+    sourcemapIgnoreList = serverOption.sourcemapIgnoreList
   }
 
   return {
@@ -173,9 +231,21 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         port: serverOption.port ? Number(serverOption.port) : 10086,
         https: typeof serverOption.https !== 'boolean' ? serverOption.https : undefined,
         open,
-        proxy: (serverOption.proxy as any) || {},
+        proxy: serverOption.proxy || {} as Record<string, string | Record<string, any>>,
         headers,
         hmr,
+        watch,
+        fs: {
+          strict: fsStrict,
+          allow: fsAllow,
+          deny: fsDeny,
+        },
+        allowedHosts,
+        middlewareMode,
+        strictPort,
+        sourcemapIgnoreList,
+        origin,
+        cors,
       },
       css: {
         postcss: {
