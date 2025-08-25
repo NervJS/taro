@@ -1,5 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-const babelPresetTaro = require('..')
+import din from 'babel-plugin-dynamic-import-node'
+import { beforeAll, describe, expect, test } from 'vitest'
+
+import babelPresetTaro from '../index.js'
+
+const pfp = require('@prefresh/babel-plugin')
 
 describe('babel-preset-taro with h5', () => {
   beforeAll(() => {
@@ -7,7 +11,7 @@ describe('babel-preset-taro with h5', () => {
     process.env.TARO_ENV = 'h5'
   })
 
-  it('preact', () => {
+  test('preact', () => {
     const config = babelPresetTaro({}, {
       framework: 'preact'
     })
@@ -17,10 +21,10 @@ describe('babel-preset-taro with h5', () => {
     const [, override] = config.overrides
 
     const [prefreshPlugin] = override.plugins
-    expect(prefreshPlugin === require('@prefresh/babel-plugin')).toBeTruthy()
+    expect(prefreshPlugin === pfp).toBeTruthy()
   })
 
-  it('not exist dynamic-import-node', () => {
+  test('not exist dynamic-import-node', () => {
     const config = babelPresetTaro({}, {
       framework: 'react',
       ts: true
@@ -31,10 +35,10 @@ describe('babel-preset-taro with h5', () => {
     const [override] = config.overrides
 
     const [dynamicImportNode] = override.plugins[override.plugins.length - 2]
-    expect(dynamicImportNode === require('babel-plugin-dynamic-import-node')).toBeFalsy()
+    expect(dynamicImportNode === din).toBeFalsy()
   })
 
-  it('enable dynamic-import-node', () => {
+  test('enable dynamic-import-node', () => {
     const config = babelPresetTaro({}, {
       framework: 'react',
       ts: true,
@@ -46,6 +50,6 @@ describe('babel-preset-taro with h5', () => {
     const [override] = config.overrides
 
     const [dynamicImportNode] = override.plugins[override.plugins.length - 2]
-    expect(dynamicImportNode === require('babel-plugin-dynamic-import-node')).toBeTruthy()
+    expect(dynamicImportNode === din).toBeTruthy()
   })
 })
