@@ -12,30 +12,8 @@ import { getHtmlScript } from '../utils/html'
 
 import type { PostcssOption } from '@tarojs/taro/types/compile'
 import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
-import type { PluginOption } from 'vite'
+import type { PluginOption, ServerOptions } from 'vite'
 
-
-export interface ViteDevServerOptions {
-  host?: string | boolean
-  port?: number
-  https?: boolean | Record<string, any>
-  open?: boolean | string
-  proxy?: Record<string, string | Record<string, any>>
-  headers?: Record<string, string | string[]>
-  hot?: boolean
-  watch?: Record<string, any>
-  fs?: {
-    strict?: boolean
-    allow?: string[]
-    deny?: string[]
-  }
-  allowedHosts?: true | string[] | undefined
-  middlewareMode?: 'ssr' | 'html' | false
-  strictPort?: boolean
-  base?: string
-  origin?: string
-  cors?: boolean | Record<string, any>
-}
 
 export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
   const { taroConfig, cwd: appPath, app, sourceDir } = viteCompilerContext
@@ -115,15 +93,15 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     esnextModules: taroConfig.esnextModules || []
   })
   const [, pxtransformOption] = __postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
-  const serverOption: ViteDevServerOptions = (taroConfig.devServer || {}) as ViteDevServerOptions
+  const serverOption: ServerOptions = (taroConfig.devServer || {}) as ServerOptions
   let headers: Record<string, string | string[]> = {}
   if (isObject<Record<string, string | string[]>>(serverOption.headers)) {
     headers = serverOption.headers
   }
 
   let hmr = true
-  if (isBoolean(serverOption.hot)) {
-    hmr = serverOption.hot
+  if (isBoolean(serverOption.hmr)) {
+    hmr = serverOption.hmr
   }
 
   let open: string | boolean = true
@@ -151,18 +129,6 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
   let middlewareMode: 'ssr' | 'html' | false = false
   if (serverOption.middlewareMode === 'ssr' || serverOption.middlewareMode === 'html') {
     middlewareMode = serverOption.middlewareMode
-  }
-
-  let base: string | undefined
-  if (isString(serverOption.base)) {
-    let formattedBase = serverOption.base
-    if (!formattedBase.startsWith('/')) {
-      formattedBase = '/' + formattedBase
-    }
-    if (!formattedBase.endsWith('/')) {
-      formattedBase += '/'
-    }
-    base = formattedBase
   }
 
   let origin = ''
@@ -272,7 +238,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         allowedHosts,
         middlewareMode,
         strictPort,
-        base,
+
         origin,
         cors,
       },
