@@ -179,7 +179,7 @@ export const getSystemInfoSync: typeof Taro.getSystemInfoSync = () => {
 }
 
 /** 获取系统信息 */
-export const getSystemInfoAsync: typeof Taro.getSystemInfoAsync = async (options = {}) => {
+export const getSystemInfoAsync: typeof Taro.getSystemInfoAsync = async (options: Taro.getSystemInfoAsync.Option = {}) => {
   const { success, fail, complete } = options
   const handle = new MethodHandler({ name: 'getSystemInfoAsync', success, fail, complete })
 
@@ -194,12 +194,12 @@ export const getSystemInfoAsync: typeof Taro.getSystemInfoAsync = async (options
 }
 
 /** 获取系统信息 */
-export const getSystemInfo: typeof Taro.getSystemInfo = async (options = {}) => {
+export const getSystemInfo: typeof Taro.getSystemInfo = async (options: Taro.getSystemInfo.Option = {}) => {
   const { success, fail, complete } = options
   const handle = new MethodHandler({ name: 'getSystemInfo', success, fail, complete })
 
   try {
-    const info = await getSystemInfoSync()
+    const info = getSystemInfoSync()
     return handle.success(info)
   } catch (error) {
     return handle.fail({
