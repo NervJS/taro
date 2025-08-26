@@ -3,7 +3,7 @@ import '../src/dom-external/inner-html/html'
 import { describe, expect, test } from 'vitest'
 
 import { parser } from '../src/dom-external/inner-html/parser'
-import { Scaner } from '../src/dom-external/inner-html/scaner'
+import { Scanner } from '../src/dom-external/inner-html/scanner'
 import * as runtime from '../src/index'
 import { options } from '../src/options'
 import { isElement } from '../src/utils'
@@ -340,7 +340,7 @@ describe('html with <style>', () => {
 describe('html with tag should be skipped', () => {
   test('scanSkipTag should skip script', () => {
     const s = '<script type="text/javascript"> </script><div></div>'
-    const tokens = new Scaner(s).scan()
+    const tokens = new Scanner(s).scan()
     expect(tokens[1].content).toBe('script')
   })
 
