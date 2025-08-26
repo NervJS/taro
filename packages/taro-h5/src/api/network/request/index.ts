@@ -67,7 +67,8 @@ function _request (options: Partial<Taro.request.Option> = {}) {
     const jsonpParams: JsonpOptions = {
       params: data,
       cache: opts.jsonpCache,
-      timeout: timeout
+      timeout: timeout,
+      ...params,
     }
     if (typeof jsonp === 'string') {
       jsonpParams.name = jsonp
