@@ -17,8 +17,8 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "jest",
-    "test:ci": "jest --ci -i --coverage --silent"
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
@@ -27,6 +27,7 @@
     "node": ">= 18"
   },
   "dependencies": {
+    "@babel/helper-plugin-utils": "^7.24.8",
     "@babel/plugin-proposal-decorators": "^7.24.1",
     "@babel/plugin-transform-class-properties": "^7.24.1",
     "@babel/plugin-transform-runtime": "^7.24.3",

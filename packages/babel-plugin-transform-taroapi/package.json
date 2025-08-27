@@ -9,11 +9,10 @@
     "prebuild": "pnpm run clean",
     "clean": "rimraf ./dist",
     "build": "tsc",
-    "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent",
-    "test:dev": "cross-env NODE_ENV=jest jest --watch",
-    "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
-    "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage",
+    "test:dev": "vitest",
+    "updateSnapshot": "vitest run --updateSnapshot"
   },
   "engines": {
     "node": ">= 18"
