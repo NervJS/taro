@@ -1,6 +1,6 @@
 {
   "name": "postcss-plugin-constparse",
-  "version": "4.1.5-beta.6",
+  "version": "4.1.5-beta.7",
   "description": "parse constants defined in config",
   "author": "O2Team",
   "license": "MIT",
