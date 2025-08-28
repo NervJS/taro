@@ -12,6 +12,22 @@ interface RequestTask<T> extends Promise<T> {
   abort?: (cb?: any) => void
 }
 
+interface RequestSuccessCallbackResult {
+  statusCode: number
+  header: Record<string, string | null>
+  data: any
+  cookies?: string[]
+}
+
+interface JsonpOptions {
+  params?: any
+  cache?: string
+  timeout?: number
+  name?: string
+  retry?: number
+  jsonpCache?: boolean
+}
+
 // @ts-ignore
 const { Link } = Taro
 
@@ -27,11 +43,12 @@ function generateRequestUrlWithParams (url = '', params?: unknown) {
 function _request (options: Partial<Taro.request.Option> = {}) {
   const { success, complete, fail } = options
   const params: RequestInit = {}
-  const res: any = {}
+  const res: Partial<RequestSuccessCallbackResult> = {}
   let {
     cache = 'default',
     credentials,
-    data, dataType,
+    data,
+    dataType,
     header = {},
     jsonp,
     method = 'GET',
@@ -47,27 +64,27 @@ function _request (options: Partial<Taro.request.Option> = {}) {
   }
   Object.assign(params, opts)
   if (jsonp) {
-    // @ts-ignore
-    params.params = data
-    params.cache = opts.jsonpCache
-    // @ts-ignore
-    params.timeout = timeout
+    const jsonpParams: JsonpOptions = {
+      ...params,
+      params: data,
+      cache: opts.jsonpCache,
+      timeout: timeout,
+    }
     if (typeof jsonp === 'string') {
-      // @ts-ignore
-      params.name = jsonp
+      jsonpParams.name = jsonp
     }
     // Note: https://github.com/luckyadam/jsonp-retry
-    return jsonpRetry(url, params)
+    return jsonpRetry(url, jsonpParams)
       .then(data => {
         res.statusCode = 200
         res.data = data
-        isFunction(success) && success(res)
-        isFunction(complete) && complete(res)
-        return res
+        isFunction(success) && success!(res as Taro.request.SuccessCallbackResult)
+        isFunction(complete) && complete!(res as Partial<Taro.request.SuccessCallbackResult> & TaroGeneral.CallbackResult)
+        return res as Taro.request.SuccessCallbackResult
       })
       .catch(err => {
-        isFunction(fail) && fail(err)
-        isFunction(complete) && complete(res)
+        isFunction(fail) && fail!(err)
+        isFunction(complete) && complete!(res as Partial<Taro.request.SuccessCallbackResult> & TaroGeneral.CallbackResult)
         return Promise.reject(err)
       })
   }
@@ -111,7 +128,7 @@ function _request (options: Partial<Taro.request.Option> = {}) {
     }, timeout)
   }
   params.credentials = credentials
-  const p: RequestTask<any> = fetch(url, params)
+  const p: RequestTask<Taro.request.SuccessCallbackResult> = fetch(url, params)
     .then(response => {
       if (timeoutTimer) {
         clearTimeout(timeoutTimer)
@@ -146,9 +163,9 @@ function _request (options: Partial<Taro.request.Option> = {}) {
     })
     .then(data => {
       res.data = data
-      isFunction(success) && success(res)
-      isFunction(complete) && complete(res)
-      return res
+      isFunction(success) && success!(res as Taro.request.SuccessCallbackResult)
+      isFunction(complete) && complete!(res as Partial<Taro.request.SuccessCallbackResult> & TaroGeneral.CallbackResult)
+      return res as Taro.request.SuccessCallbackResult
     })
     .catch(err => {
       if (timeoutTimer) {
@@ -158,8 +175,8 @@ function _request (options: Partial<Taro.request.Option> = {}) {
       if (controller) {
         controller = null
       }
-      isFunction(fail) && fail(err)
-      isFunction(complete) && complete(res)
+      isFunction(fail) && fail!(err)
+      isFunction(complete) && complete!(res as Partial<Taro.request.SuccessCallbackResult> & TaroGeneral.CallbackResult)
       err.statusCode = res.statusCode
       err.errMsg = err.message
       return Promise.reject(err)
