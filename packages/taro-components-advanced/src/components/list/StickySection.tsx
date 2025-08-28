@@ -11,4 +11,5 @@ const StickySection: React.FC<StickySectionProps> = ({ children, className, styl
   return <View className={className} style={style}>{children}</View>
 }
 
+export { StickySection }
 export default StickySection

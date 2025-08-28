@@ -383,7 +383,7 @@ declare global {
       // Note: 映射 Taro 相关依赖到注入 taro 目录
       if (that.indexOfLibraries(source) > -1) {
         return {
-          external: 'resolve',
+          external: 'relative',
           id: path.join(outputRoot, 'npm', source),
           moduleSideEffects: false,
           resolvedBy: name,

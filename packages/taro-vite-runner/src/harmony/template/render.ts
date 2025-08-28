@@ -102,7 +102,7 @@ export default class RenderParser extends BaseParser {
     const compList = [...STANDARD_COMPONENT_LIST, ...this.context.extraComponents].filter((e) => typeof e === 'string')
 
     const importList = [
-      `import { ${compList.map((e) => `Taro${e}`).join(', ')} } from '@tarojs/components'`,
+      `import { ${[...new Set(compList)].map((e) => `Taro${e}`).join(', ')} } from '@tarojs/components'`,
 
       `import { Current, NodeType } from '@tarojs/runtime'`,
       `import type { ${RUNTIME_TYPE_LIST.join(', ')} } from '@tarojs/runtime'`,
