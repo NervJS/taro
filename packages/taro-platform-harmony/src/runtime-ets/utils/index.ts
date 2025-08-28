@@ -19,7 +19,7 @@ export function isElement (node: TaroNode): node is TaroElement {
  * @param node 当前组件
  * @param type 事件类型
  */
-export function isParentBinded (node: TaroElement | null, type: string): boolean {
+export function isParentBound (node: TaroElement | null, type: string): boolean {
   let res = false
 
   while (node?.parentElement) {
