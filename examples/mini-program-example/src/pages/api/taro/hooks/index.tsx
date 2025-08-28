@@ -97,6 +97,10 @@ export default class Index extends React.Component {
         func: null,
       },
       {
+        id: 'useKeyboardHeight',
+        func: null,
+      },
+      {
         id: 'usePullIntercept',
         func: null,
       },
