@@ -33,6 +33,7 @@ export interface PageLifeCycle extends Show {
   onAddToFavorites?(): void
   onLoad?(options: Record<string, unknown>, cb?: TFunc): void
   onOptionMenuClick?(): void
+  onKeyboardHeight?(obj: { height: number }): void
   onPageScroll?(obj: { scrollTop: number }): void
   onPullDownRefresh?(): void
   onPullIntercept?(): void

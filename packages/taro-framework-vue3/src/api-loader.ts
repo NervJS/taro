@@ -8,6 +8,7 @@ export default function (str: string) {
   useLaunch,
   useLoad,
   useOptionMenuClick,
+  useKeyboardHeight,
   usePageNotFound,
   usePageScroll,
   usePullDownRefresh,
@@ -35,6 +36,7 @@ taro.useLaunch = useLaunch
 taro.setGlobalDataPlugin = setGlobalDataPlugin
 taro.useLoad = useLoad
 taro.useOptionMenuClick = useOptionMenuClick
+taro.useKeyboardHeight = useKeyboardHeight
 taro.usePageNotFound = usePageNotFound
 taro.usePageScroll = usePageScroll
 taro.usePullDownRefresh = usePullDownRefresh
@@ -60,6 +62,7 @@ export {
   useLaunch,
   useLoad,
   useOptionMenuClick,
+  useKeyboardHeight,
   usePageNotFound,
   usePageScroll,
   usePullDownRefresh,
