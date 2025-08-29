@@ -120,7 +120,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   }
   let loadResolver: (...args: unknown[]) => void
   let hasLoaded: Promise<void>
-  const config: PageInstance & { events?: Record<string, any> } = {
+  const config: PageInstance = {
     [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: TFunc) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
 
