@@ -5,7 +5,8 @@ import type * as BabelCore from '@babel/core'
 import type { PluginOption } from 'vite'
 import type Harmony from '..'
 
-export default function (platform: Harmony): PluginOption {
+export default function (this: Harmony): PluginOption {
+  const platform = this
   const packageName = '@tarojs/taro'
   const bindingName = 'Taro'
   const businessId = platform.getConfig().defineConstants?.LOCATION_APIKEY?.replace(/^['"]|['"]$/g, '')
