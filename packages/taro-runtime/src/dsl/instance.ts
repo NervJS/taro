@@ -33,6 +33,7 @@ export interface PageLifeCycle extends Show {
   onAddToFavorites?(): void
   onLoad?(options: Record<string, unknown>, cb?: TFunc): void
   onOptionMenuClick?(): void
+  onKeyboardHeight?(obj: { height: number }): void
   onPageScroll?(obj: { scrollTop: number }): void
   onPullDownRefresh?(): void
   onPullIntercept?(): void
@@ -57,6 +58,8 @@ export interface PageInstance extends PageLifeCycle {
   options?: Record<string, unknown>
   /** 页面渲染引擎类型 */
   renderer?: 'webview' | 'skyline'
+  /** 页面事件对象，支付宝小程序特有，详见[events](https://opendocs.alipay.com/mini/framework/page-detail#events) */
+  events?: Record<string, (...args: any[]) => any>
   /** 获得一个 EventChannel 对象，用于页面间通讯 */
   getOpenerEventChannel?(): Record<string, any>
   /** 执行关键帧动画，详见[动画](https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html) */

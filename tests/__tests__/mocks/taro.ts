@@ -19,6 +19,7 @@ export function useResize () {}
 export function useUnload () {}
 export function useAddToFavorites () {}
 export function useOptionMenuClick () {}
+export function useKeyboardHeight () {}
 export function useSaveExitState () {}
 export function useShareAppMessage () {}
 export function useShareTimeline () {}
