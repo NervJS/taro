@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-ascf",
-  "version": "4.1.5-alpha.2",
+  "version": "4.1.6-beta.0",
   "description": "ascf平台插件",
   "author": "ascf",
   "license": "MIT",

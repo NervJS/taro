@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "4.1.5-alpha.2",
+  "version": "4.1.6-beta.0",
   "description": "taro runtime for mini apps.",
   "author": "O2Team",
   "license": "MIT",
