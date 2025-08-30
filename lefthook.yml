@@ -1,0 +1,68 @@
+# yaml-language-server:$schema=./node_modules/lefthook/schema.json
+# https://evilmartians.github.io/lefthook/configuration/
+
+pre-commit:
+  piped: true
+  jobs:
+    - name: 格式化 & 静态检查
+      group:
+        parallel: true
+        jobs:
+          - name: 格式化
+            glob: "*.json"
+            run: pnpm prettier --write {staged_files}
+            stage_fixed: true
+          - name: 静态检查
+            glob: "*.{ts,tsx,js,jsx,mjs,mts}"
+            run: pnpm eslint --fix {staged_files}
+            stage_fixed: true
+          - name: 样式检查
+            glob: "*.{css,scss}"
+            run: pnpm stylelint --fix {staged_files}
+            stage_fixed: true
+
+    # - name: 测试
+    #   group:
+    #     parallel: true
+    #     jobs:
+          # - name: 类型检查
+          #   glob: "*.{ts,tsx}"
+          #   run: pnpm tsc
+          # - name: 单元测试
+          #   glob: "*.{ts,tsx,js,jsx,mjs,mts,json,css,scss}"
+          #   run: pnpm nx affected -t prod test:ci --files={staged_files}
+
+prepare-commit-msg:
+  commands:
+    commit:
+      skip:
+        - run: node -e "require('fs').readFileSync('.git/COMMIT_EDITMSG','utf8').trim()||process.exit(1)"
+      interactive: true
+      run: pnpm czg --hook
+      env:
+        LEFTHOOK: "0"
+
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm commitlint --edit {1} --config commitlint.config.js
+
+post-merge:
+  follow: true
+  commands:
+    check-pnpm-lock:
+      run: |
+        if git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD | grep pnpm-lock.yaml; then
+          echo pnpm-lock.yaml 已变更，请重新运行 pnpm install
+        fi
+
+post-checkout:
+  follow: true
+  commands:
+    check-pnpm-lock:
+      run: |
+        if [ {3} -eq 1 ]; then
+          if git diff --quiet {1} {2} -- pnpm-lock.yaml; then
+            echo pnpm-lock.yaml 已变更，请重新运行 pnpm install
+          fi
+        fi
