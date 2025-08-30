@@ -272,7 +272,7 @@ export default function (babel: {
         if (hasStyleAttribute && styleAttribute?.value) {
           file.set('hasMultiStyle', true)
           let expression
-          // 支持 行内 style 转成oject：style="width:100;height:100;" => style={{width:'100',height:'100'}}
+          // 支持 行内 style 转成 oject：style="width:100;height:100;" => style={{width:'100',height:'100'}}
           if (t.isStringLiteral(styleAttribute.value)) {
             const cssObject = string2Object(styleAttribute.value.value)
             expression = object2Expression(template, cssObject)
@@ -282,7 +282,7 @@ export default function (babel: {
           const expressionType = expression.type
 
           let _arrayExpression
-          // 非rn场景，style不支持数组，因此需要将数组转换为对象
+          // 非 rn 场景，style 不支持数组，因此需要将数组转换为对象
           // style={[styles.a, styles.b]} ArrayExpression
           if (expressionType === 'ArrayExpression') {
             _arrayExpression = arrayExpression.concat(expression.elements)
@@ -358,7 +358,7 @@ export default function (babel: {
           const node = astPath.node
           const injectGetStyle = file.get('injectGetStyle')
           const cssModuleStylesheets = file.get('cssModuleStylesheets') || []
-          // 从最后一个import 开始插入表达式，后续插入的表达式追加在后面
+          // 从最后一个 import 开始插入表达式，后续插入的表达式追加在后面
           let lastImportIndex = findLastImportIndex(node.body)
           if (injectGetStyle) {
             // @ts-ignore
@@ -375,9 +375,9 @@ export default function (babel: {
             // @ts-ignore
             node.body.splice(++lastImportIndex, 0, getModuleClassNameFunctionStmt)
             cssModuleStylesheets.forEach(({ styleSheetName, rawStyleSheetName }) => {
-              const functionTempalte = `var ${rawStyleSheetName} = ${GET_MODULE_CLS_NAME_FUNC_NAME}(${styleSheetName}, '${rawStyleSheetName}')`
+              const functionTemplate = `var ${rawStyleSheetName} = ${GET_MODULE_CLS_NAME_FUNC_NAME}(${styleSheetName}, '${rawStyleSheetName}')`
               // @ts-ignore
-              node.body.splice(++lastImportIndex, 0, template(functionTempalte)())
+              node.body.splice(++lastImportIndex, 0, template(functionTemplate)())
             })
           }
           existStyleImport = false
