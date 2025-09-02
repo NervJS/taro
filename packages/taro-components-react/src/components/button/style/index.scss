@@ -58,7 +58,8 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
   padding-left: 14px;
   padding-right: 14px;
   border-width: 0;
-  border-radius: $weuiBtnBorderRadius;
+  border: 1px solid rgb(0 0 0 / 20%);
+  border-radius: $weuiBtnBorderRadius * 2;
   width: 100%;
   appearance: none;
   outline: 0;
@@ -74,44 +75,30 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
     outline: 0;
   }
 
-  &:not([disabled]):active {
+  &:not(.taro-btn-disabled):active {
     background-color: $weuiBtnDefaultActiveBg;
     color: $weuiBtnDefaultActiveFontColor;
   }
 
-  &::after {
-    position: absolute;
-    left: 0;
-    top: 0;
-    box-sizing: border-box;
-    border: 1px solid rgb(0 0 0 / 20%);
-    border-radius: $weuiBtnBorderRadius * 2;
-    width: 200%;
-    height: 200%;
-    content: ' ';
-    transform: scale(0.5);
-    transform-origin: 0 0;
-  }
-
-  & + & {
+  &+& {
     margin-top: $weuiBtnDefaultGap;
   }
 
-  &[type="default"] {
+  &.taro-btn-default {
     background-color: $weuiBtnDefaultBg;
     color: $weuiBtnDefaultFontColor;
 
-    &:not([disabled]):visited {
+    &:not(.taro-btn-disabled):visited {
       color: $weuiBtnDefaultFontColor;
     }
 
-    &:not([disabled]):active {
+    &:not(.taro-btn-disabled):active {
       background-color: $weuiBtnDefaultActiveBg;
       color: $weuiBtnDefaultActiveFontColor;
     }
   }
 
-  &[size="mini"] {
+  &.taro-btn-mini {
     display: inline-block;
     padding: 0 1.32em;
     width: auto;
@@ -119,54 +106,55 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
     font-size: $weuiBtnMiniFontSize;
   }
 
-  &[plain="true"],
-  &[plain="true"][type="default"],
-  &[plain="true"][type="primary"] {
+  &.taro-btn-plain,
+  &.taro-btn-plain.taro-btn-default,
+  &.taro-btn-plain.taro-btn-primary,
+  &.taro-btn-plain.taro-btn-warn {
     border-width: 1px;
     background-color: transparent;
   }
 
-  &[disabled] {
+  &.taro-btn-disabled {
     color: $weuiBtnDisabledFontColor;
 
-    &[type="default"] {
+    &.taro-btn-default {
       background-color: $weuiBtnDefaultDisabledBg;
       color: $weuiBtnDefaultDisabledFontColor;
     }
 
-    &[type="primary"] {
+    &.taro-btn-primary {
       background-color: $weuiBtnPrimaryDisabledBg;
     }
 
-    &[type="warn"] {
+    &.taro-btn-warn {
       background-color: $weuiBtnWarnDisabledBg;
     }
   }
 
-  &[loading] {
+  &.taro-btn-loading {
     .weui-loading {
       margin: -0.2em 0.34em 0 0;
     }
 
-    &[type="primary"],
-    &[type="warn"] {
+    &.taro-btn-primary,
+    &.taro-btn-warn {
       color: $weuiBtnActiveFontColor;
     }
 
-    &[type="primary"] {
+    &.taro-btn-primary {
       background-color: $weuiBtnPrimaryActiveBg;
     }
 
-    &[type="warn"] {
+    &.taro-btn-warn {
       background-color: $weuiBtnWarnActiveBg;
     }
   }
 
-  &[plain="true"][type="primary"] {
+  &.taro-btn-plain.taro-btn-primary {
     border: 1px solid $weuiBtnPlainPrimaryBorderColor;
     color: $weuiBtnPlainPrimaryColor;
 
-    &:not([disabled]):active {
+    &:not(.taro-btn-disabled):active {
       border-color: $weuiBtnPlainPrimaryActiveBorderColor;
       background-color: transparent;
       color: $weuiBtnPlainPrimaryActiveColor;
@@ -177,11 +165,11 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
     }
   }
 
-  &[plain="true"][type="warn"] {
+  &.taro-btn-plain.taro-btn-warn {
     border: 1px solid $weuiBtnPlainWarnBorderColor;
     color: $weuiBtnPlainWarnColor;
 
-    &:not([disabled]):active {
+    &:not(.taro-btn-disabled):active {
       border-color: $weuiBtnPlainWarnActiveBorderColor;
       background-color: transparent;
       color: $weuiBtnPlainWarnActiveColor;
@@ -192,12 +180,12 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
     }
   }
 
-  &[plain="true"],
-  &[plain="true"][type="default"] {
+  &.taro-btn-plain,
+  &.taro-btn-plain.taro-btn-default {
     border: 1px solid $weuiBtnPlainDefaultBorderColor;
     color: $weuiBtnPlainDefaultColor;
 
-    &:not([disabled]):active {
+    &:not(.taro-btn-disabled):active {
       border-color: $weuiBtnPlainDefaultActiveBorderColor;
       background-color: transparent;
       color: $weuiBtnPlainDefaultActiveColor;
@@ -208,41 +196,47 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
     }
   }
 
-  &[type="primary"] {
+  &.taro-btn-primary {
     background-color: $weuiBtnPrimaryBg;
     color: #fff;
 
-    &:not([disabled]):visited {
+    &:not(.taro-btn-disabled):visited {
       color: $weuiBtnFontColor;
     }
 
-    &:not([disabled]):active {
+    &:not(.taro-btn-disabled):active {
       background-color: $weuiBtnPrimaryActiveBg;
       color: $weuiBtnActiveFontColor;
     }
   }
 
-  &[type="warn"] {
+  &.taro-btn-warn {
     background-color: $weuiBtnWarnBg;
     color: #fff;
 
-    &:not([disabled]):visited {
+    &:not(.taro-btn-disabled):visited {
       color: $weuiBtnFontColor;
     }
 
-    &:not([disabled]):active {
+    &:not(.taro-btn-disabled):active {
       background-color: $weuiBtnWarnActiveBg;
       color: $weuiBtnActiveFontColor;
     }
   }
 
-  &[plain="true"][disabled] {
+  &.taro-btn-plain.taro-btn-disabled.taro-btn-default {
     border: 1px solid rgb(0 0 0 / 20%);
     background-color: #f7f7f7;
     color: rgb(0 0 0 / 30%);
   }
 
-  &[plain="true"][disabled][type="primary"] {
+  &.taro-btn-plain.taro-btn-disabled.taro-btn-primary {
+    border: 1px solid rgb(0 0 0 / 20%);
+    background-color: #f7f7f7;
+    color: rgb(0 0 0 / 30%);
+  }
+
+  &.taro-btn-plain.taro-btn-disabled.taro-btn-warn {
     border: 1px solid rgb(0 0 0 / 20%);
     background-color: #f7f7f7;
     color: rgb(0 0 0 / 30%);
