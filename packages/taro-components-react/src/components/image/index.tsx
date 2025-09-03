@@ -15,6 +15,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   lazyLoad?: boolean
   imgProps?: Record<string, any>
   forwardedRef?: React.MutableRefObject<HTMLDivElement>
+  lang?: string
 }
 
 // CDN脚本URL
@@ -69,6 +70,7 @@ function Image (props: IProps) {
     lazyLoad,
     imgProps,
     forwardedRef,
+    lang,
     ...reset
   } = props
 
@@ -139,6 +141,7 @@ function Image (props: IProps) {
         <canvas-tag
           tagId={legoData.tagId}
           text={legoData.text}
+          lang={lang}
           {...imgProps}
         />
       </div>

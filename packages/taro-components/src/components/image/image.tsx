@@ -65,6 +65,7 @@ export class Image implements ComponentInterface {
   @Prop() mode: Mode = 'scaleToFill'
   @Prop() lazyLoad = false
   @Prop() nativeProps = {}
+  @Prop() lang: string
 
   @State() aspectFillMode = 'width'
   @State() didLoad = false
@@ -129,7 +130,8 @@ export class Image implements ComponentInterface {
       imageOnLoad,
       imageOnError,
       nativeProps,
-      didLoad
+      didLoad,
+      lang
     } = this
     // mode="" 按默认值处理
     const mode = this.mode || 'scaleToFill'
@@ -155,6 +157,7 @@ export class Image implements ComponentInterface {
           <canvas-tag 
             tagId={legoData.tagId} 
             text={legoData.text}
+            lang={lang}
             {...nativeProps}
           />
         </Host>
