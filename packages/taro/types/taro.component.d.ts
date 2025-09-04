@@ -45,6 +45,8 @@ declare module './index' {
     eh?(event: MpEvent): void
     onLoad(options: Record<string, unknown>): void
     onOptionMenuClick?(): void
+    /** 键盘高度变化时触发 @supported alipay */
+    onKeyboardHeight?(opt: { height: number; }): void
     onPageScroll?(opt: PageScrollObject): void
     onPopMenuClick?(): void
     onPullDownRefresh?(): void
