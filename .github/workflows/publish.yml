@@ -103,7 +103,7 @@ jobs:
         with:
           version: 10
       - name: Setup Node 18
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 18
           cache: 'pnpm'
