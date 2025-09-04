@@ -1,13 +1,12 @@
-// import { Scaner } from '../src/html/scaner'
-// import { parser } from '../src/html/oparser'
-import '../dom-external/inner-html/html'
+import '../src/dom-external/inner-html/html'
 
-import { parser } from '../dom-external/inner-html/parser'
-import { Scaner } from '../dom-external/inner-html/scaner'
-import { options } from '../options'
-import { isElement } from '../utils'
+import { describe, expect, test } from 'vitest'
 
-const runtime = require('../../dist/runtime.esm')
+import { parser } from '../src/dom-external/inner-html/parser'
+import { Scanner } from '../src/dom-external/inner-html/scanner'
+import * as runtime from '../src/index'
+import { options } from '../src/options'
+import { isElement } from '../src/utils'
 
 const document = runtime.document
 
@@ -15,16 +14,12 @@ const document = runtime.document
 describe.skip('html', () => {
   test('tt', () => {
     const s = '<h1 style="color:red" class="fork">This is a Heading</h1>'
-    // const tokens = new Scaner(s).scan()
-    // debugger
-    // const html = parser(tokens)
-
-    parser(s)
+    parser(s, document)
   })
 })
 
 describe('html with <style>', () => {
-  it('tag selector', () => {
+  test('tag selector', () => {
     const html = `
       <style>
         span {
@@ -44,7 +39,7 @@ describe('html with <style>', () => {
     expect(el1.style.cssText).toBe('color: red; font-size: 10;')
   })
 
-  it('id selector', () => {
+  test('id selector', () => {
     const html = `
       <style>
         #foo {
@@ -64,7 +59,7 @@ describe('html with <style>', () => {
     expect(el.style.cssText).toBe('color: red; font-size: 10; transition: color ease-in 300ms; border: 1px solid red;')
   })
 
-  it('class selector', () => {
+  test('class selector', () => {
     const html = `
       <style>
         .parent {
@@ -95,7 +90,7 @@ describe('html with <style>', () => {
     expect(el2.style.cssText).toBe('font-weight: bold; margin: 10px;')
   })
 
-  it('attributes selector', () => {
+  test('attributes selector', () => {
     const html = `
       <style>
         [name="title"]   {
@@ -117,7 +112,7 @@ describe('html with <style>', () => {
     expect(el1.style.cssText).toBe('font-size: 10;')
   })
 
-  it('attributes selector with space', () => {
+  test('attributes selector with space', () => {
     const html = `
       <style>
         [    name = "title"]   {
@@ -139,7 +134,7 @@ describe('html with <style>', () => {
     expect(el1.style.cssText).toBe('font-size: 10;')
   })
 
-  it('combination', () => {
+  test('combination', () => {
     const html = `
       <style>
         div[name="top"].wrapper#foo.title.fixed[size="large"] {
@@ -153,7 +148,7 @@ describe('html with <style>', () => {
     expect(el0.style.cssText).toBe('background: red;')
   })
 
-  it('selector list', () => {
+  test('selector list', () => {
     const html = `
       <style>
         .item.child-1, #foo {
@@ -173,7 +168,7 @@ describe('html with <style>', () => {
     expect(el1.style.cssText).toBe('color: red;')
   })
 
-  it('descendant combinator', () => {
+  test('descendant combinator', () => {
     const html = `
       <style>
         div.parent span.item {
@@ -218,7 +213,7 @@ describe('html with <style>', () => {
     expect(el6.style.cssText).toBe('')
   })
 
-  it('child combinator', () => {
+  test('child combinator', () => {
     const html = `
       <style>
         .ul>.li {
@@ -255,7 +250,7 @@ describe('html with <style>', () => {
     expect(el4.style.cssText).toBe('width: 100%;')
   })
 
-  it('adjacent sibling combinator', () => {
+  test('adjacent sibling combinator', () => {
     const html = `
       <style>
         .first+.li.second #inner {
@@ -287,7 +282,7 @@ describe('html with <style>', () => {
     expect(el4.style.cssText).toBe('color: blue;')
   })
 
-  it('general sibling combinator', () => {
+  test('general sibling combinator', () => {
     const html = `
       <style>
         .third ~ .second {
@@ -318,7 +313,8 @@ describe('html with <style>', () => {
     expect(el3.style.cssText).toBe('color: red;')
     expect(el4.style.cssText).toBe('width: 100%;')
   })
-  it('enter', () => {
+
+  test('enter', () => {
     const html = `
       <style>
         span {
@@ -328,7 +324,7 @@ describe('html with <style>', () => {
       </style>
       <div class="parent">
         <span>测试换行\nxxxx</span>
-        <span>测试换行xxxx</span>
+        <span>测试换行 xxxx</span>
       </div>
     `
     const res = parser(html, document)
@@ -337,17 +333,18 @@ describe('html with <style>', () => {
     expect(el0.style.cssText).toBe('color: red; font-size: 10;')
     expect(el0.childNodes[0]._value).toBe('测试换行\nxxxx')
     expect(el1.style.cssText).toBe('color: red; font-size: 10;')
-    expect(el1.childNodes[0]._value).toBe('测试换行xxxx')
+    expect(el1.childNodes[0]._value).toBe('测试换行 xxxx')
   })
 })
 
 describe('html with tag should be skipped', () => {
-  it('scanSkipTag should skip script', () => {
+  test('scanSkipTag should skip script', () => {
     const s = '<script type="text/javascript"> </script><div></div>'
-    const tokens = new Scaner(s).scan()
+    const tokens = new Scanner(s).scan()
     expect(tokens[1].content).toBe('script')
   })
-  it('html should be rendered successfully', () => {
+
+  test('html should be rendered successfully', () => {
     const s = '<script type="text/javascript"> </script><div>hello world</div>'
     const res = parser(s, document)
     expect(res[0].props.class).toBe('h5-script')
@@ -356,7 +353,7 @@ describe('html with tag should be skipped', () => {
 })
 
 describe('sort style', () => {
-  it('cssText should be sort', () => {
+  test('cssText should be sort', () => {
     const html = `
       <style>
         #id {
@@ -379,8 +376,8 @@ describe('sort style', () => {
   })
 
   describe('html with transformText', () => {
-    it('transformText function works', () => {
-      options.html.transformText = taroText => {
+    test('transformText function works', () => {
+      options.html.transformText = (taroText: any) => {
         taroText._value = 'c'
         return taroText
       }

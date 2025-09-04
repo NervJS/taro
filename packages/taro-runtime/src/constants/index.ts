@@ -50,12 +50,10 @@ export const EVENT_CALLBACK_RESULT = 'e_result'
 export const BEHAVIORS = 'behaviors'
 export const A = 'a'
 
-/**
- * 页面上下文切换时的行为
- */
+// 页面上下文切换时的行为
 export enum CONTEXT_ACTIONS {
   INIT = '0',
   RESTORE = '1',
   RECOVER = '2',
-  DESTORY = '3'
+  DESTROY = '3'
 }
