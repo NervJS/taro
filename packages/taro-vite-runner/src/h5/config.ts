@@ -4,7 +4,7 @@ import { defaultMainFields, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR } fr
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isNumber, isObject, isString, PLATFORM_TYPE } from '@tarojs/shared'
 import { get } from 'lodash'
-import { searchForWorkspaceRoot } from "vite"
+import { searchForWorkspaceRoot } from 'vite'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
 import { addTrailingSlash, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule } from '../utils'
