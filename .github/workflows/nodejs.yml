@@ -20,6 +20,10 @@ on:
 permissions:
   contents: read # to fetch code (actions/checkout)
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-rust-binding:
     name: Build Rust Binding
@@ -34,7 +38,6 @@ jobs:
       - build-rust-binding
       - build-rust-wasm
     strategy:
-      fail-fast: false
       matrix:
         node-version: [18.x, 20.x]
         host: [macos-13, windows-latest, ubuntu-latest]
@@ -58,6 +61,7 @@ jobs:
             host: windows-latest
 
     runs-on: ${{ matrix.host }}
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
