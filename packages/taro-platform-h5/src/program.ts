@@ -179,9 +179,9 @@ export default class H5 extends TaroPlatformWeb {
             resolve: {
               alias: [
                 { find: /@tarojs\/components$/, replacement: that.componentLibrary },
-                { find: '@tarojs/components-library-react', replacement: that.componentAdapterReact },
-                { find: '@tarojs/components-library-solid', replacement: that.componentAdapterSolid },
-                { find: '@tarojs/components-library-vue3', replacement: that.componentAdapterVue3 },
+                { find: /@tarojs\/components-library-react$/, replacement: that.componentAdapterReact },
+                { find: /@tarojs\/components-library-solid$/, replacement: that.componentAdapterSolid },
+                { find: /@tarojs\/components-library-vue3$/, replacement: that.componentAdapterVue3 },
                 { find: /@tarojs\/router$/, replacement: that.routerLibrary },
                 { find: '@tarojs/taro', replacement: that.apiLibrary },
               ],
