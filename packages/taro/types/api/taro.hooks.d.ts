@@ -134,6 +134,12 @@ declare module '../index' {
     useOptionMenuClick(callback: () => void): void
 
     /**
+     * 键盘高度变化时的回调。
+     * @supported alipay
+     */
+    useKeyboardHeight(callback: (payload: { height: number }) => void): void
+
+    /**
      * 下拉中断时的回调。
      * @supported alipay, h5, harmony_hybrid
      */
