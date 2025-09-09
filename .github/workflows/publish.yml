@@ -33,7 +33,7 @@ jobs:
     steps:
       # Setup
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Log meta
       - name : GITHUB CONTEXT
@@ -95,7 +95,7 @@ jobs:
     steps:
       # Setup
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.ref_name }}
       - name: Setup pnpm
@@ -280,7 +280,7 @@ jobs:
         run: pnpm build
 
       - name: Checkout Harmony Project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: NervJS/taro-harmony-project
           path: packages/taro-platform-harmony-cpp/harmony_project
