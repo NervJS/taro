@@ -9,8 +9,8 @@
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
     "clean": "rimraf ./dist",
-    "test": "jest",
-    "test:ci": "jest --ci -i --coverage --silent",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage",
     "dev": "tsc -w",
     "build": "tsc"
   },
