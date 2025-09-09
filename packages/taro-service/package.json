@@ -33,7 +33,7 @@
     "@tarojs/helper": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "joi": "^17.12.3",
+    "joi": "^18.0.1",
     "lodash": "^4.17.21",
     "ora": "^5.4.1",
     "resolve": "^1.22.8",
