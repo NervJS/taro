@@ -443,7 +443,8 @@ exports[`sass should build app with sass 2`] = `
         "RN": "RN",
         "HARMONY": "HARMONY",
         "QUICKAPP": "QUICKAPP",
-        "HARMONYHYBRID": "HARMONYHYBRID"
+        "HARMONYHYBRID": "HARMONYHYBRID",
+        "ASCF": "ASCF"
     };
     function getEnv() {
         if (undefined === "weapp") {
@@ -468,6 +469,8 @@ exports[`sass should build app with sass 2`] = `
             return ENV_TYPE.HARMONY;
         } else if (undefined === "quickapp") {
             return ENV_TYPE.QUICKAPP;
+        } else if (undefined === "ascf") {
+            return ENV_TYPE.ASCF;
         } else {
             return undefined || "Unknown";
         }
@@ -1225,7 +1228,8 @@ exports[`sass should build app with scss 2`] = `
         "RN": "RN",
         "HARMONY": "HARMONY",
         "QUICKAPP": "QUICKAPP",
-        "HARMONYHYBRID": "HARMONYHYBRID"
+        "HARMONYHYBRID": "HARMONYHYBRID",
+        "ASCF": "ASCF"
     };
     function getEnv() {
         if (undefined === "weapp") {
@@ -1250,6 +1254,8 @@ exports[`sass should build app with scss 2`] = `
             return ENV_TYPE.HARMONY;
         } else if (undefined === "quickapp") {
             return ENV_TYPE.QUICKAPP;
+        } else if (undefined === "ascf") {
+            return ENV_TYPE.ASCF;
         } else {
             return undefined || "Unknown";
         }
@@ -2017,7 +2023,8 @@ exports[`sass should set global sass content with data 2`] = `
         "RN": "RN",
         "HARMONY": "HARMONY",
         "QUICKAPP": "QUICKAPP",
-        "HARMONYHYBRID": "HARMONYHYBRID"
+        "HARMONYHYBRID": "HARMONYHYBRID",
+        "ASCF": "ASCF"
     };
     function getEnv() {
         if (undefined === "weapp") {
@@ -2042,6 +2049,8 @@ exports[`sass should set global sass content with data 2`] = `
             return ENV_TYPE.HARMONY;
         } else if (undefined === "quickapp") {
             return ENV_TYPE.QUICKAPP;
+        } else if (undefined === "ascf") {
+            return ENV_TYPE.ASCF;
         } else {
             return undefined || "Unknown";
         }
@@ -2809,7 +2818,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
         "RN": "RN",
         "HARMONY": "HARMONY",
         "QUICKAPP": "QUICKAPP",
-        "HARMONYHYBRID": "HARMONYHYBRID"
+        "HARMONYHYBRID": "HARMONYHYBRID",
+        "ASCF": "ASCF"
     };
     function getEnv() {
         if (undefined === "weapp") {
@@ -2834,6 +2844,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
             return ENV_TYPE.HARMONY;
         } else if (undefined === "quickapp") {
             return ENV_TYPE.QUICKAPP;
+        } else if (undefined === "ascf") {
+            return ENV_TYPE.ASCF;
         } else {
             return undefined || "Unknown";
         }
@@ -3601,7 +3613,8 @@ exports[`sass should set global sass content with source 2`] = `
         "RN": "RN",
         "HARMONY": "HARMONY",
         "QUICKAPP": "QUICKAPP",
-        "HARMONYHYBRID": "HARMONYHYBRID"
+        "HARMONYHYBRID": "HARMONYHYBRID",
+        "ASCF": "ASCF"
     };
     function getEnv() {
         if (undefined === "weapp") {
@@ -3626,6 +3639,8 @@ exports[`sass should set global sass content with source 2`] = `
             return ENV_TYPE.HARMONY;
         } else if (undefined === "quickapp") {
             return ENV_TYPE.QUICKAPP;
+        } else if (undefined === "ascf") {
+            return ENV_TYPE.ASCF;
         } else {
             return undefined || "Unknown";
         }

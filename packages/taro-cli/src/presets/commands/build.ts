@@ -11,7 +11,7 @@ export default (ctx: IPluginContext) => {
   ctx.registerCommand({
     name: 'build',
     optionsMap: {
-      '--type [typeName]': 'Build type, weapp/swan/alipay/tt/qq/jd/h5/rn',
+      '--type [typeName]': 'Build type, ascf/weapp/swan/alipay/tt/qq/jd/h5/rn',
       '--watch': 'Watch mode',
       '--env [env]': 'Value for process.env.NODE_ENV',
       '--mode [mode]': 'Value of dotenv extname',

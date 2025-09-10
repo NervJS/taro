@@ -4,6 +4,7 @@ export enum PLATFORM_TYPE {
   RN = 'rn',
   HARMONY = 'harmony',
   QUICK = 'quickapp',
+  ASCF = 'ascf',
 }
 
 export const PLATFORM_CONFIG_MAP = {
@@ -21,5 +22,8 @@ export const PLATFORM_CONFIG_MAP = {
   },
   quickapp: {
     type: PLATFORM_TYPE.QUICK
+  },
+  ascf: {
+    type: PLATFORM_TYPE.ASCF
   },
 }

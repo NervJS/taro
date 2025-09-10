@@ -119,6 +119,7 @@ export interface ICompileOption {
 
 export const enum TEMPLATE_TYPES {
   WEAPP = '.wxml',
+  ASCF = '.hxml',
   SWAN = '.swan',
   ALIPAY = '.axml',
   TT = '.ttml',
@@ -129,6 +130,7 @@ export const enum TEMPLATE_TYPES {
 export const enum STYLE_TYPES {
   WEAPP = '.wxss',
   SWAN = '.css',
+  ASCF = '.css',
   ALIPAY = '.acss',
   TT = '.ttss',
   QUICKAPP = '.css',
@@ -137,6 +139,7 @@ export const enum STYLE_TYPES {
 
 export const enum SCRIPT_TYPES {
   WEAPP = '.js',
+  ASCF = '.js',
   SWAN = '.js',
   ALIPAY = '.js',
   TT = '.js',
@@ -146,6 +149,7 @@ export const enum SCRIPT_TYPES {
 
 export const enum CONFIG_TYPES {
   WEAPP = '.json',
+  ASCF = '.json',
   SWAN = '.json',
   ALIPAY = '.json',
   TT = '.json',

@@ -314,8 +314,43 @@ declare namespace ButtonProps {
     | keyof openTypeKeys['alipay']
     | keyof openTypeKeys['qq']
     | keyof openTypeKeys['tt']
+    | keyof openTypeKeys['ascf']
   /** open-type 的合法值 */
   interface openTypeKeys {
+    ascf: {
+      /** 打开客服会话，如果用户在会话中点击消息卡片后返回小程序，可以从回调中获得具体信息
+       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/customer-message/customer-message.html
+       */
+      contact
+
+      /** 触发用户转发，使用前建议先阅读使用指引
+       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%BC%95
+       */
+      share
+
+      /** 获取用户手机号，可以从回调中获取到用户信息
+       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html
+       */
+      getPhoneNumber
+
+      /** 获取用户信息，可以从回调中获取到用户信息 */
+      getUserInfo
+
+      /** 打开APP，可以通过 app-parameter 属性设定向APP传的参数
+       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/launchApp.html
+       */
+      launchApp
+
+      /** 打开授权设置页 */
+      openSetting
+
+      /** 打开“意见反馈”页面，用户可提交反馈内容并上传日志，开发者可以登录小程序管理后台后进入左侧菜单“客服反馈”页面获取到反馈内容 */
+      feedback
+
+      /** 获取用户头像，可以从回调中获得具体信息 */
+      chooseAvatar
+    }
+
     weapp: {
       /** 打开客服会话，如果用户在会话中点击消息卡片后返回小程序，可以从回调中获得具体信息
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/customer-message/customer-message.html

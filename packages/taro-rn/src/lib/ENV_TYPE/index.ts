@@ -1,4 +1,5 @@
 export const ENV_TYPE = {
+  ASCF: 'ASCF',
   WEAPP: 'WEAPP',
   SWAN: 'SWAN',
   ALIPAY: 'ALIPAY',

@@ -46,6 +46,7 @@ declare module '../index' {
     [TaroGeneral.ENV_TYPE.QQ]: TaroGeneral.ENV_TYPE.QQ
     [TaroGeneral.ENV_TYPE.JD]: TaroGeneral.ENV_TYPE.JD
     [TaroGeneral.ENV_TYPE.HARMONYHYBRID]: TaroGeneral.ENV_TYPE.HARMONYHYBRID
+    [TaroGeneral.ENV_TYPE.ASCF]: TaroGeneral.ENV_TYPE.ASCF
   }
 
   namespace interceptorify {
