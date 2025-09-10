@@ -451,7 +451,8 @@ exports[`babel should convert do expressions 2`] = `
         "RN": "RN",
         "HARMONY": "HARMONY",
         "QUICKAPP": "QUICKAPP",
-        "HARMONYHYBRID": "HARMONYHYBRID"
+        "HARMONYHYBRID": "HARMONYHYBRID",
+        "ASCF": "ASCF"
     };
     function getEnv() {
         if (undefined === "weapp") {
@@ -476,6 +477,8 @@ exports[`babel should convert do expressions 2`] = `
             return ENV_TYPE.HARMONY;
         } else if (undefined === "quickapp") {
             return ENV_TYPE.QUICKAPP;
+        } else if (undefined === "ascf") {
+            return ENV_TYPE.ASCF;
         } else {
             return undefined || "Unknown";
         }
