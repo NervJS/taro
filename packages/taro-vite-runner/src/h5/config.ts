@@ -4,6 +4,7 @@ import { defaultMainFields, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR } fr
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isNumber, isObject, isString, PLATFORM_TYPE } from '@tarojs/shared'
 import { get } from 'lodash'
+import { searchForWorkspaceRoot } from 'vite'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
 import { addTrailingSlash, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule } from '../utils'
@@ -141,7 +142,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     fsStrict = serverOption.fs.strict
   }
 
-  let fsAllow: string[] = []
+  let fsAllow: string[] = [searchForWorkspaceRoot(process.cwd())]
   if (serverOption.fs && Array.isArray(serverOption.fs.allow)) {
     fsAllow = serverOption.fs.allow
   }
