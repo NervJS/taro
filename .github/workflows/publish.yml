@@ -49,8 +49,9 @@ jobs:
         if: startsWith( env.COMMIT_MESSAGE , 'chore(release):' ) != true
         run: echo "ABORT=true" >> $GITHUB_ENV
 
+      # 说明：允许 push 事件使用 v3-latest、alpha、beta等 tag；若提交信息不包含这些任一 tag，则中止发布
       - name: Publish push tag verification
-        if: github.event_name == 'push' && contains( env.COMMIT_MESSAGE , '--tag=v3-latest' ) != true
+        if: github.event_name == 'push' && (contains(env.COMMIT_MESSAGE, '--tag=v3-latest') != true && contains(env.COMMIT_MESSAGE, '--tag=alpha') != true && contains(env.COMMIT_MESSAGE, '--tag=beta') != true && contains(env.COMMIT_MESSAGE, '--tag=rc') != true)
         run: echo "ABORT=true" >> $GITHUB_ENV
 
   build-rust-binding:
@@ -196,7 +197,7 @@ jobs:
       - name: Publish
         run: |
           if [ '${{ github.event_name }}' == 'pull_request' ] ; then
-            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r
+            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r --tag v3-latest
           elif [ '${{ github.event_name }}' == 'push' ] ; then
             pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r ${{ env.PUBLISH_PARAMS }}
           fi
