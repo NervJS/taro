@@ -78,7 +78,7 @@ export function isHasExtractProp (el: TaroElement): boolean {
  * @param node 当前组件
  * @param type 事件类型
  */
-export function isParentBinded (node: TaroElement | null, type: string): boolean {
+export function isParentBound (node: TaroElement | null, type: string): boolean {
   while ((node = node?.parentElement || null)) {
     if (!node || node.nodeName === ROOT_STR || node.nodeName === 'root-portal') {
       return false
