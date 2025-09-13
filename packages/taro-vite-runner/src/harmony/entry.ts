@@ -64,7 +64,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             this.emitFile({
               type: 'chunk',
               id: page.scriptPath,
-              fileName: viteCompilerContext.getScriptPath(page.name + TARO_COMP_SUFFIX),
+              fileName: viteCompilerContext.getScriptPath(page.name + '/index' + TARO_COMP_SUFFIX),
               implicitlyLoadedAfterOneOf: [rawId]
             })
             await this.load({

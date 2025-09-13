@@ -1,5 +1,6 @@
 import * as babel from '@babel/core'
 import * as t from '@babel/types'
+import { describe, expect, test } from 'vitest'
 
 import plugin from '../src'
 import * as definition from './__mocks__/h5-definition.json'

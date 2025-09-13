@@ -1035,11 +1035,11 @@ this.removeTabBarEvent()` : 'callFn(this.page?.onUnload, this)'])
 
     if (this.isTabbarPage) {
       importList.push(
-        ...this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`),
+        ...this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}/index${TARO_COMP_SUFFIX}'`),
       )
     } else {
       importList.push(
-        `import createComponent, { config } from "${path.resolve(targetRoot, (page as TaroHarmonyPageMeta).originName) + TARO_COMP_SUFFIX}"`,
+        `import createComponent, { config } from "${path.resolve(targetRoot, (page as TaroHarmonyPageMeta).originName) + '/index' + TARO_COMP_SUFFIX}"`,
       )
     }
     if (isBlended && this.#setReconcilerPost) {

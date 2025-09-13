@@ -8,7 +8,7 @@ const __dirname = dirname(__filename)
 
 const sourceFileDist = resolve(__dirname, '..', 'dist/definition.json')
 
-const targetFile = resolve(__dirname, '../..', 'babel-plugin-transform-taroapi/__tests__/__mocks__/h5-definition.json')
+const targetFile = resolve(__dirname, '../..', 'babel-plugin-transform-taroapi/tests/__mocks__/h5-definition.json')
 
 try {
   // 读取源文件内容

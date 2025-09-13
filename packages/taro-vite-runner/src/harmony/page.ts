@@ -63,7 +63,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       }
       return null
     },
-    load (id) {
+    async load (id) {
       if (!viteCompilerContext) return
       const { taroConfig, cwd: appPath, app, loaderMeta } = viteCompilerContext
       const appConfig = app.config
@@ -100,7 +100,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               code: parse.parse(tabbarId, tabbarPages as TaroHarmonyPageMeta[], name, this.resolve),
               exports: ['default'],
             })
-            tabbarPages.forEach(async page => {
+            await Promise.all(tabbarPages.map(async page => {
               const deps = await viteCompilerContext.collectedDeps(this, escapePath(page.scriptPath), filter)
               const ncObj: Record<string, [string, string]> = {}
               deps.forEach(dep => {
@@ -121,7 +121,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               nativeComps.forEach(comp => {
                 viteCompilerContext.generateNativeComponent(this, comp, [rawId])
               })
-            })
+            }))
           }
         } else {
           const list: string[] = []
@@ -137,7 +137,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             list.push(page.name)
           }
 
-          list.forEach(pageName => {
+          await Promise.all(list.map(async pageName => {
             pageName = removeHeadSlash(pageName)
             if (!pageName) {
               pageName = 'index'
@@ -145,7 +145,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
             const page_ = page as TaroHarmonyPageMeta
             page_.id = id
-            page_.originName = page.name
+            page_.originName ||= page.name // Note: originName 仅更新一次, watch 模式下这里可能反复进入
             page_.name = pageName
 
             this.emitFile({
@@ -154,28 +154,28 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               code: parse.parse(path.resolve(appRoot, pageName), page_, name, this.resolve),
               exports: ['default'],
             })
-            viteCompilerContext.collectedDeps(this, escapePath(rawId), filter).then(deps => {
-              const ncObj: Record<string, [string, string]> = {}
-              deps.forEach(dep => {
-                Object.entries(nCompCache.get(dep) || {}).forEach(([key, value]) => {
-                  const absPath = value[0]
-                  const ext = path.extname(absPath)
-                  const basename = path.basename(absPath, ext)
-                  ncObj[key] = [path.join(path.dirname(path.relative(path.dirname(rawId), absPath)), basename), value[1]]
-                })
-              })
-              if (!page.isNative) {
-                page.config.usingComponents = {
-                  ...page.config.usingComponents,
-                  ...ncObj,
-                }
-              }
-              const nativeComps = viteCompilerContext.collectNativeComponents(page)
-              nativeComps.forEach(comp => {
-                viteCompilerContext.generateNativeComponent(this, comp, [rawId])
+
+            const ncObj: Record<string, [string, string]> = {}
+            const deps = await viteCompilerContext.collectedDeps(this, escapePath(rawId), filter)
+            deps.forEach(dep => {
+              Object.entries(nCompCache.get(dep) || {}).forEach(([key, value]) => {
+                const absPath = value[0]
+                const ext = path.extname(absPath)
+                const basename = path.basename(absPath, ext)
+                ncObj[key] = [path.join(path.dirname(path.relative(path.dirname(rawId), absPath)), basename), value[1]]
               })
             })
-          })
+            if (!page.isNative) {
+              page.config.usingComponents = {
+                ...page.config.usingComponents,
+                ...ncObj,
+              }
+            }
+            const nativeComps = viteCompilerContext.collectNativeComponents(page)
+            nativeComps.forEach(comp => {
+              viteCompilerContext.generateNativeComponent(this, comp, [rawId])
+            })
+          }))
         }
         return parse.parseEntry(rawId, page as TaroHarmonyPageMeta)
       }

@@ -207,7 +207,7 @@ module.exports = (_, options = {}) => {
   }
 
   plugins.push(require('./remove-define-config'))
-  if (isReact) {
+  if (isReact && process.env.TARO_ENV === 'weapp') {
     plugins.unshift(require('./transform-taro-components'))
   }
 

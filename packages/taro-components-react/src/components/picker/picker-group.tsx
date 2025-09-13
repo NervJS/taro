@@ -15,6 +15,10 @@ export interface PickerGroupProps {
   updateDay?: (value: number, fields: number) => void
   selectedIndex?: number // 添加selectedIndex参数
   _updateTrigger?: any // 仅用于强制触发更新
+  colors?: {
+    itemDefaultColor?: string // 选项字体默认颜色
+    itemSelectedColor?: string // 选项字体选中颜色
+  }
 }
 
 // 定义常量
@@ -30,6 +34,7 @@ export function PickerGroupBasic(props: PickerGroupProps) {
     updateIndex,
     onColumnChange,
     selectedIndex = 0, // 使用selectedIndex参数，默认为0
+    colors = {},
   } = props
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
   const scrollViewRef = React.useRef<TaroScrollView>(null)
@@ -69,6 +74,8 @@ export function PickerGroupBasic(props: PickerGroupProps) {
     }
     // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
     isCenterTimerId.current = setTimeout(() => {
+      if (!scrollViewRef.current) return
+
       const scrollTop = scrollViewRef.current.scrollTop
       const newIndex = getSelectedIndex(scrollTop)
 
@@ -102,7 +109,12 @@ export function PickerGroupBasic(props: PickerGroupProps) {
         key={index}
         ref={(el) => (itemRefs.current[index] = el)}
         className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
-        style={{ height: PICKER_LINE_HEIGHT }}
+        style={{
+          height: PICKER_LINE_HEIGHT,
+          color: index === currentIndex
+            ? (colors.itemSelectedColor || undefined)
+            : (colors.itemDefaultColor || undefined)
+        }}
       >
         {content}
       </View>
@@ -163,6 +175,7 @@ export function PickerGroupTime(props: PickerGroupProps) {
     columnId,
     updateIndex,
     selectedIndex = 0,
+    colors = {},
   } = props
 
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
@@ -202,6 +215,8 @@ export function PickerGroupTime(props: PickerGroupProps) {
     }
     // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
     isCenterTimerId.current = setTimeout(() => {
+      if (!scrollViewRef.current) return
+
       const scrollTop = scrollViewRef.current.scrollTop
       const newIndex = getSelectedIndex(scrollTop)
       setIsTouching(false)
@@ -238,7 +253,12 @@ export function PickerGroupTime(props: PickerGroupProps) {
         key={index}
         ref={(el) => (itemRefs.current[index] = el)}
         className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
-        style={{ height: PICKER_LINE_HEIGHT }}
+        style={{
+          height: PICKER_LINE_HEIGHT,
+          color: index === currentIndex
+            ? (colors.itemSelectedColor || undefined)
+            : (colors.itemDefaultColor || undefined)
+        }}
       >
         {content}
       </View>
@@ -298,6 +318,7 @@ export function PickerGroupDate(props: PickerGroupProps) {
     columnId,
     updateDay,
     selectedIndex = 0,
+    colors = {},
   } = props
 
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
@@ -337,6 +358,8 @@ export function PickerGroupDate(props: PickerGroupProps) {
 
     // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
     isCenterTimerId.current = setTimeout(() => {
+      if (!scrollViewRef.current) return
+
       const scrollTop = scrollViewRef.current.scrollTop
       const newIndex = getSelectedIndex(scrollTop)
 
@@ -374,7 +397,12 @@ export function PickerGroupDate(props: PickerGroupProps) {
         id={`picker-item-${columnId}-${index}`}
         key={index}
         className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
-        style={{ height: PICKER_LINE_HEIGHT }}
+        style={{
+          height: PICKER_LINE_HEIGHT,
+          color: index === currentIndex
+            ? (colors.itemSelectedColor || undefined)
+            : (colors.itemDefaultColor || undefined)
+        }}
       >
         {item}
       </View>
@@ -433,6 +461,7 @@ export function PickerGroupRegion(props: PickerGroupProps) {
     columnId,
     updateIndex,
     selectedIndex = 0, // 使用selectedIndex参数，默认为0
+    colors = {},
   } = props
 
   const scrollViewRef = React.useRef<any>(null)
@@ -470,6 +499,8 @@ export function PickerGroupRegion(props: PickerGroupProps) {
     }
     // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
     isCenterTimerId.current = setTimeout(() => {
+      if (!scrollViewRef.current) return
+
       const scrollTop = scrollViewRef.current.scrollTop
       const newIndex = getSelectedIndex(scrollTop)
 
@@ -502,7 +533,12 @@ export function PickerGroupRegion(props: PickerGroupProps) {
         id={`picker-item-${columnId}-${index}`}
         key={index}
         className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
-        style={{ height: PICKER_LINE_HEIGHT }}
+        style={{
+          height: PICKER_LINE_HEIGHT,
+          color: index === currentIndex
+            ? (colors.itemSelectedColor || undefined)
+            : (colors.itemDefaultColor || undefined)
+        }}
       >
         {content}
       </View>

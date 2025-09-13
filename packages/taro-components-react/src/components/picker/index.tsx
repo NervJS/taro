@@ -30,6 +30,18 @@ export interface RegionData {
 const EMPTY_ARRAY: any[] = []
 const EMPTY_OBJECT: Record<string, any> = {}
 
+// 语言映射函数
+function getLanguageText(lang?: string) {
+  const isEnglish = lang === 'en-US' || lang === 'en-GB'
+  return {
+    confirm: isEnglish ? 'Confirm' : '确定',
+    cancel: isEnglish ? 'Cancel' : '取消',
+    year: isEnglish ? 'Year ' : '年',
+    month: isEnglish ? 'Month ' : '月',
+    day: isEnglish ? 'Day ' : '日'
+  }
+}
+
 // 数据验证函数
 function validateRegionData(data: RegionData[], componentName = 'Picker'): { valid: boolean, error?: string } {
   if (!data) {
@@ -94,6 +106,13 @@ export interface PickerText {
   cancelText?: string
 }
 
+export interface PickerColors {
+  confirmButtonColor?: string // 确定按钮颜色
+  cancelButtonColor?: string // 取消按钮颜色
+  itemDefaultColor?: string // 选项字体默认颜色
+  itemSelectedColor?: string // 选项字体选中颜色
+}
+
 export interface PickerDate {
   _value: Date
   _start: Date
@@ -115,13 +134,14 @@ interface IProps {
   regionData?: RegionData[] // 省市区/县数据（region 模式专用）
   level?: RegionLevel
   textProps?: PickerText
+  colors?: PickerColors // 颜色配置
   onChange?: (e: { detail: { value: PickerValue, code?: string, postcode?: string } }) => void
   onColumnChange?: (e: { detail: { column: number, value: number } }) => void
   onCancel?: () => void
   children?: React.ReactNode
-  style?: React.CSSProperties
   forwardedRef?: React.MutableRefObject<HTMLDivElement | null>
   formType?: string
+  lang?: string // 语言参数，支持 'zh-CN'、'en-US'、'en-GB'
 }
 
 interface IState {
@@ -163,12 +183,13 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     level = 'region',
     regionData,
     textProps = EMPTY_OBJECT,
+    colors = EMPTY_OBJECT,
     onChange,
     onColumnChange,
     onCancel,
     children,
-    style,
     formType,
+    lang,
     ...restProps
   } = props
   const indexRef = React.useRef<number[]>([])
@@ -234,8 +255,8 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     } else if (mode === 'date') {
       const val = value as string
       let _value = verifyDate(val) || new Date(new Date().setHours(0, 0, 0, 0))
-      const _start = verifyDate(start) || new Date('1970/01/01')
-      const _end = verifyDate(end) || new Date('2999/01/01')
+      const _start = verifyDate(start) || new Date('1875/01/01')
+      const _end = verifyDate(end) || new Date('2100/01/01')
       if (!(_start <= _end)) {
         throw new Error(`Picker start time must be less than end time.`)
       }
@@ -345,14 +366,16 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   // 隐藏 Picker
   const hidePicker = React.useCallback(() => {
     isInitializationCompletedRef.current = false
-    setState(prev => ({ ...prev, fadeOut: true }))
-    setTimeout(() => {
-      setState(prev => ({
-        ...prev,
-        hidden: true,
-        fadeOut: false
-      }))
-    }, 350)
+    // 动画暂时不支持，暂时屏蔽相关样式挂载逻辑
+    // setState(prev => ({ ...prev, fadeOut: true }))
+    // setTimeout(() => {
+    //   setState(prev => ({
+    //     ...prev,
+    //     hidden: true,
+    //     fadeOut: false
+    //   }))
+    // }, 350)
+    setState(prev => ({ ...prev, hidden: true }))
   }, [])
 
   // 更新索引
@@ -711,6 +734,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
             onColumnChange={handleColumnChange}
             columnId={String(index)}
             selectedIndex={state.selectedIndices[index]} // 传递对应列的selectedIndex
+            colors={colors}
           />
         ))
       }
@@ -723,6 +747,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
             updateIndex={updateIndex}
             columnId="0"
             selectedIndex={state.selectedIndices[0]} // 传递小时列的selectedIndex
+            colors={colors}
           />,
           <PickerGroup
             key={`minute-${state.timestamp}`}
@@ -731,6 +756,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
             updateIndex={updateIndex}
             columnId="1"
             selectedIndex={state.selectedIndices[1]} // 传递分钟列的selectedIndex
+            colors={colors}
           />
         ]
       }
@@ -741,12 +767,14 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
         const currentYear = _updateValue[0]
         const currentMonth = _updateValue[1]
 
+        const langText = getLanguageText(lang)
+        const isEnglish = lang === 'en-US' || lang === 'en-GB'
         const yearRange = getYearRange(_start.getFullYear(), _end.getFullYear())
-          .map(item => `${item}年`)
+          .map(item => isEnglish ? `${langText.year}${item}` : `${item}${langText.year}`)
         const monthRange = getMonthRange(_start, _end, currentYear)
-          .map(item => `${item < 10 ? `0${item}` : item}月`)
+          .map(item => isEnglish ? `${langText.month}${item < 10 ? `0${item}` : item}` : `${item < 10 ? `0${item}` : item}${langText.month}`)
         const dayRange = getDayRange(_start, _end, currentYear, currentMonth)
-          .map(item => `${item < 10 ? `0${item}` : item}日`)
+          .map(item => isEnglish ? `${langText.day}${item < 10 ? `0${item}` : item}` : `${item < 10 ? `0${item}` : item}${langText.day}`)
 
         const renderView = [
           <PickerGroup
@@ -757,6 +785,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
             updateIndex={updateIndex}
             columnId="0"
             selectedIndex={state.selectedIndices[0]} // 传递年份列的selectedIndex
+            colors={colors}
           />
         ]
         if (fields === 'month' || fields === 'day') {
@@ -769,6 +798,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
               updateIndex={updateIndex}
               columnId="1"
               selectedIndex={state.selectedIndices[1]} // 传递月份列的selectedIndex
+              colors={colors}
             />
           )
         }
@@ -782,6 +812,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
               updateIndex={updateIndex}
               columnId="2"
               selectedIndex={state.selectedIndices[2]} // 传递日期列的selectedIndex
+              colors={colors}
             />
           )
         }
@@ -822,6 +853,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
               updateIndex={updateIndex}
               columnId={String(i)}
               selectedIndex={state.selectedIndices[i]}
+              colors={colors}
             />
           )
         }
@@ -836,10 +868,11 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
             updateIndex={updateIndex}
             columnId="0"
             selectedIndex={state.selectedIndices[0]} // 传递selector模式的selectedIndex
+            colors={colors}
           />
         )
     }
-  }, [mode, range, rangeKey, fields, updateIndex, updateDay, handleColumnChange, pickerDateRef.current, level, regionData, state.selectedIndices, columnsCount])
+  }, [mode, range, rangeKey, fields, updateIndex, updateDay, handleColumnChange, pickerDateRef.current, level, regionData, state.selectedIndices, columnsCount, lang, colors])
 
   // 动画类名控制逻辑
   const clsMask = classNames('taro-picker__mask-overlay', 'taro-picker__animate-fade-in', {
@@ -855,12 +888,14 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     hidePicker
   }))
 
+  // 获取语言文本
+  const langText = getLanguageText(lang)
+
   return (
     <View
       ref={ref as any} // 直接绑定 ref
-      style={style}
       {...(formType ? { 'data-form-type': formType } : {})}
-      {...omit(restProps, ['mode', 'disabled', 'range', 'rangeKey', 'value', 'start', 'end', 'fields', 'name', 'textProps', 'onChange', 'onColumnChange', 'onCancel', 'children', 'style', 'formType'])}
+      {...omit(restProps, ['mode', 'disabled', 'range', 'rangeKey', 'value', 'start', 'end', 'fields', 'name', 'textProps', 'onChange', 'onColumnChange', 'onCancel', 'children', 'formType'])}
     >
       <View onClick={showPicker}>
         {children}
@@ -870,14 +905,22 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
           <View className={clsMask} onClick={handleCancel} />
           <View className={clsSlider}>
             <View className="taro-picker__hd">
-              <View className="taro-picker__action" onClick={handleCancel}>
-                {textProps.cancelText ?? '取消'}
+              <View
+                className="taro-picker__action"
+                onClick={handleCancel}
+                style={{ color: colors.cancelButtonColor }}
+              >
+                {textProps.cancelText ?? langText.cancel}
               </View>
               {headerText && (
                 <View className="taro-picker__title">{headerText}</View>
               )}
-              <View className="taro-picker__action" onClick={handleChange}>
-                {textProps.okText ?? '确定'}
+              <View
+                className="taro-picker__action"
+                onClick={handleChange}
+                style={{ color: colors.confirmButtonColor }}
+              >
+                {textProps.okText ?? langText.confirm}
               </View>
             </View>
             <View className="taro-picker__bd">{renderPickerGroup}</View>
