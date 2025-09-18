@@ -46,19 +46,19 @@ function addConfig (source) {
           check(callee.property.value)
         }
       }
-      node.arguments.forEach((item) => {
+      node.arguments.forEach((item: any) => {
         if (item.type === 'Literal' && item.value) {
           check(item.value)
         }
       })
     },
-    ClassDeclaration(node) {
+    ClassDeclaration(node: any) {
       // 类声明: class Foo {}
       if (node.id && node.id.name) {
         check(node.id.name)
       }
       // 类体方法: class Foo { bar() {} }
-      node.body.body.forEach((method) => {
+      node.body.body.forEach((method: any) => {
         if (method.type === 'MethodDefinition') {
           if (method.key.type === 'Identifier') {
             check(method.key.name)
@@ -68,12 +68,12 @@ function addConfig (source) {
         }
       })
     },
-    ClassExpression(node) {
+    ClassExpression(node: any) {
       // 类表达式: const A = class B {}
       if (node.id && node.id.name) {
         check(node.id.name)
       }
-      node.body.body.forEach((method) => {
+      node.body.body.forEach((method: any) => {
         if (method.type === 'MethodDefinition') {
           if (method.key.type === 'Identifier') {
             check(method.key.name)
