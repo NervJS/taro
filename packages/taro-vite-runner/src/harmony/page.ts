@@ -22,7 +22,7 @@ const nativeUniqueKeyMap = new WeakMap<ResolvedConfig, UniqueKeyMap<string>>()
 export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
   const name = 'taro:vite-harmony-page'
   const { taroConfig, sourceDir } = viteCompilerContext
-  const filter = createFilterWithCompileOptions(taroConfig.compile, [sourceDir, /(?<=node_modules[\\/]).*taro/], [])
+  const filter = createFilterWithCompileOptions(taroConfig.compile, [`${sourceDir}/**`, /(?<=node_modules[\\/]).*taro/], [])
 
   let viteConfig: ResolvedConfig
   let nCompCache: Map<string, Record<string, [string, string]>>
