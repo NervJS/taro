@@ -288,5 +288,5 @@ export function fileToUrl(
   })
 
   cache.set(id, resourcePath)
-  return 'resource://base/media/' + resourceName
+  return 'resource://base/media/' + resourceName + ext
 }
