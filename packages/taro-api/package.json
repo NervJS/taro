@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/api",
-  "version": "4.1.6",
+  "version": "4.1.7-alpha.2",
   "description": "Taro common API",
   "author": "O2Team",
   "license": "MIT",
