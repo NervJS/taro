@@ -929,14 +929,14 @@ importers:
         specifier: ^7.24.4
         version: 7.27.0
       '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
+        specifier: 4.1.7-beta.3
+        version: 4.1.7-beta.3(@tarojs/helper@4.1.7-beta.3)(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96)))(postcss@8.5.3)(rollup@4.39.0)(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.19.9)(typescript@5.4.5))(vue@3.5.13(typescript@5.4.5))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96)))(webpack@5.91.0(@swc/core@1.3.96))
       '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
+        specifier: 4.1.7-beta.3
+        version: 4.1.7-beta.3
       '@tarojs/taro':
-        specifier: workspace:*
-        version: link:../taro
+        specifier: 4.1.7-beta.3
+        version: 4.1.7-beta.3(@tarojs/components@4.1.7-beta.3(@tarojs/helper@4.1.7-beta.3)(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96)))(postcss@8.5.3)(rollup@4.39.0)(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.19.9)(typescript@5.4.5))(vue@3.5.13(typescript@5.4.5))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96)))(webpack@5.91.0(@swc/core@1.3.96)))(@tarojs/helper@4.1.7-beta.3)(@tarojs/shared@4.1.7-beta.3)(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96)))(postcss@8.5.3)(rollup@4.39.0)(vue@3.5.13(typescript@5.4.5))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96)))(webpack@5.91.0(@swc/core@1.3.96))
       classnames:
         specifier: ^2.2.5
         version: 2.5.1
@@ -960,11 +960,11 @@ importers:
         specifier: ^7.24.1
         version: 7.27.0(@babel/core@7.26.10)
       '@tarojs/helper':
-        specifier: workspace:*
-        version: link:../taro-helper
+        specifier: 4.1.7-beta.3
+        version: 4.1.7-beta.3
       '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
+        specifier: 4.1.7-beta.3
+        version: 4.1.7-beta.3
       '@testing-library/jest-dom':
         specifier: ^6.1.4
         version: 6.6.3
@@ -6109,6 +6109,29 @@ packages:
     resolution: {integrity: sha512-XIB2XbzHTN6ieIjfIMV9hlVcfPU26s2vafYWQcZHWXHOxiaRZYEDKEwdl129Zyg50+foYV2jCgtrqSA6qNuNSA==}
     engines: {node: '>=6'}
 
+  '@tarojs/api@4.1.7-beta.3':
+    resolution: {integrity: sha512-F9Pp4Gez0CGDW7ED2Rx6q/PW7PA6J8KTV+eoFz3GT8oksPrKpaEFE56b604F7VXmXFvBCfj5rZjW6vpKnnchZg==}
+    engines: {node: '>= 18'}
+    peerDependencies:
+      '@tarojs/runtime': 4.1.7-beta.3
+      '@tarojs/shared': 4.1.7-beta.3
+
+  '@tarojs/components@4.1.7-beta.3':
+    resolution: {integrity: sha512-i913t4XsQ0Jbsz9Jm/ENKqhmW5Id50P/DaKlpR/Cbf3EKkMLLoHWnLIOvAH/nMkiptaqs3fc/FSFIdrC/LAeDg==}
+    engines: {node: '>= 18'}
+    peerDependencies:
+      '@types/react': '*'
+      vue: '*'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      vue:
+        optional: true
+
+  '@tarojs/helper@4.1.7-beta.3':
+    resolution: {integrity: sha512-4LeUDinHRe3ZL7rcdy0PttOCSZFt8f8krud+eGit9H+UuENFOh19NazcxGoCXi3yVkyJESeegD5zI+yDazE4LQ==}
+    engines: {node: '>= 18'}
+
   '@tarojs/parse-css-to-stylesheet-android-arm-eabi@0.0.69':
     resolution: {integrity: sha512-xfn55ehFWjbIzDTu+0QwMkCf8icC7jwAiDm2S7Cv5Og83gSzMUCb76KzEAwgTSTe0wiLrDai2HAhBftpE4V1Qw==}
     engines: {node: '>= 10'}
@@ -6309,6 +6332,45 @@ packages:
   '@tarojs/plugin-doctor@0.0.13':
     resolution: {integrity: sha512-X4aq/VS9Xr5UYkiZv5T0vSx1OycuzjYgbJDFs4YPWwJDaY1LOzn8Nlzb/rQchkBlxDPHmqUQQvejL0o6+REgbw==}
     engines: {node: '>= 10'}
+
+  '@tarojs/runtime@4.1.7-beta.3':
+    resolution: {integrity: sha512-rvgj7SA4zOCuUtvvhb7DYvPhad8f5NvPFdui89sdGT1Wtrni1v5v9GMpcXQyoeDFubBoJf+KuysfomhSj8SJGw==}
+    engines: {node: '>= 18'}
+
+  '@tarojs/shared@4.1.7-beta.3':
+    resolution: {integrity: sha512-doIv3rX1BxtcfYlTKTMjY3QmZ+V/RA3euIaoQCz+itadcloVojErZyYTA8jqQExFGfaDgmWvLGpt4dU7bpkzaw==}
+    engines: {node: '>= 18'}
+
+  '@tarojs/taro@4.1.7-beta.3':
+    resolution: {integrity: sha512-42Vve+5xInd2mIfL71lNrKydUnyTXUhv0QpvCC7zy9PW7M7GBcIavnAB4AhXYTruDxp9oh2dDPo6zNcC9ltc5g==}
+    engines: {node: '>= 18'}
+    peerDependencies:
+      '@tarojs/components': 4.1.7-beta.3
+      '@tarojs/helper': 4.1.7-beta.3
+      '@tarojs/shared': 4.1.7-beta.3
+      '@types/react': ^18
+      html-webpack-plugin: ^5
+      postcss: ^8
+      rollup: ^3
+      vue: ^3
+      webpack: ^5
+      webpack-chain: ^6
+      webpack-dev-server: ^4
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      html-webpack-plugin:
+        optional: true
+      rollup:
+        optional: true
+      vue:
+        optional: true
+      webpack:
+        optional: true
+      webpack-chain:
+        optional: true
+      webpack-dev-server:
+        optional: true
 
   '@testing-library/dom@9.3.4':
     resolution: {integrity: sha512-FlS4ZWlp97iiNWig0Muq8p+3rVDjRiYE+YKGbAqXOu9nwJFFOdL00kFpz42M+4huzYi86vAK1sOOfyOG45muIQ==}
@@ -20429,6 +20491,68 @@ snapshots:
     dependencies:
       defer-to-connect: 1.1.3
 
+  '@tarojs/api@4.1.7-beta.3(@tarojs/runtime@4.1.7-beta.3)(@tarojs/shared@4.1.7-beta.3)':
+    dependencies:
+      '@tarojs/runtime': 4.1.7-beta.3
+      '@tarojs/shared': 4.1.7-beta.3
+
+  '@tarojs/components@4.1.7-beta.3(@tarojs/helper@4.1.7-beta.3)(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96)))(postcss@8.5.3)(rollup@4.39.0)(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.19.9)(typescript@5.4.5))(vue@3.5.13(typescript@5.4.5))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96)))(webpack@5.91.0(@swc/core@1.3.96))':
+    dependencies:
+      '@stencil/core': 2.22.3(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.19.9)(typescript@5.4.5))
+      '@tarojs/runtime': 4.1.7-beta.3
+      '@tarojs/shared': 4.1.7-beta.3
+      '@tarojs/taro': 4.1.7-beta.3(@tarojs/components@4.1.7-beta.3(@tarojs/helper@4.1.7-beta.3)(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96)))(postcss@8.5.3)(rollup@4.39.0)(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.19.9)(typescript@5.4.5))(vue@3.5.13(typescript@5.4.5))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96)))(webpack@5.91.0(@swc/core@1.3.96)))(@tarojs/helper@4.1.7-beta.3)(@tarojs/shared@4.1.7-beta.3)(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96)))(postcss@8.5.3)(rollup@4.39.0)(vue@3.5.13(typescript@5.4.5))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96)))(webpack@5.91.0(@swc/core@1.3.96))
+      classnames: 2.5.1
+      hammerjs: 2.0.8
+      hls.js: 1.6.0
+      resolve-pathname: 3.0.0
+      swiper: 11.1.15
+      tslib: 2.8.1
+    optionalDependencies:
+      '@types/react': 18.3.20
+      vue: 3.5.13(typescript@5.4.5)
+    transitivePeerDependencies:
+      - '@tarojs/helper'
+      - bufferutil
+      - canvas
+      - html-webpack-plugin
+      - node-notifier
+      - postcss
+      - rollup
+      - supports-color
+      - ts-node
+      - utf-8-validate
+      - webpack
+      - webpack-chain
+      - webpack-dev-server
+
+  '@tarojs/helper@4.1.7-beta.3':
+    dependencies:
+      '@babel/core': 7.26.10
+      '@babel/generator': 7.24.4
+      '@babel/parser': 7.24.4
+      '@babel/traverse': 7.27.0(supports-color@9.4.0)
+      '@babel/types': 7.24.0
+      '@swc/core': 1.3.96
+      '@swc/register': 0.1.10(@swc/core@1.3.96)
+      ansi-escapes: 4.3.2
+      chalk: 4.1.2
+      chokidar: 3.6.0
+      cross-spawn: 7.0.6
+      debug: 4.4.1
+      dotenv: 16.4.7
+      dotenv-expand: 11.0.7
+      esbuild: 0.21.5
+      find-yarn-workspace-root: 2.0.0
+      fs-extra: 11.3.0
+      lodash: 4.17.21
+      require-from-string: 2.0.2
+      resolve: 1.22.10
+      supports-hyperlinks: 3.2.0
+    transitivePeerDependencies:
+      - '@swc/helpers'
+      - supports-color
+
   '@tarojs/parse-css-to-stylesheet-android-arm-eabi@0.0.69':
     optional: true
 
@@ -20570,6 +20694,31 @@ snapshots:
       '@tarojs/plugin-doctor-win32-x64-msvc': 0.0.13
     transitivePeerDependencies:
       - supports-color
+
+  '@tarojs/runtime@4.1.7-beta.3':
+    dependencies:
+      '@tarojs/shared': 4.1.7-beta.3
+      tslib: 2.8.1
+
+  '@tarojs/shared@4.1.7-beta.3': {}
+
+  '@tarojs/taro@4.1.7-beta.3(@tarojs/components@4.1.7-beta.3(@tarojs/helper@4.1.7-beta.3)(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96)))(postcss@8.5.3)(rollup@4.39.0)(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.19.9)(typescript@5.4.5))(vue@3.5.13(typescript@5.4.5))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96)))(webpack@5.91.0(@swc/core@1.3.96)))(@tarojs/helper@4.1.7-beta.3)(@tarojs/shared@4.1.7-beta.3)(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96)))(postcss@8.5.3)(rollup@4.39.0)(vue@3.5.13(typescript@5.4.5))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96)))(webpack@5.91.0(@swc/core@1.3.96))':
+    dependencies:
+      '@tarojs/api': 4.1.7-beta.3(@tarojs/runtime@4.1.7-beta.3)(@tarojs/shared@4.1.7-beta.3)
+      '@tarojs/components': 4.1.7-beta.3(@tarojs/helper@4.1.7-beta.3)(@types/react@18.3.20)(html-webpack-plugin@5.6.3(webpack@5.91.0(@swc/core@1.3.96)))(postcss@8.5.3)(rollup@4.39.0)(ts-node@10.9.2(@swc/core@1.3.96)(@types/node@20.19.9)(typescript@5.4.5))(vue@3.5.13(typescript@5.4.5))(webpack-chain@6.5.1)(webpack-dev-server@4.15.2(webpack@5.91.0(@swc/core@1.3.96)))(webpack@5.91.0(@swc/core@1.3.96))
+      '@tarojs/helper': 4.1.7-beta.3
+      '@tarojs/runtime': 4.1.7-beta.3
+      '@tarojs/shared': 4.1.7-beta.3
+      '@types/postcss-url': 10.0.4
+      postcss: 8.5.3
+    optionalDependencies:
+      '@types/react': 18.3.20
+      html-webpack-plugin: 5.6.3(webpack@5.91.0(@swc/core@1.3.96))
+      rollup: 4.39.0
+      vue: 3.5.13(typescript@5.4.5)
+      webpack: 5.91.0(@swc/core@1.3.96)
+      webpack-chain: 6.5.1
+      webpack-dev-server: 4.15.2(webpack@5.91.0(@swc/core@1.3.96))
 
   '@testing-library/dom@9.3.4':
     dependencies:
