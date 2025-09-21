@@ -35,6 +35,7 @@ import {
 } from 'react-native'
 import { noop, omit, parseStyles, useUpdateEffect } from '../../utils'
 import { InputProps } from './PropsType'
+import { MutableRefObject } from 'react'
 
 const keyboardTypeMap: { [key: string]: string } = {
   text: 'default',
@@ -55,7 +56,7 @@ const defaultProps = {
   selectionEnd: -1
 }
 
-const _Input = (props: InputProps) => {
+const _Input = React.forwardRef((props: InputProps, ref: MutableRefObject<any>) => {
   const {
     style,
     value,
@@ -81,7 +82,7 @@ const _Input = (props: InputProps) => {
   const tmpValue = React.useRef<string>()
   const [_height, setHeight] = React.useState(0)
   const lineCount = React.useRef(0)
-  const inputRef = React.useRef<any>()
+  const inputRef = ref || React.useRef<any>()
 
   React.useEffect(() => {
     tmpValue.current = value
@@ -272,7 +273,7 @@ const _Input = (props: InputProps) => {
       ]}
     />
   )
-}
+})
 
 _Input.defaultProps = defaultProps as InputProps
 
