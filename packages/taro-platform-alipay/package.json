@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-alipay",
-  "version": "4.1.7-beta.3",
+  "version": "4.1.7-beta.4",
   "description": "支付宝小程序平台插件",
   "author": "O2Team",
   "license": "MIT",
