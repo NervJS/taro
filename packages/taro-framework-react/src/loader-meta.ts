@@ -27,15 +27,15 @@ function addConfig (source) {
   }
 
   walk.simple(ast, {
-    FunctionExpression (node: any) {
+    FunctionExpression(node: any) {
       if (!node.id || !node.id.name) return
       check(node.id.name)
     },
-    FunctionDeclaration (node: any) {
+    FunctionDeclaration(node: any) {
       if (!node.id || !node.id.name) return
       check(node.id.name)
     },
-    CallExpression (node: any) {
+    CallExpression(node: any) {
       const { callee } = node
       if (callee.type === 'Identifier') {
         check(callee.name)
@@ -46,12 +46,43 @@ function addConfig (source) {
           check(callee.property.value)
         }
       }
-      node.arguments.forEach(item => {
+      node.arguments.forEach((item: any) => {
         if (item.type === 'Literal' && item.value) {
           check(item.value)
         }
       })
-    }
+    },
+    ClassDeclaration(node: any) {
+      // 类声明: class Foo {}
+      if (node.id && node.id.name) {
+        check(node.id.name)
+      }
+      // 类体方法: class Foo { bar() {} }
+      node.body.body.forEach((method: any) => {
+        if (method.type === 'MethodDefinition') {
+          if (method.key.type === 'Identifier') {
+            check(method.key.name)
+          } else if (method.key.type === 'Literal') {
+            check(method.key.value as string)
+          }
+        }
+      })
+    },
+    ClassExpression(node: any) {
+      // 类表达式: const A = class B {}
+      if (node.id && node.id.name) {
+        check(node.id.name)
+      }
+      node.body.body.forEach((method: any) => {
+        if (method.type === 'MethodDefinition') {
+          if (method.key.type === 'Identifier') {
+            check(method.key.name)
+          } else if (method.key.type === 'Literal') {
+            check(method.key.value as string)
+          }
+        }
+      })
+    },
   })
 
   return additionConfig

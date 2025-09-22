@@ -626,6 +626,7 @@ require("./runtime");
         function useUnload() {}
         function useAddToFavorites() {}
         function useOptionMenuClick() {}
+        function useKeyboardHeight() {}
         function useSaveExitState() {}
         function useShareAppMessage() {}
         function useShareTimeline() {}
@@ -3688,6 +3689,7 @@ require("./runtime");
         function useUnload() {}
         function useAddToFavorites() {}
         function useOptionMenuClick() {}
+        function useKeyboardHeight() {}
         function useSaveExitState() {}
         function useShareAppMessage() {}
         function useShareTimeline() {}
@@ -6750,6 +6752,7 @@ require("./runtime");
         function useUnload() {}
         function useAddToFavorites() {}
         function useOptionMenuClick() {}
+        function useKeyboardHeight() {}
         function useSaveExitState() {}
         function useShareAppMessage() {}
         function useShareTimeline() {}
