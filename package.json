@@ -118,7 +118,6 @@
     "conventional-changelog-cli": "^2.0.1",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
-    "dotenv": "^16.4.7",
     "escodegen": "^2.0.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^6.4.0",
