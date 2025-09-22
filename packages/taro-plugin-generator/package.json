@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-generator",
-  "version": "4.1.7-beta.4",
+  "version": "4.1.6",
   "description": "Taro 生成器插件",
   "keywords": [
     "Taro",
