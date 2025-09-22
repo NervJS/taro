@@ -10,7 +10,6 @@ import path from 'path'
 import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
-import styles from 'rollup-plugin-styles'
 
 // 合并 SCSS 文件到 original 构建输出目录
 function mergeScssFiles() {
@@ -104,6 +103,68 @@ function fixStyleImports() {
   }
 }
 
+// 自定义样式处理插件 - 替换 rollup-plugin-styles
+function customStylesPlugin() {
+  return {
+    name: 'custom-styles-plugin',
+    // 处理 SCSS 文件导入，让 Rollup 能够识别
+    load(id) {
+      if (id.endsWith('.scss')) {
+        // 返回空的 CSS 内容，让 Rollup 能够处理导入
+        return '/* SCSS file - processed by custom plugin */'
+      }
+      return null
+    },
+    // 在 generateBundle 阶段处理样式文件
+    generateBundle(options, bundle) {
+      // 只处理 original 构建模式
+      if (!options.dir?.includes('original')) return
+
+      // 这个插件主要配合 mergeScssFiles 和 fixStyleImports 使用
+      // 不直接处理样式文件，而是让它们保持原始 SCSS 格式
+      // 避免 rollup-plugin-styles 可能产生的异常文件
+    },
+    // 在 writeBundle 阶段进行后处理
+    writeBundle(options) {
+      // 只处理 original 构建模式
+      if (!options.dir?.includes('original')) return
+
+      // 确保样式文件保持原始格式，不进行任何编译
+      const outputDir = options.dir
+      const componentsDir = path.join(outputDir, 'components')
+
+      if (!fs.existsSync(componentsDir)) return
+
+      // 遍历所有组件目录，确保 SCSS 文件保持原始格式
+      fs.readdirSync(componentsDir).forEach((component) => {
+        const componentDir = path.join(componentsDir, component)
+        if (!fs.statSync(componentDir).isDirectory()) return
+
+        const styleDir = path.join(componentDir, 'style')
+        if (fs.existsSync(styleDir)) {
+          // 清理任何可能由其他插件生成的异常文件
+          fs.readdirSync(styleDir).forEach((file) => {
+            const filePath = path.join(styleDir, file)
+            // 删除非 SCSS 的样式相关文件
+            if (file.endsWith('.css') ||
+                file.endsWith('.css.map') ||
+                file.endsWith('.scss.js') ||
+                file.endsWith('.scss.js.map') ||
+                file.endsWith('.css.js') ||
+                file.endsWith('.css.js.map')) {
+              try {
+                fs.unlinkSync(filePath)
+              } catch (error) {
+                console.warn(`Failed to delete file ${filePath}:`, error.message)
+              }
+            }
+          })
+        }
+      })
+    }
+  }
+}
+
 function getPlugins(pre = [], post = [], isOriginal = false) {
   const basePlugins = [
     ...pre,
@@ -117,14 +178,7 @@ function getPlugins(pre = [], post = [], isOriginal = false) {
     }),
     // 根据模式选择样式处理插件
     isOriginal
-      ? styles({
-        mode: 'inject', // 注入到 JS 中，但不提取为独立文件
-        inject: false, // 不注入到 HTML
-        minimize: false, // 不压缩，保持原始格式
-        sourceMap: false,
-        fileName: () => '', // 不生成文件名，避免提取
-        onExtract: () => false, // 阻止提取文件
-      })
+      ? customStylesPlugin() // 使用自定义样式插件，保持 SCSS 原始格式
       : postcss({
         extract: true,
         inject: { insertAt: 'top' },
