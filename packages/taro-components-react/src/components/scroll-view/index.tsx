@@ -1,4 +1,4 @@
-import './style/index.css'
+import './style/index.scss'
 
 import { isFunction } from '@tarojs/shared'
 import classNames from 'classnames'

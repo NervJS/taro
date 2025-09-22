@@ -1,5 +1,5 @@
 import 'swiper/swiper-bundle.css'
-import './style/index.css'
+import './style/index.scss'
 
 import classNames from 'classnames'
 import React from 'react'
