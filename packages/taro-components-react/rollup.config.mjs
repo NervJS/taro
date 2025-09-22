@@ -115,15 +115,6 @@ function customStylesPlugin() {
       }
       return null
     },
-    // 在 generateBundle 阶段处理样式文件
-    generateBundle(options, bundle) {
-      // 只处理 original 构建模式
-      if (!options.dir?.includes('original')) return
-
-      // 这个插件主要配合 mergeScssFiles 和 fixStyleImports 使用
-      // 不直接处理样式文件，而是让它们保持原始 SCSS 格式
-      // 避免 rollup-plugin-styles 可能产生的异常文件
-    },
     // 在 writeBundle 阶段进行后处理
     writeBundle(options) {
       // 只处理 original 构建模式
