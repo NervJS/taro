@@ -18,31 +18,49 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   lang?: string
 }
 
-// CDN脚本URL
-const LEGO_CDN_URL = 'http://ossin.jd.com/swm-plus/h5Tag/tag.js'
+// CDN脚本URL（按环境与可覆盖配置）
+const LEGO_CDN_URL_DEV = 'http://ossin.jd.com/swm-plus/h5Tag/tag.js'
+const LEGO_CDN_URL_PROD = 'https://storage.jd.com/static-frontend/h5-tag/1.0.0/tag.min.js'
+
+const getLegoCdnUrl = (): string => {
+  // 允许通过全局变量覆盖
+  const override = (typeof window !== 'undefined' && (window as any).__TARO_IMAGE_LEGO_CDN_URL__)
+  if (override && typeof override === 'string') return override
+
+  // 允许通过 Taro 全局对象覆盖（与 window 同名变量）
+  const taroOverride = (typeof window !== 'undefined' && (window as any).Taro && (window as any).Taro.__TARO_IMAGE_LEGO_CDN_URL__)
+  if (taroOverride && typeof taroOverride === 'string') return taroOverride
+
+  // 基于环境选择
+  const isProd = (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'production')
+  return isProd ? LEGO_CDN_URL_PROD : LEGO_CDN_URL_DEV
+}
 
 // 检查CDN脚本是否已加载
 const isLegoScriptLoaded = (): boolean => {
-  return document.querySelector(`script[src="${LEGO_CDN_URL}"]`) !== null
+  const url = getLegoCdnUrl()
+  return document.querySelector(`script[src="${url}"]`) !== null
 }
 
 // 插入CDN脚本
 const insertLegoScript = (): void => {
+  if (typeof document === 'undefined') return
   if (isLegoScriptLoaded()) return
 
   const script = document.createElement('script')
   script.type = 'module'
-  script.src = LEGO_CDN_URL
+  script.src = getLegoCdnUrl()
   document.head.appendChild(script)
 }
 
 // 解析lego协议URL
 const parseLegoUrl = (src: string): { tagId: string, text: string } | null => {
-  if (!src.startsWith('lego://')) return null
+  const LEGO_PROTOCOL = 'lego://'
+  if (!src.startsWith(LEGO_PROTOCOL)) return null
 
   try {
     // 移除 'lego://' 前缀
-    const urlWithoutProtocol = src.substring(7)
+    const urlWithoutProtocol = src.slice(LEGO_PROTOCOL.length)
 
     // 分割tagId和参数
     const [tagId, params] = urlWithoutProtocol.split('?')
