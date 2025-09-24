@@ -19,6 +19,7 @@ export const specialMiniElements = {
 
 const internalCompsList = Object.keys(internalComponents)
   .map(i => i.toLowerCase())
+  .filter(i => i !== 'span')
   .join(',')
 
 // https://developers.weixin.qq.com/miniprogram/dev/component
