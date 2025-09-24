@@ -151,8 +151,15 @@ export function createVue3App (app: App<TaroElement>, h: typeof createElement, c
     },
 
     updateAppInstance (cb?: (() => void | undefined)) {
-      appInstance.$forceUpdate()
-      appInstance.$nextTick(cb)
+      if(appInstance instanceof Promise) {
+        appInstance.then(appInstance => {
+          appInstance.$forceUpdate()
+          appInstance.$nextTick(cb)
+        })
+      } else {
+        appInstance.$forceUpdate()
+        appInstance.$nextTick(cb)
+      }
     }
   }, {
     config: setDefaultDescriptor({
