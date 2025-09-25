@@ -22,13 +22,13 @@ const LEGO_CDN_URL_DEV = 'http://ossin.jd.com/swm-plus/h5Tag/tag.js'
 const LEGO_CDN_URL_PROD = 'https://storage.jd.com/static-frontend/h5-tag/1.0.0/tag.min.js'
 
 const getLegoCdnUrl = (): string => {
-  // 允许通过全局变量覆盖
-  const override = (typeof window !== 'undefined' && (window as any).__TARO_IMAGE_LEGO_CDN_URL__)
-  if (override && typeof override === 'string') return override
-
-  // 允许通过 Taro 全局对象覆盖（与 window 同名变量）
+  // 允许通过 Taro 全局对象覆盖（最高优先级）
   const taroOverride = (typeof window !== 'undefined' && (window as any).Taro && (window as any).Taro.__TARO_IMAGE_LEGO_CDN_URL__)
   if (taroOverride && typeof taroOverride === 'string') return taroOverride
+
+  // 允许通过 window 全局变量覆盖
+  const windowOverride = (typeof window !== 'undefined' && (window as any).__TARO_IMAGE_LEGO_CDN_URL__)
+  if (windowOverride && typeof windowOverride === 'string') return windowOverride
 
   // 基于环境选择
   const isProd = (typeof process !== 'undefined' && (process as any).env && (process as any).env.NODE_ENV === 'production')
@@ -45,6 +45,16 @@ const isLegoScriptLoaded = (): boolean => {
 const insertLegoScript = (): void => {
   if (typeof document === 'undefined') return
   if (isLegoScriptLoaded()) return
+
+  // 警告：组件内部加载资源是不推荐的行为
+  console.error(
+    '[Taro Image] 警告：组件正在动态加载 LEGO 脚本资源，这是不推荐的行为。\n' +
+    '推荐在项目入口文件（如 app.js/app.tsx）中预先引入相关脚本，或通过 CDN 预加载。\n' +
+    '其次可通过全局变量配置：\n' +
+    '  - Taro.__TARO_IMAGE_LEGO_CDN_URL__（推荐）\n' +
+    '  - window.__TARO_IMAGE_LEGO_CDN_URL__\n' +
+    '这样可以避免重复加载，提升性能并减少网络请求。'
+  )
 
   const script = document.createElement('script')
   script.type = 'module'

@@ -38,7 +38,6 @@
 
 *Built with [StencilJS](https://stenciljs.com/)*
 
-
 ## LEGO 模式与 CDN 配置
 
 当 `src` 以 `lego://` 开头时，组件进入 LEGO 模式，内部不再渲染 `<img>`，而是渲染 `<canvas-tag>`：
