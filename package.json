@@ -106,7 +106,7 @@
     "@types/tapable": "^1",
     "@types/webpack": "^4.41.26",
     "@types/webpack-dev-server": "^3.11.3",
-    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.0",
     "@typescript-eslint/parser": "^7.8.0",
     "@vitest/coverage-istanbul": "^3.2.4",
     "babel-jest": "^29.7.0",
