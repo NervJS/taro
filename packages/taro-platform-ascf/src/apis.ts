@@ -1,6 +1,7 @@
 import { processApis } from '@tarojs/shared'
 
 import { needPromiseApis } from './apis-list'
+import { reflectApis } from './reflect-apis'
 
 declare const has: any
 
@@ -28,4 +29,5 @@ export function initNativeApi (taro) {
       return pageCtx.getTabBar()?.$taroInstances
     }
   }
+  reflectApis(taro, has)
 }
