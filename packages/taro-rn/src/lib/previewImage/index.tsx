@@ -25,9 +25,14 @@ export function previewImage(obj: Taro.previewImage.Option): void {
     fail,
     complete
   }: any = obj || {}
-  const index = urls.indexOf(current)
-  if (index === -1) {
-    throw new Error('"current" or "urls" is invalid')
+
+  let index = 0
+  if (!urls || urls.length === 0) {
+    throw new Error('the list of images to be previewed "urls" cannot be empty')
+  } else {
+    const _index = urls.indexOf(current)
+    _index === -1 ? console.warn('the displayed image is not in the preview list') : ''
+    index = Math.max(0, _index)
   }
 
   let sibling
