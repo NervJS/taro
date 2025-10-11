@@ -4,6 +4,7 @@ import {
 } from '@tarojs/plugin-doctor'
 
 import { extractCompileEntry } from '../../util/appConfig'
+import { buildJDWidget } from '../../util/jdWidget'
 import * as hooks from '../constant'
 
 import type { IPluginContext } from '@tarojs/service'
@@ -35,6 +36,7 @@ export default (ctx: IPluginContext) => {
       '--env-prefix [envPrefix]': "Provide the dotEnv varables's prefix",
       '--no-inject-global-style': '[H5] Do not inject global style',
       '--no-check': 'Do not check config is valid or not',
+      '--widgetRoot': '[jd] Build specific page or component as a jd widget',
     },
     synopsisList: [
       'taro build --type weapp',
@@ -44,6 +46,7 @@ export default (ctx: IPluginContext) => {
       'taro build --type weapp --blended',
       'taro build --type weapp --no-build',
       'taro build native-components --type weapp',
+      'taro build native-components --type jd --widget --widgetRoot pages/index/index',
       'taro build --type weapp --new-blended',
       'taro build --plugin weapp --watch',
       'taro build --plugin weapp',
@@ -105,11 +108,15 @@ export default (ctx: IPluginContext) => {
 
       const isProduction = process.env.NODE_ENV === 'production' || !isWatch
 
-      // dist folder
-      fs.ensureDirSync(outputPath)
-
       // is build native components mode?
       const isBuildNativeComp = _[1] === 'native-components'
+
+      const isBuildJDWidget = isBuildNativeComp && platform === 'jd' && Boolean(args.widget)
+      if (isBuildJDWidget) {
+        buildJDWidget(ctx)
+      }
+      // dist folder
+      fs.ensureDirSync(outputPath)
 
       await ctx.applyPlugins(hooks.ON_BUILD_START)
       await ctx.applyPlugins({
@@ -221,7 +228,7 @@ export default (ctx: IPluginContext) => {
   })
 }
 
-async function checkConfig ({ projectConfig, helper }) {
+async function checkConfig({ projectConfig, helper }) {
   const result = await validateConfig(projectConfig, helper)
   return result
 }
