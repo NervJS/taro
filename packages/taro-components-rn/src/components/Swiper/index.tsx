@@ -82,6 +82,7 @@ class _Swiper extends React.Component<SwiperProps> {
       interval,
       circular,
       vertical,
+      direction,
     } = this.props
 
     return (
@@ -95,6 +96,7 @@ class _Swiper extends React.Component<SwiperProps> {
         autoplayInterval={interval}
         infinite={Boolean(circular)}
         vertical={Boolean(vertical)}
+        direction={direction}
         afterChange={this.onIndexChanged}
       >
         {children}

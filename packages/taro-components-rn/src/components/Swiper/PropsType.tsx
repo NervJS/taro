@@ -24,6 +24,7 @@ export interface SwiperProps {
   interval: number
   circular?: boolean
   vertical?: boolean
+  direction?: 'forward' | 'backward' // 控制 autoplay && circular 时，最后一张切到第一张的方式，backward 为反向平滑过渡（默认），forward 为正向直接跳转
   onChange?: (evt: EventOnChange) => void
   onAnimationFinish?: (evt: EventOnAnimationFinish) => void
 }
@@ -44,6 +45,7 @@ export interface CarouselProps {
   autoplay?: boolean
   autoplayInterval?: number
   infinite?: boolean
+  direction?: 'forward' | 'backward' //  控制 autoplay && infinite 时，最后一张切到第一张的方式
   style?: StyleProp<ViewStyle>
   dotStyle?: StyleProp<ViewStyle>
   dotActiveStyle?: StyleProp<ViewStyle>

@@ -37,6 +37,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     autoplayInterval: 3000,
     selectedIndex: 0,
     vertical: false,
+    direction: 'backward',
     pagination: defaultPagination,
     dotStyle: {},
     dotActiveStyle: {},
@@ -218,7 +219,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       clearTimeout(this.autoplayTimer)
       return
     }
-    const { children, autoplay, infinite, autoplayInterval } = this.props
+    const { children, autoplay, infinite, autoplayInterval, direction } = this.props
     const { selectedIndex } = this.state
     const count = this.count
     if (!Array.isArray(children) || !autoplay || this.isScrolling) {
@@ -229,18 +230,37 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     if (count < 2) return
 
     this.autoplayTimer = setTimeout(() => {
-      let newIndex = selectedIndex < this.getVirtualIndex(count) ? selectedIndex + 1 : 0
-      if (selectedIndex === count - 1) {
-        newIndex = 0
-        if (!infinite) {
-          clearTimeout(this.autoplayTimer)
-          return
+      let realNewIndex = 0
+      if (direction === 'backward') {
+        let newIndex = selectedIndex < this.getVirtualIndex(count) ? selectedIndex + 1 : 0
+        if (selectedIndex === count - 1) {
+          newIndex = 0
+          if (!infinite) {
+            clearTimeout(this.autoplayTimer)
+            return
+          }
         }
+        if (infinite) {
+          newIndex = this.getVirtualIndex(this.getIndex(newIndex, count))
+        }
+        realNewIndex = newIndex
+      } else if (direction === 'forward') {
+        let newIndex = selectedIndex + 1
+        // 如果超出范围，回到开始
+        if (infinite) {
+          const maxIndex = count + INFINITE_BUFFER
+          if (newIndex > maxIndex) {
+            newIndex = INFINITE_BUFFER
+          }
+        } else {
+          if (newIndex >= count) {
+            newIndex = 0
+          }
+        }
+        realNewIndex = newIndex
       }
-      if (infinite) {
-        newIndex = this.getVirtualIndex(this.getIndex(newIndex, count))
-      }
-      this.goTo(newIndex)
+
+      this.goTo(realNewIndex)
     }, autoplayInterval)
   }
 
