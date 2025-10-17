@@ -150,38 +150,7 @@ export default class WeappCI extends BaseCI {
         console.log(chalk.green(`上传成功 ${new Date().toLocaleString()} ${extInfo}\n`))
       }
 
-      const uploadQrcodePath = path.join(this.projectPath, 'upload.png')
-      try {
-        // 体验码规则： https://open.weixin.qq.com/sns/getexpappinfo?appid=xxx&path=入口路径.html#wechat-redirect
-        const qrContent = `https://open.weixin.qq.com/sns/getexpappinfo?appid=${this.pluginOpts.weapp!.appid}#wechat-redirect`
-        await printQrcode2Terminal(qrContent)
-        await generateQrcodeImageFile(uploadQrcodePath, qrContent)
-        printLog(processTypeEnum.REMIND, `体验版二维码已生成，存储在:"${uploadQrcodePath}",二维码内容是："${qrContent}"`)
-        printLog(processTypeEnum.REMIND, `可能需要您前往微信后台，将当前上传版本设置为“体验版”`)
-        printLog(processTypeEnum.REMIND, `若本次上传的robot机器人和上次一致，并且之前已经在微信后台设置其为“体验版”，则本次无需再次设置`)
-
-        this.triggerUploadHooks({
-          success: true,
-          data: {
-            platform: 'weapp',
-            qrCodeContent: qrContent,
-            qrCodeLocalPath: uploadQrcodePath
-          }
-        })
-      } catch (error) {
-        // 实际读取二维码时有极小概率会读取失败，待观察
-        printLog(processTypeEnum.ERROR, chalk.red(`体验二维码生成失败：${error.message}`))
-
-        this.triggerUploadHooks({
-          success: true,
-          data: {
-            platform: 'weapp',
-            qrCodeContent: '',
-            qrCodeLocalPath: uploadQrcodePath
-          },
-          error
-        })
-      }
+      await this.onUploadFinish()
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red(`上传失败 ${new Date().toLocaleString()} \n${error.message}`))
 
@@ -191,6 +160,105 @@ export default class WeappCI extends BaseCI {
           platform: 'weapp',
           qrCodeContent: '',
           qrCodeLocalPath: ''
+        },
+        error
+      })
+    }
+  }
+
+  // 上传完成后显示体验版二维码。普通小程序开发和第三方平台代开发规则不同，需要分开处理：
+  // - 普通小程序开发：上传至 appid 体验版
+  // - 第三方平台代开发：
+  //   - 无 ext.json：上传至 appid 草稿箱
+  //   - 有 ext.json：
+  //     - extEnable = true && directCommit = true：上传至 extAppid 体验版
+  //     - 其他：上传至 appid 草稿箱
+  // see: https://developers.weixin.qq.com/miniprogram/dev/devtools/ext.html#directCommit
+  private async onUploadFinish () {
+    const { printLog, processTypeEnum, readConfig, fs } = this.ctx.helper
+
+    const uploadQrcodePath = path.join(this.projectPath, 'upload.png')
+
+    const extConfigPath = path.join(this.projectPath, 'ext.json')
+
+    // 第三方平台代开发。（不严谨，尚未找到可靠的判断方式）
+    const isThirdPlatform = fs.existsSync(extConfigPath)
+
+    if (!isThirdPlatform) {
+      return this.logQrcodeNormal(uploadQrcodePath, this.pluginOpts.weapp!.appid)
+    }
+
+    const extConfig = readConfig(extConfigPath)
+    if (extConfig.extEnable && extConfig.directCommit && extConfig.extAppid) {
+      // 开启 directCommit。上传至 extAppid 体验版
+      return this.logQrcodeExt(uploadQrcodePath, extConfig.extAppid)
+    }
+
+    // 上传至草稿箱，无需生成二维码
+    printLog(processTypeEnum.REMIND, `已上传到草稿箱`)
+
+    return this.triggerUploadHooks({
+      success: true,
+      data: {
+        platform: 'weapp',
+        qrCodeContent: '',
+        qrCodeLocalPath: ''
+      }
+    })
+  }
+
+  // 普通小程序开发。上传至 appid，需要去微信后台设置体验版
+  private async logQrcodeNormal (uploadQrcodePath: string, appid: string) {
+    // 体验码规则： https://open.weixin.qq.com/sns/getexpappinfo?appid=xxx&path=入口路径.html#wechat-redirect
+    const qrContent = `https://open.weixin.qq.com/sns/getexpappinfo?appid=${appid}#wechat-redirect`
+    const lg = [
+      `体验版二维码已生成，存储在:"${uploadQrcodePath}",二维码内容是："${qrContent}"`,
+      `可能需要您前往微信后台，将当前上传版本设置为“体验版”`,
+      `若本次上传的robot机器人和上次一致，并且之前已经在微信后台设置其为“体验版”，则本次无需再次设置`,
+    ]
+
+    return this.logQrcode(uploadQrcodePath, qrContent, lg)
+  }
+
+  // 第三方平台代开发。上传至 extAppid，不需要去微信后台设置体验版
+  private async logQrcodeExt (uploadQrcodePath: string, extAppid: string) {
+    // 体验码规则： https://open.weixin.qq.com/sns/getexpappinfo?appid=xxx&iswxtpa=1&path=入口路径.html#wechat-redirect
+    const qrContent = `https://open.weixin.qq.com/sns/getexpappinfo?appid=${extAppid}&iswxtpa=1#wechat-redirect`
+    const lg = [
+      `体验版二维码已生成，存储在:"${uploadQrcodePath}",二维码内容是："${qrContent}"`,
+    ]
+
+    return this.logQrcode(uploadQrcodePath, qrContent, lg)
+  }
+
+  private async logQrcode (uploadQrcodePath: string, qrContent: string, lg: string[]) {
+    const { chalk, printLog, processTypeEnum } = this.ctx.helper
+
+    try {
+      await printQrcode2Terminal(qrContent)
+      await generateQrcodeImageFile(uploadQrcodePath, qrContent)
+      lg.forEach(line => {
+        printLog(processTypeEnum.REMIND, line)
+      })
+
+      await this.triggerUploadHooks({
+        success: true,
+        data: {
+          platform: 'weapp',
+          qrCodeContent: qrContent,
+          qrCodeLocalPath: uploadQrcodePath
+        }
+      })
+    } catch (error) {
+      // 实际读取二维码时有极小概率会读取失败，待观察
+      printLog(processTypeEnum.ERROR, chalk.red(`体验二维码生成失败：${error.message}`))
+
+      await this.triggerUploadHooks({
+        success: true,
+        data: {
+          platform: 'weapp',
+          qrCodeContent: '',
+          qrCodeLocalPath: uploadQrcodePath
         },
         error
       })
