@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v4
 
       # Log meta
-      - name : GITHUB CONTEXT
+      - name: GITHUB CONTEXT
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
@@ -47,7 +47,7 @@ jobs:
           COMMIT_MESSAGE=$(git log --format=%s -n 1)
           echo "COMMIT_MESSAGE=${COMMIT_MESSAGE}" >> $GITHUB_ENV
       - name: Show commit message
-        run : echo "$COMMIT_MESSAGE"
+        run: echo "$COMMIT_MESSAGE"
 
       - name: Determine if should abort publish
         run: |
@@ -103,7 +103,7 @@ jobs:
         with:
           version: 10
       - name: Setup Node 18
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 18
           cache: 'pnpm'
@@ -117,7 +117,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Log meta
-      - name : GITHUB CONTEXT
+      - name: GITHUB CONTEXT
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
@@ -367,7 +367,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           github_repo: ${{ github.repository }}
           git_commit_sha: ${{ steps.commitHar.outputs.sha || github.sha }}
-          git_tag_prefix: "v"
+          git_tag_prefix: 'v'
 
       # ------------------ publish -------------
 
