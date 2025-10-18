@@ -8,10 +8,10 @@ $browser-context: 16;
     @if math.unit($pixels) != '' {
       $pixels: math.div($pixels, $pixels * 0 + 1);
     }
-  
+
     @return #{$pixels}em;
   }
-  
+
 
 $weuiCellBg:#FFFFFF; // var(--weui-BG-2);
 $weuiCellBorderColor:#e5e5e5; // $weuiLineColorLight;

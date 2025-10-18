@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/extend",
-  "version": "4.1.4-beta.4",
+  "version": "4.1.7",
   "description": "Taro extend functionality",
   "author": "O2Team",
   "license": "MIT",
@@ -15,15 +15,15 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "test": "TARO_ENV=weapp jest --coverage false",
-    "test:dev": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test": "TARO_ENV=weapp vitest run",
+    "test:dev": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 18"
   },
   "devDependencies": {
     "@tarojs/runtime": "workspace:*",

@@ -1,13 +1,12 @@
 {
   "name": "@tarojs/taroize",
-  "version": "4.1.4-beta.4",
+  "version": "4.1.7",
   "description": "转换原生微信小程序代码为 Taro 代码",
   "author": "O2Team",
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "files": [
-    "index.js",
-    "lib"
+    "dist"
   ],
   "scripts": {
     "prod": "pnpm run build",
@@ -52,7 +51,7 @@
     ]
   },
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 18"
   },
   "dependencies": {
     "@babel/code-frame": "^7.24.2",

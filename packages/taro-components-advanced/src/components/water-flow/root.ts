@@ -9,11 +9,8 @@ import { getSysInfo, isSameRenderRange } from './utils'
 
 import type { BaseProps, ScrollDirection, Size, WaterFlowProps } from './interface'
 
-export type RootProps = Pick<
-WaterFlowProps,
-'cacheCount' | 'lowerThresholdCount' | 'upperThresholdCount'
-> &
-Required<Pick<BaseProps, 'id'>>;
+export type RootProps = Pick<WaterFlowProps, 'cacheCount' | 'lowerThresholdCount' | 'upperThresholdCount'> &
+Required<Pick<BaseProps, 'id'>>
 
 const { windowHeight, windowWidth } = getSysInfo()
 
@@ -36,7 +33,7 @@ type RootState = {
   containerSize: Size
   /** 渲染的分组区间范围 */
   renderRange: [number, number]
-};
+}
 
 export const RootEvents = {
   ReachUpperThreshold: Symbol.for('ReachUpperThreshold'),
@@ -46,7 +43,7 @@ export const RootEvents = {
   InitialRenderCompleted: Symbol.for('InitialRenderCompleted'),
 }
 
-type Events = keyof typeof RootEvents;
+type Events = keyof typeof RootEvents
 
 /**
  * 数据模型继承自有状态的事件总线，便于在节点之间通信，以及通过 useSyncExternalStore 关联 React 视图
@@ -107,14 +104,12 @@ export class Root extends StatefulEventBus<RootState, Events> {
       upperThresholdCount,
     })
     this.setupSubscriptions()
-    getRectSizeSync(`#${id}`, 100).then(
-      ({ width = windowWidth, height = windowHeight }) => {
-        this.setStateIn('containerSize', {
-          width,
-          height,
-        })
-      }
-    )
+    getRectSizeSync(`#${id}`, 100).then(({ width = windowWidth, height = windowHeight }) => {
+      this.setStateIn('containerSize', {
+        width,
+        height,
+      })
+    })
     this.renderInitialLayout()
   }
 
@@ -128,21 +123,18 @@ export class Root extends StatefulEventBus<RootState, Events> {
      */
     this.sub('scrollOffset', () => {
       this.setStateIn('renderRange', this.getSectionRenderRange())
-      this.updateScrollHeight()
       this.handleReachThreshold()
+      if (this.getState().scrollDirection === 'forward') {
+        this.updateScrollHeight()
+      }
     })
 
-    const lowerThresholdScrollTopDisposer = this.sub('scrollOffset', () => {
+    this.sub('scrollOffset', () => {
       const sectionSize = this.sections.length
       const lastSection = this.sections[sectionSize - 1]
       // 最后一个分组的每一列最后一行都已经完成了布局计算，那么这个时候的总高度应该是准确的
-      if (
-        lastSection.columnMap.every(
-          (column) => column[column.length - 1].getState().layouted
-        )
-      ) {
+      if (lastSection.columnMap.every((column) => column[column.length - 1].getState().layouted)) {
         this.setLowerThresholdScrollTop()
-        lowerThresholdScrollTopDisposer()
       }
     })
 
@@ -176,14 +168,9 @@ export class Root extends StatefulEventBus<RootState, Events> {
       }
       const section = this.sections[i]
       section.layoutedSignal.promise.then(() => {
-        this.setStateIn('renderRange', [
-          0,
-          i + 1 > sectionSize ? sectionSize - 1 : i + 1,
-        ])
+        this.setStateIn('renderRange', [0, i + 1 > sectionSize ? sectionSize - 1 : i + 1])
         // 容器可视区域已经填满了，没必要再继续
-        if (
-          section.getState().scrollTop > this.getState().containerSize.height
-        ) {
+        if (section.getState().scrollTop > this.getState().containerSize.height) {
           this.pub(RootEvents.InitialRenderCompleted, section)
           return
         }
@@ -224,11 +211,7 @@ export class Root extends StatefulEventBus<RootState, Events> {
           } else {
             const previousSectionTracker = tracker[i - 1]
             sectionTracker.set(col, {
-              accCount: Math.max(
-                ...[...previousSectionTracker.values()].map(
-                  (nodeTracker) => nodeTracker.accCount
-                )
-              ),
+              accCount: Math.max(...[...previousSectionTracker.values()].map((nodeTracker) => nodeTracker.accCount)),
               accHeight: section.getState().scrollTop,
             })
           }
@@ -237,8 +220,7 @@ export class Root extends StatefulEventBus<RootState, Events> {
         // 扫描当前列的每一行
         loopItem: for (let j = 0; j < columnSize; j++) {
           colTracker.accCount += 1
-          colTracker.accHeight +=
-            column[j].getState().height + (j === 0 ? 0 : section.rowGap)
+          colTracker.accHeight += column[j].getState().height + (j === 0 ? 0 : section.rowGap)
           if (colTracker.accCount >= this.upperThresholdCount) {
             break loopItem
           }
@@ -260,8 +242,7 @@ export class Root extends StatefulEventBus<RootState, Events> {
    */
   private setLowerThresholdScrollTop() {
     if (this.lowerThresholdCount === 0) {
-      this.lowerThresholdScrollTop =
-        this.getState().scrollHeight - this.getState().containerSize.height
+      this.lowerThresholdScrollTop = this.getState().scrollHeight - this.getState().containerSize.height
       return 0
     }
     const sectionSize = this.sections.length
@@ -284,11 +265,7 @@ export class Root extends StatefulEventBus<RootState, Events> {
           } else {
             const belowSectionTracker = tracker[i + 1]
             sectionTracker.set(col, {
-              accCount: Math.max(
-                ...[...belowSectionTracker.values()].map(
-                  (nodeTracker) => nodeTracker.accCount
-                )
-              ),
+              accCount: Math.max(...[...belowSectionTracker.values()].map((nodeTracker) => nodeTracker.accCount)),
               scrollTop: 0,
             })
           }
@@ -362,10 +339,7 @@ export class Root extends StatefulEventBus<RootState, Events> {
   get sectionRange() {
     const length = this.sections.length
     if (length === 0) return []
-    const range = Array.from({ length }, () => [
-      0,
-      this.sections[0].maxColumnHeight,
-    ])
+    const range = Array.from({ length }, () => [0, this.sections[0].maxColumnHeight])
     for (let i = 1; i < length; i++) {
       const previous = range[i - 1]
       range[i] = [previous[1], previous[1] + this.sections[i].maxColumnHeight]
@@ -377,11 +351,8 @@ export class Root extends StatefulEventBus<RootState, Events> {
   /**
    * 计算滚动高度
    */
-  private updateScrollHeight() {
-    this.setStateIn(
-      'scrollHeight',
-      this.sectionRange[this.sectionRange.length - 1][1]
-    )
+  public updateScrollHeight() {
+    this.setStateIn('scrollHeight', this.sectionRange[this.sectionRange.length - 1][1])
   }
 
   /**
@@ -446,14 +417,9 @@ export class Root extends StatefulEventBus<RootState, Events> {
 
     result[0] = overscanBackward < 0 ? 0 : overscanBackward
 
-    result[1] =
-      overscanForward > this.sections.length
-        ? this.sections.length - 1
-        : overscanForward
+    result[1] = overscanForward > this.sections.length ? this.sections.length - 1 : overscanForward
 
-    return isSameRenderRange(result, this.getState().renderRange)
-      ? this.getState().renderRange
-      : result
+    return isSameRenderRange(result, this.getState().renderRange) ? this.getState().renderRange : result
   }
 
   /**

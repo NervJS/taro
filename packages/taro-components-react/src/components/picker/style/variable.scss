@@ -1,0 +1,19 @@
+$weuiLineColorLight: #e5e5e5;
+$weuiColorPrimary: #FF0F23;
+$weuiTextColorGray: #999;
+$weuiTextColorDesc: #888;
+$weuiTextColorBlack: #000;
+
+// Picker 相关变量
+$weuiPickerZIndexContainer: 1000;  // picker容器层级
+$weuiPickerZIndexMask: 1001;       // 遮罩层级
+$weuiPickerZIndexIndicator: 1002;  // 选中指示器层级
+
+// Picker 尺寸
+$weuiPickerHeaderHeight: 44px;     // 头部高度
+$weuiPickerItemHeight: 34px;       // 选项高度
+$weuiPickerContentHeight: 238px;   // 内容区高度
+$weuiPickerColumnGap: 8px; // 列间距
+
+// 动画
+$weuiPickerTransitionDuration: 0.3s;  // 过渡动画时长

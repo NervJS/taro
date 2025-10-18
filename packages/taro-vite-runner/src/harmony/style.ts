@@ -66,7 +66,6 @@ function getCssIdSets (raw: string, id: string, sourceDir: string) {
                   basedir: path.dirname(id) || sourceDir,
                   extensions: CSS_EXT,
                 })
-
                 if (resolveId && CSS_LANGS_RE.test(rawId)) {
                   // Note: 预加载依赖的 CSS 文件
                   const cssId = appendVirtualModulePrefix(resolveId + STYLE_SUFFIX)
@@ -143,8 +142,10 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
     load (id) {
       if (isStyleRequest(id)) {
         const rawId = stripVirtualModulePrefix(id).replace(STYLE_SUFFIX_RE, '')
-        this.addWatchFile(rawId)
-        return fs.readFileSync(rawId, 'utf-8')
+        if (fs.existsSync(rawId)) {
+          this.addWatchFile(rawId)
+          return fs.readFileSync(rawId, 'utf-8')
+        }
       }
     },
     async transform(raw, id) {
@@ -168,8 +169,6 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
         }
       }
 
-      // Note: 新版本 rust 插件不需要修改 JSX 代码
-      if (!isStyleRequest(id) && viteCompilerContext.loaderMeta.enableParseJSXStyle) return
 
       if (!isStyleRequest(id)) {
         if (!REG_SCRIPTS.test(id)) return
@@ -202,6 +201,8 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
             })
           }
 
+          // Note: 新版本 rust 插件不需要修改 JSX 代码
+          if (viteCompilerContext.loaderMeta.enableParseJSXStyle) return
           // Note: 确保 CSS 文件已经加载
           await Promise.all(Array.from(cssIdSet).map(async (cssId) => {
             await this.load({

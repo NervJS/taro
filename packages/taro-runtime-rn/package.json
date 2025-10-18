@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime-rn",
-  "version": "4.1.4-beta.4",
+  "version": "4.1.7",
   "description": "taro-runtime-rn",
   "author": "O2Team",
   "license": "MIT",
@@ -30,7 +30,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 18"
   },
   "dependencies": {
     "@tarojs/components-rn": "workspace:*",

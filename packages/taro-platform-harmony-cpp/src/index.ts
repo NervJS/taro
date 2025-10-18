@@ -15,6 +15,8 @@ import type { IHarmonyConfig } from '@tarojs/taro/types/compile'
 const argProjectPath = getProcessArg('lib')
 const argHapName = getProcessArg('hap')
 
+export { HarmonyCPP }
+
 export interface IOptions {
   useConfigName?: string
   /** @default "local" */

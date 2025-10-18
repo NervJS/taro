@@ -1,8 +1,6 @@
 name: 🐞 错误报告 Bug Report
 description: 报告新 Bug。一般性问题请在 GitHub Discussion 中发布。
-title: "[Bug]: "
 labels:
-  - triage
   - bug
 body:
   - type: checkboxes
@@ -12,29 +10,36 @@ body:
       options:
         - label: 我已搜索并确定这个提交不是重复的
           required: true
-  - type: checkboxes
-    id: platform
+  - type: dropdown
+    id: version
     attributes:
-      label: 相关平台
+      label: Taro 版本
       options:
-        - label: 所有小程序
-        - label: 微信小程序
-        - label: 支付宝小程序
-        - label: 百度小程序
-        - label: 字节跳动小程序
-        - label: QQ 轻应用
-        - label: 京东小程序
-        - label: 快应用平台（QuickApp）
-        - label: Web 平台（H5）
-        - label: 移动端（React-Native）
-        - label: 鸿蒙（harmony）
-  - type: input
-    id: library
-    attributes:
-      label: 小程序基础库版本
-      description: 你可以在小程序开发者工具的「详情」中找到小程序基础库版本。
+        - v4
+        - v3
+        - v2
+        - v1
     validations:
       required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: 相关领域
+      options:
+        - H5 API
+        - Babel
+        - CLI
+        - H5 组件库
+        - 高阶组件
+        - H5 路由
+        - Webpack loader
+        - Webpack runner
+        - 插件化机制
+        - 依赖预编译
+        - 运行时
+        - Taro 化
+        - TypeScript 类型
+        - 性能问题
   - type: dropdown
     id: framework
     attributes:
@@ -42,10 +47,40 @@ body:
       options:
         - React
         - Preact
-        - Vue 3
-        - Vue 2
+        - Solid
+        - Vue3
+        - Vue2
     validations:
       required: true
+  - type: checkboxes
+    id: platform
+    attributes:
+      label: 相关平台
+      options:
+        - label: 所有平台
+        - label: Web 端（H5）
+        - label: 移动端（React-Native）
+        - label: 鸿蒙（Harmony）
+        - label: 鸿蒙容器（Harmony Hybrid）
+        - label: ASCF 元服务
+        - label: 快应用（QuickApp）
+        - label: 所有小程序
+        - label: 微信小程序
+        - label: 企业微信小程序
+        - label: 京东小程序
+        - label: 百度小程序
+        - label: 支付宝小程序
+        - label: 支付宝 IOT 小程序
+        - label: 头条小程序
+        - label: QQ 小程序
+        - label: 钉钉小程序
+        - label: 飞书小程序
+        - label: 快手小程序
+  - type: input
+    id: library
+    attributes:
+      label: 小程序基础库版本
+      description: 你可以在小程序开发者工具的「详情」中找到小程序基础库版本。
   - type: textarea
     id: description
     attributes:
@@ -83,6 +118,6 @@ body:
   - type: checkboxes
     id: contribute
     attributes:
-      label: 贡献代码
+      label: 开源贡献
       options:
-        - label: 我愿意修复这个错误
+        - label: 我愿意修复这个错误。请参考 [(贡献指南)](https://github.com/NervJS/taro/blob/main/CONTRIBUTING.md)

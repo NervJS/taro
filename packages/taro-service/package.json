@@ -1,11 +1,11 @@
 {
   "name": "@tarojs/service",
-  "version": "4.1.4-beta.4",
+  "version": "4.1.7",
   "description": "Taro Service",
   "author": "O2Team",
   "license": "MIT",
-  "main": "index.js",
-  "types": "types/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
@@ -14,9 +14,7 @@
     "build": "tsc"
   },
   "files": [
-    "index.js",
-    "dist",
-    "types"
+    "dist"
   ],
   "keywords": [
     "taro"
@@ -29,7 +27,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 18"
   },
   "dependencies": {
     "@tarojs/helper": "workspace:*",

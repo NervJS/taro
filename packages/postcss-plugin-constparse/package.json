@@ -1,12 +1,12 @@
 {
   "name": "postcss-plugin-constparse",
-  "version": "4.1.4-beta.4",
+  "version": "4.1.7",
   "description": "parse constants defined in config",
   "author": "O2Team",
   "license": "MIT",
   "main": "index.js",
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 18"
   },
   "peerDependencies": {
     "postcss": "^8"

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/helper",
-  "version": "4.1.4-beta.4",
+  "version": "4.1.7",
   "description": "Taro Helper",
   "author": "O2Team",
   "license": "MIT",
@@ -36,7 +36,7 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 18"
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {

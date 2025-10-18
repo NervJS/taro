@@ -279,13 +279,14 @@ export function fileToUrl(
 
   // const url = `__TARO_VITE_ASSET__${referenceId}__${postfix ? `$_${postfix}__` : ``}` // TODO_BASE
 
-  const resourceName = path.relative(appRoot, file).replace(/^[\\/]+/, '').replace(/[\\/-]+/g, '_')
-  const resourcePath = path.join(escapePath(outputRoot), '..', 'resources/base/media', resourceName)
+  const ext = path.extname(file)
+  const resourceName = path.relative(appRoot, file).replace(ext, '').replace(/^[\\/]+/, '').replace(/[^A-z0-9]+/g, '_')
+  const resourcePath = path.join(escapePath(outputRoot), '..', 'resources/base/media', `${resourceName}${ext}`)
   fs.ensureDirSync(path.dirname(resourcePath))
   fs.writeFileSync(resourcePath, content, {
     encoding: 'utf-8',
   })
 
   cache.set(id, resourcePath)
-  return 'resource://base/media/' + resourceName
+  return 'resource://base/media/' + resourceName + ext
 }

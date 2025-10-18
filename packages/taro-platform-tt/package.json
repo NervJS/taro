@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-tt",
-  "version": "4.1.4-beta.4",
+  "version": "4.1.7",
   "description": "头条小程序平台插件",
   "author": "O2Team",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 18"
   },
   "dependencies": {
     "webpack-sources": "^3.2.3"

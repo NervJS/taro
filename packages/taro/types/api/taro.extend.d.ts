@@ -22,7 +22,7 @@ declare module '../index' {
       onShow: string
       preloadData?: Record<any, any>
       /**
-       * RN 私有对象navigationRef，用于使用底层接口控制路由
+       * RN 私有对象 navigationRef，用于使用底层接口控制路由
        */
       rnNavigationRef?: React.RefObject<any>
     }
@@ -52,10 +52,10 @@ declare module '../index' {
   }
 
   namespace interceptorify {
-    type promiseifyApi<T, R> = (requestParams: T) => Promise<R>
+    type promisifyApi<T, R> = (requestParams: T) => Promise<R>
     interface InterceptorifyChain<T, R> {
       requestParams: T
-      proceed: promiseifyApi<T, R>
+      proceed: promisifyApi<T, R>
     }
     type InterceptorifyInterceptor<T, R> = (chain: InterceptorifyChain<T, R>) => Promise<R>
     interface Interceptorify<T, R> {
@@ -112,7 +112,7 @@ declare module '../index' {
         mpVersion: string
         /** 小程序环境 */
         envType: string
-        /** 小程序appId */
+        /** 小程序 appId */
         appId: string
       }
       /** 插件信息 */
@@ -121,7 +121,7 @@ declare module '../index' {
       common: {
         /** 用户数据存储的路径 */
         USER_DATA_PATH: string
-        /** 校验白名单属性中的appInfoLaunchFrom后返回额外信息 */
+        /** 校验白名单属性中的 appInfoLaunchFrom 后返回额外信息 */
         location: string | undefined
         launchFrom: string | undefined
         schema: string | undefined
@@ -174,9 +174,9 @@ declare module '../index' {
     getRenderer(): 'webview' | 'skyline'
 
     /**
-     * 包裹 promiseify api 的洋葱圈模型
+     * 包裹 promisify api 的洋葱圈模型
      * @supported global
-     * @param promiseifyApi
+     * @param promisifyApi
      * @example
      * ```tsx
      * // 创建实例
@@ -228,6 +228,6 @@ declare module '../index' {
      * })
      * ```
      */
-    interceptorify<T, R>(promiseifyApi: interceptorify.promiseifyApi<T, R>): interceptorify.Interceptorify<T, R>
+    interceptorify<T, R>(api: interceptorify.promisifyApi<T, R>): interceptorify.Interceptorify<T, R>
   }
 }

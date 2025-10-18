@@ -314,6 +314,16 @@ require("./runtime");
                         }
                     } ]
                 }
+            },
+            confirm: {
+                res: {
+                    set: [ {
+                        key: "cancel",
+                        value(res) {
+                            return !res.confirm;
+                        }
+                    } ]
+                }
             }
         };
         function request(options) {
@@ -797,6 +807,7 @@ require("./runtime");
         function useUnload() {}
         function useAddToFavorites() {}
         function useOptionMenuClick() {}
+        function useKeyboardHeight() {}
         function useSaveExitState() {}
         function useShareAppMessage() {}
         function useShareTimeline() {}
@@ -1913,6 +1924,7 @@ require("./runtime");
         function useUnload() {}
         function useAddToFavorites() {}
         function useOptionMenuClick() {}
+        function useKeyboardHeight() {}
         function useSaveExitState() {}
         function useShareAppMessage() {}
         function useShareTimeline() {}
@@ -2890,6 +2902,7 @@ require("./runtime");
         function useUnload() {}
         function useAddToFavorites() {}
         function useOptionMenuClick() {}
+        function useKeyboardHeight() {}
         function useSaveExitState() {}
         function useShareAppMessage() {}
         function useShareTimeline() {}

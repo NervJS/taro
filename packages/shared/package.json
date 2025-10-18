@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/shared",
-  "version": "4.1.4-beta.4",
+  "version": "4.1.7",
   "description": "Taro utils internal use.",
   "author": "O2Team",
   "license": "MIT",
@@ -24,13 +24,13 @@
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin typescript",
-    "test": "jest"
+    "test": "vitest run"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
   "engines": {
-    "node": "^20 || ^22"
+    "node": ">= 18"
   },
   "devDependencies": {
     "lodash": "^4.17.21"

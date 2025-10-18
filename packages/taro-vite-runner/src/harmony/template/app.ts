@@ -142,7 +142,7 @@ export default class Parser extends BaseParser {
       'import AbilityConstant from "@ohos.app.ability.AbilityConstant"',
       'import { callFn, context, Current, ObjectAssign, window } from "@tarojs/runtime"',
       'import { initHarmonyElement, hooks } from "@tarojs/runtime"',
-      `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
+      `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}/index${TARO_COMP_SUFFIX}"`,
       this.#setReconcilerPost,
     ]
     if (isFunction(app.modifyAppImport)) {

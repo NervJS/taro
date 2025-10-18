@@ -1,9 +1,7 @@
-name: 🚀 功能请求 Feature Request
-description: 提出新的功能特性
-title: "[Feat]: "
+name: 🚀 功能增强 Enhancement
+description: 增强新的或已有功能特性
 labels:
-  - triage
-  - feat
+  - enhancement
 body:
   - type: checkboxes
     id: duplication
@@ -12,18 +10,73 @@ body:
       options:
         - label: 我已搜索并确定这个提交不是重复的
           required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: 相关领域
+      options:
+        - 新的领域
+        - H5 API
+        - Babel
+        - CLI
+        - H5 组件库
+        - 高阶组件
+        - H5 路由
+        - Webpack loader
+        - Webpack runner
+        - 插件化机制
+        - 依赖预编译
+        - 运行时
+        - Taro 化
+        - TypeScript 类型
+  - type: dropdown
+    id: framework
+    attributes:
+      label: 相关框架
+      options:
+        - 新的框架
+        - React
+        - Preact
+        - Solid
+        - Vue3
+        - Vue2
+  - type: checkboxes
+    id: platform
+    attributes:
+      label: 相关平台
+      options:
+        - label: 新的平台
+        - label: 所有平台
+        - label: Web 端（H5）
+        - label: 移动端（React-Native）
+        - label: 鸿蒙（Harmony）
+        - label: 鸿蒙容器（Harmony Hybrid）
+        - label: ASCF 元服务
+        - label: 快应用（QuickApp）
+        - label: 所有小程序
+        - label: 微信小程序
+        - label: 企业微信小程序
+        - label: 京东小程序
+        - label: 百度小程序
+        - label: 支付宝小程序
+        - label: 支付宝 IOT 小程序
+        - label: 头条小程序
+        - label: QQ 小程序
+        - label: 钉钉小程序
+        - label: 飞书小程序
+        - label: 快手小程序
   - type: textarea
     id: feature
     attributes:
       label: 功能描述
-      description: 这个功能增加了什么特性？解决了什么问题？
+      description: 这个功能增强了什么特性？解决了什么问题？
     validations:
       required: true
   - type: textarea
     id: design
     attributes:
       label: 功能设计
-      description: 这个功能如何使用？(API / CLI ...)
+      description: 这个功能该如何使用？(API / CLI / UI ...)
     validations:
       required: true
   - type: textarea
@@ -34,6 +87,6 @@ body:
   - type: checkboxes
     id: contribute
     attributes:
-      label: 贡献代码
+      label: 开源贡献
       options:
-        - label: 我愿意实现这个功能
+        - label: 我愿意实现这个功能。请参考 [(贡献指南)](https://github.com/NervJS/taro/blob/main/CONTRIBUTING.md)
