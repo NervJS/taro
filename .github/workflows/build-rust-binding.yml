@@ -51,7 +51,7 @@ jobs:
         with:
           version: 10
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         if: ${{ !matrix.settings.docker }}
         with:
           node-version: ${{ matrix.node-version }}
