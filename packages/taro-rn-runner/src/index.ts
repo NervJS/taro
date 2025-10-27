@@ -67,7 +67,7 @@ export default async function build (_appPath: string, config: any): Promise<any
         '--custom-log-reporter-path',
         '@tarojs/rn-supporter/TerminalReporter'
       ].concat(cliParams), {
-        stdio: 'inherit'
+        stdio: 'inherit', shell: true
       })
       if (config.qr) {
         previewDev({
@@ -115,7 +115,7 @@ export default async function build (_appPath: string, config: any): Promise<any
         '--entry-file',
         'index.js'
       ].concat(cliParams), {
-        stdio: 'inherit'
+        stdio: 'inherit', shell: true
       })
       if (config.qr) {
         process.on('beforeExit', () => {
