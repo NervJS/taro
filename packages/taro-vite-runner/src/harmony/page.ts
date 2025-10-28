@@ -105,10 +105,13 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               const ncObj: Record<string, [string, string]> = {}
               deps.forEach(dep => {
                 Object.entries(nCompCache.get(dep) || {}).forEach(([key, value]) => {
-                  const absPath = value[0]
-                  const ext = path.extname(absPath)
-                  const basename = path.basename(absPath, ext)
-                  ncObj[key] = [path.join(path.dirname(path.relative(path.dirname(rawId), absPath)), basename), value[1]]
+                  let importPath = value[0]
+                  const ext = path.extname(importPath)
+                  const basename = path.basename(importPath, ext)
+                  if (importPath.startsWith('/')) {
+                    importPath = path.relative(path.dirname(rawId), importPath)
+                  }
+                  ncObj[key] = [path.join(path.dirname(importPath), basename), value[1]]
                 })
               })
               if (!page.isNative) {
@@ -159,10 +162,13 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             const deps = await viteCompilerContext.collectedDeps(this, escapePath(rawId), filter)
             deps.forEach(dep => {
               Object.entries(nCompCache.get(dep) || {}).forEach(([key, value]) => {
-                const absPath = value[0]
-                const ext = path.extname(absPath)
-                const basename = path.basename(absPath, ext)
-                ncObj[key] = [path.join(path.dirname(path.relative(path.dirname(rawId), absPath)), basename), value[1]]
+                let importPath = value[0]
+                const ext = path.extname(importPath)
+                const basename = path.basename(importPath, ext)
+                if (importPath.startsWith('/')) {
+                  importPath = path.relative(path.dirname(rawId), importPath)
+                }
+                ncObj[key] = [path.join(path.dirname(importPath), basename), value[1]]
               })
             })
             if (!page.isNative) {
