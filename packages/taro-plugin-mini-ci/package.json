@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-mini-ci",
-  "version": "4.0.2",
+  "version": "4.1.7",
   "description": "Taro 小程序端构建后支持CI（持续集成）的插件",
   "keywords": [
     "Taro",
@@ -9,12 +9,10 @@
   "author": "O2Team",
   "homepage": "https://github.com/NervJS/taro#readme",
   "license": "MIT",
-  "main": "index.js",
-  "typings": "types/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "index.js",
-    "types"
+    "dist"
   ],
   "repository": {
     "type": "git",
@@ -32,6 +30,7 @@
     "node": ">= 18"
   },
   "dependencies": {
+    "axios": "^1.6.8",
     "jimp": "^0.22.12",
     "jsqr": "^1.4.0",
     "minimist": "^1.2.8",

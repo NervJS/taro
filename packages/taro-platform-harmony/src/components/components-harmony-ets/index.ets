@@ -1,92 +1,39 @@
-import TaroImage, { getImageMode } from './image'
-import TaroText from './text'
-import TaroView from './view'
-import TaroIcon from './icon'
-import TaroForm from './form'
-import TaroLabel from './label'
-import TaroInput from './input'
-import TaroVideo from './video'
-import TaroCanvas from './canvas'
-import TaroButton from './button'
-import TaroPicker from './picker'
-import TaroSlider from './slider'
-import TaroSwitch from './switch'
-import TaroSwiper from './swiper'
-import TaroWebView from './webView'
-import TaroTextArea from './textArea'
-import TaroRichText from './richText'
-import TaroProgress from './progress'
-import TaroInnerHtml from './innerHtml'
-import TaroScrollView from './scrollView'
-import TaroMovableArea from './movableArea'
-import TaroMovableView from './movableView'
-import { TaroRadio, TaroRadioGroup } from './radio'
-import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
-import TaroPageMeta from './pageMeta'
-import TaroNavigationBar from './navigationBar'
+export { default as TaroImage, getImageMode } from './image'
+export { default as TaroText } from './text'
+export { default as TaroView } from './view'
+export { default as TaroIcon } from './icon'
+export { default as TaroForm } from './form'
+export { default as TaroLabel } from './label'
+export { default as TaroInput } from './input'
+export { default as TaroVideo } from './video'
+export { default as TaroCanvas } from './canvas'
+export { default as TaroButton, getButtonColor } from './button'
+export { default as TaroPicker } from './picker'
+export { default as TaroSlider } from './slider'
+export { default as TaroSwitch } from './switch'
+export { default as TaroSwiper } from './swiper'
+export { default as TaroWebView } from './webView'
+export { default as TaroTextArea } from './textArea'
+export { default as TaroRichText } from './richText'
+export { default as TaroProgress } from './progress'
+export { default as TaroInnerHtml } from './innerHtml'
+export { default as TaroScrollView } from './scrollView'
+export { default as TaroMovableArea } from './movableArea'
+export { default as TaroMovableView } from './movableView'
+export { TaroRadio, TaroRadioGroup } from './radio'
+export { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
+export { default as TaroPageMeta, IComponentAttributeUpdateEvents } from './pageMeta'
+export { default as TaroNavigationBar } from './navigationBar'
 
-import TaroListView from './listView'
-import TaroStickySection from './stickySection'
-import TaroScrollList from './scrollList'
+export { default as TaroListView } from './listView'
+export { default as TaroStickySection } from './stickySection'
+export { default as TaroScrollList } from './scrollList'
 
-import commonStyleModify, { rowModify, columnModify, textModify, setNormalTextAttributeIntoInstance } from './style'
-import { getButtonColor } from './button'
-import { FlexManager } from './utils/flexManager'
-import { DynamicCenter } from './utils/DynamicCenter'
-import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { BUTTON_THEME_COLOR } from './utils/constant/style'
-import { getStyleAttr } from './utils/styles'
-import { shouldBindEvent, getNodeThresholds, getNormalAttributes, getFontAttributes } from './utils/helper'
-
-export {
-  textModify,
-  getStyleAttr,
-  FlexManager,
-  DynamicCenter,
-  getButtonColor,
-  TOUCH_EVENT_MAP,
-  shouldBindEvent,
-  getFontAttributes,
-  commonStyleModify,
-  rowModify,
-  columnModify,
-  getNodeThresholds,
-  BUTTON_THEME_COLOR,
-  getNormalAttributes,
-  setNormalTextAttributeIntoInstance,
-  getImageMode,
-}
-
-export {
-  TaroImage,
-  TaroCanvas,
-  TaroText,
-  TaroView,
-  TaroIcon,
-  TaroForm,
-  TaroLabel,
-  TaroInput,
-  TaroVideo,
-  TaroButton,
-  TaroPicker,
-  TaroSlider,
-  TaroSwitch,
-  TaroSwiper,
-  TaroWebView,
-  TaroTextArea,
-  TaroRichText,
-  TaroProgress,
-  TaroInnerHtml,
-  TaroScrollView,
-  TaroMovableArea,
-  TaroMovableView,
-  TaroRadio,
-  TaroRadioGroup,
-  TaroCheckboxGroup,
-  TaroCheckbox,
-  TaroPageMeta,
-  TaroNavigationBar,
-  TaroListView,
-  TaroStickySection,
-  TaroScrollList
-}
+export { default as commonStyleModify, rowModify, columnModify, textModify, setNormalTextAttributeIntoInstance } from './style'
+export { TOUCH_EVENT_MAP } from './utils/constant/event'
+export { BUTTON_THEME_COLOR } from './utils/constant/style'
+export { DynamicCenter } from './utils/DynamicCenter'
+export { FlexManager } from './utils/flexManager'
+export { isTagFirstChild } from './utils/helper'
+export { getStyleAttr } from './utils/styles'
+export { shouldBindEvent, getNodeThresholds, getNormalAttributes, getFontAttributes } from './utils/helper'

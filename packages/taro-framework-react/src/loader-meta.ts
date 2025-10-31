@@ -27,15 +27,15 @@ function addConfig (source) {
   }
 
   walk.simple(ast, {
-    FunctionExpression (node: any) {
+    FunctionExpression(node: any) {
       if (!node.id || !node.id.name) return
       check(node.id.name)
     },
-    FunctionDeclaration (node: any) {
+    FunctionDeclaration(node: any) {
       if (!node.id || !node.id.name) return
       check(node.id.name)
     },
-    CallExpression (node: any) {
+    CallExpression(node: any) {
       const { callee } = node
       if (callee.type === 'Identifier') {
         check(callee.name)
@@ -46,12 +46,43 @@ function addConfig (source) {
           check(callee.property.value)
         }
       }
-      node.arguments.forEach(item => {
+      node.arguments.forEach((item: any) => {
         if (item.type === 'Literal' && item.value) {
           check(item.value)
         }
       })
-    }
+    },
+    ClassDeclaration(node: any) {
+      // 类声明: class Foo {}
+      if (node.id && node.id.name) {
+        check(node.id.name)
+      }
+      // 类体方法: class Foo { bar() {} }
+      node.body.body.forEach((method: any) => {
+        if (method.type === 'MethodDefinition') {
+          if (method.key.type === 'Identifier') {
+            check(method.key.name)
+          } else if (method.key.type === 'Literal') {
+            check(method.key.value as string)
+          }
+        }
+      })
+    },
+    ClassExpression(node: any) {
+      // 类表达式: const A = class B {}
+      if (node.id && node.id.name) {
+        check(node.id.name)
+      }
+      node.body.body.forEach((method: any) => {
+        if (method.type === 'MethodDefinition') {
+          if (method.key.type === 'Identifier') {
+            check(method.key.name)
+          } else if (method.key.type === 'Literal') {
+            check(method.key.value as string)
+          }
+        }
+      })
+    },
   })
 
   return additionConfig
@@ -82,8 +113,8 @@ class App extends React.Component {
   }
 
   if (process.env.TARO_PLATFORM === 'web') {
-    if (framework === 'react') {
-      const react = require('react')
+    if (framework === 'react' || framework === 'preact') {
+      const react = framework === 'preact' ? require('preact/compat') : require('react')
       const majorVersion = Number((react.version || '18').split('.')[0])
       if (majorVersion >= 18) {
         // Note: In react 18 or above, should using react-dom/client

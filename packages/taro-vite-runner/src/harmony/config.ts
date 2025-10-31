@@ -2,11 +2,12 @@ import path from 'node:path'
 
 import { babel } from '@rollup/plugin-babel'
 import inject from '@rollup/plugin-inject'
+import terser from '@rollup/plugin-terser'
 import { defaultMainFields, fs, PLATFORMS, recursiveMerge, REG_NODE_MODULES_DIR, resolveMainFilePath } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 
-import increment from '../common/rollup-increment-plugin'
+import increment from '../common/rollup-plugin-increment'
 import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
 import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule, stripMultiPlatformExt, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
 import { DEFAULT_TERSER_OPTIONS, HARMONY_SCOPES } from '../utils/constants'
@@ -19,6 +20,7 @@ import type { RollupInjectOptions } from '@rollup/plugin-inject'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { InputPluginOption, OutputOptions } from 'rollup'
 import type { Plugin, PluginOption } from 'vite'
+import type { TaroHarmonyPageMeta } from './template/page'
 
 export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
   const { taroConfig, cwd: appPath } = viteCompilerContext
@@ -199,10 +201,12 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           name = name.replace(/[\\/]+/g, '/')
 
           const appId = viteCompilerContext.app.config.appId || 'app'
-          const isTaroComp = appId === name || viteCompilerContext.pages.some(page => page.name === name) || viteCompilerContext.components?.some(comp => comp.name === name)
+          const isTaroComp = appId === name ||
+            viteCompilerContext.pages.some((page: TaroHarmonyPageMeta) => [page.name, page.originName].includes(name)) ||
+            viteCompilerContext.components?.some((comp: TaroHarmonyPageMeta) => [comp.name, comp.originName].includes(name))
           // 如果同时存在app.ets和app.js，因为鸿蒙IDE编译会把app.ets编译成app.ts，会跟app.js冲突，识别都是/app，导致app.js被app.ts覆盖了，所以需要名字
           const suffix = isTaroComp ? virtualModulePrefixREG.test(chunkInfo.facadeModuleId || '') ? TARO_COMP_SUFFIX : '_comp' : ''
-          name = stripMultiPlatformExt(`${name}${suffix}`) + taroConfig.fileType.script
+          name = stripMultiPlatformExt(`${name}/index${suffix}`) + taroConfig.fileType.script
 
           if (chunkInfo.facadeModuleId && chunkInfo.facadeModuleId.includes(QUERY_IS_NATIVE_SCRIPT)) {
             name += QUERY_IS_NATIVE_SCRIPT
@@ -241,6 +245,37 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         // Note: 修复虚拟模块的依赖和引用，使其能够正确的输出
         output.sanitizeFileName = (filename) => filename.replace(/^_virtual[\\/]/, '').replace(/[\0?*]/g, '_')
       }
+      const rollupPlugins: InputPluginOption[] = [
+        inject(getInjectOption()),
+        babel(getBabelOption(
+          taroConfig,
+          {
+            babelOption: {
+              extensions: ['.js', '.jsx', '.ts', '.tsx', '.es6', '.es', '.mjs', '.mts', '.ets'],
+            },
+          }
+        )),
+        increment({
+          force: (id) => /app\.config/.test(id),
+          comparisonId: (id = '', files) => {
+            const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+            if (nodeModulesDirRegx.test(id)) return false
+
+            const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
+            const etx = path.extname(rawId)
+            id = etx ? rawId.replace(new RegExp(`${etx}$`), '') : rawId
+
+            const list = Array.from(files)
+            const rgx = new RegExp(`^${id}\\.config`)
+            return list.some(file => rgx.test(file))
+          },
+        }),
+      ]
+
+      // Note: Vite 官方插件禁用了 es 输出模式下的 terser 插件，这里需要手动添加
+      if (!taroConfig.isWatch && getMinify(taroConfig) === 'terser') {
+        rollupPlugins.push(terser(recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})))
+      }
 
       return {
         mode: getMode(taroConfig),
@@ -261,32 +296,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             external: HARMONY_SCOPES,
             makeAbsoluteExternalsRelative: 'ifRelativeSource',
             output: output as any,
-            plugins: [
-              inject(getInjectOption()) as InputPluginOption,
-              babel(getBabelOption(
-                taroConfig,
-                {
-                  babelOption: {
-                    extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.es6', '.es', '.ets'],
-                  },
-                }
-              )) as InputPluginOption,
-              increment({
-                force: (id) => /app\.config/.test(id),
-                comparisonId: (id = '', files) => {
-                  const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
-                  if (nodeModulesDirRegx.test(id)) return false
-
-                  const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
-                  const etx = path.extname(rawId)
-                  id = etx ? rawId.replace(new RegExp(`${etx}$`), '') : rawId
-
-                  const list = Array.from(files)
-                  const rgx = new RegExp(`^${id}\\.config`)
-                  return list.some(file => rgx.test(file))
-                },
-              }),
-            ],
+            plugins: rollupPlugins,
           },
           commonjsOptions: {
             // TODO: 优化过滤

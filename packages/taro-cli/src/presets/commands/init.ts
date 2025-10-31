@@ -7,6 +7,7 @@ export default (ctx: IPluginContext) => {
       '--name [name]': '项目名称',
       '--description [description]': '项目介绍',
       '--typescript': '使用TypeScript',
+      '--build-es5': '是否需要编译为es5',
       '--npm [npm]': '包管理工具',
       '--template-source [templateSource]': '项目模板源',
       '--clone [clone]': '拉取远程模板时使用git clone',
@@ -25,6 +26,7 @@ export default (ctx: IPluginContext) => {
         template,
         description,
         typescript,
+        buildEs5,
         css,
         npm,
         framework,
@@ -32,6 +34,7 @@ export default (ctx: IPluginContext) => {
         hideDefaultTemplate,
         sourceRoot,
         autoInstall,
+        ask
       } = opts.options
 
       const Project = require('../../create/project').default
@@ -45,11 +48,13 @@ export default (ctx: IPluginContext) => {
         template,
         description,
         typescript,
+        buildEs5,
         framework,
         compiler,
         hideDefaultTemplate,
         autoInstall,
-        css
+        css,
+        ask
       })
 
       project.create()

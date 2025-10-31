@@ -1,6 +1,6 @@
 {
   "name": "postcss-html-transform",
-  "version": "4.0.2",
+  "version": "4.1.7",
   "description": "transform html tag name selector",
   "author": "O2Team",
   "license": "MIT",
@@ -16,7 +16,7 @@
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove ./dist",
+    "clean": "rimraf ./dist",
     "build": "tsc",
     "dev": "tsc -w"
   },

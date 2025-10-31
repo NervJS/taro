@@ -1,12 +1,11 @@
 import path from 'node:path'
-import { parse as parseUrl } from 'node:url'
 
 import { fs, getHash } from '@tarojs/helper'
 import MagicString from 'magic-string'
 import * as mrmime from 'mrmime'
 import { normalizePath } from 'vite'
 
-import { addTrailingSlash, virtualModulePrefixREG } from '../utils'
+import { addTrailingSlash, escapePath, virtualModulePrefixREG } from '../utils'
 import {
   createToImportMetaURLBasedRelativeRuntime,
   toOutputFilePathInJS,
@@ -243,7 +242,7 @@ export function publicFileToBuiltUrl(
 export function fileToUrl(
   id: string,
   config: ResolvedConfig,
-  pluginContext: PluginContext,
+  _pluginContext: PluginContext,
   viteCompilerContext: ViteHarmonyCompilerContext,
   skipPublicCheck = false,
 ): string {
@@ -261,25 +260,33 @@ export function fileToUrl(
   const content = fs.readFileSync(file)
 
   // emit as asset
-  const { search, hash } = parseUrl(id)
-  const postfix = (search || '') + (hash || '')
+  // const { search, hash } = parseUrl(id)
+  // const postfix = (search || '') + (hash || '')
 
   const { cwd: appPath, taroConfig } = viteCompilerContext
-  const { sourceRoot = 'src' } = taroConfig
+  const { sourceRoot = 'src', outputRoot = 'dist' } = taroConfig
   const appRoot = path.resolve(appPath, sourceRoot)
-  const referenceId = pluginContext.emitFile({
-    // Ignore directory structure for asset file names
-    fileName: path.relative(appRoot, file),
-    name: path.basename(file),
-    type: 'asset',
-    source: content,
+  // const referenceId = pluginContext.emitFile({
+  //   // Ignore directory structure for asset file names
+  //   fileName: path.relative(appRoot, file),
+  //   name: path.basename(file),
+  //   type: 'asset',
+  //   source: content,
+  // })
+
+  // const originalName = normalizePath(path.relative(config.root, file))
+  // generatedAssets.get(config)!.set(referenceId, { originalName })
+
+  // const url = `__TARO_VITE_ASSET__${referenceId}__${postfix ? `$_${postfix}__` : ``}` // TODO_BASE
+
+  const ext = path.extname(file)
+  const resourceName = path.relative(appRoot, file).replace(ext, '').replace(/^[\\/]+/, '').replace(/[^A-z0-9]+/g, '_')
+  const resourcePath = path.join(escapePath(outputRoot), '..', 'resources/base/media', `${resourceName}${ext}`)
+  fs.ensureDirSync(path.dirname(resourcePath))
+  fs.writeFileSync(resourcePath, content, {
+    encoding: 'utf-8',
   })
 
-  const originalName = normalizePath(path.relative(config.root, file))
-  generatedAssets.get(config)!.set(referenceId, { originalName })
-
-  const url = `__TARO_VITE_ASSET__${referenceId}__${postfix ? `$_${postfix}__` : ``}` // TODO_BASE
-
-  cache.set(id, url)
-  return url
+  cache.set(id, resourcePath)
+  return 'resource://base/media/' + resourceName + ext
 }

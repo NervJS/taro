@@ -4,7 +4,7 @@ import commonStyleModify from './style'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroVideoElement, TaroEvent } from '@tarojs/runtime'
+import type { TaroAny, TaroEvent, TaroVideoElement } from '@tarojs/runtime'
 
 export interface VideoOptions {
   src?: string | Resource

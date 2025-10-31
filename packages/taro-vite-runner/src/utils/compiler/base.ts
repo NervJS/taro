@@ -54,6 +54,22 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConf
 
   protected processConfig () {}
 
+  async collectedDeps (rollupCtx: PluginContext, id: string, filter, cache = new Set<string>()): Promise<Set<string>> {
+    if (!/\.m?[jt]sx?$/.test(id) || !filter(id) || cache.has(id)) return cache
+
+    cache.add(id)
+    const moduleInfo = await rollupCtx.load({
+      id,
+      resolveDependencies: true,
+    })
+
+    await Promise.all(moduleInfo.importedIds.map(async (importedId) => {
+      return this.collectedDeps(rollupCtx, importedId, filter, cache)
+    }))
+
+    return cache
+  }
+
   watchConfigFile (rollupCtx: PluginContext) {
     this.configFileList.forEach((configFile) => rollupCtx.addWatchFile(configFile))
   }
@@ -65,11 +81,16 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConf
   getApp (): ViteAppMeta {
     const scriptPath = this.getAppScriptPath()
     const configPath = this.getConfigFilePath(scriptPath)
-    const config: AppConfig = readConfig(configPath)
+    const config: AppConfig = readConfig(configPath, this.taroConfig)
 
     if (isEmptyObject(config)) {
       this.logger.error('缺少 app 全局配置文件，请检查！')
       process.exit(1)
+    }
+
+    const { modifyAppConfig } = this.taroConfig
+    if (typeof modifyAppConfig === 'function') {
+      modifyAppConfig(config)
     }
 
     const appMeta: ViteAppMeta = {

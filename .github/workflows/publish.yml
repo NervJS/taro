@@ -18,7 +18,8 @@ on:
 
 env:
   CI: true
-permissions: {}
+  # MOCK_PUBLISH: true
+
 jobs:
   need-publish:
     permissions:
@@ -49,13 +50,23 @@ jobs:
       - name: Show commit message
         run : echo "$COMMIT_MESSAGE"
 
-      - name: Commit message compliance verification
-        if: startsWith( env.COMMIT_MESSAGE , 'chore(release):' ) != true
-        run: echo "ABORT=true" >> $GITHUB_ENV
+      - name: Determine if should abort publish
+        run: |
+          ABORT=false
 
-      - name: Publish push tag verification
-        if: github.event_name == 'push' && contains( env.COMMIT_MESSAGE , '--tag=' ) != true
-        run: echo "ABORT=true" >> $GITHUB_ENV
+          if [[ "${{ env.COMMIT_MESSAGE }}" == *"--skip"* ]]; then
+            echo "Found --skip flag, aborting publish"
+            ABORT=true
+          elif [[ "${{ env.COMMIT_MESSAGE }}" != "chore(release):"* ]]; then
+            echo "Not a release commit"
+            ABORT=${{ !env.MOCK_PUBLISH }}
+          elif [[ "${{ github.event_name }}" == "push" && "${{ env.COMMIT_MESSAGE }}" != *"--tag="* ]]; then
+            echo "Push event without tag"
+            ABORT=${{ !env.MOCK_PUBLISH }}
+          fi
+
+          echo "ABORT=$ABORT" >> $GITHUB_ENV
+          echo "Final ABORT value: $ABORT"
 
   build-rust-binding:
     name: Build Rust Binding
@@ -86,10 +97,12 @@ jobs:
       # Setup
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3.0.0
         with:
-          version: 8
+          ref: ${{ github.ref_name }}
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - name: Setup Node 18
         uses: actions/setup-node@v4
         with:
@@ -167,8 +180,166 @@ jobs:
           path: crates/native_binding/artifacts
       - name: Move artifacts
         run: pnpm artifacts
+      - name: Checkout Harmony Commond Line Tools
+        env:
+          COMMANDLINE_TOOLS_URL: https://storage.360buyimg.com/taro-patch/command-line-tools-for-harmony/5.0.13.200/linux_x64
+          TOOLS_HOME: ${{ runner.os == 'macOS' && '~/harmony-tools' || '$HOME/harmony-tools' }}
+        run: |-
+          download_file() {
+            local url=$1
+            local filename=$2
+            local max_retries=3
+            local retry=0
+
+            while [ $retry -lt $max_retries ]; do
+
+              if curl -f -L --http1.1 --connect-timeout 30 --max-time 300 "$url" -o "$filename"; then
+                echo "✓ Downloaded $filename"
+                return 0
+              else
+                echo "✗ Failed to download $filename"
+                retry=$((retry + 1))
+                echo "Downloading $filename (attempt $((retry + 1))/$max_retries)..."
+                [ $retry -lt $max_retries ] && sleep 3
+              fi
+            done
+
+            echo "[Error]: Failed to download $filename after $max_retries attempts"
+            return 1
+          }
+
+          concurrent_download() {
+            local max_concurrent=5
+            files=("z01" "z02" "z03" "z04" "z05" "z06" "z07" "z08" "z09" "z10" "zip")
+            local pids=()
+            local failed=0
+            local completed=0
+            local total=${#files[@]}
+
+            for ext in "${files[@]}"; do
+              while [ ${#pids[@]} -ge $max_concurrent ]; do
+                new_pids=()
+                for pid in "${pids[@]}"; do
+                  if kill -0 "$pid" 2>/dev/null; then
+                    new_pids+=("$pid")
+                  else
+                    wait "$pid"
+                    exit_code=$?
+                    completed=$((completed + 1))
+                    if [ $exit_code -ne 0 ]; then
+                      failed=1
+                      echo "Process $pid failed with exit code $exit_code"
+                    fi
+                    echo "Progress: $completed/$total completed"
+                  fi
+                done
+                pids=("${new_pids[@]}")
+
+                [ ${#pids[@]} -ge $max_concurrent ] && sleep 1
+              done
+
+              echo "Starting download for linux_x64.${ext}..."
+              download_file "${{ env.COMMANDLINE_TOOLS_URL }}.${ext}" "linux_x64.${ext}" &
+              pids+=($!)
+            done
+
+            for pid in "${pids[@]}"; do
+              if wait "$pid"; then
+                completed=$((completed + 1))
+                echo "Progress: $completed/$total completed"
+              else
+                echo "[Error]: Some downloads failed!"
+              return 1
+              fi
+            done
+
+            return 0
+          }
+
+          mkdir -p ${{ env.TOOLS_HOME }}
+          cd ${{ env.TOOLS_HOME }}
+
+          if ! command -v 7z &> /dev/null; then
+            echo "Installing 7z..."
+            sudo apt-get update && sudo apt-get install -y p7zip-full
+          fi
+          concurrent_download
+          7z x ./linux_x64.zip -y -sdel
+
+          ls ${{ env.TOOLS_HOME }}/command-line-tools/bin
+          ls ${{ env.TOOLS_HOME }}/command-line-tools/sdk/default/openharmony/native/llvm/bin
+          ls ${{ env.TOOLS_HOME }}/command-line-tools/sdk/default/hms/native/BiSheng/bin
+          echo "${{ env.TOOLS_HOME }}/command-line-tools/bin" >> $GITHUB_PATH
+          echo "${{ env.TOOLS_HOME }}/command-line-tools/sdk/default/openharmony/native/llvm/bin" >> $GITHUB_PATH
+          echo "${{ env.TOOLS_HOME }}/command-line-tools/sdk/default/hms/native/BiSheng/bin" >> $GITHUB_PATH
+
+          # 为 hvigorw 设置 node 使用目录，需要移除 bin/node
+          echo "DEVECO_NODE_HOME=$( which node )" | sed 's|/bin/node||' >> $GITHUB_ENV
+          echo "DEVECO_SDK_HOME=${{ env.TOOLS_HOME }}/command-line-tools" >> $GITHUB_ENV
+
       - name: build
         run: pnpm build
+
+      - name: Checkout Harmony Project
+        uses: actions/checkout@v4
+        with:
+          repository: NervJS/taro-harmony-project
+          path: packages/taro-platform-harmony-cpp/harmony_project
+          submodules: true
+          token: ${{ secrets.CLASSIC_PAT_TOKEN }}
+      - name: Build Harmony Package
+        id: commitHar
+        run: |-
+          which node
+          node -v
+          echo NODE_HOME: $NODE_HOME
+          echo DEVECO_NODE_HOME: $DEVECO_NODE_HOME
+          echo DEVECO_SDK_HOME: $DEVECO_SDK_HOME
+          if ! command -v tree &> /dev/null; then
+            echo "Installing tree..."
+            sudo apt-get update && sudo apt-get install -y tree
+          fi
+          tree -L 3 $( echo $DEVECO_SDK_HOME )
+          mkdir -p $HOME/.hvigor
+          cat > $HOME/.hvigor/.npmrc << 'EOF'
+          registry="https://repo.huaweicloud.com/repository/npm/"
+          @ohos:registry="https://repo.harmonyos.com/npm/"
+          EOF
+          cat > $HOME/.hvigor/pnpm-workspace.yaml << 'EOF'
+          packages:
+            - './project_caches/**'
+          EOF
+          ls $HOME/.hvigor/
+          cat $HOME/.hvigor/.npmrc
+          cat $HOME/.hvigor/pnpm-workspace.yaml
+
+          cd packages/taro-platform-harmony-cpp
+          cd harmony_project/library/src/main/cpp
+          git fetch origin --unshallow main
+          git reset --hard origin/main
+          git tag v${{ env.CURRENT_VERSION }} -m '${{ env.COMMIT_MESSAGE }}'
+          git push origin v${{ env.CURRENT_VERSION }}
+          cd ../../../..
+          git fetch origin --unshallow main
+          git reset --hard origin/main
+          git add library/src/main/cpp
+          cd ..
+
+          pnpm --filter=@tarojs/plugin-platform-harmony-cpp changelog
+          pnpm --filter=@tarojs/plugin-platform-harmony-cpp build:library --har
+
+          cd harmony_project
+          git add library
+          git commit -m '${{ env.COMMIT_MESSAGE }}'
+          git tag v${{ env.CURRENT_VERSION }} -m '${{ env.COMMIT_MESSAGE }}'
+          git push origin main v${{ env.CURRENT_VERSION }}
+          cd ..
+          cd ../..
+
+          NEW_COMMIT_SHA=$(git rev-parse HEAD)
+          echo "sha=$NEW_COMMIT_SHA" >> $GITHUB_OUTPUT
+          echo "New commit SHA: $NEW_COMMIT_SHA"
+        shell: bash
       - name: List Packages
         run: |-
           echo "[Debug] Listing ./crates/native_binding/artifacts"
@@ -177,27 +348,48 @@ jobs:
           ls -R ./npm
           echo "[Debug] Listing ./packages/taro-helper/swc"
           ls -R ./packages/taro-helper/swc
+          echo "[Debug] Listing ./packages/taro-platform-harmony-cpp/static"
+          ls -R ./packages/taro-platform-harmony-cpp/static
         shell: bash
 
       # Git stash
       - name: Drop current changes
+        if: env.MOCK_PUBLISH != 'true'
         run: |
           git add .
           git stash
 
       # Create git tag
       - name: Create Git Tag
+        if: env.MOCK_PUBLISH != 'true'
         uses: azu/action-package-version-to-git-tag@v2
         with:
           version: ${{ env.CURRENT_VERSION }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           github_repo: ${{ github.repository }}
-          git_commit_sha: ${{ github.sha }}
+          git_commit_sha: ${{ steps.commitHar.outputs.sha || github.sha }}
           git_tag_prefix: "v"
 
       # ------------------ publish -------------
 
+      - name: Install open-harmony SSH key
+        if: env.MOCK_PUBLISH != 'true'
+        uses: shimataro/ssh-key-action@v2
+        with:
+          name: taro_harmony
+          key: ${{ secrets.OHPM_PRIVATE_KEY }}
+          known_hosts: unnecessary
+      - name: Publish ohpm registry
+        if: env.MOCK_PUBLISH != 'true'
+        run: |
+          if ! command -v expect &> /dev/null; then
+            echo "Installing expect..."
+            sudo apt-get update && sudo apt-get install -y expect
+          fi
+          pnpm --filter=@tarojs/plugin-platform-harmony-cpp ohpm-publish -- ${{ secrets.OHPM_PUBLISH_CODE }}
+
       - name: Publish
+        if: env.MOCK_PUBLISH != 'true'
         run: |
           if [ '${{ github.event_name }}' == 'pull_request' ] ; then
             pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r
@@ -213,7 +405,7 @@ jobs:
       # Create release when event is PR
       - name: Create Release
         id: create_release
-        if: github.event.pull_request.merged == true
+        if: github.event.pull_request.merged == true && env.MOCK_PUBLISH != 'true'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -228,7 +420,7 @@ jobs:
 
       # Create PR page comment when event is PR
       - uses: actions/github-script@v6
-        if: github.event.pull_request.merged == true
+        if: github.event.pull_request.merged == true && env.MOCK_PUBLISH != 'true'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |

@@ -32,6 +32,11 @@ interface DraggableSheetProps extends StandardProps {
    * @default []
    */
   snapSizes?: any[]
+  /**
+   * 尺寸发生变化时触发，仅支持 worklet 作为回调。event = {pixels, size}
+   * @supported weapp
+   */
+  onSizeUpdateWorklet?: string
 }
 
 /**

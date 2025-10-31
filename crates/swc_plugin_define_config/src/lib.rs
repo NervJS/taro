@@ -1,67 +1,136 @@
 use swc_core::{
-    ecma::{
-        ast::*,
-        transforms::testing::test,
-        visit::{as_folder, FoldWith, VisitMut, VisitMutWith},
-        utils::{quote_ident, FunctionFactory, prepend_stmt},
-    },
-    common::{DUMMY_SP as span },
-    plugin::{plugin_transform, proxies::TransformPluginProgramMetadata},
+  common::DUMMY_SP as span,
+  ecma::{
+    ast::*,
+    transforms::testing::test,
+    utils::{prepend_stmt, quote_ident, FunctionFactory},
+    visit::{as_folder, FoldWith, VisitMut, VisitMutWith},
+  },
+  plugin::{plugin_transform, proxies::TransformPluginProgramMetadata},
 };
 
 struct DefineConfigVisitor {
-    fn_name: Option<Ident>
+  fn_name: Option<Ident>,
+  imp_name: Option<Ident>,
 }
 
 impl VisitMut for DefineConfigVisitor {
-    fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
-        expr.visit_mut_children_with(self);
-        if let Callee::Expr(expr) = &expr.callee {
-            if let Expr::Ident(ident) = &**expr {
-                if ident.sym == "defineAppConfig" || ident.sym == "definePageConfig" {
-                    self.fn_name = Some(ident.clone());
-                }
-            }
+  fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
+    expr.visit_mut_children_with(self);
+    if let Callee::Expr(expr) = &expr.callee {
+      if let Expr::Ident(ident) = &**expr {
+        if ident.sym == "defineAppConfig" || ident.sym == "definePageConfig" {
+          self.fn_name = Some(ident.clone());
+        } else if ident.sym == "importNativeComponent" {
+          self.imp_name = Some(ident.clone());
         }
+      }
     }
+  }
 }
 
 pub struct TransformVisitor;
 
 impl VisitMut for TransformVisitor {
-    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        let mut folder = DefineConfigVisitor { fn_name: None };
+  fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+    let mut folder = DefineConfigVisitor {
+      fn_name: None,
+      imp_name: None,
+    };
 
-        let is_found = items.iter_mut().any(|item| {
-            item.visit_mut_with(&mut folder);
-            folder.fn_name.is_some()
-        });
+    let mut is_found = items.iter_mut().any(|item| {
+      item.visit_mut_with(&mut folder);
+      folder.fn_name.is_some()
+    });
 
-        if is_found {
-            let fn_name = folder.fn_name.take().unwrap();
-            let func = Function {
-                span,
-                decorators: Default::default(),
-                params: vec![Param {
-                    span,
-                    decorators: Default::default(),
-                    pat: Pat::Ident(quote_ident!("config").into()),
-                }],
-                body: Some(BlockStmt {
-                    span,
-                    stmts: vec![Stmt::Return(ReturnStmt {
-                      span,
-                      arg: Some(Box::new(quote_ident!("config").into())),
-                    })],
-                  }),
-                is_async: false,
-                is_generator: false,
-                type_params: None,
-                return_type: None,
-            };
-            prepend_stmt(items, ModuleItem::Stmt(Stmt::Decl(Decl::Fn(func.into_fn_decl(fn_name)))));
-        }
+    if is_found {
+      let fn_name = folder.fn_name.take().unwrap();
+      let func = Function {
+        span,
+        decorators: Default::default(),
+        params: vec![Param {
+          span,
+          decorators: Default::default(),
+          pat: Pat::Ident(quote_ident!("config").into()),
+        }],
+        body: Some(BlockStmt {
+          span,
+          stmts: vec![Stmt::Return(ReturnStmt {
+            span,
+            arg: Some(Box::new(quote_ident!("config").into())),
+          })],
+        }),
+        is_async: false,
+        is_generator: false,
+        type_params: None,
+        return_type: None,
+      };
+      prepend_stmt(
+        items,
+        ModuleItem::Stmt(Stmt::Decl(Decl::Fn(func.into_fn_decl(fn_name)))),
+      );
     }
+
+    is_found = items.iter_mut().any(|item| {
+      item.visit_mut_with(&mut folder);
+      folder.imp_name.is_some()
+    });
+
+    if is_found {
+      let imp_name = folder.imp_name.take().unwrap();
+      let func = Function {
+        span,
+        decorators: Default::default(),
+        params: vec![
+          // path 参数,默认值为空字符串
+          Param {
+            span,
+            decorators: Default::default(),
+            pat: Pat::Assign(AssignPat {
+              span,
+              left: Box::new(Pat::Ident(quote_ident!("path").into())),
+              right: Box::new(Expr::Lit(Lit::Str("".into()))),
+            }),
+          },
+          // name 参数,默认值为空字符串
+          Param {
+            span,
+            decorators: Default::default(),
+            pat: Pat::Assign(AssignPat {
+              span,
+              left: Box::new(Pat::Ident(quote_ident!("name").into())),
+              right: Box::new(Expr::Lit(Lit::Str("".into()))),
+            }),
+          },
+          // exportName 参数,默认值为 'default'
+          Param {
+            span,
+            decorators: Default::default(),
+            pat: Pat::Assign(AssignPat {
+              span,
+              left: Box::new(Pat::Ident(quote_ident!("exportName").into())),
+              right: Box::new(Expr::Lit(Lit::Str("default".into()))),
+            }),
+          },
+        ],
+        body: Some(BlockStmt {
+          span,
+          stmts: vec![Stmt::Return(ReturnStmt {
+            span,
+            arg: Some(Box::new(quote_ident!("name").into())),
+          })],
+        }),
+        is_async: false,
+        is_generator: false,
+        type_params: None,
+        return_type: None,
+      };
+      prepend_stmt(
+        items,
+        ModuleItem::Stmt(Stmt::Decl(Decl::Fn(func.into_fn_decl(imp_name)))),
+      );
+    }
+  }
 }
 
 /// An example plugin function with macro support.
@@ -81,7 +150,7 @@ impl VisitMut for TransformVisitor {
 /// Refer swc_plugin_macro to see how does it work internally.
 #[plugin_transform]
 pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
-    program.fold_with(&mut as_folder(TransformVisitor))
+  program.fold_with(&mut as_folder(TransformVisitor))
 }
 
 // An example to test plugin transform.
@@ -89,44 +158,44 @@ pub fn process_transform(program: Program, _metadata: TransformPluginProgramMeta
 // the Visitor's behavior, instead of trying to run `process_transform` with mocks
 // unless explicitly required to do so.
 test!(
-    Default::default(),
-    |_| as_folder(TransformVisitor),
-    module_decl_default_app,
-    r#"export default defineAppConfig({})"#
+  Default::default(),
+  |_| as_folder(TransformVisitor),
+  module_decl_default_app,
+  r#"export default defineAppConfig({})"#
 );
 
 test!(
-    Default::default(),
-    |_| as_folder(TransformVisitor),
-    module_decl_default_page,
-    r#"export default definePageConfig({})"#
+  Default::default(),
+  |_| as_folder(TransformVisitor),
+  module_decl_default_page,
+  r#"export default definePageConfig({})"#
 );
 
 test!(
-    Default::default(),
-    |_| as_folder(TransformVisitor),
-    var_decl_app,
-    r#"
+  Default::default(),
+  |_| as_folder(TransformVisitor),
+  var_decl_app,
+  r#"
     const config = defineAppConfig({})
     export default config
     "#
 );
 
 test!(
-    Default::default(),
-    |_| as_folder(TransformVisitor),
-    var_decl_page,
-    r#"
+  Default::default(),
+  |_| as_folder(TransformVisitor),
+  var_decl_page,
+  r#"
     const config = definePageConfig({})
     export default config
     "#
 );
 
 test!(
-    Default::default(),
-    |_| as_folder(TransformVisitor),
-    module_exports,
-    r#"
+  Default::default(),
+  |_| as_folder(TransformVisitor),
+  module_exports,
+  r#"
     var require_index_config = __commonJS({
         "src/pages/index/index.config.ts": function(exports1, module) {
             var config = definePageConfig({

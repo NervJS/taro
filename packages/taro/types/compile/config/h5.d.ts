@@ -6,6 +6,7 @@ import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
 import type { OutputOptions as RollupOutputOptions } from 'rollup'
 import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
 import type { OutputExt } from './project'
+import type { ServerOptions as ViteServerOptions } from 'vite'
 
 export interface IH5RouterConfig {
   /** 配置路由模式 */
@@ -51,7 +52,8 @@ export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
   router?: IH5RouterConfig
 
   /** 预览服务的配置，可以更改端口等参数。具体配置参考 [webpack-dev-server](https://webpack.js.org/configuration/dev-server) */
-  devServer?: webpackDevServer.Configuration
+  // 修改后：同时支持 Webpack 和 Vite
+  devServer?: T extends 'vite' ? ViteServerOptions : webpackDevServer.Configuration
 
   /** 用于控制是否生成 js、css 对应的 sourceMap (默认值：watch 模式下为 true，否则为 false) */
   enableSourceMap?: boolean
@@ -119,8 +121,9 @@ export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
 
   /** Web 编译过程的相关配置 */
   compile?: {
-    exclude?: (string | RegExp)[]
-    include?: (string | RegExp)[]
+    exclude?: any[]
+    include?: any[]
+    /** 对应 @rollup/plugin-babel 插件的 filter 配置。只在 vite 编译模式下有效 */
     filter?: (filename: string) => boolean
   }
   /** 生成的代码是否要兼容旧版浏览器，值为 true 时，会去读取 package.json 的 browserslist 字段。只在 vite 编译模式下有效 */

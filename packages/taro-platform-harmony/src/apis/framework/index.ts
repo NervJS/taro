@@ -24,4 +24,4 @@ export { Current, getCurrentInstance } from '@tarojs/runtime'
 
 export const requirePlugin = temporarilyNotSupport('requirePlugin')
 
-export { eventCenter, Events, History } from '@tarojs/runtime/dist/runtime.esm'
+export { eventCenter, Events, History } from '@tarojs/runtime'

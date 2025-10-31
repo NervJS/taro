@@ -45,6 +45,8 @@ export default abstract class TaroPlatform<T extends TConfig = TConfig> {
   abstract platform: string
   abstract runtimePath: string | string[]
 
+  behaviorsName?: string
+
   protected setupTransaction = new Transaction<this>()
   protected buildTransaction = new Transaction<this>()
 
@@ -59,6 +61,10 @@ export default abstract class TaroPlatform<T extends TConfig = TConfig> {
     if (!VALID_COMPILER.includes(this.compiler)) {
       this.compiler = DEFAULT_COMPILER
     }
+  }
+
+  public getConfig() {
+    return this.config
   }
 
   protected emptyOutputDir (excludes: Array<string | RegExp> = []) {

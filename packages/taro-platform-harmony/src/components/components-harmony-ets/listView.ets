@@ -1,6 +1,6 @@
 import commonStyleModify from './style'
 
-import type { TaroViewElement, TaroAny } from '@tarojs/runtime'
+import type { TaroAny, TaroViewElement } from '@tarojs/runtime'
 
 @Reusable
 @Component
@@ -22,10 +22,11 @@ export default struct TaroListView {
 
   build() {
     ListItem() {
-      Stack() {
+      Column() {
         this.createLazyChildren(this.node, 0)
       }
     }
     .attributeModifier(commonStyleModify.setNode(this.node).setAnimationStyle(this.overwriteStyle))
+    .zIndex(0)
   }
 }

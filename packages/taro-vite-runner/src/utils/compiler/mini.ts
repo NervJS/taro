@@ -11,6 +11,7 @@ import {
 import { isArray, isFunction } from '@tarojs/shared'
 
 import defaultConfig from '../../defaultConfig/defaultConfig.mini'
+import { miniTemplateLoader, QUERY_IS_NATIVE_COMP } from '../../mini/native-support'
 import { getComponentName } from '../../utils'
 import { componentConfig } from '../../utils/component'
 import { CompilerContext } from './base'
@@ -24,6 +25,7 @@ import type {
   ViteNativeCompMeta,
   VitePageMeta
 } from '@tarojs/taro/types/compile/viteCompilerContext'
+import type { PluginContext } from 'rollup'
 
 export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> implements ViteMiniCompilerContext {
   fileType: ViteFileType
@@ -49,9 +51,9 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
     const defaultCommonChunks = ['runtime', 'vendors', 'taro', 'common']
     let customCommonChunks: string[] = defaultCommonChunks
     if (isFunction(commonChunks)) {
-      customCommonChunks = commonChunks(defaultCommonChunks.concat()) || defaultCommonChunks
-    } else if (isArray(commonChunks) && commonChunks.length) {
-      customCommonChunks = commonChunks
+      customCommonChunks = (commonChunks as ((commonChunks: string[]) => string[]))(defaultCommonChunks.concat()) || defaultCommonChunks
+    } else if (isArray(commonChunks) && commonChunks!.length) {
+      customCommonChunks = commonChunks as string []
     }
     return customCommonChunks
   }
@@ -65,7 +67,7 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
     const configPath = isNative
       ? this.getConfigPath(scriptPath)
       : this.getConfigFilePath(scriptPath)
-    const config: PageConfig = readConfig(configPath) || {}
+    const config: PageConfig = readConfig(configPath, this.taroConfig) || {}
 
     const pageMeta = {
       name: pageName,
@@ -87,21 +89,25 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
     return pageMeta
   }
 
-  collectNativeComponents (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) {
+  resolvePageImportPath (scriptPath: string, importPath: string) {
+    const alias = this.taroConfig.alias
+    if (isAliasPath(importPath, alias)) {
+      importPath = replaceAliasPath(scriptPath, importPath, alias)
+    }
+    return importPath
+  }
+
+  collectNativeComponents (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta): ViteNativeCompMeta[] {
     const { name, scriptPath, config } = meta
     const { usingComponents } = config
-    if (!usingComponents) return
 
-    Object.entries(usingComponents).forEach(([compName, compPath]) => {
-      const alias = this.taroConfig.alias
+    const list: ViteNativeCompMeta[] = []
+    if (!usingComponents) return list
 
-      if (isAliasPath(compPath, alias)) {
-        compPath = replaceAliasPath(scriptPath, compPath, alias)
-        usingComponents[compName] = compPath
-      }
-
+    Object.entries(usingComponents).forEach(([compName, value]) => {
+      const compPath = value instanceof Array ? value[0] : value
+      usingComponents[compName] = this.resolvePageImportPath(scriptPath, compPath)
       const compScriptPath = resolveMainFilePath(path.resolve(path.dirname(scriptPath), compPath))
-
       if (this.nativeComponents.has(compScriptPath)) return
 
       const configPath = this.getConfigPath(compScriptPath)
@@ -114,6 +120,7 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
 
       const nativeCompMeta: ViteNativeCompMeta = {
         name: getComponentName(this, compScriptPath),
+        exportName: 'default',
         scriptPath: compScriptPath,
         configPath,
         config: readConfig(configPath) || {},
@@ -132,8 +139,28 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
         componentConfig.thirdPartyComponents.set(compName, new Set())
       }
 
-      this.collectNativeComponents(nativeCompMeta)
+      list.push(...this.collectNativeComponents(nativeCompMeta), nativeCompMeta)
     })
+    return list
+  }
+
+  generateNativeComponent (rollupCtx: PluginContext, meta: ViteNativeCompMeta, implicitlyLoadedAfterOneOf: string[] = []) {
+    if (meta.isGenerated) return
+
+    rollupCtx.emitFile({
+      type: 'chunk',
+      id: meta.scriptPath + QUERY_IS_NATIVE_COMP,
+      fileName: this.getScriptPath(meta.name),
+      implicitlyLoadedAfterOneOf,
+    })
+    const source = miniTemplateLoader(rollupCtx, meta.templatePath, this.sourceDir)
+    rollupCtx.emitFile({
+      type: 'asset',
+      fileName: this.getTemplatePath(meta.name),
+      source
+    })
+    meta.cssPath && rollupCtx.addWatchFile(meta.cssPath)
+    meta.isGenerated = true
   }
 
   /** 工具函数 */

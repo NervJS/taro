@@ -1,14 +1,13 @@
 {
   "name": "@tarojs/runner-utils",
-  "version": "4.0.2",
+  "version": "4.1.7",
   "description": "Taro runner utilities.",
   "author": "O2Team",
   "license": "MIT",
   "main": "dist/index.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist",
-    "types"
+    "dist"
   ],
   "scripts": {
     "prod": "pnpm run build",

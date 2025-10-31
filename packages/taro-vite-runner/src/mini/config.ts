@@ -19,7 +19,7 @@ import { DEFAULT_TERSER_OPTIONS, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME } from '../uti
 import { logger } from '../utils/logger'
 
 import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
-import type { InputPluginOption } from 'rollup'
+import type { GetManualChunk, InputPluginOption } from 'rollup'
 import type { PluginOption } from 'vite'
 
 export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
@@ -151,6 +151,63 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
     postcssOption: taroConfig.postcss,
   })
 
+  // Note: 分 chunks, commonjs 的循环依赖令人头疼，需要把根据不同的框架，把 taro 和 框架的依赖，打成一个 base chunk（命名为 taro），保证这个 chunk 不会去引用别的 chunk
+  function getManualChunks (): GetManualChunk {
+    const { framework } = taroConfig
+    const reactRelatedDeps: RegExp[] = [
+      /node_modules[\\/]react-reconciler[\\/]/,
+      /node_modules[\\/]react[\\/]/,
+      /node_modules[\\/]scheduler[\\/]/
+    ]
+    const vueRelatedDeps: RegExp[] = [
+      /node_modules[\\/]@vue[\\/]/,
+      /node_modules[\\/]vue[\\/]/
+    ]
+    const taroDeps: RegExp[] = [REG_TARO_SCOPED_PACKAGE]
+    const taroViteRunnerDeps: RegExp[] = [/node_modules[\\/]@tarojs[\\/]vite-runner/]
+    const nodeModulesDeps: RegExp[] = [REG_NODE_MODULES_DIR]
+    const babelDeps: RegExp[] = [/node_modules[\\/]@babel[\\/]/]
+    const commonjsHelpersDeps: RegExp[] = [/commonjsHelpers\.js$/]
+    const tslibDeps: RegExp [] = [/node_modules[\\/]tslib[\\/]/]
+    const testByReg2DExpList = (reg2DExpList: RegExp[][]) => (id: string) => reg2DExpList.some(regExpList => regExpList.some(regExp => regExp.test(id)))
+    switch (framework) {
+      case 'react':
+        return (id, { getModuleInfo }) => {
+          REG_NODE_MODULES_DIR.lastIndex = 0
+          const moduleInfo = getModuleInfo(id)
+          // Note: vite-runner 里面涉及到一些js文件的注入，比如 comp.js， 为了避免这些文件被打包进 vendors，这里做了特殊处理
+          if (testByReg2DExpList([taroViteRunnerDeps])(id)) return null
+          // Note: react 中用到了 for of等新的语法，babel相关依赖会被打包到 vendors 中，但taro中会打包react相关依赖，从而会引入 vendors 中的 babel 相关依赖，导致循环引用
+          if (testByReg2DExpList([babelDeps])(id)) return 'babelHelpers'
+          if (testByReg2DExpList([taroDeps, reactRelatedDeps, tslibDeps, commonjsHelpersDeps])(id)) return 'taro'
+          if (testByReg2DExpList([nodeModulesDeps])(id)) return 'vendors'
+          if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) return 'common'
+        }
+      case 'vue3':
+        return (id, { getModuleInfo }) => {
+          REG_NODE_MODULES_DIR.lastIndex = 0
+          const moduleInfo = getModuleInfo(id)
+          // Note: vite-runner 里面涉及到一些js文件的注入，比如 comp.js， 为了避免这些文件被打包进 vendors，这里做了特殊处理
+          if (testByReg2DExpList([taroViteRunnerDeps])(id)) return null
+          // Note: vue3 中用到了 for of等新的语法，babel相关依赖会被打包到 vendors 中，但taro中会打包vue3相关依赖，从而会引入 vendors 中的 babel 相关依赖，导致循环引用
+          if (testByReg2DExpList([babelDeps])(id)) return 'babelHelpers'
+          if (testByReg2DExpList([taroDeps, vueRelatedDeps, tslibDeps, commonjsHelpersDeps])(id)) return 'taro'
+          if (testByReg2DExpList([nodeModulesDeps])(id)) return 'vendors'
+          if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) return 'common'
+        }
+      default:
+        // Note: 其他框架就先不分 chunks 了
+        return (id, { getModuleInfo }) => {
+          REG_NODE_MODULES_DIR.lastIndex = 0
+          const moduleInfo = getModuleInfo(id)
+          // Note: vite-runner 里面涉及到一些js文件的注入，比如 comp.js， 为了避免这些文件被打包进 vendors，这里做了特殊处理
+          if (testByReg2DExpList([taroViteRunnerDeps])(id)) return null
+          if (testByReg2DExpList([nodeModulesDeps, commonjsHelpersDeps])(id)) return 'vendors'
+          if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) return 'common'
+        }
+    }
+  }
+
   return {
     name: 'taro:vite-mini-config',
     config: async () => ({
@@ -174,26 +231,15 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
               return stripMultiPlatformExt(chunkInfo.name) + taroConfig.fileType.script
             },
             chunkFileNames: taroConfig.output!.chunkFileNames,
-            manualChunks(id, { getModuleInfo }) {
-              const moduleInfo = getModuleInfo(id)
-              const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
-              // Note: vite-runner 里面涉及到一些js文件的注入，比如 comp.js， 为了避免这些文件被打包进 vendors，这里做了特殊处理
-              if (/node_modules[\\/]@tarojs[\\/]vite-runner/.test(id)) return null
-
-              if (REG_TARO_SCOPED_PACKAGE.test(id)) return 'taro'
-
-              if (nodeModulesDirRegx.test(id) || /commonjsHelpers\.js$/.test(id)) return 'vendors'
-
-              if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) return 'common'
-            },
+            manualChunks: getManualChunks(),
           },
           plugins: [
             inject(getInjectOption()) as InputPluginOption,
             babel(getBabelOption(
               taroConfig,
               {
-                defaultExclude: [/node_modules[/\\](?!@tarojs)/],
-                defaultInclude: [sourceDir, /taro/]
+                defaultExclude: [],
+                defaultInclude: [sourceDir, /(?<=node_modules[\\/]).*taro/]
               }
             )) as InputPluginOption,
           ],
@@ -215,7 +261,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
         alias: [
           // 小程序使用 regenerator-runtime@0.11
           { find: 'regenerator-runtime', replacement: require.resolve('regenerator-runtime') },
-          { find: /@tarojs\/components$/, replacement: taroConfig.taroComponentsPath || '@tarojs/components/mini' },
+          { find: /@tarojs\/components$/, replacement: taroConfig.taroComponentsPath },
           ...getAliasOption(),
         ],
         dedupe: ['@tarojs/shared', '@tarojs/runtime'],

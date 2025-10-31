@@ -1,6 +1,6 @@
 {
   "name": "stylelint-taro",
-  "version": "4.0.2",
+  "version": "4.1.7",
   "description": "Taro stylelint 规则集合",
   "author": "O2Team",
   "license": "MIT",
@@ -16,7 +16,7 @@
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove ./dist",
+    "clean": "rimraf ./dist",
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin typescript",

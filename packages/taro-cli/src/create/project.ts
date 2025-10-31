@@ -33,6 +33,7 @@ export interface IProjectConf {
   template: string
   description?: string
   typescript?: boolean
+  buildEs5?: boolean
   css: CSSType
   date?: string
   src?: string
@@ -42,6 +43,7 @@ export interface IProjectConf {
   hideDefaultTemplate?: boolean
   framework: FrameworkType
   compiler?: CompilerType
+  ask?: (config: object) => Promise<void> | void
 }
 
 type CustomPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -105,6 +107,7 @@ export default class Project extends Creator {
     this.askDescription(conf, prompts)
     this.askFramework(conf, prompts)
     this.askTypescript(conf, prompts)
+    this.askBuildEs5(conf, prompts)
     this.askCSS(conf, prompts)
     this.askNpm(conf, prompts)
     const answers = await inquirer.prompt<IProjectConf>(prompts)
@@ -123,6 +126,16 @@ export default class Project extends Creator {
     const templates = await this.fetchTemplates(Object.assign({}, answers, compilerAndTemplateSourceAnswer))
     await this.askTemplate(conf, prompts, templates)
     const templateChoiceAnswer = await inquirer.prompt<IProjectConf>(prompts)
+
+    // 导航步骤扩展
+    try {
+      if (typeof conf.ask === 'function') {
+        const { ask, ...other } = conf
+        await ask({ ...other, templatePath: this.templatePath(templateChoiceAnswer.template) })
+      }
+    } catch (e) {
+      console.error(e)
+    }
 
     return {
       ...answers,
@@ -181,6 +194,17 @@ export default class Project extends Creator {
         type: 'confirm',
         name: 'typescript',
         message: '是否需要使用 TypeScript ？'
+      })
+    }
+  }
+
+  askBuildEs5: AskMethods = function (conf, prompts) {
+    if (typeof conf.buildEs5 !== 'boolean') {
+      prompts.push({
+        type: 'confirm',
+        name: 'buildEs5',
+        message: '是否需要编译为 ES5 ？',
+        default: false
       })
     }
   }
@@ -462,6 +486,7 @@ export default class Project extends Creator {
       templateRoot: getRootPath(),
       version: getPkgVersion(),
       typescript: this.conf.typescript,
+      buildEs5: this.conf.buildEs5,
       date: this.conf.date,
       description: this.conf.description,
       compiler: this.conf.compiler,

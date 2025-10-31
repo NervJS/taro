@@ -239,16 +239,30 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
   LIFECYCLES.forEach((lifecycle) => {
     let isDefer = false
+    let isEvent = false
     lifecycle = lifecycle.replace(/^defer:/, () => {
       isDefer = true
       return ''
     })
-    config[lifecycle] = function () {
-      const exec = () => safeExecute(this.$taroPath, lifecycle, ...arguments)
-      if (isDefer) {
-        hasLoaded.then(exec)
-      } else {
-        return exec()
+    lifecycle = lifecycle.replace(/^events:/, () => {
+      isEvent = true
+      return ''
+    })
+
+    if (isEvent && process.env.TARO_ENV === 'alipay') {
+      // 初始化 config.events 对象
+      if (!config.events) config.events = {}
+      config.events[lifecycle] = function () {
+        return safeExecute(this.$taroPath, lifecycle, ...arguments)
+      }
+    } else {
+      config[lifecycle] = function () {
+        const exec = () => safeExecute(this.$taroPath, lifecycle, ...arguments)
+        if (isDefer) {
+          hasLoaded.then(exec)
+        } else {
+          return exec()
+        }
       }
     }
   })
@@ -363,6 +377,12 @@ export function createRecursiveComponentConfig (componentName?: string) {
     }
     : EMPTY_OBJ
 
+  // 不同平台的个性化配置
+  const extraOptions: { [key: string]: any } = {}
+  if (process.env.TARO_ENV === 'jd') {
+    extraOptions.addGlobalClass = true
+  }
+
   return hooks.call('modifyRecursiveComponentConfig',
     {
       properties: {
@@ -378,7 +398,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
         }
       },
       options: {
-        addGlobalClass: true,
+        ...extraOptions,
         virtualHost: !isCustomWrapper
       },
       methods: {

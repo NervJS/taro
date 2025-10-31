@@ -1,12 +1,13 @@
-import { type Style, type TaroElement, convertNumber2PX, FormElement } from '@tarojs/runtime'
-import { capitalize, internalComponents, isFunction, isNumber, isObject, isString, toCamelCase } from '@tarojs/shared'
+import { convertNumber2PX, FormElement } from '@tarojs/runtime'
+import { capitalize, internalComponents, isFunction, isNumber, isObject, isString, PLATFORM_TYPE, toCamelCase } from '@tarojs/shared'
+
+import type { Style, TaroElement } from '@tarojs/runtime'
 
 // 拓展TaroElement的属性
 
 export type Props = Record<string, unknown>
 
-const isHarmony = process.env.TARO_PLATFORM === 'harmony'
-const IS_NON_DIMENSIONAL = /max|aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
+const IS_NON_DIMENSIONAL = /aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
 
 function isEventName (s: string) {
   return s[0] === 'o' && s[1] === 'n'
@@ -59,7 +60,7 @@ export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updateP
     const key = updatePayload[i]
     const newProp = updatePayload[i + 1]
     const oldProp = oldProps[key]
-    if (isHarmony) {
+    if (process.env.TARO_PLATFORM === PLATFORM_TYPE.HARMONY) {
       if (key === '__fixed') {
         // hack: __fixed最先识别
         fixedHandler = () => setProperty(dom, key, newProp, oldProp)
@@ -75,7 +76,7 @@ export function updatePropsByPayload (dom: TaroElement, oldProps: Props, updateP
       setProperty(dom, key, newProp, oldProp)
     }
   }
-  if (isHarmony) {
+  if (process.env.TARO_PLATFORM === PLATFORM_TYPE.HARMONY) {
     fixedHandler && fixedHandler()
     for (let i = 0; i < handlers.length; i++) {
       handlers[i]()
@@ -120,16 +121,16 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 
   const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
 
-  if (eventName === 'click' && !isHarmony && compName in internalComponents) {
+  if (eventName === 'click' && process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY && compName in internalComponents) {
     eventName = 'tap'
   }
 
   if (isFunction(value)) {
     if (oldValue) {
-      dom.removeEventListener(eventName, oldValue as any, !isHarmony ? false : undefined)
-      dom.addEventListener(eventName, value, !isHarmony ? { isCapture, sideEffect: false } : undefined)
+      dom.removeEventListener(eventName, oldValue as any, process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY ? false : undefined)
+      dom.addEventListener(eventName, value, process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY ? { isCapture, sideEffect: false } : undefined)
     } else {
-      dom.addEventListener(eventName, value, !isHarmony ? isCapture : undefined)
+      dom.addEventListener(eventName, value, process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY ? isCapture : undefined)
     }
   } else {
     dom.removeEventListener(eventName, oldValue as any)
@@ -137,7 +138,7 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 }
 
 function setStyle (style: Style, key: string, value: unknown) {
-  if (key[0] === '-' && !isHarmony) {
+  if (key[0] === '-' && process.env.TARO_PLATFORM !== PLATFORM_TYPE.HARMONY) {
     // css variables need not further judgment
     style.setProperty(key, (value as string).toString())
     return
@@ -145,7 +146,7 @@ function setStyle (style: Style, key: string, value: unknown) {
 
   style[key] =
     isNumber(value) && IS_NON_DIMENSIONAL.test(key) === false
-      ? (isHarmony ? value + 'px' : convertNumber2PX(value))
+      ? (process.env.TARO_PLATFORM === PLATFORM_TYPE.HARMONY ? value + 'px' : convertNumber2PX(value))
       : value === null
         ? ''
         : value
@@ -164,7 +165,7 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
     for (const i in oldValue) {
       if (!(value && i in (value as StyleValue))) {
         // 鸿蒙伪类特殊处理
-        if (isHarmony) {
+        if (process.env.TARO_PLATFORM === PLATFORM_TYPE.HARMONY) {
           if (i === '::after' || i === '::before') {
             setPseudo(dom, i, null)
           } else if (['::first-child', '::last-child', '::empty'].includes(i) || `${i}`.indexOf('::nth-child') === 0) {
@@ -190,7 +191,7 @@ function setHarmonyStyle(dom: TaroElement, value: unknown, oldValue?: unknown) {
     for (const i in value) {
       if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
         // 鸿蒙伪类特殊处理
-        if (isHarmony) {
+        if (process.env.TARO_PLATFORM === PLATFORM_TYPE.HARMONY) {
           if (i === '::after' || i === '::before') {
             setPseudo(dom, i, value[i] as unknown as StyleValue)
           } else if (['::first-child', '::last-child', '::empty'].includes(i) || i.startsWith('::nth-child')) {
@@ -227,6 +228,9 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
   ) {
     // skip
   } else if (name === 'style') {
+    if (/harmony.*cpp/.test(process.env.TARO_ENV || '')) {
+      return dom.setAttribute('_style4cpp', value)
+    }
     const style = dom.style
     if (isString(value)) {
       style.cssText = value
@@ -240,7 +244,7 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
         for (const i in oldValue) {
           if (!(value && i in (value as StyleValue))) {
             // Harmony特殊处理
-            if (isHarmony && i === 'position' && oldValue[i] === 'fixed') {
+            if (process.env.TARO_PLATFORM === PLATFORM_TYPE.HARMONY && i === 'position' && oldValue[i] === 'fixed') {
               // @ts-ignore
               dom.setLayer(0)
             }
@@ -253,7 +257,7 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
         for (const i in value) {
           if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
             // Harmony特殊处理
-            if (isHarmony && i === 'position') {
+            if (process.env.TARO_PLATFORM === PLATFORM_TYPE.HARMONY && i === 'position') {
               if (value[i] === 'fixed' || (value[i] !== 'fixed' && oldValue?.[i])) {
                 // @ts-ignore
                 dom.setLayer(value[i] === 'fixed' ? 1 : 0)

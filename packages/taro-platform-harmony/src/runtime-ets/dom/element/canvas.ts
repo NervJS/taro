@@ -1,8 +1,9 @@
-import { eventSource, TaroAny, TaroNode } from '@tarojs/runtime'
-
+import { eventSource } from '../event-source'
+import { TaroNode } from '../node'
 import { TaroElement } from './element'
 
 import type { CanvasProps, CanvasTouchEvent } from '@tarojs/components/types'
+import type { TaroAny } from '../../interface'
 
 export class CanvasRenderingContext2DWXAdapter extends CanvasRenderingContext2D {
   // constructor(settings?: RenderingContextSetting) {

@@ -1,24 +1,23 @@
+use crate::{transform::*, PluginConfig};
 use swc_core::ecma::{
-    parser,
-    visit::{as_folder, Fold},
+  parser,
+  visit::{as_folder, Fold},
 };
-use crate::{
-    PluginConfig,
-    transform::*,
-};
+use std::env;
 
-mod entry;
 mod attributes;
-mod shake;
-mod condition;
-mod looping;
 mod children;
+mod condition;
+mod entry;
 mod harmony;
+mod looping;
+mod shake;
 mod wxs;
+mod skyline;
 
-pub fn tr () -> impl Fold {
-    let config = serde_json::from_str::<PluginConfig>(
-        r#"
+pub fn tr() -> impl Fold {
+  let config = serde_json::from_str::<PluginConfig>(
+    r#"
         {
             "tmpl_prefix": "f0",
             "components": {
@@ -87,16 +86,20 @@ pub fn tr () -> impl Fold {
                 "xs": "wxs",
                 "type": "weapp"
             }
-        }"#
-    )
-    .unwrap();
-    let visitor = TransformVisitor::new(config);
-    as_folder(visitor)
+        }"#,
+  )
+  .unwrap();
+  let visitor = TransformVisitor::new(config);
+  as_folder(visitor)
 }
 
-pub fn get_syntax_config () -> parser::Syntax {
-    parser::Syntax::Es(parser::EsConfig {
-        jsx: true,
-        ..Default::default()
-    })
+pub fn get_syntax_config() -> parser::Syntax {
+  // 获取当前工作目录
+  let manifest_dir = env::current_dir().expect("Failed to get current directory");
+  // 设置 CARGO_MANIFEST_DIR 环境变量
+  env::set_var("CARGO_MANIFEST_DIR", manifest_dir.to_str().unwrap());
+  parser::Syntax::Es(parser::EsConfig {
+    jsx: true,
+    ..Default::default()
+  })
 }

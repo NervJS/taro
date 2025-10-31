@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-supporter",
-  "version": "4.0.2",
+  "version": "4.1.7",
   "description": "Taro rn supporter",
   "author": "O2Team",
   "license": "MIT",
@@ -13,7 +13,7 @@
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove ./dist",
+    "clean": "rimraf ./dist",
     "build": "tsc",
     "dev": "tsc -w",
     "lint": "eslint src --ext .js,.ts"
@@ -54,8 +54,7 @@
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
     "@types/lodash": "^4.17.0",
-    "react": "^18.2.0",
-    "react-native": "^0.72.3",
+    "react-native": "^0.73.1",
     "react-native-svg": "~14.1.0"
   },
   "peerDependencies": {

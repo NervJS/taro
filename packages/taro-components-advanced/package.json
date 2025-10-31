@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-advanced",
-  "version": "4.0.2",
+  "version": "4.1.7",
   "description": "",
   "author": "O2Team",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
     "build": "rollup -c",
-    "clean": "rimraf --impl=move-remove ./dist",
+    "clean": "rimraf ./dist",
     "dev": "pnpm run build -w"
   },
   "keywords": [],
@@ -33,15 +33,13 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "vue": "3.2.47"
   },
   "peerDependencies": {
     "@tarojs/runtime": "workspace:~",
     "@tarojs/shared": "workspace:~",
     "@tarojs/taro": "workspace:~",
-    "react": ">=17"
+    "react": ">=18"
   },
   "peerDependenciesMeta": {
     "react": {

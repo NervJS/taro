@@ -9,7 +9,7 @@ import * as babelParser from '@babel/parser'
 import babelTraverse from '@babel/traverse'
 import * as t from '@babel/types'
 import * as fs from 'fs-extra'
-import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
+import { camelCase, defaults, flatMap, isPlainObject, mergeWith } from 'lodash'
 
 import {
   CSS_EXT,
@@ -296,8 +296,8 @@ export function generateEnvList (env: Record<string, any>): Record<string, any> 
 /**
  * 获取 npm 文件或者依赖的绝对路径
  *
- * @param {string} 参数1 - 组件路径
- * @param {string} 参数2 - 文件扩展名
+ * @param {string} 参数 1 - 组件路径
+ * @param {string} 参数 2 - 文件扩展名
  * @returns {string} npm 文件绝对路径
  */
 export function getNpmPackageAbsolutePath (npmPath: string, defaultFile = 'index'): string | null {
@@ -603,9 +603,9 @@ function readSFCPageConfig(configPath: string) {
       p.stop()
     }
     const configSource = matches[0]
-    const ast = babel.parse(configSource, { filename: '' }) as babel.ParseResult
+    const program = (babel.parse(configSource, { filename: '' }))?.program
 
-    babel.traverse(ast.program, { CallExpression: callExprHandler })
+    program && babel.traverse(program as any, { CallExpression: callExprHandler })
   }
 
   return result
@@ -631,8 +631,8 @@ export function readPageConfig(configPath: string) {
 }
 
 interface IReadConfigOptions {
-  defineConstants?: Record<string, any>
   alias?: Record<string, any>
+  defineConstants?: Record<string, any>
 }
 
 export function readConfig<T extends IReadConfigOptions> (configPath: string, options: T = {} as T) {
@@ -643,8 +643,10 @@ export function readConfig<T extends IReadConfigOptions> (configPath: string, op
     } else {
       result = requireWithEsbuild(configPath, {
         customConfig: {
-          define: options.defineConstants || {},
           alias: options.alias || {},
+          define: defaults({}, options.defineConstants || {}, {
+            define: 'define', // Note: 该场景下不支持 AMD 导出，这会导致 esbuild 替换 babel 的 define 方法
+          }),
         },
         customSwcConfig: {
           jsc: {

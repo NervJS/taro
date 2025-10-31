@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-jd",
-  "version": "4.0.2",
+  "version": "4.1.7",
   "description": "京东小程序平台插件",
   "author": "O2Team",
   "license": "MIT",
@@ -31,7 +31,8 @@
   },
   "devDependencies": {
     "@tarojs/service": "workspace:*",
-    "@tarojs/shared": "workspace:*"
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/components": "workspace:*"
   },
   "peerDependencies": {
     "@tarojs/service": "workspace:*",

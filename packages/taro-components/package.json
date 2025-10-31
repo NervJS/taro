@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "4.0.2",
+  "version": "4.1.7",
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
@@ -17,7 +17,6 @@
     "loader",
     "mini",
     "types",
-    "virtual-list",
     "vue3.d.ts",
     "global.css"
   ],
@@ -39,6 +38,7 @@
     "generate:lib": "mkdirp lib",
     "generate:stencil-config": "esbuild ./scripts/stencil/stencil.config.ts --external:lightningcss --bundle --platform=node --outfile=stencil.config.js",
     "sync:types": "pnpm run tsx --files scripts/json-schema-to-types.ts",
+    "pretest:ci": "node ./node_modules/puppeteer/install.js",
     "test": "cross-env NODE_ENV=test stencil test --spec --e2e",
     "test:ci": "pnpm test -- --ci -i --coverage --silent --no-build",
     "test:coverage": "pnpm test -- --ci --screenshot --coverage",
@@ -59,12 +59,12 @@
     "@stencil/core": "2.22.3",
     "hammerjs": "^2.0.8",
     "@tarojs/runtime": "workspace:*",
-    "@tarojs/components-advanced": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
     "hls.js": "^1.1.5",
     "resolve-pathname": "^3.0.0",
-    "swiper": "6.8.0",
+    "swiper": "11.1.15",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

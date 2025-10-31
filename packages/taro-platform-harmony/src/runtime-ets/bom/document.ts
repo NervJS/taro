@@ -1,5 +1,4 @@
-import { APP, BODY, HEAD, HTML } from '@tarojs/runtime/dist/runtime.esm'
-
+import { APP, BODY, HEAD, HTML } from '../constant'
 import { TaroDocument } from '../dom/document'
 import { window } from './window'
 

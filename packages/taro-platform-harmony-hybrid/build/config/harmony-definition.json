@@ -757,12 +757,7 @@
       "TARO_ENV": true,
       "USER_DATA_PATH": true
     },
-    "exitMiniProgram": {
-      "object": {
-        "url": true,
-        "events": true
-      }
-    },
+    "exitMiniProgram": true,
     "exitVoIPChat": false,
     "faceDetect": false,
     "faceVerifyForPay": false,
@@ -2177,9 +2172,14 @@
       }
     },
     "cover-view": {
-      "scroll-top": false
+      "scroll-top": false,
+      "marker-id": false,
+      "slot": false
     },
     "custom-wrapper": true,
+    "double-tap-gesture-handler": {
+      "tag": false
+    },
     "draggable-sheet": {
       "initial-child-size": false,
       "min-child-size": false,
@@ -2195,6 +2195,9 @@
       "show-img-resize": false
     },
     "follow-swan": false,
+    "force-press-gesture-handler": {
+      "tag": false
+    },
     "form": {
       "report-submit": false,
       "report-submit-timeout": false
@@ -2235,6 +2238,9 @@
         "masonry": false
       },
       "padding": false
+    },
+    "horizontal-drag-gesture-handler": {
+      "tag": false
     },
     "icon": {
       "type": {
@@ -2315,7 +2321,8 @@
       "safe-password-nonce": false,
       "safe-password-salt": false,
       "safe-password-custom-hash": false,
-      "default-value": false
+      "default-value": false,
+      "cursor-color": false
     },
     "keyboard-accessory": false,
     "label": {
@@ -2323,6 +2330,10 @@
     },
     "lifestyle": false,
     "like": false,
+    "list": {
+      "upper-threshold-count": false,
+      "lower-threshold-count": false
+    },
     "list-builder": {
       "type": {
         "static": false,
@@ -2333,6 +2344,7 @@
       "child-height": false,
       "padding": false
     },
+    "list-item": false,
     "list-view": {
       "padding": false
     },
@@ -2457,6 +2469,9 @@
       "fps": false
     },
     "login": false,
+    "long-press-gesture-handler": {
+      "tag": false
+    },
     "lottie": false,
     "map": {
       "longitude": true,
@@ -2633,6 +2648,9 @@
       "page-font-size": false,
       "page-orientation": false
     },
+    "pan-gesture-handler": {
+      "tag": false
+    },
     "picker": {
       "mode": {
         "selector": {
@@ -2718,6 +2736,13 @@
         "ensp": false,
         "emsp": false,
         "nbsp": false
+      },
+      "mode": {
+        "default": false,
+        "compat": false,
+        "aggressive": false,
+        "inline-block": false,
+        "web": false
       }
     },
     "root-portal": {
@@ -2725,6 +2750,9 @@
     },
     "rtc-room": false,
     "rtc-room-item": false,
+    "scale-gesture-handler": {
+      "tag": false
+    },
     "script": {
       "src": false,
       "module": false
@@ -2776,7 +2804,12 @@
       "refresher-two-level-close-threshold": false,
       "refresher-two-level-scroll-enabled": false,
       "refresher-ballistic-refresh-enabled": false,
-      "refresher-two-level-pinned": false
+      "refresher-two-level-pinned": false,
+      "associative-container": {
+        "draggable-sheet": false,
+        "nested-scroll-view": false,
+        "pop-gesture": false
+      }
     },
     "share-element": {
       "key": false,
@@ -2800,7 +2833,7 @@
         "bounceIn": false,
         "bounceOut": false,
         "bounceInOut": false,
-        "cubic-bezier(x1,": false
+        "cubic-bezier(x1, y1, x2, y2)": false
       }
     },
     "slider": {
@@ -2856,9 +2889,7 @@
         "easeInCubic": false,
         "easeOutCubic": false,
         "easeInOutCubic": false
-      },
-      "scroll-with-animation": false,
-      "cache-extent": false
+      }
     },
     "swiper-item": {
       "item-id": true,
@@ -2876,6 +2907,9 @@
     },
     "tab-item": false,
     "tabs": false,
+    "tap-gesture-handler": {
+      "tag": false
+    },
     "text": {
       "selectable": false,
       "user-select": false,
@@ -2921,8 +2955,14 @@
         "return": false
       },
       "confirm-hold": false,
-      "adjust-keyboard-to": false,
-      "default-value": false
+      "default-value": false,
+      "adjust-keyboard-to": {
+        "cursor": false,
+        "bottom": false
+      }
+    },
+    "vertical-drag-gesture-handler": {
+      "tag": false
     },
     "video": {
       "src": true,

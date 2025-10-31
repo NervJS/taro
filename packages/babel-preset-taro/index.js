@@ -35,8 +35,10 @@ module.exports = (_, options = {}) => {
   const isSolid = options.framework === 'solid' && !isVite
   // vite 不需要 vue 的 preset，在内部已经处理了
   const isVue3 = options.framework === 'vue3' && !isVite
+  // TODO：后续改为在 vite harmony 中实现对 ts 的支持
+  const isHarmony = process.env.TARO_PLATFORM === 'harmony'
   // vite 不需要使用 babel 处理 ts，在 esbuild 中处理了
-  const isTs = options.ts && !isVite
+  const isTs = options.ts && (!isVite || isHarmony)
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
   const presetReactConfig = options.react || {}
 
@@ -181,7 +183,7 @@ module.exports = (_, options = {}) => {
         legacy: decoratorsLegacy !== false,
       },
     ],
-    [require('@babel/plugin-proposal-class-properties'), { loose }]
+    [require('@babel/plugin-transform-class-properties'), { loose }]
   )
 
   plugins.push([
@@ -205,6 +207,9 @@ module.exports = (_, options = {}) => {
   }
 
   plugins.push(require('./remove-define-config'))
+  if (isReact && process.env.TARO_ENV === 'weapp') {
+    plugins.unshift(require('./transform-taro-components'))
+  }
 
   return {
     sourceType: 'unambiguous',

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-react",
-  "version": "4.0.2",
+  "version": "4.1.7",
   "description": "",
   "main:h5": "dist/index.js",
   "main": "dist/index.js",
@@ -22,7 +22,11 @@
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "clean": "rimraf ./dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
-    "rollup": "rollup -c"
+    "rollup": "rollup -c",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:ci": "jest --ci --coverage --silent"
   },
   "repository": {
     "type": "git",
@@ -32,21 +36,31 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/taro": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/components": "workspace:*",
     "@babel/runtime": "^7.24.4",
+    "@tarojs/components": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
-    "swiper": "6.8.0",
+    "identity-obj-proxy": "^3.0.0",
+    "swiper": "11.1.15",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.24.1",
+    "@babel/preset-react": "^7.24.1",
+    "@babel/preset-typescript": "^7.24.1",
     "@tarojs/helper": "workspace:*",
     "@tarojs/runtime": "workspace:*",
-    "@babel/preset-react": "^7.24.1",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.5.1",
+    "@types/jest": "^29.5.8",
+    "@types/node": "^20.8.0",
     "babel-preset-solid": "^1.8.15",
-    "react": "^18.2.0",
-    "solid-js": "^1.8.16"
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "solid-js": "^1.8.16",
+    "ts-jest": "^29.1.1"
   },
   "peerDependencies": {
     "react": "*",

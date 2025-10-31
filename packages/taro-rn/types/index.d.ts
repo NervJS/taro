@@ -5,6 +5,5 @@
  */
 
 /// <reference types='@tarojs/taro' />
-/// <reference path='../src/lib/openUrl/index.d.ts' />
 
 export = Taro

@@ -13,192 +13,200 @@ const apiDiff: IApiDiff = {
       set: [
         {
           key: 'scopes',
-          value: 'auth_base'
-        }
-      ]
-    }
+          value: 'auth_base',
+        },
+      ],
+    },
   },
-
   showActionSheet: {
     options: {
-      change: [{
-        old: 'itemList',
-        new: 'items'
-      }]
-    }
+      change: [
+        {
+          old: 'itemList',
+          new: 'items',
+        },
+      ],
+    },
   },
   showToast: {
     options: {
-      change: [{
-        old: 'title',
-        new: 'content'
-      }, {
-        old: 'icon',
-        new: 'type'
-      }],
-      set: [{
-        key: 'type',
-        value (options) {
-          if (options.type === 'error') {
-            return 'fail'
-          }
-          return options.type
-        }
-      }]
-    }
+      change: [
+        {
+          old: 'title',
+          new: 'content',
+        },
+        {
+          old: 'icon',
+          new: 'type',
+        },
+      ],
+      set: [
+        {
+          key: 'type',
+          value(options) {
+            if (options.type === 'error') {
+              return 'fail'
+            }
+            return options.type
+          },
+        },
+      ],
+    },
   },
   showLoading: {
     options: {
-      change: [{
-        old: 'title',
-        new: 'content'
-      }],
-      set: [{
-        key: 'content',
-        value: function value (options) {
-          if (options.content === undefined) {
-            options.content = ''
-          }
-          return options.content
-        }
-      }]
-    }
+      change: [
+        {
+          old: 'title',
+          new: 'content',
+        },
+      ],
+      set: [
+        {
+          key: 'content',
+          value: function value(options) {
+            if (options.content === undefined) {
+              options.content = ''
+            }
+            return options.content
+          },
+        },
+      ],
+    },
   },
   setNavigationBarTitle: {
-    alias: 'setNavigationBar'
+    alias: 'setNavigationBar',
   },
   setNavigationBarColor: {
-    alias: 'setNavigationBar'
-  },
-  saveImageToPhotosAlbum: {
-    alias: 'saveImage',
-    options: {
-      change: [{
-        old: 'filePath',
-        new: 'url'
-      }]
-    }
+    alias: 'setNavigationBar',
   },
   previewImage: {
     options: {
-      set: [{
-        key: 'current',
-        value (options) {
-          return options.urls.indexOf(options.current || options.urls[0])
-        }
-      }]
-    }
+      set: [
+        {
+          key: 'current',
+          value(options) {
+            return options.urls.indexOf(options.current || options.urls[0])
+          },
+        },
+      ],
+    },
   },
   getFileInfo: {
     options: {
-      change: [{
-        old: 'filePath',
-        new: 'apFilePath'
-      }]
-    }
+      change: [
+        {
+          old: 'filePath',
+          new: 'apFilePath',
+        },
+      ],
+    },
   },
   getSavedFileInfo: {
     options: {
-      change: [{
-        old: 'filePath',
-        new: 'apFilePath'
-      }]
-    }
+      change: [
+        {
+          old: 'filePath',
+          new: 'apFilePath',
+        },
+      ],
+    },
   },
   removeSavedFile: {
     options: {
-      change: [{
-        old: 'filePath',
-        new: 'apFilePath'
-      }]
-    }
+      change: [
+        {
+          old: 'filePath',
+          new: 'apFilePath',
+        },
+      ],
+    },
   },
   saveFile: {
     options: {
-      change: [{
-        old: 'tempFilePath',
-        new: 'apFilePath'
-      }]
-    }
-  },
-  openLocation: {
-    options: {
-      set: [{
-        key: 'latitude',
-        value (options) {
-          return String(options.latitude)
-        }
-      }, {
-        key: 'longitude',
-        value (options) {
-          return String(options.longitude)
-        }
-      }]
-    }
+      change: [
+        {
+          old: 'tempFilePath',
+          new: 'apFilePath',
+        },
+      ],
+    },
   },
   uploadFile: {
     options: {
-      change: [{
-        old: 'name',
-        new: 'fileName'
-      }]
-    }
+      change: [
+        {
+          old: 'name',
+          new: 'fileName',
+        },
+      ],
+    },
   },
   getClipboardData: {
-    alias: 'getClipboard'
+    alias: 'getClipboard',
   },
   setClipboardData: {
     alias: 'setClipboard',
     options: {
-      change: [{
-        old: 'data',
-        new: 'text'
-      }]
-    }
+      change: [
+        {
+          old: 'data',
+          new: 'text',
+        },
+      ],
+    },
   },
   makePhoneCall: {
     options: {
-      change: [{
-        old: 'phoneNumber',
-        new: 'number'
-      }]
-    }
+      change: [
+        {
+          old: 'phoneNumber',
+          new: 'number',
+        },
+      ],
+    },
   },
   scanCode: {
     alias: 'scan',
     options: {
-      change: [{
-        old: 'onlyFromCamera',
-        new: 'hideAlbum'
-      }],
-      set: [{
-        key: 'type',
-        value (options) {
-          return (options.scanType && options.scanType[0].slice(0, -4)) || 'qr'
-        }
-      }]
-    }
+      change: [
+        {
+          old: 'onlyFromCamera',
+          new: 'hideAlbum',
+        },
+      ],
+      set: [
+        {
+          key: 'type',
+          value(options) {
+            return (options.scanType && options.scanType[0].slice(0, -4)) || 'qr'
+          },
+        },
+      ],
+    },
   },
   setScreenBrightness: {
     options: {
-      change: [{
-        old: 'value',
-        new: 'brightness'
-      }]
-    }
+      change: [
+        {
+          old: 'value',
+          new: 'brightness',
+        },
+      ],
+    },
   },
   onBLEConnectionStateChange: {
-    alias: 'onBLEConnectionStateChanged'
+    alias: 'onBLEConnectionStateChanged',
   },
   offBLEConnectionStateChange: {
-    alias: 'offBLEConnectionStateChanged'
+    alias: 'offBLEConnectionStateChanged',
   },
   createBLEConnection: {
-    alias: 'connectBLEDevice'
+    alias: 'connectBLEDevice',
   },
   closeBLEConnection: {
-    alias: 'disconnectBLEDevice'
-  }
+    alias: 'disconnectBLEDevice',
+  },
 }
 /**
  * 抹平API返回值的差异
@@ -210,131 +218,147 @@ const asyncResultApiDiff = {
       set: [
         {
           key: 'confirm',
-          value (res) {
+          value(res) {
             return res.success
-          }
-        }
+          },
+        },
       ],
-    }
+    },
   },
   getScreenBrightness: {
     res: {
       set: [
         {
           key: 'value',
-          value (res) {
+          value(res) {
             return res.brightness
-          }
-        }
+          },
+        },
       ],
-      remove: ['brightness']
-    }
+      remove: ['brightness'],
+    },
   },
   scan: {
     res: {
       set: [
         {
           key: 'result',
-          value (res) {
+          value(res) {
             return res.code
-          }
-        }
-      ]
-    }
+          },
+        },
+      ],
+    },
   },
   getClipboard: {
     res: {
       set: [
         {
           key: 'data',
-          value (res) {
+          value(res) {
             return res.text
-          }
-        }
-      ]
-    }
+          },
+        },
+      ],
+    },
   },
   chooseImage: {
     res: {
       set: [
         {
           key: 'tempFilePaths',
-          value (res) {
+          value(res) {
             return res.apFilePaths
-          }
-        }
-      ]
-    }
+          },
+        },
+      ],
+    },
   },
   downloadFile: {
     res: {
       set: [
         {
           key: 'tempFilePath',
-          value (res) {
+          value(res) {
             return res.apFilePath
-          }
-        }
-      ]
-    }
+          },
+        },
+      ],
+    },
   },
   getAuthCode: {
     res: {
-      set: [{
-        key: 'code',
-        value (res) {
-          return res.authCode
-        }
-      }]
-    }
+      set: [
+        {
+          key: 'code',
+          value(res) {
+            return res.authCode
+          },
+        },
+      ],
+    },
   },
   getExtConfig: {
     res: {
-      set: [{
-        key: 'extConfig',
-        value (res) {
-          return res.data
-        }
-      }]
-    }
+      set: [
+        {
+          key: 'extConfig',
+          value(res) {
+            return res.data
+          },
+        },
+      ],
+    },
   },
   saveFile: {
     res: {
       set: [
         {
           key: 'savedFilePath',
-          value (res) {
+          value(res) {
             return res.apFilePath
-          }
-        }
-      ]
-    }
+          },
+        },
+      ],
+    },
   },
   getBLEDeviceServices: {
     res: {
       set: [
         {
           key: 'services',
-          value (res) {
-            return res.services.map(item => {
+          value(res) {
+            return res.services.map((item) => {
               return { uuid: item.serviceId, isPrimary: item.isPrimary }
             })
-          }
-        }
-      ]
-    }
-  }
+          },
+        },
+      ],
+    },
+  },
+  confirm: {
+    res: {
+      set: [
+        {
+          key: 'cancel',
+          value(res) {
+            return !res.confirm
+          },
+        },
+      ],
+    },
+  },
 }
 
-export function request (options) {
+export function request(options) {
   options = options || {}
   if (typeof options === 'string') {
     options = {
-      url: options
+      url: options,
     }
   }
   const defaultHeaders = {
-    'content-type': 'application/json'
+    'content-type': 'application/json',
   }
   options.headers = defaultHeaders
   if (options.header) {
@@ -349,7 +373,7 @@ export function request (options) {
   const originComplete = options.complete
   let requestTask
   const p: any = new Promise((resolve, reject) => {
-    options.success = res => {
+    options.success = (res) => {
       res.statusCode = res.status
       delete res.status
       res.header = res.headers
@@ -357,12 +381,12 @@ export function request (options) {
       originSuccess && originSuccess(res)
       resolve(res)
     }
-    options.fail = res => {
+    options.fail = (res) => {
       originFail && originFail(res)
       reject(res)
     }
 
-    options.complete = res => {
+    options.complete = (res) => {
       originComplete && originComplete(res)
     }
     // 改为实时获取原生API，防止用户修改原生API后无法同步
@@ -379,7 +403,7 @@ export function request (options) {
   return p
 }
 
-export function handleSyncApis (key: string, global: Record<string, any>, args: any[]) {
+export function handleSyncApis(key: string, global: Record<string, any>, args: any[]) {
   if (key === 'getStorageSync') {
     const arg1 = args[0]
     if (arg1 != null) {
@@ -403,7 +427,7 @@ export function handleSyncApis (key: string, global: Record<string, any>, args: 
     if (arg1 != null) {
       return global[key]({
         key: arg1,
-        data: arg2
+        data: arg2,
       })
     }
     return console.error('setStorageSync 传入参数错误')
@@ -417,13 +441,15 @@ export function handleSyncApis (key: string, global: Record<string, any>, args: 
   }
   if (key === 'createSelectorQuery') {
     const query = global[key]()
-    query.in = function () { return query }
+    query.in = function () {
+      return query
+    }
     return query
   }
   return global[key].apply(global, args)
 }
 
-export function transformMeta (api: string, options: Record<string, any>) {
+export function transformMeta(api: string, options: Record<string, any>) {
   let apiAlias = api
   if (api === 'showModal') {
     options.cancelButtonText = options.cancelText || '取消'
@@ -434,7 +460,7 @@ export function transformMeta (api: string, options: Record<string, any>) {
       apiAlias = 'alert'
     }
   } else {
-    Object.keys(apiDiff).forEach(item => {
+    Object.keys(apiDiff).forEach((item) => {
       const apiItem = apiDiff[item]
       if (api === item) {
         if (apiItem.alias) {
@@ -444,12 +470,12 @@ export function transformMeta (api: string, options: Record<string, any>) {
           const change = apiItem.options.change
           const set = apiItem.options.set
           if (change) {
-            change.forEach(changeItem => {
+            change.forEach((changeItem) => {
               options[changeItem.new] = options[changeItem.old]
             })
           }
           if (set) {
-            set.forEach(setItem => {
+            set.forEach((setItem) => {
               options[setItem.key] = typeof setItem.value === 'function' ? setItem.value(options) : setItem.value
             })
           }
@@ -460,12 +486,12 @@ export function transformMeta (api: string, options: Record<string, any>) {
 
   return {
     key: apiAlias,
-    options
+    options,
   }
 }
 
-export function modifyApis (apis: Set<string>) {
-  Object.keys(apiDiff).map(key => {
+export function modifyApis(apis: Set<string>) {
+  Object.keys(apiDiff).map((key) => {
     apis.add(key)
     const platformKey = apiDiff[key].alias
     platformKey && apis.delete(platformKey)
@@ -475,7 +501,7 @@ export function modifyApis (apis: Set<string>) {
   apis.delete('alert')
 }
 
-export function modifyAsyncResult (key: string, res) {
+export function modifyAsyncResult(key: string, res) {
   if (key === 'connectSocket') {
     res.onClose = function (cb) {
       my.onSocketClose(cb)
@@ -502,7 +528,7 @@ export function modifyAsyncResult (key: string, res) {
     }
   }
 
-  Object.keys(asyncResultApiDiff).forEach(apiKey => {
+  Object.keys(asyncResultApiDiff).forEach((apiKey) => {
     const apiItem = asyncResultApiDiff[apiKey]
     if (key !== apiKey) {
       return
@@ -515,26 +541,26 @@ export function modifyAsyncResult (key: string, res) {
     const remove = apiItem.res.remove
 
     if (set) {
-      set.forEach(setItem => {
+      set.forEach((setItem) => {
         res[setItem.key] = typeof setItem.value === 'function' ? setItem.value(res) : setItem.value
       })
     }
 
     if (remove) {
-      remove.forEach(removeItem => {
+      remove.forEach((removeItem) => {
         delete res[removeItem]
       })
     }
   })
 }
 
-export function initNativeApi (taro) {
+export function initNativeApi(taro) {
   processApis(taro, my, {
     needPromiseApis,
     handleSyncApis,
     transformMeta,
     modifyApis,
     modifyAsyncResult,
-    request
+    request,
   })
 }

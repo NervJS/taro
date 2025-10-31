@@ -4,7 +4,7 @@ import commonStyleModify from './style'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNodeThresholds, shouldBindEvent } from './utils/helper'
 
-import type { TaroScrollViewElement, TaroAny, TaroEvent } from '@tarojs/runtime'
+import type { TaroAny, TaroEvent, TaroScrollViewElement } from '@tarojs/runtime'
 
 interface ScrollViewAttrs {
   scrollBar: BarState
@@ -67,7 +67,7 @@ export default struct TaroScrollList {
     }
   }
 
-  handleScroll = (scrollOffset: number) => { 
+  handleScroll = (scrollOffset: number) => {
     handleScrollEvent(this.node, 'scroll', scrollOffset)
   }
 

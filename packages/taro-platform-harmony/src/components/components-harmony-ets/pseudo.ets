@@ -1,7 +1,7 @@
 import { getFontAttributes } from './utils/helper'
 import { pseudoModify } from './style'
 
-import type { TaroViewElement, TaroStyleType, TaroTextStyleType, TaroAny } from '@tarojs/runtime'
+import type { TaroAny, TaroStyleType, TaroTextStyleType, TaroViewElement } from '@tarojs/runtime'
 
 @Extend(Flex)
 function flexAttrs (style: TaroStyleType) {

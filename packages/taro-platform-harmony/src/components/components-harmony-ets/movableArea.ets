@@ -1,9 +1,9 @@
-import type { TaroAny, TaroMovableAreaElement, TaroMovableViewElement } from '@tarojs/runtime'
 import { isTaroMovableViewElement } from '@tarojs/runtime'
 import commonStyleModify, { rowModify, columnModify } from './style'
 
 import { FlexManager } from './utils/flexManager'
-import { isUndefined } from '@tarojs/shared'
+
+import type { TaroAny, TaroMovableAreaElement } from '@tarojs/runtime'
 
 @Component
 export default struct TaroMovableArea {

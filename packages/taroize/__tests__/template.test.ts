@@ -1,7 +1,7 @@
 import { fs } from '@tarojs/helper'
 
 import { globals } from '../src/global'
-import { parse } from '../src/index'
+import parse from '../src/index'
 import { getSrcRelPath } from '../src/template'
 import { parseWXML } from '../src/wxml'
 import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
@@ -88,7 +88,7 @@ describe('template.ts', () => {
       expect(importsCode).toMatchSnapshot()
     })
 
-    test('当template同时使用外部工具类和data传递数据', () => {
+    test('当 template 同时使用外部工具类和 data 传递数据', () => {
       const wxml = `
       <wxs src="../utils/myFunc.wxs" module="myFunc"/>
       <wxs src="../utils/timFunc.wxs" module="Tim"/>
@@ -100,7 +100,7 @@ describe('template.ts', () => {
       </template>
       <template is="huangye" data="{{ info }}"/>
       `
-      // 确定解析wxml文件的绝对路径
+      // 确定解析 wxml 文件的绝对路径
       const dirPath = path.join('wechatTest', 'template_test', 'components', 'LunaComponent', 'ListHuangye')
       const rootPathMock = path.join('wechatTest', 'template_test')
 
@@ -123,7 +123,7 @@ describe('template.ts', () => {
       }
     })
 
-    test('template传递data的语法 {{...xxx,xxx}}', () => {
+    test('template 传递 data 的语法 {{...xxx,xxx}}', () => {
       const wxmlStr = `
         <template name="msgItem">
           <view>{{age}}</view>
@@ -138,7 +138,7 @@ describe('template.ts', () => {
       expect(wxmlCode).toMatchSnapshot()
     })
 
-    test('template传递data的语法 {{key:xxx}}', () => {
+    test('template 传递 data 的语法 {{key:xxx}}', () => {
       const wxmlStr = `
         <template name="msgItem">
           <view>{{text}}</view>
@@ -164,7 +164,7 @@ describe('template.ts', () => {
       )
     })
 
-    test('template的is属性不能为空', () => {
+    test('template 的 is 属性不能为空', () => {
       const wxmlStr = `
         <template name="msgItem">
           <view>{{data}}</view>
@@ -207,7 +207,7 @@ describe('template.ts', () => {
         jest.restoreAllMocks()
       })
 
-      test('import 引入template', () => {
+      test('import 引入 template', () => {
         const wxmlStr = `
           <import src="../template/template"/>
           <view>
@@ -216,7 +216,7 @@ describe('template.ts', () => {
         `
         const template = `
           <template name="template_demo">
-            <view>模版DEMO</view>
+            <view>模版 DEMO</view>
           </template>
         `
         // 将 template.ts 中的 fs.readFileSync 返回值模拟为常量 template
@@ -236,7 +236,7 @@ describe('template.ts', () => {
         `
         const template = `
           <template name="template_demo">
-            <view>模版DEMO</view>
+            <view>模版 DEMO</view>
           </template>
         `
         jest.spyOn(path, 'join').mockReturnValue('/code/taro_demo/pages/template/template')
@@ -274,7 +274,7 @@ describe('template.ts', () => {
         expect(() => parseWXML(dirPath, wxml)).toThrowError('import 标签必须包含 `src` 属性')
       })
 
-      test('import src属性必须是一个字符串', () => {
+      test('import src 属性必须是一个字符串', () => {
         const wxmlStr = '<import src="{{srcStr}}"/>'
         const dirPath = 'import_src_no_string'
         expect(() => parseWXML(dirPath, wxmlStr)).toThrowError()
@@ -287,7 +287,7 @@ describe('template.ts', () => {
         jest.restoreAllMocks()
       })
 
-      test('include 引入 header文件', () => {
+      test('include 引入 header 文件', () => {
         const header = '<text>header.wxml</text>'
         option.wxml = `<include src="../header/header"></include>`
         option.script = 'Page({})'
@@ -305,13 +305,13 @@ describe('template.ts', () => {
         jest.restoreAllMocks()
       })
 
-      test('include 没有src', () => {
+      test('include 没有 src', () => {
         const wxml = `<include/>`
         const dirPath = 'include_no_src'
         expect(() => parseWXML(dirPath, wxml)).toThrowError('include 标签必须包含 `src` 属性')
       })
 
-      test('include单标签没有自动关闭', () => {
+      test('include 单标签没有自动关闭', () => {
         const wxml = `
           <include src="../../template/template">111<include/>
           <view>include_no_close</view>
@@ -321,15 +321,15 @@ describe('template.ts', () => {
         parseWXML(dirPath, wxml)
         expect(spy).toHaveBeenCalledTimes(1)
         expect(spy.mock.calls[0][0]).toMatchInlineSnapshot(
-          `标签: <include src="../../template/template"> 没有自动关闭。形如：<include src="../../template/template" /> 才是标准的 wxml 格式。`
+          `标签：<include src="../../template/template"> 没有自动关闭。形如：<include src="../../template/template" /> 才是标准的 wxml 格式。`
         )
       })
     })
   })
 
-  // 主要测试template相关信息（所需变量、要传递的方法）的抽取
-  describe('template套用', () => {
-    test('同界面template套用', () => {
+  // 主要测试 template 相关信息（所需变量、要传递的方法）的抽取
+  describe('template 套用', () => {
+    test('同界面 template 套用', () => {
       const wxmlStr = `
         <template is="firstTag" data='{{ tagListFirst, tagListSecond}}'>顶层</template>
 
@@ -356,7 +356,7 @@ describe('template.ts', () => {
       })
     })
 
-    test('通过import的套用', () => {
+    test('通过 import 的套用', () => {
       const wxmlStr = `
         <import src="/template/tmplA/index"></import>
         <template is="tmplA" data="{{motto, mott}}"></template>
@@ -372,7 +372,7 @@ describe('template.ts', () => {
       const tmplB = `
         <template name="tmplB">
           <view>this is template B</view>
-          <button bind:tap="onClickC">模板C的按钮</button>
+          <button bind:tap="onClickC">模板 C 的按钮</button>
         </template>
       `
 

@@ -2,7 +2,7 @@
   "name": "mini-program-example",
   "version": "1.0.0",
   "private": true,
-  "description": "小程序demo",
+  "description": "小程序 demo",
   "templateInfo": {
     "name": "default",
     "typescript": true,
@@ -64,7 +64,7 @@
     "@babel/core": "^7.8.0",
     "@tarojs/cli": "workspace:*",
     "@types/webpack-env": "^1.13.6",
-    "@types/react": "^18.2.0",
+    "@types/react": "^18",
     "webpack": "5.78.0",
     "@tarojs/webpack5-runner": "workspace:*",
     "babel-preset-taro": "workspace:*",
@@ -81,6 +81,6 @@
     "typescript": "^4.1.0",
     "postcss": "^8.4.38",
     "ts-node": "^10.9.1",
-    "@types/node": "^18.15.11"
+    "@types/node": "^18"
   }
 }

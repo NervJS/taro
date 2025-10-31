@@ -60,7 +60,7 @@ export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> impl
 
     const scriptPath = resolveMainFilePath(path.join(sourceDir, pageName), frameworkExts)
     const configPath = this.getConfigFilePath(scriptPath)
-    const config: PageConfig = readConfig(configPath) || {}
+    const config: PageConfig = readConfig(configPath, this.taroConfig) || {}
 
     const pageMeta = {
       name: pageName,

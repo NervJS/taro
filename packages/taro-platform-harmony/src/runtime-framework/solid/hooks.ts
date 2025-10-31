@@ -14,7 +14,7 @@ import type {
   AppInstance,
   PageLifeCycle,
   TFunc
-} from '@tarojs/runtime/dist/runtime.esm'
+} from '@tarojs/runtime'
 
 const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
   return (fn: TFunc) => {
@@ -78,6 +78,7 @@ export const useUnload = createTaroHook('onUnload')
 /** Mini-Program */
 export const useAddToFavorites = createTaroHook('onAddToFavorites')
 export const useOptionMenuClick = createTaroHook('onOptionMenuClick')
+export const useKeyboardHeight = createTaroHook('onKeyboardHeight')
 export const useSaveExitState = createTaroHook('onSaveExitState')
 export const useShareAppMessage = createTaroHook('onShareAppMessage')
 export const useShareTimeline = createTaroHook('onShareTimeline')

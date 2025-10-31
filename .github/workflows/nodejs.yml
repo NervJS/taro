@@ -20,6 +20,10 @@ on:
 permissions:
   contents: read # to fetch code (actions/checkout)
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-rust-binding:
     name: Build Rust Binding
@@ -28,18 +32,17 @@ jobs:
     name: Build Rust WASM
     uses: ./.github/workflows/build-rust-wasm.yml
 
-  nodejs-tesing:
+  nodejs-testing:
     name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.host }})
     needs:
       - build-rust-binding
       - build-rust-wasm
     strategy:
-      fail-fast: false
       matrix:
         node-version: [18.x, 20.x]
-        host: [macos-12, windows-latest, ubuntu-latest]
+        host: [macos-13, windows-latest, ubuntu-latest]
         include:
-          - host: macos-12
+          - host: macos-13
             target: x86_64-apple-darwin
           - host: windows-latest
             target: x86_64-pc-windows-msvc
@@ -49,22 +52,23 @@ jobs:
             target: x86_64-unknown-linux-musl
         exclude:
           - node-version: 18.x
-            host: macos-12
+            host: macos-13
           - node-version: 18.x
             host: windows-latest
           - node-version: 20.x
-            host: macos-12
+            host: macos-13
           - node-version: 20.x
             host: windows-latest
 
     runs-on: ${{ matrix.host }}
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3.0.0
+        uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 10
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -113,53 +117,42 @@ jobs:
         run: pnpm test
         env:
           CI: true
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
       # 以下 coverage 流程通过 artifact 拆分文件作为单独 job 上传时间损耗过长，因此在在 node test 后直接继续执行
       - name: Upload [taro-cli] coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
-          move_coverage_to_trash: true
           flags: taro-cli
           files: ./packages/taro-cli/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload runner coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
-          move_coverage_to_trash: true
           flags: taro-runner
           files: ./packages/taro-webpack5-runner/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload [taro-runtime] coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
-          move_coverage_to_trash: true
           flags: taro-runtime
           files: ./packages/taro-runtime/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload [taro-web] coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
-          move_coverage_to_trash: true
           flags: taro-web
           files: ./packages/taro-components/coverage/clover.xml,./packages/taro-h5/coverage/clover.xml,./packages/taro-router/coverage/clover.xml
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload rest coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         if: ${{ matrix.host == 'ubuntu-latest' }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   rust-testing:
-    strategy:
-      fail-fast: false
     name: Testing on Rust
     runs-on: ubuntu-latest
     steps:
@@ -169,9 +162,9 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
-          targets: wasm32-wasi
+          targets: wasm32-wasip1
       - name: Cache cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry/index/
@@ -179,6 +172,6 @@ jobs:
             ~/.cargo/git/db/
             .cargo-cache
             target/
-          key: wasm32-wasi-cargo-ubantu-latest
+          key: wasm32-wasi-cargo-ubuntu-latest
       - name: Test
         run: cargo test-swc-plugins

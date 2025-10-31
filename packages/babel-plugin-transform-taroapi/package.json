@@ -1,19 +1,18 @@
 {
   "name": "babel-plugin-transform-taroapi",
-  "version": "4.0.2",
+  "version": "4.1.7",
   "author": "O2Team",
   "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
-    "clean": "rimraf --impl=move-remove ./dist",
+    "clean": "rimraf ./dist",
     "build": "tsc",
-    "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent",
-    "test:dev": "cross-env NODE_ENV=jest jest --watch",
-    "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
-    "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage",
+    "test:dev": "vitest",
+    "updateSnapshot": "vitest run --updateSnapshot"
   },
   "engines": {
     "node": ">= 18"

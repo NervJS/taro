@@ -1,13 +1,12 @@
 {
   "name": "@tarojs/taroize",
-  "version": "4.0.2",
+  "version": "4.1.7",
   "description": "转换原生微信小程序代码为 Taro 代码",
   "author": "O2Team",
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "files": [
-    "index.js",
-    "lib"
+    "dist"
   ],
   "scripts": {
     "prod": "pnpm run build",
@@ -64,6 +63,7 @@
     "@tarojs/helper": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "himalaya-wxml": "^1.1.0",
+    "html": "^1.0.0",
     "lodash": "^4.17.21",
     "prettier": "^2.8.8"
   },

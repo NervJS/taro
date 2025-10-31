@@ -19,6 +19,7 @@ pub struct Project {
   pub npm: NpmType,
   pub description: Option<String>,
   pub typescript: Option<bool>,
+  pub build_es5: Option<bool>,
   pub template: String,
   pub css: CSSType,
   pub auto_install: Option<bool>,
@@ -37,6 +38,7 @@ impl Project {
     npm: NpmType,
     description: Option<String>,
     typescript: Option<bool>,
+    build_es5: Option<bool>,
     template: String,
     css: CSSType,
     framework: FrameworkType,
@@ -53,6 +55,7 @@ impl Project {
       npm,
       description,
       typescript,
+      build_es5,
       template,
       css,
       auto_install,
@@ -103,6 +106,7 @@ impl Project {
       version: Some(self.version.clone()),
       date: self.date.clone(),
       typescript: self.typescript.clone(),
+      build_es5: self.build_es5.clone(),
       template: self.template.clone(),
       page_name: Some("index".to_string()),
       compiler: self.compiler.clone(),
@@ -114,7 +118,10 @@ impl Project {
       is_custom_template: None,
       plugin_type: None,
     };
-    let all_files = all_files.iter().filter_map(|f| f.to_str()).collect::<Vec<_>>();
+    let all_files = all_files
+      .iter()
+      .filter_map(|f| f.to_str())
+      .collect::<Vec<_>>();
     println!();
     println!(
       "{} {}",
@@ -146,7 +153,7 @@ impl Project {
     init_git(&self.project_name, project_path_str.as_str())?;
     let auto_install = self.auto_install.unwrap_or(true);
     if auto_install {
-      install_deps(&self.npm, || self.call_success()).await?;
+      install_deps(&self.npm, project_path_str.as_str(), || self.call_success()).await?;
     } else {
       self.call_success();
     }

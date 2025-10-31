@@ -10,7 +10,7 @@ describe('location', () => {
         'https://taro.com:8080/hello/world?name=hongxin&age=18#a=1&b=2'
       )
       expect(href).toBe('https://taro.com:8080/hello/world?name=hongxin&age=18#a=1&b=2')
-      expect(origin).toBe('https://taro.com')
+      expect(origin).toBe('https://taro.com:8080')
       expect(protocol).toBe('https:')
       expect(hostname).toBe('taro.com')
       expect(host).toBe('taro.com:8080')
@@ -152,6 +152,18 @@ describe('location', () => {
       const url = new URL('http://taro.com/')
       expect(url.toString()).toBe('http://taro.com/')
       expect(url.pathname).toBe('/')
+    }
+
+    {
+      const url = new URL('/path', 'http://taro.com:8080/')
+      expect(url.toString()).toBe('http://taro.com:8080/path')
+      expect(url.href).toBe('http://taro.com:8080/path')
+      expect(url.protocol).toBe('http:')
+      expect(url.hostname).toBe('taro.com')
+      expect(url.host).toBe('taro.com:8080')
+      expect(url.port).toBe('8080')
+      expect(url.origin).toBe('http://taro.com:8080')
+      expect(url.pathname).toBe('/path')
     }
 
     {

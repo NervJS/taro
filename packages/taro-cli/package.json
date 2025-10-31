@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "4.0.2",
+  "version": "4.1.7",
   "description": "cli tool for taro",
   "author": "O2Team",
   "license": "MIT",
@@ -8,6 +8,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "prod": "pnpm run build",
+    "postinstall": "node postinstall.js",
     "test": "cross-env NODE_ENV=test jest",
     "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=test jest --watch",
@@ -16,13 +17,14 @@
     "prebuild": "pnpm run clean",
     "build": "tsc",
     "dev": "tsc -w",
-    "clean": "rimraf --impl=move-remove dist"
+    "clean": "rimraf dist"
   },
   "files": [
     "bin",
     "src",
     "dist",
     "templates",
+    "postinstall.js",
     "index.js",
     "global.d.ts"
   ],
@@ -43,9 +45,9 @@
   "dependencies": {
     "@tarojs/binding": "workspace:*",
     "@tarojs/helper": "workspace:*",
+    "@tarojs/plugin-doctor": "^0.0.13",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@tarojs/plugin-doctor": "^0.0.13",
     "adm-zip": "^0.5.12",
     "axios": "^1.6.8",
     "cli-highlight": "^2.1.11",
@@ -60,11 +62,11 @@
   },
   "devDependencies": {
     "@babel/types": "^7.24.0",
-    "@tarojs/taro": "workspace:*",
-    "@tarojs/plugin-platform-weapp": "workspace:*",
     "@tarojs/plugin-platform-h5": "workspace:*",
+    "@tarojs/plugin-platform-weapp": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "@tarojs/webpack5-runner": "workspace:*",
-    "@types/babel__traverse": "^7.20.2",
+    "@types/babel__traverse": "^7.20.6",
     "babel-preset-taro": "workspace:*",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.4.0"

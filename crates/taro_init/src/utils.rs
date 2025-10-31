@@ -1,4 +1,4 @@
-use anyhow::{Error, Ok, Context};
+use anyhow::{Context, Error, Ok};
 use console::style;
 use futures::FutureExt;
 use spinners::{Spinner, Spinners};
@@ -9,7 +9,7 @@ use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio::process::Command;
 
 use crate::async_fs;
-use crate::constants::{NpmType, PACKAGES_MANAGEMENT, HANDLEBARS};
+use crate::constants::{NpmType, HANDLEBARS, PACKAGES_MANAGEMENT};
 
 pub fn get_all_files_in_folder<P: AsRef<Path>>(
   folder: P,
@@ -38,20 +38,40 @@ pub fn get_all_files_in_folder<P: AsRef<Path>>(
   Ok(files)
 }
 
-pub async fn generate_with_template(from_path: &str, dest_path: &str, data: &impl serde::Serialize) -> anyhow::Result<()> {
-  let form_template = async_fs::read(from_path).await.with_context(|| format!("文件读取失败: {}", from_path))?;
+pub async fn generate_with_template(
+  from_path: &str,
+  dest_path: &str,
+  data: &impl serde::Serialize,
+) -> anyhow::Result<()> {
+  let form_template = async_fs::read(from_path)
+    .await
+    .with_context(|| format!("文件读取失败: {}", from_path))?;
   let from_template = String::from_utf8_lossy(&form_template);
   let template = if from_template == "" {
     "".to_string()
   } else {
-    HANDLEBARS.render_template(&from_template, data).with_context(|| format!("模板渲染失败: {}", from_path))?
+    HANDLEBARS
+      .render_template(&from_template, data)
+      .with_context(|| format!("模板渲染失败: {}", from_path))?
   };
-  let dir_name = Path::new(dest_path).parent().unwrap().to_string_lossy().to_string();
-  async_fs::create_dir_all(&dir_name).await.with_context(|| format!("文件夹创建失败: {}", dir_name))?;
-  let metadata = async_fs::metadata(from_path).await.with_context(|| format!("文件读取失败: {}", from_path))?;
-  async_fs::write(dest_path, template).await.with_context(|| format!("文件写入失败: {}", dest_path))?;
+  let dir_name = Path::new(dest_path)
+    .parent()
+    .unwrap()
+    .to_string_lossy()
+    .to_string();
+  async_fs::create_dir_all(&dir_name)
+    .await
+    .with_context(|| format!("文件夹创建失败: {}", dir_name))?;
+  let metadata = async_fs::metadata(from_path)
+    .await
+    .with_context(|| format!("文件读取失败: {}", from_path))?;
+  async_fs::write(dest_path, template)
+    .await
+    .with_context(|| format!("文件写入失败: {}", dest_path))?;
   #[cfg(unix)]
-  async_fs::set_permissions(dest_path, metadata.permissions()).await.with_context(|| format!("文件权限设置失败: {}", dest_path))?;
+  async_fs::set_permissions(dest_path, metadata.permissions())
+    .await
+    .with_context(|| format!("文件权限设置失败: {}", dest_path))?;
   Ok(())
 }
 
@@ -108,7 +128,7 @@ where
   }
 }
 
-pub async fn install_deps<F>(npm: &NpmType, cb: F) -> anyhow::Result<()>
+pub async fn install_deps<F>(npm: &NpmType, project_path: &str, cb: F) -> anyhow::Result<()>
 where
   F: FnOnce(),
 {
@@ -119,6 +139,10 @@ where
       "执行安装项目依赖 {}, 需要一会儿...",
       style(command.to_owned() + " install").cyan().bold()
     );
+    
+    // 确保在项目目录中执行
+    env::set_current_dir(project_path)?;
+    
     let output = execute_command(command, &["install"]).await;
     match output {
       result::Result::Ok(_) => {

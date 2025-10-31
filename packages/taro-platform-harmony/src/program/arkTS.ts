@@ -91,6 +91,8 @@ export default class Harmony extends TaroPlatformHarmony {
     env.forEach(([key, value]) => {
       this.#defineConstants[`process.env.${key}`] = JSON.stringify(value)
     })
+
+    return this.#defineConstants
   }
 
   extensions = ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.mts', '.vue', '.ets', '.d.ts']
@@ -235,6 +237,8 @@ export default class Harmony extends TaroPlatformHarmony {
         code = apiLoader(code)
       }
       if (this.extensions.includes(path.extname(lib))) {
+        // Note: 移除 onpm 不能装载的类型，新版本会导致 ets-loader 抛出 resolvedFileName 异常
+        code = code.replace(/\/{3}\s*<reference\s+types=['"]([^'"\s]+)['"]\s*\/>\n*/g, '')
         // Note: 查询 externals 内的依赖，并将它们添加到 externalDeps 中
         code = code.replace(/(?:import\s|from\s|require\()['"]([^\\/.][^'"\s]+)['"]\)?/g, (src, p1 = '') => {
           if (p1.startsWith('node:') || p1.endsWith('.so')) return src
@@ -262,7 +266,7 @@ export default class Harmony extends TaroPlatformHarmony {
           define.global = 'globalThis'
         }
         const ext = path.extname(target)
-        if (![/d\.e?tsx?$/, /\.(json|map|md)$/].some(e => e.test(target))) {
+        if (![/\.d\.e?tsx?$/, /\.(json|map|md)$/].some(e => e.test(target))) {
           code = this.replaceDefineValue(code, define, ext)
         }
         if (['.ts'].includes(ext)) {
@@ -279,12 +283,12 @@ export default class Harmony extends TaroPlatformHarmony {
       // Note: 传入 chorePackagePrefix 时，不生成核心依赖库
       if (!chorePackagePrefix) {
         if (/tarojs[\\/]taro[\\/]types[\\/]index.d.ts/.test(target)) {
-          code = `/// <reference path="global.d.ts" />
+          code = `import './global.d.ts'
 
-/// <reference path="taro.api.d.ts" />
-/// <reference path="taro.component.d.ts" />
-/// <reference path="taro.config.d.ts" />
-/// <reference path="taro.lifecycle.d.ts" />
+import './taro.api.d.ts'
+import './taro.component.d.ts'
+import './taro.config.d.ts'
+import './taro.lifecycle.d.ts'
 
 export = Taro
 export as namespace Taro
@@ -379,7 +383,7 @@ declare global {
       // Note: 映射 Taro 相关依赖到注入 taro 目录
       if (that.indexOfLibraries(source) > -1) {
         return {
-          external: 'resolve',
+          external: 'relative',
           id: path.join(outputRoot, 'npm', source),
           moduleSideEffects: false,
           resolvedBy: name,

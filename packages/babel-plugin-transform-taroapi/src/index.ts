@@ -70,10 +70,10 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
           } else if (t.isImportSpecifier(node)) {
             const { imported } = node
             const propertyName = t.isIdentifier(imported) ? imported.name : imported.value
-            if (this.apis.has(propertyName)) { // 记录api名字
+            if (this.apis.has(propertyName)) { // 记录 api 名字
               ast.scope.rename(node.local.name)
               invokedApis.set(propertyName, node.local.name)
-            } else { // 如果是未实现的api 改成Taro.xxx
+            } else { // 如果是未实现的 api 改成 Taro.xxx
               needDefault = true
               const localName = node.local.name
               const binding = ast.scope.getBinding(localName)
@@ -84,7 +84,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
                   t.memberExpression(
                     idn,
                     t.identifier(propertyName)
-                  )
+                  ) as any
                 )
               })
             }
@@ -92,7 +92,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
         })
       },
       MemberExpression (ast: BabelCore.NodePath<any>) {
-        /* 处理Taro.xxx */
+        /* 处理 Taro.xxx */
         const isTaro = t.isIdentifier(ast.node.object, { name: taroName })
         const property = ast.node.property
         let propertyName: string | null = null
@@ -108,7 +108,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
 
         if (!propertyName) return
 
-        // 同一api使用多次, 读取变量名
+        // 同一 api 使用多次，读取变量名
         if (this.apis.has(propertyName)) {
           const parentNode = ast.parent as BabelCore.types.AssignmentExpression
           const isAssignment = t.isAssignmentExpression(parentNode) && parentNode.left === ast.node
@@ -123,7 +123,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
               /* 未绑定作用域 */
               identifier = t.identifier(newPropertyName)
             }
-            ast.replaceWith(identifier)
+            ast.replaceWith(identifier as any)
           }
         } else {
           needDefault = true

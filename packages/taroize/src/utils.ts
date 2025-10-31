@@ -27,7 +27,7 @@ const prettierJSConfig: prettier.Options = {
 /**
  * 标准化传入路径
  *
- * @param path 如D:\\admin格式路径
+ * @param path 如 D:\\admin 格式路径
  * @returns 替换\\返回标准路径
  */
 export function normalizePath (path) {
@@ -95,14 +95,14 @@ export function parseCode (code: string, scriptPath?: string) {
     // 结尾注释会引起 parseCode 报错，因此收录到报告中
     if (error.message.includes('Unterminated comment')) {
       throw new IReportError(
-        'WXML代码解析失败, 代码中存在不完整的注释',
+        'WXML 代码解析失败，代码中存在不完整的注释',
         'UnterminatedComment',
         'WXML_FILE',
         code || ''
       )
     }
   }
-  // 移除Flow类型注释
+  // 移除 Flow 类型注释
   traverse(ast, {
     TypeAnnotation (path) {
       path.remove()
@@ -117,11 +117,11 @@ export const buildTemplate = (str: string) => {
 
   let ast
   if (hasPlaceholder) {
-    // 如果存在占位符，则使用模板创建AST
+    // 如果存在占位符，则使用模板创建 AST
     const astTemplate = template(str)
     ast = astTemplate({})
   } else {
-    // 否则直接解析字符串为AST
+    // 否则直接解析字符串为 AST
     ast = parse(str).program.body[0]
   }
   if (t.isExpressionStatement(ast)) {
@@ -205,7 +205,7 @@ export function buildImportStatement (
   if (isCommonjsModule) {
     if (defaultSpec && specifiers.length > 0) {
       throw new Error(
-        `commomjs模块不支持同时引入default和非default模块，default：${defaultSpec}, 非default：${specifiers}`
+        `commonjs 模块不支持同时引入 default 和非 default 模块，default：${defaultSpec}, 非 default：${specifiers}`
       )
     }
     return t.variableDeclaration('const', [
@@ -304,7 +304,7 @@ export const DEFAULT_Component_SET = new Set<string>([
 ])
 
 /**
- * 根据关键字exports判断是否为commonjs模块
+ * 根据关键字 exports 判断是否为 commonjs 模块
  *
  * @param {} bodyNode
  * @returns {boolean}
@@ -347,7 +347,7 @@ export function getLineBreak () {
 }
 
 /**
- * 记录数据到logFileContent中
+ * 记录数据到 logFileContent 中
  *
  * @param data 日志数据
  */
@@ -455,7 +455,7 @@ export class IReportError extends Error {
 }
 
 /**
- * 将oldElement的position信息赋值给newElement的position属性
+ * 将 oldElement 的 position 信息赋值给 newElement 的 position 属性
  *
  * @param newElement 新节点
  * @param oldElement 旧节点
