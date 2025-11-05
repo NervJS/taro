@@ -10,7 +10,7 @@ $weuiBtnDefaultGap: 15px;
 
 // Button Mini
 $weuiBtnMiniFontSize: 13px;
-$weuiBtnMiniHeight: 2.3;
+$weuiBtnMiniHeight: 2;
 
 // Button Default
 $weuiBtnDefaultFontColor: #000;
@@ -49,24 +49,20 @@ $weuiBtnPlainWarnActiveColor: rgba(230 67 64 / 60%);
 $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
 
 .taro-button-core {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   position: relative;
   box-sizing: border-box;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 14px;
-  padding-right: 14px;
-  border-width: 0;
+  padding: 0 14px;
   border: 1px solid rgb(0 0 0 / 20%);
   border-radius: $weuiBtnBorderRadius * 2;
   width: 100%;
   appearance: none;
   outline: 0;
   background-color: $weuiBtnDefaultBg;
-  line-height: 2.55555556;
   text-decoration: none;
-  text-align: center;
   font-size: $weuiBtnFontSize;
   color: $weuiBtnDefaultFontColor;
   -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
@@ -100,9 +96,9 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
 
   &.taro-btn-mini {
     display: inline-block;
-    padding: 0 1.32em;
+    padding: 0 26px;
     width: auto;
-    line-height: $weuiBtnMiniHeight;
+    vertical-align: middle;
     font-size: $weuiBtnMiniFontSize;
   }
 
@@ -132,9 +128,6 @@ $weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
   }
 
   &.taro-btn-loading {
-    .weui-loading {
-      margin: -0.2em 0.34em 0 0;
-    }
 
     &.taro-btn-primary,
     &.taro-btn-warn {
