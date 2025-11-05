@@ -19,12 +19,11 @@ export default (compiler: ViteHarmonyCompilerContext | ViteMiniCompilerContext, 
         CallExpression(ast) {
           // 识别所有 importNativeComponent 函数调用, 并替换为对应的组件名
           if (t.isIdentifier(ast.node.callee, { name: IMPORT_COMPONENT_NAME })) {
-            const pathArg = resolveMainFilePath(
-              path.resolve(
-                path.dirname(id),
-                compiler.resolvePageImportPath(id, t.isStringLiteral(ast.node.arguments[0]) ? ast.node.arguments[0].value : '')
-              )
-            )
+            let pathArg = compiler.resolvePageImportPath(id, t.isStringLiteral(ast.node.arguments[0]) ? ast.node.arguments[0].value : '')
+            if (pathArg.startsWith('.')) {
+              pathArg = path.resolve(path.dirname(id), pathArg)
+            }
+            pathArg = resolveMainFilePath(pathArg)
             const nameArg = t.isStringLiteral(ast.node.arguments[1]) ? ast.node.arguments[1].value : ''
             const exportNameArg = t.isStringLiteral(ast.node.arguments[2]) ? ast.node.arguments[2].value : 'default'
 
