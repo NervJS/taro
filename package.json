@@ -20,7 +20,8 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
-    "build": "pnpm --if-present -r --filter=./packages/* prod",
+    "build": "pnpm -r --aggregate-output --filter=./packages/* prod",
+    "build:serial": "pnpm -r --workspace-concurrency=1 --aggregate-output --filter=./packages/* prod",
     "build:binding:debug": "pnpm --filter @tarojs/binding run build:debug",
     "build:binding:release": "pnpm --filter @tarojs/binding run build",
     "debug": "node scripts/debug.js",
