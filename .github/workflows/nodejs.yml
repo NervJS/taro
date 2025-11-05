@@ -89,7 +89,7 @@ jobs:
       - name: Lint
         run: pnpm lint
       - name: Download artifact bindings-${{ matrix.target }}
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: bindings-${{ matrix.target }}
           path: crates/native_binding
@@ -102,7 +102,7 @@ jobs:
         run: docker run --rm -v $(pwd):/build -w /build chf007/pnpm pnpm test:binding
       # 以下的测试流程应该在所有平台都执行，但 windows 好像还有些问题，因此目前只在 ubuntu-latest 执行
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           path: crates/native_binding/artifacts
       - name: List Package crates/native_binding
