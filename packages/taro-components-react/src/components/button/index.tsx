@@ -1,5 +1,6 @@
 import './style/index.scss'
 
+import { View } from '@tarojs/components'
 import classNames from 'classnames'
 
 import { createForwardRefComponent, omit } from '../../utils'
@@ -19,6 +20,7 @@ interface IProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'ty
   className?: string
   forwardedRef?: React.MutableRefObject<HTMLButtonElement>
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
+  formType?: 'submit' | 'reset'
 }
 
 interface IState {
@@ -74,15 +76,26 @@ function Button (props: IProps) {
         }
       }, props.hoverStayTime || 70)
     }
+
+    if (!props.disabled && props.formType) {
+      const eventName = props.formType === 'submit' ? 'tarobuttonsubmit' : 'tarobuttonreset'
+      e.currentTarget.dispatchEvent(new CustomEvent(eventName, { bubbles: true }))
+    }
+
     props.onTouchEnd && props.onTouchEnd(e)
   }
 
-  const { forwardedRef, plain = false, children, disabled = false, className, style, onClick, hoverClass = 'button-hover', loading = false, type = 'default', size, ...restProps } = props
+  const { forwardedRef, plain = false, children, disabled = false, className, style, onClick, hoverClass = 'button-hover', loading = false, type = 'default', size, formType, ...restProps } = props
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (disabled) return // 如果按钮不可用，直接返回
-      onClick?.(e) // 否则执行点击回调
+      if (disabled) {
+        // 按钮禁用时阻止事件冒泡并不触发点击回调
+        e.stopPropagation()
+        return
+      }
+      // 按钮可用时触发点击回调
+      onClick?.(e)
     },
     [disabled, onClick]
   )
@@ -103,8 +116,8 @@ function Button (props: IProps) {
   )
 
   return (
-    <button
-      {...omit(restProps, ['hoverClass', 'onTouchStart', 'onTouchEnd', 'type', 'loading', 'forwardedRef', 'size', 'plain', 'disabled', 'onClick'])}
+    <View
+      {...omit(restProps, ['hoverClass', 'onTouchStart', 'onTouchEnd', 'type', 'loading', 'forwardedRef', 'size', 'plain', 'disabled', 'onClick', 'formType'])}
       type={type}
       size={size}
       disabled={disabled}
@@ -114,12 +127,12 @@ function Button (props: IProps) {
       onClick={handleClick}
       onTouchStart={_onTouchStart}
       onTouchEnd={_onTouchEnd}
-      loading={loading.toString()}
       plain={plain.toString()}
+      form-type={formType as any}
     >
-      {!!loading && <i className='weui-loading' />}
+      {!!loading && <View className='weui-loading' />}
       {children}
-    </button>
+    </View>
   )
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-library-vue3",
-  "version": "4.1.8-alpha.0",
+  "version": "4.1.8",
   "description": "Taro 组件库 Vue3 版本库",
   "author": "O2Team",
   "license": "MIT",

@@ -11,15 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Checkout taro-docs
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: NervJS/taro-docs
           fetch-depth: 1
           path: .taro-docs
-      - run : |
+      - run: |
           cp -r .taro-docs/packages/taro/types/* packages/taro/types
           cp -r .taro-docs/packages/taro-components/types/* packages/taro-components/types
           rm -rf .taro-docs
@@ -43,7 +43,7 @@ jobs:
             - args: [--filter @tarojs/components, -D, miniapp-types@latest]
       # Note: 当前同步脚本使用 ts-node 与 node20 存在兼容问题，修复后解除版本限制
       - name: Setup Node 18
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 18
           cache: 'pnpm'
@@ -61,11 +61,11 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: main
-          body: "sync components types"
-          branch: "refactor/sync-types"
-          commit-message: "refactor(types): sync components types"
+          body: 'sync components types'
+          branch: 'refactor/sync-types'
+          commit-message: 'refactor(types): sync components types'
           delete-branch: true
-          title: "refactor(types): sync components types"
+          title: 'refactor(types): sync components types'
           labels: |
             A-typings
             A-components
