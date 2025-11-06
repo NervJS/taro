@@ -15,10 +15,6 @@ on:
       - main
     types: [closed]
 
-env:
-  CI: true
-  # MOCK_PUBLISH: true
-
 jobs:
   need-publish:
     permissions:
@@ -33,10 +29,10 @@ jobs:
     steps:
       # Setup
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Log meta
-      - name : GITHUB CONTEXT
+      - name: GITHUB CONTEXT
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
@@ -47,7 +43,7 @@ jobs:
           COMMIT_MESSAGE=$(git log --format=%s -n 1)
           echo "COMMIT_MESSAGE=${COMMIT_MESSAGE}" >> $GITHUB_ENV
       - name: Show commit message
-        run : echo "$COMMIT_MESSAGE"
+        run: echo "$COMMIT_MESSAGE"
 
       - name: Determine if should abort publish
         run: |
@@ -95,7 +91,7 @@ jobs:
     steps:
       # Setup
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.ref_name }}
       - name: Setup pnpm
@@ -103,7 +99,7 @@ jobs:
         with:
           version: 10
       - name: Setup Node 18
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 18
           cache: 'pnpm'
@@ -117,7 +113,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Log meta
-      - name : GITHUB CONTEXT
+      - name: GITHUB CONTEXT
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
@@ -174,7 +170,7 @@ jobs:
       - name: Install dependencies
         run: pnpm -r install --frozen-lockfile
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           path: crates/native_binding/artifacts
       - name: Move artifacts
@@ -280,7 +276,7 @@ jobs:
         run: pnpm build
 
       - name: Checkout Harmony Project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: NervJS/taro-harmony-project
           path: packages/taro-platform-harmony-cpp/harmony_project
@@ -367,7 +363,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           github_repo: ${{ github.repository }}
           git_commit_sha: ${{ steps.commitHar.outputs.sha || github.sha }}
-          git_tag_prefix: "v"
+          git_tag_prefix: 'v'
 
       # ------------------ publish -------------
 
