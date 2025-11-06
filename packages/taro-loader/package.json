@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-loader",
-  "version": "4.1.7",
+  "version": "4.1.8-alpha.0",
   "description": "Taro runner use webpack loader",
   "author": "O2Team",
   "license": "MIT",

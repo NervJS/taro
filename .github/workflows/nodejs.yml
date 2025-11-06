@@ -61,7 +61,6 @@ jobs:
             host: windows-latest
 
     runs-on: ${{ matrix.host }}
-    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -112,7 +111,15 @@ jobs:
       - name: Move artifacts
         run: pnpm artifacts
       - name: build
-        run: pnpm build
+        shell: bash
+        run: |
+          if [ "${{ matrix.host }}" = "windows-latest" ]; then
+            pnpm build:serial
+          else
+            pnpm build
+          fi
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
       - name: test
         run: pnpm test
         env:
