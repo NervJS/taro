@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "4.1.8-alpha.0",
+  "version": "4.1.8-beta.3",
   "description": "Taro-router",
   "author": "O2Team",
   "license": "MIT",
