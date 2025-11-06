@@ -139,6 +139,7 @@ export class BaseTemplate {
 
   public createMiniComponents (components: Components) {
     const result: Components = Object.create(null)
+    const skipProps = ['$duplicateFromComponent']
 
     for (const key in components) {
       if (hasOwn(components, key)) {
@@ -152,7 +153,7 @@ export class BaseTemplate {
         }
 
         for (let prop in component) {
-          if (hasOwn(component, prop)) {
+          if (hasOwn(component, prop) && !skipProps.includes(prop)) {
             const propInCamelCase = toCamelCase(prop)
             const propAlias = componentAlias[propInCamelCase] || propInCamelCase
             let propValue = component[prop]
@@ -307,6 +308,11 @@ export class BaseTemplate {
   }
 
   protected buildComponentTemplate (comp: Component, level: number) {
+    const { $duplicateFromComponent } = this.internalComponents[capitalize(toCamelCase(comp.nodeName))] || {}
+    if ($duplicateFromComponent) {
+      comp.nodeName = toDashed($duplicateFromComponent)
+    }
+
     return this.focusComponents.has(comp.nodeName)
       ? this.buildFocusComponentTemplate(comp, level)
       : this.buildStandardComponentTemplate(comp, level)

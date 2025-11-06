@@ -1,7 +1,7 @@
 import * as path from 'node:path'
 
 import { esbuild } from '@tarojs/helper'
-import { isArray, isFunction, isObject, isString } from '@tarojs/shared'
+import { hasOwn, isArray, isFunction, isObject, isString } from '@tarojs/shared'
 
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 
@@ -55,6 +55,13 @@ export default (ctx: IPluginContext, options: IOptions) => {
         injectRuntimePath(platform)
 
         if (components) {
+          for (const key in components) {
+            const { $duplicateFromComponent } = components[key] || {}
+            const internalComponents = platform?.template?.internalComponents || {}
+            if (hasOwn(components, key) && $duplicateFromComponent && internalComponents[$duplicateFromComponent]) {
+              components[key] = Object.assign({}, internalComponents[$duplicateFromComponent], components[key])
+            }
+          }
           template.mergeComponents(ctx, components)
         }
 
