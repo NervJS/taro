@@ -123,6 +123,13 @@ const config = {
           'x-props': "'hello'",
           bindYEvent: ''
         },
+        // 无障碍适配
+        View: {
+          'aria-role':"",
+          'aria-label':"",
+          'aria-hidden':"",
+          'aria-selected':""
+        },
         // 新增一个组件
         ShareElement: {
           key: "",
@@ -163,7 +170,86 @@ const config = {
 }
 ```
 
-#### 4. voidComponents
+#### 4. componentsMap
+
+支持为小程序 **插入新的组件**。
+
+componentsMap 的基本用法上例中已有体现，本示例是新增组件的一种特殊用法，即插入已有原生组件的副本组件，这种用法支持我们定制特定场景下的基础组件，比如 view、input 等。
+
+示例场景：
+在无障碍适配中，有时需要给 View 组件增加 tabindex 属性，但直接通过 components 配置注入后 base.wxml 中的所有 view 组件都会携带 tabindex 属性，当我们关闭无障碍功能（tabindex 值设置为 -1 或非法值）后，在部分 iOS 设备上点击存在 tabindex 属性的 view 节点时会有高亮轮廓或背景，这时我们需要一个不带 tabindex 属性的 View组件。
+
+用法：
+
+```js title='config/index.ts'
+const config = {
+  plugins: [
+    ['@tarojs/plugin-inject', {
+      nestElements: {
+        'tab-index-view': -1 // 使TabIndexView组件可嵌套
+      },
+      voidComponents: [
+        'tab-index-input' // TabIndexInput本质是小程序的input组件，所以需要设置其不可以渲染子组件
+      ],
+      components: {
+        TabIndexView: { // 编译时使用，决定标签名<tab-index-view>，仅jsx中有使用才会生成对应的template
+          "tabindex": 0,
+          $duplicateFromComponent: 'View' // 4.1.8开始支持，$duplicateFromComponent区别于其他组件属性，它是一个特殊配置，用来指定新增组件基于哪个已有组件来扩展
+        },
+        TabIndexInput: {
+          "tabindex": 0,
+          $duplicateFromComponent: 'Input'
+        }
+      },
+      componentsMap: {
+        TabIndexView: 'tab-index-view', // 运行时使用，表示react中的TabIndex最终映射为value值标签对应的template
+        TabIndexInput: 'tab-index-input'
+      }
+    }]
+  ]
+}
+```
+设置完成后，TabIndexView 组件对应的 view 节点上会带有 tabindex 属性，而不会影响 View 组件。
+
+对于 4.1.8 以下的版本，可配合插件来实现类似的效果：
+```js title='config/index.ts'
+const config = {
+  plugins: [
+    path.resolve(__dirname, './tabIndex.ts'),
+    ['@tarojs/plugin-inject', {
+      nestElements: {
+        'tab-index-view': -1
+      },
+      components: {
+        TabIndexView: {
+          "tabindex": 0
+        }
+      },
+      componentsMap: {
+        TabIndexView: 'tab-index-view'
+      }
+    }]
+  ]
+}
+```
+
+```js title='config/tabIndex.ts'
+export default (ctx) => {
+  ctx.modifyBuildAssets((args: { assets: any }) => {
+    const { assets } = args
+
+    let baseXmlVal = assets['base.wxml'].source()
+    const newBaseXmlVal = baseXmlVal.replace(/<(\/?)(tab-index-view)/g, '<$1view')
+
+    assets['base.wxml'] = {
+      size: () => newBaseXmlVal.length,
+      source: () => newBaseXmlVal,
+    }
+  })
+}
+```
+
+#### 5. voidComponents
 
 在 `voidComponents` 里的组件**不可以渲染子组件**。
 
@@ -205,7 +291,7 @@ const config = {
 }
 ```
 
-#### 5. nestElements
+#### 6. nestElements
 
 对于不支持模板递归的小程序（如微信、QQ、京东小程序），Taro3 默认下述组件的模板能递归自身：
 
@@ -256,7 +342,7 @@ const config = {
 }
 ```
 
-#### 6. thirdPartyComponents
+#### 7. thirdPartyComponents
 
 > v1.0.2+ 开始支持，且需要 Taro v3.4.10+
 

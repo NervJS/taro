@@ -1,6 +1,7 @@
 import { processApis } from '@tarojs/shared'
 
 import { needPromiseApis } from './apis-list'
+import { reflectApis } from './reflect-apis'
 
 declare const has: any
 
@@ -31,4 +32,5 @@ export function initNativeApi (taro) {
   taro.getRenderer = function () {
     return taro.getCurrentInstance()?.page?.renderer ?? 'webview'
   }
+  reflectApis(taro, has)
 }

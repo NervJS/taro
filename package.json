@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "4.1.7",
+  "version": "4.1.8-alpha.0",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -21,6 +21,7 @@
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
     "build": "pnpm -r --aggregate-output --filter=./packages/* prod",
+    "build:serial": "pnpm -r --workspace-concurrency=1 --aggregate-output --filter=./packages/* prod",
     "build:binding:debug": "pnpm --filter @tarojs/binding run build:debug",
     "build:binding:release": "pnpm --filter @tarojs/binding run build",
     "debug": "node scripts/debug.js",
