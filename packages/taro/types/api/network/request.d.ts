@@ -25,6 +25,11 @@ declare module '../../index' {
       dataType?: keyof DataType | string
       /** 响应的数据类型 */
       responseType?: keyof ResponseType
+      /**
+       * 使用高性能模式。从基础库 v3.5.0 开始在 Android 端默认开启，其他端暂不生效。该模式下有更优的网络性能表现。
+       * @default true
+       * */
+      useHighPerformanceMode?: boolean
       /** 开启 http2
        * @default false
        * @supported weapp
