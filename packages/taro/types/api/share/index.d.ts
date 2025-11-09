@@ -3,26 +3,52 @@ import Taro from '../../index'
 declare module '../../index' {
   namespace updateShareMenu {
     interface Option {
-      /** 动态消息的 activityId。通过 [updatableMessage.createActivityId](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/updatable-message/updatableMessage.createActivityId.html) 接口获取 */
-      activityId?: string
-      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
-      /** 接口调用失败的回调函数 */
-      fail?: (res: TaroGeneral.CallbackResult) => void
-      /** 是否是动态消息，详见[动态消息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share/updatable-message.html) */
+      /** 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html)
+       * @default false
+       */
+      withShareTicket?: boolean
+      /** 是否是动态消息，详见[动态消息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share/updatable-message.html)
+       * @default false
+       */
       isUpdatableMessage?: boolean
+      /** 动态消息的 activityId。通过 [updatableMessage.createActivityId](https://developers.weixin.qq.com/miniprogram/dev/api/share/errorupdatableMessage.createActivityId)) 接口获取
+       */
+      activityId?: string
+      /** 群待办消息的id，通过toDoActivityId可以把多个群待办消息聚合为同一个。通过 [updatableMessage.createActivityId](https://developers.weixin.qq.com/miniprogram/dev/api/share/errorupdatableMessage.createActivityId) 接口获取。详见[群待办消息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html
+       */
+      toDoActivityId?: string
+      /** 动态消息的模板信息
+       */
+      templateInfo?: UpdatableMessageFrontEndTemplateInfo
+      /** 是否是私密消息。详见 [小程序私密消息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share/private-message.html)
+       */
+      isPrivateMessage?: boolean
+      /** 参与用户此聊天室下的 group_openid 列表
+       * @default []
+       */
+      participant?: string[]
+      /** 聊天工具模式特殊动态消息
+       * @default false
+       */
+      useForChatTool?: boolean
+      /** 指定成员的方式
+       * @default 1
+       */
+      chooseType?: number
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
-      /** 动态消息的模板信息 */
-      templateInfo?: UpdatableMessageFrontEndTemplateInfo
-      /** 是否使用带 shareTicket 的转发[详情](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html) */
-      withShareTicket?: boolean
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
     }
 
     /** 动态消息的模板信息 */
     interface UpdatableMessageFrontEndTemplateInfo {
       /** 参数列表 */
       parameterList: UpdatableMessageFrontEndParameter[]
+      /** 模板ID */
+      templateId: string
     }
     /** 参数列表 */
     interface UpdatableMessageFrontEndParameter {
