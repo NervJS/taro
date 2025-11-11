@@ -118,7 +118,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       // 处理 config.ts 入口文件
       const resolved = await this.resolve(source, importer, { ...options, skipSelf: true })
       if (resolved?.id && pages.some(({ configPath }) => resolved.id.startsWith(configPath))) {
-        // mpa 模式，入口文件为每个page下的config
+        // mpa 模式，入口文件为每个 page 下的 config
         const queryParams = getQueryParams(source)
         const pageName = queryParams?.[PAGENAME_QUERY]
         const pureId = path.parse(resolved.id).dir
@@ -142,7 +142,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       handler(html, ctx) {
         const { originalUrl, path: filePath } = ctx
         const { configPath } = app
-        let srciptSource = configPath.replace(sourceDir, '')
+        let scriptSource = configPath.replace(sourceDir, '')
         let page
         if (isProd) {
           page = pages.filter(({ name }) => filePath?.startsWith(`/${removeHeadSlash(path.join(basename, name))}`))?.[0]
@@ -152,9 +152,9 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         if (page) {
           const params = { [PAGENAME_QUERY]: page.name }
           const queryString = generateQueryString(params)
-          srciptSource = page.configPath.replace(sourceDir, '') + `?${queryString}`
+          scriptSource = page.configPath.replace(sourceDir, '') + `?${queryString}`
         }
-        const htmlScript = getHtmlScript(srciptSource, pxtransformOption)
+        const htmlScript = getHtmlScript(scriptSource, pxtransformOption)
 
         return html.replace(/<script><%= htmlWebpackPlugin.options.script %><\/script>/, htmlScript)
       }
