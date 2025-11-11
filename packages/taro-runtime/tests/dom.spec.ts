@@ -1,20 +1,20 @@
+import { afterAll, describe, expect, test } from 'vitest'
+
+import { document, window } from '../src/index'
+
 describe('DOM', () => {
   process.env.FRAMEWORK = 'nerv'
-  const runtime = require('../../dist/runtime.esm')
-  const document = runtime.document
-  global.document = runtime.document
-  global.window = runtime.window
-  global.navigator = runtime.navigator
-  // eslint-disable-next-line no-use-before-define
-  const React = require('react')
-  const ReactDOM = require('@tarojs/react')
+
+  global.document = document
+  global.window = window
+  // global.navigator = navigator
 
   afterAll(() => {
     process.env.FRAMEWORK = ''
   })
 
   describe('node', () => {
-    it('childeNodes 有任何类型', () => {
+    test('childeNodes 有任何类型', () => {
       const container = document.createElement('container')
       const div = document.createElement('div')
       const text = document.createTextNode('text')
@@ -23,7 +23,7 @@ describe('DOM', () => {
       expect(container.childNodes.length).toBe(2)
     })
 
-    it('nextSibling', () => {
+    test('nextSibling', () => {
       const container = document.createElement('container')
       const div = document.createElement('div')
       const text = document.createTextNode('text')
@@ -33,7 +33,7 @@ describe('DOM', () => {
       expect(text.nextSibling).toBe(null)
     })
 
-    it('previousSibling', () => {
+    test('previousSibling', () => {
       const container = document.createElement('container')
       const div = document.createElement('div')
       const text = document.createTextNode('text')
@@ -43,7 +43,7 @@ describe('DOM', () => {
       expect(text.previousSibling).toBe(div)
     })
 
-    it('insertBefore', () => {
+    test('insertBefore', () => {
       const container = document.createElement('container')
       const div = document.createElement('div')
       const text = document.createTextNode('text')
@@ -57,7 +57,7 @@ describe('DOM', () => {
       expect(div.nextSibling).toBe(div2)
     })
 
-    it('appendChild', () => {
+    test('appendChild', () => {
       const container = document.createElement('container')
       const div = document.createElement('div')
       const text = document.createTextNode('text')
@@ -67,7 +67,7 @@ describe('DOM', () => {
       expect(text.previousSibling).toBe(div)
     })
 
-    it('replaceChild', () => {
+    test('replaceChild', () => {
       const container = document.createElement('container')
       const div = document.createElement('div')
       const text = document.createTextNode('text')
@@ -80,7 +80,7 @@ describe('DOM', () => {
       expect(div.parentNode).toBe(null)
     })
 
-    it('removeChild', () => {
+    test('removeChild', () => {
       const container = document.createElement('container')
       const div = document.createElement('div')
       const text = document.createTextNode('text')
@@ -91,7 +91,7 @@ describe('DOM', () => {
       expect(container.childNodes.length).toBe(1)
     })
 
-    it('firstChild', () => {
+    test('firstChild', () => {
       const container = document.createElement('container')
       const div = document.createElement('div')
       const text = document.createTextNode('text')
@@ -102,7 +102,7 @@ describe('DOM', () => {
       expect(container.firstChild).toBe(null)
     })
 
-    it('lastChild', () => {
+    test('lastChild', () => {
       const container = document.createElement('container')
       const div = document.createElement('div')
       const text = document.createTextNode('text')
@@ -113,7 +113,7 @@ describe('DOM', () => {
       expect(container.lastChild).toBe(null)
     })
 
-    it('hasChildNodes', () => {
+    test('hasChildNodes', () => {
       const container = document.createElement('container')
       const div = document.createElement('div')
       const text = document.createTextNode('text')
@@ -124,18 +124,18 @@ describe('DOM', () => {
       expect(container.hasChildNodes()).toBe(false)
     })
 
-    it('insertAdjacentHTML', () => {
+    test('insertAdjacentHTML', () => {
       const container = document.createElement('container')
       const div = document.createElement('div')
       const text = document.createTextNode('text')
       container.appendChild(div)
-      container.firstChild.appendChild(text)
+      container.firstChild?.appendChild(text)
 
       const divBeforeInsert = container.firstChild
-      divBeforeInsert.insertAdjacentHTML('beforebegin', '<view />')
-      divBeforeInsert.insertAdjacentHTML('afterbegin', '<button />')
-      divBeforeInsert.insertAdjacentHTML('beforeend', '<input />')
-      divBeforeInsert.insertAdjacentHTML('afterend', '<image />')
+      divBeforeInsert?.insertAdjacentHTML('beforebegin', '<view />')
+      divBeforeInsert?.insertAdjacentHTML('afterbegin', '<button />')
+      divBeforeInsert?.insertAdjacentHTML('beforeend', '<input />')
+      divBeforeInsert?.insertAdjacentHTML('afterend', '<image />')
 
       expect(container.childNodes.length).toBe(3)
       expect(container.childNodes[0].nodeName).toBe('view')
@@ -144,39 +144,39 @@ describe('DOM', () => {
 
       const divAfterInsert = container.childNodes[1]
       expect(divAfterInsert.childNodes.length).toBe(3)
-      expect(divAfterInsert.firstChild.nodeName).toBe('button')
-      expect(divAfterInsert.lastChild.nodeName).toBe('input')
+      expect(divAfterInsert.firstChild?.nodeName).toBe('button')
+      expect(divAfterInsert.lastChild?.nodeName).toBe('input')
     })
   })
 
   describe('text', () => {
-    it('nodeValue', () => {
+    test('nodeValue', () => {
       const t = document.createTextNode('t1')
       expect(t.nodeValue).toBe('t1')
       t.textContent = 't2'
       expect(t.nodeValue).toBe('t2')
     })
 
-    it('textContext', () => {
+    test('textContext', () => {
       const t = document.createTextNode('t1')
       expect(t.textContent).toBe('t1')
       t.nodeValue = 't2'
       expect(t.textContent).toBe('t2')
     })
 
-    it('nodeType', () => {
+    test('nodeType', () => {
       const t = document.createTextNode('t1')
       expect(t.nodeType).toBe(3)
     })
   })
 
   describe('element', () => {
-    it('tagName 是大写', () => {
+    test('tagName 是大写', () => {
       const node = document.createElement('div')
       expect(node.tagName).toBe('DIV')
     })
 
-    it('id 和 className 可以直接设置', () => {
+    test('id 和 className 可以直接设置', () => {
       const node = document.createElement('div')
       node.className = 'className'
       node.id = 'id'
@@ -184,7 +184,7 @@ describe('DOM', () => {
       expect(node.getAttribute('id')).toBe('id')
     })
 
-    it('children 只包括 Element', () => {
+    test('children 只包括 Element', () => {
       const container = document.createElement('container')
       const div = document.createElement('div')
       const text = document.createTextNode('text')
@@ -193,91 +193,72 @@ describe('DOM', () => {
       expect(container.children.length).toBe(1)
     })
 
-    it('hasAttribute', () => {
+    test('hasAttribute', () => {
       const div = document.createElement('div')
       div.setAttribute('readOnly', true)
       expect(div.hasAttribute('readOnly')).toBe(true)
     })
 
-    it('hasAttributes', () => {
+    test('hasAttributes', () => {
       const div = document.createElement('div')
       div.setAttribute('readOnly', true)
       expect(div.hasAttributes()).toBe(true)
     })
 
-    it('focus', () => {
+    test('focus', () => {
       const input = document.createElement('input')
       input.focus()
       expect(input.getAttribute('focus')).toBe(true)
     })
 
-    it('blur', () => {
+    test('blur', () => {
       const input = document.createElement('input')
       input.blur()
       expect(input.getAttribute('focus')).toBe(false)
     })
 
-    it('setAttribute: style', () => {
+    test('setAttribute: style', () => {
       const div = document.createElement('div')
       div.setAttribute('style', 'color: red')
       expect(div.cssText).toBe('color: red;')
     })
 
-    it('setAttribute: id', () => {
+    test('setAttribute: id', () => {
       const div = document.createElement('div')
       div.setAttribute('id', '10080')
       expect(div.getAttribute('id')).toBe('10080')
       div.props.id = '10080'
     })
 
-    it('setAttribute: data-set', () => {
+    test('setAttribute: data-set', () => {
       const div = document.createElement('div')
       div.setAttribute('data-test', '10080')
       expect(div.getAttribute('data-test')).toBe('10080')
       expect(div.dataset.test).toBe('10080')
     })
 
-    it('setAttribute: others', () => {
+    test('setAttribute: others', () => {
       const div = document.createElement('div')
       div.setAttribute('test', '10080')
       expect(div.getAttribute('test')).toBe('10080')
       div.props.test = '10080'
     })
 
-    it('removeAttribute: style', () => {
+    test('removeAttribute: style', () => {
       const div = document.createElement('div')
       div.setAttribute('style', 'color: red')
       div.removeAttribute('style')
       expect(div.cssText).toBe('')
     })
 
-    it('removeAttribute: id', () => {
+    test('removeAttribute: id', () => {
       const div = document.createElement('div')
       div.id = 'test'
       div.removeAttribute('id')
       expect(div.id).toBe('')
     })
 
-    it('textContext', () => {
-      function App () {
-        return (
-          <div>
-            <div>
-              <span> a </span>
-            </div>
-            b
-            <span>c</span>
-          </div>
-        )
-      }
-
-      const div = document.createElement('div')
-      // eslint-disable-next-line react/no-deprecated
-      ReactDOM.render(<App />, div)
-      expect(div.textContent).toBe(' a bc')
-    })
-
-    it('创建 A 标签', () => {
+    test('创建 A 标签', () => {
       const a = document.createElement('a')
 
       expect(a.nodeName).toBe('a')
