@@ -5,7 +5,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     coverage: {
-      provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
       include: ['index.js']
     }
