@@ -1,4 +1,5 @@
 import { ScrollView, View } from '@tarojs/components'
+import Taro from '@tarojs/taro'
 import * as React from 'react'
 
 // 添加类型定义
@@ -25,6 +26,32 @@ export interface PickerGroupProps {
 const PICKER_LINE_HEIGHT = 34 // px
 const PICKER_VISIBLE_ITEMS = 7 // 可见行数
 const PICKER_BLANK_ITEMS = 3 // 空白行数
+
+// 辅助函数：获取系统信息的 lengthScaleRatio 并设置 targetScrollTop
+const setTargetScrollTopWithScale = (
+  setTargetScrollTop: (value: number) => void,
+  baseValue: number,
+  randomOffset?: number
+) => {
+  Taro.getSystemInfo({
+    success: (res) => {
+      // 使用类型断言访问可能不存在的 lengthScaleRatio 属性
+      const lengthScaleRatio = (res as any).lengthScaleRatio ?? 1
+      if (!(res as any).lengthScaleRatio) {
+        console.warn('Taro.getSystemInfo: lengthScaleRatio 不存在，使用默认值 1')
+      }
+      const scaledValue = baseValue * lengthScaleRatio
+      const finalValue = randomOffset !== undefined ? scaledValue + randomOffset : scaledValue
+      setTargetScrollTop(finalValue)
+    },
+    fail: (err) => {
+      console.error('获取系统信息失败:', err)
+      // 失败时使用默认值 1
+      const finalValue = randomOffset !== undefined ? baseValue + randomOffset : baseValue
+      setTargetScrollTop(finalValue)
+    }
+  })
+}
 
 export function PickerGroupBasic(props: PickerGroupProps) {
   const {
@@ -58,7 +85,8 @@ export function PickerGroupBasic(props: PickerGroupProps) {
   // 当selectedIndex变化时，调整滚动位置
   React.useEffect(() => {
     if (scrollViewRef.current && range.length > 0 && !isTouching) {
-      setTargetScrollTop(selectedIndex * itemHeightRef.current)
+      const baseValue = selectedIndex * itemHeightRef.current
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue)
       setCurrentIndex(selectedIndex)
     }
   }, [selectedIndex, range])
@@ -80,7 +108,9 @@ export function PickerGroupBasic(props: PickerGroupProps) {
       const newIndex = getSelectedIndex(scrollTop)
 
       setIsTouching(false)
-      setTargetScrollTop(newIndex * itemHeightRef.current + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
+      const baseValue = newIndex * itemHeightRef.current
+      const randomOffset = Math.random() * 0.001 // 随机数为了在一个项内滚动时强制刷新
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset)
       updateIndex(newIndex, columnId)
       onColumnChange?.({ columnId, index: newIndex })
     }, 100)
@@ -198,7 +228,8 @@ export function PickerGroupTime(props: PickerGroupProps) {
   // 当selectedIndex变化时，调整滚动位置
   React.useEffect(() => {
     if (scrollViewRef.current && range.length > 0 && !isTouching) {
-      setTargetScrollTop(selectedIndex * itemHeightRef.current)
+      const baseValue = selectedIndex * itemHeightRef.current
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue)
       setCurrentIndex(selectedIndex)
     }
   }, [selectedIndex, range])
@@ -224,7 +255,9 @@ export function PickerGroupTime(props: PickerGroupProps) {
       const isLimited = Boolean(updateIndex(newIndex, columnId, true))
       // 如果没有触发限位，才执行归中逻辑
       if (!isLimited) {
-        setTargetScrollTop(newIndex * itemHeightRef.current + Math.random() * 0.001)
+        const baseValue = newIndex * itemHeightRef.current
+        const randomOffset = Math.random() * 0.001
+        setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset)
       }
     }, 100)
   }
@@ -340,7 +373,8 @@ export function PickerGroupDate(props: PickerGroupProps) {
   // 当selectedIndex变化时，调整滚动位置
   React.useEffect(() => {
     if (scrollViewRef.current && range.length > 0 && !isTouching) {
-      setTargetScrollTop(selectedIndex * itemHeightRef.current)
+      const baseValue = selectedIndex * itemHeightRef.current
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue)
       setCurrentIndex(selectedIndex)
     }
   }, [selectedIndex, range])
@@ -364,7 +398,9 @@ export function PickerGroupDate(props: PickerGroupProps) {
       const newIndex = getSelectedIndex(scrollTop)
 
       setIsTouching(false)
-      setTargetScrollTop(newIndex * itemHeightRef.current + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
+      const baseValue = newIndex * itemHeightRef.current
+      const randomOffset = Math.random() * 0.001 // 随机数为了在一个项内滚动时强制刷新
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset)
 
       // 更新日期值
       if (updateDay) {
@@ -484,7 +520,8 @@ export function PickerGroupRegion(props: PickerGroupProps) {
   // 当selectedIndex变化时，调整滚动位置
   React.useEffect(() => {
     if (scrollViewRef.current && range.length > 0 && !isTouching) {
-      setTargetScrollTop(selectedIndex * itemHeightRef.current)
+      const baseValue = selectedIndex * itemHeightRef.current
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue)
       setCurrentIndex(selectedIndex)
     }
   }, [selectedIndex, range])
@@ -505,7 +542,9 @@ export function PickerGroupRegion(props: PickerGroupProps) {
       const newIndex = getSelectedIndex(scrollTop)
 
       setIsTouching(false)
-      setTargetScrollTop(newIndex * itemHeightRef.current + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
+      const baseValue = newIndex * itemHeightRef.current
+      const randomOffset = Math.random() * 0.001 // 随机数为了在一个项内滚动时强制刷新
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset)
       updateIndex(newIndex, columnId, false, isUserBeginScrollRef.current)
     }, 100)
   }
