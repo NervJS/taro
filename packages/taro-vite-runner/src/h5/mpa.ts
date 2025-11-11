@@ -138,8 +138,8 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       if (isEntryHtml) return htmlTemplate
     },
     transformIndexHtml: {
-      enforce: 'pre',
-      transform(html, ctx) {
+      order: 'pre',
+      handler(html, ctx) {
         const { originalUrl, path: filePath } = ctx
         const { configPath } = app
         let srciptSource = configPath.replace(sourceDir, '')

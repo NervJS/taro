@@ -1,8 +1,15 @@
 import path from 'node:path'
 
-import type{ ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
-import type { OutputAsset } from 'rollup'
+import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
+import type { OutputAsset, OutputChunk } from 'rollup'
 import type { PluginOption } from 'vite'
+
+// 扩展 OutputChunk 类型以包含 viteMetadata（Vite 内部使用）
+interface ExtendedOutputChunk extends OutputChunk {
+  viteMetadata?: {
+    importedCss?: Set<string>
+  }
+}
 
 export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
   return {
@@ -18,7 +25,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
         for (const name in bundle) {
           const chunk = bundle[name]
           if (chunk.type === 'chunk') {
-            const importedCss = chunk.viteMetadata?.importedCss
+            const importedCss = (chunk as ExtendedOutputChunk).viteMetadata?.importedCss
             if (importedCss && importedCss.size > 0) {
               for (const item of importedCss) {
                 const chunkFileName = chunk.fileName
