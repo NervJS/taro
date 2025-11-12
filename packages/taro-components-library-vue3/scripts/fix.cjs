@@ -1,7 +1,7 @@
 const fs = require('@tarojs/helper').fs
 const path = require('path')
 
-const componentsPath = path.resolve(__dirname, '..', 'src/components.ts')
+const componentsPath = path.resolve(__dirname, '..', 'node_modules/@tarojs/components/dist/lib/vue3/components.ts')
 
 if (fs.existsSync(componentsPath)) {
   const codeBuffer = fs.readFileSync(componentsPath)
@@ -18,5 +18,5 @@ if (fs.existsSync(componentsPath)) {
     code = code.replace(new RegExp(`export const (${comps.join('|')}) = \\/\\*\\@__PURE__\\*\\/ defineContainer[^;]*;`, 'ig'), 'export const $1 = defineComponent((__props, { slots }) => slots.default);')
   }
 
-  fs.writeFileSync(componentsPath, code)
+  fs.writeFileSync(path.resolve(__dirname, '..', 'src/components.ts'), code)
 }
