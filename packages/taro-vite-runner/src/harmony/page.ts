@@ -109,7 +109,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
                   const ext = path.extname(importPath)
                   const basename = path.basename(importPath, ext)
                   if (path.isAbsolute(importPath)) {
-                    importPath = path.relative(path.dirname(rawId), importPath)
+                    importPath = path.relative(page.scriptPath, importPath)
                   }
                   ncObj[key] = [path.join(path.dirname(importPath), basename), value[1]]
                 })
@@ -166,7 +166,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
                 const ext = path.extname(importPath)
                 const basename = path.basename(importPath, ext)
                 if (path.isAbsolute(importPath)) {
-                  importPath = path.relative(path.dirname(rawId), importPath)
+                  importPath = path.relative(page.scriptPath, importPath)
                 }
                 ncObj[key] = [path.join(path.dirname(importPath), basename), value[1]]
               })
