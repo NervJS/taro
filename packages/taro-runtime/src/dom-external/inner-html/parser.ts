@@ -71,7 +71,7 @@ function hasTerminalParent (tagName: string, stack: Element[]) {
   return false
 }
 
-function getTagName (tag: string) {
+function getTagName (tag: string, attributes: string[]) {
   if (options.html!.renderHTMLTag) {
     return tag
   }
@@ -79,6 +79,14 @@ function getTagName (tag: string) {
   if (specialMiniElements[tag]) {
     return specialMiniElements[tag]
   } else if (isMiniElements(tag)) {
+    if (isBlockElements(tag)) {
+      return attributes.includes('skyline-mode') ? tag : 'view'
+    }
+
+    if (isInlineElements(tag)) {
+      return attributes.includes('skyline-mode') ? tag : 'text'
+    }
+
     return tag
   } else if (isBlockElements(tag)) {
     return 'view'
@@ -128,7 +136,7 @@ function format (
         return text
       }
 
-      const el: ParsedTaroElement = document.createElement(getTagName(child.tagName))
+      const el: ParsedTaroElement = document.createElement(getTagName(child.tagName, child.attributes))
       el.h5tagName = child.tagName
 
       parent?.appendChild(el)
