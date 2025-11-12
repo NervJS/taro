@@ -48,7 +48,7 @@
     "@tarojs/shared": "workspace:*",
     "@tarojs/taroize": "workspace:*",
     "@tarojs/transformer-wx": "workspace:*",
-    "postcss": "^8.4.38",
+    "postcss": "^8.5.6",
     "postcss-taro-unit-transform": "workspace:*",
     "prettier": "^2.8.8"
   },

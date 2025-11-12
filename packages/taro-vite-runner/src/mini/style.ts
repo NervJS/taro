@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import type{ ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
+import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { OutputAsset } from 'rollup'
 import type { PluginOption } from 'vite'
 
@@ -18,7 +18,8 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
         for (const name in bundle) {
           const chunk = bundle[name]
           if (chunk.type === 'chunk') {
-            const importedCss = chunk.viteMetadata?.importedCss
+            // @ts-ignore
+            const importedCss = (chunk).viteMetadata?.importedCss
             if (importedCss && importedCss.size > 0) {
               for (const item of importedCss) {
                 const chunkFileName = chunk.fileName

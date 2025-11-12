@@ -128,7 +128,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
   }
 
   let middlewareMode: 'ssr' | 'html' | false = false
-  if (serverOption.middlewareMode === 'ssr' || serverOption.middlewareMode === 'html') {
+  if (typeof serverOption.middlewareMode === 'string' && (serverOption.middlewareMode === 'ssr' || serverOption.middlewareMode === 'html')) {
     middlewareMode = serverOption.middlewareMode
   }
 
@@ -264,8 +264,8 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     }),
 
     transformIndexHtml: {
-      enforce: 'pre',
-      transform(html) {
+      order: 'pre',
+      handler(html) {
         // mpa 模式关于 html 的处理已经解藕到 mpa.ts
         if (isMultiRouterMode) return html
         const { configPath } = app

@@ -1,11 +1,10 @@
 import { defineConfig } from 'vitest/config'
 
-// https://cn.vitest.dev/guide/
 export default defineConfig({
   test: {
-    include: ['tests/**/*.spec.ts?(x)'],
+    globals: true,
     coverage: {
-      include: ['src/**/*.ts'],
+      include: ['src/**/*.js', 'src/**/*.ts'],
     }
   }
 })

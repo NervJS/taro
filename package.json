@@ -109,7 +109,7 @@
     "@types/webpack-dev-server": "^3.11.3",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
-    "@vitest/coverage-istanbul": "^3.2.4",
+    "@vitest/coverage-v8": "^4.0.8",
     "babel-jest": "^29.7.0",
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-preset-power-assert": "3.0.0",
@@ -145,7 +145,7 @@
     "minimist": "^1.2.8",
     "mkdirp": "^3.0.1",
     "npm-run-all": "^4.1.2",
-    "postcss": "^8.4.38",
+    "postcss": "^8.5.6",
     "postcss-less": "^6.0.0",
     "postcss-scss": "^4.0.3",
     "power-assert": "^1.6.1",
@@ -154,7 +154,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "rimraf": "^5.0.0",
-    "rollup": "^4.16.4",
+    "rollup": "^4.53.2",
     "rollup-plugin-node-externals": "^7.1.1",
     "rollup-plugin-postcss": "^4.0.2",
     "stylelint": "^16.4.0",
@@ -164,7 +164,8 @@
     "ts-node": "^10.9.1",
     "tslib": "^2.6.2",
     "typescript": "~5.4.5",
-    "vitest": "^3.2.4"
+    "vite": "^7.2.2",
+    "vitest": "^4.0.8"
   },
   "pnpm": {
     "packageExtensions": {
