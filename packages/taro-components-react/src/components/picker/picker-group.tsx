@@ -73,8 +73,12 @@ export function PickerGroupBasic(props: PickerGroupProps) {
 
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   React.useEffect(() => {
-    if (scrollViewRef.current) {
-      itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+    if (process.env.TARO_PLATFORM !== 'harmony') {
+      if (scrollViewRef.current && scrollViewRef.current?.scrollHeigh) {
+        itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+      } else {
+        console.warn('Height measurement anomaly')
+      }
     }
   }, [range.length]) // 只在range长度变化时重新计算
   // 获取选中的索引
@@ -216,8 +220,12 @@ export function PickerGroupTime(props: PickerGroupProps) {
 
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   React.useEffect(() => {
-    if (scrollViewRef.current) {
-      itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+    if (process.env.TARO_PLATFORM !== 'harmony') {
+      if (scrollViewRef.current && scrollViewRef.current?.scrollHeigh) {
+        itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+      } else {
+        console.warn('Height measurement anomaly')
+      }
     }
   }, [range.length]) // 只在range长度变化时重新计算
 
@@ -361,8 +369,12 @@ export function PickerGroupDate(props: PickerGroupProps) {
 
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   React.useEffect(() => {
-    if (scrollViewRef.current) {
-      itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+    if (process.env.TARO_PLATFORM !== 'harmony') {
+      if (scrollViewRef.current && scrollViewRef.current?.scrollHeigh) {
+        itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+      } else {
+        console.warn('Height measurement anomaly')
+      }
     }
   }, [range.length]) // 只在range长度变化时重新计算
 
@@ -508,8 +520,12 @@ export function PickerGroupRegion(props: PickerGroupProps) {
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   const isUserBeginScrollRef = React.useRef(false)
   React.useEffect(() => {
-    if (scrollViewRef.current) {
-      itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+    if (process.env.TARO_PLATFORM !== 'harmony') {
+      if (scrollViewRef.current && scrollViewRef.current?.scrollHeigh) {
+        itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+      } else {
+        console.warn('Height measurement anomaly')
+      }
     }
   }, [range.length]) // 只在range长度变化时重新计算
 
