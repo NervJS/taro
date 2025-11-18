@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-weapp",
-  "version": "4.1.5",
+  "version": "4.1.5-beta.8",
   "description": "微信小程序平台插件",
   "author": "O2Team",
   "license": "MIT",

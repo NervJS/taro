@@ -2172,7 +2172,9 @@
       }
     },
     "cover-view": {
-      "scroll-top": false
+      "scroll-top": false,
+      "marker-id": false,
+      "slot": false
     },
     "custom-wrapper": true,
     "double-tap-gesture-handler": {
