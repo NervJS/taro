@@ -22,7 +22,8 @@ const INFINITE_BUFFER = 2
 
 const exchangePos = Platform.select({
   ios: INFINITE_BUFFER - 1,
-  android: INFINITE_BUFFER - 2
+  android: INFINITE_BUFFER - 2,
+  default: INFINITE_BUFFER - 2, // 适配鸿蒙端
 }) as number
 
 export interface CarouselState {
@@ -47,12 +48,14 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
   private autoplayTimer: ReturnType<typeof setTimeout>
   private isScrolling: boolean
   private count: number
+  private needFixIndexInHarmony: boolean
 
   constructor(props: CarouselProps) {
     super(props)
     const { selectedIndex, children } = this.props
     this.count = this.getChildrenCount(children)
     this.isScrolling = false
+    this.needFixIndexInHarmony = Platform.OS !== 'ios' && Platform.OS !== 'android'
     this.state = {
       selectedIndex: this.getVirtualIndex(Math.min(selectedIndex as number, this.count - 1)),
     }
@@ -78,7 +81,23 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(props: CarouselProps): void {
     const { selectedIndex, infinite, children } = props
-    this.count = this.getChildrenCount(children)
+    const prevCount = this.count
+    const newCount = this.getChildrenCount(children)
+    this.count = newCount
+
+    // 如果 count 从 < 2 变为 >= 2，且 infinite 为 true，需要修正 selectedIndex
+    if (this.needFixIndexInHarmony && infinite && prevCount < 2 && newCount >= 2) {
+      const correctIndex = this.getVirtualIndex(Math.min(selectedIndex as number, this.count - 1), infinite)
+      if (correctIndex !== this.state.selectedIndex) {
+        // console.log(`------->UNSAFE_componentWillReceiveProps: 修正 selectedIndex 从 ${this.state.selectedIndex} 到 ${correctIndex}`)
+        this.setState({ selectedIndex: correctIndex }, () => {
+          this.viewPager.current?.setPageWithoutAnimation(correctIndex)
+        })
+        this.needFixIndexInHarmony = false
+        return
+      }
+    }
+
     if (selectedIndex === this.props.selectedIndex && infinite === this.props.infinite) return
     const index = this.getVirtualIndex(Math.min(selectedIndex as number, this.count - 1), infinite)
     if (index !== this.state.selectedIndex) {
