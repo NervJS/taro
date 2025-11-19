@@ -35,10 +35,20 @@ const setTargetScrollTopWithScale = (
 ) => {
   Taro.getSystemInfo({
     success: (res) => {
-      // 使用类型断言访问可能不存在的 lengthScaleRatio 属性
-      const lengthScaleRatio = (res as any).lengthScaleRatio ?? 1
-      if (!(res as any).lengthScaleRatio) {
-        console.warn('Taro.getSystemInfo: lengthScaleRatio 不存在，使用默认值 1')
+      let lengthScaleRatio = (res as any)?.lengthScaleRatio
+      if (lengthScaleRatio == null || lengthScaleRatio === 0) {
+        console.warn('Taro.getSystemInfo: lengthScaleRatio 不存在，使用计算值')
+        lengthScaleRatio = 1
+        if (res.windowWidth < 320) {
+          lengthScaleRatio = res.windowWidth / 320
+        } else if (res.windowWidth >= 400 && res.windowWidth < 600) {
+          lengthScaleRatio = res.windowWidth / 400
+        }
+        const shortSide = res.windowWidth < res.windowHeight ? res.windowWidth : res.windowHeight
+        const isBigScreen = shortSide >= 600
+        if (isBigScreen) {
+          lengthScaleRatio = shortSide / 600
+        }
       }
       const scaledValue = baseValue * lengthScaleRatio
       const finalValue = randomOffset !== undefined ? scaledValue + randomOffset : scaledValue
