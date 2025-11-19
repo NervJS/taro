@@ -47,7 +47,7 @@ const setTargetScrollTopWithScale = (
         const shortSide = res.windowWidth < res.windowHeight ? res.windowWidth : res.windowHeight
         const isBigScreen = shortSide >= 600
         if (isBigScreen) {
-          lengthScaleRatio = shortSide / 600
+          lengthScaleRatio = shortSide / 720
         }
       }
       const scaledValue = baseValue * lengthScaleRatio
