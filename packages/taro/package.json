@@ -36,7 +36,8 @@
     "webpack": "5.91.0",
     "webpack-chain": "^6.5.1",
     "webpack-dev-server": "^4.15.2",
-    "rollup": "^3.29.4"
+    "rollup": "^3.29.4",
+    "vite": "^4.2.0"
   },
   "peerDependencies": {
     "@tarojs/components": "workspace:*",
