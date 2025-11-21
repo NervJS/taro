@@ -80,7 +80,7 @@
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "typescript": "^5.1.0",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
-    "postcss": "^8.4.38",
+    "postcss": "^8.5.6",
     "ts-node": "^10.9.1",
     "@types/node": "^18",
     "@types/jest": "^29.3.1",
