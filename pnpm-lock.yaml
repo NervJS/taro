@@ -1069,6 +1069,8 @@ importers:
         specifier: 13.6.4
         version: 13.6.4(react-native@0.73.11(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(react@18.3.1))(react@18.3.1)
 
+  packages/taro-components/loader: {}
+
   packages/taro-extend:
     devDependencies:
       '@tarojs/runtime':

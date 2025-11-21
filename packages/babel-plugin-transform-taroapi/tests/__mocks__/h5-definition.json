@@ -2189,7 +2189,6 @@
       "type": "Type"
     },
     "image": {
-      "lang": "string",
       "lazyLoad": "boolean",
       "mode": "Mode",
       "nativeProps": "*",
