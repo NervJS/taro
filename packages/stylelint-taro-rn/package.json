@@ -60,7 +60,8 @@
     "testRegex": ".*\\.test\\.js$|src/.*/__tests__/.*\\.js$"
   },
   "dependencies": {
-    "react-native-known-styling-properties": "^1.0.4"
+    "react-native-known-styling-properties": "^1.0.4",
+    "stylelint": "^15.11.0"
   },
   "devDependencies": {
     "jest": "^29.3.1",
