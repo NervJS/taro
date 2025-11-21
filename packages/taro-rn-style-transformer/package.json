@@ -48,8 +48,7 @@
     "taro-css-to-react-native": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5",
-    "postcss": "^8.4.38"
+    "@babel/core": "^7.14.5"
   },
   "peerDependencies": {
     "postcss": ">= 8"
