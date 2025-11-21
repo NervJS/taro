@@ -65,7 +65,6 @@
     "@tarojs/vite-runner": "workspace:*",
     "@types/conventional-commits-parser": "^3.0.0",
     "conventional-commits-parser": "^3.0.0",
-    "postcss": "^8.4.38",
     "prettier": "^2.8.8",
     "rollup-plugin-copy": "workspace:*",
     "solid-js": "^1.8.17",
