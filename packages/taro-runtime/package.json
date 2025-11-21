@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "4.1.8",
+  "version": "4.1.9-alpha.0",
   "description": "taro runtime for mini apps.",
   "author": "O2Team",
   "license": "MIT",
@@ -22,8 +22,8 @@
     "clean": "rimraf ./dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
-    "test": "jest",
-    "test:ci": "jest --ci -i --coverage --silent"
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
@@ -41,7 +41,6 @@
     "@vue/runtime-core": "^3.4.23",
     "lodash": "^4.17.21",
     "rollup": "^4.37.0",
-    "rollup-plugin-ts": "^3.4.5",
     "rollup-plugin-dts": "^6.2.1"
   }
 }

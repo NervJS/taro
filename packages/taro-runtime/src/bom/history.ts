@@ -74,7 +74,7 @@ class TaroHistory extends Events {
       }
     }, null)
 
-    this.on(CONTEXT_ACTIONS.DESTORY, (pageId: string) => {
+    this.on(CONTEXT_ACTIONS.DESTROY, (pageId: string) => {
       cache.delete(pageId)
     }, null)
 

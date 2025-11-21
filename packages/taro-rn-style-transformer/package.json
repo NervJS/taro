@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-style-transformer",
-  "version": "4.1.8",
+  "version": "4.1.9-alpha.0",
   "description": "提供 Taro RN 统一处理样式文件能力",
   "author": "O2Team",
   "license": "MIT",
@@ -48,8 +48,7 @@
     "taro-css-to-react-native": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5",
-    "postcss": "^8.4.38"
+    "@babel/core": "^7.14.5"
   },
   "peerDependencies": {
     "postcss": ">= 8"
