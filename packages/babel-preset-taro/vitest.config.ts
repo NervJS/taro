@@ -5,6 +5,7 @@ export default defineConfig({
   test: {
     include: ['tests/**/*.spec.ts?(x)'],
     coverage: {
+      provider: 'istanbul',
       include: ['./index.js'],
     }
   }
