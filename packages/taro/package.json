@@ -32,10 +32,11 @@
     "@tarojs/helper": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "html-webpack-plugin": "^5.6.0",
+    "rollup": "^3.29.4",
+    "vite": "4.2.0",
     "webpack": "5.91.0",
     "webpack-chain": "^6.5.1",
-    "webpack-dev-server": "^4.15.2",
-    "rollup": "^3.29.4"
+    "webpack-dev-server": "^4.15.2"
   },
   "peerDependencies": {
     "@tarojs/components": "workspace:*",
@@ -43,8 +44,8 @@
     "@tarojs/shared": "workspace:*",
     "@types/react": "^18",
     "html-webpack-plugin": "^5",
-    "rollup": "^3",
     "postcss": "^8",
+    "rollup": "^3",
     "vue": "^3",
     "webpack": "^5",
     "webpack-chain": "^6",

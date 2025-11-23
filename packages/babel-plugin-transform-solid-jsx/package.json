@@ -22,9 +22,9 @@
     "prebuild": "pnpm run clean",
     "build": "rollup -c",
     "clean": "rimraf ./dist",
-    "test:ci": "cross-env NODE_ENV=test jest --ci -i",
-    "test": "pnpm run build && jest --no-cache",
-    "test:coverage": "pnpm run build && jest --coverage --no-cache",
+    "test:ci": "vitest run --coverage",
+    "test": "pnpm run build && vitest run",
+    "test:coverage": "pnpm run build && vitest run --coverage",
     "prepublishOnly": "pnpm run build",
     "prepare": "pnpm run build"
   },
