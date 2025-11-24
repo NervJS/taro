@@ -2127,9 +2127,9 @@ ha("onPointerLeave", ["pointerout", "pointerover"]);
 fa("onChange", "change click focusin focusout input keydown keyup selectionchange".split(" "));
 fa("onSelect", "focusout contextmenu dragend focusin keydown keyup mousedown mouseup selectionchange".split(" "));
 fa("onBeforeInput", ["compositionend", "keypress", "textInput", "paste"]);
-fa("onCompositionend", "compositionend focusout keydown keypress keyup mousedown".split(" "));
-fa("onCompositionstart", "compositionstart focusout keydown keypress keyup mousedown".split(" "));
-fa("onCompositionupdate", "compositionupdate focusout keydown keypress keyup mousedown".split(" "));
+fa("onCompositionEnd", "compositionend focusout keydown keypress keyup mousedown".split(" "));
+fa("onCompositionStart", "compositionstart focusout keydown keypress keyup mousedown".split(" "));
+fa("onCompositionUpdate", "compositionupdate focusout keydown keypress keyup mousedown".split(" "));
 var lf = "abort canplay canplaythrough durationchange emptied encrypted ended error loadeddata loadedmetadata loadstart pause play playing progress ratechange resize seeked seeking stalled suspend timeupdate volumechange waiting".split(" "),
   mf = new Set("cancel close invalid load scroll toggle".split(" ").concat(lf));
 function nf(a, b, c) {
@@ -2426,18 +2426,18 @@ function hd(a, b, c, d, e) {
       if (ae) b: {
         switch (a) {
           case "compositionstart":
-            var ba = "onCompositionstart";
+            var ba = "onCompositionStart";
             break b;
           case "compositionend":
-            ba = "onCompositionend";
+            ba = "onCompositionEnd";
             break b;
           case "compositionupdate":
-            ba = "onCompositionupdate";
+            ba = "onCompositionUpdate";
             break b;
         }
         ba = void 0;
-      } else ie ? ge(a, c) && (ba = "onCompositionend") : "keydown" === a && 229 === c.keyCode && (ba = "onCompositionstart");
-      ba && (de && "ko" !== c.locale && (ie || "onCompositionstart" !== ba ? "onCompositionend" === ba && ie && ($a = nd()) : (kd = e, ld = "value" in kd ? kd.value : kd.textContent, ie = !0)), xa = oe(d, ba), 0 < xa.length && (ba = new Ld(ba, a, null, c, e), g.push({
+      } else ie ? ge(a, c) && (ba = "onCompositionEnd") : "keydown" === a && 229 === c.keyCode && (ba = "onCompositionStart");
+      ba && (de && "ko" !== c.locale && (ie || "onCompositionStart" !== ba ? "onCompositionEnd" === ba && ie && ($a = nd()) : (kd = e, ld = "value" in kd ? kd.value : kd.textContent, ie = !0)), xa = oe(d, ba), 0 < xa.length && (ba = new Ld(ba, a, null, c, e), g.push({
         event: ba,
         listeners: xa
       }), $a ? ba.data = $a : ($a = he(c), null !== $a && (ba.data = $a))));
@@ -14789,7 +14789,7 @@ function toArray_toArray(children) {
 ;// CONCATENATED MODULE: ./node_modules/rc-util/es/pickAttrs.js
 
 var attributes = "accept acceptCharset accessKey action allowFullScreen allowTransparency\n    alt async autoComplete autoFocus autoPlay capture cellPadding cellSpacing challenge\n    charSet checked classID className colSpan cols content contentEditable contextMenu\n    controls coords crossOrigin data dateTime default defer dir disabled download draggable\n    encType form formAction formEncType formMethod formNoValidate formTarget frameBorder\n    headers height hidden high href hrefLang htmlFor httpEquiv icon id inputMode integrity\n    is keyParams keyType kind label lang list loop low manifest marginHeight marginWidth max maxLength media\n    mediaGroup method min minLength multiple muted name noValidate nonce open\n    optimum pattern placeholder poster preload radioGroup readOnly rel required\n    reversed role rowSpan rows sandbox scope scoped scrolling seamless selected\n    shape size sizes span spellCheck src srcDoc srcLang srcSet start step style\n    summary tabIndex target title type useMap value width wmode wrap";
-var eventsName = "onCopy onCut onPaste onCompositionend onCompositionstart onCompositionupdate onKeyDown\n    onKeyPress onKeyUp onFocus onBlur onChange onInput onSubmit onClick onContextMenu onDoubleClick\n    onDrag onDragEnd onDragEnter onDragExit onDragLeave onDragOver onDragStart onDrop onMouseDown\n    onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouseUp onSelect onTouchCancel\n    onTouchEnd onTouchMove onTouchStart onScroll onWheel onAbort onCanPlay onCanPlayThrough\n    onDurationChange onEmptied onEncrypted onEnded onError onLoadedData onLoadedMetadata\n    onLoadStart onPause onPlay onPlaying onProgress onRateChange onSeeked onSeeking onStalled onSuspend onTimeUpdate onVolumeChange onWaiting onLoad onError";
+var eventsName = "onCopy onCut onPaste onCompositionEnd onCompositionStart onCompositionUpdate onKeyDown\n    onKeyPress onKeyUp onFocus onBlur onChange onInput onSubmit onClick onContextMenu onDoubleClick\n    onDrag onDragEnd onDragEnter onDragExit onDragLeave onDragOver onDragStart onDrop onMouseDown\n    onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouseUp onSelect onTouchCancel\n    onTouchEnd onTouchMove onTouchStart onScroll onWheel onAbort onCanPlay onCanPlayThrough\n    onDurationChange onEmptied onEncrypted onEnded onError onLoadedData onLoadedMetadata\n    onLoadStart onPause onPlay onPlaying onProgress onRateChange onSeeked onSeeking onStalled onSuspend onTimeUpdate onVolumeChange onWaiting onLoad onError";
 var propList = "".concat(attributes, " ").concat(eventsName).split(/[\s\n]+/);
 
 /* eslint-enable max-len */
@@ -33760,8 +33760,8 @@ var Input = function Input(_ref, ref) {
     _onMouseDown = _ref.onMouseDown,
     _onChange = _ref.onChange,
     onPaste = _ref.onPaste,
-    _onCompositionstart = _ref.onCompositionstart,
-    _onCompositionend = _ref.onCompositionend,
+    _onCompositionstart = _ref.onCompositionStart,
+    _onCompositionend = _ref.onCompositionEnd,
     open = _ref.open,
     attrs = _ref.attrs;
   var inputNode = inputElement || /*#__PURE__*/react.createElement("input", null);
@@ -33771,8 +33771,8 @@ var Input = function Input(_ref, ref) {
   var onOriginKeyDown = originProps.onKeyDown,
     onOriginChange = originProps.onChange,
     onOriginMouseDown = originProps.onMouseDown,
-    onOriginCompositionStart = originProps.onCompositionstart,
-    onOriginCompositionEnd = originProps.onCompositionend,
+    onOriginCompositionStart = originProps.onCompositionStart,
+    onOriginCompositionEnd = originProps.onCompositionEnd,
     style = originProps.style;
   warning_warning(!('maxLength' in inputNode.props), "Passing 'maxLength' to input element directly may not work because input in BaseSelect is controlled.");
   inputNode = /*#__PURE__*/react.cloneElement(inputNode, objectSpread2_objectSpread2(objectSpread2_objectSpread2(objectSpread2_objectSpread2({
@@ -33819,13 +33819,13 @@ var Input = function Input(_ref, ref) {
         onOriginChange(event);
       }
     },
-    onCompositionstart: function onCompositionstart(event) {
+    onCompositionStart: function onCompositionStart(event) {
       _onCompositionstart(event);
       if (onOriginCompositionStart) {
         onOriginCompositionStart(event);
       }
     },
-    onCompositionend: function onCompositionend(event) {
+    onCompositionEnd: function onCompositionEnd(event) {
       _onCompositionend(event);
       if (onOriginCompositionEnd) {
         onOriginCompositionEnd(event);
@@ -34047,8 +34047,8 @@ var SelectSelector = function SelectSelector(props) {
     onMouseDown: onInputMouseDown,
     onChange: onInputChange,
     onPaste: onInputPaste,
-    onCompositionstart: onInputCompositionStart,
-    onCompositionend: onInputCompositionEnd,
+    onCompositionStart: onInputCompositionStart,
+    onCompositionEnd: onInputCompositionEnd,
     tabIndex: tabIndex,
     attrs: pickAttrs(props, true)
   }), /*#__PURE__*/react.createElement("span", {
@@ -34158,8 +34158,8 @@ var SingleSelector = function SingleSelector(props) {
       onInputChange(e);
     },
     onPaste: onInputPaste,
-    onCompositionstart: onInputCompositionStart,
-    onCompositionend: onInputCompositionEnd,
+    onCompositionStart: onInputCompositionStart,
+    onCompositionEnd: onInputCompositionEnd,
     tabIndex: tabIndex,
     attrs: pickAttrs(props, true),
     maxLength: combobox ? maxLength : undefined
@@ -51092,9 +51092,9 @@ var Search = /*#__PURE__*/react.forwardRef(function (props, ref) {
     disabled = props.disabled,
     customOnSearch = props.onSearch,
     customOnChange = props.onChange,
-    onCompositionstart = props.onCompositionstart,
-    onCompositionend = props.onCompositionend,
-    restProps = Search_rest(props, ["prefixCls", "inputPrefixCls", "className", "size", "suffix", "enterButton", "addonAfter", "loading", "disabled", "onSearch", "onChange", "onCompositionstart", "onCompositionend"]);
+    onCompositionStart = props.onCompositionStart,
+    onCompositionEnd = props.onCompositionEnd,
+    restProps = Search_rest(props, ["prefixCls", "inputPrefixCls", "className", "size", "suffix", "enterButton", "addonAfter", "loading", "disabled", "onSearch", "onChange", "onCompositionStart", "onCompositionEnd"]);
   var _React$useContext = react.useContext(ConfigContext),
     getPrefixCls = _React$useContext.getPrefixCls,
     direction = _React$useContext.direction;
@@ -51177,19 +51177,19 @@ var Search = /*#__PURE__*/react.forwardRef(function (props, ref) {
   var cls = classnames_default()(prefixCls, (_classNames = {}, defineProperty_defineProperty(_classNames, "".concat(prefixCls, "-rtl"), direction === 'rtl'), defineProperty_defineProperty(_classNames, "".concat(prefixCls, "-").concat(size), !!size), defineProperty_defineProperty(_classNames, "".concat(prefixCls, "-with-button"), !!enterButton), _classNames), className);
   var handleonCompositionstart = function handleonCompositionstart(e) {
     composedRef.current = true;
-    onCompositionstart === null || onCompositionstart === void 0 ? void 0 : onCompositionstart(e);
+    onCompositionStart === null || onCompositionStart === void 0 ? void 0 : onCompositionStart(e);
   };
   var handleonCompositionend = function handleonCompositionend(e) {
     composedRef.current = false;
-    onCompositionend === null || onCompositionend === void 0 ? void 0 : onCompositionend(e);
+    onCompositionEnd === null || onCompositionEnd === void 0 ? void 0 : onCompositionEnd(e);
   };
   return /*#__PURE__*/react.createElement(input_Input, Object.assign({
     ref: composeRef(inputRef, ref),
     onPressEnter: onPressEnter
   }, restProps, {
     size: size,
-    onCompositionstart: handleonCompositionstart,
-    onCompositionend: handleonCompositionend,
+    onCompositionStart: handleonCompositionstart,
+    onCompositionEnd: handleonCompositionend,
     prefixCls: inputPrefixCls,
     addonAfter: button,
     suffix: suffix,
@@ -51499,7 +51499,7 @@ var ResizableTextArea = /*#__PURE__*/react.forwardRef(function (props, ref) {
 
 
 
-var TextArea_excluded = ["defaultValue", "value", "onFocus", "onBlur", "onChange", "allowClear", "maxLength", "onCompositionstart", "onCompositionend", "suffix", "prefixCls", "classes", "showCount", "className", "style", "disabled", "hidden", "classNames", "styles", "onResize"];
+var TextArea_excluded = ["defaultValue", "value", "onFocus", "onBlur", "onChange", "allowClear", "maxLength", "onCompositionStart", "onCompositionEnd", "suffix", "prefixCls", "classes", "showCount", "className", "style", "disabled", "hidden", "classNames", "styles", "onResize"];
 
 
 
@@ -51529,8 +51529,8 @@ var TextArea = /*#__PURE__*/react.forwardRef(function (_ref, ref) {
     onChange = _ref.onChange,
     allowClear = _ref.allowClear,
     maxLength = _ref.maxLength,
-    onCompositionstart = _ref.onCompositionstart,
-    onCompositionend = _ref.onCompositionend,
+    onCompositionStart = _ref.onCompositionStart,
+    onCompositionEnd = _ref.onCompositionEnd,
     suffix = _ref.suffix,
     _ref$prefixCls = _ref.prefixCls,
     prefixCls = _ref$prefixCls === void 0 ? 'rc-textarea' : _ref$prefixCls,
@@ -51595,7 +51595,7 @@ var TextArea = /*#__PURE__*/react.forwardRef(function (_ref, ref) {
     oldCompositionValueRef.current = value;
     // 保存旧的光标位置
     oldSelectionStartRef.current = e.currentTarget.selectionStart;
-    onCompositionstart === null || onCompositionstart === void 0 ? void 0 : onCompositionstart(e);
+    onCompositionStart === null || onCompositionStart === void 0 ? void 0 : onCompositionStart(e);
   };
   var onInternalCompositionEnd = function onInternalCompositionEnd(e) {
     setCompositing(false);
@@ -51610,7 +51610,7 @@ var TextArea = /*#__PURE__*/react.forwardRef(function (_ref, ref) {
       setValue(triggerValue);
       resolveOnChange(e.currentTarget, e, onChange, triggerValue);
     }
-    onCompositionend === null || onCompositionend === void 0 ? void 0 : onCompositionend(e);
+    onCompositionEnd === null || onCompositionEnd === void 0 ? void 0 : onCompositionEnd(e);
   };
   var handleChange = function handleChange(e) {
     var triggerValue = e.target.value;
@@ -51703,8 +51703,8 @@ var TextArea = /*#__PURE__*/react.forwardRef(function (_ref, ref) {
       onChange: handleChange,
       onFocus: handleFocus,
       onBlur: handleBlur,
-      onCompositionstart: onInternalCompositionStart,
-      onCompositionend: onInternalCompositionEnd,
+      onCompositionStart: onInternalCompositionStart,
+      onCompositionEnd: onInternalCompositionEnd,
       className: classNames === null || classNames === void 0 ? void 0 : classNames.textarea,
       style: objectSpread2_objectSpread2(objectSpread2_objectSpread2({}, styles === null || styles === void 0 ? void 0 : styles.textarea), {}, {
         resize: style === null || style === void 0 ? void 0 : style.resize
