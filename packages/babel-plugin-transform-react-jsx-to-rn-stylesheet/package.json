@@ -11,6 +11,7 @@
     "clean": "rimraf ./dist",
     "test": "vitest run",
     "test:ci": "vitest run --coverage",
+    "updateSnapshot": "vitest run --update",
     "dev": "tsc -w",
     "build": "tsc"
   },
