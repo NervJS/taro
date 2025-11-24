@@ -274,8 +274,8 @@ export class Input implements ComponentInterface {
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
         onPaste={this.handlePaste}
-        onCompositionStart={this.handleComposition}
-        onCompositionEnd={this.handleComposition}
+        onCompositionstart={this.handleComposition}
+        onCompositionend={this.handleComposition}
         {...nativeProps}
         value={fixControlledValue(value)}
       />

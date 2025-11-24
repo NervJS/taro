@@ -258,8 +258,8 @@ class Input extends React.Component<IProps, null> {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
-        onCompositionStart={this.handleComposition}
-        onCompositionEnd={this.handleComposition}
+        onCompositionstart={this.handleComposition}
+        onCompositionend={this.handleComposition}
         onBeforeInput={this.handleBeforeInput}
       />
     )
