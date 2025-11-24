@@ -33760,8 +33760,8 @@ var Input = function Input(_ref, ref) {
     _onMouseDown = _ref.onMouseDown,
     _onChange = _ref.onChange,
     onPaste = _ref.onPaste,
-    _onCompositionstart = _ref.onCompositionStart,
-    _onCompositionend = _ref.onCompositionEnd,
+    _onCompositionStart = _ref.onCompositionStart,
+    _onCompositionEnd = _ref.onCompositionEnd,
     open = _ref.open,
     attrs = _ref.attrs;
   var inputNode = inputElement || /*#__PURE__*/react.createElement("input", null);
@@ -33820,13 +33820,13 @@ var Input = function Input(_ref, ref) {
       }
     },
     onCompositionStart: function onCompositionStart(event) {
-      _onCompositionstart(event);
+      _onCompositionStart(event);
       if (onOriginCompositionStart) {
         onOriginCompositionStart(event);
       }
     },
     onCompositionEnd: function onCompositionEnd(event) {
-      _onCompositionend(event);
+      _onCompositionEnd(event);
       if (onOriginCompositionEnd) {
         onOriginCompositionEnd(event);
       }
@@ -51175,11 +51175,11 @@ var Search = /*#__PURE__*/react.forwardRef(function (props, ref) {
     })];
   }
   var cls = classnames_default()(prefixCls, (_classNames = {}, defineProperty_defineProperty(_classNames, "".concat(prefixCls, "-rtl"), direction === 'rtl'), defineProperty_defineProperty(_classNames, "".concat(prefixCls, "-").concat(size), !!size), defineProperty_defineProperty(_classNames, "".concat(prefixCls, "-with-button"), !!enterButton), _classNames), className);
-  var handleonCompositionstart = function handleonCompositionstart(e) {
+  var handleOnCompositionStart = function handleOnCompositionStart(e) {
     composedRef.current = true;
     onCompositionStart === null || onCompositionStart === void 0 ? void 0 : onCompositionStart(e);
   };
-  var handleonCompositionend = function handleonCompositionend(e) {
+  var handleOnCompositionEnd = function handleOnCompositionEnd(e) {
     composedRef.current = false;
     onCompositionEnd === null || onCompositionEnd === void 0 ? void 0 : onCompositionEnd(e);
   };
@@ -51188,8 +51188,8 @@ var Search = /*#__PURE__*/react.forwardRef(function (props, ref) {
     onPressEnter: onPressEnter
   }, restProps, {
     size: size,
-    onCompositionStart: handleonCompositionstart,
-    onCompositionEnd: handleonCompositionend,
+    onCompositionStart: handleOnCompositionStart,
+    onCompositionEnd: handleOnCompositionEnd,
     prefixCls: inputPrefixCls,
     addonAfter: button,
     suffix: suffix,
