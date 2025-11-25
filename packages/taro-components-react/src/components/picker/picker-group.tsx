@@ -19,6 +19,7 @@ export interface PickerGroupProps {
   colors?: {
     itemDefaultColor?: string // 选项字体默认颜色
     itemSelectedColor?: string // 选项字体选中颜色
+    lineColor?: string // 选中指示线颜色
   }
 }
 
@@ -26,6 +27,13 @@ export interface PickerGroupProps {
 const PICKER_LINE_HEIGHT = 34 // px
 const PICKER_VISIBLE_ITEMS = 7 // 可见行数
 const PICKER_BLANK_ITEMS = 3 // 空白行数
+
+const getIndicatorStyle = (lineColor: string): React.CSSProperties => {
+  return {
+    borderTopColor: lineColor,
+    borderBottomColor: lineColor
+  }
+}
 
 // 辅助函数：获取系统信息的 lengthScaleRatio 并设置 targetScrollTop
 const setTargetScrollTopWithScale = (
@@ -73,6 +81,7 @@ export function PickerGroupBasic(props: PickerGroupProps) {
     selectedIndex = 0, // 使用selectedIndex参数，默认为0
     colors = {},
   } = props
+  const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
   const scrollViewRef = React.useRef<TaroScrollView>(null)
   const itemRefs = React.useRef<Array<TaroView | null>>([])
@@ -190,7 +199,10 @@ export function PickerGroupBasic(props: PickerGroupProps) {
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" />
-      <View className="taro-picker__indicator" />
+      <View
+        className="taro-picker__indicator"
+        {...(indicatorStyle ? { style: indicatorStyle } : {})}
+      />
       <ScrollView
         ref={scrollViewRef}
         scrollY
@@ -222,6 +234,7 @@ export function PickerGroupTime(props: PickerGroupProps) {
     colors = {},
   } = props
 
+  const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
   const scrollViewRef = React.useRef<TaroScrollView>(null)
   const itemRefs = React.useRef<Array<TaroView | null>>([])
@@ -341,7 +354,10 @@ export function PickerGroupTime(props: PickerGroupProps) {
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" />
-      <View className="taro-picker__indicator" />
+      <View
+        className="taro-picker__indicator"
+        {...(indicatorStyle ? { style: indicatorStyle } : {})}
+      />
       <ScrollView
         ref={scrollViewRef}
         scrollY
@@ -372,6 +388,7 @@ export function PickerGroupDate(props: PickerGroupProps) {
     colors = {},
   } = props
 
+  const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
   const scrollViewRef = React.useRef<TaroScrollView>(null)
   const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
@@ -492,7 +509,10 @@ export function PickerGroupDate(props: PickerGroupProps) {
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" />
-      <View className="taro-picker__indicator" />
+      <View
+        className="taro-picker__indicator"
+        {...(indicatorStyle ? { style: indicatorStyle } : {})}
+      />
       <ScrollView
         ref={scrollViewRef}
         scrollY
@@ -522,6 +542,7 @@ export function PickerGroupRegion(props: PickerGroupProps) {
     colors = {},
   } = props
 
+  const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const scrollViewRef = React.useRef<any>(null)
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
   const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
@@ -634,7 +655,10 @@ export function PickerGroupRegion(props: PickerGroupProps) {
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" />
-      <View className="taro-picker__indicator" />
+      <View
+        className="taro-picker__indicator"
+        {...(indicatorStyle ? { style: indicatorStyle } : {})}
+      />
       <ScrollView
         ref={scrollViewRef}
         scrollY
