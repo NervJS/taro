@@ -7,6 +7,30 @@ process.env.TARO_ENV = 'h5'
 process.env.TARO_PLATFORM = 'web'
 process.env.SUPPORT_TARO_POLYFILL = 'disabled'
 
+// Mock Taro API
+const mockGetSystemInfo = jest.fn(({ success, fail } = { success: undefined, fail: undefined }) => {
+  try {
+    success?.({
+      windowWidth: 375,
+      windowHeight: 667,
+      pixelRatio: 2,
+      lengthScaleRatio: 1
+    })
+  } catch (error) {
+    fail?.(error)
+  }
+})
+
+jest.mock('@tarojs/taro', () => {
+  return {
+    __esModule: true,
+    default: {
+      getSystemInfo: mockGetSystemInfo,
+    },
+    getSystemInfo: mockGetSystemInfo,
+  }
+})
+
 // Mock Taro 组件
 // eslint-disable-next-line react/display-name
 jest.mock('@tarojs/components', () => {
