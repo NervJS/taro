@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-harmony-cpp",
-  "version": "4.1.9-alpha.0",
+  "version": "4.1.9-beta.6",
   "description": "鸿蒙系统插件 C-API 版本",
   "author": "O2Team",
   "homepage": "https://gitee.com/openharmony-sig/taro",
