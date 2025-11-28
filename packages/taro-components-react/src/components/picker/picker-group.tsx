@@ -93,7 +93,7 @@ export function PickerGroupBasic(props: PickerGroupProps) {
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   React.useEffect(() => {
     if (process.env.TARO_PLATFORM !== 'harmony') {
-      if (scrollViewRef.current && scrollViewRef.current?.scrollHeigh) {
+      if (scrollViewRef.current && scrollViewRef.current?.scrollHeight) {
         itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
       } else {
         console.warn('Height measurement anomaly')
@@ -244,7 +244,7 @@ export function PickerGroupTime(props: PickerGroupProps) {
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   React.useEffect(() => {
     if (process.env.TARO_PLATFORM !== 'harmony') {
-      if (scrollViewRef.current && scrollViewRef.current?.scrollHeigh) {
+      if (scrollViewRef.current && scrollViewRef.current?.scrollHeight) {
         itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
       } else {
         console.warn('Height measurement anomaly')
@@ -397,7 +397,7 @@ export function PickerGroupDate(props: PickerGroupProps) {
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   React.useEffect(() => {
     if (process.env.TARO_PLATFORM !== 'harmony') {
-      if (scrollViewRef.current && scrollViewRef.current?.scrollHeigh) {
+      if (scrollViewRef.current && scrollViewRef.current?.scrollHeight) {
         itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
       } else {
         console.warn('Height measurement anomaly')
@@ -552,7 +552,7 @@ export function PickerGroupRegion(props: PickerGroupProps) {
   const isUserBeginScrollRef = React.useRef(false)
   React.useEffect(() => {
     if (process.env.TARO_PLATFORM !== 'harmony') {
-      if (scrollViewRef.current && scrollViewRef.current?.scrollHeigh) {
+      if (scrollViewRef.current && scrollViewRef.current?.scrollHeight) {
         itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
       } else {
         console.warn('Height measurement anomaly')
