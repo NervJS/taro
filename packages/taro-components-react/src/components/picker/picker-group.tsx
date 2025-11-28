@@ -1,4 +1,5 @@
 import { ScrollView, View } from '@tarojs/components'
+import Taro from '@tarojs/taro'
 import * as React from 'react'
 
 // 添加类型定义
@@ -18,6 +19,7 @@ export interface PickerGroupProps {
   colors?: {
     itemDefaultColor?: string // 选项字体默认颜色
     itemSelectedColor?: string // 选项字体选中颜色
+    lineColor?: string // 选中指示线颜色
   }
 }
 
@@ -25,6 +27,49 @@ export interface PickerGroupProps {
 const PICKER_LINE_HEIGHT = 34 // px
 const PICKER_VISIBLE_ITEMS = 7 // 可见行数
 const PICKER_BLANK_ITEMS = 3 // 空白行数
+
+const getIndicatorStyle = (lineColor: string): React.CSSProperties => {
+  return {
+    borderTopColor: lineColor,
+    borderBottomColor: lineColor
+  }
+}
+
+// 辅助函数：获取系统信息的 lengthScaleRatio 并设置 targetScrollTop
+const setTargetScrollTopWithScale = (
+  setTargetScrollTop: (value: number) => void,
+  baseValue: number,
+  randomOffset?: number
+) => {
+  Taro.getSystemInfo({
+    success: (res) => {
+      let lengthScaleRatio = (res as any)?.lengthScaleRatio
+      if (lengthScaleRatio == null || lengthScaleRatio === 0) {
+        console.warn('Taro.getSystemInfo: lengthScaleRatio 不存在，使用计算值')
+        lengthScaleRatio = 1
+        if (res.windowWidth < 320) {
+          lengthScaleRatio = res.windowWidth / 320
+        } else if (res.windowWidth >= 400 && res.windowWidth < 600) {
+          lengthScaleRatio = res.windowWidth / 400
+        }
+        const shortSide = res.windowWidth < res.windowHeight ? res.windowWidth : res.windowHeight
+        const isBigScreen = shortSide >= 600
+        if (isBigScreen) {
+          lengthScaleRatio = shortSide / 720
+        }
+      }
+      const scaledValue = baseValue * lengthScaleRatio
+      const finalValue = randomOffset !== undefined ? scaledValue + randomOffset : scaledValue
+      setTargetScrollTop(finalValue)
+    },
+    fail: (err) => {
+      console.error('获取系统信息失败:', err)
+      // 失败时使用默认值 1
+      const finalValue = randomOffset !== undefined ? baseValue + randomOffset : baseValue
+      setTargetScrollTop(finalValue)
+    }
+  })
+}
 
 export function PickerGroupBasic(props: PickerGroupProps) {
   const {
@@ -36,6 +81,7 @@ export function PickerGroupBasic(props: PickerGroupProps) {
     selectedIndex = 0, // 使用selectedIndex参数，默认为0
     colors = {},
   } = props
+  const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
   const scrollViewRef = React.useRef<TaroScrollView>(null)
   const itemRefs = React.useRef<Array<TaroView | null>>([])
@@ -46,8 +92,12 @@ export function PickerGroupBasic(props: PickerGroupProps) {
 
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   React.useEffect(() => {
-    if (scrollViewRef.current) {
-      itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+    if (process.env.TARO_PLATFORM !== 'harmony') {
+      if (scrollViewRef.current && scrollViewRef.current?.scrollHeight) {
+        itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+      } else {
+        console.warn('Height measurement anomaly')
+      }
     }
   }, [range.length]) // 只在range长度变化时重新计算
   // 获取选中的索引
@@ -58,7 +108,8 @@ export function PickerGroupBasic(props: PickerGroupProps) {
   // 当selectedIndex变化时，调整滚动位置
   React.useEffect(() => {
     if (scrollViewRef.current && range.length > 0 && !isTouching) {
-      setTargetScrollTop(selectedIndex * itemHeightRef.current)
+      const baseValue = selectedIndex * itemHeightRef.current
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue)
       setCurrentIndex(selectedIndex)
     }
   }, [selectedIndex, range])
@@ -80,7 +131,9 @@ export function PickerGroupBasic(props: PickerGroupProps) {
       const newIndex = getSelectedIndex(scrollTop)
 
       setIsTouching(false)
-      setTargetScrollTop(newIndex * itemHeightRef.current + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
+      const baseValue = newIndex * itemHeightRef.current
+      const randomOffset = Math.random() * 0.001 // 随机数为了在一个项内滚动时强制刷新
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset)
       updateIndex(newIndex, columnId)
       onColumnChange?.({ columnId, index: newIndex })
     }, 100)
@@ -146,7 +199,10 @@ export function PickerGroupBasic(props: PickerGroupProps) {
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" />
-      <View className="taro-picker__indicator" />
+      <View
+        className="taro-picker__indicator"
+        {...(indicatorStyle ? { style: indicatorStyle } : {})}
+      />
       <ScrollView
         ref={scrollViewRef}
         scrollY
@@ -178,6 +234,7 @@ export function PickerGroupTime(props: PickerGroupProps) {
     colors = {},
   } = props
 
+  const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
   const scrollViewRef = React.useRef<TaroScrollView>(null)
   const itemRefs = React.useRef<Array<TaroView | null>>([])
@@ -186,8 +243,12 @@ export function PickerGroupTime(props: PickerGroupProps) {
 
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   React.useEffect(() => {
-    if (scrollViewRef.current) {
-      itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+    if (process.env.TARO_PLATFORM !== 'harmony') {
+      if (scrollViewRef.current && scrollViewRef.current?.scrollHeight) {
+        itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+      } else {
+        console.warn('Height measurement anomaly')
+      }
     }
   }, [range.length]) // 只在range长度变化时重新计算
 
@@ -198,7 +259,8 @@ export function PickerGroupTime(props: PickerGroupProps) {
   // 当selectedIndex变化时，调整滚动位置
   React.useEffect(() => {
     if (scrollViewRef.current && range.length > 0 && !isTouching) {
-      setTargetScrollTop(selectedIndex * itemHeightRef.current)
+      const baseValue = selectedIndex * itemHeightRef.current
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue)
       setCurrentIndex(selectedIndex)
     }
   }, [selectedIndex, range])
@@ -224,7 +286,9 @@ export function PickerGroupTime(props: PickerGroupProps) {
       const isLimited = Boolean(updateIndex(newIndex, columnId, true))
       // 如果没有触发限位，才执行归中逻辑
       if (!isLimited) {
-        setTargetScrollTop(newIndex * itemHeightRef.current + Math.random() * 0.001)
+        const baseValue = newIndex * itemHeightRef.current
+        const randomOffset = Math.random() * 0.001
+        setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset)
       }
     }, 100)
   }
@@ -290,7 +354,10 @@ export function PickerGroupTime(props: PickerGroupProps) {
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" />
-      <View className="taro-picker__indicator" />
+      <View
+        className="taro-picker__indicator"
+        {...(indicatorStyle ? { style: indicatorStyle } : {})}
+      />
       <ScrollView
         ref={scrollViewRef}
         scrollY
@@ -321,6 +388,7 @@ export function PickerGroupDate(props: PickerGroupProps) {
     colors = {},
   } = props
 
+  const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
   const scrollViewRef = React.useRef<TaroScrollView>(null)
   const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
@@ -328,8 +396,12 @@ export function PickerGroupDate(props: PickerGroupProps) {
 
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   React.useEffect(() => {
-    if (scrollViewRef.current) {
-      itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+    if (process.env.TARO_PLATFORM !== 'harmony') {
+      if (scrollViewRef.current && scrollViewRef.current?.scrollHeight) {
+        itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+      } else {
+        console.warn('Height measurement anomaly')
+      }
     }
   }, [range.length]) // 只在range长度变化时重新计算
 
@@ -340,7 +412,8 @@ export function PickerGroupDate(props: PickerGroupProps) {
   // 当selectedIndex变化时，调整滚动位置
   React.useEffect(() => {
     if (scrollViewRef.current && range.length > 0 && !isTouching) {
-      setTargetScrollTop(selectedIndex * itemHeightRef.current)
+      const baseValue = selectedIndex * itemHeightRef.current
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue)
       setCurrentIndex(selectedIndex)
     }
   }, [selectedIndex, range])
@@ -364,7 +437,9 @@ export function PickerGroupDate(props: PickerGroupProps) {
       const newIndex = getSelectedIndex(scrollTop)
 
       setIsTouching(false)
-      setTargetScrollTop(newIndex * itemHeightRef.current + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
+      const baseValue = newIndex * itemHeightRef.current
+      const randomOffset = Math.random() * 0.001 // 随机数为了在一个项内滚动时强制刷新
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset)
 
       // 更新日期值
       if (updateDay) {
@@ -434,7 +509,10 @@ export function PickerGroupDate(props: PickerGroupProps) {
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" />
-      <View className="taro-picker__indicator" />
+      <View
+        className="taro-picker__indicator"
+        {...(indicatorStyle ? { style: indicatorStyle } : {})}
+      />
       <ScrollView
         ref={scrollViewRef}
         scrollY
@@ -464,6 +542,7 @@ export function PickerGroupRegion(props: PickerGroupProps) {
     colors = {},
   } = props
 
+  const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const scrollViewRef = React.useRef<any>(null)
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
   const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
@@ -472,8 +551,12 @@ export function PickerGroupRegion(props: PickerGroupProps) {
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
   const isUserBeginScrollRef = React.useRef(false)
   React.useEffect(() => {
-    if (scrollViewRef.current) {
-      itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+    if (process.env.TARO_PLATFORM !== 'harmony') {
+      if (scrollViewRef.current && scrollViewRef.current?.scrollHeight) {
+        itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
+      } else {
+        console.warn('Height measurement anomaly')
+      }
     }
   }, [range.length]) // 只在range长度变化时重新计算
 
@@ -484,7 +567,8 @@ export function PickerGroupRegion(props: PickerGroupProps) {
   // 当selectedIndex变化时，调整滚动位置
   React.useEffect(() => {
     if (scrollViewRef.current && range.length > 0 && !isTouching) {
-      setTargetScrollTop(selectedIndex * itemHeightRef.current)
+      const baseValue = selectedIndex * itemHeightRef.current
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue)
       setCurrentIndex(selectedIndex)
     }
   }, [selectedIndex, range])
@@ -505,7 +589,9 @@ export function PickerGroupRegion(props: PickerGroupProps) {
       const newIndex = getSelectedIndex(scrollTop)
 
       setIsTouching(false)
-      setTargetScrollTop(newIndex * itemHeightRef.current + Math.random() * 0.001) // 随机数为了在一个项内滚动时强制刷新
+      const baseValue = newIndex * itemHeightRef.current
+      const randomOffset = Math.random() * 0.001 // 随机数为了在一个项内滚动时强制刷新
+      setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset)
       updateIndex(newIndex, columnId, false, isUserBeginScrollRef.current)
     }, 100)
   }
@@ -569,7 +655,10 @@ export function PickerGroupRegion(props: PickerGroupProps) {
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" />
-      <View className="taro-picker__indicator" />
+      <View
+        className="taro-picker__indicator"
+        {...(indicatorStyle ? { style: indicatorStyle } : {})}
+      />
       <ScrollView
         ref={scrollViewRef}
         scrollY
