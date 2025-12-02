@@ -31,7 +31,7 @@
     "lint:style": "stylelint ./packages/**/*.{css,scss}",
     "format": "prettier --write --cache .",
     "format:check": "prettier --check --cache .",
-    "pretest:ci": "node ./node_modules/puppeteer/install.js && node -e 'process.exit(0)'",
+    "pretest:ci": "node ./scripts/download.mjs",
     "test": "pnpm --if-present -r --filter=./packages/* --filter=./tests test:ci",
     "test:binding": "pnpm --filter @tarojs/binding run test",
     "updateSnapshot": "pnpm --if-present -r --aggregate-output --filter=./tests --filter=./packages/* updateSnapshot",
