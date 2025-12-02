@@ -74,6 +74,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
       - name: Install dependencies
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: true
         run: pnpm -r install --frozen-lockfile
       - name: Lint
         run: pnpm lint
