@@ -1,7 +1,7 @@
 {
   "name": "babel-plugin-transform-solid-jsx",
   "description": "A JSX to DOM plugin that wraps expressions for fine grained change detection",
-  "version": "4.1.9-alpha.0",
+  "version": "4.1.10-alpha.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -22,9 +22,9 @@
     "prebuild": "pnpm run clean",
     "build": "rollup -c",
     "clean": "rimraf ./dist",
-    "test:ci": "cross-env NODE_ENV=test jest --ci -i",
-    "test": "pnpm run build && jest --no-cache",
-    "test:coverage": "pnpm run build && jest --coverage --no-cache",
+    "test:ci": "vitest run --coverage",
+    "test": "pnpm run build && vitest run",
+    "test:coverage": "pnpm run build && vitest run --coverage",
     "prepublishOnly": "pnpm run build",
     "prepare": "pnpm run build"
   },

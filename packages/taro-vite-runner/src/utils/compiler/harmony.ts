@@ -158,7 +158,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
         return
       }
 
-      const compScriptPath = resolveMainFilePath(path.resolve(scriptPath, compPath))
+      const compScriptPath = resolveMainFilePath(path.resolve(path.dirname(scriptPath), compPath))
 
       if (this.nativeComponents.has(compScriptPath)) return
 
