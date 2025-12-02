@@ -109,7 +109,7 @@
     "@types/webpack-dev-server": "^3.11.3",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
-    "@vitest/coverage-istanbul": "^4.0.13",
+    "@vitest/coverage-istanbul": "^4.0.14",
     "babel-jest": "^29.7.0",
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-preset-power-assert": "3.0.0",
@@ -164,8 +164,8 @@
     "ts-node": "^10.9.1",
     "tslib": "^2.6.2",
     "typescript": "~5.4.5",
-    "vite": "^7.2.4",
-    "vitest": "^4.0.13"
+    "vite": "^7.2.6",
+    "vitest": "^4.0.14"
   },
   "pnpm": {
     "packageExtensions": {
