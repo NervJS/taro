@@ -63,7 +63,7 @@ jobs:
     runs-on: ${{ matrix.host }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -74,9 +74,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
       - name: Install dependencies
-        env:
-          PUPPETEER_SKIP_DOWNLOAD: true
-        run: pnpm -r install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Lint
         run: pnpm lint
       - name: Download artifact bindings-${{ matrix.target }}
@@ -153,7 +151,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
         with:
