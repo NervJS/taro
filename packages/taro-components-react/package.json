@@ -38,6 +38,8 @@
   "dependencies": {
     "@babel/runtime": "^7.24.4",
     "@tarojs/components": "workspace:*",
+    "@tarojs/components-library-react": "workspace:*",
+    "@tarojs/components-library-solid": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",

@@ -5,10 +5,10 @@ declare module '@tarojs/components/dist/components' {
   export * from '@tarojs/components/dist/components'
 }
 
-declare module '@tarojs/components/lib/vue3' {
+declare module '@tarojs/components-library-vue3' {
   export * from '@tarojs/components'
 }
 
-declare module '@tarojs/components/lib/react' {
+declare module '@tarojs/components-library-react' {
   export * from '@tarojs/components'
 }
