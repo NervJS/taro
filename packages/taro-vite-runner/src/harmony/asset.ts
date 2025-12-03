@@ -287,6 +287,7 @@ export function fileToUrl(
     encoding: 'utf-8',
   })
 
-  cache.set(id, resourcePath)
-  return 'resource://base/media/' + resourceName + ext
+  const url = 'resource://base/media/' + resourceName + ext
+  cache.set(id, url)
+  return url
 }
