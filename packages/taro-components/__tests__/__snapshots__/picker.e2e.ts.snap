@@ -21040,7 +21040,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -476px, 0px); transition: transform 0.3s ease 0s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -442px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       20
     </div>
@@ -21429,7 +21429,7 @@ CDPPage {
     <taro-picker-group class="hydrated weui-picker__group">
   <div class="weui-picker__mask"></div>
   <div class="weui-picker__indicator"></div>
-  <div class="weui-picker__content" style="transform: translate3d(0px, -476px, 0px); transition: transform 0.3s ease 0s;">
+  <div class="weui-picker__content" style="transform: translate3d(0px, -442px, 0px); transition: transform 0.3s ease 0s;">
     <div class="weui-picker__item">
       20
     </div>
