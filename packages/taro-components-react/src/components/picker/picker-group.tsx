@@ -11,7 +11,7 @@ export interface PickerGroupProps {
   range: any[]
   rangeKey?: string
   columnId: string
-  updateIndex: (index: number, columnId: string, needRevise?: boolean) => void // 替换updateHeight
+  updateIndex: (index: number, columnId: string, needRevise?: boolean, isUserBeginScroll?: boolean) => void // 替换updateHeight
   onColumnChange?: (e: { columnId: string, index: number }) => void // 修改回调参数名称
   updateDay?: (value: number, fields: number) => void
   selectedIndex?: number // 添加selectedIndex参数
@@ -41,6 +41,13 @@ const setTargetScrollTopWithScale = (
   baseValue: number,
   randomOffset?: number
 ) => {
+  // H5 和 weapp 不参与放大计算，直接使用 baseValue
+  if (process.env.TARO_ENV === 'h5' || process.env.TARO_ENV === 'weapp') {
+    const finalValue = randomOffset !== undefined ? baseValue + randomOffset : baseValue
+    setTargetScrollTop(finalValue)
+    return
+  }
+
   Taro.getSystemInfo({
     success: (res) => {
       let lengthScaleRatio = (res as any)?.lengthScaleRatio
@@ -136,6 +143,7 @@ export function PickerGroupBasic(props: PickerGroupProps) {
       setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset)
       updateIndex(newIndex, columnId)
       onColumnChange?.({ columnId, index: newIndex })
+      isCenterTimerId.current = null
     }, 100)
   }
   // 滚动处理 - 在滚动时计算索引然后更新选中项样式
@@ -290,6 +298,7 @@ export function PickerGroupTime(props: PickerGroupProps) {
         const randomOffset = Math.random() * 0.001
         setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset)
       }
+      isCenterTimerId.current = null
     }, 100)
   }
 
@@ -448,6 +457,7 @@ export function PickerGroupDate(props: PickerGroupProps) {
         const numericValue = parseInt(valueText.replace(/[^0-9]/g, ''))
         updateDay(isNaN(numericValue) ? 0 : numericValue, parseInt(columnId))
       }
+      isCenterTimerId.current = null
     }, 100)
   }
 
