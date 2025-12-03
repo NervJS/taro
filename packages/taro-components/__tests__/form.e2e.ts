@@ -80,9 +80,6 @@ describe('Form e2e', () => {
     await page.waitForChanges()
     ;(await formRadio.find('taro-radio-core[key="radio1"]')).click()
     await page.waitForChanges()
-
-    submit.triggerEvent('touchend')
-    await page.waitForChanges()
     // 确保 Radio 按钮已经被选中
     await page.waitForFunction(() => {
       const radio = document.querySelector('input[name="my-radio-group"][value="radio1"]')
@@ -92,6 +89,9 @@ describe('Form e2e', () => {
       // 增加超时时间，以适应 macOS CI 上可能更慢的渲染或事件循环
       timeout: 5000
     })
+
+    submit.triggerEvent('touchend')
+    await page.waitForChanges()
     expect(onSubmit).toHaveReceivedEventTimes(2)
     expect(onSubmit).toHaveReceivedEventDetail({
       value: {
