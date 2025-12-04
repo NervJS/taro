@@ -59,6 +59,7 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^12.1.2",
     "@tarojs/taro": "workspace:*",
+    "@testing-library/jest-dom": "^6.6.3",
     "@types/platform": "^1.3.6",
     "jsdom": "^24.1.3",
     "mock-socket": "^7.1.0",
