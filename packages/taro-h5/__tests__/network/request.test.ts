@@ -1,21 +1,35 @@
 import * as Taro from '@tarojs/taro-h5'
+import { vi } from 'vitest'
 
-const fetch = require('jest-fetch-mock')
-
-// @ts-ignore
+const fetch = vi.fn()
 global.fetch = fetch
+
+function mockFetchOnce (body: string, init?: { status?: number, statusText?: string }) {
+  fetch.mockResolvedValueOnce({
+    ok: (init?.status || 200) >= 200 && (init?.status || 200) < 300,
+    status: init?.status || 200,
+    statusText: init?.statusText || 'OK',
+    json: () => Promise.resolve(JSON.parse(body)),
+    text: () => Promise.resolve(body),
+    headers: new Map()
+  })
+}
+
+function mockFetchReject (error: Error) {
+  fetch.mockRejectedValueOnce(error)
+}
 
 describe('request', () => {
   beforeEach(() => {
-    fetch.resetMocks()
+    fetch.mockReset()
   })
 
   test('should return fetch data', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
-    fetch.once(JSON.stringify({ data: '12345' }))
+    mockFetchOnce(JSON.stringify({ data: '12345' }))
 
     expect.assertions(6)
     return Taro.request({
@@ -42,7 +56,7 @@ describe('request', () => {
   })
 
   test('should return fetch data when options is url string', () => {
-    fetch.once(JSON.stringify({ data: '12345' }))
+    mockFetchOnce(JSON.stringify({ data: '12345' }))
 
     return Taro.request('https://github.com')
       .then(res => {
@@ -55,7 +69,7 @@ describe('request', () => {
   })
 
   test('should set correct params', () => {
-    fetch.once(JSON.stringify({ data: '12345' }), { status: 201 })
+    mockFetchOnce(JSON.stringify({ data: '12345' }), { status: 201 })
 
     expect.assertions(4)
     return Taro.request({
@@ -93,11 +107,11 @@ describe('request', () => {
   })
 
   test('should catch error', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
-    fetch.mockReject(new Error('fake error message'))
+    mockFetchReject(new Error('fake error message'))
 
     expect.assertions(5)
     return Taro.request({
@@ -116,12 +130,11 @@ describe('request', () => {
   })
 
   test('should no error by status 400', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
-    fetch.mockResponse(null, {
-      counter: 1,
+    mockFetchOnce('null', {
       status: 400,
       statusText: 'missing parameter',
     })
@@ -143,12 +156,30 @@ describe('request', () => {
   })
 
   test('should abort request when it timeout', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
-    fetch.once(() => new Promise((resolve) => {
-      setTimeout(resolve, 3000, JSON.stringify({ body: 'ok' }))
+    fetch.mockImplementationOnce((url, options) => new Promise((resolve, reject) => {
+      const signal = options?.signal
+      if (signal) {
+        if (signal.aborted) {
+          reject(new DOMException('The operation was aborted.', 'AbortError'))
+          return
+        }
+        signal.addEventListener('abort', () => {
+          reject(new DOMException('The operation was aborted.', 'AbortError'))
+        })
+      }
+      setTimeout(() => {
+        resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve({ body: 'ok' }),
+          text: () => Promise.resolve(JSON.stringify({ body: 'ok' })),
+          headers: new Map()
+        })
+      }, 3000)
     }))
 
     expect.assertions(6)
@@ -161,7 +192,7 @@ describe('request', () => {
     })
       .catch(err => {
         expect(err.code).toBe(20)
-        expect(err.message).toBe('The operation was aborted. ')
+        expect(err.message).toBe('The operation was aborted.')
         expect(err.name).toBe('AbortError')
         expect(success.mock.calls.length).toBe(0)
         expect(fail.mock.calls.length).toBe(1)

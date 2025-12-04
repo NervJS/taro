@@ -1,12 +1,13 @@
 import '@testing-library/jest-dom/extend-expect'
 
 import * as Taro from '@tarojs/taro-h5'
+import { vi } from 'vitest'
 
 describe('actionSheet', () => {
   test('options.itemList should be Array', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showActionSheet({
       itemList: 'abc',
@@ -21,9 +22,9 @@ describe('actionSheet', () => {
   })
 
   test('options.itemList should have at least 1 item', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showActionSheet({
       itemList: [],
@@ -38,9 +39,9 @@ describe('actionSheet', () => {
   })
 
   test('options.itemList should not be large than 6', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showActionSheet({
       itemList: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
@@ -55,9 +56,9 @@ describe('actionSheet', () => {
   })
 
   test('options.itemList should not be large than 6', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showActionSheet({
       itemList: ['a', 1, 'c'],
@@ -72,9 +73,9 @@ describe('actionSheet', () => {
   })
 
   test('options.itemColor should be String', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showActionSheet({
       itemList: ['a'],
@@ -93,9 +94,9 @@ describe('actionSheet', () => {
     const itemA = 'A'
     const itemB = 'B'
     const itemC = 'C'
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
     Taro.showActionSheet({
       itemList: [itemA, itemB, itemC],
       success,
@@ -130,9 +131,9 @@ describe('actionSheet', () => {
   })
 
   test('should hide actionSheet when cancel was clicked', done => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
     Taro.showActionSheet({
       itemList: ['A', 'B', 'C'],
       success,
@@ -155,9 +156,9 @@ describe('actionSheet', () => {
   })
 
   test('should hide actionSheet when mask was clicked', done => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
     Taro.showActionSheet({
       itemList: ['A', 'B', 'C'],
       success,
@@ -187,7 +188,7 @@ describe('actionSheet', () => {
     const actionSheet: any = document.body.lastChild
     const list = actionSheet.lastChild.firstChild
 
-    expect(list).toHaveStyle({ color: 'red' })
+    expect(list).toHaveStyle({ color: 'rgb(255, 0, 0)' })
   })
 
   test('should update list item when only item content changed', () => {

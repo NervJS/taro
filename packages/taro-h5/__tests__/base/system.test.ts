@@ -1,4 +1,5 @@
 import * as Taro from '@tarojs/taro-h5'
+import { vi } from 'vitest'
 
 describe('systemInfo', () => {
   test('should getSystemInfoSync return system information', () => {
@@ -20,8 +21,8 @@ describe('systemInfo', () => {
   })
 
   test('should getSystemInfo return Promise that resolve system information', () => {
-    const success = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const complete = vi.fn()
 
     expect.assertions(3)
     const info = Taro.getSystemInfoSync()

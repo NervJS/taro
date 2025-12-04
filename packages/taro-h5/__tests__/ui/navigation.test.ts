@@ -1,13 +1,18 @@
 import * as Taro from '@tarojs/taro-h5'
+import { vi } from 'vitest'
 
 import { buildApp } from '../utils'
-
-const mockConsole = require('jest-mock-console')
 
 describe('navigation', () => {
   describe('setNavigationBarTitle', () => {
     beforeEach(() => {
-      mockConsole()
+      vi.spyOn(console, 'log').mockImplementation(() => {})
+      vi.spyOn(console, 'warn').mockImplementation(() => {})
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+    })
+
+    afterEach(() => {
+      vi.restoreAllMocks()
     })
 
     test('options should be object', () => {
@@ -29,9 +34,9 @@ describe('navigation', () => {
     })
 
     test('options.title should be string', () => {
-      const success = jest.fn()
-      const fail = jest.fn()
-      const complete = jest.fn()
+      const success = vi.fn()
+      const fail = vi.fn()
+      const complete = vi.fn()
 
       expect.assertions(5)
       return Taro.setNavigationBarTitle({
@@ -53,9 +58,9 @@ describe('navigation', () => {
 
     test('should save to setNavigationBarTitle', () => {
       const title = 'bar'
-      const success = jest.fn()
-      const fail = jest.fn()
-      const complete = jest.fn()
+      const success = vi.fn()
+      const fail = vi.fn()
+      const complete = vi.fn()
 
       expect.assertions(6)
       return Taro.setNavigationBarTitle({
@@ -77,23 +82,22 @@ describe('navigation', () => {
   })
   describe('showNavigationBarLoading / hideNavigationBarLoading', () => {
     beforeEach(() => {
-      mockConsole()
+      vi.spyOn(console, 'log').mockImplementation(() => {})
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+      vi.spyOn(console, 'warn').mockImplementation(() => {})
       buildApp()
     })
 
-    test('should be able to showNavigationBarLoading / hideNavigationBarLoading', done => {
-      Taro.showNavigationBarLoading().then(res => {
-        expect(res.errMsg).toBe('showNavigationBarLoading:ok')
-        const loadingElement = document.querySelector('.taro-navigation-bar-loading-show')
-        expect(loadingElement).toBeTruthy()
+    test('should be able to showNavigationBarLoading / hideNavigationBarLoading', async () => {
+      const res = await Taro.showNavigationBarLoading()
+      expect(res.errMsg).toBe('showNavigationBarLoading:ok')
+      let loadingElement = document.querySelector('.taro-navigation-bar-loading-show')
+      expect(loadingElement).toBeTruthy()
 
-        Taro.hideNavigationBarLoading().then(res => {
-          expect(res.errMsg).toBe('hideNavigationBarLoading:ok')
-          const loadingElement = document.querySelector('.taro-navigation-bar-loading-show')
-          expect(loadingElement).toBeFalsy()
-          done()
-        })
-      })
+      const res2 = await Taro.hideNavigationBarLoading()
+      expect(res2.errMsg).toBe('hideNavigationBarLoading:ok')
+      loadingElement = document.querySelector('.taro-navigation-bar-loading-show')
+      expect(loadingElement).toBeFalsy()
     })
   })
 })

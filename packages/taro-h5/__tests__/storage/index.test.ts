@@ -1,11 +1,16 @@
 import * as Taro from '@tarojs/taro-h5'
-
-const mockConsole = require('jest-mock-console')
+import { vi } from 'vitest'
 
 describe('storage', () => {
   beforeEach(() => {
     localStorage.clear()
-    mockConsole()
+    vi.spyOn(console, 'log').mockImplementation(() => {})
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
   })
 
   describe('setStorage', () => {
@@ -28,9 +33,9 @@ describe('storage', () => {
     })
 
     test('options.key should be string', () => {
-      const success = jest.fn()
-      const fail = jest.fn()
-      const complete = jest.fn()
+      const success = vi.fn()
+      const fail = vi.fn()
+      const complete = vi.fn()
 
       expect.assertions(5)
       return Taro.setStorage({
@@ -52,9 +57,9 @@ describe('storage', () => {
     test('should save to localStorage', () => {
       const key = 'foo'
       const data = 'bar'
-      const success = jest.fn()
-      const fail = jest.fn()
-      const complete = jest.fn()
+      const success = vi.fn()
+      const fail = vi.fn()
+      const complete = vi.fn()
 
       expect.assertions(7)
       return Taro.setStorage({
@@ -132,9 +137,9 @@ describe('storage', () => {
     })
 
     test('options.key should be string', () => {
-      const success = jest.fn()
-      const fail = jest.fn()
-      const complete = jest.fn()
+      const success = vi.fn()
+      const fail = vi.fn()
+      const complete = vi.fn()
 
       expect.assertions(5)
       return Taro.getStorage({
@@ -154,9 +159,9 @@ describe('storage', () => {
     })
 
     test('should not contain data when no found in storage', () => {
-      const success = jest.fn()
-      const fail = jest.fn()
-      const complete = jest.fn()
+      const success = vi.fn()
+      const fail = vi.fn()
+      const complete = vi.fn()
 
       expect.assertions(5)
       return Taro.getStorage({
@@ -187,9 +192,9 @@ describe('storage', () => {
     test('should get from localStorage', () => {
       const key = 'foo'
       const data = 'bar'
-      const success = jest.fn()
-      const fail = jest.fn()
-      const complete = jest.fn()
+      const success = vi.fn()
+      const fail = vi.fn()
+      const complete = vi.fn()
 
       Taro.setStorageSync(key, data)
 
@@ -287,8 +292,8 @@ describe('storage', () => {
 
   describe('getStorageInfo', () => {
     test('should resolve storage info', () => {
-      const success = jest.fn()
-      const complete = jest.fn()
+      const success = vi.fn()
+      const complete = vi.fn()
 
       Taro.setStorageSync('foo', 1)
       Taro.setStorageSync('bar', 2)
@@ -342,9 +347,9 @@ describe('storage', () => {
     })
 
     test('options.key should be string', () => {
-      const success = jest.fn()
-      const fail = jest.fn()
-      const complete = jest.fn()
+      const success = vi.fn()
+      const fail = vi.fn()
+      const complete = vi.fn()
 
       expect.assertions(5)
       return Taro.removeStorage({
@@ -366,8 +371,8 @@ describe('storage', () => {
     test('should remove storage successfully', () => {
       const key = 'foo'
       const data = 'bar'
-      const success = jest.fn()
-      const complete = jest.fn()
+      const success = vi.fn()
+      const complete = vi.fn()
 
       localStorage.setItem(key, data)
 
