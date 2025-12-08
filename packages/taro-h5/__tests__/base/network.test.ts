@@ -54,7 +54,7 @@ describe('networkType', () => {
       })
   })
 
-  test('should get networkType from connection.type that does not follow the spec', () => {
+  test('should trigger onNetworkStatusChange when connection changes', () => {
     return new Promise<void>(resolve => {
       const cbList: any = {}
       // @ts-ignore

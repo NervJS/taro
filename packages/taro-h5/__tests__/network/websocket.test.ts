@@ -136,10 +136,6 @@ describe('websocket', () => {
         .then((task: any) => {
           const closeCode = 100
           const closeReason = 'yeah'
-          // eslint-disable-next-line no-console
-          console.log('Task:', task)
-          // eslint-disable-next-line no-console
-          console.log('Task WS:', task?.ws)
           vi.spyOn(task.ws, 'send')
           vi.spyOn(task.ws, 'close')
 
@@ -210,7 +206,7 @@ describe('websocket', () => {
       })
   })
 
-  test('that sending when the socket is closed throws an expection', () => {
+  test('that sending when the socket is closed throws an exception', () => {
     const success = vi.fn()
     const fail = vi.fn()
     const complete = vi.fn()
