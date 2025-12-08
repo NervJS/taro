@@ -1,7 +1,8 @@
-import * as Taro from '@tarojs/taro-h5'
 import { describe, expect, test } from 'vitest'
 
-describe('pxtransform', () => {
+import * as Taro from '../../src/index'
+
+describe('pxTransform', () => {
   test('pxTransform', () => {
     Taro.initPxTransform({
       designWidth: 750,

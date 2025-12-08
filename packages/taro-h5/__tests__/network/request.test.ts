@@ -1,5 +1,6 @@
-import * as Taro from '@tarojs/taro-h5'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
+
+import * as Taro from '../../src/index'
 
 const fetch = vi.fn()
 global.fetch = fetch

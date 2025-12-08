@@ -8,6 +8,12 @@
   "main:h5": "dist/runtime.esm.js",
   "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/runtime.esm.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
   "types": "./dist/index.d.ts",
   "files": [
     "dist"

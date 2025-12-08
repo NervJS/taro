@@ -1,7 +1,8 @@
-import { createReactApp } from '@tarojs/plugin-framework-react/dist/runtime'
 import { createHashHistory, createRouter, handleAppMountWithTabbar } from '@tarojs/router'
 import React, { Component, PropsWithChildren } from 'react'
 import ReactDOM from 'react-test-renderer'
+
+import { createReactApp } from '../__mocks__/taro-framework'
 
 const appConfig: any = {
   pages: [

@@ -1,6 +1,6 @@
-import * as Taro from '@tarojs/taro-h5'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
+import * as Taro from '../../src/index'
 import { buildApp } from '../utils'
 
 describe('navigation', () => {

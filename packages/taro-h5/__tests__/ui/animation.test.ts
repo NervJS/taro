@@ -1,5 +1,6 @@
-import * as Taro from '@tarojs/taro-h5'
 import { describe, expect, it } from 'vitest'
+
+import * as Taro from '../../src/index'
 
 describe('createAnimation', () => {
   it('test unit', () => {

@@ -1,5 +1,6 @@
-import * as Taro from '@tarojs/taro-h5'
 import { describe, expect, test } from 'vitest'
+
+import * as Taro from '../../src/index'
 
 describe('others', () => {
   test('should covert arraybuffer to base64', () => {
