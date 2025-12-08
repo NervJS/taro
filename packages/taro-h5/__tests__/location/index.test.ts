@@ -1,13 +1,15 @@
-import * as Taro from '@tarojs/taro-h5'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
-const mockConsole = require('jest-mock-console')
+import * as Taro from '../../src/index'
 
 describe('location', () => {
   beforeEach(() => {
-    mockConsole()
+    vi.spyOn(console, 'log').mockImplementation(() => {})
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    vi.spyOn(console, 'error').mockImplementation(() => {})
     // @ts-ignore
     navigator.geolocation = {
-      getCurrentPosition: jest.fn((callback) => {
+      getCurrentPosition: vi.fn((callback) => {
         callback({
           coords: {
             accuracy: 2,
@@ -20,6 +22,10 @@ describe('location', () => {
         })
       })
     }
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
   })
 
   test('should catch unsupported error', () => {
@@ -48,7 +54,7 @@ describe('location', () => {
   test('should get location info object from wx', () => {
     // @ts-ignore
     window.wx = {
-      getLocation: jest.fn((options) => {
+      getLocation: vi.fn((options) => {
         options.complete?.(mockLocation)
         options.success?.(mockLocation)
       })
@@ -81,9 +87,9 @@ describe('location', () => {
   test('should return Promise that reject does not support browser feature', () => {
     // @ts-ignore
     delete navigator.geolocation
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     expect.assertions(5)
     return Taro.getLocation({

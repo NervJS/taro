@@ -1,9 +1,11 @@
-import * as Taro from '@tarojs/taro-h5'
+import { describe, expect, test, vi } from 'vitest'
+
+import * as Taro from '../../src/index'
 
 describe('networkType', () => {
   test('should getNetworkType return Promise that resolve networkType', () => {
-    const success = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const complete = vi.fn()
 
     // @ts-ignore
     navigator.connection = {
@@ -53,22 +55,24 @@ describe('networkType', () => {
       })
   })
 
-  test('should get networkType from connection.type that does not follow the spec', done => {
-    const cbList: any = {}
-    // @ts-ignore
-    navigator.connection = {
-      effectiveType: '4g',
-      addEventListener: jest.fn((ev, cb) => {
-        cbList[ev] = cb
+  test('should trigger onNetworkStatusChange when connection changes', () => {
+    return new Promise<void>(resolve => {
+      const cbList: any = {}
+      // @ts-ignore
+      navigator.connection = {
+        effectiveType: '4g',
+        addEventListener: vi.fn((ev, cb) => {
+          cbList[ev] = cb
+        })
+      }
+
+      setTimeout(() => cbList.change(), 1000)
+
+      Taro.onNetworkStatusChange(ev => {
+        expect(ev.isConnected).toBe(true)
+        expect(ev.networkType).toBe('4g')
+        resolve()
       })
-    }
-
-    setTimeout(() => cbList.change(), 1000)
-
-    Taro.onNetworkStatusChange(ev => {
-      expect(ev.isConnected).toBe(true)
-      expect(ev.networkType).toBe('4g')
-      done()
     })
   })
 })

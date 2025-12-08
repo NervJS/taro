@@ -1,12 +1,12 @@
-import '@testing-library/jest-dom/extend-expect'
+import { describe, expect, test, vi } from 'vitest'
 
-import * as Taro from '@tarojs/taro-h5'
+import * as Taro from '../../../src/index'
 
 describe('modal', () => {
   test('options.title should be String', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showModal({
       title: null,
@@ -21,9 +21,9 @@ describe('modal', () => {
   })
 
   test('options.content should be String', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showModal({
       content: undefined,
@@ -38,9 +38,9 @@ describe('modal', () => {
   })
 
   test('options.cancelText should be String', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showModal({
       cancelText: 1,
@@ -55,9 +55,9 @@ describe('modal', () => {
   })
 
   test('options.cancelText should not larger than 4 Chinese characters', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showModal({
       cancelText: '最多四个字',
@@ -72,9 +72,9 @@ describe('modal', () => {
   })
 
   test('options.confirmText should be String', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showModal({
       confirmText: 1,
@@ -89,9 +89,9 @@ describe('modal', () => {
   })
 
   test('options.confirmText should not larger than 4 Chinese characters', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showModal({
       confirmText: '最多四个字',
@@ -106,9 +106,9 @@ describe('modal', () => {
   })
 
   test('options.cancelColor should be String', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showModal({
       cancelColor: 1,
@@ -123,9 +123,9 @@ describe('modal', () => {
   })
 
   test('options.confirmColor should be String', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showModal({
       confirmColor: 1,
@@ -144,8 +144,8 @@ describe('modal', () => {
     const contentText = 'hello world'
     const cancelText = '取消'
     const confirmText = '确定'
-    const success = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const complete = vi.fn()
 
     Taro.showModal({
       title: titleText,
@@ -193,8 +193,8 @@ describe('modal', () => {
   })
 
   test('should res.cancel be true', done => {
-    const success = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const complete = vi.fn()
 
     Taro.showModal({
       success,
@@ -240,47 +240,50 @@ describe('modal', () => {
     const confirm = foot.lastChild
 
     expect(cancel).toHaveTextContent(cancelText)
-    expect(cancel).toHaveStyle({ color: cancelColor })
+    expect(cancel).toHaveStyle({ color: 'rgb(255, 255, 0)' })
     expect(confirm).toHaveTextContent(confirmText)
-    expect(confirm).toHaveStyle({ color: confirmColor })
+    expect(confirm).toHaveStyle({ color: 'rgb(0, 128, 0)' })
   })
 
-  test('should not show cancel button', done => {
-    Taro.showModal({
-      showCancel: false
-    })
-
-    const modal: any = document.body.lastChild
-    const foot = modal.lastChild.lastChild
-    expect(foot.childNodes.length).toBe(2)
-
-    const cancel = foot.firstChild
-    const confirm = foot.lastChild
-
-    setTimeout(() => {
-      expect(cancel).not.toBeVisible()
-      expect(confirm).toBeVisible()
-      done()
-    }, 200)
-  })
-
-  test('should show another style when options.title is empty', done => {
-    Taro.showModal({})
-
-    const modal: any = document.body.lastChild
-    const title = modal.lastChild.firstChild
-    const content = modal.lastChild.children[1]
-
-    expect(title).toBeEmptyDOMElement()
-    expect(content).toBeEmptyDOMElement()
-
-    setTimeout(() => {
-      expect(title).not.toBeVisible()
-      expect(content).toHaveStyle({
-        color: 'rgb(53, 53, 53)',
-        padding: '40px 20px 26px'
+  test('should not show cancel button', () => {
+    return new Promise<void>(resolve => {
+      Taro.showModal({
+        showCancel: false
       })
-      done()
-    }, 200)
+
+      const modal: any = document.body.lastChild
+      const foot = modal.lastChild.lastChild
+      expect(foot.childNodes.length).toBe(2)
+
+      const cancel = foot.firstChild
+      const confirm = foot.lastChild
+
+      setTimeout(() => {
+        expect(cancel).not.toBeVisible()
+        expect(confirm).toBeTruthy()
+        resolve()
+      }, 200)
+    })
+  })
+  test('should show another style when options.title is empty', () => {
+    return new Promise<void>(resolve => {
+      Taro.showModal({})
+
+      const modal: any = document.body.lastChild
+      const title = modal.lastChild.firstChild
+      const content = modal.lastChild.children[1]
+
+      expect(title).toBeEmptyDOMElement()
+      expect(content).toBeEmptyDOMElement()
+
+      setTimeout(() => {
+        expect(title).not.toBeVisible()
+        expect(content).toHaveStyle({
+          color: 'rgb(53, 53, 53)',
+          padding: '40px 20px 26px'
+        })
+        resolve()
+      }, 200)
+    })
   })
 })

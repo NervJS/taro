@@ -1,14 +1,13 @@
-import '@testing-library/jest-dom/extend-expect'
+import { describe, expect, test, vi } from 'vitest'
 
-import * as Taro from '@tarojs/taro-h5'
-
+import * as Taro from '../../../src/index'
 import { delay } from '../../utils'
 
 describe('toast', () => {
   test('options.title should be String', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showToast({
       title: 123,
@@ -23,9 +22,9 @@ describe('toast', () => {
   })
 
   test('options.duration should be Number', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     Taro.showToast({
       duration: null,
@@ -41,8 +40,8 @@ describe('toast', () => {
 
   test('basic test', async () => {
     const titleContent = 'xxx'
-    const success = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const complete = vi.fn()
     const errObj = { errMsg: 'showToast:ok' }
 
     Taro.showToast({

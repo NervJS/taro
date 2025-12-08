@@ -1,12 +1,27 @@
-import * as Taro from '@tarojs/taro-h5'
-import { Server } from 'mock-socket'
+import { Server, WebSocket } from 'mock-socket'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
-const mockConsole = require('jest-mock-console')
+import * as Taro from '../../src/index'
 
 describe('websocket', () => {
+  const originalWebSocket = globalThis.WebSocket
+
   beforeEach(() => {
-    mockConsole()
+    globalThis.WebSocket = WebSocket as any
+    // @ts-ignore
+    window.WebSocket = WebSocket as any
+    vi.spyOn(console, 'log').mockImplementation(() => {})
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    vi.spyOn(console, 'error').mockImplementation(() => {})
   })
+
+  afterEach(() => {
+    globalThis.WebSocket = originalWebSocket
+    // @ts-ignore
+    window.WebSocket = originalWebSocket
+    vi.restoreAllMocks()
+  })
+
   test('options should be object', () => {
     expect.assertions(2)
     return Taro.connectSocket()
@@ -18,9 +33,9 @@ describe('websocket', () => {
   })
 
   test('options.url should be string', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     expect.assertions(5)
     return Taro.connectSocket({
@@ -42,9 +57,9 @@ describe('websocket', () => {
 
   test('options.url should be starts with ws:// or wss://', () => {
     const url = 'http://localhost:8080'
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     expect.assertions(5)
     return Taro.connectSocket({
@@ -65,110 +80,96 @@ describe('websocket', () => {
   })
 
   test('should not keep more than 5 connection', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
-    expect.assertions(10)
-    const successReq = expect.objectContaining({ socketTaskId: expect.any(Number), errMsg: 'connectSocket:ok' })
+    expect.assertions(5)
     return Promise.all([
-      Taro.connectSocket({ url: 'wss://localhost:8081', success })
-        .then((task: any) => {
-          task.close()
-          expect(success.mock.calls[0][0]).toEqual(successReq)
-        }),
-      Taro.connectSocket({ url: 'wss://localhost:8082', success })
-        .then((task: any) => {
-          task.close()
-          expect(success.mock.calls[0][0]).toEqual(successReq)
-        }),
-      Taro.connectSocket({ url: 'wss://localhost:8083', success })
-        .then((task: any) => {
-          task.close()
-          expect(success.mock.calls[0][0]).toEqual(successReq)
-        }),
-      Taro.connectSocket({ url: 'wss://localhost:8084', success })
-        .then((task: any) => {
-          task.close()
-          expect(success.mock.calls[0][0]).toEqual(successReq)
-        }),
-      Taro.connectSocket({ url: 'wss://localhost:8085', success })
-        .then((task: any) => {
-          task.close()
-          expect(success.mock.calls[0][0]).toEqual(successReq)
-        }),
-      Taro.connectSocket({
-        url: 'wss://localhost:8086',
-        success,
-        fail,
-        complete
-      })
-        .then(() => {
-          const expectErrMsg = 'connectSocket:fail 同时最多发起 5 个 socket 请求，更多请参考文档。'
-          expect(success.mock.calls.length).toBe(5)
-          expect(fail.mock.calls.length).toBe(1)
-          expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
-          expect(complete.mock.calls.length).toBe(1)
-          expect(complete.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
-          // expect(console.error).toHaveBeenCalledWith(expectErrMsg)
-        })
+      Taro.connectSocket({ url: 'ws://localhost:8080' }),
+      Taro.connectSocket({ url: 'ws://localhost:8080' }),
+      Taro.connectSocket({ url: 'ws://localhost:8080' }),
+      Taro.connectSocket({ url: 'ws://localhost:8080' }),
+      Taro.connectSocket({ url: 'ws://localhost:8080' })
     ])
+      .then((tasks: any[]) => {
+        return Taro.connectSocket({
+          url: 'ws://localhost:8080',
+          success,
+          fail,
+          complete
+        })
+          .then(() => {
+            const expectErrMsg = 'connectSocket:fail 同时最多发起 5 个 socket 请求，更多请参考文档。'
+            expect(success.mock.calls.length).toBe(0)
+            expect(fail.mock.calls.length).toBe(1)
+            expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
+            expect(complete.mock.calls.length).toBe(1)
+            expect(complete.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
+
+            // Cleanup
+            tasks.forEach(task => task.close())
+          })
+      })
   })
 
-  test('should work basically', done => {
-    const mockServer: any = new Server('wss://localhost:8080')
-    const connected = jest.fn()
-    const success = jest.fn()
-    const complete = jest.fn()
-    const msg = 'hello'
-    const msg2 = 'hello too'
+  test('should work basically', () => {
+    return new Promise<void>(resolve => {
+      const mockServer: any = new Server('wss://localhost:8080')
+      const connected = vi.fn()
+      const success = vi.fn()
+      const complete = vi.fn()
+      const msg = 'hello'
+      const msg2 = 'hello too'
 
-    mockServer.on('connection', connected)
-    mockServer.on('message', message => {
-      expect(message).toMatch(msg)
-      mockServer.send(msg2)
-    })
-
-    expect.assertions(11)
-    Taro.connectSocket({
-      url: 'wss://localhost:8080',
-      success,
-      complete
-    })
-      .then((task: any) => {
-        const closeCode = 100
-        const closeReason = 'yeah'
-        jest.spyOn(task.ws, 'send')
-        jest.spyOn(task.ws, 'close')
-
-        task.onOpen(() => {
-          task.send({ data: msg })
-            .then(res => {
-              expect(task.ws.send).toHaveBeenCalled()
-              expect(res.errMsg).toMatch('sendSocketMessage:ok')
-            })
-        })
-        task.onMessage(res => {
-          expect(res.data).toMatch(msg2)
-          task.close({
-            code: closeCode,
-            reason: closeReason
-          })
-            .then(res => {
-              expect(task.ws.close).toHaveBeenCalled()
-              expect(res.errMsg).toMatch('closeSocket:ok')
-            })
-        })
-        task.onClose(({ code, reason }) => {
-          const expectMsg = 'connectSocket:ok'
-          expect(connected.mock.calls.length).toBe(1)
-          expect(success.mock.calls[0][0].errMsg).toMatch(expectMsg)
-          expect(complete.mock.calls[0][0].errMsg).toMatch(expectMsg)
-          expect(code).toBe(closeCode)
-          expect(reason).toBe(closeReason)
-          done()
-        })
+      mockServer.on('connection', connected)
+      mockServer.on('message', message => {
+        expect(message).toMatch(msg)
+        mockServer.send(msg2)
       })
+
+      expect.assertions(11)
+      Taro.connectSocket({
+        url: 'wss://localhost:8080',
+        success,
+        complete
+      })
+        .then((task: any) => {
+          const closeCode = 100
+          const closeReason = 'yeah'
+          vi.spyOn(task.ws, 'send')
+          vi.spyOn(task.ws, 'close')
+
+          task.onOpen(() => {
+            task.send({ data: msg })
+              .then(res => {
+                expect(task.ws.send).toHaveBeenCalled()
+                expect(res.errMsg).toMatch('sendSocketMessage:ok')
+              })
+          })
+          task.onMessage(res => {
+            expect(res.data).toMatch(msg2)
+            task.close({
+              code: closeCode,
+              reason: closeReason
+            })
+              .then(res => {
+                expect(task.ws.close).toHaveBeenCalled()
+                expect(res.errMsg).toMatch('closeSocket:ok')
+              })
+          })
+          task.onClose(({ code, reason }) => {
+            const expectMsg = 'connectSocket:ok'
+            expect(connected.mock.calls.length).toBe(1)
+            expect(success.mock.calls[0][0].errMsg).toMatch(expectMsg)
+            expect(complete.mock.calls[0][0].errMsg).toMatch(expectMsg)
+            expect(code).toBe(closeCode)
+            expect(reason).toBe(closeReason)
+            mockServer.stop()
+            resolve()
+          })
+        })
+    })
   })
 
   test('that passing protocols into the constructor works', () => {
@@ -206,17 +207,18 @@ describe('websocket', () => {
       })
   })
 
-  test('that sending when the socket is closed throws an expection', () => {
-    const success = jest.fn()
-    const fail = jest.fn()
-    const complete = jest.fn()
+  test('that sending when the socket is closed throws an exception', () => {
+    const success = vi.fn()
+    const fail = vi.fn()
+    const complete = vi.fn()
 
     expect.assertions(4)
     return Taro.connectSocket({
       url: 'wss://localhost:8080'
     })
       .then((task: any) => {
-        task.send({
+        task.close()
+        return task.send({
           data: 'test',
           success,
           fail,

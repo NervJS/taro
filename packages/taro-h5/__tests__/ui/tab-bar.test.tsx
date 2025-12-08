@@ -1,14 +1,15 @@
-import * as Taro from '@tarojs/taro-h5'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import * as Taro from '../../src/index'
 import { buildApp } from '../utils'
 
 describe('tabbar', () => {
   beforeEach(() => {
-    jest.resetAllMocks()
+    vi.resetAllMocks()
     buildApp()
   })
 
-  it('should be able to set/removeTabBarBadge', done => {
+  it('should be able to set/removeTabBarBadge', async () => {
     // @ts-ignore
     Taro.eventCenter.once('__taroSetTabBarBadge', res => res.successHandler({
       errMsg: 'setTabBarBadge:ok'
@@ -17,27 +18,24 @@ describe('tabbar', () => {
     Taro.eventCenter.once('__taroRemoveTabBarBadge', res => res.successHandler({
       errMsg: 'removeTabBarBadge:ok'
     }))
-    Taro.setTabBarBadge({
+    const res = await Taro.setTabBarBadge({
       index: 0,
       text: 'text'
-    }).then(res => {
-      expect(res.errMsg).toBe('setTabBarBadge:ok')
-      // let badges = div.querySelector('.taro-tabbar-badge')
-      // expect(badges).toBeTruthy()
-      // expect(badges.innerHTML).toBe('text')
-
-      Taro.removeTabBarBadge({
-        index: 0
-      }).then(res => {
-        expect(res.errMsg).toBe('removeTabBarBadge:ok')
-        // badges = div.querySelector('.taro-tabbar-badge')
-        // expect(badges).toBeFalsy()
-        done()
-      })
     })
+    expect(res.errMsg).toBe('setTabBarBadge:ok')
+    // let badges = div.querySelector('.taro-tabbar-badge')
+    // expect(badges).toBeTruthy()
+    // expect(badges.innerHTML).toBe('text')
+
+    const res2 = await Taro.removeTabBarBadge({
+      index: 0
+    })
+    expect(res2.errMsg).toBe('removeTabBarBadge:ok')
+    // badges = div.querySelector('.taro-tabbar-badge')
+    // expect(badges).toBeFalsy()
   })
 
-  it('should be able to show/hideTabBarRedDot', done => {
+  it('should be able to show/hideTabBarRedDot', async () => {
     // @ts-ignore
     Taro.eventCenter.once('__taroShowTabBarRedDotHandler', res => res.successHandler({
       errMsg: 'showTabBarRedDot:ok'
@@ -46,25 +44,22 @@ describe('tabbar', () => {
     Taro.eventCenter.once('__taroHideTabBarRedDotHandler', res => res.successHandler({
       errMsg: 'hideTabBarRedDot:ok'
     }))
-    Taro.showTabBarRedDot({
+    const res = await Taro.showTabBarRedDot({
       index: 0
-    }).then(res => {
-      expect(res.errMsg).toBe('showTabBarRedDot:ok')
-      // let badges = div.querySelector('.weui-badge_dot')
-      // expect(badges).toBeTruthy()
-
-      Taro.hideTabBarRedDot({
-        index: 0
-      }).then(res => {
-        expect(res.errMsg).toBe('hideTabBarRedDot:ok')
-        // badges = div.querySelector('.weui-badge_dot')
-        // expect(badges).toBeFalsy()
-        done()
-      })
     })
+    expect(res.errMsg).toBe('showTabBarRedDot:ok')
+    // let badges = div.querySelector('.weui-badge_dot')
+    // expect(badges).toBeTruthy()
+
+    const res2 = await Taro.hideTabBarRedDot({
+      index: 0
+    })
+    expect(res2.errMsg).toBe('hideTabBarRedDot:ok')
+    // badges = div.querySelector('.weui-badge_dot')
+    // expect(badges).toBeFalsy()
   })
 
-  it('should be able to show/hideTabBar', done => {
+  it('should be able to show/hideTabBar', async () => {
     // @ts-ignore
     Taro.eventCenter.once('__taroHideTabBar', res => res.successHandler({
       errMsg: 'hideTabBar:ok'
@@ -73,57 +68,48 @@ describe('tabbar', () => {
     Taro.eventCenter.once('__taroShowTabBar', res => res.successHandler({
       errMsg: 'showTabBar:ok'
     }))
-    Taro.hideTabBar().then(res => {
-      expect(res.errMsg).toBe('hideTabBar:ok')
-      // let badges = div.querySelector('.taro-tabbar__tabbar-hide')
-      // expect(badges).toBeTruthy()
+    const res = await Taro.hideTabBar()
+    expect(res.errMsg).toBe('hideTabBar:ok')
+    // let badges = div.querySelector('.taro-tabbar__tabbar-hide')
+    // expect(badges).toBeTruthy()
 
-      Taro.showTabBar().then(res => {
-        expect(res.errMsg).toBe('showTabBar:ok')
-        // badges = div.querySelector('.taro-tabbar__tabbar-hide')
-        // expect(badges).toBeFalsy()
-        done()
-      })
-    })
+    const res2 = await Taro.showTabBar()
+    expect(res2.errMsg).toBe('showTabBar:ok')
+    // badges = div.querySelector('.taro-tabbar__tabbar-hide')
+    // expect(badges).toBeFalsy()
   })
 
-  it('should be able to setTabBarStyle', done => {
+  it('should be able to setTabBarStyle', async () => {
     // @ts-ignore
     Taro.eventCenter.once('__taroSetTabBarStyle', res => res.successHandler({
       errMsg: 'setTabBarStyle:ok'
     }))
-    Taro.setTabBarStyle({
+    const res = await Taro.setTabBarStyle({
       backgroundColor: '#bbbbbb',
       borderStyle: 'black',
       color: '#cccccc'
-    }).then(res => {
-      expect(res.errMsg).toBe('setTabBarStyle:ok')
-      done()
     })
+    expect(res.errMsg).toBe('setTabBarStyle:ok')
   })
 
-  it('should be able to setTabBarItem', done => {
+  it('should be able to setTabBarItem', async () => {
     // @ts-ignore
     Taro.eventCenter.once('__taroSetTabBarItem', res => res.successHandler({
       errMsg: 'setTabBarItem:ok'
     }))
-    Taro.setTabBarItem({
+    const res = await Taro.setTabBarItem({
       index: 0,
       iconPath: 'iconPath',
       selectedIconPath: 'selectedIconPath',
       text: 'text'
-    }).then(res => {
-      expect(res.errMsg).toBe('setTabBarItem:ok')
-      done()
     })
+    expect(res.errMsg).toBe('setTabBarItem:ok')
   })
 
-  it('should be able to switchTab', done => {
-    Taro.switchTab({
+  it('should be able to switchTab', async () => {
+    const res: any = await Taro.switchTab({
       url: '/pages/about/index'
-    }).then((res: any) => {
-      expect(res.errMsg).toBe('switchTab:ok')
-      done()
     })
+    expect(res.errMsg).toBe('switchTab:ok')
   })
 })
