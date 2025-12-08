@@ -1,5 +1,5 @@
 import * as Taro from '@tarojs/taro-h5'
-import { vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { buildApp } from '../utils'
 

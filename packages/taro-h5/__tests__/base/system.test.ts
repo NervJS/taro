@@ -1,5 +1,5 @@
 import * as Taro from '@tarojs/taro-h5'
-import { vi } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 
 describe('systemInfo', () => {
   test('should getSystemInfoSync return system information', () => {

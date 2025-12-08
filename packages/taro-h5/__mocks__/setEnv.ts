@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom/vitest'
 
 process.env.NODE_ENV = 'production'
 process.env.TARO_ENV = 'h5'

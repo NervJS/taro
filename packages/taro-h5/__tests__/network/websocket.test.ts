@@ -1,6 +1,6 @@
 import * as Taro from '@tarojs/taro-h5'
 import { Server, WebSocket } from 'mock-socket'
-import { vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 describe('websocket', () => {
   const originalWebSocket = globalThis.WebSocket

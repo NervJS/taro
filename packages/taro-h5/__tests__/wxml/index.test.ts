@@ -1,6 +1,6 @@
 import { Current } from '@tarojs/runtime'
 import * as Taro from '@tarojs/taro-h5'
-import { vi } from 'vitest'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import { findDOM } from '../../src/utils'
 import { buildApp } from '../utils'
