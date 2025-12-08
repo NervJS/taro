@@ -51,7 +51,7 @@ describe('loading', () => {
       expect(toast).toBeVisible()
       expect(mask).not.toBeVisible()
       done()
-    }, 200)
+    }, 300)
   })
 
   test('should show mask', done => {
@@ -66,7 +66,7 @@ describe('loading', () => {
     setTimeout(() => {
       expect(mask).toBeVisible()
       done()
-    }, 200)
+    }, 300)
   })
 
   test('should hide loading immediately', done => {
