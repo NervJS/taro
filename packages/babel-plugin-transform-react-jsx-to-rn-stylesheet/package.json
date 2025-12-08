@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-react-jsx-to-rn-stylesheet",
-  "version": "4.1.9-alpha.0",
+  "version": "4.1.10-alpha.0",
   "description": "Transform stylesheet selector to style in JSX Elements.",
   "author": "O2Team",
   "license": "MIT",
@@ -11,6 +11,7 @@
     "clean": "rimraf ./dist",
     "test": "vitest run",
     "test:ci": "vitest run --coverage",
+    "updateSnapshot": "vitest run --update",
     "dev": "tsc -w",
     "build": "tsc"
   },
