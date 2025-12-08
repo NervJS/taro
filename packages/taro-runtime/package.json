@@ -12,7 +12,8 @@
     ".": {
       "import": "./dist/runtime.esm.js",
       "require": "./dist/index.cjs.js"
-    }
+    },
+    "./dist/*": "./dist/*"
   },
   "types": "./dist/index.d.ts",
   "files": [
