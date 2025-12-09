@@ -28,7 +28,7 @@ export class Input implements ComponentInterface {
   private inputRef: HTMLInputElement
   private isOnComposition = false
   private isOnPaste = false
-  private onInputExecuted = false
+  private onInputExcuted = false
   private fileListener: EventHandler
 
   @Prop({ mutable: true }) value: string = ''
@@ -118,7 +118,7 @@ export class Input implements ComponentInterface {
     }
   }
 
-  handleInput = (e: TaroEvent<HTMLInputElement> & InputEvent) => {
+  handleInput = (e: TaroEvent<HTMLInputElement>) => {
     e.stopPropagation()
     const {
       type,
@@ -126,10 +126,10 @@ export class Input implements ComponentInterface {
       confirmType,
       password
     } = this
-    if (!this.isOnComposition && !this.onInputExecuted) {
+    if (!this.isOnComposition && !this.onInputExcuted) {
       let value = e.target.value
       const inputType = getTrueType(type, confirmType, password)
-      this.onInputExecuted = true
+      this.onInputExcuted = true
       /* 修复 number 类型 maxlength 无效 */
       if (inputType === 'number' && value && maxlength > -1 && maxlength <= value.length) {
         value = value.substring(0, maxlength)
@@ -152,7 +152,7 @@ export class Input implements ComponentInterface {
         value,
         cursor: value.length
       })
-      this.onInputExecuted = false
+      this.onInputExcuted = false
     }
   }
 
@@ -166,7 +166,7 @@ export class Input implements ComponentInterface {
 
   handleFocus = (e: TaroEvent<HTMLInputElement> & FocusEvent) => {
     e.stopPropagation()
-    this.onInputExecuted = false
+    this.onInputExcuted = false
     this.onFocus.emit({
       value: e.target.value
     })
@@ -199,7 +199,7 @@ export class Input implements ComponentInterface {
     e.stopPropagation()
     const { value } = e.target
     const keyCode = e.keyCode || e.code
-    this.onInputExecuted = false
+    this.onInputExcuted = false
 
     this.onKeyDown.emit({
       value,
@@ -274,8 +274,8 @@ export class Input implements ComponentInterface {
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
         onPaste={this.handlePaste}
-        onCompositionstart={this.handleComposition}
-        onCompositionend={this.handleComposition}
+        onCompositionStart={this.handleComposition}
+        onCompositionEnd={this.handleComposition}
         {...nativeProps}
         value={fixControlledValue(value)}
       />

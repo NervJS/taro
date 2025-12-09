@@ -31,8 +31,7 @@
     "lint:style": "stylelint ./packages/**/*.{css,scss}",
     "format": "prettier --write --cache .",
     "format:check": "prettier --check --cache .",
-    "pretest:ci": "node ./scripts/download.mjs",
-    "test": "pnpm --if-present -r --filter=./packages/* --filter=./tests test:ci",
+    "test": "pnpm --if-present -r --aggregate-output --filter=./packages/* --filter=./tests test:ci",
     "test:binding": "pnpm --filter @tarojs/binding run test",
     "updateSnapshot": "pnpm --if-present -r --aggregate-output --filter=./tests --filter=./packages/* updateSnapshot",
     "version": "run-s version:*",
@@ -110,7 +109,7 @@
     "@types/webpack-dev-server": "^3.11.3",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
-    "@vitest/coverage-istanbul": "^4.0.14",
+    "@vitest/coverage-istanbul": "^4.0.13",
     "babel-jest": "^29.7.0",
     "babel-plugin-syntax-jsx": "6.18.0",
     "babel-preset-power-assert": "3.0.0",
@@ -152,7 +151,6 @@
     "power-assert": "^1.6.1",
     "prettier": "^2.7.1",
     "prop-types": "^15.7.2",
-    "puppeteer": "^20.9.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "rimraf": "^5.0.0",
@@ -166,8 +164,8 @@
     "ts-node": "^10.9.1",
     "tslib": "^2.6.2",
     "typescript": "~5.4.5",
-    "vite": "^7.2.6",
-    "vitest": "^4.0.14"
+    "vite": "^7.2.4",
+    "vitest": "^4.0.13"
   },
   "pnpm": {
     "packageExtensions": {

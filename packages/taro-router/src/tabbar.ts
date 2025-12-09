@@ -1,4 +1,4 @@
-import { defineCustomElement as defineCustomElementTaroTabbar } from '@tarojs/components/dist/components/taro-tabbar'
+import { defineCustomElementTaroTabbar } from '@tarojs/components/dist/components'
 import { AppConfig, initTabBarApis } from '@tarojs/taro'
 
 import type { History } from 'history'
