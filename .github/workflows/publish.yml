@@ -98,10 +98,10 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           version: 10
-      - name: Setup Node 18
+      - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: 22
           cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org' # Don't touch!
       - name: Git Identity
@@ -168,14 +168,14 @@ jobs:
 
       # Bootstrap project
       - name: Install dependencies
-        run: pnpm -r install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Download all artifacts
         uses: actions/download-artifact@v6
         with:
           path: crates/native_binding/artifacts
       - name: Move artifacts
         run: pnpm artifacts
-      - name: Checkout Harmony Commond Line Tools
+      - name: Checkout Harmony Command Line Tools
         env:
           COMMANDLINE_TOOLS_URL: https://storage.360buyimg.com/taro-patch/command-line-tools-for-harmony/5.0.13.200/linux_x64
           TOOLS_HOME: ${{ runner.os == 'macOS' && '~/harmony-tools' || '$HOME/harmony-tools' }}

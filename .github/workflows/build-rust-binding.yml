@@ -14,17 +14,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [18.x]
+        node-version: [22]
         settings:
-          - host: macos-13
-            target: x86_64-apple-darwin
-            build: |
-              pnpm build:binding:release
-              strip -x crates/native_binding/*.node
           - host: windows-latest
             build: pnpm build:binding:release
             target: x86_64-pc-windows-msvc
-          - host: ubuntu-22.04
+          - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: |-
@@ -32,11 +27,11 @@ jobs:
               npm install -g corepack@0.31.0 &&
               pnpm build:binding:release --target x86_64-unknown-linux-gnu &&
               strip crates/native_binding/*.node
-          - host: ubuntu-22.04
+          - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: set -e && pnpm build:binding:release && strip crates/native_binding/*.node
-          - host: macos-13
+          - host: macos-latest
             target: aarch64-apple-darwin
             build: |
               pnpm build:binding:release --target aarch64-apple-darwin

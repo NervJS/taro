@@ -98,6 +98,7 @@ export const config: Config = {
    * 实际并不支持 clone 模式，暂不考虑修复
    */
   testing: {
+    browserArgs: ['--no-sandbox', '--disable-setuid-sandbox'],
     globals: {
       'ts-jest': {
         diagnostics: false,
