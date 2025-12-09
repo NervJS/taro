@@ -39,12 +39,12 @@ jobs:
       - build-rust-wasm
     strategy:
       matrix:
-        node-version: [22, 24]
+        node-version: [22, 20]
         host: [macos-latest, windows-latest, ubuntu-latest]
         exclude:
-          - node-version: 22
+          - node-version: 20
             host: macos-latest
-          - node-version: 22
+          - node-version: 20
             host: windows-latest
         include:
           - host: macos-latest
