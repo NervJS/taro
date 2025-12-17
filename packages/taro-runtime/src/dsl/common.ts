@@ -245,7 +245,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     })
     config[lifecycle] = function () {
       const exec = () => safeExecute(this.$taroPath, lifecycle, ...arguments)
-      if (isDefer) {
+      if (isDefer && process.env.TARO_ENV !== 'swan') {
         hasLoaded.then(exec)
       } else {
         return exec()
