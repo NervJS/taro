@@ -48,12 +48,12 @@ class Input extends React.Component<IProps, null> {
     this.handleComposition = this.handleComposition.bind(this)
     this.handleBeforeInput = this.handleBeforeInput.bind(this)
     this.isOnComposition = false
-    this.onInputExecuted = false
+    this.onInputExcuted = false
   }
 
   inputRef: HTMLInputElement
   isOnComposition: boolean
-  onInputExecuted: boolean
+  onInputExcuted: boolean
 
   componentDidMount () {
     // 修复无法选择文件
@@ -90,10 +90,10 @@ class Input extends React.Component<IProps, null> {
       onInput
     } = this.props
 
-    if (!this.isOnComposition && !this.onInputExecuted) {
+    if (!this.isOnComposition && !this.onInputExcuted) {
       let { value } = e.target
       const inputType = getTrueType(type, confirmType, password)
-      this.onInputExecuted = true
+      this.onInputExcuted = true
       /* 修复 number 类型 maxLength 无效 */
       if (inputType === 'number' && value && maxlength <= value.length) {
         value = value.substring(0, maxlength)
@@ -115,14 +115,14 @@ class Input extends React.Component<IProps, null> {
       // }
 
       typeof onInput === 'function' && onInput(e)
-      this.onInputExecuted = false
+      this.onInputExcuted = false
     }
   }
 
   handlePaste (e) {
     e.stopPropagation()
     const { onPaste } = this.props
-    this.onInputExecuted = false
+    this.onInputExcuted = false
     Object.defineProperty(e, 'detail', {
       value: {
         value: e.target.value
@@ -134,7 +134,7 @@ class Input extends React.Component<IProps, null> {
   handleFocus (e) {
     e.stopPropagation()
     const { onFocus } = this.props
-    this.onInputExecuted = false
+    this.onInputExcuted = false
     Object.defineProperty(e, 'detail', {
       value: {
         value: e.target.value
@@ -159,7 +159,7 @@ class Input extends React.Component<IProps, null> {
     const { onConfirm, onKeyDown } = this.props
     const { value } = e.target
     const keyCode = e.keyCode || e.code
-    this.onInputExecuted = false
+    this.onInputExcuted = false
 
     if (typeof onKeyDown === 'function') {
       Object.defineProperty(e, 'detail', {

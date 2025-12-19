@@ -47,6 +47,7 @@ const outputTargets: OutputTarget[] = [
     type: 'dist-custom-elements',
     minify: isProd,
     // inlineDynamicImports: true,
+    autoDefineCustomElements: false,
     generateTypeDeclarations: false,
   },
   {
@@ -88,8 +89,8 @@ export const config: Config = {
     { components: ['taro-video-core', 'taro-video-control', 'taro-video-danmu'] }
   ],
   /**
-   * Note: Taro 内部有很多地方都直接引用了 dist/components，最终的编译产物中有很多 super()，导致低版安装白屏
-   * 为彻底解决此包导致的白屏问题，故暂不在包构建时转为 es5，而是将此包加入到项目的 babel 编译中
+   * Note: Taro内部有很多地方都直接引用了dist/components，最终的编译产物中有很多super()，导致低版安装白屏
+   * 为彻底解决此包导致的白屏问题，故暂不在包构建是转为es5，而是将此包加入到项目的babel编译中
    */
   // buildEs5: 'prod',
   /**

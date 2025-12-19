@@ -116,7 +116,7 @@ export class PullToRefresh implements ComponentInterface {
 
   triggerPullDownRefresh = (flag: boolean) => {
     // 在初始化时、用代码 自动 触发 pullDownRefresh
-    // 添加 this._isMounted 的判断，否则组件一实例化，currSt 就会是 finish
+    // 添加this._isMounted的判断，否则组建一实例化，currSt就会是finish
     if (!this.dragOnEdge && this._isMounted) {
       if (flag) {
         this._lastScreenY = this.distanceToRefresh + 1
@@ -136,14 +136,7 @@ export class PullToRefresh implements ComponentInterface {
     this.el.appendChild = child?.appendChild.bind(child)
     this.el.insertBefore = child?.insertBefore.bind(child)
     this.el.replaceChild = child?.replaceChild.bind(child)
-
-    const originalRemoveChild = this.el.removeChild.bind(this.el)
-    this.el.removeChild = (node: Node) => {
-      if (child && node.parentNode === child) {
-        return child.removeChild(node)
-      }
-      return originalRemoveChild(node)
-    }
+    this.el.removeChild = child?.removeChild.bind(child)
     this._to = {
       touchstart: this.onTouchStart.bind(this, ele),
       touchmove: this.onTouchMove.bind(this, ele),
@@ -158,7 +151,7 @@ export class PullToRefresh implements ComponentInterface {
   destroy = () => {
     // fix 频繁切换页面，可能会导致 this._to 为空造成报错
     if(!this._to) return
-
+    
     const ele = this.scrollContainer
     Object.keys(this._to).forEach(key => {
       ele.removeEventListener(key, this._to[key])
@@ -203,7 +196,7 @@ export class PullToRefresh implements ComponentInterface {
 
     if (this.isEdge(ele)) {
       if (!this.dragOnEdge) {
-        // 当用户开始往上滑的时候 isEdge 还是 false 的话，会导致 this._ScreenY 不是想要的，只有当 isEdge 为 true 时，再上滑，才有意义
+        // 当用户开始往上滑的时候isEdge还是false的话，会导致this._ScreenY不是想要的，只有当isEdge为true时，再上滑，才有意义
         // 下面这行代码解决了上面这个问题
         this._ScreenY = this._startScreenY = e.touches[0].screenY
         this.dragOnEdge = true
