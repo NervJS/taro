@@ -1,10 +1,6 @@
-import path from 'path'
-import { fileURLToPath } from 'url'
-import pluginTester from 'babel-plugin-tester'
-import plugin from '../dist/index.js'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const path = require('path')
+const pluginTester = require('babel-plugin-tester').default
+const plugin = require('../dist')
 
 pluginTester({
   plugin,
