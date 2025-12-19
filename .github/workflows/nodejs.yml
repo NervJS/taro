@@ -40,18 +40,18 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x]
-        host: [macos-15, windows-latest, ubuntu-latest]
+        host: [macos-latest, windows-latest, ubuntu-latest]
         exclude:
           - node-version: 18.x
-            host: macos-15
+            host: macos-latest
           - node-version: 18.x
             host: windows-latest
           - node-version: 20.x
-            host: macos-15
+            host: macos-latest
           - node-version: 20.x
             host: windows-latest
         include:
-          - host: macos-15
+          - host: macos-latest
             target: x86_64-apple-darwin
           - host: windows-latest
             target: x86_64-pc-windows-msvc
