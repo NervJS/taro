@@ -237,6 +237,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     }
   }
 
+  const isSWAN = process.env.TARO_ENV === 'swan'// 百度小程序
   LIFECYCLES.forEach((lifecycle) => {
     let isDefer = false
     lifecycle = lifecycle.replace(/^defer:/, () => {
@@ -245,6 +246,10 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     })
     config[lifecycle] = function () {
       const exec = () => safeExecute(this.$taroPath, lifecycle, ...arguments)
+      if (isSWAN) {
+        return exec()
+      }
+
       if (isDefer) {
         hasLoaded.then(exec)
       } else {
