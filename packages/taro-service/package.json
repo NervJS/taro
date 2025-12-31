@@ -33,16 +33,14 @@
     "@tarojs/helper": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "joi": "^17.12.3",
     "lodash": "^4.17.21",
     "ora": "^5.4.1",
     "resolve": "^1.22.8",
     "tapable": "^2.2.1",
-    "webpack-merge": "^5.10.0"
-  },
-  "devDependencies": {
-    "@tarojs/taro": "workspace:*",
     "webpack": "^5.91.0",
+    "webpack-merge": "^5.10.0",
     "webpack-chain": "^6.5.1"
   }
 }
