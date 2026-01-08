@@ -6,12 +6,13 @@ import { Template } from './template'
 import type { IOptions } from './index'
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-ascf'
+const PROJECT_CONFIG_NAME = 'ascf.config.json'
 
 export default class AscfApp extends TaroPlatformBase {
   template: Template
   platform = 'ascf'
   globalObject = 'has'
-  projectConfigJson: string = this.config.projectConfigName || 'ascf.config.json'
+  projectConfigJson: string = this.config.projectConfigName || PROJECT_CONFIG_NAME
   runtimePath = `${PACKAGE_NAME}/dist/runtime`
   taroComponentsPath = `${PACKAGE_NAME}/dist/components-react`
   fileType = {
@@ -37,9 +38,16 @@ export default class AscfApp extends TaroPlatformBase {
       close () {
         this.modifyTemplate(pluginOptions)
         this.modifyWebpackConfig()
-        this.generateProjectConfig('ascf.config.json', 'ascf.config.json')
       }
     })
+  }
+
+  /**
+   * ascf不需要生成project.config.json
+   * 这里override，内部调用时直接生成ascf.config.json
+   */
+  protected generateProjectConfig(src: string) {
+    super.generateProjectConfig(src, PROJECT_CONFIG_NAME)
   }
 
   /**
