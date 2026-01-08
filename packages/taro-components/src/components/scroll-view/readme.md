@@ -25,7 +25,6 @@
 | Property                    | Attribute                    | Description | Type                                        | Default     |
 | --------------------------- | ---------------------------- | ----------- | ------------------------------------------- | ----------- |
 | `animated`                  | `scroll-with-animation`      |             | `boolean`                                   | `false`     |
-| `enhanced`                  | `enhanced`                   |             | `boolean`                                   | `false`     |
 | `lowerThreshold`            | `lower-threshold`            |             | `number \| string`                          | `50`        |
 | `mpScrollIntoView`          | `scroll-into-view`           |             | `string`                                    | `undefined` |
 | `mpScrollIntoViewAlignment` | `scroll-into-view-alignment` |             | `"center" \| "end" \| "nearest" \| "start"` | `undefined` |
@@ -33,7 +32,6 @@
 | `mpScrollTop`               | `scroll-top`                 |             | `number \| string`                          | `undefined` |
 | `scrollX`                   | `scroll-x`                   |             | `boolean`                                   | `false`     |
 | `scrollY`                   | `scroll-y`                   |             | `boolean`                                   | `false`     |
-| `showScrollbar`             | `show-scrollbar`             |             | `boolean`                                   | `true`      |
 | `upperThreshold`            | `upper-threshold`            |             | `number \| string`                          | `50`        |
 
 
