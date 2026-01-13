@@ -10,7 +10,8 @@
       "default": true,
       "additional": [
         "aarch64-apple-darwin",
-        "x86_64-unknown-linux-musl"
+        "x86_64-unknown-linux-musl",
+        "aarch64-unknown-linux-gnu"
       ]
     }
   },
@@ -55,6 +56,7 @@
   "optionalDependencies": {
     "@tarojs/binding-darwin-arm64": "workspace:*",
     "@tarojs/binding-darwin-x64": "workspace:*",
+    "@tarojs/binding-linux-arm64-gnu": "workspace:*",
     "@tarojs/binding-linux-x64-gnu": "workspace:*",
     "@tarojs/binding-win32-x64-msvc": "workspace:*"
   }
