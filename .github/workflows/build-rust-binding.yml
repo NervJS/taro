@@ -94,7 +94,7 @@ jobs:
         if: ${{ !matrix.settings.docker }}
         shell: bash
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: bindings-${{ matrix.settings.target }}
           path: crates/native_binding/${{ inputs.name }}.*.node
