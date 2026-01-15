@@ -148,9 +148,10 @@ export const getMiniXScriptLoader = pipe(mergeOption, partial(getLoader, path.re
 export const getMiniTemplateLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniTemplateLoader')))
 export const getResolveUrlLoader = pipe(mergeOption, partial(getLoader, 'resolve-url-loader'))
 
-const getExtractCssLoader = () => {
+const getExtractCssLoader = (miniCssExtractLoaderOption = {}) => {
   return {
-    loader: MiniCssExtractPlugin.loader
+    loader: MiniCssExtractPlugin.loader,
+    options: miniCssExtractLoaderOption
   }
 }
 export const getMiniCssExtractPlugin = pipe(mergeOption, listify, partial(getPlugin, MiniCssExtractPlugin))
@@ -215,6 +216,7 @@ export const getModule = (appPath: string, {
   lessLoaderOption,
   sassLoaderOption,
   stylusLoaderOption,
+  miniCssExtractLoaderOption,
   fontUrlLoaderOption,
   imageUrlLoaderOption,
   mediaUrlLoaderOption,
@@ -252,7 +254,7 @@ export const getModule = (appPath: string, {
     ),
     cssLoaderOption
   ]
-  const extractCssLoader = getExtractCssLoader()
+  const extractCssLoader = getExtractCssLoader(miniCssExtractLoaderOption)
   const miniTemplateLoader = getMiniTemplateLoader([{
     buildAdapter
   }])

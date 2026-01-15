@@ -44,6 +44,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
     defineConstants = {},
     env = {},
     styleLoaderOption = {},
+    miniCssExtractLoaderOption = {},
     cssLoaderOption = {},
     sassLoaderOption = {},
     lessLoaderOption = {},
@@ -74,6 +75,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
     enableSourceMap,
 
     styleLoaderOption,
+    miniCssExtractLoaderOption,
     cssLoaderOption,
     lessLoaderOption,
     sassLoaderOption,
