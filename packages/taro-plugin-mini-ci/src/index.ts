@@ -55,7 +55,10 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
             type: joi.string().valid('miniProgram', 'miniProgramPlugin', 'miniGame', 'miniGamePlugin'),
             ignores: joi.array().items(joi.string().required()),
             robot: joi.number(),
-            setting: joi.object()
+            setting: joi.object(),
+            pagePath: joi.string(),
+            searchQuery: joi.string(),
+            scene: joi.number()
           }),
           /** 字节跳动小程序上传配置 */
           tt: joi.object({
