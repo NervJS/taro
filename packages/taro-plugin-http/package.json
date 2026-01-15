@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-http",
-  "version": "4.1.10-alpha.0",
+  "version": "4.1.10-beta.14",
   "description": "Taro 小程序端支持使用 web 请求 的插件",
   "author": "O2Team",
   "license": "MIT",
