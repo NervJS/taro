@@ -85,3 +85,8 @@ artifacts
 # Node Addons
 *.node
 chrome
+
+# ai
+.claude
+.trae
+.kiro

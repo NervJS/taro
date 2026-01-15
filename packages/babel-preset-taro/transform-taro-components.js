@@ -33,10 +33,23 @@ const LIST_BUILDER_PROPS = ['padding', 'type', 'list', 'childCount', 'childHeigh
 
 module.exports = declare((api) => {
   api.assertVersion(7)
-  const componentImports = new Map()
+  function hasTargetTaroComponent(state, target) {
+    return state.taroComponentImports.has(target)
+  }
 
-  function hasTargetTaroComponent(target) {
-    return componentImports.has(target) && componentImports.get(target).source === TARO_COMPONENTS
+  function getComponentLocalName(state, name, scope) {
+    if (state.taroComponentImports.has(name)) {
+      return state.taroComponentImports.get(name).localName
+    }
+    if (state.generatedImports.has(name)) {
+      return state.generatedImports.get(name).localName
+    }
+    const programScope = scope.getProgramParent()
+    // 始终生成唯一 ID，避免与用户代码或外部包导入的组件本地名冲突
+    const newId = programScope.generateUidIdentifier(name)
+    const record = { localName: newId.name, source: TARO_COMPONENTS }
+    state.generatedImports.set(name, record)
+    return record.localName
   }
 
   function pickAttrs(attrs, props) {
@@ -51,78 +64,76 @@ module.exports = declare((api) => {
     name: 'plugin:transform-taro-components',
     visitor: {
       Program: {
-        exit(path) {
-          if ([COMPONENT_LIST, COMPONENT_LIST_ITEM].some((component) => componentImports.has(component))) {
-            const taroComponentsImportDeclIndex = path.node.body.findIndex((node) => {
-              return (
-                api.types.isImportDeclaration(node) &&
-                api.types.isStringLiteral(node.source) &&
-                node.source.value === TARO_COMPONENTS
+        enter(_path, state) {
+          // 每个文件单独维护状态，避免跨文件污染
+          state.taroComponentImports = new Map()
+          state.generatedImports = new Map()
+        },
+        exit(path, state) {
+          const taroComponentImports = state.taroComponentImports
+          if ([COMPONENT_LIST, COMPONENT_LIST_ITEM].some((component) => taroComponentImports.has(component))) {
+            const collectedSpecifiers = []
+            const remainingBody = []
+
+            path.node.body.forEach((node) => {
+              if (api.types.isImportDeclaration(node) && api.types.isStringLiteral(node.source)) {
+                if (node.source.value === TARO_COMPONENTS) {
+                  collectedSpecifiers.push(...node.specifiers.filter((specifier) => api.types.isImportSpecifier(specifier)))
+                  return
+                }
+              }
+              remainingBody.push(node)
+            })
+
+            // 重新生成 @tarojs/components 导入声明并插入到路径的开头，排除掉 List、ListItem，添加 ScrollView、ListBuilder、View 到 @tarojs/components 导入声明中
+            const baseSpecifiers = collectedSpecifiers.filter((specifier) => {
+              return !(
+                api.types.isImportSpecifier(specifier) &&
+                (specifier.imported?.name === COMPONENT_LIST || specifier.imported?.name === COMPONENT_LIST_ITEM)
               )
             })
-            if (taroComponentsImportDeclIndex === -1) {
-              return
-            }
-            const taroComponentsImportDecl = path.node.body[taroComponentsImportDeclIndex]
-            path.node.body.splice(taroComponentsImportDeclIndex, 1)
-            // 重新生成 @tarojs/components 导入声明并插入到路径的开头，排除掉 List、ListItem，添加 ScrollView、ListBuilder、View 到 @tarojs/components 导入声明中
-            if (taroComponentsImportDecl) {
-              const { specifiers } = taroComponentsImportDecl
-              // 排除掉 List、ListItem
-              const newSpecifiers = specifiers.filter((specifier) => {
-                return !(
-                  api.types.isImportSpecifier(specifier) &&
-                  (specifier.imported?.name === COMPONENT_LIST || specifier.imported?.name === COMPONENT_LIST_ITEM)
+
+            const specifierMap = new Map()
+            baseSpecifiers.forEach((specifier) => {
+              specifierMap.set(specifier.local.name, specifier)
+            })
+
+            // 保证重建的 @tarojs/components 导入不重复本地名，且补齐转换所需组件
+            const ensureSpecifier = (localName, importedName) => {
+              if (!specifierMap.has(localName)) {
+                specifierMap.set(
+                  localName,
+                  api.types.importSpecifier(api.types.identifier(localName), api.types.identifier(importedName))
                 )
-              })
-
-              if (componentImports.has(COMPONENT_LIST)) {
-                const scrollViewLocalName = componentImports.has(COMPONENT_SCROLL_VIEW)
-                  ? componentImports.get(COMPONENT_SCROLL_VIEW).localName
-                  : COMPONENT_SCROLL_VIEW
-
-                const listBuilderLocalName = componentImports.has(COMPONENT_LIST_BUILDER)
-                  ? componentImports.get(COMPONENT_LIST_BUILDER).localName
-                  : COMPONENT_LIST_BUILDER
-
-                if (!newSpecifiers.some((specifier) => specifier.imported?.name === scrollViewLocalName)) {
-                  newSpecifiers.push(
-                    api.types.importSpecifier(
-                      api.types.identifier(scrollViewLocalName),
-                      api.types.identifier(scrollViewLocalName)
-                    )
-                  )
-                }
-
-                if (!newSpecifiers.some((specifier) => specifier.imported?.name === listBuilderLocalName)) {
-                  newSpecifiers.push(
-                    api.types.importSpecifier(
-                      api.types.identifier(listBuilderLocalName),
-                      api.types.identifier(listBuilderLocalName)
-                    )
-                  )
-                }
               }
-              if (componentImports.has(COMPONENT_LIST_ITEM)) {
-                const viewLocalName = componentImports.has(COMPONENT_VIEW)
-                  ? componentImports.get(COMPONENT_VIEW).localName
-                  : COMPONENT_VIEW
+            }
 
-                if (!newSpecifiers.some((specifier) => specifier.imported?.name === viewLocalName)) {
-                  newSpecifiers.push(
-                    api.types.importSpecifier(api.types.identifier(viewLocalName), api.types.identifier(viewLocalName))
-                  )
-                }
-              }
+            if (taroComponentImports.has(COMPONENT_LIST)) {
+              const scrollViewLocalName = getComponentLocalName(state, COMPONENT_SCROLL_VIEW, path.scope)
+              const listBuilderLocalName = getComponentLocalName(state, COMPONENT_LIST_BUILDER, path.scope)
 
-              path.node.body.unshift(
-                api.types.importDeclaration(newSpecifiers, api.types.stringLiteral(TARO_COMPONENTS))
+              ensureSpecifier(scrollViewLocalName, COMPONENT_SCROLL_VIEW)
+              ensureSpecifier(listBuilderLocalName, COMPONENT_LIST_BUILDER)
+            }
+
+            if (taroComponentImports.has(COMPONENT_LIST_ITEM)) {
+              const viewLocalName = getComponentLocalName(state, COMPONENT_VIEW, path.scope)
+
+              ensureSpecifier(viewLocalName, COMPONENT_VIEW)
+            }
+
+            const nextSpecifiers = Array.from(specifierMap.values())
+            if (nextSpecifiers.length > 0) {
+              remainingBody.unshift(
+                api.types.importDeclaration(nextSpecifiers, api.types.stringLiteral(TARO_COMPONENTS))
               )
             }
+
+            path.node.body = remainingBody
           }
         },
       },
-      ImportDeclaration(path) {
+      ImportDeclaration(path, state) {
         const { node } = path
         const { source, specifiers } = node
         if (api.types.isStringLiteral(source)) {
@@ -136,44 +147,49 @@ module.exports = declare((api) => {
               const local = specifier.local
 
               // 收集组件导入信息
-              componentImports.set(imported.name, {
-                source: packageName,
-                importedName: imported.name,
-                localName: local.name,
-              })
+              if (packageName === TARO_COMPONENTS && !state.taroComponentImports.has(imported.name)) {
+                state.taroComponentImports.set(imported.name, {
+                  source: packageName,
+                  importedName: imported.name,
+                  localName: local.name,
+                })
+              }
             }
           })
         }
       },
-      JSXElement(path) {
+      JSXElement(path, state) {
         const openingElement = path.node.openingElement
         if (openingElement.name && api.types.isJSXIdentifier(openingElement.name)) {
           const props = openingElement.attributes
           const children = path.node.children
           if (
-            hasTargetTaroComponent(COMPONENT_LIST) &&
-            openingElement.name.name === componentImports.get(COMPONENT_LIST).localName
+            hasTargetTaroComponent(state, COMPONENT_LIST) &&
+            openingElement.name.name === state.taroComponentImports.get(COMPONENT_LIST).localName
           ) {
+            const scrollViewName = getComponentLocalName(state, COMPONENT_SCROLL_VIEW, path.scope)
+            const listBuilderName = getComponentLocalName(state, COMPONENT_LIST_BUILDER, path.scope)
+
             // 创建 ScrollView 开始标签
             const scrollViewProps = pickAttrs(props, SCROLL_VIEW_PROPS)
             scrollViewProps.push(
               api.types.jsxAttribute(api.types.jsxIdentifier('type'), api.types.stringLiteral('custom'))
             )
             const scrollViewOpening = api.types.jsxOpeningElement(
-              api.types.jsxIdentifier(COMPONENT_SCROLL_VIEW),
+              api.types.jsxIdentifier(scrollViewName),
               scrollViewProps,
               false
             )
             // 创建 ScrollView 闭合标签
-            const scrollViewClosing = api.types.jsxClosingElement(api.types.jsxIdentifier(COMPONENT_SCROLL_VIEW))
+            const scrollViewClosing = api.types.jsxClosingElement(api.types.jsxIdentifier(scrollViewName))
             // 创建 ListBuilder 开始标签
             const listBuilderOpening = api.types.jsxOpeningElement(
-              api.types.jsxIdentifier(COMPONENT_LIST_BUILDER),
+              api.types.jsxIdentifier(listBuilderName),
               pickAttrs(props, LIST_BUILDER_PROPS),
               false
             )
             // 创建 ListBuilder 闭合标签
-            const listBuilderClosing = api.types.jsxClosingElement(api.types.jsxIdentifier(COMPONENT_LIST_BUILDER))
+            const listBuilderClosing = api.types.jsxClosingElement(api.types.jsxIdentifier(listBuilderName))
 
             // 创建 ListBuilder 元素，包含原 List 的子元素
             const listBuilderElement = api.types.jsxElement(listBuilderOpening, listBuilderClosing, children, false)
@@ -190,12 +206,13 @@ module.exports = declare((api) => {
           }
 
           if (
-            hasTargetTaroComponent(COMPONENT_LIST_ITEM) &&
-            openingElement.name.name === componentImports.get(COMPONENT_LIST_ITEM).localName
+            hasTargetTaroComponent(state, COMPONENT_LIST_ITEM) &&
+            openingElement.name.name === state.taroComponentImports.get(COMPONENT_LIST_ITEM).localName
           ) {
-            const viewOpening = api.types.jsxOpeningElement(api.types.jsxIdentifier(COMPONENT_VIEW), props, false)
+            const viewName = getComponentLocalName(state, COMPONENT_VIEW, path.scope)
+            const viewOpening = api.types.jsxOpeningElement(api.types.jsxIdentifier(viewName), props, false)
 
-            const viewClosing = api.types.jsxClosingElement(api.types.jsxIdentifier(COMPONENT_VIEW))
+            const viewClosing = api.types.jsxClosingElement(api.types.jsxIdentifier(viewName))
 
             const viewElement = api.types.jsxElement(viewOpening, viewClosing, path.node.children, false)
 
