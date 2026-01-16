@@ -1,0 +1,20 @@
+.cube-swiper-wrap{
+    width: 600px;
+    height: 600px;
+    // background-color: pink;
+}
+.cube-img {
+    width: 100%;
+    height: 100%;
+  
+}
+.cube-wrap {
+    display: flex;
+    height: 800px;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+}
+.cube-item {
+    background-color: yellow;
+}

@@ -1,0 +1,56 @@
+@use 'sass:math';
+
+@mixin setCircleLoading($color: currentColor, $size: 80px, $wide: 7px) {
+  display: inline-flex;
+  position: relative;
+  width: $size;
+  height: $size;
+  vertical-align: middle;
+  color: $color;
+  animation: circleLoading 1s steps(60, end) infinite;
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    width: math.div($size, 2);
+    height: $size;
+    box-sizing: border-box;
+    border: $wide solid;
+    border-color: currentColor;
+  }
+
+  &::before {
+    border-right-width: 0;
+    border-top-left-radius: $size;
+    border-bottom-left-radius: $size;
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 8%, rgba(0, 0, 0, 0.3) 95%);
+  }
+  &::after {
+    border-left-width: 0;
+    border-top-right-radius: $size;
+    border-bottom-right-radius: $size;
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 8%, rgba(0, 0, 0, 0.3) 95%);
+  }
+  &__dot {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: math.div(-$wide, 2);
+    width: $wide;
+    height: $wide;
+    border-top-right-radius: 100%;
+    border-bottom-right-radius: 100%;
+    background: currentColor;
+  }
+
+  @keyframes circleLoading {
+    0% {
+      transform: rotate3d(0, 0, 1, 0deg);
+    }
+
+    100% {
+      transform: rotate3d(0, 0, 1, 360deg);
+    }
+  }
+}

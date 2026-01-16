@@ -1,0 +1,14 @@
+<swiper
+  style="indicator-color: {{indicatorColor}};indicator-selected-color: {{indicatorActiveColor}}"
+  id="{{id}}"
+  index="{{current}}"
+  autoplay="{{autoplay}}"
+  interval="{{interval}}"
+  indicator="{{indicatorDots}}"
+  duration="{{duration}}"
+  loop="{{circular}}"
+  vertical="{{vertical}}"
+  @change="onChange"
+>
+  <slot></slot>
+</swiper>

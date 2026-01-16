@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "declaration": true,
+    "module": "ESNext",
+    "outDir": "./dist",
+    "target": "ES2017"
+  },
+  "include": ["./src", "./rollup.config.ts"]
+}

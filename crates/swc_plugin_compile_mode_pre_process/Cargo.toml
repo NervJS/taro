@@ -1,0 +1,17 @@
+[package]
+name = "swc_plugin_compile_mode_pre_process"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+swc_core = { workspace = true }
+regex = "1.10.2"
+rustc-hash = "1.1.0"
+
+[dev-dependencies]
+swc_core = { workspace = true, features = ["ecma_parser", "ecma_codegen"] }

@@ -1,0 +1,38 @@
+{
+  "name": "test",
+  "dependencies": {
+    "@babel/runtime": "^7.7.7",
+    "@tarojs/shared": "3.0.0-beta.6",
+    "@tarojs/taro": "3.0.0-beta.6",
+    "@tarojs/api": "3.0.0-beta.6",
+    "@tarojs/cli": "3.0.0-beta.6",
+    "@tarojs/components": "3.0.0-beta.6",
+    "@tarojs/taro-h5": "3.0.0-beta.6",
+    "@tarojs/helper": "3.0.0-beta.6",
+    "@tarojs/taro-loader": "3.0.0-beta.6",
+    "@tarojs/mini-runner": "3.0.0-beta.6",
+    "@tarojs/react": "3.0.0-beta.6",
+    "@tarojs/router": "3.0.0-beta.6",
+    "@tarojs/runner-utils": "3.0.0-beta.6",
+    "@tarojs/runtime": "3.0.0-beta.6",
+    "@tarojs/service": "3.0.0-beta.6",
+    "@tarojs/webpack-runner": "3.0.0-beta.6",
+    "@tarojs/with-weapp": "3.0.0-beta.6",
+    "@tarojs/plugin-platform-alipay": "3.0.0-beta.6",
+    "@tarojs/plugin-platform-h5": "3.0.0-beta.6",
+    "@tarojs/plugin-platform-jd": "3.0.0-beta.6",
+    "@tarojs/plugin-platform-qq": "3.0.0-beta.6",
+    "@tarojs/plugin-platform-swan": "3.0.0-beta.6",
+    "@tarojs/plugin-platform-tt": "3.0.0-beta.6",
+    "@tarojs/plugin-platform-weapp": "3.0.0-beta.6",
+    "@tarojs/taroize": "1.3.22"
+  },
+  "devDependencies": {
+    "babel-preset-taro": "2.0.0",
+    "eslint": "^8.12.0",
+    "eslint-config-taro": "3.0.0-beta.6",
+    "babel-plugin-transform-taroapi": "3.0.0-beta.6",
+    "postcss-plugin-constparse": "3.0.0-beta.6",
+    "postcss-pxtransform": "3.0.0-beta.6"
+  }
+}

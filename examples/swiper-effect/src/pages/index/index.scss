@@ -1,0 +1,32 @@
+.swiper-wrap1{
+    width: 80%;
+    height: 400px;
+    background-color: pink;
+}
+.img1 {
+    width: 100%;
+    height: 260px;
+  
+}
+.wrap {
+    display: flex;
+    flex-direction: column;
+}
+.item {
+    box-sizing: border-box;
+    border: 1px red solid;
+}
+
+// * {
+//     user-select: none;
+//     -webkit-user-select: none; /* Safari */
+//     -moz-user-select: none; /* Firefox */
+//     -ms-user-select: none;
+// }
+.deleteCurrent{
+    font-size: 16px;
+    height: 40px;
+    background-color: yellow;
+    margin-top: 0 !important;
+    // top: 0;
+}

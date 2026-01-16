@@ -1,0 +1,255 @@
+import { describe, expect, test } from 'vitest'
+
+import StyleTransform, { getWrapedCSS } from '../src/transforms'
+
+// 初始化
+const styleTransform = new StyleTransform({})
+
+async function run (src, filename = './__tests__/styles/a.css', debug) {
+  let options = { platform: 'android' }
+
+  if (typeof src === 'object') {
+    ({
+      src,
+      filename = './__tests__/styles/a.css',
+      options = { platform: 'android' },
+      debug
+    } = src || {})
+  }
+
+  const css = await styleTransform.transform(src, filename, options)
+
+  if (debug) {
+    console.log(filename + ' source: ', src)
+    console.log(filename + ' target: ', css)
+  }
+
+  return css
+}
+
+describe('style transform', () => {
+  test('.css transform basic', async () => {
+    const css = await run(`
+      .test {
+        color: red;
+        height: 10px;
+      }
+    `)
+    expect(css).toEqual(getWrapedCSS(`{
+  "test": {
+    "color": "red",
+    "height": scalePx2dp(5)
+  }
+}`))
+  })
+
+  test('.css transform viewport unit', async () => {
+    const css = await run(`
+      .test {
+        height: 10vh;
+      }
+    `)
+    expect(css).toEqual(getWrapedCSS(`{
+  "test": {
+    "height": scaleVu2dp(10, 'vh')
+  },
+  "__viewportUnits": true
+}`))
+  })
+
+  test('.css transform @import', async () => {
+    const css = await run(`
+      @import './b.css';
+      .test {
+        color: red;
+      }
+    `)
+    expect(css).toEqual(getWrapedCSS(`{
+  "brn": {
+    "color": "red"
+  },
+  "test": {
+    "color": "red"
+  }
+}`))
+  })
+
+  test('.css import source omit extension', async () => {
+    const css = await run("@import './b';", './__tests__/styles/a.css')
+    expect(css).toEqual(getWrapedCSS(`{
+  "brn": {
+    "color": "red"
+  }
+}`))
+  })
+
+  test('.sass transform basic', async () => {
+    const css = await run(`
+      .test {
+        color: red;
+      }
+    `, './__tests__/styles/a.scss')
+    expect(css).toEqual(getWrapedCSS(`{
+  "test": {
+    "color": "red"
+  }
+}`))
+  })
+
+  test('.sass transform @import', async () => {
+    const css = await run(`
+      @import './b.scss';
+      .test {
+        color: red;
+      }
+    `, './__tests__/styles/a.scss')
+    expect(css).toEqual(getWrapedCSS(`{
+  "b": {
+    "color": "red"
+  },
+  "test": {
+    "color": "red"
+  }
+}`))
+  })
+
+  test('.sass transform @import css file', async () => {
+    const css = await run(`
+      @import './c.css';
+      .test {
+        color: red;
+      }
+    `, './__tests__/styles/a.scss')
+    expect(css).toEqual(getWrapedCSS(`{
+  "c": {
+    "color": "red"
+  },
+  "test": {
+    "color": "red"
+  }
+}`))
+  })
+
+  test('.sass transform @import with mixins', async () => {
+    const css = await run(`
+      @import './mixins.scss';
+      .test {
+        color: red;
+        @include hairline(width);
+      }
+    `, './__tests__/styles/a.scss')
+    expect(css).toEqual(getWrapedCSS(`{
+  "test": {
+    "color": "red",
+    "width": scalePx2dp(0.5)
+  }
+}`))
+  })
+
+  test('.sass import source omit extension', async () => {
+    const css = await run("@import './b';", './__tests__/styles/a.scss')
+    expect(css).toEqual(getWrapedCSS(`{
+  "b": {
+    "color": "red"
+  }
+}`))
+  })
+
+  test('.less transform basic', async () => {
+    const css = await run(`
+      .test {
+        color: red;
+      }
+    `, './__tests__/styles/a.less')
+    expect(css).toEqual(getWrapedCSS(`{
+  "test": {
+    "color": "red"
+  }
+}`))
+  })
+
+  test('.less transform @import', async () => {
+    const css = await run(`
+      @import './b.less';
+      .test {
+        color: red;
+      }
+    `, './__tests__/styles/a.less')
+    expect(css).toEqual(getWrapedCSS(`{
+  "b": {
+    "color": "red"
+  },
+  "test": {
+    "color": "red"
+  }
+}`))
+  })
+
+  test('.less tranform nest import', async () => {
+    const css = await run(`
+      @import './c.less';
+      .test {
+        color: red;
+      }
+    `, './__tests__/styles/a.less')
+    expect(css).toEqual(getWrapedCSS(`{
+  "nest": {
+    "color": "red"
+  },
+  "c": {
+    "color": "red"
+  },
+  "test": {
+    "color": "red"
+  }
+}`))
+  })
+
+  test('.less tranform node_modules file import', async () => {
+    const css = await run("@import 'less/test/browser/css/global-vars/simple.css';", './__tests__/styles/a.less')
+    expect(css).toEqual(getWrapedCSS(`{
+  "test": {
+    "color": "red"
+  }
+}`))
+  })
+
+  test('.less import source omit extension', async () => {
+    const css = await run("@import './b';", './__tests__/styles/a.less')
+    expect(css).toEqual(getWrapedCSS(`{
+  "b": {
+    "color": "red"
+  }
+}`))
+  })
+
+  test('.styl transform basic', async () => {
+    const css = await run(`
+      .test {
+        color: red;
+      }
+    `, './__tests__/styles/a.styl')
+    expect(css).toEqual(getWrapedCSS(`{
+  "test": {
+    "color": "#f00"
+  }
+}`))
+  })
+
+  test('.styl transform @import', async () => {
+    const css = await run(`
+      @import './b.styl';
+      .test {
+        color: red;
+      }
+    `, './__tests__/styles/a.styl')
+    expect(css).toEqual(getWrapedCSS(`{
+  "b": {
+    "color": "#f00"
+  },
+  "test": {
+    "color": "#f00"
+  }
+}`))
+  })
+})

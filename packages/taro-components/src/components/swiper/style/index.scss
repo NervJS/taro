@@ -1,0 +1,14 @@
+@import "~swiper/swiper-bundle.min.css";
+
+taro-swiper-core {
+  display: block;
+  height: 150px;
+
+  .swiper {
+    &-container {
+      height: 100%;
+      position: relative;
+      overflow: visible;
+    }
+  }
+}

@@ -1,0 +1,64 @@
+@import './fn';
+
+.weui-hidden_abs {
+  opacity: 0;
+  position: absolute;
+  width: 1px;//1px是为了兼容ios15
+  height: 1px;
+  overflow: hidden;
+}
+.weui-a11y_ref {
+  display: none;
+}
+.weui-hidden-space:empty {
+  &::before {
+    content: '\00A0';
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+}
+.weui-a11y-combo {
+  position: relative;
+}
+.weui-a11y-combo__helper {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.weui-a11y-combo__content {
+  position: relative;
+  z-index: 1;
+}
+
+.weui-wa-hotarea-el {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 44px;
+  min-height: 44px;
+  width: 100%;
+  height: 100%;
+}
+.weui-wa-hotarea-el__wrp,
+.weui-wa-hotarea,
+.weui-wa-hotarea_before {
+  position: relative;
+
+  // 如果是合法的点击嵌套，例如label[for]里的出现链接，需要把层级提高
+  a,
+  button,
+  navigator {
+    position: relative;
+    z-index: 1;
+  }
+}
+.weui-wa-hotarea_before::before,
+.weui-wa-hotarea::after {
+  content: '';
+  pointer-events: auto;
+}

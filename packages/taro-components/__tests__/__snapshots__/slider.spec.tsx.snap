@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Slider events 1`] = `
+<taro-slider-core class="weui-slider-box" value="0">
+  <div class="weui-slider">
+    <div class="weui-slider__inner" style="background-color: #e9e9e9;">
+      <div class="weui-slider__track" style="width: 0%; background-color: #1aad19;"></div>
+      <div class="weui-slider__handler" style="left: 0%; width: 28px; height: 28px; background-color: #ffffff; margin-top: -14px; margin-left: -14px;"></div>
+      <input type="hidden" value="0">
+    </div>
+  </div>
+</taro-slider-core>
+`;
+
+exports[`Slider should be max 1`] = `
+<taro-slider-core class="weui-slider-box" value="200">
+  <div class="weui-slider">
+    <div class="weui-slider__inner" style="background-color: #e9e9e9;">
+      <div class="weui-slider__track" style="width: 100%; background-color: #1aad19;"></div>
+      <div class="weui-slider__handler" style="left: 100%; width: 28px; height: 28px; background-color: #ffffff; margin-top: -14px; margin-left: -14px;"></div>
+      <input type="hidden" value="200">
+    </div>
+  </div>
+</taro-slider-core>
+`;
+
+exports[`Slider should be min 1`] = `
+<taro-slider-core class="weui-slider-box" value="50">
+  <div class="weui-slider">
+    <div class="weui-slider__inner" style="background-color: #e9e9e9;">
+      <div class="weui-slider__track" style="width: 0%; background-color: #1aad19;"></div>
+      <div class="weui-slider__handler" style="left: 0%; width: 28px; height: 28px; background-color: #ffffff; margin-top: -14px; margin-left: -14px;"></div>
+      <input type="hidden" value="50">
+    </div>
+  </div>
+</taro-slider-core>
+`;
+
+exports[`Slider steps 1`] = `
+<taro-slider-core class="weui-slider-box" value="80">
+  <div class="weui-slider">
+    <div class="weui-slider__inner" style="background-color: #e9e9e9;">
+      <div class="weui-slider__track" style="width: 20%; background-color: #1aad19;"></div>
+      <div class="weui-slider__handler" style="left: 20%; width: 28px; height: 28px; background-color: #ffffff; margin-top: -14px; margin-left: -14px;"></div>
+      <input type="hidden" value="80">
+    </div>
+  </div>
+</taro-slider-core>
+`;

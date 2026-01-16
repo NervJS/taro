@@ -1,0 +1,36 @@
+[workspace]
+members = ["crates/*"]
+resolver = "2"
+
+[workspace.dependencies]
+napi = { version = "=2.14.1", features = ["napi4", "tokio_rt"] }
+napi-build = { version = "=2.1.0" }
+napi-derive = { version = "=2.14.4" }
+napi-sys = { version = "=2.3.0" }
+once_cell = { version = "=1.19.0" }
+tokio = { version = "=1.34.0" }
+tokio-util = { version = "=0.7.10" }
+futures = { version = "=0.3.30" }
+handlebars = { version = "=4.5.0" }
+handlebars_misc_helpers = { version = "=0.13.0" }
+serde_json = { version = "=1.0.114" }
+serde = { version = "=1.0.197", features = ["serde_derive"] }
+anyhow = { version = "=1.0.75" }
+console = { version = "=0.15.7" }
+spinners = { version = "=4.1.1" }
+regex = { version = "=1.10.2" }
+swc_core = { version = "0.87.*", features = ["ecma_plugin_transform", "ecma_utils"] }
+
+[patch.crates-io]
+taro_init = { path = "crates/taro_init" }
+
+[profile.dev]
+debug = 2
+incremental = true
+
+[profile.release]
+codegen-units = 1
+debug = false
+lto = false # disabled by now, because it will significantly increase our compile time. # https://github.com/swc-project/swc/issues/7479
+opt-level = 3
+strip = true

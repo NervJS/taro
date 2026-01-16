@@ -1,0 +1,66 @@
+@import '../../../styles/base/variable/weui-tab';
+@import '../../../styles/widget/weui-tab/weui-tabbar';
+@import '../../../styles/widget/weui-tips/weui-badge';
+
+:root {
+  --taro-tabbar-height: #{$weuiTabBarHeight};
+}
+
+#app {
+  height: 100%;
+}
+
+.taro-tabbar {
+  &__border {
+    &-white {
+      &::before {
+        border-top-color: #fff !important;
+      }
+    }
+  }
+
+  &__container {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  &__panel {
+    overflow: auto;
+    position: relative;
+    flex: 1;
+    -webkit-overflow-scrolling: auto;
+  }
+
+  &__tabbar {
+    position: relative;
+    width: 100%;
+    height: var(--taro-tabbar-height);
+    transition: bottom 0.2s, top 0.2s;
+
+    &-top {
+      top: 0;
+    }
+
+    &-bottom {
+      bottom: 0;
+      margin-bottom: constant(safe-area-inset-bottom);
+      margin-bottom: env(safe-area-inset-bottom);
+    }
+
+    &-hide {
+      display: none;
+    }
+
+    &-slideout {
+      top: -52px;
+      flex: 0 0;
+    }
+  }
+
+  &__panel + &__tabbar-slideout {
+    top: auto;
+    bottom: -52px;
+  }
+}

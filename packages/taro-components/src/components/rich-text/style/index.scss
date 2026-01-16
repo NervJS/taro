@@ -1,0 +1,21 @@
+taro-rich-text-core {
+  user-select: none;
+
+  &[selectable=true],
+  &[user-select=true] {
+    display: block;
+    user-select: text;
+  }
+
+  &[space] {
+    white-space: pre-wrap;
+  }
+
+  &[space=ensp] {
+    word-spacing: .5em;
+  }
+
+  &[space=nbsp] {
+    word-spacing: 1em;
+  }
+}

@@ -1,0 +1,14 @@
+/*postcss-pxtransform rn eject enable*/
+.example-body {
+  text-align: center;
+  &__label {
+    margin-bottom: 20px;
+    display: block;
+  }
+  &__button{
+    margin-top: 100px;
+    text-align: center;
+  }
+}
+
+/*postcss-pxtransform rn eject disable*/

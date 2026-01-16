@@ -1,0 +1,19 @@
+// css画的圆圈loading
+
+// 默认色
+.weui-primary-loading {
+  font-size: 16px;
+  @include setCircleLoading(#606060,1em,0.0875em);
+}
+
+// 跟随系统切换的品牌色
+.weui-primary-loading_brand {
+  color: var(--weui-BRAND);
+}
+
+// 固定白色半透明
+.weui-primary-loading_transparent {
+  color: #ededed;
+}
+
+

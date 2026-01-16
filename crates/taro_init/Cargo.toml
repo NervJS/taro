@@ -1,0 +1,27 @@
+[package]
+name = "taro_init"
+version = "0.0.1"
+edition = "2021"
+authors = ["luckyadam <weitaozsh@gmail.com>"]
+description = "taro 创建逻辑"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/NervJS/taro"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+napi = { version = "=2.15.2", features = ["napi4", "tokio_rt"] }
+napi-derive = { version = "=2.15.3" }
+once_cell = { version = "=1.19.0" }
+tokio = { version = "=1.36.0", features = ["fs", "macros", "io-util", "process"] }
+tokio-util = { version = "=0.7.10", features = ["io"] }
+futures = { version = "=0.3.30" }
+serde_json = { version = "=1.0.114" }
+serde = { version = "=1.0.197", features = ["serde_derive"] }
+handlebars = { version = "=5.1.0" }
+handlebars_misc_helpers = { version = "=0.15.0", default-features = false, features = ["string", "http_attohttpc", "json"] }
+anyhow = { version = "=1.0.80" }
+console = { version = "=0.15.8" }
+spinners = { version = "=4.1.1" }
+regex = { version = "=1.10.3" }

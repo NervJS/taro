@@ -1,0 +1,24 @@
+/*postcss-pxtransform rn eject enable*/
+.scroll-view {
+  .example-body__scroll-view {
+    &--H {
+      white-space: nowrap;
+      .example-body__scroll-view-item {
+        display: inline-block;
+        width: 100%;
+        background-color: #0bb20c;
+        margin: 5px;
+      }
+    }
+    &--V {
+      height: 300px;
+    }
+    .example-body__scroll-view-item {
+      height: 300px;
+      background-color: #0bb20c;
+      margin: 5px;
+    }
+  }
+}
+
+/*postcss-pxtransform rn eject disable*/

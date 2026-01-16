@@ -1,0 +1,24 @@
+.example-body {
+  &__radio-group {
+    &-item {
+      margin-right: 40px;
+    }
+  }
+  &__checkbox-group {
+    &-item {
+      margin-right: 40px;
+    }
+  }
+}
+
+.example-input {
+  .example-body {
+    background-color: white;
+    margin-left: -40px;
+    margin-right: -40px;
+    padding: 20px;
+  }
+}
+.form-switch{
+    margin: 0 auto;
+}

@@ -1,0 +1,7 @@
+.weui-btn_overlay {
+  color: var(--weui-BRAND);
+  background-color: $LIGHT_BG_5;
+  &:not(.weui-btn_disabled):visited {
+    color: var(--weui-BRAND);
+  }
+}

@@ -1,0 +1,136 @@
+@import '../weui-button/weui-button';
+
+// a {
+//   .weui-msg__desc &,
+//   .weui-msg__desc-primary &,
+//   .weui-msg__tips & {
+//     color: $weuiLinkColorDefault;
+//     display: inline-block;
+//     vertical-align: baseline;
+//   }
+// }
+.weui-msg {
+  padding-top: $weuiMsgPaddingTop;
+  // padding: calc($weuiMsgPaddingTop + constant(safe-area-inset-top)) constant(safe-area-inset-right) constant(safe-area-inset-bottom) constant(safe-area-inset-left);
+  // padding: calc($weuiMsgPaddingTop + env(safe-area-inset-top)) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  text-align: center;
+  // line-height: 1.4;
+  // min-height: 100%;
+  // box-sizing: border-box;
+  // display: flex;
+  // flex-direction: column;
+  // background-color: var(--weui-BG-2);
+}
+.weui-msg__icon-area {
+  margin-bottom: $weuiMsgIconGap; // 32px;
+}
+.weui-msg__text-area {
+  margin-bottom: $weuiMsgTextGap; // 32px;
+  padding:0 20px; // 0 32px;
+  // flex: 1;
+  // line-height: 1.6;
+  // @include hyphens;
+  // &:first-child { padding-top: 96px; }
+}
+.weui-msg__text-area a {
+  color: $weuiLinkColorDefault;
+}
+.weui-msg__title {
+  margin-bottom: $weuiMsgTitleGap;
+  font-weight: 400; // 500;
+  font-size: 20px; // 22px;
+  // color: $weuiTextColorTitle;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.weui-msg__desc {
+  font-size: 14px; // 17px;
+  // font-weight: 400;
+  color: $weuiTextColorGray; // $weuiTextColorTitle;
+  // margin-bottom: 16px;
+  word-wrap:break-word;
+  word-break:break-all;
+}
+// .weui-msg__desc-primary {
+//   font-size: 14px;
+//   color: $weuiTextColorDesc;
+//   margin-bottom: 16px;
+// }
+// .weui-msg__custom-area {
+//   text-align: left;
+//   word-wrap: break-word;
+//   hyphens: auto;
+//   margin-bottom: 16px;
+//   .weui-msg__title + & {
+//     margin-top: 48px;
+//   }
+//   .weui-msg__desc + &,
+//   .weui-msg__desc-primary + & {
+//     margin-top: 40px;
+//   }
+//   .weui-cells__group_form {
+//     .weui-cells {
+//       margin: 0;
+//     }
+//   }
+// }
+.weui-msg__opr-area {
+  margin-bottom: $weuiMsgOprGap; // 16px;
+  // .weui-btn-area { margin: 0; }
+  // .weui-btn + .weui-btn { margin-bottom: 16px; }
+  // &:last-child { margin-bottom: 96px; }
+  // & + .weui-msg__extra-area {
+  //   margin-top: 48px;
+  // }
+}
+// .weui-msg__tips-area {
+//   margin-bottom: 16px;
+//   padding: 0 40px;
+//   @include hyphens;
+//   .weui-msg__opr-area + & {
+//     margin-bottom: 48px;
+//   }
+//   &:last-child {
+//     margin-bottom: 64px;
+//   }
+// }
+// .weui-msg__tips {
+//   font-size: 14px;
+//   color: $weuiTextColorDesc;
+// }
+.weui-msg__extra-area {
+  margin-bottom: $weuiMsgExtraAreaGap; // 24px;
+  // padding: 0 32px;
+  // box-sizing: border-box;
+  font-size: 14px; // 12px;
+  color: $weuiTextColorGray;
+  a,
+  navigator {
+    color: $weuiLinkColorDefault;
+  }
+  navigator {
+    display: inline;
+  }
+}
+
+// 部分场景需要去掉头部间距
+// .weui-msg_align-top {
+//   .weui-msg__text-area {
+//     &:first-child { padding-top: 0; }
+//   }
+// }
+
+@media screen and (min-height: $weuiMsgExtraAreaOfMinHeight) {
+  .weui-msg__extra-area {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+  }
+}
+@media only screen and (device-width : 375px) and (device-height : 812px) and (-webkit-device-pixel-ratio : 3){ // iPhoneX
+  .weui-msg__extra-area {
+    margin-bottom: $weuiMsgExtraAreaGap + 34;
+  }
+}

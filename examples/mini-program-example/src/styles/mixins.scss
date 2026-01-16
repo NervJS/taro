@@ -1,0 +1,60 @@
+/**
+ * 对于部分不兼容的样式，可以通过 mixins 统一处理
+ */
+
+/**
+ * // NOTE Taro 编译成 RN 时对 border 的处理有问题
+ * RN 不支持针对某一边设置 style，即 border-bottom-style 会报错
+ * 那么 border-bottom: 1px 就需要写成如下形式：
+ * border: 0 style color; border-bottom-width: 1px;
+ */
+@mixin border($dir, $width, $style, $color) {
+  border: 0 $style $color;
+  @each $d in $dir {
+    #{border-#{$d}-width}: $width;
+  }
+}
+
+/**
+ * 对于不能打包到 RN 的样式，可以用 mixins 引入，相对美观一些
+ */
+@mixin eject($attr, $value) {
+  /*postcss-pxtransform rn eject enable*/
+  #{$attr}: $value;
+  /*postcss-pxtransform rn eject disable*/
+}
+
+/**
+ * // TODO 1px 的线在各端上实现方式不同，统一出来后续再兼容，目前注意两点：
+ * 1. Taro 中大写的 PX 不会被编译成 rpx/em，但 RN 还未兼容该写法
+ * 2. H5 中 1px(转成 rem 后实际小于 0.5px) + border-radius 会导致 border 不显示
+ */
+@mixin hairline($attr) {
+  #{$attr}: 1px;
+  @include eject($attr, 1PX);
+}
+
+/**
+ * NOTE RN 无法通过 text-overflow 实现省略号，这些代码不能打包到 RN 中
+ */
+@mixin text-ellipsis() {
+  /*postcss-pxtransform rn eject enable*/
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  /*postcss-pxtransform rn eject disable*/
+}
+
+/**
+ * NOTE 实现多行文本省略，RN 用 Text 标签的 numberOfLines，H5/小程序用 -webkit-line-clamp
+ */
+@mixin lamp-clamp($line) {
+  /*postcss-pxtransform rn eject enable*/
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  /* autoprefixer: ignore next */
+  -webkit-box-orient: vertical;
+  /*postcss-pxtransform rn eject disable*/
+}

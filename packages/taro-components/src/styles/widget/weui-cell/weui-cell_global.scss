@@ -1,0 +1,126 @@
+/*
+z-index:
+0: .weui-swiped-btn
+1: .weui-cell_swiped .weui-cell__bd
+2: .weui-cells和.weui-cell的1px线
+*/
+
+.weui-cells {
+  margin-top: $weuiCellsMarginTop;
+  background-color: $weuiCellBg;
+  line-height: $weuiCellLineHeight;
+  font-size: $weuiCellFontSize; //cell中间有效高度23px，跟客户端默认图标尺寸一致
+
+  overflow: hidden; //因为每个cell的border使用before元素left搞的，ie下伪元素的containing block估计跟标准不同，在cell上用oh不生效
+
+  // onepx
+  position: relative;
+  &::before {
+    @include setTopLine($weuiCellBorderColor);
+
+    z-index: 2;
+  }
+  &::after {
+    @include setBottomLine($weuiCellBorderColor);
+
+    z-index: 2;
+  }
+}
+
+.weui-cells__title {
+  margin-top: .77em; // 16px - 行高
+  margin-bottom: .3em; // 3px - 行高
+  padding-left: $weuiCellGapH;
+  padding-right: $weuiCellGapH;
+  color: $weuiTextColorGray; // $weuiTextColorDesc;
+  font-size: $weuiCellTipsFontSize;
+  // line-height: 1.4;
+
+  & + .weui-cells {
+    margin-top: 0;
+  }
+}
+
+.weui-cells__tips {
+  margin-top: .3em; // 8px - 行高
+  color: $weuiTextColorGray;
+  padding-left: $weuiCellGapH;
+  padding-right: $weuiCellGapH;
+  font-size: $weuiCellTipsFontSize;
+  // line-height: 1.4;
+  // a,
+  // navigator {
+  //   color: $weuiLinkColorDefault;
+  // }
+  // navigator {
+  //   display: inline;
+  // }
+}
+
+.weui-cell {
+  padding: $weuiCellGapV $weuiCellGapH; // $weuiCellGapV;
+  position: relative; //这个是为了兼容cells容器onepx方案被before挡住而做的
+  display: flex;
+  align-items: center;
+  // line-height: $weuiCellLineHeight;
+  // font-size: $weuiCellFontSize; //cell中间有效高度23px，跟客户端默认图标尺寸一致
+  // color: $weuiTextColorTitle;
+  &::before {
+    @include setTopLine($weuiCellBorderColor);
+
+    left: $weuiCellGapH;
+    z-index: 2;
+  }
+  &:first-child {
+    &::before {
+      display: none;
+    }
+  }
+}
+// .weui-cell_active {
+//   &:active {
+//     &::after {
+//       content: '';
+//       position: absolute;
+//       left: 0;
+//       right: 0;
+//       top: 0;
+//       bottom: 0;
+//       background: var(--weui-FG-3);
+//       pointer-events: none;
+//     }
+//   }
+// }
+.weui-cell_primary {
+  align-items: flex-start;
+}
+// .weui-cell_vertical {
+//   flex-direction: column;
+//   align-items: flex-start;
+
+//   .weui-cell__hd {
+//     padding-right: 0;
+//     margin-bottom: 12px;
+//   }
+//   .weui-cell__hd,
+//   .weui-cell__bd {
+//     width: 100%;
+//   }
+// }
+.weui-cell__bd {
+  flex: 1;
+  // min-width: 0;
+}
+.weui-cell__ft {
+  text-align: right;
+  color: $weuiTextColorGray; // $weuiTextColorDesc;
+  // button {
+  //   vertical-align: bottom;
+  // }
+}
+// .weui-cell__desc {
+//   font-size: 12px;
+//   color: var(--weui-FG-2);
+//   line-height: 1.4;
+//   padding-top: 4px;
+// }

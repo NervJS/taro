@@ -1,0 +1,158 @@
+{
+  "name": "{{ projectName }}",
+  "version": "1.0.0",
+  "private": true,
+  "description": "{{ description }}",
+  "templateInfo": {
+    "name": "{{ template }}",
+    "typescript": {{ typescript }},
+    "css": "{{ css }}",
+    "framework": "{{ framework }}"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "new": "taro new",
+    "build:weapp": "taro build --type weapp",
+    "build:swan": "taro build --type swan",
+    "build:alipay": "taro build --type alipay",
+    "build:tt": "taro build --type tt",
+    "build:h5": "taro build --type h5",
+    "build:rn": "taro build --type rn",
+    "build:qq": "taro build --type qq",
+    "build:jd": "taro build --type jd",
+    "build:harmony-hybrid": "taro build --type harmony-hybrid",
+    "dev:weapp": "npm run build:weapp -- --watch",
+    "dev:swan": "npm run build:swan -- --watch",
+    "dev:alipay": "npm run build:alipay -- --watch",
+    "dev:tt": "npm run build:tt -- --watch",
+    "dev:h5": "npm run build:h5 -- --watch",
+    "dev:rn": "npm run build:rn -- --watch",
+    "dev:qq": "npm run build:qq -- --watch",
+    "dev:jd": "npm run build:jd -- --watch",
+    "dev:harmony-hybrid": "npm run build:harmony-hybrid -- --watch"
+  },
+  {{#if buildEs5 }}
+  "browserslist": {
+    "development": [
+      "defaults and fully supports es6-module",
+      "maintained node versions"
+    ],
+    "production": [
+      "last 3 versions",
+      "Android >= 4.1",
+      "ios >= 8"
+    ]
+  },
+  {{else}}
+  "browserslist": [
+    "defaults and fully supports es6-module",
+    "maintained node versions"
+  ],
+  {{/if}}
+  "author": "",
+  "dependencies": {
+    "@babel/runtime": "^7.24.4",
+    "@tarojs/components": "{{ version }}",
+    "@tarojs/helper": "{{ version }}",
+    "@tarojs/plugin-platform-weapp": "{{ version }}",
+    "@tarojs/plugin-platform-alipay": "{{ version }}",
+    "@tarojs/plugin-platform-tt": "{{ version }}",
+    "@tarojs/plugin-platform-swan": "{{ version }}",
+    "@tarojs/plugin-platform-jd": "{{ version }}",
+    "@tarojs/plugin-platform-qq": "{{ version }}",
+    "@tarojs/plugin-platform-h5": "{{ version }}",
+    "@tarojs/plugin-platform-harmony-hybrid": "{{ version }}",
+    "@tarojs/runtime": "{{ version }}",
+    "@tarojs/shared": "{{ version }}",
+    "@tarojs/taro": "{{ version }}",{{#if (includes "React" "Preact" s=framework)}}
+    "@tarojs/plugin-framework-react": "{{ version }}",{{/if}}{{#if (eq framework "React") }}
+    "@tarojs/react": "{{ version }}",
+    "react-dom": "^18.0.0",
+    "react": "^18.0.0"{{/if}}{{#if (eq framework "Preact") }}
+    "preact": "^10.5.15"{{/if}}{{#if (eq framework "Vue3") }}
+    "@tarojs/plugin-framework-vue3": "{{ version }}",
+    "vue": "^3.0.0"{{/if}}{{#if (eq framework "Solid") }}
+    "@tarojs/plugin-framework-solid": "{{ version }}",
+    "solid-js": "^1.8.16"{{/if}}
+  },{{#if (includes "Webpack5" s=compiler)}}
+  "devDependencies": {
+    "@tarojs/plugin-generator": "{{ version }}",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "lint-staged": "^16.1.2",
+    "husky": "^9.1.7",
+    "stylelint-config-standard": "^38.0.0",
+    "@babel/core": "^7.24.4",
+    "@tarojs/cli": "{{ version }}",
+    "@babel/plugin-transform-class-properties": "7.25.9",
+    "@types/webpack-env": "^1.13.6",{{#if (includes "React" "Preact" s=framework)}}
+    "@types/react": "^18.0.0",{{/if}}{{#if (eq compiler "Webpack5") }}
+    "webpack": "5.91.0",
+    "@tarojs/taro-loader": "{{ version }}",
+    "@tarojs/webpack5-runner": "{{ version }}",{{/if}}{{#if (eq css "Sass") }}
+    "sass": "^1.75.0",{{/if}}{{#if (eq css "Less") }}
+    "less": "^4.2.0",{{/if}}{{#if (eq css "Stylus") }}
+    "stylus": "^0.63.0",{{/if}}
+    "babel-preset-taro": "{{ version }}",{{#if (eq framework "Vue3") }}
+    "css-loader": "^7.1.1",
+    "style-loader": "^3.3.4",
+    "@tarojs/test-utils-vue3": "^0.1.1",
+    "@vue/babel-plugin-jsx": "^1.2.2",
+    "@vue/compiler-sfc": "^3.0.0",
+    "vue-loader": "^17.4.2",
+    "eslint-plugin-vue": "^9.17.0",{{/if}}
+    "eslint-config-taro": "{{ version }}",
+    "eslint": "^8.57.0",{{#if (eq framework "React") }}
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
+    "react-refresh": "^0.14.0",{{/if}}{{#if (eq framework "Preact") }}
+    "@prefresh/webpack": "^4",
+    "@prefresh/core": "^1.5.2",
+    "@prefresh/babel-plugin": "^0.5.1",{{/if}}{{#if (includes "React" "Preact" s=framework)}}
+    "@babel/preset-react": "^7.24.1",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.4.0",{{/if}}
+    "stylelint": "^16.4.0"{{#if typescript }},
+    "typescript": "^5.4.5",
+    "tsconfig-paths-webpack-plugin": "^4.1.0"{{/if}},
+    "postcss": "^8.5.6",
+    "@types/node": "^18",
+    "@types/minimatch": "^5"
+  }{{/if}}{{#if (eq compiler "Vite") }}
+  "devDependencies": {
+    "@tarojs/plugin-generator": "{{ version }}",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "lint-staged": "^16.1.2",
+    "husky": "^9.1.7",
+    "stylelint-config-standard": "^38.0.0",
+    "@babel/core": "^7.24.4",
+    "@babel/plugin-transform-class-properties": "7.25.9",
+    "@tarojs/cli": "{{ version }}",
+    "@tarojs/vite-runner": "{{ version }}",
+    "babel-preset-taro": "{{ version }}",
+    "eslint-config-taro": "{{ version }}",
+    "eslint": "^8.57.0",
+    "stylelint": "^16.4.0",
+    "terser": "^5.30.4",
+    "vite": "^4.2.0",{{#if (includes "React" "Preact" s=framework)}}
+    "@babel/preset-react": "^7.24.1",
+    "@types/react": "^18.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.4.0",{{/if}}{{#if (eq framework "Preact") }}
+    "@preact/preset-vite": "^2.8.2",
+    "@prefresh/core": "^1.5.2",
+    "@prefresh/babel-plugin": "^0.5.1",{{/if}}{{#if (eq framework "React") }}
+    "react-refresh": "^0.14.0",{{/if}}{{#if (eq framework "Vue3") }}
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "eslint-plugin-vue": "^9.17.0",{{/if}}{{#if (eq framework "Solid") }}
+    "vite-plugin-solid": "2.10.0",{{/if}}{{#if (eq css "Sass") }}
+    "sass": "^1.75.0",{{/if}}{{#if (eq css "Less") }}
+    "less": "^4.2.0",{{/if}}{{#if (eq css "Stylus") }}
+    "stylus": "^0.63.0",{{/if}}{{#if typescript }}
+    "typescript": "^5.4.5",{{/if}}
+    "postcss": "^8.5.6",
+    "@types/minimatch": "^5"
+  }{{/if}}
+}

@@ -1,0 +1,80 @@
+@import "../weui-cell/weui-cells__group";
+
+.weui-form {
+  padding: 56px 0 0;
+  padding: calc(56px + constant(safe-area-inset-top)) constant(safe-area-inset-right) constant(safe-area-inset-bottom) constant(safe-area-inset-left);
+  padding: calc(56px + env(safe-area-inset-top)) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  display: flex;
+  flex-direction: column;
+  line-height: 1.4;
+  min-height: 100%;
+  box-sizing: border-box;
+  background-color: var(--weui-BG-2);
+
+  .weui-footer,
+  .weui-footer__link {
+    font-size: 14px;
+  }
+}
+.weui-form__bd {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.weui-form__text-area {
+  padding: 0 32px;
+  color: var(--weui-FG-0);
+  text-align: center;
+}
+.weui-form__control-area {
+  flex: 1;
+  margin: 48px 0;
+}
+.weui-form__tips-area,
+.weui-form__extra-area {
+  margin-bottom: 24px;
+  padding: 0 32px;
+  text-align: center;
+}
+.weui-form__extra-area {
+  margin-top: 52px;
+}
+.weui-form__opr-area {
+  padding: 0 32px;
+  &:last-child {
+    margin-bottom: 96px;
+  }
+  & + .weui-form__tips-area {
+    margin-top: 16px;
+    margin-bottom: 0;
+  }
+}
+.weui-form__tips-area {
+  & + .weui-form__extra-area {
+    margin-top: 32px;
+  }
+  &:last-child {
+    margin-bottom: 60px;
+  }
+}
+.weui-form__title {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.36;
+}
+.weui-form__desc {
+  font-size: 17px;
+  margin-top: 16px;
+}
+.weui-form__tips {
+  color: $weuiTextColorDesc;
+  font-size: 14px;
+  a,
+  navigator {
+    color: $weuiLinkColorDefault;
+  }
+  navigator {
+    display: inline;
+  }
+}

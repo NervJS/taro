@@ -1,0 +1,15 @@
+@import "@/styles/variables.scss";
+
+.test-style {
+  color: #f5f5f5;
+  background-color: $color-success;
+}
+
+.taro-map-container {
+  display: inline-block;
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 100%;
+  object-position: inherit;
+}

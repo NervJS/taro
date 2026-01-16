@@ -1,0 +1,10 @@
+.weui-btn_primary {
+  background-color: $weuiBtnPrimaryBg;
+  &:not(.weui-btn_disabled):visited {
+    color: $weuiBtnFontColor; // $weuiBtnPrimaryFontColor;
+  }
+  &:not(.weui-btn_disabled):active {
+    color: $weuiBtnActiveFontColor;
+    background-color: $weuiBtnPrimaryActiveBg;
+  }
+}

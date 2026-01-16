@@ -1,0 +1,1 @@
+export { stopAccelerometer } from '../accelerometer'

@@ -1,0 +1,1 @@
+export { removeSavedFile } from '../file'

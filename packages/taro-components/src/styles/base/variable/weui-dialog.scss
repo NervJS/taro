@@ -1,0 +1,7 @@
+@include setColor(--weui-DIALOG-LINE-COLOR, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+
+$weuiDialogBackgroundColor: #FFFFFF; // var(--weui-BG-2);
+$weuiDialogLineColor: #D5D5D6; // var(--weui-DIALOG-LINE-COLOR);
+$weuiDialogLinkColor: #3CC51F; // $weuiLinkColorDefault;
+$weuiDialogLinkActiveBc: #EEEEEE; // $weuiBgColorActive;
+$weuiDialogGapWidth: 1.6em; // 24px;

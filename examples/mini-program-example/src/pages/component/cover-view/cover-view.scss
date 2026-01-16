@@ -1,0 +1,32 @@
+.example-body{
+  text-align: center;
+}
+
+.cover-view {
+  position: absolute;
+  top: calc(50% - 75px);
+  left: calc(50% - 150px);
+  /* opacity: .7; */
+}
+
+.flex-wrp{
+  display:flex;
+}
+
+.flex-item{
+  width: 100px;
+  height: 150px;
+  font-size: 13px;
+}
+
+.demo-text-1 {
+  background: rgba(26, 173, 25, 0.7);
+}
+
+.demo-text-2 {
+  background: rgba(39, 130, 215, 0.7);
+}
+
+.demo-text-3 {
+  background: rgba(255, 255, 255, 0.7);
+}
