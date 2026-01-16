@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components",
-  "version": "4.1.10-beta.13",
+  "version": "4.1.10",
   "description": "Taro 组件库",
   "browser": "dist/index.js",
   "main:h5": "dist/index.js",
