@@ -1,4 +1,5 @@
-import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Element, Method, Watch } from '@stencil/core'
+import { Component, ComponentInterface, Element, Event, EventEmitter, h, Method, Prop, State, Watch } from '@stencil/core'
+
 import { TaroEvent } from '../../../types'
 
 function fixControlledValue(value?: string) {
@@ -11,6 +12,8 @@ function fixControlledValue(value?: string) {
 })
 export class Textarea implements ComponentInterface {
   private textareaRef: HTMLTextAreaElement
+  private isComposing = false
+  private onInputExecuted = false
 
   @Element() el: HTMLElement
 
@@ -23,21 +26,22 @@ export class Textarea implements ComponentInterface {
   @Prop() name: string
   @Prop() nativeProps = {}
   @State() line = 1
+  @State() compositionValue?: string
 
   @Event({
     eventName: 'input'
   })
-  onInput: EventEmitter
+    onInput: EventEmitter
 
   @Event({
     eventName: 'focus'
   })
-  onFocus: EventEmitter
+    onFocus: EventEmitter
 
   @Event({
     eventName: 'blur'
   })
-  onBlur: EventEmitter
+    onBlur: EventEmitter
 
   @Event({
     eventName: 'confirm'
@@ -46,12 +50,12 @@ export class Textarea implements ComponentInterface {
   @Event({
     eventName: 'change'
   })
-  onChange: EventEmitter
+    onChange: EventEmitter
 
   @Event({
     eventName: 'linechange' // 必须全小写
   })
-  onLineChange: EventEmitter
+    onLineChange: EventEmitter
 
   @Event({
     eventName: 'keydown'
@@ -67,6 +71,7 @@ export class Textarea implements ComponentInterface {
   @Watch('value')
   watchValue (newValue: string) {
     // hack: 在事件回调中，props.value 变化不知为何不会触发 Stencil 更新，因此这里手动更新一下
+    if (this.isComposing) return
     const value = fixControlledValue(newValue)
     if (this.textareaRef.value !== value) {
       this.textareaRef.value = value
@@ -78,15 +83,57 @@ export class Textarea implements ComponentInterface {
     this.textareaRef.focus()
   }
 
-  handleInput = (e: TaroEvent<HTMLInputElement>) => {
+  componentDidLoad () {
+    this.textareaRef?.addEventListener('compositionstart', this.handleComposition)
+    this.textareaRef?.addEventListener('compositionend', this.handleComposition)
+  }
+
+  disconnectedCallback () {
+    this.textareaRef?.removeEventListener('compositionstart', this.handleComposition)
+    this.textareaRef?.removeEventListener('compositionend', this.handleComposition)
+  }
+
+  handleInput = (e: TaroEvent<HTMLTextAreaElement>) => {
     e.stopPropagation()
     this.handleLineChange()
+    if (this.onInputExecuted) {
+      this.onInputExecuted = false
+      return
+    }
     const value = e.target.value || ''
+    if (this.isComposing) {
+      this.compositionValue = value
+      return
+    }
+    this.onInputExecuted = true
+    if (this.compositionValue !== undefined) {
+      this.compositionValue = undefined
+    }
     this.value = value
     this.onInput.emit({
       value,
       cursor: value.length
     })
+    this.onInputExecuted = false
+  }
+
+  handleComposition = (e: Event) => {
+    e.stopPropagation()
+    if (!(e.target instanceof HTMLTextAreaElement)) return
+
+    if (e.type === 'compositionend') {
+      this.isComposing = false
+      const value = e.target.value || ''
+      this.compositionValue = undefined
+      this.handleLineChange()
+      this.value = value
+      this.onInput.emit({
+        value,
+        cursor: value.length
+      })
+    } else {
+      this.isComposing = true
+    }
   }
 
   handleFocus = (e: TaroEvent<HTMLInputElement> & FocusEvent) => {
@@ -136,11 +183,11 @@ export class Textarea implements ComponentInterface {
   }
 
   calculateContentHeight = (ta, scanAmount) => {
-    let origHeight = ta.style.height,
-      height = ta.offsetHeight,
-      scrollHeight = ta.scrollHeight,
-      overflow = ta.style.overflow,
-      originMinHeight = ta.style.minHeight || null
+    const origHeight = ta.style.height
+    let height = ta.offsetHeight
+    const scrollHeight = ta.scrollHeight
+    const overflow = ta.style.overflow
+    const originMinHeight = ta.style.minHeight || null
 
     /// only bother if the ta is bigger than content
     if (height >= scrollHeight) {
@@ -174,15 +221,15 @@ export class Textarea implements ComponentInterface {
   }
 
   getNumberOfLines = () => {
-    const ta = this.textareaRef,
-      style = window.getComputedStyle ? window.getComputedStyle(ta) : ta.style,
-      // This will get the line-height only if it is set in the css,
-      // otherwise it's "normal"
-      taLineHeight = parseInt(style.lineHeight, 10),
-      // Get the scroll height of the textarea
-      taHeight = this.calculateContentHeight(ta, taLineHeight),
-      // calculate the number of lines
-      numberOfLines = Math.floor(taHeight / taLineHeight)
+    const ta = this.textareaRef
+    const style = window.getComputedStyle ? window.getComputedStyle(ta) : ta.style
+    // This will get the line-height only if it is set in the css,
+    // otherwise it's "normal"
+    const taLineHeight = parseInt(style.lineHeight, 10)
+    // Get the scroll height of the textarea
+    const taHeight = this.calculateContentHeight(ta, taLineHeight)
+    // calculate the number of lines
+    const numberOfLines = Math.floor(taHeight / taLineHeight)
 
     return numberOfLines
   }
@@ -200,7 +247,8 @@ export class Textarea implements ComponentInterface {
       handleInput,
       handleFocus,
       handleBlur,
-      handleChange
+      handleChange,
+      compositionValue
     } = this
 
     const otherProps: {
@@ -220,12 +268,12 @@ export class Textarea implements ComponentInterface {
           }
         }}
         class={`taro-textarea ${autoHeight ? 'auto-height' : ''}`}
-        value={fixControlledValue(value)}
+        value={compositionValue !== undefined ? compositionValue : fixControlledValue(value)}
         placeholder={placeholder}
         name={name}
         disabled={disabled}
-        maxlength={maxlength}
-        autofocus={autoFocus}
+        maxLength={maxlength}
+        autoFocus={autoFocus}
         onInput={handleInput}
         onFocus={handleFocus}
         onBlur={handleBlur}
