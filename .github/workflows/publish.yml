@@ -347,6 +347,11 @@ jobs:
           ls -R ./packages/taro-platform-harmony-cpp/static
         shell: bash
 
+      # Verify bindings
+      - name: Verify Bindings
+        run: node scripts/verify-bindings.js
+        shell: bash
+
       # Git stash
       - name: Drop current changes
         if: env.MOCK_PUBLISH != 'true'
