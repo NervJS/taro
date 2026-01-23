@@ -19,11 +19,11 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              pnpm build:binding:release
+              pnpm build:binding:release --target x86_64-apple-darwin
               strip -x crates/native_binding/*.node
           - host: windows-latest
-            build: pnpm build:binding:release
             target: x86_64-pc-windows-msvc
+            build: pnpm build:binding:release --target x86_64-pc-windows-msvc
           - host: ubuntu-22.04
             target: x86_64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
@@ -35,7 +35,7 @@ jobs:
           - host: ubuntu-22.04
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: set -e && pnpm build:binding:release && strip crates/native_binding/*.node
+            build: set -e && pnpm build:binding:release --target x86_64-unknown-linux-musl && strip crates/native_binding/*.node
           - host: ubuntu-22.04
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
