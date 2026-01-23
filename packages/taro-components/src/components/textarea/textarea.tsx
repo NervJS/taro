@@ -6,6 +6,11 @@ function fixControlledValue(value?: string) {
   return value ?? ''
 }
 
+type SelectionRange = {
+  selectionStart: number
+  selectionEnd: number
+}
+
 @Component({
   tag: 'taro-textarea-core',
   styleUrl: './style/index.scss'
@@ -14,6 +19,7 @@ export class Textarea implements ComponentInterface {
   private textareaRef: HTMLTextAreaElement
   private isComposing = false
   private onInputExecuted = false
+  private lastSelectionRange?: SelectionRange
 
   @Element() el: HTMLElement
 
@@ -74,7 +80,12 @@ export class Textarea implements ComponentInterface {
     if (this.isComposing) return
     const value = fixControlledValue(newValue)
     if (this.textareaRef.value !== value) {
+      const isActive = typeof document !== 'undefined' && document.activeElement === this.textareaRef
+      const selection = isActive ? (this.lastSelectionRange || this.getSelectionSnapshot(this.textareaRef)) : null
       this.textareaRef.value = value
+      if (selection) {
+        this.restoreSelection(this.textareaRef, selection)
+      }
     }
   }
 
@@ -101,6 +112,7 @@ export class Textarea implements ComponentInterface {
       return
     }
     const value = e.target.value || ''
+    const cursor = this.getCursorFromTarget(e.target, value.length)
     if (this.isComposing) {
       this.compositionValue = value
       return
@@ -112,7 +124,7 @@ export class Textarea implements ComponentInterface {
     this.value = value
     this.onInput.emit({
       value,
-      cursor: value.length
+      cursor
     })
     this.onInputExecuted = false
   }
@@ -124,12 +136,13 @@ export class Textarea implements ComponentInterface {
     if (e.type === 'compositionend') {
       this.isComposing = false
       const value = e.target.value || ''
+      const cursor = this.getCursorFromTarget(e.target, value.length)
       this.compositionValue = undefined
       this.handleLineChange()
       this.value = value
       this.onInput.emit({
         value,
-        cursor: value.length
+        cursor
       })
     } else {
       this.isComposing = true
@@ -148,6 +161,7 @@ export class Textarea implements ComponentInterface {
     this.onBlur.emit({
       value: e.target.value
     })
+    this.lastSelectionRange = undefined
   }
 
   handleChange = (e: TaroEvent<HTMLInputElement>) => {
@@ -168,18 +182,50 @@ export class Textarea implements ComponentInterface {
     }
   }
 
-  handleKeyDown = (e: TaroEvent<HTMLInputElement> & KeyboardEvent) => {
+  handleKeyDown = (e: TaroEvent<HTMLTextAreaElement> & KeyboardEvent) => {
     e.stopPropagation()
     const { value } = e.target
+    const cursor = this.getCursorFromTarget(e.target, value.length)
     const keyCode = e.keyCode || e.code
 
     this.onKeyDown.emit({
       value,
-      cursor: value.length,
+      cursor,
       keyCode
     })
 
     keyCode === 13 && this.onConfirm.emit({ value })
+  }
+
+  private getSelectionSnapshot (target: HTMLTextAreaElement) {
+    if (!target) return null
+    const { selectionStart, selectionEnd } = target
+    if (selectionStart === null || selectionEnd === null) return null
+    this.lastSelectionRange = { selectionStart, selectionEnd }
+    return { selectionStart, selectionEnd }
+  }
+
+  private getCursorFromTarget (target: HTMLTextAreaElement, fallback: number) {
+    if (!target) return fallback
+    const { selectionEnd } = target
+    if (typeof selectionEnd === 'number') {
+      const selectionStart = target.selectionStart ?? selectionEnd
+      this.lastSelectionRange = { selectionStart, selectionEnd }
+      return selectionEnd
+    }
+    return fallback
+  }
+
+  private restoreSelection (target: HTMLTextAreaElement, selection: SelectionRange | null) {
+    if (!target) return
+    const range = selection || this.lastSelectionRange || null
+    if (!range) return
+    const max = target.value.length
+    const start = Math.min(range.selectionStart, max)
+    const end = Math.min(range.selectionEnd, max)
+    if (typeof target.setSelectionRange === 'function') {
+      target.setSelectionRange(start, end)
+    }
   }
 
   calculateContentHeight = (ta, scanAmount) => {
