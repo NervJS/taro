@@ -81,7 +81,7 @@ function modifyPageTemplate (ctx: IPluginContext) {
       const assetsItem = assets[templateName]
       const src = assetsItem._value ? assetsItem._value.toString() : assetsItem.source()
       let relativePath
-      const templateCaller = src.replace(/<import src="(.*)base\.axml"\/>/, function (_, $1) {
+      const templateCaller = src.replace(/<import src="(.*)base\.axml"\s*\/>/, function (_, $1) {
         relativePath = $1
         return ''
       })
