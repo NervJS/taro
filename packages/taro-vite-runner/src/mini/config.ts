@@ -25,6 +25,9 @@ import type { PluginOption } from 'vite'
 export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
   const { taroConfig, cwd: appPath, sourceDir } = viteCompilerContext
   const isProd = getMode(taroConfig) === 'production'
+  const mainFields = [...defaultMainFields]
+  // Note: mini 端统一优先读取 main:mini 入口
+  mainFields.unshift('main:mini')
   function getDefineOption() {
     const {
       env = {},
@@ -256,7 +259,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
       },
       define: getDefineOption(),
       resolve: {
-        mainFields: [...defaultMainFields],
+        mainFields,
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.vue'],
         alias: [
           // 小程序使用 regenerator-runtime@0.11
