@@ -930,6 +930,12 @@ importers:
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
+      '@tarojs/components-library-react':
+        specifier: workspace:*
+        version: link:../taro-components-library-react
+      '@tarojs/components-library-solid':
+        specifier: workspace:*
+        version: link:../taro-components-library-solid
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
@@ -1426,6 +1432,15 @@ importers:
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
+      '@tarojs/components-library-react':
+        specifier: workspace:*
+        version: link:../taro-components-library-react
+      '@tarojs/components-library-solid':
+        specifier: workspace:*
+        version: link:../taro-components-library-solid
+      '@tarojs/components-library-vue3':
+        specifier: workspace:*
+        version: link:../taro-components-library-vue3
       '@tarojs/components-react':
         specifier: workspace:*
         version: link:../taro-components-react
@@ -1639,6 +1654,15 @@ importers:
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
+      '@tarojs/components-library-react':
+        specifier: workspace:*
+        version: link:../taro-components-library-react
+      '@tarojs/components-library-solid':
+        specifier: workspace:*
+        version: link:../taro-components-library-solid
+      '@tarojs/components-library-vue3':
+        specifier: workspace:*
+        version: link:../taro-components-library-vue3
       '@tarojs/components-react':
         specifier: workspace:*
         version: link:../taro-components-react

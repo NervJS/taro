@@ -4,10 +4,10 @@ declare namespace JSX {
   }
 }
 
-declare module '@tarojs/components/lib/solid' {
+declare module '@tarojs/components-library-solid' {
   export * from '@tarojs/components'
 }
 
-declare module '@tarojs/components/lib/react' {
+declare module '@tarojs/components-library-react' {
   export * from '@tarojs/components'
 }

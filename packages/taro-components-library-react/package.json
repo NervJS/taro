@@ -2,14 +2,26 @@
   "name": "@tarojs/components-library-react",
   "version": "4.1.11",
   "description": "Taro 组件库 React 版本库",
-  "private": true,
   "author": "O2Team",
   "license": "MIT",
-  "main": "index.js",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./component-lib": {
+      "default": "./dist/component-lib/index.js",
+      "types": "./dist/component-lib/index.d.ts"
+    }
+  },
   "scripts": {
-    "prebuild": "pnpm run clean && node ./scripts/fix.js",
+    "prebuild": "pnpm run clean && node ./scripts/fix.cjs",
     "build": "rollup -c",
-    "clean": "rimraf ../taro-components/lib/react",
+    "clean": "rimraf dist",
     "dev": "pnpm run build -w",
     "prod": "pnpm run build"
   },
