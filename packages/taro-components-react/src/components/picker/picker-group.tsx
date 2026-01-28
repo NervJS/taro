@@ -119,10 +119,8 @@ export function PickerGroupBasic(props: PickerGroupProps) {
     if (process.env.TARO_PLATFORM === 'harmony') {
       itemHeightRef.current = PICKER_LINE_HEIGHT * lengthScaleRatioRef.current
     } else {
-      console.error('scrollViewRef.current', scrollViewRef.current && scrollViewRef.current?.scrollHeight)
       if (scrollViewRef.current && scrollViewRef.current?.scrollHeight) {
         itemHeightRef.current = scrollViewRef.current.scrollHeight / scrollViewRef.current.childNodes.length
-        console.error('itemHeightRef.current', itemHeightRef.current, scrollViewRef.current.scrollHeight, scrollViewRef.current.childNodes.length)
       } else {
         console.warn('Height measurement anomaly')
       }
@@ -137,7 +135,6 @@ export function PickerGroupBasic(props: PickerGroupProps) {
   React.useEffect(() => {
     if (scrollViewRef.current && range.length > 0 && !isTouching) {
       const baseValue = selectedIndex * itemHeightRef.current
-      console.error('baseValue', baseValue, selectedIndex, itemHeightRef.current)
       setTargetScrollTopWithScale(setTargetScrollTop, baseValue, undefined, lengthScaleRatioRef.current)
       setCurrentIndex(selectedIndex)
     }
