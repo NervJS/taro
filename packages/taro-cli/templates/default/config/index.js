@@ -33,6 +33,10 @@ export default defineConfig{{#if typescript }}<'{{ to_lower_case compiler }}'>{{
     cache: {
       enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
     },{{/if}}
+    {{#if (eq compiler "Vite")}}
+    alias: {
+      "@": path.resolve(__dirname, "../src"),
+    },{{/if}}
     mini: {
       postcss: {
         pxtransform: {
