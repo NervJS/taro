@@ -41,12 +41,12 @@ export class Image implements ComponentInterface {
   private imgRef: HTMLImageElement
 
   componentDidLoad () {
-    if (!this.lazyLoad) return
+    if (!this.lazyLoad || !this.imgRef) return
 
     const lazyImg = new IntersectionObserver(entries => {
       // 异步 api 关系
       if (entries[entries.length - 1].isIntersecting) {
-        lazyImg.unobserve(this.imgRef)
+        this.imgRef && lazyImg.unobserve(this.imgRef)
         this.didLoad = true
       }
     }, {
@@ -57,6 +57,9 @@ export class Image implements ComponentInterface {
   }
 
   imageOnLoad () {
+    // 防止组件已卸载或 img 已被移除时 ref 为 null（如列表滚动、src 清空、lazyLoad 时序等）
+    if (!this.imgRef) return
+
     const {
       width,
       height,
