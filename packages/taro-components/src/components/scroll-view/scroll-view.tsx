@@ -1,7 +1,7 @@
 import { Component, ComponentInterface, Element, Event, EventEmitter, Host, Listen, Method, Prop, Watch, h } from '@stencil/core'
 import classNames from 'classnames'
 
-import { debounce, handleStencilNodes } from '../../utils'
+import { throttle, handleStencilNodes } from '../../utils'
 
 import type { ScrollViewContext } from '@tarojs/taro'
 
@@ -171,7 +171,7 @@ export class ScrollView implements ComponentInterface {
     })
   }
 
-  upperAndLower = debounce(() => {
+  upperAndLower = throttle(() => {
     const {
       offsetWidth,
       offsetHeight,
