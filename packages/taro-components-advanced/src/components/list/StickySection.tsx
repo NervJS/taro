@@ -1,4 +1,4 @@
-import { View } from '@tarojs/components'
+import { View } from '@tarojs/components-react'
 import React from 'react'
 
 export interface StickySectionProps {
