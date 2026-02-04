@@ -144,8 +144,34 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
         }
       },
       CallExpression (ast: BabelCore.NodePath<any>) {
-        if (!ast.scope.hasReference(this.canIUse)) return
         const callee = ast.node.callee
+
+        // 对存在命名空间的 API 支持 tree-shaking：Taro.xx.yy -> xx_yy
+        if (t.isMemberExpression(callee) && t.isMemberExpression(callee.object)) {
+          const inner = callee.object
+          const isTaroNamespace = t.isIdentifier(inner.object, { name: taroName })
+          if (isTaroNamespace) {
+            const namespaceName = t.isIdentifier(inner.property) ? inner.property.name : (t.isStringLiteral(inner.property) ? inner.property.value : null)
+            const methodName = t.isIdentifier(callee.property) ? callee.property.name : (t.isStringLiteral(callee.property) ? callee.property.value : null)
+            if (namespaceName && methodName) {
+              const flatName = `${namespaceName}_${methodName}`
+              if (this.apis.has(flatName)) {
+                let identifier: BabelCore.types.Identifier
+                if (invokedApis.has(flatName)) {
+                  identifier = t.identifier(invokedApis.get(flatName)!)
+                } else {
+                  const newName = ast.scope.generateUid(flatName)
+                  invokedApis.set(flatName, newName)
+                  identifier = t.identifier(newName)
+                }
+                ast.node.callee = identifier as any
+                return
+              }
+            }
+          }
+        }
+
+        if (!ast.scope.hasReference(this.canIUse)) return
         if (t.isMemberExpression(callee) && t.isIdentifier(callee.object, { name: taroName })) {
           let propertyName: string | null = null
           let propName = 'name'
