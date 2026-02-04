@@ -1,4 +1,4 @@
-import { ScrollView, View } from '@tarojs/components-react'
+import { ScrollView, View } from '@tarojs/components'
 import React from 'react'
 
 import { useItemSizeCache } from './hooks/useItemSizeCache'
@@ -1050,6 +1050,8 @@ const List: React.FC<ListProps> = (props) => {
 
   return (
     <ScrollView ref={containerRef as any} {...scrollViewProps} id={listId}>
+      {/* 小程序：slot="refresher" 必须是 ScrollView 的直接子元素 */}
+      {supportsNativeRefresher && renderRefresherContent()}
       <View style={contentWrapperStyle}>
         {refresherHeightForH5 > 0 ? (
           <>
@@ -1076,7 +1078,8 @@ const List: React.FC<ListProps> = (props) => {
           </>
         ) : (
           <>
-            {renderRefresherContent()}
+            {/* H5 非刷新模式：刷新内容在 contentWrapper 内 */}
+            {!supportsNativeRefresher && renderRefresherContent()}
             {stickyHeaderNode}
             {renderSections()}
             {renderNoMoreContent()}
