@@ -1,6 +1,8 @@
 import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 import { isFunction } from '@tarojs/shared'
 
+import { getMode } from '../utils'
+
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 
@@ -9,8 +11,11 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
   return {
     name: 'taro:vite-harmony-pipeline',
     enforce: 'pre',
-    buildStart () {
-      this.load({ id: VITE_COMPILER_LABEL })
+    async buildStart () {
+      const isProd = getMode(taroConfig) === 'production'
+      isProd
+        ? this.load({ id: VITE_COMPILER_LABEL })
+        : await this.load({ id: VITE_COMPILER_LABEL })
       const info = this.getModuleInfo(VITE_COMPILER_LABEL)
       if (info) {
         info.meta = { viteCompilerContext }
