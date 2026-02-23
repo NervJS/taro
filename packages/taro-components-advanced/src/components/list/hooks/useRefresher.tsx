@@ -1,4 +1,4 @@
-import { View } from '@tarojs/components'
+import { Slot, View } from '@tarojs/components'
 import React, { useCallback, useRef, useState } from 'react'
 
 import { supportsNativeRefresher } from '../utils'
@@ -428,11 +428,35 @@ export function useRefresher(
     const background = config.refresherBackground ?? '#fff'
     const hasCustomChildren = config.children != null
 
-    // 小程序：自定义内容时返回带 slot="refresher" 的 children，否则使用原生 refresher
+    // 小程序：自定义内容时返回 Slot（name=refresher），避免 View 的 slot 属性在模板层被过滤
+    // 样式对齐 H5：由内层 View 统一承载容器样式
     if (supportsNativeRefresher) {
-      // 小程序需要 slot="refresher" 来指定自定义刷新内容
+      // 小程序需要名为 refresher 的插槽来指定自定义刷新内容
       return hasCustomChildren && defaultStyle === 'none'
-        ? <View slot="refresher">{config.children}</View>
+        ? (
+          <Slot
+            name="refresher"
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              zIndex: 0,
+            }}
+          >
+            <View
+              style={{
+                width: '100%',
+                flexShrink: 0,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                background,
+              }}
+            >
+              {config.children}
+            </View>
+          </Slot>
+        )
         : null
     }
 

@@ -1,4 +1,5 @@
 import { ScrollView, View } from '@tarojs/components'
+import Taro from '@tarojs/taro'
 import React from 'react'
 
 import { useItemSizeCache } from './hooks/useItemSizeCache'
@@ -103,8 +104,61 @@ export function isShaking(diffList: number[]): boolean {
   return alternations >= 2
 }
 
+// 小程序端：判断 item 是否应该执行 SelectorQuery 测量（仅检查是否已测量过）
+// SelectorQuery 是只读查询，不会触发 setData，滚动期间执行是安全的
+// 真正需要延迟的是 sizeCacheVersion bump（由 weappSizeCacheVersionBump 负责）
+function shouldMeasureWeappItem(index: number, measuredSet: Set<number>): boolean {
+  return !measuredSet.has(index)
+}
+
+// 小程序端（定高路径）：滚动期间延迟 sizeCacheVersion bump，停止后再 flush。
+// 动高路径已改为“测量即重排、原生滚动主导”，不走该事务。
+function weappSizeCacheVersionBump(
+  isUserScrollingRef: React.MutableRefObject<boolean>,
+  pendingBumpRef: React.MutableRefObject<boolean>,
+  measureScrollProtectRef: React.MutableRefObject<boolean>,
+  setSizeCacheVersion: React.Dispatch<React.SetStateAction<number>>
+) {
+  if (isUserScrollingRef.current) {
+    pendingBumpRef.current = true
+    return
+  }
+  measureScrollProtectRef.current = true
+  setSizeCacheVersion((v) => v + 1)
+}
+
+// 小程序端：onItemSizeChange 空置（稳定性优先，不向父层外抛）
+function weappDeferItemSizeChange(
+  _isUserScrollingRef: React.MutableRefObject<boolean>,
+  _pendingSizeChangesRef: React.MutableRefObject<Array<{ index: number, size: number }>>,
+  _index: number,
+  _size: number,
+  _onItemSizeChange?: (index: number, size: number) => void
+) {
+  // 回退到稳定策略：小程序端暂不外抛 onItemSizeChange，
+  // 避免父层重渲染/remount 导致回顶或空白。
+}
+
+// 小程序端（定高路径）：记录滚动期间的测量变化，用于 flush 时计算滚动修正量
+// 使用 Map 去重：同一个 index 多次测量时，保留 originalOldSize（首次）和 latestNewSize（最新）
+function weappRecordMeasurement(
+  pendingMeasurementsRef: React.MutableRefObject<Map<number, { originalOldSize: number, latestNewSize: number }>>,
+  index: number,
+  oldSize: number,
+  newSize: number
+) {
+  const existing = pendingMeasurementsRef.current.get(index)
+  if (existing) {
+    existing.latestNewSize = newSize
+  } else {
+    pendingMeasurementsRef.current.set(index, { originalOldSize: oldSize, latestNewSize: newSize })
+  }
+}
+
+// 小程序动高：非 flush 的 measureProtect 帧回传一次当前 offset，避免原生短暂归 0
 const List: React.FC<ListProps> = (props) => {
   const isH5 = process.env.TARO_ENV === 'h5'
+  const isWeapp = process.env.TARO_ENV === 'weapp'
   const {
     stickyHeader = false,
     space = 0,
@@ -146,6 +200,8 @@ const List: React.FC<ListProps> = (props) => {
 
   // 用户正在滑动时不再向 ScrollView 传 scrollTop，让滚动完全由原生接管
   const [isUserScrolling, setIsUserScrolling] = React.useState(false)
+  // isUserScrolling 的 ref 镜像，供 RAF 回调等异步上下文中读取最新值（避免闭包捕获过期状态）
+  const isUserScrollingRef = React.useRef(false)
 
   const initialContainerLength = typeof (isHorizontal ? width : height) === 'number' ? (isHorizontal ? (width as number) : (height as number)) : 400
   const [containerLength, setContainerLength] = React.useState<number>(initialContainerLength)
@@ -170,9 +226,22 @@ const List: React.FC<ListProps> = (props) => {
   const lastScrollTopRef = React.useRef(controlledScrollTop ?? 0)
   const scrollDiffListRef = React.useRef<number[]>([0, 0, 0])
   const scrollTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+  // 小程序端：记录最近一次 scroll 事件时间，供微动静止检测使用
+  const lastScrollEventAtRef = React.useRef(Date.now())
+  // 小程序端：微动静止检测定时器（仅在存在 pending 测量时启动）
+  const settleCheckTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+  const settleLastOffsetRef = React.useRef(controlledScrollTop ?? 0)
+  const settleStillCountRef = React.useRef(0)
   // 仅程序性滚动（scrollIntoView/修正/初始）时才把 scrollViewOffset 写回 H5 DOM，避免用户拖动结束后误把旧值写回导致卡顿/跳跃（在桌面 Chrome 模拟器下尤为明显）
   const programmaticScrollRef = React.useRef(false)
-
+  // 小程序端：记录最近一次程序性滚动目标，用于过滤回调中的异常“回顶”噪声
+  const programmaticTargetOffsetRef = React.useRef<number | null>(null)
+  const suppressResetUntilRef = React.useRef(0)
+  // guard 兜底回补节流，避免异常回顶事件频繁触发重复回补
+  const guardHealAtRef = React.useRef(0)
+  // 程序性滚动冷却期：在此期间内 handleScroll 不设置同步定时器，避免 scrollIntoView 后被原生 scroll 回调"拉回"
+  const programmaticCooldownRef = React.useRef(false)
+  const programmaticCooldownTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
   // 处理渲染偏移量更新。策略：滑动中不同步 scrollViewOffset（避免果冻感），滚动结束后再同步。
   // syncToScrollView=true：程序性滚动（scrollIntoView/修正/初始），立即同步到 ScrollView。
   // syncToScrollView=false：用户滑动，仅更新 renderOffset；结束 150/200ms 后再同步 scrollViewOffset。
@@ -187,18 +256,35 @@ const List: React.FC<ListProps> = (props) => {
     setRenderOffset(newOffset) // 始终更新虚拟列表用到的偏移
 
     if (syncToScrollView) {
+      isUserScrollingRef.current = false
       setIsUserScrolling(false)
       setScrollViewOffset(newOffset)
       programmaticScrollRef.current = true
+      // 小程序端：程序性滚动开启冷却期，在冷却期内忽略 handleScroll 中的同步逻辑，避免被原生 scroll 回调"拉回"
+      // H5 端已稳定，不启用冷却期
+      if (isWeapp) {
+        programmaticTargetOffsetRef.current = newOffset
+        suppressResetUntilRef.current = Date.now() + 700
+        programmaticCooldownRef.current = true
+        if (programmaticCooldownTimerRef.current) {
+          clearTimeout(programmaticCooldownTimerRef.current)
+        }
+        programmaticCooldownTimerRef.current = setTimeout(() => {
+          programmaticCooldownRef.current = false
+          programmaticTargetOffsetRef.current = null
+          suppressResetUntilRef.current = 0
+        }, 500)
+      }
     } else {
+      isUserScrollingRef.current = true
       setIsUserScrolling(true)
     }
 
-    const isWeapp = process.env.TARO_ENV === 'weapp'
     scrollTimeoutRef.current = setTimeout(() => {
       isScrollingRef.current = false
       if (!syncToScrollView) {
         // 滚动结束后同步：state 与真实滚动位置一致，下次程序性滚动有正确基准
+        isUserScrollingRef.current = false
         setScrollViewOffset(lastScrollTopRef.current)
         setIsUserScrolling(false)
       }
@@ -238,7 +324,6 @@ const List: React.FC<ListProps> = (props) => {
       if (React.isValidElement(child) && isRefresherComponent(child)) {
         refresherCount++
         if (refresherCount > 1) {
-          console.warn('[List] 检测到多个 Refresher 组件，仅第一个生效')
           return
         }
         refresherChildProps = child.props as ListRefresherConfig
@@ -279,7 +364,6 @@ const List: React.FC<ListProps> = (props) => {
       if (React.isValidElement(child) && child.type === NoMore) {
         noMoreCount++
         if (noMoreCount > 1) {
-          console.warn('[List] 检测到多个 NoMore 组件，仅第一个生效')
           return
         }
         config = child.props as NoMoreProps
@@ -363,10 +447,68 @@ const List: React.FC<ListProps> = (props) => {
   const itemRefsRef = React.useRef<Map<number, HTMLElement | null>>(new Map())
   // 存储 header 元素引用（用于 ResizeObserver）
   const headerRefsRef = React.useRef<Map<number, HTMLElement | null>>(new Map())
-
+  // 小程序端：已完成 SelectorQuery 测量的 item 索引集，避免 refCallback 重复触发测量导致无限循环
+  const weappMeasuredItemsRef = React.useRef<Set<number>>(new Set())
   // 动态尺寸缓存更新版本：setItemSize 后递增，用于驱动 sectionOffsets/totalLength 与 item 定位重算
   const [sizeCacheVersion, setSizeCacheVersion] = React.useState(0)
   const sizeCacheRafRef = React.useRef<number | null>(null)
+  // 小程序端：测量触发 re-render 时，保护 scroll-top 不被重置的标记
+  // 仅在 RAF 回调（测量完成后）设为 true，在 render 阶段读取并自消费（设为 false）
+  const measureScrollProtectRef = React.useRef(false)
+  // 小程序端（定高路径）：滚动期间 sizeCacheVersion bump 被延迟，此标记记录有 pending bump 需要 flush
+  const pendingBumpRef = React.useRef(false)
+  // 定高路径：flush 后需要在下一帧恢复滚动位置（存储目标 scrollTop，null 表示无需恢复）
+  const scrollRestoreRef = React.useRef<number | null>(null)
+  // 定高路径：restore 来源滚动位置（用于判断 restore 是否过期）
+  const scrollRestoreFromRef = React.useRef<number | null>(null)
+  // 小程序端（定高路径）：flush 恢复窗口标记。
+  const weappFlushRestorePendingRef = React.useRef(false)
+  // 定高路径：滚动期间累积的测量记录，用于 flush 时计算滚动修正量
+  const pendingMeasurementsRef = React.useRef<Map<number, { originalOldSize: number, latestNewSize: number }>>(new Map())
+  // 小程序端：延迟 bump 时不同步调用 onItemSizeChange，避免父组件重渲染导致 List remount 闪回顶部；flush 时统一调用
+  const pendingSizeChangesRef = React.useRef<Array<{ index: number, size: number }>>([])
+
+  // 小程序端（定高路径）：pending 测量的“微动静止检测”
+  const scheduleWeappSettleFlushCheck = React.useCallback(() => {
+    if (!isWeapp) return
+    if (settleCheckTimerRef.current) return
+
+    const check = () => {
+      settleCheckTimerRef.current = null
+
+      const hasPending = pendingBumpRef.current || pendingMeasurementsRef.current.size > 0
+      if (!hasPending || !isUserScrollingRef.current) return
+
+      const nowOffset = lastScrollTopRef.current
+      const delta = Math.abs(nowOffset - settleLastOffsetRef.current)
+      settleLastOffsetRef.current = nowOffset
+      if (delta <= 1) {
+        settleStillCountRef.current += 1
+      } else {
+        settleStillCountRef.current = 0
+      }
+
+      const idleFor = Date.now() - lastScrollEventAtRef.current
+      // 条件：连续两次小位移且最近 scroll 事件已进入静止窗口
+      if (settleStillCountRef.current >= 2 && idleFor >= 140) {
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current)
+          scrollTimeoutRef.current = null
+        }
+        isScrollingRef.current = false
+        isUserScrollingRef.current = false
+        setIsUserScrolling(false)
+        settleStillCountRef.current = 0
+        return
+      }
+
+      settleCheckTimerRef.current = setTimeout(check, 80)
+    }
+
+    settleLastOffsetRef.current = lastScrollTopRef.current
+    settleStillCountRef.current = 0
+    settleCheckTimerRef.current = setTimeout(check, 80)
+  }, [isWeapp])
 
   // 动态尺寸缓存
   const sizeCache = useItemSizeCache({
@@ -382,8 +524,13 @@ const List: React.FC<ListProps> = (props) => {
   const visibleStartIndexRef = React.useRef(0)
 
   // ScrollTop 修正
+  // 小程序端禁用 scrollCorrection：
+  // 1. 其 100ms setTimeout 的闭包捕获的 renderOffset/setScrollOffset 可能过期，导致错误的程序性滚动
+  // 2. 小程序采用「延迟更新」策略（滚动中不 bump sizeCacheVersion），不需要实时修正
+  // 3. 其 setScrollOffset 调用 updateRenderOffset(true) 会触发 setData，可能干扰 scroll-view
+  const scrollCorrectionEnabled = !isWeapp && props.useResizeObserver === true
   const scrollCorrection = useScrollCorrection({
-    enabled: props.useResizeObserver === true,
+    enabled: scrollCorrectionEnabled,
     visibleStartIndex: visibleStartIndexRef.current,
     setScrollOffset: (offsetOrUpdater) => {
       const newOffset = typeof offsetOrUpdater === 'function'
@@ -392,6 +539,17 @@ const List: React.FC<ListProps> = (props) => {
       updateRenderOffset(newOffset, true) // 程序性修正需同步到 ScrollView
     }
   })
+
+  // 小程序 + 动高（virtual-list 风格）：测量变化后同帧重排，不做程序性 scrollTop 回拉
+  const scheduleWeappDynamicReflow = React.useCallback(() => {
+    if (!isWeapp || props.useResizeObserver !== true) return
+    if (sizeCacheRafRef.current != null) return
+    sizeCacheRafRef.current = requestAnimationFrame(() => {
+      sizeCacheRafRef.current = null
+      measureScrollProtectRef.current = true
+      setSizeCacheVersion((v) => v + 1)
+    })
+  }, [isWeapp, props.useResizeObserver])
 
   // ResizeObserver（当启用动态测量时）
   const resizeObserver = useResizeObserver({
@@ -403,18 +561,38 @@ const List: React.FC<ListProps> = (props) => {
       sizeCache.setItemSize(index, size)
 
       // 仅当尺寸实际变化（≥1px）时才批量驱动重渲染，避免重复/微小变化导致卡顿
-      if (Math.abs(oldSize - size) >= 1 && sizeCacheRafRef.current == null) {
-        sizeCacheRafRef.current = requestAnimationFrame(() => {
-          sizeCacheRafRef.current = null
-          setSizeCacheVersion((v) => v + 1)
-        })
+      if (Math.abs(oldSize - size) >= 1) {
+        if (isWeapp && props.useResizeObserver === true) {
+          scheduleWeappDynamicReflow()
+        } else {
+          // 记录测量变化（用于 flush 时计算滚动修正）
+          if (isWeapp) {
+            weappRecordMeasurement(pendingMeasurementsRef, index, oldSize, size)
+            scheduleWeappSettleFlushCheck()
+          }
+          if (sizeCacheRafRef.current == null) {
+            sizeCacheRafRef.current = requestAnimationFrame(() => {
+              sizeCacheRafRef.current = null
+              if (isWeapp) {
+                weappSizeCacheVersionBump(isUserScrollingRef, pendingBumpRef, measureScrollProtectRef, setSizeCacheVersion)
+              } else {
+                setSizeCacheVersion((v) => v + 1)
+              }
+            })
+          }
+        }
       }
 
       // 触发 ScrollTop 修正
       scrollCorrection.recordSizeChange(index, oldSize, size)
 
-      // 触发外部回调
-      props.onItemSizeChange?.(index, size)
+      // 小程序：延迟 onItemSizeChange，避免父组件重渲染导致 List remount
+      // H5：直接回调
+      if (isWeapp) {
+        weappDeferItemSizeChange(isUserScrollingRef, pendingSizeChangesRef, index, size, props.onItemSizeChange)
+      } else {
+        props.onItemSizeChange?.(index, size)
+      }
     }
   })
 
@@ -572,12 +750,64 @@ const List: React.FC<ListProps> = (props) => {
 
     // H5 顶栏悬浮：只滚列表，scrollTop 即列表偏移，无需 clamp
     const effectiveOffset = newOffset
+    lastScrollEventAtRef.current = Date.now()
+
+    // 若新一轮用户滚动已开始，取消尚未执行的旧 restore（避免两个事务互相打架）
+    if (isWeapp && props.useResizeObserver !== true && scrollRestoreRef.current !== null && !programmaticCooldownRef.current) {
+      const restoreFrom = scrollRestoreFromRef.current ?? lastScrollTopRef.current
+      if (Math.abs(effectiveOffset - restoreFrom) > 8) {
+        scrollRestoreRef.current = null
+        scrollRestoreFromRef.current = null
+      }
+    }
+
+    // 小程序端：flush 重排后有一帧不传 scroll-top，原生会归 0 并触发 onScroll(0)。effect 内会立刻清掉 scrollRestoreRef，
+    // 若 onScroll(0) 在 effect 之后才触发会被误接受导致「第二次抖动：回顶+空白」。用 weappFlushRestorePendingRef 标记
+    // 从 flush 到 nextTick 内 restore 执行完的整段窗口，此期间忽略 effectiveOffset<=1。
+    if (
+      isWeapp &&
+      props.useResizeObserver !== true &&
+      (scrollRestoreRef.current !== null || weappFlushRestorePendingRef.current) &&
+      effectiveOffset <= 1
+    ) {
+      return
+    }
+
+    // 小程序端：程序性恢复后的短窗口内，过滤异常“回顶/大幅反向跳变”噪声事件
+    // 动高分支改走 virtual-list 风格，不在这里做程序性回拉。
+    if (isWeapp && props.useResizeObserver !== true && suppressResetUntilRef.current > Date.now()) {
+      const target = programmaticTargetOffsetRef.current ?? lastScrollTopRef.current
+      const isResetToTop = effectiveOffset <= 1 && target > 40
+      if (isResetToTop) {
+        const now = Date.now()
+        // 仅“忽略”会导致原生位置与虚拟渲染位置脱节（空白）。
+        // 这里改为回补一次目标位置，保持两者一致。
+        if (now - guardHealAtRef.current > 120) {
+          guardHealAtRef.current = now
+          updateRenderOffset(target, !isUserScrollingRef.current)
+        }
+        return
+      }
+    }
+
 
     const diff = effectiveOffset - lastScrollTopRef.current
     scrollDiffListRef.current.shift()
     scrollDiffListRef.current.push(diff)
 
     if (isScrollingRef.current && isShaking(scrollDiffListRef.current)) {
+      return
+    }
+
+    // 小程序端程序性滚动冷却期内：只更新 renderOffset 用于虚拟列表渲染，不触发同步逻辑，避免被"拉回"
+    // 注意：programmaticCooldownRef 只在小程序端会被设为 true，H5 端不受影响
+    if (programmaticCooldownRef.current) {
+      lastScrollTopRef.current = effectiveOffset
+      setRenderOffset(effectiveOffset)
+      onScroll?.({
+        scrollTop: isHorizontal ? 0 : newOffset,
+        scrollLeft: isHorizontal ? newOffset : 0
+      })
       return
     }
 
@@ -588,22 +818,147 @@ const List: React.FC<ListProps> = (props) => {
       scrollTop: isHorizontal ? 0 : newOffset,
       scrollLeft: isHorizontal ? newOffset : 0
     })
-  }, [isHorizontal, onScroll, updateRenderOffset, containerLength, scrollCorrection])
+  }, [isHorizontal, onScroll, updateRenderOffset, containerLength, scrollCorrection, props.useResizeObserver])
 
-  // 初始化后的延迟同步 - 确保ScrollView正确设置初始位置
+  // 小程序端：优先使用原生 onScrollEnd 作为“滚动停止”信号，尽快触发 flush
+  // timeout 仍保留作为兜底（某些场景 onScrollEnd 可能不稳定）
+  const handleNativeScrollEnd = React.useCallback(() => {
+    if (isWeapp) {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+        scrollTimeoutRef.current = null
+      }
+      if (settleCheckTimerRef.current) {
+        clearTimeout(settleCheckTimerRef.current)
+        settleCheckTimerRef.current = null
+      }
+      const hasPending = props.useResizeObserver === true
+        ? false
+        : (pendingBumpRef.current || pendingMeasurementsRef.current.size > 0)
+      if (isUserScrollingRef.current || hasPending) {
+        isScrollingRef.current = false
+        isUserScrollingRef.current = false
+        setIsUserScrolling(false)
+      }
+    }
+    onScrollEnd?.()
+  }, [isWeapp, onScrollEnd])
+
+  // 小程序端：用户停止滚动后 flush
+  // 1. flush 延迟的 sizeCacheVersion bump（滚动期间 setData 更新 children 会导致 scroll-view 重置）
+  // 2. flush 延迟的 onItemSizeChange（避免父组件重渲染导致 List remount）
+  if (isWeapp) {
+    // flush effect：用户停止滚动后执行延迟的 sizeCacheVersion bump
+    // 条件增强：只要存在 pending bump 或 pending 测量记录，都在第一次停住时立即 flush
+    React.useEffect(() => {
+      if (!isUserScrolling) {
+        if (props.useResizeObserver === true) {
+          // 动高 + weapp 已改为“测量即重排、原生滚动主导”，不再走 flush/restore 事务。
+          pendingBumpRef.current = false
+          if (pendingMeasurementsRef.current.size > 0) {
+            pendingMeasurementsRef.current.clear()
+          }
+          return
+        }
+        const hasPendingMeasurements = pendingMeasurementsRef.current.size > 0
+        if (pendingBumpRef.current || hasPendingMeasurements) {
+          pendingBumpRef.current = false
+
+          // 计算视口上方 item 高度变化的累积 delta
+          // visibleStartItem = 当前视口第一个可见 item（旧布局，因为 sizeCacheVersion 还没 bump）
+          let heightDelta = 0
+          pendingMeasurementsRef.current.forEach(({ originalOldSize, latestNewSize }, index) => {
+            if (index < visibleStartItem) {
+              heightDelta += (latestNewSize - originalOldSize)
+            }
+          })
+          pendingMeasurementsRef.current.clear()
+
+          // 修正后的 scrollTop = 旧 scrollTop + 视口上方高度变化量（定高 / 非动高路径）
+          const restoreFrom = lastScrollTopRef.current
+          const correctedScrollTop = restoreFrom + heightDelta
+          scrollRestoreFromRef.current = restoreFrom
+          scrollRestoreRef.current = correctedScrollTop
+          weappFlushRestorePendingRef.current = true
+          measureScrollProtectRef.current = true
+          setSizeCacheVersion((v) => v + 1)
+        } else {
+          // 没有 pending bump 但可能有残留的测量记录（scrolling 结束但没有新测量），清理
+          if (pendingMeasurementsRef.current.size > 0) {
+            pendingMeasurementsRef.current.clear()
+          }
+        }
+        // flush 延迟的 onItemSizeChange（暂时禁用，验证 scroll-anchoring）
+        // const pending = pendingSizeChangesRef.current
+        // if (pending.length > 0) {
+        //   pendingSizeChangesRef.current = []
+        //   pending.forEach(({ index, size }) => props.onItemSizeChange?.(index, size))
+        // }
+      }
+    }, [isUserScrolling, props.useResizeObserver])
+
+    // scrollRestoreEffect：sizeCacheVersion 变化后，在下一帧单独恢复 scroll 位置
+    // 核心思想：第一次 setData 更新 children（不带 scroll-top），
+    // 第二次 setData 仅恢复 scroll-top（children 不变），避免同批冲突
+    React.useEffect(() => {
+      if (props.useResizeObserver === true) return
+      if (scrollRestoreRef.current === null) {
+        weappFlushRestorePendingRef.current = false
+        return
+      }
+      const targetPos = scrollRestoreRef.current
+      const sourcePos = scrollRestoreFromRef.current
+      scrollRestoreRef.current = null
+      scrollRestoreFromRef.current = null
+      // 使用 Taro.nextTick 确保在上一次 setData 完成后执行
+      Taro.nextTick(() => {
+        try {
+          // 若用户已开始下一次滚动，则取消这次过期 restore，避免回拉/回顶/空白
+          const userContinued =
+            sourcePos != null &&
+            isUserScrollingRef.current &&
+            Math.abs(lastScrollTopRef.current - sourcePos) > 8
+          if (userContinued) {
+            return
+          }
+          updateRenderOffset(targetPos, true)
+        } finally {
+          weappFlushRestorePendingRef.current = false
+        }
+      })
+    }, [sizeCacheVersion, updateRenderOffset])
+
+    // 小程序端：保持稳定优先，暂不回放 onItemSizeChange。
+    React.useEffect(() => {
+      pendingSizeChangesRef.current = []
+    }, [isUserScrolling, sizeCacheVersion])
+  }
+
+  // 初始化后的延迟同步 - 确保 ScrollView 与虚拟列表窗口一致（scrollTop 受控跳转）
   React.useEffect(() => {
     if (typeof controlledScrollTop === 'number') {
-      setScrollViewOffset(controlledScrollTop)
       lastScrollTopRef.current = controlledScrollTop
+      setRenderOffset(controlledScrollTop)
+      setScrollViewOffset(controlledScrollTop)
       programmaticScrollRef.current = true
     }
   }, [controlledScrollTop])
 
-  // 清理定时器、ResizeObserver 与尺寸缓存 RAF
+  // 清理定时器、ResizeObserver 与尺寸缓存 RAF（仅在卸载时执行）
+  // 注意：不要依赖整个对象（resizeObserver/scrollCorrection），否则每次渲染都会触发 cleanup，
+  // 进而反复清掉 pendingSizeFlushTimer，导致 onItemSizeChange 批量回放永远不执行。
   React.useEffect(() => {
     return () => {
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current)
+      }
+      if (settleCheckTimerRef.current) {
+        clearTimeout(settleCheckTimerRef.current)
+        settleCheckTimerRef.current = null
+      }
+      // 小程序端冷却期定时器清理
+      if (isWeapp && programmaticCooldownTimerRef.current) {
+        clearTimeout(programmaticCooldownTimerRef.current)
       }
       if (sizeCacheRafRef.current != null) {
         cancelAnimationFrame(sizeCacheRafRef.current)
@@ -612,9 +967,9 @@ const List: React.FC<ListProps> = (props) => {
       resizeObserver.disconnect()
       scrollCorrection.clearQueue()
     }
-  }, [resizeObserver, scrollCorrection])
+  }, [isWeapp, resizeObserver.disconnect, scrollCorrection.clearQueue])
 
-  // scrollIntoView：仅当 scrollIntoView 变化时执行一次跳动，避免依赖 sections/getItemSize 等导致每次渲染都重置位置、无法继续滑动
+  // scrollIntoView：仅当 scrollIntoView 变化时执行一次跳动，统一转换为 scrollTop 路径（updateRenderOffset）。
   const lastScrollIntoViewRef = React.useRef<string | null>(null)
   React.useEffect(() => {
     const targetId = props.scrollIntoView
@@ -680,8 +1035,10 @@ const List: React.FC<ListProps> = (props) => {
     onScrollToUpper,
     onScrollToLower,
     onScrollStart,
-    onScrollEnd,
+    onScrollEnd: handleNativeScrollEnd,
     enableBackToTop,
+    // 小程序端：开启滚动锚定，防止虚拟列表子节点通过 setData 更新时原生 scroll-view 重置滚动位置
+    ...(isWeapp ? { scrollAnchoring: true } : {}),
     ...(typeof cacheExtent === 'number' ? { cacheExtent } : {}),
     'data-testid': 'taro-list-container',
 
@@ -720,12 +1077,38 @@ const List: React.FC<ListProps> = (props) => {
     }
   }, [])
 
-  // 仅在非用户滑动时传 scrollTop/scrollLeft；H5 顶栏悬浮时只滚列表，scrollTop 即列表偏移（不含顶栏）
-  if (!isUserScrolling) {
-    if (isHorizontal) {
-      scrollViewProps.scrollLeft = scrollViewOffset
+  // scrollTop 传递策略：
+  // - weapp 定高：每帧传 scrollViewOffset（measureProtect 帧除外）
+  // - weapp 动高：不常态传，保持原生滚动主导，仅程序性滚动时传
+  // - H5：仅非用户滑动时传
+  if (isWeapp) {
+    const isWeappDynamicHeight = props.useResizeObserver === true
+    if (measureScrollProtectRef.current) {
+      measureScrollProtectRef.current = false
+    } else if (isWeappDynamicHeight) {
+      // 动高：仅程序性滚动时传，其他时刻由原生滚动主导
+      if (programmaticScrollRef.current) {
+        if (isHorizontal) scrollViewProps.scrollLeft = scrollViewOffset
+        else scrollViewProps.scrollTop = scrollViewOffset
+        programmaticScrollRef.current = false
+      }
     } else {
-      scrollViewProps.scrollTop = scrollViewOffset
+      // 定高：每帧传，支持受控跳转
+      if (isHorizontal) {
+        scrollViewProps.scrollLeft = scrollViewOffset
+      } else {
+        scrollViewProps.scrollTop = scrollViewOffset
+      }
+      programmaticScrollRef.current = false
+    }
+  } else {
+    // H5：非用户滑动时传
+    if (!isUserScrolling) {
+      if (isHorizontal) {
+        scrollViewProps.scrollLeft = scrollViewOffset
+      } else {
+        scrollViewProps.scrollTop = scrollViewOffset
+      }
     }
   }
 
@@ -816,23 +1199,45 @@ const List: React.FC<ListProps> = (props) => {
           if (el) {
             headerRefsRef.current.set(sectionIndex, el)
             resizeObserver.observe(el, -sectionIndex - 1) // 用负数索引区分 header 和 item
-            requestAnimationFrame(() => {
-              if (!headerRefsRef.current.has(sectionIndex)) return
-              const rect = el.getBoundingClientRect()
-              const measured = isHorizontal ? rect.width : rect.height
+            const measureAndUpdateHeader = (measured: number) => {
               if (measured > 0) {
                 const oldSize = headerSizeCacheRef.current.get(sectionIndex) ?? getDefaultHeaderSize()
                 if (Math.abs(oldSize - measured) >= 1) {
                   headerSizeCacheRef.current.set(sectionIndex, measured)
-                  if (sizeCacheRafRef.current == null) {
+                  if (isWeapp && props.useResizeObserver === true) {
+                    scheduleWeappDynamicReflow()
+                  } else if (sizeCacheRafRef.current == null) {
                     sizeCacheRafRef.current = requestAnimationFrame(() => {
                       sizeCacheRafRef.current = null
-                      setSizeCacheVersion((v) => v + 1)
+                      if (isWeapp) {
+                        weappSizeCacheVersionBump(isUserScrollingRef, pendingBumpRef, measureScrollProtectRef, setSizeCacheVersion)
+                      } else {
+                        setSizeCacheVersion((v) => v + 1)
+                      }
                     })
                   }
                 }
               }
-            })
+            }
+            if (isH5) {
+              requestAnimationFrame(() => {
+                if (!headerRefsRef.current.has(sectionIndex)) return
+                const rect = el.getBoundingClientRect()
+                measureAndUpdateHeader(isHorizontal ? rect.width : rect.height)
+              })
+            } else if (isWeapp) {
+              Taro.nextTick(() => {
+                if (!headerRefsRef.current.has(sectionIndex)) return
+                Taro.createSelectorQuery()
+                  .select(`#${listId}-list-header-inner-${sectionIndex}`)
+                  .boundingClientRect((rect: any) => {
+                    if (rect) {
+                      measureAndUpdateHeader(isHorizontal ? rect.width : rect.height)
+                    }
+                  })
+                  .exec()
+              })
+            }
           } else {
             const oldEl = headerRefsRef.current.get(sectionIndex)
             if (oldEl) {
@@ -844,18 +1249,29 @@ const List: React.FC<ListProps> = (props) => {
 
         // 动态尺寸时：外层定位，内层撑开以便测量
         const headerContentStyle: React.CSSProperties = props.useResizeObserver
-          ? (isHorizontal ? { boxSizing: 'border-box', width: 'max-content', height: '100%' } : { boxSizing: 'border-box', width: '100%' })
+          ? (
+            isHorizontal
+              // weapp 下 max-content 兼容性不稳定，改用 inline-flex 收缩包裹以测得真实宽度
+              ? (isWeapp
+                ? { boxSizing: 'border-box', display: 'inline-flex', height: '100%' }
+                : { boxSizing: 'border-box', width: 'max-content', height: '100%' })
+              : { boxSizing: 'border-box', width: '100%' }
+          )
           : {}
 
         if (props.useResizeObserver) {
+          const headerInnerProps: any = {
+            ref: headerRefCallback,
+            style: headerContentStyle,
+          }
+          if (isWeapp) {
+            headerInnerProps.id = `${listId}-list-header-inner-${sectionIndex}`
+          }
           nodes.push(
             React.createElement(View, {
               key: section.key + '-header',
               style: sectionHeaderStyle,
-            }, React.createElement(View, {
-              ref: headerRefCallback,
-              style: headerContentStyle,
-            }, section.header))
+            }, React.createElement(View, headerInnerProps, section.header))
           )
         } else {
           nodes.push(
@@ -924,26 +1340,75 @@ const List: React.FC<ListProps> = (props) => {
         // 后加载项：挂载后单帧 RAF 备用测量；仅当尺寸实际变化时才 bump 版本，避免与 ResizeObserver 重复触发导致连续两次重渲染（卡顿）
         const refCallback = (el: HTMLElement | null) => {
           if (el) {
-            itemRefsRef.current.set(currentGlobalIndex, el)
-            resizeObserver.observe(el, currentGlobalIndex)
-            requestAnimationFrame(() => {
-              if (!itemRefsRef.current.has(currentGlobalIndex)) return
-              const rect = el.getBoundingClientRect()
-              const measured = isHorizontal ? rect.width : rect.height
+            const capturedIndex = currentGlobalIndex
+            itemRefsRef.current.set(capturedIndex, el)
+            resizeObserver.observe(el, capturedIndex)
+
+            // H5：使用 getBoundingClientRect 进行 fallback 测量
+            // 小程序：使用 SelectorQuery 进行 fallback 测量（小程序没有 getBoundingClientRect）
+            const measureAndUpdate = (measured: number) => {
               if (measured > 0) {
-                const oldSize = sizeCache.getItemSize(currentGlobalIndex)
-                sizeCache.setItemSize(currentGlobalIndex, measured)
-                scrollCorrection.recordSizeChange(currentGlobalIndex, oldSize, measured)
-                props.onItemSizeChange?.(currentGlobalIndex, measured)
-                // 仅当测量值与缓存差异 ≥1px 时才驱动重渲染，避免 ResizeObserver 已更新后 fallback 再触发一次 bump 造成卡顿
-                if (Math.abs(oldSize - measured) >= 1 && sizeCacheRafRef.current == null) {
+                const oldSize = sizeCache.getItemSize(capturedIndex)
+                // 尺寸未变化，跳过
+                if (Math.abs(oldSize - measured) < 1) return
+                sizeCache.setItemSize(capturedIndex, measured)
+                scrollCorrection.recordSizeChange(capturedIndex, oldSize, measured)
+                if (isWeapp && props.useResizeObserver === true) {
+                  scheduleWeappDynamicReflow()
+                } else if (isWeapp) {
+                  // 记录测量变化（用于 flush 时计算滚动修正）
+                  weappRecordMeasurement(pendingMeasurementsRef, capturedIndex, oldSize, measured)
+                  scheduleWeappSettleFlushCheck()
+                }
+                // 小程序：延迟 onItemSizeChange，避免父组件重渲染导致 List remount
+                if (isWeapp) {
+                  weappDeferItemSizeChange(isUserScrollingRef, pendingSizeChangesRef, capturedIndex, measured, props.onItemSizeChange)
+                } else {
+                  props.onItemSizeChange?.(capturedIndex, measured)
+                }
+                if (!(isWeapp && props.useResizeObserver === true) && sizeCacheRafRef.current == null) {
                   sizeCacheRafRef.current = requestAnimationFrame(() => {
                     sizeCacheRafRef.current = null
-                    setSizeCacheVersion((v) => v + 1)
+                    if (isWeapp) {
+                      weappSizeCacheVersionBump(isUserScrollingRef, pendingBumpRef, measureScrollProtectRef, setSizeCacheVersion)
+                    } else {
+                      setSizeCacheVersion((v) => v + 1)
+                    }
                   })
                 }
               }
-            })
+            }
+
+            if (isH5) {
+              requestAnimationFrame(() => {
+                if (!itemRefsRef.current.has(capturedIndex)) return
+                const rect = el.getBoundingClientRect()
+                measureAndUpdate(isHorizontal ? rect.width : rect.height)
+              })
+            } else if (isWeapp) {
+              // 小程序端：使用 SelectorQuery 测量内层内容容器的实际尺寸
+              // 注意：必须选 inner 容器（无固定高度，由内容撑开），不能选 outer（有虚拟列表设置的固定高度）
+              // 已测量过的 item 跳过，避免 refCallback 重复触发导致无限循环
+              // 滚动期间跳过 SelectorQuery（不加入 weappMeasuredItemsRef），避免异步查询干扰 scroll-view
+              // SelectorQuery 是只读查询，滚动期间执行安全；sizeCacheVersion bump 由 weappSizeCacheVersionBump 延迟到滚动结束
+              if (shouldMeasureWeappItem(capturedIndex, weappMeasuredItemsRef.current)) {
+                weappMeasuredItemsRef.current.add(capturedIndex)
+                // 使用 Taro.nextTick 代替 setTimeout(50)：等待下一帧渲染完成后再测量
+                // 比固定延时更快（减少"预估→实测"闪烁）且更可靠（保证 DOM 已更新）
+                Taro.nextTick(() => {
+                  if (!itemRefsRef.current.has(capturedIndex)) return
+                  Taro.createSelectorQuery()
+                    // 页面上可能同时存在多个 List，inner id 必须带 listId 前缀避免跨列表误命中
+                    .select(`#${listId}-list-item-inner-${capturedIndex}`)
+                    .boundingClientRect((rect: any) => {
+                      if (rect) {
+                        measureAndUpdate(isHorizontal ? rect.width : rect.height)
+                      }
+                    })
+                    .exec()
+                })
+              }
+            }
           } else {
             const oldEl = itemRefsRef.current.get(currentGlobalIndex)
             if (oldEl) {
@@ -959,7 +1424,14 @@ const List: React.FC<ListProps> = (props) => {
         //   - width:max-content 便于测量真实宽度；
         //   - height:100% 让测量层与外层 slot 条带高度一致，避免「外层条带 180px、内层 wrapper 只有内容高度」导致的内外高度差。
         const contentWrapperStyle: React.CSSProperties = props.useResizeObserver
-          ? (isHorizontal ? { boxSizing: 'border-box', width: 'max-content', height: '100%' } : { boxSizing: 'border-box', width: '100%' })
+          ? (
+            isHorizontal
+              // weapp 下 max-content 兼容性不稳定，改用 inline-flex 收缩包裹以测得真实宽度
+              ? (isWeapp
+                ? { boxSizing: 'border-box', display: 'inline-flex', height: '100%' }
+                : { boxSizing: 'border-box', width: 'max-content', height: '100%' })
+              : { boxSizing: 'border-box', width: '100%' }
+          )
           : {}
 
         const outerItemProps: any = {
@@ -972,6 +1444,11 @@ const List: React.FC<ListProps> = (props) => {
           const innerProps: any = {
             ref: refCallback,
             style: contentWrapperStyle,
+          }
+          // 小程序端需要 id 用于 SelectorQuery 测量内容真实尺寸；H5 端不需要（用 getBoundingClientRect）
+          if (isWeapp) {
+            // 页面内多 List 并存时避免 id 冲突（例如 demo 同页含多个 List）
+            innerProps.id = `${listId}-list-item-inner-${currentGlobalIndex}`
           }
           innerProps['data-index'] = String(currentGlobalIndex)
           nodes.push(
@@ -1047,45 +1524,51 @@ const List: React.FC<ListProps> = (props) => {
     refresherHeightForH5 > 0 && h5RefresherProps.pullDistance !== 0
       ? { transform: `translateY(${h5RefresherProps.pullDistance}px)` }
       : {}
+  const h5RefresherTranslateY = -refresherHeightForH5 + h5RefresherProps.pullDistance
+
+  // 内容区域渲染（提取为独立函数以降低主组件圈复杂度）
+  const renderContentArea = () => (
+    <View style={contentWrapperStyle}>
+      {refresherHeightForH5 > 0 ? (
+        <>
+          {/* H5 刷新层默认上移隐藏；下拉时按 pullDistance 同步露出 */}
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: refresherHeightForH5,
+              zIndex: 0,
+              transform: `translateY(${h5RefresherTranslateY}px)`,
+            }}
+          >
+            {renderRefresherContent()}
+          </View>
+          {/* 列表在上方：zIndex 高盖住刷新层，下拉时 translateY 下移露出下面刷新内容 */}
+          {/* 需要 background 遮住下方刷新层，因为 renderSections 是 absolute 定位不占流空间 */}
+          <View style={{ ...listWrapperStyle, ...pullTranslate, zIndex: 1, background: style?.background ?? style?.backgroundColor ?? '#fff' }}>
+            {stickyHeaderNode}
+            {renderSections()}
+            {renderNoMoreContent()}
+          </View>
+        </>
+      ) : (
+        <>
+          {!supportsNativeRefresher && renderRefresherContent()}
+          {stickyHeaderNode}
+          {renderSections()}
+          {renderNoMoreContent()}
+        </>
+      )}
+    </View>
+  )
 
   return (
     <ScrollView ref={containerRef as any} {...scrollViewProps} id={listId}>
       {/* 小程序：slot="refresher" 必须是 ScrollView 的直接子元素 */}
       {supportsNativeRefresher && renderRefresherContent()}
-      <View style={contentWrapperStyle}>
-        {refresherHeightForH5 > 0 ? (
-          <>
-            {/* H5 刷新层在下方：absolute 贴顶、不占流、zIndex 低，被列表盖住 */}
-            <View
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: refresherHeightForH5,
-                zIndex: 0,
-              }}
-            >
-              {renderRefresherContent()}
-            </View>
-            {/* 列表在上方：zIndex 高盖住刷新层，下拉时 translateY 下移露出下面刷新内容 */}
-            {/* 需要 background 遮住下方刷新层，因为 renderSections 是 absolute 定位不占流空间 */}
-            <View style={{ ...listWrapperStyle, ...pullTranslate, zIndex: 1, background: style?.background ?? style?.backgroundColor ?? '#fff' }}>
-              {stickyHeaderNode}
-              {renderSections()}
-              {renderNoMoreContent()}
-            </View>
-          </>
-        ) : (
-          <>
-            {/* H5 非刷新模式：刷新内容在 contentWrapper 内 */}
-            {!supportsNativeRefresher && renderRefresherContent()}
-            {stickyHeaderNode}
-            {renderSections()}
-            {renderNoMoreContent()}
-          </>
-        )}
-      </View>
+      {renderContentArea()}
     </ScrollView>
   )
 }

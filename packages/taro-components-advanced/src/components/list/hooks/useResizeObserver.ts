@@ -101,9 +101,10 @@ export function useResizeObserver(
       observer.relativeTo(`#${listId}`)
 
       // 观察元素进入可见区域
+      // SelectorQuery 是只读查询，不会触发 setData，滚动期间执行安全
+      // sizeCacheVersion 的延迟 bump 由 weappSizeCacheVersionBump 在 onResize 链路中负责
       observer.observe(`[data-index="${index}"]`, (res) => {
         if (res.intersectionRatio > 0) {
-          // 元素进入可见区域，测量尺寸
           Taro.createSelectorQuery()
             .select(`[data-index="${index}"]`)
             .boundingClientRect((rect: any) => {
@@ -117,8 +118,8 @@ export function useResizeObserver(
       })
 
       intersectionObserversRef.current.set(index, observer)
-    } catch (error) {
-      console.warn(`[useResizeObserver] 小程序观察失败:`, error)
+    } catch {
+      // ignore observe failure
     }
   }, [enabled, isHorizontal, listId, onResize])
 
