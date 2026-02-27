@@ -33,6 +33,8 @@ export interface ListProps {
   /** 与 ScrollView onScrollEnd 对齐 */
   onScrollEnd?: () => void
   scrollIntoView?: string
+  /** 透传给最外层 ScrollView 的 className，便于自定义样式 */
+  className?: string
 
   // ===== 与 harmony-cpp ListProps / ListBuilder 对齐 =====
   stickyHeader?: boolean
@@ -76,6 +78,14 @@ export interface ListProps {
   onRefresherAbort?: () => void
   onRefresherWillRefresh?: () => void
   onRefresherStatusChange?: (e?: { detail?: { status?: number, dy?: number } }) => void
+}
+
+export interface ListHandle {
+  scroll: (options?: {
+    top?: number
+    left?: number
+    behavior?: 'auto' | 'smooth'
+  }) => void
 }
 
 // 工具：累加数组
@@ -156,7 +166,7 @@ function weappRecordMeasurement(
 }
 
 // 小程序动高：非 flush 的 measureProtect 帧回传一次当前 offset，避免原生短暂归 0
-const List: React.FC<ListProps> = (props) => {
+const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   const isH5 = process.env.TARO_ENV === 'h5'
   const isWeapp = process.env.TARO_ENV === 'weapp'
   const {
@@ -178,6 +188,7 @@ const List: React.FC<ListProps> = (props) => {
     cacheCount = 2,
     cacheExtent,
     enableBackToTop,
+    className,
     style,
     children,
   } = props
@@ -290,6 +301,41 @@ const List: React.FC<ListProps> = (props) => {
       }
     }, isWeapp ? 200 : 150)
   }, [])
+
+  // 暴露给外部的实例方法：通过 ref.scroll({ top / left }) 进行程序性滚动
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      scroll(options) {
+        const opts = options ?? {}
+        const isHorizontal = scrollX === true
+        const top = typeof opts.top === 'number' ? opts.top : undefined
+        const left = typeof opts.left === 'number' ? opts.left : undefined
+
+        let targetOffset = 0
+        if (isHorizontal) {
+          if (typeof left === 'number') {
+            targetOffset = left
+          } else if (typeof top === 'number') {
+            targetOffset = top
+          }
+        } else {
+          if (typeof top === 'number') {
+            targetOffset = top
+          } else if (typeof left === 'number') {
+            targetOffset = left
+          }
+        }
+
+        if (!Number.isFinite(targetOffset)) {
+          targetOffset = 0
+        }
+
+        updateRenderOffset(targetOffset, true)
+      },
+    }),
+    [scrollX, updateRenderOffset]
+  )
 
   // 提取 Refresher 配置（方案一：List 自身属性为 base，Refresher 子覆盖，对齐 dynamic/harmony）
   const refresherConfig = React.useMemo((): ListRefresherConfig | null => {
@@ -1026,6 +1072,7 @@ const List: React.FC<ListProps> = (props) => {
     scrollY: !scrollX && scrollY,
     scrollX,
     style: containerStyle,
+    className,
     enhanced: true,
     showScrollbar,
     upperThreshold,
@@ -1572,6 +1619,8 @@ const List: React.FC<ListProps> = (props) => {
     </ScrollView>
   )
 }
+
+const List = React.forwardRef<ListHandle, ListProps>(InnerList)
 
 export { List, ListItem, NoMore, StickyHeader, StickySection }
 export default List
