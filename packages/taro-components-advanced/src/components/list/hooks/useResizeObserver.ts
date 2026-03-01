@@ -84,6 +84,8 @@ export function useResizeObserver(
 
   /**
    * 小程序实现：使用 IntersectionObserver + SelectorQuery
+   * 使用唯一 id 选择器，避免多 List 并存时误命中（index>=0 为 item，index<0 为 header）
+   * 使用 Taro.nextTick 延后 observe，确保 setData 已提交、节点已挂载，避免 "Node is not found" 报错
    */
   const observeMiniProgram = useCallback((_element: any, index: number) => {
     if (!enabled) return
@@ -91,36 +93,42 @@ export function useResizeObserver(
     // 避免重复观察
     if (intersectionObserversRef.current.has(index)) return
 
-    try {
-      // 创建 IntersectionObserver
-      const observer = Taro.createIntersectionObserver(Taro.getCurrentInstance().page as any, {
-        observeAll: true
-      })
+    const selector = index >= 0
+      ? `#${listId}-list-item-inner-${index}`
+      : `#${listId}-list-header-inner-${-index - 1}`
 
-      // 相对于 List 容器
-      observer.relativeTo(`#${listId}`)
+    const doObserve = () => {
+      try {
+        // 创建 IntersectionObserver
+        const observer = Taro.createIntersectionObserver(Taro.getCurrentInstance().page as any, {
+          observeAll: true
+        })
 
-      // 观察元素进入可见区域
-      // SelectorQuery 是只读查询，不会触发 setData，滚动期间执行安全
-      // sizeCacheVersion 的延迟 bump 由 weappSizeCacheVersionBump 在 onResize 链路中负责
-      observer.observe(`[data-index="${index}"]`, (res) => {
-        if (res.intersectionRatio > 0) {
-          Taro.createSelectorQuery()
-            .select(`[data-index="${index}"]`)
-            .boundingClientRect((rect: any) => {
-              if (rect) {
-                const size = isHorizontal ? rect.width : rect.height
-                onResize(index, size)
-              }
-            })
-            .exec()
-        }
-      })
+        // 相对于 List 容器
+        observer.relativeTo(`#${listId}`)
 
-      intersectionObserversRef.current.set(index, observer)
-    } catch {
-      // ignore observe failure
+        // 观察元素进入可见区域（唯一 id 避免跨 List 误命中）
+        observer.observe(selector, (res) => {
+          if (res.intersectionRatio > 0) {
+            Taro.createSelectorQuery()
+              .select(selector)
+              .boundingClientRect((rect: any) => {
+                if (rect) {
+                  const size = isHorizontal ? rect.width : rect.height
+                  onResize(index, size)
+                }
+              })
+              .exec()
+          }
+        })
+
+        intersectionObserversRef.current.set(index, observer)
+      } catch {
+        // ignore observe failure
+      }
     }
+
+    Taro.nextTick(doObserve)
   }, [enabled, isHorizontal, listId, onResize])
 
   /**

@@ -25,34 +25,15 @@ interface UseItemSizeCacheReturn {
 
   /** 设置项的尺寸 */
   setItemSize: (index: number, size: number) => void
-
-  /** 获取指定索引的累积偏移 */
-  getItemOffset: (index: number) => number
-
-  /** 清空缓存 */
-  clearCache: () => void
-
-  /** 获取缓存统计信息 */
-  getCacheStats: () => {
-    totalItems: number
-    measuredItems: number
-    estimatedItems: number
-  }
-
-  /** 维度名称（'height' 或 'width'） */
-  dimension: 'height' | 'width'
 }
 
 export function useItemSizeCache(
   options: UseItemSizeCacheOptions
 ): UseItemSizeCacheReturn {
-  const { isHorizontal, estimatedItemSize, itemCount } = options
+  const { estimatedItemSize } = options
 
   // 缓存 Map：key = 索引，value = 尺寸信息
   const cacheRef = useRef<Map<number, ItemMeasureCache>>(new Map())
-
-  // 维度名称
-  const dimension: 'height' | 'width' = isHorizontal ? 'width' : 'height'
 
   /**
    * 获取项的尺寸
@@ -86,56 +67,8 @@ export function useItemSizeCache(
     })
   }, [estimatedItemSize])
 
-  /**
-   * 获取指定索引的累积偏移
-   * 计算从 0 到 index-1 的所有项尺寸之和
-   */
-  const getItemOffset = useCallback((index: number): number => {
-    let offset = 0
-
-    for (let i = 0; i < index; i++) {
-      offset += getItemSize(i)
-    }
-
-    return offset
-  }, [getItemSize])
-
-  /**
-   * 清空缓存
-   */
-  const clearCache = useCallback(() => {
-    cacheRef.current.clear()
-  }, [])
-
-  /**
-   * 获取缓存统计信息
-   */
-  const getCacheStats = useCallback(() => {
-    let measuredItems = 0
-    let estimatedItems = 0
-
-    for (let i = 0; i < itemCount; i++) {
-      const cached = cacheRef.current.get(i)
-      if (cached?.isMeasured) {
-        measuredItems++
-      } else {
-        estimatedItems++
-      }
-    }
-
-    return {
-      totalItems: itemCount,
-      measuredItems,
-      estimatedItems
-    }
-  }, [itemCount])
-
   return {
     getItemSize,
-    setItemSize,
-    getItemOffset,
-    clearCache,
-    getCacheStats,
-    dimension
+    setItemSize
   }
 }

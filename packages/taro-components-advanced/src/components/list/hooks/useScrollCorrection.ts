@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { type MutableRefObject, useCallback, useRef } from 'react'
 
 /**
  * useScrollCorrection Hook - ScrollTop/Left 修正
@@ -21,8 +21,8 @@ interface UseScrollCorrectionOptions {
   /** 是否启用修正 */
   enabled: boolean
 
-  /** 可见区域起始索引 */
-  visibleStartIndex: number
+  /** 可见区域起始索引（取值时读 ref.current，避免 stale） */
+  visibleStartIndexRef: MutableRefObject<number>
 
   /** 设置滚动位置的回调 */
   setScrollOffset: (offset: number | ((prev: number) => number)) => void
@@ -42,7 +42,7 @@ interface UseScrollCorrectionReturn {
 export function useScrollCorrection(
   options: UseScrollCorrectionOptions
 ): UseScrollCorrectionReturn {
-  const { enabled, visibleStartIndex, setScrollOffset } = options
+  const { enabled, visibleStartIndexRef, setScrollOffset } = options
 
   // 修正队列
   const queueRef = useRef<ScrollCorrectionItem[]>([])
@@ -86,9 +86,10 @@ export function useScrollCorrection(
         return
       }
 
-      // 批量计算修正量（仅修正可见区域之前的变化）
+      // 批量计算修正量（仅修正可见区域之前的变化；读 ref 获取最新值）
+      const visibleStart = visibleStartIndexRef.current
       const totalCorrection = queueRef.current
-        .filter(item => item.index < visibleStartIndex)
+        .filter(item => item.index < visibleStart)
         .reduce((sum, item) => sum + item.diff, 0)
 
       // 应用修正
@@ -99,7 +100,7 @@ export function useScrollCorrection(
       // 清空队列
       queueRef.current = []
     }, 100)
-  }, [enabled, visibleStartIndex, setScrollOffset])
+  }, [enabled, visibleStartIndexRef, setScrollOffset])
 
   /**
    * 标记用户正在滚动
