@@ -27,6 +27,18 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
     ariaValuetext: 'aria-valuetext',
   }
 
+  function stripTSCast (node: any): any {
+    while (
+      t.isTSAsExpression(node) ||
+      t.isTSTypeAssertion(node) ||
+      t.isTSNonNullExpression(node) ||
+      (t.isTSSatisfiesExpression && t.isTSSatisfiesExpression(node))
+    ) {
+      node = node.expression
+    }
+    return node
+  }
+
   // 这些变量需要在每个 program 里重置
   const invokedApis: Map<string, string> = new Map()
   let taroName: string
@@ -105,10 +117,41 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
           }
         })
       },
-      MemberExpression (ast: BabelCore.NodePath<any>) {
+      'MemberExpression|OptionalMemberExpression' (ast: BabelCore.NodePath<any>) {
+        const node = ast.node
+
+        // 处理两层命名空间属性访问：Taro.xx.yy / Taro?.xx?.yy（非调用场景）
+        // 调用场景由 CallExpression|OptionalCallExpression 负责
+        const isCalleeOfCall = (t.isCallExpression(ast.parent) || t.isOptionalCallExpression(ast.parent)) && (ast.parent as any).callee === node
+        if (!isCalleeOfCall) {
+          const innerObj = stripTSCast(node.object)
+          if (t.isMemberExpression(innerObj) || t.isOptionalMemberExpression(innerObj)) {
+            const isTaroNamespace = t.isIdentifier(innerObj.object, { name: taroName })
+            if (isTaroNamespace) {
+              const namespaceName = t.isIdentifier(innerObj.property) ? innerObj.property.name : (t.isStringLiteral(innerObj.property) ? innerObj.property.value : null)
+              const methodName = t.isIdentifier(node.property) ? node.property.name : (t.isStringLiteral(node.property) ? node.property.value : null)
+              if (namespaceName && methodName) {
+                const flatName = `${namespaceName}_${methodName}`
+                if (this.apis.has(flatName)) {
+                  let identifier: BabelCore.types.Identifier
+                  if (invokedApis.has(flatName)) {
+                    identifier = t.identifier(invokedApis.get(flatName)!)
+                  } else {
+                    const newName = ast.scope.generateUid(flatName)
+                    invokedApis.set(flatName, newName)
+                    identifier = t.identifier(newName)
+                  }
+                  ast.replaceWith(identifier as any)
+                  return
+                }
+              }
+            }
+          }
+        }
+
         /* 处理 Taro.xxx */
-        const isTaro = t.isIdentifier(ast.node.object, { name: taroName })
-        const property = ast.node.property
+        const isTaro = t.isIdentifier(node.object, { name: taroName })
+        const property = node.property
         let propertyName: string | null = null
         let propName = 'name'
 
@@ -125,7 +168,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
         // 同一 api 使用多次，读取变量名
         if (this.apis.has(propertyName)) {
           const parentNode = ast.parent as BabelCore.types.AssignmentExpression
-          const isAssignment = t.isAssignmentExpression(parentNode) && parentNode.left === ast.node
+          const isAssignment = t.isAssignmentExpression(parentNode) && parentNode.left === node
 
           if (!isAssignment) {
             let identifier: BabelCore.types.Identifier
@@ -143,29 +186,33 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
           needDefault = true
         }
       },
-      CallExpression (ast: BabelCore.NodePath<any>) {
+      'CallExpression|OptionalCallExpression' (ast: BabelCore.NodePath<any>) {
         const callee = ast.node.callee
 
         // 对存在命名空间的 API 支持 tree-shaking：Taro.xx.yy -> xx_yy
-        if (t.isMemberExpression(callee) && t.isMemberExpression(callee.object)) {
-          const inner = callee.object
-          const isTaroNamespace = t.isIdentifier(inner.object, { name: taroName })
-          if (isTaroNamespace) {
-            const namespaceName = t.isIdentifier(inner.property) ? inner.property.name : (t.isStringLiteral(inner.property) ? inner.property.value : null)
-            const methodName = t.isIdentifier(callee.property) ? callee.property.name : (t.isStringLiteral(callee.property) ? callee.property.value : null)
-            if (namespaceName && methodName) {
-              const flatName = `${namespaceName}_${methodName}`
-              if (this.apis.has(flatName)) {
-                let identifier: BabelCore.types.Identifier
-                if (invokedApis.has(flatName)) {
-                  identifier = t.identifier(invokedApis.get(flatName)!)
-                } else {
-                  const newName = ast.scope.generateUid(flatName)
-                  invokedApis.set(flatName, newName)
-                  identifier = t.identifier(newName)
+        // 同时兼容：可选链调用（Taro?.JDMTA.pv() / Taro.JDMTA?.pv()）、TS 类型断言（as any / ! / satisfies）
+        if (t.isMemberExpression(callee) || t.isOptionalMemberExpression(callee)) {
+          const rawObject = stripTSCast(callee.object)
+          if (t.isMemberExpression(rawObject) || t.isOptionalMemberExpression(rawObject)) {
+            const inner = rawObject
+            const isTaroNamespace = t.isIdentifier(inner.object, { name: taroName })
+            if (isTaroNamespace) {
+              const namespaceName = t.isIdentifier(inner.property) ? inner.property.name : (t.isStringLiteral(inner.property) ? inner.property.value : null)
+              const methodName = t.isIdentifier(callee.property) ? callee.property.name : (t.isStringLiteral(callee.property) ? callee.property.value : null)
+              if (namespaceName && methodName) {
+                const flatName = `${namespaceName}_${methodName}`
+                if (this.apis.has(flatName)) {
+                  let identifier: BabelCore.types.Identifier
+                  if (invokedApis.has(flatName)) {
+                    identifier = t.identifier(invokedApis.get(flatName)!)
+                  } else {
+                    const newName = ast.scope.generateUid(flatName)
+                    invokedApis.set(flatName, newName)
+                    identifier = t.identifier(newName)
+                  }
+                  ast.node.callee = identifier as any
+                  return
                 }
-                ast.node.callee = identifier as any
-                return
               }
             }
           }
