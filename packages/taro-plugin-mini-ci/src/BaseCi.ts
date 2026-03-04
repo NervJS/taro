@@ -44,12 +44,17 @@ export interface WeappConfig {
   }
 }
 
-/** 头条小程序配置 */
+/** 抖音小程序配置 */
 export interface TTConfig {
   /** 绑定的邮箱账号 */
   email: string
   /** 密码 */
   password: string
+  /** 编译设置 */
+  setting?: {
+    /** 跳过域名检查 */
+    skipDomainCheck?: boolean
+  }
 }
 
 /** 终端类型 */
