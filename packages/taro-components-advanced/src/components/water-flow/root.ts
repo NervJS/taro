@@ -10,7 +10,7 @@ import { getSysInfo, isSameRenderRange } from './utils'
 import type { BaseProps, ScrollDirection, Size, WaterFlowProps } from './interface'
 
 export type RootProps = Pick<WaterFlowProps, 'cacheCount' | 'lowerThresholdCount' | 'upperThresholdCount'> &
-Required<Pick<BaseProps, 'id'>>
+Required<Pick<BaseProps, 'id'>> & { skipContainerMeasure?: boolean }
 
 const { windowHeight, windowWidth } = getSysInfo()
 
@@ -85,7 +85,7 @@ export class Root extends StatefulEventBus<RootState, Events> {
   lowerThresholdScrollTop = Infinity
 
   constructor(props: RootProps) {
-    const { id, cacheCount, lowerThresholdCount, upperThresholdCount } = props
+    const { id, cacheCount, lowerThresholdCount, upperThresholdCount, skipContainerMeasure } = props
     super({
       isScrolling: false,
       scrollOffset: 0,
@@ -104,12 +104,14 @@ export class Root extends StatefulEventBus<RootState, Events> {
       upperThresholdCount,
     })
     this.setupSubscriptions()
-    getRectSizeSync(`#${id}`, 100).then(({ width = windowWidth, height = windowHeight }) => {
-      this.setStateIn('containerSize', {
-        width,
-        height,
+    if (!skipContainerMeasure) {
+      getRectSizeSync(`#${id}`, 100).then(({ width = windowWidth, height = windowHeight }) => {
+        this.setStateIn('containerSize', {
+          width,
+          height,
+        })
       })
-    })
+    }
     this.renderInitialLayout()
   }
 
@@ -124,9 +126,7 @@ export class Root extends StatefulEventBus<RootState, Events> {
     this.sub('scrollOffset', () => {
       this.setStateIn('renderRange', this.getSectionRenderRange())
       this.handleReachThreshold()
-      if (this.getState().scrollDirection === 'forward') {
-        this.updateScrollHeight()
-      }
+      this.updateScrollHeight()
     })
 
     this.sub('scrollOffset', () => {
@@ -140,6 +140,7 @@ export class Root extends StatefulEventBus<RootState, Events> {
 
     this.sub(RootEvents.AllSectionsLayouted, () => {
       this.setUpperThresholdScrollTop()
+      this.updateScrollHeight()
     })
 
     this.sub(RootEvents.Resize, () => {

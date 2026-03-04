@@ -99,7 +99,9 @@ interface UseRefresherReturn {
 export function useRefresher(
   config: ListRefresherConfig | null,
   /** 列表逻辑顶部对应的 scrollTop，用于触顶判断；H5「顶栏悬浮+只滚列表」时传 0，imperative 内以 DOM scrollTop 为准 */
-  scrollTopAtLogicalTop: number
+  scrollTopAtLogicalTop: number,
+  /** scrollElement 模式下可选：下拉起始点须在 List 内才触发刷新；未传时默认 true（沿用原逻辑） */
+  getIsTouchInListArea?: (ev: TouchEvent) => boolean
 ): UseRefresherReturn {
   const [internalRefreshing, setInternalRefreshing] = useState(false)
   const [pullDistance, setPullDistance] = useState(0)
@@ -142,6 +144,9 @@ export function useRefresher(
   const topThresholdPx = scrollTopWhenAtTop + AT_TOP_THRESHOLD
   const topThresholdPxRef = useRef(topThresholdPx)
   topThresholdPxRef.current = topThresholdPx
+
+  const getIsTouchInListAreaRef = useRef(getIsTouchInListArea)
+  getIsTouchInListAreaRef.current = getIsTouchInListArea
 
   // ========================================
   // 小程序：原生 refresher-* API
@@ -186,6 +191,8 @@ export function useRefresher(
     const startX = { current: 0 }
     const lastY = { current: 0 }
     let touchStartedAtTop = false
+    /** 下拉起始点是否在 List 内（scrollElement 模式）；未传 getIsTouchInListArea 时恒为 true */
+    let touchStartedInListArea = true
     let dragOnEdge = false
     let lastPull = 0
     /** 用于 onTouchEnd 判断是否触发刷新；刷新完成后必须置 0，否则下次点击（无 touchMove）会误用上次的 lastPull 再次触发 */
@@ -276,6 +283,7 @@ export function useRefresher(
       }
       lastPull = lastPullRef.current
       touchStartedAtTop = isEdge()
+      touchStartedInListArea = getIsTouchInListAreaRef.current?.(e) ?? true
       const t0 = e.touches[0]
       if (t0) {
         startY.current = t0.clientY
@@ -286,14 +294,25 @@ export function useRefresher(
 
     const onTouchMove = (ev: TouchEvent) => {
       if (refreshingLockRef.current || isRefreshingRef.current) return
+      if (!touchStartedInListArea) return
       const touch = ev.touches[0]
       if (!touch) return
       const currentY = touch.clientY
       const currentX = touch.clientX
-      if (!touchStartedAtTop || !isEdge()) {
+      if (!isEdge()) {
         setPull(0)
         dragOnEdge = false
         return
+      }
+      // 到顶后：若 touch 开始时不在顶部，在首次下拉(dy>0)时「采纳」该手势，使同一手势内滚到顶后继续下拉可触发刷新
+      if (!touchStartedAtTop && !dragOnEdge) {
+        const dyCheck = currentY - lastY.current
+        if (dyCheck <= 0) return
+        touchStartedAtTop = true
+        // 重置起点，避免采纳时 dy 过大导致刷新层瞬间拉满
+        startY.current = currentY
+        startX.current = currentX
+        lastY.current = currentY
       }
 
       const dy = currentY - lastY.current
@@ -395,6 +414,7 @@ export function useRefresher(
 
     const onTouchEnd = () => {
       if (refreshingLockRef.current) return
+      if (!touchStartedInListArea) return
       dragOnEdge = false
       const current = lastPullRef.current
       if (current >= thresholdRef.current) {
@@ -481,7 +501,6 @@ export function useRefresher(
           alignItems: 'center',
           background,
         }}
-        data-testid="list-refresher"
       >
         {hasCustomChildren ? config.children : (
           defaultText ? <View style={textColor ? { color: textColor } : undefined}>{defaultText}</View> : null

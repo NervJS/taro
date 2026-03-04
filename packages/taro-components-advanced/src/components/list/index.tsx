@@ -1,8 +1,9 @@
 import { ScrollView, View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { useItemSizeCache } from './hooks/useItemSizeCache'
+import { useMeasureStartOffset } from './hooks/useMeasureStartOffset'
 import { type ListRefresherConfig, DEFAULT_REFRESHER_HEIGHT, useRefresher } from './hooks/useRefresher'
 import { useResizeObserver } from './hooks/useResizeObserver'
 import { useScrollCorrection } from './hooks/useScrollCorrection'
@@ -78,6 +79,14 @@ export interface ListProps {
   onRefresherAbort?: () => void
   onRefresherWillRefresh?: () => void
   onRefresherStatusChange?: (e?: { detail?: { status?: number, dy?: number } }) => void
+
+  // ===== 扩展：嵌套滚动（H5，借鉴 react-virtualized scrollElement）=====
+  /** 滚动模式：default=自有 ScrollView；nested=使用父级滚动（需配合 scrollElement 或 Context） */
+  type?: 'default' | 'nested'
+  /** 自定义滚动容器 ref，type=nested 时从 props 或 Context 获取 */
+  scrollElement?: React.RefObject<HTMLElement | null>
+  /** 任务 2.3：暴露滚动容器 ref，供内层 List/WaterFlow（type=nested）使用 */
+  scrollRef?: React.MutableRefObject<HTMLElement | null>
 }
 
 export interface ListHandle {
@@ -122,6 +131,35 @@ function shouldMeasureWeappItem(index: number, measuredSet: Set<number>): boolea
 // 小程序端暂不外抛 onItemSizeChange，避免父层重渲染导致 List remount 引发回顶或空白
 function weappDeferItemSizeChange(_index: number, _size: number, _onItemSizeChange?: (index: number, size: number) => void) {}
 
+const EMPTY_SCROLL_REF = { current: null as HTMLElement | null }
+
+/** 任务 4.1/4.2：List 内嵌 WaterFlow/List 时，向子组件提供 scrollRef、containerHeight、startOffset、reportNestedHeightChange */
+export const ListScrollElementContext = React.createContext<{
+  scrollRef: React.MutableRefObject<HTMLElement | null>
+  containerHeight: number
+  startOffset: number
+  /** 任务 4.2：内层 WaterFlow 报告 scrollHeight 时调用，List 会加上 header 估算后更新 sizeCache */
+  reportNestedHeightChange?:(scrollHeight: number) => void
+} | null>(null)
+
+/** 抽离 scrollElement 模式逻辑，降低 InnerList 圈复杂度 */
+function useListScrollElement(
+  listType: 'default' | 'nested',
+  scrollElement?: React.RefObject<HTMLElement | null>,
+  /** 无 Context 时自动测量的 startOffset（上方内容高度），与下方 DOM stacking 对称 */
+  measuredStartOffset?: number
+) {
+  const listScrollCtx = useContext(ListScrollElementContext)
+  const effectiveScrollElement = scrollElement ?? listScrollCtx?.scrollRef
+  const effectiveStartOffset = listScrollCtx?.startOffset ?? measuredStartOffset ?? 0
+  const useScrollElementMode = listType === 'nested' && !!(effectiveScrollElement && isH5)
+  if (listType === 'nested' && !effectiveScrollElement && isH5) {
+    // eslint-disable-next-line no-console
+    console.warn('[List] type=nested 但无 scrollElement（props 或 Context），回退为 default')
+  }
+  return { effectiveScrollElement, effectiveStartOffset, useScrollElementMode, hasListScrollCtx: !!listScrollCtx }
+}
+
 const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   const {
     stickyHeader = false,
@@ -145,9 +183,24 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     className,
     style,
     children,
+    type: listType = 'default',
+    scrollElement,
+    scrollRef: scrollRefProp,
   } = props
 
   const isHorizontal = scrollX === true
+  const contentWrapperRef = React.useRef<HTMLDivElement>(null)
+  const result1 = useListScrollElement(listType, scrollElement, 0)
+  const measuredStartOffset = useMeasureStartOffset(
+    result1.effectiveScrollElement ?? EMPTY_SCROLL_REF,
+    contentWrapperRef,
+    {
+      enabled: result1.useScrollElementMode && !result1.hasListScrollCtx && !!result1.effectiveScrollElement && isH5,
+      isHorizontal,
+    }
+  )
+  const { effectiveScrollElement, effectiveStartOffset, useScrollElementMode } =
+    useListScrollElement(listType, scrollElement, measuredStartOffset)
   const DEFAULT_ITEM_WIDTH = 120
   const DEFAULT_ITEM_HEIGHT = 40
 
@@ -283,10 +336,22 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
           targetOffset = 0
         }
 
-        updateRenderOffset(targetOffset, true, 'imperative')
+        // 任务 2.2：scrollElement 模式下直接操作外部容器（内嵌时需加上 startOffset）
+        const el = effectiveScrollElement?.current
+        if (el && isH5) {
+          const scrollTarget = targetOffset + effectiveStartOffset
+          if (isHorizontal) {
+            el.scrollTo({ left: scrollTarget })
+          } else {
+            el.scrollTo({ top: scrollTarget })
+          }
+          updateRenderOffset(targetOffset, false, 'scrollElement')
+        } else {
+          updateRenderOffset(targetOffset, true, 'imperative')
+        }
       },
     }),
-    [scrollX, updateRenderOffset]
+    [scrollX, effectiveScrollElement, effectiveStartOffset, isH5, isHorizontal, updateRenderOffset]
   )
 
   // 提取 Refresher 配置（List 属性为 base，Refresher 子组件覆盖）
@@ -388,7 +453,13 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     h5RefresherProps,
     addImperativeTouchListeners,
     renderRefresherContent,
-  } = useRefresher(refresherConfig, isH5 && refresherConfig && !supportsNativeRefresher ? 0 : renderOffset)
+  } = useRefresher(
+    refresherConfig,
+    isH5 && refresherConfig && !supportsNativeRefresher ? 0 : renderOffset,
+    useScrollElementMode
+      ? (ev: TouchEvent) => (ev.target != null && contentWrapperRef.current?.contains(ev.target as Node)) ?? false
+      : undefined
+  )
   const refresherTeardownRef = React.useRef<(() => void) | null>(null)
   const addImperativeTouchListenersRef = React.useRef(addImperativeTouchListeners)
   addImperativeTouchListenersRef.current = addImperativeTouchListeners
@@ -476,6 +547,16 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
       updateRenderOffset(newOffset, true, 'scrollCorrection') // 程序性修正需同步到 ScrollView
     }
   })
+  const scrollCorrectionRef = React.useRef(scrollCorrection)
+  scrollCorrectionRef.current = scrollCorrection
+  const onScrollRef = React.useRef(onScroll)
+  onScrollRef.current = onScroll
+  const onScrollToUpperRef = React.useRef(onScrollToUpper)
+  onScrollToUpperRef.current = onScrollToUpper
+  const onScrollToLowerRef = React.useRef(onScrollToLower)
+  onScrollToLowerRef.current = onScrollToLower
+  const thresholdRef = React.useRef({ upper: upperThreshold, lower: lowerThreshold })
+  thresholdRef.current = { upper: upperThreshold, lower: lowerThreshold }
 
   // 小程序 + 动高（virtual-list 风格）：测量变化后同帧重排，不做程序性 scrollTop 回拉
   const scheduleWeappDynamicReflow = React.useCallback(() => {
@@ -705,6 +786,75 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     onScrollEnd?.()
   }, [isWeapp, onScrollEnd])
 
+  // scrollElement 模式：containerLength 从 scrollElement 获取（任务 1.6）
+  React.useEffect(() => {
+    if (!effectiveScrollElement || !isH5) return
+    const el = effectiveScrollElement.current
+    if (!el || typeof ResizeObserver === 'undefined') return
+
+    const update = () => {
+      const measured = isHorizontal ? el.clientWidth : el.clientHeight
+      if (measured > 0) {
+        setContainerLength(measured)
+      }
+      // scrollElement 模式下 useLayoutEffect 可能早于 ref 挂载，ResizeObserver 作为兜底确保 scrollRef 正确
+      if (scrollRefProp) scrollRefProp.current = el
+    }
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [effectiveScrollElement, isH5, isHorizontal])
+
+  // scrollElement 模式：监听外部滚动，驱动 renderOffset
+  // 使用 ref 保存 scrollCorrection/onScroll，避免每次渲染 deps 变化导致 effect 反复执行形成循环
+  const effectiveStartOffsetRef = React.useRef(effectiveStartOffset)
+  effectiveStartOffsetRef.current = effectiveStartOffset
+  React.useEffect(() => {
+    if (!effectiveScrollElement || !isH5) return
+
+    const el = effectiveScrollElement.current
+    if (!el) return
+
+    const handler = () => {
+      const scrollPos = isHorizontal ? el.scrollLeft : el.scrollTop
+      const adjustedPos = scrollPos - effectiveStartOffsetRef.current
+      const clientSize = isHorizontal ? el.clientWidth : el.clientHeight
+      const scrollSize = isHorizontal ? el.scrollWidth : el.scrollHeight
+
+      scrollCorrectionRef.current.markUserScrolling()
+      updateRenderOffset(adjustedPos, false, 'scrollElement')
+      onScrollRef.current?.({
+        scrollTop: isHorizontal ? 0 : scrollPos,
+        scrollLeft: isHorizontal ? scrollPos : 0
+      })
+
+      // 任务 2.1：onScrollToUpper / onScrollToLower（scrollElement 模式用 adjustedPos，使有上方混排时以 List 顶为基准）
+      const { upper, lower } = thresholdRef.current
+      const effectiveAdjusted = Math.max(0, adjustedPos)
+      if (effectiveAdjusted <= upper) {
+        onScrollToUpperRef.current?.()
+      }
+      if (scrollPos + clientSize >= scrollSize - lower) {
+        onScrollToLowerRef.current?.()
+      }
+    }
+
+    // 同步初始 scroll 位置（内嵌时需减去 startOffset）
+    const initialScroll = isHorizontal ? el.scrollLeft : el.scrollTop
+    updateRenderOffset(initialScroll - effectiveStartOffsetRef.current, false, 'scrollElement')
+
+    el.addEventListener('scroll', handler, { passive: true })
+    return () => el.removeEventListener('scroll', handler)
+  }, [effectiveScrollElement, isH5, isHorizontal, updateRenderOffset])
+
+  // 任务 2.3：暴露 scrollRef 给父组件（供内层 List/WaterFlow 传入 scrollElement）
+  // 收敛到此处统一赋值，不再在 ResizeObserver 中重复
+  React.useLayoutEffect(() => {
+    if (!scrollRefProp) return
+    const el = useScrollElementMode ? effectiveScrollElement?.current : containerRef.current
+    if (el) scrollRefProp.current = el
+  }, [scrollRefProp, useScrollElementMode, effectiveScrollElement])
 
   // controlledScrollTop 变化时同步到 ScrollView
   React.useEffect(() => {
@@ -784,8 +934,18 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
         }
       }
       updateRenderOffset(targetOffset, true, 'scrollIntoView')
+      // scrollElement 模式下需显式滚动外部容器，否则仅 updateRenderOffset 不会滚动 div
+      if (useScrollElementMode && effectiveScrollElement?.current && isH5) {
+        const el = effectiveScrollElement.current
+        const scrollTarget = targetOffset + effectiveStartOffset
+        if (isHorizontal) {
+          el.scrollTo({ left: scrollTarget })
+        } else {
+          el.scrollTo({ top: scrollTarget })
+        }
+      }
     }
-  }, [props.scrollIntoView, totalItemCount, sections, getHeaderSize, getItemSize, space, updateRenderOffset])
+  }, [props.scrollIntoView, totalItemCount, sections, getHeaderSize, getItemSize, space, updateRenderOffset, useScrollElementMode, effectiveScrollElement, effectiveStartOffset, isH5, isHorizontal])
 
   // 容器样式；H5 刷新中禁止滚动
   const containerStyle: React.CSSProperties = {
@@ -819,7 +979,6 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     // 小程序端：开启滚动锚定，防止虚拟列表子节点通过 setData 更新时原生 scroll-view 重置滚动位置
     ...(isWeapp ? { scrollAnchoring: true } : {}),
     ...(typeof cacheExtent === 'number' ? { cacheExtent } : {}),
-    'data-testid': 'taro-list-container',
 
     ...scrollViewRefresherProps,
     ...scrollViewRefresherHandlers,
@@ -837,7 +996,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     if (!attach) return
     let teardown: (() => void) | null = null
     const tryAttach = () => {
-      const el = containerRef.current
+      const el = useScrollElementMode ? effectiveScrollElement?.current : containerRef.current
       if (el && !refresherTeardownRef.current) {
         teardown = attach(el)
         refresherTeardownRef.current = teardown
@@ -852,7 +1011,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
       }
       refresherTeardownRef.current = null
     }
-  }, [])
+  }, [useScrollElementMode, effectiveScrollElement])
 
   scrollViewOffsetRef.current = scrollViewOffset
   // scrollTop：weapp 传 scrollViewOffset（reflow 帧传 eff 防跳变）；H5 仅非用户滑动时传
@@ -1210,11 +1369,72 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
             innerProps.id = `${listId}-list-item-inner-${currentGlobalIndex}`
           }
           innerProps['data-index'] = String(currentGlobalIndex)
-          nodes.push(
-            React.createElement(View, outerItemProps, React.createElement(View, innerProps, section.items[i]))
-          )
+          const itemNode = React.createElement(View, outerItemProps, React.createElement(View, innerProps, section.items[i]))
+          // 任务 4.1：当 List 暴露 scrollRef 时，为每个 item 提供 Context，供内层 WaterFlow 使用
+          const itemWithContext = scrollRefProp && !useScrollElementMode
+            ? React.createElement(ListScrollElementContext.Provider, {
+              key: outerItemProps.key,
+              value: {
+                scrollRef: scrollRefProp,
+                containerHeight: containerLength,
+                startOffset: offset + itemOffsets[i],
+                reportNestedHeightChange: props.useResizeObserver
+                  ? (height: number) => {
+                    if (height <= 0) return
+                    const idx = currentGlobalIndex
+                    const estimatedHeader = estimatedSize * 0.5
+                    const fullHeight = height + estimatedHeader
+                    const oldSize = sizeCache.getItemSize(idx)
+                    if (Math.abs(oldSize - fullHeight) < 1) return
+                    sizeCache.setItemSize(idx, fullHeight)
+                    scrollCorrection.recordSizeChange(idx, oldSize, fullHeight)
+                    if (isWeapp && props.useResizeObserver === true) {
+                      scheduleWeappDynamicReflow()
+                    } else if (sizeCacheRafRef.current == null) {
+                      sizeCacheRafRef.current = requestAnimationFrame(() => {
+                        sizeCacheRafRef.current = null
+                        setSizeCacheVersion((v) => v + 1)
+                      })
+                    }
+                  }
+                  : undefined,
+              },
+            }, itemNode)
+            : itemNode
+          nodes.push(itemWithContext)
         } else {
-          nodes.push(React.createElement(View, outerItemProps, section.items[i]))
+          const itemNode = React.createElement(View, outerItemProps, section.items[i])
+          const itemWithContext = scrollRefProp && !useScrollElementMode
+            ? React.createElement(ListScrollElementContext.Provider, {
+              key: outerItemProps.key,
+              value: {
+                scrollRef: scrollRefProp,
+                containerHeight: containerLength,
+                startOffset: offset + itemOffsets[i],
+                reportNestedHeightChange: props.useResizeObserver
+                  ? (height: number) => {
+                    if (height <= 0) return
+                    const idx = currentGlobalIndex
+                    const estimatedHeader = estimatedSize * 0.5
+                    const fullHeight = height + estimatedHeader
+                    const oldSize = sizeCache.getItemSize(idx)
+                    if (Math.abs(oldSize - fullHeight) < 1) return
+                    sizeCache.setItemSize(idx, fullHeight)
+                    scrollCorrection.recordSizeChange(idx, oldSize, fullHeight)
+                    if (isWeapp && props.useResizeObserver === true) {
+                      scheduleWeappDynamicReflow()
+                    } else if (sizeCacheRafRef.current == null) {
+                      sizeCacheRafRef.current = requestAnimationFrame(() => {
+                        sizeCacheRafRef.current = null
+                        setSizeCacheVersion((v) => v + 1)
+                      })
+                    }
+                  }
+                  : undefined,
+              },
+            }, itemNode)
+            : itemNode
+          nodes.push(itemWithContext)
         }
       }
 
@@ -1249,7 +1469,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     }
 
     return (
-      <View style={defaultStyle} data-testid="list-nomore">
+      <View style={defaultStyle}>
         {noMoreConfig.children || noMoreConfig.text || '没有更多了'}
       </View>
     )
@@ -1273,9 +1493,11 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   }
 
   // 可滚区域总尺寸
+  // H5 refresher 用负 translateY 隐藏，有上方混排时可能延伸到 sibling 区域；overflow:hidden 裁剪避免重叠
+  const needsRefresherClip = refresherHeightForH5 > 0
   const contentWrapperStyle: React.CSSProperties = isHorizontal
-    ? { width: totalLength, position: 'relative', height: '100%' }
-    : { height: totalLength, position: 'relative', width: '100%' }
+    ? { width: totalLength, position: 'relative', height: '100%', ...(needsRefresherClip && { overflow: 'hidden' }) }
+    : { height: totalLength, position: 'relative', width: '100%', ...(needsRefresherClip && { overflow: 'hidden' }) }
   const listWrapperStyle: React.CSSProperties = isHorizontal
     ? { width: listContentLength, position: 'relative' as const, height: '100%' }
     : { height: listContentLength, position: 'relative' as const, width: '100%' }
@@ -1323,6 +1545,42 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     </View>
   )
 
+  if (useScrollElementMode) {
+    // 任务 2.4：恢复 refresher DOM 结构（refresher 层 + listWrapperStyle）
+    return (
+      <View ref={contentWrapperRef as any} style={contentWrapperStyle}>
+        {refresherHeightForH5 > 0 ? (
+          <>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: refresherHeightForH5,
+                zIndex: 0,
+                transform: `translateY(${h5RefresherTranslateY}px)`,
+              }}
+            >
+              {renderRefresherContent()}
+            </View>
+            <View style={{ ...listWrapperStyle, ...pullTranslate, zIndex: 1, background: style?.background ?? style?.backgroundColor ?? '#fff' }}>
+              {stickyHeaderNode}
+              {renderSections()}
+              {renderNoMoreContent()}
+            </View>
+          </>
+        ) : (
+          <>
+            {stickyHeaderNode}
+            {renderSections()}
+            {renderNoMoreContent()}
+          </>
+        )}
+      </View>
+    )
+  }
+
   return (
     <ScrollView ref={containerRef as any} {...scrollViewProps} id={listId}>
       {/* 小程序：slot="refresher" 必须是 ScrollView 的直接子元素 */}
@@ -1335,4 +1593,5 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
 const List = React.forwardRef<ListHandle, ListProps>(InnerList)
 
 export { List, ListItem, NoMore, StickyHeader, StickySection }
+
 export default List

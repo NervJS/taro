@@ -52,3 +52,6 @@ export const createImperativePromise = () => {
 }
 
 export const isWeb = () => getEnv().toLowerCase() === 'web'
+
+/** 判断是否为 H5（用于 scrollElement 模式等） */
+export const isH5 = process.env.TARO_ENV === 'h5'
