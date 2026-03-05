@@ -58,10 +58,11 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
             robot: joi.number(),
             setting: joi.object()
           }),
-          /** 字节跳动小程序上传配置 */
+          /** 抖音小程序上传配置 */
           tt: joi.object({
             email: joi.string().required(),
-            password: joi.string().required()
+            password: joi.string().required(),
+            setting: joi.object(),
           }),
           /** 阿里小程序上传配置 */
           alipay: joi.alternatives().try(

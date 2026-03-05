@@ -34,7 +34,7 @@ export default class TTCI extends BaseCI {
 
   async open () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    printLog(processTypeEnum.START, '启动字节跳动开发者工具...', this.projectPath)
+    printLog(processTypeEnum.START, '启动抖音小程序开发者工具...', this.projectPath)
     try {
       await this.tt.open({
         project: {
@@ -51,7 +51,7 @@ export default class TTCI extends BaseCI {
     await this._beforeCheck()
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     try {
-      printLog(processTypeEnum.START, '预览字节跳动小程序')
+      printLog(processTypeEnum.START, '预览抖音小程序')
       const previewQrcodePath = path.join(this.projectPath, 'preview.png')
       const previewResult = await this.tt.preview({
         project: {
@@ -66,7 +66,10 @@ export default class TTCI extends BaseCI {
           output: previewQrcodePath,
         },
         copyToClipboard: true,
-        cache: true
+        cache: true,
+        ideConfig: {
+          skipDomainCheck: this.pluginOpts.tt?.setting?.skipDomainCheck,
+        },
       })
       console.log(chalk.green(`开发版上传成功 ${new Date().toLocaleString()}\n`))
       const qrContent = previewResult.shortUrl
@@ -103,7 +106,7 @@ export default class TTCI extends BaseCI {
     await this._beforeCheck()
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     try {
-      printLog(processTypeEnum.START, '上传代码到字节跳动后台')
+      printLog(processTypeEnum.START, '上传代码到抖音开放平台后台')
       printLog(processTypeEnum.REMIND, `本次上传版本号为："${this.version}"，上传描述为：“${this.desc}”`)
       const uploadQrcodePath = path.join(this.projectPath, 'upload.png')
       const uploadResult = await this.tt.upload({
