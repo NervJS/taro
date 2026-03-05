@@ -8,9 +8,9 @@ describe('PickerView', () => {
   let page: SpecPage
 
   it('props valid', async () => {
-    const date = new Date()
+    const endYear = 2025
     const years: number[] = []
-    for (let i = 1990; i <= date.getFullYear(); i++) {
+    for (let i = 1990; i <= endYear; i++) {
       years.push(i)
     }
     page = await newSpecPage({
