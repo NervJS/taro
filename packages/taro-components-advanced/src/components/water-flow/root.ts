@@ -10,7 +10,10 @@ import { getSysInfo, isSameRenderRange } from './utils'
 import type { BaseProps, ScrollDirection, Size, WaterFlowProps } from './interface'
 
 export type RootProps = Pick<WaterFlowProps, 'cacheCount' | 'lowerThresholdCount' | 'upperThresholdCount'> &
-Required<Pick<BaseProps, 'id'>> & { skipContainerMeasure?: boolean }
+Required<Pick<BaseProps, 'id'>> & {
+  /** scrollElement 模式下为 true，不测量自有容器；此时需布局全部 section 以展开完整高度 */
+  skipContainerMeasure?: boolean
+}
 
 const { windowHeight, windowWidth } = getSysInfo()
 
@@ -84,6 +87,14 @@ export class Root extends StatefulEventBus<RootState, Events> {
    */
   lowerThresholdScrollTop = Infinity
 
+  /** scrollElement 模式下为 true，需布局全部 section 以展开完整高度供父容器滚动 */
+  skipContainerMeasure = false
+
+  /** 当前是否处于触顶区域；初始为 true（起始在顶部），只有从 false→true 时才触发事件 */
+  private _inUpperZone = true
+  /** 当前是否处于触底区域；初始为 false */
+  private _inLowerZone = false
+
   constructor(props: RootProps) {
     const { id, cacheCount, lowerThresholdCount, upperThresholdCount, skipContainerMeasure } = props
     super({
@@ -102,6 +113,7 @@ export class Root extends StatefulEventBus<RootState, Events> {
       cacheCount,
       lowerThresholdCount,
       upperThresholdCount,
+      skipContainerMeasure: !!skipContainerMeasure,
     })
     this.setupSubscriptions()
     if (!skipContainerMeasure) {
@@ -133,17 +145,19 @@ export class Root extends StatefulEventBus<RootState, Events> {
       const sectionSize = this.sections.length
       const lastSection = this.sections[sectionSize - 1]
       // 最后一个分组的每一列最后一行都已经完成了布局计算，那么这个时候的总高度应该是准确的
-      if (lastSection.columnMap.every((column) => column[column.length - 1].getState().layouted)) {
+      if (lastSection?.columnMap.every((column) => column[column.length - 1]?.getState().layouted)) {
         this.setLowerThresholdScrollTop()
       }
     })
 
     this.sub(RootEvents.AllSectionsLayouted, () => {
-      this.setUpperThresholdScrollTop()
       this.updateScrollHeight()
+      this.setUpperThresholdScrollTop()
+      this.setLowerThresholdScrollTop()
     })
 
     this.sub(RootEvents.Resize, () => {
+      this.updateScrollHeight()
       this.setUpperThresholdScrollTop()
       this.setLowerThresholdScrollTop()
     })
@@ -170,8 +184,12 @@ export class Root extends StatefulEventBus<RootState, Events> {
       const section = this.sections[i]
       section.layoutedSignal.promise.then(() => {
         this.setStateIn('renderRange', [0, i + 1 > sectionSize ? sectionSize - 1 : i + 1])
-        // 容器可视区域已经填满了，没必要再继续
-        if (section.getState().scrollTop > this.getState().containerSize.height) {
+        // skipContainerMeasure（nestedScroll 模式）：需布局全部 section，使 scrollHeight 展开供父容器滚动
+        // default 模式：容器可视区域已填满则提前终止，减少首屏渲染
+        if (
+          !this.skipContainerMeasure &&
+          section.getState().scrollTop > this.getState().containerSize.height
+        ) {
           this.pub(RootEvents.InitialRenderCompleted, section)
           return
         }
@@ -242,8 +260,12 @@ export class Root extends StatefulEventBus<RootState, Events> {
    * 当距底部还有 lowerThresholdCount 个 FlowItem 时的 scrollTop 值
    */
   private setLowerThresholdScrollTop() {
-    if (this.lowerThresholdCount === 0) {
-      this.lowerThresholdScrollTop = this.getState().scrollHeight - this.getState().containerSize.height
+    // 与 setUpperThresholdScrollTop 一致：0 或 undefined 时用「内容底 - 容器高」作为触底阈值
+    if (!this.lowerThresholdCount) {
+      // 必须用 sectionRange 实时计算，避免依赖可能未更新的 scrollHeight 状态
+      const range = this.sectionRange
+      const totalHeight = range.length > 0 ? range[range.length - 1][1] : 0
+      this.lowerThresholdScrollTop = totalHeight - this.getState().containerSize.height
       return 0
     }
     const sectionSize = this.sections.length
@@ -296,24 +318,16 @@ export class Root extends StatefulEventBus<RootState, Events> {
   /**
    * 处理滚动到阈值的情况
    * 检测当前滚动位置是否达到了上下阈值，并触发相应的事件
+   * scrollElement 模式：scrollOffset 为内容内偏移（scrollTop - startOffset），upper/lowerThresholdScrollTop 基于本组件内容计算，触顶/触底以本 WaterFlow 内容为基准
    */
   private handleReachThreshold() {
-    const { upperThresholdScrollTop } = this
-    const { scrollOffset, scrollDirection, containerSize } = this.getState()
-    if (
-      scrollDirection === 'backward' &&
-      this.upperThresholdScrollTop !== -Infinity &&
-      scrollOffset <= upperThresholdScrollTop
-    ) {
-      this.pub(RootEvents.ReachUpperThreshold)
-    }
-    if (
-      scrollDirection === 'forward' &&
-      this.lowerThresholdCount !== Infinity &&
-      scrollOffset + containerSize.height >= this.lowerThresholdScrollTop
-    ) {
-      this.pub(RootEvents.ReachLowerThreshold)
-    }
+    const { scrollOffset, containerSize } = this.getState()
+    const inUpper = this.upperThresholdScrollTop !== -Infinity && scrollOffset <= this.upperThresholdScrollTop
+    const inLower = this.lowerThresholdScrollTop !== Infinity && scrollOffset + containerSize.height >= this.lowerThresholdScrollTop
+    if (inUpper && !this._inUpperZone) this.pub(RootEvents.ReachUpperThreshold)
+    if (inLower && !this._inLowerZone) this.pub(RootEvents.ReachLowerThreshold)
+    this._inUpperZone = inUpper
+    this._inLowerZone = inLower
   }
 
   /**
@@ -343,7 +357,9 @@ export class Root extends StatefulEventBus<RootState, Events> {
     const range = Array.from({ length }, () => [0, this.sections[0].maxColumnHeight])
     for (let i = 1; i < length; i++) {
       const previous = range[i - 1]
-      range[i] = [previous[1], previous[1] + this.sections[i].maxColumnHeight]
+      const prevSection = this.sections[i - 1]
+      const gap = prevSection.rowGap ?? 0
+      range[i] = [previous[1] + gap, previous[1] + gap + this.sections[i].maxColumnHeight]
     }
 
     return range

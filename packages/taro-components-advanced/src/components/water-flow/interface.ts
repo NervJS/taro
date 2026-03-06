@@ -33,9 +33,9 @@ export interface WaterFlowProps
   cacheCount?: number
 
   // ===== 扩展：嵌套滚动（H5，借鉴 react-virtualized scrollElement）=====
-  /** 滚动模式：default=自有 ScrollView；nested=使用父级滚动（需配合 scrollElement 或 Context） */
-  type?: 'default' | 'nested'
-  /** 自定义滚动容器 ref，type=nested 时从 props 或 Context 获取 */
+  /** 是否嵌套模式，与 plato 对齐；true=使用父级滚动，需配合 scrollElement 或 Context；不传或 false=default */
+  nestedScroll?: boolean
+  /** 自定义滚动容器 ref，nestedScroll 模式下从 props 或 Context 获取 */
   scrollElement?: RefObject<HTMLElement | null>
   /** WaterFlow 内容在滚动容器中的起始偏移（上方有其他内容时使用） */
   startOffset?: number

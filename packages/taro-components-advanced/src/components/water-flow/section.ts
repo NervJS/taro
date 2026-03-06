@@ -227,10 +227,13 @@ export class Section extends StatefulEventBus<SectionState> {
   }
 
   /**
-   * 计算当前分组的 scrollTop，即该分组之前的所有分组的最大列高度之和
+   * 计算当前分组的 scrollTop，即该分组之前的所有分组的最大列高度 + rowGap 之和
    */
   private calcScrollTop() {
-    return this.root.sections.slice(0, this.order).reduce((acc, section) => acc + section.maxColumnHeight, 0)
+    return this.root.sections.slice(0, this.order).reduce(
+      (acc, section) => acc + section.maxColumnHeight + (section.rowGap ?? 0),
+      0
+    )
   }
 
   /**

@@ -3,8 +3,9 @@ import './style/index.scss'
 import { isFunction } from '@tarojs/shared'
 import classNames from 'classnames'
 
+import { ScrollElementContext } from '../../contexts/ScrollElementContext'
 import { createForwardRefComponent, throttle } from '../../utils'
-import { useEffect, useRef } from '../../utils/hooks'
+import { useEffect, useRef, useState } from '../../utils/hooks'
 
 import type React from 'react'
 
@@ -84,6 +85,8 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   onTouchEnd?: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   showScrollbar?: boolean // 新增参数，默认true
   enhanced?: boolean // 新增参数，默认false
+  /** 嵌套滚动：内容在滚动容器中的起始偏移（固定头部等场景） */
+  startOffset?: number
 }
 
 function ScrollView (props: IProps) {
@@ -93,6 +96,7 @@ function ScrollView (props: IProps) {
   const scrollEndTimerRef = useRef<NodeJS.Timeout | null>(null)
   const isScrollingRef = useRef<boolean>(false)
   const isInitializedRef = useRef<boolean>(false)
+  const [containerHeight, setContainerHeight] = useState(0)
   const onTouchMove = (e) => {
     e.stopPropagation()
   }
@@ -245,23 +249,48 @@ function ScrollView (props: IProps) {
     }
   }, [])
 
+  // ScrollElementContext：嵌套滚动时向子组件提供 scrollRef、containerHeight、startOffset
+  useEffect(() => {
+    const el = container.current
+    if (!el) return
+    const update = () => {
+      if (container.current) {
+        setContainerHeight(container.current.clientHeight)
+      }
+    }
+    update()
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(update) : null
+    if (ro) {
+      ro.observe(el)
+      return () => ro.disconnect()
+    }
+  }, [])
+
+  const scrollElementContextValue = {
+    scrollRef: container,
+    containerHeight,
+    startOffset: props.startOffset ?? 0,
+  }
+
   return (
-    <div
-      ref={e => {
-        if (e) {
-          container.current = e
-          if (props.forwardedRef) props.forwardedRef.current = e
-        }
-      }}
-      style={style}
-      className={cls}
-      onScroll={_onScroll}
-      onTouchMove={_onTouchMove}
-      onTouchStart={_onTouchStart}
-      onTouchEnd={_onTouchEnd}
-    >
-      {props.children}
-    </div>
+    <ScrollElementContext.Provider value={scrollElementContextValue}>
+      <div
+        ref={e => {
+          if (e) {
+            container.current = e
+            if (props.forwardedRef) props.forwardedRef.current = e
+          }
+        }}
+        style={style}
+        className={cls}
+        onScroll={_onScroll}
+        onTouchMove={_onTouchMove}
+        onTouchStart={_onTouchStart}
+        onTouchEnd={_onTouchEnd}
+      >
+        {props.children}
+      </div>
+    </ScrollElementContext.Provider>
   )
 }
 
