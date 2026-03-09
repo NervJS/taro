@@ -1,5 +1,4 @@
 import { BaseEventOrig, ScrollView, ScrollViewProps, View } from '@tarojs/components'
-import { type ScrollElementContextValue, ScrollElementContext } from '@tarojs/components-react'
 import { nextTick } from '@tarojs/taro'
 import {
   Children,
@@ -15,6 +14,10 @@ import {
 } from 'react'
 
 import { debounce, getScrollViewContextNode } from '../../utils'
+import {
+  type ScrollElementContextValueShape,
+  ScrollElementContextOrFallback,
+} from '../../utils/scrollElementContext'
 import { useMeasureStartOffset } from '../list/hooks/useMeasureStartOffset'
 import { useScrollParentAutoFind } from '../list/hooks/useScrollParentAutoFind'
 import { _FlowSectionProps } from './flow-section'
@@ -50,7 +53,8 @@ export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowPro
   // 与 plato 对齐：nestedScroll=true 为嵌套模式，不配置则为 default
   const flowType = nestedScroll === true ? 'nested' : 'default'
   // 任务 4.1：从 ScrollElementContext 获取（List/ScrollView 内嵌时统一提供）
-  const scrollElementCtx = useContext(ScrollElementContext) as ScrollElementContextValue | null
+  // ScrollElementContext 为 undefined 时（如 components-react 版本过旧未导出），用兜底 Context 避免报错，等效于无 Context
+  const scrollElementCtx = useContext(ScrollElementContextOrFallback) as ScrollElementContextValueShape | null
   const contentWrapperRef = useRef<HTMLDivElement>(null)
   const needAutoFind =
     flowType === 'nested' &&

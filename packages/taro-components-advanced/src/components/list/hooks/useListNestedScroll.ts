@@ -1,6 +1,9 @@
-import { type ScrollElementContextValue, ScrollElementContext } from '@tarojs/components-react'
 import { useContext, useRef } from 'react'
 
+import {
+  type ScrollElementContextValueShape,
+  ScrollElementContextOrFallback,
+} from '../../../utils/scrollElementContext'
 import { isH5 } from '../utils'
 import { useMeasureStartOffset } from './useMeasureStartOffset'
 import { useScrollParentAutoFind } from './useScrollParentAutoFind'
@@ -28,7 +31,7 @@ export function useListNestedScroll(
   isHorizontal: boolean = false
 ): UseListNestedScrollResult {
   const contentWrapperRef = useRef<HTMLDivElement>(null)
-  const scrollElementCtx = useContext(ScrollElementContext) as ScrollElementContextValue | null
+  const scrollElementCtx = useContext(ScrollElementContextOrFallback) as ScrollElementContextValueShape | null
   const ctxStart = scrollElementCtx?.startOffset
   const hasExplicitCtxStartOffset = ctxStart != null && ctxStart > 0
 

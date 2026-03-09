@@ -1,8 +1,8 @@
 import { ScrollView, View } from '@tarojs/components'
-import { ScrollElementContext } from '@tarojs/components-react'
 import Taro from '@tarojs/taro'
 import React from 'react'
 
+import { ScrollElementContextOrFallback } from '../../utils/scrollElementContext'
 import { useItemSizeCache } from './hooks/useItemSizeCache'
 import { useListNestedScroll } from './hooks/useListNestedScroll'
 import { type ListScrollElementAttachRefs, useListScrollElementAttach } from './hooks/useListScrollElementAttach'
@@ -133,8 +133,8 @@ function shouldMeasureWeappItem(index: number, measuredSet: Set<number>): boolea
 // 小程序端暂不外抛 onItemSizeChange，避免父层重渲染导致 List remount 引发回顶或空白
 function weappDeferItemSizeChange(_index: number, _size: number, _onItemSizeChange?: (index: number, size: number) => void) {}
 
-/** 向后兼容：ListScrollElementContext 已统一为 ScrollElementContext */
-export { ScrollElementContext as ListScrollElementContext } from '@tarojs/components-react'
+/** 向后兼容：ListScrollElementContext 已统一为 ScrollElementContext，无 Context 时兜底为 fallback */
+export { ScrollElementContextOrFallback as ListScrollElementContext } from '../../utils/scrollElementContext'
 
 
 /** 从 scroll 选项解析目标偏移量 */
@@ -1305,7 +1305,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
           const itemNode = React.createElement(View, outerItemProps, React.createElement(View, innerProps, section.items[i]))
           // 任务 4.1：当 List 暴露 scrollRef 时，为每个 item 提供 Context，供内层 WaterFlow 使用
           const itemWithContext = scrollRefProp && !useScrollElementMode
-            ? React.createElement(ScrollElementContext.Provider, {
+            ? React.createElement(ScrollElementContextOrFallback.Provider, {
               key: outerItemProps.key,
               value: {
                 scrollRef: scrollRefProp,
@@ -1338,7 +1338,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
         } else {
           const itemNode = React.createElement(View, outerItemProps, section.items[i])
           const itemWithContext = scrollRefProp && !useScrollElementMode
-            ? React.createElement(ScrollElementContext.Provider, {
+            ? React.createElement(ScrollElementContextOrFallback.Provider, {
               key: outerItemProps.key,
               value: {
                 scrollRef: scrollRefProp,
