@@ -60,6 +60,7 @@ export const components = {
     'app-parameter': _empty,
     'show-message-card': _false,
     'business-id': _empty,
+    'activity-type': _empty,
     bindGetUserInfo: _empty,
     bindContact: _empty,
     bindGetPhoneNumber: _empty,
@@ -68,7 +69,8 @@ export const components = {
     bindError: _empty,
     bindOpenSetting: _empty,
     bindLaunchApp: _empty,
-    bindAgreePrivacyAuthorization: _empty
+    bindAgreePrivacyAuthorization: _empty,
+    bindCreateLiveActivity: _empty,
   },
   Form: {
     'report-submit-timeout': _zero
