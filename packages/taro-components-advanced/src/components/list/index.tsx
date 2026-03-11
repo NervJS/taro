@@ -2,10 +2,12 @@ import { ScrollView, View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import React from 'react'
 
+import { getScrollViewContextNode } from '../../utils'
 import { ScrollElementContextOrFallback } from '../../utils/scrollElementContext'
 import { useItemSizeCache } from './hooks/useItemSizeCache'
 import { useListNestedScroll } from './hooks/useListNestedScroll'
 import { type ListScrollElementAttachRefs, useListScrollElementAttach } from './hooks/useListScrollElementAttach'
+import { useListScrollElementAttachWeapp } from './hooks/useListScrollElementAttachWeapp'
 import { type ListRefresherConfig, DEFAULT_REFRESHER_HEIGHT, useRefresher } from './hooks/useRefresher'
 import { useResizeObserver } from './hooks/useResizeObserver'
 import { useScrollCorrection } from './hooks/useScrollCorrection'
@@ -87,7 +89,7 @@ export interface ListProps {
   nestedScroll?: boolean
   /** 自定义滚动容器 ref，nestedScroll 模式下从 props 或 Context 获取 */
   scrollElement?: React.RefObject<HTMLElement | null>
-  /** 任务 2.3：暴露滚动容器 ref，供内层 List/WaterFlow（nestedScroll）使用 */
+  /** 暴露滚动容器 ref，供内层 List/WaterFlow（nestedScroll）嵌套时传入 scrollElement */
   scrollRef?: React.MutableRefObject<HTMLElement | null>
 }
 
@@ -98,7 +100,6 @@ export interface ListHandle {
   }) => void
 }
 
-// 工具：累加数组
 export function accumulate(arr: number[]) {
   const result = [0]
   for (let i = 0; i < arr.length; i++) {
@@ -107,20 +108,13 @@ export function accumulate(arr: number[]) {
   return result
 }
 
-// 检测抖动
 export function isShaking(diffList: number[]): boolean {
   if (diffList.length < 3) return false
-
-  // 检查是否有连续的正负交替
   const signs = diffList.map(diff => Math.sign(diff))
   let alternations = 0
   for (let i = 1; i < signs.length; i++) {
-    if (signs[i] !== 0 && signs[i] !== signs[i - 1]) {
-      alternations++
-    }
+    if (signs[i] !== 0 && signs[i] !== signs[i - 1]) alternations++
   }
-
-  // 如果交替次数过多，认为是抖动
   return alternations >= 2
 }
 
@@ -190,10 +184,12 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   const {
     effectiveScrollElement,
     effectiveStartOffset,
+    effectiveStartOffsetRef,
     useScrollElementMode,
     needAutoFind,
     autoFindStatus,
     contentWrapperRef,
+    contentId,
   } = useListNestedScroll(listType, scrollElement, undefined, isHorizontal)
   const DEFAULT_ITEM_WIDTH = 120
   const DEFAULT_ITEM_HEIGHT = 40
@@ -316,12 +312,27 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
             el.scrollTo({ top: scrollTarget })
           }
           updateRenderOffset(targetOffset, false, 'scrollElement')
+        } else if (el && isWeapp && useScrollElementMode) {
+          // 小程序 scrollElement 模式：需通过 getScrollViewContextNode + node.scrollTo 真正滚动外部 scroll-view
+          // updateRenderOffset 必须在 scrollTo 之后调用，否则 getScrollViewContextNode 异步期间会先更新 renderOffset 导致闪一下
+          const startOff = effectiveStartOffsetRef.current
+          const scrollTarget = targetOffset + startOff
+          const scrollViewId = (el as any).id || `_ls_${listId}`
+          if (!(el as any).id) (el as any).id = scrollViewId
+          getScrollViewContextNode(`#${scrollViewId}`).then((node: any) => {
+            if (isHorizontal) {
+              node?.scrollTo?.({ left: scrollTarget, animated: false })
+            } else {
+              node?.scrollTo?.({ top: scrollTarget, animated: false })
+            }
+            updateRenderOffset(targetOffset, true, 'imperative')
+          })
         } else {
           updateRenderOffset(targetOffset, true, 'imperative')
         }
       },
     }),
-    [scrollX, effectiveScrollElement, effectiveStartOffset, isH5, isHorizontal, updateRenderOffset]
+    [scrollX, effectiveScrollElement, effectiveStartOffset, effectiveStartOffsetRef, isH5, isWeapp, isHorizontal, listId, useScrollElementMode, updateRenderOffset]
   )
 
   // 提取 Refresher 配置（List 属性为 base，Refresher 子组件覆盖）
@@ -440,8 +451,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   // H5 下拉刷新顶栏高度（默认 50px，来自 useRefresher）
   const refresherHeightForH5 = (isH5 && refresherConfig && !supportsNativeRefresher && refresherConfig.refresherEnabled !== false) ? DEFAULT_REFRESHER_HEIGHT : 0
 
-  // 解析分组结构，只支持 StickySection 和 ListItem 作为直接子组件
-  // 过滤掉 Refresher 和 NoMore 组件
+  // 解析分组结构：StickySection、ListItem 为直接子组件，过滤 Refresher/NoMore
   const sections = React.useMemo(() => {
     const result: Array<{
       header: React.ReactElement | null
@@ -451,7 +461,6 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     const defaultItems: React.ReactElement[] = []
     React.Children.forEach(children, (child, idx) => {
       if (React.isValidElement(child) && child.type === StickySection) {
-        // 分组模式
         const sectionProps = child.props as any
         let header: React.ReactElement | null = null
         const items: React.ReactElement[] = []
@@ -461,10 +470,8 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
         })
         result.push({ header, items, key: child.key || String(idx) })
       } else if (React.isValidElement(child) && child.type === ListItem) {
-        // 普通 ListItem
         defaultItems.push(child)
       }
-      // 忽略 Refresher 和 NoMore 组件（已在上面提取配置）
     })
     if (defaultItems.length > 0) {
       result.push({ header: null, items: defaultItems, key: 'default' })
@@ -502,7 +509,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   // header 动态尺寸缓存（sectionIndex -> size）
   const headerSizeCacheRef = React.useRef<Map<number, number>>(new Map())
 
-  // 滚动修正的可见起始索引（后续更新）
+  // 滚动修正的可见起始索引
   const visibleStartIndexRef = React.useRef(0)
 
   // ScrollTop 修正（仅 H5）：动高时尺寸变化自动修正 scrollTop
@@ -572,7 +579,25 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     }
   })
 
-  // 工具：获取 header 默认/估算尺寸
+  // 嵌套滚动：内层高度变化上报
+  const handleReportNestedHeightChange = React.useCallback((height: number, index: number) => {
+    if (height <= 0) return
+    const estimatedHeader = estimatedSize * 0.5
+    const fullHeight = height + estimatedHeader
+    const oldSize = sizeCache.getItemSize(index)
+    if (Math.abs(oldSize - fullHeight) < 1) return
+    sizeCache.setItemSize(index, fullHeight)
+    scrollCorrection.recordSizeChange(index, oldSize, fullHeight)
+    if (isWeapp && props.useResizeObserver === true) {
+      scheduleWeappDynamicReflow()
+    } else if (sizeCacheRafRef.current == null) {
+      sizeCacheRafRef.current = requestAnimationFrame(() => {
+        sizeCacheRafRef.current = null
+        setSizeCacheVersion((v) => v + 1)
+      })
+    }
+  }, [sizeCache, scrollCorrection, estimatedSize, isWeapp, props.useResizeObserver, scheduleWeappDynamicReflow])
+
   const getDefaultHeaderSize = () => {
     if (isHorizontal) {
       if (typeof props.headerWidth === 'number') return props.headerWidth
@@ -589,25 +614,19 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     }
   }
 
-  // 工具：获取 header 尺寸（支持动态测量）
+  // 获取 header 尺寸（支持动态测量）
   const getHeaderSize = React.useCallback((sectionIndex: number) => {
-    // 如果启用动态测量，优先从缓存读取
     if (props.useResizeObserver === true) {
       const cached = headerSizeCacheRef.current.get(sectionIndex)
       if (cached != null && cached > 0) return cached
     }
-    // 否则返回默认尺寸
     return getDefaultHeaderSize()
   }, [props.useResizeObserver, props.headerHeight, props.headerWidth, props.itemHeight, props.itemWidth, props.itemSize, props.itemData, isHorizontal])
 
-  // 工具：获取 item 尺寸，支持函数/props/默认值/动态测量
   const getItemSize = React.useCallback((index: number) => {
-    // 优先级1：如果启用动态测量，从缓存读取
     if (props.useResizeObserver === true) {
       return sizeCache.getItemSize(index)
     }
-
-    // 优先级2：固定尺寸或函数计算
     if (isHorizontal) {
       if (typeof props.itemWidth === 'number') return props.itemWidth
       if (typeof props.itemSize === 'number') return props.itemSize
@@ -624,18 +643,15 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   // 分组累积高度/宽度，sizeCacheVersion 变化时重算
   const sectionOffsets = React.useMemo(() => {
     const offsets: number[] = [0]
-    let globalItemIndex = 0 // 累加全局索引
+    let globalItemIndex = 0
 
     sections.forEach((section, sectionIdx) => {
       const headerSize = getHeaderSize(sectionIdx)
-      // 使用全局索引计算每个 item 的尺寸
       const itemSizes = section.items.map((_, localIdx) => getItemSize(globalItemIndex + localIdx))
       const groupSize = (section.header ? headerSize : 0) +
         itemSizes.reduce((a, b) => a + b, 0) +
         Math.max(0, section.items.length) * space
       offsets.push(offsets[offsets.length - 1] + groupSize)
-
-      // 累加当前 section 的 item 数量
       globalItemIndex += section.items.length
     })
     return offsets
@@ -691,11 +707,9 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     return [firstVisible, lastVisible]
   }, [renderOffset, containerLength, sections, sectionOffsets, getHeaderSize, getItemSize, space])
 
-  // 触发 onScrollIndex 回调（带防重复）
   const lastVisibleRangeRef = React.useRef({ start: -1, end: -1 })
   React.useEffect(() => {
     if (props.onScrollIndex) {
-      // 避免重复触发
       if (lastVisibleRangeRef.current.start !== visibleStartItem ||
           lastVisibleRangeRef.current.end !== visibleEndItem) {
         lastVisibleRangeRef.current = { start: visibleStartItem, end: visibleEndItem }
@@ -749,14 +763,12 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
         isScrollingRef.current = false
         isUserScrollingRef.current = false
         setIsUserScrolling(false)
-        // recycle-view 策略：不把用户滑动位置同步到 scrollViewOffset
       }
     }
     onScrollEnd?.()
   }, [isWeapp, onScrollEnd])
 
-  // 任务 2.3：暴露 scrollRef 给父组件（供内层 List/WaterFlow 传入 scrollElement）
-  // 收敛到此处统一赋值，不再在 ResizeObserver 中重复
+  // 暴露 scrollRef 给父组件，供内层 List/WaterFlow 传入 scrollElement
   React.useLayoutEffect(() => {
     if (!scrollRefProp) return
     const el = useScrollElementMode ? effectiveScrollElement?.current : containerRef.current
@@ -842,19 +854,35 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
           currentGlobalIndex += section.items.length
         }
       }
-      updateRenderOffset(targetOffset, true, 'scrollIntoView')
-      // scrollElement 模式下需显式滚动外部容器，否则仅 updateRenderOffset 不会滚动 div
-      if (useScrollElementMode && effectiveScrollElement?.current && isH5) {
-        const el = effectiveScrollElement.current
-        const scrollTarget = targetOffset + effectiveStartOffset
-        if (isHorizontal) {
-          el.scrollTo({ left: scrollTarget })
+      const el = effectiveScrollElement?.current
+      if (useScrollElementMode && el) {
+        const scrollTarget = targetOffset + (isWeapp ? effectiveStartOffsetRef.current : effectiveStartOffset)
+        if (isH5) {
+          if (isHorizontal) {
+            el.scrollTo({ left: scrollTarget })
+          } else {
+            el.scrollTo({ top: scrollTarget })
+          }
+          updateRenderOffset(targetOffset, true, 'scrollIntoView')
+        } else if (isWeapp) {
+          const scrollViewId = (el as any).id || `_ls_${listId}`
+          if (!(el as any).id) (el as any).id = scrollViewId
+          getScrollViewContextNode(`#${scrollViewId}`).then((node: any) => {
+            if (isHorizontal) {
+              node?.scrollTo?.({ left: scrollTarget, animated: false })
+            } else {
+              node?.scrollTo?.({ top: scrollTarget, animated: false })
+            }
+            updateRenderOffset(targetOffset, true, 'scrollIntoView')
+          })
         } else {
-          el.scrollTo({ top: scrollTarget })
+          updateRenderOffset(targetOffset, true, 'scrollIntoView')
         }
+      } else {
+        updateRenderOffset(targetOffset, true, 'scrollIntoView')
       }
     }
-  }, [props.scrollIntoView, totalItemCount, sections, getHeaderSize, getItemSize, space, updateRenderOffset, useScrollElementMode, effectiveScrollElement, effectiveStartOffset, isH5, isHorizontal])
+  }, [props.scrollIntoView, totalItemCount, sections, getHeaderSize, getItemSize, space, updateRenderOffset, useScrollElementMode, effectiveScrollElement, effectiveStartOffset, effectiveStartOffsetRef, isH5, isWeapp, isHorizontal, listId])
 
   // 容器样式；H5 刷新中禁止滚动
   const containerStyle: React.CSSProperties = {
@@ -996,6 +1024,18 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     updateRenderOffset,
     scrollRefProp,
     scrollAttachRefsRef
+  )
+  useListScrollElementAttachWeapp(
+    useScrollElementMode && isWeapp,
+    effectiveScrollElement,
+    effectiveStartOffsetRef,
+    effectiveStartOffset,
+    isHorizontal,
+    setContainerLength,
+    updateRenderOffset,
+    scrollRefProp,
+    scrollAttachRefsRef,
+    initialContainerLength // 兜底：measure 未完成或失败时供 onScrollToUpper/Lower 及 containerLengthRef 使用
   )
 
   // 吸顶/吸左 header
@@ -1312,24 +1352,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
                 containerHeight: containerLength,
                 startOffset: offset + itemOffsets[i],
                 reportNestedHeightChange: props.useResizeObserver
-                  ? (height: number) => {
-                    if (height <= 0) return
-                    const idx = currentGlobalIndex
-                    const estimatedHeader = estimatedSize * 0.5
-                    const fullHeight = height + estimatedHeader
-                    const oldSize = sizeCache.getItemSize(idx)
-                    if (Math.abs(oldSize - fullHeight) < 1) return
-                    sizeCache.setItemSize(idx, fullHeight)
-                    scrollCorrection.recordSizeChange(idx, oldSize, fullHeight)
-                    if (isWeapp && props.useResizeObserver === true) {
-                      scheduleWeappDynamicReflow()
-                    } else if (sizeCacheRafRef.current == null) {
-                      sizeCacheRafRef.current = requestAnimationFrame(() => {
-                        sizeCacheRafRef.current = null
-                        setSizeCacheVersion((v) => v + 1)
-                      })
-                    }
-                  }
+                  ? (h: number) => handleReportNestedHeightChange(h, currentGlobalIndex)
                   : undefined,
               },
             }, itemNode)
@@ -1345,24 +1368,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
                 containerHeight: containerLength,
                 startOffset: offset + itemOffsets[i],
                 reportNestedHeightChange: props.useResizeObserver
-                  ? (height: number) => {
-                    if (height <= 0) return
-                    const idx = currentGlobalIndex
-                    const estimatedHeader = estimatedSize * 0.5
-                    const fullHeight = height + estimatedHeader
-                    const oldSize = sizeCache.getItemSize(idx)
-                    if (Math.abs(oldSize - fullHeight) < 1) return
-                    sizeCache.setItemSize(idx, fullHeight)
-                    scrollCorrection.recordSizeChange(idx, oldSize, fullHeight)
-                    if (isWeapp && props.useResizeObserver === true) {
-                      scheduleWeappDynamicReflow()
-                    } else if (sizeCacheRafRef.current == null) {
-                      sizeCacheRafRef.current = requestAnimationFrame(() => {
-                        sizeCacheRafRef.current = null
-                        setSizeCacheVersion((v) => v + 1)
-                      })
-                    }
-                  }
+                  ? (h: number) => handleReportNestedHeightChange(h, currentGlobalIndex)
                   : undefined,
               },
             }, itemNode)
@@ -1483,7 +1489,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   if (renderView) {
     // 任务 2.4：恢复 refresher DOM 结构（refresher 层 + listWrapperStyle）
     return (
-      <View ref={contentWrapperRef as any} style={contentWrapperStyle}>
+      <View ref={contentWrapperRef as any} id={contentId} style={contentWrapperStyle}>
         {refresherHeightForH5 > 0 ? (
           <>
             <View

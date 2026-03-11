@@ -41,7 +41,7 @@ export interface WaterFlowProps
   startOffset?: number
   /** 可视区高度，scrollElement 模式下可选，不传则从 scrollElement.clientHeight 获取 */
   containerHeight?: number
-  /** 任务 4.2：瀑布流内容高度变化时回调（便于 List 动高联动，避免底部空白） */
+  /** 瀑布流内容高度变化时回调，便于 List 动高联动（避免底部空白） */
   onScrollHeightChange?: (height: number) => void
   /** scrollIntoView 滚动完成后回调，便于父组件清空 scrollIntoView 以支持重复点击同一目标 */
   onScrollIntoViewComplete?: () => void

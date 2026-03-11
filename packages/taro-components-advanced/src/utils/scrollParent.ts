@@ -12,7 +12,14 @@
  * - 在 document.body 前停止
  */
 
+import { document as taroDocument } from '@tarojs/runtime'
+
+import type { TaroElement, TaroNode } from '@tarojs/runtime'
+
 const SCROLLABLE_OVERFLOW = ['auto', 'scroll', 'overlay'] as const
+
+/** 小程序端 scroll-view 的 nodeName（Taro 虚拟 DOM） */
+const SCROLL_VIEW_NODE_NAME = 'scroll-view'
 
 /**
  * 判断元素是否可滚动（严格：overflow 可滚动 + 实际有溢出）
@@ -51,8 +58,35 @@ export function findScrollParent(
   let parent: HTMLElement | null = el.parentElement
   while (parent !== null && parent !== document.body) {
     if (isScrollableElement(parent, vertical)) return parent
-    const next = parent.parentElement
-    parent = next
+    parent = (parent as HTMLElement).parentElement
+  }
+  return null
+}
+
+/**
+ * 小程序端：基于 Taro 虚拟 DOM 查找父级 scroll-view。
+ * 从 contentId 对应节点沿 parentNode 向上遍历，找到 nodeName === 'scroll-view' 的节点。
+ *
+ * 仅用于小程序环境，H5 请使用 findScrollParent。
+ *
+ * @param contentId - content 节点的 id（需在 eventSource 中已注册）
+ * @returns 找到的 TaroElement（scroll-view）或 null
+ */
+export function findScrollParentTaro (contentId: string): TaroElement | null {
+  if (!contentId) return null
+  const doc = taroDocument as { getElementById: (id: string) => TaroElement | null }
+  const el = doc.getElementById?.(contentId)
+  if (!el || !el.parentNode) return null
+
+  let node: TaroNode | null = el
+  while (node) {
+    const parent = node.parentNode
+    if (!parent) break
+    // NodeType.ELEMENT_NODE === 1
+    if (parent.nodeType === 1 && (parent as TaroElement).nodeName === SCROLL_VIEW_NODE_NAME) {
+      return parent as TaroElement
+    }
+    node = parent
   }
   return null
 }
