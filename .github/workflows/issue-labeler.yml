@@ -17,7 +17,7 @@ jobs:
         template: [bug_report.yml]
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: 解析模板
         uses: stefanbuck/github-issue-parser@v3
