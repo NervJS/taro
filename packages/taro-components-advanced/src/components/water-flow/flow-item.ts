@@ -52,21 +52,20 @@ export function FlowItemContainer({
   const itemStyle: CSSProperties = useMemo(() => {
     const baseStyle: CSSProperties = {
       width: '100%',
-      minHeight: node.section.defaultSize,
-    }
-    if (!layouted$) {
-      return baseStyle
-    }
-    Reflect.deleteProperty(baseStyle, 'minHeight')
-    return {
-      ...baseStyle,
-      height: height$,
-      transition: 'transform 20ms cubic-bezier(0.075, 0.82, 0.165, 1)',
-      willChange: 'transform',
       position: 'absolute',
       top: 0,
       left: 0,
       transform: `translate3d(0px, ${top$}px, 0px)`,
+    }
+    if (!layouted$) {
+      return {
+        ...baseStyle,
+        minHeight: node.section.defaultSize,
+      }
+    }
+    return {
+      ...baseStyle,
+      height: height$,
     }
   }, [top$, layouted$, height$])
 

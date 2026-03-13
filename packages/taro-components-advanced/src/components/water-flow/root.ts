@@ -1,4 +1,5 @@
 /* eslint-disable no-labels */
+import { cancelAnimationFrame, requestAnimationFrame } from '@tarojs/runtime'
 import { nextTick } from '@tarojs/taro'
 
 import { getRectSizeSync } from '../../utils'
@@ -94,6 +95,8 @@ export class Root extends StatefulEventBus<RootState, Events> {
   private _inUpperZone = true
   /** 当前是否处于触底区域；初始为 false */
   private _inLowerZone = false
+  /** scrollHeight 防抖（raf），避免 pushNodes + 测量 导致的 先涨后跌 闪动 */
+  private _scrollHeightRafId: number | null = null
 
   constructor(props: RootProps) {
     const { id, cacheCount, lowerThresholdCount, upperThresholdCount, skipContainerMeasure } = props
@@ -367,9 +370,29 @@ export class Root extends StatefulEventBus<RootState, Events> {
 
   /**
    * 计算滚动高度
+   * 防抖一帧（raf），避免 pushNodes 后测量完成前出现 先涨（未测量默认高度）后跌（真实高度）导致的闪动
+   * @param immediate 为 true 时立即执行，不防抖（pushNodes 调用，避免容器高度滞后导致往上抖动）
    */
-  public updateScrollHeight() {
-    this.setStateIn('scrollHeight', this.sectionRange[this.sectionRange.length - 1][1])
+  public updateScrollHeight(immediate = false) {
+    const flush = () => {
+      const next = this.sectionRange[this.sectionRange.length - 1]?.[1] ?? 0
+      this.setStateIn('scrollHeight', next)
+    }
+    if (immediate) {
+      if (this._scrollHeightRafId != null) {
+        cancelAnimationFrame(this._scrollHeightRafId)
+        this._scrollHeightRafId = null
+      }
+      flush()
+      return
+    }
+    if (this._scrollHeightRafId != null) {
+      cancelAnimationFrame(this._scrollHeightRafId)
+    }
+    this._scrollHeightRafId = requestAnimationFrame(() => {
+      this._scrollHeightRafId = null
+      flush()
+    })
   }
 
   /**
@@ -436,7 +459,8 @@ export class Root extends StatefulEventBus<RootState, Events> {
 
     result[1] = overscanForward > this.sections.length ? this.sections.length - 1 : overscanForward
 
-    return isSameRenderRange(result, this.getState().renderRange) ? this.getState().renderRange : result
+    const prevRange = this.getState().renderRange
+    return isSameRenderRange(result, prevRange) ? prevRange : result
   }
 
   /**

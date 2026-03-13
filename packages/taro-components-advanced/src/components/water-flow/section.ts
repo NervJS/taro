@@ -184,10 +184,10 @@ export class Section extends StatefulEventBus<SectionState> {
     for (; start < this.root.sections.length; start++) {
       const currentSection = this.root.sections[start - 1]
       const nextSection = this.root.sections[start]
-      nextSection.setStateIn(
-        'scrollTop',
-        currentSection.getState().scrollTop + currentSection.getState().height + this.rowGap
-      )
+      // 使用 maxColumnHeight 替代 getState().height，避免 pushNodes 后 state 未同步导致 footer 错位
+      const effectiveHeight = currentSection.maxColumnHeight
+      const newScrollTop = currentSection.getState().scrollTop + effectiveHeight + this.rowGap
+      nextSection.setStateIn('scrollTop', newScrollTop)
       nextSection.updateNodes()
     }
   }
@@ -273,7 +273,8 @@ export class Section extends StatefulEventBus<SectionState> {
       result[i][1] = overscanForward > column.length ? column.length - 1 : overscanForward
     }
 
-    return isSameRenderRange(result, this.getState().renderRange) ? this.getState().renderRange : result
+    const prevRange = this.getState().renderRange
+    return isSameRenderRange(result, prevRange) ? prevRange : result
   }
 
   public pushNode(nodeIndex: number, col: number) {
@@ -295,7 +296,11 @@ export class Section extends StatefulEventBus<SectionState> {
     }
     this.count += count
     this.root.lowerThresholdScrollTop = Infinity
+    // 同步 section state.height，避免与 maxColumnHeight 不一致导致 footer 错位
+    this.setStateIn('height', this.maxColumnHeight)
     this.updateNodes()
     this.updateBehindSectionsPosition()
+    // 立即更新 scrollHeight，避免防抖导致容器高度滞后引发往上抖动
+    this.root.updateScrollHeight(true)
   }
 }

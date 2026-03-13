@@ -107,7 +107,7 @@ export function FlowSection({
         })
       )
     })
-  }, [children, layouted$, section.columnMap, renderRange$, id])
+  }, [children, layouted$, section.columnMap, renderRange$])
 
   return createElement(
     View,
