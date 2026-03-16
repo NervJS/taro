@@ -41,6 +41,7 @@ const baseCompName = 'comp'
 const customWrapperName = 'custom-wrapper'
 const PLUGIN_NAME = 'TaroMiniPlugin'
 const CHILD_COMPILER_TAG = 'child'
+const STYLE_ISOLATION_APPLY_SHARED = 'apply-shared'
 
 interface ITaroMiniPluginOptions {
   commonChunks: string[]
@@ -411,13 +412,28 @@ export default class TaroMiniPlugin {
           const entryChunk = [{ name: 'app' }]
           // 所有模块都依赖app.js，确保@tarojs\plugin-platform-xxx\dist\runtime.js先于@tarojs/runtime执行，避免Taro API未被初始化
           if (this.nativeComponents.has(id) || miniType === META_TYPE.STATIC) {
+            // ★ 检查是否属于子分包独立模板
+            const isSubPackageIndie = this.isInSubPackageIndieRoot(id)
+
+            if (isSubPackageIndie) {
+              // 子分包组件不注入 require，直接返回原始模块
+              return modules
+            }
+
             fileChunks.forEach((v, k) => {
               if (k === id) {
                 source = addRequireToSource(id, modules, v)
               }
             })
-            return source
+            // 如果没有依赖需要注入，返回原始模块
+            return source || modules
           } else if (miniType === META_TYPE.PAGE) {
+            // ★ 检查是否属于子分包独立模板，使用本地 app.js
+            const subPackageIndieRoot = this.isInSubPackageIndieRoot(id)
+            if (subPackageIndieRoot) {
+              const localAppChunk = [{ name: `${subPackageIndieRoot}/app` }]
+              return addRequireToSource(id, modules, localAppChunk)
+            }
             return addRequireToSource(id, modules, entryChunk)
           }
         }
@@ -697,6 +713,63 @@ export default class TaroMiniPlugin {
   }
 
   /**
+   * 规范化子分包独立模板的根路径
+   * 如果路径以 /index 结尾（表示页面路径），则返回其父目录（文件所在目录）
+   * @example 'pages/index/index' => 'pages/index'
+   * @example 'pages/order' => 'pages/order'
+   */
+  normalizeIndieRoot (root: string): string {
+    // 如果以 /index 结尾，说明是页面路径，需要取其所在目录
+    if (root.endsWith('/index')) {
+      return path.dirname(root)
+    }
+    return root
+  }
+
+  /**
+   * 获取所有子分包独立模板的根路径列表（已规范化）
+   * @returns 规范化后的分包根路径数组，如果未配置则返回空数组
+   */
+  getAllIndieRoots (): string[] {
+    const subPackageIndie = this.appConfig?.subPackageIndie
+    if (!subPackageIndie) return []
+
+    const { subPackageRoots = [], mainPackageRoot } = subPackageIndie
+    return mainPackageRoot
+      ? [this.normalizeIndieRoot(mainPackageRoot), ...subPackageRoots.map(r => this.normalizeIndieRoot(r))]
+      : subPackageRoots.map(r => this.normalizeIndieRoot(r))
+  }
+
+  /**
+   * 判断给定路径是否属于子分包独立模板的分包（包括 mainPackageRoot 和 subPackageRoots）
+   * @returns 匹配的分包根路径（已规范化），或 null
+   */
+  isInSubPackageIndieRoot (pageName: string): string | null {
+    const subPackageIndie = this.appConfig?.subPackageIndie
+    const { newBlended } = this.options
+    if (!subPackageIndie || !newBlended) return null
+
+    const { subPackageRoots = [], mainPackageRoot } = subPackageIndie
+
+    // 检查 mainPackageRoot（规范化后比较）
+    if (mainPackageRoot) {
+      const normalizedMain = this.normalizeIndieRoot(mainPackageRoot)
+      if (pageName.startsWith(normalizedMain + '/') || pageName === normalizedMain) {
+        return normalizedMain
+      }
+    }
+
+    // 检查 subPackageRoots（规范化后比较）
+    for (const root of subPackageRoots) {
+      const normalizedRoot = this.normalizeIndieRoot(root)
+      if (pageName.startsWith(normalizedRoot + '/') || pageName === normalizedRoot) {
+        return normalizedRoot
+      }
+    }
+    return null
+  }
+
+  /**
    * 读取页面及其依赖的组件的配置
    */
   getPagesConfig () {
@@ -741,8 +814,11 @@ export default class TaroMiniPlugin {
    */
   addEntry (entryPath: string, entryName: string, entryType: META_TYPE, options = {}) {
     let dep: TaroSingleEntryDependency
-    if (this.dependencies.has(entryPath)) {
-      dep = this.dependencies.get(entryPath)!
+    // ★ 对于 STATIC 类型（如 comp/custom-wrapper），使用 entryName 作为 key 的一部分
+    // 这允许同一个模板文件被多次添加为不同名称的入口
+    const depKey = entryType === META_TYPE.STATIC ? `${entryPath}#${entryName}` : entryPath
+    if (this.dependencies.has(depKey)) {
+      dep = this.dependencies.get(depKey)!
       dep.name = entryName
       dep.loc = { name: entryName }
       dep.request = entryPath
@@ -752,20 +828,38 @@ export default class TaroMiniPlugin {
     } else {
       dep = new TaroSingleEntryDependency(entryPath, entryName, { name: entryName }, entryType, options)
     }
-    this.dependencies.set(entryPath, dep)
+    this.dependencies.set(depKey, dep)
   }
 
   /**
    * 在 this.dependencies 中新增或修改 app、模板组件、页面、组件等资源模块
    */
   addEntries () {
-    const { template } = this.options
+    const { template, newBlended } = this.options
+    const subPackageIndie = this.appConfig?.subPackageIndie
 
     this.addEntry(this.appEntry, 'app', META_TYPE.ENTRY)
-    if (!template.isSupportRecursive) {
+
+    // ★ 当配置了 mainPackageRoot 时，跳过根目录 comp 和 custom-wrapper 入口
+    const skipRootEntries = subPackageIndie?.mainPackageRoot && newBlended
+
+    if (!template.isSupportRecursive && !skipRootEntries) {
       this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
     }
-    this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), 'custom-wrapper', META_TYPE.STATIC)
+    if (!skipRootEntries) {
+      this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), 'custom-wrapper', META_TYPE.STATIC)
+    }
+
+    // ★ 为子分包独立模板添加 comp 和 custom-wrapper 入口
+    if (subPackageIndie && newBlended) {
+      const allIndieRoots = this.getAllIndieRoots()
+      allIndieRoots.forEach(root => {
+        if (!template.isSupportRecursive) {
+          this.addEntry(path.resolve(__dirname, '..', 'template/comp'), `${root}/comp`, META_TYPE.STATIC)
+        }
+        this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), `${root}/custom-wrapper`, META_TYPE.STATIC)
+      })
+    }
 
     this.pages.forEach(item => {
       if (item.isNative) {
@@ -1117,6 +1211,120 @@ export default class TaroMiniPlugin {
     }
   }
 
+  /**
+   * 为子分包独立模板生成相关文件
+   * - base.wxml: 完整模板
+   * - utils.wxs: WXS 辅助脚本
+   * - comp.wxml: 组件模板（引用本地 base.wxml）
+   * - comp.json: 组件配置
+   * - custom-wrapper.wxml/json: (如果需要)
+   */
+  generateSubPackageIndieFiles (
+    compilation: Compilation,
+    compiler: Compiler,
+    template: RecursiveTemplate | UnRecursiveTemplate,
+    baseTemplateName: string,
+    isUsingCustomWrapper: boolean
+  ) {
+    const subPackageIndie = this.appConfig?.subPackageIndie
+    if (!subPackageIndie) return
+
+    const allIndieRoots = this.getAllIndieRoots()
+
+    allIndieRoots.forEach(root => {
+      // 1. 生成 base.wxml
+      this.generateTemplateFile(
+        compilation,
+        compiler,
+        `${root}/${baseTemplateName}`,
+        template.buildTemplate,
+        componentConfig
+      )
+
+      // 2. 生成 utils.wxs
+      this.generateXSFile(compilation, compiler, `${root}/utils`)
+
+      // 3. 生成 comp.wxml 和 comp.json（如果不支持递归模板）
+      if (!template.isSupportRecursive) {
+        this.generateTemplateFile(
+          compilation,
+          compiler,
+          `${root}/${baseCompName}`,
+          template.buildBaseComponentTemplate,
+          this.options.fileType.templ
+        )
+
+        const compConfig: Record<string, any> = {
+          component: true,
+          styleIsolation: STYLE_ISOLATION_APPLY_SHARED,
+          usingComponents: {}
+        }
+        // 只有使用 custom-wrapper 时才添加引用
+        if (isUsingCustomWrapper) {
+          compConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
+        }
+        this.generateConfigFile(compilation, compiler, `${root}/${baseCompName}`, compConfig)
+      }
+
+      // 4. 生成 custom-wrapper（如果需要）
+      if (isUsingCustomWrapper) {
+        this.generateTemplateFile(
+          compilation,
+          compiler,
+          `${root}/${customWrapperName}`,
+          template.buildCustomComponentTemplate,
+          this.options.fileType.templ
+        )
+
+        this.generateConfigFile(compilation, compiler, `${root}/${customWrapperName}`, {
+          component: true,
+          styleIsolation: STYLE_ISOLATION_APPLY_SHARED,
+          usingComponents: {
+            [baseCompName]: `./${baseCompName}`,
+            [customWrapperName]: `./${customWrapperName}`
+          }
+        })
+      }
+    })
+  }
+
+  /**
+   * 为 mainPackageRoot 生成 runtime chunks 文件
+   * 将 app.js, runtime.js, taro.js, vendors.js, common.js 等文件复制到 mainPackageRoot 目录
+   */
+  generateMainPackageRuntimeFiles (compilation: Compilation, _compiler: Compiler) {
+    const { commonChunks, fileType } = this.options
+    const subPackageIndie = this.appConfig?.subPackageIndie
+    if (!subPackageIndie?.mainPackageRoot) return
+
+    // 规范化 mainPackageRoot 路径
+    const mainPackageRoot = this.normalizeIndieRoot(subPackageIndie.mainPackageRoot)
+    const styleExt = fileType.style
+
+    // runtime chunks 列表
+    const runtimeChunks = ['app', ...commonChunks]
+
+    runtimeChunks.forEach(chunkName => {
+      // 复制 JS 文件
+      const jsFile = `${chunkName}.js`
+      if (compilation.assets[jsFile]) {
+        compilation.assets[`${mainPackageRoot}/${jsFile}`] = compilation.assets[jsFile]
+      }
+
+      // 复制 wxss 文件
+      const cssFile = `${chunkName}${styleExt}`
+      if (compilation.assets[cssFile]) {
+        compilation.assets[`${mainPackageRoot}/${cssFile}`] = compilation.assets[cssFile]
+      }
+    })
+
+    // 复制 app-origin.wxss（原始样式文件）
+    const appOriginCss = `app-origin${styleExt}`
+    if (compilation.assets[appOriginCss]) {
+      compilation.assets[`${mainPackageRoot}/${appOriginCss}`] = compilation.assets[appOriginCss]
+    }
+  }
+
   /** 生成小程序独立分包的相关文件 */
   async generateIndependentMiniFiles (compilation: Compilation, compiler: Compiler) {
     const { template, sourceDir } = this.options
@@ -1134,7 +1342,7 @@ export default class TaroMiniPlugin {
         // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
         this.generateConfigFile(compilation, compiler, `${name}/${baseCompName}`, {
           component: true,
-          styleIsolation: 'apply-shared',
+          styleIsolation: STYLE_ISOLATION_APPLY_SHARED,
           usingComponents: {
             [baseCompName]: `./${baseCompName}`,
             [customWrapperName]: `./${customWrapperName}`
@@ -1144,7 +1352,7 @@ export default class TaroMiniPlugin {
       }
       this.generateConfigFile(compilation, compiler, `${name}/${customWrapperName}`, {
         component: true,
-        styleIsolation: 'apply-shared',
+        styleIsolation: STYLE_ISOLATION_APPLY_SHARED,
         usingComponents: {
           [customWrapperName]: `./${customWrapperName}`
         }
@@ -1222,13 +1430,16 @@ export default class TaroMiniPlugin {
       this.generateConfigFile(compilation, compiler, this.appEntry, this.filesConfig[appConfigName].content)
     }
 
-    if (!template.isSupportRecursive) {
+    // ★ 当配置了 mainPackageRoot 时，跳过根目录模板文件的生成
+    const skipRootTemplates = this.appConfig?.subPackageIndie?.mainPackageRoot && this.options.newBlended
+
+    if (!template.isSupportRecursive && !skipRootTemplates) {
       // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
       this.generateTemplateFile(compilation, compiler, baseCompName, template.buildBaseComponentTemplate, this.options.fileType.templ)
 
       const baseCompConfig = {
         component: true,
-        styleIsolation: 'apply-shared',
+        styleIsolation: STYLE_ISOLATION_APPLY_SHARED,
         usingComponents: {
           [baseCompName]: `./${baseCompName}`
         }
@@ -1238,7 +1449,7 @@ export default class TaroMiniPlugin {
         baseCompConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
         this.generateConfigFile(compilation, compiler, customWrapperName, {
           component: true,
-          styleIsolation: 'apply-shared',
+          styleIsolation: STYLE_ISOLATION_APPLY_SHARED,
           usingComponents: {
             [baseCompName]: `./${baseCompName}`,
             [customWrapperName]: `./${customWrapperName}`
@@ -1247,11 +1458,11 @@ export default class TaroMiniPlugin {
       }
 
       this.generateConfigFile(compilation, compiler, baseCompName, baseCompConfig)
-    } else {
+    } else if (!skipRootTemplates) {
       if (isUsingCustomWrapper) {
         this.generateConfigFile(compilation, compiler, customWrapperName, {
           component: true,
-          styleIsolation: 'apply-shared',
+          styleIsolation: STYLE_ISOLATION_APPLY_SHARED,
           usingComponents: {
             [customWrapperName]: `./${customWrapperName}`
           }
@@ -1259,9 +1470,19 @@ export default class TaroMiniPlugin {
       }
     }
 
-    this.generateTemplateFile(compilation, compiler, baseTemplateName, template.buildTemplate, componentConfig)
-    isUsingCustomWrapper && this.generateTemplateFile(compilation, compiler, customWrapperName, template.buildCustomComponentTemplate, this.options.fileType.templ)
-    this.generateXSFile(compilation, compiler, 'utils')
+    // ★ 当配置了 mainPackageRoot 时，跳过根目录 base.wxml 和 utils.wxs 的生成
+    if (!skipRootTemplates) {
+      this.generateTemplateFile(compilation, compiler, baseTemplateName, template.buildTemplate, componentConfig)
+      isUsingCustomWrapper && this.generateTemplateFile(compilation, compiler, customWrapperName, template.buildCustomComponentTemplate, this.options.fileType.templ)
+      this.generateXSFile(compilation, compiler, 'utils')
+    }
+
+    // ★ 为子分包生成独立的模板文件（base.wxml, utils.wxs, comp.*, custom-wrapper.*）
+    if (this.appConfig?.subPackageIndie && this.options.newBlended) {
+      this.generateSubPackageIndieFiles(compilation, compiler, template, baseTemplateName, isUsingCustomWrapper)
+      // 注意：runtime chunks (app.js, app.wxss 等) 需要在 injectCommonStyles 之后生成，
+      // 因为 injectCommonStyles 会修改 app.wxss 并创建 app-origin.wxss
+    }
 
     this.components.forEach(component => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTemplatePath(baseTemplateName))))
@@ -1275,7 +1496,20 @@ export default class TaroMiniPlugin {
     })
 
     this.pages.forEach(page => {
-      const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTemplatePath(baseTemplateName))))
+      // ★ 检查是否属于子分包独立模板的子分包
+      const subPackageIndieRoot = this.isInSubPackageIndieRoot(page.name)
+
+      let importBaseTemplatePath: string
+      if (subPackageIndieRoot) {
+        // 子分包：引用本地的 base.wxml
+        importBaseTemplatePath = promoteRelativePath(
+          path.relative(page.path, path.join(sourceDir, subPackageIndieRoot, this.getTemplatePath(baseTemplateName)))
+        )
+      } else {
+        // 主包/普通分包：引用根目录的 base.wxml
+        importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTemplatePath(baseTemplateName))))
+      }
+
       const config = this.filesConfig[this.getConfigFilePath(page.name)]
       // pages 里面会混合独立分包的，在这里需要过滤一下，避免重复生成 assets
       const isIndependent = !!this.getIndependentPackage(page.path)
@@ -1288,8 +1522,23 @@ export default class TaroMiniPlugin {
       }
 
       if (config) {
-        const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTargetFilePath(baseCompName, ''))))
-        const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTargetFilePath(customWrapperName, ''))))
+        let importBaseCompPath: string
+        let importCustomWrapperPath: string
+
+        if (subPackageIndieRoot) {
+          // 子分包：引用本地的 comp 和 custom-wrapper
+          importBaseCompPath = promoteRelativePath(
+            path.relative(page.path, path.join(sourceDir, subPackageIndieRoot, this.getTargetFilePath(baseCompName, '')))
+          )
+          importCustomWrapperPath = promoteRelativePath(
+            path.relative(page.path, path.join(sourceDir, subPackageIndieRoot, this.getTargetFilePath(customWrapperName, '')))
+          )
+        } else {
+          // 主包：引用根目录
+          importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTargetFilePath(baseCompName, ''))))
+          importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTargetFilePath(customWrapperName, ''))))
+        }
+
         config.content.usingComponents = {
           ...config.content.usingComponents
         }
@@ -1306,6 +1555,12 @@ export default class TaroMiniPlugin {
 
     this.generateTabBarFiles(compilation, compiler)
     this.injectCommonStyles(compilation, compiler)
+
+    // ★ 为 mainPackageRoot 生成 runtime chunks（必须在 injectCommonStyles 之后，因为需要复制处理后的 app.wxss）
+    if (this.appConfig?.subPackageIndie?.mainPackageRoot && this.options.newBlended) {
+      this.generateMainPackageRuntimeFiles(compilation, compiler)
+    }
+
     if (this.themeLocation) {
       this.generateDarkModeFile(compilation, compiler)
     }
@@ -1338,11 +1593,42 @@ export default class TaroMiniPlugin {
         delete compilation.assets[assetPath]
       }
     })
+
+    // ★ 当配置了 mainPackageRoot 时，删除根目录的 runtime chunks
+    const { newBlended, commonChunks, fileType } = this.options
+    const subPackageIndie = this.appConfig?.subPackageIndie
+    if (subPackageIndie?.mainPackageRoot && newBlended) {
+      const styleExt = fileType.style
+      const runtimeChunks = ['app', ...commonChunks]
+
+      runtimeChunks.forEach(chunkName => {
+        // 删除根目录 JS 文件
+        delete compilation.assets[`${chunkName}.js`]
+        // 删除根目录 wxss 文件
+        delete compilation.assets[`${chunkName}${styleExt}`]
+      })
+
+      // 删除 app-origin.wxss
+      delete compilation.assets[`app-origin${styleExt}`]
+
+      // 删除根目录的 comp.js (由 addEntries 生成)
+      delete compilation.assets[`${baseCompName}.js`]
+      // 删除根目录的 custom-wrapper.js
+      delete compilation.assets[`${customWrapperName}.js`]
+    }
   }
 
   generateConfigFile (compilation: Compilation, compiler: Compiler, filePath: string, config: Config & { component?: boolean }) {
     const { RawSource } = compiler.webpack.sources
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
+
+    // ★ 为子分包独立模板的组件注入额外配置
+    const componentName = this.getComponentName(filePath)
+    const subPackageIndieRoot = this.isInSubPackageIndieRoot(componentName)
+    if (subPackageIndieRoot && this.nativeComponents.has(componentName)) {
+      (config as any).styleIsolation = (config as any).styleIsolation || STYLE_ISOLATION_APPLY_SHARED;
+      (config as any).isNewBlended = true
+    }
 
     const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'enablePageMeta', 'components']
     unofficialConfigs.forEach(item => {
@@ -1515,15 +1801,28 @@ export default class TaroMiniPlugin {
       })
     }
 
-    if (commons.size() > 0) {
+    // ★ 判断是否需要处理样式：有 common chunks 或者有 app.wxss
+    const subPackageIndie = this.appConfig?.subPackageIndie
+    const hasMainPackageRoot = !!(subPackageIndie?.mainPackageRoot && newBlended)
+    const hasAppStyle = !!assets[appStyle]
+    const shouldProcessStyles = commons.size() > 0 || (hasMainPackageRoot && hasAppStyle)
+
+    if (shouldProcessStyles) {
       const APP_STYLE_NAME = 'app-origin' + styleExt
       assets[APP_STYLE_NAME] = new ConcatSource(originSource)
       const source = new ConcatSource('')
       source.add(`@import ${JSON.stringify(urlToRequest(APP_STYLE_NAME))};`)
-      source.add(commons)
+      if (commons.size() > 0) {
+        source.add(commons)
+      }
       source.add('\n')
       assets[appStyle] = source
       if (newBlended) {
+        // 获取 subPackageIndie 配置
+        const mainPackageRoot = subPackageIndie?.mainPackageRoot
+          ? this.normalizeIndieRoot(subPackageIndie.mainPackageRoot)
+          : null
+
         // 本地化组件引入common公共样式文件
         this.pages.forEach(page => {
           if (page.isNative) return
@@ -1535,13 +1834,40 @@ export default class TaroMiniPlugin {
             }
             const source = new ConcatSource('')
             const originSource = assets[pageStyle]
-            componentCommons.forEach(item => {
-              source.add(`@import ${JSON.stringify(urlToRequest(path.posix.relative(path.dirname(pageStyle), item)))};\n`)
-            })
+
+            // ★ 检查组件是否属于 subPackageIndie 分包
+            const indieRoot = this.isInSubPackageIndieRoot(page.name)
+            if (indieRoot && mainPackageRoot) {
+              if (indieRoot === mainPackageRoot) {
+                // mainPackageRoot 下的入口组件：只需引用 ./app.wxss（它已包含 common.wxss 等）
+                source.add(`@import ${JSON.stringify(urlToRequest('./app' + styleExt))};\n`)
+              }
+              // subPackageRoots 下的子分包组件：不注入公共样式引用
+              // 通过 styleIsolation: "apply-shared" 继承入口组件的样式
+            } else {
+              // 非 subPackageIndie 分包：引用根目录的公共样式
+              componentCommons.forEach(item => {
+                source.add(`@import ${JSON.stringify(urlToRequest(path.posix.relative(path.dirname(pageStyle), item)))};\n`)
+              })
+            }
+
             source.add(originSource)
             assets[pageStyle] = source
           } else {
-            if (pageStyle in assets) {
+            // 普通页面（非本地化组件）
+            const indieRoot = this.isInSubPackageIndieRoot(page.name)
+            if (indieRoot && mainPackageRoot && indieRoot === mainPackageRoot) {
+              // mainPackageRoot 下的页面：只需 @import './app.wxss'（它已包含 common.wxss 等）
+              const source = new ConcatSource('')
+              if (pageStyle in assets) {
+                source.add(assets[pageStyle])
+              }
+              // 创建或更新样式文件，添加 app.wxss 引用
+              const importSource = new ConcatSource('')
+              importSource.add(`@import ${JSON.stringify(urlToRequest('./app' + styleExt))};\n`)
+              importSource.add(source)
+              assets[pageStyle] = importSource
+            } else if (pageStyle in assets) {
               const source = new ConcatSource('')
               const originSource = assets[pageStyle]
               source.add(`@import ${JSON.stringify(urlToRequest(path.posix.relative(path.dirname(pageStyle), 'app' + styleExt)))};\n`)
