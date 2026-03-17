@@ -45,27 +45,6 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
     taroName: string,
     file?: BabelCore.BabelFile | null
   ): { namespaceName: string, methodName: string } | null {
-    // 调试：记录进入 helper 时 callee 的基础形态，便于分析 222 的真实结构
-    if (process.env.JDAPI_DEBUG_TAROAPI === 'true') {
-      const filename = file?.opts?.filename || ''
-      const calleeCode =
-        (callee as any) && typeof (callee as any).toString === 'function'
-          ? (callee as any).toString()
-          : ''
-      if (
-        filename.endsWith('src/pages/api/test/index.tsx') &&
-        calleeCode.includes('JDMTA')
-      ) {
-        // eslint-disable-next-line no-console
-        console.log(
-          '[jdapi-core-taroapi] getTaroNamespaceCall input callee:',
-          calleeCode,
-          'type =',
-          (callee as any).type
-        )
-      }
-    }
-
     let target: any = callee
 
     // 如果是可选调用（例如 Taro.JDMTA.isTrafficMapEnable?.()），先取里面的 callee
@@ -80,42 +59,11 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
       return null
     }
 
-    // 调试：查看 target 经 stripTSCast 之后的形态
-    if (process.env.JDAPI_DEBUG_TAROAPI === 'true') {
-      const filename = file?.opts?.filename || ''
-      const targetCode =
-        target && typeof target.toString === 'function' ? target.toString() : ''
-      if (
-        filename.endsWith('src/pages/api/test/index.tsx') &&
-        targetCode.includes('JDMTA')
-      ) {
-        // eslint-disable-next-line no-console
-        console.log(
-          '[jdapi-core-taroapi] getTaroNamespaceCall target after unwrap:',
-          targetCode,
-          'type =',
-          target.type
-        )
-      }
-    }
-
     // target.object 通常是 Taro.xx 这一层，
     // 也可能是形如 (_tmp = Taro.xx) 这样的赋值表达式，需要再解一层。
     let inner: any = stripTSCast(target.object)
     // 兼容 222 这类形态：(_tmp = Taro.JDMTA).isTrafficMapEnable?.()
     if (t.isAssignmentExpression(inner)) {
-      if (process.env.JDAPI_DEBUG_TAROAPI === 'true') {
-        const filename = file?.opts?.filename || ''
-        // eslint-disable-next-line no-console
-        console.log(
-          '[jdapi-core-taroapi] unwrap assignment object for namespace call, file =',
-          filename,
-          'code =',
-          inner.right && typeof (inner.right as any).toString === 'function'
-            ? (inner.right as any).toString()
-            : ''
-        )
-      }
       inner = stripTSCast(inner.right)
     }
 
@@ -306,26 +254,6 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
       },
       'CallExpression|OptionalCallExpression' (ast: BabelCore.NodePath<any>) {
         const callee = ast.node.callee
-
-        // 调试：打印包含 JDMTA 的调用在当前阶段的 AST 文本，便于分析 222 的真实形态
-        if (process.env.JDAPI_DEBUG_TAROAPI === 'true') {
-          const filename =
-            (this.file && (this.file as any).opts && (this.file as any).opts.filename) ||
-            ''
-          if (
-            filename.endsWith('src/pages/api/test/index.tsx') &&
-            ast.toString().includes('JDMTA')
-          ) {
-            // eslint-disable-next-line no-console
-            console.log(
-              '[jdapi-core-taroapi] CallExpression snapshot in file:',
-              filename,
-              'code =',
-              ast.toString()
-            )
-          }
-        }
-
         // 对存在命名空间的 API 支持 tree-shaking：Taro.xx.yy -> xx_yy
         // 同时兼容：可选链调用（Taro?.JDMTA.pv() / Taro.JDMTA?.pv()）、TS 类型断言（as any / ! / satisfies）
         const nsInfo = getTaroNamespaceCall(t, callee as any, taroName, this.file as any)
@@ -333,19 +261,6 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
           const { namespaceName, methodName } = nsInfo
           const flatName = `${namespaceName}_${methodName}`
           if (this.apis.has(flatName)) {
-            // 调试：在命中命名空间 API 时输出一次日志，便于确认是哪一趟 transform-taroapi 生效
-            if (process.env.JDAPI_DEBUG_TAROAPI === 'true') {
-              const filename =
-                (this.file && (this.file as any).opts && (this.file as any).opts.filename) ||
-                ''
-              // eslint-disable-next-line no-console
-              console.log(
-                '[jdapi-core-taroapi] hit namespace API:',
-                flatName,
-                'in file:',
-                filename
-              )
-            }
             let identifier: BabelCore.types.Identifier
             if (invokedApis.has(flatName)) {
               identifier = t.identifier(invokedApis.get(flatName)!)
