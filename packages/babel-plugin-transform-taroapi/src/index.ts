@@ -39,6 +39,124 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
     return node
   }
 
+  function getTaroNamespaceCall (
+    t: typeof BabelCore.types,
+    callee: BabelCore.types.Expression,
+    taroName: string,
+    file?: BabelCore.BabelFile | null
+  ): { namespaceName: string, methodName: string } | null {
+    // 调试：记录进入 helper 时 callee 的基础形态，便于分析 222 的真实结构
+    if (process.env.JDAPI_DEBUG_TAROAPI === 'true') {
+      const filename = file?.opts?.filename || ''
+      const calleeCode =
+        (callee as any) && typeof (callee as any).toString === 'function'
+          ? (callee as any).toString()
+          : ''
+      if (
+        filename.endsWith('src/pages/api/test/index.tsx') &&
+        calleeCode.includes('JDMTA')
+      ) {
+        // eslint-disable-next-line no-console
+        console.log(
+          '[jdapi-core-taroapi] getTaroNamespaceCall input callee:',
+          calleeCode,
+          'type =',
+          (callee as any).type
+        )
+      }
+    }
+
+    let target: any = callee
+
+    // 如果是可选调用（例如 Taro.JDMTA.isTrafficMapEnable?.()），先取里面的 callee
+    if (t.isOptionalCallExpression(target)) {
+      target = target.callee
+    }
+
+    // 去掉 TS 断言 / 非空等包裹
+    target = stripTSCast(target)
+
+    if (!t.isMemberExpression(target) && !t.isOptionalMemberExpression(target)) {
+      return null
+    }
+
+    // 调试：查看 target 经 stripTSCast 之后的形态
+    if (process.env.JDAPI_DEBUG_TAROAPI === 'true') {
+      const filename = file?.opts?.filename || ''
+      const targetCode =
+        target && typeof target.toString === 'function' ? target.toString() : ''
+      if (
+        filename.endsWith('src/pages/api/test/index.tsx') &&
+        targetCode.includes('JDMTA')
+      ) {
+        // eslint-disable-next-line no-console
+        console.log(
+          '[jdapi-core-taroapi] getTaroNamespaceCall target after unwrap:',
+          targetCode,
+          'type =',
+          target.type
+        )
+      }
+    }
+
+    // target.object 通常是 Taro.xx 这一层，
+    // 也可能是形如 (_tmp = Taro.xx) 这样的赋值表达式，需要再解一层。
+    let inner: any = stripTSCast(target.object)
+    // 兼容 222 这类形态：(_tmp = Taro.JDMTA).isTrafficMapEnable?.()
+    if (t.isAssignmentExpression(inner)) {
+      if (process.env.JDAPI_DEBUG_TAROAPI === 'true') {
+        const filename = file?.opts?.filename || ''
+        // eslint-disable-next-line no-console
+        console.log(
+          '[jdapi-core-taroapi] unwrap assignment object for namespace call, file =',
+          filename,
+          'code =',
+          inner.right && typeof (inner.right as any).toString === 'function'
+            ? (inner.right as any).toString()
+            : ''
+        )
+      }
+      inner = stripTSCast(inner.right)
+    }
+
+    if (!t.isMemberExpression(inner) && !t.isOptionalMemberExpression(inner)) {
+      return null
+    }
+
+    if (!t.isIdentifier(inner.object, { name: taroName })) {
+      return null
+    }
+
+    let namespaceName: string | null = null
+    if (t.isIdentifier(inner.property)) {
+      namespaceName = inner.property.name
+    } else if (t.isStringLiteral(inner.property)) {
+      namespaceName = inner.property.value
+    }
+
+    let methodName: string | null = null
+    if (t.isIdentifier(target.property)) {
+      methodName = target.property.name
+    } else if (t.isStringLiteral(target.property)) {
+      methodName = target.property.value
+    }
+
+    if (!namespaceName || !methodName) return null
+
+    if (process.env.JDAPI_DEBUG_TAROAPI === 'true') {
+      const filename = file?.opts?.filename || ''
+      // eslint-disable-next-line no-console
+      console.log(
+        '[jdapi-core-taroapi] getTaroNamespaceCall hit:',
+        `${namespaceName}_${methodName}`,
+        'file =',
+        filename
+      )
+    }
+
+    return { namespaceName, methodName }
+  }
+
   // 这些变量需要在每个 program 里重置
   const invokedApis: Map<string, string> = new Map()
   let taroName: string
@@ -189,32 +307,66 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
       'CallExpression|OptionalCallExpression' (ast: BabelCore.NodePath<any>) {
         const callee = ast.node.callee
 
+        // 调试：打印包含 JDMTA 的调用在当前阶段的 AST 文本，便于分析 222 的真实形态
+        if (process.env.JDAPI_DEBUG_TAROAPI === 'true') {
+          const filename =
+            (this.file && (this.file as any).opts && (this.file as any).opts.filename) ||
+            ''
+          if (
+            filename.endsWith('src/pages/api/test/index.tsx') &&
+            ast.toString().includes('JDMTA')
+          ) {
+            // eslint-disable-next-line no-console
+            console.log(
+              '[jdapi-core-taroapi] CallExpression snapshot in file:',
+              filename,
+              'code =',
+              ast.toString()
+            )
+          }
+        }
+
         // 对存在命名空间的 API 支持 tree-shaking：Taro.xx.yy -> xx_yy
         // 同时兼容：可选链调用（Taro?.JDMTA.pv() / Taro.JDMTA?.pv()）、TS 类型断言（as any / ! / satisfies）
-        if (t.isMemberExpression(callee) || t.isOptionalMemberExpression(callee)) {
-          const rawObject = stripTSCast(callee.object)
-          if (t.isMemberExpression(rawObject) || t.isOptionalMemberExpression(rawObject)) {
-            const inner = rawObject
-            const isTaroNamespace = t.isIdentifier(inner.object, { name: taroName })
-            if (isTaroNamespace) {
-              const namespaceName = t.isIdentifier(inner.property) ? inner.property.name : (t.isStringLiteral(inner.property) ? inner.property.value : null)
-              const methodName = t.isIdentifier(callee.property) ? callee.property.name : (t.isStringLiteral(callee.property) ? callee.property.value : null)
-              if (namespaceName && methodName) {
-                const flatName = `${namespaceName}_${methodName}`
-                if (this.apis.has(flatName)) {
-                  let identifier: BabelCore.types.Identifier
-                  if (invokedApis.has(flatName)) {
-                    identifier = t.identifier(invokedApis.get(flatName)!)
-                  } else {
-                    const newName = ast.scope.generateUid(flatName)
-                    invokedApis.set(flatName, newName)
-                    identifier = t.identifier(newName)
-                  }
-                  ast.node.callee = identifier as any
-                  return
-                }
-              }
+        const nsInfo = getTaroNamespaceCall(t, callee as any, taroName, this.file as any)
+        if (nsInfo) {
+          const { namespaceName, methodName } = nsInfo
+          const flatName = `${namespaceName}_${methodName}`
+          if (this.apis.has(flatName)) {
+            // 调试：在命中命名空间 API 时输出一次日志，便于确认是哪一趟 transform-taroapi 生效
+            if (process.env.JDAPI_DEBUG_TAROAPI === 'true') {
+              const filename =
+                (this.file && (this.file as any).opts && (this.file as any).opts.filename) ||
+                ''
+              // eslint-disable-next-line no-console
+              console.log(
+                '[jdapi-core-taroapi] hit namespace API:',
+                flatName,
+                'in file:',
+                filename
+              )
             }
+            let identifier: BabelCore.types.Identifier
+            if (invokedApis.has(flatName)) {
+              identifier = t.identifier(invokedApis.get(flatName)!)
+            } else {
+              const newName = ast.scope.generateUid(flatName)
+              invokedApis.set(flatName, newName)
+              identifier = t.identifier(newName)
+            }
+            // 如果当前是可选调用（OptionalCallExpression），直接将整条调用改写为普通函数调用，
+            // 避免后续 preset-env 再对可选链做降级，导致重新依赖 Taro.JDMTA。
+            if (t.isOptionalCallExpression(ast.node)) {
+              ast.replaceWith(
+                t.callExpression(
+                  identifier,
+                  ast.node.arguments as any
+                )
+              )
+            } else {
+              ast.node.callee = identifier as any
+            }
+            return
           }
         }
 
@@ -260,6 +412,57 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
           taroName = ast.scope.getBinding(this.bindingName)
             ? ast.scope.generateUid(this.bindingName)
             : this.bindingName
+
+          // 预扫描：在正式 visitor 遍历之前，先找到 import 确定 taroName，
+          // 然后把所有 namespace API 的 OptionalCallExpression 降级为普通 CallExpression。
+          // 这样可以抢在 @babel/plugin-transform-optional-chaining 展开可选链之前完成替换。
+          const pkgName = this.packageName
+          let preScanTaroName = ''
+          ast.traverse({
+            ImportDeclaration (importPath: BabelCore.NodePath<BabelCore.types.ImportDeclaration>) {
+              if (importPath.node.source.value !== pkgName) return
+              for (const spec of importPath.node.specifiers) {
+                if (t.isImportDefaultSpecifier(spec)) {
+                  preScanTaroName = spec.local.name
+                  break
+                }
+              }
+              importPath.stop()
+            }
+          })
+
+          if (preScanTaroName) {
+            const apis = this.apis
+            const file = this.file as any
+            ast.traverse({
+              OptionalCallExpression (optPath: BabelCore.NodePath<BabelCore.types.OptionalCallExpression>) {
+                const nsInfo = getTaroNamespaceCall(t, optPath.node.callee as any, preScanTaroName, file)
+                if (nsInfo) {
+                  const flatName = `${nsInfo.namespaceName}_${nsInfo.methodName}`
+                  if (apis.has(flatName)) {
+                    if (process.env.JDAPI_DEBUG_TAROAPI === 'true') {
+                      const filename = file?.opts?.filename || ''
+                      // eslint-disable-next-line no-console
+                      console.log(
+                        '[jdapi-core-taroapi] pre-transform: strip optional call for',
+                        flatName,
+                        'in file:',
+                        filename,
+                        'code =',
+                        optPath.toString()
+                      )
+                    }
+                    optPath.replaceWith(
+                      t.callExpression(
+                        optPath.node.callee as any,
+                        optPath.node.arguments as any
+                      )
+                    )
+                  }
+                }
+              }
+            })
+          }
         },
         exit (ast) {
           const that = this
