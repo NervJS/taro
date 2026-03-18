@@ -15,7 +15,7 @@ interface ItemMeasureCache {
 
 interface UseItemSizeCacheOptions {
   isHorizontal: boolean // 是否水平滚动
-  estimatedItemSize: number // 估算尺寸
+  estimatedSize: number // 估算尺寸
   itemCount: number // 项总数
 }
 
@@ -30,7 +30,7 @@ interface UseItemSizeCacheReturn {
 export function useItemSizeCache(
   options: UseItemSizeCacheOptions
 ): UseItemSizeCacheReturn {
-  const { estimatedItemSize } = options
+  const { estimatedSize } = options
 
   // 缓存 Map：key = 索引，value = 尺寸信息
   const cacheRef = useRef<Map<number, ItemMeasureCache>>(new Map())
@@ -46,8 +46,8 @@ export function useItemSizeCache(
       return cached.measuredSize
     }
 
-    return estimatedItemSize
-  }, [estimatedItemSize])
+    return estimatedSize
+  }, [estimatedSize])
 
   /**
    * 设置项的尺寸（实际测量后调用）
@@ -62,10 +62,10 @@ export function useItemSizeCache(
 
     cacheRef.current.set(index, {
       measuredSize: size,
-      estimatedSize: estimatedItemSize,
+      estimatedSize,
       isMeasured: true
     })
-  }, [estimatedItemSize])
+  }, [estimatedSize])
 
   return {
     getItemSize,

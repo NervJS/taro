@@ -4,8 +4,10 @@ import {
   Children,
   cloneElement,
   createElement,
+  forwardRef,
   PropsWithChildren,
   ReactElement,
+  useCallback,
   useContext,
   useEffect,
   useId,
@@ -32,7 +34,10 @@ import type { ScrollDirection, WaterFlowProps } from './interface'
 
 getSysInfo()
 
-export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowProps>) {
+const InnerWaterFlow = (
+  { children, ...props }: PropsWithChildren<WaterFlowProps>,
+  ref: React.ForwardedRef<HTMLElement>
+) => {
   const {
     id,
     style = {},
@@ -55,6 +60,14 @@ export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowPro
   // 从 ScrollElementContext 获取 scrollRef（List/ScrollView 内嵌时提供）；无 Context 时兜底为 fallback
   const scrollElementCtx = useContext(ScrollElementContextOrFallback) as ScrollElementContextValueShape | null
   const contentWrapperRef = useRef<HTMLDivElement>(null)
+  const setContainerRef = useCallback(
+    (el: HTMLElement | null) => {
+      (contentWrapperRef as React.MutableRefObject<HTMLElement | null>).current = el
+      if (typeof ref === 'function') ref(el)
+      else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = el
+    },
+    [ref]
+  )
   const defaultId = useId().replace(/:/g, '')
   const contentId = useMemo(() => id ?? defaultId, [id, defaultId])
   const needAutoFind =
@@ -418,7 +431,7 @@ export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowPro
     return createElement(
       View,
       {
-        ref: contentWrapperRef as any,
+        ref: setContainerRef as any,
         id: root.id,
         style: {
           ...style,
@@ -450,6 +463,7 @@ export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowPro
     createElement(
       View,
       {
+        ref: setContainerRef as any,
         id: 'waterflow-root',
         style: {
           width: '100%',
@@ -462,3 +476,5 @@ export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowPro
     )
   )
 }
+
+export const WaterFlow = forwardRef<HTMLElement, PropsWithChildren<WaterFlowProps>>(InnerWaterFlow)

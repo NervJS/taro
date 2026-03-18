@@ -51,14 +51,11 @@ export interface ListProps {
   width?: number | string
   style?: React.CSSProperties
   children?: React.ReactNode
-  headerHeight?: number
-  headerWidth?: number
-  itemHeight?: number
-  itemWidth?: number
+  /** Header 沿滚动方向尺寸；未传时回退到 itemSize */
+  headerSize?: number
 
   // ===== 动态尺寸（与 type="dynamic" 语义对齐）=====
   useResizeObserver?: boolean
-  estimatedItemSize?: number
   onItemSizeChange?: (index: number, size: number) => void
 
   // ===== NoMore 底部提示 =====
@@ -193,6 +190,23 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   } = useListNestedScroll(listType, scrollElement, undefined, isHorizontal)
   const DEFAULT_ITEM_WIDTH = 120
   const DEFAULT_ITEM_HEIGHT = 40
+  const defaultItemSize = isHorizontal ? DEFAULT_ITEM_WIDTH : DEFAULT_ITEM_HEIGHT
+
+  const normalizeSize = React.useCallback((value: unknown): number | null => {
+    if (typeof value !== 'number' || !Number.isFinite(value) || value <= 0) return null
+    return value
+  }, [])
+
+  const resolveItemSizeByIndex = React.useCallback((index: number, fallback: number) => {
+    const { itemSize, itemData } = props
+    const numberSize = normalizeSize(itemSize)
+    if (numberSize != null) return numberSize
+    if (typeof itemSize === 'function') {
+      const functionSize = normalizeSize(itemSize(index, itemData))
+      if (functionSize != null) return functionSize
+    }
+    return fallback
+  }, [props.itemSize, props.itemData, normalizeSize])
 
   // 滚动状态管理
   const containerRef = React.useRef<HTMLDivElement>(null)
@@ -480,8 +494,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   }, [children])
 
   // 动态尺寸管理
-  const defaultEstimatedSize = isHorizontal ? DEFAULT_ITEM_WIDTH : DEFAULT_ITEM_HEIGHT
-  const estimatedSize = props.estimatedItemSize ?? defaultEstimatedSize
+  const estimatedSize = resolveItemSizeByIndex(0, defaultItemSize)
 
   // 计算总 item 数量（跨所有 section）
   const totalItemCount = React.useMemo(() => {
@@ -502,7 +515,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   // 动态尺寸缓存
   const sizeCache = useItemSizeCache({
     isHorizontal,
-    estimatedItemSize: estimatedSize,
+    estimatedSize,
     itemCount: totalItemCount
   })
 
@@ -534,6 +547,9 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   onScrollToLowerRef.current = onScrollToLower
   const thresholdRef = React.useRef({ upper: upperThreshold, lower: lowerThreshold })
   thresholdRef.current = { upper: upperThreshold, lower: lowerThreshold }
+  const listContentLengthRef = React.useRef(0)
+  const inUpperZoneRef = React.useRef(true)
+  const inLowerZoneRef = React.useRef(false)
 
   // 小程序 + 动高（virtual-list 风格）：测量变化后同帧重排，不做程序性 scrollTop 回拉
   const scheduleWeappDynamicReflow = React.useCallback(() => {
@@ -598,21 +614,11 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     }
   }, [sizeCache, scrollCorrection, estimatedSize, isWeapp, props.useResizeObserver, scheduleWeappDynamicReflow])
 
-  const getDefaultHeaderSize = () => {
-    if (isHorizontal) {
-      if (typeof props.headerWidth === 'number') return props.headerWidth
-      if (typeof props.itemWidth === 'number') return props.itemWidth
-      if (typeof props.itemSize === 'number') return props.itemSize
-      if (typeof props.itemSize === 'function') return props.itemSize(0, props.itemData) || DEFAULT_ITEM_WIDTH
-      return DEFAULT_ITEM_WIDTH
-    } else {
-      if (typeof props.headerHeight === 'number') return props.headerHeight
-      if (typeof props.itemHeight === 'number') return props.itemHeight
-      if (typeof props.itemSize === 'number') return props.itemSize
-      if (typeof props.itemSize === 'function') return props.itemSize(0, props.itemData) || DEFAULT_ITEM_HEIGHT
-      return DEFAULT_ITEM_HEIGHT
-    }
-  }
+  const getDefaultHeaderSize = React.useCallback(() => {
+    const headerSize = normalizeSize(props.headerSize)
+    if (headerSize != null) return headerSize
+    return resolveItemSizeByIndex(0, defaultItemSize)
+  }, [props.headerSize, resolveItemSizeByIndex, defaultItemSize, normalizeSize])
 
   // 获取 header 尺寸（支持动态测量）
   const getHeaderSize = React.useCallback((sectionIndex: number) => {
@@ -621,24 +627,14 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
       if (cached != null && cached > 0) return cached
     }
     return getDefaultHeaderSize()
-  }, [props.useResizeObserver, props.headerHeight, props.headerWidth, props.itemHeight, props.itemWidth, props.itemSize, props.itemData, isHorizontal])
+  }, [props.useResizeObserver, getDefaultHeaderSize])
 
   const getItemSize = React.useCallback((index: number) => {
     if (props.useResizeObserver === true) {
       return sizeCache.getItemSize(index)
     }
-    if (isHorizontal) {
-      if (typeof props.itemWidth === 'number') return props.itemWidth
-      if (typeof props.itemSize === 'number') return props.itemSize
-      if (typeof props.itemSize === 'function') return props.itemSize(index, props.itemData) || DEFAULT_ITEM_WIDTH
-      return DEFAULT_ITEM_WIDTH
-    } else {
-      if (typeof props.itemHeight === 'number') return props.itemHeight
-      if (typeof props.itemSize === 'number') return props.itemSize
-      if (typeof props.itemSize === 'function') return props.itemSize(index, props.itemData) || DEFAULT_ITEM_HEIGHT
-      return DEFAULT_ITEM_HEIGHT
-    }
-  }, [props.useResizeObserver, props.itemWidth, props.itemHeight, props.itemSize, props.itemData, isHorizontal, sizeCache])
+    return resolveItemSizeByIndex(index, defaultItemSize)
+  }, [props.useResizeObserver, sizeCache, resolveItemSizeByIndex, defaultItemSize])
 
   // 分组累积高度/宽度，sizeCacheVersion 变化时重算
   const sectionOffsets = React.useMemo(() => {
@@ -655,7 +651,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
       globalItemIndex += section.items.length
     })
     return offsets
-  }, [sections, space, isHorizontal, props.headerHeight, props.headerWidth, props.itemHeight, props.itemWidth, props.itemSize, props.itemData, getItemSize, getHeaderSize, sizeCacheVersion])
+  }, [sections, space, getItemSize, getHeaderSize, sizeCacheVersion])
 
   // 外层虚拟滚动：可见分组
   const [startSection, endSection] = React.useMemo(() => {
@@ -727,6 +723,14 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     }
 
     const effectiveOffset = newOffset
+    const currentThreshold = thresholdRef.current
+    const { upper, lower } = currentThreshold
+    const currentContainerLength = containerRef.current
+      ? (isHorizontal ? containerRef.current.clientWidth : containerRef.current.clientHeight)
+      : containerLength
+    const nowInUpper = effectiveOffset <= upper
+    const currentContentLength = listContentLengthRef.current
+    const nowInLower = currentContentLength > 0 && effectiveOffset + currentContainerLength >= currentContentLength - lower
     const diff = effectiveOffset - lastScrollTopRef.current
     scrollDiffListRef.current.shift()
     scrollDiffListRef.current.push(diff)
@@ -740,6 +744,10 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
         scrollTop: isHorizontal ? 0 : newOffset,
         scrollLeft: isHorizontal ? newOffset : 0
       })
+      if (nowInUpper && !inUpperZoneRef.current) onScrollToUpperRef.current?.()
+      if (nowInLower && !inLowerZoneRef.current) onScrollToLowerRef.current?.()
+      inUpperZoneRef.current = nowInUpper
+      inLowerZoneRef.current = nowInLower
       return
     }
 
@@ -750,7 +758,11 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
       scrollTop: isHorizontal ? 0 : newOffset,
       scrollLeft: isHorizontal ? newOffset : 0
     })
-  }, [isHorizontal, onScroll, updateRenderOffset, scrollCorrection, props.useResizeObserver])
+    if (nowInUpper && !inUpperZoneRef.current) onScrollToUpperRef.current?.()
+    if (nowInLower && !inLowerZoneRef.current) onScrollToLowerRef.current?.()
+    inUpperZoneRef.current = nowInUpper
+    inLowerZoneRef.current = nowInLower
+  }, [isHorizontal, onScroll, updateRenderOffset, scrollCorrection, props.useResizeObserver, containerLength])
 
   // 小程序：onScrollEnd 优先结束 isUserScrolling，timeout 兜底
   const handleNativeScrollEnd = React.useCallback(() => {
@@ -908,8 +920,6 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     lowerThreshold,
     scrollWithAnimation: false,
     onScroll: handleScroll,
-    onScrollToUpper,
-    onScrollToLower,
     onScrollStart,
     onScrollEnd: handleNativeScrollEnd,
     enableBackToTop,
@@ -1003,7 +1013,6 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   const totalLength = listContentLength
 
   // scrollElement 模式下 onScrollToLower 需用内层内容高度判断，供 scroll handler 读取
-  const listContentLengthRef = React.useRef(0)
   listContentLengthRef.current = listContentLength
 
   const scrollAttachRefsRef = React.useRef<ListScrollElementAttachRefs | null>(null)
@@ -1066,7 +1075,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
       }
     }
     return null
-  }, [stickyHeader, renderOffset, sectionOffsets, sections, isHorizontal, props.headerHeight, props.headerWidth, props.itemHeight, props.itemWidth, props.itemSize, props.itemData])
+  }, [stickyHeader, renderOffset, sectionOffsets, sections])
 
   // 渲染分组+item双层虚拟滚动
   const renderSections = () => {

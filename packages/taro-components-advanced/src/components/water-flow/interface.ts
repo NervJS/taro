@@ -47,6 +47,11 @@ export interface WaterFlowProps
   onScrollIntoViewComplete?: () => void
 }
 
+/** WaterFlow ref 类型，current 指向内容容器，用于 IntersectionObserver root、SelectorQuery.in 等 */
+export interface WaterFlowRef {
+  current: HTMLElement | null
+}
+
 export interface FlowSectionProps extends BaseProps {
   /**
    * 列数
