@@ -24,7 +24,7 @@ export interface ListProps {
   scrollTop?: number
   scrollX?: boolean
   scrollY?: boolean
-  onScroll?: (e: { scrollTop: number, scrollLeft: number }) => void
+  onScroll?: (e: { scrollTop: number, scrollLeft: number, detail: { scrollTop: number, scrollLeft: number } }) => void
   onScrollToUpper?: () => void
   onScrollToLower?: () => void
   upperThreshold?: number
@@ -740,10 +740,9 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     if (programmaticCooldownRef.current) {
       lastScrollTopRef.current = effectiveOffset
       setRenderOffset(effectiveOffset)
-      onScroll?.({
-        scrollTop: isHorizontal ? 0 : newOffset,
-        scrollLeft: isHorizontal ? newOffset : 0
-      })
+      const scrollTop = isHorizontal ? 0 : newOffset
+      const scrollLeft = isHorizontal ? newOffset : 0
+      onScroll?.({ scrollTop, scrollLeft, detail: { scrollTop, scrollLeft } })
       if (nowInUpper && !inUpperZoneRef.current) onScrollToUpperRef.current?.()
       if (nowInLower && !inLowerZoneRef.current) onScrollToLowerRef.current?.()
       inUpperZoneRef.current = nowInUpper
@@ -754,10 +753,9 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     scrollCorrection.markUserScrolling()
     updateRenderOffset(effectiveOffset, false, 'onScroll')
 
-    onScroll?.({
-      scrollTop: isHorizontal ? 0 : newOffset,
-      scrollLeft: isHorizontal ? newOffset : 0
-    })
+    const scrollTop = isHorizontal ? 0 : newOffset
+    const scrollLeft = isHorizontal ? newOffset : 0
+    onScroll?.({ scrollTop, scrollLeft, detail: { scrollTop, scrollLeft } })
     if (nowInUpper && !inUpperZoneRef.current) onScrollToUpperRef.current?.()
     if (nowInLower && !inLowerZoneRef.current) onScrollToLowerRef.current?.()
     inUpperZoneRef.current = nowInUpper

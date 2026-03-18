@@ -4,7 +4,7 @@ import type { RefObject } from 'react'
 
 export interface ListScrollElementAttachRefs {
   scrollCorrection: { markUserScrolling: () => void }
-  onScroll: ((e: { scrollTop: number, scrollLeft: number }) => void) | undefined
+  onScroll: ((e: { scrollTop: number, scrollLeft: number, detail: { scrollTop: number, scrollLeft: number } }) => void) | undefined
   onScrollToUpper: (() => void) | undefined
   onScrollToLower: (() => void) | undefined
   threshold: { upper: number, lower: number }
@@ -75,7 +75,9 @@ export function useListScrollElementAttach(
         const clientSize = isHorizontal ? target.clientWidth : target.clientHeight
         r.scrollCorrection.markUserScrolling()
         updateRenderOffset(effectiveAdjusted, false, 'scrollElement')
-        r.onScroll?.({ scrollTop: isHorizontal ? 0 : scrollPos, scrollLeft: isHorizontal ? scrollPos : 0 })
+        const scrollTop = isHorizontal ? 0 : scrollPos
+        const scrollLeft = isHorizontal ? scrollPos : 0
+        r.onScroll?.({ scrollTop, scrollLeft, detail: { scrollTop, scrollLeft } })
 
         const { upper, lower } = r.threshold
         const innerContentLen = r.listContentLength

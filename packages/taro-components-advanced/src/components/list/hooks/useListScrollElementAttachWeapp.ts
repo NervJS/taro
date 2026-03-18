@@ -117,10 +117,9 @@ export function useListScrollElementAttachWeapp(
 
         r.scrollCorrection.markUserScrolling()
         updateRenderOffset(effectiveAdjusted, false, 'scrollElement')
-        r.onScroll?.({
-          scrollTop: isHorizontal ? 0 : scrollPos,
-          scrollLeft: isHorizontal ? scrollPos : 0,
-        })
+        const scrollTop = isHorizontal ? 0 : scrollPos
+        const scrollLeft = isHorizontal ? scrollPos : 0
+        r.onScroll?.({ scrollTop, scrollLeft, detail: { scrollTop, scrollLeft } })
 
         // 兜底：measure 未完成时 containerLengthRef 为 0，用 fallback 参与触顶/触底判断，避免漏触发
         const clientSize = containerLengthRef.current || fallbackContainerLength || 0
