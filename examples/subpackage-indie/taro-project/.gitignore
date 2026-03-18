@@ -1,0 +1,16 @@
+dist/
+deploy_versions/
+.temp/
+.td_temp/
+.rn_temp/
+node_modules/
+.DS_Store
+.swc
+.native-web/
+.native-harmony/
+output/
+.idea/
+.joycode/
+dist-source
+
+.pnpm-store/
