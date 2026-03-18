@@ -1,0 +1,26 @@
+.order-index {
+  padding: 20px;
+
+  .header {
+    margin-bottom: 20px;
+
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .content {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+  }
+}

@@ -1,0 +1,4 @@
+<view class='container'>
+  <text class='title'>原生小程序入口</text>
+  <button bindtap="onClick">打开 Taro 订单组件</button>
+</view>
