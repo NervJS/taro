@@ -331,6 +331,14 @@ declare module './index' {
     plugins?: Plugins
   }
 
+  /** 子分包独立模板配置项 */
+  interface SubPackageIndieConfig {
+    /** 主入口分包根路径（相对于 sourceDir），runtime chunks 将生成到此目录 */
+    mainPackageRoot: string
+    /** 子组件分包根路径列表，只生成独立的模板文件 */
+    subPackageRoots?: string[]
+  }
+
   interface Plugins {
     [key: string]: {
       version: string
@@ -470,15 +478,23 @@ declare module './index' {
      */
     subPackages?: SubPackage[]
     subpackages?: SubPackage[]
-    /** 子分包独立模板配置（用于 newBlended 模式）
+    /** 子分包独立模板配置（用于 newBlended 模式），支持多入口配置
+     * @example
+     * ```js
+     * subPackageIndie: [
+     *   {
+     *     mainPackageRoot: 'pages/order/index',
+     *     subPackageRoots: ['pages/order/list', 'pages/order/detail']
+     *   },
+     *   {
+     *     mainPackageRoot: 'pages/user/index',
+     *     subPackageRoots: ['pages/user/profile']
+     *   }
+     * ]
+     * ```
      * @since 4.1.x
      */
-    subPackageIndie?: {
-      /** 主入口分包根路径（相对于 sourceDir），runtime chunks 将生成到此目录 */
-      mainPackageRoot: string
-      /** 子组件分包根路径列表 */
-      subPackageRoots: string[]
-    }
+    subPackageIndie?: SubPackageIndieConfig[]
     /** Worker 代码放置的目录
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
      * @since 1.9.90

@@ -7,10 +7,12 @@ export default {
     'pages/sub2/index',
   ],
   // 子分包独立模板配置
-  subPackageIndie: {
-    // 主入口分包根路径（runtime chunks 将生成到此目录）
-    mainPackageRoot: 'pages/index/index',
-    // 子组件分包根路径列表
-    subPackageRoots: ['pages/sub1/index', 'pages/sub2/index'],
-  },
+  subPackageIndie: [
+    {
+      // 主入口分包根路径（runtime chunks 将生成到此目录）
+      mainPackageRoot: 'pages/index/index',
+      // 子组件分包根路径列表
+      subPackageRoots: ['pages/sub1/index', 'pages/sub2/index'],
+    },
+  ],
 }
