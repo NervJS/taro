@@ -115,8 +115,12 @@ export function createTTDomDocument(): TaroDocument {
         const result = originalSetAttribute(name, value)
 
         // 处理 catchMove 属性
-        if (name === 'catchMove' && value) {
-          el.addEventListener('catchtouchmove', emptyFunction)
+        if (name === 'catchMove') {
+          if (value) {
+            el.addEventListener('catchtouchmove', emptyFunction)
+          } else {
+            el.removeEventListener('catchtouchmove', emptyFunction)
+          }
         }
 
         return result
