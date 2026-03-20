@@ -15,6 +15,16 @@ import type { PluginOption } from 'vite'
 export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
   return [{
     name: 'taro:vite-mini-emit',
+    renderChunk (code, chunk) {
+      if (viteCompilerContext && chunk.isEntry && chunk.name === viteCompilerContext.app.name) {
+        const { app } = viteCompilerContext
+        const appConfig = app.config
+        if (process.env.TARO_ENV === 'tt' && appConfig) {
+          return `if (typeof tt !== 'undefined') {\n  tt.__$enableTTDom$__ = ${appConfig.enableTTDom};\n}\n${code}`
+        }
+      }
+      return null
+    },
     async generateBundle (_outputOpts, bundle) {
       const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
 
