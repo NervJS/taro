@@ -11,6 +11,7 @@ import {
   useContext,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
 } from 'react'
@@ -29,6 +30,7 @@ import { Section } from './section'
 import { useMemoizedFn } from './use-memoized-fn'
 import { useObservedAttr } from './use-observed-attr'
 import { getSysInfo, isH5, isWeapp } from './utils'
+import { createWaterFlowNodeCacheControl } from './water-flow-node-cache'
 
 import type { ScrollDirection, WaterFlowProps } from './interface'
 
@@ -148,14 +150,25 @@ const InnerWaterFlow = (
   const scrollHeight$ = useObservedAttr(root, 'scrollHeight')
   const renderRange$ = useObservedAttr(root, 'renderRange')
   const refEventOrig = useRef<BaseEventOrig>()
+  const nodeCacheCtlRef = useRef<ReturnType<typeof createWaterFlowNodeCacheControl> | null>(null)
+
+  useEffect(() => {
+    const ctl = createWaterFlowNodeCacheControl(root, () => root.cacheCount)
+    nodeCacheCtlRef.current = ctl
+    return () => {
+      ctl.dispose()
+      nodeCacheCtlRef.current = null
+    }
+  }, [root])
 
   /**
    * 滚动事件
    */
   const handleScroll = useMemoizedFn((ev: BaseEventOrig<ScrollViewProps.onScrollDetail>) => {
     refEventOrig.current = ev
-    root.sections.forEach((section) => section.getNodeRenderRange())
     const { scrollTop } = ev.detail
+    nodeCacheCtlRef.current?.onScrollSample(scrollTop)
+    root.sections.forEach((section) => section.getNodeRenderRange())
     const scrollDirection: ScrollDirection = root.getState().scrollOffset < scrollTop ? 'forward' : 'backward'
     root.setStateBatch({
       scrollDirection: scrollDirection,
@@ -177,7 +190,7 @@ const InnerWaterFlow = (
       if (section) {
         const originalCount = section.count
         if (childCount > originalCount) {
-          section.pushNodes(childCount - originalCount)
+          section.pushNodesStructuralOnly(childCount - originalCount)
         }
       } else {
         section = new Section(root, {
@@ -193,6 +206,18 @@ const InnerWaterFlow = (
       return cloneElement(child, { section, key: `${props.id}-${order}` })
     })?.slice(start, end + 1)
   }, [renderRange$[0], renderRange$[1], children, root, props.id])
+
+  /** 配对 pushNodesStructuralOnly：在 layout 阶段完成 Section 状态，避免 useMemo 内 setState 告警 */
+  useLayoutEffect(() => {
+    Children.forEach(children, (child: ReactElement<PropsWithChildren<_FlowSectionProps>>, order) => {
+      if (Object.is(child, null)) {
+        return
+      }
+      const sectionProps = child.props
+      const sectionId = sectionProps.id || `section-${order}`
+      root.findSection(sectionId)?.finalizePushNodesStateIfNeeded()
+    })
+  }, [children, root])
 
   const scrollTo = useMemoizedFn((scrollOffset = 0) => {
     scrollOffset = Math.max(0, scrollOffset)
@@ -329,6 +354,7 @@ const InnerWaterFlow = (
         const prevOffset = root.getState().scrollOffset
         const scrollDirection: ScrollDirection = prevOffset < effectiveOffset ? 'forward' : 'backward'
 
+        nodeCacheCtlRef.current?.onScrollSample(effectiveOffset)
         root.sections.forEach((section) => section.getNodeRenderRange())
         root.setStateBatch({
           scrollDirection,

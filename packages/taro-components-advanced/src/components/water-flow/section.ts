@@ -60,6 +60,9 @@ export class Section extends StatefulEventBus<SectionState> {
   columnGap = 0
   layoutedSignal = createImperativePromise()
 
+  /** pushNodesStructuralOnly 后待 finalize；由 WaterFlow 的 useLayoutEffect 收尾，避免在父 render 中更新子 state */
+  private _pendingPushFinalize = false
+
   constructor(public root: Root, props: SectionProps) {
     const { id, col, order, count, rowGap, columnGap } = props
     super({
@@ -263,10 +266,8 @@ export class Section extends StatefulEventBus<SectionState> {
         result[i][1] = -1
       }
 
-      const cacheCount = this.root.cacheCount
-      // 双向预缓存，避免反向滚动时出现空白（原逻辑仅在滚动方向缓存，反向时未预渲染）
-      const backwardDistance = cacheCount
-      const forwardDistance = cacheCount
+      const backwardDistance = this.root.nodeCacheBackward
+      const forwardDistance = this.root.nodeCacheForward
       const overscanBackward = result[i][0] - backwardDistance
       const overscanForward = result[i][1] + forwardDistance
       result[i][0] = overscanBackward < 0 ? 0 : overscanBackward
@@ -289,18 +290,31 @@ export class Section extends StatefulEventBus<SectionState> {
     this.root.registerNode(node)
   }
 
-  public pushNodes(count: number) {
+  /** 仅扩展 columnMap / 注册 Node，不 setState；与 finalizePushNodesStateIfNeeded 配对 */
+  public pushNodesStructuralOnly (count: number) {
     const { count: originalCount, col } = this
     for (let i = originalCount; i < originalCount + count; i++) {
       this.pushNode(i, col)
     }
     this.count += count
     this.root.lowerThresholdScrollTop = Infinity
+    this._pendingPushFinalize = true
+  }
+
+  /** 在 commit 后同步 height、节点位置与 scrollHeight（见 WaterFlow useLayoutEffect） */
+  public finalizePushNodesStateIfNeeded () {
+    if (!this._pendingPushFinalize) return
+    this._pendingPushFinalize = false
     // 同步 section state.height，避免与 maxColumnHeight 不一致导致 footer 错位
     this.setStateIn('height', this.maxColumnHeight)
     this.updateNodes()
     this.updateBehindSectionsPosition()
     // 立即更新 scrollHeight，避免防抖导致容器高度滞后引发往上抖动
     this.root.updateScrollHeight(true)
+  }
+
+  public pushNodes (count: number) {
+    this.pushNodesStructuralOnly(count)
+    this.finalizePushNodesStateIfNeeded()
   }
 }

@@ -70,9 +70,19 @@ export class Root extends StatefulEventBus<RootState, Events> {
    */
   sections: Section[] = []
   /**
-   * 设置预加载的 Item 条数。
+   * 设置预加载的 Item 条数（与 props.cacheCount 一致，收敛目标）。
    */
   cacheCount = 1
+
+  /**
+   * Node 层向上（列索引减小方向）预缓存条数，可与 cacheCount 不同（快速滑动单边放大）。
+   */
+  nodeCacheBackward = 1
+
+  /**
+   * Node 层向下（列索引增大方向）预缓存条数。
+   */
+  nodeCacheForward = 1
 
   upperThresholdCount = 0
 
@@ -95,7 +105,7 @@ export class Root extends StatefulEventBus<RootState, Events> {
   private _inUpperZone = true
   /** 当前是否处于触底区域；初始为 false */
   private _inLowerZone = false
-  /** scrollHeight 防抖（raf），避免 pushNodes + 测量 导致的 先涨后跌 闪动 */
+  /** scrollHeight 更新防抖（raf），减轻 pushNodes 后测量前后的高度跳变 */
   private _scrollHeightRafId: number | null = null
 
   constructor(props: RootProps) {
@@ -118,6 +128,8 @@ export class Root extends StatefulEventBus<RootState, Events> {
       upperThresholdCount,
       skipContainerMeasure: !!skipContainerMeasure,
     })
+    this.nodeCacheBackward = cacheCount
+    this.nodeCacheForward = cacheCount
     this.setupSubscriptions()
     if (!skipContainerMeasure) {
       getRectSizeSync(`#${id}`, 100).then(({ width = windowWidth, height = windowHeight }) => {
@@ -369,9 +381,8 @@ export class Root extends StatefulEventBus<RootState, Events> {
   }
 
   /**
-   * 计算滚动高度
-   * 防抖一帧（raf），避免 pushNodes 后测量完成前出现 先涨（未测量默认高度）后跌（真实高度）导致的闪动
-   * @param immediate 为 true 时立即执行，不防抖（pushNodes 调用，避免容器高度滞后导致往上抖动）
+   * 更新总滚动高度（各 Section 累计）。
+   * @param immediate true 时跳过 raf 防抖（如 finalizePushNodesStateIfNeeded），避免高度滞后引起跳动
    */
   public updateScrollHeight(immediate = false) {
     const flush = () => {
@@ -423,6 +434,24 @@ export class Root extends StatefulEventBus<RootState, Events> {
    */
   public findNode(id: string) {
     return this.nodeMap.get(id)
+  }
+
+  /**
+   * 设置 Node 层上下方向预缓存条数，并刷新可见分组内的列渲染区间。
+   */
+  public setNodeCacheRange (backward: number, forward: number) {
+    const b = Math.max(0, Math.floor(backward))
+    const f = Math.max(0, Math.floor(forward))
+    if (this.nodeCacheBackward === b && this.nodeCacheForward === f) {
+      return
+    }
+    this.nodeCacheBackward = b
+    this.nodeCacheForward = f
+    for (const section of this.sections) {
+      if (section.isInRange) {
+        section.setStateIn('renderRange', section.getNodeRenderRange())
+      }
+    }
   }
 
   /**
