@@ -425,4 +425,5 @@ declare namespace TaroGeneral {
   }
 
   type TDeviceRatio = Record<string, number>
+  type TDeviceRatioFunc = (designWidth: number) => number
 }

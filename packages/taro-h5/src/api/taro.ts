@@ -64,6 +64,16 @@ const defaultBaseFontSize = 20
 const defaultUnitPrecision = 5
 const defaultTargetUnit = 'rem'
 
+function getDeviceRatio (deviceRatio, designWidth: number) {
+  if (isFunction(deviceRatio)) {
+    return deviceRatio(designWidth)
+  }
+  if (!(designWidth in deviceRatio)) {
+    throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
+  }
+  return deviceRatio[designWidth]
+}
+
 const initPxTransform = function ({
   designWidth = defaultDesignWidth,
   deviceRatio = defaultDesignRatio,
@@ -86,13 +96,10 @@ const pxTransform = function (size = 0, designWid?: number) {
   const designWidth = designWid || ((input = 0) => isFunction(config.designWidth)
     ? config.designWidth(input)
     : config.designWidth)(size)
-  if (!(designWidth in deviceRatio)) {
-    throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
-  }
   const targetUnit = config.targetUnit || defaultTargetUnit
   const unitPrecision = config.unitPrecision || defaultUnitPrecision
   const formatSize = ~~size
-  let rootValue = 1 / deviceRatio[designWidth]
+  let rootValue = 1 / getDeviceRatio(deviceRatio, designWidth)
   switch (targetUnit) {
     case 'vw':
       rootValue = designWidth / 100

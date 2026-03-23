@@ -24,6 +24,16 @@ const defaultBaseFontSize = 20
 const defaultUnitPrecision = 5
 const defaultTargetUnit = 'rpx'
 
+function getDeviceRatio (deviceRatio, designWidth: number) {
+  if (isFunction(deviceRatio)) {
+    return deviceRatio(designWidth)
+  }
+  if (!(designWidth in deviceRatio)) {
+    throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
+  }
+  return deviceRatio[designWidth]
+}
+
 export function getInitPxTransform (taro) {
   return function (config) {
     const {
@@ -50,13 +60,10 @@ export function getPxTransform (taro, designWid?: number) {
     const designWidth = designWid || ((input = 0) => isFunction(config.designWidth)
       ? config.designWidth(input)
       : config.designWidth || defaultDesignWidth)(size)
-    if (!(designWidth in deviceRatio)) {
-      throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
-    }
     const targetUnit = config.targetUnit || defaultTargetUnit
     const unitPrecision = config.unitPrecision || defaultUnitPrecision
     const formatSize = ~~size
-    let rootValue = 1 / deviceRatio[designWidth]
+    let rootValue = 1 / getDeviceRatio(deviceRatio, designWidth)
     switch (targetUnit) {
       case 'rem':
         rootValue *= baseFontSize * 2

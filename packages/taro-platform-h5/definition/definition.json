@@ -18,7 +18,7 @@
       "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
     },
     "initPxTransform": {
-      "object": "{ designWidth?: number; deviceRatio?: TDeviceRatio; baseFontSize?: number; unitPrecision?: number; targetUnit?: string; }",
+      "object": "{ designWidth?: number; deviceRatio?: TDeviceRatio | TDeviceRatioFunc; baseFontSize?: number; unitPrecision?: number; targetUnit?: string; }",
       "success": "void"
     },
     "pxTransform": {

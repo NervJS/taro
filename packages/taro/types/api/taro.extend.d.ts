@@ -94,7 +94,7 @@ declare module '../index' {
      */
     initPxTransform(config: {
       baseFontSize?: number
-      deviceRatio?: TaroGeneral.TDeviceRatio
+      deviceRatio?: TaroGeneral.TDeviceRatio | TaroGeneral.TDeviceRatioFunc
       designWidth?: number | ((size?: string | number) => number)
       targetUnit?: string
       unitPrecision?: number
