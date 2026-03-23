@@ -81,11 +81,11 @@ function modifyPageTemplate (ctx: IPluginContext) {
       const assetsItem = assets[templateName]
       const src = assetsItem._value ? assetsItem._value.toString() : assetsItem.source()
       let relativePath
-      const templateCaller = src.replace(/<import src="(.*)base\.axml"\/>/, function (_, $1) {
+      const templateCaller = src.replace(/<import src="(.*)base\.axml"\s*\/>/, function (_, $1) {
         relativePath = $1
         return ''
       })
-      const main = baseXml.replace(/<import-sjs name="xs" from="(.*)utils.sjs" \/>/, function () {
+      const main = baseXml.replace(/<import-sjs name="xs" from="(.*)utils.sjs"\s*\/>/, function () {
         return src.includes('<import-sjs name="xs"')
           ? ''
           : `<import-sjs name="xs" from="${relativePath}utils.sjs" />`
