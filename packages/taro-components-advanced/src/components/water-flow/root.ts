@@ -447,10 +447,10 @@ export class Root extends StatefulEventBus<RootState, Events> {
       result[1] = this.sections.length - 1
     }
 
-    const scrollDirection = this.getState().scrollDirection
     const [backwardCache, forwardCache] = this.calcCacheSection(result)
-    const backwardDistance = scrollDirection === 'backward' ? backwardCache : 0
-    const forwardDistance = scrollDirection === 'forward' ? forwardCache : 0
+    // 双向预缓存，避免反向滚动时出现空白（原逻辑仅在滚动方向缓存，反向时未预渲染）
+    const backwardDistance = backwardCache
+    const forwardDistance = forwardCache
 
     const overscanBackward = result[0] - backwardDistance
     const overscanForward = result[1] + forwardDistance

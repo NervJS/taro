@@ -264,9 +264,9 @@ export class Section extends StatefulEventBus<SectionState> {
       }
 
       const cacheCount = this.root.cacheCount
-      const scrollDirection = this.root.getState().scrollDirection
-      const backwardDistance = scrollDirection === 'backward' ? cacheCount : 0
-      const forwardDistance = scrollDirection === 'forward' ? cacheCount : 0
+      // 双向预缓存，避免反向滚动时出现空白（原逻辑仅在滚动方向缓存，反向时未预渲染）
+      const backwardDistance = cacheCount
+      const forwardDistance = cacheCount
       const overscanBackward = result[i][0] - backwardDistance
       const overscanForward = result[i][1] + forwardDistance
       result[i][0] = overscanBackward < 0 ? 0 : overscanBackward
