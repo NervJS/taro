@@ -272,6 +272,20 @@ export class Section extends StatefulEventBus<SectionState> {
       const overscanForward = result[i][1] + forwardDistance
       result[i][0] = overscanBackward < 0 ? 0 : overscanBackward
       result[i][1] = overscanForward > column.length ? column.length - 1 : overscanForward
+
+      // 列尾连续未测量节点纳入渲染区间，保证追加数据后能挂载并完成 measure
+      let tailUnmeasuredStart = column.length
+      for (let j = column.length - 1; j >= 0; j--) {
+        if (!column[j].getState().layouted) {
+          tailUnmeasuredStart = j
+        } else {
+          break
+        }
+      }
+      if (tailUnmeasuredStart < column.length) {
+        result[i][0] = Math.min(result[i][0], tailUnmeasuredStart)
+        result[i][1] = Math.max(result[i][1], column.length - 1)
+      }
     }
 
     const prevRange = this.getState().renderRange
@@ -311,6 +325,17 @@ export class Section extends StatefulEventBus<SectionState> {
     this.updateBehindSectionsPosition()
     // 立即更新 scrollHeight，避免防抖导致容器高度滞后引发往上抖动
     this.root.updateScrollHeight(true)
+    if (this.isInRange) {
+      this.setStateIn('renderRange', this.getNodeRenderRange())
+    }
+    // 扩展 Root 的 section 切片，保证多 FlowSection 时当前分组始终在渲染树内
+    const [rStart, rEnd] = this.root.getState().renderRange
+    const newStart = Math.min(rStart, this.order)
+    const newEnd = Math.max(rEnd, this.order)
+    if (newStart !== rStart || newEnd !== rEnd) {
+      this.root.setStateIn('renderRange', [newStart, newEnd])
+    }
+    this.root.resetLowerReachEdgeAfterContentChange()
   }
 
   public pushNodes (count: number) {

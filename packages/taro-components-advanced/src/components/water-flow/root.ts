@@ -146,23 +146,16 @@ export class Root extends StatefulEventBus<RootState, Events> {
    * 设置订阅事件
    */
   private setupSubscriptions() {
-    /**
-     * 滚动过程中计算渲染的分组区间
-     * 滚动过程中分组的最大高度会发生更新，可以在这时计算滚动高度
-     */
-    this.sub('scrollOffset', () => {
-      this.setStateIn('renderRange', this.getSectionRenderRange())
-      this.handleReachThreshold()
-      this.updateScrollHeight()
-    })
-
+    /** 滚动：先更新触底阈值，再判触顶/触底并更新分组与总高度，避免同一帧内沿用无效阈值。 */
     this.sub('scrollOffset', () => {
       const sectionSize = this.sections.length
       const lastSection = this.sections[sectionSize - 1]
-      // 最后一个分组的每一列最后一行都已经完成了布局计算，那么这个时候的总高度应该是准确的
       if (lastSection?.columnMap.every((column) => column[column.length - 1]?.getState().layouted)) {
         this.setLowerThresholdScrollTop()
       }
+      this.setStateIn('renderRange', this.getSectionRenderRange())
+      this.handleReachThreshold()
+      this.updateScrollHeight()
     })
 
     this.sub(RootEvents.AllSectionsLayouted, () => {
@@ -280,7 +273,9 @@ export class Root extends StatefulEventBus<RootState, Events> {
       // 必须用 sectionRange 实时计算，避免依赖可能未更新的 scrollHeight 状态
       const range = this.sectionRange
       const totalHeight = range.length > 0 ? range[range.length - 1][1] : 0
-      this.lowerThresholdScrollTop = totalHeight - this.getState().containerSize.height
+      // 触底判定：scrollOffset + containerSize.height >= lowerThresholdScrollTop
+      // 须存内容底边 totalHeight(H)。若误存 H-h，则顶部时 h 与 H-h 比较，当 2h>=H 会恒判为在触底区，误触 onScrollToLower。
+      this.lowerThresholdScrollTop = totalHeight
       return 0
     }
     const sectionSize = this.sections.length
@@ -343,6 +338,15 @@ export class Root extends StatefulEventBus<RootState, Events> {
     if (inLower && !this._inLowerZone) this.pub(RootEvents.ReachLowerThreshold)
     this._inUpperZone = inUpper
     this._inLowerZone = inLower
+  }
+
+  /**
+   * 列表追加并完成 finalize 后调用：重置触底边沿状态（_inLowerZone），
+   * 使用户仍在底部时下一次滚动能再次触发 onScrollToLower，而不必先上滑再下滑。
+   * 不在此处同步调用 handleReachThreshold，避免仍在底部时立刻连发触底（与误触区分）。
+   */
+  public resetLowerReachEdgeAfterContentChange () {
+    this._inLowerZone = false
   }
 
   /**
