@@ -90,19 +90,20 @@ function Map (props: MapProps) {
 
     const styleId = `polyline-${lineIndex}`
 
-    // Taro: color (hex)；tlbs-map-react: strokeColor
-    // Taro: width (number)；tlbs-map-react: strokeWidth
-    // Taro: dottedLine (boolean)；tlbs-map-react: lineType (dashed/solid)
+    // Taro: color (hex)；腾讯地图: color
+    // Taro: width (number)；腾讯地图: width
+    // Taro: dottedLine (boolean)；腾讯地图: dashArray ([10,10]虚线, [0,0]实线)
     polylineStyles[styleId] = {
-      strokeColor: line.color || '#000000',
-      strokeWidth: line.width || 4,
-      lineType: line.dottedLine ? 'dashed' : 'solid',
+      color: line.color || '#3777FF',
+      width: line.width ?? 3,
+      // 虚线：[10, 10] 表示10像素实线 + 10像素空白；实线：[0, 0]
+      dashArray: line.dottedLine ? [10, 10] : [0, 0],
     }
 
     // Taro: points 是 {latitude, longitude}[] 数组
     // tlbs-map-react: geometries 需要路径点数组
     polylineGeometries.push({
-      id: String(line.id ?? lineIndex),
+      id: String(lineIndex),
       styleId,
       paths: line.points.map((point) => ({
         lat: point.latitude,
@@ -118,7 +119,7 @@ function Map (props: MapProps) {
     zoom: scale ?? 13,
     minZoom: minScale ?? 3,
     maxZoom: maxScale ?? 20,
-    rotatable: enableRotate ?? true, // Taro: enableRotate；tlbs-map-react: options.rotatable
+    rotatable: enableRotate ?? false, // Taro: enableRotate；tlbs-map-react: options.rotatable
   }
 
   return (
