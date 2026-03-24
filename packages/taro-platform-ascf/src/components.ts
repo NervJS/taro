@@ -57,7 +57,8 @@ export const components = {
     bindChooseAvatar: _empty,
     bindError: _empty,
     bindOpenSetting: _empty,
-    bindLaunchApp: _empty
+    bindLaunchApp: _empty,
+    bindGetPhoneNumberAndRiskLevel: _empty,
   },
   Form: {
     'report-submit-timeout': _zero
