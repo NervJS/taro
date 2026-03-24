@@ -49,9 +49,9 @@ jobs:
         if: startsWith( env.COMMIT_MESSAGE , 'chore(release):' ) != true
         run: echo "ABORT=true" >> $GITHUB_ENV
 
-      # 说明：允许 push 事件使用 v3-latest、alpha、beta等 tag；若提交信息不包含这些任一 tag，则中止发布
+      # 说明：3.x 的 push 发布仅允许使用带 v3 前缀的 npm tag，避免与 4.x 的预发布通道冲突
       - name: Publish push tag verification
-        if: github.event_name == 'push' && (contains(env.COMMIT_MESSAGE, '--tag=v3-latest') != true && contains(env.COMMIT_MESSAGE, '--tag=alpha') != true && contains(env.COMMIT_MESSAGE, '--tag=beta') != true && contains(env.COMMIT_MESSAGE, '--tag=rc') != true)
+        if: github.event_name == 'push' && (contains(env.COMMIT_MESSAGE, '--tag=v3-latest') != true && contains(env.COMMIT_MESSAGE, '--tag=v3-alpha') != true && contains(env.COMMIT_MESSAGE, '--tag=v3-beta') != true && contains(env.COMMIT_MESSAGE, '--tag=v3-rc') != true)
         run: echo "ABORT=true" >> $GITHUB_ENV
 
   build-rust-binding:
