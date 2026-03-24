@@ -1,15 +1,14 @@
 /* eslint-disable no-console */
+import { useEffect } from 'react'
 import { MultiMarker, MultiPolyline, TMap } from 'tlbs-map-react'
 
 import { createForwardRefComponent } from '../../utils'
+import { logPrefix } from './common'
+import { registerMapInstance, unregisterMapInstance } from './MapContext'
 
 import type { MapProps as TaroMapProps } from '@tarojs/components'
 import type React from 'react'
 import type MapTypes from 'tmap-gl-types'
-
-
-
-const logPrefix = '[Taro-H5-Map]'
 
 export interface MapProps extends Omit<TaroMapProps, 'onError'> {
   forwardedRef?: React.MutableRefObject<any>
@@ -163,6 +162,13 @@ function Map (props: MapProps) {
 
   // 地图初始化成功
   const handleMapInited = (mapInstance: MapTypes.Map) => {
+    console.log(logPrefix, '地图初始化成功', mapInstance)
+    // 注册地图实例到全局存储
+    if (id) {
+      registerMapInstance(id, mapInstance)
+      console.log(logPrefix, '已注册地图实例到 MapContext, id:', id)
+    }
+
     let settled = false
     mapInstance.on('tilesloaded', (_res) => { /** 瓦片加载完成,地图真正可用 */
       // TODO: 临时先这么简单处理鉴权成功
@@ -217,6 +223,16 @@ function Map (props: MapProps) {
     }, 3000)
   }
 
+  // 组件卸载时清理地图实例
+  useEffect(() => {
+    return () => {
+      if (id) {
+        unregisterMapInstance(id)
+        console.log(logPrefix, '已注销地图实例, id:', id)
+      }
+    }
+  }, [id])
+
   return (
     <TMap
       id={id}
@@ -239,3 +255,6 @@ function Map (props: MapProps) {
 }
 
 export default createForwardRefComponent(Map)
+
+// TODO: createMapContext 临时从这里导出，后续需要调整
+export { createMapContext } from './createMapContext'
