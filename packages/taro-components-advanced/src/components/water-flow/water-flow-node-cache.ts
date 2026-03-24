@@ -50,6 +50,15 @@ export function createWaterFlowNodeCacheControl (
     const t = pendingTime
     const base = getBase()
 
+    /** 基线 cache 已达快滑上限，放大无收益，直接收敛 */
+    if (base >= WF_FAST_SCROLL_NODE_CACHE_MAX) {
+      boostSessionActive = false
+      root.setNodeCacheRange(base, base)
+      lastProcessedScrollTop = st
+      lastProcessedTime = t
+      return
+    }
+
     if (lastProcessedTime === 0) {
       lastProcessedScrollTop = st
       lastProcessedTime = t
@@ -104,6 +113,27 @@ export function createWaterFlowNodeCacheControl (
 
   function onScrollSample (scrollTop: number) {
     if (disposed) return
+
+    const base = getBase()
+    /** 基线已达快滑上限，跳过全部检测调度以减少开销 */
+    if (base >= WF_FAST_SCROLL_NODE_CACHE_MAX) {
+      boostSessionActive = false
+      if (rafId != null) {
+        cancelAnimationFrame(rafId)
+        rafId = null
+      }
+      rafScheduled = false
+      if (scrollStopTimer != null) {
+        clearTimeout(scrollStopTimer)
+        scrollStopTimer = null
+      }
+      if (restoreTimer != null) {
+        clearTimeout(restoreTimer)
+        restoreTimer = null
+      }
+      return
+    }
+
     pendingScrollTop = scrollTop
     pendingTime = Date.now()
     if (!rafScheduled) {

@@ -145,7 +145,13 @@ const InnerWaterFlow = (
       lowerThresholdCount,
       skipContainerMeasure: useScrollElementMode || (!!needAutoFind && autoFindStatus === 'pending'),
     })
-  }, [contentId, cacheCount, upperThresholdCount, lowerThresholdCount, useScrollElementMode, needAutoFind, autoFindStatus])
+  }, [contentId, upperThresholdCount, lowerThresholdCount, useScrollElementMode, needAutoFind, autoFindStatus])
+
+  /** props 动态修改 cacheCount 时同步到 Root，避免重建 Root；并收敛快滑单边放大到新的基线 */
+  useLayoutEffect(() => {
+    root.cacheCount = cacheCount
+    root.setNodeCacheRange(cacheCount, cacheCount)
+  }, [root, cacheCount])
   const isScrolling$ = useObservedAttr(root, 'isScrolling')
   const scrollHeight$ = useObservedAttr(root, 'scrollHeight')
   const renderRange$ = useObservedAttr(root, 'renderRange')
@@ -168,7 +174,6 @@ const InnerWaterFlow = (
     refEventOrig.current = ev
     const { scrollTop } = ev.detail
     nodeCacheCtlRef.current?.onScrollSample(scrollTop)
-    root.sections.forEach((section) => section.getNodeRenderRange())
     const scrollDirection: ScrollDirection = root.getState().scrollOffset < scrollTop ? 'forward' : 'backward'
     root.setStateBatch({
       scrollDirection: scrollDirection,
@@ -236,7 +241,6 @@ const InnerWaterFlow = (
         })
       }
       root.setStateBatch({ scrollOffset, isScrolling: true })
-      root.sections.forEach((s) => s.getNodeRenderRange())
       return
     }
     getScrollViewContextNode(`#${root.id}`).then((node: any) => {
@@ -355,7 +359,6 @@ const InnerWaterFlow = (
         const scrollDirection: ScrollDirection = prevOffset < effectiveOffset ? 'forward' : 'backward'
 
         nodeCacheCtlRef.current?.onScrollSample(effectiveOffset)
-        root.sections.forEach((section) => section.getNodeRenderRange())
         root.setStateBatch({
           scrollDirection,
           scrollOffset: effectiveOffset,
@@ -377,13 +380,11 @@ const InnerWaterFlow = (
             const scrollTopVal = info.scrollTop ?? 0
             const initialOffset = Math.max(0, scrollTopVal - getStartOffset())
             root.setStateBatch({ scrollOffset: initialOffset, isScrolling: true })
-            root.sections.forEach((s) => s.getNodeRenderRange())
           }
         })
       } else {
         const initialOffset = Math.max(0, target.scrollTop - getStartOffset())
         root.setStateBatch({ scrollOffset: initialOffset, isScrolling: true })
-        root.sections.forEach((s) => s.getNodeRenderRange())
       }
 
       target.addEventListener('scroll', handler, isWeapp ? undefined : { passive: true })
