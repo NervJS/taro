@@ -154,7 +154,7 @@ $ npm run clear-all
 $ pnpm version <version>
 ```
 
-3. 执行 `git commit --amend` 命令，手动修改最新一个 commit 的 commit message，加上 `--tag=<tag>`（此 tag 代表发布的 npm tag）。如发布 alpha 版本：`chore(release): publish 3.6.22-alpha.0 --tag=alpha`。
+3. 执行 `git commit --amend` 命令，手动修改最新一个 commit 的 commit message，加上 `--tag=<tag>`（此 tag 代表发布的 npm tag）。`3.x` 分支的测试版本请使用带 `v3-` 前缀的通道，如发布 alpha 版本：`chore(release): publish 3.6.22-alpha.0 --tag=v3-alpha`。
 4. 提交修改到远程仓库，将会触发 Github CI 的发布流程。
 
 ### 9. 文档
