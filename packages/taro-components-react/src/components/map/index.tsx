@@ -5,10 +5,12 @@ import { createForwardRefComponent } from '../../utils'
 
 import type { MapProps as TaroMapProps } from '@tarojs/components'
 import type React from 'react'
+import type MapTypes from 'tmap-gl-types'
 
 export interface MapProps extends Omit<TaroMapProps, 'onError'> {
   forwardedRef?: React.MutableRefObject<any>
   authKey?: string
+  onError?: (e: any) => void
 }
 
 function Map (props: MapProps) {
@@ -26,6 +28,9 @@ function Map (props: MapProps) {
     enableRotate,
     markers,
     polyline,
+    onTap,
+    onAuthSuccess,
+    onError,
   } = props
 
   console.log('props', props)
@@ -122,6 +127,92 @@ function Map (props: MapProps) {
     rotatable: enableRotate ?? false, // Taro: enableRotate；tlbs-map-react: options.rotatable
   }
 
+  /** ************************处理事件********************** */
+  // Taro: onTap；腾讯地图: click
+  // 腾讯地图事件返回: MapEvent { latLng: LatLng, point: {x, y}, type, target, originalEvent }
+  // Taro 事件格式: BaseEventOrig { type, timeStamp, target, currentTarget, detail, ... }
+  const handleMapClick = (e: MapTypes.MapEvent) => {
+    console.log('source click e:', e)
+    if (typeof onTap === 'function') {
+      onTap({
+        type: e.type,
+        timeStamp: Date.now(),
+        target: {
+          id: id || '',
+          tagName: 'map',
+          dataset: {},
+        },
+        currentTarget: {
+          id: id || '',
+          tagName: 'map',
+          dataset: {},
+        },
+        detail: {
+          latitude: e.latLng.lat,
+          longitude: e.latLng.lng,
+        },
+        preventDefault: () => {},
+        stopPropagation: () => {},
+      })
+    }
+  }
+
+  // 地图初始化成功
+  const handleMapInited = (mapInstance: MapTypes.Map) => {
+    let settled = false
+    mapInstance.on('tilesloaded', (_res) => { /** 瓦片加载完成,地图真正可用 */
+      // TODO: 临时先这么简单处理鉴权成功
+      if (!settled && typeof onAuthSuccess === 'function') {
+        settled = true
+        onAuthSuccess({
+          type: 'authsuccess',
+          timeStamp: Date.now(),
+          target: {
+            id: id || '',
+            tagName: 'map',
+            dataset: {},
+          },
+          currentTarget: {
+            id: id || '',
+            tagName: 'map',
+            dataset: {},
+          },
+          detail: {
+            errCode: 0,
+            errMsg: 'ok',
+          },
+          preventDefault: () => {},
+          stopPropagation: () => {},
+        })
+      }
+    })
+    setTimeout(() => {
+      if (!settled && typeof onError === 'function') {
+        settled = true
+        onError({
+          type: 'error',
+          timeStamp: Date.now(),
+          target: {
+            id: id || '',
+            tagName: 'map',
+            dataset: {},
+          },
+          currentTarget: {
+            id: id || '',
+            tagName: 'map',
+            dataset: {},
+          },
+          detail: {
+            errCode: 1001,
+            errMsg: 'timeout',
+          },
+          preventDefault: () => {},
+          stopPropagation: () => {},
+        })
+      }
+    }, 3000)
+  }
+
   return (
     <TMap
       id={id}
@@ -130,6 +221,8 @@ function Map (props: MapProps) {
       style={styleObj}
       apiKey={authKey ?? ''}
       options={mergedOptions}
+      onClick={handleMapClick}
+      onMapInited={handleMapInited}
     >
       {normalizedMarkers.length > 0 ? (
         <MultiMarker id="taro-markers" styles={markerStyles} geometries={markerGeometries} />
