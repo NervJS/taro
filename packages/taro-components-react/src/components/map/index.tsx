@@ -7,6 +7,10 @@ import type { MapProps as TaroMapProps } from '@tarojs/components'
 import type React from 'react'
 import type MapTypes from 'tmap-gl-types'
 
+
+
+const logPrefix = '[Taro-H5-Map]'
+
 export interface MapProps extends Omit<TaroMapProps, 'onError'> {
   forwardedRef?: React.MutableRefObject<any>
   authKey?: string
@@ -33,8 +37,8 @@ function Map (props: MapProps) {
     onError,
   } = props
 
-  console.log('props', props)
-  console.log('props.toString', JSON.stringify(props))
+  console.log(logPrefix, 'props', props)
+  console.log(logPrefix, 'props.toString', JSON.stringify(props))
 
 
   /** ************************处理 style********************** */
@@ -132,7 +136,7 @@ function Map (props: MapProps) {
   // 腾讯地图事件返回: MapEvent { latLng: LatLng, point: {x, y}, type, target, originalEvent }
   // Taro 事件格式: BaseEventOrig { type, timeStamp, target, currentTarget, detail, ... }
   const handleMapClick = (e: MapTypes.MapEvent) => {
-    console.log('source click e:', e)
+    console.log(logPrefix, 'source click e:', e)
     if (typeof onTap === 'function') {
       onTap({
         type: e.type,
