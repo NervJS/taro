@@ -200,6 +200,12 @@ interface ButtonProps extends StandardProps {
    * @supported weapp, alipay, swan, tt, jd
    */
   onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
+  /** 获取手机号和风险等级的回调
+   *
+   * 生效时机：`open-type="getPhoneNumberAndRiskLevel"`
+   * @supported ascf
+   */
+  onGetPhoneNumberAndRiskLevel?: CommonEventFunction<ButtonProps.onGetPhoneNumberAndRiskLevelEventDetail>
   /**
    * 手机号实时验证回调，`open-type="getRealtimePhoneNumber"` 时有效
    * @supported weapp
@@ -318,37 +324,18 @@ declare namespace ButtonProps {
   /** open-type 的合法值 */
   interface openTypeKeys {
     ascf: {
-      /** 打开客服会话，如果用户在会话中点击消息卡片后返回小程序，可以从回调中获得具体信息
-       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/customer-message/customer-message.html
-       */
-      contact
-
-      /** 触发用户转发，使用前建议先阅读使用指引
-       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%BC%95
-       */
-      share
-
-      /** 获取用户手机号，可以从回调中获取到用户信息
-       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html
-       */
-      getPhoneNumber
-
-      /** 获取用户信息，可以从回调中获取到用户信息 */
-      getUserInfo
-
-      /** 打开APP，可以通过 app-parameter 属性设定向APP传的参数
-       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/launchApp.html
-       */
-      launchApp
-
-      /** 打开授权设置页 */
-      openSetting
-
-      /** 打开“意见反馈”页面，用户可提交反馈内容并上传日志，开发者可以登录小程序管理后台后进入左侧菜单“客服反馈”页面获取到反馈内容 */
-      feedback
-
-      /** 获取用户头像，可以从回调中获得具体信息 */
-      chooseAvatar
+      /** 获取用户手机号码，当open-type等于该值时，为保障用户隐私，button组件采用同层渲染ArkUI原生functionalButton组件的方式实现。 */
+      getPhoneNumber,
+      /** 打开授权设置页面。 */
+      openSetting,
+      /** 打开应用，可以通过app-bundle-name，app-module-name，app-ability-name，app-parameters属性打开指定应用。当前只支持打开系统应用，或者在元服务跳转三方应用的场景下只能打开同系列开发者的应用，否则会遭到系统生态管控拦截，提示应用无法打开 */
+      launchApp,
+      /** 触发用户分享，用户点击按钮后触发Page.onShareAppMessage事件，只支持分享首页。 */
+      share,
+      /** 获取服务动态授权码，用于推送服务动态。当open-type等于该值时，必须同时指定activity-type属性。 */
+      liveActivity,
+      /** 获取手机号和风险等级。 */
+      getPhoneNumberAndRiskLevel
     }
 
     weapp: {
@@ -549,6 +536,26 @@ declare namespace ButtonProps {
      * @supported alipay
      */
     sign: string
+  }
+  interface onGetPhoneNumberEventDetail {
+    /* 获取用户手机号的调用状态 */
+    errMsg: string
+    /** 包括敏感数据在内的完整用户信息的加密数据 */
+    encryptedData: string
+    /** 加密算法的初始向量 */
+    iv: string
+    /** 动态令牌。可通过动态令牌换取用户手机号。
+     * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%BC%95
+     */
+    code?: string
+    /**
+     * 签名信息，如果在开放平台后台配置了加签方式后有此字段
+     * @supported alipay
+     */
+    sign: string
+  }
+  interface onGetPhoneNumberAndRiskLevelEventDetail {
+    code: string
   }
   interface onGetRealTimePhoneNumberEventDetail {
     code: string
