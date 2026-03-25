@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
-import { useEffect } from 'react'
+import React, { Children, useEffect, useState } from 'react'
 import { MultiMarker, MultiPolyline, TMap } from 'tlbs-map-react'
 
 import { createForwardRefComponent } from '../../utils'
 import { logPrefix } from './common'
 import { registerMapInstance, unregisterMapInstance } from './MapContext'
+import MapCustomCallout from './MapCustomCallout'
 
 import type { MapProps as TaroMapProps } from '@tarojs/components'
-import type React from 'react'
 import type MapTypes from 'tmap-gl-types'
 
 export interface MapProps extends Omit<TaroMapProps, 'onError'> {
@@ -35,10 +35,8 @@ function Map (props: MapProps) {
     onAuthSuccess,
     onError,
   } = props
-
+  // eslint-disable-next-line no-console
   console.log(logPrefix, 'props', props)
-  console.log(logPrefix, 'props.toString', JSON.stringify(props))
-
 
   /** ************************处理 style********************** */
   const styleObj = typeof style === 'string' || style === undefined ? {} : (style as Record<string, string>)
@@ -160,17 +158,22 @@ function Map (props: MapProps) {
     }
   }
 
+  // 存储地图实例,用于 H5 端自定义气泡
+  const [mapInstance, setMapInstance] = useState<MapTypes.Map | null>(null)
+
   // 地图初始化成功
-  const handleMapInited = (mapInstance: MapTypes.Map) => {
-    console.log(logPrefix, '地图初始化成功', mapInstance)
+  const handleMapInited = (instance: MapTypes.Map) => {
+    console.log(logPrefix, '地图初始化成功', instance)
+    setMapInstance(instance)
+
     // 注册地图实例到全局存储
     if (id) {
-      registerMapInstance(id, mapInstance)
+      registerMapInstance(id, instance)
       console.log(logPrefix, '已注册地图实例到 MapContext, id:', id)
     }
 
     let settled = false
-    mapInstance.on('tilesloaded', (_res) => { /** 瓦片加载完成,地图真正可用 */
+    instance.on('tilesloaded', (_res) => { /** 瓦片加载完成,地图真正可用 */
       // TODO: 临时先这么简单处理鉴权成功
       if (!settled && typeof onAuthSuccess === 'function') {
         settled = true
@@ -250,8 +253,83 @@ function Map (props: MapProps) {
       {polylineGeometries.length > 0 ? (
         <MultiPolyline id="taro-polylines" styles={polylineStyles} geometries={polylineGeometries} />
       ) : null}
+
+      {/* H5 端:自动处理 slot="callout" 的 CoverView */}
+      {process.env.TARO_ENV === 'h5' ? renderH5CustomCallouts() : props.children}
     </TMap>
   )
+
+  /**
+   * H5 端渲染自定义气泡
+   * 拦截 slot="callout" 的 CoverView,转换为自定义 Overlay
+   */
+  function renderH5CustomCallouts() {
+    if (!mapInstance) return null
+
+    // 1. 遍历 props.children,找到 slot="callout" 的 CoverView
+    const childrenArray = Children.toArray(props.children)
+    const calloutSlot = childrenArray.find((child: any) =>
+      React.isValidElement(child) && child.props?.slot === 'callout'
+    )
+
+    if (!calloutSlot || !React.isValidElement(calloutSlot)) {
+      return null
+    }
+
+    // 2. 遍历内层的 CoverView,提取 markerId 和内容
+    const innerCoverViews = Children.toArray(calloutSlot.props.children)
+
+    return innerCoverViews.map((child: any) => {
+      if (!React.isValidElement(child)) return null
+
+      const markerId = child.props?.markerId
+      if (!markerId) return null
+
+      // 3. 找到对应的 marker 信息
+      const marker = normalizedMarkers.find((m: any) => m.id === markerId)
+      if (!marker) {
+        console.warn(logPrefix, `未找到 markerId=${markerId} 对应的 marker`)
+        return null
+      }
+
+      // 4. 渲染自定义气泡
+      return (
+        <MapCustomCallout
+          key={markerId}
+          map={mapInstance}
+          markerId={markerId}
+          position={{ lat: marker.latitude, lng: marker.longitude }}
+          anchorX={marker.customCallout?.anchorX ?? 0}
+          anchorY={marker.customCallout?.anchorY ?? 0}
+          display={marker.customCallout?.display ?? 'ALWAYS'}
+          onCalloutTap={(id) => {
+            // 触发 onCalloutTap 事件
+            if (typeof props.onCalloutTap === 'function') {
+              props.onCalloutTap({
+                type: 'callouttap',
+                timeStamp: Date.now(),
+                target: {
+                  id: id || '',
+                  tagName: 'callout',
+                  dataset: {},
+                },
+                currentTarget: {
+                  id: id || '',
+                  tagName: 'callout',
+                  dataset: {},
+                },
+                detail: { markerId: id },
+                preventDefault: () => {},
+                stopPropagation: () => {},
+              })
+            }
+          }}
+        >
+          {child.props.children}
+        </MapCustomCallout>
+      )
+    })
+  }
 }
 
 export default createForwardRefComponent(Map)
