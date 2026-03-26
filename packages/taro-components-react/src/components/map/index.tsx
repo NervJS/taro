@@ -334,5 +334,16 @@ function Map (props: MapProps) {
 
 export default createForwardRefComponent(Map)
 
-// TODO: createMapContext 临时从这里导出，后续需要调整
+/**
+ * @deprecated 请使用 Taro.createMapContext 代替
+ *
+ * 此导出仅用于向后兼容，将在未来版本中移除。
+ *
+ * 推荐用法：
+ * ```tsx
+ * import Taro from '@tarojs/taro'
+ *
+ * const mapCtx = Taro.createMapContext('mapId')
+ * ```
+ */
 export { createMapContext } from './createMapContext'

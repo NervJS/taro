@@ -11,22 +11,44 @@ import type { MapContext as TaroMapContext } from '@tarojs/taro'
 const mapInstances = new Map<string, TMap.Map>()
 
 /**
- * 注册地图实例
+ * 注册地图实例（同时创建 MapContextImpl 并挂载到 window）
  * @param id Map 组件的 id
  * @param instance 地图实例
  */
 export function registerMapInstance(id: string, instance: TMap.Map): void {
   mapInstances.set(id, instance)
   console.log(logPrefix, '[MapContext] 注册地图实例:', id, instance)
+
+  // ✅ 方案 F：创建 MapContextImpl 并挂载到 window
+  if (typeof window !== 'undefined') {
+    // 确保 window 对象存在
+    if (!(window as any).__TARO_MAP_CONTEXTS__) {
+      (window as any).__TARO_MAP_CONTEXTS__ = new Map()
+    }
+
+    // ✅ 在这里 new MapContextImpl（有 TMap 类型）
+    const contextImpl = new MapContextImpl(instance)
+
+    // ✅ 存储 MapContextImpl 实例（不是 TMap.Map 实例）
+    ;(window as any).__TARO_MAP_CONTEXTS__.set(id, contextImpl)
+
+    console.log(logPrefix, '[MapContext] 挂载 MapContextImpl 到 window:', id)
+  }
 }
 
 /**
- * 注销地图实例
+ * 注销地图实例（同时清理 window）
  * @param id Map 组件的 id
  */
 export function unregisterMapInstance(id: string): void {
   mapInstances.delete(id)
   console.log(logPrefix, '[MapContext] 注销地图实例:', id)
+
+  // ✅ 从 window 清理 MapContextImpl
+  if (typeof window !== 'undefined') {
+    (window as any).__TARO_MAP_CONTEXTS__?.delete(id)
+    console.log(logPrefix, '[MapContext] 从 window 清理 MapContextImpl:', id)
+  }
 }
 
 /**
