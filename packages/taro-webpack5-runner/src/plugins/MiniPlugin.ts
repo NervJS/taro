@@ -1244,6 +1244,193 @@ export default class TaroMiniPlugin {
     }
   }
 
+  cloneThirdPartyComponent (
+    thirdPartyComponents: Map<string, Set<string>>,
+    componentName: string
+  ) {
+    const attrs = componentConfig.thirdPartyComponents.get(componentName)
+    if (!attrs || thirdPartyComponents.has(componentName)) return
+
+    thirdPartyComponents.set(componentName, new Set(attrs))
+  }
+
+  getSubPackageIndieEntriesByRoot (root: string): IComponent[] {
+    const entries = new Map<string, IComponent>()
+
+    ;[...this.pages, ...this.components].forEach(item => {
+      if (this.isInSubPackageIndieRoot(item.name) === root) {
+        entries.set(item.name, item)
+      }
+    })
+
+    return Array.from(entries.values())
+  }
+
+  getSubPackageIndieEntryNamesByRoot (root: string): string[] {
+    return this.getSubPackageIndieEntriesByRoot(root).map(item => item.name)
+  }
+
+  getComponentByName (componentName: string): IComponent | undefined {
+    return [...this.pages, ...this.components].find(item => item.name === componentName)
+  }
+
+  getChunksBySubPackageIndieRoot (compilation: Compilation, root: string) {
+    const chunks = new Set<any>()
+
+    this.getSubPackageIndieEntryNamesByRoot(root).forEach(entryName => {
+      const entryChunk = Array.from(compilation.chunks).find(chunk => chunk.name === entryName)
+      if (!entryChunk) return
+
+      chunks.add(entryChunk)
+      entryChunk.groupsIterable.forEach(group => {
+        group.chunks.forEach(chunk => chunks.add(chunk))
+      })
+    })
+
+    return chunks
+  }
+
+  shouldSkipSubPackageIndieModule (module: any, root: string) {
+    const resource = module?.resource || module?.rootModule?.resource
+    if (typeof resource !== 'string' || !resource.startsWith(this.options.sourceDir)) {
+      return false
+    }
+
+    const componentName = this.getComponentName(resource)
+    const targetRoot = this.isInSubPackageIndieRoot(componentName)
+
+    return !!targetRoot && targetRoot !== root
+  }
+
+  expandScopedIncludes (includes: Set<string>) {
+    const scopedIncludes = new Set(includes)
+
+    if (scopedIncludes.has('view')) {
+      scopedIncludes.add('catch-view')
+      scopedIncludes.add('static-view')
+      scopedIncludes.add('pure-view')
+      scopedIncludes.add('click-view')
+    }
+    if (scopedIncludes.has('image')) {
+      scopedIncludes.add('static-image')
+    }
+    if (scopedIncludes.has('text')) {
+      scopedIncludes.add('static-text')
+    }
+
+    return scopedIncludes
+  }
+
+  toDashedComponentName (componentName: string) {
+    return componentName.replace(/[A-Z]/g, (match, offset) => `${offset === 0 ? '' : '-'}${match.toLowerCase()}`)
+  }
+
+  collectScopedInnerComponents (compilation: Compilation, root: string) {
+    const includes = new Set<string>()
+    const assetNames = new Set<string>()
+
+    this.getChunksBySubPackageIndieRoot(compilation, root).forEach(chunk => {
+      chunk.files.forEach(file => {
+        if (typeof file === 'string' && file.endsWith('.js')) {
+          assetNames.add(file)
+        }
+      })
+    })
+
+    assetNames.forEach(assetName => {
+      const asset = compilation.assets[assetName]
+      if (!asset) return
+
+      const source = asset.source().toString()
+      const componentImportReg = /var\s+([A-Za-z0-9_$]+)\s*=\s*__webpack_require__\([^)]*?@tarojs\/components[^)]*?components-react\.js"\);/g
+      const importMatches = Array.from(source.matchAll(componentImportReg))
+
+      importMatches.forEach(([, alias]) => {
+        const usageReg = new RegExp(`${alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\.([A-Z][A-Za-z0-9_$]+)`, 'g')
+        Array.from(source.matchAll(usageReg)).forEach(([, componentName]) => {
+          const dashedName = this.toDashedComponentName(componentName)
+          if (!componentConfig.thirdPartyComponents.has(dashedName)) {
+            includes.add(dashedName)
+          }
+        })
+      })
+    })
+
+    return this.expandScopedIncludes(includes)
+  }
+
+  resolveUsingComponentTarget (filePath: string, componentPath: string) {
+    if (componentPath.startsWith('plugin://')) return null
+
+    let sourcePath = componentPath
+
+    if (path.isAbsolute(componentPath)) {
+      sourcePath = fs.existsSync(componentPath)
+        ? componentPath
+        : path.resolve(this.options.sourceDir, `.${componentPath}`)
+    } else {
+      const isRelativePath = /^[.\\/]/
+      if (!isRelativePath.test(componentPath)) return null
+      sourcePath = path.resolve(path.dirname(filePath), componentPath)
+    }
+
+    const targetPath = resolveMainFilePath(sourcePath)
+    const targetName = this.getComponentName(targetPath)
+
+    return {
+      path: targetPath,
+      name: targetName,
+      root: this.isInSubPackageIndieRoot(targetName)
+    }
+  }
+
+  getScopedSubPackageIndieComponentConfig (compilation: Compilation, root: string) {
+    const thirdPartyComponents = new Map<string, Set<string>>()
+    const queue = this.getSubPackageIndieEntriesByRoot(root)
+    const visited = new Set<string>()
+
+    this.cloneThirdPartyComponent(thirdPartyComponents, customWrapperName)
+
+    while (queue.length) {
+      const current = queue.shift()
+      if (!current || visited.has(current.name)) continue
+
+      visited.add(current.name)
+
+      const fileConfig = this.filesConfig[this.getConfigFilePath(current.name)]?.content
+      const usingComponents = fileConfig?.usingComponents
+      if (!usingComponents) continue
+
+      for (const [componentName, componentValue] of Object.entries(usingComponents)) {
+        if (componentName === customWrapperName) {
+          this.cloneThirdPartyComponent(thirdPartyComponents, componentName)
+          continue
+        }
+
+        if (!componentConfig.thirdPartyComponents.has(componentName)) continue
+
+        const componentPath = componentValue instanceof Array ? componentValue[0] : componentValue
+        const target = this.resolveUsingComponentTarget(current.path!, componentPath)
+
+        this.cloneThirdPartyComponent(thirdPartyComponents, componentName)
+
+        if (!target) continue
+
+        const targetComponent = this.getComponentByName(target.name)
+        if (targetComponent && (!target.root || target.root === root) && !visited.has(targetComponent.name)) {
+          queue.push(targetComponent)
+        }
+      }
+    }
+
+    return {
+      includes: this.collectScopedInnerComponents(compilation, root),
+      exclude: new Set(componentConfig.exclude),
+      thirdPartyComponents,
+      includeAll: false
+    }
+  }
+
   /**
    * 为子分包独立模板生成相关文件
    * - base.wxml: 完整模板
@@ -1264,13 +1451,15 @@ export default class TaroMiniPlugin {
     const allIndieRoots = this.getAllIndieRoots()
 
     allIndieRoots.forEach(root => {
+      const scopedComponentConfig = this.getScopedSubPackageIndieComponentConfig(compilation, root)
+
       // 1. 生成 base.wxml
       this.generateTemplateFile(
         compilation,
         compiler,
         `${root}/${baseTemplateName}`,
         template.buildTemplate,
-        componentConfig
+        scopedComponentConfig
       )
 
       // 2. 生成 utils.wxs
@@ -1289,7 +1478,9 @@ export default class TaroMiniPlugin {
         const compConfig: Record<string, any> = {
           component: true,
           styleIsolation: STYLE_ISOLATION_APPLY_SHARED,
-          usingComponents: {}
+          usingComponents: {
+            [baseCompName]: `./${baseCompName}`
+          }
         }
         // 只有使用 custom-wrapper 时才添加引用
         if (isUsingCustomWrapper) {
@@ -1372,14 +1563,17 @@ export default class TaroMiniPlugin {
       this.generateTemplateFile(compilation, compiler, `${name}/${baseTemplateName}`, template.buildTemplate, componentConfig)
       if (!template.isSupportRecursive) {
         // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
-        this.generateConfigFile(compilation, compiler, `${name}/${baseCompName}`, {
+        const compConfig = {
           component: true,
           styleIsolation: STYLE_ISOLATION_APPLY_SHARED,
           usingComponents: {
-            [baseCompName]: `./${baseCompName}`,
-            [customWrapperName]: `./${customWrapperName}`
+            [baseCompName]: `./${baseCompName}`
           }
-        })
+        } as Config & { component?: boolean, usingComponents: Record<string, string> }
+        if (isUsingCustomWrapper) {
+          compConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
+        }
+        this.generateConfigFile(compilation, compiler, `${name}/${baseCompName}`, compConfig)
         this.generateTemplateFile(compilation, compiler, `${name}/${baseCompName}`, template.buildBaseComponentTemplate, this.options.fileType.templ)
       }
       this.generateConfigFile(compilation, compiler, `${name}/${customWrapperName}`, {
