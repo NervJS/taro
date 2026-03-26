@@ -200,6 +200,12 @@ interface ButtonProps extends StandardProps {
    * @supported weapp, alipay, swan, tt, jd
    */
   onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
+  /** 获取手机号和风险等级的回调
+   *
+   * 生效时机：`open-type="getPhoneNumberAndRiskLevel"`
+   * @supported ascf
+   */
+  onGetPhoneNumberAndRiskLevel?: CommonEventFunction<ButtonProps.onGetPhoneNumberAndRiskLevelEventDetail>
   /**
    * 手机号实时验证回调，`open-type="getRealtimePhoneNumber"` 时有效
    * @supported weapp
@@ -314,8 +320,23 @@ declare namespace ButtonProps {
     | keyof openTypeKeys['alipay']
     | keyof openTypeKeys['qq']
     | keyof openTypeKeys['tt']
+    | keyof openTypeKeys['ascf']
   /** open-type 的合法值 */
   interface openTypeKeys {
+    ascf: {
+      /** 获取用户手机号码，当open-type等于该值时，为保障用户隐私，button组件采用同层渲染ArkUI原生functionalButton组件的方式实现。 */
+      getPhoneNumber,
+      /** 打开授权设置页面。 */
+      openSetting,
+      /** 打开应用，可以通过app-bundle-name，app-module-name，app-ability-name，app-parameters属性打开指定应用。当前只支持打开系统应用，或者在元服务跳转三方应用的场景下只能打开同系列开发者的应用，否则会遭到系统生态管控拦截，提示应用无法打开 */
+      launchApp,
+      /** 触发用户分享，用户点击按钮后触发Page.onShareAppMessage事件，只支持分享首页。 */
+      share,
+      /** 获取服务动态授权码，用于推送服务动态。当open-type等于该值时，必须同时指定activity-type属性。 */
+      liveActivity,
+      /** 获取手机号和风险等级。 */
+      getPhoneNumberAndRiskLevel
+    }
     weapp: {
       /** 打开客服会话，如果用户在会话中点击消息卡片后返回小程序，可以从回调中获得具体信息
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/customer-message/customer-message.html
@@ -514,6 +535,9 @@ declare namespace ButtonProps {
      * @supported alipay
      */
     sign: string
+  }
+  interface onGetPhoneNumberAndRiskLevelEventDetail {
+    code: string
   }
   interface onGetRealTimePhoneNumberEventDetail {
     code: string
