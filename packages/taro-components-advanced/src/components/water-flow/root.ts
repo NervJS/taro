@@ -70,9 +70,19 @@ export class Root extends StatefulEventBus<RootState, Events> {
    */
   sections: Section[] = []
   /**
-   * 设置预加载的 Item 条数。
+   * 设置预加载的 Item 条数（与 props.cacheCount 一致，收敛目标）。
    */
   cacheCount = 1
+
+  /**
+   * Node 层向上（列索引减小方向）预缓存条数，可与 cacheCount 不同（快速滑动单边放大）。
+   */
+  nodeCacheBackward = 1
+
+  /**
+   * Node 层向下（列索引增大方向）预缓存条数。
+   */
+  nodeCacheForward = 1
 
   upperThresholdCount = 0
 
@@ -95,7 +105,7 @@ export class Root extends StatefulEventBus<RootState, Events> {
   private _inUpperZone = true
   /** 当前是否处于触底区域；初始为 false */
   private _inLowerZone = false
-  /** scrollHeight 防抖（raf），避免 pushNodes + 测量 导致的 先涨后跌 闪动 */
+  /** scrollHeight 更新防抖（raf），减轻 pushNodes 后测量前后的高度跳变 */
   private _scrollHeightRafId: number | null = null
 
   constructor(props: RootProps) {
@@ -118,6 +128,8 @@ export class Root extends StatefulEventBus<RootState, Events> {
       upperThresholdCount,
       skipContainerMeasure: !!skipContainerMeasure,
     })
+    this.nodeCacheBackward = cacheCount
+    this.nodeCacheForward = cacheCount
     this.setupSubscriptions()
     if (!skipContainerMeasure) {
       getRectSizeSync(`#${id}`, 100).then(({ width = windowWidth, height = windowHeight }) => {
@@ -134,23 +146,16 @@ export class Root extends StatefulEventBus<RootState, Events> {
    * 设置订阅事件
    */
   private setupSubscriptions() {
-    /**
-     * 滚动过程中计算渲染的分组区间
-     * 滚动过程中分组的最大高度会发生更新，可以在这时计算滚动高度
-     */
-    this.sub('scrollOffset', () => {
-      this.setStateIn('renderRange', this.getSectionRenderRange())
-      this.handleReachThreshold()
-      this.updateScrollHeight()
-    })
-
+    /** 滚动：先更新触底阈值，再判触顶/触底并更新分组与总高度，避免同一帧内沿用无效阈值。 */
     this.sub('scrollOffset', () => {
       const sectionSize = this.sections.length
       const lastSection = this.sections[sectionSize - 1]
-      // 最后一个分组的每一列最后一行都已经完成了布局计算，那么这个时候的总高度应该是准确的
       if (lastSection?.columnMap.every((column) => column[column.length - 1]?.getState().layouted)) {
         this.setLowerThresholdScrollTop()
       }
+      this.setStateIn('renderRange', this.getSectionRenderRange())
+      this.handleReachThreshold()
+      this.updateScrollHeight()
     })
 
     this.sub(RootEvents.AllSectionsLayouted, () => {
@@ -268,7 +273,9 @@ export class Root extends StatefulEventBus<RootState, Events> {
       // 必须用 sectionRange 实时计算，避免依赖可能未更新的 scrollHeight 状态
       const range = this.sectionRange
       const totalHeight = range.length > 0 ? range[range.length - 1][1] : 0
-      this.lowerThresholdScrollTop = totalHeight - this.getState().containerSize.height
+      // 触底判定：scrollOffset + containerSize.height >= lowerThresholdScrollTop
+      // 须存内容底边 totalHeight(H)。若误存 H-h，则顶部时 h 与 H-h 比较，当 2h>=H 会恒判为在触底区，误触 onScrollToLower。
+      this.lowerThresholdScrollTop = totalHeight
       return 0
     }
     const sectionSize = this.sections.length
@@ -334,6 +341,15 @@ export class Root extends StatefulEventBus<RootState, Events> {
   }
 
   /**
+   * 列表追加并完成 finalize 后调用：重置触底边沿状态（_inLowerZone），
+   * 使用户仍在底部时下一次滚动能再次触发 onScrollToLower，而不必先上滑再下滑。
+   * 不在此处同步调用 handleReachThreshold，避免仍在底部时立刻连发触底（与误触区分）。
+   */
+  public resetLowerReachEdgeAfterContentChange () {
+    this._inLowerZone = false
+  }
+
+  /**
    * 容器的滚动上边界
    */
   get scrollBoundaryStart() {
@@ -369,9 +385,8 @@ export class Root extends StatefulEventBus<RootState, Events> {
   }
 
   /**
-   * 计算滚动高度
-   * 防抖一帧（raf），避免 pushNodes 后测量完成前出现 先涨（未测量默认高度）后跌（真实高度）导致的闪动
-   * @param immediate 为 true 时立即执行，不防抖（pushNodes 调用，避免容器高度滞后导致往上抖动）
+   * 更新总滚动高度（各 Section 累计）。
+   * @param immediate true 时跳过 raf 防抖（如 finalizePushNodesStateIfNeeded），避免高度滞后引起跳动
    */
   public updateScrollHeight(immediate = false) {
     const flush = () => {
@@ -426,6 +441,24 @@ export class Root extends StatefulEventBus<RootState, Events> {
   }
 
   /**
+   * 设置 Node 层上下方向预缓存条数，并刷新可见分组内的列渲染区间。
+   */
+  public setNodeCacheRange (backward: number, forward: number) {
+    const b = Math.max(0, Math.floor(backward))
+    const f = Math.max(0, Math.floor(forward))
+    if (this.nodeCacheBackward === b && this.nodeCacheForward === f) {
+      return
+    }
+    this.nodeCacheBackward = b
+    this.nodeCacheForward = f
+    for (const section of this.sections) {
+      if (section.isInRange) {
+        section.setStateIn('renderRange', section.getNodeRenderRange())
+      }
+    }
+  }
+
+  /**
    * 获取分组渲染区间
    */
   public getSectionRenderRange() {
@@ -447,10 +480,10 @@ export class Root extends StatefulEventBus<RootState, Events> {
       result[1] = this.sections.length - 1
     }
 
-    const scrollDirection = this.getState().scrollDirection
     const [backwardCache, forwardCache] = this.calcCacheSection(result)
-    const backwardDistance = scrollDirection === 'backward' ? backwardCache : 0
-    const forwardDistance = scrollDirection === 'forward' ? forwardCache : 0
+    // 双向预缓存，避免反向滚动时出现空白（原逻辑仅在滚动方向缓存，反向时未预渲染）
+    const backwardDistance = backwardCache
+    const forwardDistance = forwardCache
 
     const overscanBackward = result[0] - backwardDistance
     const overscanForward = result[1] + forwardDistance

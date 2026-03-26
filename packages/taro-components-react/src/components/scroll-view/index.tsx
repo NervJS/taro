@@ -33,11 +33,18 @@ function easeOutScroll (from = 0, to = 0, callback) {
   step()
 }
 
-function scrollIntoView (id = '', isHorizontal = false, animated = true, scrollIntoViewAlignment?: ScrollLogicalPosition) {
+/** 未开启的滚动轴使用 nearest 避免原生 scrollIntoView 沿该轴滚动整页 */
+function scrollIntoView (
+  id = '',
+  animated = true,
+  scrollX = false,
+  scrollY = false,
+  scrollIntoViewAlignment?: ScrollLogicalPosition
+) {
   document.querySelector(`#${id}`)?.scrollIntoView({
     behavior: animated ? 'smooth' : 'auto',
-    block: !isHorizontal ? (scrollIntoViewAlignment || 'center') : 'center',
-    inline: isHorizontal ? (scrollIntoViewAlignment || 'start') : 'start'
+    block: scrollY ? (scrollIntoViewAlignment || 'center') : 'nearest',
+    inline: scrollX ? (scrollIntoViewAlignment || 'start') : 'nearest'
   })
 }
 
@@ -110,11 +117,26 @@ function ScrollView (props: IProps) {
       document.querySelector &&
       document.querySelector(`#${props.scrollIntoView}`)
     ) {
-      const isHorizontal = props.scrollX && !props.scrollY
       if (isInit) {
-        setTimeout(() => scrollIntoView(props.scrollIntoView, props.scrollWithAnimation, isHorizontal, props.scrollIntoViewAlignment), 500)
+        setTimeout(
+          () =>
+            scrollIntoView(
+              props.scrollIntoView,
+              props.scrollWithAnimation,
+              !!props.scrollX,
+              !!props.scrollY,
+              props.scrollIntoViewAlignment
+            ),
+          500
+        )
       } else {
-        scrollIntoView(props.scrollIntoView, props.scrollWithAnimation, isHorizontal, props.scrollIntoViewAlignment)
+        scrollIntoView(
+          props.scrollIntoView,
+          props.scrollWithAnimation,
+          !!props.scrollX,
+          !!props.scrollY,
+          props.scrollIntoViewAlignment
+        )
       }
     } else {
       const isAnimation = !!props.scrollWithAnimation
@@ -139,7 +161,15 @@ function ScrollView (props: IProps) {
     if (isInitializedRef.current && container.current) {
       handleScroll(props, false)
     }
-  }, [props.scrollTop, props.scrollLeft, props.scrollIntoView])
+  }, [
+    props.scrollTop,
+    props.scrollLeft,
+    props.scrollIntoView,
+    props.scrollIntoViewAlignment,
+    props.scrollWithAnimation,
+    props.scrollX,
+    props.scrollY
+  ])
 
   const {
     className,
