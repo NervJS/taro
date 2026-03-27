@@ -19,4 +19,5 @@ export const needPromiseApis = new Set([
   'rateAwemeOrder',
   'showDouyinOpenAuth',
   'showInteractionBar',
+  'chooseMedia',
 ])
