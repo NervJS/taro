@@ -1,17 +1,34 @@
 /* eslint-disable no-console */
 import Taro from '@tarojs/api'
 
+import { temporarilyNotSupport } from '../../utils'
+
 /**
  * 创建地图上下文 MapContext 对象
  *
- * 通过 window.__TARO_MAP_CONTEXTS__ 获取 MapContextImpl 实例
- * 该实例由 @tarojs/components-react 在地图初始化时创建并挂载
+ * @param mapId Map 组件的 id
+ * @param _inst 自定义组件实例（暂未使用）
+ * @param type Map 组件类型：'react' 新 Map (components-react，默认)，'legacy' 老 Map (components)
+ * @returns MapContext 实例
+ *
+ * 新 Map (components-react)：通过 window.__TARO_MAP_CONTEXTS__ 获取 MapContextImpl 实例
+ * 老 Map (components)：暂不支持，后续实现
  */
-export const createMapContext: typeof Taro.createMapContext = (
+export function createMapContext(
   mapId: string,
-  _inst?: any
-): Taro.MapContext => {
-  // ✅ 从 window 获取 MapContextImpl 实例（不是 TMap.Map 实例）
+  _inst?: any,
+  type?: 'legacy' | 'react'
+): Taro.MapContext {
+  // 默认为新 Map (react)
+  const mapType = type ?? 'react'
+
+  // 老 Map：暂不支持
+  if (mapType === 'legacy') {
+    console.warn('[createMapContext] legacy Map (taro-components) 暂不支持 createMapContext')
+    return temporarilyNotSupport('createMapContext')(mapId, _inst) as any
+  }
+
+  // 新 Map：从 window 获取 MapContextImpl 实例
   const contextImpl = (window as any).__TARO_MAP_CONTEXTS__?.get(mapId) as Taro.MapContext
 
   if (!contextImpl) {
