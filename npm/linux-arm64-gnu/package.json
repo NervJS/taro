@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/binding-linux-arm64-gnu",
   "description": "Native binding for taro",
-  "version": "4.1.12-beta.18",
+  "version": "4.1.12-beta.20",
   "os": [
     "linux"
   ],
