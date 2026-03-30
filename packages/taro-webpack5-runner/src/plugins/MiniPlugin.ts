@@ -41,6 +41,7 @@ const baseCompName = 'comp'
 const customWrapperName = 'custom-wrapper'
 const PLUGIN_NAME = 'TaroMiniPlugin'
 const CHILD_COMPILER_TAG = 'child'
+const SUBPACKAGE_STANDALONE_CHILD_TAG = 'sub_package_indie_standalone_child'
 const STYLE_ISOLATION_APPLY_SHARED = 'apply-shared'
 
 interface ITaroMiniPluginOptions {
@@ -241,6 +242,7 @@ export default class TaroMiniPlugin {
         const dependencies = this.dependencies
         const promises: Promise<null>[] = []
         this.compileIndependentPages(compiler, compilation, dependencies, promises)
+        this.compileSubPackageIndieStandaloneEntries(compiler, compilation, promises)
         dependencies.forEach(dep => {
           promises.push(new Promise<null>((resolve, reject) => {
             compilation.addEntry(this.options.sourceDir, dep, {
@@ -340,6 +342,7 @@ export default class TaroMiniPlugin {
           stage: PROCESS_ASSETS_STAGE_ADDITIONAL
         },
         this.tryAsync<any>(async () => {
+          if ((compilation as any).__tag === SUBPACKAGE_STANDALONE_CHILD_TAG) return
           // 如果是子编译器，证明是编译独立分包，进行单独的处理
           if ((compilation as any).__tag === CHILD_COMPILER_TAG) {
             await this.generateIndependentMiniFiles(compilation, compiler)
@@ -356,6 +359,7 @@ export default class TaroMiniPlugin {
           stage: PROCESS_ASSETS_STAGE_OPTIMIZE
         },
         this.tryAsync<any>(async () => {
+          if ((compilation as any).__tag === SUBPACKAGE_STANDALONE_CHILD_TAG) return
           await this.optimizeMiniFiles(compilation, compiler)
         })
       )
@@ -367,6 +371,7 @@ export default class TaroMiniPlugin {
           stage: PROCESS_ASSETS_STAGE_REPORT
         },
         this.tryAsync<any>(async () => {
+          if ((compilation as any).__tag === SUBPACKAGE_STANDALONE_CHILD_TAG) return
           if (typeof modifyBuildAssets === 'function') {
             await modifyBuildAssets(compilation.assets, this)
           }
@@ -763,6 +768,10 @@ export default class TaroMiniPlugin {
     return Array.from(new Set(this.getSubPackageIndieConfigs().map(item => item.mainPackageRoot)))
   }
 
+  getAllSubPackageRoots (): string[] {
+    return Array.from(new Set(this.getSubPackageIndieConfigs().flatMap(item => item.subPackageRoots)))
+  }
+
   hasSubPackageIndieMainPackageRoot (): boolean {
     return this.getAllMainPackageRoots().length > 0
   }
@@ -869,7 +878,6 @@ export default class TaroMiniPlugin {
    */
   addEntries () {
     const { template, newBlended } = this.options
-    const hasSubPackageIndie = this.getSubPackageIndieConfigs().length > 0
 
     this.addEntry(this.appEntry, 'app', META_TYPE.ENTRY)
 
@@ -883,16 +891,7 @@ export default class TaroMiniPlugin {
       this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), 'custom-wrapper', META_TYPE.STATIC)
     }
 
-    // ★ 为子分包独立模板添加 comp 和 custom-wrapper 入口
-    if (hasSubPackageIndie && newBlended) {
-      const allIndieRoots = this.getAllIndieRoots()
-      allIndieRoots.forEach(root => {
-        if (!template.isSupportRecursive) {
-          this.addEntry(path.resolve(__dirname, '..', 'template/comp'), `${root}/comp`, META_TYPE.STATIC)
-        }
-        this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), `${root}/custom-wrapper`, META_TYPE.STATIC)
-      })
-    }
+    // subPackageIndie 下的 comp/custom-wrapper 统一走独立子编译器，避免被主编译的公共 chunk 共享
 
     this.pages.forEach(item => {
       if (item.isNative) {
@@ -1176,6 +1175,67 @@ export default class TaroMiniPlugin {
         }).catch(err => console.log(err)))
       })
     }
+  }
+
+  compileSubPackageIndieStandaloneEntries (compiler: Compiler, compilation: Compilation, promises: Promise<null>[]) {
+    const { newBlended, template } = this.options
+    const indieRoots = this.getAllIndieRoots()
+    const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has(customWrapperName)
+
+    if (!newBlended || !indieRoots.length) return
+    if (template.isSupportRecursive && !isUsingCustomWrapper) return
+
+    const JsonpTemplatePlugin = require('webpack/lib/web/JsonpTemplatePlugin')
+    const NaturalChunkIdsPlugin = require('webpack/lib/ids/NaturalChunkIdsPlugin')
+
+    indieRoots.forEach(root => {
+      const childCompiler = compilation.createChildCompiler(PLUGIN_NAME, {
+        path: compiler.options.output.path,
+        filename: '[name].js',
+        chunkFilename: '[name].js',
+        chunkLoadingGlobal: `subpackage_indie_${root.replace(/[\\/]/g, '_')}`
+      })
+
+      childCompiler.inputFileSystem = compiler.inputFileSystem
+      childCompiler.outputFileSystem = compiler.outputFileSystem
+      childCompiler.context = compiler.context
+      new JsonpTemplatePlugin().apply(childCompiler)
+      new NaturalChunkIdsPlugin().apply(childCompiler)
+      new compiler.webpack.DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
+
+      childCompiler.hooks.compilation.tap(PLUGIN_NAME, (childCompilation) => {
+        (childCompilation as any).__tag = SUBPACKAGE_STANDALONE_CHILD_TAG
+        ;(childCompilation as any).__name = root
+      })
+
+      childCompiler.options.optimization = {
+        ...childCompiler.options.optimization,
+        splitChunks: false,
+        runtimeChunk: false
+      }
+
+      if (!template.isSupportRecursive) {
+        new TaroSingleEntryPlugin(
+          compiler.context,
+          path.resolve(__dirname, '..', 'template/comp'),
+          `${root}/comp`,
+          META_TYPE.STATIC
+        ).apply(childCompiler)
+      }
+
+      if (isUsingCustomWrapper) {
+        new TaroSingleEntryPlugin(
+          compiler.context,
+          path.resolve(__dirname, '..', 'template/custom-wrapper'),
+          `${root}/custom-wrapper`,
+          META_TYPE.STATIC
+        ).apply(childCompiler)
+      }
+
+      promises.push(new Promise<null>((resolve, reject) => {
+        childCompiler.runAsChild(err => err ? reject(err) : resolve(null))
+      }))
+    })
   }
 
   /**
@@ -1714,6 +1774,27 @@ export default class TaroMiniPlugin {
       const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(component.name)]
       if (config) {
+        const indieMatch = this.getSubPackageIndieMatch(component.name)
+        if (indieMatch && !component.isNative) {
+          const importBaseCompPath = promoteRelativePath(
+            path.relative(component.path, path.join(sourceDir, indieMatch.root, this.getTargetFilePath(baseCompName, '')))
+          )
+          const importCustomWrapperPath = promoteRelativePath(
+            path.relative(component.path, path.join(sourceDir, indieMatch.root, this.getTargetFilePath(customWrapperName, '')))
+          )
+
+          config.content.usingComponents = {
+            ...config.content.usingComponents
+          }
+
+          if (isUsingCustomWrapper && !config.content.usingComponents[customWrapperName]) {
+            config.content.usingComponents[customWrapperName] = importCustomWrapperPath
+          }
+          if (!template.isSupportRecursive && !config.content.usingComponents[baseCompName]) {
+            config.content.usingComponents[baseCompName] = importBaseCompPath
+          }
+        }
+
         this.generateConfigFile(compilation, compiler, component.path, config.content)
       }
       if (!component.isNative) {
