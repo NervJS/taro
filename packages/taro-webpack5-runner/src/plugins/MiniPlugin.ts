@@ -39,6 +39,8 @@ import type TaroNormalModule from './TaroNormalModule'
 
 const baseCompName = 'comp'
 const customWrapperName = 'custom-wrapper'
+const subPackageIndieCustomWrapperRootsKey = '__taroSubPackageIndieCustomWrapperRoots'
+const recursiveComponentName = 'recursive-component'
 const PLUGIN_NAME = 'TaroMiniPlugin'
 const CHILD_COMPILER_TAG = 'child'
 const SUBPACKAGE_STANDALONE_CHILD_TAG = 'sub_package_indie_standalone_child'
@@ -1179,7 +1181,7 @@ export default class TaroMiniPlugin {
   }
 
   compileSubPackageIndieStandaloneEntries (compiler: Compiler, compilation: Compilation, promises: Promise<null>[]) {
-    const { newBlended, template } = this.options
+    const { newBlended } = this.options
     const indieRoots = this.getAllIndieRoots()
 
     if (!newBlended || !indieRoots.length) return
@@ -1213,22 +1215,23 @@ export default class TaroMiniPlugin {
         runtimeChunk: false
       }
 
-      if (!template.isSupportRecursive) {
-        new TaroSingleEntryPlugin(
-          compiler.context,
-          path.resolve(__dirname, '..', 'template/comp'),
-          `${root}/comp`,
-          META_TYPE.STATIC
-        ).apply(childCompiler)
+      const outputOptions: any = childCompiler.options.output || {}
+      const libraryOptions = typeof outputOptions.library === 'object' && outputOptions.library !== null
+        ? outputOptions.library
+        : {}
+      childCompiler.options.output = {
+        ...outputOptions,
+        library: {
+          ...libraryOptions,
+          type: 'commonjs2'
+        }
       }
 
-      // CustomWrapper 的使用信息要到 parser/finishModules 后才稳定。
-      // 这里始终注册静态入口，避免 subPackageIndie 子编译在 make 阶段错过 custom-wrapper.js。
       new TaroSingleEntryPlugin(
         compiler.context,
-        path.resolve(__dirname, '..', 'template/custom-wrapper'),
-        `${root}/custom-wrapper`,
-        META_TYPE.STATIC
+        path.resolve(__dirname, '..', 'template/recursive-component'),
+        `${root}/${recursiveComponentName}`,
+        META_TYPE.EXPORTS
       ).apply(childCompiler)
 
       promises.push(new Promise<null>((resolve, reject) => {
@@ -1349,6 +1352,46 @@ export default class TaroMiniPlugin {
     return chunks
   }
 
+  getModuleSourceContent (module: any): string {
+    try {
+      const source = module?.originalSource?.()
+      if (!source || typeof source.source !== 'function') return ''
+      return String(source.source() || '')
+    } catch (_err) {
+      return ''
+    }
+  }
+
+  isSubPackageIndieRootUsingCustomWrapperByModules (compilation: Compilation, root: string) {
+    const chunks = this.getChunksBySubPackageIndieRoot(compilation, root)
+
+    for (const chunk of chunks) {
+      const modules = chunk?.modulesIterable
+      if (!modules) continue
+
+      for (const module of modules) {
+        if (this.shouldSkipSubPackageIndieModule(module, root)) continue
+
+        const resource = module?.resource || module?.rootModule?.resource
+        if (typeof resource !== 'string' || !resource.startsWith(this.options.sourceDir)) continue
+
+        const source = this.getModuleSourceContent(module)
+        if (!source) continue
+
+        // 仅识别真实组件使用，避免被字符串文案中的 “CustomWrapper” 误判
+        const isJsxUsage = /<\s*CustomWrapper(?:\s|>)/.test(source)
+        const isImportUsage = /import\s*{[^}]*\bCustomWrapper\b[^}]*}\s*from\s*['"]@tarojs\/components['"]/.test(source)
+        const isCompiledUsage = /components-react/.test(source) && /\.(?:CustomWrapper|RW)\b/.test(source)
+
+        if (isJsxUsage || isImportUsage || isCompiledUsage) {
+          return true
+        }
+      }
+    }
+
+    return false
+  }
+
   shouldSkipSubPackageIndieModule (module: any, root: string) {
     const resource = module?.resource || module?.rootModule?.resource
     if (typeof resource !== 'string' || !resource.startsWith(this.options.sourceDir)) {
@@ -1418,6 +1461,47 @@ export default class TaroMiniPlugin {
     return this.expandScopedIncludes(includes)
   }
 
+  isSubPackageIndieRootUsingCustomWrapper (
+    compilation: Compilation,
+    root: string,
+    scopedThirdPartyComponents?: Map<string, Set<string>>
+  ) {
+    if (scopedThirdPartyComponents?.has(customWrapperName)) {
+      return true
+    }
+
+    if (this.isSubPackageIndieRootUsingCustomWrapperByModules(compilation, root)) {
+      return true
+    }
+
+    const assetNames = new Set<string>()
+    this.getChunksBySubPackageIndieRoot(compilation, root).forEach(chunk => {
+      chunk.files.forEach(file => {
+        if (typeof file === 'string' && file.endsWith('.js')) {
+          assetNames.add(file)
+        }
+      })
+    })
+
+    for (const assetName of assetNames) {
+      const asset = compilation.assets[assetName]
+      if (!asset) continue
+
+      const source = asset.source().toString()
+      const componentImportReg = /var\s+([A-Za-z0-9_$]+)\s*=\s*__webpack_require__\([^)]*?@tarojs\/components[^)]*?components-react\.js"\);/g
+      const importMatches = Array.from(source.matchAll(componentImportReg))
+
+      for (const [, alias] of importMatches) {
+        const usageReg = new RegExp(`${alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\.CustomWrapper\\b`, 'g')
+        if (usageReg.test(source)) {
+          return true
+        }
+      }
+    }
+
+    return false
+  }
+
   resolveUsingComponentTarget (filePath: string, componentPath: string) {
     if (componentPath.startsWith('plugin://')) return null
 
@@ -1447,8 +1531,6 @@ export default class TaroMiniPlugin {
     const thirdPartyComponents = new Map<string, Set<string>>()
     const queue = this.getSubPackageIndieEntriesByRoot(root)
     const visited = new Set<string>()
-
-    this.cloneThirdPartyComponent(thirdPartyComponents, customWrapperName)
 
     while (queue.length) {
       const current = queue.shift()
@@ -1502,15 +1584,28 @@ export default class TaroMiniPlugin {
     compilation: Compilation,
     compiler: Compiler,
     template: RecursiveTemplate | UnRecursiveTemplate,
-    baseTemplateName: string,
-    isUsingCustomWrapper: boolean
-  ) {
-    if (!this.getSubPackageIndieConfigs().length) return
+    baseTemplateName: string
+  ): Set<string> {
+    const customWrapperRoots = new Set<string>()
+    if (!this.getSubPackageIndieConfigs().length) return customWrapperRoots
 
     const allIndieRoots = this.getAllIndieRoots()
 
     allIndieRoots.forEach(root => {
       const scopedComponentConfig = this.getScopedSubPackageIndieComponentConfig(compilation, root)
+      const isRootUsingCustomWrapper = this.isSubPackageIndieRootUsingCustomWrapper(
+        compilation,
+        root,
+        scopedComponentConfig.thirdPartyComponents
+      )
+      if (isRootUsingCustomWrapper) {
+        customWrapperRoots.add(root)
+        // base.wxml 模板生成依赖 thirdPartyComponents，确保 custom-wrapper 模板不会漏掉
+        if (!scopedComponentConfig.thirdPartyComponents.has(customWrapperName)) {
+          const attrs = componentConfig.thirdPartyComponents.get(customWrapperName)
+          scopedComponentConfig.thirdPartyComponents.set(customWrapperName, new Set(attrs || []))
+        }
+      }
 
       // 1. 生成 base.wxml
       this.generateTemplateFile(
@@ -1526,6 +1621,12 @@ export default class TaroMiniPlugin {
 
       // 3. 生成 comp.wxml 和 comp.json（如果不支持递归模板）
       if (!template.isSupportRecursive) {
+        this.generateSubPackageIndieScriptFile(
+          compilation,
+          compiler,
+          `${root}/${baseCompName}`,
+          this.createRecursiveComponentWrapperSource()
+        )
         this.generateTemplateFile(
           compilation,
           compiler,
@@ -1542,14 +1643,20 @@ export default class TaroMiniPlugin {
           }
         }
         // 只有使用 custom-wrapper 时才添加引用
-        if (isUsingCustomWrapper) {
+        if (isRootUsingCustomWrapper) {
           compConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
         }
         this.generateConfigFile(compilation, compiler, `${root}/${baseCompName}`, compConfig)
       }
 
       // 4. 生成 custom-wrapper（如果需要）
-      if (isUsingCustomWrapper) {
+      if (isRootUsingCustomWrapper) {
+        this.generateSubPackageIndieScriptFile(
+          compilation,
+          compiler,
+          `${root}/${customWrapperName}`,
+          this.createRecursiveComponentWrapperSource(customWrapperName)
+        )
         this.generateTemplateFile(
           compilation,
           compiler,
@@ -1568,6 +1675,8 @@ export default class TaroMiniPlugin {
         })
       }
     })
+
+    return customWrapperRoots
   }
 
   /**
@@ -1692,6 +1801,8 @@ export default class TaroMiniPlugin {
     const { modifyMiniConfigs } = combination.config
     const baseTemplateName = 'base'
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
+    let subPackageIndieCustomWrapperRoots = new Set<string>()
+    ;(compilation as any)[subPackageIndieCustomWrapperRootsKey] = subPackageIndieCustomWrapperRoots
 
     /**
      * 与原生小程序混写时解析模板与样式
@@ -1764,7 +1875,8 @@ export default class TaroMiniPlugin {
 
     // ★ 为子分包生成独立的模板文件（base.wxml, utils.wxs, comp.*, custom-wrapper.*）
     if (this.getSubPackageIndieConfigs().length && this.options.newBlended) {
-      this.generateSubPackageIndieFiles(compilation, compiler, template, baseTemplateName, isUsingCustomWrapper)
+      subPackageIndieCustomWrapperRoots = this.generateSubPackageIndieFiles(compilation, compiler, template, baseTemplateName)
+      ;(compilation as any)[subPackageIndieCustomWrapperRootsKey] = subPackageIndieCustomWrapperRoots
       // 注意：runtime chunks (app.js, app.wxss 等) 需要在 injectCommonStyles 之后生成，
       // 因为 injectCommonStyles 会修改 app.wxss 并创建 app-origin.wxss
     }
@@ -1786,7 +1898,8 @@ export default class TaroMiniPlugin {
             ...config.content.usingComponents
           }
 
-          if (isUsingCustomWrapper && !config.content.usingComponents[customWrapperName]) {
+          const isRootUsingCustomWrapper = subPackageIndieCustomWrapperRoots.has(indieMatch.root)
+          if (isRootUsingCustomWrapper && !config.content.usingComponents[customWrapperName]) {
             config.content.usingComponents[customWrapperName] = importCustomWrapperPath
           }
           if (!template.isSupportRecursive && !config.content.usingComponents[baseCompName]) {
@@ -1849,7 +1962,10 @@ export default class TaroMiniPlugin {
           ...config.content.usingComponents
         }
 
-        if (isUsingCustomWrapper) {
+        const shouldUseCustomWrapper = subPackageIndieRoot
+          ? subPackageIndieCustomWrapperRoots.has(subPackageIndieRoot)
+          : isUsingCustomWrapper
+        if (shouldUseCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
         if (!template.isSupportRecursive && !page.isNative) {
@@ -1883,6 +1999,11 @@ export default class TaroMiniPlugin {
 
   async optimizeMiniFiles (compilation: Compilation, _compiler: Compiler) {
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
+    const shouldKeepRecursiveComponent = !this.options.template.isSupportRecursive || isUsingCustomWrapper
+    const hasSubPackageIndieCustomWrapperRoots = (compilation as any)[subPackageIndieCustomWrapperRootsKey] instanceof Set
+    const subPackageIndieCustomWrapperRoots: Set<string> = hasSubPackageIndieCustomWrapperRoots
+      ? (compilation as any)[subPackageIndieCustomWrapperRootsKey]
+      : new Set<string>()
 
     /**
      * 与原生小程序混写时解析模板与样式
@@ -1900,9 +2021,25 @@ export default class TaroMiniPlugin {
       }
     })
 
-    if (!isUsingCustomWrapper && this.options.newBlended) {
+    if (this.options.newBlended) {
       this.getAllIndieRoots().forEach(root => {
+        const isRootUsingCustomWrapper = hasSubPackageIndieCustomWrapperRoots
+          ? subPackageIndieCustomWrapperRoots.has(root)
+          : this.isSubPackageIndieRootUsingCustomWrapper(
+            compilation,
+            root,
+            this.getScopedSubPackageIndieComponentConfig(compilation, root).thirdPartyComponents
+          )
+        if (isRootUsingCustomWrapper) return
         delete compilation.assets[`${root}/${customWrapperName}.js`]
+        delete compilation.assets[`${root}/${customWrapperName}${this.options.fileType.config}`]
+        delete compilation.assets[`${root}/${customWrapperName}${this.options.fileType.templ}`]
+      })
+    }
+
+    if (!shouldKeepRecursiveComponent && this.options.newBlended) {
+      this.getAllIndieRoots().forEach(root => {
+        delete compilation.assets[`${root}/${recursiveComponentName}.js`]
       })
     }
 
@@ -1953,6 +2090,25 @@ export default class TaroMiniPlugin {
 
     const fileConfigStr = JSON.stringify(config)
     compilation.assets[fileConfigName] = new RawSource(fileConfigStr)
+  }
+
+  generateSubPackageIndieScriptFile (compilation: Compilation, compiler: Compiler, filePath: string, content: string) {
+    const { RawSource } = compiler.webpack.sources
+    compilation.assets[this.getTargetFilePath(filePath, '.js')] = new RawSource(content)
+  }
+
+  createRecursiveComponentWrapperSource (componentName?: string) {
+    const requirePath = JSON.stringify(`./${recursiveComponentName}`)
+    const args = componentName ? JSON.stringify(componentName) : ''
+    return `require(${requirePath})
+const registerRecursiveComponent = globalThis.__taroRegisterRecursiveComponent
+
+if (typeof registerRecursiveComponent !== 'function') {
+  throw new Error('globalThis.__taroRegisterRecursiveComponent is not a function')
+}
+
+registerRecursiveComponent(${args})
+`
   }
 
   generateTemplateFile (compilation: Compilation, compiler: Compiler, filePath: string, templateFn: (...args) => string, ...options) {

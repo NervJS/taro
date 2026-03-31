@@ -10,5 +10,10 @@
     "preserveConstEnums": true
   },
   "include": ["./src", "./types"],
-  "exclude": ["./src/__tests__", "./src/template/comp.ts", "./src/template/custom-wrapper.ts"]
+  "exclude": [
+    "./src/__tests__",
+    "./src/template/comp.ts",
+    "./src/template/custom-wrapper.ts",
+    "./src/template/recursive-component.ts"
+  ]
 }
