@@ -43,6 +43,7 @@ const PLUGIN_NAME = 'TaroMiniPlugin'
 const CHILD_COMPILER_TAG = 'child'
 const SUBPACKAGE_STANDALONE_CHILD_TAG = 'sub_package_indie_standalone_child'
 const STYLE_ISOLATION_APPLY_SHARED = 'apply-shared'
+const STYLE_ISOLATION_SHARED = 'shared'
 
 interface ITaroMiniPluginOptions {
   commonChunks: string[]
@@ -1932,7 +1933,10 @@ export default class TaroMiniPlugin {
     const componentName = this.getComponentName(filePath)
     const subPackageIndieRoot = this.isInSubPackageIndieRoot(componentName)
     if (subPackageIndieRoot && this.nativeComponents.has(componentName)) {
-      (config as any).styleIsolation = (config as any).styleIsolation || STYLE_ISOLATION_APPLY_SHARED;
+      const styleIsolation = this.options.template.isSupportRecursive
+        ? STYLE_ISOLATION_APPLY_SHARED
+        : STYLE_ISOLATION_SHARED;
+      (config as any).styleIsolation = (config as any).styleIsolation || styleIsolation;
       (config as any).isNewBlended = true
     }
 
