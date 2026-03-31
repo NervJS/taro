@@ -1181,10 +1181,8 @@ export default class TaroMiniPlugin {
   compileSubPackageIndieStandaloneEntries (compiler: Compiler, compilation: Compilation, promises: Promise<null>[]) {
     const { newBlended, template } = this.options
     const indieRoots = this.getAllIndieRoots()
-    const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has(customWrapperName)
 
     if (!newBlended || !indieRoots.length) return
-    if (template.isSupportRecursive && !isUsingCustomWrapper) return
 
     const JsonpTemplatePlugin = require('webpack/lib/web/JsonpTemplatePlugin')
     const NaturalChunkIdsPlugin = require('webpack/lib/ids/NaturalChunkIdsPlugin')
@@ -1224,14 +1222,14 @@ export default class TaroMiniPlugin {
         ).apply(childCompiler)
       }
 
-      if (isUsingCustomWrapper) {
-        new TaroSingleEntryPlugin(
-          compiler.context,
-          path.resolve(__dirname, '..', 'template/custom-wrapper'),
-          `${root}/custom-wrapper`,
-          META_TYPE.STATIC
-        ).apply(childCompiler)
-      }
+      // CustomWrapper 的使用信息要到 parser/finishModules 后才稳定。
+      // 这里始终注册静态入口，避免 subPackageIndie 子编译在 make 阶段错过 custom-wrapper.js。
+      new TaroSingleEntryPlugin(
+        compiler.context,
+        path.resolve(__dirname, '..', 'template/custom-wrapper'),
+        `${root}/custom-wrapper`,
+        META_TYPE.STATIC
+      ).apply(childCompiler)
 
       promises.push(new Promise<null>((resolve, reject) => {
         childCompiler.runAsChild(err => err ? reject(err) : resolve(null))
@@ -1901,6 +1899,12 @@ export default class TaroMiniPlugin {
         delete compilation.assets[assetPath]
       }
     })
+
+    if (!isUsingCustomWrapper && this.options.newBlended) {
+      this.getAllIndieRoots().forEach(root => {
+        delete compilation.assets[`${root}/${customWrapperName}.js`]
+      })
+    }
 
     // ★ 当配置了 mainPackageRoot 时，删除根目录的 runtime chunks
     const { newBlended, commonChunks, fileType } = this.options
