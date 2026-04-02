@@ -16,7 +16,8 @@ import {
   REG_STYLE,
   replaceAliasPath,
   resolveMainFilePath,
-  SCRIPT_EXT
+  SCRIPT_EXT,
+  taroJsComponents
 } from '@tarojs/helper'
 import { urlToRequest } from 'loader-utils'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
@@ -263,6 +264,32 @@ export default class TaroMiniPlugin {
       /** For Webpack compilation get factory from compilation.dependencyFactories by denpendence's constructor */
       compilation.dependencyFactories.set(EntryDependency, normalModuleFactory)
       compilation.dependencyFactories.set(TaroSingleEntryDependency as any, normalModuleFactory)
+
+      // 在 afterResolve 阶段收集每个 subPackageIndieRoot 实际使用的组件
+      if (this.options.newBlended) {
+        normalModuleFactory.hooks.afterResolve.tap(PLUGIN_NAME, (resolveData) => {
+          if (resolveData.request !== taroJsComponents) return
+
+          const issuer: string | undefined = resolveData.contextInfo?.issuer
+          if (!issuer || !issuer.startsWith(this.options.sourceDir)) return
+
+          const componentName = this.getComponentName(issuer)
+          const root = this.isInSubPackageIndieRoot(componentName)
+          if (!root) return
+
+          resolveData.dependencies.forEach((dependency: any) => {
+            if (dependency.ids?.length > 0) {
+              dependency.ids.forEach((id: string) => {
+                const dashedName = this.toDashedComponentName(id)
+                if (!componentConfig.scopedIncludes.has(root)) {
+                  componentConfig.scopedIncludes.set(root, new Set())
+                }
+                componentConfig.scopedIncludes.get(root)!.add(dashedName)
+              })
+            }
+          })
+        })
+      }
 
       /**
        * webpack NormalModule 在 runLoaders 真正解析资源的前一刻，
@@ -783,7 +810,9 @@ export default class TaroMiniPlugin {
     const { newBlended } = this.options
     if (!newBlended) return null
 
-    for (const config of this.getSubPackageIndieConfigs()) {
+    const configs = this.getSubPackageIndieConfigs()
+
+    for (const config of configs) {
       if (pageName.startsWith(config.mainPackageRoot + '/') || pageName === config.mainPackageRoot) {
         return {
           config,
@@ -1428,14 +1457,26 @@ export default class TaroMiniPlugin {
   }
 
   collectScopedInnerComponents (compilation: Compilation, root: string) {
+    // 优先使用 afterResolve 阶段收集的 scopedIncludes
+    const scopedIncludes = componentConfig.scopedIncludes.get(root)
+    if (scopedIncludes && scopedIncludes.size > 0) {
+      return this.expandScopedIncludes(scopedIncludes)
+    }
+
+    // Fallback：使用后置的正则分析
     const includes = new Set<string>()
     const assetNames = new Set<string>()
+    const commonChunkNames = new Set(['app', 'taro', 'common', ...this.options.commonChunks])
 
     this.getChunksBySubPackageIndieRoot(compilation, root).forEach(chunk => {
       chunk.files.forEach(file => {
-        if (typeof file === 'string' && file.endsWith('.js')) {
-          assetNames.add(file)
-        }
+        if (typeof file !== 'string' || !file.endsWith('.js')) return
+
+        const fileName = path.basename(file, path.extname(file))
+        if (commonChunkNames.has(fileName)) return
+        if (file.endsWith(`/${recursiveComponentName}.js`)) return
+
+        assetNames.add(file)
       })
     })
 
@@ -1458,7 +1499,18 @@ export default class TaroMiniPlugin {
       })
     })
 
-    return this.expandScopedIncludes(includes)
+    const intersectedIncludes = new Set<string>()
+    includes.forEach(name => {
+      if (componentConfig.includes.has(name)) {
+        intersectedIncludes.add(name)
+      }
+    })
+
+    const finalIncludes = intersectedIncludes.size > 0
+      ? intersectedIncludes
+      : new Set(componentConfig.includes)
+
+    return this.expandScopedIncludes(finalIncludes)
   }
 
   isSubPackageIndieRootUsingCustomWrapper (
@@ -1586,13 +1638,17 @@ export default class TaroMiniPlugin {
     template: RecursiveTemplate | UnRecursiveTemplate,
     baseTemplateName: string
   ): Set<string> {
+    console.log(`[generateSubPackageIndieFiles] called`)
     const customWrapperRoots = new Set<string>()
     if (!this.getSubPackageIndieConfigs().length) return customWrapperRoots
 
     const allIndieRoots = this.getAllIndieRoots()
+    console.log(`[generateSubPackageIndieFiles] allIndieRoots=${allIndieRoots.join(', ')}`)
 
     allIndieRoots.forEach(root => {
+      console.log(`[generateSubPackageIndieFiles] processing root=${root}`)
       const scopedComponentConfig = this.getScopedSubPackageIndieComponentConfig(compilation, root)
+      console.log(`[generateSubPackageIndieFiles] scopedComponentConfig.includes=${[...scopedComponentConfig.includes].join(', ')}`)
       const isRootUsingCustomWrapper = this.isSubPackageIndieRootUsingCustomWrapper(
         compilation,
         root,
