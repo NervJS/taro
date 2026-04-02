@@ -93,9 +93,10 @@ export default class TaroNormalModulesPlugin {
               const componentName = (type as acorn.Identifier).name
 
               if ((type as acorn.Literal).value) {
-                this.onParseCreateElement?.((type as acorn.Literal).value, componentConfig)
+                const elementName = (type as acorn.Literal).value as string
+                this.onParseCreateElement?.(elementName, componentConfig)
                 // @ts-ignore
-                currentModule.elementNameSet.add(type.value)
+                currentModule.elementNameSet.add(elementName)
               }
 
               if (componentName) {
