@@ -85,6 +85,7 @@ type SubPackageIndieConfig = NonNullable<AppConfig['subPackageIndie']>[number]
 type NormalizedSubPackageIndieConfig = {
   mainPackageRoot: string
   subPackageRoots: string[]
+  disableRecursiveComponentRoots: Set<string>
 }
 type SubPackageIndieMatch = {
   config: NormalizedSubPackageIndieConfig
@@ -784,14 +785,50 @@ export default class TaroMiniPlugin {
   /**
    * 获取子分包独立模板配置列表（已规范化）
    */
+  /**
+   * 解析 SubPackageIndieRootConfig 联合类型，返回归一化后的路径和是否禁用递归组件
+   */
+  parseIndieRootConfig (rootConfig: string | { path: string, disableRecursiveComponent?: boolean }): { path: string, disableRecursiveComponent: boolean } {
+    if (typeof rootConfig === 'string') {
+      return { path: this.normalizeIndieRoot(rootConfig), disableRecursiveComponent: false }
+    }
+    return {
+      path: this.normalizeIndieRoot(rootConfig.path),
+      disableRecursiveComponent: !!rootConfig.disableRecursiveComponent
+    }
+  }
+
   getSubPackageIndieConfigs (): NormalizedSubPackageIndieConfig[] {
     const subPackageIndie = this.appConfig?.subPackageIndie
     if (!Array.isArray(subPackageIndie)) return []
 
-    return subPackageIndie.map(({ mainPackageRoot, subPackageRoots = [] }: SubPackageIndieConfig) => ({
-      mainPackageRoot: this.normalizeIndieRoot(mainPackageRoot),
-      subPackageRoots: Array.from(new Set(subPackageRoots.map(root => this.normalizeIndieRoot(root))))
-    }))
+    return subPackageIndie.map(({ mainPackageRoot, subPackageRoots = [] }: SubPackageIndieConfig) => {
+      const mainParsed = this.parseIndieRootConfig(mainPackageRoot)
+      const subParsedList = subPackageRoots.map(root => this.parseIndieRootConfig(root))
+      const disableRecursiveComponentRoots = new Set<string>()
+
+      if (mainParsed.disableRecursiveComponent) {
+        disableRecursiveComponentRoots.add(mainParsed.path)
+      }
+      subParsedList.forEach(sub => {
+        if (sub.disableRecursiveComponent) {
+          disableRecursiveComponentRoots.add(sub.path)
+        }
+      })
+
+      return {
+        mainPackageRoot: mainParsed.path,
+        subPackageRoots: Array.from(new Set(subParsedList.map(sub => sub.path))),
+        disableRecursiveComponentRoots
+      }
+    })
+  }
+
+  /**
+   * 判断给定的 indie root 是否禁用了递归组件（comp/custom-wrapper/recursive-component）
+   */
+  isRecursiveComponentDisabledForRoot (root: string): boolean {
+    return this.getSubPackageIndieConfigs().some(config => config.disableRecursiveComponentRoots.has(root))
   }
 
   getAllMainPackageRoots (): string[] {
@@ -1219,6 +1256,9 @@ export default class TaroMiniPlugin {
     const NaturalChunkIdsPlugin = require('webpack/lib/ids/NaturalChunkIdsPlugin')
 
     indieRoots.forEach(root => {
+      // ★ 禁用递归组件的 root 不需要编译 recursive-component
+      if (this.isRecursiveComponentDisabledForRoot(root)) return
+
       const childCompiler = compilation.createChildCompiler(PLUGIN_NAME, {
         path: compiler.options.output.path,
         filename: '[name].js',
@@ -1620,7 +1660,8 @@ export default class TaroMiniPlugin {
       includes: this.collectScopedInnerComponents(compilation, root),
       exclude: new Set(componentConfig.exclude),
       thirdPartyComponents,
-      includeAll: false
+      includeAll: false,
+      skipRecursiveComponent: false
     }
   }
 
@@ -1649,11 +1690,20 @@ export default class TaroMiniPlugin {
       console.log(`[generateSubPackageIndieFiles] processing root=${root}`)
       const scopedComponentConfig = this.getScopedSubPackageIndieComponentConfig(compilation, root)
       console.log(`[generateSubPackageIndieFiles] scopedComponentConfig.includes=${[...scopedComponentConfig.includes].join(', ')}`)
-      const isRootUsingCustomWrapper = this.isSubPackageIndieRootUsingCustomWrapper(
-        compilation,
-        root,
-        scopedComponentConfig.thirdPartyComponents
-      )
+
+      // ★ 检查该 root 是否禁用了递归组件
+      const isRecursiveDisabled = this.isRecursiveComponentDisabledForRoot(root)
+      if (isRecursiveDisabled) {
+        scopedComponentConfig.skipRecursiveComponent = true
+      }
+
+      const isRootUsingCustomWrapper = isRecursiveDisabled
+        ? false
+        : this.isSubPackageIndieRootUsingCustomWrapper(
+          compilation,
+          root,
+          scopedComponentConfig.thirdPartyComponents
+        )
       if (isRootUsingCustomWrapper) {
         customWrapperRoots.add(root)
         // base.wxml 模板生成依赖 thirdPartyComponents，确保 custom-wrapper 模板不会漏掉
@@ -1675,8 +1725,8 @@ export default class TaroMiniPlugin {
       // 2. 生成 utils.wxs
       this.generateXSFile(compilation, compiler, `${root}/utils`)
 
-      // 3. 生成 comp.wxml 和 comp.json（如果不支持递归模板）
-      if (!template.isSupportRecursive) {
+      // 3. 生成 comp.wxml 和 comp.json（如果不支持递归模板且未禁用递归组件）
+      if (!template.isSupportRecursive && !isRecursiveDisabled) {
         this.generateSubPackageIndieScriptFile(
           compilation,
           compiler,
@@ -1955,10 +2005,11 @@ export default class TaroMiniPlugin {
           }
 
           const isRootUsingCustomWrapper = subPackageIndieCustomWrapperRoots.has(indieMatch.root)
-          if (isRootUsingCustomWrapper && !config.content.usingComponents[customWrapperName]) {
+          const isRootRecursiveDisabled = this.isRecursiveComponentDisabledForRoot(indieMatch.root)
+          if (isRootUsingCustomWrapper && !isRootRecursiveDisabled && !config.content.usingComponents[customWrapperName]) {
             config.content.usingComponents[customWrapperName] = importCustomWrapperPath
           }
-          if (!template.isSupportRecursive && !config.content.usingComponents[baseCompName]) {
+          if (!template.isSupportRecursive && !isRootRecursiveDisabled && !config.content.usingComponents[baseCompName]) {
             config.content.usingComponents[baseCompName] = importBaseCompPath
           }
         }
@@ -2018,13 +2069,16 @@ export default class TaroMiniPlugin {
           ...config.content.usingComponents
         }
 
+        const isPageRecursiveDisabled = subPackageIndieRoot
+          ? this.isRecursiveComponentDisabledForRoot(subPackageIndieRoot)
+          : false
         const shouldUseCustomWrapper = subPackageIndieRoot
-          ? subPackageIndieCustomWrapperRoots.has(subPackageIndieRoot)
+          ? subPackageIndieCustomWrapperRoots.has(subPackageIndieRoot) && !isPageRecursiveDisabled
           : isUsingCustomWrapper
         if (shouldUseCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
-        if (!template.isSupportRecursive && !page.isNative) {
+        if (!template.isSupportRecursive && !page.isNative && !isPageRecursiveDisabled) {
           config.content.usingComponents[baseCompName] = importBaseCompPath
         }
         this.generateConfigFile(compilation, compiler, page.path, config.content)
@@ -2079,6 +2133,18 @@ export default class TaroMiniPlugin {
 
     if (this.options.newBlended) {
       this.getAllIndieRoots().forEach(root => {
+        // ★ 禁用递归组件的 root，清理所有 comp/custom-wrapper/recursive-component 残留产物
+        if (this.isRecursiveComponentDisabledForRoot(root)) {
+          delete compilation.assets[`${root}/${baseCompName}.js`]
+          delete compilation.assets[`${root}/${baseCompName}${this.options.fileType.config}`]
+          delete compilation.assets[`${root}/${baseCompName}${this.options.fileType.templ}`]
+          delete compilation.assets[`${root}/${customWrapperName}.js`]
+          delete compilation.assets[`${root}/${customWrapperName}${this.options.fileType.config}`]
+          delete compilation.assets[`${root}/${customWrapperName}${this.options.fileType.templ}`]
+          delete compilation.assets[`${root}/${recursiveComponentName}.js`]
+          return
+        }
+
         const isRootUsingCustomWrapper = hasSubPackageIndieCustomWrapperRoots
           ? subPackageIndieCustomWrapperRoots.has(root)
           : this.isSubPackageIndieRootUsingCustomWrapper(
