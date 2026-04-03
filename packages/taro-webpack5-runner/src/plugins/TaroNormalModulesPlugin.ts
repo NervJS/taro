@@ -11,6 +11,60 @@ const walk = require('acorn-walk') as typeof AcornWalk
 
 const PLUGIN_NAME = 'TaroNormalModulesPlugin'
 
+function getLiteralStringValue (node: any): string | undefined {
+  if (!node) return
+  if (typeof node.value === 'string') return node.value
+}
+
+function getIdentifierLikeName (node: any): string | undefined {
+  if (!node) return
+
+  if (node.type === 'Identifier') {
+    return node.name
+  }
+
+  return getLiteralStringValue(node)
+}
+
+function getComponentTypeRef (typeNode: any):
+| { kind: 'element', name: string }
+| { kind: 'identifier', name: string }
+| { kind: 'member', object: string, property: string }
+| null {
+  if (!typeNode) return null
+
+  if (typeof typeNode.value === 'string') {
+    return {
+      kind: 'element',
+      name: typeNode.value
+    }
+  }
+
+  if (typeNode.type === 'Identifier') {
+    return {
+      kind: 'identifier',
+      name: typeNode.name
+    }
+  }
+
+  if (typeNode.type === 'MemberExpression') {
+    const objectName = getIdentifierLikeName(typeNode.object)
+    const propertyName = typeNode.computed
+      ? getLiteralStringValue(typeNode.property)
+      : getIdentifierLikeName(typeNode.property)
+
+    if (objectName && propertyName) {
+      return {
+        kind: 'member',
+        object: objectName,
+        property: propertyName
+      }
+    }
+  }
+
+  return null
+}
+
 export default class TaroNormalModulesPlugin {
   isCache = true
 
@@ -58,6 +112,64 @@ export default class TaroNormalModulesPlugin {
           currentModule.clear()
 
           walk.ancestor(ast, {
+            ImportDeclaration: (node: any) => {
+              const source = getLiteralStringValue(node.source)
+              if (!source) return
+
+              node.specifiers?.forEach((specifier: any) => {
+                const localName = specifier.local?.name
+                if (!localName) return
+
+                if (specifier.type === 'ImportSpecifier') {
+                  currentModule.importedBindings[localName] = {
+                    kind: 'named',
+                    source,
+                    imported: getIdentifierLikeName(specifier.imported) || localName
+                  }
+                } else if (specifier.type === 'ImportNamespaceSpecifier') {
+                  currentModule.importedBindings[localName] = {
+                    kind: 'namespace',
+                    source
+                  }
+                } else if (specifier.type === 'ImportDefaultSpecifier') {
+                  currentModule.importedBindings[localName] = {
+                    kind: 'default',
+                    source,
+                    imported: 'default'
+                  }
+                }
+              })
+            },
+
+            ExportNamedDeclaration: (node: any) => {
+              const source = getLiteralStringValue(node.source)
+
+              node.specifiers?.forEach((specifier: any) => {
+                const exportedName = getIdentifierLikeName(specifier.exported)
+                if (!exportedName) return
+
+                if (source) {
+                  currentModule.exportBindings[exportedName] = {
+                    kind: 'reexport',
+                    source,
+                    imported: getIdentifierLikeName(specifier.local) || exportedName
+                  }
+                } else {
+                  currentModule.exportBindings[exportedName] = {
+                    kind: 'local',
+                    local: getIdentifierLikeName(specifier.local) || exportedName
+                  }
+                }
+              })
+            },
+
+            ExportAllDeclaration: (node: any) => {
+              const source = getLiteralStringValue(node.source)
+              if (!source) return
+
+              currentModule.exportAllSources.push(source)
+            },
+
             CallExpression: (node, _ancestors) => {
               // @ts-ignore
               const callee = node.callee
@@ -90,33 +202,45 @@ export default class TaroNormalModulesPlugin {
 
               if (!type) return
 
-              const componentName = (type as acorn.Identifier).name
+              const componentTypeRef = getComponentTypeRef(type)
+              if (!componentTypeRef) return
 
-              if ((type as acorn.Literal).value) {
-                const elementName = (type as acorn.Literal).value as string
+              if (componentTypeRef.kind === 'element') {
+                const elementName = componentTypeRef.name
                 this.onParseCreateElement?.(elementName, componentConfig)
                 // @ts-ignore
                 currentModule.elementNameSet.add(elementName)
-              }
-
-              if (componentName) {
+              } else if (componentTypeRef.kind === 'identifier') {
+                const componentName = componentTypeRef.name
                 currentModule.componentNameSet.add(componentName)
+                currentModule.usedComponentRefs.push({
+                  kind: 'identifier',
+                  name: componentName
+                })
                 if (componentName === 'CustomWrapper' && !componentConfig.thirdPartyComponents.get('custom-wrapper')) {
                   componentConfig.thirdPartyComponents.set('custom-wrapper', new Set())
                 }
+              } else if (componentTypeRef.kind === 'member') {
+                currentModule.usedComponentRefs.push({
+                  kind: 'member',
+                  object: componentTypeRef.object,
+                  property: componentTypeRef.property
+                })
               }
 
               if (componentConfig.thirdPartyComponents.size === 0) {
                 return
               }
               // @ts-ignore
-              const attrs = componentConfig.thirdPartyComponents.get(type.value)
+              const attrs = componentTypeRef.kind === 'element'
+                ? componentConfig.thirdPartyComponents.get(componentTypeRef.name)
+                : null
 
               if (attrs == null || !prop || prop.type !== 'ObjectExpression') {
                 return
               }
 
-              function getPropName (key): string {
+              function getPropName (key): string | null {
                 return key.type === 'Identifier' ? key.name : (key.type === 'Literal' ? key.value : null)
               }
 
