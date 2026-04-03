@@ -127,6 +127,7 @@ export default class TaroMiniPlugin {
   themeLocation: string
   pageLoaderName = '@tarojs/taro-loader/lib/page'
   independentPackages = new Map<string, IndependentPackage>()
+  moduleRequestMap = new Map<string, Map<string, string>>()
 
   constructor (options: ITaroMiniPluginOptions) {
     const { combination } = options
@@ -265,6 +266,18 @@ export default class TaroMiniPlugin {
       /** For Webpack compilation get factory from compilation.dependencyFactories by denpendence's constructor */
       compilation.dependencyFactories.set(EntryDependency, normalModuleFactory)
       compilation.dependencyFactories.set(TaroSingleEntryDependency as any, normalModuleFactory)
+
+      if (this.options.newBlended) {
+        normalModuleFactory.hooks.afterResolve.tap(PLUGIN_NAME, (resolveData: any) => {
+          const issuer: string | undefined = resolveData.contextInfo?.issuer
+          const request: string | undefined = resolveData.request
+          const resource: string | undefined = resolveData.createData?.resource || resolveData.resource
+
+          if (!issuer || !request || !resource) return
+
+          this.setResolvedRequestResource(issuer, request, resource)
+        })
+      }
 
       // 在 afterResolve 阶段收集每个 subPackageIndieRoot 实际使用的组件
       if (this.options.newBlended) {
@@ -1431,28 +1444,300 @@ export default class TaroMiniPlugin {
     }
   }
 
+  getModuleResource (module: any): string | undefined {
+    const resource = module?.resource || module?.rootModule?.resource
+    return typeof resource === 'string' ? resource : undefined
+  }
+
+  collectFlattenedModules (module: any, collected: Set<any>, visited = new Set<any>()) {
+    if (!module || visited.has(module)) return
+
+    visited.add(module)
+    collected.add(module)
+
+    const nestedModuleCollections = [module.rootModule, module.modules, module._modules]
+
+    nestedModuleCollections.forEach(item => {
+      if (!item) return
+
+      if (item && typeof item[Symbol.iterator] === 'function') {
+        for (const nested of item) {
+          this.collectFlattenedModules(nested, collected, visited)
+        }
+      } else {
+        this.collectFlattenedModules(item, collected, visited)
+      }
+    })
+  }
+
+  getCompilationModuleResourceMap (compilation: Compilation) {
+    const moduleMap = new Map<string, any>()
+
+    for (const module of compilation.modules as Iterable<any>) {
+      const flattenedModules = new Set<any>()
+      this.collectFlattenedModules(module, flattenedModules)
+
+      flattenedModules.forEach(flattenedModule => {
+        const resource = this.getModuleResource(flattenedModule)
+        if (resource) {
+          moduleMap.set(resource, flattenedModule)
+        }
+      })
+    }
+
+    return moduleMap
+  }
+
+  getSubPackageIndieModules (compilation: Compilation, root: string) {
+    const modules = new Set<any>()
+
+    this.getChunksBySubPackageIndieRoot(compilation, root).forEach(chunk => {
+      for (const module of compilation.chunkGraph.getChunkModulesIterable(chunk)) {
+        this.collectFlattenedModules(module, modules)
+      }
+    })
+
+    return modules
+  }
+
+  normalizeModuleRequestMapKey (resource: string | undefined) {
+    if (!resource || typeof resource !== 'string') return null
+
+    const resourceWithoutLoader = resource.split('!').pop()
+    if (!resourceWithoutLoader) return null
+
+    const resourcePath = resourceWithoutLoader.split('?')[0]
+    if (!resourcePath) return null
+
+    return path.normalize(resourcePath)
+  }
+
+  getModuleRequestMapKeys (resource: string | undefined) {
+    const keys = new Set<string>()
+
+    if (resource && typeof resource === 'string') {
+      keys.add(resource)
+    }
+
+    const normalizedResource = this.normalizeModuleRequestMapKey(resource)
+    if (normalizedResource) {
+      keys.add(normalizedResource)
+    }
+
+    return Array.from(keys)
+  }
+
+  setResolvedRequestResource (issuer: string, request: string, resource: string) {
+    this.getModuleRequestMapKeys(issuer).forEach(key => {
+      if (!this.moduleRequestMap.has(key)) {
+        this.moduleRequestMap.set(key, new Map())
+      }
+
+      this.moduleRequestMap.get(key)!.set(request, resource)
+    })
+  }
+
+  getResolvedRequestResource (issuerResource: string | undefined, request: string) {
+    for (const key of this.getModuleRequestMapKeys(issuerResource)) {
+      const resolvedResource = this.moduleRequestMap.get(key)?.get(request)
+      if (resolvedResource) return resolvedResource
+    }
+  }
+
+  getResolvedModuleByResource (moduleResourceMap: Map<string, any>, resource: string) {
+    const exactModule = moduleResourceMap.get(resource)
+    if (exactModule) return exactModule
+
+    const normalizedResource = this.normalizeModuleRequestMapKey(resource)
+    if (!normalizedResource) return null
+
+    const normalizedModule = moduleResourceMap.get(normalizedResource)
+    if (normalizedModule) return normalizedModule
+
+    for (const [moduleResource, module] of moduleResourceMap.entries()) {
+      if (this.normalizeModuleRequestMapKey(moduleResource) === normalizedResource) {
+        return module
+      }
+    }
+
+    return null
+  }
+
+  resolveRequestedModule (
+    moduleResourceMap: Map<string, any>,
+    issuerModule: any,
+    request: string
+  ) {
+    const issuerResource = this.getModuleResource(issuerModule)
+    const resolvedResource = this.getResolvedRequestResource(issuerResource, request)
+
+    if (resolvedResource) {
+      const resolvedModule = this.getResolvedModuleByResource(moduleResourceMap, resolvedResource)
+      if (resolvedModule) return resolvedModule
+    }
+
+    if (issuerResource && /^[.\\/]/.test(request)) {
+      const requestPath = path.resolve(path.dirname(issuerResource), request)
+      const resolvedPath = resolveMainFilePath(requestPath)
+      const requestModule = this.getResolvedModuleByResource(moduleResourceMap, resolvedPath)
+      if (requestModule) return requestModule
+    }
+
+    for (const module of moduleResourceMap.values()) {
+      if (!module) continue
+
+      if (module.rawRequest === request || module.userRequest === request || module.request === request) {
+        return module
+      }
+    }
+
+    return null
+  }
+
+  resolveImportBindingToTaroComponentName (
+    moduleResourceMap: Map<string, any>,
+    issuerModule: any,
+    binding: any,
+    propertyName?: string,
+    visited = new Set<string>()
+  ): string | null {
+    if (!binding?.source) return null
+
+    if (binding.kind === 'namespace') {
+      if (!propertyName) return null
+
+      if (binding.source === taroJsComponents) {
+        return propertyName
+      }
+
+      const targetModule = this.resolveRequestedModule(moduleResourceMap, issuerModule, binding.source)
+      if (!targetModule) {
+        if (!/^[.\\/]/.test(binding.source)) {
+          return propertyName
+        }
+        return null
+      }
+
+      return this.resolveModuleExportToTaroComponentName(moduleResourceMap, targetModule, propertyName, visited)
+    }
+
+    const importedName = binding.imported || propertyName
+    if (!importedName || importedName === 'default') return null
+
+    if (binding.source === taroJsComponents) {
+      return importedName
+    }
+
+    const targetModule = this.resolveRequestedModule(moduleResourceMap, issuerModule, binding.source)
+    if (!targetModule) {
+      if (!/^[.\\/]/.test(binding.source)) {
+        return importedName
+      }
+      return null
+    }
+
+    return this.resolveModuleExportToTaroComponentName(moduleResourceMap, targetModule, importedName, visited)
+  }
+
+  resolveModuleExportToTaroComponentName (
+    moduleResourceMap: Map<string, any>,
+    module: any,
+    exportName: string,
+    visited = new Set<string>()
+  ): string | null {
+    const moduleResource = this.getModuleResource(module)
+    if (!moduleResource) return null
+
+    const visitKey = `${moduleResource}::${exportName}`
+    if (visited.has(visitKey)) return null
+    visited.add(visitKey)
+
+    const exportBinding = module?.exportBindings?.[exportName]
+    if (exportBinding) {
+      if (exportBinding.kind === 'reexport' && exportBinding.source) {
+        if (exportBinding.source === taroJsComponents) {
+          return exportBinding.imported || exportName
+        }
+
+        const targetModule = this.resolveRequestedModule(moduleResourceMap, module, exportBinding.source)
+        if (targetModule) {
+          const resolvedName = this.resolveModuleExportToTaroComponentName(
+            moduleResourceMap,
+            targetModule,
+            exportBinding.imported || exportName,
+            visited
+          )
+
+          if (resolvedName) return resolvedName
+        }
+      }
+
+      if (exportBinding.kind === 'local' && exportBinding.local) {
+        const importedBinding = module?.importedBindings?.[exportBinding.local]
+        if (importedBinding) {
+          const resolvedName = this.resolveImportBindingToTaroComponentName(
+            moduleResourceMap,
+            module,
+            importedBinding,
+            undefined,
+            visited
+          )
+
+          if (resolvedName) return resolvedName
+        }
+      }
+    }
+
+    for (const source of module?.exportAllSources || []) {
+      if (source === taroJsComponents) {
+        return exportName
+      }
+
+      const targetModule = this.resolveRequestedModule(moduleResourceMap, module, source)
+      if (!targetModule) continue
+
+      const resolvedName = this.resolveModuleExportToTaroComponentName(moduleResourceMap, targetModule, exportName, visited)
+      if (resolvedName) return resolvedName
+    }
+
+    return null
+  }
+
+  resolveUsedComponentRefToTaroComponentName (moduleResourceMap: Map<string, any>, module: any, componentRef: any) {
+    if (!componentRef) return null
+
+    if (componentRef.kind === 'identifier') {
+      const binding = module?.importedBindings?.[componentRef.name]
+      if (!binding) {
+        return componentRef.name
+      }
+
+      const resolvedName = this.resolveImportBindingToTaroComponentName(moduleResourceMap, module, binding)
+      return resolvedName || componentRef.name
+    }
+
+    if (componentRef.kind === 'member') {
+      const binding = module?.importedBindings?.[componentRef.object]
+      if (!binding) {
+        return componentRef.property || null
+      }
+
+      const resolvedName = this.resolveImportBindingToTaroComponentName(moduleResourceMap, module, binding, componentRef.property)
+      return resolvedName || componentRef.property || null
+    }
+
+    return null
+  }
+
   isSubPackageIndieRootUsingCustomWrapperByModules (compilation: Compilation, root: string) {
-    const chunks = this.getChunksBySubPackageIndieRoot(compilation, root)
+    const moduleResourceMap = this.getCompilationModuleResourceMap(compilation)
 
-    for (const chunk of chunks) {
-      const modules = chunk?.modulesIterable
-      if (!modules) continue
+    for (const module of this.getSubPackageIndieModules(compilation, root)) {
+      if (this.shouldSkipSubPackageIndieModule(module, root)) continue
 
-      for (const module of modules) {
-        if (this.shouldSkipSubPackageIndieModule(module, root)) continue
-
-        const resource = module?.resource || module?.rootModule?.resource
-        if (typeof resource !== 'string' || !resource.startsWith(this.options.sourceDir)) continue
-
-        const source = this.getModuleSourceContent(module)
-        if (!source) continue
-
-        // 仅识别真实组件使用，避免被字符串文案中的 “CustomWrapper” 误判
-        const isJsxUsage = /<\s*CustomWrapper(?:\s|>)/.test(source)
-        const isImportUsage = /import\s*{[^}]*\bCustomWrapper\b[^}]*}\s*from\s*['"]@tarojs\/components['"]/.test(source)
-        const isCompiledUsage = /components-react/.test(source) && /\.(?:CustomWrapper|RW)\b/.test(source)
-
-        if (isJsxUsage || isImportUsage || isCompiledUsage) {
+      for (const componentRef of module?.usedComponentRefs || []) {
+        const resolvedComponentName = this.resolveUsedComponentRefToTaroComponentName(moduleResourceMap, module, componentRef)
+        if (resolvedComponentName === 'CustomWrapper') {
           return true
         }
       }
@@ -1462,7 +1747,7 @@ export default class TaroMiniPlugin {
   }
 
   shouldSkipSubPackageIndieModule (module: any, root: string) {
-    const resource = module?.resource || module?.rootModule?.resource
+    const resource = this.getModuleResource(module)
     if (typeof resource !== 'string' || !resource.startsWith(this.options.sourceDir)) {
       return false
     }
@@ -1471,6 +1756,48 @@ export default class TaroMiniPlugin {
     const targetRoot = this.isInSubPackageIndieRoot(componentName)
 
     return !!targetRoot && targetRoot !== root
+  }
+
+  collectModuleResolvedComponentIncludes (compilation: Compilation, root: string) {
+    const includes = new Set<string>()
+    const moduleResourceMap = this.getCompilationModuleResourceMap(compilation)
+
+    for (const module of this.getSubPackageIndieModules(compilation, root)) {
+      if (this.shouldSkipSubPackageIndieModule(module, root)) continue
+
+      for (const elementName of module?.elementNameSet || []) {
+        if (!componentConfig.thirdPartyComponents.has(elementName)) {
+          includes.add(elementName)
+        }
+      }
+
+      for (const binding of Object.values(module?.importedBindings || {})) {
+        const resolvedComponentName = this.resolveImportBindingToTaroComponentName(
+          moduleResourceMap,
+          module,
+          binding
+        )
+
+        if (!resolvedComponentName) continue
+
+        const dashedName = this.toDashedComponentName(resolvedComponentName)
+        if (!componentConfig.thirdPartyComponents.has(dashedName)) {
+          includes.add(dashedName)
+        }
+      }
+
+      for (const componentRef of module?.usedComponentRefs || []) {
+        const resolvedComponentName = this.resolveUsedComponentRefToTaroComponentName(moduleResourceMap, module, componentRef)
+        if (!resolvedComponentName) continue
+
+        const dashedName = this.toDashedComponentName(resolvedComponentName)
+        if (!componentConfig.thirdPartyComponents.has(dashedName)) {
+          includes.add(dashedName)
+        }
+      }
+    }
+
+    return includes
   }
 
   expandScopedIncludes (includes: Set<string>) {
@@ -1497,57 +1824,17 @@ export default class TaroMiniPlugin {
   }
 
   collectScopedInnerComponents (compilation: Compilation, root: string) {
-    // 优先使用 afterResolve 阶段收集的 scopedIncludes
+    const includes = new Set<string>()
+
     const scopedIncludes = componentConfig.scopedIncludes.get(root)
     if (scopedIncludes && scopedIncludes.size > 0) {
-      return this.expandScopedIncludes(scopedIncludes)
+      scopedIncludes.forEach(name => includes.add(name))
     }
 
-    // Fallback：使用后置的正则分析
-    const includes = new Set<string>()
-    const assetNames = new Set<string>()
-    const commonChunkNames = new Set(['app', 'taro', 'common', ...this.options.commonChunks])
+    this.collectModuleResolvedComponentIncludes(compilation, root).forEach(name => includes.add(name))
 
-    this.getChunksBySubPackageIndieRoot(compilation, root).forEach(chunk => {
-      chunk.files.forEach(file => {
-        if (typeof file !== 'string' || !file.endsWith('.js')) return
-
-        const fileName = path.basename(file, path.extname(file))
-        if (commonChunkNames.has(fileName)) return
-        if (file.endsWith(`/${recursiveComponentName}.js`)) return
-
-        assetNames.add(file)
-      })
-    })
-
-    assetNames.forEach(assetName => {
-      const asset = compilation.assets[assetName]
-      if (!asset) return
-
-      const source = asset.source().toString()
-      const componentImportReg = /var\s+([A-Za-z0-9_$]+)\s*=\s*__webpack_require__\([^)]*?@tarojs\/components[^)]*?components-react\.js"\);/g
-      const importMatches = Array.from(source.matchAll(componentImportReg))
-
-      importMatches.forEach(([, alias]) => {
-        const usageReg = new RegExp(`${alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\.([A-Z][A-Za-z0-9_$]+)`, 'g')
-        Array.from(source.matchAll(usageReg)).forEach(([, componentName]) => {
-          const dashedName = this.toDashedComponentName(componentName)
-          if (!componentConfig.thirdPartyComponents.has(dashedName)) {
-            includes.add(dashedName)
-          }
-        })
-      })
-    })
-
-    const intersectedIncludes = new Set<string>()
-    includes.forEach(name => {
-      if (componentConfig.includes.has(name)) {
-        intersectedIncludes.add(name)
-      }
-    })
-
-    const finalIncludes = intersectedIncludes.size > 0
-      ? intersectedIncludes
+    const finalIncludes = includes.size > 0
+      ? includes
       : new Set(componentConfig.includes)
 
     return this.expandScopedIncludes(finalIncludes)
@@ -1564,31 +1851,6 @@ export default class TaroMiniPlugin {
 
     if (this.isSubPackageIndieRootUsingCustomWrapperByModules(compilation, root)) {
       return true
-    }
-
-    const assetNames = new Set<string>()
-    this.getChunksBySubPackageIndieRoot(compilation, root).forEach(chunk => {
-      chunk.files.forEach(file => {
-        if (typeof file === 'string' && file.endsWith('.js')) {
-          assetNames.add(file)
-        }
-      })
-    })
-
-    for (const assetName of assetNames) {
-      const asset = compilation.assets[assetName]
-      if (!asset) continue
-
-      const source = asset.source().toString()
-      const componentImportReg = /var\s+([A-Za-z0-9_$]+)\s*=\s*__webpack_require__\([^)]*?@tarojs\/components[^)]*?components-react\.js"\);/g
-      const importMatches = Array.from(source.matchAll(componentImportReg))
-
-      for (const [, alias] of importMatches) {
-        const usageReg = new RegExp(`${alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\.CustomWrapper\\b`, 'g')
-        if (usageReg.test(source)) {
-          return true
-        }
-      }
     }
 
     return false
@@ -1679,17 +1941,13 @@ export default class TaroMiniPlugin {
     template: RecursiveTemplate | UnRecursiveTemplate,
     baseTemplateName: string
   ): Set<string> {
-    console.log(`[generateSubPackageIndieFiles] called`)
     const customWrapperRoots = new Set<string>()
     if (!this.getSubPackageIndieConfigs().length) return customWrapperRoots
 
     const allIndieRoots = this.getAllIndieRoots()
-    console.log(`[generateSubPackageIndieFiles] allIndieRoots=${allIndieRoots.join(', ')}`)
 
     allIndieRoots.forEach(root => {
-      console.log(`[generateSubPackageIndieFiles] processing root=${root}`)
       const scopedComponentConfig = this.getScopedSubPackageIndieComponentConfig(compilation, root)
-      console.log(`[generateSubPackageIndieFiles] scopedComponentConfig.includes=${[...scopedComponentConfig.includes].join(', ')}`)
 
       // ★ 检查该 root 是否禁用了递归组件
       const isRecursiveDisabled = this.isRecursiveComponentDisabledForRoot(root)
