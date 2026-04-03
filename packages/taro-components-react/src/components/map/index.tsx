@@ -101,7 +101,7 @@ function Map (props: MapProps) {
     // Taro: dottedLine (boolean)；腾讯地图: dashArray ([10,10]虚线, [0,0]实线)
     polylineStyles[styleId] = {
       color: line.color || '#3777FF',
-      width: line.width ?? 3,
+      width: Math.round(line.width ?? 3), // 取整，tlbs-map-react 要求 width 为整数
       // 虚线：[10, 10] 表示10像素实线 + 10像素空白；实线：[0, 0]
       dashArray: line.dottedLine ? [10, 10] : [0, 0],
     }
@@ -309,12 +309,12 @@ function Map (props: MapProps) {
                 type: 'callouttap',
                 timeStamp: Date.now(),
                 target: {
-                  id: id || '',
+                  id: String(id) || '',
                   tagName: 'callout',
                   dataset: {},
                 },
                 currentTarget: {
-                  id: id || '',
+                  id: String(id) || '',
                   tagName: 'callout',
                   dataset: {},
                 },
