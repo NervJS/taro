@@ -69,6 +69,11 @@ function Map (props: MapProps) {
     const markerWidth = parseSize(m.width)
     const markerHeight = parseSize(m.height)
 
+    // 宽高为 0 时跳过渲染（隐藏 marker，仅保留气泡）
+    if (markerWidth === 0 || markerHeight === 0) {
+      return
+    }
+
     markerStyles[styleId] = {
       width: markerWidth,
       height: markerHeight,
