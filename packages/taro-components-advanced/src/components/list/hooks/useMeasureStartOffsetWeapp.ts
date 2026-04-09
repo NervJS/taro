@@ -1,5 +1,6 @@
-import Taro from '@tarojs/taro'
 import { useEffect, useRef, useState } from 'react'
+
+import { createSelectorQueryScoped } from '../utils'
 
 import type { MutableRefObject, RefObject } from 'react'
 
@@ -18,9 +19,9 @@ const MEASURE_INTERVAL = 150
 export function useMeasureStartOffsetWeapp(
   scrollElRef: RefObject<HTMLElement | null>,
   contentId: string,
-  options: { enabled: boolean, isHorizontal?: boolean, startOffsetRef?: MutableRefObject<number> }
+  options: { enabled: boolean, isHorizontal?: boolean, startOffsetRef?: MutableRefObject<number>, selectorQueryScope?: object }
 ): number {
-  const { enabled, isHorizontal = false, startOffsetRef } = options
+  const { enabled, isHorizontal = false, startOffsetRef, selectorQueryScope } = options
   const [measuredStartOffset, setMeasuredStartOffset] = useState(0)
   const [retryTrigger, setRetryTrigger] = useState(0)
   const retryCountRef = useRef(0)
@@ -41,10 +42,7 @@ export function useMeasureStartOffsetWeapp(
       }
       const scrollViewId = scrollEl.id
 
-      const instance = Taro.getCurrentInstance()
-      const query = instance?.page
-        ? Taro.createSelectorQuery().in(instance.page as any)
-        : Taro.createSelectorQuery()
+      const query = createSelectorQueryScoped(selectorQueryScope)
       query
         .select(`#${scrollViewId}`)
         .boundingClientRect()
@@ -87,7 +85,7 @@ export function useMeasureStartOffsetWeapp(
       scrollEl.removeEventListener('scroll', measure)
       clearInterval(interval)
     }
-  }, [enabled, scrollElRef, contentId, isHorizontal, retryTrigger])
+  }, [enabled, scrollElRef, contentId, isHorizontal, retryTrigger, selectorQueryScope])
 
   return measuredStartOffset
 }

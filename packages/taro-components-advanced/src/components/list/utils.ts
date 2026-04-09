@@ -2,6 +2,24 @@
  * List 组件工具函数
  */
 
+import Taro from '@tarojs/taro'
+
+/** 有 scope 则 `query.in(scope)`，否则与原先一致（page / 根） */
+export function createSelectorQueryScoped (selectorQueryScope?: object) {
+  if (selectorQueryScope != null) {
+    return Taro.createSelectorQuery().in(selectorQueryScope as any)
+  }
+  const instance = Taro.getCurrentInstance()
+  return instance?.page
+    ? Taro.createSelectorQuery().in(instance.page as any)
+    : Taro.createSelectorQuery()
+}
+
+/** IO 作用域，缺省为 page */
+export function getMiniProgramObserverScope (selectorQueryScope?: object) {
+  return (selectorQueryScope ?? Taro.getCurrentInstance().page) as any
+}
+
 /** 判断是否为微信小程序 */
 export const isWeapp = process.env.TARO_ENV === 'weapp'
 

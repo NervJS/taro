@@ -1,5 +1,6 @@
-import Taro from '@tarojs/taro'
 import { useEffect, useRef } from 'react'
+
+import { createSelectorQueryScoped } from '../utils'
 
 import type { MutableRefObject, RefObject } from 'react'
 import type { ListScrollElementAttachRefs } from './useListScrollElementAttach'
@@ -23,21 +24,9 @@ export function useListScrollElementAttachWeapp(
   updateRenderOffset: (offset: number, sync?: boolean, source?: string) => void,
   scrollRefProp: React.MutableRefObject<HTMLElement | null> | undefined,
   refsRef: RefObject<ListScrollElementAttachRefs>,
-  /**
-   * 【兜底】容器尺寸测量失败或未完成时的回退值。
-   *
-   * 使用场景：
-   * 1. 首次 scroll：SelectorQuery.exec 异步，scroll 事件可能早于测量回调，containerLengthRef 仍为 0
-   * 2. 测量长期失败：SelectorQuery 返回空或 rect 尺寸为 0（如 id 错误、节点未挂载）
-   *
-   * 兜底逻辑：
-   * - measure 回调：rect 为空或 measured≤0 时，若有 fallback 则写入 containerLengthRef 与 setContainerLength
-   * - scroll handler：containerLengthRef 为 0 时，用 fallback 参与 onScrollToUpper/Lower 判断
-   *
-   * 取值建议：与 List 的 initialContainerLength 一致（默认 400，或 height/width prop），避免与 renderRange 等逻辑冲突。
-   * 注意：fallback 与真实视口差异大时，onScrollToUpper/Lower 可能误触发；measure 每 150ms 轮询，正常会很快覆盖。
-   */
-  fallbackContainerLength?: number
+  /** 测量未就绪或失败时的容器长度兜底，宜与 initialContainerLength 一致 */
+  fallbackContainerLength?: number,
+  selectorQueryScope?: object
 ) {
   const containerLengthRef = useRef(0)
   const autoIdRef = useRef(`_ls_${Math.random().toString(36).slice(2, 9)}`)
@@ -54,10 +43,7 @@ export function useListScrollElementAttachWeapp(
     const scrollViewId = el.id
 
     const measure = () => {
-      const instance = Taro.getCurrentInstance()
-      const query = instance?.page
-        ? Taro.createSelectorQuery().in(instance.page as any)
-        : Taro.createSelectorQuery()
+      const query = createSelectorQueryScoped(selectorQueryScope)
       query
         .select(`#${scrollViewId}`)
         .boundingClientRect()
@@ -82,7 +68,7 @@ export function useListScrollElementAttachWeapp(
     measure()
     const interval = setInterval(measure, 150)
     return () => clearInterval(interval)
-  }, [enabled, effectiveScrollElement, isHorizontal, scrollRefProp, setContainerLength, fallbackContainerLength])
+  }, [enabled, effectiveScrollElement, isHorizontal, scrollRefProp, setContainerLength, fallbackContainerLength, selectorQueryScope])
 
   useEffect(() => {
     if (!enabled || !effectiveScrollElement) return
@@ -141,10 +127,7 @@ export function useListScrollElementAttachWeapp(
       // 初始 renderOffset：weapp 无法直接读 target.scrollTop，需通过 SelectorQuery 查询
       const scrollViewId = target.id || autoIdRef.current
       if (!target.id) target.id = scrollViewId
-      const instance = Taro.getCurrentInstance()
-      const query = instance?.page
-        ? Taro.createSelectorQuery().in(instance.page as any)
-        : Taro.createSelectorQuery()
+      const query = createSelectorQueryScoped(selectorQueryScope)
       query.select(`#${scrollViewId}`).scrollOffset().exec((res) => {
         const info = res?.[0]
         if (info) {
@@ -163,5 +146,5 @@ export function useListScrollElementAttachWeapp(
       cancelled = true
       teardown?.()
     }
-  }, [enabled, effectiveScrollElement, isHorizontal, effectiveStartOffsetRef, effectiveStartOffset, updateRenderOffset, refsRef, fallbackContainerLength])
+  }, [enabled, effectiveScrollElement, isHorizontal, effectiveStartOffsetRef, effectiveStartOffset, updateRenderOffset, refsRef, fallbackContainerLength, selectorQueryScope])
 }

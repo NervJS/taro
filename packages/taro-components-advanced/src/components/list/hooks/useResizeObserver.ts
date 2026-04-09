@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro'
 import { useCallback, useEffect, useRef } from 'react'
 
-import { isH5, isMiniProgram } from '../utils'
+import { createSelectorQueryScoped, getMiniProgramObserverScope, isH5, isMiniProgram } from '../utils'
 
 /**
  * useResizeObserver Hook - 尺寸变化监听（平台适配）
@@ -19,6 +19,7 @@ interface UseResizeObserverOptions {
 
   /** List 容器 ID（小程序用于 SelectorQuery） */
   listId: string
+  selectorQueryScope?: object
 
   /** 尺寸变化回调 */
   onResize: (index: number, size: number) => void
@@ -38,7 +39,7 @@ interface UseResizeObserverReturn {
 export function useResizeObserver(
   options: UseResizeObserverOptions
 ): UseResizeObserverReturn {
-  const { enabled, isHorizontal, listId, onResize } = options
+  const { enabled, isHorizontal, listId, onResize, selectorQueryScope } = options
 
   // H5: ResizeObserver 实例
   const observerRef = useRef<ResizeObserver | null>(null)
@@ -99,8 +100,8 @@ export function useResizeObserver(
 
     const doObserve = () => {
       try {
-        // 创建 IntersectionObserver
-        const observer = Taro.createIntersectionObserver(Taro.getCurrentInstance().page as any, {
+        const observerScope = getMiniProgramObserverScope(selectorQueryScope)
+        const observer = Taro.createIntersectionObserver(observerScope, {
           observeAll: true
         })
 
@@ -110,7 +111,7 @@ export function useResizeObserver(
         // 观察元素进入可见区域（唯一 id 避免跨 List 误命中）
         observer.observe(selector, (res) => {
           if (res.intersectionRatio > 0) {
-            Taro.createSelectorQuery()
+            createSelectorQueryScoped(selectorQueryScope)
               .select(selector)
               .boundingClientRect((rect: any) => {
                 if (rect) {
@@ -129,7 +130,7 @@ export function useResizeObserver(
     }
 
     Taro.nextTick(doObserve)
-  }, [enabled, isHorizontal, listId, onResize])
+  }, [enabled, isHorizontal, listId, onResize, selectorQueryScope])
 
   /**
    * 观察元素（平台自动适配）
