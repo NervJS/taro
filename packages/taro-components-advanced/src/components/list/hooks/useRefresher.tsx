@@ -24,22 +24,30 @@ export interface ListRefresherConfig {
 }
 
 /**
- * useRefresher - 平台适配的下拉刷新
+ * 下拉刷新（List 内部）
  *
- * - 小程序：weapp / jd / tt 使用 ScrollView 原生 refresher-*
- * - H5：对齐 taro-components-react pull-down-refresh（2.x 同源）逻辑：触顶 + 增量拖拽 + 阻尼 + 释放保持高度再回弹
+ * - 小程序：ScrollView 原生 refresher-*；业务 Promise reject 时补发 Failed(4)（原生不派发）
+ * - H5：触顶 + touch 拖拽；最大行程 / 阻尼停拉线为视口高的 0.9 / 0.8（innerHeight）；收尾仅依赖 onRefresherRefresh 的 Promise
+ * - 动画时间戳用 nowMs()：小程序部分环境无 performance，避免抛错中断回弹
+ * - rafRef 与受控 refresherTriggered→false 的 effect 共用：effect 内 cancel 可能打断 H5 成功回弹，须在 effect 动画结束处释放 refreshingLockRef
+ * - H5 reject：onRefresherStatusChange 顺序 Failed(4) → Completed(3) → Idle(0)
+ * - emitStatusChange：仅 status 变化时回调（同 status 不重复）
  */
 
 const BOUNCE_MS = 300
 const AT_TOP_THRESHOLD = 3
-/** 最大下拉距离（px） */
-const DISTANCE_Y_MAX_LIMIT = 150
-/** 阻尼系数：超过此值不再累加位移，与 2.x default damping 一致 */
-const DAMPING = 100
-/** 角度上限（度），小于此值才视为下拉意图 */
+const H5_PULL_DISTANCE_MAX_VH = 0.9
+const H5_DAMPING_LIMIT_VH = 0.8
+const VIEWPORT_HEIGHT_FALLBACK = 800
 const DEG_LIMIT = 40
-/** 默认刷新层高度（对齐 Dynamic），无自定义 children 时使用 */
 export const DEFAULT_REFRESHER_HEIGHT = 50
+
+function nowMs (): number {
+  if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+    return performance.now()
+  }
+  return Date.now()
+}
 
 /** 下拉刷新状态枚举（对齐微信小程序 RefreshStatus） */
 export const enum RefreshStatus {
@@ -55,19 +63,24 @@ export const enum RefreshStatus {
   Failed = 4,
 }
 
-/**
- * 单次位移的阻尼（与 2.x PullDownRefresh.damping 一致）
- * ratio = 已拖拽总距离 / 屏幕高度，damped = diff * (1 - ratio) * 0.6；且当已超过 DAMPING 时不再加
- */
-function dampIncrement(
+function getViewportHeightPx (): number {
+  if (typeof window === 'undefined' || !Number.isFinite(window.innerHeight) || window.innerHeight <= 0) {
+    return VIEWPORT_HEIGHT_FALLBACK
+  }
+  return window.innerHeight
+}
+
+/** 阻尼增量：ratio=总下拉位移/视口高；超过 dampingLimit 后不再累加 */
+function dampIncrement (
   diff: number,
   totalMove: number,
   currentPull: number,
-  screenHeight: number
+  viewportHeight: number,
+  dampingLimit: number
 ): number {
   if (diff <= 0) return 0
-  if (currentPull >= DAMPING) return 0
-  const ratio = Math.min(totalMove / screenHeight, 1)
+  if (currentPull >= dampingLimit) return 0
+  const ratio = Math.min(totalMove / viewportHeight, 1)
   return diff * (1 - ratio) * 0.6
 }
 
@@ -130,7 +143,6 @@ export function useRefresher(
   const configRef = useRef(config)
   configRef.current = config
 
-  /** H5：触发 onRefresherStatusChange 回调（仅状态变化时触发） */
   const emitStatusChangeRef = useRef((status: RefreshStatus, dy: number) => {
     if (refreshStatusRef.current !== status) {
       refreshStatusRef.current = status
@@ -148,9 +160,6 @@ export function useRefresher(
   const getIsTouchInListAreaRef = useRef(getIsTouchInListArea)
   getIsTouchInListAreaRef.current = getIsTouchInListArea
 
-  // ========================================
-  // 小程序：原生 refresher-* API
-  // ========================================
   const scrollViewRefresherProps = config && supportsNativeRefresher ? {
     refresherEnabled: config.refresherEnabled ?? true,
     refresherThreshold: config.refresherThreshold ?? 45,
@@ -167,6 +176,9 @@ export function useRefresher(
       if (!isControlled) setInternalRefreshing(true)
       try {
         await config.onRefresherRefresh?.()
+      } catch {
+        // 原生不派发 Failed(4)，补发便于与 H5 一致
+        config.onRefresherStatusChange?.({ detail: { status: RefreshStatus.Failed, dy: 0 } })
       } finally {
         if (!isControlled) setInternalRefreshing(false)
       }
@@ -181,9 +193,6 @@ export function useRefresher(
     },
   } : {}
 
-  // ========================================
-  // H5：单一结构 + 原生 touch 监听（passive: false）；refresherEnabled=false 时不挂
-  // ========================================
   const addImperativeTouchListeners = React.useCallback((el: HTMLElement) => {
     if (supportsNativeRefresher || !configRef.current || !h5RefresherEnabled) return () => {}
     const scrollEl = el as HTMLDivElement
@@ -198,7 +207,6 @@ export function useRefresher(
     /** 用于 onTouchEnd 判断是否触发刷新；刷新完成后必须置 0，否则下次点击（无 touchMove）会误用上次的 lastPull 再次触发 */
     const lastPullRef = { current: 0 }
     const pullAtReleaseRef = { current: 0 }
-    const screenHeight = typeof window !== 'undefined' ? window.screen?.height ?? 600 : 600
 
     const setPull = (v: number) => {
       lastPull = v
@@ -208,9 +216,9 @@ export function useRefresher(
 
     const runBounceBack = (fromValue: number, onComplete?: () => void) => {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
-      const startTime = performance.now()
+      const startTime = nowMs()
       const animate = () => {
-        const t = Math.min((performance.now() - startTime) / BOUNCE_MS, 1)
+        const t = Math.min((nowMs() - startTime) / BOUNCE_MS, 1)
         const ease = 1 - Math.pow(1 - t, 3)
         const v = fromValue * (1 - ease)
         setPullDistanceRef.current(v)
@@ -220,7 +228,6 @@ export function useRefresher(
           rafRef.current = requestAnimationFrame(animate)
         } else {
           setPullDistanceRef.current(0)
-          // 修复闭包问题：使用 ref 获取最新值
           if (!isControlledRef.current) setInternalRefreshingRef.current(false)
           rafRef.current = null
           onComplete?.()
@@ -232,9 +239,9 @@ export function useRefresher(
     /** 未达阈值松手回弹结束：通知中止 */
     const runBounceBackAbort = (fromValue: number) => {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
-      const startTime = performance.now()
+      const startTime = nowMs()
       const animate = () => {
-        const t = Math.min((performance.now() - startTime) / BOUNCE_MS, 1)
+        const t = Math.min((nowMs() - startTime) / BOUNCE_MS, 1)
         const ease = 1 - Math.pow(1 - t, 3)
         const v = fromValue * (1 - ease)
         setPullDistanceRef.current(v)
@@ -247,19 +254,18 @@ export function useRefresher(
           lastPullRef.current = 0
           lastPull = 0
           configRef.current?.onRefresherAbort?.()
-          // 状态变化：回到 Idle
           emitStatusChangeRef.current(RefreshStatus.Idle, 0)
         }
       }
       rafRef.current = requestAnimationFrame(animate)
     }
 
-    /** 先动画到 refresherHeight（加载中保持高度），再执行刷新，完成后回弹；与 2.x release 时 setContentStyle(distanceToRefresh+1) 一致 */
+    /** 收起到加载高度后再执行 onRefresherRefresh */
     const runBounceToLoading = (fromValue: number, toValue: number, onReach: () => void) => {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
-      const startTime = performance.now()
+      const startTime = nowMs()
       const animate = () => {
-        const t = Math.min((performance.now() - startTime) / BOUNCE_MS, 1)
+        const t = Math.min((nowMs() - startTime) / BOUNCE_MS, 1)
         const ease = 1 - Math.pow(1 - t, 3)
         setPullDistanceRef.current(fromValue + (toValue - fromValue) * ease)
         if (t < 1) {
@@ -349,8 +355,11 @@ export function useRefresher(
         return
       }
       lastY.current = currentY
-      const damped = dampIncrement(dy, totalMove, lastPull, screenHeight)
-      const next = Math.min(lastPull + damped, DISTANCE_Y_MAX_LIMIT)
+      const vh = getViewportHeightPx()
+      const maxPull = vh * H5_PULL_DISTANCE_MAX_VH
+      const dampingLimit = vh * H5_DAMPING_LIMIT_VH
+      const damped = dampIncrement(dy, totalMove, lastPull, vh, dampingLimit)
+      const next = Math.min(lastPull + damped, maxPull)
       setPull(next)
       configRef.current?.onRefresherPulling?.({ detail: { deltaY: next } })
       if (next >= thresholdRef.current) {
@@ -369,7 +378,6 @@ export function useRefresher(
       const height = DEFAULT_REFRESHER_HEIGHT
       pullAtReleaseRef.current = pullValue
       if (!isControlledRef.current) setInternalRefreshingRef.current(true)
-      // 状态变化：Refreshing
       emitStatusChangeRef.current(RefreshStatus.Refreshing, pullValue)
       runBounceToLoading(pullValue, height, () => {
         const safeReset = () => {
@@ -380,32 +388,27 @@ export function useRefresher(
           lastPull = 0
           pullAtReleaseRef.current = 0
           configRef.current?.onRefresherRestore?.()
-          // 状态变化：回到 Idle
           emitStatusChangeRef.current(RefreshStatus.Idle, 0)
         }
-        const timeoutId = setTimeout(safeReset, BOUNCE_MS + 400)
         Promise.resolve(configRef.current?.onRefresherRefresh?.())
           .then(
             () => {
-              // 若已经通过 safeReset 提前结束刷新（例如超时），则不再执行回弹动画，避免二次「吐舌头」闪现
               if (!refreshingLockRef.current) return
-              // 状态变化：Completed
               emitStatusChangeRef.current(RefreshStatus.Completed, DEFAULT_REFRESHER_HEIGHT)
               requestAnimationFrame(() =>
                 runBounceBack(DEFAULT_REFRESHER_HEIGHT, () => {
-                  clearTimeout(timeoutId)
                   refreshingLockRef.current = false
                   lastPullRef.current = 0
                   lastPull = 0
                   pullAtReleaseRef.current = 0
                   configRef.current?.onRefresherRestore?.()
-                  // 状态变化：回到 Idle
                   emitStatusChangeRef.current(RefreshStatus.Idle, 0)
                 })
               )
             },
             () => {
-              clearTimeout(timeoutId)
+              emitStatusChangeRef.current(RefreshStatus.Failed, pullValue)
+              emitStatusChangeRef.current(RefreshStatus.Completed, DEFAULT_REFRESHER_HEIGHT)
               safeReset()
             }
           )
@@ -509,17 +512,16 @@ export function useRefresher(
     )
   }, [config, pullDistance, isRefreshing])
 
-  // 受控 refresherTriggered：设为 true 时立即展示顶部加载指示器（对齐小程序：无需下拉即显示、固定在顶部）
+  /** 受控 refresherTriggered=true：无下拉也显示加载条 */
   React.useEffect(() => {
     if (!isControlled || !config || config.refresherTriggered !== true) return
     if (pullDistanceRef.current >= DEFAULT_REFRESHER_HEIGHT) return
     setPullDistanceRef.current(DEFAULT_REFRESHER_HEIGHT)
     pullDistanceRef.current = DEFAULT_REFRESHER_HEIGHT
-    // 触发 Refreshing 状态变化
     emitStatusChangeRef.current(RefreshStatus.Refreshing, DEFAULT_REFRESHER_HEIGHT)
   }, [isControlled, config?.refresherTriggered])
 
-  // 受控 refresherTriggered：父组件设为 false 时同步回弹并清零
+  /** 受控 refresherTriggered=false：回弹清零；与 touch 共用 rafRef，cancel 时须在此释放 refreshingLockRef */
   const prevTriggeredRef = useRef(config?.refresherTriggered)
   React.useEffect(() => {
     if (!isControlled || !config || config.refresherTriggered !== false) {
@@ -531,11 +533,10 @@ export function useRefresher(
     if (prev === true && (pullDistanceRef.current > 0 || isRefreshingRef.current)) {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
       const from = pullDistanceRef.current > 0 ? pullDistanceRef.current : DEFAULT_REFRESHER_HEIGHT
-      // 触发 Completed 状态变化
       emitStatusChangeRef.current(RefreshStatus.Completed, from)
-      const startTime = performance.now()
+      const startTime = nowMs()
       const animate = () => {
-        const t = Math.min((performance.now() - startTime) / BOUNCE_MS, 1)
+        const t = Math.min((nowMs() - startTime) / BOUNCE_MS, 1)
         const ease = 1 - Math.pow(1 - t, 3)
         const v = from * (1 - ease)
         setPullDistanceRef.current(v)
@@ -544,11 +545,10 @@ export function useRefresher(
         else {
           setPullDistanceRef.current(0)
           pullDistanceRef.current = 0
-          // 修复闭包问题：使用 ref 获取最新值
           if (!isControlledRef.current) setInternalRefreshingRef.current(false)
           rafRef.current = null
+          refreshingLockRef.current = false
           config.onRefresherRestore?.()
-          // 触发 Idle 状态变化
           emitStatusChangeRef.current(RefreshStatus.Idle, 0)
         }
       }
