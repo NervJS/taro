@@ -79,9 +79,10 @@ export function useScrollCorrection(
     // 延迟执行修正（批量窗口 100ms）
     timerRef.current = setTimeout(() => {
       const now = Date.now()
+      const sinceLastScroll = now - lastUserScrollTimeRef.current
 
       // 如果用户最近 300ms 内主动滚动，跳过修正
-      if (now - lastUserScrollTimeRef.current < 300) {
+      if (sinceLastScroll < 300) {
         queueRef.current = []
         return
       }

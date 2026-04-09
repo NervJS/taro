@@ -244,6 +244,22 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     return () => ro.disconnect()
   }, [isHorizontal])
 
+  // WeChat 小程序：没有原生 ResizeObserver，用 SelectorQuery 一次性测量容器高度
+  React.useEffect(() => {
+    if (!isWeapp) return
+    Taro.nextTick(() => {
+      createSelectorQueryScoped(props.selectorQueryScope)
+        .select(`#${listId}`)
+        .boundingClientRect((rect: any) => {
+          const measured = isHorizontal ? rect?.width : rect?.height
+          if (typeof measured === 'number' && measured > 0) {
+            setContainerLength(measured)
+          }
+        })
+        .exec()
+    })
+  }, [isWeapp, isHorizontal, listId])
+
   // 滚动追踪相关refs
   const isScrollingRef = React.useRef(false)
   const lastScrollTopRef = React.useRef(controlledScrollTop ?? 0)
@@ -255,6 +271,10 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   const programmaticCooldownRef = React.useRef(false)
   const programmaticCooldownTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
   const scrollViewOffsetRef = React.useRef(0)
+  // 用户滚动期间挂起的 reflow 标记（用于滚动结束后补触发）
+  const pendingWeappReflowRef = React.useRef(false)
+  // ref 持有最新版 scheduleWeappDynamicReflow，供 updateRenderOffset 内的 setTimeout 闭包安全访问
+  const scheduleWeappDynamicReflowRef = React.useRef(null as unknown as VoidFunction)
   // 处理渲染偏移量更新。
   // syncToScrollView=true：程序性滚动，立即同步 scrollViewOffset。
   // syncToScrollView=false：用户滑动，仅更新 renderOffset。weapp 采用 recycle-view 策略：不把用户滑动位置同步到 scrollViewOffset，避免「传滞后值拉回」和「从有到无归顶」。
@@ -278,7 +298,10 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
       if (needForce) {
         const intermediate = newOffset > 0 ? newOffset - 0.01 : 0.01
         setScrollViewOffset(intermediate)
+        programmaticScrollRef.current = true
         requestAnimationFrame(() => {
+          // 第二帧也需要标记为程序性滚动，否则 else 分支不会传 scrollTop
+          programmaticScrollRef.current = true
           setScrollViewOffset(newOffset)
         })
       } else {
@@ -307,6 +330,10 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
         // weapp recycle-view 策略：用户滑动结束后不同步 scrollViewOffset，保持 pass 的值不变，避免 从有到无 归顶
         if (!isWeapp) {
           setScrollViewOffset(lastScrollTopRef.current)
+        }
+        // 滚动结束后触发期间被延迟的 reflow（item 首次测量触发）
+        if (isWeapp && pendingWeappReflowRef.current) {
+          scheduleWeappDynamicReflowRef.current()
         }
       }
     }, isWeapp ? 200 : 150)
@@ -511,8 +538,8 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   // 动态尺寸缓存更新版本：setItemSize 后递增，用于驱动 sectionOffsets/totalLength 与 item 定位重算
   const [sizeCacheVersion, setSizeCacheVersion] = React.useState(0)
   const sizeCacheRafRef = React.useRef<number | null>(null)
-  // 小程序端：测量触发 re-render 时，reflow 帧传 eff 并同步 scrollViewOffset，避免下一帧传 0 导致跳变
-  const measureScrollProtectRef = React.useRef(false)
+  // （measureScrollProtectRef 已移除：scrollTop + 内容变更同帧 setData 会与 scrollAnchoring
+  //  冲突导致归顶；改由 scrollAnchoring=true 独立处理内容重排，无需显式传 scrollTop 保护）
   // 动态尺寸缓存
   const sizeCache = useItemSizeCache({
     isHorizontal,
@@ -552,16 +579,28 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   const inUpperZoneRef = React.useRef(true)
   const inLowerZoneRef = React.useRef(false)
 
-  // 小程序 + 动高（virtual-list 风格）：测量变化后同帧重排，不做程序性 scrollTop 回拉
+  // 小程序 + 动高（virtual-list 风格）：测量变化后同帧重排，不做程序性 scrollTop 回拉。
+  // 若用户正在滚动（惯性未结束），推迟到滚动停止后再触发，防止内容重排 + setData 同帧
+  // 导致 WeChat scrollAnchoring 失效或传滞后位置造成归顶。
   const scheduleWeappDynamicReflow = React.useCallback(() => {
     if (!isWeapp || props.useResizeObserver !== true) return
+
+    // 滚动中：仅标记为待处理，等 onScrollEnd / 200ms 超时触发
+    if (isUserScrollingRef.current) {
+      pendingWeappReflowRef.current = true
+      return
+    }
+
     if (sizeCacheRafRef.current != null) return
     sizeCacheRafRef.current = requestAnimationFrame(() => {
       sizeCacheRafRef.current = null
-      measureScrollProtectRef.current = true
+      pendingWeappReflowRef.current = false
       setSizeCacheVersion((v) => v + 1)
     })
   }, [isWeapp, props.useResizeObserver])
+
+  // 每次渲染时更新 ref，保证 setTimeout 闭包内拿到最新版本
+  scheduleWeappDynamicReflowRef.current = scheduleWeappDynamicReflow
 
   // ResizeObserver（当启用动态测量时）
   const resizeObserver = useResizeObserver({
@@ -727,8 +766,12 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     const effectiveOffset = newOffset
     const currentThreshold = thresholdRef.current
     const { upper, lower } = currentThreshold
-    const currentContainerLength = containerRef.current
-      ? (isHorizontal ? containerRef.current.clientWidth : containerRef.current.clientHeight)
+    // WeChat 小程序节点不具备 clientHeight/clientWidth，需显式回退到 containerLength state
+    const rawContainerSize = containerRef.current
+      ? (isHorizontal ? (containerRef.current as any).clientWidth : (containerRef.current as any).clientHeight)
+      : null
+    const currentContainerLength = (typeof rawContainerSize === 'number' && rawContainerSize > 0)
+      ? rawContainerSize
       : containerLength
     const nowInUpper = effectiveOffset <= upper
     const currentContentLength = listContentLengthRef.current
@@ -737,7 +780,9 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     scrollDiffListRef.current.shift()
     scrollDiffListRef.current.push(diff)
     const shaking = isScrollingRef.current && isShaking(scrollDiffListRef.current)
-    if (shaking) return
+    if (shaking) {
+      return
+    }
 
     if (programmaticCooldownRef.current) {
       lastScrollTopRef.current = effectiveOffset
@@ -775,6 +820,10 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
         isScrollingRef.current = false
         isUserScrollingRef.current = false
         setIsUserScrolling(false)
+        // 滚动结束后触发期间被延迟的 reflow（item 首次测量触发）
+        if (pendingWeappReflowRef.current) {
+          scheduleWeappDynamicReflowRef.current()
+        }
       }
     }
     onScrollEnd?.()
@@ -961,27 +1010,22 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   }, [useScrollElementMode, effectiveScrollElement])
 
   scrollViewOffsetRef.current = scrollViewOffset
-  // scrollTop：weapp 传 scrollViewOffset（reflow 帧传 eff 防跳变）；H5 仅非用户滑动时传
+  // scrollTop 传递策略（对齐 virtual-list enhanced=true 的做法）：
+  //   - 程序性滚动帧（programmaticScrollRef=true）：传 scrollViewOffset（目标位置）
+  //   - 其余所有帧（用户滚动 / 测量重排 / 空闲）：完全不传，依赖微信原生 + scrollAnchoring
+  //     scrollAnchoring=true 负责在内容重排时自动维持视口位置，避免与显式 scrollTop
+  //     同帧冲突（冲突会导致 scrollAnchoring 失去锚点后归顶）
   if (isWeapp) {
-    if (measureScrollProtectRef.current) {
-      measureScrollProtectRef.current = false
-      const eff = lastScrollTopRef.current
-      setScrollViewOffset(eff)
+    if (programmaticScrollRef.current) {
+      // 程序性滚动（imperative / scrollCorrection / scrollIntoView 等）：传目标位置
       if (isHorizontal) {
-        scrollViewProps.scrollLeft = eff
+        scrollViewProps.scrollLeft = scrollViewOffset
       } else {
-        scrollViewProps.scrollTop = eff
-      }
-      programmaticScrollRef.current = false
-    } else {
-      const sv = scrollViewOffset
-      if (isHorizontal) {
-        scrollViewProps.scrollLeft = sv
-      } else {
-        scrollViewProps.scrollTop = sv
+        scrollViewProps.scrollTop = scrollViewOffset
       }
       programmaticScrollRef.current = false
     }
+    // else：用户滚动 / 空闲帧不传 scrollTop，让微信原生 + scrollAnchoring 完全接管
   } else {
     // H5：非用户滑动时传
     if (!isUserScrolling) {
