@@ -2062,7 +2062,26 @@ export default class TaroMiniPlugin {
         // 复制 JS 文件
         const jsFile = `${chunkName}.js`
         if (compilation.assets[jsFile]) {
-          compilation.assets[`${mainPackageRoot}/${jsFile}`] = compilation.assets[jsFile]
+          let jsContent = compilation.assets[jsFile]
+
+          // 对 app.js 注入递归组件全局初始化代码（subpackageindie 模式）
+          // 这里必须注入到 webpack 模块上下文中，避免在文件顶层使用小程序原生 require('@tarojs/runtime') 导致运行时异常
+          if (chunkName === 'app') {
+            const { RawSource } = compilation.compiler?.webpack?.sources || require('webpack').sources
+            const originalSource = String(jsContent.source?.() || jsContent.toString())
+            const registrarExpr = `(typeof globalThis.__taroRegisterRecursiveComponent==="function"||(globalThis.__taroRegisterRecursiveComponent=function(componentName){const cache=__webpack_require__.c||{};let createRecursiveComponentConfig;for(const key in cache){const exports=cache[key]&&cache[key].exports;if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}if(typeof createRecursiveComponentConfig!=="function"){const modules=__webpack_require__.m||{};for(const moduleId in modules){const moduleFactory=modules[moduleId];if(!moduleFactory||typeof moduleFactory!=="function")continue;const source=String(moduleFactory);if(source.indexOf("createRecursiveComponentConfig")===-1)continue;const exports=__webpack_require__(moduleId);if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}}if(typeof createRecursiveComponentConfig!=="function"){throw new Error("Cannot find createRecursiveComponentConfig in webpack modules");}Component(createRecursiveComponentConfig(componentName));}))`
+            let patchedSource = originalSource
+
+            if (/,\s*exports\.taroApp\s*=/.test(patchedSource)) {
+              patchedSource = patchedSource.replace(/,\s*exports\.taroApp\s*=/, `,${registrarExpr},exports.taroApp=`)
+            } else {
+              patchedSource = patchedSource.replace(/exports\.taroApp\s*=/, `;${registrarExpr};exports.taroApp=`)
+            }
+
+            jsContent = new RawSource(patchedSource)
+          }
+
+          compilation.assets[`${mainPackageRoot}/${jsFile}`] = jsContent
         }
 
         // 复制 wxss 文件
@@ -2478,10 +2497,8 @@ export default class TaroMiniPlugin {
   }
 
   createRecursiveComponentWrapperSource (componentName?: string) {
-    const requirePath = JSON.stringify(`./${recursiveComponentName}`)
     const args = componentName ? JSON.stringify(componentName) : ''
-    return `require(${requirePath})
-const registerRecursiveComponent = globalThis.__taroRegisterRecursiveComponent
+    return `const registerRecursiveComponent = globalThis.__taroRegisterRecursiveComponent
 
 if (typeof registerRecursiveComponent !== 'function') {
   throw new Error('globalThis.__taroRegisterRecursiveComponent is not a function')

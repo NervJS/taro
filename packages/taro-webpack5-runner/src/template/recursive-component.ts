@@ -1,13 +1,7 @@
 /* eslint-disable no-undef */
-import { createRecursiveComponentConfig, document as taroDocumentProvider } from '@tarojs/runtime'
+// @ts-nocheck
+const registerRecursiveComponent = globalThis.__taroRegisterRecursiveComponent
 
-function registerRecursiveComponent (componentName) {
-  // 显式依赖 runtime.document，避免独立 recursive-component bundle 中 document 初始化被摇树优化掉
-  if (typeof taroDocumentProvider.getElementById !== 'function') {
-    throw new Error('Taro runtime document is not initialized')
-  }
-  // @ts-ignore
-  Component(createRecursiveComponentConfig(componentName))
+if (typeof registerRecursiveComponent !== 'function') {
+  throw new Error('globalThis.__taroRegisterRecursiveComponent is not a function')
 }
-
-globalThis.__taroRegisterRecursiveComponent = registerRecursiveComponent
