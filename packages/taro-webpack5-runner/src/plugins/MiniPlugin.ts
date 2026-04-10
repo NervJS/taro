@@ -17,15 +17,19 @@ import {
   replaceAliasPath,
   resolveMainFilePath,
   SCRIPT_EXT,
-  taroJsComponents
 } from '@tarojs/helper'
 import { urlToRequest } from 'loader-utils'
+import { SyncHook, SyncWaterfallHook } from 'tapable'
 import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../utils/component'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
+import SubPackageIndiePlugin, {
+  SUBPACKAGE_STANDALONE_CHILD_TAG,
+  subPackageIndieCustomWrapperRootsKey,
+} from './SubPackageIndiePlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
@@ -38,17 +42,14 @@ import type { IComponent, IFileType } from '../utils/types'
 import type { MiniCombination } from '../webpack/MiniCombination'
 import type TaroNormalModule from './TaroNormalModule'
 
-const baseCompName = 'comp'
-const customWrapperName = 'custom-wrapper'
-const subPackageIndieCustomWrapperRootsKey = '__taroSubPackageIndieCustomWrapperRoots'
-const recursiveComponentName = 'recursive-component'
+export const baseCompName = 'comp'
+export const customWrapperName = 'custom-wrapper'
 const PLUGIN_NAME = 'TaroMiniPlugin'
 const CHILD_COMPILER_TAG = 'child'
-const SUBPACKAGE_STANDALONE_CHILD_TAG = 'sub_package_indie_standalone_child'
-const STYLE_ISOLATION_APPLY_SHARED = 'apply-shared'
-const STYLE_ISOLATION_SHARED = 'shared'
+export const STYLE_ISOLATION_APPLY_SHARED = 'apply-shared'
+export const STYLE_ISOLATION_SHARED = 'shared'
 
-interface ITaroMiniPluginOptions {
+export interface ITaroMiniPluginOptions {
   commonChunks: string[]
   constantsReplaceList: Record<string, any>
   pxTransformConfig: {
@@ -63,7 +64,7 @@ interface ITaroMiniPluginOptions {
   loaderMeta?: Record<string, string>
 }
 
-interface IOptions extends ITaroMiniPluginOptions {
+export interface IOptions extends ITaroMiniPluginOptions {
   sourceDir: string
   framework: string
   frameworkExts: string[]
@@ -80,17 +81,39 @@ interface IOptions extends ITaroMiniPluginOptions {
   }
 }
 
-type IndependentPackage = { pages: string[], components: string[] }
-type SubPackageIndieConfig = NonNullable<AppConfig['subPackageIndie']>[number]
-type NormalizedSubPackageIndieConfig = {
-  mainPackageRoot: string
-  subPackageRoots: string[]
-  disableRecursiveComponentRoots: Set<string>
-}
-type SubPackageIndieMatch = {
-  config: NormalizedSubPackageIndieConfig
-  root: string
-  isMainPackageRoot: boolean
+export type IndependentPackage = { pages: string[], components: string[] }
+
+/**
+ * MiniPlugin 扩展钩子定义
+ * 通过 tapable hooks 允许外部插件（如 SubPackageIndiePlugin）扩展 MiniPlugin 的行为
+ */
+export interface MiniPluginHooks {
+  /** 修改是否跳过根目录入口（comp/custom-wrapper）的生成 */
+  modifyEntries: SyncWaterfallHook<any>
+  /** 修改 chunk require 注入的行为，返回 null 表示使用默认逻辑 */
+  modifyChunkRequire: SyncWaterfallHook<any>
+  /** afterResolve 阶段的扩展点 */
+  afterResolveModule: SyncHook<any>
+  /** 编译额外入口（如 child compiler） */
+  compileExtraEntries: SyncHook<any>
+  /** 修改是否跳过根目录模板文件的生成 */
+  modifySkipRootTemplates: SyncWaterfallHook<any>
+  /** 生成额外文件（如子分包独立模板文件），返回 customWrapperRoots */
+  generateExtraFiles: SyncWaterfallHook<any>
+  /** 修改页面配置（usingComponents、importBaseTemplatePath 等） */
+  modifyPageConfig: SyncWaterfallHook<any>
+  /** 修改组件配置 */
+  modifyComponentConfig: SyncHook<any>
+  /** 生成文件后的回调（在 injectCommonStyles 之后） */
+  afterGenerateFiles: SyncHook<any>
+  /** 优化/清理产物 */
+  optimizeAssets: SyncHook<any>
+  /** 修改 config 文件内容 */
+  modifyConfig: SyncWaterfallHook<any>
+  /** 修改样式注入逻辑 */
+  modifyStyleImport: SyncWaterfallHook<any>
+  /** 修改 shouldProcessStyles 条件 */
+  modifyShouldProcessStyles: SyncWaterfallHook<any>
 }
 
 export interface IComponentObj {
@@ -127,8 +150,10 @@ export default class TaroMiniPlugin {
   themeLocation: string
   pageLoaderName = '@tarojs/taro-loader/lib/page'
   independentPackages = new Map<string, IndependentPackage>()
-  moduleRequestMap = new Map<string, Map<string, string>>()
+  subPackageIndiePlugin: SubPackageIndiePlugin | null = null
 
+  /** 扩展钩子，允许外部插件扩展 MiniPlugin 行为 */
+  hooks: MiniPluginHooks
   constructor (options: ITaroMiniPluginOptions) {
     const { combination } = options
     const miniBuildConfig = combination.config
@@ -153,6 +178,23 @@ export default class TaroMiniPlugin {
       pxTransformConfig: options.pxTransformConfig,
       hot: options.hot,
       loaderMeta: options.loaderMeta || {},
+    }
+
+    // 初始化扩展钩子
+    this.hooks = {
+      modifyEntries: new SyncWaterfallHook(['entries']),
+      modifyChunkRequire: new SyncWaterfallHook(['result', 'chunkId', 'miniType']),
+      afterResolveModule: new SyncHook(['resolveData']),
+      compileExtraEntries: new SyncHook(['compiler', 'compilation', 'promises']),
+      modifySkipRootTemplates: new SyncWaterfallHook(['skip']),
+      generateExtraFiles: new SyncWaterfallHook(['customWrapperRoots', 'compilation', 'compiler']),
+      modifyPageConfig: new SyncWaterfallHook(['context', 'page', 'customWrapperRoots']),
+      modifyComponentConfig: new SyncHook(['context', 'customWrapperRoots']),
+      afterGenerateFiles: new SyncHook(['compilation', 'compiler']),
+      optimizeAssets: new SyncHook(['compilation']),
+      modifyConfig: new SyncWaterfallHook(['config', 'componentName']),
+      modifyStyleImport: new SyncWaterfallHook(['context', 'page']),
+      modifyShouldProcessStyles: new SyncWaterfallHook(['shouldProcess']),
     }
 
     if (template.isSupportRecursive === false && baseLevel > 0) {
@@ -188,6 +230,11 @@ export default class TaroMiniPlugin {
   apply (compiler: Compiler) {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
+
+    if (this.options.newBlended) {
+      this.subPackageIndiePlugin = new SubPackageIndiePlugin(this)
+      this.subPackageIndiePlugin.apply()
+    }
 
     const {
       commonChunks,
@@ -248,7 +295,7 @@ export default class TaroMiniPlugin {
         const dependencies = this.dependencies
         const promises: Promise<null>[] = []
         this.compileIndependentPages(compiler, compilation, dependencies, promises)
-        this.compileSubPackageIndieStandaloneEntries(compiler, compilation, promises)
+        this.hooks.compileExtraEntries.call(compiler, compilation, promises)
         dependencies.forEach(dep => {
           promises.push(new Promise<null>((resolve, reject) => {
             compilation.addEntry(this.options.sourceDir, dep, {
@@ -269,39 +316,7 @@ export default class TaroMiniPlugin {
 
       if (this.options.newBlended) {
         normalModuleFactory.hooks.afterResolve.tap(PLUGIN_NAME, (resolveData: any) => {
-          const issuer: string | undefined = resolveData.contextInfo?.issuer
-          const request: string | undefined = resolveData.request
-          const resource: string | undefined = resolveData.createData?.resource || resolveData.resource
-
-          if (!issuer || !request || !resource) return
-
-          this.setResolvedRequestResource(issuer, request, resource)
-        })
-      }
-
-      // 在 afterResolve 阶段收集每个 subPackageIndieRoot 实际使用的组件
-      if (this.options.newBlended) {
-        normalModuleFactory.hooks.afterResolve.tap(PLUGIN_NAME, (resolveData) => {
-          if (resolveData.request !== taroJsComponents) return
-
-          const issuer: string | undefined = resolveData.contextInfo?.issuer
-          if (!issuer || !issuer.startsWith(this.options.sourceDir)) return
-
-          const componentName = this.getComponentName(issuer)
-          const root = this.isInSubPackageIndieRoot(componentName)
-          if (!root) return
-
-          resolveData.dependencies.forEach((dependency: any) => {
-            if (dependency.ids?.length > 0) {
-              dependency.ids.forEach((id: string) => {
-                const dashedName = this.toDashedComponentName(id)
-                if (!componentConfig.scopedIncludes.has(root)) {
-                  componentConfig.scopedIncludes.set(root, new Set())
-                }
-                componentConfig.scopedIncludes.get(root)!.add(dashedName)
-              })
-            }
-          })
+          this.hooks.afterResolveModule.call(resolveData)
         })
       }
 
@@ -468,17 +483,15 @@ export default class TaroMiniPlugin {
           let source
           const id = getChunkIdOrName(chunk)
           const { miniType } = entryModule as any
+
+          const modifyResult = this.hooks.modifyChunkRequire.call({ source: modules, handled: false }, id, miniType)
+          if (modifyResult?.handled) {
+            return modifyResult.source
+          }
+
           const entryChunk = [{ name: 'app' }]
           // 所有模块都依赖app.js，确保@tarojs\plugin-platform-xxx\dist\runtime.js先于@tarojs/runtime执行，避免Taro API未被初始化
           if (this.nativeComponents.has(id) || miniType === META_TYPE.STATIC) {
-            // ★ 检查是否属于子分包独立模板
-            const isSubPackageIndie = this.isInSubPackageIndieRoot(id)
-
-            if (isSubPackageIndie) {
-              // 子分包组件不注入 require，直接返回原始模块
-              return modules
-            }
-
             fileChunks.forEach((v, k) => {
               if (k === id) {
                 source = addRequireToSource(id, modules, v)
@@ -487,12 +500,6 @@ export default class TaroMiniPlugin {
             // 如果没有依赖需要注入，返回原始模块
             return source || modules
           } else if (miniType === META_TYPE.PAGE) {
-            // ★ 检查是否属于子分包独立模板，使用本地 app.js
-            const subPackageIndieRoot = this.isInSubPackageIndieRoot(id)
-            if (subPackageIndieRoot) {
-              const localAppChunk = [{ name: `${subPackageIndieRoot}/app` }]
-              return addRequireToSource(id, modules, localAppChunk)
-            }
             return addRequireToSource(id, modules, entryChunk)
           }
         }
@@ -772,128 +779,6 @@ export default class TaroMiniPlugin {
   }
 
   /**
-   * 规范化子分包独立模板的根路径
-   * 如果路径以 /index 结尾（表示页面路径），则返回其父目录（文件所在目录）
-   * @example 'pages/index/index' => 'pages/index'
-   * @example 'pages/order' => 'pages/order'
-   */
-  normalizeIndieRoot (root: string): string {
-    // 如果以 /index 结尾，说明是页面路径，需要取其所在目录
-    if (root.endsWith('/index')) {
-      return path.dirname(root)
-    }
-    return root
-  }
-
-  /**
-   * 获取所有子分包独立模板的根路径列表（已规范化）
-   * @returns 规范化后的分包根路径数组，如果未配置则返回空数组
-   */
-  getAllIndieRoots (): string[] {
-    return Array.from(new Set(
-      this.getSubPackageIndieConfigs().flatMap(({ mainPackageRoot, subPackageRoots }) => [mainPackageRoot, ...subPackageRoots])
-    ))
-  }
-
-  /**
-   * 获取子分包独立模板配置列表（已规范化）
-   */
-  /**
-   * 解析 SubPackageIndieRootConfig 联合类型，返回归一化后的路径和是否禁用递归组件
-   */
-  parseIndieRootConfig (rootConfig: string | { path: string, disableRecursiveComponent?: boolean }): { path: string, disableRecursiveComponent: boolean } {
-    if (typeof rootConfig === 'string') {
-      return { path: this.normalizeIndieRoot(rootConfig), disableRecursiveComponent: false }
-    }
-    return {
-      path: this.normalizeIndieRoot(rootConfig.path),
-      disableRecursiveComponent: !!rootConfig.disableRecursiveComponent
-    }
-  }
-
-  getSubPackageIndieConfigs (): NormalizedSubPackageIndieConfig[] {
-    const subPackageIndie = this.appConfig?.subPackageIndie
-    if (!Array.isArray(subPackageIndie)) return []
-
-    return subPackageIndie.map(({ mainPackageRoot, subPackageRoots = [] }: SubPackageIndieConfig) => {
-      const mainParsed = this.parseIndieRootConfig(mainPackageRoot)
-      const subParsedList = subPackageRoots.map(root => this.parseIndieRootConfig(root))
-      const disableRecursiveComponentRoots = new Set<string>()
-
-      if (mainParsed.disableRecursiveComponent) {
-        disableRecursiveComponentRoots.add(mainParsed.path)
-      }
-      subParsedList.forEach(sub => {
-        if (sub.disableRecursiveComponent) {
-          disableRecursiveComponentRoots.add(sub.path)
-        }
-      })
-
-      return {
-        mainPackageRoot: mainParsed.path,
-        subPackageRoots: Array.from(new Set(subParsedList.map(sub => sub.path))),
-        disableRecursiveComponentRoots
-      }
-    })
-  }
-
-  /**
-   * 判断给定的 indie root 是否禁用了递归组件（comp/custom-wrapper/recursive-component）
-   */
-  isRecursiveComponentDisabledForRoot (root: string): boolean {
-    return this.getSubPackageIndieConfigs().some(config => config.disableRecursiveComponentRoots.has(root))
-  }
-
-  getAllMainPackageRoots (): string[] {
-    return Array.from(new Set(this.getSubPackageIndieConfigs().map(item => item.mainPackageRoot)))
-  }
-
-  getAllSubPackageRoots (): string[] {
-    return Array.from(new Set(this.getSubPackageIndieConfigs().flatMap(item => item.subPackageRoots)))
-  }
-
-  hasSubPackageIndieMainPackageRoot (): boolean {
-    return this.getAllMainPackageRoots().length > 0
-  }
-
-  getSubPackageIndieMatch (pageName: string): SubPackageIndieMatch | null {
-    const { newBlended } = this.options
-    if (!newBlended) return null
-
-    const configs = this.getSubPackageIndieConfigs()
-
-    for (const config of configs) {
-      if (pageName.startsWith(config.mainPackageRoot + '/') || pageName === config.mainPackageRoot) {
-        return {
-          config,
-          root: config.mainPackageRoot,
-          isMainPackageRoot: true
-        }
-      }
-
-      for (const root of config.subPackageRoots) {
-        if (pageName.startsWith(root + '/') || pageName === root) {
-          return {
-            config,
-            root,
-            isMainPackageRoot: false
-          }
-        }
-      }
-    }
-
-    return null
-  }
-
-  /**
-   * 判断给定路径是否属于子分包独立模板的分包（包括 mainPackageRoot 和 subPackageRoots）
-   * @returns 匹配的分包根路径（已规范化），或 null
-   */
-  isInSubPackageIndieRoot (pageName: string): string | null {
-    return this.getSubPackageIndieMatch(pageName)?.root || null
-  }
-
-  /**
    * 读取页面及其依赖的组件的配置
    */
   getPagesConfig () {
@@ -959,17 +844,19 @@ export default class TaroMiniPlugin {
    * 在 this.dependencies 中新增或修改 app、模板组件、页面、组件等资源模块
    */
   addEntries () {
-    const { template, newBlended } = this.options
+    const { template } = this.options
 
     this.addEntry(this.appEntry, 'app', META_TYPE.ENTRY)
 
-    // ★ 当配置了 mainPackageRoot 时，跳过根目录 comp 和 custom-wrapper 入口
-    const skipRootEntries = this.hasSubPackageIndieMainPackageRoot() && newBlended
+    const entryFlags = this.hooks.modifyEntries.call({
+      skipRootComp: false,
+      skipRootWrapper: false,
+    })
 
-    if (!template.isSupportRecursive && !skipRootEntries) {
+    if (!template.isSupportRecursive && !entryFlags.skipRootComp) {
       this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
     }
-    if (!skipRootEntries) {
+    if (!entryFlags.skipRootWrapper) {
       this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), 'custom-wrapper', META_TYPE.STATIC)
     }
 
@@ -1259,69 +1146,6 @@ export default class TaroMiniPlugin {
     }
   }
 
-  compileSubPackageIndieStandaloneEntries (compiler: Compiler, compilation: Compilation, promises: Promise<null>[]) {
-    const { newBlended } = this.options
-    const indieRoots = this.getAllIndieRoots()
-
-    if (!newBlended || !indieRoots.length) return
-
-    const JsonpTemplatePlugin = require('webpack/lib/web/JsonpTemplatePlugin')
-    const NaturalChunkIdsPlugin = require('webpack/lib/ids/NaturalChunkIdsPlugin')
-
-    indieRoots.forEach(root => {
-      // ★ 禁用递归组件的 root 不需要编译 recursive-component
-      if (this.isRecursiveComponentDisabledForRoot(root)) return
-
-      const childCompiler = compilation.createChildCompiler(PLUGIN_NAME, {
-        path: compiler.options.output.path,
-        filename: '[name].js',
-        chunkFilename: '[name].js',
-        chunkLoadingGlobal: `subpackage_indie_${root.replace(/[\\/]/g, '_')}`
-      })
-
-      childCompiler.inputFileSystem = compiler.inputFileSystem
-      childCompiler.outputFileSystem = compiler.outputFileSystem
-      childCompiler.context = compiler.context
-      new JsonpTemplatePlugin().apply(childCompiler)
-      new NaturalChunkIdsPlugin().apply(childCompiler)
-      new compiler.webpack.DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
-
-      childCompiler.hooks.compilation.tap(PLUGIN_NAME, (childCompilation) => {
-        (childCompilation as any).__tag = SUBPACKAGE_STANDALONE_CHILD_TAG
-        ;(childCompilation as any).__name = root
-      })
-
-      childCompiler.options.optimization = {
-        ...childCompiler.options.optimization,
-        splitChunks: false,
-        runtimeChunk: false
-      }
-
-      const outputOptions: any = childCompiler.options.output || {}
-      const libraryOptions = typeof outputOptions.library === 'object' && outputOptions.library !== null
-        ? outputOptions.library
-        : {}
-      childCompiler.options.output = {
-        ...outputOptions,
-        library: {
-          ...libraryOptions,
-          type: 'commonjs2'
-        }
-      }
-
-      new TaroSingleEntryPlugin(
-        compiler.context,
-        path.resolve(__dirname, '..', 'template/recursive-component'),
-        `${root}/${recursiveComponentName}`,
-        META_TYPE.EXPORTS
-      ).apply(childCompiler)
-
-      promises.push(new Promise<null>((resolve, reject) => {
-        childCompiler.runAsChild(err => err ? reject(err) : resolve(null))
-      }))
-    })
-  }
-
   /**
    * 搜集 tabbar icon 图标路径
    * 收集自定义 tabbar 组件
@@ -1396,707 +1220,6 @@ export default class TaroMiniPlugin {
     if (!attrs || thirdPartyComponents.has(componentName)) return
 
     thirdPartyComponents.set(componentName, new Set(attrs))
-  }
-
-  getSubPackageIndieEntriesByRoot (root: string): IComponent[] {
-    const entries = new Map<string, IComponent>()
-
-    ;[...this.pages, ...this.components].forEach(item => {
-      if (this.isInSubPackageIndieRoot(item.name) === root) {
-        entries.set(item.name, item)
-      }
-    })
-
-    return Array.from(entries.values())
-  }
-
-  getSubPackageIndieEntryNamesByRoot (root: string): string[] {
-    return this.getSubPackageIndieEntriesByRoot(root).map(item => item.name)
-  }
-
-  getComponentByName (componentName: string): IComponent | undefined {
-    return [...this.pages, ...this.components].find(item => item.name === componentName)
-  }
-
-  getChunksBySubPackageIndieRoot (compilation: Compilation, root: string) {
-    const chunks = new Set<any>()
-
-    this.getSubPackageIndieEntryNamesByRoot(root).forEach(entryName => {
-      const entryChunk = Array.from(compilation.chunks).find(chunk => chunk.name === entryName)
-      if (!entryChunk) return
-
-      chunks.add(entryChunk)
-      entryChunk.groupsIterable.forEach(group => {
-        group.chunks.forEach(chunk => chunks.add(chunk))
-      })
-    })
-
-    return chunks
-  }
-
-  getModuleSourceContent (module: any): string {
-    try {
-      const source = module?.originalSource?.()
-      if (!source || typeof source.source !== 'function') return ''
-      return String(source.source() || '')
-    } catch (_err) {
-      return ''
-    }
-  }
-
-  getModuleResource (module: any): string | undefined {
-    const resource = module?.resource || module?.rootModule?.resource
-    return typeof resource === 'string' ? resource : undefined
-  }
-
-  collectFlattenedModules (module: any, collected: Set<any>, visited = new Set<any>()) {
-    if (!module || visited.has(module)) return
-
-    visited.add(module)
-    collected.add(module)
-
-    const nestedModuleCollections = [module.rootModule, module.modules, module._modules]
-
-    nestedModuleCollections.forEach(item => {
-      if (!item) return
-
-      if (item && typeof item[Symbol.iterator] === 'function') {
-        for (const nested of item) {
-          this.collectFlattenedModules(nested, collected, visited)
-        }
-      } else {
-        this.collectFlattenedModules(item, collected, visited)
-      }
-    })
-  }
-
-  getCompilationModuleResourceMap (compilation: Compilation) {
-    const moduleMap = new Map<string, any>()
-
-    for (const module of compilation.modules as Iterable<any>) {
-      const flattenedModules = new Set<any>()
-      this.collectFlattenedModules(module, flattenedModules)
-
-      flattenedModules.forEach(flattenedModule => {
-        const resource = this.getModuleResource(flattenedModule)
-        if (resource) {
-          moduleMap.set(resource, flattenedModule)
-        }
-      })
-    }
-
-    return moduleMap
-  }
-
-  getSubPackageIndieModules (compilation: Compilation, root: string) {
-    const modules = new Set<any>()
-
-    this.getChunksBySubPackageIndieRoot(compilation, root).forEach(chunk => {
-      for (const module of compilation.chunkGraph.getChunkModulesIterable(chunk)) {
-        this.collectFlattenedModules(module, modules)
-      }
-    })
-
-    return modules
-  }
-
-  normalizeModuleRequestMapKey (resource: string | undefined) {
-    if (!resource || typeof resource !== 'string') return null
-
-    const resourceWithoutLoader = resource.split('!').pop()
-    if (!resourceWithoutLoader) return null
-
-    const resourcePath = resourceWithoutLoader.split('?')[0]
-    if (!resourcePath) return null
-
-    return path.normalize(resourcePath)
-  }
-
-  getModuleRequestMapKeys (resource: string | undefined) {
-    const keys = new Set<string>()
-
-    if (resource && typeof resource === 'string') {
-      keys.add(resource)
-    }
-
-    const normalizedResource = this.normalizeModuleRequestMapKey(resource)
-    if (normalizedResource) {
-      keys.add(normalizedResource)
-    }
-
-    return Array.from(keys)
-  }
-
-  setResolvedRequestResource (issuer: string, request: string, resource: string) {
-    this.getModuleRequestMapKeys(issuer).forEach(key => {
-      if (!this.moduleRequestMap.has(key)) {
-        this.moduleRequestMap.set(key, new Map())
-      }
-
-      this.moduleRequestMap.get(key)!.set(request, resource)
-    })
-  }
-
-  getResolvedRequestResource (issuerResource: string | undefined, request: string) {
-    for (const key of this.getModuleRequestMapKeys(issuerResource)) {
-      const resolvedResource = this.moduleRequestMap.get(key)?.get(request)
-      if (resolvedResource) return resolvedResource
-    }
-  }
-
-  getResolvedModuleByResource (moduleResourceMap: Map<string, any>, resource: string) {
-    const exactModule = moduleResourceMap.get(resource)
-    if (exactModule) return exactModule
-
-    const normalizedResource = this.normalizeModuleRequestMapKey(resource)
-    if (!normalizedResource) return null
-
-    const normalizedModule = moduleResourceMap.get(normalizedResource)
-    if (normalizedModule) return normalizedModule
-
-    for (const [moduleResource, module] of moduleResourceMap.entries()) {
-      if (this.normalizeModuleRequestMapKey(moduleResource) === normalizedResource) {
-        return module
-      }
-    }
-
-    return null
-  }
-
-  resolveRequestedModule (
-    moduleResourceMap: Map<string, any>,
-    issuerModule: any,
-    request: string
-  ) {
-    const issuerResource = this.getModuleResource(issuerModule)
-    const resolvedResource = this.getResolvedRequestResource(issuerResource, request)
-
-    if (resolvedResource) {
-      const resolvedModule = this.getResolvedModuleByResource(moduleResourceMap, resolvedResource)
-      if (resolvedModule) return resolvedModule
-    }
-
-    if (issuerResource && /^[.\\/]/.test(request)) {
-      const requestPath = path.resolve(path.dirname(issuerResource), request)
-      const resolvedPath = resolveMainFilePath(requestPath)
-      const requestModule = this.getResolvedModuleByResource(moduleResourceMap, resolvedPath)
-      if (requestModule) return requestModule
-    }
-
-    for (const module of moduleResourceMap.values()) {
-      if (!module) continue
-
-      if (module.rawRequest === request || module.userRequest === request || module.request === request) {
-        return module
-      }
-    }
-
-    return null
-  }
-
-  resolveImportBindingToTaroComponentName (
-    moduleResourceMap: Map<string, any>,
-    issuerModule: any,
-    binding: any,
-    propertyName?: string,
-    visited = new Set<string>()
-  ): string | null {
-    if (!binding?.source) return null
-
-    if (binding.kind === 'namespace') {
-      if (!propertyName) return null
-
-      if (binding.source === taroJsComponents) {
-        return propertyName
-      }
-
-      const targetModule = this.resolveRequestedModule(moduleResourceMap, issuerModule, binding.source)
-      if (!targetModule) {
-        if (!/^[.\\/]/.test(binding.source)) {
-          return propertyName
-        }
-        return null
-      }
-
-      return this.resolveModuleExportToTaroComponentName(moduleResourceMap, targetModule, propertyName, visited)
-    }
-
-    const importedName = binding.imported || propertyName
-    if (!importedName || importedName === 'default') return null
-
-    if (binding.source === taroJsComponents) {
-      return importedName
-    }
-
-    const targetModule = this.resolveRequestedModule(moduleResourceMap, issuerModule, binding.source)
-    if (!targetModule) {
-      if (!/^[.\\/]/.test(binding.source)) {
-        return importedName
-      }
-      return null
-    }
-
-    return this.resolveModuleExportToTaroComponentName(moduleResourceMap, targetModule, importedName, visited)
-  }
-
-  resolveModuleExportToTaroComponentName (
-    moduleResourceMap: Map<string, any>,
-    module: any,
-    exportName: string,
-    visited = new Set<string>()
-  ): string | null {
-    const moduleResource = this.getModuleResource(module)
-    if (!moduleResource) return null
-
-    const visitKey = `${moduleResource}::${exportName}`
-    if (visited.has(visitKey)) return null
-    visited.add(visitKey)
-
-    const exportBinding = module?.exportBindings?.[exportName]
-    if (exportBinding) {
-      if (exportBinding.kind === 'reexport' && exportBinding.source) {
-        if (exportBinding.source === taroJsComponents) {
-          return exportBinding.imported || exportName
-        }
-
-        const targetModule = this.resolveRequestedModule(moduleResourceMap, module, exportBinding.source)
-        if (targetModule) {
-          const resolvedName = this.resolveModuleExportToTaroComponentName(
-            moduleResourceMap,
-            targetModule,
-            exportBinding.imported || exportName,
-            visited
-          )
-
-          if (resolvedName) return resolvedName
-        }
-      }
-
-      if (exportBinding.kind === 'local' && exportBinding.local) {
-        const importedBinding = module?.importedBindings?.[exportBinding.local]
-        if (importedBinding) {
-          const resolvedName = this.resolveImportBindingToTaroComponentName(
-            moduleResourceMap,
-            module,
-            importedBinding,
-            undefined,
-            visited
-          )
-
-          if (resolvedName) return resolvedName
-        }
-      }
-    }
-
-    for (const source of module?.exportAllSources || []) {
-      if (source === taroJsComponents) {
-        return exportName
-      }
-
-      const targetModule = this.resolveRequestedModule(moduleResourceMap, module, source)
-      if (!targetModule) continue
-
-      const resolvedName = this.resolveModuleExportToTaroComponentName(moduleResourceMap, targetModule, exportName, visited)
-      if (resolvedName) return resolvedName
-    }
-
-    return null
-  }
-
-  resolveUsedComponentRefToTaroComponentName (moduleResourceMap: Map<string, any>, module: any, componentRef: any) {
-    if (!componentRef) return null
-
-    if (componentRef.kind === 'identifier') {
-      const binding = module?.importedBindings?.[componentRef.name]
-      if (!binding) {
-        return componentRef.name
-      }
-
-      const resolvedName = this.resolveImportBindingToTaroComponentName(moduleResourceMap, module, binding)
-      return resolvedName || componentRef.name
-    }
-
-    if (componentRef.kind === 'member') {
-      const binding = module?.importedBindings?.[componentRef.object]
-      if (!binding) {
-        return componentRef.property || null
-      }
-
-      const resolvedName = this.resolveImportBindingToTaroComponentName(moduleResourceMap, module, binding, componentRef.property)
-      return resolvedName || componentRef.property || null
-    }
-
-    return null
-  }
-
-  isSubPackageIndieRootUsingCustomWrapperByModules (compilation: Compilation, root: string) {
-    const moduleResourceMap = this.getCompilationModuleResourceMap(compilation)
-
-    for (const module of this.getSubPackageIndieModules(compilation, root)) {
-      if (this.shouldSkipSubPackageIndieModule(module, root)) continue
-
-      for (const componentRef of module?.usedComponentRefs || []) {
-        const resolvedComponentName = this.resolveUsedComponentRefToTaroComponentName(moduleResourceMap, module, componentRef)
-        if (resolvedComponentName === 'CustomWrapper') {
-          return true
-        }
-      }
-    }
-
-    return false
-  }
-
-  shouldSkipSubPackageIndieModule (module: any, root: string) {
-    const resource = this.getModuleResource(module)
-    if (typeof resource !== 'string' || !resource.startsWith(this.options.sourceDir)) {
-      return false
-    }
-
-    const componentName = this.getComponentName(resource)
-    const targetRoot = this.isInSubPackageIndieRoot(componentName)
-
-    return !!targetRoot && targetRoot !== root
-  }
-
-  collectModuleResolvedComponentIncludes (compilation: Compilation, root: string) {
-    const includes = new Set<string>()
-    const moduleResourceMap = this.getCompilationModuleResourceMap(compilation)
-
-    for (const module of this.getSubPackageIndieModules(compilation, root)) {
-      if (this.shouldSkipSubPackageIndieModule(module, root)) continue
-
-      for (const elementName of module?.elementNameSet || []) {
-        if (!componentConfig.thirdPartyComponents.has(elementName)) {
-          includes.add(elementName)
-        }
-      }
-
-      for (const binding of Object.values(module?.importedBindings || {})) {
-        const resolvedComponentName = this.resolveImportBindingToTaroComponentName(
-          moduleResourceMap,
-          module,
-          binding
-        )
-
-        if (!resolvedComponentName) continue
-
-        const dashedName = this.toDashedComponentName(resolvedComponentName)
-        if (!componentConfig.thirdPartyComponents.has(dashedName)) {
-          includes.add(dashedName)
-        }
-      }
-
-      for (const componentRef of module?.usedComponentRefs || []) {
-        const resolvedComponentName = this.resolveUsedComponentRefToTaroComponentName(moduleResourceMap, module, componentRef)
-        if (!resolvedComponentName) continue
-
-        const dashedName = this.toDashedComponentName(resolvedComponentName)
-        if (!componentConfig.thirdPartyComponents.has(dashedName)) {
-          includes.add(dashedName)
-        }
-      }
-    }
-
-    return includes
-  }
-
-  expandScopedIncludes (includes: Set<string>) {
-    const scopedIncludes = new Set(includes)
-
-    if (scopedIncludes.has('view')) {
-      scopedIncludes.add('catch-view')
-      scopedIncludes.add('static-view')
-      scopedIncludes.add('pure-view')
-      scopedIncludes.add('click-view')
-    }
-    if (scopedIncludes.has('image')) {
-      scopedIncludes.add('static-image')
-    }
-    if (scopedIncludes.has('text')) {
-      scopedIncludes.add('static-text')
-    }
-
-    return scopedIncludes
-  }
-
-  toDashedComponentName (componentName: string) {
-    return componentName.replace(/[A-Z]/g, (match, offset) => `${offset === 0 ? '' : '-'}${match.toLowerCase()}`)
-  }
-
-  collectScopedInnerComponents (compilation: Compilation, root: string) {
-    const includes = new Set<string>()
-
-    const scopedIncludes = componentConfig.scopedIncludes.get(root)
-    if (scopedIncludes && scopedIncludes.size > 0) {
-      scopedIncludes.forEach(name => includes.add(name))
-    }
-
-    this.collectModuleResolvedComponentIncludes(compilation, root).forEach(name => includes.add(name))
-
-    const finalIncludes = includes.size > 0
-      ? includes
-      : new Set(componentConfig.includes)
-
-    return this.expandScopedIncludes(finalIncludes)
-  }
-
-  isSubPackageIndieRootUsingCustomWrapper (
-    compilation: Compilation,
-    root: string,
-    scopedThirdPartyComponents?: Map<string, Set<string>>
-  ) {
-    if (scopedThirdPartyComponents?.has(customWrapperName)) {
-      return true
-    }
-
-    if (this.isSubPackageIndieRootUsingCustomWrapperByModules(compilation, root)) {
-      return true
-    }
-
-    return false
-  }
-
-  resolveUsingComponentTarget (filePath: string, componentPath: string) {
-    if (componentPath.startsWith('plugin://')) return null
-
-    let sourcePath = componentPath
-
-    if (path.isAbsolute(componentPath)) {
-      sourcePath = fs.existsSync(componentPath)
-        ? componentPath
-        : path.resolve(this.options.sourceDir, `.${componentPath}`)
-    } else {
-      const isRelativePath = /^[.\\/]/
-      if (!isRelativePath.test(componentPath)) return null
-      sourcePath = path.resolve(path.dirname(filePath), componentPath)
-    }
-
-    const targetPath = resolveMainFilePath(sourcePath)
-    const targetName = this.getComponentName(targetPath)
-
-    return {
-      path: targetPath,
-      name: targetName,
-      root: this.isInSubPackageIndieRoot(targetName)
-    }
-  }
-
-  getScopedSubPackageIndieComponentConfig (compilation: Compilation, root: string) {
-    const thirdPartyComponents = new Map<string, Set<string>>()
-    const queue = this.getSubPackageIndieEntriesByRoot(root)
-    const visited = new Set<string>()
-
-    while (queue.length) {
-      const current = queue.shift()
-      if (!current || visited.has(current.name)) continue
-
-      visited.add(current.name)
-
-      const fileConfig = this.filesConfig[this.getConfigFilePath(current.name)]?.content
-      const usingComponents = fileConfig?.usingComponents
-      if (!usingComponents) continue
-
-      for (const [componentName, componentValue] of Object.entries(usingComponents)) {
-        if (componentName === customWrapperName) {
-          this.cloneThirdPartyComponent(thirdPartyComponents, componentName)
-          continue
-        }
-
-        if (!componentConfig.thirdPartyComponents.has(componentName)) continue
-
-        const componentPath = componentValue instanceof Array ? componentValue[0] : componentValue
-        const target = this.resolveUsingComponentTarget(current.path!, componentPath)
-
-        this.cloneThirdPartyComponent(thirdPartyComponents, componentName)
-
-        if (!target) continue
-
-        const targetComponent = this.getComponentByName(target.name)
-        if (targetComponent && (!target.root || target.root === root) && !visited.has(targetComponent.name)) {
-          queue.push(targetComponent)
-        }
-      }
-    }
-
-    return {
-      includes: this.collectScopedInnerComponents(compilation, root),
-      exclude: new Set(componentConfig.exclude),
-      thirdPartyComponents,
-      includeAll: false,
-      skipRecursiveComponent: false
-    }
-  }
-
-  /**
-   * 为子分包独立模板生成相关文件
-   * - base.wxml: 完整模板
-   * - utils.wxs: WXS 辅助脚本
-   * - comp.wxml: 组件模板（引用本地 base.wxml）
-   * - comp.json: 组件配置
-   * - custom-wrapper.wxml/json: (如果需要)
-   */
-  generateSubPackageIndieFiles (
-    compilation: Compilation,
-    compiler: Compiler,
-    template: RecursiveTemplate | UnRecursiveTemplate,
-    baseTemplateName: string
-  ): Set<string> {
-    const customWrapperRoots = new Set<string>()
-    if (!this.getSubPackageIndieConfigs().length) return customWrapperRoots
-
-    const allIndieRoots = this.getAllIndieRoots()
-
-    allIndieRoots.forEach(root => {
-      const scopedComponentConfig = this.getScopedSubPackageIndieComponentConfig(compilation, root)
-
-      // ★ 检查该 root 是否禁用了递归组件
-      const isRecursiveDisabled = this.isRecursiveComponentDisabledForRoot(root)
-      if (isRecursiveDisabled) {
-        scopedComponentConfig.skipRecursiveComponent = true
-      }
-
-      const isRootUsingCustomWrapper = isRecursiveDisabled
-        ? false
-        : this.isSubPackageIndieRootUsingCustomWrapper(
-          compilation,
-          root,
-          scopedComponentConfig.thirdPartyComponents
-        )
-      if (isRootUsingCustomWrapper) {
-        customWrapperRoots.add(root)
-        // base.wxml 模板生成依赖 thirdPartyComponents，确保 custom-wrapper 模板不会漏掉
-        if (!scopedComponentConfig.thirdPartyComponents.has(customWrapperName)) {
-          const attrs = componentConfig.thirdPartyComponents.get(customWrapperName)
-          scopedComponentConfig.thirdPartyComponents.set(customWrapperName, new Set(attrs || []))
-        }
-      }
-
-      // 1. 生成 base.wxml
-      this.generateTemplateFile(
-        compilation,
-        compiler,
-        `${root}/${baseTemplateName}`,
-        template.buildTemplate,
-        scopedComponentConfig
-      )
-
-      // 2. 生成 utils.wxs
-      this.generateXSFile(compilation, compiler, `${root}/utils`)
-
-      // 3. 生成 comp.wxml 和 comp.json（如果不支持递归模板且未禁用递归组件）
-      if (!template.isSupportRecursive && !isRecursiveDisabled) {
-        this.generateSubPackageIndieScriptFile(
-          compilation,
-          compiler,
-          `${root}/${baseCompName}`,
-          this.createRecursiveComponentWrapperSource()
-        )
-        this.generateTemplateFile(
-          compilation,
-          compiler,
-          `${root}/${baseCompName}`,
-          template.buildBaseComponentTemplate,
-          this.options.fileType.templ
-        )
-
-        const compConfig: Record<string, any> = {
-          component: true,
-          styleIsolation: STYLE_ISOLATION_APPLY_SHARED,
-          usingComponents: {
-            [baseCompName]: `./${baseCompName}`
-          }
-        }
-        // 只有使用 custom-wrapper 时才添加引用
-        if (isRootUsingCustomWrapper) {
-          compConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
-        }
-        this.generateConfigFile(compilation, compiler, `${root}/${baseCompName}`, compConfig)
-      }
-
-      // 4. 生成 custom-wrapper（如果需要）
-      if (isRootUsingCustomWrapper) {
-        this.generateSubPackageIndieScriptFile(
-          compilation,
-          compiler,
-          `${root}/${customWrapperName}`,
-          this.createRecursiveComponentWrapperSource(customWrapperName)
-        )
-        this.generateTemplateFile(
-          compilation,
-          compiler,
-          `${root}/${customWrapperName}`,
-          template.buildCustomComponentTemplate,
-          this.options.fileType.templ
-        )
-
-        this.generateConfigFile(compilation, compiler, `${root}/${customWrapperName}`, {
-          component: true,
-          styleIsolation: STYLE_ISOLATION_APPLY_SHARED,
-          usingComponents: {
-            [baseCompName]: `./${baseCompName}`,
-            [customWrapperName]: `./${customWrapperName}`
-          }
-        })
-      }
-    })
-
-    return customWrapperRoots
-  }
-
-  /**
-   * 为所有 mainPackageRoot 生成 runtime chunks 文件
-   * 将 app.js, runtime.js, taro.js, vendors.js, common.js 等文件复制到各 mainPackageRoot 目录
-   */
-  generateMainPackageRuntimeFiles (compilation: Compilation, _compiler: Compiler) {
-    const { commonChunks, fileType } = this.options
-    const mainPackageRoots = this.getAllMainPackageRoots()
-    if (!mainPackageRoots.length) return
-
-    const styleExt = fileType.style
-
-    // runtime chunks 列表
-    const runtimeChunks = ['app', ...commonChunks]
-
-    mainPackageRoots.forEach(mainPackageRoot => {
-      runtimeChunks.forEach(chunkName => {
-        // 复制 JS 文件
-        const jsFile = `${chunkName}.js`
-        if (compilation.assets[jsFile]) {
-          let jsContent = compilation.assets[jsFile]
-
-          // 对 app.js 注入递归组件全局初始化代码（subpackageindie 模式）
-          // 这里必须注入到 webpack 模块上下文中，避免在文件顶层使用小程序原生 require('@tarojs/runtime') 导致运行时异常
-          if (chunkName === 'app') {
-            const { RawSource } = compilation.compiler?.webpack?.sources || require('webpack').sources
-            const originalSource = String(jsContent.source?.() || jsContent.toString())
-            const registrarExpr = `(typeof globalThis.__taroRegisterRecursiveComponent==="function"||(globalThis.__taroRegisterRecursiveComponent=function(componentName){const cache=__webpack_require__.c||{};let createRecursiveComponentConfig;for(const key in cache){const exports=cache[key]&&cache[key].exports;if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}if(typeof createRecursiveComponentConfig!=="function"){const modules=__webpack_require__.m||{};for(const moduleId in modules){const moduleFactory=modules[moduleId];if(!moduleFactory||typeof moduleFactory!=="function")continue;const source=String(moduleFactory);if(source.indexOf("createRecursiveComponentConfig")===-1)continue;const exports=__webpack_require__(moduleId);if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}}if(typeof createRecursiveComponentConfig!=="function"){throw new Error("Cannot find createRecursiveComponentConfig in webpack modules");}Component(createRecursiveComponentConfig(componentName));}))`
-            let patchedSource = originalSource
-
-            if (/,\s*exports\.taroApp\s*=/.test(patchedSource)) {
-              patchedSource = patchedSource.replace(/,\s*exports\.taroApp\s*=/, `,${registrarExpr},exports.taroApp=`)
-            } else {
-              patchedSource = patchedSource.replace(/exports\.taroApp\s*=/, `;${registrarExpr};exports.taroApp=`)
-            }
-
-            jsContent = new RawSource(patchedSource)
-          }
-
-          compilation.assets[`${mainPackageRoot}/${jsFile}`] = jsContent
-        }
-
-        // 复制 wxss 文件
-        const cssFile = `${chunkName}${styleExt}`
-        if (compilation.assets[cssFile]) {
-          compilation.assets[`${mainPackageRoot}/${cssFile}`] = compilation.assets[cssFile]
-        }
-      })
-
-      // 复制 app-origin.wxss（原始样式文件）
-      const appOriginCss = `app-origin${styleExt}`
-      if (compilation.assets[appOriginCss]) {
-        compilation.assets[`${mainPackageRoot}/${appOriginCss}`] = compilation.assets[appOriginCss]
-      }
-    })
   }
 
   /** 生成小程序独立分包的相关文件 */
@@ -2209,8 +1332,8 @@ export default class TaroMiniPlugin {
       this.generateConfigFile(compilation, compiler, this.appEntry, this.filesConfig[appConfigName].content)
     }
 
-    // ★ 当配置了 mainPackageRoot 时，跳过根目录模板文件的生成
-    const skipRootTemplates = this.hasSubPackageIndieMainPackageRoot() && this.options.newBlended
+    let skipRootTemplates = false
+    skipRootTemplates = this.hooks.modifySkipRootTemplates.call(skipRootTemplates)
 
     if (!template.isSupportRecursive && !skipRootTemplates) {
       // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
@@ -2256,40 +1379,14 @@ export default class TaroMiniPlugin {
       this.generateXSFile(compilation, compiler, 'utils')
     }
 
-    // ★ 为子分包生成独立的模板文件（base.wxml, utils.wxs, comp.*, custom-wrapper.*）
-    if (this.getSubPackageIndieConfigs().length && this.options.newBlended) {
-      subPackageIndieCustomWrapperRoots = this.generateSubPackageIndieFiles(compilation, compiler, template, baseTemplateName)
-      ;(compilation as any)[subPackageIndieCustomWrapperRootsKey] = subPackageIndieCustomWrapperRoots
-      // 注意：runtime chunks (app.js, app.wxss 等) 需要在 injectCommonStyles 之后生成，
-      // 因为 injectCommonStyles 会修改 app.wxss 并创建 app-origin.wxss
-    }
+    subPackageIndieCustomWrapperRoots = this.hooks.generateExtraFiles.call(subPackageIndieCustomWrapperRoots, compilation, compiler)
+    ;(compilation as any)[subPackageIndieCustomWrapperRootsKey] = subPackageIndieCustomWrapperRoots
 
     this.components.forEach(component => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(component.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(component.name)]
       if (config) {
-        const indieMatch = this.getSubPackageIndieMatch(component.name)
-        if (indieMatch && !component.isNative) {
-          const importBaseCompPath = promoteRelativePath(
-            path.relative(component.path, path.join(sourceDir, indieMatch.root, this.getTargetFilePath(baseCompName, '')))
-          )
-          const importCustomWrapperPath = promoteRelativePath(
-            path.relative(component.path, path.join(sourceDir, indieMatch.root, this.getTargetFilePath(customWrapperName, '')))
-          )
-
-          config.content.usingComponents = {
-            ...config.content.usingComponents
-          }
-
-          const isRootUsingCustomWrapper = subPackageIndieCustomWrapperRoots.has(indieMatch.root)
-          const isRootRecursiveDisabled = this.isRecursiveComponentDisabledForRoot(indieMatch.root)
-          if (isRootUsingCustomWrapper && !isRootRecursiveDisabled && !config.content.usingComponents[customWrapperName]) {
-            config.content.usingComponents[customWrapperName] = importCustomWrapperPath
-          }
-          if (!template.isSupportRecursive && !isRootRecursiveDisabled && !config.content.usingComponents[baseCompName]) {
-            config.content.usingComponents[baseCompName] = importBaseCompPath
-          }
-        }
+        this.hooks.modifyComponentConfig.call({ config, component }, subPackageIndieCustomWrapperRoots)
 
         this.generateConfigFile(compilation, compiler, component.path, config.content)
       }
@@ -2299,19 +1396,7 @@ export default class TaroMiniPlugin {
     })
 
     this.pages.forEach(page => {
-      // ★ 检查是否属于子分包独立模板的子分包
-      const subPackageIndieRoot = this.isInSubPackageIndieRoot(page.name)
-
-      let importBaseTemplatePath: string
-      if (subPackageIndieRoot) {
-        // 子分包：引用本地的 base.wxml
-        importBaseTemplatePath = promoteRelativePath(
-          path.relative(page.path, path.join(sourceDir, subPackageIndieRoot, this.getTemplatePath(baseTemplateName)))
-        )
-      } else {
-        // 主包/普通分包：引用根目录的 base.wxml
-        importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTemplatePath(baseTemplateName))))
-      }
+      let importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTemplatePath(baseTemplateName))))
 
       const config = this.filesConfig[this.getConfigFilePath(page.name)]
       // pages 里面会混合独立分包的，在这里需要过滤一下，避免重复生成 assets
@@ -2320,38 +1405,34 @@ export default class TaroMiniPlugin {
       if (isIndependent) return
 
       // 生成页面模板需要在生成页面配置之前，因为会依赖到页面配置的部分内容
+      let importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTargetFilePath(baseCompName, ''))))
+      let importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTargetFilePath(customWrapperName, ''))))
+      let isPageRecursiveDisabled = false
+      let shouldUseCustomWrapper = isUsingCustomWrapper
+
+      const pageConfigContext = this.hooks.modifyPageConfig.call({
+        importBaseTemplatePath,
+        importBaseCompPath,
+        importCustomWrapperPath,
+        shouldUseCustomWrapper,
+        isPageRecursiveDisabled,
+      }, page, subPackageIndieCustomWrapperRoots)
+
+      importBaseTemplatePath = pageConfigContext.importBaseTemplatePath
+      importBaseCompPath = pageConfigContext.importBaseCompPath
+      importCustomWrapperPath = pageConfigContext.importCustomWrapperPath
+      shouldUseCustomWrapper = pageConfigContext.shouldUseCustomWrapper
+      isPageRecursiveDisabled = pageConfigContext.isPageRecursiveDisabled
+
       if (!page.isNative) {
         this.generateTemplateFile(compilation, compiler, page.path, template.buildPageTemplate, importBaseTemplatePath, config)
       }
 
       if (config) {
-        let importBaseCompPath: string
-        let importCustomWrapperPath: string
-
-        if (subPackageIndieRoot) {
-          // 子分包：引用本地的 comp 和 custom-wrapper
-          importBaseCompPath = promoteRelativePath(
-            path.relative(page.path, path.join(sourceDir, subPackageIndieRoot, this.getTargetFilePath(baseCompName, '')))
-          )
-          importCustomWrapperPath = promoteRelativePath(
-            path.relative(page.path, path.join(sourceDir, subPackageIndieRoot, this.getTargetFilePath(customWrapperName, '')))
-          )
-        } else {
-          // 主包：引用根目录
-          importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTargetFilePath(baseCompName, ''))))
-          importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTargetFilePath(customWrapperName, ''))))
-        }
-
         config.content.usingComponents = {
           ...config.content.usingComponents
         }
 
-        const isPageRecursiveDisabled = subPackageIndieRoot
-          ? this.isRecursiveComponentDisabledForRoot(subPackageIndieRoot)
-          : false
-        const shouldUseCustomWrapper = subPackageIndieRoot
-          ? subPackageIndieCustomWrapperRoots.has(subPackageIndieRoot) && !isPageRecursiveDisabled
-          : isUsingCustomWrapper
         if (shouldUseCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
@@ -2365,10 +1446,7 @@ export default class TaroMiniPlugin {
     this.generateTabBarFiles(compilation, compiler)
     this.injectCommonStyles(compilation, compiler)
 
-    // ★ 为 mainPackageRoot 生成 runtime chunks（必须在 injectCommonStyles 之后，因为需要复制处理后的 app.wxss）
-    if (this.hasSubPackageIndieMainPackageRoot() && this.options.newBlended) {
-      this.generateMainPackageRuntimeFiles(compilation, compiler)
-    }
+    this.hooks.afterGenerateFiles.call(compilation, compiler)
 
     if (this.themeLocation) {
       this.generateDarkModeFile(compilation, compiler)
@@ -2386,11 +1464,6 @@ export default class TaroMiniPlugin {
 
   async optimizeMiniFiles (compilation: Compilation, _compiler: Compiler) {
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
-    const shouldKeepRecursiveComponent = !this.options.template.isSupportRecursive || isUsingCustomWrapper
-    const hasSubPackageIndieCustomWrapperRoots = (compilation as any)[subPackageIndieCustomWrapperRootsKey] instanceof Set
-    const subPackageIndieCustomWrapperRoots: Set<string> = hasSubPackageIndieCustomWrapperRoots
-      ? (compilation as any)[subPackageIndieCustomWrapperRootsKey]
-      : new Set<string>()
 
     /**
      * 与原生小程序混写时解析模板与样式
@@ -2408,77 +1481,15 @@ export default class TaroMiniPlugin {
       }
     })
 
-    if (this.options.newBlended) {
-      this.getAllIndieRoots().forEach(root => {
-        // ★ 禁用递归组件的 root，清理所有 comp/custom-wrapper/recursive-component 残留产物
-        if (this.isRecursiveComponentDisabledForRoot(root)) {
-          delete compilation.assets[`${root}/${baseCompName}.js`]
-          delete compilation.assets[`${root}/${baseCompName}${this.options.fileType.config}`]
-          delete compilation.assets[`${root}/${baseCompName}${this.options.fileType.templ}`]
-          delete compilation.assets[`${root}/${customWrapperName}.js`]
-          delete compilation.assets[`${root}/${customWrapperName}${this.options.fileType.config}`]
-          delete compilation.assets[`${root}/${customWrapperName}${this.options.fileType.templ}`]
-          delete compilation.assets[`${root}/${recursiveComponentName}.js`]
-          return
-        }
-
-        const isRootUsingCustomWrapper = hasSubPackageIndieCustomWrapperRoots
-          ? subPackageIndieCustomWrapperRoots.has(root)
-          : this.isSubPackageIndieRootUsingCustomWrapper(
-            compilation,
-            root,
-            this.getScopedSubPackageIndieComponentConfig(compilation, root).thirdPartyComponents
-          )
-        if (isRootUsingCustomWrapper) return
-        delete compilation.assets[`${root}/${customWrapperName}.js`]
-        delete compilation.assets[`${root}/${customWrapperName}${this.options.fileType.config}`]
-        delete compilation.assets[`${root}/${customWrapperName}${this.options.fileType.templ}`]
-      })
-    }
-
-    if (!shouldKeepRecursiveComponent && this.options.newBlended) {
-      this.getAllIndieRoots().forEach(root => {
-        delete compilation.assets[`${root}/${recursiveComponentName}.js`]
-      })
-    }
-
-    // ★ 当配置了 mainPackageRoot 时，删除根目录的 runtime chunks
-    const { newBlended, commonChunks, fileType } = this.options
-    if (this.hasSubPackageIndieMainPackageRoot() && newBlended) {
-      const styleExt = fileType.style
-      const runtimeChunks = ['app', ...commonChunks]
-
-      runtimeChunks.forEach(chunkName => {
-        // 删除根目录 JS 文件
-        delete compilation.assets[`${chunkName}.js`]
-        // 删除根目录 wxss 文件
-        delete compilation.assets[`${chunkName}${styleExt}`]
-      })
-
-      // 删除 app-origin.wxss
-      delete compilation.assets[`app-origin${styleExt}`]
-
-      // 删除根目录的 comp.js (由 addEntries 生成)
-      delete compilation.assets[`${baseCompName}.js`]
-      // 删除根目录的 custom-wrapper.js
-      delete compilation.assets[`${customWrapperName}.js`]
-    }
+    this.hooks.optimizeAssets.call(compilation)
   }
 
   generateConfigFile (compilation: Compilation, compiler: Compiler, filePath: string, config: Config & { component?: boolean }) {
     const { RawSource } = compiler.webpack.sources
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
 
-    // ★ 为子分包独立模板的组件注入额外配置
     const componentName = this.getComponentName(filePath)
-    const subPackageIndieRoot = this.isInSubPackageIndieRoot(componentName)
-    if (subPackageIndieRoot && this.nativeComponents.has(componentName)) {
-      const styleIsolation = this.options.template.isSupportRecursive
-        ? STYLE_ISOLATION_APPLY_SHARED
-        : STYLE_ISOLATION_SHARED;
-      (config as any).styleIsolation = (config as any).styleIsolation || styleIsolation;
-      (config as any).isNewBlended = true
-    }
+    config = this.hooks.modifyConfig.call(config, componentName)
 
     const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'enablePageMeta', 'components']
     unofficialConfigs.forEach(item => {
@@ -2668,10 +1679,13 @@ registerRecursiveComponent(${args})
       })
     }
 
-    // ★ 判断是否需要处理样式：有 common chunks 或者有 app.wxss
-    const hasMainPackageRoot = this.hasSubPackageIndieMainPackageRoot() && newBlended
+    // 判断是否需要处理样式：有 common chunks 或者有 app.wxss（可被扩展插件修改）
     const hasAppStyle = !!assets[appStyle]
-    const shouldProcessStyles = commons.size() > 0 || (hasMainPackageRoot && hasAppStyle)
+    let shouldProcessStyles = commons.size() > 0
+    if (!hasAppStyle) {
+      shouldProcessStyles = false
+    }
+    shouldProcessStyles = this.hooks.modifyShouldProcessStyles.call(shouldProcessStyles)
 
     if (shouldProcessStyles) {
       const APP_STYLE_NAME = 'app-origin' + styleExt
@@ -2688,7 +1702,6 @@ registerRecursiveComponent(${args})
         this.pages.forEach(page => {
           if (page.isNative) return
           const pageStyle = `${page.name}${styleExt}`
-          const indieMatch = this.getSubPackageIndieMatch(page.name)
           if (this.nativeComponents.has(page.name)) {
             // 本地化组件如果没有wxss则直接写入一个空的
             if (!(pageStyle in assets)) {
@@ -2697,16 +1710,17 @@ registerRecursiveComponent(${args})
             const source = new ConcatSource('')
             const originSource = assets[pageStyle]
 
-            // ★ 检查组件是否属于 subPackageIndie 分包
-            if (indieMatch) {
-              if (indieMatch.isMainPackageRoot) {
-                // mainPackageRoot 下的入口组件：只需引用 ./app.wxss（它已包含 common.wxss 等）
-                source.add(`@import ${JSON.stringify(urlToRequest('./app' + styleExt))};\n`)
-              }
-              // subPackageRoots 下的子分包组件：不注入公共样式引用
-              // 通过 styleIsolation: "apply-shared" 继承入口组件的样式
+            const styleImportContext = this.hooks.modifyStyleImport.call({
+              importStatement: '',
+              shouldSkip: false,
+              isMainPackageRoot: false,
+            }, page)
+
+            if (styleImportContext.shouldSkip) {
+              // no-op
+            } else if (styleImportContext.importStatement) {
+              source.add(styleImportContext.importStatement)
             } else {
-              // 非 subPackageIndie 分包：引用根目录的公共样式
               componentCommons.forEach(item => {
                 source.add(`@import ${JSON.stringify(urlToRequest(path.posix.relative(path.dirname(pageStyle), item)))};\n`)
               })
@@ -2716,15 +1730,19 @@ registerRecursiveComponent(${args})
             assets[pageStyle] = source
           } else {
             // 普通页面（非本地化组件）
-            if (indieMatch?.isMainPackageRoot) {
-              // mainPackageRoot 下的页面：只需 @import './app.wxss'（它已包含 common.wxss 等）
+            const styleImportContext = this.hooks.modifyStyleImport.call({
+              importStatement: '',
+              shouldSkip: false,
+              isMainPackageRoot: false,
+            }, page)
+
+            if (styleImportContext.importStatement) {
               const source = new ConcatSource('')
               if (pageStyle in assets) {
                 source.add(assets[pageStyle])
               }
-              // 创建或更新样式文件，添加 app.wxss 引用
               const importSource = new ConcatSource('')
-              importSource.add(`@import ${JSON.stringify(urlToRequest('./app' + styleExt))};\n`)
+              importSource.add(styleImportContext.importStatement)
               importSource.add(source)
               assets[pageStyle] = importSource
             } else if (pageStyle in assets) {
