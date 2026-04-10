@@ -176,6 +176,7 @@ jobs:
       - name: Move artifacts
         run: pnpm artifacts
       - name: Checkout Harmony Commond Line Tools
+        if: ${{ false }} # Temporarily disable Harmony publish flow
         env:
           COMMANDLINE_TOOLS_URL: https://storage.360buyimg.com/taro-patch/command-line-tools-for-harmony/5.0.13.200/linux_x64
           TOOLS_HOME: ${{ runner.os == 'macOS' && '~/harmony-tools' || '$HOME/harmony-tools' }}
@@ -276,6 +277,7 @@ jobs:
         run: pnpm build
 
       - name: Checkout Harmony Project
+        if: ${{ false }} # Temporarily disable Harmony publish flow
         uses: actions/checkout@v5
         with:
           repository: NervJS/taro-harmony-project
@@ -284,6 +286,7 @@ jobs:
           token: ${{ secrets.CLASSIC_PAT_TOKEN }}
       - name: Build Harmony Package
         id: commitHar
+        if: ${{ false }} # Temporarily disable Harmony publish flow
         run: |-
           which node
           node -v
@@ -343,8 +346,8 @@ jobs:
           ls -R ./npm
           echo "[Debug] Listing ./packages/taro-helper/swc"
           ls -R ./packages/taro-helper/swc
-          echo "[Debug] Listing ./packages/taro-platform-harmony-cpp/static"
-          ls -R ./packages/taro-platform-harmony-cpp/static
+          # echo "[Debug] Listing ./packages/taro-platform-harmony-cpp/static"
+          # ls -R ./packages/taro-platform-harmony-cpp/static
         shell: bash
 
       # Verify bindings
@@ -373,20 +376,31 @@ jobs:
       # ------------------ publish -------------
 
       - name: Install open-harmony SSH key
-        if: env.MOCK_PUBLISH != 'true'
+        if: ${{ false }} # Temporarily disable Harmony publish flow
         uses: shimataro/ssh-key-action@v2
         with:
           name: taro_harmony
           key: ${{ secrets.OHPM_PRIVATE_KEY }}
           known_hosts: unnecessary
       - name: Publish ohpm registry
-        if: env.MOCK_PUBLISH != 'true'
+        if: ${{ false }} # Temporarily disable Harmony publish flow
         run: |
           if ! command -v expect &> /dev/null; then
             echo "Installing expect..."
             sudo apt-get update && sudo apt-get install -y expect
           fi
           pnpm --filter=@tarojs/plugin-platform-harmony-cpp ohpm-publish -- ${{ secrets.OHPM_PUBLISH_CODE }}
+
+      - name: Debug npm auth
+        if: env.MOCK_PUBLISH != 'true'
+        run: |
+          echo "event=${{ github.event_name }} ref=${{ github.ref_name }}"
+          test -n "$NODE_AUTH_TOKEN" || (echo "NPM_TOKEN is empty" && exit 1)
+          NPM_USER=$(npm whoami --registry=https://registry.npmjs.org/)
+          echo "npm user: $NPM_USER"
+          npm access ls-packages "$NPM_USER" --registry=https://registry.npmjs.org/
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish
         if: env.MOCK_PUBLISH != 'true'
