@@ -106,7 +106,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           const { sourceDir } = viteCompilerContext
           list.forEach(async item => {
             const { iconPath, selectedIconPath } = item
-            if (iconPath) {
+            if (iconPath && !iconPath.startsWith('@')) {
               const filePath = path.resolve(sourceDir, iconPath)
               this.emitFile({
                 type: 'asset',
@@ -116,7 +116,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
               this.addWatchFile(filePath)
             }
 
-            if (selectedIconPath) {
+            if (selectedIconPath && !selectedIconPath.startsWith('@')) {
               const filePath = path.resolve(sourceDir, selectedIconPath)
               this.emitFile({
                 type: 'asset',
