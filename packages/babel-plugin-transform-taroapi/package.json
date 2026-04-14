@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-taroapi",
-  "version": "4.1.12-beta.32",
+  "version": "4.1.12-beta.33",
   "author": "O2Team",
   "license": "MIT",
   "main": "dist/index.js",
