@@ -11,7 +11,6 @@ import {
   STYLE_ISOLATION_APPLY_SHARED,
   STYLE_ISOLATION_SHARED,
 } from './MiniPlugin'
-import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { AppConfig, Config } from '@tarojs/taro'
@@ -22,8 +21,6 @@ import type {
 import type TaroMiniPlugin from './MiniPlugin'
 
 export const subPackageIndieCustomWrapperRootsKey = '__taroSubPackageIndieCustomWrapperRoots'
-export const recursiveComponentName = 'recursive-component'
-export const SUBPACKAGE_STANDALONE_CHILD_TAG = 'sub_package_indie_standalone_child'
 
 export type SubPackageIndieConfig = NonNullable<AppConfig['subPackageIndie']>[number]
 export type NormalizedSubPackageIndieConfig = {
@@ -90,10 +87,6 @@ export default class SubPackageIndiePlugin {
           })
         }
       })
-    })
-
-    this.miniPlugin.hooks.compileExtraEntries.tap(PLUGIN_NAME, (compiler, compilation, promises) => {
-      this.compileSubPackageIndieStandaloneEntries(compiler, compilation, promises)
     })
 
     this.miniPlugin.hooks.modifyChunkRequire.tap(PLUGIN_NAME, (result, chunkId, miniType) => {
@@ -187,9 +180,6 @@ export default class SubPackageIndiePlugin {
         ? (compilation as any)[subPackageIndieCustomWrapperRootsKey]
         : new Set<string>()
 
-      const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has(customWrapperName)
-      const shouldKeepRecursiveComponent = !this.options.template.isSupportRecursive || isUsingCustomWrapper
-
       this.getAllIndieRoots().forEach(root => {
         if (this.isRecursiveComponentDisabledForRoot(root)) {
           delete compilation.assets[`${root}/${baseCompName}.js`]
@@ -198,7 +188,6 @@ export default class SubPackageIndiePlugin {
           delete compilation.assets[`${root}/${customWrapperName}.js`]
           delete compilation.assets[`${root}/${customWrapperName}${this.options.fileType.config}`]
           delete compilation.assets[`${root}/${customWrapperName}${this.options.fileType.templ}`]
-          delete compilation.assets[`${root}/${recursiveComponentName}.js`]
           return
         }
 
@@ -214,12 +203,6 @@ export default class SubPackageIndiePlugin {
         delete compilation.assets[`${root}/${customWrapperName}${this.options.fileType.config}`]
         delete compilation.assets[`${root}/${customWrapperName}${this.options.fileType.templ}`]
       })
-
-      if (!shouldKeepRecursiveComponent) {
-        this.getAllIndieRoots().forEach(root => {
-          delete compilation.assets[`${root}/${recursiveComponentName}.js`]
-        })
-      }
 
       if (this.hasSubPackageIndieMainPackageRoot()) {
         const styleExt = this.options.fileType.style
@@ -385,67 +368,6 @@ export default class SubPackageIndiePlugin {
 
   isInSubPackageIndieRoot (pageName: string): string | null {
     return this.getSubPackageIndieMatch(pageName)?.root || null
-  }
-
-  compileSubPackageIndieStandaloneEntries (compiler: Compiler, compilation: Compilation, promises: Promise<null>[]) {
-    const indieRoots = this.getAllIndieRoots()
-
-    if (!this.options.newBlended || !indieRoots.length) return
-
-    const JsonpTemplatePlugin = require('webpack/lib/web/JsonpTemplatePlugin')
-    const NaturalChunkIdsPlugin = require('webpack/lib/ids/NaturalChunkIdsPlugin')
-
-    indieRoots.forEach(root => {
-      if (this.isRecursiveComponentDisabledForRoot(root)) return
-
-      const childCompiler = compilation.createChildCompiler(PLUGIN_NAME, {
-        path: compiler.options.output.path,
-        filename: '[name].js',
-        chunkFilename: '[name].js',
-        chunkLoadingGlobal: `subpackage_indie_${root.replace(/[\\/]/g, '_')}`,
-      })
-
-      childCompiler.inputFileSystem = compiler.inputFileSystem
-      childCompiler.outputFileSystem = compiler.outputFileSystem
-      childCompiler.context = compiler.context
-      new JsonpTemplatePlugin().apply(childCompiler)
-      new NaturalChunkIdsPlugin().apply(childCompiler)
-      new compiler.webpack.DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
-
-      childCompiler.hooks.compilation.tap(PLUGIN_NAME, (childCompilation) => {
-        (childCompilation as any).__tag = SUBPACKAGE_STANDALONE_CHILD_TAG
-        ;(childCompilation as any).__name = root
-      })
-
-      childCompiler.options.optimization = {
-        ...childCompiler.options.optimization,
-        splitChunks: false,
-        runtimeChunk: false,
-      }
-
-      const outputOptions: any = childCompiler.options.output || {}
-      const libraryOptions = typeof outputOptions.library === 'object' && outputOptions.library !== null
-        ? outputOptions.library
-        : {}
-      childCompiler.options.output = {
-        ...outputOptions,
-        library: {
-          ...libraryOptions,
-          type: 'commonjs2',
-        },
-      }
-
-      new TaroSingleEntryPlugin(
-        compiler.context,
-        path.resolve(__dirname, '..', 'template/recursive-component'),
-        `${root}/${recursiveComponentName}`,
-        META_TYPE.EXPORTS
-      ).apply(childCompiler)
-
-      promises.push(new Promise<null>((resolve, reject) => {
-        childCompiler.runAsChild(err => err ? reject(err) : resolve(null))
-      }))
-    })
   }
 
   getModuleSourceContent (module: any): string {
