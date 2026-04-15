@@ -27,7 +27,6 @@ import { validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../utils/component'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import SubPackageIndiePlugin, {
-  SUBPACKAGE_STANDALONE_CHILD_TAG,
   subPackageIndieCustomWrapperRootsKey,
 } from './SubPackageIndiePlugin'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
@@ -401,7 +400,6 @@ export default class TaroMiniPlugin {
           stage: PROCESS_ASSETS_STAGE_ADDITIONAL
         },
         this.tryAsync<any>(async () => {
-          if ((compilation as any).__tag === SUBPACKAGE_STANDALONE_CHILD_TAG) return
           // 如果是子编译器，证明是编译独立分包，进行单独的处理
           if ((compilation as any).__tag === CHILD_COMPILER_TAG) {
             await this.generateIndependentMiniFiles(compilation, compiler)
@@ -418,7 +416,6 @@ export default class TaroMiniPlugin {
           stage: PROCESS_ASSETS_STAGE_OPTIMIZE
         },
         this.tryAsync<any>(async () => {
-          if ((compilation as any).__tag === SUBPACKAGE_STANDALONE_CHILD_TAG) return
           await this.optimizeMiniFiles(compilation, compiler)
         })
       )
@@ -430,7 +427,6 @@ export default class TaroMiniPlugin {
           stage: PROCESS_ASSETS_STAGE_REPORT
         },
         this.tryAsync<any>(async () => {
-          if ((compilation as any).__tag === SUBPACKAGE_STANDALONE_CHILD_TAG) return
           if (typeof modifyBuildAssets === 'function') {
             await modifyBuildAssets(compilation.assets, this)
           }
