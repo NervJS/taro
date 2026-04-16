@@ -15,6 +15,7 @@ import {
   getPostcssPlugins,
   stripMultiPlatformExt
 } from '../utils'
+import { TaroCompilerContext } from '../utils/compiler/mini'
 import { DEFAULT_TERSER_OPTIONS, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME } from '../utils/constants'
 import { logger } from '../utils/logger'
 
@@ -57,10 +58,17 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
       ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false,
     }
 
+    const forceCustomWrapper = !taroConfig.template.isSupportRecursive && viteCompilerContext instanceof TaroCompilerContext
+      ? viteCompilerContext.computeForceCustomWrapper()
+      : false
+
     return {
       ...envConstants,
       ...defineConstants,
       ...runtimeConstants,
+      ...(!taroConfig.template.isSupportRecursive
+        ? { TARO_FORCE_CUSTOM_WRAPPER: JSON.stringify(forceCustomWrapper) }
+        : {}),
     }
   }
 

@@ -247,6 +247,12 @@ declare module './index' {
      */
     styleIsolation?: 'isolated' | 'apply-shared' | 'shared'
     /**
+     * 构建期是否为递归壳 comp 开启额外实例绑定；同一编译 root 内任一页为 true 则该 root 的 comp 生效。
+     * 不会写入小程序页面 json。
+     * @default false
+     */
+    forceCustomWrapper?: boolean
+    /**
      * 设置导航栏额外图标，目前支持设置属性 icon，值为图标 url（以 https/http 开头）或 base64 字符串，大小建议 30*30 px
      *
      * 点击后触发 onOptionMenuClick（**注意**：该配置即将废弃。）。

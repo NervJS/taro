@@ -7,9 +7,10 @@ import { hydrate } from '../hydrate'
 import { extend, incrementId, isComment } from '../utils'
 import { eventSource } from './event-source'
 import { TaroEventTarget } from './event-target'
+import { bumpNearestCtxEpochForRoot, getNearestCtx } from './nearest-ctx'
 import { NodeType } from './node_types'
 
-import type { TFunc, UpdatePayload } from '../interface'
+import type { MpInstance, TFunc, UpdatePayload } from '../interface'
 import type { TaroDocument } from './document'
 import type { TaroElement } from './element'
 import type { TaroRootElement } from './root'
@@ -67,6 +68,10 @@ export class TaroNode extends TaroEventTarget {
 
   public get _root (): TaroRootElement | null {
     return this.parentNode?._root || null
+  }
+
+  public get _nearestCtx (): MpInstance | null | undefined {
+    return getNearestCtx(this)
   }
 
   protected findIndex (refChild: TaroNode): number {
@@ -228,6 +233,10 @@ export class TaroNode extends TaroEventTarget {
       }
     }
 
+    if (this._root) {
+      bumpNearestCtxEpochForRoot(this._root)
+    }
+
     MutationObserver.record({
       type: MutationRecordType.CHILD_LIST,
       target: this,
@@ -313,6 +322,10 @@ export class TaroNode extends TaroEventTarget {
     // Serialization
     if (this._root && doUpdate !== false) {
       this.updateChildNodes()
+    }
+
+    if (this._root) {
+      bumpNearestCtxEpochForRoot(this._root)
     }
 
     return child

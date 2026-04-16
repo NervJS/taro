@@ -163,6 +163,16 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
     meta.isGenerated = true
   }
 
+  computeForceCustomWrapper (): boolean {
+    if (this.taroConfig.template.isSupportRecursive) return false
+    for (const page of this.pages) {
+      if (page.isNative) continue
+      const content = this.filesConfig[this.getConfigFilePath(page.name)]?.content as { forceCustomWrapper?: boolean } | undefined
+      if (content?.forceCustomWrapper) return true
+    }
+    return false
+  }
+
   /** 工具函数 */
   getScriptPath (filePath: string) {
     return this.getTargetFilePath(filePath, this.fileType.script)

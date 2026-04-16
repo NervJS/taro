@@ -25,6 +25,7 @@ import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../utils/component'
+import { computeForceCustomWrapperForIndependentPackage } from '../utils/forceCustomWrapper'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import SubPackageIndiePlugin, {
   subPackageIndieCustomWrapperRootsKey,
@@ -255,6 +256,7 @@ export default class TaroMiniPlugin {
       PLUGIN_NAME,
       this.tryAsync<Compiler>(async compiler => {
         await this.run(compiler)
+        this.applyForceCustomWrapperDefine(compiler)
         new TaroLoadChunksPlugin({
           commonChunks: commonChunks,
           isBuildPlugin,
@@ -274,6 +276,7 @@ export default class TaroMiniPlugin {
           this.isWatch = true
         }
         await this.run(compiler)
+        this.applyForceCustomWrapperDefine(compiler)
         if (!this.loadChunksPlugin) {
           this.loadChunksPlugin = new TaroLoadChunksPlugin({
             commonChunks: commonChunks,
@@ -887,6 +890,34 @@ export default class TaroMiniPlugin {
     })
   }
 
+  computeForceCustomWrapperForWebpackMainComp (): boolean {
+    if (this.options.template.isSupportRecursive) return false
+    const independentPaths = new Set<string>()
+    this.independentPackages.forEach(({ pages }) => {
+      pages.forEach(p => independentPaths.add(p))
+    })
+    for (const page of this.pages) {
+      if (page.isNative || independentPaths.has(page.path)) continue
+      const content = this.filesConfig[this.getConfigFilePath(page.name)]?.content as { forceCustomWrapper?: boolean } | undefined
+      if (content?.forceCustomWrapper) return true
+    }
+    return false
+  }
+
+  computeForceCustomWrapperForIndieRoot (pages: string[]): boolean {
+    return computeForceCustomWrapperForIndependentPackage(
+      pages, this.pages, this.filesConfig, (p) => this.getConfigFilePath(p)
+    )
+  }
+
+  applyForceCustomWrapperDefine (compiler: Compiler): void {
+    if (this.options.template.isSupportRecursive) return
+    const value = this.computeForceCustomWrapperForWebpackMainComp()
+    new compiler.webpack.DefinePlugin({
+      TARO_FORCE_CUSTOM_WRAPPER: JSON.stringify(value)
+    }).apply(compiler)
+  }
+
   replaceExt (file: string, ext: string) {
     return path.join(path.dirname(file), path.basename(file, path.extname(file)) + `${ext}`)
   }
@@ -1061,7 +1092,10 @@ export default class TaroMiniPlugin {
           filename: `[name]${this.options.fileType.style}`,
           chunkFilename: `[name]${this.options.fileType.style}`
         }).apply(childCompiler)
-        new compiler.webpack.DefinePlugin(this.options.constantsReplaceList).apply(childCompiler)
+        new compiler.webpack.DefinePlugin({
+          ...this.options.constantsReplaceList,
+          TARO_FORCE_CUSTOM_WRAPPER: JSON.stringify(this.computeForceCustomWrapperForIndieRoot(pages))
+        }).apply(childCompiler)
         if (compiler.options.optimization) {
           new SplitChunksPlugin({
             chunks: 'all',
@@ -1487,7 +1521,7 @@ export default class TaroMiniPlugin {
     const componentName = this.getComponentName(filePath)
     config = this.hooks.modifyConfig.call(config, componentName)
 
-    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'enablePageMeta', 'components']
+    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'enablePageMeta', 'components', 'forceCustomWrapper']
     unofficialConfigs.forEach(item => {
       delete config[item]
     })
@@ -1503,15 +1537,23 @@ export default class TaroMiniPlugin {
     compilation.assets[this.getTargetFilePath(filePath, '.js')] = new RawSource(content)
   }
 
-  createRecursiveComponentWrapperSource (componentName?: string) {
-    const args = componentName ? JSON.stringify(componentName) : ''
+  createRecursiveComponentWrapperSource (componentName?: string, forceCustomWrapper = false) {
+    const args: string[] = []
+    if (componentName) {
+      args.push(JSON.stringify(componentName))
+    } else if (forceCustomWrapper) {
+      args.push('undefined')
+    }
+    if (forceCustomWrapper) {
+      args.push('true')
+    }
     return `const registerRecursiveComponent = globalThis.__taroRegisterRecursiveComponent
 
 if (typeof registerRecursiveComponent !== 'function') {
   throw new Error('globalThis.__taroRegisterRecursiveComponent is not a function')
 }
 
-registerRecursiveComponent(${args})
+registerRecursiveComponent(${args.join(', ')})
 `
   }
 

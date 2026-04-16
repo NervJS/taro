@@ -19,6 +19,7 @@ export { taroHistoryProvider as history, taroLocationProvider as location, taroW
 export { TaroElement } from './dom/element'
 export { createEvent, eventHandler, TaroEvent } from './dom/event'
 export { FormElement } from './dom/form'
+export { bumpNearestCtxEpochForRoot, getNearestCtx, isNearestCtxEnv } from './dom/nearest-ctx'
 export { TaroNode } from './dom/node'
 export { TaroRootElement } from './dom/root'
 export { Style } from './dom/style'

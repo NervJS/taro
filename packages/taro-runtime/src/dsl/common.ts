@@ -10,6 +10,7 @@ import { taroWindowProvider } from '../bom/window'
 import { BEHAVIORS, CONTEXT_ACTIONS, CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW } from '../constants'
 import { Current } from '../current'
 import { eventHandler } from '../dom/event'
+import { bumpNearestCtxEpochForRoot } from '../dom/nearest-ctx'
 import { eventCenter } from '../emitter/emitter'
 import env from '../env'
 import { perf } from '../perf'
@@ -156,6 +157,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
           loadResolver()
           if (process.env.TARO_PLATFORM !== 'web') {
             pageElement.ctx = this
+            bumpNearestCtxEpochForRoot(pageElement)
             pageElement.performUpdate(true, cb)
           } else {
             isFunction(cb) && cb()
@@ -181,6 +183,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         unmounting = false
         instances.delete($taroPath)
         if (pageElement) {
+          bumpNearestCtxEpochForRoot(pageElement)
           pageElement.ctx = null
           pageElement = null
         }
@@ -353,29 +356,38 @@ export function createComponentConfig (component: React.ComponentClass, componen
   return config
 }
 
-export function createRecursiveComponentConfig (componentName?: string) {
+export function createRecursiveComponentConfig (
+  componentName?: string,
+  forceCustomWrapper = false
+) {
   const isCustomWrapper = componentName === CUSTOM_WRAPPER
   const [ATTACHED, DETACHED] = hooks.call('getMiniLifecycleImpl')!.component
 
-  const lifeCycles = isCustomWrapper
+  const lifeCycles = isCustomWrapper || forceCustomWrapper
     ? {
       [ATTACHED] () {
         const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
-          customWrapperCache.set(componentId, this)
+          if (isCustomWrapper) {
+            customWrapperCache.set(componentId, this)
+          }
           const el = env.document.getElementById(componentId)
           if (el) {
             el.ctx = this
+            bumpNearestCtxEpochForRoot(el._root)
           }
         }
       },
       [DETACHED] () {
         const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
-          customWrapperCache.delete(componentId)
+          if (isCustomWrapper) {
+            customWrapperCache.delete(componentId)
+          }
           const el = env.document.getElementById(componentId)
           if (el) {
             el.ctx = null
+            bumpNearestCtxEpochForRoot(el._root)
           }
         }
       }
@@ -410,5 +422,5 @@ export function createRecursiveComponentConfig (componentName?: string) {
         eh: eventHandler
       },
       ...lifeCycles
-    }, { isCustomWrapper })
+    }, { isCustomWrapper, forceCustomWrapper })
 }
