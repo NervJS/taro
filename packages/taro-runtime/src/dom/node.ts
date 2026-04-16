@@ -70,7 +70,7 @@ export class TaroNode extends TaroEventTarget {
     return this.parentNode?._root || null
   }
 
-  public get _nearestCtx (): MpInstance | null | undefined {
+  public get _scope (): MpInstance | null | undefined {
     return getNearestCtx(this)
   }
 
