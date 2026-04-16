@@ -2,6 +2,7 @@ const _true = 'true'
 const _false = 'false'
 const _empty = ''
 const _zero = '0'
+const _object = '{}'
 
 export const components = {
   // ======== 调整属性 ========
@@ -346,5 +347,12 @@ export const components = {
   ChannelLive: {
     feedId: _empty,
     finderUserName: _empty
+  },
+  OpenEmbeddedAtomicservice: {
+    appid: _empty,
+    path: _empty,
+    'want-param': _object,
+    bindterminated: _empty,
+    binderror: _empty
   }
 }
