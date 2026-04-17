@@ -795,13 +795,18 @@ export default class SubPackageIndiePlugin {
   isSubPackageIndieRootUsingCustomWrapper (
     compilation: Compilation,
     root: string,
-    scopedThirdPartyComponents?: Map<string, Set<string>>
+    scopedThirdPartyComponents?: Map<string, Set<string>>,
+    forceCustomWrapper = this.isForceCustomWrapperEnabledForRoot(root)
   ) {
     if (scopedThirdPartyComponents?.has(customWrapperName)) {
       return true
     }
 
     if (this.isSubPackageIndieRootUsingCustomWrapperByModules(compilation, root)) {
+      return true
+    }
+
+    if (forceCustomWrapper) {
       return true
     }
 
@@ -853,6 +858,20 @@ export default class SubPackageIndiePlugin {
     })
 
     return Array.from(entries.values())
+  }
+
+  isForceCustomWrapperEnabledForRoot (root: string): boolean {
+    if (this.options.template.isSupportRecursive) return false
+
+    const entries = this.getSubPackageIndieEntriesByRoot(root)
+    for (const entry of entries) {
+      if (entry?.isNative) continue
+
+      const content = this.miniPlugin.filesConfig[this.miniPlugin.getConfigFilePath(entry.name)]?.content as { forceCustomWrapper?: boolean } | undefined
+      if (content?.forceCustomWrapper) return true
+    }
+
+    return false
   }
 
   getComponentByName (componentName: string) {
@@ -910,15 +929,23 @@ export default class SubPackageIndiePlugin {
     compilation.assets[this.miniPlugin.getTargetFilePath(filePath, '.js')] = new RawSource(content)
   }
 
-  createRecursiveComponentWrapperSource (componentName?: string) {
-    const args = componentName ? JSON.stringify(componentName) : ''
+  createRecursiveComponentWrapperSource (componentName?: string, forceCustomWrapper = false) {
+    const args: string[] = []
+    if (componentName) {
+      args.push(JSON.stringify(componentName))
+    } else if (forceCustomWrapper) {
+      args.push('undefined')
+    }
+    if (forceCustomWrapper) {
+      args.push('true')
+    }
     return `const registerRecursiveComponent = globalThis.__taroRegisterRecursiveComponent
 
 if (typeof registerRecursiveComponent !== 'function') {
   throw new Error('globalThis.__taroRegisterRecursiveComponent is not a function')
 }
 
-registerRecursiveComponent(${args})
+registerRecursiveComponent(${args.join(', ')})
 `
   }
 
@@ -941,12 +968,17 @@ registerRecursiveComponent(${args})
         scopedComponentConfig.skipRecursiveComponent = true
       }
 
+      const forceCustomWrapperForRoot = isRecursiveDisabled
+        ? false
+        : this.isForceCustomWrapperEnabledForRoot(root)
+
       const isRootUsingCustomWrapper = isRecursiveDisabled
         ? false
         : this.isSubPackageIndieRootUsingCustomWrapper(
           compilation,
           root,
-          scopedComponentConfig.thirdPartyComponents
+          scopedComponentConfig.thirdPartyComponents,
+          forceCustomWrapperForRoot
         )
       if (isRootUsingCustomWrapper) {
         customWrapperRoots.add(root)
@@ -971,7 +1003,7 @@ registerRecursiveComponent(${args})
           compilation,
           compiler,
           `${root}/${baseCompName}`,
-          this.createRecursiveComponentWrapperSource()
+          this.createRecursiveComponentWrapperSource(undefined, forceCustomWrapperForRoot)
         )
         this.miniPlugin.generateTemplateFile(
           compilation,
@@ -999,7 +1031,7 @@ registerRecursiveComponent(${args})
           compilation,
           compiler,
           `${root}/${customWrapperName}`,
-          this.createRecursiveComponentWrapperSource(customWrapperName)
+          this.createRecursiveComponentWrapperSource(customWrapperName, forceCustomWrapperForRoot)
         )
         this.miniPlugin.generateTemplateFile(
           compilation,

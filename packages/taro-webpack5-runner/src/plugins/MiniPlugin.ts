@@ -1532,31 +1532,6 @@ export default class TaroMiniPlugin {
     compilation.assets[fileConfigName] = new RawSource(fileConfigStr)
   }
 
-  generateSubPackageIndieScriptFile (compilation: Compilation, compiler: Compiler, filePath: string, content: string) {
-    const { RawSource } = compiler.webpack.sources
-    compilation.assets[this.getTargetFilePath(filePath, '.js')] = new RawSource(content)
-  }
-
-  createRecursiveComponentWrapperSource (componentName?: string, forceCustomWrapper = false) {
-    const args: string[] = []
-    if (componentName) {
-      args.push(JSON.stringify(componentName))
-    } else if (forceCustomWrapper) {
-      args.push('undefined')
-    }
-    if (forceCustomWrapper) {
-      args.push('true')
-    }
-    return `const registerRecursiveComponent = globalThis.__taroRegisterRecursiveComponent
-
-if (typeof registerRecursiveComponent !== 'function') {
-  throw new Error('globalThis.__taroRegisterRecursiveComponent is not a function')
-}
-
-registerRecursiveComponent(${args.join(', ')})
-`
-  }
-
   generateTemplateFile (compilation: Compilation, compiler: Compiler, filePath: string, templateFn: (...args) => string, ...options) {
     const { RawSource } = compiler.webpack.sources
     let templStr = templateFn(...options)
