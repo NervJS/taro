@@ -795,18 +795,13 @@ export default class SubPackageIndiePlugin {
   isSubPackageIndieRootUsingCustomWrapper (
     compilation: Compilation,
     root: string,
-    scopedThirdPartyComponents?: Map<string, Set<string>>,
-    forceCustomWrapper = this.isForceCustomWrapperEnabledForRoot(root)
+    scopedThirdPartyComponents?: Map<string, Set<string>>
   ) {
     if (scopedThirdPartyComponents?.has(customWrapperName)) {
       return true
     }
 
     if (this.isSubPackageIndieRootUsingCustomWrapperByModules(compilation, root)) {
-      return true
-    }
-
-    if (forceCustomWrapper) {
       return true
     }
 
@@ -978,7 +973,6 @@ registerRecursiveComponent(${args.join(', ')})
           compilation,
           root,
           scopedComponentConfig.thirdPartyComponents,
-          forceCustomWrapperForRoot
         )
       if (isRootUsingCustomWrapper) {
         customWrapperRoots.add(root)
