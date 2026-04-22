@@ -78,6 +78,7 @@ import { VideoProps } from './Video'
 import { ViewProps } from './View'
 import { VoipRoomProps } from './VoipRoom'
 import { WebViewProps } from './WebView'
+import { OpenEmbeddedAtomicserviceProps } from './OpenEmbeddedAtomicservice'
 
 /** 因为react的事件是CamelCase而vue得是Camelcase, 所以需要转换 */
 type OnCamelCaseToOnCamelcase<T extends string> = T extends `on${infer Rest}`
@@ -173,6 +174,7 @@ export declare const AdCustom: VueComponentType<AdCustomProps>
 export declare const OfficialAccount: VueComponentType<OfficialAccountProps>
 export declare const OpenData: VueComponentType<OpenDataProps>
 export declare const WebView: VueComponentType<WebViewProps>
+export declare const OpenEmbeddedAtomicservice: VueComponentType<OpenEmbeddedAtomicserviceProps>
 /** 配置节点 */
 export declare const PageMeta: VueComponentType<PageMetaProps>
 
@@ -317,6 +319,8 @@ declare global {
       'taro-open-data-core': ElementAttrs<TransformReact2VueType<OpenDataProps>>
       'web-view': ElementAttrs<TransformReact2VueType<WebViewProps>>
       'taro-web-view-core': ElementAttrs<TransformReact2VueType<WebViewProps>>
+      'open-embedded-atomicservice': ElementAttrs<TransformReact2VueType<OpenEmbeddedAtomicserviceProps>>
+      'taro-open-embedded-atomicservice-core': ElementAttrs<TransformReact2VueType<OpenEmbeddedAtomicserviceProps>>
       /** 配置节点 */
       'page-meta': ElementAttrs<TransformReact2VueType<PageMetaProps>>
       'taro-page-meta-core': ElementAttrs<TransformReact2VueType<PageMetaProps>>

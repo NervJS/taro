@@ -5,6 +5,7 @@ import { processApis } from '@tarojs/shared'
  * 如：Taro.navigateToMiniProgram()，实际执行的是has.navigateToAtomicService()
  */
 const reflectApisMap: Map<string, string> = new Map([
+  ['restartMiniProgram', 'restartAtomicService'],
   ['navigateToMiniProgram', 'navigateToAtomicService'],
   ['navigateBackMiniProgram', 'navigateBackAtomicService']
 ])

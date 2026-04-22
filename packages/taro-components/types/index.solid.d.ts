@@ -64,6 +64,7 @@ import { VideoProps } from '@tarojs/components/types/Video'
 import { ViewProps } from '@tarojs/components/types/View'
 import { VoipRoomProps } from '@tarojs/components/types/VoipRoom'
 import { WebViewProps } from '@tarojs/components/types/WebView'
+import { OpenEmbeddedAtomicserviceProps } from '@tarojs/components/types/OpenEmbeddedAtomicservice'
 
 // 重置react的类型
 interface SlimProps {
@@ -146,6 +147,7 @@ export declare const AdCustom: Components<AdCustomProps>
 export declare const OfficialAccount: Components<OfficialAccountProps>
 export declare const OpenData: Components<OpenDataProps>
 export declare const WebView: Components<WebViewProps>
+export declare const OpenEmbeddedAtomicservice: Components<OpenEmbeddedAtomicserviceProps>
 /** 配置节点 */
 export declare const PageMeta: Components<PageMetaProps>
 
@@ -279,6 +281,8 @@ declare global {
       'taro-open-data-core': TransformReact2SolidType<OpenDataProps>
       'web-view': TransformReact2SolidType<WebViewProps>
       'taro-web-view-core': TransformReact2SolidType<WebViewProps>
+      'open-embedded-atomicservice': TransformReact2SolidType<OpenEmbeddedAtomicserviceProps>
+      'taro-open-embedded-atomicservice-core': TransformReact2SolidType<OpenEmbeddedAtomicserviceProps>
       /** 配置节点 */
       'page-meta': TransformReact2SolidType<PageMetaProps>
       'taro-page-meta-core': TransformReact2SolidType<PageMetaProps>

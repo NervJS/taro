@@ -124,3 +124,5 @@ export { Slot } from './Slot'
 export { NativeSlot } from './NativeSlot'
 export { Script } from './Script'
 export { PullToRefresh } from './PullToRefresh'
+export { OpenEmbeddedAtomicservice } from './OpenEmbeddedAtomicservice'
+
