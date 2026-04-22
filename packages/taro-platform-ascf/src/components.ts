@@ -515,4 +515,11 @@ export const components = {
   ScaleGestureHandler: {},
   TapGestureHandler: {},
   VerticalDragGestureHandler: {},
+  OpenEmbeddedAtomicservice: {
+    appid: _empty,
+    path: _empty,
+    'want-param': _object,
+    bindterminated: _empty,
+    binderror: _empty
+  }
 }
