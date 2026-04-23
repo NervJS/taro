@@ -204,8 +204,39 @@ export class MapContextImpl implements TaroMapContext {
    * @supported weapp, tt
    */
   getRegion(option?: TaroMapContext.GetRegionOption): Promise<TaroMapContext.GetRegionSuccessCallbackResult> {
-    console.warn(logPrefix, '[MapContext.getRegion] 暂未实现', option)
-    return Promise.reject(new Error('getRegion: 暂未实现'))
+    const handle = new MethodHandler({
+      name: 'getRegion',
+      success: option?.success,
+      fail: option?.fail,
+      complete: option?.complete,
+    })
+
+    if (!this.map) {
+      return handle.fail({ errMsg: '地图实例不存在' })
+    }
+
+    try {
+      // 调用腾讯地图 API: map.getBounds()
+      const bounds = this.map.getBounds()
+      console.log(logPrefix, '[MapContext.getRegion] 执行成功:', bounds)
+
+      const sw = bounds.getSouthWest()
+      const ne = bounds.getNorthEast()
+
+      return handle.success({
+        southwest: {
+          latitude: sw.lat,
+          longitude: sw.lng,
+        },
+        northeast: {
+          latitude: ne.lat,
+          longitude: ne.lng,
+        },
+      })
+    } catch (error: any) {
+      console.error(logPrefix, '[MapContext.getRegion] 执行失败:', error)
+      return handle.fail({ errMsg: error?.message || String(error) })
+    }
   }
 
   /**
@@ -213,8 +244,29 @@ export class MapContextImpl implements TaroMapContext {
    * @supported weapp, tt
    */
   getRotate(option?: TaroMapContext.GetRotateOption): Promise<TaroMapContext.GetRotateSuccessCallbackResult> {
-    console.warn(logPrefix, '[MapContext.getRotate] 暂未实现', option)
-    return Promise.reject(new Error('getRotate: 暂未实现'))
+    const handle = new MethodHandler({
+      name: 'getRotate',
+      success: option?.success,
+      fail: option?.fail,
+      complete: option?.complete,
+    })
+
+    if (!this.map) {
+      return handle.fail({ errMsg: '地图实例不存在' })
+    }
+
+    try {
+      // 调用腾讯地图 API: map.getRotation()
+      const rotate = this.map.getRotation()
+      console.log(logPrefix, '[MapContext.getRotate] 执行成功:', rotate)
+
+      return handle.success({
+        rotate: rotate,
+      })
+    } catch (error: any) {
+      console.error(logPrefix, '[MapContext.getRotate] 执行失败:', error)
+      return handle.fail({ errMsg: error?.message || String(error) })
+    }
   }
 
   /**

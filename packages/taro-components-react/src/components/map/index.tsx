@@ -29,6 +29,8 @@ function Map (props: MapProps) {
     minScale,
     maxScale,
     enableRotate,
+    rotate,
+    skew,
     markers,
     polyline,
     onTap,
@@ -131,6 +133,8 @@ function Map (props: MapProps) {
     minZoom: minScale ?? 3,
     maxZoom: maxScale ?? 20,
     rotatable: enableRotate ?? false, // Taro: enableRotate；tlbs-map-react: options.rotatable
+    ...(typeof rotate === 'number' && { rotation: rotate }), // Taro: rotate；tlbs-map-react: options.rotation
+    ...(typeof skew === 'number' && { pitch: skew }), // Taro: skew；tlbs-map-react: options.pitch
   }
 
   /** ************************处理事件********************** */
