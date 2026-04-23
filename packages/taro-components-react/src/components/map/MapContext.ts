@@ -138,9 +138,31 @@ export class MapContextImpl implements TaroMapContext {
    * 获取当前地图中心的经纬度
    * @supported weapp, tt
    */
-  getCenterLocation(_option?: TaroMapContext.GetCenterLocationOption): Promise<TaroMapContext.GetCenterLocationSuccessCallbackResult> {
-    console.warn(logPrefix, '[MapContext.getCenterLocation] 暂未实现')
-    return Promise.reject(new Error('getCenterLocation: 暂未实现'))
+  getCenterLocation(option?: TaroMapContext.GetCenterLocationOption): Promise<TaroMapContext.GetCenterLocationSuccessCallbackResult> {
+    const handle = new MethodHandler({
+      name: 'getCenterLocation',
+      success: option?.success,
+      fail: option?.fail,
+      complete: option?.complete,
+    })
+
+    if (!this.map) {
+      return handle.fail({ errMsg: '地图实例不存在' })
+    }
+
+    try {
+      // 调用腾讯地图 API: map.getCenter()
+      const center = this.map.getCenter()
+      console.log(logPrefix, '[MapContext.getCenterLocation] 执行成功:', center)
+
+      return handle.success({
+        latitude: center.lat,
+        longitude: center.lng,
+      })
+    } catch (error: any) {
+      console.error(logPrefix, '[MapContext.getCenterLocation] 执行失败:', error)
+      return handle.fail({ errMsg: error?.message || String(error) })
+    }
   }
 
   /**
