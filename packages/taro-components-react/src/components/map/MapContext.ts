@@ -274,8 +274,29 @@ export class MapContextImpl implements TaroMapContext {
    * @supported weapp, tt
    */
   getSkew(option?: TaroMapContext.GetSkewOption): Promise<TaroMapContext.GetSkewSuccessCallbackResult> {
-    console.warn(logPrefix, '[MapContext.getSkew] 暂未实现', option)
-    return Promise.reject(new Error('getSkew: 暂未实现'))
+    const handle = new MethodHandler({
+      name: 'getSkew',
+      success: option?.success,
+      fail: option?.fail,
+      complete: option?.complete,
+    })
+
+    if (!this.map) {
+      return handle.fail({ errMsg: '地图实例不存在' })
+    }
+
+    try {
+      // 调用腾讯地图 API: map.getPitch()
+      const skew = this.map.getPitch()
+      console.log(logPrefix, '[MapContext.getSkew] 执行成功:', skew)
+
+      return handle.success({
+        skew: skew,
+      })
+    } catch (error: any) {
+      console.error(logPrefix, '[MapContext.getSkew] 执行失败:', error)
+      return handle.fail({ errMsg: error?.message || String(error) })
+    }
   }
 
   /**
@@ -283,8 +304,29 @@ export class MapContextImpl implements TaroMapContext {
    * @supported weapp, tt
    */
   getScale(option?: TaroMapContext.GetScaleOption): Promise<TaroMapContext.GetScaleSuccessCallbackResult> {
-    console.warn(logPrefix, '[MapContext.getScale] 暂未实现', option)
-    return Promise.reject(new Error('getScale: 暂未实现'))
+    const handle = new MethodHandler({
+      name: 'getScale',
+      success: option?.success,
+      fail: option?.fail,
+      complete: option?.complete,
+    })
+
+    if (!this.map) {
+      return handle.fail({ errMsg: '地图实例不存在' })
+    }
+
+    try {
+      // 调用腾讯地图 API: map.getZoom()
+      const scale = this.map.getZoom()
+      console.log(logPrefix, '[MapContext.getScale] 执行成功:', scale)
+
+      return handle.success({
+        scale: scale,
+      })
+    } catch (error: any) {
+      console.error(logPrefix, '[MapContext.getScale] 执行失败:', error)
+      return handle.fail({ errMsg: error?.message || String(error) })
+    }
   }
 
   /**
@@ -292,8 +334,36 @@ export class MapContextImpl implements TaroMapContext {
    * @supported weapp, tt
    */
   setCenterOffset(option: TaroMapContext.SetCenterOffsetOption): Promise<TaroGeneral.CallbackResult> {
-    console.warn(logPrefix, '[MapContext.setCenterOffset] 暂未实现', option)
-    return Promise.reject(new Error('setCenterOffset: 暂未实现'))
+    const handle = new MethodHandler({
+      name: 'setCenterOffset',
+      success: option?.success,
+      fail: option?.fail,
+      complete: option?.complete,
+    })
+
+    if (!this.map) {
+      return handle.fail({ errMsg: '地图实例不存在' })
+    }
+
+    try {
+      const { offset } = option
+      console.log(logPrefix, '[MapContext.setCenterOffset] 开始执行:', { offset })
+
+      // 转换 offset 格式: Taro [x, y] -> TMap {x, y}
+      const offsetOption = {
+        x: offset[0],
+        y: offset[1],
+      }
+
+      // 调用腾讯地图 API: map.setOffset()
+      this.map.setOffset(offsetOption)
+
+      console.log(logPrefix, '[MapContext.setCenterOffset] 执行成功')
+      return handle.success({})
+    } catch (error: any) {
+      console.error(logPrefix, '[MapContext.setCenterOffset] 执行失败:', error)
+      return handle.fail({ errMsg: error?.message || String(error) })
+    }
   }
 
   /**
