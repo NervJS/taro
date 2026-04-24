@@ -225,6 +225,7 @@ export class MapContextImpl implements TaroMapContext {
    */
   moveAlong(_object: any): void {
     console.warn(logPrefix, '[MapContext.moveAlong] 暂未实现')
+    throw new Error('moveAlong: 暂未实现')
   }
 
   /**
@@ -630,6 +631,7 @@ export class MapContextImpl implements TaroMapContext {
     callback: (res: TaroMapContext.MapEvent[keyof TaroMapContext.MapEvent]) => void
   ): void {
     console.warn(logPrefix, '[MapContext.on] 暂未实现', event, callback)
+    throw new Error('on: 暂未实现')
   }
 }
 
