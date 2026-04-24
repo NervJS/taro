@@ -178,9 +178,37 @@ export class MapContextImpl implements TaroMapContext {
    * 将地图中心移置当前定位点
    * @supported weapp, tt
    */
-  moveToLocation(_option: TaroMapContext.MoveToLocationOption): Promise<TaroGeneral.CallbackResult> {
-    console.warn(logPrefix, '[MapContext.moveToLocation] 暂未实现')
-    return Promise.reject(new Error('moveToLocation: 暂未实现'))
+  moveToLocation(option: TaroMapContext.MoveToLocationOption): Promise<TaroGeneral.CallbackResult> {
+    const handle = new MethodHandler({
+      name: 'moveToLocation',
+      success: option?.success,
+      fail: option?.fail,
+      complete: option?.complete,
+    })
+
+    if (!this.map) {
+      return handle.fail({ errMsg: '地图实例不存在' })
+    }
+
+    try {
+      const { latitude, longitude } = option
+      console.log(logPrefix, '[MapContext.moveToLocation] 开始执行:', { latitude, longitude })
+
+      // 参数校验
+      if (latitude === undefined || longitude === undefined) {
+        return handle.fail({ errMsg: 'latitude 和 longitude 参数必须提供' })
+      }
+
+      // 调用腾讯地图 API: map.panTo()
+      const latLng = new TMap.LatLng(latitude, longitude)
+      this.map.panTo(latLng, {} as any)
+
+      console.log(logPrefix, '[MapContext.moveToLocation] 执行成功')
+      return handle.success({})
+    } catch (error: any) {
+      console.error(logPrefix, '[MapContext.moveToLocation] 执行失败:', error)
+      return handle.fail({ errMsg: error?.message || String(error) })
+    }
   }
 
   /**
@@ -434,8 +462,35 @@ export class MapContextImpl implements TaroMapContext {
    * @supported weapp
    */
   setBoundary(option: TaroMapContext.SetBoundaryOption): Promise<TaroGeneral.CallbackResult> {
-    console.warn(logPrefix, '[MapContext.setBoundary] 暂未实现', option)
-    return Promise.reject(new Error('setBoundary: 暂未实现'))
+    const handle = new MethodHandler({
+      name: 'setBoundary',
+      success: option?.success,
+      fail: option?.fail,
+      complete: option?.complete,
+    })
+
+    if (!this.map) {
+      return handle.fail({ errMsg: '地图实例不存在' })
+    }
+
+    try {
+      const { southwest, northeast } = option
+      console.log(logPrefix, '[MapContext.setBoundary] 开始执行:', { southwest, northeast })
+
+      // 转换坐标格式: {latitude, longitude} -> TMap.LatLng
+      const sw = new TMap.LatLng(southwest.latitude, southwest.longitude)
+      const ne = new TMap.LatLng(northeast.latitude, northeast.longitude)
+      const bounds = new TMap.LatLngBounds(sw, ne)
+
+      // 调用腾讯地图 API: map.setBoundary()
+      this.map.setBoundary(bounds)
+
+      console.log(logPrefix, '[MapContext.setBoundary] 执行成功')
+      return handle.success({})
+    } catch (error: any) {
+      console.error(logPrefix, '[MapContext.setBoundary] 执行失败:', error)
+      return handle.fail({ errMsg: error?.message || String(error) })
+    }
   }
 
   /**
@@ -461,8 +516,36 @@ export class MapContextImpl implements TaroMapContext {
    * @supported weapp
    */
   toScreenLocation(option: TaroMapContext.ToScreenLocationOption): Promise<TaroGeneral.CallbackResult> {
-    console.warn(logPrefix, '[MapContext.toScreenLocation] 暂未实现', option)
-    return Promise.reject(new Error('toScreenLocation: 暂未实现'))
+    const handle = new MethodHandler({
+      name: 'toScreenLocation',
+      success: option?.success,
+      fail: option?.fail,
+      complete: option?.complete,
+    })
+
+    if (!this.map) {
+      return handle.fail({ errMsg: '地图实例不存在' })
+    }
+
+    try {
+      const { latitude, longitude } = option
+      console.log(logPrefix, '[MapContext.toScreenLocation] 开始执行:', { latitude, longitude })
+
+      // 转换坐标格式: {latitude, longitude} -> TMap.LatLng
+      const latLng = new TMap.LatLng(latitude, longitude)
+
+      // 调用腾讯地图 API: map.projectToContainer()
+      const point = this.map.projectToContainer(latLng)
+
+      console.log(logPrefix, '[MapContext.toScreenLocation] 执行成功:', point)
+      return handle.success({
+        x: point.x,
+        y: point.y,
+      })
+    } catch (error: any) {
+      console.error(logPrefix, '[MapContext.toScreenLocation] 执行失败:', error)
+      return handle.fail({ errMsg: error?.message || String(error) })
+    }
   }
 
   /**
@@ -470,8 +553,36 @@ export class MapContextImpl implements TaroMapContext {
    * @supported weapp
    */
   fromScreenLocation(option: TaroMapContext.FromScreenLocationOption): Promise<TaroGeneral.CallbackResult> {
-    console.warn(logPrefix, '[MapContext.fromScreenLocation] 暂未实现', option)
-    return Promise.reject(new Error('fromScreenLocation: 暂未实现'))
+    const handle = new MethodHandler({
+      name: 'fromScreenLocation',
+      success: option?.success,
+      fail: option?.fail,
+      complete: option?.complete,
+    })
+
+    if (!this.map) {
+      return handle.fail({ errMsg: '地图实例不存在' })
+    }
+
+    try {
+      const { x, y } = option
+      console.log(logPrefix, '[MapContext.fromScreenLocation] 开始执行:', { x, y })
+
+      // 转换坐标格式: {x, y} -> TMap.Point
+      const point = new TMap.Point(x, y)
+
+      // 调用腾讯地图 API: map.unprojectFromContainer()
+      const latLng = this.map.unprojectFromContainer(point)
+
+      console.log(logPrefix, '[MapContext.fromScreenLocation] 执行成功:', latLng)
+      return handle.success({
+        latitude: latLng.lat,
+        longitude: latLng.lng,
+      })
+    } catch (error: any) {
+      console.error(logPrefix, '[MapContext.fromScreenLocation] 执行失败:', error)
+      return handle.fail({ errMsg: error?.message || String(error) })
+    }
   }
 
   /**
