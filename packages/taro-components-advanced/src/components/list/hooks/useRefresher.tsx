@@ -1,5 +1,5 @@
 import { Slot, View } from '@tarojs/components'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
 import { supportsNativeRefresher } from '../utils'
 
@@ -41,6 +41,15 @@ const H5_DAMPING_LIMIT_VH = 0.8
 const VIEWPORT_HEIGHT_FALLBACK = 800
 const DEG_LIMIT = 40
 export const DEFAULT_REFRESHER_HEIGHT = 50
+
+function resolveTaroMeasureElement (ref: React.RefObject<any>): HTMLElement | null {
+  const n = ref.current
+  if (!n) return null
+  if (typeof Element !== 'undefined' && n instanceof Element) return n as HTMLElement
+  const el = n.$el ?? n
+  if (el && typeof Element !== 'undefined' && el instanceof Element) return el as HTMLElement
+  return null
+}
 
 function nowMs (): number {
   if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
@@ -107,6 +116,11 @@ interface UseRefresherReturn {
   }
   addImperativeTouchListeners?: (el: HTMLElement) => () => void
   renderRefresherContent: () => React.ReactNode | null
+  /**
+   * 刷新区几何高度：H5 等非小程序原生路径下与 List 绝对层 height / translateY 及本 hook 内下拉收尾动画一致。
+   * 小程序原生 refresher 由 ScrollView 负责展示与布局，List 侧槽位样式不依赖此字段。
+   */
+  slotHeight: number
 }
 
 export function useRefresher(
@@ -114,7 +128,9 @@ export function useRefresher(
   /** 列表逻辑顶部对应的 scrollTop，用于触顶判断；H5「顶栏悬浮+只滚列表」时传 0，imperative 内以 DOM scrollTop 为准 */
   scrollTopAtLogicalTop: number,
   /** scrollElement 模式下可选：下拉起始点须在 List 内才触发刷新；未传时默认 true（沿用原逻辑） */
-  getIsTouchInListArea?: (ev: TouchEvent) => boolean
+  getIsTouchInListArea?: (ev: TouchEvent) => boolean,
+  /** H5 等：开启刷新区时是否测量自定义内容高度（与 List 侧 isH5 && refresher 一致） */
+  enableH5SlotMeasure?: boolean
 ): UseRefresherReturn {
   const [internalRefreshing, setInternalRefreshing] = useState(false)
   const [pullDistance, setPullDistance] = useState(0)
@@ -159,6 +175,48 @@ export function useRefresher(
 
   const getIsTouchInListAreaRef = useRef(getIsTouchInListArea)
   getIsTouchInListAreaRef.current = getIsTouchInListArea
+
+  const [measuredSlotHeight, setMeasuredSlotHeight] = useState(0)
+  const h5MeasureRef = useRef<any>(null)
+  const setH5MeasureRef = useCallback((el: any) => {
+    h5MeasureRef.current = el
+  }, [])
+
+  const hasCustomRefresherChildren = config?.children != null
+
+  const slotHeight = useMemo(() => {
+    if (!config || config.refresherEnabled === false) return DEFAULT_REFRESHER_HEIGHT
+    if (!hasCustomRefresherChildren) return DEFAULT_REFRESHER_HEIGHT
+    if (supportsNativeRefresher) return DEFAULT_REFRESHER_HEIGHT
+    if (!enableH5SlotMeasure) return DEFAULT_REFRESHER_HEIGHT
+    return measuredSlotHeight > 0 ? measuredSlotHeight : DEFAULT_REFRESHER_HEIGHT
+  }, [
+    config,
+    hasCustomRefresherChildren,
+    measuredSlotHeight,
+    enableH5SlotMeasure,
+  ])
+
+  const slotHeightRef = useRef(slotHeight)
+  slotHeightRef.current = slotHeight
+
+  useLayoutEffect(() => {
+    if (!enableH5SlotMeasure) {
+      setMeasuredSlotHeight(0)
+      return
+    }
+    if (!hasCustomRefresherChildren) return
+    const node = resolveTaroMeasureElement(h5MeasureRef)
+    if (!node || typeof ResizeObserver === 'undefined') return
+    const ro = new ResizeObserver((entries) => {
+      const entry = entries[0]
+      if (!entry) return
+      const h = Math.max(1, Math.ceil(entry.contentRect.height))
+      setMeasuredSlotHeight(prev => (prev === h ? prev : h))
+    })
+    ro.observe(node)
+    return () => ro.disconnect()
+  }, [enableH5SlotMeasure, hasCustomRefresherChildren, config?.children])
 
   const scrollViewRefresherProps = config && supportsNativeRefresher ? {
     refresherEnabled: config.refresherEnabled ?? true,
@@ -375,7 +433,7 @@ export function useRefresher(
       if (!cfg || refreshingLockRef.current || isRefreshingRef.current) return
       refreshingLockRef.current = true
       const pullValue = lastPull
-      const height = DEFAULT_REFRESHER_HEIGHT
+      const height = slotHeightRef.current
       pullAtReleaseRef.current = pullValue
       if (!isControlledRef.current) setInternalRefreshingRef.current(true)
       emitStatusChangeRef.current(RefreshStatus.Refreshing, pullValue)
@@ -394,9 +452,10 @@ export function useRefresher(
           .then(
             () => {
               if (!refreshingLockRef.current) return
-              emitStatusChangeRef.current(RefreshStatus.Completed, DEFAULT_REFRESHER_HEIGHT)
+              const slotH = slotHeightRef.current
+              emitStatusChangeRef.current(RefreshStatus.Completed, slotH)
               requestAnimationFrame(() =>
-                runBounceBack(DEFAULT_REFRESHER_HEIGHT, () => {
+                runBounceBack(slotH, () => {
                   refreshingLockRef.current = false
                   lastPullRef.current = 0
                   lastPull = 0
@@ -408,7 +467,7 @@ export function useRefresher(
             },
             () => {
               emitStatusChangeRef.current(RefreshStatus.Failed, pullValue)
-              emitStatusChangeRef.current(RefreshStatus.Completed, DEFAULT_REFRESHER_HEIGHT)
+              emitStatusChangeRef.current(RefreshStatus.Completed, slotHeightRef.current)
               safeReset()
             }
           )
@@ -494,6 +553,7 @@ export function useRefresher(
 
     return (
       <View
+        ref={!supportsNativeRefresher && hasCustomChildren ? setH5MeasureRef : undefined}
         style={{
           width: '100%',
           minHeight: hasCustomChildren ? undefined : DEFAULT_REFRESHER_HEIGHT,
@@ -510,16 +570,17 @@ export function useRefresher(
         )}
       </View>
     )
-  }, [config, pullDistance, isRefreshing])
+  }, [config, pullDistance, isRefreshing, setH5MeasureRef])
 
   /** 受控 refresherTriggered=true：无下拉也显示加载条 */
   React.useEffect(() => {
     if (!isControlled || !config || config.refresherTriggered !== true) return
-    if (pullDistanceRef.current >= DEFAULT_REFRESHER_HEIGHT) return
-    setPullDistanceRef.current(DEFAULT_REFRESHER_HEIGHT)
-    pullDistanceRef.current = DEFAULT_REFRESHER_HEIGHT
-    emitStatusChangeRef.current(RefreshStatus.Refreshing, DEFAULT_REFRESHER_HEIGHT)
-  }, [isControlled, config?.refresherTriggered])
+    const h = slotHeightRef.current
+    if (pullDistanceRef.current >= h) return
+    setPullDistanceRef.current(h)
+    pullDistanceRef.current = h
+    emitStatusChangeRef.current(RefreshStatus.Refreshing, h)
+  }, [isControlled, config?.refresherTriggered, slotHeight])
 
   /** 受控 refresherTriggered=false：回弹清零；与 touch 共用 rafRef，cancel 时须在此释放 refreshingLockRef */
   const prevTriggeredRef = useRef(config?.refresherTriggered)
@@ -532,7 +593,7 @@ export function useRefresher(
     prevTriggeredRef.current = false
     if (prev === true && (pullDistanceRef.current > 0 || isRefreshingRef.current)) {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
-      const from = pullDistanceRef.current > 0 ? pullDistanceRef.current : DEFAULT_REFRESHER_HEIGHT
+      const from = pullDistanceRef.current > 0 ? pullDistanceRef.current : slotHeightRef.current
       emitStatusChangeRef.current(RefreshStatus.Completed, from)
       const startTime = nowMs()
       const animate = () => {
@@ -554,7 +615,7 @@ export function useRefresher(
       }
       rafRef.current = requestAnimationFrame(animate)
     }
-  }, [isControlled, config?.refresherTriggered])
+  }, [isControlled, config?.refresherTriggered, slotHeight])
 
   return {
     scrollViewRefresherProps,
@@ -567,5 +628,6 @@ export function useRefresher(
     },
     addImperativeTouchListeners: !supportsNativeRefresher && config && h5RefresherEnabled ? addImperativeTouchListeners : undefined,
     renderRefresherContent,
+    slotHeight,
   }
 }

@@ -45,5 +45,10 @@ function resolveNearestCtxValue (node: TaroNode, root: TaroRootElement): MpInsta
 }
 
 export function bumpNearestCtxEpochForRoot (root: TaroRootElement | null | undefined): void {
-  root?.bumpNearestCtxEpoch()
+  if (!isNearestCtxEnv() || root == null) {
+    return
+  }
+  if (typeof root.bumpNearestCtxEpoch === 'function') {
+    root.bumpNearestCtxEpoch()
+  }
 }

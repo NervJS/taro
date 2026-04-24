@@ -8,7 +8,7 @@ import { useItemSizeCache } from './hooks/useItemSizeCache'
 import { useListNestedScroll } from './hooks/useListNestedScroll'
 import { type ListScrollElementAttachRefs, useListScrollElementAttach } from './hooks/useListScrollElementAttach'
 import { useListScrollElementAttachWeapp } from './hooks/useListScrollElementAttachWeapp'
-import { type ListRefresherConfig, DEFAULT_REFRESHER_HEIGHT, useRefresher } from './hooks/useRefresher'
+import { type ListRefresherConfig, useRefresher } from './hooks/useRefresher'
 import { useResizeObserver } from './hooks/useResizeObserver'
 import { useScrollCorrection } from './hooks/useScrollCorrection'
 import ListItem from './ListItem'
@@ -476,12 +476,14 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     h5RefresherProps,
     addImperativeTouchListeners,
     renderRefresherContent,
+    slotHeight: h5RefresherSlotHeight,
   } = useRefresher(
     refresherConfig,
     isH5 && refresherConfig && !supportsNativeRefresher ? 0 : renderOffset,
     useScrollElementMode
       ? (ev: TouchEvent) => (ev.target != null && contentWrapperRef.current?.contains(ev.target as Node)) ?? false
-      : undefined
+      : undefined,
+    !!(isH5 && refresherConfig && !supportsNativeRefresher && refresherConfig.refresherEnabled !== false)
   )
   const refresherTeardownRef = React.useRef<(() => void) | null>(null)
   const addImperativeTouchListenersRef = React.useRef(addImperativeTouchListeners)
@@ -490,8 +492,10 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     if (refresherTeardownRef.current) refresherTeardownRef.current()
   }, [])
 
-  // H5 下拉刷新顶栏高度（默认 50px，来自 useRefresher）
-  const refresherHeightForH5 = (isH5 && refresherConfig && !supportsNativeRefresher && refresherConfig.refresherEnabled !== false) ? DEFAULT_REFRESHER_HEIGHT : 0
+  // H5 下拉刷新顶栏高度：自定义内容由 useRefresher 内 ResizeObserver 测量，否则默认 50
+  const refresherHeightForH5 = (isH5 && refresherConfig && !supportsNativeRefresher && refresherConfig.refresherEnabled !== false)
+    ? h5RefresherSlotHeight
+    : 0
 
   // 解析分组结构：StickySection、ListItem 为直接子组件，过滤 Refresher/NoMore
   const sections = React.useMemo(() => {
