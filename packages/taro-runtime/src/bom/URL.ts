@@ -1,7 +1,7 @@
 import { isString, isUndefined } from '@tarojs/shared'
 
 import env from '../env'
-import { URLSearchParams } from './URLSearchParams'
+import { TaroURLSearchParams, URLSearchParams } from './URLSearchParams'
 
 class TaroURL {
   static createObjectURL () {
@@ -19,6 +19,8 @@ class TaroURL {
   #port = ''
   #protocol = ''
   #search: URLSearchParams
+  #searchModified = false
+  #searchRaw = ''
 
   constructor (url: string, base?: string) {
     if (!isString(url)) url = String(url)
@@ -31,7 +33,7 @@ class TaroURL {
     this.#pathname = pathname || '/'
     this.#port = port
     this.#protocol = protocol
-    this.#search = new URLSearchParams(search)
+    this.#setSearch(search)
   }
 
   /* public property */
@@ -90,6 +92,8 @@ class TaroURL {
   }
 
   get search () {
+    if (!this.#searchModified) return this.#searchRaw
+
     const val = this.#search.toString()
     return (val.length === 0 || val.startsWith('?')) ? val : `?${val}`
   }
@@ -97,7 +101,7 @@ class TaroURL {
   set search (val: string) {
     if (isString(val)) {
       val = val.trim()
-      this.#search = new URLSearchParams(val)
+      this.#setSearch(val)
     }
   }
 
@@ -155,6 +159,19 @@ class TaroURL {
 
   toJSON () {
     return this.toString()
+  }
+
+  #setSearch (val: string) {
+    const search = val ? (val.startsWith('?') ? val : `?${val}`) : ''
+
+    this.#searchRaw = search
+    this.#searchModified = false
+    this.#search = new URLSearchParams(search)
+    if (this.#search instanceof TaroURLSearchParams) {
+      this.#search._setOnChange(() => {
+        this.#searchModified = true
+      })
+    }
   }
 
   // convenient for deconstructor
