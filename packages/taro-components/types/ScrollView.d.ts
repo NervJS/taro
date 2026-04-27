@@ -113,7 +113,7 @@ interface ScrollViewProps extends StandardProps {
   /** 当 scroll-with-animation设置为 true 时，可以设置 scroll-animation-duration 来控制动画的执行时间，单位 ms。
    * @supported alipay
    */
-  scrollAnimationDuration?: string
+  scrollAnimationDuration?: number
   /** 纵向滚动时，当滚动到顶部或底部时，强制禁止触发页面滚动，仍然只触发 scroll-view 自身的滚动。
    * @supported alipay
    * @default false
