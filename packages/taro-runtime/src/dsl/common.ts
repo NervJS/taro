@@ -366,7 +366,7 @@ export function createRecursiveComponentConfig (
   const lifeCycles = isCustomWrapper || forceCustomWrapper
     ? {
       [ATTACHED] () {
-        const componentId = this.data.i?.sid || this.props.i?.sid
+        const componentId = this.data?.i?.sid || this.props?.i?.sid
         if (isString(componentId)) {
           if (isCustomWrapper) {
             customWrapperCache.set(componentId, this)
@@ -379,7 +379,7 @@ export function createRecursiveComponentConfig (
         }
       },
       [DETACHED] () {
-        const componentId = this.data.i?.sid || this.props.i?.sid
+        const componentId = this.data?.i?.sid || this.props?.i?.sid
         if (isString(componentId)) {
           if (isCustomWrapper) {
             customWrapperCache.delete(componentId)
