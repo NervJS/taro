@@ -26,6 +26,11 @@ export class Image implements ComponentInterface {
   @Prop() mode: Mode = 'scaleToFill'
   @Prop() lazyLoad = false
   @Prop() nativeProps = {}
+  /**
+   * H5 / WebComponents 为 true 时关闭默认占位，外层容器宽高均为 `auto`（默认 false 仍为小程序对齐的 320×240）。
+   * @default false
+   */
+  @Prop() disableDefaultSize = false
 
   @State() aspectFillMode = 'width'
   @State() didLoad = false
@@ -93,7 +98,8 @@ export class Image implements ComponentInterface {
     const mode = this.mode || 'scaleToFill'
 
     const cls = classNames({
-      'taro-img__widthfix': mode === 'widthFix'
+      'taro-img__widthfix': mode === 'widthFix',
+      'taro-img__disable-default-size': this.disableDefaultSize,
     })
     const imgCls = classNames(
       `taro-img__mode-${mode.toLowerCase().replace(/\s/g, '')}`,
