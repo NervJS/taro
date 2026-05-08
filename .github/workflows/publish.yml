@@ -97,7 +97,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.0.0
       - name: Setup Node 18
         uses: actions/setup-node@v6
         with:
@@ -345,6 +345,11 @@ jobs:
           ls -R ./packages/taro-helper/swc
           echo "[Debug] Listing ./packages/taro-platform-harmony-cpp/static"
           ls -R ./packages/taro-platform-harmony-cpp/static
+        shell: bash
+
+      # Verify bindings
+      - name: Verify Bindings
+        run: node scripts/verify-bindings.js
         shell: bash
 
       # Git stash
