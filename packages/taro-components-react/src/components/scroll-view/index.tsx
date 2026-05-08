@@ -3,8 +3,9 @@ import './style/index.scss'
 import { isFunction } from '@tarojs/shared'
 import classNames from 'classnames'
 
+import { ScrollElementContext } from '../../contexts/ScrollElementContext'
 import { createForwardRefComponent, throttle } from '../../utils'
-import { useEffect, useRef } from '../../utils/hooks'
+import { useEffect, useRef, useState } from '../../utils/hooks'
 
 import type React from 'react'
 
@@ -32,11 +33,18 @@ function easeOutScroll (from = 0, to = 0, callback) {
   step()
 }
 
-function scrollIntoView (id = '', isHorizontal = false, animated = true, scrollIntoViewAlignment?: ScrollLogicalPosition) {
+/** 未开启的滚动轴使用 nearest 避免原生 scrollIntoView 沿该轴滚动整页 */
+function scrollIntoView (
+  id = '',
+  animated = true,
+  scrollX = false,
+  scrollY = false,
+  scrollIntoViewAlignment?: ScrollLogicalPosition
+) {
   document.querySelector(`#${id}`)?.scrollIntoView({
     behavior: animated ? 'smooth' : 'auto',
-    block: !isHorizontal ? (scrollIntoViewAlignment || 'center') : 'center',
-    inline: isHorizontal ? (scrollIntoViewAlignment || 'start') : 'start'
+    block: scrollY ? (scrollIntoViewAlignment || 'center') : 'nearest',
+    inline: scrollX ? (scrollIntoViewAlignment || 'start') : 'nearest'
   })
 }
 
@@ -77,15 +85,25 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   onScrollToUpper: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   onScrollToLower: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   onScroll: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
+  onScrollStart?: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
+  onScrollEnd?: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   onTouchMove: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
+  onTouchStart?: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
+  onTouchEnd?: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   showScrollbar?: boolean // 新增参数，默认true
   enhanced?: boolean // 新增参数，默认false
+  /** 嵌套滚动：内容在滚动容器中的起始偏移（固定头部等场景） */
+  startOffset?: number
 }
 
 function ScrollView (props: IProps) {
   const _scrollTop = useRef<any>(null)
   const _scrollLeft = useRef<any>(null)
   const container = useRef<any>(null)
+  const scrollEndTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const isScrollingRef = useRef<boolean>(false)
+  const isInitializedRef = useRef<boolean>(false)
+  const [containerHeight, setContainerHeight] = useState(0)
   const onTouchMove = (e) => {
     e.stopPropagation()
   }
@@ -99,36 +117,59 @@ function ScrollView (props: IProps) {
       document.querySelector &&
       document.querySelector(`#${props.scrollIntoView}`)
     ) {
-      const isHorizontal = props.scrollX && !props.scrollY
       if (isInit) {
-        setTimeout(() => scrollIntoView(props.scrollIntoView, props.scrollWithAnimation, isHorizontal, props.scrollIntoViewAlignment), 500)
+        setTimeout(
+          () =>
+            scrollIntoView(
+              props.scrollIntoView,
+              props.scrollWithAnimation,
+              !!props.scrollX,
+              !!props.scrollY,
+              props.scrollIntoViewAlignment
+            ),
+          500
+        )
       } else {
-        scrollIntoView(props.scrollIntoView, props.scrollWithAnimation, isHorizontal, props.scrollIntoViewAlignment)
+        scrollIntoView(
+          props.scrollIntoView,
+          props.scrollWithAnimation,
+          !!props.scrollX,
+          !!props.scrollY,
+          props.scrollIntoViewAlignment
+        )
       }
     } else {
       const isAnimation = !!props.scrollWithAnimation
       // Y 轴滚动
       if (props.scrollY && typeof props.scrollTop === 'number' && props.scrollTop !== _scrollTop.current) {
-        if (isInit) {
-          setTimeout(() => scrollVertical(container, _scrollTop, props.scrollTop, isAnimation), 10)
-        } else {
-          scrollVertical(container, _scrollTop, props.scrollTop, isAnimation)
-        }
+        setTimeout(() => scrollVertical(container, _scrollTop, props.scrollTop, isAnimation), 10)
       }
       // X 轴滚动
       if (props.scrollX && typeof props.scrollLeft === 'number' && props.scrollLeft !== _scrollLeft.current) {
-        if (isInit) {
-          setTimeout(() => scrollHorizontal(container, _scrollLeft, props.scrollLeft, isAnimation), 10)
-        } else {
-          scrollHorizontal(container, _scrollLeft, props.scrollLeft, isAnimation)
-        }
+        setTimeout(() => scrollHorizontal(container, _scrollLeft, props.scrollLeft, isAnimation), 10)
       }
     }
   }
 
   useEffect(() => {
     handleScroll(props, true)
+    isInitializedRef.current = true
   }, [])
+
+  // 监听 scrollTop、scrollLeft、scrollIntoView 的变化（排除初始化）
+  useEffect(() => {
+    if (isInitializedRef.current && container.current) {
+      handleScroll(props, false)
+    }
+  }, [
+    props.scrollTop,
+    props.scrollLeft,
+    props.scrollIntoView,
+    props.scrollIntoViewAlignment,
+    props.scrollWithAnimation,
+    props.scrollX,
+    props.scrollY
+  ])
 
   const {
     className,
@@ -186,27 +227,100 @@ function ScrollView (props: IProps) {
         scrollWidth
       }
     })
+
+    // 处理滚动开始
+    if (!isScrollingRef.current) {
+      isScrollingRef.current = true
+      if (props.onScrollStart) {
+        props.onScrollStart(e)
+      }
+    }
+
+    // 清除滚动结束定时器
+    if (scrollEndTimerRef.current) {
+      clearTimeout(scrollEndTimerRef.current)
+      scrollEndTimerRef.current = null
+    }
+
+    // 设置滚动结束定时器（150ms 无滚动事件后触发）
+    if (props.onScrollEnd) {
+      scrollEndTimerRef.current = setTimeout(() => {
+        if (isScrollingRef.current) {
+          isScrollingRef.current = false
+          props.onScrollEnd?.(e)
+        }
+        scrollEndTimerRef.current = null
+      }, 150)
+    }
+
     upperAndLowerThrottle(e)
     onScroll && onScroll(e)
   }
   const _onTouchMove = e => {
     isFunction(props.onTouchMove) ? props.onTouchMove(e) : onTouchMove(e)
   }
+  const _onTouchStart = e => {
+    if (isFunction(props.onTouchStart)) {
+      props.onTouchStart(e)
+    }
+  }
+  const _onTouchEnd = e => {
+    if (isFunction(props.onTouchEnd)) {
+      props.onTouchEnd(e)
+    }
+  }
+  // 清理定时器
+  useEffect(() => {
+    return () => {
+      if (scrollEndTimerRef.current) {
+        clearTimeout(scrollEndTimerRef.current)
+        scrollEndTimerRef.current = null
+      }
+    }
+  }, [])
+
+  // ScrollElementContext：嵌套滚动时向子组件提供 scrollRef、containerHeight、startOffset
+  useEffect(() => {
+    const el = container.current
+    if (!el) return
+    const update = () => {
+      if (container.current) {
+        setContainerHeight(container.current.clientHeight)
+      }
+    }
+    update()
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(update) : null
+    if (ro) {
+      ro.observe(el)
+      return () => ro.disconnect()
+    }
+  }, [])
+
+  const scrollElementContextValue = {
+    scrollRef: container,
+    containerHeight,
+    startOffset: props.startOffset ?? 0,
+  }
+
   return (
-    <div
-      ref={e => {
-        if (e) {
-          container.current = e
-          if (props.forwardedRef) props.forwardedRef.current = e
-        }
-      }}
-      style={style}
-      className={cls}
-      onScroll={_onScroll}
-      onTouchMove={_onTouchMove}
-    >
-      {props.children}
-    </div>
+    <ScrollElementContext.Provider value={scrollElementContextValue}>
+      <div
+        ref={e => {
+          if (e) {
+            container.current = e
+            if (props.forwardedRef) props.forwardedRef.current = e
+          }
+        }}
+        style={style}
+        className={cls}
+        onScroll={_onScroll}
+        onTouchMove={_onTouchMove}
+        onTouchStart={_onTouchStart}
+        onTouchEnd={_onTouchEnd}
+      >
+        {props.children}
+      </div>
+    </ScrollElementContext.Provider>
   )
 }
 
