@@ -302,6 +302,9 @@ importers:
       '@tarojs/binding-darwin-x64':
         specifier: workspace:*
         version: link:../../npm/darwin-x64
+      '@tarojs/binding-linux-arm64-gnu':
+        specifier: workspace:*
+        version: link:../../npm/linux-arm64-gnu
       '@tarojs/binding-linux-x64-gnu':
         specifier: workspace:*
         version: link:../../npm/linux-x64-gnu
@@ -312,6 +315,8 @@ importers:
   npm/darwin-arm64: {}
 
   npm/darwin-x64: {}
+
+  npm/linux-arm64-gnu: {}
 
   npm/linux-x64-gnu: {}
 
