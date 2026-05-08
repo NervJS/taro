@@ -97,7 +97,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.0.0
       - name: Setup Node 18
         uses: actions/setup-node@v6
         with:
