@@ -67,7 +67,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.0.0
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v6
         with:
@@ -87,8 +87,10 @@ jobs:
         if: ${{ matrix.host != 'ubuntu-latest' }}
       - name: Test bindings with docker
         if: ${{ matrix.host == 'ubuntu-latest' }}
-        # 暂时使用了一个第三方的 docker 镜像
-        run: docker run --rm -v $(pwd):/build -w /build chf007/pnpm pnpm test:binding
+        shell: bash
+        run: |
+          docker_image="node:${{ matrix.node-version == '18.x' && '18-bullseye' || '20-bullseye' }}"
+          docker run --rm -v "$(pwd):/build" -w /build "$docker_image" bash -lc "npm install -g corepack@0.31.0 && corepack enable && corepack prepare pnpm@10.0.0 --activate && pnpm test:binding"
       # 以下的测试流程应该在所有平台都执行，但 windows 好像还有些问题，因此目前只在 ubuntu-latest 执行
       - name: Download all artifacts
         uses: actions/download-artifact@v6
