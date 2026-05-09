@@ -6,6 +6,31 @@ import * as React from 'react'
 type TaroScrollView = React.ElementRef<typeof ScrollView>
 type TaroView = React.ElementRef<typeof View>
 
+function requestAccessibilityFocusOnView(node: TaroView | null | undefined): void {
+  if (node == null) return
+  const fn = (Taro as any).setAccessibilityFocus
+  if (typeof fn !== 'function') return
+  fn({ viewRef: { current: node } as React.RefObject<any> })
+}
+
+/** 部分端同 id 连续 scrollIntoView 不生效：先清空再在下一宏任务设回目标 id */
+function usePickerItemScrollIntoView(): [string, (itemId: string) => void] {
+  const [scrollIntoView, setScrollIntoView] = React.useState('')
+  const pulseRef = React.useRef(0)
+
+  const scrollToItemId = React.useCallback((itemId: string) => {
+    pulseRef.current += 1
+    const token = pulseRef.current
+    setScrollIntoView('')
+    setTimeout(() => {
+      if (pulseRef.current !== token) return
+      setScrollIntoView(itemId)
+    }, 0)
+  }, [])
+
+  return [scrollIntoView, scrollToItemId]
+}
+
 export interface PickerGroupProps {
   mode?: 'basic' | 'time' | 'date' | 'region'
   range: any[]
@@ -21,6 +46,13 @@ export interface PickerGroupProps {
     itemSelectedColor?: string // 选项字体选中颜色
     lineColor?: string // 选中指示线颜色
   }
+  /** time 限位后由父级下发，命中 columnId 的列在稳定后对该项 setAccessibilityFocus */
+  timeA11yLimitFocus?: { nonce: number, columnId: string } | null
+  onTimeA11yLimitFocusConsumed?: () => void
+  /** time 限位单调计数：抑制非触发列在停滚时误抢无障碍焦点 */
+  timeA11yLimitEventNonce?: number
+  /** 点击选项是否滚至选中区，默认 true */
+  enableClickItemScroll?: boolean
 }
 
 // 定义常量
@@ -189,15 +221,21 @@ export function PickerGroupBasic(props: PickerGroupProps) {
     onColumnChange,
     selectedIndex = 0, // 使用selectedIndex参数，默认为0
     colors = {},
+    enableClickItemScroll = true,
   } = props
   const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
+  const [scrollIntoView, scrollToItemId] = usePickerItemScrollIntoView()
   const scrollViewRef = React.useRef<TaroScrollView>(null)
   const itemRefs = React.useRef<Array<TaroView | null>>([])
+  const selectedIndexPropRef = React.useRef(selectedIndex)
+  selectedIndexPropRef.current = selectedIndex
+  const syncScrollFromPropsRef = React.useRef(false)
+  const pendingScrollSettleFocusRef = React.useRef(false)
   // 使用selectedIndex初始化当前索引
   const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
   // 触摸状态用于优化用户体验
-  const [isTouching, setIsTouching] = React.useState(false)
+  const isTouchingRef = React.useRef(false)
 
   const lengthScaleRatioRef = React.useRef(1)
   const useMeasuredScaleRef = React.useRef(false)
@@ -222,41 +260,54 @@ export function PickerGroupBasic(props: PickerGroupProps) {
     itemHeightRef.current = calculateItemHeight(scrollViewRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
   }, [range.length]) // 只在range长度变化时重新计算
 
-  // 当selectedIndex变化时，调整滚动位置
+  // props 的 selectedIndex 变化：滚至对应项并短时标记程序化滚动（syncScrollFromPropsRef）
   React.useEffect(() => {
-    if (scrollViewRef.current && range.length > 0 && !isTouching) {
+    if (scrollViewRef.current && range.length > 0 && !isTouchingRef.current) {
+      syncScrollFromPropsRef.current = true
       const baseValue = selectedIndex * itemHeightRef.current
       setTargetScrollTopWithScale(setTargetScrollTop, baseValue, undefined, lengthScaleRatioRef.current)
       setCurrentIndex(selectedIndex)
+      const tid = setTimeout(() => {
+        syncScrollFromPropsRef.current = false
+      }, 400)
+      return () => clearTimeout(tid)
     }
   }, [selectedIndex, range])
 
   // 是否处于归中状态
   const isCenterTimerId = React.useRef<NodeJS.Timeout | null>(null)
-  // 简化为直接在滚动结束时通知父组件
+  // 滚动静止后归中并同步选中
   const handleScrollEnd = () => {
     if (!scrollViewRef.current) return
     if (isCenterTimerId.current) {
       clearTimeout(isCenterTimerId.current)
       isCenterTimerId.current = null
     }
-    // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
+    // 100ms 内无新滚动则归中并提交索引
     isCenterTimerId.current = setTimeout(() => {
       if (!scrollViewRef.current) return
 
       const scrollTop = scrollViewRef.current.scrollTop
       const newIndex = getSelectedIndex(scrollTop, itemHeightRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
 
-      setIsTouching(false)
+      const allowA11yFocus = !syncScrollFromPropsRef.current
+      const shouldFocusOnScrollSettle = pendingScrollSettleFocusRef.current
+
+      isTouchingRef.current = false
       const baseValue = newIndex * itemHeightRef.current
       const randomOffset = Math.random() * 0.001 // 随机数为了在一个项内滚动时强制刷新
       setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset, lengthScaleRatioRef.current)
       updateIndex(newIndex, columnId)
       onColumnChange?.({ columnId, index: newIndex })
+      pendingScrollSettleFocusRef.current = false
+      if (allowA11yFocus && shouldFocusOnScrollSettle) {
+        requestAccessibilityFocusOnView(itemRefs.current[newIndex])
+      }
+      syncScrollFromPropsRef.current = false
       isCenterTimerId.current = null
     }, 100)
   }
-  // 滚动处理 - 在滚动时计算索引然后更新选中项样式
+  // 滚动中：按 scrollTop 更新高亮索引
   const handleScroll = () => {
     if (!scrollViewRef.current) return
     if (isCenterTimerId.current) {
@@ -264,7 +315,17 @@ export function PickerGroupBasic(props: PickerGroupProps) {
       isCenterTimerId.current = null
     }
     const scrollTop = scrollViewRef.current.scrollTop
-    const newIndex = getSelectedIndex(scrollTop, itemHeightRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
+    const ih = itemHeightRef.current
+    const newIndex = getSelectedIndex(scrollTop, ih, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
+    const spi = selectedIndexPropRef.current
+    if (newIndex !== spi) {
+      if (!syncScrollFromPropsRef.current || isTouchingRef.current) {
+        pendingScrollSettleFocusRef.current = true
+      }
+      if (isTouchingRef.current) {
+        syncScrollFromPropsRef.current = false
+      }
+    }
     if (newIndex !== currentIndex) {
       setCurrentIndex(newIndex)
     }
@@ -280,6 +341,9 @@ export function PickerGroupBasic(props: PickerGroupProps) {
         key={index}
         ref={(el) => (itemRefs.current[index] = el)}
         className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
+        {...(enableClickItemScroll
+          ? { onClick: () => scrollToItemId(`picker-item-${columnId}-${index}`) }
+          : {})}
         style={{
           height: PICKER_LINE_HEIGHT,
           color: index === currentIndex
@@ -314,6 +378,10 @@ export function PickerGroupBasic(props: PickerGroupProps) {
       )),
   ]
 
+  const clickScrollViewProps = enableClickItemScroll
+    ? { scrollIntoView, scrollIntoViewAlignment: 'center' as const }
+    : {}
+
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" />
@@ -330,8 +398,9 @@ export function PickerGroupBasic(props: PickerGroupProps) {
           height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS,
         }}
         scrollTop={targetScrollTop}
+        {...clickScrollViewProps}
         onScroll={handleScroll}
-        onTouchStart={() => setIsTouching(true)}
+        onTouchStart={() => { isTouchingRef.current = true }}
         onScrollEnd={handleScrollEnd}
         scrollWithAnimation
       >
@@ -350,18 +419,88 @@ export function PickerGroupTime(props: PickerGroupProps) {
     updateIndex,
     selectedIndex = 0,
     colors = {},
+    timeA11yLimitFocus,
+    onTimeA11yLimitFocusConsumed,
+    timeA11yLimitEventNonce,
+    enableClickItemScroll = true,
   } = props
 
   const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
+  const [scrollIntoView, scrollToItemId] = usePickerItemScrollIntoView()
   const scrollViewRef = React.useRef<TaroScrollView>(null)
   const itemRefs = React.useRef<Array<TaroView | null>>([])
+  const selectedIndexPropRef = React.useRef(selectedIndex)
+  selectedIndexPropRef.current = selectedIndex
+  const syncScrollFromPropsRef = React.useRef(false)
+  const prevLimitEventNonceRef = React.useRef<number | undefined>(undefined)
+  const suppressScrollSettleFocusNonceRef = React.useRef<number | null>(null)
+  const pendingScrollSettleFocusRef = React.useRef(false)
+  const pendingLimitFocusRef = React.useRef<{ index: number, nonce: number, attempts: number } | null>(null)
+  const limitFocusTimerRef = React.useRef<NodeJS.Timeout | null>(null)
   const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
-  const [isTouching, setIsTouching] = React.useState(false)
+  const isTouchingRef = React.useRef(false)
 
   const lengthScaleRatioRef = React.useRef(1)
   const useMeasuredScaleRef = React.useRef(false)
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
+
+  const clearLimitFocusTimer = React.useCallback(() => {
+    if (limitFocusTimerRef.current) {
+      clearTimeout(limitFocusTimerRef.current)
+      limitFocusTimerRef.current = null
+    }
+  }, [])
+
+  const tryFocusPendingLimit = React.useCallback(() => {
+    const pending = pendingLimitFocusRef.current
+    const scrollView = scrollViewRef.current
+    if (!pending || !scrollView) return
+
+    const visualIndex = getSelectedIndex(
+      scrollView.scrollTop,
+      itemHeightRef.current,
+      lengthScaleRatioRef.current,
+      useMeasuredScaleRef.current,
+    )
+    const isStable = visualIndex === pending.index
+
+    if (!isStable) {
+      if (pending.attempts >= 20) {
+        pendingLimitFocusRef.current = null
+        if (suppressScrollSettleFocusNonceRef.current === pending.nonce) {
+          suppressScrollSettleFocusNonceRef.current = null
+        }
+        onTimeA11yLimitFocusConsumed?.()
+        return
+      }
+      pending.attempts += 1
+      clearLimitFocusTimer()
+      limitFocusTimerRef.current = setTimeout(() => {
+        tryFocusPendingLimit()
+      }, 50)
+      return
+    }
+
+    const node = itemRefs.current[pending.index]
+    pendingLimitFocusRef.current = null
+    if (suppressScrollSettleFocusNonceRef.current === pending.nonce) {
+      suppressScrollSettleFocusNonceRef.current = null
+    }
+    clearLimitFocusTimer()
+    requestAccessibilityFocusOnView(node)
+    onTimeA11yLimitFocusConsumed?.()
+  }, [clearLimitFocusTimer, onTimeA11yLimitFocusConsumed])
+
+  const schedulePendingLimitFocus = React.useCallback(() => {
+    if (!pendingLimitFocusRef.current) return
+    clearLimitFocusTimer()
+    limitFocusTimerRef.current = setTimeout(() => {
+      tryFocusPendingLimit()
+    }, 100)
+  }, [clearLimitFocusTimer, tryFocusPendingLimit])
+
+  React.useEffect(() => clearLimitFocusTimer, [clearLimitFocusTimer])
 
   // 初始化时计算 lengthScaleRatio 并判定缩放模式
   React.useEffect(() => {
@@ -382,45 +521,106 @@ export function PickerGroupTime(props: PickerGroupProps) {
     itemHeightRef.current = calculateItemHeight(scrollViewRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
   }, [range.length]) // 只在range长度变化时重新计算
 
-  // 当selectedIndex变化时，调整滚动位置
+  // props 的 selectedIndex 变化：滚至对应项并短时标记程序化滚动（syncScrollFromPropsRef）
   React.useEffect(() => {
-    if (scrollViewRef.current && range.length > 0 && !isTouching) {
+    if (scrollViewRef.current && range.length > 0 && !isTouchingRef.current) {
+      syncScrollFromPropsRef.current = true
       const baseValue = selectedIndex * itemHeightRef.current
       setTargetScrollTopWithScale(setTargetScrollTop, baseValue, undefined, lengthScaleRatioRef.current)
       setCurrentIndex(selectedIndex)
+      const tid = setTimeout(() => {
+        syncScrollFromPropsRef.current = false
+      }, 400)
+      return () => clearTimeout(tid)
     }
   }, [selectedIndex, range])
+
+  // time 限位 nonce 变更：强制对齐 scrollTop（避免 remount 打断读屏焦点）
+  React.useEffect(() => {
+    if (!timeA11yLimitEventNonce) return
+    if (!scrollViewRef.current || range.length === 0 || isTouchingRef.current) return
+    syncScrollFromPropsRef.current = true
+    const baseValue = selectedIndex * itemHeightRef.current
+    setTargetScrollTopWithScale(setTargetScrollTop, baseValue, Math.random() * 0.001, lengthScaleRatioRef.current)
+    setCurrentIndex(selectedIndex)
+    const tid = setTimeout(() => {
+      syncScrollFromPropsRef.current = false
+    }, 400)
+    return () => clearTimeout(tid)
+  }, [timeA11yLimitEventNonce]) // 仅依赖 nonce，其余用 ref
+
+  React.useLayoutEffect(() => {
+    if (timeA11yLimitEventNonce === undefined) return
+    const prev = prevLimitEventNonceRef.current
+    prevLimitEventNonceRef.current = timeA11yLimitEventNonce
+    if (timeA11yLimitEventNonce > 0 && (prev === undefined || timeA11yLimitEventNonce > prev)) {
+      suppressScrollSettleFocusNonceRef.current = timeA11yLimitEventNonce
+    }
+  }, [timeA11yLimitEventNonce])
+
+  // 限位后登记本列待聚焦项，稳定后再 requestAccessibilityFocus
+  React.useEffect(() => {
+    const req = timeA11yLimitFocus
+    if (!req || req.columnId !== columnId) return
+    const idx = selectedIndex
+    const nonce = req.nonce
+    pendingScrollSettleFocusRef.current = false
+    pendingLimitFocusRef.current = { index: idx, nonce, attempts: 0 }
+    schedulePendingLimitFocus()
+  }, [timeA11yLimitFocus, columnId, selectedIndex, schedulePendingLimitFocus])
 
   // 是否处于归中状态
   const isCenterTimerId = React.useRef<NodeJS.Timeout | null>(null)
 
-  // 简化为直接在滚动结束时通知父组件
+  // 滚动静止后归中并同步选中
   const handleScrollEnd = () => {
     if (!scrollViewRef.current) return
     if (isCenterTimerId.current) {
       clearTimeout(isCenterTimerId.current)
       isCenterTimerId.current = null
     }
-    // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
+    // 100ms 内无新滚动则归中并提交索引
     isCenterTimerId.current = setTimeout(() => {
       if (!scrollViewRef.current) return
 
       const scrollTop = scrollViewRef.current.scrollTop
       const newIndex = getSelectedIndex(scrollTop, itemHeightRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
-      setIsTouching(false)
-      // 调用updateIndex执行限位逻辑，获取是否触发了限位
+      const allowA11yFocus = !syncScrollFromPropsRef.current
+      const shouldFocusOnScrollSettle = pendingScrollSettleFocusRef.current
+      isTouchingRef.current = false
       const isLimited = Boolean(updateIndex(newIndex, columnId, true))
-      // 如果没有触发限位，才执行归中逻辑
+      const hasPendingLimitFocus = pendingLimitFocusRef.current != null
+      if (isLimited) {
+        pendingScrollSettleFocusRef.current = false
+      }
       if (!isLimited) {
         const baseValue = newIndex * itemHeightRef.current
         const randomOffset = Math.random() * 0.001
         setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset, lengthScaleRatioRef.current)
       }
+      if (!isLimited && hasPendingLimitFocus) {
+        pendingScrollSettleFocusRef.current = false
+        schedulePendingLimitFocus()
+        syncScrollFromPropsRef.current = false
+        isCenterTimerId.current = null
+        return
+      }
+      if (!isLimited && pendingLimitFocusRef.current == null && suppressScrollSettleFocusNonceRef.current != null) {
+        suppressScrollSettleFocusNonceRef.current = null
+      }
+      const suppressByLimitNonce = suppressScrollSettleFocusNonceRef.current != null
+      if (!isLimited && allowA11yFocus && shouldFocusOnScrollSettle) {
+        pendingScrollSettleFocusRef.current = false
+        if (!suppressByLimitNonce) {
+          requestAccessibilityFocusOnView(itemRefs.current[newIndex])
+        }
+      }
+      syncScrollFromPropsRef.current = false
       isCenterTimerId.current = null
     }, 100)
   }
 
-  // 滚动处理
+  // 滚动中：按 scrollTop 更新高亮索引
   const handleScroll = () => {
     if (!scrollViewRef.current) return
     if (isCenterTimerId.current) {
@@ -428,9 +628,22 @@ export function PickerGroupTime(props: PickerGroupProps) {
       isCenterTimerId.current = null
     }
     const scrollTop = scrollViewRef.current.scrollTop
-    const newIndex = getSelectedIndex(scrollTop, itemHeightRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
+    const ih = itemHeightRef.current
+    const newIndex = getSelectedIndex(scrollTop, ih, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
+    const spi = selectedIndexPropRef.current
+    if (newIndex !== spi) {
+      if (!syncScrollFromPropsRef.current || isTouchingRef.current) {
+        pendingScrollSettleFocusRef.current = true
+      }
+      if (isTouchingRef.current) {
+        syncScrollFromPropsRef.current = false
+      }
+    }
     if (newIndex !== currentIndex) {
       setCurrentIndex(newIndex)
+    }
+    if (pendingLimitFocusRef.current) {
+      schedulePendingLimitFocus()
     }
   }
 
@@ -444,6 +657,9 @@ export function PickerGroupTime(props: PickerGroupProps) {
         key={index}
         ref={(el) => (itemRefs.current[index] = el)}
         className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
+        {...(enableClickItemScroll
+          ? { onClick: () => scrollToItemId(`picker-item-${columnId}-${index}`) }
+          : {})}
         style={{
           height: PICKER_LINE_HEIGHT,
           color: index === currentIndex
@@ -478,6 +694,10 @@ export function PickerGroupTime(props: PickerGroupProps) {
       )),
   ]
 
+  const clickScrollViewProps = enableClickItemScroll
+    ? { scrollIntoView, scrollIntoViewAlignment: 'center' as const }
+    : {}
+
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" />
@@ -494,8 +714,9 @@ export function PickerGroupTime(props: PickerGroupProps) {
           height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS,
         }}
         scrollTop={targetScrollTop}
+        {...clickScrollViewProps}
         onScroll={handleScroll}
-        onTouchStart={() => setIsTouching(true)}
+        onTouchStart={() => { isTouchingRef.current = true }}
         onScrollEnd={handleScrollEnd}
         scrollWithAnimation
       >
@@ -513,13 +734,20 @@ export function PickerGroupDate(props: PickerGroupProps) {
     updateDay,
     selectedIndex = 0,
     colors = {},
+    enableClickItemScroll = true,
   } = props
 
   const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
+  const [scrollIntoView, scrollToItemId] = usePickerItemScrollIntoView()
   const scrollViewRef = React.useRef<TaroScrollView>(null)
+  const itemRefs = React.useRef<Array<TaroView | null>>([])
+  const selectedIndexPropRef = React.useRef(selectedIndex)
+  selectedIndexPropRef.current = selectedIndex
+  const syncScrollFromPropsRef = React.useRef(false)
+  const pendingScrollSettleFocusRef = React.useRef(false)
   const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
-  const [isTouching, setIsTouching] = React.useState(false)
+  const isTouchingRef = React.useRef(false)
 
   const lengthScaleRatioRef = React.useRef(1)
   const useMeasuredScaleRef = React.useRef(false)
@@ -544,19 +772,24 @@ export function PickerGroupDate(props: PickerGroupProps) {
     itemHeightRef.current = calculateItemHeight(scrollViewRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
   }, [range.length]) // 只在range长度变化时重新计算
 
-  // 当selectedIndex变化时，调整滚动位置
+  // props 的 selectedIndex 变化：滚至对应项并短时标记程序化滚动（syncScrollFromPropsRef）
   React.useEffect(() => {
-    if (scrollViewRef.current && range.length > 0 && !isTouching) {
+    if (scrollViewRef.current && range.length > 0 && !isTouchingRef.current) {
+      syncScrollFromPropsRef.current = true
       const baseValue = selectedIndex * itemHeightRef.current
       setTargetScrollTopWithScale(setTargetScrollTop, baseValue, undefined, lengthScaleRatioRef.current)
       setCurrentIndex(selectedIndex)
+      const tid = setTimeout(() => {
+        syncScrollFromPropsRef.current = false
+      }, 400)
+      return () => clearTimeout(tid)
     }
   }, [selectedIndex, range])
 
   // 是否处于归中状态
   const isCenterTimerId = React.useRef<NodeJS.Timeout | null>(null)
 
-  // 简化为直接在滚动结束时通知父组件
+  // 滚动静止后归中并同步选中
   const handleScrollEnd = () => {
     if (!scrollViewRef.current) return
     if (isCenterTimerId.current) {
@@ -564,14 +797,17 @@ export function PickerGroupDate(props: PickerGroupProps) {
       isCenterTimerId.current = null
     }
 
-    // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
+    // 100ms 内无新滚动则归中并提交索引
     isCenterTimerId.current = setTimeout(() => {
       if (!scrollViewRef.current) return
 
       const scrollTop = scrollViewRef.current.scrollTop
       const newIndex = getSelectedIndex(scrollTop, itemHeightRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
 
-      setIsTouching(false)
+      const allowA11yFocus = !syncScrollFromPropsRef.current
+      const shouldFocusOnScrollSettle = pendingScrollSettleFocusRef.current
+
+      isTouchingRef.current = false
       const baseValue = newIndex * itemHeightRef.current
       const randomOffset = Math.random() * 0.001 // 随机数为了在一个项内滚动时强制刷新
       setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset, lengthScaleRatioRef.current)
@@ -583,11 +819,16 @@ export function PickerGroupDate(props: PickerGroupProps) {
         const numericValue = parseInt(valueText.replace(/[^0-9]/g, ''))
         updateDay(isNaN(numericValue) ? 0 : numericValue, parseInt(columnId))
       }
+      pendingScrollSettleFocusRef.current = false
+      if (allowA11yFocus && shouldFocusOnScrollSettle) {
+        requestAccessibilityFocusOnView(itemRefs.current[newIndex])
+      }
+      syncScrollFromPropsRef.current = false
       isCenterTimerId.current = null
     }, 100)
   }
 
-  // 滚动处理
+  // 滚动中：按 scrollTop 更新高亮索引
   const handleScroll = () => {
     if (!scrollViewRef.current) return
     if (isCenterTimerId.current) {
@@ -595,7 +836,17 @@ export function PickerGroupDate(props: PickerGroupProps) {
       isCenterTimerId.current = null
     }
     const scrollTop = scrollViewRef.current.scrollTop
-    const newIndex = getSelectedIndex(scrollTop, itemHeightRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
+    const ih = itemHeightRef.current
+    const newIndex = getSelectedIndex(scrollTop, ih, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
+    const spi = selectedIndexPropRef.current
+    if (newIndex !== spi) {
+      if (!syncScrollFromPropsRef.current || isTouchingRef.current) {
+        pendingScrollSettleFocusRef.current = true
+      }
+      if (isTouchingRef.current) {
+        syncScrollFromPropsRef.current = false
+      }
+    }
     if (newIndex !== currentIndex) {
       setCurrentIndex(newIndex)
     }
@@ -607,7 +858,11 @@ export function PickerGroupDate(props: PickerGroupProps) {
       <View
         id={`picker-item-${columnId}-${index}`}
         key={index}
+        ref={(el) => (itemRefs.current[index] = el)}
         className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
+        {...(enableClickItemScroll
+          ? { onClick: () => scrollToItemId(`picker-item-${columnId}-${index}`) }
+          : {})}
         style={{
           height: PICKER_LINE_HEIGHT,
           color: index === currentIndex
@@ -642,6 +897,10 @@ export function PickerGroupDate(props: PickerGroupProps) {
       )),
   ]
 
+  const clickScrollViewProps = enableClickItemScroll
+    ? { scrollIntoView, scrollIntoViewAlignment: 'center' as const }
+    : {}
+
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" />
@@ -656,8 +915,9 @@ export function PickerGroupDate(props: PickerGroupProps) {
         className="taro-picker__content"
         style={{ height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS }}
         scrollTop={targetScrollTop}
+        {...clickScrollViewProps}
         onScroll={handleScroll}
-        onTouchStart={() => setIsTouching(true)}
+        onTouchStart={() => { isTouchingRef.current = true }}
         onScrollEnd={handleScrollEnd}
         scrollWithAnimation
       >
@@ -676,18 +936,24 @@ export function PickerGroupRegion(props: PickerGroupProps) {
     updateIndex,
     selectedIndex = 0, // 使用selectedIndex参数，默认为0
     colors = {},
+    enableClickItemScroll = true,
   } = props
 
   const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const scrollViewRef = React.useRef<any>(null)
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
+  const [scrollIntoView, scrollToItemId] = usePickerItemScrollIntoView()
   const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
-  const [isTouching, setIsTouching] = React.useState(false)
+  const isTouchingRef = React.useRef(false)
 
   const lengthScaleRatioRef = React.useRef(1)
   const useMeasuredScaleRef = React.useRef(false)
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
-  const isUserBeginScrollRef = React.useRef(false)
+  const itemRefs = React.useRef<Array<TaroView | null>>([])
+  const selectedIndexPropRef = React.useRef(selectedIndex)
+  selectedIndexPropRef.current = selectedIndex
+  const syncScrollFromPropsRef = React.useRef(false)
+  const pendingScrollSettleFocusRef = React.useRef(false)
 
   // 初始化时计算 lengthScaleRatio 并判定缩放模式
   React.useEffect(() => {
@@ -708,16 +974,21 @@ export function PickerGroupRegion(props: PickerGroupProps) {
     itemHeightRef.current = calculateItemHeight(scrollViewRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
   }, [range.length]) // 只在range长度变化时重新计算
 
-  // 当selectedIndex变化时，调整滚动位置
+  // props 的 selectedIndex 变化：滚至对应项并短时标记程序化滚动（syncScrollFromPropsRef）
   React.useEffect(() => {
-    if (scrollViewRef.current && range.length > 0 && !isTouching) {
+    if (scrollViewRef.current && range.length > 0 && !isTouchingRef.current) {
+      syncScrollFromPropsRef.current = true
       const baseValue = selectedIndex * itemHeightRef.current
       setTargetScrollTopWithScale(setTargetScrollTop, baseValue, undefined, lengthScaleRatioRef.current)
       setCurrentIndex(selectedIndex)
+      const tid = setTimeout(() => {
+        syncScrollFromPropsRef.current = false
+      }, 400)
+      return () => clearTimeout(tid)
     }
   }, [selectedIndex, range])
 
-  // 滚动结束处理
+  // 滚动静止后归中（debounce）
   const isCenterTimerId = React.useRef<NodeJS.Timeout | null>(null)
   const handleScrollEnd = () => {
     if (!scrollViewRef.current) return
@@ -725,22 +996,31 @@ export function PickerGroupRegion(props: PickerGroupProps) {
       clearTimeout(isCenterTimerId.current)
       isCenterTimerId.current = null
     }
-    // 做一个0.1s延时  0.1s之内没有新的滑动 则把选项归到中间 然后更新选中项
+    // 100ms 内无新滚动则归中并提交索引
     isCenterTimerId.current = setTimeout(() => {
       if (!scrollViewRef.current) return
 
       const scrollTop = scrollViewRef.current.scrollTop
       const newIndex = getSelectedIndex(scrollTop, itemHeightRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
 
-      setIsTouching(false)
+      const allowA11yFocus = !syncScrollFromPropsRef.current
+      const shouldFocusOnScrollSettle = pendingScrollSettleFocusRef.current
+
+      isTouchingRef.current = false
       const baseValue = newIndex * itemHeightRef.current
       const randomOffset = Math.random() * 0.001 // 随机数为了在一个项内滚动时强制刷新
       setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset, lengthScaleRatioRef.current)
-      updateIndex(newIndex, columnId, false, isUserBeginScrollRef.current)
+      updateIndex(newIndex, columnId, false, allowA11yFocus)
+      pendingScrollSettleFocusRef.current = false
+      if (allowA11yFocus && shouldFocusOnScrollSettle) {
+        requestAccessibilityFocusOnView(itemRefs.current[newIndex])
+      }
+      syncScrollFromPropsRef.current = false
+      isCenterTimerId.current = null
     }, 100)
   }
 
-  // 滚动处理 - 在滚动时计算索引
+  // 滚动中：按 scrollTop 更新高亮索引
   const handleScroll = () => {
     if (!scrollViewRef.current) return
     if (isCenterTimerId.current) {
@@ -748,7 +1028,17 @@ export function PickerGroupRegion(props: PickerGroupProps) {
       isCenterTimerId.current = null
     }
     const scrollTop = scrollViewRef.current.scrollTop
-    const newIndex = getSelectedIndex(scrollTop, itemHeightRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
+    const ih = itemHeightRef.current
+    const newIndex = getSelectedIndex(scrollTop, ih, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
+    const spi = selectedIndexPropRef.current
+    if (newIndex !== spi) {
+      if (!syncScrollFromPropsRef.current || isTouchingRef.current) {
+        pendingScrollSettleFocusRef.current = true
+      }
+      if (isTouchingRef.current) {
+        syncScrollFromPropsRef.current = false
+      }
+    }
     if (newIndex !== currentIndex) {
       setCurrentIndex(newIndex)
     }
@@ -762,7 +1052,11 @@ export function PickerGroupRegion(props: PickerGroupProps) {
       <View
         id={`picker-item-${columnId}-${index}`}
         key={index}
+        ref={(el) => (itemRefs.current[index] = el)}
         className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
+        {...(enableClickItemScroll
+          ? { onClick: () => scrollToItemId(`picker-item-${columnId}-${index}`) }
+          : {})}
         style={{
           height: PICKER_LINE_HEIGHT,
           color: index === currentIndex
@@ -796,6 +1090,10 @@ export function PickerGroupRegion(props: PickerGroupProps) {
         />
       )),
   ]
+  const clickScrollViewProps = enableClickItemScroll
+    ? { scrollIntoView, scrollIntoViewAlignment: 'center' as const }
+    : {}
+
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" />
@@ -810,11 +1108,9 @@ export function PickerGroupRegion(props: PickerGroupProps) {
         className="taro-picker__content"
         style={{ height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS }}
         scrollTop={targetScrollTop}
+        {...clickScrollViewProps}
         onScroll={handleScroll}
-        onTouchStart={() => {
-          setIsTouching(true)
-          isUserBeginScrollRef.current = true
-        }}
+        onTouchStart={() => { isTouchingRef.current = true }}
         onScrollEnd={handleScrollEnd}
         scrollWithAnimation
       >

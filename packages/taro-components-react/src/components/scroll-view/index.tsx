@@ -96,6 +96,9 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   startOffset?: number
 }
 
+/** H5 等环境下 scrollTop 为整数，与带亚像素的受控值比较时允许该误差，避免反复 set scrollTop 与 scrollIntoView 打架 */
+const CONTROLLED_SCROLL_EPSILON = 0.5
+
 function ScrollView (props: IProps) {
   const _scrollTop = useRef<any>(null)
   const _scrollLeft = useRef<any>(null)
@@ -103,13 +106,27 @@ function ScrollView (props: IProps) {
   const scrollEndTimerRef = useRef<NodeJS.Timeout | null>(null)
   const isScrollingRef = useRef<boolean>(false)
   const isInitializedRef = useRef<boolean>(false)
+  /** 与 props.scrollIntoView 比对，同 id 时只走受控 scrollTop，避免与上次锚点反复互顶 */
+  const lastAppliedScrollIntoViewIdRef = useRef<string | null>(null)
   const [containerHeight, setContainerHeight] = useState(0)
   const onTouchMove = (e) => {
     e.stopPropagation()
   }
 
+  const applyControlledScrollTopLeft = (p: IProps) => {
+    const isAnimation = !!p.scrollWithAnimation
+    const eps = CONTROLLED_SCROLL_EPSILON
+    if (p.scrollY && typeof p.scrollTop === 'number' &&
+        (_scrollTop.current === null || Math.abs(p.scrollTop - _scrollTop.current) >= eps)) {
+      setTimeout(() => scrollVertical(container, _scrollTop, p.scrollTop, isAnimation), 10)
+    }
+    if (p.scrollX && typeof p.scrollLeft === 'number' &&
+        (_scrollLeft.current === null || Math.abs(p.scrollLeft - _scrollLeft.current) >= eps)) {
+      setTimeout(() => scrollHorizontal(container, _scrollLeft, p.scrollLeft, isAnimation), 10)
+    }
+  }
+
   const handleScroll = (props: IProps, isInit = false) => {
-    // scrollIntoView
     if (
       props.scrollIntoView &&
       typeof props.scrollIntoView === 'string' &&
@@ -139,15 +156,7 @@ function ScrollView (props: IProps) {
         )
       }
     } else {
-      const isAnimation = !!props.scrollWithAnimation
-      // Y 轴滚动
-      if (props.scrollY && typeof props.scrollTop === 'number' && props.scrollTop !== _scrollTop.current) {
-        setTimeout(() => scrollVertical(container, _scrollTop, props.scrollTop, isAnimation), 10)
-      }
-      // X 轴滚动
-      if (props.scrollX && typeof props.scrollLeft === 'number' && props.scrollLeft !== _scrollLeft.current) {
-        setTimeout(() => scrollHorizontal(container, _scrollLeft, props.scrollLeft, isAnimation), 10)
-      }
+      applyControlledScrollTopLeft(props)
     }
   }
 
@@ -156,10 +165,35 @@ function ScrollView (props: IProps) {
     isInitializedRef.current = true
   }, [])
 
-  // 监听 scrollTop、scrollLeft、scrollIntoView 的变化（排除初始化）
+  // scrollTop / scrollLeft / scrollIntoView 受控同步（跳过 mount 时的 init effect）
   useEffect(() => {
-    if (isInitializedRef.current && container.current) {
-      handleScroll(props, false)
+    if (!isInitializedRef.current || !container.current) return
+
+    const sitv = props.scrollIntoView
+    const sitvOk = Boolean(
+      sitv &&
+      typeof sitv === 'string' &&
+      document &&
+      document.querySelector &&
+      document.querySelector(`#${sitv}`)
+    )
+
+    if (sitvOk) {
+      if (sitv !== lastAppliedScrollIntoViewIdRef.current) {
+        scrollIntoView(
+          sitv,
+          props.scrollWithAnimation,
+          !!props.scrollX,
+          !!props.scrollY,
+          props.scrollIntoViewAlignment
+        )
+        lastAppliedScrollIntoViewIdRef.current = typeof sitv === 'string' ? sitv : null
+      } else {
+        applyControlledScrollTopLeft(props)
+      }
+    } else {
+      lastAppliedScrollIntoViewIdRef.current = null
+      applyControlledScrollTopLeft(props)
     }
   }, [
     props.scrollTop,
