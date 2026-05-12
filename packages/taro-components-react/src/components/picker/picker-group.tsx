@@ -69,39 +69,6 @@ const getIndicatorStyle = (lineColor: string): React.CSSProperties => {
 
 // 大屏方案版本要求
 const MIN_DESIGN_APP_VERSION = 16
-const MIN_APP_VERSION = '15.7.0'
-
-// semver 版本比较
-const isAppVersionAtLeast = (version: string | undefined, min: string): boolean => {
-  if (!version || typeof version !== 'string') return false
-  const parts = (v: string) => {
-    const m = String(v).trim().match(/^(\d+)(?:\.(\d+))?(?:\.(\d+))?/)
-    if (!m) return []
-    return [parseInt(m[1], 10) || 0, parseInt(m[2] || '0', 10) || 0, parseInt(m[3] || '0', 10) || 0]
-  }
-  const a = parts(version)
-  const b = parts(min)
-  if (a.length === 0) return false
-  if (b.length === 0) return true
-  for (let i = 0; i < Math.max(a.length, b.length); i++) {
-    const da = a[i] ?? 0
-    const db = b[i] ?? 0
-    if (da > db) return true
-    if (da < db) return false
-  }
-  return true
-}
-
-// 读取 JDMobileConfig，异常时返回 undefined
-const tryGetMobileConfigSync = (opt: { space: string, configName: string, key: string }): unknown => {
-  try {
-    const fn = (Taro as any).JDMobileConfig?.getMobileConfigSync
-    if (typeof fn !== 'function') return undefined
-    return fn(opt)
-  } catch {
-    return undefined
-  }
-}
 
 // 判断是否启用测量值缩放适配（true=启用, false=使用系统侧缩放）
 const resolveUseMeasuredScale = (res: Taro.getSystemInfo.Result): boolean => {
@@ -110,30 +77,15 @@ const resolveUseMeasuredScale = (res: Taro.getSystemInfo.Result): boolean => {
     return false
   }
 
-  // 条件1: designAppVersion < 16，不满足则使用系统侧缩放
   const designAppVersionRaw = (res as any).designAppVersion
   const designAppVersionMajor = designAppVersionRaw != null ? parseInt(String(designAppVersionRaw).trim(), 10) : Number.NaN
   if (!Number.isFinite(designAppVersionMajor) || designAppVersionMajor < MIN_DESIGN_APP_VERSION) {
     return false
   }
 
-  // 条件2: appVersion < 15.7.0，不满足则使用系统侧缩放
-  if (!isAppVersionAtLeast(res.version, MIN_APP_VERSION)) {
-    return false
-  }
-
-  // 条件3: 平台判断
   const platform = String((res as any).platform || '').toLowerCase()
-  if (platform === 'harmony') {
+  if (platform === 'harmony' || platform === 'android' || platform === 'ios') {
     return true
-  }
-  if (platform === 'android') {
-    const raw = tryGetMobileConfigSync({ space: 'taro', configName: 'config', key: 'disableFixBoundingScaleRatio' })
-    return raw !== 1 && raw !== '1'
-  }
-  if (platform === 'ios') {
-    const raw = tryGetMobileConfigSync({ space: 'Taro', configName: 'excutor', key: 'disableBoundingScaleRatio' })
-    return raw !== 1 && raw !== '1'
   }
 
   return false
