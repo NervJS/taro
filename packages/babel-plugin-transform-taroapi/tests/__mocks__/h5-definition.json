@@ -2185,6 +2185,7 @@
       "type": "Type"
     },
     "image": {
+      "disableDefaultSize": "boolean",
       "lazyLoad": "boolean",
       "mode": "Mode",
       "nativeProps": "*",
