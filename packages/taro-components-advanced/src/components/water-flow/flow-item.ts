@@ -28,9 +28,7 @@ export const useFlowItemPositioner = () => {
 
   return {
     resize: useMemoizedFn(() => {
-      if (!isWeb()) {
-        nodeModel.pub(NodeEvents.Resize)
-      }
+      nodeModel.pub(NodeEvents.Resize)
     }),
     top: top$,
     scrollTop: scrollTop$,
@@ -69,23 +67,31 @@ export function FlowItemContainer({
     }
   }, [top$, layouted$, height$])
 
+  const setInnerMeasureRef = useMemoizedFn((el: HTMLElement | null) => {
+    const innerRef = refFlowItem as React.MutableRefObject<HTMLElement | undefined>
+    innerRef.current = el ?? undefined
+    node.attachMeasureElement(el)
+  })
+
   useEffect(() => {
     let observer: ResizeObserver
-    if (isWeb() && typeof ResizeObserver !== 'undefined') {
+    const el = refFlowItem.current
+    if (isWeb() && typeof ResizeObserver !== 'undefined' && el) {
       observer = new ResizeObserver(() => {
         node.pub(NodeEvents.Resize)
       })
-      observer.observe(refFlowItem.current!)
+      observer.observe(el)
     }
     return () => {
       if (observer) {
         observer.disconnect()
       }
+      node.attachMeasureElement(null)
     }
   }, [node])
 
   useLayoutEffect(() => {
-    node.measure()
+    node.measure().catch(() => {})
   }, [node])
 
   return createElement(
@@ -93,7 +99,7 @@ export function FlowItemContainer({
     { style: itemStyle, key: node.id },
     createElement(
       View,
-      { id: node.id, ref: refFlowItem },
+      { id: node.id, ref: setInnerMeasureRef as any },
       createElement(FlowItemContext.Provider, { value: { node } }, children)
     )
   )

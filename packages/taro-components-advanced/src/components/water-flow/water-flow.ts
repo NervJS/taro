@@ -16,7 +16,7 @@ import {
   useRef,
 } from 'react'
 
-import { debounce, getScrollViewContextNode } from '../../utils'
+import { debounce, getScrollViewContextNode, weappScope } from '../../utils'
 import {
   type ScrollElementContextValueShape,
   ScrollElementContextOrFallback,
@@ -130,6 +130,9 @@ const InnerWaterFlow = (
 
   const useScrollElementMode =
     flowType === 'nested' && !!(effectiveScrollElement && (isH5 || isWeapp))
+  const renderView =
+    useScrollElementMode || (!!needAutoFind && autoFindStatus === 'pending')
+  const scrollViewShellRef = useRef<HTMLElement | null>(null)
   if (flowType === 'nested' && !effectiveScrollElement && (isH5 || isWeapp) && autoFindStatus === 'not-found') {
     // eslint-disable-next-line no-console
     console.warn('[WaterFlow] nestedScroll 模式但无 scrollElement（props/Context/自动查找），回退为 default，将渲染自有 ScrollView')
@@ -157,6 +160,12 @@ const InnerWaterFlow = (
   const renderRange$ = useObservedAttr(root, 'renderRange')
   const refEventOrig = useRef<BaseEventOrig>()
   const nodeCacheCtlRef = useRef<ReturnType<typeof createWaterFlowNodeCacheControl> | null>(null)
+
+  useLayoutEffect(() => {
+    if (root.skipContainerMeasure) return
+    const shell = renderView ? contentWrapperRef.current : scrollViewShellRef.current
+    root.measureContainerSize(shell as HTMLElement | null).catch(() => {})
+  }, [root, renderView, needAutoFind, autoFindStatus])
 
   useEffect(() => {
     const ctl = createWaterFlowNodeCacheControl(root, () => root.cacheCount)
@@ -369,9 +378,9 @@ const InnerWaterFlow = (
       if (isWeapp) {
         if (!target.id) target.id = `_wf_${contentId}`
         const scrollViewId = target.id
-        const instance = Taro.getCurrentInstance()
-        const query = instance?.page
-          ? Taro.createSelectorQuery().in(instance.page as any)
+        const scope = weappScope({ current: target })
+        const query = scope != null
+          ? Taro.createSelectorQuery().in(scope as any)
           : Taro.createSelectorQuery()
         query.select(`#${scrollViewId}`).scrollOffset().exec((res) => {
           if (cancelled) return
@@ -420,9 +429,9 @@ const InnerWaterFlow = (
       if (!el.id) el.id = `_wf_${contentId}`
       const scrollViewId = el.id
       const measure = () => {
-        const instance = Taro.getCurrentInstance()
-        const query = instance?.page
-          ? Taro.createSelectorQuery().in(instance.page as any)
+        const scope = weappScope({ current: el })
+        const query = scope != null
+          ? Taro.createSelectorQuery().in(scope as any)
           : Taro.createSelectorQuery()
         query.select(`#${scrollViewId}`).boundingClientRect().exec((res) => {
           const rect = res?.[0]
@@ -451,9 +460,6 @@ const InnerWaterFlow = (
     return () => ro.disconnect()
   }, [useScrollElementMode, effectiveScrollElement, root, effectiveContainerHeight, contentId])
 
-  // scrollElement 模式下只渲染内容 View（不渲染 ScrollView）；内容高度须为 scrollHeight 以支持父级滚动；needAutoFind 且 pending 时 probe 渲染以便查找父容器
-  const renderView =
-    useScrollElementMode || (!!needAutoFind && autoFindStatus === 'pending')
   if (renderView) {
     return createElement(
       View,
@@ -477,6 +483,9 @@ const InnerWaterFlow = (
     ScrollView,
     {
       id: root.id,
+      ref: (el: any) => {
+        scrollViewShellRef.current = el
+      },
       style: {
         WebkitOverflowScrolling: 'touch',
         overflow: 'auto',

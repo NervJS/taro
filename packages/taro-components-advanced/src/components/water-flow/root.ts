@@ -2,11 +2,11 @@
 import { cancelAnimationFrame, requestAnimationFrame } from '@tarojs/runtime'
 import { nextTick } from '@tarojs/taro'
 
-import { getRectSizeSync } from '../../utils'
+import { getRectSizeSync, weappScope } from '../../utils'
 import { Node } from './node'
 import { Section } from './section'
 import { StatefulEventBus } from './stateful-event-bus'
-import { getSysInfo, isSameRenderRange } from './utils'
+import { getSysInfo, isH5, isSameRenderRange, isWeapp } from './utils'
 
 import type { BaseProps, ScrollDirection, Size, WaterFlowProps } from './interface'
 
@@ -131,15 +131,41 @@ export class Root extends StatefulEventBus<RootState, Events> {
     this.nodeCacheBackward = cacheCount
     this.nodeCacheForward = cacheCount
     this.setupSubscriptions()
-    if (!skipContainerMeasure) {
-      getRectSizeSync(`#${id}`, 100).then(({ width = windowWidth, height = windowHeight }) => {
-        this.setStateIn('containerSize', {
-          width,
-          height,
-        })
-      })
-    }
     this.renderInitialLayout()
+  }
+
+  /**
+   * 挂载后由 WaterFlow 调用：用当前根容器 DOM（与 #id 同节点或 ScrollView 外壳）测量 containerSize。
+   */
+  public async measureContainerSize (measureEl: HTMLElement | null) {
+    if (this.skipContainerMeasure) return
+    const { windowWidth, windowHeight } = getSysInfo()
+    let width = windowWidth
+    let height = windowHeight
+    if (isH5 && measureEl && typeof (measureEl as HTMLElement).getBoundingClientRect === 'function') {
+      const r = (measureEl as HTMLElement).getBoundingClientRect()
+      width = r.width
+      height = r.height
+    } else if (isWeapp && measureEl) {
+      const scope = weappScope({ current: measureEl as any })
+      const res = await getRectSizeSync(`#${this.id}`, 100, 5, scope)
+      width = res.width ?? width
+      height = res.height ?? height
+    } else {
+      const res = await getRectSizeSync(`#${this.id}`, 100, 5)
+      width = res.width ?? width
+      height = res.height ?? height
+    }
+    if (
+      typeof width === 'number' &&
+      typeof height === 'number' &&
+      Number.isFinite(width) &&
+      Number.isFinite(height) &&
+      width > 0 &&
+      height > 0
+    ) {
+      this.setStateIn('containerSize', { width, height })
+    }
   }
 
   /**

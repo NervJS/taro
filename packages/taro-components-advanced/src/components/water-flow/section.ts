@@ -1,4 +1,5 @@
-import { debounce } from '../../utils'
+import { cancelAnimationFrame, requestAnimationFrame } from '@tarojs/runtime'
+
 import { Size } from './interface'
 import { Node } from './node'
 import { Root, RootEvents } from './root'
@@ -63,6 +64,9 @@ export class Section extends StatefulEventBus<SectionState> {
   /** pushNodesStructuralOnly 后待 finalize；由 WaterFlow 的 useLayoutEffect 收尾，避免在父 render 中更新子 state */
   private _pendingPushFinalize = false
 
+  /** 同帧内多次 Resize 合并为一次 rAF 刷新 */
+  private _resizeCoalesceRafId: number | null = null
+
   constructor(public root: Root, props: SectionProps) {
     const { id, col, order, count, rowGap, columnGap } = props
     super({
@@ -119,14 +123,20 @@ export class Section extends StatefulEventBus<SectionState> {
      */
     this.sub<{ node: Node, newSize: Size, originalSize: Size }>(
       SectionEvents.Resize,
-      debounce(() => {
-        this.setStateIn('height', this.maxColumnHeight)
-        this.updateBehindSectionsPosition()
-        if (this.isInRange) {
-          this.setStateIn('renderRange', this.getNodeRenderRange())
+      () => {
+        if (this._resizeCoalesceRafId != null) {
+          cancelAnimationFrame(this._resizeCoalesceRafId)
         }
-        this.root.pub(RootEvents.Resize)
-      })
+        this._resizeCoalesceRafId = requestAnimationFrame(() => {
+          this._resizeCoalesceRafId = null
+          this.setStateIn('height', this.maxColumnHeight)
+          this.updateBehindSectionsPosition()
+          if (this.isInRange) {
+            this.setStateIn('renderRange', this.getNodeRenderRange())
+          }
+          this.root.pub(RootEvents.Resize)
+        })
+      }
     )
   }
 
