@@ -417,6 +417,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     ready () {
       updateCurrentRouter(this.compId)
       safeExecute(this.compId, 'onReady')
+      requestAnimationFrame(() => eventCenter.trigger(Current.router?.onReady ?? ''))
     },
     detached () {
       resetCurrent()
@@ -427,6 +428,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       show (options) {
         updateCurrentRouter(this.compId)
         safeExecute(this.compId, 'onShow', options)
+        requestAnimationFrame(() => eventCenter.trigger(Current.router?.onShow ?? ''))
       },
       hide () {
         safeExecute(this.compId, 'onHide')
