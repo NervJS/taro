@@ -415,6 +415,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       })
     },
     ready () {
+      updateCurrentRouter(this.compId)
       safeExecute(this.compId, 'onReady')
     },
     detached () {
@@ -424,6 +425,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     },
     pageLifetimes: {
       show (options) {
+        updateCurrentRouter(this.compId)
         safeExecute(this.compId, 'onShow', options)
       },
       hide () {
@@ -493,6 +495,25 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
   return componentObj
 }
 
+function updateCurrentRouter (compId: string) {
+  if (!getCurrentPages || typeof getCurrentPages !== 'function') return
+
+  const pages = getCurrentPages()
+  const currentPage = pages[pages.length - 1]
+  if (!currentPage) return
+
+  const route = (currentPage as any).route || (currentPage as any).__route__
+  Current.page = currentPage
+  Current.router = {
+    params: currentPage.options || {},
+    path: addLeadingSlash(route),
+    $taroPath: compId,
+    onReady: getOnReadyEventKey(route),
+    onShow: getOnShowEventKey(route),
+    onHide: getOnHideEventKey(route),
+  }
+}
+
 function setCurrent (compId: string) {
   if (!getCurrentPages || typeof getCurrentPages !== 'function') return
 
@@ -507,9 +528,9 @@ function setCurrent (compId: string) {
     params: currentPage.options || {},
     path: addLeadingSlash(route),
     $taroPath: compId,
-    onReady: '',
-    onHide: '',
-    onShow: ''
+    onReady: getOnReadyEventKey(route),
+    onShow: getOnShowEventKey(route),
+    onHide: getOnHideEventKey(route),
   }
   Current.router = router
 
