@@ -24,6 +24,15 @@
   z-index: $weuiPickerZIndexMask;
 }
 
+// 全屏蒙层颜色：mask 与 taro-picker-theme-* 面板为兄弟节点，由 overlay 主题修饰类命中
+.taro-picker__overlay.taro-picker__overlay--theme-light .taro-picker__mask-overlay {
+  background-color: $weuiMaskColorLight;
+}
+
+.taro-picker__overlay.taro-picker__overlay--theme-dark .taro-picker__mask-overlay {
+  background-color: $weuiMaskColorDark;
+}
+
 .taro-picker {
   position: absolute;
   bottom: 0;
@@ -88,10 +97,6 @@
 .taro-picker-theme-light {
   background-color: $weuiLineColorLight;
 
-  .taro-picker__mask-overlay {
-    background-color: $weuiMaskColorLight;
-  }
-
   .taro-picker__hd {
     background-color: $weuiBackgroundColorLight;
 
@@ -150,10 +155,6 @@
 // Dark 主题样式
 .taro-picker-theme-dark {
   background-color: $weuiLineColorDark;
-
-  .taro-picker__mask-overlay {
-    background-color: $weuiMaskColorDark;
-  }
 
   .taro-picker__hd {
     background-color: $weuiBackgroundColorDark;
