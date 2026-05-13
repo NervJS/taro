@@ -84,6 +84,35 @@ describe('Picker Component', () => {
       // 验证组件能够接收样式属性而不报错
       expect(screen.getByText('选择器')).toBeInTheDocument()
     })
+
+    it('should apply transparent full-screen mask when colors.transparentMask is true', async () => {
+      const range = createTestData.selector()
+      render(
+        <Picker mode="selector" range={range} colors={{ transparentMask: true }}>
+          选择器
+        </Picker>
+      )
+      await user.click(screen.getByText('选择器'))
+      await waitFor(() => {
+        const mask = document.querySelector('.taro-picker__mask-overlay') as HTMLElement | null
+        expect(mask).toBeTruthy()
+        expect(mask!.style.backgroundColor).toBe('transparent')
+      })
+    })
+
+    it('should apply colors.maskOverlayColor on full-screen mask', async () => {
+      const range = createTestData.selector()
+      render(
+        <Picker mode="selector" range={range} colors={{ maskOverlayColor: 'rgba(255,0,0,0.3)' }}>
+          选择器
+        </Picker>
+      )
+      await user.click(screen.getByText('选择器'))
+      await waitFor(() => {
+        const mask = document.querySelector('.taro-picker__mask-overlay') as HTMLElement | null
+        expect(mask!.style.backgroundColor).toMatch(/^rgba\(255,\s*0,\s*0,\s*0\.3\)$/)
+      })
+    })
   })
 
   describe('Selector Mode', () => {

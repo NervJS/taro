@@ -114,6 +114,8 @@ export interface PickerColors {
   backgroundColor?: string // 面板背景色
   lineColor?: string // 指示线条颜色
   titleColor?: string // 标题颜色
+  /** 全屏点击蒙层背景色；不设则随 theme 使用默认浅色/深色蒙层 */
+  maskColor?: string
 }
 
 export interface PickerDate {
@@ -888,6 +890,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   })
   const backgroundStyle = colors.backgroundColor ? { backgroundColor: colors.backgroundColor } : null
   const titleStyle = colors.titleColor ? { color: colors.titleColor } : null
+  const maskOverlayStyle = colors.maskColor ? { backgroundColor: colors.maskColor } : undefined
 
   // 暴露方法给外部
   React.useImperativeHandle(ref, () => ({
@@ -908,8 +911,8 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
         {children}
       </View>
       {!state.hidden && (
-        <View className="taro-picker__overlay">
-          <View className={clsMask} onClick={handleCancel} />
+        <View className={classNames('taro-picker__overlay', `taro-picker__overlay--theme-${theme}`)}>
+          <View className={clsMask} style={maskOverlayStyle} onClick={handleCancel} />
           <View className={clsSlider} {...(backgroundStyle ? { style: backgroundStyle } : {})}>
             <View className="taro-picker__hd" {...(backgroundStyle ? { style: backgroundStyle } : {})}>
               <View
