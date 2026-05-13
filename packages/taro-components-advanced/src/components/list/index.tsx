@@ -15,7 +15,7 @@ import ListItem from './ListItem'
 import NoMore, { type NoMoreProps } from './NoMore'
 import StickyHeader from './StickyHeader'
 import StickySection from './StickySection'
-import { createSelectorQueryScoped, isH5, isWeapp, supportsNativeRefresher } from './utils'
+import { createSelectorQueryForRef, isH5, isWeapp, supportsNativeRefresher } from './utils'
 
 /** 与官方 List.d.ts / ScrollView / harmony 对齐，不增减已有语义；扩展项仅用于高级能力 */
 export interface ListProps {
@@ -87,8 +87,6 @@ export interface ListProps {
   scrollElement?: React.RefObject<HTMLElement | null>
   /** 向外透出滚动容器，供子 List 作 scrollElement */
   scrollRef?: React.MutableRefObject<HTMLElement | null>
-  /** 仅小程序：SelectorQuery / IO 作用域（如自定义组件内传 `this`），未传则沿用 page */
-  selectorQueryScope?: object
 }
 
 export interface ListHandle {
@@ -188,7 +186,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     autoFindStatus,
     contentWrapperRef,
     contentId,
-  } = useListNestedScroll(listType, scrollElement, undefined, isHorizontal, props.selectorQueryScope)
+  } = useListNestedScroll(listType, scrollElement, undefined, isHorizontal)
   const DEFAULT_ITEM_WIDTH = 120
   const DEFAULT_ITEM_HEIGHT = 40
   const defaultItemSize = isHorizontal ? DEFAULT_ITEM_WIDTH : DEFAULT_ITEM_HEIGHT
@@ -248,7 +246,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
   React.useEffect(() => {
     if (!isWeapp) return
     Taro.nextTick(() => {
-      createSelectorQueryScoped(props.selectorQueryScope)
+      createSelectorQueryForRef(containerRef)
         .select(`#${listId}`)
         .boundingClientRect((rect: any) => {
           const measured = isHorizontal ? rect?.width : rect?.height
@@ -611,7 +609,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     enabled: props.useResizeObserver === true,
     isHorizontal,
     listId,
-    selectorQueryScope: props.selectorQueryScope,
+    listViewportRef: containerRef,
     onResize: (index, size) => {
       const oldSize = sizeCache.getItemSize(index)
       sizeCache.setItemSize(index, size)
@@ -1092,8 +1090,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     updateRenderOffset,
     scrollRefProp,
     scrollAttachRefsRef,
-    initialContainerLength,
-    props.selectorQueryScope
+    initialContainerLength
   )
 
   // 吸顶/吸左 header
@@ -1188,7 +1185,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
             } else if (isWeapp) {
               Taro.nextTick(() => {
                 if (!headerRefsRef.current.has(sectionIndex)) return
-                createSelectorQueryScoped(props.selectorQueryScope)
+                createSelectorQueryForRef({ current: el } as React.RefObject<HTMLElement>)
                   .select(`#${listId}-list-header-inner-${sectionIndex}`)
                   .boundingClientRect((rect: any) => {
                     if (rect) {
@@ -1346,7 +1343,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
                 // 比固定延时更快（减少"预估→实测"闪烁）且更可靠（保证 DOM 已更新）
                 Taro.nextTick(() => {
                   if (!itemRefsRef.current.has(capturedIndex)) return
-                  createSelectorQueryScoped(props.selectorQueryScope)
+                  createSelectorQueryForRef({ current: el } as React.RefObject<HTMLElement>)
                     // 页面上可能同时存在多个 List，inner id 必须带 listId 前缀避免跨列表误命中
                     .select(`#${listId}-list-item-inner-${capturedIndex}`)
                     .boundingClientRect((rect: any) => {

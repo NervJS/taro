@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-import { createSelectorQueryScoped } from '../utils'
+import { createSelectorQueryForRef } from '../utils'
 
 import type { MutableRefObject, RefObject } from 'react'
 import type { ListScrollElementAttachRefs } from './useListScrollElementAttach'
@@ -11,6 +11,7 @@ import type { ListScrollElementAttachRefs } from './useListScrollElementAttach'
  *
  * 与 H5 版 useListScrollElementAttach 的区别：
  * - 容器尺寸通过 createSelectorQuery 测量（无 ResizeObserver）
+ * - SelectorQuery 使用 `createSelectorQueryForRef(effectiveScrollElement)`，由滚动容器 ref 的 `_scope` 推导 `.in`，无需业务传 scope
  * - 滚动事件通过 TaroElement.addEventListener，格式为 TaroEvent（detail 合并到 target 上）
  * - 若 scroll-view 无 id，自动分配临时 id 供 SelectorQuery 使用
  */
@@ -25,8 +26,7 @@ export function useListScrollElementAttachWeapp(
   scrollRefProp: React.MutableRefObject<HTMLElement | null> | undefined,
   refsRef: RefObject<ListScrollElementAttachRefs>,
   /** 测量未就绪或失败时的容器长度兜底，宜与 initialContainerLength 一致 */
-  fallbackContainerLength?: number,
-  selectorQueryScope?: object
+  fallbackContainerLength?: number
 ) {
   const containerLengthRef = useRef(0)
   const autoIdRef = useRef(`_ls_${Math.random().toString(36).slice(2, 9)}`)
@@ -43,7 +43,7 @@ export function useListScrollElementAttachWeapp(
     const scrollViewId = el.id
 
     const measure = () => {
-      const query = createSelectorQueryScoped(selectorQueryScope)
+      const query = createSelectorQueryForRef(effectiveScrollElement)
       query
         .select(`#${scrollViewId}`)
         .boundingClientRect()
@@ -68,7 +68,7 @@ export function useListScrollElementAttachWeapp(
     measure()
     const interval = setInterval(measure, 150)
     return () => clearInterval(interval)
-  }, [enabled, effectiveScrollElement, isHorizontal, scrollRefProp, setContainerLength, fallbackContainerLength, selectorQueryScope])
+  }, [enabled, effectiveScrollElement, isHorizontal, scrollRefProp, setContainerLength, fallbackContainerLength])
 
   useEffect(() => {
     if (!enabled || !effectiveScrollElement) return
@@ -127,7 +127,7 @@ export function useListScrollElementAttachWeapp(
       // 初始 renderOffset：weapp 无法直接读 target.scrollTop，需通过 SelectorQuery 查询
       const scrollViewId = target.id || autoIdRef.current
       if (!target.id) target.id = scrollViewId
-      const query = createSelectorQueryScoped(selectorQueryScope)
+      const query = createSelectorQueryForRef(effectiveScrollElement)
       query.select(`#${scrollViewId}`).scrollOffset().exec((res) => {
         const info = res?.[0]
         if (info) {
@@ -146,5 +146,5 @@ export function useListScrollElementAttachWeapp(
       cancelled = true
       teardown?.()
     }
-  }, [enabled, effectiveScrollElement, isHorizontal, effectiveStartOffsetRef, effectiveStartOffset, updateRenderOffset, refsRef, fallbackContainerLength, selectorQueryScope])
+  }, [enabled, effectiveScrollElement, isHorizontal, effectiveStartOffsetRef, effectiveStartOffset, updateRenderOffset, refsRef, fallbackContainerLength])
 }

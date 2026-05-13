@@ -71,7 +71,16 @@ const InnerWaterFlow = (
     [ref]
   )
   const defaultId = useId().replace(/:/g, '')
-  const contentId = useMemo(() => id ?? defaultId, [id, defaultId])
+  /** 仅在原有 id 后追加同一实例内共享的随机数尾缀，不替换原 id 串 */
+  const instanceIdSuffixRef = useRef<string | null>(null)
+  if (instanceIdSuffixRef.current === null) {
+    instanceIdSuffixRef.current = String(Math.floor(Math.random() * 1e9))
+  }
+  const instanceSuffix = instanceIdSuffixRef.current
+  const contentId = useMemo(
+    () => `${id ?? defaultId}_${instanceSuffix}`,
+    [id, defaultId, instanceSuffix]
+  )
   const needAutoFind =
     flowType === 'nested' &&
     !scrollElement &&
@@ -500,7 +509,7 @@ const InnerWaterFlow = (
       View,
       {
         ref: setContainerRef as any,
-        id: 'waterflow-root',
+        id: `waterflow-root_${instanceSuffix}`,
         style: {
           width: '100%',
           position: 'relative',

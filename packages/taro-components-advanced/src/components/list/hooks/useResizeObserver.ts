@@ -1,7 +1,9 @@
 import Taro from '@tarojs/taro'
 import { useCallback, useEffect, useRef } from 'react'
 
-import { createSelectorQueryScoped, getMiniProgramObserverScope, isH5, isMiniProgram } from '../utils'
+import { createSelectorQueryForRef, getIntersectionObserverScopeForRef, isH5, isMiniProgram } from '../utils'
+
+import type { RefObject } from 'react'
 
 /**
  * useResizeObserver Hook - 尺寸变化监听（平台适配）
@@ -17,9 +19,11 @@ interface UseResizeObserverOptions {
   /** 是否水平滚动（监听 width 还是 height） */
   isHorizontal: boolean
 
-  /** List 容器 ID（小程序用于 SelectorQuery） */
+  /** 小程序：ScrollView 上的随机 id 段（`id={listId}`），用于 `relativeTo('#'+listId)` 及 `#${listId}-list-item-inner-*` 等选择器 */
   listId: string
-  selectorQueryScope?: object
+
+  /** 小程序：应指向带 `listId` 的 ScrollView；仅解析 IO 的组件实例（`weappScope`），不作为 `relativeTo` 的参数传入 */
+  listViewportRef: RefObject<HTMLElement | null>
 
   /** 尺寸变化回调 */
   onResize: (index: number, size: number) => void
@@ -39,7 +43,7 @@ interface UseResizeObserverReturn {
 export function useResizeObserver(
   options: UseResizeObserverOptions
 ): UseResizeObserverReturn {
-  const { enabled, isHorizontal, listId, onResize, selectorQueryScope } = options
+  const { enabled, isHorizontal, listId, listViewportRef, onResize } = options
 
   // H5: ResizeObserver 实例
   const observerRef = useRef<ResizeObserver | null>(null)
@@ -100,18 +104,19 @@ export function useResizeObserver(
 
     const doObserve = () => {
       try {
-        const observerScope = getMiniProgramObserverScope(selectorQueryScope)
+        const observerScope = getIntersectionObserverScopeForRef(listViewportRef)
         const observer = Taro.createIntersectionObserver(observerScope, {
           observeAll: true
         })
 
-        // 相对于 List 容器
+        // 参照视口：仍为 `#${listId}` 字符串；与 `listViewportRef` 无 API 耦合，后者只影响上面 `createIntersectionObserver` 的首参
         observer.relativeTo(`#${listId}`)
 
         // 观察元素进入可见区域（唯一 id 避免跨 List 误命中）
         observer.observe(selector, (res) => {
           if (res.intersectionRatio > 0) {
-            createSelectorQueryScoped(selectorQueryScope)
+            // 与 observe 目标同一节点，SelectorQuery 的 in(scope) 与该节点 _scope 一致
+            createSelectorQueryForRef({ current: _element } as RefObject<any>)
               .select(selector)
               .boundingClientRect((rect: any) => {
                 if (rect) {
@@ -130,7 +135,7 @@ export function useResizeObserver(
     }
 
     Taro.nextTick(doObserve)
-  }, [enabled, isHorizontal, listId, onResize, selectorQueryScope])
+  }, [enabled, isHorizontal, listId, listViewportRef, onResize])
 
   /**
    * 观察元素（平台自动适配）

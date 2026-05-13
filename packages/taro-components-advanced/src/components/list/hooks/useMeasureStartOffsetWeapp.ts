@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { createSelectorQueryScoped } from '../utils'
+import { createSelectorQueryForRef } from '../utils'
 
 import type { MutableRefObject, RefObject } from 'react'
 
@@ -10,18 +10,23 @@ const RETRY_DELAY = 50
 const MEASURE_INTERVAL = 150
 
 /**
- * 小程序版 startOffset 测量：通过 createSelectorQuery 获取 scroll-view 与 content 的位置，
- * 计算 content 相对于 scroll 内容顶部的偏移。
+ * 小程序版 startOffset：对外层 scroll-view 与带 `contentId` 的外包各执行一次 SelectorQuery（各自 `weappScope(ref)`），
+ * 再合并结果；避免二者不在同一自定义组件时，单次 `in` 链式 `select` 查不全。
  *
  * 公式：startOffset = contentRect.top - scrollRect.top + scrollTop
- * （content 在屏幕上的 top - scroll 可视区 top + 已滚动距离）
  */
 export function useMeasureStartOffsetWeapp(
   scrollElRef: RefObject<HTMLElement | null>,
   contentId: string,
-  options: { enabled: boolean, isHorizontal?: boolean, startOffsetRef?: MutableRefObject<number>, selectorQueryScope?: object }
+  options: {
+    enabled: boolean
+    isHorizontal?: boolean
+    startOffsetRef?: MutableRefObject<number>
+    /** 挂载 `id={contentId}` 的嵌套内容外包 View；第二次 query 用其 ref 取 content 侧 `_scope` */
+    contentWrapperRef: RefObject<HTMLElement | null>
+  }
 ): number {
-  const { enabled, isHorizontal = false, startOffsetRef, selectorQueryScope } = options
+  const { enabled, isHorizontal = false, startOffsetRef, contentWrapperRef } = options
   const [measuredStartOffset, setMeasuredStartOffset] = useState(0)
   const [retryTrigger, setRetryTrigger] = useState(0)
   const retryCountRef = useRef(0)
@@ -33,6 +38,17 @@ export function useMeasureStartOffsetWeapp(
       return
     }
 
+    const applyRects = (scrollRect: any, scrollInfo: any, contentRect: any) => {
+      if (!scrollRect || !scrollInfo || !contentRect) return
+      const scrollTop = scrollInfo.scrollTop ?? 0
+      const scrollLeft = scrollInfo.scrollLeft ?? 0
+      const value = isHorizontal
+        ? Math.max(0, contentRect.left - scrollRect.left + scrollLeft)
+        : Math.max(0, contentRect.top - scrollRect.top + scrollTop)
+      if (startOffsetRef) startOffsetRef.current = value
+      setMeasuredStartOffset((prevVal) => (Math.abs(prevVal - value) < 1 ? prevVal : value))
+    }
+
     const measure = () => {
       const scrollEl = scrollElRef.current as any
       if (!scrollEl) return
@@ -42,27 +58,22 @@ export function useMeasureStartOffsetWeapp(
       }
       const scrollViewId = scrollEl.id
 
-      const query = createSelectorQueryScoped(selectorQueryScope)
-      query
+      createSelectorQueryForRef(scrollElRef)
         .select(`#${scrollViewId}`)
         .boundingClientRect()
         .select(`#${scrollViewId}`)
         .scrollOffset()
-        .select(`#${contentId}`)
-        .boundingClientRect()
-        .exec((res) => {
-          const scrollRect = res?.[0]
-          const scrollInfo = res?.[1]
-          const contentRect = res?.[2]
-          if (!scrollRect || !scrollInfo || !contentRect) return
-
-          const scrollTop = scrollInfo.scrollTop ?? 0
-          const scrollLeft = scrollInfo.scrollLeft ?? 0
-          const value = isHorizontal
-            ? Math.max(0, contentRect.left - scrollRect.left + scrollLeft)
-            : Math.max(0, contentRect.top - scrollRect.top + scrollTop)
-          startOffsetRef && (startOffsetRef.current = value)
-          setMeasuredStartOffset((prevVal) => (Math.abs(prevVal - value) < 1 ? prevVal : value))
+        .exec((scrollRes) => {
+          const scrollRect = scrollRes?.[0]
+          const scrollInfo = scrollRes?.[1]
+          if (!scrollRect || !scrollInfo) return
+          createSelectorQueryForRef(contentWrapperRef)
+            .select(`#${contentId}`)
+            .boundingClientRect()
+            .exec((contentRes) => {
+              const contentRect = contentRes?.[0]
+              applyRects(scrollRect, scrollInfo, contentRect)
+            })
         })
     }
 
@@ -77,15 +88,13 @@ export function useMeasureStartOffsetWeapp(
     }
     retryCountRef.current = 0
     measure()
-    // 对标 H5：scroll 时触发测量（H5 用 scrollEl.addEventListener('scroll', measure)）
     scrollEl.addEventListener('scroll', measure)
-    // 无 ResizeObserver，用 interval 兜底布局变化
     const interval = setInterval(measure, MEASURE_INTERVAL)
     return () => {
       scrollEl.removeEventListener('scroll', measure)
       clearInterval(interval)
     }
-  }, [enabled, scrollElRef, contentId, isHorizontal, retryTrigger, selectorQueryScope])
+  }, [enabled, scrollElRef, contentId, contentWrapperRef, isHorizontal, retryTrigger])
 
   return measuredStartOffset
 }

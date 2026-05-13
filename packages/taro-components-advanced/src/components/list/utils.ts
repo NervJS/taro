@@ -4,20 +4,32 @@
 
 import Taro from '@tarojs/taro'
 
-/** 有 scope 则 `query.in(scope)`，否则与原先一致（page / 根） */
-export function createSelectorQueryScoped (selectorQueryScope?: object) {
-  if (selectorQueryScope != null) {
-    return Taro.createSelectorQuery().in(selectorQueryScope as any)
+import { weappScope } from '../../utils/weapp-scope'
+
+import type { RefObject } from 'react'
+
+/**
+ * 小程序：用 `weappScope(ref)` 取节点 `_scope`；有则 `createSelectorQuery().in(scope)`，无则不调 `in`。
+ * 与 WaterFlow、DongDesign jdpopover 同源，替代原先业务侧传入的 `selectorQueryScope`。
+ */
+export function createSelectorQueryForRef (
+  ref: RefObject<any> | null | undefined
+) {
+  const scope = weappScope(ref)
+  if (scope != null) {
+    return Taro.createSelectorQuery().in(scope as any)
   }
-  const instance = Taro.getCurrentInstance()
-  return instance?.page
-    ? Taro.createSelectorQuery().in(instance.page as any)
-    : Taro.createSelectorQuery()
+  return Taro.createSelectorQuery()
 }
 
-/** IO 作用域，缺省为 page */
-export function getMiniProgramObserverScope (selectorQueryScope?: object) {
-  return (selectorQueryScope ?? Taro.getCurrentInstance().page) as any
+/**
+ * 仅用于 `Taro.createIntersectionObserver` 的第一个参数：优先 `weappScope(ref)`，无 `_scope` 时用当前 page。
+ * （微信要求 IO 挂在组件实例上；与旧实现里「未传 scope 时用 page」的兜底一致。）
+ */
+export function getIntersectionObserverScopeForRef (
+  ref: RefObject<any> | null | undefined
+) {
+  return (weappScope(ref) ?? Taro.getCurrentInstance().page) as any
 }
 
 /** 判断是否为微信小程序 */

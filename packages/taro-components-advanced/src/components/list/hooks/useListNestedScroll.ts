@@ -33,8 +33,7 @@ export function useListNestedScroll(
   listType: 'default' | 'nested',
   scrollElement?: RefObject<HTMLElement | null>,
   startOffsetProp?: number,
-  isHorizontal: boolean = false,
-  selectorQueryScope?: object
+  isHorizontal: boolean = false
 ): UseListNestedScrollResult {
   const contentWrapperRef = useRef<HTMLDivElement>(null)
   const contentId = useMemo(() => `list-content-${Math.random().toString(36).slice(2, 11)}`, [])
@@ -78,7 +77,7 @@ export function useListNestedScroll(
   const measuredStartOffsetWeapp = useMeasureStartOffsetWeapp(
     effectiveScrollElement ?? EMPTY_SCROLL_REF,
     contentId,
-    { enabled: !!needMeasureWeapp, isHorizontal, startOffsetRef: effectiveStartOffsetRef, selectorQueryScope }
+    { enabled: !!needMeasureWeapp, isHorizontal, startOffsetRef: effectiveStartOffsetRef, contentWrapperRef }
   )
 
   const effectiveStartOffset =
