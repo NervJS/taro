@@ -13,6 +13,7 @@ import type MapTypes from 'tmap-gl-types'
 export interface MapProps extends Omit<TaroMapProps, 'onError'> {
   forwardedRef?: React.MutableRefObject<any>
   authKey?: string
+  libraries?: string
   onError?: (e: any) => void
 }
 
@@ -23,6 +24,7 @@ function Map (props: MapProps) {
     className,
     style,
     authKey,
+    libraries,
     longitude,
     latitude,
     scale,
@@ -252,6 +254,7 @@ function Map (props: MapProps) {
       className={className}
       style={styleObj}
       apiKey={authKey ?? ''}
+      libraries={libraries}
       options={mergedOptions}
       onClick={handleMapClick}
       onMapInited={handleMapInited}
