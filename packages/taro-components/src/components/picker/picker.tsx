@@ -54,6 +54,7 @@ export class Picker implements ComponentInterface {
   @Prop() fields: Fields = 'day'
   @Prop() name = ''
   @Prop() textProps: PickerText = {}
+  @Prop() dataFormatFunction: (initial: string) => string = (_default) => _default;
 
   @State() pickerValue: PickerValue = []
   @State() height: number[] = []
@@ -411,11 +412,11 @@ export class Picker implements ComponentInterface {
     const currentMonth = _updateValue[1]
 
     const yearRange = getYearRange(_start.getFullYear(), _end.getFullYear())
-      .map(item => `${item}年`)
+      .map(item => this.dataFormatFunction(`${item}年`))
     const monthRange = getMonthRange(_start, _end, currentYear)
-      .map(item => `${item < 10 ? `0${item}` : item}月`)
+      .map(item => this.dataFormatFunction(`${item < 10 ? `0${item}` : item}月`))
     const dayRange = getDayRange(_start, _end, currentYear, currentMonth)
-      .map(item => `${item < 10 ? `0${item}` : item}日`)
+      .map(item => this.dataFormatFunction(`${item < 10 ? `0${item}` : item}日`))
 
     const renderView = [
       <taro-picker-group
