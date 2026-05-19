@@ -2,7 +2,8 @@
 import {
   EMPTY_OBJ, ensure, EventChannel,
   getComponentsAlias, hooks, internalComponents,
-  isArray, isFunction, isString, isUndefined, Shortcuts
+  isArray, isEnableTTDom,
+  isFunction, isString, isUndefined, Shortcuts
 } from '@tarojs/shared'
 
 import { raf } from '../bom/raf'
@@ -149,14 +150,22 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       const mount = () => {
         Current.app!.mount!(component, $taroPath, () => {
-          pageElement = env.document.getElementById<TaroRootElement>($taroPath)
+          if (process.env.TARO_ENV === 'tt' && isEnableTTDom()) {
+            pageElement = (env.document as any).getPageDocumentById(this.__webviewId__)
+          } else {
+            pageElement = env.document.getElementById<TaroRootElement>($taroPath)
+          }
 
           ensure(pageElement !== null, '没有找到页面实例。')
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
           loadResolver()
           if (process.env.TARO_PLATFORM !== 'web') {
             pageElement.ctx = this
-            pageElement.performUpdate(true, cb)
+            if (process.env.TARO_ENV === 'tt' && isEnableTTDom()) {
+              (pageElement as any).sync()
+            } else {
+              pageElement.performUpdate(true, cb)
+            }
           } else {
             isFunction(cb) && cb()
           }
@@ -323,7 +332,9 @@ export function createComponentConfig (component: React.ComponentClass, componen
         safeExecute(path, ON_LOAD)
         if (process.env.TARO_PLATFORM !== 'web') {
           componentElement.ctx = this
-          componentElement.performUpdate(true)
+          if (process.env.TARO_ENV !== 'tt' || !isEnableTTDom()) {
+            componentElement.performUpdate(true)
+          }
         }
       })
     },
@@ -360,6 +371,10 @@ export function createRecursiveComponentConfig (componentName?: string) {
   const lifeCycles = isCustomWrapper
     ? {
       [ATTACHED] () {
+        if (process.env.TARO_ENV === 'tt' && isEnableTTDom()) {
+          return
+        }
+
         const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.set(componentId, this)
@@ -370,6 +385,10 @@ export function createRecursiveComponentConfig (componentName?: string) {
         }
       },
       [DETACHED] () {
+        if (process.env.TARO_ENV === 'tt' && isEnableTTDom()) {
+          return
+        }
+
         const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.delete(componentId)
