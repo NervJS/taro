@@ -3,15 +3,15 @@ import { CommonEventFunction, StandardProps } from './common'
 interface RichTextProps extends StandardProps {
   /** 文本是否可选，该属性会使节点显示为 block
    * @default false
-   * @supported weapp, jd, h5, harmony_hybrid
+   * @supported weapp, jd, h5, harmony_hybrid, ascf
    */
   userSelect?: boolean
   /** 节点列表/ HTML String
-   * @supported weapp, jd, alipay, swan, tt, qq, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, jd, alipay, swan, tt, qq, h5, rn, harmony, harmony_hybrid, ascf
    */
   nodes?: Nodes
   /** 显示连续空格
-   * @supported weapp, jd, alipay, tt, qq, h5, rn, harmony_hybrid
+   * @supported weapp, jd, alipay, tt, qq, h5, rn, harmony_hybrid, ascf
    */
   space?: keyof RichTextProps.TSpace
   /** 富文本是否可以长按选中，可用于复制，粘贴，长按搜索等场景

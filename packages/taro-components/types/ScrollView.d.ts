@@ -3,40 +3,40 @@ import { BaseEventOrigFunction, CommonEventFunction, StandardProps } from './com
 interface ScrollViewProps extends StandardProps {
   /** 允许横向滚动
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
    * @rn 二选一
    */
   scrollX?: boolean
   /** 允许纵向滚动
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
    * @rn 二选一
    */
   scrollY?: boolean
   /** 距顶部/左边多远时（单位px），触发 scrolltoupper 事件
    * @default 50
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   upperThreshold?: number
   /** 距底部/右边多远时（单位px），触发 scrolltolower 事件
    * @default 50
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   lowerThreshold?: number
   /** 设置竖向滚动条位置
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   scrollTop?: number
   /** 设置横向滚动条位置
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   scrollLeft?: number
   /** 值应为某子元素id（id不能以数字开头）。设置哪个方向可滚动，则在哪个方向滚动到该元素
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, ascf
    */
   scrollIntoView?: string
   /** 在设置滚动条位置时使用动画过渡
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    * @default false
    */
   scrollWithAnimation?: boolean
@@ -56,32 +56,32 @@ interface ScrollViewProps extends StandardProps {
    */
   scrollAnchoring?: boolean
   /** 开启自定义下拉刷新
-   * @supported weapp
+   * @supported weapp, ascf
    * @default false
    */
   refresherEnabled?: boolean
   /** 设置自定义下拉刷新阈值
-   * @supported weapp
+   * @supported weapp, ascf
    * @default 45
    */
   refresherThreshold?: number
   /** 设置自定义下拉刷新默认样式，支持设置 `black | white | none`， none 表示不使用默认样式
-   * @supported weapp
+   * @supported weapp, ascf
    * @default 'black'
    */
   refresherDefaultStyle?: string
   /** 设置自定义下拉刷新区域背景颜色
-   * @supported weapp
+   * @supported weapp, ascf
    * @default '#FFF'
    */
   refresherBackground?: string
   /** 设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发
-   * @supported weapp
+   * @supported weapp, ascf
    * @default false
    */
   refresherTriggered?: boolean
   /** 启用 scroll-view 增强特性
-   * @supported weapp, swan
+   * @supported weapp, swan, ascf
    * @default false
    */
   enhanced?: boolean
@@ -96,7 +96,7 @@ interface ScrollViewProps extends StandardProps {
    */
   bounces?: boolean
   /** 滚动条显隐控制 (同时开启 enhanced 属性后生效)
-   * @supported weapp, harmony
+   * @supported weapp, harmony, ascf
    * @default true
    */
   showScrollbar?: boolean

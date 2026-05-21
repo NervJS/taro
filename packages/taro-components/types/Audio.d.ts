@@ -2,16 +2,16 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 interface AudioProps extends StandardProps {
   /** audio 组件的唯一标识符
-   * @supported weapp, swan, qq
+   * @supported weapp, swan, qq, ascf
    */
   id?: string
   /** 要播放音频的资源地址
-   * @supported weapp, swan, qq, h5, harmony_hybrid
+   * @supported weapp, swan, qq, h5, harmony_hybrid, ascf
    */
   src?: string
   /** 是否循环播放
    * @default false
-   * @supported weapp, swan, qq, h5, harmony_hybrid
+   * @supported weapp, swan, qq, h5, harmony_hybrid, ascf
    */
   loop?: boolean
   /** 是否静音播放
@@ -21,21 +21,21 @@ interface AudioProps extends StandardProps {
   muted?: boolean
   /** 是否显示默认控件
    * @default false
-   * @supported weapp, swan, qq, h5, harmony_hybrid
+   * @supported weapp, swan, qq, h5, harmony_hybrid, ascf
    */
   controls?: boolean
   /** 默认控件上的音频封面的图片资源地址，如果 controls 属性值为 false 则设置 poster 无效
-   * @supported weapp, swan, qq
+   * @supported weapp, swan, qq, ascf
    */
   poster?: string
   /** 默认控件上的音频名字，如果 controls 属性值为 false 则设置 name 无效
    * @default "未知音频"
-   * @supported weapp, swan, qq
+   * @supported weapp, swan, qq, ascf
    */
   name?: string
   /** 默认控件上的作者名字，如果 controls 属性值为 false 则设置 author 无效
    * @default "未知作者"
-   * @supported weapp, swan, qq
+   * @supported weapp, swan, qq, ascf
    */
   author?: string
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
@@ -43,23 +43,23 @@ interface AudioProps extends StandardProps {
    */
   nativeProps?: Record<string, unknown>
   /** 当发生错误时触发 error 事件，detail = {errMsg: MediaError.code}
-   * @supported weapp, swan, qq, h5, harmony_hybrid
+   * @supported weapp, swan, qq, h5, harmony_hybrid, ascf
    */
   onError?: CommonEventFunction<AudioProps.onErrorEventDetail>
   /** 当开始/继续播放时触发play事件
-   * @supported weapp, swan, qq, h5, harmony_hybrid
+   * @supported weapp, swan, qq, h5, harmony_hybrid, ascf
    */
   onPlay?: CommonEventFunction
   /** 当暂停播放时触发 pause 事件
-   * @supported weapp, swan, qq, h5, harmony_hybrid
+   * @supported weapp, swan, qq, h5, harmony_hybrid, ascf
    */
   onPause?: CommonEventFunction
   /** 当播放进度改变时触发 timeupdate 事件，detail = {currentTime, duration}
-   * @supported weapp, swan, qq, h5, harmony_hybrid
+   * @supported weapp, swan, qq, h5, harmony_hybrid, ascf
    */
   onTimeUpdate?: CommonEventFunction<AudioProps.onTimeUpdateEventDetail>
   /** 当播放到末尾时触发 ended 事件
-   * @supported weapp, swan, qq, h5, harmony_hybrid
+   * @supported weapp, swan, qq, h5, harmony_hybrid, ascf
    */
   onEnded?: CommonEventFunction
 }

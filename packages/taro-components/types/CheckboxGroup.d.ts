@@ -6,7 +6,7 @@ interface CheckboxGroupProps extends StandardProps, FormItemProps {
    */
   name?: string
   /** `<CheckboxGroup/>` 中选中项发生改变是触发 change 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   onChange?: CommonEventFunction<{
     value: string[]

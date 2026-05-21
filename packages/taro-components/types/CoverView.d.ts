@@ -130,6 +130,26 @@ interface CoverViewProps extends ViewProps {
    * <CoverView slot="header" />
    */
   slot?: string
+  /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
+   * @default none
+   * @supported ascf
+   */
+  hoverClass?: string
+  /** 指定是否阻止本节点的祖先节点出现点击态
+   * @default false
+   * @supported ascf
+   */
+  hoverStopPropagation?: boolean
+  /** 按住后多久出现点击态，单位毫秒
+   * @default 50
+   * @supported ascf
+   */
+  hoverStartTime?: number
+  /** 手指松开后点击态保留时间，单位毫秒
+   * @default 400
+   * @supported ascf
+   */
+  hoverStayTime?: number
 }
 /** 覆盖在原生组件之上的文本视图。可覆盖的原生组件包括 map、video、canvas、camera、live-player、live-pusher 只支持嵌套 cover-view、cover-image，可在 cover-view 中使用 button。
  * @classification viewContainer

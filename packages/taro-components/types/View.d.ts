@@ -4,7 +4,7 @@ import { CommonEventFunction, StandardProps } from './common'
 interface ViewProps extends StandardProps {
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default none
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    * @rn 由于 RN 不支持 hoverClass，故 RN 端的 View 组件实现了 `hoverStyle`属性，写法和 style 类似，只不过 `hoverStyle` 的样式是指定按下去的样式。
    */
   hoverClass?: string
@@ -15,17 +15,17 @@ interface ViewProps extends StandardProps {
   hoverStyle?: StyleProp<ViewStyle>
   /** 指定是否阻止本节点的祖先节点出现点击态
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   hoverStopPropagation?: boolean
   /** 按住后多久出现点击态，单位毫秒
    * @default 50
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   hoverStartTime?: number
   /** 手指松开后点击态保留时间，单位毫秒
    * @default 400
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   hoverStayTime?: number
   /** 是否阻止区域内滚动页面。
