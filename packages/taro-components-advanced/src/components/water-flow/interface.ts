@@ -32,6 +32,21 @@ export interface WaterFlowProps
    */
   cacheCount?: number
 
+  /**
+   * 滚动事件。与内部虚拟列表滚动处理链式调用，不会覆盖触底/分页逻辑。
+   * 仅 default 模式（自带 ScrollView）时生效。
+   */
+  onScroll?: ScrollViewProps['onScroll']
+  /**
+   * 受控竖向滚动位置。仅传入有效 number 时下发给 ScrollView；
+   * undefined/null 表示取消受控（避免 H5 将 null 转为 0 导致归顶）。
+   */
+  scrollTop?: number
+  /**
+   * 受控横向滚动位置，语义同 scrollTop。
+   */
+  scrollLeft?: number
+
   // ===== 扩展：嵌套滚动（H5，借鉴 react-virtualized scrollElement）=====
   /** 是否嵌套模式，与 plato 对齐；true=使用父级滚动，需配合 scrollElement 或 Context；不传或 false=default */
   nestedScroll?: boolean

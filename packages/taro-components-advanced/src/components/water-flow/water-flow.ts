@@ -36,6 +36,11 @@ import type { ScrollDirection, WaterFlowProps } from './interface'
 
 getSysInfo()
 
+/** 仅有效数字才作为 ScrollView 受控滚动偏移，避免 undefined/null 在 H5 经 Number(null)→0 归顶 */
+function pickControlledScrollOffset (value: unknown): number | undefined {
+  return typeof value === 'number' && !Number.isNaN(value) ? value : undefined
+}
+
 const InnerWaterFlow = (
   { children, ...props }: PropsWithChildren<WaterFlowProps>,
   ref: React.ForwardedRef<HTMLElement>
@@ -56,6 +61,9 @@ const InnerWaterFlow = (
     containerHeight,
     onScrollHeightChange,
     onScrollIntoViewComplete,
+    onScroll: onScrollProp,
+    scrollTop,
+    scrollLeft,
     ...rest
   } = props
   const flowType = nestedScroll === true ? 'nested' : 'default'
@@ -190,15 +198,23 @@ const InnerWaterFlow = (
    */
   const handleScroll = useMemoizedFn((ev: BaseEventOrig<ScrollViewProps.onScrollDetail>) => {
     refEventOrig.current = ev
-    const { scrollTop } = ev.detail
-    nodeCacheCtlRef.current?.onScrollSample(scrollTop)
-    const scrollDirection: ScrollDirection = root.getState().scrollOffset < scrollTop ? 'forward' : 'backward'
+    const { scrollTop: detailScrollTop } = ev.detail
+    nodeCacheCtlRef.current?.onScrollSample(detailScrollTop)
+    const scrollDirection: ScrollDirection = root.getState().scrollOffset < detailScrollTop ? 'forward' : 'backward'
     root.setStateBatch({
       scrollDirection: scrollDirection,
-      scrollOffset: scrollTop,
+      scrollOffset: detailScrollTop,
       isScrolling: true,
     })
   })
+
+  const onScrollMerged = useMemoizedFn((ev: BaseEventOrig<ScrollViewProps.onScrollDetail>) => {
+    handleScroll(ev)
+    onScrollProp?.(ev)
+  })
+
+  const controlledScrollTop = pickControlledScrollOffset(scrollTop)
+  const controlledScrollLeft = pickControlledScrollOffset(scrollLeft)
 
   const sections = useMemo(() => {
     const [start, end] = renderRange$
@@ -502,7 +518,9 @@ const InnerWaterFlow = (
       },
       className,
       scrollY: true,
-      onScroll: handleScroll,
+      onScroll: onScrollMerged,
+      ...(controlledScrollTop !== undefined ? { scrollTop: controlledScrollTop } : {}),
+      ...(controlledScrollLeft !== undefined ? { scrollLeft: controlledScrollLeft } : {}),
       ...rest,
     },
     createElement(

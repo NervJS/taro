@@ -102,6 +102,8 @@ export class Section extends StatefulEventBus<SectionState> {
       this.updateNodes()
       this.setStateIn('renderRange', this.getNodeRenderRange())
       this.setStateIn('layouted', true)
+      this.updateBehindSectionsPosition()
+      this.root.updateScrollHeight(true)
       this.layoutedSignal.resolve()
       if (this.root.sections.every((section) => section.getState().layouted)) {
         this.root.pub(RootEvents.AllSectionsLayouted)
@@ -186,6 +188,11 @@ export class Section extends StatefulEventBus<SectionState> {
     }
   }
 
+  /** 是否存在尚未完成首次 measure 的节点（仍为 defaultSize 占位） */
+  private hasUnmeasuredNodes (): boolean {
+    return [...this.nodes.values()].some((node) => !node.getState().layouted)
+  }
+
   /**
    * 更新当前分组之后的分组的位置信息
    */
@@ -199,7 +206,8 @@ export class Section extends StatefulEventBus<SectionState> {
       const nextSection = this.root.sections[start]
       // 使用 maxColumnHeight 替代 getState().height，避免 pushNodes 后 state 未同步导致 footer 错位
       const effectiveHeight = currentSection.maxColumnHeight
-      const newScrollTop = currentSection.getState().scrollTop + effectiveHeight + this.rowGap
+      const gap = currentSection.rowGap ?? 0
+      const newScrollTop = currentSection.getState().scrollTop + effectiveHeight + gap
       nextSection.setStateIn('scrollTop', newScrollTop)
       nextSection.updateNodes()
     }
@@ -332,7 +340,9 @@ export class Section extends StatefulEventBus<SectionState> {
     // 同步 section state.height，避免与 maxColumnHeight 不一致导致 footer 错位
     this.setStateIn('height', this.maxColumnHeight)
     this.updateNodes()
-    this.updateBehindSectionsPosition()
+    if (!this.hasUnmeasuredNodes()) {
+      this.updateBehindSectionsPosition()
+    }
     // 立即更新 scrollHeight，避免防抖导致容器高度滞后引发往上抖动
     this.root.updateScrollHeight(true)
     if (this.isInRange) {
