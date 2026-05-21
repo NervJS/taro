@@ -1,5 +1,6 @@
 /* eslint-disable dot-notation */
 import {
+  EMPTY_ARR,
   EMPTY_OBJ, ensure, EventChannel,
   getComponentsAlias, hooks, internalComponents,
   isArray, isEnableTTDom,
@@ -357,9 +358,18 @@ export function createComponentConfig (component: React.ComponentClass, componen
     config.data = data
   }
 
-  [OPTIONS, EXTERNAL_CLASSES, BEHAVIORS].forEach(key => {
-    config[key] = component[key] ?? EMPTY_OBJ
-  })
+  if (process.env.TARO_ENV === 'ascf') {
+    // ascf初始化为空数组
+    [EXTERNAL_CLASSES, BEHAVIORS].forEach(key => {
+      config[key] = component[key] ?? EMPTY_ARR
+    })
+
+    config[OPTIONS] = component[OPTIONS] ?? EMPTY_OBJ
+  } else {
+    [OPTIONS, EXTERNAL_CLASSES, BEHAVIORS].forEach(key => {
+      config[key] = component[key] ?? EMPTY_OBJ
+    })
+  }
 
   return config
 }
