@@ -56,6 +56,17 @@ interface AskMethods {
 
 const NONE_AVAILABLE_TEMPLATE = '无可用模板'
 
+function resolveProjectConf (conf: IProjectConfOptions): IProjectConfOptions {
+  if (!conf.projectName || !/^\.(?:[\\/])?$/.test(conf.projectName)) return conf
+
+  const projectDir = conf.projectDir || process.cwd()
+  return {
+    ...conf,
+    projectDir: path.dirname(projectDir),
+    projectName: path.basename(projectDir)
+  }
+}
+
 export default class Project extends Creator {
   public rootPath: string
   public conf: IProjectConfOptions
@@ -68,7 +79,7 @@ export default class Project extends Creator {
     }
     this.rootPath = this._rootPath
 
-    this.conf = Object.assign(
+    this.conf = resolveProjectConf(Object.assign(
       {
         projectName: '',
         projectDir: '',
@@ -77,7 +88,7 @@ export default class Project extends Creator {
         npm: ''
       },
       options
-    )
+    ))
   }
 
   init () {
