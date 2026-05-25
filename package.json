@@ -6,6 +6,7 @@
   "author": "O2Team",
   "private": true,
   "license": "MIT",
+  "packageManager": "pnpm@10.0.0",
   "keywords": [
     "taro"
   ],
