@@ -104,7 +104,7 @@ declare namespace RichTextProps {
 }
 /** 富文本
  * @classification base
- * @supported weapp, jd, swan, alipay, tt, h5, rn, harmony, harmony_hybrid
+ * @supported weapp, jd, swan, alipay, tt, h5, rn, harmony, harmony_hybrid, ascf
  * @example_react
  * ```tsx
  * class App extends Components {

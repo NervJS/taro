@@ -557,7 +557,7 @@ declare namespace VideoProps {
 }
 /** 视频。相关api：Taro.createVideoContext
  * @classification media
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

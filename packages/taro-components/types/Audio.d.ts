@@ -89,7 +89,7 @@ declare namespace AudioProps {
 /** 音频。1.6.0版本开始，该组件不再维护。建议使用能力更强的 Taro.createInnerAudioContext 接口
  * @classification media
  * @deprecated
- * @supported weapp, swan, qq, h5, harmony_hybrid
+ * @supported weapp, swan, qq, h5, harmony_hybrid, ascf
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

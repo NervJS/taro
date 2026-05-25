@@ -86,7 +86,7 @@ declare namespace CoverImageProps {
 }
 /** 覆盖在原生组件之上的图片视图。可覆盖的原生组件同cover-view，支持嵌套在cover-view里。
  * @classification viewContainer
- * @supported weapp, alipay, swan, qq, jd, h5, harmony_hybrid
+ * @supported weapp, alipay, swan, qq, jd, h5, harmony_hybrid, ascf
  * @example_react
  * ```tsx
  * // js
