@@ -71,10 +71,11 @@ export class WebpackModule {
     return WebpackModule.getLoader('css-loader', options)
   }
 
-  static getExtractCSSLoader () {
+  static getExtractCSSLoader (miniCssExtractLoaderOption = {}) {
     const MiniCssExtractPlugin = require('mini-css-extract-plugin')
     return {
-      loader: MiniCssExtractPlugin.loader
+      loader: MiniCssExtractPlugin.loader,
+      options: miniCssExtractLoaderOption
     }
   }
 

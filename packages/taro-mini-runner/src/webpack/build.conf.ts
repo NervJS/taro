@@ -59,6 +59,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     defineConstants = {},
     runtime = {},
     env = {},
+
+    miniCssExtractLoaderOption = {},
     cssLoaderOption = {},
     sassLoaderOption = {},
     lessLoaderOption = {},
@@ -239,7 +241,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
       deviceRatio,
       enableSourceMap,
       compile: config.compile || {},
-
+      miniCssExtractLoaderOption,
       cssLoaderOption,
       lessLoaderOption,
       sassLoaderOption,

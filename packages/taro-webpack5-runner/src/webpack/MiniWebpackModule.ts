@@ -41,6 +41,7 @@ export class MiniWebpackModule {
       sassLoaderOption,
       lessLoaderOption,
       stylusLoaderOption,
+      miniCssExtractLoaderOption,
       designWidth,
       deviceRatio
     } = config
@@ -56,7 +57,7 @@ export class MiniWebpackModule {
 
     const postcssPlugins = getPostcssPlugins(appPath, this.__postcssOption)
 
-    const cssLoaders = this.getCSSLoaders(postcssPlugins, cssModuleOption)
+    const cssLoaders = this.getCSSLoaders(postcssPlugins, cssModuleOption, miniCssExtractLoaderOption)
     const resolveUrlLoader = WebpackModule.getResolveUrlLoader()
     const sassLoader = WebpackModule.getSassLoader(sassLoaderOption)
     const scssLoader = WebpackModule.getScssLoader(sassLoaderOption)
@@ -131,12 +132,12 @@ export class MiniWebpackModule {
     return cssLoadersCopy
   }
 
-  getCSSLoaders (postcssPlugins: any[], cssModuleOption: PostcssOption.cssModules) {
+  getCSSLoaders (postcssPlugins: any[], cssModuleOption: PostcssOption.cssModules, miniCssExtractLoaderOption) {
     const { config } = this.combination
     const {
       cssLoaderOption
     } = config
-    const extractCSSLoader = WebpackModule.getExtractCSSLoader()
+    const extractCSSLoader = WebpackModule.getExtractCSSLoader(miniCssExtractLoaderOption)
     const cssLoader = WebpackModule.getCSSLoader(cssLoaderOption)
     const postCSSLoader = WebpackModule.getPostCSSLoader({
       postcssOptions: {

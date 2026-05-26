@@ -74,6 +74,9 @@ export interface IH5Config {
   /** [style-loader](https://github.com/webpack-contrib/style-loader) 的附加配置 */
   styleLoaderOption?: IOption
 
+   /** [MiniCssExtractPlugin.loader](https://github.com/webpack-contrib/mini-css-extract-plugin) 的附加配置 */
+   miniCssExtractLoaderOption?: IOption
+
   /** [sass-loader](https://github.com/webpack-contrib/sass-loader) 的附加配置 */
   sassLoaderOption?: IOption
 
