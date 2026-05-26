@@ -386,11 +386,20 @@ export class TaroElement extends TaroNode {
     if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       const componentsAlias = getComponentsAlias()
       const value = isHasExtractProp(this) ? `static-${name}` : `pure-${name}`
-      const valueAlias = componentsAlias[value]._num
-      this.enqueueUpdate({
-        path: `${this._path}.${Shortcuts.NodeName}`,
-        value: valueAlias
-      })
+      const VALUE_ALIAS_NUM = '_num'
+      // 避免当value不在componentsAlias中时报错
+      if (value in componentsAlias && VALUE_ALIAS_NUM in componentsAlias[value]) {
+        const valueAlias = componentsAlias[value][VALUE_ALIAS_NUM]
+        this.enqueueUpdate({
+          path: `${this._path}.${Shortcuts.NodeName}`,
+          value: valueAlias
+        })
+      }
+      // 当value不在componentsAlias中时抛出警告
+      process.env.NODE_ENV !== 'production' && warn(
+        !(value in componentsAlias && VALUE_ALIAS_NUM in componentsAlias[value]),
+        `${value} 不在组件中。`
+      )
     }
   }
 
