@@ -13,7 +13,7 @@ export const components = {
     'adjust-position': _true,
     'hold-keyboard': _false,
     'clue-type': '0',
-    bindKeyboardHeightChange: _empty,
+    bindKeyboardHeightChange: _empty
   },
   Button: {
     bindGetPhoneNumber: _empty,
@@ -22,7 +22,7 @@ export const components = {
     'group-id': _empty,
     'data-is-half-page': _empty,
     bindOpenAwemeUserProfile: _empty,
-    bindJoinGroup: _empty,
+    bindJoinGroup: _empty
   },
   Form: {
     'report-submit-timeout': '0'
@@ -57,7 +57,7 @@ export const components = {
     bindControlTap: _empty,
     bindEnterBackground: _empty,
     bindCloseBackground: _empty,
-    bindLeaveBackground: _empty,
+    bindLeaveBackground: _empty
   },
   Ad: {
     fixed: _empty,
@@ -83,7 +83,7 @@ export const components = {
     bindRefresherPulling: _empty,
     bindRefresherRefresh: _empty,
     bindRefresherRestore: _empty,
-    bindRefresherAbort: _empty,
+    bindRefresherAbort: _empty
   },
   Canvas: {
     type: _empty
@@ -152,7 +152,7 @@ export const components = {
     'order-id': _empty,
     bindInit: _empty,
     bindSuccess: _empty,
-    bindError: _empty,
+    bindError: _empty
   },
   OpenData: {
     type: _empty,
@@ -168,5 +168,15 @@ export const components = {
     fixed: _false,
     'left-right-padding': _empty,
     bindError: _empty
+  },
+  PaymentChannelSelect: {
+    scene: 'cash',
+    'sku-list': _empty,
+    'merchant-uid': _empty,
+    'limit-pay-way-list ': _empty,
+    'custom-style': _empty,
+    bindRequestOrder: _empty,
+    bindError: _empty,
+    bindGetpaymentresult: _empty
   }
 }
