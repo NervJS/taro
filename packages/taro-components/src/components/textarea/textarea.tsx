@@ -83,6 +83,7 @@ export class Textarea implements ComponentInterface {
       const isActive = typeof document !== 'undefined' && document.activeElement === this.textareaRef
       const selection = isActive ? (this.lastSelectionRange || this.getSelectionSnapshot(this.textareaRef)) : null
       this.textareaRef.value = value
+      this.handleLineChange()
       if (selection) {
         this.restoreSelection(this.textareaRef, selection)
       }
@@ -97,6 +98,7 @@ export class Textarea implements ComponentInterface {
   componentDidLoad () {
     this.textareaRef?.addEventListener('compositionstart', this.handleComposition)
     this.textareaRef?.addEventListener('compositionend', this.handleComposition)
+    this.handleLineChange()
   }
 
   disconnectedCallback () {
