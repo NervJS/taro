@@ -216,7 +216,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
 function generateConfigFile (ctx: PluginContext, viteCompilerContext: ViteMiniCompilerContext, options: { filePath: string, config: Config & { component?: boolean } }) {
   const { filePath, config } = options
   const fileName = viteCompilerContext.getConfigPath(getComponentName(viteCompilerContext, filePath))
-  const unOfficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
+  const unOfficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components', 'forceCustomWrapper']
   unOfficialConfigs.forEach(item => {
     delete config[item]
   })

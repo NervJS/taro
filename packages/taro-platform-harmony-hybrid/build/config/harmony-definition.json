@@ -2331,8 +2331,8 @@
     "lifestyle": false,
     "like": false,
     "list": {
-      "upper-threshold-count": false,
-      "lower-threshold-count": false
+      "upper-threshold": false,
+      "lower-threshold": false
     },
     "list-builder": {
       "type": {
