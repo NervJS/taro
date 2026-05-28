@@ -56,6 +56,9 @@ const handler = {
   '/_env.test' () {
     return { setPageName: `/.env.test` }
   },
+  '/_env.example' () {
+    return { setPageName: `/.env.example` }
+  },
   '/_eslintrc' () {
     return { setPageName: `/.eslintrc` }
   },

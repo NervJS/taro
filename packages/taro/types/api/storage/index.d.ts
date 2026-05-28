@@ -20,11 +20,20 @@ declare module '../../index' {
       /** 本地缓存中指定的 key */
       key: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
+      complete?: (res: SuccessCallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: TaroGeneral.CallbackResult) => void
+      success?: (res: SuccessCallbackResult) => void
+    }
+
+    interface SuccessCallbackResult extends Omit<TaroGeneral.CallbackResult, 'errMsg'> {
+      /** 调用结果 */
+      errMsg?: string
+      /** 是否执行成功
+       * @supported alipay
+       */
+      success?: boolean
     }
   }
 
@@ -192,7 +201,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorage.html
      */
-    setStorage(option: setStorage.Option): Promise<TaroGeneral.CallbackResult>
+    setStorage(option: setStorage.Option): Promise<setStorage.SuccessCallbackResult>
 
     /** 根据 URL 销毁存在内存中的数据
      * @supported weapp
