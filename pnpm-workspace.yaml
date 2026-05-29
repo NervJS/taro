@@ -4,5 +4,6 @@ packages:
   - '!packages/taro-cli/templates/**'
   - '!**/__tests__/**'
   - '!**/dist/**'
+  - '!**/harmony_project/**'
   - 'npm/**'
   - 'crates/native_binding'

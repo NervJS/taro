@@ -1,11 +1,7 @@
 taro-scroll-view-core {
   display: block;
   width: 100%;
-  -webkit-overflow-scrolling: auto;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  -webkit-overflow-scrolling: touch;
 }
 
 .taro-scroll-view {
@@ -17,5 +13,11 @@ taro-scroll-view-core {
   &__scroll-y {
     overflow-x: hidden;
     overflow-y: scroll;
+  }
+}
+
+.taro-scroll--hidebar {
+  &::-webkit-scrollbar {
+    display: none;
   }
 }

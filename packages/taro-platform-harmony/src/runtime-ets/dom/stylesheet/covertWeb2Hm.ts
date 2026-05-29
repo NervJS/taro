@@ -1,4 +1,5 @@
 // @ts-nocheck
+/* eslint-disable complexity */
 
 import { CSSProperties } from 'react'
 

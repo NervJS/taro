@@ -1,5 +1,5 @@
-import assets from '../common/assets'
-import multiPlatformPlugin from '../common/multi-platform-plugin'
+import assets from '../common/vite-plugin-assets'
+import multiPlatformPlugin from '../common/vite-plugin-multi-platform'
 import { getMode } from '../utils'
 import configPlugin from './config'
 import entryPlugin from './entry'

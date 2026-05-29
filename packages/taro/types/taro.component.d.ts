@@ -45,6 +45,8 @@ declare module './index' {
     eh?(event: MpEvent): void
     onLoad(options: Record<string, unknown>): void
     onOptionMenuClick?(): void
+    /** 键盘高度变化时触发 @supported alipay */
+    onKeyboardHeight?(opt: { height: number; }): void
     onPageScroll?(opt: PageScrollObject): void
     onPopMenuClick?(): void
     onPullDownRefresh?(): void
@@ -130,6 +132,26 @@ declare module './index' {
       /** 是否返回变更的 data 字段信息 */
       withDataPaths?: boolean
     }, listener: () => void): void
+    /**
+     * 绑定由 worklet 驱动的样式到相应的节点
+     * @param selector 节点选择器
+     * @param updater worklet 样式更新函数
+     * @param config 配置项
+     * @param callback 完成样式绑定的回调
+     * */
+    applyAnimatedStyle?(selector: string, updater: TaroGeneral.TFunc, config?: {
+      /** 是否立即执行一次 updater 函数 */
+      immediate?: boolean
+      /** 刷新时机，枚举值 async / sync */
+      flush?: string
+    }, callback?: TaroGeneral.TFunc): void
+    /**
+     * 清除节点上 worklet 驱动样式的绑定关系
+     * @param selector 节点选择器
+     * @param styleIds 需要清除的 styleId 集合
+     * @param callback 清除样式绑定的回调
+     * */
+    clearAnimatedStyle?(selector: string, styleIds: Array<Number>, callback?: TaroGeneral.TFunc): void
   }
   interface PageInstance extends PageLifeCycle, ComponentInstance {
     /** 页面配置 */

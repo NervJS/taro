@@ -45,6 +45,7 @@ export function initNavigationBar (config: SpaRouterConfig | MpaRouterConfig, co
   navigationBar.appendChild(navigationBarBackBtn)
   navigationBar.appendChild(navigationBarTitleWrap)
   navigationBar.id = 'taro-navigation-bar'
-  container.prepend(navigationBar)
+  // prepend 不兼容 android6
+  container.insertBefore(navigationBar, container.firstChild)
   loadNavigationBarStyle()
 }

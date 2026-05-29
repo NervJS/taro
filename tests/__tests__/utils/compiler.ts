@@ -72,6 +72,11 @@ export async function compile<T extends IMiniBuildConfig | IH5BuildConfig = Comm
       // @ts-ignore
       customChain(...args)
     }
+
+    // Note: 测试环境使用 named 保证每次编译的 chunkId 一致，避免 mac、win 差异导致快照错误
+    chain.optimization
+      .set('moduleIds', 'named')
+      .set('chunkIds', 'named')
   }
 
   if (isMiniConfig(customConfig) && customConfig.buildAdapter === 'weapp') {
@@ -89,6 +94,12 @@ export async function compile<T extends IMiniBuildConfig | IH5BuildConfig = Comm
       prebundle: {
         enable: false
       },
+      // options: {
+      //   optimization: {
+      //     moduleIds: 'deterministic',
+      //     chunkIds: 'deterministic',
+      //   }
+      // }
     },
     buildAdapter: process.env.TARO_ENV,
     platformType: process.env.TARO_PLATFORM,

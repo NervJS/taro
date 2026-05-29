@@ -310,7 +310,7 @@ declare module '../../index' {
     createBufferURL(
       /** 需要存入内存的二进制数据 */
       buffer: ArrayBuffer | TypedArray
-    ): void
+    ): string
 
     /** Taro.clearStorage 的同步版本
      * @supported weapp, alipay, swan, jd, qq, tt, h5, harmony_hybrid
@@ -327,7 +327,7 @@ declare module '../../index' {
     clearStorageSync(): void
 
     /** 清理本地数据缓存
-     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn, harmony, harmony_hybrid
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn, harmony_hybrid
      * @example
      * ```tsx
      * Taro.clearStorage()

@@ -235,11 +235,13 @@ module.exports = (options = {}) => {
         },
         AtRule: {
           media: (rule) => {
-            if (skip) return
-            if (!opts.methods.includes('size')) return
+            if (opts.mediaQuery) {
+              if (skip) return
+              if (!opts.methods.includes('size')) return
 
-            if (!/px/i.test(rule.params)) return
-            rule.params = rule.params.replace(pxRgx, pxReplace)
+              if (!/px/i.test(rule.params)) return
+              rule.params = rule.params.replace(pxRgx, pxReplace)
+            }
           },
         },
       }
@@ -291,8 +293,6 @@ function createPxReplace (rootValue, unitPrecision, minPixelValue, onePxTransfor
         return m
       }
 
-      // 转换工作，如果是harmony的话不转换
-      if (platform === 'harmony') { return m }
       let val = pixels / rootValue(input, m, $1)
       if (unitPrecision >= 0 && unitPrecision <= 100) {
         val = toFixed(val, unitPrecision)

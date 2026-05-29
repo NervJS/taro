@@ -12,8 +12,10 @@ export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks
   setPlugin(ctx, framework, chain)
 
   const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
+  const webpackConfig = chain.toConfig()
+  const isProd = webpackConfig.mode === 'production'
   const externals: Record<string, { [externalType: string]: string } | string> = {}
-  if (isBuildNativeComp) {
+  if (isBuildNativeComp && isProd) {
     // Note: 该模式不支持 prebundle 优化，不必再处理
     externals.react = {
       commonjs: 'react',

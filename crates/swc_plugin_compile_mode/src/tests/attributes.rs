@@ -47,6 +47,7 @@ test!(
             <View onClick={handleViewClick}></View>
             <View onAnimationStart={() => {}} id={myId}></View>
             <Image onLoad={() => {}} id="myImg" />
+            <View nativeView="view" onScroll={() => {}} onScrollUpdateWorklet="onScrollUpdate" onGestureWorklet="onGesture" shouldResponseOnMoveWorklet="shouldResponseOnMoveCallBack"></View>
           </View>
         )
       }

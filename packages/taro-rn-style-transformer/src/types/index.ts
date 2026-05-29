@@ -209,7 +209,7 @@ export interface TransformOptions {
   dev?: boolean
   hot?: boolean
   minify?: boolean
-  platform: 'android' | 'ios'
+  platform: 'android' | 'ios' | 'harmony'
   projectRoot?: string
   publicPath?: string
   customTransformOptions?: any
@@ -224,7 +224,7 @@ export const enum ResolveLogLevelEnum {
 
 export interface ResolveStyleOptions {
   basedir: string
-  platform: 'android' | 'ios'
+  platform: 'android' | 'ios' | 'harmony'
   paths?: string[]
   logLevel?: ResolveLogLevelEnum
   defaultExt?: string

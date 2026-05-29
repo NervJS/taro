@@ -13,6 +13,7 @@ describe('Input', () => {
     const placeholder = 'placeholder'
     const autoFocus = true
     let type = 'text'
+    const readonly = true
     const onFocus = jest.fn()
 
     page = await newSpecPage({
@@ -25,6 +26,7 @@ describe('Input', () => {
         type={type}
         autoFocus={autoFocus}
         onFocus={onFocus}
+        readonly={readonly}
       />),
     })
     const input = page.root?.querySelector('input')
@@ -32,6 +34,7 @@ describe('Input', () => {
     expect(input?.getAttribute('maxlength')).toEqual(maxLength.toString())
     expect(input?.getAttribute('placeholder')).toEqual(placeholder)
     expect(input?.type).toEqual(type)
+    expect(input?.getAttribute('readonly')).toEqual(readonly ? 'readonly' : undefined)
 
     input?.focus()
     expect(onFocus).toHaveBeenCalledTimes(1)

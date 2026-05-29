@@ -23,6 +23,7 @@ export interface CreateOptions {
   version?: string
   date?: string
   typescript?: boolean
+  buildEs5?: boolean
   template: string
   pageName?: string
   compiler?: CompilerType
@@ -105,6 +106,7 @@ export interface Project {
   npm: NpmType
   description?: string
   typescript?: boolean
+  buildEs5?: boolean
   template: string
   css: CSSType
   autoInstall?: boolean

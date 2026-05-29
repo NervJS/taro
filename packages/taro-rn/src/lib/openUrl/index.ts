@@ -2,8 +2,19 @@ import { Linking } from 'react-native'
 
 import { errorHandler, successHandler } from '../../utils'
 
-export async function openUrl <T>(opts: Taro.OpenUrl.Option): Promise<T> {
-  const { url, success, fail, complete } = opts || {} as Taro.OpenUrl.Option
+interface Option {
+  /** 跳转链接 */
+  url: string
+  /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+  complete?: (res: TaroGeneral.CallbackResult) => void
+  /** 接口调用失败的回调函数 */
+  fail?: (res: TaroGeneral.CallbackResult) => void
+  /** 接口调用成功的回调函数 */
+  success?: (res: TaroGeneral.CallbackResult) => void
+}
+
+export async function openUrl<T>(opts: Option): Promise<T> {
+  const { url, success, fail, complete } = opts || {}
   const res: any = { errMsg: 'openUrl:ok' }
 
   const isSupport = await Linking.canOpenURL(url)
@@ -17,5 +28,5 @@ export async function openUrl <T>(opts: Taro.OpenUrl.Option): Promise<T> {
 }
 
 export default {
-  openUrl
+  openUrl,
 }

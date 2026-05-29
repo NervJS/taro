@@ -3,6 +3,7 @@ import {
   taroJsComponents
 } from '@tarojs/helper'
 import { toDashed } from '@tarojs/shared'
+import { AppConfig } from '@tarojs/taro'
 import { sources } from 'webpack'
 
 import { componentConfig } from '../utils/component'
@@ -23,6 +24,7 @@ interface IOptions {
   pages: Set<IComponent>
   needAddCommon?: string[]
   isIndependentPackages?: boolean
+  appConfig?: AppConfig
 }
 
 export default class TaroLoadChunksPlugin {
@@ -34,6 +36,7 @@ export default class TaroLoadChunksPlugin {
   isCompDepsFound: boolean
   needAddCommon: string[]
   isIndependentPackages: boolean
+  appConfig: AppConfig | undefined
 
   constructor (options: IOptions) {
     this.commonChunks = options.commonChunks
@@ -43,6 +46,7 @@ export default class TaroLoadChunksPlugin {
     this.pages = options.pages
     this.needAddCommon = options.needAddCommon || []
     this.isIndependentPackages = options.isIndependentPackages || false
+    this.appConfig = options.appConfig
   }
 
   apply (compiler: Compiler) {
@@ -129,7 +133,7 @@ export default class TaroLoadChunksPlugin {
           }
 
           if (miniType === META_TYPE.ENTRY) {
-            return addRequireToSource(getChunkIdOrName(chunk), modules, commonChunks)
+            return addRequireToSource(getChunkIdOrName(chunk), modules, commonChunks, this.appConfig)
           }
 
           if (this.isIndependentPackages &&

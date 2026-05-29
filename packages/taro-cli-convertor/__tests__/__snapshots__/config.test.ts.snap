@@ -36,18 +36,18 @@ class App extends React.Component {
     return this.props.children;
   }
 } 
-INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
-this.props.children 
-INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
-this.props 
-INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
-React.Component 
 INFO [taro-cli-convertor] parseAst - 解析CallExpression 
 withWeapp(cacheOptions.getOptionsFromCache(), true) 
 INFO [taro-cli-convertor] parseAst - 解析CallExpression 
 cacheOptions.getOptionsFromCache() 
 INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
 cacheOptions.getOptionsFromCache 
+INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
+React.Component 
+INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
+this.props.children 
+INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
+this.props 
 INFO [taro-cli-convertor] parseAst - 解析ExportDefaultDeclaration 
 export default App; 
 INFO [taro-cli-convertor] parseAst - 解析StringLiteral 
@@ -70,6 +70,10 @@ INFO [taro-cli-convertor] convertToOptional - 解析CallExpression
 require("@tarojs/with-weapp") 
 INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
 cacheOptions.setOptionsToCache({}) 
+INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
+withWeapp(cacheOptions.getOptionsFromCache(), true) 
+INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
+cacheOptions.getOptionsFromCache() 
 INFO [taro-cli-convertor] convertToOptional - 解析ClassBody 
 {
   render() {
@@ -88,10 +92,6 @@ INFO [taro-cli-convertor] convertToOptional - 解析MemberExpression
     return this.props.children;
   }
 } 
-INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
-withWeapp(cacheOptions.getOptionsFromCache(), true) 
-INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
-cacheOptions.getOptionsFromCache() 
 INFO [taro-cli-convertor] parseAst - 解析VariableDeclaration 
 const {
   cacheOptions
@@ -154,20 +154,20 @@ class _C extends React.Component {
     return <View><Text>{motto}</Text></View>;
   }
 } 
-INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
-this.data 
-INFO [taro-cli-convertor] parseAst - 解析JSXElement 
-<View><Text>{motto}</Text></View> 
-INFO [taro-cli-convertor] parseAst - 解析JSXElement 
-<Text>{motto}</Text> 
-INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
-React.Component 
 INFO [taro-cli-convertor] parseAst - 解析CallExpression 
 withWeapp(cacheOptions.getOptionsFromCache()) 
 INFO [taro-cli-convertor] parseAst - 解析CallExpression 
 cacheOptions.getOptionsFromCache() 
 INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
 cacheOptions.getOptionsFromCache 
+INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
+React.Component 
+INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
+this.data 
+INFO [taro-cli-convertor] parseAst - 解析JSXElement 
+<View><Text>{motto}</Text></View> 
+INFO [taro-cli-convertor] parseAst - 解析JSXElement 
+<Text>{motto}</Text> 
 INFO [taro-cli-convertor] parseAst - 解析ExportDefaultDeclaration 
 export default _C; 
 INFO [taro-cli-convertor] parseAst - 解析StringLiteral 
@@ -205,6 +205,10 @@ data: {
 } 
 INFO [taro-cli-convertor] convertToOptional - 解析ObjectProperty 
 motto: 'Hello World' 
+INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
+withWeapp(cacheOptions.getOptionsFromCache()) 
+INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
+cacheOptions.getOptionsFromCache() 
 INFO [taro-cli-convertor] convertToOptional - 解析ClassBody 
 {
   render() {
@@ -225,10 +229,6 @@ INFO [taro-cli-convertor] convertToOptional - 解析MemberExpression
 } 
 INFO [taro-cli-convertor] convertToOptional - 解析ObjectProperty 
 motto 
-INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
-withWeapp(cacheOptions.getOptionsFromCache()) 
-INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
-cacheOptions.getOptionsFromCache() 
 INFO [taro-cli-convertor] parseAst - 解析VariableDeclaration 
 const {
   cacheOptions
@@ -284,18 +284,18 @@ class App extends React.Component {
     return this.props.children;
   }
 } 
-INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
-this.props.children 
-INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
-this.props 
-INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
-React.Component 
 INFO [taro-cli-convertor] parseAst - 解析CallExpression 
 withWeapp(cacheOptions.getOptionsFromCache(), true) 
 INFO [taro-cli-convertor] parseAst - 解析CallExpression 
 cacheOptions.getOptionsFromCache() 
 INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
 cacheOptions.getOptionsFromCache 
+INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
+React.Component 
+INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
+this.props.children 
+INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
+this.props 
 INFO [taro-cli-convertor] parseAst - 解析ExportDefaultDeclaration 
 export default App; 
 INFO [taro-cli-convertor] parseAst - 解析StringLiteral 
@@ -318,6 +318,10 @@ INFO [taro-cli-convertor] convertToOptional - 解析CallExpression
 require("@tarojs/with-weapp") 
 INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
 cacheOptions.setOptionsToCache({}) 
+INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
+withWeapp(cacheOptions.getOptionsFromCache(), true) 
+INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
+cacheOptions.getOptionsFromCache() 
 INFO [taro-cli-convertor] convertToOptional - 解析ClassBody 
 {
   render() {
@@ -336,10 +340,6 @@ INFO [taro-cli-convertor] convertToOptional - 解析MemberExpression
     return this.props.children;
   }
 } 
-INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
-withWeapp(cacheOptions.getOptionsFromCache(), true) 
-INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
-cacheOptions.getOptionsFromCache() 
 INFO [taro-cli-convertor] parseAst - 解析VariableDeclaration 
 const {
   cacheOptions
@@ -402,20 +402,20 @@ class _C extends React.Component {
     return <View><Text>{motto}</Text></View>;
   }
 } 
-INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
-this.data 
-INFO [taro-cli-convertor] parseAst - 解析JSXElement 
-<View><Text>{motto}</Text></View> 
-INFO [taro-cli-convertor] parseAst - 解析JSXElement 
-<Text>{motto}</Text> 
-INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
-React.Component 
 INFO [taro-cli-convertor] parseAst - 解析CallExpression 
 withWeapp(cacheOptions.getOptionsFromCache()) 
 INFO [taro-cli-convertor] parseAst - 解析CallExpression 
 cacheOptions.getOptionsFromCache() 
 INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
 cacheOptions.getOptionsFromCache 
+INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
+React.Component 
+INFO [taro-cli-convertor] parseAst - 解析MemberExpression 
+this.data 
+INFO [taro-cli-convertor] parseAst - 解析JSXElement 
+<View><Text>{motto}</Text></View> 
+INFO [taro-cli-convertor] parseAst - 解析JSXElement 
+<Text>{motto}</Text> 
 INFO [taro-cli-convertor] parseAst - 解析ExportDefaultDeclaration 
 export default _C; 
 INFO [taro-cli-convertor] parseAst - 解析StringLiteral 
@@ -453,6 +453,10 @@ data: {
 } 
 INFO [taro-cli-convertor] convertToOptional - 解析ObjectProperty 
 motto: 'Hello World' 
+INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
+withWeapp(cacheOptions.getOptionsFromCache()) 
+INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
+cacheOptions.getOptionsFromCache() 
 INFO [taro-cli-convertor] convertToOptional - 解析ClassBody 
 {
   render() {
@@ -473,10 +477,6 @@ INFO [taro-cli-convertor] convertToOptional - 解析MemberExpression
 } 
 INFO [taro-cli-convertor] convertToOptional - 解析ObjectProperty 
 motto 
-INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
-withWeapp(cacheOptions.getOptionsFromCache()) 
-INFO [taro-cli-convertor] convertToOptional - 解析CallExpression 
-cacheOptions.getOptionsFromCache() 
 INFO [taro-cli-convertor] parseAst - 解析VariableDeclaration 
 const {
   cacheOptions

@@ -139,6 +139,7 @@ export class BaseTemplate {
 
   public createMiniComponents (components: Components) {
     const result: Components = Object.create(null)
+    const skipProps = ['$duplicateFromComponent']
 
     for (const key in components) {
       if (hasOwn(components, key)) {
@@ -152,7 +153,7 @@ export class BaseTemplate {
         }
 
         for (let prop in component) {
-          if (hasOwn(component, prop)) {
+          if (hasOwn(component, prop) && !skipProps.includes(prop)) {
             const propInCamelCase = toCamelCase(prop)
             const propAlias = componentAlias[propInCamelCase] || propInCamelCase
             let propValue = component[prop]
@@ -162,11 +163,6 @@ export class BaseTemplate {
             } else if (propValue === '') {
               propValue = `i.${propAlias}`
             } else if (isBooleanStringLiteral(propValue) || isNumber(+propValue)) {
-              // cursor 默认取最后输入框最后一位 fix #13809
-              if (prop === 'cursor') {
-                propValue = `i.${componentAlias.value}?i.${componentAlias.value}.length:-1`
-              }
-
               propValue = this.isUseXS
                 ? `xs.b(i.${propAlias},${propValue})`
                 : `i.${propAlias}===undefined?${propValue}:i.${propAlias}`
@@ -217,10 +213,11 @@ export class BaseTemplate {
               style: comp.style,
               class: comp.class
             }
+
             result['click-view'] = {
               style: comp.style,
               class: comp.class,
-              bindtap: 'eh'
+              ...this.getClickEvent()
             }
           }
         }
@@ -233,6 +230,11 @@ export class BaseTemplate {
         } else if (compName === 'native-slot') {
           result[compName] = {
             name: newComp?.name,
+          }
+        } else if (compName === 'list-builder') {
+          result[compName] = {
+            ...newComp,
+            list: 'i.cn',
           }
         } else {
           result[compName] = newComp
@@ -306,12 +308,17 @@ export class BaseTemplate {
   }
 
   protected buildComponentTemplate (comp: Component, level: number) {
+    const { $duplicateFromComponent } = this.internalComponents[capitalize(toCamelCase(comp.nodeName))] || {}
+    if ($duplicateFromComponent) {
+      comp.nodeName = toDashed($duplicateFromComponent)
+    }
+
     return this.focusComponents.has(comp.nodeName)
       ? this.buildFocusComponentTemplate(comp, level)
       : this.buildStandardComponentTemplate(comp, level)
   }
 
-  private getChildrenTemplate (level: number) {
+  private getChildrenTemplate (level: number, useSlotItem = false) {
     const { isSupportRecursive, isUseXS, Adapter, isUseCompileMode = true } = this
     const isLastRecursiveComp = !isSupportRecursive && level + 1 === this.baseLevel
     const isUnRecursiveXs = !this.isSupportRecursive && isUseXS
@@ -324,9 +331,13 @@ export class BaseTemplate {
           ? this.dataKeymap('i:item')
           : this.dataKeymap('i:item,c:c')
 
-      return isUseXS
+      const tmpl = isUseXS
         ? `<template is="{{xs.e(${level})}}" data="{{${data}}}" ${forAttribute} />`
         : `<template is="tmpl_${level}_${Shortcuts.Container}" data="{{${data}}}" ${forAttribute} />`
+      if (useSlotItem) {
+        return `<block slot:item slot:index>${tmpl.replace(forAttribute, '')}</block>`
+      }
+      return tmpl
     } else {
       const data = isUnRecursiveXs
         // TODO: 此处直接 c+1，不是最优解，变量 c 的作用是监测组件嵌套的层级是否大于 baselevel
@@ -340,26 +351,31 @@ export class BaseTemplate {
         ? `xs.a(c, item.${Shortcuts.NodeName}, l)`
         : `xs.a(0, item.${Shortcuts.NodeName})`
 
-      return isUseXS
+      const tmpl = isUseXS
         ? `<template is="{{${xs}}}" data="{{${data}}}" ${forAttribute} />`
         : isSupportRecursive
           ? `<template is="{{'tmpl_0_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
           : isUseCompileMode
             ? `<template is="{{'tmpl_' + (item.${Shortcuts.NodeName}[0]==='${COMPILE_MODE_IDENTIFIER_PREFIX}' ? 0 : c) + '_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
             : `<template is="{{'tmpl_' + c + '_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${forAttribute} />`
+
+      if (useSlotItem) {
+        return `<block slot:item slot:index>${tmpl.replace(forAttribute, '')}</block>`
+      }
+      return tmpl
     }
   }
 
   private getChildren (comp: Component, level: number): string {
     const { isSupportRecursive } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
+    const isListBuilder = comp.nodeName === 'list-builder'
 
-    let child = this.getChildrenTemplate(nextLevel)
+    let child = this.getChildrenTemplate(nextLevel, isListBuilder)
 
     if (isFunction(this.modifyLoopBody)) {
       child = this.modifyLoopBody(child, comp.nodeName)
     }
-
     let children = this.voidElements.has(comp.nodeName)
       ? ''
       : `
@@ -412,9 +428,9 @@ export class BaseTemplate {
       case 'slot':
       case 'slot-view':
       case 'catch-view':
-      case 'click-view':
       case 'static-view':
       case 'pure-view':
+      case 'click-view':
         nodeName = 'view'
         break
       case 'static-text':
@@ -513,6 +529,10 @@ export class BaseTemplate {
 
   protected getEvents (): any {
     return events
+  }
+
+  protected getClickEvent (): any {
+    return { bindtap: 'eh' }
   }
 
   protected getAttrValue (value: string, _key: string, _nodeName: string) {

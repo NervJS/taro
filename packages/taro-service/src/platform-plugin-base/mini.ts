@@ -156,7 +156,8 @@ ${exampleCommand}`))
       Object.assign(
         {
           runtimePath: this.runtimePath,
-          taroComponentsPath: this.taroComponentsPath
+          taroComponentsPath: this.taroComponentsPath,
+          behaviorsName: this.behaviorsName,
         },
         extraOptions
       )

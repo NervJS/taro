@@ -55,6 +55,12 @@ ${
   }
 ${
   enableTabBar ? `
+  .taro-tabbar__container {
+      height:100%;
+  }
+  .taro-tabbar__panel {
+      height: 100%;
+  }
   .taro-tabbar__container > .taro-tabbar__panel {
     overflow: hidden;
   }
@@ -75,7 +81,7 @@ ${
   .taro_router > .taro_page.taro_page_show.taro_page_stationed:not(.taro_page_shade):not(.taro_tabbar_page):not(:last-child) {
     display: none;
   }`
-} 
+}
 `
   addStyle(css)
 }

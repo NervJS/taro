@@ -56,6 +56,7 @@ impl Plugin {
       version: Some(self.version.clone()),
       date: None,
       typescript: None,
+      build_es5: None,
       template: self.template.clone(),
       page_name: None,
       compiler: None,

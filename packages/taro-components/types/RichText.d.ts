@@ -3,22 +3,22 @@ import { CommonEventFunction, StandardProps } from './common'
 interface RichTextProps extends StandardProps {
   /** 文本是否可选，该属性会使节点显示为 block
    * @default false
-   * @supported weapp, jd, h5, harmony_hybrid
+   * @supported weapp, jd, h5, harmony_hybrid, ascf
    */
   userSelect?: boolean
   /** 节点列表/ HTML String
-   * @supported weapp, jd, alipay, swan, tt, qq, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, jd, alipay, swan, tt, qq, h5, rn, harmony, harmony_hybrid, ascf
    */
   nodes?: Nodes
   /** 显示连续空格
-   * @supported weapp, jd, alipay, tt, qq, h5, rn, harmony_hybrid
+   * @supported weapp, jd, alipay, tt, qq, h5, rn, harmony_hybrid, ascf
    */
   space?: keyof RichTextProps.TSpace
   /** 富文本是否可以长按选中，可用于复制，粘贴，长按搜索等场景
    * @default false（基础库 3.150.1 以前版本）true（基础库 3.150.1 及以后版本）
    * @supported swan, h5, harmony_hybrid
    */
-  selectable?: string
+  selectable?: boolean
   /** 阻止长按图片时弹起默认菜单（将该属性设置为image-menu-prevent或image-menu-prevent="true"），只在初始化时有效，不能动态变更；若不想阻止弹起默认菜单，则不需要设置此属性
    * @default false
    * @supported swan
@@ -52,6 +52,11 @@ interface RichTextProps extends StandardProps {
    * @supported alipay
    */
   onLongtap?: CommonEventFunction
+  /** 布局兼容模式
+   * @supported weapp
+   * @default default
+   */
+  mode?: 'default' | 'compat' | 'aggressive' | 'inline-block' | 'web'
 }
 /** 节点类型
  * > 现支持两种节点，通过type来区分，分别是元素节点和文本节点，默认是元素节点，在富文本区域里显示的HTML节点 元素节点：type = node*
@@ -99,7 +104,7 @@ declare namespace RichTextProps {
 }
 /** 富文本
  * @classification base
- * @supported weapp, jd, swan, alipay, tt, h5, rn, harmony, harmony_hybrid
+ * @supported weapp, jd, swan, alipay, tt, h5, rn, harmony, harmony_hybrid, ascf
  * @example_react
  * ```tsx
  * class App extends Components {

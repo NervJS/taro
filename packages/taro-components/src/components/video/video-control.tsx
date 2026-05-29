@@ -62,6 +62,10 @@ export class VideoControl implements ComponentInterface {
 
   @Method()
   async toggleVisibility (nextVisible?: boolean) {
+    if (!this.controls) {
+      this.visible = false
+      return
+    }
     const visible = nextVisible === undefined ? !this.visible : nextVisible
     if (visible) {
       this.hideControlsTimer && clearTimeout(this.hideControlsTimer)
@@ -84,6 +88,7 @@ export class VideoControl implements ComponentInterface {
 
   @Method()
   async setCurrentTime (time: number) {
+    if (!this.currentTimeRef) return
     this.currentTimeRef.innerHTML = formatTime(time)
   }
 
@@ -119,6 +124,14 @@ export class VideoControl implements ComponentInterface {
       showProgress
     } = this
 
+    if (!controls) {
+      return (
+        <Host class='taro-video-bar taro-video-bar-full' style={{ display: 'none' }}>
+          <slot />
+        </Host>
+      )
+    }
+
     const formattedDuration = formatTime(duration)
     let playBtn
 
@@ -132,7 +145,6 @@ export class VideoControl implements ComponentInterface {
 
     return (
       <Host class='taro-video-bar taro-video-bar-full'>
-        {controls && (
           <div class='taro-video-controls'>
             {playBtn}
             {showProgress && (
@@ -166,7 +178,6 @@ export class VideoControl implements ComponentInterface {
             )}
             {showProgress && <div class='taro-video-duration'>{formattedDuration}</div>}
           </div>
-        )}
         <slot />
       </Host>
     )

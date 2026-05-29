@@ -6,7 +6,7 @@ import * as resolve from 'resolve'
 
 import { PluginType } from './constants'
 
-import type { PluginItem } from '@tarojs/taro/types/compile'
+import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 import type { IPlugin, IPluginsObject } from './types'
 
 export const isNpmPkg: (name: string) => boolean = name => !(/^(\.|\/)/.test(name))
@@ -116,4 +116,27 @@ export function printHelpLog (command, optionsList: Map<string, string>, synopsi
       console.log(`  $ ${item}`)
     })
   }
+}
+
+const ExcludePluginTagsForNullCommand = ['@jdtaro/plugin-build-']
+export function filterGlobalConfig (globalConfig: IProjectConfig, command: string) {
+  const config = globalConfig
+
+  if (!command) {
+    if (config.plugins?.length) {
+      config.plugins = config.plugins.filter(pluginName => {
+        return !ExcludePluginTagsForNullCommand.some(tag => pluginName.includes(tag))
+      })
+    }
+    return config
+  }
+
+  const RelatedPluginTag = `@jdtaro/plugin-${command}-`
+  if (config.plugins?.length) {
+    config.plugins = config.plugins.filter(pluginName => {
+      return pluginName.includes(RelatedPluginTag)
+    })
+  }
+
+  return config
 }

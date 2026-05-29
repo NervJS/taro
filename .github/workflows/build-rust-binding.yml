@@ -16,26 +16,45 @@ jobs:
       matrix:
         node-version: [18.x]
         settings:
-          - host: macos-12
+          - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              pnpm build:binding:release
+              pnpm build:binding:release --target x86_64-apple-darwin
               strip -x crates/native_binding/*.node
           - host: windows-latest
-            build: pnpm build:binding:release
             target: x86_64-pc-windows-msvc
-          - host: ubuntu-20.04
+            build: pnpm build:binding:release --target x86_64-pc-windows-msvc
+          - host: ubuntu-22.04
             target: x86_64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: |-
               set -e &&
+              npm install -g corepack@0.31.0 &&
+              corepack enable &&
+              corepack prepare pnpm@10.0.0 --activate &&
               pnpm build:binding:release --target x86_64-unknown-linux-gnu &&
               strip crates/native_binding/*.node
-          - host: ubuntu-20.04
+          - host: ubuntu-22.04
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: set -e && pnpm build:binding:release && strip crates/native_binding/*.node
-          - host: macos-12
+            build: |-
+              set -e &&
+              npm install -g corepack@0.31.0 &&
+              corepack enable &&
+              corepack prepare pnpm@10.0.0 --activate &&
+              pnpm build:binding:release --target x86_64-unknown-linux-musl &&
+              strip crates/native_binding/*.node
+          - host: ubuntu-22.04
+            target: aarch64-unknown-linux-gnu
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
+            build: |-
+              set -e &&
+              npm install -g corepack@0.31.0 &&
+              corepack enable &&
+              corepack prepare pnpm@10.0.0 --activate &&
+              pnpm build:binding:release --target aarch64-unknown-linux-gnu &&
+              aarch64-unknown-linux-gnu-strip crates/native_binding/*.node
+          - host: macos-latest
             target: aarch64-apple-darwin
             build: |
               pnpm build:binding:release --target aarch64-apple-darwin
@@ -44,13 +63,13 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3.0.0
+        uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10.0.0
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         if: ${{ !matrix.settings.docker }}
         with:
           node-version: ${{ matrix.node-version }}
@@ -62,7 +81,7 @@ jobs:
           toolchain: stable
           targets: ${{ matrix.settings.target }}
       - name: Cache cargo
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry/index/

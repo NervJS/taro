@@ -1,5 +1,5 @@
 import { fs } from '@tarojs/helper'
-import * as taroize from '@tarojs/taroize'
+import taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
 
 import Convertor from '../src/index'
@@ -27,13 +27,13 @@ describe('语法转换', () => {
   let param: ITaroizeOptions
   beforeAll(() => {
     /**
-     * json：index.json的内容
-     * path：index的根目录（文件路径)
+     * json：index.json 的内容
+     * path：index 的根目录（文件路径)
      * rootPath：小程序的根目录（文件路径）
-     * script：index.js的内容
-     * scriptPath：index.js的绝对路径
-     * wxml：index.html的内容
-     * logFilePath：convert.log的文件路径
+     * script：index.js 的内容
+     * scriptPath：index.js 的绝对路径
+     * wxml：index.html 的内容
+     * logFilePath：convert.log 的文件路径
      */
     param = {
       json: '{}',
@@ -54,14 +54,14 @@ describe('语法转换', () => {
     jest.restoreAllMocks()
   })
 
-  test('使用新建的setData替换组件中this.data.xx，实现this.data.xx的转换', () => {
+  test('使用新建的 setData 替换组件中 this.data.xx，实现 this.data.xx 的转换', () => {
     param.script = 'this.data.intData = 1024'
     const taroizeResult = taroize({
       ...param,
       framework: 'react',
     })
 
-    // sourceFilePath：需要转换的文件路径   outputFilePath：转换输出路径   importStylePath：style的文件路径
+    // sourceFilePath：需要转换的文件路径   outputFilePath：转换输出路径   importStylePath：style 的文件路径
     const { ast } = convert.parseAst({
       ast: taroizeResult.ast,
       sourceFilePath: '',
@@ -71,7 +71,7 @@ describe('语法转换', () => {
       imports: [],
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })
@@ -85,7 +85,7 @@ describe('语法转换', () => {
       framework: 'react',
     })
 
-    // sourceFilePath：需要转换的文件路径   outputFilePath：转换输出路径   importStylePath：style的文件路径
+    // sourceFilePath：需要转换的文件路径   outputFilePath：转换输出路径   importStylePath：style 的文件路径
     const { ast } = convert.parseAst({
       ast: taroizeResult.ast,
       sourceFilePath: '',
@@ -95,13 +95,13 @@ describe('语法转换', () => {
       imports: [],
     })
 
-    // 将ast转换为代码
+    // 将 ast 转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
   })
 
-  // 示例：转换前： 转换后：
-  test('css中字母+数字+pX转换成px', async () => {
+  // 示例：转换前：转换后：
+  test('css 中字母 + 数字+pX 转换成 px', async () => {
     const { css } = await convert.styleUnitTransform(
       '',
       'background-image: url("data:image/png;base64,TB0pX/TB0PX/TB0rpX/TB0RPX");'
@@ -109,7 +109,7 @@ describe('语法转换', () => {
     expect(css).toBe('background-image: url("data:image/png;base64,TB0pX/TB0PX/TB0rpX/TB0RPX");')
   })
 
-  test('支持export from语法，情况一：部分导入', () => {
+  test('支持 export from 语法，情况一：部分导入', () => {
     const wxScriptFile = {
       'tools1.js': `
         {
@@ -150,7 +150,7 @@ describe('语法转换', () => {
     expect(scriptFiles.size).toBe(1)
   })
 
-  test('支持export from语法，情况二：全部导入', () => {
+  test('支持 export from 语法，情况二：全部导入', () => {
     const wxScriptFile = {
       'tools1.js': `
         {
@@ -209,7 +209,7 @@ describe('文件转换', () => {
     jest.restoreAllMocks()
   })
 
-  test('拷贝tsconfig.json文件到转换后的工程', () => {
+  test('拷贝 tsconfig.json 文件到转换后的工程', () => {
     const tsConfigFile = {
       'tsconfig.json': `
         {
@@ -220,7 +220,7 @@ describe('文件转换', () => {
     }
     updateMockFiles(root, tsConfigFile)
 
-    // 目前只有tsconfig.json，还有的话继续加到array里
+    // 目前只有 tsconfig.json，还有的话继续加到 array 里
     const selfDefinedConfig: any = []
     selfDefinedConfig[0] = `tsconfig${convert.fileTypes.CONFIG}`
     for (const tempConfig of selfDefinedConfig) {
@@ -238,19 +238,19 @@ describe('文件转换', () => {
   })
 })
 
-describe('page页面转换', () => {
+describe('page 页面转换', () => {
   let convert
   let param: ITaroizeOptions
   const entryJSON = { pages: ['pages/index/index'] }
   beforeAll(() => {
     /**
-     * json：index.json的内容
-     * path：index的根目录（文件路径)
+     * json：index.json 的内容
+     * path：index 的根目录（文件路径)
      * rootPath：小程序的根目录（文件路径）
-     * script：index.js的内容
-     * scriptPath：index.js的绝对路径
-     * wxml：index.html的内容
-     * logFilePath：convert.log的文件路径
+     * script：index.js 的内容
+     * scriptPath：index.js 的绝对路径
+     * wxml：index.html 的内容
+     * logFilePath：convert.log 的文件路径
      */
     param = {
       json: '{}',
@@ -264,7 +264,7 @@ describe('page页面转换', () => {
 
     jest.spyOn(Convertor.prototype, 'init').mockImplementation(() => {})
 
-    // new Convertot后会直接执行 init()，为确保 init() 在测试中通过采用 spyOn 去模拟
+    // new Convertot 后会直接执行 init()，为确保 init() 在测试中通过采用 spyOn 去模拟
     jest.spyOn(Convertor.prototype, 'getApp').mockImplementation(() => {
       Convertor.prototype.entryJSON = entryJSON
     })
@@ -280,27 +280,27 @@ describe('page页面转换', () => {
     jest.restoreAllMocks()
   })
 
-  test('template组件名转换', () => {
+  test('template 组件名转换', () => {
     param.wxml = `
-      <!-- template的name值为全小写 -->
+      <!-- template 的 name 值为全小写 -->
       <template name="ash"></template>
       <template is="ash"/>
-      <!-- template的name值为首字母大写且单个单词 -->
+      <!-- template 的 name 值为首字母大写且单个单词 -->
       <template name="Aol"></template>
       <template is="Aol"/>
-      <!-- template的name值为首字母大写且多个单词 -->
+      <!-- template 的 name 值为首字母大写且多个单词 -->
       <template name="AshMer"></template>
       <template is="AshMer"/>
-      <!-- template的name值为单字母 -->
+      <!-- template 的 name 值为单字母 -->
       <template name="a"></template>
       <template is="a"/>
-      <!-- template的name值为小驼峰 -->
+      <!-- template 的 name 值为小驼峰 -->
       <template name="anFish"></template>
       <template is="anFish"/>
       `
     param.path = 'import_template'
 
-    // 模拟writeFileToTaro文件写入方法，避免imports文件夹写入到taro工程
+    // 模拟 writeFileToTaro 文件写入方法，避免 imports 文件夹写入到 taro 工程
     jest.spyOn(Convertor.prototype, 'writeFileToTaro').mockImplementation(() => {})
 
     const taroizeResult = taroize({
@@ -311,7 +311,7 @@ describe('page页面转换', () => {
     /**
      * sourceFilePath：需要转换的文件路径
      * outputFilePath：转换输出路径
-     * importStylePath：style的文件路径
+     * importStylePath：style 的文件路径
      */
     const { ast } = convert.parseAst({
       ast: taroizeResult.ast,

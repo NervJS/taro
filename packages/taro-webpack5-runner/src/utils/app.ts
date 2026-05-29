@@ -6,6 +6,7 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT
 } from '@tarojs/helper'
+import { Func } from '@tarojs/taro/types/compile'
 import { defaults } from 'lodash'
 
 import type { AppConfig } from '@tarojs/taro'
@@ -17,6 +18,7 @@ interface IOptions {
   frameworkExts: string[]
   alias: Record<string, any>
   defineConstants: Record<string, any>
+  modifyAppConfig?: Func
 }
 
 export default class AppHelper {
@@ -59,6 +61,10 @@ export default class AppHelper {
       const appConfig = readConfig(appConfigPath, this.options)
       if (isEmptyObject(appConfig)) {
         throw new Error('缺少 app 全局配置，请检查！')
+      }
+      const { modifyAppConfig } = this.options
+      if (typeof modifyAppConfig === 'function') {
+        modifyAppConfig(appConfig)
       }
       this.#appConfig = appConfig
     }

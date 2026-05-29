@@ -320,7 +320,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/voip/wx.setEnable1v1Chat.html
      */
-    setEnable1v1Chat(option: subscribeVoIPVideoMembers.Option): Promise<TaroGeneral.CallbackResult>
+    setEnable1v1Chat(option: setEnable1v1Chat.Option): Promise<TaroGeneral.CallbackResult>
     /** 监听实时语音通话成员视频状态变化事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/voip/wx.onVoIPVideoMembersChanged.html
@@ -373,7 +373,7 @@ declare module '../../index' {
      */
     offVoIPChatInterrupted(callback: onVoIPChatInterrupted.Callback): void
     /** 加入 (创建) 实时语音通话，更多信息可见 [实时语音指南](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/voip-chat.html)
-     * 
+     *
      * 调用前需要用户授权 `scope.record`，若房间类型为视频房间需要用户授权 `scope.camera`。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/voip/wx.joinVoIPChat.html

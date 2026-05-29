@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
 import { isMobile } from 'is-mobile'
 
+import { getDeviceInfo } from '../../../api/base/system'
 import { showActionSheet } from '../../../api/ui'
 import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
@@ -136,6 +137,7 @@ export const chooseMedia = async function (
 
     if (/^video\//.test(res.fileType)) {
       // Video
+      const isIOS = getDeviceInfo().system.toLowerCase().includes('ios')
       const video = document.createElement('video')
       const reader = new FileReader()
       video.crossOrigin = 'Anonymous'
@@ -160,6 +162,7 @@ export const chooseMedia = async function (
           resolve(res)
         }
         video.onerror = e => reject(e)
+        isIOS && video.load()
       })
     } else {
       // Image

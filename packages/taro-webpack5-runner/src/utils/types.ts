@@ -62,6 +62,7 @@ export interface IMiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath?: string | string[]
   taroComponentsPath: string
+  behaviorsName: string
   blended?: boolean
   hot?: boolean
 }

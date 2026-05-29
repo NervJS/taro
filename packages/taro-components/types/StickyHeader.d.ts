@@ -13,6 +13,12 @@ interface StickyHeaderProps extends StandardProps {
     * @default [0, 0, 0, 0]
     */
    padding?: [number, number, number, number]
+  /**
+   * 吸顶状态变化事件，仅支持非 worklet 的组件方法作为回调。event.detail = { isStickOnTop }，当 sticky-header 吸顶时为 true，否则为 false。
+   * @supported weapp
+   * @version >=3.6.2
+   */
+  onStickOnTopChange?: CommonEventFunction
 }
 
 /**

@@ -12,7 +12,7 @@ import {
   TYPE
 } from '../constants'
 import env from '../env'
-import { isParentBinded } from '../utils'
+import { isParentBound } from '../utils'
 
 import type { EventOptions, MpEvent } from '../interface'
 import type { TaroElement } from './element'
@@ -180,7 +180,7 @@ export function eventHandler (event: MpEvent) {
 
       if (
         !hooks.call('isBubbleEvents', type) ||
-        !isParentBinded(node, type) ||
+        !isParentBound(node, type) ||
         (type === TOUCHMOVE && !!node.props.catchMove)
       ) {
         // 最上层组件统一 batchUpdate
@@ -201,4 +201,13 @@ export function eventHandler (event: MpEvent) {
       return getEventCBResult(event)
     }
   }
+}
+
+export function eventHandlerTTDom(ele: any, listener: (event: MpEvent, element: any) => void, event: MpEvent) {
+  Object.assign(event, {
+    mpEvent: event,
+    bubbles: true,
+    cancelable: true,
+  })
+  listener(event, ele)
 }

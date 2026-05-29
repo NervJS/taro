@@ -14,6 +14,7 @@ export default (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption =
       if (/(\.(et|j|t)sx?|\.vue)$/.test(id.split('?')[0])) {
         const result = transformSync(code, {
           filename: id,
+          sourceMaps: true,
           plugins: [
             [
               function renameImportPlugin (babel: typeof BabelCore): BabelCore.PluginObj<BabelCore.PluginPass> {
@@ -75,6 +76,7 @@ export default (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption =
         // TODO 后续考虑使用 SWC 插件的方式实现
         const result = await transformAsync(code, {
           filename: id,
+          sourceMaps: true,
           plugins: [
             [
               require('babel-plugin-transform-taroapi'),

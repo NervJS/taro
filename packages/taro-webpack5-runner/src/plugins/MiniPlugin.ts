@@ -63,6 +63,7 @@ interface IOptions extends ITaroMiniPluginOptions {
   frameworkExts: string[]
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath: string | string[]
+  behaviorsName: string
   isBuildPlugin: boolean
   blended: boolean
   newBlended: boolean
@@ -121,6 +122,7 @@ export default class TaroMiniPlugin {
       frameworkExts: miniBuildConfig.frameworkExts || [],
       template,
       runtimePath: miniBuildConfig.runtimePath || '',
+      behaviorsName: miniBuildConfig.behaviorsName || 'behaviors',
       isBuildPlugin: miniBuildConfig.isBuildPlugin || false,
       blended: miniBuildConfig.blended || false,
       newBlended: miniBuildConfig.newBlended || false,
@@ -194,7 +196,8 @@ export default class TaroMiniPlugin {
           isBuildPlugin,
           addChunkPages,
           pages: this.pages,
-          framework: framework
+          framework: framework,
+          appConfig: this.appConfig
         }).apply(compiler)
       })
     )
@@ -214,7 +217,8 @@ export default class TaroMiniPlugin {
             isBuildPlugin,
             addChunkPages,
             pages: this.pages,
-            framework: framework
+            framework: framework,
+            appConfig: this.appConfig
           })
           this.loadChunksPlugin.apply(compiler)
         }
@@ -264,6 +268,7 @@ export default class TaroMiniPlugin {
                 prerender: this.prerenderPages.size > 0,
                 config: this.appConfig,
                 runtimePath: this.options.runtimePath,
+                behaviorsName: this.options.behaviorsName,
                 blended: this.options.blended,
                 newBlended: this.options.newBlended,
                 pxTransformConfig
@@ -296,6 +301,7 @@ export default class TaroMiniPlugin {
                 config: this.filesConfig,
                 appConfig: this.appConfig,
                 runtimePath: this.options.runtimePath,
+                behaviorsName: this.options.behaviorsName,
                 hot: this.options.hot
               }
             })
@@ -310,7 +316,8 @@ export default class TaroMiniPlugin {
                 loaderMeta,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
-                runtimePath: this.options.runtimePath
+                runtimePath: this.options.runtimePath,
+                behaviorsName: this.options.behaviorsName,
               }
             })
           }
@@ -1020,7 +1027,8 @@ export default class TaroMiniPlugin {
           pages: childPages,
           framework: this.options.framework,
           isIndependentPackages: true,
-          needAddCommon: [`${name}/comp`, `${name}/custom-wrapper`]
+          needAddCommon: [`${name}/comp`, `${name}/custom-wrapper`],
+          appConfig: this.appConfig
         }).apply(childCompiler)
         // 添加 comp 和 custom-wrapper 组件
         new TaroSingleEntryPlugin(compiler.context, path.resolve(__dirname, '..', 'template/comp'), `${name}/comp`, META_TYPE.STATIC).apply(childCompiler)
@@ -1113,10 +1121,11 @@ export default class TaroMiniPlugin {
     if (!usingComponents || this.options.skipProcessUsingComponents) return
 
     for (const [key, value] of Object.entries(usingComponents)) {
-      if (!value.includes(NODE_MODULES)) return
+      const compPath = value instanceof Array ? value[0] : value
+      if (!compPath.includes(NODE_MODULES)) return
 
-      const match = value.replace(NODE_MODULES, 'npm').match(/npm.*/)
-      usingComponents[key] = match ? `${path.sep}${match[0]}` : value
+      const match = compPath.replace(NODE_MODULES, 'npm').match(/npm.*/)
+      usingComponents[key] = match ? `${path.sep}${match[0]}` : compPath
     }
   }
 
@@ -1137,6 +1146,7 @@ export default class TaroMiniPlugin {
         // 如微信、QQ 不支持递归模版的小程序，需要使用自定义组件协助递归
         this.generateConfigFile(compilation, compiler, `${name}/${baseCompName}`, {
           component: true,
+          styleIsolation: 'apply-shared',
           usingComponents: {
             [baseCompName]: `./${baseCompName}`,
             [customWrapperName]: `./${customWrapperName}`
@@ -1146,6 +1156,7 @@ export default class TaroMiniPlugin {
       }
       this.generateConfigFile(compilation, compiler, `${name}/${customWrapperName}`, {
         component: true,
+        styleIsolation: 'apply-shared',
         usingComponents: {
           [customWrapperName]: `./${customWrapperName}`
         }
@@ -1229,10 +1240,11 @@ export default class TaroMiniPlugin {
 
       const baseCompConfig = {
         component: true,
+        styleIsolation: 'apply-shared',
         usingComponents: {
           [baseCompName]: `./${baseCompName}`
         }
-      }
+      } as Config & { component?: boolean, usingComponents: Record<string, string> }
 
       if (isUsingCustomWrapper) {
         baseCompConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
@@ -1251,6 +1263,7 @@ export default class TaroMiniPlugin {
       if (isUsingCustomWrapper) {
         this.generateConfigFile(compilation, compiler, customWrapperName, {
           component: true,
+          styleIsolation: 'apply-shared',
           usingComponents: {
             [customWrapperName]: `./${customWrapperName}`
           }
@@ -1287,8 +1300,8 @@ export default class TaroMiniPlugin {
       }
 
       if (config) {
-        const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(baseCompName, ''))))
-        const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(customWrapperName, ''))))
+        const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTargetFilePath(baseCompName, ''))))
+        const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, isBuildPlugin ? 'plugin' : '', this.getTargetFilePath(customWrapperName, ''))))
         config.content.usingComponents = {
           ...config.content.usingComponents
         }
@@ -1491,6 +1504,28 @@ export default class TaroMiniPlugin {
         componentCommons.push(assetName)
       }
     })
+
+    // 处理独立分包的 common 样式文件
+    if (independentPackageNames.length) {
+      const commonCssFileName = `common${styleExt}`
+      independentPackageNames.map(rootPath => {
+        const isExistCommonCss = !!assets[`${rootPath}/${commonCssFileName}`]
+        if (!isExistCommonCss) return
+
+        const regex = new RegExp(`.*(?<!common)\\${styleExt}$`)
+        const independentPagesCssAssets = Object.keys(assets).filter(asset => asset.startsWith(`${rootPath}/`) && regex.test(asset))
+        independentPagesCssAssets.forEach(assetPath => {
+          const relativePath = path.posix.relative(path.dirname(assetPath), rootPath) || '.'
+          const importStatement = `@import ${JSON.stringify(urlToRequest(`${relativePath}/${commonCssFileName}`))};`
+
+          const source = new ConcatSource('')
+          const originSource = assets[assetPath]
+          source.add(importStatement)
+          source.add(originSource)
+          assets[assetPath] = source
+        })
+      })
+    }
 
     if (commons.size() > 0) {
       const APP_STYLE_NAME = 'app-origin' + styleExt

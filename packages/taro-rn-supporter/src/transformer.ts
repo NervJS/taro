@@ -4,7 +4,7 @@ import { merge } from 'lodash'
 import { getProjectConfig } from './utils'
 
 const _babelTransform = ({ src, filename, options, plugins }) => {
-  // 获取rn配置中的moodifyBabelConfig
+  // 获取rn配置中的modifyBabelConfig
   // 与参数plugins合并，然后传给babelTransform
   return babelTransform({ src, filename, options, plugins })
 }

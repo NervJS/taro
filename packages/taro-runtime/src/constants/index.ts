@@ -19,6 +19,7 @@ export const FOCUS = 'focus'
 export const VIEW = 'view'
 export const STATIC_VIEW = 'static-view'
 export const PURE_VIEW = 'pure-view'
+export const CLICK_VIEW = 'click-view'
 export const PROPS = 'props'
 export const DATASET = 'dataset'
 export const OBJECT = 'object'
@@ -38,7 +39,6 @@ export const SET_TIMEOUT = 'setTimeout'
 export const COMPILE_MODE = 'compileMode'
 export const CATCHMOVE = 'catchMove'
 export const CATCH_VIEW = 'catch-view'
-export const CLICK_VIEW = 'click-view'
 export const COMMENT = 'comment'
 export const ON_LOAD = 'onLoad'
 export const ON_READY = 'onReady'
@@ -50,12 +50,10 @@ export const EVENT_CALLBACK_RESULT = 'e_result'
 export const BEHAVIORS = 'behaviors'
 export const A = 'a'
 
-/**
- * 页面上下文切换时的行为
- */
+// 页面上下文切换时的行为
 export enum CONTEXT_ACTIONS {
   INIT = '0',
   RESTORE = '1',
   RECOVER = '2',
-  DESTORY = '3'
+  DESTROY = '3'
 }

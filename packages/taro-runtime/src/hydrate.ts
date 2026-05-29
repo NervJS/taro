@@ -53,15 +53,17 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     data.uid = node.uid
   }
 
-  if (!node.isAnyEventBinded() && SPECIAL_NODES.indexOf(nodeName) > -1) {
-    data[Shortcuts.NodeName] = `static-${nodeName}`
-    if (nodeName === VIEW && !isHasExtractProp(node)) {
-      data[Shortcuts.NodeName] = PURE_VIEW
+  if (SPECIAL_NODES.indexOf(nodeName) > -1) {
+    if (!node.isAnyEventBinded()) {
+      data[Shortcuts.NodeName] = `static-${nodeName}`
+      if (nodeName === VIEW && !isHasExtractProp(node)) {
+        data[Shortcuts.NodeName] = PURE_VIEW
+      }
     }
-  }
 
-  if (nodeName === VIEW && node.isOnlyClickBinded()) {
-    data[Shortcuts.NodeName] = CLICK_VIEW
+    if (nodeName === VIEW && node.isOnlyClickBinded() && !isHasExtractProp(node)) {
+      data[Shortcuts.NodeName] = CLICK_VIEW
+    }
   }
 
   const { props } = node

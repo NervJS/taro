@@ -1,3 +1,7 @@
+/* eslint-disable no-console */
+import { existsSync } from 'node:fs'
+
+import axios from 'axios'
 import * as Jimp from 'jimp'
 import jsQR from 'jsqr'
 import * as QRCode from 'qrcode'
@@ -7,8 +11,24 @@ import * as QRCode from 'qrcode'
  * @param imagePath 图片路径
  */
 export async function readQrcodeImageContent (imagePath: string): Promise<string> {
+  // 网络图片优先用axios获取，避免某些云环境下由于原生fetch对代理支持度不够引起的问题
+  let imageBuffer: Buffer
+  if (!existsSync(imagePath)) {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: imagePath,
+        responseType: 'arraybuffer',
+        timeout: 8000
+      })
+      imageBuffer = response.data
+    } catch (error) {
+      console.log(`axios获取图片失败: ${error.message}`)
+    }
+  }
+
   return new Promise((resolve, reject) => {
-    Jimp.read(imagePath, function (err, image) {
+    Jimp.read(imageBuffer || imagePath, function (err, image) {
       if (err) {
         reject(err)
         return

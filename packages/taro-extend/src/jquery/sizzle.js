@@ -1,5 +1,6 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable prefer-const */
+/* eslint-disable taro/max-ternary-depth */
 /*!
  * Sizzle CSS Selector Engine v@VERSION
  * https://sizzlejs.com/

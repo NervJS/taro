@@ -3,7 +3,6 @@ import {
   recursiveMerge,
   REG_CSS,
   REG_LESS,
-  REG_NODE_MODULES,
   REG_SASS_SASS,
   REG_SASS_SCSS,
   REG_STYLUS,
@@ -171,26 +170,17 @@ export class HarmonyWebpackModule {
     const { compile = {} } = this.combination.config
     const rule: IRule = WebpackModule.getScriptRule()
 
-    if (compile.exclude && compile.exclude.length) {
-      rule.exclude = [
-        ...compile.exclude,
-        filename => /css-loader/.test(filename) || (REG_NODE_MODULES.test(filename) && !(/taro/.test(filename)))
-      ]
-    } else if (compile.include && compile.include.length) {
-      rule.include = [
-        ...compile.include,
-        sourceDir,
-        filename => /taro/.test(filename)
-      ]
-    } else {
-      rule.exclude = [filename => /css-loader/.test(filename) || (REG_NODE_MODULES.test(filename) && !(/taro/.test(filename)))]
+    rule.include = [
+      sourceDir,
+      filename => /(?<=node_modules[\\/]).*taro/.test(filename)
+    ]
+    if (Array.isArray(compile.include)) {
+      rule.include.unshift(...compile.include)
     }
 
-    // rule.use.compilerLoader = WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniCompilerLoader'), {
-    //   template: this.combination.config.template,
-    //   outputDir: this.combination.outputDir,
-    //   fileType: this.combination.fileType,
-    // })
+    if (Array.isArray(compile.exclude)) {
+      rule.exclude = [...compile.exclude]
+    }
 
     return rule
   }

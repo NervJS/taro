@@ -64,7 +64,7 @@ export const getDefaultPostcssConfig = function ({
     ['autoprefixer', autoprefixerOption, require('autoprefixer')],
     ['postcss-pxtransform', pxtransformOption, require('postcss-pxtransform')],
     ['postcss-alias', { config: { alias } }, require('./postcss-alias').default],
-    ['postcss-url', defaultUrlOption, require('postcss-url')],
+    ['postcss-url', { ...defaultUrlOption, ...(options?.url || {}) }, require('postcss-url')],
     ['postcss-html-transform', htmltransformOption, require('postcss-html-transform')],
     ...Object.entries(options)
   ]
@@ -82,7 +82,7 @@ export const getPostcssPlugins = function (appPath: string, option: [string, Tog
 
     if (!isNpmPkg(pluginName)) {
       // local plugin
-      pluginName = path.join(appPath, pluginName)
+      pluginName = path.isAbsolute(pluginName) ? pluginName : path.join(appPath, pluginName)
     }
 
     try {

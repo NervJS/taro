@@ -76,17 +76,8 @@ export class TaroRootElement extends TaroElement {
   }
 
   public scheduleTask(fn: TFunc) {
-    if (isFunction(Promise)) {
-      Promise.resolve()
-        .then(fn)
-        .catch((error) => {
-          setTimeout(() => {
-            throw error
-          })
-        })
-    } else {
-      setTimeout(fn)
-    }
+    // 这里若使用微任务可略微提前setData的执行时机，但在部分场景下可能会出现连续setData两次，造成更大的性能问题
+    setTimeout(fn)
   }
 
   public enqueueUpdate (payload: UpdatePayload): void {

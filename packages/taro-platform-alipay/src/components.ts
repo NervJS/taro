@@ -40,6 +40,7 @@ export const components = {
   Button: {
     scope: '',
     'public-id': '',
+    'app-parameter': '',
     bindGetAuthorize: '',
     bindError: '',
     bindGetUserInfo: '',

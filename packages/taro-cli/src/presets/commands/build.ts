@@ -3,6 +3,7 @@ import {
   validateConfig
 } from '@tarojs/plugin-doctor'
 
+import { extractCompileEntry } from '../../util/appConfig'
 import * as hooks from '../constant'
 
 import type { IPluginContext } from '@tarojs/service'
@@ -14,6 +15,8 @@ export default (ctx: IPluginContext) => {
       '--type [typeName]': 'Build type, weapp/swan/alipay/tt/qq/jd/h5/rn',
       '--watch': 'Watch mode',
       '--env [env]': 'Value for process.env.NODE_ENV',
+      '--pages': 'Specify the pages to be compiled, separate multiple by comma',
+      '--components': 'Specify the components to be compiled, separate multiple by comma',
       '--mode [mode]': 'Value of dotenv extname',
       '-p, --port [port]': 'Specified port',
       '--no-build': 'Do not build project',
@@ -36,6 +39,7 @@ export default (ctx: IPluginContext) => {
     synopsisList: [
       'taro build --type weapp',
       'taro build --type weapp --watch',
+      'taro build --type weapp --watch --pages pages/index/index',
       'taro build --type weapp --env production',
       'taro build --type weapp --blended',
       'taro build --type weapp --no-build',
@@ -50,6 +54,7 @@ export default (ctx: IPluginContext) => {
       const { platform, isWatch, blended, newBlended, withoutBuild, noInjectGlobalStyle, noCheck } = options
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
+      const { args } = options
 
       if (!configPath || !fs.existsSync(configPath)) {
         console.log(chalk.red(`找不到项目配置文件${PROJECT_CONFIG}，请确定当前目录是 Taro 项目根目录!`))
@@ -120,6 +125,8 @@ export default (ctx: IPluginContext) => {
             newBlended,
             noInjectGlobalStyle,
             async modifyAppConfig (appConfig) {
+              extractCompileEntry(appConfig, args, ctx)
+
               await ctx.applyPlugins({
                 name: hooks.MODIFY_APP_CONFIG,
                 opts: {
@@ -138,13 +145,14 @@ export default (ctx: IPluginContext) => {
                 },
               })
             },
-            async modifyViteConfig(viteConfig, data) {
+            async modifyViteConfig(viteConfig, data, viteCompilerContext) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_VITE_CONFIG,
                 initialVal: viteConfig,
                 opts: {
                   viteConfig,
                   data,
+                  viteCompilerContext
                 },
               })
             },

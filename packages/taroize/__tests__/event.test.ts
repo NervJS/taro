@@ -24,18 +24,18 @@ describe('event convertor', () => {
     path: '',
     wxml: ``
   }
-  // 解析wxml会通过path进行缓存，得改变path，以下用例涉及parseWXML的同理
+  // 解析 wxml 会通过 path 进行缓存，得改变 path，以下用例涉及 parseWXML 的同理
   // 事件 bindtap 转换为 onCLick
   test('bindtap', () => {
     option.path = 'bindtap'
-    option.wxml = `<button bindtap="handleTap">点击事件1</button>`
+    option.wxml = `<button bindtap="handleTap">点击事件 1</button>`
     const { wxml }: any = parseWXML(option.path, option.wxml)
     expect(wxml.openingElement.attributes[0].name.name).toBe('onClick')
   })
   // 事件 bind:tap 转换为 onClick
   test('bind:tap', () => {
     option.path = 'bind:tap'
-    option.wxml = `<button bind:tap="handleTap">点击事件2</button>`
+    option.wxml = `<button bind:tap="handleTap">点击事件 2</button>`
     const { wxml }: any = parseWXML(option.path, option.wxml)
     expect(wxml.openingElement.attributes[0].name.name).toBe('onClick')
   })
@@ -43,7 +43,7 @@ describe('event convertor', () => {
   // 事件 bindtimeupdate 转换为 onTimeUpdate
   test('bindtimeupdate', () => {
     option.path = 'bindtimeupdate'
-    option.wxml = `<video bindtimeupdate="handleTimeUpdate">video bindtimeupdate事件</video>`
+    option.wxml = `<video bindtimeupdate="handleTimeUpdate">video bindtimeupdate 事件</video>`
     const { wxml }: any = parseWXML(option.path, option.wxml)
     expect(wxml.openingElement.attributes[0].name.name).toBe('onTimeUpdate')
   })
@@ -486,7 +486,7 @@ describe('event convertor', () => {
   })
 })
 
-// 主要测试，catch转换后，原先转换结果的this.privateStopNoop的包裹被去除
+// 主要测试，catch 转换后，原先转换结果的 this.privateStopNoop 的包裹被去除
 describe('catch_event convetor', () => {
   const option: Option = {
     path: '',
@@ -495,7 +495,7 @@ describe('catch_event convetor', () => {
 
   test('catchtap', () => {
     option.path = 'catchtap'
-    option.wxml = `<button catchtap="handleTap">点击事件1</button>`
+    option.wxml = `<button catchtap="handleTap">点击事件 1</button>`
     const { wxml }: any = parseWXML(option.path, option.wxml)
     expect(wxml.openingElement.attributes[0].name.name).toBe('onClick')
     expect(wxml.openingElement.attributes[0].value.expression.object.type).toBe('ThisExpression')
@@ -503,7 +503,7 @@ describe('catch_event convetor', () => {
 
   test('catch:tap', () => {
     option.path = 'catch_tap'
-    option.wxml = `<button catch:tap="handleTap">点击事件1</button>`
+    option.wxml = `<button catch:tap="handleTap">点击事件 1</button>`
     const { wxml }: any = parseWXML(option.path, option.wxml)
     expect(wxml.openingElement.attributes[0].name.name).toBe('onClick')
     expect(wxml.openingElement.attributes[0].value.expression.object.type).toBe('ThisExpression')

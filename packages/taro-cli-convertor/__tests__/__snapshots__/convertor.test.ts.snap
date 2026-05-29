@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`公共组件引用 子组件内部标签引用公共组件时，解析app.json文件里公共组件，使子组件生效 1`] = `
+exports[`公共组件引用 子组件内部标签引用公共组件时，解析 app.json 文件里公共组件，使子组件生效 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
   /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
@@ -313,7 +313,7 @@ export default _C
 }
 `;
 
-exports[`微信小程序转换 使用工具函数初始化page页面 1`] = `
+exports[`微信小程序转换 使用工具函数初始化 page 页面 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
   /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
@@ -549,7 +549,7 @@ export default _C
 }
 `;
 
-exports[`微信小程序转换 小程序demo转换 1`] = `
+exports[`微信小程序转换 小程序 demo 转换 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
   /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
@@ -595,7 +595,7 @@ export default _C
 }
 `;
 
-exports[`微信小程序转换 小程序tabber转换 1`] = `
+exports[`微信小程序转换 小程序 tabber 转换 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
   /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
@@ -919,7 +919,7 @@ export default _C
 }
 `;
 
-exports[`微信小程序转换 小程序自定义tabber转换 1`] = `
+exports[`微信小程序转换 小程序自定义 tabber 转换 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
   /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
@@ -1007,7 +1007,7 @@ export default _C
 }
 `;
 
-exports[`微信小程序转换 配置miniprogramRoot的demo小程序转换 1`] = `
+exports[`微信小程序转换 配置 miniprogramRoot 的 demo 小程序转换 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
   /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
@@ -1053,7 +1053,7 @@ export default _C
 }
 `;
 
-exports[`文件转换 wxss的注释中引用自身文件 1`] = `
+exports[`文件转换 wxss 的注释中引用自身文件 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
   /wxProject/taroConvert/src/pages/commentPage/commentPage.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
@@ -1077,7 +1077,7 @@ export default _C
 }
 `;
 
-exports[`文件转换 一个文件夹下有多个wxml页面导致显示异常 1`] = `
+exports[`文件转换 一个文件夹下有多个 wxml 页面导致显示异常 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
   /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
@@ -1149,7 +1149,7 @@ export default _C
 }
 `;
 
-exports[`文件转换 文件中包含commonjs导出转换 1`] = `
+exports[`文件转换 文件中包含 commonjs 导出转换 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
   /wxProject/taroConvert/src/utils/util.js => const Taro = require('@tarojs/taro')
@@ -1405,7 +1405,7 @@ export default _C
 }
 `;
 
-exports[`配置文件解析转换 小程序sitemap.json文件的转换 1`] = `
+exports[`配置文件解析转换 小程序 sitemap.json 文件的转换 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
   undefined => ,

@@ -12,6 +12,7 @@ export interface MpInstance {
   data: any
   exitState?: any
   selectComponent: (selector: string) => any
+  __webviewId__?: number
 }
 
 export interface MiniElementData {

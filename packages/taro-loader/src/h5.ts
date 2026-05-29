@@ -1,6 +1,6 @@
 import { dirname, join, sep } from 'node:path'
 
-import { readConfig } from '@tarojs/helper'
+import { fs, readConfig } from '@tarojs/helper'
 
 import { REG_POST } from './constants'
 import { stringifyRequest } from './util'
@@ -24,6 +24,7 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
 
 export default function (this: webpack.LoaderContext<any>) {
   const options = this.getOptions()
+  const isProd = this.mode === 'production'
   const stringify = (s: string): string => stringifyRequest(this, s)
   const config: AppConfig & IH5Config = options.config
   const routerMode = config?.router?.mode || 'hash'
@@ -49,7 +50,7 @@ export default function (this: webpack.LoaderContext<any>) {
   if (isBuildNativeComp) {
     const globalStyleImportString = noInjectGlobalStyle ? '' : `import '@tarojs/components/global.css'\n`
     const compPath = join(pathDirname, options.filename)
-    return `${setReconciler}
+    let code = `${setReconciler}
 import component from ${stringify(compPath)}
 ${options.loaderMeta.importFrameworkStatement}
 ${options.loaderMeta.extraImportForWeb}
@@ -68,8 +69,25 @@ initPxTransform.call(component, {
   targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)}
 })
 const config = component.config
-export default createH5NativeComponentConfig(component, ${options.loaderMeta.frameworkArgs})`
+const nativeComponent = createH5NativeComponentConfig(component, ${options.loaderMeta.frameworkArgs})`
+
+    if (!isProd && process.env.TARO_ENV === 'h5') {
+      const mockDataRelativePath = './mock/mock.json'
+      const mockDataPath = join(this.context, mockDataRelativePath)
+      const hasMock = fs.existsSync(mockDataPath)
+      code += `
+  const mockData = ${hasMock ? `require('${mockDataRelativePath}')` : '{}'};
+  const reactElement = React.createElement(nativeComponent, mockData);
+  ReactDOM.createRoot(document.getElementById("app")).render(reactElement);
+  document.title = config.navigationBarTitleText || ''`
+
+      return code
+    }
+
+    return code + `
+export default nativeComponent`
   }
+
   if (options.bootstrap) return `import(${stringify(join(options.sourceDir, `${isMultiRouterMode ? pageName : options.entryFileName}.boot`))})`
 
   let tabBarCode = `var tabbarIconPath = []

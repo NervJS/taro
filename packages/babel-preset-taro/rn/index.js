@@ -55,10 +55,6 @@ module.exports = (_, options = {}) => {
 
   plugins.push(require('../remove-define-config'))
 
-  plugins.push(
-    [require('babel-plugin-minify-dead-code-elimination'), {}]
-  )
-
   return {
     presets,
     plugins

@@ -31,13 +31,13 @@
     "@tarojs/shared": "3.6.24",
     "@tarojs/taro": "3.6.24",
     "@tarojs/webpack5-runner": "^3.6.24",
-    "react": "^16.10.0",
-    "react-dom": "^16.10.0"
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@babel/core": "^7.8.0",
-    "@types/react": "^16.0.0",
+    "@types/react": "^18",
     "@types/webpack-env": "^1.13.6",
     "babel-preset-taro": "3.6.24",
     "eslint": "^8.12.0",

@@ -71,7 +71,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext | undefine
       } else if (IS_NATIVE_STYLE_REG.test(id)) {
         let source = id.replace(new RegExp(`\\${QUERY_IS_NATIVE_STYLE}`), '')
         source = viteCompilerContext.getTargetFilePath(source, viteCompilerContext.fileType.style)
-        const code = await fs.readFile(source, 'utf-8')
+        const code = fs.readFileSync(source, 'utf-8')
         return {
           code
         }
@@ -157,7 +157,7 @@ export function miniTemplateLoader (ctx: PluginContext, templatePath: string, so
       ctx.emitFile({
         type: 'asset',
         fileName: requests[i].replace(sourceDir, '').replace(/^\//, ''),
-        source: await fs.readFile(requests[i])
+        source: Uint8Array.from(fs.readFileSync(requests[i]))
       })
       ctx.addWatchFile(requests[i])
     }

@@ -39,7 +39,12 @@ export function getMappedType (nodeName: string, rawProps: Record<string, any>, 
         }
       }
     }
-    if (!node || node.isAnyEventBinded()) {
+    if (!node) {
+      return 'view'
+    }
+    if (node.isOnlyClickBinded() && !isHasExtractProp(node)) {
+      return 'click-view'
+    } else if (node.isAnyEventBinded()) {
       return 'view'
     } else if (isHasExtractProp(node)) {
       return 'static-view'

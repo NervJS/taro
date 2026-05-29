@@ -64,7 +64,15 @@ function forceInstall() {
 }
 
 function runDevConcurrently() {
-  const commands = packages.map(pkg => `pnpm --filter ${pkg} run dev`)
+  const excludePkg = ['@tarojs/taro']
+  const commands = packages.filter(pkg => !excludePkg.includes(pkg)).map(pkg => {
+    const devMap = {
+      '@tarojs/components': 'dev:components'
+    }
+    return `pnpm --filter ${pkg} run ${devMap[pkg] || 'dev'}`
+  })
+
+  if (!commands.length) return
 
   const { result } = concurrently(commands, {
     prefix: 'name',

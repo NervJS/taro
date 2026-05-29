@@ -132,6 +132,18 @@ declare module '../../index' {
       deviceOrientation?: keyof DeviceOrientation
       /** 小程序当前运行环境 */
       environment?: string
+      /**
+       * 仅支付宝小程序生效
+       * screenHeight、screenWidth在 Android 上取值有误，建议使用 screen字段内的属性替代。
+       * https://opendocs.alipay.com/mini/api/gawhvz?pathHash=270f3253
+       * 单位: px
+       * */
+      screen?: {
+        /** 屏幕宽度 */
+        width: number
+        /** 屏幕高度 */
+        height: number
+      }
     }
     /** 系统主题合法值 */
     interface Theme {
@@ -231,6 +243,18 @@ declare module '../../index' {
       deviceOrientation?: keyof DeviceOrientation
       /** 小程序当前运行环境 */
       environment?: string
+      /**
+       * 仅支付宝小程序生效
+       * screenHeight、screenWidth在 Android 上取值有误，建议使用 screen字段内的属性替代。
+       * https://opendocs.alipay.com/mini/api/gawhvz?pathHash=270f3253
+       * 单位: px
+       * */
+      screen?: {
+        /** 屏幕宽度 */
+        width: number
+        /** 屏幕高度 */
+        height: number
+      }
     }
     /** 系统主题合法值 */
     interface Theme {
@@ -330,6 +354,18 @@ declare module '../../index' {
       deviceOrientation?: keyof DeviceOrientation
       /** 小程序当前运行环境 */
       environment?: string
+      /**
+       * 仅支付宝小程序生效
+       * screenHeight、screenWidth在 Android 上取值有误，建议使用 screen字段内的属性替代。
+       * https://opendocs.alipay.com/mini/api/gawhvz?pathHash=270f3253
+       * 单位: px
+       * */
+      screen?: {
+        /** 屏幕宽度 */
+        width: number
+        /** 屏幕高度 */
+        height: number
+      }
     }
     /** 系统主题合法值 */
     interface Theme {

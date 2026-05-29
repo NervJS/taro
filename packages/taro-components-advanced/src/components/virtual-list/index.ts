@@ -28,7 +28,7 @@ interface VirtualListProps<T = any> extends Omit<StandardProps, 'children'> {
    * >  - 非 unlimitedSize 模式下如果传入函数，为避免性能问题，每个节点只会调用一次用于设置初始值
    */
   itemSize: number | ((index?: number, itemData?: T[]) => number)
-  /** 解开高度列表单项大小限制，默认值使用: itemSize。
+  /** 解开高度列表单项大小限制，默认值使用：itemSize。
    *
    * > Note: 通过 itemSize 设置的初始高度与子节点实际高度差异过大会导致隐患，建议将单页大小设置接近于现实高度，在该模式下可以提升用户体验。
    * @default false
@@ -56,7 +56,7 @@ interface VirtualListProps<T = any> extends Omit<StandardProps, 'children'> {
    * @default 50
    */
   lowerThreshold?: number
-  /** 是否注入 isScrolling 属性到 item 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
+  /** 是否注入 isScrolling 属性到 item 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder）时比较有用。 */
   useIsScrolling?: boolean
   /** 通过 ScrollViewContext 优化组件滚动性能
    * @default false
@@ -106,7 +106,7 @@ declare namespace VirtualListProps {
   }
 
   interface IVirtualListEvent<T extends ScrollViewProps.onScrollDetail = ScrollViewProps.onScrollDetail> extends BaseEventOrig {
-    /** 滚动方向，可能值为 forward 往前， backward 往后。 */
+    /** 滚动方向，可能值为 forward 往前，backward 往后。 */
     scrollDirection: 'forward' | 'backward'
     /** 滚动距离 */
     scrollOffset: number
@@ -122,7 +122,7 @@ declare namespace VirtualListProps {
  * @supported weapp, swan, alipay, tt, qq, jd, h5
  * @example_react
  * ```tsx
- * import VirtualList from `@tarojs/components/virtual-list`
+ * import { VirtualList } from `@tarojs/components-advanced`
  *
  * function buildData (offset = 0) {
  *   return Array(100).fill(0).map((_, i) => i + offset);
@@ -161,7 +161,7 @@ declare namespace VirtualListProps {
  * ```js
  * // app.js 入口文件
  * import Vue from 'vue'
- * import VirtualList from '@tarojs/components/virtual-list'
+ * import { VirtualList } from '@tarojs/components-advanced'
  *
  * Vue.use(VirtualList)
  * ```
@@ -214,6 +214,7 @@ declare namespace VirtualListProps {
  * ```
  * @see https://taro-docs.jd.com/docs/virtual-list
  */
+
 declare class VirtualListComponent extends Component<VirtualListProps> {
   /**
    * 滚动到指定的地点。

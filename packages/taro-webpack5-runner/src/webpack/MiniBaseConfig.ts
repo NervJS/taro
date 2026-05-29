@@ -34,6 +34,7 @@ export class MiniBaseConfig extends BaseConfig {
       unused: true,
       conditionals: true,
       dead_code: true,
+      directives: false,
       evaluate: true,
     },
     output: {

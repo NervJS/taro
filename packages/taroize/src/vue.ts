@@ -8,7 +8,7 @@ import { parse, stringify } from 'himalaya-wxml'
 import { kebabCase } from 'lodash'
 
 import { replaceIdentifier, replaceMemberExpression } from './script'
-import { buildTemplateName, getWXMLsource } from './template'
+import { buildTemplateName, getWxmlSource } from './template'
 import { buildImportStatement, codeFrameError, getLineBreak, parseCode, setting, updateLogFileContent } from './utils'
 import {
   AllKindNode,
@@ -375,7 +375,7 @@ export function parseModule (element: Element, dirPath: string, imports: VueImpo
   }
 
   if (tagName === 'import') {
-    const wxml = getWXMLsource(dirPath, srcValue, tagName)
+    const wxml = getWxmlSource(dirPath, srcValue, tagName)
     const mods = parseWXML(resolve(dirPath, srcValue), wxml, imports || [])?.imports
     imports.push(...(mods || []))
   } else {

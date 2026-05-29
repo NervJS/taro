@@ -14,7 +14,7 @@ import {
   setting,
   updateLogFileContent,
 } from './utils'
-import { createWxmlVistor, parseWXML, WXS } from './wxml'
+import { createWxmlVisitor, parseWXML, WXS } from './wxml'
 
 import type { NodePath } from '@babel/traverse'
 
@@ -43,10 +43,10 @@ export function buildTemplateName (name: string, pascal = true): string {
 }
 
 /**
- * 支持import的src绝对路径转为相对路径
+ * 支持 import 的 src 绝对路径转为相对路径
  *
  * @param dirPath 文件目录的绝对路径
- * @param srcPath import的src路径
+ * @param srcPath import 的 src 路径
  * @returns 处理后的相对路径
  */
 export function getSrcRelPath (dirPath: string, srcPath: string) {
@@ -69,8 +69,8 @@ export function getSrcRelPath (dirPath: string, srcPath: string) {
 }
 
 /**
- * @description 预解析template模板
- * @param path template在AST中的区域
+ * @description 预解析 template 模板
+ * @param path template 在 AST 中的区域
  * @returns
  */
 export function preParseTemplate (path: NodePath<t.JSXElement>) {
@@ -89,7 +89,7 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
   if (!(name && t.isJSXAttribute(name.node))) {
     return
   }
-  // 获取template name
+  // 获取 template name
   const value = name.node.value
   if (value === null || !t.isStringLiteral(value)) {
     // @ts-ignore
@@ -105,11 +105,11 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
   }
   const templateName = buildTemplateName(value.value)
   const templateFuncs = new Set<string>()
-  const templateApplys = new Set<string>()
+  const templateApplies = new Set<string>()
   path.traverse({
     JSXAttribute (p) {
-      updateLogFileContent(`INFO [taroize] preParseTemplate - 解析JSXAttribute ${getLineBreak()}${p} ${getLineBreak()}`)
-      // 获取 template方法
+      updateLogFileContent(`INFO [taroize] preParseTemplate - 解析 JSXAttribute ${getLineBreak()}${p} ${getLineBreak()}`)
+      // 获取 template 方法
       const node = p.node
       if (
         t.isJSXExpressionContainer(node.value) &&
@@ -117,7 +117,7 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
         t.isThisExpression(node.value.expression.object) &&
         t.isIdentifier(node.value.expression.property)
       ) {
-        // funcName加入到funcs
+        // funcName 加入到 funcs
         const funcName = node.value.expression.property.name
         if (!templateFuncs.has(funcName)) {
           templateFuncs.add(funcName)
@@ -126,9 +126,9 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
     },
     JSXOpeningElement (p) {
       updateLogFileContent(
-        `INFO [taroize] preParseTemplate - 解析JSXOpeningElement ${getLineBreak()}${p} ${getLineBreak()}`
+        `INFO [taroize] preParseTemplate - 解析 JSXOpeningElement ${getLineBreak()}${p} ${getLineBreak()}`
       )
-      // 获取 template调用的模板
+      // 获取 template 调用的模板
       const attrs = p.get('attributes')
       const is = attrs.find(
         (attr) =>
@@ -153,17 +153,17 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
           position
         )
       }
-      // is的模板调用形式为 is="xxx", xxx为模板名或表达式
+      // is 的模板调用形式为 is="xxx", xxx 为模板名或表达式
       if (t.isStringLiteral(value)) {
         const apply = buildTemplateName(value.value)
-        templateApplys.add(apply)
+        templateApplies.add(apply)
       }
     },
   })
   return {
     name: templateName,
     funcs: templateFuncs,
-    applys: templateApplys,
+    applies: templateApplies,
   }
 }
 
@@ -206,13 +206,13 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
     if (value === null || !t.isStringLiteral(value)) {
       throw new Error('template 的 `name` 属性只能是字符串')
     }
-    // 收集template原始name, 作为map的key
+    // 收集 template 原始 name, 作为 map 的 key
     const templateName = value.value
     const className = buildTemplateName(value.value)
 
-    path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports))
+    path.traverse(createWxmlVisitor(loopIds, refIds, dirPath, [], imports))
 
-    // refIds中可能包含wxs模块，应从refIds中去除并单独以模块的形式导入
+    // refIds 中可能包含 wxs 模块，应从 refIds 中去除并单独以模块的形式导入
     const usedWxses = new Set<WXS>()
     const refdata = refIds
     refdata.forEach((refId) => {
@@ -250,7 +250,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
       t.classBody([render]),
       []
     )
-    // 添加withWeapp装饰器
+    // 添加 withWeapp 装饰器
     classDecl.decorators = [t.decorator(t.callExpression(t.identifier('withWeapp'), [t.objectExpression([])]))]
     path.remove()
     return {
@@ -363,7 +363,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
   )
 }
 
-export function getWXMLsource (dirPath: string, src: string, type: string) {
+export function getWxmlSource (dirPath: string, src: string, type: string) {
   try {
     let filePath = join(dirPath, src)
     if (!extname(filePath)) {
@@ -412,9 +412,9 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     // @ts-ignore
     const { line, column } = jsx.node?.position?.start || { line: 0, column: 0 }
     const position = { col: column, row: line }
-    updateLogFileContent(`ERROR [taroize] parseModule - ${type} 标签src AST节点未包含node ${getLineBreak()}`)
+    updateLogFileContent(`ERROR [taroize] parseModule - ${type} 标签 src AST 节点未包含 node ${getLineBreak()}`)
     throw new IReportError(
-      `${type} 标签src AST节点 必须包含node`,
+      `${type} 标签 src AST 节点 必须包含 node`,
       'WxmlTagSrcAttributeError',
       'WXML_FILE',
       astToCode(jsx.node) || '',
@@ -452,7 +452,7 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     )
   }
   if (type === 'import') {
-    const wxml = getWXMLsource(dirPath, srcValue, type)
+    const wxml = getWxmlSource(dirPath, srcValue, type)
     const { imports } = parseWXML(resolve(dirPath, srcValue), wxml, true)
     try {
       jsx.remove()
@@ -461,15 +461,15 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     }
     return imports
   } else {
-    const wxmlStr = getWXMLsource(dirPath, srcValue, type)
+    const wxmlStr = getWxmlSource(dirPath, srcValue, type)
     const block = buildBlockElement()
     if (wxmlStr === '') {
       if (jsx.node.children.length) {
         console.error(
-          `标签: <include src="${srcValue}"> 没有自动关闭。形如：<include src="${srcValue}" /> 才是标准的 wxml 格式。`
+          `标签：<include src="${srcValue}"> 没有自动关闭。形如：<include src="${srcValue}" /> 才是标准的 wxml 格式。`
         )
         updateLogFileContent(
-          `WARN [taroize] parseModule - 标签: <include src="${srcValue}"> 没有自动关闭 ${getLineBreak()}`
+          `WARN [taroize] parseModule - 标签：<include src="${srcValue}"> 没有自动关闭 ${getLineBreak()}`
         )
       }
       jsx.remove()

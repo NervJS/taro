@@ -1,4 +1,4 @@
-import multiPlatformPlugin from '../common/multi-platform-plugin'
+import multiPlatformPlugin from '../common/vite-plugin-multi-platform'
 import { assetPlugin } from './asset'
 import importPlugin from './babel'
 import { compileModePrePlugin } from './compile'

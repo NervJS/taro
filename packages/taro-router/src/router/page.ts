@@ -90,8 +90,8 @@ export default class PageHandler {
         return false
       }
     )?.[0] || routePath
-
-    return !!pagePath && this.tabBarList.some(t => stripTrailing(t.pagePath) === pagePath)
+    // Fix: 这里仍然需要使用 addLeadingSlash 来处理 pagePath，因为 pagePath 可能在未被增加统一前缀 / 的时候就进行比对
+    return !!pagePath && this.tabBarList.some(t => addLeadingSlash(stripTrailing(t.pagePath)) === pagePath)
   }
 
   isDefaultNavigationStyle () {

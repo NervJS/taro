@@ -1,4 +1,4 @@
-import './style/index.css'
+import './style/index.scss'
 
 import classNames from 'classnames'
 
@@ -32,6 +32,7 @@ function Image (props: IProps) {
     forwardedRef,
     ...reset
   } = props
+
   const cls = classNames(
     'taro-img',
     {

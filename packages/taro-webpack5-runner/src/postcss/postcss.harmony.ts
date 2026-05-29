@@ -83,7 +83,7 @@ export const getPostcssPlugins = function (appPath: string, option: [string, Tog
 
     if (!isNpmPkg(pluginName)) {
       // local plugin
-      pluginName = path.join(appPath, pluginName)
+      pluginName = path.isAbsolute(pluginName) ? pluginName : path.join(appPath, pluginName)
     }
 
     try {

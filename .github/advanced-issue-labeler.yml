@@ -1,0 +1,197 @@
+# syntax - https://github.com/redhat-plumbers-in-action/advanced-issue-labeler#policy
+---
+policy:
+  - template: [bug_report.yml]
+    section:
+      - id: [version]
+        label:
+          - name: V-4
+            keys: [v4]
+          - name: V-3
+            keys: [v3]
+          - name: V-2
+            keys: [v2]
+          - name: V-1
+            keys: [v1]
+
+      - id: [platform]
+        label:
+          - name: T-h5
+            keys: ["所有平台", "Web 端（H5）"]
+
+          - name: T-rn
+            keys: ["所有平台", "移动端（React-Native）"]
+
+          - name: T-harmony
+            keys: ["所有平台", "鸿蒙（Harmony）"]
+
+          - name: T-harmony_hybrid
+            keys: ["所有平台", "鸿蒙容器（Harmony Hybrid）"]
+
+          - name: T-quickapp
+            keys: ["所有平台", "快应用（QuickApp）"]
+
+          - name: T-weapp
+            keys: ["所有平台", "微信小程序", "所有小程序"]
+
+          - name: T-jd
+            keys: ["所有平台", "京东小程序", "所有小程序"]
+
+          - name: T-swan
+            keys: ["所有平台", "百度小程序", "所有小程序"]
+
+          - name: T-alipay
+            keys: ["所有平台", "支付宝小程序", "所有小程序"]
+
+          - name: T-tt
+            keys: ["所有平台", "头条小程序", "所有小程序"]
+
+          - name: T-qq
+            keys: ["所有平台", "QQ 小程序", "所有小程序"]
+
+          - name: T-dd
+            keys: ["所有平台", "钉钉小程序", "所有小程序"]
+
+          - name: T-qy
+            keys: ["所有平台", "企业微信小程序", "所有小程序"]
+
+          - name: T-feishu
+            keys: ["所有平台", "飞书小程序", "所有小程序"]
+
+          - name: T-kwai
+            keys: ["所有平台", "快手小程序", "所有小程序"]
+
+      - id: [framework]
+        label:
+          - name: F-preact
+            keys: [Preact]
+          - name: F-react
+            keys: [React]
+          - name: F-solid
+            keys: [Solid]
+          - name: F-vue3
+            keys: [Vue3]
+          - name: F-vue2
+            keys: [Vue2]
+
+      - id: [area]
+        label:
+          - name: A-api
+            keys: ["H5 API"]
+          - name: A-babel
+            keys: ["Babel"]
+          - name: A-cli
+            keys: ["CLI"]
+          - name: A-components
+            keys: ["H5 组件库"]
+          - name: A-components-advanced
+            keys: ["高阶组件"]
+          - name: A-router
+            keys: ["H5 路由"]
+          - name: A-loader
+            keys: ["Webpack loader"]
+          - name: A-runner
+            keys: ["Webpack runner"]
+          - name: A-plugin
+            keys: ["插件化机制"]
+          - name: A-PreBundle
+            keys: ["依赖预编译"]
+          - name: A-runtime
+            keys: ["运行时"]
+          - name: A-taroize
+            keys: ["Taro 化"]
+          - name: A-typings
+            keys: ["TypeScript 类型"]
+          - name: perf
+            keys: ["性能问题"]
+
+  - template: [feature_request.yml]
+    section:
+      - id: [platform]
+        label:
+          - name: T-h5
+            keys: ["所有平台", "Web 端（H5）"]
+
+          - name: T-rn
+            keys: ["所有平台", "移动端（React-Native）"]
+
+          - name: T-harmony
+            keys: ["所有平台", "鸿蒙（Harmony）"]
+
+          - name: T-harmony_hybrid
+            keys: ["所有平台", "鸿蒙容器（Harmony Hybrid）"]
+
+          - name: T-quickapp
+            keys: ["所有平台", "快应用（QuickApp）"]
+
+          - name: T-weapp
+            keys: ["所有平台", "微信小程序", "所有小程序"]
+
+          - name: T-jd
+            keys: ["所有平台", "京东小程序", "所有小程序"]
+
+          - name: T-swan
+            keys: ["所有平台", "百度小程序", "所有小程序"]
+
+          - name: T-alipay
+            keys: ["所有平台", "支付宝小程序", "所有小程序"]
+
+          - name: T-tt
+            keys: ["所有平台", "头条小程序", "所有小程序"]
+
+          - name: T-qq
+            keys: ["所有平台", "QQ 小程序", "所有小程序"]
+
+          - name: T-dd
+            keys: ["所有平台", "钉钉小程序", "所有小程序"]
+
+          - name: T-qy
+            keys: ["所有平台", "企业微信小程序", "所有小程序"]
+
+          - name: T-feishu
+            keys: ["所有平台", "飞书小程序", "所有小程序"]
+
+          - name: T-kwai
+            keys: ["所有平台", "快手小程序", "所有小程序"]
+
+      - id: [framework]
+        label:
+          - name: F-preact
+            keys: [Preact]
+          - name: F-react
+            keys: [React]
+          - name: F-solid
+            keys: [Solid]
+          - name: F-vue3
+            keys: [Vue3]
+          - name: F-vue2
+            keys: [Vue2]
+
+      - id: [area]
+        label:
+          - name: A-api
+            keys: ["H5 API"]
+          - name: A-babel
+            keys: ["Babel"]
+          - name: A-cli
+            keys: ["CLI"]
+          - name: A-components
+            keys: ["H5 组件库"]
+          - name: A-components-advanced
+            keys: ["高阶组件"]
+          - name: A-router
+            keys: ["H5 路由"]
+          - name: A-loader
+            keys: ["Webpack loader"]
+          - name: A-runner
+            keys: ["Webpack runner"]
+          - name: A-plugin
+            keys: ["插件化机制"]
+          - name: A-PreBundle
+            keys: ["依赖预编译"]
+          - name: A-runtime
+            keys: ["运行时"]
+          - name: A-taroize
+            keys: ["Taro 化"]
+          - name: A-typings
+            keys: ["TypeScript 类型"]

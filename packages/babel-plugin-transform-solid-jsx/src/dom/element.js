@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import * as t from '@babel/types'
 
 import {

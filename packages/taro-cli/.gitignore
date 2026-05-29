@@ -1,6 +1,7 @@
 templates/*
 !templates/default
 templates/default/.*
+!templates/default/.husky
 !templates/global-config
 !templates/plugin-compile
 !src/__tests__/env/.*

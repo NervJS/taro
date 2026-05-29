@@ -221,7 +221,7 @@ export class Prerender {
       return data[Shortcuts.Text]
     }
 
-    if (nodeName === 'static-view' || nodeName === 'pure-view') {
+    if (nodeName === 'static-view' || nodeName === 'pure-view' || nodeName === 'click-view') {
       nodeName = 'view'
     } else if (nodeName === 'static-text') {
       nodeName = 'text'

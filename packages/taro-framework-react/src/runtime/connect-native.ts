@@ -244,7 +244,7 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
     [ONUNLOAD] () {
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
-      window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
+      window.trigger(CONTEXT_ACTIONS.DESTROY, $taroPath)
       // 触发onUnload生命周期
       safeExecute($taroPath, ONUNLOAD)
       resetCurrent()
@@ -345,20 +345,20 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
 export function createH5NativeComponentConfig (
   Component,
   react: typeof React,
-  reactdom: typeof ReactDOM,
+  reactDOM: typeof ReactDOM,
 ) {
   reactMeta.R = react
   h = react.createElement
-  ReactDOM = reactdom
+  ReactDOM = reactDOM
   setReconciler(ReactDOM)
 
   return Component
 }
 
-export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig) {
+export function createNativeComponentConfig (Component, react: typeof React, reactDOM, componentConfig) {
   reactMeta.R = react
   h = react.createElement
-  ReactDOM = reactdom
+  ReactDOM = reactDOM
   setReconciler(ReactDOM)
   const { isNewBlended } = componentConfig
 

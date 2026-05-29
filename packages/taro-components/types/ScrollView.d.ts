@@ -3,40 +3,40 @@ import { BaseEventOrigFunction, CommonEventFunction, StandardProps } from './com
 interface ScrollViewProps extends StandardProps {
   /** 允许横向滚动
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
    * @rn 二选一
    */
   scrollX?: boolean
   /** 允许纵向滚动
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
    * @rn 二选一
    */
   scrollY?: boolean
   /** 距顶部/左边多远时（单位px），触发 scrolltoupper 事件
    * @default 50
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   upperThreshold?: number
   /** 距底部/右边多远时（单位px），触发 scrolltolower 事件
    * @default 50
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   lowerThreshold?: number
   /** 设置竖向滚动条位置
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   scrollTop?: number
   /** 设置横向滚动条位置
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   scrollLeft?: number
   /** 值应为某子元素id（id不能以数字开头）。设置哪个方向可滚动，则在哪个方向滚动到该元素
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, ascf
    */
   scrollIntoView?: string
   /** 在设置滚动条位置时使用动画过渡
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    * @default false
    */
   scrollWithAnimation?: boolean
@@ -56,32 +56,32 @@ interface ScrollViewProps extends StandardProps {
    */
   scrollAnchoring?: boolean
   /** 开启自定义下拉刷新
-   * @supported weapp
+   * @supported weapp, ascf
    * @default false
    */
   refresherEnabled?: boolean
   /** 设置自定义下拉刷新阈值
-   * @supported weapp
+   * @supported weapp, ascf
    * @default 45
    */
   refresherThreshold?: number
   /** 设置自定义下拉刷新默认样式，支持设置 `black | white | none`， none 表示不使用默认样式
-   * @supported weapp
+   * @supported weapp, ascf
    * @default 'black'
    */
   refresherDefaultStyle?: string
   /** 设置自定义下拉刷新区域背景颜色
-   * @supported weapp
+   * @supported weapp, ascf
    * @default '#FFF'
    */
   refresherBackground?: string
   /** 设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发
-   * @supported weapp
+   * @supported weapp, ascf
    * @default false
    */
   refresherTriggered?: boolean
   /** 启用 scroll-view 增强特性
-   * @supported weapp, swan
+   * @supported weapp, swan, ascf
    * @default false
    */
   enhanced?: boolean
@@ -96,7 +96,7 @@ interface ScrollViewProps extends StandardProps {
    */
   bounces?: boolean
   /** 滚动条显隐控制 (同时开启 enhanced 属性后生效)
-   * @supported weapp, harmony
+   * @supported weapp, harmony, ascf
    * @default true
    */
   showScrollbar?: boolean
@@ -144,6 +144,14 @@ interface ScrollViewProps extends StandardProps {
    * @default 'list'
    */
   type?: 'list' | 'custom' | 'nested'
+  /** 关联的滚动容器
+   * draggable-sheet	  - 关联 draggable-sheet 组件	3.2.0
+   * nested-scroll-view	- 关联 type=nested 嵌套模式	3.2.0
+   * pop-gesture	      - 关联 页面手势返回 3.4.0
+   * @supported weapp
+   * @default ''
+   */
+  associativeContainer?: 'draggable-sheet' | 'nested-scroll-view' | 'pop-gesture'
   /** 是否反向滚动。一般初始滚动位置是在顶部，反向滚动则是在底部。
    * @supported weapp
    * @default false
@@ -289,6 +297,22 @@ interface ScrollViewProps extends StandardProps {
    * @supported alipay
    */
   onTouchCancel?: CommonEventFunction
+  /** 同 bindscrollstart，但仅支持 worklet 作为回调
+   * @supported weapp
+   */
+  onScrollStartWorklet?: string
+  /** 同 bindscroll ，但仅支持 worklet 作为回调
+   * @supported weapp
+   */
+  onScrollUpdateWorklet?: string
+  /** 同 bindscrollend，但仅支持 worklet 作为回调
+   * @supported weapp
+   */
+  onScrollEndWorklet?: string
+  /** 指定手指抬起时做惯性滚动的初速度。(velocity: number) => number
+   * @supported weapp
+   */
+  adjustDecelerationVelocityWorklet?: string
 }
 declare namespace ScrollViewProps {
   interface onScrollDetail {
@@ -343,7 +367,7 @@ declare namespace ScrollViewProps {
  * H5 中 ScrollView 组件是通过一个高度（或宽度）固定的容器内部滚动来实现的，因此务必正确的设置容器的高度。例如: 如果 ScrollView 的高度将 body 撑开，就会同时存在两个滚动条（body 下的滚动条，以及 ScrollView 的滚动条）。
  * 微信小程序 中 ScrollView 组件如果设置 scrollX 横向滚动时，并且子元素为多个时（单个子元素时设置固定宽度则可以正常横向滚动），需要通过 WXSS 设置 `white-space: nowrap` 来保证元素不换行，并对 ScrollView 内部元素设置 `display: inline-block` 来使其能够横向滚动。
  * @classification viewContainer
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

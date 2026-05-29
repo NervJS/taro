@@ -2,7 +2,7 @@
  * Modify from https://github.com/ionic-team/stencil-ds-output-targets/blob/main/packages/react-output-target/react-component-lib/utils/index.ts
  * MIT License https://github.com/ionic-team/stencil-ds-output-targets/blob/main/LICENSE
  */
-import React from 'react'
+import React, { PropsWithoutRef } from 'react'
 
 import type { StyleReactProps } from '../interfaces'
 
@@ -34,7 +34,7 @@ export const mergeRefs = (
 
 export const createForwardRef = <PropType, ElementType>(ReactComponent: any, displayName: string) => {
   const forwardRef = (
-    props: StencilReactExternalProps<PropType, ElementType>,
+    props: PropsWithoutRef<StencilReactExternalProps<PropType, ElementType>>,
     ref: StencilReactForwardedRef<ElementType>
   ) => {
     return <ReactComponent {...props} forwardedRef={ref} />

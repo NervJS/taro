@@ -2,7 +2,7 @@ import Taro from '@tarojs/api'
 import { history } from '@tarojs/router'
 import { isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 
-import { getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, switchTab } from '../api'
+import { getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, router, switchTab, worklet } from '../api'
 import { permanentlyNotSupport } from '../utils'
 
 const {
@@ -19,7 +19,9 @@ const {
   preload
 } = Taro as any
 
-const taro: typeof Taro = {
+type ModifiedTaro = Omit<typeof Taro, 'router'> & { router: any };
+
+const taro: ModifiedTaro = {
   // @ts-ignore
   Behavior,
   getEnv,
@@ -40,7 +42,9 @@ const taro: typeof Taro = {
   reLaunch,
   redirectTo,
   getCurrentPages,
-  switchTab
+  switchTab,
+  router,
+  worklet,
 }
 
 const requirePlugin = /* @__PURE__ */ permanentlyNotSupport('requirePlugin')

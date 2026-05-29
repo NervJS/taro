@@ -95,6 +95,7 @@ const defaultMiniLifecycle: MiniLifecycle = {
       'defer:onTabItemTap', // defer: 需要等页面组件挂载后再调用
       'onTitleClick',
       'onOptionMenuClick',
+      'events:onKeyboardHeight', // events: 支付宝平台需要挂载到 config.events 上
       'onPopMenuClick',
       'onPullIntercept',
       'onAddToFavorites'

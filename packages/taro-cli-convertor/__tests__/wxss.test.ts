@@ -9,7 +9,7 @@ const path = require('path')
 
 jest.mock('path')
 
-describe('引入外部wxss文件', () => {
+describe('引入外部 wxss 文件', () => {
   beforeAll(() => {
     jest.spyOn(Convertor.prototype, 'init').mockImplementation(() => {})
   })
@@ -19,7 +19,7 @@ describe('引入外部wxss文件', () => {
     clearMockFiles()
   })
 
-  test('相对路径引入外部wxss', async () => {
+  test('相对路径引入外部 wxss', async () => {
     const wxssStr = `
       @import "../common.wxss";
       .scrollarea {
@@ -45,7 +45,7 @@ describe('引入外部wxss文件', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 
-  test('绝对路径引入外部wxss', async () => {
+  test('绝对路径引入外部 wxss', async () => {
     const wxssStr = `
       @import "/pages/common.wxss";
       .scrollarea {
@@ -71,7 +71,7 @@ describe('引入外部wxss文件', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 
-  test('引入外部wxss，无后缀', async () => {
+  test('引入外部 wxss，无后缀', async () => {
     const wxssStr = `
       @import "/pages/common";
       .scrollarea {

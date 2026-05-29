@@ -88,7 +88,11 @@ export const config: Config = {
     { components: ['taro-swiper-core', 'taro-swiper-item-core'] },
     { components: ['taro-video-core', 'taro-video-control', 'taro-video-danmu'] }
   ],
-  buildEs5: 'prod',
+  /**
+   * Note: Taro内部有很多地方都直接引用了dist/components，最终的编译产物中有很多super()，导致低版安装白屏
+   * 为彻底解决此包导致的白屏问题，故暂不在包构建是转为es5，而是将此包加入到项目的babel编译中
+   */
+  // buildEs5: 'prod',
   /**
    * Note: 由于 Stencil 的获取 jest 依赖的方式，硬链接模式下仅可使用更目录依赖的版本，所以当前未将相关依赖置于 devDependencies 中声明。
    * 该问题可以通过为 pnpm 新增配置 `package-import-method: clone-or-copy` 修复，不过由于在 Mac 中，[NodeJS 存在问题问题](https://github.com/libuv/libuv/pull/2578)，

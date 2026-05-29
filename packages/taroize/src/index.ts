@@ -34,7 +34,7 @@ interface Option {
   templatePath?: string
 }
 
-export function parse (option: Option) {
+export default function parse (option: Option) {
   resetGlobals(option.rootPath, option.logFilePath)
   updateLogFileContent(
     `INFO [taroize] parse - 入参 ${getLineBreak()}option: ${JSON.stringify(option)} ${getLineBreak()}`

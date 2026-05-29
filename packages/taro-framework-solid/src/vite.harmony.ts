@@ -15,10 +15,10 @@ export function harmonyVitePlugin (ctx: IPluginContext): PluginOption {
 function injectLoaderMeta (ctx: IPluginContext): PluginOption {
   return {
     name: 'taro-solid:loader-meta',
-    buildStart () {
+    async buildStart () {
       const { runnerUtils } = ctx
       const { getViteHarmonyCompilerContext } = runnerUtils
-      const viteCompilerContext = getViteHarmonyCompilerContext(this)
+      const viteCompilerContext = await getViteHarmonyCompilerContext(this)
       if (viteCompilerContext) {
         viteCompilerContext.loaderMeta ||= {}
         Object.assign(viteCompilerContext.loaderMeta, getLoaderMeta())

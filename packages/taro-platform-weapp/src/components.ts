@@ -14,7 +14,8 @@ export const components = {
   },
   RichText: {
     space: _empty,
-    'user-select': _false
+    'user-select': _false,
+    mode: "'default'"
   },
   Text: {
     'user-select': _false,
@@ -85,8 +86,13 @@ export const components = {
     'safe-password-salt': '',
     'safe-password-custom-hash': '',
     'auto-fill': _empty,
+    'cursor-color': '',
     bindKeyboardHeightChange: _empty,
-    bindNicknameReview: _empty
+    bindNicknameReview: _empty,
+    bindSelectionChange: _empty,
+    bindKeyboardCompositionStart: _empty,
+    bindKeyboardCompositionUpdate: _empty,
+    bindKeyboardCompositionEnd: _empty,
   },
   Picker: {
     'header-text': _empty,
@@ -108,7 +114,12 @@ export const components = {
     'disable-default-padding': _false,
     'confirm-type': "'return'",
     'confirm-hold': _false,
-    bindKeyboardHeightChange: _empty
+    'adjust-keyboard-to': "'cursor'",
+    bindKeyboardHeightChange: _empty,
+    bindSelectionChange: _empty,
+    bindKeyboardCompositionStart: _empty,
+    bindKeyboardCompositionUpdate: _empty,
+    bindKeyboardCompositionEnd: _empty,
   },
   ScrollView: {
     'enable-flex': _false,
@@ -126,6 +137,7 @@ export const components = {
     'show-scrollbar': _true,
     'fast-deceleration': _false,
     type: "'list'",
+    'associative-container': "''",
     reverse: _false,
     clip: _true,
     'enable-back-to-top': _false,
@@ -194,7 +206,19 @@ export const components = {
   },
   Swiper: {
     'snap-to-edge': _false,
-    'easing-function': "'default'"
+    'easing-function': "'default'",
+    'layout-type': "'normal'",
+    'transformer-type': "'scaleAndFade'",
+    'indicator-type': "'normal'",
+    'indicator-margin': '10',
+    'indicator-spacing': '4',
+    'indicator-radius': '4',
+    'indicator-width': '8',
+    'indicator-height': '8',
+    'indicator-alignment': "'auto'",
+    'indicator-offset': '[0, 0]',
+    'scroll-with-animation': _true,
+    'cache-extent': '0',
   },
   SwiperItem: {
     'skip-hidden-item-layout': _false
@@ -215,7 +239,8 @@ export const components = {
   },
   Image: {
     webp: _false,
-    'show-menu-by-longpress': _false
+    'show-menu-by-longpress': _false,
+    'fade-in': _false
   },
   LivePlayer: {
     mode: "'live'",
@@ -432,7 +457,11 @@ export const components = {
     mapkey: _empty,
     transform: _false,
     duration: '300',
-    'easing-function': "'ease-out'"
+    'easing-function': "'ease-out'",
+    'transition-on-gesture': _false,
+    'shuttle-on-push': "'to'",
+    'shuttle-on-pop': "'to'",
+    'rect-tween-type': "'materialRectArc'"
   },
   KeyboardAccessory: {},
   RootPortal: {
@@ -476,4 +505,13 @@ export const components = {
   },
   NestedScrollHeader: {},
   NestedScrollBody: {},
+  // skyline手势组件
+  DoubleTapGestureHandler: {},
+  ForcePressGestureHandler: {},
+  HorizontalDragGestureHandler: {},
+  LongPressGestureHandler: {},
+  PanGestureHandler: {},
+  ScaleGestureHandler: {},
+  TapGestureHandler: {},
+  VerticalDragGestureHandler: {},
 }

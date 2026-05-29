@@ -1,4 +1,4 @@
-import { parse } from '../src'
+import parse from '../src'
 import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
 
 expect.addSnapshotSerializer(removeBackslashesSerializer)
@@ -31,7 +31,7 @@ describe('parseScript', () => {
     }
   })
 
-  // 解析app.js
+  // 解析 app.js
   test('app.js', () => {
     option.script = `
       App({
@@ -40,7 +40,7 @@ describe('parseScript', () => {
           }
       })
     `
-    // app.js 没有对应的wxml文件
+    // app.js 没有对应的 wxml 文件
     option.wxml = undefined
     option.path = 'app_js'
     option.isApp = true
@@ -59,7 +59,7 @@ describe('parseScript', () => {
           }
       })
     `
-    // app.js 没有对应的wxml文件
+    // app.js 没有对应的 wxml 文件
     option.wxml = undefined
     option.path = 'getApp_or_getCurrentPages'
     option.isApp = true
@@ -68,7 +68,7 @@ describe('parseScript', () => {
     expect(code).toMatchSnapshot()
   })
 
-  // 当wxml是纯文本
+  // 当 wxml 是纯文本
   test('wxml jsxText', () => {
     option.script = `Page({})`
     option.wxml = `123`
@@ -79,7 +79,7 @@ describe('parseScript', () => {
     expect(code).toMatchSnapshot()
   })
 
-  // 当wxml存在变量
+  // 当 wxml 存在变量
   test('wxml expression', () => {
     option.script = `
       Page({
@@ -98,7 +98,7 @@ describe('parseScript', () => {
 
   test('CommonJS 导出页面', () => {
     /**
-     *  wxs内容
+     *  wxs 内容
      * module.exports = {
           date:'2023-11-11'
         }
@@ -125,9 +125,9 @@ describe('parseScript', () => {
     expect(code).toMatchSnapshot()
   })
 
-  test('page页面通过插件url跳转到插件页面', () => {
+  test('page 页面通过插件 url 跳转到插件页面', () => {
     /**
-     * plugin的目录结构以及内容
+     * plugin 的目录结构以及内容
      *  /plugin/plugin.json:"{
                                 "pages": {
                                   "hello-page": "pages/hello-page"
@@ -157,13 +157,13 @@ describe('parseScript', () => {
         }
       })`
     option.scriptPath = '/wxProject/miniprogram/pages/index/index.js'
-    option.wxml = `<button bindtap="pluginUrl">跳转到plugin</button>`
+    option.wxml = `<button bindtap="pluginUrl">跳转到 plugin</button>`
     option.isApp = false
     const { ast } = parse(option)
     const code = generateMinimalEscapeCode(ast)
     expect(code).toMatchSnapshot()
   })
-  test('page页面因通过动态插件url跳转到插件页面失败', () => {
+  test('page 页面因通过动态插件 url 跳转到插件页面失败', () => {
     option.pluginInfo = {
       pluginRoot: '/wxProject/plugin',
       pluginName: 'hello-plugin',
@@ -184,13 +184,13 @@ describe('parseScript', () => {
         }
       })`
     option.scriptPath = '/wxProject/miniprogram/pages/index/index.js'
-    option.wxml = `<button bindtap="pluginUrl">动态插件url跳转失败</button>`
+    option.wxml = `<button bindtap="pluginUrl">动态插件 url 跳转失败</button>`
     option.isApp = false
     const { ast } = parse(option)
     const code = generateMinimalEscapeCode(ast)
     expect(code).toMatchSnapshot()
   })
-  test('page页面因通过非插件url跳转到插件页面失败', () => {
+  test('page 页面因通过非插件 url 跳转到插件页面失败', () => {
     option.pluginInfo = {
       pluginRoot: '/wxProject/plugin',
       pluginName: 'hello-plugin',
@@ -210,7 +210,7 @@ describe('parseScript', () => {
       }
     })`
     option.scriptPath = '/wxProject/miniprogram/pages/index/index.js'
-    option.wxml = `<button bindtap="pluginUrl">非插件url路径跳转失败</button>`
+    option.wxml = `<button bindtap="pluginUrl">非插件 url 路径跳转失败</button>`
     option.isApp = false
     const { ast } = parse(option)
     const code = generateMinimalEscapeCode(ast)

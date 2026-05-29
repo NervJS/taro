@@ -121,7 +121,7 @@ const _Input = (props: InputProps) => {
       if (typeof result === 'string') {
         tmpValue.current = result
         setReturnValue(result)
-      } else if (returnValue) {
+      } else if (returnValue !== undefined) {
         // 为了处理输入不合法，setState 相同值时，状态不更新，UI 也得不到更新，重置状态进而更新
         setReturnValue(undefined)
       }

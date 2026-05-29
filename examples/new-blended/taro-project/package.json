@@ -30,13 +30,13 @@
     "@tarojs/shared": "3.6.12",
     "@tarojs/taro": "3.6.12",
     "@tarojs/webpack5-runner": "3.6.12",
-    "react": "^16.10.0",
-    "react-dom": "^16.10.0"
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
     "@tarojs/plugin-indie": "0.0.8",
-    "@types/react": "^16.0.0",
+    "@types/react": "^18",
     "@types/webpack-env": "^1.13.6",
     "babel-preset-taro": "3.6.12",
     "eslint": "^8.12.0",

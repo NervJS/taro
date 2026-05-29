@@ -8,16 +8,16 @@ interface TextProps extends StandardProps {
   selectable?: boolean
   /** 文本是否可选，该属性会使文本节点显示为 inline-block
    * @default false
-   * @supported weapp, h5, harmony_hybrid
+   * @supported weapp, h5, harmony_hybrid, ascf
    */
   userSelect?: boolean
   /** 显示连续空格
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, ascf
    */
   space?: keyof TextProps.TSpace
   /** 是否解码
    * @default false
-   * @supported weapp, alipay, tt, qq, jd
+   * @supported weapp, alipay, tt, qq, jd, ascf
    * @h5 默认解码，不支持设置
    */
   decode?: boolean
@@ -27,7 +27,7 @@ interface TextProps extends StandardProps {
   numberOfLines?: number
   /**
    * 文本溢出处理
-   * @supported weapp-skyline
+   * @supported weapp
    * @default 'visible'
    */
   overflow?: keyof TextProps.Overflow
@@ -59,7 +59,7 @@ declare namespace TextProps {
 }
 /** 文本
  * @classification base
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

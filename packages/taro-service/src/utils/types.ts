@@ -151,7 +151,7 @@ export declare interface IPluginContext {
   /**
    * 编译中修改 vite 配置
    */
-  modifyViteConfig: (fn: (args: { viteConfig: any, data?: IModifyChainData }) => void) => void
+  modifyViteConfig: (fn: (args: { viteConfig: any, data?: IModifyChainData, viteCompilerContext: any }) => void) => void
   /**
    * 修改编译后的结果
    */

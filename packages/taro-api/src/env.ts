@@ -1,4 +1,5 @@
 export const ENV_TYPE = {
+  ASCF: 'ASCF',
   WEAPP: 'WEAPP',
   SWAN: 'SWAN',
   ALIPAY: 'ALIPAY',
@@ -35,6 +36,8 @@ export function getEnv () {
     return ENV_TYPE.HARMONY
   } else if (process.env.TARO_ENV === 'quickapp') {
     return ENV_TYPE.QUICKAPP
+  } else if (process.env.TARO_ENV === 'ascf') {
+    return ENV_TYPE.ASCF
   } else {
     return process.env.TARO_ENV || 'Unknown'
   }

@@ -72,7 +72,7 @@ class App extends React.Component {
 export default App;
 `;
 
-exports[`parseScript page页面因通过动态插件url跳转到插件页面失败 1`] = `
+exports[`parseScript page 页面因通过动态插件 url 跳转到插件页面失败 1`] = `
 import { Block, Button } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -90,13 +90,13 @@ Page({
 @withWeapp(cacheOptions.getOptionsFromCache())
 class _C extends React.Component {
   render() {
-    return <Button onClick={this.pluginUrl}>动态插件url跳转失败</Button>;
+    return <Button onClick={this.pluginUrl}>动态插件 url 跳转失败</Button>;
   }
 }
 export default _C;
 `;
 
-exports[`parseScript page页面因通过非插件url跳转到插件页面失败 1`] = `
+exports[`parseScript page 页面因通过非插件 url 跳转到插件页面失败 1`] = `
 import { Block, Button } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -113,13 +113,13 @@ Page({
 @withWeapp(cacheOptions.getOptionsFromCache())
 class _C extends React.Component {
   render() {
-    return <Button onClick={this.pluginUrl}>非插件url路径跳转失败</Button>;
+    return <Button onClick={this.pluginUrl}>非插件 url 路径跳转失败</Button>;
   }
 }
 export default _C;
 `;
 
-exports[`parseScript page页面通过插件url跳转到插件页面 1`] = `
+exports[`parseScript page 页面通过插件 url 跳转到插件页面 1`] = `
 import { Block, Button } from "@tarojs/components";
 import React from "react";
 import Taro from "@tarojs/taro";
@@ -136,7 +136,7 @@ Page({
 @withWeapp(cacheOptions.getOptionsFromCache())
 class _C extends React.Component {
   render() {
-    return <Button onClick={this.pluginUrl}>跳转到plugin</Button>;
+    return <Button onClick={this.pluginUrl}>跳转到 plugin</Button>;
   }
 }
 export default _C;

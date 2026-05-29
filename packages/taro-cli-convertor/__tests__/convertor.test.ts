@@ -27,7 +27,7 @@ jest.mock('path')
 
 describe('微信小程序转换', () => {
   beforeAll(() => {
-    // mock报告生成
+    // mock 报告生成
     jest.spyOn(Convertor.prototype, 'generateReport').mockImplementation(() => {})
 
     // 配置文件生成
@@ -43,7 +43,7 @@ describe('微信小程序转换', () => {
     clearMockFiles()
   })
 
-  test('小程序demo转换', () => {
+  test('小程序 demo 转换', () => {
     // 设置初始文件信息
     setMockFiles(root, DEMO_JS_FILE_INFO)
 
@@ -54,7 +54,7 @@ describe('微信小程序转换', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 
-  test('配置miniprogramRoot的demo小程序转换', () => {
+  test('配置 miniprogramRoot 的 demo 小程序转换', () => {
     // 设置初始文件信息
     setMockFiles(root, DEMO_JS_FILE_INFO_MINIPROGRANROOT)
 
@@ -77,7 +77,7 @@ describe('微信小程序转换', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 
-  test('小程序tabber转换', () => {
+  test('小程序 tabber 转换', () => {
     setMockFiles(root, DEMO_TABBER)
     const convertor = new Convertor(root, false)
     convertor.run()
@@ -86,7 +86,7 @@ describe('微信小程序转换', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 
-  test('小程序自定义tabber转换', () => {
+  test('小程序自定义 tabber 转换', () => {
     setMockFiles(root, DEMO_CUSTOM_TABBER)
     const convertor = new Convertor(root, false)
     convertor.run()
@@ -144,7 +144,7 @@ describe('微信小程序转换', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 
-  test('使用工具函数初始化page页面', () => {
+  test('使用工具函数初始化 page 页面', () => {
     const EDMO_CREATEPAGE = {
       '/app.json': `
         {
@@ -174,7 +174,7 @@ describe('微信小程序转换', () => {
 
 describe('配置文件解析转换', () => {
   beforeAll(() => {
-    // mock报告生成
+    // mock 报告生成
     jest.spyOn(Convertor.prototype, 'generateReport').mockImplementation(() => {})
 
     // 配置文件生成
@@ -190,7 +190,7 @@ describe('配置文件解析转换', () => {
     clearMockFiles()
   })
 
-  test('适配convert.config.json，对匹配json内路径的文件，在其被导入时所在的文件夹不做转换', () => {
+  test('适配 convert.config.json，对匹配 json 内路径的文件，在其被导入时所在的文件夹不做转换', () => {
     setMockFiles(root, DEMO_JS_FILE_INFO)
     updateMockFiles(root, CONVERT_CONFIG_DATA)
 
@@ -202,7 +202,7 @@ describe('配置文件解析转换', () => {
     )
   })
 
-  test('小程序sitemap.json文件的转换', () => {
+  test('小程序 sitemap.json 文件的转换', () => {
     setMockFiles(root, DEMO_JS_FILE_INFO)
     const DEMO_SITEMAP = {
       '/app.json': `
@@ -233,7 +233,7 @@ describe('配置文件解析转换', () => {
 
 describe('文件转换', () => {
   beforeAll(() => {
-    // mock报告生成
+    // mock 报告生成
     jest.spyOn(Convertor.prototype, 'generateReport').mockImplementation(() => {})
 
     // 配置文件生成
@@ -249,10 +249,10 @@ describe('文件转换', () => {
     clearMockFiles()
   })
 
-  test('文件中包含commonjs导出转换', () => {
+  test('文件中包含 commonjs 导出转换', () => {
     setMockFiles(root, DEMO_JS_FILE_INFO)
 
-    // js文件中包含commonjs导出
+    // js 文件中包含 commonjs 导出
     const COMMONJS_EXPORTS_DATA = {
       '/utils/util.js': `
         function getData(url) {
@@ -272,11 +272,11 @@ describe('文件转换', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 
-  // 因wxss的解析函数是异步，样式文件的转换在结果返回之后，用例运行正常说明转换正常
-  test('wxss的注释中引用自身文件', () => {
-    // 场景1：wxss的注释中引用自身文件
-    // 场景2：wxss引用其他wxss文件
-    // 场景2：wxss引用的wxss文件内容为空
+  // 因 wxss 的解析函数是异步，样式文件的转换在结果返回之后，用例运行正常说明转换正常
+  test('wxss 的注释中引用自身文件', () => {
+    // 场景 1：wxss 的注释中引用自身文件
+    // 场景 2：wxss 引用其他 wxss 文件
+    // 场景 2：wxss 引用的 wxss 文件内容为空
     setMockFiles(root, DEMO_JS_FILE_INFO)
 
     const COMMENT_PAGE_DATA = {
@@ -292,7 +292,7 @@ describe('文件转换', () => {
         }
       `,
       '/pages/commentPage/commentPage.wxss': `
-        /* 
+        /*
           @import "./commentPage.wxss"
         */
         #add {
@@ -310,7 +310,7 @@ describe('文件转换', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 
-  test('一个文件夹下有多个wxml页面导致显示异常', () => {
+  test('一个文件夹下有多个 wxml 页面导致显示异常', () => {
     // 设置初始文件信息
     setMockFiles(root, DEMO_JS_FILES)
 
@@ -321,7 +321,7 @@ describe('文件转换', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 
-  test('转换page时没有对应的js文件', () => {
+  test('转换 page 时没有对应的 js 文件', () => {
     setMockFiles(root, DEMO_PAGE_NO_JS)
     const convert = new Convertor(root, false)
     const spy = jest.spyOn(console, 'log')
@@ -337,7 +337,7 @@ describe('文件转换', () => {
 
 describe('模版转换', () => {
   beforeAll(() => {
-    // mock报告生成
+    // mock 报告生成
     jest.spyOn(Convertor.prototype, 'generateReport').mockImplementation(() => {})
 
     // 配置文件生成
@@ -356,7 +356,7 @@ describe('模版转换', () => {
   test('简单模版转换，向模版中传递一个变量', () => {
     setMockFiles(root, DEMO_JS_FILE_INFO)
 
-    // js文件中包含commonjs导出
+    // js 文件中包含 commonjs 导出
     const TEMPLATE_DATA = {
       '/pages/simpleTemplatePage/simpleTemplatePage.js': `
         Page({
@@ -393,7 +393,7 @@ describe('模版转换', () => {
   test('简单模版转换，向模版中传递多个变量', () => {
     setMockFiles(root, DEMO_JS_FILE_INFO)
 
-    // js文件中包含commonjs导出
+    // js 文件中包含 commonjs 导出
     const TEMPLATE_DATA = {
       '/pages/mulVarTemplatePage/mulVarTemplatePage.js': `
         Page({
@@ -431,7 +431,7 @@ describe('模版转换', () => {
   test('模版转换，模版名为变量', () => {
     setMockFiles(root, DEMO_JS_FILE_INFO)
 
-    // js文件中包含commonjs导出
+    // js 文件中包含 commonjs 导出
     const TEMPLATE_DATA = {
       '/pages/templatePage_tempNameIsVar/templatePage_tempNameIsVar.js': `
         Page({
@@ -474,7 +474,7 @@ describe('模版转换', () => {
   test('模版转换，模版名包含变量', () => {
     setMockFiles(root, DEMO_JS_FILE_INFO)
 
-    // js文件中包含commonjs导出
+    // js 文件中包含 commonjs 导出
     const TEMPLATE_DATA = {
       '/pages/templatePage_tempNameContainsVar/templatePage_tempNameContainsVar.js': `
         Page({
@@ -517,7 +517,7 @@ describe('模版转换', () => {
 
 describe('公共组件引用', () => {
   beforeAll(() => {
-    // mock报告生成
+    // mock 报告生成
     jest.spyOn(Convertor.prototype, 'generateReport').mockImplementation(() => {})
 
     // 配置文件生成
@@ -533,7 +533,7 @@ describe('公共组件引用', () => {
     clearMockFiles()
   })
 
-  test('子组件内部标签引用公共组件时，解析app.json文件里公共组件，使子组件生效', () => {
+  test('子组件内部标签引用公共组件时，解析 app.json 文件里公共组件，使子组件生效', () => {
     // 设置初始文件信息
     setMockFiles(root, PLUGIN_FILE_DATA)
     updateMockFiles(root, USINGCOMPONENTS_FILE_DATA)

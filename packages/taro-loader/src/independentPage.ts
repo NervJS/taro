@@ -11,7 +11,7 @@ interface PageConfig {
   path: string
 }
 
-export default function (this: webpack.LoaderContext<any>, source: string) {
+export default function (this: webpack.LoaderContext<any>, source: string, map?: any) {
   const options = this.getOptions()
   const config = getPageConfig(options.config, this.resourcePath)
   const configString = JSON.stringify(config)
@@ -31,12 +31,16 @@ export default function (this: webpack.LoaderContext<any>, source: string) {
   const frameworkArgsCopy = frameworkArgsArray.join(',')
   // raw is a placeholder loader to locate changed .vue resource
   const entryCacheLoader = path.join(__dirname, 'entry-cache.js') + `?name=${pageName}`
-  entryCache.set(pageName, source)
+  entryCache.set(pageName, {
+    source,
+    map
+  })
   const raw = path.join(__dirname, 'raw.js')
   const componentPath = isNeedRawLoader
     ? ['!', raw, entryCacheLoader, this.resourcePath].join('!')
     : ['!', entryCacheLoader, this.resourcePath].join('!')
   const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
+  const behaviorsName = options.behaviorsName
   let setReconcilerPost = ''
   const setReconciler = runtimePath.reduce((res, item) => {
     if (REG_POST.test(item)) {
@@ -65,7 +69,11 @@ ${creator}(App, ${frameworkArgsCopy})
 var component = require(${stringify(componentPath)}).default
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
-var inst = Page(createPageConfig(component, '${pageName}', {}, config || {}))
+var taroOption = createPageConfig(component, '${pageName}', {}, config || {})
+if (component && component.behaviors) {
+  taroOption.${behaviorsName} = (taroOption.${behaviorsName} || []).concat(component.behaviors)
+}
+var inst = Page(taroOption)
 ${options.prerender ? prerender : ''}
 export default component
 `

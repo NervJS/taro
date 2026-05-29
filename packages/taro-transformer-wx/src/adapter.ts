@@ -6,6 +6,7 @@ export const enum Adapters {
   tt = 'tt',
   qq = 'qq',
   jd = 'jd',
+  ascf = 'ascf',
 }
 
 interface Adapter {
@@ -28,6 +29,17 @@ const weixinAdapter: Adapter = {
   forIndex: 'wx:for-index',
   key: 'wx:key',
   type: Adapters.weapp,
+}
+
+const ascfAdapter: Adapter = {
+  if: 'has:if',
+  else: 'has:else',
+  elseif: 'has:elif',
+  for: 'has:for',
+  forItem: 'has:for-item',
+  forIndex: 'has:for-index',
+  key: 'has:key',
+  type: Adapters.ascf,
 }
 
 const swanAdapter: Adapter = {
@@ -107,6 +119,7 @@ export const isNewPropsSystem = () => {
     Adapters.alipay,
     Adapters.quickapp,
     Adapters.jd,
+    Adapters.ascf,
   ].includes(Adapter.type)
 }
 
@@ -129,6 +142,9 @@ export function setAdapter(adapter: Adapters) {
       break
     case Adapters.jd:
       Adapter = jdAdapter
+      break
+    case Adapters.ascf:
+      Adapter = ascfAdapter
       break
     default:
       Adapter = weixinAdapter

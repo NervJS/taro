@@ -106,8 +106,7 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
   const ext = idExt || defaultExt
 
   const extensions = [
-    // add the platform specific extension, first in the array to take precedence
-    platform === 'android' ? '.android' + ext : '.ios' + ext,
+    '.' + platform + ext,
     '.rn' + ext,
     ext
   ]

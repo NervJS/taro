@@ -83,7 +83,7 @@ class TaroLocation extends Events {
     )
 
     this.on(
-      CONTEXT_ACTIONS.DESTORY,
+      CONTEXT_ACTIONS.DESTROY,
       (pageId: string) => {
         cache.delete(pageId)
       },

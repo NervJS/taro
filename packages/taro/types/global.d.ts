@@ -410,6 +410,7 @@ declare namespace TaroGeneral {
 
   // ENV_TYPE
   enum ENV_TYPE {
+    ASCF = 'ASCF',
     WEAPP = 'WEAPP',
     SWAN = 'SWAN',
     ALIPAY = 'ALIPAY',

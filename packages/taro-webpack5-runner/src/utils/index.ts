@@ -47,7 +47,7 @@ export function parsePublicPath (publicPath = '/') {
 }
 
 export function isSpecialFormat(key: string, value: string) {
-  if (key === 'src' && /{{\s*\w+\s*}}/.test(value)) {
+  if (key === 'src' && /{{.*?}}/.test(value)) {
     // in .wxml, the value url in <web-view src="{{url}}"/> should not be requested, it is a state value in page data
     return true
   }

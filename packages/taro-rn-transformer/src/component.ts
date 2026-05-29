@@ -33,7 +33,7 @@ export default function componentLoader ({ sourceCode, filename, projectRoot, so
   // linaria transform
   let linaria
   try {
-    linaria = require('linaria')
+    linaria = require('@wyw-in-js/transform')
   } catch (e) {} // eslint-disable-line no-empty
 
   if (linaria) {

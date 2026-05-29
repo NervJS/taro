@@ -5,7 +5,7 @@ import { includes, isRelativePath, resolveExtFile, resolvePathFromAlias } from '
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
 
 interface ResolverOption {
-  platform?: 'ios' | 'android'
+  platform?: 'ios' | 'android' | 'harmony'
   include?: (path: boolean) => boolean
   exclude?: (path: boolean) => boolean
   externalResolve: (importee: string, importer: string) => string | undefined | null

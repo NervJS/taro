@@ -9,8 +9,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": "./src",
-    "declaration": true,
-    "declarationDir": "types"
+    "declaration": true
   },
   "include": ["./src"],
   "exclude": ["node_modules"],

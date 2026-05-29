@@ -31,7 +31,8 @@ export async function compileCSS(
   code: string,
   config: ResolvedConfig,
   urlReplacer?: CssUrlReplacer,
-  isGlobalModule ?: boolean
+  isGlobalModule ?: boolean,
+  cssVariable?: boolean
 ): Promise<{
     code: string
     map?: SourceMapInput
@@ -208,7 +209,9 @@ export async function compileCSS(
     )
   }
 
-  postcssPlugins.push((await import('postcss-css-variables')).default({}))
+  if (cssVariable !== true) {
+    postcssPlugins.push((await import('postcss-css-variables')).default({}))
+  }
 
   if (!postcssPlugins.length) {
     return {

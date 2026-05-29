@@ -121,13 +121,13 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 显示 tabBar 某一项的右上角的红点
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBarRedDot.html
      */
     showTabBarRedDot(option: showTabBarRedDot.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 显示 tabBar
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.showTabBar.html
      */
     showTabBar(option?: showTabBar.Option): Promise<TaroGeneral.CallbackResult>
@@ -148,7 +148,7 @@ declare module '../../index' {
     setTabBarStyle(option?: setTabBarStyle.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 动态设置 tabBar 某一项的内容，`2.7.0` 起图片支持临时文件和网络文件。
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.setTabBarItem({
@@ -163,7 +163,7 @@ declare module '../../index' {
     setTabBarItem(option: setTabBarItem.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 为 tabBar 某一项的右上角添加文本
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.setTabBarBadge({
@@ -176,19 +176,19 @@ declare module '../../index' {
     setTabBarBadge(option: setTabBarBadge.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 移除 tabBar 某一项右上角的文本
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.removeTabBarBadge.html
      */
     removeTabBarBadge(option: removeTabBarBadge.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 隐藏 tabBar 某一项的右上角的红点
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBarRedDot.html
      */
     hideTabBarRedDot(option: hideTabBarRedDot.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 隐藏 tabBar
-     * @supported weapp, h5, rn, tt, harmony, harmony_hybrid
+     * @supported weapp, h5, rn, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/tab-bar/wx.hideTabBar.html
      */
     hideTabBar(option?: hideTabBar.Option): Promise<TaroGeneral.CallbackResult>

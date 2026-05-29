@@ -96,9 +96,11 @@ export default class H5 extends TaroPlatformWeb {
       const rules = chain.module.rules
       const script = rules.get('script')
       const babelLoader = script.uses.get('babelLoader')
+      const options = babelLoader.get('options')
       babelLoader.set('options', {
-        ...babelLoader.get('options'),
+        ...options,
         plugins: [
+          ...(options.plugins || []),
           [
             require('babel-plugin-transform-taroapi'),
             {
@@ -139,7 +141,7 @@ export default class H5 extends TaroPlatformWeb {
             break
           default:
             if (this.useHtmlComponents) {
-              args[0].loaderMeta.extraImportForWeb += `import '${require.resolve('@tarojs/components-react/dist/index.css')}'\nimport { PullDownRefresh } from '@tarojs/components'\n`
+              args[0].loaderMeta.extraImportForWeb += `import '@tarojs/components-react/dist/index.css'\nimport { PullDownRefresh } from '@tarojs/components'\n`
               args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
             }
         }
@@ -222,7 +224,16 @@ export default class H5 extends TaroPlatformWeb {
             const viteCompilerContext = await getViteH5CompilerContext(this)
             if (viteCompilerContext) {
               const exts = Array.from(new Set(viteCompilerContext.frameworkExts.concat(SCRIPT_EXT)))
-              if (id.startsWith(viteCompilerContext.sourceDir) && exts.some((ext) => id.includes(ext))) {
+              let cleanId = id
+
+              if (cleanId.startsWith('\u0000')) {
+                cleanId = cleanId.slice(1)
+              }
+
+              cleanId = cleanId.split('?')[0].replace(/\\/g, '/') // 👈 替换斜杠方向
+
+              const normalizedSourceDir = viteCompilerContext.sourceDir.replace(/\\/g, '/') // 👈 替换斜杠方向
+              if (cleanId.startsWith(normalizedSourceDir) && exts.some((ext) => id.includes(ext))) {
                 // @TODO 后续考虑使用 SWC 插件的方式实现
                 const result = await transformAsync(code, {
                   filename: id,

@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 import { safeExecute } from '@tarojs/runtime'
 import { isNil } from 'lodash'
-import { parse } from 'query-string'
+import qs from 'query-string'
 
 import { CallbackManager } from '../../utils/handler'
 
@@ -38,18 +38,18 @@ const getApp = () => {
     /** 小程序切前台的路径 */
     path: path?.substring(0, path.indexOf('?')) || '',
     /** 小程序切前台的 query 参数 */
-    query: parse(location.search),
+    query: qs.parse(location.search),
     /** 来源信息。 */
     referrerInfo: {},
-    /** 小程序切前台的[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) */
+    /** 小程序切前台的 [场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) */
     scene: 0,
-    /** shareTicket，详见[获取更多转发信息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html) */
+    /** shareTicket，详见 [获取更多转发信息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html) */
     shareTicket: '',
   }
 }
 
 /**
- * 监听未处理的Promise拒绝事件
+ * 监听未处理的 Promise 拒绝事件
  *
  * @canUse onUnhandledRejection
  * @__callback [reason, promise]

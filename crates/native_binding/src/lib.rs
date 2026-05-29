@@ -18,6 +18,7 @@ pub async fn create_project(
     conf.npm,
     conf.description,
     conf.typescript,
+    conf.build_es5,
     conf.template,
     conf.css,
     conf.framework,

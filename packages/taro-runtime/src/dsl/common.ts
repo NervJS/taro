@@ -2,7 +2,8 @@
 import {
   EMPTY_OBJ, ensure, EventChannel,
   getComponentsAlias, hooks, internalComponents,
-  isArray, isFunction, isString, isUndefined, Shortcuts
+  isArray, isEnableTTDom,
+  isFunction, isString, isUndefined, Shortcuts
 } from '@tarojs/shared'
 
 import { raf } from '../bom/raf'
@@ -149,14 +150,22 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
       const mount = () => {
         Current.app!.mount!(component, $taroPath, () => {
-          pageElement = env.document.getElementById<TaroRootElement>($taroPath)
+          if (process.env.TARO_ENV === 'tt' && isEnableTTDom()) {
+            pageElement = (env.document as any).getPageDocumentById(this.__webviewId__)
+          } else {
+            pageElement = env.document.getElementById<TaroRootElement>($taroPath)
+          }
 
           ensure(pageElement !== null, '没有找到页面实例。')
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
           loadResolver()
           if (process.env.TARO_PLATFORM !== 'web') {
             pageElement.ctx = this
-            pageElement.performUpdate(true, cb)
+            if (process.env.TARO_ENV === 'tt' && isEnableTTDom()) {
+              (pageElement as any).sync()
+            } else {
+              pageElement.performUpdate(true, cb)
+            }
           } else {
             isFunction(cb) && cb()
           }
@@ -172,7 +181,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
       if (process.env.TARO_PLATFORM !== 'web') {
-        taroWindowProvider.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
+        taroWindowProvider.trigger(CONTEXT_ACTIONS.DESTROY, $taroPath)
       }
       // 触发onUnload生命周期
       safeExecute($taroPath, ONUNLOAD)
@@ -237,18 +246,37 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     }
   }
 
+  const isSWAN = process.env.TARO_ENV === 'swan'// 百度小程序
   LIFECYCLES.forEach((lifecycle) => {
     let isDefer = false
+    let isEvent = false
     lifecycle = lifecycle.replace(/^defer:/, () => {
       isDefer = true
       return ''
     })
-    config[lifecycle] = function () {
-      const exec = () => safeExecute(this.$taroPath, lifecycle, ...arguments)
-      if (isDefer) {
-        hasLoaded.then(exec)
-      } else {
-        return exec()
+    lifecycle = lifecycle.replace(/^events:/, () => {
+      isEvent = true
+      return ''
+    })
+
+    if (isEvent && process.env.TARO_ENV === 'alipay') {
+      // 初始化 config.events 对象
+      if (!config.events) config.events = {}
+      config.events[lifecycle] = function () {
+        return safeExecute(this.$taroPath, lifecycle, ...arguments)
+      }
+    } else {
+      config[lifecycle] = function () {
+        const exec = () => safeExecute(this.$taroPath, lifecycle, ...arguments)
+        if (isSWAN) {
+          return exec()
+        }
+
+        if (isDefer) {
+          hasLoaded.then(exec)
+        } else {
+          return exec()
+        }
       }
     }
   })
@@ -304,7 +332,9 @@ export function createComponentConfig (component: React.ComponentClass, componen
         safeExecute(path, ON_LOAD)
         if (process.env.TARO_PLATFORM !== 'web') {
           componentElement.ctx = this
-          componentElement.performUpdate(true)
+          if (process.env.TARO_ENV !== 'tt' || !isEnableTTDom()) {
+            componentElement.performUpdate(true)
+          }
         }
       })
     },
@@ -341,6 +371,10 @@ export function createRecursiveComponentConfig (componentName?: string) {
   const lifeCycles = isCustomWrapper
     ? {
       [ATTACHED] () {
+        if (process.env.TARO_ENV === 'tt' && isEnableTTDom()) {
+          return
+        }
+
         const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.set(componentId, this)
@@ -351,6 +385,10 @@ export function createRecursiveComponentConfig (componentName?: string) {
         }
       },
       [DETACHED] () {
+        if (process.env.TARO_ENV === 'tt' && isEnableTTDom()) {
+          return
+        }
+
         const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.delete(componentId)
@@ -362,6 +400,12 @@ export function createRecursiveComponentConfig (componentName?: string) {
       }
     }
     : EMPTY_OBJ
+
+  // 不同平台的个性化配置
+  const extraOptions: { [key: string]: any } = {}
+  if (process.env.TARO_ENV === 'jd') {
+    extraOptions.addGlobalClass = true
+  }
 
   return hooks.call('modifyRecursiveComponentConfig',
     {
@@ -378,7 +422,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
         }
       },
       options: {
-        addGlobalClass: true,
+        ...extraOptions,
         virtualHost: !isCustomWrapper
       },
       methods: {

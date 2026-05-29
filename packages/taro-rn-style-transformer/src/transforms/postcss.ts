@@ -96,7 +96,7 @@ export function makePostcssPlugins ({
       plugins.push(require(pluginPath)((pluginOption as any).config || {}))
     } catch (e) {
       const msg = e.code === 'MODULE_NOT_FOUND' ? `缺少postcss插件${pluginName}, 已忽略` : e
-      printLog(msg, processTypeEnum.WARNING)
+      printLog(processTypeEnum.WARNING, msg)
     }
   })
 

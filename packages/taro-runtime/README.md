@@ -25,7 +25,7 @@ Taro 运行时。在小程序端连接框架（DSL）渲染机制到小程序渲
 
 在小程序端模仿浏览器的 `navigator` 实现的对象，在浏览器环境中返回浏览器本身的 `navigator`。此对象通过 Webpack 的 [ProvidePlugin](https://webpack.js.org/plugins/provide-plugin/) 注入到全局对象以供第三方库调用。
 
-### document 
+### document
 
 在小程序端模仿浏览器的 `document` 实现的对象，在浏览器环境中返回浏览器本身的 `document`。此对象通过 Webpack 的 [ProvidePlugin](https://webpack.js.org/plugins/provide-plugin/) 注入到全局对象以供第三方库调用。
 
@@ -47,4 +47,4 @@ Taro 配置：
 
 ### Events
 
-[Taro 消息机制](https://nervjs.github.io/taro/docs/apis/about/events.html#docsNav)。
+[Taro 消息机制](https://docs.taro.zone/docs/apis/about/events)。

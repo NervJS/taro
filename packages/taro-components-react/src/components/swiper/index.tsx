@@ -1,5 +1,5 @@
 import 'swiper/swiper-bundle.css'
-import './style/index.css'
+import './style/index.scss'
 
 import classNames from 'classnames'
 import React from 'react'
@@ -173,7 +173,7 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
 
     const loopAdditionalSlides = this.getLoopAdditionalSlides()
     const centeredSlides = displayMultipleItems === 1 && this.getNeedFixLoop()
-    const slidesPerView = parseFloat(String(displayMultipleItems)) === 1 ? 'auto' : displayMultipleItems
+    const slidesPerView = displayMultipleItems
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
     const opt: Record<string, any> = {
@@ -189,6 +189,8 @@ class SwiperInner extends React.Component<SwiperProps, SwiperState> {
       nested: true,
       loopAdditionalSlides,
       centeredSlides,
+      touchReleaseOnEdges: true,
+      threshold: 0,
       ...effectsProps,
       on: {
         init (_swiper) {

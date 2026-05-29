@@ -98,20 +98,20 @@ declare module '../index' {
 
     /**
      * 页面加载完成时的回调。
-     * @supported weapp, h5, harmony_hybrid
+     * @supported weapp, h5, harmony_hybrid, harmony
      */
     useLoad<T extends {} = Record<string, any>>(callback: (param: T) => void): void
 
     /**
      * 页面卸载时的回调。
-     * @supported weapp, h5, harmony_hybrid
+     * @supported weapp, h5, harmony_hybrid, harmony
      */
     useUnload(callback: () => void): void
 
     /**
      * 页面初次渲染完成的回调。
      * 此时页面已经准备妥当，可以和视图层进行交互。
-     * @supported weapp, h5, harmony_hybrid
+     * @supported weapp, h5, harmony_hybrid, harmony
      */
     useReady(callback: () => void): void
 
@@ -132,6 +132,12 @@ declare module '../index' {
      * @supported alipay
      */
     useOptionMenuClick(callback: () => void): void
+
+    /**
+     * 键盘高度变化时的回调。
+     * @supported alipay
+     */
+    useKeyboardHeight(callback: (payload: { height: number }) => void): void
 
     /**
      * 下拉中断时的回调。

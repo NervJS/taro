@@ -15,6 +15,7 @@ import {
 import * as ora from 'ora'
 import { merge } from 'webpack-merge'
 
+import { filterGlobalConfig } from './utils'
 import {
   CONFIG_DIR_NAME,
   DEFAULT_CONFIG_FILE
@@ -52,6 +53,7 @@ export default class Config {
       if (this.disableGlobalConfig) return
       this.initGlobalConfig()
     } else {
+      this.initGlobalConfig(configEnv.command)
       createSwcRegister({
         only: [
           filePath => filePath.indexOf(path.join(this.appPath, CONFIG_DIR_NAME)) >= 0
@@ -67,7 +69,7 @@ export default class Config {
     }
   }
 
-  initGlobalConfig () {
+  initGlobalConfig (command: string = '') {
     const homedir = getUserHomeDir()
     if (!homedir) return console.error('获取不到用户 home 路径')
     const globalPluginConfigPath = path.join(getUserHomeDir(), TARO_GLOBAL_CONFIG_DIR, TARO_GLOBAL_CONFIG_FILE)
@@ -75,6 +77,7 @@ export default class Config {
     const spinner = ora(`开始获取 taro 全局配置文件： ${globalPluginConfigPath}`).start()
     try {
       this.initialGlobalConfig = fs.readJSONSync(globalPluginConfigPath) || {}
+      this.initialGlobalConfig = filterGlobalConfig(this.initialGlobalConfig, command)
       spinner.succeed('获取 taro 全局配置成功')
     } catch (e) {
       spinner.stop()

@@ -191,7 +191,7 @@ export function getComponentsAlias (origin: typeof internalComponents) {
         _num: String(num)
       }
       Object.keys(origin[key])
-        .filter(attr => !(/^bind/.test(attr)) && !['focus', 'blur'].includes(attr))
+        .filter(attr => !(/^bind/.test(attr)) && !['focus', 'blur', '$duplicateFromComponent'].includes(attr))
         .sort()
         .forEach((attr, index) => {
           obj[toCamelCase(attr)] = 'p' + index
@@ -248,4 +248,26 @@ export function indent (str: string, size: number): string {
       return indent + line
     })
     .join('\n')
+}
+
+export enum TTRenderType {
+  V1 = 1,
+  V2 = 2,
+}
+
+declare const tt: any
+let ttUseV2TTDom: boolean | undefined
+
+export function isEnableTTDom() {
+  // 目前仅对于 react 支持 ttdom
+  if (process.env.TARO_ENV !== 'tt' || process.env.FRAMEWORK !== 'react' || typeof tt === 'undefined') {
+    return false
+  }
+  if (ttUseV2TTDom !== undefined) return ttUseV2TTDom
+
+  const ttMode = tt.getRenderMode ? tt.getRenderMode() : TTRenderType.V1
+
+  ttMode === TTRenderType.V2 && tt.__$enableTTDom$__ ? (ttUseV2TTDom = true) : (ttUseV2TTDom = false)
+
+  return ttUseV2TTDom
 }

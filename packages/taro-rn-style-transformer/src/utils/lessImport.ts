@@ -3,7 +3,7 @@ import Less from 'less'
 import { resolveStyle } from './index'
 
 class LessImporter extends Less.FileManager {
-  platform: 'android' | 'ios'
+  platform: 'android' | 'ios' | 'harmony'
   alias: Record<string, string> = {}
 
   constructor (opt) {

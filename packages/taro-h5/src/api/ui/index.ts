@@ -1,4 +1,5 @@
 export * from './animation'
+export * from './animation/worklet'
 export * from './background'
 export * from './custom-component'
 export * from './fonts'
