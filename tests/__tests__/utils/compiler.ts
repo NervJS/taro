@@ -57,8 +57,8 @@ export async function compile<T extends IMiniBuildConfig | IH5BuildConfig = Comm
     alias.set('vue', path.resolve(__dirname, '../mocks/vue'))
     if (isWeb) {
       alias.set('@tarojs/router', path.resolve(__dirname, '../mocks/taro-router'))
-      alias.set('@tarojs/components/lib/react', path.resolve(__dirname, '../mocks/taro-components'))
-      alias.set('@tarojs/components/lib/vue3', path.resolve(__dirname, '../mocks/taro-components'))
+      alias.set('@tarojs/components-library-react', path.resolve(__dirname, '../mocks/taro-components'))
+      alias.set('@tarojs/components-library-vue3', path.resolve(__dirname, '../mocks/taro-components'))
       alias.set('@tarojs/components/loader', path.resolve(__dirname, '../mocks/taro-components'))
       alias.set('@tarojs/components/dist/taro-components/taro-components.css', path.resolve(__dirname, '../mocks/taro-components.css'))
       alias.set('react-dom$', path.resolve(__dirname, '../mocks/react'))

@@ -1,7 +1,7 @@
 const fs = require('@tarojs/helper').fs
 const path = require('path')
 
-const componentsPath = path.resolve(__dirname, '..', 'src/components.ts')
+const componentsPath = path.resolve(__dirname, '..', 'node_modules/@tarojs/components/dist/lib/solid/components.ts')
 // const avoidErrorType = ['Input', 'ScrollView']
 
 if (fs.existsSync(componentsPath)) {
@@ -35,5 +35,5 @@ if (fs.existsSync(componentsPath)) {
     code = code.replace(new RegExp(`export const (${comps.join('|')}) = \\/\\*\\@__PURE__\\*\\/createSolidComponent.*`, 'ig'), 'export const $1 = Fragment;')
   }
 
-  fs.writeFileSync(componentsPath, code)
+  fs.writeFileSync(path.resolve(__dirname, '..', 'src/components.ts'), code)
 }
