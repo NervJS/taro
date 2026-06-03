@@ -348,6 +348,26 @@ declare module './index' {
      * @default false
      */
     disableRecursiveComponent?: boolean
+    /**
+     * 异步分包配置。配置 asyncRoot 后启用。
+     * 启用后，该 root 中通过 `import()` 动态引入的模块会由 webpack 原生异步 chunk 处理，
+     * 并单独打包到指定的异步子包。
+     *
+     * 限制：
+     * - asyncRoot 下注册的页面是占位 `<view />`，不会注入 `usingComponents`。
+     *   因此 asyncRoot 包含自定义组件 chunk 时，自定义组件应放在 sourceRoot 的页面里使用，
+     *   而非由占位页面直接消费。
+     * - 与 `lazyCodeLoading: 'requiredComponents'` 兼容。
+     * @see https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/async.html
+     * @since 4.1.12
+     */
+    asyncSubPackage?: {
+      /**
+       * 异步子包根路径（相对于 sourceDir），必填。
+       * 多个 root 配置相同的 asyncRoot 时，它们的动态 import 产物会合并到同一个异步子包。
+       */
+      asyncRoot: string
+    }
   }
 
   /** 子分包独立模板配置项 */

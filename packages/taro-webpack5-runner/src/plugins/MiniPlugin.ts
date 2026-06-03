@@ -27,6 +27,7 @@ import { validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../utils/component'
 import { computeForceCustomWrapperForIndependentPackage } from '../utils/forceCustomWrapper'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
+import AsyncSubPackagePlugin from './AsyncSubPackagePlugin'
 import SubPackageIndiePlugin, {
   subPackageIndieCustomWrapperRootsKey,
 } from './SubPackageIndiePlugin'
@@ -150,6 +151,7 @@ export default class TaroMiniPlugin {
   themeLocation: string
   pageLoaderName = '@tarojs/taro-loader/lib/page'
   independentPackages = new Map<string, IndependentPackage>()
+  asyncSubPackagePlugin: AsyncSubPackagePlugin | null = null
   subPackageIndiePlugin: SubPackageIndiePlugin | null = null
   forceCustomWrapperDefineDefinitions: Record<string, string> | null = null
 
@@ -258,6 +260,7 @@ export default class TaroMiniPlugin {
       this.tryAsync<Compiler>(async compiler => {
         await this.run(compiler)
         this.applyForceCustomWrapperDefine(compiler)
+        this.applyAsyncSubPackagePlugin(compiler)
         new TaroLoadChunksPlugin({
           commonChunks: commonChunks,
           isBuildPlugin,
@@ -278,6 +281,7 @@ export default class TaroMiniPlugin {
         }
         await this.run(compiler)
         this.applyForceCustomWrapperDefine(compiler)
+        this.applyAsyncSubPackagePlugin(compiler)
         if (!this.loadChunksPlugin) {
           this.loadChunksPlugin = new TaroLoadChunksPlugin({
             commonChunks: commonChunks,
@@ -505,6 +509,23 @@ export default class TaroMiniPlugin {
         }
       })
     })
+  }
+
+  /**
+   * 初始化异步分包插件。
+   * MiniPlugin 仅作为桥接，具体的 babel 注入、chunk 处理和 app.json 注册由 AsyncSubPackagePlugin 承担。
+   */
+  applyAsyncSubPackagePlugin (compiler: Compiler) {
+    if (!this.subPackageIndiePlugin) return
+    const asyncRootMap = this.subPackageIndiePlugin.getAsyncSubPackageRootMap()
+    if (asyncRootMap.size === 0) return
+
+    if (!this.asyncSubPackagePlugin) {
+      this.asyncSubPackagePlugin = new AsyncSubPackagePlugin(this)
+    }
+    this.asyncSubPackagePlugin.updateAsyncRootMap(asyncRootMap)
+    this.asyncSubPackagePlugin.updateAsyncRuntimeRoots(this.subPackageIndiePlugin.getAsyncSubPackageRuntimeRoots())
+    this.asyncSubPackagePlugin.apply(compiler)
   }
 
   /**

@@ -27,6 +27,12 @@ export type NormalizedSubPackageIndieConfig = {
   mainPackageRoot: string
   subPackageRoots: string[]
   disableRecursiveComponentRoots: Set<string>
+  /** sourceRoot -> asyncRoot 映射，仅包含配置了 asyncSubPackage 的 root */
+  asyncSubPackageRootMap: Map<string, string>
+}
+export type AsyncSubPackageRuntimeRoot = {
+  sourceRoot: string
+  asyncRoot: string
 }
 export type SubPackageIndieMatch = {
   config: NormalizedSubPackageIndieConfig
@@ -303,13 +309,14 @@ export default class SubPackageIndiePlugin {
     return root
   }
 
-  parseIndieRootConfig (rootConfig: string | { path: string, disableRecursiveComponent?: boolean }): { path: string, disableRecursiveComponent: boolean } {
+  parseIndieRootConfig (rootConfig: string | { path: string, disableRecursiveComponent?: boolean, asyncSubPackage?: { asyncRoot: string } }): { path: string, disableRecursiveComponent: boolean, asyncRoot?: string } {
     if (typeof rootConfig === 'string') {
       return { path: this.normalizeIndieRoot(rootConfig), disableRecursiveComponent: false }
     }
     return {
       path: this.normalizeIndieRoot(rootConfig.path),
       disableRecursiveComponent: !!rootConfig.disableRecursiveComponent,
+      asyncRoot: rootConfig.asyncSubPackage?.asyncRoot,
     }
   }
 
@@ -326,13 +333,21 @@ export default class SubPackageIndiePlugin {
       const mainParsed = this.parseIndieRootConfig(mainPackageRoot)
       const subParsedList = subPackageRoots.map(root => this.parseIndieRootConfig(root))
       const disableRecursiveComponentRoots = new Set<string>()
+      const asyncSubPackageRootMap = new Map<string, string>()
 
       if (mainParsed.disableRecursiveComponent) {
         disableRecursiveComponentRoots.add(mainParsed.path)
       }
+      if (mainParsed.asyncRoot) {
+        asyncSubPackageRootMap.set(mainParsed.path, mainParsed.asyncRoot)
+      }
+
       subParsedList.forEach(sub => {
         if (sub.disableRecursiveComponent) {
           disableRecursiveComponentRoots.add(sub.path)
+        }
+        if (sub.asyncRoot) {
+          asyncSubPackageRootMap.set(sub.path, sub.asyncRoot)
         }
       })
 
@@ -340,6 +355,7 @@ export default class SubPackageIndiePlugin {
         mainPackageRoot: mainParsed.path,
         subPackageRoots: Array.from(new Set(subParsedList.map(sub => sub.path))),
         disableRecursiveComponentRoots,
+        asyncSubPackageRootMap,
       }
     })
 
@@ -354,6 +370,46 @@ export default class SubPackageIndiePlugin {
     }
 
     return this.allIndieRootsCache
+  }
+
+  /**
+   * 获取所有配置了 asyncSubPackage 的 root -> asyncRoot 映射
+   * key: source root 路径, value: asyncRoot 路径
+   */
+  getAsyncSubPackageRootMap (): Map<string, string> {
+    const result = new Map<string, string>()
+    for (const config of this.getSubPackageIndieConfigs()) {
+      for (const [sourceRoot, asyncRoot] of config.asyncSubPackageRootMap) {
+        result.set(sourceRoot, asyncRoot)
+      }
+    }
+    return result
+  }
+
+  /**
+   * 获取 asyncSubPackage 运行时路径解析锚点。
+   * 除 asyncSubPackage sourceRoot 外，还按配置组补充 mainPackageRoot，避免 blended 场景下当前 route 停留在主入口页面时无法推导宿主挂载前缀。
+   * 当 mainPackageRoot 自身就配置了 asyncSubPackage 时，第二段补充会与第一段重复，这里通过 seen 集合去重。
+   */
+  getAsyncSubPackageRuntimeRoots (): AsyncSubPackageRuntimeRoot[] {
+    const result: AsyncSubPackageRuntimeRoot[] = []
+    const seen = new Set<string>()
+    const push = (sourceRoot: string, asyncRoot: string) => {
+      const key = `${sourceRoot} ${asyncRoot}`
+      if (seen.has(key)) return
+      seen.add(key)
+      result.push({ sourceRoot, asyncRoot })
+    }
+    for (const config of this.getSubPackageIndieConfigs()) {
+      const asyncRoots = new Set(config.asyncSubPackageRootMap.values())
+      for (const [sourceRoot, asyncRoot] of config.asyncSubPackageRootMap) {
+        push(sourceRoot, asyncRoot)
+      }
+      for (const asyncRoot of asyncRoots) {
+        push(config.mainPackageRoot, asyncRoot)
+      }
+    }
+    return result
   }
 
   getAllMainPackageRoots (): string[] {
