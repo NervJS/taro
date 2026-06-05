@@ -40,10 +40,29 @@ export default class SubPackageIndiePlugin {
   miniPlugin: TaroMiniPlugin
   options: IOptions
   moduleRequestMap = new Map<string, Map<string, string>>()
+  subPackageIndieConfigsCache: NormalizedSubPackageIndieConfig[] | null = null
+  allIndieRootsCache: string[] | null = null
+  allMainPackageRootsCache: string[] | null = null
+  subPackageIndieMatchCache = new Map<string, SubPackageIndieMatch | null>()
+  entriesByRootCache: Map<string, any[]> | null = null
+  componentByNameCache: Map<string, any> | null = null
+  forceCustomWrapperByRootCache = new Map<string, boolean>()
+  scopedComponentConfigByCompilation = new WeakMap<Compilation, Map<string, any>>()
+  rootUsingCustomWrapperByCompilation = new WeakMap<Compilation, Map<string, boolean>>()
 
   constructor (miniPlugin: TaroMiniPlugin) {
     this.miniPlugin = miniPlugin
     this.options = miniPlugin.options
+  }
+
+  invalidateRunCache () {
+    this.subPackageIndieConfigsCache = null
+    this.allIndieRootsCache = null
+    this.allMainPackageRootsCache = null
+    this.subPackageIndieMatchCache.clear()
+    this.entriesByRootCache = null
+    this.componentByNameCache = null
+    this.forceCustomWrapperByRootCache.clear()
   }
 
   apply () {
@@ -295,10 +314,15 @@ export default class SubPackageIndiePlugin {
   }
 
   getSubPackageIndieConfigs (): NormalizedSubPackageIndieConfig[] {
-    const subPackageIndie = this.miniPlugin.appConfig?.subPackageIndie
-    if (!Array.isArray(subPackageIndie)) return []
+    if (this.subPackageIndieConfigsCache) return this.subPackageIndieConfigsCache
 
-    return subPackageIndie.map(({ mainPackageRoot, subPackageRoots = [] }: SubPackageIndieConfig) => {
+    const subPackageIndie = this.miniPlugin.appConfig?.subPackageIndie
+    if (!Array.isArray(subPackageIndie)) {
+      this.subPackageIndieConfigsCache = []
+      return this.subPackageIndieConfigsCache
+    }
+
+    this.subPackageIndieConfigsCache = subPackageIndie.map(({ mainPackageRoot, subPackageRoots = [] }: SubPackageIndieConfig) => {
       const mainParsed = this.parseIndieRootConfig(mainPackageRoot)
       const subParsedList = subPackageRoots.map(root => this.parseIndieRootConfig(root))
       const disableRecursiveComponentRoots = new Set<string>()
@@ -318,16 +342,26 @@ export default class SubPackageIndiePlugin {
         disableRecursiveComponentRoots,
       }
     })
+
+    return this.subPackageIndieConfigsCache
   }
 
   getAllIndieRoots (): string[] {
-    return Array.from(new Set(
-      this.getSubPackageIndieConfigs().flatMap(({ mainPackageRoot, subPackageRoots }) => [mainPackageRoot, ...subPackageRoots])
-    ))
+    if (!this.allIndieRootsCache) {
+      this.allIndieRootsCache = Array.from(new Set(
+        this.getSubPackageIndieConfigs().flatMap(({ mainPackageRoot, subPackageRoots }) => [mainPackageRoot, ...subPackageRoots])
+      ))
+    }
+
+    return this.allIndieRootsCache
   }
 
   getAllMainPackageRoots (): string[] {
-    return Array.from(new Set(this.getSubPackageIndieConfigs().map(item => item.mainPackageRoot)))
+    if (!this.allMainPackageRootsCache) {
+      this.allMainPackageRootsCache = Array.from(new Set(this.getSubPackageIndieConfigs().map(item => item.mainPackageRoot)))
+    }
+
+    return this.allMainPackageRootsCache
   }
 
   hasSubPackageIndieMainPackageRoot (): boolean {
@@ -340,29 +374,37 @@ export default class SubPackageIndiePlugin {
 
   getSubPackageIndieMatch (pageName: string): SubPackageIndieMatch | null {
     if (!this.options.newBlended) return null
+    if (this.subPackageIndieMatchCache.has(pageName)) {
+      return this.subPackageIndieMatchCache.get(pageName) || null
+    }
 
     const configs = this.getSubPackageIndieConfigs()
 
     for (const config of configs) {
       if (pageName.startsWith(config.mainPackageRoot + '/') || pageName === config.mainPackageRoot) {
-        return {
+        const match = {
           config,
           root: config.mainPackageRoot,
           isMainPackageRoot: true,
         }
+        this.subPackageIndieMatchCache.set(pageName, match)
+        return match
       }
 
       for (const root of config.subPackageRoots) {
         if (pageName.startsWith(root + '/') || pageName === root) {
-          return {
+          const match = {
             config,
             root,
             isMainPackageRoot: false,
           }
+          this.subPackageIndieMatchCache.set(pageName, match)
+          return match
         }
       }
     }
 
+    this.subPackageIndieMatchCache.set(pageName, null)
     return null
   }
 
@@ -801,11 +843,18 @@ export default class SubPackageIndiePlugin {
       return true
     }
 
-    if (this.isSubPackageIndieRootUsingCustomWrapperByModules(compilation, root)) {
-      return true
+    let cache = this.rootUsingCustomWrapperByCompilation.get(compilation)
+    if (!cache) {
+      cache = new Map<string, boolean>()
+      this.rootUsingCustomWrapperByCompilation.set(compilation, cache)
+    }
+    if (cache.has(root)) {
+      return cache.get(root) || false
     }
 
-    return false
+    const usingCustomWrapper = this.isSubPackageIndieRootUsingCustomWrapperByModules(compilation, root)
+    cache.set(root, usingCustomWrapper)
+    return usingCustomWrapper
   }
 
   resolveUsingComponentTarget (filePath: string, componentPath: string) {
@@ -844,38 +893,72 @@ export default class SubPackageIndiePlugin {
   }
 
   getSubPackageIndieEntriesByRoot (root: string) {
-    const entries = new Map<string, any>()
+    if (!this.entriesByRootCache) {
+      const entriesByRoot = new Map<string, Map<string, any>>()
 
-    ;[...this.miniPlugin.pages, ...this.miniPlugin.components].forEach(item => {
-      if (this.isInSubPackageIndieRoot(item.name) === root) {
-        entries.set(item.name, item)
-      }
-    })
+      ;[...this.miniPlugin.pages, ...this.miniPlugin.components].forEach(item => {
+        const indieRoot = this.isInSubPackageIndieRoot(item.name)
+        if (!indieRoot) return
 
-    return Array.from(entries.values())
+        if (!entriesByRoot.has(indieRoot)) {
+          entriesByRoot.set(indieRoot, new Map<string, any>())
+        }
+        entriesByRoot.get(indieRoot)!.set(item.name, item)
+      })
+
+      this.entriesByRootCache = new Map<string, any[]>()
+      entriesByRoot.forEach((entries, indieRoot) => {
+        this.entriesByRootCache!.set(indieRoot, Array.from(entries.values()))
+      })
+    }
+
+    return this.entriesByRootCache.get(root) || []
   }
 
   isForceCustomWrapperEnabledForRoot (root: string): boolean {
     if (this.options.template.isSupportRecursive) return false
+    if (this.forceCustomWrapperByRootCache.has(root)) {
+      return this.forceCustomWrapperByRootCache.get(root) || false
+    }
 
     const entries = this.getSubPackageIndieEntriesByRoot(root)
     for (const entry of entries) {
       if (entry?.isNative) continue
 
       const content = this.miniPlugin.filesConfig[this.miniPlugin.getConfigFilePath(entry.name)]?.content as { forceCustomWrapper?: boolean } | undefined
-      if (content?.forceCustomWrapper) return true
+      if (content?.forceCustomWrapper) {
+        this.forceCustomWrapperByRootCache.set(root, true)
+        return true
+      }
     }
 
+    this.forceCustomWrapperByRootCache.set(root, false)
     return false
   }
 
   getComponentByName (componentName: string) {
-    return [...this.miniPlugin.pages, ...this.miniPlugin.components].find(item => item.name === componentName)
+    if (!this.componentByNameCache) {
+      this.componentByNameCache = new Map<string, any>()
+      ;[...this.miniPlugin.pages, ...this.miniPlugin.components].forEach(item => {
+        this.componentByNameCache!.set(item.name, item)
+      })
+    }
+
+    return this.componentByNameCache.get(componentName)
   }
 
   getScopedSubPackageIndieComponentConfig (compilation: Compilation, root: string) {
+    let cache = this.scopedComponentConfigByCompilation.get(compilation)
+    if (!cache) {
+      cache = new Map<string, any>()
+      this.scopedComponentConfigByCompilation.set(compilation, cache)
+    }
+    if (cache.has(root)) {
+      return cache.get(root)
+    }
+
     const thirdPartyComponents = new Map<string, Set<string>>()
-    const queue = this.getSubPackageIndieEntriesByRoot(root)
+    const queue = [...this.getSubPackageIndieEntriesByRoot(root)]
     const visited = new Set<string>()
 
     while (queue.length) {
@@ -910,13 +993,15 @@ export default class SubPackageIndiePlugin {
       }
     }
 
-    return {
+    const scopedComponentConfig = {
       includes: this.collectScopedInnerComponents(compilation, root),
       exclude: new Set(componentConfig.exclude),
       thirdPartyComponents,
       includeAll: false,
       skipRecursiveComponent: false,
     }
+    cache.set(root, scopedComponentConfig)
+    return scopedComponentConfig
   }
 
   generateSubPackageIndieScriptFile (compilation: Compilation, compiler: Compiler, filePath: string, content: string) {
@@ -1049,34 +1134,38 @@ registerRecursiveComponent(${args.join(', ')})
     return customWrapperRoots
   }
 
-  generateMainPackageRuntimeFiles (compilation: Compilation, _compiler: Compiler) {
+  generateMainPackageRuntimeFiles (compilation: Compilation, compiler: Compiler) {
     const { commonChunks, fileType } = this.options
     const mainPackageRoots = this.getAllMainPackageRoots()
     if (!mainPackageRoots.length) return
 
     const styleExt = fileType.style
     const runtimeChunks = ['app', ...commonChunks]
+    const appJsContent = compilation.assets['app.js']
+    let patchedAppJsContent = appJsContent
+
+    if (appJsContent) {
+      const { RawSource } = compiler.webpack.sources
+      const originalSource = String((appJsContent as any).source?.() || String(appJsContent))
+      const registrarExpr = `(typeof globalThis.__taroRegisterRecursiveComponent==="function"||(globalThis.__taroRegisterRecursiveComponent=function(componentName,forceCustomWrapper){const cache=__webpack_require__.c||{};let createRecursiveComponentConfig;for(const key in cache){const exports=cache[key]&&cache[key].exports;if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}if(typeof createRecursiveComponentConfig!=="function"){const modules=__webpack_require__.m||{};for(const moduleId in modules){const moduleFactory=modules[moduleId];if(!moduleFactory||typeof moduleFactory!=="function")continue;const source=String(moduleFactory);if(source.indexOf("createRecursiveComponentConfig")===-1)continue;const exports=__webpack_require__(moduleId);if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}}if(typeof createRecursiveComponentConfig!=="function"){throw new Error("Cannot find createRecursiveComponentConfig in webpack modules");}Component(createRecursiveComponentConfig(componentName,forceCustomWrapper));}))`
+      let patchedSource = originalSource
+
+      if (/,\s*exports\.taroApp\s*=/.test(patchedSource)) {
+        patchedSource = patchedSource.replace(/,\s*exports\.taroApp\s*=/, `,${registrarExpr},exports.taroApp=`)
+      } else {
+        patchedSource = patchedSource.replace(/exports\.taroApp\s*=/, `;${registrarExpr};exports.taroApp=`)
+      }
+
+      patchedAppJsContent = new RawSource(patchedSource)
+    }
 
     mainPackageRoots.forEach(mainPackageRoot => {
       runtimeChunks.forEach(chunkName => {
         const jsFile = `${chunkName}.js`
         if (compilation.assets[jsFile]) {
-          let jsContent = compilation.assets[jsFile]
-
-          if (chunkName === 'app') {
-            const { RawSource } = compilation.compiler?.webpack?.sources || require('webpack').sources
-            const originalSource = String((jsContent as any).source?.() || String(jsContent))
-            const registrarExpr = `(typeof globalThis.__taroRegisterRecursiveComponent==="function"||(globalThis.__taroRegisterRecursiveComponent=function(componentName,forceCustomWrapper){const cache=__webpack_require__.c||{};let createRecursiveComponentConfig;for(const key in cache){const exports=cache[key]&&cache[key].exports;if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}if(typeof createRecursiveComponentConfig!=="function"){const modules=__webpack_require__.m||{};for(const moduleId in modules){const moduleFactory=modules[moduleId];if(!moduleFactory||typeof moduleFactory!=="function")continue;const source=String(moduleFactory);if(source.indexOf("createRecursiveComponentConfig")===-1)continue;const exports=__webpack_require__(moduleId);if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}}if(typeof createRecursiveComponentConfig!=="function"){throw new Error("Cannot find createRecursiveComponentConfig in webpack modules");}Component(createRecursiveComponentConfig(componentName,forceCustomWrapper));}))`
-            let patchedSource = originalSource
-
-            if (/,\s*exports\.taroApp\s*=/.test(patchedSource)) {
-              patchedSource = patchedSource.replace(/,\s*exports\.taroApp\s*=/, `,${registrarExpr},exports.taroApp=`)
-            } else {
-              patchedSource = patchedSource.replace(/exports\.taroApp\s*=/, `;${registrarExpr};exports.taroApp=`)
-            }
-
-            jsContent = new RawSource(patchedSource)
-          }
+          const jsContent = chunkName === 'app'
+            ? patchedAppJsContent
+            : compilation.assets[jsFile]
 
           compilation.assets[`${mainPackageRoot}/${jsFile}`] = jsContent
         }

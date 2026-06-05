@@ -151,6 +151,7 @@ export default class TaroMiniPlugin {
   pageLoaderName = '@tarojs/taro-loader/lib/page'
   independentPackages = new Map<string, IndependentPackage>()
   subPackageIndiePlugin: SubPackageIndiePlugin | null = null
+  forceCustomWrapperDefineDefinitions: Record<string, string> | null = null
 
   /** 扩展钩子，允许外部插件扩展 MiniPlugin 行为 */
   hooks: MiniPluginHooks
@@ -555,6 +556,8 @@ export default class TaroMiniPlugin {
    * 往 this.dependencies 中添加资源模块
    */
   async run (compiler: Compiler) {
+    this.subPackageIndiePlugin?.invalidateRunCache()
+
     if (this.options.isBuildPlugin) {
       this.getPluginFiles()
       this.getConfigFiles(compiler)
@@ -912,10 +915,17 @@ export default class TaroMiniPlugin {
 
   applyForceCustomWrapperDefine (compiler: Compiler): void {
     if (this.options.template.isSupportRecursive) return
-    const value = this.computeForceCustomWrapperForWebpackMainComp()
-    new compiler.webpack.DefinePlugin({
-      TARO_FORCE_CUSTOM_WRAPPER: JSON.stringify(value)
-    }).apply(compiler)
+
+    const value = JSON.stringify(this.computeForceCustomWrapperForWebpackMainComp())
+    if (!this.forceCustomWrapperDefineDefinitions) {
+      this.forceCustomWrapperDefineDefinitions = {
+        TARO_FORCE_CUSTOM_WRAPPER: value
+      }
+      new compiler.webpack.DefinePlugin(this.forceCustomWrapperDefineDefinitions).apply(compiler)
+      return
+    }
+
+    this.forceCustomWrapperDefineDefinitions.TARO_FORCE_CUSTOM_WRAPPER = value
   }
 
   replaceExt (file: string, ext: string) {
