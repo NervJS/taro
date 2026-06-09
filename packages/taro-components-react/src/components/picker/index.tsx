@@ -1,6 +1,7 @@
 import './style/index.scss'
 
 import { View } from '@tarojs/components'
+import Taro from '@tarojs/taro'
 import classNames from 'classnames'
 import React from 'react'
 
@@ -219,6 +220,9 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     a11yTimeLimitNonce: 0
   })
 
+  // 安全区域底部距离
+  const [safeAreaBottom, setSafeAreaBottom] = React.useState(0)
+
   // 在组件内部
   const [columnsCount, setColumnsCount] = React.useState(() => getRegionColumnsCount(level))
 
@@ -226,6 +230,34 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   React.useEffect(() => {
     setColumnsCount(getRegionColumnsCount(level))
   }, [level])
+
+  // 更新安全区域
+  const updateSafeArea = React.useCallback(() => {
+    try {
+      const systemInfo = Taro.getSystemInfoSync()
+      const { safeArea, windowHeight } = systemInfo
+      if (safeArea && windowHeight) {
+        const lengthScaleRatio = (systemInfo as any).lengthScaleRatio || 1
+        const bottom = (windowHeight - safeArea.bottom) / lengthScaleRatio
+        setSafeAreaBottom(Math.max(0, bottom))
+      }
+    } catch (e) {
+      // H5 环境或其他异常情况，不设置安全区域
+      setSafeAreaBottom(0)
+    }
+  }, [])
+
+  // 初始化安全区域
+  React.useEffect(() => {
+    updateSafeArea()
+  }, [updateSafeArea])
+
+  // 监听窗口变化（导航方式切换等）
+  React.useEffect(() => {
+    const handleResize = () => updateSafeArea()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [updateSafeArea])
 
   // 获取当前索引数组
   const getIndices = React.useCallback(() => {
@@ -946,7 +978,13 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
       {!state.hidden && (
         <View className={classNames('taro-picker__overlay', `taro-picker__overlay--theme-${theme}`)}>
           <View className={clsMask} style={maskOverlayStyle} onClick={handleCancel} />
-          <View className={clsSlider} {...(backgroundStyle ? { style: backgroundStyle } : {})}>
+          <View
+            className={clsSlider}
+            style={{
+              ...backgroundStyle,
+              paddingBottom: safeAreaBottom ? `${safeAreaBottom}px` : undefined
+            }}
+          >
             <View className="taro-picker__hd" {...(backgroundStyle ? { style: backgroundStyle } : {})}>
               <View
                 className="taro-picker__action"
