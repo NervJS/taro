@@ -52,6 +52,7 @@ export default class SubPackageIndiePlugin {
   subPackageIndieMatchCache = new Map<string, SubPackageIndieMatch | null>()
   entriesByRootCache: Map<string, any[]> | null = null
   componentByNameCache: Map<string, any> | null = null
+  rootConfigContentCache = new Map<string, any>()
   forceCustomWrapperByRootCache = new Map<string, boolean>()
   scopedComponentConfigByCompilation = new WeakMap<Compilation, Map<string, any>>()
   rootUsingCustomWrapperByCompilation = new WeakMap<Compilation, Map<string, boolean>>()
@@ -68,6 +69,7 @@ export default class SubPackageIndiePlugin {
     this.subPackageIndieMatchCache.clear()
     this.entriesByRootCache = null
     this.componentByNameCache = null
+    this.rootConfigContentCache.clear()
     this.forceCustomWrapperByRootCache.clear()
   }
 
@@ -971,6 +973,42 @@ export default class SubPackageIndiePlugin {
     return this.entriesByRootCache.get(root) || []
   }
 
+  getSubPackageIndieRootEntry (root: string) {
+    const entries = this.getSubPackageIndieEntriesByRoot(root)
+    return entries.find(entry => entry.name === `${root}/index`) || entries.find(entry => entry.name === root) || entries[0]
+  }
+
+  getSubPackageIndieRootConfigContent (root: string) {
+    if (this.rootConfigContentCache.has(root)) {
+      return this.rootConfigContentCache.get(root)
+    }
+
+    const entry = this.getSubPackageIndieRootEntry(root)
+    const content = entry
+      ? this.miniPlugin.filesConfig[this.miniPlugin.getConfigFilePath(entry.name)]?.content
+      : undefined
+
+    this.rootConfigContentCache.set(root, content)
+    return content
+  }
+
+  getSubPackageIndieRootUsingComponents (root: string) {
+    const content = this.getSubPackageIndieRootConfigContent(root)
+    return {
+      ...content?.usingComponents,
+    }
+  }
+
+  getSubPackageIndieRootComponentPlaceholder (root: string) {
+    const content = this.getSubPackageIndieRootConfigContent(root)
+    const componentPlaceholder = content?.componentPlaceholder
+    if (!componentPlaceholder || Object.keys(componentPlaceholder).length === 0) return undefined
+
+    return {
+      ...componentPlaceholder,
+    }
+  }
+
   isForceCustomWrapperEnabledForRoot (root: string): boolean {
     if (this.options.template.isSupportRecursive) return false
     if (this.forceCustomWrapperByRootCache.has(root)) {
@@ -1176,14 +1214,20 @@ registerRecursiveComponent(${args.join(', ')})
           this.options.fileType.templ
         )
 
-        this.miniPlugin.generateConfigFile(compilation, compiler, `${root}/${customWrapperName}`, {
+        const customWrapperConfig: Record<string, any> = {
           component: true,
           styleIsolation: STYLE_ISOLATION_APPLY_SHARED,
           usingComponents: {
+            ...this.getSubPackageIndieRootUsingComponents(root),
             [baseCompName]: `./${baseCompName}`,
             [customWrapperName]: `./${customWrapperName}`,
           },
-        })
+        }
+        const componentPlaceholder = this.getSubPackageIndieRootComponentPlaceholder(root)
+        if (componentPlaceholder) {
+          customWrapperConfig.componentPlaceholder = componentPlaceholder
+        }
+        this.miniPlugin.generateConfigFile(compilation, compiler, `${root}/${customWrapperName}`, customWrapperConfig as Config & { component?: boolean })
       }
     })
 
