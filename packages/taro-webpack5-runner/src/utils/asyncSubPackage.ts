@@ -84,13 +84,22 @@ export function getAsyncRootForModule (
   return result
 }
 
-export function getSingleAsyncRootForModules (modules: any[], sourceDir: string, asyncRootMap: Map<string, string>, moduleGraph?: any): string | null {
+export function getSingleAsyncRootForModules (
+  modules: any[],
+  sourceDir: string,
+  asyncRootMap: Map<string, string>,
+  moduleGraph?: any,
+  cache?: WeakMap<any, string | null | undefined>
+): string | null {
   const asyncRoots = new Set<string>()
 
   for (const module of modules) {
-    const asyncRoot = getAsyncRootForModule(module, sourceDir, asyncRootMap, moduleGraph)
+    const asyncRoot = getAsyncRootForModule(module, sourceDir, asyncRootMap, moduleGraph, undefined, cache)
     if (asyncRoot === null) return null
-    if (asyncRoot) asyncRoots.add(asyncRoot)
+    if (asyncRoot) {
+      asyncRoots.add(asyncRoot)
+      if (asyncRoots.size > 1) return null
+    }
   }
 
   if (asyncRoots.size !== 1) return null

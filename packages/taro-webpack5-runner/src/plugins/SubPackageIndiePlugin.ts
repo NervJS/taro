@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import { fs, META_TYPE, promoteRelativePath, resolveMainFilePath, taroJsComponents } from '@tarojs/helper'
+import { fs, META_TYPE, printLog, processTypeEnum, promoteRelativePath, resolveMainFilePath, taroJsComponents } from '@tarojs/helper'
 import { urlToRequest } from 'loader-utils'
 
 import { componentConfig } from '../utils/component'
@@ -197,6 +197,9 @@ export default class SubPackageIndiePlugin {
       if (this.hasSubPackageIndieMainPackageRoot() && this.options.newBlended) {
         this.generateMainPackageRuntimeFiles(compilation, compiler)
       }
+      if (this.getSubPackageIndieConfigs().length) {
+        this.cleanSubPackageIndieAppConfig(compilation, compiler)
+      }
     })
 
     this.miniPlugin.hooks.optimizeAssets.tap(PLUGIN_NAME, compilation => {
@@ -243,6 +246,7 @@ export default class SubPackageIndiePlugin {
         delete compilation.assets[`app-origin${styleExt}`]
         delete compilation.assets[`${baseCompName}.js`]
         delete compilation.assets[`${customWrapperName}.js`]
+        delete compilation.assets[`common-templates${this.options.fileType.templ}`]
       }
     })
 
@@ -311,12 +315,13 @@ export default class SubPackageIndiePlugin {
     return root
   }
 
-  parseIndieRootConfig (rootConfig: string | { path: string, disableRecursiveComponent?: boolean, asyncSubPackage?: { asyncRoot: string } }): { path: string, disableRecursiveComponent: boolean, asyncRoot?: string } {
+  parseIndieRootConfig (rootConfig: string | { path: string, disableRecursiveComponent?: boolean, asyncSubPackage?: { asyncRoot: string } }): { path: string, originalPath: string, disableRecursiveComponent: boolean, asyncRoot?: string } {
     if (typeof rootConfig === 'string') {
-      return { path: this.normalizeIndieRoot(rootConfig), disableRecursiveComponent: false }
+      return { path: this.normalizeIndieRoot(rootConfig), originalPath: rootConfig, disableRecursiveComponent: false }
     }
     return {
       path: this.normalizeIndieRoot(rootConfig.path),
+      originalPath: rootConfig.path,
       disableRecursiveComponent: !!rootConfig.disableRecursiveComponent,
       asyncRoot: rootConfig.asyncSubPackage?.asyncRoot,
     }
@@ -325,14 +330,21 @@ export default class SubPackageIndiePlugin {
   getSubPackageIndieConfigs (): NormalizedSubPackageIndieConfig[] {
     if (this.subPackageIndieConfigsCache) return this.subPackageIndieConfigsCache
 
-    const subPackageIndie = this.miniPlugin.appConfig?.subPackageIndie
+    const appConfig = this.miniPlugin.appConfig
+    const subPackageIndie = appConfig?.subPackageIndie
     if (!Array.isArray(subPackageIndie)) {
       this.subPackageIndieConfigsCache = []
       return this.subPackageIndieConfigsCache
     }
 
+    const appPages = new Set(appConfig?.pages || [])
+
     this.subPackageIndieConfigsCache = subPackageIndie.map(({ mainPackageRoot, subPackageRoots = [] }: SubPackageIndieConfig) => {
       const mainParsed = this.parseIndieRootConfig(mainPackageRoot)
+      if (!appPages.has(mainParsed.originalPath) && this.options.logger?.quiet === false) {
+        printLog(processTypeEnum.WARNING, 'subPackageIndie', `mainPackageRoot.path "${mainParsed.originalPath}" 未配置在 app.config 的 pages 中，请补充 pages: [..., "${mainParsed.originalPath}"]，否则主包入口页面文件不会生成。`)
+      }
+
       const subParsedList = subPackageRoots.map(root => this.parseIndieRootConfig(root))
       const disableRecursiveComponentRoots = new Set<string>()
       const asyncSubPackageRootMap = new Map<string, string>()
@@ -1234,13 +1246,26 @@ registerRecursiveComponent(${args.join(', ')})
     return customWrapperRoots
   }
 
+  cleanSubPackageIndieAppConfig (compilation: Compilation, compiler: Compiler) {
+    const { RawSource } = compiler.webpack.sources
+    const appCfgPath = this.miniPlugin.getConfigFilePath(this.miniPlugin.appEntry)
+    const appCfgName = path.basename(appCfgPath).replace(path.extname(appCfgPath), '')
+    const fc = this.miniPlugin.filesConfig?.[appCfgName]
+    if (!fc?.content) return
+
+    delete fc.content.subPackageIndie
+    compilation.assets[this.miniPlugin.getConfigPath(appCfgName)] = new RawSource(JSON.stringify(fc.content, null, 2))
+  }
+
   generateMainPackageRuntimeFiles (compilation: Compilation, compiler: Compiler) {
     const { commonChunks, fileType } = this.options
     const mainPackageRoots = this.getAllMainPackageRoots()
     if (!mainPackageRoots.length) return
 
     const styleExt = fileType.style
+    const templateExt = fileType.templ
     const runtimeChunks = ['app', ...commonChunks]
+    const commonTemplates = `common-templates${templateExt}`
     const appJsContent = compilation.assets['app.js']
     let patchedAppJsContent = appJsContent
 
@@ -1279,6 +1304,10 @@ registerRecursiveComponent(${args.join(', ')})
       const appOriginCss = `app-origin${styleExt}`
       if (compilation.assets[appOriginCss]) {
         compilation.assets[`${mainPackageRoot}/${appOriginCss}`] = compilation.assets[appOriginCss]
+      }
+
+      if (compilation.assets[commonTemplates]) {
+        compilation.assets[`${mainPackageRoot}/${commonTemplates}`] = compilation.assets[commonTemplates]
       }
     })
   }

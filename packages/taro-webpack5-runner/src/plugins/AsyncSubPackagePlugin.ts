@@ -2,7 +2,7 @@ import path from 'node:path'
 
 import { REG_SCRIPTS, REG_STYLE } from '@tarojs/helper'
 
-import { createAsyncCommonChunkName, getAsyncRootAssetNames, getAsyncRootForModule, getSingleAsyncRootForModules, normalizePathForAsyncSubPackage } from '../utils/asyncSubPackage'
+import { createAsyncCommonChunkName, getAsyncRootAssetNames, getAsyncRootForModule, getSingleAsyncRootForModules, getSourceRootForResource, normalizePathForAsyncSubPackage } from '../utils/asyncSubPackage'
 
 import type { SubPackage } from '@tarojs/taro'
 import type { Compiler } from 'webpack'
@@ -118,6 +118,23 @@ function createRequestResolverRuntimeSource (Template: any) {
       'return index;'
     ]),
     '};',
+    'var getRootTail = function(root) {',
+    Template.indent([
+      'var parts = root.split("/").filter(Boolean);',
+      'return parts.length > 1 ? parts.slice(1).join("/") : root;'
+    ]),
+    '};',
+    'var resolveHostRoot = function(routeDir, sourceRoot) {',
+    Template.indent([
+      'var routeMatchIndex = matchRouteAnchor(routeDir, sourceRoot);',
+      'if (routeMatchIndex >= 0) return routeDir.slice(0, routeMatchIndex);',
+      'var sourceTail = getRootTail(sourceRoot);',
+      'if (!sourceTail) return null;',
+      'if (routeDir === sourceTail) return "";',
+      'if (routeDir.slice(-sourceTail.length - 1) !== "/" + sourceTail) return null;',
+      'return routeDir.slice(0, routeDir.length - sourceTail.length);'
+    ]),
+    '};',
     'var resolveAsyncSubPackageRequest = function(rawUrl) {',
     Template.indent([
       'var pages = typeof getCurrentPages === "function" && getCurrentPages() || [];',
@@ -130,12 +147,17 @@ function createRequestResolverRuntimeSource (Template: any) {
         'var asyncRoot = asyncSubPackageRootEntries[i][1];',
         'var asyncEntry = asyncSubPackageRootEntries[i][2];',
         'if (rawUrl !== asyncEntry) continue;',
-        'var routeMatchIndex = matchRouteAnchor(route, sourceRoot);',
-        'if (routeMatchIndex < 0) continue;',
-        'var hostAsyncEntry = route.slice(0, routeMatchIndex) + asyncRoot + "/' + ASYNC_SUBPACKAGE_ENTRY + '";',
         'var routeDirParts = route.split("/");',
         'routeDirParts.pop();',
-        'var request = relative(routeDirParts.join("/"), hostAsyncEntry);',
+        'var routeDir = routeDirParts.join("/");',
+        'var hostRoot = resolveHostRoot(routeDir, sourceRoot);',
+        'if (hostRoot === null) continue;',
+        'var asyncTail = getRootTail(asyncRoot);',
+        'var hostRootValue = hostRoot ? hostRoot : "";',
+        'if (hostRootValue && hostRootValue.charAt(hostRootValue.length - 1) === "/") hostRootValue = hostRootValue.slice(0, -1);',
+        'var hostAsyncEntry = (hostRootValue ? hostRootValue + "/" : "") + asyncTail + "/' + ASYNC_SUBPACKAGE_ENTRY + '";',
+        'while (hostAsyncEntry.charAt(0) === "/") hostAsyncEntry = hostAsyncEntry.slice(1);',
+        'var request = relative(routeDir, hostAsyncEntry);',
         'return request.indexOf(".") === 0 ? request : "./" + request;'
       ]),
       '}',
@@ -243,6 +265,8 @@ export default class AsyncSubPackagePlugin {
   private appliedCompilers: WeakSet<Compiler> = new WeakSet()
   private miniHooksApplied = false
   private asyncModuleCache = new WeakMap<any, string | null | undefined>()
+  private asyncChunkRootCache = new WeakMap<any, string | null>()
+  private asyncChunkSourceRoots = new Map<string, Set<string>>()
 
   constructor (miniPlugin: TaroMiniPlugin, asyncRootMap?: Map<string, string>) {
     this.miniPlugin = miniPlugin
@@ -268,6 +292,8 @@ export default class AsyncSubPackagePlugin {
       this.appliedCompilers.add(compiler)
       compiler.hooks.compilation.tap(PLUGIN_NAME, () => {
         this.asyncModuleCache = new WeakMap()
+        this.asyncChunkRootCache = new WeakMap()
+        this.asyncChunkSourceRoots = new Map()
       })
       this.setupAsyncSplitChunks(compiler)
       this.setupAsyncChunkOptimization(compiler)
@@ -333,6 +359,42 @@ export default class AsyncSubPackagePlugin {
 
   // ==================== Async Chunk Optimization ====================
 
+  private getSingleSourceRoot (sourceRoots: Set<string>): string | null {
+    if (sourceRoots.size !== 1) return null
+    return Array.from(sourceRoots)[0]
+  }
+
+  private getAsyncRootFromSourceRoots (sourceRoots: Set<string>): string | null {
+    const asyncRoots = new Set<string>()
+
+    for (const sourceRoot of sourceRoots) {
+      const asyncRoot = this.asyncRootMap.get(sourceRoot)
+      if (asyncRoot) {
+        asyncRoots.add(asyncRoot)
+        if (asyncRoots.size > 1) return null
+      }
+    }
+
+    return asyncRoots.size === 1 ? Array.from(asyncRoots)[0] : null
+  }
+
+  private getSourceRootsFromChunkGroupOrigins (chunk: any): Set<string> {
+    const sourceRoots = new Set<string>()
+    const sourceDir = this.miniPlugin.options.sourceDir
+
+    for (const group of chunk.groupsIterable || []) {
+      for (const origin of group.origins || []) {
+        const originModules = [origin?.module, origin?.originModule]
+        for (const originModule of originModules) {
+          const sourceRoot = getSourceRootForResource(getModuleResource(originModule), sourceDir, this.asyncRootMap)
+          if (sourceRoot) sourceRoots.add(sourceRoot)
+        }
+      }
+    }
+
+    return sourceRoots
+  }
+
   private setupAsyncChunkOptimization (compiler: Compiler) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation: any) => {
       compilation.hooks.optimizeChunks.tap(PLUGIN_NAME, chunks => {
@@ -344,14 +406,32 @@ export default class AsyncSubPackagePlugin {
           const modules = Array.from(compilation.chunkGraph.getChunkModulesIterable(chunk))
           const jsModules = modules.filter(module => isJavaScriptModule(module))
           if (jsModules.length === 0) continue
-          const asyncRoot = getSingleAsyncRootForModules(jsModules, this.miniPlugin.options.sourceDir, this.asyncRootMap, compilation.moduleGraph)
+
+          const sourceRoots = this.getSourceRootsFromChunkGroupOrigins(chunk)
+          let asyncRoot = this.asyncChunkRootCache.get(chunk)
+          if (!this.asyncChunkRootCache.has(chunk)) {
+            asyncRoot = getSingleAsyncRootForModules(
+              jsModules,
+              this.miniPlugin.options.sourceDir,
+              this.asyncRootMap,
+              compilation.moduleGraph,
+              this.asyncModuleCache
+            ) || this.getAsyncRootFromSourceRoots(sourceRoots)
+            this.asyncChunkRootCache.set(chunk, asyncRoot || null)
+          }
           if (!asyncRoot) continue
+
           const fallbackName = jsModules
             .map(module => path.posix.basename(getModuleResource(module)).replace(/\?.*$/, ''))
             .filter(Boolean)
             .sort()
             .join('~') || 'common'
-          chunk.name = createAsyncCommonChunkName(asyncRoot, chunk.name || String(chunk.id || chunk.debugId || fallbackName))
+          const asyncChunkName = createAsyncCommonChunkName(asyncRoot, chunk.name || String(chunk.id || chunk.debugId || fallbackName))
+          chunk.name = asyncChunkName
+
+          if (sourceRoots.size > 0) {
+            this.asyncChunkSourceRoots.set(asyncChunkName, new Set(sourceRoots))
+          }
         }
       })
     })
@@ -403,6 +483,7 @@ export default class AsyncSubPackagePlugin {
           if (this.asyncRootMap.size === 0) return
           const { RawSource } = compilation.compiler.webpack.sources
           this.moveAsyncRootStylesToSourceRoots(compilation, RawSource)
+          this.moveAsyncRootTemplatesToSourceRoots(compilation)
           this.createAsyncRootEntries(compilation, RawSource)
         }
       )
@@ -433,27 +514,50 @@ export default class AsyncSubPackagePlugin {
     }
   }
 
+  private moveAsyncRootTemplatesToSourceRoots (compilation: any) {
+    const templateExt = this.miniPlugin.options.fileType.templ || '.wxml'
+    const asyncRoots = new Set(this.asyncRootMap.values())
+
+    for (const asyncRoot of asyncRoots) {
+      const templateAssets = Object.keys(compilation.assets)
+        .filter(assetName => assetName.startsWith(`${asyncRoot}/`) && assetName.endsWith(`-templates${templateExt}`))
+
+      for (const assetName of templateAssets) {
+        const templateName = path.posix.basename(assetName)
+        const chunkName = `${asyncRoot}/${templateName.slice(0, -`-templates${templateExt}`.length)}`
+        const sourceRoots = this.asyncChunkSourceRoots.get(chunkName)
+        const sourceRoot = sourceRoots ? this.getSingleSourceRoot(sourceRoots) : null
+        if (!sourceRoot) continue
+
+        compilation.assets[`${sourceRoot}/${templateName}`] = compilation.assets[assetName]
+        delete compilation.assets[assetName]
+      }
+    }
+  }
+
   private moveAsyncRootStylesToSourceRoots (compilation: any, RawSource: any) {
     const styleExt = this.miniPlugin.options.fileType.style || '.wxss'
     const styleAssetReg = new RegExp(`\\${styleExt}$`)
-    const asyncRootEntries = Array.from(this.asyncRootMap.entries())
+    const asyncRoots = new Set(this.asyncRootMap.values())
 
-    for (const [sourceRoot, asyncRoot] of asyncRootEntries) {
+    for (const asyncRoot of asyncRoots) {
       const asyncStyleAssets = Object.keys(compilation.assets)
         .filter(assetName => assetName.startsWith(`${asyncRoot}/`) && styleAssetReg.test(assetName))
       if (asyncStyleAssets.length === 0) continue
 
-      // asyncRoot 下只保留 JS 与 index 占位页面；动态组件样式仍在父包页面上下文生效，
-      // 因此把 async chunk 产生的样式并回对应 sourceRoot/index.wxss。
-      const targetStyleAsset = `${sourceRoot}/index${styleExt}`
-      const origin = compilation.assets[targetStyleAsset]?.source?.().toString() || ''
-      const asyncStyles = asyncStyleAssets
-        .map(assetName => compilation.assets[assetName]?.source?.().toString() || '')
-        .filter(Boolean)
-        .join('\n')
-      compilation.assets[targetStyleAsset] = new RawSource([origin, asyncStyles].filter(Boolean).join('\n'))
-
       for (const assetName of asyncStyleAssets) {
+        const chunkName = assetName.slice(0, -styleExt.length)
+        const sourceRoots = this.asyncChunkSourceRoots.get(chunkName)
+        if (!sourceRoots?.size) continue
+
+        // asyncRoot 下只保留 JS 与 index 占位页面；动态组件样式仍在父包页面上下文生效。
+        // 单一页面使用的 async style 只并回该 sourceRoot；多个页面共用的 async style 复制到所有使用它的 sourceRoot。
+        const asyncStyle = compilation.assets[assetName]?.source?.().toString() || ''
+        for (const sourceRoot of sourceRoots) {
+          const targetStyleAsset = `${sourceRoot}/index${styleExt}`
+          const origin = compilation.assets[targetStyleAsset]?.source?.().toString() || ''
+          compilation.assets[targetStyleAsset] = new RawSource([origin, asyncStyle].filter(Boolean).join('\n'))
+        }
         delete compilation.assets[assetName]
       }
     }
