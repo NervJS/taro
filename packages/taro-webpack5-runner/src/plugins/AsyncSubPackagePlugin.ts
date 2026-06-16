@@ -266,8 +266,9 @@ export default class AsyncSubPackagePlugin {
     if (commonCacheGroup && commonCacheGroup !== false && !commonCacheGroup[COMMON_CACHE_GROUP_PATCHED]) {
       const originalCommonTest = commonCacheGroup.test
       commonCacheGroup.test = (module: any, context: any) => {
-        // asyncSubPackage 自己负责归属到 asyncRoot 的 JS 模块，避免被默认 common 抽到主包 common.js。
-        if (this.isAsyncSubPackageModule(module, context)) return false
+        // 只保护纯 asyncSubPackage 模块，避免被默认 common 抽到主包 common.js。
+        // 被 initial chunk 静态引用的共享模块仍应交给默认 common 处理。
+        if (this.isPureAsyncSubPackageModule(module, context)) return false
         return typeof originalCommonTest === 'function' ? originalCommonTest(module, context) : originalCommonTest !== false
       }
       // 同一插件实例多次 apply、或 webpack-chain 多次构建 options 时，避免对 test 反复套娃。
@@ -303,6 +304,16 @@ export default class AsyncSubPackagePlugin {
 
     const asyncRoot = this.getCachedAsyncRootForModule(module, context)
     return Boolean(asyncRoot)
+  }
+
+  private isPureAsyncSubPackageModule (module: any, context: any): boolean {
+    if (!this.isAsyncSubPackageModule(module, context)) return false
+
+    const chunks = Array.from(context?.chunkGraph?.getModuleChunksIterable?.(module) || [])
+    // splitChunks test 没有 chunkGraph 时不要过度排除，交回默认 common cacheGroup。
+    if (chunks.length === 0) return false
+
+    return chunks.every((chunk: any) => !chunk.canBeInitial?.())
   }
 
   // ==================== Async Chunk Optimization ====================
