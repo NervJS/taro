@@ -402,8 +402,9 @@ export default class SubPackageIndiePlugin {
 
   /**
    * 获取 asyncSubPackage 运行时路径解析锚点。
-   * 除 asyncSubPackage sourceRoot 外，还按配置组补充 mainPackageRoot，避免 blended 场景下当前 route 停留在主入口页面时无法推导宿主挂载前缀。
-   * 当 mainPackageRoot 自身就配置了 asyncSubPackage 时，第二段补充会与第一段重复，这里通过 seen 集合去重。
+   * blended 场景下动态组件实际渲染在 mainPackageRoot 页面上下文中，
+   * require.async 也应始终基于当前 mainRoot route 计算到 asyncRoot/index 的相对路径。
+   * sourceRoot -> asyncRoot 映射仍用于 chunk/style/template 归属；运行时只需要 mainPackageRoot -> asyncRoot。
    */
   getAsyncSubPackageRuntimeRoots (): AsyncSubPackageRuntimeRoot[] {
     const result: AsyncSubPackageRuntimeRoot[] = []
@@ -414,15 +415,14 @@ export default class SubPackageIndiePlugin {
       seen.add(key)
       result.push({ sourceRoot, asyncRoot })
     }
+
     for (const config of this.getSubPackageIndieConfigs()) {
       const asyncRoots = new Set(config.asyncSubPackageRootMap.values())
-      for (const [sourceRoot, asyncRoot] of config.asyncSubPackageRootMap) {
-        push(sourceRoot, asyncRoot)
-      }
       for (const asyncRoot of asyncRoots) {
         push(config.mainPackageRoot, asyncRoot)
       }
     }
+
     return result
   }
 

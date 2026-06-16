@@ -61,13 +61,27 @@ function createMiniAppConfigContent (content: Record<string, any>, subPackages: 
   return result
 }
 
+function createRelativeRequestFromRoot (fromRoot: string, toEntry: string): string {
+  const fromParts = normalizePathForAsyncSubPackage(fromRoot).split('/').filter(Boolean)
+  const toParts = normalizePathForAsyncSubPackage(toEntry).split('/').filter(Boolean)
+
+  while (fromParts.length && toParts.length && fromParts[0] === toParts[0]) {
+    fromParts.shift()
+    toParts.shift()
+  }
+
+  const request = [...fromParts.map(() => '..'), ...toParts].join('/') || '.'
+  return request.startsWith('.') ? request : `./${request}`
+}
+
 function createNormalizedRuntimeRootEntries (asyncRootEntries: AsyncSubPackageRuntimeRoot[]) {
   return asyncRootEntries.map(({ sourceRoot, asyncRoot }) => {
+    const normalizedSourceRoot = normalizePathForAsyncSubPackage(sourceRoot)
     const normalizedAsyncRoot = normalizePathForAsyncSubPackage(asyncRoot)
     return [
-      normalizePathForAsyncSubPackage(sourceRoot),
+      normalizedSourceRoot,
       normalizedAsyncRoot,
-      `${normalizedAsyncRoot}/${ASYNC_SUBPACKAGE_ENTRY}`
+      createRelativeRequestFromRoot(normalizedSourceRoot, normalizedAsyncRoot)
     ]
   })
 }
@@ -77,14 +91,7 @@ function createChunkFilenameRuntimeSource (Template: any, getChunkScriptFilename
     `var asyncSubPackageChunkFilename = ${getChunkScriptFilename};`,
     `${getChunkScriptFilename} = function(chunkId) {`,
     Template.indent([
-      'var filename = asyncSubPackageChunkFilename(chunkId);',
-      'for (var i = 0; i < asyncSubPackageRootEntries.length; i++) {',
-      Template.indent([
-        'var asyncRoot = asyncSubPackageRootEntries[i][1];',
-        'if (filename === asyncRoot || filename.indexOf(asyncRoot + "/") === 0) return asyncSubPackageRootEntries[i][2];'
-      ]),
-      '}',
-      'return filename;'
+      'return asyncSubPackageChunkFilename(chunkId);'
     ]),
     '};'
   ]
@@ -92,73 +99,14 @@ function createChunkFilenameRuntimeSource (Template: any, getChunkScriptFilename
 
 function createRequestResolverRuntimeSource (Template: any) {
   return [
-    'var relative = function(from, to) {',
-    Template.indent([
-      'var fromParts = from.split("/").filter(Boolean);',
-      'var toParts = to.split("/").filter(Boolean);',
-      'while (fromParts.length && toParts.length && fromParts[0] === toParts[0]) {',
-      Template.indent([
-        'fromParts.shift();',
-        'toParts.shift();'
-      ]),
-      '}',
-      'var result = [];',
-      'for (var i = 0; i < fromParts.length; i++) result.push("..");',
-      'result = result.concat(toParts);',
-      'return result.length ? result.join("/") : ".";'
-    ]),
-    '};',
-    'var matchRouteAnchor = function(route, sourceRoot) {',
-    Template.indent([
-      'var index = route.indexOf(sourceRoot);',
-      'if (index < 0) return -1;',
-      'if (index > 0 && route.charAt(index - 1) !== "/") return -1;',
-      'var end = index + sourceRoot.length;',
-      'if (route.length > end && route.charAt(end) !== "/") return -1;',
-      'return index;'
-    ]),
-    '};',
-    'var getRootTail = function(root) {',
-    Template.indent([
-      'var parts = root.split("/").filter(Boolean);',
-      'return parts.length > 1 ? parts.slice(1).join("/") : root;'
-    ]),
-    '};',
-    'var resolveHostRoot = function(routeDir, sourceRoot) {',
-    Template.indent([
-      'var routeMatchIndex = matchRouteAnchor(routeDir, sourceRoot);',
-      'if (routeMatchIndex >= 0) return routeDir.slice(0, routeMatchIndex);',
-      'var sourceTail = getRootTail(sourceRoot);',
-      'if (!sourceTail) return null;',
-      'if (routeDir === sourceTail) return "";',
-      'if (routeDir.slice(-sourceTail.length - 1) !== "/" + sourceTail) return null;',
-      'return routeDir.slice(0, routeDir.length - sourceTail.length);'
-    ]),
-    '};',
     'var resolveAsyncSubPackageRequest = function(rawUrl) {',
     Template.indent([
-      'var pages = typeof getCurrentPages === "function" && getCurrentPages() || [];',
-      'var currentPage = pages[pages.length - 1];',
-      'var route = currentPage && currentPage.route;',
-      'if (!route) return rawUrl;',
       'for (var i = 0; i < asyncSubPackageRootEntries.length; i++) {',
       Template.indent([
-        'var sourceRoot = asyncSubPackageRootEntries[i][0];',
         'var asyncRoot = asyncSubPackageRootEntries[i][1];',
-        'var asyncEntry = asyncSubPackageRootEntries[i][2];',
-        'if (rawUrl !== asyncEntry) continue;',
-        'var routeDirParts = route.split("/");',
-        'routeDirParts.pop();',
-        'var routeDir = routeDirParts.join("/");',
-        'var hostRoot = resolveHostRoot(routeDir, sourceRoot);',
-        'if (hostRoot === null) continue;',
-        'var asyncTail = getRootTail(asyncRoot);',
-        'var hostRootValue = hostRoot ? hostRoot : "";',
-        'if (hostRootValue && hostRootValue.charAt(hostRootValue.length - 1) === "/") hostRootValue = hostRootValue.slice(0, -1);',
-        'var hostAsyncEntry = (hostRootValue ? hostRootValue + "/" : "") + asyncTail + "/' + ASYNC_SUBPACKAGE_ENTRY + '";',
-        'while (hostAsyncEntry.charAt(0) === "/") hostAsyncEntry = hostAsyncEntry.slice(1);',
-        'var request = relative(routeDir, hostAsyncEntry);',
-        'return request.indexOf(".") === 0 ? request : "./" + request;'
+        'var asyncRootRequest = asyncSubPackageRootEntries[i][2];',
+        'if (rawUrl === asyncRoot) return asyncRootRequest;',
+        'if (rawUrl.indexOf(asyncRoot + "/") === 0) return asyncRootRequest + rawUrl.slice(asyncRoot.length);'
       ]),
       '}',
       'return rawUrl;'
