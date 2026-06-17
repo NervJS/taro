@@ -199,6 +199,7 @@ export class Swiper implements ComponentInterface {
     if (!this.isWillLoadCalled || !this.swiper) return
     if (!newVal) return
     const beforeDomOperation = () => {
+      if (!this.swiper.wrapperEl) return
       this.#domChangeByOutSide = true
       // 如果是由于外部子节点的变化引起的 dom 变化，需要重新初始化 swiper。
       // 在初dom操作之前，需要调用 loopDestroy，把子节点的顺序恢复
