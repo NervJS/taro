@@ -32,7 +32,6 @@ export class Image implements ComponentInterface {
    */
   @Prop() disableDefaultSize = false
 
-  @State() aspectFillMode = 'width'
   @State() didLoad = false
 
   @Event({
@@ -65,19 +64,12 @@ export class Image implements ComponentInterface {
     // 防止组件已卸载或 img 已被移除时 ref 为 null（如列表滚动、src 清空、lazyLoad 时序等）
     if (!this.imgRef) return
 
-    const {
-      width,
-      height,
-      naturalWidth,
-      naturalHeight
-    } = this.imgRef
+    const { width, height } = this.imgRef
 
     this.onLoad.emit({
       width,
       height
     })
-
-    this.aspectFillMode = naturalWidth > naturalHeight ? 'width' : 'height'
   }
 
   imageOnError (e: Event) {
@@ -88,7 +80,6 @@ export class Image implements ComponentInterface {
     const {
       src,
       lazyLoad = false,
-      aspectFillMode = 'width',
       imageOnLoad,
       imageOnError,
       nativeProps,
@@ -101,12 +92,7 @@ export class Image implements ComponentInterface {
       'taro-img__widthfix': mode === 'widthFix',
       'taro-img__disable-default-size': this.disableDefaultSize,
     })
-    const imgCls = classNames(
-      `taro-img__mode-${mode.toLowerCase().replace(/\s/g, '')}`,
-      {
-        [`taro-img__mode-aspectfill--${aspectFillMode}`]: mode === 'aspectFill'
-      }
-    )
+    const imgCls = `taro-img__mode-${mode.toLowerCase().replace(/\s/g, '')}`
 
     return (
       <Host class={cls}>
