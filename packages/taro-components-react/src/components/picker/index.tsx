@@ -1,6 +1,7 @@
 import './style/index.scss'
 
 import { View } from '@tarojs/components'
+import Taro from '@tarojs/taro'
 import classNames from 'classnames'
 import React from 'react'
 
@@ -114,6 +115,8 @@ export interface PickerColors {
   backgroundColor?: string // 面板背景色
   lineColor?: string // 指示线条颜色
   titleColor?: string // 标题颜色
+  /** 全屏点击蒙层背景色；不设则随 theme 使用默认浅色/深色蒙层 */
+  maskColor?: string
 }
 
 export interface PickerDate {
@@ -146,6 +149,8 @@ interface IProps {
   formType?: string
   lang?: string // 语言参数，支持 'zh-CN'、'en-US'、'en-GB'
   theme?: 'light' | 'dark' // 主题模式，默认 'light'
+  /** 点击选项是否滚至选中区，默认 true */
+  enableClickItemScroll?: boolean
 }
 
 interface IState {
@@ -154,7 +159,9 @@ interface IState {
   hidden: boolean
   fadeOut: boolean
   isWillLoadCalled: boolean
-  timestamp: number
+  /** time 限位后由子列消费，用于无障碍聚焦 */
+  a11yTimeLimitColumnId: string | null
+  a11yTimeLimitNonce: number
 }
 
 // 普通函数
@@ -195,11 +202,12 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     formType,
     lang,
     theme = 'light',
+    enableClickItemScroll = true,
     ...restProps
   } = props
   const indexRef = React.useRef<number[]>([])
   const pickerDateRef = React.useRef<PickerDate>()
-  // 记录是否是用户滚动
+  // region：首次用户滚动初始化完成前不入库
   const isInitializationCompletedRef = React.useRef(false)
 
   const [state, setState] = React.useState<IState>({
@@ -208,8 +216,12 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     hidden: true,
     fadeOut: false,
     isWillLoadCalled: false,
-    timestamp: 0 // 用以部分模式下强制刷新组件的的时间戳，多用于反复限位
+    a11yTimeLimitColumnId: null,
+    a11yTimeLimitNonce: 0
   })
+
+  // 安全区域底部距离
+  const [safeAreaBottom, setSafeAreaBottom] = React.useState(0)
 
   // 在组件内部
   const [columnsCount, setColumnsCount] = React.useState(() => getRegionColumnsCount(level))
@@ -218,6 +230,34 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   React.useEffect(() => {
     setColumnsCount(getRegionColumnsCount(level))
   }, [level])
+
+  // 更新安全区域
+  const updateSafeArea = React.useCallback(() => {
+    try {
+      const systemInfo = Taro.getSystemInfoSync()
+      const { safeArea, windowHeight } = systemInfo
+      if (safeArea && windowHeight) {
+        const lengthScaleRatio = (systemInfo as any).lengthScaleRatio || 1
+        const bottom = (windowHeight - safeArea.bottom) / lengthScaleRatio
+        setSafeAreaBottom(Math.max(0, bottom))
+      }
+    } catch (e) {
+      // H5 环境或其他异常情况，不设置安全区域
+      setSafeAreaBottom(0)
+    }
+  }, [])
+
+  // 初始化安全区域
+  React.useEffect(() => {
+    updateSafeArea()
+  }, [updateSafeArea])
+
+  // 监听窗口变化（导航方式切换等）
+  React.useEffect(() => {
+    const handleResize = () => updateSafeArea()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [updateSafeArea])
 
   // 获取当前索引数组
   const getIndices = React.useCallback(() => {
@@ -279,31 +319,35 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
         monthRange.indexOf(currentMonth),
         dayRange.indexOf(currentDay)
       ]
-      if (
-        !pickerDateRef.current ||
-        pickerDateRef.current._value.getTime() !== _value.getTime() ||
-        pickerDateRef.current._start.getTime() !== _start.getTime() ||
-        pickerDateRef.current._end.getTime() !== _end.getTime()
-      ) {
-        pickerDateRef.current = {
-          _value,
-          _start,
-          _end,
-          _updateValue: [currentYear, currentMonth, currentDay]
-        }
+      // 与 props 同步时始终刷新 _updateValue，避免取消后再开时日列草稿与索引不一致
+      pickerDateRef.current = {
+        _value,
+        _start,
+        _end,
+        _updateValue: [currentYear, currentMonth, currentDay]
       }
     } else if (mode === 'region') {
       // region 模式处理 - 验证数据
       if (!regionData) {
         console.error('Picker: regionData is required for region mode')
-        indexRef.current = [0]
+        indexRef.current = Array.from({ length: columnsCount }, () => 0)
+        setState(prev => ({
+          ...prev,
+          selectedIndices: [...indexRef.current],
+          pickerValue: value || EMPTY_ARRAY
+        }))
         return
       }
 
       const validation = validateRegionData(regionData, 'Picker')
       if (!validation.valid) {
         console.error(validation.error)
-        indexRef.current = [0]
+        indexRef.current = Array.from({ length: columnsCount }, () => 0)
+        setState(prev => ({
+          ...prev,
+          selectedIndices: [...indexRef.current],
+          pickerValue: value || EMPTY_ARRAY
+        }))
         return
       }
 
@@ -356,17 +400,17 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     }
   }, [handleProps, state.isWillLoadCalled, JSON.stringify(value)])
 
-  // 显示 Picker
+  // 打开时按 props 重算索引，避免未确认的滑动与 indexRef 残留导致再开抖动
   const showPicker = React.useCallback(() => {
     if (disabled) return
     isInitializationCompletedRef.current = false
-    const newIndices = getIndices()
+    handleProps()
     setState(prev => ({
       ...prev,
-      selectedIndices: newIndices,
-      hidden: false
+      hidden: false,
+      a11yTimeLimitColumnId: null
     }))
-  }, [disabled, getIndices])
+  }, [disabled, handleProps])
 
   // 隐藏 Picker
   const hidePicker = React.useCallback(() => {
@@ -448,12 +492,12 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
         hasLimited = true
       }
 
-      // 触发限位，更新状态，其它状态不用主动触发滚动
       if (hasLimited) {
         setState(prev => ({
           ...prev,
           selectedIndices: finalIndices,
-          timestamp: Date.now()
+          a11yTimeLimitColumnId: columnId,
+          a11yTimeLimitNonce: prev.a11yTimeLimitNonce + 1
         }))
       } else {
         setState(prev => ({
@@ -720,11 +764,16 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     })
   }, [onColumnChange])
 
-  // 处理取消
+  const consumeTimeA11yLimitFocus = React.useCallback(() => {
+    setState(prev => ({ ...prev, a11yTimeLimitColumnId: null }))
+  }, [])
+
+  // 取消时按 props 回同步索引，避免与 value 脱节
   const handleCancel = React.useCallback(() => {
+    handleProps()
     hidePicker()
     onCancel?.()
-  }, [hidePicker, onCancel])
+  }, [handleProps, hidePicker, onCancel])
 
   // 渲染选择器组
   const renderPickerGroup = React.useMemo(() => {
@@ -740,28 +789,41 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
             columnId={String(index)}
             selectedIndex={state.selectedIndices[index]} // 传递对应列的selectedIndex
             colors={colors}
+            enableClickItemScroll={enableClickItemScroll}
           />
         ))
       }
       case 'time': {
+        const timeA11yLimitFocus =
+          state.a11yTimeLimitColumnId != null
+            ? { nonce: state.a11yTimeLimitNonce, columnId: state.a11yTimeLimitColumnId }
+            : null
         return [
           <PickerGroup
-            key={`hour-${state.timestamp}`}
+            key="hour"
             mode="time"
             range={hoursRange}
             updateIndex={updateIndex}
             columnId="0"
             selectedIndex={state.selectedIndices[0]} // 传递小时列的selectedIndex
             colors={colors}
+            timeA11yLimitFocus={timeA11yLimitFocus}
+            onTimeA11yLimitFocusConsumed={consumeTimeA11yLimitFocus}
+            timeA11yLimitEventNonce={state.a11yTimeLimitNonce}
+            enableClickItemScroll={enableClickItemScroll}
           />,
           <PickerGroup
-            key={`minute-${state.timestamp}`}
+            key="minute"
             mode="time"
             range={minutesRange}
             updateIndex={updateIndex}
             columnId="1"
             selectedIndex={state.selectedIndices[1]} // 传递分钟列的selectedIndex
             colors={colors}
+            timeA11yLimitFocus={timeA11yLimitFocus}
+            onTimeA11yLimitFocusConsumed={consumeTimeA11yLimitFocus}
+            timeA11yLimitEventNonce={state.a11yTimeLimitNonce}
+            enableClickItemScroll={enableClickItemScroll}
           />
         ]
       }
@@ -791,6 +853,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
             columnId="0"
             selectedIndex={state.selectedIndices[0]} // 传递年份列的selectedIndex
             colors={colors}
+            enableClickItemScroll={enableClickItemScroll}
           />
         ]
         if (fields === 'month' || fields === 'day') {
@@ -804,6 +867,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
               columnId="1"
               selectedIndex={state.selectedIndices[1]} // 传递月份列的selectedIndex
               colors={colors}
+              enableClickItemScroll={enableClickItemScroll}
             />
           )
         }
@@ -818,6 +882,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
               columnId="2"
               selectedIndex={state.selectedIndices[2]} // 传递日期列的selectedIndex
               colors={colors}
+              enableClickItemScroll={enableClickItemScroll}
             />
           )
         }
@@ -859,6 +924,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
               columnId={String(i)}
               selectedIndex={state.selectedIndices[i]}
               colors={colors}
+              enableClickItemScroll={enableClickItemScroll}
             />
           )
         }
@@ -874,10 +940,11 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
             columnId="0"
             selectedIndex={state.selectedIndices[0]} // 传递selector模式的selectedIndex
             colors={colors}
+            enableClickItemScroll={enableClickItemScroll}
           />
         )
     }
-  }, [mode, range, rangeKey, fields, updateIndex, updateDay, handleColumnChange, pickerDateRef.current, level, regionData, state.selectedIndices, columnsCount, lang, colors])
+  }, [mode, range, rangeKey, fields, updateIndex, updateDay, handleColumnChange, pickerDateRef.current, level, regionData, state.selectedIndices, state.a11yTimeLimitColumnId, state.a11yTimeLimitNonce, consumeTimeA11yLimitFocus, columnsCount, lang, colors, enableClickItemScroll])
 
   // 动画类名控制逻辑
   const clsMask = classNames('taro-picker__mask-overlay', 'taro-picker__animate-fade-in', {
@@ -888,6 +955,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   })
   const backgroundStyle = colors.backgroundColor ? { backgroundColor: colors.backgroundColor } : null
   const titleStyle = colors.titleColor ? { color: colors.titleColor } : null
+  const maskOverlayStyle = colors.maskColor ? { backgroundColor: colors.maskColor } : undefined
 
   // 暴露方法给外部
   React.useImperativeHandle(ref, () => ({
@@ -908,9 +976,15 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
         {children}
       </View>
       {!state.hidden && (
-        <View className="taro-picker__overlay">
-          <View className={clsMask} onClick={handleCancel} />
-          <View className={clsSlider} {...(backgroundStyle ? { style: backgroundStyle } : {})}>
+        <View className={classNames('taro-picker__overlay', `taro-picker__overlay--theme-${theme}`)}>
+          <View className={clsMask} style={maskOverlayStyle} onClick={handleCancel} />
+          <View
+            className={clsSlider}
+            style={{
+              ...backgroundStyle,
+              paddingBottom: safeAreaBottom ? `${safeAreaBottom}px` : undefined
+            }}
+          >
             <View className="taro-picker__hd" {...(backgroundStyle ? { style: backgroundStyle } : {})}>
               <View
                 className="taro-picker__action"

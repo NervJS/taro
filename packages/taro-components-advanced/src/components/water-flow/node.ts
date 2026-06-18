@@ -1,7 +1,8 @@
-import { getRectSizeSync } from '../../utils'
+import { getRectSizeSync, weappScope } from '../../utils'
 import { Root } from './root'
 import { Section, SectionEvents } from './section'
 import { StatefulEventBus } from './stateful-event-bus'
+import { isWeapp, isWeb } from './utils'
 
 interface NodeProps {
   /**
@@ -32,6 +33,9 @@ export const NodeEvents = {
 }
 
 export class Node extends StatefulEventBus<NodeState> {
+  /** 小程序：测量用内层 View 的 DOM；H5：getBoundingClientRect 用 */
+  private _measureEl: HTMLElement | null = null
+
   id: string
   /**
    * 原始索引，即一维数组中的索引
@@ -57,6 +61,10 @@ export class Node extends StatefulEventBus<NodeState> {
     const nodeId = `${root.id}-${section.id}-item-${childIndex}`
     Object.assign(this, { id: nodeId, childIndex, order, col })
     this.setupSubscriptions()
+  }
+
+  attachMeasureElement (el: HTMLElement | null) {
+    this._measureEl = el
   }
 
   private setupSubscriptions() {
@@ -99,7 +107,33 @@ export class Node extends StatefulEventBus<NodeState> {
    * 测量节点的尺寸信息
    */
   public async measure() {
-    const { height, width } = await getRectSizeSync(`#${this.id}`, 100, 3)
+    let width: number | undefined
+    let height: number | undefined
+    if (isWeb() && this._measureEl) {
+      const r = this._measureEl.getBoundingClientRect()
+      width = r.width
+      height = r.height
+    } else if (isWeapp && this._measureEl) {
+      const scope = weappScope({ current: this._measureEl as any })
+      const res = await getRectSizeSync(`#${this.id}`, 100, 3, scope)
+      width = res.width
+      height = res.height
+    } else {
+      const res = await getRectSizeSync(`#${this.id}`, 100, 3)
+      width = res.width
+      height = res.height
+    }
+    if (
+      typeof width !== 'number' ||
+      typeof height !== 'number' ||
+      !Number.isFinite(width) ||
+      !Number.isFinite(height) ||
+      width <= 0 ||
+      height <= 0
+    ) {
+      const s = this.getState()
+      return { width: s.width, height: s.height }
+    }
     this.setStateBatch({
       width,
       height,

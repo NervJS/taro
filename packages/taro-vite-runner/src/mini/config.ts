@@ -15,6 +15,7 @@ import {
   getPostcssPlugins,
   stripMultiPlatformExt
 } from '../utils'
+import { TaroCompilerContext } from '../utils/compiler/mini'
 import { DEFAULT_TERSER_OPTIONS, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME } from '../utils/constants'
 import { logger } from '../utils/logger'
 
@@ -25,6 +26,9 @@ import type { PluginOption } from 'vite'
 export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
   const { taroConfig, cwd: appPath, sourceDir } = viteCompilerContext
   const isProd = getMode(taroConfig) === 'production'
+  const mainFields = [...defaultMainFields]
+  // Note: mini 端统一优先读取 main:mini 入口
+  mainFields.unshift('main:mini')
   function getDefineOption() {
     const {
       env = {},
@@ -54,10 +58,17 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
       ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false,
     }
 
+    const forceCustomWrapper = !taroConfig.template.isSupportRecursive && viteCompilerContext instanceof TaroCompilerContext
+      ? viteCompilerContext.computeForceCustomWrapper()
+      : false
+
     return {
       ...envConstants,
       ...defineConstants,
       ...runtimeConstants,
+      ...(!taroConfig.template.isSupportRecursive
+        ? { TARO_FORCE_CUSTOM_WRAPPER: JSON.stringify(forceCustomWrapper) }
+        : {}),
     }
   }
 
@@ -256,7 +267,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
       },
       define: getDefineOption(),
       resolve: {
-        mainFields: [...defaultMainFields],
+        mainFields,
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.vue'],
         alias: [
           // 小程序使用 regenerator-runtime@0.11

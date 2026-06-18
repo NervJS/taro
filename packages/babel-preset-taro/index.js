@@ -198,11 +198,11 @@ module.exports = (_, options = {}) => {
     },
   ])
 
-  if (
-    typeof options['dynamic-import-node'] === 'boolean'
-      ? options['dynamic-import-node']
-      : process.env.TARO_PLATFORM !== 'web'
-  ) {
+  const shouldUseWebpackDynamicImport = typeof global !== 'undefined' && global.__taroAsyncSubPackageUseWebpackImport
+  const shouldTransformDynamicImport = !shouldUseWebpackDynamicImport && (typeof options['dynamic-import-node'] === 'boolean'
+    ? options['dynamic-import-node']
+    : process.env.TARO_PLATFORM !== 'web')
+  if (shouldTransformDynamicImport) {
     plugins.push([require('babel-plugin-dynamic-import-node')])
   }
 

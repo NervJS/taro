@@ -1,30 +1,50 @@
 import { BaseEventOrig, ScrollView, ScrollViewProps, View } from '@tarojs/components'
-import { nextTick } from '@tarojs/taro'
+import Taro, { nextTick } from '@tarojs/taro'
 import {
   Children,
   cloneElement,
   createElement,
+  forwardRef,
   PropsWithChildren,
   ReactElement,
+  useCallback,
+  useContext,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
 } from 'react'
 
-import { debounce, getScrollViewContextNode } from '../../utils'
+import { debounce, getScrollViewContextNode, weappScope } from '../../utils'
+import {
+  type ScrollElementContextValueShape,
+  ScrollElementContextOrFallback,
+} from '../../utils/scrollElementContext'
+import { useMeasureStartOffset } from '../list/hooks/useMeasureStartOffset'
+import { useMeasureStartOffsetWeapp } from '../list/hooks/useMeasureStartOffsetWeapp'
+import { useScrollParentAutoFind } from '../list/hooks/useScrollParentAutoFind'
 import { _FlowSectionProps } from './flow-section'
 import { Root, RootEvents } from './root'
 import { Section } from './section'
 import { useMemoizedFn } from './use-memoized-fn'
 import { useObservedAttr } from './use-observed-attr'
-import { getSysInfo } from './utils'
+import { getSysInfo, isH5, isWeapp } from './utils'
+import { createWaterFlowNodeCacheControl } from './water-flow-node-cache'
 
 import type { ScrollDirection, WaterFlowProps } from './interface'
 
 getSysInfo()
 
-export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowProps>) {
+/** 仅有效数字才作为 ScrollView 受控滚动偏移，避免 undefined/null 在 H5 经 Number(null)→0 归顶 */
+function pickControlledScrollOffset (value: unknown): number | undefined {
+  return typeof value === 'number' && !Number.isNaN(value) ? value : undefined
+}
+
+const InnerWaterFlow = (
+  { children, ...props }: PropsWithChildren<WaterFlowProps>,
+  ref: React.ForwardedRef<HTMLElement>
+) => {
   const {
     id,
     style = {},
@@ -35,41 +55,166 @@ export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowPro
     upperThresholdCount,
     lowerThresholdCount,
     scrollIntoView,
+    nestedScroll,
+    scrollElement,
+    startOffset,
+    containerHeight,
+    onScrollHeightChange,
+    onScrollIntoViewComplete,
+    onScroll: onScrollProp,
+    scrollTop,
+    scrollLeft,
     ...rest
   } = props
+  const flowType = nestedScroll === true ? 'nested' : 'default'
+  // 从 ScrollElementContext 获取 scrollRef（List/ScrollView 内嵌时提供）；无 Context 时兜底为 fallback
+  const scrollElementCtx = useContext(ScrollElementContextOrFallback) as ScrollElementContextValueShape | null
+  const contentWrapperRef = useRef<HTMLDivElement>(null)
+  const setContainerRef = useCallback(
+    (el: HTMLElement | null) => {
+      (contentWrapperRef as React.MutableRefObject<HTMLElement | null>).current = el
+      if (typeof ref === 'function') ref(el)
+      else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = el
+    },
+    [ref]
+  )
   const defaultId = useId().replace(/:/g, '')
+  /** 仅在原有 id 后追加同一实例内共享的随机数尾缀，不替换原 id 串 */
+  const instanceIdSuffixRef = useRef<string | null>(null)
+  if (instanceIdSuffixRef.current === null) {
+    instanceIdSuffixRef.current = String(Math.floor(Math.random() * 1e9))
+  }
+  const instanceSuffix = instanceIdSuffixRef.current
+  const contentId = useMemo(
+    () => `${id ?? defaultId}_${instanceSuffix}`,
+    [id, defaultId, instanceSuffix]
+  )
+  const needAutoFind =
+    flowType === 'nested' &&
+    !scrollElement &&
+    !scrollElementCtx?.scrollRef &&
+    (isH5 || isWeapp)
+  const { scrollParentRef: autoFoundRef, status: autoFindStatus } = useScrollParentAutoFind(
+    contentWrapperRef,
+    { enabled: !!needAutoFind, isHorizontal: false, contentId: isWeapp ? contentId : undefined }
+  )
+  const effectiveScrollElement =
+    scrollElement ??
+    scrollElementCtx?.scrollRef ??
+    (needAutoFind && autoFindStatus === 'found' ? autoFoundRef : null)
+  const ctxStart = scrollElementCtx?.startOffset
+  const hasExplicitStartOffset = ctxStart != null && ctxStart > 0
+  const needMeasureStartOffset =
+    flowType === 'nested' &&
+    effectiveScrollElement &&
+    isH5 &&
+    startOffset == null &&
+    !hasExplicitStartOffset
+  const needMeasureStartOffsetWeapp =
+    flowType === 'nested' &&
+    effectiveScrollElement &&
+    isWeapp &&
+    startOffset == null &&
+    !hasExplicitStartOffset
+  const measuredStartOffset = useMeasureStartOffset(
+    effectiveScrollElement ?? { current: null },
+    contentWrapperRef,
+    { enabled: !!needMeasureStartOffset, isHorizontal: false }
+  )
+  const effectiveStartOffsetRef = useRef(0)
+  const measuredStartOffsetWeapp = useMeasureStartOffsetWeapp(
+    effectiveScrollElement ?? { current: null },
+    contentId,
+    { enabled: !!needMeasureStartOffsetWeapp, isHorizontal: false, startOffsetRef: effectiveStartOffsetRef }
+  )
+  const effectiveStartOffset =
+    startOffset ??
+    (ctxStart != null && ctxStart > 0 ? ctxStart : null) ??
+    measuredStartOffset ??
+    measuredStartOffsetWeapp ??
+    0
+
+  const effectiveContainerHeight = containerHeight ?? scrollElementCtx?.containerHeight
+
+  const startOffsetRef = useRef(effectiveStartOffset)
+  const containerHeightRef = useRef(effectiveContainerHeight)
+  const lastReportedHeightRef = useRef<number>(0)
+  startOffsetRef.current = effectiveStartOffset
+  if (!needMeasureStartOffsetWeapp) {
+    effectiveStartOffsetRef.current = effectiveStartOffset
+  }
+  containerHeightRef.current = effectiveContainerHeight
+
+  const useScrollElementMode =
+    flowType === 'nested' && !!(effectiveScrollElement && (isH5 || isWeapp))
+  const renderView =
+    useScrollElementMode || (!!needAutoFind && autoFindStatus === 'pending')
+  const scrollViewShellRef = useRef<HTMLElement | null>(null)
+  if (flowType === 'nested' && !effectiveScrollElement && (isH5 || isWeapp) && autoFindStatus === 'not-found') {
+    // eslint-disable-next-line no-console
+    console.warn('[WaterFlow] nestedScroll 模式但无 scrollElement（props/Context/自动查找），回退为 default，将渲染自有 ScrollView')
+  }
   /**
    * 初始化数据模型
    */
   const root = useMemo(() => {
     return new Root({
-      id: id ?? defaultId,
+      id: contentId,
       cacheCount,
       upperThresholdCount,
       lowerThresholdCount,
+      skipContainerMeasure: useScrollElementMode || (!!needAutoFind && autoFindStatus === 'pending'),
     })
-  }, [id, cacheCount, upperThresholdCount, lowerThresholdCount])
+  }, [contentId, upperThresholdCount, lowerThresholdCount, useScrollElementMode, needAutoFind, autoFindStatus])
+
+  /** props 动态修改 cacheCount 时同步到 Root，避免重建 Root；并收敛快滑单边放大到新的基线 */
+  useLayoutEffect(() => {
+    root.cacheCount = cacheCount
+    root.setNodeCacheRange(cacheCount, cacheCount)
+  }, [root, cacheCount])
   const isScrolling$ = useObservedAttr(root, 'isScrolling')
   const scrollHeight$ = useObservedAttr(root, 'scrollHeight')
   const renderRange$ = useObservedAttr(root, 'renderRange')
   const refEventOrig = useRef<BaseEventOrig>()
+  const nodeCacheCtlRef = useRef<ReturnType<typeof createWaterFlowNodeCacheControl> | null>(null)
+
+  useLayoutEffect(() => {
+    if (root.skipContainerMeasure) return
+    const shell = renderView ? contentWrapperRef.current : scrollViewShellRef.current
+    root.measureContainerSize(shell as HTMLElement | null).catch(() => {})
+  }, [root, renderView, needAutoFind, autoFindStatus])
+
+  useEffect(() => {
+    const ctl = createWaterFlowNodeCacheControl(root, () => root.cacheCount)
+    nodeCacheCtlRef.current = ctl
+    return () => {
+      ctl.dispose()
+      nodeCacheCtlRef.current = null
+    }
+  }, [root])
 
   /**
    * 滚动事件
    */
   const handleScroll = useMemoizedFn((ev: BaseEventOrig<ScrollViewProps.onScrollDetail>) => {
     refEventOrig.current = ev
-    root.sections.forEach((section) => section.getNodeRenderRange())
-    const { scrollTop } = ev.detail
-    // 确定滚动方向
-    const scrollDirection: ScrollDirection = root.getState().scrollOffset < scrollTop ? 'forward' : 'backward'
-    // 设置滚动信息，包括方向和偏移量
+    const { scrollTop: detailScrollTop } = ev.detail
+    nodeCacheCtlRef.current?.onScrollSample(detailScrollTop)
+    const scrollDirection: ScrollDirection = root.getState().scrollOffset < detailScrollTop ? 'forward' : 'backward'
     root.setStateBatch({
       scrollDirection: scrollDirection,
-      scrollOffset: scrollTop,
+      scrollOffset: detailScrollTop,
       isScrolling: true,
     })
   })
+
+  const onScrollMerged = useMemoizedFn((ev: BaseEventOrig<ScrollViewProps.onScrollDetail>) => {
+    handleScroll(ev)
+    onScrollProp?.(ev)
+  })
+
+  const controlledScrollTop = pickControlledScrollOffset(scrollTop)
+  const controlledScrollLeft = pickControlledScrollOffset(scrollLeft)
 
   const sections = useMemo(() => {
     const [start, end] = renderRange$
@@ -84,7 +229,7 @@ export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowPro
       if (section) {
         const originalCount = section.count
         if (childCount > originalCount) {
-          section.pushNodes(childCount - originalCount)
+          section.pushNodesStructuralOnly(childCount - originalCount)
         }
       } else {
         section = new Section(root, {
@@ -101,9 +246,37 @@ export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowPro
     })?.slice(start, end + 1)
   }, [renderRange$[0], renderRange$[1], children, root, props.id])
 
+  /** 配对 pushNodesStructuralOnly：在 layout 阶段完成 Section 状态，避免 useMemo 内 setState 告警 */
+  useLayoutEffect(() => {
+    Children.forEach(children, (child: ReactElement<PropsWithChildren<_FlowSectionProps>>, order) => {
+      if (Object.is(child, null)) {
+        return
+      }
+      const sectionProps = child.props
+      const sectionId = sectionProps.id || `section-${order}`
+      root.findSection(sectionId)?.finalizePushNodesStateIfNeeded()
+    })
+  }, [children, root])
+
   const scrollTo = useMemoizedFn((scrollOffset = 0) => {
     scrollOffset = Math.max(0, scrollOffset)
     if (root.getState().scrollOffset === scrollOffset) return
+    if (useScrollElementMode && effectiveScrollElement?.current) {
+      const el = effectiveScrollElement.current as any
+      const startOff = isWeapp ? effectiveStartOffsetRef.current : (startOffsetRef.current ?? 0)
+      const scrollTarget = scrollOffset + startOff
+      if (isH5) {
+        el.scrollTo({ top: scrollTarget })
+      } else if (isWeapp) {
+        const scrollViewId = el.id || `_wf_${contentId}`
+        if (!el.id) el.id = scrollViewId
+        getScrollViewContextNode(`#${scrollViewId}`).then((node: any) => {
+          node?.scrollTo?.({ top: scrollTarget, animated: true, duration: 300 })
+        })
+      }
+      root.setStateBatch({ scrollOffset, isScrolling: true })
+      return
+    }
     getScrollViewContextNode(`#${root.id}`).then((node: any) => {
       node.scrollTo({
         animated: true,
@@ -125,6 +298,7 @@ export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowPro
 
   /**
    * 处理滚动阈值
+   * root 需入参：autoFind 从 pending→found 时 root 会重建，必须对新 root 重新订阅
    */
   useEffect(() => {
     const disposers = [
@@ -146,42 +320,197 @@ export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowPro
         disposer()
       })
     }
-  }, [onScrollToUpper, onScrollToLower])
+  }, [root, onScrollToUpper, onScrollToLower])
 
   /**
    * 处理 scrollIntoView
+   * 竞态：快速切换目标时，取消前一次滚动，避免后发先至
    */
   useEffect(() => {
+    let cancelled = false
     handleScrollIntoView()
     async function handleScrollIntoView() {
-      if (scrollIntoView) {
-        if (root.getState().scrollOffset > 0) {
-          // 说明在自动滚动前手动滚动过了，不应该自动滚动了，避免造成困扰
-          return
-        }
-        const targetNode = root.findNode(scrollIntoView)
-        if (targetNode) {
-          const targetSection = targetNode.section
-          if (!targetSection.getState().layouted) {
-            const order = targetSection.order
-            root.setStateIn('renderRange', [renderRange$[0], order])
-            nextTick(async () => {
-              await targetNode.section.layoutedSignal.promise
-              scrollTo(targetNode.getState().scrollTop)
-            })
-            return
-          }
+      if (!scrollIntoView) return
+      const targetNode = root.findNode(scrollIntoView)
+      if (!targetNode) {
+        nextTick(() => { if (!cancelled) onScrollIntoViewComplete?.() })
+        return
+      }
+      const targetSection = targetNode.section
+      const doScroll = () => {
+        if (cancelled) return
+        scrollTo(targetNode.getState().scrollTop)
+        if (cancelled) return
+        nextTick(() => { if (!cancelled) onScrollIntoViewComplete?.() })
+      }
+      if (!targetSection.getState().layouted) {
+        const order = targetSection.order
+        root.setStateIn('renderRange', [
+          Math.min(renderRange$[0], order),
+          Math.max(renderRange$[1], order),
+        ])
+        nextTick(async () => {
           await targetNode.section.layoutedSignal.promise
-          scrollTo(targetNode.getState().scrollTop)
+          if (cancelled) return
+          doScroll()
+        })
+        return
+      }
+      await targetSection.layoutedSignal.promise
+      if (cancelled) return
+      doScroll()
+    }
+    return () => { cancelled = true }
+  }, [scrollIntoView, renderRange$[0], renderRange$[1], onScrollIntoViewComplete])
+
+  // scrollElement 模式下监听外部滚动，更新 root.scrollOffset；effectiveStartOffset 变化时重新同步；内嵌时 scrollRef 可能尚未就绪，需重试
+  useEffect(() => {
+    if (!useScrollElementMode || !effectiveScrollElement) return
+
+    let cancelled = false
+    let teardown: (() => void) | null = null
+    const maxRetries = 20
+
+    const tryAttach = (retryCount = 0) => {
+      if (cancelled) return
+      const target = effectiveScrollElement.current as any
+      if (!target) {
+        if (retryCount < maxRetries) {
+          setTimeout(() => tryAttach(retryCount + 1), 50)
         }
+        return
+      }
+
+      const getStartOffset = () => (isWeapp ? effectiveStartOffsetRef.current : (startOffsetRef.current ?? 0))
+
+      const handler = (e?: any) => {
+        const scrollTop = isWeapp
+          ? (e?.target?.scrollTop ?? e?.mpEvent?.detail?.scrollTop ?? 0)
+          : target.scrollTop
+        const offset = scrollTop - getStartOffset()
+        const effectiveOffset = Math.max(0, offset)
+        const prevOffset = root.getState().scrollOffset
+        const scrollDirection: ScrollDirection = prevOffset < effectiveOffset ? 'forward' : 'backward'
+
+        nodeCacheCtlRef.current?.onScrollSample(effectiveOffset)
+        root.setStateBatch({
+          scrollDirection,
+          scrollOffset: effectiveOffset,
+          isScrolling: true,
+        })
+      }
+
+      if (isWeapp) {
+        if (!target.id) target.id = `_wf_${contentId}`
+        const scrollViewId = target.id
+        const scope = weappScope({ current: target })
+        const query = scope != null
+          ? Taro.createSelectorQuery().in(scope as any)
+          : Taro.createSelectorQuery()
+        query.select(`#${scrollViewId}`).scrollOffset().exec((res) => {
+          if (cancelled) return
+          const info = res?.[0]
+          if (info) {
+            const scrollTopVal = info.scrollTop ?? 0
+            const initialOffset = Math.max(0, scrollTopVal - getStartOffset())
+            root.setStateBatch({ scrollOffset: initialOffset, isScrolling: true })
+          }
+        })
+      } else {
+        const initialOffset = Math.max(0, target.scrollTop - getStartOffset())
+        root.setStateBatch({ scrollOffset: initialOffset, isScrolling: true })
+      }
+
+      target.addEventListener('scroll', handler, isWeapp ? undefined : { passive: true })
+      teardown = () => target.removeEventListener('scroll', handler)
+    }
+
+    tryAttach()
+    return () => {
+      cancelled = true
+      teardown?.()
+    }
+  }, [useScrollElementMode, effectiveScrollElement, root, effectiveStartOffset, contentId])
+
+  // scrollHeight 变化时回调（props 优先，其次从 Context），便于 List 动高联动；防抖 150ms 上报
+  const reportHeight = onScrollHeightChange ?? scrollElementCtx?.reportNestedHeightChange
+  useEffect(() => {
+    if (!reportHeight || scrollHeight$ <= 0) return
+    const timer = setTimeout(() => {
+      if (Math.abs(lastReportedHeightRef.current - scrollHeight$) < 1) return
+      lastReportedHeightRef.current = scrollHeight$
+      reportHeight(scrollHeight$)
+    }, 150)
+    return () => clearTimeout(timer)
+  }, [scrollHeight$, reportHeight])
+
+  // scrollElement 模式下监听容器尺寸：H5 用 ResizeObserver，小程序用 createSelectorQuery 轮询
+  useEffect(() => {
+    if (!useScrollElementMode || !effectiveScrollElement) return
+    const el = effectiveScrollElement.current as any
+    if (!el) return
+
+    if (isWeapp) {
+      if (!el.id) el.id = `_wf_${contentId}`
+      const scrollViewId = el.id
+      const measure = () => {
+        const scope = weappScope({ current: el })
+        const query = scope != null
+          ? Taro.createSelectorQuery().in(scope as any)
+          : Taro.createSelectorQuery()
+        query.select(`#${scrollViewId}`).boundingClientRect().exec((res) => {
+          const rect = res?.[0]
+          if (rect && rect.height > 0 && rect.width > 0) {
+            const height = containerHeightRef.current ?? rect.height
+            root.setStateIn('containerSize', { width: rect.width, height })
+          }
+        })
+      }
+      measure()
+      const interval = setInterval(measure, 150)
+      return () => clearInterval(interval)
+    }
+
+    if (typeof ResizeObserver === 'undefined') return
+    const update = () => {
+      const height = containerHeightRef.current ?? el.clientHeight
+      const width = el.clientWidth
+      if (height > 0 && width > 0) {
+        root.setStateIn('containerSize', { width, height })
       }
     }
-  }, [scrollIntoView, renderRange$[0]])
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [useScrollElementMode, effectiveScrollElement, root, effectiveContainerHeight, contentId])
+
+  if (renderView) {
+    return createElement(
+      View,
+      {
+        ref: setContainerRef as any,
+        id: root.id,
+        style: {
+          ...style,
+          width: '100%',
+          position: 'relative',
+          height: scrollHeight$,
+          pointerEvents: isScrolling$ ? 'none' : 'auto',
+        },
+        className,
+      },
+      sections
+    )
+  }
 
   return createElement(
     ScrollView,
     {
       id: root.id,
+      ref: (el: any) => {
+        scrollViewShellRef.current = el
+      },
       style: {
         WebkitOverflowScrolling: 'touch',
         overflow: 'auto',
@@ -189,13 +518,16 @@ export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowPro
       },
       className,
       scrollY: true,
-      onScroll: handleScroll,
+      onScroll: onScrollMerged,
+      ...(controlledScrollTop !== undefined ? { scrollTop: controlledScrollTop } : {}),
+      ...(controlledScrollLeft !== undefined ? { scrollLeft: controlledScrollLeft } : {}),
       ...rest,
     },
     createElement(
       View,
       {
-        id: 'waterflow-root',
+        ref: setContainerRef as any,
+        id: `waterflow-root_${instanceSuffix}`,
         style: {
           width: '100%',
           position: 'relative',
@@ -207,3 +539,5 @@ export function WaterFlow({ children, ...props }: PropsWithChildren<WaterFlowPro
     )
   )
 }
+
+export const WaterFlow = forwardRef<HTMLElement, PropsWithChildren<WaterFlowProps>>(InnerWaterFlow)

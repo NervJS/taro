@@ -153,7 +153,10 @@ describe('inspect', () => {
     } catch (error) {} // eslint-disable-line no-empty
 
     expect(exitSpy).toBeCalledWith(0)
-    expect(writeFileSync).toBeCalledWith(outputPath, '\'browser\'')
+    expect(writeFileSync).toBeCalledWith(
+      outputPath,
+      expect.stringMatching(/^'(browser|main:mini)'$/)
+    )
 
     exitSpy.mockRestore()
   })

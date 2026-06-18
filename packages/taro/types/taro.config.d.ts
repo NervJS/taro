@@ -247,6 +247,12 @@ declare module './index' {
      */
     styleIsolation?: 'isolated' | 'apply-shared' | 'shared'
     /**
+     * 构建期是否为递归壳 comp 开启额外实例绑定；同一编译 root 内任一页为 true 则该 root 的 comp 生效。
+     * 不会写入小程序页面 json。
+     * @default false
+     */
+    forceCustomWrapper?: boolean
+    /**
      * 设置导航栏额外图标，目前支持设置属性 icon，值为图标 url（以 https/http 开头）或 base64 字符串，大小建议 30*30 px
      *
      * 点击后触发 onOptionMenuClick（**注意**：该配置即将废弃。）。
@@ -329,6 +335,47 @@ declare module './index' {
     independent?: boolean
     /** 分包支持引用独立的插件 */
     plugins?: Plugins
+  }
+
+  /** 子分包独立模板 root 配置项，可以是路径字符串或包含额外选项的对象 */
+  type SubPackageIndieRootConfig = string | {
+    /** 分包根路径（相对于 sourceDir） */
+    path: string
+    /**
+     * 是否禁用递归组件（comp/custom-wrapper/recursive-component）的生成。
+     * 设为 true 时，该 root 下不会生成 comp.*、custom-wrapper.*、recursive-component.js，
+     * base.wxml 最后一层的 container template 也不会引用 <comp>，超出 baseLevel 的节点将被静默截断。
+     * @default false
+     */
+    disableRecursiveComponent?: boolean
+    /**
+     * 异步分包配置。配置 asyncRoot 后启用。
+     * 启用后，该 root 中通过 `import()` 动态引入的模块会由 webpack 原生异步 chunk 处理，
+     * 并单独打包到指定的异步子包。
+     *
+     * 限制：
+     * - asyncRoot 下注册的页面是占位 `<view />`，不会注入 `usingComponents`。
+     *   因此 asyncRoot 包含自定义组件 chunk 时，自定义组件应放在 sourceRoot 的页面里使用，
+     *   而非由占位页面直接消费。
+     * - 与 `lazyCodeLoading: 'requiredComponents'` 兼容。
+     * @see https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/async.html
+     * @since 4.1.12
+     */
+    asyncSubPackage?: {
+      /**
+       * 异步子包根路径（相对于 sourceDir），必填。
+       * 多个 root 配置相同的 asyncRoot 时，它们的动态 import 产物会合并到同一个异步子包。
+       */
+      asyncRoot: string
+    }
+  }
+
+  /** 子分包独立模板配置项 */
+  interface SubPackageIndieConfig {
+    /** 主入口分包根路径（相对于 sourceDir），runtime chunks 将生成到此目录 */
+    mainPackageRoot: SubPackageIndieRootConfig
+    /** 子组件分包根路径列表，只生成独立的模板文件 */
+    subPackageRoots?: SubPackageIndieRootConfig[]
   }
 
   interface Plugins {
@@ -470,6 +517,23 @@ declare module './index' {
      */
     subPackages?: SubPackage[]
     subpackages?: SubPackage[]
+    /** 子分包独立模板配置（用于 newBlended 模式），支持多入口配置
+     * @example
+     * ```js
+     * subPackageIndie: [
+     *   {
+     *     mainPackageRoot: 'pages/order/index',
+     *     subPackageRoots: ['pages/order/list', 'pages/order/detail']
+     *   },
+     *   {
+     *     mainPackageRoot: 'pages/user/index',
+     *     subPackageRoots: ['pages/user/profile']
+     *   }
+     * ]
+     * ```
+     * @since 4.1.x
+     */
+    subPackageIndie?: SubPackageIndieConfig[]
     /** Worker 代码放置的目录
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
      * @since 1.9.90
