@@ -2,16 +2,16 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 interface MapProps extends StandardProps {
   /** 中心经度
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   longitude: number
   /** 中心纬度
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   latitude: number
   /** 缩放级别，取值范围为 3-20
    * @default 16
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    * @swan 取值范围为4-21
    * @alipay 取值范围为5-18
    */
@@ -27,7 +27,7 @@ interface MapProps extends StandardProps {
    */
   maxScale?: number
   /** 标记点
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   markers?: MapProps.marker[]
   /** **即将移除，请使用 markers**
@@ -36,11 +36,11 @@ interface MapProps extends StandardProps {
    */
   covers?: any[]
   /** 路线
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   polyline?: MapProps.polyline[]
   /** 圆
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   circles?: MapProps.circle[]
   /** 控件（即将废弃，建议使用 cover-view 代替）
@@ -54,13 +54,17 @@ interface MapProps extends StandardProps {
   includePoints?: MapProps.point[]
   /** 显示带有方向的当前定位点
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   showLocation?: boolean
   /** 多边形
-   * @supported weapp, swan, tt, qq
+   * @supported weapp, swan, tt, qq, ascf
    */
   polygons?: MapProps.polygon[]
+  /** 指定中心点缩放地图。true表示使用组件中心点。
+   * @supported ascf
+   */
+  enableCenterScale?: boolean
   /** 个性化地图使用的 key
    * @supported weapp, qq
    */
@@ -82,7 +86,7 @@ interface MapProps extends StandardProps {
   skew?: number
   /** 显示指南针
    * @default false
-   * @supported weapp, alipay, swan, tt, qq
+   * @supported weapp, alipay, swan, tt, qq, ascf
    */
   showCompass?: boolean
   /** 显示比例尺
@@ -97,17 +101,17 @@ interface MapProps extends StandardProps {
   enableOverlooking?: boolean
   /** 是否支持缩放
    * @default true
-   * @supported weapp, alipay, swan, tt, qq
+   * @supported weapp, alipay, swan, tt, qq, ascf
    */
   enableZoom?: boolean
   /** 是否支持拖动
    * @default true
-   * @supported weapp, alipay, swan, tt, qq
+   * @supported weapp, alipay, swan, tt, qq, ascf
    */
   enableScroll?: boolean
   /** 是否支持旋转
    * @default false
-   * @supported weapp, alipay, swan, tt, qq
+   * @supported weapp, alipay, swan, tt, qq, ascf
    */
   enableRotate?: boolean
   /** 是否开启卫星图
@@ -187,11 +191,11 @@ interface MapProps extends StandardProps {
    */
   enable3D?: boolean
   /** 点击地图时触发
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   onTap?: CommonEventFunction
   /** 点击标记点时触发，e.detail = {markerId}
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   onMarkerTap?: CommonEventFunction<MapProps.onMarkerTapEventDetail>
   /** 点击label时触发，e.detail = {markerId}
@@ -203,15 +207,15 @@ interface MapProps extends StandardProps {
    */
   onControlTap?: CommonEventFunction<MapProps.onControlTapEventDetail>
   /** 点击标记点对应的气泡时触发，e.detail = {markerId}
-   * @supported alipay
+   * @supported alipay, ascf
    */
   onCalloutTap?: CommonEventFunction<MapProps.onCalloutTapEventDetail>
   /** 在地图渲染更新完成时触发
-   * @supported weapp, swan, tt, qq
+   * @supported weapp, swan, tt, qq, ascf
    */
   onUpdated?: CommonEventFunction
   /** 视野发生变化时触发
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   onRegionChange?: CommonEventFunction<MapProps.onRegionEventDetail<'begin'> | MapProps.onRegionEventDetail<'end'>>
   /** 点击地图poi点时触发，e.detail = {name, longitude, latitude}
@@ -656,7 +660,7 @@ declare namespace MapProps {
 }
 /** 地图。相关api Taro.createMapContext。
  * @classification maps
- * @supported weapp, alipay, swan, tt, qq, jd
+ * @supported weapp, alipay, swan, tt, qq, jd, ascf
  * @example_react
  * ```tsx
  * class App extends Component {

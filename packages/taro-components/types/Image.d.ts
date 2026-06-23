@@ -2,12 +2,12 @@ import { ComponentType, ImgHTMLAttributes } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 interface ImageProps extends StandardProps {
   /** 图片资源地址
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   src: string
   /** 图片裁剪、缩放的模式
    * @default "scaleToFill"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    * @rn 部分支持 scaleToFill, aspectFit, aspectFill, widthFix
    */
   mode?: keyof ImageProps.Mode
@@ -23,7 +23,7 @@ interface ImageProps extends StandardProps {
   svg?: boolean
   /** 图片懒加载。只针对 page 与 scroll-view 下的 image 有效
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, h5, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, h5, harmony_hybrid, ascf
    */
   lazyLoad?: boolean
   /** 开启长按图片显示识别小程序码菜单
@@ -66,11 +66,11 @@ interface ImageProps extends StandardProps {
    */
   fadeIn?: boolean
   /** 当错误发生时，发布到 AppService 的事件名，事件对象
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   onError?: CommonEventFunction<ImageProps.onErrorEventDetail>
   /** 当图片载入完毕时，发布到 AppService 的事件名，事件对象
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   onLoad?: CommonEventFunction<ImageProps.onLoadEventDetail>
   /** 点击图片时触发。
@@ -129,7 +129,7 @@ declare namespace ImageProps {
  *
  * **Note:** 为实现小程序的 `mode` 特性，在 H5 组件中使用一个 `div` 容器来对内部的 `img` 进行展示区域的裁剪，因此请勿使用元素选择器来重置 `img` 的样式！
  * @classification media
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

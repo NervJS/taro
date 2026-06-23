@@ -37,6 +37,7 @@ export const components = {
     'enable-traffic': _false,
     'enable-poi': _true,
     'enable-building': _true,
+    'enable-center-scale': _false,
     setting: '[]',
     bindLabelTap: _empty,
     bindRegionChange: _empty,
@@ -52,6 +53,10 @@ export const components = {
     'app-parameter': _empty,
     'show-message-card': _false,
     'business-id': _empty,
+    'app-bundle-name': _empty,
+    'app-module-name': _empty,
+    'app-ability-name': _empty,
+    'app-parameters': _object,
     bindGetUserInfo: _empty,
     bindContact: _empty,
     bindGetPhoneNumber: _empty,
@@ -60,6 +65,7 @@ export const components = {
     bindOpenSetting: _empty,
     bindLaunchApp: _empty,
     bindGetPhoneNumberAndRiskLevel: _empty,
+    bindCreateLiveActivity: _empty
   },
   Form: {
     'report-submit-timeout': _zero
@@ -122,7 +128,8 @@ export const components = {
   },
   Swiper: {
     'snap-to-edge': _false,
-    'easing-function': "'default'"
+    'easing-function': "'default'",
+    'disable-touch': _false
   },
   SwiperItem: {
     'skip-hidden-item-layout': _false
@@ -200,7 +207,14 @@ export const components = {
   },
   CoverView: {
     'marker-id': _empty,
-    slot: _empty
+    slot: _empty,
+    'hover-class': _empty,
+    'hover-start-time': '50',
+    'hover-stay-time': '400',
+    'hover-stop-propagation': _false
+  },
+  CoverImage: {
+    mode: "'scaleToFill'"
   },
   // ======== 额外组件 ========
   Editor: {
@@ -209,6 +223,9 @@ export const components = {
     'show-img-size': _false,
     'show-img-toolbar': _false,
     'show-img-resize': _false,
+    'enable-formats': _empty,
+    'confirm-hold': _true,
+    enterkeyhint: "'enter'",
     focus: _false,
     bindReady: _empty,
     bindFocus: _empty,
