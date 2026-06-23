@@ -3,20 +3,20 @@ import { StandardProps, CommonEventFunction } from './common'
 interface NavigatorProps extends StandardProps {
   /** 在哪个目标上发生跳转，默认当前小程序
    * @default "self"
-   * @supported weapp, swan, qq
+   * @supported weapp, swan, qq, ascf
    */
   target?: keyof NavigatorProps.Target
   /** 当前小程序内的跳转链接
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, ascf
    */
   url?: string
   /** 跳转方式
    * @default "navigate"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, ascf
    */
   openType?: keyof NavigatorProps.OpenType
   /** 当 open-type 为 'navigateBack' 时有效，表示回退的层数
-   * @supported weapp, swan, tt, qq, jd, h5, harmony_hybrid
+   * @supported weapp, swan, tt, qq, jd, h5, harmony_hybrid, ascf
    */
   delta?: number
   /** 当 `target="miniProgram"` 时有效，要打开的小程序 appId
@@ -37,22 +37,22 @@ interface NavigatorProps extends StandardProps {
   version?: keyof NavigatorProps.Version
   /** 指定按下去的样式类。当 `hover-class="none"` 时，没有点击态效果
    * @default "navigator-hover"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, ascf
    */
   hoverClass?: string
   /** 指定是否阻止本节点的祖先节点出现点击态
    * @default false
-   * @supported weapp, swan, tt, qq, jd
+   * @supported weapp, swan, tt, qq, jd, ascf
    */
   hoverStopPropagation?: boolean
   /** 按住后多久出现点击态，单位毫秒
    * @default 50
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   hoverStartTime?: number
   /** 手指松开后点击态保留时间，单位毫秒
    * @default 600
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, ascf
    */
   hoverStayTime?: number
   /** 当target="miniProgram"时有效，当传递该参数后，可以不传 app-id 和 path。链接可以通过【小程序菜单】->【复制链接】获取。
@@ -111,7 +111,7 @@ declare namespace NavigatorProps {
 }
 /** 页面链接
  * @classification navig
- * @supported weapp, alipay, swan, tt, qq, jd, harmony, h5, harmony_hybrid
+ * @supported weapp, alipay, swan, tt, qq, jd, harmony, h5, harmony_hybrid, ascf
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/navigator.html
  */
 declare const Navigator: ComponentType<NavigatorProps>

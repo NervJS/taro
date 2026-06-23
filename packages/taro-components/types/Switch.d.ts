@@ -3,27 +3,27 @@ import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface SwitchProps extends StandardProps, FormItemProps {
   /** 是否选中
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   checked?: boolean
   /** 设置在 React 非受控状态下，当前是否选中
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    * @unique
    */
   defaultChecked?: boolean
   /** 是否禁用
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony_hybrid, ascf
    */
   disabled?: boolean
   /** 样式，有效值：switch, checkbox
    * @default "switch"
-   * @supported weapp, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   type?: 'switch' | 'checkbox'
   /** switch 的颜色，同 css 的 color
    * @default "#04BE02"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   color?: string
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
@@ -44,7 +44,7 @@ interface SwitchProps extends StandardProps, FormItemProps {
    */
   ariaLabel?: string
   /** checked 改变时触发 change 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf
    */
   onChange?: CommonEventFunction<SwitchProps.onChangeEventDetail>
 }
@@ -89,7 +89,7 @@ declare namespace SwitchProps {
  *   </view>
  * </template>
  * ```
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid, ascf
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/switch.html
  */
 declare const Switch: ComponentType<SwitchProps>

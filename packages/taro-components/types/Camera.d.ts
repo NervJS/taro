@@ -8,17 +8,17 @@ interface CameraProps extends StandardProps {
   mode?: keyof CameraProps.Mode
   /** 分辨率，不支持动态修改
    * @default "medium"
-   * @supported weapp, tt
+   * @supported weapp, tt, ascf
    */
   resolution?: keyof CameraProps.Resolution
   /** 摄像头朝向
    * @default "back"
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn, ascf
    */
   devicePosition?: keyof CameraProps.DevicePosition
   /** 闪光灯
    * @default "auto"
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn, ascf
    */
   flash?: keyof CameraProps.Flash
   /** 指定期望的相机帧数据尺寸
@@ -33,15 +33,15 @@ interface CameraProps extends StandardProps {
   outputDimension?: '360P' | '540P' | '720P' | '1080P' | 'max'
   /** 摄像头在非正常终止时触发，
    * 如退出后台等情况
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn, ascf
    */
   onStop?: CommonEventFunction
   /** 用户不允许使用摄像头时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, rn, ascf
    */
   onError?: CommonEventFunction
   /** 相机初始化完成时触发
-   * @supported weapp, tt, rn
+   * @supported weapp, tt, rn, ascf
    */
   onInitDone?: CommonEventFunction<CameraProps.onInitDoneEventDetail>
   /** 相机初始化成功时触发。
@@ -121,7 +121,7 @@ declare namespace CameraProps {
 }
 /** 系统相机
  * @classification media
- * @supported weapp, alipay, swan, tt, qq, jd, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, rn, harmony, ascf
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/camera.html
  */
 declare const Camera: ComponentType<CameraProps>
