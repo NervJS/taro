@@ -253,11 +253,9 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   }, [updateSafeArea])
 
   // 监听窗口变化（导航方式切换等）
-  React.useEffect(() => {
-    const handleResize = () => updateSafeArea()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [updateSafeArea])
+  Taro.useResize(() => {
+    updateSafeArea()
+  })
 
   // 获取当前索引数组
   const getIndices = React.useCallback(() => {
