@@ -1,0 +1,30 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "module": "ESNext",
+    "sourceMap": true,
+    "target": "ES2017",
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["src", "types"],
+  "ts-node": {
+    "compilerOptions": {
+      "forceConsistentCasingInFileNames": true,
+      "lib": ["ES2023"],
+      "module": "Node16",
+      "moduleResolution": "Node16",
+      "noEmit": true,
+      "resolveJsonModule": false,
+      "skipLibCheck": true,
+      "strict": true,
+      "target": "ES2022",
+    },
+    "experimentalSpecifierResolution": "node",
+    "require": ["tsconfig-paths/register"]
+  }
+}

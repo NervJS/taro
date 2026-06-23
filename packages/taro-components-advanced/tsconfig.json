@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "module": "ESNext",
+    "outDir": "dist",
+    "declarationDir": "dist",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "strictNullChecks": false,
+    "target": "ES2017",
+    "typeRoots": ["./node_modules/@types"],
+    "jsx": "react-jsx"
+  },
+  "include": ["src", "typings"]
+}

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button props 1`] = `
+<taro-button-core disabled="" loading="false" plain="false" size="big" type="">
+  <!---->
+  button
+</taro-button-core>
+`;

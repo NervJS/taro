@@ -1,0 +1,31 @@
+{
+  "name": "babel-plugin-transform-taroapi",
+  "version": "4.1.12-beta.57",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf ./dist",
+    "build": "tsc",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage",
+    "test:dev": "vitest",
+    "updateSnapshot": "vitest run --updateSnapshot"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/core": "7.24.4",
+    "@babel/types": "7.24.0",
+    "@types/babel__core": "7.20.5"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.0.0"
+  }
+}

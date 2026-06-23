@@ -1,0 +1,29 @@
+// @import '../theme/fn';
+
+// @include setColor(--weui-BG-COLOR-ACTIVE, #ececec, overlay(rgba(255, 255, 255, 0.05), #2c2c2c));
+
+// color
+$weuiColorPrimary: #1AAD19; // var(--weui-BRAND);
+$weuiColorWarn: #E64340; // var(--weui-RED);
+
+// active mask
+// $weuiActiveMaskBlack: rgba(0, 0, 0, 0.15);
+
+// link
+$weuiLinkColorDefault: #586C94; // var(--weui-LINK);
+
+// background
+$weuiBgColorDefault: #EFEFF4; // var(--weui-BG-0);
+// $weuiBgColorPrimary: var(--weui-BG-1);
+$weuiBgColorActive: #ECECEC; // var(--weui-BG-COLOR-ACTIVE);
+
+// line
+$weuiLineColorLight: #E5E5E5; // var(--weui-FG-3);
+$weuiLineColorDark: #BCBAB6; // var(--weui-FG-2);
+
+// text
+$weuiTextColorTitle: #000000; // var(--weui-FG-0);
+// $weuiTextColorDesc: var(--weui-FG-1);
+$weuiTextColorTips: #B2B2B2; // var(--weui-FG-2);
+$weuiTextColorWarn: $weuiColorWarn;
+$weuiTextColorGray: #999999;

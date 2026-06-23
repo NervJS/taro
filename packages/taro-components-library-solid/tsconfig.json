@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": true,
+    "jsx": "preserve",
+    "declarationDir": "../taro-components/lib/solid",
+    "jsxImportSource": "solid-js",
+    "module": "ESNext",
+    "noUnusedLocals": false,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "strictNullChecks": false,
+    "target": "ES2017",
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["./src", "./types"]
+}

@@ -1,0 +1,304 @@
+.weui-icon-circle:before { content: '\EA01' } /* '' */
+.weui-icon-download:before { content: '\EA02' } /* '' */
+.weui-icon-info:before { content: '\EA03' } /* '' */
+.weui-icon-safe-success:before { content: '\EA04' } /* '' */
+.weui-icon-safe-warn:before { content: '\EA05' } /* '' */
+.weui-icon-success:before { content: '\EA06' } /* '' */
+.weui-icon-success-circle:before { content: '\EA07' } /* '' */
+.weui-icon-success-no-circle:before { content: '\EA08' } /* '' */
+.weui-icon-waiting:before { content: '\EA09' } /* '' */
+.weui-icon-waiting-circle:before { content: '\EA0A' } /* '' */
+.weui-icon-warn:before { content: '\EA0B' } /* '' */
+.weui-icon-info-circle:before { content: '\EA0C' } /* '' */
+.weui-icon-cancel:before { content: '\EA0D' } /* '' */
+.weui-icon-search:before { content: '\EA0E' } /* '' */
+.weui-icon-clear:before { content: '\EA0F' } /* '' */
+.weui-icon-back:before { content: '\EA10' } /* '' */
+.weui-icon-delete:before { content: '\EA11' } /* '' */
+
+.weui-icon-success {
+  font-size: 23px;
+  color: #09BB07;
+}
+
+.weui-icon-waiting {
+  font-size: 23px;
+  color: #10AEFF;
+}
+
+.weui-icon-warn {
+  font-size: 23px;
+  color: #F43530;
+}
+
+.weui-icon-info {
+  font-size: 23px;
+  color: #10AEFF;
+}
+
+.weui-icon-success-circle {
+  font-size: 23px;
+  color: #09BB07;
+}
+
+.weui-icon-success-no-circle {
+  font-size: 23px;
+  color: #09BB07;
+}
+
+.weui-icon-waiting-circle {
+  font-size: 23px;
+  color: #10AEFF;
+}
+
+.weui-icon-circle {
+  font-size: 23px;
+  color: #C9C9C9;
+}
+
+.weui-icon-download {
+  font-size: 23px;
+  color: #09BB07;
+}
+
+.weui-icon-info-circle {
+  font-size: 23px;
+  color: #09BB07;
+}
+
+.weui-icon-safe-success {
+  color: #09BB07;
+}
+
+.weui-icon-safe-warn {
+  color: #FFBE00;
+}
+
+.weui-icon-cancel {
+  color: #F43530;
+  font-size: 22px;
+}
+
+.weui-icon-search {
+  color: #B2B2B2;
+  font-size: 14px;
+}
+
+.weui-icon-clear {
+  color: #B2B2B2;
+  font-size: 14px;
+}
+
+.weui-icon-delete {
+  &.weui-icon_gallery-delete {
+    color: #FFFFFF;
+    font-size: 22px;
+  }
+}
+
+.weui-icon_msg {
+  font-size: 93px;
+
+  &.weui-icon-warn {
+    color: #F76260;
+  }
+}
+
+.weui-icon_msg-primary {
+  font-size: 93px;
+
+  &.weui-icon-warn {
+    color: #FFBE00;
+  }
+}
+
+/** Note: 暂不考虑切换到 SVG 模式，原因如下：
+ * 1. 实际使用体验与原先使用 WEUI V1.1.3 通过字体加载 Icon 的方式存在差异；
+ * 2. 当前 SVG 模式下，图标大小不一致需要进一步调试。
+ * 需要注意的是，移除字体文件可以为全局的 css 样式节省约 6.7KB 的大小。
+ */
+
+// icon map
+// .weui-icon-circle {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M500%20916.667C269.881%20916.667%2083.333%20730.119%2083.333%20500%2083.333%20269.881%20269.881%2083.333%20500%2083.333c230.119%200%20416.667%20186.548%20416.667%20416.667%200%20230.119-186.548%20416.667-416.667%20416.667zm0-50c202.504%200%20366.667-164.163%20366.667-366.667%200-202.504-164.163-366.667-366.667-366.667-202.504%200-366.667%20164.163-366.667%20366.667%200%20202.504%20164.163%20366.667%20366.667%20366.667z%22%20fill-rule%3D%22evenodd%22%20fill-opacity%3D%22.9%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-download {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M11.25%2012.04l-1.72-1.72-1.06%201.06%202.828%202.83a1%201%200%20001.414-.001l2.828-2.828-1.06-1.061-1.73%201.73V7h-1.5v5.04zm0-5.04V2h1.5v5h6.251c.55%200%20.999.446.999.996v13.008a.998.998%200%2001-.996.996H4.996A.998.998%200%20014%2021.004V7.996A1%201%200%20014.999%207h6.251z%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-info {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm-.75-12v7h1.5v-7h-1.5zM12%209a1%201%200%20100-2%201%201%200%20000%202z%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-safe-success {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201000%201000%22%3E%3Cpath%20d%3D%22M500.9%204.6C315.5%2046.7%20180.4%2093.1%2057.6%20132c0%20129.3.2%20231.7.2%20339.7%200%20304.2%20248.3%20471.6%20443.1%20523.7C695.7%20943.3%20944%20775.9%20944%20471.7c0-108%20.2-210.4.2-339.7C821.4%2093.1%20686.3%2046.7%20500.9%204.6zm248.3%20349.1l-299.7%20295c-2.1%202-5.3%202-7.4-.1L304.4%20506.1c-2-2.1-2.3-5.7-.6-8l18.3-24.9c1.7-2.3%205-2.8%207.2-1l112.2%2086c2.3%201.8%206%201.7%208.1-.1l274.7-228.9c2.2-1.8%205.7-1.7%207.7.3l17%2016.8c2.2%202.1%202.2%205.3.2%207.4z%22%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20fill%3D%22%23070202%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-safe-warn {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201000%201000%22%3E%3Cpath%20d%3D%22M500.9%204.5c-185.4%2042-320.4%2088.4-443.2%20127.3%200%20129.3.2%20231.7.2%20339.6%200%20304.1%20248.2%20471.4%20443%20523.6%20194.7-52.2%20443-219.5%20443-523.6%200-107.9.2-210.3.2-339.6C821.3%2092.9%20686.2%2046.5%20500.9%204.5zm-26.1%20271.1h52.1c5.8%200%2010.3%204.7%2010.1%2010.4l-11.6%20313.8c-.1%202.8-2.5%205.2-5.4%205.2h-38.2c-2.9%200-5.3-2.3-5.4-5.2L464.8%20286c-.2-5.8%204.3-10.4%2010-10.4zm26.1%20448.3c-20.2%200-36.5-16.3-36.5-36.5s16.3-36.5%2036.5-36.5%2036.5%2016.3%2036.5%2036.5-16.4%2036.5-36.5%2036.5z%22%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20fill%3D%22%23020202%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-success {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm-1.177-7.86l-2.765-2.767L7%2012.431l3.119%203.121a1%201%200%20001.414%200l5.952-5.95-1.062-1.062-5.6%205.6z%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-success-circle {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm0-1.2a8.8%208.8%200%20100-17.6%208.8%208.8%200%20000%2017.6zm-1.172-6.242l5.809-5.808.848.849-5.95%205.95a1%201%200%2001-1.414%200L7%2012.426l.849-.849%202.98%202.98z%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-success-no-circle {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M8.657%2018.435L3%2012.778l1.414-1.414%204.95%204.95L20.678%205l1.414%201.414-12.02%2012.021a1%201%200%2001-1.415%200z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-waiting {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12.75%2011.38V6h-1.5v6l4.243%204.243%201.06-1.06-3.803-3.804zM12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-waiting-circle {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12.6%2011.503l3.891%203.891-.848.849L11.4%2012V6h1.2v5.503zM12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm0-1.2a8.8%208.8%200%20100-17.6%208.8%208.8%200%20000%2017.6z%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-warn {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm-.763-15.864l.11%207.596h1.305l.11-7.596h-1.525zm.759%2010.967c.512%200%20.902-.383.902-.882%200-.5-.39-.882-.902-.882a.878.878%200%2000-.896.882c0%20.499.396.882.896.882z%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-outlined-warn {
+//   mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12ZM20.8 12C20.8 16.8601 16.8601 20.8 12 20.8C7.13989 20.8 3.2 16.8601 3.2 12C3.2 7.13989 7.13989 3.2 12 3.2C16.8601 3.2 20.8 7.13989 20.8 12ZM12.6592 6.43115L12.5713 13.4917H11.4287L11.3408 6.43115H12.6592ZM11.165 16.2383C11.165 16.707 11.5312 17.0732 12 17.0732C12.4761 17.0732 12.835 16.707 12.835 16.2383C12.835 15.7622 12.4761 15.4033 12 15.4033C11.5312 15.4033 11.165 15.7622 11.165 16.2383Z' fill='black' /%3E%3C/svg%3E%0A");
+// }
+// .weui-icon-info-circle {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm0-1.2a8.8%208.8%200%20100-17.6%208.8%208.8%200%20000%2017.6zM11.4%2010h1.2v7h-1.2v-7zm.6-1a1%201%200%20110-2%201%201%200%20010%202z%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-cancel {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill-rule%3D%22evenodd%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm0-1.2a8.8%208.8%200%20100-17.6%208.8%208.8%200%20000%2017.6z%22%20fill-rule%3D%22nonzero%22%2F%3E%3Cpath%20d%3D%22M12.849%2012l3.11%203.111-.848.849L12%2012.849l-3.111%203.11-.849-.848L11.151%2012l-3.11-3.111.848-.849L12%2011.151l3.111-3.11.849.848L12.849%2012z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-search {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M16.31%2015.561l4.114%204.115-.848.848-4.123-4.123a7%207%200%2011.857-.84zM16.8%2011a5.8%205.8%200%2010-11.6%200%205.8%205.8%200%200011.6%200z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-clear {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M13.06%2012l3.006-3.005-1.06-1.06L12%2010.938%208.995%207.934l-1.06%201.06L10.938%2012l-3.005%203.005%201.06%201.06L12%2013.062l3.005%203.005%201.06-1.06L13.062%2012zM12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010z%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-back {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm1.999-6.563L10.68%2012%2014%208.562%2012.953%207.5%209.29%2011.277a1.045%201.045%200%20000%201.446l3.663%203.777L14%2015.437z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-delete {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M6.774%206.4l.812%2013.648a.8.8%200%2000.798.752h7.232a.8.8%200%2000.798-.752L17.226%206.4H6.774zm11.655%200l-.817%2013.719A2%202%200%200115.616%2022H8.384a2%202%200%2001-1.996-1.881L5.571%206.4H3.5v-.7a.5.5%200%2001.5-.5h16a.5.5%200%2001.5.5v.7h-2.071zM14%203a.5.5%200%2001.5.5v.7h-5v-.7A.5.5%200%200110%203h4zM9.5%209h1.2l.5%209H10l-.5-9zm3.8%200h1.2l-.5%209h-1.2l.5-9z%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-success-no-circle-thin {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M8.864%2016.617l-5.303-5.303-1.061%201.06%205.657%205.657a1%201%200%20001.414%200L21.238%206.364l-1.06-1.06L8.864%2016.616z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-arrow {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2212%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M2.454%206.58l1.06-1.06%205.78%205.779a.996.996%200%20010%201.413l-5.78%205.779-1.06-1.061%205.425-5.425-5.425-5.424z%22%20fill%3D%22%23B2B2B2%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-arrow-bold {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20height%3D%2224%22%20width%3D%2212%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M10.157%2012.711L4.5%2018.368l-1.414-1.414%204.95-4.95-4.95-4.95L4.5%205.64l5.657%205.657a1%201%200%20010%201.414z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-back-arrow {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2212%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M3.343%2012l7.071%207.071L9%2020.485l-7.778-7.778a1%201%200%20010-1.414L9%203.515l1.414%201.414L3.344%2012z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-back-arrow-thin {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2212%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M10%2019.438L8.955%2020.5l-7.666-7.79a1.02%201.02%200%20010-1.42L8.955%203.5%2010%204.563%202.682%2012%2010%2019.438z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-close {
+//   mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12.25 10.6932L6.05682 4.5L5 5.55682L11.1932 11.75L5 17.9432L6.05682 19L12.25 12.8068L18.4432 19L19.5 17.9432L13.3068 11.75L19.5 5.55682L18.4432 4.5L12.25 10.6932Z' fill='black' /%3E%3C/svg%3E%0A");
+// }
+// .weui-icon-close-thin {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12.25%2010.693L6.057%204.5%205%205.557l6.193%206.193L5%2017.943%206.057%2019l6.193-6.193L18.443%2019l1.057-1.057-6.193-6.193L19.5%205.557%2018.443%204.5z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+// }
+// .weui-icon-back-circle {
+//   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm0-1.2a8.8%208.8%200%20100-17.6%208.8%208.8%200%20000%2017.6zm1.999-5.363L12.953%2016.5%209.29%2012.723a1.045%201.045%200%20010-1.446L12.953%207.5%2014%208.563%2010.68%2012%2014%2015.438z%22%2F%3E%3C%2Fsvg%3E);
+// }
+
+// icon setting
+// .weui-icon-success {
+//   color: $weuiColorPrimary;
+// }
+// .weui-icon-waiting {
+//   color: var(--weui-BLUE);
+// }
+// .weui-icon-warn {
+//   color: $weuiColorWarn;
+// }
+// .weui-icon-info {
+//   color: var(--weui-BLUE);
+// }
+
+// .weui-icon-success-circle {
+//   color: $weuiColorPrimary;
+// }
+// .weui-icon-success-no-circle,
+// .weui-icon-success-no-circle-thin {
+//   color: $weuiColorPrimary;
+// }
+// .weui-icon-waiting-circle {
+//   color: var(--weui-BLUE);
+// }
+// .weui-icon-circle {
+//   color: $weuiTextColorTips;
+// }
+// .weui-icon-download {
+//   color: $weuiColorPrimary;
+// }
+
+// .weui-icon-info-circle {
+//   color: $weuiTextColorTips;
+// }
+
+// .weui-icon-safe-success {
+//   color: $weuiColorPrimary;
+// }
+// .weui-icon-safe-warn {
+//   color: var(--weui-YELLOW);
+// }
+
+// .weui-icon-cancel {
+//   color: $weuiColorWarn;
+// }
+
+// .weui-icon-search {
+//   color: $weuiTextColorDesc;
+// }
+
+// .weui-icon-clear {
+//   color: $weuiTextColorTips;
+//   &:active {
+//     color: $weuiTextColorDesc;
+//   }
+// }
+
+// .weui-icon-delete {
+//   &.weui-icon_gallery-delete {
+//     color: var(--weui-WHITE);
+//   }
+// }
+// .weui-icon-arrow,
+// .weui-icon-arrow-bold,
+// .weui-icon-back-arrow,
+// .weui-icon-back-arrow-thin {
+//   & {
+//     width: 1.2em;
+//   }
+// }
+// .weui-icon-arrow,
+// .weui-icon-arrow-bold {
+//   color: $weuiTextColorTips;
+// }
+// .weui-icon-back-arrow,
+// .weui-icon-back-arrow-thin {
+//   color: $weuiTextColorTitle;
+// }
+// .weui-icon-back,
+// .weui-icon-back-circle {
+//   color: $weuiTextColorTitle;
+// }
+
+// .weui-icon_msg {
+//   & {
+//     width: 6.4em;
+//     height: 6.4em;
+//     &.weui-icon-warn {
+//       color: $weuiColorWarn;
+//     }
+//     &.weui-icon-info-circle {
+//       color: var(--weui-BLUE);
+//     }
+//   }
+// }
+// .weui-icon_msg-primary {
+//   & {
+//     width: 6.4em;
+//     height: 6.4em;
+//     &.weui-icon-warn {
+//       color: var(--weui-YELLOW);
+//     }
+//   }
+// }

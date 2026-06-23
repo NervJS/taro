@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tabbar base 1`] = `
+<taro-tabbar class="taro-tabbar__tabbar taro-tabbar__tabbar-bottom taro-tabbar__tabbar-hide">
+  <div class="taro-tabbar__border-black weui-tabbar" style="height: inherit;">
+    <a class="weui-tabbar__item" href="javascript:;">
+      <span style="display: inline-block; position: relative;">
+        <img alt="" class="weui-tabbar__icon">
+      </span>
+      <p class="weui-tabbar__label">
+        首页
+      </p>
+    </a>
+    <a class="weui-tabbar__item" href="javascript:;">
+      <span style="display: inline-block; position: relative;">
+        <img alt="" class="weui-tabbar__icon">
+      </span>
+      <p class="weui-tabbar__label">
+        分类
+      </p>
+    </a>
+    <a class="weui-tabbar__item" href="javascript:;">
+      <span style="display: inline-block; position: relative;">
+        <img alt="" class="weui-tabbar__icon">
+      </span>
+      <p class="weui-tabbar__label">
+        购物车
+      </p>
+    </a>
+    <a class="weui-tabbar__item" href="javascript:;">
+      <span style="display: inline-block; position: relative;">
+        <img alt="" class="weui-tabbar__icon">
+      </span>
+      <p class="weui-tabbar__label">
+        个人中心
+      </p>
+    </a>
+  </div>
+</taro-tabbar>
+`;

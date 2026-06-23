@@ -1,0 +1,142 @@
+$weuiActionSheetAndroidBorderRadius: 2px;
+
+.weui-actionsheet {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  transform: translate(0, 100%);
+  backface-visibility: hidden;
+  z-index: 5000;
+  width: 100%;
+  background-color: $weuiBgColorDefault;
+  //slide up animation
+  transition: transform 0.3s;
+  // border-top-left-radius: 12px;
+  // border-top-right-radius: 12px;
+  // overflow: hidden;
+  // outline: 0;
+}
+.weui-actionsheet__title {
+  position: relative;
+  height: 65px; // 56px;
+  padding: 0 20px; // 8px 24px;
+  // padding: 8px calc(24px + constant(safe-area-inset-right)) 8px calc(24px + constant(safe-area-inset-left));
+  // padding: 8px calc(24px + env(safe-area-inset-right)) 8px calc(24px + env(safe-area-inset-left));
+  // box-sizing: border-box;
+  line-height: 1.4;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  font-size: 14px; // 12px;
+  color: #888; // $weuiTextColorDesc;
+  // line-height: 1.4;
+  background: #FCFCFD; // var(--weui-BG-2);
+  &::before {
+    @include setBottomLine($weuiCellBorderColor);
+  }
+  .weui-actionsheet__title-text {
+    @include ellipsisLn(2);
+  }
+}
+.weui-actionsheet__menu {
+  // color: $weuiTextColorTitle;
+  background-color: #FCFCFD; // var(--weui-BG-2);
+}
+.weui-actionsheet__action {
+  margin-top: 6px; // 8px;
+  // color: $weuiTextColorTitle;
+  background-color: #FCFCFD; // var(--weui-BG-2);
+  // .weui-actionsheet__cell {
+  //   &:last-child {
+  //     padding-bottom: calc($weuiCellGapV + constant(safe-area-inset-bottom));
+  //     padding-bottom: calc($weuiCellGapV + env(safe-area-inset-bottom));
+  //   }
+  //   &.weui-actionsheet__cell_tips {
+  //     &:last-child {
+  //       padding-bottom: calc(12px + constant(safe-area-inset-bottom));
+  //       padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  //     }
+  //   }
+  // }
+}
+.weui-actionsheet__cell {
+  position: relative;
+  padding: 10px 0; // $weuiCellGapV;
+  // padding: $weuiCellGapV calc($weuiCellGapV + constant(safe-area-inset-right)) $weuiCellGapV calc($weuiCellGapV + constant(safe-area-inset-left));
+  // padding: $weuiCellGapV calc($weuiCellGapV + env(safe-area-inset-right)) $weuiCellGapV calc($weuiCellGapV + env(safe-area-inset-left));
+  text-align: center;
+  font-size: 18px; // 17px;
+  // line-height: $weuiCellLineHeight;
+  // overflow: hidden;
+  &::before {
+    @include setTopLine($weuiCellBorderColor);
+  }
+  &:active {
+    background-color: $weuiBgColorActive;
+  }
+  &:first-child {
+    &::before {
+      display: none;
+    }
+  }
+}
+// .weui-actionsheet__cell__tips {
+//   display: block;
+//   font-size: 12px;
+//   color: var(--weui-FG-1);
+// }
+// .weui-actionsheet__cell_tips {
+//   padding-top: 12px;
+//   padding-bottom: 12px;
+// }
+// .weui-actionsheet__cell_warn {
+//   color: $weuiColorWarn;
+// }
+
+//android actionSheet
+.weui-skin_android {
+  .weui-actionsheet {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    //padding: 0 40px;
+    width: 274px;
+    box-sizing: border-box;
+    backface-visibility: hidden;
+    background: transparent;
+    //slide up animation
+    transition: transform 0.3s;
+    // border-top-left-radius: 0;
+    // border-top-right-radius: 0;
+  }
+  .weui-actionsheet__action {
+    display: none;
+  }
+  .weui-actionsheet__menu {
+    border-radius: $weuiActionSheetAndroidBorderRadius;
+    box-shadow: 0 6px 30px 0 rgba(0, 0, 0, 0.1);
+  }
+  .weui-actionsheet__cell {
+    padding: 13px 24px; // $weuiCellGapV;
+    font-size: 16px; // 17px;
+    line-height: 1.4; // $weuiCellLineHeight;
+    // color: $weuiTextColorTitle;
+    text-align: left;
+    &:first-child {
+      border-top-left-radius: $weuiActionSheetAndroidBorderRadius;
+      border-top-right-radius: $weuiActionSheetAndroidBorderRadius;
+    }
+    &:last-child {
+      border-bottom-left-radius: $weuiActionSheetAndroidBorderRadius;
+      border-bottom-right-radius: $weuiActionSheetAndroidBorderRadius;
+    }
+  }
+}
+
+//actionSheet aniamtion
+.weui-actionsheet_toggle {
+  transform: translate(0, 0);
+}

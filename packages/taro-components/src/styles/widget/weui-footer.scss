@@ -1,0 +1,57 @@
+.weui-footer {
+  color: $weuiTextColorGray; // rgba(0, 0, 0, 0.2);
+  // @include dark {
+  //   color:rgba(255,255,255,0.2);
+  // };
+
+  font-size: 14px;
+  // line-height: 1.4;
+  text-align: center;
+  a,
+  navigator {
+    color: $weuiLinkColorDefault;
+  }
+  navigator {
+    display: inline;
+  }
+}
+.weui-footer_fixed-bottom {
+  position: fixed;
+  bottom: .52em; // 0;
+  left: 0;
+  right: 0;
+  // padding-top: 16px;
+  // padding-bottom: 16px;
+  // padding-bottom: calc(16px + constant(safe-area-inset-bottom));
+  // padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  // left: constant(safe-area-inset-left);
+  // left: env(safe-area-inset-left);
+  // right: constant(safe-area-inset-right);
+  // right: env(safe-area-inset-right);
+}
+.weui-footer__links {
+  font-size: 0;
+}
+.weui-footer__link {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 .62em; // 0 8px;
+  position: relative;
+  font-size: 14px;
+  &::before {
+    @include setLeftLine();
+
+    left: -.65em; // -8px;
+    top: 0.36em;
+    bottom: 0.36em;
+  }
+  &:first-child {
+    &::before {
+      display: none;
+    }
+  }
+}
+.weui-footer__text {
+  padding: 0 .34em; // 0 16px;
+  font-size: 12px;
+}

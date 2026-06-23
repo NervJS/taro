@@ -1,0 +1,237 @@
+@import 'variable';
+@import 'weui-btn_loading.scss';
+$weuiBtnHeight: 46px;
+$weuiBtnFontSize: 18px;
+$weuiBtnFontColor: #fff;
+$weuiBtnActiveFontColor: rgb(255 255 255 / 60%);
+$weuiBtnDisabledFontColor: rgb(255 255 255 / 60%);
+$weuiBtnBorderRadius: 5px;
+$weuiBtnDefaultGap: 15px;
+
+// Button Mini
+$weuiBtnMiniFontSize: 13px;
+$weuiBtnMiniHeight: 2;
+
+// Button Default
+$weuiBtnDefaultFontColor: #000;
+$weuiBtnDefaultActiveFontColor: rgb(0 0 0 / 60%);
+$weuiBtnDefaultDisabledFontColor: rgb(0 0 0 / 30%);
+$weuiBtnDefaultBg: #f8f8f8;
+$weuiBtnDefaultActiveBg: #dedede;
+$weuiBtnDefaultDisabledBg: #f7f7f7;
+
+// Button Primary
+$weuiBtnPrimaryBg: #1aad19;
+$weuiBtnPrimaryActiveBg: #179b16;
+$weuiBtnPrimaryDisabledBg: #9ed99d;
+
+// Button Warn
+$weuiBtnWarnBg: #e64340;
+$weuiBtnWarnActiveBg: #ce3c39;
+$weuiBtnWarnDisabledBg: #ec8b89;
+
+// Button Plain Primary
+$weuiBtnPlainPrimaryColor: rgb(26 173 25 / 100%);
+$weuiBtnPlainPrimaryBorderColor: rgb(26 173 25 / 100%);
+$weuiBtnPlainPrimaryActiveColor: rgb(26 173 25 / 60%);
+$weuiBtnPlainPrimaryActiveBorderColor: rgb(26 173 25 / 60%);
+
+// Button Plain Default
+$weuiBtnPlainDefaultColor: rgb(53 53 53 / 100%);
+$weuiBtnPlainDefaultBorderColor: rgb(53 53 53 / 100%);
+$weuiBtnPlainDefaultActiveColor: rgb(53 53 53 / 60%);
+$weuiBtnPlainDefaultActiveBorderColor: rgb(53 53 53 / 60%);
+
+// Button Plain Warn
+$weuiBtnPlainWarnColor: #e64340;
+$weuiBtnPlainWarnBorderColor: #e64340;
+$weuiBtnPlainWarnActiveColor: rgba(230 67 64 / 60%);
+$weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
+
+.taro-button-core {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  padding: 0 14px;
+  border: 1px solid rgb(0 0 0 / 20%);
+  border-radius: $weuiBtnBorderRadius * 2;
+  width: 100%;
+  appearance: none;
+  outline: 0;
+  background-color: $weuiBtnDefaultBg;
+  text-decoration: none;
+  font-size: $weuiBtnFontSize;
+  color: $weuiBtnDefaultFontColor;
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:not(.taro-btn-disabled):active {
+    background-color: $weuiBtnDefaultActiveBg;
+    color: $weuiBtnDefaultActiveFontColor;
+  }
+
+  &+& {
+    margin-top: $weuiBtnDefaultGap;
+  }
+
+  &.taro-btn-default {
+    background-color: $weuiBtnDefaultBg;
+    color: $weuiBtnDefaultFontColor;
+
+    &:not(.taro-btn-disabled):visited {
+      color: $weuiBtnDefaultFontColor;
+    }
+
+    &:not(.taro-btn-disabled):active {
+      background-color: $weuiBtnDefaultActiveBg;
+      color: $weuiBtnDefaultActiveFontColor;
+    }
+  }
+
+  &.taro-btn-mini {
+    display: inline-block;
+    padding: 0 26px;
+    width: auto;
+    vertical-align: middle;
+    font-size: $weuiBtnMiniFontSize;
+  }
+
+  &.taro-btn-plain,
+  &.taro-btn-plain.taro-btn-default,
+  &.taro-btn-plain.taro-btn-primary,
+  &.taro-btn-plain.taro-btn-warn {
+    border-width: 1px;
+    background-color: transparent;
+  }
+
+  &.taro-btn-disabled {
+    color: $weuiBtnDisabledFontColor;
+
+    &.taro-btn-default {
+      background-color: $weuiBtnDefaultDisabledBg;
+      color: $weuiBtnDefaultDisabledFontColor;
+    }
+
+    &.taro-btn-primary {
+      background-color: $weuiBtnPrimaryDisabledBg;
+    }
+
+    &.taro-btn-warn {
+      background-color: $weuiBtnWarnDisabledBg;
+    }
+  }
+
+  &.taro-btn-loading {
+
+    &.taro-btn-primary,
+    &.taro-btn-warn {
+      color: $weuiBtnActiveFontColor;
+    }
+
+    &.taro-btn-primary {
+      background-color: $weuiBtnPrimaryActiveBg;
+    }
+
+    &.taro-btn-warn {
+      background-color: $weuiBtnWarnActiveBg;
+    }
+  }
+
+  &.taro-btn-plain.taro-btn-primary {
+    border: 1px solid $weuiBtnPlainPrimaryBorderColor;
+    color: $weuiBtnPlainPrimaryColor;
+
+    &:not(.taro-btn-disabled):active {
+      border-color: $weuiBtnPlainPrimaryActiveBorderColor;
+      background-color: transparent;
+      color: $weuiBtnPlainPrimaryActiveColor;
+    }
+
+    &::after {
+      border-width: 0;
+    }
+  }
+
+  &.taro-btn-plain.taro-btn-warn {
+    border: 1px solid $weuiBtnPlainWarnBorderColor;
+    color: $weuiBtnPlainWarnColor;
+
+    &:not(.taro-btn-disabled):active {
+      border-color: $weuiBtnPlainWarnActiveBorderColor;
+      background-color: transparent;
+      color: $weuiBtnPlainWarnActiveColor;
+    }
+
+    &::after {
+      border-width: 0;
+    }
+  }
+
+  &.taro-btn-plain,
+  &.taro-btn-plain.taro-btn-default {
+    border: 1px solid $weuiBtnPlainDefaultBorderColor;
+    color: $weuiBtnPlainDefaultColor;
+
+    &:not(.taro-btn-disabled):active {
+      border-color: $weuiBtnPlainDefaultActiveBorderColor;
+      background-color: transparent;
+      color: $weuiBtnPlainDefaultActiveColor;
+    }
+
+    &::after {
+      border-width: 0;
+    }
+  }
+
+  &.taro-btn-primary {
+    background-color: $weuiBtnPrimaryBg;
+    color: #fff;
+
+    &:not(.taro-btn-disabled):visited {
+      color: $weuiBtnFontColor;
+    }
+
+    &:not(.taro-btn-disabled):active {
+      background-color: $weuiBtnPrimaryActiveBg;
+      color: $weuiBtnActiveFontColor;
+    }
+  }
+
+  &.taro-btn-warn {
+    background-color: $weuiBtnWarnBg;
+    color: #fff;
+
+    &:not(.taro-btn-disabled):visited {
+      color: $weuiBtnFontColor;
+    }
+
+    &:not(.taro-btn-disabled):active {
+      background-color: $weuiBtnWarnActiveBg;
+      color: $weuiBtnActiveFontColor;
+    }
+  }
+
+  &.taro-btn-plain.taro-btn-disabled.taro-btn-default {
+    border: 1px solid rgb(0 0 0 / 20%);
+    background-color: #f7f7f7;
+    color: rgb(0 0 0 / 30%);
+  }
+
+  &.taro-btn-plain.taro-btn-disabled.taro-btn-primary {
+    border: 1px solid rgb(0 0 0 / 20%);
+    background-color: #f7f7f7;
+    color: rgb(0 0 0 / 30%);
+  }
+
+  &.taro-btn-plain.taro-btn-disabled.taro-btn-warn {
+    border: 1px solid rgb(0 0 0 / 20%);
+    background-color: #f7f7f7;
+    color: rgb(0 0 0 / 30%);
+  }
+}

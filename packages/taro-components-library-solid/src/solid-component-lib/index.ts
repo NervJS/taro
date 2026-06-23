@@ -1,0 +1,1 @@
+export { createSolidComponent } from './createComponent'

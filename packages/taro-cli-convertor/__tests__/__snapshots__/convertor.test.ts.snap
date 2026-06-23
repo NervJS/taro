@@ -1,0 +1,1421 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`公共组件引用 子组件内部标签引用公共组件时，解析 app.json 文件里公共组件，使子组件生效 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+app({});
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class _C extends React.Component {
+  render() {
+    return null;
+  }
+}
+export default _C;,
+  /wxProject/taroConvert/src/app.config.js => export default {
+  pages: ['pages/index/index'],
+  subPackages: [
+    { root: 'hello-plugin/', pages: ['pages/hello-page', 'pages/index/index'] },
+  ],
+}
+,
+  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+var plugin = require('../../hello-plugin/index.js')
+import HelloComponent from '../../hello-plugin/components/hello-component'
+import Cpt2 from '../../components/cpt2/cpt2'
+import './index.scss'
+cacheOptions.setOptionsToCache({
+  data: {
+    items: ['hello', 'world'],
+  },
+  onLoad: function () {
+    plugin.sayHello()
+  },
+  goToPlugin: function () {
+    Taro.navigateTo({
+      url: '/hello-plugin/pages/hello-page?param1=value',
+    })
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { items } = this.data
+    return (
+      <Block>
+        <HelloComponent items={items}></HelloComponent>
+        <View>
+          <Cpt2></Cpt2>
+        </View>
+      </Block>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/components/cpt2/cpt2.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import Cpt from '../cpt/cpt'
+cacheOptions.setOptionsToCache({
+  properties: {
+    text: {
+      type: String,
+      value: 'cpt2',
+    },
+    buttonText: {
+      type: String,
+      value: 'Click Me!',
+    },
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return (
+      <View>
+        <Cpt></Cpt>cpt2
+      </View>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/components/cpt/cpt.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import HelloComponent from '../../hello-plugin/components/hello-component'
+cacheOptions.setOptionsToCache({
+  properties: {
+    text: {
+      type: String,
+      value: 'cpt',
+    },
+    buttonText: {
+      type: String,
+      value: 'Click Me!',
+    },
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { items } = this.data
+    return (
+      <Block>
+        <HelloComponent items={items}></HelloComponent>
+        <View>cpt</View>
+      </Block>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/components/cpt3/cpt3.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import Cpt2 from '../cpt2/cpt2'
+cacheOptions.setOptionsToCache({
+  properties: {
+    text: {
+      type: String,
+      value: 'cpt3',
+    },
+    buttonText: {
+      type: String,
+      value: 'Click Me!',
+    },
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return (
+      <View>
+        <Cpt2></Cpt2>cpt3
+      </View>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/hello-page.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text, Button } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import Component1 from '../components/component1/component1'
+const miniprogramPageUrl = '/pages/index/index'
+const pluginPageUrl = './index/index'
+cacheOptions.setOptionsToCache({
+  data: {
+    items: ['hello', 'world'],
+  },
+  onLoad: function (data) {
+    console.log('This is a plugin page!')
+    console.log(data)
+  },
+  goToMiniprogramPage: function () {
+    Taro.navigateTo({
+      url: miniprogramPageUrl,
+    })
+  },
+  goToPluginPage: function () {
+    Taro.navigateTo({
+      url: pluginPageUrl,
+    })
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return (
+      <Block>
+        <Text>This is a plugin page!</Text>
+        <Button onClick={this.goToMiniprogramPage}>跳转到小程序页面</Button>
+        <Button onClick={this.goToPluginPage}>跳转到插件页面</Button>
+        <Component1>nn</Component1>
+      </Block>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/hello-page.config.js => export default {}
+,
+  /wxProject/taroConvert/src/hello-plugin/components/component1/component1.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>这是插件组件component1</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({
+  data: {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>这是插件index页面</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/hello-plugin/components/hello-component.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import './hello-component.scss'
+cacheOptions.setOptionsToCache({
+  properties: {
+    items: {
+      type: Array,
+      value: [],
+    },
+  },
+  data: {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { items } = this.data
+    return (
+      <View className="container">
+        <View>这是插件组件hello-component</View>
+        {items.map((item, index) => {
+          return (
+            <Text className="item" key={items}>
+              {item}
+            </Text>
+          )
+        })}
+      </View>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/index.js => module.exports = {
+  sayHello: function () {
+    console.log('Hello plugin!')
+  },
+}
+,
+}
+`;
+
+exports[`微信小程序转换 三方库转换 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;,
+  /wxProject/taroConvert/src/app.config.js => export default { pages: ['pages/index/index'] }
+,
+  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import moment from 'moment'
+cacheOptions.setOptionsToCache({
+  data: {
+    time: moment(new Date()).format('YYYY-MM-DD'),
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { time } = this.data
+    return <View>{time}</View>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/node_modules/moment => ,
+  /wxProject/taroConvert/node_modules/moment/dist => ,
+  /wxProject/taroConvert/node_modules/moment/dist/locale => ,
+  /wxProject/taroConvert/node_modules/moment/dist/locale/af.js => 123,
+  /wxProject/taroConvert/node_modules/moment/dist/moment.js => format(){},
+}
+`;
+
+exports[`微信小程序转换 使用工具函数初始化 page 页面 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+const { createPage } = require('../../utils/tools.js')
+createPage({})
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return null
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/utils/tools.js => const { cacheOptions } = require('@tarojs/with-weapp')
+module.exports.createPage = function (options) {
+  cacheOptions.setOptionsToCache(options)
+}
+,
+}
+`;
+
+exports[`微信小程序转换 同时使用插件和分包 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;,
+  /wxProject/taroConvert/src/app.config.js => export default {
+  pages: ['pages/index/index'],
+  subPackages: [
+    { root: 'packageA', pages: ['pages/index'] },
+    { root: 'packageB', name: 'pack2', pages: ['pages/index'] },
+    { root: 'hello-plugin/', pages: ['pages/hello-page', 'pages/index/index'] },
+  ],
+}
+,
+  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Button } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+var plugin = require('../../hello-plugin/index.js')
+import HelloComponent from '../../hello-plugin/components/hello-component'
+import './index.scss'
+cacheOptions.setOptionsToCache({
+  data: {
+    items: ['hello', 'world'],
+  },
+  onLoad: function () {
+    plugin.sayHello()
+  },
+  goToPlugin: function () {
+    Taro.navigateTo({
+      url: '/hello-plugin/pages/hello-page?param1=value',
+    })
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { items } = this.data
+    return (
+      <Block>
+        <Button id="goToPlugin" onClick={this.goToPlugin}>
+          navigateTo接口跳转插件
+        </Button>
+        <HelloComponent items={items}></HelloComponent>
+      </Block>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/packageA/pages/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>packageA/index.wxml</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/packageA/pages/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/packageB/pages/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>packageB/index.wxml</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/packageB/pages/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/hello-page.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text, Button } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import Component1 from '../components/component1/component1'
+const miniprogramPageUrl = '/pages/index/index'
+const pluginPageUrl = './index/index'
+cacheOptions.setOptionsToCache({
+  data: {
+    items: ['hello', 'world'],
+  },
+  onLoad: function (data) {
+    console.log('This is a plugin page!')
+    console.log(data)
+  },
+  goToMiniprogramPage: function () {
+    Taro.navigateTo({
+      url: miniprogramPageUrl,
+    })
+  },
+  goToPluginPage: function () {
+    Taro.navigateTo({
+      url: pluginPageUrl,
+    })
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return (
+      <Block>
+        <Text>This is a plugin page!</Text>
+        <Button onClick={this.goToMiniprogramPage}>跳转到小程序页面</Button>
+        <Button onClick={this.goToPluginPage}>跳转到插件页面</Button>
+        <Component1>nn</Component1>
+      </Block>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/hello-page.config.js => export default {}
+,
+  /wxProject/taroConvert/src/hello-plugin/components/component1/component1.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>这是插件组件component1</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({
+  data: {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>这是插件index页面</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/hello-plugin/components/hello-component.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import './hello-component.scss'
+cacheOptions.setOptionsToCache({
+  properties: {
+    items: {
+      type: Array,
+      value: [],
+    },
+  },
+  data: {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { items } = this.data
+    return (
+      <View className="container">
+        <View>这是插件组件hello-component</View>
+        {items.map((item, index) => {
+          return (
+            <Text className="item" key={items}>
+              {item}
+            </Text>
+          )
+        })}
+      </View>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/index.js => module.exports = {
+  sayHello: function () {
+    console.log('Hello plugin!')
+  },
+}
+,
+}
+`;
+
+exports[`微信小程序转换 小程序 demo 转换 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;,
+  /wxProject/taroConvert/src/app.config.js => export default { pages: ['pages/index/index'] }
+,
+  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+const app = Taro.getApp()
+cacheOptions.setOptionsToCache({
+  data: {
+    motto: 'Hello World',
+  },
+  onLoad() {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { motto } = this.data
+    return (
+      <View>
+        <Text>{motto}</Text>
+      </View>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+,
+}
+`;
+
+exports[`微信小程序转换 小程序 tabber 转换 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;,
+  /wxProject/taroConvert/src/app.config.js => export default {
+  pages: ['pages/component/index', 'pages/api/index'],
+  tabBar: {
+    color: '#7A7E83',
+    selectedColor: '#3cc51f',
+    borderStyle: 'black',
+    backgroundColor: '#ffffff',
+    list: [
+      {
+        pagePath: 'pages/component/index',
+        iconPath: 'image/icon_component.png',
+        selectedIconPath: 'image/icon_component_HL.png',
+        text: '组件',
+      },
+      {
+        pagePath: 'pages/api/index',
+        iconPath: 'image/icon_API.png',
+        selectedIconPath: 'image/icon_API_HL.png',
+        text: '接口',
+      },
+    ],
+  },
+}
+,
+  undefined => ,
+  /wxProject/taroConvert/src/image/icon_component.png => ,
+  /wxProject/taroConvert/src/image/icon_component_HL.png => ,
+  /wxProject/taroConvert/src/image/icon_API.png => ,
+  /wxProject/taroConvert/src/image/icon_API_HL.png => ,
+  /wxProject/taroConvert/src/pages/component/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <View>组件</View>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/component/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/pages/api/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <View>接口</View>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/api/index.config.js => export default {}
+,
+}
+`;
+
+exports[`微信小程序转换 小程序分包 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;,
+  /wxProject/taroConvert/src/app.config.js => export default {
+  pages: ['pages/index/index'],
+  subPackages: [
+    { root: 'packageA/pages/', pages: ['component/index'] },
+    { root: 'packageB/pages/', pages: ['api/index'] },
+  ],
+}
+,
+  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>pages/index/index.wxml</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/packageA/pages/component/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>packageA/pages/component/index.wxml</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/packageA/pages/component/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/packageB/pages/api/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>packageB/pages/api/index.wxml</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/packageB/pages/api/index.config.js => export default {}
+,
+}
+`;
+
+exports[`微信小程序转换 小程序插件转换 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;,
+  /wxProject/taroConvert/src/app.config.js => export default {
+  pages: ['pages/index/index'],
+  subPackages: [
+    { root: 'hello-plugin/', pages: ['pages/hello-page', 'pages/index/index'] },
+  ],
+}
+,
+  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Button } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+var plugin = require('../../hello-plugin/index.js')
+import HelloComponent from '../../hello-plugin/components/hello-component'
+import './index.scss'
+cacheOptions.setOptionsToCache({
+  data: {
+    items: ['hello', 'world'],
+  },
+  onLoad: function () {
+    plugin.sayHello()
+  },
+  goToPlugin: function () {
+    Taro.navigateTo({
+      url: '/hello-plugin/pages/hello-page?param1=value',
+    })
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { items } = this.data
+    return (
+      <Block>
+        <Button id="goToPlugin" onClick={this.goToPlugin}>
+          navigateTo接口跳转插件
+        </Button>
+        <HelloComponent items={items}></HelloComponent>
+      </Block>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/hello-page.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text, Button } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import Component1 from '../components/component1/component1'
+const miniprogramPageUrl = '/pages/index/index'
+const pluginPageUrl = './index/index'
+cacheOptions.setOptionsToCache({
+  data: {
+    items: ['hello', 'world'],
+  },
+  onLoad: function (data) {
+    console.log('This is a plugin page!')
+    console.log(data)
+  },
+  goToMiniprogramPage: function () {
+    Taro.navigateTo({
+      url: miniprogramPageUrl,
+    })
+  },
+  goToPluginPage: function () {
+    Taro.navigateTo({
+      url: pluginPageUrl,
+    })
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return (
+      <Block>
+        <Text>This is a plugin page!</Text>
+        <Button onClick={this.goToMiniprogramPage}>跳转到小程序页面</Button>
+        <Button onClick={this.goToPluginPage}>跳转到插件页面</Button>
+        <Component1>nn</Component1>
+      </Block>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/hello-page.config.js => export default {}
+,
+  /wxProject/taroConvert/src/hello-plugin/components/component1/component1.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>这是插件组件component1</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({
+  data: {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>这是插件index页面</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/hello-plugin/components/hello-component.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import './hello-component.scss'
+cacheOptions.setOptionsToCache({
+  properties: {
+    items: {
+      type: Array,
+      value: [],
+    },
+  },
+  data: {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { items } = this.data
+    return (
+      <View className="container">
+        <View>这是插件组件hello-component</View>
+        {items.map((item, index) => {
+          return (
+            <Text className="item" key={items}>
+              {item}
+            </Text>
+          )
+        })}
+      </View>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/index.js => module.exports = {
+  sayHello: function () {
+    console.log('Hello plugin!')
+  },
+}
+,
+}
+`;
+
+exports[`微信小程序转换 小程序自定义 tabber 转换 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;,
+  /wxProject/taroConvert/src/app.config.js => export default {
+  pages: ['pages/component/index', 'pages/api/index'],
+  tabBar: {
+    custom: true,
+    color: '#7A7E83',
+    selectedColor: '#3cc51f',
+    borderStyle: 'black',
+    backgroundColor: '#ffffff',
+    list: [
+      {
+        pagePath: 'pages/component/index',
+        iconPath: 'image/icon_component.png',
+        selectedIconPath: 'image/icon_component_HL.png',
+        text: '组件',
+      },
+      {
+        pagePath: 'pages/api/index',
+        iconPath: 'image/icon_API.png',
+        selectedIconPath: 'image/icon_API_HL.png',
+        text: '接口',
+      },
+    ],
+  },
+}
+,
+  undefined => ,
+  /wxProject/taroConvert/src/image/icon_component.png => ,
+  /wxProject/taroConvert/src/image/icon_component_HL.png => ,
+  /wxProject/taroConvert/src/image/icon_API.png => ,
+  /wxProject/taroConvert/src/image/icon_API_HL.png => ,
+  /wxProject/taroConvert/src/custom-tab-bar => {
+    /index.js: Component({}),
+    /index.json: {},
+    /index.wxml: ,
+    /index.wxss: ,
+  },
+  /wxProject/taroConvert/src/custom-tab-bar/index.js => Component({}),
+  /wxProject/taroConvert/src/custom-tab-bar/index.wxml => ,
+  /wxProject/taroConvert/src/custom-tab-bar/index.json => {},
+  /wxProject/taroConvert/src/custom-tab-bar/index.wxss => ,
+  /wxProject/taroConvert/src/pages/component/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <View>组件</View>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/component/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/pages/api/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <View>接口</View>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/api/index.config.js => export default {}
+,
+}
+`;
+
+exports[`微信小程序转换 配置 miniprogramRoot 的 demo 小程序转换 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;,
+  /wxProject/taroConvert/src/app.config.js => export default { pages: ['pages/index/index'] }
+,
+  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+const app = Taro.getApp()
+cacheOptions.setOptionsToCache({
+  data: {
+    motto: 'Hello World',
+  },
+  onLoad() {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { motto } = this.data
+    return (
+      <View>
+        <Text>{motto}</Text>
+      </View>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+,
+}
+`;
+
+exports[`文件转换 wxss 的注释中引用自身文件 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/pages/commentPage/commentPage.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import './commentPage.scss'
+cacheOptions.setOptionsToCache({
+  data: {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <View></View>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/commentPage/commentPage.config.js => export default {}
+,
+}
+`;
+
+exports[`文件转换 一个文件夹下有多个 wxml 页面导致显示异常 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/app.js => import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;,
+  /wxProject/taroConvert/src/app.config.js => export default { pages: ['pages/index/index', 'pages/index/other'] }
+,
+  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+const app = Taro.getApp()
+cacheOptions.setOptionsToCache({
+  data: {
+    info: 'this is index page',
+  },
+  onLoad() {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { info } = this.data
+    return (
+      <View>
+        <Text>{info}</Text>
+      </View>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/pages/index/other.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+const app = Taro.getApp()
+cacheOptions.setOptionsToCache({
+  data: {
+    message: 'this is other page',
+  },
+  onLoad() {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { message } = this.data
+    return (
+      <View>
+        <Text>{message}</Text>
+      </View>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/other.config.js => export default {}
+,
+}
+`;
+
+exports[`文件转换 文件中包含 commonjs 导出转换 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/utils/util.js => const Taro = require('@tarojs/taro')
+function getData(url) {
+  Taro.request({
+    url: 'url',
+  })
+}
+module.exports.getData = getData
+,
+}
+`;
+
+exports[`模版转换 模版转换，模版名为变量 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/imports/TemplatebTmpl.js => import { Block } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import withWeapp from '@tarojs/with-weapp'
+@withWeapp({})
+class TemplatebTmpl extends React.Component {
+  render() {
+    const {
+      data: { name },
+    } = this.props
+    return <Block>{name}</Block>
+  }
+}
+export default TemplatebTmpl
+,
+  /wxProject/taroConvert/src/imports/TemplatecTmpl.js => import { Block } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import withWeapp from '@tarojs/with-weapp'
+@withWeapp({})
+class TemplatecTmpl extends React.Component {
+  render() {
+    const {
+      data: { age },
+    } = this.props
+    return <Block>{age}</Block>
+  }
+}
+export default TemplatecTmpl
+,
+  /wxProject/taroConvert/src/pages/templatePage_tempNameIsVar/templatePage_tempNameIsVar.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import TemplatecTmpl from '../../imports/TemplatecTmpl.js'
+import TemplatebTmpl from '../../imports/TemplatebTmpl.js'
+cacheOptions.setOptionsToCache({
+  data: {
+    name: 'hello',
+    age: 12,
+    templateName: 'template1',
+  },
+})
+const ComponentMap = {
+  template1: TemplatebTmpl,
+  template2: TemplatecTmpl,
+}
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { templateName, name, age } = this.data
+    let ComponentName = ComponentMap[templateName]
+    return (
+      <ComponentName
+        data={{
+          name: name,
+          age: age,
+        }}
+      ></ComponentName>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/templatePage_tempNameIsVar/templatePage_tempNameIsVar.config.js => export default {}
+,
+}
+`;
+
+exports[`模版转换 模版转换，模版名包含变量 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/imports/TemplatebTmpl.js => import { Block } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import withWeapp from '@tarojs/with-weapp'
+@withWeapp({})
+class TemplatebTmpl extends React.Component {
+  render() {
+    const {
+      data: { name },
+    } = this.props
+    return <Block>{name}</Block>
+  }
+}
+export default TemplatebTmpl
+,
+  /wxProject/taroConvert/src/imports/TemplatecTmpl.js => import { Block } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import withWeapp from '@tarojs/with-weapp'
+@withWeapp({})
+class TemplatecTmpl extends React.Component {
+  render() {
+    const {
+      data: { age },
+    } = this.props
+    return <Block>{age}</Block>
+  }
+}
+export default TemplatecTmpl
+,
+  /wxProject/taroConvert/src/pages/templatePage_tempNameContainsVar/templatePage_tempNameContainsVar.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import TemplatecTmpl from '../../imports/TemplatecTmpl.js'
+import TemplatebTmpl from '../../imports/TemplatebTmpl.js'
+cacheOptions.setOptionsToCache({
+  data: {
+    name: 'hello',
+    age: 12,
+    lateName: 'template1',
+  },
+})
+const ComponentMap = {
+  template1: TemplatebTmpl,
+  template2: TemplatecTmpl,
+}
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { lateName, name, age } = this.data
+    let ComponentName = ComponentMap['temp' + lateName]
+    return (
+      <ComponentName
+        data={{
+          name: name,
+          age: age,
+        }}
+      ></ComponentName>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/templatePage_tempNameContainsVar/templatePage_tempNameContainsVar.config.js => export default {}
+,
+}
+`;
+
+exports[`模版转换 简单模版转换，向模版中传递一个变量 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/imports/HuangyeTmpl.js => import { Block } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import withWeapp from '@tarojs/with-weapp'
+@withWeapp({})
+class HuangyeTmpl extends React.Component {
+  render() {
+    const {
+      data: { name },
+    } = this.props
+    return <Block>{name}</Block>
+  }
+}
+export default HuangyeTmpl
+,
+  /wxProject/taroConvert/src/pages/simpleTemplatePage/simpleTemplatePage.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import HuangyeTmpl from '../../imports/HuangyeTmpl.js'
+cacheOptions.setOptionsToCache({
+  data: {
+    name: 'hello',
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { name } = this.data
+    return (
+      <HuangyeTmpl
+        data={{
+          name: name,
+        }}
+      ></HuangyeTmpl>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/simpleTemplatePage/simpleTemplatePage.config.js => export default {}
+,
+}
+`;
+
+exports[`模版转换 简单模版转换，向模版中传递多个变量 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/imports/HuangyeTmpl.js => import { Block } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import withWeapp from '@tarojs/with-weapp'
+@withWeapp({})
+class HuangyeTmpl extends React.Component {
+  render() {
+    const {
+      data: { name, age },
+    } = this.props
+    return <Block>{name + ' ' + age}</Block>
+  }
+}
+export default HuangyeTmpl
+,
+  /wxProject/taroConvert/src/pages/mulVarTemplatePage/mulVarTemplatePage.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import HuangyeTmpl from '../../imports/HuangyeTmpl.js'
+cacheOptions.setOptionsToCache({
+  data: {
+    name: 'hello',
+    age: 12,
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { name, age } = this.data
+    return (
+      <HuangyeTmpl
+        data={{
+          name: name,
+          age: age,
+        }}
+      ></HuangyeTmpl>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/mulVarTemplatePage/mulVarTemplatePage.config.js => export default {}
+,
+}
+`;
+
+exports[`配置文件解析转换 小程序 sitemap.json 文件的转换 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  undefined => ,
+  /wxProject/taroConvert/sitemap.json => 
+        {
+          "rules":[{
+            "action": "allow",
+            "page": "*"
+          }]
+        }
+      ,
+}
+`;

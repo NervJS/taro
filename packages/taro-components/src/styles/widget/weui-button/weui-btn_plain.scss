@@ -1,0 +1,32 @@
+.weui-btn_plain-primary {
+  color: $weuiBtnPlainPrimaryColor;
+  border: 1px solid $weuiBtnPlainPrimaryBorderColor;
+
+  &:not(.weui-btn_plain-disabled):active {
+    color: $weuiBtnPlainPrimaryActiveColor;
+    border-color: $weuiBtnPlainPrimaryActiveBorderColor;
+  }
+
+  &:after {
+    border-width: 0;
+  }
+}
+
+.weui-btn_plain-default {
+  color: $weuiBtnPlainDefaultColor;
+  border: 1px solid $weuiBtnPlainDefaultBorderColor;
+
+  &:not(.weui-btn_plain-disabled):active {
+    color: $weuiBtnPlainDefaultActiveColor;
+    border-color: $weuiBtnPlainDefaultActiveBorderColor;
+  }
+
+  &:after {
+    border-width: 0;
+  }
+}
+
+.weui-btn_plain-disabled {
+  color: rgba(0, 0, 0, .2);
+  border-color: rgba(0, 0, 0, .2);
+}

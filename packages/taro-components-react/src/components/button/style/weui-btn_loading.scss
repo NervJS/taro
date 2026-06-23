@@ -1,0 +1,53 @@
+@-webkit-keyframes weuiLoading {
+  0% {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+
+  100% {
+    transform: rotate3d(0, 0, 1, 360deg);
+  }
+}
+
+@keyframes weuiLoading {
+  0% {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+
+  100% {
+    transform: rotate3d(0, 0, 1, 360deg);
+  }
+}
+
+.taro-button-core.taro-btn-loading {
+  .weui-loading {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    animation: weuiLoading 1s steps(12, end) infinite;
+    background: transparent url("https://img13.360buyimg.com/imagetools/jfs/t1/353674/27/5761/14397/690ac1cfFf6bf0e2c/77727d0791bacf8e.png") no-repeat;
+    background-size: cover;
+
+    &.weui-btn_primary,
+    &.weui-btn_warn {
+      color: $weuiBtnActiveFontColor;
+    }
+    &.weui-btn_primary {
+      // color: var(--weui-WHITE);
+      background-color: $weuiBtnPrimaryActiveBg;
+    }
+
+    &.weui-btn_warn {
+      background-color: $weuiBtnWarnActiveBg;
+    }
+  }
+
+}
+
+.taro-button-core.taro-btn-loading.taro-btn-mini {
+  .weui-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+  }
+}

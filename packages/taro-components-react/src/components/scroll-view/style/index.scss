@@ -1,0 +1,22 @@
+.taro-scroll {
+  -webkit-overflow-scrolling: auto;
+}
+
+/* 默认不隐藏滚动条，只有加上 .taro-scroll--hidebar 时才隐藏 */
+.taro-scroll--hidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.taro-scroll-view {
+  overflow: hidden;
+}
+
+.taro-scroll-view__scroll-x {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.taro-scroll-view__scroll-y {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}

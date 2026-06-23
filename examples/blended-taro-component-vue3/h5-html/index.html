@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./src/taro/css/components/picker/index.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.3.4/vue.global.js"></script>
+  <script src="./src/taro/components/picker/index.js"></script>
+  <script>
+      // 定义应用程序的根组件
+      const App = {
+        components: {
+          MyPicker: window.NativeComponent.default
+        },
+        template: `
+          <view>
+            <view>Detail: </view>
+            <button @click="goto">Go To Detail</button>
+            
+            <view>Picker: </view>
+            <my-picker title="test" :list="list" @button-click="onButtonClick"></my-picker>
+          </view>
+        `,
+        data() {
+          return {
+            list: ['Item 1', 'Item 2', 'Item 3'] // 示例数据
+          };
+        },
+        methods: {
+          goto() {
+            console.log('Going to detail...');
+            // 实现跳转逻辑
+          },
+          onButtonClick(data) {
+            console.log('Button clicked with:', data);
+            // 实现按钮点击逻辑
+          }
+        }
+      };
+    // 创建并挂载至 #app
+    Vue.createApp(App).mount('#root');
+  </script>
+</body>
+</html>

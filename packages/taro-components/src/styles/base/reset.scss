@@ -1,0 +1,37 @@
+//Note: 现在的全局样式文件已经放到 @tarojs/components/global.css 中，在 loader 中引入。
+//并且提供了新的参数， --no-inject-global-style，用于禁止注入全局样式。
+//把之前的全局方式放到 .taro-app-wrap 里面，如果不希望注入全局样式，但又希望在 taro 单独打包的组件用到这些 reset，可以在组件的最外层包裹一个 .taro-app-wrap 即可。
+//这个代码体积不大，因此不做抖动了
+.taro-app-wrap {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  line-height: 1.6;
+  font-family: $weuiFontDefault;
+  margin: 0;
+  padding: 0;
+  & * {
+    margin: 0;
+    padding: 0;
+  }
+  & a {
+    text-decoration: none;
+    @include setTapColor();
+  }
+  & a img {
+    border: 0;
+  }
+
+  & input {
+    display: block;
+    overflow: hidden;
+    height: 1.4rem;
+    text-overflow: clip;
+    text-align: inherit;
+    white-space: nowrap;
+  }
+}

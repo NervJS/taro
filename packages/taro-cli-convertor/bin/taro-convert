@@ -1,0 +1,13 @@
+#! /usr/bin/env node
+
+const Convertor = require('../dist/index').default
+
+try {
+  const convertor = new Convertor(process.cwd(), false)
+  convertor.run()
+} catch (error) {
+  console.error('转换异常:', error.stack)
+  process.exit(1)
+}
+
+

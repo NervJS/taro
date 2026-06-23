@@ -1,0 +1,151 @@
+var startY = null
+var translateY = 0
+var factor = 70
+var STATUS = {
+  INITIAL: 0,
+  SCROLL: 1,
+  TRANSITION: 2,
+  UNFOLD: 3,
+  RESET: 4,
+}
+var status = STATUS.INITIAL
+
+function _markStartY (e) {
+  if (startY === null) {
+    startY = (e.touches[0] || e.changedTouches[0]).pageY
+  }
+}
+
+function _resetStartY () {
+  startY = null
+}
+
+function _setStatus (s) {
+  status = s
+}
+
+function _togglePageScroll (ctx, option) {
+  var page = ctx.selectComponent('.page')
+  page[option ? 'removeClass' : 'addClass']('page--pinned')
+}
+
+function touchstart (e, ctx) {
+  _markStartY(e)
+}
+
+function touchmove(e, ctx) {
+  var currentY = (e.touches[0] || e.changedTouches[0]).pageY
+  var offset = currentY - startY
+
+  if (status === STATUS.RESET) {
+    _setStatus(STATUS.INITIAL)
+    _resetStartY()
+    _markStartY(e)
+  } else if (status === STATUS.INITIAL) {
+    if (offset < 0) {
+      _setStatus(STATUS.SCROLL)
+    } else if (offset > 0) {
+      _setStatus(STATUS.TRANSITION)
+    }
+  } else if (status === STATUS.SCROLL) {
+
+  } else if (status === STATUS.TRANSITION) {
+    offset = Math.max(offset, 0)
+    var simple = ctx.selectComponent('.content__simple')
+    var detail = ctx.selectComponent('.content__detail')
+    var main = ctx.selectComponent('.main')
+    simple.setStyle({
+      opacity: 1 - Math.min(offset / factor, 1)
+    })
+    detail.setStyle({
+      opacity: Math.min(Math.max(offset - factor, 0) / factor, 1)
+    })
+    main.setStyle({
+      transform: 'translateY(' + offset + 'px)'
+    })
+    if (offset <= 0) {
+      _setStatus(STATUS.INITIAL)
+    }
+  } else if (status === STATUS.UNFOLD) {
+    if (offset < -10) {
+      var simple = ctx.selectComponent('.content__simple')
+      var detail = ctx.selectComponent('.content__detail')
+      var main = ctx.selectComponent('.main')
+      simple.setStyle({
+        opacity: 1,
+      })
+      detail.setStyle({
+        opacity: 0
+      })
+      main.setStyle({
+        transform: 'translateY(0px)',
+        transition: 'transform 0.4s ease'
+      })
+    }
+  }
+}
+
+function touchend (e, ctx) {
+  var currentY = (e.touches[0] || e.changedTouches[0]).pageY
+  var offset = currentY - startY
+
+  if (status === STATUS.TRANSITION) {
+    if (offset - factor > 0) {
+      var detail = ctx.selectComponent('.content__detail')
+      var main = ctx.selectComponent('.main')
+      detail.setStyle({
+        opacity: 1,
+        transition: 'opacity 0.4s ease'
+      })
+      main.setStyle({
+        transform: 'translateY(' + 1500 + 'px)',
+        transition: 'transform 0.4s ease'
+      })
+      _setStatus(STATUS.UNFOLD)
+      _togglePageScroll(ctx, false) // 禁止页面滚动
+    } else {
+      var simple = ctx.selectComponent('.content__simple')
+      var main = ctx.selectComponent('.main')
+      simple.setStyle({
+        opacity: 1,
+        transition: 'transform 0.4s ease'
+      })
+      main.setStyle({
+        transform: 'translateY(0px)',
+        transition: 'transform 0.4s ease'
+      })
+      _setStatus(STATUS.INITIAL)
+    }
+  } else if (status === STATUS.UNFOLD) {
+    var simple = ctx.selectComponent('.content__simple')
+    if (+simple.getComputedStyle(['opacity']).opacity > 0) {
+      _setStatus(STATUS.INITIAL)
+      _togglePageScroll(ctx, true) // 重启页面滚动
+    }
+  }
+
+  _resetStartY()
+}
+
+function toupper (e, ctx) {
+  var main = ctx.selectComponent('.main__container')
+  var position = main.getComputedStyle(['position']).position
+  if (status === STATUS.SCROLL && position !== 'fixed') {
+    status = STATUS.RESET
+  }
+}
+
+function mianTransitionEnd (e, ctx) {
+  var main = e.instance
+  if (main.getComputedStyle(['transform']).transform === "matrix(1, 0, 0, 1, 0, 0)") {
+    main.setStyle({ transform: 'none' })
+  }
+}
+
+module.exports = {
+  touchstart: touchstart,
+  touchmove: touchmove,
+  touchend: touchend,
+  toupper: toupper,
+  mianTransitionEnd: mianTransitionEnd,
+}

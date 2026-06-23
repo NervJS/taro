@@ -1,0 +1,30 @@
+.weui-cell_swiped {
+  display: block;
+  padding: 0;
+  > .weui-cell__bd {
+    position: relative;
+    z-index: 1;
+    background-color: #FFFFFF; // $weuiCellBg;
+  }
+  > .weui-cell__ft {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    color: #fff; // 固定色值
+  }
+}
+.weui-swiped-btn {
+  display: block; // flex;
+  align-items: center;
+  padding: $weuiCellGapV 1em;
+  line-height: $weuiCellLineHeight;
+  color: inherit;
+}
+.weui-swiped-btn_default {
+  background-color: #C7C7CC; // $weuiBgColorDefault;
+}
+.weui-swiped-btn_warn {
+  background-color: #FF3B30; // $weuiColorWarn;
+}

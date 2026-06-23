@@ -1,0 +1,113 @@
+import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter } from '@stencil/core'
+import classNames from 'classnames'
+
+export type Mode =
+  'scaleToFill'
+  | 'aspectFit'
+  | 'aspectFill'
+  | 'widthFix'
+  | 'heightFix'
+  | 'top'
+  | 'bottom'
+  | 'center'
+  | 'left'
+  | 'right'
+  | 'top left'
+  | 'top right'
+  | 'bottom left'
+  | 'bottom right'
+
+@Component({
+  tag: 'taro-image-core',
+  styleUrl: './style/index.scss'
+})
+export class Image implements ComponentInterface {
+  @Prop() src: string
+  @Prop() mode: Mode = 'scaleToFill'
+  @Prop() lazyLoad = false
+  @Prop() nativeProps = {}
+  /**
+   * H5 / WebComponents 为 true 时关闭默认占位，外层容器宽高均为 `auto`（默认 false 仍为小程序对齐的 320×240）。
+   * @default false
+   */
+  @Prop() disableDefaultSize = false
+
+  @State() didLoad = false
+
+  @Event({
+    eventName: 'load'
+  }) onLoad: EventEmitter
+
+  @Event({
+    eventName: 'error'
+  }) onError: EventEmitter
+
+  private imgRef: HTMLImageElement
+
+  componentDidLoad () {
+    if (!this.lazyLoad || !this.imgRef) return
+
+    const lazyImg = new IntersectionObserver(entries => {
+      // 异步 api 关系
+      if (entries[entries.length - 1].isIntersecting) {
+        this.imgRef && lazyImg.unobserve(this.imgRef)
+        this.didLoad = true
+      }
+    }, {
+      rootMargin: '300px 0px'
+    })
+
+    lazyImg.observe(this.imgRef)
+  }
+
+  imageOnLoad () {
+    // 防止组件已卸载或 img 已被移除时 ref 为 null（如列表滚动、src 清空、lazyLoad 时序等）
+    if (!this.imgRef) return
+
+    const { width, height } = this.imgRef
+
+    this.onLoad.emit({
+      width,
+      height
+    })
+  }
+
+  imageOnError (e: Event) {
+    this.onError.emit(e)
+  }
+
+  render () {
+    const {
+      src,
+      lazyLoad = false,
+      imageOnLoad,
+      imageOnError,
+      nativeProps,
+      didLoad
+    } = this
+    // mode="" 按默认值处理
+    const mode = this.mode || 'scaleToFill'
+
+    const cls = classNames({
+      'taro-img__widthfix': mode === 'widthFix',
+      'taro-img__disable-default-size': this.disableDefaultSize,
+    })
+    const imgCls = `taro-img__mode-${mode.toLowerCase().replace(/\s/g, '')}`
+
+    return (
+      <Host class={cls}>
+        {
+          src ? (
+            <img
+              ref={(img) => (this.imgRef = img!)}
+              class={imgCls}
+              src={lazyLoad && !didLoad ? undefined : src}
+              onLoad={imageOnLoad.bind(this)}
+              onError={imageOnError.bind(this)}
+              {...nativeProps} />
+          ) : ''
+        }
+      </Host>
+    )
+  }
+}

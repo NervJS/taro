@@ -1,0 +1,29 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 750px;
+  height: 100px;
+  background-color: white;
+}
+
+.navbar-title {
+  &-text {
+    font-size: 38px;
+    color: #000;
+  }
+}
+
+.icon-back {
+  width: 38px;
+  height: 38px;
+}
+
+.navbar-leftElement, .navbar-rightElement {
+  width: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}

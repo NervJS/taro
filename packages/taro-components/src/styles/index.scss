@@ -1,0 +1,13 @@
+@import './base/variable/global';
+@import './base/reset';
+
+// icon font
+@import './icon/weui-icon_font';
+
+@import './base/variable/weui-cell';
+@import './widget/weui-cell/weui-check';
+
+// @import './widget/weui-loading/weui-loading';
+
+// 小程序 patch 兼容文件，放在最后
+@import './base/patch';

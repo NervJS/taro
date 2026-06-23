@@ -1,0 +1,229 @@
+page {
+  background-color: #e8e8ed;
+}
+
+.page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  &.page--pinned {
+    height: 500vh;
+  }
+}
+
+.index {
+  // height: 100%;
+  // display: flex;
+  // flex-direction: column;
+  position: relative;
+}
+
+.bg {
+  position: absolute;
+  top: 0;
+  height: 280px;
+  width: 100%;
+  z-index: -1;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  &__wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 240px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+  }
+  &__card {
+    position: relative;
+    background-color: #fff;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin-top: 180px;
+    padding: 10PX 15PX;
+    font-size: 24px;
+  }
+  &__detail {
+    position: absolute;
+    top: 40PX;
+    left: 0;
+    right: 0;
+    padding: 10PX 15PX;
+    opacity: 0;
+  }
+  &__title {
+    font-size: 20PX;
+    font-weight: bold;
+    margin-bottom: 10PX;
+  }
+  &__info {
+    display: flex;
+    color: grey;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    &-rate {
+      color: orange;
+    }
+    text {
+      margin-right: 10px;
+    }
+  }
+  &__tags {
+    display: flex;
+  }
+  &__tag {
+    color: red;
+    padding: 0 4px;
+    border: 1px solid red;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  &__tips {
+    background-color: #eee;
+    padding: 2px 6px;
+    border-radius: 6px;
+    color: #333;
+  }
+  .section {
+    margin-top: 40px;
+    &__title {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    &__content {
+      display: flex;
+      color: #333;
+      margin-bottom: 12px;
+    }
+    &__tag {
+      background-color: orangered;
+      color: white;
+      border-radius: 6px;
+      margin-right: 12px;
+      padding: 0 8px;
+    }
+  }
+}
+
+.main {
+  margin-top: 5PX;
+  padding-top: 10PX;
+  background-color: #fff;
+  &__banner-wrapper {
+    width: 100%;
+    display: flex;
+  }
+  &__banner {
+    margin: 0 15PX 10PX;
+    flex: 1;
+    width: 100%;
+    border-radius: 8PX;
+  }
+  &__container-wrapper {
+    height: 100vh;
+  }
+  &__container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #fff;
+  }
+  &__tabs {
+    display: flex;
+    padding: 0 30px;
+    border-bottom: 1px solid #eee;
+  }
+  &__tab {
+    margin-right: 60px;
+    padding: 10px 0 26px;
+    border-bottom: 4px solid;
+    border-color: #fff;
+    font-size: 32px;
+    &--active {
+      border-color: orange
+    }
+  }
+}
+
+.product {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  height: 1px;
+  &__category {
+    font-size: 24px;
+    background-color: #F9F9F9;
+    &-item {
+      padding: 30px;
+      &--active {
+        background-color: #fff;
+      }
+    }
+  }
+  &__list {
+    flex: 1;
+    height: 100%;
+    &-section--title {
+      position: sticky;
+      top: 0;
+      padding: 10PX;
+      font-size: 16PX;
+      background-color: #fff;
+    }
+  }
+  &__card {
+    display: flex;
+    padding: 16px;
+    &-img {
+      width: 266px;
+      height: 200px;
+      border-radius: 10px;
+    }
+    &-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0 16px;
+    }
+    &-name {
+      font-size: 32px;
+      margin-bottom: 6px;
+    }
+    &-comment {
+      font-size: 20px;
+      background-color: #eee;
+      border-radius: 6px;
+      padding: 2px 6px;
+      margin-bottom: 6px;
+    }
+    &-group {
+      display: flex;
+      margin-bottom: 6px;
+    }
+    &-sales {
+      margin-right: 40px;
+      color: grey;
+      font-size: 20px;
+    }
+    &-rate {
+      color: grey;
+      font-size: 20px;
+    }
+    &-price {
+      color: red;
+      font-size: 20px;
+      &-num {
+        font-weight: bold;
+        font-size: 32px;
+      }
+    }
+  }
+}

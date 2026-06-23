@@ -1,0 +1,9 @@
+{
+  "pluginOptions": {
+    "moduleName": "r-custom",
+    "builtIns": ["For", "Show"],
+    "generate": "universal",
+    "staticMarker": "@once",
+    "uniqueTransform": true
+  }
+}

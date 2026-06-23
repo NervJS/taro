@@ -1,0 +1,25 @@
+<div>
+  <picker if="{{type === 'date'}}" id="{{id}}" style="flex: 1" type="date" value="{{localValue}}" start="{{start}}"
+    end="{{end}}" selected="{{selected}}" disabled="{{disabled}}" lunar="{{lunar}}" lunarswitch="{{lunarswitch}}"
+    vibrate="{{vibrate}}" @change="dateChange" @cancel="cancel">
+  </picker>
+
+  <picker elif="{{type === 'time'}}" id="{{id}}" style="flex: 1" type="time" value="{{localValue}}"
+    selected="{{selected}}" hours="{{hours}}" containsecond="{{containsecond}}" disabled="{{disabled}}" vibrate="{{vibrate}}" @change="timeChange"
+    @cancel="cancel">
+  </picker>
+
+  <picker elif="{{type === 'datetime'}}" id="{{id}}" style="flex: 1" type="datetime" value="{{localValue}}"
+    selected="{{selected}}" hours="{{hours}}" disabled="{{disabled}}" lunar="{{lunar}}" lunarswitch="{{lunarswitch}}"
+    vibrate="{{vibrate}}" @change="datetimeChange" @cancel="cancel">
+  </picker>
+
+  <picker elif="{{type === 'multi-text'}}" id="{{id}}" style="flex: 1" type="multi-text" value="{{localValue}}"
+    columns="{{columns}}" range="{{localRange}}" selected="{{selected}}" disabled="{{disabled}}" vibrate="{{vibrate}}"
+    @change="multiTextChange" @columnchange="multiTextColumnChange" @cancel="cancel">
+  </picker>
+
+  <picker else id="{{id}}" style="flex: 1" type="text" value="{{localValue}}" selected="{{selected}}"
+    range="{{localRange}}" disabled="{{disabled}}" vibrate="{{vibrate}}" @change="textChange" @cancel="cancel">
+  </picker>
+</div>

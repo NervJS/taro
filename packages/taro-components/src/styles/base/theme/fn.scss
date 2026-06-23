@@ -1,0 +1,81 @@
+@mixin dark {
+  .wx-root[data-weui-theme='dark'] &,
+  body[data-weui-theme='dark'] & {
+    @content;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .wx-root:not([data-weui-theme='light']) &,
+    body:not([data-weui-theme='light']) & {
+      @content;
+    }
+  }
+}
+@mixin setColor($var, $color) {
+  @include setColor($var, $color, $color);
+}
+@mixin setColor($var, $light, $dark) {
+  .wx-root,
+  body {
+    #{$var}: $light;
+  }
+  .wx-root[data-weui-theme='dark'],
+  body[data-weui-theme='dark'] {
+    #{$var}: $dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .wx-root:not([data-weui-theme='light']),
+    body:not([data-weui-theme='light']) {
+      #{$var}: $dark;
+    }
+  }
+}
+
+@mixin care {
+  .wx-root[data-weui-mode='care'] &,
+  body[data-weui-mode='care'] & {
+    @content;
+  }
+}
+@mixin setCareColor($var, $color) {
+  @include setCareColor($var, $color, $color);
+}
+@mixin setCareColor($var, $light, $dark) {
+  .wx-root[data-weui-mode='care'],
+  body[data-weui-mode='care'] {
+    #{$var}: $light;
+  }
+  .wx-root[data-weui-mode='care'][data-weui-theme='dark'],
+  body[data-weui-mode='care'][data-weui-theme='dark'] {
+    #{$var}: $dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .wx-root[data-weui-mode='care']:not([data-weui-theme='light']),
+    body[data-weui-mode='care']:not([data-weui-theme='light']) {
+      #{$var}: $dark;
+    }
+  }
+}
+
+// 定义局部作用域的颜色变量
+@mixin setThisColor($var, $color) {
+  @include setColor($var, $color, $color);
+}
+@mixin setThisColor($var, $light, $dark) {
+  & {
+    #{$var}: $light;
+  }
+  .wx-root[data-weui-theme='dark'] &,
+  body[data-weui-theme='dark'] & {
+    #{$var}: $dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .wx-root:not([data-weui-theme='light']) &,
+    body:not([data-weui-theme='light']) & {
+      #{$var}: $dark;
+    }
+  }
+}

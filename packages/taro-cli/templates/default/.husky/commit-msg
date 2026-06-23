@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+# 运行 commitlint 检查 commit message
+npx --no -- commitlint --edit ${1}

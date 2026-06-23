@@ -1,0 +1,42 @@
+@import './fn';
+@import './scss-vars/light';
+@import './scss-vars/dark';
+@import './scss-vars/care-light';
+@import './scss-vars/care-dark';
+@import './vars/light';
+@import './vars/dark';
+@import './vars/care-light';
+@import './vars/care-dark';
+
+body,
+.wx-root {
+  @include varsLight();
+}
+
+@media (prefers-color-scheme: dark) {
+  .wx-root:not([data-weui-theme='light']),
+  body:not([data-weui-theme='light']) {
+    @include varsDark();
+  }
+}
+.wx-root[data-weui-theme='dark'],
+body[data-weui-theme='dark'] {
+  @include varsDark();
+}
+
+
+.wx-root[data-weui-mode='care'],
+body[data-weui-mode='care'] {
+  @include varsCareLight();
+}
+
+@media (prefers-color-scheme: dark) {
+  .wx-root[data-weui-mode='care']:not([data-weui-theme='light']),
+  body[data-weui-mode='care']:not([data-weui-theme='light']) {
+    @include varsCareDark();
+  }
+}
+.wx-root[data-weui-mode='care'][data-weui-theme='dark'],
+body[data-weui-mode='care'][data-weui-theme='dark'] {
+  @include varsCareDark();
+}

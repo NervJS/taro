@@ -1,0 +1,28 @@
+.switch-list {
+    position: relative;
+    padding: 0 15px;
+    background-color: #FFFFFF;
+    &__item {
+        position: relative;
+        display: flex;
+        padding: 10px 0;
+        &:not(:first-child) {
+            &::before {
+                content: "";
+                position: absolute;
+                left: 15px;
+                right: -15px;
+                top: 0;
+                height: 1px;
+                border-top: 1px solid #e5e5e5;
+                color: #e5e5e5;
+            }
+        }
+    }
+    &__text {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        padding-left: 15px;
+    }
+}

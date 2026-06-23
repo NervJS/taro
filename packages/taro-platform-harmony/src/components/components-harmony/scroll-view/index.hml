@@ -1,0 +1,12 @@
+<div
+  id="{{id}}"
+  class="container"
+  style="flex-direction: {{flexDirection}};"
+  ref="el"
+  onreachstart="{{onReachStart}}"
+  onreachend="{{onReachEnd}}"
+  onreachtop="{{onReachTop}}"
+  onreachbottom="{{onReachBottom}}"
+>
+  <slot></slot>
+</div>

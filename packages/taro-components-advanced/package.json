@@ -1,0 +1,53 @@
+{
+  "name": "@tarojs/components-advanced",
+  "version": "4.1.12-beta.57",
+  "description": "",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "typings"
+  ],
+  "sideEffects": [
+    "*.scss",
+    "*.css"
+  ],
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "build": "rollup -c",
+    "clean": "rimraf ./dist",
+    "dev": "pnpm run build -w"
+  },
+  "keywords": [],
+  "dependencies": {
+    "@tarojs/components": "workspace:*",
+    "@tarojs/components-react": "workspace:*",
+    "classnames": "^2.2.5",
+    "csstype": "^3.1.1",
+    "memoize-one": "^6.0.0",
+    "tslib": "^2.6.2"
+  },
+  "devDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "vue": "3.2.47"
+  },
+  "peerDependencies": {
+    "@tarojs/runtime": "workspace:~",
+    "@tarojs/shared": "workspace:~",
+    "@tarojs/taro": "workspace:~",
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  }
+}

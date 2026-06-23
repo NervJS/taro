@@ -1,0 +1,110 @@
+import { View } from '@tarojs/components'
+import {
+  type CSSProperties,
+  type PropsWithChildren,
+  createContext,
+  createElement,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+} from 'react'
+
+import { Node, NodeEvents } from './node'
+import { useMemoizedFn } from './use-memoized-fn'
+import { useObservedAttr } from './use-observed-attr'
+import { isWeb } from './utils'
+
+import type { FlowItemContainerProps } from './interface'
+
+const FlowItemContext = createContext<{ node: Node }>(Object.create(null))
+export const useFlowItemPositioner = () => {
+  const nodeModel = useContext(FlowItemContext).node
+  const width$ = useObservedAttr(nodeModel, 'width')
+  const height$ = useObservedAttr(nodeModel, 'height')
+  const top$ = useObservedAttr(nodeModel, 'top')
+  const scrollTop$ = useObservedAttr(nodeModel, 'scrollTop')
+
+  return {
+    resize: useMemoizedFn(() => {
+      nodeModel.pub(NodeEvents.Resize)
+    }),
+    top: top$,
+    scrollTop: scrollTop$,
+    width: width$,
+    height: height$,
+  }
+}
+
+export function FlowItemContainer({
+  children,
+  ...props
+}: PropsWithChildren<FlowItemContainerProps>) {
+  const { node } = props
+  const layouted$ = useObservedAttr(node, 'layouted')
+  const top$ = useObservedAttr(node, 'top')
+  const height$ = useObservedAttr(node, 'height')
+  const refFlowItem = useRef<HTMLElement>()
+
+  const itemStyle: CSSProperties = useMemo(() => {
+    const baseStyle: CSSProperties = {
+      width: '100%',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      transform: `translate3d(0px, ${top$}px, 0px)`,
+    }
+    if (!layouted$) {
+      return {
+        ...baseStyle,
+        minHeight: node.section.defaultSize,
+      }
+    }
+    return {
+      ...baseStyle,
+      height: height$,
+    }
+  }, [top$, layouted$, height$])
+
+  const setInnerMeasureRef = useMemoizedFn((el: HTMLElement | null) => {
+    const innerRef = refFlowItem as React.MutableRefObject<HTMLElement | undefined>
+    innerRef.current = el ?? undefined
+    node.attachMeasureElement(el)
+  })
+
+  useEffect(() => {
+    let observer: ResizeObserver
+    const el = refFlowItem.current
+    if (isWeb() && typeof ResizeObserver !== 'undefined' && el) {
+      observer = new ResizeObserver(() => {
+        node.pub(NodeEvents.Resize)
+      })
+      observer.observe(el)
+    }
+    return () => {
+      if (observer) {
+        observer.disconnect()
+      }
+      node.attachMeasureElement(null)
+    }
+  }, [node])
+
+  useLayoutEffect(() => {
+    node.measure().catch(() => {})
+  }, [node])
+
+  return createElement(
+    View,
+    { style: itemStyle, key: node.id },
+    createElement(
+      View,
+      { id: node.id, ref: setInnerMeasureRef as any },
+      createElement(FlowItemContext.Provider, { value: { node } }, children)
+    )
+  )
+}
+
+export function FlowItem(props: PropsWithChildren) {
+  return props.children
+}

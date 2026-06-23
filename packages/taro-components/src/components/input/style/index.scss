@@ -1,0 +1,11 @@
+@import '../../../styles/base/variable/weui-cell';
+@import '../../../styles/widget/weui-cell/weui-form/weui-form_common';
+
+taro-input-core {
+  display: block;
+
+  input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    display: none;
+  }
+}

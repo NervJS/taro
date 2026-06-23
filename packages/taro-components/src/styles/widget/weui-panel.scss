@@ -1,0 +1,38 @@
+.weui-panel {
+  background-color: #FFFFFF; // var(--weui-BG-2);
+  margin-top: 10px;
+  &:first-child {
+    margin-top: 0;
+  }
+
+  position: relative;
+  overflow: hidden;
+  &::before {
+    @include setTopLine($weuiLineColorLight);
+  }
+  &::after {
+    @include setBottomLine($weuiLineColorLight);
+  }
+  // .weui-cells {
+  //   &::after {
+  //     display: none;
+  //   }
+  // }
+}
+
+.weui-panel__hd {
+  padding: 14px 15px 10px; // 16px 16px 13px;
+  color: $weuiTextColorGray; // $weuiTextColorTitle;
+  font-size: 13px; // 15px;
+  // font-weight: 500;
+  position: relative;
+  &::after {
+    @include setBottomLine($weuiLineColorLight);
+
+    left: 15px;
+  }
+}
+
+
+
+
