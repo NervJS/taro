@@ -1,3 +1,6 @@
+import path from 'node:path'
+
+import { fs } from '@tarojs/helper'
 import { isFunction, isObject, isString } from '@tarojs/shared'
 import { TARO_TABBAR_PAGE_PATH } from '@tarojs/vite-runner/dist/harmony/page'
 import { escapePath } from '@tarojs/vite-runner/dist/utils'
@@ -11,6 +14,85 @@ import type Harmony from '..'
 
 type TCPageMeta = TPageMeta & {
   isPure?: boolean
+}
+
+const REMOTE_RESOURCE_REG = /^(?:https?:)?\/\//i
+const MEDIA_NAME_REG = /[^a-zA-Z0-9_]/g
+
+function normalizeMediaResourceName (filePath = '', usedNames = new Map<string, number>()) {
+  const ext = path.extname(filePath)
+  const baseName = path.basename(filePath, ext) || 'icon'
+  let name = `taro_tabbar_${baseName}`.replace(MEDIA_NAME_REG, '_').toLowerCase()
+  if (/^[0-9]/.test(name)) {
+    name = `_${name}`
+  }
+
+  const count = usedNames.get(name) || 0
+  usedNames.set(name, count + 1)
+  return count > 0 ? `${name}_${count}` : name
+}
+
+function isLocalTabBarIcon (iconPath = '') {
+  return !!iconPath &&
+    !REMOTE_RESOURCE_REG.test(iconPath) &&
+    !/^data:/i.test(iconPath) &&
+    !/^\$r\(/.test(iconPath) &&
+    !/^resource:\/\//i.test(iconPath)
+}
+
+function resolveTabBarIconFile (appPath: string, sourceRoot: string | undefined, iconPath: string) {
+  if (path.isAbsolute(iconPath)) {
+    return iconPath
+  }
+
+  const sourceDir = path.resolve(appPath, sourceRoot || 'src')
+  return path.resolve(sourceDir, iconPath.replace(/^\/+/, ''))
+}
+
+function getTabBarIconKeys (iconPath: string) {
+  const keys = new Set([iconPath])
+  if (iconPath.startsWith('./')) {
+    keys.add(iconPath.slice(2))
+  } else if (!iconPath.startsWith('../') && !iconPath.startsWith('/')) {
+    keys.add(`./${iconPath}`)
+  }
+  return [...keys]
+}
+
+function collectTabBarIconResources (parser: PageParser) {
+  if (!parser.isTabbarPage) return []
+
+  const list = parser.appConfig?.tabBar?.list || []
+  const { outputRoot = 'dist', sourceRoot = 'src' } = parser.buildConfig || {}
+  const mediaDir = path.resolve(outputRoot, '..', 'resources', 'base', 'media')
+  const usedNames = new Map<string, number>()
+  const copied = new Map<string, string>()
+  const mappings: [string, string][] = []
+
+  list.forEach(item => {
+    ;(['iconPath', 'selectedIconPath'] as const).forEach(key => {
+      const iconPath = item?.[key] || ''
+      if (!isLocalTabBarIcon(iconPath)) return
+
+      const sourceFile = resolveTabBarIconFile(parser.appPath, sourceRoot, iconPath)
+      if (!fs.existsSync(sourceFile)) return
+
+      let resourceName = copied.get(sourceFile)
+      if (!resourceName) {
+        resourceName = normalizeMediaResourceName(sourceFile, usedNames)
+        const targetFile = path.join(mediaDir, `${resourceName}${path.extname(sourceFile)}`)
+        fs.ensureDirSync(mediaDir)
+        fs.copyFileSync(sourceFile, targetFile)
+        copied.set(sourceFile, resourceName)
+      }
+
+      getTabBarIconKeys(iconPath).forEach(pathKey => {
+        mappings.push([pathKey, resourceName])
+      })
+    })
+  })
+
+  return mappings
 }
 
 export default function (this: Harmony): PluginOption {
@@ -139,6 +221,9 @@ export default function (this: Harmony): PluginOption {
 
           config.modifyRenderState = function (this: PageParser, state: (string | null)[], page: TPageMeta | TPageMeta[]) {
             const isPure = isPureComp(page)
+            if (this.isTabbarPage) {
+              state.push(`pageContextList: TaroAny[] = [${(page instanceof Array ? page : [page]).map(() => 'null').join(', ')}]`)
+            }
             state.push(
               this.renderState(
                 {
@@ -362,6 +447,19 @@ export default function (this: Harmony): PluginOption {
                 `windowStage.getMainWindowSync().on('avoidAreaChange', this.areaChange)`,
               )
             }
+            appearStr = appearStr.replace('const state: TaroAny = this.getPageState()\nif (this.pageStack.length >= state.index) {', [
+              'const state: TaroAny = this.getPageState()',
+              'this.params = ObjectAssign({}, state.params || {}, this.params || {})',
+              'if (this.pageStack.length >= state.index) {',
+            ].join('\n'))
+
+            if (this.isTabbarPage) {
+              appearStr = appearStr.replace('this.bindTabBarEvent()', [
+                'this.bindTabBarEvent()',
+                'setTimeout(() => { this.emitPageShow() }, 0)',
+              ].join('\n'))
+            }
+
             appearCode.push(appearStr)
             return this.transArr2Str(appearCode.filter(Boolean))
           }
@@ -397,7 +495,7 @@ export default function (this: Harmony): PluginOption {
               '.constraintSize({',
               '  minHeight: "100%",',
               '})',
-              '.onDetach(this.handlePageDetach)',
+              ...(this.isTabbarPage ? [] : ['.onDetach(this.handlePageDetach)']),
             ]
 
             if (!isPureComp(page)) {
@@ -461,20 +559,18 @@ export default function (this: Harmony): PluginOption {
                 `}`,
                 `.vertical(false)`,
                 `.barMode(BarMode.Fixed)`,
-                `.barHeight(this.isTabBarShow ? 56 : 0)`,
+                `.scrollable(false)`,
+                `.barHeight(this.isTabBarShow ? 56 + this.getTabBarBottomSafeHeight() : 0)`,
                 `.animationDuration(this.tabBarAnimationDuration)`,
                 `.onChange((index: number) => {`,
                 `  if (this.tabBarCurrentIndex !== index) {`,
-                `    callFn(this.page?.onHide, this)`,
+                `    this.emitPageHide()`,
                 `    this.setTabBarCurrentIndex(index)`,
                 `  }`,
                 `  this.handlePageAppear()`,
-                `  callFn(this.page?.onShow, this)`,
+                `  this.emitPageShow()`,
                 `})`,
                 `.backgroundColor(this.tabBarBackgroundColor)`,
-                `.padding({`,
-                `  bottom: px2vp(sysInfo.screenHeight - (sysInfo.safeArea?.bottom || 0)),`,
-                `})`,
               )
             }
 
@@ -517,10 +613,50 @@ export default function (this: Harmony): PluginOption {
                 } else {
                   handlePageAppearMethods.body = this.transArr2Str(methodsBodyList)
                 }
+
+                if (this.isTabbarPage) {
+                  handlePageAppearMethods.body = handlePageAppearMethods.body
+                    ?.replace(/this\.page = this\.pageList\[index\]\n\s*callFn\(this\.page\?\.onLoad, this, params,/, [
+                      'this.page = this.pageList[index]',
+                      '      this.pageContextList[index] = this.page',
+                      '      const pageContext: TaroAny = this.getPageContext(index)',
+                      '      callFn(this.page?.onLoad, pageContext, params,',
+                    ].join('\n'))
+                    .replace('callFn(this.page?.onReady, this, params)', 'callFn(this.page?.onReady, pageContext, params)') || handlePageAppearMethods.body
+                }
               }
             }
 
-            const disabledMethods = ['onPageShow', 'onPageHide']
+            if (this.isTabbarPage) {
+              const onPageShowMethod = methods.find((item) => item.name === 'onPageShow')
+              if (onPageShowMethod) {
+                onPageShowMethod.body = this.transArr2Str([
+                  'this.bindPageEvent()',
+                  'const state = this.getPageState()',
+                  'if (this.pageStack[this.pageStack.length - 1].path !== state.path) {',
+                  '  this.pageStack.length = state.index',
+                  '  this.pageStack[state.index - 1] = state',
+                  '}',
+                  'this.handleSwitchTab({ params: router.getParams() || {} })',
+                  'this.emitPageShow()',
+                ])
+              }
+
+              const onPageHideMethod = methods.find((item) => item.name === 'onPageHide')
+              if (onPageHideMethod) {
+                onPageHideMethod.body = this.transArr2Str([
+                  'this.removePageEvent()',
+                  'this.emitPageHide()',
+                ])
+              }
+
+              const handleSwitchTabMethod = methods.find((item) => item.name === 'handleSwitchTab')
+              if (handleSwitchTabMethod) {
+                handleSwitchTabMethod.body = handleSwitchTabMethod.body?.replace('this.page?.onHide?.()', 'this.emitPageHide()') || handleSwitchTabMethod.body
+              }
+            }
+
+            const disabledMethods = this.isTabbarPage ? [] : ['onPageShow', 'onPageHide']
             if (isPure) {
               disabledMethods.unshift('getPageState')
               disabledMethods.push('handleRefreshStatus')
@@ -532,6 +668,87 @@ export default function (this: Harmony): PluginOption {
               }
             })
 
+            if (this.isTabbarPage) {
+              const tabBarIconResources = collectTabBarIconResources(this)
+              if (tabBarIconResources.length) {
+                const iconMapLines = tabBarIconResources.map(([iconPath, resourceName], index) => {
+                  return `${JSON.stringify(iconPath)}: $r('app.media.${resourceName}')${index < tabBarIconResources.length - 1 ? ',' : ''}`
+                })
+
+                methods.push({
+                  name: 'getTabBarIconResource',
+                  params: ['iconPath?: string'],
+                  return: 'TaroAny',
+                  body: this.transArr2Str([
+                    `const iconMap: TaroObject = {`,
+                    this.transArr2Str(iconMapLines, 2),
+                    `}`,
+                    `return iconPath && iconMap[iconPath] ? iconMap[iconPath] : iconPath`,
+                  ]),
+                })
+
+                const handleSetTabBarItem = methods.find((item) => item.name === 'handleSetTabBarItem')
+                if (handleSetTabBarItem) {
+                  handleSetTabBarItem.body = this.transArr2Str([
+                    `const list = [...this.tabBarList]`,
+                    `if (!!list[option.index]) {`,
+                    `  const obj = list[option.index]`,
+                    `  const odd: ITabBarItem = ObjectAssign(obj)`,
+                    `  if (option.iconPath) {`,
+                    `    obj.iconPath = option.iconPath`,
+                    `    this.tabBarWithImage = true`,
+                    `  }`,
+                    `  if (option.selectedIconPath) obj.selectedIconPath = option.selectedIconPath`,
+                    `  if (option.text) obj.text = option.text`,
+                    `  this.updateTabBarKey(option.index, odd)`,
+                    `}`,
+                    `this.tabBarList = list`,
+                  ])
+                }
+
+                const renderTabBarInnerBuilder = methods.find((item) => item.name === 'renderTabBarInnerBuilder')
+                if (renderTabBarInnerBuilder) {
+                  renderTabBarInnerBuilder.body = this.transArr2Str([
+                    'Column() {',
+                    '  if (this.tabBarWithImage) {',
+                    '    Image(this.getTabBarIconResource(this.tabBarCurrentIndex === index && item.selectedIconPath || item.iconPath))',
+                    '      .width(24)',
+                    '      .height(24)',
+                    '      .objectFit(ImageFit.Contain)',
+                    '    Text(item.text)',
+                    '      .fontColor(this.tabBarCurrentIndex === index ? this.tabBarSelectedColor : this.tabBarColor)',
+                    '      .fontSize(10)',
+                    '      .fontWeight(this.tabBarCurrentIndex === index ? 500 : 400)',
+                    '      .lineHeight(14)',
+                    '      .maxLines(1)',
+                    '      .textOverflow({ overflow: TextOverflow.Ellipsis })',
+                    '      .margin({ top: 7, bottom: 7 })',
+                    '  } else {',
+                    '    Text(item.text)',
+                    '      .fontColor(this.tabBarCurrentIndex === index ? this.tabBarSelectedColor : this.tabBarColor)',
+                    '      .fontSize(16)',
+                    '      .fontWeight(this.tabBarCurrentIndex === index ? 500 : 400)',
+                    '      .lineHeight(22)',
+                    '      .maxLines(1)',
+                    '      .textOverflow({ overflow: TextOverflow.Ellipsis })',
+                    '      .margin({ top: 17, bottom: 7 })',
+                    '  }',
+                    '}',
+                  ])
+                }
+              }
+
+              const renderTabItemBuilder = methods.find((item) => item.name === 'renderTabItemBuilder')
+              if (renderTabItemBuilder) {
+                renderTabItemBuilder.body = renderTabItemBuilder.body
+                  ?.replace('.width("100%").height("100%")', [
+                    '.width("100%")',
+                    '.height("100%")',
+                    '.padding({ bottom: this.getTabBarBottomSafeHeight() })',
+                  ].join('\n')) || renderTabItemBuilder.body
+              }
+            }
+
             methods.unshift(
               {
                 name: 'getNavHeight',
@@ -540,6 +757,46 @@ export default function (this: Harmony): PluginOption {
                   : 'return this.isHideTitleBar ? 0 : 48 + this.statusBarHeight',
               },
             )
+            if (this.isTabbarPage) {
+              methods.push({
+                name: 'getTabBarBottomSafeHeight',
+                return: 'number',
+                body: this.transArr2Str([
+                  `const screenHeight: number = Number(sysInfo.screenHeight || 0)`,
+                  `const safeBottom: number = Number(sysInfo.safeArea?.bottom || screenHeight)`,
+                  `const bottomSafeHeight: number = screenHeight - safeBottom`,
+                  `return bottomSafeHeight > 0 ? bottomSafeHeight : 0`,
+                ]),
+              })
+            }
+
+            methods.push({
+              name: 'getPageContext',
+              params: this.isTabbarPage ? ['index: number = this.tabBarCurrentIndex'] : [],
+              return: 'TaroAny',
+              body: this.isTabbarPage
+                ? 'return this.pageContextList[index] || this.pageList[index] || this'
+                : 'return this',
+            })
+            methods.push({
+              name: 'emitPageShow',
+              type: 'arrow',
+              body: this.transArr2Str([
+                `const pageContext: TaroAny = this.getPageContext()`,
+                `callFn(this.page?.onShow, pageContext)`,
+                `callFn((this.page as TaroAny)?.componentDidShow, pageContext)`,
+              ]),
+            })
+            methods.push({
+              name: 'emitPageHide',
+              type: 'arrow',
+              body: this.transArr2Str([
+                `const pageContext: TaroAny = this.getPageContext()`,
+                `callFn(this.page?.onHide, pageContext)`,
+                `callFn((this.page as TaroAny)?.componentDidHide, pageContext)`,
+              ]),
+            })
+
             methods.push({
               name: 'handlePageDetach',
               type: 'arrow',
@@ -550,7 +807,7 @@ export default function (this: Harmony): PluginOption {
                 isPure
                   ? `eventCenter.off(this.currentRouter?.getEventName('onResize'), this.handlePageResizeEvent)`
                   : null,
-                `callFn(this.page?.onUnload, this)`,
+                `callFn(this.page?.onUnload, this.getPageContext())`,
               ]),
             })
             methods.push({

@@ -72,11 +72,57 @@ function createEtsComponent (item: TaroElement) {
   }
 }`,
             `
+@Builder
+function createEmptyEtsComponent (_item: TaroElement) {
+  Stack () {}
+}
+
+class TaroEmptyBuilderData {
+  _nid: number = -1
+  tagName: string = 'VIEW'
+  _nativeUpdateTrigger: number = 0
+  _nodeInfo: Record<string, number> | undefined = undefined
+}
+
+function isValidTaroBuilderData (data?: TaroElement): boolean {
+  if (data === null || data === undefined) {
+    return false
+  }
+
+  return typeof data._nid === 'number' && !!data.tagName
+}
+
+const TARO_BUILDER_LOG_PREFIX = '[TaroHarmony][EtsBuilder]'
+
+function getTaroBuilderUIContext (): UIContext | undefined {
+  const currentContext: UIContext | undefined = Current.uiContext
+  if (currentContext) {
+    return currentContext
+  }
+
+  const pageContext: UIContext | undefined = Current.page?.getUIContext?.()
+  if (pageContext) {
+    Current.uiContext = pageContext
+  }
+  return pageContext
+}
+
 export function initEtsBuilder (router = '') {
-  TaroNativeModule.registerEtsBuilder((data: TaroElement): ComponentContent<TaroElement> => {
-    console.info("registerEtsBuilder app storage has value: " + Current.uiContext?.instanceId_)
-    console.info("registerEtsBuilder: " + data._nid)
-    return new ComponentContent<TaroElement>(Current.uiContext, wrapBuilder(createEtsComponent), data)
+  TaroNativeModule.registerEtsBuilder((data: TaroElement): ComponentContent<TaroElement> | undefined => {
+    const uiContext = getTaroBuilderUIContext()
+    const nid = data?._nid || -1
+    const tagName = data?.tagName || 'UNKNOWN'
+
+    if (!uiContext) {
+      console.error(TARO_BUILDER_LOG_PREFIX + ' missing uiContext router=' + router + ' nid=' + nid + ' tag=' + tagName)
+      return undefined
+    }
+
+    if (!isValidTaroBuilderData(data)) {
+      console.warn(TARO_BUILDER_LOG_PREFIX + ' invalid data router=' + router + ' nid=' + nid + ' tag=' + tagName)
+      return new ComponentContent<TaroElement>(uiContext, wrapBuilder(createEmptyEtsComponent), new TaroEmptyBuilderData() as TaroElement)
+    }
+    return new ComponentContent<TaroElement>(uiContext, wrapBuilder(createEtsComponent), data)
   }, router)
 }`, // Note: 直接在 render 中注册会被忽略，需要在 XComponent 中注册
             '',
