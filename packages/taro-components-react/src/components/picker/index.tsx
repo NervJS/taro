@@ -236,10 +236,14 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     try {
       const systemInfo = Taro.getSystemInfoSync()
       const { safeArea, windowHeight } = systemInfo
-      if (safeArea && windowHeight) {
+      // safeArea.bottom 为安全区底边的 Y 坐标，有效值应接近 windowHeight；
+      // 全 0 表示安全区信息尚不可用，此时不能用 windowHeight-0 算出整屏高度作为底部间距
+      if (safeArea && windowHeight && safeArea.bottom > 0) {
         const lengthScaleRatio = (systemInfo as any).lengthScaleRatio || 1
         const bottom = (windowHeight - safeArea.bottom) / lengthScaleRatio
         setSafeAreaBottom(Math.max(0, bottom))
+      } else {
+        setSafeAreaBottom(0)
       }
     } catch (e) {
       // H5 环境或其他异常情况，不设置安全区域
@@ -401,6 +405,8 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   // 打开时按 props 重算索引，避免未确认的滑动与 indexRef 残留导致再开抖动
   const showPicker = React.useCallback(() => {
     if (disabled) return
+    // 打开弹层时再读一次：此时安全区必然已稳定，避免 mount 首帧拿到全 0 的无效值
+    updateSafeArea()
     isInitializationCompletedRef.current = false
     handleProps()
     setState(prev => ({
@@ -408,7 +414,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
       hidden: false,
       a11yTimeLimitColumnId: null
     }))
-  }, [disabled, handleProps])
+  }, [disabled, handleProps, updateSafeArea])
 
   // 隐藏 Picker
   const hidePicker = React.useCallback(() => {
