@@ -986,7 +986,6 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
             className={clsSlider}
             style={{
               ...backgroundStyle,
-              paddingBottom: safeAreaBottom ? `${safeAreaBottom}px` : undefined
             }}
           >
             <View className="taro-picker__hd" {...(backgroundStyle ? { style: backgroundStyle } : {})}>
@@ -1014,6 +1013,9 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
               </View>
             </View>
             <View className="taro-picker__bd" {...(backgroundStyle ? { style: backgroundStyle } : {})}>{renderPickerGroup}</View>
+            {safeAreaBottom > 0 && (
+              <View className="taro-picker__bd" style={{ ...backgroundStyle, height: `${safeAreaBottom}px`, flex: 'none', overflow: 'visible' }} />
+            )}
           </View>
         </View>
       )}
