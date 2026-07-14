@@ -6,7 +6,8 @@
  *
  * 对标 @vue/language-core 在 Vue 生态的底层地位（对标生态位，不复刻其规模）。
  *
- * 任务 0：仅导出 schema 类型与查询 API 契约。解析与查询实现见后续任务。
+ * 公共 API 面：schema 类型 + 查询契约（含唯一创建入口 createProjectGraph）。
+ * config 解析等实现细节（config-parser 等）不对外导出，仅供包内任务使用。
  */
 
 export * from './query'
