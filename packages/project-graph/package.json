@@ -1,0 +1,40 @@
+{
+  "name": "@tarojs/project-graph",
+  "version": "4.1.12-beta.60",
+  "description": "Taro project structure graph — unified, queryable project facts layer",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prod": "pnpm run build",
+    "clean": "rimraf dist",
+    "prebuild": "pnpm run clean",
+    "build": "tsc",
+    "dev": "tsc -w",
+    "prepack": "pnpm run build",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "keywords": [
+    "taro",
+    "project-graph"
+  ],
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "dependencies": {
+    "@tarojs/helper": "workspace:*"
+  }
+}
