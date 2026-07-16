@@ -28,3 +28,13 @@
 - **registeredHooks 排除命令/平台名**：应对 Kernel 的 registerCommand/registerPlatform 内部也 register() 到 hooks Map 的耦合。→ §2.6 B 层补一句（低优先）。
 - **platforms 语义 = 可编译目标集合**（kernel.platforms 全集 superset，非单次 --type 目标）。→ 回写 §2.6 line221。
 - **包名反解**：preset 展开 / global 插件不回写 initialConfig，其包名由"路径 node_modules 段反解"兜底。实现细节，注释背书。
+
+## 任务 4（四通道封装）
+
+- **CLI 形态 `taro-graph`（独立 bin）而非 `taro graph`（子命令）**：§2.5 写作 `taro graph`。做成 taro 子命令需耦合 @tarojs/cli、违背"独立入口包"边界，故实现为独立 bin `taro-graph`。→ 回写 §2.5 CLI 验收措辞对齐（或说明二者关系）。
+- **MCP 挂现有 server、不自带 SDK**：mcp.ts 导出"传输无关工具定义"（name+description+inputSchema+handler），由 plugin-mcp 注册。符合 §2.5 说明，无需回写，仅记录形态。
+- **MCP handler 每次 createProjectGraph 重建图**：会重跑 config 执行（esbuild+require 有副作用），成本高于纯重建。P1 可接受，任务 5 缓存后缓解 → 任务 5 明确此风险。
+- **入口暴露**：package.json 加 `bin.taro-graph` + `exports['./mcp']`；核心库 index.ts 不含 cli/mcp（薄 façade）。符合边界。
+- **CLI 新增 `--root=` 参数**：独立 bin 需指定工程根（§2.5 未列）。合理，随独立 bin 形态而来。
+- **MCP query_project_graph 返回 `{ summary, graph }`**：§2.4 仅约定返回 graph，summary 为派生计数（通用非特化）。属净新增输出形态，回写时一并说明。
+- **`./mcp` 子路径类型解析待验证**：exports 子路径在 node classic resolution（moduleResolution:node）下 TS 可能找不到类型。消费方 plugin-mcp 接入时（任务5 之后）需验证其 tsconfig（node16/bundler 无碍）。
