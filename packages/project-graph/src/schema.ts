@@ -51,16 +51,17 @@ export interface PageNode {
 }
 
 /**
- * 插件节点。
- *  - id / opts 来自 A 层（静态读 config.plugins）。
- *  - registeredHooks / commands / platforms 来自 B 层（注入 Kernel 后填充），
- *    未注入时为空。
+ * 插件节点。数据源为注入的 Kernel（§2.6）：
+ *  - id（包名，解析失败时退化为路径）/ opts 来自 Kernel 的 plugins 条目。
+ *  - registeredHooks / commands / platforms 由 Kernel 的 hooks/commands/platforms
+ *    注册表按插件归属反查得到。
+ *  - 未注入 Kernel 时，图中无插件节点（plugins 为空数组）。
  *  - manifest 是 D 层能力声明入口，规范与 schema 待专项 RFC 定义，P1 仅留位。
  */
 export interface PluginNode {
-  /** 插件包名，如 '@tarojs/plugin-http'。与 Kernel 注册表按解析后绝对路径 join。 */
+  /** 插件包名，如 '@tarojs/plugin-http'；包名 resolve 失败时退化为解析后绝对路径。 */
   id: string
-  /** 用户传入的插件参数（= 插件专属配置）；函数形态 opts 静态不可得。 */
+  /** 用户传入的插件参数（= 插件专属配置）；空对象 / 函数形态 opts 不填充。 */
   opts?: unknown
   /** 注册的生命周期 hook 名，如 ['modifyAppConfig']。 */
   registeredHooks?: string[]
@@ -130,7 +131,7 @@ export interface ProjectGraph {
   platforms: string[]
   app: AppNode
   pages: PageNode[]
-  /** 插件节点（A/B 层）。 */
+  /** 插件节点（数据源为注入的 Kernel，见 PluginNode）。 */
   plugins: PluginNode[]
   /** P1 仅 navigation 边。 */
   edges: Edge[]
