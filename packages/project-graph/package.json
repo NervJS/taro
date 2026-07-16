@@ -6,6 +6,19 @@
   "license": "MIT",
   "main": "index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "taro-graph": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./index.js"
+    },
+    "./mcp": {
+      "types": "./dist/mcp.d.ts",
+      "default": "./dist/mcp.js"
+    }
+  },
   "scripts": {
     "prod": "pnpm run build",
     "clean": "rimraf dist",
