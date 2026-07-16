@@ -1,13 +1,12 @@
 /**
- * @tarojs/project-graph — 查询 API 与创建入口（契约冻结，对齐落地方案 §2.4 / §2.6）
+ * @tarojs/project-graph — 查询 API 与创建入口的类型契约（对齐落地方案 §2.4 / §2.6）
  *
  * 遵循 RFC-0001 §4 设计原则：只产出结构化 JSON、不产出 prompt；消费方走稳定
  * API、不直接访问内部数据结构；schema 遵循 SemVer。
  *
- * 任务 0 仅冻结类型与函数签名（createProjectGraph 为占位实现，调用即抛错）。解析与
- * 查询实现由任务 2（页面/边/查询）与任务 3（插件/platforms）完成。冻结面包含工厂函数
- * createProjectGraph 与其返回的 ProjectGraphQuery 接口，消费方据此即可 import 类型并
- * 基于 mock 编译调用代码。
+ * 本文件只定义类型契约（ProjectGraphQuery / CreateProjectGraphOptions / KernelLike
+ * / CreateProjectGraph 等）。createProjectGraph 的实现在 ./graph，由 index.ts 统一
+ * 导出，使契约与实现解耦。
  */
 
 import type { Edge, PageNode, PluginNode, ProjectGraph } from './schema'
@@ -86,14 +85,7 @@ export interface ProjectGraphQuery {
  * root 指定工程根；可选 kernel 用于启用插件 B 层数据与 platforms（§2.6）。
  * 返回的实例暴露 ProjectGraphQuery 全部查询方法。
  *
- * 任务 0 仅冻结签名，实现见任务 2 / 任务 3；此处为占位实现，调用即抛错，
- * 以保证编译产物中真实存在该导出、且未实现时能明确失败而非静默返回 undefined。
+ * 实现见 ./graph（buildProjectGraph + createProjectGraph）。此处仅声明签名类型，
+ * 由 index.ts 统一从 ./graph 导出实现，避免契约与实现耦合在同一文件。
  */
-export function createProjectGraph(
-  _options: CreateProjectGraphOptions,
-): ProjectGraphQuery {
-  throw new Error(
-    '[@tarojs/project-graph] createProjectGraph 尚未实现（任务 0 仅冻结契约，实现见任务 2 / 3）',
-  )
-}
-
+export type CreateProjectGraph = (options: CreateProjectGraphOptions) => ProjectGraphQuery

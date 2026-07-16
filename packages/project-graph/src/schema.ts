@@ -83,12 +83,7 @@ export interface PluginCommand {
 }
 
 /** 页面跳转方式。 */
-export type NavigationVia =
-  | 'navigateTo'
-  | 'redirectTo'
-  | 'switchTab'
-  | 'reLaunch'
-  | 'useRouter'
+export type NavigationVia = 'navigateTo' | 'redirectTo' | 'switchTab' | 'reLaunch' | 'useRouter'
 
 /**
  * 图的边。P1 仅 navigation 一种；usingComponent / import / typeFlow 后续阶段预留。
