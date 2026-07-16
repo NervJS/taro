@@ -1,22 +1,33 @@
 /**
- * @tarojs/project-graph — 图构建与查询实现（任务 2）
+ * @tarojs/project-graph — 图构建与查询实现（任务 2 / 任务 3）
  *
- * 组装 config 解析（任务 1）+ 页面解析（任务 2）为完整 ProjectGraph，并实现
- * createProjectGraph 工厂与查询函数。插件节点（getPlugins / findPluginById）与
- * platforms 的填充见任务 3；本实现先产出空 plugins、空 platforms。
+ * 组装 config 解析（任务 1）+ 页面解析（任务 2）+ 插件解析（任务 3）为完整
+ * ProjectGraph，并实现 createProjectGraph 工厂与查询函数。插件节点与 platforms
+ * 仅在注入 Kernel 时填充（§2.6）。
  */
 
 import * as path from 'node:path'
 
 import { parseAppConfig, readPageConfigContent, resolvePageConfigPath, resolvePageFilePath } from './config-parser'
 import { buildNavigationEdges, parsePageFile, urlToRouteId } from './page-parser'
+import { parsePlatforms, parsePlugins } from './plugin-parser'
 import { SCHEMA_VERSION } from './schema'
 
-import type { CreateProjectGraphOptions, GraphChangeListener, ProjectGraphQuery, Unsubscribe } from './query'
+import type { CreateProjectGraphOptions, GraphChangeListener, KernelLike, ProjectGraphQuery, Unsubscribe } from './query'
 import type { Edge, GraphWarning, PageNode, PluginNode, ProjectGraph } from './schema'
 
-/** 由源码目录构建一份完整 ProjectGraph（同步）。 */
-export function buildProjectGraph(sourceRoot: string): ProjectGraph {
+/**
+ * 由源码目录构建一份完整 ProjectGraph（同步）。
+ *
+ * @param sourceRoot 源码目录（工程 root/src）
+ * @param appPath 工程根（用于插件包名 resolve）
+ * @param kernel 可选注入的 Kernel：提供时填充插件节点与 platforms；不提供时二者为空
+ */
+export function buildProjectGraph(
+  sourceRoot: string,
+  appPath: string,
+  kernel?: KernelLike,
+): ProjectGraph {
   const warnings: GraphWarning[] = []
 
   // 任务 1：解析 config → AppNode + 页面路由清单
@@ -96,13 +107,23 @@ export function buildProjectGraph(sourceRoot: string): ProjectGraph {
     }
   }
 
+  // 插件节点与 platforms：仅在注入 Kernel 时填充（§2.6 B 层同源）
+  let plugins: PluginNode[] = []
+  let platforms: string[] = []
+  if (kernel != null) {
+    const parsedPlugins = parsePlugins(kernel, appPath)
+    plugins = parsedPlugins.plugins
+    warnings.push(...parsedPlugins.warnings)
+    platforms = parsePlatforms(kernel)
+  }
+
   return {
     schemaVersion: SCHEMA_VERSION,
     framework: 'react',
-    platforms: [], // 任务 3 由注入的 Kernel 填充
+    platforms,
     app: parsed.app,
     pages,
-    plugins: [], // 任务 3 填充
+    plugins,
     edges,
     warnings,
   }
@@ -111,12 +132,12 @@ export function buildProjectGraph(sourceRoot: string): ProjectGraph {
 /**
  * createProjectGraph 的实现：构建一次快照图，返回查询实例。
  *
- * 插件查询（getPlugins / findPluginById）与 platforms、onGraphChange 的增量能力
- * 由任务 3 / 任务 5 完善；本实现先返回图快照上的静态查询。
+ * 注入 kernel 时填充插件节点与 platforms（§2.6）；未注入时二者为空。
+ * onGraphChange 的增量能力由任务 5 完善，本实现先返回图快照上的静态查询。
  */
 export function createProjectGraph(options: CreateProjectGraphOptions): ProjectGraphQuery {
   const sourceRoot = path.join(options.root, 'src')
-  const graph = buildProjectGraph(sourceRoot)
+  const graph = buildProjectGraph(sourceRoot, options.root, options.kernel)
 
   return {
     getProjectGraph() {
@@ -133,13 +154,18 @@ export function createProjectGraph(options: CreateProjectGraphOptions): ProjectG
       return graph.edges.filter((e) => e.to === pageId)
     },
     getPlugins(): PluginNode[] {
-      return graph.plugins // 任务 3 填充
+      return graph.plugins
     },
     findPluginById(id) {
-      return graph.plugins.find((p) => p.id === id)
+      // 先精确匹配；再兜底：节点 id 可能是解析路径（包名 resolve 失败时退化），
+      // 而调用方常用包名查——用"路径以 /<包名> 结尾"匹配，兼容两种形态。
+      const exact = graph.plugins.find((p) => p.id === id)
+      if (exact != null) return exact
+      const suffix = `/${id}`
+      return graph.plugins.find((p) => p.id.endsWith(suffix))
     },
     getPlatforms() {
-      return graph.platforms // 任务 3 由 Kernel 填充；未注入为 []
+      return graph.platforms // 未注入 Kernel 时为 []
     },
     onGraphChange(_listener: GraphChangeListener): Unsubscribe {
       // 任务 5 实现 dev-time 增量订阅；P1 此处先返回 no-op 取消函数

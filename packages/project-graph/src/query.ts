@@ -12,18 +12,67 @@
 import type { Edge, PageNode, PluginNode, ProjectGraph } from './schema'
 
 /**
+ * Kernel 注册表里插件相关条目的最小形状（鸭子类型）。
+ * Kernel 的 plugins/commands/platforms Map 的 value 都带 `id`（解析后的绝对路径）
+ * 与归属信息；hooks 的 value 是数组、每项带 `plugin`（归属的插件 id/路径）。
+ * 此处只声明本库读取所需字段，不引入 @tarojs/service 的具体类型。
+ */
+export interface KernelPluginEntry {
+  id: string
+  [key: string]: unknown
+}
+
+export interface KernelCommandEntry {
+  name: string
+  alias?: string
+  optionsMap?: Record<string, string>
+  synopsisList?: string[]
+  /** 注册该命令的插件 id（解析后路径）。 */
+  plugin?: string
+  [key: string]: unknown
+}
+
+export interface KernelPlatformEntry {
+  name: string
+  /** 注册该平台的插件 id（解析后路径）。 */
+  plugin?: string
+  [key: string]: unknown
+}
+
+export interface KernelHookEntry {
+  name: string
+  /** 注册该 hook 的插件 id（解析后路径）。 */
+  plugin?: string
+  [key: string]: unknown
+}
+
+/**
  * 调用方注入的 Kernel（Taro 插件内核，由 @tarojs/service 提供）。
  *
  * 本库不 `new Kernel`、不硬依赖 @tarojs/service（§1.3 边界 1、§2.6）：此处以
- * 结构最小化的鸭子类型接收调用方（如 taro-pilot）已持有的 Kernel 实例，用于
- * 填充插件节点的 B 层数据与顶层 platforms。未注入时 plugins 仅含 A 层、
- * platforms 为 []。字段形状按需在任务 3 收窄，任务 0 先留最小占位。
+ * 结构最小化的鸭子类型接收调用方（如 taro-pilot）已初始化（initPresetsAndPlugins
+ * 之后）的 Kernel 实例，用于填充插件节点与顶层 platforms。未注入时插件为空、
+ * platforms 为 []。
+ *
+ * initialConfig 是求值后的编译配置（plugins/presets 为最终列表）；五张 Map 是
+ * 插件加载自注册后的注册表。
  */
 export interface KernelLike {
-  plugins?: unknown
-  hooks?: unknown
-  commands?: unknown
-  platforms?: unknown
+  /** 求值后的编译配置：plugins/presets 为最终插件列表。 */
+  initialConfig?: {
+    plugins?: unknown
+    presets?: unknown
+    platforms?: unknown
+    [key: string]: unknown
+  }
+  /** 插件注册表：id（解析后路径）→ 插件条目。 */
+  plugins?: ReadonlyMap<string, KernelPluginEntry>
+  /** hook 注册表：hook 名 → 条目数组（每项带 plugin 归属）。 */
+  hooks?: ReadonlyMap<string, KernelHookEntry[]>
+  /** 命令注册表：命令名 → 命令条目。 */
+  commands?: ReadonlyMap<string, KernelCommandEntry>
+  /** 平台注册表：平台名 → 平台条目。 */
+  platforms?: ReadonlyMap<string, KernelPlatformEntry>
   methods?: unknown
 }
 
@@ -32,8 +81,8 @@ export interface CreateProjectGraphOptions {
   /** 项目根目录（含 app.config 的工程根）。 */
   root: string
   /**
-   * 可选注入的 Kernel。提供时启用插件 B 层数据与 platforms；
-   * 不提供时插件仅含 A 层静态信息、getPlatforms() 返回 []。
+   * 可选注入的 Kernel。提供时填充插件节点与 platforms；
+   * 不提供时图中无插件节点（plugins 为空数组）、getPlatforms() 返回 []。
    */
   kernel?: KernelLike
 }
