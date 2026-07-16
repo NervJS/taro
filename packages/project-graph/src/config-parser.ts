@@ -17,7 +17,7 @@ import * as path from 'node:path'
 
 import { readConfig, resolveScriptPath } from '@tarojs/helper'
 
-import type { AppConfig, AppNode, GraphWarning } from './schema'
+import type { AppConfig, AppNode, GraphWarning, PageConfig } from './schema'
 
 /** app.config 的候选文件名（相对 sourceRoot）。 */
 const APP_CONFIG_BASENAMES = ['app.config.ts', 'app.config.js']
@@ -87,9 +87,7 @@ function collectSubpackageRoutes(config: AppConfig): {
   for (const item of subPackages) {
     if (item == null || typeof item !== 'object') continue
     const root = (item as Record<string, unknown>).root
-    const { values: pages, dropped: subDropped } = collectStrings(
-      (item as Record<string, unknown>).pages,
-    )
+    const { values: pages, dropped: subDropped } = collectStrings((item as Record<string, unknown>).pages)
     dropped += subDropped
     if (typeof root !== 'string' || root.length === 0) {
       // root 缺失/非法：其下合法页面无法定位，计入 dropped 以免静默漏页。
@@ -169,14 +167,11 @@ export function parseAppConfig(sourceRoot: string): ParsedConfig {
     }
   }
 
-  const { values: mainPages, dropped: mainDropped } = collectStrings(
-    config.pages,
-  )
+  const { values: mainPages, dropped: mainDropped } = collectStrings(config.pages)
   const mainRoutes: PageRoute[] = mainPages.map((page) => ({
     id: normalizeRoute(page),
   }))
-  const { routes: subRoutes, dropped: subDropped } =
-    collectSubpackageRoutes(config)
+  const { routes: subRoutes, dropped: subDropped } = collectSubpackageRoutes(config)
 
   // pages 缺失或全部无效：视为异常，告警而非静默产出空清单
   // （对齐 vite-runner getPages 对空 pages 的 fatal 处理）。
@@ -230,10 +225,52 @@ export function parseAppConfig(sourceRoot: string): ParsedConfig {
  * readConfig 执行 config 时求值覆盖，无需此处处理。
  * 找不到文件时返回 undefined（由调用方记 warning）。
  */
-export function resolvePageFilePath(
-  sourceRoot: string,
-  routeId: string,
-): string | undefined {
+export function resolvePageFilePath(sourceRoot: string, routeId: string): string | undefined {
   const resolved = resolveScriptPath(path.join(sourceRoot, routeId))
   return fs.existsSync(resolved) ? resolved : undefined
+}
+
+/**
+ * 由页面文件路径推断其 config 文件路径。
+ * Taro 页面 config 恒为 `.config.ts`/`.config.js`（纯对象、无 JSX），且与页面
+ * 同名同端后缀：index.tsx → index.config.ts、index.weapp.tsx → index.weapp.config.ts。
+ * 复用 helper resolveScriptPath 定位实际存在的 config 文件；找不到返回 undefined。
+ *
+ * P1 限制：不 strip 多端后缀。Taro 惯例下多端页面可共享单个 index.config.ts，
+ * 此处 `index.weapp.tsx` 只找 `index.weapp.config.*`、不回退共享 config；且未设置
+ * TARO_ENV。纯 `index.tsx` 场景（占绝大多数）正确；多端共享 config 的精确处理
+ * 归后续（与 SWC / 多端解析一并，见 P4）。
+ */
+export function resolvePageConfigPath(pageFilePath: string): string | undefined {
+  const ext = path.extname(pageFilePath)
+  // 去掉脚本后缀，拼 `.config` 交给 resolveScriptPath 补 .ts/.js 等实际后缀。
+  const base = pageFilePath.slice(0, -ext.length) + '.config'
+  const resolved = resolveScriptPath(base)
+  return fs.existsSync(resolved) ? resolved : undefined
+}
+
+/** 页面级 config 读取结果，区分"无文件/成功/读取失败"三态。 */
+export interface PageConfigResult {
+  /** 读到的 config（无文件或失败时为 undefined）。 */
+  config?: PageConfig
+  /** 文件存在但解析抛错。 */
+  failed: boolean
+  /** 失败时的错误信息。 */
+  error?: string
+}
+
+/**
+ * 读取页面级 config 内容（page/index.config.ts 的默认导出）。
+ * 复用 helper readConfig 求值。区分三态：无 config 文件（config=undefined, failed=false）、
+ * 读取成功（config 有值）、解析失败（failed=true + error）——失败信号交由调用方记 warning，
+ * 避免把损坏的 config 静默当成空配置。
+ */
+export function readPageConfigContent(configFilePath: string): PageConfigResult {
+  if (!fs.existsSync(configFilePath)) return { failed: false }
+  try {
+    const content = readConfig(configFilePath)
+    return { config: (content ?? {}) as PageConfig, failed: false }
+  } catch (err) {
+    return { failed: true, error: (err as Error).message }
+  }
 }

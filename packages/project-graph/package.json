@@ -35,6 +35,7 @@
   },
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
-    "@tarojs/helper": "workspace:*"
+    "@tarojs/helper": "workspace:*",
+    "typescript": "~5.4.5"
   }
 }
