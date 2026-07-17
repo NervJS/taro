@@ -63,6 +63,10 @@ export interface KernelLike {
     plugins?: unknown
     presets?: unknown
     platforms?: unknown
+    /** 源码目录名（相对工程根），默认 'src'。决定 app.config 与页面文件的定位根。 */
+    sourceRoot?: string
+    /** 路径别名 map。透传给 readConfig 的 esbuild，使 app.config / 页面 config 内的别名 import 可解析。 */
+    alias?: Record<string, unknown>
     [key: string]: unknown
   }
   /** 插件注册表：id（解析后路径）→ 插件条目。 */
@@ -92,8 +96,8 @@ export type Unsubscribe = () => void
 
 /** 图变更事件（dev-time）。 */
 export interface GraphChange {
-  /** 受影响并已重算的节点 id 列表。 */
-  changed: string[]
+  /** 触发本次重建的变更文件路径（chokidar 侦测到的 add/change/unlink）。图已在触发前重建完毕。 */
+  changedFiles: string[]
 }
 
 /** dev-time 图变更监听器。 */
