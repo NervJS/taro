@@ -44,6 +44,12 @@ export interface IProjectConf {
   framework: FrameworkType
   compiler?: CompilerType
   ask?: (config: object) => Promise<void> | void
+  /**
+   * 内部标记：由 `taro init .` / `./` 触发。
+   * 表示目标目录即当前工作目录，projectName 已被解析为当前目录名。
+   * 仅在 CLI 内部流转，不会传递给底层 createProject。
+   */
+  initInCurrentDir?: boolean
 }
 
 type CustomPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -55,6 +61,24 @@ interface AskMethods {
 }
 
 const NONE_AVAILABLE_TEMPLATE = '无可用模板'
+
+function resolveProjectConf (conf: IProjectConfOptions): IProjectConfOptions {
+  if (!conf.projectName || !/^\.(?:[\\/])?$/.test(conf.projectName)) return conf
+
+  const projectDir = conf.projectDir || process.cwd()
+  const currentDirName = path.basename(projectDir)
+  // 文件系统根目录（如 `/` 或 `C:\`）下 basename 为空，无法推断项目名，
+  // 显式报错而非静默传空名，避免在根目录创建文件、init git、装依赖。
+  if (!currentDirName) {
+    throw new Error('无法在文件系统根目录下初始化项目，请切换到具体目录，或使用 `taro init <项目名>` 指定项目名称')
+  }
+  return {
+    ...conf,
+    projectDir: path.dirname(projectDir),
+    projectName: currentDirName,
+    initInCurrentDir: true
+  }
+}
 
 export default class Project extends Creator {
   public rootPath: string
@@ -68,7 +92,7 @@ export default class Project extends Creator {
     }
     this.rootPath = this._rootPath
 
-    this.conf = Object.assign(
+    this.conf = resolveProjectConf(Object.assign(
       {
         projectName: '',
         projectDir: '',
@@ -77,7 +101,7 @@ export default class Project extends Creator {
         npm: ''
       },
       options
-    )
+    ))
   }
 
   init () {
@@ -145,6 +169,10 @@ export default class Project extends Creator {
   }
 
   askProjectName: AskMethods = function (conf, prompts) {
+    // `taro init .` 场景：目标目录即当前目录，projectName 已解析为当前目录名，
+    // 目录存在是预期行为，跳过“同名目录已存在”校验，避免误报。
+    if (conf.initInCurrentDir) return
+
     if ((typeof conf.projectName) !== 'string') {
       prompts.push({
         type: 'input',
