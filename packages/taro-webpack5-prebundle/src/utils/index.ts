@@ -23,7 +23,7 @@ export function createResolve (appPath: string, resolveOptions) {
     cache: true,
     mainFiles: ['index'],
     exportsFields: ['exports'],
-    roots: appPath
+    roots: [appPath]
   }
   const resolver = enhancedResolve.create({
     ...defaultResolveOptions,
