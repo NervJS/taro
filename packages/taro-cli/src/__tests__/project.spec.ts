@@ -89,6 +89,44 @@ describe('create project', () => {
     expect(project.conf.projectName).toBe('current-project')
   })
 
+  it('should resolve windows-style ".\\" project name to current directory', () => {
+    const project = new Project({
+      projectDir: '/a/b/current-project',
+      projectName: '.\\',
+      sourceRoot: __dirname,
+      template: 'default',
+      templateSource: 'default-template',
+      npm: 'npm',
+      css: 'none',
+      framework: 'react'
+    } as any)
+
+    expect(project.conf.projectDir).toBe('/a/b')
+    expect(project.conf.projectName).toBe('current-project')
+    expect(project.conf.initInCurrentDir).toBe(true)
+  })
+
+  it('should fall back to process.cwd() when projectDir is empty', () => {
+    const cwdSpy = jest.spyOn(process, 'cwd').mockReturnValue('/x/y/z')
+    try {
+      const project = new Project({
+        projectName: '.',
+        sourceRoot: __dirname,
+        template: 'default',
+        templateSource: 'default-template',
+        npm: 'npm',
+        css: 'none',
+        framework: 'react'
+      } as any)
+
+      expect(project.conf.projectDir).toBe('/x/y')
+      expect(project.conf.projectName).toBe('z')
+      expect(project.conf.initInCurrentDir).toBe(true)
+    } finally {
+      cwdSpy.mockRestore()
+    }
+  })
+
   it.each(['..', '../', '.foo', 'foo', 'my-app'])(
     'should keep project name %p unchanged',
     (projectName) => {
