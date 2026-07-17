@@ -37,6 +37,11 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
    * @supported harmony
    */
   harmonyDirection?: 'row' | 'column' | 'flex'
+  /**
+   * 在预渲染（Prerender）过程中跳过当前节点，不对其进行预渲染
+   * @see https://docs.taro.zone/docs/prerender
+   */
+  disablePrerender?: boolean
 }
 
 export interface FormItemProps {
