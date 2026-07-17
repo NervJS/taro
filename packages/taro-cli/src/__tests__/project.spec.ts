@@ -88,4 +88,68 @@ describe('create project', () => {
     expect(project.conf.projectDir).toBe('/a/b')
     expect(project.conf.projectName).toBe('current-project')
   })
+
+  it.each(['..', '../', '.foo', 'foo', 'my-app'])(
+    'should keep project name %p unchanged',
+    (projectName) => {
+      const project = new Project({
+        projectDir: '/a/b',
+        projectName,
+        sourceRoot: __dirname,
+        template: 'default',
+        templateSource: 'default-template',
+        npm: 'npm',
+        css: 'none',
+        framework: 'react'
+      } as any)
+
+      expect(project.conf.projectDir).toBe('/a/b')
+      expect(project.conf.projectName).toBe(projectName)
+      expect(project.conf.initInCurrentDir).toBeUndefined()
+    }
+  )
+
+  it('should skip existing-name prompt when initializing in current directory', () => {
+    // fs.existsSync 被 mock 为恒 true，模拟目标目录（当前目录）已存在。
+    // `.` 场景下不应因此推入“同名目录已存在”的询问。
+    const project = new Project({
+      projectDir: '/a/b/current-project',
+      projectName: '.',
+      sourceRoot: __dirname,
+      template: 'default',
+      templateSource: 'default-template',
+      npm: 'npm',
+      css: 'none',
+      framework: 'react'
+    } as any)
+
+    expect(project.conf.initInCurrentDir).toBe(true)
+
+    const prompts: Record<string, unknown>[] = []
+    project.askProjectName(project.conf, prompts)
+
+    expect(prompts).toHaveLength(0)
+  })
+
+  it('should prompt for a new name when a same-name directory exists (normal init)', () => {
+    // 普通命名 + 目标位置已存在同名目录时，仍应提示换名。
+    const project = new Project({
+      projectDir: '/a/b',
+      projectName: 'existing-project',
+      sourceRoot: __dirname,
+      template: 'default',
+      templateSource: 'default-template',
+      npm: 'npm',
+      css: 'none',
+      framework: 'react'
+    } as any)
+
+    expect(project.conf.initInCurrentDir).toBeUndefined()
+
+    const prompts: Record<string, unknown>[] = []
+    project.askProjectName(project.conf, prompts)
+
+    expect(prompts).toHaveLength(1)
+    expect(prompts[0]).toMatchObject({ name: 'projectName' })
+  })
 })

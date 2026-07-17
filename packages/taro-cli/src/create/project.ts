@@ -44,6 +44,12 @@ export interface IProjectConf {
   framework: FrameworkType
   compiler?: CompilerType
   ask?: (config: object) => Promise<void> | void
+  /**
+   * 内部标记：由 `taro init .` / `./` 触发。
+   * 表示目标目录即当前工作目录，projectName 已被解析为当前目录名。
+   * 仅在 CLI 内部流转，不会传递给底层 createProject。
+   */
+  initInCurrentDir?: boolean
 }
 
 type CustomPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -63,7 +69,8 @@ function resolveProjectConf (conf: IProjectConfOptions): IProjectConfOptions {
   return {
     ...conf,
     projectDir: path.dirname(projectDir),
-    projectName: path.basename(projectDir)
+    projectName: path.basename(projectDir),
+    initInCurrentDir: true
   }
 }
 
@@ -156,6 +163,10 @@ export default class Project extends Creator {
   }
 
   askProjectName: AskMethods = function (conf, prompts) {
+    // `taro init .` 场景：目标目录即当前目录，projectName 已解析为当前目录名，
+    // 目录存在是预期行为，跳过“同名目录已存在”校验，避免误报。
+    if (conf.initInCurrentDir) return
+
     if ((typeof conf.projectName) !== 'string') {
       prompts.push({
         type: 'input',
