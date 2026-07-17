@@ -147,6 +147,19 @@ describe('create project', () => {
     }
   )
 
+  it('should throw when initializing at the filesystem root', () => {
+    expect(() => new Project({
+      projectDir: '/',
+      projectName: '.',
+      sourceRoot: __dirname,
+      template: 'default',
+      templateSource: 'default-template',
+      npm: 'npm',
+      css: 'none',
+      framework: 'react'
+    } as any)).toThrow('无法在文件系统根目录下初始化项目')
+  })
+
   it('should skip existing-name prompt when initializing in current directory', () => {
     // fs.existsSync 被 mock 为恒 true，模拟目标目录（当前目录）已存在。
     // `.` 场景下不应因此推入“同名目录已存在”的询问。
