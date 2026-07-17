@@ -1,0 +1,3 @@
+# 配置文档参考 https://taro-docs.jd.com/docs/next/env-mode-config
+# 复制本文件到 .env.development / .env.production / .env.test 后按环境填写
+TARO_APP_ID="请替换为你的小程序 AppID"
