@@ -151,8 +151,13 @@ export class MiniWebpackPlugin {
 
   getCommonChunks () {
     const { buildNativePlugin, config } = this.combination
-    const { commonChunks } = config
-    const defaultCommonChunks = buildNativePlugin?.commonChunks || ['runtime', 'vendors', 'taro', 'common']
+    const { commonChunks, sharedRuntime } = config
+    let baseChunks = buildNativePlugin?.commonChunks || ['runtime', 'vendors', 'taro', 'common']
+    // sharedRuntime 下 taro chunk 不再产出（@tarojs/* 已 external），页面 require 头须跳过它
+    if (sharedRuntime) {
+      baseChunks = baseChunks.filter(name => name !== 'taro')
+    }
+    const defaultCommonChunks = baseChunks
     let customCommonChunks: string[] = defaultCommonChunks
     if (isFunction(commonChunks)) {
       customCommonChunks = commonChunks(defaultCommonChunks.concat()) || defaultCommonChunks

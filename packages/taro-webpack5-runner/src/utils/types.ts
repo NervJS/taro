@@ -43,6 +43,7 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
   /** special mode */
   isBuildNativeComp?: boolean
   newBlended?: boolean
+  sharedRuntime?: boolean
   withoutBuild?: boolean
   noInjectGlobalStyle?: boolean
   /** hooks */

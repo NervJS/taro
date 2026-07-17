@@ -31,6 +31,7 @@ export default (ctx: IPluginContext) => {
       '--qr': '[rn] Print qrcode of React-Native bundle server',
       '--blended': 'Blended Taro project in an original MiniApp project',
       '--new-blended': 'Blended Taro project in an original MiniApp project while supporting building components independently',
+      '--shared-runtime': 'Externalize Taro/React runtime to wx.__TARO_SHARED__, provided synchronously by the host main package',
       '--plugin [typeName]': 'Build Taro plugin project, weapp',
       '--env-prefix [envPrefix]': "Provide the dotEnv varables's prefix",
       '--no-inject-global-style': '[H5] Do not inject global style',
@@ -51,7 +52,7 @@ export default (ctx: IPluginContext) => {
     ],
     async fn(opts) {
       const { options, config, _ } = opts
-      const { platform, isWatch, blended, newBlended, withoutBuild, noInjectGlobalStyle, noCheck } = options
+      const { platform, isWatch, blended, newBlended, sharedRuntime, withoutBuild, noInjectGlobalStyle, noCheck } = options
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
       const { args } = options
@@ -123,6 +124,7 @@ export default (ctx: IPluginContext) => {
             isBuildNativeComp,
             withoutBuild,
             newBlended,
+            sharedRuntime,
             noInjectGlobalStyle,
             async modifyAppConfig (appConfig) {
               extractCompileEntry(appConfig, args, ctx)

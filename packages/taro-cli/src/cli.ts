@@ -180,6 +180,8 @@ export default class CLI {
             isBuildNativeComp: _[1] === 'native-components',
             // Note: 新的混合编译模式，支持把组件单独编译为原生组件
             newBlended: Boolean(args['new-blended']),
+            // Note: 把 Taro/React 运行时 external 到 wx.__TARO_SHARED__，由宿主主包同步提供
+            sharedRuntime: Boolean(args['shared-runtime']),
             // Note: 是否禁用编译
             withoutBuild: !args.build,
             noInjectGlobalStyle: !args['inject-global-style'],

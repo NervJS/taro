@@ -36,6 +36,7 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
       },
       /** special mode */
       isBuildPlugin = false,
+      sharedRuntime = false,
       /** hooks */
       modifyComponentConfig,
       optimizeMainPackage
@@ -73,6 +74,29 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
     webpackPlugin.pxtransformOption = pxtransformOption as any
     const plugin = webpackPlugin.getPlugins()
 
+    // sharedRuntime：把 Taro/React 运行时 external 到 wx.__TARO_SHARED__，由宿主主包同步提供
+    const REG_SHARED_REACT = /^(react|react-dom|react-reconciler|scheduler)(\/|$)/
+    const shouldShareExternal = (request?: string) => {
+      if (!request) return false
+      // 只处理裸模块请求：排除内联 loader(!)、query(?)、相对/绝对路径
+      if (/[!?]/.test(request) || request.startsWith('.') || request.startsWith('/')) return false
+      // @tarojs/taro-loader 是编译期 loader，不能 external
+      if (request.startsWith('@tarojs/taro-loader')) return false
+      // @tarojs/components 不能 external：Taro 的 base.wxml 模板收集依赖组件在编译模块图中可见，
+      // external 后模板生成器扫不到组件使用会漏生成模板（如 Button 的 tmpl_0_14）。
+      // 且组件本身是 'view'/'button' 字符串常量，体积极小，各业务包自带无成本。
+      if (request === '@tarojs/components' || request.startsWith('@tarojs/components/')) return false
+      return REG_TARO_SCOPED_PACKAGE.test(request) || REG_SHARED_REACT.test(request)
+    }
+    const sharedExternals: any[] = sharedRuntime
+      ? [({ request }, cb) => {
+        if (shouldShareExternal(request)) {
+          return cb(null, `wx.__TARO_SHARED__[${JSON.stringify(request)}]`)
+        }
+        return cb()
+      }]
+      : []
+
     chain.merge({
       entry: webpackEntry,
       output: webpackOutput,
@@ -83,7 +107,8 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
       },
       plugin,
       module,
-      optimization: this.getOptimization()
+      externals: sharedExternals,
+      optimization: this.getOptimization(sharedRuntime)
     })
   }
 
@@ -111,7 +136,38 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
     }
   }
 
-  getOptimization () {
+  getOptimization (sharedRuntime = false) {
+    const REG_SHARED_REACT = /^(react|react-dom|react-reconciler|scheduler)(\/|$)/
+    const cacheGroups: any = {
+      default: false,
+      defaultVendors: false,
+      common: {
+        name: 'common',
+        minChunks: 2,
+        priority: 1
+      },
+      vendors: {
+        name: 'vendors',
+        minChunks: 2,
+        test: module => {
+          const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+          // sharedRuntime 下 react 全家桶已 external，剔出 vendors，避免空跑
+          if (sharedRuntime && REG_SHARED_REACT.test(module.rawRequest || '')) {
+            return false
+          }
+          return nodeModulesDirRegx.test(module.resource)
+        },
+        priority: 10
+      }
+    }
+    // sharedRuntime 下 @tarojs/* 已 external，不再产出 taro chunk
+    if (!sharedRuntime) {
+      cacheGroups.taro = {
+        name: 'taro',
+        test: module => REG_TARO_SCOPED_PACKAGE.test(module.context),
+        priority: 100
+      }
+    }
     return {
       usedExports: true,
       runtimeChunk: {
@@ -121,29 +177,7 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
         chunks: 'all',
         maxInitialRequests: Infinity,
         minSize: 0,
-        cacheGroups: {
-          default: false,
-          defaultVendors: false,
-          common: {
-            name: 'common',
-            minChunks: 2,
-            priority: 1
-          },
-          vendors: {
-            name: 'vendors',
-            minChunks: 2,
-            test: module => {
-              const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
-              return nodeModulesDirRegx.test(module.resource)
-            },
-            priority: 10
-          },
-          taro: {
-            name: 'taro',
-            test: module => REG_TARO_SCOPED_PACKAGE.test(module.context),
-            priority: 100
-          }
-        }
+        cacheGroups
       }
     }
   }
