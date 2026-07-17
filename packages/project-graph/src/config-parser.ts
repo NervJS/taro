@@ -130,8 +130,10 @@ function collectTabBarPagePaths(config: AppConfig): string[] {
  * @param sourceRoot 源码目录的**绝对路径**（即 Taro 的 sourceDir = `<工程 root>/src`，
  *   由 taroConfig.sourceRoot 解析而来）。必须非空绝对路径；传空串或相对串会导致
  *   页面文件解析失败。
+ * @param alias 路径别名 map（来自 kernel.initialConfig.alias），透传给 readConfig 的
+ *   esbuild，使 app.config 内的别名 import 可解析；未注入 Kernel 时为空、别名 import 会解析失败并告警。
  */
-export function parseAppConfig(sourceRoot: string): ParsedConfig {
+export function parseAppConfig(sourceRoot: string, alias: Record<string, unknown> = {}): ParsedConfig {
   const warnings: GraphWarning[] = []
   const appConfigPath = findAppConfigPath(sourceRoot)
 
@@ -150,10 +152,9 @@ export function parseAppConfig(sourceRoot: string): ParsedConfig {
 
   let config: AppConfig = {}
   try {
-    // 注：readConfig 支持 alias / defineConstants，但需调用方传入对应 map；
-    // 任务 1 阶段无 Kernel 来源，故不传。若 app.config 用 alias import，
-    // 解析可能失败并落入下方 config_parse_failed。alias 注入待后续（任务 5 / Kernel）。
-    config = (readConfig(appConfigPath) ?? {}) as AppConfig
+    // 别名由调用方（createProjectGraph 从 kernel.initialConfig.alias）透传；未注入
+    // Kernel 时为空 map，app.config 若用别名 import 则解析失败并落入下方 config_parse_failed。
+    config = (readConfig(appConfigPath, { alias }) ?? {}) as AppConfig
   } catch (err) {
     warnings.push({
       kind: 'config_parse_failed',
@@ -264,11 +265,13 @@ export interface PageConfigResult {
  * 复用 helper readConfig 求值。区分三态：无 config 文件（config=undefined, failed=false）、
  * 读取成功（config 有值）、解析失败（failed=true + error）——失败信号交由调用方记 warning，
  * 避免把损坏的 config 静默当成空配置。
+ *
+ * @param alias 路径别名 map，透传给 readConfig 的 esbuild（与 app.config 同源）。
  */
-export function readPageConfigContent(configFilePath: string): PageConfigResult {
+export function readPageConfigContent(configFilePath: string, alias: Record<string, unknown> = {}): PageConfigResult {
   if (!fs.existsSync(configFilePath)) return { failed: false }
   try {
-    const content = readConfig(configFilePath)
+    const content = readConfig(configFilePath, { alias })
     return { config: (content ?? {}) as PageConfig, failed: false }
   } catch (err) {
     return { failed: true, error: (err as Error).message }
