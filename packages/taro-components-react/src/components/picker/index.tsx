@@ -993,6 +993,8 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
                 className="taro-picker__action"
                 onClick={handleCancel}
                 style={{ color: colors.cancelButtonColor }}
+                ariaAction={[{ name: 'activate', label: '激活' }]}
+                onAriaAction={handleCancel}
               >
                 {textProps.cancelText ?? langText.cancel}
               </View>
@@ -1008,6 +1010,8 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
                 className="taro-picker__action"
                 onClick={handleChange}
                 style={{ color: colors.confirmButtonColor }}
+                ariaAction={[{ name: 'activate', label: '激活' }]}
+                onAriaAction={handleChange}
               >
                 {textProps.okText ?? langText.confirm}
               </View>
