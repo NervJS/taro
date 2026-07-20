@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { View } from '@tarojs/components'
 
 import Picker from '../../taro/components/picker/index'
-import '../../taro/css/components/picker/index.css'
 
 export default class Index extends Component {
   render () {
+
     return (
       <View>
         hello world
@@ -13,7 +13,7 @@ export default class Index extends Component {
           list={['a', 'b', 'c']}
           title="test"
           onButtonClick={() => {
-            console.log('click')
+            console.log('click 1')
           }}
         />
       </View>

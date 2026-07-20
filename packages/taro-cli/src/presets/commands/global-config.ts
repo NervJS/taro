@@ -25,6 +25,7 @@ const PLUGIN_TYPE_TO_CONFIG_KEY = {
 }
 
 export default (ctx: IPluginContext) => {
+  console.log('111')
   ctx.registerCommand({
     name: 'global-config',
     synopsisList: [

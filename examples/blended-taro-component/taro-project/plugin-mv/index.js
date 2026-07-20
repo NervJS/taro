@@ -16,6 +16,7 @@ export default (ctx, options) => {
       const appPath = path.join(rootPath, 'h5/src')
       const htmlAppPath = path.join(rootPath, 'h5-html/src')
 
+
       const destPath = path.join(appPath, 'taro')
       const htmlDestPath = path.join(htmlAppPath, 'taro')
   

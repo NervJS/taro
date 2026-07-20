@@ -1,4 +1,5 @@
 const path = require('path')
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer')
 
 const config = {
   projectName: 'test',
@@ -11,7 +12,7 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: [path.join(process.cwd(), '/plugin-mv/index.js')],
+  plugins: [path.join(process.cwd(), '/plugin-mv/index.js'), ],
   framework: 'react',
   compiler: {
     type: 'webpack5',
@@ -56,7 +57,28 @@ const config = {
           library: 'NativeComponent',
           chunkLoadingGlobal: 'NativeComponentJsonp',
         },
-      })
+        optimization: {
+          splitChunks: {
+            cacheGroups: {
+              default: false,
+              vendors: false,
+              // 强制将动态导入的模块打包到主包中
+              main: {
+                chunks: 'all',
+                name: 'components/picker/index',
+                enforce: true,
+              },
+            },
+          },
+          runtimeChunk: false,
+        },
+        plugins: [
+          new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            openAnalyzer: true,
+          }),
+        ],
+      });
     },
     postcss: {
       autoprefixer: {
@@ -65,7 +87,7 @@ const config = {
         }
       },
       cssModules: {
-        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+        enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
         config: {
           namingPattern: 'module', // 转换模式，取值为 global/module
           generateScopedName: '[name]__[local]___[hash:base64:5]'

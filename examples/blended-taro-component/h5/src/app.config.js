@@ -1,5 +1,5 @@
 export default {
   pages: [
-    'pages/index/index',
+    'pages/index2/index',
   ]
 }
