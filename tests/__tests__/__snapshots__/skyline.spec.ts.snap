@@ -843,7 +843,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -914,7 +914,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_1_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -985,7 +985,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_2_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1056,7 +1056,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_3_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1109,7 +1109,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_4_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1162,7 +1162,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_5_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1209,7 +1209,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_6_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1256,7 +1256,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_7_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1303,7 +1303,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_8_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1350,7 +1350,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_9_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1397,7 +1397,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_10_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1444,7 +1444,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_11_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1491,7 +1491,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_12_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1538,7 +1538,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_13_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1585,7 +1585,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_14_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
