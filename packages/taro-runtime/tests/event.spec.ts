@@ -1,8 +1,10 @@
+import { Shortcuts } from '@tarojs/shared'
 import { afterAll, describe, expect, test, vi } from 'vitest'
 
-import { EVENT_CALLBACK_RESULT } from '../src/constants'
+import { EVENT_CALLBACK_RESULT, PURE_VIEW } from '../src/constants'
 import { eventHandler } from '../src/dom/event'
 import * as runtime from '../src/index'
+import { getComponentsAlias } from '../src/utils'
 
 describe('event', () => {
   const document = runtime.document
@@ -119,6 +121,72 @@ describe('event', () => {
     expect(() => {
       div.removeEventListener('tap', vi.fn())
     }).not.toThrow()
+  })
+
+  test.each([
+    ['text', 'static-text'],
+    ['image', 'static-image']
+  ])('移除 %s 的最后一个事件监听后切换为 %s', (nodeName, aliasName) => {
+    const element = document.createElement(nodeName)
+    const handler = vi.fn()
+    const enqueueUpdate = vi.spyOn(element, 'enqueueUpdate')
+
+    element.addEventListener('tap', handler)
+    enqueueUpdate.mockClear()
+
+    expect(() => element.removeEventListener('tap', handler)).not.toThrow()
+    expect(enqueueUpdate).toHaveBeenCalledOnce()
+    expect(enqueueUpdate).toHaveBeenCalledWith({
+      path: `${element._path}.${Shortcuts.NodeName}`,
+      value: getComponentsAlias()[aliasName]._num
+    })
+  })
+
+  test('移除无提取属性 view 的最后一个事件监听后切换为 pure-view', () => {
+    const view = document.createElement('view')
+    const handler = vi.fn()
+    const enqueueUpdate = vi.spyOn(view, 'enqueueUpdate')
+
+    view.addEventListener('tap', handler)
+    enqueueUpdate.mockClear()
+    view.removeEventListener('tap', handler)
+
+    expect(enqueueUpdate).toHaveBeenCalledOnce()
+    expect(enqueueUpdate).toHaveBeenCalledWith({
+      path: `${view._path}.${Shortcuts.NodeName}`,
+      value: getComponentsAlias()[PURE_VIEW]._num
+    })
+  })
+
+  test('移除有提取属性 view 的最后一个事件监听后切换为 static-view', () => {
+    const view = document.createElement('view')
+    const handler = vi.fn()
+    const enqueueUpdate = vi.spyOn(view, 'enqueueUpdate')
+
+    view.setAttribute('hover-class', 'hover')
+    view.addEventListener('tap', handler)
+    enqueueUpdate.mockClear()
+    view.removeEventListener('tap', handler)
+
+    expect(enqueueUpdate).toHaveBeenCalledOnce()
+    expect(enqueueUpdate).toHaveBeenCalledWith({
+      path: `${view._path}.${Shortcuts.NodeName}`,
+      value: getComponentsAlias()['static-view']._num
+    })
+  })
+
+  test('移除其中一个事件监听时不会切换节点模板', () => {
+    const text = document.createElement('text')
+    const handler = vi.fn()
+    const anotherHandler = vi.fn()
+    const enqueueUpdate = vi.spyOn(text, 'enqueueUpdate')
+
+    text.addEventListener('tap', handler)
+    text.addEventListener('tap', anotherHandler)
+    enqueueUpdate.mockClear()
+    text.removeEventListener('tap', handler)
+
+    expect(enqueueUpdate).not.toHaveBeenCalled()
   })
 
   test('可以阻止冒泡', () => {
