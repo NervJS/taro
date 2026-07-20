@@ -26,7 +26,9 @@
     "build": "tsc",
     "dev": "tsc -w",
     "prepack": "pnpm run build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "test:ci": "jest --ci -i --silent"
   },
   "repository": {
     "type": "git",

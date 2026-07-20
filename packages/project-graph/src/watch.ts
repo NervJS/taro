@@ -41,6 +41,12 @@ export function startWatch(
 
   let pending: string[] = []
   let timer: ReturnType<typeof setTimeout> | undefined
+  // chokidar 有初始扫描窗口：watcher 创建后到 'ready' 之前，正在建立底层监听。
+  // 此窗口内订阅方做的**真实**变更，可能因底层监听尚未就位而不被 chokidar 感知（丢事件）。
+  // 故用 ready 门控：ready 前发生的变更先缓冲，ready 到来时若有缓冲则立即冲洗一次；
+  // 保证「订阅后立刻改文件」这类紧邻变更不丢首个事件（dev 长驻场景变更间隔通常远超
+  // 该窗口、不受影响，但监听是公开能力，紧邻变更也应可靠）。
+  let ready = false
 
   const flush = (): void => {
     const changed = pending
@@ -49,15 +55,24 @@ export function startWatch(
     if (changed.length > 0) onChange(changed)
   }
 
-  const onEvent = (filePath: string): void => {
-    pending.push(filePath)
+  const scheduleFlush = (): void => {
     if (timer != null) clearTimeout(timer)
     timer = setTimeout(flush, DEBOUNCE_MS)
+  }
+
+  const onEvent = (filePath: string): void => {
+    pending.push(filePath)
+    // ready 前只缓冲、不排期；ready 事件到来时统一冲洗，避免窗口内变更丢失。
+    if (ready) scheduleFlush()
   }
 
   watcher.on('add', onEvent)
   watcher.on('change', onEvent)
   watcher.on('unlink', onEvent)
+  watcher.on('ready', () => {
+    ready = true
+    if (pending.length > 0) scheduleFlush()
+  })
   // 必须监听 error：chokidar 的 FSWatcher 继承 EventEmitter，emit 'error'（如
   // EMFILE / ENOSPC / EPERM）时若无监听者，Node 会 throw 并崩溃宿主进程（本库常
   // 驻于 taro-pilot 等控制面）。监听层错误吞掉即可，不应中断宿主。
