@@ -6,6 +6,8 @@ import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import MiniCompileModePlugin from '../plugins/MiniCompileModePlugin'
 import MiniPlugin from '../plugins/MiniPlugin'
 import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
+import TaroInjectSyncCorePlugin from '../plugins/TaroInjectSyncCorePlugin'
+import { SHARED_SYNC_CORE_NAME } from '../shared-runtime/constants'
 import WebpackPlugin, { PluginArgs } from './WebpackPlugin'
 
 import type { MiniCombination } from './MiniCombination'
@@ -41,6 +43,13 @@ export class MiniWebpackPlugin {
     if (this.combination.config.experimental?.compileMode === true) {
       plugins.taroCompileModePlugin = WebpackPlugin.getPlugin(MiniCompileModePlugin, [{
         combination: this.combination,
+      }])
+    }
+
+    // 方案二 split：给 app 入口注入 require('<syncCore>')，同步核先于页面注册执行
+    if (this.combination.config.sharedRuntime && this.combination.config.sharedRuntimeMode === 'split') {
+      plugins.taroInjectSyncCorePlugin = WebpackPlugin.getPlugin(TaroInjectSyncCorePlugin, [{
+        syncCoreName: SHARED_SYNC_CORE_NAME,
       }])
     }
 

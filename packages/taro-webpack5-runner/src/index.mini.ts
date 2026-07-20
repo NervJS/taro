@@ -4,6 +4,7 @@ import { isEmpty } from 'lodash'
 import webpack from 'webpack'
 
 import { Prerender } from './prerender/prerender'
+import { buildSharedRuntime } from './shared-runtime/build-shared-runtime'
 import { errorHandling } from './utils/webpack'
 import { MiniCombination } from './webpack/MiniCombination'
 
@@ -70,10 +71,16 @@ export default async function build (appPath: string, rawConfig: IMiniBuildConfi
         await prerender.render()
       }
 
-      // const res = stats.toString({
-      //   logging: 'verbose'
-      // })
-      // console.log('res: ', res)
+      // 方案二 split：主构建成功后，产出共享运行时（sync-core + shared-async 子包）到 dist
+      if (config.sharedRuntime && config.sharedRuntimeMode === 'split') {
+        try {
+          await buildSharedRuntime(combination)
+        } catch (e) {
+          onFinish(e as Error, null)
+          reject(e)
+          return
+        }
+      }
 
       onFinish(null, stats)
       resolve(stats)

@@ -182,6 +182,8 @@ export default class CLI {
             newBlended: Boolean(args['new-blended']),
             // Note: 把 Taro/React 运行时 external 到 wx.__TARO_SHARED__，由宿主主包同步提供
             sharedRuntime: Boolean(args['shared-runtime']),
+            // Note: 共享运行时模式 host（方案一：全量放主包同步）| split（方案二：同步核随业务包 + react 异步子包）
+            sharedRuntimeMode: args['shared-runtime-mode'] === 'split' ? 'split' : 'host',
             // Note: 是否禁用编译
             withoutBuild: !args.build,
             noInjectGlobalStyle: !args['inject-global-style'],
