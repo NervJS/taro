@@ -3835,7 +3835,7 @@ require("./runtime");
 (jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ "comp" ], {
     "../../../../packages/taro-webpack5-runner/dist/template/comp.js": function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../mocks/taro-runtime.ts");
-        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
+        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)(undefined, false));
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {
