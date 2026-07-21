@@ -253,6 +253,7 @@
   height: $weuiPickerItemHeight;
   box-sizing: border-box;
   transform: translateY(-50%);
+  pointer-events: none;
 }
 
 // 滚动内容区域

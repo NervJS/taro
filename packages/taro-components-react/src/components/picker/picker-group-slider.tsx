@@ -25,6 +25,19 @@ function usePickerItemScrollIntoView(): [string, (itemId: string) => void] {
   return [scrollIntoView, scrollToItemId]
 }
 
+/** 系统读屏是否开启：开启时 mask 需可命中（关掉 pointer-events:none） */
+function useA11yOpen(): boolean {
+  const [a11yOpen, setA11yOpen] = React.useState(false)
+  React.useEffect(() => {
+    Taro.checkIsOpenAccessibility()
+      .then((res) => {
+        setA11yOpen(!!(res as Taro.checkIsOpenAccessibility.SuccessCallbackResult).open)
+      })
+      .catch(() => {})
+  }, [])
+  return a11yOpen
+}
+
 // 定义常量
 const PICKER_LINE_HEIGHT = 34 // px
 const PICKER_VISIBLE_ITEMS = 7 // 可见行数
@@ -152,6 +165,8 @@ export function PickerGroupBasic(props: PickerGroupProps) {
   const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
   // 触摸状态用于优化用户体验
   const isTouchingRef = React.useRef(false)
+  // 系统读屏开启时关闭 mask 的 pointer-events:none，便于无障碍命中；未开启则保持穿透以便手势滚动
+  const a11yOpen = useA11yOpen()
 
   const lengthScaleRatioRef = React.useRef(1)
   const useMeasuredScaleRef = React.useRef(false)
@@ -328,10 +343,22 @@ export function PickerGroupBasic(props: PickerGroupProps) {
       className="taro-picker__group"
       style={{ position: 'relative' }}
     >
-      <View className="taro-picker__mask" ariaHidden />
+      {/* 视觉蒙层兼无障碍焦点靶：CSS 默认 pointer-events:none 保证手势穿透滚动；
+          系统读屏开启时改为 auto，便于无障碍命中 */}
+      <View
+        className="taro-picker__mask"
+        style={a11yOpen ? { pointerEvents: 'auto' } : undefined}
+        ariaRole="slider"
+        ariaLabel={ariaLabel}
+        // @ts-expect-error Taro View 未声明无障碍扩展 props
+        ariaAction={[
+          { name: 'increment', label: 'increment' },
+          { name: 'decrement', label: 'decrement' },
+        ]}
+        onAriaAction={handleAriaAction}
+      />
       <View
         className="taro-picker__indicator"
-        ariaHidden
         {...(indicatorStyle ? { style: indicatorStyle } : {})}
       />
       <ScrollView
@@ -340,10 +367,6 @@ export function PickerGroupBasic(props: PickerGroupProps) {
         showScrollbar={false}
         className="taro-picker__content"
         ariaHidden
-        {...({
-          accessibilityElementsHidden: true,
-          importantForAccessibility: 'no-hide-descendants',
-        } as any)}
         style={{
           height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS,
         }}
@@ -356,22 +379,6 @@ export function PickerGroupBasic(props: PickerGroupProps) {
       >
         {realPickerItems}
       </ScrollView>
-      {/* 无障碍焦点覆盖层：空节点、绝对定位铺满、pointer-events:none，
-          使读屏焦点落在此处（内部无可滚动祖先，左右滑=切焦点而非滚动），
-          真实手指拖动穿透到下层 ScrollView 正常滚动 */}
-      <View
-        className="taro-picker__a11y-overlay"
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' }}
-        ariaRole="slider"
-        {...(ariaLabel !== undefined ? { ariaLabel } : {})}
-        {...({
-          ariaAction: [
-            { name: 'increment', label: 'increment' },
-            { name: 'decrement', label: 'decrement' },
-          ],
-          onAriaAction: handleAriaAction,
-        } as any)}
-      />
     </View>
   )
 }
@@ -396,6 +403,7 @@ export function PickerGroupTime(props: PickerGroupProps) {
   const scrollViewRef = React.useRef<TaroScrollView>(null)
   const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
   const isTouchingRef = React.useRef(false)
+  const a11yOpen = useA11yOpen()
 
   const lengthScaleRatioRef = React.useRef(1)
   const useMeasuredScaleRef = React.useRef(false)
@@ -593,7 +601,20 @@ export function PickerGroupTime(props: PickerGroupProps) {
       className="taro-picker__group"
       style={{ position: 'relative' }}
     >
-      <View className="taro-picker__mask" ariaHidden />
+      {/* 视觉蒙层兼无障碍焦点靶：CSS 默认 pointer-events:none 保证手势穿透滚动；
+          系统读屏开启时改为 auto，便于无障碍命中 */}
+      <View
+        className="taro-picker__mask"
+        style={a11yOpen ? { pointerEvents: 'auto' } : undefined}
+        ariaRole="slider"
+        ariaLabel={ariaLabel}
+        // @ts-expect-error Taro View 未声明无障碍扩展 props
+        ariaAction={[
+          { name: 'increment', label: 'increment' },
+          { name: 'decrement', label: 'decrement' },
+        ]}
+        onAriaAction={handleAriaAction}
+      />
       <View
         className="taro-picker__indicator"
         ariaHidden
@@ -621,22 +642,6 @@ export function PickerGroupTime(props: PickerGroupProps) {
       >
         {realPickerItems}
       </ScrollView>
-      {/* 无障碍焦点覆盖层：空节点、绝对定位铺满、pointer-events:none，
-          使读屏焦点落在此处（内部无可滚动祖先，左右滑=切焦点而非滚动），
-          真实手指拖动穿透到下层 ScrollView 正常滚动 */}
-      <View
-        className="taro-picker__a11y-overlay"
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' }}
-        ariaRole="slider"
-        {...(ariaLabel !== undefined ? { ariaLabel } : {})}
-        {...({
-          ariaAction: [
-            { name: 'increment', label: 'increment' },
-            { name: 'decrement', label: 'decrement' },
-          ],
-          onAriaAction: handleAriaAction,
-        } as any)}
-      />
     </View>
   )
 }
@@ -658,6 +663,7 @@ export function PickerGroupDate(props: PickerGroupProps) {
   const scrollViewRef = React.useRef<TaroScrollView>(null)
   const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
   const isTouchingRef = React.useRef(false)
+  const a11yOpen = useA11yOpen()
 
   const lengthScaleRatioRef = React.useRef(1)
   const useMeasuredScaleRef = React.useRef(false)
@@ -838,7 +844,20 @@ export function PickerGroupDate(props: PickerGroupProps) {
       className="taro-picker__group"
       style={{ position: 'relative' }}
     >
-      <View className="taro-picker__mask" ariaHidden />
+      {/* 视觉蒙层兼无障碍焦点靶：CSS 默认 pointer-events:none 保证手势穿透滚动；
+          系统读屏开启时改为 auto，便于无障碍命中 */}
+      <View
+        className="taro-picker__mask"
+        style={a11yOpen ? { pointerEvents: 'auto' } : undefined}
+        ariaRole="slider"
+        ariaLabel={ariaLabel}
+        // @ts-expect-error Taro View 未声明无障碍扩展 props
+        ariaAction={[
+          { name: 'increment', label: 'increment' },
+          { name: 'decrement', label: 'decrement' },
+        ]}
+        onAriaAction={handleAriaAction}
+      />
       <View
         className="taro-picker__indicator"
         ariaHidden
@@ -864,22 +883,6 @@ export function PickerGroupDate(props: PickerGroupProps) {
       >
         {realPickerItems}
       </ScrollView>
-      {/* 无障碍焦点覆盖层：空节点、绝对定位铺满、pointer-events:none，
-          使读屏焦点落在此处（内部无可滚动祖先，左右滑=切焦点而非滚动），
-          真实手指拖动穿透到下层 ScrollView 正常滚动 */}
-      <View
-        className="taro-picker__a11y-overlay"
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' }}
-        ariaRole="slider"
-        {...(ariaLabel !== undefined ? { ariaLabel } : {})}
-        {...({
-          ariaAction: [
-            { name: 'increment', label: 'increment' },
-            { name: 'decrement', label: 'decrement' },
-          ],
-          onAriaAction: handleAriaAction,
-        } as any)}
-      />
     </View>
   )
 }
@@ -904,6 +907,7 @@ export function PickerGroupRegion(props: PickerGroupProps) {
   const isTouchingRef = React.useRef(false)
   // 程序化滚动标记：开屏/受控同步预设值时置 true，避免被 region 级联门误判为用户滚动而重置后续列
   const syncScrollFromPropsRef = React.useRef(false)
+  const a11yOpen = useA11yOpen()
 
   const lengthScaleRatioRef = React.useRef(1)
   const useMeasuredScaleRef = React.useRef(false)
@@ -1089,7 +1093,20 @@ export function PickerGroupRegion(props: PickerGroupProps) {
       className="taro-picker__group"
       style={{ position: 'relative' }}
     >
-      <View className="taro-picker__mask" ariaHidden />
+      {/* 视觉蒙层兼无障碍焦点靶：CSS 默认 pointer-events:none 保证手势穿透滚动；
+          系统读屏开启时改为 auto，便于无障碍命中 */}
+      <View
+        className="taro-picker__mask"
+        style={a11yOpen ? { pointerEvents: 'auto' } : undefined}
+        ariaRole="slider"
+        ariaLabel={ariaLabel}
+        // @ts-expect-error Taro View 未声明无障碍扩展 props
+        ariaAction={[
+          { name: 'increment', label: 'increment' },
+          { name: 'decrement', label: 'decrement' },
+        ]}
+        onAriaAction={handleAriaAction}
+      />
       <View
         className="taro-picker__indicator"
         ariaHidden
@@ -1115,22 +1132,6 @@ export function PickerGroupRegion(props: PickerGroupProps) {
       >
         {realPickerItems}
       </ScrollView>
-      {/* 无障碍焦点覆盖层：空节点、绝对定位铺满、pointer-events:none，
-          使读屏焦点落在此处（内部无可滚动祖先，左右滑=切焦点而非滚动），
-          真实手指拖动穿透到下层 ScrollView 正常滚动 */}
-      <View
-        className="taro-picker__a11y-overlay"
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' }}
-        ariaRole="slider"
-        {...(ariaLabel !== undefined ? { ariaLabel } : {})}
-        {...({
-          ariaAction: [
-            { name: 'increment', label: 'increment' },
-            { name: 'decrement', label: 'decrement' },
-          ],
-          onAriaAction: handleAriaAction,
-        } as any)}
-      />
     </View>
   )
 }
