@@ -10,7 +10,7 @@
  *
  * 注：本文件由 runner 的 provider 子构建打包，react/@tarojs/* 从【用户项目】node_modules 解析。
  */
-var shared = (wx.__TARO_SHARED__ = wx.__TARO_SHARED__ || {})
+var shared = (wx.__TARO_RT_ASYNC__ = wx.__TARO_RT_ASYNC__ || {})
 function share (name, mod) { if (!shared[name]) shared[name] = mod }
 
 // ---- 1. 同步真身 ----

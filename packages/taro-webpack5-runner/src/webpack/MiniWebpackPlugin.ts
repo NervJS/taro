@@ -7,7 +7,7 @@ import MiniCompileModePlugin from '../plugins/MiniCompileModePlugin'
 import MiniPlugin from '../plugins/MiniPlugin'
 import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
 import TaroInjectSyncCorePlugin from '../plugins/TaroInjectSyncCorePlugin'
-import { SHARED_SYNC_CORE_NAME } from '../shared-runtime/constants'
+import { SHARED_HOST_CORE_NAME, SHARED_SYNC_CORE_NAME } from '../shared-runtime/constants'
 import WebpackPlugin, { PluginArgs } from './WebpackPlugin'
 
 import type { MiniCombination } from './MiniCombination'
@@ -46,10 +46,12 @@ export class MiniWebpackPlugin {
       }])
     }
 
-    // 方案二 split：给 app 入口注入 require('<syncCore>')，同步核先于页面注册执行
-    if (this.combination.config.sharedRuntime && this.combination.config.sharedRuntimeMode === 'split') {
+    // 共享运行时：给 app 入口头部注入 require('<核>')，使运行时核先于页面注册执行。
+    // host=全量核 taro-core（dist 自带运行时可直接打开）；split=同步核 taro-shared-sync。
+    if (this.combination.config.sharedRuntime) {
+      const isSplit = this.combination.config.sharedRuntimeMode === 'split'
       plugins.taroInjectSyncCorePlugin = WebpackPlugin.getPlugin(TaroInjectSyncCorePlugin, [{
-        syncCoreName: SHARED_SYNC_CORE_NAME,
+        syncCoreName: isSplit ? SHARED_SYNC_CORE_NAME : SHARED_HOST_CORE_NAME,
       }])
     }
 

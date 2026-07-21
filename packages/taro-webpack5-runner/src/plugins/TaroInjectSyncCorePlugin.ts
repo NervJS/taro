@@ -14,7 +14,7 @@ interface IOptions {
 
 /**
  * 方案二 split 模式：在 app 入口（app.js）文本头部同步注入 require('<syncCore>')，
- * 使同步核先于任何 createReactApp/页面注册执行（填 wx.__TARO_SHARED__ + 装占位 shim）。
+ * 使同步核先于任何 createReactApp/页面注册执行（填 wx.__TARO_RT__ + 装占位 shim）。
  * 仿 TaroLoadChunksPlugin 的 render 钩子 + addRequireToSource（用伪 chunk {name}）。
  */
 export default class TaroInjectSyncCorePlugin {

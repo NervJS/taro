@@ -71,8 +71,8 @@ export default async function build (appPath: string, rawConfig: IMiniBuildConfi
         await prerender.render()
       }
 
-      // 方案二 split：主构建成功后，产出共享运行时（sync-core + shared-async 子包）到 dist
-      if (config.sharedRuntime && config.sharedRuntimeMode === 'split') {
+      // 共享运行时：主构建成功后产出运行时核到 dist（host=全量核 taro-core；split=同步核+异步子包）
+      if (config.sharedRuntime) {
         try {
           await buildSharedRuntime(combination)
         } catch (e) {

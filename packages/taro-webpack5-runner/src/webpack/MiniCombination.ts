@@ -2,6 +2,7 @@ import path from 'node:path'
 
 import { REG_NODE_MODULES_DIR, REG_TARO_SCOPED_PACKAGE, taroJsComponents } from '@tarojs/helper'
 
+import { SHARED_GLOBAL_ASYNC, SHARED_GLOBAL_HOST } from '../shared-runtime/constants'
 import { componentConfig } from '../utils/component'
 import { BuildNativePlugin } from './BuildNativePlugin'
 import { Combination } from './Combination'
@@ -37,6 +38,7 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
       /** special mode */
       isBuildPlugin = false,
       sharedRuntime = false,
+      sharedRuntimeMode = 'host',
       /** hooks */
       modifyComponentConfig,
       optimizeMainPackage
@@ -74,7 +76,9 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
     webpackPlugin.pxtransformOption = pxtransformOption as any
     const plugin = webpackPlugin.getPlugins()
 
-    // sharedRuntime：把 Taro/React 运行时 external 到 wx.__TARO_SHARED__，由宿主主包同步提供
+    // sharedRuntime：把 Taro/React 运行时 external 到全局，由运行时核提供。
+    // 两方案分用不同全局名，共存零冲突：host→wx.__TARO_RT__，split→wx.__TARO_RT_ASYNC__。
+    const globalKey = sharedRuntimeMode === 'split' ? SHARED_GLOBAL_ASYNC : SHARED_GLOBAL_HOST
     const REG_SHARED_REACT = /^(react|react-dom|react-reconciler|scheduler)(\/|$)/
     const shouldShareExternal = (request?: string) => {
       if (!request) return false
@@ -91,7 +95,7 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
     const sharedExternals: any[] = sharedRuntime
       ? [({ request }, cb) => {
         if (shouldShareExternal(request)) {
-          return cb(null, `wx.__TARO_SHARED__[${JSON.stringify(request)}]`)
+          return cb(null, `wx.${globalKey}[${JSON.stringify(request)}]`)
         }
         return cb()
       }]

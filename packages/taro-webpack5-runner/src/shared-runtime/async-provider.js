@@ -3,7 +3,7 @@
  * 把 react+framework+api 真身【原地 mutate】进同步核预放的占位对象（保引用），再 flush。
  *
  * 注：react/react-dom(jsx-runtime)/@tarojs/runtime/@tarojs/shared/平台runtime 由 webpack config
- * external 到 wx.__TARO_SHARED__（读同步核那份），避免打包副本导致双实例（react/document 双份）。
+ * external 到 wx.__TARO_RT_ASYNC__（读同步核那份），避免打包副本导致双实例（react/document 双份）。
  */
 function fill (target, real) {
   if (!target || !real) return
@@ -12,7 +12,7 @@ function fill (target, real) {
 }
 
 function activate () {
-  var shared = wx.__TARO_SHARED__
+  var shared = wx.__TARO_RT_ASYNC__
 
   var reactDom = require('@tarojs/react') // 小程序下 react-dom = reconciler
   var framework = require('@tarojs/plugin-framework-react/dist/runtime')
@@ -53,6 +53,6 @@ function activate () {
 }
 
 // 被同步核 require.async 加载时，把 activate 挂到全局供 bootstrap 回调
-wx.__TARO_SHARED__.__activateAsync = activate
+wx.__TARO_RT_ASYNC__.__activateAsync = activate
 
 module.exports = { activate: activate }
