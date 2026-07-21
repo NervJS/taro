@@ -359,6 +359,7 @@ export function PickerGroupBasic(props: PickerGroupProps) {
       />
       <View
         className="taro-picker__indicator"
+        ariaHidden
         {...(indicatorStyle ? { style: indicatorStyle } : {})}
       />
       <ScrollView
@@ -626,10 +627,6 @@ export function PickerGroupTime(props: PickerGroupProps) {
         showScrollbar={false}
         className="taro-picker__content"
         ariaHidden
-        {...({
-          accessibilityElementsHidden: true,
-          importantForAccessibility: 'no-hide-descendants',
-        } as any)}
         style={{
           height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS,
         }}
@@ -869,10 +866,6 @@ export function PickerGroupDate(props: PickerGroupProps) {
         showScrollbar={false}
         className="taro-picker__content"
         ariaHidden
-        {...({
-          accessibilityElementsHidden: true,
-          importantForAccessibility: 'no-hide-descendants',
-        } as any)}
         style={{ height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS }}
         scrollTop={targetScrollTop}
         {...clickScrollViewProps}
@@ -1118,10 +1111,6 @@ export function PickerGroupRegion(props: PickerGroupProps) {
         showScrollbar={false}
         className="taro-picker__content"
         ariaHidden
-        {...({
-          accessibilityElementsHidden: true,
-          importantForAccessibility: 'no-hide-descendants',
-        } as any)}
         style={{ height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS }}
         scrollTop={targetScrollTop}
         {...clickScrollViewProps}

@@ -314,9 +314,10 @@ export function PickerGroupBasic(props: PickerGroupProps) {
 
   return (
     <View className="taro-picker__group">
-      <View className="taro-picker__mask" />
+      <View className="taro-picker__mask" ariaHidden />
       <View
         className="taro-picker__indicator"
+        ariaHidden
         {...(indicatorStyle ? { style: indicatorStyle } : {})}
       />
       <ScrollView
@@ -630,9 +631,10 @@ export function PickerGroupTime(props: PickerGroupProps) {
 
   return (
     <View className="taro-picker__group">
-      <View className="taro-picker__mask" />
+      <View className="taro-picker__mask" ariaHidden />
       <View
         className="taro-picker__indicator"
+        ariaHidden
         {...(indicatorStyle ? { style: indicatorStyle } : {})}
       />
       <ScrollView
@@ -833,9 +835,10 @@ export function PickerGroupDate(props: PickerGroupProps) {
 
   return (
     <View className="taro-picker__group">
-      <View className="taro-picker__mask" />
+      <View className="taro-picker__mask" ariaHidden />
       <View
         className="taro-picker__indicator"
+        ariaHidden
         {...(indicatorStyle ? { style: indicatorStyle } : {})}
       />
       <ScrollView
@@ -1026,9 +1029,10 @@ export function PickerGroupRegion(props: PickerGroupProps) {
 
   return (
     <View className="taro-picker__group">
-      <View className="taro-picker__mask" />
+      <View className="taro-picker__mask" ariaHidden />
       <View
         className="taro-picker__indicator"
+        ariaHidden
         {...(indicatorStyle ? { style: indicatorStyle } : {})}
       />
       <ScrollView
