@@ -39,6 +39,7 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
       isBuildPlugin = false,
       sharedRuntime = false,
       sharedRuntimeMode = 'host',
+      sharedRuntimeExtraPackages = [],
       /** hooks */
       modifyComponentConfig,
       optimizeMainPackage
@@ -90,6 +91,8 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
       // external 后模板生成器扫不到组件使用会漏生成模板（如 Button 的 tmpl_0_14）。
       // 且组件本身是 'view'/'button' 字符串常量，体积极小，各业务包自带无成本。
       if (request === '@tarojs/components' || request.startsWith('@tarojs/components/')) return false
+      // 接入方声明的额外共享包（CLI 不认识具体包名，全由 config.mini.sharedRuntimeExtraPackages 传入）
+      if (sharedRuntimeExtraPackages.some((p: string) => request === p || request.startsWith(p + '/'))) return true
       return REG_TARO_SCOPED_PACKAGE.test(request) || REG_SHARED_REACT.test(request)
     }
     const sharedExternals: any[] = sharedRuntime

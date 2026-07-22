@@ -27,11 +27,17 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
   const definePlugin = (combination as any).webpackPluginInstance?.definePluginOptions
   const defineConstants = definePlugin || buildDefineConstants(config)
 
-  const base = (name: string, entry: string, emitTo: string) => ({
+  // 接入方声明的额外共享包（CLI 不认识具体包名）。webpack entry 用数组：额外包按序先执行
+  // （其 mergeReconciler 等副作用先跑），再执行核心 entry（内部 require @tarojs/taro 触发 initNativeApi）。
+  const extraPackages: string[] = config.sharedRuntimeExtraPackages || []
+
+  const base = (name: string, entry: string, emitTo: string, withExtras = true) => ({
     name,
     mode: 'production' as const,
     target: ['web', 'es5'] as any,
-    entry: path.join(shimDir, entry),
+    // extraPackages 按 withExtras 拼进对应核：host 拼进全量核；split 拼进 async-provider（与 @tarojs/api 同处异步子包）。
+    // 只在其一带，避免打两份。
+    entry: withExtras ? [...extraPackages, path.join(shimDir, entry)] : path.join(shimDir, entry),
     output: {
       path: path.join(outputDir, emitTo),
       filename: `${name}.js`,
@@ -54,27 +60,28 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
 }
 
 /** 方案一 host：产一个全量核 taro-core.js（无 external、无异步子包、不注册 subPackage） */
-async function buildHost (base: (name: string, entry: string, emitTo: string) => any): Promise<void> {
+async function buildHost (base: (name: string, entry: string, emitTo: string, withExtras?: boolean) => any): Promise<void> {
   const hostConfig = base(SHARED_HOST_CORE_NAME, 'entry.host.js', '')
   await runWebpack([hostConfig])
 }
 
 /** 方案二 split：sync-core（业务包根）+ async-provider（shared-async 子包）+ 占位入口 + app.json 注册 */
 async function buildSplit (
-  base: (name: string, entry: string, emitTo: string) => any,
+  base: (name: string, entry: string, emitTo: string, withExtras?: boolean) => any,
   outputDir: string,
   globalObject: string,
   config: any
 ): Promise<void> {
   const asyncRequest = getAsyncRequest(config)
 
-  // sync-core：放 outputDir 根；bootstrap 的 require('shared-async/index') → require.async(asyncRequest)
-  const syncCoreConfig: any = base(SHARED_SYNC_CORE_NAME, 'entry.sync.js', '')
+  // sync-core：放 outputDir 根；withExtras=false —— 额外包（如 jdapi 等 api）随异步子包，与 @tarojs/api 一致
+  const syncCoreConfig: any = base(SHARED_SYNC_CORE_NAME, 'entry.sync.js', '', false)
   syncCoreConfig.externalsType = 'promise'
   syncCoreConfig.externals = { 'shared-async/index': `require.async(${JSON.stringify(asyncRequest)})` }
 
-  // async-provider：放 shared-async/；react/runtime/shared 等 external 到 wx.__TARO_RT_ASYNC__（读同步核那份，保单例）
-  const asyncConfig: any = base('async-provider', 'async-provider.js', SHARED_ASYNC_ROOT)
+  // async-provider：放 shared-async/；withExtras=true —— extraPackages（jdapi 等）拼进异步子包 entry，
+  // 其 mergeReconciler 副作用在子包加载时执行，API 挂到 @tarojs/taro（也在异步子包），时序与其他 api 一致。
+  const asyncConfig: any = base('async-provider', 'async-provider.js', SHARED_ASYNC_ROOT, true)
   asyncConfig.externals = reverseExternals(globalObject)
 
   await runWebpack([syncCoreConfig, asyncConfig])
@@ -143,6 +150,11 @@ function buildDefineConstants (config: any): Record<string, any> {
     ENABLE_CLONE_NODE: runtime.enableCloneNode ?? false,
     ENABLE_CONTAINS: runtime.enableContains ?? false,
     ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false,
+    // 兜底：额外共享包（如 jdapi）可能用未知的 process.env.X 或裸 process，
+    // 小程序无 process 全局 → 未显式定义的都替换掉，避免 "process is not defined"。
+    // webpack DefinePlugin 精确键（上面的 process.env.NODE_ENV 等）优先于 'process.env' 前缀键。
+    'process.env': '({})',
+    process: '({"env":{}})',
   }
 }
 

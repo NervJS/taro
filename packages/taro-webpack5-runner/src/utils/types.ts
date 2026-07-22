@@ -45,6 +45,8 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
   newBlended?: boolean
   sharedRuntime?: boolean
   sharedRuntimeMode?: 'host' | 'split'
+  /** 额外纳入共享运行时的包名（除内置 @tarojs/* + react 外，由接入方声明；CLI 不认识具体包名） */
+  sharedRuntimeExtraPackages?: string[]
   withoutBuild?: boolean
   noInjectGlobalStyle?: boolean
   /** hooks */
