@@ -2,9 +2,9 @@
   "extends": "../../tsconfig.root.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "outDir": "./dist",
     "declaration": true,
     "jsx": "preserve",
-    "declarationDir": "../taro-components/lib/solid",
     "jsxImportSource": "solid-js",
     "module": "ESNext",
     "noUnusedLocals": false,
