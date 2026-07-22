@@ -250,6 +250,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       const { taroConfig } = viteCompilerContext
       const isGlobalModule = taroConfig?.postcss?.cssModules?.config?.namingPattern === 'global'
 
+      id = id.replace('?used', '')
       const {
         code: css,
         modules,
