@@ -110,8 +110,8 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
       globalObject: mainBuildOutput.globalObject
     }
     const provideObject = {
-      window: [taroRuntimeBundlePath, 'window$1'],
-      document: [taroRuntimeBundlePath, 'document$1'],
+      window: [taroRuntimeBundlePath, 'taroWindowProvider'],
+      document: [taroRuntimeBundlePath, 'taroDocumentProvider'],
       navigator: [taroRuntimeBundlePath, 'nav'],
       requestAnimationFrame: [taroRuntimeBundlePath, '_raf'],
       cancelAnimationFrame: [taroRuntimeBundlePath, '_caf'],
