@@ -1,0 +1,100 @@
+@import "../../picker/style/variable.scss";
+
+.taro-picker-view {
+  display: block;
+  width: 100%;
+
+  // 默认高 = 单项高 34 × 5 行，用户 style / className 的 height 会覆盖。
+  // 必须用 height 而非 min-height：子级 height:100% 只认父级 height，
+  // min-height 撑不起百分比链，会让 calc(50%) 留白失效、居中错位。
+  height: $weuiPickerItemHeight * 5;
+
+  // 最小总高兜底 = 单项高 × 3：保证选中项上下各露 1 项、可正常滚动，
+  // 防止 height 过小（如 20px）无法操作。与上面的 height 并存不影响百分比链。
+  min-height: $weuiPickerItemHeight * 3;
+
+  // 滚轮容器：相对定位，承载 indicator / mask / 列
+  &__wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  // 列容器：横向排列各列，等分宽度
+  &__columns {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+  }
+
+  // 单列滚动区
+  &__column {
+    flex: 1;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  // 列内单项（定高容器）
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  // 留白占位
+  &__column-blank {
+    width: 100%;
+  }
+
+  // 遮罩层 - 上下渐变
+  &__mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: $weuiPickerZIndexMask;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  // 选中行指示器
+  &__indicator {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    z-index: $weuiPickerZIndexIndicator;
+    width: 100%;
+    box-sizing: border-box;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+}
+
+// Light 主题（默认）
+.taro-picker-view {
+  .taro-picker-view__indicator {
+    border-top: 1px solid $weuiLineColorLight;
+    border-bottom: 1px solid $weuiLineColorLight;
+  }
+
+  .taro-picker-view__mask {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 255, 255, 0.6) 40%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(255, 255, 255, 0) 55%,
+        rgba(255, 255, 255, 0.6) 60%,
+        rgba(255, 255, 255, 0.95) 100%
+      );
+  }
+
+  .taro-picker-view__item {
+    color: $weuiTextColorBlack;
+  }
+}

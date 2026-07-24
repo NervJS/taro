@@ -29,7 +29,7 @@ function usePickerItemScrollIntoView(): [string, (itemId: string) => void] {
 function useA11yOpen(): boolean {
   const [a11yOpen, setA11yOpen] = React.useState(false)
   React.useEffect(() => {
-    Taro.checkIsOpenAccessibility()
+    Taro.checkIsOpenAccessibility({})
       .then((res) => {
         setA11yOpen(!!(res as Taro.checkIsOpenAccessibility.SuccessCallbackResult).open)
       })
