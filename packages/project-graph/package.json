@@ -2,6 +2,10 @@
   "name": "@tarojs/project-graph",
   "version": "4.1.12-beta.66",
   "description": "Taro project structure graph — unified, queryable project facts layer",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "O2Team",
   "license": "MIT",
   "main": "index.js",
