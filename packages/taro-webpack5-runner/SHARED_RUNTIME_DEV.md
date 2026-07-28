@@ -106,16 +106,17 @@ share('react-dom', require('@tarojs/react'))         // 小程序下 react-dom a
 | `taro-webpack5-runner/src/plugins/TaroInjectSyncCorePlugin.ts` | **新增**：给 app 入口 chunk（`META_TYPE.ENTRY`）头部注入 `require('<syncCore>')`，仿 `TaroLoadChunksPlugin` 的 render 钩子 + `addRequireToSource` |
 | `taro-webpack5-runner/src/webpack/MiniWebpackPlugin.ts:50-54` | split 模式挂上 `TaroInjectSyncCorePlugin` |
 | `taro-webpack5-runner/src/shared-runtime/*.js` | **新增** 4 个 provider 运行时源文件（下详） |
-| `taro-webpack5-runner/src/shared-runtime/build-shared-runtime.ts` | **新增**：主构建后跑独立双 bundle 子构建 + 生成占位入口 + 注册 shared-async 到 app.json |
+| `taro-webpack5-runner/src/shared-runtime/build-shared-runtime.ts` | **新增**：主构建后跑独立双 bundle 子构建 + 生成占位入口 + 注册 shared-async 到 app.json + 写 `preloadRule` |
+| `taro-webpack5-runner/src/shared-runtime/scan-imperative-api.ts` | **新增**：split 模式编译期扫描业务源码顶层命令式 API 调用，告警不阻断 |
 | `taro-webpack5-runner/src/shared-runtime/constants.ts` | 共享常量（`SHARED_SYNC_CORE_NAME` / `SHARED_ASYNC_ROOT`） |
-| `taro-webpack5-runner/src/index.mini.ts:75-83` | 主构建成功后 `if (sharedRuntime && mode==='split') buildSharedRuntime(combination)` |
+| `taro-webpack5-runner/src/index.mini.ts:75-83` | 主构建成功后 `if (sharedRuntime && mode==='split') { warnTopLevelImperativeApi(...); buildSharedRuntime(...) }` |
 | `taro-webpack5-runner/mv-comp.js` / `tsconfig.json` | build 时拷 `.js` 运行时模板进 dist（tsc 不处理）、exclude 掉 `shared-runtime/*.js` |
 
 **provider 源文件**（`src/shared-runtime/`，运行时模板，由子构建打包）：
 - `entry.sync.js` —— 同步核入口：填 runtime/shared/平台/react 本体 + 装占位 + 触发异步。
-- `app-shim.js` —— 占位 framework/taro + 占位 appObj 排队 + `__activateReal` flush。
+- `app-shim.js` —— 占位 framework/taro（含命令式 API 未就位保护 Proxy，见 4.7）+ 占位 appObj 排队 + `__activateReal` flush。
 - `bootstrap.js` —— 幂等分派：已就位则同步激活，否则 `require('shared-async/index')`（→ 编译成 `require.async`）。
-- `async-provider.js` —— 异步子包：mutate 真身进占位 + flush。
+- `async-provider.js` —— 异步子包：置 `__rtActivated` + mutate 真身进占位 + flush（含预热早于同步核的就绪守卫，见 4.9）。
 
 ### 4.3 为什么 provider 用独立 webpack 子构建（而非 child compiler）
 主构建的 `externals` 把 `@tarojs/*`+react 外置了，而 provider 要把它们**真正打进产物**（依赖集正相反）。child compiler 会继承父 `externals` → `require('react-reconciler')` 被外置成空引用。故用**独立 `webpack()`**，自带一套「反向 external」：
@@ -149,6 +150,20 @@ sync-core 里：`require.async("../../shared-async/index")`（按配置的相对
 4. onLoad → `Current.app.mount` → 占位入队。
 5. shared-async 到 → mutate 真身 + flush → 真正渲染。
 
+### 4.7 命令式 API 未就位保护（`app-shim.js` 的 Proxy）
+`@tarojs/taro` 命令式 API（`getSystemInfoSync`/`showToast` 等）与 extraPackages（jdapi）在异步核，同步核阶段只有占位。业务若在异步核到位前（尤其**模块顶层**）调用，占位若是裸对象会 `undefined is not a function`。`app-shim.js` 给 `@tarojs/taro` / `react-dom` 占位包 Proxy：
+
+- **绝不 throw**：app.js 初始化早于任何异步加载，抛错会直接崩 app —— 连 webpack interop helper `__webpack_require__.n` 顶层读 external 模块的 `__esModule` 都会触发（PoC 阶段踩过：抛错版导致 `ReactDOM.__esModule 尚未就位` 崩在 app.js:100，页面 `wx://not-found`）。且抛错会打断业务 `?.`/`|| {}` 容错写法。
+- **保护策略 = 告警 + 空操作**：未就位时访问未知成员 → 打印一次醒目 `console.warn`（每成员一次，不刷屏）+ 返回空操作函数（可调用返回 undefined、可读属性）。业务不崩，仅该次调用不生效。
+- **INTERNAL_PASS 放行**：`__esModule`/`default`/`then`/`toString`/`constructor` 等框架/JS/webpack 内部属性一律放行为 undefined（模块 interop / 序列化会无条件读，与业务 API 名不冲突）。
+- **realFlag 放行**：async-provider fill 前先置 `shared.__rtActivated=true`（Proxy 据此放行），避免 provider 自身读占位（如判断 `showToast` 是否需 `initNativeApi`）触发保护；真身 fill 后所有访问走原生取值。
+
+### 4.8 编译期顶层命令式 API 扫描（`scan-imperative-api.ts`）
+split 模式下 `index.mini.ts` 在 `buildSharedRuntime` 前调用 `warnTopLevelImperativeApi(combination.sourceDir)`：扫描业务源码，对**模块顶层作用域**（花括号深度 0）的 `Taro.xxx(` 同步调用打 build 告警并列 `文件:行`，把「运行时才暴露」提前到「编译时」。仅告警不阻断。粗筛实现：逐行剥离注释/字符串、按花括号深度判定顶层、正则匹配 `标识符?.方法?.(`（含可选链）、排除 `useXxx` hooks。
+
+### 4.9 首屏预热（preloadRule）
+`build-shared-runtime.ts` 的 `addPreloadRule` 在注册 shared-async 子包时，向 **dist app.json** 写 `preloadRule`：对每个业务页面声明预下载 `shared-async`（幂等，不覆盖已有项）。使 dist 直接用开发者工具打开即享预热。宿主场景需接入方按布局在宿主 app.json 手配（业务不预知宿主层级，同 `sharedRuntimeAsyncRequest`）。async-provider 顶层挂载做了防御（全局未初始化也能安全挂 `__activateAsync`），`activate` 有占位就绪守卫 + 幂等，支持宿主早于同步核的主动 `require.async` 预热而不崩。预热只提前**下载**，不改变「命令式 API 须在异步核就位后调用」的约束。
+
 ---
 
 ## 五、为什么两方案业务产物零差异 / 可平滑迁移
@@ -168,23 +183,25 @@ sync-core 里：`require.async("../../shared-async/index")`（按配置的相对
 
 | 产物 | 压缩后 | gzip |
 |---|---|---|
-| 方案一 taro-core（全量） | 226KB | 72KB |
-| 方案二 同步核 | 101KB | 34KB |
-| 方案二 异步子包 | 121KB | 38KB |
+| 方案一 taro-core（全量，纯 Taro+React） | 226KB | 72KB |
+| 方案二 同步核（纯 Taro+React） | 101KB | 34KB |
+| 方案二 异步子包（纯 Taro+React） | 121KB | 38KB |
+| 方案二 同步核（本项目实测，含 jdapi） | 101.7KB | 35KB |
+| 方案二 异步子包（本项目实测，含 jdapi） | 204.4KB | 64.7KB |
 
-自洽：226 ≈ 101 + 121（同一条链的不同切分）。
+自洽：226 ≈ 101 + 121（同一条链的不同切分）。extraPackages（jdapi）随异步核，故只增异步核、同步核几乎不变（同步核仍 ~35KB）。
 
-**多项目累计对比（gzip 口径，直观看两方案的 crossover）**：
+**单包 / 多项目账（未压缩为主 / gzip 括号）**：同步核**每个业务包各一份**（101.7KB / gzip 35，纯 Taro+React ~101KB / gzip 34），异步核**全局共享一份**（含 jdapi 204.4KB / gzip 64.7，纯 Taro+React ~121KB / gzip 38）。
 ```
-项目数 N   方案一（主包 taro-core 一份）   方案二（异步子包共用 + 同步核每包一份）
-────────   ─────────────────────────────   ──────────────────────────────────────
-   1        72KB                            38KB + 34×1 = 72KB
-   2        72KB                            38KB + 34×2 = 106KB
-   3        72KB                            38KB + 34×3 = 140KB
-   5        72KB                            38KB + 34×5 = 208KB
-   N        72KB（恒定）                    38 + 34×N（随 N 线性增长）
+项目数 N   方案一（主包 taro-core 一份）      方案二（异步核共用 + 同步核每包一份，纯 Taro+React）
+────────   ────────────────────────────────   ──────────────────────────────────────────────────
+   1        226KB (gzip 72)                    121 + 101×1 = 222KB (gzip 72)
+   2        226KB (gzip 72)                    121 + 101×2 = 323KB (gzip 106)
+   3        226KB (gzip 72)                    121 + 101×3 = 424KB (gzip 140)
+   5        226KB (gzip 72)                    121 + 101×5 = 626KB (gzip 208)
+   N        226KB（恒定）                      121 + 101×N（随 N 线性增长）
 ```
-> 方案一运行时总量恒定；方案二同步核随项目数线性增长，N≥2 起总量反超方案一。方案二的价值不在总量，而在**主包零占用** + **首屏只需先下 34KB 同步核**（React 大头延后异步）。
+> 方案一运行时总量恒定；方案二同步核随项目数线性增长，N≥2 起总量反超方案一。方案二的价值不在总量，而在**主包零占用** + **首屏只需先下 101KB（gzip 34~35）同步核**（React 协调器 + 命令式 API + jdapi 大头延后异步）。
 
 > 同步核瘦身评估：曾评估把 runtime 的 DOM/BOM 也拆异步，实测天花板仅省 ~31KB（101→70KB），且需深度重构 `@tarojs/runtime` 入口（打破 `dsl/common.ts` 对 bom/dom 的顶层静态 import）、全平台回归，**性价比不足，已放弃**。
 
@@ -194,3 +211,5 @@ sync-core 里：`require.async("../../shared-async/index")`（按配置的相对
 - 仅微信（`globalObject='wx'`）；其它平台需另配全局对象。
 - 所有业务项目 + 运行时必须锁定完全一致的 `@tarojs/*` 与 react 版本（全局单例）。
 - 方案二 `sharedRuntimeAsyncRequest` 需接入方按宿主布局手配。
+- **方案二命令式 API 时机约束**：`@tarojs/taro` 命令式 API 与 extraPackages 在异步核，**不能在模块顶层同步调用**（异步核未到 → 拿到占位空操作、不生效）。安全位置：组件函数体内 / useReady / useEffect / 事件回调。框架侧「告警 + 空操作」保护不崩页面但不能让调用生效，同步版 API（`getSystemInfoSync`）只能靠挪时机根治；编译期扫描（4.8）+ 运行时告警（4.7）双重提示迁移。方案一（host）无此约束（整链同步就位）。
+- 方案二宿主 app.json 的 `preloadRule` 需接入方手配（dist 自带场景已自动写入）。

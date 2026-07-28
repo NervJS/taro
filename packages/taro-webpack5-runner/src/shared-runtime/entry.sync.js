@@ -27,7 +27,8 @@ var Current = runtime.Current
 // ---- 2. react 本体进同步核（仅 ~9KB）----
 share('react', require('react'))
 share('react/jsx-runtime', require('react/jsx-runtime'))
-// react-dom 占位（真身=@tarojs/react reconciler，异步到）
+// react-dom 占位（真身=@tarojs/react reconciler，异步到）：先占空位，
+// 随后 app-shim.install 会把它替换为 Proxy 守护版（未就位调用抛可读错误）。
 share('react-dom', {})
 
 // ---- 3+4. framework-runtime / @tarojs/taro 占位（带排队逻辑）----

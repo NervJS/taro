@@ -98,7 +98,7 @@ async function buildSplit (
   registerAsyncSubPackage(outputDir, fileType.config || '.json')
 }
 
-/** 把 shared-async 注册进 dist/app.json 的 subPackages（幂等） */
+/** 把 shared-async 注册进 dist/app.json 的 subPackages（幂等），并配 preloadRule 预下载 */
 function registerAsyncSubPackage (outputDir: string, configExt: string) {
   const appConfigPath = path.join(outputDir, `app${configExt}`)
   if (!fs.existsSync(appConfigPath)) return
@@ -108,7 +108,33 @@ function registerAsyncSubPackage (outputDir: string, configExt: string) {
     subPackages.push({ root: SHARED_ASYNC_ROOT, pages: ['index'], independent: false })
   }
   appConfig.subPackages = subPackages
+  addPreloadRule(appConfig)
   fs.writeJSONSync(appConfigPath, appConfig, { spaces: 2 })
+}
+
+/**
+ * 配 preloadRule：进入业务页面前预下载 shared-async 分包，缩小首屏异步窗口。
+ * 仅对 dist 自带运行时场景（本项目 dist 可直接被开发者工具打开）；宿主场景由接入方按布局自配。
+ * 幂等：已存在的 preloadRule 项不覆盖，只对未声明的业务页补 shared-async。
+ */
+function addPreloadRule (appConfig: any) {
+  const preloadRule = appConfig.preloadRule || {}
+  // 收集业务页面路径：主包 pages + 各业务子包页面（排除 shared-async 自身）
+  const triggerPages: string[] = []
+  ;(appConfig.pages || []).forEach((p: string) => triggerPages.push(p))
+  ;(appConfig.subPackages || appConfig.subpackages || []).forEach((sub: any) => {
+    if (sub.root === SHARED_ASYNC_ROOT) return
+    ;(sub.pages || []).forEach((pg: string) => triggerPages.push(`${sub.root}/${pg}`.replace(/\/+/g, '/')))
+  })
+  triggerPages.forEach((page) => {
+    const existing = preloadRule[page]
+    if (!existing) {
+      preloadRule[page] = { packages: [SHARED_ASYNC_ROOT], network: 'all' }
+    } else if (Array.isArray(existing.packages) && !existing.packages.includes(SHARED_ASYNC_ROOT)) {
+      existing.packages.push(SHARED_ASYNC_ROOT)
+    }
+  })
+  if (Object.keys(preloadRule).length) appConfig.preloadRule = preloadRule
 }
 
 /** async-provider 的反向 external：凡同步核已提供的包都读方案二全局（__TARO_RT_ASYNC__），不打副本 */

@@ -12,7 +12,19 @@ function fill (target, real) {
 }
 
 function activate () {
-  var shared = wx.__TARO_RT_ASYNC__
+  var shared = wx.__TARO_RT_ASYNC__ || (wx.__TARO_RT_ASYNC__ = {})
+
+  // 占位就绪守卫：正常时序下同步核已跑（runtime/占位齐全）。若 activate 早于同步核
+  // （如宿主 onLaunch 主动 require.async 预热），此时占位对象尚不存在——只登记，不 fill，
+  // 真正 fill 仍由业务页同步核 bootstrap 的 require.async().then(__activateAsync) 触发。
+  if (!shared['@tarojs/runtime'] || !shared['@tarojs/taro']) {
+    return
+  }
+  // 幂等：避免重复激活（预热 + 正常触发各调一次）
+  if (shared.__rtActivated) return
+  // 先置激活标记：占位 Proxy 的 realFlag 依赖它。置位后 provider 自身对占位对象的
+  // 读写（含下方读 taroObj.showToast）不会被 Proxy 拦截抛错。
+  shared.__rtActivated = true
 
   var reactDom = require('@tarojs/react') // 小程序下 react-dom = reconciler
   var framework = require('@tarojs/plugin-framework-react/dist/runtime')
@@ -52,7 +64,10 @@ function activate () {
   }
 }
 
-// 被同步核 require.async 加载时，把 activate 挂到全局供 bootstrap 回调
-wx.__TARO_RT_ASYNC__.__activateAsync = activate
+// 被同步核 require.async 加载时，把 activate 挂到全局供 bootstrap 回调。
+// 顶层防御：即使全局未初始化（预热早于同步核）也能安全挂载。
+// 真正 fill 由业务页同步核 bootstrap 的 require.async().then(__activateAsync) 触发；
+// 预热场景即便外部提前调 __activateAsync，activate 内的占位就绪守卫也会安全跳过。
+(wx.__TARO_RT_ASYNC__ = wx.__TARO_RT_ASYNC__ || {}).__activateAsync = activate
 
 module.exports = { activate: activate }

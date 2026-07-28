@@ -5,6 +5,7 @@ import webpack from 'webpack'
 
 import { Prerender } from './prerender/prerender'
 import { buildSharedRuntime } from './shared-runtime/build-shared-runtime'
+import { warnTopLevelImperativeApi } from './shared-runtime/scan-imperative-api'
 import { errorHandling } from './utils/webpack'
 import { MiniCombination } from './webpack/MiniCombination'
 
@@ -73,6 +74,10 @@ export default async function build (appPath: string, rawConfig: IMiniBuildConfi
 
       // 共享运行时：主构建成功后产出运行时核到 dist（host=全量核 taro-core；split=同步核+异步子包）
       if (config.sharedRuntime) {
+        // split 模式：编译期扫描业务源码顶层命令式 API 同步调用，告警不阻断
+        if (config.sharedRuntimeMode === 'split') {
+          warnTopLevelImperativeApi(combination.sourceDir)
+        }
         try {
           await buildSharedRuntime(combination)
         } catch (e) {
