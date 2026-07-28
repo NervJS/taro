@@ -112,10 +112,10 @@ function install (shared, Current) {
     return placeholderApp
   }
 
-  // 占位 @tarojs/taro：initPxTransform 存参；其余命令式 API 走 Proxy 报错（未就位时）。
+  // 占位 @tarojs/taro：initPxTransform 存参；其余命令式 API 走 guardPlaceholder（未就位时告警+空操作）。
   // async-provider 激活时先置 shared.__rtActivated=true（realFlag 依据），再 fill 真身命令式 API：
-  //   - 置位后 provider 自身对 taroObj 的读/写（含读 showToast 判断 initNativeApi）不会误触发抛错；
-  //   - 业务在异步核到位前（模块顶层/onLoad 早期）的调用此时 __rtActivated 仍为 false → 抛可读错误。
+  //   - 置位后 provider 自身对 taroObj 的读/写（含读 showToast 判断 initNativeApi）不会误触发保护；
+  //   - 业务在异步核到位前（模块顶层/onLoad 早期）的调用此时 __rtActivated 仍为 false → 告警+空操作。
   // 注：install 顶部已对 host 模式 early return，此处只在 split 占位场景执行。
   var taroBase = { initPxTransform: function (opts) { shared.__pxTransformOpts = opts } }
   var taroReady = function () { return !!shared.__rtActivated }
