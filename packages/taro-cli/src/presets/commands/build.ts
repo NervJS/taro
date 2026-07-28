@@ -32,7 +32,7 @@ export default (ctx: IPluginContext) => {
       '--blended': 'Blended Taro project in an original MiniApp project',
       '--new-blended': 'Blended Taro project in an original MiniApp project while supporting building components independently',
       '--shared-runtime': 'Externalize Taro/React runtime to wx.__TARO_SHARED__, provided synchronously by the host main package',
-      '--shared-runtime-mode [mode]': 'Shared runtime mode: host (all in main package, sync) | split (sync-core per business package + react async subpackage)',
+      '--shared-runtime-mode [mode]': 'Shared runtime mode: host (all in main package, sync) | split (sync-core per business package + react async subpackage) | async-host (experimental: all in async subpackage, host preloads via require.async, zero sync-core per business package)',
       '--plugin [typeName]': 'Build Taro plugin project, weapp',
       '--env-prefix [envPrefix]': "Provide the dotEnv varables's prefix",
       '--no-inject-global-style': '[H5] Do not inject global style',

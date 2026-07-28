@@ -166,7 +166,44 @@ split 模式下 `index.mini.ts` 在 `buildSharedRuntime` 前调用 `warnTopLevel
 
 ---
 
-## 五、为什么两方案业务产物零差异 / 可平滑迁移
+## 五、实验：async-host 模式（同步核归零，`--shared-runtime-mode async-host`）
+
+> 状态：实验/PoC。目标：验证「业务子包同步核 = 0」（比 split 更进一步，split 仍有 ~35KB/包 gzip 同步核）能否走通。详细背景见 plan 文档；这里只记录**实现落点**与**硬约束**。
+
+### 5.1 设计
+把 split 里"随业务包同步走"的那部分（`@tarojs/runtime`+`@tarojs/shared`+平台 runtime+react 本体）也挪进异步子包——**整条运行时链（含 `@tarojs/runtime`）全部打进 `shared-async/async-host-provider.js`**，业务包不产任何同步核，`MiniWebpackPlugin` 也不注入同步核 require。全局名复用 host 的 `__TARO_RT__`（语义一致：全量核挂载点）。
+
+由**宿主**（而非业务包）负责预热：宿主 `app.js` 的 `onLaunch` 主动 `require.async` 该 provider 挂到 `wx.__TARO_RT__`；宿主原生页 `navigateTo` 任一 taro 页之前必须 `await` 这个 Promise 完成，否则业务页顶层 `Page(createPageConfig(...))` 执行时 `wx.__TARO_RT__` 未就位直接崩（`TypeError: Cannot read properties of undefined`，已用脚本复现验证）。
+
+### 5.2 硬约束（唯一门槛，决定这条路径是否成立）
+`require.async` 是异步的。若用户**冷启动 / 扫码 / 分享卡片直接落在某个 taro 子包页面**，微信下载子包后**同步执行**页面顶层代码，此时异步核**来不及**加载——这是微信平台层时序，无法用 await/门闩绕过。
+
+因此 async-host **仅在「所有 taro 页入口都经原生宿主门控进入」时成立**：禁止冷启动/深链直达 taro 子包页。这是本方案与 host/split 的本质区别——host/split 下业务页可以被直接冷启动（同步核已随业务包/主包就位），async-host 不行。
+
+### 5.3 具体改动位置
+| 文件 | 改动 |
+|---|---|
+| `constants.ts` | 新增 `SHARED_ASYNC_HOST_PROVIDER_NAME`；全局名沿用 `SHARED_GLOBAL_HOST`（`__TARO_RT__`），host/async-host 共用同一挂载点 |
+| `utils/types.ts` | `sharedRuntimeMode` 加 `'async-host'` |
+| `cli.ts` / `build.ts` | `--shared-runtime-mode` 解析第三值 |
+| `MiniWebpackPlugin.ts` | async-host 模式**不挂** `TaroInjectSyncCorePlugin`（无同步核可注入） |
+| `MiniCombination.ts` | `globalKey` 选择逻辑天然适配（非 split 都走 `SHARED_GLOBAL_HOST`），未改逻辑只改注释 |
+| `build-shared-runtime.ts` | 新增 `buildAsyncHost`：复用 `entry.host.js`（全量、无 external、自包含）产出到 `shared-async/`，写占位入口 + 注册 subPackage + preloadRule |
+
+`buildAsyncHost` 不能复用 `buildSplit` 的 `reverseExternals`——那是给"已有同步核兜底"用的（split 场景 async-provider 只打增量），async-host 没有同步核，provider 必须是完整独立包。
+
+### 5.4 PoC 实测（`Example/taro-blended-project` + `Example/miniapp-blended-project`）
+- 业务子包同步核占用归零：`runtime.js`+`vendors.js` 各仅 4KB，纯 webpack 自身 chunk 装载器代码，不含任何 `@tarojs`/`react`；`app.js` 顶层直接读 `wx.__TARO_RT__[...]`。
+- 全量运行时 provider（`shared-async/async-host-provider.js`）：308KB（gzip 99.5KB），全局共享一份。
+- 正常路径（宿主门控 await 预热完成后再 `navigateTo`）已在微信开发者工具实机验证通过。
+- 崩溃边界（冷启动直达）已用 node 脚本静态复现：`wx.__TARO_RT__` 未 fill 时读取抛 `TypeError`，证实硬约束真实存在。
+
+### 5.5 与 `Current.app` 单例风险的关系
+async-host 本身**不额外引入**跨子包 `Current.app` 覆盖风险（见八、已知限制）——这是共享运行时机制本身（只要多子包共读同一份 `@tarojs/runtime`）就存在的通用风险，host/split/async-host 三模式同等适用，async-host 没有让它变得更好或更差。
+
+---
+
+## 六、为什么方案一/二业务产物零差异 / 可平滑迁移
 
 两方案业务编译**完全复用同一套 external 逻辑**（`MiniCombination` 的 `shouldShareExternal` 不区分 mode）。业务产物都读同一个 `wx.__TARO_SHARED__`，唯一差别是 split 模式下 app.js 头部多一句 `require(sync-core)`。
 
@@ -179,7 +216,7 @@ split 模式下 `index.mini.ts` 在 `buildSharedRuntime` 前调用 `warnTopLevel
 
 ---
 
-## 六、体积实测（同口径，terser 压缩 / gzip）
+## 七、体积实测（同口径，terser 压缩 / gzip）
 
 | 产物 | 压缩后 | gzip |
 |---|---|---|
@@ -207,9 +244,20 @@ split 模式下 `index.mini.ts` 在 `buildSharedRuntime` 前调用 `warnTopLevel
 
 ---
 
-## 七、已知限制
+## 八、已知限制
 - 仅微信（`globalObject='wx'`）；其它平台需另配全局对象。
 - 所有业务项目 + 运行时必须锁定完全一致的 `@tarojs/*` 与 react 版本（全局单例）。
 - 方案二 `sharedRuntimeAsyncRequest` 需接入方按宿主布局手配。
 - **方案二命令式 API 时机约束**：`@tarojs/taro` 命令式 API 与 extraPackages 在异步核，**不能在模块顶层同步调用**（异步核未到 → 拿到占位空操作、不生效）。安全位置：组件函数体内 / useReady / useEffect / 事件回调。框架侧「告警 + 空操作」保护不崩页面但不能让调用生效，同步版 API（`getSystemInfoSync`）只能靠挪时机根治；编译期扫描（4.8）+ 运行时告警（4.7）双重提示迁移。方案一（host）无此约束（整链同步就位）。
 - 方案二宿主 app.json 的 `preloadRule` 需接入方手配（dist 自带场景已自动写入）。
+- **`Current.app` 跨子包覆盖（三种模式通用，已实测复现，未修复）**：共享运行时的前提是所有业务子包共读**同一份** `@tarojs/runtime` 实例，因此 `Current`（`taro-runtime/src/current.ts`）是**全局单例**，不区分来源子包。而每个独立编译的业务子包各自的 `app.js` 顶层各自调用一次 `createReactApp`（`taro-framework-react/src/runtime/connect.ts:434` `Current.app = appObj`），产出各自独立的 `AppWrapper`。小程序模块按文件路径缓存，**`app.js` 每个子包只执行一次**——`Current.app` 只在该子包**首次进入**时被设为自己的 `appObj`，之后不再重设。
+  - **实测触发场景**（PoC 环境 `miniapp-blended-project`，两个独立编译业务包 A=shared-basic / B=order 共享同一份 async-host 运行时）：
+    - entry → A（`Current.app` = A）→ A 页内 navigateTo B（B 的 app.js 首次执行，`Current.app` 覆盖为 B）→ B 页内 navigateTo **再次进入 A**（A2 是全新页面实例，但 A 的 app.js 已缓存不重跑，`Current.app` **仍是 B**）。
+    - 实测结果：A2 的 `useReady` 打印 `Current.app tag = B(order)` —— A2 页面 mount 时（`common.ts:152` `Current.app!.mount!`）挂到了 **B 的 `AppWrapper`** 的 React 树上，而非 A 自己的树。
+  - **危害等级（实测）= 静默错挂 + 潜在泄漏，非功能级崩坏**：
+    - A2 页面**能正常渲染**（红底、计数、按钮均正常），错挂在 React 层被容忍，不白屏不报错。
+    - 从 A2 返回也**无报错、B 页面完好**——`AppWrapper.unmount`（`connect.ts:242-247`）按 A2 的 `$taroPath` 在 B 的 `elements` 里找不到（`idx=-1`）会 `splice(-1,1)`，但实测未打到 B 正在显示的关键元素。破坏停留在"A2 组件残留在 B 的树里不清理"的**内存泄漏**层面，不连累其他包显示。
+    - 注意方向性：**后进先出的卸载天然安全**（B→返回A 时 B 卸载，此刻 `Current.app` 正好还是 B，实测 `[order] useUnload tag = B(order)` 正确）；出问题的是**进过 B 之后再次进入 A 的页面**（第二次 mount 时 `Current.app` 已非 A）。
+  - **对照组：native-components 不受影响**（实测反复插拔 native-badge 组件正常）。原生组件走的是 `nativeComponentApp`（`connect-native.ts:391/404/424`），与 `Current.app` 是并列的第二套单例，但有创建守卫（`:148`）+ 仅 `componentDidMount` 一处赋值（`:82`），跨包共享 runtime 也只建一次、不互相覆盖。
+  - 影响范围：开启共享运行时（host/split/async-host 皆然）且宿主里存在**两个以上**独立编译业务子包、并发生"进过一个包后再进另一个已进过的包"的往返导航，都成立；关闭共享运行时（各子包自带独立 runtime，`Current` 各自隔离）不受影响。
+  - 现状：已实测坐实，尚未修复。待评估修复方案（如 mount 时用页面所属子包的 app 而非全局 `Current.app`，或按子包命名空间隔离 `Current.app`，或 `unmount` 做防御性校验避免 `splice(-1,1)`）。复现环境见 `Example/taro-blended-project` 的 `src-order/` + `build:async-host:order`。

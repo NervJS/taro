@@ -78,7 +78,7 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
     const plugin = webpackPlugin.getPlugins()
 
     // sharedRuntime：把 Taro/React 运行时 external 到全局，由运行时核提供。
-    // 两方案分用不同全局名，共存零冲突：host→wx.__TARO_RT__，split→wx.__TARO_RT_ASYNC__。
+    // 三模式分用全局名，共存零冲突：host/async-host→wx.__TARO_RT__（同名，语义一致：全量核挂载点），split→wx.__TARO_RT_ASYNC__。
     const globalKey = sharedRuntimeMode === 'split' ? SHARED_GLOBAL_ASYNC : SHARED_GLOBAL_HOST
     const REG_SHARED_REACT = /^(react|react-dom|react-reconciler|scheduler)(\/|$)/
     const shouldShareExternal = (request?: string) => {

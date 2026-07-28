@@ -44,7 +44,8 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
   isBuildNativeComp?: boolean
   newBlended?: boolean
   sharedRuntime?: boolean
-  sharedRuntimeMode?: 'host' | 'split'
+  /** 'async-host' 为实验模式：全量运行时放异步子包，主包 require.async 预热挂全局，业务包同步核归零 */
+  sharedRuntimeMode?: 'host' | 'split' | 'async-host'
   /** 额外纳入共享运行时的包名（除内置 @tarojs/* + react 外，由接入方声明；CLI 不认识具体包名） */
   sharedRuntimeExtraPackages?: string[]
   withoutBuild?: boolean

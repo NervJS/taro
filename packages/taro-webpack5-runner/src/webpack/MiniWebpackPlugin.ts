@@ -48,8 +48,10 @@ export class MiniWebpackPlugin {
 
     // 共享运行时：给 app 入口头部注入 require('<核>')，使运行时核先于页面注册执行。
     // host=全量核 taro-core（dist 自带运行时可直接打开）；split=同步核 taro-shared-sync。
-    if (this.combination.config.sharedRuntime) {
-      const isSplit = this.combination.config.sharedRuntimeMode === 'split'
+    // async-host（实验）：业务包无任何同步核产物（全量运行时挪进异步子包），不注入。
+    const mode = this.combination.config.sharedRuntimeMode
+    if (this.combination.config.sharedRuntime && mode !== 'async-host') {
+      const isSplit = mode === 'split'
       plugins.taroInjectSyncCorePlugin = WebpackPlugin.getPlugin(TaroInjectSyncCorePlugin, [{
         syncCoreName: isSplit ? SHARED_SYNC_CORE_NAME : SHARED_HOST_CORE_NAME,
       }])

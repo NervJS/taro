@@ -3,7 +3,7 @@ import * as path from 'node:path'
 import { fs } from '@tarojs/helper'
 import webpack from 'webpack'
 
-import { SHARED_ASYNC_ROOT, SHARED_GLOBAL_ASYNC, SHARED_HOST_CORE_NAME, SHARED_SYNC_CORE_NAME } from './constants'
+import { SHARED_ASYNC_HOST_PROVIDER_NAME, SHARED_ASYNC_ROOT, SHARED_GLOBAL_ASYNC, SHARED_HOST_CORE_NAME, SHARED_SYNC_CORE_NAME } from './constants'
 
 import type { MiniCombination } from '../webpack/MiniCombination'
 
@@ -11,6 +11,8 @@ import type { MiniCombination } from '../webpack/MiniCombination'
  * 主构建成功后，额外跑独立 webpack 子构建产出共享运行时。按 sharedRuntimeMode 分叉：
  *   - host（方案一）：产【一个】全量核 taro-core.js（整条链同步挂全局），emit 到 outputDir 根，无 external/无异步子包。
  *   - split（方案二）：产 sync-core（随业务包）+ async-provider（异步子包 shared-async/）。
+ *   - async-host（实验）：全量核挪进异步子包 shared-async/，业务包不产任何同步核；
+ *     由宿主主包 require.async 预热挂全局，详见 SHARED_RUNTIME_DEV.md「async-host 实验」一节。
  *
  * 为何独立 webpack 而非 child compiler：主构建 externals 把 @tarojs/*+react 外置了，
  * 而这些 bundle 要把它们【真正打进产物】，依赖集正相反。独立 compiler 自带反向 external。
@@ -54,6 +56,8 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
 
   if (config.sharedRuntimeMode === 'split') {
     await buildSplit(base, outputDir, globalObject, config)
+  } else if (config.sharedRuntimeMode === 'async-host') {
+    await buildAsyncHost(base, outputDir, config)
   } else {
     await buildHost(base)
   }
@@ -95,6 +99,40 @@ async function buildSplit (
   fs.writeFileSync(path.join(asyncDir, `index${fileType.templ || '.wxml'}`), '<view/>\n')
 
   // dist 自带运行时：把 shared-async 注册进本项目 dist/app.json，使 dist 可直接被开发者工具打开
+  registerAsyncSubPackage(outputDir, fileType.config || '.json')
+}
+
+/**
+ * 实验 async-host：全量运行时（含 @tarojs/runtime）整条打进 shared-async/ 一个 provider bundle，
+ * 无 external（自包含，与 host 全量核同源——复用 entry.host.js，同挂 wx.__TARO_RT__）。
+ * 业务包不产任何同步核、MiniWebpackPlugin 不注入 require —— 业务包同步核占用 = 0。
+ *
+ * 与 split 的关键区别：split 的 async-provider 是"反向 external"的增量包（同步核已提供的不重复打）；
+ * async-host 的 provider 是完整独立包（业务包侧完全没有同步核打底），故直接复用 entry.host.js 全量入口，
+ * 不能复用 buildSplit 的 reverseExternals（那是给"已有同步核兜底"用的，这里没有同步核）。
+ *
+ * 导航门控依赖宿主实现（本 PoC 未在 runner 侧生成宿主接入代码，见 SHARED_RUNTIME_DEV.md）：
+ * 宿主必须在 navigateTo 任一 taro 页前 await 完 require.async(该 provider)，否则页面顶层
+ * `Page(createPageConfig(...))` 执行时 wx.__TARO_RT__ 未就位会直接崩（硬约束，非本函数职责能兜底）。
+ */
+async function buildAsyncHost (
+  base: (name: string, entry: string, emitTo: string, withExtras?: boolean) => any,
+  outputDir: string,
+  config: any
+): Promise<void> {
+  const providerConfig: any = base(SHARED_ASYNC_HOST_PROVIDER_NAME, 'entry.host.js', SHARED_ASYNC_ROOT, true)
+  await runWebpack([providerConfig])
+
+  // 占位入口：同 split，微信 require.async 只能加载 app.json 注册过的分包页面入口
+  const asyncDir = path.join(outputDir, SHARED_ASYNC_ROOT)
+  const fileType = config.fileType || { templ: '.wxml', config: '.json' }
+  fs.writeFileSync(path.join(asyncDir, 'index.js'), `require('./${SHARED_ASYNC_HOST_PROVIDER_NAME}.js');\n`)
+  fs.writeFileSync(path.join(asyncDir, `index${fileType.config || '.json'}`), '{"usingComponents":{}}\n')
+  fs.writeFileSync(path.join(asyncDir, `index${fileType.templ || '.wxml'}`), '<view/>\n')
+
+  // dist 自带运行时：注册 subPackage + preloadRule。
+  // 注意：单独打开本项目 dist（无宿主门控）访问 taro 页仍会命中硬约束崩溃——这是预期行为，
+  // 用于在开发者工具里直观复现「入口不可控」的边界（见 PoC 验证第 2 条）。
   registerAsyncSubPackage(outputDir, fileType.config || '.json')
 }
 
