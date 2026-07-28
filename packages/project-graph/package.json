@@ -17,6 +17,10 @@
     "./mcp": {
       "types": "./dist/mcp.d.ts",
       "default": "./dist/mcp.js"
+    },
+    "./taro-plugin": {
+      "types": "./dist/taro-plugin.d.ts",
+      "default": "./taro-plugin.js"
     }
   },
   "scripts": {
@@ -36,6 +40,7 @@
   },
   "files": [
     "index.js",
+    "taro-plugin.js",
     "dist"
   ],
   "keywords": [
