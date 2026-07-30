@@ -131,10 +131,10 @@ export function filterGlobalConfig (globalConfig: IProjectConfig, command: strin
     return config
   }
 
-  const RelatedPluginTag = `@jdtaro/plugin-${command}-`
+  const RelatedPluginTag = `@jdtaro/plugin-${command}`
   if (config.plugins?.length) {
     config.plugins = config.plugins.filter(pluginName => {
-      return pluginName.includes(RelatedPluginTag)
+      return pluginName === RelatedPluginTag || pluginName.includes(`${RelatedPluginTag}-`)
     })
   }
 
