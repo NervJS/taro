@@ -111,6 +111,9 @@ export interface PickerColors {
   cancelButtonColor?: string // 取消按钮颜色
   itemDefaultColor?: string // 选项字体默认颜色
   itemSelectedColor?: string // 选项字体选中颜色
+  backgroundColor?: string // 面板背景色
+  lineColor?: string // 指示线条颜色
+  titleColor?: string // 标题颜色
 }
 
 export interface PickerDate {
@@ -142,6 +145,7 @@ interface IProps {
   forwardedRef?: React.MutableRefObject<HTMLDivElement | null>
   formType?: string
   lang?: string // 语言参数，支持 'zh-CN'、'en-US'、'en-GB'
+  theme?: 'light' | 'dark' // 主题模式，默认 'light'
 }
 
 interface IState {
@@ -190,6 +194,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     children,
     formType,
     lang,
+    theme = 'light',
     ...restProps
   } = props
   const indexRef = React.useRef<number[]>([])
@@ -878,9 +883,11 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   const clsMask = classNames('taro-picker__mask-overlay', 'taro-picker__animate-fade-in', {
     'taro-picker__animate-fade-out': state.fadeOut
   })
-  const clsSlider = classNames('taro-picker', 'taro-picker__animate-slide-up', {
+  const clsSlider = classNames('taro-picker', 'taro-picker__animate-slide-up', `taro-picker-theme-${theme}`, {
     'taro-picker__animate-slide-down': state.fadeOut
   })
+  const backgroundStyle = colors.backgroundColor ? { backgroundColor: colors.backgroundColor } : null
+  const titleStyle = colors.titleColor ? { color: colors.titleColor } : null
 
   // 暴露方法给外部
   React.useImperativeHandle(ref, () => ({
@@ -903,8 +910,8 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
       {!state.hidden && (
         <View className="taro-picker__overlay">
           <View className={clsMask} onClick={handleCancel} />
-          <View className={clsSlider}>
-            <View className="taro-picker__hd">
+          <View className={clsSlider} {...(backgroundStyle ? { style: backgroundStyle } : {})}>
+            <View className="taro-picker__hd" {...(backgroundStyle ? { style: backgroundStyle } : {})}>
               <View
                 className="taro-picker__action"
                 onClick={handleCancel}
@@ -913,7 +920,12 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
                 {textProps.cancelText ?? langText.cancel}
               </View>
               {headerText && (
-                <View className="taro-picker__title">{headerText}</View>
+                <View
+                  className="taro-picker__title"
+                  {...(titleStyle ? { style: titleStyle } : {})}
+                >
+                  {headerText}
+                </View>
               )}
               <View
                 className="taro-picker__action"
@@ -923,7 +935,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
                 {textProps.okText ?? langText.confirm}
               </View>
             </View>
-            <View className="taro-picker__bd">{renderPickerGroup}</View>
+            <View className="taro-picker__bd" {...(backgroundStyle ? { style: backgroundStyle } : {})}>{renderPickerGroup}</View>
           </View>
         </View>
       )}

@@ -2,7 +2,7 @@ import Taro from '../../index'
 
 declare module '../../index' {
   namespace requestSubscribeMessage {
-    interface Option {
+    interface BaseOption {
       /**
        * 需要订阅的消息模板的id的集合（注意：iOS客户端7.0.6版本、Android客户端7.0.7版本之后的一次性订阅/长期订阅才支持多个模板消息，iOS客户端7.0.5版本、Android客户端7.0.6版本之前的一次订阅只支持一个模板消息）消息模板id在[微信公众平台(mp.weixin.qq.com)-功能-订阅消息]中配置
        * @supported weapp, tt
@@ -23,6 +23,11 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
+
+    type AtLeastOne<T, Keys extends keyof T = keyof T> =
+      Keys extends keyof T ? T & Required<Pick<T, Keys>> : never;
+
+    type Option = AtLeastOne<BaseOption, 'tmplIds' | 'entityIds'>;
 
     interface FailCallbackResult extends TaroGeneral.CallbackResult {
       /** 接口调用失败错误码 */

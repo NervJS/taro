@@ -1,8 +1,20 @@
+// Light 模式颜色变量
 $weuiLineColorLight: #e5e5e5;
 $weuiColorPrimary: #FF0F23;
 $weuiTextColorGray: #999;
 $weuiTextColorDesc: #888;
 $weuiTextColorBlack: #000;
+$weuiBackgroundColorLight: #fff;
+$weuiMaskColorLight: rgba(0, 0, 0, 0.6);
+
+// Dark 模式颜色变量
+$weuiLineColorDark: rgba(255, 255, 255, 0.06);
+$weuiColorPrimaryDark: #ff0f23;
+$weuiTextColorGrayDark: #999999;
+$weuiTextColorDescDark: #818181;
+$weuiTextColorBlackDark: #e6e6e6;
+$weuiBackgroundColorDark: #1f1f1f;
+$weuiMaskColorDark: rgba(20, 20, 20, 0.7);
 
 // Picker 相关变量
 $weuiPickerZIndexContainer: 1000;  // picker容器层级

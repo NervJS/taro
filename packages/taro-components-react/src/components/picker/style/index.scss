@@ -22,7 +22,6 @@
   width: 100%;
   height: 100%;
   z-index: $weuiPickerZIndexMask;
-  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .taro-picker {
@@ -30,7 +29,6 @@
   bottom: 0;
   left: 0;
   z-index: $weuiPickerZIndexIndicator;
-  background-color: $weuiLineColorLight;
   width: 100%;
   font-size: 14px;
 }
@@ -41,10 +39,9 @@
   justify-content: space-between;
   height: $weuiPickerHeaderHeight;
   padding: 0;
-  background-color: #fff;
   font-size: 17px;
   position: relative;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -52,7 +49,6 @@
     bottom: 0;
     width: 100%;
     height: 1px;
-    background-color: $weuiLineColorLight;
     transform: scaleY(0.5);
   }
 }
@@ -62,14 +58,8 @@
   padding: 0 10px;
   height: $weuiPickerHeaderHeight;
   line-height: $weuiPickerHeaderHeight;
-  color: $weuiColorPrimary;
   font-size: 14px;
-  
-  
-  // 左侧取消按钮
-  &:first-child {
-    color: $weuiTextColorDesc;
-  }
+
 }
 
 .taro-picker__title {
@@ -83,7 +73,6 @@
   text-overflow: ellipsis;
   font-weight: 500;
   font-size: 16px;
-  color: $weuiTextColorBlack;
 }
 
 .taro-picker__bd {
@@ -93,7 +82,132 @@
   height: $weuiPickerContentHeight;
   box-sizing: border-box;
   overflow: hidden;
-  background-color: #fff;
+}
+
+// Light 主题样式（默认）
+.taro-picker-theme-light {
+  background-color: $weuiLineColorLight;
+
+  .taro-picker__mask-overlay {
+    background-color: $weuiMaskColorLight;
+  }
+
+  .taro-picker__hd {
+    background-color: $weuiBackgroundColorLight;
+
+    &::after {
+      background-color: $weuiLineColorLight;
+    }
+  }
+
+  .taro-picker__action {
+    color: $weuiColorPrimary;
+
+    &:first-child {
+      color: $weuiTextColorDesc;
+    }
+  }
+
+  .taro-picker__title {
+    color: $weuiTextColorBlack;
+  }
+
+  .taro-picker__bd {
+    background-color: $weuiBackgroundColorLight;
+  }
+
+  .taro-picker__indicator {
+    border-top: 1px solid $weuiLineColorLight;
+    border-bottom: 1px solid $weuiLineColorLight;
+  }
+
+  .taro-picker__mask {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 255, 255, 0.6) 40%,
+        rgba(255, 255, 255, 0) 45%,
+        rgba(255, 255, 255, 0) 55%,
+        rgba(255, 255, 255, 0.6) 60%,
+        rgba(255, 255, 255, 0.95) 100%
+      );
+  }
+
+  .taro-picker__item {
+    color: $weuiTextColorBlack;
+
+    &--selected {
+      color: $weuiColorPrimary;
+    }
+
+    &--disabled {
+      color: $weuiTextColorGray;
+    }
+  }
+}
+
+// Dark 主题样式
+.taro-picker-theme-dark {
+  background-color: $weuiLineColorDark;
+
+  .taro-picker__mask-overlay {
+    background-color: $weuiMaskColorDark;
+  }
+
+  .taro-picker__hd {
+    background-color: $weuiBackgroundColorDark;
+
+    &::after {
+      background-color: $weuiLineColorDark;
+    }
+  }
+
+  .taro-picker__action {
+    color: $weuiColorPrimaryDark;
+
+    &:first-child {
+      color: $weuiTextColorDescDark;
+    }
+  }
+
+  .taro-picker__title {
+    color: $weuiTextColorBlackDark;
+  }
+
+  .taro-picker__bd {
+    background-color: $weuiBackgroundColorDark;
+  }
+
+  .taro-picker__indicator {
+    border-top: 1px solid $weuiLineColorDark;
+    border-bottom: 1px solid $weuiLineColorDark;
+  }
+
+  .taro-picker__mask {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(31, 31, 31, 0.95) 0%,
+        rgba(31, 31, 31, 0.6) 40%,
+        rgba(31, 31, 31, 0) 45%,
+        rgba(31, 31, 31, 0) 55%,
+        rgba(31, 31, 31, 0.6) 60%,
+        rgba(31, 31, 31, 0.95) 100%
+      );
+  }
+
+  .taro-picker__item {
+    color: $weuiTextColorBlackDark;
+
+    &--selected {
+      color: $weuiColorPrimaryDark;
+    }
+
+    &--disabled {
+      color: $weuiTextColorGrayDark;
+    }
+  }
 }
 
 // 选择器组
@@ -103,10 +217,10 @@
   height: 100%;
   box-sizing: border-box;
   justify-content: center;  /* 水平居中 */
-  align-items: center; 
+  align-items: center;
   flex: 1; /* 确保在多列情况下平均分配空间 */
   min-width: 0;
-  
+
   // 多列布局
   &--date {
     .taro-picker__columns {
@@ -125,16 +239,6 @@
   z-index: 1;
   width: 100%;
   height: 100%;
-  background: 
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.95) 0%,
-      rgba(255, 255, 255, 0.6) 40%,
-      rgba(255, 255, 255, 0) 45%,
-      rgba(255, 255, 255, 0) 55%,
-      rgba(255, 255, 255, 0.6) 60%,
-      rgba(255, 255, 255, 0.95) 100%
-    );
   pointer-events: none;
 }
 
@@ -148,20 +252,6 @@
   height: $weuiPickerItemHeight;
   box-sizing: border-box;
   transform: translateY(-50%);
-  
-  // 上下边框
-  &::before, &::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-color: $weuiLineColorLight;
-    transform: scaleY(0.5);
-  }
-  
-  &::before { top: 0; }
-  &::after { bottom: 0; }
 }
 
 // 滚动内容区域
@@ -186,17 +276,14 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   font-size: 16px; /* 稍微减小字体大小 */
-  color: $weuiTextColorBlack;
-  
+
   // 选中状态
   &--selected {
     font-weight: 500; /* 使用适中的字体粗细 */
-    color: $weuiColorPrimary;
   }
-  
+
   // 禁用状态
   &--disabled {
-    color: $weuiTextColorGray;
   }
 }
 
@@ -204,7 +291,7 @@
 .taro-picker__column {
   flex: 1;
   margin: 0 $weuiPickerColumnGap;
-  
+
   // 第一列和最后一列的间距调整
   &:first-child { margin-left: 0; }
   &:last-child { margin-right: 0; }

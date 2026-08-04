@@ -6,9 +6,8 @@ import { stringifyRequest } from './util'
 
 import type * as webpack from 'webpack'
 
-export default function (this: webpack.LoaderContext<any>, source: string) {
+export default function (this: webpack.LoaderContext<any>, source: string, map?: any) {
   const stringify = (s: string): string => stringifyRequest(this, s)
-
   const options = this.getOptions()
   const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = options.loaderMeta
   const config = JSON.stringify(options.config)
@@ -17,7 +16,10 @@ export default function (this: webpack.LoaderContext<any>, source: string) {
   const pxTransformConfig = options.pxTransformConfig
   const { globalObject } = this._compilation?.outputOptions || { globalObject: 'wx' }
   const entryCacheLoader = path.join(__dirname, 'entry-cache.js') + '?name=app'
-  entryCache.set('app', source)
+  entryCache.set('app', {
+    source,
+    map
+  })
 
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {

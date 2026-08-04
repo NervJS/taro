@@ -85,3 +85,4 @@ export * from './video';
 export * from './view';
 export * from './voip-room';
 export * from './web-view';
+export * from './open-embedded-atomicservice';

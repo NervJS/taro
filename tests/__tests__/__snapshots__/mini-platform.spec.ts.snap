@@ -1639,6 +1639,10 @@ exports[`mini-platform bytedance should build bytedance app 2`] = `
 /** filePath: dist/app.js **/
 "use strict";
 
+if (typeof tt !== "undefined") {
+    tt.__$enableTTDom$__ = undefined;
+}
+
 require("./common");
 
 require("./vendors");

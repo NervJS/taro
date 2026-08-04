@@ -1,7 +1,10 @@
-let Style
+import { afterAll, describe, expect, test } from 'vitest'
+
+import * as runtime from '../src/index'
+
+let Style: any
 
 describe('style', () => {
-  const runtime = require('../../dist/runtime.esm')
   Style = runtime.Style
   const document = runtime.document
 
@@ -9,7 +12,7 @@ describe('style', () => {
     process.env.FRAMEWORK = ''
   })
 
-  it('works', () => {
+  test('works', () => {
     const root = document.createElement('root')
     const style = new Style(root)
     style.color = 'red'

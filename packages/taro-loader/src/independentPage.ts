@@ -11,7 +11,7 @@ interface PageConfig {
   path: string
 }
 
-export default function (this: webpack.LoaderContext<any>, source: string) {
+export default function (this: webpack.LoaderContext<any>, source: string, map?: any) {
   const options = this.getOptions()
   const config = getPageConfig(options.config, this.resourcePath)
   const configString = JSON.stringify(config)
@@ -31,7 +31,10 @@ export default function (this: webpack.LoaderContext<any>, source: string) {
   const frameworkArgsCopy = frameworkArgsArray.join(',')
   // raw is a placeholder loader to locate changed .vue resource
   const entryCacheLoader = path.join(__dirname, 'entry-cache.js') + `?name=${pageName}`
-  entryCache.set(pageName, source)
+  entryCache.set(pageName, {
+    source,
+    map
+  })
   const raw = path.join(__dirname, 'raw.js')
   const componentPath = isNeedRawLoader
     ? ['!', raw, entryCacheLoader, this.resourcePath].join('!')

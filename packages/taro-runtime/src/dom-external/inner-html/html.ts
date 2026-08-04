@@ -1,3 +1,5 @@
+import { isEnableTTDom } from '@tarojs/shared'
+
 import { options } from '../../options'
 import { parser } from './parser'
 
@@ -17,11 +19,21 @@ options.html = {
   renderHTMLTag: false
 }
 
+declare const tt: any
+
 export function setInnerHTML (element: TaroNode, html: string) {
   while (element.firstChild) {
     element.removeChild(element.firstChild)
   }
-  const children = parser(html, element.ownerDocument)
+  let { ownerDocument } = element
+
+  if (process.env.TARO_ENV === 'tt' && isEnableTTDom()) {
+    if ('appDocument' in tt) {
+      ownerDocument = tt.appDocument
+    }
+  }
+
+  const children = parser(html, ownerDocument)
 
   for (let i = 0; i < children.length; i++) {
     element.appendChild(children[i])

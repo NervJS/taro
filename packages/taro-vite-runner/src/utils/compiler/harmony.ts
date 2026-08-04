@@ -164,7 +164,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
 
       const ETSPath = this.getETSPath(compScriptPath)
 
-      if (!fs.existsSync(compScriptPath) || !ETSPath) {
+      if (!ETSPath) {
         return this.logger.warn(`找不到页面 ${name} 依赖的自定义组件：${compScriptPath}`)
       }
 

@@ -6,7 +6,7 @@ import { stringifyRequest } from './util'
 
 import type * as webpack from 'webpack'
 
-export default function (this: webpack.LoaderContext<any>, source: string) {
+export default function (this: webpack.LoaderContext<any>, source: string, map?: any) {
   const options = this.getOptions()
   const { loaderMeta = {}, config: loaderConfig, isNewBlended = false, runtimePath } = options
   const { importFrameworkStatement, frameworkArgs, isNeedRawLoader, creatorLocation } = loaderMeta
@@ -18,7 +18,10 @@ export default function (this: webpack.LoaderContext<any>, source: string) {
   const behaviorsName = options.behaviorsName
   // raw is a placeholder loader to locate changed .vue resource
   const entryCacheLoader = path.join(__dirname, 'entry-cache.js') + `?name=${pageName}`
-  entryCache.set(pageName, source)
+  entryCache.set(pageName, {
+    source,
+    map
+  })
   const raw = path.join(__dirname, 'raw.js')
   const componentPath = isNeedRawLoader
     ? ['!', raw, entryCacheLoader, this.resourcePath].join('!')

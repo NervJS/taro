@@ -11,7 +11,12 @@ export const onBackgroundAudioPlay = /* @__PURE__ */ temporarilyNotSupport('onBa
 export const onBackgroundAudioPause = /* @__PURE__ */ temporarilyNotSupport('onBackgroundAudioPause')
 export const getBackgroundAudioPlayerState = /* @__PURE__ */ temporarilyNotSupport('getBackgroundAudioPlayerState')
 
+let _instance: BackgroundAudioManager | null = null
+
 /**
  * 获取全局唯一的背景音频管理器
  */
-export const getBackgroundAudioManager = () => new BackgroundAudioManager()
+export const getBackgroundAudioManager = () => {
+  if (!_instance) _instance = new BackgroundAudioManager()
+  return _instance
+}

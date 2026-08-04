@@ -6,7 +6,7 @@ import classNames from 'classnames'
   styleUrl: './style/index.scss'
 })
 export class Button implements ComponentInterface {
-  @Prop() disabled: boolean
+  @Prop({ reflect: true }) disabled: boolean
   @Prop() hoverClass = 'button-hover'
   @Prop() type = ''
   @Prop() hoverStartTime = 20
@@ -96,7 +96,6 @@ export class Button implements ComponentInterface {
         plain={plain}
         loading={loading}
         size={size}
-        disabled={disabled}
       >
         {loading && <i class='weui-loading' />}
         <slot />

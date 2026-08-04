@@ -413,7 +413,7 @@ declare global {
           name: 'taro:vite-loader-meta',
           async buildStart () {
             const { getViteHarmonyCompilerContext } = that.ctx.runnerUtils
-            const compiler = getViteHarmonyCompilerContext(this)
+            const compiler = await getViteHarmonyCompilerContext(this)
             if (compiler) {
               switch (that.framework) {
                 // @ts-ignore

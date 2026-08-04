@@ -8,21 +8,20 @@ import StickySection from './StickySection'
 export interface ListProps {
   showScrollbar?: boolean
   scrollTop?: number
+  scrollX?: boolean
+  scrollY?: boolean
   onScroll?: (e: { scrollTop: number, scrollLeft: number }) => void
   onScrollToUpper?: () => void
   onScrollToLower?: () => void
-  upperThresholdCount?: number
-  lowerThresholdCount?: number
+  upperThreshold?: number
+  lowerThreshold?: number
   cacheCount?: number
   stickyHeader?: boolean
   space?: number
-  item?: React.ComponentType<any>
-  itemCount?: number
   itemData?: any[]
   itemSize?: number | ((index: number, data?: any[]) => number)
   height?: number | string
   width?: number | string
-  layout?: 'vertical' | 'horizontal'
   style?: React.CSSProperties
   children?: React.ReactNode
   headerHeight?: number // 纵向 header 高度
@@ -66,18 +65,19 @@ const List: React.FC<ListProps> = (props) => {
     width = '100%',
     showScrollbar = true,
     scrollTop: controlledScrollTop,
+    scrollX = false,
+    scrollY = true,
     onScroll,
     onScrollToUpper,
     onScrollToLower,
-    upperThresholdCount = 0,
-    lowerThresholdCount = 0,
+    upperThreshold = 0,
+    lowerThreshold = 0,
     cacheCount = 2,
     style,
     children,
-    layout = 'vertical'
   } = props
 
-  const isHorizontal = layout === 'horizontal'
+  const isHorizontal = scrollX === true
   const DEFAULT_ITEM_WIDTH = 120
   const DEFAULT_ITEM_HEIGHT = 40
 
@@ -195,13 +195,13 @@ const List: React.FC<ListProps> = (props) => {
 
   // 触顶/触底事件
   React.useEffect(() => {
-    if (onScrollToUpper && renderOffset <= (upperThresholdCount > 0 ? sectionOffsets[upperThresholdCount] : 0)) {
+    if (onScrollToUpper && renderOffset <= (upperThreshold > 0 ? sectionOffsets[upperThreshold] : 0)) {
       onScrollToUpper()
     }
-    if (onScrollToLower && renderOffset + containerLength >= sectionOffsets[sectionOffsets.length - 1] - (lowerThresholdCount > 0 ? sectionOffsets[sectionOffsets.length - 1] - sectionOffsets[sections.length - lowerThresholdCount] : 0)) {
+    if (onScrollToLower && renderOffset + containerLength >= sectionOffsets[sectionOffsets.length - 1] - (lowerThreshold > 0 ? sectionOffsets[sectionOffsets.length - 1] - sectionOffsets[sections.length - lowerThreshold] : 0)) {
       onScrollToLower()
     }
-  }, [renderOffset, containerLength, sectionOffsets, sections.length, upperThresholdCount, lowerThresholdCount, onScrollToUpper, onScrollToLower])
+  }, [renderOffset, containerLength, sectionOffsets, sections.length, upperThreshold, lowerThreshold, onScrollToUpper, onScrollToLower])
 
   // 处理渲染偏移量更新
   const updateRenderOffset = React.useCallback((newOffset: number) => {
@@ -291,8 +291,8 @@ const List: React.FC<ListProps> = (props) => {
   // 修改ScrollView组件的props，添加data-testid属性
   // ScrollView 属性
   const scrollViewProps: any = {
-    scrollY: !isHorizontal,
-    scrollX: isHorizontal,
+    scrollY: !scrollX && scrollY,
+    scrollX: scrollX,
     style: containerStyle,
     enhanced: true,
     showScrollbar: showScrollbar,
@@ -384,7 +384,7 @@ const List: React.FC<ListProps> = (props) => {
         }
         nodes.push(
           React.createElement(View, {
-            key: section.key + '-header' + '-' + layout,
+            key: section.key + '-header',
             style: sectionHeaderStyle,
           }, section.header)
         )
@@ -433,7 +433,7 @@ const List: React.FC<ListProps> = (props) => {
         }
         nodes.push(
           React.createElement(View, {
-            key: section.key + '-item-' + i + '-' + layout,
+            key: section.key + '-item-' + i,
             style: sectionItemStyle,
           }, section.items[i])
         )

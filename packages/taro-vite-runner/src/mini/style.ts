@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import type{ ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
+import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { OutputAsset } from 'rollup'
 import type { PluginOption } from 'vite'
 
@@ -46,6 +46,16 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           appStyleChunk.source = commonStyleFileNames.reduce((prev, current) => {
             return prev + `@import "${path.relative(sourceDir, path.join(sourceDir, current))}";\n`
           }, `@import "${APP_STYLE_NAME}";\n`)
+        }
+        if (!appStyleChunk && commonStyleFileNames.length > 0) {
+          const sourceDir = viteCompilerContext.sourceDir
+          this.emitFile({
+            type: 'asset',
+            fileName: appStyleFileName,
+            source: commonStyleFileNames
+              .map((i) => `@import "${path.relative(sourceDir, path.join(sourceDir, i))}";`)
+              .join('\n')
+          })
         }
       }
     }

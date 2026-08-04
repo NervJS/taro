@@ -22,7 +22,7 @@ import {
   resolveScriptPath,
 } from '@tarojs/helper'
 import { isNull, isUndefined } from '@tarojs/shared'
-import * as taroize from '@tarojs/taroize'
+import taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
 import Processors from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'

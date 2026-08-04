@@ -41,6 +41,7 @@ export const components = {
     'enable-traffic': _false,
     'enable-poi': _true,
     'enable-building': _true,
+    'enable-center-scale': _false,
     setting: _object,
     bindLabelTap: _empty,
     bindRegionChange: _empty,
@@ -62,6 +63,10 @@ export const components = {
     'app-parameter': _empty,
     'show-message-card': _false,
     'business-id': _empty,
+    'app-bundle-name': _empty,
+    'app-module-name': _empty,
+    'app-ability-name': _empty,
+    'app-parameters': _object,
     bindGetUserInfo: _empty,
     bindContact: _empty,
     bindGetPhoneNumber: _empty,
@@ -70,7 +75,9 @@ export const components = {
     bindError: _empty,
     bindOpenSetting: _empty,
     bindLaunchApp: _empty,
-    bindAgreePrivacyAuthorization: _empty
+    bindAgreePrivacyAuthorization: _empty,
+    bindGetPhoneNumberAndRiskLevel: _empty,
+    bindCreateLiveActivity: _empty
   },
   Form: {
     'report-submit-timeout': _zero
@@ -219,6 +226,7 @@ export const components = {
     'indicator-offset': '[0, 0]',
     'scroll-with-animation': _true,
     'cache-extent': '0',
+    'disable-touch': _false
   },
   SwiperItem: {
     'skip-hidden-item-layout': _false
@@ -314,7 +322,14 @@ export const components = {
   },
   CoverView: {
     'marker-id': _empty,
-    slot: _empty
+    slot: _empty,
+    'hover-class': _empty,
+    'hover-start-time': '50',
+    'hover-stay-time': '400',
+    'hover-stop-propagation': _false
+  },
+  CoverImage: {
+    mode: "'scaleToFill'"
   },
   // ======== 额外组件 ========
   Editor: {
@@ -323,6 +338,9 @@ export const components = {
     'show-img-size': _false,
     'show-img-toolbar': _false,
     'show-img-resize': _false,
+    'enable-formats': _empty,
+    'confirm-hold': _true,
+    enterkeyhint: "'enter'",
     focus: _false,
     bindReady: _empty,
     bindFocus: _empty,
@@ -514,4 +532,11 @@ export const components = {
   ScaleGestureHandler: {},
   TapGestureHandler: {},
   VerticalDragGestureHandler: {},
+  OpenEmbeddedAtomicservice: {
+    appid: _empty,
+    path: _empty,
+    'want-param': _object,
+    bindterminated: _empty,
+    binderror: _empty
+  }
 }

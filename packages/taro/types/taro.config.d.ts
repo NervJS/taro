@@ -683,6 +683,11 @@ declare module './index' {
      * @supported alipay
      */
     behavior?: Behavior
+    /**
+     * 用于开启抖音小程序的 tt-dom 渲染模式
+     * @supported tt
+     */
+    enableTTDom?: boolean
   }
 
   interface Config extends PageConfig, AppConfig {

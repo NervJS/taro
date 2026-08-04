@@ -1,11 +1,12 @@
 {
   "name": "taro",
-  "version": "4.1.6",
+  "version": "4.2.1",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
   "private": true,
   "license": "MIT",
+  "packageManager": "pnpm@10.0.0",
   "keywords": [
     "taro"
   ],
@@ -21,6 +22,7 @@
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
     "build": "pnpm -r --aggregate-output --filter=./packages/* prod",
+    "build:serial": "pnpm -r --workspace-concurrency=1 --aggregate-output --filter=./packages/* prod",
     "build:binding:debug": "pnpm --filter @tarojs/binding run build:debug",
     "build:binding:release": "pnpm --filter @tarojs/binding run build",
     "debug": "node scripts/debug.js",
@@ -144,7 +146,7 @@
     "minimist": "^1.2.8",
     "mkdirp": "^3.0.1",
     "npm-run-all": "^4.1.2",
-    "postcss": "^8.4.38",
+    "postcss": "^8.5.6",
     "postcss-less": "^6.0.0",
     "postcss-scss": "^4.0.3",
     "power-assert": "^1.6.1",

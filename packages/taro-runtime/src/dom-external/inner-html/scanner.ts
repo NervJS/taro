@@ -90,7 +90,7 @@ function isWordEnd (cursor: number, wordBegin: number, html: string) {
 
   const len = html.length
 
-  // backwrad
+  // backward
   for (let i = cursor - 1; i > wordBegin; i--) {
     const char = html.charAt(i)
     if (!isWhitespaceChar(char)) {
@@ -109,7 +109,7 @@ function isWordEnd (cursor: number, wordBegin: number, html: string) {
   }
 }
 
-export class Scaner {
+export class Scanner {
   private tokens: Token[] = []
 
   private position: Position = initPosition()

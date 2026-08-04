@@ -1,7 +1,7 @@
 import { isFunction } from '@tarojs/shared'
 
 import { options } from '../../options'
-import { Scaner, Token } from './scaner'
+import { Scanner, Token } from './scanner'
 import StyleTagParser from './style'
 import { isBlockElements, isInlineElements, isMiniElements, specialMiniElements } from './tags'
 import { unquote } from './utils'
@@ -173,7 +173,7 @@ export function parser (html: string, document: TaroDocument) {
   const styleTagParser = new StyleTagParser()
   html = styleTagParser.extractStyle(html)
 
-  const tokens = new Scaner(html).scan()
+  const tokens = new Scanner(html).scan()
 
   const root: Element = { tagName: '', children: [], type: 'element', attributes: [] }
 

@@ -1,7 +1,7 @@
 name: Issue labeler
 on:
   issues:
-    types: [ opened ]
+    types: [opened]
 
 permissions:
   contents: read
@@ -14,10 +14,10 @@ jobs:
 
     strategy:
       matrix:
-        template: [ bug_report.yml ]
+        template: [bug_report.yml]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: 解析模板
         uses: stefanbuck/github-issue-parser@v3
