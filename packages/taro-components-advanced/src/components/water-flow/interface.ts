@@ -73,6 +73,15 @@ export interface FlowSectionProps extends BaseProps {
    */
   column?: number
   /**
+   * 自动根据窗口宽度计算列数;开启后忽略 column,由组件内部感知窗口变化并重排
+   */
+  autoColumn?: boolean
+  /**
+   * autoColumn 生效时列数变化的只读通知(仅供业务观测,如埋点;不用于控制列数)。
+   * 注意:与 Picker 家族的 onColumnChange 语义不同,此处回调参数为最新列数。
+   */
+  onColumnChange?: (column: number) => void
+  /**
    * 该分组的行间距
    */
   rowGap?: number

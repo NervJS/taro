@@ -1,10 +1,10 @@
 import { cancelAnimationFrame, requestAnimationFrame } from '@tarojs/runtime'
 
 import { Size } from './interface'
-import { Node } from './node'
+import { Node, NodeEvents } from './node'
 import { Root, RootEvents } from './root'
 import { StatefulEventBus } from './stateful-event-bus'
-import { createImperativePromise, getMatrixPosition, isSameRenderRange } from './utils'
+import { createImperativePromise, getMatrixPosition, isSameRenderRange, isWeb } from './utils'
 
 export interface SectionProps {
   /** 分组的唯一标识 */
@@ -59,6 +59,10 @@ export class Section extends StatefulEventBus<SectionState> {
   count = 0
   rowGap = 0
   columnGap = 0
+  /** 自动列数:开启后由 reflow 驱动列数变化,忽略 props.column(见 WaterFlow useResize) */
+  autoColumn = false
+  /** autoColumn 生效时列数变化的只读通知(仅业务观测,不参与控制) */
+  onColumnChange?: (column: number) => void
   layoutedSignal = createImperativePromise()
 
   /** pushNodesStructuralOnly 后待 finalize；由 WaterFlow 的 useLayoutEffect 收尾，避免在父 render 中更新子 state */
@@ -361,5 +365,41 @@ export class Section extends StatefulEventBus<SectionState> {
   public pushNodes (count: number) {
     this.pushNodesStructuralOnly(count)
     this.finalizePushNodesStateIfNeeded()
+  }
+
+  /**
+   * 列数运行时变化时原地重排(autoColumn 专用)。
+   * 保留每个节点已测高度,仅按新列数重算 col/order 并重建 columnMap,纯同步执行。
+   * 步序对齐 AllNodesLayouted/finalizePushNodesStateIfNeeded:updateNodes 写入新坐标后,
+   * height 必须先于 renderRange 落 state —— getNodeRenderRange 内 isInRange 读 this.getState().height,
+   * 若仍是旧列数的高度,分组恰好卡在可视区边界时会误判导致整组瞬间不渲染(需等下次 scroll 才能纠正)。
+   */
+  public reflow(nextCol: number) {
+    if (nextCol === this.col) return
+    this.col = nextCol
+    // 全量重建 columnMap,保证连续多次 reflow 幂等。
+    // 遍历 this.nodes.values()(迭代序即 childIndex 升序,register 按创建序 set),
+    // 用 getMatrixPosition(childIndex, nextCol) 重算 col/order 并镜像 register 的 columnMap[col][order] 赋值。
+    const nextColumnMap: Node[][] = Array.from({ length: nextCol }, () => [])
+    for (const node of this.nodes.values()) {
+      const { row, col } = getMatrixPosition(node.childIndex, nextCol)
+      node.col = col
+      node.order = row
+      nextColumnMap[col][row] = node
+    }
+    this.columnMap = nextColumnMap
+    this.updateNodes()
+    this.setStateIn('height', this.maxColumnHeight)
+    this.setStateIn('renderRange', this.getNodeRenderRange())
+    this.updateBehindSectionsPosition()
+    this.root.pub(RootEvents.Resize)
+    this.root.setStateIn('renderRange', this.root.getSectionRenderRange())
+    // weapp 无 ResizeObserver(flow-item.ts 仅 isWeb 分支),列宽变化后靠既有自愈链重测重排;
+    // H5 由 ResizeObserver 自动兜住。见 plan 已知风险 4。
+    if (!isWeb()) {
+      for (const node of this.nodes.values()) {
+        node.pub(NodeEvents.Resize)
+      }
+    }
   }
 }
