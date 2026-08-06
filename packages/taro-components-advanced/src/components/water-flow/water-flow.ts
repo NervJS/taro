@@ -1,5 +1,5 @@
 import { BaseEventOrig, ScrollView, ScrollViewProps, View } from '@tarojs/components'
-import Taro, { nextTick } from '@tarojs/taro'
+import Taro, { nextTick, useResize } from '@tarojs/taro'
 import {
   Children,
   cloneElement,
@@ -24,6 +24,7 @@ import {
 import { useMeasureStartOffset } from '../list/hooks/useMeasureStartOffset'
 import { useMeasureStartOffsetWeapp } from '../list/hooks/useMeasureStartOffsetWeapp'
 import { useScrollParentAutoFind } from '../list/hooks/useScrollParentAutoFind'
+import { getFeedColumn } from './feed-column'
 import { _FlowSectionProps } from './flow-section'
 import { Root, RootEvents } from './root'
 import { Section } from './section'
@@ -225,6 +226,7 @@ const InnerWaterFlow = (
       const sectionProps = child.props
       const sectionId = sectionProps.id || `section-${order}`
       const childCount = Children.count(sectionProps.children)
+      const autoColumn = !!sectionProps.autoColumn
       let section = root.findSection(sectionId)
       if (section) {
         const originalCount = section.count
@@ -235,16 +237,40 @@ const InnerWaterFlow = (
         section = new Section(root, {
           id: sectionId,
           order,
-          col: sectionProps.column ?? 1,
+          col: autoColumn
+            ? getFeedColumn(Taro.getSystemInfoSync().windowWidth)
+            : (sectionProps.column ?? 1),
           rowGap: sectionProps.rowGap || 0,
           columnGap: sectionProps.columnGap || 0,
           count: Children.count(sectionProps.children),
         })
       }
+      // 同步只读控制字段(纯赋值,不触发 pub);autoColumn 下列数由 useResize/reflow 驱动
+      section.autoColumn = autoColumn
+      section.onColumnChange = sectionProps.onColumnChange
 
       return cloneElement(child, { section, key: `${props.id}-${order}` })
     })?.slice(start, end + 1)
   }, [renderRange$[0], renderRange$[1], children, root, props.id])
+
+  /** autoColumn:监听窗口变化,组件内部算列数并原地 reflow,不依赖业务改 props */
+  useResize(useMemoizedFn((res: Taro.PageResizeObject) => {
+    const width = res?.size?.windowWidth ?? Taro.getSystemInfoSync().windowWidth
+    const nextCol = getFeedColumn(width)
+    let changed = false
+    for (const section of root.sectionMap.values()) {
+      if (section.autoColumn && section.col !== nextCol) {
+        section.reflow(nextCol)
+        changed = true
+      }
+    }
+    if (changed) {
+      root.setStateIn('renderRange', root.getSectionRenderRange())
+      for (const section of root.sectionMap.values()) {
+        if (section.autoColumn) section.onColumnChange?.(nextCol)
+      }
+    }
+  }))
 
   /** 配对 pushNodesStructuralOnly：在 layout 阶段完成 Section 状态，避免 useMemo 内 setState 告警 */
   useLayoutEffect(() => {
