@@ -40,6 +40,7 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
     this.app = this.getApp()
     this.collectNativeComponents(this.app)
     this.pages = this.getPages()
+    this.collectCustomTabBar()
   }
 
   processConfig () {
@@ -87,6 +88,16 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
     this.configFileList.push(pageMeta.configPath)
 
     return pageMeta
+  }
+
+  collectCustomTabBar () {
+    if (!this.app.config.tabBar?.custom) return
+
+    const customTabBarName = 'custom-tab-bar/index'
+    const scriptPath = resolveMainFilePath(path.join(this.sourceDir, customTabBarName), this.frameworkExts)
+    if (!fs.existsSync(scriptPath)) return
+
+    this.pages.push(this.compilePage(customTabBarName))
   }
 
   resolvePageImportPath (scriptPath: string, importPath: string) {

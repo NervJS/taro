@@ -59,7 +59,10 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
 
         const pageConfig = prettyPrintJson(page.config)
 
-        let instantiatePage = `var inst = Page(createPageConfig(component, '${page.name}', {root:{cn:[]}}, config || {}))`
+        const isCustomTabBar = page.name === 'custom-tab-bar/index'
+        let instantiatePage = isCustomTabBar
+          ? `var inst = Component(createComponentConfig(component, '${page.name}', {root:{cn:[]}}))`
+          : `var inst = Page(createPageConfig(component, '${page.name}', {root:{cn:[]}}, config || {}))`
 
         if (typeof viteCompilerContext.loaderMeta.modifyInstantiate === 'function') {
           instantiatePage = viteCompilerContext.loaderMeta.modifyInstantiate(instantiatePage, 'page')
@@ -88,7 +91,9 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
         })
 
         return [
-          'import { createPageConfig } from "@tarojs/runtime"',
+          isCustomTabBar
+            ? 'import { createComponentConfig } from "@tarojs/runtime"'
+            : 'import { createPageConfig } from "@tarojs/runtime"',
           `import component from "${escapePath(rawId)}"`,
           `var config = ${pageConfig}`,
           page.config.enableShareTimeline ? 'component.enableShareTimeline = true' : '',
