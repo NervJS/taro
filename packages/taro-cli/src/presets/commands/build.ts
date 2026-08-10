@@ -31,6 +31,8 @@ export default (ctx: IPluginContext) => {
       '--qr': '[rn] Print qrcode of React-Native bundle server',
       '--blended': 'Blended Taro project in an original MiniApp project',
       '--new-blended': 'Blended Taro project in an original MiniApp project while supporting building components independently',
+      '--shared-runtime': 'Externalize Taro/React runtime to a shared global so business packages do not bundle their own copy',
+      '--shared-runtime-mode [mode]': 'Shared runtime mode, only "split" is supported (sync core per package + shared async subpackage)',
       '--plugin [typeName]': 'Build Taro plugin project, weapp',
       '--env-prefix [envPrefix]': "Provide the dotEnv varables's prefix",
       '--no-inject-global-style': '[H5] Do not inject global style',
@@ -45,13 +47,14 @@ export default (ctx: IPluginContext) => {
       'taro build --type weapp --no-build',
       'taro build native-components --type weapp',
       'taro build --type weapp --new-blended',
+      'taro build --type weapp --new-blended --shared-runtime --shared-runtime-mode split',
       'taro build --plugin weapp --watch',
       'taro build --plugin weapp',
       'taro build --type weapp --mode prepare --env-prefix TARO_APP_',
     ],
     async fn(opts) {
       const { options, config, _ } = opts
-      const { platform, isWatch, blended, newBlended, withoutBuild, noInjectGlobalStyle, noCheck } = options
+      const { platform, isWatch, blended, newBlended, withoutBuild, noInjectGlobalStyle, noCheck, sharedRuntime, sharedRuntimeMode } = options
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
       const { args } = options
@@ -64,6 +67,20 @@ export default (ctx: IPluginContext) => {
       if (typeof platform !== 'string') {
         console.log(chalk.red('请传入正确的编译类型！'))
         process.exit(0)
+      }
+
+      // 共享运行时（方案二 split）flag 校验，fail-fast
+      if (sharedRuntimeMode != null && !sharedRuntime) {
+        console.log(chalk.red('--shared-runtime-mode 必须与 --shared-runtime 一起使用。'))
+        process.exit(1)
+      }
+      if (sharedRuntime) {
+        // 当前仅支持 split；未显式指定时默认 split。非法值 fail-fast，不静默回退
+        const mode = sharedRuntimeMode ?? 'split'
+        if (mode !== 'split') {
+          console.log(chalk.red(`--shared-runtime-mode 仅支持 "split"，收到 "${sharedRuntimeMode}"。`))
+          process.exit(1)
+        }
       }
 
       // 校验 Taro 项目配置
@@ -123,6 +140,9 @@ export default (ctx: IPluginContext) => {
             isBuildNativeComp,
             withoutBuild,
             newBlended,
+            sharedRuntime,
+            // 已在上方校验，开启共享运行时时规范化为 split
+            sharedRuntimeMode: sharedRuntime ? 'split' : undefined,
             noInjectGlobalStyle,
             async modifyAppConfig (appConfig) {
               extractCompileEntry(appConfig, args, ctx)
