@@ -100,6 +100,13 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   /** 插件内部使用 */
   runtime?: Runtime
 
+  /**
+   * 共享运行时（方案二 split）：额外纳入共享的运行时包名列表。
+   * 用于把业务自研的运行时 API 也一并 external 到共享运行时全局，随异步核共享一份。
+   * 仅在使用 `--shared-runtime --shared-runtime-mode split` 编译时生效。
+   */
+  sharedRuntimeExtraPackages?: string[]
+
   /** 使用的编译工具。可选值：webpack5、vite */
   compiler?: Compiler<T>
 
