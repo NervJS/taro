@@ -51,6 +51,8 @@ describe('inspect', () => {
         plugin: undefined,
         isBuildNativeComp: false,
         newBlended: false,
+        sharedRuntime: false,
+        sharedRuntimeMode: undefined,
         noInjectGlobalStyle: false,
         noCheck: false,
         sourceMapUrl: undefined,
@@ -87,6 +89,25 @@ describe('inspect', () => {
       setProcessArgv('taro build --type weapp')
       await cli.run()
       expect(process.env.NODE_ENV).toEqual('development')
+    })
+
+    it('should pass shared-runtime flags through', async () => {
+      setProcessArgv('taro build --type weapp --shared-runtime --shared-runtime-mode split')
+      await cli.run()
+      const ins = MockedKernel.mock.instances[0]
+      const opts = Object.assign({}, baseOpts)
+      opts.options = Object.assign({}, baseOpts.options, {
+        platform: 'weapp',
+        deviceType: undefined,
+        resetCache: false,
+        qr: false,
+        sharedRuntime: true,
+        sharedRuntimeMode: 'split',
+      })
+      expect(ins.run).toHaveBeenCalledWith({
+        name: 'build',
+        opts
+      })
     })
 
     it.skip('should make plugin config', async () => {
