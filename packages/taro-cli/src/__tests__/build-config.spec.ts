@@ -96,4 +96,61 @@ describe('构建配置测试', () => {
       errorSpy.mockRestore()
     })
   })
+
+  describe('共享运行时 flag 校验', () => {
+    it('--shared-runtime-mode 非 split ==> fail-fast 退出', async () => {
+      const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
+      const logSpy = jest.spyOn(console, 'log')
+      logSpy.mockImplementation(() => {})
+      exitSpy.mockImplementation(() => {
+        throw new Error('exit')
+      })
+
+      let exited = false
+      try {
+        await runBuild(APP_PATH, {
+          options: {
+            type: 'weapp',
+            platform: 'weapp',
+            sharedRuntime: true,
+            sharedRuntimeMode: 'host'
+          }
+        })
+      } catch (error) {
+        exited = true
+      }
+      expect(exited).toBe(true)
+      expect(exitSpy).toBeCalledWith(1)
+
+      exitSpy.mockRestore()
+      logSpy.mockRestore()
+    })
+
+    it('--shared-runtime-mode 未配 --shared-runtime ==> fail-fast 退出', async () => {
+      const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
+      const logSpy = jest.spyOn(console, 'log')
+      logSpy.mockImplementation(() => {})
+      exitSpy.mockImplementation(() => {
+        throw new Error('exit')
+      })
+
+      let exited = false
+      try {
+        await runBuild(APP_PATH, {
+          options: {
+            type: 'weapp',
+            platform: 'weapp',
+            sharedRuntimeMode: 'split'
+          }
+        })
+      } catch (error) {
+        exited = true
+      }
+      expect(exited).toBe(true)
+      expect(exitSpy).toBeCalledWith(1)
+
+      exitSpy.mockRestore()
+      logSpy.mockRestore()
+    })
+  })
 })
