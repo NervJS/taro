@@ -6,6 +6,8 @@ import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import MiniCompileModePlugin from '../plugins/MiniCompileModePlugin'
 import MiniPlugin from '../plugins/MiniPlugin'
 import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
+import TaroInjectSyncCorePlugin from '../plugins/TaroInjectSyncCorePlugin'
+import { SHARED_SYNC_CORE_NAME } from '../shared-runtime/constants'
 import WebpackPlugin, { PluginArgs } from './WebpackPlugin'
 
 import type { MiniCombination } from './MiniCombination'
@@ -41,6 +43,14 @@ export class MiniWebpackPlugin {
     if (this.combination.config.experimental?.compileMode === true) {
       plugins.taroCompileModePlugin = WebpackPlugin.getPlugin(MiniCompileModePlugin, [{
         combination: this.combination,
+      }])
+    }
+
+    // 共享运行时（方案二 split）：给 app 入口头部注入 require('taro-shared-sync')，
+    // 使同步核先于页面注册执行（填共享全局 + 装占位 shim + 触发异步核加载）。
+    if (this.combination.config.sharedRuntime) {
+      plugins.taroInjectSyncCorePlugin = WebpackPlugin.getPlugin(TaroInjectSyncCorePlugin, [{
+        syncCoreName: SHARED_SYNC_CORE_NAME,
       }])
     }
 
@@ -151,13 +161,17 @@ export class MiniWebpackPlugin {
 
   getCommonChunks () {
     const { buildNativePlugin, config } = this.combination
-    const { commonChunks } = config
+    const { commonChunks, sharedRuntime } = config
     const defaultCommonChunks = buildNativePlugin?.commonChunks || ['runtime', 'vendors', 'taro', 'common']
     let customCommonChunks: string[] = defaultCommonChunks
     if (isFunction(commonChunks)) {
       customCommonChunks = commonChunks(defaultCommonChunks.concat()) || defaultCommonChunks
     } else if (isArray(commonChunks) && commonChunks.length) {
       customCommonChunks = commonChunks
+    }
+    // sharedRuntime 下不再产出 taro chunk，从 commonChunks 过滤，否则页面 require 头会引用不存在的 taro.js
+    if (sharedRuntime) {
+      customCommonChunks = customCommonChunks.filter(name => name !== 'taro')
     }
     return customCommonChunks
   }
