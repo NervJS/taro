@@ -2,6 +2,8 @@ import path from 'node:path'
 
 import { REG_NODE_MODULES_DIR, REG_TARO_SCOPED_PACKAGE, taroJsComponents } from '@tarojs/helper'
 
+import { SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
+import { REG_SHARED_REACT, shouldShareExternal } from '../shared-runtime/externals'
 import { componentConfig } from '../utils/component'
 import { BuildNativePlugin } from './BuildNativePlugin'
 import { Combination } from './Combination'
@@ -36,6 +38,8 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
       },
       /** special mode */
       isBuildPlugin = false,
+      sharedRuntime = false,
+      sharedRuntimeExtraPackages = [],
       /** hooks */
       modifyComponentConfig,
       optimizeMainPackage
@@ -73,6 +77,18 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
     webpackPlugin.pxtransformOption = pxtransformOption as any
     const plugin = webpackPlugin.getPlugins()
 
+    // 共享运行时（方案二 split）：把 Taro/React 运行时 external 到全局，产物里不再含这些包，
+    // 由运行时核（同步核 + 异步核）在加载时挂到 wx.__TARO_RT_ASYNC_V1__ 供业务包读取。
+    const sharedExternals: any[] = sharedRuntime
+      ? [({ request }, cb) => {
+        if (shouldShareExternal(request, sharedRuntimeExtraPackages)) {
+          // external 目标读平台全局对象（不硬编码 wx.），为多平台留口
+          return cb(null, `${globalObject}.${SHARED_GLOBAL_ASYNC}[${JSON.stringify(request)}]`)
+        }
+        return cb()
+      }]
+      : []
+
     chain.merge({
       entry: webpackEntry,
       output: webpackOutput,
@@ -83,7 +99,8 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
       },
       plugin,
       module,
-      optimization: this.getOptimization()
+      externals: sharedExternals,
+      optimization: this.getOptimization(sharedRuntime)
     })
   }
 
@@ -111,7 +128,37 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
     }
   }
 
-  getOptimization () {
+  getOptimization (sharedRuntime = false) {
+    const cacheGroups: any = {
+      default: false,
+      defaultVendors: false,
+      common: {
+        name: 'common',
+        minChunks: 2,
+        priority: 1
+      },
+      vendors: {
+        name: 'vendors',
+        minChunks: 2,
+        test: module => {
+          // sharedRuntime 下 react 全家桶已 external，从 vendors 剔出，避免产出空 chunk
+          if (sharedRuntime && REG_SHARED_REACT.test(module.rawRequest || '')) {
+            return false
+          }
+          const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
+          return nodeModulesDirRegx.test(module.resource)
+        },
+        priority: 10
+      }
+    }
+    // sharedRuntime 下 @tarojs/* 已 external，不再产出 taro chunk
+    if (!sharedRuntime) {
+      cacheGroups.taro = {
+        name: 'taro',
+        test: module => REG_TARO_SCOPED_PACKAGE.test(module.context),
+        priority: 100
+      }
+    }
     return {
       usedExports: true,
       runtimeChunk: {
@@ -121,29 +168,7 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
         chunks: 'all',
         maxInitialRequests: Infinity,
         minSize: 0,
-        cacheGroups: {
-          default: false,
-          defaultVendors: false,
-          common: {
-            name: 'common',
-            minChunks: 2,
-            priority: 1
-          },
-          vendors: {
-            name: 'vendors',
-            minChunks: 2,
-            test: module => {
-              const nodeModulesDirRegx = new RegExp(REG_NODE_MODULES_DIR)
-              return nodeModulesDirRegx.test(module.resource)
-            },
-            priority: 10
-          },
-          taro: {
-            name: 'taro',
-            test: module => REG_TARO_SCOPED_PACKAGE.test(module.context),
-            priority: 100
-          }
-        }
+        cacheGroups
       }
     }
   }

@@ -65,6 +65,10 @@ export interface IMiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   behaviorsName: string
   blended?: boolean
   hot?: boolean
+  /** 共享运行时（方案二 split）：开启后把 Taro/React 运行时 external 到全局，不打进业务包 */
+  sharedRuntime?: boolean
+  /** 共享运行时模式。当前仅支持 'split'（同步核随包 + 异步核共享子包） */
+  sharedRuntimeMode?: 'split'
 }
 
 export interface IH5BuildConfig extends CommonBuildConfig, IH5Config {
