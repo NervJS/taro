@@ -24,6 +24,7 @@ import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { validatePrerenderPages } from '../prerender/prerender'
+import { SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
 import { componentConfig } from '../utils/component'
 import { computeForceCustomWrapperForIndependentPackage } from '../utils/forceCustomWrapper'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
@@ -335,6 +336,14 @@ export default class TaroMiniPlugin {
        */
       compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
         const { framework, loaderMeta, pxTransformConfig } = this.options
+        // 共享运行时（方案二 split）：把 sharedRuntime 开关、pkgId(取 output.chunkLoadingGlobal,
+        // 每业务包已必须唯一)、全局对象键名(constants.ts 单一来源)透传给 app/page loader,
+        // 用于在产物里注入多包 App 隔离逻辑。
+        const sharedRuntime = !!this.options.combination.config.sharedRuntime
+        const sharedRuntimePkgId = sharedRuntime
+          ? (compiler.options.output?.chunkLoadingGlobal as string) || 'webpackJsonp'
+          : undefined
+        const sharedRuntimeGlobalKey = sharedRuntime ? SHARED_GLOBAL_ASYNC : undefined
 
         if (module.miniType === META_TYPE.ENTRY) {
           const loaderName = '@tarojs/taro-loader'
@@ -350,7 +359,10 @@ export default class TaroMiniPlugin {
                 behaviorsName: this.options.behaviorsName,
                 blended: this.options.blended,
                 newBlended: this.options.newBlended,
-                pxTransformConfig
+                pxTransformConfig,
+                sharedRuntime,
+                sharedRuntimePkgId,
+                sharedRuntimeGlobalKey,
               }
             })
           }
@@ -381,7 +393,10 @@ export default class TaroMiniPlugin {
                 appConfig: this.appConfig,
                 runtimePath: this.options.runtimePath,
                 behaviorsName: this.options.behaviorsName,
-                hot: this.options.hot
+                hot: this.options.hot,
+                sharedRuntime,
+                sharedRuntimePkgId,
+                sharedRuntimeGlobalKey,
               }
             })
           }
