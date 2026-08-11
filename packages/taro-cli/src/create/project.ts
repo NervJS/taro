@@ -43,6 +43,7 @@ export interface IProjectConf {
   hideDefaultTemplate?: boolean
   framework: FrameworkType
   compiler?: CompilerType
+  platforms?: string[]
   ask?: (config: object) => Promise<void> | void
   /**
    * 内部标记：由 `taro init .` / `./` 触发。
@@ -133,6 +134,7 @@ export default class Project extends Creator {
     this.askTypescript(conf, prompts)
     this.askBuildEs5(conf, prompts)
     this.askCSS(conf, prompts)
+    this.askPlatforms(conf, prompts)
     this.askNpm(conf, prompts)
     const answers = await inquirer.prompt<IProjectConf>(prompts)
 
@@ -263,6 +265,37 @@ export default class Project extends Creator {
         name: 'css',
         message: '请选择 CSS 预处理器（Sass/Less/Stylus）',
         choices: cssChoices
+      })
+    }
+  }
+
+  askPlatforms: AskMethods = function (conf, prompts) {
+    if (typeof conf.platforms === 'string') {
+      conf.platforms = (conf.platforms as unknown as string).split(',').map(p => p.trim()).filter(Boolean)
+    }
+
+    const platformChoices = [
+      { name: '微信小程序', value: 'weapp' },
+      { name: '支付宝小程序', value: 'alipay' },
+      { name: '百度小程序', value: 'swan' },
+      { name: '字节跳动小程序', value: 'tt' },
+      { name: 'QQ 小程序', value: 'qq' },
+      { name: '京东小程序', value: 'jd' },
+      { name: 'H5', value: 'h5' },
+      { name: '鸿蒙元服务（Hybrid）', value: 'harmony-hybrid' },
+      { name: 'React Native', value: 'rn' }
+    ]
+
+    if (!isArray(conf.platforms)) {
+      prompts.push({
+        type: 'checkbox',
+        name: 'platforms',
+        message: '请选择需要支持的平台？',
+        choices: platformChoices,
+        default: ['weapp', 'h5'],
+        validate (input: string[]) {
+          return input.length > 0 || '请至少选择一个平台！'
+        }
       })
     }
   }
@@ -519,6 +552,7 @@ export default class Project extends Creator {
       description: this.conf.description,
       compiler: this.conf.compiler,
       period: PeriodType.CreateAPP,
+      platforms: this.conf.platforms,
     }, handler).then(() => {
       cb && cb()
     })

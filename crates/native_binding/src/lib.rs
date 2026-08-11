@@ -28,6 +28,7 @@ pub async fn create_project(
     conf.date,
     conf.compiler,
     conf.period,
+    conf.platforms,
   );
   let mut thread_safe_functions = HashMap::new();
   for (key, callback) in handlers {
