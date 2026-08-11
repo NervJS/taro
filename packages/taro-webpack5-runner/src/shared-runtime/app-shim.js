@@ -101,6 +101,11 @@ function guardPlaceholder (target, label, whitelist, realFlag) {
 }
 
 function install (shared, Current) {
+  // 纵深防御：即使 entry.sync 的 __syncCoreInstalled 守卫被绕过（如 install 被直接调用），
+  // 也不重复覆盖 Current.app / 占位对象。首包胜出的架构约束见 entry.sync.js 顶部说明。
+  if (shared.__appShimInstalled) return
+  shared.__appShimInstalled = true
+
   var realApp = null
   var queue = []
   function whenReal (fn) { realApp ? fn(realApp) : queue.push(fn) }
@@ -125,8 +130,19 @@ function install (shared, Current) {
   if (!fwPlaceholder) { fwPlaceholder = {}; shared['@tarojs/plugin-framework-react/dist/runtime'] = fwPlaceholder }
   fwPlaceholder.__isPlaceholder = true
   fwPlaceholder.createReactApp = function (App, _react, _dom, config) {
-    // 业务传入的 _react/_dom 是占位，弃用；只捕获 App + config
-    shared.__appBootstrap = { App: App, config: config }
+    // 业务传入的 _react/_dom 是占位，弃用；只捕获 App + config。
+    // 多业务包 last-writer 语义：后加载的业务包会覆盖 __appBootstrap 与最终 Current.app,
+    // 与 Taro 单份 runtime 内 framework `createReactApp` 无守卫赋值的原生行为一致
+    // (见 packages/taro-framework-react/src/runtime/connect.ts:434 `Current.app = appObj`)。
+    //
+    // F5 多包 App 隔离:同时记 pkgId,__activateReal 建 realApp 后按 pkgId 存进 __pkgApps 表,
+    // 供 page loader 每次 onLoad 前查回本包 App(即使 Current.app 被 last-writer 换走,
+    // 本包页面 mount 前仍能恢复到本包 App)。pkgId 由 app loader 顶部注入 shared.__currentPkgId。
+    shared.__appBootstrap = {
+      App: App,
+      config: config,
+      pkgId: shared.__currentPkgId,
+    }
     return placeholderApp
   }
 
@@ -145,18 +161,22 @@ function install (shared, Current) {
   var reactDomReady = function () { return !!shared.__rtActivated }
   shared['react-dom'] = guardPlaceholder(reactDomBase, 'ReactDOM', null, reactDomReady)
 
-  // provider 就绪后调用：用真身 react 重跑 createReactApp + flush
+  // provider 就绪后调用：用真身 framework 重跑 createReactApp + flush 队列。
   shared.__activateReal = function (realFramework) {
     var boot = shared.__appBootstrap
-    if (boot) {
-      var realAppObj = realFramework.createReactApp(
-        boot.App, shared.react, shared['react-dom'], boot.config
-      )
-      realApp = realAppObj // createReactApp 内部已 Current.app = realAppObj
-      shared.__TARO_placeholderApp = null
-      var q = queue; queue = []
-      q.forEach(function (fn) { fn(realApp) })
+    if (!boot) return
+    var realAppObj = realFramework.createReactApp(
+      boot.App, shared.react, shared['react-dom'], boot.config
+    )
+    realApp = realAppObj // createReactApp 内部已 Current.app = realAppObj
+    shared.__TARO_placeholderApp = null
+    // F5 多包 App 隔离:按 pkgId 存表,供 page loader 每次 onLoad 前查回本包 App。
+    if (boot.pkgId) {
+      shared.__pkgApps = shared.__pkgApps || {}
+      shared.__pkgApps[boot.pkgId] = realAppObj
     }
+    var q = queue; queue = []
+    q.forEach(function (fn) { fn(realApp) })
   }
 }
 
