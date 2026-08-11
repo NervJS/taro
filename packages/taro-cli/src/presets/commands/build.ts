@@ -75,6 +75,37 @@ export default (ctx: IPluginContext) => {
         process.exit(1)
       }
       if (sharedRuntime) {
+        // 守卫顺序：plugin → native-components → 平台白名单 → mode。
+        // plugin 需先判：cli.ts:161 会把 platform 无条件重写为 'plugin'，若先走白名单，
+        // plugin 场景会被更笼统的"平台不支持"拦下，错过精准提示。
+        //
+        // 小程序插件（--plugin）模式：插件宿主运行时无共享上下文，方案二不支持。
+        if (typeof args?.plugin === 'string') {
+          console.log(chalk.red(
+            '小程序插件（--plugin）模式不适用方案二 split：插件宿主运行时无共享上下文。' +
+            '请去掉 --shared-runtime。'
+          ))
+          process.exit(1)
+        }
+        // native-components 模式：BuildNativePlugin 会移除 app.js entry，同步核无注入点，
+        // 但 externals 仍生效——产物读全局但无人挂载，运行时崩。方案二不支持此模式。
+        if (_[1] === 'native-components') {
+          console.log(chalk.red(
+            'native-components 模式不适用方案二 split：无 app.js 入口，同步核无注入点，' +
+            '产物运行时会崩。请去掉 --shared-runtime。'
+          ))
+          process.exit(1)
+        }
+        // 平台白名单：方案二 split 仅适用于小程序端。h5/rn/harmony 走独立编译栈，
+        // 不经过 MiniCombination/externals，方案二 flag 传入会静默失效——编译期直接拒。
+        const MINI_PLATFORMS = new Set(['weapp', 'alipay', 'swan', 'tt', 'qq', 'jd', 'ascf'])
+        if (!MINI_PLATFORMS.has(platform)) {
+          console.log(chalk.red(
+            `--shared-runtime 当前仅支持小程序端 (${Array.from(MINI_PLATFORMS).join('/')})，收到 "${platform}"。` +
+            'h5/rn/harmony 请去掉 --shared-runtime。'
+          ))
+          process.exit(1)
+        }
         // 当前仅支持 split；未显式指定时默认 split。非法值 fail-fast，不静默回退
         const mode = sharedRuntimeMode ?? 'split'
         if (mode !== 'split') {
