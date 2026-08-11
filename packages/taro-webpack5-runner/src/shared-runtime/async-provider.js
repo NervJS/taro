@@ -66,9 +66,28 @@ function activate () {
   // react-dom 真身填进同步核预放的占位对象（保引用）
   fill(shared['react-dom'], reactDom)
 
-  // framework-runtime 真身填进占位
+  // framework-runtime 真身填进占位。fill 后 fw.createReactApp 指向真身,
+  // 后续业务包 app.js 顶层 `createReactApp(App_B, ...)` 直接走真身,内部 last-writer
+  // 覆盖 Current.app,与 Taro 单份 runtime 原生语义一致(见 packages/taro-framework-react
+  // /src/runtime/connect.ts:434 `Current.app = appObj` 无守卫赋值)。
   var fw = shared['@tarojs/plugin-framework-react/dist/runtime']
   fill(fw, framework)
+
+  // F5 多包 App 隔离:异步核激活后再加载的业务包会直接调 fw.createReactApp 走真身,
+  // 但真身不知道 pkgId、不存表。用 wrapper 兜底:走真身 + 按 pkgId 存进 __pkgApps 表,
+  // 使异步核激活后加载的包也能被 page loader onLoad 前查回本包 App。
+  // (F4 拆掉的 "重定向到首包" 兜底与此不同——那是 first-wins 违反 last-writer;这里只
+  // "存表",不改 Current.app 的 last-writer 结果。)
+  var realCreateReactApp = fw.createReactApp
+  fw.createReactApp = function (App, react, reactDom, config) {
+    var realAppObj = realCreateReactApp(App, react, reactDom, config)
+    var pkgId = shared.__currentPkgId
+    if (pkgId) {
+      shared.__pkgApps = shared.__pkgApps || {}
+      shared.__pkgApps[pkgId] = realAppObj
+    }
+    return realAppObj
+  }
 
   // @tarojs/taro 真身填进占位（命令式 API 就位）
   var taroObj = shared['@tarojs/taro']
@@ -92,9 +111,10 @@ function activate () {
     taro.initPxTransform(shared.__pxTransformOpts)
   }
 
-  // 建真 appObj + flush 生命周期/mount 队列
+  // 建真 appObj + flush 生命周期/mount 队列。
+  // 用真身 framework 建 realAppObj,内部覆盖 Current.app = realAppObj。
   if (typeof shared.__activateReal === 'function') {
-    shared.__activateReal(fw)
+    shared.__activateReal(framework)
   }
 }
 
