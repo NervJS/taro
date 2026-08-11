@@ -51,6 +51,13 @@ describe('startWatch — 监听层逻辑（mock chokidar）', () => {
     expect(opts.ignored.test('/proj/src/node_modules/x')).toBe(true)
   })
 
+  test('extraPaths（package/lock）追加在 src + config/ 之后', () => {
+    startWatch('/proj', '/proj/src', () => {}, ['/proj/package.json', '/proj/pnpm-lock.yaml'])
+    const [paths] = watchMock.mock.calls[0] as [string[]]
+    // src + config/ 恒在前（既有契约），额外文件追加在后。
+    expect(paths).toEqual(['/proj/src', '/proj/config', '/proj/package.json', '/proj/pnpm-lock.yaml'])
+  })
+
   test('ready 前的变更被缓冲，ready 时冲洗（不丢首个事件）', () => {
     const onChange = jest.fn()
     startWatch('/proj', '/proj/src', onChange)
@@ -131,6 +138,7 @@ describe('createProjectGraph — onGraphChange 集成（mock chokidar 驱动）'
     watchMock.mockClear()
     root = fs.mkdtempSync(path.join(os.tmpdir(), 'pg-wi-'))
     fs.cpSync(path.join(FIXTURE, 'src'), path.join(root, 'src'), { recursive: true })
+    fs.cpSync(path.join(FIXTURE, 'package.json'), path.join(root, 'package.json'))
   })
   afterEach(() => {
     jest.clearAllTimers()
@@ -152,15 +160,20 @@ describe('createProjectGraph — onGraphChange 集成（mock chokidar 驱动）'
   test('首个订阅惰性启动监听；变更触发回调且图已重建', () => {
     const q = createProjectGraph({ root })
     const before = q.getProjectGraph().pages.length
+    const beforeRev = q.getProjectGraph().revision
     const listener = jest.fn()
     q.onGraphChange(listener)
     expect(watchMock).toHaveBeenCalledTimes(1) // 惰性启动
 
     triggerChange()
     expect(listener).toHaveBeenCalledTimes(1)
-    expect(listener.mock.calls[0][0].changedFiles.length).toBeGreaterThan(0)
-    // 图在回调前已重建
+    const change = listener.mock.calls[0][0]
+    expect(change.ok).toBe(true)
+    expect(change.changedFiles.length).toBeGreaterThan(0)
+    // 图在回调前已重建，revision 单调递增
     expect(q.getProjectGraph().pages.length).toBe(before + 1)
+    expect(q.getProjectGraph().revision).toBe(beforeRev + 1)
+    expect(change.revision).toBe(q.getProjectGraph().revision)
   })
 
   test('多 listener 都收到通知；单个 listener 抛错不影响其余', () => {
@@ -189,31 +202,79 @@ describe('createProjectGraph — onGraphChange 集成（mock chokidar 驱动）'
     const listener = jest.fn()
     q.onGraphChange(listener)
     // app.config 写成语法坏（模拟保存中间态）。readConfig 会抛，但被 config-parser
-    // catch 成 config_parse_failed 告警、降级空图——rebuild 正常完成、不崩宿主。
+    // catch 成 parse-failed issue、降级空图——rebuild 正常完成、不崩宿主。
     fs.writeFileSync(path.join(root, 'src/app.config.ts'), 'export default { pages: [\n')
     fakeWatcher.emit('ready')
     fakeWatcher.emit('change', path.join(root, 'src/app.config.ts'))
     // rebuild 跑在防抖回调里；关键是不抛出（否则崩长驻宿主）
     expect(() => jest.advanceTimersByTime(100)).not.toThrow()
-    // 通知照常发出，消费方能从 warnings 看到解析失败信号
+    // 通知照常发出，消费方能从 issues 看到解析失败信号
     expect(listener).toHaveBeenCalledTimes(1)
     const g = q.getProjectGraph()
-    expect(g.warnings.some((w) => w.kind === 'config_parse_failed')).toBe(true)
+    expect(g.issues.some((w) => w.kind === 'parse-failed')).toBe(true)
   })
 
-  test('rebuild 内 buildProjectGraph 真抛错时吞掉、保留旧图、不通知', () => {
+  test('rebuild 真抛错：保留旧快照、发 ok:false 失败事件、不崩、revision 不递增', () => {
     const q = createProjectGraph({ root })
-    const before = q.getProjectGraph().pages.length
-    expect(before).toBeGreaterThan(0)
+    const before = q.getProjectGraph()
+    expect(before.pages.length).toBeGreaterThan(0)
     const listener = jest.fn()
     q.onGraphChange(listener)
-    // 直接删掉 src 目录，让 rebuild 的底层解析在意外路径上抛非预期错误
+    // 首次构建已完成；对 rebuild 的下一次 buildProjectGraph 强制抛非预期错误。graph.ts
+    // 以模块属性方式调用 parseAppConfig（CJS interop），spyOn 可拦截。真实构建高度容错
+    // （坏 config 降级为 issue 而非抛），故用 spy 精确制造"非预期异常"这一防御分支。
+    const configParser = require('../config-parser') as { parseAppConfig: unknown }
+    const spy = jest.spyOn(configParser as { parseAppConfig: () => unknown }, 'parseAppConfig')
+      .mockImplementationOnce(() => { throw new Error('boom') })
+    try {
+      fakeWatcher.emit('ready')
+      fakeWatcher.emit('change', path.join(root, 'src/app.config.ts'))
+      expect(() => jest.advanceTimersByTime(100)).not.toThrow()
+    } finally {
+      spy.mockRestore()
+    }
+    expect(listener).toHaveBeenCalledTimes(1)
+    const change = listener.mock.calls[0][0]
+    expect(change.ok).toBe(false)
+    expect(change.error).toContain('boom')
+    // 保留旧快照：图与 revision 不变、宿主不崩（不暴露半成品）。
+    expect(q.getProjectGraph()).toBe(before)
+    expect(q.getProjectGraph().revision).toBe(before.revision)
+  })
+
+  test('删 src 目录：优雅降级为空图（ok:true），非失败分支、不崩宿主', () => {
+    const q = createProjectGraph({ root })
+    const listener = jest.fn()
+    q.onGraphChange(listener)
+    // 删 src → parseAppConfig 找不到 app.config，降级空图（不抛）→ 成功重建。
     fs.rmSync(path.join(root, 'src'), { recursive: true, force: true })
     fakeWatcher.emit('ready')
     fakeWatcher.emit('change', path.join(root, 'src/app.config.ts'))
     expect(() => jest.advanceTimersByTime(100)).not.toThrow()
-    // 无论降级空图还是保留旧图，宿主都不应崩——这是核心保证
-    expect(() => q.getProjectGraph()).not.toThrow()
+    expect(listener).toHaveBeenCalledTimes(1)
+    expect(listener.mock.calls[0][0].ok).toBe(true) // 降级空图仍是成功重建
+    expect(q.getProjectGraph().pages).toEqual([])
+  })
+
+  test('dispose：停 watcher、清订阅者，幂等', () => {
+    const q = createProjectGraph({ root })
+    const listener = jest.fn()
+    q.onGraphChange(listener)
+    expect(watchMock).toHaveBeenCalledTimes(1)
+    q.dispose()
+    expect(fakeWatcher.close).toHaveBeenCalledTimes(1) // watcher 关闭
+    // dispose 后变更不再通知（订阅者已清）
+    triggerChange()
+    expect(listener).not.toHaveBeenCalled()
+    // 幂等：再次 dispose 不抛、不重复关闭
+    expect(() => q.dispose()).not.toThrow()
+    expect(fakeWatcher.close).toHaveBeenCalledTimes(1)
+  })
+
+  test('监听目标含 root package.json（装包触发重建的前提）', () => {
+    createProjectGraph({ root }).onGraphChange(() => {})
+    const [paths] = watchMock.mock.calls[0] as [string[]]
+    expect(paths).toContain(path.join(root, 'package.json'))
   })
 })
 

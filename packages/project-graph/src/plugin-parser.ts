@@ -9,6 +9,10 @@
  * 显示增强：PluginNode.id 优先用包名（更友好）。用 initialConfig.plugins/presets
  * 的包名做一次 resolve，建「解析路径 → 包名」映射；join 不上时退化用路径。
  *
+ * 同包多插件文件 id 碰撞修复（P1 C.6.4 缺陷#3）：当多个不同解析路径 join 到同一
+ * 包名时（如 preset 展开出同包下的多个插件文件），为这些条目的 id 加
+ * `#<包内相对路径>` 后缀去重；单文件包场景不受影响，id 仍为纯包名。
+ *
  * 未注入 Kernel 时：plugins 为空、platforms 为 []（本模块不被调用）。
  */
 
@@ -16,7 +20,7 @@ import { createRequire } from 'node:module'
 import * as path from 'node:path'
 
 import type { KernelCommandEntry, KernelLike } from './query'
-import type { GraphWarning, PluginCommand, PluginNode } from './schema'
+import type { IGraphIssue, IPluginCommand, IPluginNode } from './schema'
 
 /**
  * 把包名 resolve 为绝对路径，用于建「解析路径 → 包名」映射。
@@ -112,8 +116,8 @@ function collectHooksForPlugin(
   return names
 }
 
-function toPluginCommand(entry: KernelCommandEntry): PluginCommand {
-  const cmd: PluginCommand = { name: entry.name }
+function toPluginCommand(entry: KernelCommandEntry): IPluginCommand {
+  const cmd: IPluginCommand = { name: entry.name }
   if (entry.alias != null) cmd.alias = entry.alias
   if (entry.optionsMap != null) cmd.optionsMap = entry.optionsMap
   if (entry.synopsisList != null) cmd.synopsisList = entry.synopsisList
@@ -121,8 +125,8 @@ function toPluginCommand(entry: KernelCommandEntry): PluginCommand {
 }
 
 /** 从 commands 注册表反查某插件注册的命令。 */
-function collectCommandsForPlugin(kernel: KernelLike, pluginPath: string): PluginCommand[] {
-  const cmds: PluginCommand[] = []
+function collectCommandsForPlugin(kernel: KernelLike, pluginPath: string): IPluginCommand[] {
+  const cmds: IPluginCommand[] = []
   if (kernel.commands == null) return cmds
   for (const entry of kernel.commands.values()) {
     if (entry.plugin === pluginPath) cmds.push(toPluginCommand(entry))
@@ -140,28 +144,60 @@ function collectPlatformsForPlugin(kernel: KernelLike, pluginPath: string): stri
   return names
 }
 
+/**
+ * 从解析后的绝对路径截取「包内相对路径」，用于同包多插件文件的 id 去重后缀。
+ * 如 `pkg='@tarojs/plugin-html'`、`filePath='/…/node_modules/@tarojs/plugin-html/dist/a.js'`
+ * → `'dist/a.js'`。找不到 `/node_modules/<pkg>/` 段（如非常规 resolve 结果）返回 undefined。
+ */
+function pkgRelativePath(filePath: string, pkg: string): string | undefined {
+  const norm = filePath.replace(/\\/g, '/')
+  const marker = `/node_modules/${pkg}/`
+  const idx = norm.lastIndexOf(marker)
+  if (idx < 0) return undefined
+  return norm.slice(idx + marker.length)
+}
+
 /** 插件解析结果。 */
 export interface ParsedPlugins {
-  plugins: PluginNode[]
-  warnings: GraphWarning[]
+  plugins: IPluginNode[]
+  issues: IGraphIssue[]
 }
 
 /**
  * 从注入的 Kernel 提取插件节点。以 Kernel.plugins（自带 id+opts）为权威遍历，
  * 按解析路径从三张注册表反查 hook/命令/平台，id 优先显示为包名。
  *
+ * id 碰撞修复（P1 C.6.4 缺陷#3）：先统计每个包名 join 到的插件路径数，
+ * 仅当同一包名对应 ≥2 个不同解析路径时才加 `#<包内相对路径>` 后缀，
+ * 单文件包场景 id 仍为纯包名（不引入无意义后缀）。
+ *
  * @param kernel 已 initPresetsAndPlugins 的 Kernel
  * @param appPath 工程根（用于把包名 resolve 成路径以建包名映射）
  */
 export function parsePlugins(kernel: KernelLike, appPath: string): ParsedPlugins {
-  const warnings: GraphWarning[] = []
-  const plugins: PluginNode[] = []
-  if (kernel.plugins == null) return { plugins, warnings }
+  const issues: IGraphIssue[] = []
+  const plugins: IPluginNode[] = []
+  if (kernel.plugins == null) return { plugins, issues }
 
   const pathToPkg = buildPathToPkgName(kernel, appPath)
 
+  // 统计每个包名对应的插件路径数：>1 说明同包下有多个插件文件，id 需加后缀去重。
+  const pkgPathCount = new Map<string, number>()
+  for (const pluginPath of kernel.plugins.keys()) {
+    const pkg = pathToPkg.get(pluginPath)
+    if (pkg == null) continue
+    pkgPathCount.set(pkg, (pkgPathCount.get(pkg) ?? 0) + 1)
+  }
+
   for (const [pluginPath, entry] of kernel.plugins) {
-    const node: PluginNode = { id: pathToPkg.get(pluginPath) ?? pluginPath }
+    const pkg = pathToPkg.get(pluginPath)
+    const id =
+      pkg == null
+        ? pluginPath
+        : (pkgPathCount.get(pkg) ?? 0) > 1
+          ? `${pkg}#${pkgRelativePath(pluginPath, pkg) ?? pluginPath}`
+          : pkg
+    const node: IPluginNode = { id }
     // opts 取自 Kernel 条目（IPlugin.opts）。跳过：空对象（无参数）、函数形态
     // （Kernel 原样存函数、JSON 不可序列化，静态取不到值）。
     const opts = entry.opts
@@ -183,7 +219,7 @@ export function parsePlugins(kernel: KernelLike, appPath: string): ParsedPlugins
     plugins.push(node)
   }
 
-  return { plugins, warnings }
+  return { plugins, issues }
 }
 
 /**

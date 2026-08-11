@@ -1,15 +1,17 @@
 /**
  * @tarojs/project-graph — config 解析（任务 1）
  *
- * 复用 @tarojs/helper 的 readConfig 读取 app.config，产出 AppNode 与页面来源清单。
+ * 复用 @tarojs/helper 的 readConfig 读取 app.config，产出 IAppNode 与页面来源清单。
  * 本模块只负责「读 config → 组装页面路由清单」，不识别 React 页面、不建边（任务 2）。
  *
  * 页面来源（P1 页面来源清单，前置调研结论）：
  *  - app.config 的 pages[]           —— 主包页面
  *  - subPackages[].root + pages[]     —— 分包页面（加 root 前缀，标 inSubpackage）
- *  - tabBar.list[].pagePath           —— 必须存在于上述 pages，否则告警
+ *  - tabBar.list[].pagePath           —— 必须存在于上述 pages，否则产 empty-route issue
  *
- * 解析失败（readConfig 抛错 / 返回空）通过 GraphWarning 暴露，避免静默误判。
+ * 解析失败（readConfig 抛错 / 返回空 / pages 缺失）通过 IGraphIssue{kind:'parse-failed'}
+ * 暴露；脏数据（非静态 pages 项）降级 IAppNode.configAnalyzerStatus='partial'，
+ * 避免静默误判。
  */
 
 import * as fs from 'node:fs'
@@ -17,7 +19,7 @@ import * as path from 'node:path'
 
 import { readConfig, resolveScriptPath } from '@tarojs/helper'
 
-import type { AppConfig, AppNode, GraphWarning, PageConfig } from './schema'
+import type { IAppConfig, IAppNode, IGraphIssue, IPageConfig, TAnalysisStatus } from './schema'
 
 /** app.config 的候选文件名（相对 sourceRoot）。 */
 const APP_CONFIG_BASENAMES = ['app.config.ts', 'app.config.js']
@@ -32,10 +34,12 @@ export interface PageRoute {
 
 /** config 解析结果。 */
 export interface ParsedConfig {
-  app: AppNode
+  /** 完整的应用节点（含 configAnalyzerStatus/jsxAnalyzerStatus，本函数唯一构造点）。 */
+  app: IAppNode
   /** 去重后的页面路由清单（含主包 + 分包）。 */
   pageRoutes: PageRoute[]
-  warnings: GraphWarning[]
+  /** 真解析失败 / empty-route 等图级事实（frozen 4 kind 词表）。 */
+  issues: IGraphIssue[]
 }
 
 /** 归一化路由：统一分隔符、去首尾多余斜杠。 */
@@ -75,7 +79,7 @@ function collectStrings(value: unknown): { values: string[], dropped: number } {
 }
 
 /** 从标准化 config 对象收集分包页面路由；dropped 汇总被丢弃的页面元素数。 */
-function collectSubpackageRoutes(config: AppConfig): {
+function collectSubpackageRoutes(config: IAppConfig): {
   routes: PageRoute[]
   dropped: number
 } {
@@ -105,7 +109,7 @@ function collectSubpackageRoutes(config: AppConfig): {
 }
 
 /** 收集 tabBar.list[].pagePath，用于校验其存在于 pages。 */
-function collectTabBarPagePaths(config: AppConfig): string[] {
+function collectTabBarPagePaths(config: IAppConfig): string[] {
   const tabBar = config.tabBar
   if (tabBar == null || typeof tabBar !== 'object') return []
   const list = (tabBar as Record<string, unknown>).list
@@ -120,51 +124,64 @@ function collectTabBarPagePaths(config: AppConfig): string[] {
 }
 
 /**
- * 解析 app.config，产出 AppNode 与页面路由清单。
+ * 解析 app.config，产出 IAppNode 与页面路由清单。
  *
  * 关于「动态生成的 pages」：readConfig 会实际执行 config 模块，故用代码拼接
  * 出的 pages 数组在求值时已展开，无需静态 AST 处理。RFC-0003 提到的
  * `__taroAsyncComponent__` 经核查在主仓源码中不存在（疑为早期方案的占位标识），
- * 故本实现不为其编写处理逻辑；非字符串 / 空串的页面项统一计入 dropped 并告警。
+ * 故本实现不为其编写处理逻辑；非字符串 / 空串的页面项统一计入 dropped，
+ * 降级 configAnalyzerStatus='partial'（不产 issue——事实性丢弃，非工具限制）。
  *
  * @param sourceRoot 源码目录的**绝对路径**（即 Taro 的 sourceDir = `<工程 root>/src`，
  *   由 taroConfig.sourceRoot 解析而来）。必须非空绝对路径；传空串或相对串会导致
  *   页面文件解析失败。
  * @param alias 路径别名 map（来自 kernel.initialConfig.alias），透传给 readConfig 的
- *   esbuild，使 app.config 内的别名 import 可解析；未注入 Kernel 时为空、别名 import 会解析失败并告警。
+ *   esbuild，使 app.config 内的别名 import 可解析；未注入 Kernel 时为空、别名 import 会解析失败并计入 parse-failed。
  */
 export function parseAppConfig(sourceRoot: string, alias: Record<string, unknown> = {}): ParsedConfig {
-  const warnings: GraphWarning[] = []
+  const issues: IGraphIssue[] = []
   const appConfigPath = findAppConfigPath(sourceRoot)
 
   if (!appConfigPath) {
-    warnings.push({
-      kind: 'config_parse_failed',
+    issues.push({
+      kind: 'parse-failed',
       message: `未在 ${sourceRoot} 找到 app.config.ts / app.config.js`,
       filePath: sourceRoot,
     })
     return {
-      app: { filePath: '', config: {} },
+      app: {
+        id: 'app',
+        filePath: '',
+        config: {},
+        configAnalyzerStatus: 'failed',
+        jsxAnalyzerStatus: 'complete',
+      },
       pageRoutes: [],
-      warnings,
+      issues,
     }
   }
 
-  let config: AppConfig = {}
+  let config: IAppConfig = {}
   try {
     // 别名由调用方（createProjectGraph 从 kernel.initialConfig.alias）透传；未注入
-    // Kernel 时为空 map，app.config 若用别名 import 则解析失败并落入下方 config_parse_failed。
-    config = (readConfig(appConfigPath, { alias }) ?? {}) as AppConfig
+    // Kernel 时为空 map，app.config 若用别名 import 则解析失败并落入下方 parse-failed。
+    config = (readConfig(appConfigPath, { alias }) ?? {}) as IAppConfig
   } catch (err) {
-    warnings.push({
-      kind: 'config_parse_failed',
+    issues.push({
+      kind: 'parse-failed',
       message: `解析 app.config 失败：${(err as Error).message}`,
       filePath: appConfigPath,
     })
     return {
-      app: { filePath: appConfigPath, config: {} },
+      app: {
+        id: 'app',
+        filePath: appConfigPath,
+        config: {},
+        configAnalyzerStatus: 'failed',
+        jsxAnalyzerStatus: 'complete',
+      },
       pageRoutes: [],
-      warnings,
+      issues,
     }
   }
 
@@ -174,23 +191,23 @@ export function parseAppConfig(sourceRoot: string, alias: Record<string, unknown
   }))
   const { routes: subRoutes, dropped: subDropped } = collectSubpackageRoutes(config)
 
-  // pages 缺失或全部无效：视为异常，告警而非静默产出空清单
+  let configAnalyzerStatus: TAnalysisStatus = 'complete'
+
+  // pages 缺失或全部无效：视为异常，parse-failed 而非静默产出空清单
   // （对齐 vite-runner getPages 对空 pages 的 fatal 处理）。
   if (mainRoutes.length === 0) {
-    warnings.push({
-      kind: 'config_parse_failed',
+    issues.push({
+      kind: 'parse-failed',
       message: 'app.config 的 pages 缺失或为空，无法确定主包页面',
       filePath: appConfigPath,
     })
+    configAnalyzerStatus = 'failed'
   }
-  // 动态拼接、非字符串或空串的页面元素被丢弃时告警，避免静默漏页。
+  // 动态拼接、非字符串或空串的页面元素被丢弃：事实性丢弃（非工具限制），
+  // 降级 status 而不产 issue；仅在尚未 failed 时生效（failed 优先级更高）。
   const droppedPages = mainDropped + subDropped
-  if (droppedPages > 0) {
-    warnings.push({
-      kind: 'unresolved',
-      message: `${droppedPages} 个页面项非静态字符串（动态拼接或空值），已跳过；如需覆盖请核对 config`,
-      filePath: appConfigPath,
-    })
+  if (droppedPages > 0 && configAnalyzerStatus !== 'failed') {
+    configAnalyzerStatus = 'partial'
   }
 
   // 合并主包 + 分包并按 id 去重（先出现者优先，主包在前）。
@@ -200,23 +217,30 @@ export function parseAppConfig(sourceRoot: string, alias: Record<string, unknown
   }
   const pageRoutes = [...byId.values()]
 
-  // 校验 tabBar.list[].pagePath 存在于 pages。
+  // 校验 tabBar.list[].pagePath 存在于 pages：声明了路由但缺失 → empty-route
+  // （结构化事实暴露，不降 configAnalyzerStatus——事实性 missing 不算工具限制）。
   const pageIds = new Set(pageRoutes.map((r) => r.id))
   for (const pagePath of collectTabBarPagePaths(config)) {
     if (!pageIds.has(pagePath)) {
-      warnings.push({
-        kind: 'broken_navigation',
+      issues.push({
+        kind: 'empty-route',
         message: `tabBar.list 中的 pagePath "${pagePath}" 不在 pages 列表内`,
         filePath: appConfigPath,
-        nodeId: pagePath,
+        routePath: pagePath,
       })
     }
   }
 
   return {
-    app: { filePath: appConfigPath, config },
+    app: {
+      id: 'app',
+      filePath: appConfigPath,
+      config,
+      configAnalyzerStatus,
+      jsxAnalyzerStatus: 'complete',
+    },
     pageRoutes,
-    warnings,
+    issues,
   }
 }
 
@@ -253,7 +277,7 @@ export function resolvePageConfigPath(pageFilePath: string): string | undefined 
 /** 页面级 config 读取结果，区分"无文件/成功/读取失败"三态。 */
 export interface PageConfigResult {
   /** 读到的 config（无文件或失败时为 undefined）。 */
-  config?: PageConfig
+  config?: IPageConfig
   /** 文件存在但解析抛错。 */
   failed: boolean
   /** 失败时的错误信息。 */
@@ -263,8 +287,8 @@ export interface PageConfigResult {
 /**
  * 读取页面级 config 内容（page/index.config.ts 的默认导出）。
  * 复用 helper readConfig 求值。区分三态：无 config 文件（config=undefined, failed=false）、
- * 读取成功（config 有值）、解析失败（failed=true + error）——失败信号交由调用方记 warning，
- * 避免把损坏的 config 静默当成空配置。
+ * 读取成功（config 有值）、解析失败（failed=true + error）——失败信号交由调用方判定
+ * page 节点的 configAnalyzerStatus，避免把损坏的 config 静默当成空配置。
  *
  * @param alias 路径别名 map，透传给 readConfig 的 esbuild（与 app.config 同源）。
  */
@@ -272,7 +296,7 @@ export function readPageConfigContent(configFilePath: string, alias: Record<stri
   if (!fs.existsSync(configFilePath)) return { failed: false }
   try {
     const content = readConfig(configFilePath, { alias })
-    return { config: (content ?? {}) as PageConfig, failed: false }
+    return { config: (content ?? {}) as IPageConfig, failed: false }
   } catch (err) {
     return { failed: true, error: (err as Error).message }
   }

@@ -68,10 +68,12 @@ describe('parsePageFile — React 识别', () => {
     expect(p.isReactPage).toBe(false)
   })
 
-  test('文件不存在 → readFailed 且告警', () => {
+  test('文件不存在 → readFailed 且记 parse-failed issue', () => {
     const p = parsePageFile(path.join(PAGES, 'nope.tsx'), 'pages/nope/index')
     expect(p.readFailed).toBe(true)
-    expect(p.warnings).toHaveLength(1)
+    expect(p.issues).toHaveLength(1)
+    expect(p.issues[0].kind).toBe('parse-failed')
+    expect(p.jsxAnalyzerStatus).toBe('failed')
   })
 })
 
@@ -89,9 +91,10 @@ describe('parsePageFile — 调用识别（收紧规则）', () => {
     expect(p.navigations).toEqual([])
   })
 
-  test('url 非静态字符串（变量/模板串）→ 跳过并告警', () => {
+  test('url 非静态字符串（变量/模板串）→ 跳过，降级 jsxAnalyzerStatus（非结构性事实，不产 issue）', () => {
     const p = parsePageFile(path.join(PAGES, 'nav-dynamic-url.tsx'), 'pages/dyn/index')
     expect(p.navigations).toEqual([])
-    expect(p.warnings.some((w) => w.kind === 'unresolved')).toBe(true)
+    expect(p.jsxAnalyzerStatus).toBe('partial')
+    expect(p.issues).toEqual([])
   })
 })
