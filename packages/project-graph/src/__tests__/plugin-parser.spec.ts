@@ -67,9 +67,26 @@ describe('parsePlugins（注入 Kernel）', () => {
   })
 
   test('kernel.plugins 缺失 → 空清单不报错', () => {
-    const { plugins, warnings } = parsePlugins({}, '/proj')
+    const { plugins, issues } = parsePlugins({}, '/proj')
     expect(plugins).toEqual([])
-    expect(warnings).toEqual([])
+    expect(issues).toEqual([])
+  })
+
+  test('同包多插件文件 id 不碰撞：加 #包内相对路径 后缀区分（P1 C.6.4 缺陷#3）', () => {
+    const pathA = '/proj/node_modules/@tarojs/plugin-http/dist/index.js'
+    const pathB = '/proj/node_modules/@tarojs/plugin-http/dist/extra.js'
+    const collidingKernel: KernelLike = {
+      plugins: new Map([
+        [pathA, { id: pathA }],
+        [pathB, { id: pathB }],
+      ]),
+    }
+    const { plugins } = parsePlugins(collidingKernel, '/proj')
+    const ids = plugins.map((p) => p.id)
+    expect(ids).toHaveLength(2)
+    expect(new Set(ids).size).toBe(2)
+    expect(ids).toContain('@tarojs/plugin-http#dist/index.js')
+    expect(ids).toContain('@tarojs/plugin-http#dist/extra.js')
   })
 })
 

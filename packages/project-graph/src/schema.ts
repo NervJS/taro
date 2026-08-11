@@ -74,12 +74,6 @@ export const SCHEMA_VERSION = '2.0.0' as const
 /** getProjectGraph 的合法版本约束类型；仅接受精确匹配（§3.1）。 */
 export type TSchemaVersion = typeof SCHEMA_VERSION
 
-/**
- * 兼容垫片（WP1 过渡段）：旧名 `SchemaVersion` 映射到 `TSchemaVersion`，WP2 移除。
- * @see TSchemaVersion
- */
-export type SchemaVersion = TSchemaVersion
-
 // =============================================================================
 // §4.1 Framework 与平台标识
 // =============================================================================
@@ -452,47 +446,12 @@ export interface IProjectGraph {
   issues: IGraphIssue[]
   /** 快照 id（防抖全量重建成功后原子替换并递增，§6 watch/lifecycle）。 */
   snapshotId: string
+  /**
+   * 单调递增修订号（§6）：首次构建为 1，每次**成功**全量重建 +1。snapshotId 由输入
+   * 内容 hash 派生（内容相同则不变），revision 则严格递增——消费方用它判定"图确实换过
+   * 一代"（即便两代内容 hash 巧合相同），并可比较新旧。失败重建不递增（保留旧快照）。
+   */
+  revision: number
   /** 分析上下文（含来源标注；fingerprint 由此派生入缓存）。 */
   analysisContext: IAnalysisContext
 }
-
-// =============================================================================
-// P1 → P2 公开名兼容 shim（WP1 过渡段；WP2 完成工程内迁移后删除）
-// =============================================================================
-//
-// 现状（非自称、经实测）：bracket 内各 `export type Foo = IFoo` 是**改名类**垫片。
-// 它们让 P1 内部代码里"仅类型名变了"的引用在 WP2 迁移前继续解析，
-// **但并不能让 P1 代码 typecheck 转绿**——现存错误多是字段/形状 break
-// （graph.ts/cli.ts 访问已删的 .warnings、在 IEdge union 上取 .via/.resolved，
-// P1 builder 未填 P2 新增必填字段），type-alias 无法恢复删除名、无法覆盖字段改名、
-// 无法给 union 补字段。那些错误属**预期**，由 WP2 迁移修复。
-// 外部消费者**不应**写新代码依赖这些 P1 名，否则 WP2 收垫片时会 break。
-//
-// 删除集（不在本 shim）：GraphWarning、GraphWarningKind、Edge 联合中的旧 kind 字符串
-// ——这些语义载体已迁到 IGraphIssue/IEdge 字段，P1 静态编译面也同步崩，属预期 break。
-
-export type AppConfig = IAppConfig
-export type PageConfig = IPageConfig
-export type AppNode = IAppNode
-export type PageNode = IPageNode
-export type PluginNode = IPluginNode
-export type PluginCommand = IPluginCommand
-export type Edge = IEdge
-export type NodeRef = TNodeRef
-export type PageRef = TPageRef
-export type NavigationVia = TNavigationVia
-export type ProjectGraph = IProjectGraph
-
-// =============================================================================
-// P1 warnings 迁移说明（§3.2 行 6 —— 保留 · 重定义）
-// =============================================================================
-//
-// P1 公开类型 GraphWarning / GraphWarningKind 和字段 ProjectGraph.warnings 已删除：
-//  - 'config_parse_failed' → IGraphIssue { kind: 'parse-failed' }（语义不变，仅改名）。
-//  - 'broken_navigation'   → INavigationEdge.resolved = false（边字段承接语义；
-//                             空路由特化场景额外产 IGraphIssue { kind: 'empty-route' }）。
-//  - 'unresolved'          → IComponentEdge.resolution ∈ { 'external', 'unresolved' }
-//                             （resolution 字段是唯一事实源，不再以 issue 形式重复暴露）。
-//
-// 消费方（taro-pilot）需在 P2 范围外自行从 graph.warnings 迁到 graph.issues +
-// edge.resolved/resolution 字段；本库不提供 1.x 运行时转换器（§3.1 clean break）。

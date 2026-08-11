@@ -26,8 +26,8 @@ import * as path from 'node:path'
 
 import { createProjectGraph } from './graph'
 
-import type { ProjectGraphQuery } from './query'
-import type { ProjectGraph } from './schema'
+import type { IProjectGraphQuery } from './query'
+import type { IProjectGraph } from './schema'
 
 /**
  * Kernel 上挂载图实例的键,供同进程其它插件(如 taro-pilot)复用,免重复建图。
@@ -51,7 +51,7 @@ export interface ProjectGraphPluginOptions {
  * 把图写到指定路径(相对工程根解析)。目录不存在则递归创建。
  * 供 build 落盘与 `taro graph --output` 复用。
  */
-function writeGraphFile(graph: ProjectGraph, appPath: string, output: string): string {
+function writeGraphFile(graph: IProjectGraph, appPath: string, output: string): string {
   const target = path.isAbsolute(output) ? output : path.join(appPath, output)
   fs.mkdirSync(path.dirname(target), { recursive: true })
   fs.writeFileSync(target, JSON.stringify(graph, null, 2), 'utf8')
@@ -59,10 +59,10 @@ function writeGraphFile(graph: ProjectGraph, appPath: string, output: string): s
 }
 
 /** 概览文本(人类可读),与 CLI formatOverview 同信息量,此处内联避免跨入口耦合。 */
-function formatOverview(graph: ProjectGraph): string {
+function formatOverview(graph: IProjectGraph): string {
   const lines = [
     `framework: ${graph.framework}   platforms: [${graph.platforms.join(', ')}]`,
-    `pages: ${graph.pages.length}   edges: ${graph.edges.length}   plugins: ${graph.plugins.length}   warnings: ${graph.warnings.length}`,
+    `pages: ${graph.pages.length}   edges: ${graph.edges.length}   plugins: ${graph.plugins.length}   issues: ${graph.issues.length}`,
     'Pages:',
     ...graph.pages.map((p) => `  ${p.id}${p.inSubpackage ? `  [subpackage ${p.inSubpackage}]` : ''}`),
   ]
@@ -77,7 +77,7 @@ function formatOverview(graph: ProjectGraph): string {
  * @param opts 用户在 config.plugins 传入的插件参数。`output` 给定时 build 后落盘图 JSON。
  */
 export default function projectGraphPlugin(ctx: any, opts?: ProjectGraphPluginOptions): void {
-  let query: ProjectGraphQuery | undefined
+  let query: IProjectGraphQuery | undefined
   const output = typeof opts?.output === 'string' && opts.output ? opts.output : undefined
 
   // build 流程:onBuildStart 触发时平台已注册,此刻建图并挂到 Kernel 供同进程复用。
@@ -107,12 +107,14 @@ export default function projectGraphPlugin(ctx: any, opts?: ProjectGraphPluginOp
     optionsMap: {
       '--json': '输出稳定 JSON(外部脚本可解析)',
       '--route': '查询单条路由并打印命中页面详情',
+      '--link': '配合 --route:在输出里附带 file://<绝对路径>:1:1 可点击跳转链接',
       '--output': '把完整图写入指定文件(相对工程根或绝对路径)',
     },
     synopsisList: [
       'taro graph',
       'taro graph --json',
       'taro graph --route=/pages/index/index',
+      'taro graph --route=/pages/index/index --link',
       'taro graph --output=.taro/project-graph.json',
     ],
     fn() {
@@ -137,8 +139,16 @@ export default function projectGraphPlugin(ctx: any, opts?: ProjectGraphPluginOp
       }
       if (typeof args.route === 'string') {
         const page = query.findPageByRoute(args.route)
+        if (page == null) {
+          // eslint-disable-next-line no-console
+          console.log(`路由 ${args.route} 未找到对应页面`)
+          return
+        }
+        // --link:附 file://<绝对路径>:1:1 可点击跳转（复用 Query.pageToFileUrl 单一渲染逻辑，
+        // 与 CLI --link 同源；不改 page 原字段，仅在输出对象上叠加 fileUrl，保持既有 JSON 形态）。
+        const payload = args.link ? { ...page, fileUrl: query.pageToFileUrl(page.id) } : page
         // eslint-disable-next-line no-console
-        console.log(page != null ? JSON.stringify(page, null, 2) : `路由 ${args.route} 未找到对应页面`)
+        console.log(JSON.stringify(payload, null, 2))
         return
       }
       // eslint-disable-next-line no-console

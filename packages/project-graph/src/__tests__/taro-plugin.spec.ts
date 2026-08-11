@@ -37,6 +37,7 @@ interface IFakeCtx {
 function copyFixture(): string {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'pg-plugin-'))
   fs.cpSync(path.join(FIXTURE, 'src'), path.join(tmp, 'src'), { recursive: true })
+  fs.cpSync(path.join(FIXTURE, 'package.json'), path.join(tmp, 'package.json'))
   return tmp
 }
 
@@ -87,6 +88,7 @@ describe('projectGraphPlugin（Taro 插件入口）', () => {
     const graphCmd = commands.find((c) => c.name === 'graph')!
     expect(graphCmd.optionsMap).toHaveProperty('--json')
     expect(graphCmd.optionsMap).toHaveProperty('--route')
+    expect(graphCmd.optionsMap).toHaveProperty('--link')
     expect(Array.isArray(graphCmd.synopsisList)).toBe(true)
   })
 
@@ -112,7 +114,7 @@ describe('projectGraphPlugin（Taro 插件入口）', () => {
     expect(spy).toHaveBeenCalledTimes(1)
     const printed = spy.mock.calls[0][0] as string
     const graph = JSON.parse(printed)
-    expect(graph.schemaVersion).toBe('1.0.0')
+    expect(graph.schemaVersion).toBe('2.0.0')
     expect(graph.pages.map((p: { id: string }) => p.id).sort()).toEqual([
       'pages/detail/index',
       'pages/index/index',
@@ -129,6 +131,33 @@ describe('projectGraphPlugin（Taro 插件入口）', () => {
     const printed = spy.mock.calls[0][0] as string
     expect(printed).toContain('pages/detail/index')
     spy.mockRestore()
+  })
+
+  test('graph 命令 --route --link:JSON 叠加 fileUrl（file://<绝对路径>:1:1），保留原 page 字段', () => {
+    const { ctx, commands } = makeFakeCtx(root, { route: '/pages/detail/index', link: true })
+    projectGraphPlugin(ctx)
+    const graphCmd = commands.find((c) => c.name === 'graph')!
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    graphCmd.fn()
+    const parsed = JSON.parse(spy.mock.calls[0][0] as string)
+    spy.mockRestore()
+    // --link 叠加可点击跳转链接：file://<绝对路径>:1:1（复用 Query.pageToFileUrl 单一渲染）。
+    expect(typeof parsed.fileUrl).toBe('string')
+    expect(parsed.fileUrl).toMatch(/^file:\/\/.*:1:1$/)
+    // 不破原 JSON 形态：page 原字段仍在。
+    expect(parsed.routePath).toBe('/pages/detail/index')
+    expect(typeof parsed.filePath).toBe('string')
+  })
+
+  test('graph 命令 --route 未命中 --link:仍走未命中提示，不抛错', () => {
+    const { ctx, commands } = makeFakeCtx(root, { route: '/pages/nope/index', link: true })
+    projectGraphPlugin(ctx)
+    const graphCmd = commands.find((c) => c.name === 'graph')!
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    graphCmd.fn()
+    const printed = spy.mock.calls[0][0] as string
+    spy.mockRestore()
+    expect(printed).toContain('未找到对应页面')
   })
 
   test('graph 命令无参数输出概览文本', () => {
@@ -199,7 +228,7 @@ describe('projectGraphPlugin（Taro 插件入口）', () => {
     const outAbs = path.join(root, outRel)
     expect(fs.existsSync(outAbs)).toBe(true)
     const written = JSON.parse(fs.readFileSync(outAbs, 'utf8'))
-    expect(written.schemaVersion).toBe('1.0.0')
+    expect(written.schemaVersion).toBe('2.0.0')
     expect(written.pages.map((p: { id: string }) => p.id).sort()).toEqual([
       'pages/detail/index',
       'pages/index/index',

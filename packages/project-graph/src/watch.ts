@@ -27,14 +27,19 @@ const DEBOUNCE_MS = 100
  * @param appPath 工程根
  * @param sourceRoot 源码目录（<root>/<sourceRoot>，默认 <root>/src）
  * @param onChange 防抖后回调，传入本批变更的文件路径
+ * @param extraPaths 额外监听的具体文件（§6：root package.json + lockfile——装包/改版本
+ *   触发 external↔npm 迁移、须重建）。空/省略时不追加，保持仅监听 src + config/。
  */
 export function startWatch(
   appPath: string,
   sourceRoot: string,
   onChange: (changedPaths: string[]) => void,
+  extraPaths: string[] = [],
 ): Watcher {
   const configDir = path.join(appPath, 'config')
-  const watcher = chokidar.watch([sourceRoot, configDir], {
+  // src + config/ 恒在前（既有契约）；package/lock 等具体文件追加在后。
+  const watchTargets = [sourceRoot, configDir, ...extraPaths]
+  const watcher = chokidar.watch(watchTargets, {
     ignoreInitial: true,
     ignored: /(^|[/\\])node_modules([/\\]|$)/,
   })

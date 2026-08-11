@@ -124,11 +124,27 @@ export interface ICreateProjectGraphOptions {
 /** 取消订阅句柄。 */
 export type TUnsubscribe = () => void
 
-/** 图变更事件（dev-time；防抖全量重建成功后原子替换并触发）。 */
-export interface IGraphChange {
-  /** 触发本次重建的变更文件路径（chokidar 侦测到的 add/change/unlink）。 */
-  changedFiles: string[]
-}
+/**
+ * 图变更事件（dev-time）。判别联合（`ok` 判别）：
+ *  - 成功（ok:true）：防抖全量重建成功、原子替换后触发；带本次变更文件与新 revision。
+ *  - 失败（ok:false）：重建过程抛错（非降级空图，是真异常）——**保留旧快照**、发失败
+ *    事件，不暴露半成品（§6）。消费方据此决定是否提示/重试，图仍是上一份可用快照。
+ */
+export type IGraphChange =
+  | {
+    ok: true
+    /** 触发本次重建的变更文件路径（chokidar 侦测到的 add/change/unlink）。 */
+    changedFiles: string[]
+    /** 重建后新图的 revision（单调递增）。 */
+    revision: number
+  }
+  | {
+    ok: false
+    /** 触发本次重建尝试的变更文件路径。 */
+    changedFiles: string[]
+    /** 失败原因（人类可读；不含修复建议）。 */
+    error: string
+  }
 
 /** dev-time 图变更监听器。 */
 export type TGraphChangeListener = (change: IGraphChange) => void
@@ -279,8 +295,15 @@ export interface IProjectGraphQuery {
 
   // ---- 订阅（P1 保留 · 改名） ---------------------------------------------
 
-  /** dev-time 订阅图变更（防抖全量重建成功后原子替换并触发）。 */
+  /** dev-time 订阅图变更（防抖全量重建成功后原子替换并触发；失败发 ok:false 事件）。 */
   onGraphChange(listener: TGraphChangeListener): TUnsubscribe
+
+  /**
+   * 释放实例资源（§6 生命周期终点）：停止 watcher、清空所有订阅者。幂等——可重复
+   * 调用。dispose 后再 onGraphChange 视为新订阅、会重新惰性启动 watch（实例仍可用，
+   * 只是显式回收了当前监听资源）；宿主关闭前调用以确保不泄漏 chokidar 句柄。
+   */
+  dispose(): void
 
   // ---- 页面跳转辅助（P2 新增 · B61） --------------------------------------
 
@@ -365,20 +388,3 @@ export interface IProjectGraphQuery {
  * 实现耦合（与 P1 分层一致）。
  */
 export type CreateProjectGraph = (options: ICreateProjectGraphOptions) => IProjectGraphQuery
-
-// =============================================================================
-// P1 → P2 公开名兼容 shim（WP1 过渡段；WP2 完成工程内迁移后删除）
-// =============================================================================
-//
-// 现状（非自称、经实测）：P1 内部代码（graph.ts / mcp.ts）仍 import 这些 P1 名。
-// 这些 type-alias 让**改名类**引用在 WP2 迁移前继续解析；但字段/删除名类 break
-// （schema 侧的 .warnings/.via/.resolved、IEdge union 收窄）无法用 alias 补，
-// 那些 typecheck 错误属预期、由 WP2 修复。**外部消费者不应写新代码依赖这些 P1 名**，
-// WP2 收垫片时会一并 break。
-
-export type ProjectGraphQuery = IProjectGraphQuery
-export type CreateProjectGraphOptions = ICreateProjectGraphOptions
-export type GetProjectGraphOptions = IGetProjectGraphOptions
-export type Unsubscribe = TUnsubscribe
-export type GraphChange = IGraphChange
-export type GraphChangeListener = TGraphChangeListener

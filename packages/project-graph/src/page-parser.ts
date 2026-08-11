@@ -7,7 +7,8 @@
  *     字符串字面量，构建 navigation 边。
  *
  * 只用 AST 静态扫描，不引入 SWC（替换 SWC 为 P4 预留）。url 为变量/模板串等
- * 非字面量时无法静态取值，记 warning 并跳过。
+ * 非字面量时无法静态取值，降级该页 jsxAnalyzerStatus='partial' 并跳过该跳转
+ * （工具限制类 unresolved，不是结构性事实，故不产 IGraphIssue）。
  */
 
 import * as fs from 'node:fs'
@@ -16,14 +17,14 @@ import ts from 'typescript'
 
 import { normalizeRoute } from './config-parser'
 
-import type { Edge, GraphWarning, NavigationVia } from './schema'
+import type { IGraphIssue, INavigationEdge, TAnalysisStatus, TNavigationVia } from './schema'
 
 /**
  * 参与 url 扫描的跳转 API。仅含"带 url 入参、会产生跳转边"的 4 个。
  * 注意：schema 的 NavigationVia 还包含 'useRouter'，但它是读取当前路由参数的
  * hook（无 url 入参、不产生跳转边），故不在此扫描集内，避免刷无意义告警。
  */
-const NAVIGATION_APIS: readonly NavigationVia[] = ['navigateTo', 'redirectTo', 'switchTab', 'reLaunch']
+const NAVIGATION_APIS: readonly TNavigationVia[] = ['navigateTo', 'redirectTo', 'switchTab', 'reLaunch']
 
 const NAV_API_SET = new Set<string>(NAVIGATION_APIS)
 
@@ -31,11 +32,14 @@ const NAV_API_SET = new Set<string>(NAVIGATION_APIS)
 export interface ParsedPage {
   /** 是否识别为 React 页面（含 JSX）。 */
   isReactPage: boolean
-  /** 文件读取是否失败（失败时 isReactPage/navigations 无意义，且已记 warning）。 */
+  /** 文件读取是否失败（失败时 isReactPage/navigations 无意义，且已记入 issues）。 */
   readFailed: boolean
   /** 从该页出发的跳转目标（原始 url 字符串，未规范化为 routeId）。 */
-  navigations: { via: NavigationVia, url: string }[]
-  warnings: GraphWarning[]
+  navigations: { via: TNavigationVia, url: string }[]
+  /** 真解析失败（读取失败）→ issue；调用方（graph.ts）据此聚合图级 analysis-incomplete。 */
+  issues: IGraphIssue[]
+  /** 该页 JSX analyzer 覆盖度：读取失败→'failed'；含非静态 url→'partial'；否则'complete'。 */
+  jsxAnalyzerStatus: TAnalysisStatus
 }
 
 function createSourceFile(filePath: string, text: string): ts.SourceFile {
@@ -142,10 +146,9 @@ function extractUrlLiteral(call: ts.CallExpression): string | undefined {
  * 解析单个页面文件：判定是否 React 页面、抽取跳转调用。
  *
  * @param filePath 页面文件绝对路径
- * @param pageId 该页在图中的 id（用于 warning 归属）
+ * @param pageId 该页在图中的 id（用于 issue 归属）
  */
 export function parsePageFile(filePath: string, pageId: string): ParsedPage {
-  const warnings: GraphWarning[] = []
   let text: string
   try {
     text = fs.readFileSync(filePath, 'utf8')
@@ -154,21 +157,23 @@ export function parsePageFile(filePath: string, pageId: string): ParsedPage {
       isReactPage: false,
       readFailed: true,
       navigations: [],
-      warnings: [
+      issues: [
         {
-          kind: 'config_parse_failed',
+          kind: 'parse-failed',
           message: `读取页面文件失败：${(err as Error).message}`,
           filePath,
           nodeId: pageId,
         },
       ],
+      jsxAnalyzerStatus: 'failed',
     }
   }
 
   const sourceFile = createSourceFile(filePath, text)
   const { namespaces: taroNs, named: taroNamed } = collectTaroImports(sourceFile)
   let hasJsx = false
-  const navigations: { via: NavigationVia, url: string }[] = []
+  let hasNonStaticUrl = false
+  const navigations: { via: TNavigationVia, url: string }[] = []
 
   const visit = (node: ts.Node): void => {
     if (ts.isJsxElement(node) || ts.isJsxSelfClosingElement(node) || ts.isJsxFragment(node)) {
@@ -179,14 +184,11 @@ export function parsePageFile(filePath: string, pageId: string): ParsedPage {
       if (name != null && NAV_API_SET.has(name)) {
         const url = extractUrlLiteral(node)
         if (url != null) {
-          navigations.push({ via: name as NavigationVia, url })
+          navigations.push({ via: name as TNavigationVia, url })
         } else {
-          warnings.push({
-            kind: 'unresolved',
-            message: `${name} 的 url 非静态字符串（变量/模板串），已跳过`,
-            filePath,
-            nodeId: pageId,
-          })
+          // 工具限制类 unresolved（url 非静态字面量，无法确定跳转目标）：
+          // 降级本页 jsxAnalyzerStatus，不产 IGraphIssue（非结构性事实）。
+          hasNonStaticUrl = true
         }
       }
     }
@@ -194,7 +196,13 @@ export function parsePageFile(filePath: string, pageId: string): ParsedPage {
   }
   visit(sourceFile)
 
-  return { isReactPage: hasJsx, readFailed: false, navigations, warnings }
+  return {
+    isReactPage: hasJsx,
+    readFailed: false,
+    navigations,
+    issues: [],
+    jsxAnalyzerStatus: hasNonStaticUrl ? 'partial' : 'complete',
+  }
 }
 
 /**
@@ -218,10 +226,10 @@ export function urlToRouteId(url: string): string {
  */
 export function buildNavigationEdges(
   fromPageId: string,
-  navigations: { via: NavigationVia, url: string }[],
+  navigations: { via: TNavigationVia, url: string }[],
   knownPageIds: ReadonlySet<string>
-): Edge[] {
-  const edges: Edge[] = []
+): INavigationEdge[] {
+  const edges: INavigationEdge[] = []
   const seen = new Set<string>()
   for (const nav of navigations) {
     const to = urlToRouteId(nav.url)
