@@ -58,6 +58,26 @@ var taroOption = createPageConfig(component, '${pageName}', {root:{cn:[]}}, conf
 if (component && component.behaviors) {
   taroOption.${behaviorsName} = (taroOption.${behaviorsName} || []).concat(component.behaviors)
 }
+${options.sharedRuntime ? `
+// 共享运行时（方案二 split）多包 App 隔离:每次进入本页面前,把 Current.app 切回本业务包
+// 的 realApp,避免 A→B→A 跨包切换后 A 页面 mount 到 B 的 App 上。
+// 从 shared.__pkgApps[pkgId] 表查回本包 App,pkgApps 由 app-shim/async-provider 存;
+// 若未激活/表空,不切换(fallback 到 last-writer 语义,与首次冷启动直达 A 页语义一致)。
+if (typeof ${globalObject}[${JSON.stringify(options.sharedRuntimeGlobalKey)}] !== 'undefined') {
+  var __TARO_SHARED_FOR_PAGE__ = ${globalObject}[${JSON.stringify(options.sharedRuntimeGlobalKey)}]
+  var __TARO_PKG_ID_FOR_PAGE__ = ${JSON.stringify(options.sharedRuntimePkgId)}
+  var __TARO_ORIGINAL_ONLOAD__ = taroOption.onLoad
+  taroOption.onLoad = function () {
+    var __pkgApps = __TARO_SHARED_FOR_PAGE__.__pkgApps || {}
+    var __runtime = __TARO_SHARED_FOR_PAGE__['@tarojs/runtime']
+    var __myApp = __pkgApps[__TARO_PKG_ID_FOR_PAGE__]
+    if (__myApp && __runtime && __runtime.Current) {
+      __runtime.Current.app = __myApp
+    }
+    return __TARO_ORIGINAL_ONLOAD__.apply(this, arguments)
+  }
+}
+` : ''}
 var inst = Page(taroOption)
 `
   }
