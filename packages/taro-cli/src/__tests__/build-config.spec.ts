@@ -182,7 +182,9 @@ describe('构建配置测试', () => {
       logSpy.mockRestore()
     })
 
-    it('native-components 模式 --shared-runtime ==> fail-fast 退出', async () => {
+    it('F6:native-components 模式 --shared-runtime 不再被 fail-fast(允许放行)', async () => {
+      // F1 曾拒此组合;F6 引入 isNativeShared 分支后允许放行。
+      // 此测试断言:即使 build 因 fixture 配置不完整而失败,也不应看到 "native-components 模式不适用方案二" 错误消息。
       const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
       const logSpy = jest.spyOn(console, 'log')
       logSpy.mockImplementation(() => {})
@@ -190,7 +192,6 @@ describe('构建配置测试', () => {
         throw new Error('exit')
       })
 
-      let exited = false
       try {
         await runBuild(APP_PATH, {
           args: ['native-components'],
@@ -201,11 +202,10 @@ describe('构建配置测试', () => {
           }
         })
       } catch (error) {
-        exited = true
+        // build 可能因 fixture 无 components 配置或其它编译问题失败,与本测试焦点无关
       }
-      expect(exited).toBe(true)
-      expect(exitSpy).toBeCalledWith(1)
-      expect(logSpy.mock.calls.some(call => /native-components 模式不适用方案二/.test(String(call[0])))).toBe(true)
+      // 关键:F1 的 native-components 守卫消息不应再出现
+      expect(logSpy.mock.calls.some(call => /native-components 模式不适用方案二/.test(String(call[0])))).toBe(false)
 
       exitSpy.mockRestore()
       logSpy.mockRestore()
