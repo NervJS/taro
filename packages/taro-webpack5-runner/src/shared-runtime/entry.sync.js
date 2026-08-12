@@ -57,6 +57,11 @@ if (!shared.__syncCoreInstalled) {
   // 的语义(见 packages/taro-webpack5-runner/docs/shared-runtime-scope.md)。
   shared.__pkgApps = shared.__pkgApps || {}
 
+  // F6 native-components 隔离表:每个 native-comp 业务包的 Entry(App)存进
+  // __nativeComponentApps[pkgId],createNativeComponentConfig 里按 pkgId 查回,
+  // 与 __pkgApps 平行(pages 与 native-comps 各自独立表,互不影响)。
+  shared.__nativeComponentApps = shared.__nativeComponentApps || {}
+
   var share = function (name, mod) { if (!shared[name]) shared[name] = mod }
 
   // ---- 1. 同步真身 ----
