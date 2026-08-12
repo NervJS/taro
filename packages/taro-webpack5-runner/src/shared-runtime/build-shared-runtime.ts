@@ -84,7 +84,7 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
 
   // 产物元数据 manifest：记录本次共享运行时用到的 react 全家桶精确版本 + 运行时协议版本。
   // 供宿主/接入方排查版本一致性（多业务包 + 宿主 provider 的 react 单例必须版本一致）。
-  writeRuntimeManifest(asyncDir, userNodeModules)
+  writeRuntimeManifest(asyncDir, userNodeModules, extraPackages)
 
   // dist 自带运行时：把 shared-async 注册进本项目 dist/app.json + 配 preloadRule，使 dist 可直接被开发者工具打开。
   registerAsyncSubPackage(outputDir, fileType.config || '.json')
@@ -94,19 +94,33 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
  * 写产物元数据 manifest（runtime-manifest.json）到异步子包目录。
  * 记录 react 全家桶（React 单例敏感、版本错配会真出错）精确版本 + 运行时协议版本号。
  * 定位：仅产物元数据，供宿主/人工排查；运行时跨包错配由同步核/异步核的 __rtVersion 校验兜底。
+ *
+ * extraPackages（config.mini.sharedRuntimeExtraPackages，如私有 jdapi runtime）的版本也一并记录：
+ * 它们随异步核打包共享,多业务包若声明不同版本会静默漂移（不像 react 全家桶有 __rtVersion 硬 gate）。
+ * 这里只做**记录**供人工排查——不做编译期 gate（这些包的版本差异未必出错,硬 gate 易误报,与
+ * react 全家桶的处理策略一致:只 react 全家桶做硬校验）。
  */
-function writeRuntimeManifest (asyncDir: string, userNodeModules: string) {
+function writeRuntimeManifest (asyncDir: string, userNodeModules: string, extraPackages: string[] = []) {
   const REACT_FAMILY = ['react', 'react-dom', 'react-reconciler', 'scheduler', '@tarojs/react']
   const versions: Record<string, string> = {}
   REACT_FAMILY.forEach((pkg) => {
     const v = readPackageVersion(userNodeModules, pkg)
     if (v) versions[pkg] = v
   })
+  // extraPackages 可能带子路径（如 '@jdtaro/plugin-inject-jdapi/runtime-mini'），
+  // 版本要从包根 package.json 读——取 scope/包名部分（前 1 或 2 段）作为 readPackageVersion 的 key。
+  const extraVersions: Record<string, string> = {}
+  extraPackages.forEach((pkg) => {
+    const pkgRoot = pkg.startsWith('@') ? pkg.split('/').slice(0, 2).join('/') : pkg.split('/')[0]
+    const v = readPackageVersion(userNodeModules, pkgRoot)
+    if (v) extraVersions[pkgRoot] = v
+  })
   const manifest = {
     runtimeProtocolVersion: RUNTIME_GLOBAL_VERSION,
     global: SHARED_GLOBAL_ASYNC,
     subPackage: SHARED_ASYNC_ROOT,
     reactFamilyVersions: versions,
+    extraPackageVersions: extraVersions,
   }
   fs.writeFileSync(path.join(asyncDir, 'runtime-manifest.json'), JSON.stringify(manifest, null, 2) + '\n')
 }

@@ -6,7 +6,7 @@
 
 ### 1. 小程序 pages 模式(可加 `--new-blended`)
 
-**平台**:weapp / alipay / swan / tt / qq / jd / ascf
+**平台**:CLI 白名单放行 weapp / alipay / swan / tt / qq / jd / ascf,但 **⚠️ 目前仅 weapp 经过真机验证**。
 
 ```bash
 taro build --type weapp --new-blended --shared-runtime
@@ -14,6 +14,12 @@ taro build --type weapp --new-blended --shared-runtime --shared-runtime-mode spl
 ```
 
 **收益**:业务包不再自带 ~200KB Taro+React 运行时,由共享 `shared-async-v{N}` 子包统一提供。多个独立编译的业务包接入同一宿主时,共享一份异步核。
+
+> **⚠️ 非 weapp 平台(alipay/swan/tt/qq/jd/ascf)已知不可用**:虽在 CLI 白名单内,但运行时有两处 weapp 硬编码泄漏,当前会静默产出错误产物,尚未修复:
+> - `entry.sync.js` 与 `build-shared-runtime.ts::reverseExternals` 字面量 `require`/external `@tarojs/plugin-platform-weapp/dist/runtime`,未按 `buildAdapter` 参数化——非 weapp 平台会解析失败或错误注册 weapp 平台 API。
+> - `connect-native.ts` 的共享全局查找兜底硬编码 `g.wx?.[globalKey]`,非 weapp 平台(`my`/`swan`/`tt`…)查不到 `__nativeComponentApps` 表。
+>
+> 修复方向:上述引用改由 `globalObject`/`buildAdapter` 动态确定(工作量 + 需非 weapp 真机环境验证)。在此之前,非 weapp 平台请勿用于生产。
 
 ### 2. native-components 模式(F6 起支持)
 
@@ -32,6 +38,10 @@ taro build native-components --type weapp --shared-runtime --shared-runtime-mode
 
 **前提**:native-components 产物**必须在方案二共享运行时宿主内使用**(宿主需提供 `wx.__TARO_RT_ASYNC_V1__` 全局)。若要发给非方案二宿主,去掉 `--shared-runtime` 走 vanilla 自足产物。
 
+> **⚠️ 接入约定:共享 native-component 不能放进宿主的 independent(独立)分包。**
+> 独立分包冷启动跳过主包、且**运行时隔离**——访问不到主包/其他分包的资源。即使 native-comp 的 chunk 顶部注入了同步核,同步核要 `require.async('shared-async-v1/index')` 去拉异步核,而 `shared-async-v1` 是主包区域的普通分包 → 独立分包内拉不到 → 崩。
+> 这与 pages 模式的独立分包问题同源,但 **CLI 拦不住**:`--shared-runtime` 的独立分包 fail-fast(见下方"❌ 不适用 · 4")检查的是**当前构建项目**的 `app.config.subPackages[].independent`,而 native-comp 编译产物没有 app.json、不声明业务分包;组件被放进哪种分包完全是**宿主接入方的布局决策**,构建期无从得知。故此约束只能靠接入约定保证:宿主用 `usingComponents` 引用共享 native-comp 的页面,不得位于独立分包内。
+
 ## ❌ 不适用场景(CLI 编译期直接拒)
 
 ### 1. 小程序插件(--plugin)模式
@@ -49,6 +59,24 @@ taro build --type h5 --shared-runtime  # ← 会 fail-fast
 ```
 
 **为何不适用**:h5/rn/harmony 走独立编译栈,不经过 `MiniCombination`/`externals` 层,方案二 flag 传入会静默失效——CLI 直接拒绝以避免开发者误用。
+
+### 3. 非 react 框架(vue3 / solid / preact)
+
+```bash
+taro build --type weapp --shared-runtime   # 当 config.framework 非 'react' 时 ← 会 fail-fast
+```
+
+**为何不适用**:共享运行时模板(`app-shim.js`/`entry.sync.js`/`async-provider.js`)硬编码 `@tarojs/plugin-framework-react/dist/runtime`。
+- **vue3 / solid**:业务产物顶层调用 `createVue3App`/对应 creator,但共享全局上只有 react 的 `createReactApp` → `undefined` 崩溃。
+- **preact**:preact 支持靠主构建 webpack-chain 的 `resolve.alias`(`react`→`preact/compat`)。但共享运行时是独立 webpack 子构建,不继承该 alias,`entry.sync.js` 里 `require('react')` 会解析到真实 react(或在无 react 依赖时失败)。preact 与 react 同属 `framework: 'react'` 的 `Frameworks` 值域,故 framework 白名单(仅放行 `'react'`)天然连带拒绝 preact。
+
+CLI 在 `build.ts` 的 sharedRuntime 守卫块内校验 `ctx.initialConfig.framework === 'react'`,否则 fail-fast。
+
+### 4. independent(独立)分包
+
+app.config 里业务分包声明 `independent: true` + `--shared-runtime` ← 会 fail-fast。
+
+**为何不适用**:微信独立分包冷启动时**跳过主包下载与 `App()` 执行**,直到后续导航才加载主包。而同步核(`taro-shared-sync`)只在业务 `app.js` 顶层被同步 `require`——独立分包页面冷启动直达时,同步核从未运行,该页面 external 到共享全局的 `react`/`@tarojs/*` 全是空 → 运行时崩。CLI 在 `modifyAppConfig` 回调(app.json 解析后、分包编译前)校验 `subPackages[].independent`,命中即 fail-fast 并列出冲突 root。
 
 ## ⚠️ 已知边界
 
@@ -81,6 +109,15 @@ native-components 包**没有 app.js**,从不调 `createReactApp`。因此:
 
 - 所有业务包与共享运行时必须用**相同 Taro monorepo 版本**编译。异步核 provider 会做协议版本校验(`__rtVersion`),不一致直接 throw。
 - react 全家桶(react/react-dom/react-reconciler/scheduler + @tarojs/react)版本由业务项目 node_modules 决定,产物 `runtime-manifest.json` 记录实际版本供排查。
+- `sharedRuntimeExtraPackages`(如私有 jdapi runtime)版本也记入 manifest 的 `extraPackageVersions` 字段——但**仅记录供人工排查,不做编译期硬 gate**(这些包版本差异未必出错,硬 gate 易误报;只有 react 全家桶 + 协议号做硬校验)。多业务包声明不同版本的同一 extra 包时不会自动拦截,需人工比对 manifest。
+
+### dev/watch 模式重复构建共享运行时子核
+
+`buildSharedRuntime()` 挂在构建完成回调上,`--watch` 模式下**每次增量重编译都会重跑一遍完整生产模式子构建**(sync-core + async-provider 两个独立 webpack config)。不影响正确性(产物一致),但拖慢 watch 循环。当前无"输入未变则跳过"缓存判断——归为已知性能边界,开发期可接受。
+
+### 分包体积预算无构建期检查
+
+微信对单个分包(2MB)、总包(20MB,部分类目更高)有体积限制。共享运行时不做构建期体积检查——多业务子包 + shared-async 累积超限只会在**部署期**(开发者工具 / 上传 CLI)暴露。用外部工具兜底,构建期无信号。
 
 ### plugin-mv 幂等
 

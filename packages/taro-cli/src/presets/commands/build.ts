@@ -107,6 +107,20 @@ export default (ctx: IPluginContext) => {
           console.log(chalk.red(`--shared-runtime-mode 仅支持 "split"，收到 "${sharedRuntimeMode}"。`))
           process.exit(1)
         }
+        // framework 白名单：共享运行时模板(app-shim/entry.sync/async-provider)硬编码
+        // @tarojs/plugin-framework-react/dist/runtime，vue3/solid 会调用不存在的 createVue3App 崩溃。
+        // preact 与 react 同属 framework:'react' 的 Frameworks 值域(taro-framework-react)，但共享运行时
+        // 子构建是独立 webpack config，不继承主构建的 react→preact/compat resolve.alias——preact 项目里
+        // 子构建 require('react') 会解析到真实 react 或失败，故 preact 亦不支持。
+        const framework = ctx.initialConfig.framework
+        if (framework !== 'react') {
+          console.log(chalk.red(
+            `--shared-runtime 当前仅支持 framework: 'react'，收到 "${framework ?? '(未配置)'}"。` +
+            '共享运行时模板硬编码 framework-react；vue3/solid 会崩，preact 因子构建不继承 resolve.alias 同样不支持。' +
+            '请去掉 --shared-runtime，或将 framework 改为 react。'
+          ))
+          process.exit(1)
+        }
       }
 
       // 校验 Taro 项目配置
@@ -172,6 +186,26 @@ export default (ctx: IPluginContext) => {
             noInjectGlobalStyle,
             async modifyAppConfig (appConfig) {
               extractCompileEntry(appConfig, args, ctx)
+
+              // 共享运行时不支持 independent(独立)分包:独立分包冷启动会跳过主包 app.js 下载/执行,
+              // 同步核(taro-shared-sync,仅在业务 app.js 顶层同步 require)因此不会运行,该分包页面执行时
+              // externals 指向的共享全局(react/@tarojs/* 真身与占位)为空 → 运行时崩。
+              // 校验时机:appConfig.subPackages 在此回调(app.json 解析后、getPages 编译分包前)才可读,
+              // 早于任何分包编译,process.exit 能在产出会崩产物前中断。sharedRuntime 是外层 fn 闭包变量。
+              if (sharedRuntime) {
+                const subPackages = (appConfig as any).subPackages || (appConfig as any).subpackages || []
+                const independentRoots = (Array.isArray(subPackages) ? subPackages : [])
+                  .filter((sp: any) => sp && sp.independent)
+                  .map((sp: any) => sp.root)
+                if (independentRoots.length) {
+                  console.log(chalk.red(
+                    `--shared-runtime 不支持 independent(独立)分包：${independentRoots.join('、')}。` +
+                    '独立分包冷启动跳过主包 app.js，同步核(挂在 app.js 顶层)不会执行，' +
+                    '分包内 externals 指向的共享全局为空会崩。请对这些分包去掉 independent，或不使用 --shared-runtime。'
+                  ))
+                  process.exit(1)
+                }
+              }
 
               await ctx.applyPlugins({
                 name: hooks.MODIFY_APP_CONFIG,
