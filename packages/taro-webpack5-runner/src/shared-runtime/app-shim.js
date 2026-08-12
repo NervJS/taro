@@ -74,6 +74,74 @@ function makeChainableNoop () {
   return NOOP
 }
 
+// F6 native-components 占位描述符构造器。
+// native-comp 产物顶层同步调 fw.createNativeComponentConfig(Component, react, reactDOM, config),
+// 把返回值传给 WeChat Component() 注册。同步核阶段 framework/reactDOM 是占位,无法立刻建真描述符;
+// 故返回一个「形状与真描述符一致」的占位描述符——WeChat 注册所需的
+// created/attached/ready/detached/pageLifetimes/methods/properties 全部就位,每个都是 deferred
+// 转发器:真描述符(record.realObj)到位后转发到其对应方法;未到位则按调用顺序缓存到 record.pending,
+// 异步核到达时由 shared.__replayNativeCompConfigs 用真身重建描述符并按序重放。
+//
+// 关键:WeChat 要求 Component() 在模块顶层同步调用且描述符形状完整,故不能延迟注册,只能
+// 「同步返回占位描述符 + 生命周期延迟到真身」。这是 createReactApp 占位的 native 版对应物。
+function makePlaceholderNativeComp (record, componentConfig, Component) {
+  // deferred(getReal):返回转发器——真描述符就绪则调其对应方法,否则按序缓存(生命周期顺序即数组顺序)。
+  // 生命周期返回值 WeChat 忽略;onShareAppMessage/onShareTimeline 有返回值但仅用户点击触发(必在
+  // 异步核之后,realObj 已就位),故缓存分支丢返回值不影响正确性。
+  function deferred (getReal) {
+    return function () {
+      var args = arguments; var self = this
+      if (record.realObj) {
+        var fn = getReal(record.realObj)
+        return typeof fn === 'function' ? fn.apply(self, args) : undefined
+      }
+      record.pending.push({ getReal: getReal, self: self, args: args })
+    }
+  }
+  var obj = {
+    options: componentConfig,
+    properties: {
+      props: {
+        type: null,
+        value: null,
+        observer: deferred(function (r) { return r.properties && r.properties.props && r.properties.props.observer }),
+      },
+    },
+    created: deferred(function (r) { return r.created }),
+    attached: deferred(function (r) { return r.attached }),
+    ready: deferred(function (r) { return r.ready }),
+    detached: deferred(function (r) { return r.detached }),
+    pageLifetimes: {
+      show: deferred(function (r) { return r.pageLifetimes && r.pageLifetimes.show }),
+      hide: deferred(function (r) { return r.pageLifetimes && r.pageLifetimes.hide }),
+    },
+    methods: {
+      eh: deferred(function (r) { return r.methods && r.methods.eh }),
+      onLoad: deferred(function (r) { return r.methods && r.methods.onLoad }),
+      onUnload: deferred(function (r) { return r.methods && r.methods.onUnload }),
+    },
+  }
+  // 分享生命周期:真描述符按 Component 声明条件添加;占位期用同一条件补 deferred 转发器,
+  // 保证 WeChat 注册时右上角分享按钮选项与真身一致(否则真身到位也补不回注册期已定的选项)。
+  var hasShareMsg = Component && (Component.onShareAppMessage || (Component.prototype && Component.prototype.onShareAppMessage) || Component.enableShareAppMessage)
+  if (hasShareMsg) {
+    obj.methods.onShareAppMessage = deferred(function (r) { return r.methods && r.methods.onShareAppMessage })
+  }
+  var hasShareTimeline = Component && (Component.onShareTimeline || (Component.prototype && Component.prototype.onShareTimeline) || Component.enableShareTimeline)
+  if (hasShareTimeline) {
+    obj.methods.onShareTimeline = deferred(function (r) { return r.methods && r.methods.onShareTimeline })
+  }
+  // 支付宝别名:真描述符在 alipay 下设 onInit/didMount/didUpdate/didUnmount。占位期同 gate 补转发器。
+  // process.env.TARO_ENV 由 build-shared-runtime 的 DefinePlugin 注入,非 alipay 时整段被 DCE 移除。
+  if (process.env.TARO_ENV === 'alipay') {
+    obj.onInit = deferred(function (r) { return r.onInit })
+    obj.didMount = deferred(function (r) { return r.didMount })
+    obj.didUpdate = deferred(function (r) { return r.didUpdate })
+    obj.didUnmount = deferred(function (r) { return r.didUnmount })
+  }
+  return obj
+}
+
 // 给占位对象包 Proxy：未就位时访问未知成员 → 醒目告警（每成员一次）+ 返回链式安全空操作，绝不抛错。
 // realFlag() 返回 true 表示真身已 fill（键已被覆盖），此时不干预、走原生取值。
 function guardPlaceholder (target, label, whitelist, realFlag) {
@@ -144,6 +212,35 @@ function install (shared, Current) {
       pkgId: shared.__currentPkgId,
     }
     return placeholderApp
+  }
+
+  // F6 native-components 占位:native-comp 产物顶层同步调 createNativeComponentConfig 建描述符传给
+  // Component()。同步核阶段无法建真描述符(reactDOM/framework 是占位),故返回占位描述符(形状完整、
+  // 生命周期延迟转发),并把 record 登记到 shared.__nativeCompConfigs;异步核到位后 replay 用真身重建。
+  shared.__nativeCompConfigs = shared.__nativeCompConfigs || []
+  fwPlaceholder.createNativeComponentConfig = function (Component, _react, _reactDom, componentConfig) {
+    var record = { Component: Component, config: componentConfig, realObj: null, pending: [] }
+    shared.__nativeCompConfigs.push(record)
+    return makePlaceholderNativeComp(record, componentConfig, Component)
+  }
+
+  // 异步核 fill 真身后调用:用真身 framework.createNativeComponentConfig 为每个已注册的 native-comp
+  // 建真描述符,存入 record.realObj,并按调用顺序重放占位期缓存的生命周期调用(created→attached→…)。
+  // 真身 reactDOM 走 shared['react-dom'](已被 provider fill);react 走同步核的 shared.react。
+  shared.__replayNativeCompConfigs = function (realFramework) {
+    if (typeof realFramework.createNativeComponentConfig !== 'function') return
+    var records = shared.__nativeCompConfigs || []
+    records.forEach(function (record) {
+      if (record.realObj) return
+      record.realObj = realFramework.createNativeComponentConfig(
+        record.Component, shared.react, shared['react-dom'], record.config
+      )
+      var pending = record.pending; record.pending = []
+      pending.forEach(function (call) {
+        var fn = call.getReal(record.realObj)
+        if (typeof fn === 'function') fn.apply(call.self, call.args)
+      })
+    })
   }
 
   // 占位 @tarojs/taro：initPxTransform 存参；其余命令式 API 走 guardPlaceholder（未就位时告警+空操作）。
