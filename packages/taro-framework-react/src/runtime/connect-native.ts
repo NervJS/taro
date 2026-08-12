@@ -28,10 +28,18 @@ interface InitNativeComponentEntryParams {
   cb?: Func
   // 是否使用默认的 DOM 入口 - app；默认为true，false的时候，会创建一个新的dom并且把它挂载在 app 下面
   isDefaultEntryDom?: boolean
+  // ---- F6 共享运行时 native-components 场景 ----
+  // 共享运行时下每个 native-comp 业务包按 pkgId 独立挂 App:
+  //   - Entry.componentDidMount 时把 this 存进 shared.__nativeComponentApps[pkgId]
+  //   - container id 用 `app_${pkgId}` 隔离,避免多包共享同一 #app 覆盖(与 F5 pages config.appId 同源)
+  // vanilla 场景(isNativeShared 为 falsy)完全走原逻辑,不改动。
+  isNativeShared?: boolean
+  pkgId?: string
+  globalKey?: string
 }
 
 function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
-  const { R, ReactDOM, cb, isDefaultEntryDom = true } = params
+  const { R, ReactDOM, cb, isDefaultEntryDom = true, isNativeShared = false, pkgId, globalKey } = params
   interface IEntryState {
     components: {
       compId: string
@@ -76,7 +84,17 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     }
 
     componentDidMount () {
-      if (isDefaultEntryDom) {
+      if (isNativeShared && pkgId && globalKey) {
+        // F6 共享运行时:多个 native-comp 业务包按 pkgId 独立存表,不占用 Current.app,
+        // 也不覆盖单例 nativeComponentApp。createNativeComponentConfig 里按 pkgId 查回。
+        // 优先从 globalThis(node/主线程)拿;小程序端从 wx 全局对象(通过 globalThis.wx 访问)拿。
+        const g = globalThis as any
+        const shared = g[globalKey] || g.wx?.[globalKey]
+        if (shared) {
+          shared.__nativeComponentApps = shared.__nativeComponentApps || {}
+          shared.__nativeComponentApps[pkgId] = this
+        }
+      } else if (isDefaultEntryDom) {
         Current.app = this
       } else {
         nativeComponentApp = this
@@ -144,13 +162,29 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
 
   setReconciler(ReactDOM)
 
-  let app = document.getElementById('app')
-  if (!isDefaultEntryDom && !nativeComponentApp) {
-    // create
-    const nativeApp = document.createElement('nativeComponent')
-    // insert
-    app?.parentNode?.appendChild(nativeApp)
-    app = nativeApp
+  let app: any
+  if (isNativeShared && pkgId && globalKey) {
+    // F6 共享运行时:按 pkgId 独立 container,避免多 native-comp 业务包共享 #app 后 ReactDOM.render
+    // 相互覆盖(与 F5 pages config.appId=pkgId 同源问题)。container id 命名规则:app_<pkgId>。
+    const containerId = `app_${pkgId}`
+    app = document.getElementById(containerId)
+    if (!app) {
+      const container = document.createElement(containerId)
+      container.id = containerId
+      // 挂到默认 #app 之下(若存在);否则挂到 document.body 之下,与 vanilla 结构对齐。
+      const root = document.getElementById('app') || document.body
+      root?.appendChild(container)
+      app = container
+    }
+  } else {
+    app = document.getElementById('app')
+    if (!isDefaultEntryDom && !nativeComponentApp) {
+      // create
+      const nativeApp = document.createElement('nativeComponent')
+      // insert
+      app?.parentNode?.appendChild(nativeApp)
+      app = nativeApp
+    }
   }
   // eslint-disable-next-line react/no-deprecated
   ReactDOM.render(
@@ -360,7 +394,60 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
   h = react.createElement
   ReactDOM = reactDOM
   setReconciler(ReactDOM)
-  const { isNewBlended } = componentConfig
+  const { isNewBlended, isNativeShared, pkgId, globalKey } = componentConfig
+
+  // F6 共享运行时下,按 pkgId 从共享全局的 __nativeComponentApps 表查回本包 App。
+  // isNativeShared 严格 gate:老场景走 (isNewBlended ? nativeComponentApp : Current.app) 二选一,不变。
+  const resolveApp = () => {
+    if (isNativeShared && pkgId && globalKey) {
+      const g = globalThis as any
+      const shared = g[globalKey] || g.wx?.[globalKey]
+      return shared?.__nativeComponentApps?.[pkgId]
+    }
+    return isNewBlended ? nativeComponentApp : Current.app
+  }
+
+  // F6 时序兜底:异步核 activate 完成后,由 async-provider 调用 shared.__flushNativeCompQueue()。
+  // 此时 ReactDOM 已是真身,重建各 pkgId 的 Entry(懒建 App 存表),Entry 就位后 flush 该包排队的组件 mount。
+  // 挂在 shared 上(每次 createNativeComponentConfig 覆盖,逻辑同一,幂等)。
+  if (isNativeShared && pkgId && globalKey) {
+    const g = globalThis as any
+    const shared = g[globalKey] || g.wx?.[globalKey]
+    if (shared && !shared.__flushNativeCompQueue) {
+      shared.__flushNativeCompQueue = function () {
+        const queue = shared.__nativeCompQueue || []
+        if (!queue.length) return
+        shared.__nativeCompQueue = []
+        // 按 pkgId 分组:每个 pkgId 建一次 Entry,Entry 就位(componentDidMount 存表)后 flush 本组
+        const byPkg: Record<string, any[]> = {}
+        queue.forEach(function (item) {
+          (byPkg[item.pkgId] = byPkg[item.pkgId] || []).push(item)
+        })
+        Object.keys(byPkg).forEach(function (pid) {
+          const items = byPkg[pid]
+          const existed = shared.__nativeComponentApps && shared.__nativeComponentApps[pid]
+          const flushGroup = () => {
+            const app = shared.__nativeComponentApps[pid]
+            if (app) items.forEach(function (it) { it.doMount(app) })
+          }
+          if (existed) {
+            flushGroup()
+          } else {
+            // 用真身 ReactDOM 重建 Entry;componentDidMount 存表后回调 flush
+            initNativeComponentEntry({
+              R: react,
+              ReactDOM,
+              isDefaultEntryDom: false,
+              isNativeShared: true,
+              pkgId: pid,
+              globalKey,
+              cb: flushGroup,
+            })
+          }
+        })
+      }
+    }
+  }
 
   const componentObj: Record<string, any> = {
     options: componentConfig,
@@ -388,12 +475,15 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
           this.data.props = inst.props?.props || {}
         }
       }
-      const app = (isNewBlended ? nativeComponentApp : Current.app)
+      const app = resolveApp()
       if (!app) {
         initNativeComponentEntry({
           R: react,
           ReactDOM,
-          isDefaultEntryDom: !isNewBlended
+          isDefaultEntryDom: !isNewBlended && !isNativeShared,
+          isNativeShared,
+          pkgId,
+          globalKey,
         })
       }
     },
@@ -401,28 +491,74 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       const compId = this.compId = getNativeCompId()
       setCurrent(compId)
       this.config = componentConfig
-      const app = (isNewBlended ? nativeComponentApp : Current.app)
-      app!.mount!(Component, compId, () => this, () => {
-        const instance = getPageInstance(compId)
+      const ctx = this
+      const doMount = (app) => {
+        app.mount(Component, compId, () => ctx, () => {
+          const instance = getPageInstance(compId)
 
-        if (instance && instance.node) {
-          const el = document.getElementById(instance.node.uid)
+          if (instance && instance.node) {
+            const el = document.getElementById(instance.node.uid)
 
-          if (el) {
-            el.ctx = this
+            if (el) {
+              el.ctx = ctx
+            }
           }
+          // F6 时序兜底:组件在异步核就绪前被渲染时,mini-program 的 ready 早于本次(延迟的)mount
+          // 触发,ready 里的 safeExecute(compId,'onReady') 因实例未注册而空跑 → useReady 丢失。
+          // 此刻 mount 已完成(useReady 的 useLayoutEffect 已注册 onReady 到实例),补跑一次。
+          // 仅当 ready 在 mount 前空跑过(__taroPendingReady 置位)才补,避免重复触发。
+          if (ctx.__taroPendingReady) {
+            ctx.__taroPendingReady = false
+            safeExecute(compId, 'onReady')
+          }
+        })
+      }
+      const app = resolveApp()
+      if (app) {
+        doMount(app)
+      } else if (isNativeShared && pkgId && globalKey) {
+        // F6 时序兜底:host 页面在异步核(shared-async)加载完成前渲染 native-comp 时,
+        // Entry 的 ReactDOM.render 打到 app-shim 占位 Proxy → noop → componentDidMount 不 fire →
+        // __nativeComponentApps[pkgId] 仍空 → resolveApp 返回 undefined。此处不崩,把 mount 请求
+        // 连同 compId 排队到 shared.__nativeCompQueue;异步核 activate 完成后 flush(见 async-provider.js)。
+        const g = globalThis as any
+        const shared = g[globalKey] || g.wx?.[globalKey]
+        if (shared) {
+          shared.__nativeCompQueue = shared.__nativeCompQueue || []
+          // 带上 compId,供 detached 在 flush 前把本条待挂请求出队(避免挂载已销毁组件)。
+          shared.__nativeCompQueue.push({ pkgId, compId, doMount })
         }
-      })
+      }
     },
     ready () {
       updateCurrentRouter(this.compId)
+      // F6 时序兜底:isNativeShared 下,若本组件在异步核就绪前渲染,attached 已把 mount 请求排入
+      // 队列、尚未真正 mount,此刻实例未注册 → safeExecute 空跑。置位 __taroPendingReady,待 flush
+      // mount 完成后在 doMount 回调里补跑一次 onReady(见 attached)。vanilla / 已 mount 场景实例存在,
+      // 不置位,行为不变。
+      if (isNativeShared && pkgId && globalKey && !getPageInstance(this.compId)) {
+        this.__taroPendingReady = true
+      }
       safeExecute(this.compId, 'onReady')
       requestAnimationFrame(() => eventCenter.trigger(Current.router?.onReady ?? ''))
     },
     detached () {
       resetCurrent()
-      const app = (isNewBlended ? nativeComponentApp : Current.app)
-      app!.unmount!(this.compId)
+      const app = resolveApp()
+      if (app) {
+        app.unmount!(this.compId)
+      } else if (isNativeShared && pkgId && globalKey) {
+        // F6 时序兜底:组件在异步核就绪前被销毁(如 wx:if 关闭 / 宿主页返回)。此时 App 未就位,
+        // attached 里排的 mount 请求仍在 __nativeCompQueue 中——按 compId 出队,避免 flush 时
+        // 挂载一个已销毁的组件(僵尸挂载)。无 app 可 unmount,出队即完成清理。
+        const g = globalThis as any
+        const shared = g[globalKey] || g.wx?.[globalKey]
+        if (shared && shared.__nativeCompQueue) {
+          shared.__nativeCompQueue = shared.__nativeCompQueue.filter(
+            (it) => it.compId !== this.compId
+          )
+        }
+      }
     },
     pageLifetimes: {
       show (options) {

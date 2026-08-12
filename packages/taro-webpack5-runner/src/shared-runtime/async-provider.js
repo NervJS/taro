@@ -116,6 +116,21 @@ function activate () {
   if (typeof shared.__activateReal === 'function') {
     shared.__activateReal(framework)
   }
+
+  // F6 native-components:同步核阶段 native-comp 产物顶层调的是占位 createNativeComponentConfig
+  // (app-shim 装的),返回占位描述符、生命周期(created/attached/ready…)全被缓存。此刻真身就位,
+  // 用真身 framework.createNativeComponentConfig 为每个已注册组件重建真描述符,并按序重放缓存的
+  // 生命周期调用(created 建 Entry → attached 挂载 → ready 触发)。这是 native-comp 能渲染的关键——
+  // 缺它则占位描述符只是空转发器,组件永不 mount。
+  if (typeof shared.__replayNativeCompConfigs === 'function') {
+    shared.__replayNativeCompConfigs(framework)
+  }
+
+  // F6 兜底:flush 遗留的 native-comp mount 队列(占位+重放路径下 created 已同步建 Entry,
+  // attached 重放时 resolveApp 已能查回 App,此队列通常为空;保留作纵深防御,空队列时无副作用)。
+  if (typeof shared.__flushNativeCompQueue === 'function') {
+    shared.__flushNativeCompQueue()
+  }
 }
 
 // 被同步核 require.async 加载时，把 activate 挂到全局供同步核回调。

@@ -84,6 +84,10 @@ export default class BuildNativePlugin extends MiniPlugin {
 
   addLoadChunksPlugin (compiler: Compiler) {
     const fileChunks = new Map<string, { name: string }[]>()
+    // F6:共享运行时下 taro chunk 已被 externals 关闭(见 MiniCombination getOptimization),
+    // 不再产出 taro.js;若仍在每 native-component chunk 顶部 require('../../taro'),运行时会崩。
+    // 过滤掉 taro chunk 的 require 引用即可(runtime/vendors/common 仍保留)。
+    const sharedRuntime = !!this.options.combination.config.sharedRuntime
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, chunks => {
@@ -97,6 +101,8 @@ export default class BuildNativePlugin extends MiniPlugin {
             group.chunks.forEach(chunk => {
               const currentChunkId = getChunkIdOrName(chunk)
               if (id === currentChunkId) return
+              // 共享运行时下不 require 已被 externals 关闭的 taro chunk
+              if (sharedRuntime && currentChunkId === 'taro') return
               deps.push({
                 name: currentChunkId
               })

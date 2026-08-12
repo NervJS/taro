@@ -183,3 +183,87 @@ describe('install 幂等（F2:多业务包不覆盖首包 Current.app）', () =>
     expect(sharedA.__pkgApps['pkg-a']).not.toBe(realApp_B)
   })
 })
+
+describe('F6 native-comp 占位 createNativeComponentConfig（真机崩溃回归）', () => {
+  it('同步核阶段 createNativeComponentConfig 必须可同步调用（不再 undefined 崩溃）', () => {
+    // 真机崩溃根因:native-comp 产物顶层同步调 fw.createNativeComponentConfig,
+    // 而占位 framework 只装了 createReactApp → undefined → 崩。修复后必须可同步调。
+    const shared: any = {}
+    const Current: any = { app: null }
+    install(shared, Current)
+    const fw = shared['@tarojs/plugin-framework-react/dist/runtime']
+    expect(typeof fw.createNativeComponentConfig).toBe('function')
+  })
+
+  it('返回 WeChat Component() 所需形状的占位描述符（同步注册不崩）', () => {
+    const shared: any = {}
+    install(shared, { app: null })
+    const fw = shared['@tarojs/plugin-framework-react/dist/runtime']
+    const Component = function () {}
+    const obj = fw.createNativeComponentConfig(Component, null, null, { isNativeShared: true, pkgId: 'p' })
+    // WeChat 注册所需字段齐全且为函数/对象,可安全传给 Component()
+    expect(typeof obj.created).toBe('function')
+    expect(typeof obj.attached).toBe('function')
+    expect(typeof obj.ready).toBe('function')
+    expect(typeof obj.detached).toBe('function')
+    expect(typeof obj.pageLifetimes.show).toBe('function')
+    expect(typeof obj.methods.onLoad).toBe('function')
+    expect(obj.options).toEqual({ isNativeShared: true, pkgId: 'p' })
+    // 占位期调用生命周期不抛错(真身未就位则缓存)
+    expect(() => obj.created.call({})).not.toThrow()
+    expect(() => obj.attached.call({})).not.toThrow()
+  })
+
+  it('异步核到位后 replay:用真身重建描述符 + 按序重放缓存的生命周期', () => {
+    const shared: any = {}
+    install(shared, { app: null })
+    const fw = shared['@tarojs/plugin-framework-react/dist/runtime']
+    const Component = function () {}
+    const placeholder = fw.createNativeComponentConfig(Component, null, null, { pkgId: 'p' })
+
+    // 占位期:业务组件 created → attached 被调(真身未就位 → 缓存)
+    const ctxCreated: any = { phase: 'created' }
+    const ctxAttached: any = { phase: 'attached' }
+    placeholder.created.call(ctxCreated)
+    placeholder.attached.call(ctxAttached)
+
+    // 构造真身 framework:createNativeComponentConfig 返回记录调用顺序的真描述符
+    const callOrder: string[] = []
+    const realObj = {
+      created () { callOrder.push('created:' + this.phase) },
+      attached () { callOrder.push('attached:' + this.phase) },
+      ready () {},
+      detached () {},
+      pageLifetimes: { show () {}, hide () {} },
+      methods: { eh () {}, onLoad () {}, onUnload () {} },
+    }
+    const realFramework = { createNativeComponentConfig: () => realObj }
+
+    // 异步核 activate 时调 replay
+    shared.__replayNativeCompConfigs(realFramework)
+
+    // 关键:缓存的 created/attached 按序重放,且 this 绑定正确(带回各自 ctx)
+    expect(callOrder).toEqual(['created:created', 'attached:attached'])
+
+    // replay 后真身就位:后续生命周期直接转发到真身,不再缓存
+    callOrder.length = 0
+    const ctxReady: any = { phase: 'ready-late' }
+    placeholder.ready.call(ctxReady) // realObj.ready 是 noop,不 push;验证不抛错即可
+    expect(() => placeholder.detached.call({})).not.toThrow()
+  })
+
+  it('replay 幂等:record.realObj 已建则跳过,不重复建描述符', () => {
+    const shared: any = {}
+    install(shared, { app: null })
+    const fw = shared['@tarojs/plugin-framework-react/dist/runtime']
+    fw.createNativeComponentConfig(function () {}, null, null, {})
+
+    let buildCount = 0
+    const realFramework = {
+      createNativeComponentConfig: () => { buildCount++; return { methods: {}, pageLifetimes: {} } },
+    }
+    shared.__replayNativeCompConfigs(realFramework)
+    shared.__replayNativeCompConfigs(realFramework) // 再调一次
+    expect(buildCount).toBe(1) // 只建一次
+  })
+})
