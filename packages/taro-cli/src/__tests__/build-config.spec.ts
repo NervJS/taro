@@ -25,6 +25,7 @@ jest.mock('@tarojs/helper', () => {
 
 const APP_PATH = path.join(__dirname, 'fixtures/default')
 const OUTPUT_PATH = path.join(__dirname, 'fixtures/default/dist')
+const VUE3_APP_PATH = path.join(__dirname, 'fixtures/vue3-framework')
 
 describe('构建配置测试', () => {
   const emptyDirectoryMocked = emptyDirectory as jest.Mock<any>
@@ -242,5 +243,40 @@ describe('构建配置测试', () => {
       exitSpy.mockRestore()
       logSpy.mockRestore()
     })
+
+    it('G1a:framework 非 react (vue3) --shared-runtime ==> fail-fast 退出', async () => {
+      // 共享运行时模板硬编码 framework-react;vue3/solid 会崩,故 framework 白名单只放行 react。
+      const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
+      const logSpy = jest.spyOn(console, 'log')
+      logSpy.mockImplementation(() => {})
+      exitSpy.mockImplementation(() => {
+        throw new Error('exit')
+      })
+
+      let exited = false
+      try {
+        await runBuild(VUE3_APP_PATH, {
+          options: {
+            type: 'weapp',
+            platform: 'weapp',
+            sharedRuntime: true
+          }
+        })
+      } catch (error) {
+        exited = true
+      }
+      expect(exited).toBe(true)
+      expect(exitSpy).toBeCalledWith(1)
+      // 精确断言是"framework 白名单"守卫触发
+      expect(logSpy.mock.calls.some(call => /仅支持 framework: 'react'/.test(String(call[0])))).toBe(true)
+
+      exitSpy.mockRestore()
+      logSpy.mockRestore()
+    })
+
+    // 注:G1b(independent 独立分包拒绝)的守卫放在 build fn 的 modifyAppConfig 回调里
+    // (真实构建中 getAppConfig→getPages 之前触发,早于任何分包编译)。该回调由 MiniPlugin 在 webpack
+    // 编译期调用,本单测 harness 不启动真实 webpack 编译(config 校验即失败),故无法在此覆盖——
+    // G1b 靠 Example 端 independent 分包声明手动验证 fail-fast。
   })
 })
